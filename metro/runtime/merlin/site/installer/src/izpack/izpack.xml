@@ -1,0 +1,48 @@
+<?xml version="1.0 encoding="UTF-8" ?>
+
+<installation version="1.0" >
+  <info>
+    <appname>Avalon Merlin</appname>
+    <appversion>@VERSION@</appversion>
+    <url>http://avalon.apache.org/merlin</url>
+    <authors> 
+      <author name="Avalon Development Team" email="dev@avalon.apache.org" />
+    </authors>
+    <uninstaller write="yes" />
+  </info>
+  
+  <guiprefs resizable="yes" width="700" height="350" />
+  
+  <locale>
+    <langpack iso3="eng" />
+  </locale>
+  
+  <resources>
+<!--  Add when an official Merlin image exists  
+    res id="Installer.image" src="resources/merlin.gif" /
+-->
+    <res id="InfoPanel.info" src="README.TXT" parse="no" />
+    <res id="LicencePanel.licence" src="LICENSE.txt" />
+  </resources>
+  
+  <panels>
+    <panel classname="HelloPanel" />
+    <panel classname="LicencePanel" />
+    <panel classname="InfoPanel" />
+    <panel classname="TargetPanel" />
+    <panel classname="PacksPanel" />
+    <panel classname="InstallPanel" />
+    <panel classname="FinishPanel" />
+  </panels>
+  
+  <packs>
+    <pack name="merlin.distro" required="yes" preselected="yes">
+      <description 
+        align="left" 
+        id="merlin.distro.description" 
+        txt="This installs Avalon Merlin for command-line and embedded use." 
+      />
+      <file src="." targetdir="$INSTALL_PATH/" />
+    </pack>
+  </packs>
+</installation> 

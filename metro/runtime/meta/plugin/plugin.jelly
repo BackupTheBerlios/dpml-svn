@@ -1,0 +1,76 @@
+<?xml version="1.0"?>
+
+<project xmlns:j="jelly:core"
+  xmlns:define="jelly:define"
+  xmlns:util="jelly:util"
+  xmlns:maven="jelly:maven"
+  xmlns:ant="jelly:ant"
+  xmlns:avalon="avalon">
+
+  <define:taglib uri="avalon"/>
+
+  <ant:taskdef name="avalon" classname="org.apache.avalon.meta.info.ant.MetaTask">
+    <classpath>
+      <pathelement path="${plugin.getDependencyPath('qdox:qdox')}"/>
+      <pathelement path="${plugin.getDependencyPath('avalon-framework:avalon-framework-api')}"/>
+      <pathelement path="${plugin.getDependencyPath('avalon-framework:avalon-framework-impl')}"/>
+      <pathelement path="${plugin.getDependencyPath('avalon-meta:avalon-meta-tools')}"/>
+      <pathelement path="${plugin.getDependencyPath('avalon-meta:avalon-meta-api')}"/>
+      <pathelement path="${plugin.getDependencyPath('avalon-meta:avalon-meta-spi')}"/>
+      <pathelement path="${plugin.getDependencyPath('avalon-meta:avalon-meta-impl')}"/>
+    </classpath>
+  </ant:taskdef>
+
+  <goal name="avalon:meta" 
+    description="Generate meta info descriptors based on meta tags declared in Java source files for inclusion in a jar file.">
+
+    <j:choose>
+      <j:when test="${sourcesPresent == 'true'}">
+
+        <ant:available property="javaSourcesPresent"
+           file="${maven.src.dir}/java"/>
+
+        <ant:available property="mainSourcesPresent"
+           file="${maven.src.dir}/main"/>
+
+        <ant:available property="testSourcesPresent"
+           file="${maven.src.dir}/test"/>
+
+        <ant:mkdir dir="${maven.build.dest}"/>
+        <ant:avalon destDir="${maven.build.dest}" 
+          format="${avalon.meta.format}" 
+          force="${avalon.meta.force}"
+          postfix="${avalon.meta.type.postfix}">
+
+          <j:if test="${javaSourcesPresent == 'true'}">
+            <ant:fileset dir="${maven.src.dir}/java">
+              <include name="**/*.java"/>
+            </ant:fileset>
+          </j:if>
+          <j:if test="${mainSourcesPresent == 'true'}">
+            <ant:fileset dir="${maven.src.dir}/main">
+              <include name="**/*.java"/>
+            </ant:fileset>
+          </j:if>
+
+        </ant:avalon>
+
+        <j:if test="${testSourcesPresent == 'true'}">
+          <ant:mkdir dir="${maven.build.dir}/test-classes"/>
+          <ant:avalon destDir="${maven.build.dir}/test-classes" 
+              format="${avalon.meta.format}" 
+              force="${avalon.meta.force}"
+              postfix="${avalon.meta.type.postfix}">
+            <ant:fileset dir="${maven.src.dir}/test">
+              <include name="**/*.java"/>
+            </ant:fileset>
+          </ant:avalon>
+        </j:if>
+      </j:when>
+      <j:otherwise>
+        <ant:echo>No Avalon Meta java source files to compile.</ant:echo>
+      </j:otherwise>      
+    </j:choose>
+  </goal>
+
+</project>

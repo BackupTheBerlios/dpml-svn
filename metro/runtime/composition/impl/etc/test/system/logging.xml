@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<!--
+Logging configuration for testing.
+Not in use yet.
+-->
+
+<logging>
+
+  <factories>
+    <factory type="file" 
+      class="org.apache.avalon.logging.logkit.factory.FileTargetFactory"/>
+  </factories>
+
+  <targets>
+    <file id="simple">
+      <filename>../testing.log</filename>
+      <append>true</append>
+    </file>
+  </targets>
+
+  <categories priority="debug" target="simple"/>
+
+  <logger name="kernel.logger"/>
+
+</logging>

@@ -1,0 +1,25 @@
+Manifest-Version: 1.0
+
+Name: org/realityforge/dve
+Specification-Title: org.realityforge.dve
+Specification-Version: 1.0.2
+Specification-Vendor: Peter Donald
+Implementation-Title: DVE vi OS3P
+Implementation-Vendor: Peter Donald
+Implementation-Version: 1.0.2Alpha
+
+Name: org/realityforge/dve/gui
+Specification-Title: org.realityforge.dve
+Specification-Version: 1.0.2
+Specification-Vendor: Peter Donald
+Implementation-Title: DVE vi OS3P
+Implementation-Vendor: Peter Donald
+Implementation-Version: 1.0.2Alpha
+
+Name: org/realityforge/dve/3d
+Specification-Title: org.realityforge.dve
+Specification-Version: 1.0.2
+Specification-Vendor: Peter Donald
+Implementation-Title: DVE vi OS3P
+Implementation-Vendor: Peter Donald
+Implementation-Version: 1.0.2Alpha

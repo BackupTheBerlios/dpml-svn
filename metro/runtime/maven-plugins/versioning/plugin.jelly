@@ -1,0 +1,263 @@
+<?xml version="1.0"?>
+<!-- 
+/*
+ * Copyright 2001-2004 The Apache Software Foundation.
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+ -->
+<project xmlns:j="jelly:core" xmlns:define="jelly:define"
+    xmlns:util="jelly:util" xmlns:maven="jelly:maven" xmlns:ant="jelly:ant"
+    xmlns:x="jelly:xml"
+    xmlns:increment="increment">
+    
+  <define:taglib uri="increment">
+  
+    <define:tag name="inc-number" >
+      <j:set var="number" value="${ number + 1 }" scope="parent" />
+    </define:tag>
+  
+    <define:tag name="update-entities" >
+      <increment:read/>    
+      <ant:copy tofile="${maven.increment.central.entities}/${pom.artifactId}.ent" 
+                file="${plugin.resources}/entity-template.ent" 
+                filtering="true" 
+                overwrite="true" 
+      >
+        <filterset>
+          <filter token="PROJECT-ID" value="${pom.artifactId}"/>
+          <filter token="VERSION" value="${major}.${minor}.${phase}${number}"/>
+        </filterset>
+      </ant:copy>
+    </define:tag>
+  
+    <define:tag name="read">
+      <j:set var="versionFile" value="${maven.increment.dir}/build.numbers" />
+      <util:file var="incrementSystem" name="${versionFile}"/>
+      <j:if test="${ ! incrementSystem.exists() }" >
+        <j:set var="major" value="1" scope="parent" />
+        <j:set var="minor" value="0" scope="parent" />
+        <j:set var="phase" value="dev-" scope="parent" />
+        <j:set var="number" value="0" scope="parent" />
+      </j:if>
+     
+      <j:if test="${ incrementSystem.exists() }" >
+        <util:properties file="${versionFile}" var="versionProperties"/>
+        <j:set var="major" value="${versionProperties.getProperty('build.major').trim()}" scope="parent" />
+        <j:set var="minor" value="${versionProperties.getProperty('build.minor').trim()}" scope="parent" />
+        <j:set var="phase" value="${versionProperties.getProperty('build.phase').trim()}" scope="parent" />
+        <j:set var="number" value="${versionProperties.getProperty('build.number').trim()}" scope="parent" />
+      </j:if>
+    </define:tag>
+
+    <define:tag name="store">
+      <ant:mkdir dir="${maven.increment.dir}" />
+<ant:echo file="${maven.increment.dir}/build.numbers">
+build.major=${major}
+build.minor=${minor}    
+build.phase=${phase}
+build.number=${number}
+</ant:echo>
+      <increment:update-entities />
+    </define:tag>
+
+    <define:tag name="commit">
+      <j:set var="commitToCVS" value="${maven.increment.commit}" />
+      <j:if test="${commitToCVS}" >
+        <ant:cvs command="-q commit -m &quot;New distribution (${pom.currentVersion}) created and uploaded to http://www.apache.org/dist/avalon/avalon-logkit/distributions/ &quot; " />
+      </j:if>
+    </define:tag>
+    
+    <define:tag name="tag">
+      <j:if test="${tagCVS}" >
+        <j:set var="tagCVS" value="${maven.increment.tag}" />
+        <util:replace var="tag" oldChar="-" newChar="_" value="DIST_${major}_${minor}_${phase}${number}"/>
+        <ant:cvs command="-q tag ${tag}" />
+      </j:if>
+    </define:tag>
+      
+  </define:taglib>
+  
+  
+  <preGoal name="dist:deploy" >
+    <j:set var="enable" value="${maven.increment.enable}" />
+    <j:if test="${enable}" >
+      <util:file var="incrementSystem" name="${maven.increment.dir}/build.numbers"/>
+      <j:if test="${ ! incrementSystem.exists() }" >
+        <ant:echo>
+*****************************************************************************
+*
+*  The Increment system was not initialized.
+*  It has now been initialized but it is required that Maven is restarted.
+*  Please make sure that the ${maven.increment.dir}/build.numbers contains
+*  the version numbers you intend to use.
+*
+*****************************************************************************
+        </ant:echo>
+        <attainGoal name="increment:initialize" />
+      </j:if>
+      <j:if test="${ incrementSystem.exists() }" >
+        <j:set var="distDeployInProgress" value="true" />
+        <attainGoal name="jar:deploy" />
+      </j:if>
+    </j:if>
+  </preGoal>
+
+  <preGoal name="jar:deploy" >
+    <j:set var="enable" value="${maven.increment.enable}" />
+    <j:if test="${enable}" >
+      <util:file var="incrementSystem" name="${maven.increment.dir}/build.numbers"/>
+      <j:if test="${ ! incrementSystem.exists() }" >
+        <ant:echo>
+*****************************************************************************
+*
+*  The Increment system was not initialized.
+*  It has now been initialized but it is required that Maven is restarted.
+*  Please make sure that the ${maven.increment.dir}/build.numbers contains
+*  the version numbers you intend to use.
+*
+*****************************************************************************
+        </ant:echo>
+        <attainGoal name="increment:initialize" />
+      </j:if>
+    </j:if>
+  </preGoal>
+
+  <postGoal name="dist:deploy" >
+    <j:set var="enable" value="${maven.increment.enable}" />
+    <j:if test="${enable}" >
+      <increment:read />
+      <increment:inc-number/>
+      <increment:store />
+      <increment:commit />
+    </j:if>
+  </postGoal>
+  
+  <postGoal name="jar:deploy" >
+    <j:set var="enable" value="${maven.increment.enable}" />
+    <j:if test="${! distDeployInProgress }" >
+      <j:if test="${enable}" >
+        <increment:read />
+        <increment:inc-number/>
+        <increment:store />
+        <increment:commit />
+      </j:if>
+    </j:if>
+  </postGoal>
+  
+  <goal name="increment:major" description="Increases the MAJOR version number." >
+    <j:set var="enable" value="${maven.increment.enable}" />
+    <j:if test="${enable}" >
+      <increment:read />
+      <j:set var="major" value="${ major + 1 }" />
+      <j:set var="minor" value="0" />
+      <j:set var="phase" value="dev-" />
+      <j:set var="number" value="0" />
+      <increment:store />
+    </j:if>
+  </goal>
+  
+  <goal name="increment:minor" description="Increases the MINOR version number." >
+    <j:set var="enable" value="${maven.increment.enable}" />
+    <j:if test="${enable}" >
+      <increment:read />
+      <j:set var="minor" value="${ minor + 1 }" />
+      <j:set var="phase" value="dev-" />
+      <j:set var="number" value="0" />
+      <increment:store />
+    </j:if>
+  </goal>
+  
+  <goal name="increment:phase" description="Changes the PHASE of the project/artifact." >
+    <j:set var="enable" value="${maven.increment.enable}" />
+    <j:if test="${enable}" >
+      <increment:read />
+      <j:if test="${ phase.equals( 'rc-' )}" >
+        <j:set var="phase" value=" " />
+      </j:if>
+      <j:if test="${ phase.equals( 'dev-' )}" >
+        <j:set var="phase" value="rc-" />
+      </j:if>
+      <j:set var="number" value="0" />
+      <increment:store />
+    </j:if>
+  </goal>
+  
+  <goal name="increment:micro" >
+    <j:set var="enable" value="${maven.increment.enable}" />
+    <j:if test="${enable}" >
+      <increment:read />
+      <increment:inc-number />
+      <increment:store />
+    </j:if>
+  </goal>
+  
+  <goal name="increment:initialize"  description="Initializes the Incrementor system." >
+    <j:set var="enable" value="${maven.increment.enable}" />
+    <j:if test="${enable}" >
+      <increment:read />
+      <increment:store />
+      <increment:update-entities />
+    </j:if>
+  </goal>
+  
+  <goal name="increment" description="Automatic Versioning System, designed for Avalon." >
+    <ant:echo>
+The 'Incrementor' is a versioning system, made specifically for 
+the Avalon project.
+It uses a version format of;
+    MAJOR "." MINOR "." PHASE NUMBER
+where PHASE is "dev-", "rc-", ""
+
+To increment any of MAJOR, MINOR or PHASE, invoke the 
+  increment:major
+  increment:minor
+  increment:phase
+
+The NUMBER is incremented automatically when the artifact/project is
+deployed to the central repository.
+
+Whenever a position is incremented, all the position to its right are
+reset to their respective start values.
+  MINOR=0
+  PHASE=dev-
+  NUMBER=0
+
+
+Example of a cycle; 
+  2.1.dev-34, 2.1.dev-35, 2.1.rc-0, 2.1.rc-1, 2.1.0, 2.1.1, 2.2.dev-0
+  
+Before start using it, one must invoke the 
+  increment:initialize
+or, if it is forgotten, it will do so automatically and require you to
+restart Maven, since the pom.currentVersion can't be updated after 
+start.
+
+The following properties are used (with their default values);
+
+# This property must be set to true, to enable the Versioning system
+maven.increment.enable = false
+
+# The directory where the versioning information is persisted.
+maven.increment.dir=${basedir}/versioning
+
+# The directory where the versioning information is persisted.
+maven.increment.central.entities=${basedir}/versioning
+
+# If the version number data should be committed to CVS after a deploy.
+maven.increment.commit=true
+
+    </ant:echo>
+  </goal>
+  
+</project>

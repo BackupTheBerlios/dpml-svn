@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<project default="warning" name="Gump Build Support" basedir=".">
+
+    <property file="${basedir}/project.properties"/>
+    <property file="${basedir}/../project.properties"/>
+
+    <target name="need-for-common-build" unless="avalon.buildsystem.available">
+<fail>
+===================================================================
+BUILD SYSTEM FAILURE!
+===================================================================
+
+a required file, ${avalon.buildsystem}/maven-common-gump-build.xml,
+cannot be found. Try setting the avalon.buildsystem property in
+project.properties to the correct location.
+</fail>
+    </target>
+
+
+    <target name="delegate">
+        <available file="${avalon.buildsystem}/maven-common-gump-build.xml"
+                property="avalon.buildsystem.available"/>
+        <antcall target="need-for-common-build"/>
+
+        <ant inheritRefs="true" target="avalon:${target}" antfile="${avalon.buildsystem}/maven-common-gump-build.xml" inheritAll="true"/>
+    </target>
+
+    <target name="warning">
+        <antcall target="delegate">
+            <param name="target" value="warning"/>
+        </antcall>
+    </target>
+
+    <target name="jar">
+        <antcall target="delegate">
+            <param name="target" value="jar"/>
+        </antcall>
+    </target>
+
+    <target name="javadocs">
+        <antcall target="delegate">
+            <param name="target" value="javadocs"/>
+        </antcall>
+    </target>
+
+    <target name="dist">
+        <antcall target="delegate">
+            <param name="target" value="dist"/>
+        </antcall>
+    </target>
+
+</project>

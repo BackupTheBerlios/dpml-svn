@@ -1,0 +1,57 @@
+
+PROJECT: Merlin @VERSION@
+====================================================================
+
+DESCRIPTION: 
+------------
+
+This directory contains the merlin system installation and related 
+resources.
+
+  /merlin
+    /bin
+    /config
+    /system
+    README.TXT
+    LICENSE.TXT
+    INSTALL.TXT
+    NOTICE.TXT
+
+Installing Merlin.
+------------------
+
+To use Merlin command line support or the Merlin NT Service
+you will need to define the MERLIN_HOME environment
+variable for your system and include MERLIN_HOME/bin in
+your system path.  The MERLIN_HOME environment variable
+should point to the merlin directory.
+
+Under Windows you can set environment variables by selecting the 
+Environment Tab from the System Control Panel.
+
+Under Linux you can do this as follows:
+
+  $ echo '
+  > # set location of merlin
+  > export MERLIN_HOME=/opt/merlin
+  > # include it in the path
+  > export PATH=$PATH:$MERLIN_HOME/bin
+  > ' >> ~/.bash_profile
+  $ source ~/.bash_profile
+
+Versions of Merlin prior to the 3.2-dev 20031210 build maintained 
+a local repository of jar files under the %MERLIN_HOME%/repository
+directory.  As of the 20031210 build the repository is maintained 
+under AVALON_HOME/repository where AVALON_HOME defaults to 
+${user.home}/.avalon.  To override the AVALON_HOME location you can 
+either define a AVALON_HOME environment variable or you can add a 
+merlin.properties file to ${user.home} containing the 
+"merlin.repository" property key and a value point to you preferred 
+repository location.
+
+To confirm that your environment variables are correct, you
+should open a new command window and invoke the Merlin
+CLI application.
+
+  $ merlin -version
+

@@ -1,0 +1,13 @@
+
+The merlin.nsi file is a installer build script.  To build the installer you need to have the NSIS tools installed on your machine.  After building using avalon:dist, just right ckick on the installer, select "Compile NSIS Script" and the resulting install exe is placed in the merlin/target directory.
+
+Problems:
+
+1. MELRIN_HOME is created properly but the PATH does not seem to be 
+   updated properly to include %MERLIN_HOME%/bin
+
+2. Currently no checks to see if MERLIN_HOME is already defined, and 
+   in particular if MERLIN_HOME is defined as a system scoped env variable
+   we should not be redefining it in user scope.
+
+Steve.

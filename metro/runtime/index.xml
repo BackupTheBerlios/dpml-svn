@@ -1,0 +1,857 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<!--
+    This file contains version and dependency information for the various
+    sub projects in the current directory.   Whenever changes are made to
+    a released jar, it is important that the version be incremented and
+    that the jar be marked as a SNAPSHOT.  When it has been decided to do
+    a release of the new version, the SNAPSHOT tag will be removed.
+    
+    <info>
+      <group>avalon/logkit</group>
+      <name>avalon-logkit</name>
+      <version>2.0.1</version>
+      <status>SNAPSHOT</status>
+    </info>
+-->
+
+<index>
+
+  <import index="../tools/index.xml"
+     href="http://svn.apache.org/repos/asf/avalon/trunk/tools/index.xml"/>
+
+  <!--
+  Declaration of the binary resources available through
+  the repository used by local projects.
+  -->
+
+  <resource>
+    <info>
+      <group>log4j</group>
+      <name>log4j</name>
+      <version>1.2.8</version>
+      <type>jar</type>
+    </info>
+    <gump>
+      <alias>logging-log4j-12</alias>
+    </gump>
+  </resource>
+
+  <resource>
+    <info>
+      <group>servletapi</group>
+      <name>servletapi</name>
+      <version>2.3</version>
+      <type>jar</type>
+    </info>
+    <gump>
+      <alias>jakarta-servletapi-4</alias>
+    </gump>
+  </resource>
+
+  <resource>
+    <info>
+      <group>qdox</group>
+      <name>qdox</name>
+      <version>1.4</version>
+      <type>jar</type>
+    </info>
+  </resource>
+
+  <resource>
+    <info>
+      <group>commons-cli</group>
+      <name>commons-cli</name>
+      <version>1.0</version>
+      <type>jar</type>
+    </info>
+  </resource>
+
+  <resource>
+    <info>
+      <group>geronimo-spec</group>
+      <name>geronimo-spec-jms</name>
+      <version>DEV</version>
+      <type>jar</type>
+    </info>
+    <gump>
+      <alias>jms</alias> <!-- CHEAT - this will link to sun's jms -->
+    </gump>
+  </resource>
+
+  <!--
+  Avalon LogKit.
+  -->
+
+  <project basedir="logkit">
+    <info>
+      <group>avalon/logkit</group>
+      <name>avalon-logkit</name>
+      <version>2.1.0</version>
+      <status>SNAPSHOT</status>
+    </info>
+    <dependencies>
+      <include key="mailapi" runtime="false"/>
+      <include key="log4j" runtime="false"/>
+      <include key="servletapi" runtime="false"/>
+      <include key="geronimo-spec-jms" runtime="false"/>
+    </dependencies>
+  </project>
+
+  <!--
+  Avalon Framework.
+  -->
+
+  <project basedir="framework/api">
+    <info>
+      <group>avalon/framework</group>
+      <name>avalon-framework-api</name>
+      <version>4.3.0</version>
+      <status>SNAPSHOT</status> <!-- impact on derived versions ? -->
+    </info>
+  </project>
+
+  <project basedir="framework/legacy">
+    <info>
+      <group>avalon/framework</group>
+      <name>avalon-framework-legacy</name>
+      <version>4.3.0</version>
+      <status>SNAPSHOT</status>
+    </info>
+    <dependencies>
+      <include key="avalon-framework-api"/>
+      <include key="avalon-logkit" runtime="true" test="false"/>
+    </dependencies>
+  </project>
+
+  <project basedir="framework/impl">
+    <info>
+      <group>avalon/framework</group>
+      <name>avalon-framework-impl</name>
+      <version>4.3.0</version>
+      <status>SNAPSHOT</status>
+    </info>
+    <dependencies>
+      <include key="avalon-framework-api" tag="api"/>
+      <include key="avalon-framework-legacy"/>
+    </dependencies>
+  </project>
+
+  <!--
+  Avalon Utilities.
+  -->
+
+  <project basedir="util/configuration">
+    <info>
+      <group>avalon/util</group>
+      <name>avalon-util-configuration</name>
+      <version>1.0.0</version>
+    </info>
+    <dependencies>
+      <include key="avalon-framework-api"/>
+      <include key="avalon-framework-impl"/>
+    </dependencies>
+  </project>
+
+  <project basedir="util/criteria">
+    <info>
+      <group>avalon/util</group>
+      <name>avalon-util-criteria</name>
+      <version>1.1.0</version>
+    </info>
+  </project>
+
+  <project basedir="util/defaults">
+    <info>
+      <group>avalon/util</group>
+      <name>avalon-util-defaults</name>
+      <version>1.2.2</version> <!-- bumped to 1.2.2 to fix bug accessing Env variable -->
+      <status>SNAPSHOT</status> 
+    </info>
+    <dependencies>
+      <include key="avalon-util-env"/>
+    </dependencies>
+  </project>
+
+  <project basedir="util/env">
+    <info>
+      <group>avalon/util</group>
+      <name>avalon-util-env</name>
+      <version>1.1.1</version>
+    </info>
+  </project>
+
+  <project basedir="util/exception">
+    <info>
+      <group>avalon/util</group>
+      <name>avalon-util-exception</name>
+      <version>1.0.0</version>
+    </info>
+  </project>
+
+  <project basedir="util/i18n">
+    <info>
+      <group>avalon/util</group>
+      <name>avalon-util-i18n</name>
+      <version>1.0.0</version>
+    </info>
+  </project>
+
+  <project basedir="util/extension/api">
+    <info>
+      <group>avalon/util</group>
+      <name>avalon-util-extension-api</name>
+      <version>1.2.0</version>
+    </info>
+  </project>
+
+  <project basedir="util/extension/impl">
+    <info>
+      <group>avalon/util</group>
+      <name>avalon-util-extension-impl</name>
+      <version>1.2.0</version>
+    </info>
+    <dependencies>
+      <include key="avalon-util-extension-api"/>
+    </dependencies>
+  </project>
+
+  <project basedir="util/lifecycle">
+    <info>
+      <group>avalon/util</group>
+      <name>avalon-util-lifecycle</name>
+      <version>1.1.1</version>
+    </info>
+    <dependencies>
+      <include key="avalon-framework-api"/>
+    </dependencies>
+  </project>
+
+  <!--
+  Avalon Meta.
+  -->
+
+  <project basedir="meta/api">
+    <info>
+      <group>avalon/meta</group>
+      <name>avalon-meta-api</name>
+      <version>1.5.0</version> <!-- bumped to handle parameters -->
+      <status>SNAPSHOT</status>
+    </info>
+    <dependencies>
+      <include key="avalon-framework-api"/>
+      <include key="avalon-framework-impl" build="false" test="true" runtime="false"/>
+    </dependencies>
+  </project>
+
+  <project basedir="meta/spi">
+    <info>
+      <group>avalon/meta</group>
+      <name>avalon-meta-spi</name>
+      <version>1.4.0</version>
+    </info>
+    <dependencies>
+      <include key="avalon-meta-api"/>
+    </dependencies>
+  </project>
+
+  <project basedir="meta/impl">
+    <info>
+      <group>avalon/meta</group>
+      <name>avalon-meta-impl</name>
+      <version>1.5.0</version> <!-- bumped to handle parameters -->
+      <status>SNAPSHOT</status>
+    </info>
+    <dependencies>
+      <include key="avalon-meta-spi"/>
+      <include key="avalon-util-i18n"/>
+      <include key="avalon-util-configuration"/>
+    </dependencies>
+  </project>
+
+  <plugin basedir="meta/tools">
+    <info>
+      <group>avalon/meta</group>
+      <name>avalon-meta-tools</name>
+      <version>1.5.0</version> <!-- bumped to handle parameters -->
+      <status>SNAPSHOT</status>
+    </info>
+    <dependencies>
+      <include key="avalon-meta-impl"/>
+      <include key="qdox"/>
+    </dependencies>
+    <tasks>
+      <taskdef name="meta" class="org.apache.avalon.meta.info.ant.MetaTask"/>
+    </tasks>
+    <listeners>
+      <listener class="org.apache.avalon.meta.info.ant.MetaBuildListener"/>
+    </listeners>
+  </plugin>
+
+  <!--
+  Avalon Test.
+  -->
+
+  <project basedir="test/dynamics">
+    <info>
+      <group>avalon/test</group>
+      <name>avalon-test-dynamics</name>
+    </info>
+    <dependencies>
+      <include key="avalon-framework-impl"/>
+    </dependencies>
+    <plugins>
+      <include key="avalon-meta-tools"/>
+    </plugins>
+  </project>
+
+  <project basedir="test/playground">
+    <info>
+      <group>avalon/test</group>
+      <name>avalon-test-playground</name>
+    </info>
+    <dependencies>
+      <include key="avalon-framework-impl"/>
+      <include key="avalon-util-lifecycle"/>
+    </dependencies>
+    <plugins>
+      <include key="avalon-meta-tools"/>
+    </plugins>
+  </project>
+
+  <project basedir="test/testa">
+    <info>
+      <group>avalon/test</group>
+      <name>avalon-test-testa</name>
+    </info>
+    <dependencies>
+      <include key="avalon-framework-api"/>
+      <include key="avalon-util-configuration"/>
+    </dependencies>
+    <plugins>
+      <include key="avalon-meta-tools"/>
+    </plugins>
+  </project>
+
+  <project basedir="test/testb">
+    <info>
+      <group>avalon/test</group>
+      <name>avalon-test-testb</name>
+    </info>
+    <dependencies>
+      <include key="avalon-framework-api"/>
+    </dependencies>
+    <plugins>
+      <include key="avalon-meta-tools"/>
+    </plugins>
+  </project>
+
+  <project basedir="test/testc">
+    <info>
+      <group>avalon/test</group>ss
+      <name>avalon-test-testc</name>
+    </info>
+    <dependencies>
+      <include key="avalon-test-testa"/>
+      <include key="avalon-test-testb"/>
+      <include key="avalon-framework-api"/>
+    </dependencies>
+    <plugins>
+      <include key="avalon-meta-tools"/>
+    </plugins>
+  </project>
+
+  <project basedir="test/testd">
+    <info>
+      <group>avalon/test</group>
+      <name>avalon-test-testd</name>
+    </info>
+    <dependencies>
+      <include key="avalon-test-testa"/>
+      <include key="avalon-framework-api"/>
+    </dependencies>
+    <plugins>
+      <include key="avalon-meta-tools"/>
+    </plugins>
+  </project>
+
+  <project basedir="test/teste">
+    <info>
+      <group>avalon/test</group>
+      <name>avalon-test-teste</name>
+    </info>
+    <dependencies>
+      <include key="avalon-test-testa"/>
+      <include key="avalon-framework-api"/>
+    </dependencies>
+    <plugins>
+      <include key="avalon-meta-tools"/>
+    </plugins>
+  </project>
+
+  <project basedir="test/testcyclic">
+    <info>
+      <group>avalon/test</group>
+      <name>avalon-test-testcyclic</name>
+    </info>
+    <dependencies>
+      <include key="avalon-framework-api"/>
+    </dependencies>
+    <plugins>
+      <include key="avalon-meta-tools"/>
+    </plugins>
+  </project>
+
+  <project basedir="test/includes">
+    <info>
+      <group>avalon/test</group>
+      <name>avalon-test-includes</name>
+    </info>
+    <dependencies>
+      <include key="avalon-test-playground" build="false" runtime="false"/>
+      <include key="avalon-test-testa" build="false" runtime="false"/>
+      <include key="avalon-test-testb" build="false" runtime="false"/>
+      <include key="avalon-test-testc" build="false" runtime="false"/>
+      <include key="avalon-test-testd" build="false" runtime="false"/>
+      <include key="avalon-test-teste" build="false" runtime="false"/>
+    </dependencies>
+  </project>
+
+  <project basedir="test/components">
+    <info>
+      <group>avalon/test</group>
+      <name>avalon-test-components</name>
+    </info>
+    <dependencies>
+      <include key="avalon-framework-api"/>
+    </dependencies>
+    <plugins>
+      <include key="avalon-meta-tools"/>
+    </plugins>
+  </project>
+
+  <!--
+  Avalon Repository.
+  -->
+
+  <project basedir="repository/api">
+    <info>
+      <group>avalon/repository</group>
+      <name>avalon-repository-api</name>
+      <version>2.1.0</version> <!-- artifact uri additions -->
+      <status>SNAPSHOT</status>
+    </info>
+  </project>
+
+  <project basedir="repository/spi">
+    <info>
+      <group>avalon/repository</group>
+      <name>avalon-repository-spi</name>
+      <version>2.0.0</version>
+    </info>
+    <dependencies>
+      <include key="avalon-repository-api"/>
+    </dependencies>
+  </project>
+
+  <project basedir="repository/util">
+    <info>
+      <group>avalon/repository</group>
+      <name>avalon-repository-util</name>
+      <version>2.0.0</version>
+    </info>
+    <dependencies>
+      <include key="avalon-repository-api"/>
+    </dependencies>
+  </project>
+
+  <project basedir="repository/impl">
+    <info>
+      <group>avalon/repository</group>
+      <name>avalon-repository-impl</name>
+      <version>2.1.0</version>
+      <status>SNAPSHOT</status>
+    </info>
+    <dependencies>
+      <include key="avalon-repository-main" runtime="false"/>
+    </dependencies>
+  </project>
+
+  <project basedir="repository/main">
+    <info>
+      <group>avalon/repository</group>
+      <name>avalon-repository-main</name>
+      <version>2.1.0</version>
+      <status>SNAPSHOT</status>
+    </info>
+    <dependencies>
+      <include key="avalon-repository-spi"/>
+      <include key="avalon-repository-util"/>
+      <include key="avalon-util-exception"/>
+      <include key="avalon-util-env"/>
+      <include key="avalon-util-i18n"/>
+      <include key="avalon-util-criteria"/>
+      <include key="avalon-util-defaults"/>
+    </dependencies>
+  </project>
+
+  <!-- TODO: update cli scripts to incorporate runtime classpath -->
+  <project basedir="repository/cli">
+    <info>
+      <group>avalon/repository</group>
+      <name>avalon-repository-cli</name>
+      <version>2.1.0</version>
+      <status>SNAPSHOT</status>
+    </info>
+    <dependencies>
+      <include key="avalon-repository-main"/>
+      <include key="commons-cli"/>
+    </dependencies>
+  </project>
+
+  <project basedir="repository/test">
+    <info>
+      <group>avalon/repository</group>
+      <name>avalon-repository-test</name>
+      <type>null</type>
+    </info>
+    <dependencies>
+      <include key="avalon-repository-impl" test="false"/>
+      <include key="avalon-repository-main"/>
+      <include key="avalon-framework-impl" test="true"/>
+      <include key="avalon-repository-cli" build="false" test="false"/>
+    </dependencies>
+  </project>
+
+  <!--
+  Avalon Logging.
+  -->
+
+  <project basedir="logging/api">
+    <info>
+      <group>avalon/logging</group>
+      <name>avalon-logging-api</name>
+      <version>1.0.0</version>
+    </info>
+  </project>
+
+  <project basedir="logging/spi">
+    <info>
+      <group>avalon/logging</group>
+      <name>avalon-logging-spi</name>
+      <version>1.0.0</version>
+    </info>
+    <dependencies>
+      <include key="avalon-logging-api"/>
+      <include key="avalon-repository-spi"/>
+      <include key="avalon-framework-api"/>
+    </dependencies>
+  </project>
+
+  <project basedir="logging/impl">
+    <info>
+      <group>avalon/logging</group>
+      <name>avalon-logging-impl</name>
+      <version>1.0.0</version>
+    </info>
+    <dependencies>
+      <include key="avalon-logging-spi"/>
+      <include key="avalon-repository-main" runtime="false"/>
+    </dependencies>
+  </project>
+
+  <project basedir="logging/log4j">
+    <info>
+      <group>avalon/logging</group>
+      <name>avalon-logging-log4j</name>
+      <version>1.0.1</version>
+      <status>SNAPSHOT</status>
+    </info>
+    <dependencies>
+      <include key="avalon-logging-impl" runtime="false"/>
+      <include key="log4j"/>
+    </dependencies>
+  </project>
+
+  <project basedir="logging/logkit/api">
+    <info>
+      <group>avalon/logging</group>
+      <name>avalon-logging-logkit-api</name>
+      <version>1.0.0</version>
+    </info>
+    <dependencies>
+      <include key="avalon-logging-spi" runtime="false"/>
+      <include key="avalon-logkit"/>
+    </dependencies>
+  </project>
+
+  <project basedir="logging/logkit/impl">
+    <info>
+      <group>avalon/logging</group>
+      <name>avalon-logging-logkit-impl</name>
+      <version>1.0.1</version>
+      <status>SNAPSHOT</status>
+    </info>
+    <dependencies>
+      <include key="avalon-logging-logkit-api"/>
+      <include key="avalon-logging-impl" runtime="false"/>
+      <include key="avalon-util-configuration"/>
+    </dependencies>
+  </project>
+
+  <project basedir="logging/logkit/plugins/datagram">
+    <info>
+      <group>avalon/logging</group>
+      <name>avalon-logging-logkit-datagram</name>
+      <version>1.0.1</version>
+      <status>SNAPSHOT</status>
+    </info>
+    <dependencies>
+      <include key="avalon-logging-logkit-api" runtime="false"/>
+      <include key="avalon-repository-main" runtime="false"/>
+    </dependencies>
+  </project>
+
+  <project basedir="logging/logkit/plugins/socket">
+    <info>
+      <group>avalon/logging</group>
+      <name>avalon-logging-logkit-socket</name>
+      <version>1.0.1</version>
+      <status>SNAPSHOT</status>
+    </info>
+    <dependencies>
+      <include key="avalon-logging-logkit-api" runtime="false"/>
+      <include key="avalon-repository-main" runtime="false"/>
+    </dependencies>
+  </project>
+
+  <project basedir="logging/logkit/plugins/syslog">
+    <info>
+      <group>avalon/logging</group>
+      <name>avalon-logging-logkit-syslog</name>
+      <version>1.0.1</version>
+      <status>SNAPSHOT</status>
+    </info>
+    <dependencies>
+      <include key="avalon-logging-logkit-api" runtime="false"/>
+      <include key="avalon-repository-main" runtime="false"/>
+    </dependencies>
+  </project>
+
+  <project basedir="logging/test">
+    <info>
+      <group>avalon/logging</group>
+      <name>avalon-logging-test</name>
+      <type>null</type>
+    </info>
+    <dependencies>
+      <include key="avalon-logging-logkit-impl" test="false"/>
+      <include key="avalon-logging-log4j" test="false"/>
+      <include key="avalon-logging-logkit-syslog" test="false"/>
+      <include key="avalon-logging-logkit-socket" test="false"/>
+      <include key="avalon-logging-logkit-datagram" test="false"/>
+      <include key="avalon-repository-main"/>
+      <include key="avalon-logging-impl"/>
+      <include key="avalon-framework-impl"/>
+      <include key="avalon-repository-test" build="false" test="false"/>
+    </dependencies>
+  </project>
+
+  <!--
+  Avalon Composition.
+  -->
+
+  <project basedir="composition/api">
+    <info>
+      <group>avalon/composition</group>
+      <name>avalon-composition-api</name>
+      <version>2.0.0</version>
+    </info>
+    <dependencies>
+      <include key="avalon-util-extension-api"/>
+      <include key="avalon-repository-api"/>
+      <include key="avalon-logging-api"/>
+      <include key="avalon-meta-api"/>
+    </dependencies>
+  </project>
+
+  <project basedir="composition/spi">
+    <info>
+      <group>avalon/composition</group>
+      <name>avalon-composition-spi</name>
+      <version>2.0.0</version>
+    </info>
+    <dependencies>
+      <include key="avalon-composition-api"/>
+      <include key="avalon-logging-spi"/>
+    </dependencies>
+  </project>
+
+  <project basedir="composition/impl">
+    <info>
+      <group>avalon/composition</group>
+      <name>avalon-composition-impl</name>
+      <version>2.0.1</version>
+      <status>SNAPSHOT</status>
+    </info>
+    <dependencies>
+      <include key="avalon-composition-spi"/>
+      <include key="avalon-repository-main"/>
+      <include key="avalon-meta-impl"/>
+      <include key="avalon-util-configuration"/>
+      <include key="avalon-util-extension-impl"/>
+      <include key="avalon-util-lifecycle"/>
+      <include key="avalon-logging-impl" build="false" test="true"/>
+      <include key="avalon-test-testa" build="false" runtime="false" test="false"/>
+      <include key="avalon-test-testb" build="false" runtime="false" test="false"/>
+      <include key="avalon-test-testc" build="false" runtime="false" test="false"/>
+      <include key="avalon-test-testd" build="false" runtime="false" test="false"/>
+      <include key="avalon-test-teste" build="false" runtime="false" test="false"/>
+      <include key="avalon-test-dynamics" build="false" runtime="false" test="false"/>
+      <include key="avalon-test-includes" build="false" runtime="false" test="true"/>
+      <include key="avalon-test-testcyclic" build="false" runtime="false" test="false"/>
+      <include key="avalon-logging-test" build="false" runtime="false" test="false"/>
+    </dependencies>
+  </project>
+
+  <!--
+  Avalon Activation.
+  -->
+
+  <project basedir="activation/api">
+    <info>
+      <group>avalon/activation</group>
+      <name>avalon-activation-api</name>
+      <version>2.0.0</version>
+    </info>
+    <dependencies>
+      <include key="avalon-composition-api"/>
+    </dependencies>
+  </project>
+
+  <project basedir="activation/impl">
+    <info>
+      <group>avalon/activation</group>
+      <name>avalon-activation-impl</name>
+      <version>2.0.1</version>
+      <status>SNAPSHOT</status>
+    </info>
+    <dependencies>
+      <include key="avalon-util-lifecycle"/>
+      <include key="avalon-util-i18n"/>
+      <include key="avalon-util-defaults"/>
+      <include key="avalon-repository-spi"/>
+      <include key="avalon-composition-spi"/>
+      <include key="avalon-activation-api"/>
+      <include key="avalon-framework-impl"/>
+      <include key="avalon-composition-impl" build="false" test="true"/>
+      <include key="avalon-test-components" build="false" test="true"/>
+      <include key="avalon-test-playground" build="false" test="true"/>
+    </dependencies>
+  </project>
+
+  <!--
+  Avalon Merlin.
+  -->
+
+  <project basedir="merlin/api">
+    <info>
+      <group>avalon/merlin</group>
+      <name>avalon-merlin-api</name>
+      <version>3.3.0</version>
+    </info>
+    <dependencies>
+      <include key="avalon-composition-api"/>
+    </dependencies>
+  </project>
+
+  <project basedir="merlin/impl">
+    <info>
+      <group>avalon/merlin</group>
+      <name>avalon-merlin-impl</name>
+      <version>3.3.1</version>
+      <status>SNAPSHOT</status>
+    </info>
+    <dependencies>
+      <include key="avalon-framework-api" tag="api"/>
+      <include key="avalon-util-lifecycle" tag="api"/>
+      <include key="avalon-util-extension-api" tag="spi"/>
+      <include key="avalon-merlin-api" tag="spi"/>
+      <include key="avalon-repository-api" tag="spi"/>
+      <include key="avalon-meta-spi" tag="spi"/>
+      <include key="avalon-repository-spi" tag="spi"/>
+      <include key="avalon-logging-spi" tag="spi"/>
+      <include key="avalon-logging-impl" tag="impl"/>
+      <include key="avalon-composition-spi" tag="spi"/>
+      <include key="avalon-composition-impl" tag="impl"/>
+      <include key="avalon-util-configuration" tag="impl"/>
+      <include key="avalon-repository-main" runtime="false"/>
+      <include key="avalon-activation-impl" build="false" test="false"/>
+    </dependencies>
+  </project>
+
+  <project basedir="merlin/cli">
+    <info>
+      <group>avalon/merlin</group>
+      <name>avalon-merlin-cli</name>
+      <version>3.3.1</version>
+      <status>SNAPSHOT</status>
+    </info>
+    <dependencies>
+      <include key="avalon-repository-impl" runtime="false" test="false"/>
+      <include key="avalon-logging-logkit-impl" runtime="false" test="false"/>
+      <include key="avalon-logging-log4j" runtime="false" test="false"/>
+      <include key="avalon-activation-impl" runtime="false" test="false"/>
+      <include key="avalon-merlin-impl" runtime="false" test="false"/>
+      <include key="avalon-repository-main"/>
+      <include key="commons-cli"/>
+    </dependencies>
+  </project>
+
+  <project basedir="merlin/unit">
+    <info>
+      <group>avalon/merlin</group>
+      <name>avalon-merlin-unit</name>
+      <version>3.3.1</version>
+      <status>SNAPSHOT</status>
+    </info>
+    <dependencies>
+      <include key="avalon-repository-main"/>
+      <include key="avalon-merlin-impl" build="false"/>
+    </dependencies>
+  </project>
+
+  <project basedir="main" key="avalon-runtime">
+    <info>
+      <group>avalon</group>
+      <name>runtime</name>
+      <version>3.3.1</version>
+      <type>doc</type>
+      <status>SNAPSHOT</status>
+    </info>
+    <dependencies>
+      <include key="avalon-framework-api" tag="api"/>
+      <include key="avalon-util-lifecycle" tag="api"/>
+      <include key="avalon-util-extension-api" tag="spi"/>
+      <include key="avalon-merlin-api" tag="spi"/>
+      <include key="avalon-repository-api" tag="spi"/>
+      <include key="avalon-meta-spi" tag="spi"/>
+      <include key="avalon-repository-spi" tag="spi"/>
+      <include key="avalon-logging-spi" tag="spi"/>
+      <include key="avalon-logging-impl" tag="impl"/>
+      <include key="avalon-composition-spi" tag="spi"/>
+      <include key="avalon-composition-impl" tag="impl"/>
+      <include key="avalon-util-configuration" tag="impl"/>
+      <include key="avalon-repository-main" runtime="false"/>
+      <include key="avalon-activation-impl" build="false" test="false"/>
+      <include key="avalon-merlin-api" tag="spi"/>
+      <include key="avalon-merlin-impl"/>
+      <include key="avalon-merlin-cli"/>
+      <include key="log4j" runtime="false"/>
+      <include key="servletapi"/>
+      <include key="mailapi"/>
+      <include key="geronimo-spec-jms"/>
+    </dependencies>
+  </project>
+
+</index>

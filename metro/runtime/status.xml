@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE changes PUBLIC "-//APACHE//DTD Changes V1.1//EN"  "changes-v11.dtd">
+<changes>
+  <devs>
+    <person name="Federico Barbieri" email="fede@apache.org" id="FB"/>
+    <person name="Berin Loritsch" email="bloritsch@apache.org" id="BL"/>
+    <person name="Peter Donald" email="peter@apache.org" id="PD"/>
+    <person name="Jeff Turner" email="jefft@apache.org" id="JT"/>
+    <person name="Paul Hammant" email="hammant@apache.org" id="PH"/>
+    <person name="Leif Mortenson" email="leif@apache.org" id="LM"/>
+    <person name="Carston Ziegeler" email="cziegeler@apache.org" id="CZ"/>
+  </devs>
+  <release version="4.1.5" date="current">
+  </release>
+  <release version="4.1.4" date="March 6, 2003">
+    <action dev="BL" type="remove">
+      Remove the hard deprecation on the o.a.a.f.component package.  It
+      has been replaced by a softer form of deprecation (i.e. just notes
+      in JavaDocs that do not affect the compile).
+    </action>
+    <action dev="PD" type="add">
+      New ContainerUtil available to make creating components easier.
+    </action>
+  </release>
+  <release version="4.1.3" date="July 30, 2002">
+    <action dev="BL" type="update">
+      Undocumented release.  Not sure who, what, when, where, why or how.
+    </action>
+  </release>
+  <release version="4.1.2" date="January 31, 2002">
+    <action dev="BL" type="update">
+      Updated the build jars.
+    </action>
+    <action dev="CZ" type="add">
+      Add EMPTY_PARAMETERS constant object to the Parameters object.
+    </action>
+    <action dev="PD" type="update">
+      Made it configurable whether you print nested exceptions or not,
+      and specify the depth that the AvalonFormatter will go with nested
+      exceptions (defaults to 8).
+    </action>
+    <action dev="LM" type="update">
+      Update build to have a "compress.jars" property (defaults to
+      true by default).
+    </action>
+  </release>
+  <release version="4.1.1" date="December 21, 2001">
+    <action dev="BL" type="fix">
+      Force build process to produce JDK 1.2 compliant class files.
+      The last release had JDK 1.4 compliant class files, causing
+      some classloaders to not work with the Framework.
+    </action>
+  </release>
+  <release version="4.1" date="December 12, 2001">
+    <action dev="JT" type="update">
+      Improve and update the configuration javadocs to reflect the new
+      namespace support.
+    </action>
+    <action dev="BL" type="remove">
+      Deprecate the Loggable and AbstractLoggable classes, and replace
+      them with LogEnabled and AbstractLogEnabled.
+    </action>
+    <action dev="BL" type="add">
+      Add an abstraction layer to the Logging implementation.  Thanks
+      to Peter Donald for supplying the interface.
+    </action>
+    <action dev="BL" type="add">
+      Add Namespace support to Configuration files.
+    </action>
+    <action dev="BL" type="add">
+      Add AvalonFormatter that was in LogKit's heirarchy.  This way, we
+      avoid circular dependancies.
+    </action>
+    <action dev="PD" type="fix">
+      Previously resolve did not throw a ContextException. This made it
+      difficult to indicate errors resolving objects. It now throws an
+      exception thus allowing errors to be propogated and recorded.
+    </action>
+    <action dev="BL" type="add">
+      New ConfigurationSerializer to have your configuration objects persist.
+    </action>
+    <action dev="BL" type="update">
+      Upgrade DefaultConfigurationBuilder to be JAXP compliant,
+      with the option to pass in your own XMLReader.
+    </action>
+    <action dev="PD" type="update">
+      Configuration objects are now Serializable.
+    </action>
+    <action dev="BL" type="add">
+      Add new support to ask a component manager if it has a component.
+    </action>
+    <action dev="PD" type="fix">
+      Bug fixes for documentation
+    </action>
+    <action dev="BL" type="update">
+      Update developers docs to support new configuration methods.
+    </action>
+    <action dev="PH" type="add">
+      Improved "Hello World" documentation.
+    </action>
+    <action dev="PD" type="add">
+      Add UML diagrams supplied by Dieter Wimberger
+    </action>
+    <action dev="BL" type="update">
+      Add new author bios.
+    </action>
+    <action dev="BL" type="update">
+      Update build process to proposed standard.
+    </action>
+    <action dev="PD" type="add">
+      Added a method to Version to parse a Version from a string. Added accessor
+      methods to Version to allow access to major/minor/micro components of version.
+    </action>
+    <action dev="PD" type="update">
+      Updated Version class to refer to micro version rather than revision. This 
+      is to match the terminology for JDK versioning. This is just documentation 
+      changes.
+    </action>
+    <action dev="JT" type="fix">
+      Changed access of Enum and ValuedEnum constructors from public to
+      protected, to prevent Enum users from breaking type-safety by adding new
+      Enum items. This breaks backwards-compatibility in cases where Enum
+      and ValuedEnum were being incorrectly used.
+    </action>
+  </release>
+  <release version="4.0" date="July 30, 2001">
+    <action dev="BL" type="add">
+      Added new method to Component Manager and Selector for discovering
+      if a Component exists inside or not.  Also augmented the default
+      versions with the basic implementation to discover them.
+    </action>
+    <action dev="BL" type="add">
+      Added stylesheet to convert Stylebook markup to DocBook markup.
+    </action>
+    <action dev="BL" type="update">
+      Changed the documentation build process to use Cocoon to build
+      the site.
+    </action>
+    <action dev="BL" type="add">
+      Added new "Developing with Avalon" book in DocBook format.
+    </action>
+    <action dev="PD" type="add">
+      Added Executable interface to activity package.
+    </action>
+    <action dev="PD" type="fix">
+      Updated Resolvable interface to allow a ContextException to be thrown 
+      on failure. 
+    </action>
+    <action dev="PD" type="update">
+      Add a makeReadOnly() method to the default implementations of Configuration, 
+      Context and ComponentManager. Calling this method after the respective
+      object has been filled will make the object read-only. This is a safety 
+      precaution to stop code performing unwanted operations.
+    </action>
+    <action dev="PD" type="update">
+      Updated the javadocs of many of the classes.
+    </action>
+    <action dev="BL" type="update">
+      Update documentation so that it is more accurate and descriptive.
+    </action>
+  </release>
+  <release version="4.0b3" date="June 6, 2001">
+    <action dev="BL" type="update">
+      Release 4.0b3
+    </action>
+    <action dev="PD" type="fix">
+      Made DefaultComponentManager/Selector, DefaultContext, and
+      DefaultConfiguration read-only to avoid bad programming
+      practices by clients.
+    </action>
+  </release>
+  <release version="4.0b2" date="June 4, 2001">
+    <action dev="BL" type="update">
+      Release 4.0b2
+    </action>
+    <action dev="PD" type="add">
+      Add makeReadOnly() method to default implementations to prevent
+      alteration after they are set up.
+    </action>
+    <action dev="BL" type="update">
+      Removed the "throws Exception" from Disposable interface.  That was
+      inadvertently left in the previous release.
+    </action>
+    <action dev="BL" type="add">
+      Added extra methods to Parameters to throw exceptions if the value
+      does not exist.  They are the "no default value" methods.
+    </action>
+    <action dev="PD" type="update">
+      Updated javadocs for Framework.
+    </action>
+  </release>
+  <release version="4.0b1" date="May 11, 2001">
+    <action dev="BL" type="update">
+      Official release
+    </action>
+  </release>
+</changes>

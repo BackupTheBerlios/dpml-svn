@@ -1,0 +1,23 @@
+
+#----------------------------------------------------------------------
+# template merlin.properties file
+# This file is provided as an example of a merlin.properties 
+# configuration file.  Please copy the file to the name 
+# "merlin.properties" before making modifications.
+#----------------------------------------------------------------------
+
+#
+# merlin system implementation artifact uri
+#
+# merlin.implementation = @MERLIN_IMPLEMENTATION@
+
+#
+# default logging plugin implementation artifact uri
+#
+# merlin.logging.implementation = @LOGGING_IMPLEMENTATION@
+
+#
+# default activation runtime plugin implementation artifact uri
+#
+# merlin.runtime.implementation = @STANDARD_RUNTIME@
+

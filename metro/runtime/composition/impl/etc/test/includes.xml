@@ -1,0 +1,10 @@
+
+<container>
+
+  <include name="test" artifact="@AVALON-TEST-INCLUDES-SPEC@">
+    <target path="primary/block/test">
+      <categories priority="INFO"/>
+    </target>
+  </include>
+
+</container>

@@ -1,0 +1,11 @@
+
+<container>
+<classloader>
+     <classpath>
+       <artifact>@AVALON-TEST-CYCLIC-SPEC@</artifact>
+     </classpath>
+   </classloader>
+   <container name="sub">
+     <component name="test-a" class="org.apache.avalon.test.testcyclic.TestCyclicA"/>
+   </container>
+</container>

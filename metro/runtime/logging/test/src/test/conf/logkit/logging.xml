@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<logging debug="false">
+
+  <!--
+  Declaration of a set of logging targets.
+  -->
+
+  <targets>
+
+    <!--
+    This target establishes output to the the System.out stream.
+    The format argument ensures that we don't get stack traces -
+    but just the error report.
+    -->
+    <stream id="standard">
+       <name>System.out</name>
+       <format type="console"/>
+    </stream>
+
+    <!--
+    This target logs to a rotating file located in 
+    target/simple-XXX.log
+    --> 
+    <file id="simple">
+      <filename>simple.log</filename>
+      <append>true</append>
+      <rotation type="revolving" init="1" max="10">
+        <size>100k</size>
+      </rotation>
+    </file>
+
+    <!--
+    The multicast target redirects log event to a set of 
+    named targets.
+    -->
+    <multicast id="multicast">
+      <targetref id="standard"/>
+      <targetref id="simple"/>
+    </multicast>
+
+    <!--
+    This target is a demonstration of the declaration of 
+    a datagram plugin target.
+    -->
+    <target id="datagram"
+        artifact="@AVALON-LOGGING-LOGKIT-DATAGRAM-SPEC@">
+      <address hostname="localhost" port="0"/>
+    </target>
+
+    <!--
+    The target is a demonstration of the declaration of 
+    the syslog plugin target.
+    -->
+    <target id="syslog"
+        artifact="@AVALON-LOGGING-LOGKIT-SYSLOG-SPEC@">
+      <address hostname="localhost" port="514" facility="USER"/>
+      <format type="extended">
+        %7.7{priority} %23.23{time:yyyy-MM-dd HH:mm:ss:SSS}   [%25.25{category}] : %{message}\n%{throwable}
+      </format>
+    </target>
+
+    <!--
+    The target shows the configuration of a plugable smtp target (which 
+    has not been committed to CVS yet).
+    -->
+    <!--
+    <target id="smtp"
+        artifact="avalon-logging/avalon-logkit-smtp#1.0.0">
+      <to>mcconnell@osm.net</to>
+      <from>info@dpml.net</from>
+      <subject>logging target test</subject>
+      <maximum-size>1</maximum-size>
+      <session>
+      </session>
+    </target>
+    -->
+
+  </targets>
+
+  <!--
+  Declaration of the initial logging categories.  These categories
+  and the respective priorities and assigned targets are used by the 
+  testcase to validate that the logging system is functioning properly.
+  -->
+
+  <categories priority="info" target="multicast">
+    <categories name="kernel">
+      <categories name="logger" priority="warn">
+        <category name="test" priority="fatal_error"/>
+      </categories>
+      <category name="roger-ramjet" priority="debug"/>
+    </categories>
+  </categories>
+
+  <!--
+  Selection of the logging channel for use by the logging
+  system following establishment of inital targets and categories.
+  -->
+
+  <logger name="kernel.logger"/>
+
+</logging>

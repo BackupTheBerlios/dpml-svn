@@ -1,0 +1,59 @@
+
+<!--
+Example block deployment descriptor.
+-->
+
+<container name="playground">
+
+   <categories priority="INFO"/>
+
+   <classloader>
+     <classpath>
+       <artifact>@PLAYGROUND-SPEC@</artifact>
+       <artifact>@FRAMEWORK-IMPL-SPEC@</artifact>
+     </classpath>
+   </classloader>
+
+   <services>
+     <service type="org.apache.avalon.test.playground.basic.BasicService" version="1.1"/>
+   </services>
+
+   <container name="subsidiary">
+
+     <component name="complex"
+       class="org.apache.avalon.test.playground.ComplexComponent">
+       <categories priority="INFO"/>
+     </component>
+     
+     <container name="test">
+       <component name="simple" class="org.apache.avalon.test.playground.SimpleComponent"/>
+     </container>
+
+   </container>
+
+   <!--
+   Commenting the following out to validate demand-driven discovery in 
+   combination with automated assembly and export resolution.
+   -->
+   <!--
+   <component name="demo" 
+     class="org.apache.avalon.test.playground.DemoManager"/>
+   
+   <component name="exploitation" 
+     class="org.apache.avalon.test.playground.ExploitationManager"/>
+
+   <component name="basic"
+       class="org.apache.avalon.test.playground.basic.BasicComponent"
+       activation="startup">
+     <context class="org.apache.avalon.test.playground.basic.BasicContextImp">
+       <entry key="location">
+         <constructor>My Place</constructor>
+       </entry>
+       <entry key="home">
+         <import key="urn:avalon:home"/>
+       </entry>
+     </context>
+   </component>
+   -->
+
+</container>

@@ -1,0 +1,33 @@
+<project default="merlin:installer" xmlns:maven="jelly:maven" xmlns:j="jelly:core" xmlns:util="jelly:util" xmlns:ant="jelly:ant">
+
+  <goal name="merlin:installer">
+    <ant:property name="izPackHome" value="${env.IZPACK_HOME}"/>
+    <j:if test="${izPackHome == ''}">
+      <echo>IZPACK_HOME is undefined.</echo>
+      <echo>Skipping installer creation.</echo>
+    </j:if>
+    <j:if test="${izPackHome != ''}">
+      <attainGoal name="xinstaller"/>
+    </j:if>
+  </goal>
+
+  <goal name="xinstaller">
+    <echo>Doing the install: ${izPackHome}</echo>
+    <ant:taskdef name="izpack" classpath="${izPackHome}/lib/compiler.jar"
+         classname="com.izforge.izpack.ant.IzPackTask"/>
+    <filter token="VERSION" value="${pom.currentVersion}" />
+    <copy 
+        tofile="${maven.build.dir}/temp-installer.xml" 
+        file="${basedir}/src/izpack/izpack.xml" 
+        filtering="yes" 
+    />
+    <ant:izpack input="${maven.build.dir}/temp-installer.xml"
+            output="${maven.build.dir}/merlin-inst-${pom.currentVersion}.jar"
+            installerType="standard"
+            basedir="${basedir}/../../target/merlin/"
+            izPackDir="${izPackHome}"
+    />
+
+  </goal>
+
+</project>

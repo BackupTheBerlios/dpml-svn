@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<kernel> 
+
+  <repository>
+     <hosts>
+       <host path="http://www.dpml.net/"/>
+       <host path="http://www.ibiblio.org/maven/"/>
+     </hosts>
+  </repository>
+
+</kernel>
+

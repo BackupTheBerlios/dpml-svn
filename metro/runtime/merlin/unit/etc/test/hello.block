@@ -1,0 +1,14 @@
+
+<container name="tutorial">
+
+   <classloader>
+     <classpath>
+       <repository>
+         <resource id="merlin/tutorial:hello" version="1.1"/>
+       </repository>
+     </classpath>
+   </classloader>
+
+   <component name="hello" class="tutorial.HelloComponent" activation="startup"/>
+
+</container>

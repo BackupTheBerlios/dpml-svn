@@ -1,0 +1,23 @@
+<!-- 
+
+ Copyright 2001-2004 The Apache Software Foundation.
+ 
+ Licensed under the Apache License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+      http://www.apache.org/licenses/LICENSE-2.0
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+ -->
+
+<!ENTITY % merlin-entities SYSTEM "file:../versioning/avalon-merlin.ent"> %merlin-entities;
+<!ENTITY % meta-entities SYSTEM "file:../versioning/avalon-meta.ent"> %meta-entities;
+<!ENTITY % repo-entities SYSTEM "file:../versioning/avalon-repository.ent"> %repo-entities;
+<!ENTITY % util-entities SYSTEM "file:../versioning/avalon-util.ent"> %util-entities;
+<!ENTITY % logging-entities SYSTEM "file:../versioning/avalon-logging.ent"> %logging-entities;
+<!ENTITY % versioning-entities SYSTEM "file:../versioning/avalon-versioning-plugin.ent"> %versioning-entities;

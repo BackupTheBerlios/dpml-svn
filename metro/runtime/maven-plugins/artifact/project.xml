@@ -1,0 +1,36 @@
+<!DOCTYPE project [
+  <!ENTITY % index SYSTEM "file:index.ent"> %index;
+]>
+
+<project>
+
+  <extend>${basedir}/../../project.xml</extend>
+
+  <groupId>&avalon-util-id;</groupId>
+  <id>&avalon-util-plugin-id;</id>
+  <currentVersion>&avalon-util-plugin-version;</currentVersion>
+
+  <name>Avalon Plugin</name>
+  <description>Avalon Plugin for Maven</description>
+  <shortDescription>Avalon Plugin</shortDescription>
+  <package>org.apache.avalon</package>
+
+  <build>
+    <resources>
+      <resource>
+        <directory>${basedir}/src/plugin-resources</directory>
+        <targetPath>plugin-resources</targetPath>
+      </resource>
+      <resource>
+        <directory>${basedir}</directory>
+        <includes>
+          <include>plugin.jelly</include>
+          <include>plugin.properties</include>
+          <include>project.properties</include>
+        </includes>
+      </resource>
+    </resources>
+
+  </build>
+
+</project>

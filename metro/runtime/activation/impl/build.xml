@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<project name="avalon-activation-impl" default="install" basedir="." 
+    xmlns:x="antlib:org.apache.avalon.tools"
+>
+
+  <property file="build.properties"/>
+  <x:home/>
+  <import file="${magic.templates}/standard.xml"/>
+
+  <target name="init" depends="standard.init">
+    <x:filter key="avalon-logging-logkit-impl" feature="uri" 
+       token="AVALON-LOGGING-LOGKIT-SPEC"/>
+    <x:filter key="avalon-test-components" feature="uri" 
+       token="TEST-COMPONENTS-SPEC"/>
+    <x:filter key="avalon-test-playground" feature="uri" 
+       token="PLAYGROUND-SPEC"/>
+  </target>
+
+  <target name="package" depends="standard.package">
+    <x:artifact/>
+  </target>
+
+</project>
+

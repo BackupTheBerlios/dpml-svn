@@ -1,0 +1,19 @@
+<project default="plugin:install" xmlns:ant="jelly:ant">
+
+  <preGoal name="jar:jar">
+    <attainGoal name="avalon:generate"/>
+  </preGoal>
+  
+  <goal name="avalon:generate">
+    <echo message="starting"/>
+    <mkdir dir="${maven.build.dir}/classes"/>
+    <ant:xslt in="${basedir}/project.xml" out="${maven.build.dir}/classes/project.xml"
+      style="${basedir}/copy-all.xsl">
+      <outputproperty name="method" value="xml" />
+      <outputproperty name="standalone" value="yes"/>
+      <outputproperty name="indent" value="yes"/>
+    </ant:xslt>
+    <echo message="done"/>
+  </goal>
+
+</project>

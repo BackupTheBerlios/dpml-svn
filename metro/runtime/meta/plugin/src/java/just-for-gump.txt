@@ -1,0 +1,2 @@
+
+Under the current build system the procedure checks for a source directory in either here or under src/test.  This is a placeholder that simply ensures that the gump build does not fail.

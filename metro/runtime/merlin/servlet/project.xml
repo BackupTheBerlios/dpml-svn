@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE project [
+  <!ENTITY % index SYSTEM "file:index.ent"> %index;
+]>
+
+<project>
+
+  <extend>${basedir}/../../project.xml</extend>
+
+  <groupId>&merlin-id;</groupId>
+  <id>&merlin-servlet-id;</id>
+  <currentVersion>&merlin-servlet-version;</currentVersion>
+
+  <name>Merlin Servlet</name>
+  <package>org.apache.avalon.merlin.servlet</package>
+  <shortDescription>Merlin Servlet</shortDescription>
+  <inceptionYear>2002</inceptionYear>
+
+  <description>
+Merlin servlet is a servlet with an embedded Merlin Kernel.
+  </description>
+
+  <dependencies>
+
+    <dependency>
+      <groupId>&avalon-meta-id;</groupId>
+      <artifactId>&avalon-meta-api-id;</artifactId>
+      <version>&avalon-meta-api-version;</version>
+      <properties>
+        <war.bundle>true</war.bundle>
+      </properties>
+    </dependency>
+
+    <dependency>
+      <groupId>&avalon-framework-id;</groupId>
+      <artifactId>&avalon-framework-api-id;</artifactId>
+      <version>&avalon-framework-api-version;</version>
+      <type>jar</type>
+      <properties>
+        <war.bundle>true</war.bundle>
+      </properties>
+    </dependency>
+
+    <dependency>
+      <groupId>&avalon-composition-id;</groupId>
+      <artifactId>&avalon-composition-api-id;</artifactId>
+      <version>&avalon-composition-api-version;</version>
+      <properties>
+        <war.bundle>true</war.bundle>
+      </properties>
+    </dependency>
+
+    <dependency>
+      <groupId>&merlin-id;</groupId>
+      <artifactId>&merlin-api-id;</artifactId>
+      <version>&merlin-api-version;</version>
+      <properties>
+        <war.bundle>true</war.bundle>
+      </properties>
+    </dependency>
+
+    <dependency>
+      <groupId>&avalon-repository-id;</groupId>
+      <artifactId>&avalon-repository-main-id;</artifactId>
+      <version>&avalon-repository-main-version;</version>
+      <properties>
+        <war.bundle>true</war.bundle>
+      </properties>
+    </dependency>
+
+    <dependency>
+      <id>servletapi</id>
+      <version>2.3</version>
+    </dependency>
+
+  </dependencies>
+  
+</project>

@@ -1,0 +1,28 @@
+
+
+<container>
+
+   <classloader>
+     <classpath>
+       <artifact>@AVALON-TEST-A-SPEC@</artifact>
+     </classpath>
+   </classloader>
+
+   <component name="test-a" class="org.apache.avalon.test.testa.TestA">
+     <context class="org.apache.avalon.test.testa.DefaultFacade">
+       <entry key="home">
+         <constructor class="java.io.File">
+           <param class="java.io.File">${urn:avalon:home}</param>
+           <param>xxx</param>
+         </constructor>
+       </entry>
+       <entry key="time">
+         <constructor class="java.util.Date"/>
+       </entry>
+       <entry key="path">
+         <import key="urn:avalon:partition"/>
+       </entry>
+     </context>
+   </component>
+
+</container>

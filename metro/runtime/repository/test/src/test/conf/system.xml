@@ -1,0 +1,8 @@
+<!--
+Configuration used by the DefaultInitialContextFactoryTest to validate the 
+populatation of registered artifacts with the initial context.
+-->
+
+<system>
+  <artifact spec="avalon-repository/avalon-repository-impl#2.0-SNAPSHOT"/>
+</system>

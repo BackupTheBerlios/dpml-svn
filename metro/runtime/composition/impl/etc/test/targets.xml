@@ -1,0 +1,26 @@
+
+<container>
+
+  <classloader>
+    <classpath>
+      <artifact>@AVALON-TEST-A-SPEC@</artifact>
+    </classpath>
+  </classloader>
+
+  <component 
+    class="org.apache.avalon.test.testa.ConfigurableComponent" 
+    name="aaa"/>
+
+  <component 
+    class="org.apache.avalon.test.testa.ConfigurableComponent" 
+    name="bbb"/>
+
+  <container name="ccc">
+    <container name="sss">
+      <component 
+        class="org.apache.avalon.test.testa.ConfigurableComponent" 
+        name="xxx"/>
+    </container>
+  </container>
+
+</container>

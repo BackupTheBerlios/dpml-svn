@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<project name="avalon-logging-test" default="install" basedir="." 
+    xmlns:x="antlib:org.apache.avalon.tools"
+>
+  <property file="build.properties"/>
+  <x:home/>
+  <import file="${magic.templates}/standard.xml"/>
+  
+  <target name="init" depends="standard.init">
+    <x:filter key="avalon-logging-logkit-impl" feature="uri" 
+       token="AVALON-LOGGING-LOGKIT-SPEC"/>
+    <x:filter key="avalon-logging-log4j" feature="uri" 
+       token="AVALON-LOGGING-LOG4J-SPEC"/>
+    <x:filter key="avalon-logging-logkit-datagram" feature="uri" 
+       token="AVALON-LOGGING-LOGKIT-DATAGRAM-SPEC"/>
+    <x:filter key="avalon-logging-logkit-syslog" feature="uri" 
+       token="AVALON-LOGGING-LOGKIT-SYSLOG-SPEC"/>
+  </target>
+
+  <target name="install" depends="test"/>
+
+</project>

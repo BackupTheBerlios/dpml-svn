@@ -1,0 +1,8 @@
+Manifest-Version: 1.0
+Extension-Name: avalon.required1
+Specification-Title: Avalon Extension
+Specification-Version: 1.0
+Specification-Vendor: Avalon Apache
+Implementation-Vendor-Id: org.apache.avalon
+Implementation-Vendor: Avalon Apache Project
+Implementation-Version: 1.0.3

@@ -1,0 +1,151 @@
+<?xml version="1.0"?>
+
+<project xmlns:j="jelly:core"
+  xmlns:define="jelly:define"
+  xmlns:util="jelly:util"
+  xmlns:maven="jelly:maven"
+  xmlns:ant="jelly:ant" >
+
+  <define:taglib uri="avalon:artifact"/>
+
+  <goal name="artifact:install" prereqs="artifact:create">
+    <ant:copy toDir="${maven.repo.local}/${pom.groupId}/jars" 
+       file="${maven.build.dir}/${pom.artifactId}-${pom.currentVersion}.jar.meta" 
+       verbose="yes"/>
+  </goal>
+
+  <!--
+  #
+  # Write out an artifact descriptor for the projects jar file.
+  # The goal writes out general information including meta domain
+  # and classification following by dependency information.
+  #
+  -->
+  <goal name="artifact:create">
+
+      <maven:snapshot project="${pom}"/>
+
+      <ant:property name="filename" 
+        value="${maven.build.dir}/${pom.artifactId}-${pom.currentVersion}.jar.meta"/>
+      <ant:echo message="Artifact: ${filename}"/>
+      <j:set var="offset" value="${pom.artifactId.length()}"/>
+      <j:set var="scrap" 
+        value="${snapshotSignature.substring(offset,snapshotSignature.length())}"/>
+      <j:set var="signature" value="${scrap.substring(1,scrap.length())}"/>
+      <ant:echo file="${filename}">
+#
+# Meta classifier.
+# 
+
+meta.domain = avalon
+meta.version = 1.0
+
+#
+# Artifact descriptor.
+# 
+avalon.artifact.group = ${pom.groupId}
+avalon.artifact.name = ${pom.artifactId}
+avalon.artifact.version = ${pom.currentVersion}
+avalon.artifact.signature = ${signature}
+</ant:echo>
+      <j:set var="index" value="0"/>
+      <j:forEach var="dep" items="${pom.dependencies}">
+        <j:set var="key" value="${dep.groupId}:${dep.artifactId};${dep.version}"/>
+        <j:if test="${dep.getProperty('avalon.classloader')=='api'}">
+          <j:if test="${dep.getType()=='jar'}">
+            <j:if test="${index==0}">
+              <ant:echo file="${filename}" append="true">
+
+#
+# API dependencies.
+#
+</ant:echo>
+            </j:if>
+            <ant:echo file="${filename}" append="true">
+avalon.artifact.dependency.api.${index} = ${key}</ant:echo>
+            <j:set var="index" value="${index+1}"/>
+          </j:if>
+        </j:if>
+      </j:forEach>
+
+      <j:set var="index" value="0"/>
+      <j:forEach var="dep" items="${pom.dependencies}">
+        <j:set var="key" value="${dep.groupId}:${dep.artifactId};${dep.version}"/>
+        <j:if test="${dep.getProperty('avalon.classloader')=='spi'}">
+          <j:if test="${dep.getType()=='jar'}">
+            <j:if test="${index==0}">
+              <ant:echo file="${filename}" append="true">
+
+#
+# SPI dependencies.
+#
+</ant:echo>
+            </j:if>
+          </j:if>
+          <ant:echo file="${filename}" append="true">
+avalon.artifact.dependency.spi.${index} = ${key}</ant:echo>
+          <j:set var="index" value="${index+1}"/>
+        </j:if>
+      </j:forEach>
+
+      <j:set var="index" value="0"/>
+      <j:forEach var="dep" items="${pom.dependencies}">
+        <j:set var="key" value="${dep.groupId}:${dep.artifactId};${dep.version}"/>
+        <j:if test="${dep.getProperty('avalon.classloader')==null}">
+          <j:if test="${dep.getType()=='jar'}">
+            <j:if test="${index==0}">
+              <ant:echo file="${filename}" append="true">
+
+#
+# Implementation dependencies.
+#
+</ant:echo>
+            </j:if>
+            <ant:echo file="${filename}" append="true">
+avalon.artifact.dependency.${index} = ${key}</ant:echo>
+            <j:set var="index" value="${index+1}"/>
+          </j:if>
+        </j:if>
+      </j:forEach>
+
+      <j:if test="${context.getVariable('avalon.artifact.factory') != null}">
+        <ant:echo file="${filename}" append="true">
+
+#
+# Factory classname.
+#
+
+avalon.artifact.factory = ${context.getVariable('avalon.artifact.factory')}
+</ant:echo>
+      </j:if>
+
+      <j:if test="${context.getVariable('avalon.artifact.export') != null}">
+        <ant:echo file="${filename}" append="true">
+
+#
+# Service export.
+#
+
+avalon.artifact.export = ${context.getVariable('avalon.artifact.export')}
+</ant:echo>
+      </j:if>
+
+      <ant:echo file="${filename}" append="true">
+
+#
+# EOF
+#
+</ant:echo>
+
+    <ant:property name="avalonArtifactDestination" 
+       value="${maven.repo.local}/${pom.artifactDirectory}/jars"/>
+    <ant:mkdir dir="${avalonArtifactDestination}"/>    
+    <ant:copy 
+      file="${filename}"
+      todir="${avalonArtifactDestination}"
+      overwrite="true"
+    />
+
+  </goal>
+
+</project>

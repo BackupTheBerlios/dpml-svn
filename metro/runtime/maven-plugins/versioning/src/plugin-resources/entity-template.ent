@@ -1,0 +1,6 @@
+
+<!ENTITY @PROJECT-ID@-group "@PROJECT-ID@">
+<!ENTITY @PROJECT-ID@-id "@PROJECT-ID@">
+<!ENTITY @PROJECT-ID@-version "@VERSION@">
+    
+ 

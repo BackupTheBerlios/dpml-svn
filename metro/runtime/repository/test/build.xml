@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<project name="avalon-repository-test" default="test" basedir="." 
+    xmlns:x="antlib:org.apache.avalon.tools"
+>
+  <property file="build.properties"/>
+  <x:home/>
+  <import file="${magic.templates}/standard.xml"/>
+
+  <target name="init" depends="standard.init">
+    <x:filter key="avalon-repository-api" feature="uri" token="REPO_API_SPEC"/>
+    <x:filter key="avalon-repository-impl" feature="uri" 
+       token="REPOSITORY_IMPLEMENTATION"/>
+  </target>
+
+  <target name="install" depends="test"/>
+
+</project>

@@ -1,0 +1,39 @@
+<!--
+Configuration used by the DefaultInitialContextFactoryTest to validate the 
+populatation of registered artifacts with the initial context.
+-->
+
+<kernel>
+
+  <system>
+    <artifact spec="@AVALON-LOGGING-LOGKIT-SPEC@"/>
+  </system>
+
+  <logging path="system/logging.xml"/>
+
+  <security>
+    <profile name="default">
+      <permissions>
+         <permission class="java.util.PropertyPermission" name="java.*">
+           <action>read</action>
+         </permission>
+         <permission class="java.util.PropertyPermission" name="os.*">
+           <action>read</action>
+         </permission>
+         <permission class="java.util.PropertyPermission" name="file.separator">
+           <action>read</action>
+         </permission>
+         <permission class="java.util.PropertyPermission" name="path.separator">
+           <action>read</action>
+         </permission>
+         <permission class="java.util.PropertyPermission" name="line.separator">
+           <action>read</action>
+         </permission>
+         <permission class="java.util.PropertyPermission" name="user.name">
+           <action>read</action>
+         </permission>
+       </permissions>
+    </profile>
+  </security>
+
+</kernel>

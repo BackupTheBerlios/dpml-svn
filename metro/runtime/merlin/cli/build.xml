@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<project name="avalon-merlin-cli" default="install" basedir="." 
+    xmlns:x="antlib:org.apache.avalon.tools"
+>
+  <property file="build.properties"/>
+  <x:home/>
+  <import file="${magic.templates}/standard.xml"/>
+
+  <condition property="project.nsi.declared" value="false">
+    <isset property="project.nsi.exe"/>
+  </condition>
+
+  <target name="init" depends="standard.init">
+    <filter token="VERSION" value="${project.version}"/>
+    <x:filter key="avalon-logging-logkit-impl" feature="uri" 
+       token="LOGGING_IMPLEMENTATION"/>
+    <x:filter key="avalon-merlin-impl" feature="uri" 
+       token="MERLIN_IMPLEMENTATION"/>
+    <x:filter key="avalon-activation-impl" feature="uri" 
+       token="STANDARD_RUNTIME"/>
+    <x:filter feature="classpath" platform="windows" prefix="%MERLIN_HOME%/system"
+       token="WINDOWS-CLI-CLASSPATH"/>
+    <x:filter feature="path" platform="windows" 
+       token="WINDOWS-CLI-MAIN-PATH"/>
+    <x:filter feature="classpath" platform="unix" prefix="$MERLIN_HOME/system"
+       token="UNIX-CLI-CLASSPATH"/>
+    <x:filter feature="path" platform="unix"
+       token="UNIX-CLI-MAIN-PATH"/>
+  </target>
+
+  <target name="package" depends="binary,nsi"/>
+
+  <target name="package-system" depends="standard.package">
+    <x:path id="build.path" mode="BUILD"/>
+    <x:replicate refid="build.path" todir="target/system"/>
+    <copy todir="target/system/${project.group}/jars">
+      <fileset dir="target/deliverables/jars">
+        <include name="${project.filename}"/>
+      </fileset>
+    </copy>
+  </target>
+
+  <target name="binary" depends="package-system">
+    <property name="merlin.zip" value="${project.short-filename}.zip"/>
+    <mkdir dir="target/deliverables/dist"/>
+    <zip zipfile="target/deliverables/dist/${merlin.zip}">
+      <zipfileset dir="target/deliverables" prefix="merlin" filemode="755" >
+        <include name="bin/merlin"/>
+        <include name="bin/merlinx"/>
+        <include name="bin/*.sh"/>
+      </zipfileset>
+      <zipfileset dir="target/deliverables" prefix="merlin">
+        <include name="bin/**" />
+        <include name="config/**" />
+        <include name="lib/**" />
+        <exclude name="jars/**"/>
+        <exclude name="dist/**"/>
+        <exclude name="bin/merlin"/>
+        <exclude name="bin/merlinx"/>
+        <exclude name="bin/*.sh"/>
+      </zipfileset>
+      <zipfileset dir="target/system" prefix="merlin/system">
+        <include name="**" />
+      </zipfileset>
+    </zip>
+  </target>
+
+  <target name="nsi" if="project.nsi.declared"
+    description="Generate an NSIS installer."
+    depends="package-system">
+  
+    <property name="nsi.dir" location="target/build/etc/nsi"/>
+    <property name="nsi.script" location="${nsi.dir}/merlin.nsi"/>
+    <property name="exe.dir" location="target/deliverables/exe"/>
+
+    <mkdir dir="${exe.dir}"/>
+    <echo message="${project.nsi.exe}"/>
+    <exec executable="${project.nsi.exe}">
+      <arg value="/V2"/>
+      <arg value="${nsi.script}"/>
+    </exec>
+    <move file="target/build/etc/nsi/merlin-${project.version}-install.exe"
+       toDir="target/deliverables/exe"/> 
+  </target>
+
+
+</project>

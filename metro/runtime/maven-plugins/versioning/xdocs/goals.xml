@@ -1,0 +1,75 @@
+<?xml version="1.0"?>
+<!-- 
+/*
+ * Copyright 2001-2004 The Apache Software Foundation.
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+ -->
+
+<document>
+
+  <properties>
+    <title>Avalon Versioning Maven Plug-in Goals</title>
+    <author email="niclas@apache.org">Niclas Hedhman</author>
+  </properties>
+
+  <body>
+    <goals>
+      <goal>
+        <name>increment</name>
+        <description>
+          This is the default goal of the plugin and simply print out
+          an explaination about this plugin
+        </description>
+      </goal>
+      <goal>
+        <name>increment:initialize</name>
+        <description>
+          Initializes the Versioning system. Need to be run once before starting
+          to use the plugin. If it has not been run, it will be run
+          automatically at the first dist:deploy or jar:deploy, but require
+          you to restart Maven's build again.
+        </description>
+      </goal>
+      <goal>
+        <name>increment:major</name>
+        <description>
+          This goal increments the <strong>Major</strong> number and reset the
+          positions to the right.
+        </description>
+      </goal>
+      <goal>
+        <name>increment:minor</name>
+        <description>
+          This goal increments the <strong>Minor</strong> number and reset the
+          positions to the right.
+        </description>
+      </goal>
+      <goal>
+        <name>increment:phase</name>
+        <description>
+          This goal increments the <strong>Phase</strong> number and reset the
+          build number to zero.
+        </description>
+      </goal>
+      <goal>
+        <name>increment:micro</name>
+        <description>
+          This goal is mainly for internal and testing purposes. It increases
+          the build number, and should probably never be used directly.
+        </description>
+      </goal>
+    </goals>
+ </body>
+</document>

@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- 
+
+ Copyright 2001-2004 The Apache Software Foundation.
+ 
+ Licensed under the Apache License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+      http://www.apache.org/licenses/LICENSE-2.0
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+ -->
+
+<project default="avalon:build" xmlns:maven="jelly:maven" xmlns:util="jelly:util" xmlns:j="jelly:core" xmlns:ant="jelly:ant">
+
+  <goal name="avalon:clean" prereqs="clean">
+    <maven:reactor basedir="${basedir}"
+      includes="**/project.xml"
+      excludes="project.xml,**/target/**/project.xml"
+      banner="Cleaning:"
+      goals="clean:clean"
+      ignoreFailures="true" 
+      postProcessing="false" />
+  </goal>
+
+  <goal name="avalon:build">
+    <maven:reactor basedir="${basedir}"
+      includes="**/project.xml"
+      excludes="project.xml,**/target/**/project.xml"
+      banner="Installing:"
+      goals="plugin:install"
+      ignoreFailures="false" 
+      postProcessing="true" />
+
+    <ant:copy todir="${maven.build.dir}/plugins">
+      <j:forEach var="child" items="${reactorProjects}">
+        <ant:fileset dir="${child.file.parentFile}/target">
+          <ant:include name="${child.artifactId}-${child.currentVersion}.jar"/>
+        </ant:fileset>
+      </j:forEach>
+    </ant:copy>
+    <j:forEach var="child" items="${reactorProjects}">
+      <j:set var="path" 
+          value="${child.artifactId}-${child.currentVersion}.jar"/>
+      <checksum file="${maven.build.dir}/plugins/${path}" fileext=".md5"/>
+      <j:if test="${maven_gpg_exe != null}">
+        <ant:exec executable="${maven_gpg_exe}">
+          <ant:arg value="-a"/>
+          <ant:arg value="--yes"/>
+          <ant:arg value="-b"/>
+          <ant:arg value="${maven.build.dir}/plugins/${path}"/>
+        </ant:exec>
+      </j:if>
+    </j:forEach>
+  </goal>
+
+  <goal name="avalon:dist" prereqs="avalon:build"/>
+
+  <postGoal name="multiproject:site-init">
+    <ant:mkdir dir="${maven.build.dir}/docs/style"/>
+    <ant:copy toDir="${maven.build.dir}/docs/style">
+      <fileset dir="${basedir}/../buildsystem/site">
+        <include name="maven.css"/>
+        <include name="tigris.css"/>
+      </fileset>
+    </ant:copy>
+  </postGoal>
+
+  <preGoal name="xdoc:transform">
+    <ant:mkdir dir="${maven.build.dir}/docs/style"/>
+    <util:file var="buildSystem" name="${basedir}/../buildsystem"/>
+    <j:if test="${buildSystem.exists()}">
+      <ant:copy toDir="${maven.build.dir}/docs/style">
+        <fileset dir="${buildSystem}/site">
+          <include name="maven.css"/>
+          <include name="tigris.css"/>
+        </fileset>
+      </ant:copy>
+    </j:if>
+    <util:file var="buildSystem" name="${basedir}/../../buildsystem"/>
+    <j:if test="${buildSystem.exists()}">
+      <ant:copy toDir="${maven.build.dir}/docs/style">
+        <fileset dir="${buildSystem}/site">
+          <include name="maven.css"/>
+          <include name="tigris.css"/>
+        </fileset>
+      </ant:copy>
+    </j:if>
+  </preGoal>
+
+</project>

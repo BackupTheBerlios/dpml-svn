@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<!DOCTYPE type
+      PUBLIC "-//AVALON/Component Type DTD Version 1.0//EN"
+             "http://avalon.apache.org/dtds/meta/service.dtd" >
+
+<!--  
+Copyright (C) The Apache Software Foundation. All rights reserved.
+This software is published under the terms of the Apache Software License
+version 1.1, a copy of which has been included with this distribution in
+the LICENSE.txt file.
+
+@author  Avalon Development Team
+@version $Id$
+-->
+
+<service>
+  <version>1.1</version>
+  <attributes>
+    <attribute key="urn:avalon:service.name" value="basic"/>
+    <attribute key="urn:avalon:service.description">
+      A demonstration service used within the scope of the 
+      Avalon playground package for educational and unit 
+      testing purposes.
+    </attribute>
+  </attributes>
+</service>
+

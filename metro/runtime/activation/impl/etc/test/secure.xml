@@ -1,0 +1,41 @@
+
+<!--
+Example block deployment descriptor.
+-->
+
+<container name="root">
+
+  <classloader>
+    <classpath>
+      <artifact>@TEST-COMPONENTS-SPEC@</artifact>
+    </classpath>
+    <grant>
+      <permission class="java.util.PropertyPermission" name="java.*" >
+        <action>read</action>
+      </permission>
+      <permission class="java.util.PropertyPermission" name="org.apache.*" >
+        <action>read</action>
+        <action>write</action>
+      </permission>
+      <permission class="java.lang.RuntimePermission" name="getClassLoader" />
+    </grant>
+  </classloader>
+
+  <container name="Component1" >
+    <services>
+      <service type="org.apache.avalon.test.components.TestService">
+        <source>test</source>
+      </service>
+    </services>
+    <component name="test"
+       class="org.apache.avalon.test.components.TestComponent"
+       activation="startup"/>
+  </container>
+
+  <container name="Component2" >
+    <component name="anothertest"
+       class="org.apache.avalon.test.components.AnotherTestComponent"
+       activation="startup">
+    </component>
+  </container>
+</container>

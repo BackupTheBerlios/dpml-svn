@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!-- 
+/*
+ * Copyright 2001-2004 The Apache Software Foundation.
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+ -->
+
+<project>
+
+  <pomVersion>3</pomVersion>
+  
+  <name>Avalon Maven Plugins</name>
+  <groupId>avalon-maven-plugins</groupId>
+  
+  <organization>
+    <name>Apache Software Foundation</name>
+    <url>http://www.apache.org/</url>
+    <logo>http://avalon.apache.org/images/apache-avalon-logo.png</logo>
+  </organization>
+  <inceptionYear>2004</inceptionYear>
+  <package>org.apache.avalon.plugins</package>
+
+  <issueTrackingUrl>http://issues.apache.org/jira/secure/BrowseProject.jspa?id=10423</issueTrackingUrl>
+  <siteAddress>avalon.apache.org</siteAddress>
+  <siteDirectory>/www/avalon.apache.org/maven-plugins/</siteDirectory>
+  <distributionDirectory>/www/www.apache.org/dist/avalon/</distributionDirectory>
+
+  <repository>
+    <connection>scm:cvs:pserver:anoncvs@cvs.apache.org:/home/cvspublic:avalon/maven-plugins/</connection>
+    <developerConnection>scm:cvs:ext:${maven.username}@cvs.apache.org:/home/cvs:avalon/maven-plugins/</developerConnection>
+    <url>http://cvs.apache.org/viewcvs/avalon/maven-plugins/</url>
+  </repository>
+  
+  <mailingLists>
+    <mailingList>
+      <name>Avalon Developer List</name>
+      <subscribe>dev-subscribe@avalon.apache.org</subscribe>
+      <unsubscribe>dev-unsubscribe@avalon.apache.org</unsubscribe>
+      <archive>http://nagoya.apache.org/eyebrowse/SummarizeList?listName=dev@avalon.apache.org</archive>
+    </mailingList>
+    <mailingList>
+      <name>Avalon User List</name>
+      <subscribe>users-subscribe@avalon.apache.org</subscribe>
+      <unsubscribe>users-unsubscribe@avalon.apache.org</unsubscribe>
+      <archive>http://nagoya.apache.org/eyebrowse/SummarizeList?listName=users@avalon.apache.org</archive>
+    </mailingList>
+    <mailingList>
+      <name>CVS List</name>
+      <subscribe>cvs-subscribe@avalon.apache.org</subscribe>
+      <unsubscribe>cvs-unsubscribe@avalon.apache.org</unsubscribe>
+    </mailingList>
+  </mailingLists>
+
+  <developers>
+    <developer>
+      <name>Niclas Hedhman</name>
+      <id>niclas</id>
+      <email>niclas@apache.org</email>
+      <organization>http://www.bali.ac</organization>
+      <roles>
+        <role>Java Developer</role>
+      </roles>
+      <timezone>+0800</timezone>
+    </developer>
+  </developers>
+
+  <build>
+    <sourceDirectory>src/java</sourceDirectory>
+    <unitTestSourceDirectory>src/test</unitTestSourceDirectory>
+
+    <unitTest>
+      <includes>
+        <include>**/*Test.java</include>
+      </includes>
+    </unitTest>
+
+    <resources>
+      <resource>
+        <directory>..</directory>
+        <targetPath>META-INF</targetPath>
+        <includes>
+          <include>NOTICE.txt</include>
+        </includes>
+      </resource>
+      <resource>
+        <directory>src/plugin-resources</directory>
+        <targetPath>plugin-resources</targetPath>
+      </resource>
+      <resource>
+        <directory>.</directory>
+        <includes>
+          <include>plugin.jelly</include>
+          <include>plugin.properties</include>
+          <include>project.properties</include>
+          <include>project.xml</include>
+        </includes>
+      </resource>
+    </resources>
+  </build>
+  
+  <reports>
+    <report>maven-jdepend-plugin</report>
+    <report>maven-checkstyle-plugin</report>
+    <report>maven-changes-plugin</report>
+    <report>maven-changelog-plugin</report>
+    <report>maven-file-activity-plugin</report>
+    <report>maven-developer-activity-plugin</report>
+    <report>maven-javadoc-plugin</report>
+    <report>maven-jxr-plugin</report>
+    <report>maven-junit-report-plugin</report>
+    <report>maven-tasklist-plugin</report>
+    <report>maven-jellydoc-plugin</report>
+    <report>maven-pmd-plugin</report>
+    <report>maven-simian-plugin</report>
+    <report>maven-faq-plugin</report>
+    <report>maven-multiproject-plugin</report>
+    <report>maven-multichanges-plugin</report>
+  </reports>
+</project>

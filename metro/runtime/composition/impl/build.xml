@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<project name="avalon-composition-impl" default="install" basedir="." 
+    xmlns:x="antlib:org.apache.avalon.tools">
+
+  <property file="build.properties"/>
+  <x:home/>
+  
+  <import file="${magic.templates}/standard.xml"/>
+
+  <target name="init" depends="standard.init">
+    <x:filter key="avalon-logging-logkit-impl" feature="uri" 
+       token="AVALON-LOGGING-LOGKIT-SPEC"/>
+    <x:filter key="avalon-framework-impl" feature="uri" 
+       token="FRAMEWORK-IMPL-SPEC"/>
+    <x:filter key="avalon-test-dynamics" feature="uri" 
+       token="AVALON-TEST-DYNAMICS-SPEC"/>
+    <x:filter key="avalon-test-testa" feature="uri" 
+       token="AVALON-TEST-A-SPEC"/>
+    <x:filter key="avalon-test-testb" feature="uri" 
+       token="AVALON-TEST-B-SPEC"/>
+    <x:filter key="avalon-test-testc" feature="uri" 
+       token="AVALON-TEST-C-SPEC"/>
+    <x:filter key="avalon-test-testcyclic" feature="uri" 
+       token="AVALON-TEST-CYCLIC-SPEC"/>
+    <x:filter key="avalon-test-includes" feature="spec" 
+       token="AVALON-TEST-INCLUDES-SPEC"/>
+    <x:filter key="avalon-test-playground" feature="uri" 
+       token="AVALON-TEST-PLAYGROUND"/>
+  </target>
+
+</project>

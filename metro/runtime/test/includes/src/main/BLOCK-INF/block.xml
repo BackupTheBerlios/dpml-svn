@@ -1,0 +1,46 @@
+
+
+<container name="test-block">
+
+   <services>
+     <service type="org.apache.avalon.test.testa.A">
+       <source>primary</source>
+     </service>
+     <service type="org.apache.avalon.test.testd.D">
+       <source>my-component</source>
+     </service>
+   </services>
+
+   <classloader>
+     <classpath>
+       <artifact>@TEST-A-SPEC@</artifact>
+       <artifact>@TEST-B-SPEC@</artifact>
+       <artifact>@TEST-C-SPEC@</artifact>
+       <artifact>@TEST-D-SPEC@</artifact>
+       <artifact>@FRAMEWORK-IMPL-SPEC@</artifact>
+     </classpath>
+   </classloader>
+
+   <component name="my-component" class="org.apache.avalon.test.testd.TestD"/>
+
+   <container name="primary">
+
+     <classloader>
+       <classpath>
+         <artifact>@TEST-E-SPEC@</artifact>
+       </classpath>
+     </classloader>
+
+     <container name="block">
+       <component name="test" class="org.apache.avalon.test.teste.TestE">
+         <context>
+           <entry key="home">
+             <import key="urn:avalon:home"/>
+           </entry>
+         </context>
+       </component>
+     </container>
+
+   </container>
+
+</container>

@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE project [
+  <!ENTITY % index SYSTEM "file:index.ent"> %index;
+]>
+<!-- 
+
+ Copyright 2001-2004 The Apache Software Foundation.
+ 
+ Licensed under the Apache License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+      http://www.apache.org/licenses/LICENSE-2.0
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+ -->
+
+<project>
+
+  <extend>${basedir}/../project.xml</extend>
+
+  <groupId>&merlin-id;</groupId>
+  <id>&merlin-plugin-id;</id>
+  <currentVersion>&merlin-plugin-version;</currentVersion>
+  
+  <pomVersion>3</pomVersion>
+  <name>Merlin Plugin</name>
+  <description>Merlin Plugin for Maven</description>
+  <shortDescription>Merlin Plugin for Maven</shortDescription>
+  <package>org.apache.avalon.plugins.merlin</package>
+  
+  <url>http://avalon.apache.org/merlin/</url>
+  <siteDirectory>/www/avalon.apache.org/maven-plugins/merlin</siteDirectory>
+
+  <dependencies>
+
+    <dependency>
+      <groupId>&avalon-repository-id;</groupId>
+      <artifactId>&avalon-repository-main-id;</artifactId>
+      <version>&avalon-repository-main-version;</version>
+      <properties>
+        <classloader>root</classloader>
+      </properties>
+    </dependency>
+
+  </dependencies>
+
+  <build>
+    <sourceDirectory>src/java</sourceDirectory>
+    <unitTestSourceDirectory>src/test</unitTestSourceDirectory>
+
+    <unitTest>
+      <includes>
+        <include>**/*Test.java</include>
+      </includes>
+    </unitTest>
+
+    <resources>
+      <resource>
+        <directory>..</directory>
+        <targetPath>META-INF</targetPath>
+        <includes>
+          <include>LICENSE.txt</include>
+        </includes>
+      </resource>
+      <resource>
+        <directory>src/plugin-resources</directory>
+        <targetPath>plugin-resources</targetPath>
+      </resource>
+      <resource>
+        <directory>.</directory>
+        <includes>
+          <include>plugin.jelly</include>
+          <include>plugin.properties</include>
+          <include>project.properties</include>
+        </includes>
+      </resource>
+    </resources>
+  </build>
+
+
+</project>

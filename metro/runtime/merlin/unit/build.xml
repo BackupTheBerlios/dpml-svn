@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<project name="avalon-merlin-unit" default="install" basedir="." 
+    xmlns:x="antlib:org.apache.avalon.tools"
+>
+  <property file="build.properties"/>
+  <x:home/>
+  <import file="${magic.templates}/standard.xml"/>
+
+  <target name="init" depends="standard.init">
+    <x:filter key="avalon-logging-logkit-impl" feature="uri" 
+       token="LOGGING_IMPLEMENTATION"/>
+    <x:filter key="avalon-merlin-impl" feature="uri" 
+       token="MERLIN_IMPLEMENTATION"/>
+    <x:filter key="avalon-activation-impl" feature="uri" 
+       token="STANDARD_RUNTIME"/>
+    <filter token="CACHE-DIRECTORY"
+       value="${project.home.cache.dir}"/>
+  </target>
+
+</project>

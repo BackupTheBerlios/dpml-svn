@@ -1,0 +1,4 @@
+Manifest-Version: 1.0
+
+Name: org/realityforge/dve
+Specification-Title: org.realityforge.dve

@@ -1,0 +1,177 @@
+
+<body>
+<p>
+Resources supporting the creation of a {@link org.apache.avalon.meta.info.Type} instance from a serialized form.
+<a name="external"><h3>External Form (XML)</h3></a>
+<p>Configuration instances supplied to the builder shall correspond to the <a href="http://avalon.apache.org/dtds/meta/type.dtd">Type DTD</a>.  
+The structure of a component-info XML document is is described below:</p>
+
+<pre>
+
+<font color="gray"><i>&lt;!--
+Example of a component meta info external XML form. 
+The element contains the information required to construct an instance of
+org.apache.avalon.meta.info.Type.  It includes 
+information about the component type, the service it provides, and the 
+services it is dependent on.
+--&gt;</i></font>
+
+&lt;type&gt;
+
+
+  <font color="gray"><i>&lt;!--
+  Defintion of a single component descriptor.
+  --&gt;</i></font>
+
+  &lt;info&gt;
+
+    <font color="gray"><i>&lt;!-- the name of the component (character restriction appply) --&gt;</i></font>
+
+    &lt;name&gt;<font color="darkred">my-component</font>&lt;/name&gt;
+
+    <font color="gray"><i>&lt;!-- the implementation version --&gt;</i></font>
+
+    &lt;version&gt;</strong><font color="darkred">1.2.1</font>&lt;/version&gt;
+
+    &lt;lifestyle&gt;</strong><font color="darkred">singleton</font>&lt;/lifestyle&gt;
+
+    <font color="gray"><i>&lt;!-- the set of attribibutes associated with the type
+         (attribute names and values are examples only) --&gt;</i></font>
+
+    &lt;attributes&gt;
+
+       &lt;attribute key="<font color="darkred">color</font>" value="<font color="darkred">blue</font>"/&gt;
+       &lt;attribute key="<font color="darkred">speed</font>" value="<font color="darkred">fast</font>"/&gt;
+
+    &lt;/attributes&gt;
+
+  &lt;/info&gt;
+
+  <font color="gray"><i>&lt;!--
+  The set of logging catagories the component uses. 
+  --&gt;</i></font>
+
+  &lt;loggers&gt;
+
+    &lt;logger name=&quot;store&quot;/&gt;
+    &lt;logger name=&quot;store.cache&quot;/&gt;
+    &lt;logger name=&quot;verifier&quot;/&gt;
+
+  &lt;/loggers&gt;
+
+
+  <font color="gray"><i>&lt;!-- 
+  Declaration of the context constraints for the compoent type. 
+  The "type" attribute is the name of an interface derived from the default
+  contenxt interface org.apache.avalon.framework.context.Context 
+  --&gt;</i></font>
+
+  &lt;context type="<font color="darkred">MyContextInterface</font>"&gt;
+
+    <font color="gray"><i>&lt;!-- 
+    Declaration of an entry in a context object, the "key" is
+    the key used by a component to locate the context entry,
+    the "type" is the classname of value (typically an interface)
+    or primative type.  The default value is java.lang.String.
+    The "optional" attribute is a boolean value derived from the 
+    TRUE or FALSE that indicates if the context value must be 
+    provided or not (default is FALSE). 
+    --&gt;</i></font>
+
+    &lt;entry key="<font color="darkred">base</font>" type="<font color="darkred">java.io.File</font>"/&gt;
+    &lt;entry key="<font color="darkred">mode</font>" optional="<font color="darkred">TRUE</font>"/&gt;
+
+  &lt;/context&gt;
+
+  <font color="gray"><i>&lt;!--
+  Declaration of the set of services that this component is capable 
+  of supplying.  Each service declarared under the services element
+  may be referenced by other component info descriptions as a 
+  dependecy.  A container is responsible for the assemably of 
+  components based on the connection of supply components to 
+  consumer components via a common service description. 
+  --&gt;</i></font>
+
+  &lt;services&gt;
+
+      <font color="gray"><i>&lt;!-- 
+      The service type is the classname of an interface and the
+      version identifier qualifes the interface version.  The 
+      default version value is 1.0.
+      --&gt;</i></font>
+
+      &lt;service&gt;
+
+        &lt;reference type="<font color="darkred">SimpleService</font>" version="<font color="darkred">3.2</font>"&gt;
+
+        &lt;attributes&gt;
+
+           <font color="gray"><i>&lt;!--
+           Service type attributes go here.
+           Need some relevant examples. 
+           --&gt;</i></font>
+
+        &lt;/attributes&gt;
+
+      &lt;/service&gt;
+
+  &lt;/services&gt;
+
+
+  <font color="gray"><i>&lt;!-- 
+  Declaration of the set of dependecies that this component type has on 
+  component suppliers.  Dependency declarations define the role name 
+  that the component will use to access a service via a service
+  or component manager.  The service element identifies a service 
+  descriptor that is publised by a potential supplier component. 
+  A dependecy may be declared as optional by setting the optional 
+  attribute value to TRUE.  The default value for optional is FALSE.
+  --&gt;</i></font>
+
+  &lt;dependencies&gt;
+
+    <font color="gray"><i>&lt;!-- 
+    A dependecy declaration. In the following example the optional 
+    attribute is redundant as it is equivalent to the default value
+    but is included here for completness.
+    --&gt;</i></font>
+
+    &lt;dependency optional="<font color="darkred">FALSE</font>"&gt;
+
+      <font color="gray"><i>&lt;!-- 
+      The role name that the component will use as the argument to 
+      lookup. The default value is the value of the service type 
+      attribute listed below.
+      --&gt;</i></font>
+
+      &lt;role&gt;<font color="darkred">my-transformer</font>&lt;/role&gt;
+
+      <font color="gray"><i>&lt;!-- 
+      service reference containing the classname of the service interface
+      and the version value where version defaults to 1.0 
+      --&gt;</i></font>
+
+      &lt;reference type="<font color="darkred">org.apache.cocoon.api.Transformer</font>" version="<font color="darkred">1.1</font>"/&gt;
+
+      <font color="gray"><i>&lt;!-- the set of attributes associated with the dependecy --&gt;</i></font>
+
+      &lt;attributes&gt;
+
+           <font color="gray"><i>&lt;!-- 
+           Service type constraints go here.
+           Need some relevant examples. 
+           --&gt;</i></font>
+
+      &lt;/attributes&gt;
+
+    &lt;/dependency&gt;
+
+  &lt;/dependencies&gt;
+
+&lt;/type&gt;
+
+</pre>
+
+</p>
+
+</body>

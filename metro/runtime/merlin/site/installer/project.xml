@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<project>
+
+    <extend>${basedir}/../../project.xml</extend>
+    
+    <groupId>merlin</groupId>
+    <id>merlin-installer</id>
+    <name>Merlin Platform Installer</name>
+    <currentVersion>3.2</currentVersion>
+    <inceptionYear>2003</inceptionYear>
+    <shortDescription>Merlin Platform Installer</shortDescription>
+    
+</project>

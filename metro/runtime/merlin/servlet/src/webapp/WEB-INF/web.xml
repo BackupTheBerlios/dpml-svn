@@ -1,0 +1,24 @@
+<!DOCTYPE web-app 
+    PUBLIC "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN" 
+    "http://java.sun.com/dtd/web-app_2_3.dtd">
+
+<web-app>
+
+  <display-name>Merlin</display-name>
+
+  <description>
+    Merlin Servlet is a servlet with an embedded Merlin Kernel.
+  </description>
+
+  <servlet>
+    <servlet-name>merlin</servlet-name>
+    <servlet-class>org.apache.avalon.merlin.servlet.MerlinServlet</servlet-class>
+    <load-on-startup>1</load-on-startup>
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>merlin</servlet-name>
+    <url-pattern>/info</url-pattern>
+  </servlet-mapping>
+
+</web-app>

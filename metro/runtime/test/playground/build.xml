@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<project name="avalon-test-playground" default="install" basedir="." 
+    xmlns:x="antlib:org.apache.avalon.tools"
+>
+  <property file="build.properties"/>
+  <x:home/>
+  <import file="${magic.templates}/standard.xml"/>
+
+  <target name="init" depends="standard.init">
+    <x:filter key="avalon-framework-impl" feature="uri" 
+       token="FRAMEWORK-IMPL-SPEC"/>
+    <x:filter key="avalon-test-playground" feature="uri" 
+       token="PLAYGROUND-SPEC"/>
+  </target>
+
+</project>

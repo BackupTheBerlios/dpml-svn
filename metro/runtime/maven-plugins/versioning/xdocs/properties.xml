@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!-- 
+/*
+ * Copyright 2001-2004 The Apache Software Foundation.
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+ -->
+
+<document>
+  <properties>
+    <title>Versioning Properties</title>
+    <author email="niclas@apache.org">Niclas Hedhman</author>
+  </properties>
+
+  <body>
+    <section name="Versioning Settings">
+      <table>
+        <tr><th>Property</th><th>Optional?</th><th>Description</th></tr>
+        <tr>
+          <td>maven.increment.enable</td>
+          <td>yes - default is false</td>
+          <td>
+            This enables Versioning for the project. If it is false, all
+            versioning goals are disabled.
+          </td>
+        </tr> 
+        <tr>
+          <td>maven.increment.dir</td>
+          <td>yes - default is ${basedir}/versioning</td>
+          <td>
+            The directory where the versioning information is stored.
+          </td>
+        </tr> 
+        <tr>
+          <td>maven.increment.central.entities</td>
+          <td>yes - default is ${basedir}/versioning</td>
+          <td>
+            The directory where the XML &lt;!ENTITY ... &gt; file is stored,
+            which is used to keep all versions in sync throughout all
+            projects.
+          </td>
+        </tr> 
+        <tr>
+          <td>maven.increment.commit</td>
+          <td>yes - default is true</td>
+          <td>
+            If true, the the whole source tree is committed, to ensure that the
+            released version is placed into the CVS, and not only exist on the
+            local system. <strong>NOTE:</strong> The commit only occurs when the
+            content is uploaded to central repository. And the Entity file is NOT
+            committed!
+          </td>
+        </tr> 
+        <tr>
+          <td>maven.increment.commit</td>
+          <td>yes - default is true</td>
+          <td>
+            If true, the the whole source tree is tagged when a dist:deploy is 
+            done, to ensure that the released version is marked properly in the
+            CVS. <strong>NOTE:</strong> Only the ${basedir} and below is tagged.
+          </td>
+        </tr> 
+      </table>
+    </section>
+  </body>
+</document>
+

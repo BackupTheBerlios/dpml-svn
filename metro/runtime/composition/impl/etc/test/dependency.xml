@@ -1,0 +1,53 @@
+
+
+<container>
+
+   <classloader>
+     <classpath>
+       <artifact>@AVALON-TEST-A-SPEC@</artifact>
+       <artifact>@AVALON-TEST-B-SPEC@</artifact>
+       <artifact>@AVALON-TEST-C-SPEC@</artifact>
+       <!--
+       <fileset dir="ext">
+         <include>test-a.jar</include>
+         <include>test-b.jar</include>
+       </fileset>
+       <fileset dir="lib">
+         <include>test-c.jar</include>
+       </fileset>
+       -->
+     </classpath>
+   </classloader>
+
+   <component name="test-a" class="org.apache.avalon.test.testa.TestA">
+     <context class="org.apache.avalon.test.testa.DefaultFacade">
+       <entry key="home">
+         <constructor class="java.io.File">
+           <param class="java.io.File">${urn:avalon:home}</param>
+           <param>xxx</param>
+         </constructor>
+       </entry>
+       <entry key="time">
+         <constructor class="java.util.Date"/>
+       </entry>
+       <entry key="path">
+         <import key="urn:avalon:partition"/>
+       </entry>
+     </context>
+   </component>
+
+   <container name="fred">
+
+     <component name="test-b" class="org.apache.avalon.test.testb.TestB"/>
+
+     <component name="test-c" class="org.apache.avalon.test.testc.TestC">
+       <dependencies>
+         <dependency key="a" source="../test-a"/>
+         <dependency key="a2" source="/test-a"/>
+         <dependency key="b" source="test-b"/>
+       </dependencies>
+     </component>
+
+   </container>
+
+</container>

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE project [
+  <!ENTITY % index SYSTEM "file:index.ent"> %index;
+]>
+<!-- 
+
+ Copyright 2001-2004 The Apache Software Foundation.
+ 
+ Licensed under the Apache License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+      http://www.apache.org/licenses/LICENSE-2.0
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+ -->
+
+<project default="plugin:install" xmlns:ant="jelly:ant">
+
+  <postGoal name="java:compile">
+    <ant:copy 
+      file="merlin.properties" 
+      toDir="${maven.build.dir}/classes" 
+      verbose="yes"
+      filtering="on"
+    >
+      <filterset>
+        <filter token="MERLIN_IMPLEMENTATION" value="&merlin-impl-artifact;"/>
+        <filter token="LOGGING_IMPLEMENTATION" value="&avalon-logging-logkit-artifact;"/>
+        <filter token="STANDARD_RUNTIME" value="&avalon-activation-artifact;"/>
+      </filterset>
+    </ant:copy>
+  </postGoal>
+
+  <preGoal name="jar:jar">
+    <mkdir dir="${maven.build.dir}/classes"/>
+    <ant:xslt in="${basedir}/runtime.xml" out="${maven.build.dir}/classes/project.xml"
+      style="${basedir}/copy-all.xsl" force="true">
+      <outputproperty name="method" value="xml" />
+      <outputproperty name="standalone" value="yes"/>
+      <outputproperty name="indent" value="yes"/>
+    </ant:xslt>
+  </preGoal>
+
+</project>
