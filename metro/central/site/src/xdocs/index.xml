@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<document>
+  <properties>
+    <author email="niclas@hedhman.org">Niclas Hedhman</author>
+    <title>Home</title>
+  </properties> 
+
+  <body>
+    <section name="Welcome to Metro">
+      <p>
+        This project was conceived on the 30 Sept 2004.
+      </p>
+      <p>
+        This site is highly temporary, so please check back soon, real soon.
+      </p>
+      
+      <p>
+        Som initial resources;
+      </p>
+      <ul>
+        <li><a href="central/community/process/index.html">Our Community Process</a></li>
+      </ul>
+    </section>
+  </body>
+</document>
+
