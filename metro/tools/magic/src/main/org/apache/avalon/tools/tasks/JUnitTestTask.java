@@ -62,6 +62,8 @@ public class JUnitTestTask extends SystemTask
     public static final String HALT_ON_ERROR_KEY = "project.test.halt-on-error";
     public static final boolean HALT_ON_ERROR_VALUE = false;
 
+    public static final String TEST_FORK_MODE_KEY = "project.test.fork.mode";
+
     public static final String HALT_ON_FAILURE_KEY = "project.test.halt-on-failure";
     public static final boolean HALT_ON_FAILURE_VALUE = true;
 
@@ -214,7 +216,7 @@ public class JUnitTestTask extends SystemTask
     private void test( final File src, final Path classpath, File working )
     {
         final Project project = getProject();
-        project.log( "MAGIC TEST CLASSPATH: " + classpath, Project.MSG_VERBOSE );
+        log( "Test classpath: " + classpath, Project.MSG_VERBOSE );
 
         final FileSet fileset = new FileSet();
         fileset.setDir( src );
@@ -222,7 +224,7 @@ public class JUnitTestTask extends SystemTask
         final String excludes = getContext().getTestExcludes();
         createIncludes(fileset, includes);
         createExcludes(fileset, excludes);
-        project.log( "MAGIC TEST FILTERS: includes=" + includes + ", excludes=" + excludes, Project.MSG_VERBOSE );
+        log( "Test filters: includes=" + includes + ", excludes=" + excludes, Project.MSG_VERBOSE );
 
         final JUnitTask junit = (JUnitTask) getProject().createTask( "junit" );
         junit.init();
@@ -288,12 +290,18 @@ public class JUnitTestTask extends SystemTask
         junit.setErrorProperty( ERROR_KEY );
         junit.setFailureProperty( FAILURE_KEY );
         junit.setTaskName( getTaskName() );
-	if( getForkProperty() )
+	  if( getForkProperty() )
         {
+            JUnitTask.ForkMode mode = getForkMode();
+            log( "Executing forked test with mode: '" + mode + "'." );
             junit.setFork( true );
             junit.setDir( project.getBaseDir() );
+            junit.setForkMode( mode );
         }
-        
+        else
+        {
+            log( "executing in local jvm" );
+        }
         junit.execute();
     }
     
@@ -350,6 +358,19 @@ public class JUnitTestTask extends SystemTask
     private boolean getForkProperty()
     {
         return getBooleanProperty( FORK_KEY, FORK_VALUE );
+    }
+
+    private JUnitTask.ForkMode getForkMode()
+    {
+        final String value = getProject().getProperty( TEST_FORK_MODE_KEY );
+        if( null == value )
+        {
+            return new JUnitTask.ForkMode( JUnitTask.ForkMode.ONCE );
+        }
+        else 
+        {
+            return new JUnitTask.ForkMode( value );
+        }
     }
 
     private boolean getBooleanProperty( final String key, final boolean fallback )
