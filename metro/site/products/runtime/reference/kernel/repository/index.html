@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><title>Merlin Runtime</title><link type="text/css" rel="stylesheet" href="../../../../../styles/style.css" /><meta content="text/html; charset=UTF-8" http-equiv="Content-type" /></head><body><table class="logobar"><tr><td class="panelleft"><img alt="link" src="../../../../../images/feather.jpg" /></td><td class="panelmiddle"><div class="project">Metro</div><div class="title">Merlin Runtime</div></td><td class="panelright" /></tr></table><div class="categorybar" dir="/products/runtime/reference/kernel/repository"><a class="homecategory" href="../../../../../index.html">
+        Home
+      </a></div><div class="menubar"><div class="menu"><div class="menu"><div class="menu"><div class="menu"><div class="menu"><a class="menuitem-selected" href="../../../../runtime/index.html">Merlin Runtime</a></div><a class="menuitem" href="../../../execmodes/index.html">Execution</a><a class="menuitem-selected" href="../../../reference/index.html">Specification</a><a class="menuitem" href="../../../system/index.html">Systems</a><a class="menuitem" href="../../../javadoc/index.html">Javadoc</a></div><a class="menuitem" href="../../containment/index.html">Block</a><a class="menuitem" href="../../component/index.html">Component</a><a class="menuitem" href="../../deployment/index.html">Deployment</a><a class="menuitem-selected" href="../../kernel/index.html">Kernel</a></div><a class="menuitem" href="../properties.html">Properties</a><a class="menuitem" href="../overrides/index.html">Targets</a><a class="menuitem-selected" href="../repository/index.html">Repository</a></div><a class="menuitem-selected" href="index.html">Overview</a><a class="menuitem" href="cache.html">cache</a><a class="menuitem" href="proxy.html">proxy</a><a class="menuitem" href="hosts.html">hosts</a></div></div><div class="content">
+    <div class="section"><span class="section-header">Repository</span>
+
+      <div class="subsection"><span class="subsection-header">Nested Elements</span>
+
+        <table>
+          <tr row="odd"><th>Element</th><th>Occurance</th><th>Description</th></tr>
+          <tr row="even">
+            <td><a class="doclink" href="cache.html">cache</a></td><td>0..1</td>
+            <td>
+             A local directory to be used as the cache.  If not
+             declared, the value defaults to '[MERLIN-HOME]/repository'.
+            </td>
+          </tr>
+          <tr row="odd">
+            <td><a class="doclink" href="proxy.html">proxy</a></td><td>0..1</td>
+            <td>
+             Declaration of proxy host, port and credentials.
+            </td>
+          </tr>
+          <tr row="even">
+            <td><a class="doclink" href="hosts.html">hosts</a></td><td>n</td>
+            <td>
+             A list of remote repositories.
+            </td>
+          </tr>
+        </table>
+
+      </div>
+
+      <div class="subsection"><span class="subsection-header">Description</span>
+<p>Merlin provides a resouces repository against which jar files may be resolved relative to group, artifact and version.  Aspects of the repository may be qualified using the &lt;repository&gt; element.</p>
+      </div>
+
+      <div class="subsection"><span class="subsection-header">Sample XML</span>
+
+<pre class="source">
+  &lt;kernel&gt;
+
+   &lt;!-- declaration of the local repository --&gt;
+
+   &lt;repository&gt;
+
+     &lt;!-- 
+     The default local cache is the [MERLIN-HOME]/repository.
+     In the following example the local cache is changed
+     to use the Maven repository.
+     --&gt;
+     &lt;cache&gt;C:/maven/repository&lt;/cache&gt;
+
+     &lt;!--
+     If a resource cannot be located in the local repository 
+     cache, Merlin will attempt to locate the resource in one 
+     or more remote repositories.  If you have a proxy server 
+     you will need to declare it under the proxy element.  If 
+     you declare a proxy, the host and port elements must be 
+     declared.  You can also declare a 'credentials' element if 
+     your proxy requires password authentication.
+     --&gt;
+
+     &lt;proxy&gt;
+       &lt;host&gt;proxy.somethere.com&lt;/host&gt;
+       &lt;port&gt;999&lt;/port&gt;
+       &lt;credentials&gt;
+         &lt;username&gt;test&lt;/username&gt;
+         &lt;password&gt;test&lt;/password&gt;
+       &lt;/credentials&gt;
+     &lt;/proxy&gt;
+
+     &lt;!--
+     Merlin will attempt to locate resource from the local cache.  
+     If a resource is unavailable, Merlin willl attempt to 
+     download the resource from one or more remote hosts.  The 
+     hosts element contains the list of hosts that Merlin should 
+     attempt to connect to when resolving unsatisfied resource 
+     requests.
+     --&gt;
+
+     &lt;hosts&gt;
+       &lt;host&gt;http://www.osm.net/repository/&lt;/host&gt;
+       &lt;host&gt;http://www.ibiblio.org/merlin/repository&lt;/host&gt;
+     &lt;/hosts&gt;
+
+   &lt;/repository&gt;
+
+  &lt;/kernel&gt;
+</pre><div class="source-title"><span class="source-title" /></div>
+
+     </div>
+    </div>
+  </div><div class="footer"><span class="copyright">Copyright 2004, The Apache Software Foundation All rights reserved.</span><div class="views"><a class="viewlink" id="xmllink" href=""><img src="../../../../../images/xml.gif" /></a></div></div></body></html>

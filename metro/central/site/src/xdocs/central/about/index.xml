@@ -1,21 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document>
   <properties>
-    <author email="dev@avalon.apache.org">Avalon Documentation Team</author>
-    <title>Avalon Central</title>
+    <author email="dev@dpml.net">Metro Documentation Team</author>
+    <title>Metro Central</title>
   </properties> 
 
   <body>
-    <section name="Avalon Central">
+    <section name="Metro Central">
       <p>
-      Avalon Central is the place you can find 
-      <a href="../../download.cgi">downloads</a> of the latest Avalon
-      products, <a href="tutorials/index.html">tutorials</a> to get 
-      you up-to-speed as quickly as possible, together with information 
-      about the <a href="../community/who/index.html">people</a> 
-      who make up this community, and the latest 
-      <a href="news/index.html">news</a> and events to keep you 
-      completely up-to-date. 
       </p>
     </section>
   </body>

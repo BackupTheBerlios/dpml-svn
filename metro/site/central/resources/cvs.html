@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><title>Avalon Central</title><link type="text/css" rel="stylesheet" href="../../styles/style.css" /><meta content="text/html; charset=UTF-8" http-equiv="Content-type" /></head><body><table class="logobar"><tr><td class="panelleft"><img alt="link" src="../../images/feather.jpg" /></td><td class="panelmiddle"><div class="project">Metro</div><div class="title">Avalon Central</div></td><td class="panelright" /></tr></table><div class="categorybar" dir="/central/resources"><a class="homecategory" href="../../index.html">
+        Home
+      </a></div><div class="menubar"><div class="menu"><div class="menu"><a class="menuitem" href="../about/index.html">Welcome</a><a class="menuitem" href="../community/index.html">Community</a></div><a class="menuitem" href="mailing-lists.html">Mailing Lists</a><a class="menuitem" href="issues.html">Issue Tracking</a><a class="menuitem" href="svn/index.html">Subversion</a></div></div><div class="content">
+
+
+<div class="section"><span class="section-header">About CVS</span>
+    <p>CVS, the Concurrent Versions System is a revision control system useful for
+    management of source code, and is the predominant version control system used at
+    Apache. See <a class="doclink" href="http://www.cvshome.org/">The CVS Homepage</a> for
+    more about CVS.</p>
+</div>
+<div class="section"><span class="section-header">CVS data</span>
+    <p>If you know what you're doing, all you need to know:</p>
+    <p>viewcvs: <a class="doclink" href="http://cvs.apache.org/viewcvs.cgi/">http://cvs.apache.org/viewcvs.cgi/</a></p>
+    <pre class="source">
+anonymous CVSROOT: :pserver:anoncvs@cvs.apache.org:/home/cvspublic
+modules:
+      avalon                  # framework, containers and documentation
+      avalon-components       # component repository
+      avalon-excalibur        # utility repository
+      avalon-logkit           # cool logging toolkit
+      avalon-phoenix          # the phoenix container and related libraries
+      avalon-sandbox          # alpha &amp; pre-alpha code
+      avalon-site             # this website
+    </pre><div class="source-title"><span class="source-title" /></div>
+</div>
+<div class="section"><span class="section-header">Getting the sources from CVS under Windows</span>
+    <p>There's a few options for you:</p>
+    
+    <div class="subsection"><span class="subsection-header">Use cygwin</span>
+        
+        <p><a class="doclink" href="http://www.cygwin.com/">Cygwin</a> is a free software suite
+        of ports of popular Linux tools and utilities to run natively under windows.
+        Among it is a port of the cvs application. If you use cygwin, follow the Linux
+        instructions.</p>
+    </div>
+    <div class="subsection"><span class="subsection-header">Use the command-line tools</span>
+        
+        <p>The CVS utilities are available as native Windows binaries. Get them from
+        <a class="doclink" href="http://www.cvshome.org/">the CVS homepage</a>. To use these
+        tools, open a command window (click Start &gt; Run..., then type 'cmd'), then
+        enter the following commands:</p>
+        
+        <pre class="source">
+rem you can use any directory in place of C:\cvs
+rem replace $CVSUTILS with where you installed the cvs binary, or with
+rem nothing if you added the utility to your PATH
+mkdir C:\cvs
+cd C:\cvs
+$CVSUTILS\cvs.exe -d :pserver:anoncvs@cvs.apache.org login
+rem enter anoncvs when prompted for a password, then hit enter
+rem the below command should be on one line
+$CVSUTILS\cvs.exe -z3 -d ^
+      :pserver:anoncvs@cvs.apache.org:/home/cvspublic checkout ^
+      avalon avalon-excalibur avalon-components ^
+      avalon-phoenix avalon-logkit avalon-site ^
+      avalon-sandbox xml-forrest ^
+        </pre><div class="source-title"><span class="source-title" /></div>
+        
+        <p>This will take a while, depending on your connection. Go ahead and grab
+        yourself a coffee or ten. When done, you should have checked out all Avalon
+        sources and the most important utility libraries you need to build it (save
+            for <a class="doclink" href="http://maven.apache.org/">Apache Maven</a>, which you should
+            go install right now if you haven't already). For further building instructions 
+            run:</p>
+<pre class="source">
+maven avalon:info              
+</pre><div class="source-title"><span class="source-title" /></div>
+    </div>
+    <div class="subsection"><span class="subsection-header">Use TortoiseCVS</span>
+        
+        <p><a class="doclink" href="http://www.tortoisecvs.org/">TortoiseCVS</a> is a neat extension
+        for the Windows Explorer which integrates CVS. Using it is real simple:</p>
+        
+        <p>After you've created a folder where you want to check out the sources to,
+        right-click and select CVS Checkout...:<br />
+        <img src="images/tortoisecvs-checkout.jpg" /></p>
+        
+        <p>Then, fill out the settings like in the screenshot below, and then click ok.<br />
+        <img src="images/tortoisecvs-settings.jpg" /></p>
+        
+        <p>This checks out the avalon CVS module. Repeat this procedure for all
+        the modules you wish to check out. See above under "CVS data" for the list of Avalon modules, or use the
+        <a class="doclink" href="http://cvs.apache.org/viewcvs.cgi/">ViewCVS Webpage</a> for a full
+        list of ASF-hosted CVS modules.</p> 
+    </div>
+    <div class="subsection"><span class="subsection-header">Use WinCVS</span>
+        
+        <p><a class="doclink" href="http://www.wincvs.org/">WinCVS</a> is a standalone windows
+        application for working with CVS. It has more features than TortoiseCVS, and
+        hence more buttons a novice is not likely to use.</p>
+        
+        <p>After you've created a folder where you want to check out the sources to,
+        select the Checkout module... option from the Create menu:<br />
+        <img src="images/wincvs-checkout.jpg" /></p>
+        
+        <p>Then, select the "general tab" and fill out the settings like in the
+        screenshot below:<br />
+        <img src="images/wincvs-preferences.jpg" />.</p>
+        
+        <p>Now, switch back to the first tab and fill out the settings like in the
+        screenshot below, and then click ok.<br />
+        <img src="images/wincvs-checkout.jpg" />.</p>
+        
+        <p>This checks out the avalon CVS module. Repeat this procedure for all
+        the modules you wish to check out. See above under "CVS data" for the list of Avalon modules, or use the
+        <a class="doclink" href="http://cvs.apache.org/viewcvs.cgi/">ViewCVS webpage</a> for a full
+        list of ASF-hosted CVS modules.</p> 
+    </div>
+</div>
+<div class="section"><span class="section-header">Getting the sources from CVS under Linux</span>
+    
+    <div class="subsection"><span class="subsection-header">Use the command-line tools</span>
+        
+        <p>The CVS utilities are available as native linux binaries. Chances are
+        you already have them installed. Try it by opening a console and typing 'cvs'.
+        If you get an error along the lines of "bash: cvs: command not found", then
+        you need to install them first. Under Debian, you can do so by opening a console
+        window and entering the commands:</p>
+        
+        <pre class="source">
+su -
+# enter the root password when prompted
+apt-get update
+apt-get install cvs
+exit
+        </pre><div class="source-title"><span class="source-title" /></div>
+        
+        <p>Under Red Hat, the commands are a little different:</p>
+        
+        <pre class="source">
+su -
+# enter the root password when prompted
+rpm -i ftp://ftp.redhat.com/pub/redhat/linux/8.0/en/os/i386/RedHat/RPMS/cvs-1.11.2-5.i386.rpm
+exit
+        </pre><div class="source-title"><span class="source-title" /></div>
+
+        <p>The procedure is similar for other Linux distributions. Once you have
+        these tools installed, open a command window, then enter the following
+        commands:</p>
+        
+        <pre class="source">
+# you can use any directory in place of ~/cvs
+mkdir ~/cvs
+cd ~/cvs
+cvs -d :pserver:anoncvs@cvs.apache.org login
+# enter anoncvs when prompted for a password, then hit enter
+cvs -z3 -d :pserver:anoncvs@cvs.apache.org:/home/cvspublic \
+      checkout avalon \
+      avalon-excalibur avalon-cornerstone \
+      avalon-phoenix avalon-logkit avalon-site \
+      avalon-sandbox jakarta-site xml-forrest
+        </pre><div class="source-title"><span class="source-title" /></div>
+        
+        <p>This will take a while, depending on your connection. Go ahead and grab
+        yourself a coffee or ten. When done, you should have checked out all avalon
+        sources and the most important utility libraries you need to build it (save
+        for <a class="doclink" href="http://ant.apache.org/">Apache Ant</a>, which you should
+        go install right now if you haven't already).</p>
+    </div>
+    
+    <div class="subsection"><span class="subsection-header">Using Cervisia</span>
+        
+        <p>KDE's Konqueror browser has CVS support built-in. I've never used it so I
+        can't comment on it. See
+        <a class="doclink" href="http://cervisia.sourceforge.net/">the Cervisia website</a> for
+        more information.</p>
+    </div>
+</div>
+<div class="section"><span class="section-header">Platform-independent: jCVS</span>
+    
+    <p><a class="doclink" href="http://www.jcvs.org/">jCVS</a> is a 100% java CVS package that I've
+    never used.</p>
+</div>
+<div class="section"><span class="section-header">Using an IDE for CVS access</span>
+    
+      
+
+</div>
+
+</div><div class="footer"><span class="copyright">Copyright 2004, The Apache Software Foundation All rights reserved.</span><div class="views"><a class="viewlink" id="xmllink" href=""><img src="../../images/xml.gif" /></a></div></div></body></html>

@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><title>Avalon Repository</title><link type="text/css" rel="stylesheet" href="../../../../styles/style.css" /><meta content="text/html; charset=UTF-8" http-equiv="Content-type" /></head><body><table class="logobar"><tr><td class="panelleft"><img alt="link" src="../../../../images/feather.jpg" /></td><td class="panelmiddle"><div class="project">Metro</div><div class="title">Avalon Repository</div></td><td class="panelright" /></tr></table><div class="categorybar" dir="/products/runtime/system/repository"><a class="homecategory" href="../../../../index.html">
+        Home
+      </a></div><div class="menubar"><div class="menu"><div class="menu"><div class="menu"><div class="menu"><a class="menuitem-selected" href="../../../runtime/index.html">Merlin Runtime</a></div><a class="menuitem" href="../../execmodes/index.html">Execution</a><a class="menuitem" href="../../reference/index.html">Specification</a><a class="menuitem-selected" href="../../system/index.html">Systems</a><a class="menuitem" href="../../javadoc/index.html">Javadoc</a></div><a class="menuitem" href="../meta/index.html">Meta</a><a class="menuitem" href="../composition.html">Composition</a><a class="menuitem" href="../activation.html">Activation</a><a class="menuitem-selected" href="../repository/index.html">Repository</a><a class="menuitem" href="../logging/index.html">Logging</a><a class="menuitem" href="../util/index.html">Util</a></div><a class="menuitem" href="artifact.html">Artifact</a><a class="menuitem" href="classloader.html">Classloader</a><a class="menuitem" href="spi.html">Provider SPI</a><a class="menuitem-selected" href="bootstrap.html">Bootstrap System</a><a class="menuitem" href="reference.html">Reference Impl</a><a class="menuitem" href="example/index.html">Example</a><a class="menuitem" href="tools/index.html">Tools</a></div></div><div class="content">
+
+      <div class="section"><span class="section-header">Avalon Repository - Bootstrap</span>
+        <div class="subsection"><span class="subsection-header">Bootstrap System</span>
+          <p>
+          A bootstap deliverable jar file is provided as part of the Avalon
+          Repository distribution.  This deliverable includes the API, SPI 
+          and a micro-bootstrap repository that is used to load different 
+          repository implementations.  The bootstrap system provides added 
+          features dealing with application deployment, including classloader
+          chain establishment and application instantiation.
+          </p>
+          <p>
+          A bootstrap profile is established relative to the following 
+          environment variables and properties:
+          </p>
+          <table>
+            <tr row="odd"><th>Location</th></tr>
+            <tr row="even">
+              <td>${user.dir}/[name].properties</td>
+            </tr>
+            <tr row="odd">
+              <td>${user.home}/[name].properties</td>
+            </tr>
+            <tr row="even">
+              <td>${avalon.home}/[name].properties</td>
+            </tr>
+          </table>
+        </div>
+        <div class="subsection"><span class="subsection-header">Bootstrap Properties</span>
+        <table>
+          <tr row="odd"><th>Property</th><th>Description</th></tr>
+          <tr row="even">
+            <td>avalon.repository.implementation</td>
+            <td>The default implementation artifact specification. The bootstrap
+            system will atrempt to locate a value for this property when 
+            the repository implementation.  If no user supplied value can be 
+            in the current working directory, ${user.home}, or ${avalon.home}
+            relative to an avalon.properties file, the implementation will 
+            resolve the default implementation from an embeded avalon.properties 
+            resource.
+            </td>
+          </tr>
+          <tr row="odd">
+            <td>avalon.repository.cache</td>
+            <td>The default cache. In undefined in a property file, the value
+             defaults to an equivalent system property and if underfined, will 
+             attempt to locate an environment variable AVALON_HOME.  If the env 
+             variable is not declared the default repository directory will 
+             revert to ${user.home}/.avalon.
+            <pre class="source">Default: ${avalon.home}</pre><div class="source-title"><span class="source-title" /></div>
+             </td>
+          </tr>
+          <tr row="even">
+            <td>avalon.repository.hosts</td>
+            <td>The default remote hosts expressed as a comma seperated 
+            sequence of host urls.  File or http urls may be supplied.
+            <pre class="source">Default: http://dpml.net,http://ibiblio.org/maven</pre><div class="source-title"><span class="source-title" /></div>
+            </td>
+          </tr>
+        </table>
+        </div>
+      </div>
+
+    </div><div class="footer"><span class="copyright">Copyright 2004, The Apache Software Foundation All rights reserved.</span><div class="views"><a class="viewlink" id="xmllink" href=""><img src="../../../../images/xml.gif" /></a></div></div></body></html>

@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><title>Merlin Runtime</title><link type="text/css" rel="stylesheet" href="../../../styles/style.css" /><meta content="text/html; charset=UTF-8" http-equiv="Content-type" /></head><body><table class="logobar"><tr><td class="panelleft"><img alt="link" src="../../../images/feather.jpg" /></td><td class="panelmiddle"><div class="project">Metro</div><div class="title">Merlin Runtime</div></td><td class="panelright" /></tr></table><div class="categorybar" dir="/products/runtime/execmodes"><a class="homecategory" href="../../../index.html">
+        Home
+      </a></div><div class="menubar"><div class="menu"><div class="menu"><div class="menu"><a class="menuitem-selected" href="../../runtime/index.html">Merlin Runtime</a></div><a class="menuitem-selected" href="../execmodes/index.html">Execution</a><a class="menuitem" href="../reference/index.html">Specification</a><a class="menuitem" href="../system/index.html">Systems</a><a class="menuitem" href="../javadoc/index.html">Javadoc</a></div><a class="menuitem" href="cli.html">CLI Handler</a><a class="menuitem" href="generic.html">Generic Embedded</a><a class="menuitem" href="servlet.html">Embedded in Servlet</a><a class="menuitem" href="unit.html">Unit Testing</a></div></div><div class="content">
+
+    <div class="section"><span class="section-header">Generic Embedding</span>
+
+      <div class="subsection"><span class="subsection-header">Overview</span>
+
+        <p>
+        The folowing information is a step by step decomposition of 
+        a example of Merlin embedded in a main method.  The details
+        presented here are the same as that used in all embedded Merlin
+        scenarios.  Typically a embedded application will deviate from 
+        this model to take into account the embedded context by resolving
+        factory parameters relative to the execution environment.
+        </p>
+
+      </div>
+
+      <div class="subsection"><span class="subsection-header">Sample Main</span>
+<pre class="source">
+/* 
+ * Copyright 2004 Apache Software Foundation
+ * Licensed  under the  Apache License,  Version 2.0  (the "License");
+ * you may not use  this file  except in  compliance with the License.
+ * You may obtain a copy of the License at 
+ * 
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed  under the  License is distributed on an "AS IS" BASIS,
+ * WITHOUT  WARRANTIES OR CONDITIONS  OF ANY KIND, either  express  or
+ * implied.
+ * 
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package tutorial;
+
+import java.io.File;
+import java.util.Map;
+
+import org.apache.avalon.repository.Artifact;
+import org.apache.avalon.repository.provider.Builder;
+import org.apache.avalon.repository.provider.Factory;
+import org.apache.avalon.repository.provider.InitialContextFactory;
+import org.apache.avalon.repository.provider.InitialContext;
+import org.apache.avalon.repository.main.DefaultInitialContextFactory;
+import org.apache.avalon.repository.Artifact;
+
+/**
+ * An example of the embedding of a merlin kernel inside a main 
+ * method.  The objective of the example is to demonstrate a 
+ * simple embedded scenario.
+ */
+public class Main 
+{
+    public static void main( String[] args ) throws Exception
+    {
+        //
+        // Create the initial context factory.  This establishes
+        // the application group from which properties will
+        // be resolved. It also provides operations supporting 
+        // customization of the application environment.
+        //
+
+        InitialContextFactory initial = 
+          new DefaultInitialContextFactory( "merlin" );
+        File home = initial.getHomeDirectory();
+        initial.setCacheDirectory( new File( home, "system" ) );
+        InitialContext context = initial.createInitialContext();
+
+        //
+        // Using the initial context we can now load any repository 
+        // application using an artifact specification. Meta 
+        // information associated with the artifact is used to 
+        // construct the classloader that the application needs in 
+        // order to execute.
+        //
+
+        String spec = "artifact:merlin/merlin-impl#3.3-SNAPSHOT";
+        Artifact artifact = Artifact.createArtifact( spec );
+        Builder builder = context.newBuilder( artifact );
+
+        //
+        // With the classloader established we can go ahead and 
+        // and get the application factory.  The factory has already
+        // been parameterized with defaults derived from properties
+        // based on the application group. We can provide 
+        // overriding values by setting the factory criteria to
+        // application specific values following which we instantiate 
+        // the application.
+        // 
+
+        Factory factory = builder.getFactory();
+        Map criteria = factory.createDefaultCriteria();
+        factory.create( criteria );
+    }
+}
+</pre><div class="source-title"><span class="source-title" /></div>
+      </div>
+
+    </div>
+
+  </div><div class="footer"><span class="copyright">Copyright 2004, The Apache Software Foundation All rights reserved.</span><div class="views"><a class="viewlink" id="xmllink" href=""><img src="../../../images/xml.gif" /></a></div></div></body></html>

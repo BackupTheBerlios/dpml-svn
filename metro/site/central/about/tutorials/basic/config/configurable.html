@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><title>Avalon Central</title><link type="text/css" rel="stylesheet" href="../../../../../styles/style.css" /><meta content="text/html; charset=UTF-8" http-equiv="Content-type" /></head><body><table class="logobar"><tr><td class="panelleft"><img alt="link" src="../../../../../images/feather.jpg" /></td><td class="panelmiddle"><div class="project">Metro</div><div class="title">Avalon Central</div></td><td class="panelright" /></tr></table><div class="categorybar" dir="/central/about/tutorials/basic/config"><a class="homecategory" href="../../../../../index.html">
+        Home
+      </a></div><div class="menubar"><div class="menu"><div class="menu"><div class="menu"><div class="menu"><div class="menu"><a class="menuitem-selected" href="../../../../about/index.html">Welcome</a><a class="menuitem" href="../../../../community/index.html">Community</a></div><a class="menuitem" href="../../../license.html">License</a><a class="menuitem" href="../../../download.html">Downloads</a><a class="menuitem" href="../../../installation/index.html">Installation</a><a class="menuitem-selected" href="../../../tutorials/index.html">Tutorials</a><a class="menuitem" href="../../../news/index.html">News</a><a class="menuitem" href="../../../faq.html">FAQ</a></div><a class="menuitem-selected" href="../../basic/index.html">Basic</a><a class="menuitem" href="../../advanced/index.html">Advanced</a></div><a class="menuitem" href="../creation.html">Hello Block</a><a class="menuitem" href="../execution.html">Running Hello</a><a class="menuitem" href="../internal.html">Behind the Scenes</a><a class="menuitem-selected" href="../config/index.html">Configurations</a><a class="menuitem" href="../context/index.html">Contextualization</a><a class="menuitem" href="../services.html">Services</a><a class="menuitem" href="../dependencies/index.html">Dependencies</a></div><a class="menuitem-selected" href="configurable.html">Using</a><a class="menuitem" href="defaults.html">Defaults</a><a class="menuitem" href="block.html">Declaring</a><a class="menuitem" href="override.html">Overriding</a></div></div><div class="content">
+    <div class="section"><span class="section-header">Using Merlin</span>
+      <div class="subsection"><span class="subsection-header">Adding Configuration Support to the Component</span>
+        <p>
+        To be supplied with a configuration, our component must either 
+        declare a Configuration as a constructor argument, or alternatively, 
+        implement the Avalon Framework Configurable interface.  
+        </p>
+
+        <p>
+        The following code
+        is the HelloComponent extended to include a configuration constructor 
+        argument and updates to log the source of the configuration based on 
+        runtime information.
+        </p>
+
+        <p>
+        Resources supporting this tutorial are contained in the 
+        tutorials/configuration/injection directory.
+        </p>
+<pre class="source">
+public class HelloComponent
+{
+   /**
+    * Configuration of the component by the container.  The 
+    * implementation get a child element named 'source' and 
+    * assigns the value of the element to a local variable.
+    *
+    * @param config the component configuration
+    * @exception ConfigurationException if a configuration error occurs
+    */
+    public HelloComponent( 
+      final Logger logger, final Configuration config ) 
+      throws ConfigurationException
+    {
+        logger.info( "instantiation" );
+        final String source = 
+          config.getChild( "source" ).getValue( "unknown" );
+        final String message = "source: " + source;
+        logger.info( message );
+    }
+}
+</pre><div class="source-title"><span class="source-title" /></div>
+
+        <p>
+        The alternative approach to configuration supply is via the Avalon 
+        Configurable interface - demonstrated in the following code example.
+        </p>
+
+        <p>
+        Reter tutorials/configuration/block.
+        </p>
+
+<pre class="source">
+/**
+ * A configurable component.
+ *
+ * @avalon.component version="1.0" name="simple"
+ */
+public class HelloComponent extends AbstractLogEnabled 
+  implements Configurable, Initializable
+{
+    private String m_source = "undefined";
+
+   /**
+    * Configuration of the component by the container.  The 
+    * implementation get a child element named 'source' and 
+    * assigns the value of the element to a local variable.
+    *
+    * @param config the component configuration
+    * @exception ConfigurationException if a configuration error occurs
+    */
+    public void configure( Configuration config ) 
+      throws ConfigurationException
+    {
+        getLogger().info( "configuration stage" );
+        m_source = config.getChild( "source" ).getValue( "unknown" );
+    }
+
+   /**
+    * Initialization of the component by the container.
+    * @exception Exception if an initialization error occurs
+    */
+    public void initialize() throws Exception
+    {
+        getLogger().info( "initialization stage" );
+        final String message = 
+          "source: " + m_source;
+        getLogger().info( message );
+    }
+}
+</pre><div class="source-title"><span class="source-title" /></div>
+
+      </div>
+      <div class="subsection"><span class="subsection-header">Declaring a Configuration</span>
+
+        <p>
+        A number of different approaches to controlling the 
+        configuration that is supplied to a component are presented in 
+        the <a class="doclink" href="defaults.html">next tutorial</a>.
+        </p>
+
+      </div>
+    </div>
+  </div><div class="footer"><span class="copyright">Copyright 2004, The Apache Software Foundation All rights reserved.</span><div class="views"><a class="viewlink" id="xmllink" href=""><img src="../../../../../images/xml.gif" /></a></div></div></body></html>

@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><title>Deployment Specification</title><link type="text/css" rel="stylesheet" href="../../../../styles/style.css" /><meta content="text/html; charset=UTF-8" http-equiv="Content-type" /></head><body><table class="logobar"><tr><td class="panelleft"><img alt="link" src="../../../../images/feather.jpg" /></td><td class="panelmiddle"><div class="project">Metro</div><div class="title">Deployment Specification</div></td><td class="panelright" /></tr></table><div class="categorybar" dir="/products/runtime/reference/containment"><a class="homecategory" href="../../../../index.html">
+        Home
+      </a></div><div class="menubar"><div class="menu"><div class="menu"><div class="menu"><div class="menu"><a class="menuitem-selected" href="../../../runtime/index.html">Merlin Runtime</a></div><a class="menuitem" href="../../execmodes/index.html">Execution</a><a class="menuitem-selected" href="../../reference/index.html">Specification</a><a class="menuitem" href="../../system/index.html">Systems</a><a class="menuitem" href="../../javadoc/index.html">Javadoc</a></div><a class="menuitem-selected" href="../containment/index.html">Block</a><a class="menuitem" href="../component/index.html">Component</a><a class="menuitem" href="../deployment/index.html">Deployment</a><a class="menuitem" href="../kernel/index.html">Kernel</a></div><a class="menuitem-selected" href="container.html">container</a><a class="menuitem" href="classloader/index.html">classloader</a><a class="menuitem" href="categories/index.html">categories</a><a class="menuitem" href="components/index.html">component</a><a class="menuitem" href="include/index.html">include</a><a class="menuitem" href="services/index.html">services</a></div></div><div class="content">
+
+    <div class="section"><span class="section-header">container</span>
+      <div class="subsection"><span class="subsection-header">Nested Elements</span>
+        <table>
+          <tr row="odd"><th>Element</th><th>Occurance</th><th>Description</th></tr>
+          <tr row="even">
+            <td><a class="doclink" href="services/index.html">services</a></td><td>0..1</td>
+            <td>
+             A container can declare the export of a set of services established
+             by the components contained within it.  This enables a container to 
+             function as a composite component relative to its peers.
+            </td>
+          </tr>
+          <tr row="odd">
+            <td><a class="doclink" href="classloader/index.html">classloader</a></td><td>0..1</td>
+            <td>
+             The classloader to assign to the container.
+            </td>
+          </tr>
+          <tr row="even">
+            <td><a class="doclink" href="components/index.html">component</a></td><td>0..n</td>
+            <td>
+             A component directive is an instruction to merlin to build
+             a component of the type specified, and deploy the component 
+             in accordance with a stated policy.
+            </td>
+          </tr>
+          <tr row="odd">
+            <td><a class="doclink" href="index.html">container</a></td><td>0..n</td>
+            <td>
+             A container directive is simply a composite component.  A container
+             establishes a partition within which a set of other components and 
+             containers can be declared.
+            </td>
+          </tr>
+          <tr row="even">
+            <td><a class="doclink" href="include/index.html">include</a></td><td>0..n</td>
+            <td>
+             An include directive instructs Merlin to include an external 
+             block within the container.  Services exported by the block will 
+             be made available to other components at the same level as the 
+             included block.
+            </td>
+          </tr>
+        </table>
+      </div>
+
+      <div class="subsection"><span class="subsection-header">Sample XML</span>
+        <p>
+           The following XML is a sample of a implementation declaration
+           containing an engine, components, subcontainers and block includes.
+        </p>
+
+<pre class="source">
+ &lt;!-- block implementation declaration --&gt;
+&lt;container&gt;
+  
+     &lt;!-- 
+     declaration of the classloader that this block 
+     will execute within 
+     --&gt;
+
+     &lt;classloader&gt;
+       &lt;classpath&gt;
+         &lt;repository&gt;
+           &lt;resource id="tutorial:composition-api" version="1.0"/&gt;
+         &lt;/repository&gt;
+       &lt;/classpath&gt;
+     &lt;/classloader&gt;
+
+     &lt;!-- 
+     declaration of a root component (services provided by this component
+     will be avbailable to all other components at the same or lower levels
+     in the container hierachy
+     --&gt;
+
+     &lt;component name="application" 
+        class="tutorial.application.Application" activation="startup"&gt;
+     &lt;/component&gt;
+
+     &lt;!-- 
+     declaration of a container contining other components
+     --&gt;
+
+     &lt;container name="subcontainer"&gt;
+       
+       &lt;!--
+       This component is only visible to other components at the same
+       level or lower in this branch of the container hierachy
+       --&gt;
+
+       &lt;component name="test2" class="AnotherComponent"/&gt;
+
+       &lt;!--
+       A subcontainer declaring a custom container type.
+       --&gt;
+
+       &lt;container name="testing" class="MySpecialContainerClass"&gt;
+         &lt;!-- etc. --&gt;
+       &lt;/container&gt;
+
+     &lt;/container&gt;
+
+     &lt;!--
+     Declaration of a block to includes.  The inclusion of a block
+     results in the establishment of a container with a name correponding
+     to the name of the block.
+     --&gt;
+
+     &lt;include path="example-block.xml"/&gt;
+     &lt;include id="osm:collaboration" version="1.0"/&gt;
+
+&lt;/container&gt;
+
+</pre><div class="source-title"><span class="source-title" /></div>
+      </div>
+
+    </div>
+
+  </div><div class="footer"><span class="copyright">Copyright 2004, The Apache Software Foundation All rights reserved.</span><div class="views"><a class="viewlink" id="xmllink" href=""><img src="../../../../images/xml.gif" /></a></div></div></body></html>

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><title>Logging Descriptors</title><link type="text/css" rel="stylesheet" href="../../../../../../../styles/style.css" /><meta content="text/html; charset=UTF-8" http-equiv="Content-type" /></head><body><table class="logobar"><tr><td class="panelleft"><img alt="link" src="../../../../../../../images/feather.jpg" /></td><td class="panelmiddle"><div class="project">Metro</div><div class="title">Logging Descriptors</div></td><td class="panelright" /></tr></table><div class="categorybar" dir="/products/runtime/system/meta/info/type/loggers"><a class="homecategory" href="../../../../../../../index.html">
+        Home
+      </a></div><div class="menubar"><div class="menu"><div class="menu"><div class="menu"><div class="menu"><div class="menu"><div class="menu"><div class="menu"><a class="menuitem-selected" href="../../../../../../runtime/index.html">Merlin Runtime</a></div><a class="menuitem" href="../../../../../execmodes/index.html">Execution</a><a class="menuitem" href="../../../../../reference/index.html">Specification</a><a class="menuitem-selected" href="../../../../../system/index.html">Systems</a><a class="menuitem" href="../../../../../javadoc/index.html">Javadoc</a></div><a class="menuitem-selected" href="../../../../meta/index.html">Meta</a><a class="menuitem" href="../../../../composition.html">Composition</a><a class="menuitem" href="../../../../activation.html">Activation</a><a class="menuitem" href="../../../../repository/index.html">Repository</a><a class="menuitem" href="../../../../logging/index.html">Logging</a><a class="menuitem" href="../../../../util/index.html">Util</a></div><a class="menuitem" href="../../../tags/index.html">Tag Reference</a><a class="menuitem-selected" href="../../../info/index.html">Type Model</a></div><a class="menuitem-selected" href="../../type/index.html">Type</a><a class="menuitem" href="../../service.html">Service</a><a class="menuitem" href="../../attributes/index.html">Attributes</a></div><a class="menuitem" href="../index.html">Overview</a><a class="menuitem-selected" href="../info/index.html">Info</a><a class="menuitem-selected" href="../loggers/index.html">Loggers</a><a class="menuitem" href="../context/index.html">Context</a><a class="menuitem" href="../dependencies/index.html">Dependencies</a><a class="menuitem" href="../services/index.html">Services</a><a class="menuitem" href="../stages/index.html">Stages</a><a class="menuitem" href="../extensions/index.html">Extensions</a></div><a class="menuitem-selected" href="index.html">Overview</a><a class="menuitem" href="logger.html">Logger</a></div></div><div class="content">
+
+    <div class="section"><span class="section-header">Logging Descriptor</span>
+
+      <div class="subsection"><span class="subsection-header">Description</span>
+<p>
+The org.apache.avalon.meta.info.LoggerDescriptor class describes the set of logging channels that the component requires. The name of each logging channel is relative to the logging channel passed to the component.  For example, a component hosted in a container names aaa/bbb/ccc will be supplied with a logging with a catagory of aaa.bbb.ccc.your-component and the logging categories defined in the meta-info model will be appended to that (using the period as a category delimiter).
+</p>
+      </div>
+
+      <div class="subsection"><span class="subsection-header">Nested Elements</span>
+        <table>
+          <tr row="odd"><th>Element</th><th>Occurance</th><th>Description</th></tr>
+          <tr row="even">
+            <td><a class="doclink" href="logger.html">logger</a></td><td>0..n</td>
+            <td>
+             A logging category declaration.
+            </td>
+          </tr>
+        </table>
+      </div>
+
+
+      <div class="subsection"><span class="subsection-header">Example XML</span>
+
+<p>Logger descriptors are contained within a single &lt;loggers&gt; element.</p>
+<pre class="source">
+&lt;loggers&gt;
+  &lt;logger name="test"/&gt;
+  &lt;logger name="internal"/&gt;
+&lt;/loggers&gt;
+</pre><div class="source-title"><span class="source-title" /></div>
+
+      </div>
+
+    </div>
+
+  </div><div class="footer"><span class="copyright">Copyright 2004, The Apache Software Foundation All rights reserved.</span><div class="views"><a class="viewlink" id="xmllink" href=""><img src="../../../../../../../images/xml.gif" /></a></div></div></body></html>

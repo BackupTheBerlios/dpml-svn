@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><title>Avalon Planet</title><link type="text/css" rel="stylesheet" href="../../styles/style.css" /><meta content="text/html; charset=UTF-8" http-equiv="Content-type" /></head><body><table class="logobar"><tr><td class="panelleft"><img alt="link" src="../../images/feather.jpg" /></td><td class="panelmiddle"><div class="project">Metro</div><div class="title">Avalon Planet</div></td><td class="panelright" /></tr></table><div class="categorybar" dir="/planet/facilities"><a class="homecategory" href="../../index.html">
+        Home
+      </a></div><div class="menubar"><div class="menu"><div class="menu"><a class="menuitem" href="../components/index.html">Components</a><a class="menuitem-selected" href="../facilities/index.html">Facilities</a></div><a class="menuitem" href="finder/index.html">Finder</a><a class="menuitem-selected" href="http.html">HTTP</a><a class="menuitem" href="jmx.html">JMX</a><a class="menuitem" href="reflector/index.html">Reflector</a></div></div><div class="content">
+    <div class="section"><span class="section-header">HTTP Facility</span>
+      <div class="subsection"><span class="subsection-header">Overview</span>
+        <p>
+          The HTTP Facility provides an embedded web server, where
+          components that implements the HttpRequestHandler interface can
+          be mapped into the URL space of the server. Components are
+          regular in all ways except that they implement the 
+          HttpRequestHandler interface. The service() method will be called
+          when a request corresponds to the component's mapping into the
+          URL space.
+        </p>
+        <p>
+          The main reason for this facility is to preserve the IoC and SoC
+          aspects of Avalon, even in a HTTP server environment, since the
+          Servlet API mixes the concerns in unwanted ways. Developers using
+          Avalon are very productive using the Avalon Life Cycle contracts,
+          and Merlin features. The power of Jetty and its embeddability
+          creates a remarkable synergy between Merlin and Jetty.
+        </p>
+      </div>
+      <div class="subsection"><span class="subsection-header">Declaration</span>
+        <p>
+          First of all you need to declare the HTTP Facility, and that is done
+          by a simple component declaration in a suitable container;
+        </p>
+<pre class="source">
+  &lt;component name="http-server" 
+             class="org.apache.avalon.http.impl.DefaultServer"/&gt;
+  
+  &lt;component name="model-listener" 
+             class="org.apache.avalon.http.impl.DefaultModelListener"/&gt;
+</pre><div class="source-title"><span class="source-title" /></div>          
+        <p>
+          You may of course either use configurations together with the 
+          declaration, or in separate profile files (recommended).
+        </p>
+      </div>
+      <div class="subsection"><span class="subsection-header">Configuration</span>
+        <p>
+          I think the easiest way is to show a full-fledged example, instead
+          of the formal description. The configuration below is for the 
+          <em>http-server</em> component, not the <em>model-listener</em>
+        </p>
+<pre class="source">
+&lt;configuration&gt;
+  
+  &lt;listeners&gt;
+    &lt;listener type="socket"&gt;  &lt;!-- Create a standard http socket listener --&gt;
+      &lt;port&gt;80&lt;/port&gt;  &lt;!-- Default: 8080 --&gt;
+      &lt;hostname&gt;myserver.mycompany.com&lt;/hostname&gt; &lt;!-- Default: all hosts --&gt;
+      &lt;timeout&gt;120000&lt;/timeout&gt; &lt;!-- Default: 60000 ms --&gt;
+    &lt;/listener&gt;
+  
+    &lt;listener type="jsse"&gt;  &lt;!-- Create a SSL socket listener --&gt;
+      &lt;port&gt;443&lt;/port&gt;  &lt;!-- Default: 8443  --&gt;
+      &lt;hostname&gt;myserver.mycompany.com&lt;/hostname&gt; &lt;!-- Default: all hosts --&gt;
+      &lt;timeout&gt;120000&lt;/timeout&gt; &lt;!-- Default: 60000 ms --&gt;
+    &lt;/listener&gt;
+  
+    &lt;listener type="ajp"&gt;  &lt;!-- Create a listener to a Apache Web Server --&gt;
+      &lt;port&gt;3232&lt;/port&gt;  &lt;!-- Default: 2345  --&gt;
+      &lt;hostname&gt;myserver.mycompany.com&lt;/hostname&gt; &lt;!-- Default: all hosts --&gt;
+      &lt;timeout&gt;120000&lt;/timeout&gt; &lt;!-- Default: 60000 ms --&gt;
+    &lt;/listener&gt;
+  
+  &lt;/listeners&gt;
+  
+  &lt;mappings&gt;
+  
+    &lt;mapping&gt;
+      &lt;url&gt;/shopcart&lt;url&gt;
+      &lt;component&gt;/http/handlers/ShoppingCartImpl&lt;/component&gt;
+    &lt;/mapping&gt;
+    
+    &lt;mapping&gt;
+      &lt;url&gt;/query&lt;url&gt;
+      &lt;component&gt;/http/handlers/SearchEngineImpl&lt;/component&gt;
+    &lt;/mapping&gt;
+    
+    &lt;!-- Map the root to the Welcome Page implementation component --&gt;
+    &lt;mapping&gt;
+      &lt;url&gt;/&lt;url&gt;
+      &lt;component&gt;/http/handlers/WelcomePageImpl&lt;/component&gt;
+    &lt;/mapping&gt;
+    
+  &lt;/mappings&gt;
+&lt;/configuration&gt;
+
+</pre><div class="source-title"><span class="source-title" /></div>
+        <p>
+          And there may be any number of listeners and mappings. Please note
+          that compared to the Servlet API, the initialization values are
+          not tied to the facility but to the component, in standard Avalon
+          ways. It also means that the component can be used both as a normal
+          component and a request handler.
+        </p>
+      </div>
+    </div>
+  </div><div class="footer"><span class="copyright">Copyright 2004, The Apache Software Foundation All rights reserved.</span><div class="views"><a class="viewlink" id="xmllink" href=""><img src="../../images/xml.gif" /></a></div></div></body></html>

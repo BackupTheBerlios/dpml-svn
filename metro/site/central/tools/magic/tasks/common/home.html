@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><title>Avalon Central</title><link type="text/css" rel="stylesheet" href="../../../../../styles/style.css" /><meta content="text/html; charset=UTF-8" http-equiv="Content-type" /></head><body><table class="logobar"><tr><td class="panelleft"><img alt="link" src="../../../../../images/feather.jpg" /></td><td class="panelmiddle"><div class="project">Metro</div><div class="title">Avalon Central</div></td><td class="panelright" /></tr></table><div class="categorybar" dir="/central/tools/magic/tasks/common"><a class="homecategory" href="../../../../../index.html">
+        Home
+      </a></div><div class="menubar"><div class="menu"><div class="menu"><div class="menu"><div class="menu"><div class="menu"><a class="menuitem" href="../../../../about/index.html">Welcome</a><a class="menuitem" href="../../../../community/index.html">Community</a></div><a class="menuitem-selected" href="../../../magic/index.html">Magic</a></div><a class="menuitem" href="../../installation.html">Installing</a><a class="menuitem" href="../../spells/index.html">Casting Spells</a><a class="menuitem" href="../../model/index.html">System Model</a><a class="menuitem" href="../../templates/index.html">Templates</a><a class="menuitem-selected" href="../../tasks/index.html">Tasks</a><a class="menuitem" href="../../../../../avalon/tools/avalon-tools-magic/index.html">Javadoc</a></div><a class="menuitem-selected" href="../common/index.html">Common</a><a class="menuitem" href="../management/index.html">Management</a><a class="menuitem" href="../production/index.html">Production</a><a class="menuitem" href="../publication/index.html">Publication</a></div><a class="menuitem-selected" href="home.html">Home</a><a class="menuitem" href="info.html">Info</a><a class="menuitem" href="filter.html">Filter</a><a class="menuitem" href="property.html">Property</a><a class="menuitem" href="prepare.html">Prepare</a><a class="menuitem" href="clean.html">Clean</a></div></div><div class="content">
+
+    <div class="section"><span class="section-header">Home Task</span>
+
+      <p>
+      The home task is responsible for the initialization of 
+      the magic environment.  This includes:
+      </p>
+
+      <ul>
+        <li>loading of ${basedir}/user.properties</li>
+        <li>loading of ${basedir}/build.properties</li>
+        <li>loading of ${project.system}/index.properties</li>
+        <li>setup of an artifact repository</li>
+        <li>setup of an doc repository</li>
+        <li>initialization of the project model</li>
+      </ul>
+
+      <p>
+      The following example demonstrates the initialization of 
+      a home using a default ${project.home}/index.xml.
+      </p>
+
+<pre class="source">
+&lt;property name="project.home" value=".."/&gt;
+&lt;x:home/&gt;
+</pre><div class="source-title"><span class="source-title" /></div>
+
+<pre>
+   [x:home] Building system definition.
+</pre>
+
+      <div class="subsection"><span class="subsection-header">Project Properties</span>
+
+      <p>
+      The creation of a home automatically establishes the following set 
+      of immutable project properrties.  These properties can be referenced
+      anywhere in an ant script following the home declaration.
+      </p>
+
+      <table>
+        <tr row="odd"><th>Property</th><th>Description</th></tr>
+        <tr row="even">
+          <td>${project.key}</td>
+          <td>The unique project key.</td>
+        </tr>
+        <tr row="odd">
+          <td>${project.name}</td>
+          <td>The project name.</td>
+        </tr>
+        <tr row="even">
+          <td>${project.group}</td>
+          <td>The name of the group that the project is a part of.</td>
+        </tr>
+        <tr row="odd">
+          <td>${project.version}</td>
+          <td>The project version.</td>
+        </tr>
+        <tr row="even">
+          <td>${project.type}</td>
+          <td>The project artifact type.</td>
+        </tr>
+        <tr row="odd">
+          <td>${project.basedir}</td>
+          <td>The project basedir.</td>
+        </tr>
+        <tr row="even">
+          <td>${project.uri}</td>
+          <td>The full artifact uri.</td>
+        </tr>
+        <tr row="odd">
+          <td>${project.path}</td>
+          <td>A relative file path that can be used to a locate the artifact
+              produced by the project relative to a repository root.</td>
+        </tr>
+        <tr row="even">
+          <td>${project.spec}</td>
+          <td>Short form of uri.  The spec value is equivalent to the 
+            uri with the "artifact:" protocol identifier.</td>
+        </tr>
+        <tr row="odd">
+          <td>filename</td>
+          <td>The filename of the final artifact that the resource represents.</td>
+        </tr>
+        <tr row="even">
+          <td>short-filename</td>
+          <td>The filename without the file type suffix.</td>
+        </tr>
+      </table>
+
+      </div>
+
+      <div class="subsection"><span class="subsection-header">Property File Loading</span>
+
+      <p>
+      The home task will automatically load properties into the 
+      current project.
+      </p>
+
+      <ul>
+        <li>loading of ${basedir}/user.properties</li>
+        <li>loading of ${basedir}/build.properties</li>
+      </ul>
+
+      <p>
+      If a home has not been loaded then home initialization will 
+      occur relative to ${project.system}.  The default value of 
+      ${project.system} is ${project.home}.  The ${project.system}
+      defines the location of system level properties controlling
+      cache and proxy setup. System properties are defined under the 
+      property file ${project.system}/index.properties.  
+      </p>
+
+      </div>
+      <div class="subsection"><span class="subsection-header">Repository Initialization</span>
+
+      <p>
+      Repositories for build deliverables and documentation are 
+      establish. The default location for the build deliverable
+      repository is defined by the property ${project.main.cache}. 
+      If the value of this property is a relative path it will be
+      resolved relative to ${project.system). If undefined, the 
+      initialization procedure will attempt to locate the environment
+      variable AVALON_HOME and if defined, the AVALON_HOME/repository
+      path will be used.  If AVALON_HOME is undefined, 
+      ${project.system}/.cache will be used.
+      </p>
+
+      <p>
+      The documentation repository currently defaults to 
+      ${project.system}/.docs.
+      </p>
+
+      </div>
+      <div class="subsection"><span class="subsection-header">Model Loading</span>
+
+      <p>
+      The home task loads an index file if not already loaded.
+      If not declared explicity, the index file is located using 
+      ${project.home}/index.xml. A static immutable datastructure 
+      will be created and made available to magic aware tasks.
+      </p>
+
+      </div>
+      <div class="subsection"><span class="subsection-header">Project Identification</span>
+
+      <p>
+      A project build.xml identifies itself to magic using the 
+      property ${project.name}.  The value of ${project.name}
+      is the name of a project within the model.  If no ${project.name}
+      property is defined, the name of the project (build file name)
+      will be used as the key.  Subsequent version, project group, 
+      dependency and plugin requirements will be resolved relative to 
+      the project defintion identified by the key.
+      </p>
+
+      </div>
+      <div class="subsection"><span class="subsection-header">Examples</span>
+
+      <p>
+      The following example demonstrates the initialization of 
+      a home using an explicit index file.
+      </p>
+
+<pre class="source">
+&lt;x:home index="../../released-packages.xml"/&gt;
+</pre><div class="source-title"><span class="source-title" /></div>
+
+      <p>
+      The following example demonstrates the initialization of 
+      a home using a default ${project.home}/index.xml.
+      </p>
+
+<pre class="source">
+&lt;property name="project.home" value=".."/&gt;
+&lt;x:home/&gt;
+</pre><div class="source-title"><span class="source-title" /></div>
+
+      <p>
+      A recommended approach is to define ${project.system}
+      and ${project.name} under a build.properties file and 
+      use a template build file that includes home establishment
+      and magic related targets as shown below.
+      </p>
+
+<pre class="source">
+&lt;project name="avalon-tutorial-hello" 
+    default="install" basedir="." 
+    xmlns:x="antlib:org.apache.avalon.tools"&gt;
+
+  &lt;property file="build.properties"/&gt;
+  &lt;import file="${project.system}/build/standard.xml"/&gt;
+
+&lt;/project&gt;
+</pre><div class="source-title"><span class="source-title" /></div>
+
+      <p>
+      If ${project.system} is unresolvable a build failure will occur.  
+      </p>
+
+      </div>
+      <div class="subsection"><span class="subsection-header">Notes</span>
+
+      <p>
+      IMPORTANT NOTE : once initialized, a home may not be redefined.
+      Subsequent home references within composite build files will not
+      change an existing home definition.
+      </p>
+
+      </div>
+    </div>
+  </div><div class="footer"><span class="copyright">Copyright 2004, The Apache Software Foundation All rights reserved.</span><div class="views"><a class="viewlink" id="xmllink" href=""><img src="../../../../../images/xml.gif" /></a></div></div></body></html>

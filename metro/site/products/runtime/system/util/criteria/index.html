@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><title>Merlin Runtime</title><link type="text/css" rel="stylesheet" href="../../../../../styles/style.css" /><meta content="text/html; charset=UTF-8" http-equiv="Content-type" /></head><body><table class="logobar"><tr><td class="panelleft"><img alt="link" src="../../../../../images/feather.jpg" /></td><td class="panelmiddle"><div class="project">Metro</div><div class="title">Merlin Runtime</div></td><td class="panelright" /></tr></table><div class="categorybar" dir="/products/runtime/system/util/criteria"><a class="homecategory" href="../../../../../index.html">
+        Home
+      </a></div><div class="menubar"><div class="no-border"><span class="dummy" /><div class="menu"><div class="menu"><div class="menu"><div class="menu"><a class="menuitem-selected" href="../../../../runtime/index.html">Merlin Runtime</a></div><a class="menuitem" href="../../../execmodes/index.html">Execution</a><a class="menuitem" href="../../../reference/index.html">Specification</a><a class="menuitem-selected" href="../../../system/index.html">Systems</a><a class="menuitem" href="../../../javadoc/index.html">Javadoc</a></div><a class="menuitem" href="../../meta/index.html">Meta</a><a class="menuitem" href="../../composition.html">Composition</a><a class="menuitem" href="../../activation.html">Activation</a><a class="menuitem" href="../../repository/index.html">Repository</a><a class="menuitem" href="../../logging/index.html">Logging</a><a class="menuitem-selected" href="../../util/index.html">Util</a></div><a class="menuitem-selected" href="../criteria/index.html">Criteria</a><a class="menuitem" href="../defaults/index.html">Defaults</a><a class="menuitem" href="../env/index.html">Environment</a><a class="menuitem" href="../exception/index.html">Exception</a><a class="menuitem" href="../extension/index.html">Extension</a><a class="menuitem" href="../plugin/index.html">Plugin</a></div></div></div><div class="content">
+    <div class="section"><span class="section-header">Criteria</span>
+      <div class="subsection"><span class="subsection-header">Overview</span>
+        <p>
+        The criteria package contains a parameterize Map implementation.
+        A set of parameters are supplied on creation that are used by the 
+        implementation to (a) qualify values supplied, and (b) resolve values
+        that are requested.
+        </p>
+      </div>
+      <div class="subsection"><span class="subsection-header">Example</span>
+
+        <p>
+        The criteria object created below is now restricted to 
+        the two keys "name" and "home".  The user of the class can 
+        assign String values which will be resolved to the type of 
+        object declared by the corresponding parameter object.
+        </p>
+        <pre class="source">
+Parameter[] params = new Parameter[]{
+  new Parameter( "name", String.class, null ),
+  new Parameter( "home", 
+   File.class, new File( System.getProperty( "user.dir" ) ) ) };
+Map criteria = new Criteria( params );
+        </pre><div class="source-title"><span class="source-title" /></div>
+        <p>
+        For example:
+        </p>
+        <pre class="source">
+public void setParameters( Map map )
+{
+    map.put( "home", "my-directory" );
+
+    //
+    // now just for fun - lets get the value using the "home"
+    // key as a File
+    //
+
+    File home = (File) map.get( "home" );
+
+    //
+    // and just to prove the point - we can also put values
+    // directory into the map the correspond to the parameterized 
+    // type .. e.g.:
+    // 
+
+    map.put( "home", home );
+
+}</pre><div class="source-title"><span class="source-title" /></div>
+        <p>
+        What all this means is that a we have a type safe Map implementation.
+        </p>
+      </div>
+    </div>
+  </div><div class="footer"><span class="copyright">Copyright 2004, The Apache Software Foundation All rights reserved.</span><div class="views"><a class="viewlink" id="xmllink" href=""><img src="../../../../../images/xml.gif" /></a></div></div></body></html>

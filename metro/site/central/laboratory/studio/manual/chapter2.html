@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><title>Studio Manual - Chapter 2</title><link type="text/css" rel="stylesheet" href="../../../../styles/style.css" /><meta content="text/html; charset=UTF-8" http-equiv="Content-type" /></head><body><table class="logobar"><tr><td class="panelleft"><img alt="link" src="../../../../images/feather.jpg" /></td><td class="panelmiddle"><div class="project">Metro</div><div class="title">Studio Manual - Chapter 2</div></td><td class="panelright" /></tr></table><div class="categorybar" dir="/central/laboratory/studio/manual"><a class="homecategory" href="../../../../index.html">
+        Home
+      </a></div><div class="menubar"><div class="menu"><div class="no-border"><span class="dummy" /><div class="menu"><div class="menu"><a class="menuitem" href="../../../about/index.html">Welcome</a><a class="menuitem" href="../../../community/index.html">Community</a></div><a class="menuitem-selected" href="../../studio/index.html">Studio</a><a class="menuitem" href="../../discovery/index.html">Discovery</a><a class="menuitem" href="../../castle/index.html">Castle</a></div></div><a class="menuitem" href="chapter1.html">Introduction</a><a class="menuitem-selected" href="chapter2.html">Concepts</a><a class="menuitem" href="chapter3.html">Run/Debug/Test Server</a><a class="menuitem" href="chapter4.html">Block Editing/Publication</a><a class="menuitem" href="chapter5.html">Component Editing</a><a class="menuitem" href="chapter6.html">Repository Editing</a></div></div><div class="content">
+    <div class="section"><span class="section-header">Chapter 2 - Concepts</span>
+      
+      <div class="subsection"><span class="subsection-header">Merlin</span>
+        <p>
+          The Merlin project is committed to ....
+        </p>
+        
+        <div class="subsection"><span class="subsection-header">Component</span>
+          <p>
+            A component is a logical unit of one or more classes and related
+            artifacts which together implement a functionality. A component 
+            delivers his functionality only through its "component interface". 
+            There can be one or more "component interface implementations".
+          </p>
+          <p>
+            A component is not aware of its functional environment - eg. a 
+            component can be deployed predictably in different application 
+            scenarios and environments. 
+          </p>
+          <p>
+            A component is always responsible for the correctness of the 
+            incoming data / objects.
+          </p>
+          <p>
+            A component is described by a "component type descriptor" (Type) 
+            which holds immutable information associated with the component 
+            implementation and its interface (Metadata). Based on information 
+            accessible from an instance of Type a container has available the 
+            structural and runtime dependencies that an instance of a 
+            corresponding component will require. 
+          </p>
+          <p>
+            In Merlin metadata are stored either in XML or in a binary format.
+            Metadata are created automatically by "Magic" - which is the build
+            tool for Merlin - or by Eclipse Studio from JavaDoc tags contained
+            in the components interface or implementation.
+          </p>
+          <p>
+            Components in Merlin can get their information either through a 
+            freely configurable and extendable set of interfaces or by 
+            constructor injection. 
+          </p>
+          <p>
+            The following set of interfaces are delivered as standard by Merlin:
+          </p>
+          <dl>
+            <dd>Lifestyle Management</dd>
+            <dt>
+              Merlin provides support for different component instantiation 
+              policies. These policies are referred to as lifestyles. Examples
+              of lifestyle include 'singleton', 'per-thread', 'pooled' and 
+              'transient'.
+            </dt>
+            <dd>Lifecycle Management</dd>
+            <dt>
+              Merlin provides support for constructor based injection of 
+              lifecycle artifacts, or optional phased delivery under which a 
+              component is processed through a series of lifecycle stages. 
+              Lifecycle processing involves the execution of a series of stages
+              such as associating a logging channel, applying a configuration or
+              component parameters, setting the runtime context, supplying 
+              dependent services, initialization, startup, shutdown and 
+              disposal. Within the Merlin system, lifecycle stages can be 
+              extended or modified through association of other components 
+              that provide lifecycle support. Merlin distinguishes these 
+              services as deployment dependencies as distinct from classic 
+              runtime dependencies.
+            </dt>
+          </dl>
+        </div>
+        
+        <div class="subsection"><span class="subsection-header">Block / Services</span>
+          
+          <div class="subsection"><span class="subsection-header">Block</span>
+            <p>
+              In Merlin a block is a logical and physical unit of one or more 
+              components and its related artifacts. One artifact is the blocks
+              metadata which contains information like its containing 
+              components, classloader directives and the "services" it delivers.
+            </p>
+            <p>
+              Other artifacts of a block might be persistence mapping 
+              information for contained components etc.
+            </p>
+            <p>
+              Physically a block is deployed in a standard jar file. To make it
+              possible to identify blocks visually Merlin blocks are using the 
+              ".bar" file extension.
+            </p>
+            <p>
+              It's quite usual that the term "block" and the term "component" 
+              are used equivalent. 
+            </p>
+          </div>
+          
+          <div class="subsection"><span class="subsection-header">Service</span>
+            <p>
+              A block can declare the export of a set of services established by
+              the components contained within it. This enables a container to 
+              function as a composite component relative to its peers. This 
+              composition is either done by "nested" or by "referenced" blocks.
+            </p>
+          </div>
+          
+          <div class="subsection"><span class="subsection-header">Nested Blocks</span>
+            <p>
+              An "include" directive in a block instructs Merlin to include an 
+              external block within the container. Services exported by the 
+              block will be made available to other components at the same 
+              level as the included block
+            </p>
+            <p>
+              With the "include" directive a block is included "by value" into a
+              block. This is especially useful  to structure larger blocks into 
+              smaller reusable blocks. 
+            </p>
+          </div>
+          
+          <div class="subsection"><span class="subsection-header">Referenced Blocks</span>
+            <p>
+              A "container" directive is used to reference other blocks / 
+              containers. Only services declared in the referenced block are 
+              accessible by the parent block. This directive is used to assemble
+              a whole application by reusable blocks.            
+            </p>
+          </div>
+        </div>
+        
+        <div class="subsection"><span class="subsection-header">Kernel / Container</span>
+          <p>
+            In Merlin every block is covered by its own container. The "startup"
+            program, which instantiates and manages all the subsequent 
+            containers is called the "kernel". 
+          </p>
+          <p>
+            Through that architecture Merlin assures a very secure and 
+            encapsulated runtime environment for each block. 
+          </p>
+        </div>
+        
+        <div class="subsection"><span class="subsection-header">Facilities / Application blocks</span>
+          <p>
+            Merlin differentiates two types of blocks: On one hand "application 
+            blocks" and on the other hand "Facilities".
+          </p>
+          
+          <div class="subsection"><span class="subsection-header">Facilities</span>
+            <p>
+              Facilities are just normal blocks with the exception of:  
+            </p>
+            <ul>
+              <li>
+                Facilities are able to access the kernel and its container
+                model.
+              </li>
+              <li>
+                Facilities are used to extend the functionality of the core 
+                Merlin container in a plugable and flexible manner. 
+              </li>
+              <li>
+                Facilities include technical services like JMX, messaging,
+                logging, persistence, workflow etc.
+              </li>
+            </ul>
+            <p>
+              This separation of concerns enables the enhancement or even 
+              exchange of kernel implementations without touching the 
+              implementation of the application blocks. This is one of the key
+              features of Merlin which ensures on one hand a large stability 
+              for application blocks against technology change and on the other
+              hand a high flexibility to adopt new technologies and to enhance
+              the core functionality of Merlin.             
+            </p>
+          </div>
+          
+          <div class="subsection"><span class="subsection-header">Application Blocks</span>
+            <p>
+              Application blocks may also be hierarchically composed. But 
+              because this is not naturally darstellbar it is limited to one 
+              block.
+            </p>
+          </div>
+        </div>
+        
+        <div class="subsection"><span class="subsection-header">Server</span>
+        </div>
+        
+        <div class="subsection"><span class="subsection-header">Repository</span>
+        </div>
+      </div>
+      
+      <div class="subsection"><span class="subsection-header">Eclipse</span>
+        
+        <div class="subsection"><span class="subsection-header">Preferences</span>
+        </div>
+        
+        <div class="subsection"><span class="subsection-header">Properties</span>
+        </div>
+        
+        <div class="subsection"><span class="subsection-header">Builders</span>
+        </div>
+        
+        <div class="subsection"><span class="subsection-header">Help</span>
+        </div>
+        
+        <div class="subsection"><span class="subsection-header">Component Configurator</span>
+        </div>
+      </div>
+    </div>
+  </div><div class="footer"><span class="copyright">Copyright 2004, The Apache Software Foundation All rights reserved.</span><div class="views"><a class="viewlink" id="xmllink" href=""><img src="../../../../images/xml.gif" /></a></div></div></body></html>

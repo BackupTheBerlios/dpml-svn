@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><title>Avalon Central</title><link type="text/css" rel="stylesheet" href="../../../../styles/style.css" /><meta content="text/html; charset=UTF-8" http-equiv="Content-type" /></head><body><table class="logobar"><tr><td class="panelleft"><img alt="link" src="../../../../images/feather.jpg" /></td><td class="panelmiddle"><div class="project">Metro</div><div class="title">Avalon Central</div></td><td class="panelright" /></tr></table><div class="categorybar" dir="/central/about/installation/archive"><a class="homecategory" href="../../../../index.html">
+        Home
+      </a></div><div class="menubar"><div class="menu"><div class="menu"><div class="menu"><div class="menu"><a class="menuitem-selected" href="../../../about/index.html">Welcome</a><a class="menuitem" href="../../../community/index.html">Community</a></div><a class="menuitem" href="../../license.html">License</a><a class="menuitem" href="../../download.html">Downloads</a><a class="menuitem-selected" href="../../installation/index.html">Installation</a><a class="menuitem" href="../../tutorials/index.html">Tutorials</a><a class="menuitem" href="../../news/index.html">News</a><a class="menuitem" href="../../faq.html">FAQ</a></div><a class="menuitem" href="../svn.html">Source</a><a class="menuitem" href="../binary.html">Binary</a><a class="menuitem" href="../nt.html">NT Service</a><a class="menuitem-selected" href="../archive/index.html">Other Versions</a></div><a class="menuitem" href="install.3.2.html">3.2.5</a><a class="menuitem-selected" href="install.3.0.html">3.0.0</a></div></div><div class="content">
+        <div class="section"><span class="section-header">Installation</span>
+
+            <div class="subsection"><span class="subsection-header">Declare MERLIN_HOME environment variable</span>
+
+                <p>
+                    To use Merlin command line support or the Merlin NT Service
+                    you will need to define the MERLIN_HOME environment
+                    variable for your system and include MERLIN_HOME/bin in
+                    your system path:
+                </p>
+
+<pre class="source">
+$ echo '
+&gt; # set location of merlin
+&gt; export MERLIN_HOME=/opt/merlin
+&gt; # include it in the path
+&gt; export PATH=$PATH:$MERLIN_HOME/bin
+&gt; ' &gt;&gt; ~/.bash_profile
+$ source ~/.bash_profile
+</pre><div class="source-title"><span class="source-title" /></div>
+
+            </div>
+            <div class="subsection"><span class="subsection-header">Validating your installation.</span>
+
+                <p>
+                    The following instructions assume that you have defined the
+                    MERLIN_HOME environment variable that points the directory
+                    containing the Merlin installation.
+                </p>
+
+                <p>
+                    To confirm that you MERLIN_HOME variable is correct, you
+                    should open a new command line window and invoke the Merlin
+                    CLI application. The following command should list the
+                    Merlin CLI help information.
+                </p>
+
+<pre class="source">
+$ merlin.sh -help
+usage: merlin [block] [-debug] [-config &lt;file&gt;] [-lang
+&lt;code&gt;] [-repository &lt;directory&gt;] [-kernel &lt;file&gt;] [-home
+&lt;directory&gt;] [-version] [-help]
+...
+</pre><div class="source-title"><span class="source-title" /></div>
+
+            </div>
+            <div class="subsection"><span class="subsection-header">Next Steps</span>
+                <p>
+                    Now that you have installed Merlin on your system you can
+                    proceed to the <a class="doclink" href="../tutorial/index.html">Using Merlin</a>
+                    tutorial page.
+                </p>
+            </div>
+
+        </div>
+    </div><div class="footer"><span class="copyright">Copyright 2004, The Apache Software Foundation All rights reserved.</span><div class="views"><a class="viewlink" id="xmllink" href=""><img src="../../../../images/xml.gif" /></a></div></div></body></html>

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><title>Avalon Central</title><link type="text/css" rel="stylesheet" href="../../../../../styles/style.css" /><meta content="text/html; charset=UTF-8" http-equiv="Content-type" /></head><body><table class="logobar"><tr><td class="panelleft"><img alt="link" src="../../../../../images/feather.jpg" /></td><td class="panelmiddle"><div class="project">Metro</div><div class="title">Avalon Central</div></td><td class="panelright" /></tr></table><div class="categorybar" dir="/central/tools/magic/tasks/production"><a class="homecategory" href="../../../../../index.html">
+        Home
+      </a></div><div class="menubar"><div class="menu"><div class="menu"><div class="menu"><div class="menu"><div class="menu"><a class="menuitem" href="../../../../about/index.html">Welcome</a><a class="menuitem" href="../../../../community/index.html">Community</a></div><a class="menuitem-selected" href="../../../magic/index.html">Magic</a></div><a class="menuitem" href="../../installation.html">Installing</a><a class="menuitem" href="../../spells/index.html">Casting Spells</a><a class="menuitem" href="../../model/index.html">System Model</a><a class="menuitem" href="../../templates/index.html">Templates</a><a class="menuitem-selected" href="../../tasks/index.html">Tasks</a><a class="menuitem" href="../../../../../avalon/tools/avalon-tools-magic/index.html">Javadoc</a></div><a class="menuitem" href="../common/index.html">Common</a><a class="menuitem" href="../management/index.html">Management</a><a class="menuitem-selected" href="../production/index.html">Production</a><a class="menuitem" href="../publication/index.html">Publication</a></div><a class="menuitem" href="javac.html">Javac</a><a class="menuitem" href="jar.html">Jar</a><a class="menuitem-selected" href="bar.html">Bar</a><a class="menuitem" href="junit.html">Junit</a><a class="menuitem" href="install.html">Install</a></div></div><div class="content">
+    <div class="section"><span class="section-header">Bar Task</span>
+      <p>
+      The bar task generates a bar archive.  A bar achive is a jar file
+      the represents a group within a repository.  The manifest contains
+      the group identifier.  A bar archive is typically used to bundle 
+      application resources as an installable unit.
+      </p>
+      <p>
+      The bar file content is created using ${basedir}/target/deliverables
+      as the input data.  An md5 file is automatically generated.
+      </p>
+<pre class="source">
+&lt;x:bar/&gt;
+</pre><div class="source-title"><span class="source-title" /></div>
+<pre>
+package:
+    [mkdir] Created dir: F:\dev\avalon\tools\magic\target\deliverables\bars
+      [jar] Building jar: F:\dev\avalon\tools\magic\target\deliverables\bars\avalon-tools.bar
+    [x:bar] Creating md5 checksum</pre>
+
+      <p><i>An example bar manifest is shown below:</i></p>
+
+<pre>Manifest-Version: 1.0
+Ant-Version: Apache Ant 1.6.1
+Created-By: Apache Avalon
+Built-By: mcconnell
+
+Name: Block
+Block-Group: avalon/tools
+Block-Name: avalon-tools-magic</pre>
+
+    </div>
+  </div><div class="footer"><span class="copyright">Copyright 2004, The Apache Software Foundation All rights reserved.</span><div class="views"><a class="viewlink" id="xmllink" href=""><img src="../../../../../images/xml.gif" /></a></div></div></body></html>

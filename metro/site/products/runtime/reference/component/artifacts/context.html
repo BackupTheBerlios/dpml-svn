@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><title>Context Artifact</title><link type="text/css" rel="stylesheet" href="../../../../../styles/style.css" /><meta content="text/html; charset=UTF-8" http-equiv="Content-type" /></head><body><table class="logobar"><tr><td class="panelleft"><img alt="link" src="../../../../../images/feather.jpg" /></td><td class="panelmiddle"><div class="project">Metro</div><div class="title">Context Artifact</div></td><td class="panelright" /></tr></table><div class="categorybar" dir="/products/runtime/reference/component/artifacts"><a class="homecategory" href="../../../../../index.html">
+        Home
+      </a></div><div class="menubar"><div class="menu"><div class="menu"><div class="menu"><div class="menu"><div class="menu"><a class="menuitem-selected" href="../../../../runtime/index.html">Merlin Runtime</a></div><a class="menuitem" href="../../../execmodes/index.html">Execution</a><a class="menuitem-selected" href="../../../reference/index.html">Specification</a><a class="menuitem" href="../../../system/index.html">Systems</a><a class="menuitem" href="../../../javadoc/index.html">Javadoc</a></div><a class="menuitem" href="../../containment/index.html">Block</a><a class="menuitem-selected" href="../../component/index.html">Component</a><a class="menuitem" href="../../deployment/index.html">Deployment</a><a class="menuitem" href="../../kernel/index.html">Kernel</a></div><a class="menuitem" href="../descriptors/index.html">Descriptors</a><a class="menuitem-selected" href="../artifacts/index.html">Artifacts</a><a class="menuitem" href="../lifecycle/index.html">Lifecycle</a><a class="menuitem" href="../lifestyle/index.html">Lifestyle</a></div><a class="menuitem" href="logger.html">Logger</a><a class="menuitem-selected" href="context.html">Context</a><a class="menuitem" href="manager.html">ServiceManager</a><a class="menuitem" href="configuration.html">Configuration</a><a class="menuitem" href="parameters.html">Parameters</a></div></div><div class="content">
+
+    <div class="section"><span class="section-header">Context Artifact</span>
+
+      <div class="subsection"><span class="subsection-header">Overview</span>
+
+        <p>
+A component may be supplied with a context object either by constructor or 
+through an implementation of the 
+<a class="doclink" href="../../../../../avalon/runtime/SNAPSHOT/api/org/apache/avalon/framework/context/Contextualizable.html">Contextualizable</a> 
+lifecycle artifact delivery interface.  A context object is typically used to 
+provide standard environment information to a component.  It may also be used a 
+mechanisms to deliver domain specific resources to a component.
+        </p>
+
+        <p>
+The avalon platform defines a small number of standard context entries that are 
+managed automatically by the container.
+        </p>
+
+      </div>
+
+      <div class="subsection"><span class="subsection-header">Standard Context Entries</span>
+
+        <table>
+          <tr row="odd">
+            <th>Key</th><th>Class</th><th>Description</th>
+          </tr>
+          <tr row="even">
+            <td>urn:avalon:home</td><td>java.io.File</td>
+            <td>The working directory.</td>
+          </tr>
+          <tr row="odd">
+            <td>urn:avalon:temp</td><td>java.io.File</td>
+            <td>A temporary directory that will be destroyed at the 
+            end of the session.</td>
+          </tr>
+          <tr row="even">
+            <td>urn:avalon:name</td><td>java.lang.String</td>
+            <td>The name assigned to the component.</td>
+          </tr>
+          <tr row="odd">
+            <td>urn:avalon:partition</td><td>java.lang.String</td>
+            <td>The assigned partition name.</td>
+          </tr>
+        </table>
+
+      </div>
+
+      <div class="subsection"><span class="subsection-header">Standard Context Example</span>
+
+        <p>
+Both standard and custom context entry dependencies may be declared using the 
+<a class="doclink" href="../../../system/meta/tags/entry.html">@avalon.entry</a> 
+source markup tag.  The following code fragment is an example of a constructor 
+declaring a set of standard context entry dependencies.
+        </p>
+<pre class="source">
+   /**
+    * Creation of a new HelloComponent instance using a 
+    * container supplied logging channel and context.
+    * The context supplied by the container holds the 
+    * standard context entries for the home and 
+    * working directories, component name and partition.
+    *
+    * @avalon.entry key="urn:avalon:name" 
+    * @avalon.entry key="urn:avalon:partition" 
+    * @avalon.entry key="urn:avalon:home" type="java.io.File"
+    * @avalon.entry key="urn:avalon:temp" type="java.io.File"
+    */
+    public HelloComponent( Logger logger, Context context )
+      throws ContextException
+    {
+        m_logger = logger;
+
+        m_home = (File) context.get( "urn:avalon:home" );
+        m_temp = (File) context.get( "urn:avalon:temp" );
+        m_name = (String) context.get( "urn:avalon:name" );
+        m_partition = (String) context.get( "urn:avalon:partition" );
+
+        StringBuffer buffer = new StringBuffer( "standard context entries" );
+        buffer.append( "\n  name: " + m_name );
+        buffer.append( "\n  home: " + m_home );
+        buffer.append( "\n  temp: " + m_temp );
+        buffer.append( "\n  partition: " + m_partition );
+
+        m_logger.info( buffer.toString() );
+    }
+</pre><div class="source-title"><span class="source-title" /></div>
+
+      </div>
+
+      <div class="subsection"><span class="subsection-header">Context Casting</span>
+        <p>
+        While the context interface provides the mechanisms to 
+        access any object type via key, it is sometimes convenient to 
+        declare a domain specific interface and custom context 
+        implementation.  This enables client code to take advantage
+        of convenience accessors, resulting in code that is not 
+        cluttered with casting and context entry key references.
+        </p>
+        <p>
+        The dependency of a component on a custom context type is 
+        declared using the 
+        <a class="doclink" href="../../../system/meta/tags/context.html">
+        @avalon.context</a> tag type attribute.
+        </p>
+<pre class="source">
+   /**
+    * Creation of a new DefaultWidget instance using a 
+    * custom object that is castable to a domain specific
+    * interface.
+    *
+    * @avalon.context type="net.dpml.WidgetContext" 
+    * @avalon.entry key="urn:avalon:home" type="java.io.File"
+    */
+    public DefaultWidget( WidgetContext context )
+      throws ContextException
+    {
+        File common = context.getCommonDirectory();
+        m_common = common;
+    }
+</pre><div class="source-title"><span class="source-title" /></div>
+        <p>
+        In the above example the WidgetContext interfact is unknown
+        to the container - as such an explicit deployment directives is 
+        required to declare a the context implementation class to be used
+        by the container during context argument establishment.               
+        </p>
+<pre class="source">
+   &lt;component name="widget" class="net.dpml.DefaultWidget"&gt;
+     &lt;context class="net.dpml.DefaultWidgetContext"/&gt;
+   &lt;/component&gt;
+</pre><div class="source-title"><span class="source-title" /></div>
+      </div>
+
+    </div>
+
+  </div><div class="footer"><span class="copyright">Copyright 2004, The Apache Software Foundation All rights reserved.</span><div class="views"><a class="viewlink" id="xmllink" href=""><img src="../../../../../images/xml.gif" /></a></div></div></body></html>

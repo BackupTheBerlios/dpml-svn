@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><title>Avalon Central</title><link type="text/css" rel="stylesheet" href="../../../../styles/style.css" /><meta content="text/html; charset=UTF-8" http-equiv="Content-type" /></head><body><table class="logobar"><tr><td class="panelleft"><img alt="link" src="../../../../images/feather.jpg" /></td><td class="panelmiddle"><div class="project">Metro</div><div class="title">Avalon Central</div></td><td class="panelright" /></tr></table><div class="categorybar" dir="/central/about/tutorials/advanced"><a class="homecategory" href="../../../../index.html">
+        Home
+      </a></div><div class="menubar"><div class="menu"><div class="menu"><div class="menu"><div class="menu"><a class="menuitem-selected" href="../../../about/index.html">Welcome</a><a class="menuitem" href="../../../community/index.html">Community</a></div><a class="menuitem" href="../../license.html">License</a><a class="menuitem" href="../../download.html">Downloads</a><a class="menuitem" href="../../installation/index.html">Installation</a><a class="menuitem-selected" href="../../tutorials/index.html">Tutorials</a><a class="menuitem" href="../../news/index.html">News</a><a class="menuitem" href="../../faq.html">FAQ</a></div><a class="menuitem" href="../basic/index.html">Basic</a><a class="menuitem-selected" href="../advanced/index.html">Advanced</a></div><a class="menuitem" href="lifecycle/index.html">Lifecycle Tools</a><a class="menuitem" href="context.html">Contextualization</a><a class="menuitem" href="profiles.html">Deployment Templates</a><a class="menuitem" href="selection.html">Profile Selection</a><a class="menuitem-selected" href="composite.html">Composition</a><a class="menuitem" href="unit/index.html">Unit Test</a></div></div><div class="content">
+    <div class="section"><span class="section-header">Advanced Features</span>
+      <div class="subsection"><span class="subsection-header">Composite Blocks</span>
+        <p>
+         A container can declare services that it exports.  In such a case
+         the container declares one or more service directives that map 
+         components declared within itself as service providers.  
+         This mechanism enables a container to appear as a regular 
+         component relative to other components.
+        </p>
+        <p>
+         Content supporting this tutorial is available under the 
+         tutorials/composition directory.
+        </p>
+      </div>
+      <div class="subsection"><span class="subsection-header">Sample Container</span>
+        <p>
+         The following container definition includes:
+        </p>
+        <ul>
+          <li><p>an application component</p></li>
+          <li><p>a location provider block included by reference</p></li>
+          <li><p>an application block included by reference</p></li>
+        </ul>
+        <p>
+          The application block declares dependencies on a location 
+          and publishing service.  The location and publishing block
+          declare that they provide these respective services. As a part of 
+          the general component assembly process - Merlin will assemble 
+          blocks relative to the services and dependencies they declare.
+          When a block is deployed, it appears to other components as a 
+          component providing the services it exports.  However in practice
+          these services are provided by components defined within the 
+          container (i.e. the container represents the definition of 
+          a virtual component and the containers components and subcontainers
+          represent the virtual component implementation).
+        </p>
+        <p>The top level application block declaration (block.xml):</p>
+        <pre class="source">
+&lt;container name="application"&gt;
+
+     &lt;classloader&gt;
+       &lt;classpath&gt;
+         &lt;repository&gt;
+           &lt;resource id="avalon-framework:avalon-framework-impl" version="4.1.5"/&gt;
+           &lt;resource id="merlin-tutorial:locator-api" version="1.0"/&gt;
+           &lt;resource id="merlin-tutorial:publisher-api" version="1.0"/&gt;
+           &lt;resource id="merlin-tutorial:application-impl" version="1.0"/&gt;
+         &lt;/repository&gt;
+       &lt;/classpath&gt;
+     &lt;/classloader&gt;
+
+     &lt;!-- 
+     note: each of the following include directives is equivalent to 
+     a nested container declaration - using include or declaraing a 
+     sub-container is semantically equivalent
+     --&gt;
+
+     &lt;include name="location" id="merlin-tutorial:locator-impl" version="1.0"/&gt;
+     &lt;include name="publisher" id="merlin-tutorial:publisher-impl" version="1.0"/&gt;
+
+     &lt;component name="application" 
+        class="tutorial.application.Application"&gt;
+     &lt;/component&gt;
+
+&lt;/container&gt;
+</pre><div class="source-title"><span class="source-title" /></div>
+        <p>
+          If we look at the location block (as an example) we will see a corresponding
+          service declaration.  This declaration includes a source reference that is 
+          a relative component path that tells Merlin to use the sub-component named
+          "location" as the component that will fulfil the service published by this 
+          block.
+        </p>
+        <pre class="source">
+&lt;container name="locator"&gt;
+
+   &lt;services&gt;
+     &lt;service type="tutorial.location.LocationService"&gt;
+       &lt;source&gt;info&lt;/source&gt;
+     &lt;/service&gt;
+   &lt;/services&gt;
+
+   &lt;classloader&gt;
+     &lt;classpath&gt;
+       &lt;repository&gt;
+         &lt;resource id="avalon-framework:avalon-framework-api" version="SNAPSHOT"/&gt;
+         &lt;resource id="avalon-framework:avalon-framework-impl" version="SNAPSHOT"/&gt;
+         &lt;resource id="merlin-tutorial:locator-api" version="1.0"/&gt;
+         &lt;resource id="merlin-tutorial:locator-impl" version="1.0"/&gt;
+       &lt;/repository&gt;
+     &lt;/classpath&gt;
+   &lt;/classloader&gt;
+
+   &lt;component name="info" 
+       class="tutorial.location.LocationComponent"&gt;
+       &lt;configuration&gt;
+         &lt;source&gt;Paris&lt;/source&gt;
+       &lt;/configuration&gt;
+   &lt;/component&gt;
+
+&lt;/container&gt;
+</pre><div class="source-title"><span class="source-title" /></div>
+
+      </div>
+      <div class="subsection"><span class="subsection-header">Execution</span>
+        <p>
+         To run build and run the example please use the following commands:
+        </p>
+        <pre class="source">
+$ cd application/impl
+$ maven build
+$ merlin target\*.jar -repository %MAVEN_HOME% -execute
+</pre><div class="source-title"><span class="source-title" /></div>
+        <p>
+         The log output demonstrates the deployment by Merlin of the blocks
+         in the correct order (based on dependency resolution) and the 
+         execution of the test application.
+        </p>
+        <pre class="source">
+[INFO   ] (application.publisher.publisher): created
+[INFO   ] (application.location.info): location: Paris
+[INFO   ] (application.application): servicing application
+[INFO   ] (application.location.info): location: Paris
+[INFO   ] (application.publisher.publisher): created
+[INFO   ] (application.publisher.publisher):
+******************
+* Paris
+******************
+[INFO   ] (application.application): done
+</pre><div class="source-title"><span class="source-title" /></div>
+      </div>
+      <div class="subsection"><span class="subsection-header">Note</span>
+        <p>
+         The primary benefit of using block level services and dependencies
+         is isolation of a block implementation from the public services it 
+         provides.
+        </p>
+      </div>
+    </div>
+  </div><div class="footer"><span class="copyright">Copyright 2004, The Apache Software Foundation All rights reserved.</span><div class="views"><a class="viewlink" id="xmllink" href=""><img src="../../../../images/xml.gif" /></a></div></div></body></html>

@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><title>Avalon Central</title><link type="text/css" rel="stylesheet" href="../../../../../styles/style.css" /><meta content="text/html; charset=UTF-8" http-equiv="Content-type" /></head><body><table class="logobar"><tr><td class="panelleft"><img alt="link" src="../../../../../images/feather.jpg" /></td><td class="panelmiddle"><div class="project">Metro</div><div class="title">Avalon Central</div></td><td class="panelright" /></tr></table><div class="categorybar" dir="/central/tools/magic/tasks/common"><a class="homecategory" href="../../../../../index.html">
+        Home
+      </a></div><div class="menubar"><div class="menu"><div class="menu"><div class="menu"><div class="menu"><div class="menu"><a class="menuitem" href="../../../../about/index.html">Welcome</a><a class="menuitem" href="../../../../community/index.html">Community</a></div><a class="menuitem-selected" href="../../../magic/index.html">Magic</a></div><a class="menuitem" href="../../installation.html">Installing</a><a class="menuitem" href="../../spells/index.html">Casting Spells</a><a class="menuitem" href="../../model/index.html">System Model</a><a class="menuitem" href="../../templates/index.html">Templates</a><a class="menuitem-selected" href="../../tasks/index.html">Tasks</a><a class="menuitem" href="../../../../../avalon/tools/avalon-tools-magic/index.html">Javadoc</a></div><a class="menuitem-selected" href="../common/index.html">Common</a><a class="menuitem" href="../management/index.html">Management</a><a class="menuitem" href="../production/index.html">Production</a><a class="menuitem" href="../publication/index.html">Publication</a></div><a class="menuitem" href="home.html">Home</a><a class="menuitem" href="info.html">Info</a><a class="menuitem" href="filter.html">Filter</a><a class="menuitem" href="property.html">Property</a><a class="menuitem-selected" href="prepare.html">Prepare</a><a class="menuitem" href="clean.html">Clean</a></div></div><div class="content">
+    <div class="section"><span class="section-header">Prepare Task</span>
+      <p>
+      The prepare task converts source input typically under directories 
+      such as ${basedir}/src and ${basedir}/etc into a immutable magic
+      target build structure.  The target build structure is ALWAYS the 
+      same, enabling other projects to access build artifacts is a completely
+      consistent manner without having to parse any local properties.  This
+      has a direct impact on the simplification of tasks and plugins that 
+      work on content in the ${basedir}/target directory.
+      </p>
+
+<pre class="source">
+&lt;x:prepare/&gt;
+</pre><div class="source-title"><span class="source-title" /></div>
+
+<pre>
+prepare:
+[x:prepare] creating target directory
+    [mkdir] Created dir: F:\dev\avalon\planet\tutorials\hello\target
+    [mkdir] Created dir: F:\dev\avalon\planet\tutorials\hello\target\build\main
+     [copy] Copying 1 file to F:\dev\avalon\planet\tutorials\hello\target\build\main
+    [mkdir] Created dir: F:\dev\avalon\planet\tutorials\hello\target\build\etc
+     [copy] Copying 2 files to F:\dev\avalon\planet\tutorials\hello\target\build\etc
+    [mkdir] Created dir: F:\dev\avalon\planet\tutorials\hello\target\deliverables
+     [copy] Copying 1 file to F:\dev\avalon\planet\tutorials\hello\target\deliverables
+</pre>
+
+      <p><i>Directory structure inputs.</i></p> 
+<pre class="source">
+${basedir}
+  /${project.src}
+    /${project.src.main} -- the main java sources copied to target/build/main
+    /${project.src.test} -- unit test sources copied to target/build/test
+    /${project.src.conf} -- configuration data copied to target/build/conf
+  /${project.etc}
+    /main                -- resource to be copied to target/build/main
+    /test                -- resource to be copied to target/build/test
+    /conf                -- resource to be copied to target/build/conf
+    /deliverables        -- copied to target/deliverables
+
+</pre><div class="source-title"><span class="source-title" /></div>
+
+      <p><i>Fixed output directory structure.</i></p> 
+<pre class="source">
+${basedir}
+  /target                -- created by prepare
+    /build               -- filtered content from ${project.src}
+      /main              -- filter content 
+      /test              -- filter sources with etc/test
+      /conf              -- filtered configuration data
+      /etc               -- filtered content from ${project.etc}
+    /deliverables        -- output artifacts initially populated with
+                            the content from /target/etc/deliverables
+                            if present
+</pre><div class="source-title"><span class="source-title" /></div>
+
+
+    <div class="subsection"><span class="subsection-header">Properties</span>
+      
+      <p>
+      The following properties may be used to customize the 
+      input paths for source content.
+      </p>
+
+      <table>
+        <tr row="odd"><th>Property</th><th>Description</th></tr>
+        <tr row="even">
+          <td>${project.src}</td>
+          <td>The name of the directory containing the project sources.
+          The default value is "src".</td>
+        </tr>
+        <tr row="odd">
+          <td>${project.src.main}</td>
+          <td>The name of the sub-directory with ${project.src} containing
+              the java source hierachy. Default value is "main".</td>
+        </tr>
+        <tr row="even">
+          <td>${project.src.test}</td>
+          <td>The name of the sub-directory with ${project.src} containing
+              the java unit test source hierachy. Default value is "test".</td>
+        </tr>
+        <tr row="odd">
+          <td>${project.src.conf}</td>
+          <td>The name of the sub-directory with ${project.src} containing
+              the configuration data. Default value is "conf".</td>
+        </tr>
+        <tr row="even">
+          <td>${project.etc}</td>
+          <td>The name of the directory containing supplimentary resources.
+          The default value is "etc".</td>
+        </tr>
+      </table>
+
+    </div>
+
+    </div>
+  </div><div class="footer"><span class="copyright">Copyright 2004, The Apache Software Foundation All rights reserved.</span><div class="views"><a class="viewlink" id="xmllink" href=""><img src="../../../../../images/xml.gif" /></a></div></div></body></html>

@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><title>Avalon Central</title><link type="text/css" rel="stylesheet" href="../../../../../styles/style.css" /><meta content="text/html; charset=UTF-8" http-equiv="Content-type" /></head><body><table class="logobar"><tr><td class="panelleft"><img alt="link" src="../../../../../images/feather.jpg" /></td><td class="panelmiddle"><div class="project">Metro</div><div class="title">Avalon Central</div></td><td class="panelright" /></tr></table><div class="categorybar" dir="/central/about/tutorials/basic/config"><a class="homecategory" href="../../../../../index.html">
+        Home
+      </a></div><div class="menubar"><div class="menu"><div class="menu"><div class="menu"><div class="menu"><div class="menu"><a class="menuitem-selected" href="../../../../about/index.html">Welcome</a><a class="menuitem" href="../../../../community/index.html">Community</a></div><a class="menuitem" href="../../../license.html">License</a><a class="menuitem" href="../../../download.html">Downloads</a><a class="menuitem" href="../../../installation/index.html">Installation</a><a class="menuitem-selected" href="../../../tutorials/index.html">Tutorials</a><a class="menuitem" href="../../../news/index.html">News</a><a class="menuitem" href="../../../faq.html">FAQ</a></div><a class="menuitem-selected" href="../../basic/index.html">Basic</a><a class="menuitem" href="../../advanced/index.html">Advanced</a></div><a class="menuitem" href="../creation.html">Hello Block</a><a class="menuitem" href="../execution.html">Running Hello</a><a class="menuitem" href="../internal.html">Behind the Scenes</a><a class="menuitem-selected" href="../config/index.html">Configurations</a><a class="menuitem" href="../context/index.html">Contextualization</a><a class="menuitem" href="../services.html">Services</a><a class="menuitem" href="../dependencies/index.html">Dependencies</a></div><a class="menuitem" href="configurable.html">Using</a><a class="menuitem" href="defaults.html">Defaults</a><a class="menuitem" href="block.html">Declaring</a><a class="menuitem-selected" href="override.html">Overriding</a></div></div><div class="content">
+    <div class="section"><span class="section-header">Using Merlin</span>
+      <div class="subsection"><span class="subsection-header">Using Configuration Overrides</span>
+        <p>
+        The Merlin command line tool allows the specification of a  
+        set of overriding configuration targets. Each target in the 
+        &lt;targets&gt; set contains a configuration that may be 
+        applied to a named component.  This allows modification of a 
+        configuration without modification of a packaged block.xml
+        file.
+        </p>
+        <p>
+        Resources supporting this tutorial are contained in the 
+        tutorials/configuration/override directory.
+        </p>
+      </div>
+      <div class="subsection"><span class="subsection-header">Target Override Format</span>
+        <p><i>config.xml</i></p>
+<pre class="source">
+&lt;targets&gt;
+  &lt;target path="/tutorial/hello"&gt;
+    &lt;configuration&gt;
+      &lt;source&gt;External configuration target.&lt;/source&gt;
+    &lt;/configuration&gt;
+  &lt;/target&gt;
+&lt;/targets&gt;
+</pre><div class="source-title"><span class="source-title" /></div>
+      </div>
+      <div class="subsection"><span class="subsection-header">Execution</span>
+        <p>
+        The following command line includes the -config argument
+        referencing a configuration target file (example included
+        in the tutorials/configuration package).
+        </p>
+        <pre class="source">
+$ maven
+$ merlin -execute target\classes -config conf\config.xml 
+</pre><div class="source-title"><span class="source-title" /></div>
+        <p>
+        Executing Merlin demonstrates that the configuration supplied
+        to the hello component reflects the configuration element contained
+        in the target name "\hello".
+        </p>
+        <pre class="source">
+[INFO   ] (kernel): building application model
+[INFO   ] (kernel): install phase
+[INFO   ] (kernel): installing: file:${user.dir}/target/classes/
+[INFO   ] (tutorial.hello): configuration stage
+[INFO   ] (tutorial.hello): initialization stage
+[INFO   ] (tutorial.hello): source: Custom configuration target.
+        </pre><div class="source-title"><span class="source-title" /></div>
+      </div>
+      <div class="subsection"><span class="subsection-header">Notes</span>
+        <p>
+        Configuration target names represent a path.  The path is the 
+        construction of container names seperated by the "/" character
+        and ending with a component name.  For example if the hello component
+        were contained within a container named "container" the path would 
+        appear as follows: 
+        </p>
+<pre class="source">
+&lt;targets&gt;
+  &lt;target path="/container-name/component-name"&gt;
+    &lt;configuration&gt;
+      &lt;!-- your configuration info --&gt;
+    &lt;/configuration&gt;
+  &lt;/target&gt;
+&lt;/targets&gt;
+</pre><div class="source-title"><span class="source-title" /></div>
+      </div>
+      <div class="subsection"><span class="subsection-header">Moving on</span>
+
+        <p>
+        We are now ready to move on to the subject of 
+        <a class="doclink" href="../context/index.html">context management</a>.
+        </p>
+
+      </div>
+    </div>
+  </div><div class="footer"><span class="copyright">Copyright 2004, The Apache Software Foundation All rights reserved.</span><div class="views"><a class="viewlink" id="xmllink" href=""><img src="../../../../../images/xml.gif" /></a></div></div></body></html>

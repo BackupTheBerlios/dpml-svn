@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><title>Avalon Central</title><link type="text/css" rel="stylesheet" href="../../../../styles/style.css" /><meta content="text/html; charset=UTF-8" http-equiv="Content-type" /></head><body><table class="logobar"><tr><td class="panelleft"><img alt="link" src="../../../../images/feather.jpg" /></td><td class="panelmiddle"><div class="project">Metro</div><div class="title">Avalon Central</div></td><td class="panelright" /></tr></table><div class="categorybar" dir="/central/tools/magic/model"><a class="homecategory" href="../../../../index.html">
+        Home
+      </a></div><div class="menubar"><div class="menu"><div class="menu"><div class="menu"><div class="menu"><a class="menuitem" href="../../../about/index.html">Welcome</a><a class="menuitem" href="../../../community/index.html">Community</a></div><a class="menuitem-selected" href="../../magic/index.html">Magic</a></div><a class="menuitem" href="../installation.html">Installing</a><a class="menuitem" href="../spells/index.html">Casting Spells</a><a class="menuitem-selected" href="../model/index.html">System Model</a><a class="menuitem" href="../templates/index.html">Templates</a><a class="menuitem" href="../tasks/index.html">Tasks</a><a class="menuitem" href="../../../../avalon/tools/avalon-tools-magic/index.html">Javadoc</a></div><a class="menuitem" href="resources.html">Resources</a><a class="menuitem-selected" href="projects.html">Projects</a><a class="menuitem" href="plugins.html">Plugins</a><a class="menuitem" href="imports.html">Imports</a></div></div><div class="content">
+    <div class="section"><span class="section-header">Projects</span>
+
+      <p>  
+      A project extends the concept of a resource to include a local basedir 
+      reference (the root of the project sources relative to the directory 
+      containing the index.xml) and a set of dependencies.
+      </p>
+
+      <p><i>
+      Example of two project defintions:
+      </i></p>
+<pre class="source">
+  &lt;project basedir="../../runtime/util/env"&gt;
+    &lt;info&gt;
+      &lt;group&gt;avalon/util&lt;/group&gt;
+      &lt;name&gt;avalon-util-env&lt;/name&gt;
+      &lt;version&gt;1.1.1&lt;/version&gt;
+    &lt;/info&gt;
+  &lt;/project&gt;
+
+  &lt;project basedir="../../runtime/util/defaults"&gt;
+    &lt;info&gt;
+      &lt;group&gt;avalon/util&lt;/group&gt;
+      &lt;name&gt;avalon-util-defaults&lt;/name&gt;
+      &lt;version&gt;1.2.1&lt;/version&gt;
+    &lt;/info&gt;
+    &lt;dependencies&gt;
+      &lt;include key="avalon-util-env"/&gt;
+    &lt;/dependencies&gt;
+  &lt;/project&gt;
+</pre><div class="source-title"><span class="source-title" /></div>
+
+      <p>
+      In the above example Magic locates the project sources using the 
+      declared basedir.  The name element is used as the default key 
+      that is used when referencing the project - as is the case in the 
+      second project defintions dependency declaration.
+      </p>
+
+      <p>
+      Dependendency declarations within a project refernence the name of another 
+      another project within the scope of an index.xml file or imported file.  As such, a 
+      dependency declaration can be resolved to an artifact group, name, version
+      and type, and from this information, a repository based resource can be 
+      resolved, or in the case of a project or plugin reference, a target can be 
+      built as part of a higher-level build scenario. 
+      </p>
+
+      <p>
+      The declaration of dependendency implicitly introduced a dependency 
+      by the dependee on the dependent of the dependency. In other words, dependency
+      declarations are transative.  Magic provides support for the qualification of 
+      transativate dependency inheritance relative to the following three policies: 
+      </p>
+
+      <ul>
+        <li>BUILD</li>
+        <li>TEST</li>
+        <li>RUNTIME</li>
+      </ul>
+
+      <p><i>Example of scoped dependency.</i></p>
+
+<pre class="source">
+  &lt;project basedir="../../runtime/meta/api"&gt;
+    &lt;info&gt;
+      &lt;group&gt;avalon/meta&lt;/group&gt;
+      &lt;name&gt;avalon-meta-api&lt;/name&gt;
+      &lt;version&gt;1.4.0&lt;/version&gt;
+    &lt;/info&gt;
+    &lt;dependencies&gt;
+      &lt;include key="avalon-framework-api"/&gt;
+      &lt;include key="avalon-framework-impl" build="false" test="true" runtime="false"/&gt;
+    &lt;/dependencies&gt;
+  &lt;/project&gt;
+</pre><div class="source-title"><span class="source-title" /></div>
+
+      <p>
+      In the above example the avalon-framework-impl artifact will be included
+      in path constructs for unit testing, but will be including in compile 
+      classpaths or classpaths dealing with runtime information.
+      </p>
+
+      <p>
+      A set of ant tasks use magic dependency information to construct respective  
+      classpaths and classloaders when executing classic ant tasks such as 
+      javac, junit, or custom tasks dealing with runtime artifacts (e.g. dynamic plugin
+      loading, plugin data generators, deployment meta-data, etc., etc. )
+      </p>
+
+      <p>
+      In the case of RUNTIME dependencies, Magic differntiates between the following
+      classloader categories.
+      </p>
+
+      <ul>
+        <li>API</li>
+        <li>SPI</li>
+        <li>IMPL</li>
+      </ul>
+
+      <p>
+      A dependency declared as RUNTIME enabled with a tag API
+      will result in the aggreggation of all of the dependents of the dependant within
+      an API path scope.  The same principal holds true for SPI and IMPL tags with 
+      the exception of non-repition of path entires in lower-level path declarations.
+      In the impication of the term "lower-level" is realtive to the ordering of classloaders
+      resolved from API, SPI and IMPL path declarations.  An IMPL classloader has a SPI
+      classloader as parent, and in turn an SPI classloader has an API as parent. This
+      chaining of classloaders provides the posibility for embedded applications to 
+      control which classloader is supplied to their runtime sub-systems.  For example, 
+      a plugin executing withing a particular environment can cotrol which classloader is 
+      used (typically an API or SPI loader) when deployed child units (plugins, components, 
+      etc.).
+      </p>
+
+      <p><i>Example of tagged dependencies.</i></p>
+
+<pre class="source">
+  &lt;project basedir="../../runtime/merlin/impl"&gt;
+    &lt;info&gt;
+      &lt;group&gt;avalon/merlin&lt;/group&gt;
+      &lt;name&gt;avalon-merlin-impl&lt;/name&gt;
+      &lt;version&gt;3.3.0&lt;/version&gt;
+    &lt;/info&gt;
+    &lt;dependencies&gt;
+      &lt;include key="avalon-framework-api" tag="api"/&gt;
+      &lt;include key="avalon-util-lifecycle" tag="api"/&gt;
+      &lt;include key="avalon-util-extension-api" tag="spi"/&gt;
+      &lt;include key="avalon-merlin-api" tag="spi"/&gt;
+      &lt;include key="avalon-repository-api" tag="spi"/&gt;
+      &lt;include key="avalon-meta-spi" tag="spi"/&gt;
+      &lt;include key="avalon-repository-spi" tag="spi"/&gt;
+      &lt;include key="avalon-logging-spi" tag="spi"/&gt;
+      &lt;include key="avalon-composition-spi" tag="spi"/&gt;
+      &lt;include key="avalon-composition-impl" tag="impl"/&gt;
+      &lt;include key="avalon-util-configuration" tag="impl"/&gt;
+      &lt;include key="avalon-repository-main" runtime="false"/&gt;
+      &lt;include key="avalon-activation-impl" 
+         build="false" test="false" runtime="false"/&gt;
+    &lt;/dependencies&gt;
+  &lt;/project&gt;
+</pre><div class="source-title"><span class="source-title" /></div>
+
+      <p>
+      The above classloader chaining strategy delivers
+      the potential for applications to take control over the management of resourse 
+      isolation - a fundamental security principal in component-based-development.
+      Secondly, the actual implementation of classloader chaining becomes 
+      strait-forward once a declarative model is put in place (in fact the 
+      classloader creation can be totally automated as in the case with the 
+      magic plugin task and several Avalon repository-enabled systems).
+      </p> 
+
+    </div>
+  </div><div class="footer"><span class="copyright">Copyright 2004, The Apache Software Foundation All rights reserved.</span><div class="views"><a class="viewlink" id="xmllink" href=""><img src="../../../../images/xml.gif" /></a></div></div></body></html>

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><title>Merlin Runtime</title><link type="text/css" rel="stylesheet" href="../../../styles/style.css" /><meta content="text/html; charset=UTF-8" http-equiv="Content-type" /></head><body><table class="logobar"><tr><td class="panelleft"><img alt="link" src="../../../images/feather.jpg" /></td><td class="panelmiddle"><div class="project">Metro</div><div class="title">Merlin Runtime</div></td><td class="panelright" /></tr></table><div class="categorybar" dir="/products/runtime/about"><a class="homecategory" href="../../../index.html">
+        Home
+      </a></div><div class="menubar"><div class="menu"><div class="menu"><div class="menu"><a class="menuitem-selected" href="../../runtime/index.html">Merlin Runtime</a></div><a class="menuitem" href="../execmodes/index.html">Execution</a><a class="menuitem" href="../reference/index.html">Specification</a><a class="menuitem" href="../system/index.html">Systems</a><a class="menuitem" href="../javadoc/index.html">Javadoc</a></div><a class="menuitem" href="purpose.html">Purpose</a><a class="menuitem-selected" href="features.html">Features</a><a class="menuitem" href="benefits.html">Benefits</a></div></div><div class="content">
+    <div class="section"><span class="section-header">Features and Benefits</span>
+      <div class="subsection"><span class="subsection-header">Composite Component Management</span>
+        <p>
+Merlin provides support for the packaging and deployment of composite components with a structure called a Block.  A block represents the association of resources to a containment hierarchy within which components are managed.  In addition, a block enables the separation of a component assembly (the composite implementation) from the set of services published by the block.
+        </p>
+      </div>
+      <div class="subsection"><span class="subsection-header">Cascading Containers</span>
+        <p>
+The Merlin system provides support for <strong>cascading containers</strong>. This model enables component assemblers to (among other things) associate jar files under a protected scope where each container is associated with its own classloader.
+        </p>
+      </div>
+      <div class="subsection"><span class="subsection-header">Automated Assembly</span>
+        <p>
+Merlin will handle resolution of service dependencies for components by looking for explicitly declared components commencing within the local container, and working progressively up the container hierarchy.  If 
+no explicit solutions are resolved, Merlin will attempt to build a packaged or implicit solution based on component types declared in the classloader hierachy.  
+        </p>
+      </div>
+      <div class="subsection"><span class="subsection-header">Deployment Engine</span>
+        <p>
+Underlying the Merlin system is a runtime deployment engine that provides support for the orderly establishment of simple and composite components.  The deployment engine takes care of component instantiation, lifecycle processing, and component decommissioning.
+        </p>
+      </div>
+      <div class="subsection"><span class="subsection-header">Lifestyle Management</span>
+        <p>
+Merlin provides support for different component instantiation policies.  These policies are referred to as lifestyles. Examples of lifestyle include 'singleton', 'per-thread', 'pooled' and 'transient'.
+        </p>
+      </div>
+      <div class="subsection"><span class="subsection-header">Lifecycle Management</span>
+        <p>
+Merlin provides support for constructor based injection of lifecycle artifacts, or optional phased delivery under which a component is processed through a series of lifecycle stages.  Lifecycle processing involves the execution of a series of stages such as associating a logging channel, applying a configuration or component parameters, setting the runtime context, supplying dependent services, initialization, startup, shutdown and disposal.  Within the Merlin system, lifecycle stages can be extended or modified through association of other components that provide lifecycle support.  Merlin distinguishes these services as deployment dependencies as distinct from classic runtime dependencies.
+        </p>
+      </div>
+    </div>
+  </div><div class="footer"><span class="copyright">Copyright 2004, The Apache Software Foundation All rights reserved.</span><div class="views"><a class="viewlink" id="xmllink" href=""><img src="../../../images/xml.gif" /></a></div></div></body></html>

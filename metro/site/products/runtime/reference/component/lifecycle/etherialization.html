@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><title>Lifestyle Specification</title><link type="text/css" rel="stylesheet" href="../../../../../styles/style.css" /><meta content="text/html; charset=UTF-8" http-equiv="Content-type" /></head><body><table class="logobar"><tr><td class="panelleft"><img alt="link" src="../../../../../images/feather.jpg" /></td><td class="panelmiddle"><div class="project">Metro</div><div class="title">Lifestyle Specification</div></td><td class="panelright" /></tr></table><div class="categorybar" dir="/products/runtime/reference/component/lifecycle"><a class="homecategory" href="../../../../../index.html">
+        Home
+      </a></div><div class="menubar"><div class="menu"><div class="menu"><div class="menu"><div class="menu"><div class="menu"><a class="menuitem-selected" href="../../../../runtime/index.html">Merlin Runtime</a></div><a class="menuitem" href="../../../execmodes/index.html">Execution</a><a class="menuitem-selected" href="../../../reference/index.html">Specification</a><a class="menuitem" href="../../../system/index.html">Systems</a><a class="menuitem" href="../../../javadoc/index.html">Javadoc</a></div><a class="menuitem" href="../../containment/index.html">Block</a><a class="menuitem-selected" href="../../component/index.html">Component</a><a class="menuitem" href="../../deployment/index.html">Deployment</a><a class="menuitem" href="../../kernel/index.html">Kernel</a></div><a class="menuitem" href="../descriptors/index.html">Descriptors</a><a class="menuitem" href="../artifacts/index.html">Artifacts</a><a class="menuitem-selected" href="../lifecycle/index.html">Lifecycle</a><a class="menuitem" href="../lifestyle/index.html">Lifestyle</a></div><a class="menuitem" href="incarnation.html">Incarnation</a><a class="menuitem" href="runtime.html">Runtime Management</a><a class="menuitem-selected" href="etherialization.html">Etherialization</a></div></div><div class="content">
+
+    <div class="section"><span class="section-header">Etherialization</span>
+
+        <p>
+The etherialization stage is the component equivalent of an object finalization.  Etherialization covers the stopping of a running component and subsequent disposal.  Initiation of the etherialization phase on a component instance is exclusively controlled by it's container.
+        </p>
+
+      <div class="subsection"><span class="subsection-header">Etherialization Stage Table</span>
+
+        <table>
+          <tr row="odd">
+            <td><p>execution</p></td>
+            <td>
+<p>
+A component implementing the the <a class="doclink" href="../../../../../avalon/runtime/SNAPSHOT/api/org/apache/avalon/framework/activity/Startable.html">Startable</a> lifecycle interface will be shutdown by the container. 
+</p>
+<p><i>Startable Example:</i></p>
+
+<pre class="source">
+/**
+ * Stop the component.
+ */
+ public void stop() throws Exception
+ {
+     ...
+ }
+</pre><div class="source-title"><span class="source-title" /></div>
+            </td>
+          </tr>
+          <tr row="even">
+            <td><p>disposal</p></td>
+            <td>
+<p>
+A component may participate in end-of-life processing by implementing the 
+<a class="doclink" href="../../../../../avalon/runtime/SNAPSHOT/api/org/apache/avalon/framework/activity/Disposable.html">Disposable</a> lifecycle interface. An implementation will typically released references during this stage.
+</p>
+<p><i>Example:</i></p>
+
+<pre class="source">
+/**
+ * Disposal of the component.
+ */
+ public void dispose()
+ {
+     ...
+ }
+</pre><div class="source-title"><span class="source-title" /></div>
+            </td>
+          </tr>
+        </table>
+      </div>
+
+    </div>
+
+  </div><div class="footer"><span class="copyright">Copyright 2004, The Apache Software Foundation All rights reserved.</span><div class="views"><a class="viewlink" id="xmllink" href=""><img src="../../../../../images/xml.gif" /></a></div></div></body></html>

@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><title>Merlin Runtime</title><link type="text/css" rel="stylesheet" href="../../../../../styles/style.css" /><meta content="text/html; charset=UTF-8" http-equiv="Content-type" /></head><body><table class="logobar"><tr><td class="panelleft"><img alt="link" src="../../../../../images/feather.jpg" /></td><td class="panelmiddle"><div class="project">Metro</div><div class="title">Merlin Runtime</div></td><td class="panelright" /></tr></table><div class="categorybar" dir="/products/runtime/system/util/defaults"><a class="homecategory" href="../../../../../index.html">
+        Home
+      </a></div><div class="menubar"><div class="no-border"><span class="dummy" /><div class="menu"><div class="menu"><div class="menu"><div class="menu"><a class="menuitem-selected" href="../../../../runtime/index.html">Merlin Runtime</a></div><a class="menuitem" href="../../../execmodes/index.html">Execution</a><a class="menuitem" href="../../../reference/index.html">Specification</a><a class="menuitem-selected" href="../../../system/index.html">Systems</a><a class="menuitem" href="../../../javadoc/index.html">Javadoc</a></div><a class="menuitem" href="../../meta/index.html">Meta</a><a class="menuitem" href="../../composition.html">Composition</a><a class="menuitem" href="../../activation.html">Activation</a><a class="menuitem" href="../../repository/index.html">Repository</a><a class="menuitem" href="../../logging/index.html">Logging</a><a class="menuitem-selected" href="../../util/index.html">Util</a></div><a class="menuitem" href="../criteria/index.html">Criteria</a><a class="menuitem-selected" href="../defaults/index.html">Defaults</a><a class="menuitem" href="../env/index.html">Environment</a><a class="menuitem" href="../exception/index.html">Exception</a><a class="menuitem" href="../extension/index.html">Extension</a><a class="menuitem" href="../plugin/index.html">Plugin</a></div></div></div><div class="content">
+    <div class="section"><span class="section-header">Defaults</span>
+      <div class="subsection"><span class="subsection-header">Overview</span>
+        <p>
+        A simple default property value discovery API that makes it very
+        easy to define a policy for searching for and merging property values.
+        </p>
+
+        <p>
+        The Defaults class is a Properties subclass that holds the default
+        property values discovered.  It contains special methods to access
+        multi-valued properties using a property name based enumeration scheme.
+        Other nice features include a macro expansion facility and prepackaged
+        finders for locating defaults in other default property sources.
+        </p>
+
+        <p>
+        Below in order is an the environment listing, the contents of
+	a properties file, and the code used to discover and print out
+	the default values discovered.  The last item is the output.
+	The defaults are searched for in the defaults.properties file, 
+	the shell environment and the system properties:
+        </p>
+
+        <pre class="source">
+akarasulu@franklin ~
+$ env
+...
+MERLIN_HOME=f:/apache/avalon/merlin
+...
+        </pre><div class="source-title"><span class="source-title" /></div>
+	
+	<pre class="source">
+# defaults.properties
+targets.0=./conf/webserver.xml
+targets.1=./conf/eve.xml
+targets.2=./conf/ftpserver.xml
+targets.3=${mailserver}
+...
+        </pre><div class="source-title"><span class="source-title" /></div>
+	
+	<pre class="source">
+// Load defaults.properties
+Properties props = new Properties() ;
+props.load(new FileReader( "defaults.properties" ) ) ;
+props.setProperty( "mailserver", "./conf/james.xml" ) ;
+
+// Perpare to discover defaults of interest in sources
+DefaultFinders [] finders = {
+    new SystemDefaultsFinder(),
+    new SimpleDefaultsFinder( env ),
+    new SimpleDefaultsFinder( props )
+    };
+String singles = { MERLIN_HOME, mailserver } ;
+String enumerated = { targets } ;    
+Defaults defaults = Defaults( singles, enumerated, finders ) ;
+
+// Access and print
+String home = defaults.getProperty( "MERLIN_HOME" ) ;
+System.out.println( "MERLIN_HOME = " + home ) ;
+String [] targets = defaults.getEnumerated( "targets" ) ;
+printout( targets ) ;
+        </pre><div class="source-title"><span class="source-title" /></div>
+
+	<pre class="source">
+MERLIN_HOME=f:/apache/avalon/merlin
+[ ./conf/webserver.xml, ./conf/eve.xml, ./conf/ftpserver.xml, ./conf/james.xml ]
+        </pre><div class="source-title"><span class="source-title" /></div>
+      </div>
+    </div>
+  </div><div class="footer"><span class="copyright">Copyright 2004, The Apache Software Foundation All rights reserved.</span><div class="views"><a class="viewlink" id="xmllink" href=""><img src="../../../../../images/xml.gif" /></a></div></div></body></html>

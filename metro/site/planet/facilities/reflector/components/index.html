@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><title>Planet - Facilities</title><link type="text/css" rel="stylesheet" href="../../../../styles/style.css" /><meta content="text/html; charset=UTF-8" http-equiv="Content-type" /></head><body><table class="logobar"><tr><td class="panelleft"><img alt="link" src="../../../../images/feather.jpg" /></td><td class="panelmiddle"><div class="project">Metro</div><div class="title">Planet - Facilities</div></td><td class="panelright" /></tr></table><div class="categorybar" dir="/planet/facilities/reflector/components"><a class="homecategory" href="../../../../index.html">
+        Home
+      </a></div><div class="menubar"><div class="menu"><div class="menu"><div class="menu"><div class="menu"><a class="menuitem-selected" href="../../../components/index.html">Components</a><a class="menuitem-selected" href="../../../facilities/index.html">Facilities</a></div><a class="menuitem" href="../../finder/index.html">Finder</a><a class="menuitem" href="../../http.html">HTTP</a><a class="menuitem" href="../../jmx.html">JMX</a><a class="menuitem-selected" href="../../reflector/index.html">Reflector</a></div><a class="menuitem" href="../index.html">Overview</a><a class="menuitem" href="../using.html">Using</a><a class="menuitem-selected" href="../components/index.html">Components</a><a class="menuitem" href="../blocks/index.html">Blocks</a></div><a class="menuitem-selected" href="index.html">Overview</a></div></div><div class="content">
+    <div class="section"><span class="section-header">Reflector - Components</span>
+      <div class="subsection"><span class="subsection-header">API and SPI</span>
+      <p>
+        The Reflector facility is broken into a API and a SPI. The API
+        defines the <code>ReflectorService</code> which other components
+        can query easily lookup instances in the system. The SPI defines
+        the <code>ReflectorProvider</code>, where <code>TypeHandler</code>
+        register themself for handling of 'special-cases'.
+      </p>
+      </div>
+      <div class="subsection"><span class="subsection-header">Implementation</span>
+        <p>
+          The implementation is also broken apart along the API and SPI
+          axis. The <code>impl</code> project contains the 
+          <code>ReflectorImpl</code> which implements both the 
+          <code>ReflectorService</code> as well as the
+          <code>ReflectorProvider</code>. The same project also contains
+          a small component that registers the composition model, as a
+          root object in the Reflector. The <code>ReflectionHandler</code>
+          is an implementation of the <code>HttpHandler</code> for the
+          Http Facility, which handles the incoming HTTP requests, which
+          are delegated to the <code>ReflectorImpl</code>, and then formatted
+          into HTML.
+        </p>
+        <p>
+          The <code>typehandlers</code> project contains all the handlers
+          for different types. <code>ObjectTypeHandler</code> is the default
+          handler which will be used for all objects not implementing any of
+          the other types. <code>MapTypeHandler</code> for 
+          <code>java.util.Map</code> instances, and the equivalent for the
+          <code>CollectionTypeHandler</code> and the <code>DictionaryTypeHandler</code>.
+          The <code>ArrayTypeHandler</code> handles arrays of objects and 
+          finally the <code>ComponentModelTypeHandler</code> deals with some
+          special handling of <code>ComponentModel</code> instances, i.e. 
+          enabling reaching the implementation instance.
+        </p>
+        
+      </div>
+      
+      <div class="subsection"><span class="subsection-header">Services</span>
+        <table>
+          <tr row="odd">
+            <th>Class</th>
+            <th>Purpose</th>
+
+          </tr>
+          <tr row="even">
+            <td>org.apache.metro.facilities.reflector.ReflectorService</td>
+            <td>
+              The ReflectorService defines a text formatted instrospection
+              method. Any object instance which are coded according to the 
+              JavaBeans pattern, can be looked up over the various methods
+              in this service. The names can be cascaded with dot separation,
+              and the service will traverse the instances to locate the
+              object requested.
+            </td>
+
+          </tr>
+          <tr row="odd">
+            <td>org.apache.metro.facilities.reflector.spi.ReflectorProvider</td>
+            <td>
+             <code>TypeHandlers</code> needs to register themself at this 
+             service. Each <code>Typehandler</code> is responsible to locate
+             this provider and register which interface/class they are designed
+             to process.
+            </td>
+
+          </tr>
+          <tr row="even">
+            <td>org.apache.metro.facilities.reflector.spi.TypeHandler</td>
+            <td>
+             The reflector architecture allows additional special-case handling
+             of any interface/class. Currently, object of classes implementing
+             multiple registered types at the <code>ReflectorProvider</code> are
+             defined as 'not supported' by the specification. Implementations
+             are free to provide resolutions for such cases.
+            </td>
+
+          </tr>
+        </table>
+      </div>
+      
+      <div class="subsection"><span class="subsection-header">Component Definitions</span>
+      
+        <table>
+          <tr row="odd">
+            <th>Name</th>
+            <th>Class</th>
+            <th>Purpose</th>
+
+          </tr>
+          <tr row="even">
+            <td>reflector</td>
+            <td>org.apache.metro.facilities.reflector.impl.ReflectorImpl</td>
+            <td>
+              The default reflector implementation. You will need this component
+              as it implements both the <code>ReflectorService</code> as well
+              as the <code>ReflectorProvider</code>.
+            </td>
+
+          </tr>
+          <tr row="odd">
+            <td>reflector-http-handler</td>
+            <td>org.apache.metro.facilities.reflector.impl.ReflectionHandler</td>
+            <td>
+              The <code>ReflectionHandler</code> is a component that will
+              register itself to a HttpContext of the Http Facility and serve
+              incoming requests. Requests are decoded, delegated to the 
+              <code>ReflectionService</code> and the result returned is 
+              formatted into simple HTML.
+            </td>
+
+          </tr>
+          <tr row="even">
+            <td>model-registrator</td>
+            <td>org.apache.metro.facilities.reflector.impl.ModelRegistrator</td>
+            <td>
+              This small and simple component looks up the composition model
+              and adds the root model container as a root object to the 
+              <code>ReflectorService</code>, via the <code>addRootObject</code>
+              method.
+            </td>
+
+          </tr>
+          <tr row="odd">
+            <td>type-handler-array</td>
+            <td>org.apache.metro.facilities.reflector.typehandlers.ArrayTypeHandler</td>
+            <td>
+              A <code>TypeHandler</code> that handles java object arrays.
+            </td>
+
+          </tr>
+          <tr row="even">
+            <td>type-handler-collection</td>
+            <td>org.apache.metro.facilities.reflector.typehandlers.CollectionTypeHandler</td>
+            <td>
+              A <code>TypeHandler</code> that handles 
+              <code>java.util.Collection</code> implementations.
+            </td>
+
+          </tr>
+          <tr row="odd">
+            <td>type-handler-componentmodel</td>
+            <td>org.apache.metro.facilities.reflector.typehandlers.ComponentModelTypeHandler</td>
+            <td>
+              A <code>TypeHandler</code> that handles instances implementing
+              <code>org.apache.avalon.composition.model.CompositionModel</code>.
+            </td>
+
+          </tr>
+          <tr row="even">
+            <td>type-handler-dictionary</td>
+            <td>org.apache.metro.facilities.reflector.typehandlers.DictionaryTypeHandler</td>
+            <td>
+              A <code>TypeHandler</code> that handles java.util.Dictionary 
+              subclasses. Warning! The <code>java.util.Hashtable</code> is both 
+              a Dictionary subclass as well as implementing the Map interface. 
+              You should NOT use this <code>TypeHandler</code> unless you have 
+              other classes that extends the <code>java.util.Dictionary</code>
+              class.
+            </td>
+
+          </tr>
+          <tr row="odd">
+            <td>type-handler-map</td>
+            <td>org.apache.metro.facilities.reflector.typehandlers.MapTypeHandler</td>
+            <td>
+              A <code>TypeHandler</code> that handles instances of classes tha
+              implements <code>java.util.Map</code>.
+            </td>
+
+          </tr>
+          <tr row="even">
+            <td>type-handler-object</td>
+            <td>org.apache.metro.facilities.reflector.typehandlers.ObjectTypeHandler</td>
+            <td>
+              A <code>TypeHandler</code> that handles instances of all other 
+              java classes.
+            </td>
+
+          </tr>
+        </table>
+      </div>
+    </div>
+  </div><div class="footer"><span class="copyright">Copyright 2004, The Apache Software Foundation All rights reserved.</span><div class="views"><a class="viewlink" id="xmllink" href=""><img src="../../../../images/xml.gif" /></a></div></div></body></html>

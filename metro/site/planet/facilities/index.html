@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><title>Avalon Planet</title><link type="text/css" rel="stylesheet" href="../../styles/style.css" /><meta content="text/html; charset=UTF-8" http-equiv="Content-type" /></head><body><table class="logobar"><tr><td class="panelleft"><img alt="link" src="../../images/feather.jpg" /></td><td class="panelmiddle"><div class="project">Metro</div><div class="title">Avalon Planet</div></td><td class="panelright" /></tr></table><div class="categorybar" dir="/planet/facilities"><a class="homecategory" href="../../index.html">
+        Home
+      </a></div><div class="menubar"><div class="menu"><div class="menu"><a class="menuitem" href="../components/index.html">Components</a><a class="menuitem-selected" href="../facilities/index.html">Facilities</a></div><a class="menuitem" href="finder/index.html">Finder</a><a class="menuitem" href="http.html">HTTP</a><a class="menuitem" href="jmx.html">JMX</a><a class="menuitem" href="reflector/index.html">Reflector</a></div></div><div class="content">
+    <div class="section"><span class="section-header">Facilities</span>
+
+      <div class="subsection"><span class="subsection-header">Warning</span>
+       
+        <p>
+        All facilities listed below should be considered as experimental.
+        In general facilities represent a powerful mechanism through components
+        can interact with the cointainer meta model.  APIs are subject to change.
+        Facilities described here are available in CVS. They are not production
+        ready at this time.
+        </p>
+
+      </div>
+
+      <div class="subsection"><span class="subsection-header">Index</span>
+        <table>
+          <tr row="odd"><th>Topic</th><th>Summary</th></tr>
+          <tr row="even">
+            <td><a class="doclink" href="finder.html">Avalon Finder</a></td>
+            <td>
+              A facility that provides support for dynamic component
+              aquisition.  The facility exposes methods that allow
+              non-privaliged components to delegate activation request
+              to the finder.  The finder will return a service reference
+              to the client application.
+            </td>
+          </tr>
+          <tr row="odd">
+            <td><a class="doclink" href="http.html">Avalon HTTP</a></td>
+            <td>
+              A facility that handles redirection of HTTP requests to
+              components.  This facility scans the containment model for 
+              for components implement HTTP request handlers and provides
+              support for the redirection of incomming HTTP requests to 
+              classic compoennts - providing a integration layer
+              between web-centric protocols and components.
+            </td>
+          </tr>
+          <tr row="even">
+            <td><a class="doclink" href="jmx.html">Avalon JMX</a></td>
+            <td>
+              A facility that handles Java Management Extensions, JMX.
+              It allows components to declare their JMX MBeans, and the
+              facility will expose these over the JMX HTTP connector.
+              Support for JSR-160 is planned.
+            </td>
+          </tr>
+        </table>
+      </div>
+    </div>
+  </div><div class="footer"><span class="copyright">Copyright 2004, The Apache Software Foundation All rights reserved.</span><div class="views"><a class="viewlink" id="xmllink" href=""><img src="../../images/xml.gif" /></a></div></div></body></html>

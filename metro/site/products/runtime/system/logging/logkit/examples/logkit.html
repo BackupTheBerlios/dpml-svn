@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><title>Avalon Logging</title><link type="text/css" rel="stylesheet" href="../../../../../../styles/style.css" /><meta content="text/html; charset=UTF-8" http-equiv="Content-type" /></head><body><table class="logobar"><tr><td class="panelleft"><img alt="link" src="../../../../../../images/feather.jpg" /></td><td class="panelmiddle"><div class="project">Metro</div><div class="title">Avalon Logging</div></td><td class="panelright" /></tr></table><div class="categorybar" dir="/products/runtime/system/logging/logkit/examples"><a class="homecategory" href="../../../../../../index.html">
+        Home
+      </a></div><div class="menubar"><div class="menu"><div class="menu"><div class="menu"><div class="menu"><div class="menu"><div class="menu"><a class="menuitem-selected" href="../../../../../runtime/index.html">Merlin Runtime</a></div><a class="menuitem" href="../../../../execmodes/index.html">Execution</a><a class="menuitem" href="../../../../reference/index.html">Specification</a><a class="menuitem-selected" href="../../../../system/index.html">Systems</a><a class="menuitem" href="../../../../javadoc/index.html">Javadoc</a></div><a class="menuitem" href="../../../meta/index.html">Meta</a><a class="menuitem" href="../../../composition.html">Composition</a><a class="menuitem" href="../../../activation.html">Activation</a><a class="menuitem" href="../../../repository/index.html">Repository</a><a class="menuitem-selected" href="../../../logging/index.html">Logging</a><a class="menuitem" href="../../../util/index.html">Util</a></div><a class="menuitem" href="../../api/index.html">API</a><a class="menuitem-selected" href="../../logkit/index.html">LogKit</a><a class="menuitem" href="../../log4j/index.html">Log4J</a></div><a class="menuitem" href="../whitepaper.html">Whitepaper</a><a class="menuitem" href="../targets/index.html">Configuration</a><a class="menuitem-selected" href="../examples/index.html">Examples</a></div><a class="menuitem" href="code.html">Code Example</a><a class="menuitem-selected" href="logkit.html">LogKit Example</a></div></div><div class="content">
+    <div class="section"><span class="section-header">Avalon Logging</span>
+      <div class="subsection"><span class="subsection-header">Logkit Configuration Example</span>
+        <p>
+        The following is an example of a LogKit configuration. The example
+        establishes three target, a file target, a console stream target, 
+        and a multicast target.  Logging events are assigned to the multicast 
+        target resulting in event delivery to both the file and console. The
+        formats of the respective targets are selected for the relative roles.
+        The file target handles full reporting with stack trace information. 
+        The console target handles a more consolidated error reporting scheme.
+        </p>
+      </div>
+      <div class="subsection"><span class="subsection-header">XML</span>
+<pre class="source">
+&lt;logging&gt;
+
+  &lt;!--
+  Declaration of a set of logging targets.
+  --&gt;
+
+  &lt;targets&gt;
+
+    &lt;!--
+    This target establishes output to the the System.out stream.
+    The format argument ensures that we don't get stack traces -
+    but just the error report.
+    --&gt;
+    &lt;stream id="standard"&gt;
+       &lt;name&gt;System.out&lt;/name&gt;
+       &lt;format type="console"/&gt;
+    &lt;/stream&gt;
+
+    &lt;!--
+    This target logs to a rotating file located in 
+    target/simple-XXX.log
+    --&gt; 
+    &lt;file id="simple"&gt;
+      &lt;filename&gt;simple.log&lt;/filename&gt;
+      &lt;append&gt;true&lt;/append&gt;
+      &lt;rotation type="revolving" init="1" max="10"&gt;
+        &lt;size&gt;100k&lt;/size&gt;
+      &lt;/rotation&gt;
+    &lt;/file&gt;
+
+    &lt;!--
+    The multicast target redirects log event to a set of 
+    named targets.
+    --&gt;
+    &lt;multicast id="multicast"&gt;
+      &lt;targetref id="standard"/&gt;
+      &lt;targetref id="simple"/&gt;
+    &lt;/multicast&gt;
+
+  &lt;/targets&gt;
+
+  &lt;!--
+  Declaration of the initial logging categories.  These categories
+  and the respective priorities and assigned targets are used by the 
+  testcase to validate that the logging system is functioning properly.
+  --&gt;
+  &lt;categories priority="info" target="multicast"&gt;
+    &lt;categories name="kernel"&gt;
+      &lt;categories name="logger" priority="warn"&gt;
+        &lt;category name="test" priority="fatal_error"/&gt;
+      &lt;/categories&gt;
+      &lt;category name="roger-ramjet" priority="debug"/&gt;
+    &lt;/categories&gt;
+  &lt;/categories&gt;
+
+  &lt;!--
+  Selection of the logging channel for use by the logging
+  system following establishment of inital targets and categories.
+  --&gt;
+
+  &lt;logger name="kernel.logger"/&gt;
+
+&lt;/logging&gt;
+</pre><div class="source-title"><span class="source-title" /></div>
+      </div>
+    </div>
+  </div><div class="footer"><span class="copyright">Copyright 2004, The Apache Software Foundation All rights reserved.</span><div class="views"><a class="viewlink" id="xmllink" href=""><img src="../../../../../../images/xml.gif" /></a></div></div></body></html>

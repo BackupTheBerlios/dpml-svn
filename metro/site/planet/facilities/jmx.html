@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><title>Avalon Planet</title><link type="text/css" rel="stylesheet" href="../../styles/style.css" /><meta content="text/html; charset=UTF-8" http-equiv="Content-type" /></head><body><table class="logobar"><tr><td class="panelleft"><img alt="link" src="../../images/feather.jpg" /></td><td class="panelmiddle"><div class="project">Metro</div><div class="title">Avalon Planet</div></td><td class="panelright" /></tr></table><div class="categorybar" dir="/planet/facilities"><a class="homecategory" href="../../index.html">
+        Home
+      </a></div><div class="menubar"><div class="menu"><div class="menu"><a class="menuitem" href="../components/index.html">Components</a><a class="menuitem-selected" href="../facilities/index.html">Facilities</a></div><a class="menuitem" href="finder/index.html">Finder</a><a class="menuitem" href="http.html">HTTP</a><a class="menuitem-selected" href="jmx.html">JMX</a><a class="menuitem" href="reflector/index.html">Reflector</a></div></div><div class="content">
+    <div class="section"><span class="section-header">JMX Extension</span>
+      <p>
+        <strong>Status: Under Development</strong>
+      </p>
+      <p>
+        <strong>Since: Merlin 3.3</strong>
+      </p>
+      <p>
+        The Merlin JMX Extension is an MX4J adapter and contains everything 
+        needed to expose components as MBeans, as well as the JMX Agent and
+        a couple of connectors, such as the HttpConnector and Remote JMX
+        connector (JSR-160) (planned).
+      </p>
+      <p>
+        To enable JMX, you will need to declare the JMX Facility, as well as
+        enable the components to be MBeans. See the example below on how to
+        enable the JMX Facility. To enable the components to become MBeans,
+        you have a few ways to do so;
+      </p>
+      <ul>
+        <li>
+          Create a management interface which the component implements and
+          declare the <code>@avalon.mx interface="com.mydomain.MyMxInterface"</code>
+          in the component.
+        </li>
+        <li>
+          Create a MBeanInfo class.
+        </li>
+      </ul>
+    </div>
+    <div class="section"><span class="section-header">Example</span>
+      <div class="subsection"><span class="subsection-header">Enabling the JMX Agent</span>
+        <p>
+          This is done by including the JMX Agent block, typically in your 
+          top level block.xml.
+        </p>
+<pre class="source">
+
+
+</pre><div class="source-title"><span class="source-title" /></div>
+      </div>
+      <div class="subsection"><span class="subsection-header">Making a component an MBean</span>
+      </div>
+    </div>
+  </div><div class="footer"><span class="copyright">Copyright 2004, The Apache Software Foundation All rights reserved.</span><div class="views"><a class="viewlink" id="xmllink" href=""><img src="../../images/xml.gif" /></a></div></div></body></html>

@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><title>Avalon Planet</title><link type="text/css" rel="stylesheet" href="../../styles/style.css" /><meta content="text/html; charset=UTF-8" http-equiv="Content-type" /></head><body><table class="logobar"><tr><td class="panelleft"><img alt="link" src="../../images/feather.jpg" /></td><td class="panelmiddle"><div class="project">Metro</div><div class="title">Avalon Planet</div></td><td class="panelright" /></tr></table><div class="categorybar" dir="/planet/components"><a class="homecategory" href="../../index.html">
+        Home
+      </a></div><div class="menubar"><div class="menu"><div class="menu"><a class="menuitem-selected" href="../components/index.html">Components</a><a class="menuitem" href="../facilities/index.html">Facilities</a></div><a class="menuitem" href="datasource.html">Datasource</a><a class="menuitem" href="connection.html">Conection</a><a class="menuitem" href="scheduler.html">Scheduler</a><a class="menuitem" href="sockets.html">Sockets</a><a class="menuitem" href="store.html">Store</a><a class="menuitem" href="threads.html">Threads</a></div></div><div class="content">
+    <div class="section"><span class="section-header">Components</span>
+    <div class="subsection"><span class="subsection-header">Index</span>
+      <table>
+        <tr row="odd">
+          <th>Topic</th>
+          <th>Description</th>
+        </tr>
+        <tr row="even"><td><a class="doclink" href="connection.html">Connection</a></td>
+          <td>
+            <p>
+            The ConnectionManager service provides a facility to listen 
+            for incoming socket connections.
+            The DefaultConnectionManager compoent gives a thread pooled 
+            implementation of this service. If there are multiple server 
+            components depending on this component, they would all share
+            the same thread pool.
+            </p>
+          </td>
+        </tr>
+        <tr row="odd"><td><a class="doclink" href="datasource.html">Datasource</a></td>
+          <td>
+            <p>
+            The DataSourceSelector service provides a way to select 
+            DataSourceComponent.
+            The DefaultDataSourceSelector component provides a set of 
+            ready to use DataSourceComponents.
+            </p>
+          </td>
+        </tr>
+        <tr row="even"><td><a class="doclink" href="scheduler.html">Scheduler</a></td>
+          <td>
+           <p>
+           The TimeScheduler service provides a services supporting the 
+           scheduling of activities to occur an certain intervals.
+           The DefaultTimeScheduler block implements the service. When
+           used in conjunction with the service is it a TimeTrigger.  
+           There are two such tiggers provided within the implementation
+           CronTimeTrigger and PeriodicTimeTigger.
+           </p>
+          </td>
+        </tr>
+        <tr row="odd"><td><a class="doclink" href="sockets.html">Sockets</a></td>
+          <td>
+            <p>
+            The SocketManager service provides a way to lookup a factory 
+            for server of client sockets.  This service is provided by the 
+            DefaultSocketManager component.
+            </p>
+          </td>
+        </tr>
+        <tr row="even"><td><a class="doclink" href="store.html">Store</a></td>
+          <td>
+            <p>
+              The Store service provides a way to store named Objects or 
+              Streams without knowing how they are stored.
+              The RepositoryManager block implements this service and 
+              provides (in invocation of select(..) ) an appropriate 
+              Respository.  The two configurable implementations use the 
+              local file system for storage.
+              </p>
+          </td>
+        </tr>
+        <tr row="odd"><td><a class="doclink" href="threads.html">Threads</a></td>
+          <td>
+            <p>
+            The ThreadManager service provides a way get default or named 
+            Thread Pool.
+            The DefaultThreadManager block implements this service based on
+            the Excalibur implementations of ThreadPool.
+            </p>
+          </td>
+        </tr>
+      </table>
+    </div>
+    </div>
+  </div><div class="footer"><span class="copyright">Copyright 2004, The Apache Software Foundation All rights reserved.</span><div class="views"><a class="viewlink" id="xmllink" href=""><img src="../../images/xml.gif" /></a></div></div></body></html>

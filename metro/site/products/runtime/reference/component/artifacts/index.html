@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><title>Lifecycle Artifacts</title><link type="text/css" rel="stylesheet" href="../../../../../styles/style.css" /><meta content="text/html; charset=UTF-8" http-equiv="Content-type" /></head><body><table class="logobar"><tr><td class="panelleft"><img alt="link" src="../../../../../images/feather.jpg" /></td><td class="panelmiddle"><div class="project">Metro</div><div class="title">Lifecycle Artifacts</div></td><td class="panelright" /></tr></table><div class="categorybar" dir="/products/runtime/reference/component/artifacts"><a class="homecategory" href="../../../../../index.html">
+        Home
+      </a></div><div class="menubar"><div class="menu"><div class="menu"><div class="menu"><div class="menu"><div class="menu"><a class="menuitem-selected" href="../../../../runtime/index.html">Merlin Runtime</a></div><a class="menuitem" href="../../../execmodes/index.html">Execution</a><a class="menuitem-selected" href="../../../reference/index.html">Specification</a><a class="menuitem" href="../../../system/index.html">Systems</a><a class="menuitem" href="../../../javadoc/index.html">Javadoc</a></div><a class="menuitem" href="../../containment/index.html">Block</a><a class="menuitem-selected" href="../../component/index.html">Component</a><a class="menuitem" href="../../deployment/index.html">Deployment</a><a class="menuitem" href="../../kernel/index.html">Kernel</a></div><a class="menuitem" href="../descriptors/index.html">Descriptors</a><a class="menuitem-selected" href="../artifacts/index.html">Artifacts</a><a class="menuitem" href="../lifecycle/index.html">Lifecycle</a><a class="menuitem" href="../lifestyle/index.html">Lifestyle</a></div><a class="menuitem" href="logger.html">Logger</a><a class="menuitem" href="context.html">Context</a><a class="menuitem" href="manager.html">ServiceManager</a><a class="menuitem" href="configuration.html">Configuration</a><a class="menuitem" href="parameters.html">Parameters</a></div></div><div class="content">
+
+    <div class="section"><span class="section-header">Lifecycle Artifacts</span>
+
+      <div class="subsection"><span class="subsection-header">Overview</span>
+
+      <p>
+Component-based solutions leverage the principals of Inversersion of Control 
+(IoC). This principal leads to the notion that a component should be supplied 
+with the resources it needs in order to function.  Another way of looking at 
+this is that the component code should not be cluttered with content that is 
+attempting to resolve resources relative to its environment. Through the 
+application of a meta-info model a container has available to it a complete 
+description of the component type and from this information can build the 
+necessary resources that a component needs. These resources are supplied to 
+a component through a set of standard Avalon lifecycle artificats.  These 
+include 
+<a class="doclink" href="../../../../../avalon/runtime/SNAPSHOT/api/org/apache/avalon/framework/logger/Logger.html">Logger</a>, 
+<a class="doclink" href="../../../../../avalon/runtime/SNAPSHOT/api/org/apache/avalon/framework/context/Context.html">Context</a>, 
+<a class="doclink" href="../../../../../avalon/runtime/SNAPSHOT/api/org/apache/avalon/framework/configuration/Configuration.html">Configuration</a>, 
+<a class="doclink" href="../../../../../avalon/runtime/SNAPSHOT/api/org/apache/avalon/framework/parameters/Parameters.html">Parameters</a>, and 
+<a class="doclink" href="../../../../../avalon/runtime/SNAPSHOT/api/org/apache/avalon/framework/service/ServiceManager.html">ServiceManager</a>.
+      </p>
+
+      <p>
+Two styles of artifact delivery are supported:
+      </p>
+
+      </div>
+
+      <div class="subsection"><span class="subsection-header">Delivery Strategies</span>
+
+        <table>
+          <tr row="odd">
+            <td>injection</td>
+            <td>
+The artifact injection strategy enables the passing of artifacts via the component constructor.  This approach minimises lines of code dealing with establishment, enables the allocation of final variables, and eliminates the requirement for explict initialization or startup phases.
+            </td>
+          </tr>
+          <tr row="even">
+            <td>phased</td>
+            <td>
+The phased artifact delivery strategy is based on a set of delivery interfaces 
+(<a class="doclink" href="../../../../../avalon/runtime/SNAPSHOT/api/org/apache/avalon/framework/logger/LogEnabled.html">LogEnabled</a>, 
+<a class="doclink" href="../../../../../avalon/runtime/SNAPSHOT/api/org/apache/avalon/framework/context/Contextualizable.html">Contextualizable</a>, 
+<a class="doclink" href="../../../../../avalon/runtime/SNAPSHOT/api/org/apache/avalon/framework/configuration/Configurable.html">Configurable</a>, 
+<a class="doclink" href="../../../../../avalon/runtime/SNAPSHOT/api/org/apache/avalon/framework/parameters/Parameterizable.html">Parameterizable</a> and 
+<a class="doclink" href="../../../../../avalon/runtime/SNAPSHOT/api/org/apache/avalon/framework/service/Serviceable.html">Serviceable</a>).  
+The advantage of phased delivery over the injection strategy relates to artifact
+re-assignment by a component management subsystem. Phased artifact delivery is 
+the traditional approach used in earlier Avalon solutions.
+            </td>
+          </tr>
+        </table>
+      </div>
+
+      <div class="subsection"><span class="subsection-header">Standard Artifacts</span>
+        <table>
+          <tr row="odd">
+            <th>Artifact</th><th>Description</th>
+          </tr>
+          <tr row="even">
+            <td><a class="doclink" href="logger.html">Logger</a></td>
+            <td>A component root logging channel.</td>
+          </tr>
+          <tr row="odd">
+            <td><a class="doclink" href="context.html">Context</a></td>
+            <td>A component runtime context.</td>
+          </tr>
+          <tr row="even">
+            <td><a class="doclink" href="manager.html">ServiceManager</a></td>
+            <td>A service manager from which dependent services may be accessed.</td>
+          </tr>
+          <tr row="odd">
+            <td><a class="doclink" href="configuration.html">Configuration</a></td>
+            <td>A static component configuration.</td>
+          </tr>
+          <tr row="even">
+            <td><a class="doclink" href="parameters.html">Parameters</a></td>
+            <td>Static component parameters.</td>
+          </tr>
+        </table>
+
+      </div>
+
+    </div>
+
+  </div><div class="footer"><span class="copyright">Copyright 2004, The Apache Software Foundation All rights reserved.</span><div class="views"><a class="viewlink" id="xmllink" href=""><img src="../../../../../images/xml.gif" /></a></div></div></body></html>

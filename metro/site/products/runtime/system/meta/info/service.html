@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><title>Service Descriptors</title><link type="text/css" rel="stylesheet" href="../../../../../styles/style.css" /><meta content="text/html; charset=UTF-8" http-equiv="Content-type" /></head><body><table class="logobar"><tr><td class="panelleft"><img alt="link" src="../../../../../images/feather.jpg" /></td><td class="panelmiddle"><div class="project">Metro</div><div class="title">Service Descriptors</div></td><td class="panelright" /></tr></table><div class="categorybar" dir="/products/runtime/system/meta/info"><a class="homecategory" href="../../../../../index.html">
+        Home
+      </a></div><div class="menubar"><div class="menu"><div class="menu"><div class="menu"><div class="menu"><div class="menu"><a class="menuitem-selected" href="../../../../runtime/index.html">Merlin Runtime</a></div><a class="menuitem" href="../../../execmodes/index.html">Execution</a><a class="menuitem" href="../../../reference/index.html">Specification</a><a class="menuitem-selected" href="../../../system/index.html">Systems</a><a class="menuitem" href="../../../javadoc/index.html">Javadoc</a></div><a class="menuitem-selected" href="../../meta/index.html">Meta</a><a class="menuitem" href="../../composition.html">Composition</a><a class="menuitem" href="../../activation.html">Activation</a><a class="menuitem" href="../../repository/index.html">Repository</a><a class="menuitem" href="../../logging/index.html">Logging</a><a class="menuitem" href="../../util/index.html">Util</a></div><a class="menuitem" href="../tags/index.html">Tag Reference</a><a class="menuitem-selected" href="../info/index.html">Type Model</a></div><a class="menuitem" href="type/index.html">Type</a><a class="menuitem-selected" href="service.html">Service</a><a class="menuitem" href="attributes/index.html">Attributes</a></div></div><div class="content">
+
+<div class="section"><span class="section-header">Service Defintion</span>
+
+<p>
+The org.apache.avalon.meta.info.ServiceDefinition class describes a type of 
+service. It supplements the classic Java interface with a version identifier 
+and attributes.  A ServiceDefinition may be referenced by multiple components 
+that will typically supplement the definition in terms of additional attributes. 
+References to a ServiceDefinition concern a component type declaration of 
+dependencies, service access points, lifestyle extension ability, and lifestyle 
+extension dependencies.</p>
+
+<p>An instance of ServiceDescriptor is created using a ServiceBuilder.  The 
+following code fragment shows the creation of new ServiceBuilder and the 
+creation of a ServiceDefinition using the builder.</p>
+<pre class="source">
+  //
+  // create the builder
+  //
+
+  ServiceBuilder builder = new ServiceBuilder();
+  builder.enableLogging( m_logger );
+
+  //
+  // create the service definition
+  //
+
+  ServiceDefinition definition = builder.build( this.class() );
+</pre><div class="source-title"><span class="source-title" /></div>
+
+<div class="subsection"><span class="subsection-header">XML Schema</span>
+
+<pre class="source">
+
+  <font color="gray"><i>&lt;!--
+  Example of a service definition.
+  --&gt;</i></font>
+
+  &lt;service&gt;
+
+    <font color="gray"><i>&lt;!--
+    Declaration of service version.
+    --&gt;</i></font>
+
+    &lt;version&gt;3.2&lt;/version&gt;
+    
+    &lt;attributes&gt;
+
+      <font color="gray"><i>&lt;!--
+      Attribute declarations included in a service definition
+      are independent of a particular service implementation.
+      --&gt;</i></font>
+
+      &lt;attribute key="<font color="darkred">a-key</font>" value="<font color="darkred">a-value</font>"/&gt;
+
+    &lt;/attributes&gt;
+
+  &lt;/service&gt;
+
+</pre><div class="source-title"><span class="source-title" /></div>
+
+      </div>
+
+    </div>
+
+  </div><div class="footer"><span class="copyright">Copyright 2004, The Apache Software Foundation All rights reserved.</span><div class="views"><a class="viewlink" id="xmllink" href=""><img src="../../../../../images/xml.gif" /></a></div></div></body></html>

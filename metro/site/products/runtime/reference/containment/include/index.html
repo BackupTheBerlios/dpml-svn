@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><title>Merlin Runtime</title><link type="text/css" rel="stylesheet" href="../../../../../styles/style.css" /><meta content="text/html; charset=UTF-8" http-equiv="Content-type" /></head><body><table class="logobar"><tr><td class="panelleft"><img alt="link" src="../../../../../images/feather.jpg" /></td><td class="panelmiddle"><div class="project">Metro</div><div class="title">Merlin Runtime</div></td><td class="panelright" /></tr></table><div class="categorybar" dir="/products/runtime/reference/containment/include"><a class="homecategory" href="../../../../../index.html">
+        Home
+      </a></div><div class="menubar"><div class="menu"><div class="menu"><div class="menu"><div class="menu"><div class="menu"><a class="menuitem-selected" href="../../../../runtime/index.html">Merlin Runtime</a></div><a class="menuitem" href="../../../execmodes/index.html">Execution</a><a class="menuitem-selected" href="../../../reference/index.html">Specification</a><a class="menuitem" href="../../../system/index.html">Systems</a><a class="menuitem" href="../../../javadoc/index.html">Javadoc</a></div><a class="menuitem-selected" href="../../containment/index.html">Block</a><a class="menuitem" href="../../component/index.html">Component</a><a class="menuitem" href="../../deployment/index.html">Deployment</a><a class="menuitem" href="../../kernel/index.html">Kernel</a></div><a class="menuitem" href="../container.html">container</a><a class="menuitem" href="../classloader/index.html">classloader</a><a class="menuitem" href="../categories/index.html">categories</a><a class="menuitem" href="../components/index.html">component</a><a class="menuitem-selected" href="../include/index.html">include</a><a class="menuitem" href="../services/index.html">services</a></div><a class="menuitem" href="source.html">source</a><a class="menuitem" href="resource.html">resource</a></div></div><div class="content">
+    <div class="section"><span class="section-header">Include Directive</span>
+
+      <div class="subsection"><span class="subsection-header">Description</span>
+<p>An include directive instructs Merlin to load and deploy the block defined within the referenced jar file as a subcontainer within the enclosing container.  The include directive is equivalent to the nesting of a full block definition within another block.  Block includes enable composition of pre-packaged component based solutions as the included block appears to other components as a regular component (exposing services and dependecies, etc.).</p>
+      </div>
+
+      <div class="subsection"><span class="subsection-header">Nested Elements</span>
+        <table>
+          <tr row="odd"><th>Element</th><th>Occurance</th><th>Description</th></tr>
+          <tr row="even">
+            <td>target</td><td>*</td>
+            <td>
+             A set of target directives scoped relative to the container established 
+             by the include. Each target declaration corresponds to the specification of 
+             <a class="doclink" href="../../overrides/target/index.html">target override target element</a> 
+             presented under the config.xml spec.
+            </td>
+          </tr>
+        </table>
+      </div>
+
+      <div class="subsection"><span class="subsection-header">Attributes</span>
+
+        <table>
+          <tr row="odd"><th>Attribute</th><th>Required</th><th>Description</th></tr>
+          <tr row="even">
+            <td>name</td><td>yes</td>
+            <td>
+            A name to assign to the container created by the block include.
+            Will default to the name of the included block.
+            </td>
+          </tr>
+          <tr row="odd">
+            <td>id</td><td>yes</td>
+            <td>
+            The resource repository identifier.
+            </td>
+          </tr>
+          <tr row="even">
+            <td>version</td><td>no</td>
+            <td>
+            The resource version.
+            </td>
+          </tr>
+          <tr row="odd">
+            <td>type</td><td>no</td>
+            <td>
+            A resource type such as 'jar' or 'xml'.  Tge default value is 'jar'.
+            </td>
+          </tr>
+        </table>
+
+      </div>
+
+      <div class="subsection"><span class="subsection-header">Sample XML</span>
+<p>
+The following example block.xml demonstrates the inclusion of three blocks within another enclosing block.  In this example, the common shared API (containing service interfaces classes is declared in the containing block classloader).
+</p>
+
+<pre class="source">
+&lt;container name="application"&gt;
+
+     &lt;classloader&gt;
+       &lt;classpath&gt;
+         &lt;repository&gt;
+           &lt;resource id="avalon-framework:avalon-framework-api" version="4.1.5"/&gt;
+           &lt;resource id="avalon-framework:avalon-framework-impl" version="4.1.5"/&gt;
+           &lt;resource id="merlin-tutorial:locator-api" version="1.0"/&gt;
+           &lt;resource id="merlin-tutorial:publisher-api" version="1.0"/&gt;
+           &lt;resource id="merlin-tutorial:application-impl" version="1.0"/&gt;
+         &lt;/repository&gt;
+       &lt;/classpath&gt;
+     &lt;/classloader&gt;
+
+     &lt;include name="location" id="merlin-tutorial:locator-impl" version="1.0"/&gt;
+     &lt;include name="publisher" id="merlin-tutorial:publisher-impl" version="1.0"/&gt;
+
+     &lt;component name="application" 
+        class="tutorial.application.Application"&gt;
+     &lt;/component&gt;
+
+&lt;/container&gt;
+</pre><div class="source-title"><span class="source-title" /></div>
+
+     </div>
+    </div>
+  </div><div class="footer"><span class="copyright">Copyright 2004, The Apache Software Foundation All rights reserved.</span><div class="views"><a class="viewlink" id="xmllink" href=""><img src="../../../../../images/xml.gif" /></a></div></div></body></html>

@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><title>Avalon Central</title><link type="text/css" rel="stylesheet" href="../../../../../styles/style.css" /><meta content="text/html; charset=UTF-8" http-equiv="Content-type" /></head><body><table class="logobar"><tr><td class="panelleft"><img alt="link" src="../../../../../images/feather.jpg" /></td><td class="panelmiddle"><div class="project">Metro</div><div class="title">Avalon Central</div></td><td class="panelright" /></tr></table><div class="categorybar" dir="/central/tools/magic/tasks/management"><a class="homecategory" href="../../../../../index.html">
+        Home
+      </a></div><div class="menubar"><div class="menu"><div class="menu"><div class="menu"><div class="menu"><div class="menu"><a class="menuitem" href="../../../../about/index.html">Welcome</a><a class="menuitem" href="../../../../community/index.html">Community</a></div><a class="menuitem-selected" href="../../../magic/index.html">Magic</a></div><a class="menuitem" href="../../installation.html">Installing</a><a class="menuitem" href="../../spells/index.html">Casting Spells</a><a class="menuitem" href="../../model/index.html">System Model</a><a class="menuitem" href="../../templates/index.html">Templates</a><a class="menuitem-selected" href="../../tasks/index.html">Tasks</a><a class="menuitem" href="../../../../../avalon/tools/avalon-tools-magic/index.html">Javadoc</a></div><a class="menuitem" href="../common/index.html">Common</a><a class="menuitem-selected" href="../management/index.html">Management</a><a class="menuitem" href="../production/index.html">Production</a><a class="menuitem" href="../publication/index.html">Publication</a></div><a class="menuitem" href="init.html">Init</a><a class="menuitem" href="plugin.html">Plugin</a><a class="menuitem" href="declare.html">Declare</a><a class="menuitem-selected" href="artifact.html">Artifact</a><a class="menuitem" href="reactor.html">Reactor</a></div></div><div class="content">
+    <div class="section"><span class="section-header">Artifact Task</span>
+
+      <p>
+      The artifact task generates a descriptor for a plugin compliant with 
+      the Avalon Repository specification.  This descriptor is a property file 
+      containing factory information and staged classloader description.  
+      Classpath references will be group relative to API, SPI and IMPL 
+      runtime dependencies.
+      </p>
+
+<pre class="source">
+&lt;x:artifact/&gt;
+</pre><div class="source-title"><span class="source-title" /></div>
+<pre>package:
+[x:artifact] Creating meta directive
+</pre>
+
+      <p><i>Sample artifact descriptor:</i></p>
+      
+<pre>
+#
+# Meta classifier.
+#
+meta.domain = avalon
+meta.version = 1.1
+
+#
+# Artifact descriptor.
+#
+avalon.artifact.group = avalon/merlin
+avalon.artifact.name = avalon-merlin-impl
+avalon.artifact.version = 3.3.0
+avalon.artifact.signature = 20040621.134857
+
+#
+# Factory classname.
+#
+avalon.artifact.factory = org.apache.avalon.merlin.impl.DefaultFactory
+
+#
+# API dependencies.
+#
+avalon.artifact.dependency.api.0 = artifact:jar:avalon/framework/avalon-framework-api#4.2.1
+avalon.artifact.dependency.api.1 = artifact:jar:avalon/util/avalon-util-lifecycle#1.1.1
+
+#
+# SPI dependencies.
+#
+avalon.artifact.dependency.spi.0 = artifact:jar:avalon/util/avalon-util-extension-api#1.2.0
+avalon.artifact.dependency.spi.1 = artifact:jar:avalon/merlin/avalon-merlin-api#3.3.0
+avalon.artifact.dependency.spi.2 = artifact:jar:avalon/composition/avalon-composition-api#2.0.0
+avalon.artifact.dependency.spi.3 = artifact:jar:avalon/repository/avalon-repository-api#2.0.0
+avalon.artifact.dependency.spi.4 = artifact:jar:avalon/logging/avalon-logging-api#1.0.0
+avalon.artifact.dependency.spi.5 = artifact:jar:avalon/meta/avalon-meta-api#1.4.0
+avalon.artifact.dependency.spi.6 = artifact:jar:avalon/meta/avalon-meta-spi#1.4.0
+avalon.artifact.dependency.spi.7 = artifact:jar:avalon/repository/avalon-repository-spi#2.0.0
+avalon.artifact.dependency.spi.8 = artifact:jar:avalon/logging/avalon-logging-spi#1.0.0
+avalon.artifact.dependency.spi.9 = artifact:jar:avalon/composition/avalon-composition-spi#2.0.0
+
+#
+# Implementation dependencies.
+#
+avalon.artifact.dependency.0 = artifact:jar:avalon/composition/avalon-composition-impl#2.0.1
+avalon.artifact.dependency.1 = artifact:jar:avalon/repository/avalon-repository-main#2.0.0
+avalon.artifact.dependency.2 = artifact:jar:avalon/repository/avalon-repository-util#2.0.0
+avalon.artifact.dependency.3 = artifact:jar:avalon/util/avalon-util-exception#1.0.0
+avalon.artifact.dependency.4 = artifact:jar:avalon/util/avalon-util-env#1.1.1
+avalon.artifact.dependency.5 = artifact:jar:avalon/util/avalon-util-i18n#1.0.0
+avalon.artifact.dependency.6 = artifact:jar:avalon/util/avalon-util-criteria#1.1.0
+avalon.artifact.dependency.7 = artifact:jar:avalon/util/avalon-util-defaults#1.2.1
+avalon.artifact.dependency.8 = artifact:jar:avalon/meta/avalon-meta-impl#1.4.0
+avalon.artifact.dependency.9 = artifact:jar:avalon/util/avalon-util-configuration#1.0.0
+avalon.artifact.dependency.10 = artifact:jar:avalon/framework/avalon-framework-impl#4.2.1
+avalon.artifact.dependency.11 = artifact:jar:avalon/framework/avalon-framework-legacy#4.2.1
+avalon.artifact.dependency.12 = artifact:jar:avalon/logkit/avalon-logkit#2.0.0
+avalon.artifact.dependency.13 = artifact:jar:log4j/log4j#1.2.8
+avalon.artifact.dependency.14 = artifact:jar:servletapi/servletapi#2.3
+avalon.artifact.dependency.15 = artifact:jar:avalon/tools/mailapi#1.3.1
+avalon.artifact.dependency.16 = artifact:jar:avalon/tools/jms#1.1
+avalon.artifact.dependency.17 = artifact:jar:avalon/util/avalon-util-extension-impl#1.2.0
+avalon.artifact.dependency.18 = artifact:jar:avalon/logging/avalon-logging-impl#1.0.0
+
+#
+# EOF.
+#
+
+</pre>
+
+    </div>
+  </div><div class="footer"><span class="copyright">Copyright 2004, The Apache Software Foundation All rights reserved.</span><div class="views"><a class="viewlink" id="xmllink" href=""><img src="../../../../../images/xml.gif" /></a></div></div></body></html>

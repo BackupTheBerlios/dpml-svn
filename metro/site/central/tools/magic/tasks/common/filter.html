@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><title>Avalon Central</title><link type="text/css" rel="stylesheet" href="../../../../../styles/style.css" /><meta content="text/html; charset=UTF-8" http-equiv="Content-type" /></head><body><table class="logobar"><tr><td class="panelleft"><img alt="link" src="../../../../../images/feather.jpg" /></td><td class="panelmiddle"><div class="project">Metro</div><div class="title">Avalon Central</div></td><td class="panelright" /></tr></table><div class="categorybar" dir="/central/tools/magic/tasks/common"><a class="homecategory" href="../../../../../index.html">
+        Home
+      </a></div><div class="menubar"><div class="menu"><div class="menu"><div class="menu"><div class="menu"><div class="menu"><a class="menuitem" href="../../../../about/index.html">Welcome</a><a class="menuitem" href="../../../../community/index.html">Community</a></div><a class="menuitem-selected" href="../../../magic/index.html">Magic</a></div><a class="menuitem" href="../../installation.html">Installing</a><a class="menuitem" href="../../spells/index.html">Casting Spells</a><a class="menuitem" href="../../model/index.html">System Model</a><a class="menuitem" href="../../templates/index.html">Templates</a><a class="menuitem-selected" href="../../tasks/index.html">Tasks</a><a class="menuitem" href="../../../../../avalon/tools/avalon-tools-magic/index.html">Javadoc</a></div><a class="menuitem-selected" href="../common/index.html">Common</a><a class="menuitem" href="../management/index.html">Management</a><a class="menuitem" href="../production/index.html">Production</a><a class="menuitem" href="../publication/index.html">Publication</a></div><a class="menuitem" href="home.html">Home</a><a class="menuitem" href="info.html">Info</a><a class="menuitem-selected" href="filter.html">Filter</a><a class="menuitem" href="property.html">Property</a><a class="menuitem" href="prepare.html">Prepare</a><a class="menuitem" href="clean.html">Clean</a></div></div><div class="content">
+    <div class="section"><span class="section-header">Filter Task</span>
+      <p>
+      The filter task establish a classic ant filter values 
+      based on project information.
+      </p>
+      <p>
+      The following example demonstrates the resolution of 
+      a artifact uri feature for a project identified by the 
+      key "avalon-activation-impl".
+      </p>
+
+<pre class="source">
+&lt;x:filter 
+    key="avalon-activation-impl" 
+    feature="uri" 
+    token="STANDARD_RUNTIME"/&gt;
+</pre><div class="source-title"><span class="source-title" /></div>
+
+      <div class="subsection"><span class="subsection-header">Features</span>
+      
+      <p>
+      Features that may be aquired from any defintion (resource, 
+      project, or plugin) are shown in the following table along
+      with example output.
+      </p>
+
+      <table>
+        <tr row="odd">
+          <th>Feature</th>
+          <th>Description</th>
+        </tr>
+        <tr row="even">
+          <td>name</td>
+          <td>The name of the resource, project or plugin.
+<pre class="source">
+avalon-activation-impl
+</pre><div class="source-title"><span class="source-title" /></div>
+</td>
+        </tr>
+        <tr row="odd">
+          <td>group</td>
+          <td>The group within which the resource, project or plugin
+            is defined under.
+<pre class="source">
+avalon/activation
+</pre><div class="source-title"><span class="source-title" /></div>
+          </td>
+        </tr>
+        <tr row="even">
+          <td>version</td>
+          <td>The version of the resource, project or plugin.
+<pre class="source">
+2.0.0
+</pre><div class="source-title"><span class="source-title" /></div>
+          </td>
+        </tr>
+        <tr row="odd">
+          <td>uri</td>
+          <td>An artifact uri.
+<pre class="source">
+artifact:jar:avalon/activation/avalon-activation-impl#2.0.0
+</pre><div class="source-title"><span class="source-title" /></div>
+          </td>
+        </tr>
+      </table>
+
+      <p>
+      The following two features may be aquired from a project 
+      definition.  The value returned is a string build from the 
+      runtime path definition containing fully expanded repository
+      filesnames prepended with the string %MAGIC_SCD% for windows
+      and $MAGIC_SCD on unix - suitable for use in a application 
+      script or command file.
+      </p>
+
+      <pre>
+      system-classpath-for-windows
+      system-classpath-for-unix
+      </pre>
+
+      </div>
+
+    </div>
+  </div><div class="footer"><span class="copyright">Copyright 2004, The Apache Software Foundation All rights reserved.</span><div class="views"><a class="viewlink" id="xmllink" href=""><img src="../../../../../images/xml.gif" /></a></div></div></body></html>

@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><title>Javadoc Tag Specification</title><link type="text/css" rel="stylesheet" href="../../../../../styles/style.css" /><meta content="text/html; charset=UTF-8" http-equiv="Content-type" /></head><body><table class="logobar"><tr><td class="panelleft"><img alt="link" src="../../../../../images/feather.jpg" /></td><td class="panelmiddle"><div class="project">Metro</div><div class="title">Javadoc Tag Specification</div></td><td class="panelright" /></tr></table><div class="categorybar" dir="/products/runtime/system/meta/tags"><a class="homecategory" href="../../../../../index.html">
+        Home
+      </a></div><div class="menubar"><div class="menu"><div class="menu"><div class="menu"><div class="menu"><div class="menu"><a class="menuitem-selected" href="../../../../runtime/index.html">Merlin Runtime</a></div><a class="menuitem" href="../../../execmodes/index.html">Execution</a><a class="menuitem" href="../../../reference/index.html">Specification</a><a class="menuitem-selected" href="../../../system/index.html">Systems</a><a class="menuitem" href="../../../javadoc/index.html">Javadoc</a></div><a class="menuitem-selected" href="../../meta/index.html">Meta</a><a class="menuitem" href="../../composition.html">Composition</a><a class="menuitem" href="../../activation.html">Activation</a><a class="menuitem" href="../../repository/index.html">Repository</a><a class="menuitem" href="../../logging/index.html">Logging</a><a class="menuitem" href="../../util/index.html">Util</a></div><a class="menuitem-selected" href="../tags/index.html">Tag Reference</a><a class="menuitem" href="../info/index.html">Type Model</a></div><a class="menuitem-selected" href="type.html">Component</a><a class="menuitem" href="attribute.html">Attribute</a><a class="menuitem" href="service.html">Service</a><a class="menuitem" href="logger.html">Logger</a><a class="menuitem" href="configuration.html">Configuration</a><a class="menuitem" href="context.html">Context</a><a class="menuitem" href="entry.html">Entry</a><a class="menuitem" href="dependency.html">Dependency</a><a class="menuitem" href="stage.html">Stage</a><a class="menuitem" href="extension.html">Extension</a></div></div><div class="content">
+
+    <div class="section"><span class="section-header">Javadoc Tags</span>
+
+      <div class="subsection"><span class="subsection-header">Component Tag</span>
+<p>The component tag declares a java source as a component type.  The tag is a required when generating a component type descriptor.</p>
+      </div>
+
+      <div class="subsection"><span class="subsection-header">Attributes</span>
+        <table>
+          <tr row="odd"><th>Attribute</th><th>Required</th><th>Description</th></tr>
+          <tr row="even">
+            <td>name</td><td>yes</td>
+            <td>
+            <p>The name representing the component type. </p>
+            </td>
+          </tr>
+          <tr row="odd">
+            <td>version</td><td>no</td>
+            <td>
+              <p>
+              The version used for this component implementation. 
+              If not supplied a default version of 1.0 is assumed.
+              </p>
+            </td>
+          </tr>
+          <tr row="even">
+            <td>lifestyle</td><td>no</td>
+            <td>
+              <p>
+                The lifestyle that the component was designed for. The 
+                lifestyle may be one of four predefined values. A compliant 
+                container is not required to provide equivalent lifestyle 
+                support, however, a container is required to recognize and 
+                reject a component that it cannot support.
+              </p>
+              <p>If not declared, a container may assume the transient lifestyle.</p>
+              <p>Recognized lifestyle attribute values include:</p>
+              <ul>
+                <li>singleton - an instance may be shared between 
+                    multiple clients</li>
+                <li>thread - one instance per thread</li>
+                <li>transient - new instance are created on demand</li>
+              </ul>
+            </td>
+          </tr>
+        </table>
+      </div>
+
+      <div class="subsection"><span class="subsection-header">Example</span>
+
+<pre class="source">
+package org.apache.avalon.playground;
+
+/**
+ * Example of the declaration of named component type.
+ *
+ * @avalon.component version="1.0" name="sample" lifestyle="singleton"
+ */
+public class DefaultComponent
+{
+  ...
+}
+</pre><div class="source-title"><span class="source-title" /></div>
+
+<p>Generated meta-info type descriptor:</p>
+
+<pre class="source">
+&lt;type&gt;
+  &lt;info&gt;
+    &lt;version&gt;1.0.0&lt;/version&gt;
+    &lt;name&gt;sample&lt;/name&gt;
+    &lt;lifestyle&gt;singleton&lt;/lifestyle&gt;
+  &lt;/info&gt;
+&lt;/type&gt;
+</pre><div class="source-title"><span class="source-title" /></div>
+
+      </div>
+    </div>
+  </div><div class="footer"><span class="copyright">Copyright 2004, The Apache Software Foundation All rights reserved.</span><div class="views"><a class="viewlink" id="xmllink" href=""><img src="../../../../../images/xml.gif" /></a></div></div></body></html>

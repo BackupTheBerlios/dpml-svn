@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><title>Merlin Runtime</title><link type="text/css" rel="stylesheet" href="../../../../../styles/style.css" /><meta content="text/html; charset=UTF-8" http-equiv="Content-type" /></head><body><table class="logobar"><tr><td class="panelleft"><img alt="link" src="../../../../../images/feather.jpg" /></td><td class="panelmiddle"><div class="project">Metro</div><div class="title">Merlin Runtime</div></td><td class="panelright" /></tr></table><div class="categorybar" dir="/products/runtime/system/logging/api"><a class="homecategory" href="../../../../../index.html">
+        Home
+      </a></div><div class="menubar"><div class="no-border"><span class="dummy" /><div class="menu"><div class="menu"><div class="menu"><div class="menu"><a class="menuitem-selected" href="../../../../runtime/index.html">Merlin Runtime</a></div><a class="menuitem" href="../../../execmodes/index.html">Execution</a><a class="menuitem" href="../../../reference/index.html">Specification</a><a class="menuitem-selected" href="../../../system/index.html">Systems</a><a class="menuitem" href="../../../javadoc/index.html">Javadoc</a></div><a class="menuitem" href="../../meta/index.html">Meta</a><a class="menuitem" href="../../composition.html">Composition</a><a class="menuitem" href="../../activation.html">Activation</a><a class="menuitem" href="../../repository/index.html">Repository</a><a class="menuitem-selected" href="../../logging/index.html">Logging</a><a class="menuitem" href="../../util/index.html">Util</a></div><a class="menuitem-selected" href="../api/index.html">API</a><a class="menuitem" href="../logkit/index.html">LogKit</a><a class="menuitem" href="../log4j/index.html">Log4J</a></div></div></div><div class="content">
+
+    <div class="section"><span class="section-header">Avalon Logging API</span>
+        <p>
+        The logging API is divided into two sections - one dealing with 
+        meta data directives, and the second dealing with the logging
+        system service interface.  The logging metadata addresses the 
+        desription of a logging channel by a client.  The description is 
+        encapsulated in the 
+        <a class="doclink" href="../../../../..//api/org/apache/avalon/logging/data/CategoriesDirective.html">
+        CategoriesDirective</a> and 
+        <a class="doclink" href="../../../../..//api/org/apache/avalon/logging/data/CategoryDirective.html">
+        CategoryDirective</a> immutable directives.
+        </p>
+        <p>
+        Category directives describe the logging channel requirements, 
+        including channel name, priority, and a named logging target.
+        </p>
+        <p>
+        A logging manager is responsible for fulling the the requirements 
+        expressed by a caregory directive.  This capability is defined by the 
+        <a class="doclink" href="../../../../..//api/org/apache/avalon/logging/provider/LoggingManager.html">
+        LoggingManager</a> interface.  Implementations such as the 
+        <a class="doclink" href="../../../../..//api/org/apache/avalon/logging/logkit/DefaultLoggingFactory.html">LogKit</a>
+        factory plugin are established via the avalon repository system and 
+        can be parameterized using the  
+        <a class="doclink" href="../../../../..//api/org/apache/avalon/logging/provider/LoggingCriteria.html">
+        LoggingCriteria</a> interface.
+        </p>
+
+      <div class="subsection"><span class="subsection-header">Standard Properties</span>
+        <p>
+        The following table details the set of standard properties 
+        supported by Logging System.
+        </p>
+        <table>
+          <tr row="odd"><th>Property</th><th>Description</th></tr>
+          <tr row="even">
+            <td>avalon.logging.configuration</td>
+            <td>URL referencing an external logging system configuration.</td>
+          </tr>
+          <tr row="odd">
+            <td>avalon.logging.bootstrap</td>
+            <td>A logging channel to be used during the bootstrapping phase. Classic
+            logging priority values of DEBUG, INFO, WARN, ERROR may be assigned and 
+            will be resolved to a console logger with an equivalent priority.</td>
+          </tr>
+          <tr row="even">
+            <td>avalon.logging.basedir</td>
+            <td>The base directory to use when constructing file based log targets.
+            Defaults to the initial working directory declared by the repository
+            initial context.</td>
+          </tr>
+          <tr row="odd">
+            <td>avalon.logging.debug</td>
+            <td>Debug flag used to override all logging channels to debug priority.
+            The default falue is 'false'.</td>
+          </tr>
+          <tr row="even">
+            <td>avalon.logging.update</td>
+            <td>
+              If the value is larger than zero, the <strong>update</strong> is
+              how many millisecond between re-configuring the logging system. Not
+              all logging system will support this property, in which case it is
+              completely ignored. The default value is 0.
+            </td>
+          </tr>
+        </table>
+      </div>
+    </div>
+
+  </div><div class="footer"><span class="copyright">Copyright 2004, The Apache Software Foundation All rights reserved.</span><div class="views"><a class="viewlink" id="xmllink" href=""><img src="../../../../../images/xml.gif" /></a></div></div></body></html>

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><title>Avalon Central</title><link type="text/css" rel="stylesheet" href="../../../styles/style.css" /><meta content="text/html; charset=UTF-8" http-equiv="Content-type" /></head><body><table class="logobar"><tr><td class="panelleft"><img alt="link" src="../../../images/feather.jpg" /></td><td class="panelmiddle"><div class="project">Metro</div><div class="title">Avalon Central</div></td><td class="panelright" /></tr></table><div class="categorybar" dir="/central/tools/magic"><a class="homecategory" href="../../../index.html">
+        Home
+      </a></div><div class="menubar"><div class="menu"><div class="menu"><div class="menu"><a class="menuitem" href="../../about/index.html">Welcome</a><a class="menuitem" href="../../community/index.html">Community</a></div><a class="menuitem-selected" href="../magic/index.html">Magic</a></div><a class="menuitem-selected" href="installation.html">Installing</a><a class="menuitem" href="spells/index.html">Casting Spells</a><a class="menuitem" href="model/index.html">System Model</a><a class="menuitem" href="templates/index.html">Templates</a><a class="menuitem" href="tasks/index.html">Tasks</a><a class="menuitem" href="../../../avalon/tools/avalon-tools-magic/index.html">Javadoc</a></div></div><div class="content">
+    <div class="section"><span class="section-header">Installing Magic</span>
+
+      <div class="subsection"><span class="subsection-header">Installing Ant</span>
+
+        <p>
+        Magic runs on top of Ant.  Before installing Magic
+        you need to build or download a 
+        <a class="doclink" href="http://ant.apache.org/bindownload.cgi">
+        binary installation of Ant</a> (version 1.6.2 or later).
+        </p>
+
+      </div>
+
+      <div class="subsection"><span class="subsection-header">Magic Setup</span>
+
+        <p>
+        Using <strong>MAGIC_HOME</strong> ...
+        </p>
+
+        <p>
+        Magic registers content in a common repository. If you want to 
+        share the repository with Merlin or other repository enabled products
+        you should define the <code>MAGIC_HOME</code> environment variable with a value 
+        pointing to a directory within which the repository will be created.  If 
+        undefined, the installation will create the magic installation in 
+        ${user.home}/.magic.
+        </p>
+
+        <p>
+        Download <a class="doclink" href="http://svn.apache.org/repos/asf/avalon/trunk/tools/magic/setup.xml">setup.xml</a> from Apache.
+        </p>
+
+        <p>
+        From within the directory that you downloaded setup.xml to ...
+        </p>
+
+<pre class="source">
+$ ant -buildfile setup.xml
+</pre><div class="source-title"><span class="source-title" /></div>
+
+        <p>
+        The above command invokes ant.  Ant will downloads the magic 
+        library and installs this under ${user.home}/.ant/lib as an antlib 
+        extension.  In addition the procedure will also check for the 
+        presence of JUnit libraries in Ant's claspath and if required the 
+        necessary jar files will be download and installed.
+        </p>
+
+      </div>
+
+    </div>
+  </div><div class="footer"><span class="copyright">Copyright 2004, The Apache Software Foundation All rights reserved.</span><div class="views"><a class="viewlink" id="xmllink" href=""><img src="../../../images/xml.gif" /></a></div></div></body></html>

@@ -1,0 +1,250 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><title>History</title><link type="text/css" rel="stylesheet" href="../../../styles/style.css" /><meta content="text/html; charset=UTF-8" http-equiv="Content-type" /></head><body><table class="logobar"><tr><td class="panelleft"><img alt="link" src="../../../images/feather.jpg" /></td><td class="panelmiddle"><div class="project">Metro</div><div class="title">History</div></td><td class="panelright" /></tr></table><div class="categorybar" dir="/central/community/history"><a class="homecategory" href="../../../index.html">
+        Home
+      </a></div><div class="menubar"><div class="menu"><div class="menu"><div class="menu"><a class="menuitem" href="../../about/index.html">Welcome</a><a class="menuitem-selected" href="../../community/index.html">Community</a></div><a class="menuitem" href="../process/index.html">Process</a></div><a class="menuitem-selected" href="story.html">Avalon's Story</a><a class="menuitem" href="call-to-vote.html">Call To Vote</a><a class="menuitem" href="need-for-avalon.html">Need For Avalon</a><a class="menuitem" href="what-is-a-server.html">What is a Server?</a></div></div><div class="content">
+    <div class="section"><span class="section-header">Avalon's Story</span>
+      <p>
+The following is an attempt at recording the history of
+Avalon, both its technology and its community.  The Avalon Framework
+traditionally had a notorious learning curve and the community
+has seen a number of changes.  Hopefully by understanding
+where Avalon has been, users can gain a better understanding of
+where Avalon is now and where we are headed.
+subsection</p>
+
+      <div class="subsection"><span class="subsection-header">Once upon a time</span>
+      <p>
+Let's start off with some basic history. Avalon emerged from the Java
+Apache Server Framework before the days of Apache Jakarta. During
+development of the JServ project (which laid the foundation for
+Tomcat), many of the developers realized that the ideas being used at
+the time could be abstracted into a general application
+framework. This framework eventually became the Avalon framework we
+have today.  The framework focused a small number of core concepts 
+(design patterns) called Separation of Concerns and Inversion of
+subsectionControl which are described elsewhere.
+      </p>
+      <p>
+So in the beginning there was the Avalon Framework. It basically
+described the contracts or interfaces between various components (such
+as lifecycle methods) and provided some general utilities for using
+these interfaces. One could easily create an application which simply
+just used the framework. However, in order to provide some more
+advanced components and utilties (which were not essential to the
+framework, but still useful) Excalibur was born.
+      </p>
+      <p>
+Excalibur held a set of basic components and utilities which made
+working with the Framework much easier. One of these components was
+the Excalibur Component Manager or ECM which did all the work of
+getting all your component and configuration data sorted out and
+started. It was the first container of sorts and grew out of work from
+the Cocoon project. ECM didn't have a lot of "advanced" features, but
+it was simple to work with and could be used in any number of
+environments. 
+      </p>
+      <p>
+Of course, with time, new expectations and requested features meant
+that other Avalon containers were under development.  ECM would have to
+share the spotlight with Phoenix. 
+      </p>
+      </div>
+      <div class="subsection"><span class="subsection-header">The Rise of the Phoenix</span>
+      <p>
+Phoenix was the first really complete full fledged standalone
+container for Avalon. Phoenix was not only a container, but a
+microkernel. While it could be used for other sorts of applications,
+most Phoenix development revolved around server applications such as
+web servers, FTP servers, telnet servers, etc. Phoenix applications
+would take a number of components and bundle them together in what was
+called a block.  A block generally referred to a complete application,
+such as a database or FTP server, although you could have inter-block
+dependencies. Blocks would be packaged up with configuration and
+assembly files into a .sar archive, similar to the .ear files for J2EE
+applications. Phoenix would then launch all the SAR blocks contained
+within a particular startup directory. 
+      </p>
+      <p>
+Thus Phoenix was a full application server of sorts. Applications
+running within Phoenix used the Avalon Framework just as ECM
+components would. In fact, if you were careful to only depend on the
+framework for development, with a little work you could get
+applications written for ECM to run in Phoenix and visa versa. 
+      </p>
+      <p>
+Cornerstone became a repository of Phoenix blocks: larger components
+which could be dropped into Avalon Phoenix and provide services and
+resources to user developed components and applications. There was
+some overlap between components developed in Cornerstone and
+Excalibur, but in general, Cornerstone components were targeted for
+server side applications running in Phoenix. 
+      </p>
+      <p>
+Phoenix's growth brought changes to the developer community as well.
+A separate CVS repository and specific mailing list were
+created to facility the Phoenix community.  This was the beginning
+of a sort of schism within Avalon, both technologically and socially,
+as the new containers created with them their own communities,
+standards, and goals.  There was a a tug of war, so to speak, between
+keeping the different containers compatible while also allowing each 
+developer community to explore and enhance their software in their own
+repective ways.  One of those enhancements was the change from
+components to services.
+      </p>
+      </div>
+      <div class="subsection"><span class="subsection-header">How Components Became Services</span>
+      <p>
+In the beginning there were only components. The components had a role
+defined by a java interface and an implementation defined by a
+concrete java class. In ECM roles and components could be described in
+a set of XML configuration files, generally one for the roles and one
+for the implementations. In Phoenix, roles were still roles and
+components were still components, but they were defined in xinfo files
+scattered across the various jar archives that would make up an
+application. This was done to allow developers to deploy a jar file
+that contained not only the interfaces and implementations, but also
+the basic meta-data. The xinfo files and the conf files had the
+same purpose (to hold meta-data and meta-info) but were used by 
+different containers.  Thus, from the beginning there was no common
+meta format or API.
+      </p>
+      <p>
+Also at this time, all components were children of the one
+org.apache.framework.component.Component interface. A brave developer
+scaled Mt. Doom and tossed the Component interface and all the other
+marker interfaces into the fiery pit, thus freeing all components from
+bondage of the one Component. 
+      </p>
+      <p>
+Upon return from this quest, the developer said, "All Components shall
+now be dubbed Services" and a new set of Service Managers and Service
+Selectors appeared that could converse with any Object, not just
+Components. These Service utilities performed the exact same functions
+as their deprecated Component counterparts, but didn't require
+everything be a Component. That is:
+      </p>
+<pre class="source">Component componentManager.lookup(String role);</pre><div class="source-title"><span class="source-title" /></div>
+      <p>
+became
+      </p>
+<pre class="source">Object serviceManager.lookup(String role);</pre><div class="source-title"><span class="source-title" /></div>
+      <p>
+So in this sense, Components ARE Services. But now the Avalon
+community had two names for the same thing and this is generally were
+confusion arises.  Since that time, a service generally refers to only
+the service interface while a component refers to the entire interface
+and implementation together.
+      </p>
+      <p>
+Stephen McConnell, primary developer of Merlin, chimed in with this
+clarification: "A 'component' is an implementation artifact that
+exposes 0..n services. A 'service' is computation contract exposed by
+a component. A component may include many other features that are not
+exposed through the services that is publishes. "
+      </p>
+      <p>
+"A 'service' is typically represented by a Java interface and possibly
+supporting meta-info (such as a version, attributes, etc.)." 
+      </p>
+      <p>
+"A 'component' is an example of a 'service-delivery-strategy'."
+      </p>
+      </div>
+      <div class="subsection"><span class="subsection-header">Fortress and Merlin arrive</span>
+      <p>
+Effort was made in Phoenix to support the new Service semantics, but
+instead of rewritting ECM, the decision was made to create a new
+ECM-like container which could use Components and Services alike. Thus
+was born Fortress.
+      </p>
+      <p>
+Fortress supports legacy ECM components but provides a number of
+features like basic meta-data configuration (instead of a "roles"
+file), dynamic service activation, lifecycle extensions,
+instrumentation support and so on. Fortress is also "embeddable" in
+that you can easily start up a Fortress container in your own
+application be it a Java Swing client or a Servlet. Fortress provides
+no default standalone client (i.e.- there's no "main" method class in
+Fortress) and doesn't do much classloader magic, making embedding a
+little more predictable. Fortress was released in the summer of 2003
+and replaced ECM as Avalon's light weight container of choice. 
+      </p>
+      <p>
+While Fortress grew from ECM, Merlin grew from Phoenix, though it
+quickly developed beyond its roots. Merlin focused on a strict
+seperation between container concerns and component concerns. As such,
+all Merlin applications are never dependent on any actual Merlin code
+(at least in order to compile). A new meta data model was developed,
+hierarchical block support added, and Merlin provided support for
+standalone or embedded environments. 
+      </p>
+      <p>
+For the sake of completeness, we should also mention Tweety which was
+a very basic container developed for the sole purpose as a teaching
+tool.  Tweety never really made it out of the sandbox much, but it
+is not forgotten by some ...
+      </p>
+      </div>
+      <div class="subsection"><span class="subsection-header">One container to rule them all</span>
+      <p>
+If you're keeping up with our story you'll have realized by now that
+we have four containers: ECM, Phoenix, Fortress, Merlin.  At its
+height, Avalon also contained its own logging framework (LogKit), unit
+testing framework, two component libraries (Excalibur and
+Cornerstone), and a host of Avalon-based server applications including
+a web server and FTP server.  It was a lot to handle.
+      </p>
+      <p>
+Moreover, while all of these software projects and components were
+based on the same Avalon framework, they were often mutually
+incompatible.  The framework was intentionally designed to be
+rather silent on the issues of meta-info and meta-data (information
+about how to wire components together inside a container) amongst
+other things.  This meant that each container implementation had its
+own "standards" and made writing container neutral components rather
+difficult.
+      </p>
+      <p>
+When Avalon moved out of Apache Jakarta in late 2002 and on to its own
+top level project, the developers decided to try to organize the
+situation; however, they faced a bit of an identity crisis:  What was
+Avalon about?  Containers?  Frameworks?  Components?  All of the
+above?  Was Avalon to be an umbrella project with many containers
+based on a single framework or a single project with a single
+reference implementation?
+      </p>
+      <p>
+To make a long story short, the pendulum swung back and forth on that
+issue for the better part of two years.  Several projects where spun
+off or depricated and some developers left to persue other adventures.
+In the spring of 2004 there was another push to consolidate Avalon's
+software projects into a single platform:
+      </p>
+<pre class="source">
+     One container to rule them all
+     One container to find them
+     One container to bring them all
+     And in the model bind them</pre><div class="source-title"><span class="source-title" /></div>
+      <p>
+After a few months of proposals and counter proposals, Avalon emerged
+as a project focused on a single container platform: Merlin.  The
+Fortress and Excalibur codebases were then transferred to the new <a class="doclink" href="http://excalibur.apache.org">Apache Excalibur</a> project.
+Meanwhile, Phoenix was retired in light of its fork, <a class="doclink" href="http://loom.codehaus.org">Loom</a>, which was developed at Codehaus by some early Avalon developers.
+      </p>
+      </div>
+      <div class="subsection"><span class="subsection-header">Peering into the Mysts of Avalon</span>
+      <p>
+At its inception, Avalon was a rather novel software project and
+pioneered many ideas in container development.  Since that time, the
+concepts of Separation of Concerns and Inversion of Control have
+become buzzwords and a whole slew of IoC frameworks and containers
+have emerged.  Avalon continues to push the bounds of these
+technologies and remains focused on developing a complete solution for
+component and container applications.  The Avalon team invites you to
+download our software and join our community mailing lists and become
+involved in Avalon's future.
+      </p>
+      </div>
+    </div>
+  </div><div class="footer"><span class="copyright">Copyright 2004, The Apache Software Foundation All rights reserved.</span><div class="views"><a class="viewlink" id="xmllink" href=""><img src="../../../images/xml.gif" /></a></div></div></body></html>

@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><title>Avalon Central</title><link type="text/css" rel="stylesheet" href="../../../styles/style.css" /><meta content="text/html; charset=UTF-8" http-equiv="Content-type" /></head><body><table class="logobar"><tr><td class="panelleft"><img alt="link" src="../../../images/feather.jpg" /></td><td class="panelmiddle"><div class="project">Metro</div><div class="title">Avalon Central</div></td><td class="panelright" /></tr></table><div class="categorybar" dir="/central/about/installation"><a class="homecategory" href="../../../index.html">
+        Home
+      </a></div><div class="menubar"><div class="menu"><div class="menu"><div class="menu"><a class="menuitem-selected" href="../../about/index.html">Welcome</a><a class="menuitem" href="../../community/index.html">Community</a></div><a class="menuitem" href="../license.html">License</a><a class="menuitem" href="../download.html">Downloads</a><a class="menuitem-selected" href="../installation/index.html">Installation</a><a class="menuitem" href="../tutorials/index.html">Tutorials</a><a class="menuitem" href="../news/index.html">News</a><a class="menuitem" href="../faq.html">FAQ</a></div><a class="menuitem" href="svn.html">Source</a><a class="menuitem-selected" href="binary.html">Binary</a><a class="menuitem" href="nt.html">NT Service</a><a class="menuitem" href="archive/index.html">Other Versions</a></div></div><div class="content">
+    <div class="section"><span class="section-header">Installation - Merlin 3.3</span>
+
+      <div class="subsection"><span class="subsection-header">Structure</span>
+
+        <p>
+        After downloading the Merlin 3.3.0 binary distribution and 
+        unpacking the archive into you preferred location, you should
+        have a directory structure that looks like the following: 
+        </p>
+<pre class="source">
+  /merlin
+    /bin
+    /config
+    /plugins
+    /system
+    README.TXT
+    LICENSE.TXT
+    NOTICE.TXT
+</pre><div class="source-title"><span class="source-title" /></div>
+
+      </div>
+
+      <div class="subsection"><span class="subsection-header">MERLIN_HOME Environment Variable</span>
+
+        <p>
+To use Merlin command line support or the Merlin NT Service
+you will need to define the MERLIN_HOME environment
+variable for your system and include MERLIN_HOME/bin in
+your system path.  The MERLIN_HOME environment variable
+should point to the merlin directory.
+        </p>
+
+        <p>
+Under Windows you can set environment variables by selecting the 
+Environment Tab from the System Control Panel.
+        </p>
+
+        <p>
+Under Lunix you can do this as follows:
+        </p>
+
+<pre class="source">
+  $ echo '
+  &gt; # set location of merlin
+  &gt; export MERLIN_HOME=/opt/merlin
+  &gt; # include it in the path
+  &gt; export PATH=$PATH:$MERLIN_HOME/bin
+  &gt; ' &gt;&gt; ~/.bash_profile
+  $ source ~/.bash_profile
+</pre><div class="source-title"><span class="source-title" /></div>
+
+      </div>
+
+      <div class="subsection"><span class="subsection-header">AVALON_HOME Environment Variable</span>
+
+        <p>
+Versions of Merlin prior to the 3.2-dev 20031210 build maintained 
+a local repository of jar files under the %MERLIN_HOME%/repository
+directory.  As of the 20031210 build the repository is maintained 
+under AVALON_HOME/repository where AVALON_HOME defaults to 
+${user.home}/.avalon.  To override the AVALON_HOME directory you 
+can either define a AVALON_HOME environment variable or you can 
+add a merlin.properties file to ${user.home} containing the 
+"merlin.repository" property key and a value point to you preferred 
+repository location.
+        </p>
+
+      </div>
+
+      <div class="subsection"><span class="subsection-header">Maven Plugin Installation</span>
+
+        <p>
+The merlin system installation is now complete.  Three plugins 
+supporting development are provided and can be installed using the 
+commands listed below (please check the packaged INSTALL.TXT for 
+correct version numbers):
+        </p>
+
+<pre class="source">
+$ maven -DgroupId=avalon-util -DartifactId=avalon-util-plugin -Dversion=1.0.0 plugin:download
+$ maven -DgroupId=avalon-meta -DartifactId=avalon-meta-plugin -Dversion=1.4.0 plugin:download
+$ maven -DgroupId=merlin -DartifactId=merlin-plugin -Dversion=3.3.0 plugin:download
+</pre><div class="source-title"><span class="source-title" /></div>
+
+      </div>
+
+
+      <div class="subsection"><span class="subsection-header">Validating your installation.</span>
+
+        <p>
+          The following instructions assume that you have defined the
+          MERLIN_HOME environment variable that points the directory
+          containing the Merlin installation.
+        </p>
+
+        <p>
+          To confirm that you MERLIN_HOME variable is correct, you
+          should open a new command line window and invoke the Merlin
+          CLI application. The following command should list the
+          Merlin CLI help information.
+        </p>
+
+<pre class="source">
+$ merlin.sh -help
+usage: merlin [block] [-lang &lt;code&gt;] [-install &lt;url&gt;] 
+  [-library &lt;directory&gt;] [-help] [-version] [-home &lt;directory&gt;] 
+  [-impl &lt;artifact&gt;] [-debug] [-info] [-config &lt;url&gt;] 
+  [-context &lt;directory&gt;] [-system &lt;directory&gt;] [-execute] 
+  [-repository &lt;directory&gt;] [-kernel &lt;url&gt;]...
+</pre><div class="source-title"><span class="source-title" /></div>
+
+      </div>
+      <div class="subsection"><span class="subsection-header">Cygwin Notes</span>
+        <p>
+Due to restrictions related to the handling of spaces in filename 
+and/or directory names when running under the Cygwin environment you 
+will need to quote and escape command line arguments that contain 
+references with embedded spaces. </p>
+
+<p>For example:</p>
+
+<pre class="source">
+  merlin -home '/My\ Documents/merlin/apps/abc' -execute
+</pre><div class="source-title"><span class="source-title" /></div>
+
+      </div>
+
+      <div class="subsection"><span class="subsection-header">Next Steps</span>
+        <p>
+          Now that you have installed Merlin on your system you can
+          proceed to the <a class="doclink" href="../tutorial/index.html">Using Merlin</a>
+          tutorial page.
+        </p>
+      </div>
+
+    </div>
+  </div><div class="footer"><span class="copyright">Copyright 2004, The Apache Software Foundation All rights reserved.</span><div class="views"><a class="viewlink" id="xmllink" href=""><img src="../../../images/xml.gif" /></a></div></div></body></html>

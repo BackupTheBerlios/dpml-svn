@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><title>Logging Descriptors</title><link type="text/css" rel="stylesheet" href="../../../../../../../styles/style.css" /><meta content="text/html; charset=UTF-8" http-equiv="Content-type" /></head><body><table class="logobar"><tr><td class="panelleft"><img alt="link" src="../../../../../../../images/feather.jpg" /></td><td class="panelmiddle"><div class="project">Metro</div><div class="title">Logging Descriptors</div></td><td class="panelright" /></tr></table><div class="categorybar" dir="/products/runtime/system/meta/info/type/info"><a class="homecategory" href="../../../../../../../index.html">
+        Home
+      </a></div><div class="menubar"><div class="menu"><div class="menu"><div class="menu"><div class="menu"><div class="menu"><div class="menu"><div class="menu"><a class="menuitem-selected" href="../../../../../../runtime/index.html">Merlin Runtime</a></div><a class="menuitem" href="../../../../../execmodes/index.html">Execution</a><a class="menuitem" href="../../../../../reference/index.html">Specification</a><a class="menuitem-selected" href="../../../../../system/index.html">Systems</a><a class="menuitem" href="../../../../../javadoc/index.html">Javadoc</a></div><a class="menuitem-selected" href="../../../../meta/index.html">Meta</a><a class="menuitem" href="../../../../composition.html">Composition</a><a class="menuitem" href="../../../../activation.html">Activation</a><a class="menuitem" href="../../../../repository/index.html">Repository</a><a class="menuitem" href="../../../../logging/index.html">Logging</a><a class="menuitem" href="../../../../util/index.html">Util</a></div><a class="menuitem" href="../../../tags/index.html">Tag Reference</a><a class="menuitem-selected" href="../../../info/index.html">Type Model</a></div><a class="menuitem-selected" href="../../type/index.html">Type</a><a class="menuitem" href="../../service.html">Service</a><a class="menuitem" href="../../attributes/index.html">Attributes</a></div><a class="menuitem" href="../index.html">Overview</a><a class="menuitem-selected" href="../info/index.html">Info</a><a class="menuitem" href="../loggers/index.html">Loggers</a><a class="menuitem" href="../context/index.html">Context</a><a class="menuitem" href="../dependencies/index.html">Dependencies</a><a class="menuitem" href="../services/index.html">Services</a><a class="menuitem" href="../stages/index.html">Stages</a><a class="menuitem" href="../extensions/index.html">Extensions</a></div><a class="menuitem-selected" href="index.html">Overview</a><a class="menuitem" href="name.html">Name</a><a class="menuitem" href="version.html">Version</a><a class="menuitem" href="lifestyle.html">Lifestyle</a><a class="menuitem" href="collection.html">Collection</a></div></div><div class="content">
+
+    <div class="section"><span class="section-header">Info Descriptor</span>
+
+      <div class="subsection"><span class="subsection-header">Description</span>
+<p>
+The org.apache.avalon.meta.info.InfoDescriptor class describes the component 
+type name, version, and optionally a set of attributes.
+</p>
+      </div>
+
+
+      <div class="subsection"><span class="subsection-header">Nested Elements</span>
+        <table>
+          <tr row="odd"><th>Element</th><th>Occurance</th><th>Description</th></tr>
+          <tr row="even">
+            <td><a class="doclink" href="name.html">name</a></td><td>1</td>
+            <td>
+             The name of the component type - may be used by a container as 
+             the component default name when generating type related 
+             information in log or error reports.
+            </td>
+          </tr>
+          <tr row="odd">
+            <td><a class="doclink" href="version.html">version</a></td><td>0..1</td>
+            <td>
+             The component type implementation version.  The default
+             value is 1.0.0.
+            </td>
+          </tr>
+          <tr row="even">
+            <td><a class="doclink" href="lifestyle.html">lifestyle</a></td><td>0..1</td>
+            <td>
+             Declaration of the component lifestyle. May contain one of the 
+             recognized values "singleton", "thread", or "transient".
+             If not supplied the default value is transient.
+            </td>
+          </tr>
+          <tr row="odd">
+            <td><a class="doclink" href="../attributes/index.html">attributes</a></td><td>0..1</td>
+            <td>
+             Declaration of a set of attributes associated with the component type.
+            </td>
+          </tr>
+          <tr row="even">
+            <td><a class="doclink" href="collection.html">collection</a></td><td>0..1</td>
+            <td>
+             Declaration of a garbage collection policy default override.  If 
+             the value is "weak" the component will be decommissioned automatically
+             if all references to the component have been released.  If the value
+             "soft" the component will be decommissioned in the event of 
+             memory contention. If the value is "hard" the component will be 
+             maintained for the life of its container.  If undefined, the default
+             collection policy is "hard".
+            </td>
+          </tr>
+        </table>
+      </div>
+
+      <div class="subsection"><span class="subsection-header">Example XML</span>
+
+<pre class="source">
+  &lt;info&gt;
+    &lt;name&gt;test&lt;/info&gt;
+    &lt;version&gt;1.0&lt;/version&gt;
+    &lt;lifestyle&gt;singleton&lt;/lifestyle&gt;
+    &lt;collection&gt;soft&lt;/collection&gt;
+    &lt;attributes&gt;
+      &lt;attribute key="about" value="An example attribute."/&gt;
+      &lt;attribute key="status" value="FINAL"/&gt;
+    &lt;/attributes&gt;
+  &lt;/info&gt;
+</pre><div class="source-title"><span class="source-title" /></div>
+
+      </div>
+
+    </div>
+
+  </div><div class="footer"><span class="copyright">Copyright 2004, The Apache Software Foundation All rights reserved.</span><div class="views"><a class="viewlink" id="xmllink" href=""><img src="../../../../../../../images/xml.gif" /></a></div></div></body></html>

@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><title>Avalon Logging - File Log Target</title><link type="text/css" rel="stylesheet" href="../../../../../../styles/style.css" /><meta content="text/html; charset=UTF-8" http-equiv="Content-type" /></head><body><table class="logobar"><tr><td class="panelleft"><img alt="link" src="../../../../../../images/feather.jpg" /></td><td class="panelmiddle"><div class="project">Metro</div><div class="title">Avalon Logging - File Log Target</div></td><td class="panelright" /></tr></table><div class="categorybar" dir="/products/runtime/system/logging/logkit/targets"><a class="homecategory" href="../../../../../../index.html">
+        Home
+      </a></div><div class="menubar"><div class="menu"><div class="menu"><div class="menu"><div class="menu"><div class="menu"><div class="menu"><a class="menuitem-selected" href="../../../../../runtime/index.html">Merlin Runtime</a></div><a class="menuitem" href="../../../../execmodes/index.html">Execution</a><a class="menuitem" href="../../../../reference/index.html">Specification</a><a class="menuitem-selected" href="../../../../system/index.html">Systems</a><a class="menuitem" href="../../../../javadoc/index.html">Javadoc</a></div><a class="menuitem" href="../../../meta/index.html">Meta</a><a class="menuitem" href="../../../composition.html">Composition</a><a class="menuitem" href="../../../activation.html">Activation</a><a class="menuitem" href="../../../repository/index.html">Repository</a><a class="menuitem-selected" href="../../../logging/index.html">Logging</a><a class="menuitem" href="../../../util/index.html">Util</a></div><a class="menuitem" href="../../api/index.html">API</a><a class="menuitem-selected" href="../../logkit/index.html">LogKit</a><a class="menuitem" href="../../log4j/index.html">Log4J</a></div><a class="menuitem" href="../whitepaper.html">Whitepaper</a><a class="menuitem-selected" href="../targets/index.html">Configuration</a><a class="menuitem" href="../examples/index.html">Examples</a></div><a class="menuitem" href="stream.html">Stream Target</a><a class="menuitem-selected" href="file.html">File Target</a><a class="menuitem" href="multicast.html">Multicast Target</a><a class="menuitem" href="plugin/index.html">Plugin Target</a><a class="menuitem" href="formatter.html">Formatter</a></div></div><div class="content">
+    <div class="section"><span class="section-header">File Log Target</span>
+      <div class="subsection"><span class="subsection-header">Description</span>
+        <p>
+        The rotating file target provides support for a set of 
+        rotation strategies including rotation by size, rotation
+        on data, and combined date/size rotation scenarios.
+        </p>
+      </div>
+      <div class="subsection"><span class="subsection-header">Example 1</span>
+<pre class="source">
+    &lt;file id="simple"&gt;
+      &lt;filename&gt;logging.log&lt;/filename&gt;
+    &lt;/file&gt;
+</pre><div class="source-title"><span class="source-title" /></div>
+      </div>
+      <div class="subsection"><span class="subsection-header">Example 2</span>
+<pre class="source">
+    &lt;file id="simple"&gt;
+      &lt;filename&gt;logging.log&lt;/filename&gt;
+      &lt;append&gt;true&lt;/append&gt;
+      &lt;rotation type="revolving" init="1" max="10"&gt;
+        &lt;size&gt;100k&lt;/size&gt;
+      &lt;/rotation&gt;
+    &lt;/file&gt;
+</pre><div class="source-title"><span class="source-title" /></div>
+      </div>
+      <div class="subsection"><span class="subsection-header">XML</span>
+        <table>
+          <tr row="odd"><th>Attributes</th><th>Description</th></tr>
+          <tr row="even">
+            <td>id</td>
+            <td>The log target identifier.</td>
+          </tr>
+        </table>
+        <table>
+          <tr row="odd"><th>Nested Element</th><th>Description</th></tr>
+          <tr row="even">
+            <td>filename</td>
+            <td>The filename to assign to the log file.</td>
+          </tr>
+          <tr row="odd">
+            <td>append</td>
+            <td>Optional element to control file appending policy on the 
+            startup of a new session. May contain 'true' or 'false'.  If 'true' 
+            messages will be appended to the logging file otherwise a new file
+            will be created.</td>
+          </tr>
+          <tr row="even">
+            <td>rotation</td>
+            <td>The &lt;rotation&gt; element holds a single child element that
+            defines the rotation strategy.  See Rotation Strategy Table for the 
+            set of available rotation strategies.  A rotation element contains a 
+            type attribute that can be set to 'revolving' or 'unique'. If the 
+            type is set to 'revolving' then the 'init' and 'max' attributes will
+            be assessed to determine the initial secquence number of the revolving
+            file set, and max indicating the maximum number of files in the set.</td>
+          </tr>
+          <tr row="odd">
+            <td>format</td>
+            <td>A standard <a class="doclink" href="formatter.html">formatter</a> statement.</td>
+          </tr>
+        </table>
+      </div>
+      <div class="subsection"><span class="subsection-header">Rotation Strategy Elements</span>
+        <table>
+          <tr row="odd"><th>Element</th><th>Description</th></tr>
+          <tr row="even">
+            <td>size</td>
+            <td>Rotate on size strategy. The default value is 2m (two megabytes).
+            File size may be abrieviated with the 'm' for megabytes and 'k' for 
+            kilobytes.
+            </td>
+          </tr>
+          <tr row="odd">
+            <td>date</td>
+            <td>Rotate on date strategy. The value of the date element is a string 
+            in the date format YYYYMMDD.
+            </td>
+          </tr>
+          <tr row="even">
+            <td>interval</td>
+            <td>Rotate on time interval strategy. The value of the interval element 
+            is a string in the format DDD:HH:MM:SS where the default value is 24:00:00.
+            </td>
+          </tr>
+          <tr row="odd">
+            <td>time</td>
+            <td>Rotate on time of day strategy. The value of the time element 
+            is a string in the format HH:MM:SS where the default value is 24:00:00.
+            If you want to rotate a logfile more than once a day put an &lt;or&gt; 
+            element as the first element withing a &lt;rotation&gt; element and 
+            specify the times and a size element inside the &lt;or&gt; element.
+            </td>
+          </tr>
+          <tr row="even">
+            <td>or</td>
+            <td>A composite strategy than combines any rotation strategy element
+            declared as a chilkd of the &lt;or&gt; element.
+            </td>
+          </tr>
+        </table>
+      </div>
+    </div>
+  </div><div class="footer"><span class="copyright">Copyright 2004, The Apache Software Foundation All rights reserved.</span><div class="views"><a class="viewlink" id="xmllink" href=""><img src="../../../../../../images/xml.gif" /></a></div></div></body></html>

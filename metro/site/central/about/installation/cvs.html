@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><title>Avalon Central</title><link type="text/css" rel="stylesheet" href="../../../styles/style.css" /><meta content="text/html; charset=UTF-8" http-equiv="Content-type" /></head><body><table class="logobar"><tr><td class="panelleft"><img alt="link" src="../../../images/feather.jpg" /></td><td class="panelmiddle"><div class="project">Metro</div><div class="title">Avalon Central</div></td><td class="panelright" /></tr></table><div class="categorybar" dir="/central/about/installation"><a class="homecategory" href="../../../index.html">
+        Home
+      </a></div><div class="menubar"><div class="menu"><div class="menu"><div class="menu"><a class="menuitem-selected" href="../../about/index.html">Welcome</a><a class="menuitem" href="../../community/index.html">Community</a></div><a class="menuitem" href="../license.html">License</a><a class="menuitem" href="../download.html">Downloads</a><a class="menuitem-selected" href="../installation/index.html">Installation</a><a class="menuitem" href="../tutorials/index.html">Tutorials</a><a class="menuitem" href="../news/index.html">News</a><a class="menuitem" href="../faq.html">FAQ</a></div><a class="menuitem" href="svn.html">Source</a><a class="menuitem" href="binary.html">Binary</a><a class="menuitem" href="nt.html">NT Service</a><a class="menuitem" href="archive/index.html">Other Versions</a></div></div><div class="content">
+        <div class="section"><span class="section-header">Building Merlin from CVS</span>
+
+            <div class="subsection"><span class="subsection-header">Checkout</span>
+
+                <p>
+                    To build the Merlin installation you need to checkout the
+                    Merlin project from CVS. The commands in this document
+                    assume a unix-style system; the procedure under windows is
+                    similar, and identical if you have <a class="doclink" href="http://www.cygwin.com">cygwin</a> installed.
+                </p>
+<pre class="source">
+$ cvs -d :pserver:anoncvs@cvs.apache.org:/home/cvspublic login
+$ cvs -z3 -d :pserver:anoncvs@cvs.apache.org:/home/cvspublic co avalon
+</pre><div class="source-title"><span class="source-title" /></div>
+
+            </div>
+            <div class="subsection"><span class="subsection-header">Build</span>
+
+                <p>
+                    Once checkout is complete you can build Merlin using <a class="doclink" href="http://maven.apache.org/">Maven</a> as follows:
+                </p>
+
+<pre class="source">
+$ cd avalon/util
+$ maven
+$ cd ../meta
+$ maven
+$ cd ../repository
+$ maven
+$ cd ../logging
+$ maven
+$ cd ../composition
+$ maven
+$ cd ../activation
+$ maven
+$ cd ../merlin
+$ maven
+</pre><div class="source-title"><span class="source-title" /></div>
+
+                <p>
+                    The above build procedure will create a installation
+                    directory containing the Merlin system at
+                </p>
+
+<pre class="source">
+  avalon/merlin/target/merlin
+                       ^^^^^^
+                         |
+       ( generated merlin install directory )
+</pre><div class="source-title"><span class="source-title" /></div>
+
+            </div>
+            <div class="subsection"><span class="subsection-header">Replicate</span>
+                <p>
+                    Copy the 'merlin' directory to your preferred location
+                    installation location. For example, you may want to copy
+                    the installation dir to the /opt dir:
+                </p>
+
+<pre class="source">
+$ cp -Rf merlin/target/merlin /opt/merlin
+</pre><div class="source-title"><span class="source-title" /></div>
+
+                <p>
+                    Continue with the <a class="doclink" href="install.3.3.html">binary install</a> 
+                    instructions concerning the setup of environment variables to 
+                    complete your installation.
+                </p>
+
+            </div>
+            <div class="subsection"><span class="subsection-header">Replicate</span>
+                <p>
+                If your using the maven build environment you will need to install
+                the supplied plugins.  Plugins are conviniently packaged in the 
+                merlin/plugins directory.
+                </p>
+                <p>
+                The following maven command will install a plugin into the maven system 
+                (check distribution for latest version numbers).
+                </p>
+<pre class="source">
+$ maven -DgroupId=avalon-util -DartifactId=avalon-util-plugin -Dversion=1.0.dev-0 plugin:download
+$ maven -DgroupId=avalon-meta -DartifactId=avalon-meta-plugin -Dversion=1.4.dev-0 plugin:download
+$ maven -DgroupId=merlin -DartifactId=merlin-plugin -Dversion=3.3.dev-0 plugin:download
+</pre><div class="source-title"><span class="source-title" /></div>
+            </div>
+
+        </div>
+    </div><div class="footer"><span class="copyright">Copyright 2004, The Apache Software Foundation All rights reserved.</span><div class="views"><a class="viewlink" id="xmllink" href=""><img src="../../../images/xml.gif" /></a></div></div></body></html>

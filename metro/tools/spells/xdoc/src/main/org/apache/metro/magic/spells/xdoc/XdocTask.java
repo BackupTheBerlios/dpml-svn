@@ -79,7 +79,7 @@ public class XdocTask extends SystemTask
     public static final String XDOC_LOGO_MIDDLE_URL_VALUE = "";
 
     public static final String XDOC_BRAND_NAME_KEY = "project.xdoc.brand.name";
-    public static final String XDOC_BRAND_NAME_VALUE = "Avalon";
+    public static final String XDOC_BRAND_NAME_VALUE = "Metro";
 
     public static final String XDOC_ANCHOR_URL_KEY = "project.xdoc.anchor.url";
 

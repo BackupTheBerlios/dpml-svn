@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><title>Merlin Runtime</title><link type="text/css" rel="stylesheet" href="../../../../styles/style.css" /><meta content="text/html; charset=UTF-8" http-equiv="Content-type" /></head><body><table class="logobar"><tr><td class="panelleft"><img alt="link" src="../../../../images/feather.jpg" /></td><td class="panelmiddle"><div class="project">Metro</div><div class="title">Merlin Runtime</div></td><td class="panelright" /></tr></table><div class="categorybar" dir="/products/runtime/reference/kernel"><a class="homecategory" href="../../../../index.html">
+        Home
+      </a></div><div class="menubar"><div class="menu"><div class="menu"><div class="menu"><div class="menu"><a class="menuitem-selected" href="../../../runtime/index.html">Merlin Runtime</a></div><a class="menuitem" href="../../execmodes/index.html">Execution</a><a class="menuitem-selected" href="../../reference/index.html">Specification</a><a class="menuitem" href="../../system/index.html">Systems</a><a class="menuitem" href="../../javadoc/index.html">Javadoc</a></div><a class="menuitem" href="../containment/index.html">Block</a><a class="menuitem" href="../component/index.html">Component</a><a class="menuitem" href="../deployment/index.html">Deployment</a><a class="menuitem-selected" href="../kernel/index.html">Kernel</a></div><a class="menuitem-selected" href="properties.html">Properties</a><a class="menuitem" href="overrides/index.html">Targets</a><a class="menuitem" href="repository/index.html">Repository</a></div></div><div class="content">
+    <div class="section"><span class="section-header">Merlin Properties</span>
+      <div class="subsection"><span class="subsection-header">Overview</span>
+      <p>
+Merlin 3.2 introduces a complete property configuration model as part of the unification of the embedding strategy. Merlin properties are included in a file named "merlin.properties".  Merlin will look for this file in the following locations:
+      </p>
+        <table>
+          <tr row="odd"><th>Location</th><th>Description</th></tr>
+          <tr row="even">
+            <td>${merlin.dir}/merlin.properties</td>
+            <td>This is equivalent to the ${user.dir} location unless 
+              modified by the command line -home command parameter.</td>
+          </tr>
+          <tr row="odd">
+            <td>${user.home}/merlin.properties</td>
+            <td>The user's home directory.</td>
+          </tr>
+          <tr row="even">
+            <td>${merlin.home}/merlin.properties</td>
+            <td>The merlin installation directory.</td>
+          </tr>
+        </table>
+      </div>
+      <div class="subsection"><span class="subsection-header">Bootstrap Properties</span>
+        <p>
+         The following properties are established by Merlin during the 
+         bootstrap phase and cannot be override.
+        </p>
+        <table>
+          <tr row="odd"><th>Property</th><th>Default Value</th><th>Description</th></tr>
+          <tr row="even">
+            <td>merlin.dir</td>
+            <td>${user.dir}</td>
+            <td>The working directory used by Merlin.  This value defaults to 
+             ${user.dir} under normal circumstances.  If a System property
+             of ${basedir} is present it will be assigned as ${merlin.dir}.</td>
+          </tr>
+          <tr row="odd">
+            <td>merlin.implementation</td>
+            <td>declared under package merlin.properties resource</td>
+            <td>An artifiact specification that references an alternative 
+              kernel implementation. </td>
+          </tr>
+        </table>
+      </div>
+  
+      <div class="subsection"><span class="subsection-header">Standard Properties</span>
+        <p>
+        The following table details the set of standard properties 
+        supported by Merlin as of 3.2.
+        </p>
+        <table>
+          <tr row="odd"><th>Property</th><th>Default Value</th><th>Description</th></tr>
+          <tr row="even">
+            <td>merlin.home</td>
+            <td>${user.home}/.merlin</td>
+            <td>The merlin installation directory. Can be overriden with the
+              environment variable MERLIN_HOME.</td>
+          </tr>
+          <tr row="odd">
+            <td>merlin.system</td>
+            <td>${merlin.home}/system</td>
+            <td>The merlin system repository.</td>
+          </tr>
+          <tr row="even">
+            <td>merlin.repository</td>
+            <td>${avalon.home}</td>
+            <td>The application repository root directory. The default value
+             of ${avalon.home} is resolved relative to the environment variable
+             AVALON_HOME and if undefined, will fall back to ${user.home}/.avalon.</td>
+          </tr>
+          <tr row="odd">
+            <td>merlin.config</td>
+            <td>${merlin.home}/config</td>
+            <td>The merlin system configuration directory.</td>
+          </tr>
+          <tr row="even">
+            <td>merlin.kernel</td>
+            <td>file:///${merlin.config}/kernel.xml</td>
+            <td>The merlin kernel configuration.</td>
+          </tr>
+          <tr row="odd">
+            <td>merlin.context</td>
+            <td>${merlin.dir}/home</td>
+            <td>The root directory used by merlin to construct the 
+               persistent home directory supplied to a component under 
+               the context key urn:avalon:home.</td>
+          </tr>
+          <tr row="even">
+            <td>merlin.temp</td>
+            <td>${java.io.tmpdir}</td>
+            <td>The root directory used by merlin to construct the 
+               persistent temp directory supplied to a component under 
+               the context key urn:avalon:temp.  If undefined, the JVM
+               temp directory will be used.</td>
+          </tr>
+          <tr row="odd">
+            <td>merlin.anchor</td>
+            <td>${merlin.home}</td>
+            <td>The root directory used by merlin to resolve relative
+              filset directory references.</td>
+          </tr>
+          <tr row="even">
+            <td>merlin.ext</td>
+            <td>${merlin.dir}</td>
+            <td>The root directory used by merlin to resolve jar 
+             optional extension jar files.</td>
+          </tr>
+          <tr row="odd">
+            <td>merlin.info</td>
+            <td>false</td>
+            <td>The info generation policy.  If 'true' a short 
+            information header is generated on startup detailing the 
+            kernel parameterization state.</td>
+          </tr>
+          <tr row="even">
+            <td>merlin.debug</td>
+            <td>false</td>
+            <td>The debug generation policy.  If 'true' all logging 
+            channels are assigned the DEBUG logging priority.</td>
+          </tr>
+          <tr row="odd">
+            <td>merlin.audit</td>
+            <td>false</td>
+            <td>The audit generation policy.  If 'true' a description
+            of the assembled model witll be loogged during startup.
+            Since 3.3</td>
+          </tr>
+          <tr row="even">
+            <td>merlin.server</td>
+            <td>true</td>
+            <td>
+            The default execution mode.  If 'true' the merlin 
+            kernel will continue until expliciy stopped or process 
+            termination is invoked. If 'false' the kernel will 
+            initiate decommissioning on completion of the deployment 
+            phase.</td>
+          </tr>
+          <tr row="odd">
+            <td>merlin.deployment</td>
+            <td />
+            <td>
+            A comma seperated sequence of blocks to be included in the 
+            root merlin application block on startup.</td>
+          </tr>
+          <tr row="even">
+            <td>merlin.override</td>
+            <td />
+            <td>
+            The path to a configuration override targets file. Relative 
+            path statements will be resolved relative to ${merlin.dir}.</td>
+          </tr>
+          <tr row="odd">
+            <td>merlin.logging.config</td>
+            <td />
+            <td>
+            Location of an external logging configuration file (since version 3.3).
+            </td>
+          </tr>
+          <tr row="even">
+            <td>merlin.logging.implementation</td>
+            <td />
+            <td>
+            Artifact referennce to the logging system to be used.  The artifact
+            must reference a factory that supports the LoggingCriteria parameter
+            interface and must return a LoggingManager implementation. Since 3.3.
+            </td>
+          </tr>
+          <tr row="odd">
+            <td>merlin.runtime</td>
+            <td />
+            <td>
+            Artifact reference.
+            Overrides the automatic selection of the underlying runtime activation
+            framework.  Since 3.3.
+            </td>
+          </tr>
+          <tr row="even">
+            <td>merlin.runtime.implementation</td>
+            <td />
+            <td>
+            Artifact reference.
+            The default merlin runtime implementation artifact reference.  
+            Since 3.3.
+            </td>
+          </tr>
+          <tr row="odd">
+            <td>merlin.code.security.enabled</td>
+            <td>false</td>
+            <td>
+            If true the component security protection model will be enabled. 
+            Since 3.3.
+            </td>
+          </tr>
+          <tr row="even">
+            <td>merlin.deployment.timeout</td>
+            <td />
+            <td>
+            The default per component deployment timeout duration in 
+            milliseconds.
+            Since 3.3.
+            </td>
+          </tr>
+        </table>
+      </div>
+    </div>
+  </div><div class="footer"><span class="copyright">Copyright 2004, The Apache Software Foundation All rights reserved.</span><div class="views"><a class="viewlink" id="xmllink" href=""><img src="../../../../images/xml.gif" /></a></div></div></body></html>

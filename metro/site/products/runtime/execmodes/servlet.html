@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><title>Merlin Runtime</title><link type="text/css" rel="stylesheet" href="../../../styles/style.css" /><meta content="text/html; charset=UTF-8" http-equiv="Content-type" /></head><body><table class="logobar"><tr><td class="panelleft"><img alt="link" src="../../../images/feather.jpg" /></td><td class="panelmiddle"><div class="project">Metro</div><div class="title">Merlin Runtime</div></td><td class="panelright" /></tr></table><div class="categorybar" dir="/products/runtime/execmodes"><a class="homecategory" href="../../../index.html">
+        Home
+      </a></div><div class="menubar"><div class="menu"><div class="menu"><div class="menu"><a class="menuitem-selected" href="../../runtime/index.html">Merlin Runtime</a></div><a class="menuitem-selected" href="../execmodes/index.html">Execution</a><a class="menuitem" href="../reference/index.html">Specification</a><a class="menuitem" href="../system/index.html">Systems</a><a class="menuitem" href="../javadoc/index.html">Javadoc</a></div><a class="menuitem" href="cli.html">CLI Handler</a><a class="menuitem" href="generic.html">Generic Embedded</a><a class="menuitem-selected" href="servlet.html">Embedded in Servlet</a><a class="menuitem" href="unit.html">Unit Testing</a></div></div><div class="content">
+    <div class="section"><span class="section-header">Merlin Servlet</span>
+      <p>
+        The Merlin Servlet package contains an abstract Servlet implementation 
+        that contains an embedded Merlin Kernel.
+      </p>
+
+      <div class="subsection"><span class="subsection-header">Development Notes</span>
+        <p>
+          This is a minimal implementation of a Servlet that contains an 
+          embedded kernel.  The behaviour is a function of the block.xml 
+          resource resolved via the initialisation parameters.  No support 
+          is included for configuration of the kernel and as such the kernel
+          is established relative to defaults.  This will be enhanced in a 
+          later revision.
+        </p>
+      </div>
+      <div class="subsection"><span class="subsection-header">Example web.xml</span>
+        <p>
+          <i>WARNING: there is an inconsitency here between properties 
+          included in the web.xml and the servlet code.  Currently web.xml 
+          properties are not used by the servlet - instread the servlet 
+          uses merlin.properties in the standard locations.</i>
+        </p>
+        <p>
+          <i>web.xml</i>
+        </p>
+<pre class="source">
+&lt;!DOCTYPE web-app 
+    PUBLIC "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN" 
+    "http://java.sun.com/dtd/web-app_2_3.dtd"&gt;
+
+&lt;web-app&gt;
+
+  &lt;display-name&gt;Merlin Servlet&lt;/display-name&gt;
+
+  &lt;description&gt;
+    Merlin Servlet Test Page.
+  &lt;/description&gt;
+
+  &lt;servlet&gt;
+    &lt;servlet-name&gt;merlin&lt;/servlet-name&gt;
+    &lt;servlet-class&gt;org.apache.avalon.merlin.servlet.TestServlet&lt;/servlet-class&gt;
+    &lt;init-param&gt;
+      &lt;param-name&gt;block&lt;/param-name&gt;
+      &lt;param-value&gt;/BLOCK-INF/block.xml&lt;/param-value&gt;
+    &lt;/init-param&gt;
+    &lt;load-on-startup&gt;1&lt;/load-on-startup&gt;
+  &lt;/servlet&gt;
+&lt;/web-app&gt;
+</pre><div class="source-title"><span class="source-title" /></div>
+
+      </div>
+      <div class="subsection"><span class="subsection-header">Servlet Implementation</span>
+        <p>
+          <i>MerlinServlet.java</i>
+        </p>
+<pre class="source">
+/**
+ * Servlet that handles the establishment of a Merlin Kernel
+ * and registration of the kernel base URL under the servlet 
+ * context using the key.
+ * 
+ * 
+ * @author <a class="doclink" href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
+ */
+public class MerlinServlet extends HttpServlet
+{
+    //----------------------------------------------------------
+    // static
+    //----------------------------------------------------------
+
+    private static final String MERLIN_PROPERTIES = "merlin.properties";
+
+    private static final String IMPLEMENTATION_KEY = "merlin.implementation";
+
+    //----------------------------------------------------------
+    // state
+    //----------------------------------------------------------
+
+    private KernelCriteria m_criteria;
+
+    private Kernel m_kernel;
+
+    //----------------------------------------------------------
+    // Servlet
+    //----------------------------------------------------------
+
+    /**
+     * Initializes Servlet by the web server container.
+     *
+     * @exception ServletException if an error occurs
+     */
+    public void init()
+        throws ServletException
+    {
+        try
+        {
+            //
+            // get the working directory and classloader
+            //
+
+            ClassLoader classloader = MerlinServlet.class.getClassLoader();
+            String path = getServletContext().getRealPath( "." );
+            File base = new File( path );
+
+            //
+            // create the initial context using the merlin system as the 
+            // initial cache
+            //
+
+            InitialContextFactory initial = 
+              new DefaultInitialContextFactory( "merlin", base );
+            initial.setParentClassLoader( classloader );
+            InitialContext context = initial.createInitialContext();
+
+            //
+            // grab the merlin implmentation artifact descriptor
+            //
+
+            Artifact artifact = 
+              DefaultBuilder.createImplementationArtifact( 
+                classloader, 
+                null,
+                base, 
+                MERLIN_PROPERTIES, 
+                IMPLEMENTATION_KEY );
+
+            //
+            // create and customize the kernel criteria
+            //
+
+            Builder builder = context.newBuilder( artifact );
+            Factory factory = builder.getFactory();
+            m_criteria = (KernelCriteria) factory.createDefaultCriteria();
+            m_criteria.put( "merlin.server", "true" );
+            m_criteria.put( "merlin.info", "true" );
+            m_criteria.put( "merlin.debug", "false" );
+
+            //
+            // this is where we customize content based on web.xml
+            // (currently not implemented - lets see what we can do with 
+            // with merlin.properties first of all)
+            //
+
+            m_kernel = (Kernel) factory.create( m_criteria );
+            System.out.println("kernel established");
+
+            //
+            // publish the root containment model as a context attribute
+            // (this is basically exposing too much - need to wrap this
+            // in a holder that allows lookup by service interface and 
+            // version
+            //
+
+            getServletContext().setAttribute( 
+              "urn:composition:root", m_kernel.getModel() );
+        }
+        catch( Throwable e )
+        {
+            final String error = ExceptionHelper.packException( e, true );
+            System.out.println( error );
+            throw new ServletException( error, e );
+        }
+    }
+
+    /**
+     * Disposes of container manager and container instance.
+     */
+    public void destroy()
+    {
+        if( m_kernel != null )
+        {
+
+            System.out.println("tearing down");
+            
+            try
+            {
+                m_kernel.shutdown();
+            }
+            catch( Throwable e )
+            {
+                final String error =
+                  "Runnable kernel shutdown failure.";
+                final String msg = ExceptionHelper.packException( error, e, true );
+                throw new RuntimeException( msg, null );
+            }
+            finally
+            {
+                m_kernel = null;
+            }
+        }
+    }
+</pre><div class="source-title"><span class="source-title" /></div>
+      </div>
+    </div>
+  </div><div class="footer"><span class="copyright">Copyright 2004, The Apache Software Foundation All rights reserved.</span><div class="views"><a class="viewlink" id="xmllink" href=""><img src="../../../images/xml.gif" /></a></div></div></body></html>

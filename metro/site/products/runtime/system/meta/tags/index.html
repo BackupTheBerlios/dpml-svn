@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><title>Javadoc Tag Specification</title><link type="text/css" rel="stylesheet" href="../../../../../styles/style.css" /><meta content="text/html; charset=UTF-8" http-equiv="Content-type" /></head><body><table class="logobar"><tr><td class="panelleft"><img alt="link" src="../../../../../images/feather.jpg" /></td><td class="panelmiddle"><div class="project">Metro</div><div class="title">Javadoc Tag Specification</div></td><td class="panelright" /></tr></table><div class="categorybar" dir="/products/runtime/system/meta/tags"><a class="homecategory" href="../../../../../index.html">
+        Home
+      </a></div><div class="menubar"><div class="menu"><div class="menu"><div class="menu"><div class="menu"><div class="menu"><a class="menuitem-selected" href="../../../../runtime/index.html">Merlin Runtime</a></div><a class="menuitem" href="../../../execmodes/index.html">Execution</a><a class="menuitem" href="../../../reference/index.html">Specification</a><a class="menuitem-selected" href="../../../system/index.html">Systems</a><a class="menuitem" href="../../../javadoc/index.html">Javadoc</a></div><a class="menuitem-selected" href="../../meta/index.html">Meta</a><a class="menuitem" href="../../composition.html">Composition</a><a class="menuitem" href="../../activation.html">Activation</a><a class="menuitem" href="../../repository/index.html">Repository</a><a class="menuitem" href="../../logging/index.html">Logging</a><a class="menuitem" href="../../util/index.html">Util</a></div><a class="menuitem-selected" href="../tags/index.html">Tag Reference</a><a class="menuitem" href="../info/index.html">Type Model</a></div><a class="menuitem" href="type.html">Component</a><a class="menuitem" href="attribute.html">Attribute</a><a class="menuitem" href="service.html">Service</a><a class="menuitem" href="logger.html">Logger</a><a class="menuitem" href="configuration.html">Configuration</a><a class="menuitem" href="context.html">Context</a><a class="menuitem" href="entry.html">Entry</a><a class="menuitem" href="dependency.html">Dependency</a><a class="menuitem" href="stage.html">Stage</a><a class="menuitem" href="extension.html">Extension</a></div></div><div class="content">
+
+    <div class="section"><span class="section-header">Introduction</span>
+
+<p>
+Meta information associated with component types can be expressed directly in XML or documented in javadoc tags within the component source code.  The javadoc tag approach ensures that specifications are maintain with respective sources.  Generation of meta info is achieved through a meta-info generation tool.  Tools are provided for both Ant and Maven.
+</p>
+
+      <div class="subsection"><span class="subsection-header">Tag List</span>
+<table>
+  <tr row="odd">
+    <th>Tag</th>
+    <th>Scope</th>
+    <th>Description</th>
+  </tr>
+  <tr row="even">
+    <td><a class="doclink" href="type.html">@avalon.component</a></td>
+    <td>class</td>
+    <td>Identifies a class as a component implementation and the 
+        requirement for the generation of a component type 
+        descriptor.</td>
+  </tr>
+  <tr row="odd">
+    <td><a class="doclink" href="attribute.html">@avalon.attribute</a></td>
+    <td>class</td>
+    <td>
+      Declaration of an attribute name and value to be associated with
+      a component type info descriptor.
+    </td>
+  </tr>
+  <tr row="even">
+    <td><a class="doclink" href="service.html">@avalon.service</a></td>
+    <td>class</td>
+    <td>Declaration by a component of a exported service that may 
+      be used by a container when fulfilling the service dependencies
+      exposed by other components.</td>
+  </tr>
+  <tr row="odd">
+    <td><a class="doclink" href="stage.html">@avalon.stage</a></td>
+    <td>class</td>
+    <td>Declaration of a lifecycle stage dependency.</td>
+  </tr>
+  <tr row="even">
+    <td><a class="doclink" href="extension.html">@avalon.extension</a></td>
+    <td>class</td>
+    <td>Declaration of the export of a lifecycle stage handling capability
+      that may be used by a container when resolving lifecycle stage 
+      dependencies.</td>
+  </tr>
+  
+  <tr row="odd">
+    <td><a class="doclink" href="logger.html">@avalon.logger</a></td>
+    <td>method</td>
+    <td>Declaration of a child logging channel name used by the component.</td>
+  </tr>
+  <tr row="even">
+    <td><a class="doclink" href="configuration.html">@avalon.configuration</a></td>
+    <td>method</td>
+    <td>Declaration of a configuration validation schema.</td>
+  </tr>
+  <tr row="odd">
+    <td><a class="doclink" href="context.html">@avalon.context</a></td>
+    <td>method</td>
+    <td>Declares of a specialized context interface.</td>
+  </tr>
+  <tr row="even">
+    <td><a class="doclink" href="entry.html">@avalon.entry</a></td>
+    <td>method</td>
+    <td>Declaration of a context entry dependency.</td>
+  </tr>
+  <tr row="odd">
+    <td><a class="doclink" href="dependency.html">@avalon.dependency</a></td>
+    <td>method</td>
+    <td>Declaration of a service dependency.</td>
+  </tr>
+</table>
+      </div>
+    </div>
+
+  </div><div class="footer"><span class="copyright">Copyright 2004, The Apache Software Foundation All rights reserved.</span><div class="views"><a class="viewlink" id="xmllink" href=""><img src="../../../../../images/xml.gif" /></a></div></div></body></html>

@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><title>Apache Avalon: Containers</title><link type="text/css" rel="stylesheet" href="../../../../styles/style.css" /><meta content="text/html; charset=UTF-8" http-equiv="Content-type" /></head><body><table class="logobar"><tr><td class="panelleft"><img alt="link" src="../../../../images/feather.jpg" /></td><td class="panelmiddle"><div class="project">Metro</div><div class="title">Apache Avalon: Containers</div></td><td class="panelright" /></tr></table><div class="categorybar" dir="/central/archive/product/containers"><a class="homecategory" href="../../../../index.html">
+        Home
+      </a></div><div class="menubar"><div class="menu"><div class="menu"><div class="menu"><div class="menu"><a class="menuitem" href="../../../about/index.html">Welcome</a><a class="menuitem" href="../../../community/index.html">Community</a></div><a class="menuitem" href="../../overview.html">Overview</a><a class="menuitem" href="../../developing/index.html">Developing With Avalon</a><a class="menuitem-selected" href="../../product/index.html">Products</a><a class="menuitem" href="../../related/index.html">Related</a><a class="menuitem" href="../../doc/index.html">Misc</a></div><a class="menuitem" href="../framework/index.html">Framework</a><a class="menuitem-selected" href="../containers/index.html">Merlin</a><a class="menuitem" href="../components/index.html">Planet</a></div><a class="menuitem-selected" href="overview.html">Overview</a><a class="menuitem" href="history.html">History</a></div></div><div class="content">
+    <div class="section"><span class="section-header">Container Overview</span>
+      <div class="subsection"><span class="subsection-header">Purpose</span>
+        <p>
+          The purpose of the container is to manage the components under its
+          care. That typically involves various creation and destruction
+          stages, or what we call the LifeCycle. Part of the creation stages
+          is the different needs the component has, such as it may need a 
+          Logger, so the container has to provide it, it may need some type
+          of configuration and the container has to provide, and so on.
+        </p>
+        <p>
+          The container is also responsible to fulfill other concerns of the
+          management contract, such as LifeStyle, Security, Dependencies, 
+          JAR handling and so on. Basically, the container should take care
+          of everything required to get the component operational.
+        </p>
+      </div>
+      
+      <div class="subsection"><span class="subsection-header">Container-Component Contract</span>
+        <p>
+          Avalon Framework and associated material specifies, among other
+          things a contract between the component and the container. That 
+          means that if the component fulfills its obligations, the container
+          will provide the component with its needs. Example; If the component
+          declares that it implements LogEnabled, the container will provide
+          the component with an initialized and ready-to-use Logger instance.
+        </p>
+      </div>
+      
+    </div>
+    
+    <div class="section"><span class="section-header">Container Provisions</span>
+      <div class="subsection"><span class="subsection-header">Logging</span>
+        <p>
+          If the component declares that it implements the LogEnabled inteface,
+          a ready-to-use, Logger instance will be provided through the method;
+        </p>
+<pre class="source">
+    public void enableLogging( Logger logger )
+    {
+    }
+</pre><div class="source-title"><span class="source-title" /></div>
+        <p>
+          The Merlin container supports both LogKit and Log4J logging subsystem,
+          and please look at the 
+          <a class="doclink" href="../../../../products/runtime/system/logging/index.html">Avalon Logging</a> subsystem for 
+          details.
+        </p>
+      </div>
+      
+      <div class="subsection"><span class="subsection-header">Dependencies</span>
+        <p>
+          There are many ways on how to resolve dependencies between components.
+          Avalon uses a method called <em>Lookup Injection</em>, which means 
+          that the container will hand over a ServiceManager to the component,
+          if the component implements the Serviceable interface.
+        </p>
+<pre class="source">
+    public void service( ServiceManager manager )
+    {
+    }
+</pre><div class="source-title"><span class="source-title" /></div>
+        <p>
+          The ServiceManager will only provide the component with components
+          that satisfy the <strong>dependencies</strong> declaration in the
+          component's 
+          <a class="doclink" href="../../../../products/runtime/system/meta/meta/info/type/index.html">Type descriptor</a> 
+          (.xinfo). If it attempts to lookup anything outside the declared
+          dependencies, the container is expected to throw a ServiceException.
+        </p>
+        <p>
+          And Merlin is so clever that the component will never be deployed
+          if the dependencies could not be satisfied, so if the component
+          follows its obligations, i.e. only looking up declared dependencies,
+          the container will supply the solution, always!
+        </p>
+      </div>
+      
+      <div class="subsection"><span class="subsection-header">Configuration</span>
+        <p>
+          Many components are generic and can be tweaked into doing slightly
+          different things, according to some settings. We call those settings
+          Configuration, and is supply to the component if the component
+          implements the Configurable interface.
+        </p>
+<pre class="source">
+    public void configure( Configuration conf )
+    {
+    }
+</pre><div class="source-title"><span class="source-title" /></div>
+        <p>
+          The above construct allow for very complex Configurations, using
+          XML nested elements, but not any XML, it must follow certain rules.
+          See <a class="doclink" href="../../../..//api/org/apache/avalon/framework/configuration/Configuration.html">
+          Configuration</a> API docs for details.
+        </p>
+      </div>
+      
+      <div class="subsection"><span class="subsection-header">Contextualization</span>
+        <p>
+          Contextualization is about establishing a containment context. That
+          means that there must be certain container features available to the
+          component for it to function properly. This is slightly different
+          from normal service dependencies, as context entries can be of any
+          type, such as java.io.File for the standard "urn:avalon:home" 
+          context entry.
+        </p>
+<pre class="source">
+    public void contextualize( Context context )
+    {
+    }
+</pre><div class="source-title"><span class="source-title" /></div>
+        <p>
+          It is also possible to create custom context entries. 
+          <a class="doclink" href="../../../about/tutorials/advanced/context.html">Read more about it.</a>
+        </p>
+      </div>
+      
+      <div class="subsection"><span class="subsection-header">Repository</span>
+        <p>
+          We have all been in <em>JAR Hell</em>, which means that it is hard
+          to keep track of which Jars are required, and more importantly which
+          version of each. And that is only for your build system. When you
+          start deploying the applications, this grows into a nightmare.
+          This has been highlighted for quite some time within
+          The Apache Software Foundation, and Maven has addressed it for build
+          systems, and recently (March 2004) a new more generic project called
+          Depot started in the incubator, which will address this problem.
+        </p>
+        <p>
+          Avalon has in the meantime created the 
+          <a class="doclink" href="../../../../products/runtime/system/repository/index.html">Avalon Repository</a> which allows
+          the applications to be distributed without any Jars, and the right
+          versions of the Jars will be picked up at one or many central 
+          repositories. This system is compatible with the Maven repositories,
+          so we have instantly access to hundreds of projects at repositories,
+          such as ibiblio.org.
+        </p>
+      </div>
+    </div>
+    
+    <div class="section"><span class="section-header">Container Deployment Cases</span>
+      <div class="subsection"><span class="subsection-header">Stand-alone Server</span>
+        <p>
+          The most straight forward deployment case is the stand-alone server,
+          that is started from the command-line. No programming is required, 
+          and there are heaps of command-line arguments available. Read about
+          the details <a class="doclink" href="../../../../products/runtime/execmodes/cli.html">here</a>.
+        </p>
+        <p>
+          Merlin even supports that it is bootstrapped, with a tiny JAR, which 
+          will pick up and start Merlin (or any other compliant artifact) from a
+          central repository. One can on the command-line specify which version
+          of Merlin one wishes to start, and provide the application block 
+          reference, effectively selecting which application to start.
+        </p>
+        <p>
+          If a central repository is not desirable, Merlin's binary distribution
+          contains all that is required to run, except the application block
+          itself, which may either be local or online.
+        </p>
+      </div>
+    
+      <div class="subsection"><span class="subsection-header">Stand-alone GUI Application</span>
+        <p>
+          There is actually no difference between a stand-alone server and a
+          stand-alone GUI application. In fact, with good Component Oriented
+          practices, one can completely separate the business logic in the
+          application, and provide a GUI interface or a Web interface simply
+          by changing the block definition file.
+        </p>
+      </div>
+      
+      <div class="subsection"><span class="subsection-header">Running as a Windows NT/XP Service</span>
+        <p>
+          Merlin is capable of starting as a Windows NT/XP Service. You can
+          read about how on <a class="doclink" href="../../../about/installation/nt.html">this 
+          page.</a>
+        </p>
+      </div>
+      
+      <div class="subsection"><span class="subsection-header">Embedded in generic Application</span>
+        <p>
+          If you have an existing application that you want to complement with
+          Avalon component management, without refactoring the whole application
+          into components, you will need to create Merlin embedded inside your
+          application. About 10-15 lines of code is currently required, where
+          the InitialContext is established, the Directives are setup and a 
+          Kernel is created. It 
+          <a class="doclink" href="../../../../products/runtime/execmodes/servlet.html">looks 
+          more complicated</a> than it is, but it is
+          extremely powerful, and allows the same features as the stand-alone
+          server, in fact the small bootstrapper in the stand-alone case, does
+          exactly the same thing. 
+        </p>
+      </div>
+
+      <div class="subsection"><span class="subsection-header">Embedded in a Servlet</span>
+        <p>
+          If the Servlet engine allows, it is possible to embedd Merlin inside
+          a Servlet. The code required to do it, can be seen
+          <a class="doclink" href="../../../../products/runtime/execmodes/servlet.html">here</a>.
+          It is expected that this Servlet will undergo some enhancement prior
+          to be officially released in the Merlin distribution. This is to
+          ensure maximum usability for our users.
+        </p>
+      </div>
+      
+      <div class="subsection"><span class="subsection-header">Embedded in Application Server</span>
+        <p>
+          Embedding in Application Servers can prove to be a lot more 
+          complicated than in generic Application, since the App Servers very
+          often imposes restrictions on the parts that it hosts, such as
+          security restrictions, classloading restrictions and similar. It is
+          basically a case of trying to get a operating system running inside
+          another operating system, both competing for the same resources.
+        </p>
+        <p>
+          One of the objectives of the Avalon community is to work out what is
+          possible, and how, and what can not be done, in this area.
+        </p>
+      </div>
+    </div>
+  </div><div class="footer"><span class="copyright">Copyright 2004, The Apache Software Foundation All rights reserved.</span><div class="views"><a class="viewlink" id="xmllink" href=""><img src="../../../../images/xml.gif" /></a></div></div></body></html>

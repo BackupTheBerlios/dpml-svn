@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><title>Avalon Castle - Managed Extensions</title><link type="text/css" rel="stylesheet" href="../../../../styles/style.css" /><meta content="text/html; charset=UTF-8" http-equiv="Content-type" /></head><body><table class="logobar"><tr><td class="panelleft"><img alt="link" src="../../../../images/feather.jpg" /></td><td class="panelmiddle"><div class="project">Metro</div><div class="title">Avalon Castle - Managed Extensions</div></td><td class="panelright" /></tr></table><div class="categorybar" dir="/central/laboratory/castle/managedextensions"><a class="homecategory" href="../../../../index.html">
+        Home
+      </a></div><div class="menubar"><div class="menu"><div class="menu"><div class="menu"><div class="menu"><a class="menuitem" href="../../../about/index.html">Welcome</a><a class="menuitem" href="../../../community/index.html">Community</a></div><a class="menuitem" href="../../studio/index.html">Studio</a><a class="menuitem" href="../../discovery/index.html">Discovery</a><a class="menuitem-selected" href="../../castle/index.html">Castle</a></div><a class="menuitem" href="../microkernel/index.html">Microkernel</a><a class="menuitem-selected" href="../managedextensions/index.html">Managed Extensions</a><a class="menuitem" href="../dynamicproxy/index.html">DynamicProxy</a></div><a class="menuitem-selected" href="lifecycle.html">Lifecycle</a><a class="menuitem" href="remoting.html">Remoting</a><a class="menuitem" href="invokers.html">Invokers</a></div></div><div class="content">
+
+  <div class="section"><span class="section-header">Lifecycle</span>
+    <p>
+    Your component may optionally implements the MRegistrationListener
+    and receive lifecycle events during registration and de-registration.
+    If your component wants to interact with MServer, implementing 
+    MRegistrationListener is the best oportunity to receive a MServer instance.
+    </p>
+<pre class="source">
+[ManagedComponent]
+public class LifecycledService : MRegistrationListener
+{
+	public LifecycledService()
+	{
+	}
+
+	[ManagedOperation]
+	public void Start()
+	{
+	}
+
+	[ManagedOperation]
+	public void Stop()
+	{
+	}
+
+	public void BeforeRegister(MServer server, ManagedObjectName name)
+	{
+	}
+
+	public void AfterDeregister()
+	{
+	}
+
+	public void AfterRegister()
+	{
+	}
+
+	public void BeforeDeregister()
+	{
+	}
+}
+</pre><div class="source-title"><span class="source-title" /></div>
+
+  </div>
+
+  </div><div class="footer"><span class="copyright">Copyright 2004, The Apache Software Foundation All rights reserved.</span><div class="views"><a class="viewlink" id="xmllink" href=""><img src="../../../../images/xml.gif" /></a></div></div></body></html>

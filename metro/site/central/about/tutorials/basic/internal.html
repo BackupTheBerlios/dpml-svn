@@ -1,0 +1,256 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><title>Avalon Central</title><link type="text/css" rel="stylesheet" href="../../../../styles/style.css" /><meta content="text/html; charset=UTF-8" http-equiv="Content-type" /></head><body><table class="logobar"><tr><td class="panelleft"><img alt="link" src="../../../../images/feather.jpg" /></td><td class="panelmiddle"><div class="project">Metro</div><div class="title">Avalon Central</div></td><td class="panelright" /></tr></table><div class="categorybar" dir="/central/about/tutorials/basic"><a class="homecategory" href="../../../../index.html">
+        Home
+      </a></div><div class="menubar"><div class="menu"><div class="menu"><div class="menu"><div class="menu"><a class="menuitem-selected" href="../../../about/index.html">Welcome</a><a class="menuitem" href="../../../community/index.html">Community</a></div><a class="menuitem" href="../../license.html">License</a><a class="menuitem" href="../../download.html">Downloads</a><a class="menuitem" href="../../installation/index.html">Installation</a><a class="menuitem-selected" href="../../tutorials/index.html">Tutorials</a><a class="menuitem" href="../../news/index.html">News</a><a class="menuitem" href="../../faq.html">FAQ</a></div><a class="menuitem-selected" href="../basic/index.html">Basic</a><a class="menuitem" href="../advanced/index.html">Advanced</a></div><a class="menuitem" href="creation.html">Hello Block</a><a class="menuitem" href="execution.html">Running Hello</a><a class="menuitem-selected" href="internal.html">Behind the Scenes</a><a class="menuitem" href="config/index.html">Configurations</a><a class="menuitem" href="context/index.html">Contextualization</a><a class="menuitem" href="services.html">Services</a><a class="menuitem" href="dependencies/index.html">Dependencies</a></div></div><div class="content">
+    <div class="section"><span class="section-header">Behind the Scenes -info</span>
+        <p>
+        To get a better understanding of what is happening we can ask Merlin
+        to present a summary of the source information and resources used
+        in our component deployment scenario by including the -info command line 
+        modifier.  
+        </p>
+<pre class="source">
+[INFO   ] (kernel): info report
+-----------------------------------------------------------
+Merlin Kernel Environment Listing
+-----------------------------------------------------------
+
+  ${user.dir} == D:\dev\avalon\tutorials\hello
+  ${user.home} == C:\WINNT\Profiles\mcconnell
+
+  ${avalon.repository.cache} == D:\merlin\system
+  ${avalon.repository.online} == true
+  ${avalon.repository.hosts} == http://www.dpml.net,http://www.ibiblio.org/maven
+
+  ${merlin.lang} == null
+  ${merlin.home} == D:\merlin
+  ${merlin.system} == D:\merlin\system
+  ${merlin.config} == D:\merlin\config
+  ${merlin.kernel} == file:/D:/merlin/config/kernel.xml
+  ${merlin.logging.implementation} == 
+     artifact:avalon-logging/avalon-logging-logkit-impl#1.0.dev-0
+  ${merlin.logging.config} == null
+  ${merlin.runtime} == 
+     artifact:avalon-activation/avalon-activation-impl#2.0.dev-0
+  ${merlin.override} == null
+  ${merlin.dir} == D:\dev\avalon\tutorials\hello
+  ${merlin.temp} == C:\TEMP
+  ${merlin.context} == D:\dev\avalon\tutorials\hello\home
+  ${merlin.anchor} == D:\dev\avalon\tutorials\hello
+  ${merlin.info} == true
+  ${merlin.debug} == false
+  ${merlin.audit} == false
+  ${merlin.server} == false
+  ${merlin.autostart} == true
+  ${merlin.code.security.enabled} == false
+  ${merlin.deployment.timeout} == 1000
+  ${merlin.repository} == D:\avalon\repository
+  ${merlin.repository.hosts} == http://www.dpml.net/,http://www.ibiblio.org/maven/
+  ${merlin.deployment} == file:/${user.dir}/target/classes/
+
+-----------------------------------------------------------
+[INFO   ] (tutorial.hello): Hello World!
+</pre><div class="source-title"><span class="source-title" /></div>
+        
+      <div class="subsection"><span class="subsection-header">Targetted debugging using -config</span>
+
+        <p>
+        We can also override the logging priority for the component using 
+        a target override directive.  The following target tells merlin
+        to assign logging at DEBUG prioririty for the "tutorial" container.
+        </p>
+        <p><i>${basedir}\conf\config.xml</i></p>
+<pre class="source">
+&lt;targets&gt;
+  &lt;target path="/tutorial"&gt;
+    &lt;categories priority="DEBUG"/&gt;
+  &lt;/target&gt;
+&lt;/targets&gt;
+</pre><div class="source-title"><span class="source-title" /></div>
+        <p>
+        The behind the scenes activity is 
+        detailed under the &lt;component-path&gt;.appliance logging category 
+        as shown below.
+        </p>
+<pre class="source">
+$ merlin -execute target\classes -config conf\config.xml
+
+[DEBUG  ] (tutorial): assembly phase
+[DEBUG  ] (tutorial): commissioning component [hello]
+[DEBUG  ] (tutorial.hello.lifecycle): incarnation
+[DEBUG  ] (tutorial.hello.lifecycle): instantiating component with 1 arguments.
+[INFO   ] (tutorial.hello): Hello World!
+[DEBUG  ] (tutorial): commissioning of [hello] completed in 93 milliseconds
+[DEBUG  ] (tutorial): decommissioning
+[DEBUG  ] (tutorial.hello.lifecycle): etherialization
+[DEBUG  ] (tutorial.hello.lifecycle): applying disposal
+[DEBUG  ] (tutorial.hello): disposal
+</pre><div class="source-title"><span class="source-title" /></div>
+
+        <p>
+        The following information presents the above listing step by step.
+        </p>
+
+        <p>
+        Launch merlin in execute mode using the "target\classes" directory
+        as an implicit classpath entry and a deployment scenario defined in
+        the file target\classes\BLOCK-INF\block.xml using an overriding
+        configuration qualifying the logging priorities.
+        </p>
+<pre class="source">
+$ merlin -execute target\classes -config conf\config.xml
+</pre><div class="source-title"><span class="source-title" /></div>
+
+        <p>
+        The assembly phase checks the component for any service dependencies
+        and resolves them automatically.  In our demonstration component there 
+        are no dependencies.  Later tutorials will revisit this aspect.
+        </p>
+
+<pre class="source">
+[DEBUG  ] (tutorial): assembly phase
+</pre><div class="source-title"><span class="source-title" /></div>
+
+        <p>
+        As the component has been declared in the block.xml file, the default
+        deployment policy is to deploy on startup.  The following log entry
+        is issued by the container responsible for commissioning of the 
+        hello component.
+        </p>
+
+<pre class="source">
+[DEBUG  ] (tutorial): commissioning component [hello]
+</pre><div class="source-title"><span class="source-title" /></div>
+
+
+        <p>
+        Deployment commences with the initialization of a new instance.
+        </p>
+
+<pre class="source">
+[DEBUG  ] (tutorial.hello.lifecycle): incarnation
+[DEBUG  ] (tutorial.hello.lifecycle): instantiating component with 1 arguments.
+[INFO   ] (tutorial.hello): Hello World!
+</pre><div class="source-title"><span class="source-title" /></div>
+
+        <p>
+        If the component implements any lifecycle interfaces, the container
+        will process the stages following instance instiation.  In our example
+        we have already supplied arguments via a constructor so no additional 
+        lifecycle processing is required.
+        </p>
+
+<pre class="source">
+[DEBUG  ] (tutorial): commissioning of [hello] completed in 93 milliseconds
+</pre><div class="source-title"><span class="source-title" /></div>
+
+        <p>
+        When merlin is launched in execute mode (using the -execute command
+        line parameter), Merlin automatically initiates container decomissioning
+        once deployment is complete.  If the -execute parameter is absent, Merlin 
+        will continue until a ^C interup is encountered.
+        </p>
+
+        <p>
+        Decommissioning of a component involves stopping the compoent if it 
+        implements the Startable interface, followed by component disposal.
+        </p>
+
+<pre class="source">
+[DEBUG  ] (tutorial): decommissioning
+[DEBUG  ] (tutorial.hello.lifecycle): etherialization
+</pre><div class="source-title"><span class="source-title" /></div>
+
+      </div>
+
+      <div class="subsection"><span class="subsection-header">The -debug command line switch</span>
+
+      <p>
+      For a really deep look inside Merlin, you can select the -debug command
+      line switch.  Some of the addition information visible here includes the 
+      setup of classloaders
+      </p>
+
+<pre class="source">
+$ merlin -execute target\classes -debug
+
+[DEBUG  ] (kernel.logger): logging system established
+[DEBUG  ] (kernel.logger): adding category [kernel]
+[DEBUG  ] (kernel): logging system established
+[DEBUG  ] (kernel): repository established: 
+   D:\system\maven\repository, http://www.dpml.net/, 
+   http://www.ibiblio.org/maven/
+[DEBUG  ] (kernel.logger): adding category [kernel]
+[DEBUG  ] (kernel): building application model
+[DEBUG  ] (kernel.logger): adding root category
+[DEBUG  ] (kernel.logger): adding root category
+[DEBUG  ] (kernel.logger): adding root category
+[DEBUG  ] (classloader): base: ${user.dir}
+[DEBUG  ] (classloader): base=[D:\dev\avalon\tutorials\hello]
+[DEBUG  ] (classloader): classpath:
+[DEBUG  ] (classloader.types): type install count: 0
+[DEBUG  ] (classloader.types): type registration complete
+[DEBUG  ] (kernel): state: initializing
+[DEBUG  ] (kernel): kernel established
+[DEBUG  ] (kernel): state: initialized
+[DEBUG  ] (kernel): install phase
+[DEBUG  ] (kernel): installing: file:/${user.dir}/target/classes/
+[DEBUG  ] (): including composite block: 
+  file:/D:/dev/avalon/tutorials/hello/target/classes/BLOCK-INF/block.xml
+[DEBUG  ] (): installing: tutorial
+[DEBUG  ] (kernel.logger): adding category [tutorial]
+[DEBUG  ] (kernel.logger): adding category [tutorial]
+[DEBUG  ] (tutorial): creating child classloader for: [tutorial]
+[DEBUG  ] (tutorial.classloader): base: ${user.dir}
+[DEBUG  ] (tutorial): implicit entries: 1
+[DEBUG  ] (tutorial.classloader): base=[D:\dev\avalon\tutorials\hello]
+[DEBUG  ] (tutorial.classloader): classpath: file:/${user.dir}/target/classes/
+[DEBUG  ] (tutorial.classloader.scanner): scanning: file:/${user.dir}/target/classes/
+[DEBUG  ] (tutorial.classloader.scanner): type: tutorial.HelloComponent
+[DEBUG  ] (tutorial.classloader.types): type install count: 1
+[DEBUG  ] (tutorial.classloader.types): registered [type:tutorial.HelloComponent/1].
+[DEBUG  ] (tutorial.classloader.types): type registration complete
+[DEBUG  ] (kernel.logger): adding category [tutorial]
+[DEBUG  ] (kernel.logger): adding category [tutorial.hello]
+[DEBUG  ] (kernel): customize phase
+[DEBUG  ] (kernel): startup phase
+[DEBUG  ] (kernel): application assembly
+[DEBUG  ] (kernel): state: assembly
+[DEBUG  ] (): assembly phase
+[DEBUG  ] (tutorial): assembly phase
+[DEBUG  ] (kernel): application deployment
+[DEBUG  ] (kernel): state: deployment
+[DEBUG  ] (): commissioning container [tutorial]
+[DEBUG  ] (tutorial): commissioning component [hello]
+[DEBUG  ] (tutorial.hello.lifecycle): incarnation
+[DEBUG  ] (tutorial.hello.lifecycle): instantiating component with 1 arguments.
+[INFO   ] (tutorial.hello): Hello World
+[DEBUG  ] (tutorial): commissioning of [hello] completed in 94 milliseconds
+[DEBUG  ] (): commissioning of [tutorial] completed in 156 milliseconds
+[DEBUG  ] (kernel): state: started
+[DEBUG  ] (kernel): shutdown phase
+[DEBUG  ] (kernel): state: stopping
+[DEBUG  ] (kernel): state: decommissioning
+[DEBUG  ] (): decommissioning
+[DEBUG  ] (tutorial): decommissioning
+[DEBUG  ] (tutorial.hello.lifecycle): etherialization
+[DEBUG  ] (kernel): state: stopped
+[DEBUG  ] (kernel): disposal
+[DEBUG  ] (kernel): shutdown event
+[DEBUG  ] (kernel): disposal
+</pre><div class="source-title"><span class="source-title" /></div>
+
+      </div>
+
+      <div class="subsection"><span class="subsection-header">Next Steps</span>
+
+      <p>
+      We are now ready to move onto the next series of tutorials dealing 
+      with <a class="doclink" href="config/index.html">component configuration management</a>.
+      </p>
+
+      </div>
+
+    </div>
+  </div><div class="footer"><span class="copyright">Copyright 2004, The Apache Software Foundation All rights reserved.</span><div class="views"><a class="viewlink" id="xmllink" href=""><img src="../../../../images/xml.gif" /></a></div></div></body></html>

@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><title>Merlin Runtime</title><link type="text/css" rel="stylesheet" href="../../../../../styles/style.css" /><meta content="text/html; charset=UTF-8" http-equiv="Content-type" /></head><body><table class="logobar"><tr><td class="panelleft"><img alt="link" src="../../../../../images/feather.jpg" /></td><td class="panelmiddle"><div class="project">Metro</div><div class="title">Merlin Runtime</div></td><td class="panelright" /></tr></table><div class="categorybar" dir="/products/runtime/system/util/plugin"><a class="homecategory" href="../../../../../index.html">
+        Home
+      </a></div><div class="menubar"><div class="no-border"><span class="dummy" /><div class="menu"><div class="menu"><div class="menu"><div class="menu"><a class="menuitem-selected" href="../../../../runtime/index.html">Merlin Runtime</a></div><a class="menuitem" href="../../../execmodes/index.html">Execution</a><a class="menuitem" href="../../../reference/index.html">Specification</a><a class="menuitem-selected" href="../../../system/index.html">Systems</a><a class="menuitem" href="../../../javadoc/index.html">Javadoc</a></div><a class="menuitem" href="../../meta/index.html">Meta</a><a class="menuitem" href="../../composition.html">Composition</a><a class="menuitem" href="../../activation.html">Activation</a><a class="menuitem" href="../../repository/index.html">Repository</a><a class="menuitem" href="../../logging/index.html">Logging</a><a class="menuitem-selected" href="../../util/index.html">Util</a></div><a class="menuitem" href="../criteria/index.html">Criteria</a><a class="menuitem" href="../defaults/index.html">Defaults</a><a class="menuitem" href="../env/index.html">Environment</a><a class="menuitem" href="../exception/index.html">Exception</a><a class="menuitem" href="../extension/index.html">Extension</a><a class="menuitem-selected" href="../plugin/index.html">Plugin</a></div></div></div><div class="content">
+    <div class="section"><span class="section-header">Maven Plugin</span>
+      <div class="subsection"><span class="subsection-header">Overview</span>
+        <p>The avalon plugin provides support for the generation 
+        of classloader metadata associated with a jar file.</p>
+        <p>The generation of metyada is triggered using the following goal:</p>
+        <pre class="source">
+artifact:install
+</pre><div class="source-title"><span class="source-title" /></div>
+        <p>The goal generates a file with the same name as the 
+        jar artifact + ".meta".</p>
+
+        <p>An example from the merlin/kernel/impl project is included below.</p>
+
+        <pre class="source">
+
+#
+# Meta classifier.
+# 
+
+meta.domain = avalon
+meta.version = 1.0
+
+#
+# Artifact descriptor.
+# 
+
+avalon.artifact.group = merlin
+avalon.artifact.name = merlin-impl
+avalon.artifact.version = 3.2-dev
+avalon.artifact.signature = 20031211.044644
+
+#
+# API dependencies.
+#
+
+avalon.artifact.dependency.api.0 = merlin:merlin-api;3.2-dev
+avalon.artifact.dependency.api.1 = avalon-activation:avalon-activation-api;1.2.1-dev
+avalon.artifact.dependency.api.2 = avalon-repository:avalon-repository-api;1.2-dev
+avalon.artifact.dependency.api.3 = avalon-composition:avalon-composition-api;1.2.1-dev
+avalon.artifact.dependency.api.4 = avalon-meta:avalon-meta-api;1.2.1-dev
+avalon.artifact.dependency.api.5 = avalon-extension:avalon-extension-spi;1.0
+avalon.artifact.dependency.api.6 = avalon-framework:avalon-framework-api;4.1.5
+avalon.artifact.dependency.api.7 = excalibur-lifecycle:excalibur-lifecycle-api;1.0
+avalon.artifact.dependency.api.8 = xml-apis:xml-apis;2.0.2
+avalon.artifact.dependency.api.9 = xml-apis:xmlParserAPIs;2.0.2
+
+#
+# SPI dependencies.
+#
+
+avalon.artifact.dependency.spi.0 = avalon-activation:avalon-activation-spi;1.2.2-dev
+avalon.artifact.dependency.spi.1 = avalon-repository:avalon-repository-spi;1.2-dev
+avalon.artifact.dependency.spi.2 = avalon-composition:avalon-composition-spi;1.2.1-dev
+avalon.artifact.dependency.spi.3 = avalon-meta:avalon-meta-spi;1.2.1-dev
+
+#
+# Implementation dependencies.
+#
+
+avalon.artifact.dependency.0 = avalon-activation:avalon-activation-impl;1.2.3-dev
+avalon.artifact.dependency.1 = avalon-composition:avalon-composition-impl;1.2.2-dev
+avalon.artifact.dependency.2 = avalon-meta:avalon-meta-impl;1.2.1-dev
+avalon.artifact.dependency.3 = avalon-extension:avalon-extension-impl;1.0
+avalon.artifact.dependency.4 = avalon-framework:avalon-framework-impl;4.1.5
+avalon.artifact.dependency.5 = avalon-util:avalon-util-defaults;1.1-dev
+avalon.artifact.dependency.6 = avalon-util:avalon-util-env;1.0-dev
+avalon.artifact.dependency.7 = avalon-util:avalon-util-exception;1.0-dev
+avalon.artifact.dependency.8 = avalon-util:avalon-util-criteria;1.0-dev
+avalon.artifact.dependency.9 = logkit:logkit;1.2
+avalon.artifact.dependency.10 = excalibur-i18n:excalibur-i18n;1.1
+avalon.artifact.dependency.11 = excalibur-configuration:excalibur-configuration;1.1
+avalon.artifact.dependency.12 = excalibur-event:excalibur-event;1.0.3
+avalon.artifact.dependency.13 = excalibur:excalibur-util-concurrent;1.3.1
+avalon.artifact.dependency.14 = mx4j:mx4j-jmx;1.1.1
+avalon.artifact.dependency.15 = mx4j:mx4j-tools;1.1.1
+avalon.artifact.dependency.16 = commons-collections:commons-collections;2.1
+avalon.artifact.dependency.17 = xerces:xerces;2.4.0
+
+#
+# Factory.
+#
+
+avalon.artifact.factory = org.apache.avalon.merlin.impl.DefaultFactory
+
+#
+# EOF
+#
+
+        </pre><div class="source-title"><span class="source-title" /></div>
+
+      </div>
+    </div>
+  </div><div class="footer"><span class="copyright">Copyright 2004, The Apache Software Foundation All rights reserved.</span><div class="views"><a class="viewlink" id="xmllink" href=""><img src="../../../../../images/xml.gif" /></a></div></div></body></html>

@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><title>Avalon Plugin for Maven</title><link type="text/css" rel="stylesheet" href="../../../../styles/style.css" /><meta content="text/html; charset=UTF-8" http-equiv="Content-type" /></head><body><table class="logobar"><tr><td class="panelleft"><img alt="link" src="../../../../images/feather.jpg" /></td><td class="panelmiddle"><div class="project">Metro</div><div class="title">Avalon Plugin for Maven</div></td><td class="panelright" /></tr></table><div class="categorybar" dir="/central/tools/maven/meta"><a class="homecategory" href="../../../../index.html">
+        Home
+      </a></div><div class="menubar"><div class="menu"><div class="menu"><div class="menu"><div class="menu"><a class="menuitem" href="../../../about/index.html">Welcome</a><a class="menuitem" href="../../../community/index.html">Community</a></div><a class="menuitem" href="../../magic/index.html">Magic</a></div><a class="menuitem-selected" href="../meta/index.html">Maven Meta Plugin</a><a class="menuitem" href="../merlin/index.html">Maven Merlin Plugin</a></div><a class="menuitem" href="goals.html">Goals</a><a class="menuitem-selected" href="properties.html">Properties</a></div></div><div class="content">
+    <div class="section"><span class="section-header">Avalon Meta Plugin for Maven</span>
+      <div class="subsection"><span class="subsection-header">Properties</span>
+      <table>
+        <tr row="odd">
+          <th>Property name</th>
+          <th>Optional?</th>
+          <th>Description</th>
+        </tr>
+        <tr row="even">
+          <td>avalon.meta.format</td>
+          <td>Yes</td>
+          <td>
+<p>Output format specification.  Valid values include 'xml' or 'serial'.
+The xml value instructs the meta generator to create meta descriptions
+in an XML format whereas the 'serial' value generates a serialized 
+description of the descriptor.  Serial format is more efficient.  The 
+XML format is more portable.</p>
+<p>
+Default behaviour:
+</p>
+<pre class="source">
+avalon.meta.format = xml
+</pre><div class="source-title"><span class="source-title" /></div>
+          </td>
+        </tr>
+        <tr row="odd">
+          <td>avalon.meta.force</td>
+          <td>Yes</td>
+          <td>
+<p>Policy controlling the regeneration of meta descriptors independently
+of the descriptor data.  This value default to false. </p>
+<p>
+Default behaviour:
+</p>
+<pre class="source">
+avalon.meta.force = false
+</pre><div class="source-title"><span class="source-title" /></div>
+          </td>
+        </tr>
+        <tr row="even">
+          <td>avalon.meta.type.postfix</td>
+          <td>No</td>
+          <td>
+<p>
+Avalon will default to the generation of XML type descriptors under
+the .xinfo file type.  When generating meta-info descriptors targetted
+for deployment in both Merlin and Phoenix, the xinfo type will conflict
+with the Phoenix meta-info descriptor. Avalon Plugin provides support for 
+generation of meta info under the alternative .xtype.  To control the 
+type of file generated, you can declare either "xinfo" or "xtype" under
+this property. 
+</p>
+<p>
+Default behaviour:
+</p>
+<pre class="source">
+avalon.meta.type.postfix= xinfo
+</pre><div class="source-title"><span class="source-title" /></div>
+<p>
+Alternative xtype behaviour:
+</p>
+<pre class="source">
+avalon.meta.type.postfix = xtype
+</pre><div class="source-title"><span class="source-title" /></div>
+
+          </td>
+        </tr>
+      </table>
+      </div>
+    </div>
+  </div><div class="footer"><span class="copyright">Copyright 2004, The Apache Software Foundation All rights reserved.</span><div class="views"><a class="viewlink" id="xmllink" href=""><img src="../../../../images/xml.gif" /></a></div></div></body></html>

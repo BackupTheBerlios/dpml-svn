@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><title>Apache Avalon: Products</title><link type="text/css" rel="stylesheet" href="styles/style.css" /><meta content="text/html; charset=UTF-8" http-equiv="Content-type" /></head><body><table class="logobar"><tr><td class="panelleft"><img alt="link" src="images/feather.jpg" /></td><td class="panelmiddle"><div class="project">Metro</div><div class="title">Apache Avalon: Products</div></td><td class="panelright" /></tr></table><div class="categorybar" dir=""><a class="homecategory-selected" href="index.html">
+        Home
+      </a></div><div class="menubar"><div class="no-border"><span class="dummy" /></div></div><div class="content">
+    <div class="section"><span class="section-header">Avalon Download Site</span>
+      <p>
+        Use the links below to download a binary distribution of
+        Avalon from one of our mirrors.  It's a good idea to
+        verify the integrity 
+        of the downloaded files using signatures downloaded from our
+        main distribution directory (see below).
+      </p>
+
+      <p>
+        Avalon is distributed as <code>zip</code> and <code>tar.gz</code>
+        archives - the contents are the same. Please note that the <code>tar.gz</code>
+        archives contain file names longer than 100 characters and have been
+        created using GNU tar extensions.  They must be untarred with a GNU
+        compatible version of <code>tar</code>.
+      </p>
+
+      <p>
+        If you do not see the file you need in the links below, please
+        see the <a class="doclink" href="http://www.apache.org/dist/avalon/">master
+        distribution directory</a> or, preferably, its
+        <a class="doclink" href="[preferred]/avalon/">mirror</a>.
+      </p>
+
+      <div class="subsection"><span class="subsection-header">Mirror</span>
+        <p>
+          You are currently using the <strong>[preferred]</strong>.
+          If you encounter a problem with this mirror, please select another
+          mirror.  If all mirrors are failing, there are <em>backup</em>
+          mirrors (at the end of the mirrors list) that should be available.
+        </p>
+      
+        <form action="[location]" method="get" id="SelectMirror">
+<p>Other mirrors: </p><select name="Preferred">
+[if-any http]
+  [for http]<option value="[http]">[http]</option>[end]
+[end]
+[if-any ftp]
+  [for ftp]<option value="[ftp]">[ftp]</option>[end]
+[end]
+[if-any backup]
+  [for backup]<option value="[backup]">[backup] (backup)</option>[end]
+[end]
+          </select>
+          <input type="submit" value="Change" />
+        </form>
+
+      </div>
+
+      <div class="subsection"><span class="subsection-header">License</span>
+        <p>
+          All avalon products are distributed under the terms of The Apache 
+          Software License (version 2.0). See our 
+          <a class="doclink" href="../license.html">License</a> page, or the LICENSE.txt 
+          files included in each distribution.
+        </p>
+      </div>
+      
+      <div class="subsection"><span class="subsection-header">Jar Repository</span>
+        <p>
+	 All Avalon jars can also be found in the 
+	 <a class="doclink" href="http://www.ibiblio.org/maven">iBiblio.org</a>
+	 repository for use with Maven and other repository-aware
+	 applications.
+	</p>
+      </div>
+
+      </div>
+      <div class="section"><span class="section-header">Product Downloads</span>
+        <p>
+	  This is only a list of the most commonly requested
+	  distributions. You can
+          <a class="doclink" href="[preferred]/avalon/">browse</a> 
+          the repository for a full
+          range of our various software distributions, 
+	  including older versions.
+        </p>
+
+      <div class="subsection"><span class="subsection-header">Products</span>
+        
+        <table>
+          <tr row="odd">
+            <th>Product</th>
+            <th>Binary</th>
+            <th>Source</th>
+            <th>Jars</th>
+          </tr>
+         
+          <tr row="even">
+            <td><a class="doclink" href="[preferred]/avalon/framework/">Avalon Framework</a></td>
+            <td><a class="doclink" href="[preferred]/avalon/framework/binaries">binaries</a></td>
+            <td><a class="doclink" href="[preferred]/avalon/framework/source">source</a></td>
+            <td><a class="doclink" href="[preferred]/avalon/framework/jars">jars</a></td>
+          </tr>
+          <tr row="odd">
+            <td><a class="doclink" href="[preferred]/logkit/">Avalon Logkit</a></td>
+            <td><a class="doclink" href="[preferred]/avalon/logkit/binaries">binaries</a></td>
+            <td><a class="doclink" href="[preferred]/avalon/logkit/source">browse</a></td>
+            <td><a class="doclink" href="[preferred]/avalon/logkit/jars">jars</a></td>
+          </tr>
+          <tr row="even">
+            <td><a class="doclink" href="[preferred]/merlin/">Avalon Merlin</a></td>
+            <td><a class="doclink" href="[preferred]/avalon/merlin/binaries">binaries</a></td>
+            <td><a class="doclink" href="[preferred]/avalon/merlin/source">browse</a></td>
+            <td><a class="doclink" href="[preferred]/avalon/merlin/jars">jars</a></td>
+          </tr>
+        </table>
+      </div>
+
+      <div class="subsection"><span class="subsection-header">Legacy Material</span>
+        <table>
+          <tr row="odd">
+            <th>Product</th>
+            <th>Binary</th>
+            <th>Source</th>
+            <th>Jars</th>
+          </tr>
+          <tr row="even">
+            <td><a class="doclink" href="/excalibur/fortress/">Avalon Fortress</a></td>
+            <td><a class="doclink" href="[preferred]/avalon/avalon-fortress/binaries">binaries</a></td>
+            <td><a class="doclink" href="[preferred]/avalon/avalon-fortress/source">browse</a></td>
+            <td><a class="doclink" href="[preferred]/avalon/avalon-fortress/jars">jars</a></td>
+          </tr>
+          <tr row="odd">
+            <td><a class="doclink" href="/phoenix/">Avalon Phoenix</a></td>
+            <td><a class="doclink" href="[preferred]/avalon/phoenix/binaries">binaries</a></td>
+            <td><a class="doclink" href="[preferred]/avalon/phoenix/source">browse</a></td>
+            <td><a class="doclink" href="[preferred]/avalon/phoenix/jars">jars</a></td>
+          </tr>
+        </table>
+	<p>
+	  The latest Excalibur and Fortress releases can now be found
+	  at the <a class="doclink" href="http://excalibur.apache.org">Excalibur Project</a>.
+	</p>
+	<p>
+	  Phoenix development has been continued in the Codehaus.org
+	  <a class="doclink" href="http://loom.codehaus.org">Loom</a> project.
+	</p>
+      </div>
+            
+      <div class="subsection"><span class="subsection-header">Verify Releases</span>
+        <p>
+          It is essential that you verify the integrity of the downloaded
+          files using the PGP or MD5 signatures.
+        </p>
+        <p>
+          The PGP signatures can be verified using PGP or GPG.  First
+          download the <a class="doclink" href="http://www.apache.org/dist/avalon/KEYS">KEYS</a>
+          as well as the <code>asc</code> signature file for the particular
+          distribution.  Make sure you get these files from the
+          <a class="doclink" href="http://www.apache.org/dist/avalon/">main distribution
+          directory</a>, rather than from a mirror. Then verify the signatures
+          using
+        </p>
+        <pre class="source">
+% pgpk -a KEYS
+% pgpv name-of-distributed-file.tar.gz.asc
+</pre><div class="source-title"><span class="source-title" /></div>
+        <p>
+          <strong><em>or</em></strong>
+        </p>
+        <pre class="source">
+% pgp -ka KEYS
+% pgp name-of-distributed-file.tar.gz.asc
+</pre><div class="source-title"><span class="source-title" /></div>
+        <p>
+          <strong><em>or</em></strong>
+        </p>
+        <pre class="source">
+% gpg --import KEYS<br />
+% gpg --verify name-of-distributed-file.tar.gz.asc
+</pre><div class="source-title"><span class="source-title" /></div>
+      </div>
+    </div>
+  </div><div class="footer"><span class="copyright">Copyright 2004, The Apache Software Foundation All rights reserved.</span><div class="views"><a class="viewlink" id="xmllink" href=""><img src="images/xml.gif" /></a></div></div></body></html>

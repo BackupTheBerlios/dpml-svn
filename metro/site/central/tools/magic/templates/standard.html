@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><title>Avalon Central</title><link type="text/css" rel="stylesheet" href="../../../../styles/style.css" /><meta content="text/html; charset=UTF-8" http-equiv="Content-type" /></head><body><table class="logobar"><tr><td class="panelleft"><img alt="link" src="../../../../images/feather.jpg" /></td><td class="panelmiddle"><div class="project">Metro</div><div class="title">Avalon Central</div></td><td class="panelright" /></tr></table><div class="categorybar" dir="/central/tools/magic/templates"><a class="homecategory" href="../../../../index.html">
+        Home
+      </a></div><div class="menubar"><div class="menu"><div class="menu"><div class="menu"><div class="menu"><a class="menuitem" href="../../../about/index.html">Welcome</a><a class="menuitem" href="../../../community/index.html">Community</a></div><a class="menuitem-selected" href="../../magic/index.html">Magic</a></div><a class="menuitem" href="../installation.html">Installing</a><a class="menuitem" href="../spells/index.html">Casting Spells</a><a class="menuitem" href="../model/index.html">System Model</a><a class="menuitem-selected" href="../templates/index.html">Templates</a><a class="menuitem" href="../tasks/index.html">Tasks</a><a class="menuitem" href="../../../../avalon/tools/avalon-tools-magic/index.html">Javadoc</a></div><a class="menuitem-selected" href="standard.html">Standard</a><a class="menuitem" href="reactor.html">Reactor</a></div></div><div class="content">
+
+    <div class="section"><span class="section-header">Standard Project Template</span>
+
+      <p>
+      The <code>standard.xml</code> template provides a set of 
+      common build targets backed by magic tasks that automate the 
+      resolution of working directories, classpaths for source
+      and test compilation, naming of produced artifacts such as 
+      jar files, artifact publication, and a number of content 
+      generation tasks including javadoc and xdoc management.
+      </p>
+
+<pre class="source">
+
+&lt;-- standard.xml --&gt;
+
+&lt;project name="standard" xmlns:x="antlib:org.apache.avalon.tools"&gt;
+
+  <a class="doclink" href="../tasks/common/home.html">&lt;x:home/&gt;</a>
+
+  &lt;target name="info"&gt;
+    <a class="doclink" href="../tasks/common/info.html">&lt;x:info/&gt;</a>
+  &lt;/target&gt;
+
+  &lt;target name="init" depends="info"&gt;
+    <a class="doclink" href="../tasks/management/init.html">&lt;x:init/&gt;</a>
+  &lt;/target&gt;
+
+  &lt;target name="clean" depends="info"&gt;
+    <a class="doclink" href="../tasks/common/clean.html">&lt;x:clean/&gt;</a>
+  &lt;/target&gt;
+
+  &lt;target name="prepare" depends="init"&gt;
+    <a class="doclink" href="../tasks/common/prepare.html">&lt;x:prepare/&gt;</a>
+  &lt;/target&gt;
+
+  &lt;target name="build" depends="prepare"&gt;
+    <a class="doclink" href="../tasks/production/javac.html">&lt;x:javac/&gt;</a>
+  &lt;/target&gt;
+
+  &lt;target name="package" depends="build"&gt;
+    <a class="doclink" href="../tasks/production/jar.html">&lt;x:jar/&gt;</a>
+  &lt;/target&gt;
+
+  &lt;target name="test" depends="package"&gt;
+    <a class="doclink" href="../tasks/production/junit.html">&lt;x:junit/&gt;</a>
+  &lt;/target&gt;
+
+  &lt;target name="install" depends="test"&gt;
+    <a class="doclink" href="../tasks/production/install.html">&lt;x:install/&gt;</a>
+  &lt;/target&gt;
+
+  &lt;target name="javadoc" depends="prepare"&gt;
+    <a class="doclink" href="../tasks/publication/javadoc.html">&lt;x:javadoc/&gt;</a>
+  &lt;/target&gt;
+
+  &lt;target name="xdoc" depends="prepare"&gt;
+    <a class="doclink" href="../tasks/publication/xdoc.html">&lt;x:xdoc theme="modern"/&gt;</a>
+  &lt;/target&gt;
+
+  &lt;target name="site" depends="javadoc,xdoc"/&gt;
+
+  &lt;target name="dist" depends="install,site"/&gt;
+  
+&lt;/project&gt;</pre><div class="source-title"><span class="source-title" /></div>
+
+    </div>
+
+  </div><div class="footer"><span class="copyright">Copyright 2004, The Apache Software Foundation All rights reserved.</span><div class="views"><a class="viewlink" id="xmllink" href=""><img src="../../../../images/xml.gif" /></a></div></div></body></html>

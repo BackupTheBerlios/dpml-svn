@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><title>Javadoc Tag Specification</title><link type="text/css" rel="stylesheet" href="../../../../../styles/style.css" /><meta content="text/html; charset=UTF-8" http-equiv="Content-type" /></head><body><table class="logobar"><tr><td class="panelleft"><img alt="link" src="../../../../../images/feather.jpg" /></td><td class="panelmiddle"><div class="project">Metro</div><div class="title">Javadoc Tag Specification</div></td><td class="panelright" /></tr></table><div class="categorybar" dir="/products/runtime/system/meta/tags"><a class="homecategory" href="../../../../../index.html">
+        Home
+      </a></div><div class="menubar"><div class="menu"><div class="menu"><div class="menu"><div class="menu"><div class="menu"><a class="menuitem-selected" href="../../../../runtime/index.html">Merlin Runtime</a></div><a class="menuitem" href="../../../execmodes/index.html">Execution</a><a class="menuitem" href="../../../reference/index.html">Specification</a><a class="menuitem-selected" href="../../../system/index.html">Systems</a><a class="menuitem" href="../../../javadoc/index.html">Javadoc</a></div><a class="menuitem-selected" href="../../meta/index.html">Meta</a><a class="menuitem" href="../../composition.html">Composition</a><a class="menuitem" href="../../activation.html">Activation</a><a class="menuitem" href="../../repository/index.html">Repository</a><a class="menuitem" href="../../logging/index.html">Logging</a><a class="menuitem" href="../../util/index.html">Util</a></div><a class="menuitem-selected" href="../tags/index.html">Tag Reference</a><a class="menuitem" href="../info/index.html">Type Model</a></div><a class="menuitem" href="type.html">Component</a><a class="menuitem" href="attribute.html">Attribute</a><a class="menuitem" href="service.html">Service</a><a class="menuitem" href="logger.html">Logger</a><a class="menuitem" href="configuration.html">Configuration</a><a class="menuitem" href="context.html">Context</a><a class="menuitem" href="entry.html">Entry</a><a class="menuitem" href="dependency.html">Dependency</a><a class="menuitem-selected" href="stage.html">Stage</a><a class="menuitem" href="extension.html">Extension</a></div></div><div class="content">
+
+    <div class="section"><span class="section-header">Introduction</span>
+      <div class="subsection"><span class="subsection-header">Stage Tag</span>
+<p>A component type may declare a dependency on an arbitary number of lifecycle stages.  Each stage corresponds to a lifecycle extension that will be applied to the component in the order corresponding to the ordering of stage tags.  A container is responsible for the construction and deployment of an extension stage handler capable of servicing the stage dependency.</p>
+      </div>
+
+      <div class="subsection"><span class="subsection-header">Attributes</span>
+        <table>
+          <tr row="odd"><th>Attribute</th><th>Required</th><th>Description</th></tr>
+          <tr row="even">
+            <td><p>id</p></td><td><p>yes</p></td>
+            <td>
+              <p>A value that identifies an entension 
+                 to be applied to the component during deployment.</p>
+            </td>
+          </tr>
+        </table>
+      </div>
+
+      <div class="subsection"><span class="subsection-header">Example</span>
+
+<pre class="source">
+package net.osm.vault;
+
+import org.apache.avalon.playground.Demonstratable;
+
+/**
+ * Example of a component declaring a stage dependency.
+ *
+ * @avalon.component version="0.1" name="extended-component"
+ * @avalon.stage id="urn:somewhere:demonstratable"
+ */
+public class DemoComponent implements Demonstratable
+{
+  ...
+}
+</pre><div class="source-title"><span class="source-title" /></div>
+
+<p>Generated meta-info type descriptor:</p>
+
+<pre class="source">
+&lt;type&gt;
+  &lt;info&gt;
+    &lt;version&gt;0.1.0&lt;/version&gt;
+    &lt;name&gt;extended-component&lt;/name&gt;
+  &lt;/info&gt;
+  &lt;stages&gt;
+    &lt;stage id="urn:somewhere:demonstratable"/&gt;
+  &lt;/stages&gt;
+&lt;/type&gt;
+</pre><div class="source-title"><span class="source-title" /></div>
+
+      </div>
+    </div>
+
+  </div><div class="footer"><span class="copyright">Copyright 2004, The Apache Software Foundation All rights reserved.</span><div class="views"><a class="viewlink" id="xmllink" href=""><img src="../../../../../images/xml.gif" /></a></div></div></body></html>

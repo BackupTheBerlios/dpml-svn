@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><title>Avalon Logging</title><link type="text/css" rel="stylesheet" href="../../../../../../../styles/style.css" /><meta content="text/html; charset=UTF-8" http-equiv="Content-type" /></head><body><table class="logobar"><tr><td class="panelleft"><img alt="link" src="../../../../../../../images/feather.jpg" /></td><td class="panelmiddle"><div class="project">Metro</div><div class="title">Avalon Logging</div></td><td class="panelright" /></tr></table><div class="categorybar" dir="/products/runtime/system/logging/logkit/targets/plugin"><a class="homecategory" href="../../../../../../../index.html">
+        Home
+      </a></div><div class="menubar"><div class="menu"><div class="menu"><div class="menu"><div class="menu"><div class="menu"><div class="menu"><div class="menu"><a class="menuitem-selected" href="../../../../../../runtime/index.html">Merlin Runtime</a></div><a class="menuitem" href="../../../../../execmodes/index.html">Execution</a><a class="menuitem" href="../../../../../reference/index.html">Specification</a><a class="menuitem-selected" href="../../../../../system/index.html">Systems</a><a class="menuitem" href="../../../../../javadoc/index.html">Javadoc</a></div><a class="menuitem" href="../../../../meta/index.html">Meta</a><a class="menuitem" href="../../../../composition.html">Composition</a><a class="menuitem" href="../../../../activation.html">Activation</a><a class="menuitem" href="../../../../repository/index.html">Repository</a><a class="menuitem-selected" href="../../../../logging/index.html">Logging</a><a class="menuitem" href="../../../../util/index.html">Util</a></div><a class="menuitem" href="../../../api/index.html">API</a><a class="menuitem-selected" href="../../../logkit/index.html">LogKit</a><a class="menuitem" href="../../../log4j/index.html">Log4J</a></div><a class="menuitem" href="../../whitepaper.html">Whitepaper</a><a class="menuitem-selected" href="../../targets/index.html">Configuration</a><a class="menuitem" href="../../examples/index.html">Examples</a></div><a class="menuitem" href="../stream.html">Stream Target</a><a class="menuitem" href="../file.html">File Target</a><a class="menuitem" href="../multicast.html">Multicast Target</a><a class="menuitem-selected" href="../plugin/index.html">Plugin Target</a><a class="menuitem" href="../formatter.html">Formatter</a></div><a class="menuitem" href="datagram.html">Datagram</a><a class="menuitem" href="socket.html">Socket</a><a class="menuitem" href="syslog.html">SysLog</a></div></div><div class="content">
+    <div class="section"><span class="section-header">Avalon LogKit Plugin</span>
+      <div class="subsection"><span class="subsection-header">Avalon Logging Logkit API</span>
+        The LogKit plugin defines an local API for LogKit related 
+        log target factories and log targets.  Through this API the 
+        LogKit implementation manages a set of standard targets and 
+        a target plugin framework.
+      </div>
+      <div class="subsection"><span class="subsection-header">Standard LogTarget</span>
+        <table>
+          <tr row="odd"><th>Factory</th><th>Description</th></tr>
+          <tr row="even">
+            <td>Console</td>
+            <td>
+            <p>The Console LogTarget provides support for the logging 
+            of message to a console via System.out or System.err. If 
+            no logging targets are defined, the implementation will 
+            establish a default console target.</p>
+            <p>Example</p>
+<pre class="source">
+    &lt;stream id="standard"&gt;
+       &lt;name&gt;System.out&lt;/name&gt;
+       &lt;format type="console"/&gt;
+    &lt;/stream&gt;
+</pre><div class="source-title"><span class="source-title" /></div>
+            </td>
+          </tr>
+          <tr row="odd">
+            <td>Rotating File</td>
+            <td>
+            <p>The rotating file target provides support for a set of 
+            rotation strategies including rotation by size, rotation
+            on data, and combined date/size rotation scenarios.</p>
+            <p>Example</p>
+<pre class="source">
+    &lt;file id="simple"&gt;
+      &lt;filename&gt;simple.log&lt;/filename&gt;
+      &lt;append&gt;true&lt;/append&gt;
+      &lt;rotation type="revolving" init="1" max="10"&gt;
+        &lt;size&gt;100k&lt;/size&gt;
+      &lt;/rotation&gt;
+    &lt;/file&gt;
+</pre><div class="source-title"><span class="source-title" /></div>
+            </td>
+          </tr>
+          <tr row="even">
+            <td>Multlipex</td>
+            <td>
+            <p>The multiplex target is a target that handles the redirection
+            of a logging event to one or more log targets. This target is 
+            typically used in conjuction with different filters to control
+            and qualify the information presented to different targets.  
+            For example, an application my configure a console target with 
+            summary warning and error reports to console, and a detailed 
+            error logg with full stack trace to a rotating file target.
+            The multiplex target enabled the declaration of a single logical
+            target and the subsequent formatting and generation of log message
+            appropriate for the relative targets.</p>
+            <p>Example</p>
+<pre class="source">
+    &lt;multicast id="multicast"&gt;
+      &lt;targetref id="standard"/&gt;
+      &lt;targetref id="simple"/&gt;
+    &lt;/multicast&gt;
+</pre><div class="source-title"><span class="source-title" /></div>
+            </td>
+          </tr>
+          <tr row="odd">
+            <td>Plugin</td>
+            <td>
+            <p>The plugin target provides support for plugable log targets. A 
+            typical plugin log target is defined using  &lt;target&gt; element.</p>
+            <p>Several plugable log targets are currently available.</p>
+            <table>
+              <tr row="odd"><th>Plugin</th><th>Description</th></tr>
+              <tr row="even">
+                <td>DataGram</td>
+                <td><p>A datagram log target.<br />
+                avalon-logging/avalon-logkit-datagram#1.0-SNAPSHOT</p>
+<pre class="source">
+    &lt;target id="datagram"
+        artifact="avalon-logging/avalon-logkit-datagram#1.0-SNAPSHOT"&gt;
+      &lt;address hostname="localhost" port="0"/&gt;
+    &lt;/target&gt;
+</pre><div class="source-title"><span class="source-title" /></div>
+                </td>
+              </tr>
+              <tr row="odd">
+                <td>Socket</td>
+                <td><p>A socket log target.<br />
+                avalon-logging/avalon-logkit-socket#1.0-SNAPSHOT</p></td>
+              </tr>
+              <tr row="even">
+                <td>Syslog</td>
+                <td><p>A syslog log target.<br />
+                avalon-logging/avalon-logkit-syslog#1.0-SNAPSHOT</p>
+<pre class="source">
+    &lt;target id="syslog"
+        artifact="avalon-logging/avalon-logkit-syslog#1.0-SNAPSHOT"&gt;
+      &lt;address hostname="localhost" port="514" facility="USER"/&gt;
+      &lt;format type="avalon"/&gt;
+    &lt;/target&gt;
+</pre><div class="source-title"><span class="source-title" /></div>
+                </td>
+              </tr>
+              <tr row="odd">
+                <td>SMTP</td>
+                <td><p>An SMTP log target (available on request).<br />
+                avalon-logging/avalon-logkit-smtp#1.0-SNAPSHOT</p>
+<pre class="source">
+    &lt;target id="smtp"
+        artifact="avalon-logging/avalon-logkit-smtp#1.0-SNAPSHOT"&gt;
+      &lt;to&gt;mcconnell@osm.net&lt;/to&gt;
+      &lt;from&gt;info@dpml.net&lt;/from&gt;
+      &lt;subject&gt;logging target test&lt;/subject&gt;
+      &lt;maximum-size&gt;1&lt;/maximum-size&gt;
+      &lt;session&gt;
+      &lt;/session&gt;
+    &lt;/target&gt;
+</pre><div class="source-title"><span class="source-title" /></div>
+                </td>
+              </tr>
+            </table>
+            </td>
+          </tr>
+        </table>
+      </div>
+    </div>
+  </div><div class="footer"><span class="copyright">Copyright 2004, The Apache Software Foundation All rights reserved.</span><div class="views"><a class="viewlink" id="xmllink" href=""><img src="../../../../../../../images/xml.gif" /></a></div></div></body></html>

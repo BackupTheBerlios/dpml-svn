@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><title>Avalon Central</title><link type="text/css" rel="stylesheet" href="../../../../styles/style.css" /><meta content="text/html; charset=UTF-8" http-equiv="Content-type" /></head><body><table class="logobar"><tr><td class="panelleft"><img alt="link" src="../../../../images/feather.jpg" /></td><td class="panelmiddle"><div class="project">Metro</div><div class="title">Avalon Central</div></td><td class="panelright" /></tr></table><div class="categorybar" dir="/central/about/tutorials/basic"><a class="homecategory" href="../../../../index.html">
+        Home
+      </a></div><div class="menubar"><div class="menu"><div class="menu"><div class="menu"><div class="menu"><a class="menuitem-selected" href="../../../about/index.html">Welcome</a><a class="menuitem" href="../../../community/index.html">Community</a></div><a class="menuitem" href="../../license.html">License</a><a class="menuitem" href="../../download.html">Downloads</a><a class="menuitem" href="../../installation/index.html">Installation</a><a class="menuitem-selected" href="../../tutorials/index.html">Tutorials</a><a class="menuitem" href="../../news/index.html">News</a><a class="menuitem" href="../../faq.html">FAQ</a></div><a class="menuitem-selected" href="../basic/index.html">Basic</a><a class="menuitem" href="../advanced/index.html">Advanced</a></div><a class="menuitem" href="creation.html">Hello Block</a><a class="menuitem" href="execution.html">Running Hello</a><a class="menuitem" href="internal.html">Behind the Scenes</a><a class="menuitem" href="config/index.html">Configurations</a><a class="menuitem" href="context/index.html">Contextualization</a><a class="menuitem-selected" href="services.html">Services</a><a class="menuitem" href="dependencies/index.html">Dependencies</a></div></div><div class="content">
+    <div class="section"><span class="section-header">Service Publication</span>
+
+        <p>
+        One of the most important aspects of a component management 
+        platform is the ability to provide component assembly.  Assembly
+        is achieved by wiring together the services provided by one component
+        with the service dependencies declared by a consumer component. 
+        </p>
+        <p>
+        This tutorial presents the creation of a simple component that 
+        publishes a service.  This component will be used in the subsequent 
+        tutorial dealing with dependencies. 
+        </p>
+        <p>
+        Resources supporting this tutorial are contained in the 
+        tutorials/dependencies/ package.
+        </p>
+
+      <div class="subsection"><span class="subsection-header">Service Interface</span>
+        <p>
+        Services are normally exposed under a service interface. The following
+        java source is the declaration of a RandomGenerator service interface. 
+        </p>
+        <p><i>RandomGenerator.java</i></p>
+<pre class="source">
+package tutorial;
+
+/**
+ * A service that provides access to a random number.
+ */
+public interface RandomGenerator
+{
+
+   /**
+    * Return a random integer
+    * @return the random number
+    */
+    int getRandom();
+
+}
+</pre><div class="source-title"><span class="source-title" /></div>
+      </div>
+      <div class="subsection"><span class="subsection-header">Component Implementation</span>
+        <p>
+        The following source contains the component implementation for the 
+        service above. 
+        </p>
+        <p><i>RandomGeneratorProvider.java</i></p>
+<pre class="source">
+package tutorial;
+
+import java.util.Random;
+
+import org.apache.avalon.framework.logger.AbstractLogEnabled;
+import org.apache.avalon.framework.activity.Initializable;
+import org.apache.avalon.framework.activity.Disposable;
+
+/**
+ * An implementation of a random number generator.
+ *
+ * @avalon.component version="1.0" name="random" lifestyle="singleton"
+ * @avalon.service type="tutorial.RandomGenerator" version="1.0"
+ */
+public class RandomGeneratorProvider extends AbstractLogEnabled 
+  implements Initializable, RandomGenerator, Disposable
+{
+
+    private Random m_random = new Random();
+
+    public void initialize()
+    {
+        getLogger().info( "initialization" );
+    }
+
+   /**
+    * Return a random integer
+    * @return the random number
+    */
+    public int getRandom()
+    {
+        getLogger().info( "processing request" );
+        return m_random.nextInt();
+    }
+
+    public void dispose()
+    {
+        getLogger().info( "disposal" );
+    }
+
+}
+</pre><div class="source-title"><span class="source-title" /></div>
+        <p>
+          In addition to the component implementation, we need to generate an xinfo
+          resource in which we declare the publication of the service by 
+          the component.  In this example the component type is declaring 
+          one service although multiple service declarations are supported. This 
+          is generated automatically based on the following tag:
+        </p>
+<pre class="source">
+ * @avalon.service type="tutorial.RandomGenerator" version="1.0"
+</pre><div class="source-title"><span class="source-title" /></div>
+        <p>
+          The type descriptor generated for this component is listed below.
+        </p>
+        <p><i>RandomGeneratorProvider.xinfo</i></p>
+<pre class="source">
+&lt;?xml version="1.0"?&gt;
+&lt;!DOCTYPE type
+      PUBLIC "-//AVALON/Type DTD Version 1.0//EN"
+             "http://avalon.apache.org/dtds/meta/type_1_1.dtd" &gt;
+&lt;type&gt;
+  &lt;info&gt;
+    &lt;name&gt;random&lt;/name&gt;
+    &lt;version&gt;1.0.0&lt;/version&gt;
+    &lt;lifestyle&gt;singleton&lt;/lifestyle&gt;
+    &lt;collection&gt;hard&lt;/collection&gt;
+  &lt;/info&gt;
+  &lt;services&gt;
+    &lt;service type="tutorial.RandomGenerator" version="1.0.0"/&gt;
+  &lt;/services&gt;
+&lt;/type&gt;
+</pre><div class="source-title"><span class="source-title" /></div>
+        <p>
+          The <a class="doclink" href="dependencies/auto.html">following tutorial</a> presents the 
+          use of this service by HelloComponent.
+        </p>
+
+      </div>
+    </div>
+  </div><div class="footer"><span class="copyright">Copyright 2004, The Apache Software Foundation All rights reserved.</span><div class="views"><a class="viewlink" id="xmllink" href=""><img src="../../../../images/xml.gif" /></a></div></div></body></html>

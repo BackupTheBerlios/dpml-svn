@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><title>Lifestyle Specification</title><link type="text/css" rel="stylesheet" href="../../../../../styles/style.css" /><meta content="text/html; charset=UTF-8" http-equiv="Content-type" /></head><body><table class="logobar"><tr><td class="panelleft"><img alt="link" src="../../../../../images/feather.jpg" /></td><td class="panelmiddle"><div class="project">Metro</div><div class="title">Lifestyle Specification</div></td><td class="panelright" /></tr></table><div class="categorybar" dir="/products/runtime/reference/component/lifecycle"><a class="homecategory" href="../../../../../index.html">
+        Home
+      </a></div><div class="menubar"><div class="menu"><div class="menu"><div class="menu"><div class="menu"><div class="menu"><a class="menuitem-selected" href="../../../../runtime/index.html">Merlin Runtime</a></div><a class="menuitem" href="../../../execmodes/index.html">Execution</a><a class="menuitem-selected" href="../../../reference/index.html">Specification</a><a class="menuitem" href="../../../system/index.html">Systems</a><a class="menuitem" href="../../../javadoc/index.html">Javadoc</a></div><a class="menuitem" href="../../containment/index.html">Block</a><a class="menuitem-selected" href="../../component/index.html">Component</a><a class="menuitem" href="../../deployment/index.html">Deployment</a><a class="menuitem" href="../../kernel/index.html">Kernel</a></div><a class="menuitem" href="../descriptors/index.html">Descriptors</a><a class="menuitem" href="../artifacts/index.html">Artifacts</a><a class="menuitem-selected" href="../lifecycle/index.html">Lifecycle</a><a class="menuitem" href="../lifestyle/index.html">Lifestyle</a></div><a class="menuitem" href="incarnation.html">Incarnation</a><a class="menuitem" href="runtime.html">Runtime Management</a><a class="menuitem" href="etherialization.html">Etherialization</a></div></div><div class="content">
+
+    <div class="section"><span class="section-header">Lifecycle Management Specification</span>
+      <p>
+Lifecycle management concerns the process of incarnation, runtime management, and etherialization.  Incarnation is the sequence involving instantiation and possible application of a series of lifecycle stage processes (such as configuration, contextualization, etc.).  Runtime management deals with the suspension, resumption of a component.  Etherialization represents the process of component end-of-life processing possibly involving the application of multiple lifecycle phases (e.g. disposal).
+      </p>
+
+      <div class="subsection"><span class="subsection-header">Phase Table</span>
+    
+        <table>
+          <tr row="odd">
+            <td><a class="doclink" href="incarnation.html">Incarnation</a></td>
+            <td>
+Just as objects are instantiated, the equivalent process from a component is "incarnation".  Incarnation involves instantiation, a series of optional artifact delivery stages, and an optional execution phase.  Component incarnation is managed exclusively by a container.  Occurances of component icarnation are controlled by as associated component implementation <a class="doclink" href="../lifestyle/index.html">lifestyle</a> characteristic.
+            </td>
+          </tr>
+          <tr row="even">
+            <td><a class="doclink" href="runtime.html">Runtime Management</a></td>
+            <td>
+Runtime management deals with interaction with a component between the incarnation and etherialization stages.  The Avalon framework defines the notion of a suspendable component.  The framework also defines a number of delivery interfaces dealing with reintroduction of lifecycle artificats. None of the framework reintroduction interfaces are supported - instead, runtime management is approached as a management concern wherein any existing artifact delivery interface may be reused by a container while a component is under a suspended state.  The action of resumption is equivalent to the notion of re-initialization.
+            </td>
+          </tr>
+          <tr row="odd">
+            <td><a class="doclink" href="etherialization.html">Etherialization</a></td>
+            <td>
+The etherialization stage is the component equivalent of an object finalization.  Etherialization covers the stopping of a running component and subsequent disposal.  Initiation of the etherialization phase on a component instance is exclusively controlled by it's container.
+            </td>
+          </tr>
+        </table>
+
+      </div>
+
+    </div>
+
+  </div><div class="footer"><span class="copyright">Copyright 2004, The Apache Software Foundation All rights reserved.</span><div class="views"><a class="viewlink" id="xmllink" href=""><img src="../../../../../images/xml.gif" /></a></div></div></body></html>

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><title>Merlin Runtime</title><link type="text/css" rel="stylesheet" href="../../../../../../styles/style.css" /><meta content="text/html; charset=UTF-8" http-equiv="Content-type" /></head><body><table class="logobar"><tr><td class="panelleft"><img alt="link" src="../../../../../../images/feather.jpg" /></td><td class="panelmiddle"><div class="project">Metro</div><div class="title">Merlin Runtime</div></td><td class="panelright" /></tr></table><div class="categorybar" dir="/products/runtime/reference/containment/components/dependencies"><a class="homecategory" href="../../../../../../index.html">
+        Home
+      </a></div><div class="menubar"><div class="menu"><div class="menu"><div class="menu"><div class="menu"><div class="menu"><div class="menu"><a class="menuitem-selected" href="../../../../../runtime/index.html">Merlin Runtime</a></div><a class="menuitem" href="../../../../execmodes/index.html">Execution</a><a class="menuitem-selected" href="../../../../reference/index.html">Specification</a><a class="menuitem" href="../../../../system/index.html">Systems</a><a class="menuitem" href="../../../../javadoc/index.html">Javadoc</a></div><a class="menuitem-selected" href="../../../containment/index.html">Block</a><a class="menuitem-selected" href="../../../component/index.html">Component</a><a class="menuitem" href="../../../deployment/index.html">Deployment</a><a class="menuitem" href="../../../kernel/index.html">Kernel</a></div><a class="menuitem" href="../../container.html">container</a><a class="menuitem" href="../../classloader/index.html">classloader</a><a class="menuitem" href="../../categories/index.html">categories</a><a class="menuitem-selected" href="../../components/index.html">component</a><a class="menuitem" href="../../include/index.html">include</a><a class="menuitem" href="../../services/index.html">services</a></div><a class="menuitem" href="../categories/index.html">categories</a><a class="menuitem" href="../context/index.html">context</a><a class="menuitem-selected" href="../dependencies/index.html">dependencies</a><a class="menuitem" href="../configuration.html">configuration</a><a class="menuitem" href="../parameters/index.html">parameters</a></div><a class="menuitem" href="dependency.html">dependency</a></div></div><div class="content">
+    <div class="section"><span class="section-header">Dependencies Directive</span>
+
+      <div class="subsection"><span class="subsection-header">Description</span>
+<p>A dependencies directive contains a set of optional dependency directives that may be used to override the default auto-assembly semantics within Merlin.</p>
+      </div>
+
+      <div class="subsection"><span class="subsection-header">Nested Elements</span>
+        <table>
+          <tr row="odd"><th>Element</th><th>Cardinality</th><th>Description</th></tr>
+          <tr row="even">
+            <td><a class="doclink" href="dependency.html">dependency</a></td><td>n</td>
+            <td>
+                Declaration of a dependency directive.
+            </td>
+          </tr>
+        </table>
+      </div>
+
+      <div class="subsection"><span class="subsection-header">Sample XML</span>
+
+<pre class="source">
+     &lt;component name="hello" class="tutorial.HelloComponent"&gt;
+       &lt;dependencies&gt;
+         &lt;dependency key="primary" source="gloria"/&gt;
+         &lt;dependency key="secondary" source="nancy"/&gt;
+       &lt;/dependencies&gt;
+     &lt;/component&gt;
+</pre><div class="source-title"><span class="source-title" /></div>
+
+     </div>
+    </div>
+  </div><div class="footer"><span class="copyright">Copyright 2004, The Apache Software Foundation All rights reserved.</span><div class="views"><a class="viewlink" id="xmllink" href=""><img src="../../../../../../images/xml.gif" /></a></div></div></body></html>

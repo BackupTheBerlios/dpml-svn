@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document>
+  <properties>
+    <author email="niclas@hedhman.org">Niclas Hedhman</author>
+    <title>Open Participation Software</title>
+  </properties>
+
+  <body>
+      <section name="History">
+        <p>
+          This thing that we call Open Participation Software started from a
+          combination of events in September 2004.
+        </p>
+        <ul>
+          <li>
+            A lot of internal conflicts at the Apache Avalon project, resulting
+            in the Merlin codebase becoming Metro and leaving the foundation.
+          </li>
+          <li>
+            I, Niclas Hedhman, was questioning the need for so much secrecy and
+            lack of transparency within the ASF decision making process, and 
+            being <em>hammered</em> about not understanding The Apache Way,
+            and some challenging me to go elsewhere and try building my own
+            community. Apache have been around for 10 years, so we must be
+            doings something right.
+          </li>
+          <li>
+            Stephen McConnell mentioning the theory of dynamics within the 
+            "Flock of Birds" on the #merlin IRC channel.
+          </li>
+          <li>
+            A chat between myself and Peter Neubauer, 30th Sept 2004, on how 
+            to avoid conflict within the new community that was going to be 
+            formed around the Metro product family. My conclusion is that we 
+            need a <strong>big</strong> flock to counter conflict.
+          </li>
+        </ul>
+        <p>
+          That chat suddenly took a turn with the following reasoning;
+        </p>
+<source>(15:54:02) Niclas: I have been ploying with an idea;
+(15:54:58) Niclas: What if the bar to entry the developer group is extremely 
+                   low, but that it is equally easy to loose the trust of the
+                   others.
+(15:55:05) Niclas: Birds!
+(15:55:17) Niclas: Where does the flock fly?</source>
+        <p>
+          A few minutes later the next break through;
+        </p>
+<source>(16:02:36) Niclas: I think Steve's "Bird Flock" idea can be brought to 
+                   something interesting.
+(16:02:50) PNeubauer: So basically "I have a patch - Go and ceck it in 
+                      yourself!"
+(16:03:08) Niclas: YES!!!!
+(16:03:19) Niclas: Hit it straight on the nail.
+(16:04:31) PNeubauer: I really like that thought - applying the principle of 
+                      the outcome of OSS "the whole code is open" to the income
+                      of OSS "the whole participation is open"
+(16:04:36) Niclas: Unlike ASF, they have a HUGE overhead for a new user.
+(16:05:04) Niclas: For instance the CLA.</source>
+        <p>
+          The discussion then went into practical details, where I elaborated
+          to tear down the entire legal framework that is required and holding
+          up the OSS movement of today, by going Public Domain.
+        </p>
+        <p>
+          I then had further discussions with Stephen McConnell to see if the
+          model had any support from someone I thought was going to be very
+          critical and sceptic. He started out a bit anxious, but was quickly
+          convinced, which spurred my enthusiasm even more.
+        </p>
+        <p>
+          I mentioned to several other people and all pretty much went "Wow!",
+          and that is when I sent out <a href="orig-mail.html">this email</a> as
+          an invitation to a group of people to apply 
+          <strong>Open Participation Software</strong> to the Metro product
+          family that we were starting.
+          So here we are, on our way to change the world. :o)
+        </p>
+        <p>
+          All quotes above and in the mail, has been unaltered and contains
+          the original spelling and grammar mistakes, but I found it important
+          not to alter the content.
+        </p>
+    </section>
+  </body>
+</document>

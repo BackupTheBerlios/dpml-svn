@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><title>Apache Avalon: Legacy</title><link type="text/css" rel="stylesheet" href="../../../../styles/style.css" /><meta content="text/html; charset=UTF-8" http-equiv="Content-type" /></head><body><table class="logobar"><tr><td class="panelleft"><img alt="link" src="../../../../images/feather.jpg" /></td><td class="panelmiddle"><div class="project">Metro</div><div class="title">Apache Avalon: Legacy</div></td><td class="panelright" /></tr></table><div class="categorybar" dir="/central/archive/product/containers"><a class="homecategory" href="../../../../index.html">
+        Home
+      </a></div><div class="menubar"><div class="menu"><div class="menu"><div class="menu"><div class="menu"><a class="menuitem" href="../../../about/index.html">Welcome</a><a class="menuitem" href="../../../community/index.html">Community</a></div><a class="menuitem" href="../../overview.html">Overview</a><a class="menuitem" href="../../developing/index.html">Developing With Avalon</a><a class="menuitem-selected" href="../../product/index.html">Products</a><a class="menuitem" href="../../related/index.html">Related</a><a class="menuitem" href="../../doc/index.html">Misc</a></div><a class="menuitem" href="../framework/index.html">Framework</a><a class="menuitem-selected" href="../containers/index.html">Merlin</a><a class="menuitem" href="../components/index.html">Planet</a></div><a class="menuitem" href="overview.html">Overview</a><a class="menuitem-selected" href="history.html">History</a></div></div><div class="content">
+    <div class="section"><span class="section-header">History of Container Solutions</span>
+      <p>
+        Within Avalon there has been a number of container solutions. This 
+        reflects a historical divergence and a present convergence within
+        the area of containment technology within Avalon. The original 
+        containment solutions ECM and Phoenix focussed on very different 
+        approaches to component management. The ECM model dealt with 
+        primarily pooled objects used in environments such as 
+        <a class="doclink" href="http://cocoon.apache.org/">Cocoon</a>. The
+        Phoenix model dealt with a strict singleton model supporting 
+        project such as <a class="doclink" href="http://james.apache.org">James</a>.  
+        Further developments resulted in the release of 
+        <a class="doclink" href="http://excalibur.apache.org/fortress/">Fortress</a> 
+        and <a class="doclink" href="../../../../products/runtime/index.html">Merlin</a>.  
+        Fortress replaced the ECM solution
+        and was positioned as a migration vehicle for components to move
+        towards Avalon's latest container - Merlin.  The Merlin container
+        is an attempt at being a flexible and adaptive container
+        that leverages a set of common containment facilities, equally
+        suited for embedded and stand-alone use.
+      </p>
+      <p>
+        The Avalon community went into an identity crisis, and was struggling
+        to support multiple containers. This also lead to decision paralysis
+        and community division. In March 2004, the community finally pulled
+        itself together and made the historic vote to forge forward with a
+        <strong>Single Platform</strong>, and only Merlin fits the bill of
+        being that platform.
+      </p>
+      <p>
+        Below is the list of legacy containers.
+        Avalon recommend that new users only invest time in 
+        <a class="doclink" href="../../../../products/runtime/index.html">Merlin</a>, the only 
+        sustainable solution. ECM and Fortress will be
+        partially supported during a transition period, but eventually
+        taken out of Avalon completely. Users who are interested in Phoenix
+        and that can't use Merlin, can investigate if the 
+        <a class="doclink" href="http://loom.jcontainer.org">Loom project</a> can be of any 
+        assistance.
+      </p>
+
+      <table>
+        <tr row="odd"><th>Product</th><th>Description</th></tr>
+        <tr row="even">
+          <td>
+            <p>
+              <a class="doclink" name="fortress" />
+              <a class="doclink" href="http://excalibur.apache.org/fortress/">Avalon 
+              Fortress</a>
+            </p>
+          </td>
+          <td>
+            <p>
+              Fortress contains a framework to help you create your own avalon 
+              containers. It boasts asynchronous management of your component 
+              instances, high scalability, easier maintenance of your code, and
+              easy embedding into various environments like servlet engines. 
+            </p>
+          </td>
+        </tr>
+        <tr row="odd">
+          <td>
+            <p>
+              <a class="doclink" name="ecm" />
+              <a class="doclink" href="http://excalibur.apache.org">ECM</a>
+            </p>
+          </td>
+          <td>
+            <p>
+              This package contains the ExcaliburComponentManager (ECM). ECM has 
+              been deprecated in favour of the new Fortress container. 
+            </p>
+          </td>
+        </tr>
+        <tr row="even">
+          <td>
+            <p>
+              <a class="doclink" name="phoenix" />
+              Phoenix, see <a class="doclink" href="http://loom.codehaus.org">Loom project</a>
+            </p>
+          </td>
+          <td>
+            <p>
+              Phoenix is a micro-kernel designed and implemented on top of 
+              the Avalon framework. It provides a number of facilities to 
+              manage the environment of Server Applications. Such facilities 
+              include log management, classloading, thread management and 
+              security.
+            </p>
+          </td>
+        </tr>
+      </table>
+    </div>
+  </div><div class="footer"><span class="copyright">Copyright 2004, The Apache Software Foundation All rights reserved.</span><div class="views"><a class="viewlink" id="xmllink" href=""><img src="../../../../images/xml.gif" /></a></div></div></body></html>

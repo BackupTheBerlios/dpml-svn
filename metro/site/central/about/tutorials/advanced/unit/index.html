@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><title>Avalon Central</title><link type="text/css" rel="stylesheet" href="../../../../../styles/style.css" /><meta content="text/html; charset=UTF-8" http-equiv="Content-type" /></head><body><table class="logobar"><tr><td class="panelleft"><img alt="link" src="../../../../../images/feather.jpg" /></td><td class="panelmiddle"><div class="project">Metro</div><div class="title">Avalon Central</div></td><td class="panelright" /></tr></table><div class="categorybar" dir="/central/about/tutorials/advanced/unit"><a class="homecategory" href="../../../../../index.html">
+        Home
+      </a></div><div class="menubar"><div class="menu"><div class="menu"><div class="menu"><div class="menu"><div class="menu"><a class="menuitem-selected" href="../../../../about/index.html">Welcome</a><a class="menuitem" href="../../../../community/index.html">Community</a></div><a class="menuitem" href="../../../license.html">License</a><a class="menuitem" href="../../../download.html">Downloads</a><a class="menuitem" href="../../../installation/index.html">Installation</a><a class="menuitem-selected" href="../../../tutorials/index.html">Tutorials</a><a class="menuitem" href="../../../news/index.html">News</a><a class="menuitem" href="../../../faq.html">FAQ</a></div><a class="menuitem" href="../../basic/index.html">Basic</a><a class="menuitem-selected" href="../../advanced/index.html">Advanced</a></div><a class="menuitem" href="../lifecycle/index.html">Lifecycle Tools</a><a class="menuitem" href="../context.html">Contextualization</a><a class="menuitem" href="../profiles.html">Deployment Templates</a><a class="menuitem" href="../selection.html">Profile Selection</a><a class="menuitem" href="../composite.html">Composition</a><a class="menuitem-selected" href="../unit/index.html">Unit Test</a></div><a class="menuitem" href="example.html">Hello Example</a></div></div><div class="content">
+    <div class="section"><span class="section-header">Advanced Features</span>
+      <div class="subsection"><span class="subsection-header">Unit Tests</span>
+        <p>
+        The Merlin platform provides an abstract test case class that you
+        can use as a component factory.  To create a Merlin based unit
+        test you simply extend AbstractMerlinTestCase.
+        </p>
+        <p>
+        To use AbstractMerlinTestCase you should include the following 
+        dependency in you maven project definition.
+        </p>
+<pre class="source">
+    &lt;dependency&gt;
+      &lt;groupId&gt;merlin&lt;/groupId&gt;
+      &lt;artifactId&gt;merlin-unit&lt;/artifactId&gt;
+      &lt;version&gt;3.2.6-dev&lt;/version&gt;
+    &lt;/dependency&gt;
+</pre><div class="source-title"><span class="source-title" /></div>
+        <p>
+        The following code fragment declares a new test case using the 
+        abstract Merlin test case.
+        </p>
+        <pre class="source">
+import org.apache.avalon.merlin.unit.AbstractMerlinTestCase;
+
+public class ExampleTestCase extends AbstractMerlinTestCase
+{
+    public ExampleTestCase( String name )
+    {
+        super( name );
+    }
+
+    // ...
+}
+        </pre><div class="source-title"><span class="source-title" /></div>
+        <p>
+        The default behaviour is to deploy a block based on the 
+        deployment path ${basedir}/target/classes/.  Merlin will attempt
+        to locate a block.xml file at the [DEPLOYMENT-PATH]/BLOCK-INF/block.xml. 
+        To make sure that a block.xml file and component meta-info is available under 
+        ${basedir}/target/classes/ you need to include the following resource
+        statement in you maven project descriptor.
+        </p>
+<pre class="source">
+  &lt;build&gt;
+    &lt;sourceDirectory&gt;${basedir}/src/java/&lt;/sourceDirectory&gt;
+    &lt;unitTestSourceDirectory&gt;${basedir}/src/test/&lt;/unitTestSourceDirectory&gt;
+    &lt;resources&gt;
+      &lt;resource&gt;
+        &lt;directory&gt;${basedir}/conf&lt;/directory&gt;
+        &lt;targetPath&gt;BLOCK-INF&lt;/targetPath&gt;
+        &lt;includes&gt;
+          &lt;include&gt;block.xml&lt;/include&gt;
+        &lt;/includes&gt;
+      &lt;/resource&gt;
+      &lt;resource&gt;
+        &lt;directory&gt;${basedir}/src/java&lt;/directory&gt;
+        &lt;includes&gt;
+          &lt;include&gt;**/*.x*&lt;/include&gt;
+        &lt;/includes&gt;
+      &lt;/resource&gt;
+    &lt;/resources&gt;
+  &lt;/build&gt;
+</pre><div class="source-title"><span class="source-title" /></div>
+
+        <p>
+        You can now access components established by Merlin via 
+        the component path.  For example, if your block.xml defines
+        a component named "hello" in a container named "test" you 
+        access the component by requesting the path "/test/hello".  
+        </p>
+        <p>
+        The following code fragment demonstrates the usage of the 
+        resolve method to locate a named component.
+        </p>
+<pre class="source">
+public void testServiceResolution() throws Exception
+{
+    Hello hello = (Hello) resolve( "/test/hello" );
+    assertNotHull( "hello", hello );
+}
+</pre><div class="source-title"><span class="source-title" /></div>
+
+      </div>
+      <div class="subsection"><span class="subsection-header">Customizing Merlin behaviour</span>
+        <p>
+        You can customize all of the deployment and runtime parameters
+        of the embedded merlin instance by adding a "merlin.properties"
+        file to your basedir.
+        </p>
+        <p>
+        <i>Example merlin.properties</i>
+        </p>
+<pre class="source">
+merlin.info = true
+merlin.debug = true
+merlin.override = conf/config.xml
+</pre><div class="source-title"><span class="source-title" /></div>
+      </div>
+    </div>
+  </div><div class="footer"><span class="copyright">Copyright 2004, The Apache Software Foundation All rights reserved.</span><div class="views"><a class="viewlink" id="xmllink" href=""><img src="../../../../../images/xml.gif" /></a></div></div></body></html>

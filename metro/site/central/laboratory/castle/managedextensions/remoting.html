@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><title>Avalon Castle - Managed Extensions</title><link type="text/css" rel="stylesheet" href="../../../../styles/style.css" /><meta content="text/html; charset=UTF-8" http-equiv="Content-type" /></head><body><table class="logobar"><tr><td class="panelleft"><img alt="link" src="../../../../images/feather.jpg" /></td><td class="panelmiddle"><div class="project">Metro</div><div class="title">Avalon Castle - Managed Extensions</div></td><td class="panelright" /></tr></table><div class="categorybar" dir="/central/laboratory/castle/managedextensions"><a class="homecategory" href="../../../../index.html">
+        Home
+      </a></div><div class="menubar"><div class="menu"><div class="menu"><div class="menu"><div class="menu"><a class="menuitem" href="../../../about/index.html">Welcome</a><a class="menuitem" href="../../../community/index.html">Community</a></div><a class="menuitem" href="../../studio/index.html">Studio</a><a class="menuitem" href="../../discovery/index.html">Discovery</a><a class="menuitem-selected" href="../../castle/index.html">Castle</a></div><a class="menuitem" href="../microkernel/index.html">Microkernel</a><a class="menuitem-selected" href="../managedextensions/index.html">Managed Extensions</a><a class="menuitem" href="../dynamicproxy/index.html">DynamicProxy</a></div><a class="menuitem" href="lifecycle.html">Lifecycle</a><a class="menuitem-selected" href="remoting.html">Remoting</a><a class="menuitem" href="invokers.html">Invokers</a></div></div><div class="content">
+
+  <div class="section"><span class="section-header">Exposing the server</span>
+    <p>
+    ManagementExtensions hides from developer all the complexity
+    dealing with .Net Remoting architecture. To expose your MServer
+    through TCP (or HTTP) you need to create a MConnectorServer instance.
+    By now the only formatter supported is the binary one.
+    </p>
+<pre class="source">
+MConnectorServer serverConn = 
+   MConnectorServerFactory.CreateServer( "provider:http:binary:test.rem", null, null );
+
+ManagedObjectName name = new ManagedObjectName("connector.http:formatter=binary");
+
+server.RegisterManagedObject( serverConn, name );
+</pre><div class="source-title"><span class="source-title" /></div>
+
+  </div>
+
+  <div class="section"><span class="section-header">Connecting to server</span>
+    <p>
+    The same strategy is used to connect from a client. Once you've connected, you 
+    can extract the component tree from MServer, invoke methods and change component 
+    attributes.
+    </p>
+<pre class="source">
+MConnector connector = 
+   MConnectorFactory.CreateConnector( "provider:http:binary:test.rem", null );
+  
+MServer server = (MServer) connector.ServerConnection;
+String[] domains = server.GetDomains();
+
+</pre><div class="source-title"><span class="source-title" /></div>
+    <p>
+    Obviously the connection string must match. You can use ASP.Net or Winforms 
+    to construct a client application for manage your application. Unfortunatelly, 
+    due to license issues, we can't provide a sample using either of these technologies.
+    But you can see the test cases to get a glimpse of how it can be accomplished.
+    </p>
+  </div>
+
+  </div><div class="footer"><span class="copyright">Copyright 2004, The Apache Software Foundation All rights reserved.</span><div class="views"><a class="viewlink" id="xmllink" href=""><img src="../../../../images/xml.gif" /></a></div></div></body></html>

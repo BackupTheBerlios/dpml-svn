@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><title>Avalon Planet</title><link type="text/css" rel="stylesheet" href="../../styles/style.css" /><meta content="text/html; charset=UTF-8" http-equiv="Content-type" /></head><body><table class="logobar"><tr><td class="panelleft"><img alt="link" src="../../images/feather.jpg" /></td><td class="panelmiddle"><div class="project">Metro</div><div class="title">Avalon Planet</div></td><td class="panelright" /></tr></table><div class="categorybar" dir="/planet/facilities"><a class="homecategory" href="../../index.html">
+        Home
+      </a></div><div class="menubar"><div class="menu"><div class="menu"><a class="menuitem" href="../components/index.html">Components</a><a class="menuitem-selected" href="../facilities/index.html">Facilities</a></div><a class="menuitem" href="finder/index.html">Finder</a><a class="menuitem" href="http.html">HTTP</a><a class="menuitem" href="jmx.html">JMX</a><a class="menuitem" href="reflector/index.html">Reflector</a></div></div><div class="content">
+    <div class="section"><span class="section-header">Avalon Finder Facility</span>
+      <p>
+      The finder is a component that provides support for the 
+      dynamic resolution of a services.  The finder is a facility
+      and as such can access and navigate the containment model 
+      for solutions to service requests.
+      </p>
+      <div class="subsection"><span class="subsection-header">Finder Interface</span>
+        <p>
+        The finder interface is defainged as:
+        </p>
+<pre class="source">
+package org.apache.avalon.finder;
+
+/**
+ * Defintion of the Finder service contract.
+ */
+public interface Finder
+{
+   /**
+    * Find an object fullfilling the supplied service class.
+    * 
+    * @param service the service class that the returned 
+    *    object if gauranteed to fulfill
+    * @exception FinderException if a provider could not be found
+    */
+    Object find( Class service ) throws FinderException;
+
+   /**
+    * Release an object that was resolved using the find operation.
+    * 
+    * @param object the object to release
+    */
+    void release( Object object );
+}
+</pre><div class="source-title"><span class="source-title" /></div>
+      </div>
+    </div>
+  </div><div class="footer"><span class="copyright">Copyright 2004, The Apache Software Foundation All rights reserved.</span><div class="views"><a class="viewlink" id="xmllink" href=""><img src="../../images/xml.gif" /></a></div></div></body></html>

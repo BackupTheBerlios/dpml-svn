@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><title>Avalon Central</title><link type="text/css" rel="stylesheet" href="../../../../../styles/style.css" /><meta content="text/html; charset=UTF-8" http-equiv="Content-type" /></head><body><table class="logobar"><tr><td class="panelleft"><img alt="link" src="../../../../../images/feather.jpg" /></td><td class="panelmiddle"><div class="project">Metro</div><div class="title">Avalon Central</div></td><td class="panelright" /></tr></table><div class="categorybar" dir="/central/about/tutorials/basic/dependencies"><a class="homecategory" href="../../../../../index.html">
+        Home
+      </a></div><div class="menubar"><div class="menu"><div class="menu"><div class="menu"><div class="menu"><div class="menu"><a class="menuitem-selected" href="../../../../about/index.html">Welcome</a><a class="menuitem" href="../../../../community/index.html">Community</a></div><a class="menuitem" href="../../../license.html">License</a><a class="menuitem" href="../../../download.html">Downloads</a><a class="menuitem" href="../../../installation/index.html">Installation</a><a class="menuitem-selected" href="../../../tutorials/index.html">Tutorials</a><a class="menuitem" href="../../../news/index.html">News</a><a class="menuitem" href="../../../faq.html">FAQ</a></div><a class="menuitem-selected" href="../../basic/index.html">Basic</a><a class="menuitem" href="../../advanced/index.html">Advanced</a></div><a class="menuitem" href="../creation.html">Hello Block</a><a class="menuitem" href="../execution.html">Running Hello</a><a class="menuitem" href="../internal.html">Behind the Scenes</a><a class="menuitem" href="../config/index.html">Configurations</a><a class="menuitem" href="../context/index.html">Contextualization</a><a class="menuitem" href="../services.html">Services</a><a class="menuitem-selected" href="../dependencies/index.html">Dependencies</a></div><a class="menuitem" href="auto.html">Auto</a><a class="menuitem-selected" href="manual.html">Manual</a></div></div><div class="content">
+    <div class="section"><span class="section-header">Using Merlin</span>
+      <div class="subsection"><span class="subsection-header">Managing Dependencies - Manual Association</span>
+        <p>
+The manual dependencies tutorial covers additional information dealing 
+with the explict control over dependency binding.  In this example we 
+have HelloComponent with a dependency on two services of the same type. If we 
+depended on classic merlin auto-assembly we would not necessarily get the 
+desired result.  In such a situation, Merlin provides support for 
+overriding the auto assembly process though explicit dependency directives
+included inside a &lt;component/&gt; tag.
+        </p>
+        <p>
+        Resources supporting this tutorial are contained in the 
+        turorials/dependencies/manual package.
+        </p>
+        <p>
+In the block.xml we have three component directives:
+        </p>
+<pre class="source">
+     &lt;component name="gloria" class="tutorial.IdentifiableComponent"/&gt;
+     &lt;component name="nancy" class="tutorial.IdentifiableComponent"/&gt;
+
+     &lt;component name="hello" class="tutorial.HelloComponent"&gt;
+       &lt;dependencies&gt;
+         &lt;dependency key="primary" source="gloria"/&gt;
+         &lt;dependency key="secondary" source="nancy"/&gt;
+       &lt;/dependencies&gt;
+     &lt;/component&gt;
+</pre><div class="source-title"><span class="source-title" /></div>
+        <p>
+        The "hello" component has been manually wired together using named 
+        components references under a set of <dependency /> directives, thereby 
+        overriding Merlin auto-assembly heuristics.
+        </p>
+      </div>
+
+      <div class="subsection"><span class="subsection-header">Executing the demo</span>
+        <p>
+        Build and run the tutorial.
+        </p>
+        <pre class="source">
+$ maven
+$ merlin target\classes -execute
+        </pre><div class="source-title"><span class="source-title" /></div>
+        <p>
+        In the logging output we see that Merlin has established and 
+        and assigned the components we requested based on our directives
+        in the block.xml file.
+        </p>
+<pre class="source">
+[INFO   ] (tutorial.nancy): contextualize
+[INFO   ] (tutorial.gloria): contextualize
+[INFO   ] (tutorial.hello): initialization
+[INFO   ] (tutorial.hello): assigned primary: /tutorial/gloria
+[INFO   ] (tutorial.hello): assigned secondary: /tutorial/nancy
+</pre><div class="source-title"><span class="source-title" /></div>
+      </div>
+
+      <div class="subsection"><span class="subsection-header">Advanced Features</span>
+        <p>
+        This completes the introduction to some of the basic features
+        of the merlin platform.  More tutorials will be added so please check 
+        for new releases and updates. In the meantime you may want to take a 
+        look at some of Merlin's more <a class="doclink" href="../../advanced/index.html">advanced 
+        features</a>. 
+        </p>
+      </div>
+
+
+
+    </div>
+  </div><div class="footer"><span class="copyright">Copyright 2004, The Apache Software Foundation All rights reserved.</span><div class="views"><a class="viewlink" id="xmllink" href=""><img src="../../../../../images/xml.gif" /></a></div></div></body></html>

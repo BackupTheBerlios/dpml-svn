@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><title>Context Descriptors</title><link type="text/css" rel="stylesheet" href="../../../../../../../styles/style.css" /><meta content="text/html; charset=UTF-8" http-equiv="Content-type" /></head><body><table class="logobar"><tr><td class="panelleft"><img alt="link" src="../../../../../../../images/feather.jpg" /></td><td class="panelmiddle"><div class="project">Metro</div><div class="title">Context Descriptors</div></td><td class="panelright" /></tr></table><div class="categorybar" dir="/products/runtime/system/meta/info/type/context"><a class="homecategory" href="../../../../../../../index.html">
+        Home
+      </a></div><div class="menubar"><div class="menu"><div class="menu"><div class="menu"><div class="menu"><div class="menu"><div class="menu"><div class="menu"><a class="menuitem-selected" href="../../../../../../runtime/index.html">Merlin Runtime</a></div><a class="menuitem" href="../../../../../execmodes/index.html">Execution</a><a class="menuitem" href="../../../../../reference/index.html">Specification</a><a class="menuitem-selected" href="../../../../../system/index.html">Systems</a><a class="menuitem" href="../../../../../javadoc/index.html">Javadoc</a></div><a class="menuitem-selected" href="../../../../meta/index.html">Meta</a><a class="menuitem" href="../../../../composition.html">Composition</a><a class="menuitem" href="../../../../activation.html">Activation</a><a class="menuitem" href="../../../../repository/index.html">Repository</a><a class="menuitem" href="../../../../logging/index.html">Logging</a><a class="menuitem" href="../../../../util/index.html">Util</a></div><a class="menuitem" href="../../../tags/index.html">Tag Reference</a><a class="menuitem-selected" href="../../../info/index.html">Type Model</a></div><a class="menuitem-selected" href="../../type/index.html">Type</a><a class="menuitem" href="../../service.html">Service</a><a class="menuitem" href="../../attributes/index.html">Attributes</a></div><a class="menuitem" href="../index.html">Overview</a><a class="menuitem-selected" href="../info/index.html">Info</a><a class="menuitem" href="../loggers/index.html">Loggers</a><a class="menuitem-selected" href="../context/index.html">Context</a><a class="menuitem" href="../dependencies/index.html">Dependencies</a><a class="menuitem" href="../services/index.html">Services</a><a class="menuitem" href="../stages/index.html">Stages</a><a class="menuitem" href="../extensions/index.html">Extensions</a></div><a class="menuitem" href="index.html">Overview</a><a class="menuitem-selected" href="entry.html">Entry</a></div></div><div class="content">
+
+    <div class="section"><span class="section-header">Entry Descriptor</span>
+
+      <div class="subsection"><span class="subsection-header">Description</span>
+<p>
+The entry element declares the criteria for the inclusion of a context entry within a context object.  The entry exposes a context key and the type that the context entry may be safely cast to.   
+</p>
+      </div>
+
+      <div class="subsection"><span class="subsection-header">Attributes</span>
+        <table>
+          <tr row="odd"><th>Attribute</th><th>Required</th><th>Description</th></tr>
+          <tr row="even">
+            <td>key</td><td>yes</td>
+            <td>
+             The key that the component implementation will use when 
+             retrieving a value from the supplied context using the 
+             context.get( key ) operation.
+            </td>
+          </tr>
+          <tr row="odd">
+            <td>type</td><td>no</td>
+            <td>
+             The classname of the context entry.  The default value 
+             is java.lang.String.
+            </td>
+          </tr>
+          <tr row="even">
+            <td>optional</td><td>no</td>
+            <td>
+             The optional status of the entry.  If optional is TRUE, a container
+             is not required to supply the entry.  The default value is FALSE.
+            </td>
+          </tr>
+          <tr row="odd">
+            <td>alias</td><td>no</td>
+            <td>
+             An alternative name that a component may use to locate an entry.
+             This is convinient when dealing with legacy applications.
+            </td>
+          </tr>
+          <tr row="even">
+            <td>volatile</td><td>no</td>
+            <td>
+             A 'true' or 'false' value that determines if a entry value may
+             be cached by a container or if the value must be recomputed on 
+             each access.  The default value is 'false' resulting in cached
+             behaviour.  Volotile entries are useful for contitions such as
+             incremental key generation, time value lookup, etc.
+            </td>
+          </tr>
+        </table>
+      </div>
+
+      <div class="subsection"><span class="subsection-header">Example XML</span>
+<pre class="source">
+&lt;context&gt;
+  &lt;entry key="home" type="java.io.File"/&gt;
+  &lt;entry key="test" type="MySpecialClass" optional="TRUE"/&gt;
+  &lt;entry key="timestamp" type="java.util.Data" volatile="TRUE"/&gt;
+&lt;/context&gt;
+</pre><div class="source-title"><span class="source-title" /></div>
+      </div>
+    </div>
+  </div><div class="footer"><span class="copyright">Copyright 2004, The Apache Software Foundation All rights reserved.</span><div class="views"><a class="viewlink" id="xmllink" href=""><img src="../../../../../../../images/xml.gif" /></a></div></div></body></html>

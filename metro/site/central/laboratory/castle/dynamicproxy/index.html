@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><title>Avalon Castle - DynamicProxy</title><link type="text/css" rel="stylesheet" href="../../../../styles/style.css" /><meta content="text/html; charset=UTF-8" http-equiv="Content-type" /></head><body><table class="logobar"><tr><td class="panelleft"><img alt="link" src="../../../../images/feather.jpg" /></td><td class="panelmiddle"><div class="project">Metro</div><div class="title">Avalon Castle - DynamicProxy</div></td><td class="panelright" /></tr></table><div class="categorybar" dir="/central/laboratory/castle/dynamicproxy"><a class="homecategory" href="../../../../index.html">
+        Home
+      </a></div><div class="menubar"><div class="no-border"><span class="dummy" /><div class="menu"><div class="menu"><div class="menu"><a class="menuitem" href="../../../about/index.html">Welcome</a><a class="menuitem" href="../../../community/index.html">Community</a></div><a class="menuitem" href="../../studio/index.html">Studio</a><a class="menuitem" href="../../discovery/index.html">Discovery</a><a class="menuitem-selected" href="../../castle/index.html">Castle</a></div><a class="menuitem" href="../microkernel/index.html">Microkernel</a><a class="menuitem" href="../managedextensions/index.html">Managed Extensions</a><a class="menuitem-selected" href="../dynamicproxy/index.html">DynamicProxy</a></div></div></div><div class="content">
+
+  <div class="section"><span class="section-header">The project</span>
+    <p>
+    The DynamicProxy project was created to overcome the CLR's proxy (in)capabilities. 
+    There are proxies in the CLR world, but they can be considered a bit
+    intrusive as it forces one to extend MarshalByRefObject or ContextBoundObject. 
+    </p>
+    <p>
+    You can use DynamicProxy to generate proxies on the fly for one or more interfaces
+    (supporting concrete classes is on the plans as well)
+    </p>
+  </div>
+
+  <div class="section"><span class="section-header">Source code</span>
+    <p>
+    The lastest version of source can be obtained from 
+    <a class="doclink" href="https://svn.apache.org/repos/asf/avalon/trunk/central/laboratory/avalon-net/DynamicProxy">Avalon Subversion repository</a>.
+    </p>
+  </div>
+
+  <div class="section"><span class="section-header">Usage</span>
+    <p>
+    The DynamicProxy relies on Reflection.Emit to generate new classes that implements
+    the specified interfaces and delegates to your implementation of IInvocationHandler.
+    The usage is very simple. You only need to invoke ProxyGenerator.CreateProxy
+    specifying the interfaces that will be behind the proxy and your implementation of 
+    IInvocationHandler:
+    </p>
+<pre class="source">
+using Apache.Avalon.DynamicProxy;
+
+public interface IMyInterface
+{
+	String Name
+	{
+		get;
+		set;
+	}
+
+	void DoSomething(int x, int y);
+}
+
+public class YourProxyInvocationHandler : IInvocationHandler
+{
+	public object Invoke(object proxy, MethodInfo method, params object[] arguments)
+	{
+		// do something before
+
+ 		object returnVal = method.Invoke( realInstance, arguments );
+
+		// do something after...
+
+		return returnVal;
+	}
+}
+
+object proxy = ProxyGenerator.CreateProxy( 
+	typeof(IMyInterface), 
+	new YourProxyInvocationHandler( new MyInterfaceImpl() ) );
+
+// proxy can be safely casted to IMyInterface
+
+IMyInterface inter = proxy as IMyInterface;
+
+</pre><div class="source-title"><span class="source-title" /></div>
+    <p>
+    You can also overrides the implementation of StandardInvocationHandler.
+    </p>
+<pre class="source">
+public class YourProxyInvocationHandler : StandardInvocationHandler
+{
+	protected override void PreInvoke(object proxy, 
+		MethodInfo method, params object[] arguments)
+	{
+	}
+
+	protected override void PostInvoke(object proxy, 
+		MethodInfo method, ref object returnValue, params object[] arguments)
+	{
+	}
+}
+</pre><div class="source-title"><span class="source-title" /></div>
+
+     <div class="subsection"><span class="subsection-header">Useful links</span>
+      <p>
+      If you'd like to learn more about proxies in .Net and other similar solutions
+      to generate proxies on the fly, please follow these links:
+      </p>
+      <ul>
+        <li>
+         <a class="doclink" href="http://opensource.atlassian.com/confluence/spring/display/NET/Dynamic+Proxy?showComments=true">Dynamic Proxies in .NET</a>:
+         Discussions and explanation about the possibilities of proxies.
+        </li>
+        <li>
+        <a class="doclink" href="http://jroller.com/comments/hammett?anchor=java_like_proxies_in_net">Java like proxies in .Net</a>:
+         Explanation of the problems which leaded to development of Avalon DynamicProxy.
+        </li>
+      </ul>
+     </div>
+
+     <div class="subsection"><span class="subsection-header">Thanks to</span>
+       <ul>
+         <li>
+           Stefan Zobel - for his suggestion of using ldtoken
+         </li>
+         <li>
+           <a class="doclink" href="http://www.springframework.net/">SpringFramework.Net</a>
+           guys - for their interest and willingness to help
+         </li>
+         <li>
+           <a class="doclink" href="http://aspectsharp.sourceforge.net/">AspectSharp project</a>
+           - for sticking with it
+         </li>
+       </ul>
+     </div>
+
+  </div>
+
+  </div><div class="footer"><span class="copyright">Copyright 2004, The Apache Software Foundation All rights reserved.</span><div class="views"><a class="viewlink" id="xmllink" href=""><img src="../../../../images/xml.gif" /></a></div></div></body></html>

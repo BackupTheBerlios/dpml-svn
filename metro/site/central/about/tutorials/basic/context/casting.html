@@ -1,0 +1,268 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><title>Avalon Central</title><link type="text/css" rel="stylesheet" href="../../../../../styles/style.css" /><meta content="text/html; charset=UTF-8" http-equiv="Content-type" /></head><body><table class="logobar"><tr><td class="panelleft"><img alt="link" src="../../../../../images/feather.jpg" /></td><td class="panelmiddle"><div class="project">Metro</div><div class="title">Avalon Central</div></td><td class="panelright" /></tr></table><div class="categorybar" dir="/central/about/tutorials/basic/context"><a class="homecategory" href="../../../../../index.html">
+        Home
+      </a></div><div class="menubar"><div class="menu"><div class="menu"><div class="menu"><div class="menu"><div class="menu"><a class="menuitem-selected" href="../../../../about/index.html">Welcome</a><a class="menuitem" href="../../../../community/index.html">Community</a></div><a class="menuitem" href="../../../license.html">License</a><a class="menuitem" href="../../../download.html">Downloads</a><a class="menuitem" href="../../../installation/index.html">Installation</a><a class="menuitem-selected" href="../../../tutorials/index.html">Tutorials</a><a class="menuitem" href="../../../news/index.html">News</a><a class="menuitem" href="../../../faq.html">FAQ</a></div><a class="menuitem-selected" href="../../basic/index.html">Basic</a><a class="menuitem" href="../../advanced/index.html">Advanced</a></div><a class="menuitem" href="../creation.html">Hello Block</a><a class="menuitem" href="../execution.html">Running Hello</a><a class="menuitem" href="../internal.html">Behind the Scenes</a><a class="menuitem" href="../config/index.html">Configurations</a><a class="menuitem-selected" href="../context/index.html">Contextualization</a><a class="menuitem" href="../services.html">Services</a><a class="menuitem" href="../dependencies/index.html">Dependencies</a></div><a class="menuitem" href="standard.html">Standard Entries</a><a class="menuitem" href="entries.html">Custom Entries</a><a class="menuitem-selected" href="casting.html">Context Casting</a></div></div><div class="content">
+    <div class="section"><span class="section-header">Using Merlin</span>
+      <div class="subsection"><span class="subsection-header">Casting Context to a Custom Interface</span>
+        <p>
+        This tutorial describes how Merlin provides support
+        for the safe casting of a supplied context instance to 
+        a domain specific context interface.
+        </p>
+        <p>
+        Resources supporting this tutorial are contained in the 
+        tutorials/casting package.
+        </p>
+      </div>
+      <div class="subsection"><span class="subsection-header">Requirements</span>
+        <p>
+        While the context interface provides the mechanisms to 
+        access any object type, it is sometimes convenient to 
+        declare a domain specific interface and context 
+        implementation.  This enables client code to take advantage
+        of convenience accessors, resulting in code less cluttered
+        with casting and context entry key references.
+        </p>
+        <p>
+        For example, the following code fragment demonstrates a type
+        safe casting of a supplied context value by the component to 
+        domain specific context interface.
+        </p>
+<pre class="source">
+   /**
+    * Contextualization of the component using a context
+    * class that implements a domain specific context interface.
+    */
+    public void contextualize( Context context )
+      throws ContextException
+    {
+        DemoContext c = (DemoContext) context;
+        getLogger().info( "name: " + c.getName() );
+        getLogger().info( "partition: " + c.getPartition() );
+        getLogger().info( "home: " + c.getHomeDirectory() );
+        getLogger().info( "temp: " + c.getWorkingDirectory() );
+    }
+</pre><div class="source-title"><span class="source-title" /></div>
+      </div>
+      <div class="subsection"><span class="subsection-header">Sample Code</span>
+        <p>
+        The following code is an example of an extended context 
+        interface.
+        </p>
+        <pre class="source">
+package tutorial;
+
+import java.io.File;
+
+import org.apache.avalon.framework.context.Context;
+
+/**
+ * An example of an convinience interface that extends the 
+ * standard Avalon Context interface.
+ */
+public interface DemoContext extends Context
+{
+
+   /**
+    * Return the component name.
+    * @return the component name
+    */
+    String getName();
+
+   /**
+    * Return the name of the partition assigned to the component.
+    * @return the partition name
+    */
+    String getPartition();
+
+   /**
+    * Return the home directory.
+    * @return the directory
+    */
+    File getHomeDirectory();
+
+   /**
+    * Return the temporary working directory.
+    * @return the directory
+    */
+    File getWorkingDirectory();
+}
+</pre><div class="source-title"><span class="source-title" /></div>
+        <p>
+        The following source is the implementation of the domain 
+        specific context interface.  The implementation class must include
+        a constructor that takes a base context as single argument.  The supplied context
+        context entries requested by the component type and populated in accordance with
+        the associated context directives.
+        </p>
+        <pre class="source">
+package tutorial;
+
+import java.io.File;
+
+import org.apache.avalon.framework.context.Context;
+import org.apache.avalon.framework.context.DefaultContext;
+import org.apache.avalon.framework.context.ContextException;
+
+
+/**
+ * A demonstration class that that we will instantiate via 
+ * context directives within the component declaration.
+ */
+public class DemoContextProvider extends DefaultContext implements DemoContext
+{
+
+   /**
+    * A custom context type implementation must provide
+    * the following constructor.
+    * @param entries a map of context entries
+    */
+    public DemoContextProvider( Context context )
+    {
+        super( context );
+    }
+ 
+   /**
+    * Return the component name.
+    * @return the component name
+    */
+    public String getName()
+    {
+        try
+        {
+            return (String) super.get( "urn:avalon:name" );
+        }
+        catch( ContextException ce )
+        {
+            // should not happen 
+            throw new RuntimeException( ce.toString() );
+        }
+    }
+
+   /**
+    * Return the name of the partition assigned to the component.
+    * @return the partition name
+    */
+    public String getPartition()
+    {
+        try
+        {
+            return (String) super.get( "urn:avalon:partition" );
+        }
+        catch( ContextException ce )
+        {
+            // should not happen 
+            throw new RuntimeException( ce.toString() );
+        }
+    }
+
+   /**
+    * Return the home directory.
+    * @return the home directory
+    */
+    public File getHomeDirectory()
+    {
+        try
+        {
+            return (File) super.get( "urn:avalon:home" );
+        }
+        catch( ContextException ce )
+        {
+            // should not happen 
+            throw new RuntimeException( ce.toString() );
+        }
+    }
+
+
+   /**
+    * Return the temporary working directory.
+    * @return the temp directory
+    */
+    public File getWorkingDirectory()
+    {
+        try
+        {
+            return (File) super.get( "urn:avalon:temp" );
+        }
+        catch( ContextException ce )
+        {
+            // should not happen 
+            throw new RuntimeException( ce.toString() );
+        }
+    }
+}
+</pre><div class="source-title"><span class="source-title" /></div>
+      </div>
+      <div class="subsection"><span class="subsection-header">Declaring the Context Interface</span>
+        <p>
+          To be supplied with a domain specific context to which 
+          the component can safely cast, we need to declare this 
+          dependency within the component xinfo descriptor.
+        </p>
+<pre class="source">
+&lt;type&gt;
+  &lt;info&gt;
+    &lt;name&gt;demo&lt;/name&gt;
+    &lt;version&gt;1.0.0&lt;/version&gt;
+    &lt;lifestyle&gt;singleton&lt;/lifestyle&gt;
+    &lt;collection&gt;hard&lt;/collection&gt;
+  &lt;/info&gt;
+  &lt;context type="tutorial.DemoContext"&gt;
+    &lt;entry key="urn:avalon:name" /&gt;
+    &lt;entry key="urn:avalon:partition" /&gt;
+    &lt;entry key="urn:avalon:home" type="java.io.File" /&gt;
+    &lt;entry key="urn:avalon:temp" type="java.io.File" /&gt;
+  &lt;/context&gt;
+&lt;/type&gt;
+</pre><div class="source-title"><span class="source-title" /></div>
+        <p>
+          Secondly, we need to provide corresponding meta-data to Merlin
+          describing the implementation class that it can use to construct
+          the context instance.  The following changes to the block.xml
+          description include the class attribute on the context directive.
+          The class attribute tells Merlin to use the named class as the 
+          context implementation.
+        </p>
+<pre class="source">
+&lt;container name="tutorial"&gt;
+   &lt;component name="hello" class="tutorial.HelloComponent" activation="startup"&gt;
+     &lt;context class="tutorial.DemoContextProvider"/&gt;
+   &lt;/component&gt;
+&lt;/container&gt;
+</pre><div class="source-title"><span class="source-title" /></div>
+      </div>
+      <div class="subsection"><span class="subsection-header">Executing the Example</span>
+        <p>
+        Build and run the tutorial.
+        </p>
+        <pre class="source">
+$ maven
+$ merlin build\classes
+</pre><div class="source-title"><span class="source-title" /></div>
+        <p>
+        In the logging output we see the standard context values
+        accessed via the domain specific context interface.
+        </p>
+<pre class="source">
+[INFO   ] (tutorial.hello): name: hello
+[INFO   ] (tutorial.hello): partition: /tutorial/hello
+[INFO   ] (tutorial.hello): home: F:\tutorial\005\working\home\tutorial\hello
+[INFO   ] (tutorial.hello): temp: F:\tutorial\005\working\temp\tutorial\hello
+</pre><div class="source-title"><span class="source-title" /></div>
+
+      </div>
+
+      <div class="subsection"><span class="subsection-header">Next Steps</span>
+
+        <p>
+        The advanced tutorial provides information about the creation of a  
+        <a class="doclink" href="../../advanced/context.html">custom contextualization strategies</a>.
+        Alternatively, you can move onto the subject of 
+        <a class="doclink" href="../services.html">service publication</a>.
+        </p>
+
+      </div>
+
+    </div>
+  </div><div class="footer"><span class="copyright">Copyright 2004, The Apache Software Foundation All rights reserved.</span><div class="views"><a class="viewlink" id="xmllink" href=""><img src="../../../../../images/xml.gif" /></a></div></div></body></html>

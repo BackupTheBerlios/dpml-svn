@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><title>Avalon Planet - Facilities</title><link type="text/css" rel="stylesheet" href="../../../styles/style.css" /><meta content="text/html; charset=UTF-8" http-equiv="Content-type" /></head><body><table class="logobar"><tr><td class="panelleft"><img alt="link" src="../../../images/feather.jpg" /></td><td class="panelmiddle"><div class="project">Metro</div><div class="title">Avalon Planet - Facilities</div></td><td class="panelright" /></tr></table><div class="categorybar" dir="/planet/facilities/http"><a class="homecategory" href="../../../index.html">
+        Home
+      </a></div><div class="menubar"><div class="menu"><div class="menu"><div class="menu"><a class="menuitem" href="../../components/index.html">Components</a><a class="menuitem-selected" href="../../facilities/index.html">Facilities</a></div><a class="menuitem" href="../finder/index.html">Finder</a><a class="menuitem" href="../http.html">HTTP</a><a class="menuitem" href="../jmx.html">JMX</a><a class="menuitem" href="../reflector/index.html">Reflector</a></div><a class="menuitem-selected" href="index.html">Http Facility Overview</a><a class="menuitem" href="api.html">API</a><a class="menuitem-selected" href="facilities/index.html">Assembled Facilities</a><a class="menuitem" href="parts/index.html">Facility Parts</a></div></div><div class="content">
+        <div class="section"><span class="section-header">Http Facility</span>
+          <div class="subsection"><span class="subsection-header">Overview</span>
+            <p>
+              The Http Facility is a collection of componentized Jetty parts,
+              that allows you to configure Jetty in practically any way you
+              want. It also connects into the Merlin component model, and
+              you can make components that serves HTTP requests. 
+            </p>
+          </div>
+          <div class="subsection"><span class="subsection-header">Component Requirement</span>
+            <p>
+              The components that wishes to serve HTTP requests need to 
+              implement <code>org.apache.avalon.http.HttpRequestHandler</code>,
+              which is a stripped down version of Jetty's 
+              org.mortbay.http.HttpHandler, taking the same arguments.
+            </p>
+          </div>
+          <div class="subsection"><span class="subsection-header">Assembled Facility</span>
+            <p>
+              To make life easier for everyone involved, we have assembled a 
+              couple of standard Jetty configurations, and these can easily be
+              included in your application with a single &lt;include&gt; in your
+              block file. The configuration details can be overriden by the
+              standard 'targets' mechanism in Merlin, which allows named targets,
+              configuration and parameters, to be assigned to blocks or part of
+              the blocks.
+            </p>
+          </div>
+          <div class="subsection"><span class="subsection-header">Facility Parts</span>
+            <p>
+              The Facility Parts are basically the components that has been 
+              created around the Jetty classes to make this work. Some of these
+              components are also assembled into slightly bigger parts, to be
+              more easily used in complete Assembled Http Facilities.
+            </p>
+          </div>
+        </div>
+    </div><div class="footer"><span class="copyright">Copyright 2004, The Apache Software Foundation All rights reserved.</span><div class="views"><a class="viewlink" id="xmllink" href=""><img src="../../../images/xml.gif" /></a></div></div></body></html>

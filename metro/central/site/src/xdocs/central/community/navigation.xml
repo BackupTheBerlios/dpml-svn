@@ -19,13 +19,13 @@
 
 <project>
 
- <title>Apache Avalon Community</title>
+ <title>Metro Community</title>
 
  <body>
     <menu>
-      <item name="People" href="who/index.html"/>
+      <!-- item name="People" href="who/index.html"/ -->
       <item name="Process" href="process/index.html"/>
-      <item name="History" href="history/index.html"/>
+      <!-- item name="History" href="history/index.html"/ -->
     </menu>
  </body>
 

@@ -19,18 +19,18 @@
 
 <project>
 
- <title>Apache Avalon Central</title>
+ <title>Metro Central</title>
 
  <body>
     <menu>
       <item name="Welcome" href="about/index.html"/>
       <item name="Community" href="community/index.html"/>
-      <item name="Concepts" href="cop/index.html"/>
-      <item name="Resources" href="resources/index.html"/>
-      <item name="Developer Tools" href="tools/index.html"/>
-      <item name="Avalon Laboratory" href="laboratory/index.html"/>
-      <item name="Legacy Content" href="legacy/index.html"/>
-      <item name="DPML" href="dpml/index.html"/>
+      <!-- item name="Concepts" href="cop/index.html"/ -->
+      <!-- item name="Resources" href="resources/index.html"/ -->
+      <!-- item name="Developer Tools" href="tools/index.html"/ -->
+      <!-- item name="Avalon Laboratory" href="laboratory/index.html"/ -->
+      <!-- item name="Legacy Content" href="legacy/index.html"/ -->
+      <!-- item name="DPML" href="dpml/index.html"/ -->
     </menu>
  </body>
 

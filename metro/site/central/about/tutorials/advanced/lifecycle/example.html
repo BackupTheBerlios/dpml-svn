@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><title>Avalon Central</title><link type="text/css" rel="stylesheet" href="../../../../../styles/style.css" /><meta content="text/html; charset=UTF-8" http-equiv="Content-type" /></head><body><table class="logobar"><tr><td class="panelleft"><img alt="link" src="../../../../../images/feather.jpg" /></td><td class="panelmiddle"><div class="project">Metro</div><div class="title">Avalon Central</div></td><td class="panelright" /></tr></table><div class="categorybar" dir="/central/about/tutorials/advanced/lifecycle"><a class="homecategory" href="../../../../../index.html">
+        Home
+      </a></div><div class="menubar"><div class="menu"><div class="menu"><div class="menu"><div class="menu"><div class="menu"><a class="menuitem-selected" href="../../../../about/index.html">Welcome</a><a class="menuitem" href="../../../../community/index.html">Community</a></div><a class="menuitem" href="../../../license.html">License</a><a class="menuitem" href="../../../download.html">Downloads</a><a class="menuitem" href="../../../installation/index.html">Installation</a><a class="menuitem-selected" href="../../../tutorials/index.html">Tutorials</a><a class="menuitem" href="../../../news/index.html">News</a><a class="menuitem" href="../../../faq.html">FAQ</a></div><a class="menuitem" href="../../basic/index.html">Basic</a><a class="menuitem-selected" href="../../advanced/index.html">Advanced</a></div><a class="menuitem-selected" href="../lifecycle/index.html">Lifecycle Tools</a><a class="menuitem" href="../context.html">Contextualization</a><a class="menuitem" href="../profiles.html">Deployment Templates</a><a class="menuitem" href="../selection.html">Profile Selection</a><a class="menuitem" href="../composite.html">Composition</a><a class="menuitem" href="../unit/index.html">Unit Test</a></div><a class="menuitem" href="extension.html">Overview</a><a class="menuitem" href="interfaces.html">Interfaces</a><a class="menuitem-selected" href="example.html">Example</a></div></div><div class="content">
+
+  <div class="section"><span class="section-header">Lifecycle Tools Example</span>
+
+    <div class="subsection"><span class="subsection-header">Creating your lifestyle stage interface</span>
+
+<p>
+The following interface is your domain specific lifecycle stage interface.  It is the interface that an extension handler will use to interact with your component during deployment and decommissioning.
+</p>
+
+      <pre class="source">
+ public interface Exploitable
+ {
+    /**
+     * Operation invoked by your exploitation manager.
+     * @param message a message to be displayed
+     */
+     void exploit( String message );
+ }
+      </pre><div class="source-title"><span class="source-title" /></div>
+
+    </div>
+
+    <div class="subsection"><span class="subsection-header">Create the lifestyle extension handler</span>
+
+<p>
+An extension handler is the implementation class that will be activated by the Merlin container to handle domain specific tasks during the deployment and decommissioning phases.  The extension can implement either or both of the Creator and Accessor interfaces depeding on the particular extension requirements.  In this example we are defining a simple creation stage handler that supplies a message to an instance of Exploitable.
+</p>
+      <pre class="source">
+ public class ExploitationManager implements Creator
+ {
+    /**
+     * Operation invoked by a container to request creation
+     * stage extension interception.
+     * @param object a component to manager
+     * @param context the context
+     */
+     public void create( Object object, Context context )
+     {
+         if( object instanceof Exploitable )
+         {
+             ((Expoitable)object).exploit( "hello" );
+         }
+     }
+
+    /**
+     * Operation invoked by a container to request destroy
+     * stage extension interception.
+     * @param object a component to manager
+     * @param context the context
+     */
+     public void destroy( Object object, Context context )
+     {
+     }
+ }
+      </pre><div class="source-title"><span class="source-title" /></div>
+
+<p>
+To complete the definition of your extension handler you need to prepare the 
+meta-info that will be used by Merlin to identify the extension and the stage 
+interface it supports.  The following &lt;type/&gt; declaration includes an 
+&lt;extensions/&gt; tag that contains a &lt;reference/&gt; element that 
+includes the reference to the Exploitable lifecycle stage interface. This is 
+the key that Merlin uses to associate a handler with a component.  If your 
+extension class requires any specific context values, they should be declared 
+in a &lt;context/&gt; element within the &lt;extension/&gt; element.
+</p>
+
+        <pre class="source">
+&lt;type&gt;
+
+   &lt;info&gt;
+      &lt;name&gt;my-extension-handler&lt;/name&gt;
+   &lt;/info&gt;
+
+   &lt;extensions&gt;
+     &lt;extension type="Exploitable"/&gt;
+   &lt;/extensions&gt;
+
+&lt;/type&gt;
+</pre><div class="source-title"><span class="source-title" /></div>
+
+    </div>
+
+    <div class="subsection"><span class="subsection-header">Create a component implementing the stage interface</span>
+      <pre class="source">
+ public class MyComponent extends AbstractLogEnabled implements Exploitable
+ {
+    /**
+     * Operation invoked by an exploitation manager.
+     * @param message a message to be displayed
+     */
+     public void exploit( String message )
+     {
+         getLogger().info( message );
+     }
+ }
+      </pre><div class="source-title"><span class="source-title" /></div>
+
+<p>
+To complete the defintion of your component you need to prepare the meta-info 
+that will be used by Merlin to identify the stage interface it requires a 
+handler for.  The following &lt;type/&gt; declaration includes a 
+&lt;stage/&gt; tag that contains a &lt;reference/&gt; element that includes 
+a reference to the Exploitable lifecycle stage interface. This is the key that 
+Merlin uses to associate the component with a handler capable of handling the 
+Exploitable interface.
+</p>
+
+        <pre class="source">
+&lt;type&gt;
+
+   &lt;info&gt;
+      &lt;name&gt;my-component&lt;/name&gt;
+   &lt;/info&gt;
+
+   &lt;stages&gt;
+     &lt;stage type="Exploitable"/&gt;
+   &lt;/stages&gt;
+
+&lt;/type&gt;
+
+</pre><div class="source-title"><span class="source-title" /></div>
+    </div>
+
+    <div class="subsection"><span class="subsection-header">Execution</span>
+
+<p>To execute the example you simply need to include a reference to your 
+component within a Merlin container declaration.  The following XML source 
+declares a Merlin kernel, container, and component.  You don't need to include 
+the handler because Merlin can sort that out itself based on the information 
+supplied in the meta-info declarations.</p>
+
+<pre class="source">
+
+     &lt;component name="demo" class="MyComponent" activation="startup"/&gt;
+
+</pre><div class="source-title"><span class="source-title" /></div>
+
+    </div>
+
+  </div>
+
+  </div><div class="footer"><span class="copyright">Copyright 2004, The Apache Software Foundation All rights reserved.</span><div class="views"><a class="viewlink" id="xmllink" href=""><img src="../../../../../images/xml.gif" /></a></div></div></body></html>

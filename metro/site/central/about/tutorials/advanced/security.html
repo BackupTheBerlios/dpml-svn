@@ -1,0 +1,280 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><title>Avalon Central</title><link type="text/css" rel="stylesheet" href="../../../../styles/style.css" /><meta content="text/html; charset=UTF-8" http-equiv="Content-type" /></head><body><table class="logobar"><tr><td class="panelleft"><img alt="link" src="../../../../images/feather.jpg" /></td><td class="panelmiddle"><div class="project">Metro</div><div class="title">Avalon Central</div></td><td class="panelright" /></tr></table><div class="categorybar" dir="/central/about/tutorials/advanced"><a class="homecategory" href="../../../../index.html">
+        Home
+      </a></div><div class="menubar"><div class="menu"><div class="menu"><div class="menu"><div class="menu"><a class="menuitem-selected" href="../../../about/index.html">Welcome</a><a class="menuitem" href="../../../community/index.html">Community</a></div><a class="menuitem" href="../../license.html">License</a><a class="menuitem" href="../../download.html">Downloads</a><a class="menuitem" href="../../installation/index.html">Installation</a><a class="menuitem-selected" href="../../tutorials/index.html">Tutorials</a><a class="menuitem" href="../../news/index.html">News</a><a class="menuitem" href="../../faq.html">FAQ</a></div><a class="menuitem" href="../basic/index.html">Basic</a><a class="menuitem-selected" href="../advanced/index.html">Advanced</a></div><a class="menuitem" href="lifecycle/index.html">Lifecycle Tools</a><a class="menuitem" href="context.html">Contextualization</a><a class="menuitem" href="profiles.html">Deployment Templates</a><a class="menuitem" href="selection.html">Profile Selection</a><a class="menuitem" href="composite.html">Composition</a><a class="menuitem" href="unit/index.html">Unit Test</a></div></div><div class="content">
+    <div class="section"><span class="section-header">Advanced Features</span>
+      <div class="subsection"><span class="subsection-header">Granting Permissions to classes in container</span>
+        <p>
+         Starting from Merlin 3.3, it is possible to grant permissions to
+         classes within a container. This is done by the declaration of a 
+         &lt;grant&gt; element in the classloader definition section in
+         the block descriptor (e.g. block.xml).
+        </p>
+        <p>
+          In the example below you should be able to see the mechanism. The
+          multiple &lt;action&gt; elements, instead of a single String value
+          as is more common, was chosen for easier tool support while still
+          allowing you to place multiple comma separated actions into a 
+          single &lt;action&gt; element, passed to the Permission constructor
+          as-is.
+        </p>
+        <pre class="source">
+    &lt;container&gt;
+      &lt;classloader&gt;
+        &lt;classpath&gt;
+          &lt;repository&gt;
+            &lt;resource id="avalon-framework:avalon-framework-impl" version="4.1.5"/&gt;
+            &lt;resource id="mystuff:myfilestorage"/&gt;
+          &lt;/repository&gt;
+        &lt;/classpath&gt;
+        &lt;grant&gt;
+          &lt;permission class="java.io.FilePermission" name="/mystore" &gt;
+            &lt;action&gt;read&lt;/action&gt;
+            &lt;action&gt;write&lt;/action&gt;
+          &lt;/permission&gt;
+          &lt;permission class="java.util.PropertyPermission" name="*" &gt;
+            &lt;action&gt;read&lt;/action&gt;
+          &lt;/permission&gt;
+          &lt;permission class="java.util.PropertyPermission" name="com.mycompany.*" &gt;
+            &lt;action&gt;read&lt;/action&gt;
+            &lt;action&gt;write&lt;/action&gt;
+          &lt;/permission&gt;
+        &lt;/grant&gt; 
+      &lt;/classloader&gt;
+    &lt;/container&gt;
+</pre><div class="source-title"><span class="source-title" /></div>
+        <p>
+         There can only be a single &lt;grant&gt; for each &lt;classloader&gt;
+         and any number of &lt;permission&gt; elements within. 
+        </p>
+      </div>
+
+      <div class="subsection"><span class="subsection-header">Implementing Security in Components.</span>
+        <p>
+          If you are only looking for basic security, similar to any typical
+          stand-alone application, that would depend on a Java Security Policy
+          file, you don't need to do anything special. All classes in Java
+          will perform the security checks behind the scenes, protecting
+          files, network connection and many other system resources. Please
+          refer to your Java Security documentation for full details.
+        </p>
+        <p>
+          If you want to guard some resource or a section of code, you will
+          need to;
+        </p>
+        <ul>
+          <li>
+            Create a subclass of java.security.Permission, or one of its
+            subclasses such as java.lang.BasicPermission, and override
+            the implies(), equals() and hashCode() methods.
+          </li>
+          <li>
+            Insert a AccessController.checkPermission() at the relevant
+            points in your code. (See examples below.)
+          </li>
+        </ul>
+      </div>
+      <div class="subsection"><span class="subsection-header">Examples of Security</span>
+        <div class="subsection"><span class="subsection-header">Using an existing Permission class</span>
+          <p>
+            This first example uses a simple named RuntimePermission.
+          </p>
+          <pre class="source">
+    public SuperGlue getSuperGlue()
+    {
+        Permission p = new RuntimePermission( "useSuperGlue" );
+        AccessController.checkPermission( p );
+        return m_SuperGlue;
+    }
+</pre><div class="source-title"><span class="source-title" /></div>
+          <p>
+            In this example, we utilizes the existing 
+            java.lang.RuntimePermission to do a very simple check, i.e is the
+            current protection domain allowed to use the SuperGlue. 
+          </p>
+          <p>
+            And to make this work in your Merlin application, you would need to
+            insert the appropriate permission in the &lt;grant&gt; element.
+          </p>
+          <pre class="source">
+    &lt;container&gt;
+      &lt;classloader&gt;
+        &lt;!-- other stuff --&gt;
+        &lt;grant&gt;
+          &lt;permission class="java.lang.RuntimePermission" name="useSuperGlue" /&gt;
+        &lt;/grant&gt;
+      &lt;/classloader&gt;
+    &lt;/container&gt;
+</pre><div class="source-title"><span class="source-title" /></div>
+        </div>
+        <div class="subsection"><span class="subsection-header">Creating a new Permission class</span>
+          <p>
+            If you need something more complicated that can not be fulfilled
+            with the existing Permission classes, you will need to create your
+            own. This can be rather tricky, depending on what you are actually
+            trying to do.
+          </p>
+          <p>
+            In the example below, we have a Permission class that ensures that 
+            an amount is within its boundaries, for instance for a banking application.
+            The semantics are;
+          </p>
+          <ul>
+            <li>
+              The name argument for a granted permission (declared) contains a 
+              minimum value, followed by a dash and then followed by a maximum 
+              value.
+            </li>
+            <li>
+              The name argument for a required permission (programmatically)
+              only contains a single value, which is the requested amount.
+              The amount is expressed in cent, and no fractional numbers needed.
+            </li>
+            <li>
+              If any of the two values are missing, the default is used. The
+              default is 1000000 for each.
+            </li>
+            <li>
+              The action argument contains either "deposit" or "withdrawal".
+            </li>
+            <li>
+              The granted permission must contain the action of the required
+              permission, and the required permission's amount must be within
+              the limits of the granted permission.
+            </li>
+          </ul>
+          <p>
+            As we can see it is a fairly straight forward algorithm, but a bit
+            hard to put in words, and I hope I haven't missed something. To do
+            this with Java Security permissions is fairly easy.
+          </p>
+          <pre class="source">
+public class AccountPermission extends Permission
+{
+    private long m_Minimum;
+    private long m_Maximum;
+    private int  m_Actions;
+    
+    public AccountPermission( String amount, String actions )
+    {
+        super( amount );
+        parseAmount( amount );
+        parseActions( actions );
+    }
+    
+    public int hashCode()
+    {
+        return (int) m_Actions * 876238684 + m_Minimum * 23457241393 + m_Maximum;
+    }
+    
+    public boolean equals( Object obj )
+    {
+        if( ! ( obj.getClass().equals( AccountPermission.class ) ) )
+            return false;
+        AmountPermission other = (AmountPermission) obj;
+        return m_Actions == other.m_Actions  &amp;&amp;
+               m_Minimum == other.m_Minimum &amp;&amp;
+               m_Maximum == other.m_Maximum;
+    }
+    
+    public boolean implies( Permission permission )
+    {
+        if( ! (permission.getClass().equals( AmountPermission.class ) ) )
+            return false;
+        AmountPermission requesting = (AmountPermission) permission;
+        if( ( m_Actions &amp; requesting.m_Actions ) &gt; 0 )
+            return false;
+        if( requesting.m_Minimum &lt; m_Minimum )
+            return false;
+        if( requesting.m_Minimum &gt; m_Maximum )
+            return false;
+        return true;
+    }
+    
+    private void parseAmount( String amount )
+    {
+        m_Minimum = 1000000;
+        m_Maximum = 1000000;
+        if( amount == null || "".equals( amount ) )
+            return;
+            
+        int dash = amount.indexOf( '-' );
+        if( dash &lt; 0 )
+        {
+            try
+            {
+                m_Minimum = Long.parseLong( amount );
+            } catch( NumberFormatException e )
+            {} // ignore, use default
+        }
+        else
+        {
+            String am1 = amount.substring( 0, dash );
+            String am2 = amount.substring( dash + 1 );
+            try
+            {
+                m_Minimum = Long.parseLong( am1 );
+            } catch( NumberFormatException e )
+            {} // ignore, use default
+            try
+            {
+                m_Maximum = Long.parseLong( am2 );
+            } catch( NumberFormatException e )
+            {} // ignore, use default
+        }
+    }
+    
+    private void parseActions( String actions )
+    {
+        // This should probably be done differently.
+        m_Actions = 0;
+        if( actions.indexOf( "withdrawal" ) )
+            m_Actions = 1;
+        if( actions.indexOf( "deposit" ) )
+            m_Actions += 2;
+    }
+}
+    
+</pre><div class="source-title"><span class="source-title" /></div>
+        <p>
+          Please note that the code has not yet been tested. If you do
+          please post any mistake to dev@avalon.apache.org. Thank you.
+        </p>
+        <p>
+          Then in the actual code, we would do something like this;
+        </p>
+          <pre class="source">
+    public void deposit( long amount )
+    {
+        AmountPermission p = new AmountPermission( (String) amount, "deposit" );
+        AccessController.checkPermission( p );
+    }
+    
+    public void withdraw( long amount )
+    {
+        AmountPermission p = new AmountPermission( (String) amount, "withdrawal" );
+        AccessController.checkPermission( p );
+    }
+</pre><div class="source-title"><span class="source-title" /></div>
+        <p>
+          Wasn't that easy? Well, it would have been if we could tie the principal
+          customer/client/user to the protection domain that is checked. This is
+          currently on the drawing board for Avalon Merlin, and will probably 
+          not be ready until version 4.0, somewhere mid or late 2004.
+          While awaiting this Subject-based, generic, pluggable security system,
+          you can hack the above example a little bit, for some basic subject
+          driven security. 
+        </p>
+        <p>
+          In the implies() method, you reach out and detect who is executing
+          the current thread, for instance through a ThreadLocal variable,
+          ask some authoritive object instance for the amounts allowed and 
+          perform the check. This is NOT the recommended method for larger and
+          more complex system (such as banks), but can work as a temporary 
+          solution for the time being.
+        </p>
+        </div>
+      </div>
+    </div>
+  </div><div class="footer"><span class="copyright">Copyright 2004, The Apache Software Foundation All rights reserved.</span><div class="views"><a class="viewlink" id="xmllink" href=""><img src="../../../../images/xml.gif" /></a></div></div></body></html>

@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><title>Javadoc Tag Specification</title><link type="text/css" rel="stylesheet" href="../../../../../styles/style.css" /><meta content="text/html; charset=UTF-8" http-equiv="Content-type" /></head><body><table class="logobar"><tr><td class="panelleft"><img alt="link" src="../../../../../images/feather.jpg" /></td><td class="panelmiddle"><div class="project">Metro</div><div class="title">Javadoc Tag Specification</div></td><td class="panelright" /></tr></table><div class="categorybar" dir="/products/runtime/system/meta/tags"><a class="homecategory" href="../../../../../index.html">
+        Home
+      </a></div><div class="menubar"><div class="menu"><div class="menu"><div class="menu"><div class="menu"><div class="menu"><a class="menuitem-selected" href="../../../../runtime/index.html">Merlin Runtime</a></div><a class="menuitem" href="../../../execmodes/index.html">Execution</a><a class="menuitem" href="../../../reference/index.html">Specification</a><a class="menuitem-selected" href="../../../system/index.html">Systems</a><a class="menuitem" href="../../../javadoc/index.html">Javadoc</a></div><a class="menuitem-selected" href="../../meta/index.html">Meta</a><a class="menuitem" href="../../composition.html">Composition</a><a class="menuitem" href="../../activation.html">Activation</a><a class="menuitem" href="../../repository/index.html">Repository</a><a class="menuitem" href="../../logging/index.html">Logging</a><a class="menuitem" href="../../util/index.html">Util</a></div><a class="menuitem-selected" href="../tags/index.html">Tag Reference</a><a class="menuitem" href="../info/index.html">Type Model</a></div><a class="menuitem" href="type.html">Component</a><a class="menuitem" href="attribute.html">Attribute</a><a class="menuitem" href="service.html">Service</a><a class="menuitem" href="logger.html">Logger</a><a class="menuitem" href="configuration.html">Configuration</a><a class="menuitem" href="context.html">Context</a><a class="menuitem-selected" href="entry.html">Entry</a><a class="menuitem" href="dependency.html">Dependency</a><a class="menuitem" href="stage.html">Stage</a><a class="menuitem" href="extension.html">Extension</a></div></div><div class="content">
+
+    <div class="section"><span class="section-header">Javadoc Tags</span>
+
+      <div class="subsection"><span class="subsection-header">Entry Tag</span>
+<p>The entry tag declares a context entry required by a component.  The component is supplied the context entry via a context argument as part of the contextualization lifecycle stage. Context entries my declare a object type or array of object types.  If the type is not declared java.lang.String is assumed.  Context entries may also be declared as optional and/or volatile.  The default behaviour is to assume that a context entry is required (not optional) is is non-volatile.</p>
+      </div>
+
+      <div class="subsection"><span class="subsection-header">Attributes</span>
+        <table>
+          <tr row="odd"><th>Attribute</th><th>Required</th><th>Description</th></tr>
+          <tr row="even">
+            <td><p>key</p></td><td><p>yes</p></td>
+            <td>
+              <p>The context entry lookup key.</p>
+            </td>
+          </tr>
+          <tr row="odd">
+            <td><p>alias</p></td><td><p>no</p></td>
+            <td>
+              <p>Declaration of an alternative name that the component 
+                 may use to lookup the entry.</p>
+            </td>
+          </tr>
+          <tr row="even">
+            <td><p>type</p></td><td><p>no</p></td>
+            <td>
+              <p>The classname of the context entry that the component 
+                 may cast the component to.  If not declared, java.lang.String
+                 is assumed.</p>
+            </td>
+          </tr>
+          <tr row="odd">
+            <td><p>volatile</p></td><td><p>no</p></td>
+            <td>
+              <p>A value of true or false - if true a new instance of the 
+                 context entry value shall be created and retured to the 
+                 component per request. If false (the default) a container 
+                 context implementation may safely cache context entry values.</p>
+            </td>
+          </tr>
+          <tr row="even">
+            <td><p>optional</p></td><td><p>no</p></td>
+            <td>
+              <p>Declares the context entry as optional in which case 
+                 the supply of the context entry is at the discretion 
+                 of a container.</p>
+            </td>
+          </tr>
+        </table>
+      </div>
+
+      <div class="subsection"><span class="subsection-header">Example</span>
+
+<pre class="source">
+package org.apache.avalon.playground;
+
+/**
+ * Example of a component declaring a context entry dependencies.
+ *
+ * @avalon.component version="1.0" name="demo"
+ */
+public class Primary implements Contextualizable
+{
+   /**
+    * @avalon.entry key="home" type="java.io.File" optional="true"
+    * @avalon.entry key="time" type="java.util.Date" volatile="true"
+    * @avalon.entry key="table" type="java.lang.Object[]"
+    * @avalon.entry key="urn:avalon:name" alias="block.name"
+    */
+    public void contextualize( Context context ) 
+      throws ContextException
+    {
+        String name = (String) context.get( "name" );
+        Object[] array = (Object[]) context.get( "table" );
+        try
+        {
+            File home = (File) context.get( "home" );
+            ...
+        }
+        catch( ContextException ce )
+        {
+            // it's optional
+        }
+    }
+}
+</pre><div class="source-title"><span class="source-title" /></div>
+
+<p>Generated meta-info type descriptor:</p>
+
+<pre class="source">
+&lt;type&gt;
+  &lt;info&gt;
+    &lt;version&gt;1.3.0&lt;/version&gt;
+    &lt;name&gt;primary-component&lt;/name&gt;
+  &lt;/info&gt;
+  &lt;context&gt;
+    &lt;entry key="home" type="java.io.File" optional="true"/&gt;
+    &lt;entry key="time" type="java.util.Date" volatile="true"/&gt;
+    &lt;entry key="table" type="java.lang.Object[]"/&gt;
+    &lt;entry key="urn:avalon:name" alias="block.name"&gt;
+  &lt;/context&gt;
+&lt;/type&gt;
+</pre><div class="source-title"><span class="source-title" /></div>
+      </div>
+    </div>
+  </div><div class="footer"><span class="copyright">Copyright 2004, The Apache Software Foundation All rights reserved.</span><div class="views"><a class="viewlink" id="xmllink" href=""><img src="../../../../../images/xml.gif" /></a></div></div></body></html>

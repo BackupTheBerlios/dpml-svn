@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><title>Component Specification</title><link type="text/css" rel="stylesheet" href="../../../../../styles/style.css" /><meta content="text/html; charset=UTF-8" http-equiv="Content-type" /></head><body><table class="logobar"><tr><td class="panelleft"><img alt="link" src="../../../../../images/feather.jpg" /></td><td class="panelmiddle"><div class="project">Metro</div><div class="title">Component Specification</div></td><td class="panelright" /></tr></table><div class="categorybar" dir="/products/runtime/reference/component/descriptors"><a class="homecategory" href="../../../../../index.html">
+        Home
+      </a></div><div class="menubar"><div class="no-border"><span class="dummy" /><div class="menu"><div class="menu"><div class="menu"><div class="menu"><a class="menuitem-selected" href="../../../../runtime/index.html">Merlin Runtime</a></div><a class="menuitem" href="../../../execmodes/index.html">Execution</a><a class="menuitem-selected" href="../../../reference/index.html">Specification</a><a class="menuitem" href="../../../system/index.html">Systems</a><a class="menuitem" href="../../../javadoc/index.html">Javadoc</a></div><a class="menuitem" href="../../containment/index.html">Block</a><a class="menuitem-selected" href="../../component/index.html">Component</a><a class="menuitem" href="../../deployment/index.html">Deployment</a><a class="menuitem" href="../../kernel/index.html">Kernel</a></div><a class="menuitem-selected" href="../descriptors/index.html">Descriptors</a><a class="menuitem" href="../artifacts/index.html">Artifacts</a><a class="menuitem" href="../lifecycle/index.html">Lifecycle</a><a class="menuitem" href="../lifestyle/index.html">Lifestyle</a></div></div></div><div class="content">
+
+    <div class="section"><span class="section-header">Component Descriptors</span>
+      <p>
+Within the COP (Component Oriented Programming) domain there is a principal
+that the component is supplied with the resources its needs in order to 
+function properly.  The direct implication of this principal is that a 
+component should declare exactly what it needs.  When we consider a 
+portable and reusable component we need to think its deployment 
+dependecies, structural dependencies, context assumptions, configuration 
+and parameterization criteria, throught to minor details such the logging 
+channels that the component implementation assumes.
+      </p>
+      <p>
+This information is captured in a object called a Type.  An instance of Type 
+describes the component and can be used by a container without necessarily 
+loading the component class.  Instance of Type are created from an XML 
+external form.  The XML descriptor can be created manually or more typically 
+through development tools that automate the creation process based on javadoc 
+tags included in the source code.
+      </p>
+    </div>
+
+    <div class="section"><span class="section-header">Specifications</span>
+
+      <div class="subsection"><span class="subsection-header">Javadoc Tag Markup</span>
+        <p>
+Information about a component type may be declared in the form of javadoc tags
+(refer <a class="doclink" href="../../../system/meta/tags/index.html">Tag Specification</a>.  
+Using <a class="doclink" href="../../../tools/index.html">development 
+tools</a> supplied as part of the 
+<a class="doclink" href="../../../system/meta/index.html">Avalon Meta</a> package - 
+the process of generation of an XML type descriptor can be completely automated.  
+        </p>
+        <p>
+A special tag @avalon.component is used to identify a class as a component.  The
+following code framgment illustrates the use of the @avalon.component tag.
+        </p>
+<pre class="source">
+/**
+ * Component demonstrating access to standard context entries.
+ *
+ * @avalon.component name="demo" lifestyle="singleton"
+ */
+public class HelloComponent 
+{
+   ...
+}
+</pre><div class="source-title"><span class="source-title" /></div>
+
+        <p>
+Additional tags are used to markup requirements that a component class has towards a container.  In the following code fragment a constructor is presented with a series of context entry dependencies that the component has during its instantiation phase. Each tag represents a particular context entry assumption that the component has, and the implicit responsibility of a container to fulfill.
+        </p>
+
+<pre class="source">
+   /**
+    * Creation of a new HelloComponent instance using a 
+    * container supplied logging channel and context.
+    * The context supplied by the container holds the 
+    * standard context entries for the home and 
+    * working directories, component name and partition.
+    *
+    * @avalon.entry key="urn:avalon:name" 
+    * @avalon.entry key="urn:avalon:partition" 
+    * @avalon.entry key="urn:avalon:home" type="java.io.File"
+    * @avalon.entry key="urn:avalon:temp" type="java.io.File"
+    */
+    public HelloComponent( Logger logger, Context context )
+      throws ContextException
+    {
+        m_logger = logger;
+
+        m_home = (File) context.get( "urn:avalon:home" );
+        m_temp = (File) context.get( "urn:avalon:temp" );
+        m_name = (String) context.get( "urn:avalon:name" );
+        m_partition = (String) context.get( "urn:avalon:partition" );
+
+        StringBuffer buffer = new StringBuffer( "standard context entries" );
+        buffer.append( "\n  name: " + m_name );
+        buffer.append( "\n  home: " + m_home );
+        buffer.append( "\n  temp: " + m_temp );
+        buffer.append( "\n  partition: " + m_partition );
+
+        m_logger.info( buffer.toString() );
+    }
+</pre><div class="source-title"><span class="source-title" /></div>
+
+      </div>
+
+      <div class="subsection"><span class="subsection-header">XML External Form</span>
+
+        <p>
+A component type may be associated with a component class by colocating an 
+XML file with the suffix "xinfo" with the component implementation class.  
+For example, the class tutorial.Hello is packaged in a jar file under the 
+path /tutorial/Hello.class.  The xinfo file is packaged as 
+/tutorial/Hello.xinfo.
+        </p>
+
+        <p>
+The formal specification of the 
+<a class="doclink" href="../../../system/meta/info/index.html">XML external 
+form</a> for component type descriptors is available as part of the 
+<a class="doclink" href="../../../systen/meta/index.html">Avalon Meta Package</a>.
+        </p>
+
+        <p>
+An example of a xinfo XML content taken from the context casting tutorial is 
+presented below.
+        </p>
+
+<pre class="source">
+&lt;type&gt;
+  &lt;info&gt;
+    &lt;name&gt;demo&lt;/name&gt;
+    &lt;version&gt;1.0.0&lt;/version&gt;
+    &lt;lifestyle&gt;singleton&lt;/lifestyle&gt;
+    &lt;collection&gt;hard&lt;/collection&gt;
+  &lt;/info&gt;
+  &lt;context type="tutorial.DemoContext"&gt;
+    &lt;entry key="urn:avalon:name" /&gt;
+    &lt;entry key="urn:avalon:partition" /&gt;
+    &lt;entry key="urn:avalon:home" type="java.io.File" /&gt;
+    &lt;entry key="urn:avalon:temp" type="java.io.File" /&gt;
+  &lt;/context&gt;
+&lt;/type&gt;
+</pre><div class="source-title"><span class="source-title" /></div>
+
+      </div>
+
+      <div class="subsection"><span class="subsection-header">Type Model</span>
+
+        <p>
+The Avalon Meta package provides the overal meta-info layer within which a 
+component type descriptor is defined.  The descriptor is an immutable data 
+object that contains a component classname, attributes, context dependencies, 
+deployment dependencies, runtime service dependencies, service and extension 
+publication, and associating logging channel assumptions. The full specification
+of the 
+<a class="doclink" href="../../../../../avalon/runtime/SNAPSHOT/spi/org/apache/avalon/meta/info/Type.html">Type</a>
+class is provided in the package javadoc.  Type establishment is typically 
+automated by the container by scanner jar file for xinfo descriptors (or 
+possibly through dynamic type creation).
+        </p>
+
+      </div>
+    </div>
+  </div><div class="footer"><span class="copyright">Copyright 2004, The Apache Software Foundation All rights reserved.</span><div class="views"><a class="viewlink" id="xmllink" href=""><img src="../../../../../images/xml.gif" /></a></div></div></body></html>

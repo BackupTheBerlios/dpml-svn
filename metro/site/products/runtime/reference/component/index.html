@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><title>Component Specification</title><link type="text/css" rel="stylesheet" href="../../../../styles/style.css" /><meta content="text/html; charset=UTF-8" http-equiv="Content-type" /></head><body><table class="logobar"><tr><td class="panelleft"><img alt="link" src="../../../../images/feather.jpg" /></td><td class="panelmiddle"><div class="project">Metro</div><div class="title">Component Specification</div></td><td class="panelright" /></tr></table><div class="categorybar" dir="/products/runtime/reference/component"><a class="homecategory" href="../../../../index.html">
+        Home
+      </a></div><div class="menubar"><div class="menu"><div class="menu"><div class="menu"><div class="menu"><a class="menuitem-selected" href="../../../runtime/index.html">Merlin Runtime</a></div><a class="menuitem" href="../../execmodes/index.html">Execution</a><a class="menuitem-selected" href="../../reference/index.html">Specification</a><a class="menuitem" href="../../system/index.html">Systems</a><a class="menuitem" href="../../javadoc/index.html">Javadoc</a></div><a class="menuitem" href="../containment/index.html">Block</a><a class="menuitem-selected" href="../component/index.html">Component</a><a class="menuitem" href="../deployment/index.html">Deployment</a><a class="menuitem" href="../kernel/index.html">Kernel</a></div><a class="menuitem" href="descriptors/index.html">Descriptors</a><a class="menuitem" href="artifacts/index.html">Artifacts</a><a class="menuitem" href="lifecycle/index.html">Lifecycle</a><a class="menuitem" href="lifestyle/index.html">Lifestyle</a></div></div><div class="content">
+
+    <div class="section"><span class="section-header">Component Specification</span>
+
+      <p>
+The component specifications deals with the interaction between a component and 
+the container it is running within.  This specification covers the component 
+descriptors, lifecycle artifacts and delivery mechanisms, and component lifestyles.
+      </p>
+      <div class="subsection"><span class="subsection-header">Index</span>
+        <table>
+          <tr row="odd"><th>Topic</th><th>Summary</th></tr>
+          <tr row="even">
+            <td><a class="doclink" href="descriptors/index.html">Descriptors</a></td>
+            <td>
+A component is a reusable computation unit that provides zero or more functional services.  This implies that a component is more than a class or collection of classes.  It is computational unit that can be deployed predictably in different application scenarios and environments.  A component type descriptor (Type) is used to hold immutable information associated with the component implementation.  Based on information accessible from an instance of Type a container has available the structural and runtime dependencies that a instance of a corresponding component class will require.  This section presents the type model and the techniques supporting automated generation of type information.
+            </td>
+          </tr>
+          <tr row="odd">
+            <td><a class="doclink" href="artifacts/index.html">Artifacts</a></td>
+            <td>
+A component may be instantiated using either constructor injection or phased lifecycle processing.  During the process of instantiation a container can supplies a range of artifacts such as logging channel, configuration, context object, service manager, etc.  This section of the specification presents each of the standard artifacts and the associated semantics.
+            </td>
+          </tr>
+          <tr row="even">
+            <td><a class="doclink" href="lifecycle/index.html">Lifecycle</a></td>
+            <td>
+Lifecycle management encompasses the process of deployment during which artifacts are delivered and a component is fully established, runtime lifecycle management functions, through to end-of-life processing and the related decommissioning of the component.  This section of the specification deals with abstract lifecycle concepts and the effects of lifecycle management on an overall system.
+            </td>
+          </tr>
+          <tr row="odd">
+            <td><a class="doclink" href="lifestyle/index.html">Lifestyle</a></td>
+            <td>
+A component implementation is associated with a particular lifestyle.  A lifestyle is policy that deals with the decision to create a new component as opposed to to supplying a reference to an existing component.  Examples of lifestyle policies include "singleton", "per-thread", and "transient".  This section of the specification describes each policy and the related semantics that a component author can assume concerning instantiation and references sharing. 
+            </td>
+          </tr>
+        </table>
+      </div>
+    </div>
+
+  </div><div class="footer"><span class="copyright">Copyright 2004, The Apache Software Foundation All rights reserved.</span><div class="views"><a class="viewlink" id="xmllink" href=""><img src="../../../../images/xml.gif" /></a></div></div></body></html>

@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><title>Avalon Central</title><link type="text/css" rel="stylesheet" href="../../../../styles/style.css" /><meta content="text/html; charset=UTF-8" http-equiv="Content-type" /></head><body><table class="logobar"><tr><td class="panelleft"><img alt="link" src="../../../../images/feather.jpg" /></td><td class="panelmiddle"><div class="project">Metro</div><div class="title">Avalon Central</div></td><td class="panelright" /></tr></table><div class="categorybar" dir="/central/tools/magic/spells"><a class="homecategory" href="../../../../index.html">
+        Home
+      </a></div><div class="menubar"><div class="menu"><div class="menu"><div class="menu"><div class="menu"><a class="menuitem" href="../../../about/index.html">Welcome</a><a class="menuitem" href="../../../community/index.html">Community</a></div><a class="menuitem-selected" href="../../magic/index.html">Magic</a></div><a class="menuitem" href="../installation.html">Installing</a><a class="menuitem-selected" href="../spells/index.html">Casting Spells</a><a class="menuitem" href="../model/index.html">System Model</a><a class="menuitem" href="../templates/index.html">Templates</a><a class="menuitem" href="../tasks/index.html">Tasks</a><a class="menuitem" href="../../../../avalon/tools/avalon-tools-magic/index.html">Javadoc</a></div><a class="menuitem-selected" href="index-creation.html">Setting up an Index</a><a class="menuitem" href="my-first-spell.html">My First Spell</a><a class="menuitem" href="advanced-magic.html">Advanced Magic</a><a class="menuitem" href="dark-arts.html">... Dark Arts</a></div></div><div class="content">
+    <div class="section"><span class="section-header">Creating a project index.</span>
+
+      <p>
+      A magic buildfile gets information about the project it is 
+      building from an index file.  The following example shows 
+      a minimal index file containing two projects. The 
+      example is available under your merlin installation main
+      repository (sub-directory avalon/tools/demos) or alternatively
+      just download 
+      <code><a class="doclink" href="http://www.dpml.net/avalon/tools/demos/demo.zip">
+      demo.zip</a></code>.
+      </p>
+
+      <p><i>index.xml</i></p>
+
+<pre class="source">
+&lt;?xml version="1.0" encoding="ISO-8859-1"?&gt;
+
+&lt;system&gt;
+
+  &lt;project basedir="gizmo"&gt;
+    &lt;info&gt;
+      &lt;group&gt;demo&lt;/group&gt;
+      &lt;name&gt;gizmo&lt;/name&gt;
+    &lt;/info&gt;
+  &lt;/project&gt;
+
+  &lt;project basedir="widget"&gt;
+    &lt;info&gt;
+      &lt;group&gt;demo&lt;/group&gt;
+      &lt;name&gt;widget&lt;/name&gt;
+    &lt;/info&gt;
+    &lt;dependencies&gt;
+      &lt;include key="gizmo"/&gt;
+    &lt;/dependencies&gt;
+  &lt;/project&gt;
+
+&lt;/system&gt;
+ </pre><div class="source-title"><span class="source-title" /></div>
+
+      <p>
+      The index file show above contains two product defintions - 
+      one for gizmo and one for widget.  The basedir attributes tells
+      magic where to find these projects relative to the location of the
+      index.  
+      </p>
+
+      <p>
+      The following is the build file using for the gizmo project.  
+      </p>
+
+<pre class="source">
+&lt;?xml version="1.0" encoding="UTF-8" ?&gt;
+
+&lt;project name="gizmo" default="install" basedir="." 
+    xmlns:x="antlib:org.apache.avalon.tools"&gt;
+
+  &lt;!-- Search for an index.xml file from current directory and upwards
+       in the directory structures.  --&gt;
+  &lt;x:home /&gt;
+  &lt;import file="${magic.templates}/standard.xml"/&gt;
+
+&lt;/project&gt;</pre><div class="source-title"><span class="source-title" /></div>
+
+      <p>
+      Some important things to note in the above build file:  
+      </p>
+      <ul>
+        <li>
+          the ant project name <code>gizmo</code> is used as 
+          the default key to an entry in the index file (you 
+          can provide an alternative key by declaring the 
+          property ${project.name} before the home declaration)</li>
+        <li>
+          The <code>xmlns:x="antlib:org.apache.avalon.tools"</code> 
+          declaration tells ant that we are using "x" as the short name 
+          for the antlib <code>antlib:org.apache.avalon.tools</code>.</li>
+        <li>
+          The default target "install" is a target declared in the 
+          imported buildfile <code>${magic.templates}/standard.xml</code>.</li>
+        <li>
+          The <code>&lt;x:home /&gt;</code> triggers
+          the loading of the index file located in the current directory OR
+          in any ascendent parent directory, i.e. the file system will be scanned
+          upwards in the directory structure,
+          and from this the construction of the project model that contains
+          version information, dependencies, etc.</li>
+        <li>
+          The <code>&lt;import file="${magic.templates}/standard.xml"/&gt;</code> 
+          tells ant to import a template build file from the ${magic.templates}
+          directory.  The ${magic.templates} directory defaults to 
+          ${magic.home}/templates. The ${magic.home} property defaults to the 
+          value of the environment variable MAGIC_HOME (if defined) otherwise
+          it will return <code>${user.home}/.magic</code></li>
+        <li>
+          The file <code>${magic.templates}/standard.xml</code> contains several
+          <a class="doclink" href="../templates/standard.html">standard build targets</a>.  
+        </li>
+      </ul>
+
+      <p>
+      You should have a general idea of the structure of an index based on 
+      the information described above.  While there are several notions we have not
+      discussed yet (external resources, plugins defintions, index importing, 
+      etc.) we will move on to actually building widget and gizmo - described 
+      under the next subject - <a class="doclink" href="my-first-spell.html">My First Spell</a>.  
+      </p>
+
+    </div>
+  </div><div class="footer"><span class="copyright">Copyright 2004, The Apache Software Foundation All rights reserved.</span><div class="views"><a class="viewlink" id="xmllink" href=""><img src="../../../../images/xml.gif" /></a></div></div></body></html>

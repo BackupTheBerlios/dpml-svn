@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><title>Avalon Planet</title><link type="text/css" rel="stylesheet" href="../../styles/style.css" /><meta content="text/html; charset=UTF-8" http-equiv="Content-type" /></head><body><table class="logobar"><tr><td class="panelleft"><img alt="link" src="../../images/feather.jpg" /></td><td class="panelmiddle"><div class="project">Metro</div><div class="title">Avalon Planet</div></td><td class="panelright" /></tr></table><div class="categorybar" dir="/planet/components"><a class="homecategory" href="../../index.html">
+        Home
+      </a></div><div class="menubar"><div class="menu"><div class="menu"><a class="menuitem-selected" href="../components/index.html">Components</a><a class="menuitem" href="../facilities/index.html">Facilities</a></div><a class="menuitem" href="datasource.html">Datasource</a><a class="menuitem-selected" href="connection.html">Conection</a><a class="menuitem" href="scheduler.html">Scheduler</a><a class="menuitem" href="sockets.html">Sockets</a><a class="menuitem" href="store.html">Store</a><a class="menuitem" href="threads.html">Threads</a></div></div><div class="content">
+    <div class="section"><span class="section-header">Connection</span>
+      <div class="subsection"><span class="subsection-header">Description</span>
+            <p>
+            The ConnectionManager service provides a facility to listen 
+            for incoming socket connections.
+            The DefaultConnectionManager compoent gives a thread pooled 
+            implementation of this service. If there are multiple server 
+            components depending on this component, they would all share
+            the same thread pool.
+            </p>
+      </div>
+      <div class="subsection"><span class="subsection-header">Deployment Facts</span>
+        <table>
+          <tr row="odd"><td>Containment</td><td>Avalon Framework 4.2.0</td></tr>
+          <tr row="even"><td>Lifestyle</td><td>singleton</td></tr>
+        </table>
+      </div>
+      <div class="subsection"><span class="subsection-header">Lifecycle</span>
+        <table>
+          <tr row="odd"><th>Stage</th><th>Description</th></tr>
+          <tr row="even"><td>LogEnabled</td><td>Logs lifescycle stages and handles assignment
+             of logging channels to managed connection handlers.</td></tr>
+          <tr row="odd">
+            <td>Serviceable</td>
+            <td>
+            The connection manager has a structural dependency on the 
+            <a class="doclink" href="threads.html">Threads</a>component.
+            </td>
+          </tr>
+          <tr row="even">
+            <td>Disposable</td>
+            <td>
+            Disconnects all standing connections.
+            </td>
+          </tr>
+        </table>
+      </div>
+    </div>
+
+  </div><div class="footer"><span class="copyright">Copyright 2004, The Apache Software Foundation All rights reserved.</span><div class="views"><a class="viewlink" id="xmllink" href=""><img src="../../images/xml.gif" /></a></div></div></body></html>

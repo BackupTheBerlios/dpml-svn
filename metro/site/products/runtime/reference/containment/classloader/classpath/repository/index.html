@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><title>Merlin Runtime</title><link type="text/css" rel="stylesheet" href="../../../../../../../styles/style.css" /><meta content="text/html; charset=UTF-8" http-equiv="Content-type" /></head><body><table class="logobar"><tr><td class="panelleft"><img alt="link" src="../../../../../../../images/feather.jpg" /></td><td class="panelmiddle"><div class="project">Metro</div><div class="title">Merlin Runtime</div></td><td class="panelright" /></tr></table><div class="categorybar" dir="/products/runtime/reference/containment/classloader/classpath/repository"><a class="homecategory" href="../../../../../../../index.html">
+        Home
+      </a></div><div class="menubar"><div class="menu"><div class="menu"><div class="menu"><div class="menu"><div class="menu"><div class="menu"><div class="menu"><a class="menuitem-selected" href="../../../../../../runtime/index.html">Merlin Runtime</a></div><a class="menuitem" href="../../../../../execmodes/index.html">Execution</a><a class="menuitem-selected" href="../../../../../reference/index.html">Specification</a><a class="menuitem" href="../../../../../system/index.html">Systems</a><a class="menuitem" href="../../../../../javadoc/index.html">Javadoc</a></div><a class="menuitem-selected" href="../../../../containment/index.html">Block</a><a class="menuitem" href="../../../../component/index.html">Component</a><a class="menuitem" href="../../../../deployment/index.html">Deployment</a><a class="menuitem" href="../../../../kernel/index.html">Kernel</a></div><a class="menuitem" href="../../../container.html">container</a><a class="menuitem-selected" href="../../../classloader/index.html">classloader</a><a class="menuitem" href="../../../categories/index.html">categories</a><a class="menuitem" href="../../../components/index.html">component</a><a class="menuitem" href="../../../include/index.html">include</a><a class="menuitem" href="../../../services/index.html">services</a></div><a class="menuitem-selected" href="../../classpath/index.html">classpath</a><a class="menuitem" href="../../extensions.html">library</a></div><a class="menuitem-selected" href="../repository/index.html">repository</a><a class="menuitem" href="../fileset/index.html">fileset</a></div><a class="menuitem" href="resource.html">resource</a></div></div><div class="content">
+
+    <div class="section"><span class="section-header">Repository Directive</span>
+
+      <div class="subsection"><span class="subsection-header">Description</span>
+<p>A repository is a logical source of jar files. Resource directives contained in the repository are resolved to jar files by a repository implementation.  The default implementation is a file based repository located under the Melrin installation.</p>
+      </div>
+
+      <div class="subsection"><span class="subsection-header">Nested Elements</span>
+        <table>
+          <tr row="odd"><th>Element</th><th>Occurance</th><th>Description</th></tr>
+          <tr row="even">
+            <td><a class="doclink" href="resource.html">resource</a></td><td>0..n</td>
+            <td>
+             Jar file resource references.
+            </td>
+          </tr>
+        </table>
+      </div>
+
+      <div class="subsection"><span class="subsection-header">Sample XML</span>
+<p>
+The following classpath (from the James deployment directive) demonstrates the use of repository based references.
+</p>
+<pre class="source">
+       &lt;classpath&gt;
+         &lt;repository&gt;
+           &lt;resource id="avalon-framework:avalon-framework-impl" version="4.1.5-dev"/&gt;
+           &lt;resource id="cornerstone-threads:cornerstone-threads-api" version="1.0"/&gt;
+           &lt;resource id="cornerstone-sockets:cornerstone-sockets-api" version="1.0"/&gt;
+           &lt;resource id="cornerstone-connection:cornerstone-connection-api" version="1.0"/&gt;
+           &lt;resource id="cornerstone-scheduler:cornerstone-scheduler-api" version="1.0"/&gt;
+           &lt;resource id="cornerstone-datasources:cornerstone-datasources-api" version="1.0"/&gt;
+           &lt;resource id="cornerstone-store:cornerstone-store-api" version="1.0"/&gt;
+           &lt;resource id="cornerstone-connection:cornerstone-connection-impl" version="1.0"/&gt;
+           &lt;resource id="excalibur:excalibur-collections" version="1.0"/&gt;
+           &lt;resource id="excalibur-thread:excalibur-thread" version="1.1.1"/&gt;
+           &lt;resource id="excalibur-pool:excalibur-pool" version="1.2"/&gt;
+           &lt;resource id="james:dnsjava" version="1.3.2"/&gt;
+           &lt;resource id="james:mail" version="1.3"/&gt;
+           &lt;resource id="james:activation" version="1.0"/&gt;
+           &lt;resource id="james:mailet" version="1.0"/&gt;
+           &lt;resource id="james:james" version="1.3"/&gt;
+         &lt;/repository&gt;
+       &lt;/classpath&gt;
+</pre><div class="source-title"><span class="source-title" /></div>
+      </div>
+    </div>
+  </div><div class="footer"><span class="copyright">Copyright 2004, The Apache Software Foundation All rights reserved.</span><div class="views"><a class="viewlink" id="xmllink" href=""><img src="../../../../../../../images/xml.gif" /></a></div></div></body></html>

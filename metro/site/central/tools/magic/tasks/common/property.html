@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><title>Avalon Central</title><link type="text/css" rel="stylesheet" href="../../../../../styles/style.css" /><meta content="text/html; charset=UTF-8" http-equiv="Content-type" /></head><body><table class="logobar"><tr><td class="panelleft"><img alt="link" src="../../../../../images/feather.jpg" /></td><td class="panelmiddle"><div class="project">Metro</div><div class="title">Avalon Central</div></td><td class="panelright" /></tr></table><div class="categorybar" dir="/central/tools/magic/tasks/common"><a class="homecategory" href="../../../../../index.html">
+        Home
+      </a></div><div class="menubar"><div class="menu"><div class="menu"><div class="menu"><div class="menu"><div class="menu"><a class="menuitem" href="../../../../about/index.html">Welcome</a><a class="menuitem" href="../../../../community/index.html">Community</a></div><a class="menuitem-selected" href="../../../magic/index.html">Magic</a></div><a class="menuitem" href="../../installation.html">Installing</a><a class="menuitem" href="../../spells/index.html">Casting Spells</a><a class="menuitem" href="../../model/index.html">System Model</a><a class="menuitem" href="../../templates/index.html">Templates</a><a class="menuitem-selected" href="../../tasks/index.html">Tasks</a><a class="menuitem" href="../../../../../avalon/tools/avalon-tools-magic/index.html">Javadoc</a></div><a class="menuitem-selected" href="../common/index.html">Common</a><a class="menuitem" href="../management/index.html">Management</a><a class="menuitem" href="../production/index.html">Production</a><a class="menuitem" href="../publication/index.html">Publication</a></div><a class="menuitem" href="home.html">Home</a><a class="menuitem" href="info.html">Info</a><a class="menuitem" href="filter.html">Filter</a><a class="menuitem-selected" href="property.html">Property</a><a class="menuitem" href="prepare.html">Prepare</a><a class="menuitem" href="clean.html">Clean</a></div></div><div class="content">
+    <div class="section"><span class="section-header">Property Task</span>
+      <p>
+      The property task can be used to assign a value of a feature
+      of a magic resource or project to a named ant property value.
+      The property creates a new property using the supplied 'name'
+      and assigns to this property the favlue of the requested 'feature'
+      from the resource identified by the value of the 'key' attribute.
+      </p>
+
+<pre class="source">
+    &lt;x:property name="spec" key="cornerstone-threads-impl" feature="spec" resolve="true"/&gt;
+    &lt;echo message="${spec}"/&gt;
+</pre><div class="source-title"><span class="source-title" /></div>
+
+<pre>
+     [echo] artifact:jar:avalon/cornerstone/cornerstone-threads-impl#2.0.0
+</pre>
+
+    <div class="subsection"><span class="subsection-header">Features</span>
+      
+      <p>
+      Valid feature names supported by the property task are detailed in
+      the following table.
+      </p>
+
+      <table>
+        <tr row="odd"><th>Property</th><th>Description</th></tr>
+        <tr row="even">
+          <td>name</td>
+          <td>The resource name.</td>
+        </tr>
+        <tr row="odd">
+          <td>group</td>
+          <td>The resource group.</td>
+        </tr>
+        <tr row="even">
+          <td>version</td>
+          <td>The resource version.</td>
+        </tr>
+        <tr row="odd">
+          <td>type</td>
+          <td>The resource type.</td>
+        </tr>
+        <tr row="even">
+          <td>key</td>
+          <td>The key the resource is referenced by in the project model (the index.xml). if no key attribute is given, 
+           the current project is assumed.</td>
+        </tr>
+        <tr row="odd">
+          <td>uri</td>
+          <td>The full artifact uri.</td>
+        </tr>
+        <tr row="even">
+          <td>path</td>
+          <td>A relative file path that can be used to a locate an artifact
+              relative to a repository root.</td>
+        </tr>
+        <tr row="odd">
+          <td>spec</td>
+          <td>Short form of uri.  The spec value is equivalent to the 
+            uri with the "artifact:" protocol identifier.</td>
+        </tr>
+        <tr row="even">
+          <td>resolve</td>
+          <td>Should dependencies be resolved or not. Default is true. if you reference the curernt project, a good idea is to set resolve"false"
+            in order to avoid to download the not yet compiled current projects artifact.</td>
+        </tr>
+        <tr row="odd">
+          <td>filename</td>
+          <td>The filename of the final artifact that the resource represents.</td>
+        </tr>
+        <tr row="even">
+          <td>short-filename</td>
+          <td>The filename without the file type suffix.</td>
+        </tr>
+      </table>
+
+    </div>
+
+    </div>
+  </div><div class="footer"><span class="copyright">Copyright 2004, The Apache Software Foundation All rights reserved.</span><div class="views"><a class="viewlink" id="xmllink" href=""><img src="../../../../../images/xml.gif" /></a></div></div></body></html>

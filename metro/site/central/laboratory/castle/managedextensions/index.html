@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><title>Avalon Castle - Managed Extensions</title><link type="text/css" rel="stylesheet" href="../../../../styles/style.css" /><meta content="text/html; charset=UTF-8" http-equiv="Content-type" /></head><body><table class="logobar"><tr><td class="panelleft"><img alt="link" src="../../../../images/feather.jpg" /></td><td class="panelmiddle"><div class="project">Metro</div><div class="title">Avalon Castle - Managed Extensions</div></td><td class="panelright" /></tr></table><div class="categorybar" dir="/central/laboratory/castle/managedextensions"><a class="homecategory" href="../../../../index.html">
+        Home
+      </a></div><div class="menubar"><div class="menu"><div class="menu"><div class="menu"><div class="menu"><a class="menuitem" href="../../../about/index.html">Welcome</a><a class="menuitem" href="../../../community/index.html">Community</a></div><a class="menuitem" href="../../studio/index.html">Studio</a><a class="menuitem" href="../../discovery/index.html">Discovery</a><a class="menuitem-selected" href="../../castle/index.html">Castle</a></div><a class="menuitem" href="../microkernel/index.html">Microkernel</a><a class="menuitem-selected" href="../managedextensions/index.html">Managed Extensions</a><a class="menuitem" href="../dynamicproxy/index.html">DynamicProxy</a></div><a class="menuitem" href="lifecycle.html">Lifecycle</a><a class="menuitem" href="remoting.html">Remoting</a><a class="menuitem" href="invokers.html">Invokers</a></div></div><div class="content">
+
+  <div class="section"><span class="section-header">The project</span>
+    <p>
+    ManagedExtensions is an attempt to give management capabilities to applications. 
+    Its relation to Castle Container is yet to be developed.
+    </p>
+    <p>
+    Basically you have to approaches to choose: the server approach and the passive 
+    approach.
+    </p>
+  </div>
+
+  <div class="section"><span class="section-header">Building a server</span>
+    <p>
+    If your application will be used to host others components, then you 
+    may build it as a server application. Just create a MServer concrete instance
+    and register your managed components on it (or use it to create your components 
+    instances)
+    </p>
+<pre class="source">
+using Apache.Avalon.Castle.ManagementExtensions;
+
+
+bool createNewAppDomain = false;
+MServer server = MServerFactory.CreateServer("logicaldomainname", createNewAppDomain);
+
+</pre><div class="source-title"><span class="source-title" /></div>
+
+  <p>
+  After setting up a MServer instance you can use it to register component instances, 
+  or create instances from it:
+  </p>
+<pre class="source">
+/// <summary>
+/// Registers the specified managed object instance.
+/// </summary>
+/// <exception cref="InvalidDomainException">If domain name is not found.</exception>
+ManagedInstance RegisterManagedObject(Object instance, ManagedObjectName name);
+
+/// <summary>
+/// Instantiates the specified type using the server domain.
+/// </summary>
+Object Instantiate(String assemblyName, String typeName);
+</pre><div class="source-title"><span class="source-title" /></div>
+  </div>
+
+  <div class="section"><span class="section-header">Managed Components</span>
+  <p>
+  To expose your components as managed components you have two choices:
+  <ul>
+    <li>
+    Use the ManagedComponent attribute
+    </li>
+    <li>
+    Implement the MDynamicSupport interface
+    </li>
+  </ul>
+  </p>
+<pre class="source">
+using Apache.Avalon.Castle.ManagementExtensions;
+
+<b>[ManagedComponent]</b>
+public class DummyHttpServer
+{
+	protected bool started = false;
+
+	public DummyHttpServer()
+	{
+	}
+
+	<b>[ManagedAttribute]</b>
+	public bool Started
+	{
+		get
+		{
+			return started;
+		}
+		set
+		{
+			started = value;
+		}
+	}
+
+	<b>[ManagedOperation]</b>
+	public void Start()
+	{
+		Started = true;
+	}
+
+	<b>[ManagedOperation]</b>
+	public void StartAt(int time)
+	{
+	}
+
+	<b>[ManagedOperation]</b>
+	public void Stop()
+	{
+		Started = false;
+	}
+}
+</pre><div class="source-title"><span class="source-title" /></div>
+  </div>
+
+  <div class="section"><span class="section-header">Source code</span>
+    <p>
+    The lastest version of source can be obtained from 
+    <a class="doclink" href="https://svn.apache.org/repos/asf/avalon/trunk/central/laboratory/avalon-net/Castle/CastleManagementExtensions">Avalon Subversion repository</a> 
+    (Test cases can be found <a class="doclink" href="https://svn.apache.org/repos/asf/avalon/trunk/central/laboratory/avalon-net/Castle/CastleManagementExtensionsTest">here</a>).
+    </p>
+  </div>
+
+  <div class="section"><span class="section-header">Useful links</span>
+    <p>
+    If you'd like to learn more about Managed Extensions, please refer to:
+    </p>
+    <ul>
+      <li>
+      <a class="doclink" href="http://jroller.com/comments/hammett?anchor=management_extensions_for_net">
+        Management Extensions for .Net</a>:
+        Full explanation of what driven the development of Castle Managed Extensions.
+      </li>
+    </ul>
+  </div>
+
+  </div><div class="footer"><span class="copyright">Copyright 2004, The Apache Software Foundation All rights reserved.</span><div class="views"><a class="viewlink" id="xmllink" href=""><img src="../../../../images/xml.gif" /></a></div></div></body></html>

@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><title>Avalon Central</title><link type="text/css" rel="stylesheet" href="../../../../styles/style.css" /><meta content="text/html; charset=UTF-8" http-equiv="Content-type" /></head><body><table class="logobar"><tr><td class="panelleft"><img alt="link" src="../../../../images/feather.jpg" /></td><td class="panelmiddle"><div class="project">Metro</div><div class="title">Avalon Central</div></td><td class="panelright" /></tr></table><div class="categorybar" dir="/central/about/tutorials/basic"><a class="homecategory" href="../../../../index.html">
+        Home
+      </a></div><div class="menubar"><div class="menu"><div class="menu"><div class="menu"><div class="menu"><a class="menuitem-selected" href="../../../about/index.html">Welcome</a><a class="menuitem" href="../../../community/index.html">Community</a></div><a class="menuitem" href="../../license.html">License</a><a class="menuitem" href="../../download.html">Downloads</a><a class="menuitem" href="../../installation/index.html">Installation</a><a class="menuitem-selected" href="../../tutorials/index.html">Tutorials</a><a class="menuitem" href="../../news/index.html">News</a><a class="menuitem" href="../../faq.html">FAQ</a></div><a class="menuitem-selected" href="../basic/index.html">Basic</a><a class="menuitem" href="../advanced/index.html">Advanced</a></div><a class="menuitem-selected" href="creation.html">Hello Block</a><a class="menuitem" href="execution.html">Running Hello</a><a class="menuitem" href="internal.html">Behind the Scenes</a><a class="menuitem" href="config/index.html">Configurations</a><a class="menuitem" href="context/index.html">Contextualization</a><a class="menuitem" href="services.html">Services</a><a class="menuitem" href="dependencies/index.html">Dependencies</a></div></div><div class="content">
+    <div class="section"><span class="section-header">Hello Block</span>
+      <div class="subsection"><span class="subsection-header">Tutorial Overview</span>
+        <p>
+        This tutorial takes you though the creation of a very simple
+        component, the declaration of a component type descriptor, and the 
+        declaration of a block containing the component.
+        </p>
+        <p>
+        Resources (sample code and build files) supporting this tutorial 
+        are included in the Merlin distribution under the tutorials/hello
+        directory.
+        </p>
+      </div>
+      <div class="subsection"><span class="subsection-header">Creating a component</span>
+        <p>
+           The following code is a minimal component.  It simply logs a 
+           message.  We will progressively extend this component to do 
+           more creative things as we proceed through this tutorial.
+        </p>
+<pre class="source">
+package tutorial;
+
+import org.apache.avalon.framework.logger.Logger;
+
+/**
+ * A sample component.  
+ *
+ * @avalon.component 
+ *    version="1.0" 
+ *    name="hello" 
+ *    lifestyle="singleton"
+ */
+public class HelloComponent 
+{
+    //-------------------------------------------------------
+    // constructor
+    //-------------------------------------------------------
+
+   /**
+    * Creation of a new hello component instance.
+    *
+    * @param logger the logging channel supplied by the container
+    */
+    public HelloComponent( Logger logger )
+    {
+        logger.info( "Hello World" );
+    }
+}
+</pre><div class="source-title"><span class="source-title" /></div>
+      </div>
+      <div class="subsection"><span class="subsection-header">Creating a Type Descriptor</span>
+      
+        <p>
+          In order for Merlin to recognize this class as a component, we need to
+          generate a &lt;classname&gt;.xinfo file. This can be done
+          automatically by including a pre-goal as shown below into the 
+          maven.xml file. 
+        </p>
+<pre class="source">
+&lt;preGoal name="java:compile"&gt;
+  &lt;attainGoal name="avalon:meta"/&gt;
+&lt;/preGoal&gt;
+</pre><div class="source-title"><span class="source-title" /></div>
+        <p>
+          The avalon:meta plugin looks for @avalon tags in the
+          source code, to generate the correct Type Descriptor. In the above 
+          example it will find the @avalon.component tag in the class level 
+          javadocs and generate component the descriptors for us (see below). 
+        </p>
+      </div>
+
+      <div class="subsection"><span class="subsection-header">Generated Type Descriptor</span>
+        <p>
+          The following text is an example of a component type definition.  
+          It contains the declaration of the component name and the component 
+          implementation version. From the example above 
+          ( <code>@avalon.component version="1.0" name="hello"</code> ) the
+          generated Type Descriptor would look something like this.
+        </p>
+<pre class="source">
+&lt;type&gt;
+  &lt;info&gt;
+    &lt;name&gt;hello&lt;/name&gt;
+    &lt;version&gt;1.0.0&lt;/version&gt;
+    &lt;lifestyle&gt;singleton&lt;/lifestyle&gt;
+    &lt;collection&gt;hard&lt;/collection&gt;
+  &lt;/info&gt;
+&lt;/type&gt;
+</pre><div class="source-title"><span class="source-title" /></div>
+
+      </div>
+      <div class="subsection"><span class="subsection-header">Creating a block</span>
+        <p>
+          A block is the definition of a composite component. It represents an
+          application made up of a set of components and the supporting 
+          resources.  In our example the block will contain the single 
+          HelloComponent component.  Based on this information Merlin will 
+          create a container named "tutorial", create a component model 
+          named "hello" and deploy an instance of the component on 
+          startup.
+        </p>
+<pre class="source">
+&lt;container name="tutorial"&gt;
+
+   &lt;component name="hello" class="tutorial.HelloComponent"/&gt;
+
+&lt;/container&gt;
+</pre><div class="source-title"><span class="source-title" /></div>
+      </div>
+      <div class="subsection"><span class="subsection-header">Execution</span>
+        <p>
+        The next tutorial - titled <a class="doclink" href="execution.html">Running Hello</a> 
+        covers deployment of the component using the Merlin runtime platform.
+        </p>
+      </div>
+    </div>
+  </div><div class="footer"><span class="copyright">Copyright 2004, The Apache Software Foundation All rights reserved.</span><div class="views"><a class="viewlink" id="xmllink" href=""><img src="../../../../images/xml.gif" /></a></div></div></body></html>

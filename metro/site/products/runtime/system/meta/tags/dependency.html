@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><title>Javadoc Tag Specification</title><link type="text/css" rel="stylesheet" href="../../../../../styles/style.css" /><meta content="text/html; charset=UTF-8" http-equiv="Content-type" /></head><body><table class="logobar"><tr><td class="panelleft"><img alt="link" src="../../../../../images/feather.jpg" /></td><td class="panelmiddle"><div class="project">Metro</div><div class="title">Javadoc Tag Specification</div></td><td class="panelright" /></tr></table><div class="categorybar" dir="/products/runtime/system/meta/tags"><a class="homecategory" href="../../../../../index.html">
+        Home
+      </a></div><div class="menubar"><div class="menu"><div class="menu"><div class="menu"><div class="menu"><div class="menu"><a class="menuitem-selected" href="../../../../runtime/index.html">Merlin Runtime</a></div><a class="menuitem" href="../../../execmodes/index.html">Execution</a><a class="menuitem" href="../../../reference/index.html">Specification</a><a class="menuitem-selected" href="../../../system/index.html">Systems</a><a class="menuitem" href="../../../javadoc/index.html">Javadoc</a></div><a class="menuitem-selected" href="../../meta/index.html">Meta</a><a class="menuitem" href="../../composition.html">Composition</a><a class="menuitem" href="../../activation.html">Activation</a><a class="menuitem" href="../../repository/index.html">Repository</a><a class="menuitem" href="../../logging/index.html">Logging</a><a class="menuitem" href="../../util/index.html">Util</a></div><a class="menuitem-selected" href="../tags/index.html">Tag Reference</a><a class="menuitem" href="../info/index.html">Type Model</a></div><a class="menuitem" href="type.html">Component</a><a class="menuitem" href="attribute.html">Attribute</a><a class="menuitem" href="service.html">Service</a><a class="menuitem" href="logger.html">Logger</a><a class="menuitem" href="configuration.html">Configuration</a><a class="menuitem" href="context.html">Context</a><a class="menuitem" href="entry.html">Entry</a><a class="menuitem-selected" href="dependency.html">Dependency</a><a class="menuitem" href="stage.html">Stage</a><a class="menuitem" href="extension.html">Extension</a></div></div><div class="content">
+
+    <div class="section"><span class="section-header">Javadoc Tags</span>
+      <div class="subsection"><span class="subsection-header">Dependency Tag</span>
+<p>Component types may declare multiple service dependencies through the service tag.  Each service tag references a versioned service identifier that the container will supply to the component type on request relative to the declared dependency key.</p>
+      </div>
+      <div class="subsection"><span class="subsection-header">Attributes</span>
+        <table>
+          <tr row="odd"><th>Attribute</th><th>Required</th><th>Description</th></tr>
+          <tr row="even">
+            <td>type</td><td>yes</td>
+            <td>
+              <p>The service interface classname that the component is dependent on.</p>
+            </td>
+          </tr>
+          <tr row="odd">
+            <td>version</td><td>no</td>
+            <td>
+              <p>
+                The service version.
+                If not declared the service dependency shall match any version.</p>
+            </td>
+          </tr>
+          <tr row="even">
+            <td>optional</td><td>no</td>
+            <td>
+              <p>
+               A value of 'true' or 'false'.  If true, the supply of a dependency
+               is at the discression of the container.  If false (the default) 
+               a container is required to resolve and supply a service matching 
+               the dependency declaration.</p>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="subsection"><span class="subsection-header">Example</span>
+
+
+<pre class="source">
+package net.osm;
+
+/**
+ * Example of a component declaring multiple service dependencies.
+ *
+ * @avalon.component version="1.0" name="demo"
+ */
+public class Demo implements Serviceable
+{
+    ...
+
+   /**
+    * Supply of dependent services to this component by 
+    *  the container.
+    * @param manager the service manager
+    * @avalon.dependency key="home" type="Home" version="1.3" 
+    * @avalon.dependency type="Resource" version="5" optional="true"
+    */
+    public void service( ServiceManager manager ) 
+      throws ServiceException
+    {
+        m_home = (Home) manager.lookup( "home" );
+        try
+        {
+            m_resource = (Resource) manager.lookup( 
+              Resource.getClass().getName() );
+        }
+        catch( ServiceException se )
+        {
+            // it's optional
+        }
+    }
+}
+</pre><div class="source-title"><span class="source-title" /></div>
+
+<p>Generated meta-info type descriptor:</p>
+
+<pre class="source">
+&lt;type&gt;
+  &lt;info&gt;
+    &lt;version&gt;1.3.0&lt;/version&gt;
+    &lt;name&gt;demo&lt;/name&gt;
+  &lt;/info&gt;
+  &lt;dependencies&gt;
+    &lt;dependency key="home" type="Home" version="1.3.0"/&gt;
+    &lt;dependency type="Resource" version="5.0.0" optional="true"/&gt;
+  &lt;/dependencies&gt;
+&lt;/type&gt;
+</pre><div class="source-title"><span class="source-title" /></div>
+      </div>
+    </div>
+  </div><div class="footer"><span class="copyright">Copyright 2004, The Apache Software Foundation All rights reserved.</span><div class="views"><a class="viewlink" id="xmllink" href=""><img src="../../../../../images/xml.gif" /></a></div></div></body></html>

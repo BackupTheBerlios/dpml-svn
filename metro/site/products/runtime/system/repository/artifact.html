@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><title>Merlin Runtime</title><link type="text/css" rel="stylesheet" href="../../../../styles/style.css" /><meta content="text/html; charset=UTF-8" http-equiv="Content-type" /></head><body><table class="logobar"><tr><td class="panelleft"><img alt="link" src="../../../../images/feather.jpg" /></td><td class="panelmiddle"><div class="project">Metro</div><div class="title">Merlin Runtime</div></td><td class="panelright" /></tr></table><div class="categorybar" dir="/products/runtime/system/repository"><a class="homecategory" href="../../../../index.html">
+        Home
+      </a></div><div class="menubar"><div class="menu"><div class="menu"><div class="menu"><div class="menu"><a class="menuitem-selected" href="../../../runtime/index.html">Merlin Runtime</a></div><a class="menuitem" href="../../execmodes/index.html">Execution</a><a class="menuitem" href="../../reference/index.html">Specification</a><a class="menuitem-selected" href="../../system/index.html">Systems</a><a class="menuitem" href="../../javadoc/index.html">Javadoc</a></div><a class="menuitem" href="../meta/index.html">Meta</a><a class="menuitem" href="../composition.html">Composition</a><a class="menuitem" href="../activation.html">Activation</a><a class="menuitem-selected" href="../repository/index.html">Repository</a><a class="menuitem" href="../logging/index.html">Logging</a><a class="menuitem" href="../util/index.html">Util</a></div><a class="menuitem-selected" href="artifact.html">Artifact</a><a class="menuitem" href="classloader.html">Classloader</a><a class="menuitem" href="spi.html">Provider SPI</a><a class="menuitem" href="bootstrap.html">Bootstrap System</a><a class="menuitem" href="reference.html">Reference Impl</a><a class="menuitem" href="example/index.html">Example</a><a class="menuitem" href="tools/index.html">Tools</a></div></div><div class="content">
+
+      <div class="section"><span class="section-header">Application Programmer Interfact (API)</span>
+
+        <div class="subsection"><span class="subsection-header">Artifacts</span>
+
+          <p>
+          The Avalon Repository API provides support for the notion of 
+          an Artifact.  An artifact is a logical reference to a 
+          physical resource. A repository implementation is reponsible 
+          for the establishment of a concrete URL relative to a logical
+          artifact reference.
+          </p>
+
+          <p>
+          The following code fragment demonstrates the creation of an 
+          artifact reference by suplying a "group", "name" and "version".
+          </p>
+
+          <pre class="source">
+Artifact artifact = 
+    Artifact.createArtifact( 
+      "avalon-framework", "avalon-framework-api", "4.1.5" );</pre><div class="source-title"><span class="source-title" /></div>
+
+          <p>
+          Once an artifact has been created the repository is used to 
+          to resolve the artifact to a concrete url.  The actual url
+          returned to the client will have a transport protocol and 
+          path adapted to the underlying repository type (e.g. HTTP, 
+          LDAP, etc.).
+          </p>
+
+          <pre class="source">
+URL url = m_repository.getResource( artifact );</pre><div class="source-title"><span class="source-title" /></div>
+
+        </div>
+      </div>
+    </div><div class="footer"><span class="copyright">Copyright 2004, The Apache Software Foundation All rights reserved.</span><div class="views"><a class="viewlink" id="xmllink" href=""><img src="../../../../images/xml.gif" /></a></div></div></body></html>

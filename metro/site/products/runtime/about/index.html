@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><title>Merlin Runtime</title><link type="text/css" rel="stylesheet" href="../../../styles/style.css" /><meta content="text/html; charset=UTF-8" http-equiv="Content-type" /></head><body><table class="logobar"><tr><td class="panelleft"><img alt="link" src="../../../images/feather.jpg" /></td><td class="panelmiddle"><div class="project">Metro</div><div class="title">Merlin Runtime</div></td><td class="panelright" /></tr></table><div class="categorybar" dir="/products/runtime/about"><a class="homecategory" href="../../../index.html">
+        Home
+      </a></div><div class="menubar"><div class="menu"><div class="menu"><div class="menu"><a class="menuitem-selected" href="../../runtime/index.html">Merlin Runtime</a></div><a class="menuitem" href="../execmodes/index.html">Execution</a><a class="menuitem" href="../reference/index.html">Specification</a><a class="menuitem" href="../system/index.html">Systems</a><a class="menuitem" href="../javadoc/index.html">Javadoc</a></div><a class="menuitem" href="purpose.html">Purpose</a><a class="menuitem" href="features.html">Features</a><a class="menuitem" href="benefits.html">Benefits</a></div></div><div class="content">
+
+    <div class="section"><span class="section-header">Merlin Runtime</span>
+
+    <div class="subsection"><span class="subsection-header">Service Management Platform (SMP)</span>
+<p>
+Merlin is a service management platform based on an advanced assembly engine.  Its focus is to provide support for the encapsulation of a set of components and services within functional blocks.  Blocks enable the separation of components as an implementation solutions from services established by respective components.
+     </p>
+
+    </div>
+
+    <div class="subsection"><span class="subsection-header">Assembly Framework</span>
+
+<p>
+The assembly engine is responsible for the management of the deployment of services provided by a component. 
+</p>
+
+<p>
+Components in the framework may have dependencies on services provided by other components, which in turn may have dependencies of their own.  In addition, components can declare (as part of their meta-info) particular lifecycle stages (such as initiation or configuration) and the type of stage provider it needs to handle that stage.  So in effect, components can be deployed with classic runtime dependencies together with deployment dependencies (because deployment stage providers are themselves components that may have their own deployment and runtime dependencies).
+</p>
+
+<p>
+Assembly services include ordered deployment and decommissioning, and a range of "lifestyle" handlers (things like thread-safe, per-thread, singleton, transient, or custom policies).  The package includes facilities for: classloader management and cascading repositories for types, templates, service definitions and appliance instances (where an appliance is simply an instantiation of a particular component deployment scenario). 
+</p>
+    </div>
+
+    <div class="subsection"><span class="subsection-header">Meta Model</span>
+<p>
+The meta model used in Merlin defines the notion of a component type.  A Type definition contains information about deployment and runtime dependencies together with general attributes about the type and services the component type can provide. The Type and Service notions are complimented by a Profile which can be viewed as a template deployment scenario.  Type, Service and Profile descriptions can be packaged in jars files and used as the basic for automating component assembly and deployment. 
+</p>
+
+    </div>
+
+    </div>
+
+  </div><div class="footer"><span class="copyright">Copyright 2004, The Apache Software Foundation All rights reserved.</span><div class="views"><a class="viewlink" id="xmllink" href=""><img src="../../../images/xml.gif" /></a></div></div></body></html>

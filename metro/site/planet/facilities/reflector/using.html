@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><title>Planet - Facilities</title><link type="text/css" rel="stylesheet" href="../../../styles/style.css" /><meta content="text/html; charset=UTF-8" http-equiv="Content-type" /></head><body><table class="logobar"><tr><td class="panelleft"><img alt="link" src="../../../images/feather.jpg" /></td><td class="panelmiddle"><div class="project">Metro</div><div class="title">Planet - Facilities</div></td><td class="panelright" /></tr></table><div class="categorybar" dir="/planet/facilities/reflector"><a class="homecategory" href="../../../index.html">
+        Home
+      </a></div><div class="menubar"><div class="menu"><div class="menu"><div class="menu"><a class="menuitem" href="../../components/index.html">Components</a><a class="menuitem-selected" href="../../facilities/index.html">Facilities</a></div><a class="menuitem" href="../finder/index.html">Finder</a><a class="menuitem" href="../http.html">HTTP</a><a class="menuitem" href="../jmx.html">JMX</a><a class="menuitem-selected" href="../reflector/index.html">Reflector</a></div><a class="menuitem" href="index.html">Overview</a><a class="menuitem-selected" href="using.html">Using</a><a class="menuitem" href="components/index.html">Components</a><a class="menuitem" href="blocks/index.html">Blocks</a></div></div><div class="content">
+    <div class="section"><span class="section-header">Using the Reflector Facility</span>
+      <p>
+        The Reflector has two pre-defined blocks that can be used straight
+        up without any further configuration.
+      </p>
+      <p>
+        Example of including the Complete block in a larger block;
+      </p>
+<pre class="source">
+
+&lt;container name="myapplication" &gt;
+  &lt;classloader&gt;
+    :
+  &lt;/classloader&gt;
+  
+  &lt;component name="MyComponent" type="com.mycompany.myproject.MyComponent" /&gt;
+  
+  &lt;include 
+    artifact="block:metro/facilities/reflector/metro-reflector-blocks-complete#SNAPSHOT" /&gt;
+  
+&lt;/container&gt;
+
+</pre><div class="source-title"><span class="source-title" /></div>
+      <table>
+        <tr row="odd">
+          <th>Group</th>
+          <th>Name</th>
+          <th>Purpose</th>
+        </tr>
+        <tr row="even">
+          <td>metro/facilities/reflector</td>
+          <td>metro-reflector-blocks-complete</td>
+          <td>
+            The Complete block consist of everything need when you don't have
+            the HTTP Facility available and used elsewhere in the system. It
+            starts the HTTP Facility on port 8080 with a normal socket listener
+            and registers the composition model as a root object in the 
+            Reflector.
+          </td>
+        </tr>
+        <tr row="odd">
+          <td>metro/facilities/reflector</td>
+          <td>metro-reflector-blocks-standard</td>
+          <td>
+            The Standard block is intended for use when you want it to attach
+            itself to an existing HTTP Facility running on any port. By default,
+            the Reflector will lookup 'any' <code>HttpContext</code>, so it is
+            not defined which context it will add itself to. If you need better
+            control, you need to use the 'manual assembly' features of Merlin.
+          </td>
+        </tr>
+      </table>
+      <div class="subsection"><span class="subsection-header">Normal Use - My own Root objects.</span>
+        <p>
+          If you want to have your own root objects, you look up the Reflector
+          and call the <code>addRootObject( String name, Object object )</code>
+          method, either directly from your component, or preferably from a 
+          separate component that does the registration.
+        </p>
+<pre class="source">
+/**
+ * @avalon.dependency type="org.apache.metro.facilities.reflector.ReflectorService"
+ *                    key="reflector"
+ * @avalon.dependency type="com.mycompany.myproject.MyApplication"
+ *                    key="app"
+ */
+public void service( ServiceManager man )
+    throws ServiceException
+{
+    MyApplication app = (MyApplication) man.lookup( "app" );
+    ReflectorService reflector = (ReflectorService) man.lookup( "reflector" );
+    reflector.addRootObject( app );
+}
+</pre><div class="source-title"><span class="source-title" /></div>
+      </div>
+      <div class="subsection"><span class="subsection-header">Normal Use - Direct utlization of Reflector</span>
+        <p>
+          There are sometimes reasons to use the Reflector programmatically
+          and not using it as a troubleshooting tool only. For instance,
+          let's say that you define the entire application with events, and
+          that you want to enable that the user can subscribe to changes 
+          via mail. You can then utilize the Reflector to provide for a 
+          fairly understandable object model, i.e. the dot-notation, and
+          have a mail application register itself at each of the objects
+          defined in the mail. Another example of use is a report generator,
+          which has its fields defined with the dot-notation of the objects
+          that are the live data in the form.
+        </p>
+        <p>
+          The <code>ReflectorService</code> interface is fairly easy to 
+          understand and has many convenience methods to make these sorts
+          of applications easier to write.
+        </p>
+      </div>
+      <div class="subsection"><span class="subsection-header">Advance Use - Defining my own TypeHandler</span>
+        <p>
+          There might be reason to handle the containment of certain types
+          differently than the standard <code>ObjectTypeHandler</code>. Reasons
+          for this varies, but typically it would be that there are additional
+          information in the class or interface that you want to view or change.
+          You create a <code>TypeHandler</code> and implement each of the 
+          methods.
+        </p>
+        <table>
+          <tr row="odd">
+            <th>Method signature</th>
+            <th>Description</th>
+          </tr>
+          <tr row="even">
+            <td>
+    boolean isDefault();
+            </td>
+            <td>
+              All implementations should return false, unless the purpose is
+              to provide a new default behaviour, instead of the 
+              <code>ObjectTypeHandler</code>. This method is only called once
+              upon startup.
+            </td>
+          </tr>
+          <tr row="odd">
+            <td>
+    String[] getNames( Object container )<br />
+        throws ReflectionException;
+            </td>
+            <td>
+              This method should return an array of all the members of the
+              class. This determines which members are available in the type
+              the TypeHandler handles. This method is called for every object
+              introspected by the Reflector. The names returned will be used
+              as input in the methods below (i.e. the membername argument).
+            </td>
+          </tr>
+          <tr row="even">
+            <td>
+    Class getClass( Object container, String membername )<br />
+        throws ReflectionException;
+            </td>
+            <td>
+             Return the Class of the member. The Class returned must be the
+             type of the reference, and not the Class of the object assigned to
+             the reference. In case of JavaBeans get methods, the Class returned
+             equals the return type of the get method. If the Class of the
+             object assigned to the reference is returned, then assignment
+             of new objects to the same reference will be required to be the
+             same class or a subclass of the Class returned from this method.
+            </td>
+          </tr>
+          <tr row="odd">
+            <td>
+    Object getMemberObject(<br />    Object container, String membername )<br />
+        throws ReflectionException;
+            </td>
+            <td>
+              Return the object with the given membername.
+            </td>
+          </tr>
+          <tr row="even">
+            <td>
+    void setMemberObject(     Object container, String membername, Object value )<br />
+        throws ReflectionException;
+            </td>
+            <td>
+              Assignment of a new value to a member. For primitive types and
+              the subclasses of Number, the value (or true/false in case of
+              boolean) can either be the numeric object, or a string with
+              the value in it. For Number types a Double object will be
+              created and assigned. For all other types, you can pass a
+              String with the fully qualified class name, and a new object
+              of that class will be instantiated and assigned, provided that
+              the class can be found through the classloader hierarchy and
+              that it has a default (i.e. empty) constructor.
+            </td>
+          </tr>
+          <tr row="odd">
+            <td>
+    boolean isSettable(<br />    Object container, String memberName )<br />
+        throws ReflectionException;
+            </td>
+            <td>
+              This method should return <code>true</code> if it is possible
+              to modify the member, i.e. call the <code>setMemberObject</code>
+              method.
+            </td>
+          </tr>
+        </table>
+      </div>
+    </div>
+  </div><div class="footer"><span class="copyright">Copyright 2004, The Apache Software Foundation All rights reserved.</span><div class="views"><a class="viewlink" id="xmllink" href=""><img src="../../../images/xml.gif" /></a></div></div></body></html>

@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><title>Avalon Central</title><link type="text/css" rel="stylesheet" href="../../../styles/style.css" /><meta content="text/html; charset=UTF-8" http-equiv="Content-type" /></head><body><table class="logobar"><tr><td class="panelleft"><img alt="link" src="../../../images/feather.jpg" /></td><td class="panelmiddle"><div class="project">Metro</div><div class="title">Avalon Central</div></td><td class="panelright" /></tr></table><div class="categorybar" dir="/central/tools/maven"><a class="homecategory" href="../../../index.html">
+        Home
+      </a></div><div class="menubar"><div class="menu"><div class="menu"><div class="menu"><a class="menuitem" href="../../about/index.html">Welcome</a><a class="menuitem" href="../../community/index.html">Community</a></div><a class="menuitem" href="../magic/index.html">Magic</a></div><a class="menuitem" href="meta/index.html">Maven Meta Plugin</a><a class="menuitem" href="merlin/index.html">Maven Merlin Plugin</a></div></div><div class="content">
+    <div class="section"><span class="section-header">Merlin Plugin for Maven</span>
+      <div class="subsection"><span class="subsection-header">Meta Generation</span>
+      <p>
+The Merlin Plugin for Maven provides support for developers in the management of Maven based projects that leverage the Avalon component model.  This plugin will be progressively extended with Merlin and related sub-system utilities.  Currently the plugin provides support for a meta info generation process based on javadoc tags within class and interface source files.
+      </p>
+      </div>
+      <div class="subsection"><span class="subsection-header">Goals</span>
+        <table>
+          <tr row="odd"><th>Goal</th><th>Description</th></tr>
+          <tr row="even">
+            <td>merlin:meta</td>
+            <td>
+          <p>Generates meta info descriptors for service and component types
+          based on javadoc tags within the java source files.  Source files
+          are scanned for the presence of an @avalon.version tag and if 
+          present, a meta descriptor is generated.  If the version tag is 
+          within an interface defintion, a new Service defintion is created
+          otherwise a Type defintion is created.</p>
+          
+          <p>Meta info generation process includes:</p>
+          <ul>
+            <li>Scan source files for avalon.meta tags</li>
+            <li>Build Type and Service descriptors</li>
+            <li>Externalize descriptors to serial or xml format</li>
+          </ul>
+          <p>Resulting meta info descriptors are placed int the ${basedir}/target/src directory.  Typical application scenario is to define a preGoal to handle meta-info generation under the maven.xml file and inclusion of the output meta info under the project.xml jar resources.</p>
+<p><i>maven.xml example</i></p>
+<pre class="source">
+  &lt;project default="jar:jar"&gt;
+    &lt;preGoal name="jar:jar"&gt;
+      &lt;attainGoal name="merlin:meta"/&gt;
+    &lt;/preGoal&gt;
+  &lt;/project&gt;
+</pre><div class="source-title"><span class="source-title" /></div>
+<p><i>project.xml example</i></p>
+<pre class="source">
+  &lt;project&gt;
+    &lt;!-- other stuff --&gt;
+    &lt;build&gt;
+      &lt;!-- more stuff --&gt;
+      &lt;resources&gt;
+        &lt;!-- include the generated metainfo descriptors into you jar file --&gt;
+        &lt;resource&gt;
+          &lt;directory&gt;${basedir}/target/src&lt;/directory&gt; 
+          &lt;includes&gt;
+            &lt;include&gt;**/*.x*&lt;/include&gt;
+          &lt;/includes&gt;
+        &lt;/resource&gt;
+      &lt;/resources&gt;
+    &lt;/build&gt;
+  &lt;/project&gt;
+</pre><div class="source-title"><span class="source-title" /></div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="subsection"><span class="subsection-header">Properties</span>
+      <table>
+        <tr row="odd">
+          <th>Property name</th>
+          <th>Optional?</th>
+          <th>Description</th>
+        </tr>
+        <tr row="even">
+          <td>merlin.meta.format</td>
+          <td>Yes</td>
+          <td>
+<p>Output format specification.  Valid values include 'xml' or 'serial'.
+The xml value instructs the meta generator to create meta descriptions
+in an XML format whereas the 'serial' value generates a serialized 
+description of the descriptor.  Serial format is more efficient.  The 
+XML format is more portable.</p>
+<p>
+Default behaviour:
+</p>
+<pre class="source">
+merlin.meta.format="xml"
+</pre><div class="source-title"><span class="source-title" /></div>
+          </td>
+        </tr>
+        <tr row="odd">
+          <td>merlin.meta.force</td>
+          <td>Yes</td>
+          <td>
+<p>Policy controlling the regeneration of meta descriptors independently
+of the descriptor data.  This value default to false. </p>
+<p>
+Default behaviour:
+</p>
+<pre class="source">
+merlin.meta.force="false"
+</pre><div class="source-title"><span class="source-title" /></div>
+          </td>
+        </tr>
+        <tr row="even">
+          <td>merlin.meta.type.postfix</td>
+          <td>No</td>
+          <td>
+<p>
+Merlin will default to the deneration of XML type descriptors under
+the .xinfo file type.  When generating meta-info descriptors targetted
+for deployment in both Merlin and Phoenix, the xinfo type will conflict
+with the Phoenix meta-info descriptor. Merlin provides support for 
+generation of meta info under the alternative .xtype.  To control the 
+type of file generated, you can declare either "xinfo" or "xtype" under
+this property. 
+</p>
+<p>
+Default behaviour:
+</p>
+<pre class="source">
+merlin.meta.type.postfix="xinfo"
+</pre><div class="source-title"><span class="source-title" /></div>
+<p>
+Alternative xtype behaviour:
+</p>
+<pre class="source">
+merlin.meta.type.postfix="xtype"
+</pre><div class="source-title"><span class="source-title" /></div>
+
+          </td>
+        </tr>
+      </table>
+      </div>
+    </div>
+  </div><div class="footer"><span class="copyright">Copyright 2004, The Apache Software Foundation All rights reserved.</span><div class="views"><a class="viewlink" id="xmllink" href=""><img src="../../../images/xml.gif" /></a></div></div></body></html>

@@ -24,9 +24,11 @@
  <body>
 
     <links>
+<!--  Disable for now    
       <item name="Planet" href="planet/components/index.html"/>
       <item name="Products" href="products/runtime/index.html"/>
       <item name="Central" href="central/about/index.html"/>
+-->
     </links>
 
     <menu>

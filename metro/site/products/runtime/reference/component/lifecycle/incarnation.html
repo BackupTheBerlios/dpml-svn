@@ -1,0 +1,287 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><title>Lifecycle Specification</title><link type="text/css" rel="stylesheet" href="../../../../../styles/style.css" /><meta content="text/html; charset=UTF-8" http-equiv="Content-type" /></head><body><table class="logobar"><tr><td class="panelleft"><img alt="link" src="../../../../../images/feather.jpg" /></td><td class="panelmiddle"><div class="project">Metro</div><div class="title">Lifecycle Specification</div></td><td class="panelright" /></tr></table><div class="categorybar" dir="/products/runtime/reference/component/lifecycle"><a class="homecategory" href="../../../../../index.html">
+        Home
+      </a></div><div class="menubar"><div class="menu"><div class="menu"><div class="menu"><div class="menu"><div class="menu"><a class="menuitem-selected" href="../../../../runtime/index.html">Merlin Runtime</a></div><a class="menuitem" href="../../../execmodes/index.html">Execution</a><a class="menuitem-selected" href="../../../reference/index.html">Specification</a><a class="menuitem" href="../../../system/index.html">Systems</a><a class="menuitem" href="../../../javadoc/index.html">Javadoc</a></div><a class="menuitem" href="../../containment/index.html">Block</a><a class="menuitem-selected" href="../../component/index.html">Component</a><a class="menuitem" href="../../deployment/index.html">Deployment</a><a class="menuitem" href="../../kernel/index.html">Kernel</a></div><a class="menuitem" href="../descriptors/index.html">Descriptors</a><a class="menuitem" href="../artifacts/index.html">Artifacts</a><a class="menuitem-selected" href="../lifecycle/index.html">Lifecycle</a><a class="menuitem" href="../lifestyle/index.html">Lifestyle</a></div><a class="menuitem-selected" href="incarnation.html">Incarnation</a><a class="menuitem" href="runtime.html">Runtime Management</a><a class="menuitem" href="etherialization.html">Etherialization</a></div></div><div class="content">
+
+    <div class="section"><span class="section-header">Incarnation</span>
+
+        <p>
+Just as objects are instantiated, the equivalent process from a component is "incarnation".  Incarnation involves instantiation, a series of optional artifact delivery stages, and an optional execution phase.  Component incarnation is managed exclusively by a container.  Occurances of component icarnation are controlled relative to associated component implementation <a class="doclink" href="../lifestyle/index.html">lifestyle</a> characteristic.
+        </p>
+
+      <div class="subsection"><span class="subsection-header">Instantiation Stage</span>
+
+        <table>
+          <tr row="odd">
+            <td><p>instantiation</p></td>
+            <td>
+<p>
+A component may declare either a null constructor (framework version 4.1 and earlier), or, a single constructor with any lifecycle artifact as a parameter argument where arguments may be in any combination or order (framework 4.2 and later). Recognized lifecycle artificats include 
+<a class="doclink" href="../artifacts/logger.html">Logger</a>,                
+<a class="doclink" href="../artifacts/context.html">Context</a>,                
+<a class="doclink" href="../artifacts/parameters.html">Parameters</a>,                
+<a class="doclink" href="../artifacts/manager.html">ServiceManager</a>, and/or            
+<a class="doclink" href="../artifacts/configuration.html">Configuration</a>. </p>
+<p>
+NOTE: A component implementation may not duplicate constructor injection of lifecycle artifacts with the equivalent lifecycle stage.
+</p>
+<p>
+NOTE: The Merlin container also supports substitution of the Context object with a custom context interface and implementation.  Using this approach a component author may develop components without dependence on the framework API.
+</p>
+<p><i>Example:</i></p>
+<pre class="source">
+/**
+ * Creation of a new widget.
+ *
+ * @param logger a logging channel supplied by the container
+ * @param manager a service manager supplied by the container from 
+ *   which dependent services may be resolved
+ * @avalon.dependency type="tutorial.Gizmo" key="gizmo"
+ */
+ public DefaultWidget( Logger logger, ServiceManager manager ) 
+   throws ServiceException
+ {
+     m_logger = logger;
+     m_logger.info( "hello" );
+     m_gizmo = (Gizmo) manager.lookup( "gizmo" );
+ }
+</pre><div class="source-title"><span class="source-title" /></div>
+            </td>
+          </tr>
+        </table>
+      </div>
+
+      <div class="subsection"><span class="subsection-header">Optional Lifecycle Stages</span>
+
+        <table>
+          <tr row="odd">
+            <td><a class="doclink" name="logging" /><p>logging</p></td>
+            <td>
+<p>Optional Logger delivery strategy.  A component implementation may implement the <a class="doclink" href="../../../../../avalon/runtime/SNAPSHOT/api/org/apache/avalon/framework/logger/LogEnabled.html">LogEnabled</a> interface.  The container will supply the component root logger via the enableLogging operation.</p>
+<p><i>Example:</i></p>
+<pre class="source">
+/**
+ * Supply of a logging channel by the container to this 
+ * component.
+ *
+ * @param logger the logging channel
+ */
+ public void enableLogging( Logger logger )
+ {
+     m_logger = logger;
+ }
+</pre><div class="source-title"><span class="source-title" /></div>
+            </td>
+          </tr>
+          <tr row="even">
+            <td><a class="doclink" name="contextualization" /><p>contextualization</p></td>
+            <td>
+<p>Optional context delivery strategy.  A component implementation may implement the <a class="doclink" href="../../../../../avalon/runtime/SNAPSHOT/api/org/apache/avalon/framework/context/Contextualizable.html">Contextualizable</a> interface.  The container will supply a component context via the contextualize operation.  The context instance will be pre-populated by the container will all requested entries.</p>
+<p><i>Example:</i></p>
+<pre class="source">
+/**
+ * Supply of a context object to the component.
+ *
+ * @param context the component context
+ * @avalon.entry key="urn:avalon:home" type="java.io.File"
+ * @exception ContextException if an error occurs during 
+ *   context entry resolution
+ */
+ public void contextualize( Context context ) 
+   throws ContextException
+ {
+     m_home = (File) context.get( "urn:avalon:home" );
+ }
+</pre><div class="source-title"><span class="source-title" /></div>
+            </td>
+          </tr>
+          <tr row="odd">
+            <td><a class="doclink" name="service" /><p>service</p></td>
+            <td>
+<p>Optional service manager delivery strategy.  A component implementation may implement the <a class="doclink" href="../../../../../avalon/runtime/SNAPSHOT/api/org/apache/avalon/framework/service/Serviceable.html">Serviceable</a> interface.  The container will supply a service manager supporting all declared service dependencies.</p>
+<p><i>Example:</i></p>
+<pre class="source">
+/**
+ * Supply of the service manager to the component from which 
+ * dependent services may be accessed relative to a service key.
+ *
+ * @param manager the supplied service manager
+ * @avalon.dependency type="tutorial.Gizmo" key="gizmo"
+ * @avalon.dependency type="tutorial.Widget" key="widget"
+ * @exception ServiceException if an error occurs during 
+ *   service resolution
+ */
+ public void service( ServiceManager manager ) 
+   throws ServiceException
+ {
+     m_gizmo = (Gizmo) manager.lookup( "gizmo" );
+     m_widget = (Widget) manager.lookup( "widget" );
+ }
+</pre><div class="source-title"><span class="source-title" /></div>
+<p>Note: the usage of the key attribute on a service dependency tag is optional.  If not supplied, an implementation my request the service using the type argument (i.e. the service classname).  The recommended practice is to declare a local key.</p>
+            </td>
+          </tr>
+          <tr row="even">
+            <td><a class="doclink" name="configuration" /><p>configuration</p></td>
+            <td>
+<p>Optional configuration delivery strategy.  A component implementation may implement the <a class="doclink" href="../../../../../avalon/runtime/SNAPSHOT/api/org/apache/avalon/framework/configuration/Configurable.html">Configurable</a> interface.  The container will supply a component configuration via the configure operation.</p>
+<p><i>Example:</i></p>
+<pre class="source">
+/**
+ * Supply of the component configuration by the container.
+ *
+ * @param config the component configuration
+ * @exception ConfigurationException if an error occurs during 
+ *   configuration handling
+ */
+ public void configure( Configuration config ) 
+   throws ConfigurationException
+ {
+     Configuration location = config.getChild( "location" );
+     m_address = location.getAttribute( "address" );
+ }
+</pre><div class="source-title"><span class="source-title" /></div>
+            </td>
+          </tr>
+          <tr row="odd">
+            <td><a class="doclink" name="parameterization" /><p>parameterization</p></td>
+            <td>
+<p>Optional parameters delivery strategy.  A component may implement the <a class="doclink" href="../../../../../avalon/runtime/SNAPSHOT/api/org/apache/avalon/framework/parameters/Parameterizable.html">Parameterizable</a> interface.  The container will supply a parameters instance via the parameterize operation.</p>
+<p><i>Example:</i></p>
+<pre class="source">
+/**
+ * Supply of parameters to the component by the container
+ *
+ * @param params the component parameters
+ * @exception ParameterException if an error occurs during 
+ *   parameter handling
+ */
+ public void parameterize( Parameters params ) 
+   throws ParameterException
+ {
+     m_secure = params.getParameterAsBoolean( "secure" );
+     m_count = params.getParameterAsInteger( "count" );
+ }
+</pre><div class="source-title"><span class="source-title" /></div>
+            </td>
+          </tr>
+          <tr row="even">
+            <td><a class="doclink" name="custom" /><p>custom stage</p></td>
+            <td>
+<p>Optional custom lifecycle stage.  A component may implement zero or more custom lifecycle stages.  Stages will be applied to the component in the order of avalon.stage declarations.  </p>
+<p><i>Example:</i></p>
+<pre class="source">
+/**
+ * Component declaring a custom stage dependency.
+ *
+ * @avalon.component name="demo" lifestyle="singleton" version="1.0"
+ * @avalon.stage id="urn:demo:demonstratable"
+ */
+public class HelloComponent extends AbstractLogEnabled 
+  implements Demonstratable
+{
+    /**
+     * A custom lifecycle stage implementation.
+     *
+     * @param message a message from the custom lifecycle 
+     *    stage handler
+     */
+    public void demo( String message )
+    {
+        getLogger().info( "extension said: " + message );
+    }
+}
+</pre><div class="source-title"><span class="source-title" /></div>
+            </td>
+          </tr>
+          <tr row="odd">
+            <td><a class="doclink" name="initialization" /><p>initialization</p></td>
+            <td>
+<p>Optional initialization stage.  A component may implement the <a class="doclink" href="../../../../../avalon/runtime/SNAPSHOT/api/org/apache/avalon/framework/activity/Initializable.html">Initializable</a> interface.  The container will invoke initialization following completion of the delivery of lifecycle artifacts and any custom lifecycle stages.</p>
+<p><i>Example:</i></p>
+<pre class="source">
+/**
+ * Initialization of the component by the container.
+ *
+ * @exception Exception if an error occurs during 
+ *   the initialization phase
+ */
+ public void initialize() throws Exception
+ {
+     ...
+ }
+</pre><div class="source-title"><span class="source-title" /></div>
+            </td>
+          </tr>
+          <tr row="even">
+            <td><a class="doclink" name="execution" /><p>execution</p></td>
+            <td>
+<p>Optional execution stage.  A component may implement either the 
+<a class="doclink" href="../../../../../avalon/runtime/SNAPSHOT/api/org/apache/avalon/framework/activity/Startable.html">Startable</a> 
+or <a class="doclink" href="../../../../../avalon/runtime/SNAPSHOT/api/org/apache/avalon/framework/activity/Executable.html">Executable</a> 
+interfaces.  If the component implements Executable the execute method will be 
+invoked before the component instance is exposed to any other component.  If the 
+component implements the Startable interface the container will invoke the start
+operation.  An implementation is responsible for establishing a working thread 
+and returned from the start operation promptly.
+</p>
+<p>
+The Startable interface is used by any component that is constantly running for
+the duration of its life. The interface defines two methods: start and stop. 
+Neither method has any parameters. 
+</p>
+<p> 
+The contract surrounding this interface is that the start method is called once
+after the component is fully initialized, and the stop method is called once 
+before the component is disposed of. Neither method will be called more than
+once, and start will always be called before stop. 
+</p>
+<p>
+Furthermore, the method must return, it can not go into a endless loop. 
+The container may include a deployment timeout and try to regain the thread
+control. Details of this functionality is container specific.
+</p>
+<p>
+From this follows that the component should create a thread and call the 
+Thread.start() method inside this method to start the continous processing. 
+The stop() method should interrupt the thread in a safe manner. This should be 
+done by variables and the Thread.interrupt() method, slightly depending on how 
+the thread is operating. Implications of using this interface require that the 
+start and stop methods be conducted safely (unlike the Thread.stop method) and 
+not render the system unstable.
+</p>
+ 
+ 
+<p><i>Executable Example:</i></p>
+<pre class="source">
+/**
+ * Execute implementation.
+ */
+ public void execute()
+ {
+     ...
+ }
+</pre><div class="source-title"><span class="source-title" /></div>
+
+<p><i>Startable Example:</i></p>
+
+<pre class="source">
+/**
+ * Start the component.
+ */
+ public void start() throws Exception
+ {
+     ...
+ }
+</pre><div class="source-title"><span class="source-title" /></div>
+
+            </td>
+          </tr>
+        </table>
+
+      </div>
+
+    </div>
+
+  </div><div class="footer"><span class="copyright">Copyright 2004, The Apache Software Foundation All rights reserved.</span><div class="views"><a class="viewlink" id="xmllink" href=""><img src="../../../../../images/xml.gif" /></a></div></div></body></html>

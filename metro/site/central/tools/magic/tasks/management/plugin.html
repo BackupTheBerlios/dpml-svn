@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><title>Avalon Central</title><link type="text/css" rel="stylesheet" href="../../../../../styles/style.css" /><meta content="text/html; charset=UTF-8" http-equiv="Content-type" /></head><body><table class="logobar"><tr><td class="panelleft"><img alt="link" src="../../../../../images/feather.jpg" /></td><td class="panelmiddle"><div class="project">Metro</div><div class="title">Avalon Central</div></td><td class="panelright" /></tr></table><div class="categorybar" dir="/central/tools/magic/tasks/management"><a class="homecategory" href="../../../../../index.html">
+        Home
+      </a></div><div class="menubar"><div class="menu"><div class="menu"><div class="menu"><div class="menu"><div class="menu"><a class="menuitem" href="../../../../about/index.html">Welcome</a><a class="menuitem" href="../../../../community/index.html">Community</a></div><a class="menuitem-selected" href="../../../magic/index.html">Magic</a></div><a class="menuitem" href="../../installation.html">Installing</a><a class="menuitem" href="../../spells/index.html">Casting Spells</a><a class="menuitem" href="../../model/index.html">System Model</a><a class="menuitem" href="../../templates/index.html">Templates</a><a class="menuitem-selected" href="../../tasks/index.html">Tasks</a><a class="menuitem" href="../../../../../avalon/tools/avalon-tools-magic/index.html">Javadoc</a></div><a class="menuitem" href="../common/index.html">Common</a><a class="menuitem-selected" href="../management/index.html">Management</a><a class="menuitem" href="../production/index.html">Production</a><a class="menuitem" href="../publication/index.html">Publication</a></div><a class="menuitem" href="init.html">Init</a><a class="menuitem-selected" href="plugin.html">Plugin</a><a class="menuitem" href="declare.html">Declare</a><a class="menuitem" href="artifact.html">Artifact</a><a class="menuitem" href="reactor.html">Reactor</a></div></div><div class="content">
+    <div class="section"><span class="section-header">Plugin Task</span>
+
+      <p>
+      The plugin task is to some extent an internal magic task.  During 
+      initilization of a magic project definition, any plugins declared under 
+      a &lt;plugins&gt; element are automatically loaded and installed using
+      the plugin task.  However - the plugin task can be used outside of the
+      formal project structural definition.
+      </p>
+
+      <p>
+      The plugin task locates plugin meta-data, and from that data, creates 
+      a classloader, loads the pluging from the repository, and declares to ant
+      any tasks that the plugin declares.  In addition, any listeners declared 
+      by the plugin meta are registered with the current project. 
+      </p>
+
+<pre class="source">
+&lt;x:plugin artifact="plugin:avalon/meta/avalon-meta-tools#1.4.0"/&gt;
+</pre><div class="source-title"><span class="source-title" /></div>
+
+<pre>plugin:
+   [plugin] Install "plugin:avalon/meta/avalon-meta-tools"
+   [plugin] Task "plugin:avalon/meta/avalon-meta-tools:meta"</pre>
+
+      <p>
+      The plugin meta data read by the plugin task is described under 
+      the <a class="doclink" href="declare.html">declare</a> task.
+      </p>
+
+    </div>
+  </div><div class="footer"><span class="copyright">Copyright 2004, The Apache Software Foundation All rights reserved.</span><div class="views"><a class="viewlink" id="xmllink" href=""><img src="../../../../../images/xml.gif" /></a></div></div></body></html>

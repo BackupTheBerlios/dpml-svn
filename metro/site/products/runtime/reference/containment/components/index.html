@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><title>Merlin Runtime</title><link type="text/css" rel="stylesheet" href="../../../../../styles/style.css" /><meta content="text/html; charset=UTF-8" http-equiv="Content-type" /></head><body><table class="logobar"><tr><td class="panelleft"><img alt="link" src="../../../../../images/feather.jpg" /></td><td class="panelmiddle"><div class="project">Metro</div><div class="title">Merlin Runtime</div></td><td class="panelright" /></tr></table><div class="categorybar" dir="/products/runtime/reference/containment/components"><a class="homecategory" href="../../../../../index.html">
+        Home
+      </a></div><div class="menubar"><div class="menu"><div class="menu"><div class="menu"><div class="menu"><div class="menu"><a class="menuitem-selected" href="../../../../runtime/index.html">Merlin Runtime</a></div><a class="menuitem" href="../../../execmodes/index.html">Execution</a><a class="menuitem-selected" href="../../../reference/index.html">Specification</a><a class="menuitem" href="../../../system/index.html">Systems</a><a class="menuitem" href="../../../javadoc/index.html">Javadoc</a></div><a class="menuitem-selected" href="../../containment/index.html">Block</a><a class="menuitem-selected" href="../../component/index.html">Component</a><a class="menuitem" href="../../deployment/index.html">Deployment</a><a class="menuitem" href="../../kernel/index.html">Kernel</a></div><a class="menuitem" href="../container.html">container</a><a class="menuitem" href="../classloader/index.html">classloader</a><a class="menuitem" href="../categories/index.html">categories</a><a class="menuitem-selected" href="../components/index.html">component</a><a class="menuitem" href="../include/index.html">include</a><a class="menuitem" href="../services/index.html">services</a></div><a class="menuitem" href="categories/index.html">categories</a><a class="menuitem" href="context/index.html">context</a><a class="menuitem" href="dependencies/index.html">dependencies</a><a class="menuitem" href="configuration.html">configuration</a><a class="menuitem" href="parameters/index.html">parameters</a></div></div><div class="content">
+
+    <div class="section"><span class="section-header">Component Directive</span>
+
+      <div class="subsection"><span class="subsection-header">Description</span>
+      <p>
+      A component directive is an instruction to a container to 
+      mount and deploy a component instance in accordance with 
+      the declared configuration, context, parameters and activation
+      policy.
+      </p>
+      </div>
+
+      <div class="subsection"><span class="subsection-header">Attributes</span>
+
+        <table>
+          <tr row="odd"><th>Attribute</th><th>Required</th><th>Description</th></tr>
+          <tr row="even">
+            <td>name</td><td>yes</td>
+            <td>The name to assign to the component profile implied by 
+            the directive.</td>
+          </tr>
+          <tr row="odd">
+            <td>class</td><td>yes</td>
+            <td>The classname of the component implementation.</td>
+          </tr>
+          <tr row="even">
+            <td>activation</td><td>no</td>
+            <td>The activation policy.  Recognized values include 
+            'startup' and 'lazy'.</td>
+          </tr>
+          <tr row="odd">
+            <td>profile</td><td>no</td>
+            <td>The name of a template profile.  If supplied, the name 
+              must correspond to a named profile assoiated with the component
+              type. The resulting component will be based on the the template.
+              Addition directives contained with the component element are 
+              ignored at this time.  Future version may provide support
+              for profile extension. <i>Since 3.1</i></td>
+          </tr>
+        </table>
+
+      </div>
+      <div class="subsection"><span class="subsection-header">Nested Elements</span>
+
+        <table>
+          <tr row="odd"><th>Element</th><th>Cardinality</th><th>Description</th></tr>
+          <tr row="even">
+            <td><a class="doclink" href="categories/index.html">categories</a></td><td>0..1</td>
+            <td>Defintion of the priority and targets parameterization to apply
+                to logging channels declared by the component.</td>
+          </tr>
+          <tr row="odd">
+            <td><a class="doclink" href="context/index.html">context</a></td><td>0..1</td>
+            <td>Defintion of the context class and entries.</td>
+          </tr>
+          <tr row="even">
+            <td><a class="doclink" href="dependencies/index.html">dependencies</a></td><td>0..1</td>
+            <td>Optional declaration of explicit dependency provider assignments.</td>
+          </tr>
+          <tr row="odd">
+            <td><a class="doclink" href="parameters/index.html">parameters</a></td><td>0..1</td>
+            <td>Defintion of the parameters to be supplied during Parameterization of the component.</td>
+          </tr>
+          <tr row="even">
+            <td><a class="doclink" href="configuration.html">configuration</a></td><td>0..1</td>
+            <td>The configuration fragment to be applied to the target component during a configuration lifecycle stage.</td>
+          </tr>
+        </table>
+
+      </div>
+
+      <div class="subsection"><span class="subsection-header">Sample XML</span>
+
+<pre class="source">
+&lt;container name="tutorial"&gt;
+
+     &lt;component name="hello" class="tutorial.HelloComponent" activation="startup"&gt;
+       &lt;!-- optional categories element --&gt;
+       &lt;!-- optional configuration or parameters element --&gt;
+       &lt;!-- optional context element --&gt;
+     &lt;/component&gt;
+
+&lt;/block&gt;
+</pre><div class="source-title"><span class="source-title" /></div>
+
+     </div>
+
+    </div>
+
+  </div><div class="footer"><span class="copyright">Copyright 2004, The Apache Software Foundation All rights reserved.</span><div class="views"><a class="viewlink" id="xmllink" href=""><img src="../../../../../images/xml.gif" /></a></div></div></body></html>

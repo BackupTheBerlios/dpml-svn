@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><title>Merlin Runtime</title><link type="text/css" rel="stylesheet" href="../../../../../../../styles/style.css" /><meta content="text/html; charset=UTF-8" http-equiv="Content-type" /></head><body><table class="logobar"><tr><td class="panelleft"><img alt="link" src="../../../../../../../images/feather.jpg" /></td><td class="panelmiddle"><div class="project">Metro</div><div class="title">Merlin Runtime</div></td><td class="panelright" /></tr></table><div class="categorybar" dir="/products/runtime/reference/containment/classloader/classpath/fileset"><a class="homecategory" href="../../../../../../../index.html">
+        Home
+      </a></div><div class="menubar"><div class="menu"><div class="menu"><div class="menu"><div class="menu"><div class="menu"><div class="menu"><div class="menu"><a class="menuitem-selected" href="../../../../../../runtime/index.html">Merlin Runtime</a></div><a class="menuitem" href="../../../../../execmodes/index.html">Execution</a><a class="menuitem-selected" href="../../../../../reference/index.html">Specification</a><a class="menuitem" href="../../../../../system/index.html">Systems</a><a class="menuitem" href="../../../../../javadoc/index.html">Javadoc</a></div><a class="menuitem-selected" href="../../../../containment/index.html">Block</a><a class="menuitem" href="../../../../component/index.html">Component</a><a class="menuitem" href="../../../../deployment/index.html">Deployment</a><a class="menuitem" href="../../../../kernel/index.html">Kernel</a></div><a class="menuitem" href="../../../container.html">container</a><a class="menuitem-selected" href="../../../classloader/index.html">classloader</a><a class="menuitem" href="../../../categories/index.html">categories</a><a class="menuitem" href="../../../components/index.html">component</a><a class="menuitem" href="../../../include/index.html">include</a><a class="menuitem" href="../../../services/index.html">services</a></div><a class="menuitem-selected" href="../../classpath/index.html">classpath</a><a class="menuitem" href="../../extensions.html">library</a></div><a class="menuitem" href="../repository/index.html">repository</a><a class="menuitem-selected" href="../fileset/index.html">fileset</a></div><a class="menuitem-selected" href="include.html">include</a><a class="menuitem" href="exclude.html">exclude</a></div></div><div class="content">
+
+    <div class="section"><span class="section-header">Include Declarations</span>
+
+      <div class="subsection"><span class="subsection-header">Description</span>
+       <p>Declaration of jar files to include within the scope of a fileset.</p>
+      </div>
+
+      <div class="subsection"><span class="subsection-header">Attributes</span>
+
+        <table>
+          <tr row="odd"><th>Attribute</th><th>Required</th><th>Description</th></tr>
+          <tr row="even">
+            <td>name</td><td>yes</td>
+            <td>
+            The name of the file to include. Ant-like wildcard patterns are
+            supported.
+            </td>
+          </tr>
+        </table>
+      </div>
+
+      <div class="subsection"><span class="subsection-header">Sample XML</span>
+      This example includes all the jar files in the lib directory and in all
+      its subdirectories.
+<pre class="source">
+&lt;fileset dir="<font color="darkred">lib</font>"&gt;
+  &lt;include name="<font color="darkred">**/*.jar</font>"/&gt;
+&lt;/fileset&gt;
+</pre><div class="source-title"><span class="source-title" /></div>
+      </div>
+
+    </div>
+
+  </div><div class="footer"><span class="copyright">Copyright 2004, The Apache Software Foundation All rights reserved.</span><div class="views"><a class="viewlink" id="xmllink" href=""><img src="../../../../../../../images/xml.gif" /></a></div></div></body></html>

@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><title>Avalon Central</title><link type="text/css" rel="stylesheet" href="../../../../../styles/style.css" /><meta content="text/html; charset=UTF-8" http-equiv="Content-type" /></head><body><table class="logobar"><tr><td class="panelleft"><img alt="link" src="../../../../../images/feather.jpg" /></td><td class="panelmiddle"><div class="project">Metro</div><div class="title">Avalon Central</div></td><td class="panelright" /></tr></table><div class="categorybar" dir="/central/about/tutorials/basic/dependencies"><a class="homecategory" href="../../../../../index.html">
+        Home
+      </a></div><div class="menubar"><div class="menu"><div class="menu"><div class="menu"><div class="menu"><div class="menu"><a class="menuitem-selected" href="../../../../about/index.html">Welcome</a><a class="menuitem" href="../../../../community/index.html">Community</a></div><a class="menuitem" href="../../../license.html">License</a><a class="menuitem" href="../../../download.html">Downloads</a><a class="menuitem" href="../../../installation/index.html">Installation</a><a class="menuitem-selected" href="../../../tutorials/index.html">Tutorials</a><a class="menuitem" href="../../../news/index.html">News</a><a class="menuitem" href="../../../faq.html">FAQ</a></div><a class="menuitem-selected" href="../../basic/index.html">Basic</a><a class="menuitem" href="../../advanced/index.html">Advanced</a></div><a class="menuitem" href="../creation.html">Hello Block</a><a class="menuitem" href="../execution.html">Running Hello</a><a class="menuitem" href="../internal.html">Behind the Scenes</a><a class="menuitem" href="../config/index.html">Configurations</a><a class="menuitem" href="../context/index.html">Contextualization</a><a class="menuitem" href="../services.html">Services</a><a class="menuitem-selected" href="../dependencies/index.html">Dependencies</a></div><a class="menuitem-selected" href="auto.html">Auto</a><a class="menuitem" href="manual.html">Manual</a></div></div><div class="content">
+    <div class="section"><span class="section-header">Using Merlin</span>
+      <div class="subsection"><span class="subsection-header">Managing Dependencies</span>
+        <p>
+        A component type can declare dependencies on services provided by 
+        other components.  Merlin will ensure that dependencies are resolved
+        prior to creation of the dependent component.  Dependencies are 
+        declared in the component xinfo resource and supplied by Merlin to
+        the component using the Avalon Serviceable interface.
+        </p>
+        <p>
+        Resources supporting this tutorial are contained in the 
+        turorials/dependencies/auto package.
+        </p>
+      </div>
+      <div class="subsection"><span class="subsection-header">Adding a Serviceable method implementation</span>
+        <p>
+        The following code fragment is the implementation of the 
+        Serviceable interface under the HelloComponent.java source. 
+        </p>
+        <p><i>
+        Note the use of the @avalon.dependency tag. 
+        </i></p>
+        <p><i>HelloComponent.java</i></p>
+<pre class="source">
+package tutorial;
+
+import org.apache.avalon.framework.logger.AbstractLogEnabled;
+import org.apache.avalon.framework.service.Serviceable;
+import org.apache.avalon.framework.service.ServiceManager;
+import org.apache.avalon.framework.service.ServiceException;
+import org.apache.avalon.framework.activity.Initializable;
+import org.apache.avalon.framework.activity.Disposable;
+
+/**
+ * The HelloComponent is dependent on a RandomGenerator service.
+ * @avalon.component version="1.0" name="simple" lifestyle="singleton"
+ */
+public class HelloComponent extends AbstractLogEnabled 
+  implements Initializable, Serviceable, Disposable
+{
+    RandomGenerator m_random = null;
+    Identifiable m_identifiable = null;
+
+   /**
+    * Servicing of the component by the container during 
+    * which service dependencies declared under the component
+    * can be resolved using the supplied service manager.
+    *
+    * @param manager the service manager
+    * @avalon.dependency type="tutorial.RandomGenerator:1.0"
+    *    key="random"
+    * @avalon.dependency type="tutorial.Identifiable"
+    */
+    public void service( ServiceManager manager )
+      throws ServiceException
+    {
+        m_random = (RandomGenerator) manager.lookup( "random" );
+        m_identifiable = 
+          (Identifiable) manager.lookup( Identifiable.class.getName() );
+    }
+
+    public void initialize()
+    {
+        getLogger().info( "initialization" );
+        getLogger().info( "received random value: " + m_random.getRandom() );
+        getLogger().info( "using identifiable: " + m_identifiable.getIdentity() );
+    }
+
+    public void dispose()
+    {
+        getLogger().info( "disposal" );
+    }
+
+}
+</pre><div class="source-title"><span class="source-title" /></div>
+      </div>
+
+      <div class="subsection"><span class="subsection-header">Declaring the service dependency</span>
+        <p>
+        In this example we are automatically generating the xinfo descriptors
+        using the builtin meta-info generation goal based on the presence of
+        dependency tags.
+        </p>
+<pre class="source">
+* @avalon.dependency type="tutorial.RandomGenerator:1.0"
+*    key="random"
+* @avalon.dependency type="tutorial.Identifiable"
+</pre><div class="source-title"><span class="source-title" /></div>
+
+        <p>
+        The generated xinfo for the hello component is shown below. 
+        </p>
+        <p><i>HelloComponent.xinfo</i></p>
+<pre class="source">
+&lt;type&gt;
+  &lt;info&gt;
+    &lt;name&gt;simple&lt;/name&gt;
+    &lt;version&gt;1.0.0&lt;/version&gt;
+    &lt;lifestyle&gt;singleton&lt;/lifestyle&gt;
+  &lt;/info&gt;
+  &lt;dependencies&gt;
+    &lt;dependency key="random" type="tutorial.RandomGenerator" version="1.0.0"/&gt;
+    &lt;dependency type="tutorial.Identifiable"/&gt;
+  &lt;/dependencies&gt;
+&lt;/type&gt;
+</pre><div class="source-title"><span class="source-title" /></div>
+      </div>
+
+      <div class="subsection"><span class="subsection-header">Executing the demo</span>
+        <p>
+        Build and run the tutorial.
+        </p>
+        <pre class="source">
+$ maven
+$ merlin target\classes -execute
+        </pre><div class="source-title"><span class="source-title" /></div>
+        <p>
+        In the logging output we see that Merlin has automatically
+        located both RandomGeneratorProvider and IdentifiableComponent 
+        and provided these to the consumer.  The HelloComponent
+        implementation has logged the result of accessing and using 
+        both services.
+        </p>
+<pre class="source">
+[INFO   ] (tutorial.random): initialization
+[INFO   ] (tutorial.simple): contextualize
+[INFO   ] (tutorial.hello): initialization
+[INFO   ] (tutorial.random): processing request
+[INFO   ] (tutorial.hello): received random value: 359973592
+[INFO   ] (tutorial.hello): using identifiable: /tutorial/simple
+[INFO   ] (tutorial.hello): disposal
+[INFO   ] (tutorial.random): disposal
+</pre><div class="source-title"><span class="source-title" /></div>
+      </div>
+
+      <div class="subsection"><span class="subsection-header">Next Topic</span>
+        <p>
+        The <a class="doclink" href="manual.html">next topic</a> shows how you can 
+        override Merlin's automatic dependency resolution by declaring
+        named suppliers for particular dependencies. 
+        </p>
+      </div>
+
+    </div>
+  </div><div class="footer"><span class="copyright">Copyright 2004, The Apache Software Foundation All rights reserved.</span><div class="views"><a class="viewlink" id="xmllink" href=""><img src="../../../../../images/xml.gif" /></a></div></div></body></html>

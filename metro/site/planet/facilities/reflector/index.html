@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><title>Planet - Facilities</title><link type="text/css" rel="stylesheet" href="../../../styles/style.css" /><meta content="text/html; charset=UTF-8" http-equiv="Content-type" /></head><body><table class="logobar"><tr><td class="panelleft"><img alt="link" src="../../../images/feather.jpg" /></td><td class="panelmiddle"><div class="project">Metro</div><div class="title">Planet - Facilities</div></td><td class="panelright" /></tr></table><div class="categorybar" dir="/planet/facilities/reflector"><a class="homecategory" href="../../../index.html">
+        Home
+      </a></div><div class="menubar"><div class="menu"><div class="menu"><div class="menu"><a class="menuitem" href="../../components/index.html">Components</a><a class="menuitem-selected" href="../../facilities/index.html">Facilities</a></div><a class="menuitem" href="../finder/index.html">Finder</a><a class="menuitem" href="../http.html">HTTP</a><a class="menuitem" href="../jmx.html">JMX</a><a class="menuitem-selected" href="../reflector/index.html">Reflector</a></div><a class="menuitem-selected" href="index.html">Overview</a><a class="menuitem" href="using.html">Using</a><a class="menuitem" href="components/index.html">Components</a><a class="menuitem" href="blocks/index.html">Blocks</a></div></div><div class="content">
+    <div class="section"><span class="section-header">Reflector Facility</span>
+      <p>
+        The Reflector Facility (hereafter Reflector) is a troubleshooting
+        tool for the developer. By loading/installing the Reflector facility
+        it is possible to navigate the entire application, through the
+        getter methods, 
+        e.g. <pre class="source">public SomeType getSomeMember()</pre><div class="source-title"><span class="source-title" /></div>. It is also 
+        possible to set values through setter methods, 
+        e.g. <pre class="source">public void setSomeMember( SomeType value );</pre><div class="source-title"><span class="source-title" /></div>
+        In fact, it is even possible to instantiate new java objects and
+        assign them, but this should be done with extreme care.
+      </p>
+      <div class="subsection"><span class="subsection-header">Components</span>
+        <p>
+          The Reflector consists of a fair number of components. It is also
+          designed so that additional special-case types can have their own
+          type handlers, just like special treatment is given to Collection,
+          Map, Dictionary, arrays and ComponentModel instances.
+        </p>
+        <p>
+          You can read more about each component 
+          <a class="doclink" href="components/index.html">here</a>.
+        </p>
+      </div>
+      <div class="subsection"><span class="subsection-header">Blocks</span>
+        <p>
+          Two blocks has been prepared for instant use. The Standard block
+          does not include the Http server in the Http facility, but the
+          Complete block does. You should use the Standard block if you
+          have an Http Facility running for other purposes.
+        </p>
+        <p>
+          You can read more about each block
+          <a class="doclink" href="blocks/index.html">here</a>.
+        </p>
+      </div>
+    </div>
+  </div><div class="footer"><span class="copyright">Copyright 2004, The Apache Software Foundation All rights reserved.</span><div class="views"><a class="viewlink" id="xmllink" href=""><img src="../../../images/xml.gif" /></a></div></div></body></html>

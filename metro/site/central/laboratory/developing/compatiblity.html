@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><title>Compatibility with Avalon Project Containers</title><link type="text/css" rel="stylesheet" href="../../../styles/style.css" /><meta content="text/html; charset=UTF-8" http-equiv="Content-type" /></head><body><table class="logobar"><tr><td class="panelleft"><img alt="link" src="../../../images/feather.jpg" /></td><td class="panelmiddle"><div class="project">Metro</div><div class="title">Compatibility with Avalon Project Containers</div></td><td class="panelright" /></tr></table><div class="categorybar" dir="/central/laboratory/developing"><a class="homecategory" href="../../../index.html">
+        Home
+      </a></div><div class="menubar"><div class="menu"><div class="menu"><div class="menu"><a class="menuitem" href="../../about/index.html">Welcome</a><a class="menuitem" href="../../community/index.html">Community</a></div><a class="menuitem" href="../studio/index.html">Studio</a><a class="menuitem" href="../discovery/index.html">Discovery</a><a class="menuitem" href="../castle/index.html">Castle</a></div><a class="menuitem" href="index.html">Introduction</a><a class="menuitem" href="introduction.html">Overview</a><a class="menuitem" href="decomposing.html">Decomposition</a><a class="menuitem" href="framework.html">Avalon Framework</a><a class="menuitem" href="merlin.html">Avalon Merlin</a><a class="menuitem" href="repository.html">Avalon Repository</a><a class="menuitem" href="logging.html">Avalon Logging</a><a class="menuitem" href="implementing.html">Using the framework</a><a class="menuitem-selected" href="compatiblity.html">Compatibility with Avalon</a><a class="menuitem" href="strategies.html">Development Strategies</a><a class="menuitem" href="conclusion.html">Conclusion</a><a class="menuitem" href="authors.html">Authors</a></div></div><div class="content">
+  <div class="section"><span class="section-header">Compatibility with Avalon Project Containers</span>
+  <p>
+    There are many applications, utility or tools written in Java that you
+    wish you could use in an Avalon container.  It may be that you are
+    writing such an app/utility/tool that you intend to additionally be
+    usable by Avalon components in Avalon containers.  This document
+    gives some advice on the subject.  We will refer to applications,
+    utilities and tools as just 'tools' from her on in.  We'll assume
+    the classes for which are in a single Jar.
+  </p>
+  </div>
+  <div class="section"><span class="section-header">Making a Jar for a tool</span>
+    <p>
+      The tool's Jar should only contain the classes in question and
+      directly associated resources. It should not contain the classes
+      or resources from other projects.  For example it is a bad habit
+      to include the org.apache.xerces.* jars in another jar.  It would
+      be correct for the notes accompanying the tools to list xerces.jar
+      as a dependency.
+    </p>
+    <p>
+      It is best that packages for the tool are well defined.  Sun
+      recommend a package structure that honors the internet domain of
+      the hosted proejct.  For example org.apache prefixes all the packages
+      of projects hosted at Apache.  Sometimes a project thinks it is
+      significant enough to avoid the domain name based naming, but still
+      have a package.  JUnit is an example of this, as it uses junit as its
+      top level package.  Tools that have no package or a package name
+      that a non unique word are not good design.
+    </p>
+  </div>
+  <div class="section"><span class="section-header">Wrapping third party tools</span>
+    <p>
+      There are many tools written in Java as beans that you wish you could
+      use in an Avalon container as a component.  If they are not
+      dependent on Avalon packages and classes already it is likely that
+      some wrapper concept is appropriate.  The normal form is to have
+      a separate package with a class that is dependent on Avalon Framework
+      methods.  That wrapper class would be Configurable, Initializable etc,
+      and would map its configuration to setZYZ() methods in the original bean.
+    </p>
+    <p>
+      It is also a good idea to understand the
+      <a class="doclink" href="../../about/cop/guide-patterns-soii.html">
+      separation of interface and implementation</a> when designing components.
+    </p>
+  </div>
+  <div class="section"><span class="section-header">Dynamic Classloading</span>
+    <p>
+      Many Java tools internally use
+      <em>Class.forName(String).newInstance()</em>
+      to instantiate some part of its internal functionality.  This
+      works if the class's Jar is mounted at the top-level system
+      classloader.  In the case of many Avalon containers, the Jar in
+      question will actually be mounted in a classloader at some other point
+      in a tree of classloaders.  Thus <em>Class.forName()</em>
+      will fail with ClassNotFoundException if running in a container.
+    </p>
+    <p>
+      A better thing to do would be to use
+      <em>this.getClass().getClassLoader().loadClass(String)</em>.
+      This means that the class will always be loaded from classloader
+      that hosts the rest of the classes for the tool.  It can run at any
+      point in a tree of classloaders without problem.
+    </p>
+  </div>
+  <div class="section"><span class="section-header">Use of Static</span>
+    <p>
+      It is common amongst novice developers to use much static
+      functionality.  This could be methods or class variables.  Given
+      that Avalon's containers may mount multiple instances of a component
+      potentially in multiple classloaders, the use of static may lead to
+      unpredicted behavior.  If the static var or method is mounted in a
+      classloader that is visible to multiple components, then it will
+      behave as expected.  For this reason, static should be used with care
+      - you cannot guarantee where someone might try to run your tool.
+    </p>
+    <p>
+      Static also makes Unit Testing quite difficult.  If you can at all
+      avoid it, please do so.
+    </p>
+  </div>
+ </div><div class="footer"><span class="copyright">Copyright 2004, The Apache Software Foundation All rights reserved.</span><div class="views"><a class="viewlink" id="xmllink" href=""><img src="../../../images/xml.gif" /></a></div></div></body></html>

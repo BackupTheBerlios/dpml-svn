@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><title>Avalon Central</title><link type="text/css" rel="stylesheet" href="../../../../../styles/style.css" /><meta content="text/html; charset=UTF-8" http-equiv="Content-type" /></head><body><table class="logobar"><tr><td class="panelleft"><img alt="link" src="../../../../../images/feather.jpg" /></td><td class="panelmiddle"><div class="project">Metro</div><div class="title">Avalon Central</div></td><td class="panelright" /></tr></table><div class="categorybar" dir="/central/tools/magic/tasks/publication"><a class="homecategory" href="../../../../../index.html">
+        Home
+      </a></div><div class="menubar"><div class="menu"><div class="menu"><div class="menu"><div class="menu"><div class="menu"><a class="menuitem" href="../../../../about/index.html">Welcome</a><a class="menuitem" href="../../../../community/index.html">Community</a></div><a class="menuitem-selected" href="../../../magic/index.html">Magic</a></div><a class="menuitem" href="../../installation.html">Installing</a><a class="menuitem" href="../../spells/index.html">Casting Spells</a><a class="menuitem" href="../../model/index.html">System Model</a><a class="menuitem" href="../../templates/index.html">Templates</a><a class="menuitem-selected" href="../../tasks/index.html">Tasks</a><a class="menuitem" href="../../../../../avalon/tools/avalon-tools-magic/index.html">Javadoc</a></div><a class="menuitem" href="../common/index.html">Common</a><a class="menuitem" href="../management/index.html">Management</a><a class="menuitem" href="../production/index.html">Production</a><a class="menuitem-selected" href="../publication/index.html">Publication</a></div><a class="menuitem-selected" href="javadoc.html">Javadoc</a><a class="menuitem" href="xdoc.html">Xdoc</a><a class="menuitem" href="publish.html">Publish</a></div></div><div class="content">
+    <div class="section"><span class="section-header">Javadoc Task</span>
+      <p>
+      The javadoc task provides support for automatic generation of 
+      consolidated javadoc taking into account the source directories of
+      dependent projects.  If the target of javadoc generation supports
+      staged classloader defintions (API, SPI, IMPL) - then javadoc 
+      will be generated for each set. The task supports local and remote 
+      link declarations (see source for additional details).
+      </p>
+      <p>
+      The following declarations instruct the current build to invoke
+      javadoc generation on an identified project using the id attribute.
+      The title attribute sets the javadoc title.
+      </p>
+<pre class="source">
+&lt;x:javadoc title="Merlin Runtime" id="avalon-runtime"&gt;
+  &lt;x:link href="http://java.sun.com/j2se/1.4/docs/api" /&gt;
+&lt;/x:javadoc&gt;
+</pre><div class="source-title"><span class="source-title" /></div>
+
+      <p><i>Typical output of the javadoc task:</i></p>
+<pre>javadoc:
+[x:javadoc] Generating: Merlin Runtime, Version 3.3.0 : API
+[x:javadoc] link: http://java.sun.com/j2se/1.4/docs/api
+[x:javadoc] Adding src path: F:\dev\avalon\runtime\framework\api\target\build\main
+[x:javadoc] Adding src path: F:\dev\avalon\runtime\util\lifecycle\target\build\main
+  [javadoc] Generating Javadoc
+  [javadoc] Javadoc execution
+  [javadoc] Loading source files for package org.apache.avalon.framework...
+  [javadoc] Loading source files for package org.apache.avalon.framework.activity...
+  [javadoc] Loading source files for package org.apache.avalon.framework.configuration...
+  [javadoc] Loading source files for package org.apache.avalon.framework.context...
+  [javadoc] Loading source files for package org.apache.avalon.framework.logger...
+  [javadoc] Loading source files for package org.apache.avalon.framework.parameters...
+  [javadoc] Loading source files for package org.apache.avalon.framework.service...
+  [javadoc] Loading source files for package org.apache.avalon.framework.thread...
+  [javadoc] Loading source files for package org.apache.avalon.lifecycle...
+  [javadoc] Constructing Javadoc information...
+  [javadoc] Standard Doclet version 1.4.2_04
+  [javadoc] Building tree for all the packages and classes...
+  [javadoc] Building index for all the packages and classes...
+  [javadoc] Building index for all classes...
+
+  [javadoc] Generating F:\dev\avalon\central\system\.docs\avalon\runtime\3.3.0\api\stylesheet.css...
+
+  ....</pre>
+    </div>
+  </div><div class="footer"><span class="copyright">Copyright 2004, The Apache Software Foundation All rights reserved.</span><div class="views"><a class="viewlink" id="xmllink" href=""><img src="../../../../../images/xml.gif" /></a></div></div></body></html>

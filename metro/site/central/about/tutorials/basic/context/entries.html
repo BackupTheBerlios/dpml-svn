@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><title>Avalon Central</title><link type="text/css" rel="stylesheet" href="../../../../../styles/style.css" /><meta content="text/html; charset=UTF-8" http-equiv="Content-type" /></head><body><table class="logobar"><tr><td class="panelleft"><img alt="link" src="../../../../../images/feather.jpg" /></td><td class="panelmiddle"><div class="project">Metro</div><div class="title">Avalon Central</div></td><td class="panelright" /></tr></table><div class="categorybar" dir="/central/about/tutorials/basic/context"><a class="homecategory" href="../../../../../index.html">
+        Home
+      </a></div><div class="menubar"><div class="menu"><div class="menu"><div class="menu"><div class="menu"><div class="menu"><a class="menuitem-selected" href="../../../../about/index.html">Welcome</a><a class="menuitem" href="../../../../community/index.html">Community</a></div><a class="menuitem" href="../../../license.html">License</a><a class="menuitem" href="../../../download.html">Downloads</a><a class="menuitem" href="../../../installation/index.html">Installation</a><a class="menuitem-selected" href="../../../tutorials/index.html">Tutorials</a><a class="menuitem" href="../../../news/index.html">News</a><a class="menuitem" href="../../../faq.html">FAQ</a></div><a class="menuitem-selected" href="../../basic/index.html">Basic</a><a class="menuitem" href="../../advanced/index.html">Advanced</a></div><a class="menuitem" href="../creation.html">Hello Block</a><a class="menuitem" href="../execution.html">Running Hello</a><a class="menuitem" href="../internal.html">Behind the Scenes</a><a class="menuitem" href="../config/index.html">Configurations</a><a class="menuitem-selected" href="../context/index.html">Contextualization</a><a class="menuitem" href="../services.html">Services</a><a class="menuitem" href="../dependencies/index.html">Dependencies</a></div><a class="menuitem" href="standard.html">Standard Entries</a><a class="menuitem-selected" href="entries.html">Custom Entries</a><a class="menuitem" href="casting.html">Context Casting</a></div></div><div class="content">
+    <div class="section"><span class="section-header">Using Merlin</span>
+      <div class="subsection"><span class="subsection-header">Custom Context Management</span>
+        <p>
+        Merlin provides support for the creation and assignment of 
+        custom context entries to a component through a combination 
+        of requirements specification at the level of a type, and 
+        context creation directives.
+        </p>
+        <p>
+        Resources supporting this tutorial are contained in the 
+        tutorials/context/custom/ package.
+        </p>
+      </div>
+
+      <div class="subsection"><span class="subsection-header">Creating a Non-Component Object</span>
+        <p>
+          To demonstrate Merlin's support for the supply of non-component 
+          objects to a component, we need to create an 
+          example object.  Non-component object approaches may be
+          required when you are integrating legacy applications 
+          into a component platform and you are obliged to deal 
+          with an existing code base.
+        </p>
+        <p>
+          Our non-component example NumberCruncher takes two values
+          in a constructor and returns the result of the multiplication
+          of the two numbers via an accessor.  While not very useful, the  
+          purpose of NumberCruncher is to demonstrate how you can use 
+          Merlin to construct the instance and associate it as a context 
+          entry for the component.
+        </p>
+        <p>
+          <i>NumberCruncher.java</i>
+        </p>
+<pre class="source">
+package tutorial;
+
+/**
+ * A demonstration class that that we will instantiate via 
+ * context directives within the component declaration.
+ */
+public class NumberCruncher
+{
+    private final int m_primary;
+    private final float m_secondary;
+
+    public NumberCruncher( Integer primary, Double secondary )
+    {
+        m_primary = primary.intValue();
+        m_secondary = secondary.floatValue();
+    }
+ 
+   /**
+    * Multiply the supplied constructor arguments together and 
+    * return the value.
+    */
+    public float crunch()
+    {
+       return ( m_secondary * m_primary );
+    }
+}
+</pre><div class="source-title"><span class="source-title" /></div>
+      </div>
+
+      <div class="subsection"><span class="subsection-header">Updating HelloComponent.xinfo</span>
+        <p>
+        HelloComponent.xinfo is updated to include the declaration of 
+        the components requirement for the supply of a context entry  
+        named 'cruncher' corresponding to the type NumberCruncher.
+        </p>
+        <p><i>HelloComponent.xinfo</i></p>
+<pre class="source">
+&lt;?xml version="1.0" encoding="ISO-8859-1"?&gt;
+&lt;!DOCTYPE type PUBLIC "-//AVALON/Type DTD Version 1.0//EN" 
+  "http://avalon.apache.org/dtds/meta/type_1_1.dtd" &gt;
+
+&lt;type&gt;
+  &lt;info&gt;
+    &lt;name&gt;demo&lt;/name&gt;
+    &lt;version&gt;-1.0.0&lt;/version&gt;
+    &lt;lifestyle&gt;transient&lt;/lifestyle&gt;
+  &lt;/info&gt;
+  &lt;context&gt;
+    &lt;entry key="cruncher" type="tutorial.NumberCruncher" /&gt;
+  &lt;/context&gt;
+&lt;/type&gt;
+</pre><div class="source-title"><span class="source-title" /></div>
+        <p>
+        The following source demonstrates the implementation
+        of the contextualization stage, access and casting of
+        a context entry to the NumberCruncher class, and the 
+        the invocation of an operation on that class.
+        </p>
+
+<pre class="source">
+package tutorial;
+
+import org.apache.avalon.framework.logger.AbstractLogEnabled;
+import org.apache.avalon.framework.context.Contextualizable;
+import org.apache.avalon.framework.context.Context;
+import org.apache.avalon.framework.context.ContextException;
+
+/**
+ * Demonstration of a component that uses a constructed context entry.
+ * 
+ * @avalon.component name="demo"
+ */
+public class HelloComponent extends AbstractLogEnabled 
+  implements Contextualizable
+{
+
+   /**
+    * Contextualization of the component by the container.
+    * The context supplied by the container shall contain
+    * a NumberCruncher instance as declared in the xinfo resource.
+    *
+    * @avalon.context
+    * @avalon.entry key="cruncher" type="tutorial.NumberCruncher"
+    */
+    public void contextualize( Context context )
+      throws ContextException
+    {
+        NumberCruncher cruncher = 
+          (NumberCruncher) context.get( "cruncher" );
+        float value = cruncher.crunch();
+        getLogger().info( "result: " + value );
+    }
+}
+</pre><div class="source-title"><span class="source-title" /></div>
+
+      </div>
+
+      <div class="subsection"><span class="subsection-header">Context Directives</span>
+        <p>
+        As Merlin knows nothing about the NumberCruncher class
+        we need to provide additional information under the component
+        deployment descriptor.  In the case of NumberCruncher, the 
+        class constructor takes two constructor arguments, an Integer
+        and a Double.
+        </p>
+        <p><i>block.xml</i></p>
+<pre class="source">
+&lt;container name="tutorial"&gt;
+
+   &lt;classloader&gt;
+     &lt;classpath&gt;
+       &lt;repository&gt;
+         &lt;resource 
+           id="avalon-framework:avalon-framework-impl" 
+           version="4.1.5"/&gt;
+       &lt;/repository&gt;
+     &lt;/classpath&gt;
+   &lt;/classloader&gt;
+
+
+   &lt;component name="hello" class="tutorial.HelloComponent"&gt;
+     &lt;context&gt;
+       &lt;entry key="cruncher"&gt;
+         &lt;constructor class="tutorial.NumberCruncher"&gt;
+           &lt;param class="java.lang.Integer"&gt;7&lt;/param&gt;
+           &lt;param class="java.lang.Double"&gt;1.5&lt;/param&gt;
+         &lt;/constructor&gt;
+       &lt;/entry&gt;
+     &lt;/context&gt;
+   &lt;/component&gt;
+
+&lt;/container&gt;
+</pre><div class="source-title"><span class="source-title" /></div>
+
+        <p>
+        Build and run the tutorial.
+        </p>
+        <pre class="source">
+$ maven
+$ merlin -execute target\classes
+</pre><div class="source-title"><span class="source-title" /></div>
+        <p>
+        In the logging output we see that Merlin has created and 
+        supplied the NumberCruncher instance to the component.
+        </p>
+        <pre class="source">
+[INFO   ] (tutorial.hello): result: 10.5
+</pre><div class="source-title"><span class="source-title" /></div>
+      </div>
+
+      <div class="subsection"><span class="subsection-header">Context Casting</span>
+
+        <p>
+        The <a class="doclink" href="casting.html">next tutorial</a> shows how 
+        Merlin provides support for type-safe context casting.
+        </p>
+
+      </div>
+
+    </div>
+  </div><div class="footer"><span class="copyright">Copyright 2004, The Apache Software Foundation All rights reserved.</span><div class="views"><a class="viewlink" id="xmllink" href=""><img src="../../../../../images/xml.gif" /></a></div></div></body></html>

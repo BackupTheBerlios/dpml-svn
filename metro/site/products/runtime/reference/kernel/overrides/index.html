@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><title>Merlin Runtime</title><link type="text/css" rel="stylesheet" href="../../../../../styles/style.css" /><meta content="text/html; charset=UTF-8" http-equiv="Content-type" /></head><body><table class="logobar"><tr><td class="panelleft"><img alt="link" src="../../../../../images/feather.jpg" /></td><td class="panelmiddle"><div class="project">Metro</div><div class="title">Merlin Runtime</div></td><td class="panelright" /></tr></table><div class="categorybar" dir="/products/runtime/reference/kernel/overrides"><a class="homecategory" href="../../../../../index.html">
+        Home
+      </a></div><div class="menubar"><div class="menu"><div class="menu"><div class="menu"><div class="menu"><div class="menu"><a class="menuitem-selected" href="../../../../runtime/index.html">Merlin Runtime</a></div><a class="menuitem" href="../../../execmodes/index.html">Execution</a><a class="menuitem-selected" href="../../../reference/index.html">Specification</a><a class="menuitem" href="../../../system/index.html">Systems</a><a class="menuitem" href="../../../javadoc/index.html">Javadoc</a></div><a class="menuitem" href="../../containment/index.html">Block</a><a class="menuitem" href="../../component/index.html">Component</a><a class="menuitem" href="../../deployment/index.html">Deployment</a><a class="menuitem-selected" href="../../kernel/index.html">Kernel</a></div><a class="menuitem" href="../properties.html">Properties</a><a class="menuitem-selected" href="../overrides/index.html">Targets</a><a class="menuitem" href="../repository/index.html">Repository</a></div><a class="menuitem" href="target/index.html">target</a></div></div><div class="content">
+    <div class="section"><span class="section-header">Targets Directive</span>
+
+      <div class="subsection"><span class="subsection-header">Description</span>
+<p>
+A targets configuration contains named configuration target declarations that can be used to override configurations for component and container directives.  A targets configuration may contain multiple target declarations, each referencing a named deloyment target (component or container).
+</p>
+      </div>
+
+      <div class="subsection"><span class="subsection-header">Nested Elements</span>
+        <table>
+          <tr row="odd"><th>Element</th><th>Occurance</th><th>Description</th></tr>
+          <tr row="even">
+            <td><a class="doclink" href="target/index.html">target</a></td><td>0..n</td>
+            <td>
+             A set of target override configuration directives.
+            </td>
+          </tr>
+        </table>
+      </div>
+
+      <div class="subsection"><span class="subsection-header">Sample XML</span>
+<pre class="source">
+
+       &lt;targets&gt;
+         &lt;target path="/main"&gt;
+           &lt;configuration name="freq"&gt;
+             &lt;frequency scale="normal"&gt;100&lt;/frequency&gt;
+           &lt;/configuration&gt;
+           &lt;categories priority="WARN"/&gt;
+         &lt;/target&gt;
+         &lt;target path="/main/protocol-handler"&gt;
+           &lt;configuration&gt;
+             &lt;activity&gt;NORMAL&lt;/activity&gt;
+           &lt;/configuration&gt;
+           &lt;categories priority="DEBUG"/&gt;
+         &lt;/target&gt;
+       &lt;/targets&gt;
+
+</pre><div class="source-title"><span class="source-title" /></div>
+     </div>
+    </div>
+  </div><div class="footer"><span class="copyright">Copyright 2004, The Apache Software Foundation All rights reserved.</span><div class="views"><a class="viewlink" id="xmllink" href=""><img src="../../../../../images/xml.gif" /></a></div></div></body></html>
