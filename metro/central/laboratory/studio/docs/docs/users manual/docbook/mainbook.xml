@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.2//EN"
+"http://www.oasis-open.org/docbook/xml/4.2/docbookx.dtd" [
+<!ENTITY __features__dyo4jaw6 SYSTEM "getting started/features.xml">
+<!ENTITY __installation__dyn4x9po SYSTEM "getting started/installation.xml">
+<!ENTITY __createblock__dyn496aq SYSTEM "getting started/create block.xml">
+<!ENTITY __rundebug__dyo4luut SYSTEM "getting started/run debug.xml">
+<!ENTITY __merlin__dyo5vg61 SYSTEM "concepts/merlin.xml">
+<!ENTITY __studio__dyo5xlj9 SYSTEM "concepts/studio.xml">
+]>
+<book>
+  <title pagenum="">User Manual</title>
+
+  <chapter>
+    <title>Getting Started</title>
+
+    &__features__dyo4jaw6;
+
+    &__installation__dyn4x9po;
+
+    &__createblock__dyn496aq;
+
+    &__rundebug__dyo4luut;
+  </chapter>
+
+  <chapter>
+    <title>Concepts</title>
+
+    &__merlin__dyo5vg61;
+
+    &__studio__dyo5xlj9;
+  </chapter>
+
+  <chapter>
+    <title>Studio Expert</title>
+
+    <para></para>
+  </chapter>
+</book>

@@ -1,0 +1,75 @@
+<?xml version="1.0"?>
+
+<!-- 
+ Copyright 2004 Apache Software Foundation
+ Licensed  under the  Apache License,  Version 2.0  (the "License");
+ you may not use  this file  except in  compliance with the License.
+ You may obtain a copy of the License at 
+ 
+   http://www.apache.org/licenses/LICENSE-2.0
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed  under the  License is distributed on an "AS IS" BASIS,
+ WITHOUT  WARRANTIES OR CONDITIONS  OF ANY KIND, either  express  or
+ implied.
+ 
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+
+<document>
+  <properties>
+    <author email="mcconnell@apache.org">Stephen McConnell</author>
+    <title>Avalon Logging - Plugin Log Target</title>
+  </properties>
+  <body>
+    <section name="Plugin Log Target">
+      <subsection name="Description">
+        <p>The plugin target provides support for plugable log targets. A 
+        typical plugin log target is defined using  &lt;target&gt; element.</p>
+      </subsection>
+      <subsection name="Example">
+<source><![CDATA[
+    <target id="datagram"
+        artifact="avalon-logging/avalon-logkit-datagram#1.0-SNAPSHOT">
+      <address hostname="localhost" port="0"/>
+    </target>
+]]></source>
+      </subsection>
+      <subsection name="XML">
+        <table>
+          <tr><th>Attributes</th><th>Description</th></tr>
+          <tr>
+            <td>id</td>
+            <td>The log target identifier.</td>
+          </tr>
+          <tr>
+            <td>artifact</td>
+            <td>An artifact specifier.</td>
+          </tr>
+        </table>
+        <p>Nested element content is specific to the target factory established
+        by the plugin.</p>
+      </subsection>
+      <subsection name="Plugins">
+        <table>
+          <tr><th>Plugin</th><th>Description</th></tr>
+          <tr>
+            <td><a href="datagram.html">datagram</a></td>
+            <td>A datagram log target.</td>
+          </tr>
+          <tr>
+            <td><a href="socket.html">socket</a></td>
+            <td>A socket log target.</td>
+          </tr>
+          <tr>
+            <td><a href="syslog.html">syslog</a></td>
+            <td>A syslog log target.</td>
+          </tr>
+        </table>
+      </subsection>
+    </section>
+  </body>
+</document>
+
+

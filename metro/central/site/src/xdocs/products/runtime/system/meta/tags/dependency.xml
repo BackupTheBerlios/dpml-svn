@@ -1,0 +1,111 @@
+<?xml version="1.0"?>
+
+<document>
+
+  <properties>
+    <author email="mcconnell@apache.org">Stephen McConnell</author>
+    <title>Javadoc Tag Specification</title>
+  </properties>
+
+  <body>
+
+    <section name="Javadoc Tags">
+      <subsection name="Dependency Tag">
+<p>Component types may declare multiple service dependencies through the service tag.  Each service tag references a versioned service identifier that the container will supply to the component type on request relative to the declared dependency key.</p>
+      </subsection>
+      <subsection name="Attributes">
+        <table>
+          <tr><th>Attribute</th><th>Required</th><th>Description</th></tr>
+          <tr>
+            <td>type</td><td>yes</td>
+            <td>
+              <p>The service interface classname that the component is dependent on.</p>
+            </td>
+          </tr>
+          <tr>
+            <td>version</td><td>no</td>
+            <td>
+              <p>
+                The service version.
+                If not declared the service dependency shall match any version.</p>
+            </td>
+          </tr>
+          <tr>
+            <td>optional</td><td>no</td>
+            <td>
+              <p>
+               A value of 'true' or 'false'.  If true, the supply of a dependency
+               is at the discression of the container.  If false (the default) 
+               a container is required to resolve and supply a service matching 
+               the dependency declaration.</p>
+            </td>
+          </tr>
+        </table>
+      </subsection>
+      <subsection name="Example">
+
+
+<source><![CDATA[
+package net.osm;
+
+/**
+ * Example of a component declaring multiple service dependencies.
+ *
+ * @avalon.component version="1.0" name="demo"
+ */
+public class Demo implements Serviceable
+{
+    ...
+
+   /**
+    * Supply of dependent services to this component by 
+    *  the container.
+    * @param manager the service manager
+    * @avalon.dependency key="home" type="Home" version="1.3" 
+    * @avalon.dependency type="Resource" version="5" optional="true"
+    */
+    public void service( ServiceManager manager ) 
+      throws ServiceException
+    {
+        m_home = (Home) manager.lookup( "home" );
+        try
+        {
+            m_resource = (Resource) manager.lookup( 
+              Resource.getClass().getName() );
+        }
+        catch( ServiceException se )
+        {
+            // it's optional
+        }
+    }
+}
+]]></source>
+
+<p>Generated meta-info type descriptor:</p>
+
+<source><![CDATA[
+<type>
+  <info>
+    <version>1.3.0</version>
+    <name>demo</name>
+  </info>
+  <dependencies>
+    <dependency key="home" type="Home" version="1.3.0"/>
+    <dependency type="Resource" version="5.0.0" optional="true"/>
+  </dependencies>
+</type>
+]]></source>
+      </subsection>
+    </section>
+  </body>
+
+  <footer>
+    <legal>
+      Copyright (c) @year@ The Avalon Apache Project All rights reserved.
+      $Revision: 1.1 $ $Date: 2004/04/14 11:47:33 $
+    </legal>
+  </footer>
+
+</document>
+
+

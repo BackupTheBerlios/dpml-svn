@@ -1,0 +1,78 @@
+<?xml version="1.0"?>
+
+<document>
+
+  <properties>
+    <author email="mcconnell@apache.org">Stephen McConnell</author>
+    <title>Javadoc Tag Specification</title>
+  </properties>
+
+  <body>
+
+    <section name="Javadoc Tags">
+      <subsection name="Context Tag">
+<p>The context tag enables the declaration of a custom context interface classname that a component may safely cast a supplied context instance to.</p>
+      </subsection>
+
+      <subsection name="Attributes">
+        <table>
+          <tr><th>Attribute</th><th>Required</th><th>Description</th></tr>
+          <tr>
+            <td><p>type</p></td><td><p>no</p></td>
+            <td>
+              <p>The classname of the interface that the component 
+                 may cast a supplied context argument to.</p>
+            </td>
+          </tr>
+        </table>
+      </subsection>
+
+      <subsection name="Example">
+
+<source><![CDATA[
+package net.osm;
+
+/**
+ * Example of a component declaring a custom context argument type.
+ *
+ * @avalon.component version="1.3" name="primary-component"
+ */
+public class Primary implements Contextualizable
+{
+   /**
+    * @avalon.context type="net.osm.CustomContext"
+    */
+    public void contextualize( Context context ) 
+      throws ContextException
+    {
+        CustomContext custom = (CustomContext) context;
+        ...
+    }
+}
+]]></source>
+
+<p>Generated meta-info type descriptor:</p>
+
+<source><![CDATA[
+<type>
+  <info>
+    <version>1.3.0</version>
+    <name>primary-component</name>
+  </info>
+  <context type="net.osm.CustomContext"/>
+</type>
+]]></source>
+      </subsection>
+    </section>
+  </body>
+
+  <footer>
+    <legal>
+      Copyright (c) @year@ The Avalon Apache Project All rights reserved.
+      $Revision: 1.1 $ $Date: 2004/04/14 11:47:33 $
+    </legal>
+  </footer>
+
+</document>
+
+

@@ -1,0 +1,43 @@
+
+#
+# Meta classifier.
+# 
+
+meta.domain = avalon
+meta.version = 1.0
+
+#
+# Artifact descriptor.
+# 
+
+avalon.artifact.group = avalon-logging
+avalon.artifact.name = avalon-logkit-impl
+avalon.artifact.version = 1.0-SNAPSHOT
+avalon.artifact.signature = 20040125.130218
+
+
+#
+# Implementation dependencies.
+#
+
+avalon.artifact.dependency.0 = avalon-repository:avalon-repository-main;2.0-SNAPSHOT
+avalon.artifact.dependency.1 = avalon-logging:avalon-logging-api;1.0-SNAPSHOT
+avalon.artifact.dependency.2 = avalon-logging:avalon-logkit-api;1.0-SNAPSHOT
+avalon.artifact.dependency.3 = avalon-framework:avalon-framework-api;4.1.5
+avalon.artifact.dependency.4 = avalon-framework:avalon-framework-impl;4.1.5
+avalon.artifact.dependency.5 = excalibur-i18n:excalibur-i18n;1.1
+avalon.artifact.dependency.6 = excalibur-configuration:excalibur-configuration;1.1
+avalon.artifact.dependency.7 = logkit:logkit;1.2.2
+avalon.artifact.dependency.8 = xml-apis:xml-apis;2.0.2
+avalon.artifact.dependency.9 = xml-apis:xmlParserAPIs;2.0.2
+avalon.artifact.dependency.10 = xerces:xerces;2.4.0
+
+#
+# Factory.
+#
+
+avalon.artifact.factory = org.apache.avalon.logging.logkit.DefaultLoggingFactory
+
+#
+# EOF
+#

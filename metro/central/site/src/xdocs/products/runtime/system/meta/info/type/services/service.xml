@@ -1,0 +1,75 @@
+<?xml version="1.0"?>
+
+<document>
+
+  <properties>
+    <author email="mcconnell@apache.org">Stephen McConnell</author>
+    <title>Service Descriptors</title>
+  </properties>
+
+  <body>
+
+    <section name="Service Descriptor">
+
+      <subsection name="Description">
+<p>
+The org.apache.avalon.meta.info.ServiceDescriptor class describes a service delivery capability. It contains a reference to ServiceDefinition. Service delivery capability represent the value-proposition that the component type offers to its clients. Client typically include other component that have declared dependencies on the type of service referenced by the ServiceDescriptor.  Services supporting dependency requirements are exposed to clients though a ServiceManager (or ComponentManager). For dependent services, the client will typically invoke the <code>lookup</code> operation against the supplied service manager, passing a lookup key to the supplied manager.  The object retured is the service (or a proxy that isolates the component from the offered service). 
+</p>
+      </subsection>
+
+
+      <subsection name="Attributes">
+        <table>
+          <tr><th>Attribute</th><th>Required</th><th>Description</th></tr>
+          <tr>
+            <td>type</td><td>yes</td>
+            <td>
+             Declaration of an interface classname.
+            </td>
+          </tr>
+        </table>
+        <table>
+          <tr><th>Attribute</th><th>Required</th><th>Description</th></tr>
+          <tr>
+            <td>version</td><td>no</td>
+            <td>
+             Declaration of an service version.
+            </td>
+          </tr>
+        </table>
+      </subsection>
+
+      <subsection name="Nested Elements">
+        <table>
+          <tr><th>Element</th><th>Occurance</th><th>Description</th></tr>
+          <tr>
+            <td><a href="../../attributes/index.html">attributes</a></td><td>0..1</td>
+            <td>
+             A set of attribute declarations.
+            </td>
+          </tr>
+        </table>
+      </subsection>
+
+      <subsection name="Example XML">
+
+<source>
+&lt;service type="<font color="darkred">org.apache.SimpleService</font>" version="<font color="darkred">3.2</font>"/&gt;
+</source>
+
+      </subsection>
+
+    </section>
+
+  </body>
+
+  <footer>
+    <legal>
+      Copyright (c) @year@ The Avalon Apache Project. All rights reserved.
+      $Revision: 1.2 $ $Date: 2004/04/14 11:47:32 $
+    </legal>
+  </footer>
+
+</document>
+
+

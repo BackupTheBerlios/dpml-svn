@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<section>
+  <title>Run / debug a block</title>
+
+  <para>After you have created a new block you should see a project structure
+  like this:</para>
+
+  <para><inlinegraphic fileref="../../../resources/PackageView.gif" /></para>
+
+  <para>To run the component you first have to select project / block you want
+  to run. In the above example this is "Hello World". </para>
+
+  <para>Than open the "run / run as... " Action Button and select the "Merlin
+  Container" item.</para>
+
+  <para><inlinegraphic fileref="../../../resources/run_as.gif" /></para>
+
+  <para> This will start the container and execute the "Hello World"
+  block.</para>
+
+  <para>You will see the output in the console view.</para>
+
+  <para><inlinegraphic fileref="../../../resources/Consol_run_output.gif" />
+  </para>
+
+  <para>If this is the first time you are running Merlin on your machine
+  Merlin will download the latest version of the container from a remote
+  repository and store it on your machine.</para>
+
+  <para>That's why it is important to be connected to the internet while
+  launching Merlin the first time.</para>
+
+  <para>Note: In current versions of MerlinStudio Merlin is started in so
+  called "execute" mode. Means with every launch of a block, the Merlin
+  container will be started and directly finished after the execution of the
+  block has finished.</para>
+
+  <para>This will be changed so that you can configure whether you would like
+  to start Merlin in execution or server mode.</para>
+
+  <para>Debugging is done the same way like just running the block.</para>
+
+  <para>You can set breakpoints etc. in your block / component and step
+  through the code.</para>
+</section>

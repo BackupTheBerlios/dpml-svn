@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document>
+  <properties>
+    <author email="dev@avalon.apache.org">Avalon Documentation Team</author>
+    <title>Apache Avalon: Containment</title>
+  </properties>
+
+  <body>
+
+    <section name="Reference Implementation" >
+      <table>
+        <tr><th>Product</th><th>Description</th></tr>
+        <tr>
+          <td>
+            <p>
+              <a name="merlin"/>
+              <a href="../../../../products/runtime/index.html">Avalon 
+              Merlin</a>
+            </p>
+          </td>
+          <td>
+            <p>
+                Merlin is the Avalon container Reference Implementation.
+            </p>
+            <p>
+                The Merlin system is a container
+                that provides comprehensive support for the management of
+                complex component-based systems. Merlin uses a component
+                meta-model to facilitate the automated assembly and
+                deployment of simple and composite components.
+            </p>
+          </td>
+        </tr>
+      </table>
+    </section>
+
+    <section name="Background" >
+      <table>
+        <tr><th>Item</th><th>Description</th></tr>
+
+        <tr>
+          <td>
+            <p>
+              <a name="overview"/>
+              <a href="overview.html">Containment Overview</a>
+            </p>
+          </td>
+          <td>
+            <p>
+                An overview of what containment means, the purpose of a 
+                container, and an introduction to the container/component
+                contract.
+            </p>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <p>
+              <a name="legacy"/>
+              <a href="history.html">History</a>
+            </p>
+          </td>
+          <td>
+            <p>
+              Within Avalon there has been a number of container solutions. This 
+              reflects a historical divergence and a present convergence within
+              the area of containment technology within Avalon.  This section 
+              provides an historical overview and referecnes to legacy content.
+             </p>
+          </td>
+        </tr>
+      </table>
+    </section>
+  </body>
+</document>

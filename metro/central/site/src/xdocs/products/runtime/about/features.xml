@@ -1,0 +1,66 @@
+<?xml version="1.0"?>
+
+<!-- 
+ Copyright 2004 Apache Software Foundation
+ Licensed  under the  Apache License,  Version 2.0  (the "License");
+ you may not use  this file  except in  compliance with the License.
+ You may obtain a copy of the License at 
+ 
+   http://www.apache.org/licenses/LICENSE-2.0
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed  under the  License is distributed on an "AS IS" BASIS,
+ WITHOUT  WARRANTIES OR CONDITIONS  OF ANY KIND, either  express  or
+ implied.
+ 
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+
+<document>
+
+  <properties>
+    <author email="dev@avalon.apache.org">Avalon Documentation Team</author>
+    <title>Merlin Runtime</title>
+  </properties> 
+
+
+  <body>
+    <section name="Features and Benefits">
+      <subsection name="Composite Component Management">
+        <p>
+Merlin provides support for the packaging and deployment of composite components with a structure called a Block.  A block represents the association of resources to a containment hierarchy within which components are managed.  In addition, a block enables the separation of a component assembly (the composite implementation) from the set of services published by the block.
+        </p>
+      </subsection>
+      <subsection name="Cascading Containers">
+        <p>
+The Merlin system provides support for <strong>cascading containers</strong>. This model enables component assemblers to (among other things) associate jar files under a protected scope where each container is associated with its own classloader.
+        </p>
+      </subsection>
+      <subsection name="Automated Assembly">
+        <p>
+Merlin will handle resolution of service dependencies for components by looking for explicitly declared components commencing within the local container, and working progressively up the container hierarchy.  If 
+no explicit solutions are resolved, Merlin will attempt to build a packaged or implicit solution based on component types declared in the classloader hierachy.  
+        </p>
+      </subsection>
+      <subsection name="Deployment Engine">
+        <p>
+Underlying the Merlin system is a runtime deployment engine that provides support for the orderly establishment of simple and composite components.  The deployment engine takes care of component instantiation, lifecycle processing, and component decommissioning.
+        </p>
+      </subsection>
+      <subsection name="Lifestyle Management">
+        <p>
+Merlin provides support for different component instantiation policies.  These policies are referred to as lifestyles. Examples of lifestyle include 'singleton', 'per-thread', 'pooled' and 'transient'.
+        </p>
+      </subsection>
+      <subsection name="Lifecycle Management">
+        <p>
+Merlin provides support for constructor based injection of lifecycle artifacts, or optional phased delivery under which a component is processed through a series of lifecycle stages.  Lifecycle processing involves the execution of a series of stages such as associating a logging channel, applying a configuration or component parameters, setting the runtime context, supplying dependent services, initialization, startup, shutdown and disposal.  Within the Merlin system, lifecycle stages can be extended or modified through association of other components that provide lifecycle support.  Merlin distinguishes these services as deployment dependencies as distinct from classic runtime dependencies.
+        </p>
+      </subsection>
+    </section>
+  </body>
+
+</document>
+
+

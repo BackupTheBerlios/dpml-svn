@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document> 
+  <properties>
+    <author email="dev@avalon.apache.org">Avalon Documentation Team</author>
+    <title>Contributors</title>
+  </properties>
+  <body>  
+    <section name="Nicola Ken Barozzi">
+      <p>(nicolaken at apache dot org)</p>
+      <p>
+      Nicola Ken Barozzi is a committer for Jakarta POI,
+      which he helped in entering Jakarta, Avalon,
+      and for Apache Cocoon and Apache Forrest on Xml-Apache.
+      </p>
+      <p>
+      The work with these projects have made him found the
+      Krysalis Community Project, with the aim of incubating
+      his own and other projects till/if a community creates
+      round them.
+      </p>
+      <p>
+      He started the Krysalis Centipede build system to make
+      building projects a simple thing, since it had become a
+      too common activity to be a pleasure.
+      </p>
+      <p>
+     FAQ: You can call him Nicola, Ken, or Nicola Ken, as you wish.
+      </p>
+    </section>
+  </body>
+</document>
+

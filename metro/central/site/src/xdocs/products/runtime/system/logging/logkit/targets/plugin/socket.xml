@@ -1,0 +1,58 @@
+<?xml version="1.0"?>
+
+<!-- 
+ Copyright 2004 Apache Software Foundation
+ Licensed  under the  Apache License,  Version 2.0  (the "License");
+ you may not use  this file  except in  compliance with the License.
+ You may obtain a copy of the License at 
+ 
+   http://www.apache.org/licenses/LICENSE-2.0
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed  under the  License is distributed on an "AS IS" BASIS,
+ WITHOUT  WARRANTIES OR CONDITIONS  OF ANY KIND, either  express  or
+ implied.
+ 
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+
+<document>
+  <properties>
+    <author email="mcconnell@apache.org">Stephen McConnell</author>
+    <title>Avalon Logging - Socket Log Target Plugin</title>
+  </properties>
+  <body>
+    <section name="Socket Log Target Plugin">
+      <subsection name="Description">
+        <p>This factory creates a SocketOutputTarget object which will
+        use TCP/IP socket to communicate with the server. The name of the 
+        target is specified by the hostname attribute of the &lt;address&gt; 
+        element and the port by the port attribute.</p>
+      </subsection>
+      <subsection name="Example">
+<source><![CDATA[
+    <target id="socket"
+        artifact="avalon-logging/avalon-logkit-socket#1.0-SNAPSHOT">
+      <address hostname="localhost" port="514"/>
+    </target>
+]]></source>
+      </subsection>
+      <subsection name="XML">
+        <table>
+          <tr><th>Nested Element</th><th>Description</th></tr>
+          <tr>
+            <td>address</td>
+            <td>The address element holds two attributes - hostname and port 
+            and facility. The hostname is the host to which events shall
+            be directed.  The port identifies the port on the host machine.</td>
+          </tr>
+        </table>
+      </subsection>
+    </section>
+  </body>
+</document>
+
+
+
+

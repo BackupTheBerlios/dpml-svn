@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project>
+
+  <title>Apache Avalon</title>
+
+  <body>
+
+    <menu>
+        <item name="Apache" href="apache.html"/>
+        <item name="External" href="external.html"/>
+        <item name="Powered-By" href="powered.html"/>
+    </menu>
+
+  </body>
+
+</project>

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document>
+
+  <properties>
+    <author email="dev@avalon.apache.org">Avalon Documentation Team</author>
+    <title>Avalon Central</title>
+  </properties> 
+
+  <body>
+
+    <section name="Introducing the Avalon PMC">
+
+	<p>These pages exist only to provide some down-to-earth insight
+	   in how things work at the ASF. They're informative only, not
+	   normative. They may contain errors or inadequacies. IANAL.</p>
+
+      <subsection name="What is the PMC?">
+        <p>Apache is a legal entity, i.e. a real non-profit organisation,
+	     with a charter, members, a board, a president, etc. You can
+	     read all about that
+	     <a href="http://www.apache.org/foundation/">here</a></p>
+	    
+	  <p>A PMC, Project Management Committee, is a group of people
+	     appointed with the task of managing something that fits with the
+	     Apache Software Foundation goals. The Avalon PMC, for example,
+	     is tasked with managing Avalon.</p>
+
+	  <p>We're all programmers, and that is what we want to occupy us
+	    with. We like to share and work on our software together, which
+	    is why we make it free software. However, there is always some
+	    stuff which still requires management.</p>
+	    
+	  <p>For example, in order to protect ourselves and our users, all
+	    software hosted at Apache must be properly copyrighted to the ASF,
+	    and licensed under the ASF license. This is something the PMC is
+	    responsible for.</p>
+	    
+	  <p>Also, remember that the PMC consists of the same people that do
+	    the development work. There's no "bossing around" here. The PMC
+	    exists only to facilitate free software developers in "doing their
+	    thing", just like the ASF exists "to provide organizational, legal,
+	    and financial support for the Apache Open Source software
+	    projects".</p>
+
+	</subsection>
+
+    </section>
+
+  </body> 
+
+</document>

@@ -1,0 +1,56 @@
+<?xml version="1.0"?>
+
+<document>
+
+  <properties>
+    <author email="mcconnell@apache.org">Stephen McConnell</author>
+    <title>Extension Descriptors</title>
+  </properties>
+
+  <body>
+
+    <section name="Extensions">
+
+      <subsection name="Description">
+<p>
+Declaration of a set of lifecycle extension handling capabilities that the component type provides.
+</p>
+      </subsection>
+
+
+      <subsection name="Nested Elements">
+        <table>
+          <tr><th>Element</th><th>Occurance</th><th>Description</th></tr>
+          <tr>
+            <td><a href="extension.html">extension</a></td><td>0..n</td>
+            <td>
+             An extension declaration.
+            </td>
+          </tr>
+        </table>
+      </subsection>
+
+      <subsection name="Example XML">
+
+<source>
+    &lt;extensions&gt;
+      &lt;extension type="<font color="darkred">Securable</font>"/&gt;
+    &lt;/extensions&gt;
+</source>
+
+      </subsection>
+
+    </section>
+
+  </body>
+
+  <footer>
+    <legal>
+      Copyright (c) @year@ The Avalon Apache Project All rights reserved.
+      $Revision: 1.2 $ $Date: 2004/04/14 11:47:32 $
+    </legal>
+  </footer>
+
+</document>
+
+

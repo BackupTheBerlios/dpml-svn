@@ -1,0 +1,154 @@
+<?xml version="1.0"?>
+
+<!-- 
+ Copyright 2004 Apache Software Foundation
+ Licensed  under the  Apache License,  Version 2.0  (the "License");
+ you may not use  this file  except in  compliance with the License.
+ You may obtain a copy of the License at 
+ 
+   http://www.apache.org/licenses/LICENSE-2.0
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed  under the  License is distributed on an "AS IS" BASIS,
+ WITHOUT  WARRANTIES OR CONDITIONS  OF ANY KIND, either  express  or
+ implied.
+ 
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+
+
+<document>
+  <properties>
+    <author email="dev@avalon.apache.org">Avalon Documentation Team</author>
+    <title>Avalon Central</title>
+  </properties> 
+
+  <body>
+    <section name="Advanced Features">
+      <subsection name="Packaged Deployment Profiles">
+        <p>
+Central to the Merlin component management model is the notion of deployment 
+profiles. A profile is a predefined deployment template. It enables Merlin to 
+establish a component type and associated context, parameterization and/or 
+configuration information as a candidate scenario when building a connected 
+set of components.
+        </p>
+        <p>
+Component deployment profiles are co-located with the component implementation 
+class under a .xprofile resource.
+        </p>
+      </subsection>
+      <subsection name="Creating a Profile">
+        <p>
+This tutorial extends the interfaces, classes and meta info declared in the <a href="../basic/dependencies/index.html">dependencies tutorial</a> by adding a configurable seed value to the RandomGenerator component. Without the benefit of a profile, users would be forced to declare a configuration under the block.xml directive. By providing one or more profiles, we enable Merlin to automatically select a deployment scenario candidate and use this during the assembly phase. 
+        </p>
+        <p>
+The RandomGeneratorProvider source and the corresponding profile directive are presented below.
+        </p>
+        <p><i>RandomGeneratorProvider.java</i></p>
+<source>
+
+package tutorial;
+
+import java.util.Random;
+
+import org.apache.avalon.framework.configuration.Configuration;
+import org.apache.avalon.framework.configuration.ConfigurationException;
+import org.apache.avalon.framework.configuration.Configurable;
+import org.apache.avalon.framework.logger.AbstractLogEnabled;
+
+/**
+ * An implementation of a random number generator.
+ * 
+ * @avalon.component name="randomizer" lifestyle="singleton"
+ * @avalon.service type="tutorial.RandomGenerator"
+ */
+public class RandomGeneratorProvider extends AbstractLogEnabled 
+  implements Configurable, RandomGenerator
+{
+
+    private Random m_random = null;
+
+   /**
+    * Configuration of the component by the container.  The 
+    * implementation get a child element named 'source' and 
+    * assigns the value of the element to a local variable.
+    *
+    * @param config the component configuration
+    * @exception ConfigurationException if a configuration error occurs
+    */
+    public void configure( Configuration config ) throws ConfigurationException
+    {
+        getLogger().info( "configuration stage" );
+        long seed = config.getChild( "seed" ).getValueAsLong( 0 );
+        getLogger().info( "seed: " + seed );
+        m_random = new Random( System.currentTimeMillis() * seed );
+    }
+
+   /**
+    * Return a random integer
+    * @return the random number
+    */
+    public int getRandom()
+    {
+        return m_random.nextInt();
+    }
+}
+</source>
+        <p>
+The RandomGeneratorProvider.xprofile contains the definition of multiple tagged deployment scenarios.  During assembly Merlin will attempt to locate an explicit deployment profile (a component declaration in the block.xml).  In no explicit profile is available Merlin will select a packaged profile based on the xprofile declarations, otherwise Merlin will attempt to construct an implicit profile.
+        </p>
+        <p><i>RandomGeneratorProvider.xprofile</i></p>
+<source><![CDATA[
+<?xml version="1.0"?>
+
+<profiles>
+  <profile name="primary">
+    <configuration>
+      <seed>1024</seed>
+    </configuration>
+  </profile>
+</profiles>
+]]></source>
+      </subsection>
+      <subsection name="Executing the tutorial">
+        <p>
+        Build and run the tutorial.
+        </p>
+        <source>
+$ maven jar
+$ merlin -execute target\classes
+        </source>
+        <p>
+In the logging output we see that Merlin has automatically locating the RandomGeneratorProvider using the packaged profile.
+        </p>
+<source>
+[INFO   ] (kernel): installing: file:/${user.dir}/target/classes/
+[INFO   ] (tutorial.randomizer-primary): configuration stage
+[INFO   ] (tutorial.randomizer-primary): seed: 1024
+[INFO   ] (tutorial.hello): resolved random: -1250858422
+[INFO   ] (kernel): dissassembly phase
+[INFO   ] (kernel): disposal phase
+</source>
+        <p>
+Note: When constructing a name for the component based on a packaged profile, 
+Merlin will append the profile name to the component type name, seperated by 
+the - character resulting in the component name 'randomizer-primary'.
+        </p>
+
+      </subsection>
+      <subsection name="Profile selection">
+        <p>
+The <a href="selection.html">next tutorial</a> describes how you can package multiple profiles with a component and how you can control profile selection. 
+        </p>
+      </subsection>
+
+    </section>
+  </body>
+
+</document>
+
+
+
+

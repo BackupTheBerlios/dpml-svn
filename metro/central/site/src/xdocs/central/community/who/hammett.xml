@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document> 
+  <properties>
+    <author email="dev@avalon.apache.org">Avalon Documentation Team</author>
+    <title>Apache Avalon: Contributors</title>
+  </properties>
+  <body> 
+    <section name="Hamilton Verissimo de Oliveira">
+      <p>(hammett at apache dot org)</p>
+      <p>
+      Hamilton got involved with Avalon in 2003 while re-writing 
+      his pet project Polyethylene in a more componentized way. After  
+      his addiction he felt the necessity of an Avalon container for 
+      CLI (Mono and .Net environments) and has been working on it since then.
+      In his TO-DO list there are things like adapt Fortress to Avalon Meta
+      package, build a core for a truly distributed container using Jini 
+      and make containers in different plataforms to provide services to each other
+      through SOAP or IIOP.
+      </p>
+    </section>
+  </body>
+</document>
+

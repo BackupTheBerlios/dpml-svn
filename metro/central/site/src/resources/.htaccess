@@ -1,0 +1,52 @@
+RedirectMatch ^/apps(.*) http://avalon.apache.org/planet/components.html
+RedirectMatch ^/api(.*) http://avalon.apache.org/products/javadoc/index.html
+RedirectMatch ^/phoenix(.*) http://avalon.apache.org/central/legacy/index.html
+RedirectMatch ^/bdg(.*) http://avalon.apache.org/central/legacy/index.html
+RedirectMatch ^/assemblers(.*) http://avalon.apache.org/central/legacy/index.html
+RedirectMatch ^/excalibur/configuration/apidocs(.*) http://avalon.apache.org/central/legacy/index.html
+
+RedirectMatch ^/sandbox/meta(.*) http://avalon.apache.org/meta
+RedirectMatch ^/sandbox/merlin(.*) http://avalon.apache.org/merlin
+RedirectMatch ^/sandbox/api(.*) http://avalon.apache.org/merlin/api
+RedirectMatch ^/cornerstone(.*) http://avalon.apache.org/components/cornerstone/index.html
+RedirectMatch ^/merlin(.*) http://avalon.apache.org/products/runtime
+RedirectMatch ^/meta(.*) http://avalon.apache.org/products/runtime/system/meta/index.html
+RedirectMatch ^/product/framework(.*) http://avalon.apache.org/products/runtime/reference/component/index.html
+RedirectMatch ^/product/containers(.*) http://avalon.apache.org/products/runtime/index.html
+RedirectMatch ^/product/planet(.*) http://avalon.apache.org/planet/components/index.html
+
+RedirectMatch ^/bindownload.cgi http://avalon.apache.org/download.cgi
+RedirectMatch ^/code-standards.html http://avalon.apache.org/central/community/process/code-standards.html
+RedirectMatch ^/framework http://avalon.apache.org/central/cop
+RedirectMatch ^/framework/separation-of-interface-and-implementation.html http://avalon.apache.org/central/cop/guide-patterns-ioc.html
+RedirectMatch ^/framework/inversion-of-control.html http://avalon.apache.org/central/cop
+RedirectMatch ^/framework/guide-cop-in-avalon.html http://avalon.apache.org/central/cop/guide-cop-in-avalon.html
+RedirectMatch ^/introduction.html http://avalon.apache.org/central/about/index.html
+
+RedirectMatch ^/avalon/index.html http://avalon.apache.org/
+RedirectMatch ^/avalon/logging(.*) http://avalon.apache.org/products/runtime/system/logging
+RedirectMatch ^/avalon/merlin(.*) http://avalon.apache.org/products/runtime
+RedirectMatch ^/avalon/util/index.html http://avalon.apache.org/products/runtime/system/util
+RedirectMatch ^/fortress(.*) http://avalon.apache.org/central/legacy/index.html
+RedirectMatch ^/excalibur(.*) http://avalon.apache.org/central/legacy/index.html
+RedirectMatch ^/logkit(.*) http://avalon.apache.org/products/runtime/system/logging/logkit/index.html
+
+RedirectMatch ^/excalibur/api/org/apache/avalon/excalibur/cli/jeff@socialchange.net.au http://avalon.apache.org/central/community/who/index.html
+RedirectMatch ^/excalibur/api/org/apache/avalon/excalibur/collections/bloritsch@apache.org http://avalon.apache.org/central/community/who/index.html
+RedirectMatch ^/excalibur/api/org/apache/avalon/excalibur/collections/fede@apache.org http://avalon.apache.org/central/community/who/index.html
+RedirectMatch ^/excalibur/api/org/apache/avalon/excalibur/collections/g-froehlich@gmx.de http://avalon.apache.org/central/community/who/index.html
+RedirectMatch ^/excalibur/api/org/apache/avalon/excalibur/datasource/proyal@apache.org http://avalon.apache.org/central/community/who/index.html
+RedirectMatch ^/excalibur/api/org/apache/avalon/excalibur/testcase/bloritsch@apache.org http://avalon.apache.org/central/community/who/index.html
+RedirectMatch ^/excalibur/api/org/apache/avalon/excalibur/logger/factory/sylvain@apache.org http://avalon.apache.org/central/community/who/index.html
+RedirectMatch ^/excalibur/api/org/apache/excalibur/configuration/validation/proyal@apache.org http://avalon.apache.org/central/community/who/index.html
+RedirectMatch ^/excalibur/api/org/apache/excalibur/event/command/bloritsch.at.apache.org http://avalon.apache.org/central/community/who/index.html
+RedirectMatch ^/excalibur/api/org/apache/excalibur/instrument/manager/proyal@apache.org http://avalon.apache.org/central/community/who/index.html
+RedirectMatch ^/excalibur/api/org/apache/avalon/excalibur/logger/proyal@apache.org http://avalon.apache.org/central/community/who/index.html
+RedirectMatch ^/excalibur/api/org/apache/excalibur/source/stephan@apache.org http://avalon.apache.org/central/community/who/index.html
+RedirectMatch ^/logkit/api/org/apache/log/output/lf5/sylvain@apache.org http://avalon.apache.org/central/community/who/index.html
+RedirectMatch ^/phoenix/api/org/apache/avalon/phoenix/components/embeddor/bauer@denic.de http://avalon.apache.org/central/community/who/index.html
+RedirectMatch ^/phoenix/api/org/apache/avalon/phoenix/components/embeddor/colus@isoft.co.kr http://avalon.apache.org/central/community/who/index.html
+RedirectMatch ^/phoenix/api/org/apache/avalon/phoenix/components/embeddor/mail@leosimons.com http://avalon.apache.org/central/community/who/index.html
+RedirectMatch ^/phoenix/api/org/apache/avalon/phoenix/components/embeddor/mail@leosimons.com http://avalon.apache.org/central/community/who/index.html
+RedirectMatch ^/phoenix/api/org/apache/avalon/phoenix/interfaces/mail@leosimons.com http://avalon.apache.org/central/community/who/index.html
+

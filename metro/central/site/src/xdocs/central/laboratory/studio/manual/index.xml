@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<document>
+
+  <properties>
+    <title>Merlin Developer - Getting Started</title>
+    <author email="dev@avalon.apache.org">Avalon Documentation Team</author>
+  </properties>
+
+  <body>
+    <section name="Table of Content">
+    
+      <table>
+        <tr>
+          <th>Chapter</th>
+          <th>Name</th>
+          <th>Description</th>
+        </tr>
+        <tr>
+          <td>
+            1
+          </td>
+          <td>
+            Introduction
+          </td>
+          <td>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            2
+          </td>
+          <td>
+            Concepts
+          </td>
+          <td>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            3
+          </td>
+          <td>
+            Run/Debug/Test Server
+          </td>
+          <td>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            4
+          </td>
+          <td>
+            Block Editing/Publication
+          </td>
+          <td>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            5
+          </td>
+          <td>
+            Component Editing
+          </td>
+          <td>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            6
+          </td>
+          <td>
+            Repository Editing
+          </td>
+          <td>
+          </td>
+        </tr>
+      </table>
+    </section>
+  </body>
+</document>

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<document>
+
+  <properties>
+    <title>Merlin Studio</title>
+    <author email="dev@avalon.apache.org">Avalon Documentation Team</author>
+  </properties>
+
+  <body>
+    <section name="Introduction">
+      <p>
+        Merlin Studio is an Eclipse plugin
+        that allows you to streamline the development of Merlin-based
+        components and applications.
+      </p>
+      <p>
+        DOCUMENTATION IS CURRENTLY UNDER DEVELOPMENT.
+      </p>
+    </section>
+    <!--
+    <section name="Documentation Set">
+      <table>
+        <tr>
+          <th>Document</th>
+          <th>Description</th>
+        </tr>
+        <tr>
+          <td><a href="installation/index.html">Installation</a></td>
+          <td>
+            Describes how you install the Merlin Developer into the
+            Eclipse IDE.
+          </td>
+        </tr>
+        <tr>
+          <td><a href="getting-started/index.html">Getting Started</a></td>
+          <td>
+            A quick guide on how to get going with Merlin Developer.
+          </td>
+        </tr>
+        <tr>
+          <td><a href="reference/index.html">Reference</a></td>
+          <td>
+            Reference Document describing each feature in detail, one
+            by one.
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <a href="developing-plugins/index.html">Developing Plug-ins</a>
+          </td>
+          <td>
+            The Merlin Developer has its own <em>Extension Points</em>
+            to which you can develop your own Eclipse plug-ins, and
+            extend the functionality in Merlin Developer.
+          </td>
+        </tr>
+      </table>
+    </section>
+    -->
+  </body>
+</document>

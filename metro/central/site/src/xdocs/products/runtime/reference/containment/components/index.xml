@@ -1,0 +1,122 @@
+<?xml version="1.0"?>
+
+<!-- 
+ Copyright 2004 Apache Software Foundation
+ Licensed  under the  Apache License,  Version 2.0  (the "License");
+ you may not use  this file  except in  compliance with the License.
+ You may obtain a copy of the License at 
+ 
+   http://www.apache.org/licenses/LICENSE-2.0
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed  under the  License is distributed on an "AS IS" BASIS,
+ WITHOUT  WARRANTIES OR CONDITIONS  OF ANY KIND, either  express  or
+ implied.
+ 
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+
+<document>
+
+  <properties>
+    <author email="dev@avalon.apache.org">Avalon Documentation Team</author>
+    <title>Merlin Runtime</title>
+  </properties> 
+
+
+  <body>
+
+    <section name="Component Directive">
+
+      <subsection name="Description">
+      <p>
+      A component directive is an instruction to a container to 
+      mount and deploy a component instance in accordance with 
+      the declared configuration, context, parameters and activation
+      policy.
+      </p>
+      </subsection>
+
+      <subsection name="Attributes">
+
+        <table>
+          <tr><th>Attribute</th><th>Required</th><th>Description</th></tr>
+          <tr>
+            <td>name</td><td>yes</td>
+            <td>The name to assign to the component profile implied by 
+            the directive.</td>
+          </tr>
+          <tr>
+            <td>class</td><td>yes</td>
+            <td>The classname of the component implementation.</td>
+          </tr>
+          <tr>
+            <td>activation</td><td>no</td>
+            <td>The activation policy.  Recognized values include 
+            'startup' and 'lazy'.</td>
+          </tr>
+          <tr>
+            <td>profile</td><td>no</td>
+            <td>The name of a template profile.  If supplied, the name 
+              must correspond to a named profile assoiated with the component
+              type. The resulting component will be based on the the template.
+              Addition directives contained with the component element are 
+              ignored at this time.  Future version may provide support
+              for profile extension. <i>Since 3.1</i></td>
+          </tr>
+        </table>
+
+      </subsection>
+      <subsection name="Nested Elements">
+
+        <table>
+          <tr><th>Element</th><th>Cardinality</th><th>Description</th></tr>
+          <tr>
+            <td><a href="categories/index.html">categories</a></td><td>0..1</td>
+            <td>Defintion of the priority and targets parameterization to apply
+                to logging channels declared by the component.</td>
+          </tr>
+          <tr>
+            <td><a href="context/index.html">context</a></td><td>0..1</td>
+            <td>Defintion of the context class and entries.</td>
+          </tr>
+          <tr>
+            <td><a href="dependencies/index.html">dependencies</a></td><td>0..1</td>
+            <td>Optional declaration of explicit dependency provider assignments.</td>
+          </tr>
+          <tr>
+            <td><a href="parameters/index.html">parameters</a></td><td>0..1</td>
+            <td>Defintion of the parameters to be supplied during Parameterization of the component.</td>
+          </tr>
+          <tr>
+            <td><a href="configuration.html">configuration</a></td><td>0..1</td>
+            <td>The configuration fragment to be applied to the target component during a configuration lifecycle stage.</td>
+          </tr>
+        </table>
+
+      </subsection>
+
+      <subsection name="Sample XML">
+
+<source><![CDATA[
+<container name="tutorial">
+
+     <component name="hello" class="tutorial.HelloComponent" activation="startup">
+       <!-- optional categories element -->
+       <!-- optional configuration or parameters element -->
+       <!-- optional context element -->
+     </component>
+
+</block>
+]]></source>
+
+     </subsection>
+
+    </section>
+
+  </body>
+
+</document>
+
+

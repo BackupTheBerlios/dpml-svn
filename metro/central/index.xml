@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<index>
+
+  <import index="../tools/index.xml"
+     href="http://svn.apache.org/repos/asf/avalon/trunk/tools/index.xml"/>
+
+  <import index="../runtime/index.xml"
+     href="http://svn.apache.org/repos/asf/avalon/trunk/runtime/index.xml"/>
+  <!--
+  <import index="../planet/index.xml"
+     href="http://svn.apache.org/repos/asf/avalon/trunk/planet/index.xml"/>
+  -->
+  <!--
+  Avalon Central.
+  -->
+
+  <project basedir="site">
+    <info>
+      <group>avalon</group>
+      <name>avalon-central-site</name>
+      <type>doc</type>
+    </info>
+    <dependencies>
+      <include key="avalon-runtime" runtime="false" build="false" test="false"/>
+      <include key="avalon-tools-magic" runtime="false" build="false" test="false"/>
+    </dependencies>
+  </project>
+
+</index>

@@ -1,0 +1,71 @@
+<?xml version="1.0"?>
+
+<!-- 
+ Copyright 2004 Apache Software Foundation
+ Licensed  under the  Apache License,  Version 2.0  (the "License");
+ you may not use  this file  except in  compliance with the License.
+ You may obtain a copy of the License at 
+ 
+   http://www.apache.org/licenses/LICENSE-2.0
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed  under the  License is distributed on an "AS IS" BASIS,
+ WITHOUT  WARRANTIES OR CONDITIONS  OF ANY KIND, either  express  or
+ implied.
+ 
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+
+<document>
+
+  <properties>
+    <author email="mcconnell@apache.org">Stephen McConnell</author>
+    <title>Component Specification</title>
+  </properties>
+
+  <body>
+
+    <section name="Component Specification">
+
+      <p>
+The component specifications deals with the interaction between a component and 
+the container it is running within.  This specification covers the component 
+descriptors, lifecycle artifacts and delivery mechanisms, and component lifestyles.
+      </p>
+      <subsection name="Index">
+        <table>
+          <tr><th>Topic</th><th>Summary</th></tr>
+          <tr>
+            <td><a href="descriptors/index.html">Descriptors</a></td>
+            <td>
+A component is a reusable computation unit that provides zero or more functional services.  This implies that a component is more than a class or collection of classes.  It is computational unit that can be deployed predictably in different application scenarios and environments.  A component type descriptor (Type) is used to hold immutable information associated with the component implementation.  Based on information accessible from an instance of Type a container has available the structural and runtime dependencies that a instance of a corresponding component class will require.  This section presents the type model and the techniques supporting automated generation of type information.
+            </td>
+          </tr>
+          <tr>
+            <td><a href="artifacts/index.html">Artifacts</a></td>
+            <td>
+A component may be instantiated using either constructor injection or phased lifecycle processing.  During the process of instantiation a container can supplies a range of artifacts such as logging channel, configuration, context object, service manager, etc.  This section of the specification presents each of the standard artifacts and the associated semantics.
+            </td>
+          </tr>
+          <tr>
+            <td><a href="lifecycle/index.html">Lifecycle</a></td>
+            <td>
+Lifecycle management encompasses the process of deployment during which artifacts are delivered and a component is fully established, runtime lifecycle management functions, through to end-of-life processing and the related decommissioning of the component.  This section of the specification deals with abstract lifecycle concepts and the effects of lifecycle management on an overall system.
+            </td>
+          </tr>
+          <tr>
+            <td><a href="lifestyle/index.html">Lifestyle</a></td>
+            <td>
+A component implementation is associated with a particular lifestyle.  A lifestyle is policy that deals with the decision to create a new component as opposed to to supplying a reference to an existing component.  Examples of lifestyle policies include "singleton", "per-thread", and "transient".  This section of the specification describes each policy and the related semantics that a component author can assume concerning instantiation and references sharing. 
+            </td>
+          </tr>
+        </table>
+      </subsection>
+    </section>
+
+  </body>
+
+</document>
+
+

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project>
+  <title>Apache Avalon</title>
+  <body>
+  
+    <menu >
+      <item name="Article Info" href="index.html"/>
+      <item name="Overview" href="introduction.html"/>
+      <item name="Decomposition" href="decomposing.html"/>
+      <item name="Avalon Framework" href="framework.html"/>
+      <item name="Avalon Merlin" href="merlin.html"/>
+      <item name="Avalon Repository" href="repository.html"/>
+      <item name="Avalon Logging" href="logging.html"/>
+      <item name="Using the framework" href="implementing.html"/>
+      <item name="Compatibility with Avalon" href="compatiblity.html"/>
+      <item name="Development Strategies" href="strategies.html"/>
+      <item name="Conclusion" href="conclusion.html"/>
+      <item name="Authors" href="authors.html"/>
+    </menu>
+  </body>
+</project>
+
+

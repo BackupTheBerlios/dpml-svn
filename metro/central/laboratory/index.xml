@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<index>
+  
+  <import index="../../runtime/index.xml"
+     href="http://svn.apache.org/repos/asf/avalon/trunk/runtime/index.xml"/>
+  
+</index>

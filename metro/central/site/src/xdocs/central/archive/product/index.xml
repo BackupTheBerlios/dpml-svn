@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document>
+  <properties>
+    <author email="dev@avalon.apache.org">Avalon Documentation Team</author>
+    <title>Apache Avalon: Products</title>
+  </properties> 
+
+  <body>
+    <section name="Products">
+      <p>
+        Avalon consists of a number of product and sub-projects.
+      </p>
+      <table>
+        <tr>
+          <th>Name</th>
+          <th>Description</th>
+        </tr>
+        <tr>
+          <td><a href="framework/index.html">Framework</a></td>
+          <td>
+              <p>The framework collection includes a component meta model 
+              used to describe component dependencies towards a container, and,
+              the classic framework APIs that describe the runtime contact 
+              between a container and a component.</p>
+            </td>
+        </tr>
+        <tr>
+          <td><a href="containers/index.html">Merlin</a></td>
+          <td>
+              <p>
+                A container is a platform supporting the management of 
+                components. This page provides links to <strong>Merlin</strong> Avalon's reference
+                implementation together with general containment theory, and references
+                to legacy products.
+              </p>
+            </td>
+        </tr>
+        <tr>
+          <td><a href="components/index.html">Planet</a></td>
+          <td>
+              <p>
+              The components page provides a summary of the two main
+              component groups in Avalon - the course grained cornerstone
+              suite and the fine grain utilites under Excalibur, together 
+              with general strategies concerning component repository 
+              management.</p>
+            </td>
+        </tr>
+      </table>
+    </section>
+  </body>
+</document>

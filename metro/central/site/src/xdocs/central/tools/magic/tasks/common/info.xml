@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document>
+
+  <properties>
+    <author email="dev@avalon.apache.org">Avalon Documentation Team</author>
+    <title>Avalon Central</title>
+  </properties> 
+
+  <body>
+    <section name="Info Task">
+      <p>
+      The info task logs the value of ${project.name}.
+      </p>
+
+<source><![CDATA[
+<x:info/>
+]]></source>
+
+      <p>
+      The above declaration will result in the following output.
+      </p>
+     
+<pre>
+info:
+------------------------------------------------------------------------
+name: avalon-tutorial-hello
+------------------------------------------------------------------------
+</pre>
+
+    </section>
+  </body>
+
+</document>
+

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- 
+ Copyright 2004 Apache Software Foundation
+ Licensed  under the  Apache License,  Version 2.0  (the "License");
+ you may not use  this file  except in  compliance with the License.
+ You may obtain a copy of the License at 
+ 
+   http://www.apache.org/licenses/LICENSE-2.0
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed  under the  License is distributed on an "AS IS" BASIS,
+ WITHOUT  WARRANTIES OR CONDITIONS  OF ANY KIND, either  express  or
+ implied.
+ 
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+
+<document>
+  <properties>
+    <author email="dev@avalon.apache.org">Avalon Team</author>
+    <title>Avalon Castle Container</title>
+  </properties>
+
+  <body>
+
+  <section name="A container for CLI">
+    <p>Avalon Castle is a lightweight
+    container for the CLI (.Net and Mono) world. Although it can be viewed as
+    a port of Avalon, it benefits from several features offered by the
+    CLR.</p>
+
+    <p>Other important difference of Castle container is its simplicity.
+    Based on Microkernel pattern, the user can easily modify, extend or
+    adapt it to match his requirements. No hard contracts, no obligations.
+    Just good and old Inversion of Control and stills Avalon.</p>
+  </section>
+
+  <section name="Microkernel">
+    <p>
+    The Microkernel pattern allowed us to focus on a simple set of classes
+    which constitutes the environment for managed components.
+    </p>
+  </section>
+
+  <section name="DynamicProxy">
+    <p>
+    To overcome some limitations of CLR we had to develop common tools used 
+    by Avalon Castle. DynamicProxy is a simple implementation that act as the 
+    Java proxies - through Invocation handlers.
+    </p>
+  </section>
+
+  <section name="ManagedExtensions">
+    <p>
+    If one needs a more powerfull container, allowing him to managed his components 
+    through some remote interface, he can use the managed extensions. 
+    In fact the ManagedExtensions can be viewed as a port of JMX for CLI.
+    </p>
+  </section>
+
+  </body>
+</document>

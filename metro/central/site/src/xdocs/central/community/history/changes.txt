@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE changes PUBLIC "-//APACHE//DTD Changes V1.1//EN" "changes-v11.dtd">
+<changes>
+    <title>Avalon History of Changes</title>
+    <devs>
+        <person name="Federico Barbieri" email="fede@apache.org" id="FB"/>
+        <person name="Berin Loritsch" email="bloritsch@apache.org" id="BL"/>
+        <person name="Peter Donald" email="peter at apache.org" id="PD"/>
+    </devs>
+    <release version="3.1a1" date="29th January 2001">
+        <action dev="BL" type="add">
+            Added in DataSource implementation for use with J2EE style apps.
+        </action>
+        <action dev="PD" type="add">
+            Added the notion of ServerApplication to replace the concept of .bar as a server.
+            A ServerApplication is a isolated environment that manages it's own threads,
+            security, logging, classloading etc. It has a specific layout as documented
+            in Assembly guide. The kernel was refactored to contain ServerApplications
+            rather than Blocks and a lot of support was refactored to support safe separation
+            of ServerApplications. The archives are in .sar format and are similar in many
+            aspects to .war of servlet fame.
+        </action>
+        <action dev="PD" type="add">
+            Refactored thread management so specific thread pools can assigned to specific
+            threads/thread groups in a manner similar to how ContextClassLoader is associated
+            with threads. Thread management was also moved to a new package
+            (org.apache.avalon.util.threads).
+        </action>
+        <action dev="PD" type="update">
+            Modify the packaging of all kernel related files into org.apache.phoenix.
+        </action>
+        <action dev="PD" type="update">
+            Modify the packaging of all blocks/services/demos into package hierarchy
+            org.apache.cornerstone.
+        </action>
+        <action dev="PD" type="add">
+            Added two new services/blocks by refactoring code from tomcat and old SocketServer.
+            There is now a SocketManager and a ConnectionManager. The TLS code is now much improved
+            and there is the beginning of client socket factory. This provides for future client
+            socket code factories for SSL/TLS or SSH1/2 etc. Also adapted SimpleServer to use
+            these methods.
+        </action>
+        <action dev="PD" type="update">
+            Changed config file from per .bar to per .sar and changed name from BAR-INF/&lt;
+            barname&gt;.conf.xml to conf/assembly.xml. It still contains configuration data as
+            well as assembly data but this will be removed in a future revision.
+        </action>
+        <action dev="PD" type="add">
+            Added an extra config file to .sar (conf/server.xml) that is responsible for
+            configuring .sar wide variables. Some examples include security, logging and thread loading.
+        </action>
+        <action dev="PD" type="update">
+            Refactored most of the code to use AbstractLoggable and the corresponding getLogger()
+            method. Also removed the remaining static access to LogKit.
+        </action>
+        <action dev="PD" type="update">
+            Continued to refine the Camelot API.
+        </action>
+        <action dev="PD" type="add">
+            Removed blockdefs.properties in favour of adding attributes to manifest entries of jars.
+            This should enable future GUI tools to easily assemble blocks.
+        </action>
+        <action dev="PD" type="add">
+            Re-Added the sub-classed context BlockContext to allow blocks full access to important
+            environmental information.
+        </action>
+        <action dev="PD" type="update">
+            Many of the lifecycle methods now have a chance to fail by throwing an exception.
+        </action>
+        <action dev="PD" type="remove">
+            Removed all notion of kernel configurability.
+        </action>
+        <action dev="PD" type="update">
+            Enabled securityManager by default and now ServerApplications have to specify a security
+            policy.
+        </action>
+        <action dev="PD" type="update">
+            Removed classloader hack in ObjectStorageRepository as it is no longer required with
+            new .sar format.
+        </action>
+        <action dev="PD" type="update">
+            Homogenized the remaining code to follow one style.
+        </action>
+        <action dev="PD" type="update">
+            Configuration temporarily will create new Configuration objects on getChild() if they
+            don't exist until Berin's work is finalized.
+        </action>
+        <action dev="PD" type="update">
+            Altered Compose so that it threw ComponentManagerException of which the previous two
+            exceptions thrown are now subclasses.
+        </action>
+        <action dev="PD" type="update">
+            Made loading of jars relative to avalon-loader.jar rather than via current working
+            directory so that some tools (ie VAJava) would not complain.
+        </action>
+        <action dev="PD" type="update">
+            Separated out tools directory/jars from main jars that avalon uses.
+        </action>
+        <action dev="BL" type="update">
+            A number of bug fixes and more descriptive exceptions for Configuration and Parameters
+            objects.
+        </action>
+    </release>
+
+    <release version="3.0a3" date="11th October 2000">
+        <action dev="PD" type="update">
+            Made SocketManager accept arbitrary SocketServer.Listener objects.
+        </action>
+        <action dev="FB" type="update">
+            Updated all blocks to use new system level logging.
+        </action>
+        <action dev="FB" type="update">
+            Changed Threads so that it is now a system level service.
+        </action>
+        <action dev="PD" type="add">
+            Added new LogManager that manages arbitrary log categories.
+        </action>
+        <action dev="PD" type="add">
+            Added the BlockInfo requirement. Thus blocks need to have an XML file that describe the
+            services it offers, the services it depends upon and other meta information.
+        </action>
+        <action dev="PD" type="add">
+            Added support for Blocks to implement BlockContextualizable. If they do this the kernel
+            will pass them Context information. Currently the context information is limited to
+            a handle to kernel instance and the name they were configured under.
+        </action>
+        <action dev="PD" type="add">
+            Changed SimpleContext and SimpleComponentManager to DefaultComponent and
+            DefaultComponentManager to match better with other Avalon design patterns.
+        </action>
+        <action dev="PD" type="add">
+            Added functionality that allowed you to listen to BlockEvents generated by kernel.
+            Events indicate when a Block is being created, initialized, composed, destroyed, ran and
+            stopped.
+        </action>
+        <action dev="PD" type="add">
+            Updated Logger interface so arbitrary integer levels are not allowed to be passed. The user
+            is forced to use defined enumerants. This was done to increase safety.
+        </action>
+        <action dev="PD" type="add">
+            Updated kernel so that is now delegates to AvalonKernelConfigurator to configure itself.
+        </action>
+        <action dev="PD" type="update">
+            Updated kernel so that it is now pluggable. Any kernel can be loaded via the code in main.
+            Kernel configuration files are loaded from default configuration directory in a file
+            with same name as class with a .conf.xml appended.
+        </action>
+        <action dev="PD" type="update">
+            Removed getDescription method from Block as it is to become part of BlockInfo
+        </action>
+        <action dev="PD" type="update">
+            Change methods in Configure/Reconfigure to throw ConfigurationExceptions.
+        </action>
+        <action dev="PD" type="update">
+            Change methods in Configure/Reconfigure to match Java standards.
+        </action>
+        <action dev="FB" type="add">
+            Add to the Logger log level support.
+        </action>
+        <action dev="BL" type="add">
+            JNDI for the lookup of blocks and components.  Still keep the
+            Composer interface for those lightweight blocks that don't
+            need the extra features of the Context.  JNDI should be the
+            ComponentManager of choice.
+        </action>
+        <action dev="BL" type="update">
+            Synchronized Avalon with Cocoon 2 enhancements.  Uses SAX 2 for
+            configuration, incorporated abstract and base classes for fundamental
+            types, and incorporated the NamedComponent interface.
+        </action>
+        <action dev="BL" type="update">
+            Upgraded Loader architecture and the AvalonClassLoader to provide
+            better detail, as well as new ways of configuring the loader at the
+            beginning.  It does not require any extra libraries to load.
+        </action>
+    </release>
+
+    <release version="2.1" date="2000">
+        <action dev="FB" type="update">
+            Changed the Acceptor pattern to a more flexible event provider.
+        </action>
+        <action dev="FB" type="add">
+            Added a TimeServer to easily manage time events.
+        </action>
+        <action dev="FB" type="update">
+            Make Store implementation more pluggable.
+        </action>
+    </release>
+
+    <release version="2.0" date="2000">
+        <action dev="FB" type="update">
+            Updated Context pattern to Configurable-Composer pattern.
+        </action>
+    </release>
+
+    <release version="1.0-dev" date="Can't remember">
+        <action dev="FB" type="update">
+            First Avalon implementation.
+        </action>
+    </release>
+
+</changes>

@@ -1,0 +1,65 @@
+<?xml version="1.0"?>
+
+<!-- 
+ Copyright 2004 Apache Software Foundation
+ Licensed  under the  Apache License,  Version 2.0  (the "License");
+ you may not use  this file  except in  compliance with the License.
+ You may obtain a copy of the License at 
+ 
+   http://www.apache.org/licenses/LICENSE-2.0
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed  under the  License is distributed on an "AS IS" BASIS,
+ WITHOUT  WARRANTIES OR CONDITIONS  OF ANY KIND, either  express  or
+ implied.
+ 
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+
+<document>
+
+  <properties>
+    <author email="mcconnell@apache.org">Stephen McConnell</author>
+    <title>Lifestyle Specification</title>
+  </properties>
+
+  <body>
+
+    <section name="Lifecycle Management Specification">
+      <p>
+Lifecycle management concerns the process of incarnation, runtime management, and etherialization.  Incarnation is the sequence involving instantiation and possible application of a series of lifecycle stage processes (such as configuration, contextualization, etc.).  Runtime management deals with the suspension, resumption of a component.  Etherialization represents the process of component end-of-life processing possibly involving the application of multiple lifecycle phases (e.g. disposal).
+      </p>
+
+      <subsection name="Phase Table">
+    
+        <table>
+          <tr>
+            <td><a href="incarnation.html">Incarnation</a></td>
+            <td>
+Just as objects are instantiated, the equivalent process from a component is "incarnation".  Incarnation involves instantiation, a series of optional artifact delivery stages, and an optional execution phase.  Component incarnation is managed exclusively by a container.  Occurances of component icarnation are controlled by as associated component implementation <a href="../lifestyle/index.html">lifestyle</a> characteristic.
+            </td>
+          </tr>
+          <tr>
+            <td><a href="runtime.html">Runtime Management</a></td>
+            <td>
+Runtime management deals with interaction with a component between the incarnation and etherialization stages.  The Avalon framework defines the notion of a suspendable component.  The framework also defines a number of delivery interfaces dealing with reintroduction of lifecycle artificats. None of the framework reintroduction interfaces are supported - instead, runtime management is approached as a management concern wherein any existing artifact delivery interface may be reused by a container while a component is under a suspended state.  The action of resumption is equivalent to the notion of re-initialization.
+            </td>
+          </tr>
+          <tr>
+            <td><a href="etherialization.html">Etherialization</a></td>
+            <td>
+The etherialization stage is the component equivalent of an object finalization.  Etherialization covers the stopping of a running component and subsequent disposal.  Initiation of the etherialization phase on a component instance is exclusively controlled by it's container.
+            </td>
+          </tr>
+        </table>
+
+      </subsection>
+
+    </section>
+
+  </body>
+
+</document>
+
+

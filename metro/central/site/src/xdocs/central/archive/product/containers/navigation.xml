@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project>
+
+  <title>Apache Avalon</title>
+
+  <body>
+    <menu name="About Avalon">
+      <item name="Overview" href="overview.html"/>
+      <item name="History" href="history.html"/>
+    </menu>
+  </body>
+
+</project>

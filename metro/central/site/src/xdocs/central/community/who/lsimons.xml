@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document> 
+  <properties>
+    <author email="dev@avalon.apache.org">Avalon Documentation Team</author>
+    <title>Contributors</title>
+  </properties>
+  <body> 
+    <section name="Leo Simons">
+      <p>(leosimons at apache dot org)</p>
+      <p>
+      Leo initially started work on Avalon because it seemed like
+      a place where he could learn a lot about correct software
+      architecture. After creating one of the first phoenix applications,
+      he set off to work on project documentation, Phoenix and the
+      Framework.
+      </p>
+      <p>
+      Besides his work within the ASF, Leo develops custom server
+      solutions using Avalon and related open source technologies,
+      mainly in the fields of Content Management and CRM, as a night
+      job. He studies Technical Physics at the University of Twente,
+      The Netherlands.
+      </p>
+      <p>
+      He's recently moved on to work on his own IoC solution,
+      <a href="http://lsd.student.utwente.nl/jicarilla/">Jicarilla</a>. For the fun of
+      it. He's now an emiritus committer and emiritus PMC member.
+      </p>
+    </section>
+  </body>
+</document>
+

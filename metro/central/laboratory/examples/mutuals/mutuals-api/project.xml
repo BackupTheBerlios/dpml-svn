@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<project>
+
+  <!-- the version of maven's project object model -->
+  <pomVersion>3</pomVersion>
+
+  <!-- a unique name for this project -->
+  <id>mutuals-api</id>
+
+  <!-- a short but descriptive name for the project -->
+  <name>IoC Mutuals Example</name>
+
+  <currentVersion>1.0</currentVersion>
+
+  <!-- details about the organization that 'owns' the project -->
+  <organization>
+    <name>Apache Avalon Project</name>
+    <url>http://avalon.apache.org/</url>
+    <logo>http://avalon.apache.org/images/apache-avalon-logo.png</logo>
+  </organization>
+
+  <!-- the year the project started -->
+  <inceptionYear>2003</inceptionYear>
+  <package>org.apache.avalon.mutuals</package>
+  <logo></logo>
+  <description>
+  </description>
+
+  <shortDescription>
+  </shortDescription>
+
+  <!-- the project home page -->
+  <url>http://avalon.apache.org</url>
+  <issueTrackingUrl></issueTrackingUrl>
+  <siteAddress></siteAddress>
+  <siteDirectory></siteDirectory>
+  <distributionDirectory></distributionDirectory>
+
+  <repository>
+    <connection></connection>
+    <url></url>
+  </repository>
+
+  <!-- any mailing lists for the project -->
+  <mailingLists/>
+
+  <!-- who the developers are for the project -->
+  <developers>
+   <developer>
+      <name>J Aaron Farr</name>
+      <id>farra</id>
+      <email>farra@apache.org</email>
+      <organization>Sony Electronics</organization>
+      <roles>
+        <role>Java Developer</role>
+      </roles>
+    </developer>
+  </developers>
+
+
+  <dependencies>
+  </dependencies>
+
+  <build>
+    <nagEmailAddress>farra@apache.org</nagEmailAddress>
+    <sourceDirectory>${basedir}/src/java</sourceDirectory>
+    <unitTestSourceDirectory>${basedir}/src/test</unitTestSourceDirectory>
+
+    <unitTest/>
+
+    <resources/>
+  </build>
+
+
+</project>
+

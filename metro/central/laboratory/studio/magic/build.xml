@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<project name="metro-studio-magic" default="install" basedir="." 
+    xmlns:x="antlib:org.apache.avalon.tools"
+>
+
+  <x:home index="../index.xml"/>
+  <import file="${magic.templates}/standard.xml"/>
+  
+  <target name="build" depends="standard.build">
+    <x:declare/>
+  </target>
+
+  
+</project>

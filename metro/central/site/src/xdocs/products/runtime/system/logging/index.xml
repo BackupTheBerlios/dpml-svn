@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document>
+  <properties>
+    <author email="dev@avalon.apache.org">Avalon Documentation Team</author>
+    <title>Merlin Runtime</title>
+  </properties> 
+
+  <body>
+    <section name="Avalon Logging">
+        <p>
+        The Avalon Logging system is a container-side service that defines
+        a framework for the logging system plugins.  The framework is 
+        primarily defined by the <a href="api/index.html">Avalon Logging API</a>
+        and the plugin-in model defined by the 
+        <a href="../repository/index.html">Avalon Repository</a> 
+        system.
+        </p>
+        <p>
+        The avalon-logging package is a open logging platform suitable for 
+        use by container implementators. It is based largely on the original
+        excalibur logging system but with some important changes.  Firstly 
+        it leverages the avalon-repository technology to support dynamic 
+        loading of implementation strategies, secondly, it simplies the
+        overall approach to target configuration, and thirdly, it applies
+        a formal logging category meta-data model that is consitent with 
+        avalon model-driven container solutions.
+        </p>
+        <p>
+        The Avalon Logging system includes as a default implementation 
+        the <a href="logkit/index.html">LogKit</a> system as a plugin strategy.
+        Alternative strategies include the <a href="logkit/index.html">Log4J</a> 
+        implementation.
+        </p>
+    </section>
+  </body>
+</document>
+

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+<plugin
+   id="org.apache.metro.studio.tests"
+   name="Metro Studio Tests"
+   version="0.1.1"
+   provider-name="Apache Software Foundation"
+   class="org.apache.metro.studio.eclipse.tests.MetroStudioTests">
+
+   <runtime>
+      <library name="MetroStudioTests.jar">
+         <export name="*"/>
+      </library>
+      <library name="lib/metro-event-0.0.1.jar"/>
+   </runtime>
+
+   <requires>
+      <import plugin="org.eclipse.ui"/>
+      <import plugin="org.eclipse.core.runtime"/>
+      <import plugin="org.apache.metro.studio.core"/>
+      <import plugin="org.apache.metro.studio.ui"/>
+      <import plugin="org.apache.metro.studio.launch"/>
+      <import plugin="org.junit"/>
+      <import plugin="org.eclipse.core.resources"/>
+      <import plugin="org.eclipse.jdt.core"/>
+   </requires>
+
+</plugin>

@@ -1,0 +1,94 @@
+<?xml version="1.0"?>
+
+<!-- 
+ Copyright 2004 Apache Software Foundation
+ Licensed  under the  Apache License,  Version 2.0  (the "License");
+ you may not use  this file  except in  compliance with the License.
+ You may obtain a copy of the License at 
+ 
+   http://www.apache.org/licenses/LICENSE-2.0
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed  under the  License is distributed on an "AS IS" BASIS,
+ WITHOUT  WARRANTIES OR CONDITIONS  OF ANY KIND, either  express  or
+ implied.
+ 
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+
+<document>
+
+  <properties>
+    <author email="dev@avalon.apache.org">Avalon Documentation Team</author>
+    <title>Merlin Runtime</title>
+  </properties> 
+
+  <body>
+
+    <section name="Benefits">
+
+    <subsection name="Seperating Concerns">
+<p>
+Every developer that has written a complex component based application has had to deal with container-side programming. Given normal commercial pressures, it too easy to write code into your application that has assumptions built into it concerning the requirements of the target components.
+</p>
+
+<p>
+Consider the following code fragment:
+</p>
+
+<source>
+
+    // and example of a bad practice of introducing 
+    // component deployment strategy and dependencies
+    // into your application logic 
+
+    DefaultMonitor monitor = new DefaultMonitor();
+    
+    DefaultContext context = new DefaultContext();
+    context.put( "classloader", m_classloader );
+    context.makeReadOnly();
+
+    monitor.enableLogging( m_logger );
+    monitor.contextualize( context );
+    monitor.initialize();
+
+</source>
+
+<p>
+The above container-side code is making a lot of assumptions about the component it is deploying.  Firstly, it knows that the component is log enabled, contextualizable, and initializable. This is problematic because it means that the container-side code is dependent on the component implementation.  If the component were to be changed so that it supported the configurable semantics, there container-side code needs to be updated as well.  This is dangerous because it is easy for container-side to get out-of-sync with the component implementation - for example, the container side code to some extent is dependent on a component properly checking if it has been configured or not. A deeper and more important issue concerns component assembly - if a component  is refactored to use other components, then the container-side code become much more complex and much more closely tied to the set of components that make up the assembly.
+</p>
+
+<p>
+The solution to the above is a framework that automates the process of component deployment.  The end result is that container side code becomes independent of the component deployment strategy and component dependencies.
+</p>
+
+<p>Consider the following code fragment in which we create a service description, locate component model that provides the service, commission the model and resolve the service instance.</p>
+
+<source>
+  ReferenceDescriptor reference = 
+    new ReferenceDescriptor( Widget.class.getName() );
+  ComponentModel model = (ComponentModel) m_model.getModel( reference );
+  model.commission();
+
+  Widget widget = (Widget) model.resolve();
+</source>
+
+<p>
+The above code demonstrates the elimination of knowledge about the component deployment strategy.  All aspect concerning the component logging, configuration, parameterization, contexulization, dependency composition, initialization, startup, shutdown, and disposal are managed by the container.
+</p>
+
+     </subsection>
+   </section>
+  </body>
+
+  <footer>
+    <legal>
+      Copyright (c) @year@ The Avalon Apache Project All rights reserved.
+      $Revision: 1.5 $ $Date: 2004/04/03 05:34:14 $
+    </legal>
+  </footer>
+
+</document>
+
+

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document>
+  <properties>
+    <author email="dev@avalon.apache.org">Avalon Documentation Team</author>
+    <title>Avalon Central</title>
+  </properties> 
+
+  <body>
+
+   <section name="Avalon Adopts JIRA Management Solution">
+     <p>
+      12-FEB-2004
+     </p>
+     <p>
+      The Avalon project has migrated from Bugzilla to
+      <a href="http://issues.apache.org/jira">JIRA</a> for
+      issue tracking and managing bugs and patches.
+     </p>
+    </section>
+  </body>
+</document>
+

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TeamTask id="AS8OA7">
+	<TeamTaskMeta>
+		<CreationDate format="yyyy-MM-dd :: HH:mm:ss z">2004-08-29 :: 08:35:12 CEST</CreationDate>
+		<LastModificationDate format="yyyy-MM-dd :: HH:mm:ss z">2004-08-29 :: 08:35:49 CEST</LastModificationDate>
+	</TeamTaskMeta>
+	<Summary>build testcases</Summary>
+	<User>Andreas</User>
+	<Module>PresentationService</Module>
+	<AssignedTo />
+	<State description="New" index="0" />
+	<Severity description="Enhancement" index="0" />
+	<Description>- test  null values, remove  listener etc</Description>
+	<Notification />
+	<LinkList />
+	<NoteHistory />
+</TeamTask>
+

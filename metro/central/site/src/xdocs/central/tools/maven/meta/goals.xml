@@ -1,0 +1,65 @@
+<?xml version="1.0"?>
+
+<document>
+  <properties>
+    <author email="mcconnell@apache.org">Stephen McConnell</author>
+    <title>Avalon Plugin for Maven</title>
+  </properties>
+  <body>
+    <section name="Avalon Meta Plugin for Maven">
+      <subsection name="Goals">
+        <table>
+          <tr><th>Goal</th><th>Description</th></tr>
+          <tr>
+            <td>avalon:meta</td>
+            <td>
+          <p>Generates meta info descriptors for service and component types
+          based on javadoc tags within the java source files.  Source class files
+          are scanned for the presence of an @avalon.component or @avalon service tag and if 
+          present, a meta descriptor is generated.</p>
+          
+          <p>Meta info generation process includes:</p>
+          <ul>
+            <li>Scan source files for avalon.type or @avalon.service tags</li>
+            <li>Build Type and Service descriptors</li>
+            <li>Externalize descriptors to serial or xml format</li>
+          </ul>
+          <p>Resulting meta info descriptors are placed int the ${basedir}/target/src directory.  Typical application scenario is to define a preGoal to handle meta-info generation under the maven.xml file and inclusion of the output meta info under the project.xml jar resources.</p>
+<p><i>maven.xml example</i></p>
+<source><![CDATA[
+  <project default="jar:jar">
+    <preGoal name="jar:jar">
+      <attainGoal name="avalon:meta"/>
+    </preGoal>
+  </project>
+]]></source>
+<p><i>project.xml example</i></p>
+<source><![CDATA[
+  <project>
+    <!-- other stuff -->
+    <build>
+      <!-- more stuff -->
+      <resources>
+        <!-- include the generated meta-info 
+            descriptors into you jar file -->
+        <resource>
+          <directory>${basedir}/target/src</directory> 
+          <includes>
+            <!-- meta info desriptors -->
+            <include>**/*.x*</include> 
+          </includes>
+        </resource>
+      </resources>
+    </build>
+  </project>
+]]></source>
+            </td>
+          </tr>
+        </table>
+      </subsection>
+    </section>
+  </body>
+</document>
+
+
+

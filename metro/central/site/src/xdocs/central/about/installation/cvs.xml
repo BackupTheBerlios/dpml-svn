@@ -1,0 +1,121 @@
+<?xml version="1.0"?>
+
+<!-- 
+ Copyright 2004 Apache Software Foundation
+ Licensed  under the  Apache License,  Version 2.0  (the "License");
+ you may not use  this file  except in  compliance with the License.
+ You may obtain a copy of the License at 
+ 
+   http://www.apache.org/licenses/LICENSE-2.0
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed  under the  License is distributed on an "AS IS" BASIS,
+ WITHOUT  WARRANTIES OR CONDITIONS  OF ANY KIND, either  express  or
+ implied.
+ 
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+
+<document>
+  <properties>
+    <author email="dev@avalon.apache.org">Avalon Documentation Team</author>
+    <title>Avalon Central</title>
+  </properties> 
+
+    <body>
+        <section name="Building Merlin from CVS">
+
+            <subsection name="Checkout">
+
+                <p>
+                    To build the Merlin installation you need to checkout the
+                    Merlin project from CVS. The commands in this document
+                    assume a unix-style system; the procedure under windows is
+                    similar, and identical if you have <a
+                    href="http://www.cygwin.com">cygwin</a> installed.
+                </p>
+<source><![CDATA[
+$ cvs -d :pserver:anoncvs@cvs.apache.org:/home/cvspublic login
+$ cvs -z3 -d :pserver:anoncvs@cvs.apache.org:/home/cvspublic co avalon
+]]></source>
+
+            </subsection>
+            <subsection name="Build">
+
+                <p>
+                    Once checkout is complete you can build Merlin using <a
+                    href="http://maven.apache.org/">Maven</a> as follows:
+                </p>
+
+<source><![CDATA[
+$ cd avalon/util
+$ maven
+$ cd ../meta
+$ maven
+$ cd ../repository
+$ maven
+$ cd ../logging
+$ maven
+$ cd ../composition
+$ maven
+$ cd ../activation
+$ maven
+$ cd ../merlin
+$ maven
+]]></source>
+
+                <p>
+                    The above build procedure will create a installation
+                    directory containing the Merlin system at
+                </p>
+
+<source><![CDATA[
+  avalon/merlin/target/merlin
+                       ^^^^^^
+                         |
+       ( generated merlin install directory )
+]]></source>
+
+            </subsection>
+            <subsection name="Replicate">
+                <p>
+                    Copy the 'merlin' directory to your preferred location
+                    installation location. For example, you may want to copy
+                    the installation dir to the /opt dir:
+                </p>
+
+<source><![CDATA[
+$ cp -Rf merlin/target/merlin /opt/merlin
+]]></source>
+
+                <p>
+                    Continue with the <a href="install.3.3.html">binary install</a> 
+                    instructions concerning the setup of environment variables to 
+                    complete your installation.
+                </p>
+
+            </subsection>
+            <subsection name="Replicate">
+                <p>
+                If your using the maven build environment you will need to install
+                the supplied plugins.  Plugins are conviniently packaged in the 
+                merlin/plugins directory.
+                </p>
+                <p>
+                The following maven command will install a plugin into the maven system 
+                (check distribution for latest version numbers).
+                </p>
+<source><![CDATA[
+$ maven -DgroupId=avalon-util -DartifactId=avalon-util-plugin -Dversion=1.0.dev-0 plugin:download
+$ maven -DgroupId=avalon-meta -DartifactId=avalon-meta-plugin -Dversion=1.4.dev-0 plugin:download
+$ maven -DgroupId=merlin -DartifactId=merlin-plugin -Dversion=3.3.dev-0 plugin:download
+]]></source>
+            </subsection>
+
+        </section>
+    </body>
+
+</document>
+
+

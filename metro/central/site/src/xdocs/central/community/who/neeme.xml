@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document>
+  <properties>
+    <author email="dev@avalon.apache.org">Avalon Documentation Team</author>
+    <title>Contributors</title>
+  </properties>
+  <body>
+    <section name="Neeme Praks">
+      <p>(neeme at apache dot org)</p>
+      <p>
+      Neeme got involved with Avalon back in 2001 when he was responsible for XMLResourceBundle
+      implementation (that originated from Cocoon). Since then, XMLResourceBundle has been moved
+      back to Cocoon and recently he has been more active in BCEL related areas in Fortress
+      and fixing documentation here and there.
+      </p>
+      <p>
+      Currently he is a committer to Avalon, Hibernate-Avalon (an Avalon wrapper for
+      <a href="http://www.hibernate.org/">Hibernate</a> persistence framework) and
+      <a href="http://cglib.sourceforge.net">CGLIB</a> (a bytecode engineering library,
+      uses BCEL and is used by Hibernate). Has been a committer to
+      <a href="http://jakarta.apache.org/jetspeed/">Jetspeed</a> (a portal framework) and
+      <a href="http://jakarta.apache.org/turbine/">Turbine</a> (a web application framework).
+      And he has been a long-time follower of <a href="http://cocoon.apache.org">Cocoon</a>
+      (dating back to the early days of Cocoon1) and
+      <a href="http://db.apache.org/torque/">Torque</a> (a persistence framework).
+      </p>
+      <p>In addition to the above, recently he has been interested in: bytecode engineering
+      (<a href="http://cglib.sourceforge.net">CGLIB</a> and
+       <a href="http://jakarta.apache.org/bcel/">BCEL</a>), java persistence
+      (<a href="http://www.hibernate.org">Hibernate</a> and
+       <a href="http://db.apache.org/ojb/">OJB</a>) and java UI frameworks
+      (<a href="http://jakarta.apache.org/commons/jelly/">Commons Jelly Swing tag library</a>
+       and XUL). Also, the discussions about avalonizing
+      <a href="http://jakarta.apache.org/turbine/">Turbine</a> look promising and he is
+      hoping to become more active once again in Turbine-land as well.
+      </p>
+    </section>
+  </body>
+</document>

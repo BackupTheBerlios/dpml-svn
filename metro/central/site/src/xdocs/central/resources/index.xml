@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document>
+  <properties>
+    <author email="dev@avalon.apache.org">Avalon Documentation Team</author>
+    <title>Avalon Central</title>
+  </properties> 
+
+  <body>
+    <section name="Resources for Avalon Developers">
+      <subsection name="Index">
+        <table>
+          <tr><th>Topic</th><th>Description</th></tr>
+          <tr>
+            <td><a href="mailing-lists.html">Mailing List</a></td>
+            <td>
+              <p>
+      Details for subscribing to Avalon developer and user list and links
+      to list archives.
+              </p>
+            </td>
+          </tr>
+          <tr>
+            <td><a href="issues.html">JIRA Bug Tracking</a></td>
+            <td>
+              <p>
+      Convinience links to the main JIRA Projects in Avalon
+              </p>
+            </td>
+          </tr>
+          <tr>
+            <td><a href="svn/index.html">Subversion</a></td>
+            <td>
+              <p>
+      Introduction to subversion - our code management solution.
+              </p>
+            </td>
+          </tr>
+        </table>
+      </subsection>
+    </section>
+  </body>
+</document>
+

@@ -1,0 +1,93 @@
+<?xml version="1.0"?>
+
+<!-- 
+ Copyright 2004 Apache Software Foundation
+ Licensed  under the  Apache License,  Version 2.0  (the "License");
+ you may not use  this file  except in  compliance with the License.
+ You may obtain a copy of the License at 
+ 
+   http://www.apache.org/licenses/LICENSE-2.0
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed  under the  License is distributed on an "AS IS" BASIS,
+ WITHOUT  WARRANTIES OR CONDITIONS  OF ANY KIND, either  express  or
+ implied.
+ 
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+
+<document>
+
+  <properties>
+    <author email="mcconnell@apache.org">Stephen McConnell</author>
+    <title>Logger Artifact</title>
+  </properties>
+
+  <body>
+
+    <section name="Logger Artifact">
+
+      <subsection name="Overview">
+
+        <p>
+The <a href="../../../../../avalon/runtime/@RUNTIME-VERSION@/api/org/apache/avalon/framework/logger/Logger.html">Logger</a> 
+defines a implementation independent logging channel.  The logging channel 
+supplied to a component represents the root loggging channel for the component. 
+A component may aquire additional subsidiary channels using the 
+<a href="../../../../../avalon/runtime/@RUNTIME-VERSION@/api/org/apache/avalon/framework/logger/Logger.html#getChildLogger(java.lang.String)">getChildLogger()</a> 
+operation.  The Logger interface exposes a set of operations to check if a 
+particular logging priority is enabled, thus enabling optimization of typically 
+expensive string manipulation operations related to log message construction. 
+        </p>
+      </subsection>
+
+      <subsection name="Delivery Strategies">
+        <p>
+A logging channel may be supplied via constructor or under an implementation of 
+the <a href="../../../../../avalon/runtime/@RUNTIME-VERSION@/api/org/apache/avalon/framework/logger/LogEnabled.html">LogEnabled</a> 
+lifecycle stage interface.
+        </p>
+      </subsection>
+
+      <subsection name="Example">
+        <p>
+An implementation may declare is usage of subsidiary logging channels to a 
+management facility through the 
+<a href="../../../system/meta/tags/logger.html">@avalon.logger</a> source 
+markup tag.
+        </p>
+<p><i>Example:</i></p>
+<source>
+  /**
+   * Creation of a new widget. The implementation assigns 
+   * the supplied logging channel as the default channel and 
+   * constructs a subsidiary channel for connection related log 
+   * messages. 
+   *
+   * @param logger a logging channel
+   * @avalon.logger name="connection"
+   */
+   public DefaultWidget( Logger logger ) 
+   {
+       m_logger = logger;
+       m_connectionLogger = logger.getChildLogger( "connection" );
+
+       if( m_logger.isDebugEnabled() )
+       {
+           final String message =
+             "Widget established.";
+           m_logger.debug( message );
+       }
+   }
+</source>
+
+      </subsection>
+
+    </section>
+
+  </body>
+
+</document>
+
+

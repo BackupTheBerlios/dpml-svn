@@ -1,0 +1,67 @@
+<?xml version="1.0"?>
+
+<!-- 
+ Copyright 2004 Apache Software Foundation
+ Licensed  under the  Apache License,  Version 2.0  (the "License");
+ you may not use  this file  except in  compliance with the License.
+ You may obtain a copy of the License at 
+ 
+   http://www.apache.org/licenses/LICENSE-2.0
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed  under the  License is distributed on an "AS IS" BASIS,
+ WITHOUT  WARRANTIES OR CONDITIONS  OF ANY KIND, either  express  or
+ implied.
+ 
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+
+<document>
+  <properties>
+    <author email="mcconnell@apache.org">Stephen McConnell</author>
+    <title>Avalon Logging - Stream Log Target</title>
+  </properties>
+  <body>
+    <section name="Stream Log Target">
+      <subsection name="Description">
+        <p>The Console LogTarget provides support for the logging 
+        of message to a console via System.out or System.err. If 
+        no logging targets are defined, the implementation will 
+        establish a default console target.</p>
+      </subsection>
+      <subsection name="Example">
+<source><![CDATA[
+    <stream id="standard">
+       <name>System.out</name>
+       <format type="console"/>
+    </stream>
+]]></source>
+      </subsection>
+      <subsection name="XML">
+        <table>
+          <tr><th>Attributes</th><th>Description</th></tr>
+          <tr>
+            <td>id</td>
+            <td>The log target identifier.</td>
+          </tr>
+        </table>
+        <table>
+          <tr><th>Nested Element</th><th>Description</th></tr>
+          <tr>
+            <td>name</td>
+            <td>The keyword 'System.out' or 'System.err'.  The 'System.out' keyword will result in the 
+            streaming of events to System.out. The 'System.err' keyword will result in the 
+            streaming of events to System.err.</td>
+          </tr>
+          <tr>
+            <td>format</td>
+            <td>A standard <a href="formatter.html">formatter</a> statement.</td>
+          </tr>
+        </table>
+      </subsection>
+    </section>
+  </body>
+</document>
+
+

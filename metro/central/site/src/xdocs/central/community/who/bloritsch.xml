@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document> 
+  <properties>
+    <author email="dev@avalon.apache.org">Avalon Documentation Team</author>
+    <title>Apache Avalon: Contributors</title>
+  </properties>
+  <body> 
+    <section name="Berin Loritsch">
+      <p>(bloritsch at apache dot org)</p>
+      <p>
+      Berin has helped define and document the Avalon projects since 2000.
+      He has been involved in Apache Avalon and Apache Cocoon.  He is the
+      author of the current thread-safe pool implementations as well as
+      the DataSourceComponent.  Berin and Giacomo Pati were the architects
+      of Excalibur's Component Management infrastructure.
+      </p>
+      <p>
+      Outside of the public view of the Apache Software Foundation, Berin
+      has developed workflow based web applications as well as data
+      manipulation services.  He has nine years of experience developing
+      database backed applications, and eight years experience with
+      technical writing.  Berin has only been developing Java since 1999,
+      but his background in other Object Oriented Languages and architectures
+      like C++ and CORBA helped him get a jump start.
+      </p>
+    </section>
+  </body>
+</document>

@@ -1,0 +1,169 @@
+<?xml version="1.0"?>
+
+<!-- 
+ Copyright 2004 Apache Software Foundation
+ Licensed  under the  Apache License,  Version 2.0  (the "License");
+ you may not use  this file  except in  compliance with the License.
+ You may obtain a copy of the License at 
+ 
+   http://www.apache.org/licenses/LICENSE-2.0
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed  under the  License is distributed on an "AS IS" BASIS,
+ WITHOUT  WARRANTIES OR CONDITIONS  OF ANY KIND, either  express  or
+ implied.
+ 
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+
+<document>
+
+  <properties>
+    <author email="mcconnell@apache.org">Stephen McConnell</author>
+    <title>Context Artifact</title>
+  </properties>
+
+  <body>
+
+    <section name="Context Artifact">
+
+      <subsection name="Overview">
+
+        <p>
+A component may be supplied with a context object either by constructor or 
+through an implementation of the 
+<a href="../../../../../avalon/runtime/@RUNTIME-VERSION@/api/org/apache/avalon/framework/context/Contextualizable.html">Contextualizable</a> 
+lifecycle artifact delivery interface.  A context object is typically used to 
+provide standard environment information to a component.  It may also be used a 
+mechanisms to deliver domain specific resources to a component.
+        </p>
+
+        <p>
+The avalon platform defines a small number of standard context entries that are 
+managed automatically by the container.
+        </p>
+
+      </subsection>
+
+      <subsection name="Standard Context Entries">
+
+        <table>
+          <tr>
+            <th>Key</th><th>Class</th><th>Description</th>
+          </tr>
+          <tr>
+            <td>urn:avalon:home</td><td>java.io.File</td>
+            <td>The working directory.</td>
+          </tr>
+          <tr>
+            <td>urn:avalon:temp</td><td>java.io.File</td>
+            <td>A temporary directory that will be destroyed at the 
+            end of the session.</td>
+          </tr>
+          <tr>
+            <td>urn:avalon:name</td><td>java.lang.String</td>
+            <td>The name assigned to the component.</td>
+          </tr>
+          <tr>
+            <td>urn:avalon:partition</td><td>java.lang.String</td>
+            <td>The assigned partition name.</td>
+          </tr>
+        </table>
+
+      </subsection>
+
+      <subsection name="Standard Context Example">
+
+        <p>
+Both standard and custom context entry dependencies may be declared using the 
+<a href="../../../system/meta/tags/entry.html">@avalon.entry</a> 
+source markup tag.  The following code fragment is an example of a constructor 
+declaring a set of standard context entry dependencies.
+        </p>
+<source>
+   /**
+    * Creation of a new HelloComponent instance using a 
+    * container supplied logging channel and context.
+    * The context supplied by the container holds the 
+    * standard context entries for the home and 
+    * working directories, component name and partition.
+    *
+    * @avalon.entry key="urn:avalon:name" 
+    * @avalon.entry key="urn:avalon:partition" 
+    * @avalon.entry key="urn:avalon:home" type="java.io.File"
+    * @avalon.entry key="urn:avalon:temp" type="java.io.File"
+    */
+    public HelloComponent( Logger logger, Context context )
+      throws ContextException
+    {
+        m_logger = logger;
+
+        m_home = (File) context.get( "urn:avalon:home" );
+        m_temp = (File) context.get( "urn:avalon:temp" );
+        m_name = (String) context.get( "urn:avalon:name" );
+        m_partition = (String) context.get( "urn:avalon:partition" );
+
+        StringBuffer buffer = new StringBuffer( "standard context entries" );
+        buffer.append( "\n  name: " + m_name );
+        buffer.append( "\n  home: " + m_home );
+        buffer.append( "\n  temp: " + m_temp );
+        buffer.append( "\n  partition: " + m_partition );
+
+        m_logger.info( buffer.toString() );
+    }
+</source>
+
+      </subsection>
+
+      <subsection name="Context Casting">
+        <p>
+        While the context interface provides the mechanisms to 
+        access any object type via key, it is sometimes convenient to 
+        declare a domain specific interface and custom context 
+        implementation.  This enables client code to take advantage
+        of convenience accessors, resulting in code that is not 
+        cluttered with casting and context entry key references.
+        </p>
+        <p>
+        The dependency of a component on a custom context type is 
+        declared using the 
+        <a href="../../../system/meta/tags/context.html">
+        @avalon.context</a> tag type attribute.
+        </p>
+<source>
+   /**
+    * Creation of a new DefaultWidget instance using a 
+    * custom object that is castable to a domain specific
+    * interface.
+    *
+    * @avalon.context type="net.dpml.WidgetContext" 
+    * @avalon.entry key="urn:avalon:home" type="java.io.File"
+    */
+    public DefaultWidget( WidgetContext context )
+      throws ContextException
+    {
+        File common = context.getCommonDirectory();
+        m_common = common;
+    }
+</source>
+        <p>
+        In the above example the WidgetContext interfact is unknown
+        to the container - as such an explicit deployment directives is 
+        required to declare a the context implementation class to be used
+        by the container during context argument establishment.               
+        </p>
+<source><![CDATA[
+   <component name="widget" class="net.dpml.DefaultWidget">
+     <context class="net.dpml.DefaultWidgetContext"/>
+   </component>
+]]></source>
+      </subsection>
+
+    </section>
+
+  </body>
+
+</document>
+
+

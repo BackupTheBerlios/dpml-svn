@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="org.apache.metro.studio" default="build.update.jar" basedir=".">
+
+	<target name="init">
+		<property name="feature.temp.folder" value="${basedir}/feature.temp.folder"/>
+		<property name="feature.destination" value="${basedir}"/>
+	</target>
+
+	<target name="all.plugins" depends="init">
+		<ant antfile="build.xml" dir="../docs" target="${target}">
+		</ant>
+		<ant antfile="build.xml" dir="../core" target="${target}">
+		</ant>
+		<ant antfile="build.xml" dir="../launch" target="${target}">
+		</ant>
+		<ant antfile="build.xml" dir="../ui" target="${target}">
+		</ant>
+		<ant antfile="build.xml" dir="../test" target="${target}">
+		</ant>
+	</target>
+	<target name="all.features" depends="init">
+	</target>
+	<target name="update.feature" depends="init">
+	</target>
+
+	<target name="all.children" depends="init,all.features,all.plugins,update.feature">
+	</target>
+
+	<target name="children" if="include.children">
+		<antcall target="all.children"/>
+	</target>
+
+	<target name="build.jars" depends="init" description="Build all the jars for the feature: org.apache.metro.studio.">
+		<antcall target="all.children">
+			<param name="target" value="build.jars"/>
+		</antcall>
+	</target>
+
+	<target name="build.sources" depends="init">
+		<antcall target="all.children">
+			<param name="target" value="build.sources"/>
+		</antcall>
+	</target>
+
+	<target name="build.zips" depends="init">
+		<antcall target="all.children">
+			<param name="target" value="build.zips"/>
+		</antcall>
+	</target>
+
+	<target name="build.update.jar" depends="init" description="Build the feature jar of: org.apache.metro.studio for an update site.">
+		<antcall target="all.children">
+			<param name="target" value="build.update.jar"/>
+		</antcall>
+		<property name="feature.base" value="${feature.temp.folder}"/>
+		<delete dir="${feature.temp.folder}"/>
+		<mkdir dir="${feature.temp.folder}"/>
+		<antcall target="gather.bin.parts" inheritAll="false">
+			<param name="arch" value="*"/>
+			<param name="ws" value="*"/>
+			<param name="nl" value="en_US"/>
+			<param name="os" value="*"/>
+			<param name="feature.base" value="${feature.temp.folder}"/>
+		</antcall>
+		<jar jarfile="${feature.destination}/org.apache.metro.studio_0.1.1.jar" basedir="${feature.temp.folder}/features/org.apache.metro.studio_0.1.1"/>
+		<delete dir="${feature.temp.folder}"/>
+	</target>
+
+	<target name="gather.bin.parts" depends="init" if="feature.base">
+		<antcall target="children">
+			<param name="destination.temp.folder" value="${feature.base}/plugins"/>
+			<param name="target" value="gather.bin.parts"/>
+		</antcall>
+		<copy todir="${feature.base}/features/org.apache.metro.studio_0.1.1" failonerror="true">
+			<fileset dir="${basedir}" includes="feature.xml"			/>
+		</copy>
+		<eclipse.idReplacer featureFilePath="${feature.base}/features/org.apache.metro.studio_0.1.1/feature.xml"  selfVersion="0.1.1" featureIds="" pluginIds="org.apache.metro.studio.core,0.1.1,org.apache.metro.studio.launch,0.1.1,org.apache.metro.studio.ui,0.1.1,org.apache.metro.studio.tests,0.1.1,org.apache.metro.studio.docs,0.1.1,"/>
+		<antcall target="rootFiles${os}_${ws}_${arch}"/>
+	</target>
+	<target name="rootFiles*_*_*">
+	</target>
+
+	<target name="zip.distribution" depends="init" description="Create a zip containing all the plug-ins and features for the feature: org.apache.metro.studio.">
+		<delete dir="${feature.temp.folder}"/>
+		<mkdir dir="${feature.temp.folder}"/>
+		<antcall target="gather.bin.parts">
+			<param name="arch" value="*"/>
+			<param name="ws" value="*"/>
+			<param name="nl" value="en_US"/>
+			<param name="include.children" value="true"/>
+			<param name="feature.base" value="${feature.temp.folder}"/>
+			<param name="os" value="*"/>
+		</antcall>
+		<zip zipfile="${feature.destination}/org.apache.metro.studio_0.1.1.bin.dist.zip" basedir="${feature.temp.folder}" filesonly="false" whenempty="skip" update="false"/>
+		<delete dir="${feature.temp.folder}"/>
+	</target>
+
+	<target name="zip.sources" depends="init">
+		<delete dir="${feature.temp.folder}"/>
+		<mkdir dir="${feature.temp.folder}"/>
+		<antcall target="all.children">
+			<param name="destination.temp.folder" value="${feature.temp.folder}/plugins/org.apache.metro.studio.source_0.1.1/src"/>
+			<param name="include.children" value="true"/>
+			<param name="target" value="gather.sources"/>
+		</antcall>
+		<zip zipfile="${feature.destination}/org.apache.metro.studio_0.1.1.src.zip" basedir="${feature.temp.folder}" filesonly="true" whenempty="skip" update="false"/>
+		<delete dir="${feature.temp.folder}"/>
+	</target>
+
+	<target name="zip.logs" depends="init">
+		<delete dir="${feature.temp.folder}"/>
+		<mkdir dir="${feature.temp.folder}"/>
+		<antcall target="all.children" inheritAll="false">
+			<param name="destination.temp.folder" value="${feature.temp.folder}/plugins"/>
+			<param name="include.children" value="true"/>
+			<param name="target" value="gather.logs"/>
+		</antcall>
+		<zip zipfile="${feature.destination}/org.apache.metro.studio_0.1.1.log.zip" basedir="${feature.temp.folder}" filesonly="true" whenempty="skip" update="false"/>
+		<delete dir="${feature.temp.folder}"/>
+	</target>
+
+	<target name="clean" depends="init" description="Clean the feature: org.apache.metro.studio of all the zips, jars and logs created.">
+		<delete file="${feature.destination}/org.apache.metro.studio_0.1.1.jar"/>
+		<delete file="${feature.destination}/org.apache.metro.studio_0.1.1.bin.dist.zip"/>
+		<delete file="${feature.destination}/org.apache.metro.studio_0.1.1.log.zip"/>
+		<delete file="${feature.destination}/org.apache.metro.studio_0.1.1.src.zip"/>
+		<delete dir="${feature.temp.folder}"/>
+		<antcall target="all.children">
+			<param name="target" value="clean"/>
+		</antcall>
+	</target>
+
+	<target name="refresh" depends="init" if="eclipse.running" description="Refresh this folder.">
+		<eclipse.convertPath fileSystemPath="D:/Avalon/studio/eclipse/features/" property="resourcePath"/>
+		<eclipse.refreshLocal resource="${resourcePath}" depth="infinite"/>
+		<antcall target="all.children">
+			<param name="target" value="refresh"/>
+		</antcall>
+	</target>
+	<target name="gather.sources">
+		<antcall target="children">
+			<param name="destination.temp.folder" value="${feature.temp.folder}/plugins/org.apache.metro.studio.source_0.1.1/src"/>
+			<param name="target" value="gather.sources"/>
+		</antcall>
+	</target>
+
+	<target name="gather.logs" depends="init">
+		<mkdir dir="${feature.temp.folder}"/>
+		<antcall target="all.children" inheritAll="false">
+			<param name="destination.temp.folder" value="${feature.temp.folder}/plugins"/>
+			<param name="target" value="gather.logs"/>
+		</antcall>
+	</target>
+
+</project>

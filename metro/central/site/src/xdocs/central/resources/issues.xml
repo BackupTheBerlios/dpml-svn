@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document>
+  <properties>
+    <author email="dev@avalon.apache.org">Avalon Documentation Team</author>
+    <title>Avalon Central</title>
+  </properties> 
+ <body>
+
+   <section name="Issue Tracking">
+    <p>
+    Avalon uses the <a href="http://issues.apache.org/jira">ASF JIRA</a>
+    issue tracker to manage feature requests
+    and bug fixes.  Anyone can browse project reports,
+    though you will need an account to submit new issues.  Please
+    submit requests to the appropriate project module (when in doubt,
+    send a message to the developers mailing list).
+    </p>
+    <table>
+
+     <tr>
+       <th>Project</th>
+       <th>Description</th>
+     </tr>
+
+     <tr>
+       <td><a href="http://issues.apache.org/jira/secure/BrowseProject.jspa?id=10530">Avalon Central</a></td>
+       <td>Site docs, General Issues</td>
+      </tr>
+
+      <tr>  
+       <td><a href="http://issues.apache.org/jira/secure/BrowseProject.jspa?id=10532">Avalon Planet</a></td>
+       <td>Components and facilities.</td>
+      </tr> 
+
+      <tr>  
+       <td><a href="http://issues.apache.org/jira/secure/BrowseProject.jspa?id=10533">Avalon Tools</a></td>
+       <td>Avalon's build system and general developer tools.</td>
+      </tr> 
+
+      <tr>  
+       <td><a href="http://issues.apache.org/jira/secure/BrowseProject.jspa?id=10425">Merlin Runtime</a></td>
+       <td>Avalon Merlin RI Container.</td>
+      </tr>
+
+      <tr>  
+       <td><a href="http://issues.apache.org/jira/secure/BrowseProject.jspa?id=10531">Merlin Studio</a></td>
+       <td>Exclipse support tools for Merlin component development.</td>
+      </tr>
+
+    </table>
+    <p>
+     A full list of the projects can be found at <a href="http://issues.apache.org/jira">http://issues.apache.org/jira</a>
+     in the Avalon, Avalon Merlin, and Avalon Components categories.
+    </p>
+
+     <subsection name="Submitting Patches">
+	    <p>Generate patches using <code>cvs diff -u</code>, or <code>diff -u</code>.
+	    Please create your patches relative to the root of the cvs module the patch
+	    should be applied to. Please compile changes to multiple files
+	    in a single patch file. Make sure the patch adheres to the coding standards,
+	    and includes appropriate javadoc.</p>
+	    
+	    <p>When you've built the patch, file a new bug report in JIRA if one
+	    does not exist yet, explain the reason behind the patch, how the patch fixes
+	    the issues, and add the patch as an attachment.</p>
+	    
+	    <p>If your patch is not getting applied or there is no response, start nagging
+	    the developers (politely, please :D) on the developers mailing list.</p>    
+	    
+	    <p>Please submit documentation patches against the XML sourcefiles used
+	    for generating the documentation, and not against the documentation
+	    itself.  Site documentation issues can be opened in the Avalon Framework's
+          Documentation module.</p>
+
+     </subsection>
+
+   </section>
+  </body>
+</document>

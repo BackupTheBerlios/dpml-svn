@@ -1,0 +1,55 @@
+<?xml version="1.0"?>
+
+<document>
+
+  <properties>
+    <author email="mcconnell@apache.org">Stephen McConnell</author>
+    <title>Attributes Descriptor</title>
+  </properties>
+
+  <body>
+    <section name="Attributes">
+
+      <subsection name="Description">
+<p>
+Declaration of a set of attributes.
+</p>
+      </subsection>
+
+
+      <subsection name="Nested Elements">
+        <table>
+          <tr><th>Element</th><th>Occurance</th><th>Description</th></tr>
+          <tr>
+            <td><a href="attribute.html">attribute</a></td><td>0..n</td>
+            <td>
+             An attribute declaration.
+            </td>
+          </tr>
+        </table>
+      </subsection>
+
+      <subsection name="Example XML">
+
+<source>
+    &lt;attributes&gt;
+      &lt;attribute key="size" value="small"/&gt;
+      &lt;attribute key="maximum" value="1200"/&gt;
+    &lt;/attributes&gt;
+</source>
+
+      </subsection>
+
+    </section>
+
+  </body>
+
+  <footer>
+    <legal>
+      Copyright (c) @year@ The Avalon Apache Project. All rights reserved.
+      $Revision: 1.2 $ $Date: 2004/04/14 11:47:31 $
+    </legal>
+  </footer>
+
+</document>
+

@@ -1,0 +1,150 @@
+<?xml version="1.0"?>
+
+<!--
+ * 
+ * Copyright 2004 Apache Software Foundation
+ * Licensed  under the  Apache License,  Version 2.0  (the "License");
+ * you may not use  this file  except in  compliance with the License.
+ * You may obtain a copy of the License at 
+ * 
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed  under the  License is distributed on an "AS IS" BASIS,
+ * WITHOUT  WARRANTIES OR CONDITIONS  OF ANY KIND, either  express  or
+ * implied.
+ * 
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+-->
+
+<document>
+
+    <properties>
+        <author email="mcconnell@apache.org">Stephen McConnell</author>
+        <title>Avalon Repository - SPI</title>
+    </properties>
+
+    <body>
+
+      <section name="Avalon Repository SPI">
+
+        <subsection name="Service Provider Interface (SPI)">
+          <p>
+          The Avalon Repository SPI extends the API to provide a set 
+          of services that define the contact for plugin facilities. 
+          The Avalon Repository main bootstrapping system 
+          provides out-of-the-box support for concurrent deployment of 
+          multiple repository implementations enabling complete customization
+          and future-proof evolution of artifact access and deployment needs. 
+          It achives this functionality by applying the same plugin process to
+          its own implementation.  
+          </p>
+        </subsection>
+
+      </section>
+      <section name="Plugin Facilities">
+        <subsection name="Factory Pattern">
+          <p>
+          A plugin facility is requred to impliment one of the following 
+          ranked constructor patterns.
+          </p>
+          <table>
+            <tr><th>Constructor</th><th>Description</th></tr>
+            <tr>
+              <td>Context and ClassLoader</td>
+              <td>
+                  Creation of a new factory using a supplied initial
+                  repository context and a classloader established by
+                  the bootstrap facility.  The classloader will be 
+                  fully populated in accordance with the metadata
+                  published by the factory.
+<source>
+public MyFactory( 
+    InitialContext context, 
+    ClassLoader classloader )
+{
+}</source>
+              </td>
+            </tr>
+            <tr>
+              <td>Context</td>
+              <td>
+                  Creation of a new factory using a supplied initial
+                  repository context.
+<source>
+public MyFactory( 
+    InitialContext context )
+{
+}</source>
+              </td>
+            </tr>
+            <tr>
+              <td>ClassLoader</td>
+              <td>
+                  Creation of a new factory using a supplied classloader 
+                  established by the bootstrap facility.  The classloader 
+                  will be fully populated in accordance with the metadata
+                  published by the factory.
+<source>
+public MyFactory( 
+    ClassLoader classloader )
+{
+}</source></td>
+            </tr>
+            <tr>
+              <td>Null Constructor</td>
+              <td>
+                  Creation of a new factory.
+<source>
+public MyFactory()
+{
+}</source>
+              </td>
+            </tr>
+          </table>
+        </subsection>
+        <subsection name="Criteria Management">
+          <p>
+          The object established by the factory constructor must implement
+          the Factory interface.
+          </p>
+<source>
+public interface Factory
+{
+   /**
+    * Return a new instance of default criteria for the factory.
+    * @return a new criteria instance
+    */
+    Map createDefaultCriteria();
+
+   /**
+    * Create a new instance of an application.
+    * @return the application instance
+    */
+    Object create() throws Exception;
+
+   /**
+    * Create a new instance of an application.
+    * @param criteria the creation criteria
+    * @return the application instance
+    */
+    Object create( Map criteria ) throws Exception;
+
+}
+</source>
+          <p>
+          A client on aquiring the factory will get the default
+          criteria value and use this to parameterize the factory.
+          On completion of parameterization (by setting application
+          specific named values), the create operation is invoked and
+          returns a new instance of the facility.
+          </p>
+        </subsection>
+      </section>
+    </body>
+
+</document>
+
+

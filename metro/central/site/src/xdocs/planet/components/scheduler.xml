@@ -1,0 +1,60 @@
+<?xml version="1.0"?>
+
+<document>
+
+  <properties>
+    <author email="mcconnell@apache.org">Stephen McConnell</author>
+    <title>Avalon Planet</title>
+  </properties>
+
+  <body>
+    <section name="Scheduler">
+      <subsection name="Description">
+           <p>
+           The TimeScheduler service provides a services supporting the 
+           scheduling of activities to occur an certain intervals.
+           The DefaultTimeScheduler block implements the service. When
+           used in conjunction with the service is it a TimeTrigger.  
+           There are two such tiggers provided within the implementation
+           CronTimeTrigger and PeriodicTimeTigger.
+           </p>
+      </subsection>
+      <subsection name="Deployment Facts">
+        <table>
+          <tr><td>Containment</td><td>Avalon Framework 4.2.0</td>
+          </tr>
+          <tr><td>Lifestyle</td><td>singleton</td></tr>
+        </table>
+      </subsection>
+      <subsection name="Lifecycle">
+        <table>
+          <tr><th>Stage</th><th>Description</th></tr>
+          <tr><td>LogEnabled</td><td>Logs lifescycle stages and runtime warning.</td></tr>
+          <tr>
+            <td>Serviceable</td>
+            <td>
+              The connection manager has a structural dependency on the 
+              <a href="threads.html">Threads</a>component.
+            </td>
+          </tr>
+          <tr>
+            <td>Startable</td>
+            <td>
+            Initiates execution using the default thread pool.
+            </td>
+          </tr>
+          <tr>
+            <td>Disposable</td>
+            <td>Disposal phase cleanup.</td>
+          </tr>
+        </table>
+      </subsection>
+    </section>
+
+  </body>
+
+</document>
+
+
+
+

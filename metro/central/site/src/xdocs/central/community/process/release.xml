@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document>
+  <properties>
+    <author email="dev@avalon.apache.org">Avalon Documentation Team</author>
+    <title>Apache Avalon: Release Management</title>
+  </properties> 
+        <body>
+	  <section name="Relevant links">
+	    <ul>
+<li><a href="http://jakarta.apache.org/site/decisions.html">Jakarta decision process</a></li>
+<li><a href="http://httpd.apache.org/dev/release.html">HTTPD release policy</a></li>
+<li><a href="http://nagoya.apache.org/bugzilla/reports.cgi?product=Avalon&amp;output=most_doomed&amp;links=1&amp;banner=1&amp;quip=0">Bug summary</a></li>
+<li><a href="http://cvs.apache.org/~bodewig/mirror.html">Distribution Mirroring HOWTO</a></li>
+<li><a href="http://cvs.apache.org/builds/">Nightly builds</a></li>
+<!--<li><a href="http://gump.covalent.net/jars/latest/">Nightly builds: jars@covalent</a></li>-->
+<li><a href="http://freshmeat.net/articles/view/392/">Freshmeat on software builds</a></li>
+<li><a href="http://java.sun.com/docs/books/tutorial/jar/sign/signing.html">Java tutorial: jar signing</a></li>
+<li><a href="http://java.sun.com/j2se/1.4/docs/tooldocs/tools.html#security">JDK Security tool docs</a></li>
+<li><a href="http://cvs.apache.org/viewcvs.cgi/jakarta-tomcat-4.0/RELEASE-PLAN-4.1.txt">Tomcat 4 release plan</a></li>
+	    </ul>
+	  </section>
+        </body>
+</document>

@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<document>
+  <properties>
+    <author email="dev@avalon.apache.org">Avalon Documentation Team</author>
+    <title>Home</title>
+  </properties> 
+
+  <body>
+    <section name="Overview of Apache Avalon">
+     <table>
+       <tr>
+         
+         <td><img src="images/central.png"/></td>
+	 <td><strong><a href="central/about/index.html">Avalon Central</a></strong>
+             houses our documentation, tutorials,
+	     and a number of resources which allow the Avalon 
+	     community to run smoothly.</td>
+       </tr>
+       <tr>
+         <td><img src="images/products.png"/></td>
+	 <td><strong>
+             <a href="products/runtime/index.html">Avalon Products</a>
+	     </strong> includes:<br/><br/><br/>
+	     <table>
+	       <tr>
+	         <td><img src="images/merlin.png"/></td>
+		 <td><strong>
+		     <a href="products/runtime/index.html">Merlin Runtime</a>
+		     </strong> forms the core of the Avalon Platform and 
+		     provides an IoC container for service and component
+		     management.
+		 </td>
+	       </tr>
+	       <tr>
+	         <td><img src="images/discovery.png"/></td>
+		 <td><strong>
+		   <a href="products/discovery/index.html">Merlin Discovery</a>
+		     </strong> aims to provide a complete service delivery
+		     infrastructure.
+		  </td>
+	       </tr>
+	       <tr>
+	         <td><img src="images/repository.png"/></td>
+		 <td><strong>
+                    <a href="products/runtime/system/repository/index.html">Avalon Repository</a>
+		     </strong> is a Java API and bootstrap platform for dynamic 
+		     artifact loading, classloader chain creation, and generic 
+		     application bootstrapping using local and remote resource
+		     repositories.
+		 </td>
+	       </tr>
+	       <tr>
+	         <td><img src="images/tools.png"/></td>
+		 <td><strong>
+		     <a href="central/tools/index.html">Avalon Tools</a>
+		     </strong> comprises a collection of tools for building
+		     and developing with the Avalon platform.
+		  </td>
+	       </tr>
+	       <tr>
+	         <td><img src="images/magic1.png"/></td>
+		 <td><strong>
+		     <a href="products/tools/magic.html">Avalon Magic</a>
+		     </strong> is a build system based on Apache Ant. It provides 
+                       a project model abstraction layer enabling centralized 
+                       version and dependency management (similar to Maven), 
+                       build task automation, and dynamic plugin management.
+		  </td>
+	       </tr>
+	       <tr>
+	         <td><img src="images/studio.png"/></td>
+		 <td><strong>
+		     <a href="products/runtime/index.html">Avalon Studio</a>
+		     </strong> is a set of Eclipse plugins for Avalon
+		     component development.
+		 </td>
+	       </tr>
+	     </table>
+         </td>
+       </tr>
+       <tr>
+         <td><img src="images/planet.png"/></td>
+	 <td><strong>
+	     <a href="planet/components/index.html">Avalon Planet</a>
+             </strong> houses our component libraries and container extensions:
+	     <br/><br/><br/>
+	     <table>
+	       <tr>
+	         <td><img src="images/components.png"/></td>
+		 <td><strong>
+		     <a href="planet/components/index.html">Avalon Components</a>
+		     </strong> is a collection of basic reusable components 
+		     which includes the original Cornerstone component library.
+		 </td>
+	       </tr>
+	       <tr>
+	         <td><img src="images/facilities.png"/></td>
+		 <td><strong>
+		   <a href="planet/facilities/index.html">Avalon Facilities</a>
+		     </strong> are Merlin container extensions which add
+		     special functionality like JMX, HTTP, JMS, and RMI support.
+		  </td>
+	       </tr>
+	       </table>
+	 </td>
+        </tr>
+     </table>
+     <p>
+       <small>Icons courtesy of the <a href="http://www.kde-look.org/content/show.php?content=8341">KDE Crystal SVG</a> project.</small>
+     </p>
+    </section>
+  </body>
+</document>

@@ -1,0 +1,28 @@
+<fortress-roles logger="system.roles">
+
+  <role name="org.apache.avalon.mutuals.dao.UserManager">
+    <component shorthand="user-manager"
+               class="org.apache.avalon.mutuals.dao.impl.FortressUserManager"
+               handler="org.apache.avalon.fortress.impl.handler.ThreadSafeComponentHandler"/>
+  </role>
+
+  <role name="org.apache.avalon.mutuals.dao.FundManager">
+    <component shorthand="fund-manager"
+               class="org.apache.avalon.mutuals.dao.impl.FortressFundManager"
+               handler="org.apache.avalon.fortress.impl.handler.ThreadSafeComponentHandler"/>
+  </role>
+
+  <role name="org.apache.avalon.mutuals.dao.TransactionManager">
+    <component shorthand="transaction-manager"
+               class="org.apache.avalon.mutuals.dao.impl.FortressTransactionManager"
+               handler="org.apache.avalon.fortress.impl.handler.ThreadSafeComponentHandler"/>
+  </role>
+
+  <role name="org.apache.avalon.mutuals.dao.PortfolioManager">
+    <component shorthand="portfolio-manager"
+               class="org.apache.avalon.mutuals.dao.impl.FortressPortfolioManager"
+               handler="org.apache.avalon.fortress.impl.handler.ThreadSafeComponentHandler"/>
+  </role>
+
+
+</fortress-roles>

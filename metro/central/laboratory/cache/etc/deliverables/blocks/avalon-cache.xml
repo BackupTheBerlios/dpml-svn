@@ -1,0 +1,33 @@
+
+<!--
+Embedded block directive for cache component.
+-->
+
+<container name="repository">
+
+   <!-- TODO: figure out how to put the classpath in automatically -->
+
+   <classloader>
+     <classpath>
+       <artifact>jar:avalon/framework/avalon-framework-api#4.3.0-DEV</artifact>
+       <artifact>jar:avalon/repository/avalon-repository-main#2.1.0-DEV</artifact>
+       <artifact>jar:avalon/repository/avalon-repository-spi#2.0.0</artifact>
+       <artifact>jar:avalon/repository/avalon-repository-api#2.1.0-DEV</artifact>
+       <artifact>jar:avalon/repository/avalon-repository-util#2.0.0</artifact>
+       <artifact>jar:avalon/util/avalon-util-exception#1.0.0</artifact>
+       <artifact>jar:avalon/util/avalon-util-env#1.1.1</artifact>
+       <artifact>jar:avalon/util/avalon-util-i18n#1.0.0</artifact>
+       <artifact>jar:avalon/util/avalon-util-criteria#1.1.0</artifact>
+       <artifact>jar:avalon/util/avalon-util-defaults#1.2.1</artifact>
+       <artifact>jar:avalon/planet/avalon-cache#1.0.0-DEV</artifact>
+     </classpath>
+   </classloader>
+
+   <services>
+     <service type="org.apache.avalon.repository.Repository"/>
+   </services>
+
+   <component name="cache"
+       class="org.apache.avalon.cache.DefaultCache"/>
+
+</container>

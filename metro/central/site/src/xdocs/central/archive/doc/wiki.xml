@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document>
+  <properties>
+    <author email="dev@avalon.apache.org">Avalon Documentation Team</author>
+    <title>Apache Avalon: Wiki</title>
+  </properties> 
+
+  <body>
+    <section name="Avalon Wiki">
+    <p>The <a href="http://wiki.apache.org/avalon">Avalon Wiki</a> contains a 
+    growing collection of information about Avalon, random thoughts on 
+    component models and container solutions, roadmaps, development 
+    discussions, general ideas and other inspirational material.</p>
+    </section>
+  </body>
+</document>
+

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document>
+
+  <properties>
+    <author email="dev@avalon.apache.org">Avalon Documentation Team</author>
+    <title>Avalon Central</title>
+  </properties> 
+
+  <body>
+    <section name="Installing Magic">
+
+      <subsection name="Installing Ant">
+
+        <p>
+        Magic runs on top of Ant.  Before installing Magic
+        you need to build or download a 
+        <a href="http://ant.apache.org/bindownload.cgi">
+        binary installation of Ant</a> (version 1.6.2 or later).
+        </p>
+
+      </subsection>
+
+      <subsection name="Magic Setup">
+
+        <p>
+        Using <strong>MAGIC_HOME</strong> ...
+        </p>
+
+        <p>
+        Magic registers content in a common repository. If you want to 
+        share the repository with Merlin or other repository enabled products
+        you should define the <code>MAGIC_HOME</code> environment variable with a value 
+        pointing to a directory within which the repository will be created.  If 
+        undefined, the installation will create the magic installation in 
+        ${user.home}/.magic.
+        </p>
+
+        <p>
+        Download <a href="http://svn.apache.org/repos/asf/avalon/trunk/tools/magic/setup.xml">setup.xml</a> from Apache.
+        </p>
+
+        <p>
+        From within the directory that you downloaded setup.xml to ...
+        </p>
+
+<source>
+$ ant -buildfile setup.xml
+</source>
+
+        <p>
+        The above command invokes ant.  Ant will downloads the magic 
+        library and installs this under ${user.home}/.ant/lib as an antlib 
+        extension.  In addition the procedure will also check for the 
+        presence of JUnit libraries in Ant's claspath and if required the 
+        necessary jar files will be download and installed.
+        </p>
+
+      </subsection>
+
+    </section>
+  </body>
+
+</document>
+

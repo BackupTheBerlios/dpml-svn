@@ -1,0 +1,145 @@
+<?xml version="1.0"?>
+
+<!-- 
+ Copyright 2004 Apache Software Foundation
+ Licensed  under the  Apache License,  Version 2.0  (the "License");
+ you may not use  this file  except in  compliance with the License.
+ You may obtain a copy of the License at 
+ 
+   http://www.apache.org/licenses/LICENSE-2.0
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed  under the  License is distributed on an "AS IS" BASIS,
+ WITHOUT  WARRANTIES OR CONDITIONS  OF ANY KIND, either  express  or
+ implied.
+ 
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+
+
+<document>
+
+  <properties>
+    <author email="dev@avalon.apache.org">Avalon Documentation Team</author>
+    <title>Merlin Runtime</title>
+  </properties> 
+
+
+  <body>
+    <section name="Merlin CLI">
+      <subsection name="Overview">
+      <p>
+Merlin CLI is the command line interface to the Merlin system. It provides support for the declaration of the root block directive, a working home directory, a kernel directive, and other parameters qualifying debug output and language policy.
+      </p>
+      <p>
+The prime objective the Merlin CLI is to launch a root block descriptor and facilitate the deployment of the block and as a consequence, the deployment of subsidiary blocks, containers and components.
+      </p>
+      </subsection>
+      <subsection name="Command Line">
+        <p>
+The Merlin CLI takes a [block] filename as it's primary argument.  The block may be a block XML file or a jar file containing a block directive.
+        </p>
+        <p>
+          <i>
+Example of block deployment based on a supplied block directive.
+          </i>
+        </p>
+<source><![CDATA[
+ $ merlin -help
+usage: merlin [block] [-lang <code>] [-anchor <directory>]
+       [-help] [-version] [-home <directory>] [-impl <artifact>]
+       [-debug] [-info] [-config <url>] [-context <directory>] [-system
+       <directory>] [-execute] [-repository <directory>] [-kernel <url>]
+]]></source>
+      </subsection>
+
+      <subsection name="Command Line Qualifiers">
+        <table>
+          <tr><th>Qualifier</th><th>Parameter</th><th>Description</th></tr>
+          <tr>
+            <td>lang</td>
+            <td>A two letter country code</td>
+            <td>Sets the default language country code to the supplied value.</td>
+          </tr>
+          <tr>
+            <td>anchor</td>
+            <td>directory</td>
+            <td>Override the default anchor directory for jar extension references
+               and classpath include relative file references.</td>
+          </tr>
+          <tr>
+            <td>help</td><td></td><td>Prints the help message.</td>
+          </tr>
+          <tr>
+            <td>version</td>
+            <td></td>
+            <td>Prints Merlin version information and exit.</td>
+          </tr>
+          <tr>
+            <td>home</td>
+            <td>directory</td>
+            <td>Overide the ${merlin.dir} directory.  This is a relative 
+              or absolute path to a working directory. If not suppled, 
+              the system will default to ${user.dir}.</td>
+          </tr>
+          <tr>
+            <td>impl</td>
+            <td>artifact-spec</td>
+            <td>Override the ${merlin.implementation} artifact spec. The specification
+             is the formal of [group]:[artifact];[version] and is used to direct the 
+             boostrap system to load an alternative kernel implementation.</td>
+          </tr>
+          <tr>
+            <td>debug</td>
+            <td></td>
+            <td>Instructs Merlin to issue internal system debug messages.</td>
+          </tr>
+          <tr>
+            <td>info</td>
+            <td></td>
+            <td>Lists deployment parameters on startup.</td>
+          </tr>
+          <tr>
+            <td>config</td><td>url</td>
+            <td>A configuration source containing a set of target configuration fragements that will override configuration entries defined under a block. This value overrides any ${merlin.override} property value. If the supplied argument is a file (relative or absolute) Merlin will convert the file to a url.  Relative file references are resolved relative to ${merlin.dir}.</td>
+          </tr>
+          <tr>
+            <td>context</td>
+            <td>directory</td>
+            <td>Overide the ${merlin.context} directory.  This is a relative 
+              or absolute path to a working context directory. If not suppled, 
+              the system will default to ${merlin.dir}/home.</td>
+          </tr>
+          <tr>
+            <td>system</td>
+            <td>directory</td>
+            <td>Overide the ${merlin.system} directory.  This is a relative 
+              or absolute path to the merlin system repository.  The default
+              value resolves to ${merlin.home}/system.</td>
+          </tr>
+          <tr>
+            <td>execute</td>
+            <td></td>
+            <td>Forces ${merlin.server} to false resulting in the immediate shutdown
+            of the kernel on completion of the deployment phase.  If not included merlin
+            will apply the default ${merlin.server} mode of 'true'.</td>
+          </tr>
+          <tr>
+            <td>repository</td><td>file</td>
+            <td>Declaration of a local repository cache directory.  If not 
+              suppplied Merlin will default to ${avalon.home}/repository.</td>
+          </tr>
+          <tr>
+            <td>kernel</td><td>url</td>
+            <td>A url of a kernel configuration overriding the default kernel 
+               directive.  The value defaults to ${merlin.config}/kernel.xml.</td>
+          </tr>
+        </table>
+      </subsection>
+    </section>
+  </body>
+
+</document>
+
+

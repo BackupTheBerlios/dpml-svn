@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<project name="avalon-central-site" default="site" basedir="."
+    xmlns:x="antlib:org.apache.avalon.tools"
+>
+  <property file="build.properties"/>
+  <x:home/>
+  
+  <import file="${magic.templates}/standard.xml"/>
+
+  <target name="init" depends="standard.init">
+    <x:filter key="avalon-merlin-impl" feature="version" 
+       token="RUNTIME-VERSION"/>
+    <x:filter key="avalon-merlin-impl" feature="uri" 
+       token="MERLIN-URI"/>
+  </target>
+
+  <target name="javadoc" depends="prepare">
+    <x:javadoc title="Avalon Runtime" id="avalon-runtime" staged="true">
+      <x:link href="http://java.sun.com/j2se/1.4/docs/api" />
+    </x:javadoc>
+    <!--
+    <x:javadoc title="Avalon Facilities" id="avalon-planet-facilities">
+      <x:link href="http://java.sun.com/j2se/1.4/docs/api" />
+    </x:javadoc>
+    <x:javadoc title="Avalon Magic" id="avalon-tools-magic">
+      <x:link href="http://java.sun.com/j2se/1.4/docs/api" />
+    </x:javadoc>
+    -->
+  </target>
+
+  <target name="site" depends="standard.site">
+    <x:publish path="."/>
+  </target>
+
+  <target name="update" depends="xdoc">
+    <x:publish path="."/>
+  </target>
+
+</project>
+

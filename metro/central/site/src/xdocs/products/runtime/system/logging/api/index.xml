@@ -1,0 +1,102 @@
+<?xml version="1.0"?>
+
+<!-- 
+ Copyright 2004 Apache Software Foundation
+ Licensed  under the  Apache License,  Version 2.0  (the "License");
+ you may not use  this file  except in  compliance with the License.
+ You may obtain a copy of the License at 
+ 
+   http://www.apache.org/licenses/LICENSE-2.0
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed  under the  License is distributed on an "AS IS" BASIS,
+ WITHOUT  WARRANTIES OR CONDITIONS  OF ANY KIND, either  express  or
+ implied.
+ 
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+
+<document>
+
+  <properties>
+    <author email="mcconnell@apache.org">Stephen McConnell</author>
+    <title>Merlin Runtime</title>
+  </properties>
+
+  <body>
+
+    <section name="Avalon Logging API">
+        <p>
+        The logging API is divided into two sections - one dealing with 
+        meta data directives, and the second dealing with the logging
+        system service interface.  The logging metadata addresses the 
+        desription of a logging channel by a client.  The description is 
+        encapsulated in the 
+        <a href="/api/org/apache/avalon/logging/data/CategoriesDirective.html">
+        CategoriesDirective</a> and 
+        <a href="/api/org/apache/avalon/logging/data/CategoryDirective.html">
+        CategoryDirective</a> immutable directives.
+        </p>
+        <p>
+        Category directives describe the logging channel requirements, 
+        including channel name, priority, and a named logging target.
+        </p>
+        <p>
+        A logging manager is responsible for fulling the the requirements 
+        expressed by a caregory directive.  This capability is defined by the 
+        <a href="/api/org/apache/avalon/logging/provider/LoggingManager.html">
+        LoggingManager</a> interface.  Implementations such as the 
+        <a href="/api/org/apache/avalon/logging/logkit/DefaultLoggingFactory.html">LogKit</a>
+        factory plugin are established via the avalon repository system and 
+        can be parameterized using the  
+        <a href="/api/org/apache/avalon/logging/provider/LoggingCriteria.html">
+        LoggingCriteria</a> interface.
+        </p>
+
+      <subsection name="Standard Properties">
+        <p>
+        The following table details the set of standard properties 
+        supported by Logging System.
+        </p>
+        <table>
+          <tr><th>Property</th><th>Description</th></tr>
+          <tr>
+            <td>avalon.logging.configuration</td>
+            <td>URL referencing an external logging system configuration.</td>
+          </tr>
+          <tr>
+            <td>avalon.logging.bootstrap</td>
+            <td>A logging channel to be used during the bootstrapping phase. Classic
+            logging priority values of DEBUG, INFO, WARN, ERROR may be assigned and 
+            will be resolved to a console logger with an equivalent priority.</td>
+          </tr>
+          <tr>
+            <td>avalon.logging.basedir</td>
+            <td>The base directory to use when constructing file based log targets.
+            Defaults to the initial working directory declared by the repository
+            initial context.</td>
+          </tr>
+          <tr>
+            <td>avalon.logging.debug</td>
+            <td>Debug flag used to override all logging channels to debug priority.
+            The default falue is 'false'.</td>
+          </tr>
+          <tr>
+            <td>avalon.logging.update</td>
+            <td>
+              If the value is larger than zero, the <strong>update</strong> is
+              how many millisecond between re-configuring the logging system. Not
+              all logging system will support this property, in which case it is
+              completely ignored. The default value is 0.
+            </td>
+          </tr>
+        </table>
+      </subsection>
+    </section>
+
+  </body>
+
+</document>
+
+

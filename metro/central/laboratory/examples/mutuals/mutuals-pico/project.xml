@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<project>
+
+  <!-- Default maven project
+       Things to change:
+          - the project id
+          - project url and siteDirectory
+          - add name to developers
+          - add dependencies
+          - modify resources
+          - modify unit tests
+          - delete this message
+  -->
+
+
+  <!-- the version of maven's project object model -->
+  <pomVersion>3</pomVersion>
+
+  <!-- a unique name for this project -->
+  <id>mutuals-pico</id>
+
+  <!-- a short but descriptive name for the project -->
+  <name>Maven example projects</name>
+
+  <!-- The version of the project under development, e.g.
+       1.1, 1.2, 2.0-dev -->
+  <currentVersion>1.0</currentVersion>
+
+  <!-- details about the organization that 'owns' the project -->
+  <organization>
+    <name>JadeTower.org</name>
+    <url>http://www.jadetower.org</url>
+    <logo></logo>
+  </organization>
+
+  <!-- the year the project started -->
+  <inceptionYear>2003</inceptionYear>
+  <package>org.apache.avalon.mutuals</package>
+  <logo></logo>
+  <description>
+  </description>
+
+  <shortDescription>
+  </shortDescription>
+
+  <!-- the project home page -->
+  <url>http://www.jadetower.org/spire/mutuals/</url>
+  <issueTrackingUrl></issueTrackingUrl>
+  <siteAddress>jadetower.org</siteAddress>
+  <siteDirectory></siteDirectory>
+  <distributionDirectory></distributionDirectory>
+
+  <repository>
+    <connection></connection>
+    <url></url>
+  </repository>
+
+  <!-- any mailing lists for the project -->
+  <mailingLists/>
+
+  <!-- who the developers are for the project -->
+  <developers>
+   <developer>
+      <name>J Aaron Farr</name>
+      <id>farra</id>
+      <email>farra@apache.org</email>
+      <organization>JadeTower.org</organization>
+      <roles>
+        <role>Java Developer</role>
+      </roles>
+    </developer>
+  </developers>
+  <!-- jar files the project is dependent on -->
+  <dependencies>
+
+   <dependency>
+      <groupId>mutuals-api</groupId>
+      <artifactId>mutuals-api</artifactId>
+      <version>1.0</version>
+   </dependency>
+
+   <dependency>
+      <groupId>picocontainer</groupId>
+      <artifactId>picocontainer</artifactId>
+      <version>1.0-beta-3</version>
+      <url>http://picocontainer.org</url>
+   </dependency>
+
+      <dependency>
+          <groupId>commons-logging</groupId>
+          <artifactId>commons-logging</artifactId>
+          <version>1.0.3</version>
+          <url>http://jakarta.apache.org/commons/logging/</url>
+      </dependency>
+
+  </dependencies>
+
+  <!-- build information for the project -->
+  <build>
+    <nagEmailAddress>farra@apache.org</nagEmailAddress>
+    <sourceDirectory>${basedir}/src/java</sourceDirectory>
+    <unitTestSourceDirectory>${basedir}/src/test</unitTestSourceDirectory>
+
+    <unitTest/>
+    <resources/>
+  </build>
+
+
+</project>
+

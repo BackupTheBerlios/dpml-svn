@@ -1,0 +1,233 @@
+<?xml version="1.0"?>
+
+<!-- 
+ Copyright 2004 Apache Software Foundation
+ Licensed  under the  Apache License,  Version 2.0  (the "License");
+ you may not use  this file  except in  compliance with the License.
+ You may obtain a copy of the License at 
+ 
+   http://www.apache.org/licenses/LICENSE-2.0
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed  under the  License is distributed on an "AS IS" BASIS,
+ WITHOUT  WARRANTIES OR CONDITIONS  OF ANY KIND, either  express  or
+ implied.
+ 
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+
+<document>
+
+  <properties>
+    <title>Merlin Runtime</title>
+    <author email="dev@avalon.apache.org">Avalon Development Team</author>
+  </properties>
+
+  <body>
+    <section name="Merlin Servlet">
+      <p>
+        The Merlin Servlet package contains an abstract Servlet implementation 
+        that contains an embedded Merlin Kernel.
+      </p>
+
+      <subsection name="Development Notes">
+        <p>
+          This is a minimal implementation of a Servlet that contains an 
+          embedded kernel.  The behaviour is a function of the block.xml 
+          resource resolved via the initialisation parameters.  No support 
+          is included for configuration of the kernel and as such the kernel
+          is established relative to defaults.  This will be enhanced in a 
+          later revision.
+        </p>
+      </subsection>
+      <subsection name="Example web.xml">
+        <p>
+          <i>WARNING: there is an inconsitency here between properties 
+          included in the web.xml and the servlet code.  Currently web.xml 
+          properties are not used by the servlet - instread the servlet 
+          uses merlin.properties in the standard locations.</i>
+        </p>
+        <p>
+          <i>web.xml</i>
+        </p>
+<source><![CDATA[
+<!DOCTYPE web-app 
+    PUBLIC "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN" 
+    "http://java.sun.com/dtd/web-app_2_3.dtd">
+
+<web-app>
+
+  <display-name>Merlin Servlet</display-name>
+
+  <description>
+    Merlin Servlet Test Page.
+  </description>
+
+  <servlet>
+    <servlet-name>merlin</servlet-name>
+    <servlet-class>org.apache.avalon.merlin.servlet.TestServlet</servlet-class>
+    <init-param>
+      <param-name>block</param-name>
+      <param-value>/BLOCK-INF/block.xml</param-value>
+    </init-param>
+    <load-on-startup>1</load-on-startup>
+  </servlet>
+</web-app>
+]]></source>
+
+      </subsection>
+      <subsection name="Servlet Implementation">
+        <p>
+          <i>MerlinServlet.java</i>
+        </p>
+<source>
+/**
+ * Servlet that handles the establishment of a Merlin Kernel
+ * and registration of the kernel base URL under the servlet 
+ * context using the key.
+ * 
+ * 
+ * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
+ */
+public class MerlinServlet extends HttpServlet
+{
+    //----------------------------------------------------------
+    // static
+    //----------------------------------------------------------
+
+    private static final String MERLIN_PROPERTIES = "merlin.properties";
+
+    private static final String IMPLEMENTATION_KEY = "merlin.implementation";
+
+    //----------------------------------------------------------
+    // state
+    //----------------------------------------------------------
+
+    private KernelCriteria m_criteria;
+
+    private Kernel m_kernel;
+
+    //----------------------------------------------------------
+    // Servlet
+    //----------------------------------------------------------
+
+    /**
+     * Initializes Servlet by the web server container.
+     *
+     * @exception ServletException if an error occurs
+     */
+    public void init()
+        throws ServletException
+    {
+        try
+        {
+            //
+            // get the working directory and classloader
+            //
+
+            ClassLoader classloader = MerlinServlet.class.getClassLoader();
+            String path = getServletContext().getRealPath( "." );
+            File base = new File( path );
+
+            //
+            // create the initial context using the merlin system as the 
+            // initial cache
+            //
+
+            InitialContextFactory initial = 
+              new DefaultInitialContextFactory( "merlin", base );
+            initial.setParentClassLoader( classloader );
+            InitialContext context = initial.createInitialContext();
+
+            //
+            // grab the merlin implmentation artifact descriptor
+            //
+
+            Artifact artifact = 
+              DefaultBuilder.createImplementationArtifact( 
+                classloader, 
+                null,
+                base, 
+                MERLIN_PROPERTIES, 
+                IMPLEMENTATION_KEY );
+
+            //
+            // create and customize the kernel criteria
+            //
+
+            Builder builder = context.newBuilder( artifact );
+            Factory factory = builder.getFactory();
+            m_criteria = (KernelCriteria) factory.createDefaultCriteria();
+            m_criteria.put( "merlin.server", "true" );
+            m_criteria.put( "merlin.info", "true" );
+            m_criteria.put( "merlin.debug", "false" );
+
+            //
+            // this is where we customize content based on web.xml
+            // (currently not implemented - lets see what we can do with 
+            // with merlin.properties first of all)
+            //
+
+            m_kernel = (Kernel) factory.create( m_criteria );
+            System.out.println("kernel established");
+
+            //
+            // publish the root containment model as a context attribute
+            // (this is basically exposing too much - need to wrap this
+            // in a holder that allows lookup by service interface and 
+            // version
+            //
+
+            getServletContext().setAttribute( 
+              "urn:composition:root", m_kernel.getModel() );
+        }
+        catch( Throwable e )
+        {
+            final String error = ExceptionHelper.packException( e, true );
+            System.out.println( error );
+            throw new ServletException( error, e );
+        }
+    }
+
+    /**
+     * Disposes of container manager and container instance.
+     */
+    public void destroy()
+    {
+        if( m_kernel != null )
+        {
+
+            System.out.println("tearing down");
+            
+            try
+            {
+                m_kernel.shutdown();
+            }
+            catch( Throwable e )
+            {
+                final String error =
+                  "Runnable kernel shutdown failure.";
+                final String msg = ExceptionHelper.packException( error, e, true );
+                throw new RuntimeException( msg, null );
+            }
+            finally
+            {
+                m_kernel = null;
+            }
+        }
+    }
+</source>
+      </subsection>
+    </section>
+  </body>
+
+  <footer>
+    <legal>
+      Copyright (c) @year@ The Avalon Apache Project All rights reserved.
+      $Revision: 1.4 $ $Date: 2004/04/03 07:52:51 $
+    </legal>
+  </footer>
+</document>
+
+

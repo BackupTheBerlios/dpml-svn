@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document>
+  <properties>
+    <author email="dev@avalon.apache.org">Avalon Documentation Team</author>
+    <title>Merlin Discovery</title>
+  </properties> 
+
+  <body>
+    <section name="Object Model">
+      <subsection name="Federation">
+<p>The following illustration depicts a possible business cycle of a resource description used as an argument to a server:</p>
+<ul>
+<li>Creation of the resource description, containing a description of the a supplier capability and URI reference to the server;</li>
+<li>registration of the resource description under a general marketplace registry;</li>
+<li>discovery of the capability under a general market directory in the form of a disclosure instance;</li>
+<li>subsequent referral of the description to vertical domain marketplace;</li>
+<li>discovery of the disclosure under the vertical marketplace;</li>
+<li>application of the resulting disclosure instance as an argument to a  server</li>
+</ul>
+<p>Server applications (processors) can take advantage of referral information in Disclosure chains as part of sophisticated applications supporting referral reward schemes and market site value assessment.</p>
+
+<p><i>Service referral across marketplace systems.</i></p>
+
+<p><img src="/images/discovery/p4.gif"/></p>
+
+      </subsection>
+    </section>
+  </body>
+</document>
+

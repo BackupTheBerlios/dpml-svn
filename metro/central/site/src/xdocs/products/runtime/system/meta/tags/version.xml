@@ -1,0 +1,64 @@
+<?xml version="1.0"?>
+
+<document>
+
+  <properties>
+    <author email="mcconnell@apache.org">Stephen McConnell</author>
+    <title>Javadoc Tag Specification</title>
+  </properties>
+
+  <body>
+
+    <section name="Javadoc Tags">
+
+      <subsection name="Version Tag">
+<p>A version tag may be declared in either a class or interface.  It specifices the version of the component or service (depeding if the tag is included within a class or interface).  The presence of a version tag signals to the generation tools that a meta-info description is required.  In the case of a class, a Type defintion is created whereas an version tag in an interface will result in the generation of a Service descriptor.</p>
+
+<source><![CDATA[
+package net.osm;
+
+/**
+ * Example of a version declaration defintion.  The service tag is  
+ * required in order to generate a <classname>.xservice definition  
+ * or <classname>.xinfo type descriptor. 
+ *
+ * @avalon.service version="1.3"
+ */
+public interface MyService
+{
+  ...
+}
+]]></source>
+
+<p>Generated meta-info when declared within an interface:</p>
+
+<source><![CDATA[
+<service>
+  <version>1.3.0<version>
+</service>
+]]></source>
+
+<p>Generated meta-info when declared within an class:</p>
+
+<source><![CDATA[
+<type>
+  <info>
+    <version>1.3.0<version>
+  </info>
+</type>
+]]></source>
+
+      </subsection>
+    </section>
+  </body>
+
+  <footer>
+    <legal>
+      Copyright (c) @year@ The Avaqlon Apache Project All rights reserved.
+      $Revision: 1.1 $ $Date: 2004/04/14 11:47:33 $
+    </legal>
+  </footer>
+
+</document>
+
+

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document>
+  <properties>
+    <author email="dev@avalon.apache.org">Avalon Documentation Team</author>
+    <title>Merlin Runtime</title>
+  </properties> 
+
+  <body>
+    <section name="JavaDoc">
+      <subsection name="3.3.0">
+        <table>
+          <tr><th>Group</th><th>Description</th></tr>
+          <tr>
+            <td><a href="../../../avalon/runtime/3.3.0/api/index.html">Component API</a></td>
+            <td>
+              The set of interfaces included within the Component API define 
+              the computational contract between a component and a container.
+              This API in conjuction with the component tag library is primarily 
+              of interest to component developers.
+            </td>
+          </tr>
+          <tr>
+            <td><a href="../../../avalon/runtime/3.3.0/spi/index.html">Facilities SPI</a></td>
+            <td>
+              The set of interfaces included within the Component SPI defines 
+              the container meta-model within which component types are managed.
+              This API enables dynamic component type management, container 
+              management, and control over the underlying runtime. The javadoc
+              included here covers both the API and SPI and if primarily of 
+              interest to developers of advanced facilities.
+            </td>
+          </tr>
+          <tr>
+            <td><a href="../../../avalon/runtime/3.3.0/impl/index.html">Platform Implementation</a></td>
+            <td>
+              The Platform Javadocs cover the full suite of API, SPI and the internal
+              implementation systems.  This documentation is primarily of interest to
+              the core development team and developers wishing to understand the 
+              overall object model.
+            </td>
+          </tr>
+        </table>
+      </subsection>
+      <subsection name="@RUNTIME-VERSION@">
+        <table>
+          <tr><th>Group</th><th>Description</th></tr>
+          <tr>
+            <td><a href="../../../avalon/runtime/@RUNTIME-VERSION@/api/index.html">Component API</a></td>
+          </tr>
+          <tr>
+            <td><a href="../../../avalon/runtime/@RUNTIME-VERSION@/spi/index.html">Facilities SPI</a></td>
+          </tr>
+          <tr>
+            <td><a href="../../../avalon/runtime/@RUNTIME-VERSION@/impl/index.html">Platform Implementation</a></td>
+          </tr>
+        </table>
+      </subsection>
+    </section>
+  </body>
+</document>
+

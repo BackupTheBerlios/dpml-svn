@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document>
+  <properties>
+    <author email="dev@avalon.apache.org">Avalon Documentation Team</author>
+    <title>Merlin Runtime</title>
+  </properties> 
+
+  <body>
+    <section name="Merlin Runtime">
+
+    <p>
+The Merlin project deals with the general area of service and component management.  The Merlin system is a container that provides comprehensive support for the management of complex component based systems based on an underlying meta-model that facilitates automated assembly and deployment of components.
+    </p>
+
+    <p>
+Merlin aims to simplify the process of managing component-based systems.  It achieves this objective through delivery of functionality supporting automated component assembly and deployment combined with strong support for the isolatiion of  implementation from the service that a component provides. Applications are implemented through component composition. In turn, applications can be exposed as simple components and used by other components as building blocks in other applications.
+    </p>
+
+    <subsection name="Composite Component Management">
+        <p>
+Merlin provides support for the packaging and deployment of composite components with a structure called a Block.  A block represents the association of resources to a containment hierarchy within which components are managed.  In addition, a block enables the separation of a component assembly (the composite implementation) from the set of services published by the block.
+        </p>
+        <p>
+Merlin will handle resolution of service dependencies for components by looking for explicitly declared components commencing within the local container, and working progressively up the container hierarchy.  If no explicit solutions are resolved, Merlin will attempt to build a packaged or implicit solution based on component types declared in the classloader hierachy.  
+        </p>
+        <p>
+Underlying the Merlin system is a runtime deployment engine that provides support for the orderly establishment of simple and composite components.  The deployment engine takes care of component instantiation, lifecycle processing, and component decommissioning.
+        </p>
+      </subsection>
+      <subsection name="Lifecycle Management">
+        <p>
+Merlin provides support for constructor based injection of lifecycle artifacts, or optional phased delivery under which a component is processed through a series of lifecycle stages.  Lifecycle processing involves the execution of a series of stages such as associating a logging channel, applying a configuration or component parameters, setting the runtime context, supplying dependent services, initialization, startup, shutdown and disposal.  Within the Merlin system, lifecycle stages can be extended or modified through association of other components that provide lifecycle support.  Merlin distinguishes these services as deployment dependencies as distinct from classic runtime dependencies.
+        </p>
+      </subsection>
+      <subsection name="Seperating Concerns">
+<p>
+Every developer that has written a complex component based application has had to deal with container-side programming. Given normal commercial pressures, it too easy to write code into your application that has assumptions built into it concerning the requirements of the target components.
+</p>
+
+<p>
+Consider the following code fragment:
+</p>
+
+<source>
+
+    // and example of a bad practice of introducing 
+    // component deployment strategy and dependencies
+    // into your application logic 
+
+    DefaultMonitor monitor = new DefaultMonitor();
+    
+    DefaultContext context = new DefaultContext();
+    context.put( "classloader", m_classloader );
+    context.makeReadOnly();
+
+    monitor.enableLogging( m_logger );
+    monitor.contextualize( context );
+    monitor.initialize();
+
+</source>
+
+<p>
+The above container-side code is making a lot of assumptions about the component it is deploying.  Firstly, it knows that the component is log enabled, contextualizable, and initializable. This is problematic because it means that the container-side code is dependent on the component implementation.  If the component were to be changed so that it supported the configurable semantics, there container-side code needs to be updated as well.  This is dangerous because it is easy for container-side to get out-of-sync with the component implementation - for example, the container-side code to some extent is dependent on a component properly checking if it has been configured or not. A deeper and more important issue concerns component assembly - if a component  is refactored to use other components, then the container-side code become much more complex and much more closely tied to the set of components that make up the assembly.
+</p>
+
+<p>
+The solution to the above is a framework that automates the process of component deployment.  The end result is that container side code becomes independent of the component deployment strategy and component dependencies.
+</p>
+
+<p>Consider the following code fragment in which we create a service description, locate component model that provides the service, commission the model and resolve the service instance.</p>
+
+<source>
+  ReferenceDescriptor reference = 
+    new ReferenceDescriptor( Widget.class.getName() );
+  ComponentModel model = (ComponentModel) m_model.getModel( reference );
+  model.commission();
+
+  Widget widget = (Widget) model.resolve();
+</source>
+
+<p>
+The above code demonstrates the elimination of knowledge about the component deployment strategy.  All aspect concerning the component logging, configuration, parameterization, contexulization, dependency composition, initialization, startup, shutdown, and disposal are managed by the container.
+</p>
+
+     </subsection>
+    </section>
+  </body>
+</document>
+

@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document>
+  <properties>
+    <author email="dev@avalon.apache.org">Avalon Documentation Team</author>
+    <title>Avalon Central</title>
+  </properties> 
+
+
+<body>
+
+<!--
+<section name="Bleeding-edge only">
+    <p>If you are looking to download the source code for stable versions of the Avalon
+    projects, you're in the wrong place. You should download a source release from
+    <a href="http://avalon.apache.org/srcdownload.cgi">the source download page</a>.</p>
+</section>
+-->
+<section name="About CVS">
+    <p>CVS, the Concurrent Versions System is a revision control system useful for
+    management of source code, and is the predominant version control system used at
+    Apache. See <a href="http://www.cvshome.org/">The CVS Homepage</a> for
+    more about CVS.</p>
+</section>
+<section name="CVS data">
+    <p>If you know what you're doing, all you need to know:</p>
+    <p>viewcvs: <a href="http://cvs.apache.org/viewcvs.cgi/">http://cvs.apache.org/viewcvs.cgi/</a></p>
+    <source>
+anonymous CVSROOT: :pserver:anoncvs@cvs.apache.org:/home/cvspublic
+modules:
+      avalon                  # framework, containers and documentation
+      avalon-components       # component repository
+      avalon-excalibur        # utility repository
+      avalon-logkit           # cool logging toolkit
+      avalon-phoenix          # the phoenix container and related libraries
+      avalon-sandbox          # alpha &amp; pre-alpha code
+      avalon-site             # this website
+    </source>
+</section>
+<section name="Getting the sources from CVS under Windows">
+    <p>There's a few options for you:</p>
+    
+    <subsection name="Use cygwin">
+        
+        <p><a href="http://www.cygwin.com/">Cygwin</a> is a free software suite
+        of ports of popular Linux tools and utilities to run natively under windows.
+        Among it is a port of the cvs application. If you use cygwin, follow the Linux
+        instructions.</p>
+    </subsection>
+    <subsection name="Use the command-line tools">
+        
+        <p>The CVS utilities are available as native Windows binaries. Get them from
+        <a href="http://www.cvshome.org/">the CVS homepage</a>. To use these
+        tools, open a command window (click Start > Run..., then type 'cmd'), then
+        enter the following commands:</p>
+        
+        <source>
+rem you can use any directory in place of C:\cvs
+rem replace $CVSUTILS with where you installed the cvs binary, or with
+rem nothing if you added the utility to your PATH
+mkdir C:\cvs
+cd C:\cvs
+$CVSUTILS\cvs.exe -d :pserver:anoncvs@cvs.apache.org login
+rem enter anoncvs when prompted for a password, then hit enter
+rem the below command should be on one line
+$CVSUTILS\cvs.exe -z3 -d ^
+      :pserver:anoncvs@cvs.apache.org:/home/cvspublic checkout ^
+      avalon avalon-excalibur avalon-components ^
+      avalon-phoenix avalon-logkit avalon-site ^
+      avalon-sandbox xml-forrest ^
+        </source>
+        
+        <p>This will take a while, depending on your connection. Go ahead and grab
+        yourself a coffee or ten. When done, you should have checked out all Avalon
+        sources and the most important utility libraries you need to build it (save
+            for <a href="http://maven.apache.org/">Apache Maven</a>, which you should
+            go install right now if you haven't already). For further building instructions 
+            run:</p>
+<source>
+maven avalon:info              
+</source>
+    </subsection>
+    <subsection name="Use TortoiseCVS">
+        
+        <p><a href="http://www.tortoisecvs.org/">TortoiseCVS</a> is a neat extension
+        for the Windows Explorer which integrates CVS. Using it is real simple:</p>
+        
+        <p>After you've created a folder where you want to check out the sources to,
+        right-click and select CVS Checkout...:<br/>
+        <img src="images/tortoisecvs-checkout.jpg" alt="screenshot of CVS settings"/></p>
+        
+        <p>Then, fill out the settings like in the screenshot below, and then click ok.<br/>
+        <img src="images/tortoisecvs-settings.jpg" alt="screenshot of CVS settings"/></p>
+        
+        <p>This checks out the avalon CVS module. Repeat this procedure for all
+        the modules you wish to check out. See above under "CVS data" for the list of Avalon modules, or use the
+        <a href="http://cvs.apache.org/viewcvs.cgi/">ViewCVS Webpage</a> for a full
+        list of ASF-hosted CVS modules.</p> 
+    </subsection>
+    <subsection name="Use WinCVS">
+        
+        <p><a href="http://www.wincvs.org/">WinCVS</a> is a standalone windows
+        application for working with CVS. It has more features than TortoiseCVS, and
+        hence more buttons a novice is not likely to use.</p>
+        
+        <p>After you've created a folder where you want to check out the sources to,
+        select the Checkout module... option from the Create menu:<br/>
+        <img src="images/wincvs-checkout.jpg" alt="screenshot of CVS settings"/></p>
+        
+        <p>Then, select the "general tab" and fill out the settings like in the
+        screenshot below:<br/>
+        <img src="images/wincvs-preferences.jpg" alt="screenshot of CVS settings"/>.</p>
+        
+        <p>Now, switch back to the first tab and fill out the settings like in the
+        screenshot below, and then click ok.<br/>
+        <img src="images/wincvs-checkout.jpg" alt="screenshot of CVS settings"/>.</p>
+        
+        <p>This checks out the avalon CVS module. Repeat this procedure for all
+        the modules you wish to check out. See above under "CVS data" for the list of Avalon modules, or use the
+        <a href="http://cvs.apache.org/viewcvs.cgi/">ViewCVS webpage</a> for a full
+        list of ASF-hosted CVS modules.</p> 
+    </subsection>
+</section>
+<section name="Getting the sources from CVS under Linux">
+    
+    <subsection name="Use the command-line tools">
+        
+        <p>The CVS utilities are available as native linux binaries. Chances are
+        you already have them installed. Try it by opening a console and typing 'cvs'.
+        If you get an error along the lines of "bash: cvs: command not found", then
+        you need to install them first. Under Debian, you can do so by opening a console
+        window and entering the commands:</p>
+        
+        <source>
+su -
+# enter the root password when prompted
+apt-get update
+apt-get install cvs
+exit
+        </source>
+        
+        <p>Under Red Hat, the commands are a little different:</p>
+        
+        <source>
+su -
+# enter the root password when prompted
+rpm -i ftp://ftp.redhat.com/pub/redhat/linux/8.0/en/os/i386/RedHat/RPMS/cvs-1.11.2-5.i386.rpm
+exit
+        </source>
+
+        <p>The procedure is similar for other Linux distributions. Once you have
+        these tools installed, open a command window, then enter the following
+        commands:</p>
+        
+        <source>
+# you can use any directory in place of ~/cvs
+mkdir ~/cvs
+cd ~/cvs
+cvs -d :pserver:anoncvs@cvs.apache.org login
+# enter anoncvs when prompted for a password, then hit enter
+cvs -z3 -d :pserver:anoncvs@cvs.apache.org:/home/cvspublic \
+      checkout avalon \
+      avalon-excalibur avalon-cornerstone \
+      avalon-phoenix avalon-logkit avalon-site \
+      avalon-sandbox jakarta-site xml-forrest
+        </source>
+        
+        <p>This will take a while, depending on your connection. Go ahead and grab
+        yourself a coffee or ten. When done, you should have checked out all avalon
+        sources and the most important utility libraries you need to build it (save
+        for <a href="http://ant.apache.org/">Apache Ant</a>, which you should
+        go install right now if you haven't already).</p>
+    </subsection>
+    
+    <subsection name="Using Cervisia">
+        
+        <p>KDE's Konqueror browser has CVS support built-in. I've never used it so I
+        can't comment on it. See
+        <a href="http://cervisia.sourceforge.net/">the Cervisia website</a> for
+        more information.</p>
+    </subsection>
+</section>
+<section name="Platform-independent: jCVS">
+    
+    <p><a href="http://www.jcvs.org/">jCVS</a> is a 100% java CVS package that I've
+    never used.</p>
+</section>
+<section name="Using an IDE for CVS access">
+    
+      <!--
+    <p>Most decent IDEs these days provide CVS integration. Apache's Jakarta Project has
+  an excellent section on how to configure your IDE: 
+    <a href="http://jakarta.apache.org/site/idedevelopers.html">IDE Developer's Guide</a>
+  .  It applies equally well to Avalon.
+      </p> -->
+
+</section>
+
+</body>
+
+</document>

@@ -1,0 +1,23 @@
+
+<container name="tutorial">
+
+   <classloader>
+     <classpath>
+       <repository>
+         <resource id="avalon-framework:avalon-framework-impl" version="4.2.0"/>
+       </repository>
+     </classpath>
+   </classloader>
+
+   <component name="hello" class="tutorial.HelloComponent">
+     <context>
+       <entry key="cruncher">
+         <constructor class="tutorial.NumberCruncher">
+           <param class="java.lang.Integer">7</param>
+           <param class="java.lang.Float">1.5</param>
+         </constructor>
+       </entry>
+     </context>
+   </component>
+
+</container>

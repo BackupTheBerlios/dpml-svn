@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<section>
+  <title>Features</title>
+
+  <table frame="topbot">
+    <title>features in version 0.1.0</title>
+
+    <tgroup cols="2">
+      <tbody>
+        <row rowsep="1">
+          <entry valign="top">Create new projects / blocks with a special
+          Merlin block nature</entry>
+
+          <entry><inlinegraphic
+          fileref="../../../resources/NewProject.gif" /></entry>
+        </row>
+
+        <row>
+          <entry valign="top">Create blocks out of prebuild block
+          templates</entry>
+
+          <entry><inlinegraphic
+          fileref="../../../resources/NewProjectSelection.gif" /></entry>
+        </row>
+
+        <row>
+          <entry>create your own standard blocks which are shown in the "new
+          block" wizards selection page.</entry>
+
+          <entry></entry>
+        </row>
+
+        <row>
+          <entry valign="top">Run / Debug blocks</entry>
+
+          <entry><inlinegraphic
+          fileref="../../../resources/run_as.gif" /></entry>
+        </row>
+
+        <row>
+          <entry valign="top">Context help for Avalon JavaDoc tags</entry>
+
+          <entry><inlinegraphic
+          fileref="../../../resources/context_help.gif" /></entry>
+        </row>
+
+        <row>
+          <entry>Automatic build for component meta files. Each time you save
+          changes to your sources, all meta files will be created if
+          required.</entry>
+
+          <entry></entry>
+        </row>
+      </tbody>
+    </tgroup>
+  </table>
+
+  <para><table frame="topbot">
+      <title>features in version 0.1.2</title>
+
+      <tgroup cols="2">
+        <tbody>
+          <row>
+            <entry>Server configuration (preferences and on a block
+            base)</entry>
+
+            <entry></entry>
+          </row>
+
+          <row>
+            <entry>Automatic deployment of blocks to the local repository
+            cache</entry>
+
+            <entry></entry>
+          </row>
+
+          <row>
+            <entry>More example blocks</entry>
+
+            <entry></entry>
+          </row>
+
+          <row>
+            <entry>Users manual</entry>
+
+            <entry></entry>
+          </row>
+
+          <row>
+            <entry>Programmers manual</entry>
+
+            <entry></entry>
+          </row>
+
+          <row>
+            <entry>Integration into the Merlins automated build
+            process</entry>
+
+            <entry></entry>
+          </row>
+
+          <row>
+            <entry>More test cases</entry>
+
+            <entry></entry>
+          </row>
+        </tbody>
+      </tgroup>
+    </table></para>
+</section>

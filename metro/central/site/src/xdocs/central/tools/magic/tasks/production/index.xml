@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document>
+
+  <properties>
+    <author email="dev@avalon.apache.org">Avalon Documentation Team</author>
+    <title>Avalon Central</title>
+  </properties> 
+
+  <body>
+    <section name="Production Tasks">
+      <p>
+      The production tasks provide support for plugin auto-loading, 
+      java source compilation, jar and bar file creation, junit testing,
+      and deliverable installation into the artifact repository.
+      </p>
+    </section>
+  </body>
+
+</document>
+

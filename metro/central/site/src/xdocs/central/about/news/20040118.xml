@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document>
+  <properties>
+    <author email="dev@avalon.apache.org">Avalon Documentation Team</author>
+    <title>Avalon Central</title>
+  </properties> 
+
+  <body>
+    <section name="Merlin Studio Graduates From Incubator">
+
+    <p>18-JAN-2004</p>
+    <p>
+     The <a href="http://marc.theaimsgroup.com/?l=avalon-dev&amp;m=107443966427714&amp;w=2">
+     vote</a> passed and Merlin Studio (a.k.a. MerlinDeveloper)
+     now has a new home in Avalon.
+     Special thanks to Leo Simons for helping the project through
+     the incubator and Andreas for his work on the new project.
+    </p>
+
+    </section>
+  </body>
+</document>
+

@@ -1,0 +1,151 @@
+<?xml version="1.0"?>
+
+<!-- 
+ Copyright 2004 Apache Software Foundation
+ Licensed  under the  Apache License,  Version 2.0  (the "License");
+ you may not use  this file  except in  compliance with the License.
+ You may obtain a copy of the License at 
+ 
+   http://www.apache.org/licenses/LICENSE-2.0
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed  under the  License is distributed on an "AS IS" BASIS,
+ WITHOUT  WARRANTIES OR CONDITIONS  OF ANY KIND, either  express  or
+ implied.
+ 
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+
+<document>
+
+  <properties>
+    <author email="mcconnell@apache.org">Stephen McConnell</author>
+    <title>Deployment Specification</title>
+  </properties>
+
+  <body>
+
+    <section name="container">
+      <subsection name="Nested Elements">
+        <table>
+          <tr><th>Element</th><th>Occurance</th><th>Description</th></tr>
+          <tr>
+            <td><a href="services/index.html">services</a></td><td>0..1</td>
+            <td>
+             A container can declare the export of a set of services established
+             by the components contained within it.  This enables a container to 
+             function as a composite component relative to its peers.
+            </td>
+          </tr>
+          <tr>
+            <td><a href="classloader/index.html">classloader</a></td><td>0..1</td>
+            <td>
+             The classloader to assign to the container.
+            </td>
+          </tr>
+          <tr>
+            <td><a href="components/index.html">component</a></td><td>0..n</td>
+            <td>
+             A component directive is an instruction to merlin to build
+             a component of the type specified, and deploy the component 
+             in accordance with a stated policy.
+            </td>
+          </tr>
+          <tr>
+            <td><a href="index.html">container</a></td><td>0..n</td>
+            <td>
+             A container directive is simply a composite component.  A container
+             establishes a partition within which a set of other components and 
+             containers can be declared.
+            </td>
+          </tr>
+          <tr>
+            <td><a href="include/index.html">include</a></td><td>0..n</td>
+            <td>
+             An include directive instructs Merlin to include an external 
+             block within the container.  Services exported by the block will 
+             be made available to other components at the same level as the 
+             included block.
+            </td>
+          </tr>
+        </table>
+      </subsection>
+
+      <subsection name="Sample XML">
+        <p>
+           The following XML is a sample of a implementation declaration
+           containing an engine, components, subcontainers and block includes.
+        </p>
+
+<source><![CDATA[
+ <!-- block implementation declaration -->
+<container>
+  
+     <!-- 
+     declaration of the classloader that this block 
+     will execute within 
+     -->
+
+     <classloader>
+       <classpath>
+         <repository>
+           <resource id="tutorial:composition-api" version="1.0"/>
+         </repository>
+       </classpath>
+     </classloader>
+
+     <!-- 
+     declaration of a root component (services provided by this component
+     will be avbailable to all other components at the same or lower levels
+     in the container hierachy
+     -->
+
+     <component name="application" 
+        class="tutorial.application.Application" activation="startup">
+     </component>
+
+     <!-- 
+     declaration of a container contining other components
+     -->
+
+     <container name="subcontainer">
+       
+       <!--
+       This component is only visible to other components at the same
+       level or lower in this branch of the container hierachy
+       -->
+
+       <component name="test2" class="AnotherComponent"/>
+
+       <!--
+       A subcontainer declaring a custom container type.
+       -->
+
+       <container name="testing" class="MySpecialContainerClass">
+         <!-- etc. -->
+       </container>
+
+     </container>
+
+     <!--
+     Declaration of a block to includes.  The inclusion of a block
+     results in the establishment of a container with a name correponding
+     to the name of the block.
+     -->
+
+     <include path="example-block.xml"/>
+     <include id="osm:collaboration" version="1.0"/>
+
+</container>
+
+]]></source>
+      </subsection>
+
+    </section>
+
+  </body>
+
+</document>
+
+

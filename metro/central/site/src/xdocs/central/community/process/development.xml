@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document>
+  <properties>
+    <author email="dev@avalon.apache.org">Avalon Documentation Team</author>
+    <title>Avalon Central</title>
+  </properties> 
+
+  <body>
+    <section name="Avalon Development Process">
+     <p>
+       The following documents describe the development practices in
+       use by the Avalon community.  When contributing to the project,
+       please follow these guidelines.
+     </p>
+     <ul>
+       <li><a href="code-standards.html">Coding Standards</a></li>
+       <li><a href="release.html">Release Guidelines</a></li>
+       <li><a href="patches.html">Patch Policies</a></li>
+     </ul>
+    </section>
+  </body>
+</document>

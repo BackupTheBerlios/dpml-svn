@@ -1,0 +1,109 @@
+<?xml version="1.0"?>
+
+<!-- 
+ Copyright 2004 Apache Software Foundation
+ Licensed  under the  Apache License,  Version 2.0  (the "License");
+ you may not use  this file  except in  compliance with the License.
+ You may obtain a copy of the License at 
+ 
+   http://www.apache.org/licenses/LICENSE-2.0
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed  under the  License is distributed on an "AS IS" BASIS,
+ WITHOUT  WARRANTIES OR CONDITIONS  OF ANY KIND, either  express  or
+ implied.
+ 
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+
+<document>
+  <properties>
+    <author email="mcconnell@apache.org">Stephen McConnell</author>
+    <title>Avalon Logging</title>
+  </properties>
+  <body>
+    <section name="Avalon Logging">
+      <subsection name="Logkit Configuration Example">
+        <p>
+        The following is an example of a LogKit configuration. The example
+        establishes three target, a file target, a console stream target, 
+        and a multicast target.  Logging events are assigned to the multicast 
+        target resulting in event delivery to both the file and console. The
+        formats of the respective targets are selected for the relative roles.
+        The file target handles full reporting with stack trace information. 
+        The console target handles a more consolidated error reporting scheme.
+        </p>
+      </subsection>
+      <subsection name="XML">
+<source><![CDATA[
+<logging>
+
+  <!--
+  Declaration of a set of logging targets.
+  -->
+
+  <targets>
+
+    <!--
+    This target establishes output to the the System.out stream.
+    The format argument ensures that we don't get stack traces -
+    but just the error report.
+    -->
+    <stream id="standard">
+       <name>System.out</name>
+       <format type="console"/>
+    </stream>
+
+    <!--
+    This target logs to a rotating file located in 
+    target/simple-XXX.log
+    --> 
+    <file id="simple">
+      <filename>simple.log</filename>
+      <append>true</append>
+      <rotation type="revolving" init="1" max="10">
+        <size>100k</size>
+      </rotation>
+    </file>
+
+    <!--
+    The multicast target redirects log event to a set of 
+    named targets.
+    -->
+    <multicast id="multicast">
+      <targetref id="standard"/>
+      <targetref id="simple"/>
+    </multicast>
+
+  </targets>
+
+  <!--
+  Declaration of the initial logging categories.  These categories
+  and the respective priorities and assigned targets are used by the 
+  testcase to validate that the logging system is functioning properly.
+  -->
+  <categories priority="info" target="multicast">
+    <categories name="kernel">
+      <categories name="logger" priority="warn">
+        <category name="test" priority="fatal_error"/>
+      </categories>
+      <category name="roger-ramjet" priority="debug"/>
+    </categories>
+  </categories>
+
+  <!--
+  Selection of the logging channel for use by the logging
+  system following establishment of inital targets and categories.
+  -->
+
+  <logger name="kernel.logger"/>
+
+</logging>
+]]></source>
+      </subsection>
+    </section>
+  </body>
+</document>
+
+

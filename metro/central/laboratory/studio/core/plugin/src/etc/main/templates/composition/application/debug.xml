@@ -1,0 +1,14 @@
+
+<targets>
+
+  <target path="/application/application">
+    <categories priority="DEBUG"/>
+  </target>
+  <target path="/application/publisher/publisher">
+    <categories priority="DEBUG"/>
+  </target>
+  <target path="/application/location/info">
+    <categories priority="DEBUG"/>
+  </target>
+
+</targets>

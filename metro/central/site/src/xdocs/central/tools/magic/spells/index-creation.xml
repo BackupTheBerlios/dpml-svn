@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document>
+
+  <properties>
+    <author email="dev@avalon.apache.org">Avalon Documentation Team</author>
+    <title>Avalon Central</title>
+  </properties> 
+
+  <body>
+    <section name="Creating a project index.">
+
+      <p>
+      A magic buildfile gets information about the project it is 
+      building from an index file.  The following example shows 
+      a minimal index file containing two projects. The 
+      example is available under your merlin installation main
+      repository (sub-directory avalon/tools/demos) or alternatively
+      just download 
+      <code><a href="http://www.dpml.net/avalon/tools/demos/demo.zip">
+      demo.zip</a></code>.
+      </p>
+
+      <p><i>index.xml</i></p>
+
+<source><![CDATA[
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<system>
+
+  <project basedir="gizmo">
+    <info>
+      <group>demo</group>
+      <name>gizmo</name>
+    </info>
+  </project>
+
+  <project basedir="widget">
+    <info>
+      <group>demo</group>
+      <name>widget</name>
+    </info>
+    <dependencies>
+      <include key="gizmo"/>
+    </dependencies>
+  </project>
+
+</system>
+ ]]></source>
+
+      <p>
+      The index file show above contains two product defintions - 
+      one for gizmo and one for widget.  The basedir attributes tells
+      magic where to find these projects relative to the location of the
+      index.  
+      </p>
+
+      <p>
+      The following is the build file using for the gizmo project.  
+      </p>
+
+<source><![CDATA[
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<project name="gizmo" default="install" basedir="." 
+    xmlns:x="antlib:org.apache.avalon.tools">
+
+  <!-- Search for an index.xml file from current directory and upwards
+       in the directory structures.  -->
+  <x:home />
+  <import file="${magic.templates}/standard.xml"/>
+
+</project>]]></source>
+
+      <p>
+      Some important things to note in the above build file:  
+      </p>
+      <ul>
+        <li>
+          the ant project name <code>gizmo</code> is used as 
+          the default key to an entry in the index file (you 
+          can provide an alternative key by declaring the 
+          property ${project.name} before the home declaration)</li>
+        <li>
+          The <code>xmlns:x="antlib:org.apache.avalon.tools"</code> 
+          declaration tells ant that we are using "x" as the short name 
+          for the antlib <code>antlib:org.apache.avalon.tools</code>.</li>
+        <li>
+          The default target "install" is a target declared in the 
+          imported buildfile <code>${magic.templates}/standard.xml</code>.</li>
+        <li>
+          The <code><![CDATA[<x:home />]]></code> triggers
+          the loading of the index file located in the current directory OR
+          in any ascendent parent directory, i.e. the file system will be scanned
+          upwards in the directory structure,
+          and from this the construction of the project model that contains
+          version information, dependencies, etc.</li>
+        <li>
+          The <code><![CDATA[<import file="${magic.templates}/standard.xml"/>]]></code> 
+          tells ant to import a template build file from the ${magic.templates}
+          directory.  The ${magic.templates} directory defaults to 
+          ${magic.home}/templates. The ${magic.home} property defaults to the 
+          value of the environment variable MAGIC_HOME (if defined) otherwise
+          it will return <code>${user.home}/.magic</code></li>
+        <li>
+          The file <code>${magic.templates}/standard.xml</code> contains several
+          <a href="../templates/standard.html">standard build targets</a>.  
+        </li>
+      </ul>
+
+      <p>
+      You should have a general idea of the structure of an index based on 
+      the information described above.  While there are several notions we have not
+      discussed yet (external resources, plugins defintions, index importing, 
+      etc.) we will move on to actually building widget and gizmo - described 
+      under the next subject - <a href="my-first-spell.html">My First Spell</a>.  
+      </p>
+
+    </section>
+  </body>
+
+</document>
+

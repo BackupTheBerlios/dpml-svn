@@ -1,0 +1,282 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+    <html>
+      <head>
+          <title>Apache Avalon - Apache Avalon Downloads</title>
+        <style type="text/css">
+          @import url("./style/tigris.css");
+          @import url("./style/maven.css");
+        </style>
+        <link rel="stylesheet" href="./style/print.css" type="text/css" media="print"></link>
+          <meta name="author" value="Avalon Documentation Team"></meta>
+          <meta name="email" value="dev@avalon.apache.org"></meta>
+      </head>
+
+      <body marginwidth="0" class="composite" marginheight="0">
+        <div id="banner">
+          <table height="103" border="0" width="100%" cellpadding="8" cellspacing="0">
+            <tr>
+              <td>
+                  <a href="http://avalon.apache.org/">
+                    <img border="0" alt="The Apache Avalon Project" src="./images/apache-avalon-logo.png" align="left"></img>
+                  </a>
+              </td>
+              <td>
+              </td>
+            </tr>
+          </table>
+        </div>
+        <div id="breadcrumbs">
+          <table border="0" width="100%" cellpadding="4" cellspacing="0">
+            <tr>
+              <td>
+                <div align="right">
+      <a href="http://apache.org/"> Apache </a> |
+      <a href="index.html"> Avalon </a> |
+      <a href="product/framework/index.html"> Framework </a> |
+      <a href="product/containers/index.html"> Merlin </a> |
+      <a href="product/components/index.html"> Planet </a>
+                </div>
+              </td>
+            </tr>
+          </table>
+        </div>
+
+        <table border="0" width="100%" cellpadding="8" cellspacing="0">
+          <tr valign="top">
+            <td width="200" id="leftcol">
+              <div id="navcolumn">
+    <div>
+      <strong>About Avalon</strong>
+    <div>
+      <small><a href="index.html">Overview</a></small>
+    </div>
+    <div>
+      <small><a href="news.html">Latest News</a></small>
+    </div>
+    <div>
+      <small><a href="community/index.html">Community</a></small>
+    </div>
+    <div>
+      <small><a href="product/index.html">Products</a></small>
+    </div>
+    <div>
+      <small><a href="doc/index.html">Documentation</a></small>
+    </div>
+    </div>
+    <div>
+      <strong>Resources</strong>
+    <div>
+      <small><a href="license.html">License</a></small>
+    </div>
+    <div>
+      <small><strong><a href="download.cgi">Downloads</a></strong></small>
+    </div>
+    <div>
+      <small><a href="cvs.html">CVS</a></small>
+    </div>
+    <div>
+      <small><a href="http://wiki.apache.org/avalon">WIKI</a></small>
+    </div>
+    <div>
+      <small><a href="sandbox/index.html">Sandbox</a></small>
+    </div>
+    <div>
+      <small><a href="mailing-lists.html">Mailing Lists</a></small>
+    </div>
+    <div>
+      <small><a href="http://nagoya.apache.org/bugzilla/reports.cgi?product=Avalon&amp;amp;output=most_doomed&amp;amp;links=1&amp;amp;banner=1&amp;amp;quip=0">Bug Database</a></small>
+    </div>
+    <div>
+      <small><a href="related/index.html">External Projects</a></small>
+    </div>
+    </div>
+    </div>
+    </td>
+    <td>
+    <div id="bodycol">
+    <div class="app">
+    <div class="h3">
+        <h3>
+          <a name="download">Avalon Download Site</a>
+        </h3>
+
+    <div>
+     <!-- START DOWNLOAD PAGE CONTENT -->
+
+      <p>Use the links below to download a binary distribution of
+      Avalon from one of our mirrors.  It's a good idea to
+      <a href="[location]#Verify Releases">verify the integrity</a>
+      of the downloaded files using signatures downloaded from our
+      main distribution directory.</p>
+
+      <p>Avalon is distributed as <code>zip</code> and <code>tar.gz</code>
+      archives - the contents are the same. Please note that the <code>tar.gz</code>
+      archives contain file names longer than 100 characters and have been
+      created using GNU tar extensions.  They must be untarred with a GNU
+      compatible version of <code>tar</code>.</p>
+
+      <p>If you do not see the file you need in the links below, please
+      see the <a href="http://www.apache.org/dist/avalon/">master
+      distribution directory</a> or, preferably, its
+      <a href="[preferred]/avalon/">mirror</a>.</p>
+
+<a name="Mirror"></a><h4>Mirror</h4>
+      <p>You are currently using the <strong>[preferred]</strong>.
+      If you encounter a problem with this mirror, please select another
+      mirror.  If all mirrors are failing, there are <em>backup</em>
+      mirrors (at the end of the mirrors list) that should be available.</p>
+
+      <form action="[location]" method="get" id="SelectMirror">
+<p>Other mirrors: <select name="Preferred"></p>
+[if-any http]
+  [for http]<option value="[http]">[http]</option>[end]
+[end]
+[if-any ftp]
+  [for ftp]<option value="[ftp]">[ftp]</option>[end]
+[end]
+[if-any backup]
+  [for backup]<option value="[backup]">[backup] (backup)</option>[end]
+[end]
+        </select>
+        <input type="submit" value="Change">
+      </form>
+
+<a name="Projects"></a><h4>License</h4>
+
+<p>All avalon products are distributed under the terms of The Apache Software License (version 2.0). See our
+<a href="license.html">License</a> page, or the LICENSE.txt files
+included in each distribution.</p>
+
+<a name="Projects"></a><h3>Product Downloads</h3>
+
+<p>Here's a list of the most commonly requested distributions. You can
+<a href="[preferred]/avalon/">browse</a> the repository for a full
+range of our various distributions, including older versions.</p>
+
+<p>Please note: we're still filling up this list; its incomplete
+at the moment.</p>
+
+<a name="Projects"></a><h4>Projects</h4>
+
+<!-- lets maintain alphabetical order, peeps! -->
+<table border="1" width="100%" cellspacing="2" cellpadding="3">
+    <tr class="a">
+      <th>Product</th>
+      <th>Binary</th>
+      <th>Source</th>
+      <th>Jars</th>
+    </tr>
+    <tr class="b">
+<td><a href="/framework/">Avalon-Framework</a></td>
+<td><a href="[preferred]/avalon/framework/binaries">binaries</a></td>
+<td><a href="[preferred]/avalon/framework/source">source</a></td>
+<td><a href="[preferred]/avalon/framework/jars">jars</a></td>
+   </tr>
+    <tr class="a">
+<td><a href="/logkit/">Avalon-Logkit</a></td>
+<td><a href="[preferred]/avalon/logkit/binaries">binaries</a></td>
+<td><a href="[preferred]/avalon/logkit/source">broswe</a></td>
+<td><a href="[preferred]/avalon/logkit/jars">jars</a></td>
+   </tr>
+    <tr class="a">
+<td><a href="/merlin/">Avalon-Merlin</a></td>
+<td><a href="[preferred]/avalon/merlin/binaries">binaries</a></td>
+<td><a href="[preferred]/avalon/merlin/source">broswe</a></td>
+<td><a href="[preferred]/avalon/merlin/jars">jars</a></td>
+   </tr>
+</table>
+
+<a name="Legacy"></a><h4>Legacy</h4>
+
+<table border="1" width="100%" cellspacing="2" cellpadding="3">
+    <tr class="a">
+      <th>Product</th>
+      <th>Binary</th>
+      <th>Source</th>
+      <th>Jars</th>
+    </tr>
+    <tr class="a">
+<td><a href="/excalibur/fortress/">Avalon-Fortress</a></td>
+<td><a href="[preferred]/avalon/avalon-fortress/binaries">binaries</a></td>
+<td><a href="[preferred]/avalon/avalon-fortress/source">broswe</a></td>
+<td><a href="[preferred]/avalon/avalon-fortress/jars">jars</a></td>
+   </tr>
+    <tr class="a">
+<td><a href="/phoenix/">Avalon-Phoenix</a></td>
+<td><a href="[preferred]/avalon/phoenix/binaries">binaries</a></td>
+<td><a href="[preferred]/avalon/phoenix/source">broswe</a></td>
+<td><a href="[preferred]/avalon/phoenix/jars">jars</a></td>
+   </tr>
+</table>
+
+<a name="Verify Releases"></a><h4>Verify Releases</h4>
+
+<p>It is essential that you verify the integrity of the downloaded
+files using the PGP or MD5 signatures.</p>
+<p>The PGP signatures can be verified using PGP or GPG.  First
+download the <a href="http://www.apache.org/dist/avalon/KEYS">KEYS</a>
+as well as the <code>asc</code> signature file for the particular
+distribution.  Make sure you get these files from the
+<a href="http://www.apache.org/dist/avalon/">main distribution
+directory</a>, rather than from a mirror. Then verify the signatures
+using</p>
+<p><code>
+% pgpk -a KEYS<br />
+% pgpv name-of-distributed-file.tar.gz.asc<br />
+</code>
+<em>or</em><br />
+<code>
+% pgp -ka KEYS<br />
+% pgp name-of-distributed-file.tar.gz.asc<br />
+</code>
+<em>or</em><br />
+<code>
+% gpg --import KEYS<br />
+% gpg --verify name-of-distributed-file.tar.gz.asc
+</code></p>
+
+<!--
+
+Using an automated process to retrieve files from mirrors is
+considered unsafe by the infrastructure team, as it is very
+easy to become a 'malicious mirror' and that could have grave
+consequences to users.
+
+Maven needs a way to verify distributions against md5 and/or asc
+files retrieved from the main distribution location before we
+re-enable this.
+
+<a name="Maven Repository"></a><h4>Maven Repository</h4>
+
+<p>The avalon distribution layout is compatible with the
+<a href="http://maven.apache.org/">Maven</a> repository format. To
+enable maven to automatically use your chosen distribution mirror
+as a remote repository, add a line to your project.properties file:
+</p>
+
+<p><code>
+maven.repo.remote = [preferred]/avalon,http://www.ibiblio.org/maven
+</code></p>-->
+
+<p>Doing so will ensure that your maven-enabled projects will always
+be able to find the latest avalon binaries.</p>
+     <!-- END DOWNLOAD PAGE CONTENT -->
+    </div>
+
+    </div>
+                </div>
+              </div>
+            </td>
+          </tr>
+        </table>
+        <div id="footer">
+          <table border="0" cellpadding="4" cellspacing="0">
+            <tr>
+              <td>
+                       1997-2003, The Apache Avalon Project
+              </td>
+            </tr>
+          </table>
+        </div>
+      </body>
+    </html>

@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<section>
+  <title>magic integration</title>
+
+  <section>
+    <title>requirements</title>
+
+    <para>To specify the requirements for magic one has to be clear about some
+    eclipse specific terms:</para>
+
+    <orderedlist>
+      <listitem>
+        <para>plug-in</para>
+
+        <para>A plug-in is an artifact in eclipse which delivers a specific
+        functionality.</para>
+
+        <para>Each plug-in is versioned. The version number is created in the
+        "plugin.xml" file. Plug-ins are located in the
+        &lt;eclipse_home&gt;"/plugins" folder. The plugin.xml has to be
+        located in
+        &lt;eclipse_home&gt;"/plugins/"&lt;plugin_name&gt;_&lt;version&gt;
+        folder. The &lt;plugin_name&gt; is created from "plugin id" and
+        &lt;version&gt; from "version" in plugin.xml.</para>
+      </listitem>
+
+      <listitem>
+        <para>feature</para>
+
+        <para>A feature is an assambly of one or many plug-ins. A feature is
+        also versioned. A feature references plug-ins of a specific version.
+        Features are located in &lt;eclipse_home&gt;"/features" folder. A
+        single feature description is contained in the feature.xml file which
+        is located in "/features/"&lt;feature_name&gt;_&lt;version&gt; folder.
+        &lt;feature_name&gt; and &lt;version&gt; are specified in
+        feature.xml.</para>
+      </listitem>
+    </orderedlist>
+
+    <para>There are two types of artifacts which needs to be created for every
+    eclipse feature by magic:</para>
+
+    <orderedlist>
+      <listitem>
+        <para>a single deployment zip-file</para>
+      </listitem>
+
+      <listitem>
+        <para>a update manager deployment folder structure</para>
+
+        <para>This folder structure is used by eclipse "update manager" to
+        automatically deploy and update our plugins</para>
+      </listitem>
+    </orderedlist>
+
+    <section>
+      <title>update manager folder structure</title>
+
+      <para>The update manager folder structure contains two folders:</para>
+
+      <orderedlist>
+        <listitem>
+          <para>features</para>
+
+          <para>This folder contains all available features and feature
+          versions - each packaged in a single jar file. The jar file only
+          contains the feature.xml. The name of the jar file is &lt;feature
+          id&gt;_&lt;feature version&gt; where feature id and feature version
+          are elements in the feature.xml file.</para>
+        </listitem>
+
+        <listitem>
+          <para>plugins</para>
+
+          <para>This folder contains all available plugins and plugin versions
+          - each packaged in a single jar file. The name of the jar file is
+          &lt;plugin id&gt;_&lt;plugin version&gt; where plugin id and plugin
+          version are created from related elements in plugin.xml. </para>
+
+          <para>The jar file contains the whole folder structure of the
+          plugin. In general there is no given folder structure for plugins -
+          the only requirement for a plugin is to deliver a plugin.xml in the
+          root folder of the plugin.</para>
+
+          <para>Normaly all class files of the plugin are packaged in a jar
+          file which is also located in the root directory of the plugin. This
+          jar file has no version extension! The name of that jar file could
+          be created by the related &lt;name&gt; value in plugin.xml. This is
+          not an eclipse requirement but could be a convention for all metro
+          related plugins so that there is a standard way to name this jar
+          file.</para>
+
+          <para>Which folder has to be included into the plugins jar file is
+          managed by the build.properties file which is located in the eclipse
+          workbench plugin project. With the values of that file magic can
+          first create a folder structure as needed, copy all values to that
+          folder structure and than package the whole structure into the
+          plugin jar file.</para>
+
+          <para>This plugins jar file than has to be copied to the "plugins"
+          folder in the update manager folder structure.</para>
+
+          <para> </para>
+        </listitem>
+      </orderedlist>
+    </section>
+
+    <section>
+      <title>single deployment zip file</title>
+
+      <para></para>
+    </section>
+  </section>
+
+  <section>
+    <para></para>
+  </section>
+</section>

@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<document>
+  <properties>
+    <author email="dev@avalon.apache.org">Avalon Documentation Team</author>
+    <title>Home</title>
+  </properties> 
+
+  <body>
+
+    <section name="Welcome to Apache Avalon">
+     <p>
+      Apache Avalon provides a complete development platform for
+      component and container programming utilizing key design patterns
+      such as Inversion of Control and Separation of Concerns.
+     </p>
+
+     <table class="front">
+       <tr>
+         <td class="header" valign="top">
+           <center>
+             <a href="central/about/index.html">
+               <img alt="central" src="images/central-text.png"/>
+             </a>
+           </center>
+         </td>
+         <td class="header"  valign="top" align="center">
+           <center>
+             <a href="products/runtime/index.html">
+               <img alt="products" src="images/products-text.png"/>
+             </a>
+           </center>
+         </td>
+         <td class="header"  valign="top" align="center">
+           <center>
+             <a href="planet/components/index.html">
+               <img alt="planet" src="images/planet-text.png"/>
+             </a>
+           </center>
+         </td>
+       </tr>
+       <tr>
+         <td>
+           <table class="front-category">
+             <tr>
+               <td>
+                 <a class="doclink" href="central/about/tutorials/index.html">
+                   <img alt="tutorials" src="images/tutorials.png"/>
+                 </a>
+               </td>
+             </tr>
+             <tr>
+               <td>
+                 <a class="doclink" href="central/resources/mailing-lists.html">
+                   <img alt="mailing-lists" src="images/mail_issues.png"/>
+                 </a>
+               </td>
+             </tr>
+             <tr>
+               <td>
+                 <a class="doclink" href="download.cgi">
+                   <img alt="download" src="images/downloads.png"/>
+                 </a>
+               </td>
+             </tr>
+             <tr>
+               <td>
+                 <a class="doclink" href="central/tools/index.html">
+                   <img alt="tools" src="images/tools-text.png"/>
+                 </a>
+               </td>
+             </tr>
+           </table>
+         </td>
+         <td>
+           <table class="front-category">
+             <tr>
+               <td>
+                 <a class="doclink" href="products/runtime/index.html">
+                   <img alt="runtime" src="images/merlin-label.png"/>
+                 </a>
+               </td>
+             </tr>
+           </table>
+         </td>
+         <td>
+           <table class="front-category">
+             <tr>
+               <td>
+                 <a class="doclink" href="planet/components/index.html">
+                   <img alt="components" src="images/library.png"/>
+                 </a>
+               </td>
+             </tr>
+             <tr>
+               <td>
+                 <a class="doclink" href="planet/facilities/index.html">
+                   <img alt="facilities" src="images/facilities-text.png"/>
+                 </a>
+               </td>
+             </tr>
+           </table>
+         </td>
+       </tr>
+     </table>
+
+     </section>
+
+  </body>
+</document>
+

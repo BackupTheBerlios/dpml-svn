@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document>
+  <properties>
+    <author email="dev@avalon.apache.org">Avalon Documentation Team</author>
+    <title>Avalon Central</title>
+  </properties> 
+
+  <body>
+    <section name="Merlin 3.0 beta 1 Release">
+    <p>26-SEP-2003</p>
+    <p>
+     The Avalon Team is proud to announce the release of Merlin 3.0
+     Beta 1. Merlin is an advanced component and service management
+     solution that simplifies and enhances component development,
+     assembly and service deployment concerns.
+     </p>
+     <p>
+      Merlin 3.0 binaries can be downloaded from the following site:
+     </p>
+     <p>
+      <a href="http://www.apache.org/dist/avalon/merlin/binaries/">
+       http://www.apache.org/dist/avalon/merlin/binaries/</a>
+     </p>
+
+<p>Key Product Features:</p>
+ <ul>
+   <li>auto assembly</li>
+   <li>muli-layer configuration management</li>
+   <li>advanced context management</li>
+   <li>composite component management</li>
+   <li>packaged deployment scenarios</li>
+   <li>local and remote repository integration</li>
+   <li>integral jar extension management</li>
+   <li>Maven plugin support for meta-info generation and simulated deployment</li>
+   <li>product packaging and install services</li>
+   <li>based on Avalon component meta model</li>
+   <li>support for legacy migration</li>
+ </ul>
+
+  <p>Product documentation, tutorials and specifications are available
+     on the <a href="../../../products/runtime/index.html">Merlin Home</a>
+     site or the download link referenced above.
+  </p> 
+
+    </section>
+  </body>
+</document>
+

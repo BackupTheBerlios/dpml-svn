@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- 
+ Copyright 2004 Apache Software Foundation
+ Licensed  under the  Apache License,  Version 2.0  (the "License");
+ you may not use  this file  except in  compliance with the License.
+ You may obtain a copy of the License at 
+ 
+   http://www.apache.org/licenses/LICENSE-2.0
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed  under the  License is distributed on an "AS IS" BASIS,
+ WITHOUT  WARRANTIES OR CONDITIONS  OF ANY KIND, either  express  or
+ implied.
+ 
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+
+<document>
+  <properties>
+    <author email="dev@avalon.apache.org">Avalon Team</author>
+    <title>Avalon Castle - Managed Extensions</title>
+  </properties>
+
+  <body>
+
+  <section name="Exposing the server">
+    <p>
+    ManagementExtensions hides from developer all the complexity
+    dealing with .Net Remoting architecture. To expose your MServer
+    through TCP (or HTTP) you need to create a MConnectorServer instance.
+    By now the only formatter supported is the binary one.
+    </p>
+<source>
+MConnectorServer serverConn = 
+   MConnectorServerFactory.CreateServer( "provider:http:binary:test.rem", null, null );
+
+ManagedObjectName name = new ManagedObjectName("connector.http:formatter=binary");
+
+server.RegisterManagedObject( serverConn, name );
+</source>
+
+  </section>
+
+  <section name="Connecting to server">
+    <p>
+    The same strategy is used to connect from a client. Once you've connected, you 
+    can extract the component tree from MServer, invoke methods and change component 
+    attributes.
+    </p>
+<source>
+MConnector connector = 
+   MConnectorFactory.CreateConnector( "provider:http:binary:test.rem", null );
+  
+MServer server = (MServer) connector.ServerConnection;
+String[] domains = server.GetDomains();
+
+</source>
+    <p>
+    Obviously the connection string must match. You can use ASP.Net or Winforms 
+    to construct a client application for manage your application. Unfortunatelly, 
+    due to license issues, we can't provide a sample using either of these technologies.
+    But you can see the test cases to get a glimpse of how it can be accomplished.
+    </p>
+  </section>
+
+  </body>
+</document>

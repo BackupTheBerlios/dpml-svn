@@ -1,0 +1,72 @@
+<?xml version="1.0"?>
+
+<!-- 
+ Copyright 2004 Apache Software Foundation
+ Licensed  under the  Apache License,  Version 2.0  (the "License");
+ you may not use  this file  except in  compliance with the License.
+ You may obtain a copy of the License at 
+ 
+   http://www.apache.org/licenses/LICENSE-2.0
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed  under the  License is distributed on an "AS IS" BASIS,
+ WITHOUT  WARRANTIES OR CONDITIONS  OF ANY KIND, either  express  or
+ implied.
+ 
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+
+<document>
+  <properties>
+    <author email="mcconnell@apache.org">Stephen McConnell</author>
+    <title>Avalon Logging</title>
+  </properties>
+  <body>
+    <section name="Avalon LogKit Plugin">
+      <subsection name="Overview">
+        <p>The LogKit plugin defines an local API for LogKit related 
+        log target factories and log targets.  Through this API the 
+        LogKit implementation manages a set of standard targets and 
+        a target plugin framework.</p>
+      </subsection>
+      <subsection name="Standard LogTarget">
+        <table>
+          <tr><th>Factory</th><th>Description</th></tr>
+          <tr>
+            <td><a href="stream.html">Stream</a></td>
+            <td>
+            The &lt;stream&gt; log target provides support for the logging 
+            of message to a console via System.out or System.err. If 
+            no logging targets are defined, the implementation will 
+            establish a default console target.
+            </td>
+          </tr>
+          <tr>
+            <td><a href="file.html">File</a></td>
+            <td>
+            The rotating &lt;file&gt; target provides support for a set of 
+            rotation strategies including rotation by size, rotation
+            on data, and combined date/size rotation scenarios.
+            </td>
+          </tr>
+          <tr>
+            <td><a href="multicast.html">Multicast</a></td>
+            <td>
+            The &lt;multicast&gt; target is a target that handles the redirection
+            of a logging event to one or more log targets.
+            </td>
+          </tr>
+          <tr>
+            <td><a href="plugin/index.html">Plugin</a></td>
+            <td>
+            The plugin &lt;target&gt; provides support for plugable log target factories.
+            </td>
+          </tr>
+        </table>
+      </subsection>
+    </section>
+  </body>
+</document>
+
+

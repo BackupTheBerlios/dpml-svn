@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document>
+
+  <properties>
+    <author email="dev@avalon.apache.org">Avalon Documentation Team</author>
+    <title>Avalon Central</title>
+  </properties> 
+
+  <body>
+    <section name="Publication Tasks">
+      <p>
+      Publication tasks deal with the generation of project document, 
+      javadoc production, and publication into a common doc repository.
+      </p>
+    </section>
+  </body>
+
+</document>
+

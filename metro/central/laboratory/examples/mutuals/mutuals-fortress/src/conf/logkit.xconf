@@ -1,0 +1,41 @@
+<logkit>
+
+    <!-- CONSOLE LOGGER -->
+    <!--
+    <factories>
+      <factory type="stream" class="org.apache.avalon.excalibur.logger.factory.StreamTargetFactory"/>
+    </factories>
+    <targets>
+      <stream id="console">
+        <stream>System.out</stream>
+        <format type="extended">
+          %7.7{priority} %23.23{time:yyyy-MM-dd HH:mm:ss.SSS} [%24.24{category}] (%{context}): %{message}\n%{throwable}
+        </format>
+      </stream>
+    </targets>
+    <categories>
+      <category name="" log-level="INFO">
+        <log-target id-ref="console"/>
+      </category>
+    </categories>
+    -->
+
+    <!-- FILE LOGGER -->
+    <factories>
+      <factory type="file" class="org.apache.avalon.excalibur.logger.factory.FileTargetFactory"/>
+    </factories>
+    <targets>
+       <file id="root">
+        <filename>mutuals-fortress.log</filename>
+        <format type="extended">
+          %7.7{priority} %23.23{time:yyyy-MM-dd HH:mm:ss.SSS}: %{message}\n%{throwable}
+        </format>
+       </file>
+     </targets>
+     <categories>
+       <category name="" log-level="DEBUG">
+         <log-target id-ref="root"/>
+       </category>
+     </categories>
+
+</logkit>

@@ -1,0 +1,82 @@
+<?xml version="1.0"?>
+
+<!-- 
+ Copyright 2004 Apache Software Foundation
+ Licensed  under the  Apache License,  Version 2.0  (the "License");
+ you may not use  this file  except in  compliance with the License.
+ You may obtain a copy of the License at 
+ 
+   http://www.apache.org/licenses/LICENSE-2.0
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed  under the  License is distributed on an "AS IS" BASIS,
+ WITHOUT  WARRANTIES OR CONDITIONS  OF ANY KIND, either  express  or
+ implied.
+ 
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+
+<document>
+  <properties>
+    <author email="dev@avalon.apache.org">Avalon Documentation Team</author>
+    <title>Avalon Central</title>
+  </properties> 
+
+  <body>
+    <section name="Running Hello">
+      <subsection name="Building the Block">
+        <p>
+        Using the sources included in the tutorials/hello directory 
+        you can build and run the example using the following commands:
+        </p>
+<source><![CDATA[
+$ maven
+]]></source>
+      </subsection>
+
+      <subsection name="Running the Block">
+        <p>
+To see Merlin in action, execute Merlin and give it either the 
+jar file or the ${basedir}/target/classes directory as the deployment 
+argument.  The following command deploys the component relative
+to the compiled classes in the ${basedir}/target/classes directory.
+        </p>
+<source><![CDATA[
+$ merlin -execute target\classes 
+]]></source>
+
+        <p>
+Alternatively you can deploy the component from the jar file.
+        </p>
+
+<source><![CDATA[
+$ merlin -execute target\hello-1.1.jar
+]]></source>
+
+        <p>
+        The output resulting from the execution of the block is as follows:
+        </p>
+
+<source><![CDATA[
+[INFO   ] (tutorial.hello): Hello World!
+]]></source>
+
+        <p>
+        Congratulations! You have build and deployed your first block.
+        </p>
+   
+        <p>
+        A quick look at some of the behind the scenes activity is 
+        presented in the <a href="internal.html">next tutorial</a>.
+        </p>
+
+      </subsection>
+    </section>
+  </body>
+
+</document>
+
+
+
+

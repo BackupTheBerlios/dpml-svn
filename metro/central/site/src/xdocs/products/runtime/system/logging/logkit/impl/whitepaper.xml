@@ -1,0 +1,410 @@
+<!--
+     Copyright 2004 The Apache Software Foundation
+     Licensed  under the  Apache License,  Version 2.0  (the "License");
+     you may not use  this file  except in  compliance with the License.
+     You may obtain a copy of the License at
+     
+     http://www.apache.org/licenses/LICENSE-2.0
+     
+     Unless required by applicable law or agreed to in writing, software
+     distributed  under the  License is distributed on an "AS IS" BASIS,
+     WITHOUT  WARRANTIES OR CONDITIONS  OF ANY KIND, either  express  or
+     implied.
+     
+     See the License for the specific language governing permissions and
+     limitations under the License.
+-->
+<document>
+  <properties>
+    <author email="dev@avalon.apache.org">Avalon Development Team</author>
+    <title>Logkit - Whitepaper</title>
+  </properties>
+  <body>
+    <section name="Abstract">
+      <p>
+        Logging is an integral component to any software development project.
+        During the development stages it offers a valuable source of debugging
+        information for the developer. During deployment it can provide 
+        valuable operational data that allows administrators to diagnose 
+        problems as they arise. This whitepaper describes the design and 
+        implementation of LogKit.
+      </p>
+    </section>
+    <section name="Introduction">
+      <p>
+        LogKit, began life as a facade for a more complex logging toolkit. 
+        During development it was found that existing toolkits were complex and
+        difficult to use. A malformed logger configuration file could cause the
+        whole system to fail or the logging information to go into the void.
+      </p>
+      <p>
+        Over time it was discovered that the facade, while simple to use, 
+        inherited many of the faults of the underlying logging toolkit. The 
+        logging was slow and was impossible to dynamically reconfigure.
+      </p>
+      <p>
+        At this time the whole system was overhauled. Existing logging toolkits
+        were surveyed and user feedback was gathered from both developers and
+        administrators. The new toolkit focused on speed, reliability and 
+        dynamic reconfiguration. It then added, at that time unique features, 
+        for filtering log events, multiple listeners (aka LogTargets) per 
+        category and delayed serialization of events.
+      </p>
+    </section>
+    <section name="Structure and Elements">
+      <p>
+        The most basic components of LogKit are the Logger, the LogEvent and the
+        LogTarget. The Logger represents the client interface to the logging 
+        system. The developer interacts with Logger to generate LogEvents. The 
+        LogEvents are routed to a LogTarget. The LogTarget decides what to do 
+        with the LogEvent, usually it is recorded to a file, a database or 
+        transmitted over the network.
+      </p>
+    </section>
+    <section name="Priorities">
+      <p>
+        One of the advantages of a logging toolkit is fine grain control over 
+        which statements get printed. At some times during development you may 
+        wish to enable all logging statements and at other times they may wish 
+        to disable debug messages. It was from this need that the notion of of 
+        Priorities were born. A Priority describes the urgency of a LogEvent. 
+        Below is a list of priorities that are usable within the LogKit system 
+        (extracted from the constants of class org.apache.log.Priority).
+      </p>
+      <ul>
+        <li>
+          <strong>DEBUG:</strong>
+          <br/>
+          Developer oriented messages, usually used during development of the 
+          product.
+        </li>
+        <li>
+          <strong>INFO:</strong>
+          <br/>
+          Useful information messages such as state changes, client connection, 
+          user login etc.
+        </li>
+        <li>
+          <strong>WARN:</strong>
+          <br/>
+          A problem or conflict has occurred but it may be recoverable, then
+          again it could be the start of the system failing.
+        </li>
+        <li>
+          <strong>ERROR:</strong>
+          <br/>
+          A problem has occurred but it is not fatal. The system will still 
+          function.
+        </li>
+        <li>
+          <strong>FATAL_ERROR:</strong>
+          <br/>
+          Something caused whole system to fail. This indicates that an 
+          administrator should restart the system and try to fix the problem 
+          that caused the failure.
+        </li>
+      </ul>
+      <p>
+        The range of priorities is limited by design as past experience has
+        indicated more levels do not offer any significant advantage to the
+        user.
+      </p>
+      <p>
+        Each logger instance is associated with a Priority. This allows you to
+        limit each logger so that it only displays messages greater than a 
+        certain priority. So if a DEBUG message occurred and the logger's 
+        priority was WARN, the LogEvent would be suppressed.
+      </p>
+      <p>
+        A user can log at a certain priority by calling a method with matching 
+        name and the message as a string. For instance to log at debug level 
+        you would call logger.debug("My Message"). Similar methods exist for 
+        info(), warn() and error(). There is also a set of similarly named 
+        methods that take both a message string and an exception.
+      </p>
+      <p>
+        Where performance is critical it is often useful to check if a priority
+        is enabled before constructing the message. In many cases the 
+        construction of the message is an expensive string operation and 
+        conversion operation. In this case it is useful to know before you 
+        create the message whether it will be logged. The pattern of the method
+        to check if a priority is enabled is "is&lt;Priority&gt;Enabled()". An 
+        example use case is displayed below.
+      </p>
+      <source>
+if( logger.isDebugEnabled() )
+{
+    //Construct a message (expensive operation)
+    final String message = "Var1 value: " + var1 + "\tVar2 value: " + var2 +
+        "\tVar3 value: " + var3 + ".";
+    logger.debug( message );
+}
+      </source>
+    </section>
+    <section name="Categories">
+      <p>
+        In a complex system it is often not enough to suppress logging based on
+        priority. For instance you may wish to log the network subsystem with 
+        DEBUG priority while the simulator subsystem with WARN priority. To 
+        accomplish this LogKit uses a concept termed Categories. Categories, 
+        often called Channels, Subjects or Facilities, are a subdivision of the
+        logging namespace.
+      </p>
+      <p>
+        Each category is a name, made up of name components separated by a ".". 
+        So a category named "network.interceptor.connected" is made up of three 
+        name components "network", "interceptor" and "connected", ordered from 
+        left to right. Every logger is associated with a category at creation.
+      </p>
+      <p>
+        LogKit takes it one step further and assumes that the namespace is 
+        hierarchical. The left-most name component is the most generic category 
+        while the right-most name component is the most specific. So 
+        "network.interceptor.connected" is a child category of 
+        "network.interceptor", which is in turn a child category of "network".
+        There is also a root category "" that is hidden inside the 
+        org.apache.log.Hierarchy class.
+      </p>
+      <p>
+        The main reason for structuring logging namespace in a hierarchical 
+        manner is to allow inheritance. A logger will inherit it's parent 
+        priority if it has not been explicitly set. This allows you to set the
+        "network" logger to have INFO priority and unless the 
+        "network.interceptor" has had it's priority set it will inherit the 
+        INFO priority.
+      </p>
+      <p>
+        Unlike other logging toolkits, there is no performance penalty for 
+        having deep hierarchies. Each logger caches a Priority to check against.
+        When a logger has it's logger set or unset, it updates the cached 
+        version of it's child loggers.
+      </p>
+    </section>
+    <section name="Log Targets">
+      <p>
+        In LogKit, LogTargets are the destination of LogEvents. Decoupling 
+        LogEvent generation from handling allows developers to change 
+        destinations of LogEvents dynamically or via configuration files. 
+        Possible destinations include writing to a database, a file, an IRC 
+        channel, a syslog server, an instant messaging client etc.
+      </p>
+      <p>
+        Like Priorities, it is often useful to allow LogTargets to be inherited
+        between loggers. Like Priority inheritance, LogTarget inheritance does 
+        not suffer any runtime performance penalty.
+      </p>
+      <section name="Filters">
+        <p>
+          Filters are a special kind of LogTarget. Instead of writing to an 
+          output destination they are used to filter out LogEvents or modify 
+          the LogEvents details and pass it on to another LogTarget.
+        </p>
+        <p>
+          This can be a useful feature when you assign multiple LogTargets to a
+          logger. For instance you may add two LogTargets to a logger, one which
+          writes LogEvents to a database and one which writes a message to the
+          administrators pager. However you may want to record all messages to
+          the database but only transmit FATAL_ERROR messages to pager. In this
+          case you would use a PriorityFilter to filter out non-FATAL_ERROR 
+          messages for pager log target.
+        </p>
+      </section>
+      <section name="AsyncLogTarget">
+        <p>
+          AsyncLogTarget is another kind of special LogTarget. It takes a log 
+          event and copies it into a queue so that another thread can actually 
+          write the LogEvent to another LogTarget. This is useful if logging to 
+          a particular LogTarget is a slow operation (such as a MailLogTarget).
+        </p>
+        <p>
+          Below is a snippet of code that creates an AsyncLogTarget to write 
+          messages in another thread.
+        </p>
+        <source>
+LogTarget mySlowTarget = ...;
+AsyncLogTarget asyncTarget = new AsyncLogTarget( mySlowTarget );
+Thread thread = new Thread( asyncTarget );
+thread.setPriority( Thread.MIN_PRIORITY );
+thread.start();
+logger.setLogTargets( new LogTarget[] { asyncTarget } );
+        </source>
+      </section>
+    </section>
+    <section name="Formatters">
+      <p>
+        LogTargets that write to a serial or unstructured store (ie filesystem 
+        or network based LogTargets) need some method to serialize the LogEvent
+        before writing to the store. The most common way to serialize the 
+        LogEvent is to use a Formatter.
+      </p>
+      <p>
+        The Formatter interface takes a LogEvent and returns a String object. 
+        The most commonly use LogEvent is the PatternFormatter. The pattern 
+        formatter takes a format specifier that has a similar format to c's 
+        printf function.
+      </p>
+      <p>
+        The format specifier consists of a string containing raw text combined 
+        with pattern elements. Each pattern element has the generalized form
+        "%[+|-]#.#{field:subformat}". The +|- indicates whether the pattern 
+        element should be left or right justified (defaults to left justified if
+        unspecified). The #.# indicates the minimum and maximum size of output,
+        if unspecified the output is neither padded nor truncated. 'field' 
+        indicates the field to be written and must be one of "category", 
+        "context", "message", "time", "rtime" (time relative to start of 
+        application), "throwable" or "priority". This parameter must be supplied
+        and correlates to fields of LogEvent. 'subformat' is currently unused 
+        except in the case of "context" field. This is further discussed below.
+      </p>
+      <p>
+        Following is a number of examples for PatternFormatter's format 
+        specifier and actual output.
+      </p>
+      <source>
+format: "%7.7{priority} %5.5{rtime} [%8.8{category}]: %{message}\n%{throwable}"
+output: DEBUG   123   [network.]: This is a debug message
+format: "%7.7{priority} %5.5{rtime} [%{category}]: %{message}\n"
+output: DEBUG   123   [network.interceptor.connected]: This is a debug message
+output: DEBUG   123   [network]: This is another debug message
+format: "%7.7{priority} %5.5{rtime} [%10.{category}]: %{message}\n"
+output: DEBUG   123   [network.interceptor.connected]: This is a debug message
+output: DEBUG   123   [network   ]: This is another debug message
+      </source>
+      <p>
+        There is also ExtendedPatternFormatter that allows two extra fields, 
+        namely "method" and "thread". The "method" field attempts to determine 
+        the method that called the Logger method to generate the LogEvent. The 
+        "thread" field displays the name of the current thread.
+      </p>
+    </section>
+    <section name="Context">
+      <p>
+        In many systems you need to include extra information depending in logs
+        that depends on information not included in the LogEvent. For instance 
+        the Formatters section described an ExtendedPatternFormatter that 
+        included information such as calling method and calling thread. Other 
+        contextual information that you may need to include in log files include
+        user executing log statement, the network interface that the client 
+        component is listening to (ie 127.0.0.1 vs 192.168.1.1), hostname 
+        (especially important on multihomed boxs) or source of LogEvent (useful 
+        when writing a centralized log server).
+      </p>
+      <p>
+        There are a number of strategies to deal with application specific 
+        contextual information. Some logging toolkits encourage extending the 
+        Logger, LogEvent and LogTargets while others encourage using application
+        specific LogTargets. The way that LogKit solves this problem is by using
+        a generic ContexMap object.
+      </p>
+      <p>
+        The ContextMap allows the user to store arbitrary objects using a string
+        key. These objects can then be extracted by the LogTargets and used as 
+        appropriate. If you were using the PatternFormatter you could extract a 
+        value from ContextMap by specify the "context" field with it's subformat
+        set to the appropriate key. Some examples are illustrated below.
+      </p>
+      <source>
+format: "%7.7{priority} [%{context:hostname}]: %{message}\n"
+output: DEBUG   [helm.realityforge.org]: This is a debug message
+format: "%7.7{priority} [%{context:interface}]: %{message}\n"
+output: DEBUG   [127.0.0.1]: This is logging about loopback interface
+output: DEBUG   [192.168.1.1]: This is logging about internal network interface
+output: DEBUG   [203.121.1.2]: This is logging about external network interface
+format: "%7.7{priority} [%{context:user}]: %{message}\n"
+output: DEBUG   [Barney Rubble]: This is a debug message
+      </source>
+      <p>
+        <em>Warning:</em>
+        Older versions of LogKit also incorporated a ContextStack that offered 
+        hierarchical management of context. It was discovered that this design 
+        encouraged bad practices and thus use of this feature has been 
+        deprecated in favour of using ContextMap. The ContextStack is still 
+        accessible if users do not specify a subformat or specify the subformat 
+        "stack". However it is strongly advised that users do not use this 
+        feature as it will be removed in a future iteration.
+      </p>
+      <p>
+        When using a ContextMap you create the object and populate it using the
+        set(key,value) method. After populating the ContextMap you call the 
+        method makeReadOnly(). This makes it impossible for hostile code to 
+        modify context in which logging occurs.
+      </p>
+      <p>
+        Then you need to associate the ContextMap with a thread by using
+        ContextMap.bind( myContextMap ). The ContextMap is bound to a thread
+        using java.lang.InheritableThreadLocal and thus maps are inherited 
+        between threads as specified by InheritableThreadLocal.
+      </p>
+      <p>Below is an example of how a user can create and bind a ContextMap.</p>
+      <source>
+final ContextMap context = new ContextMap();
+context.set( "user", "Fred Flinstone" );
+context.set( "interface", myInterface );
+context.set( "hostname", "helm.realityforge.org" );
+context.set( "jvmid", myJvmId );
+context.makeReadOnly();
+//bind new ContextMap to current thread and subthreads
+ContextMap.bind( context );
+      </source>
+    </section>
+    <section name="Examples" >
+      <p>
+        One of the best ways to learn how to use a toolkit is to see an
+        example in action. With that heres some example uses of LogKit. The 
+        first example is in a simple application while the next example is in a
+        servlet. The servlet example demonstrates the usage of filters.
+      </p>
+      <source>
+Logger logger = Hierarchy.getDefaultHierarchy().getLoggerFor("myCategory");
+logger.setPriority( Priority.DEBUG );
+logger.debug( "This is a debug message" );
+      </source>
+      <source>
+//Create a Log filter that writes to servlet Containers log
+//If priority greater than ERROR
+PriorityFilter filter = new PriorityFilter(Priority.ERROR);
+filter.addTarget( new ServletOutputLogTarget(context) );
+
+String logName = getInitParameter("log-name");
+if( null == logName ) 
+    logName = "myservlet.log";
+
+final String path = context.getRealPath("/") + "/WEB-INF/logs/" + logName ;
+
+//Create a logger to write to a file as specified
+//with servlet init parameters
+final String pattern = "%7.7{priority} %5.5{time}   [%8.8{category}] " +
+    "(%{context}): %{message}\\n%{throwable}";
+    
+final PatternFormatter formatter = new PatternFormatter( pattern );
+final File file = new File( path );
+
+//open file target in append mode
+FileTarget target = new FileTarget( file, true, formatter );
+
+//Create logger
+myLogger = Hierarchy.getDefaultHierarchy().getLoggerFor("myServlet");
+
+//Set log targets of logger
+myLogger.setLogTargets( new LogTarget[] { target, filter } );
+String logLevel = getInitParameter("log-priority");
+
+if( null == logLevel ) 
+    logLevel = "DEBUG";
+    
+//Set log targets parameter based on init parameters
+Priority priority = Priority.getPriorityForName( logLevel );
+myLogger.setPriority( priority );
+      </source>
+    </section>
+    <section name="Conclusion">
+      <p>
+        LogKit is a friendly, easy to use logging toolkit. It is high 
+        performing and easily integrated into existing products. By design it 
+        does not specify any configuration format but instead encourages users 
+        to integrate it into their existing products. It also is designed to run
+        in a secure environment by limiting client access to hierarchies.
+      </p>
+    </section>
+  </body>
+</document>

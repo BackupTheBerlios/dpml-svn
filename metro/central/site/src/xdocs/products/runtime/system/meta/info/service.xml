@@ -1,0 +1,80 @@
+<?xml version="1.0"?>
+
+<document>
+
+  <properties>
+    <author email="mcconnell@apache.org">Stephen McConnell</author>
+    <title>Service Descriptors</title>
+  </properties>
+
+<body>
+
+<section name="Service Defintion">
+
+<p>
+The org.apache.avalon.meta.info.ServiceDefinition class describes a type of 
+service. It supplements the classic Java interface with a version identifier 
+and attributes.  A ServiceDefinition may be referenced by multiple components 
+that will typically supplement the definition in terms of additional attributes. 
+References to a ServiceDefinition concern a component type declaration of 
+dependencies, service access points, lifestyle extension ability, and lifestyle 
+extension dependencies.</p>
+
+<p>An instance of ServiceDescriptor is created using a ServiceBuilder.  The 
+following code fragment shows the creation of new ServiceBuilder and the 
+creation of a ServiceDefinition using the builder.</p>
+<source>
+  //
+  // create the builder
+  //
+
+  ServiceBuilder builder = new ServiceBuilder();
+  builder.enableLogging( m_logger );
+
+  //
+  // create the service definition
+  //
+
+  ServiceDefinition definition = builder.build( this.class() );
+</source>
+
+<subsection name="XML Schema">
+
+<source>
+
+  <font color="gray"><i>&lt;!--
+  Example of a service definition.
+  --&gt;</i></font>
+
+  &lt;service&gt;
+
+    <font color="gray"><i>&lt;!--
+    Declaration of service version.
+    --&gt;</i></font>
+
+    &lt;version&gt;3.2&lt;/version&gt;
+    
+    &lt;attributes&gt;
+
+      <font color="gray"><i>&lt;!--
+      Attribute declarations included in a service definition
+      are independent of a particular service implementation.
+      --&gt;</i></font>
+
+      &lt;attribute key="<font color="darkred">a-key</font>" value="<font color="darkred">a-value</font>"/&gt;
+
+    &lt;/attributes&gt;
+
+  &lt;/service&gt;
+
+</source>
+
+      </subsection>
+
+    </section>
+
+  </body>
+
+</document>
+
+

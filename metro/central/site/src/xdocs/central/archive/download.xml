@@ -1,0 +1,50 @@
+<?xml version="1.0"?>
+
+<!-- 
+ Copyright 2004 Apache Software Foundation
+ Licensed  under the  Apache License,  Version 2.0  (the "License");
+ you may not use  this file  except in  compliance with the License.
+ You may obtain a copy of the License at 
+ 
+   http://www.apache.org/licenses/LICENSE-2.0
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed  under the  License is distributed on an "AS IS" BASIS,
+ WITHOUT  WARRANTIES OR CONDITIONS  OF ANY KIND, either  express  or
+ implied.
+ 
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+
+<document>
+
+  <properties>
+    <author email="mcconnell@apache.org">Stephen McConnell</author>
+    <title>Avalon Central</title>
+  </properties>
+
+  <body>
+    <section name="Download">
+      <subsection name="Binary Downloads">
+
+        <p>
+        Binary downloads of the Merlin products and 
+        related documentation are available at on the following 
+        <a href="http://avalon.apache.org/download.cgi">Avalon Download Mirror</a>.
+        </p>
+
+        <p>
+        <a href="http://www.dpml.net/merlin/distributions/?M=D">
+        Final interim and snapshot builds</a> are also hosted under 
+        the DPML.  Please note that interim and snapshot builds are 
+        not subject to a formal release review process.
+        </p>
+
+      </subsection>
+    </section>
+  </body>
+
+</document>
+
+

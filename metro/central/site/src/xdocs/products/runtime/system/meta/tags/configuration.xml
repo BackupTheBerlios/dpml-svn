@@ -1,0 +1,69 @@
+<?xml version="1.0"?>
+
+<document>
+
+  <properties>
+    <author email="mcconnell@apache.org">Stephen McConnell</author>
+    <title>Javadoc Tag Specification</title>
+  </properties>
+
+  <body>
+
+    <section name="Javadoc Tags">
+
+      <subsection name="Configuration Tag">
+<p>The optional configuration tag allows the declaration of a validation schema with a component type.</p>
+      </subsection>
+
+      <subsection name="Attributes">
+        <table>
+          <tr><th>Attribute</th><th>Required</th><th>Description</th></tr>
+          <tr>
+            <td>schema</td><td>yes</td>
+            <td>
+            The validate schema name. 
+            </td>
+          </tr>
+        </table>
+      </subsection>
+
+      <subsection name="Example">
+
+<source><![CDATA[
+
+/**
+ * Configuration of the component by the container.
+ * @param config the configuration instance
+ * @exception ConfigurationException if error occurs
+ * @avalon.configuration schema="your-schema-spec"
+ */
+public void configure( Configuration config ) throws ConfigurationException
+{
+  ...
+}
+]]></source>
+
+<p>Generated meta-info type descriptor:</p>
+
+<source><![CDATA[
+<type>
+  <info>
+    <schema>your-schema-spec</schema>
+  </info>
+</type>
+]]></source>
+
+      </subsection>
+    </section>
+  </body>
+
+  <footer>
+    <legal>
+      Copyright (c) @year@ The Avalon Apache Project All rights reserved.
+      $Revision: 1.1 $ $Date: 2004/04/14 11:47:33 $
+    </legal>
+  </footer>
+
+</document>
+
+

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document> 
+  <properties>
+    <author email="dev@avalon.apache.org">Avalon Documentation Team</author>
+    <title>Apache Avalon: Contributors</title>
+  </properties>
+  <body> 
+    <section name="Marcus Crafter">
+      <p>(crafterm at apache dot org)</p>
+      <p>
+       Marcus Crafter has been working with and developing open
+       source/free software since 1994. He studied Computer Systems
+       Engineering at LaTrobe University, Melbourne, Australia.
+      </p>
+      <p>
+       Marcus is involved in both Avalon and Cocoon, and develops web and
+       internet based software using both projects in commercial and private
+       environments. Marcus' interests lie in developing elegant and efficent
+       object and component oriented software solutions.
+      </p>
+    </section>
+  </body>
+</document>

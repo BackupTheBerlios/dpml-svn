@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates><template id="org.eclipse.jdt.ui.text.codetemplates.newtype" name="newtype" description="Newly created files" context="newtype_context" enabled="true" deleted="false">/*
+ * Copyright 2004 Apache Software Foundation
+ * Licensed  under the  Apache License,  Version 2.0  (the "License");
+ * you may not use  this file  except in  compliance with the License.
+ * You may obtain a copy of the License at 
+ * 
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed  under the  License is distributed on an "AS IS" BASIS,
+ * WITHOUT  WARRANTIES OR CONDITIONS  OF ANY KIND, either  express  or
+ * implied.
+ * 
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+${package_declaration}
+
+${typecomment}
+${type_declaration}</template><template id="org.eclipse.jdt.ui.text.codetemplates.catchblock" name="catchblock" description="Code in new catch blocks" context="catchblock_context" enabled="true" deleted="false">// ${todo} Auto-generated catch block
+${exception_var}.printStackTrace();</template><template id="org.eclipse.jdt.ui.text.codetemplates.methodbody" name="methodbody" description="Code in created method stubs" context="methodbody_context" enabled="true" deleted="false">// ${todo} Auto-generated method stub
+${body_statement}</template><template id="org.eclipse.jdt.ui.text.codetemplates.constructorbody" name="constructorbody" description="Code in created constructor stubs" context="constructorbody_context" enabled="true" deleted="false">${body_statement}
+// ${todo} Auto-generated constructor stub</template><template id="org.eclipse.jdt.ui.text.codetemplates.getterbody" name="getterbody" description="Code in created getters" context="getterbody_context" enabled="true" deleted="false">return ${field};</template><template id="org.eclipse.jdt.ui.text.codetemplates.setterbody" name="setterbody" description="Code in created setters" context="setterbody_context" enabled="true" deleted="false">${field} = ${param};</template></templates>

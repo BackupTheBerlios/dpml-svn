@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<section>
+  <title>Template Engine</title>
+
+  <section>
+    <title>Allgemein</title>
+
+    <para>Die Template Engine im Metro Studio ermöglicht es, schnell und
+    flexibel neue Blöcke in Eclipse zu erstellen. Dies wird dadurch erreicht,
+    dass die Template Engine für unterschiedlichste Anwendungsbereiche
+    vorgefertigte Blöcke zur Verfügung stellt.</para>
+
+    <para>Mit Hilfe der Template Engine können einfach neue vorgefertigten
+    Blöcke in das Metro Studio integriert werden.</para>
+
+    <para>Dabei werden zwei Arten von Blöcken unterschieden:</para>
+
+    <orderedlist>
+      <listitem>
+        <para>Fixe Blöcke</para>
+
+        <para>Fixe Blöcke sind dafür geeignet, bestimmte Funktionalitäten von
+        Metro kennen zu lernen.</para>
+
+        <para>Sie stellen eine bestimmte Funktionalität zur Verfügung, die
+        sofort im Metro Container lauffähig sind. Namen, Verzeichnisstrukturen
+        usw. können erst geändert werden, nachdem der neue Block erstellt
+        wurde.</para>
+      </listitem>
+
+      <listitem>
+        <para>Variable Block-Rahmen</para>
+
+        <para>Block Rahmen können mit Hilfe von Wizards bereits bei der
+        Erstellung eines neuen Blocks an die individuellen Bedürfnisse eines
+        Projekts angepasst werden.</para>
+      </listitem>
+    </orderedlist>
+
+    <para>Über XML Dateien können alle Variablen eines vorgefertigten Blocks
+    konfiguriert werden. Dazu gehören:</para>
+
+    <orderedlist>
+      <listitem>
+        <para>Das zugrunde liegende Eclipse-Projekt mit der entsprechenden
+        "Nature"</para>
+      </listitem>
+
+      <listitem>
+        <para>Die vollständige Verzeichnisstruktur eines Blockes</para>
+      </listitem>
+
+      <listitem>
+        <para>Alle Resourcen eines Blockes.</para>
+
+        <para>Mit "Resourcen" werden alle benötigten Dateien eines Blocks
+        bezeichnet wie z.B. die Datei block.xml, die Java Dateien usw.</para>
+      </listitem>
+
+      <listitem>
+        <para>Die zur Erstellung eines vorgefertigten Blocks benötigten
+        Wizard-Seiten </para>
+      </listitem>
+    </orderedlist>
+
+    <para>Fixe Blöcke werden über "Datei-&gt;Neu-&gt;Beispiel" aufgerufen,
+    Variable Blöcke über "Datei-&gt;Neu-&gt;Projekt.</para>
+
+    <para>Die Funktionalität der Template Engine wird im Wesentlichen durch
+    drei Klassen - und deren Hilfsklassen - zur Verfügung gestellt:</para>
+
+    <orderedlist>
+      <listitem>
+        <para>ProjektManager</para>
+      </listitem>
+
+      <listitem>
+        <para>ResourceTemplateManager</para>
+      </listitem>
+
+      <listitem>
+        <para>DirectoryTemplateManager</para>
+      </listitem>
+    </orderedlist>
+
+    <figure>
+      <title>Objektmodell der Template Engine</title>
+
+      <mediaobject>
+        <imageobject>
+          <imagedata fileref="???" />
+        </imageobject>
+      </mediaobject>
+    </figure>
+
+    <para>Alle die aufgeführten Klassen befinden sich in dem Paket:
+    <emphasis>org.apache.metro.studio.eclipse.core.templateengine
+    </emphasis>in dem Projekt: <emphasis>MetroStudioCore</emphasis> </para>
+  </section>
+
+  <section>
+    <title>ProjectManager</title>
+
+    <para></para>
+  </section>
+
+  <section>
+    <title>ResourceTemplateManager</title>
+
+    <para></para>
+  </section>
+
+  <section>
+    <title>DirectoryTemplateManager</title>
+
+    <para></para>
+  </section>
+</section>

@@ -1,0 +1,311 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<index>
+
+  <import index="../../../runtime/index.xml"
+          href="http://svn.apache.org/repos/asf/avalon/trunk/runtime/index.xml"/>
+
+  <resource>
+    <info>
+      <group>eclipse/core/resources</group>
+      <name>eclipse-core-resources</name>
+      <version>3.0.0</version>
+      <type>jar</type>
+    </info>
+  </resource>
+
+  <resource>
+    <info>
+      <group>eclipse/core/runtime</group>
+      <name>eclipse-core-runtime</name>
+      <version>3.0.0</version>
+      <type>jar</type>
+    </info>
+  </resource>
+
+  <resource>
+    <info>
+      <group>eclipse/ui/plugin</group>
+      <name>eclipse-ui-plugin-workbench</name>
+      <version>3.0.0</version>
+      <type>jar</type>
+    </info>
+  </resource>
+
+  <resource>
+    <info>
+      <group>eclipse/ui/ide</group>
+      <name>eclipse-ui-ide</name>
+      <version>3.0.0</version>
+      <type>jar</type>
+    </info>
+  </resource>
+
+  <resource>
+    <info>
+      <group>eclipse/osgi</group>
+      <name>eclipse-osgi</name>
+      <version>3.0.0</version>
+      <type>jar</type>
+    </info>
+  </resource>
+
+  <resource>
+    <info>
+      <group>eclipse/osgi</group>
+      <name>eclipse-osgi-core</name>
+      <version>3.0.0</version>
+      <type>jar</type>
+    </info>
+  </resource>
+
+  <resource>
+    <info>
+      <group>eclipse/jdt</group>
+      <name>eclipse-jdt-core</name>
+      <version>3.0.0</version>
+      <type>jar</type>
+    </info>
+  </resource>
+
+  <resource>
+    <info>
+      <group>eclipse/jdt</group>
+      <name>eclipse-jdt-launching</name>
+      <version>3.0.0</version>
+      <type>jar</type>
+    </info>
+  </resource>
+
+  <resource>
+    <info>
+      <group>eclipse/jdt</group>
+      <name>eclipse-jdt-debug-jdiui</name>
+      <version>3.0.0</version>
+      <type>jar</type>
+    </info>
+  </resource>
+  
+  <resource>
+    <info>
+      <group>eclipse/jdt</group>
+      <name>eclipse-jdt-ui</name>
+      <version>3.0.0</version>
+      <type>jar</type>
+    </info>
+  </resource>
+
+  <resource>
+    <info>
+      <group>eclipse/debug</group>
+      <name>eclipse-debug-dtcore</name>
+      <version>3.0.0</version>
+      <type>jar</type>
+    </info>
+  </resource>
+
+  <resource>
+    <info>
+      <group>eclipse/debug</group>
+      <name>eclipse-debug-dtui</name>
+      <version>3.0.0</version>
+      <type>jar</type>
+    </info>
+  </resource>
+
+  <resource>
+    <info>
+      <group>eclipse/jface</group>
+      <name>eclipse-jface-jface</name>
+      <version>3.0.0</version>
+      <type>jar</type>
+    </info>
+  </resource>
+
+  <resource>
+    <info>
+      <group>eclipse/jface</group>
+      <name>eclipse-jface-text</name>
+      <version>3.0.0</version>
+      <type>jar</type>
+    </info>
+  </resource>
+  
+  <resource>
+    <info>
+      <group>eclipse/pde</group>
+      <name>eclipse-pde-ui</name>
+      <version>3.0.0</version>
+      <type>jar</type>
+    </info>
+  </resource>
+  
+  <resource>
+    <info>
+      <group>eclipse/text</group>
+      <name>eclipse-text</name>
+      <version>3.0.0</version>
+      <type>jar</type>
+    </info>
+  </resource>
+  
+  <resource>
+    <info>
+      <group>eclipse/swt/${os.name}</group>
+      <name>eclipse-swt</name>
+      <version>3.0.0</version>
+      <type>jar</type>
+    </info>
+  </resource>
+
+  <resource>
+    <info>
+      <group>xstream</group>
+      <name>xstream</name>
+      <version>1.0.2</version>
+      <type>jar</type>
+    </info>
+  </resource>
+
+  <project basedir="event/api">
+    <info>
+      <group>metro/studio/event</group>
+      <name>metro-studio-event-api</name>
+      <version>1.0.0</version>
+      <status>SNAPSHOT</status> 
+    </info>
+  </project>
+
+  <project basedir="event/impl">
+    <info>
+      <group>metro/studio/event</group>
+      <name>metro-studio-event-impl</name>
+      <version>1.0.0</version>
+      <status>SNAPSHOT</status> 
+    <dependencies>
+      <include key="metro-studio-event-api"/>
+    </dependencies>
+    </info>
+  </project>
+
+  <project basedir="core/java">
+    <info>
+      <group>metro/studio/core</group>
+      <name>metro-studio-core</name>
+      <version>1.0.0</version>
+      <status>SNAPSHOT</status> 
+    </info>
+    <dependencies>
+      <include key="metro-studio-event-api"/>
+      <include key="avalon-repository-main"/>
+      <include key="eclipse-core-resources" runtime="false" />
+      <include key="eclipse-core-runtime" runtime="false" />
+      <include key="eclipse-ui-plugin-workbench" runtime="false" />
+      <include key="eclipse-osgi" runtime="false" />
+      <include key="eclipse-osgi-core" runtime="false" />
+      <include key="eclipse-jdt-core" runtime="false" />
+      <include key="eclipse-jdt-launching" runtime="false" />
+      <include key="xstream"/>
+    </dependencies>
+  </project>
+
+  <project basedir="core/plugin">
+    <info>
+      <group>metro/studio/core</group>
+      <name>org.apache.metro.studio.core</name>
+      <version>1.0.0</version>
+      <status>SNAPSHOT</status> 
+    </info>
+    <dependencies>
+      <include key="metro-studio-core"/>
+    </dependencies>
+<!--    
+    <plugins>
+      <include key="metro-studio-magic"/>
+    </plugins>
+-->    
+  </project>
+  
+  <project basedir="docs">
+    <info>
+      <group>metro/studio/docs</group>
+      <name>metro-studio-docs</name>
+      <version>1.0.0</version>
+      <status>SNAPSHOT</status> 
+    </info>
+    <dependencies>
+      <include key="eclipse-core-runtime"/>
+      <include key="eclipse-ui-plugin-workbench"/>
+      <include key="eclipse-osgi"/>
+    </dependencies>
+  </project>
+  
+  <project basedir="launch">
+    <info>
+      <group>metro/studio/launch</group>
+      <name>metro-studio-launch</name>
+      <version>1.0.0</version>
+      <status>SNAPSHOT</status> 
+    </info>
+    <dependencies>
+      <include key="eclipse-debug-dtcore"/>
+      <include key="eclipse-debug-dtui"/>
+      <include key="eclipse-jface-jface"/>
+      <include key="metro-studio-core"/>
+      <include key="avalon-meta-tools"/>
+    </dependencies>
+  </project>
+
+  <project basedir="test">
+    <info>
+      <group>metro/studio/test</group>
+      <name>metro-studio-test</name>
+      <version>1.0.0</version>
+      <status>SNAPSHOT</status> 
+    </info>
+    <dependencies>
+      <include key="eclipse-core-resources"/>
+      <include key="metro-studio-core"/>
+    </dependencies>
+  </project>
+  
+  <project basedir="ui">
+    <info>
+      <group>metro/studio/ui</group>
+      <name>metro-studio-ui</name>
+      <version>1.0.0</version>
+      <status>SNAPSHOT</status> 
+    </info>
+    <dependencies>
+      <include key="metro-studio-launch"/>
+      <include key="metro-studio-event-impl"/>
+      <include key="eclipse-swt"/>
+      <include key="eclipse-jdt-ui"/>
+      <include key="eclipse-jdt-debug-jdiui"/>
+      <include key="eclipse-jface-jface"/>
+      <include key="eclipse-jface-text"/>
+      <include key="eclipse-text"/>
+      <include key="eclipse-ui-ide"/>
+      <include key="eclipse-pde-ui"/>
+    </dependencies>
+  </project>
+
+  <plugin basedir="magic">
+    <info>
+      <group>metro/studio/magic</group>
+      <name>metro-studio-magic</name>
+      <version>1.0.0</version>
+      <status>SNAPSHOT</status>
+    </info>
+    <dependencies>
+    </dependencies>
+    <tasks>
+      <taskdef name="eclipse" class="org.apache.metro.studio.magic.EclipseTask"/>
+    </tasks>
+    <listeners>
+      <listener class="org.apache.metro.studio.magic.EclipseBuildListener"/>
+    </listeners>
+  </plugin>
+
+</index>
+ 

@@ -1,0 +1,83 @@
+<?xml version="1.0"?>
+
+<document>
+  <properties>
+    <author email="mcconnell@apache.org">Stephen McConnell</author>
+    <title>Avalon Plugin for Maven</title>
+  </properties>
+  <body>
+    <section name="Avalon Meta Plugin for Maven">
+      <subsection name="Properties">
+      <table>
+        <tr>
+          <th>Property name</th>
+          <th>Optional?</th>
+          <th>Description</th>
+        </tr>
+        <tr>
+          <td>avalon.meta.format</td>
+          <td>Yes</td>
+          <td>
+<p>Output format specification.  Valid values include 'xml' or 'serial'.
+The xml value instructs the meta generator to create meta descriptions
+in an XML format whereas the 'serial' value generates a serialized 
+description of the descriptor.  Serial format is more efficient.  The 
+XML format is more portable.</p>
+<p>
+Default behaviour:
+</p>
+<source><![CDATA[
+avalon.meta.format = xml
+]]></source>
+          </td>
+        </tr>
+        <tr>
+          <td>avalon.meta.force</td>
+          <td>Yes</td>
+          <td>
+<p>Policy controlling the regeneration of meta descriptors independently
+of the descriptor data.  This value default to false. </p>
+<p>
+Default behaviour:
+</p>
+<source><![CDATA[
+avalon.meta.force = false
+]]></source>
+          </td>
+        </tr>
+        <tr>
+          <td>avalon.meta.type.postfix</td>
+          <td>No</td>
+          <td>
+<p>
+Avalon will default to the generation of XML type descriptors under
+the .xinfo file type.  When generating meta-info descriptors targetted
+for deployment in both Merlin and Phoenix, the xinfo type will conflict
+with the Phoenix meta-info descriptor. Avalon Plugin provides support for 
+generation of meta info under the alternative .xtype.  To control the 
+type of file generated, you can declare either "xinfo" or "xtype" under
+this property. 
+</p>
+<p>
+Default behaviour:
+</p>
+<source><![CDATA[
+avalon.meta.type.postfix= xinfo
+]]></source>
+<p>
+Alternative xtype behaviour:
+</p>
+<source><![CDATA[
+avalon.meta.type.postfix = xtype
+]]></source>
+
+          </td>
+        </tr>
+      </table>
+      </subsection>
+    </section>
+  </body>
+</document>
+
+
+

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document>
+  <properties>
+    <author email="dev@avalon.apache.org">Avalon Documentation Team</author>
+    <title>Avalon Central</title>
+  </properties>
+
+  <body>
+    <section name="The Avalon Community">
+     <p>
+      Avalon, like all other projects at Apache, is a
+      <em>meritocracy</em> and follows the <em>Apache Way</em> of
+      community and project management.  The following documents
+      help define these terms and form the guidelines by which 
+      Avalon operates.
+     </p>
+     <ul>
+       <li><a href="http://jakarta.apache.org/site/decisions.html">
+         Meritocracy</a></li>
+       <li><a href="http://nagoya.apache.org/wiki/apachewiki.cgi?ApacheWay">
+         The Apache Way</a></li>
+       <li><a href="http://jakarta.apache.org/site/roles.html">Roles
+         and Responsibilities</a></li>
+       <li><a href="http://jakarta.apache.org/site/guidelines.html">
+         Jakarta Project Guidelines</a></li>
+       <li><a href="http://apache.org/foundation/">The Apache Software
+         Foundation</a> (ASF)</li>
+       <li><a href="http://www.apache.org/licenses/#clas">
+         Contributor license Agreement</a> [PDF]</li>
+       <li><a href="http://james.apache.org/contribute.html">Getting Involved</a></li>
+     </ul>
+    </section>
+  </body>
+</document>

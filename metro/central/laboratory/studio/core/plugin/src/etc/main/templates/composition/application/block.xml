@@ -1,0 +1,23 @@
+
+<container name="application">
+
+     <classloader>
+       <classpath>
+         <repository>
+           <resource id="avalon-framework:avalon-framework-api" version="4.2.0"/>
+           <resource id="avalon-framework:avalon-framework-impl" version="4.2.0"/>
+           <resource id="merlin-tutorial:locator-api" version="1.0"/>
+           <resource id="merlin-tutorial:publisher-api" version="1.0"/>
+           <resource id="merlin-tutorial:application-impl" version="1.0"/>
+         </repository>
+       </classpath>
+     </classloader>
+
+     <include name="location" id="merlin-tutorial:locator-impl" version="1.0"/>
+     <include name="publisher" id="merlin-tutorial:publisher-impl" version="1.0"/>
+
+     <component name="application" 
+        class="tutorial.application.Application">
+     </component>
+
+</container>

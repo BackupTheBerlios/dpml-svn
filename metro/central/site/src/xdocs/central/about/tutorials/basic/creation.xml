@@ -1,0 +1,145 @@
+<?xml version="1.0"?>
+
+<!-- 
+ Copyright 2004 Apache Software Foundation
+ Licensed  under the  Apache License,  Version 2.0  (the "License");
+ you may not use  this file  except in  compliance with the License.
+ You may obtain a copy of the License at 
+ 
+   http://www.apache.org/licenses/LICENSE-2.0
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed  under the  License is distributed on an "AS IS" BASIS,
+ WITHOUT  WARRANTIES OR CONDITIONS  OF ANY KIND, either  express  or
+ implied.
+ 
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+
+<document>
+  <properties>
+    <author email="dev@avalon.apache.org">Avalon Documentation Team</author>
+    <title>Avalon Central</title>
+  </properties> 
+
+  <body>
+    <section name="Hello Block">
+      <subsection name="Tutorial Overview">
+        <p>
+        This tutorial takes you though the creation of a very simple
+        component, the declaration of a component type descriptor, and the 
+        declaration of a block containing the component.
+        </p>
+        <p>
+        Resources (sample code and build files) supporting this tutorial 
+        are included in the Merlin distribution under the tutorials/hello
+        directory.
+        </p>
+      </subsection>
+      <subsection name="Creating a component">
+        <p>
+           The following code is a minimal component.  It simply logs a 
+           message.  We will progressively extend this component to do 
+           more creative things as we proceed through this tutorial.
+        </p>
+<source><![CDATA[
+package tutorial;
+
+import org.apache.avalon.framework.logger.Logger;
+
+/**
+ * A sample component.  
+ *
+ * @avalon.component 
+ *    version="1.0" 
+ *    name="hello" 
+ *    lifestyle="singleton"
+ */
+public class HelloComponent 
+{
+    //-------------------------------------------------------
+    // constructor
+    //-------------------------------------------------------
+
+   /**
+    * Creation of a new hello component instance.
+    *
+    * @param logger the logging channel supplied by the container
+    */
+    public HelloComponent( Logger logger )
+    {
+        logger.info( "Hello World" );
+    }
+}
+]]></source>
+      </subsection>
+      <subsection name="Creating a Type Descriptor">
+      
+        <p>
+          In order for Merlin to recognize this class as a component, we need to
+          generate a &lt;classname&gt;.xinfo file. This can be done
+          automatically by including a pre-goal as shown below into the 
+          maven.xml file. 
+        </p>
+<source><![CDATA[
+<preGoal name="java:compile">
+  <attainGoal name="avalon:meta"/>
+</preGoal>
+]]></source>
+        <p>
+          The avalon:meta plugin looks for @avalon tags in the
+          source code, to generate the correct Type Descriptor. In the above 
+          example it will find the @avalon.component tag in the class level 
+          javadocs and generate component the descriptors for us (see below). 
+        </p>
+      </subsection>
+
+      <subsection name="Generated Type Descriptor">
+        <p>
+          The following text is an example of a component type definition.  
+          It contains the declaration of the component name and the component 
+          implementation version. From the example above 
+          ( <code>@avalon.component version="1.0" name="hello"</code> ) the
+          generated Type Descriptor would look something like this.
+        </p>
+<source><![CDATA[
+<type>
+  <info>
+    <name>hello</name>
+    <version>1.0.0</version>
+    <lifestyle>singleton</lifestyle>
+    <collection>hard</collection>
+  </info>
+</type>
+]]></source>
+
+      </subsection>
+      <subsection name="Creating a block">
+        <p>
+          A block is the definition of a composite component. It represents an
+          application made up of a set of components and the supporting 
+          resources.  In our example the block will contain the single 
+          HelloComponent component.  Based on this information Merlin will 
+          create a container named "tutorial", create a component model 
+          named "hello" and deploy an instance of the component on 
+          startup.
+        </p>
+<source><![CDATA[
+<container name="tutorial">
+
+   <component name="hello" class="tutorial.HelloComponent"/>
+
+</container>
+]]></source>
+      </subsection>
+      <subsection name="Execution">
+        <p>
+        The next tutorial - titled <a href="execution.html">Running Hello</a> 
+        covers deployment of the component using the Merlin runtime platform.
+        </p>
+      </subsection>
+    </section>
+  </body>
+
+</document>

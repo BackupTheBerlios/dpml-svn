@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document>
+  <properties>
+    <author email="dev@avalon.apache.org">Avalon Documentation Team</author>
+    <title>Avalon Central</title>
+  </properties> 
+
+<body>
+
+<section name="Mailing Lists">
+
+    <p>A mailing list is an electronic discussion forum that anyone can subscribe to.
+    When someone sends an email message to the mailing list, a copy of that message is
+    broadcast to everyone who is subscribed to that mailing list. Mailing lists provide
+    a simple and effective communication mechanism. With potentially thousands of
+    subscribers, there is a
+    <a href="http://jakarta.apache.org/site/mail.html">common set of etiquette
+    guidelines</a> that you should observe.</p>
+
+    <subsection name="The Avalon Users List">
+      <p>
+	<em>Light Traffic</em>
+	<a href="mailto:users-subscribe@avalon.apache.org">Subscribe</a>
+	<a href="mailto:users-unsubscribe@avalon.apache.org">Unsubscribe</a>
+	<a href="http://www.mail-archive.com/users@avalon.apache.org/">Archive</a>
+	<a href="nntp://news.gmane.org/gmane.comp.jakarta.avalon.user">News gateway</a>
+      </p>
+      <p>
+	This list is for users who are using Avalon in their own projects to ask
+	questions, share knowledge, and discuss issues related to using the Avalon
+	suite of software.
+      </p>
+    </subsection>
+    <subsection name="The Avalon Developers List">
+      <p>
+	<em>Medium Traffic</em>
+	<a href="mailto:dev-subscribe@avalon.apache.org">Subscribe</a>  
+	<a href="mailto:dev-unsubscribe@avalon.apache.org">Unsubscribe</a> 
+	<a href="http://www.mail-archive.com/dev@avalon.apache.org/">Archive</a> 
+	<a href="nntp://news.gmane.org/gmane.comp.jakarta.avalon.devel">News gateway</a>
+      </p>
+      <p>
+	This list is for developers who are maintaining Avalon or wanting to influence
+	its design to ask questions, share knowledge, and discuss issues related to developing 
+	the Avalon framework.
+      </p>
+    </subsection>
+    <subsection name="The Avalon CVS List">
+      <p>
+	<em>Medium Traffic</em> 
+	<a href="mailto:cvs-subscribe@avalon.apache.org">Subscribe</a>  
+	<a href="mailto:cvs-unsubscribe@avalon.apache.org">Unsubscribe</a> 
+	<a href="nntp://news.gmane.org/gmane.comp.jakarta.avalon.cvs">News gateway</a>
+      </p>
+      <p>
+        Changes to the Avalon CVSes are echoed to this list.
+      </p>
+    </subsection>
+  </section>
+
+</body>
+
+</document>

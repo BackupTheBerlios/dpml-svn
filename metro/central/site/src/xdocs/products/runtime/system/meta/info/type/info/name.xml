@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+
+<document>
+
+  <properties>
+    <author email="mcconnell@apache.org">Stephen McConnell</author>
+    <title>Context Descriptors</title>
+  </properties>
+
+  <body>
+
+    <section name="Name Descriptor">
+
+      <subsection name="Description">
+        <p>
+        The name of the component type - may be used by a container as 
+        the component default name when generating type related 
+        information in log or error reports.
+        </p>
+      </subsection>
+
+      <subsection name="Example XML">
+<source><![CDATA[
+<name>widget</name>
+]]></source>
+      </subsection>
+    </section>
+  </body>
+
+  <footer>
+    <legal>
+      Copyright (c) @year@ The Avalon Apache Project All rights reserved.
+      $Revision: 1.1 $ $Date: 2004/04/14 11:47:32 $
+    </legal>
+  </footer>
+
+</document>
+
+

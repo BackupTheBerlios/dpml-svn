@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<project>
+
+  <!-- the version of maven's project object model -->
+  <pomVersion>3</pomVersion>
+
+  <!-- a unique name for this project -->
+  <id>avalon-simple-component</id>
+
+  <!-- a short but descriptive name for the project -->
+  <name>Avalon Simple Component</name>
+
+  <!-- The version of the project under development, e.g.
+       1.1, 1.2, 2.0-dev -->
+  <currentVersion>0.1</currentVersion>
+
+  <!-- details about the organization that 'owns' the project -->
+  <organization>
+    <name>Apache Avalon Project</name>
+    <url>http://avalon.apache.org/</url>
+    <logo>http://avalon.apache.org/images/apache-avalon-logo.png</logo>
+  </organization>
+
+  <!-- the year the project started -->
+  <inceptionYear>2003</inceptionYear>
+  <package>org.apache.avalon.components.exporter</package>
+  <logo>/images/logo.jpg</logo>
+  <description>
+    Shows a simple component example
+  </description>
+  <!-- a short description of what the project does -->
+  <shortDescription>
+
+  </shortDescription>
+
+  <!-- the project home page -->
+  <url>http://avalon.apache.org</url>
+  <issueTrackingUrl></issueTrackingUrl>
+  <siteAddress>cvs.apache.org</siteAddress>
+  <siteDirectory></siteDirectory>
+  <distributionDirectory></distributionDirectory>
+
+  <repository>
+    <connection>scm:annoncvs:pserver:cvs@cvs.apache.org:/home/cvs:avalon-sandbox/examples</connection>
+    <url>http://cvs.apache.org/viewcvs.cgi/</url>
+  </repository>
+
+  <!-- any mailing lists for the project -->
+  <mailingLists/>
+
+  <!-- who the developers are for the project -->
+  <developers>
+   <developer>
+      <name>J Aaron Farr</name>
+      <id>farra</id>
+      <email>aaron.farr@am.sony.com</email>
+      <organization>Sony Electronics</organization>
+      <roles>
+        <role>Java Developer</role>
+      </roles>
+    </developer>
+  </developers>
+
+  <!-- jar files the project is dependent on -->
+  <dependencies>
+
+   <dependency>
+      <groupId>avalon-framework</groupId>
+      <artifactId>avalon-framework</artifactId>
+      <version>4.1.5</version>
+      <url>http://avalon.apache.org/</url>
+   </dependency>
+
+  </dependencies>
+
+  <!-- build information for the project -->
+  <build>
+    <nagEmailAddress>dev@avalon.apache.org</nagEmailAddress>
+    <sourceDirectory>${basedir}/src/java</sourceDirectory>
+    <unitTestSourceDirectory>${basedir}/src/test</unitTestSourceDirectory>
+
+    <unitTest/>
+
+    <resources>
+      <resource>
+       <directory>${basedir}/src/conf</directory>
+       <targetPath>BLOCK-INF</targetPath>
+        <includes>
+         <include>block.xml</include>
+       </includes>
+      </resource>
+    </resources>
+  </build>
+
+
+</project>
+

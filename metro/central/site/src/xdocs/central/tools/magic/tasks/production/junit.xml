@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document>
+
+  <properties>
+    <author email="dev@avalon.apache.org">Avalon Documentation Team</author>
+    <title>Avalon Central</title>
+  </properties> 
+
+  <body>
+    <section name="JUnit Task">
+      <p>
+      The junit task handles unit test compilation, execution and reporting.  The 
+      classpaths used for compilation is derived automatically from the project model
+      using the TEST dependents.  The deliverable jar assoiated with the project is 
+      added to the test compilation path to create the final test execution classpath. 
+      </p>
+
+<source><![CDATA[<x:junit/>
+]]></source>
+<pre>test:
+    [mkdir] Created dir: F:\dev\avalon\runtime\activation\impl\target\test\classes
+    [javac] Compiling 4 source files to F:\dev\avalon\runtime\activation\impl\target\test\classes
+    [mkdir] Created dir: F:\dev\avalon\runtime\activation\impl\target\test\temp
+     [copy] Copying 6 files to F:\dev\avalon\runtime\activation\impl\target\test\temp
+    [mkdir] Created dir: F:\dev\avalon\runtime\activation\impl\target\test\reports
+    [junit] Running org.apache.avalon.activation.impl.test.CodeSecurityDisabledTestCase
+    [junit] Tests run: 1, Failures: 0, Errors: 0, Time elapsed: 5.422 sec
+
+    [junit] Running org.apache.avalon.activation.impl.test.CodeSecurityEnabledTestCase
+    [junit] Tests run: 1, Failures: 0, Errors: 0, Time elapsed: 15.469 sec
+
+    [junit] Running org.apache.avalon.activation.impl.test.PlaygroundTestCase
+    [junit] Tests run: 1, Failures: 0, Errors: 0, Time elapsed: 27.156 sec</pre>
+
+    <subsection name="Properties">
+      
+      <p>
+      IN PREPARATION
+      </p>
+
+    </subsection>
+
+    </section>
+  </body>
+
+</document>
+

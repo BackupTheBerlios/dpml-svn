@@ -1,0 +1,75 @@
+<?xml version="1.0"?>
+
+<!-- 
+ Copyright 2004 Apache Software Foundation
+ Licensed  under the  Apache License,  Version 2.0  (the "License");
+ you may not use  this file  except in  compliance with the License.
+ You may obtain a copy of the License at 
+ 
+   http://www.apache.org/licenses/LICENSE-2.0
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed  under the  License is distributed on an "AS IS" BASIS,
+ WITHOUT  WARRANTIES OR CONDITIONS  OF ANY KIND, either  express  or
+ implied.
+ 
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+
+<document>
+  <properties>
+    <author email="dev@avalon.apache.org">Avalon Documentation Team</author>
+    <title>Avalon Central</title>
+  </properties> 
+
+  <body>
+    <section name="Advanced Features">
+        <table>
+          <tr><th>Topic</th><th>Summary</th></tr>
+          <tr>
+            <td><a href="lifecycle/index.html">Lifecycle Tools</a></td>
+            <td>Definition and implementation of custom lifecycle stage handlers.</td>
+          </tr>
+          <tr>
+            <td><a href="context.html">Custom Contextualization</a></td>
+            <td>Definition and implementation of a custom contextualization handler.</td>
+          </tr>
+          <tr>
+            <td><a href="profiles.html">Deployment Templates</a></td>
+            <td>Creating and associating a deployment template with a component.</td>
+          </tr>
+          <tr>
+            <td><a href="selection.html">Profile Selection</a></td>
+            <td>Demonstration of the selection of a packaged profile by name.</td>
+          </tr>
+          <tr>
+            <td><a href="composite.html">Block Composition</a></td>
+            <td>Example of the use of imported blocks that can publish services and declare 
+                dependencies.  The tutorial demonstrates the use of block level service 
+                export statements that isolate a block implementation from the services 
+                it provides.</td>
+          </tr>
+          <!--
+          <tr>
+            <td><a href="security.html">Container Security</a></td>
+            <td>
+              Starting from Merlin 3.3, it is possible to grant permission per
+              container, similarily to the standard Java feature of granting
+              permissions to the code based on where it was loaded from.
+            </td>
+          </tr>
+          -->
+          <tr>
+            <td><a href="unit/index.html">Unit Tests</a></td>
+            <td>Setting up unit tests that leverage merlin as the component factory.</td>
+          </tr>
+        </table>
+    </section>
+  </body>
+
+</document>
+
+
+
+

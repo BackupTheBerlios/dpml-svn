@@ -1,0 +1,57 @@
+<?xml version="1.0"?>
+
+<document>
+  <properties>
+    <author email="mcconnell@apache.org">Stephen McConnell</author>
+    <title>Logging Descriptors</title>
+  </properties>
+
+  <body>
+
+    <section name="Logging Descriptor">
+
+      <subsection name="Description">
+<p>
+The org.apache.avalon.meta.info.LoggerDescriptor class describes the set of logging channels that the component requires. The name of each logging channel is relative to the logging channel passed to the component.  For example, a component hosted in a container names aaa/bbb/ccc will be supplied with a logging with a catagory of aaa.bbb.ccc.your-component and the logging categories defined in the meta-info model will be appended to that (using the period as a category delimiter).
+</p>
+      </subsection>
+
+      <subsection name="Nested Elements">
+        <table>
+          <tr><th>Element</th><th>Occurance</th><th>Description</th></tr>
+          <tr>
+            <td><a href="logger.html">logger</a></td><td>0..n</td>
+            <td>
+             A logging category declaration.
+            </td>
+          </tr>
+        </table>
+      </subsection>
+
+
+      <subsection name="Example XML">
+
+<p>Logger descriptors are contained within a single &lt;loggers&gt; element.</p>
+<source><![CDATA[
+<loggers>
+  <logger name="test"/>
+  <logger name="internal"/>
+</loggers>
+]]></source>
+
+      </subsection>
+
+    </section>
+
+  </body>
+
+  <footer>
+    <legal>
+      Copyright (c) @year@ The Avalon Apache Project All rights reserved.
+      $Revision: 1.3 $ $Date: 2004/04/14 11:47:32 $
+    </legal>
+  </footer>
+
+</document>
+
+

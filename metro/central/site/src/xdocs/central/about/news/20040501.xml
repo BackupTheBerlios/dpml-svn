@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document>
+  <properties>
+    <author email="dev@avalon.apache.org">Avalon Documentation Team</author>
+    <title>Avalon Central</title>
+  </properties> 
+
+  <body>
+    <section name="Merlin Runtime 3.3.0 Release">
+    <p>
+     The Avalon Team is proud to announce the release of Merlin 3.3.0. 
+     The 3.3 release incorporates the advanced component and service management
+     solution that simplifyand enhances component development,
+     assembly and service deployment concerns.  The 3.3 release 
+     adds complete model/runtime seperation enabling advanced dynamic
+     component management and deployment solutions 
+     </p>
+     <p>
+      Merlin 3.3.0 binaries can be downloaded from the following site:
+     </p>
+     <p>
+      <a href="http://www.apache.org/dist/avalon/merlin/binaries/">
+       http://www.apache.org/dist/avalon/merlin/binaries/</a>
+     </p>
+
+<p>Key Product Features:</p>
+ <ul>
+   <li>auto assembly</li>
+   <li>muli-layer configuration management</li>
+   <li>advanced context management</li>
+   <li>composite component management</li>
+   <li>packaged deployment scenarios</li>
+   <li>local and remote repository integration</li>
+   <li>integral jar extension management</li>
+   <li>maven plugin support for meta-info generation and simulated deployment</li>
+   <li>product packaging and install services</li>
+   <li>support for the Avalon component meta model</li>
+   <li>support for legacy migration</li>
+ </ul>
+
+    </section>
+  </body>
+</document>
+

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document>
+  <properties>
+    <author email="dev@avalon.apache.org">Avalon Documentation Team</author>
+    <title>Avalon Central</title>
+  </properties> 
+
+  <body>
+    <section name="Avalon Laboratory">
+      <p>
+       This is the place where Avaloners do their experiments and technology
+       evaluations. The Laboratory is a place for Research and Development
+       and materials here will come and go without prior warnings. Some will
+       graduate and some will be discarded.
+      </p>
+    </section>
+  </body>
+</document>
+

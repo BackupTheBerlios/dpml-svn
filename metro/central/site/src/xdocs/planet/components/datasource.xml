@@ -1,0 +1,79 @@
+<?xml version="1.0"?>
+
+<document>
+
+  <properties>
+    <author email="mcconnell@apache.org">Stephen McConnell</author>
+    <title>Avalon Planet</title>
+  </properties>
+
+  <body>
+    <section name="Datasource">
+      <subsection name="Description">
+        <p>
+        </p>
+      </subsection>
+      <subsection name="Deployment Facts">
+        <table>
+          <tr><td>Containment</td><td>Avalon Framework 4.2.0</td>
+          </tr>
+          <tr><td>Lifestyle</td><td>singleton</td></tr>
+        </table>
+      </subsection>
+      <subsection name="Lifecycle">
+        <table>
+          <tr><th>Stage</th><th>Description</th></tr>
+          <tr><td>LogEnabled</td><td>Logs lifescycle stages and handles assignment
+           of logging channels to managed connection handlers.</td></tr>
+          <tr>
+            <td>Contextualizable</td>
+            <td>
+              <table class="classic">
+                <tr><th>Key</th><th>Type</th><th>Required</th></tr>
+                <tr>
+                 <td>block.name</td><td>java.lang.String</td><td>false</td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+          <tr>
+            <td>Configurable</td>
+            <td>
+              <p>Example configuration:</p>
+<source>
+ &lt;configuration&gt;
+   &lt;data-source name="<i>default</i>"
+     class="<i>org.apache.avalon.excalibur.datasource.JdbcDataSource</i>"&gt;
+     &lt;!-- configuration for JdbcDataSource --&gt;
+     &lt;pool-controller min="<i>5</i>" max="<i>10</i>" 
+       connection-class="<i>my.overrided.ConnectionClass</i>"&gt;
+     &lt;keep-alive&gt;select 1&lt;/keep-alive&gt;
+     &lt;/pool-controller&gt;
+     &lt;driver&gt;<i>com.database.jdbc.JdbcDriver</i>&lt;/driver&gt;
+     &lt;dburl&gt;<i>jdbc:driver://host/mydb</i>&lt;/dburl&gt;
+     &lt;user&gt;<i>username</i>&lt;/user&gt;
+     &lt;password&gt;<i>password</i>&lt;/password&gt;
+   &lt;/data-source&gt;
+ &lt;/configuration&gt;
+</source>
+            </td>
+          </tr>
+          <tr>
+            <td>Initializable</td>
+            <td>Component initialization.</td>
+          </tr>
+          <tr>
+            <td>Disposable</td>
+            <td>Component disposal.</td>
+          </tr>
+        </table>
+      </subsection>
+    </section>
+
+  </body>
+
+</document>
+
+
+
+

@@ -1,0 +1,91 @@
+<?xml version="1.0"?>
+
+<document>
+
+  <properties>
+    <author email="mcconnell@apache.org">Stephen McConnell</author>
+    <title>Javadoc Tag Specification</title>
+  </properties>
+
+  <body>
+
+    <section name="Javadoc Tags">
+
+      <subsection name="Attribute Tag">
+<p>An attribute may be declared within an interface or class. When declared under an interface the attribute will be included in the generated service defintion.  When declared under a class, the attribute will be included in the info element of the type defintion.</p>
+      </subsection>
+      <subsection name="Attributes">
+        <table>
+          <tr><th>Attribute</th><th>Required</th><th>Description</th></tr>
+          <tr>
+            <td>key</td><td>yes</td>
+            <td>
+              <p>The attribute lookup key.</p>
+            </td>
+          </tr>
+          <tr>
+            <td>value</td><td>no</td>
+            <td>
+              <p>The attribute value. If not declared, a null value is assumed.</p>
+            </td>
+          </tr>
+        </table>
+      </subsection>
+      <subsection name="Example">
+
+<source><![CDATA[
+package org.apache.avalon.playground;
+
+/**
+ * Example of the declaration of a series of attributes.
+ *
+ * @avalon.attribute key="description" value="an example"
+ * @avalon.attribute key="color" value="red"
+ * @avalon.attribute key="priority" value="normal"
+ */
+public interface MyService
+{
+  ...
+}
+]]></source>
+
+<p>Generated meta-info when declared within an interface:</p>
+
+<source><![CDATA[
+<service>
+  <attributes>
+    <attribute name="description" value="an example"/>
+    <attribute name="color" value="red"/>
+    <attribute name="priority" value="normal"/>
+  </attributes>
+</service>
+]]></source>
+
+<p>Generated meta-info when declared within an class:</p>
+
+<source><![CDATA[
+<type>
+  <info>
+    <attributes>
+      <attribute name="description" value="an example"/>
+      <attribute name="color" value="red"/>
+      <attribute name="priority" value="normal"/>
+    </attributes>
+  </info>
+</type>
+]]></source>
+
+      </subsection>
+    </section>
+  </body>
+
+  <footer>
+    <legal>
+      Copyright (c) @year@ The Avalon Apache Project All rights reserved.
+      $Revision: 1.1 $ $Date: 2004/04/14 11:47:33 $
+    </legal>
+  </footer>
+
+</document>
+
+

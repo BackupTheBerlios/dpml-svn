@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document>
+
+  <properties>
+    <author email="dev@avalon.apache.org">Avalon Documentation Team</author>
+    <title>Avalon Central</title>
+  </properties> 
+
+  <body>
+
+    <section name="Magic Templates">
+
+      <p>
+      Templates provide the mechanism for the sequencing of magic tasks. A 
+      template is a classic ant build file containing a set of common 
+      build procedures that can be overriden or extended within a particular 
+      project.
+      </p>
+      <p>
+      A typical project build file will import the <a href="standard.html">
+      standard</a> build file as shown below.
+      </p>
+
+<source><![CDATA[
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<project name="avalon-repository-api" default="install" basedir=".">
+  <property file="build.properties"/>
+  <import file="${project.home}/build/standard.xml"/>
+</project>]]></source>
+
+    </section>
+
+  </body>
+
+</document>
+

@@ -1,0 +1,55 @@
+<?xml version="1.0"?>
+
+<document>
+
+  <properties>
+    <author email="mcconnell@apache.org">Stephen McConnell</author>
+    <title>Avalon Planet</title>
+  </properties>
+
+  <body>
+    <section name="Connection">
+      <subsection name="Description">
+            <p>
+            The ConnectionManager service provides a facility to listen 
+            for incoming socket connections.
+            The DefaultConnectionManager compoent gives a thread pooled 
+            implementation of this service. If there are multiple server 
+            components depending on this component, they would all share
+            the same thread pool.
+            </p>
+      </subsection>
+      <subsection name="Deployment Facts">
+        <table>
+          <tr><td>Containment</td><td>Avalon Framework 4.2.0</td></tr>
+          <tr><td>Lifestyle</td><td>singleton</td></tr>
+        </table>
+      </subsection>
+      <subsection name="Lifecycle">
+        <table>
+          <tr><th>Stage</th><th>Description</th></tr>
+          <tr><td>LogEnabled</td><td>Logs lifescycle stages and handles assignment
+             of logging channels to managed connection handlers.</td></tr>
+          <tr>
+            <td>Serviceable</td>
+            <td>
+            The connection manager has a structural dependency on the 
+            <a href="threads.html">Threads</a>component.
+            </td>
+          </tr>
+          <tr>
+            <td>Disposable</td>
+            <td>
+            Disconnects all standing connections.
+            </td>
+          </tr>
+        </table>
+      </subsection>
+    </section>
+
+  </body>
+
+</document>
+
+
+

@@ -1,0 +1,171 @@
+<?xml version="1.0"?>
+
+<!-- 
+ Copyright 2004 Apache Software Foundation
+ Licensed  under the  Apache License,  Version 2.0  (the "License");
+ you may not use  this file  except in  compliance with the License.
+ You may obtain a copy of the License at 
+ 
+   http://www.apache.org/licenses/LICENSE-2.0
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed  under the  License is distributed on an "AS IS" BASIS,
+ WITHOUT  WARRANTIES OR CONDITIONS  OF ANY KIND, either  express  or
+ implied.
+ 
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+
+<document>
+  <properties>
+    <author email="dev@avalon.apache.org">Avalon Documentation Team</author>
+    <title>Avalon Central</title>
+  </properties> 
+
+  <body>
+    <section name="Installation - Merlin 3.2">
+
+      <subsection name="Build Procedure">
+
+        <p>
+        After downloading the Merlin 3.2 binary distribution and 
+        inpacking the archive into you preferred location, you should
+        have a directory structure that looks like the following: 
+        </p>
+<source><![CDATA[
+  /merlin
+    /bin
+    /config
+    /ext
+    /system
+    README.TXT
+    LICENSE.TXT
+  /plugins
+    avalon-meta-plugin-1.3.1.jar
+    merlin-plugin-3.2.3.jar
+]]></source>
+
+        <p>
+To use Merlin command line support or the Merlin NT Service
+you will need to define the MERLIN_HOME environment
+variable for your system and include MERLIN_HOME/bin in
+your system path.  The MERLIN_HOME environment variable
+should point to the merlin directory.
+        </p>
+
+        <p>
+Under Lunix you can do this as follows:
+        </p>
+
+<source><![CDATA[
+  $ echo '
+  > # set location of merlin
+  > export MERLIN_HOME=/opt/merlin
+  > # include it in the path
+  > export PATH=$PATH:$MERLIN_HOME/bin
+  > ' >> ~/.bash_profile
+  $ source ~/.bash_profile
+]]></source>
+
+        <p>
+Under Windows you can set environment variables by selecting the 
+Environment Tab from the System Control Panel.
+        </p>
+        <p>
+Versions of Merlin prior to the 3.2-dev 20031210 build maintained 
+a local repository of jar files under the %MERLIN_HOME%/repository
+directory.  As of the 20031210 build the repository is maintained 
+under AVALON_HOME which defaults to ${user.home}/.avalon.  To 
+override this behaviour you can either define a AVALON_HOME 
+environment variable or you can add a merlin.properties file to 
+${user.home} containing the "merlin.repository" property key and 
+a value point to you preferred repository location.
+        </p>
+        <p>
+To confirm that your environment variables are correct, you
+should open a new command window and invoke the Merlin
+CLI application.
+        </p>
+<source><![CDATA[
+Under DOS:
+
+  $ merlin -version
+
+Under Lunix:
+
+  $ merlin.sh -version
+
+]]></source>
+        <p>
+The installation of Merlin is now complete, however, two plugins are
+provided with the installation supporting merlin development under the 
+Maven platform.  These plugins should be placed in the Maven plugin 
+directory (%MAVEN_HOME%\plugins).
+        </p>
+<source><![CDATA[
+  %MAVEN_HOME%\plugins\avalon-meta-plugin-1.3.1.jar
+  %MAVEN_HOME%\plugins\merlin-plugin-3.2.3.jar
+]]></source>
+
+        <p>
+The installation of Merlin is now complete, however, two plugins are
+provided with the installation supporting merlin development under the 
+Maven platform.  These plugins should be placed in the Maven plugin 
+directory (%MAVEN_HOME%\plugins).
+        </p>
+<source><![CDATA[
+  %MAVEN_HOME%\plugins\avalon-meta-plugin-1.3.1.jar
+  %MAVEN_HOME%\plugins\merlin-plugin-3.2.3.jar
+]]></source>
+
+        <p>
+Please note that if you are upgrading an existing installation you must
+delete the following two directories:
+        </p>
+
+<source><![CDATA[
+  %MAVEN_HOME%\plugins\merlin-plugin-* 
+  %MAVEN_HOME%\plugins\avalon-meta-plugin-*
+]]></source>
+
+      </subsection>
+      <subsection name="Validating your installation.">
+
+        <p>
+          The following instructions assume that you have defined the
+          MERLIN_HOME environment variable that points the directory
+          containing the Merlin installation.
+        </p>
+
+        <p>
+          To confirm that you MERLIN_HOME variable is correct, you
+          should open a new command line window and invoke the Merlin
+          CLI application. The following command should list the
+          Merlin CLI help information.
+        </p>
+
+<source><![CDATA[
+$ merlin.sh -help
+usage: merlin [block] [-lang <code>] [-install <url>] 
+  [-library <directory>] [-help] [-version] [-home <directory>] 
+  [-impl <artifact>] [-debug] [-info] [-config <url>] 
+  [-context <directory>] [-system <directory>] [-execute] 
+  [-repository <directory>] [-kernel <url>]...
+]]></source>
+
+      </subsection>
+      <subsection name="Next Steps">
+        <p>
+          Now that you have installed Merlin on your system you can
+          proceed to the <a href="../tutorial/index.html">Using Merlin</a>
+          tutorial page.
+        </p>
+      </subsection>
+
+    </section>
+  </body>
+
+</document>
+
+

@@ -1,0 +1,228 @@
+<?xml version="1.0"?>
+
+<!-- 
+ Copyright 2004 Apache Software Foundation
+ Licensed  under the  Apache License,  Version 2.0  (the "License");
+ you may not use  this file  except in  compliance with the License.
+ You may obtain a copy of the License at 
+ 
+   http://www.apache.org/licenses/LICENSE-2.0
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed  under the  License is distributed on an "AS IS" BASIS,
+ WITHOUT  WARRANTIES OR CONDITIONS  OF ANY KIND, either  express  or
+ implied.
+ 
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+
+<document>
+  <properties>
+    <author email="dev@avalon.apache.org">Avalon Documentation Team</author>
+    <title>Avalon Central</title>
+  </properties> 
+
+  <body>
+    <section name="Using Merlin">
+      <subsection name="Custom Context Management">
+        <p>
+        Merlin provides support for the creation and assignment of 
+        custom context entries to a component through a combination 
+        of requirements specification at the level of a type, and 
+        context creation directives.
+        </p>
+        <p>
+        Resources supporting this tutorial are contained in the 
+        tutorials/context/custom/ package.
+        </p>
+      </subsection>
+
+      <subsection name="Creating a Non-Component Object">
+        <p>
+          To demonstrate Merlin's support for the supply of non-component 
+          objects to a component, we need to create an 
+          example object.  Non-component object approaches may be
+          required when you are integrating legacy applications 
+          into a component platform and you are obliged to deal 
+          with an existing code base.
+        </p>
+        <p>
+          Our non-component example NumberCruncher takes two values
+          in a constructor and returns the result of the multiplication
+          of the two numbers via an accessor.  While not very useful, the  
+          purpose of NumberCruncher is to demonstrate how you can use 
+          Merlin to construct the instance and associate it as a context 
+          entry for the component.
+        </p>
+        <p>
+          <i>NumberCruncher.java</i>
+        </p>
+<source>
+package tutorial;
+
+/**
+ * A demonstration class that that we will instantiate via 
+ * context directives within the component declaration.
+ */
+public class NumberCruncher
+{
+    private final int m_primary;
+    private final float m_secondary;
+
+    public NumberCruncher( Integer primary, Double secondary )
+    {
+        m_primary = primary.intValue();
+        m_secondary = secondary.floatValue();
+    }
+ 
+   /**
+    * Multiply the supplied constructor arguments together and 
+    * return the value.
+    */
+    public float crunch()
+    {
+       return ( m_secondary * m_primary );
+    }
+}
+</source>
+      </subsection>
+
+      <subsection name="Updating HelloComponent.xinfo">
+        <p>
+        HelloComponent.xinfo is updated to include the declaration of 
+        the components requirement for the supply of a context entry  
+        named 'cruncher' corresponding to the type NumberCruncher.
+        </p>
+        <p><i>HelloComponent.xinfo</i></p>
+<source><![CDATA[
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE type PUBLIC "-//AVALON/Type DTD Version 1.0//EN" 
+  "http://avalon.apache.org/dtds/meta/type_1_1.dtd" >
+
+<type>
+  <info>
+    <name>demo</name>
+    <version>-1.0.0</version>
+    <lifestyle>transient</lifestyle>
+  </info>
+  <context>
+    <entry key="cruncher" type="tutorial.NumberCruncher" />
+  </context>
+</type>
+]]></source>
+        <p>
+        The following source demonstrates the implementation
+        of the contextualization stage, access and casting of
+        a context entry to the NumberCruncher class, and the 
+        the invocation of an operation on that class.
+        </p>
+
+<source>
+package tutorial;
+
+import org.apache.avalon.framework.logger.AbstractLogEnabled;
+import org.apache.avalon.framework.context.Contextualizable;
+import org.apache.avalon.framework.context.Context;
+import org.apache.avalon.framework.context.ContextException;
+
+/**
+ * Demonstration of a component that uses a constructed context entry.
+ * 
+ * @avalon.component name="demo"
+ */
+public class HelloComponent extends AbstractLogEnabled 
+  implements Contextualizable
+{
+
+   /**
+    * Contextualization of the component by the container.
+    * The context supplied by the container shall contain
+    * a NumberCruncher instance as declared in the xinfo resource.
+    *
+    * @avalon.context
+    * @avalon.entry key="cruncher" type="tutorial.NumberCruncher"
+    */
+    public void contextualize( Context context )
+      throws ContextException
+    {
+        NumberCruncher cruncher = 
+          (NumberCruncher) context.get( "cruncher" );
+        float value = cruncher.crunch();
+        getLogger().info( "result: " + value );
+    }
+}
+</source>
+
+      </subsection>
+
+      <subsection name="Context Directives">
+        <p>
+        As Merlin knows nothing about the NumberCruncher class
+        we need to provide additional information under the component
+        deployment descriptor.  In the case of NumberCruncher, the 
+        class constructor takes two constructor arguments, an Integer
+        and a Double.
+        </p>
+        <p><i>block.xml</i></p>
+<source><![CDATA[
+<container name="tutorial">
+
+   <classloader>
+     <classpath>
+       <repository>
+         <resource 
+           id="avalon-framework:avalon-framework-impl" 
+           version="4.1.5"/>
+       </repository>
+     </classpath>
+   </classloader>
+
+
+   <component name="hello" class="tutorial.HelloComponent">
+     <context>
+       <entry key="cruncher">
+         <constructor class="tutorial.NumberCruncher">
+           <param class="java.lang.Integer">7</param>
+           <param class="java.lang.Double">1.5</param>
+         </constructor>
+       </entry>
+     </context>
+   </component>
+
+</container>
+]]></source>
+
+        <p>
+        Build and run the tutorial.
+        </p>
+        <source>
+$ maven
+$ merlin -execute target\classes
+</source>
+        <p>
+        In the logging output we see that Merlin has created and 
+        supplied the NumberCruncher instance to the component.
+        </p>
+        <source>
+[INFO   ] (tutorial.hello): result: 10.5
+</source>
+      </subsection>
+
+      <subsection name="Context Casting">
+
+        <p>
+        The <a href="casting.html">next tutorial</a> shows how 
+        Merlin provides support for type-safe context casting.
+        </p>
+
+      </subsection>
+
+    </section>
+  </body>
+
+</document>
+
+
+
+

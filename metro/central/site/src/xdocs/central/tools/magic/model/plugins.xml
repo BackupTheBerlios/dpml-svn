@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document>
+
+  <properties>
+    <author email="dev@avalon.apache.org">Avalon Documentation Team</author>
+    <title>Avalon Central</title>
+  </properties> 
+
+  <body>
+    <section name="Plugins">
+      <p>
+      A plugin is a special type of project that generates a one of 
+      dynamically loadable ant tasks that are managed by Magic's plugin
+      task.
+      </p>
+
+      <p><i>Example plugin definition.</i></p>
+
+<source><![CDATA[
+  <plugin basedir="../../runtime/meta/tools">
+    <info>
+      <group>avalon/meta</group>
+      <name>avalon-meta-tools</name>
+      <version>1.4.0</version>
+    </info>
+    <dependencies>
+      <include key="avalon-meta-impl"/>
+      <include key="qdox"/>
+    </dependencies>
+    <tasks>
+      <taskdef name="meta" class="org.apache.avalon.meta.info.ant.MetaTask"/>
+    </tasks>
+    <listeners>
+      <listener class="org.apache.avalon.meta.info.ant.MetaBuildListener"/>
+    </listeners>
+  </plugin>
+]]></source>
+
+      <p>
+      The above plugin defintion demonstrates the two additional features
+      of a plugin over a regual project defintion.  Firstly, a plugin can 
+      declare the set of task it defines, and secondly, a plugin can declare
+      build listeners.  Magic's plugin task will automatically load plugins
+      declared on project defintions.  
+      </p>
+      <p>
+      The following project defintion declares a plugin dependency to the 
+      above plugin.
+      </p>
+
+<source><![CDATA[
+  <project basedir="../../runtime/test/dynamics">
+    <info>
+      <group>avalon/test</group>
+      <name>avalon-test-dynamics</name>
+    </info>
+    <dependencies>
+      <include key="avalon-framework-impl"/>
+    </dependencies>
+    <plugins>
+      <include key="avalon-meta-tools"/>
+    </plugins>
+  </project>
+]]></source>
+
+    </section>
+  </body>
+
+</document>
+

@@ -1,0 +1,24 @@
+
+<container name="publisher-block">
+
+   <services>
+     <service type="tutorial.publisher.PublisherService">
+       <source>publisher</source>
+     </service>
+   </services>
+
+   <classloader>
+     <classpath>
+       <repository>
+         <resource id="avalon-framework:avalon-framework-api" version="4.2.0"/>
+         <resource id="avalon-framework:avalon-framework-impl" version="4.2.0"/>
+         <resource id="merlin-tutorial:publisher-api" version="1.0"/>
+         <resource id="merlin-tutorial:publisher-impl" version="1.0"/>
+       </repository>
+     </classpath>
+   </classloader>
+
+   <component name="publisher" 
+       class="tutorial.publisher.PublisherComponent"/>
+
+</container>

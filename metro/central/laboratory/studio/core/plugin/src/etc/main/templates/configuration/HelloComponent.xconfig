@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+
+<!--
+This is an example of a configuration packaged with a component
+type.  Configuration declarations of this kind are normally used
+to establish default configuration values required by an 
+implementation.  The Merlin container will use this information
+to construct a cascading configuration where this configuration
+is placed as the configuration of last resort.
+-->
+
+<configuration>
+  <source>packaged default</source>
+</configuration>

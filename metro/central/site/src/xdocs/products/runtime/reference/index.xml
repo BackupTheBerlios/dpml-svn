@@ -1,0 +1,85 @@
+<?xml version="1.0"?>
+
+<!-- 
+ Copyright 2004 Apache Software Foundation
+ Licensed  under the  Apache License,  Version 2.0  (the "License");
+ you may not use  this file  except in  compliance with the License.
+ You may obtain a copy of the License at 
+ 
+   http://www.apache.org/licenses/LICENSE-2.0
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed  under the  License is distributed on an "AS IS" BASIS,
+ WITHOUT  WARRANTIES OR CONDITIONS  OF ANY KIND, either  express  or
+ implied.
+ 
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+
+<document>
+
+  <properties>
+    <author email="mcconnell@apache.org">Stephen McConnell</author>
+    <title>Specification</title>
+  </properties>
+
+  <body>
+
+    <section name="Specification">
+
+      <p>
+The Merlin platform is the Reference Implementation of the Avalon Component 
+and Deployment contract.  This specification is presented in terms of the 
+component specification (covering meta-info, container/component interaction, 
+lifecycle, lifestyle, etc.) and deployment specification (component and 
+container directives, classloaders, composition management etc.).  In both 
+cases the specifications dealing with multiple underlying sub-systems - 
+including the Avalon Meta, Composition, and Activation packages.
+      </p>
+      <subsection name="Index">
+        <table>
+          <tr><th>Topic</th><th>Summary</th></tr>
+          <tr>
+            <td><a href="component/index.html">Component Specification</a></td>
+            <td>
+              Avalon Component model specification covering component type
+              descriptors, runtime artifacts supplied by a container to a 
+              component, lifecycle management, and lifestyle management.
+            </td>
+          </tr>
+          <tr>
+            <td><a href="containment/index.html">Container Specification</a></td>
+            <td>
+              Avalon Container specification covers the complete set
+              of component and containment directives, including classloader
+              management, container composition, container includes, composite
+              component publication, and related utility directives.
+            </td>
+          </tr>
+          <tr>
+            <td><a href="deployment/index.html">Deployment Specification</a></td>
+            <td>
+              Avalon Deployment specification deals with block packaging, 
+              and publication, component assembly semantics, deployment 
+              management, memory management, dynamic model interaction, and
+              general system decommissioning.
+            </td>
+          </tr>
+          <tr>
+            <td><a href="kernel/index.html">System Specification</a></td>
+            <td>
+              Merlin system specification including kernel configuration 
+              directives and system deployment properties.
+            </td>
+          </tr>
+
+        </table>
+      </subsection>
+    </section>
+
+  </body>
+
+</document>
+
+

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<site>
+
+   <description url="http://www.apache.org/~oberhack/updates/studio">
+      
+   </description>
+   <feature url="features/org.apache.metro.studio_0.1.0.jar" id="org.apache.metro.studio" version="0.1.0" nl="en_US">
+      <category name="MetroStudio"/>
+   </feature>
+   <category-def name="MetroStudio" label="Eclipse 3.0"/>
+</site>

@@ -1,0 +1,79 @@
+<?xml version="1.0"?>
+
+<!-- 
+ Copyright 2004 Apache Software Foundation
+ Licensed  under the  Apache License,  Version 2.0  (the "License");
+ you may not use  this file  except in  compliance with the License.
+ You may obtain a copy of the License at 
+ 
+   http://www.apache.org/licenses/LICENSE-2.0
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed  under the  License is distributed on an "AS IS" BASIS,
+ WITHOUT  WARRANTIES OR CONDITIONS  OF ANY KIND, either  express  or
+ implied.
+ 
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+
+<document>
+  <properties>
+    <author email="mcconnell@apache.org">Stephen McConnell</author>
+    <title>Avalon Logging</title>
+  </properties>
+  <body>
+    <section name="Avalon Logging">
+      <subsection name="Code Example">
+        <p>
+        The following code is an example of a application loading 
+        and instantiating the Avalon Logging LogKit pluging.
+        </p>
+        <source>
+
+        File dir = new File( System.getProperty( "user.dir" ) );
+
+        // 
+        // create an initial context
+        //
+
+        DefaultInitialContextFactory initial = 
+           new DefaultInitialContextFactory( "avalon", dir );
+        initial.setCacheDirectory( getRepositoryDirectory() );
+        InitialContext context = initial.createInitialContext();
+
+        //
+        // get the plugin reference
+        //
+
+        Artifact artifact = Artifact.createArtifact( 
+          "artifact:avalon-logging/avalon-logkit-impl#1.0-SNAPSHOT" );
+
+        //
+        // build the plugin
+        //
+
+        Builder builder = context.newBuilder( artifact );
+        Factory factory = builder.getFactory();
+
+        //
+        // customize the plugin to you environment
+        //
+
+        File file = new File( dir, "logging.xml" );
+        Map criteria = factory.createDefaultCriteria();
+        criteria.put( "avalon.logging.configuration", file );
+        criteria.put( "avalon.logging.basedir", dir );
+
+        //
+        // create the logging manager
+        //
+
+        LoggingManager manager = (LoggingManager) factory.create( criteria );
+        </source>
+      </subsection>
+    </section>
+  </body>
+</document>
+
+

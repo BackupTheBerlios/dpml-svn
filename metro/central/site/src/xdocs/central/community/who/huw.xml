@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document> 
+  <properties>
+    <author email="dev@avalon.apache.org">Avalon Documentation Team</author>
+    <title>Apache Avalon: Contributors</title>
+  </properties>
+  <body> 
+    <section name="Huw Roberts">
+      <p>(huw at apache dot org)</p>
+      <p>
+      Huw is a contributor to Avalon, primarily JMX support in Phoenix.
+      </p>
+    </section>
+  </body>
+</document>
+

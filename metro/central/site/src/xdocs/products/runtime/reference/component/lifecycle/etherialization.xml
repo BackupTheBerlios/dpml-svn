@@ -1,0 +1,86 @@
+<?xml version="1.0"?>
+
+<!-- 
+ Copyright 2004 Apache Software Foundation
+ Licensed  under the  Apache License,  Version 2.0  (the "License");
+ you may not use  this file  except in  compliance with the License.
+ You may obtain a copy of the License at 
+ 
+   http://www.apache.org/licenses/LICENSE-2.0
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed  under the  License is distributed on an "AS IS" BASIS,
+ WITHOUT  WARRANTIES OR CONDITIONS  OF ANY KIND, either  express  or
+ implied.
+ 
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+
+<document>
+
+  <properties>
+    <author email="mcconnell@apache.org">Stephen McConnell</author>
+    <title>Lifestyle Specification</title>
+  </properties>
+
+  <body>
+
+    <section name="Etherialization">
+
+        <p>
+The etherialization stage is the component equivalent of an object finalization.  Etherialization covers the stopping of a running component and subsequent disposal.  Initiation of the etherialization phase on a component instance is exclusively controlled by it's container.
+        </p>
+
+      <subsection name="Etherialization Stage Table">
+
+        <table>
+          <tr>
+            <td><p>execution</p></td>
+            <td>
+<p>
+A component implementing the the <a href="../../../../../avalon/runtime/@RUNTIME-VERSION@/api/org/apache/avalon/framework/activity/Startable.html">Startable</a> lifecycle interface will be shutdown by the container. 
+</p>
+<p><i>Startable Example:</i></p>
+
+<source>
+/**
+ * Stop the component.
+ */
+ public void stop() throws Exception
+ {
+     ...
+ }
+</source>
+            </td>
+          </tr>
+          <tr>
+            <td><p>disposal</p></td>
+            <td>
+<p>
+A component may participate in end-of-life processing by implementing the 
+<a href="../../../../../avalon/runtime/@RUNTIME-VERSION@/api/org/apache/avalon/framework/activity/Disposable.html">Disposable</a> lifecycle interface. An implementation will typically released references during this stage.
+</p>
+<p><i>Example:</i></p>
+
+<source>
+/**
+ * Disposal of the component.
+ */
+ public void dispose()
+ {
+     ...
+ }
+</source>
+            </td>
+          </tr>
+        </table>
+      </subsection>
+
+    </section>
+
+  </body>
+
+</document>
+
+

@@ -1,0 +1,156 @@
+<?xml version="1.0"?>
+
+<!-- 
+ Copyright 2004 Apache Software Foundation
+ Licensed  under the  Apache License,  Version 2.0  (the "License");
+ you may not use  this file  except in  compliance with the License.
+ You may obtain a copy of the License at 
+ 
+   http://www.apache.org/licenses/LICENSE-2.0
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed  under the  License is distributed on an "AS IS" BASIS,
+ WITHOUT  WARRANTIES OR CONDITIONS  OF ANY KIND, either  express  or
+ implied.
+ 
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+
+<document>
+  <properties>
+    <author email="mcconnell@apache.org">Stephen McConnell</author>
+    <title>Avalon Logging</title>
+  </properties>
+  <body>
+    <section name="Avalon LogKit Plugin">
+      <subsection name="Avalon Logging Logkit API">
+        The LogKit plugin defines an local API for LogKit related 
+        log target factories and log targets.  Through this API the 
+        LogKit implementation manages a set of standard targets and 
+        a target plugin framework.
+      </subsection>
+      <subsection name="Standard LogTarget">
+        <table>
+          <tr><th>Factory</th><th>Description</th></tr>
+          <tr>
+            <td>Console</td>
+            <td>
+            <p>The Console LogTarget provides support for the logging 
+            of message to a console via System.out or System.err. If 
+            no logging targets are defined, the implementation will 
+            establish a default console target.</p>
+            <p>Example</p>
+<source><![CDATA[
+    <stream id="standard">
+       <name>System.out</name>
+       <format type="console"/>
+    </stream>
+]]></source>
+            </td>
+          </tr>
+          <tr>
+            <td>Rotating File</td>
+            <td>
+            <p>The rotating file target provides support for a set of 
+            rotation strategies including rotation by size, rotation
+            on data, and combined date/size rotation scenarios.</p>
+            <p>Example</p>
+<source><![CDATA[
+    <file id="simple">
+      <filename>simple.log</filename>
+      <append>true</append>
+      <rotation type="revolving" init="1" max="10">
+        <size>100k</size>
+      </rotation>
+    </file>
+]]></source>
+            </td>
+          </tr>
+          <tr>
+            <td>Multlipex</td>
+            <td>
+            <p>The multiplex target is a target that handles the redirection
+            of a logging event to one or more log targets. This target is 
+            typically used in conjuction with different filters to control
+            and qualify the information presented to different targets.  
+            For example, an application my configure a console target with 
+            summary warning and error reports to console, and a detailed 
+            error logg with full stack trace to a rotating file target.
+            The multiplex target enabled the declaration of a single logical
+            target and the subsequent formatting and generation of log message
+            appropriate for the relative targets.</p>
+            <p>Example</p>
+<source><![CDATA[
+    <multicast id="multicast">
+      <targetref id="standard"/>
+      <targetref id="simple"/>
+    </multicast>
+]]></source>
+            </td>
+          </tr>
+          <tr>
+            <td>Plugin</td>
+            <td>
+            <p>The plugin target provides support for plugable log targets. A 
+            typical plugin log target is defined using  &lt;target&gt; element.</p>
+            <p>Several plugable log targets are currently available.</p>
+            <table>
+              <tr><th>Plugin</th><th>Description</th></tr>
+              <tr>
+                <td>DataGram</td>
+                <td><p>A datagram log target.<br/>
+                avalon-logging/avalon-logkit-datagram#1.0-SNAPSHOT</p>
+<source><![CDATA[
+    <target id="datagram"
+        artifact="avalon-logging/avalon-logkit-datagram#1.0-SNAPSHOT">
+      <address hostname="localhost" port="0"/>
+    </target>
+]]></source>
+                </td>
+              </tr>
+              <tr>
+                <td>Socket</td>
+                <td><p>A socket log target.<br/>
+                avalon-logging/avalon-logkit-socket#1.0-SNAPSHOT</p></td>
+              </tr>
+              <tr>
+                <td>Syslog</td>
+                <td><p>A syslog log target.<br/>
+                avalon-logging/avalon-logkit-syslog#1.0-SNAPSHOT</p>
+<source><![CDATA[
+    <target id="syslog"
+        artifact="avalon-logging/avalon-logkit-syslog#1.0-SNAPSHOT">
+      <address hostname="localhost" port="514" facility="USER"/>
+      <format type="avalon"/>
+    </target>
+]]></source>
+                </td>
+              </tr>
+              <tr>
+                <td>SMTP</td>
+                <td><p>An SMTP log target (available on request).<br/>
+                avalon-logging/avalon-logkit-smtp#1.0-SNAPSHOT</p>
+<source><![CDATA[
+    <target id="smtp"
+        artifact="avalon-logging/avalon-logkit-smtp#1.0-SNAPSHOT">
+      <to>mcconnell@osm.net</to>
+      <from>info@dpml.net</from>
+      <subject>logging target test</subject>
+      <maximum-size>1</maximum-size>
+      <session>
+      </session>
+    </target>
+]]></source>
+                </td>
+              </tr>
+            </table>
+            </td>
+          </tr>
+        </table>
+      </subsection>
+    </section>
+  </body>
+</document>
+
+

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document> 
+  <properties>
+    <author email="dev@avalon.apache.org">Avalon Documentation Team</author>
+    <title>Apache Avalon: Contributors</title>
+  </properties>
+  <body> 
+    <section name="Federico Barbieri">
+      <p>(fede at apache dot org)</p>
+      <p>
+      Federico is one of the original architects of Avalon.  He was heavily
+      involved for a long time. While no longer contributing actively, Federico
+      still keeps an interest in avalon.
+      </p>
+    </section>
+  </body>
+</document>
+

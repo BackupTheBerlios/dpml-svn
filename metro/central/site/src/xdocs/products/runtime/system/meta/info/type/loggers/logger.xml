@@ -1,0 +1,66 @@
+<?xml version="1.0"?>
+
+<document>
+  <properties>
+    <author email="mcconnell@apache.org">Stephen McConnell</author>
+    <title>Logging Descriptors</title>
+  </properties>
+
+  <body>
+
+    <section name="Logging Descriptor">
+
+      <subsection name="Description">
+<p>
+The org.apache.avalon.meta.info.LoggerDescriptor class describes the a logging channel that the component requires.
+</p>
+      </subsection>
+
+      <subsection name="Attributes">
+        <table>
+          <tr><th>Attribute</th><th>Required</th><th>Description</th></tr>
+          <tr>
+            <td>name</td><td>yes</td>
+            <td>
+            The logging category name.
+            </td>
+          </tr>
+        </table>
+      </subsection>
+
+      <subsection name="Nested Elements">
+        <table>
+          <tr><th>Element</th><th>Occurance</th><th>Description</th></tr>
+          <tr>
+            <td><a href="../../attributes/index.html">attributes</a></td><td>0..1</td>
+            <td>
+             A set of attribute declarations.
+            </td>
+          </tr>
+        </table>
+      </subsection>
+
+      <subsection name="Example XML">
+<source><![CDATA[
+<logger name="store"/>
+<logger name="cache">
+  <attributes>
+    <attribute key="an-attribute" value="some value"/>
+  </attributes>
+</logger>       
+]]></source>
+      </subsection>
+    </section>
+
+  </body>
+
+  <footer>
+    <legal>
+      Copyright (c) @year@ The Avalon Apache Project All rights reserved.
+      $Revision: 1.2 $ $Date: 2004/04/14 11:47:32 $
+    </legal>
+  </footer>
+
+</document>
+
+

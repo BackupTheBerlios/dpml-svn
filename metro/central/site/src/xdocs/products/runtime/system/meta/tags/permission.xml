@@ -1,0 +1,92 @@
+<?xml version="1.0"?>
+
+<document>
+
+  <properties>
+    <author email="mcconnell@apache.org">Stephen McConnell</author>
+    <title>Javadoc Tag Specification</title>
+  </properties>
+
+  <body>
+
+    <section name="Javadoc Tags">
+      <subsection name="Security Permission Tag">
+<p>Component types may declare multiple security permissions.</p>
+      </subsection>
+      <subsection name="Attributes">
+        <table>
+          <tr><th>Attribute</th><th>Required</th><th>Description</th></tr>
+          <tr>
+            <td>class</td><td>yes</td>
+            <td>
+              <p>The permission class (such as java.io.FilePermission or 
+                 java.util.PropertyPermission).</p>
+            </td>
+          </tr>
+          <tr>
+            <td>name</td><td>no</td>
+            <td>
+              <p>
+                The permission name.</p>
+            </td>
+          </tr>
+          <tr>
+            <td>actions</td><td>no</td>
+            <td>
+              <p>
+               A comma seperated sequence of action keywords.</p>
+            </td>
+          </tr>
+        </table>
+      </subsection>
+      <subsection name="Example">
+
+
+<source><![CDATA[
+package net.osm;
+
+/**
+ * Example of a component declaring a permission requirement.
+ *
+ * @avalon.component name="test" lifestyle="singleton"
+ * @avalon.security.permission class="java.util.PropertyPermission" 
+ *     name="java.version" actions="read,write"
+ */
+public class Demo 
+{
+    ...
+}
+]]></source>
+
+<p>Generated meta-info type descriptor:</p>
+
+<source><![CDATA[
+<type>
+  <info>
+    <name>test</name>
+    <version>1.0.0</version>
+    <lifestyle>singleton</lifestyle>
+    <collection>hard</collection>
+  </info>
+  <security>
+    <permission class="java.util.PropertyPermission" name="java.version">
+      <action>read</action>
+      <action>write</action>
+    </permission>
+  </security>
+</type>
+]]></source>
+      </subsection>
+    </section>
+  </body>
+
+  <footer>
+    <legal>
+      Copyright (c) @year@ The Avalon Apache Project All rights reserved.
+      $Revision: 1.1 $ $Date: 2004/04/14 11:47:33 $
+    </legal>
+  </footer>
+
+</document>
+
+

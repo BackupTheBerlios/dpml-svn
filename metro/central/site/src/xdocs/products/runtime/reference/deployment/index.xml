@@ -1,0 +1,79 @@
+<?xml version="1.0"?>
+
+<!-- 
+ Copyright 2004 Apache Software Foundation
+ Licensed  under the  Apache License,  Version 2.0  (the "License");
+ you may not use  this file  except in  compliance with the License.
+ You may obtain a copy of the License at 
+ 
+   http://www.apache.org/licenses/LICENSE-2.0
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed  under the  License is distributed on an "AS IS" BASIS,
+ WITHOUT  WARRANTIES OR CONDITIONS  OF ANY KIND, either  express  or
+ implied.
+ 
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+
+<document>
+
+  <properties>
+    <author email="mcconnell@apache.org">Stephen McConnell</author>
+    <title>Deployment Specification</title>
+  </properties>
+
+  <body>
+
+    <section name="Deployment Specification">
+      <p>
+      </p>
+      <subsection name="Index">
+        <table>
+          <tr><th>Topic</th><th>Summary</th></tr>
+          <tr>
+            <td><a href="block.html">Block Management</a></td>
+            <td>
+The block management topic deals with general block packaging approaches (standalone and embedded), relationships to classloaders, and concepts and semantics relating to the seperation of component api and implementations.
+            </td>
+          </tr>
+          <tr>
+            <td><a href="assembly.html">Assembly Management</a></td>
+            <td>
+Specification of the assembly starategy and interception techniques.
+            </td>
+          </tr>
+          <tr>
+            <td><a href="deployment.html">Deployment</a></td>
+            <td>
+Specification of the deployment model.
+            </td>
+          </tr>
+          <tr>
+            <td><a href="memory.html">Memory Management</a></td>
+            <td>
+Description of the memory management model including specification of the component collection semantics. 
+            </td>
+          </tr>
+          <tr>
+            <td><a href="dynamics.html">Model Dynamics</a></td>
+            <td>
+Specification of the dynamic composition model.
+            </td>
+          </tr>
+          <tr>
+            <td><a href="decommission.html">Decommissioning</a></td>
+            <td>
+Specification of the system decommission model.
+            </td>
+          </tr>
+        </table>
+      </subsection>
+    </section>
+
+  </body>
+
+</document>
+
+

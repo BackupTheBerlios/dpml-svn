@@ -1,0 +1,79 @@
+<?xml version="1.0"?>
+
+<!-- 
+ Copyright 2004 Apache Software Foundation
+ Licensed  under the  Apache License,  Version 2.0  (the "License");
+ you may not use  this file  except in  compliance with the License.
+ You may obtain a copy of the License at 
+ 
+   http://www.apache.org/licenses/LICENSE-2.0
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed  under the  License is distributed on an "AS IS" BASIS,
+ WITHOUT  WARRANTIES OR CONDITIONS  OF ANY KIND, either  express  or
+ implied.
+ 
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+
+
+<document>
+
+  <properties>
+    <author email="dev@avalon.apache.org">Avalon Documentation Team</author>
+    <title>Merlin Runtime</title>
+  </properties> 
+
+  <body>
+    <section name="Hosts">
+
+      <subsection name="Nested Elements">
+
+        <table>
+          <tr><th>Element</th><th>Occurance</th><th>Description</th></tr>
+          <tr>
+            <td>host</td><td>0..n</td>
+            <td>
+             <p>Declaration of a remote host.  The value of the element 
+             is an http address of a server the implements the Maven 
+             style repository model.</p>
+
+             <p>I.e. [root]/[group-id]/[type-id]s/[artifact-name][-[version]].[type]</p>
+
+<source><![CDATA[
+ <host>http://www.ibiblio.org/maven/</host>
+]]></source>
+            </td>
+          </tr>
+        </table>
+
+      </subsection>
+
+      <subsection name="Description">
+        <p>If a resource is unknown within the local cache, the 
+        repository implementation will attempt to resolve the
+        resource relative to one or more an external hosts.
+        Hosts are checked relative to the order listed under
+        this element.</p>
+      </subsection>
+
+      <subsection name="Sample XML">
+
+<source><![CDATA[
+  <repository>
+    <hosts>
+      <host>http://www.osm.net/repository/</host>
+      <host>http://www.ibiblio.org/merlin/repository/</host>
+      <host>http://www.ibiblio.org/maven/</host>
+    </hosts>
+  </repository>
+]]></source>
+
+     </subsection>
+    </section>
+  </body>
+
+</document>
+
+

@@ -1,0 +1,158 @@
+<?xml version="1.0"?>
+
+<document>
+  <properties>
+    <author email="mcconnell@apache.org">Stephen McConnell</author>
+    <title>Meta-Info Ganerator Ant Task</title>
+  </properties>
+  <body>
+    <section name="Ant Meta-Info Generator Task">
+      <p>
+The meta info generator task scans sources files for the present of an avalon.meta tags and based on the tag set specification, generates either XML or serialized meta-info descriptors.
+      </p>
+
+      <subsection name="Parameters">
+<table>
+  <tr>
+   <th>Parameter</th><th>Required</th><th>Value</th>
+  </tr>
+  <tr>
+    <td>destDir</td><td>true</td>
+    <td>The directory into which the generated type and service defintions wil be created.</td>
+  </tr>
+  <tr>
+    <td>format</td><td>false</td>
+    <td>The output format. May be one of <strong>xml</strong> or <strong>serial</strong>.  The xml format is less compact but more portable.  The serial format is appropriate when usage is know to be in the context of the Avalon Meta API.  The serial format is a serialized representation of the corresponding Task or Service instance.</td>
+  </tr>
+  <tr>
+    <td>force</td><td>false</td>
+    <td>A boolean flag to force regenerating of the meta-files. <strong>false</strong> (default) will generate the meta-file if the source is newer than the exisiting meta-file or if the meta-file does not exist. <strong>true</strong> will overwrite any existing meta-file irrespective of the modification date.</td>
+  </tr>
+  <tr>
+    <td>postfix</td><td>false</td>
+    <td>Select between "xinfo" and "xtype" as the meta-info file type that is generated. The xtype postfix is convinient when generating meta info descriptors that must cooexist with the Phoenix platform.</td>
+  </tr>
+</table>
+      </subsection>
+      <subsection name="Nested Elements">
+<table>
+  <tr>
+   <th>Element</th><th>Required</th><th>Value</th>
+  </tr>
+  <tr>
+    <td>fileset</td><td>true</td>
+    <td>A fileset containing the defintion of the source files to be included in the scanning phase.</td>
+  </tr>
+</table>
+      </subsection>
+
+      <subsection name="Ant Example">
+<source><![CDATA[
+  <target name="meta" description="Generates the XML descriptors" depends="build">
+    <mkdir dir="${meta.dir}" />
+    <taskdef name="meta" classname="org.apache.avalon.meta.info.ant.MetaTask">
+      <classpath refid="project.class.path" />
+    </taskdef>
+    <meta destDir="${meta.dir}" format="xml">
+      <fileset dir="${src}">
+        <include name="**/*.java"/>
+      </fileset>
+    </meta>
+  </target>
+]]></source>
+      </subsection>
+    </section>
+    <section name="Example">
+      <subsection name="Java source with Tag markup">
+<source><![CDATA[
+
+import java.io.File;
+
+import org.apache.avalon.framework.logger.Logger;
+import org.apache.avalon.framework.logger.AbstractLogEnabled;
+import org.apache.avalon.framework.service.Serviceable;
+import org.apache.avalon.framework.service.ServiceManager;
+import org.apache.avalon.framework.service.ServiceException;
+import org.apache.avalon.framework.context.Context;
+import org.apache.avalon.framework.context.Contextualizable;
+import org.apache.avalon.framework.context.ContextException;
+
+/**
+ * An example component containing meta info under javadoc tags.
+ *
+ * @avalon.component name="secondary-component" version="2.4" lifestyle="singleton"
+ * @avalon.service type="SecondaryService:0.1"
+ */
+public class Secondary extends AbstractLogEnabled 
+  implements Serviceable, SecondaryService, Contextualizable
+{
+    private Logger m_system = null;
+    private File m_home = null;
+    private PrimaryService m_primary = null;
+
+   /**
+    * Supply of a logging channel to the component.
+    * @param logger the logging channel
+    * @avalon.logger name="system"
+    */
+    public void enableLogging( Logger logger )
+    {
+        super.enableLogging( logger );
+        m_system = logger.getChildLogger( "system" );
+    }
+
+   /**
+    * Supply of the runtime context by the container.
+    * @param context the runtime context
+    * @avalon.entry key="home" type="java.io.File"
+    */
+    public void contextualize( Context context ) throws ContextException
+    {
+        m_home = (File) context.get("home");
+    }    
+
+   /**
+    * Supply of dependent services to this component by the container.
+    * @param manager the service manager
+    * @avalon.dependency type="PrimaryService" version="1.3" key="primary"
+    */
+    public void service( ServiceManager manager ) throws ServiceException
+    {
+        m_primary = (PrimaryService) manager.lookup( "primary" );
+        m_system.info( "resolved primary service reference" );
+    }
+}
+]]></source>
+      </subsection>
+      <subsection name="Generated meta-info descriptor">
+<source><![CDATA[
+<?xml version="1.0" ?>
+<!DOCTYPE type PUBLIC "-//AVALON/Type DTD Version 1.0//EN" 
+  "http://avalon.apache.org/dtds/meta/type_1_1.dtd" >
+
+<type>
+  <info>
+    <name>secondary-component</name>
+    <version>2.4.0</version>
+    <lifestyle>singleton</lifestyle>
+  </info>
+  <loggers>
+    <logger name="system"/>
+  </loggers>
+  <context>
+    <entry key="home" type="java.io.File"/>
+  </context>
+  <services>
+    <service type="SecondaryService" version="0.1.0"/>
+  </services>
+  <dependencies>
+    <dependency key="primary" type="PrimaryService" version="1.3.0"/>
+  </dependencies>
+</type>
+]]></source>
+      </subsection>
+    </section>
+  </body>
+</document>
+
+

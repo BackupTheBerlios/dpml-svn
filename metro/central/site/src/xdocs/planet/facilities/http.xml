@@ -1,0 +1,133 @@
+<?xml version="1.0"?>
+
+<!-- 
+ Copyright 2004 Apache Software Foundation
+ Licensed  under the  Apache License,  Version 2.0  (the "License");
+ you may not use  this file  except in  compliance with the License.
+ You may obtain a copy of the License at 
+ 
+   http://www.apache.org/licenses/LICENSE-2.0
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed  under the  License is distributed on an "AS IS" BASIS,
+ WITHOUT  WARRANTIES OR CONDITIONS  OF ANY KIND, either  express  or
+ implied.
+ 
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+
+<document>
+
+  <properties>
+    <title>Avalon Planet</title>
+    <author email="dev@avalon.apache.org">Avalon Development Team</author>
+  </properties>
+
+  <body>
+    <section name="HTTP Facility">
+      <subsection name="Overview">
+        <p>
+          The HTTP Facility provides an embedded web server, where
+          components that implements the HttpRequestHandler interface can
+          be mapped into the URL space of the server. Components are
+          regular in all ways except that they implement the 
+          HttpRequestHandler interface. The service() method will be called
+          when a request corresponds to the component's mapping into the
+          URL space.
+        </p>
+        <p>
+          The main reason for this facility is to preserve the IoC and SoC
+          aspects of Avalon, even in a HTTP server environment, since the
+          Servlet API mixes the concerns in unwanted ways. Developers using
+          Avalon are very productive using the Avalon Life Cycle contracts,
+          and Merlin features. The power of Jetty and its embeddability
+          creates a remarkable synergy between Merlin and Jetty.
+        </p>
+      </subsection>
+      <subsection name="Declaration" >
+        <p>
+          First of all you need to declare the HTTP Facility, and that is done
+          by a simple component declaration in a suitable container;
+        </p>
+<source><![CDATA[
+  <component name="http-server" 
+             class="org.apache.avalon.http.impl.DefaultServer"/>
+  
+  <component name="model-listener" 
+             class="org.apache.avalon.http.impl.DefaultModelListener"/>
+]]></source>          
+        <p>
+          You may of course either use configurations together with the 
+          declaration, or in separate profile files (recommended).
+        </p>
+      </subsection>
+      <subsection name="Configuration" >
+        <p>
+          I think the easiest way is to show a full-fledged example, instead
+          of the formal description. The configuration below is for the 
+          <em>http-server</em> component, not the <em>model-listener</em>
+        </p>
+<source><![CDATA[
+<configuration>
+  
+  <listeners>
+    <listener type="socket">  <!-- Create a standard http socket listener -->
+      <port>80</port>  <!-- Default: 8080 -->
+      <hostname>myserver.mycompany.com</hostname> <!-- Default: all hosts -->
+      <timeout>120000</timeout> <!-- Default: 60000 ms -->
+    </listener>
+  
+    <listener type="jsse">  <!-- Create a SSL socket listener -->
+      <port>443</port>  <!-- Default: 8443  -->
+      <hostname>myserver.mycompany.com</hostname> <!-- Default: all hosts -->
+      <timeout>120000</timeout> <!-- Default: 60000 ms -->
+    </listener>
+  
+    <listener type="ajp">  <!-- Create a listener to a Apache Web Server -->
+      <port>3232</port>  <!-- Default: 2345  -->
+      <hostname>myserver.mycompany.com</hostname> <!-- Default: all hosts -->
+      <timeout>120000</timeout> <!-- Default: 60000 ms -->
+    </listener>
+  
+  </listeners>
+  
+  <mappings>
+  
+    <mapping>
+      <url>/shopcart<url>
+      <component>/http/handlers/ShoppingCartImpl</component>
+    </mapping>
+    
+    <mapping>
+      <url>/query<url>
+      <component>/http/handlers/SearchEngineImpl</component>
+    </mapping>
+    
+    <!-- Map the root to the Welcome Page implementation component -->
+    <mapping>
+      <url>/<url>
+      <component>/http/handlers/WelcomePageImpl</component>
+    </mapping>
+    
+  </mappings>
+</configuration>
+]]>
+</source>
+        <p>
+          And there may be any number of listeners and mappings. Please note
+          that compared to the Servlet API, the initialization values are
+          not tied to the facility but to the component, in standard Avalon
+          ways. It also means that the component can be used both as a normal
+          component and a request handler.
+        </p>
+      </subsection>
+    </section>
+  </body>
+
+  <footer>
+    <legal>
+      Copyright (c) @year@ The Avalon Apache Project All rights reserved.
+    </legal>
+  </footer>
+</document>

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document>
+  <properties>
+    <author email="dev@avalon.apache.org">Avalon Documentation Team</author>
+    <title>Merlin Discovery</title>
+  </properties> 
+
+  <body>
+    <section name="Discovery Terminology">
+      <subsection name="Glossary">
+        <table>
+          <tr><th>Term</th><th>Description</th></tr>
+          <tr>
+            <td>Identifiable</td>
+            <td>An object supporting URI based identification.</td>
+          </tr>
+          <tr>
+            <td>Artifact</td>
+            <td>A reference to a repository based resource.</td>
+          </tr>
+          <tr>
+            <td>ResourceDescription</td>
+            <td>A type describing an Internet based resource.</td>
+          </tr>
+          <tr>
+            <td>Disclosure</td>
+            <td>A type describing an act of disclosure of an Artifact.</td>
+          </tr>
+          <tr>
+            <td>Receipt</td>
+            <td>A type used to provide proof to a client of an act dealing with
+registration, modification, or retraction of an artifact from a Registry.</td>
+          </tr>
+          <tr>
+            <td>Registry</td>
+            <td>An service through which a client can register a resource
+description or existing disclosure instance.</td>
+          </tr>
+          <tr>
+            <td>Directory</td>
+            <td>An interface through which a client can invoke requests enabling
+the discovery of artifact descriptions based on supplied filters.</td>
+          </tr>
+        </table>
+      </subsection>
+    </section>
+  </body>
+</document>
+

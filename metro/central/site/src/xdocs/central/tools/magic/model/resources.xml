@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document>
+
+  <properties>
+    <author email="dev@avalon.apache.org">Avalon Documentation Team</author>
+    <title>Avalon Central</title>
+  </properties> 
+
+  <body>
+    <section name="Resources">
+
+      <p>
+      A resource can be viewed as a logical artifact accessible from 
+      a repository cache using group, name and version information. 
+      Resources are resolved to file paths using the following convention:
+      </p>
+
+<source><![CDATA[
+ [cache]/[group]/[type]s/[name]-[version].[type]
+]]></source>
+
+      <p><i>Example resource descriptor:</i></p>
+
+<source><![CDATA[
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<index>
+
+  <resource>
+    <info>
+      <group>log4j</group>
+      <name>log4j</name>
+      <version>1.2.8</version>
+      <type>jar</type>
+    </info>
+  </resource>
+
+  ....
+
+</index>
+]]></source>
+
+    </section>
+  </body>
+
+</document>
+

@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document>
+  <properties>
+    <author email="dev@avalon.apache.org">Avalon Documentation Team</author>
+    <title>Avalon Central</title>
+  </properties>
+  <body>
+    <section name="Introduction">
+      <p>
+        I spent some time thinking about some of the issues that were
+        discussed on this list in the last month, after the first
+        release of Apache JServ 1.0b and after the development
+        pressure was reduced.
+      </p>
+      <p>
+        It is clear, to me and to others on this list, that Apache
+        JServ 1.0 just barely scratched the potentials of this project
+        in sharing IQ and ideas aiming to fill those gaps the advent
+        of the Java technology on the server world produced.
+      </p>
+      <p>
+        It is also clear, from different perspectives (users,
+        developers, software engineers, management people), that
+        servers are a big part of the present/future of everyday work
+        and that Java allows the creation of performance oriented,
+        solid and rapid-delivered server solutions. Other languages do
+        not perform as good when all these three "forces" are
+        evaluated together (besides, maybe, SmallTalk, but this is
+        another issue).
+      </p>
+      <p>
+        Java is trendy, that's true, but we all know that Java is a
+        well-designed object oriented language. May not be the best, I
+        grant that, but it's the only one that came to please all
+        those people I listed above.
+      </p>
+      <p>
+        Following this direction, and feeling the lack of professional
+        Java server solutions on many fields, the Java Apache Project
+        was created to fill this gap using the power of open
+        source. We don't want to compete with Apache or with any other
+        server implementation. We are betting on Java for the server
+        side, but we will never "rewrite" some server implementation
+        in Java, unless this can lead to significant improvements and
+        doesn't go against other open source projects.
+      </p>
+      <p>
+        The final goal is a family of 100% pure server solutions for
+        the Java Virtual Machine.
+      </p>
+      <p>
+        Since server applications share lots of logic/code between
+        them, it is obvious that a common server framework, along with
+        design rules and abstract implementations, would allow faster
+        time-to-market, easier code management, parallel development,
+        bug fix reflection on all projects and tight integration
+        between the different server solutions.
+      </p>
+      <p>
+        I do believe that the time taken to design and develop such a
+        framework will be "invested" by this project and its
+        developers. The creation of this project doesn't mean other
+        projects can't continue to evolve: the final goal is to
+        integrate existing server solutions (JServ) into the framework
+        but this is not a short term goal so this doesn't influence
+        it's evolution/time-to-market for future releases/features.
+      </p>
+    </section>
+    <section name="Request For Vote">
+      <p>
+        For the reasons above, I propose the creation of a new project
+        to handle the design of a the Java Apache Server Framework
+        that will be the foundation on which all server projects
+        hosted by the Java Apache Project will be based on.
+      </p>
+      <p>
+        This project goals are: 
+      </p>
+      <ol>
+        <li>
+          Design and documentation of the Java Apache Server Framework.
+        </li>
+        <li>
+          Creation and implementation of this framework (interfaces, abstract classes,
+          and shared modules).
+        </li>
+        <li>
+          Centralized management of the evolution/fixing/patching of both the shared
+          code and the framework design.
+        </li>
+      </ol>
+    </section>
+    <section name="What the Java Apache Server Framework Is">
+      <p>
+        It's a design methodology that allows design reuse as well as
+        code reuse between different server projects. These projects
+        gain the advantage of software reuse and the simplicity of
+        developing/managing only the different logic.
+      </p>
+      <p>
+        This framework will be based on Java technology and would allow: 
+      </p>
+      <ol>
+        <li>
+          Partition of shared logic context into polymorphic modules that are used
+          through their public interfaces and not through their actual implementation (Log
+          systems, Object stores, Virtual File Systems, Configuration repository,
+          Concurrency Strategies, etc..)
+        </li>
+        <li>
+          Creation of a common lifecycle for server operations (the Service
+          interface)
+        </li>
+        <li>
+          Creation of a ServiceManager for service management (maybe both internal
+          or external the JVM: native wrapping and control via JNI would allow
+          better fault tolerance for the JVM through process separation)
+        </li>
+        <li>
+          Shared resources can be either centralized or duplicated for each service,
+          allowing the use of a single JVM for multiple servers and common logic
+          sharing (i.e. common thread pools, log systems and configuration
+          repositories...)
+        </li>
+        <li>
+          A central access point for configuration (via HTTP, SMTP, voice, RMI,
+          SNMP, IIOP, depending on the services implemented)
+        </li>
+        <li>
+          Reduced effort in service development since they become plugins for this
+          framework and reuse big parts of the code base. The design and behavior is
+          also documented and shared between different services.
+        </li>
+      </ol>
+    </section>
+  </body>
+</document>

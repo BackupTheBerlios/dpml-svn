@@ -1,0 +1,64 @@
+<?xml version="1.0"?>
+
+<document>
+
+  <properties>
+    <author email="mcconnell@apache.org">Stephen McConnell</author>
+    <title>Stage Descriptors</title>
+  </properties>
+
+  <body>
+    <section name="Attribute Descriptor">
+
+      <subsection name="Description">
+<p>
+The attribute descriptor declares the binding of an attribute name and value.  The descriptor is used within the scope of several meta-info structures including tyhe &lt;info&gt;, &lt;logger&gt;, &lt;service&gt;, &lt;dependency&gt;, &lt;stage&gt;, and &lt;extension&gt; descriptors.
+</p>
+      </subsection>
+
+      <subsection name="Attributes">
+        <table>
+          <tr><th>Attribute</th><th>Required</th><th>Description</th></tr>
+          <tr>
+            <td>key</td><td>yes</td>
+            <td>
+             Declaration of the atttribute key.
+            </td>
+          </tr>
+          <tr>
+            <td>value</td><td>yes</td>
+            <td>
+             Declaration of the atttribute value.
+            </td>
+          </tr>
+        </table>
+      </subsection>
+
+      <subsection name="Example XML">
+
+<source>
+  &lt;info&gt;
+    &lt;name&gt;my-component&lt;/name&gt;
+    &lt;attributes&gt;
+      &lt;attribute key="size" value="small"/&gt;
+      &lt;attribute key="maximum" value="1200"/&gt;
+    &lt;/attributes&gt;
+  &lt;/info&gt;
+</source>
+
+      </subsection>
+
+    </section>
+
+  </body>
+
+  <footer>
+    <legal>
+      Copyright (c) @year@ The Avalon Apache Project All rights reserved.
+      $Revision: 1.3 $ $Date: 2004/04/14 11:47:31 $
+    </legal>
+  </footer>
+
+</document>
+
+

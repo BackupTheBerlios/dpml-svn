@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document>
+  <properties>
+    <author email="cfieber@apache.org">Cameron Fieber</author>
+    <title>Contributors</title>
+  </properties>
+  <body>
+    <section name="Cameron Fieber">
+      <p>(cfieber at apache dot org)</p>
+      <p>
+        Cameron started developing with Avalon in 2003 while
+        investigating alternatives to a roll your own container
+        implementation.  He migrated middleware solutions to Phoenix
+        and then Merlin.
+      </p>
+      <p>
+        As part of the migration process from Phoenix to Merlin, Cameron
+        contributed a preliminary port of the Phoenix JMX support for
+        Merlin.  Cameron joined Avalon as a committer in May 2004.
+      </p>
+      <p>
+        Cameron lives and works in Victoria, BC, Canada developing flight
+        following, resource management, and computer aided dispatch
+        systems for emergency management organizations.
+      </p>
+    </section>
+  </body>
+</document>
+

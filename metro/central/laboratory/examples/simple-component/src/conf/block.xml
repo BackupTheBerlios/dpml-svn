@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+
+<container name="examples">
+
+     <component name="simple"
+         class="org.apache.avalon.examples.simple.impl.SimpleLifecycleImpl"
+         activation="startup">
+     </component>
+
+     <component name="config-example"
+         class="org.apache.avalon.examples.simple.impl.SimpleConfigurationImpl"
+         activation="startup">
+	<configuration>
+	  <name>Hello World!</name>
+	</configuration>
+     </component>
+
+     <component name="client"
+         class="org.apache.avalon.examples.simple.impl.SimpleClientImpl"
+         activation="startup">
+     </component>
+
+
+</container>

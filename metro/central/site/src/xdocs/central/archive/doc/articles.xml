@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document>
+  <properties>
+    <author email="dev@avalon.apache.org">Avalon Documentation Team</author>
+    <title>Apache Avalon: Articles</title>
+  </properties> 
+
+  <body>
+    <section name="Avalon Articles">
+     <p>
+      Avalon need not be as mysterious as its Arthurian counterpart.
+      The following articles will help guide you on your own quest for
+      understanding.
+     </p>
+     <subsection name="General Documentation">
+      <ul>
+        <li>
+         <a href="../../cop/index.html">Developing With Avalon</a>:
+         An excellent white paper on the Avalon framework.
+         Recommended reading!
+        </li>
+        <li>
+        <a href="../../cop/index.html">An Introduction to COP</a>:
+         An introduction to Component Oriented Programming and the
+         core Avalon Framework.
+        </li>
+        <li>
+        <a href="../../../products/runtime/reference/component/index.html">COP Development
+         Principles</a>: A look at design principles to consider when
+         developing in Avalon and COP in general.
+        </li>
+        <li>
+         <a href="../../../products/runtime/reference/component/lifecycle/index.html">The Avalon
+         Lifecycle</a>: Introduces the standard Avalon lifecycle for components.
+        </li>
+        <li>
+          <a href="../../community/history/need-for-avalon.html">The Need For
+          Avalon</a>:
+      In this document, Stefano introduces his vision for the Java Apache
+      Server Framework project. He explain why he believes that
+      open-source projects should invest more time in software
+      engineering and why this may be worth while even in very successful
+      and high quality software projects. [HISTOROICAL]
+        </li>
+        <li>
+          <a href="../../community/history/what-is-a-server.html">What Is A
+          Server</a>: Pierpaolo Fumagalli explains how a
+          server could be developed using the benefits offered by the 
+          Java Apache Server Framework (Avalon) and introduces the
+          reader to the concept of what a <code>Block</code>. [HISTORICAL]
+        </li>
+      </ul>
+     </subsection>
+    </section>
+  </body>
+</document>

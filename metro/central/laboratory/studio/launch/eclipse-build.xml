@@ -1,0 +1,273 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="org.apache.metro.studio.launch" default="build.jars" basedir=".">
+
+	<property name="bootclasspath" value=""/>
+	<property name="basews" value="${ws}"/>
+	<property name="baseos" value="${os}"/>
+	<property name="basearch" value="${arch}"/>
+	<property name="basenl" value="${nl}"/>
+	<property name="javacFailOnError" value="false"/>
+	<property name="javacDebugInfo" value="on"/>
+	<property name="javacVerbose" value="true"/>
+	<property name="javacSource" value="1.3"/>
+	<property name="javacTarget" value="1.2"/>
+	<property name="compilerArg" value=""/>
+
+	<target name="init" depends="properties">
+		<condition property="pluginTemp" value="${buildTempFolder}/plugins">
+			<isset property="buildTempFolder"/>
+		</condition>
+		<property name="pluginTemp" value="${basedir}"/>
+		<condition property="build.result.folder" value="${pluginTemp}/launch">
+			<isset property="buildTempFolder"/>
+		</condition>
+		<property name="build.result.folder" value="${basedir}"/>
+		<property name="temp.folder" value="${basedir}/temp.folder"/>
+		<property name="plugin.destination" value="${basedir}"/>
+	</target>
+
+	<target name="properties" if="eclipse.running">
+		<property name="build.compiler" value="org.eclipse.jdt.core.JDTCompilerAdapter"/>
+	</target>
+
+	<target name="build.update.jar" depends="init" description="Build the plug-in: org.apache.metro.studio.launch for an update site.">
+		<delete dir="${temp.folder}"/>
+		<mkdir dir="${temp.folder}"/>
+		<antcall target="build.jars"/>
+		<antcall target="gather.bin.parts">
+			<param name="destination.temp.folder" value="${temp.folder}/"/>
+		</antcall>
+		<zip zipfile="${plugin.destination}/org.apache.metro.studio.launch_0.1.1.jar" basedir="${temp.folder}/org.apache.metro.studio.launch_0.1.1" filesonly="false" whenempty="skip" update="false"/>
+		<delete dir="${temp.folder}"/>
+	</target>
+
+	<target name="MetroStudioLaunch.jar" depends="init" unless="MetroStudioLaunch.jar" description="Create jar: MetroStudioLaunch.jar.">
+		<delete dir="${temp.folder}/MetroStudioLaunch.jar.bin"/>
+		<mkdir dir="${temp.folder}/MetroStudioLaunch.jar.bin"/>
+		<!-- compile the source code -->
+		<javac destdir="${temp.folder}/MetroStudioLaunch.jar.bin" failonerror="${javacFailOnError}" verbose="${javacVerbose}" debug="${javacDebugInfo}" includeAntRuntime="no" bootclasspath="${bootclasspath}" source="${javacSource}" target="${javacTarget}"		>
+			<compilerarg line="${compilerArg}"/>
+			<classpath>
+				<pathelement path="C:/Eclipse/3.0/plugins/org.eclipse.ui.ide_3.0.0/ide.jar"/>
+				<pathelement path="C:/Eclipse/3.0/plugins/org.eclipse.ui.win32_3.0.0/ide.jar"/>
+				<pathelement path="C:/Eclipse/3.0/plugins/org.eclipse.ui.win32_3.0.0/workbenchwin32.jar"/>
+				<pathelement path="C:/Eclipse/3.0/plugins/org.eclipse.core.resources_3.0.0/resources.jar"/>
+				<pathelement path="C:/Eclipse/3.0/plugins/org.eclipse.core.resources.win32_3.0.0/resources.jar"/>
+				<pathelement path="C:/Eclipse/3.0/plugins/org.eclipse.core.resources.win32_3.0.0/resources-win32.jar"/>
+				<pathelement path="C:/Eclipse/3.0/plugins/org.eclipse.core.runtime.compatibility_3.0.0/compatibility.jar"/>
+				<pathelement path="C:/Eclipse/3.0/plugins/org.eclipse.core.runtime_3.0.0/runtime.jar"/>
+				<pathelement path="C:/Eclipse/3.0/plugins/org.eclipse.osgi_3.0.0/core.jar"/>
+				<pathelement path="C:/Eclipse/3.0/plugins/org.eclipse.osgi_3.0.0/console.jar"/>
+				<pathelement path="C:/Eclipse/3.0/plugins/org.eclipse.osgi_3.0.0/osgi.jar"/>
+				<pathelement path="C:/Eclipse/3.0/plugins/org.eclipse.osgi_3.0.0/resolver.jar"/>
+				<pathelement path="C:/Eclipse/3.0/plugins/org.eclipse.osgi_3.0.0/defaultAdaptor.jar"/>
+				<pathelement path="C:/Eclipse/3.0/plugins/org.eclipse.osgi_3.0.0/eclipseAdaptor.jar"/>
+				<pathelement path="C:/Eclipse/3.0/plugins/org.eclipse.update.configurator_3.0.0/configurator.jar"/>
+				<pathelement path="C:/Eclipse/3.0/plugins/org.eclipse.help_3.0.0/help.jar"/>
+				<pathelement path="C:/Eclipse/3.0/plugins/org.eclipse.ui_3.0.0/ui.jar"/>
+				<pathelement path="C:/Eclipse/3.0/plugins/org.eclipse.swt_3.0.0/ws/${basews}/swt.jar"/>
+				<pathelement path="C:/Eclipse/3.0/plugins/org.eclipse.swt.win32_3.0.0/ws/${basews}/swt.jar"/>
+				<pathelement path="C:/Eclipse/3.0/plugins/org.eclipse.swt.win32_3.0.0"/>
+				<pathelement path="C:/Eclipse/3.0/plugins/org.eclipse.jface_3.0.0/jface.jar"/>
+				<pathelement path="C:/Eclipse/3.0/plugins/org.eclipse.ui.workbench_3.0.0/compatibility.jar"/>
+				<pathelement path="C:/Eclipse/3.0/plugins/org.eclipse.ui.workbench_3.0.0/workbench.jar"/>
+				<pathelement path="C:/Eclipse/3.0/plugins/org.eclipse.ui.workbench.compatibility_3.0.0/compatibility.jar"/>
+				<pathelement path="C:/Eclipse/3.0/plugins/org.eclipse.ui.workbench.compatibility_3.0.0/workbench.jar"/>
+				<pathelement path="C:/Eclipse/3.0/plugins/org.eclipse.core.expressions_3.0.0/expressions.jar"/>
+				<pathelement path="C:/Eclipse/3.0/plugins/org.eclipse.ui.views_3.0.0/views.jar"/>
+				<pathelement path="C:/Eclipse/3.0/plugins/org.eclipse.update.core_3.0.0/updatecore.jar"/>
+				<pathelement path="C:/Eclipse/3.0/plugins/org.eclipse.update.core.win32_3.0.0/updatecore.jar"/>
+				<pathelement path="C:/Eclipse/3.0/plugins/org.eclipse.update.ui_3.0.0/updateui.jar"/>
+				<pathelement path="C:/Eclipse/3.0/plugins/org.eclipse.help.base_3.0.0/helpbase.jar"/>
+				<pathelement path="C:/Eclipse/3.0/plugins/org.apache.lucene_1.3.0/parser.jar"/>
+				<pathelement path="C:/Eclipse/3.0/plugins/org.apache.lucene_1.3.0/lucene-1.3-final.jar"/>
+				<pathelement path="C:/Eclipse/3.0/plugins/org.eclipse.help.appserver_3.0.0/appserver.jar"/>
+				<pathelement path="C:/Eclipse/3.0/plugins/org.eclipse.ui.forms_3.0.0/forms.jar"/>
+				<pathelement path="C:/Eclipse/3.0/plugins/org.eclipse.jface.text_3.0.0/jfacetext.jar"/>
+				<pathelement path="C:/Eclipse/3.0/plugins/org.eclipse.text_3.0.0/text.jar"/>
+				<pathelement path="C:/Eclipse/3.0/plugins/org.eclipse.ui.workbench.texteditor_3.0.0/texteditor.jar"/>
+				<pathelement path="C:/Eclipse/3.0/plugins/org.eclipse.ui.editors_3.0.0/editors.jar"/>
+				<pathelement path="C:/Eclipse/3.0/plugins/org.eclipse.core.filebuffers_3.0.0/filebuffers.jar"/>
+				<pathelement path="C:/Eclipse/3.0/plugins/org.eclipse.debug.ui_3.0.0/dtui.jar"/>
+				<pathelement path="C:/Eclipse/3.0/plugins/org.eclipse.core.variables_3.0.0/variables.jar"/>
+				<pathelement path="C:/Eclipse/3.0/plugins/org.eclipse.ui.console_3.0.0/console.jar"/>
+				<pathelement path="C:/Eclipse/3.0/plugins/org.eclipse.debug.core_3.0.0/dtcore.jar"/>
+				<pathelement path="C:/Eclipse/3.0/plugins/org.eclipse.jdt.core_3.0.0/jdtcore.jar"/>
+				<pathelement path="C:/Eclipse/3.0/plugins/com.swtdesigner.fragment.jdt.core_2.0.1/jdtcore.jar"/>
+				<pathelement path="C:/Eclipse/3.0/plugins/com.swtdesigner.fragment.jdt.core_2.0.1/designerJdtCore.jar"/>
+				<pathelement path="C:/Eclipse/3.0/plugins/org.apache.ant_1.6.1/lib/ant.jar"/>
+				<pathelement path="C:/Eclipse/3.0/plugins/org.apache.ant_1.6.1/lib/ant-antlr.jar"/>
+				<pathelement path="C:/Eclipse/3.0/plugins/org.apache.ant_1.6.1/lib/ant-apache-bsf.jar"/>
+				<pathelement path="C:/Eclipse/3.0/plugins/org.apache.ant_1.6.1/lib/ant-apache-resolver.jar"/>
+				<pathelement path="C:/Eclipse/3.0/plugins/org.apache.ant_1.6.1/lib/ant-commons-logging.jar"/>
+				<pathelement path="C:/Eclipse/3.0/plugins/org.apache.ant_1.6.1/lib/ant-commons-net.jar"/>
+				<pathelement path="C:/Eclipse/3.0/plugins/org.apache.ant_1.6.1/lib/ant-icontract.jar"/>
+				<pathelement path="C:/Eclipse/3.0/plugins/org.apache.ant_1.6.1/lib/ant-jai.jar"/>
+				<pathelement path="C:/Eclipse/3.0/plugins/org.apache.ant_1.6.1/lib/ant-jakarta-bcel.jar"/>
+				<pathelement path="C:/Eclipse/3.0/plugins/org.apache.ant_1.6.1/lib/ant-jakarta-log4j.jar"/>
+				<pathelement path="C:/Eclipse/3.0/plugins/org.apache.ant_1.6.1/lib/ant-jakarta-oro.jar"/>
+				<pathelement path="C:/Eclipse/3.0/plugins/org.apache.ant_1.6.1/lib/ant-jakarta-regexp.jar"/>
+				<pathelement path="C:/Eclipse/3.0/plugins/org.apache.ant_1.6.1/lib/ant-javamail.jar"/>
+				<pathelement path="C:/Eclipse/3.0/plugins/org.apache.ant_1.6.1/lib/ant-jdepend.jar"/>
+				<pathelement path="C:/Eclipse/3.0/plugins/org.apache.ant_1.6.1/lib/ant-jmf.jar"/>
+				<pathelement path="C:/Eclipse/3.0/plugins/org.apache.ant_1.6.1/lib/ant-jsch.jar"/>
+				<pathelement path="C:/Eclipse/3.0/plugins/org.apache.ant_1.6.1/lib/ant-junit.jar"/>
+				<pathelement path="C:/Eclipse/3.0/plugins/org.apache.ant_1.6.1/lib/ant-launcher.jar"/>
+				<pathelement path="C:/Eclipse/3.0/plugins/org.apache.ant_1.6.1/lib/ant-netrexx.jar"/>
+				<pathelement path="C:/Eclipse/3.0/plugins/org.apache.ant_1.6.1/lib/ant-nodeps.jar"/>
+				<pathelement path="C:/Eclipse/3.0/plugins/org.apache.ant_1.6.1/lib/ant-starteam.jar"/>
+				<pathelement path="C:/Eclipse/3.0/plugins/org.apache.ant_1.6.1/lib/ant-stylebook.jar"/>
+				<pathelement path="C:/Eclipse/3.0/plugins/org.apache.ant_1.6.1/lib/ant-swing.jar"/>
+				<pathelement path="C:/Eclipse/3.0/plugins/org.apache.ant_1.6.1/lib/ant-trax.jar"/>
+				<pathelement path="C:/Eclipse/3.0/plugins/org.apache.ant_1.6.1/lib/ant-vaj.jar"/>
+				<pathelement path="C:/Eclipse/3.0/plugins/org.apache.ant_1.6.1/lib/ant-weblogic.jar"/>
+				<pathelement path="C:/Eclipse/3.0/plugins/org.apache.ant_1.6.1/lib/ant-xalan1.jar"/>
+				<pathelement path="C:/Eclipse/3.0/plugins/org.apache.ant_1.6.1/lib/ant-xalan2.jar"/>
+				<pathelement path="C:/Eclipse/3.0/plugins/org.apache.ant_1.6.1/lib/ant-xslp.jar"/>
+				<pathelement path="C:/Eclipse/3.0/plugins/org.eclipse.ant.optional.junit_2.1.0/lib/ant.jar"/>
+				<pathelement path="C:/Eclipse/3.0/plugins/org.eclipse.ant.optional.junit_2.1.0/lib/ant-antlr.jar"/>
+				<pathelement path="C:/Eclipse/3.0/plugins/org.eclipse.ant.optional.junit_2.1.0/lib/ant-apache-bsf.jar"/>
+				<pathelement path="C:/Eclipse/3.0/plugins/org.eclipse.ant.optional.junit_2.1.0/lib/ant-apache-resolver.jar"/>
+				<pathelement path="C:/Eclipse/3.0/plugins/org.eclipse.ant.optional.junit_2.1.0/lib/ant-commons-logging.jar"/>
+				<pathelement path="C:/Eclipse/3.0/plugins/org.eclipse.ant.optional.junit_2.1.0/lib/ant-commons-net.jar"/>
+				<pathelement path="C:/Eclipse/3.0/plugins/org.eclipse.ant.optional.junit_2.1.0/lib/ant-icontract.jar"/>
+				<pathelement path="C:/Eclipse/3.0/plugins/org.eclipse.ant.optional.junit_2.1.0/lib/ant-jai.jar"/>
+				<pathelement path="C:/Eclipse/3.0/plugins/org.eclipse.ant.optional.junit_2.1.0/lib/ant-jakarta-bcel.jar"/>
+				<pathelement path="C:/Eclipse/3.0/plugins/org.eclipse.ant.optional.junit_2.1.0/lib/ant-jakarta-log4j.jar"/>
+				<pathelement path="C:/Eclipse/3.0/plugins/org.eclipse.ant.optional.junit_2.1.0/lib/ant-jakarta-oro.jar"/>
+				<pathelement path="C:/Eclipse/3.0/plugins/org.eclipse.ant.optional.junit_2.1.0/lib/ant-jakarta-regexp.jar"/>
+				<pathelement path="C:/Eclipse/3.0/plugins/org.eclipse.ant.optional.junit_2.1.0/lib/ant-javamail.jar"/>
+				<pathelement path="C:/Eclipse/3.0/plugins/org.eclipse.ant.optional.junit_2.1.0/lib/ant-jdepend.jar"/>
+				<pathelement path="C:/Eclipse/3.0/plugins/org.eclipse.ant.optional.junit_2.1.0/lib/ant-jmf.jar"/>
+				<pathelement path="C:/Eclipse/3.0/plugins/org.eclipse.ant.optional.junit_2.1.0/lib/ant-jsch.jar"/>
+				<pathelement path="C:/Eclipse/3.0/plugins/org.eclipse.ant.optional.junit_2.1.0/lib/ant-junit.jar"/>
+				<pathelement path="C:/Eclipse/3.0/plugins/org.eclipse.ant.optional.junit_2.1.0/lib/ant-launcher.jar"/>
+				<pathelement path="C:/Eclipse/3.0/plugins/org.eclipse.ant.optional.junit_2.1.0/lib/ant-netrexx.jar"/>
+				<pathelement path="C:/Eclipse/3.0/plugins/org.eclipse.ant.optional.junit_2.1.0/lib/ant-nodeps.jar"/>
+				<pathelement path="C:/Eclipse/3.0/plugins/org.eclipse.ant.optional.junit_2.1.0/lib/ant-starteam.jar"/>
+				<pathelement path="C:/Eclipse/3.0/plugins/org.eclipse.ant.optional.junit_2.1.0/lib/ant-stylebook.jar"/>
+				<pathelement path="C:/Eclipse/3.0/plugins/org.eclipse.ant.optional.junit_2.1.0/lib/ant-swing.jar"/>
+				<pathelement path="C:/Eclipse/3.0/plugins/org.eclipse.ant.optional.junit_2.1.0/lib/ant-trax.jar"/>
+				<pathelement path="C:/Eclipse/3.0/plugins/org.eclipse.ant.optional.junit_2.1.0/lib/ant-vaj.jar"/>
+				<pathelement path="C:/Eclipse/3.0/plugins/org.eclipse.ant.optional.junit_2.1.0/lib/ant-weblogic.jar"/>
+				<pathelement path="C:/Eclipse/3.0/plugins/org.eclipse.ant.optional.junit_2.1.0/lib/ant-xalan1.jar"/>
+				<pathelement path="C:/Eclipse/3.0/plugins/org.eclipse.ant.optional.junit_2.1.0/lib/ant-xalan2.jar"/>
+				<pathelement path="C:/Eclipse/3.0/plugins/org.eclipse.ant.optional.junit_2.1.0/lib/ant-xslp.jar"/>
+				<pathelement path="C:/Eclipse/3.0/plugins/org.eclipse.team.core_3.0.0/team.jar"/>
+				<pathelement path="C:/Eclipse/3.0/plugins/org.eclipse.jdt.launching_3.0.0/launching.jar"/>
+				<pathelement path="C:/Eclipse/3.0/plugins/org.eclipse.jdt.debug_3.0.0/jdi.jar"/>
+				<pathelement path="C:/Eclipse/3.0/plugins/org.eclipse.jdt.debug_3.0.0/jdimodel.jar"/>
+				<pathelement path="C:/Eclipse/3.0/plugins/org.eclipse.jdt.debug_3.0.0/tools.jar"/>
+				<pathelement path="C:/Eclipse/3.0/plugins/org.eclipse.jdt.debug.ui_3.0.0/jdiui.jar"/>
+				<pathelement path="C:/Eclipse/3.0/plugins/org.eclipse.jdt.ui_3.0.0/jdt.jar"/>
+				<pathelement path="C:/Eclipse/3.0/plugins/org.eclipse.search_3.0.0/search.jar"/>
+				<pathelement path="C:/Eclipse/3.0/plugins/org.eclipse.compare_3.0.0/compare.jar"/>
+				<pathelement path="C:/Eclipse/3.0/plugins/org.eclipse.ltk.core.refactoring_3.0.0/refcore.jar"/>
+				<pathelement path="C:/Eclipse/3.0/plugins/org.eclipse.ltk.ui.refactoring_3.0.0/refui.jar"/>
+				<pathelement path="${build.result.folder}/../core/bin"/>
+				<pathelement path="${build.result.folder}/../core/MetroStudioCore.jar"/>
+				<pathelement path="${build.result.folder}/../core/lib/xstream-1.0.2.jar"/>
+				<pathelement path="${build.result.folder}/../core/lib/xdoclet-1.2b4.jar"/>
+				<pathelement path="${build.result.folder}/../core/lib/xjavadoc-1.0.jar"/>
+				<pathelement path="${build.result.folder}/../core/lib/commons-collections-2.0.jar"/>
+				<pathelement path="${build.result.folder}/../core/lib/commons-lang.jar"/>
+				<pathelement path="${build.result.folder}/../core/lib/commons-logging.jar"/>
+				<pathelement path="${build.result.folder}/../core/lib/avalon-util-defaults-1.2.1.jar"/>
+				<pathelement path="${build.result.folder}/../core/lib/avalon-util-env-1.1.1.jar"/>
+				<pathelement path="${build.result.folder}/../core/lib/metro-event-0.0.1.jar"/>
+				<pathelement path="${build.result.folder}/../core/lib/avalon-repository-api-2.0.0.jar"/>
+				<pathelement path="${build.result.folder}/../core/lib/avalon-repository-spi-2.0.0.jar"/>
+				<pathelement path="${build.result.folder}/../core/lib/avalon-repository-main-2.0.0.jar"/>
+				<pathelement path="C:/Eclipse/3.0/plugins/org.junit_3.8.1/junit.jar"/>
+				<pathelement path="lib/merlin-cli-3.3.0.jar"/>
+				<pathelement path="lib/avalon-framework-api-4.2.0.jar"/>
+				<pathelement path="lib/avalon-framework-impl-4.2.0.jar"/>
+				<pathelement path="lib/avalon-meta-api-1.4.0.jar"/>
+				<pathelement path="lib/avalon-meta-spi-1.4.0.jar"/>
+				<pathelement path="lib/avalon-meta-impl-1.4.0.jar"/>
+				<pathelement path="lib/avalon-meta-tools-1.4.0.jar"/>
+				<pathelement path="lib/qdox-1.4.jar"/>
+			</classpath>
+			<src path="src/"			/>
+			</javac>
+		<!-- Copy necessary resources -->
+		<copy todir="${temp.folder}/MetroStudioLaunch.jar.bin" failonerror="true">
+			<fileset dir="src/" excludes="**/*.java, **/package.htm*"			/>
+		</copy>
+		<mkdir dir="${build.result.folder}"/>
+		<jar jarfile="${build.result.folder}/MetroStudioLaunch.jar" basedir="${temp.folder}/MetroStudioLaunch.jar.bin"/>
+		<delete dir="${temp.folder}/MetroStudioLaunch.jar.bin"/>
+	</target>
+
+	<target name="MetroStudioLaunchsrc.zip" depends="init" unless="MetroStudioLaunchsrc.zip">
+		<mkdir dir="${build.result.folder}"/>
+		<zip zipfile="${build.result.folder}/MetroStudioLaunchsrc.zip" filesonly="false" whenempty="skip" update="false">
+			<fileset dir="src/" includes="**/*.java"			/>
+		</zip>
+	</target>
+
+	<target name="build.jars" depends="init" description="Build all the jars for the plug-in: org.apache.metro.studio.launch.">
+		<available property="MetroStudioLaunch.jar" file="${build.result.folder}/MetroStudioLaunch.jar"/>
+		<antcall target="MetroStudioLaunch.jar"/>
+	</target>
+
+	<target name="build.sources" depends="init">
+		<available property="MetroStudioLaunchsrc.zip" file="${build.result.folder}/MetroStudioLaunchsrc.zip"/>
+		<antcall target="MetroStudioLaunchsrc.zip"/>
+	</target>
+
+	<target name="gather.bin.parts" depends="init" if="destination.temp.folder">
+		<mkdir dir="${destination.temp.folder}/org.apache.metro.studio.launch_0.1.1"/>
+		<copy todir="${destination.temp.folder}/org.apache.metro.studio.launch_0.1.1" failonerror="true">
+			<fileset dir="${build.result.folder}" includes="MetroStudioLaunch.jar"			/>
+		</copy>
+		<copy todir="${destination.temp.folder}/org.apache.metro.studio.launch_0.1.1" failonerror="true">
+			<fileset dir="${basedir}" includes="plugin.xml,MetroStudioLaunch.jar,lib/qdox-1.4.jar,lib/merlin-cli-3.3.0.jar,icons/merlin.gif,icons/merlin_light.gif,lib/avalon-framework-api-4.2.0.jar,lib/avalon-meta-api-1.4.0.jar,lib/avalon-meta-spi-1.4.0.jar,lib/avalon-meta-impl-1.4.0.jar,lib/avalon-meta-tools-1.4.0.jar,lib/avalon-framework-impl-4.2.0.jar"			/>
+		</copy>
+	</target>
+
+	<target name="build.zips" depends="init">
+	</target>
+
+	<target name="gather.sources" depends="init" if="destination.temp.folder">
+		<mkdir dir="${destination.temp.folder}/org.apache.metro.studio.launch_0.1.1"/>
+		<copy file="${build.result.folder}/MetroStudioLaunchsrc.zip" todir="${destination.temp.folder}/org.apache.metro.studio.launch_0.1.1" failonerror="false"/>
+	</target>
+
+	<target name="gather.logs" depends="init" if="destination.temp.folder">
+		<mkdir dir="${destination.temp.folder}/org.apache.metro.studio.launch_0.1.1"/>
+		<copy file="${temp.folder}/MetroStudioLaunch.jar.bin.log" todir="${destination.temp.folder}/org.apache.metro.studio.launch_0.1.1" failonerror="false"/>
+	</target>
+
+	<target name="clean" depends="init" description="Clean the plug-in: org.apache.metro.studio.launch of all the zips, jars and logs created.">
+		<delete file="${build.result.folder}/MetroStudioLaunch.jar"/>
+		<delete file="${build.result.folder}/MetroStudioLaunchsrc.zip"/>
+		<delete file="${plugin.destination}/org.apache.metro.studio.launch_0.1.1.jar"/>
+		<delete file="${plugin.destination}/org.apache.metro.studio.launch_0.1.1.zip"/>
+		<delete dir="${temp.folder}"/>
+	</target>
+
+	<target name="refresh" depends="init" if="eclipse.running" description="Refresh this folder.">
+		<eclipse.convertPath fileSystemPath="D:/Avalon/studio/eclipse/launch" property="resourcePath"/>
+		<eclipse.refreshLocal resource="${resourcePath}" depth="infinite"/>
+	</target>
+
+	<target name="zip.plugin" depends="init" description="Create a zip containing all the elements for the plug-in: org.apache.metro.studio.launch.">
+		<delete dir="${temp.folder}"/>
+		<mkdir dir="${temp.folder}"/>
+		<antcall target="build.jars"/>
+		<antcall target="build.sources"/>
+		<antcall target="gather.bin.parts">
+			<param name="destination.temp.folder" value="${temp.folder}/"/>
+		</antcall>
+		<antcall target="gather.sources">
+			<param name="destination.temp.folder" value="${temp.folder}/"/>
+		</antcall>
+		<delete>
+			<fileset dir="${temp.folder}" includes="**/*.bin.log"			/>
+		</delete>
+		<zip zipfile="${plugin.destination}/org.apache.metro.studio.launch_0.1.1.zip" basedir="${temp.folder}" filesonly="true" whenempty="skip" update="false"/>
+		<delete dir="${temp.folder}"/>
+	</target>
+
+</project>

@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<document>
+
+  <properties>
+    <author email="niclas@apache.org">Niclas Hedhman</author>
+    <title>Using Avalon Framework</title>
+  </properties>
+
+<body>
+  <section name="Using Avalon Framework">
+    <p>
+      <a href="excalibur.html">Obsolete - The old Excalibur text.</a>
+    </p>
+  </section>
+  <section name="Assembling everything together" >
+  </section>
+  <section name="Configuring the application" >
+  </section>
+  <section name="Putting Merlin to work." >
+  </section>
+ </body>
+</document>

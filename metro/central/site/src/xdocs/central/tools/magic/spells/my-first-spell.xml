@@ -1,0 +1,247 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document>
+
+  <properties>
+    <author email="dev@avalon.apache.org">Avalon Documentation Team</author>
+    <title>Avalon Central</title>
+  </properties> 
+
+  <body>
+    <section name="My First Spell">
+
+      <p>
+      Unpack the demo and you will see a root directory containing
+      an index and two sub-directories - one for the <code>widget</code> project
+      and another for the <code>gizmo</code> project.
+      </p>
+
+      <subsection name="Classic Builds">
+
+      <p>
+      The following command invokes a classic build using magic's standard
+      template.
+      </p>
+
+<source>
+$ cd demo/gizmo
+$ ant
+</source>
+
+<pre>
+$ ant
+Buildfile: build.xml
+
+info:
+------------------------------------------------------------------------
+name: gizmo
+------------------------------------------------------------------------
+
+init:
+
+prepare:
+[x:prepare] creating target directory
+    [mkdir] Created dir: F:\dev\avalon\tools\magic\etc\test\demo\gizmo\target
+    [mkdir] Created dir: F:\dev\avalon\tools\magic\etc\test\demo\gizmo\target\build\main
+     [copy] Copying 1 file to F:\dev\avalon\tools\magic\etc\test\demo\gizmo\target\build\main
+    [mkdir] Created dir: F:\dev\avalon\tools\magic\etc\test\demo\gizmo\target\build\test
+     [copy] Copying 1 file to F:\dev\avalon\tools\magic\etc\test\demo\gizmo\target\build\test
+
+build:
+    [mkdir] Created dir: F:\dev\avalon\tools\magic\etc\test\demo\gizmo\target\classes
+    [javac] Compiling 1 source file to F:\dev\avalon\tools\magic\etc\test\demo\gizmo\target\classes
+
+package:
+    [mkdir] Created dir: F:\dev\avalon\tools\magic\etc\test\demo\gizmo\target\deliverables\jars
+      [jar] Building jar: F:\dev\avalon\tools\magic\etc\test\demo\gizmo\target\deliverables\jars\gizmo.jar
+    [x:jar] Creating md5 checksum
+
+test:
+    [mkdir] Created dir: F:\dev\avalon\tools\magic\etc\test\demo\gizmo\target\test\classes
+    [javac] Compiling 1 source file to F:\dev\avalon\tools\magic\etc\test\demo\gizmo\target\test\classes
+    [mkdir] Created dir: F:\dev\avalon\tools\magic\etc\test\demo\gizmo\target\test\reports
+    [junit] Running org.apache.playground.gizmo.test.GizmoTestCase
+    [junit] Tests run: 2, Failures: 0, Errors: 0, Time elapsed: 0.078 sec
+
+
+install:
+     [copy] Copying 2 files to F:\system\magic\main\demo
+
+BUILD SUCCESSFUL
+Total time: 8 seconds
+</pre>
+
+      </subsection>
+
+      <subsection name="Customizing a build">
+
+      <p>
+      Ant provides a framework for the customization of a build by overriding
+      and/or delegating to a imported template.  Using magic's standard targets
+      as the framework you can easily add custom ant content to you build file.
+      The following xml demonstrates the customization of the gizmo build.xml
+      file to include some project specific ant content.
+      </p>
+
+<source><![CDATA[
+  <import file="${magic.templates}/standard.xml"/>
+
+  <target name="build" depends="standard.build">
+    <echo>
+Hi! This is classic ant.  I'm being invoked after the 
+standard.xml build target has been completed.
+    </echo>
+  </target>]]></source>
+
+<pre>
+$ ant
+Buildfile: build.xml
+
+info:
+------------------------------------------------------------------------
+name: gizmo
+------------------------------------------------------------------------
+
+init:
+
+prepare:
+
+standard.build:
+
+build:
+     [echo]
+     [echo] Hi! This is classic ant.  I'm being invoked after the 
+     [echo] standard.xml build target has been completed.
+     [echo]
+
+package:
+
+test:
+    [junit] Running org.apache.playground.gizmo.test.GizmoTestCase
+    [junit] Tests run: 2, Failures: 0, Errors: 0, Time elapsed: 0.078 sec
+
+
+install:
+
+BUILD SUCCESSFUL
+Total time: 6 seconds
+</pre>
+
+      </subsection>
+
+      <subsection name="Reactor Builds">
+
+      <p>
+      The following command invokes a reactor build that initates 
+      the build of all registered projects with a basedir within
+      the scope of the current directory (i.e. widget and gizmo) relative to
+      the demo directory.  Magic will ensure that the project are built in 
+      the correct order taking into account respective project dependencies.
+      </p>
+
+<source>
+$ cd demo
+$ ant
+</source>
+
+<pre>
+$ ant
+Buildfile: build.xml
+
+install:
+[x:reactor] Preparing build sequence.
+------------------------------------------------------------------------
+[demo/gizmo]
+[demo/widget]
+------------------------------------------------------------------------
+
+info:
+------------------------------------------------------------------------
+name: gizmo
+------------------------------------------------------------------------
+
+init:
+
+prepare:
+[x:prepare] creating target directory
+    [mkdir] Created dir: F:\dev\avalon\tools\magic\etc\test\demo\gizmo\target
+    [mkdir] Created dir: F:\dev\avalon\tools\magic\etc\test\demo\gizmo\target\build\main
+     [copy] Copying 1 file to F:\dev\avalon\tools\magic\etc\test\demo\gizmo\target\build\main
+    [mkdir] Created dir: F:\dev\avalon\tools\magic\etc\test\demo\gizmo\target\build\test
+     [copy] Copying 1 file to F:\dev\avalon\tools\magic\etc\test\demo\gizmo\target\build\test
+
+build:
+    [mkdir] Created dir: F:\dev\avalon\tools\magic\etc\test\demo\gizmo\target\classes
+    [javac] Compiling 1 source file to F:\dev\avalon\tools\magic\etc\test\demo\gizmo\target\classes
+
+package:
+    [mkdir] Created dir: F:\dev\avalon\tools\magic\etc\test\demo\gizmo\target\deliverables\jars
+      [jar] Building jar: F:\dev\avalon\tools\magic\etc\test\demo\gizmo\target\deliverables\jars\gizmo.jar
+    [x:jar] Creating md5 checksum
+
+test:
+    [mkdir] Created dir: F:\dev\avalon\tools\magic\etc\test\demo\gizmo\target\test\classes
+    [javac] Compiling 1 source file to F:\dev\avalon\tools\magic\etc\test\demo\gizmo\target\test\classes
+    [mkdir] Created dir: F:\dev\avalon\tools\magic\etc\test\demo\gizmo\target\test\reports
+    [junit] Running org.apache.playground.gizmo.test.GizmoTestCase
+    [junit] Tests run: 2, Failures: 0, Errors: 0, Time elapsed: 0.078 sec
+
+
+install:
+     [copy] Copying 2 files to F:\system\magic\main\demo
+
+info:
+------------------------------------------------------------------------
+name: widget
+------------------------------------------------------------------------
+
+init:
+
+prepare:
+[x:prepare] creating target directory
+    [mkdir] Created dir: F:\dev\avalon\tools\magic\etc\test\demo\widget\target
+    [mkdir] Created dir: F:\dev\avalon\tools\magic\etc\test\demo\widget\target\build\main
+     [copy] Copying 1 file to F:\dev\avalon\tools\magic\etc\test\demo\widget\target\build\main
+    [mkdir] Created dir: F:\dev\avalon\tools\magic\etc\test\demo\widget\target\build\test
+     [copy] Copying 1 file to F:\dev\avalon\tools\magic\etc\test\demo\widget\target\build\test
+
+build:
+    [mkdir] Created dir: F:\dev\avalon\tools\magic\etc\test\demo\widget\target\classes
+    [javac] Compiling 1 source file to F:\dev\avalon\tools\magic\etc\test\demo\widget\target\classes
+
+package:
+    [mkdir] Created dir: F:\dev\avalon\tools\magic\etc\test\demo\widget\target\deliverables\jars
+      [jar] Building jar: F:\dev\avalon\tools\magic\etc\test\demo\widget\target\deliverables\jars\widget.jar
+    [x:jar] Creating md5 checksum
+
+test:
+    [mkdir] Created dir: F:\dev\avalon\tools\magic\etc\test\demo\widget\target\test\classes
+    [javac] Compiling 1 source file to F:\dev\avalon\tools\magic\etc\test\demo\widget\target\test\classes
+    [mkdir] Created dir: F:\dev\avalon\tools\magic\etc\test\demo\widget\target\test\reports
+    [junit] Running org.apache.playground.widget.test.WidgetTestCase
+    [junit] Tests run: 3, Failures: 0, Errors: 0, Time elapsed: 0.047 sec
+
+
+install:
+     [copy] Copying 2 files to F:\system\magic\main\demo
+
+BUILD SUCCESSFUL
+Total time: 14 seconds
+</pre>
+
+      </subsection>
+
+      <subsection name="Advanced Magic ...">
+
+      <p>
+      The <a href="advanced-magic.html">next section</a> deals with build 
+      customization using magic plugins.
+      </p>
+
+      </subsection>
+
+    </section>
+
+  </body>
+
+</document>
+

@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+<plugin
+   id="org.apache.metro.studio.ui"
+   name="MetroStudio UI"
+   version="0.1.1"
+   provider-name="Apache Software Foundation"
+   class="org.apache.metro.studio.eclipse.ui.MetroStudioUI">
+
+   <runtime>
+      <library name="MetroStudioUI.jar">
+         <export name="*"/>
+      </library>
+      <library name="lib/metro-event-0.0.1.jar"/>
+   </runtime>
+
+   <requires>
+      <import plugin="org.eclipse.ui.views"/>
+      <import plugin="org.eclipse.ui.workbench.texteditor"/>
+      <import plugin="org.eclipse.ui.editors"/>
+      <import plugin="org.eclipse.core.resources"/>
+      <import plugin="org.eclipse.ui"/>
+      <import plugin="org.eclipse.pde.ui"/>
+      <import plugin="org.eclipse.swt"/>
+      <import plugin="org.eclipse.jdt.core"/>
+      <import plugin="org.eclipse.ui.ide" optional="true"/>
+      <import plugin="org.junit"/>
+      <import plugin="org.eclipse.jface.text"/>
+      <import plugin="org.eclipse.jdt.ui"/>
+      <import plugin="org.eclipse.core.runtime"/>
+      <import plugin="org.apache.metro.studio.core"/>
+      <import plugin="org.apache.metro.studio.launch"/>
+      <import plugin="org.eclipse.debug.ui"/>
+      <import plugin="org.eclipse.jdt.debug.ui"/>
+   </requires>
+
+   <extension
+         point="org.eclipse.jdt.ui.javadocCompletionProcessor">
+      <javadocCompletionProcessor
+            name="Avalon Javadoc Processor"
+            class="org.apache.metro.studio.eclipse.ui.tools.JavadocProcessor"
+            id="avalonJavadocProcessor">
+      </javadocCompletionProcessor>
+   </extension>
+   <extension
+         point="org.eclipse.ui.newWizards">
+      <category
+            name="%new.category.name"
+            id="org.eclipse.ui.Merlin">
+      </category>
+      <wizard
+            name="%new.blockDevelopment.name"
+            icon="icons/full/ctool16/newjprj_wiz.gif"
+            category="org.eclipse.ui.Merlin"
+            class="org.apache.metro.studio.eclipse.ui.wizards.NewMetroProjectWizard"
+            project="true"
+            id="org.apache.metro.studio.eclipse.ui.wizards.newMetroProjectWizard1">
+      </wizard>
+      <wizard
+            name="%new.convertProject.name"
+            icon="icons/full/ctool16/newjprj_wiz.gif"
+            category="org.eclipse.ui.Merlin"
+            class="org.apache.avalon.ide.eclipse.merlin.wizards.NewMerlinNatureWizard"
+            id="org.apache.avalon.ide.eclipse.merlin.wizards.newMerlinNatureWizard2">
+      </wizard>
+   </extension>
+   <extension
+         point="org.eclipse.ui.editors">
+      <editor
+            name="Image Viewer"
+            icon="icons/sample.gif"
+            extensions="jpg, gif"
+            class="org.apache.avalon.ide.eclipse.merlin.ui.tools.ImageViewerEditor"
+            id="Viewer.editors.XMLEditor">
+      </editor>
+   </extension>
+   <extension
+         point="org.eclipse.debug.ui.launchConfigurationTabGroups">
+      <launchConfigurationTabGroup
+            type="org.apache.metro.studio.launch.metroLaunchConfigurationDelegate"
+            class="org.apache.metro.studio.eclipse.ui.tabgroup.MerlinServerTabGroup"
+            id="org.apache.metro.studio.metroServerTabGroup">
+      </launchConfigurationTabGroup>
+   </extension>
+   <extension
+         point="org.eclipse.ui.preferencePages">
+      <page
+            name="Metro"
+            class="org.apache.metro.studio.eclipse.ui.preferences.MainPreferencePage"
+            id="metro.preferences.MainPreferencePage">
+      </page>
+      <page
+            name="Server"
+            category="metro.preferences.MainPreferencePage"
+            class="org.apache.metro.studio.eclipse.ui.preferences.ServerPreferencePage"
+            id="metro.preferences.ServerPreferencePage">
+      </page>
+      <page
+            name="Repository"
+            category="metro.preferences.MainPreferencePage"
+            class="org.apache.metro.studio.eclipse.ui.preferences.RepositoryPreferencePage"
+            id="metro.preferences.RepositoryPreferencePage">
+      </page>
+   </extension>
+
+</plugin>

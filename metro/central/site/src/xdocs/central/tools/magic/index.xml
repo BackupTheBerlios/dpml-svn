@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document>
+
+  <properties>
+    <author email="dev@avalon.apache.org">Avalon Documentation Team</author>
+    <title>Avalon Central</title>
+  </properties> 
+
+  <body>
+    <section name="Magic">
+
+      <p class="caption">
+        <i>"any sufficiently advanced technology is 
+        indistinguishable from magic"</i> - Sir Arthur C Clarke.
+      </p>
+
+      <p>
+      Avalon Magic is a build system based on Apache
+      <a href="http://ant.apache.org">Ant</a>.  It provides 
+      a <a href="model/index.html">project model</a> abstraction 
+      layer enabling centralized version and dependency management, 
+      build task automation, and dynamic plugin management.
+      </p>
+
+    </section>
+  </body>
+
+</document>
+

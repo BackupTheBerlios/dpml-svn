@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document> 
+  <properties>
+    <author email="dev@avalon.apache.org">Avalon Documentation Team</author>
+    <title>Contributors</title>
+  </properties>
+  <body> 
+    <section name="Pier Fumagalli">
+      <p>(pier at betaversion dot org)</p>
+      <p>
+      Pier is an open source developer who got involved with the Apache JServ
+      project a few years ago, and has since become a key figure in Jakarta.
+      Pier has made significant contributions to numerous Jakarta projects,
+      notably Tomcat, Cocoon and Avalon. 
+      </p>
+    </section>
+  </body>
+</document>
+

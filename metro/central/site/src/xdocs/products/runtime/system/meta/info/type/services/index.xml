@@ -1,0 +1,81 @@
+<?xml version="1.0"?>
+
+<document>
+
+  <properties>
+    <author email="mcconnell@apache.org">Stephen McConnell</author>
+    <title>Service Descriptors</title>
+  </properties>
+
+  <body>
+
+    <section name="Service Descriptor">
+
+      <subsection name="Description">
+<p>
+    Declaration of the set of services that this component is capable 
+    of supplying.  Each service declarared under the services element
+    may be referenced by other component types as service dependecies
+    or lifecycle stage depedencies.  A container is responsible for 
+    the assembly of component types based on the connection of 
+    supply components to consumer components via a common service 
+    description. 
+</p>
+      </subsection>
+
+      <subsection name="Nested Elements">
+        <table>
+          <tr><th>Element</th><th>Occurance</th><th>Description</th></tr>
+          <tr>
+            <td><a href="service.html">service</a></td><td>0..n</td>
+            <td>
+             A service declaration.
+            </td>
+          </tr>
+        </table>
+      </subsection>
+
+
+      <subsection name="Example XML">
+
+<source>
+
+    &lt;services&gt;
+
+      <font color="gray"><i>&lt;!-- 
+      The service type is the classname of an interface and the
+      version identifier qualifes the interface version.
+      --&gt;</i></font>
+
+      &lt;service type="<font color="darkred">org.apache.SimpleService</font>" 
+        version="<font color="darkred">3.2</font>"&gt;
+        &lt;attributes&gt;
+           <font color="gray"><i>&lt;!--
+           Attribute declarations may be included to qualify the 
+           characteristics of the service provided by the component
+           implementation.
+           --&gt;</i></font>
+           &lt;attribute key="<font color="darkred">a-key</font>" value="<font color="darkred">a-value</font>"/&gt;
+        &lt;/attributes&gt;
+      &lt;/service&gt;
+
+    &lt;/services&gt;
+
+</source>
+
+      </subsection>
+
+    </section>
+
+  </body>
+
+  <footer>
+    <legal>
+      Copyright (c) @year@ The Avalon Apache Project. All rights reserved.
+      $Revision: 1.2 $ $Date: 2004/04/14 11:47:32 $
+    </legal>
+  </footer>
+
+</document>
+
+

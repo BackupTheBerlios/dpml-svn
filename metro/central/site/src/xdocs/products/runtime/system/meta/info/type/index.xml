@@ -1,0 +1,258 @@
+<?xml version="1.0"?>
+
+<document>
+
+  <properties>
+    <author email="mcconnell@apache.org">Stephen McConnell</author>
+    <title>Type Descriptors</title>
+  </properties>
+
+  <body>
+
+    <section name="Type Descriptor">
+
+      <subsection name="Description">
+<p>
+The &lt;type&gt; element is an assembly of descriptors of the constraints a component
+type declares towards a container and includes declaration of service 
+dependencies, Logger establishment criteria, Configuration, Parameters 
+and Context establishment criteria, in addition to human-readable 
+information about the component type.
+</p>
+      </subsection>
+
+      <subsection name="Nested Elements">
+        <table>
+          <tr><th>Element</th><th>Occurance</th><th>Description</th></tr>
+          <tr>
+            <td><a href="info/index.html">info</a></td><td>1</td>
+            <td>
+             Declaration of the component type name, version, lifestyle,
+             collection policy and and optional attributes.
+            </td>
+          </tr>
+          <tr>
+            <td><a href="loggers/index.html">loggers</a></td><td>0..1</td>
+            <td>
+             Declaration of the logging channels used by the component type.
+            </td>
+          </tr>
+          <tr>
+            <td><a href="context/index.html">context</a></td><td>0..1</td>
+            <td>
+             Declaration of the context criteria including the context entries
+             and optional context interface.
+            </td>
+          </tr>
+          <tr>
+            <td><a href="dependencies/index.html">dependencies</a></td><td>0..1</td>
+            <td>
+             Declaration of the set of structural dependencies that the component
+             type has towards other components.
+            </td>
+          </tr>
+          <!--
+          <tr>
+            <td><a href="security/index.html">security</a></td><td>0..1</td>
+            <td>
+             Declaration of security related aspects.
+            </td>
+          </tr>
+          -->
+          <tr>
+            <td><a href="services/index.html">services</a></td><td>0..1</td>
+            <td>
+             Declaration of the set of services that the component type provides.
+            </td>
+          </tr>
+          <tr>
+            <td><a href="stages/index.html">stages</a></td><td>0..1</td>
+            <td>
+             Declaration of the set of extended deployment stage dependencies that 
+             the component type has.
+            </td>
+          </tr>
+          <tr>
+            <td><a href="extensions/index.html">extensions</a></td><td>0..1</td>
+            <td>
+             Declaration of the set of deployment stage handling abilities that
+             this component type can provide.
+            </td>
+          </tr>
+        </table>
+      </subsection>
+
+      <subsection name="Example XML">
+
+<p>Configuration instances supplied to the builder shall correspond to the 
+<a href="http://avalon.apache.org/dtds/meta/type_1_1.dtd">type DTD</a>.  
+The structure of a Type XML document is described below:</p>
+
+<source>
+
+  <font color="gray"><i>&lt;!--
+  Example of a component meta info external XML form. The 
+  element contains the information required to construct an 
+  instance of org.apache.avalon.meta.info.Type.  It 
+  includes information about the component type, the service 
+  it provides, and the services it is dependent on.
+  --&gt;</i></font>
+
+  &lt;type&gt;
+
+
+    <font color="gray"><i>&lt;!--
+    Definition of a single component info descriptor.
+    --&gt;</i></font>
+
+    &lt;info&gt;
+
+      <font color="gray"><i>&lt;!-- the name of the component (character restrictions apply) --&gt;</i></font>
+
+      &lt;name&gt;<font color="darkred">my-component</font>&lt;/name&gt;
+
+      <font color="gray"><i>&lt;!-- the implementation version --&gt;</i></font>
+
+      &lt;version&gt;<font color="darkred">1.2.1</font>&lt;/version&gt;
+
+      <font color="gray"><i>&lt;!-- the set of attributes associated with the type
+         (attribute names and values are examples only) --&gt;</i></font>
+
+      &lt;attributes&gt;
+
+         &lt;attribute key="<font color="darkred">color</font>" value="<font color="darkred">blue</font>"/&gt;
+         &lt;attribute key="<font color="darkred">quantity</font>" value="<font color="darkred">35</font>"/&gt;
+
+      &lt;/attributes&gt;
+
+    &lt;/info&gt;
+
+    <font color="gray"><i>&lt;!--
+    The set of logging categories the component uses. 
+    --&gt;</i></font>
+
+    &lt;loggers&gt;
+
+      &lt;logger name=&quot;store&quot;/&gt;
+      &lt;logger name=&quot;store.cache&quot;/&gt;
+      &lt;logger name=&quot;verifier&quot;/&gt;
+    
+    &lt;/loggers&gt;
+
+
+    <font color="gray"><i>&lt;!-- 
+    Declaration of the context constraints for the compoent type. 
+    The "type" attribute is the name of an interface derived from the default
+    context interface org.apache.avalon.framework.context.Context 
+    --&gt;</i></font>
+
+    &lt;context type="<font color="darkred">MyContextInterface</font>"&gt;
+
+      <font color="gray"><i>&lt;!-- 
+      Declaration of an entry in a context object, the "key" is
+      the key used by a component to locate the context entry,
+      the "type" is the classname of value (typically an interface)
+      or primitive type.  The default value is java.lang.String.
+      The "optional" attribute is a boolean value derived from the 
+      TRUE or FALSE that indicates if the context value must be 
+      provided or not (default is FALSE). 
+      --&gt;</i></font>
+
+      &lt;entry key="<font color="darkred">base</font>" type="<font color="darkred">java.io.File</font>"/&gt;
+      &lt;entry key="<font color="darkred">mode</font>" optional="<font color="darkred">TRUE</font>"/&gt;
+
+    &lt;/context&gt;
+
+    <font color="gray"><i>&lt;!--
+    Declaration of the set of services that this component is capable 
+    of supplying.  Each service declared under the services element
+    may be referenced by other component info descriptions as a 
+    dependency.  A container is responsible for the assembly of 
+    components based on the connection of supplier components to 
+    consumer components via a common service description. 
+    --&gt;</i></font>
+
+    &lt;services&gt;
+
+      <font color="gray"><i>&lt;!-- 
+      The service element declares the classname of an service 
+      interface and the version identifier that qualify as the service 
+      version.  The default version value is 1.0.
+      --&gt;</i></font>
+
+      &lt;service&gt;
+
+        &lt;reference type="<font color="darkred">SimpleService</font>" version="<font color="darkred">3.2</font>"&gt;
+
+        &lt;attributes&gt;
+
+           <font color="gray"><i>&lt;!--
+           Attributes qualifying as service implementation may be included
+           as supplementary information to the attributes declared under
+           a ServiceDefinition.
+           --&gt;</i></font>
+
+        &lt;/attributes&gt;
+
+      &lt;/service&gt;
+
+    &lt;/services&gt;
+
+
+    <font color="gray"><i>&lt;!-- 
+    Declaration of the set of dependencies that this component type has on 
+    component suppliers.  Dependency declarations define the role name 
+    that the component will use to access a service via a service
+    or component manager.  A dependency may be declared as optional by 
+    setting the optional attribute value to TRUE.  The default value 
+    for optional is FALSE.
+    --&gt;</i></font>
+
+    &lt;dependencies&gt;
+
+      <font color="gray"><i>&lt;!-- 
+      A dependency declaration. In the following example the optional 
+      attribute is redundant as it is equivalent to the default value
+      but is included here for completeness.
+      --&gt;</i></font>
+  
+      &lt;dependency optional="<font color="darkred">FALSE</font>"
+  
+        key="<font color="darkred">my-transformer</font>"
+        type="<font color="darkred">org.apache.cocoon.api.Transformer</font>
+        version="<font color="darkred">1.1</font>"&gt;
+
+        <font color="gray"><i>&lt;!-- the set of attributes associated with the dependency --&gt;</i></font>
+
+        &lt;attributes&gt;
+
+           <font color="gray"><i>&lt;!-- 
+           ServiceDefintion constraints may be included under the 
+           attributes element.
+           --&gt;</i></font>
+
+        &lt;/attributes&gt;
+
+      &lt;/dependency&gt;
+
+    &lt;/dependencies&gt;
+
+  &lt;/type&gt;
+
+
+</source>
+
+      </subsection>
+
+    </section>
+
+  </body>
+
+  <footer>
+    <legal>
+      Copyright (c) @year@ The Avalon Apache Project All rights reserved.
+      $Revision: 1.4 $ $Date: 2004/04/14 11:47:32 $
+    </legal>
+  </footer>
+
+</document>

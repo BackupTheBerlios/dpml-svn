@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?NLS TYPE="org.eclipse.help.toc"?>
+
+<toc label="Getting Started" link_to="toc.xml#gettingstarted"> 
+	<topic label="Installation"  href="docs/eclipse/html/gettingstarted/Installation.html"> 
+		<topic label="System Requirements" href="docs/eclipse/html/gettingstarted/systemrequirements.html" /> 
+		<topic label="Installation with a .zip Distribution" href="docs/eclipse/html/gettingstarted/zipfileinstallation.html"/>
+		<topic label="Installation through the UpdateManager" />
+	</topic>
+	<topic label="Hello World Tutorial">
+		<topic label="Create the 'Hello World' Project" />
+		<topic label="Launche the Component" />
+		<topic label="See the Output" />
+		<topic label="Debug the Component" />
+	</topic> 
+</toc>

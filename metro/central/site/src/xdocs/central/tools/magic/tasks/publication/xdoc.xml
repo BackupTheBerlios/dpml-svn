@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document>
+
+  <properties>
+    <author email="dev@avalon.apache.org">Avalon Documentation Team</author>
+    <title>Avalon Central</title>
+  </properties> 
+
+  <body>
+    <section name="Xdoc Task">
+      <p>
+      The xdoc task provides support for document generation. 
+      </p>
+      <p>
+        The XDoc task takes a <em>Theme</em> that is installed in 
+        the project system directory, $(project.system}/themes, and invokes two
+        XSLT stylesheets to the documents in the document source directory. 
+        There are properties to define which theme to be usedand which the 
+        output format to generate. The theme must support the given output 
+        format.
+      </p>
+      <p>
+        The generation occurs in 2 steps. First the navigation.xml files are
+        aggregated. In effect, this means that only the local context of 
+        the navigation is required in each directory. This is done by using
+        the <em>nav-aggregate.xsl</em> stylesheet in the theme.
+        In the second step, the content is transformed, using the 
+        <em>transform.xsl</em> stylesheet in the theme. See separate
+        documentation for information on how to write a theme.
+      </p>
+<source><![CDATA[
+<x:xdoc/>
+]]></source>
+
+      <p><i>Example of the xdoc task output when updating this site:</i></p>
+
+<pre>xdoc:
+   [x:xdoc] Filtered source: F:\dev\avalon\central\site\target\build\xdocs
+    [mkdir] Created dir: F:\dev\avalon\central\site\target\temp\xdocs
+   [x:xdoc] Destination: F:\dev\avalon\central\site\target\docs
+    [mkdir] Created dir: F:\dev\avalon\central\site\target\docs
+   [x:xdoc] Year: 2004
+   [x:xdoc] Theme: F:\dev\avalon\central\system\themes\modern\html
+   [x:xdoc] Transforming navigation.
+     [copy] Copying 413 files to F:\dev\avalon\central\site\target\temp\xdocs
+   [x:xdoc] Transforming content.
+     [copy] Copying 2 files to F:\dev\avalon\central\site\target\docs
+     [copy] Copying 60 files to F:\dev\avalon\central\site\target\docs</pre>
+
+      <subsection name="Properties">
+        <table>
+          <tr><th>Property</th><th>Default</th><th>Description</th></tr>
+          <tr>
+            <td>${project.organization.name}</td>
+            <td>The Apache Software Foundation</td>
+            <td>
+              The name of the organization. Used to create the copyright notice
+              at the bottom of the page.
+            </td>
+          </tr>
+          <tr>
+            <td>${project.target.temp.xdocs}</td>
+            <td>xdocs</td>
+            <td>
+              The directory where the documents will be copied prior to its
+              transformation. This is to enable use of filtering. The 
+              directory is relative to the general output directory.
+            </td>
+          </tr>
+          <tr>
+            <td>${project.xdocs.src}</td>
+            <td>xdocs</td>
+            <td>
+              The directory where the source documents reside. This directory
+              is relative to the general source directory.
+            </td>
+          </tr>
+          <tr>
+            <td>${project.xdocs.resources}</td>
+            <td>resources</td>
+            <td>
+              Resources needed, such as images and raw HTML files are placed in 
+              this directory. The directory is relative to the general source
+              directory.
+            </td>
+          </tr>
+          <tr>
+            <td>${project.xdoc.theme}</td>
+            <td>modern</td>
+            <td>
+              The name of the theme. Themes have to be installed in the project
+              system directory, ${project.system}/themes, and the theme name
+              must exist as a directory there-under.
+            </td>
+          </tr>
+          <tr>
+            <td>${project.xdoc.output.format}</td>
+            <td>html</td>
+            <td>
+              The output format of the generated content. The theme must be
+              constructed to support the given output format. <em>modern</em>
+              currently only supports the <em>html</em> format.
+            </td>
+          </tr>
+          <tr>
+            <td>${project.xdoc.logo.left.file}</td>
+            <td></td>
+            <td>
+              The logo to be displayed at the top left corner on every page.
+              The theme may or may not use this.
+            </td>
+          </tr>
+          <tr>
+            <td>${project.xdoc.logo.left.url}</td>
+            <td></td>
+            <td>
+              The URL that the top left logo will be linked to.
+            </td>
+          </tr>
+          <tr>
+            <td>${project.xdoc.logo.middle.file}</td>
+            <td></td>
+            <td>
+              The logo to be displayed in the middle at the top on every page.
+              The theme may or may not use this.
+            </td>
+          </tr>
+          <tr>
+            <td>${project.xdoc.logo.middle.url}</td>
+            <td></td>
+            <td>
+              The URL that the top middle logo will be linked to.
+            </td>
+          </tr>
+          <tr>
+            <td>${project.xdoc.logo.right.file}</td>
+            <td></td>
+            <td>
+              The logo to be displayed at the top right corner on every page.
+              The theme may or may not use this.
+            </td>
+          </tr>
+          <tr>
+            <td>${project.xdoc.logo.right.url}</td>
+            <td></td>
+            <td>
+              The URL that the top right logo will be linked to.
+            </td>
+          </tr>
+          <tr>
+            <td>${project.xdoc.brand.name}</td>
+            <td>Avalon</td>
+            <td>
+              The Brand Name is used by the <em>modern</em> theme as the small
+              heading at the top of every page. Below the Brand is the page 
+              title, found in the XML file.
+            </td>
+          </tr>
+          <tr>
+            <td>${project.xdoc.anchor.url}</td>
+            <td></td>
+            <td>
+              This is the root URL of where the public sources of the documents
+              can be found. This will be used for the XML icon in 
+              <em>modern</em> to link the html page to its current source 
+              document.
+            </td>
+          </tr>
+        </table>
+      </subsection>    
+    </section>
+  </body>
+</document>
+

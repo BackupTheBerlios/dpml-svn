@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document>
+
+  <properties>
+    <author email="dev@avalon.apache.org">Avalon Documentation Team</author>
+    <title>Avalon Central</title>
+  </properties> 
+
+  <body>
+    <section name="Tools">
+
+      <p>
+      The Avalon project represents over 100 versioned artifacts
+      with many build, test and runtime interdependencies.  Across 
+      this codebase with have a single container application, a 
+      Eclipse plugin, a number of plugable platform facilities, 
+      plugins that load plugins, etc. resulting in a generally 
+      complex build cycle.  Following experiments with Ant and 
+      Maven, the Avalon team extended the concept of a POM (Project
+      Object Model) with centralized version and dependency
+      management - and combined this model with the Ant platform
+      to provide a powerful, fast and robust build system 
+      code-named <a href="magic/index.html">Magic</a>.
+      </p>
+
+      <p>
+      In addition to the Magic build solution, Avalon has developed
+      plugins supporting the Ant and Maven environments.
+      </p>
+
+    </section>
+
+  </body>
+
+</document>
+

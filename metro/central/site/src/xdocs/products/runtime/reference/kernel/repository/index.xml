@@ -1,0 +1,121 @@
+<?xml version="1.0"?>
+
+<!-- 
+ Copyright 2004 Apache Software Foundation
+ Licensed  under the  Apache License,  Version 2.0  (the "License");
+ you may not use  this file  except in  compliance with the License.
+ You may obtain a copy of the License at 
+ 
+   http://www.apache.org/licenses/LICENSE-2.0
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed  under the  License is distributed on an "AS IS" BASIS,
+ WITHOUT  WARRANTIES OR CONDITIONS  OF ANY KIND, either  express  or
+ implied.
+ 
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+
+<document>
+
+  <properties>
+    <author email="dev@avalon.apache.org">Avalon Documentation Team</author>
+    <title>Merlin Runtime</title>
+  </properties> 
+
+  <body>
+    <section name="Repository">
+
+      <subsection name="Nested Elements">
+
+        <table>
+          <tr><th>Element</th><th>Occurance</th><th>Description</th></tr>
+          <tr>
+            <td><a href="cache.html">cache</a></td><td>0..1</td>
+            <td>
+             A local directory to be used as the cache.  If not
+             declared, the value defaults to '[MERLIN-HOME]/repository'.
+            </td>
+          </tr>
+          <tr>
+            <td><a href="proxy.html">proxy</a></td><td>0..1</td>
+            <td>
+             Declaration of proxy host, port and credentials.
+            </td>
+          </tr>
+          <tr>
+            <td><a href="hosts.html">hosts</a></td><td>n</td>
+            <td>
+             A list of remote repositories.
+            </td>
+          </tr>
+        </table>
+
+      </subsection>
+
+      <subsection name="Description">
+<p>Merlin provides a resouces repository against which jar files may be resolved relative to group, artifact and version.  Aspects of the repository may be qualified using the &lt;repository&gt; element.</p>
+      </subsection>
+
+      <subsection name="Sample XML">
+
+<source><![CDATA[
+  <kernel>
+
+   <!-- declaration of the local repository -->
+
+   <repository>
+
+     <!-- 
+     The default local cache is the [MERLIN-HOME]/repository.
+     In the following example the local cache is changed
+     to use the Maven repository.
+     -->
+     <cache>C:/maven/repository</cache>
+
+     <!--
+     If a resource cannot be located in the local repository 
+     cache, Merlin will attempt to locate the resource in one 
+     or more remote repositories.  If you have a proxy server 
+     you will need to declare it under the proxy element.  If 
+     you declare a proxy, the host and port elements must be 
+     declared.  You can also declare a 'credentials' element if 
+     your proxy requires password authentication.
+     -->
+
+     <proxy>
+       <host>proxy.somethere.com</host>
+       <port>999</port>
+       <credentials>
+         <username>test</username>
+         <password>test</password>
+       </credentials>
+     </proxy>
+
+     <!--
+     Merlin will attempt to locate resource from the local cache.  
+     If a resource is unavailable, Merlin willl attempt to 
+     download the resource from one or more remote hosts.  The 
+     hosts element contains the list of hosts that Merlin should 
+     attempt to connect to when resolving unsatisfied resource 
+     requests.
+     -->
+
+     <hosts>
+       <host>http://www.osm.net/repository/</host>
+       <host>http://www.ibiblio.org/merlin/repository</host>
+     </hosts>
+
+   </repository>
+
+  </kernel>
+]]></source>
+
+     </subsection>
+    </section>
+  </body>
+
+</document>
+
+

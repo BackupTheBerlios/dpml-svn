@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document>
+
+  <properties>
+    <author email="dev@avalon.apache.org">Avalon Documentation Team</author>
+    <title>Avalon Central</title>
+  </properties> 
+
+  <body>
+    <section name="Clean Task">
+      <p>
+      The clean task deletes the ${basedir}/target directory.
+      </p>
+<source><![CDATA[
+<x:clean/>
+]]></source>
+
+      <p><i>Example output of the clean task:</i></p>
+
+<pre>
+clean:
+  [x:clean] removing target directory
+   [delete] Deleting directory F:\dev\avalon\planet\tutorials\hello\target
+</pre>
+    </section>
+  </body>
+
+</document>
+

@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document>
+  <properties>
+    <author email="dev@avalon.apache.org">Avalon Documentation Team</author>
+    <title>Avalon Central</title>
+  </properties>
+  <body>
+    <section name="Introduction: Servers and Services?">
+      <p>
+        It's somehow difficult to give a proper definition of "server",
+        due to the confusion created in the time so far by the different meanings
+        that term had, facing the different evolution of the technologies.
+      </p>
+      <p>
+        The term "server" is commonly used with at least three different
+        meanings:
+      </p>
+      <ul>
+        <li>
+          <strong>"Server" as computer:</strong> With this meaning the
+          server term is intended to be the computer sharing resources.
+          <br/>
+          <em>
+            Ex. Our corporate "server" is a double Pentium II
+            running at 450 MHz with 12 GB of SCSI hard disk running Linux.
+          </em>
+        </li>
+        <li>
+          <strong>"Server" as a program:</strong> With this meaning the
+          server term is intended to be the application that enables the
+          resource sharing, not caring about the network protocols it
+          implements.
+          <br/>
+          <em>
+            Ex. Our Mail server is FlosieTek FTGate release 2.1 which
+            implements the SMTP and POP3 protocols.
+          </em>
+        </li>
+        <li>
+          <strong>"Server" as a protocol handler:</strong> With this meaning
+          the server term is intended to be the application that enables
+          the access to shared resources via a specified protocol.
+          <br/>
+          <em>
+            Ex. Our HTTP server is Apache 1.3.4.
+          </em>
+        </li>
+      </ul>
+      <p>
+        While we can clearly see the difference between the first definition of
+        "server" (computer) and the other two (applications), it's hard
+        to see the difference between the second definition ("server" as
+        a multi-protocol handler) and the third ("server" as a single
+        protocol handler).
+      </p>
+      <p>
+        Since it's crucial for all developers involved in the Avalon
+        project to share the same common idea of "server", I would
+        like to define a server as a <strong>protocol
+        handler</strong>. We would, then, have HTTP servers, SMTP
+        servers or POP3 servers, but we cannot use the term MAIL
+        server.
+      </p>
+      <p>
+        What we called the mail server is in fact the union of two (or more)
+        different "server"s (in our example the union of a SMTP and a
+        POP3 server).
+      </p>
+      <p>
+        We can clearly see, anyway, that a POP3 and an SMTP server will have to
+        share most resources and code to build up a complete mailing system, like,
+        for example, a central repository where messages could be stored. We would
+        then define the union of the SMTP server, the POP3 server and the central
+        messages repository (we could call it <strong>Mail Engine</strong>) as a Mail
+        "service". To clarify things a little bit, maybe a picture would
+        help:
+      </p>
+      <img src="/images/server-01.gif" alt="Server 1"/>
+    </section>
+    <section name="Dividing the code">
+      <p>
+        We can clearly see, however, how this approach to the problem brings to
+        a monolithic implementation of the code, not allowing, or making really
+        difficult, for other persons to add features, for example, integrating an
+        IMAP server within our Mail Service.
+      </p>
+      <p>
+        In fact, if we don't clearly separate the code (and a good developer
+        should always keep in mind his server expansion) adding a feature like an
+        IMAP server into our service could become hell, and, most developers will
+        try to find other solutions already in the market rather than using and
+        improving what we have done.
+      </p>
+      <p>
+        The solution would be to have a sort of "in-core" modularization of our
+        server.... To be continued...
+      </p>
+      <img src="/images/server-02.gif" alt="Server 2"/>
+      <img src="/images/server-03.gif" alt="Server 3"/>
+    </section>
+    <section name="The concept of a Block">
+      <img src="/images/server-04.gif" alt="Server 4"/>
+    </section>
+    <section name="The Avalon Framework">
+      <fixme author="PF">We need some info in here.</fixme>
+    </section>
+  </body>
+</document>

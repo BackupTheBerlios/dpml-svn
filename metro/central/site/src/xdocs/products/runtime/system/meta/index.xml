@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+
+<document>
+
+    <properties>
+        <author email="mcconnell@apache.org">Stephen McConnell</author>
+        <title>Avalon Meta Model</title>
+    </properties>
+
+    <body>
+
+      <section name="Avalon Meta">
+
+        <table>
+          <tr><th>Subject</th><th>Description</th></tr>
+          <tr>
+            <td><a href="tags/index.html">Javadoc Tags</a></td>
+            <td>
+              Reference specification of the Javadoc Tags used to 
+              support automation of component and service meta info
+              generation.
+            </td>
+          </tr>
+          <tr>
+            <td><a href="info/index.html">Type Model</a></td>
+            <td>
+              The Avalon Meta Model defines the functional structure
+              of component types and services. A Type definition contains 
+              information about deployment and runtime dependencies together 
+              with information about the services that a
+              component type can provide.
+            </td>
+          </tr>
+        </table>
+      </section>
+
+    </body>
+
+</document>

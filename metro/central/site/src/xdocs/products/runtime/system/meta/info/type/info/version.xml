@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+
+<document>
+
+  <properties>
+    <author email="mcconnell@apache.org">Stephen McConnell</author>
+    <title>Version Descriptors</title>
+  </properties>
+
+  <body>
+
+    <section name="Version Descriptor">
+
+      <subsection name="Description">
+        <p>
+        The component type implementation version.  The default
+        value is 1.0.0.
+        </p>
+      </subsection>
+
+      <subsection name="Example XML">
+<source><![CDATA[
+<version>2.1.4</version>
+]]></source>
+      </subsection>
+    </section>
+  </body>
+
+  <footer>
+    <legal>
+      Copyright (c) @year@ The Avalon Apache Project All rights reserved.
+      $Revision: 1.1 $ $Date: 2004/04/14 11:47:32 $
+    </legal>
+  </footer>
+
+</document>
+
+

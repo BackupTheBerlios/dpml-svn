@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document>
+  <properties>
+    <author email="dev@avalon.apache.org">Avalon Documentation Team</author>
+    <title>Contributors</title>
+  </properties>
+  <body>
+    <section name="Peter Royal">
+      <p>(proyal at apache dot org)</p>
+      <p>
+      Peter is a relative newcomer to Apache Avalon. His introduction was
+      via the <a href="http://cocoon.apache.org/">Apache Cocoon</a>
+      project. After noticing the incredible framework which Cocoon was built
+      upon he moved the rest of his projects to be hosted in Avalon Phoenix.
+      </p>
+    </section>
+  </body>
+</document>

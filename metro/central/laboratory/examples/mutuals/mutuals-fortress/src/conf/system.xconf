@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<mutuals-fortress>
+
+   <user-manager id="userManager">
+     <user id="farra" name="Aaron Farr" password="farra"/>
+     <user id="lsd" name="Leo Simons" password="lsd"/>
+   </user-manager>
+
+   <fund-manager id="fundManager">
+     <fund symbol="MOON" name="Moon Microsystems" price="5.39"/>
+     <fund symbol="IBN" name="International Business gNomes" price="95.32"/>
+     <fund symbol="MNFT" name="Minisoft" price="27.81"/>
+   </fund-manager>
+
+   <transaction-manager id="transactionManager"/>
+
+   <portfolio-manager id="portfolioManager">
+     <balances>
+        <user id="farra" amount="1000.00"/>
+        <user id="lsd" amount="5000.00"/>
+     </balances>
+     <portfolios>
+        <user id="farra">
+          <fund symbol="MOON" name="Moon Microsystems" price="5.39" qty="100"/>
+          <fund symbol="IBN" name="International Business gNomes" price="95.32" qty="10"/>
+        </user>
+        <user id="lsd">
+         <fund symbol="IBN" name="International Business gNomes" price="95.32" qty="30"/>
+         <fund symbol="MNFT" name="Minisoft" price="27.81"  qty="25"/>
+        </user>
+     </portfolios>
+   </portfolio-manager>
+
+</mutuals-fortress>

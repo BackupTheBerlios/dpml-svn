@@ -1,0 +1,86 @@
+<?xml version="1.0"?>
+
+<!-- 
+ Copyright 2004 Apache Software Foundation
+ Licensed  under the  Apache License,  Version 2.0  (the "License");
+ you may not use  this file  except in  compliance with the License.
+ You may obtain a copy of the License at 
+ 
+   http://www.apache.org/licenses/LICENSE-2.0
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed  under the  License is distributed on an "AS IS" BASIS,
+ WITHOUT  WARRANTIES OR CONDITIONS  OF ANY KIND, either  express  or
+ implied.
+ 
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+
+<document>
+  <properties>
+    <author email="dev@avalon.apache.org">Avalon Documentation Team</author>
+    <title>Avalon Central</title>
+  </properties> 
+
+    <body>
+        <section name="Installation">
+
+            <subsection name="Declare MERLIN_HOME environment variable">
+
+                <p>
+                    To use Merlin command line support or the Merlin NT Service
+                    you will need to define the MERLIN_HOME environment
+                    variable for your system and include MERLIN_HOME/bin in
+                    your system path:
+                </p>
+
+<source><![CDATA[
+$ echo '
+> # set location of merlin
+> export MERLIN_HOME=/opt/merlin
+> # include it in the path
+> export PATH=$PATH:$MERLIN_HOME/bin
+> ' >> ~/.bash_profile
+$ source ~/.bash_profile
+]]></source>
+
+            </subsection>
+            <subsection name="Validating your installation.">
+
+                <p>
+                    The following instructions assume that you have defined the
+                    MERLIN_HOME environment variable that points the directory
+                    containing the Merlin installation.
+                </p>
+
+                <p>
+                    To confirm that you MERLIN_HOME variable is correct, you
+                    should open a new command line window and invoke the Merlin
+                    CLI application. The following command should list the
+                    Merlin CLI help information.
+                </p>
+
+<source><![CDATA[
+$ merlin.sh -help
+usage: merlin [block] [-debug] [-config <file>] [-lang
+<code>] [-repository <directory>] [-kernel <file>] [-home
+<directory>] [-version] [-help]
+...
+]]></source>
+
+            </subsection>
+            <subsection name="Next Steps">
+                <p>
+                    Now that you have installed Merlin on your system you can
+                    proceed to the <a href="../tutorial/index.html">Using Merlin</a>
+                    tutorial page.
+                </p>
+            </subsection>
+
+        </section>
+    </body>
+
+</document>
+
+

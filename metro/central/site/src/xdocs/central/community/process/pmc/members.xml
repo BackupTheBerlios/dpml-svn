@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document>
+
+  <properties>
+    <author email="dev@avalon.apache.org">Avalon Documentation Team</author>
+    <title>Avalon Central</title>
+  </properties> 
+
+  <body>
+    <section name="Avalon PMC">
+
+      <subsection name="PMC Members">
+        <p>The following people form the Avalon PMC:</p>
+        <ul>
+          <li><a href="../../who/farra.html">J Aaron Farr</a>(Chair)</li>
+          <li><a href="../../who/mcconnell.html">Stephen McConnell</a></li>
+          <li><a href="../../who/royal.html">Pete Royal</a></li>
+          <li><a href="../../who/crafterm.html">Marcus Crafter</a></li>
+	    <li>Alex Karasulu</li>
+	    <li>Andreas Oberhack</li>
+	    <li>Noel Bergman</li>
+	    <li>Timothy Bennett</li>
+        </ul>
+      </subsection>
+
+      <subsection name="The PMC Chair">
+        <p>The PMC Chair is established by the Board of Directors 
+           based on the nomination put forward by the PMC Members. 
+           As such the PMC Chair has special responsibilities and 
+           privileges as detailed in the ASF bylaws. 
+        </p>
+	</subsection>
+
+
+    </section>
+  </body> 
+</document>

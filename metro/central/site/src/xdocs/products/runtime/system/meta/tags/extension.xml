@@ -1,0 +1,75 @@
+<?xml version="1.0"?>
+
+<document>
+
+  <properties>
+    <author email="mcconnell@apache.org">Stephen McConnell</author>
+    <title>Javadoc Tag Specification</title>
+  </properties>
+
+  <body>
+
+    <section name="Javadoc Tags">
+
+      <subsection name="Extension Tag">
+<p>Lifecycle stages are resolved through the establishment of a component capable of service the stage dependency.  Component types declare this ability through the extension tag.</p>
+      </subsection>
+
+      <subsection name="Attributes">
+        <table>
+          <tr><th>Attribute</th><th>Required</th><th>Description</th></tr>
+          <tr>
+            <td><p>id</p></td><td><p>yes</p></td>
+            <td>
+              <p>A value (normally a urn) that identifies the extension.</p>
+            </td>
+          </tr>
+        </table>
+      </subsection>
+
+      <subsection name="Example">
+
+
+<source><![CDATA[
+package net.osm.vault;
+
+/**
+ * Example of a component declaring a stage handling capability.
+ *
+ * @avalon.component version="0.1" name="handler"
+ * @avalon.extension id="urn:somewhere:demonstratable"
+ */
+public class DemoExtension
+{
+  ...
+}
+]]></source>
+
+<p>Generated meta-info type descriptor:</p>
+
+<source><![CDATA[
+<type>
+  <info>
+    <version>0.1.0</version>
+    <name>handler</name>
+  </info>
+  <extensions>
+    <extension id="urn:somewhere:demonstratable"/>
+  </extensions>
+</type>
+]]></source>
+
+      </subsection>
+    </section>
+  </body>
+
+  <footer>
+    <legal>
+      Copyright (c) @year@ The Avalon Apache Project All rights reserved.
+      $Revision: 1.1 $ $Date: 2004/04/14 11:47:33 $
+    </legal>
+  </footer>
+
+</document>
+
+

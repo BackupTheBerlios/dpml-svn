@@ -1,0 +1,59 @@
+<?xml version="1.0"?>
+
+<document>
+
+  <properties>
+    <author email="mcconnell@apache.org">Stephen McConnell</author>
+    <title>Dependency Descriptors</title>
+  </properties>
+
+  <body>
+
+    <section name="Service Dependencies">
+
+      <subsection name="Description">
+<p>
+Declaration of the set of dependecies that this component type has on component suppliers.  
+</p>
+<p>
+A container will typically provide services to resolve service providers with components declaring depedencies by matching provider and dependency declarations.
+</p>
+      </subsection>
+
+      <subsection name="Nested Elements">
+        <table>
+          <tr><th>Element</th><th>Occurance</th><th>Description</th></tr>
+          <tr>
+            <td><a href="dependency.html">dependency</a></td><td>0..n</td>
+            <td>
+             A service dependency declaration.
+            </td>
+          </tr>
+        </table>
+      </subsection>
+
+      <subsection name="Example XML">
+
+<p>Dependency descriptors are contained within a single &lt;dependencies&gt; element.  The &lt;dependencies&gt; element may contain 0..n &lt;dependency/&gt; declarations.</p>
+<source><![CDATA[
+<dependencies>
+  <depedency key="test" type="MyService:1.2" optional="false"/>
+</dependencies>
+]]></source>
+
+      </subsection>
+
+    </section>
+
+  </body>
+
+  <footer>
+    <legal>
+      Copyright (c) @year@ The Avalon Apache Project All rights reserved.
+      $Revision: 1.3 $ $Date: 2004/04/14 11:47:32 $
+    </legal>
+  </footer>
+
+</document>
+
+

@@ -1,0 +1,112 @@
+<?xml version="1.0"?>
+
+<document>
+
+  <properties>
+    <author email="mcconnell@apache.org">Stephen McConnell</author>
+    <title>Javadoc Tag Specification</title>
+  </properties>
+
+  <body>
+
+    <section name="Introduction">
+
+<p>
+Meta information associated with component types can be expressed directly in XML or documented in javadoc tags within the component source code.  The javadoc tag approach ensures that specifications are maintain with respective sources.  Generation of meta info is achieved through a meta-info generation tool.  Tools are provided for both Ant and Maven.
+</p>
+
+      <subsection name="Tag List">
+<table>
+  <tr>
+    <th>Tag</th>
+    <th>Scope</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><a href="type.html">@avalon.component</a></td>
+    <td>class</td>
+    <td>Identifies a class as a component implementation and the 
+        requirement for the generation of a component type 
+        descriptor.</td>
+  </tr>
+  <tr>
+    <td><a href="attribute.html">@avalon.attribute</a></td>
+    <td>class</td>
+    <td>
+      Declaration of an attribute name and value to be associated with
+      a component type info descriptor.
+    </td>
+  </tr>
+  <tr>
+    <td><a href="service.html">@avalon.service</a></td>
+    <td>class</td>
+    <td>Declaration by a component of a exported service that may 
+      be used by a container when fulfilling the service dependencies
+      exposed by other components.</td>
+  </tr>
+  <tr>
+    <td><a href="stage.html">@avalon.stage</a></td>
+    <td>class</td>
+    <td>Declaration of a lifecycle stage dependency.</td>
+  </tr>
+  <tr>
+    <td><a href="extension.html">@avalon.extension</a></td>
+    <td>class</td>
+    <td>Declaration of the export of a lifecycle stage handling capability
+      that may be used by a container when resolving lifecycle stage 
+      dependencies.</td>
+  </tr>
+  <!--
+  <tr>
+    <td><a href="permission.html">@avalon.security.permission</a></td>
+    <td></td>
+    <td>
+      Declaration of a requested security permission. The tag may appear 
+      in both class and method scope.  The convention is to declare 
+      permission statements as close to the usage as possible (i.e. at 
+      the method declaration), however, permission statements will be 
+      aggregated for the component type.
+    </td>
+  </tr>
+  -->
+  <tr>
+    <td><a href="logger.html">@avalon.logger</a></td>
+    <td>method</td>
+    <td>Declaration of a child logging channel name used by the component.</td>
+  </tr>
+  <tr>
+    <td><a href="configuration.html">@avalon.configuration</a></td>
+    <td>method</td>
+    <td>Declaration of a configuration validation schema.</td>
+  </tr>
+  <tr>
+    <td><a href="context.html">@avalon.context</a></td>
+    <td>method</td>
+    <td>Declares of a specialized context interface.</td>
+  </tr>
+  <tr>
+    <td><a href="entry.html">@avalon.entry</a></td>
+    <td>method</td>
+    <td>Declaration of a context entry dependency.</td>
+  </tr>
+  <tr>
+    <td><a href="dependency.html">@avalon.dependency</a></td>
+    <td>method</td>
+    <td>Declaration of a service dependency.</td>
+  </tr>
+</table>
+      </subsection>
+    </section>
+
+  </body>
+
+  <footer>
+    <legal>
+      Copyright (c) @year@ The Avalon Apache Project All rights reserved.
+      $Revision: 1.1 $ $Date: 2004/04/14 11:47:33 $
+    </legal>
+  </footer>
+
+</document>
+
+

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document>
+  <properties>
+    <author email="dev@avalon.apache.org">Avalon Documentation Team</author>
+    <title>Avalon Central</title>
+  </properties> 
+
+  <body>
+   <section name="Wiki Revisions">
+     <p>24-FEB-2004
+     </p>
+     <p>
+      We've been reorganizing our <a href="http://wiki.apache.org/avalon">wiki</a>
+      in order to provide better documentation sooner.  This means the
+      <em>latest</em> notes and ideas can be found there.  Hopefully this documentation
+      will be refined and end up back on our main site.  Developers and users
+      alike are encouraged to contribute!
+     </p>
+    </section>
+  </body>
+</document>
+

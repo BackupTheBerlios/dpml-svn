@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document> 
+  <properties>
+    <author email="dev@avalon.apache.org">Avalon Documentation Team</author>
+    <title>Contributors</title>
+  </properties>
+  <body> 
+    <section name="Stefano Mazzocchi">
+      <p>(stefano at apache dot org)</p>
+      <p>
+      Stefano is a Doctor of Electronic Engineering addicted to Java
+      programming and open development. He is the original author of the Cocoon
+      Publishing Framework and an active contributor of many other
+      projects hosted under the Apache umbrella.
+      </p>
+    </section>
+  </body>
+</document>

@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+<plugin
+   id="org.apache.metro.studio.core"
+   name="MetroStudio Core"
+   version="0.1.1"
+   provider-name="Apache Software Foundation"
+   class="org.apache.metro.studio.eclipse.core.MetroStudioCore">
+
+   <runtime>
+      <library name="MetroStudioCore.jar">
+         <export name="*"/>
+      </library>
+      <library name="lib/xstream-1.0.2.jar"/>
+      <library name="lib/xdoclet-1.2b4.jar"/>
+      <library name="lib/xjavadoc-1.0.jar"/>
+      <library name="lib/commons-collections-2.0.jar"/>
+      <library name="lib/commons-lang.jar"/>
+      <library name="lib/commons-logging.jar"/>
+      <library name="lib/avalon-util-defaults-1.2.1.jar"/>
+      <library name="lib/avalon-util-env-1.1.1.jar"/>
+      <library name="lib/metro-event-0.0.1.jar"/>
+      <library name="lib/avalon-repository-api-2.0.0.jar"/>
+      <library name="lib/avalon-repository-spi-2.0.0.jar"/>
+      <library name="lib/avalon-repository-main-2.0.0.jar"/>
+   </runtime>
+
+   <requires>
+      <import plugin="org.eclipse.core.resources"/>
+      <import plugin="org.eclipse.ui"/>
+      <import plugin="org.eclipse.jdt.core"/>
+      <import plugin="org.eclipse.jdt.launching"/>
+      <import plugin="org.eclipse.core.runtime"/>
+      <import plugin="org.eclipse.core.boot"/>
+      <import plugin="org.junit"/>
+   </requires>
+
+   <extension
+         point="org.eclipse.help.toc">
+      <toc
+            file="toc.xml"
+            primary="true">
+      </toc>
+      <toc
+            file="docs/eclipse/tocconcepts.xml">
+      </toc>
+      <toc
+            file="docs/eclipse/tocgettingstarted.xml">
+      </toc>
+      <toc
+            file="docs/eclipse/tocreference.xml">
+      </toc>
+      <toc
+            file="docs/eclipse/tocsamples.xml">
+      </toc>
+      <toc
+            file="docs/eclipse/toctasks.xml">
+      </toc>
+   </extension>
+   <extension
+         id="blockNature"
+         name="MetroStudioBlockNature"
+         point="org.eclipse.core.resources.natures">
+      <runtime>
+         <run
+               class="org.apache.metro.studio.eclipse.core.nature.MetroBlockNature">
+         </run>
+      </runtime>
+      <builder
+            id="org.apache.metro.studio.blockNature">
+      </builder>
+   </extension>
+
+</plugin>

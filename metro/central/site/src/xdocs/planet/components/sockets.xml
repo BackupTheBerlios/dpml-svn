@@ -1,0 +1,72 @@
+<?xml version="1.0"?>
+
+<document>
+
+  <properties>
+    <author email="mcconnell@apache.org">Stephen McConnell</author>
+    <title>Avalon Planet</title>
+  </properties>
+
+  <body>
+    <section name="Sockets">
+      <subsection name="Description">
+      </subsection>
+      <subsection name="Deployment Facts">
+        <table>
+          <tr><td>Containment</td><td>Avalon Framework 4.2.0</td>
+          </tr>
+          <tr><td>Lifestyle</td><td>singleton</td></tr>
+        </table>
+      </subsection>
+      <subsection name="Lifecycle">
+        <table>
+          <tr><th>Stage</th><th>Description</th></tr>
+          <tr><td>LogEnabled</td><td>Logs runtime warnings and assigns 
+            logging channels to created factories.</td></tr>
+          <tr>
+            <td>Contextualizable</td>
+            <td>
+              <table class="classic">
+                <tr>
+                  <th>Key</th><th>Type</th><th>Required</th>
+                </tr>
+                <tr>
+                  <td>block.name</td><td>java.lang.String</td><td>true</td>
+                </tr>
+                <tr>
+                  <td>app.name</td><td>java.lang.String</td><td>true</td>
+                </tr>
+                <tr>
+                  <td>app.home</td><td>java.io.File</td><td>true</td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+          <tr>
+            <td>Configurable</td>
+            <td>An example configuration is included below.</td>
+          </tr>
+        </table>
+      </subsection>
+      <subsection name="Example Configuration">
+<source><![CDATA[
+<configuration>
+  <server-sockets>
+    <factory name="plain" 
+class="org.apache.avalon.cornerstone.blocks.sockets.DefaultServerSocketFactory"/>
+  </server-sockets>
+  <client-sockets>
+    <factory name="plain" 
+class="org.apache.avalon.cornerstone.blocks.sockets.DefaultSocketFactory"/>
+  </client-sockets>
+</configuration>
+]]></source>
+      </subsection>
+    </section>
+
+  </body>
+
+</document>
+
+
+

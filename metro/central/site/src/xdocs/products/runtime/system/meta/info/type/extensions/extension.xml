@@ -1,0 +1,66 @@
+<?xml version="1.0"?>
+
+<document>
+
+  <properties>
+    <author email="mcconnell@apache.org">Stephen McConnell</author>
+    <title>Extension Descriptors</title>
+  </properties>
+
+  <body>
+
+    <section name="Extension Descriptor">
+
+      <subsection name="Description">
+<p>
+The org.apache.avalon.meta.info.ExtensionDescriptor class declares tha ability of a component implementation to provide support for the handling of another component declararing a lifecycle stage dependency.  For example, component A may declare that it is capable of supporting lifecycle interface X and component B may declare that it requires a handler for lifecycle stage interface X.  A compliant container will handle the association of a component capable of handling the the lifecycle stage interface with the component declaring the stage dependency.
+</p>
+      </subsection>
+
+      <subsection name="Attributes">
+        <table>
+          <tr><th>Attribute</th><th>Required</th><th>Description</th></tr>
+          <tr>
+            <td>type</td><td>yes</td>
+            <td>
+             Declaration of an lifecycle stage interface this this component type 
+             is capable of supporting.
+            </td>
+          </tr>
+        </table>
+      </subsection>
+
+      <subsection name="Nested Elements">
+        <table>
+          <tr><th>Element</th><th>Occurance</th><th>Description</th></tr>
+          <tr>
+            <td><a href="../../attributes/index.html">attributes</a></td><td>0..1</td>
+            <td>
+             A set of attribute declarations.
+            </td>
+          </tr>
+        </table>
+      </subsection>
+
+      <subsection name="Example XML">
+
+<source><![CDATA[
+  <extension type="org.apache.playground.Exploitable"/>
+]]></source>
+
+      </subsection>
+
+    </section>
+
+  </body>
+
+  <footer>
+    <legal>
+      Copyright (c) @year@ The Avalon Apache Project All rights reserved.
+      $Revision: 1.3 $ $Date: 2004/04/14 11:47:32 $
+    </legal>
+  </footer>
+
+</document>
+
+

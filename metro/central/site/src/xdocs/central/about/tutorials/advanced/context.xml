@@ -1,0 +1,297 @@
+<?xml version="1.0"?>
+
+<!-- 
+ Copyright 2004 Apache Software Foundation
+ Licensed  under the  Apache License,  Version 2.0  (the "License");
+ you may not use  this file  except in  compliance with the License.
+ You may obtain a copy of the License at 
+ 
+   http://www.apache.org/licenses/LICENSE-2.0
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed  under the  License is distributed on an "AS IS" BASIS,
+ WITHOUT  WARRANTIES OR CONDITIONS  OF ANY KIND, either  express  or
+ implied.
+ 
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+
+<document>
+
+  <properties>
+    <author email="dev@avalon.apache.org">Avalon Documentation Team</author>
+    <title>Avalon Central</title>
+  </properties> 
+
+
+  <body>
+    <section name="Advanced Features">
+      <subsection name="Creating a custom Contextualizer">
+        <p>
+         Merlin provides support for the pluggable introduction
+         of contextualization stage handlers that are completely
+         independent of the Avalon component model.
+        </p>
+        <p>
+         Establishing a custom contextualizer involves:
+        </p>
+        <ul>
+          <li>defining the contextualization interface</li>
+          <li>implementation of a contextualization handler</li>
+          <li>implementing the contextualization stage in a component</li>
+        </ul>
+        <p>
+         Resources supporting this tutorial are included in the 
+         tutorials/context/strategy package.
+        </p>
+      </subsection>
+      <subsection name="Contextualization stage definition">
+        <p>
+         You can declare any interface to serve as the contextualization
+         lifecycle stage.  The following example follows the Avalon 
+         pattern but passes a domain specific context as the contextualization
+         argument (i.e. eliminating the need to cast to a domain specific
+         interface).
+        </p>
+        <source><![CDATA[
+public interface Contextualizable
+{
+    /**
+     * Contextualization of the component.
+     * @param context the containment context
+     * @exception ContextException if a contextualization error occurs
+     */
+    void contextualize( StandardContext context ) 
+      throws ContextException;
+}
+]]></source>
+      </subsection>
+
+      <subsection name="Contextualization handler implementation">
+        <p>
+         A custom contextualization stage is managed by a contextualization
+         handler component that you define.  The only constraint on a handler is 
+         that it has to implement the org.apache.avalon.assembly.lifecycle.Contextualization
+         interface.
+        </p>
+        <source><![CDATA[
+package tutorial;
+
+import java.util.Map;
+import org.apache.avalon.composition.model.Contextualization;
+import org.apache.avalon.framework.context.ContextException;
+import org.apache.avalon.meta.model.ContextDirective;
+
+public class ContextualizationHandler implements Contextualization
+{
+    /**
+     * Handle the contextualization stage of a component lifecycle.
+     * @param loader the classloader
+     * @param directive the context directitive
+     * @param object the object to contextualize
+     * @param map the map of context entries
+     * @exception ContextException if a contextualization error occurs
+     */
+    public void contextualize(
+      ClassLoader loader, ContextDirective directive, Object object, Map map )
+      throws ContextException
+    {
+        //
+        // based on the supplied context directives, the container supplied 
+        // map of base context entries and a classloader, build and apply
+        // a context object to the supplied target object
+        //
+
+        if( object instanceof Contextualizable )
+        {
+            Object context = 
+              createContextArgument( loader, directive, StandardContext.class, map );
+            if( context instanceof StandardContext )
+            {
+                ( (Contextualizable)object ).contextualize( (StandardContext) context );
+            }
+            else
+            {
+                final String error =
+                  "Supplied context does not implement the StandardContext interface.";
+                throw new ContextException( error );
+            }
+        }
+        else
+        {
+            final String error =
+              "Target object does not implement the "
+              + Contextualizable.class.getName() + " interface.";
+            throw new ContextException( error );
+        }
+    }
+
+   /**
+    * Returns a instance of a class established using the supplied map as a
+    * constructor argument.
+    *
+    * @param descriptor the context descriptor
+    * @param clazz the default class if no class defined in the descriptor
+    * @param map the context entry map
+    * @return the context argument value
+    */
+    private Object createContextArgument( 
+       ClassLoader loader, ContextDirective directive, Class clazz, Map map )
+       throws ContextException
+    {
+        if( directive == null )
+        {
+            throw new NullPointerException( "directive" );
+        }
+        if( clazz == null )
+        {
+            throw new NullPointerException( "clazz" );
+        }
+        if( map == null )
+        {
+            throw new NullPointerException( "map" );
+        }
+
+        String classname = directive.getClassname();
+        Class base;
+        if( classname != null )
+        {
+            try
+            {
+                base = loader.loadClass( classname );
+            }
+            catch( ClassNotFoundException cnfe )
+            {
+                throw new ContextException(
+                  "Could not find context class: " + classname, cnfe );
+            }
+        }
+        else
+        {
+            base = clazz;
+        }
+
+        try
+        {
+            Constructor constructor = base.getConstructor(
+               new Class[]{ Map.class } );
+            return constructor.newInstance( new Object[]{ map } );
+        }
+        catch( NoSuchMethodException e )
+        {
+            final String error =
+              "Custom context class: [" + classname
+              + "] does not implement a constructor pattern <init>{ Map }.";
+            throw new ContextException( error, e );
+        }
+        catch( Throwable e )
+        {
+            throw new ContextException(
+                "Unexpected exception while creating context from "
+                + base.getName(), e );
+        }
+    }
+}
+]]></source>
+
+      </subsection>
+
+      <subsection name="Declaration of the handler">
+        <p>
+          In order for the handler component to be recognized by 
+          Merlin we need to declare a type definition.  The definition
+          includes the declaration of the components support for 
+          the custom contextualization interface under an extension
+          declaration.
+        </p>
+<source><![CDATA[
+<type>
+  <info>
+    <name>context</name>
+  </info>
+  <extensions>
+    <extension type="tutorial.Contextualizable" />
+  </extensions>
+</type>
+]]></source>
+      </subsection>
+
+      <subsection name="Create the component">
+        <p>
+          With the stage interface defined and the handler implementation
+          in place, we can go ahead and create a component that implements
+          the new contextualization interface.
+        </p>
+<source><![CDATA[
+public class StandardComponent 
+    implements Contextualizable
+{
+    /**
+     * Supply of the component context to the component type.
+     * @param context the context value
+     */
+    public void contextualize( StandardContext context )
+    {
+        //
+        // do some domain specific stuff using the supplied 
+        // context 
+        //
+    }
+}
+]]></source>
+        <p>
+          Meta-info in the component context descriptor is required to declare to 
+          Merlin that the component uses a custom context interface.  In the 
+          following type descriptor the attribute key
+          "urn:assembly:lifecycle.context.strategy" contains the classname of the
+          interface used by the component for contextualization.
+        </p>
+<source><![CDATA[
+<type>
+
+  <info>
+    <name>standard</name>
+  </info>
+
+  <context>
+    <attributes>
+      <attribute key="urn:assembly:lifecycle.context.strategy"
+          value="tutorial.Contextualizable"/>
+    </attributes>
+  </context>
+
+]]></source>
+      </subsection>
+
+      <subsection name="Execution">
+        <p>
+          Execute the following commands to build and run the tutorial.
+        </p>
+<source><![CDATA[
+$ maven
+$ merlin -execute target\classes
+]]></source>
+        <p>
+          Logging output from the tutorial execution is shown below:
+        </p>
+<source><![CDATA[
+[INFO   ] (kernel): building application model
+[INFO   ] (kernel): install phase
+[INFO   ] (kernel): installing: file:/${user.dir}/target/classes/
+[INFO   ] (tutorial.hello): listing values resolved from domain specific context
+[INFO   ] (tutorial.hello): supplied context class: tutorial.DemoContextProvider
+[INFO   ] (tutorial.hello): name: hello
+[INFO   ] (tutorial.hello): partition: /tutorial/
+[INFO   ] (tutorial.hello): home: D:\dev\avalon\merlin\platform\tutorials\context\casting\home\tutorial\hello
+[INFO   ] (tutorial.hello): temp: C:\TEMP\tutorial\hello
+]]></source>
+      </subsection>
+    </section>
+  </body>
+
+</document>
+
+
+
+

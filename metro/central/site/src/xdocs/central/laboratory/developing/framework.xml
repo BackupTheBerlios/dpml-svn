@@ -1,0 +1,457 @@
+<?xml version="1.0"?>
+<document>
+
+  <properties>
+    <author email="hammant@apache.org">Paul Hammant</author>
+    <author email="bloritsch@apache.org">Berin Loritsch</author>
+    <author email="niclas@apache.org">Niclas Hedhman</author>
+    <title>Framework and Foundations</title>
+  </properties>
+
+<body>
+  <section name="Framework and Foundations">
+  <p>
+    Avalon Framework is the central piece to the entire Avalon project.  If you
+    understand the contracts and constructs defined in the framework, you can
+    understand anything that uses it.  Remember the principles and patterns we
+    have already discussed so far.  In this section, we will expound on how the
+    Role concept works practically, the lifecycle of components, and how the
+    interfaces work.
+  </p>
+  </section>
+  <section name="Defining the Service Interface">
+    <p>
+      In Avalon, all components implements a Service, so we need to define
+      the <em>Service Interface</em> and the associated semantic contract.
+    </p>
+    <subsection name="Creating the Service Interface">
+      <p>
+        Below you will find an example interface, followed by some best
+        practices along with their reasoning.
+      </p>
+      <source>
+<![CDATA[
+package org.apache.avalon.bizserver.docrepository;
+
+/** Interface to store and retrieve arbitrary Documents in a persisted store.
+ *
+ * The DocumentRepository is responsible to store Documents, create a reference
+ * identity and be able to retrieve the same document at any point later in 
+ * time using the document identity returned in the <code>storeDocument()</code>
+ * method call.
+ */
+public interface DocumentRepository
+{
+    /** Retrieves a Document from the persisted document store.
+     *
+     * @return Document of the previously stored Document or null if not
+     * found.
+     * @throw SecurityException if the Principal is not authorized to 
+     * retrieve that document.
+     */
+    Document retrieveDocument(Principal requestor, int refId)
+        throws SecurityException;
+    
+    /** Store a Document into the persisted store.
+     *
+     * @return A Unique Document Identity, to be used later to retrieve the
+     * same document.
+     * @throw SecurityException if the Principal is not allowed to store
+     * documents in the persisted store.
+     */
+    int storeDocument( Principal requestor, Document doc )
+        throws SecurityException;
+}
+]]>
+      </source>
+      <subsection name="Best Practices">
+        <ol>
+          <li>
+              Do NOT extend the any life cycle interfaces in your service 
+              interface.
+          </li>
+          <li>
+            Document as much semantic rules (implicit or explicit) as possible.
+            This will limit the possibilities of misunderstanding between the
+            people who define the <em>Service Contract</em> and the implementing
+            developer. Even if that is today the same person, the Service may
+            be re-implemented in the future by someone else. Also, additional
+            clients shouldn't have to understand the implementation, and 
+            everything should be 100% clear from the service documentation.
+          </li>
+          <li>
+              Do one thing and do it well.  A Service should have the simplest
+              interface possible, When your service interface extends several 
+              other interfaces, you muddy the contract for this Service. An old
+              American acronym helps define this pattern: Keep It Simple, Stupid
+              (KISS).  It's not hard to outsmart yourself -- We do it all the 
+              time.
+          </li>
+          <li>
+              Only specify the methods that are needed in the Service interface. 
+              It is important to realize that the Service interface is used
+              by client code. Within the component, you probably need additional
+              methods between the classes. These methods should be package
+              protected and NOT exposed in the Service interface. This increase
+              understandability and the possibility to exchange the component
+              in the future.
+          </li>
+        </ol>
+      </subsection>
+    </subsection>
+  </section>
+  <section name="Overview of Framework Interfaces">
+    <p>
+      The entire Avalon Framework can be divided into 5 main categories (as
+      is the API): Activity, Service, Configuration, Context, Logger.  Each of 
+      those categories represents a unique concern area.  It is common for a
+      component to implement several interfaces to identify all the concern
+      areas that the component is concerned about.  This will allow the
+      component's container to manage each component in a consistent manner.
+    </p>
+    <subsection name="Lifecycle for Avalon Interfaces">
+      <p>
+        When a framework implements several interfaces to separate the concerns
+        of the component, there is potential for confusion over the order of
+        method calls.  Avalon Framework realizes this, so we developed the
+        contract for lifecycle ordering of events.  If your component does not
+        implement the associated Interface, then simply skip to the next
+        that will be called. The lifecycle order makes it easy to setup and
+        prepare the component for use, in each of the lifecycle methods.
+      </p>
+      <p>
+        The Lifecycle of a component is split into three phases:
+        Initialization, Active Service, and Destruction.  Because these phases
+        are sequential, we will discuss them in that order. 
+        The Active Service phase is outside the concern of the container, and
+        basically consists of other components calling the methods in the 
+        Service interface.
+        In addition, the
+        act of Construction and Finalization is implicit due to the Java
+        language, so they will be skipped.  The steps will list the method
+        name, and the required interface.  Within each phase, there will be a
+        number of stages identified by method names.  Those stages are executed
+        if your component extends the associated interface specified in
+        parenthesis.
+      </p>
+      <subsection name="Initialization">
+        <p>
+          This list of stages occurs in this specific order, and occurs only
+          once during the life of the component.
+        </p>
+        <ul>
+          <li>
+              <code>enableLogging</code>
+              [<code>LogEnabled</code>]
+          </li>
+          <li>
+              <code>contextualize</code>
+              [<code>Contextualizable</code>]
+          </li>
+          <li>
+              <code>compose</code>
+              [<code>Composeable</code>]
+          </li>
+          <li>
+              <code>service</code>
+              [<code>Serviceable</code>]
+          </li>
+          <li>
+              <code>configure</code>
+             [<code>Configurable</code>]
+              <em>or</em>
+              <code>parameterize</code>
+             [<code>Parameterizable</code>]
+          </li>
+          <li>
+              <code>initialize</code>
+              [<code>Initializable</code>]
+          </li>
+          <li>
+              <code>start</code>
+              [<code>Startable</code>]
+          </li>
+        </ul>
+      </subsection>
+      <subsection name="Destruction">
+        <p>
+          This list of stages occurs in the order specified, and occurs only
+          once during the life of the component.
+        </p>
+        <ul>
+          <li>
+              <code>stop</code>
+              [<code>Startable</code>]
+          </li>
+          <li>
+              <code>dispose</code>
+              [<code>Disposable</code>]
+          </li>
+        </ul>
+      </subsection>
+    </subsection>
+    <subsection name="Avalon Framework Contracts">
+      <p>
+        In this section, we will cover all the sections alphabetically.
+      </p>
+      <subsection name="Activity">
+        <p>
+          This group of interfaces refers to contracts for the life cycle of
+          the component. Each method allows the generic 
+          <code>java.lang.Exception</code> to be thrown in any case of error.
+        </p>
+        <subsection name="Disposable">
+          <p>
+            The <code>Disposable</code> interface is used by any
+            component that wants a structured way of knowing it is no longer
+            needed.  Once a component is disposed of, it can no longer be used.
+            In fact, it should be awaiting garbage collection.  The interface
+            only has one method <code>dispose</code> that has no
+            parameters.
+          </p>
+          <p>
+            The contract surrounding this interface is that the
+            <code>dispose</code> method is called once and the method
+            is the last one called during the life of the component.  Further
+            implications include that the component will no longer be used,
+            and all resources held by this component must be released. In a way,
+            it is a replacement of <code>finalize()</code>, which has very 
+            complicated semantics, that doesn't apply to <code>dispose()</code>.
+          </p>
+        </subsection>
+        <subsection name="Initializable">
+          <p>
+            The <code>Initializable</code> interface is used by any
+            component that needs to perform initializations that take information
+            from other initialization steps.  It is more natural to place all
+            the initialization in the <code>intialize()</code> method, and only
+            gather the required pieces in the preceeding lifecycle methods.
+            The interface only has one method
+            <code>initialize</code> that has no parameters.
+          </p>
+          <p>
+            The contract surrounding this interface is that the
+            <code>initialize</code> method is called once and the
+            method is the last one called during the initialization sequence.
+            Further implications include that the component is now live, and it
+            can be used by other components in the system.
+          </p>
+        </subsection>
+        <subsection name="Startable">
+          <p>
+            The <code>Startable</code> interface is used by any
+            component that is constantly running for the duration of its life.
+            The interface defines two methods: <code>start</code> and
+            <code>stop</code>.  Neither method has any parameters.
+          </p>
+          <p>
+            The contract surrounding this interface is that the
+            <code>start</code> method is called once after the
+            component is fully initialized, and the <code>stop</code>
+            method is called once before the component is disposed of.  Neither
+            method will be called more than once, and <code>start</code>
+            will always be called before <code>stop</code>.
+            Furthermore, the method must return, it can not go into a endless
+            loop. From this follows that the component should create a thread
+            and call the <code>Thread.start()</code> method inside this
+            method to ctart the continous processing.
+            The <code>stop()</code> method should interrupt the thread in a
+            safe manner. This should be done by variables and the 
+            <code>Thread.interrupt()</code> method, slightly depending on how
+            the thread is operating.
+            Implications of using this interface require that the
+            <code>start</code> and <code>stop</code> methods be
+            conducted safely (unlike the <code>Thread.stop</code>
+            method) and not render the system unstable.
+          </p>
+        </subsection>
+      </subsection>
+      <subsection name="Configuration">
+        <p>
+          This group of interfaces describes the concern area of configuration.
+          If there are any problems, such as required
+          <code>Configuration</code> elements that are missing, then
+          the component may throw a <code>ConfigurationException</code>.
+        </p>
+        <subsection name="Configurable">
+          <p>
+            Components that modify their exact behavior based on configurations
+            must implement this interface to obtain an instance of the
+            <code>Configuration</code> object.  There is one method
+            associated with this interface: <code>configure</code> with
+            a <code>Configuration</code> object as the only
+            parameter.
+          </p>
+          <p>
+            The contract surrounding this interface is that the
+            <code>configure</code> method is called once during the
+            life of the component.  The <code>Configuration</code>
+            object passed in <em>must not be null</em>.
+          </p>
+        </subsection>
+        <subsection name="Configuration">
+          <p>
+            The <code>Configuration</code> object is a representation
+            of a tree of configuration elements that have attributes.  In a
+            way, you can view the configuration object as an overly simplified
+            DOM.  There are too many methods to cover in this document, so
+            please review the JavaDocs.  You can get the
+            <code>Configuration</code> object's value as a
+            <code>String</code>, <code>int</code>,
+            <code>long</code>, <code>float</code>, or
+            <code>boolean</code> -- all with default values.  You
+            can do the same for attribute values.  You may also get child
+            <code>Configuration</code> objects.
+          </p>
+          <p>
+            There is a contract that says that if a
+            <code>Configuration</code> object has a value that it
+            should not have any children, and the corollary is also
+            true -- if there are any children, there should be no value.
+          </p>
+          <p>
+            To simplify the code, the method calls <code>getChild()</code>
+            and <code>getChildren()</code> will always return Configuration
+            and never null.
+          </p>
+          <p>
+            You will notice that you may not get parent
+            <code>Configuration</code> objects.  This is by design.
+            To reduce the complexity of the <code>Configuration</code>
+            system, containers will most likely pass child configuration
+            objects to child components.  The child components should not have
+            any access to parent configuration values.  This approach might
+            provide a little inconvenience, but the Avalon team opted for
+            security by design in every instance where there was a tradeoff.
+          </p>
+        </subsection>
+      </subsection>
+      <subsection name="Context">
+        <p>
+          The concept of the <code>Context</code> in Avalon arose
+          from the need to provide a mechanism to pass simple objects
+          (i.e. non-components) from a container to a component.  
+          This has since then grown into a very powerful mechanism in
+          Avalon Merlin, where you can create your own Context entries,
+          as well as extend the Context instance itself with your own
+          implementation.
+          See the Avalon Merlin documentation for details on how to define
+          custom context entries.
+        </p>
+        <subsection name="Context">
+          <p>
+            The <code>Context</code> interface defines only the
+            method <code>get</code>.  It has an
+            <code>Object</code> for a parameter, and it returns an
+            object based on that key.  The <code>Context</code> is
+            populated by the container, and passed to the child component who
+            only has access to <em>read</em> the <code>Context</code>.
+          </p>
+          <p>
+            There is no set contract with the <code>Context</code>
+            other than it should always be <em>read-only</em> by
+            the child component.  If you extend Avalon's
+            <code>Context</code>, please respect that contract.  It
+            is part of the Inversion of Control pattern as well as security by
+            design.  In addition, it is a bad idea to pass a reference to the
+            container in the Context for the same reason that the Context
+            should be <em>read-only</em>.
+          </p>
+        </subsection>
+        <subsection name="Contextualizable">
+          <p>
+            A component that wishes to receive the container's
+            <code>Context</code> will implement this interface.  It
+            has one method named <code>contextualize</code> with the
+            parameter being the container's <code>Context</code>
+            object.
+          </p>
+          <p>
+            The contract surrounding this interface is that the
+            <code>contextualize</code> method is called once during the
+            life of a component, after <code>LogEnabled</code> but
+            before any other initialization method.
+          </p>
+        </subsection>
+      </subsection>
+      <subsection name="Logger">
+        <p>
+          Every system needs the ability to log events.  Avalon Merlin 
+          uses a subsystem called <em>Avalon Logging</em> which is capable
+          of logger subsystem plug-ins. Currently, it supports Apache Log4J
+          and the original Avalon LogKit. Expect more systems to follow soon.
+          Also, it is fairly easy to create a new Avalon Logging Plug-In,
+          in case you need to access a custom logging system.
+        </p>
+        <p>
+          Logging is often done by statically addressing some factory method
+          in the Logging subsystem. Avalon always tries to apply Inversion
+          of Control, which means that the component should not try to 
+          figure out how to obtain a Logger instance, it should be given one
+          by the container. The container can then be configured with the
+          most suitable Logging system for the application, without any 
+          changes to the components.
+        </p>
+        <subsection name="LogEnabled">
+          <p>
+            Every component that needs a Logger instance implements this
+            interface.  The interface has one method named
+            <code>enableLogging</code> and passes Avalon Framework's
+            <code>Logger</code> instance to the component.
+          </p>
+          <p>
+            The contract surrounding this method is that it is called only
+            once during the component's lifecycle before any other
+            initialization step.
+          </p>
+        </subsection>
+        <subsection name="Logger">
+          <p>
+            The <code>Logger</code> interface is used to abstract
+            away the differences in logging systems.  It provides only a
+            client API, and a fairly simple API that is.
+          </p>
+        </subsection>
+      </subsection>
+      <subsection name="Service">
+        <p>
+          This is the core of Avalon Framework. Any interface defined in this
+          concern area will throw ServiceException.
+        </p>
+        <subsection name="Serviceable" >
+          <p>
+            A component that uses other components (what we call a 
+            <em>Dependency</em> ) needs to implement this interface. The 
+            interface has only one method <code>service</code> with a
+            <code>ServiceManager</code> passed in as the only
+            parameter.
+          </p>
+          <p>
+            The contract surrounding this interface is that the
+            <code>service</code> is called once and only once during
+            the lifetime of this component.
+          </p>
+        </subsection>
+        <subsection name="ServiceManager">
+          <p>
+            The <code>ServiceManager</code> is passed to the components that
+            implements the <code>Serviceable</code> interface in the 
+            <code>service</code> method. The <code>ServiceManager</code> has
+            a single method, <code>lookup</code>, which is used by the 
+            component to locate its dependencies. It does this by passing a
+            key in the moethod call and the <code>ServiceManager</code> will
+            hand back a component reference of the requested <em>Service</em>.
+            I.e. The component requests a <em>Service</em>, but doesn't need
+            to be concerned about which implementation, and safely cast the
+            returned object to the <em>Service Interface</em>.
+            The component must declare which dependencies it has, and can
+            explicitly also declare the key that will be used in the 
+            <code>lookup</code> method call. If no key is defined, the 
+            <em>Service Interface</em> name must be used.
+          </p>
+        </subsection>
+      </subsection>
+    </subsection>
+  </section>
+ </body>
+</document>

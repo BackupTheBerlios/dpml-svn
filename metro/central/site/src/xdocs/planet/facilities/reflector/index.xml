@@ -1,0 +1,73 @@
+<?xml version="1.0"?>
+
+<!-- 
+ Copyright 2004 Apache Software Foundation
+ Licensed  under the  Apache License,  Version 2.0  (the "License");
+ you may not use  this file  except in  compliance with the License.
+ You may obtain a copy of the License at 
+ 
+   http://www.apache.org/licenses/LICENSE-2.0
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed  under the  License is distributed on an "AS IS" BASIS,
+ WITHOUT  WARRANTIES OR CONDITIONS  OF ANY KIND, either  express  or
+ implied.
+ 
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+
+<document>
+
+  <properties>
+    <title>Planet - Facilities</title>
+    <author email="dev@avalon.apache.org">Avalon Development Team</author>
+  </properties>
+
+  <body>
+    <section name="Reflector Facility">
+      <p>
+        The Reflector Facility (hereafter Reflector) is a troubleshooting
+        tool for the developer. By loading/installing the Reflector facility
+        it is possible to navigate the entire application, through the
+        getter methods, 
+        e.g. <source>public SomeType getSomeMember()</source>. It is also 
+        possible to set values through setter methods, 
+        e.g. <source>public void setSomeMember( SomeType value );</source>
+        In fact, it is even possible to instantiate new java objects and
+        assign them, but this should be done with extreme care.
+      </p>
+      <subsection name="Components" >
+        <p>
+          The Reflector consists of a fair number of components. It is also
+          designed so that additional special-case types can have their own
+          type handlers, just like special treatment is given to Collection,
+          Map, Dictionary, arrays and ComponentModel instances.
+        </p>
+        <p>
+          You can read more about each component 
+          <a href="components/index.html">here</a>.
+        </p>
+      </subsection>
+      <subsection name="Blocks" >
+        <p>
+          Two blocks has been prepared for instant use. The Standard block
+          does not include the Http server in the Http facility, but the
+          Complete block does. You should use the Standard block if you
+          have an Http Facility running for other purposes.
+        </p>
+        <p>
+          You can read more about each block
+          <a href="blocks/index.html">here</a>.
+        </p>
+      </subsection>
+    </section>
+  </body>
+
+  <footer>
+    <legal>
+      Copyright (c) @year@ The Avalon Apache Project All rights reserved.
+      $Revision: 1.4 $ $Date: 2004/05/05 13:38:05 $
+    </legal>
+  </footer>
+</document>

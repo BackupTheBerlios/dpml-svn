@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document>
+  <properties>
+    <author email="dev@avalon.apache.org">Avalon Documentation Team</author>
+    <title>Avalon Central</title>
+  </properties> 
+
+  <body>
+    <section name="Avalon Adopts Single Platform Strategy">
+     <p>12-MAR-2004</p>
+     <p>
+      The Avalon community made a historical vote on Friday, where it
+      adopted a <strong>Single Platform</strong> strategy.
+      Single Platform = "a single specification, single container, single 
+      architecture."
+     </p>
+    </section>
+  </body>
+</document>
+

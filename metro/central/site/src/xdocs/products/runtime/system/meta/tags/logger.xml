@@ -1,0 +1,85 @@
+<?xml version="1.0"?>
+
+<document>
+
+  <properties>
+    <author email="mcconnell@apache.org">Stephen McConnell</author>
+    <title>Javadoc Tag Specification</title>
+  </properties>
+
+  <body>
+
+    <section name="Javadoc Tags">
+
+      <subsection name="Logger Tag">
+<p>
+The logger tag declares the name of a logging channel that is consumed by a component type. The logging tag provides management information that may be used by a container during the establishment of logging categories and targets.
+</p>
+      </subsection>
+      <subsection name="Attributes">
+        <table>
+          <tr><th>Attribute</th><th>Required</th><th>Description</th></tr>
+          <tr>
+            <td>name</td><td>yes</td>
+            <td>
+              <p>The name of a subsidiary logging channel relative to the logging channel that is supplied to the component by the container.</p>
+            </td>
+          </tr>
+        </table>
+      </subsection>
+      <subsection name="Example">
+
+<source><![CDATA[
+package org.apache.avalon.playground;
+
+/**
+ * Example of a component declaring the name of a logging channel.
+ *
+ * @avalon.component name="component" version="2.4"
+ */
+public class MyComponent extends AbstractLogEnabled
+{
+    private Logger m_system = null;
+
+   /**
+    * Supply of a logging channel to the component.
+    * @param logger the logging channel
+    * @avalon.logger name="system"
+    */
+    public void enableLogging( Logger logger )
+    {
+        super.enableLogging( logger );
+        m_system = logger.getChildLogger( "system" );
+    }
+
+    ...
+}
+]]></source>
+
+<p>Generated meta-info type descriptor:</p>
+
+<source><![CDATA[
+<type>
+  <info>
+    <version>2.4.0</version>
+    <name>component</name>
+  </info>
+  <loggers>
+    <logger name="system"/>
+  </loggers>
+</type>
+]]></source>
+      </subsection>
+    </section>
+  </body>
+
+  <footer>
+    <legal>
+      Copyright (c) @year@ The Avalon Apache Project All rights reserved.
+      $Revision: 1.1 $ $Date: 2004/04/14 11:47:33 $
+    </legal>
+  </footer>
+
+</document>
+
+

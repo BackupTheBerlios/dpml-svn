@@ -1,0 +1,91 @@
+<?xml version="1.0"?>
+
+<document>
+
+  <properties>
+    <author email="mcconnell@apache.org">Stephen McConnell</author>
+    <title>Dependency Descriptors</title>
+  </properties>
+
+  <body>
+
+    <section name="Dependency Descriptor">
+
+      <subsection name="Description">
+<p>
+A dependency declaration defines the key that the component will use to access a service via a service or component manager and the expected service type. A dependecy may be declared as optional by setting the optional attribute value to TRUE.  The default value for optional is FALSE.
+</p>
+      </subsection>
+
+      <subsection name="Attributes">
+        <table>
+          <tr><th>Attribute</th><th>Required</th><th>Description</th></tr>
+          <tr>
+            <td>key</td><td>no</td>
+            <td>
+            The key that the component will use as the argument to 
+            lookup on the supplied service or component manager. 
+            The default value is the value is equal to the 
+            service classname.
+            </td>
+          </tr>
+          <tr>
+            <td>type</td><td>yes</td>
+            <td>
+             Declaration of an interface classname.
+            </td>
+          </tr>
+          <tr>
+            <td>version</td><td>no</td>
+            <td>
+             Declaration of service version. If not declarared a version of 1.0 is assumed.
+            </td>
+          </tr>
+          <tr>
+            <td>optional</td><td>no</td>
+            <td>
+             If TRUE, the dependency may not be fulfilled by a container.  If FALSE
+             (the default) the container shall ensure that the depdendency is fulfilled
+             before component deployment.
+            </td>
+          </tr>
+        </table>
+      </subsection>
+
+      <subsection name="Nested Elements">
+        <table>
+          <tr><th>Element</th><th>Occurance</th><th>Description</th></tr>
+          <tr>
+            <td><a href="../../attributes/index.html">attributes</a></td><td>0..1</td>
+            <td>
+             A set of attribute declarations.
+            </td>
+          </tr>
+        </table>
+      </subsection>
+
+      <subsection name="Example XML">
+
+<source>
+      &lt;dependency optional="<font color="darkred">FALSE</font>"
+        key="<font color="darkred">my-transformer</font>"
+        type="<font color="darkred">org.apache.cocoon.api.Transformer</font>"
+        version="<font color="darkred">1.1</font>"/&gt;
+</source>
+
+      </subsection>
+
+    </section>
+
+  </body>
+
+  <footer>
+    <legal>
+      Copyright (c) @year@ The Avalon Apache Project All rights reserved.
+      $Revision: 1.2 $ $Date: 2004/04/14 11:47:32 $
+    </legal>
+  </footer>
+
+</document>
+
+

@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<document>
+
+  <properties>
+    <title>Studio Manual - Chapter 4</title>
+    <author email="dev@avalon.apache.org">Avalon Documentation Team</author>
+  </properties>
+
+  <body>
+    <section name="Chapter 4 - Block editing and publication">
+      <p>
+        <em><strong>Documentation not available yet.</strong></em>
+      </p>
+      <!-- 4.1 -->
+      <subsection name="Create a Block" >
+        <!-- 4.1.1 -->
+        <subsection name="create a block within a new project" >
+        </subsection>
+        <!-- 4.1.2 -->
+        <subsection name="create a block within an existing project" >
+        </subsection>
+      </subsection>
+      <!-- 4.2 -->
+      <subsection name="Edit Block Type" >
+      </subsection>
+      <!-- 4.3 -->
+      <subsection name="Add/Edit/Remove Block Reference" >
+      </subsection>
+      <!-- 4.4 -->
+      <subsection name="Add/Edit/Remove Nested Block" >
+      </subsection>
+      <!-- 4.5 -->
+      <subsection name="Add / Remove External Library" >
+      </subsection>
+      <!-- 4.6 -->
+      <subsection name="Property Editor" >
+      </subsection>
+      <!-- 4.7 -->
+      <subsection name="Services" >
+        <!-- 4.7.1 -->
+        <subsection name="add / remove service" >
+        </subsection>
+        <!-- 4.7.2 -->
+        <subsection name="add / remove service dependency" >
+        </subsection>
+        <!-- 4.7.3 -->
+        <subsection name="add / remove service extension" >
+        </subsection>
+      </subsection>
+      <!-- 4.8 -->
+      <subsection name="Standalone Block Validation" >
+      </subsection>
+      <!-- 4.9 -->
+      <subsection name="Block Publication" >
+        <!-- 4.9.1 -->
+        <subsection name="As a bundled jar" >
+        </subsection>
+        <!-- 4.9.2 -->
+        <subsection name="As a standalone block definition" >
+        </subsection>
+        <!-- 4.9.3 -->
+        <subsection name="As a bar file" >
+        </subsection>
+      </subsection>
+    </section>
+  </body>
+</document>

@@ -1,0 +1,177 @@
+<?xml version="1.0"?>
+
+<!-- 
+ Copyright 2004 Apache Software Foundation
+ Licensed  under the  Apache License,  Version 2.0  (the "License");
+ you may not use  this file  except in  compliance with the License.
+ You may obtain a copy of the License at 
+ 
+   http://www.apache.org/licenses/LICENSE-2.0
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed  under the  License is distributed on an "AS IS" BASIS,
+ WITHOUT  WARRANTIES OR CONDITIONS  OF ANY KIND, either  express  or
+ implied.
+ 
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+
+<document>
+
+  <properties>
+    <author email="mcconnell@apache.org">Stephen McConnell</author>
+    <title>Component Specification</title>
+  </properties>
+
+  <body>
+
+    <section name="Component Descriptors">
+      <p>
+Within the COP (Component Oriented Programming) domain there is a principal
+that the component is supplied with the resources its needs in order to 
+function properly.  The direct implication of this principal is that a 
+component should declare exactly what it needs.  When we consider a 
+portable and reusable component we need to think its deployment 
+dependecies, structural dependencies, context assumptions, configuration 
+and parameterization criteria, throught to minor details such the logging 
+channels that the component implementation assumes.
+      </p>
+      <p>
+This information is captured in a object called a Type.  An instance of Type 
+describes the component and can be used by a container without necessarily 
+loading the component class.  Instance of Type are created from an XML 
+external form.  The XML descriptor can be created manually or more typically 
+through development tools that automate the creation process based on javadoc 
+tags included in the source code.
+      </p>
+    </section>
+
+    <section name="Specifications">
+
+      <subsection name="Javadoc Tag Markup">
+        <p>
+Information about a component type may be declared in the form of javadoc tags
+(refer <a href="../../../system/meta/tags/index.html">Tag Specification</a>.  
+Using <a href="../../../tools/index.html">development 
+tools</a> supplied as part of the 
+<a href="../../../system/meta/index.html">Avalon Meta</a> package - 
+the process of generation of an XML type descriptor can be completely automated.  
+        </p>
+        <p>
+A special tag @avalon.component is used to identify a class as a component.  The
+following code framgment illustrates the use of the @avalon.component tag.
+        </p>
+<source>
+/**
+ * Component demonstrating access to standard context entries.
+ *
+ * @avalon.component name="demo" lifestyle="singleton"
+ */
+public class HelloComponent 
+{
+   ...
+}
+</source>
+
+        <p>
+Additional tags are used to markup requirements that a component class has towards a container.  In the following code fragment a constructor is presented with a series of context entry dependencies that the component has during its instantiation phase. Each tag represents a particular context entry assumption that the component has, and the implicit responsibility of a container to fulfill.
+        </p>
+
+<source>
+   /**
+    * Creation of a new HelloComponent instance using a 
+    * container supplied logging channel and context.
+    * The context supplied by the container holds the 
+    * standard context entries for the home and 
+    * working directories, component name and partition.
+    *
+    * @avalon.entry key="urn:avalon:name" 
+    * @avalon.entry key="urn:avalon:partition" 
+    * @avalon.entry key="urn:avalon:home" type="java.io.File"
+    * @avalon.entry key="urn:avalon:temp" type="java.io.File"
+    */
+    public HelloComponent( Logger logger, Context context )
+      throws ContextException
+    {
+        m_logger = logger;
+
+        m_home = (File) context.get( "urn:avalon:home" );
+        m_temp = (File) context.get( "urn:avalon:temp" );
+        m_name = (String) context.get( "urn:avalon:name" );
+        m_partition = (String) context.get( "urn:avalon:partition" );
+
+        StringBuffer buffer = new StringBuffer( "standard context entries" );
+        buffer.append( "\n  name: " + m_name );
+        buffer.append( "\n  home: " + m_home );
+        buffer.append( "\n  temp: " + m_temp );
+        buffer.append( "\n  partition: " + m_partition );
+
+        m_logger.info( buffer.toString() );
+    }
+</source>
+
+      </subsection>
+
+      <subsection name="XML External Form">
+
+        <p>
+A component type may be associated with a component class by colocating an 
+XML file with the suffix "xinfo" with the component implementation class.  
+For example, the class tutorial.Hello is packaged in a jar file under the 
+path /tutorial/Hello.class.  The xinfo file is packaged as 
+/tutorial/Hello.xinfo.
+        </p>
+
+        <p>
+The formal specification of the 
+<a href="../../../system/meta/info/index.html">XML external 
+form</a> for component type descriptors is available as part of the 
+<a href="../../../systen/meta/index.html">Avalon Meta Package</a>.
+        </p>
+
+        <p>
+An example of a xinfo XML content taken from the context casting tutorial is 
+presented below.
+        </p>
+
+<source><![CDATA[
+<type>
+  <info>
+    <name>demo</name>
+    <version>1.0.0</version>
+    <lifestyle>singleton</lifestyle>
+    <collection>hard</collection>
+  </info>
+  <context type="tutorial.DemoContext">
+    <entry key="urn:avalon:name" />
+    <entry key="urn:avalon:partition" />
+    <entry key="urn:avalon:home" type="java.io.File" />
+    <entry key="urn:avalon:temp" type="java.io.File" />
+  </context>
+</type>
+]]></source>
+
+      </subsection>
+
+      <subsection name="Type Model">
+
+        <p>
+The Avalon Meta package provides the overal meta-info layer within which a 
+component type descriptor is defined.  The descriptor is an immutable data 
+object that contains a component classname, attributes, context dependencies, 
+deployment dependencies, runtime service dependencies, service and extension 
+publication, and associating logging channel assumptions. The full specification
+of the 
+<a href="../../../../../avalon/runtime/@RUNTIME-VERSION@/spi/org/apache/avalon/meta/info/Type.html">Type</a>
+class is provided in the package javadoc.  Type establishment is typically 
+automated by the container by scanner jar file for xinfo descriptors (or 
+possibly through dynamic type creation).
+        </p>
+
+      </subsection>
+    </section>
+  </body>
+</document>
+
+

@@ -1,0 +1,66 @@
+<?xml version="1.0"?>
+
+<!-- 
+ Copyright 2004 Apache Software Foundation
+ Licensed  under the  Apache License,  Version 2.0  (the "License");
+ you may not use  this file  except in  compliance with the License.
+ You may obtain a copy of the License at 
+ 
+   http://www.apache.org/licenses/LICENSE-2.0
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed  under the  License is distributed on an "AS IS" BASIS,
+ WITHOUT  WARRANTIES OR CONDITIONS  OF ANY KIND, either  express  or
+ implied.
+ 
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+ 
+<document>
+
+  <properties>
+    <author email="mcconnell@apache.org">Stephen McConnell</author>
+    <title>Merlin Runtime</title>
+  </properties>
+
+  <body>
+
+    <section name="Merlin Runtime">
+
+    <subsection name="Service Management Platform (SMP)">
+<p>
+Merlin is a service management platform based on an advanced assembly engine.  Its focus is to provide support for the encapsulation of a set of components and services within functional blocks.  Blocks enable the separation of components as an implementation solutions from services established by respective components.
+     </p>
+
+    </subsection>
+
+    <subsection name="Assembly Framework">
+
+<p>
+The assembly engine is responsible for the management of the deployment of services provided by a component. 
+</p>
+
+<p>
+Components in the framework may have dependencies on services provided by other components, which in turn may have dependencies of their own.  In addition, components can declare (as part of their meta-info) particular lifecycle stages (such as initiation or configuration) and the type of stage provider it needs to handle that stage.  So in effect, components can be deployed with classic runtime dependencies together with deployment dependencies (because deployment stage providers are themselves components that may have their own deployment and runtime dependencies).
+</p>
+
+<p>
+Assembly services include ordered deployment and decommissioning, and a range of "lifestyle" handlers (things like thread-safe, per-thread, singleton, transient, or custom policies).  The package includes facilities for: classloader management and cascading repositories for types, templates, service definitions and appliance instances (where an appliance is simply an instantiation of a particular component deployment scenario). 
+</p>
+    </subsection>
+
+    <subsection name="Meta Model">
+<p>
+The meta model used in Merlin defines the notion of a component type.  A Type definition contains information about deployment and runtime dependencies together with general attributes about the type and services the component type can provide. The Type and Service notions are complimented by a Profile which can be viewed as a template deployment scenario.  Type, Service and Profile descriptions can be packaged in jars files and used as the basic for automating component assembly and deployment. 
+</p>
+
+    </subsection>
+
+    </section>
+
+  </body>
+
+</document>
+
+

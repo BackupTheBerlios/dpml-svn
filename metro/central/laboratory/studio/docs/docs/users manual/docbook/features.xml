@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<section>
+  <title>Features</title>
+
+  <section>
+    <table><title>version 0.1.0</title><tgroup
+    cols="2"><tbody><row><entry>Create new projects / blocks with a special
+    Merlin block nature</entry><entry><inlinegraphic
+    fileref="../eclipse/html/icons/NewProject.gif"></inlinegraphic></entry></row><row><entry>Create
+    and run example blocks</entry><entry><inlinegraphic
+    fileref="../eclipse/html/icons/NewProjectSelection.gif"></inlinegraphic></entry></row><row><entry>Run
+    / Debug blocks</entry><entry><inlinegraphic
+    fileref="../eclipse/html/icons/run_as.gif"></inlinegraphic></entry></row><row><entry>Context
+    help for Avalon JavaDoc tags</entry><entry><inlinegraphic
+    fileref="../eclipse/html/icons/context_help.gif"></inlinegraphic></entry></row><row><entry>Automatic
+    build for component meta
+    files</entry><entry></entry></row></tbody></tgroup></table>
+  </section>
+
+  <section>
+    <para><table><title>version 0.1.2</title><tgroup
+    cols="2"><tbody><row><entry>Server configuration (preferences and on a
+    block base)</entry><entry></entry></row><row><entry>Automatic deployment
+    to local repository cache</entry><entry></entry></row><row><entry>More
+    example blocks</entry></row><row><entry>Users
+    manual</entry></row><row><entry>Programmers
+    manual</entry></row><row><entry>Integration into the Merlins automated
+    build process</entry></row><row><entry>More test
+    cases</entry></row></tbody></tgroup></table></para>
+  </section>
+</section>

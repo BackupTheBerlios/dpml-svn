@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TeamTask id="DIJU2K">
+	<TeamTaskMeta>
+		<CreationDate format="yyyy-MM-dd :: HH:mm:ss z">2004-08-27 :: 10:43:09 CEST</CreationDate>
+		<LastModificationDate format="yyyy-MM-dd :: HH:mm:ss z">2004-08-27 :: 10:43:57 CEST</LastModificationDate>
+	</TeamTaskMeta>
+	<Summary>builders</Summary>
+	<User>Andreas</User>
+	<Module>launch</Module>
+	<AssignedTo />
+	<State description="New" index="0" />
+	<Severity description="Enhancement" index="0" />
+	<Description>- add the xinfo builder
+- add a "deploy to metro repository" builder</Description>
+	<Notification />
+	<LinkList />
+	<NoteHistory />
+</TeamTask>
+

@@ -1,0 +1,77 @@
+<?xml version="1.0"?>
+
+<document>
+
+  <properties>
+    <author email="mcconnell@apache.org">Stephen McConnell</author>
+    <title>Javadoc Tag Specification</title>
+  </properties>
+
+  <body>
+
+    <section name="Introduction">
+      <subsection name="Stage Tag">
+<p>A component type may declare a dependency on an arbitary number of lifecycle stages.  Each stage corresponds to a lifecycle extension that will be applied to the component in the order corresponding to the ordering of stage tags.  A container is responsible for the construction and deployment of an extension stage handler capable of servicing the stage dependency.</p>
+      </subsection>
+
+      <subsection name="Attributes">
+        <table>
+          <tr><th>Attribute</th><th>Required</th><th>Description</th></tr>
+          <tr>
+            <td><p>id</p></td><td><p>yes</p></td>
+            <td>
+              <p>A value that identifies an entension 
+                 to be applied to the component during deployment.</p>
+            </td>
+          </tr>
+        </table>
+      </subsection>
+
+      <subsection name="Example">
+
+<source><![CDATA[
+package net.osm.vault;
+
+import org.apache.avalon.playground.Demonstratable;
+
+/**
+ * Example of a component declaring a stage dependency.
+ *
+ * @avalon.component version="0.1" name="extended-component"
+ * @avalon.stage id="urn:somewhere:demonstratable"
+ */
+public class DemoComponent implements Demonstratable
+{
+  ...
+}
+]]></source>
+
+<p>Generated meta-info type descriptor:</p>
+
+<source><![CDATA[
+<type>
+  <info>
+    <version>0.1.0</version>
+    <name>extended-component</name>
+  </info>
+  <stages>
+    <stage id="urn:somewhere:demonstratable"/>
+  </stages>
+</type>
+]]></source>
+
+      </subsection>
+    </section>
+
+  </body>
+
+  <footer>
+    <legal>
+      Copyright (c) @year@ The Avalon Apache Project All rights reserved.
+      $Revision: 1.1 $ $Date: 2004/04/14 11:47:33 $
+    </legal>
+  </footer>
+
+</document>
+
+

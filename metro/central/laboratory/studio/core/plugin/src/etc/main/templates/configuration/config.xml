@@ -1,0 +1,10 @@
+
+<targets>
+
+  <target path="/tutorial/hello">
+    <configuration>
+      <source>Custom configuration from target in config.xml.</source>
+    </configuration>
+  </target>
+
+</targets>

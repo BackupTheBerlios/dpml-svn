@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<document>
+
+  <properties>
+    <author email="niclas@apache.org">Niclas Hedhman</author>
+    <title>Developing With Apache Avalon</title>
+  </properties>
+
+  <body>
+    <section name="Avalon Logging">
+    <p>
+      <em>Work in progress.</em>
+    </p>
+    </section>
+  </body>
+</document>
+

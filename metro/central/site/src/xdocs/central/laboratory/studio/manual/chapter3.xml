@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<document>
+
+  <properties>
+    <title>Studio Manual - Chapter 3</title>
+    <author email="dev@avalon.apache.org">Avalon Documentation Team</author>
+  </properties>
+
+  <body>
+    <section name="Chapter 3 - Run / Debug / Test Server">
+      <p>
+        <em><strong>Documentation not available yet.</strong></em>
+      </p>
+      <!-- 3.1 -->
+      <subsection name="Execution Mode" >
+        <!-- 3.1.1 -->
+        <subsection name="Start / Stop Server" >
+        </subsection>
+        <!-- 3.1.2 -->
+        <subsection name="Runtime addition and removal of blocks" >
+        </subsection>
+      </subsection>
+      <!-- 3.2 -->
+      <subsection name="Server Mode" >
+      </subsection>
+      <!-- 3.3 -->
+      <subsection name="Embedded Mode" >
+      </subsection>
+    </section>
+  </body>
+</document>

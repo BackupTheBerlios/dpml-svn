@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document>
+  <properties>
+    <author email="dev@avalon.apache.org">Avalon Documentation Team</author>
+    <title>Apache Avalon: Powered By</title>
+  </properties> 
+
+  <body>
+    <section name="Related Projects">
+      <subsection name="Powered-By Avalon">
+      <p>
+        Got a project using Avalon?  Email the <a href="../mailing-lists.html">developers'
+        mailing list</a> and we'll add it to our site.
+      </p>
+      <img src="../images/avalon-power.png" alt="Avalon Power"/>
+    </subsection>
+    </section>
+  </body>
+</document>

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document>
+  <properties>
+    <author email="dev@avalon.apache.org">Avalon Documentation Team</author>
+    <title>Apache Avalon: Related Projects</title>
+  </properties> 
+
+  <body>
+    <section name="Related Projects">
+      <subsection name="Index">
+        <table>
+	    <tr>
+	      <th width="150">Name</th>
+	      <th>Description</th>
+	    </tr>
+	    <tr>
+	      <td><a href="apache.html">Apache Projects</a></td>
+	      <td>Overview of a number of Apache projects that leverage 
+              the Avalon framework, containers, and shared components.
+              The page includes details of the James Enterprise Messaging 
+              Platform that leverages the Avalon component model and several
+              of the Cornerstone common components; the Turbine Fulcrum 
+              component suite and development related to the Merlin 
+              container, and the Cocoon project that is leveraging the 
+              Fortress container as part of their overall development 
+              strategy.</td>
+	    </tr>
+	    <tr>
+	      <td><a href="external.html">External Projects</a></td>
+	      <td>A list of external projects based on Avalon technochnologies
+             and services. This list includes a number of container iniatives 
+             that leverage the Avalon container contract together with third-party
+             container extensions, through to dedication applications such the 
+             OpenIM instant messaging project.</td>
+	    </tr>
+	    <tr>
+	      <td><a href="powered.html">Avalon Powered</a></td>
+	      <td>Resources for the Avalon Powered logo 
+               and site linking.<br/></td>
+	    </tr>
+	  </table>
+      </subsection>
+    </section>
+  </body>
+</document>

@@ -1,0 +1,127 @@
+<?xml version="1.0"?>
+
+<document>
+
+  <properties>
+    <author email="mcconnell@apache.org">Stephen McConnell</author>
+    <title>Javadoc Tag Specification</title>
+  </properties>
+
+  <body>
+
+    <section name="Javadoc Tags">
+
+      <subsection name="Entry Tag">
+<p>The entry tag declares a context entry required by a component.  The component is supplied the context entry via a context argument as part of the contextualization lifecycle stage. Context entries my declare a object type or array of object types.  If the type is not declared java.lang.String is assumed.  Context entries may also be declared as optional and/or volatile.  The default behaviour is to assume that a context entry is required (not optional) is is non-volatile.</p>
+      </subsection>
+
+      <subsection name="Attributes">
+        <table>
+          <tr><th>Attribute</th><th>Required</th><th>Description</th></tr>
+          <tr>
+            <td><p>key</p></td><td><p>yes</p></td>
+            <td>
+              <p>The context entry lookup key.</p>
+            </td>
+          </tr>
+          <tr>
+            <td><p>alias</p></td><td><p>no</p></td>
+            <td>
+              <p>Declaration of an alternative name that the component 
+                 may use to lookup the entry.</p>
+            </td>
+          </tr>
+          <tr>
+            <td><p>type</p></td><td><p>no</p></td>
+            <td>
+              <p>The classname of the context entry that the component 
+                 may cast the component to.  If not declared, java.lang.String
+                 is assumed.</p>
+            </td>
+          </tr>
+          <tr>
+            <td><p>volatile</p></td><td><p>no</p></td>
+            <td>
+              <p>A value of true or false - if true a new instance of the 
+                 context entry value shall be created and retured to the 
+                 component per request. If false (the default) a container 
+                 context implementation may safely cache context entry values.</p>
+            </td>
+          </tr>
+          <tr>
+            <td><p>optional</p></td><td><p>no</p></td>
+            <td>
+              <p>Declares the context entry as optional in which case 
+                 the supply of the context entry is at the discretion 
+                 of a container.</p>
+            </td>
+          </tr>
+        </table>
+      </subsection>
+
+      <subsection name="Example">
+
+<source><![CDATA[
+package org.apache.avalon.playground;
+
+/**
+ * Example of a component declaring a context entry dependencies.
+ *
+ * @avalon.component version="1.0" name="demo"
+ */
+public class Primary implements Contextualizable
+{
+   /**
+    * @avalon.entry key="home" type="java.io.File" optional="true"
+    * @avalon.entry key="time" type="java.util.Date" volatile="true"
+    * @avalon.entry key="table" type="java.lang.Object[]"
+    * @avalon.entry key="urn:avalon:name" alias="block.name"
+    */
+    public void contextualize( Context context ) 
+      throws ContextException
+    {
+        String name = (String) context.get( "name" );
+        Object[] array = (Object[]) context.get( "table" );
+        try
+        {
+            File home = (File) context.get( "home" );
+            ...
+        }
+        catch( ContextException ce )
+        {
+            // it's optional
+        }
+    }
+}
+]]></source>
+
+<p>Generated meta-info type descriptor:</p>
+
+<source><![CDATA[
+<type>
+  <info>
+    <version>1.3.0</version>
+    <name>primary-component</name>
+  </info>
+  <context>
+    <entry key="home" type="java.io.File" optional="true"/>
+    <entry key="time" type="java.util.Date" volatile="true"/>
+    <entry key="table" type="java.lang.Object[]"/>
+    <entry key="urn:avalon:name" alias="block.name">
+  </context>
+</type>
+]]></source>
+      </subsection>
+    </section>
+  </body>
+
+  <footer>
+    <legal>
+      Copyright (c) @year@ The Avalon Apache Project All rights reserved.
+      $Revision: 1.1 $ $Date: 2004/04/14 11:47:33 $
+    </legal>
+  </footer>
+
+</document>
+
+

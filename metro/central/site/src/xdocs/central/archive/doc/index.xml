@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document>
+  <properties>
+    <author email="dev@avalon.apache.org">Avalon Documentation Team</author>
+    <title>Apache Avalon: Documentation</title>
+  </properties> 
+
+  <body>
+    <section name="Avalon Documentation">
+     <p>
+      Avalon need not be as mysterious as its Arthurian counterpart. 
+      The following documentation will help guide you on your own quest for
+      understanding.
+     </p>
+     <table>
+       <tr>
+         <th>Resource</th>
+         <th>Description</th>
+       </tr>
+       <tr>
+         <td>
+    <a href="http://wiki.apache.org/avalon">
+           Wiki</a>
+         </td>
+         <td>
+          The Avalon Wiki contains a growing collection of information
+         about Avalon, random thoughts on component models and
+         container solutions, roadmaps, development discussions,
+         general ideas and other inspirational material.  Feel free to
+         contribute!
+         </td>
+       </tr>
+       <tr>
+         <td>
+          <a href="http://wiki.apache.org/avalon/AvalonFAQ">
+           FAQ</a>
+         </td>
+         <td>
+          A community-maintained Frequenty Asked Questions database
+          in our wiki.
+         </td>
+       </tr>
+       <tr>
+         <td>
+         <a href="http://wiki.apache.org/avalon/AvalonGlossary">
+           Glossary</a>
+         </td>
+         <td>Glossary of terms for Avalon technology</td>
+       </tr>
+       <tr>
+         <td><a href="../product/index.html">Product Documentation</a></td>
+         <td> Each individual product or sub-project has its own section which
+         includes API documentation (javadocs), usage material, and
+         often simple tutorials.</td>
+       </tr>
+       <tr>
+         <td><a href="../mailing-lists.html">Mailing Lists</a></td>
+         <td>The mailing list archives are full of tips, examples,
+         solutions, and explanations about Avalon.</td> 
+       </tr>
+     </table>
+     <subsection name="Articles">
+       <table>
+         <tr>
+          <th>Resource</th>
+          <th>Description</th>
+         </tr>
+         <tr>
+          <td>
+           <a href="../developing/index.html">
+           Developing With Avalon</a>
+          </td>
+          <td> The Avalon Developers Guide. An excellent white paper
+           on the Avalon framework. Recommended reading! </td>
+        </tr>
+        <tr>
+          <td>
+        <a href="../../about/cop/index.html">An
+         Introduction to COP</a></td>
+           <td>
+         An introduction to Component Oriented Programming and the
+         core Avalon Framework.</td>
+        </tr>
+        <tr>
+          <td>
+           <a href="../../about/cop/index.html">
+            COP Development Principles</a></td>
+          <td>
+           A look at design principles to consider when developing in
+           Avalon and COP in general.
+         </td>
+        </tr>
+        <tr>
+          <td>
+          <a href="../../../products/runtime/reference/component/lifecycle.html">
+           The Avalon Lifecycle</a>
+           </td> 
+           <td>Introduces the standard Avalon lifecycle for components.</td>
+        </tr>
+        <tr>
+          <td>
+          <a href="../../community/history/need-for-avalon.html">
+          The Need For Avalon</a>
+          </td>
+          <td>
+      In this document, Stefano introduces his vision for the Java Apache
+      Server Framework project. He explain why he believes that
+      open-source projects should invest more time in software
+      engineering and why this may be worth while even in very successful
+      and high quality software projects. [HISTORICAL]
+          </td>
+        </tr>
+        <tr>
+         <td>
+          <a href="../../community/history/what-is-a-server.html">What Is A
+          Server</a></td>
+         <td> Pierpaolo Fumagalli explains how a
+          server could be developed using the benefits offered by the 
+          Java Apache Server Framework (Avalon) and introduces the
+          reader to the concept of what a
+         <code>Block</code>. [HISTORICAL]
+          </td>
+        </tr>
+       </table>
+     </subsection>
+    </section>
+  </body>
+</document>

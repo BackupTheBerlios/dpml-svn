@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document>
+  <properties>
+    <author email="dev@avalon.apache.org">Avalon Documentation Team</author>
+    <title>Merlin Discovery</title>
+  </properties> 
+
+  <body>
+    <section name="Merlin Discovery">
+      <p>
+Existing business requirements for services supporting the creation and maintenance of repositories capable of supporting the registration and discovery of XML based descriptions of services and implementation solution are required as part of the overall Avalon product development strategy.
+      </p>
+
+      <p>
+As an example, a logistics service provider may wish to describe the features, benefits, and the conditions of activation of a business capability concerning goods delivery. Such a description would be expressed as an instance of a Resource Description, possibly referencing marketing information under URLs to web pages, and potentially containing supplementary industry specific XML elements. During the process of service registration, the supplier would declare a formal Resource Description possibly detailing service activation constraints and service access points. As a result of the registration of a Resource Description, the provider receives a receipt of registration. 
+      </p>
+
+      <p>
+A client, using an implementation of the discovery interface can register transient or
+persistent queries. As an example, a client, using a discovery interface, could register a persistent query for Resource Descriptions specialized for the travel industry, for flight availability for a particular day. Over time, the query result would change as availability of flights fluctuated. In contrast, a transient query would be assessed against immediately available Resource Descriptions. 
+      </p>
+
+      <p>
+Service providers publishing computation or information artifacts under Resource Descriptions may choose to use a Resource Description as an input argument to a service activation operation. Such applications may require information identifying a chain of registration acts contributing to its discovery. Such a chain may be used by higher-level applications dealing with commercial referral (such as commercial trading systems, commercial brokerage applications, and advertising management systems).
+      </p>
+
+      <p>
+The Merlin Discovery project aims to to establish a product solution that leverages the Merlin Runtime Platform as the underlying service delivery infrastructure.
+      </p>
+
+    </section>
+  </body>
+</document>
+

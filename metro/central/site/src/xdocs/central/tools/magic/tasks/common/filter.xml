@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document>
+
+  <properties>
+    <author email="dev@avalon.apache.org">Avalon Documentation Team</author>
+    <title>Avalon Central</title>
+  </properties> 
+
+  <body>
+    <section name="Filter Task">
+      <p>
+      The filter task establish a classic ant filter values 
+      based on project information.
+      </p>
+      <p>
+      The following example demonstrates the resolution of 
+      a artifact uri feature for a project identified by the 
+      key "avalon-activation-impl".
+      </p>
+
+<source><![CDATA[
+<x:filter 
+    key="avalon-activation-impl" 
+    feature="uri" 
+    token="STANDARD_RUNTIME"/>
+]]></source>
+
+      <subsection name="Features">
+      
+      <p>
+      Features that may be aquired from any defintion (resource, 
+      project, or plugin) are shown in the following table along
+      with example output.
+      </p>
+
+      <table>
+        <tr>
+          <th>Feature</th>
+          <th>Description</th>
+        </tr>
+        <tr>
+          <td>name</td>
+          <td>The name of the resource, project or plugin.
+<source><![CDATA[
+avalon-activation-impl
+]]></source>
+</td>
+        </tr>
+        <tr>
+          <td>group</td>
+          <td>The group within which the resource, project or plugin
+            is defined under.
+<source><![CDATA[
+avalon/activation
+]]></source>
+          </td>
+        </tr>
+        <tr>
+          <td>version</td>
+          <td>The version of the resource, project or plugin.
+<source><![CDATA[
+2.0.0
+]]></source>
+          </td>
+        </tr>
+        <tr>
+          <td>uri</td>
+          <td>An artifact uri.
+<source><![CDATA[
+artifact:jar:avalon/activation/avalon-activation-impl#2.0.0
+]]></source>
+          </td>
+        </tr>
+      </table>
+
+      <p>
+      The following two features may be aquired from a project 
+      definition.  The value returned is a string build from the 
+      runtime path definition containing fully expanded repository
+      filesnames prepended with the string %MAGIC_SCD% for windows
+      and $MAGIC_SCD on unix - suitable for use in a application 
+      script or command file.
+      </p>
+
+      <pre>
+      system-classpath-for-windows
+      system-classpath-for-unix
+      </pre>
+
+      </subsection>
+
+    </section>
+  </body>
+
+</document>
+

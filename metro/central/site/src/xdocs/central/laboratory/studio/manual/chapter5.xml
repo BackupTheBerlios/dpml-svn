@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<document>
+
+  <properties>
+    <title>Studio Manual - Chapter 5</title>
+    <author email="dev@avalon.apache.org">Avalon Documentation Team</author>
+  </properties>
+
+  <body>
+    <section name="Chapter 5 - Component editing">
+      <p>
+        <em><strong>Documentation not available yet.</strong></em>
+      </p>
+      <!-- 5.1 -->
+      <subsection name="Edit Development Context" >
+      </subsection>
+      <!-- 5.2 -->
+      <subsection name="Edit Component Info" >
+        <!-- 5.2.1 -->
+        <subsection name="Lifestyle" >
+        </subsection>
+        <!-- 5.2.2 -->
+        <subsection name="Collection Policy" >
+        </subsection>
+        <!-- 5.2.3 -->
+        <subsection name="Attributes" >
+        </subsection>
+      </subsection>
+      <!-- 5.3 -->
+      <subsection name="add/edit/remove parameter" >
+      </subsection>
+      <!-- 5.4 -->
+      <subsection name="add/edit/remove configuration" >
+      </subsection>
+      <!-- 5.5 -->
+      <subsection name="add/edit/remove context" >
+      </subsection>
+      <!-- 5.6 -->
+      <subsection name="add/edit/remove service export" >
+      </subsection>
+      <!-- 5.7 -->
+      <subsection name="add/edit/remove dependency import" >
+      </subsection>
+      <!-- 5.8 -->
+      <subsection name="add/edit/remove lifecycle stage dependency" >
+      </subsection>
+      <!-- 5.9 -->
+      <subsection name="add/edit/remove lifecycle extension support" >
+      </subsection>
+      <!-- 5.10 -->
+      <subsection name="Property Editor" >
+      </subsection>
+    </section>
+  </body>
+</document>

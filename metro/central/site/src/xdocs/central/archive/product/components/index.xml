@@ -1,0 +1,57 @@
+<?xml version="1.0"?>
+
+<document>
+
+  <properties>
+    <author email="mcconnell@apache.org">Stephen McConnell</author>
+    <title>Apache Avalon: Components</title>
+  </properties>
+
+  <body>
+    <section name="Avalon Planet">
+     <subsection name="Component Library">
+      <table>
+        <tr><th>Topic</th><th>Description</th></tr>
+        <tr><td>
+          Cornerstone Collection</td>
+          <td>
+            <p>
+        The cornerstone project is the home of a set of component blocks
+        that can be used to simplify application development.  These components
+        and typically singleton components that represent structural building 
+        blocks.
+            </p>
+          </td>
+        </tr>
+        <tr>
+          <td>
+          <a href="http://excalibur.apache.org">Excalibur Utilities</a></td>
+          <td>
+            <p>
+        The Excalibur project is the home of a set of utility services
+        used in the construction of formal blocks or container facilities.
+        Services include internationalizatioin, configuration utilities, 
+        thread management, SEDA sytel even handling, a logging subsystems, 
+        etc.
+            </p>
+          </td>
+        </tr>
+        <tr>
+          <td>
+          <a href="../../related/index.html">Third-Party Components</a></td>
+          <td>
+            <p>
+        A series of third-party components developed both here at Apache
+        and under external projects are described on this page. 
+            </p>
+          </td>
+        </tr>
+      </table>
+     </subsection>
+    </section>
+  </body>
+
+</document>
+
+
+

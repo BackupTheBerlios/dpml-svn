@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document>
+
+  <properties>
+    <author email="dev@avalon.apache.org">Avalon Documentation Team</author>
+    <title>Avalon Central</title>
+  </properties> 
+
+  <body>
+    <section name="Publish Task">
+      <p>
+      The publish task copies documentation content from ${basedir}/target/docs
+      into the doc repository under the relative path [group]/[name]/[version].
+      The relative path can be overriden using the path attribute as shown in 
+      the following example of a project publishing into the root of the document
+      repository.
+      </p>
+<source><![CDATA[
+<x:publish path="."/>
+]]></source>
+
+<pre>site:
+     [copy] Copying 405 files to F:\dev\avalon\central\system\.docs</pre>
+
+    </section>
+  </body>
+
+</document>
+

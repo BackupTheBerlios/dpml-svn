@@ -1,0 +1,64 @@
+<?xml version="1.0"?>
+
+<!-- 
+ Copyright 2004 Apache Software Foundation
+ Licensed  under the  Apache License,  Version 2.0  (the "License");
+ you may not use  this file  except in  compliance with the License.
+ You may obtain a copy of the License at 
+ 
+   http://www.apache.org/licenses/LICENSE-2.0
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed  under the  License is distributed on an "AS IS" BASIS,
+ WITHOUT  WARRANTIES OR CONDITIONS  OF ANY KIND, either  express  or
+ implied.
+ 
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+
+<document>
+    <properties>
+        <author email="mcconnell@apache.org">Stephen McConnell</author>
+        <title>Avalon Planet - Facilities</title>
+    </properties>
+    <body>
+        <section name="Http Facility">
+          <subsection name="Overview">
+            <p>
+              The Http Facility is a collection of componentized Jetty parts,
+              that allows you to configure Jetty in practically any way you
+              want. It also connects into the Merlin component model, and
+              you can make components that serves HTTP requests. 
+            </p>
+          </subsection>
+          <subsection name="Component Requirement">
+            <p>
+              The components that wishes to serve HTTP requests need to 
+              implement <code>org.apache.avalon.http.HttpRequestHandler</code>,
+              which is a stripped down version of Jetty's 
+              org.mortbay.http.HttpHandler, taking the same arguments.
+            </p>
+          </subsection>
+          <subsection name="Assembled Facility">
+            <p>
+              To make life easier for everyone involved, we have assembled a 
+              couple of standard Jetty configurations, and these can easily be
+              included in your application with a single &lt;include&gt; in your
+              block file. The configuration details can be overriden by the
+              standard 'targets' mechanism in Merlin, which allows named targets,
+              configuration and parameters, to be assigned to blocks or part of
+              the blocks.
+            </p>
+          </subsection>
+          <subsection name="Facility Parts">
+            <p>
+              The Facility Parts are basically the components that has been 
+              created around the Jetty classes to make this work. Some of these
+              components are also assembled into slightly bigger parts, to be
+              more easily used in complete Assembled Http Facilities.
+            </p>
+          </subsection>
+        </section>
+    </body>
+</document>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<document>
+
+  <properties>
+    <title>Studio Manual - Chapter 6</title>
+    <author email="dev@avalon.apache.org">Avalon Documentation Team</author>
+  </properties>
+
+  <body>
+    <section name="Chapter 6 - Repository editing">
+      <p>
+        <em><strong>Documentation not available yet.</strong></em>
+      </p>
+      <!-- 6.1 -->
+      <subsection name="Edit Repository location" >
+        <!-- 6.1.1 -->
+        <subsection name="Local Repository" >
+        </subsection>
+        <!-- 6.1.2 -->
+        <subsection name="Remote Repository" >
+        </subsection>
+      </subsection>
+      <!-- 6.2 -->
+      <subsection name="Attach / detach a Repository location" >
+      </subsection>
+      <!-- 6.3 -->
+      <subsection name="Edit block groups" >
+      </subsection>
+      <!-- 6.4 -->
+      <subsection name="Edit block entries" >
+      </subsection>
+    </section>
+  </body>
+</document>

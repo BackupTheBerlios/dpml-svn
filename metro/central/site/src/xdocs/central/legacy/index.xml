@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document>
+  <properties>
+    <author email="dev@avalon.apache.org">Avalon Documentation Team</author>
+    <title>Avalon Central</title>
+  </properties> 
+
+  <body>
+    <section name="Legacy Content">
+      <p>
+       Several Apache Avalon products have been either retired or
+       spun off into their own Apache projects.  For a more detailed
+       record of Avalon's evolution, see the 
+       <a
+       href="http://avalon.apache.org/central/community/history/index.html">
+       history</a> section.
+      </p>
+      <table>
+        <tr>
+	 <th>Product</th>
+	 <th>Description</th>
+	 <th>Current Status</th>
+	</tr>
+	<tr>
+	 <td>Excalibur</td>
+	 <td>Excalibur included a component library as well as the
+	   Excalibur Component Manager (ECM) -- a minimal Avalon
+	   container.
+         </td>
+	 <td>
+	  Graduated to it's own ASF Project:
+	  <a href="http://excalibur.apache.org">Apache Excalibur</a>
+	 </td>
+	</tr>
+	<tr>
+	 <td>Fortress</td>
+	 <td>Fortress is a lightweight Avalon container designed to
+	     to be the successor to ECM.
+         </td>
+	 <td>Now part of the 
+	   <a href="http://excalibur.apache.org">Apache Excalibur</a>
+	   Project
+	 </td>
+	</tr>
+	<tr>
+	 <td>Phoenix</td>
+	 <td>Avalon Phoenix is an Avalon 4 container designed to be
+	     used as an application server framework.
+	 </td>
+	 <td>Active development halted.  See distribution mirrors for
+	     prior releases and documentation.  Also, see Codehaus'
+	     <a href="http://loom.codehaus.org">Loom</a> project, a 
+	     fork of Phoenix.
+         </td>
+	</tr>
+      </table>
+    </section>
+  </body>
+</document>
+

@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document>
+
+  <properties>
+    <author email="dev@avalon.apache.org">Avalon Documentation Team</author>
+    <title>Avalon Central</title>
+  </properties> 
+
+  <body>
+    <section name="Reactor Task">
+      <p>
+      The reactor task invokes an ant target on the set of project defintions
+      that declare base directories within the basedir of the reactor.  This 
+      allows for the building of groups of projects based on the directory
+      structure.  The sequence of the project build is automatically resolved 
+      relative to the dependencies defined by the respective projects.
+      </p>
+      <p><i>Normal usage:</i></p>
+
+<source><![CDATA[
+    <x:reactor/>
+]]></source>
+
+      <p><i>Supplying an explicit build target:</i></p>
+
+<source><![CDATA[
+    <x:reactor target="install"/>
+]]></source>
+
+      <p><i>
+       Example output when invoking the reactor from the root 
+       avalon directory:</i></p>
+
+<pre>
+default:
+[x:reactor] Preparing build sequence.
+------------------------------------------------------------------------
+[avalon/util/avalon-util-criteria]
+[avalon/logkit/avalon-logkit]
+[avalon/util/avalon-util-env]
+[avalon/util/avalon-util-defaults]
+[avalon/util/avalon-util-i18n]
+[avalon/util/avalon-util-exception]
+[avalon/repository/avalon-repository-api]
+[avalon/repository/avalon-repository-util]
+[avalon/repository/avalon-repository-spi]
+[avalon/repository/avalon-repository-main]
+[avalon/framework/avalon-framework-api]
+[avalon/framework/avalon-framework-legacy]
+[avalon/framework/avalon-framework-impl]
+[avalon/util/avalon-util-configuration]
+[avalon/meta/avalon-meta-api]
+[avalon/meta/avalon-meta-spi]
+[avalon/meta/avalon-meta-impl]
+[avalon/meta/avalon-meta-tools]
+[avalon/util/avalon-util-lifecycle]
+[avalon/test/avalon-test-playground]
+[avalon/test/avalon-test-components]
+[avalon/repository/avalon-repository-impl]
+[avalon/repository/avalon-repository-test]
+[avalon/logging/avalon-logging-api]
+[avalon/logging/avalon-logging-spi]
+[avalon/logging/avalon-logging-impl]
+[avalon/logging/avalon-logging-logkit-api]
+[avalon/logging/avalon-logging-logkit-datagram]
+[avalon/logging/avalon-logging-logkit-socket]
+[avalon/logging/avalon-logging-logkit-syslog]
+[avalon/logging/avalon-logging-log4j]
+[avalon/logging/avalon-logging-logkit-impl]
+[avalon/logging/avalon-logging-test]
+[avalon/test/avalon-test-teste]
+[avalon/test/avalon-test-testd]
+[avalon/test/avalon-test-testc]
+[avalon/test/avalon-test-testb]
+[avalon/test/avalon-test-testa]
+[avalon/test/avalon-test-includes]
+[avalon/test/avalon-test-dynamics]
+[avalon/util/avalon-util-extension-api]
+[avalon/util/avalon-util-extension-impl]
+[avalon/composition/avalon-composition-api]
+[avalon/composition/avalon-composition-spi]
+[avalon/composition/avalon-composition-impl]
+[avalon/activation/avalon-activation-api]
+[avalon/activation/avalon-activation-impl]
+[avalon/merlin/avalon-merlin-api]
+[avalon/merlin/avalon-merlin-impl]
+[avalon/merlin/avalon-merlin-cli]
+[avalon/runtime]
+[avalon/site]
+[avalon/repository/avalon-repository-cli]
+[avalon/tools/avalon-tools-magic]
+
+....
+
+</pre>
+    </section>
+  </body>
+
+</document>
+

@@ -1,0 +1,96 @@
+<?xml version="1.0"?>
+
+<document>
+
+  <properties>
+    <author email="mcconnell@apache.org">Stephen McConnell</author>
+    <title>Context Descriptors</title>
+  </properties>
+
+  <body>
+
+    <section name="Context Descriptor">
+
+      <subsection name="Description">
+<p>
+The org.apache.avalon.meta.info.ContextDescriptor class describes the set of context entries that a component may be depedent on.  Context entries declare a context key and the classname of the value that the component expects to receive.  A compliant container will ensure that a context object supplied to a component under the Contextualize phase can access required context entries with assurance that the value will be supplied under the correct key as as an instance of the required type.  The supply of optional context entries is a container concern with the single exception that a container must ensure that the an optional entry corresponds to the type requested by the component context entry.
+</p>
+      </subsection>
+
+      <subsection name="Attributes">
+        <table>
+          <tr><th>Attribute</th><th>Required</th><th>Description</th></tr>
+          <tr>
+            <td>type</td><td>no</td>
+            <td>
+             Declaration of an interface derived from org.apache.avalon.framework.context.Context 
+             that the component requires.  Declaration of this value will enable the component 
+             implementation to safely narrow the supplied context.
+            </td>
+          </tr>
+        </table>
+      </subsection>
+
+      <subsection name="Nested Elements">
+        <table>
+          <tr><th>Element</th><th>Occurance</th><th>Description</th></tr>
+          <tr>
+            <td><a href="entry.html">entry</a></td><td>0..n</td>
+            <td>
+             Declaration of a context entry.
+            </td>
+          </tr>
+          <tr>
+            <td><a href="../../attributes/index.html">attributes</a></td><td>0..1</td>
+            <td>
+             A set of optional attribute declarations.
+            </td>
+          </tr>
+        </table>
+      </subsection>
+
+      <subsection name="Example XML">
+
+<source>
+
+    <font color="gray"><i>&lt;!-- 
+    Declaration of the context constraints for the compoent type. 
+    The "type" attribute is the name of an interface derived from the default
+    contenxt interface org.apache.avalon.framework.context.Context 
+    --&gt;</i></font>
+
+    &lt;context type="<font color="darkred">MyContextInterface</font>"&gt;
+
+      <font color="gray"><i>&lt;!-- 
+      Declaration of an entry in a context object, the "key" is
+      the key used by a component to locate the context entry,
+      the "type" is the classname of value (typically an interface)
+      or primative type.  The default value is java.lang.String.
+      The "optional" attribute is a boolean value derived from the 
+      TRUE or FALSE that indicates if the context value must be 
+      provided or not (default is FALSE). 
+      --&gt;</i></font>
+
+      &lt;entry key="<font color="darkred">base</font>" type="<font color="darkred">java.io.File</font>"/&gt;
+      &lt;entry key="<font color="darkred">mode</font>" optional="<font color="darkred">TRUE</font>"/&gt;
+
+    &lt;/context&gt;
+
+</source>
+
+      </subsection>
+
+    </section>
+
+  </body>
+
+  <footer>
+    <legal>
+      Copyright (c) @year@ The Avalon Apache Project All rights reserved.
+      $Revision: 1.3 $ $Date: 2004/04/14 11:47:32 $
+    </legal>
+  </footer>
+
+</document>
+
+

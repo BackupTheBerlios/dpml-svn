@@ -1,0 +1,90 @@
+<?xml version="1.0"?>
+<document>
+
+  <properties>
+    <author email="niclas@apache.org">Niclas Hedhman</author>
+    <title>Developing With Apache Avalon</title>
+  </properties>
+
+  <body>
+    <section name="Avalon Repository">
+      <p>
+        <strong><em>Work in progress.</em></strong>
+      </p>
+      <p>
+        The Avalon Repository system is a powerful solution to <em>Jar 
+        Hell</em>. The underlying technology is fairly straight forward
+        but it enables so much;
+      </p>
+      <ul>
+        <li>
+          Avalon Merlin can bootstrap itself remotely, via a ~20kB Jar.
+        </li>
+        <li>
+          It is not necessary to keep any Jar files on the computers running
+          your applications.
+        </li>
+        <li>
+          The components declares which Jars are required to run, and Merlin
+          will magically download them and make them available.
+        </li>
+        <li>
+          You can include components from your own or third-party component
+          repositories, with a single line in block.xml. No download required.
+        </li>
+        <li>
+          When a component requires a newer version, you just update the version
+          field in the block.xml.
+        </li>
+        <li>
+          Centralized management of Jars at a single location. No need to 
+          distribute Jars to many projects within your organization.
+        </li>
+      </ul>
+      <section name="Using Avalon Repository" >
+        <p>
+          To leverage the extensive repository of Maven at ibiblio.org and other
+          compliant repositories, Avalon Repository is capable of harnessing these
+          resources. That means that if your component depends on, let's say,
+          Jakarta Commons Collections, you don't need to track that Jar in
+          your project(s) at all, just specify;
+        </p>
+<source>
+    <resource id="commons-collections:commons-collections" version="2.1" />
+</source>
+        <p>
+          in the block.xml. If you want to include a component in a repository
+          into a component that you are working on, just enter;
+        </p>
+<source>
+    <include name="accounting" id="accounts:accounts-api" version="3.4"/>
+    <include name="accounting-impl" id="accounts:french-impl" version="1.2.1"/>
+</source>
+      </section>
+      <section name="Bootstrapping Merlin with Repository" >
+        <p>
+          Avalon Merlin can be bootstrapped with a minimal Jar file, and be
+          downloaded and started from a central repository. And since the
+          artifact (the object that Repository picks up) is always versioned,
+          you can even select which version of Merlin that you want to start,
+          without having Merlin installed on your system.
+        </p>
+        <p>
+          Just make sure you have the merlin-cli-N.n.jar, and type;
+        </p>
+<source>
+    java -jar merlin-cli-3.3.jar -impl "merlin:merlin-impl;3.3" -execute block.xml
+</source>
+        <p>
+          Please note that the first delimiter is a colon (:) and the second
+          one is a semicolon (;).
+        </p>
+        <p>
+          And the <code>block.xml</code> can either be a local file or a remote
+          URL, such as <code>http://myhost.org/blocks/someApp/block.xml</code>
+        </p>
+      </section>
+    </section>
+  </body>
+</document>
+

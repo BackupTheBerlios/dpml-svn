@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin
+   id="biz.softwarefabrik.MerlinDeveloper"
+   name="%pluginName"
+   version="0.0.3"
+   provider-name="%providerName"
+   class="biz.softwarefabrik.eclipse.merlin.MerlinContainerPlugin">
+
+   <runtime>
+      <library name="MerlinDeveloper.jar"/>
+      <library name="lib/avalon-activation/merlin-bootstrap-1.0.jar"/>
+      <library name="properties/"/>
+   </runtime>
+   <requires>
+      <import plugin="org.apache.xerces"/>
+      <import plugin="org.eclipse.core.resources"/>
+      <import plugin="org.eclipse.core.runtime"/>
+      <import plugin="org.eclipse.debug.core"/>
+      <import plugin="org.eclipse.debug.ui"/>
+      <import plugin="org.eclipse.help"/>
+      <import plugin="org.eclipse.help.ui"/>
+      <import plugin="org.eclipse.jdt.core"/>
+      <import plugin="org.eclipse.jdt.launching"/>
+      <import plugin="org.eclipse.jdt.ui"/>
+      <import plugin="org.eclipse.ui"/>
+      <import plugin="org.eclipse.jdt.debug.ui"/>
+      <import plugin="org.eclipse.pde.ui"/>
+   </requires>
+
+
+   <extension-point id="server" name="%serverExtensionPointName"/>
+
+   <extension
+         point="org.eclipse.ui.newWizards">
+      <category
+            name="%new.category.name"
+            id="org.eclipse.ui.Merlin">
+      </category>
+      <wizard
+            name="%new.blockDevelopment.name"
+            icon="icons/full/ctool16/newjprj_wiz.gif"
+            category="org.eclipse.ui.Merlin"
+            class="biz.softwarefabrik.eclipse.merlin.wizards.NewBlockDevelopmentWizard"
+            project="true"
+            id="biz.softwarefabrik.eclipse.wizards.newMerlinBlockWizard1">
+      </wizard>
+      <wizard
+            name="%new.frameworkDevelopment.name"
+            icon="icons/full/ctool16/newjprj_wiz.gif"
+            category="org.eclipse.ui.Merlin"
+            class="biz.softwarefabrik.eclipse.merlin.wizards.NewFrameworkDevelopmentWizard"
+            project="true"
+            id="biz.softwarefabrik.eclipse.wizards.newMerlinBlockWizard">
+      </wizard>
+      <wizard
+            name="%new.architectureDriven.name"
+            icon="icons/full/ctool16/newjprj_wiz.gif"
+            category="org.eclipse.ui.Merlin"
+            class="biz.softwarefabrik.eclipse.merlin.wizards.NewArchitectureDrivenWizard"
+            project="true"
+            id="biz.softwarefabrik.eclipse.wizards.newMerlinBlockWizard2">
+      </wizard>
+      <wizard
+            name="%new.convertProject.name"
+            icon="icons/full/ctool16/newjprj_wiz.gif"
+            category="org.eclipse.ui.Merlin"
+            class="biz.softwarefabrik.eclipse.merlin.wizards.NewConvertNatureWizard"
+            id="biz.softwarefabrik.eclipse.wizards.newMerlinBlockWizard2">
+      </wizard>
+   </extension>
+   <extension
+         point="org.eclipse.ui.preferencePages">
+      <page
+            name="%webAppPreferencePageName"
+            class="biz.softwarefabrik.eclipse.merlin.preferences.WebAppPreferencePage"
+            id="biz.softwarefabrik.eclipse.webapp.preferences.webAppPreferencePage">
+      </page>
+   </extension>
+   <extension
+         id="merlinProjectNature"
+         name="%webAppProjectNatureName"
+         point="org.eclipse.core.resources.natures">
+      <runtime>
+         <run
+               class="biz.softwarefabrik.eclipse.merlin.tools.MerlinProjectNature">
+         </run>
+      </runtime>
+   </extension>
+   <extension
+         id="merlinConfigNature"
+         name="%webAppServerConfigNatureName"
+         point="org.eclipse.core.resources.natures">
+      <runtime>
+         <run
+               class="biz.softwarefabrik.eclipse.merlin.MerlinContainerConfigNature">
+         </run>
+      </runtime>
+   </extension>
+   <extension
+         point="com.blueskytime.eclipse.webapp.server">
+      <server
+            factoryclass="biz.softwarefabrik.eclipse.merlin.container.MerlinServerFactory"
+            name="%serverAdapterName"
+            id="biz.softwarefabrik.eclipse.merlin.container.MerlinServerAdapter">
+      </server>
+   </extension>
+   <extension
+         point="org.eclipse.debug.core.launchConfigurationTypes">
+      <launchConfigurationType
+            name="%launchConfigurationTypeName"
+            delegate="biz.softwarefabrik.eclipse.merlin.launching.WebAppLaunchConfigurationDelegate"
+            modes="run, debug"
+            id="biz.softwarefabrik.MerlinDeveloper.launching.webAppLaunchConfigurationDelegate">
+      </launchConfigurationType>
+   </extension>
+   <extension
+         point="org.eclipse.debug.ui.launchConfigurationTypeImages">
+      <launchConfigurationTypeImage
+            icon="icons/full/ctool16/java_app.gif"
+            configTypeID="biz.softwarefabrik.merlin.MerlinDeveloper.launching.webAppLaunchConfigurationDelegate"
+            id="biz.softwarefabrik.MerlinDeveloper.launching.webAppLaunchConfigurationTypeImage">
+      </launchConfigurationTypeImage>
+   </extension>
+   <extension
+         point="org.eclipse.debug.ui.launchConfigurationTabGroups">
+      <launchConfigurationTabGroup
+            type="biz.softwarefabrik.MerlinDeveloper.launching.webAppLaunchConfigurationDelegate"
+            class="biz.softwarefabrik.eclipse.merlin.launching.WebAppServerTabGroup"
+            id="biz.softwarefabrik.MerlinDeveloper.webAppServerTabGroup">
+      </launchConfigurationTabGroup>
+   </extension>
+   <extension
+         point="org.eclipse.debug.ui.launchShortcuts">
+      <shortcut
+            label="%webAppLaunchShortcutLabel"
+            icon="icons/full/ctool16/java_app.gif"
+            modes="run, debug"
+            class="biz.softwarefabrik.eclipse.merlin.launching.WebAppLaunchShortcut"
+            id="biz.softwarefabrik.eclipse.merlin.container.launching.webAppLaunchShortcut">
+         <perspective
+               id="org.eclipse.jdt.ui.JavaPerspective">
+         </perspective>
+         <perspective
+               id="org.eclipse.jdt.ui.JavaHierarchyPerspective">
+         </perspective>
+         <perspective
+               id="org.eclipse.jdt.ui.JavaBrowsingPerspective">
+         </perspective>
+         <perspective
+               id="org.eclipse.debug.ui.DebugPerspective">
+         </perspective>
+      </shortcut>
+   </extension>
+
+</plugin>

@@ -1,0 +1,66 @@
+<?xml version="1.0"?>
+
+<!-- 
+ Copyright 2004 Apache Software Foundation
+ Licensed  under the  Apache License,  Version 2.0  (the "License");
+ you may not use  this file  except in  compliance with the License.
+ You may obtain a copy of the License at 
+ 
+   http://www.apache.org/licenses/LICENSE-2.0
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed  under the  License is distributed on an "AS IS" BASIS,
+ WITHOUT  WARRANTIES OR CONDITIONS  OF ANY KIND, either  express  or
+ implied.
+ 
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+
+<document>
+  <properties>
+    <author email="dev@avalon.apache.org">Avalon Documentation Team</author>
+    <title>Avalon Central</title>
+  </properties> 
+
+  <body>
+    <section name="Basic Concepts">
+        <table>
+          <tr><th>Topic</th><th>Summary</th></tr>
+          <tr>
+            <td><a href="creation.html">Hello Block</a></td>
+            <td>A simple demonstration of a block defintion.</td>
+          </tr>
+          <tr>
+            <td><a href="execution.html">Running the block</a></td>
+            <td>Executing the block from the block.xml file or jar file.</td>
+          </tr>
+          <tr>
+            <td><a href="internal.html">Behind the Scenes</a></td>
+            <td>A review of whats happening behind the scenes when we deploy our component.</td>
+          </tr>
+          <tr>
+            <td><a href="config/index.html">Managing Configurations</a></td>
+            <td>Extending HelloComponent to support configuration together with a guide to declararing configurations in a block.</td>
+          </tr>
+          <tr>
+            <td><a href="context/index.html">Managing Contextulization</a></td>
+            <td>A series of tutorials that go though usage of standard context entries, declaration of custom context entries, and mechanisms used to suppport type-safe context casting.</td>
+          </tr>
+          <tr>
+            <td><a href="services.html">Publishing Services</a></td>
+            <td>Extending HelloComponent to expose a service and the respective type declarations.</td>
+          </tr>
+          <tr>
+            <td><a href="dependencies/index.html">Managing Dependencies</a></td>
+            <td>Addition of a dependency to HelloComponent and the corresponding declarations in the component type descriptor.</td>
+          </tr>
+        </table>
+    </section>
+  </body>
+
+</document>
+
+
+
+

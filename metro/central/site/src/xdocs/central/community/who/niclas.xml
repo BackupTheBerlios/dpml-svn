@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document>
+  <properties>
+    <author email="niclas@apache.org">Niclas Hedhman</author>
+    <title>Contributors</title>
+  </properties>
+  <body>
+    <section name="Niclas Hedhman">
+      <p>(niclas at apache dot org)</p>
+      <p>
+        Niclas joined the Avalon community in 2003, and has since then stepped
+        up and taken on Merlin to the full extent. He also has a strong interest
+        in productification and automated build processes.
+      </p>
+      <p>
+        Born in 1964 in Sweden, he has no formal education, and went straight from 
+        senior high school to become a software developer at Exomatic AB, mostly
+        responsible for the embedded real-time operating system, the EXOL programming 
+        language  byte code compiler and interpreter. His career has since
+        mainly been with Process Control and Industrial Automation applications.
+      </p>
+      <p>
+        Niclas started programming Java in 1996, and quickly got involved in
+        Java RMI, and was in 2000 invited by Sun Microsystems to be part of the
+        Expert Group of JSR-78, Custom Remote References.
+      </p>
+      <p>
+        Niclas lives, works and enjoys life in Kuala Lumpur, Malaysia. He says the
+        relaxed attitude, stress-free environment and low cost of living
+        makes Kuala Lumpur a perfect environment for software development.
+        The high-tech widget/gadget crazy people, makes the region the fore-runner
+        of many new technologies, adding icing to the cake of living and
+        working in this vibrant city.
+      </p>
+    </section>
+  </body>
+</document>
+

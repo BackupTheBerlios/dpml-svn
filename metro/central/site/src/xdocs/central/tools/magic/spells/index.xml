@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document>
+
+  <properties>
+    <author email="dev@avalon.apache.org">Avalon Documentation Team</author>
+    <title>Avalon Central</title>
+  </properties> 
+
+  <body>
+    <section name="Casting Spells - a.k.a Using Magic">
+
+      <p>Using magic is drop-dead-simple.</p>
+
+      <p>Using magic requires a little disipline concerning project 
+       organization.</p>
+
+      <p>Using magic means faster and more reliable build processes.</p>
+   
+      <p>
+      This section contains information setting up a project 
+      <a href="index-creation.html">
+      index</a>, creating a build file, and <a href="my-first-spell.html">casting 
+      your first spell</a>.  By the time you finish reading the material
+      contained here you will be well on your way to passing your next
+      exam - <a href="dark-arts.html">"Defence Against the Dark Arts"</a>.
+      </p>
+
+    </section>
+  </body>
+
+</document>
+

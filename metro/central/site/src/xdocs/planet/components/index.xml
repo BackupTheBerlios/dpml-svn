@@ -1,0 +1,90 @@
+<?xml version="1.0"?>
+
+<document>
+
+  <properties>
+    <author email="mcconnell@apache.org">Stephen McConnell</author>
+    <title>Avalon Planet</title>
+  </properties>
+
+  <body>
+    <section name="Components">
+    <subsection name="Index">
+      <table>
+        <tr>
+          <th>Topic</th>
+          <th>Description</th>
+        </tr>
+        <tr><td><a href="connection.html">Connection</a></td>
+          <td>
+            <p>
+            The ConnectionManager service provides a facility to listen 
+            for incoming socket connections.
+            The DefaultConnectionManager compoent gives a thread pooled 
+            implementation of this service. If there are multiple server 
+            components depending on this component, they would all share
+            the same thread pool.
+            </p>
+          </td>
+        </tr>
+        <tr><td><a href="datasource.html">Datasource</a></td>
+          <td>
+            <p>
+            The DataSourceSelector service provides a way to select 
+            DataSourceComponent.
+            The DefaultDataSourceSelector component provides a set of 
+            ready to use DataSourceComponents.
+            </p>
+          </td>
+        </tr>
+        <tr><td><a href="scheduler.html">Scheduler</a></td>
+          <td>
+           <p>
+           The TimeScheduler service provides a services supporting the 
+           scheduling of activities to occur an certain intervals.
+           The DefaultTimeScheduler block implements the service. When
+           used in conjunction with the service is it a TimeTrigger.  
+           There are two such tiggers provided within the implementation
+           CronTimeTrigger and PeriodicTimeTigger.
+           </p>
+          </td>
+        </tr>
+        <tr><td><a href="sockets.html">Sockets</a></td>
+          <td>
+            <p>
+            The SocketManager service provides a way to lookup a factory 
+            for server of client sockets.  This service is provided by the 
+            DefaultSocketManager component.
+            </p>
+          </td>
+        </tr>
+        <tr><td><a href="store.html">Store</a></td>
+          <td>
+            <p>
+              The Store service provides a way to store named Objects or 
+              Streams without knowing how they are stored.
+              The RepositoryManager block implements this service and 
+              provides (in invocation of select(..) ) an appropriate 
+              Respository.  The two configurable implementations use the 
+              local file system for storage.
+              </p>
+          </td>
+        </tr>
+        <tr><td><a href="threads.html">Threads</a></td>
+          <td>
+            <p>
+            The ThreadManager service provides a way get default or named 
+            Thread Pool.
+            The DefaultThreadManager block implements this service based on
+            the Excalibur implementations of ThreadPool.
+            </p>
+          </td>
+        </tr>
+      </table>
+    </subsection>
+    </section>
+  </body>
+
+</document>
+
+

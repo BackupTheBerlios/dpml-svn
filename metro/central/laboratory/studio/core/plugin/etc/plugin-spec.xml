@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+<plugin
+   id="org.apache.metro.studio.core"
+   name="Metro Studio Core"
+   provider-name="The Apache Software Foundation"
+   class="org.apache.metro.studio.eclipse.core.MetroStudioCore">
+
+   <requires>
+      <import plugin="org.eclipse.core.resources"/>
+      <import plugin="org.eclipse.ui"/>
+      <import plugin="org.eclipse.jdt.core"/>
+      <import plugin="org.eclipse.jdt.launching"/>
+      <import plugin="org.eclipse.core.runtime"/>
+      <import plugin="org.eclipse.core.boot"/>
+      <import plugin="org.junit"/>
+   </requires>
+
+   <extension
+         point="org.eclipse.help.toc">
+      <toc
+            file="toc.xml"
+            primary="true">
+      </toc>
+      <toc
+            file="docs/eclipse/tocconcepts.xml">
+      </toc>
+      <toc
+            file="docs/eclipse/tocgettingstarted.xml">
+      </toc>
+      <toc
+            file="docs/eclipse/tocreference.xml">
+      </toc>
+      <toc
+            file="docs/eclipse/tocsamples.xml">
+      </toc>
+      <toc
+            file="docs/eclipse/toctasks.xml">
+      </toc>
+   </extension>
+   <extension
+         id="blockNature"
+         name="MetroStudioBlockNature"
+         point="org.eclipse.core.resources.natures">
+      <runtime>
+         <run
+               class="org.apache.metro.studio.eclipse.core.nature.MetroBlockNature">
+         </run>
+      </runtime>
+      <builder
+            id="org.apache.metro.studio.blockNature">
+      </builder>
+   </extension>
+
+</plugin>

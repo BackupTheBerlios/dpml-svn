@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+
+<document>
+  <properties>
+    <author email="mcconnell@apache.org">Stephen McConnell</author>
+    <title>Avalon Plugin for Maven</title>
+  </properties>
+  <body>
+    <section name="Avalon Meta Plugin for Maven">
+      <subsection name="Meta Generation">
+      <p>
+The Avalon Plugin for Maven provides support for developers in the management of Maven based projects that leverage the Avalon component model.  This plugin will be progressively extended with Avalon and related sub-system utilities.  Currently the plugin provides support for a meta info generation process based on javadoc tags within class and interface source files.
+      </p>
+      </subsection>
+    </section>
+  </body>
+</document>
+
+
+

@@ -1,0 +1,83 @@
+<?xml version="1.0"?>
+
+<document>
+
+  <properties>
+    <author email="mcconnell@apache.org">Stephen McConnell</author>
+    <title>Javadoc Tag Specification</title>
+  </properties>
+
+  <body>
+
+    <section name="Javadoc Tags">
+
+      <subsection name="Service Tag">
+<p>The service tag when used within a class declares the ability of the compoent type to export one or more work interfaces. Under class scope a component may declare 0..n service export declarations.  When used within an interface, the tag declares the interface as a managable service.  A service tag may appear once in a interface defintion.</p>
+      </subsection>
+      <subsection name="Attributes">
+        <table>
+          <tr><th>Attribute</th><th>Required</th><th>Description</th></tr>
+          <tr>
+            <td>type</td><td>required in class scope</td>
+            <td>
+              <p>The service interface classname. This attribute is automatically
+                 assigned the interface classname when declared in an interface.</p>
+            </td>
+          </tr>
+          <tr>
+            <td>version</td><td>no</td>
+            <td>
+              <p>
+                The service version.
+                If not declared the service export is assumed to be version 1.0.</p>
+            </td>
+          </tr>
+        </table>
+      </subsection>
+      <subsection name="Example">
+
+<source><![CDATA[
+package org.apache.avalon.playground;
+
+/**
+ * Example of a component declaring export of a set of services.  
+ *
+ * @avalon.component version="5.1" name="vault"
+ * @avalon.service type="somwhere.Vault;
+ * @avalon.service type="somwhere.KeystoreHandler" version="2.1.1;
+ */
+public class DefaultVault implements Vault, KeystoreHandler
+{
+  ...
+}
+]]></source>
+
+<p>Generated meta-info type descriptor:</p>
+
+<source><![CDATA[
+<type>
+  <info>
+    <version>5.1.0</version>
+    <name>vault</name>
+  </info>
+  <services>
+    <service type="somwhere.Vault" version="1.0.0"/>
+    <service type="somwhere.KeystoreHandler" version="2.1.1"/>
+  </services>
+</type>
+]]></source>
+
+      </subsection>
+    </section>
+  </body>
+
+  <footer>
+    <legal>
+      Copyright (c) @year@ The Avalon Apache Project All rights reserved.
+      $Revision: 1.1 $ $Date: 2004/04/14 11:47:33 $
+    </legal>
+  </footer>
+
+</document>
+
+

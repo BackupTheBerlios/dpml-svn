@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<project name="avalon-cache" default="install" basedir="." 
+    xmlns:x="antlib:org.apache.avalon.tools">
+
+  <x:home index="../../index.xml"/>
+  <import file="../../system/build/standard.xml"/>
+
+  <target name="package" depends="standard.package">
+    <x:declare/>
+  </target>
+
+</project>

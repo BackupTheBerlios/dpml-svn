@@ -1,0 +1,101 @@
+<?xml version="1.0"?>
+
+<!--
+ * 
+ * Copyright 2004 Apache Software Foundation
+ * Licensed  under the  Apache License,  Version 2.0  (the "License");
+ * you may not use  this file  except in  compliance with the License.
+ * You may obtain a copy of the License at 
+ * 
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed  under the  License is distributed on an "AS IS" BASIS,
+ * WITHOUT  WARRANTIES OR CONDITIONS  OF ANY KIND, either  express  or
+ * implied.
+ * 
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+-->
+
+<document>
+  <properties>
+    <author email="mcconnell@apache.org">Stephen McConnell</author>
+    <title>Merlin Runtime</title>
+  </properties>
+  <body>
+    <section name="Defaults">
+      <subsection name="Overview">
+        <p>
+        A simple default property value discovery API that makes it very
+        easy to define a policy for searching for and merging property values.
+        </p>
+
+        <p>
+        The Defaults class is a Properties subclass that holds the default
+        property values discovered.  It contains special methods to access
+        multi-valued properties using a property name based enumeration scheme.
+        Other nice features include a macro expansion facility and prepackaged
+        finders for locating defaults in other default property sources.
+        </p>
+
+        <p>
+        Below in order is an the environment listing, the contents of
+	a properties file, and the code used to discover and print out
+	the default values discovered.  The last item is the output.
+	The defaults are searched for in the defaults.properties file, 
+	the shell environment and the system properties:
+        </p>
+
+        <source>
+akarasulu@franklin ~
+$ env
+...
+MERLIN_HOME=f:/apache/avalon/merlin
+...
+        </source>
+	
+	<source>
+# defaults.properties
+targets.0=./conf/webserver.xml
+targets.1=./conf/eve.xml
+targets.2=./conf/ftpserver.xml
+targets.3=${mailserver}
+...
+        </source>
+	
+	<source>
+// Load defaults.properties
+Properties props = new Properties() ;
+props.load(new FileReader( "defaults.properties" ) ) ;
+props.setProperty( "mailserver", "./conf/james.xml" ) ;
+
+// Perpare to discover defaults of interest in sources
+DefaultFinders [] finders = {
+    new SystemDefaultsFinder(),
+    new SimpleDefaultsFinder( env ),
+    new SimpleDefaultsFinder( props )
+    };
+String singles = { MERLIN_HOME, mailserver } ;
+String enumerated = { targets } ;    
+Defaults defaults = Defaults( singles, enumerated, finders ) ;
+
+// Access and print
+String home = defaults.getProperty( "MERLIN_HOME" ) ;
+System.out.println( "MERLIN_HOME = " + home ) ;
+String [] targets = defaults.getEnumerated( "targets" ) ;
+printout( targets ) ;
+        </source>
+
+	<source>
+MERLIN_HOME=f:/apache/avalon/merlin
+[ ./conf/webserver.xml, ./conf/eve.xml, ./conf/ftpserver.xml, ./conf/james.xml ]
+        </source>
+      </subsection>
+    </section>
+  </body>
+
+</document>
+
+

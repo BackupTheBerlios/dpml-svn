@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<document>
+
+  <properties>
+    <author email="niclas@apache.org">Niclas Hedhman</author>
+    <title>Developing With Apache Avalon</title>
+  </properties>
+
+  <body>
+    <section name="Avalon Merlin">
+      <p>
+        <strong><em>Work in progress.</em></strong>
+      </p>
+      <p>
+        Avalon Merlin is the Avalon Reference container, aiming at being
+        powerful, versatile and flexible. It can be used as stand-alone
+        or embedded into a variety of other systems. Merlin has so many
+        features, that we are not going to cover them all here, just
+        reflect over the container concerns of the components.
+      </p>
+      <p>
+      </p>
+      <section name="block.xml" >
+      </section>
+      <section name="Aggregated Components" >
+      </section>
+      <section name="Classloading" >
+      </section>
+    </section>
+  </body>
+</document>
+

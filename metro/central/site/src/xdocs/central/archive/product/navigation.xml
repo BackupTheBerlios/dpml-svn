@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project>
+
+  <title>Apache Avalon</title>
+
+  <body>
+    <menu>
+      <item name="Framework" href="framework/index.html"/>
+      <item name="Merlin" href="containers/index.html"/>
+      <item name="Planet" href="components/index.html"/>
+    </menu>
+  </body>
+
+</project>

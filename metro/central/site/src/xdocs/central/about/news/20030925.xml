@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document>
+  <properties>
+    <author email="dev@avalon.apache.org">Avalon Documentation Team</author>
+    <title>Avalon Central</title>
+  </properties> 
+
+  <body>
+    <section name="Avalon Framework 4.1.5 and Avalon Meta 1.1">
+  <p>25-SEP-2003</p>
+   <p>
+   The Avalon Team is proud to announce the general availability of <a
+href="http://avalon.apache.org/download.html">Avalon Framework 4.1.5</a>
+and <a href="../../../products/runtime/system/meta">Avalon Meta</a>
+1.1 packages. The new framework release includes enhancements linked to
+the new Avalon Meta model.  Collectively the two packages represent an
+important step forward in the evolution of the Avalon component model.
+  </p>
+
+<p>New features introduced under the Avalon Meta package include:</p>
+<ul>
+ <li>component type descriptor meta-info model</li>
+ <li>container-neutral framework</li>
+ <li>declaration of component type dependencies</li>
+ <li>declaration of service publication</li>
+ <li>specification of logging channel assumptions</li>
+ <li>context strategy and context casting assumptions</li>
+ <li>context entry dependencies</li>
+ <li>context entry generation semantic</li>
+ <li>configuration schema details</li>
+ <li>XML and serialized object support</li>
+</ul>
+
+  <p>
+   Tools released in conjunction with the Avalon Meta package include
+   an Ant task and Maven plugin supporting the automation of meta-info
+   generation from @avalon javadoc tags.
+  </p>
+   
+    </section>
+  </body>
+</document>
+

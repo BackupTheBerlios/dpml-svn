@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- 
+ Copyright 2004 Apache Software Foundation
+ Licensed  under the  Apache License,  Version 2.0  (the "License");
+ you may not use  this file  except in  compliance with the License.
+ You may obtain a copy of the License at 
+ 
+   http://www.apache.org/licenses/LICENSE-2.0
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed  under the  License is distributed on an "AS IS" BASIS,
+ WITHOUT  WARRANTIES OR CONDITIONS  OF ANY KIND, either  express  or
+ implied.
+ 
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+
+<document>
+  <properties>
+    <author email="dev@avalon.apache.org">Avalon Team</author>
+    <title>Avalon Castle - DynamicProxy</title>
+  </properties>
+
+  <body>
+
+  <section name="A container for CLI">
+    <p>Avalon Castle is a lightweight
+    container for the CLI (.Net and Mono) world. Although it can be viewed as
+    a port of Avalon, it benefits from several features offered by the
+    CLR.</p>
+
+    <p>Other important difference of Castle container is its simplicity.
+    Based on Microkernel pattern, the user can easily modify, extend or
+    adapt it to match his requirements. No hard contracts, no obligations.
+    Just good and old Inversion of Control and stills Avalon.</p>
+  </section>
+
+  <section name="More references">
+    <p>
+    There are plenty of documents, articles and blog entries about .Net and proxies, 
+    its benefits, its cons and its differences when compared to java implementation.
+    </p>
+     <subsection name="Useful links">
+      <ul>
+        <li>
+         <a href="../../cop/index.html">Developing With Avalon</a>:
+         An excellent white paper on the Avalon framework.
+         Recommended reading!
+        </li>
+        <li>
+        <a href="../../cop/index.html">An Introduction to COP</a>:
+         An introduction to Component Oriented Programming and the
+         core Avalon Framework.
+        </li>
+      </ul>
+     </subsection>
+  </section>
+
+  </body>
+</document>

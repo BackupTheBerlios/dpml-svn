@@ -1,0 +1,169 @@
+<?xml version="1.0"?>
+
+<!-- 
+ Copyright 2004 Apache Software Foundation
+ Licensed  under the  Apache License,  Version 2.0  (the "License");
+ you may not use  this file  except in  compliance with the License.
+ You may obtain a copy of the License at 
+ 
+   http://www.apache.org/licenses/LICENSE-2.0
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed  under the  License is distributed on an "AS IS" BASIS,
+ WITHOUT  WARRANTIES OR CONDITIONS  OF ANY KIND, either  express  or
+ implied.
+ 
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+
+<document>
+  <properties>
+    <author email="dev@avalon.apache.org">Avalon Documentation Team</author>
+    <title>Avalon Central</title>
+  </properties> 
+
+  <body>
+    <section name="Advanced Features">
+      <subsection name="Composite Blocks">
+        <p>
+         A container can declare services that it exports.  In such a case
+         the container declares one or more service directives that map 
+         components declared within itself as service providers.  
+         This mechanism enables a container to appear as a regular 
+         component relative to other components.
+        </p>
+        <p>
+         Content supporting this tutorial is available under the 
+         tutorials/composition directory.
+        </p>
+      </subsection>
+      <subsection name="Sample Container">
+        <p>
+         The following container definition includes:
+        </p>
+        <ul>
+          <li><p>an application component</p></li>
+          <li><p>a location provider block included by reference</p></li>
+          <li><p>an application block included by reference</p></li>
+        </ul>
+        <p>
+          The application block declares dependencies on a location 
+          and publishing service.  The location and publishing block
+          declare that they provide these respective services. As a part of 
+          the general component assembly process - Merlin will assemble 
+          blocks relative to the services and dependencies they declare.
+          When a block is deployed, it appears to other components as a 
+          component providing the services it exports.  However in practice
+          these services are provided by components defined within the 
+          container (i.e. the container represents the definition of 
+          a virtual component and the containers components and subcontainers
+          represent the virtual component implementation).
+        </p>
+        <p>The top level application block declaration (block.xml):</p>
+        <source><![CDATA[
+<container name="application">
+
+     <classloader>
+       <classpath>
+         <repository>
+           <resource id="avalon-framework:avalon-framework-impl" version="4.1.5"/>
+           <resource id="merlin-tutorial:locator-api" version="1.0"/>
+           <resource id="merlin-tutorial:publisher-api" version="1.0"/>
+           <resource id="merlin-tutorial:application-impl" version="1.0"/>
+         </repository>
+       </classpath>
+     </classloader>
+
+     <!-- 
+     note: each of the following include directives is equivalent to 
+     a nested container declaration - using include or declaraing a 
+     sub-container is semantically equivalent
+     -->
+
+     <include name="location" id="merlin-tutorial:locator-impl" version="1.0"/>
+     <include name="publisher" id="merlin-tutorial:publisher-impl" version="1.0"/>
+
+     <component name="application" 
+        class="tutorial.application.Application">
+     </component>
+
+</container>
+]]></source>
+        <p>
+          If we look at the location block (as an example) we will see a corresponding
+          service declaration.  This declaration includes a source reference that is 
+          a relative component path that tells Merlin to use the sub-component named
+          "location" as the component that will fulfil the service published by this 
+          block.
+        </p>
+        <source><![CDATA[
+<container name="locator">
+
+   <services>
+     <service type="tutorial.location.LocationService">
+       <source>info</source>
+     </service>
+   </services>
+
+   <classloader>
+     <classpath>
+       <repository>
+         <resource id="avalon-framework:avalon-framework-api" version="SNAPSHOT"/>
+         <resource id="avalon-framework:avalon-framework-impl" version="SNAPSHOT"/>
+         <resource id="merlin-tutorial:locator-api" version="1.0"/>
+         <resource id="merlin-tutorial:locator-impl" version="1.0"/>
+       </repository>
+     </classpath>
+   </classloader>
+
+   <component name="info" 
+       class="tutorial.location.LocationComponent">
+       <configuration>
+         <source>Paris</source>
+       </configuration>
+   </component>
+
+</container>
+]]></source>
+
+      </subsection>
+      <subsection name="Execution">
+        <p>
+         To run build and run the example please use the following commands:
+        </p>
+        <source><![CDATA[
+$ cd application/impl
+$ maven build
+$ merlin target\*.jar -repository %MAVEN_HOME% -execute
+]]></source>
+        <p>
+         The log output demonstrates the deployment by Merlin of the blocks
+         in the correct order (based on dependency resolution) and the 
+         execution of the test application.
+        </p>
+        <source><![CDATA[
+[INFO   ] (application.publisher.publisher): created
+[INFO   ] (application.location.info): location: Paris
+[INFO   ] (application.application): servicing application
+[INFO   ] (application.location.info): location: Paris
+[INFO   ] (application.publisher.publisher): created
+[INFO   ] (application.publisher.publisher):
+******************
+* Paris
+******************
+[INFO   ] (application.application): done
+]]></source>
+      </subsection>
+      <subsection name="Note">
+        <p>
+         The primary benefit of using block level services and dependencies
+         is isolation of a block implementation from the public services it 
+         provides.
+        </p>
+      </subsection>
+    </section>
+  </body>
+
+</document>
+

@@ -1,0 +1,86 @@
+<?xml version="1.0"?>
+
+<document>
+
+  <properties>
+    <author email="mcconnell@apache.org">Stephen McConnell</author>
+    <title>Context Descriptors</title>
+  </properties>
+
+  <body>
+
+    <section name="Entry Descriptor">
+
+      <subsection name="Description">
+<p>
+The entry element declares the criteria for the inclusion of a context entry within a context object.  The entry exposes a context key and the type that the context entry may be safely cast to.   
+</p>
+      </subsection>
+
+      <subsection name="Attributes">
+        <table>
+          <tr><th>Attribute</th><th>Required</th><th>Description</th></tr>
+          <tr>
+            <td>key</td><td>yes</td>
+            <td>
+             The key that the component implementation will use when 
+             retrieving a value from the supplied context using the 
+             context.get( key ) operation.
+            </td>
+          </tr>
+          <tr>
+            <td>type</td><td>no</td>
+            <td>
+             The classname of the context entry.  The default value 
+             is java.lang.String.
+            </td>
+          </tr>
+          <tr>
+            <td>optional</td><td>no</td>
+            <td>
+             The optional status of the entry.  If optional is TRUE, a container
+             is not required to supply the entry.  The default value is FALSE.
+            </td>
+          </tr>
+          <tr>
+            <td>alias</td><td>no</td>
+            <td>
+             An alternative name that a component may use to locate an entry.
+             This is convinient when dealing with legacy applications.
+            </td>
+          </tr>
+          <tr>
+            <td>volatile</td><td>no</td>
+            <td>
+             A 'true' or 'false' value that determines if a entry value may
+             be cached by a container or if the value must be recomputed on 
+             each access.  The default value is 'false' resulting in cached
+             behaviour.  Volotile entries are useful for contitions such as
+             incremental key generation, time value lookup, etc.
+            </td>
+          </tr>
+        </table>
+      </subsection>
+
+      <subsection name="Example XML">
+<source><![CDATA[
+<context>
+  <entry key="home" type="java.io.File"/>
+  <entry key="test" type="MySpecialClass" optional="TRUE"/>
+  <entry key="timestamp" type="java.util.Data" volatile="TRUE"/>
+</context>
+]]></source>
+      </subsection>
+    </section>
+  </body>
+
+  <footer>
+    <legal>
+      Copyright (c) @year@ The Avalon Apache Project All rights reserved.
+      $Revision: 1.3 $ $Date: 2004/04/14 11:47:32 $
+    </legal>
+  </footer>
+
+</document>
+
+

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document> 
+  <properties>
+    <author email="dev@avalon.apache.org">Avalon Documentation Team</author>
+    <title>Apache Avalon: Contributors</title>
+  </properties>
+  <body> 
+    <section name="Carsten Ziegeler">
+      <p>(cziegeler at apache dot org)</p>
+      <p>
+       Carsten is mainly interested in reusable components for software development.
+       He still has the dream that building new software is just gluing some
+       available components together.
+      </p>
+      <p>
+       As a main committer of Apache Cocoon, he's investigating a lot of time
+       in factoring out reusable components and concepts of Cocoon into Excalibur.
+       This work includes the sourceresolve, the xml and the xmlizer package.
+      </p>
+      <p>
+       Apart from his activities in Cocoon and Avalon, he is the chief architect
+       of the Open Source Group at S&amp;N AG, Germany. There he tries to make come true
+       his wishes regarding software ...
+      </p>
+    </section>
+  </body>
+</document>
+

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document>
+  <properties>
+    <author email="dev@avalon.apache.org">Avalon Documentation Team</author>
+    <title>Avalon Central</title>
+  </properties> 
+
+  <body>
+
+    <section name="Getting Started"> 
+
+      <p> The subversion book is an excellent resource for users and 
+        administrators, it can obtained <a href= 
+        "http://svnbook.red-bean.com/html-chunk/">here</a>.
+      </p>
+    
+      <p>
+        You can also browse the repository using ViewSVN <a href=
+       "http://svn.apache.org/viewcvs.cgi/avalon/?root=Apache-SVN">
+        here</a>.
+      </p>
+    
+      <p>
+        There are several options available to you for retrival of 
+        sources via Subversion.  Subversion can be run from
+        the command line (Linux or Windows) and there are also an 
+        increasing number of GUI's and plugin's.      
+      </p>
+  
+      <p>
+        The SVN utilities are available as native Windows, Linux, and solaris 
+        binaries. The source is also avaiable for other operating systems.  
+        The binaries and source can be obatined from the Subversion <a href="http://subversion.tigris.org/project_packages.html"> download 
+        page.</a>. 
+      </p>
+        
+      <p>To get the current development project, run the following command</p>
+      <source>  svn co https://svn.apache.org/repos/asf/avalon/trunk  avalon</source>
+        
+      <subsection name="Using TortoiseSVN">
+        <p>
+          <a href="http://tortoisesvn.tigris.org/">TortoiseSVN</a> is an excellent 
+          extension for the Windows Explorer which integrates SVN.
+        </p>
+  
+        <p>
+          After you've created a folder where you want to check out the sources 
+          to, right-click and select SVN Checkout.  Then, fill out the settings 
+          like in the screenshot below, and then click ok.</p>
+        <p>
+          <img src="/images/tortoisesvn-setting.png" border="1"/>
+        </p>
+      </subsection>
+
+    </section>
+  </body>
+</document>
+

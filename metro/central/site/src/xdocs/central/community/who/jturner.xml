@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document> 
+  <properties>
+    <author email="dev@avalon.apache.org">Avalon Documentation Team</author>
+    <title>Contributors</title>
+  </properties>
+  <body> 
+    <section name="Jeff Turner">
+      <p>(jefft at apache dot org)</p>
+      <p>
+	Jeff is a 23-year old Sydney programmer who became involved with
+	Avalon through a long-standing interest in the XML Cocoon project.
+	After submitting a few patches, berating the lack of docs and
+	examples, and gradually becoming a fan of COP, he found himself voted
+	a committer and escape was impossible.
+      </p>
+      <p>
+	Jeff has a tragic inability to overlook small deficiencies in things
+	like build systems and documentation. He therefore spends much more
+	time fixing these than coding, which is okay because Avalon has no
+	shortage of programming talent.
+      </p>
+    </section>
+  </body>
+</document>
+

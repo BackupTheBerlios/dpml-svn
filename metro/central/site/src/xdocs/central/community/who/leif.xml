@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document>
+  <properties>
+    <author email="dev@avalon.apache.org">Avalon Documentation Team</author>
+    <title>Contributors</title>
+  </properties>
+  <body>
+    <section name="Leif Mortenson">
+      <p>(leif at apache dot org)</p>
+      <p>
+            Leif initially began using Avalon for a large commercial server that
+            he was working.  He became a committer after making several
+            contributions.
+      </p>
+      <p>
+            Leif has contributed to the Excalibur Component Manager, Pooling,
+            DataSource, and ThreadPooling projects.
+            Leif was also responsible for the Instrumentation projects:
+            Instrument, Instrument Manager, and
+            Instrument Remote Client projects.
+      </p>
+      <p>
+            Outside of ASF, Leif also manages the <a href="http://wrapper.tanukisoftware.org">Java Service Wrapper</a> project.
+      </p>
+      <p>
+            Leif has lived and worked in Tokyo, Japan since 1996 and enjoys
+            backpacking, swimming and water skiing.
+      </p>
+      <p>
+            His academic background includes an E.E. Degree specializing in
+            Control Systems.  Work background includes software testing, plant
+            automation and data analysis, scalable recommendation server design
+            and implementation.  More recently, Leif has been doing consulting
+            based development for companies in Japan.
+      </p>
+    </section>
+  </body>
+</document>
+

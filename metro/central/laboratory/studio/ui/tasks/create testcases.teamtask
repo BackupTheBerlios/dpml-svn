@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TeamTask id="DGWPE5">
+	<TeamTaskMeta>
+		<CreationDate format="yyyy-MM-dd :: HH:mm:ss z">2004-08-27 :: 11:29:08 CEST</CreationDate>
+		<LastModificationDate format="yyyy-MM-dd :: HH:mm:ss z">2004-08-27 :: 11:29:12 CEST</LastModificationDate>
+	</TeamTaskMeta>
+	<Summary>create testcases</Summary>
+	<User>Andreas</User>
+	<Module>ui</Module>
+	<AssignedTo />
+	<State description="New" index="0" />
+	<Severity description="Enhancement" index="0" />
+	<Description />
+	<Notification />
+	<LinkList />
+	<NoteHistory />
+</TeamTask>
+

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TeamTask id="DIB3CK">
+	<TeamTaskMeta>
+		<CreationDate format="yyyy-MM-dd :: HH:mm:ss z">2004-08-27 :: 10:49:57 CEST</CreationDate>
+		<LastModificationDate format="yyyy-MM-dd :: HH:mm:ss z">2004-08-27 :: 10:50:03 CEST</LastModificationDate>
+	</TeamTaskMeta>
+	<Summary>programming manual</Summary>
+	<User>Andreas</User>
+	<Module>core</Module>
+	<AssignedTo />
+	<State description="New" index="0" />
+	<Severity description="Enhancement" index="0" />
+	<Description />
+	<Notification />
+	<LinkList />
+	<NoteHistory />
+</TeamTask>
+
