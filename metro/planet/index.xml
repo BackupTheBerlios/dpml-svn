@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<index>
+
+  <import index="cornerstone/index.xml"
+     href="http://svn.apache.org/repos/asf/avalon/trunk/planet/cornerstone/index.xml"/>
+
+  <import index="facilities/index.xml"
+     href="http://svn.apache.org/repos/asf/avalon/trunk/planet/facilities/index.xml"/>
+
+  <import index="tutorials/index.xml"
+     href="http://svn.apache.org/repos/asf/avalon/trunk/planet/tutorials/index.xml"/>
+
+</index>

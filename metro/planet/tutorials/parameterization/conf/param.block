@@ -1,0 +1,19 @@
+
+<container name="tutorial">
+
+   <classloader>
+     <classpath>
+       <repository>
+         <resource id="merlin/tutorial:parameters" version="1.0"/>
+       </repository>
+     </classpath>
+   </classloader>
+
+   <component name="hello" class="tutorial.HelloComponent">
+     <parameters>
+       <parameter name="color" value="magenta"/>
+       <parameter name="size" value="relative"/>
+     </parameters>
+   </component>
+
+</container>

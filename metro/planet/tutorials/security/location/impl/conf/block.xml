@@ -1,0 +1,28 @@
+
+<container name="locator">
+
+   <services>
+     <service type="tutorial.location.LocationService">
+       <source>info</source>
+     </service>
+   </services>
+
+   <classloader>
+     <classpath>
+       <repository>
+         <resource id="avalon-framework:avalon-framework-api" version="4.2.0"/>
+         <resource id="avalon-framework:avalon-framework-impl" version="4.2.0"/>
+         <resource id="merlin-tutorial:locator-api" version="1.0"/>
+         <resource id="merlin-tutorial:locator-impl" version="1.0"/>
+       </repository>
+     </classpath>
+   </classloader>
+
+   <component name="info" 
+       class="tutorial.location.impl.LocationComponent">
+       <configuration>
+         <source>Europe.France.Paris</source>
+       </configuration>
+   </component>
+
+</container>

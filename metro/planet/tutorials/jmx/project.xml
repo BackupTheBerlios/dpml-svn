@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE project [
+  <!ENTITY % index SYSTEM "file:index.ent"> %index;
+]>
+
+<project>
+
+  <extend>${basedir}/../master.xml</extend>
+  <groupId>merlin/tutorial</groupId>
+  <id>jmx-hello</id>
+  <name>Merlin Hello Tutorials</name>
+  <package>tutorial</package>
+  <currentVersion>1.0</currentVersion>
+
+  <inceptionYear>2003</inceptionYear>
+  <shortDescription>Merlin JMX-enabled Hello Tutorial</shortDescription>
+
+  <description>
+    JMX enabled 'Hello' tutorial
+  </description>
+
+  <dependencies>
+
+    <dependency>
+      <groupId>avalon-framework</groupId>
+      <artifactId>avalon-framework-api</artifactId>
+      <version>4.2.0</version>
+    </dependency>
+
+    <dependency>
+      <groupId>&merlin-id;</groupId>
+      <artifactId>&merlin-unit-id;</artifactId>
+      <version>&merlin-unit-version;</version>
+    </dependency>
+
+  </dependencies>
+
+</project>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<project name="avalon-jmx-test" default="install" basedir="." 
+    xmlns:x="antlib:org.apache.avalon.tools"
+>
+  <property file="build.properties"/>
+  <x:home/>
+  <import file="${magic.templates}/standard.xml"/>
+
+  <target name="build" depends="standard.build">
+    <x:block name="jmx" embed="MAIN">
+      <x:component name="mx4j" 
+         class="org.apache.avalon.jmx.mx4j.MX4JComponentRegistrationManager">
+        <x:parameters>
+          <x:parameter name="enable-rmi-adaptor" value="true"/>
+          <x:parameter name="rmi-naming-factory" value="com.sun.jndi.rmi.registry.RegistryContextFactory"/>
+        </x:parameters>
+      </x:component>
+      <x:component name="test" class="org.apache.avalon.playground.jmxtest.JMXTestComponent"/>
+      <x:component name="handler" class="org.apache.avalon.jmx.handler.JmxManagementHandler"/>
+    </x:block>
+  </target>
+
+</project>
+

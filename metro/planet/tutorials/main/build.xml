@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<project name="avalon-tutorial-main" default="install" basedir="." 
+    xmlns:x="antlib:org.apache.avalon.tools">
+
+  <property name="project.home" value=".."/>
+  <import file="${project.home}/standard.xml"/>
+
+  <target name="init" depends="standard.init">
+    <x:filter key="avalon-merlin-impl" feature="uri" 
+       token="MERLIN-IMPL-SPEC"/>
+    <x:filter key="avalon-tutorial-hello" feature="uri" 
+       token="HELLO-TUTORIAL-URI"/>
+  </target>
+
+  <target name="test" depends="standard.test">
+    <x:path id="deps"/>
+    <java classname="tutorial.Main" fork="true" dir="target\test" failonerror="true">
+      <classpath>
+        <path refid="deps"/>
+        <pathelement location="target/deliverables/jars/${project.filename}"/>
+      </classpath>
+      <sysproperty key="project.cache" value="${magic.cache}"/>
+    </java>
+    
+  </target>
+
+</project>
+

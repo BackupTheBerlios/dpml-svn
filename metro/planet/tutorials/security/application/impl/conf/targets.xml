@@ -1,0 +1,13 @@
+
+<targets>
+
+  <target path="/application/spain">
+    <security profile="name="SpainGranted"/>
+  </target>
+
+  <target path="/application/france">
+    <security profile="name="FranceGranted"/>
+  </target>
+
+</targets>
+ 

@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!--
+ * Copyright 2004 Apache Software Foundation
+ * Licensed  under the  Apache License,  Version 2.0  (the "License");
+ * you may not use  this file  except in  compliance with the License.
+ * You may obtain a copy of the License at 
+ * 
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed  under the  License is distributed on an "AS IS" BASIS,
+ * WITHOUT  WARRANTIES OR CONDITIONS  OF ANY KIND, either  express  or
+ * implied.
+ * 
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+-->
+
+
+<index>
+
+  <import index="../../index.xml"
+     href="http://svn.apache.org/repos/asf/avalon/trunk/planet/facilities/index.xml"/>
+
+  <project basedir="context">
+    <info>
+      <group>avalon/http</group>
+      <name>avalon-http-context</name>
+      <version>1.0.0</version>
+      <status>SNAPSHOT</status> 
+      <type>block</type> 
+    </info>
+    <dependencies>
+      <include key="avalon-framework-api" runtime="false"/>
+      <include key="avalon-http-api" />
+      <include key="avalon-http-impl" />
+      <include key="servletapi" />
+    </dependencies>
+  </project>
+
+  <project basedir="server">
+    <info>
+      <group>avalon/http</group>
+      <name>avalon-http-server</name>
+      <version>1.0.0</version>
+      <status>SNAPSHOT</status> 
+      <type>block</type> 
+    </info>
+    <dependencies>
+      <include key="avalon-framework-api" runtime="false"/>
+      <include key="avalon-http-api" />
+      <include key="avalon-http-impl" />
+    </dependencies>
+  </project>
+
+  <project basedir="hash-basic">
+    <info>
+      <group>avalon/http</group>
+      <name>avalon-http-hash-basic</name>
+      <version>1.0.0</version>
+      <type>block</type> 
+      <status>SNAPSHOT</status> 
+    </info>
+    <dependencies>
+      <include key="avalon-framework-api" runtime="false"/>
+    </dependencies>
+  </project>
+
+  <project basedir="hash-form">
+    <info>
+      <group>avalon/http</group>
+      <name>avalon-http-hash-form</name>
+      <version>1.0.0</version>
+      <type>block</type> 
+      <status>SNAPSHOT</status> 
+    </info>
+    <dependencies>
+      <include key="avalon-framework-api" runtime="false"/>
+    </dependencies>
+  </project>
+
+  <project basedir="hash-clientcert">
+    <info>
+      <group>avalon/http</group>
+      <name>avalon-http-hash-clientcert</name>
+      <version>1.0.0</version>
+      <type>block</type> 
+      <status>SNAPSHOT</status> 
+    </info>
+    <dependencies>
+      <include key="avalon-framework-api" runtime="false"/>
+    </dependencies>
+  </project>
+
+  <project basedir="hash-digest">
+    <info>
+      <group>avalon/http</group>
+      <name>avalon-http-hash-digest</name>
+      <version>1.0.0</version>
+      <type>block</type> 
+      <status>SNAPSHOT</status> 
+    </info>
+    <dependencies>
+      <include key="avalon-framework-api" runtime="false"/>
+    </dependencies>
+  </project>
+
+  <project basedir="demo">
+    <info>
+      <group>avalon/http</group>
+      <name>avalon-http-demo</name>
+      <version>1.0.0</version>
+      <type>jar</type> 
+      <status>SNAPSHOT</status> 
+    </info>
+    <dependencies>
+      <include key="avalon-http-impl" />
+      <include key="servletapi" />
+    </dependencies>
+    <plugins>
+      <include key="avalon-meta-tools"/>
+    </plugins>
+  </project>
+
+  <project basedir="static">
+    <info>
+      <group>avalon/http</group>
+      <name>avalon-http-static</name>
+      <version>1.0.0</version>
+      <type>block</type>
+      <status>SNAPSHOT</status> 
+    </info>
+    <dependencies>
+      <include key="avalon-http-impl" />
+      <include key="servletapi" />
+    </dependencies>
+  </project>
+
+  <project basedir="servlet">
+    <info>
+      <group>avalon/http</group>
+      <name>avalon-http-servlet</name>
+      <type>block</type>
+      <version>1.0.0</version>
+      <type>block</type>
+      <status>SNAPSHOT</status> 
+    </info>
+    <dependencies>
+      <include key="avalon-http-impl" />
+      <include key="servletapi" />
+    </dependencies>
+  </project>
+
+  <project basedir="examples">
+    <info>
+      <group>avalon/http</group>
+      <name>avalon-http-examples</name>
+      <version>1.0.0</version>
+      <type>jar</type>
+      <status>SNAPSHOT</status> 
+    </info>
+    <dependencies>
+      <include key="servletapi" />
+      <include key="avalon-http-server" />
+      <include key="avalon-http-servlet" />
+    </dependencies>
+  </project>
+</index>
+ 

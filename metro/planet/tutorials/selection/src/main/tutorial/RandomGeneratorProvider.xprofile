@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+
+<profiles>
+
+  <profile name="primary">
+    <configuration>
+      <seed>1024</seed>
+    </configuration>
+  </profile>
+
+  <profile name="secondary">
+    <configuration>
+      <seed>2048</seed>
+    </configuration>
+  </profile>
+
+</profiles>

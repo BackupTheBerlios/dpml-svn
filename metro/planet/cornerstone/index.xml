@@ -1,0 +1,276 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<index>
+
+  <import index="../../runtime/index.xml"
+     href="http://svn.apache.org/repos/asf/avalon/trunk/runtime/index.xml"/>
+
+  <resource>
+    <info>
+      <group>commons-collections</group>
+      <name>commons-collections</name>
+      <version>2.1</version>
+    </info>
+  </resource>
+
+  <resource>
+    <info>
+      <group>commons-logging</group>
+      <name>commons-logging</name>
+      <version>1.0.4</version>
+    </info>
+  </resource>
+
+
+  <resource>
+    <info>
+      <group>concurrent</group>
+      <name>concurrent</name>
+      <version>1.3.1</version>
+    </info>
+  </resource>
+
+  <resource>
+    <info>
+      <group>excalibur-pool</group>
+      <name>excalibur-pool-api</name>
+      <version>2.0.0</version>
+    </info>
+    <dependencies>
+      <include key="avalon-framework-api"/>
+    </dependencies>
+  </resource>
+
+  <resource>
+    <info>
+      <group>excalibur-pool</group>
+      <name>excalibur-pool-impl</name>
+      <version>2.0.0</version>
+    </info>
+    <dependencies>
+      <include key="excalibur-pool-api"/>
+      <include key="avalon-framework-impl"/>
+      <include key="excalibur-pool-impl"/>
+      <include key="commons-collections"/>
+      <include key="concurrent"/>
+    </dependencies>
+  </resource>
+
+  <resource>
+    <info>
+      <group>excalibur-datasource</group>
+      <name>excalibur-datasource</name>
+      <version>1.2.0</version>
+    </info>
+    <dependencies>
+      <include key="excalibur-pool-impl"/>
+      <include key="avalon-framework-impl"/>
+    </dependencies>
+  </resource>
+
+  <resource>
+    <info>
+      <group>excalibur-thread</group>
+      <name>excalibur-thread-api</name>
+      <version>2.0.0</version>
+    </info>
+    <dependencies>
+      <include key="avalon-framework-api"/>
+    </dependencies>
+  </resource>
+
+  <resource>
+    <info>
+      <group>excalibur-thread</group>
+      <name>excalibur-thread-impl</name>
+      <version>2.0.0</version>
+    </info>
+    <dependencies>
+      <include key="excalibur-thread-api"/>
+      <include key="excalibur-pool-impl"/>
+    </dependencies>
+  </resource>
+
+  <!--
+  Avalon Components - Cornerstone Collection
+  -->
+
+  <project basedir="connection/api">
+    <info>
+      <group>avalon/cornerstone</group>
+      <name>cornerstone-connection-api</name>
+      <version>2.0.0</version>
+    </info>
+    <dependencies>
+      <include key="cornerstone-sockets-api"/>
+      <include key="cornerstone-threads-api"/>
+    </dependencies>
+  </project>
+
+  <project basedir="connection/impl">
+    <info>
+      <group>avalon/cornerstone</group>
+      <name>cornerstone-connection-impl</name>
+      <version>2.0.1</version>
+      <status>SNAPSHOT</status> 
+    </info>
+    <dependencies>
+      <include key="cornerstone-connection-api"/>
+      <include key="cornerstone-threads-impl"/>
+      <include key="avalon-framework-impl"/>
+      <include key="commons-logging"/>
+    </dependencies>
+    <plugins>
+      <include key="avalon-meta-tools"/>
+    </plugins>
+  </project>
+
+  <project basedir="datasources/api">
+    <info>
+      <group>avalon/cornerstone</group>
+      <name>cornerstone-datasources-api</name>
+      <version>1.0.0</version>
+    </info>
+    <dependencies>
+      <include key="avalon-framework-api"/>
+    </dependencies>
+  </project>
+
+  <project basedir="datasources/impl">
+    <info>
+      <group>avalon/cornerstone</group>
+      <name>cornerstone-datasources-impl</name>
+      <version>2.0.1</version>
+      <status>SNAPSHOT</status> 
+    </info>
+    <dependencies>
+      <include key="cornerstone-datasources-api"/>
+      <include key="excalibur-pool-impl"/>
+      <include key="excalibur-datasource"/>
+    </dependencies>
+    <plugins>
+      <include key="avalon-meta-tools"/>
+    </plugins>
+  </project>
+
+  <project basedir="scheduler/api">
+    <info>
+      <group>avalon/cornerstone</group>
+      <name>cornerstone-scheduler-api</name>
+      <version>2.0.0</version>
+    </info>
+    <dependencies>
+      <include key="avalon-framework-api"/>
+    </dependencies>
+  </project>
+
+  <project basedir="scheduler/impl">
+    <info>
+      <group>avalon/cornerstone</group>
+      <name>cornerstone-scheduler-impl</name>
+      <version>2.0.1</version>
+      <status>SNAPSHOT</status> 
+    </info>
+    <dependencies>
+      <include key="cornerstone-scheduler-api"/>
+      <include key="cornerstone-threads-impl"/>
+      <include key="avalon-framework-impl"/>
+    </dependencies>
+    <plugins>
+      <include key="avalon-meta-tools"/>
+    </plugins>
+  </project>
+
+  <project basedir="sockets/api">
+    <info>
+      <group>avalon/cornerstone</group>
+      <name>cornerstone-sockets-api</name>
+      <version>1.0.0</version>
+    </info>
+  </project>
+
+  <project basedir="sockets/impl">
+    <info>
+      <group>avalon/cornerstone</group>
+      <name>cornerstone-sockets-impl</name>
+      <version>1.1.1</version>
+      <status>SNAPSHOT</status> 
+    </info>
+    <dependencies>
+      <include key="cornerstone-sockets-api"/>
+      <include key="avalon-framework-impl"/>
+    </dependencies>
+    <plugins>
+      <include key="avalon-meta-tools"/>
+    </plugins>
+  </project>
+
+  <project basedir="store/api">
+    <info>
+      <group>avalon/cornerstone</group>
+      <name>cornerstone-store-api</name>
+      <version>1.0.0</version>
+    </info>
+    <dependencies>
+      <include key="avalon-framework-api"/>
+    </dependencies>
+  </project>
+
+  <project basedir="store/impl">
+    <info>
+      <group>avalon/cornerstone</group>
+      <name>cornerstone-store-impl</name>
+      <version>1.1.1</version>
+      <status>SNAPSHOT</status> 
+    </info>
+    <dependencies>
+      <include key="cornerstone-store-api"/>
+      <include key="avalon-framework-impl"/>
+    </dependencies>
+    <plugins>
+      <include key="avalon-meta-tools"/>
+    </plugins>
+  </project>
+
+  <project basedir="threads/api">
+    <info>
+      <group>avalon/cornerstone</group>
+      <name>cornerstone-threads-api</name>
+      <version>2.0.0</version>
+    </info>
+    <dependencies>
+      <include key="excalibur-thread-api"/>
+    </dependencies>
+  </project>
+
+  <project basedir="threads/impl">
+    <info>
+      <group>avalon/cornerstone</group>
+      <name>cornerstone-threads-impl</name>
+      <version>2.0.1</version>
+      <status>SNAPSHOT</status> 
+    </info>
+    <dependencies>
+      <include key="cornerstone-threads-api"/>
+      <include key="excalibur-thread-impl"/>
+    </dependencies>
+    <plugins>
+      <include key="avalon-meta-tools"/>
+    </plugins>
+  </project>
+
+  <project basedir="threads/tutorial">
+    <info>
+      <group>avalon/cornerstone</group>
+      <name>cornerstone-threads-tutorial</name>
+    </info>
+    <dependencies>
+      <include key="cornerstone-threads-api"/>
+      <include key="cornerstone-threads-impl" runtime="false"/>
+    </dependencies>
+    <plugins>
+      <include key="avalon-meta-tools"/>
+    </plugins>
+  </project>
+
+</index>

@@ -1,0 +1,18 @@
+<profiles>
+
+  <profile name="dbcp-simulation">
+    <configuration>
+      <datasources>
+        <datasource name="hsql" default="true">
+          <driver>org.hsqldb.jdbcDriver</driver>
+          <db-url>jdbc:hsqldb:hsql://localhost</db-url>
+          <username>sa</username>
+          <password></password>
+          <read-only>false</read-only>
+          <auto-commit>true</auto-commit>
+        </datasource>
+      </datasources>
+    </configuration>
+  </profile>
+
+</profiles>

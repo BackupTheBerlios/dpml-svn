@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<project name="avalon-dbcp-impl" default="install" basedir="." 
+    xmlns:x="antlib:org.apache.avalon.tools"
+>
+  <property file="build.properties"/>
+  <x:home/>
+  <import file="${magic.templates}/standard.xml"/>
+
+  <target name="build" depends="standard.build">
+    <x:property property="hsql.spec" key="avalon-db-hsql" feature="spec" resolve="false"/>
+    <x:block name="dbcp" embed="MAIN">
+      <x:include name="hsql-server" artifact="block:${hsql.spec}"/>
+      <x:component name="dbcp-manager" profile="dbcp-simulation" 
+         class="org.apache.avalon.dbcp.DbcpConnectionManager"/>
+    </x:block>
+  </target>
+
+</project>
+

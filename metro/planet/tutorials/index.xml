@@ -1,0 +1,393 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<index>
+
+  <import index="../../runtime/index.xml"
+     href="http://svn.apache.org/repos/asf/avalon/trunk/runtime/index.xml"/>
+
+  <import index="../cornerstone/index.xml"
+     href="http://svn.apache.org/repos/asf/avalon/trunk/planet/cornerstone/index.xml"/>
+
+  <!--
+  Hello Tutorial.
+  -->
+
+  <project basedir="hello">
+    <info>
+      <group>avalon/tutorial</group>
+      <name>avalon-tutorial-hello</name>
+    </info>
+    <dependencies>
+      <include key="avalon-merlin-unit" runtime="false"/>
+      <include key="avalon-framework-api" runtime="false"/>
+    </dependencies>
+    <plugins>
+      <include key="avalon-meta-tools"/>
+    </plugins>
+  </project>
+
+  <!--
+  Context Tutorials.
+  -->
+
+  <project basedir="context/alias">
+    <info>
+      <group>avalon/tutorial</group>
+      <name>avalon-tutorial-context-alias</name>
+      <type>jar</type>
+    </info>
+    <dependencies>
+      <include key="avalon-framework-api"/>
+    </dependencies>
+    <plugins>
+      <include key="avalon-meta-tools"/>
+    </plugins>
+  </project>
+
+  <project basedir="context/avalon">
+    <info>
+      <group>avalon/tutorial</group>
+      <name>avalon-tutorial-context-avalon</name>
+      <type>jar</type>
+    </info>
+    <dependencies>
+      <include key="avalon-framework-api"/>
+    </dependencies>
+    <plugins>
+      <include key="avalon-meta-tools"/>
+    </plugins>
+  </project>
+
+  <project basedir="context/casting">
+    <info>
+      <group>avalon/tutorial</group>
+      <name>avalon-tutorial-context-casting</name>
+      <type>jar</type>
+    </info>
+    <dependencies>
+      <include key="avalon-framework-impl"/>
+    </dependencies>
+    <plugins>
+      <include key="avalon-meta-tools"/>
+    </plugins>
+  </project>
+
+  <project basedir="context/custom">
+    <info>
+      <group>avalon/tutorial</group>
+      <name>avalon-tutorial-context-custom</name>
+      <type>jar</type>
+    </info>
+    <dependencies>
+      <include key="avalon-framework-impl"/>
+    </dependencies>
+    <plugins>
+      <include key="avalon-meta-tools"/>
+    </plugins>
+  </project>
+
+  <project basedir="context/injection">
+    <info>
+      <group>avalon/tutorial</group>
+      <name>avalon-tutorial-context-injection</name>
+      <type>jar</type>
+    </info>
+    <dependencies>
+      <include key="avalon-framework-api"/>
+    </dependencies>
+    <plugins>
+      <include key="avalon-meta-tools"/>
+    </plugins>
+  </project>
+
+  <project basedir="context/plus">
+    <info>
+      <group>avalon/tutorial</group>
+      <name>avalon-tutorial-context-plus</name>
+      <type>jar</type>
+    </info>
+    <dependencies>
+      <include key="avalon-framework-impl"/>
+    </dependencies>
+    <plugins>
+      <include key="avalon-meta-tools"/>
+    </plugins>
+  </project>
+
+  <project basedir="context/strategy">
+    <info>
+      <group>avalon/tutorial</group>
+      <name>avalon-tutorial-context-strategy</name>
+      <type>jar</type>
+    </info>
+    <dependencies>
+      <include key="avalon-framework-impl"/>
+      <include key="avalon-composition-api"/>
+    </dependencies>
+    <plugins>
+      <include key="avalon-meta-tools"/>
+    </plugins>
+  </project>
+
+  <!--
+  Dynamics Tutorial.
+  -->
+
+  <project basedir="dynamics">
+    <info>
+      <group>avalon/tutorial</group>
+      <name>avalon-tutorial-dynamics</name>
+    </info>
+    <dependencies>
+      <include key="avalon-composition-api" runtime="false"/>
+      <include key="avalon-framework-impl"/>
+    </dependencies>
+    <plugins>
+      <include key="avalon-meta-tools"/>
+    </plugins>
+  </project>
+
+  <!--
+  Composition Tutorial.
+  -->
+
+  <project basedir="composition/publisher/api">
+    <info>
+      <group>avalon/tutorial</group>
+      <name>avalon-tutorial-publisher-api</name>
+    </info>
+    <dependencies>
+      <include key="avalon-framework-api"/>
+    </dependencies>
+  </project>
+
+  <project basedir="composition/publisher/impl">
+    <info>
+      <group>avalon/tutorial</group>
+      <name>avalon-tutorial-publisher-impl</name>
+    </info>
+    <dependencies>
+      <include key="avalon-framework-impl"/>
+      <include key="avalon-tutorial-publisher-api"/>
+    </dependencies>
+    <plugins>
+      <include key="avalon-meta-tools"/>
+    </plugins>
+  </project>
+
+  <project basedir="composition/location/api">
+    <info>
+      <group>avalon/tutorial</group>
+      <name>avalon-tutorial-location-api</name>
+    </info>
+    <dependencies>
+      <include key="avalon-framework-api"/>
+    </dependencies>
+  </project>
+
+  <project basedir="composition/location/impl">
+    <info>
+      <group>avalon/tutorial</group>
+      <name>avalon-tutorial-location-impl</name>
+    </info>
+    <dependencies>
+      <include key="avalon-framework-impl"/>
+      <include key="avalon-tutorial-location-api"/>
+      <include key="avalon-tutorial-publisher-api"/>
+    </dependencies>
+    <plugins>
+      <include key="avalon-meta-tools"/>
+    </plugins>
+  </project>
+
+  <project basedir="composition/application/impl">
+    <info>
+      <group>avalon/tutorial</group>
+      <name>avalon-tutorial-application-impl</name>
+    </info>
+    <dependencies>
+      <include key="avalon-tutorial-location-impl"/>
+      <include key="avalon-tutorial-publisher-impl"/>
+    </dependencies>
+    <plugins>
+      <include key="avalon-meta-tools"/>
+    </plugins>
+  </project>
+
+  <!--
+  Configuration Tutorial.
+  -->
+
+  <project basedir="configuration/block">
+    <info>
+      <group>avalon/tutorial</group>
+      <name>avalon-tutorial-config-block</name>
+    </info>
+    <dependencies>
+      <include key="avalon-framework-impl"/>
+    </dependencies>
+    <plugins>
+      <include key="avalon-meta-tools"/>
+    </plugins>
+  </project>
+
+  <project basedir="configuration/defaults">
+    <info>
+      <group>avalon/tutorial</group>
+      <name>avalon-tutorial-config-defaults</name>
+    </info>
+    <dependencies>
+      <include key="avalon-framework-impl"/>
+    </dependencies>
+    <plugins>
+      <include key="avalon-meta-tools"/>
+    </plugins>
+  </project>
+
+  <project basedir="configuration/injection">
+    <info>
+      <group>avalon/tutorial</group>
+      <name>avalon-tutorial-config-injection</name>
+    </info>
+    <dependencies>
+      <include key="avalon-framework-impl"/>
+    </dependencies>
+    <plugins>
+      <include key="avalon-meta-tools"/>
+    </plugins>
+  </project>
+
+  <project basedir="configuration/override">
+    <info>
+      <group>avalon/tutorial</group>
+      <name>avalon-tutorial-config-override</name>
+      <type>block</type>
+    </info>
+    <dependencies>
+      <include key="avalon-tutorial-config-injection"/>
+    </dependencies>
+  </project>
+
+  <!--
+  Dependency Tutorials
+  -->
+
+  <project basedir="dependencies/auto">
+    <info>
+      <group>avalon/tutorial</group>
+      <name>avalon-tutorial-dependency-auto</name>
+    </info>
+    <dependencies>
+      <include key="avalon-framework-impl"/>
+    </dependencies>
+    <plugins>
+      <include key="avalon-meta-tools"/>
+    </plugins>
+  </project>
+
+  <project basedir="dependencies/manual">
+    <info>
+      <group>avalon/tutorial</group>
+      <name>avalon-tutorial-dependency-manual</name>
+    </info>
+    <dependencies>
+      <include key="avalon-framework-impl"/>
+    </dependencies>
+    <plugins>
+      <include key="avalon-meta-tools"/>
+    </plugins>
+  </project>
+
+  <project basedir="lifecycle/modern">
+    <info>
+      <group>avalon/tutorial</group>
+      <name>avalon-tutorial-lifecycle-modern</name>
+    </info>
+    <dependencies>
+      <include key="avalon-framework-impl"/>
+      <include key="avalon-composition-api"/>
+    </dependencies>
+    <plugins>
+      <include key="avalon-meta-tools"/>
+    </plugins>
+  </project>
+
+  <project basedir="lifecycle/classic">
+    <info>
+      <group>avalon/tutorial</group>
+      <name>avalon-tutorial-lifecycle-classic</name>
+    </info>
+    <dependencies>
+      <include key="avalon-framework-impl"/>
+      <include key="avalon-util-lifecycle"/>
+    </dependencies>
+    <plugins>
+      <include key="avalon-meta-tools"/>
+    </plugins>
+  </project>
+
+  <project basedir="main">
+    <info>
+      <group>avalon/tutorial</group>
+      <name>avalon-tutorial-main</name>
+    </info>
+    <dependencies>
+      <include key="avalon-tutorial-hello" runtime="false"/>
+      <include key="avalon-repository-main"/>
+    </dependencies>
+  </project>
+
+  <project basedir="parameterization">
+    <info>
+      <group>avalon/tutorial</group>
+      <name>avalon-tutorial-parameters</name>
+    </info>
+    <dependencies>
+      <include key="avalon-framework-api"/>
+    </dependencies>
+    <plugins>
+      <include key="avalon-meta-tools"/>
+    </plugins>
+  </project>
+
+  <project basedir="profiles">
+    <info>
+      <group>avalon/tutorial</group>
+      <name>avalon-tutorial-profiles</name>
+    </info>
+    <dependencies>
+      <include key="avalon-framework-api"/>
+    </dependencies>
+    <plugins>
+      <include key="avalon-meta-tools"/>
+    </plugins>
+  </project>
+
+  <project basedir="selection">
+    <info>
+      <group>avalon/tutorial</group>
+      <name>avalon-tutorial-selection</name>
+    </info>
+    <dependencies>
+      <include key="avalon-framework-api"/>
+    </dependencies>
+    <plugins>
+      <include key="avalon-meta-tools"/>
+    </plugins>
+  </project>
+
+  <project basedir="simple-web">
+    <info>
+      <group>avalon/tutorial</group>
+      <name>avalon-tutorial-webserver</name>
+    </info>
+    <dependencies>
+      <include key="cornerstone-sockets-impl"/>
+      <include key="cornerstone-connection-impl"/>
+    </dependencies>
+    <plugins>
+      <include key="avalon-meta-tools"/>
+    </plugins>
+  </project>
+
+</index>

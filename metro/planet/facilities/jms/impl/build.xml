@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<project name="avalon-jms-impl" default="install" basedir="." 
+    xmlns:x="antlib:org.apache.avalon.tools"
+>
+  <property file="build.properties"/>
+  <x:home/>
+  <import file="${magic.templates}/standard.xml"/>
+
+  <target name="build" depends="standard.build">
+    <x:block name="jms" embed="MAIN">
+      <x:component name="manager" 
+         class="org.apache.avalon.mds.impl.DefaultMDSManager"/>
+    </x:block>
+  </target>
+
+</project>
+

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<targets>
+
+  <target path="/demo/static-context/context">
+    <configuration>
+      <context-path>/</context-path>
+      <resource-base>.</resource-base>
+    </configuration>
+  </target>
+
+  <target path="/demo/static-context/forward-handler">
+    <configuration>
+      <forwards>
+         <forward>
+           <from>/hello</from>
+           <to>/demo/hello</to>
+         </forward>
+      </forwards>
+    </configuration>
+  </target>
+
+  <target path="/demo/static-context/model-handler">
+    <parameters>
+      <parameter name="context-path" value="/demo/hello"/>
+      <parameter name="target" value="/demo/hello"/>
+    </parameters>
+  </target>
+
+  <target path="/demo/authentication/realm">
+    <parameters>
+      <parameter name="filename" value="blocks/demo/etc/user.realm" />
+    </parameters>
+  </target>
+
+</targets>

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<project name="reactor" xmlns:x="antlib:org.apache.avalon.tools">
+
+  <x:home/>
+
+  <target name="info">
+    <x:reactor target="info"/>
+  </target>
+
+  <target name="clean">
+    <x:reactor target="clean"/>
+  </target>
+
+  <target name="prepare">
+    <x:reactor target="prepare"/>
+  </target>
+
+  <target name="build">
+    <x:reactor target="build"/>
+  </target>
+
+  <target name="package">
+    <x:reactor target="package"/>
+  </target>
+
+  <target name="test">
+    <x:reactor target="test"/>
+  </target>
+
+  <target name="install">
+    <x:reactor target="install"/>
+  </target>
+
+  <target name="default">
+    <x:reactor target="default"/>
+  </target>
+
+</project>
+

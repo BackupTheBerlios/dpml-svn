@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<container name="webapp-server">
+
+  <classloader>
+    <classpath>
+      <artifact>jar:avalon/http/avalon-http-api#SNAPSHOT</artifact>
+      <artifact>jar:jetty/org.mortbay.jetty#SNAPSHOT</artifact>
+      <artifact>jar:avalon/http/avalon-http-impl#SNAPSHOT</artifact>
+      <artifact>jar:avalon/http/avalon-http-spi#SNAPSHOT</artifact>
+      <artifact>jar:avalon/http/avalon-http-util#SNAPSHOT</artifact>
+      <artifact>jar:avalon/util/avalon-util-configuration#1.0.0</artifact>
+      <artifact>jar:avalon/framework/avalon-framework-api#SNAPSHOT</artifact>
+      <artifact>jar:avalon/framework/avalon-framework-impl#SNAPSHOT</artifact>
+      <artifact>jar:avalon/framework/avalon-framework-legacy#SNAPSHOT</artifact>
+      <artifact>jar:avalon/logkit/avalon-logkit#SNAPSHOT</artifact>
+      <artifact>jar:jetty/org.mortbay.jaas#5.0.RC0</artifact>
+      <artifact>jar:commons-logging/commons-logging#1.0</artifact>
+      <artifact>jar:servletapi/servletapi#2.3</artifact>
+      <artifact>jar:avalon/http/avalon-http-context#SNAPSHOT</artifact>
+      <artifact>jar:tomcat/jasper-runtime#5.0.25</artifact>
+      <artifact>jar:tomcat/jasper-compiler#5.0.25</artifact>
+      <artifact>jar:tomcat/jsp-api#5.0.18</artifact>
+      <artifact>jar:log4j/log4j#1.2.8</artifact>
+    </classpath>
+  </classloader>
+
+  <component name="socketlistener" class="org.apache.avalon.http.impl.SocketListener" >
+    <!-- Defaults 
+    <parameters>
+      <parameter name="port" value="8080" />
+      <parameter name="hostname" value="0.0.0.0" />
+    </parameters>
+    -->
+  </component>
+
+  <component name="httpserver" class="org.apache.avalon.http.impl.HttpServerImpl"/>
+  
+  <component name="context" class="org.apache.avalon.http.impl.WebApplicationContext" />
+
+  <component name="request-log" class="org.apache.avalon.http.impl.NcsaRequestLog">
+    <parameters>
+      <parameter name="filename" value="access_log"/>
+      <parameter name="append" value="true"/>
+      <parameter name="extended" value="true"/>
+    </parameters>
+  </component>
+
+</container>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<project name="avalon-tutorial-publisher-impl" 
+    default="install" basedir="." xmlns:x="antlib:org.apache.avalon.tools">
+
+  <property name="project.home" value="../../.."/>
+  <import file="${project.home}/standard.xml"/>
+
+  <target name="build" depends="standard.build">
+    <x:block name="publishing" embed="MAIN">
+      <x:service source="publisher"
+         type="tutorial.publisher.PublisherService"/>
+      <x:component name="publisher" 
+         class="tutorial.publisher.PublisherComponent" />
+    </x:block>
+  </target>
+
+</project>

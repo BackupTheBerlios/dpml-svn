@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<project name="avalon-http-server" default="install" basedir="." 
+    xmlns:x="antlib:org.apache.avalon.tools"
+>
+  <property file="build.properties"/>
+  <x:home/>
+  <import file="${magic.templates}/standard.xml"/>
+
+  <target name="build" depends="standard.build">
+    <x:block name="default-server">
+      <x:service type="org.apache.avalon.http.HttpService" source="httpserver"/> 
+      <x:component name="socketlistener" class="org.apache.avalon.http.impl.SocketListener" />
+      <x:component name="httpserver" class="org.apache.avalon.http.impl.HttpServerImpl" />
+    </x:block>
+  </target>
+
+  <!--
+  <target name="build" depends="standard.build">
+    <x:block name="default-server">
+      <x:service type="org.apache.avalon.http.HttpService" source="httpserver"/> 
+      <x:component name="ssllistener" class="org.apache.avalon.http.impl.JsseListener" />
+      <x:component name="httpserver" class="org.apache.avalon.http.impl.HttpServerImpl" />
+    </x:block>
+  </target>
+  -->
+    
+  <!--
+  <target name="build" depends="standard.build">
+    <x:block name="default-server">
+      <x:service type="org.apache.avalon.http.HttpService" source="httpserver"/> 
+      <x:component name="ajplistener" class="org.apache.avalon.http.impl.Ajp13Listener" />
+      <x:component name="httpserver" class="org.apache.avalon.http.impl.HttpServerImpl" />
+    </x:block>
+  </target>
+  -->
+
+</project>

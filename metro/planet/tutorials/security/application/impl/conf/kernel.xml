@@ -1,0 +1,35 @@
+<!--
+Configuration used by the DefaultInitialContextFactoryTest to validate the 
+populatation of registered artifacts with the initial context.
+-->
+
+<kernel>
+
+  <system>
+    <artifact spec="avalon-logging/avalon-logkit-impl#1.0-SNAPSHOT"/>
+  </system>
+
+  <security>
+    <!-- Default Grant is nothing -->
+    <profile name="default">
+    </profile>
+    
+    <!-- Allow access to Locations in France  -->
+    <profile name="FranceGranted">
+      <permissions>
+        <permission class="tutorial.location.LocationPermission" 
+            name="Europe.France.*" />
+      </permissions>
+    </profile>
+    
+    <!-- Allow access to Locations in Spain  -->
+    <profile name="SpainGranted">
+      <permissions>
+        <permission class="tutorial.location.LocationPermission" 
+            name="Europe.Spain.*" />
+      </permissions>
+    </profile>
+    
+  </security>
+
+</kernel>

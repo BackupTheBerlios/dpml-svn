@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<project name="avalon-http-test" default="install" basedir="." 
+    xmlns:x="antlib:org.apache.avalon.tools"
+>
+  <property file="build.properties"/>
+  <x:home/>
+  <import file="${magic.templates}/standard.xml"/>
+
+  <target name="build" depends="standard.build">
+    <x:block name="test">
+      <x:component name="primary" profile="primary" 
+         class="test.http.TestComponent"/>
+      <x:component name="secondary" profile="secondary" 
+         class="test.http.TestComponent"/>
+      <x:component name="listener" 
+         class="org.apache.avalon.http.impl.DefaultModelListener"/>
+    </x:block>
+  </target>
+
+</project>
+

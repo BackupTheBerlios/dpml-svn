@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<project name="avalon-http-demo" default="install" basedir="." 
+    xmlns:x="antlib:org.apache.avalon.tools"
+>
+  <property file="build.properties"/>
+  <x:home/>
+  <import file="${magic.templates}/standard.xml"/>
+
+  <target name="build" depends="standard.build">
+    <x:block name="demo">
+      <x:include name="server" artifact="block:avalon/http/avalon-http-server#SNAPSHOT"/>
+      <x:include name="static-context" artifact="block:avalon/http/avalon-http-static#SNAPSHOT"/>
+      <x:component name="hello" class="org.apache.avalon.playground.HelloComponent"/>
+      <x:include name="authentication" artifact="block:avalon/http/avalon-http-hash-basic#SNAPSHOT"/>
+    </x:block>
+  </target>
+
+</project>

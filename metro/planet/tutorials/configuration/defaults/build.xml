@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<project name="avalon-tutorial-config-defaults" default="install" basedir="." 
+    xmlns:x="antlib:org.apache.avalon.tools">
+
+  <property name="project.home" value="../.."/>
+  <import file="${project.home}/standard.xml"/>
+
+  <target name="init" depends="standard.init">
+    <x:filter key="avalon-framework-impl" feature="spec" 
+       token="FRAMEWORK-IMPL-SPEC"/>
+  </target>
+
+</project>
+

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<container name="hash-basic-auth">
+
+  <services>
+    <service type="org.mortbay.http.Authenticator" />
+    <service type="org.mortbay.http.UserRealm" />
+  </services>
+  
+  <classloader>
+    <classpath>
+      <artifact>jar:avalon/http/avalon-http-impl#SNAPSHOT</artifact>
+      <artifact>jar:avalon/http/avalon-http-spi#SNAPSHOT</artifact>
+      <artifact>jar:jetty/org.mortbay.jetty#SNAPSHOT</artifact>
+      <artifact>jar:avalon/framework/avalon-framework-api#SNAPSHOT</artifact>
+      <artifact>jar:commons-logging/commons-logging#SNAPSHOT</artifact>
+    </classpath>
+  </classloader>
+
+  <component name="realm" class="org.apache.avalon.http.impl.HashUserRealm" >
+    <parameters>
+      <parameter name="name" value="default" />
+      <parameter name="filename" value="conf/default-realm" />
+    </parameters>
+  </component>
+  
+  <component name="authenticator" class="org.mortbay.http.DigestAuthenticator" />
+  
+</container>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project>
+
+  <extend>${basedir}/../../../master.xml</extend>
+
+  <id>secure-locator-api</id>
+  <groupId>merlin-tutorial</groupId>
+  <name>Composition Locator API Tutorial</name>
+  <currentVersion>1.0</currentVersion>
+
+  <dependencies>
+    <dependency>
+      <groupId>avalon-framework</groupId>
+      <artifactId>avalon-framework-api</artifactId>
+      <version>4.2.0</version>
+    </dependency>
+  </dependencies>
+
+</project>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project>
+
+  <extend>${basedir}/../../../master.xml</extend>
+
+  <id>secure-publisher-impl</id>
+  <name>Composition Publisher Impl Tutorial</name>
+  <currentVersion>1.0</currentVersion>
+
+  <dependencies>
+    <dependency>
+      <groupId>avalon-framework</groupId>
+      <artifactId>avalon-framework-api</artifactId>
+      <version>4.2.0</version>
+    </dependency>
+    <dependency>
+      <groupId>avalon-framework</groupId>
+      <artifactId>avalon-framework-impl</artifactId>
+      <version>4.2.0</version>
+    </dependency>
+    <dependency>
+      <groupId>merlin-tutorial</groupId>
+      <artifactId>secure-publisher-api</artifactId>
+      <version>1.0</version>
+    </dependency>
+  </dependencies>
+
+</project>

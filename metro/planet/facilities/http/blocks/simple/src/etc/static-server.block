@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<container name="static-server">
+
+  <classloader>
+    <classpath>
+      <artifact>jar:avalon/http/avalon-http-api#SNAPSHOT</artifact>
+      <artifact>jar:jetty/org.mortbay.jetty#SNAPSHOT</artifact>
+      <artifact>jar:avalon/http/avalon-http-impl#SNAPSHOT</artifact>
+      <artifact>jar:avalon/http/avalon-http-spi#SNAPSHOT</artifact>
+      <artifact>jar:avalon/http/avalon-http-util#SNAPSHOT</artifact>
+      <artifact>jar:avalon/util/avalon-util-configuration#1.0.0</artifact>
+      <artifact>jar:avalon/framework/avalon-framework-api#SNAPSHOT</artifact>
+      <artifact>jar:avalon/framework/avalon-framework-impl#SNAPSHOT</artifact>
+      <artifact>jar:avalon/framework/avalon-framework-legacy#SNAPSHOT</artifact>
+      <artifact>jar:avalon/logkit/avalon-logkit#SNAPSHOT</artifact>
+      <artifact>jar:jetty/org.mortbay.jaas#5.0.RC0</artifact>
+      <artifact>jar:commons-logging/commons-logging#1.0</artifact>
+      <artifact>jar:servletapi/servletapi#2.3</artifact>
+      <artifact>jar:avalon/http/avalon-http-context#SNAPSHOT</artifact>
+    </classpath>
+  </classloader>
+
+  <component name="socketlistener" class="org.apache.avalon.http.impl.SocketListener" >
+    <!-- Defaults 
+    <parameters>
+      <parameter name="port" value="8080" />
+      <parameter name="hostname" value="0.0.0.0" />
+    </parameters>
+    -->
+  </component>
+
+  <component name="httpserver" class="org.apache.avalon.http.impl.HttpServerImpl"/>
+  
+  <component name="context" class="org.apache.avalon.http.impl.HttpContextImpl">
+    <configuration>
+      <context-path>/static</context-path>
+      <resource-base>htdocs/</resource-base>
+    </configuration>
+  </component>
+
+  <component name="resource-handler" class="org.apache.avalon.http.impl.ResourceHandler">
+    <parameters>
+      <parameter name="allow-directory" value="true"/>
+      <parameter name="allow-methods" value="GET"/>
+    </parameters>
+  </component>
+
+  <component name="notfound-handler" class="org.apache.avalon.http.impl.NotFoundHandler"/>
+
+  <component name="request-log" class="org.apache.avalon.http.impl.NcsaRequestLog">
+    <parameters>
+      <parameter name="filename" value="logs/request.log"/>
+      <parameter name="append" value="true"/>
+      <parameter name="extended" value="true"/>
+    </parameters>
+  </component>
+
+</container>

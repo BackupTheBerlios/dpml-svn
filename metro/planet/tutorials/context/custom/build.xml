@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<project name="avalon-tutorial-context-custom" default="install" basedir="." 
+    xmlns:x="antlib:org.apache.avalon.tools">
+
+  <property name="project.home" value="../.."/>
+  <import file="${project.home}/standard.xml"/>
+
+  <target name="build" depends="standard.build">
+    <x:block name="hello" embed="MAIN">
+      <x:component name="hello" class="tutorial.HelloComponent">
+        <x:context>
+          <x:entry key="cruncher" class="tutorial.NumberCruncher">
+            <x:param class="java.lang.Integer" value="7"/>
+            <x:param class="java.lang.Double" value="1.5"/>
+          </x:entry>
+        </x:context>
+      </x:component>
+    </x:block>
+  </target>
+
+</project>
+

@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<profiles>
+
+  <profile name="default">
+    <configuration>
+      <idle-timeout>300000</idle-timeout>
+      <max-connections>30</max-connections>
+    </configuration>
+  </profile>
+
+</profiles>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<project name="avalon-tutorial-parameters" default="install" basedir="." 
+    xmlns:x="antlib:org.apache.avalon.tools">
+
+  <property name="project.home" value=".."/>
+  <import file="${project.home}/standard.xml"/>
+
+  <target name="build" depends="standard.build">
+    <x:block name="tutorial" embed="MAIN">
+      <x:component name="hello" class="tutorial.HelloComponent">
+       <x:parameters>
+         <x:parameter name="color" value="magenta"/>
+         <x:parameter name="size" value="relative"/>
+       </x:parameters>
+      </x:component>
+    </x:block>
+  </target>
+
+</project>
+

@@ -1,0 +1,14 @@
+
+<profiles>
+
+  <profile name="simulation">
+    <configuration>
+      <host>127.0.0.1</host>
+      <port>9001</port>
+      <db-name>avalon-hsql</db-name>
+      <debug>true</debug>
+      <silent>false</silent>
+    </configuration>
+ </profile>
+    
+</profiles>

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<container name="server">
+
+  <services>
+    <service type="org.apache.avalon.http.HttpService" />
+    <service type="org.mortbay.http.HttpListener" />
+  </services>
+  
+  <classloader>
+    <classpath>
+      <artifact>jar:avalon/http/avalon-http-spi#SNAPSHOT</artifact>
+      <artifact>jar:avalon/http/avalon-http-api#SNAPSHOT</artifact>
+      <artifact>jar:jetty/org.mortbay.jetty#SNAPSHOT</artifact>
+      <artifact>jar:avalon/http/avalon-http-util#SNAPSHOT</artifact>
+      <artifact>jar:avalon/framework/avalon-framework-api#SNAPSHOT</artifact>
+      <artifact>jar:avalon/logkit/avalon-logkit#2.0.1</artifact>
+      <artifact>jar:avalon/http/avalon-http-impl#SNAPSHOT</artifact>
+      <artifact>jar:commons-logging/commons-logging#SNAPSHOT</artifact>
+    </classpath>
+  </classloader>
+
+  <component name="socketlistener" class="org.apache.avalon.http.impl.SocketListener">
+    <parameters>
+      <parameter name="port" value="8088"/>
+      <parameter name="hostname" value="0.0.0.0"/>
+    </parameters>
+  </component>
+    
+  <component name="ssllistener" class="org.apache.avalon.http.impl.JsseListener">
+    <parameters>
+      <parameter name="port" value="8443"/>
+      <parameter name="hostname" value="0.0.0.0"/>
+    </parameters>
+  </component>
+  
+  <component name="ajplistener" class="org.apache.avalon.http.impl.Ajp13Listener">
+    <parameters>
+      <parameter name="port" value="2345"/>
+      <parameter name="hostname" value="0.0.0.0"/>
+    </parameters>
+  </component>
+  
+  <component name="httpserver" class="org.apache.avalon.http.impl.HttpServerImpl" />
+  
+</container>
+ 

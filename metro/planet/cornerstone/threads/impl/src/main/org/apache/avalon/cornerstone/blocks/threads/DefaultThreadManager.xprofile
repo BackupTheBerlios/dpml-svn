@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<profiles>
+  <profile name="default">
+     <configuration>
+       <thread-group>
+         <name>default</name>
+         <priority>5</priority> 
+         <is-daemon>false</is-daemon>
+         <max-threads>100</max-threads>
+         <min-threads>20</min-threads>
+         <min-spare-threads>20</min-spare-threads>
+       </thread-group>
+     </configuration>
+  </profile>
+</profiles>

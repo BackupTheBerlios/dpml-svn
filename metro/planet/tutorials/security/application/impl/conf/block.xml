@@ -1,0 +1,26 @@
+
+<container name="application">
+
+     <classloader>
+       <classpath>
+         <repository>
+           <resource id="avalon-framework:avalon-framework-api" version="4.2.0"/>
+           <resource id="avalon-framework:avalon-framework-impl" version="4.2.0"/>
+           <resource id="merlin-tutorial:secure-locator-api" version="1.0"/>
+           <resource id="merlin-tutorial:secure-publisher-api" version="1.0"/>
+         </repository>
+       </classpath>
+     </classloader>
+
+     <include name="location" id="merlin-tutorial:secure-locator-impl" version="1.0"/>
+     <include name="publisher" id="merlin-tutorial:secure-publisher-impl" version="1.0"/>
+
+     <component name="spain" 
+        class="tutorial.application.Application" activation="startup">
+     </component>
+     
+     <component name="france" 
+        class="tutorial.application.Application" activation="startup">
+     </component>
+
+</container>

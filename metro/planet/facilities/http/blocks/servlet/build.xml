@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<project name="avalon-http-servlet" default="install" basedir="." 
+    xmlns:x="antlib:org.apache.avalon.tools"
+>
+  <property file="build.properties"/>
+  <x:home/>
+  <import file="${magic.templates}/standard.xml"/>
+
+  <target name="build" depends="standard.build">
+    <x:block name="static">
+      <x:component name="context" class="org.apache.avalon.http.impl.HttpContextImpl"/>
+      <x:component name="security-handler" class="org.apache.avalon.http.impl.SecurityHandler"/>
+      <x:component name="servlets" class="org.apache.avalon.http.impl.ServletHandler" />
+      <x:component name="resource-handler" class="org.apache.avalon.http.impl.ResourceHandler">
+        <x:parameters>
+          <x:parameter name="allow-directory" value="true"/>
+          <x:parameter name="allow-methods" value="GET"/>
+        </x:parameters>
+      </x:component>
+      <x:component name="notfound-handler" class="org.apache.avalon.http.impl.NotFoundHandler"/>
+      <x:component name="request-log" class="org.apache.avalon.http.impl.NcsaRequestLog">
+        <x:parameters>
+          <x:parameter name="filename" value="static_request.log"/>
+          <x:parameter name="append" value="true"/>
+          <x:parameter name="extended" value="true"/>
+        </x:parameters>
+      </x:component>
+    </x:block>
+  </target>
+
+</project>

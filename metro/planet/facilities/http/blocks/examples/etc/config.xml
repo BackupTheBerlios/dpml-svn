@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<targets>
+  <target path="/demo/context/servlets">
+    <configuration>
+      <servlets>
+      
+        <servlet>
+          <path>/hello</path>
+          <name>HelloWorld</name>
+          <classname>org.apache.avalon.examples.servlets.HelloServlet</classname>
+        </servlet>
+        
+        <servlet>
+          <path>/jsp</path>
+          <name>hello.jsp</name>
+          <classname>org.apache.jasper.servlet.JspServlet</classname>
+        </servlet>
+        
+      </servlets>
+    </configuration>
+  </target>
+</targets>

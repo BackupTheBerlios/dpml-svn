@@ -1,0 +1,20 @@
+<project default="jar:jar" xmlns:maven="jelly:maven" xmlns:j="jelly:core" xmlns:util="jelly:util">
+
+  <preGoal name="java:compile">
+    <attainGoal name="avalon:meta"/>
+  </preGoal>
+
+  <preGoal name="merlin:simulate">
+    <attainGoal name="jar:install"/>
+  </preGoal>
+  
+  <goal name="build">
+    <maven:reactor
+      basedir="${basedir}/../.."
+      includes="${basedir}/**/project.xml"
+      goals="jar:install"
+      banner="Installing:"
+      ignoreFailures="false" />
+  </goal>
+
+</project>

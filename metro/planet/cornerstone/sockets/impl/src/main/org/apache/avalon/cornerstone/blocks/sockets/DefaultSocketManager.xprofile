@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<profiles>
+
+   <profile name="default">
+     <configuration>
+       <server-sockets>
+         <factory name="plain" 
+           class="org.apache.avalon.cornerstone.blocks.sockets.DefaultServerSocketFactory"/>
+       </server-sockets>
+       <client-sockets>
+         <factory name="plain" 
+           class="org.apache.avalon.cornerstone.blocks.sockets.DefaultSocketFactory"/>
+       </client-sockets>
+     </configuration>
+   </profile>
+
+</profiles>

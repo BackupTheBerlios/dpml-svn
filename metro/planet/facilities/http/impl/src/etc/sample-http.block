@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<container name="http-facility">
+
+  <classloader>
+    <classpath>
+      <artifact>jar:avalon/http/avalon-http-api#SNAPSHOT</artifact>
+      <artifact>jar:avalon/framework/avalon-framework-api#SNAPSHOT</artifact>
+      <artifact>jar:avalon/logkit/avalon-logkit#2.0.1</artifact>
+    </classpath>
+  </classloader>
+ 
+  <include name="http-server"
+           artifact="block:merlin/http/default-server" >
+  </include>
+  
+  <include name="context1"
+           artifact="block:merlin/http/default-context" >
+  </include>
+  
+  <include name="context2"
+           artifact="block:merlin/http/default-context" >
+  </include>
+  
+  <include name="authentication"
+           artifact="block:merlin/http/default-server" >
+  </include>
+  
+</container>
+      

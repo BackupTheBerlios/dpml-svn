@@ -1,0 +1,11 @@
+
+<container name="tutorial">
+
+   <component name="hello" class="tutorial.HelloComponent">
+     <parameters>
+       <parameter name="color" value="magenta"/>
+       <parameter name="size" value="relative"/>
+     </parameters>
+   </component>
+
+</container>

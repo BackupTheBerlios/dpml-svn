@@ -1,0 +1,30 @@
+
+<!--
+Thread Block deployment directive.
+-->
+
+<container name="scheduler">
+
+   <services>
+     <service type="org.apache.avalon.cornerstone.services.scheduler.TimeScheduler">
+       <source>manager</source>
+     </service>
+   </services>
+
+   <classloader>
+     <classpath>
+       <repository>
+         <resource id="avalon-framework:avalon-framework-impl" version="4.2.0"/>
+         <resource id="cornerstone-scheduler:cornerstone-scheduler-api" version="1.0.0"/>
+         <resource id="cornerstone-threads:cornerstone-threads-api" version="2.0.0"/>
+         <resource id="excalibur-thread:excalibur-thread-api" version="2.0.0"/>
+       </repository>
+     </classpath>
+   </classloader>
+
+   <component name="manager" 
+        class="org.apache.avalon.cornerstone.blocks.scheduler.DefaultTimeScheduler" 
+        activation="true">
+   </component>
+
+</container>

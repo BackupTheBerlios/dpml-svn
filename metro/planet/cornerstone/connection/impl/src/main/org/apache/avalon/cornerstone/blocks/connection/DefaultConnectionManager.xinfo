@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<!DOCTYPE blockinfo PUBLIC "-//PHOENIX/Block Info DTD Version 1.0//EN"
+                  "http://jakarta.apache.org/avalon/dtds/phoenix/blockinfo_1_0.dtd">
+
+<blockinfo>
+
+  <block>
+    <version>1.0</version>
+  </block>
+
+  <services>
+    <service name="org.apache.avalon.cornerstone.services.connection.ConnectionManager"/>
+  </services>
+
+  <dependencies>
+    <dependency>
+      <service name="org.apache.avalon.cornerstone.services.threads.ThreadManager" version="1.0"/>
+    </dependency>
+  </dependencies>
+
+</blockinfo>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<system>
+
+  <import index="../../../../runtime/index.xml"
+     href="http://svn.apache.org/repos/asf/avalon/trunk/runtime/index.xml"/>
+
+  <project basedir=".">
+    <info>
+      <group>avalon/tutorial</group>
+      <name>avalon-tutorial-context-strategy</name>
+      <type>jar</type>
+    </info>
+    <dependencies>
+      <include key="avalon-framework-impl"/>
+      <include key="avalon-composition-api"/>
+    </dependencies>
+    <plugins>
+      <include key="avalon-meta-tools"/>
+    </plugins>
+  </project>
+
+</system>

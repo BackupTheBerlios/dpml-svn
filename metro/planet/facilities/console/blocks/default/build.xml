@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<project name="avalon-console-default" 
+         default="install" 
+         basedir="."
+    xmlns:x="antlib:org.apache.avalon.tools"
+>
+  <property file="build.properties"/>
+  <x:home/>
+  <import file="${magic.templates}/standard.xml"/>
+
+  <target name="build" depends="standard.build">
+    <x:block name="console-default">
+      <x:component name="console" 
+                   class="org.apache.avalon.facilities.console.impl.ConsoleImpl" >
+        <x:parameters>
+          <x:parameter name="port" value="3333"/>
+          <x:parameter name="welcome-text" 
+value="Welcome to Merlin Console.
+type help for more info."/>
+        </x:parameters>
+      </x:component>
+      
+      <x:component name="login" class="org.apache.avalon.facilities.console.impl.LoginCmd" >
+        <x:parameters>
+          <x:parameter name="root-password" value="yabadabadoo"/>
+        </x:parameters>
+      </x:component>
+      
+      <x:component name="thread" 
+                   class="org.apache.avalon.facilities.console.commands.ThreadCmd"/>
+                   
+      <x:component name="echo" 
+                   class="org.apache.avalon.facilities.console.commands.EchoCmd"/>
+                   
+      <x:component name="dummy" 
+                   class="org.apache.avalon.facilities.console.commands.DummyCmd"/>
+                   
+      <x:component name="exit" 
+                   class="org.apache.avalon.facilities.console.commands.ExitCmd"/>
+                   
+      <x:component name="help" 
+                   class="org.apache.avalon.facilities.console.commands.HelpCmd"/>
+                   
+      <x:component name="list" 
+                   class="org.apache.avalon.facilities.console.commands.ListCmd"/>
+    
+      <x:component name="show model" 
+                   class="org.apache.avalon.facilities.console.commands.ShowModelCmd"/>
+    
+      <x:component name="select" 
+                   class="org.apache.avalon.facilities.console.commands.SelectCmd"/>
+    
+      <x:component name="deploy block" 
+                   class="org.apache.avalon.facilities.console.commands.DeployCmd"/>
+      
+      <x:component name="undeploy block" 
+                   class="org.apache.avalon.facilities.console.commands.UndeployCmd"/>
+    
+      <x:component name="redeploy block" 
+                   class="org.apache.avalon.facilities.console.commands.RedeployCmd"/>
+    </x:block>
+  </target>
+
+</project>

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<project name="dependencies-tutorial" default="default" basedir="." xmlns:x="antlib:org.apache.avalon.tools">
+
+  <property name="project.home" value=".."/>
+  <import file="${project.home}/reactor.xml"/>
+
+</project>

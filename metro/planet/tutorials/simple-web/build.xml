@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<project name="avalon-tutorial-webserver" default="install" basedir="." 
+    xmlns:x="antlib:org.apache.avalon.tools">
+
+  <property name="project.home" value=".."/>
+  <import file="${project.home}/standard.xml"/>
+
+  <target name="build" depends="standard.build">
+    <x:block name="my-web-server" embed="MAIN">
+      <x:component name="thread-manager"
+         class="org.apache.avalon.cornerstone.blocks.threads.DefaultThreadManager"
+         profile="default"/>
+      <x:component name="connection-manager"
+         class="org.apache.avalon.cornerstone.blocks.connection.DefaultConnectionManager" />
+      <x:component name="connection-handler-factory"
+         class="tutorial.SimpleConnectionHandlerFactory" />
+      <x:component name="socket-manager"
+         class="org.apache.avalon.cornerstone.blocks.sockets.DefaultSocketManager"
+         profile="default"/>
+      <x:component name="simple-web-server"
+         class="tutorial.SimpleWebServerComponent">
+        <x:parameters>
+          <x:parameter name="port" value="9080"/>
+        </x:parameters>
+      </x:component>
+    </x:block>
+  </target>
+
+</project>
+

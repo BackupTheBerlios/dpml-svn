@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<project name="avalon-tutorial-location-api" 
+    default="install" basedir="." xmlns:x="antlib:org.apache.avalon.tools">
+
+  <property name="project.home" value="../../.."/>
+  <import file="${project.home}/standard.xml"/>
+
+</project>

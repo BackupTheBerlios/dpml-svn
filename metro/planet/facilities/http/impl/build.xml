@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<project name="avalon-http-impl" default="install" basedir="." 
+    xmlns:x="antlib:org.apache.avalon.tools"
+>
+  <property file="build.properties"/>
+  <x:home/>
+  <import file="${magic.templates}/standard.xml"/>
+
+  <target name="build" depends="standard.build">
+  
+    <x:block name="default-context">
+      <x:component name="context" class="org.apache.avalon.http.impl.HttpContextImpl" />
+      <x:component name="security-handler" class="org.apache.avalon.http.impl.SecurityHandler" />
+  
+      <x:component name="resource-handler" class="org.apache.avalon.http.impl.ResourceHandler" >
+        <x:parameters>
+          <x:parameter name="allow-directory" value="true" />
+          <x:parameter name="allow-methods" value="GET" />
+        </x:parameters>
+      </x:component>
+
+      <x:component name="notfound-handler" class="org.apache.avalon.http.impl.NotFoundHandler" />
+  
+      <x:component name="errorpage-handler" class="org.apache.avalon.http.impl.ErrorPageHandler" >
+        <x:parameters>
+          <x:parameter name="login-page" value="/login.html" />
+          <x:parameter name="error-page" value="/login_error.html" />
+        </x:parameters>
+      </x:component>
+
+      <x:component name="request-log" class="org.apache.avalon.http.impl.NcsaRequestLog" >
+        <x:parameters>
+          <x:parameter name="filename" value="logs/request.log" />
+          <x:parameter name="append" value="true" />
+          <x:parameter name="extended" value="true" />
+        </x:parameters>
+      </x:component>
+    </x:block>
+
+
+    <x:block name="default-server">    
+      <x:component name="socketlistener" class="org.apache.avalon.http.impl.SocketListener" />
+      <x:component name="ssllistener" class="org.apache.avalon.http.impl.JsseListener" />
+      <x:component name="ajplistener" class="org.apache.avalon.http.impl.Ajp13Listener" />
+      <x:component name="httpserver" class="org.apache.avalon.http.impl.HttpServerImpl" />
+    </x:block>
+    
+    <x:block name="hash-basic-auth">
+      <x:component name="realm" class="org.apache.avalon.http.impl.HashUserRealm" >
+        <x:parameters>
+          <x:parameter name="name" value="default" />
+          <x:parameter name="filename" value="conf/default-realm" />
+        </x:parameters>
+      </x:component>
+      <x:component name="authenticator" class="org.mortbay.http.BasicAuthenticator" />
+    </x:block>
+  
+    <x:block name="hash-digest-auth" >
+      <x:component name="realm" class="org.apache.avalon.http.impl.HashUserRealm" >
+        <x:parameters>
+          <x:parameter name="name" value="default" />
+          <x:parameter name="filename" value="conf/default-realm" />
+        </x:parameters>
+      </x:component>
+      <x:component name="authenticator" class="org.mortbay.http.DigestAuthenticator" />
+    </x:block>
+  
+    <x:block name="hash-clientcert-auth" >
+      <x:component name="realm" class="org.apache.avalon.http.impl.HashUserRealm" >
+        <x:parameters>
+          <x:parameter name="name" value="default" />
+          <x:parameter name="filename" value="conf/default-realm" />
+        </x:parameters>
+      </x:component>
+      <x:component name="authenticator" class="org.apache.avalon.http.impl.ClientCertAuthenticator" />
+    </x:block>
+  
+    <x:block name="hash-form-auth" >
+      <x:component name="realm" class="org.apache.avalon.http.impl.HashUserRealm" >
+        <x:parameters>
+          <x:parameter name="name" value="default" />
+          <x:parameter name="filename" value="conf/default-realm" />
+        </x:parameters>
+      </x:component>
+      <x:component name="authenticator" class="org.apache.avalon.http.impl.FormAuthenticator" >
+        <x:parameters>
+          <x:parameter name="login-page"  value="/login.html" />
+          <x:parameter name="error-page"  value="/login_error.html" />
+        </x:parameters>
+      </x:component>
+    </x:block>
+  </target>
+
+</project>

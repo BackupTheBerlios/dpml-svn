@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<project name="avalon-http-examples" default="install" basedir="." 
+    xmlns:x="antlib:org.apache.avalon.tools"
+>
+  <property file="build.properties"/>
+  <x:home/>
+  <import file="${magic.templates}/standard.xml"/>
+
+  <target name="build" depends="standard.build">
+    <x:block name="demo">
+      <x:include name="server" artifact="block:avalon/http/avalon-http-server#SNAPSHOT"/>
+      <x:include name="context" artifact="block:avalon/http/avalon-http-servlet#SNAPSHOT"/>
+    </x:block>
+  </target>
+
+</project>

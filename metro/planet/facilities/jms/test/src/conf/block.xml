@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<container name="mds">
+
+   <classloader>
+     <classpath>
+       <repository>
+         <!-- jms container specific dependencies -->
+         <resource id="openjms:exolabcore" version="0.3.6"/>
+         <resource id="openjms:openjms" version="0.7.6-rc3"/>
+         <resource id="openjms:openjms-client" version="0.7.6-rc3"/>
+
+         <!-- core runtime dependencies -->
+	   <resource id="avalon-mds:avalon-mds-api" version="SNAPSHOT"/>
+	   <resource id="avalon-mds:avalon-mds-impl" version="SNAPSHOT"/>
+         <resource id="avalon-framework:avalon-framework" version="4.1.5"/>
+         <resource id="avalon-composition:avalon-composition-api" version="3.3.0"/>
+	   <resource id="avalon-meta:avalon-meta-api" version="1.4-SNAPSHOT"/>
+         <resource id="commons-messenger:commons-messenger" version="1.0-dev-8"/>
+         <resource id="commons-digester:commons-digester" version="1.5"/>
+         <resource id="commons-collections:commons-collections" version="2.1"/>
+         <resource id="commons-beanutils:commons-beanutils" version="1.6.1"/>
+         <resource id="commons-logging:commons-logging" version="1.0.1"/>
+         <resource id="servletapi:servletapi" version="2.3"/>
+
+         <resource id="geronimo-spec:geronimo-spec-jms" version="DEV"/>
+         <resource id="geronimo-spec:geronimo-spec-jta" version="DEV"/>
+       </repository>
+     </classpath>
+   </classloader>
+
+   <categories>
+     <category name="server" priority="INFO"/>
+   </categories>
+
+   <component name="mds-manager" class="org.apache.avalon.mds.impl.DefaultMDSManager" activation="startup">
+     <configuration>
+       <messenger-manager>
+        <messenger name="topic">
+                <jndi lookupName="JmsTopicConnectionFactory">
+                        <property>
+                                <name>java.naming.factory.initial</name>
+                                <value>org.exolab.jms.jndi.rmi.RmiJndiInitialContextFactory</value>
+                        </property>
+                        <property>
+                                <name>java.naming.provider.url</name>
+                                <value>rmi://localhost:1099/JndiServer</value>
+                        </property>
+                </jndi>
+        </messenger>
+        <messenger name="queue">
+                <jndi lookupName="JmsQueueConnectionFactory">
+                        <property>
+                                <name>java.naming.factory.initial</name>
+                                <value>org.exolab.jms.jndi.rmi.RmiJndiInitialContextFactory</value>
+                        </property>
+                        <property>
+                                <name>java.naming.provider.url</name>
+                                <value>rmi://localhost:1099/JndiServer</value>
+                        </property>
+                </jndi>
+	</messenger>
+       </messenger-manager>
+     </configuration>
+   </component>
+
+
+   <component name="test-listener" class="org.apache.avalon.mds.impl.DefaultMDSManager" activation="startup">
+    <configuration>
+      <subscription name="topic" subject="topic"/>
+    </configuration>
+   </component>
+
+</container>

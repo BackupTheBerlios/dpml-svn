@@ -1,0 +1,8 @@
+
+<targets>
+
+  <target path="/tutorial/hello">
+    <categories priority="DEBUG"/>
+  </target>
+
+</targets>

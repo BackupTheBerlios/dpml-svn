@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!--
+ * Copyright 2004 Apache Software Foundation
+ * Licensed  under the  Apache License,  Version 2.0  (the "License");
+ * you may not use  this file  except in  compliance with the License.
+ * You may obtain a copy of the License at 
+ * 
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed  under the  License is distributed on an "AS IS" BASIS,
+ * WITHOUT  WARRANTIES OR CONDITIONS  OF ANY KIND, either  express  or
+ * implied.
+ * 
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+-->
+
+
+<index>
+
+  <import index="../../index.xml"
+     href="http://svn.apache.org/repos/asf/avalon/trunk/planet/facilities/index.xml"/>
+
+  <project basedir="standard">
+    <info>
+      <group>metro/facilities/reflector</group>
+      <name>metro-reflector-blocks-standard</name>
+      <version>1.0.0</version>
+      <status>SNAPSHOT</status> 
+      <type>block</type> 
+    </info>
+    
+    <dependencies>
+      <include key="avalon-framework-api" runtime="false"/>
+      <include key="metro-reflector-api" />
+      <include key="metro-reflector-spi" />
+      <include key="metro-reflector-typehandlers" />
+      <include key="metro-reflector-impl" />
+      <include key="org.mortbay.jetty" />
+    </dependencies>
+  </project>
+
+  <project basedir="complete">
+    <info>
+      <group>metro/facilities/reflector</group>
+      <name>metro-reflector-blocks-complete</name>
+      <version>1.0.0</version>
+      <status>SNAPSHOT</status> 
+      <type>block</type> 
+    </info>
+    
+    <dependencies>
+      <include key="avalon-framework-api" runtime="false"/>
+      <include key="metro-reflector-api" />
+      <include key="metro-reflector-spi" />
+      <include key="metro-reflector-typehandlers" />
+      <include key="metro-reflector-impl" />
+      <include key="org.mortbay.jetty" />
+      <include key="avalon-http-impl" />
+    </dependencies>
+  </project>
+
+</index>
+ 

@@ -1,0 +1,7 @@
+<project default="jar:install" xmlns:maven="jelly:maven" xmlns:j="jelly:core" xmlns:util="jelly:util">
+
+  <preGoal name="demo">
+    <attainGoal name="jar:install"/>
+  </preGoal>
+
+</project>

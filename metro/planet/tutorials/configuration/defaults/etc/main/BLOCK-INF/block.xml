@@ -1,0 +1,12 @@
+
+<container name="tutorial">
+
+   <classloader>
+     <classpath>
+       <artifact>@FRAMEWORK-IMPL-SPEC@</artifact>
+     </classpath>
+   </classloader>
+
+   <component name="hello" class="tutorial.HelloComponent"/>
+
+</container>

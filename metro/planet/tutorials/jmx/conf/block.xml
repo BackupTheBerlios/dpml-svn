@@ -1,0 +1,10 @@
+
+<container name="tutorial">
+
+   <component name="hello" class="tutorial.HelloComponent" activation="startup">
+     <configuration>
+       <hello>Hello, World!</hello>
+     </configuration>
+   </component>
+
+</container>
