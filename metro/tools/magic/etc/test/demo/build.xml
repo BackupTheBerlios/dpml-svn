@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<project name="demo" default="install" basedir="." 
+    xmlns:x="antlib:org.apache.avalon.tools">
+
+  <x:home index="."/>
+  <import file="${magic.templates}/reactor.xml"/>
+
+</project>

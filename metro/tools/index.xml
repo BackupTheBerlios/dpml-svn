@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<index>
+
+  <resource>
+    <info>
+      <group>ant</group>
+      <name>ant</name>
+      <version>1.6.2</version>
+      <type>jar</type>
+    </info>
+    <gump>
+      <classpath/>
+      <alias>ant</alias>
+      <id>ant</id>
+    </gump>
+  </resource>
+
+  <resource>
+    <info>
+      <group>ant</group>
+      <name>ant-nodeps</name>
+      <version>1.6.2</version>
+      <type>jar</type>
+    </info>
+    <gump>
+      <!--<ignore/>-->
+      <classpath/>
+      <alias>ant</alias>
+      <id>nodeps</id>
+    </gump>
+  </resource>
+
+  <resource>
+    <info>
+      <group>ant</group>
+      <name>ant-junit</name>
+      <version>1.6.2</version>
+      <type>jar</type>
+    </info>
+    <gump>
+      <!--<ignore/>-->
+      <classpath/>
+      <alias>ant</alias>
+      <id>junit</id>
+    </gump>
+  </resource>
+
+  <resource>
+    <info>
+      <group>checkstyle</group>
+      <name>checkstyle</name>
+      <version>3.4</version>
+      <type>jar</type>
+    </info>
+    <dependencies>
+      <include key="antlr" />
+      <include key="bcel" />
+      <include key="commons-beanutils-core" />
+      <include key="commons-collections" />
+      <include key="commons-logging" />
+      <include key="regexp" />
+    </dependencies>
+  </resource>
+
+  <resource>
+    <info>
+      <group>antlr</group>
+      <name>antlr</name>
+      <version>2.7.2</version>
+      <type>jar</type>
+    </info>
+  </resource>
+  
+  <resource>
+    <info>
+      <group>bcel</group>
+      <name>bcel</name>
+      <version>5.1</version>
+      <type>jar</type>
+    </info>
+    <gump>
+      <alias>jakarta-bcel</alias>
+    </gump>
+  </resource>
+  
+  <resource>
+    <info>
+      <group>commons-beanutils</group>
+      <name>commons-beanutils-core</name>
+      <version>1.7.0</version>
+      <type>jar</type>
+    </info>
+  </resource>
+  
+  <resource>
+    <info>
+      <group>commons-collections</group>
+      <name>commons-collections</name>
+      <version>3.1</version>
+      <type>jar</type>
+    </info>
+  </resource>
+  
+  <resource>
+    <info>
+      <group>commons-logging</group>
+      <name>commons-logging</name>
+      <version>1.0.4</version>
+      <type>jar</type>
+    </info>
+  </resource>
+  
+  <resource>
+    <info>
+      <group>regexp</group>
+      <name>regexp</name>
+      <version>1.3</version>
+      <type>jar</type>
+    </info>
+    <gump>
+      <alias>jakarta-regexp</alias>
+    </gump>
+  </resource>
+  
+  <resource>
+    <info>
+      <group>junit</group>
+      <name>junit</name>
+      <version>3.8.1</version>
+      <type>jar</type>
+    </info>
+    <gump>
+      <classpath/>
+    </gump>
+  </resource>
+
+  <resource>
+    <info>
+      <group>saxon</group>
+      <name>saxon</name>
+      <version>6.5.3</version>
+      <type>jar</type>
+    </info>
+  </resource>
+
+  <!--
+  Avalon Tools.
+  -->
+
+  <project basedir="magic">
+    <info>
+      <group>avalon/tools</group>
+      <name>avalon-tools-magic</name>
+      <type>jar</type>
+    </info>
+    <dependencies>
+      <include key="ant"/>
+      <include key="junit"/>
+      <include key="ant-junit"/>
+      <include key="ant-nodeps"/>
+    </dependencies>
+  </project>
+
+  <project basedir="magic-installer">
+    <info>
+      <group>avalon/tools</group>
+      <name>magic-installer</name>
+      <type>jar</type>
+    </info>
+    <dependencies>
+      <include key="avalon-tools-magic"/>
+    </dependencies>
+  </project>
+
+  <plugin basedir="spells/checkstyle">
+    <info>
+      <group>avalon/tools</group>
+      <name>magic-checkstyle-plugin</name>
+      <type>plugin</type>
+    </info>
+    <dependencies>
+      <include key="checkstyle"/>
+    </dependencies>
+    <tasks>
+      <taskdef name="checkstyle" class="com.puppycrawl.tools.checkstyle.CheckStyleTask"/>
+    </tasks>
+  </plugin>
+
+  <plugin basedir="spells/xdoc">
+    <info>
+      <group>avalon/tools</group>
+      <name>magic-xdoc-plugin</name>
+      <type>jar</type>
+    </info>
+    <dependencies>
+      <include key="avalon-tools-magic"/>
+      <include key="saxon" runtime="true" build="false" test="false" />
+    </dependencies>
+    <tasks>
+      <taskdef name="xdoc" class="org.apache.metro.magic.spells.xdoc.XdocTask"/>
+    </tasks>
+  </plugin>
+
+  <!--
+  Avalon eXternal Supplemental.
+  -->
+
+  <!--
+  <project basedir="supplemental">
+    <info>
+      <group>avalonx/supplemental</group>
+      <name>avalonx-supplemental</name>
+      <version>1.0</version>
+    </info>
+  </project>
+  -->
+
+  <resource>
+    <info>
+      <group>avalonx/supplemental</group>
+      <name>mailapi</name>
+      <version>1.3.1</version>
+      <type>jar</type>
+    </info>
+    <gump>
+      <alias>javamail</alias>
+    </gump>
+  </resource>
+
+</index>

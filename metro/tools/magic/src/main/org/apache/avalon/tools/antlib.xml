@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<antlib xmlns:current="ant:current">
+
+  <taskdef name="home" classname="org.apache.avalon.tools.tasks.HomeTask"/>
+  <taskdef name="clean" classname="org.apache.avalon.tools.tasks.CleanTask"/> 
+  <taskdef name="prepare" classname="org.apache.avalon.tools.tasks.PrepareTask"/> 
+  <taskdef name="init" classname="org.apache.avalon.tools.tasks.InitializeTask"/> 
+  <taskdef name="javac" classname="org.apache.avalon.tools.tasks.JavacTask"/>
+  <taskdef name="jar" classname="org.apache.avalon.tools.tasks.JarTask"/>
+  <taskdef name="junit" classname="org.apache.avalon.tools.tasks.JUnitTestTask"/>
+  <taskdef name="declare" classname="org.apache.avalon.tools.tasks.DeclareTask"/> 
+  <taskdef name="install" classname="org.apache.avalon.tools.tasks.InstallTask"/> 
+  <taskdef name="plugin" classname="org.apache.avalon.tools.tasks.PluginTask"/> 
+  <taskdef name="reactor" classname="org.apache.avalon.tools.tasks.ReactorTask"/> 
+  <taskdef name="filter" classname="org.apache.avalon.tools.tasks.FilterTask"/> 
+  <taskdef name="info" classname="org.apache.avalon.tools.tasks.AnnounceTask"/> 
+  <taskdef name="artifact" classname="org.apache.avalon.tools.tasks.ArtifactTask"/> 
+  <taskdef name="bar" classname="org.apache.avalon.tools.tasks.BarTask"/> 
+  <taskdef name="unbar" classname="org.apache.avalon.tools.tasks.UnbarTask"/> 
+  <taskdef name="javadoc" classname="org.apache.avalon.tools.tasks.JavadocTask"/> 
+  <taskdef name="publish" classname="org.apache.avalon.tools.tasks.PublishTask"/> 
+  <taskdef name="property" classname="org.apache.avalon.tools.tasks.PropertyTask"/> 
+  <taskdef name="replicate" classname="org.apache.avalon.tools.tasks.ReplicateTask"/> 
+  <taskdef name="block" classname="org.apache.avalon.tools.tasks.BlockTask"/> 
+  <taskdef name="gump" classname="org.apache.avalon.tools.tasks.GumpTask"/> 
+  <taskdef name="new" classname="org.apache.avalon.tools.tasks.NewTask"/> 
+  
+  <typedef name="path" classname="org.apache.avalon.tools.model.MagicPath"/> 
+</antlib>

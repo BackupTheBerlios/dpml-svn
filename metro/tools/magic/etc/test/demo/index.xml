@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<system>
+
+  <project basedir="gizmo">
+    <info>
+      <group>demo</group>
+      <name>gizmo</name>
+    </info>
+  </project>
+
+  <project basedir="widget">
+    <info>
+      <group>demo</group>
+      <name>widget</name>
+    </info>
+    <dependencies>
+      <include key="gizmo"/>
+    </dependencies>
+  </project>
+
+</system>

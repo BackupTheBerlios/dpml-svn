@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<project name="magic-checkstyle-plugin" default="install" basedir="." 
+    xmlns:x="antlib:org.apache.avalon.tools">
+
+  <x:home/>
+  <import file="${magic.templates}/standard.xml"/>
+  <target name="build" depends="standard.build">
+    <x:declare/>
+  </target>
+
+</project>

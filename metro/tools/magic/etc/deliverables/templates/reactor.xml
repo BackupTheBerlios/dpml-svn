@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+  Copyright 2004 Apache Software Foundation
+  Licensed  under the  Apache License,  Version 2.0  (the "License");
+  you may not use  this file  except in  compliance with the License.
+  You may obtain a copy of the License at 
+  
+    http://www.apache.org/licenses/LICENSE-2.0
+  
+  Unless required by applicable law or agreed to in writing, software
+  distributed  under the  License is distributed on an "AS IS" BASIS,
+  WITHOUT  WARRANTIES OR CONDITIONS  OF ANY KIND, either  express  or
+  implied.
+  
+  See the License for the specific language governing permissions and
+  limitations under the License.
+-->
+
+<project name="reactor" xmlns:x="antlib:org.apache.avalon.tools">
+  
+  <target name="init">
+    <x:reactor target="init"/>
+  </target>
+
+  <target name="clean">
+    <x:reactor target="clean"/>
+  </target>
+
+  <target name="prepare">
+    <x:reactor target="prepare"/>
+  </target>
+
+  <target name="build">
+    <x:reactor target="build"/>
+  </target>
+
+  <target name="package">
+    <x:reactor target="package"/>
+  </target>
+
+  <target name="test">
+    <x:reactor target="test"/>
+  </target>
+
+  <target name="install">
+    <x:reactor target="install"/>
+  </target>
+
+  <target name="default">
+    <x:reactor target="default"/>
+  </target>
+
+</project>
+

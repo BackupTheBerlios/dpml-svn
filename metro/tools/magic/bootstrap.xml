@@ -1,0 +1,111 @@
+<project name="avalon-tools-magic" default="install" basedir="."> 
+
+  <property file="bootstrap.properties"/>
+  <property name="project.name" value="avalon-tools-magic"/>
+
+  <property name="src" value="src"/>
+  <property name="src.main" value="main"/>
+  <property name="src.main.dir" value="${src}/${src.main}"/>
+  <property name="src.test" value="test"/>
+  <property name="src.test.dir" value="${src}/${src.test}"/>
+
+  <property name="etc" value="etc"/>
+  <property name="etc.deliverables" value="${etc}/deliverables"/>
+
+  <property name="target" value="target"/>
+  <property name="target.dir" value="${target}"/>
+  <property name="target.classes" value="classes"/>
+  <property name="target.classes.dir" value="${target}/${target.classes}"/>
+  <property name="target.test.dir" value="${target}/test"/>
+  <property name="target.deliverables.dir" value="${target}/deliverables"/>
+  <property name="target.deliverables.jars.dir" value="${target.deliverables.dir}/jars"/>
+
+  <condition property="gump.signature.declared" value="false">
+    <isset property="gump.signature"/>
+  </condition>
+
+  <target name="gump-setup" if="gump.signature.declared">
+    <property name="toolkit.jar" value="${project.name}-${gump.signature}.jar"/>
+  </target>
+
+  <target name="setup" depends="gump-setup" unless="gump.signature.declared">
+    <property name="toolkit.jar" value="${project.name}.jar"/>
+  </target>
+
+  <target name="prepare">
+
+    <tstamp/>
+
+    <mkdir dir="${target.deliverables.dir}"/>
+    <copy toDir="${target.deliverables.dir}">
+      <fileset dir="${etc.deliverables}">
+        <include name="**/*"/>
+      </fileset>
+    </copy>
+
+    <mkdir dir="${target.classes.dir}"/>
+    <copy toDir="${target.classes.dir}">
+      <fileset dir="${src.main.dir}">
+        <include name="**/*.xml"/>
+      </fileset>
+    </copy>
+  </target>
+
+  <target name="compile" depends="prepare">
+    <javac srcdir="${src.main.dir}" destdir="${target.classes.dir}"/> 
+  </target>
+
+  <target name="jar" depends="compile,setup">
+    <mkdir dir="${target.deliverables.jars.dir}"/>
+    <jar destfile="${target.deliverables.jars.dir}/${toolkit.jar}" 
+       basedir="${target.classes.dir}" 
+       includes="**/*.class,**/*.xml"/>
+  </target>
+
+  <target name="install" depends="jar">
+    <mkdir dir="${user.home}/.ant/lib"/>
+    <copy toFile="${user.home}/.ant/lib/${project.name}.jar" 
+       file="${target.deliverables.jars.dir}/${toolkit.jar}"/>
+  </target>
+
+  <target name="gump" depends="jar"/>
+
+  <target name="test-prepare">
+    <mkdir dir="${target.test.dir}"/>
+    <copy toDir="${target.test.dir}">
+      <fileset dir="${src.test.dir}">
+        <exclude name="**/.svn/**"/>
+      </fileset>
+    </copy>
+  </target>
+
+  <target name="clean">
+    <delete dir="${target}"/> 
+  </target>
+
+  <target name="signature-check" unless="gump.signature.declared">
+    <fail maessage="Required property 'gump.signature' is undefined."/>
+  </target>
+
+  <!--
+  Setup magic's home directory.  This task will be invoked by gump
+  following the bootstrap phase. The location of magic.home will be 
+  establised as target/target/${gump.signature}.
+  -->
+  <target name="home" depends="jar,signature-check">
+    <property name="home" location="${basedir}/target/${gump.signature}"/>
+    <echo>Creating 'magic.home' in ${home}</echo>
+    <mkdir dir="${home}"/>
+    <mkdir dir="${home}/docs"/>
+    <mkdir dir="${home}/cache"/>
+    <mkdir dir="${home}/templates"/>
+    <mkdir dir="${home}/themes"/>
+    <copy todir="${home}/templates">
+      <fileset dir="target/deliverables/templates"/>
+    </copy>
+    <copy todir="${home}/themes">
+      <fileset dir="target/deliverables/themes"/>
+    </copy>
+  </target>
+
+</project>

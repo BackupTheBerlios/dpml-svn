@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<project name="avalon-tools-magic" default="install" basedir="." 
+    xmlns:x="antlib:org.apache.avalon.tools"
+>
+  <property file="build.properties"/>
+  <x:home index="../index.xml" />
+  <import file="${magic.templates}/standard.xml"/>
+
+  <target name="javadoc" depends="prepare">
+    <x:javadoc title="Avalon Magic" id="avalon-tools-magic">
+      <x:link href="http://java.sun.com/j2se/1.4/docs/api" />
+    </x:javadoc>
+  </target>
+
+  <!--
+  <target name="test" depends="standard.test">
+    <mkdir dir="${basedir}/target/deliverables/demos"/>
+    <zip destfile="${basedir}/target/deliverables/demos/demo.zip"
+      basedir="etc/test/demo"/>
+  </target>
+  -->
+
+  <target name="package" depends="standard.package">
+    <x:bar/>
+  </target>
+  
+  <target name="update" depends="install">
+    <mkdir dir="${user.home}/.ant/lib"/>
+    <copy toDir="${user.home}/.ant/lib" 
+       file="${basedir}/target/deliverables/jars/${project.filename}"/>
+  </target>
+
+  <target name="properties" depends="info">
+    <echo>
+magic properties
+----------------
+magic.home:      ${magic.home}
+magic.cache:     ${magic.cache}
+magic.docs:      ${magic.docs}
+magic.templates: ${magic.templates}
+
+project properties
+------------------
+project.key:     ${project.key}
+project.home:    ${project.home}
+project.index:   ${project.index}
+project.group:   ${project.group}
+project.name:    ${project.name}
+project.filename: ${project.filename}
+project.short-filename: ${project.short-filename}
+project.path:    ${project.path}
+    </echo>
+  </target>
+
+  <!--
+  <target name="validate" depends="standard.test">
+    <ant dir="target/test/temp/demo" target="install"/>
+  </target>
+  -->
+
+  <target name="gump">
+    <x:home/>
+    <x:gump description="Magic Test Module" 
+         public="true" filename="gump.xml">
+      <x:url href="http://avalon.apache.org/"/>
+      <x:svn href="https://svn.apache.org/repos/asf/avalon/trunk/tools/magic"/>
+      <x:license file="../../central/system/license/LICENSE.TXT"/>
+    </x:gump>
+  </target>
+
+  <target name="unbar">
+    <x:unbar file="target/deliverables/bars/${project.short-filename}.bar"/>
+  </target>
+
+  <target name="unbar2">
+    <x:unbar href="http://www.dpml.net/avalon/tools/bars/${project.short-filename}.bar"/>
+  </target>
+
+</project>
