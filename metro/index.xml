@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<index>
+
+  <import index="tools/index.xml"/>
+
+  <import index="runtime/index.xml"/>
+
+  <import index="planet/index.xml"/>
+
+  <import index="central/index.xml"/>
+
+</index>
+

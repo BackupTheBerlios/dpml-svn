@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<project name="avalon-trunk" default="install" basedir="." 
+  xmlns:x="antlib:org.apache.avalon.tools">
+
+  <available property="magic.available" classname="org.apache.avalon.tools.model.Home" >
+    <classpath >
+      <pathelement location="${user.home}/.ant/lib/avalon-tools-magic.jar"/>
+    </classpath>
+  </available>
+  <property environment="ENV"/>
+  <property name="magic.dir" value="${basedir}/tools/magic"/>
+  <property file="${basedir}/user.properties"/>
+  <property file="${basedir}/build.properties"/>
+
+  <condition property="magic.env.declared" value="false">
+    <isset property="ENV.MAGIC_HOME"/>
+  </condition>
+
+  <target name="declare-magic-home" if="magic.env.declared">
+    <property name="magic.home" value="${ENV.MAGIC_HOME}"/>
+  </target>
+
+  <target name="check-magic-home" unless="magic.env.declared">
+    <property name="magic.home" value="${user.home}/.magic"/>
+  </target>
+
+  <target name="setup" depends="check-magic-home,declare-magic-home">
+    <ant dir="." antfile="${magic.dir}/setup.xml"/>
+    <taskdef name="unbar"
+             classname="org.apache.avalon.tools.tasks.UnbarTask">
+      <classpath >
+        <pathelement location="${user.home}/.ant/lib/avalon-tools-magic.jar"/>
+      </classpath>
+    </taskdef>
+    
+    <property name="magic.cache" value="${magic.home}/main"/>
+    <unbar repository="${magic.cache}" 
+      href="http://www.dpml.net/avalonx/supplemental/bars/avalonx-supplemental-1.0.bar"/>
+  </target>
+
+  <target name="clean" depends="verify">
+    <x:home />
+    <ant dir="." antfile="runtime/build.xml" target="clean"/>
+  </target>
+
+  <target name="info" depends="verify">
+    <x:home />
+    <ant dir="." antfile="runtime/build.xml" target="info"/>
+  </target>
+
+  <target name="install" depends="default, gump"/>
+
+  <target name="default" depends="verify">
+    <x:home />
+    <ant dir="." antfile="runtime/build.xml" target="default"/>
+  </target>
+
+  <target name="verify" unless="magic.available">
+    <echo>
+#--------------------------------------------------------------------------------
+# Please invoke the bootstrap target in order to install prerequisite resources
+# and tools necessary to build avalon.
+#
+# $ ant setup
+#
+# Once the bootstrap resources have been build you can proceed with any of the 
+# classic build targets.
+#--------------------------------------------------------------------------------      
+    </echo>
+    <fail message="Bootstrap resources not present."/>
+  </target>
+
+  <target name="gump">
+    <x:home/>
+    <x:gump description="Avalon SVN" 
+         public="true" filename="central/system/gump/avalon-trunk.xml">
+      <x:url href="http://avalon.apache.org/"/>
+      <x:svn repository="avalon-svn" dir="trunk"/>
+      <x:license file="central/system/license/LICENSE.TXT"/>
+      <x:nag to="dev@avalon.apache.org"/>
+    </x:gump>
+  </target>
+
+</project>
