@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<project name="dpml-transit-tutorial-extension" default="test" basedir="."
+    xmlns:transit="antlib:net.dpml.transit">
+
+  <property name="project.test.fork" value="true"/>
+  <transit:import uri="artifact:template:dpml/magic/standard"/>
+
+</project>

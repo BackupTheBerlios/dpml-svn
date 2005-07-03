@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+  Copyright 2004 Apache Software Foundation
+  Licensed  under the  Apache License,  Version 2.0  (the "License");
+  you may not use  this file  except in  compliance with the License.
+  You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed  under the  License is distributed on an "AS IS" BASIS,
+  WITHOUT  WARRANTIES OR CONDITIONS  OF ANY KIND, either  express  or
+  implied.
+
+  See the License for the specific language governing permissions and
+  limitations under the License.
+-->
+
+<project name="reactor"
+    xmlns:transit="antlib:net.dpml.transit"
+    xmlns:x="plugin:dpml/magic/dpml-magic-core">
+
+  <transit:init>
+    <map urn="@PROJECT-PLUGIN-URN@"
+       uri="@PROJECT-PLUGIN-URI@"/>
+  </transit:init>
+
+  <target name="init">
+    <x:reactor target="init"/>
+  </target>
+
+  <target name="clean" description="Clean all projects with the reactor scope.">
+    <x:reactor target="clean"/>
+  </target>
+
+  <target name="prepare" description="Prepare all sub-project sources.">
+    <x:reactor target="prepare"/>
+  </target>
+
+  <target name="build" description="Build all sub-project sources.">
+    <x:reactor target="build"/>
+  </target>
+
+  <target name="package" description="Prepare the sub-project artifacts.">
+    <x:reactor target="package"/>
+  </target>
+
+  <target name="test" description="Invoke tests on all sub-projects.">
+    <x:reactor target="test"/>
+  </target>
+
+  <target name="install" description="Build and install all sub-project artifacts.">
+    <x:reactor target="install"/>
+  </target>
+
+  <target name="default" description="Invoke the default target in all sub-projects.">
+    <x:reactor/>
+  </target>
+
+</project>
+

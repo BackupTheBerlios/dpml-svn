@@ -1,0 +1,162 @@
+<?xml version="1.0"?>
+
+<!-- 
+ Copyright 2004 Apache Software Foundation
+ Licensed  under the  Apache License,  Version 2.0  (the "License");
+ you may not use  this file  except in  compliance with the License.
+ You may obtain a copy of the License at 
+ 
+   http://www.dpml.net/central/about/legal/
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed  under the  License is distributed on an "AS IS" BASIS,
+ WITHOUT  WARRANTIES OR CONDITIONS  OF ANY KIND, either  express  or
+ implied.
+ 
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+
+<document>
+  <properties>
+    <author email="mcconnell@dpml.net">Stephen McConnell</author>
+    <title>DPML Guide</title>
+  </properties> 
+
+  <body>
+    <section name="Context Management">
+      <subsection name="Managing Context">
+        <p>
+        This tutorial presents information about the management
+        of the runtime context supplied to your component.
+        </p>
+        <p>
+        Resources supporting this tutorial are contained in the 
+        tutorials/context/injection/ project.
+        </p>
+      </subsection>
+
+      <subsection name="DPML Standard Context Entries">
+        <p>
+        In order to receive a runtime context we need to update the 
+        HelloComponent source so that it implements the 
+        Contextualizable lifecycle stage interface.  Metro will 
+        build and supply a context object containing the following  
+        four context entries:
+        </p>
+        <p><i>DPML Standard Context Entries</i></p>
+        <table>
+        <tr>
+          <th>Key</th><th>Class</th><th>Description</th>
+        </tr>
+        <tr>
+          <td>urn:dpml:dir</td><td>java.io.File</td>
+          <td>The working directory.</td>
+        </tr>
+        <tr>
+          <td>urn:dpml:temp</td><td>java.io.File</td>
+          <td>The temporary directory that will be destroyed at the 
+            end of the session.</td>
+        </tr>
+        <tr>
+          <td>urn:dpml:name</td><td>java.lang.String</td>
+          <td>The name assigned to the component.</td>
+        </tr>
+        <tr>
+          <td>urn:dpml:partition</td><td>java.lang.String</td>
+            <td>The assigned partition name.</td>
+        </tr>
+        </table>
+      </subsection>
+
+      <subsection name="Adding Context Support to the Component">
+        <p>
+        In order to receive a runtime context we need to update the 
+        HelloComponent source so that it implements the 
+        Contextualization stage interface.  Metro will build and 
+        supply a context object containing the standard four 
+        entries.
+        </p>
+        <p><i>HelloComponent.java</i></p>
+
+<source>
+package tutorial;
+
+import java.io.File;
+
+import net.dpml.logging.Logger;
+import net.dpml.context.Context;
+import net.dpml.context.ContextException;
+
+/**
+ * Component demonstrating access to standard context entries via a constructor
+ * supplied context object.
+ *
+ * @metro.component name="demo" lifestyle="singleton"
+ */
+public class HelloComponent
+{
+   /**
+    * Creation of a new HelloComponent instance using a 
+    * container supplied logging channel and context.
+    * The context supplied by the container holds the 
+    * standard context entries for the home and 
+    * working directories, component name and partition.
+    *
+    * @metro.entry key="urn:metro:name" 
+    * @metro.entry key="urn:metro:partition" 
+    * @metro.entry key="urn:metro:dir" type="java.io.File"
+    * @metro.entry key="urn:metro:temp" type="java.io.File"
+    */
+    public HelloComponent( Logger logger, Context context ) throws ContextException
+    {
+        File home = (File) context.get( "urn:metro:dir" );
+        File temp = (File) context.get( "urn:metro:temp" );
+        String name = (String) context.get( "urn:metro:name" );
+        String partition = (String) context.get( "urn:metro:partition" );
+
+        StringBuffer buffer = new StringBuffer( "standard context entries" );
+        buffer.append( "\n  name: " + name );
+        buffer.append( "\n  home: " + home );
+        buffer.append( "\n  temp: " + temp );
+        buffer.append( "\n  partition: " + partition );
+
+        logger.info( buffer.toString() );
+    }
+}
+</source>
+        <p>
+        Build and run the tutorial.
+        </p>
+<source>
+$ ant
+$ metro -execute target\classes
+</source>
+        <p>
+        In the logging output we see the values provided by 
+        Metro to the component.
+        </p>
+<source>
+[INFO   ] (tutorial.hello): standard context entries
+  name: hello
+  home: F:\dev\avalon\merlin\platform\tutorials\context\avalon\home\tutorial\hello
+  temp: C:\TEMP\tutorial\hello
+  partition: /tutorial/
+</source>
+      </subsection>
+
+      <subsection name="Custom Entries">
+
+        <p>
+        The <a href="entries.html">next tutorial</a> shows how 
+        Metro provides support for creating custom context entries.
+        </p>
+
+      </subsection>
+    </section>
+  </body>
+</document>
+
+
+
+

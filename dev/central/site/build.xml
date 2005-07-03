@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<project name="dpml-central-site" default="install" basedir="."
+    xmlns:transit="antlib:net.dpml.transit" 
+    xmlns:x="plugin:dpml/magic/dpml-magic-core" >
+
+  <transit:import uri="artifact:template:dpml/magic/standard"/>
+
+  <target name="init" depends="standard.init">
+    <!--<x:filter key="dpml-metro-main" feature="version" token="RUNTIME-VERSION"/>-->
+    <!--<x:filter key="dpml-logging-api" feature="spec" token="LOGGING-API-SPEC"/>-->
+    <x:filter key="dpml-activity-api" feature="spec" token="ACTIVITY-API-SPEC"/>
+    <x:filter key="dpml-configuration-api" feature="spec" token="CONFIGURATION-API-SPEC"/>
+    <!--x:filter key="dpml-tutorial-context-custom" feature="spec" token="TUTORIAL-CONTEXT-CUSTOM-SPEC"/>-->
+    <!--<x:filter key="dpml-tutorial-context-casting" feature="spec" token="TUTORIAL-CONTEXT-CASTING-SPEC"/>-->
+    <!--<x:filter key="dpml-tutorial-location-api" feature="spec" token="TUTORIAL-LOCATION-API-SPEC"/>-->
+    <!--<x:filter key="dpml-tutorial-location-impl" feature="spec" token="TUTORIAL-LOCATION-IMPL-SPEC"/>-->
+    <!--<x:filter key="dpml-tutorial-publisher-api" feature="spec" token="TUTORIAL-PUBLISHER-API-SPEC"/>-->
+    <!--<x:filter key="dpml-tutorial-publisher-impl" feature="spec" token="TUTORIAL-PUBLISHER-IMPL-SPEC"/-->
+    <!--<x:filter key="dpml-context-api" feature="spec" token="CONTEXT-API-SPEC"/>-->
+    <!--<x:filter key="dpml-service-api" feature="spec" token="SERVICE-API-SPEC"/>-->
+    <!--x:filter key="dpml-tutorial-hello" feature="spec" token="TUTORIAL-HELLO-SPEC"/-->
+    <!--<x:filter key="dpml-system-impl" feature="plugin" token="SYSTEM-PLUGIN-URI"/>-->
+    <!--<x:filter key="dpml-classic-impl" feature="plugin" token="COMPOSITION-PLUGIN-URI"/>-->
+    <!--<x:filter key="dpml-logging-logkit-impl" feature="plugin" token="LOGGING-LOGKIT-PLUGIN-URI"/>-->
+    <!--<x:filter key="dpml-logging-log4j" feature="plugin" token="LOGGING-LOG4J-PLUGIN-URI"/>-->
+    <!--<x:filter key="dpml-activation-impl" feature="plugin" token="RUNTIME-PLUGIN-URI"/>-->
+    <!--<x:filter key="dpml-activation-avalon-provider" feature="plugin" token="AVALON-RUNTIME-PLUGIN-URI"/>-->
+    <!--<x:filter key="dpml-activation-metro-provider" feature="plugin" token="METRO-RUNTIME-PLUGIN-URI"/>-->
+    <!--<x:filter key="dpml-metro-main" feature="plugin" token="METRO-PLUGIN-URI"/>-->
+    <x:filter key="dpml-transit-tools" feature="uri" token="MAGIC-BOOTSTRAP-URI"/>
+    <x:filter key="dpml-magic-core" feature="plugin" token="MAGIC-PLUGIN-URI"/>
+    <x:filter key="dpml-transit-main" feature="uri" token="TRANSIT-MAIN-URI"/>
+    <x:filter key="dpml-transit" feature="api" token="TRANSIT-DOCS-PATH"/>
+    <x:filter key="dpml-magic" feature="api" token="MAGIC-DOCS-PATH"/>
+    <x:filter key="dpml-metro" feature="api" token="METRO-JAVADOC-PATH"/>
+    <filter token="CENTRAL-SITE-GLOSSARY-PATH" value="products/transit/glossary/index.html"/>
+    <filter token="CENTRAL-SITE-CONCEPTS-PATH" value="products/transit/concepts/index.html"/>
+    <x:filter key="dpml-transit" feature="version" token="TRANSIT-BUILD-ID"/>
+    <x:filter key="dpml-magic" feature="version" token="MAGIC-BUILD-ID"/>
+    <x:filter key="dpml-metro" feature="version" token="METRO-BUILD-ID"/>
+  </target>
+
+  <target name="install" depends="docs"/>
+
+  <target name="javadoc" depends="prepare"/>
+
+  <target name="docs" depends="prepare">
+    <x:property name="spec" feature="plugin" key="dpml-magic-doc"/>
+    <transit:plugin uri="${spec}">
+      <task class="net.dpml.magic.doc.DocTask" name="docs"/>
+    </transit:plugin>
+    <docs/>
+    <copy todir="${dpml.docs}">
+      <fileset dir="${basedir}/target/docs"/>
+    </copy>
+  </target>
+
+</project>
+

@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<document>
+  <properties>
+    <author email="mcconnell@dpml.net">Stephen McConnell</author>
+    <author email="dleangen@dpml.net">David Leangen</author>
+    <title>DPML Transit</title>
+  </properties>
+
+  <body verified="true">
+    <section name="Dynamic Artifact Retrieval">
+
+      <p>
+        An <strong>artifact</strong> is simply a resource used by a Java
+        application. Basically, an artifact can be any type of file:
+        JAR, image, text...
+        Based on its protocol specification, Transit provides for dynamic
+        retrieval of such artifacts.
+      </p>
+
+      <subsection name="Artifact URI">
+
+        <p>
+          Each artifact has a unique identifier conforming to the Transit
+          <a href="../technical/protocol/index.html">protocol specification</a>.
+          Using an extension to the java.net.URL class in the Java API, Transit
+          accesses an artifact through an <strong>artifact URI</strong>.
+          The artifact URI thus serves the dual purpose of identifying the
+          artifact and providing a means for Transit to retrieve the file.
+        </p>
+
+        <p>
+          The artifact URI describes the:
+          <ul>
+            <li>type of resource (JAR, meta, template...)</li>
+            <li>group to which the artifact belongs</li>
+            <li>name of the artifact</li>
+            <li>version</li>
+          </ul>
+        </p>
+
+        <p>
+          The purpose of the group is to avoid naming conflicts in the artifact
+          name space. The top level group should be a distinguishable and well
+          accepted name of the organisation, and any sub groups to be decided
+          by the organisation itself to further avoid name clashes.
+          It is recommended that the bottom level group is the release level, i.e.
+          all resources within the 'release' shares the same version and are
+          meant to be working in a group within that version, and not mixed
+          between versions.
+        </p>
+
+        <p>
+          Transit promotes strong version management. The underlying problem is
+          that many parts of the system are dependent on particular versions of
+          another part or resource, and can not be freely mixed. To ensure
+          that all dependencies are resolved against the proper versions, it is
+          paramount that a version management system is in place, and policies
+          are established. From Transit's point of view, the version is an
+          opaque identifier without any in-built semantic meaning.
+        </p>
+
+        <p>
+          These identifiers disassociate the definition of an application
+          from the source of the resources needed to build and deploy the
+          application. Meaning, it is only in the interest of the user of
+          the resources, be it built tools or running applications, that the
+          <strong>correct</strong> resources are provided, and not from which
+          server these were downloaded. The task of resolving the location
+          is transferred from each application to Transit itself, which is
+          configured to know about which servers are available in its running
+          environment.
+        </p>
+
+      </subsection>
+
+    </section>
+  </body>
+</document>

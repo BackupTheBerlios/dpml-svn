@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document> 
+  <properties>
+    <author email="mcconnell@dpml.net">Stephen McConnell</author>
+    <title>DPML Central</title>
+  </properties>
+  <body> 
+    <section name="MGR Desktop (laboratory)">
+
+      <subsection name="Overview">
+
+      <p>
+      MGR is a Swing based application (in a very early development
+      stage) aiming at addressing the following concerns.
+      </p>
+
+      <ol>
+        <li>An internative environment for monitoring and 
+           management of a local DPML platform installation.</li>
+        <li>Connection to and magement of remote Metro instances.</li>
+        <li>An experiment in interactive plugin management 
+           leveraging Magic managed meta-data.</li>
+      </ol>
+
+      <img src="/images/mgr/mgr.png"/>
+
+      </subsection>
+    </section>
+  </body>
+</document>
+

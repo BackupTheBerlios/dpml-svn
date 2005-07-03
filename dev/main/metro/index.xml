@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<index key="dpml-metro">
+
+  <import uri="${dpml.transit.uri}"/>
+  <import uri="${dpml.magic.uri}"/>
+
+  <!--
+  Metro Modules
+  -->
+
+  <project file="module.xml">
+    <info>
+      <group>dpml/metro</group>
+      <name>dpml-metro</name>
+      <type>module</type>
+    </info>
+    <dependencies>
+      <include key="dpml-transit"/>
+      <include key="dpml-magic"/>
+    </dependencies>
+  </project>
+
+  <!-- Logging -->
+
+  <project basedir="logging">
+    <info>
+      <group>dpml/metro</group>
+      <name>dpml-logging-api</name>
+      <types>
+        <type>jar</type>
+      </types>
+    </info>
+  </project>
+
+  <!-- Parts -->
+
+  <project basedir="part">
+    <info>
+      <group>dpml/metro</group>
+      <name>dpml-part-api</name>
+      <types>
+        <type>jar</type>
+      </types>
+    </info>
+    <dependencies>
+      <include key="dpml-logging-api"/>
+    </dependencies>
+  </project>
+
+  <!-- Activity -->
+
+  <project basedir="activity">
+    <info>
+      <group>dpml/metro</group>
+      <name>dpml-activity-api</name>
+      <types>
+        <type>jar</type>
+      </types>
+    </info>
+  </project>
+
+  <!-- Configuration -->
+
+  <project basedir="configuration/api">
+    <info>
+      <group>dpml/metro</group>
+      <name>dpml-configuration-api</name>
+      <types>
+        <type>jar</type>
+      </types>
+    </info>
+  </project>
+
+  <project basedir="configuration/impl">
+    <info>
+      <group>dpml/metro</group>
+      <name>dpml-configuration-impl</name>
+      <types>
+        <type>jar</type>
+      </types>
+    </info>
+    <dependencies>
+      <include key="dpml-configuration-api"/>
+      <include key="xercesImpl" runtime="true" build="true" />
+    </dependencies>
+  </project>
+
+  <!-- Parameters -->
+
+  <project basedir="parameters/api">
+    <info>
+      <group>dpml/metro</group>
+      <name>dpml-parameters-api</name>
+      <types>
+        <type>jar</type>
+      </types>
+    </info>
+  </project>
+
+  <project basedir="parameters/impl">
+    <info>
+      <group>dpml/metro</group>
+      <name>dpml-parameters-impl</name>
+      <types>
+        <type>jar</type>
+      </types>
+    </info>
+    <dependencies>
+      <include key="dpml-parameters-api"/>
+      <include key="dpml-configuration-api"/>
+    </dependencies>
+  </project>
+
+  <!-- FT Composition -->
+
+  <project basedir="composition/control">
+    <info>
+      <group>dpml/metro</group>
+      <name>dpml-composition-control</name>
+      <types>
+        <type>jar</type>
+      </types>
+    </info>
+    <dependencies>
+      <include key="dpml-part-api" tag="api"/>
+      <include key="dpml-logging-api" tag="api"/>
+      <include key="dpml-transit-main" tag="api"/>
+      <include key="dpml-activity-api" tag="api"/>
+      <include key="dpml-parameters-api" tag="api"/>
+      <include key="dpml-configuration-api" tag="api"/>
+      <include key="dpml-parameters-impl"/>
+      <include key="dpml-configuration-impl"/>
+    </dependencies>
+  </project>
+
+  <project basedir="composition/builder">
+    <info>
+      <group>dpml/metro</group>
+      <name>dpml-composition-builder</name>
+      <types>
+        <type>jar</type>
+      </types>
+    </info>
+    <dependencies>
+      <include key="dpml-part-api"/>
+      <include key="dpml-magic-core"/>
+      <include key="dpml-configuration-api"/>
+      <include key="dpml-configuration-impl"/>
+      <include key="dpml-parameters-api"/>
+      <include key="dpml-parameters-impl"/>
+      <include key="dpml-composition-control"/>
+      <include key="xstream"/>
+    </dependencies>
+  </project>
+
+  <project basedir="central">
+    <info>
+      <group>dpml/metro</group>
+      <name>dpml-metro-central</name>
+      <types>
+        <type>jar</type>
+        <type>plugin</type>
+      </types>
+    </info>
+    <dependencies>
+      <include key="dpml-composition-control"/>
+    </dependencies>
+  </project>
+
+  <!-- EXTERNAL RESOURCES -->
+
+  <resource>
+    <info>
+      <name>xercesImpl</name>
+      <version>2.6.2</version>
+      <group>xerces</group>
+    </info>
+    <dependencies>
+      <include key="xmlParserAPIs" />
+    </dependencies>
+  </resource>
+
+  <resource>
+    <info>
+      <name>xmlParserAPIs</name>
+      <version>2.6.2</version>
+      <group>xerces</group>
+    </info>
+  </resource>
+
+  <resource>
+    <info>
+      <name>xstream</name>
+      <version>1.1</version>
+      <group>xstream</group>
+    </info>
+  </resource>
+
+  <resource key="commons-cli">
+    <info>
+      <group>commons-cli</group>
+      <name>commons-cli</name>
+      <version>1.0</version>
+      <type>jar</type>
+    </info>
+  </resource>
+
+</index>

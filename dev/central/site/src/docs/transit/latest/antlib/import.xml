@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document>
+
+  <properties>
+    <author email="mcconnell@dpml.net">Stephen McConnell</author>
+    <title>DPML Transit</title>
+  </properties> 
+
+  <body>
+    <section name="Import Task">
+
+      <p>
+      The import task imports an ant template file from a supplied 
+      artifact uri.
+      </p>
+
+      <p><i>Example of a import request.</i></p>
+       
+<source><![CDATA[
+  <transit:import uri="artifact:template:dpml/magic/standard"/>
+]]></source>
+
+    </section>
+  </body>
+
+</document>
+

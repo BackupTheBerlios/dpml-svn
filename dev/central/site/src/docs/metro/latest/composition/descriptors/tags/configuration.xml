@@ -1,0 +1,103 @@
+<?xml version="1.0"?>
+
+<document>
+
+  <properties>
+    <author email="mcconnell@apache.org">Stephen McConnell</author>
+    <title>Javadoc Tag Specification</title>
+  </properties>
+
+  <body>
+
+    <section name="Configuration Tag">
+
+      <subsection name="Description">
+<p>The optional configuration tag allows the declaration of a validation schema with a component type.</p>
+      </subsection>
+
+      <subsection name="Attributes">
+        <table>
+          <tr><th>Attribute</th><th>Required</th><th>Description</th></tr>
+          <tr>
+            <td>schema</td><td>yes</td>
+            <td>
+            The validation schema type. At the moment, only <code>@configuration schema="xmlschema"</code>
+            is supported.
+            
+            xmlschema definitions are placed in the same package as the component, and have a 
+            .xschema extension (same location as the .xinfo, .xconfig etc files).
+            </td>
+          </tr>
+        </table>
+      </subsection>
+
+      <subsection name="Example (xmlschema)">
+
+<source><![CDATA[
+
+.....
+package test
+
+.
+.
+.
+
+public class TestComponent implements Configurable
+
+/**
+ * Configuration of the component by the container.
+ * @param config the configuration instance
+ * @exception ConfigurationException if error occurs
+ * @metro.configuration schema="xmlschema"
+ */
+public void configure( Configuration config ) throws ConfigurationException
+{
+  ...
+}
+]]></source>
+
+<p>Generated meta-info type descriptor (test.TestComponent.xinfo):</p>
+
+<source><![CDATA[
+<type>
+  <info>
+    <schema>xmlschema</schema>
+  </info>
+</type>
+]]></source>
+
+<p>Example contents of the validation schema (test.TestComponent.xschema)</p>
+
+<source><![CDATA[
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"> 
+ <xs:element name="configuration">
+ 	<xs:complexType>
+      <xs:sequence>
+        <xs:element name="child1" type="xs:string"/>
+      </xs:sequence>
+      <xs:attribute name="attr1" type="xs:string"/>
+    </xs:complexType>
+ </xs:element>
+ </xs:schema>
+]]></source>
+which decribes a configuration like this:
+<source><![CDATA[
+<configuration attr1="foo">
+	<child1/>
+</configuration>
+]]></source>
+      </subsection>
+    </section>
+  </body>
+
+  <footer>
+    <legal>
+      Copyright (c) @year@ The Avalon Apache Project All rights reserved.
+      $Revision: 1.1 $ $Date: 2004/04/14 11:47:33 $
+    </legal>
+  </footer>
+
+</document>
+
+

@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+  Copyright 2004 Stephen J McConnell
+  Copyright 2004 Niclas Hedhman
+
+  Licensed  under the  Apache License,  Version 2.0  (the "License");
+  you may not use  this file  except in  compliance with the License.
+  You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed  under the  License is distributed on an "AS IS" BASIS,
+  WITHOUT  WARRANTIES OR CONDITIONS  OF ANY KIND, either  express  or
+  implied.
+
+  See the License for the specific language governing permissions and
+  limitations under the License.
+-->
+
+
+<project name="dpml-home" default="install" basedir=".">
+
+  <import file="${basedir}/standard.xml"/>
+
+  <property name="bundle" value="${basedir}/target/bundle"/>
+  <property name="dist" location="${basedir}/target/dist"/>
+
+  <target name="init" depends="standard.init">
+    <filter token="PROJECT-NAME" value="${project.name}"/>
+    <filter token="PROJECT-VERSION" value="${project.version}"/>
+  </target>
+
+  <target name="prepare" depends="standard.prepare">
+    <ant dir="core" inheritall="false"/>
+  </target>
+
+  <target name="package" depends="standard.package">
+    <mkdir dir="${dist}"/>
+    <antcall target="install.zip"/>
+    <antcall target="install.tar"/>
+    <property name="export" location="${dpml.dist}/${project.group}/${project.version}"/>
+    <mkdir dir="${export}"/>
+    <copy todir="${export}">
+      <fileset dir="${dist}"/>
+    </copy>
+  </target>
+
+  <target name="build" depends="standard.build">
+
+    <delete dir="${bundle}"/>
+
+    <!-- create the README and LICENSE files-->
+    <copy todir="${bundle}" filtering="true">
+      <fileset dir="${basedir}">
+        <include name="TRANSIT.TXT"/>
+        <include name="LICENSE.TXT"/>
+        <include name="NOTICE.TXT"/>
+      </fileset>
+    </copy>
+
+    <property name="data" value="${bundle}/data"/>
+    <mkdir dir="${data}/cache"/>
+    <mkdir dir="${data}/docs"/>
+    <mkdir dir="${data}/dist"/>
+
+    <property name="prefs" value="${bundle}/prefs"/>
+    <mkdir dir="${prefs}"/>
+
+    <!-- create the transit configuration directory -->
+    <property name="transit" value="${prefs}/transit"/>
+    <echo>Adding Transit application properties to ${transit}</echo>
+    <mkdir dir="${transit}"/>
+    <copy todir="${transit}">
+      <fileset dir="${basedir}/core/handler/target/setup"/>
+    </copy>
+
+    <!-- include the util package -->
+    <property name="share" value="${bundle}/share"/>
+    <property name="local" value="${share}/local"/>
+    <echo>Creating local repository ${local}</echo>
+
+    <!-- put ant jars into the library -->
+    <mkdir dir="${local}/ant/jars"/>
+    <copy file="${dpml.cache}/ant/jars/${ant.junit.filename}" 
+       tofile="${local}/ant/jars/${ant.junit.filename}"/>
+    <copy file="${dpml.cache}/ant/jars/${transit-ant.filename}" 
+       tofile="${local}/ant/jars/${transit-ant.filename}"/>
+
+    <!-- put ant junit into the library -->
+    <mkdir dir="${local}/junit/jars"/>
+    <copy file="${dpml.cache}/junit/jars/${junit.filename}" 
+       tofile="${local}/junit/jars/${junit.filename}"/>
+
+    <!-- put transit module and link into the library -->
+    <mkdir dir="${local}/dpml/transit"/>
+    <copy todir="${local}/dpml/transit">
+      <fileset dir="${basedir}/core/target/deliverables"/>
+      <fileset dir="${basedir}/core/handler/target/deliverables"/>
+      <fileset dir="${basedir}/core/tools/target/deliverables"/>
+    </copy>
+
+    <!-- create the api doc directory -->
+    <property name="api" value="${share}/docs/api"/>
+    <echo>Adding api documentation to ${api}</echo>
+    <mkdir dir="${api}/dpml/transit/${project.version}"/>
+    <copy todir="${api}/dpml/transit/${project.version}">
+      <fileset dir="${basedir}/core/target/api"/>
+    </copy>
+
+    <!-- add the standard.xml build procedure as a template -->
+    <property name="templates" value="${local}/dpml/transit/templates"/>
+    <echo>Adding build template to ${templates}</echo>
+    <mkdir dir="${templates}"/>
+    <copy file="${basedir}/standard.xml" tofile="${templates}/standard-${project.version}.template" />
+    <copy file="${basedir}/target/standard.template.link" toDir="${templates}"/>
+  </target>
+
+  <target name="install" depends="standard.install">
+    <echo>
+#----------------------------------------------------------------------------------
+# Updating DPML DATA ${dpml.data}
+#----------------------------------------------------------------------------------
+    </echo>
+    <mkdir dir="${dpml.cache}/dpml/transit/templates"/>
+    <copy toDir="${dpml.cache}/dpml/transit/templates">
+      <fileset dir="${templates}"/>
+    </copy>
+    <mkdir dir="${dpml.docs}/api"/>
+    <copy todir="${dpml.docs}/api" preservelastmodified="true">
+      <fileset dir="${api}"/>
+    </copy>
+    <echo>
+#----------------------------------------------------------------------------------
+# Updating DPML PREFS ${dpml.prefs}
+#----------------------------------------------------------------------------------
+    </echo>
+    <copy todir="${dpml.prefs}">
+      <fileset dir="${prefs}">
+        <include name="transit/**"/>
+      </fileset>
+    </copy>
+  </target>
+
+  <!-- internal utilities -->
+
+  <target name="install.zip">
+    <echo message="Generating ZIP dist"/>
+    <zip destfile="${dist}/${project.name}-win32-${project.version}.zip" whenempty="create">
+      <zipfileset dir="${bundle}">
+        <include name="LICENSE.TXT"/>
+        <include name="NOTICE.TXT"/>
+        <include name="TRANSIT.TXT"/>
+      </zipfileset>
+      <zipfileset dir="${prefs}" prefix="Preferences"/>
+      <zipfileset dir="${bundle}/data" prefix="Data"/>
+      <zipfileset dir="${share}" prefix="Shared">
+        <include name="**/*"/>
+        <exclude name="prefs/**"/>
+        <exclude name="data/**"/>
+      </zipfileset>
+    </zip>
+    <checksum fileext=".md5" file="${dist}/${project.name}-win32-${project.version}.zip"/>
+    <antcall target="install.zip.asc"/>
+  </target>
+
+  <target name="install.zip.asc" if="gpg.declared">
+    <delete file="${dist}/${project.name}-win32-${project.version}.zip.asc"/>
+    <exec executable="${project.gpg.exe}">
+      <arg value="-a"/>
+      <arg value="-b"/>
+      <arg value="-o"/>
+      <arg value="${dist}/${project.name}-win32-${project.version}.zip.asc"/>
+      <arg value="${dist}/${project.name}-win32-${project.version}.zip"/>
+    </exec>
+  </target>
+
+  <target name="install.tar">
+    <echo message="Generating TAR dist"/>
+    <tar destfile="${dist}/${project.name}-linux-${project.version}.tar.gz" compression="gzip" longfile="gnu">
+      <tarfileset dir="${bundle}">
+      </tarfileset>
+    </tar>
+    <checksum fileext=".md5" file="${dist}/${project.name}-linux-${project.version}.tar.gz"/>
+    <antcall target="install.tar.asc"/>
+  </target>
+
+  <target name="install.tar.asc" if="gpg.declared">
+    <delete file="${dist}/${project.name}-linux-${project.version}.tar.gz.asc"/>
+    <exec executable="${project.gpg.exe}">
+      <arg value="-a"/>
+      <arg value="-b"/>
+      <arg value="-o"/>
+      <arg value="${dist}/${project.name}-linux-${project.version}.tar.gz.asc"/>
+      <arg value="${dist}/${project.name}-linux-${project.version}.tar.gz"/>
+    </exec>
+  </target>
+
+  <target name="update" depends="install"/>
+
+  <target name="clean">
+    <delete dir="target"/>
+    <delete dir="core/target"/>
+    <delete dir="core/handler/target"/>
+    <delete dir="core/tools/target"/>
+  </target>
+
+</project>
+

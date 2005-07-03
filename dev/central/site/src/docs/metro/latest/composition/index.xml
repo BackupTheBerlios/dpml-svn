@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<document>
+  <properties>
+    <author email="mcconnell@dpml.net">Stephen McConnell</author>
+    <title>Metro</title>
+  </properties> 
+
+  <body>
+
+    <section name="Composition Framework">
+
+      <subsection name="Composition">
+
+        <p>
+Metro provides support for the packaging and deployment of composite components with a structure called a block.  A block represents the association of resources to a containment hierarchy within which components are managed.  In addition, a block enables the separation of a component assembly (the composite implementation) from the set of services published by the block. Metro will handle resolution of service dependencies for components by looking for explicitly declared components commencing within the local container, and working progressively up the container hierarchy.  If no explicit solutions are resolved, Metro will attempt to build a packaged solution based on component types declared in the classloader hierachy.  Underlying the Metro system is a runtime deployment engine that provides support for the orderly establishment of components.  The deployment engine takes care of component instantiation, lifecycle processing, and component decommissioning.
+        </p>
+
+        <img src="../../../images/metro/composition.png"/>
+
+      </subsection>
+
+    </section>
+
+  </body>
+</document>
+

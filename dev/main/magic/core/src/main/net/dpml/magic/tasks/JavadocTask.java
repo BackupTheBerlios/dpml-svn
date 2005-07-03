@@ -1,0 +1,542 @@
+/*
+ * Copyright 2004 Apache Software Foundation
+ * Licensed  under the  Apache License,  Version 2.0  (the "License");
+ * you may not use  this file  except in  compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed  under the  License is distributed on an "AS IS" BASIS,
+ * WITHOUT  WARRANTIES OR CONDITIONS  OF ANY KIND, either  express  or
+ * implied.
+ *
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package net.dpml.magic.tasks;
+
+import net.dpml.magic.AntFileIndex;
+import net.dpml.magic.builder.ElementHelper;
+import net.dpml.magic.model.Definition;
+import net.dpml.magic.model.Policy;
+import net.dpml.magic.model.Resource;
+import net.dpml.magic.model.ResourceRef;
+import net.dpml.transit.artifact.Handler;
+import org.apache.tools.ant.BuildException;
+import org.apache.tools.ant.Project;
+import org.apache.tools.ant.taskdefs.Javadoc;
+import org.apache.tools.ant.types.DirSet;
+import org.apache.tools.ant.types.Path;
+import org.apache.tools.ant.types.FileSet;
+import org.w3c.dom.Element;
+
+import java.io.File;
+import java.io.InputStream;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * Build the javadoc for a project.
+ *
+ * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
+ * @version $Revision: 1.2 $ $Date: 2004/03/17 10:30:09 $
+ */
+public class JavadocTask extends ProjectTask
+{
+    //-----------------------------------------------------------------------
+    // static
+    //-----------------------------------------------------------------------
+
+    private static final String TARGET_BUILD_MAIN = "target/build/main";
+    private static final String JAVADOC_TASK_NAME = "javadoc";
+
+    //-----------------------------------------------------------------------
+    // state
+    //-----------------------------------------------------------------------
+
+    private String m_id;
+    private String m_title;
+    private List m_links = new ArrayList();
+    private List m_groups = new ArrayList();
+    private File m_overview;
+
+    //-----------------------------------------------------------------------
+    // ModuleDocTask
+    //-----------------------------------------------------------------------
+
+    public void setId( final String id )
+    {
+        m_id = id;
+    }
+
+    public void setTitle( final String title )
+    {
+        m_title = title;
+    }
+
+    public void setOverview( final File overview )
+    {
+        m_overview = overview;
+    }
+
+    public Link createLink()
+    {
+        final Link link = new Link();
+        m_links.add( link );
+        return link;
+    }
+
+    public Group createGroup()
+    {
+        final Group group = new Group();
+        m_groups.add( group );
+        return group;
+    }
+
+    private Group[] getGroups()
+    {
+        return (Group[]) m_groups.toArray( new Group[0] );
+    }
+
+    //-----------------------------------------------------------------------
+    // Task
+    //-----------------------------------------------------------------------
+
+    public void execute() throws BuildException
+    {
+        final Definition def = getReferenceDefinition();
+
+        log( "Generating javadoc for project: " + def, Project.MSG_VERBOSE );
+
+        File api = new File( getContext().getTargetDirectory(), "api" );
+        mkDir( api );
+
+        //
+        // construct the classpath by getting all of the classpaths for
+        // all of the projects within the module
+        //
+
+        final Path classpath = def.getClassPath( getProject() );
+        process( def, classpath, api );
+
+        File docs = getIndex().getDocsDirectory();
+        File destination = new File( docs, def.getInfo().getJavadocPath() );
+        install( api, destination );
+    }
+
+    private void install( final File source, final File destination )
+    {
+        if( source.exists() )
+        {
+            log( "Installing api", Project.MSG_VERBOSE );
+            final FileSet fileset = new FileSet();
+            fileset.setDir( source );
+            copy( destination, fileset, true );
+        }
+    }
+
+    //-----------------------------------------------------------------------
+    // internal
+    //-----------------------------------------------------------------------
+
+    private void process(
+       final Definition definition, final Path classpath, final File root )
+    {
+        log( "Preparing javadoc for output to: " + root );
+
+        final Javadoc javadoc = (Javadoc) getProject().createTask( JAVADOC_TASK_NAME );
+        javadoc.setTaskName( getTaskName() );
+        createTags( javadoc );
+        javadoc.init();
+        javadoc.setDestdir( root );
+        javadoc.setUse( true );
+        final Path source = javadoc.createSourcepath();
+
+        addDefinitionSource( definition, javadoc, source );
+
+        javadoc.createClasspath().add( classpath );
+
+        Resource[] modules = getReferencedModules( definition );
+        for( int i=0; i<modules.length; i++ )
+        {
+            Resource module = modules[i];
+            Link link = getModuleLink( definition, module );
+            addLink( definition, javadoc, link );
+        }
+
+        for( int i=0; i<m_links.size(); i++ )
+        {
+            final Link link = (Link) m_links.get( i );
+            addLink( definition, javadoc, link );
+        }
+
+        if( null == m_title )
+        {
+            final String title = definition.getInfo().getName() + " API";
+            javadoc.setDoctitle( title );
+        }
+        else
+        {
+            javadoc.setDoctitle( m_title );
+        }
+
+        if( null != m_overview )
+        {
+            javadoc.setOverview( m_overview );
+        }
+
+        Group[] groups = getGroups();
+        for( int i=0; i<groups.length; i++ )
+        {
+            Group group = groups[i];
+            Javadoc.GroupArgument jgroup = javadoc.createGroup();
+            jgroup.setTitle( group.getTitle() );
+            Group.Package[] packages = group.getPackages();
+            for( int j=0; j<packages.length; j++ )
+            {
+                Javadoc.PackageName name = new Javadoc.PackageName();
+                name.setName( packages[j].getName() );
+                jgroup.addPackage( name );
+            }
+        }
+
+        log( "Generating: " + definition.getInfo().getName() + " API" );
+        javadoc.execute();
+    }
+
+    private void addDefinitionSource( Definition definition, Javadoc javadoc, Path source )
+    {
+        //
+        // check for a classic src directory
+        //
+
+        final File base = definition.getBaseDir();
+        final File src = new File( base, TARGET_BUILD_MAIN );
+        if( src.exists() )
+        {
+            log( "Adding src path: " + src );
+            source.createPathElement().setLocation( src );
+            final DirSet packages = new DirSet();
+            packages.setDir( src );
+            packages.setIncludes( "**/**" );
+            javadoc.addPackageset( packages );
+        }
+        else
+        {
+            log( "Skipping nonexistant src path: " + src, Project.MSG_VERBOSE );
+        }
+
+        //
+        // if its a module then iterate over the projects within the scope
+        // of the module and edd each source path
+        //
+
+        if( "module".equals( definition.getInfo().getType() ) )
+        {
+            Definition[] defs = getIndex().getSubsidiaryDefinitions( definition );
+            for( int i=0; i<defs.length; i++ )
+            {
+                Definition d = defs[i];
+                addDefinitionSource( d, javadoc, source );
+            }
+        }
+
+        //
+        // add any projects referenced as parts of the defintion
+        //
+
+        ResourceRef[] parts = definition.getPartRefs();
+        for( int i=0; i<parts.length; i++ )
+        {
+            Resource resource = getIndex().getResource( parts[i] );
+            if( resource instanceof Definition )
+            {
+                Definition d = (Definition) resource;
+                addDefinitionSource( d, javadoc, source );
+            }
+        }
+    }
+
+    private void addLink( Definition definition, Javadoc javadoc, Link link )
+    {
+        Javadoc.LinkArgument arg = javadoc.createLink();
+        String href = link.getHref( getIndex(), definition );
+        arg.setHref( href );
+        final File dir = link.getDir( getIndex() );
+        if( null != dir )
+        {
+            if( dir.exists() )
+            {
+                log( "link: " + href + " (offline)" );
+                arg.setOffline( true );
+                arg.setPackagelistLoc( dir );
+            }
+        }
+        else
+        {
+            log( "link: " + href + " [" + dir + "]" );
+        }
+    }
+
+    private Link getModuleLink( Definition def, Resource resource )
+    {
+        if( !"module".equals( resource.getInfo().getType() ) )
+        {
+            final String error =
+              "Cannot construct a module link form a non-module resource: "
+              + resource;
+            throw new BuildException( error, def.getLocation() );
+        }
+
+        String uri = resource.getInfo().getURI();
+        try
+        {
+            URL url = new URL( null, uri, new Handler() );
+            InputStream input = url.openStream();
+            Element root = ElementHelper.getRootElement( input );
+            Element header = ElementHelper.getChild( root, "header" );
+            Element docs = ElementHelper.getChild( header, "docs" );
+            String host = ElementHelper.getAttribute( docs, "href" );
+            return new Link( resource.getKey(), host );
+        }
+        catch( Throwable e )
+        {
+            final String error =
+              "Unable to construct module link from resource: "
+              + resource;
+            throw new BuildException( error, def.getLocation() );
+        }
+    }
+
+    private Resource[] getReferencedModules( Definition definition )
+    {
+        ResourceRef[] refs =
+          definition.getResourceRefs( getProject(), Policy.ANY, ResourceRef.ANY, true );
+        ArrayList list = new ArrayList();
+        for( int i=0; i<refs.length; i++ )
+        {
+            Resource resource = getIndex().getResource( refs[i] );
+            if( "module".equals( resource.getInfo().getType() ) )
+            {
+                list.add( resource );
+            }
+        }
+        return (Resource[]) list.toArray( new Resource[0] );
+    }
+
+    private void createTags( Javadoc javadoc )
+    {
+        for( int i=0 ; i < TAG_LIST.length ; i++ )
+        {
+            Javadoc.TagArgument tag = javadoc.createTag();
+            tag.setName( TAG_LIST[i][0] );
+            tag.setDescription( TAG_LIST[i][1] );
+            tag.setScope( TAG_LIST[i][2] );
+            tag.setEnabled( true );
+        }
+    }
+
+    private Definition getReferenceDefinition()
+    {
+        if( null != m_id )
+        {
+            return getIndex().getDefinition( m_id );
+        }
+        else
+        {
+            return getIndex().getDefinition( getContext().getKey() );
+        }
+    }
+
+    private String[][] TAG_LIST =
+    {
+        // TODO: turn this into something based on properties
+        /*
+        { "metro.component", "Metro Component Type", "types" },
+        { "metro.service", "Metro Service", "types" },
+        { "metro.attribute", "Metro Attribute", "types" },
+        { "metro.stage", "Metro Lifecycle Stage", "types" },
+        { "metro.extension", "Metro Extension", "types" },
+
+        { "metro.entry", "Metro Context Entry", "methods,constructors" },
+        { "metro.dependency", "Metro Dependency Declaration", "methods,constructors" },
+        { "metro.logger", "Metro Logger", "methods,constructors" },
+        { "metro.configuration", "Metro Configuration Schema", "methods,constructors" },
+        { "metro.context", "Metro Context", "methods,constructors" }
+        */
+    };
+
+    //-----------------------------------------------------------------------
+    // static classes
+    //-----------------------------------------------------------------------
+
+    public static class Link
+    {
+        private String m_href;
+        private String m_host;
+        private File m_dir;
+        private String m_key;
+
+        public Link()
+        {
+            m_href = null;
+        }
+
+        public Link( final String key, final String host )
+        {
+            m_key = key;
+            m_host = host;
+        }
+
+        public void setHref( final String href )
+        {
+            m_href = href;
+        }
+
+        public String getHref( AntFileIndex index, Definition def )
+        {
+            if( null == m_key )
+            {
+                if( null != m_href )
+                {
+                    return m_href;
+                }
+                else
+                {
+                    final String error =
+                      "Link element must contain either a 'key' and 'host' attribute or "
+                      + "a 'href' attribute.";
+                    throw new BuildException( error, def.getLocation() );
+                }
+            }
+            else
+            {
+                if( null == m_host )
+                {
+                    final String error =
+                      "The key attribute must be defined in conjunction with a remote host attrihbute.";
+                    throw new BuildException( error, def.getLocation() );
+                }
+                final Resource resource = index.getResource( m_key );
+                return m_host + resource.getInfo().getJavadocPath();
+                //final String spec =
+                //  resource.getInfo().getSpecification( "/", "/" );
+                //final String path = spec + "/api";
+                //return m_host + "/" + path;
+            }
+        }
+
+        public void setKey( final String key )
+        {
+            m_key = key;
+        }
+
+        public void setHost( final String host )
+        {
+            m_host = host;
+        }
+
+        public void setDir( final File dir )
+        {
+            m_dir = dir;
+        }
+
+        public File getDir( AntFileIndex index )
+        {
+            if( null == m_key )
+            {
+                return m_dir;
+            }
+            else
+            {
+                final Resource resource = index.getResource( m_key );
+                final File cache = index.getDocsDirectory();
+                final String path = resource.getInfo().getJavadocPath();
+                return new File( cache, path );
+            }
+        }
+
+        public String toString()
+        {
+            if( null == m_dir )
+            {
+                if( null == m_key )
+                {
+                    return "link: " + m_href;
+                }
+                else
+                {
+                    return "link: " + m_host + " from [" + m_key + "]";
+                }
+            }
+            else
+            {
+                return "link: " + m_href + " at " + m_dir;
+            }
+        }
+    }
+
+    public static class Group
+    {
+        private String m_title;
+        private ArrayList m_packages = new ArrayList();
+
+        public void setTitle( String title )
+        {
+            m_title = title;
+        }
+
+        public String getTitle()
+        {
+            if( null == m_title )
+            {
+                final String error =
+                  "Required 'title' attribute on group element undefined.";
+                throw new BuildException( error );
+            }
+            else
+            {
+                return m_title;
+            }
+        }
+
+        public Group.Package[] getPackages()
+        {
+            return (Group.Package[]) m_packages.toArray( new Group.Package[0] );
+        }
+
+        public Group.Package createPackage()
+        {
+            final Package pkg = new Package();
+            m_packages.add( pkg );
+            return pkg ;
+        }
+
+        public static class Package
+        {
+            private String m_name;
+
+            public void setName( String name )
+            {
+                m_name = name;
+            }
+
+            public String getName()
+            {
+                if( null == m_name )
+                {
+                    final String error =
+                      "Required 'name' attribute on package element undefined.";
+                    throw new BuildException( error );
+                }
+                else
+                {
+                    return m_name;
+                }
+            }
+        }
+    }
+}

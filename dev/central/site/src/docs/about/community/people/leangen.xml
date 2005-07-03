@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document> 
+  <properties>
+    <author email="david.leangen@konova.com">David Leangen</author>
+    <title>DPML Central</title>
+  </properties>
+  <body> 
+    <section name="David Leangen">
+      <p>(dleangen at konova dot com)</p>
+      <p>
+        David joined DPML in 2004 just as it was being spun out of the Apache Avalon
+        Project. He initially investigated component management tools as part of
+        his development in the area of bioinformatics. Very impressed with the
+        vision, diligence, and incredible user support provided by the community,
+        it was clear that from the start that he wanted to be a part of its activities.
+      </p>
+      <p>
+        Born and raised in Victoria, B.C., Canada, David lived for 2 years in France, then
+        about 10 years in Montreal, Quebec, Canada, where he obtained his Bachelor's degree
+        in electrical engineering from the Universit&#233; de Sherbrooke. Soon after, he
+        found his way to Japan where he is now married and the owner of both a Japanese-based
+        bioinformatics company as well as a Montreal-based software company.
+      </p>
+      <p>
+        One of David's main interests is to import the knowledge available at DPML
+        into Japan. Along with some of his Japanese partners, he is working on training
+        materials and consulting services for advanced Java component management.
+      </p>
+      <!--<img src="/images/people/leangen.jpg"/>-->
+    </section>
+  </body>
+</document>

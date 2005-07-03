@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<graph>
+
+  <initialization target="initialized"/>
+
+  <termination target="terminated"/>
+
+  <state name="initialized">
+    <transition name="start" target="started">
+      <method name="start"/>
+    </transition>
+  </state>
+
+  <state name="available">
+
+    <state name="started">
+
+      <termination target="stopped">
+        <method name="stop"/>
+      </termination>
+
+      <transition name="stop" target="stopped">
+        <method name="stop"/>
+      </transition>
+
+      <operation name="audit">
+        <method name="audit"/>
+      </operation>
+
+    </state>
+
+    <state name="stopped">
+
+      <transition name="start" target="started">
+        <method name="start"/>
+      </transition>
+
+    </state>
+
+  </state>
+
+  <state name="terminated" terminal="true"/>
+
+</graph>
+

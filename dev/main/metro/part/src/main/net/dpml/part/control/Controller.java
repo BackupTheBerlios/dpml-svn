@@ -1,0 +1,86 @@
+/*
+ * Copyright (c) 2005 Stephen J. McConnell
+ *
+ * Licensed  under the  Apache License,  Version 2.0  (the "License");
+ * you may not use  this file  except in  compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed  under the  License is distributed on an "AS IS" BASIS,
+ * WITHOUT  WARRANTIES OR CONDITIONS  OF ANY KIND, either  express  or
+ * implied.
+ *
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package net.dpml.part.control;
+
+import java.io.File;
+import java.io.IOException;
+import java.net.URI;
+import java.rmi.RemoteException;
+
+import net.dpml.part.manager.Component;
+import net.dpml.part.manager.Container;
+import net.dpml.part.manager.ComponentException;
+import net.dpml.part.part.Part;
+
+/**
+ * The Controller interface defines the a contract for an object that provides general
+ * component and part handling management services.
+ *
+ * @author <a href="mailto:dev-dpml@lists.ibiblio.org">The Digital Product Meta Library</a>
+ * @version $Revision: 1.2 $ $Date: 2004/03/17 10:30:09 $
+ */
+public interface Controller
+{
+   /**
+    * Returns the identity of the object implementing this interface.
+    * @return a uri identifying the object
+    */
+    URI getURI();
+
+   /**
+    * Return the controllers runtime context. The runtime context holds infromation 
+    * about the working and temporary directories and a uri identifying the execution 
+    * domain.
+    * 
+    * @return the runtime context
+    */
+    ControllerContext getControllerContext();
+
+   /**
+    * Construct a new top-level component.
+    *
+    * @param uri a uri identifying a part from which the component will be created.
+    * @return the new component
+    * @exception ComponentException is an error occurs during component establishment
+    * @exception IOException if an error occurs while attempting to resolve the component part uri
+    * @exception PartNotFoundException if the uri could not be resolved to a physical resource
+    * @exception HandlerNotFoundException if the part references a handler but the handler could not be found
+    * @exception DelegationException if an error occurs following handover of control to a foreign controller
+    */
+    Component newComponent( URI uri ) throws 
+      ComponentException, IOException, PartNotFoundException, HandlerNotFoundException, 
+      DelegationException;
+
+   /**
+    * Construct a new component using the supplied part as the defintion of the 
+    * component type and deployment criteria.
+    *
+    * @param parent the enclosing parent component (may be null)
+    * @param part component definition including type and deployment data
+    * @param name the name to assign to the new component
+    * @return a new component
+    * @exception ComponentException is an error occurs during component establishment
+    * @exception HandlerNotFoundException if the part references a handler but the handler could not be found
+    * @exception DelegationException if an error occurs following handover of control to a foreign controller
+    * @exception UnsupportedPartTypeException if the component type is recognized but not supported
+    */
+    Component newComponent( Component parent, Part part, String name )
+      throws ComponentException, HandlerNotFoundException, DelegationException;
+
+}

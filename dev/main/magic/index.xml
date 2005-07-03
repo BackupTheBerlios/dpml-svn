@@ -1,0 +1,260 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!--
+  Copyright 2004 Stephen J McConnell
+  Copyright 2004 Niclas Hedhman
+
+  Licensed  under the  Apache License,  Version 2.0  (the "License");
+  you may not use  this file  except in  compliance with the License.
+  You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed  under the  License is distributed on an "AS IS" BASIS,
+  WITHOUT  WARRANTIES OR CONDITIONS  OF ANY KIND, either  express  or
+  implied.
+
+  See the License for the specific language governing permissions and
+  limitations under the License.
+-->
+
+
+<index key="dpml-magic">
+
+  <import uri="${dpml.transit.uri}"/>
+
+  <!--
+  Magic Module
+  -->
+
+  <project file="module.xml">
+    <info>
+      <group>dpml/magic</group>
+      <name>dpml-magic</name>
+      <type>module</type>
+    </info>
+    <dependencies>
+      <include key="dpml-transit"/>
+    </dependencies>
+  </project>
+
+  <!--
+  Magic and associated spells.
+  -->
+
+  <project basedir="core">
+    <info>
+      <group>dpml/magic</group>
+      <name>dpml-magic-core</name>
+      <types>
+        <type>jar</type>
+        <type>plugin</type>
+      </types>
+    </info>
+    <dependencies>
+      <include key="dpml-transit-tools"/>
+      <include key="checkstyle"/>
+      <include key="ant-junit"/>
+    </dependencies>
+  </project>
+
+  <project basedir="spells/bar">
+    <info>
+      <group>dpml/magic</group>
+      <name>dpml-magic-bar</name>
+      <types>
+        <type>jar</type>
+        <type>plugin</type>
+      </types>
+    </info>
+    <dependencies>
+      <include key="dpml-magic-core"/>
+    </dependencies>
+  </project>
+
+  <project basedir="spells/publish">
+    <info>
+      <group>dpml/magic</group>
+      <name>dpml-magic-publish</name>
+      <types>
+        <type>jar</type>
+        <type>plugin</type>
+      </types>
+    </info>
+    <dependencies>
+      <include key="dpml-magic-core"/>
+    </dependencies>
+  </project>
+
+  <project basedir="spells/eclipse">
+    <info>
+      <group>dpml/magic</group>
+      <name>dpml-magic-eclipse</name>
+      <version>1.0.0</version>
+      <status>SNAPSHOT</status>
+      <types>
+        <type>jar</type>
+        <type>plugin</type>
+      </types>
+    </info>
+    <dependencies>
+      <include key="dpml-magic-core"/>
+    </dependencies>
+  </project>
+
+  <project basedir="spells/doc/task">
+    <info>
+      <group>dpml/magic</group>
+      <name>dpml-magic-doc</name>
+      <types>
+        <type>jar</type>
+        <type>plugin</type>
+      </types>
+    </info>
+    <dependencies>
+      <include key="dpml-magic-core"/>
+    </dependencies>
+  </project>
+
+  <project basedir="spells/doc/themes/modern" key="dpml-magic-themes-modern">
+    <info>
+      <group>dpml/magic</group>
+      <name>modern</name>
+      <type>theme</type>
+    </info>
+    <dependencies>
+      <include key="dpml-magic-core" build="false"/>
+      <include key="dpml-magic-doc" />
+    </dependencies>
+  </project>
+
+  <project basedir="spells/upload">
+    <info>
+      <group>dpml/magic</group>
+      <name>dpml-magic-upload</name>
+      <types>
+        <type>jar</type>
+        <type>plugin</type>
+      </types>
+    </info>
+    <dependencies>
+      <include key="dpml-magic-core"/>
+      <include key="ant-jsch"/>
+      <include key="jsch" runtime="true" build="false" test="false" />
+    </dependencies>
+  </project>
+
+  <project basedir="spells/example">
+    <info>
+      <group>dpml/test</group>
+      <name>dpml-magic-example</name>
+      <types>
+        <type>jar</type>
+        <type>plugin</type>
+      </types>
+    </info>
+    <dependencies>
+      <include key="dpml-magic-core"/>
+    </dependencies>
+  </project>
+
+  <resource>
+    <info>
+      <group>checkstyle</group>
+      <name>checkstyle</name>
+      <version>3.5</version>
+      <type>jar</type>
+    </info>
+    <dependencies>
+      <include key="antlr" />
+      <include key="bcel" />
+      <include key="commons-beanutils-core" />
+      <include key="commons-collections" />
+      <include key="commons-logging" />
+      <include key="regexp" />
+    </dependencies>
+  </resource>
+
+  <resource>
+    <info>
+      <group>antlr</group>
+      <name>antlr</name>
+      <version>2.7.2</version>
+      <type>jar</type>
+    </info>
+    <dependencies>
+      <include key="ant" />
+    </dependencies>
+  </resource>
+
+  <resource>
+    <info>
+      <group>bcel</group>
+      <name>bcel</name>
+      <version>5.1</version>
+      <type>jar</type>
+    </info>
+  </resource>
+
+  <resource>
+    <info>
+      <group>commons-beanutils</group>
+      <name>commons-beanutils-core</name>
+      <version>1.7.0</version>
+      <type>jar</type>
+    </info>
+  </resource>
+
+  <resource>
+    <info>
+      <group>commons-collections</group>
+      <name>commons-collections</name>
+      <version>3.1</version>
+      <type>jar</type>
+    </info>
+  </resource>
+
+  <resource>
+    <info>
+      <group>commons-logging</group>
+      <name>commons-logging</name>
+      <version>1.0.4</version>
+      <type>jar</type>
+    </info>
+  </resource>
+
+  <resource>
+    <info>
+      <group>regexp</group>
+      <name>regexp</name>
+      <version>1.3</version>
+      <type>jar</type>
+    </info>
+  </resource>
+
+  <resource>
+    <info>
+      <group>ant</group>
+      <name>ant-jsch</name>
+      <version>1.6.4</version>
+      <type>jar</type>
+    </info>
+    <dependencies>
+      <include key="ant" />
+    </dependencies>
+  </resource>
+
+  <resource>
+    <info>
+      <group>jsch</group>
+      <name>jsch</name>
+      <version>0.1.17</version>
+      <type>jar</type>
+    </info>
+    <dependencies>
+      <include key="ant" />
+    </dependencies>
+  </resource>
+
+
+</index>

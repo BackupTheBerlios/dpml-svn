@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<!-- 
+ Copyright 2005 David Leangen
+ Copyright 2004 Stephen McConnell
+ Copyright 2004 Niclas Hedhman
+
+ Licensed  under the  Apache License,  Version 2.0  (the "License");
+ you may not use  this file  except in  compliance with the License.
+ You may obtain a copy of the License at 
+ 
+   http://www.dpml.net/central/about/legal/
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed  under the  License is distributed on an "AS IS" BASIS,
+ WITHOUT  WARRANTIES OR CONDITIONS  OF ANY KIND, either  express  or
+ implied.
+ 
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+
+<document>
+  <properties>
+    <author email="mcconnell@dpml.net">Stephen McConnell</author>
+    <author email="niclas@hedhman.org">Niclas Hedhman</author>
+    <author email="david.leangen@konova.com">David Leangen</author>
+    <title>DPML Transit</title>
+  </properties> 
+
+  <body>
+    <section name="Transit Reference Specifications">
+
+      <subsection name="URI"><source>@TRANSIT-MAIN-URI@</source></subsection>
+
+      <subsection name="Overview">
+      <p>
+      The section contains the formal specification of the Transit system.
+      This includes the description of the <a href="protocol/index.html">artifact protocol</a>
+      (a uri that can be used to construct a url which in turn can be used to resolve 
+      an artifact to a locally cached resource), the underlying <a href="cache/index.html">
+      cache</a> management system and associated <a href="hosts/index.html">hosts</a>. In 
+      addition, the specification cover the transit <a href="monitors/index.html">event</a> 
+      monitoring system, the <a href="repository/index.html">repository service</a> and the 
+      application <a href="launcher/index.html">launcher</a>.
+      </p>
+      </subsection>
+
+    </section>
+  </body>
+</document>

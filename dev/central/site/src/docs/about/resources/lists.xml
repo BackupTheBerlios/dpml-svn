@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document>
+  <properties>
+    <author email="mcconnell@dpml.net">Stephen McConnell</author>
+    <title>DPML Central</title>
+  </properties> 
+
+<body>
+
+<section name="Mailing Lists">
+
+    <p>
+    A mailing list is an electronic discussion forum that anyone can subscribe to.
+    When someone sends an email message to the mailing list, a copy of that message is
+    broadcast to everyone who is subscribed to that mailing list. Mailing lists provide
+    a simple and effective communication mechanism.
+    </p>
+
+    <ul>
+
+      <li>The <a href="http://lists.ibiblio.org/mailman/listinfo/support-dpml">
+      DPML Support List</a> is aimed towards facilitating and assiting product 
+      users of DPML solutions.</li>
+
+      <li>The <a href="http://lists.ibiblio.org/mailman/listinfo/dev-dpml">
+      DPML Development List</a> is concerned with the overall development of the 
+      DPML product family.</li>
+
+      <li>The <a href="http://lists.ibiblio.org/mailman/listinfo/pr-dpml">
+      DPML Public Relations List</a> is concerned with project promotion and relationships
+      with sponsoring organizations.</li>
+
+      <li>The <a href="http://lists.ibiblio.org/mailman/listinfo/admin-dpml">
+      DPML Admin List</a> is concerned with infrastructure and general administrative
+      issues.</li>
+
+      <li>The <a href="http://lists.ibiblio.org/mailman/listinfo/notify-dpml">
+      DPML Notify List</a> handles svn commit messages and other low-level notifications.</li>
+    </ul>
+
+    <p>
+    Public archives of the DPML list are available at the following locations:
+    </p>
+
+     <ul>
+
+      <li><a href="http://lists.ibiblio.org/pipermail/support-dpml/">
+      DPML Support Archive</a></li>
+
+      <li><a href="http://lists.ibiblio.org/pipermail/dev-dpml/">
+      DPML Development Archive</a></li>
+
+      <li><a href="http://lists.ibiblio.org/pipermail/pr-dpml/">
+      DPML Public Relations Archive</a></li>
+
+      <li><a href="http://lists.ibiblio.org/pipermail/admin-dpml/">
+      DPML Admin Archive</a></li>
+
+      <li><a href="http://lists.ibiblio.org/pipermail/notify-dpml/">
+      DPML Notify Archive</a></li>
+
+    </ul>
+
+  </section>
+
+</body>
+
+</document>

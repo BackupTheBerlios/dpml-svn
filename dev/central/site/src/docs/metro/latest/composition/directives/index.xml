@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<document>
+  <properties>
+    <author email="mcconnell@dpml.net">Stephen McConnell</author>
+    <title>DPML Metro</title>
+  </properties> 
+
+  <body>
+    <section name="Deployment Directives">
+
+        <p>
+A deployment specification is represented by a &lt;container&gt; XML element directive.  The directive presents a deployment scenerario to the runtime containment model and through this process, defines a composite component model based on a series of subsidiary containment and component diectives. Each containment directive represents a composite component solution.  Each component directive represents an implementation deployment directive designed to fulfill a particular application scenario.
+        </p>
+
+        <p>
+In structural terms, a &lt;container&gt; elements contains a set of components, sub-containers, and includes that make up the compostion a block in terms of its internal functionality.  This functionality is in turn exported through optional service directives declared at the level of the &lt;container&gt;.
+        </p>
+
+      <subsection name="Example">
+<p>
+CLI Example:
+</p>
+
+<source><![CDATA[
+$ metro -execute block:dpml/tutorial/dpml-tutorial-hello
+]]></source>
+
+     </subsection>
+
+    </section>
+  </body>
+</document>
+

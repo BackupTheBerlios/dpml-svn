@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document>
+  <properties>
+    <author email="niclas@hedhman.org">Niclas Hedhman</author>
+    <title>DPML Central</title>
+  </properties> 
+
+  <body>
+    <section name="Community Roles">
+      <p>
+        We are not very strict in the roles at this community, and you can
+        basically assign any role to yourself, with a few exceptions mentioned
+        below. Below is a list of the formal roles, informal roles and 'teams'
+        that we consider this community to consist of.
+      </p>
+      <subsection name="User" >
+        <p>
+          The most important role in our community is the User. The people who
+          actually use the products that we produce. If the user have a 
+          question, it should be attended to as soon as possible. A happy user
+          is the best advertising and free of charge. A non-happy user can
+          spoil our reputation.
+        </p>
+      </subsection>
+      <subsection name="Developer" >
+        <p>
+          The Developer is the backbone of the community. To become a Devloper,
+          you only need to register yourself and jump in. You are required
+          to subscribe to the <a href="../../resources/lists.html">
+          dev-dpml@lists.ibiblio.org</a> mailing list, and you should also add
+          your bio into the <a href="../people/index.html">People</a> list,
+          preferably with photo. You also need to familiarize yourself with
+          the total <a href="index.html">Process</a>, especially the 
+          <a href="code.html">Coding Standard</a>.
+        </p>
+      </subsection>
+      <subsection name="Documentation Team" >
+        <p>
+          The Documentation Team is the heroes of any Open Software community,
+          but they are hard to find. Developers will support any documentation
+          effort to the best of their abilities, so if you have a desire to
+          write, but doesn't know all the details required, please still
+          take on the challenge and ask around for the details.
+        </p>
+      </subsection>
+      <subsection name="Infrastructure Team" >
+        <p>
+          The Infrastructure Team is responsible for the DPML infrastructure,
+          i.e. the configuration, maintenance and operations of servers and
+          applications on those servers. The process of selecting the 
+          Infrastructure Team is not yet determined, as we will need some
+          constraint on who have root access on these critical resources.
+          However, most applications should be configured to be configurable
+          through Subversion and operated through web interfaces, and therefor
+          allow all developers to help out.
+        </p>
+      </subsection>
+      <subsection name="Public Relations Team" >
+        <p>
+          You can assign yourself to the Public Relations Team, simply by
+          subscribing to the <a href="../../resources/lists.html">
+          pr-dev@lists.ibiblio.org</a> mailing list and announcing that you want
+          to help out.
+        </p>
+      </subsection>
+      <subsection name="Quality Assurance Team" >
+        <p>
+          This is a <strong>formal</strong> team, which is selected by the 
+          <strong>developers</strong>. Only people with a strong sense of 
+          quality assurance should opt for this position. Only the QA Team
+          has access to the QA step on the code ladder, and high level of 
+          scrutiny should be done for every commit in QA. If in doubt or
+          disagreement, the release process is aborted, and starts over in
+          Main.
+        </p>
+      </subsection>
+      <subsection name="Release Manager" >
+        <p>
+          This is a <strong>formal</strong> role, and it is assigned by the
+          QA Team. The Release Manager is responsible for the entire QA process
+          and that the Production step in the code ladder is in perfect shape.
+          Therefor, only the Release Manager(s) has commit access to Production
+        </p>
+      </subsection>
+    </section>
+  </body>
+</document> 

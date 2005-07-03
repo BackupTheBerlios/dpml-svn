@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+  Copyright 2004 Stephen J McConnell
+
+  Licensed  under the  Apache License,  Version 2.0  (the "License");
+  you may not use  this file  except in  compliance with the License.
+  You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed  under the  License is distributed on an "AS IS" BASIS,
+  WITHOUT  WARRANTIES OR CONDITIONS  OF ANY KIND, either  express  or
+  implied.
+
+  See the License for the specific language governing permissions and
+  limitations under the License.
+-->
+
+<project name="dpml-metro" default="install" basedir="."
+    xmlns:transit="antlib:net.dpml.transit"
+    xmlns:x="plugin:dpml/magic/dpml-magic-core">
+
+  <transit:import uri="artifact:template:dpml/magic/standard"/>
+
+  <target name="init" depends="standard.init">
+    <filter token="PROJECT-NAME" value="${project.name}"/>
+    <filter token="PROJECT-VERSION" value="${project.version}"/>
+    <property name="bundle" value="${basedir}/target/bundle"/>
+  </target>
+
+  <target name="build" depends="standard.build">
+    <x:module index="index.xml">
+      <header>
+        <svn href="http://scm.dpml.net/repos/dpml/development/main/metro"/>
+        <home href="http://www.dpml.net/central/products/metro/"/>
+      </header>
+    </x:module>
+  </target>
+
+  <target name="package" depends="standard.package">
+    <property name="share" value="${bundle}/share"/>
+    <property name="prefs" value="${bundle}/prefs"/>
+    <property name="data" value="${bundle}/data"/>
+    <!-- create the README and LICENSE files-->
+    <copy todir="${bundle}" filtering="true">
+      <fileset dir="${basedir}">
+        <include name="LICENSE.TXT"/>
+        <include name="NOTICE.TXT"/>
+        <include name="METRO.TXT"/>
+      </fileset>
+    </copy>
+    <property name="prefs" value="${bundle}/prefs"/>
+    <mkdir dir="${prefs}/metro"/>
+    <copy toFile="${prefs}/metro/metro.properties" file="${basedir}/template.metro.properties"/>
+    <property name="local" value="${share}/local"/>
+    <x:path id="module.path" type="*" mode="RUNTIME" module="true"/>
+    <x:replicate refid="module.path" toDir="${local}" />
+    <copy todir="${local}/${project.group}">
+      <fileset dir="target/deliverables"/>
+    </copy>
+    <!--
+    Add the non-version bin files to the bin directory.
+    -->
+    <!--
+    <copy todir="${share}/bin">
+      <fileset dir="${basedir}/main/target/bin"/>
+    </copy>
+    <chmod file="${share}/bin/metro" perm="755"/>
+    -->
+    <!--
+    Add the javadoc to the dist.
+    -->
+    <property name="docs.src" location="${basedir}/target/api"/>
+    <property name="docs.dest" location="${share}/docs/api/${project.group}/${project.version}"/>
+    <mkdir dir="${docs.dest}"/>
+    <copy todir="${docs.dest}">
+      <fileset dir="${docs.src}"/>
+    </copy>
+    <!--
+    Package the bundle into a compressed archive.
+    -->
+    <x:dist compression="gzip">
+      <fileset dir="${bundle}">
+        <include name="*.TXT"/>
+      </fileset>
+      <zipfileset dir="${bundle}/prefs" prefix="Preferences"/>
+      <zipfileset dir="${bundle}/share" prefix="Shared">
+        <exclude name="**/metro"/>
+      </zipfileset >
+      <tarfileset dir="${bundle}/prefs" prefix="prefs" mode="644" />
+      <tarfileset dir="${bundle}/share" prefix="share" mode="444" >
+        <exclude name="**/metro.bat"/>
+        <exclude name="**/metro"/>
+      </tarfileset>
+      <tarfileset dir="${bundle}/share" prefix="share" mode="555" >
+        <include name="**/metro"/>
+      </tarfileset>
+    </x:dist>
+  </target>
+
+  <target name="install" depends="docs,standard.install">
+    <x:property name="module.uri" feature="uri" type="module"/>
+    <transit:link target="${module.uri}" uri="link:module:${project.group}/${project.name}"/>
+    <echo>
+#----------------------------------------------------------------------------------
+# Updating DPML PREFS ${dpml.prefs}
+#----------------------------------------------------------------------------------
+    </echo>
+    <copy todir="${dpml.prefs}">
+      <fileset dir="${prefs}">
+        <include name="metro/**"/>
+      </fileset>
+    </copy>
+    <echo>
+#----------------------------------------------------------------------------------
+# Updating DPML DATA ${dpml.data}
+#----------------------------------------------------------------------------------
+    </echo>
+    <mkdir dir="${dpml.data}"/>
+    <copy todir="${dpml.data}" preservelastmodified="true">
+      <fileset dir="${share}">
+        <include name="docs/**"/>
+      </fileset>
+    </copy>
+    <property name="export" location="${dpml.dist}/${project.group}/${project.version}"/>
+    <mkdir dir="${export}"/>
+    <copy todir="${export}">
+      <fileset dir="target/dist"/>
+    </copy>
+  </target>
+
+  <target name="docs" depends="javadocs,junit-report"/>
+
+  <target name="javadocs" depends="build">
+    <x:javadoc>
+      <link href="http://java.sun.com/j2se/1.4/docs/api"/>
+      <link href="http://www.dpml.net/api/commons-cli/1.0"/>
+      <link href="http://www.dpml.net/api/ant/${dpml.ant.version}"/>
+      <group title="Component API">
+        <package name="net.dpml.activity"/>
+        <package name="net.dpml.configuration"/>
+        <package name="net.dpml.logging"/>
+        <package name="net.dpml.parameters"/>
+      </group>
+      <group title="Part SPI">
+        <package name="net.dpml.part.builder"/>
+        <package name="net.dpml.part.control"/>
+        <package name="net.dpml.part.manager"/>
+        <package name="net.dpml.part.model"/>
+        <package name="net.dpml.part.part"/>
+        <package name="net.dpml.part.state"/>
+      </group>
+      <group title="Metro">
+        <package name="net.dpml.metro.central"/>
+        <package name="net.dpml.composition.builder"/>
+        <package name="net.dpml.composition.builder.datatypes"/>
+        <package name="net.dpml.composition.control"/>
+        <package name="net.dpml.composition.event"/>
+        <package name="net.dpml.composition.model"/>
+        <package name="net.dpml.composition.data"/>
+        <package name="net.dpml.composition.info"/>
+        <package name="net.dpml.composition.state"/>
+        <package name="net.dpml.composition.unit"/>
+        <package name="net.dpml.composition.content"/>
+        <package name="net.dpml.composition.runtime"/>
+        <package name="net.dpml.composition.part"/>
+        <package name="net.dpml.configuration.impl"/>
+        <package name="net.dpml.parameters.impl"/>
+      </group>
+    </x:javadoc>
+  </target>
+
+  <target name="junit-report" depends="test">
+    <mkdir dir="target/reports/junit"/>
+    <junitreport todir="target/reports/junit">
+      <fileset dir=".">
+        <include name="**/target/test-reports/TEST-*.xml"/>
+      </fileset>
+      <report format="frames" todir="target/reports/junit"/>
+    </junitreport>
+  </target>
+
+</project>

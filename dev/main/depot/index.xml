@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<index key="dpml-depot">
+
+  <import uri="${dpml.transit.uri}"/>
+  <import uri="${dpml.magic.uri}"/>
+  <import uri="${dpml.metro.uri}"/>
+
+  <!--
+  Depot Modules
+  -->
+
+  <project file="module.xml">
+    <info>
+      <group>dpml/depot</group>
+      <name>dpml-depot</name>
+      <type>module</type>
+    </info>
+    <dependencies>
+      <include key="dpml-transit"/>
+    </dependencies>
+  </project>
+
+  <!-- Station -->
+
+  <project basedir="console">
+    <info>
+      <group>dpml/depot</group>
+      <name>dpml-depot-console</name>
+      <types>
+        <type>jar</type>
+      </types>
+    </info>
+    <dependencies>
+      <include key="dpml-transit-main"/>
+    </dependencies>
+  </project>
+
+  <project basedir="prefs">
+    <info>
+      <group>dpml/depot</group>
+      <name>dpml-depot-prefs</name>
+      <types>
+        <type>jar</type>
+        <type>plugin</type>
+      </types>
+    </info>
+    <dependencies>
+      <include key="dpml-depot-console"/>
+    </dependencies>
+  </project>
+
+  <project basedir="station">
+    <info>
+      <group>dpml/depot</group>
+      <name>dpml-depot-station</name>
+      <types>
+        <type>jar</type>
+        <type>plugin</type>
+      </types>
+    </info>
+    <dependencies>
+      <include key="dpml-transit-main" tag="api"/>
+      <include key="dpml-depot-console" tag="api"/>
+    </dependencies>
+  </project>
+
+  <project basedir="test/brazil">
+    <info>
+      <group>dpml/test</group>
+      <name>dpml-depot-test</name>
+      <types>
+        <type>jar</type>
+        <type>plugin</type>
+      </types>
+    </info>
+    <dependencies>
+      <include key="dpml-test-mexico"/>
+    </dependencies>
+  </project>
+
+  <project basedir="test/mexico">
+    <info>
+      <group>dpml/test</group>
+      <name>dpml-test-mexico</name>
+      <types>
+        <type>jar</type>
+      </types>
+    </info>
+  </project>
+
+</index>

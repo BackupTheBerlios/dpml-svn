@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<document>
+  <properties>
+    <author email="mcconnell@dpml.net">Stephen McConnell</author>
+    <title>DPML Transit</title>
+  </properties>
+
+  <body>
+    <section name="DPML Setup">
+
+      <subsection name="Create DPML_SYSTEM">
+
+        <p>
+        Create a new environment variabled named <code>DPML_SYSTEM</code> that
+        declares the location of the root DPML system directory (this is a 
+        directory containing the 'local' and 'bin' directories).
+        </p>
+
+        <img src="/images/setup/dpml_system_variable.png"/>
+
+      </subsection>
+
+      <subsection name="Updating you PATH">
+
+        <p>
+        Edit the PATH environment variable to include the <code>%DPML_SYSTEM%\bin</code> path
+        value.  Make sure you separate the value from other entries with the ';' character.
+        </p>
+
+        <img src="/images/setup/path.png"/>
+      </subsection>
+
+      <subsection name="Create the optional DPML_HOME">
+
+        <p>
+        Transit and other DPML tools will attempt to locate the 'Preferences' 
+        and 'Data' directories using %APPDATA%\DPML (which typically translates
+        to 'C:\Documents and Settings\[username]\Application Data\DPML'.
+        If you want to use a different root directory for user data then you need to 
+        declare the environment variable DPML_HOME.
+        </p>
+
+      </subsection>
+
+    </section>
+  </body>
+</document>
+

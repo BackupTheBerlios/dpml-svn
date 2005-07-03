@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<document>
+  <properties>
+    <author email="mcconnell@dpml.net">Stephen McConnell</author>
+    <title>DPML Metro</title>
+  </properties> 
+
+  <body>
+
+    <section name="Properties">
+
+      <source>@METRO-PLUGIN-URI@</source>
+
+      <p>
+      The Metro system is a plugin that is established by Transit. The following
+      path locations are used to locate and load property files.
+      </p>
+
+      <subsection name="Path Locations">
+
+        <table>
+          <tr><th>Location</th><th>Role</th></tr>
+          <tr>
+            <td>${dpml.preferences}/metro/metro.properties</td>
+            <td>Installation defaults.</td>
+          </tr>
+          <tr>
+            <td>${user.home}/metro.properties</td>
+            <td>Site defaults set by system administrator.</td>
+          </tr>
+          <tr>
+            <td>${user.dir}/metro.properties</td>
+            <td>Overriding deployment defaults.</td>
+          </tr>
+        </table>
+
+      </subsection>
+
+      <p>
+      Recognized properties are a function of the plugins that are loaded 
+      during metro startup.  The first property identifies the system context
+      plugin.  The second property identifies the internal composition system
+      that the system context will be supplied to.  Additional property names 
+      and values are a function of the respective plugins.
+      </p>
+
+      <subsection name="Metro Properties">
+
+        <table>
+          <tr><th>Property</th><th>Description</th><th>Default</th></tr>
+          <tr>
+            <td>dpml.metro.system.artifact</td>
+            <td>Declares the plugin artifact spec to use when establishing 
+            the application system context.  Please note that modification 
+            of this value may impact available properties (refer to plugin 
+            specification for additional details).</td>
+            <td><a href="system/properties.html">plugin</a></td>
+          </tr>
+          <tr>
+            <td>dpml.metro.main.artifact</td>
+            <td>Declares the plugin artifact spec to use when establishing 
+            the composition and runtime sub-system.  Please note that modification 
+            of this value may impact available properties (refer to plugin 
+            specification for additional details).</td>
+            <td><a href="composition/properties.html">plugin</a></td>
+          </tr>
+        </table>
+
+      </subsection>
+
+
+
+    </section>
+  </body>
+</document>
+

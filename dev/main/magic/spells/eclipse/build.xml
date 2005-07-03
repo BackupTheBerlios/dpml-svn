@@ -1,0 +1,21 @@
+<project name="dpml-magic-eclipse" default="install" basedir="." 
+      xmlns:transit="antlib:net.dpml.transit" xmlns:x="plugin:dpml/magic/dpml-magic-core" >
+
+  <transit:import uri="artifact:template:dpml/magic/standard"/>
+	
+	<!-- example of usage
+  <transit:import uri="artifact:template:dpml/magic/eclipse"/ -->
+	
+  <target name="init" depends="standard.init">
+    <x:filter feature="plugin" token="PLUGIN-URI"/>
+  </target>
+
+  <target name="build" depends="standard.build">
+	
+    <x:export class="net.dpml.magic.eclipse.EclipseTask">
+	<antlib resource="net/dpml/magic/eclipse/antlib.xml"
+              urn="plugin:dpml/magic/dpml-magic-eclipse"/>
+    </x:export>
+  </target>
+
+</project>

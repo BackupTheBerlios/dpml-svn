@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document> 
+  <properties>
+    <author email="mcconnell@dpml.net">Stephen McConnell</author>
+    <title>DPML Central</title>
+  </properties>
+  <body>
+    <section name="Stephen McConnell">
+      <subsection name="Operational Expertise">
+        <ol>
+          <li>Company operations (establishment and adminstration)</li> 
+          <li>Fund raising (venture capital, government agencies, private industry)</li> 
+          <li>Team development (recruiting, team formation, motivation)</li> 
+        </ol>
+      </subsection>
+      <subsection name="Technical Expertise">
+        <ol>
+          <li>Java based software development</li> 
+          <li>component-based development theory and practice</li> 
+          <li>component composition</li> 
+          <li>service oriented architectures</li> 
+          <li>component reuse strategies</li>
+          <li>CORBA/IIOP and OMG service architecture</li>
+        </ol>
+      </subsection>
+    </section>
+  </body>
+</document>
+

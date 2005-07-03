@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+ * Copyright 2004 Stephen J. McConnell.
+ * Copyright 2004 Niclas Hedman.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *     http://www.dpml.net/central/about/legal/
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+-->
+
+<project name="dpml-http-impl" default="install" basedir="." 
+    xmlns:transit="antlib:net.dpml.transit" xmlns:x="plugin:dpml/magic/dpml-magic-core" >
+
+  <transit:import uri="artifact:template:dpml/magic/standard"/>
+
+  <target name="build" depends="standard.build">
+
+    <types xmlns="plugin:dpml/composition/dpml-composition-builder">
+      <type class="net.dpml.http.impl.Ajp13Listener" threadsafe="true"/>
+      <type class="net.dpml.http.impl.ClientCertAuthenticator" threadsafe="true"/>
+      <type class="net.dpml.http.impl.ConfigurationMimeTypes" threadsafe="true"/>
+      <type class="net.dpml.http.impl.DumpHandler" threadsafe="true"/>
+      <type class="net.dpml.http.impl.ErrorPageHandler" threadsafe="true"/>
+      <type class="net.dpml.http.impl.ExpiryHandler" threadsafe="true"/>
+      <type class="net.dpml.http.impl.FormAuthenticator" threadsafe="true"/>
+      <type class="net.dpml.http.impl.ForwardHandler" threadsafe="true"/>
+      <type class="net.dpml.http.impl.HashSessionManager" threadsafe="true"/>
+      <type class="net.dpml.http.impl.HashUserRealm" threadsafe="true"/>
+      <type class="net.dpml.http.impl.HttpContextImpl" threadsafe="true"/>
+      <type class="net.dpml.http.impl.HttpServerImpl" threadsafe="true"/>
+      <type class="net.dpml.http.impl.IPAccessHandler" threadsafe="true"/>
+      <type class="net.dpml.http.impl.JaasUserRealm" threadsafe="true"/>
+      <type class="net.dpml.http.impl.JsseListener" threadsafe="true"/>
+      <!--<type class="net.dpml.http.impl.ModelHandler" threadsafe="true"/>-->
+      <type class="net.dpml.http.impl.MsieSslHandler" threadsafe="true"/>
+      <type class="net.dpml.http.impl.NcsaRequestLog" threadsafe="true"/>
+      <type class="net.dpml.http.impl.NotFoundHandler" threadsafe="true"/>
+      <type class="net.dpml.http.impl.NullHandler" threadsafe="true"/>
+      <type class="net.dpml.http.impl.ProxyHandler" threadsafe="true"/>
+      <type class="net.dpml.http.impl.ResourceHandler" threadsafe="true"/>
+      <type class="net.dpml.http.impl.RootNotFoundHandler" threadsafe="true"/>
+      <type class="net.dpml.http.impl.SecurityConstraint" threadsafe="true"/>
+      <type class="net.dpml.http.impl.SecurityHandler" threadsafe="true"/>
+      <type class="net.dpml.http.impl.ServletHandler" threadsafe="true"/>
+      <type class="net.dpml.http.impl.SetResponseHeadersHandler" threadsafe="true"/>
+      <type class="net.dpml.http.impl.SocketListener" threadsafe="true"/>
+      <type class="net.dpml.http.impl.SystemMimeTypes" threadsafe="true"/>
+      <type class="net.dpml.http.impl.WebApplicationContext" threadsafe="true"/>
+    </types>
+
+  </target>
+
+</project>

@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!-- 
+ Copyright 2004 Niclas Hedhman
+
+ Licensed  under the  Apache License,  Version 2.0  (the "License");
+ you may not use  this file  except in  compliance with the License.
+ You may obtain a copy of the License at 
+ 
+   http://www.dpml.net/central/about/legal/
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed  under the  License is distributed on an "AS IS" BASIS,
+ WITHOUT  WARRANTIES OR CONDITIONS  OF ANY KIND, either  express  or
+ implied.
+ 
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+
+<document>
+
+  <properties>
+    <author email="niclas@hedhman.org">Niclas Hedhman</author>
+    <title>DPML Transit</title>
+  </properties> 
+
+  <body>
+
+    <section name="Runtime Properties">
+
+      <p>
+        In addition to the classic protocol handling, Transit provides support
+        for the deployment of a runtime application via the 
+        <a href="@TRANSIT-DOCS-PATH@/net/dpml/transit/Main.html">
+        Transit Main</a> handler class.  This class looks for the 
+        "dpml.transit.bootstrap.uri" system property and value corresponding to 
+        a uri of a bootstrap plugin that handles the deployment of application
+        plugins (the bootstrap uri may be overriden with the -Xbootstrap cli 
+        argument in command-line scenarios).
+      </p>
+
+      <subsection name="Properties">
+        <table>
+          <tr>
+            <th>Property</th>
+            <th>Default Value</th>
+            <th>Description</th>
+          </tr>
+          <tr>
+            <td>dpml.transit.bootstrap.uri</td>
+            <td><a href="../launcher/index.html">plugin</a></td>
+            <td>URI of an application launcher plugin. The plugin handles
+             the loading and deployment of application plugins such as 
+             the metro component managment platform cli handler and other 
+             application handlers.</td>
+          </tr>
+        </table>
+      </subsection>
+
+    </section>
+
+  </body>
+
+</document>
+
+ 
+ 

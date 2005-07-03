@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<!-- 
+ Copyright 2005 Stephen McConnell
+
+ Licensed  under the  Apache License,  Version 2.0  (the "License");
+ you may not use  this file  except in  compliance with the License.
+ You may obtain a copy of the License at 
+ 
+   http://www.dpml.net/central/about/legal/
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed  under the  License is distributed on an "AS IS" BASIS,
+ WITHOUT  WARRANTIES OR CONDITIONS  OF ANY KIND, either  express  or
+ implied.
+ 
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+
+<document>
+  <properties>
+    <author email="mcconnell@dpml.net">Stephen McConnell</author>
+    <title>DPML Transit</title>
+  </properties> 
+
+  <body>
+    <section name="Transit Application Launcher">
+
+      <subsection name="URI">
+        <source>@TRANSIT-PLUGIN-URI@</source>
+      </subsection>
+
+      <subsection name="Overview">
+      <p>
+      The application launcher is a plugin established by the Transit handler
+      that is responsible for the deployment of a single application plugin.  The 
+      launcher is responsible for low-level debug tracing, assignment of a 
+      shutdown hook, the instantiation and deployment of the target
+      application.
+      </p>
+
+      </subsection>
+
+      <subsection name="Example">
+
+      <p>
+      The transit application launcher may be initialized via a command line 
+      script or through direct invocation with a java programe.
+      </p>
+      <p><i>CLI Usage example:</i></p> 
+<code>$ transit [-load uri] [arg1 arg2 arg3 ...]</code>
+
+      </subsection>
+
+    </section>
+
+  </body>
+
+</document>
+

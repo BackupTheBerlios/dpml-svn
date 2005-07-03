@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+
+<document>
+
+  <properties>
+    <author email="mcconnell@apache.org">Stephen McConnell</author>
+    <title>DPML Metro</title>
+  </properties>
+
+  <body>
+
+    <section name="Lifestyle Element">
+
+      <subsection name="Description">
+        <p>
+        Declaration of the component lifestyle. May contain one of the 
+        recognized values "singleton", "thread", or "transient".
+        If not supplied the default value is "transient".
+        </p>
+      </subsection>
+
+      <subsection name="Example XML">
+<source><![CDATA[
+<lifestyle>singleton</lifestyle>
+]]></source>
+      </subsection>
+    </section>
+  </body>
+
+  <footer>
+    <legal>
+      Copyright (c) @year@ The Avalon Apache Project All rights reserved.
+      $Revision: 1.1 $ $Date: 2004/04/14 11:47:32 $
+    </legal>
+  </footer>
+
+</document>
+
+

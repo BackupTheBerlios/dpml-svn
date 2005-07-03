@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document>
+
+  <properties>
+    <author email="mcconnell@dpml.net">Stephen McConnell</author>
+    <title>DPML Magic</title>
+  </properties> 
+
+  <body>
+    <section name="Init Task">
+      <p>
+      The init task loads and initializes any plugins declared 
+      as dependents by a project defintion. 
+      </p>
+<source><![CDATA[
+<x:init/>
+]]></source>
+<pre>
+init:
+   [plugin] Install "plugin:avalon/meta/avalon-meta-tools"
+   [plugin] Task "plugin:avalon/meta/avalon-meta-tools:meta"
+</pre>
+    </section>
+  </body>
+
+</document>
+

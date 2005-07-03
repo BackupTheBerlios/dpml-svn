@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- 
+  Copyright 2004-2005 Stephen J McConnell
+  Copyright 2004 Niclas Hedhman
+  
+  Licensed  under the  Apache License,  Version 2.0  (the "License");
+  you may not use  this file  except in  compliance with the License.
+  You may obtain a copy of the License at 
+  
+    http://www.apache.org/licenses/LICENSE-2.0
+  
+  Unless required by applicable law or agreed to in writing, software
+  distributed  under the  License is distributed on an "AS IS" BASIS,
+  WITHOUT  WARRANTIES OR CONDITIONS  OF ANY KIND, either  express  or
+  implied.
+  
+  See the License for the specific language governing permissions and
+  limitations under the License.
+-->
+
+<project name="dpml-transit-tools" default="install" basedir=".">
+
+  <property file="${basedir}/build.properties"/>
+  <import file="${home}/standard.xml"/>
+
+  <target name="setup-path" depends="init">
+    <path id="project.main.path">
+      <pathelement location="${dpml.cache}/dpml/transit/jars/${dpml-transit-handler.filename}"/>
+      <pathelement location="${target.classes.dir}"/>
+    </path>
+  </target>
+
+  <target name="install" depends="standard.install">
+    <echo>
+#----------------------------------------------------------------------------------
+# Updating Ant. ${user.dir}/.ant/lib
+#----------------------------------------------------------------------------------
+    </echo>
+    <copy tofile="${user.home}/.ant/lib/dpml-transit-tools.jar"
+      file="target/deliverables/jars/dpml-transit-tools-${project.version}.jar"/>
+  </target>
+
+</project>

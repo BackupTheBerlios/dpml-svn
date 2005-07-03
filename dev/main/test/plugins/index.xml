@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<index>
+
+  <import index="../index.xml"/>
+
+  <project basedir="layout">
+    <info>
+      <group>dpml/test</group>
+      <name>dpml-test-layout</name>
+      <types>
+        <type>jar</type>
+        <type>plugin</type>
+      </types>
+    </info>
+    <dependencies>
+      <include key="dpml-transit-main"/>
+      <include key="dpml-depot-prefs"/>
+    </dependencies>
+  </project>
+
+  <project basedir="content">
+    <info>
+      <group>dpml/test</group>
+      <name>dpml-test-content</name>
+      <types>
+        <type>jar</type>
+        <type>plugin</type>
+      </types>
+    </info>
+    <dependencies>
+      <include key="dpml-metro-central" build="false"/>
+      <include key="dpml-transit-main" tag="api"/>
+    </dependencies>
+  </project>
+
+</index>

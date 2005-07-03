@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document>
+
+  <properties>
+    <author email="mcconnell@dpml.net">Stephen McConnell</author>
+    <title>DPML Magic</title>
+  </properties>
+
+  <body>
+    <section name="Export Task">
+
+      <p>
+      The export task generates a descriptor for a plugin compliant with
+      the Transit specification.  This descriptor is a property file
+      containing main class information and a staged classloader description.
+      Classpath references will be group relative to API, SPI and IMPL
+      runtime dependencies.
+      </p>
+
+<source><![CDATA[
+<x:export class="net.dpml.activation.metro.DefaultRuntimeFactory"/>
+]]></source>
+<pre>package:
+[x:artifact] Creating meta directive
+</pre>
+
+      <p><i>Sample plugin descriptor:</i></p>
+
+<pre>
+
+#
+# Specification classifier.
+#
+dpml.plugin.meta.namespace = net.dpml
+dpml.plugin.meta.version = 1.0
+
+#
+# Artifact descriptor.
+#
+dpml.artifact.group = dpml/activation
+dpml.artifact.name = dpml-activation-metro-provider
+dpml.artifact.version = SNAPSHOT
+dpml.artifact.signature = 20041116.101918
+
+#
+# Type.
+#
+dpml.plugin.class = net.dpml.activation.metro.DefaultRuntimeFactory
+
+#
+# API dependencies.
+#
+dpml.artifact.dependency.api.0 = artifact:jar:dpml/activation/dpml-activation-api#SNAPSHOT
+dpml.artifact.dependency.api.1 = artifact:jar:dpml/composition/dpml-classic-spi#SNAPSHOT
+dpml.artifact.dependency.api.2 = artifact:jar:dpml/system/dpml-system-spi#SNAPSHOT
+dpml.artifact.dependency.api.3 = artifact:jar:dpml/context/dpml-context-api#SNAPSHOT
+dpml.artifact.dependency.api.4 = artifact:jar:dpml/logging/dpml-logging-spi#SNAPSHOT
+dpml.artifact.dependency.api.5 = artifact:jar:dpml/logging/dpml-logging-api#SNAPSHOT
+dpml.artifact.dependency.api.6 = artifact:jar:dpml/logging/dpml-logging-data#SNAPSHOT
+dpml.artifact.dependency.api.7 = artifact:jar:dpml/system/dpml-system-api#SNAPSHOT
+dpml.artifact.dependency.api.8 = artifact:jar:dpml/transit/dpml-transit-main#SNAPSHOT
+dpml.artifact.dependency.api.9 = artifact:jar:dpml/composition/dpml-classic-api#SNAPSHOT
+dpml.artifact.dependency.api.10 = artifact:jar:dpml/meta/dpml-meta-api#SNAPSHOT
+dpml.artifact.dependency.api.11 = artifact:jar:dpml/parameters/dpml-parameters-api#SNAPSHOT
+dpml.artifact.dependency.api.12 = artifact:jar:dpml/configuration/dpml-configuration-api#SNAPSHOT
+dpml.artifact.dependency.api.13 = artifact:jar:dpml/util/dpml-util-i18n#SNAPSHOT
+dpml.artifact.dependency.api.14 = artifact:jar:dpml/service/dpml-service-api#SNAPSHOT
+dpml.artifact.dependency.api.15 = artifact:jar:dpml/extension/dpml-extension-api#SNAPSHOT
+dpml.artifact.dependency.api.16 = artifact:jar:dpml/activity/dpml-activity-api#SNAPSHOT
+
+#
+# Implementation dependencies.
+#
+dpml.artifact.dependency.0 = artifact:jar:dpml/util/dpml-util-defaults#SNAPSHOT
+dpml.artifact.dependency.1 = artifact:jar:dpml/context/dpml-context-impl#SNAPSHOT
+dpml.artifact.dependency.2 = artifact:jar:dpml/activation/dpml-activation-metro-provider#SNAPSHOT
+
+#
+# EOF.
+#
+
+</pre>
+
+    </section>
+  </body>
+
+</document>
+

@@ -1,0 +1,91 @@
+<?xml version="1.0"?>
+
+<!-- 
+ Copyright 2004 Stephen McConnell
+
+ Licensed  under the  Apache License,  Version 2.0  (the "License");
+ you may not use  this file  except in  compliance with the License.
+ You may obtain a copy of the License at 
+ 
+   http://www.dpml.net/central/about/legal/
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed  under the  License is distributed on an "AS IS" BASIS,
+ WITHOUT  WARRANTIES OR CONDITIONS  OF ANY KIND, either  express  or
+ implied.
+ 
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+
+<document>
+
+  <properties>
+    <author email="mcconnell@dpml.net">Stephen McConnell</author>
+    <title>DPML Metro</title>
+  </properties> 
+
+  <body>
+    <section name="Entry Directive">
+
+      <subsection name="Description">
+<p>A context entry directive defines the creation of a tagged object.</p>
+      </subsection>
+
+      <subsection name="Attributes">
+
+        <table>
+          <tr><th>Attribute</th><th>Required</th><th>Description</th></tr>
+          <tr>
+            <td>key</td><td>yes</td>
+            <td>
+                The context entry key.
+            </td>
+          </tr>
+        </table>
+      </subsection>
+
+      <subsection name="Nested Elements">
+        <table>
+          <tr><th>Element</th><th>Cardinality</th><th>Description</th></tr>
+          <tr>
+            <td><a href="import.html">import</a></td><td>1 (or param)</td>
+            <td>
+                Declaration of the import of a container standard context entry into
+                the context entries to supplied to the component.
+            </td>
+          </tr>
+          <tr>
+            <td><a href="constructor/index.html">constructor</a></td><td>1 (or import)</td>
+            <td>
+            A constructor argument.If the value of the element is not empty, the value will be 
+            used as a default constructor argument.  Otherwise, Metro will attempt to 
+            locate nested parameter elements in order to build a new instance.
+            </td>
+          </tr>
+        </table>
+      </subsection>
+
+      <subsection name="Sample XML">
+
+<source><![CDATA[
+<context class="org.apache.avalon.playground.basic.BasicContextImp">
+  <entry key="home">
+    <import key="urn:avalon:home"/>
+  </entry>
+  <entry key="location">
+    <param>Paris</param>
+  </entry>
+  <entry key="working">
+    <constructor class="java.io.File">../../lib/cache</constructor>
+  </entry>
+</context>
+]]></source>
+
+     </subsection>
+    </section>
+  </body>
+
+</document>
+
+

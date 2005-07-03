@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- 
+  Copyright 2004 Stephen J McConnell
+  Copyright 2004 Niclas Hedhman
+  
+  Licensed  under the  Apache License,  Version 2.0  (the "License");
+  you may not use  this file  except in  compliance with the License.
+  You may obtain a copy of the License at 
+  
+    http://www.apache.org/licenses/LICENSE-2.0
+  
+  Unless required by applicable law or agreed to in writing, software
+  distributed  under the  License is distributed on an "AS IS" BASIS,
+  WITHOUT  WARRANTIES OR CONDITIONS  OF ANY KIND, either  express  or
+  implied.
+  
+  See the License for the specific language governing permissions and
+  limitations under the License.
+-->
+
+<project name="dpml-magic" basedir="." default="install">
+
+  <target name="install" depends="module"/>
+
+  <target name="module" depends="spells">
+    <ant dir="${basedir}" antfile="module.xml" inheritall="false"/>
+  </target>
+
+  <target name="spells" depends="core">
+    <ant dir="spells" inheritall="false"/>
+  </target>
+
+  <target name="core">
+    <ant dir="core" inheritall="false"/>
+  </target>
+
+  <target name="clean">
+    <delete quiet="true" dir="target"/>
+    <delete quiet="true" dir="core/target"/>
+    <delete quiet="true" dir="spells/bar/target"/>
+    <delete quiet="true" dir="spells/doc/task/target"/>
+    <delete quiet="true" dir="spells/doc/themes/modern/target"/>
+    <delete quiet="true" dir="spells/eclipse/target"/>
+    <delete quiet="true" dir="spells/example/target"/>
+    <delete quiet="true" dir="spells/publish/target"/>
+    <delete quiet="true" dir="spells/upload/target"/>
+  </target>
+
+</project>

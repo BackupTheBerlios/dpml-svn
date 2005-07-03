@@ -1,0 +1,162 @@
+<?xml version="1.0"?>
+
+<!-- 
+ Copyright 2004 Apache Software Foundation
+ Licensed  under the  Apache License,  Version 2.0  (the "License");
+ you may not use  this file  except in  compliance with the License.
+ You may obtain a copy of the License at 
+ 
+   http://www.dpml.net/central/about/legal/
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed  under the  License is distributed on an "AS IS" BASIS,
+ WITHOUT  WARRANTIES OR CONDITIONS  OF ANY KIND, either  express  or
+ implied.
+ 
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+
+<document>
+  <properties>
+    <author email="mcconnell@dpml.net">Stephen McConnell</author>
+    <title>DPML Guide</title>
+  </properties> 
+
+  <body>
+    <section name="Dependency Management">
+      <subsection name="Managing Dependencies">
+        <p>
+        A component type can declare dependencies on services provided by 
+        other components.  Metro will ensure that dependencies are resolved
+        prior to creation of the dependent component.  Dependencies are 
+        declared in the component xinfo resource and supplied by Metro to
+        the component using the net.dpml.service.Serviceable interface or 
+        via the constructor.
+        </p>
+        <p>
+        Resources supporting this tutorial are contained in the 
+        turorials/dependencies/auto package.
+        </p>
+      </subsection>
+      <subsection name="Adding a Serviceable method implementation">
+        <p>
+        The following code fragment is the implementation of the 
+        HelloComponent.java source that declares dependencies on services
+        provided by the container.
+        </p>
+        <p><i>
+        Note the use of the @metro.dependency tag. 
+        </i></p>
+        <p><i>HelloComponent.java</i></p>
+<source>
+package tutorial;
+
+import net.dpml.logging.Logger;
+import net.dpml.service.ServiceManager;
+import net.dpml.service.ServiceException;
+
+/**
+ * The HelloComponent is dependent on a RandomGenerator service.
+ * @metro.component version="1.0" name="simple" lifestyle="singleton"
+ */
+public class HelloComponent
+{
+   /**
+    * Establishment of the component by the container during 
+    * which service dependencies declared under the component
+    * can be resolved using the supplied service manager. In this
+    * example we demonstrate service resolution via dependency name
+    * and service resolution via service type.
+    *
+    * @param manager the service manager
+    * @metro.dependency type="tutorial.RandomGenerator:1.0"
+    *    key="random"
+    * @metro.dependency type="tutorial.Identifiable"
+    */
+    public HelloComponent( Logger logger, ServiceManager manager )
+      throws ServiceException
+    {
+        RandomGenerator random = (RandomGenerator) manager.lookup( "random" );
+        Identifiable identifiable = 
+          (Identifiable) manager.lookup( Identifiable.class.getName() );
+        logger.info( "received random value: " + random.getRandom() );
+        logger.info( "using identifiable: " + identifiable.getIdentity() );
+    }
+
+}
+</source>
+      </subsection>
+
+      <subsection name="Declaring the service dependency">
+        <p>
+        In this example we are automatically generating the xinfo descriptors
+        using the builtin meta-info generation goal based on the presence of
+        dependency tags.
+        </p>
+<source><![CDATA[
+* @metro.dependency type="tutorial.RandomGenerator:1.0"
+*    key="random"
+* @metro.dependency type="tutorial.Identifiable"
+]]></source>
+
+        <p>
+        The generated xinfo for the hello component is shown below. 
+        </p>
+        <p><i>HelloComponent.xinfo</i></p>
+<source><![CDATA[
+<type>
+  <info>
+    <name>simple</name>
+    <version>1.0.0</version>
+    <lifestyle>singleton</lifestyle>
+  </info>
+  <dependencies>
+    <dependency key="random" type="tutorial.RandomGenerator" version="1.0.0"/>
+    <dependency type="tutorial.Identifiable"/>
+  </dependencies>
+</type>
+]]></source>
+      </subsection>
+
+      <subsection name="Executing the demo">
+        <p>
+        Build and run the tutorial.
+        </p>
+        <source>
+$ ant
+$ metro target\classes -execute
+        </source>
+        <p>
+        In the logging output we see that Metro has automatically
+        located both RandomGeneratorProvider and IdentifiableComponent 
+        and provided these to the consumer.  The HelloComponent
+        implementation has logged the result of accessing and using 
+        both services.
+        </p>
+<source>
+[INFO   ] (tutorial.simple): contextualize
+[INFO   ] (tutorial.random): initialization
+[INFO   ] (tutorial.random): processing request
+[INFO   ] (tutorial.hello): received random value: -947965603
+[INFO   ] (tutorial.hello): using identifiable: /tutorial/simple
+[INFO   ] (tutorial.random): disposal
+</source>
+      </subsection>
+
+      <subsection name="Next Topic">
+        <p>
+        The <a href="manual.html">next topic</a> shows how you can 
+        override Metro automatic dependency resolution by declaring
+        named suppliers for particular dependencies. 
+        </p>
+      </subsection>
+
+    </section>
+  </body>
+
+</document>
+
+
+
+

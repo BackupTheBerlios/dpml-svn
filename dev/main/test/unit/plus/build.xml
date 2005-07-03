@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<project name="dpml-test-plus-unit" default="install" basedir="."
+    xmlns:transit="antlib:net.dpml.transit" 
+    xmlns:x="plugin:dpml/magic/dpml-magic-core">
+
+  <transit:import uri="artifact:template:dpml/magic/standard"/>
+
+  <target name="init" depends="standard.init">
+    <x:property key="dpml-test-content" feature="uri" type="plugin" name="content.plugin"/>
+    <filter token="CONTENT-MANAGER-PLUGIN" value="${content.plugin}"/>
+    <x:property key="dpml-test-simple" feature="uri" type="part" name="simple.part"/>
+    <filter token="SIMPLE-TEST-PART" value="${simple.part}"/>
+    <x:property key="dpml-test-plus" feature="uri" type="part" name="plus.part"/>
+    <filter token="PLUS-TEST-PART" value="${plus.part}"/>
+  </target>
+
+  <target name="build" depends="standard.build">
+
+    <!--
+    Configuration examples.
+    -->
+    <component dest="target/test/configurable-container.part"
+        xmlns="plugin:dpml/composition/dpml-composition-builder" 
+        type="net.dpml.test.acme.plus.ConfigurableContainer"
+        name="container">
+      <configuration>
+        <test>
+          <color>red</color>
+        </test>
+      </configuration>
+      <parts>
+        <component name="test" type="net.dpml.test.acme.plus.ConfigurableComponent">
+          <configuration>
+            <color>blue</color>
+          </configuration>
+        </component>
+      </parts>
+    </component>
+
+    <!-- 
+    State management examples.
+    -->
+    <component dest="target/test/managed-component.part" 
+        xmlns="plugin:dpml/composition/dpml-composition-builder" 
+        type="net.dpml.test.acme.plus.ManagedComponent"
+        name="component"/>
+    <component dest="target/test/managing-container.part" 
+        xmlns="plugin:dpml/composition/dpml-composition-builder" 
+        type="net.dpml.test.acme.plus.ManagingContainer"
+        name="container">
+      <parts>
+        <component key="test" type="net.dpml.test.acme.plus.ManagedComponent"/>
+      </parts>
+    </component>
+
+  </target>
+
+  <target name="package" depends="build"/>
+  <target name="install" depends="test"/>
+
+</project>

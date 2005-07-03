@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<module uri="artifact:module:dpml/transit/dpml-transit#@PROJECT-VERSION@">
+
+  <header>
+    <publisher name="The Digital Product Meta Library"/>
+    <packages>
+      <package name="net.dpml.transit"/>
+      <package name="net.dpml.transit.*"/>
+    </packages>
+    <home href="http://www.dpml.net/products/transit"/>
+    <docs href="http://www.dpml.net"/>
+    <legal>
+      <license href="http://www.dpml.net/central/about/legal/license.html"/>
+      <notice href="http://www.dpml.net/central/about/legal/notice.html"/>
+    </legal>
+    <svn href="https://scm.dpml.net/repos/dpml/development/main/transit"/>
+    <repository href="http://repository.dpml.net/classic"/>
+  </header>
+
+  <resources>
+
+    <!-- module resources -->
+
+    <resource key="dpml-transit-main">
+      <info>
+        <group>dpml/transit</group>
+        <name>dpml-transit-main</name>
+        <version>@PROJECT-VERSION@</version>
+        <type>jar</type>
+      </info>
+    </resource>
+
+    <resource key="dpml-transit-tools">
+      <info>
+        <group>dpml/transit</group>
+        <name>dpml-transit-tools</name>
+        <version>@PROJECT-VERSION@</version>
+        <type>jar</type>
+      </info>
+      <dependencies>
+        <include key="dpml-transit-main"/>
+        <include key="ant"/>
+      </dependencies>
+    </resource>
+
+    <resource>
+      <info>
+        <group>junit</group>
+        <name>junit</name>
+        <version>3.8.1</version>
+        <type>jar</type>
+      </info>
+    </resource>
+
+    <resource key="ant">
+      <info>
+        <group>ant</group>
+        <name>ant</name>
+        <version>@COMMON-ANT-VERSION@</version>
+        <type>jar</type>
+      </info>
+    </resource>
+
+    <resource>
+      <info>
+        <group>ant</group>
+        <name>ant-junit</name>
+        <version>@COMMON-ANT-VERSION@</version>
+        <type>jar</type>
+      </info>
+      <dependencies>
+        <include key="junit" />
+        <include key="ant" />
+      </dependencies>
+    </resource>
+
+  </resources>
+
+</module>
+

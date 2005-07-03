@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<document>
+  <properties>
+    <author email="mcconnell@dpml.net">Stephen McConnell</author>
+    <title>DPML Central</title>
+  </properties> 
+
+  <body>
+    <section name="DPML Community">
+      <p>
+        The community initially started with a group from the Apache Avalon
+        community, spearheaded by Stephen McConnell, Peter Neubauer and 
+        Niclas Hedhman. You can read more about the <a href="history.html">
+        history here</a>. The basic principles of the community includes;
+      </p>
+      <ul>
+        <li>
+          Lower the bar for people to participate. Open Participation 
+          Software was coined, to communicate that everyone is welcome to
+          join in.
+        </li>
+        <li>
+          Flock of bird metaphor. If you are active in the community, we call
+          it "to fly". If you fly, you are part of the decision making process 
+          of where to head next.
+        </li>
+        <li>
+          Extreme commercial friendliness. Of course using the Apache License
+          for all products released, but also to work towards goals that are
+          of interest of companies, such as providing commercial support, 
+          development engagement of particular features for
+          a fee and general consultancy around the products.
+        </li>
+      </ul>
+      <p>
+        The <a href="people/index.html">people</a> in the community is trying
+        to refine the <a href="process/index.html">process</a> as we go 
+        along.
+      </p>
+      <p>
+        We are working towards the creation of a non-profit organization,
+        which we anticipate to get incorporated in Q1-2005. This will allow
+        us to engage in more formal activities and accept monetary 
+        contributions, for instance to 
+        establish better infrastructure, marketing materials and much more.
+      </p>
+    </section>
+  </body>
+</document>
+

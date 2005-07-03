@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<document>
+  <properties>
+    <title>DPML Services</title>
+  </properties> 
+
+  <body>
+    <section name="DPML Services">
+      <table>
+        <tr>
+          <th>Service</th>
+          <th>Overview</th>
+        </tr>
+        <tr>
+          <td><a href="basic.html">Basic Support</a></td>
+          <td>
+            <strong><a href="basic.html">Basic Support</a></strong> encompass
+            what most Open Source projects offer as the only support available.
+            That means mainly through mailing lists and the helpful individuals
+            on those lists. The core developers at DPML also help out as much as
+            they can, trying to balance support with product development, and 
+            other tasks required to run the project.
+          </td>
+        </tr>
+        <tr>
+          <td><a href="professional.html">Professional Support</a></td>
+          <td>
+            Some of the core developers offers <strong><a 
+            href="professional.html">Professional Support</a></strong>
+            of the DPML products for a fee. This support is superior to your
+            average help desk, and each developer will only commit a small 
+            number of subscribers, to ensure the high level of support provided.
+            The developer will not only respond to questions and bug reports,
+            but can also implement additional features, provided they are 
+            compatible with the Metro, Magic and/or Transit road map.
+          </td>
+        </tr>
+        <tr>
+          <td><a href="consultancy.html">Professional Consultancy</a></td>
+          <td>
+            For longer engagements, some core developers are available as 
+            consultants. Availability to these resources varies greatly over
+            time, so please check directly with the developers. You will 
+            also find basic information about each developers domain skills
+            on the <strong><a href="consultancy.html">Professional 
+            Consultancy</a></strong>
+            page.
+          </td>
+        </tr>
+      </table>
+    </section>
+  </body>
+</document>
+

@@ -1,0 +1,97 @@
+<?xml version="1.0"?>
+
+<!-- 
+ Copyright 2004 Stephen McConnell
+
+ Licensed  under the  Apache License,  Version 2.0  (the "License");
+ you may not use  this file  except in  compliance with the License.
+ You may obtain a copy of the License at 
+ 
+   http://www.dpml.net/central/about/legal/
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed  under the  License is distributed on an "AS IS" BASIS,
+ WITHOUT  WARRANTIES OR CONDITIONS  OF ANY KIND, either  express  or
+ implied.
+ 
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+
+<document>
+
+  <properties>
+    <author email="mcconnell@dpml.net">Stephen McConnell</author>
+    <title>DPML Metro</title>
+  </properties> 
+
+
+  <body>
+
+    <section name="Fileset Declarations">
+
+      <subsection name="Description">
+       <p>Declaration of a set of jar files to include.</p>
+      </subsection>
+
+      <subsection name="Attributes">
+
+        <table>
+          <tr><th>Attribute</th><th>Required</th><th>Description</th></tr>
+          <tr>
+            <td>dir</td><td>yes</td>
+            <td>
+            An absolute or relative file path that serves as the relative 
+            base directory for the resolution of included entries.  If the 
+            supplied value is a relative path, the path will be resolved
+            relative to the <a href="../../../../../system/properties.html">
+            merlin.anchor</a> system parameter. If no include directives are
+            contained in the fileset specification, then the fileset behavior
+            defaults to adding the directory specified by the dir attribute
+            to the classpath.
+            </td>
+          </tr>
+        </table>
+      </subsection>
+
+      <subsection name="Nested Elements">
+        <table>
+          <tr><th>Element</th><th>Occurance</th><th>Description</th></tr>
+          <tr>
+            <td><a href="include.html">include</a></td><td>0..n</td>
+            <td>
+             Declaration of jar file(s) within the fileset directory to be
+             included in the classloader.  Ant-like wildcard patterns are
+             supported.
+            </td>
+          </tr>
+          <tr>
+            <td><a href="exclude.html">exclude</a></td><td>0..n</td>
+            <td>
+             Declaration of jar file(s) within the fileset directory to be
+             excluded from the classloader. Ant-like wildcard patterns are
+             supported.
+            </td>
+          </tr>
+        </table>
+      </subsection>
+
+      <subsection name="Sample XML">
+      This example includes all the jar files in the lib directory and in all
+      its subdirectories, and excludes all files in the lib directory that 
+      contain the -dev string in its filename.
+<source>
+&lt;fileset dir="<font color="darkred">lib</font>"&gt;
+  &lt;include name="<font color="darkred">**/*.jar</font>"/&gt;
+  &lt;exclude name="<font color="darkred">*-dev*</font>"/&gt;
+&lt;/fileset&gt;
+</source>
+      </subsection>
+
+    </section>
+
+  </body>
+
+</document>
+
+

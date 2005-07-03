@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<document>
+  <properties>
+    <author email="mcconnell@dpml.net">Stephen McConnell</author>
+    <title>DPML Guide</title>
+  </properties> 
+
+  <body>
+    <section name="Resource Management">
+
+      <subsection name="Transit repository basics." >
+        <p>
+          Transit is a light-weight solution to a common problem. Transit allows
+          almost any existing application to access centrally located resources,
+          without having the application knowing the location of these resources,
+          yet have the resources cached locally for performance reasons.
+        </p>
+        <p>
+          There are a number of public central repositories on the Internet today, most
+          notably 
+          <a href="http://repository.dpml.net/classic">http://repository.dpml.net/classic</a>, 
+          <a href="http://www.ibiblio.org/maven">http://www.ibiblio.org/maven</a> and
+          <a href="http://www.apache.org/dist/java-repository">http://www.apache.org/dist/java-repository</a>.
+          But it is very easy to set up and configure your own central repository.
+        </p>
+      </subsection>
+ 
+      <subsection name="Transit Tutorials">
+
+        <p>
+          The following tutorials present alternative approaches to 
+          the use of trasit artifact urls.
+        </p>
+
+        <table>
+          <tr><th>Topic</th><th>Summary</th></tr>
+          <tr>
+            <td><a href="artifact.html">Creating a Artifact URL</a></td>
+            <td>
+              Tutorial describes the creation and use of an Artifact URL
+              using a supplied protocol Handler.
+            </td>
+          </tr>
+          <tr>
+            <td><a href="extension.html">Using a system wide protocol handler.</a></td>
+            <td>
+              Tutorial covering the declaration of the transit protocol handler 
+              to the JVM and the subsequent use of the handler independently of 
+              the Transit API.
+            </td>
+          </tr>
+        </table>
+
+      </subsection>
+
+    </section>
+  </body>
+</document>
+

@@ -1,0 +1,90 @@
+/*
+ * Copyright 2004 Stephen J. McConnell.
+ * Copyright 1999-2004 The Apache Software Foundation
+ *
+ * Licensed  under the  Apache License,  Version 2.0  (the "License");
+ * you may not use  this file  except in  compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed  under the  License is distributed on an "AS IS" BASIS,
+ * WITHOUT  WARRANTIES OR CONDITIONS  OF ANY KIND, either  express  or
+ * implied.
+ *
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package net.dpml.test.acme.plus;
+
+import java.net.URI;
+import java.util.List;
+import java.util.LinkedList;
+import java.util.Map.Entry;
+
+import junit.framework.TestCase;
+
+import net.dpml.metro.central.MetroHelper;
+
+import net.dpml.part.manager.Component;
+import net.dpml.part.state.State;
+
+/**
+ * Test a simple component case.
+ * 
+ * @author <a href="mailto:dev-dpml@lists.ibiblio.org">The Digital Product Meta
+ *         Library</a>
+ */
+public class ManagementTestCase extends TestCase
+{
+    public void tearDown()
+    {
+        System.gc();
+    }
+
+    /**
+     * Test the construction of the example component and the invocation of 
+     * the provided controller via </code>the net.dpml.part.state.StateManager</code> interface
+     */
+    public void testManagedComponent() throws Exception
+    {
+        Component component = getComponent( "managed-component.part" );
+        component.initialize();
+        List list = new LinkedList();
+        while ( false == list.contains( component.getState() ) )
+        {
+            State state = component.getState();
+            list.add( state );
+            String[] transitions = state.getTransitionNames();
+            for( int i=0; i<transitions.length; i++ )
+            {
+                String name = transitions[i];
+                component.apply( name );
+                break;
+            }
+        }
+        component.terminate();
+    }
+
+    public void testManagingContainer() throws Exception
+    {
+        Component component = getComponent( "managing-container.part" );
+        try
+        {
+            component.initialize();
+        }
+        finally
+        {
+            component.terminate();
+        }
+    }
+
+    Component getComponent( String path ) throws Exception
+    {
+        MetroHelper helper = new MetroHelper();
+        URI uri = helper.toURI( path );
+        return helper.getController().newComponent( uri );
+    }
+}

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<project name="dpml-test-plus" default="install" basedir="."
+    xmlns:transit="antlib:net.dpml.transit" 
+    xmlns:x="plugin:dpml/magic/dpml-magic-core">
+
+  <transit:import uri="artifact:template:dpml/magic/standard"/>
+
+  <target name="build" depends="standard.build">
+
+    <types xmlns="plugin:dpml/composition/dpml-composition-builder">
+      <type class="net.dpml.test.acme.plus.ConfigurableComponent" threadsafe="true"/>
+      <type class="net.dpml.test.acme.plus.ConfigurableContainer" threadsafe="true"/>
+      <type class="net.dpml.test.acme.plus.ManagedComponent" threadsafe="true"/>
+      <type class="net.dpml.test.acme.plus.ManagingContainer" threadsafe="true"/>
+    </types>
+
+    <component xmlns="plugin:dpml/composition/dpml-composition-builder" 
+        type="net.dpml.test.acme.plus.ManagingContainer"
+        name="container">
+      <parts>
+        <component key="test" type="net.dpml.test.acme.plus.ManagedComponent"/>
+      </parts>
+    </component>
+
+  </target>
+
+</project>

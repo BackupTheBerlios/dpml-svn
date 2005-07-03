@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<document>
+  <properties>
+    <author email="mcconnell@dpml.net">Stephen McConnell</author>
+    <contributor email="dleangen@dpml.net">David Leangen</contributor>
+    <title>DPML Transit</title>
+  </properties> 
+
+  <body>
+
+    <section name="Host Management">
+
+      <p>
+      Transit uses artifact uris to identify a resource. These identifiers 
+      are in turn mapped internally to a repository url (i.e. mapping 
+      identity to a location).  Locations are defined relative to one or 
+      more hosts.
+      </p>
+        
+      <p>
+      Each Transit host declares a base url, an implementation strategy
+      (typically dealing with uri to url mapping), and policies concerning 
+      the handling of timestamped resources.
+      The Transit <a href="hosts.html">hosts configuration</a>
+      enables the declaration of local file based repositories and remote 
+      repositories accessible via http and https protocols. Host 
+      configurations may also be declared using <a href="properties.html">
+      properties</a>.  In both cases the source of the <a href="authorative.html">
+      authorative configuration</a> may be managed locally or centralized under
+      a remote location.
+      </p>
+
+      <p>
+      Example of artifact retrival and remote repositories are included in 
+      the <a href="/guide/transit/@TRANSIT-BUILD-ID@/resources/index.html">Transit Guide</a>.
+      </p>
+
+    </section>
+
+  </body>
+</document>

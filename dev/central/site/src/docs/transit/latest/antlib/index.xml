@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<document>
+  <properties>
+    <author email="mcconnell@dpml.net">Stephen McConnell</author>
+    <title>DPML Transit</title>
+  </properties> 
+
+  <body>
+    <section name="Transit Antlib">
+
+      <subsection name="URI"><source>@MAGIC-BOOTSTRAP-URI@</source></subsection>
+
+      <subsection name="Namespace"><source>antlib:net.dpml.transit</source></subsection>
+
+      <subsection name="Description">
+
+        <p>
+        The Transit antlib provides basic tasks that deliver the bootstrap functionality
+        needed to load the full Magic system.  The antlib includes an init, import, get, and 
+        plugin tasks.
+        The init task is used to established a number of transit related ant properties, a build 
+        listener, and a component helper.  The plugin task is used to load antlibs, taskdefs, 
+        typedefs and build listeners using classloaders established relative to resources
+        managed by the transit system.  The import task provides support artifact based
+        includion of build templates.  The get tas provides support for the retrieval of 
+        resources using artifact references.
+        </p>
+
+        <p>
+        The following example project demonstrates the initialization of the transit sub-system
+        during which the magic build system urn-to-uri mapping is declared.
+        </p>
+        <p><i>Example build file:</i></p>
+
+<pre><![CDATA[
+<project name="example" 
+    xmlns:transit="antlib:net.dpml.transit">
+
+  <magic:init>
+    <plugin uri="@MAGIC-PLUGIN-URI@"/>
+  </magic:init>
+
+</project>
+]]></pre>
+
+      </subsection>
+
+    </section>
+  </body>
+</document>
+

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE type PUBLIC "-//DPML/Metro/Type DTD Version 1.0//EN" "http://www.dpml.net/dpml/metro/dtds/type_1_0.dtd" >
+
+<type>
+  <info native="true">
+    <name>http-basic-authenticator</name>
+    <version>1.0.0</version>
+    <lifestyle>singleton</lifestyle>
+    <collection>hard</collection>
+  </info>
+  <loggers>
+    <logger name="http"/>
+  </loggers>
+  <services>
+    <service type="org.mortbay.http.Authenticator"/>
+  </services>
+</type>
+ 

@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<document>
+  <properties>
+    <author email="mcconnell@dpml.net">Stephen McConnell</author>
+    <title>DPML Home</title>
+  </properties> 
+
+  <body>
+    <section name="Downloading and Installation">
+
+      <p>
+      Binary download of build 2579 are available for the Unix and 
+      Windows platforms.
+      </p>
+
+      <subsection name="Status">
+
+      <ol>
+        <li>Transit 2579 is nearing release.</li>
+        <li>Magic 2579 is fully functional but lacks documentation.  The product is under 
+            active development including possible API and configuration file changes.</li>
+        <li>Metro 2579 is a mature product and suitable for experimental deployment.  
+            Metro is the subject of on-going development and incompatible changes across milestone 
+            builds are anticipated.</li>
+      </ol>
+
+      </subsection >
+
+      <subsection name="Downloads">
+
+      <table>
+        <tr><th>Platform</th><th>Product</th><th>Binary</th><th>MD5</th><!--<th>ASC</th>--></tr>
+        <tr>
+          <td>Windows</td>
+          <td>Transit</td>
+          <td>
+            <a href="http://staging.dpml.net/download/dpml/transit/2579/dpml-transit-win32-2579.zip">
+              dpml-transit-win32-2579.zip</a>
+          </td>
+          <td>
+            <a href="http://staging.dpml.net/download/dpml/transit/2579/dpml-transit-win32-2579.zip.md5">MD5</a>
+          </td>
+          <!--
+          <td>
+            <a href="http://staging.dpml.net/download/dpml/transit/2579/dpml-transit-win32-2579.zip.asc">ASC</a>
+          </td>
+          -->
+        </tr>
+        <tr>
+          <td></td>
+          <td>Magic</td>
+          <td>
+            <a href="http://staging.dpml.net/download/dpml/magic/2579/dpml-magic-win32-2579.zip">
+              dpml-magic-win32-2579.zip</a>
+          </td>
+          <td>
+            <a href="http://staging.dpml.net/download/dpml/magic/2579/dpml-magic-win32-2579.zip.md5">MD5</a>
+          </td>
+          <!--
+          <td>
+            <a href="http://staging.dpml.net/download/dpml/magic/2579/dpml-magic-win32-2579.zip.asc">ASC</a>
+          </td>
+          -->
+        </tr>
+        <tr>
+          <td></td>
+          <td>Metro</td>
+          <td>
+            <a href="http://staging.dpml.net/download/dpml/metro/2579/dpml-metro-win32-2579.zip">
+              dpml-metro-win32-2579.zip</a>
+          </td>
+          <td>
+            <a href="http://staging.dpml.net/download/dpml/metro/2579/dpml-metro-win32-2579.zip.md5">MD5</a>
+          </td>
+          <!--
+          <td>
+            <a href="http://staging.dpml.net/download/dpml/metro/2579/dpml-metro-win32-2579.zip.asc">ASC</a>
+          </td>
+          -->
+        </tr>
+
+        <tr>
+          <td>Linux</td>
+          <td>Transit</td>
+          <td>
+            <a href="http://staging.dpml.net/download/dpml/transit/2579/dpml-transit-linux-2579.tar.gz">
+              dpml-transit-linux-2579.zip</a>
+          </td>
+          <td>
+            <a href="http://staging.dpml.net/download/dpml/transit/2579/dpml-transit-linux-2579.tar.gz.md5">MD5</a>
+          </td>
+          <!--
+          <td>
+            <a href="http://staging.dpml.net/download/dpml/transit/2579/dpml-transit-linux-2579.tar.gz.asc">ASC</a>
+          </td>
+          -->
+        </tr>
+
+        <tr>
+          <td></td>
+          <td>Magic</td>
+          <td>
+            <a href="http://staging.dpml.net/download/dpml/magic/2579/dpml-magic-linux-2579.tar.gz">
+              dpml-magic-linux-2579.zip</a>
+          </td>
+          <td>
+            <a href="http://staging.dpml.net/download/dpml/magic/2579/dpml-magic-linux-2579.tar.gz.md5">MD5</a>
+          </td>
+          <!--
+          <td>
+            <a href="http://staging.dpml.net/download/dpml/magic/2579/dpml-magic-linux-2579.tar.gz.asc">ASC</a>
+          </td>
+          -->
+        </tr>
+
+        <tr>
+          <td></td>
+          <td>Metro</td>
+          <td>
+            <a href="http://staging.dpml.net/download/dpml/metro/2579/dpml-metro-linux-2579.tar.gz">
+              dpml-metro-linux-2579.zip</a>
+          </td>
+          <td>
+            <a href="http://staging.dpml.net/download/dpml/metro/2579/dpml-metro-linux-2579.tar.gz.md5">MD5</a>
+          </td>
+          <!--
+          <td>
+            <a href="http://staging.dpml.net/download/dpml/metro/2579/dpml-metro-linux-2579.tar.gz.asc">ASC</a>
+          </td>
+          -->
+        </tr>
+
+      </table>
+
+      </subsection>
+
+      <subsection name="Setup">
+
+        <p>
+        Installation procedures for the <a href="windows/index.html">Windows Platform</a>
+        and <a href="unix/index.html">Unix Platform</a> provide details on the setup of 
+        environment and PATH variables, together with notes concerning single and 
+        multiuser environment configuration.
+        </p>
+
+      </subsection>
+
+    </section>
+  </body>
+</document>
+

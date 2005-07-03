@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<index key="dpml-test">
+
+  <import uri="${dpml.transit.uri}"/>
+  <import uri="${dpml.depot.uri}"/>
+  <import uri="${dpml.magic.uri}"/>
+  <import uri="${dpml.metro.uri}"/>
+
+  <import index="components/index.xml" />
+  <import index="plugins/index.xml" />
+  <import index="unit/index.xml" />
+
+</index>

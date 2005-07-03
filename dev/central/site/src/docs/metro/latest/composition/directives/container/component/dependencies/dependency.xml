@@ -1,0 +1,83 @@
+<?xml version="1.0"?>
+
+<!-- 
+ Copyright 2004 Stephen McConnell
+
+ Licensed  under the  Apache License,  Version 2.0  (the "License");
+ you may not use  this file  except in  compliance with the License.
+ You may obtain a copy of the License at 
+ 
+   http://www.dpml.net/central/about/legal/
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed  under the  License is distributed on an "AS IS" BASIS,
+ WITHOUT  WARRANTIES OR CONDITIONS  OF ANY KIND, either  express  or
+ implied.
+ 
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+
+<document>
+
+  <properties>
+    <author email="mcconnell@dpml.net">Stephen McConnell</author>
+    <title>DPML Metro</title>
+  </properties> 
+
+  <body>
+
+    <section name="Dependency Directive">
+
+      <subsection name="Description">
+<p>A dependency directive is used to override merlin's auto-assembly semantics by declaring a relative path to a component that should be used as the service provider.</p>
+     </subsection>
+
+
+      <subsection name="Attributes">
+        <table>
+          <tr><th>Attribute</th><th>Required</th><th>Description</th></tr>
+          <tr>
+            <td>key</td><td>yes</td>
+            <td>The dependency key.</td>
+          </tr>
+          <tr>
+            <td>source</td><td>yes</td>
+            <td>The relative path to the component to use as the service provider.</td>
+          </tr>
+        </table>
+     </subsection>
+
+      <subsection name="Sample XML">
+<source><![CDATA[
+<container name="tutorial">
+
+     <classloader>
+       <classpath>
+         <repository>
+           <resource id="avalon-framework:avalon-framework-impl" version="4.1.5"/>
+         </repository>
+       </classpath>
+     </classloader>
+
+     <component name="gloria" class="tutorial.IdentifiableComponent"/>
+     <component name="nancy" class="tutorial.IdentifiableComponent"/>
+
+     <component name="hello" class="tutorial.HelloComponent">
+       <dependencies>
+         <dependency key="primary" source="gloria"/>
+         <dependency key="secondary" source="nancy"/>
+       </dependencies>
+     </component>
+
+</container>
+
+]]></source>
+     </subsection>
+
+    </section>
+  </body>
+
+</document>
+
+

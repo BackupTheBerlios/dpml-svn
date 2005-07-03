@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+  Copyright 2004 Stephen J McConnell
+  Copyright 2004 Niclas Hedhman
+
+  Licensed  under the  Apache License,  Version 2.0  (the "License");
+  you may not use  this file  except in  compliance with the License.
+  You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed  under the  License is distributed on an "AS IS" BASIS,
+  WITHOUT  WARRANTIES OR CONDITIONS  OF ANY KIND, either  express  or
+  implied.
+
+  See the License for the specific language governing permissions and
+  limitations under the License.
+-->
+
+
+<project name="dpml-main" default="transit" basedir=".">
+
+  <property file="${basedir}/user.properties"/>
+  <property file="${basedir}/build.properties"/>
+  <property name="junitHtmlReportDir" value="target/reports/junit"/>
+  <target name="transit"
+     description="Build the Transit distribution and update the local installation">
+    <ant dir="transit"/>
+  </target>
+
+  <target name="magic" description="Build magic (requires Transit).">
+    <ant dir="magic"/>
+  </target>
+
+  <target name="util" description="Build Util (requires Magic).">
+    <ant dir="util"/>
+  </target>
+
+  <target name="depot" description="Build Depot (requires Magic).">
+    <ant dir="depot"/>
+  </target>
+
+  <target name="metro" description="Build Metro (requires Depot).">
+    <ant dir="metro"/>
+  </target>
+
+  <target name="test" description="Build Integration Tests (requires Metro).">
+    <ant dir="test"/>
+  </target>
+
+  <target name="clean" description="Clean all subprojects.">
+    <delete includeemptydirs="true">
+      <fileset dir=".">
+        <include name="**/target/**/**"/>
+      </fileset>
+    </delete>
+  </target>
+
+  <target name="luntbuild-clean" depends="clean" description="Clean-up prior to CI builds on ci.dpml.net. Should not be used directly.">
+      <delete includeemptydirs="true" failonerror="false">
+          <fileset dir="${user.home}/.dpml">
+              <include name="data/cache/dpml/**"/>
+              <include name="data/share/**"/>
+              <include name="data/prefs/**"/>
+          </fileset>
+          <fileset dir="${user.home}/.ant/lib">
+              <include name="dpml-**"/>
+          </fileset>
+		  <fileset dir="${user.home}/.java/.userPrefs/net/dpml">
+			  <include name="**/*"/>
+          </fileset>
+      </delete>
+  </target>
+
+  <target name="junit-report">
+	  <echo>${junitHtmlReportDir}</echo>
+	  <echo>${build.junitHtmlReportDir}</echo>
+	<mkdir dir="${junitHtmlReportDir}"/>
+	<junitreport todir="${junitHtmlReportDir}">
+      <fileset dir=".">
+        <include name="**/target/test-reports/TEST-*.xml"/>
+      </fileset>
+	  <report format="frames" todir="${junitHtmlReportDir}"/>
+    </junitreport>
+  </target>
+
+</project>

@@ -1,0 +1,8 @@
+
+  <target name="patch">
+    <replace token="net.dpml.part" value="net.dpml.part" dir=".">
+      <include name="**/*.java"/>
+      <include name="**/*.xml"/>
+    </replace>
+  </target>
+

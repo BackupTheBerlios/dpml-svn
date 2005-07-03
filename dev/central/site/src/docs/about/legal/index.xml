@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<document>
+
+  <properties>
+    <author email="mcconnell@dpml.net">Stephen McConnell</author>
+    <title>DPML Central</title>
+  </properties> 
+
+  <body>
+
+    <section name="Legal">
+      <p>
+        DPML products are licensed under the <a href="license.html">
+        Apache License, Version 2.0</a>. Please be sure to read and understand 
+        the licensing conditions before using any products or resources 
+        provided by the Digital Product Meta Library.
+      </p>
+    </section>
+
+  </body>
+
+</document>
+

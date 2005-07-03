@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<document>
+  <properties>
+    <author email="mcconnell@dpml.net">Stephen McConnell</author>
+    <title>DPML Metro</title>
+  </properties> 
+
+  <body>
+
+    <section name="Composite Component Management">
+
+      <p>
+The Metro system is a container that provides comprehensive support for the management of complex component based systems based on an underlying meta-model that facilitates automated assembly and deployment of components.
+      </p>
+
+      <p>
+Metro aims to simplify the process of managing component-based systems.  It achieves this objective through delivery of functionality supporting automated component assembly and deployment combined with strong support for the isolation of implementation from the service that a component provides. Applications are implemented through component composition. In turn, applications can be exposed as simple components and used by other components as building blocks.
+      </p>
+
+      <img src="../../images/metro/metro.png"/>
+
+    </section>
+  </body>
+</document>
+

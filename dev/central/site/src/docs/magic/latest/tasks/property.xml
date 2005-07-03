@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document>
+
+  <properties>
+    <author email="mcconnell@dpml.net">Stephen McConnell</author>
+    <title>DPML Magic</title>
+  </properties> 
+
+  <body>
+    <section name="Property Task">
+      <p>
+      The property task can be used to assign a value of a feature
+      of a magic resource or project to a named ant property value.
+      The property creates a new property using the supplied 'name'
+      and assigns to this property the favlue of the requested 'feature'
+      from the resource identified by the value of the 'key' attribute.
+      </p>
+
+<source><![CDATA[
+    <x:property name="spec" key="cornerstone-threads-impl" feature="spec"/>
+    <echo message="${spec}"/>
+]]></source>
+
+<pre>
+     [echo] artifact:jar:avalon/cornerstone/cornerstone-threads-impl#2.0.0
+</pre>
+
+    <subsection name="Features">
+      
+      <p>
+      Valid feature names supported by the property task are detailed in
+      the following table.
+      </p>
+
+      <table>
+        <tr><th>Property</th><th>Description</th></tr>
+        <tr>
+          <td>name</td>
+          <td>The resource name.</td>
+        </tr>
+        <tr>
+          <td>group</td>
+          <td>The resource group.</td>
+        </tr>
+        <tr>
+          <td>version</td>
+          <td>The resource version.</td>
+        </tr>
+        <tr>
+          <td>type</td>
+          <td>The resource type.</td>
+        </tr>
+        <tr>
+          <td>key</td>
+          <td>The key the resource is referenced by in the project model (the index.xml). if no key attribute is given, 
+           the current project is assumed.</td>
+        </tr>
+        <tr>
+          <td>uri</td>
+          <td>The full artifact uri.</td>
+        </tr>
+        <tr>
+          <td>path</td>
+          <td>A relative file path that can be used to a locate an artifact
+              relative to a repository root.</td>
+        </tr>
+        <tr>
+          <td>spec</td>
+          <td>Short form of uri.  The spec value is equivalent to the 
+            uri with the "artifact:" protocol identifier.</td>
+        </tr>
+        <tr>
+          <td>resolve</td>
+          <td>Should dependencies be resolved or not. Default is true. if you reference the curernt project, a good idea is to set resolve"false"
+            in order to avoid to download the not yet compiled current projects artifact.</td>
+        </tr>
+        <tr>
+          <td>filename</td>
+          <td>The filename of the final artifact that the resource represents.</td>
+        </tr>
+        <tr>
+          <td>short-filename</td>
+          <td>The filename without the file type suffix.</td>
+        </tr>
+      </table>
+
+    </subsection>
+
+    </section>
+  </body>
+
+</document>
+

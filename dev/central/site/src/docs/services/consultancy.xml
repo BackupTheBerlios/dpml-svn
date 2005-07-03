@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<document>
+  <properties>
+    <title>DPML Services</title>
+  </properties> 
+
+  <body>
+    <section name="Professional Consultancy">
+      <p>
+        Some of the core DPML developers are available for consultancy engagements.
+        The availability varies over time faster than it is possible to update
+        this page, so please contact the developer for further information.
+        The fees stated below are indicative only, and may be quoted differently
+        for your project, depending on domain, complexity, time schedules, 
+        supporting documentation, and many other factors.
+      </p>
+      <p>
+        Please note that the engagement of these resources is a matter between
+        you and the individual developer. DPML is not part of the transaction.
+      </p>
+      <table>
+        <tr>
+          <th>Name</th>
+          <th>Working hours<br/>(UTC)</th>
+          <th>Daily Rate</th>
+          <th>Fixed Price</th>
+          <th>Available</th>
+          <th>Domains</th>
+        </tr>
+        <tr>
+          <td><a href="/about/community/people/mcconnell.html">Stephen&#160;McConnell</a></td>
+          <td>Mo-Fr 1000-1800</td>
+          <td></td>
+          <td>Only within domains.</td>
+          <td></td>
+          <td>
+          </td>
+        </tr>
+        <tr>
+          <td><a href="/about/community/people/hedhman.html">Niclas&#160;Hedhman</a></td>
+          <td>Mo-Fr 0800-1600</td>
+          <td>USD500-USD750</td>
+          <td>Only within domains.</td>
+          <td>3 days per week,<br/>
+             confirm schedule.
+          </td>
+          <td>
+            Metro<br/>
+            Industrial&#160;Automation<br/>
+            Process&#160;Control<br/>
+            Embedded&#160;Systems<br/>
+            Serial&#160;Communications<br/>
+            Server&#160;Frameworks<br/>
+            Color&#160;Physics<br/>
+            Color&#160;Communications
+          </td>
+        </tr>
+      </table>
+    </section>
+  </body>
+</document>
+

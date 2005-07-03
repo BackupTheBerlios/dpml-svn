@@ -1,0 +1,80 @@
+<?xml version="1.0"?>
+
+<!-- 
+ Copyright 2004 Stephen McConnell
+
+ Licensed  under the  Apache License,  Version 2.0  (the "License");
+ you may not use  this file  except in  compliance with the License.
+ You may obtain a copy of the License at 
+ 
+   http://www.dpml.net/central/about/legal/
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed  under the  License is distributed on an "AS IS" BASIS,
+ WITHOUT  WARRANTIES OR CONDITIONS  OF ANY KIND, either  express  or
+ implied.
+ 
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+
+<document>
+
+  <properties>
+    <author email="mcconnell@dpml.net">Stephen McConnell</author>
+    <title>DPML Metro</title>
+  </properties> 
+
+
+  <body>
+
+    <section name="Library Directive">
+
+      <subsection name="Description">
+<p>
+   An engine may contain a muliple extensions path declarations that specify the
+   directories in which extension jar files may be located.  Tools directories 
+   may be declared within any classloader.
+</p>
+
+<p>
+  The extensions element may contain multiple directory-set declarations, each
+  containing possible multiple relative directory paths.  Metro will attempt 
+  to resolve any jar files declaring extension dependencies based on the jar 
+  files included in the declared extension directories and the extension 
+  directories declared in parent engine.</p>
+      </subsection>
+
+      <subsection name="Nested Elements">
+        <table>
+          <tr><th>Element</th><th>Occurance</th><th>Description</th></tr>
+          <tr>
+            <td>include</td><td>0..n</td>
+            <td>
+             Declaration of a directory within which the container may
+             use to resolve optional jar file dependencies.
+            </td>
+          </tr>
+        </table>
+      </subsection>
+
+      <subsection name="Sample XML">
+
+<p>An example of an extensions dir declaration is included below.</p>
+
+<source><![CDATA[
+  <classloader>
+    <library dir=".">
+      <include name="dist"/>
+      <include name="lib"/>
+    </library>
+  </classloader>
+]]></source>
+
+      </subsection>
+    </section>
+  </body>
+
+</document>
+
+

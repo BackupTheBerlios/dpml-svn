@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<!--
+ Copyright 2005 David Leangen
+ Copyright 2004 Stephen McConnell
+ Copyright 2004 Niclas Hedhman
+
+ Licensed  under the  Apache License,  Version 2.0  (the "License");
+ you may not use  this file  except in  compliance with the License.
+ You may obtain a copy of the License at
+
+   http://www.dpml.net/central/about/legal/
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed  under the  License is distributed on an "AS IS" BASIS,
+ WITHOUT  WARRANTIES OR CONDITIONS  OF ANY KIND, either  express  or
+ implied.
+
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+
+<document>
+  <properties>
+    <author email="mcconnell@dpml.net">Stephen McConnell</author>
+    <author email="niclas@hedhman.org">Niclas Hedhman</author>
+    <author email="david.leangen@konova.com">David Leangen</author>
+    <title>DPML Transit</title>
+  </properties>
+
+  <body verified="true">
+    <section name="Classloader Construction">
+
+        <p>
+        Layered above the Transit artifact protocol handler is a system that
+        provides support for the creation of classloaders.  Classloaders are
+        described under a 'plugin' file which is basically a list of dependent
+        artifact uris and their location in the classloader hierarchy.  The
+        plugin file is itself normally referenced as an artifact which means
+        that the list is itself versioned, named, associated with a group, and
+        dynamically resolvable.
+        </p>
+
+        <p><i>Example classloader descriptor artifact uri:</i></p>
+
+        <code>@METRO-PLUGIN-URI@</code>
+
+        <p>
+        The plugin file declares api, spi and implementation jar files in
+        the form of artifact uris.  Transit uses this information to
+        construct a classloader chain.
+        </p>
+
+        <img src="/images/transit/chain.png"/>
+
+        <p>
+        Plugin files use a simple property file format to declare features of
+        of the classloader, including information used when resolving plugins.
+        This information is normally created automatically using the
+        <a href="/magic/latest/tasks/export.html">Export Task</a> from the
+        <a href="/magic/latest/index.html">Magic</a> build system.
+        </p>
+
+        <p>
+        The following code fragment demonstrates the relatively simple process of
+        creating a new classloader using Transit.
+        </p>
+
+<source>
+Repository repository = new StandardLoader();
+ClassLoader parent = getClass().getClassLoader();
+URI uri = new URI( "artifact:plugin:dpml/examples/hello/hello-world#1.0.0" );
+ClassLoader classloader = repository.getClassloader( parent, uri );
+</source>
+
+    </section>
+  </body>
+</document>

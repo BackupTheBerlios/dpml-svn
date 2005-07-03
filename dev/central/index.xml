@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<index>
+
+  <import uri="${dpml.magic.uri}"/>
+  <import uri="${dpml.metro.uri}"/>
+
+  <project basedir="site">
+    <info>
+      <group>dpml/central/site</group>
+      <name>dpml-central-site</name>
+      <type>doc</type>
+    </info>
+    <plugins>
+      <include key="dpml-magic-publish" />
+    </plugins>
+  </project>
+
+</index>

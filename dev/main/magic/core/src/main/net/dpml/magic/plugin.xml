@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<antlib>
+
+  <!-- typedefs -->
+  <typedef name="path"       classname="net.dpml.magic.project.ProjectPath"/>
+
+  <!-- taskdefs -->
+  <taskdef name="bar"        classname="net.dpml.magic.tasks.BarTask"/>
+  <taskdef name="block"      classname="net.dpml.magic.tasks.BlockTask"/>
+  <taskdef name="clean"      classname="net.dpml.magic.tasks.CleanTask"/>
+  <taskdef name="checkstyle" classname="net.dpml.magic.tasks.CheckstyleTask"/>
+  <taskdef name="dist"       classname="net.dpml.magic.tasks.DistTask"/>
+  <taskdef name="export"     classname="net.dpml.magic.tasks.ExportTask"/>
+  <taskdef name="filter"     classname="net.dpml.magic.tasks.FilterTask"/>
+  <taskdef name="index"      classname="net.dpml.magic.tasks.IndexTask"/>
+  <taskdef name="info"       classname="net.dpml.magic.tasks.InfoTask"/>
+  <taskdef name="init"       classname="net.dpml.magic.tasks.InitializeTask"/>
+  <taskdef name="install"    classname="net.dpml.magic.tasks.InstallTask"/>
+  <taskdef name="jar"        classname="net.dpml.magic.tasks.JarTask"/>
+  <taskdef name="javac"      classname="net.dpml.magic.tasks.JavacTask"/>
+  <taskdef name="javadoc"    classname="net.dpml.magic.tasks.JavadocTask"/>
+  <taskdef name="junit"      classname="net.dpml.magic.tasks.JUnitTestTask"/>
+  <taskdef name="module"     classname="net.dpml.magic.tasks.ModuleTask"/>
+  <taskdef name="prepare"    classname="net.dpml.magic.tasks.PrepareTask"/>
+  <taskdef name="property"   classname="net.dpml.magic.tasks.PropertyTask"/>
+  <taskdef name="reactor"    classname="net.dpml.magic.tasks.ReactorTask"/>
+  <taskdef name="replicate"  classname="net.dpml.magic.tasks.ReplicateTask"/>
+  <taskdef name="style"      classname="net.dpml.magic.tasks.StyleTask"/>
+
+</antlib>

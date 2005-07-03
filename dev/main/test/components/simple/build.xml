@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<project name="dpml-test-simple" default="install" basedir="."
+    xmlns:transit="antlib:net.dpml.transit" 
+    xmlns:x="plugin:dpml/magic/dpml-magic-core">
+
+  <transit:import uri="artifact:template:dpml/magic/standard"/>
+
+  <target name="build" depends="standard.build">
+
+    <!-- create the component types -->
+    <types xmlns="plugin:dpml/composition/dpml-composition-builder">
+      <type class="net.dpml.test.acme.ExampleComponent"/>
+      <type class="net.dpml.test.acme.ExampleContainer"/>
+      <type class="net.dpml.test.acme.SimpleWidget"/>
+      <type class="net.dpml.test.acme.DimensionComponent"/>
+      <type class="net.dpml.test.acme.BadWidget" threadsafe="true"/>
+      <type class="net.dpml.test.acme.GizmoComponent" threadsafe="true"/>
+      <type class="net.dpml.test.acme.AcmeContainer" threadsafe="true"/>
+      <type class="net.dpml.test.acme.WidgetComponent" threadsafe="true"/>
+    </types>
+
+    <!-- creation of a component for reference by uri -->
+    <component xmlns="plugin:dpml/composition/dpml-composition-builder" 
+        type="net.dpml.test.acme.DimensionComponent"
+        name="dimension"/>
+
+  </target>
+
+</project>

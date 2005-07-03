@@ -1,0 +1,107 @@
+<?xml version="1.0"?>
+
+<!-- 
+ Copyright 2004 Apache Software Foundation
+ Licensed  under the  Apache License,  Version 2.0  (the "License");
+ you may not use  this file  except in  compliance with the License.
+ You may obtain a copy of the License at 
+ 
+   http://www.dpml.net/central/about/legal/
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed  under the  License is distributed on an "AS IS" BASIS,
+ WITHOUT  WARRANTIES OR CONDITIONS  OF ANY KIND, either  express  or
+ implied.
+ 
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+
+<document>
+  <properties>
+    <author email="mcconnell@dpml.net">Stephen McConnell</author>
+    <title>DPML Guide</title>
+  </properties> 
+
+  <body>
+    <section name="Configuration Management">
+      <subsection name="Using Configuration Overrides">
+        <p>
+        The Metro command line tool allows the specification of a  
+        set of overriding configuration targets. Each target in the 
+        &lt;targets&gt; set contains a configuration that may be 
+        applied to a named component.  This allows modification of a 
+        configuration without modification of a packaged block.xml
+        file.
+        </p>
+        <p>
+        Resources supporting this tutorial are contained in the 
+        tutorials/configuration/override directory.
+        </p>
+      </subsection>
+      <subsection name="Target Override Format">
+        <p><i>config.xml</i></p>
+<source><![CDATA[
+<targets>
+  <target path="/tutorial/hello">
+    <configuration>
+      <source>External configuration target.</source>
+    </configuration>
+  </target>
+</targets>
+]]></source>
+      </subsection>
+      <subsection name="Execution">
+        <p>
+        The following command line includes the -config argument
+        referencing a configuration target file (example included
+        in the tutorials/configuration package).
+        </p>
+        <source>
+$ ant
+$ metro -execute target\classes -config conf\config.xml 
+</source>
+        <p>
+        Executing metro demonstrates that the configuration supplied
+        to the hello component reflects the configuration element contained
+        in the target name "\hello".
+        </p>
+        <source>
+[INFO   ] (tutorial.hello): instantiation
+[INFO   ] (tutorial.hello): source: Custom configuration target.
+        </source>
+      </subsection>
+      <subsection name="Notes">
+        <p>
+        Configuration target names represent a path.  The path is the 
+        construction of container names seperated by the "/" character
+        and ending with a component name.  For example if the hello component
+        were contained within a container named "container" the path would 
+        appear as follows: 
+        </p>
+<source><![CDATA[
+<targets>
+  <target path="/container-name/component-name">
+    <configuration>
+      <!-- your configuration info -->
+    </configuration>
+  </target>
+</targets>
+]]></source>
+      </subsection>
+      <subsection name="Moving on">
+
+        <p>
+        We are now ready to move on to the subject of 
+        <a href="../context/index.html">context management</a>.
+        </p>
+
+      </subsection>
+    </section>
+  </body>
+
+</document>
+
+
+
+

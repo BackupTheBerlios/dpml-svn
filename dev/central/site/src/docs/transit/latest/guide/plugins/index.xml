@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!--
+ Copyright 2004 Niclas Hedhman
+
+ Licensed  under the  Apache License,  Version 2.0  (the "License");
+ you may not use  this file  except in  compliance with the License.
+ You may obtain a copy of the License at
+
+   http://www.dpml.net/central/about/legal/
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed  under the  License is distributed on an "AS IS" BASIS,
+ WITHOUT  WARRANTIES OR CONDITIONS  OF ANY KIND, either  express  or
+ implied.
+
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+
+<document>
+  <properties>
+    <author email="niclas@hedhman.org">Niclas Hedhman</author>
+    <title>DPML Guide</title>
+  </properties>
+
+  <body>
+    <section name="Plugin Management">
+      <p>
+        The Transit Repository is a higher level system built on top of the
+        Transit artifact protocol handler. It allows you to load plugins from
+        central/remote locations and it will resolve its class dependencies and
+        establish the classloader hierarchy for you.
+      </p>
+
+      <subsection name="Loading a Plugin">
+        <p>
+          The basic operation of loading a plugin is as follows;
+        </p>
+<source>
+  Repository repository = new StandardLoader();
+  ClassLoader parent = getClass().getClassLoader();
+  URI uri = new URI( "artifact:plugin:dpml/examples/hello/hello-world#1.0.0" );
+  Object[] args = new Object[] { "Hello, World!" };
+  Object plugin = repository.getPlugin( parent, uri, args );
+</source>
+        <p>
+          Transit Repository will only instantiate the plugin, and not call
+          any other methods. The <code>args</code> in the snippet above will be
+          passed to one of the constructors of the plugin.
+        </p>
+        <p>
+          In the above example, we do not have Jar dependencies, but if we did
+          those would be resolved and downloaded on demand as well as the
+          hello-world plugin.
+        </p>
+        <p>
+          Can you now imagine how easy it is to provide plugin capabilities,
+          hot-swap of subsystem, automatic upgrades and many other advanced
+          features for both the server as well the desktop applications?
+        </p>
+
+      </subsection>
+
+    </section>
+
+
+  </body>
+</document>
+
+

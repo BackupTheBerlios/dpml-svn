@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<index key="dpml-util">
+
+  <import uri="${dpml.magic.uri}"/>
+
+  <!--
+  Depot Modules
+  -->
+
+  <project file="module.xml">
+    <info>
+      <group>dpml/util</group>
+      <name>dpml-util</name>
+      <types>
+        <type>module</type>
+      </types>
+    </info>
+  </project>
+
+  <!-- I18N -->
+
+  <project basedir="i18n">
+    <info>
+      <group>dpml/util</group>
+      <name>dpml-util-i18n</name>
+      <types>
+        <type>jar</type>
+      </types>
+    </info>
+  </project>
+
+</index>

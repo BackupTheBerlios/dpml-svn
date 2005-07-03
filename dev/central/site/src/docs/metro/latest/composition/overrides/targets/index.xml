@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<document>
+  <properties>
+    <author email="mcconnell@dpml.net">Stephen McConnell</author>
+    <title>DPML Metro</title>
+  </properties> 
+
+  <body>
+    <section name="Targets Element">
+
+      <subsection name="Description">
+<p>
+A targets configuration contains a single &lt;targets&gt; element containing a set of named configuration &lt;target&gt; declarations that can be used to override the configuration, parameters, and logging category directives of a named component model.
+</p>
+      </subsection>
+
+      <subsection name="Nested Elements">
+        <table>
+          <tr><th>Element</th><th>Occurance</th><th>Description</th></tr>
+          <tr>
+            <td><a href="target.html">target</a></td><td>0..n</td>
+            <td>
+             A target override directives.
+            </td>
+          </tr>
+        </table>
+      </subsection>
+
+      <subsection name="Sample XML">
+
+<source><![CDATA[
+<targets>
+  <target path="/main">
+    <configuration name="freq">
+      <frequency scale="normal">100</frequency>
+    </configuration>
+    <categories priority="WARN"/>
+  </target>
+  <target path="/main/protocol-handler">
+    <configuration>
+      <activity>NORMAL</activity>
+    </configuration>
+    <categories priority="DEBUG"/>
+  </target>
+</targets>
+]]></source>
+
+     </subsection>
+
+    </section>
+  </body>
+</document>
+

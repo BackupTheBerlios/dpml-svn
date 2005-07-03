@@ -1,0 +1,61 @@
+<?xml version="1.0"?>
+
+<document>
+
+  <properties>
+    <author email="mcconnell@apache.org">Stephen McConnell</author>
+    <title>Stage Descriptors</title>
+  </properties>
+
+  <body>
+    <section name="Security">
+
+      <subsection name="Description">
+<p>
+Declaration of a set of security aspects.  This information may be used by a 
+container to determine if the deployment of a component type is allowed within
+an existing security context.
+</p>
+      </subsection>
+
+
+      <subsection name="Nested Elements">
+        <table>
+          <tr><th>Element</th><th>Occurance</th><th>Description</th></tr>
+          <tr>
+            <td><a href="permission.html">permission</a></td><td>0..n</td>
+            <td>
+             A security permission request.
+            </td>
+          </tr>
+        </table>
+      </subsection>
+
+      <subsection name="Example XML">
+
+<source>
+  &lt;security&gt;
+    &lt;permission class="<font color="darkred">java.util.PropertyPermission</font>"  
+        name="<font color="darkred">java.version</font>"&gt;
+      &lt;action&gt;<font color="darkred">read</font>&lt;/action&gt;
+      &lt;action&gt;<font color="darkred">write</font>&lt;/action&gt;
+    &lt;/permission&gt;
+  &lt;/security&gt;
+</source>
+
+      </subsection>
+
+    </section>
+
+  </body>
+
+  <footer>
+    <legal>
+      Copyright (c) @year@ The Avvalon Apache Project. All rights reserved.
+      $Revision: 1.2 $ $Date: 2004/04/14 11:47:32 $
+    </legal>
+  </footer>
+
+</document>
+
+

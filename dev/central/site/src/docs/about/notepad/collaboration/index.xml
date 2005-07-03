@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document> 
+  <properties>
+    <author email="mcconnell@dpml.net">Stephen McConnell</author>
+    <title>DPML Central</title>
+  </properties>
+  <body> 
+    <section name="Collaboration Facility">
+
+      <subsection name="Overview">
+
+      <p>
+      A dynamic framework for process discovery, negotiation, agreement, 
+      engagement, execution, settlement and dispute resolution. 
+      </p>
+
+      <p>
+      Hope to get a bunch of documentation in on this sometime soon 
+      (possibly following the Metro release).
+      </p>
+
+      </subsection>
+    </section>
+  </body>
+</document>
+

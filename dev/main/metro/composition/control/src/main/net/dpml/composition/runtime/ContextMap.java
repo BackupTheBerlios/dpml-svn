@@ -1,0 +1,214 @@
+/*
+ * Copyright (c) 2005 Stephen J. McConnell
+ *
+ * Licensed  under the  Apache License,  Version 2.0  (the "License");
+ * you may not use  this file  except in  compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed  under the  License is distributed on an "AS IS" BASIS,
+ * WITHOUT  WARRANTIES OR CONDITIONS  OF ANY KIND, either  express  or
+ * implied.
+ *
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package net.dpml.composition.runtime;
+
+import java.net.URI;
+import java.rmi.RemoteException;
+import java.util.Hashtable;
+import java.util.Map;
+import java.util.Map.Entry;
+
+import net.dpml.part.control.Controller;
+import net.dpml.part.control.DelegationException;
+import net.dpml.part.control.HandlerNotFoundException;
+import net.dpml.part.control.DelegationException;
+import net.dpml.part.manager.Container;
+import net.dpml.part.manager.Component;
+import net.dpml.part.manager.ComponentException;
+import net.dpml.part.manager.ComponentRuntimeException;
+import net.dpml.part.manager.DuplicateKeyException;
+import net.dpml.part.manager.ComponentNotFoundException;
+import net.dpml.part.part.Part;
+
+import net.dpml.composition.control.CompositionController;
+import net.dpml.composition.data.ReferenceDirective;
+import net.dpml.composition.data.ValueDirective;
+
+/**
+ * The context map is a utility class that handles the set of components that 
+ * make up the context model for an enclosing component.
+ *
+ * @author <a href="mailto:dev-dpml@lists.ibiblio.org">The Digital Product Meta Library</a>
+ * @version $Revision: 1.2 $ $Date: 2004/03/17 10:30:09 $
+ */
+public class ContextMap extends Hashtable
+{
+    private final CompositionController m_controller;
+    private final ComponentHandler m_component;
+    private final Container m_parent;
+
+   /**
+    * Creation of a new context entry table.
+    * 
+    * @param component the component that is managing this context map
+    * @param parent an enclosing partent component used for lookup of part references
+    */
+    public ContextMap( ComponentHandler component, Component parent )
+    {
+        super();
+
+        m_component = component;
+        m_controller = component.getController();
+        if( component instanceof Container )
+        {
+            m_parent = (Container) parent;
+        }
+        else
+        {
+            m_parent = null;
+        }
+    }
+
+    public void addEntry( String key, Part part ) 
+      throws ComponentException, HandlerNotFoundException, DelegationException
+    {
+        if( null == key )
+        {
+            throw new NullPointerException( "key" );
+        }
+        else if( null == part )
+        {
+            throw new NullPointerException( "part" );
+        }
+        else if( containsKey( key ) )
+        {
+            throw new DuplicateKeyException( key );
+        }
+        else if( part instanceof ReferenceDirective )
+        {
+            ReferenceDirective reference = (ReferenceDirective) part;
+            URI uri = reference.getURI();
+            if( null == m_parent )
+            {
+                final String error = 
+                  "Cannot resolve a reference to an enclosing container from a root component."
+                  + "\nComponent: " + m_component.getURI()
+                  + "\nContext Key: " + key;
+                throw new ComponentException( error );
+            }
+
+            String ref = uri.getSchemeSpecificPart();
+            try
+            {
+                Component entry = m_parent.getComponent( ref );
+                addEntry( key, entry );
+            }
+            catch( ComponentNotFoundException cnfe )
+            {
+                final String error = 
+                  "Component not found."
+                  + "\nContainer: " + m_parent.getURI()
+                  + "\nComponent: " + m_component.getURI()
+                  + "\nContext Key: " + key;
+                throw new ComponentException( error );
+            }
+        }
+        else
+        {
+            CompositionController controller = m_component.getController();
+            Component component = controller.newComponent( m_component, part, key );
+            addEntry( key, component );
+        }
+    }
+
+    public void addEntry( String key, Component provider ) throws DuplicateKeyException
+    {
+        if( null == key )
+        {
+            throw new NullPointerException( "key" );
+        }
+        if( null == provider )
+        {
+            throw new NullPointerException( "provider" );
+        }
+        if( containsKey( key ) )
+        {
+            throw new DuplicateKeyException( key );
+        }
+        setEntry( key, provider );
+    }
+
+    public void setEntry( String key, Component value )
+    {
+        if( null == key )
+        {
+            throw new NullPointerException( "key" );
+        }
+        put( key, value );
+    }
+
+    public Component getEntry( String key )
+    {
+        return (Component) super.get( key );
+    }
+
+    public Object getValue( String key, Object[] args ) throws RemoteException
+    {
+        Object value = get( key );
+        if( null == value )
+        {
+            if( null == args )
+            {
+                return null;
+            }
+            else if( args.length < 1 )
+            {
+                return null;
+            }
+            else
+            {
+                return args[0];
+            }
+        }
+        else
+        {
+            return value;
+        }
+    }
+
+    public Object get( String key )
+    {
+        Object entry = super.get( key );
+        if( null == entry )
+        {
+            return null;
+        }
+        else if( entry instanceof Component )
+        {
+            Component component = (Component) entry;
+            try
+            {
+                return component.resolve();
+            }
+            catch( Throwable e )
+            {
+                final String error = 
+                  "Unexpected error while attempting to resolve the value of context entry."
+                  + "\nEnclosing component: " + m_component.getURI()
+                  + "\nProvider Component: " + component.getURI()
+                  + "\nContext Key: " + key;
+                throw new ComponentRuntimeException( error, e );
+            }
+        }
+        else
+        {
+            return entry;
+        }
+    }
+}

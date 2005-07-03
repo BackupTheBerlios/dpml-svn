@@ -1,0 +1,76 @@
+<?xml version="1.0"?>
+
+<document>
+
+  <properties>
+    <author email="mcconnell@apache.org">Stephen McConnell</author>
+    <title>Permission Descriptors</title>
+  </properties>
+
+  <body>
+    <section name="Permission Descriptor">
+
+      <subsection name="Description">
+<p>
+The org.apache.avalon.meta.info.PermissionDescriptor class declares a permission
+required by the component type.
+</p>
+      </subsection>
+
+      <subsection name="Attributes">
+        <table>
+          <tr><th>Attribute</th><th>Required</th><th>Description</th></tr>
+          <tr>
+            <td>class</td><td>yes</td>
+            <td>
+             Declaration of the permission class.
+            </td>
+          </tr>
+          <tr>
+            <td>name</td><td>no</td>
+            <td>
+             Declaration of the permission name.
+            </td>
+          </tr>
+        </table>
+      </subsection>
+
+      <subsection name="Nested Elements">
+        <table>
+          <tr><th>Element</th><th>Occurance</th><th>Description</th></tr>
+          <tr>
+            <td>action</td><td>0..n</td>
+            <td>
+             A set of action declarations.
+            </td>
+          </tr>
+        </table>
+      </subsection>
+
+
+      <subsection name="Example XML">
+
+<source>
+  &lt;permission class="<font color="darkred">java.util.PropertyPermission</font>"  
+        name="<font color="darkred">java.version</font>"&gt;
+    &lt;action&gt;<font color="darkred">read</font>&lt;/action&gt;
+    &lt;action&gt;<font color="darkred">write</font>&lt;/action&gt;
+  &lt;/permission&gt;
+</source>
+
+      </subsection>
+
+    </section>
+
+  </body>
+
+  <footer>
+    <legal>
+      Copyright (c) @year@ The Avalon Apache Project All rights reserved.
+      $Revision: 1.2 $ $Date: 2004/04/14 11:47:32 $
+    </legal>
+  </footer>
+
+</document>
+
+

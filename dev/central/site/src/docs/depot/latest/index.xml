@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document> 
+  <properties>
+    <author email="mcconnell@dpml.net">Stephen McConnell</author>
+    <title>DPML Depot</title>
+  </properties>
+  <body>
+    <section name="Introducing Depot ...">
+
+      <p>
+      Depot is an application that provides support for (a) application 
+      deployment services, and (b) preferences management for humans. 
+      Depot requirements are focused on the management concerns related 
+      to <a href="/metro/index.html">Metro</a> component soluton.  
+      Initially this scope is closely related to <a href="/transit/index.html">
+      Transit</a>configuration via <a href="prefs/index.html">Depot Preferences</a> but is 
+      intended to grow to include remotely accessible preference 
+      management and ultimately runtime management for FT based 
+      applications via <a href="console.html">Depot Console</a> and 
+      <a href="station.html">Depot Station</a>.
+      </p>
+
+      <img src="/images/depot/metro-ft-prefs.png"/>
+
+    </section>
+
+  </body>
+
+</document>
+

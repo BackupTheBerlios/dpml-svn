@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<document>
+  <properties>
+    <author email="mcconnell@dpml.net">Stephen McConnell</author>
+    <title>DPML Transit</title>
+  </properties>
+
+  <body>
+    <section name="DPML Setup">
+
+      <subsection name="System Setup">
+
+        <p>
+        Select the 'Advanced Tab' and click on the <a href="environment.html">
+        Environment Variables</a> button.
+        </p>
+
+        <img src="/images/setup/system.png"/>
+
+      </subsection>
+
+    </section>
+  </body>
+</document>
+

@@ -1,0 +1,96 @@
+<?xml version="1.0"?>
+
+<!-- 
+ Copyright 2004 Apache Software Foundation
+ Licensed  under the  Apache License,  Version 2.0  (the "License");
+ you may not use  this file  except in  compliance with the License.
+ You may obtain a copy of the License at 
+ 
+   http://www.dpml.net/central/about/legal/
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed  under the  License is distributed on an "AS IS" BASIS,
+ WITHOUT  WARRANTIES OR CONDITIONS  OF ANY KIND, either  express  or
+ implied.
+ 
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+
+<document>
+  <properties>
+    <author email="mcconnell@dpml.net">Stephen McConnell</author>
+    <title>DPML Guide</title>
+  </properties> 
+
+  <body>
+    <section name="Component Development Guide">
+
+        <p>
+        A component is a software product implemented in such a way that</p>
+        <ul>
+          <li>it has minimal knowledge of its environment</li>
+          <li>is focussed on providing a small number of functional 
+             services</li>
+          <li>is implemented with the assumption that a controlling system (normally
+             refered to as a container) will provide 
+             and require dependencies and contextual information</li>
+          <li>will be deployed in an manner that distinguishes establishment, 
+              runtime, management, and decommissioning viewpoints</li>
+        </ul>
+
+        <p>
+        The following terms deal with different aspect of a component:
+        </p>
+
+        <ul>
+          <li>component type: immutable meta-info that supplimenents a component class with information about stuctural dependencies and functional capabilities, lifestyle and lifecycle</li>
+          <li>component profile:  immutable meta-data that describes a deployment scenario possibly including information about configuration, deployment choices, assembly directives and so on</li>
+          <li>component model: a model describing one or more component instances established relative to a component type and profile from which deployment, management and decommissioning can be managed dynamically</li>
+        </ul>
+
+      <!--
+      <subsection name="Tutorials">
+
+        <table>
+          <tr><th>Topic</th><th>Summary</th></tr>
+          <tr>
+            <td><a href="config/index.html">Managing Configurations</a></td>
+            <td>Extending HelloComponent to support configuration together with a guide to declararing configurations in a block.</td>
+          </tr>
+          <tr>
+            <td><a href="context/index.html">Managing Contextulization</a></td>
+            <td>A series of tutorials that go though usage of standard context entries, declaration of custom context entries, and mechanisms used to suppport type-safe context casting.</td>
+          </tr>
+          <tr>
+            <td><a href="services.html">Publishing Services</a></td>
+            <td>Extending HelloComponent to expose a service and the respective type declarations.</td>
+          </tr>
+          <tr>
+            <td><a href="dependencies/index.html">Managing Dependencies</a></td>
+            <td>Addition of a dependency to HelloComponent and the corresponding declarations in the component type descriptor.</td>
+          </tr>
+          <tr>
+            <td><a href="lifecycle/index.html">Lifecycle Tools</a></td>
+            <td>Definition and implementation of custom lifecycle stage handlers.</td>
+          </tr>
+          <tr>
+            <td><a href="profiles.html">Deployment Templates</a></td>
+            <td>Creating and associating a deployment template with a component.</td>
+          </tr>
+          <tr>
+            <td><a href="selection.html">Profile Selection</a></td>
+            <td>Demonstration of the selection of a packaged profile by name.</td>
+          </tr>
+        </table>
+
+      </subsection>
+      -->
+    </section>
+  </body>
+
+</document>
+
+
+
+

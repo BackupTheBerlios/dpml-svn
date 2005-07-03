@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+  Copyright 2005 Stephen J McConnell
+
+  Licensed  under the  Apache License,  Version 2.0  (the "License");
+  you may not use  this file  except in  compliance with the License.
+  You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed  under the  License is distributed on an "AS IS" BASIS,
+  WITHOUT  WARRANTIES OR CONDITIONS  OF ANY KIND, either  express  or
+  implied.
+
+  See the License for the specific language governing permissions and
+  limitations under the License.
+-->
+
+<project name="dpml-depot" default="install" basedir="."
+    xmlns:transit="antlib:net.dpml.transit"
+    xmlns:x="plugin:dpml/magic/dpml-magic-core">
+
+  <transit:import uri="artifact:template:dpml/magic/standard"/>
+
+  <target name="init" depends="standard.init">
+    <filter token="PROJECT-NAME" value="${project.name}"/>
+    <filter token="PROJECT-VERSION" value="${project.version}"/>
+    <property name="bundle" value="${basedir}/target/bundle"/>
+  </target>
+
+  <target name="build" depends="standard.build">
+    <x:module index="index.xml">
+      <header>
+        <svn href="http://scm.dpml.net/repos/dpml/development/main/depot"/>
+        <home href="http://www.dpml.net/central/products/depot/"/>
+      </header>
+    </x:module>
+    <x:javadoc>
+      <link href="http://java.sun.com/j2se/1.4/docs/api"/>
+    </x:javadoc>
+  </target>
+
+  <target name="package" depends="standard.package">
+    <property name="share" value="${bundle}/share"/>
+    <property name="data" value="${bundle}/data"/>
+    <!-- create the README and LICENSE files-->
+    <copy todir="${bundle}" filtering="true">
+      <fileset dir="${basedir}">
+        <include name="LICENSE.TXT"/>
+        <include name="NOTICE.TXT"/>
+        <include name="DEPOT.TXT"/>
+      </fileset>
+    </copy>
+    <property name="local" value="${share}/local"/>
+    <x:path id="module.path" type="*" mode="RUNTIME" module="true"/>
+    <x:replicate refid="module.path" toDir="${local}" />
+    <copy todir="${local}/${project.group}">
+      <fileset dir="target/deliverables"/>
+    </copy>
+    <!--
+    Add the non-version bin files to the bin directory.
+    -->
+    <copy todir="${share}/bin">
+      <fileset dir="${basedir}/console/target/bin"/>
+    </copy>
+    <!--
+    Add the javadoc to the dist.
+    -->
+    <property name="docs.src" location="${basedir}/target/api"/>
+    <property name="docs.dest" location="${share}/docs/api/${project.group}/${project.version}"/>
+    <mkdir dir="${docs.dest}"/>
+    <copy todir="${docs.dest}">
+      <fileset dir="${docs.src}"/>
+    </copy>
+    <!--
+    Package the bundle into a compressed archive.
+    -->
+    <x:dist compression="gzip">
+      <fileset dir="${bundle}">
+        <include name="*.TXT"/>
+      </fileset>
+      <zipfileset dir="${bundle}/share" prefix="Shared">
+        <exclude name="**/metro"/>
+      </zipfileset>
+      <tarfileset dir="${bundle}/share" prefix="share" mode="444" >
+        <exclude name="**/depot.bat"/>
+        <exclude name="**/depot"/>
+      </tarfileset>
+      <tarfileset dir="${bundle}/share" prefix="share" mode="555" >
+        <include name="**/depot"/>
+      </tarfileset>
+    </x:dist>
+  </target>
+
+  <target name="install" depends="standard.install">
+    <x:property name="module.uri" feature="uri" type="module"/>
+    <transit:link target="${module.uri}" uri="link:module:${project.group}/${project.name}"/>
+    <echo>
+#----------------------------------------------------------------------------------
+# Updating DPML DATA ${dpml.data}
+#----------------------------------------------------------------------------------
+    </echo>
+    <mkdir dir="${dpml.data}"/>
+    <copy todir="${dpml.data}" preservelastmodified="true">
+      <fileset dir="${share}">
+        <include name="docs/**"/>
+      </fileset>
+    </copy>
+    <property name="export" location="${dpml.dist}/${project.group}/${project.version}"/>
+    <mkdir dir="${export}"/>
+    <copy todir="${export}">
+      <fileset dir="target/dist"/>
+    </copy>
+  </target>
+
+  <target name="test" depends="standard.test">
+    <mkdir dir="target/reports/junit"/>
+    <junitreport todir="target/reports/junit">
+      <fileset dir=".">
+        <include name="**/target/test-reports/TEST-*.xml"/>
+      </fileset>
+      <report format="frames" todir="target/reports/junit"/>
+    </junitreport>
+  </target>
+
+</project>

@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document>
+  <properties>
+    <author email="niclas@apache.org">Niclas Hedhman</author>
+    <title>DPML Central</title>
+  </properties>
+  <body>
+    <section name="Niclas Hedhman">
+      <table>
+        <tr>
+          <td>Email</td>
+          <td><a href="mailto:niclas@hedhman.org">niclas@hedhman.org</a></td>
+        </tr>
+        <tr>
+          <td>Mobile Phone No</td>
+          <td>+60 12 2277 953</td>
+        </tr>
+        <tr>
+          <td>Home Address</td>
+          <td>
+            344-28-2, Vista Damai<br/>Jalan Tun Razak<br/>50400 Kuala 
+            Lumpur<br/>Malaysia
+          </td>
+        </tr>
+        <tr>
+          <td>Alive</td>
+          <td>since 1964</td>
+        </tr>
+        <tr>
+          <td>Professional Programmer</td>
+          <td>since 1984</td>
+        </tr>
+        <tr>
+          <td>Java Developer</td>
+          <td>since 1996</td>
+        </tr>
+        <tr>
+          <td>Civil Status</td>
+          <td>Married with one son.</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td><img src="/images/people/niclas.jpg"/></td>
+        </tr>
+      </table>
+      <p>
+        Niclas is one of the founders of the Digital Product Meta Library in
+        its current form, and has since the inception been one of the key
+        developers.
+      </p>
+      <p>
+        Born in 1964 in Sweden, he has no formal education, and went straight from 
+        senior high school to become a software developer at Exomatic AB, mostly
+        responsible for the embedded real-time operating system, the EXOL programming 
+        language  byte code compiler and interpreter. His career has since
+        mainly been as a subcontractor or freelance programmer with process control
+        and industrial automation applications,
+        including 
+        HVAC control (hundreds!),
+        district heating control (many),
+        <a href="http://www.barsebackkraft.se/index.asp?ItemID=1291">nuclear 
+        power plants supervision</a>, 
+        <a href="http://www.sintercast.com">composite steel</a> production, 
+        <a href="http://www.fagersta-stainless.se">steel pressure roller</a>
+        control and many other smaller projects.
+      </p>
+      <p>
+        Niclas started programming Java in 1996, and quickly got involved in
+        Java RMI, and was in 2000 invited by Sun Microsystems to be part of the
+        Expert Group of JSR-78, Custom Remote References. His work at eWarna 
+        Sdn Bhd (2000-2003) with Color Communication and Color Management in the 
+        textile industry led to a APICTA (M) "Best Software" and "Best of the 
+        Best, Prime Minister's Award" in 2002.
+      </p>
+      <p>
+        Niclas lives, works and enjoys life in Kuala Lumpur, Malaysia. He says the
+        relaxed attitude, stress-free environment and low cost of living
+        makes Kuala Lumpur a perfect environment for software development.
+        The high-tech widget/gadget crazy people, makes the region the fore-runner
+        of many new technologies, adding icing to the cake of living and
+        working in this vibrant city.
+      </p>
+    </section>
+  </body>
+</document>
+

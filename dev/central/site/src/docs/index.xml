@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<document>
+  <properties>
+    <author email="mcconnell@dpml.net">Stephen McConnell</author>
+    <contributor email="dleangen@dpml.net">David Leangen</contributor>
+    <title>DPML Central</title>
+  </properties> 
+
+  <body>
+    <section name="Welcome">
+
+      <p>
+        The Digital Product Meta Library is a global 
+        <a href="about/community/index.html">community</a> project contributing to 
+        the development of advanced Java-based component management solutions.
+      </p>
+        
+      <subsection name="Metro Runtime">
+
+        <p>
+          The <a href="metro/latest/index.html">Metro</a> system is a light weight container 
+          that provides comprehensive support for the management of composite component 
+          systems.  Metro simplifies component management through automated 
+          assembly and deployment combined with strong support for the isolation of 
+          implementations from the service that a component provides. Metro applications 
+          and services are implemented through component composition enabling a building 
+          blocks approach that delivers very high reuse and unprecedented runtime 
+          flexibility.
+        </p>
+
+      </subsection>
+
+      <subsection name="Magic Build System">
+
+        <p> 
+          <a href="magic/latest/index.html">Magic</a> is an intelligent build system for Java 
+          based component development. Magic provides support for a centralized project 
+          object model, transitive version and dependency management, and a suite of  
+          tools that automate the processes of building well-structured component 
+          solutions.
+        </p>
+
+      </subsection>
+
+      <subsection name="Transit Resource Management System">
+
+        <p>
+          <a href="transit/latest/index.html">Transit</a> is a framework for managing 
+          system artifacts and application resources. As a resource 
+          management system, Transit provides the foundation for building 
+          repository-enabled applications enabling automated classloading 
+          construction and dynamic plugin management.
+        </p>
+
+      </subsection>
+
+    </section>
+  </body>
+</document>
+

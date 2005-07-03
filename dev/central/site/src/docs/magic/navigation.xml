@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+ Copyright 2004 Stephen McConnell
+ Copyright 2004 Niclas Hedhman
+ Copyright 2005 David Leangen
+
+ Licensed  under the  Apache License,  Version 2.0  (the "License");
+ you may not use  this file  except in  compliance with the License.
+ You may obtain a copy of the License at 
+ 
+   http://www.dpml.net/central/about/legal/
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed  under the  License is distributed on an "AS IS" BASIS,
+ WITHOUT  WARRANTIES OR CONDITIONS  OF ANY KIND, either  express  or
+ implied.
+ 
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+
+<project>
+
+ <title>DPML Transit</title>
+
+ <body>
+
+    <menu>
+      <item name="2579" href="2579/index.html"/>
+      <item name="Development Branch" href="latest/index.html"/>
+    </menu>
+
+ </body>
+
+</project>

@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<document>
+  <properties>
+    <author email="mcconnell@dpml.net">Stephen McConnell</author>
+    <title>DPML Metro</title>
+  </properties> 
+
+  <body>
+    <section name="Properties">
+
+      <source>@SYSTEM-PLUGIN-URI@</source>
+
+      <subsection name="System Context Properties">
+
+        <p>
+        The following properties are used by the default transit implementation
+        during the establishment of a system context.  Property values are resolved 
+        from system properties and properties declared in the file ${user.home}/dpml.properties.
+        </p>
+
+        <table>
+          <tr><th>Property</th><th>Description</th><th>Default</th></tr>
+          <tr>
+            <td>dpml.system.home</td>
+            <td>The target application home directory.</td>
+            <td>${dpml.home}</td>
+          </tr>
+          <tr>
+            <td>dpml.system.dir</td>
+            <td>The working application directory.</td>
+            <td>${user.dir}</td>
+          </tr>
+          <tr>
+            <td>dpml.system.anchor</td>
+            <td>The directory to be used by an application when resolving extension
+               jar files declared within  a jar manifest in accordance with the 
+               Jar Optional Extensions specification.</td>
+            <td>${dpml.home}/lib</td>
+          </tr>
+          <tr>
+            <td>dpml.system.temp</td>
+            <td>The assigned temporary directory.</td>
+            <td>${java.io.tmpdir}</td>
+          </tr>
+          <tr>
+            <td>dpml.system.logging.artifact</td>
+            <td>An artifact reference to the logging system plugin to be used.</td>
+            <td><a href="logging/logkit/index.html">plugin</a></td>
+          </tr>
+          <tr>
+            <td>dpml.system.logging.config</td>
+            <td>The logging configuration file to be supplied to the the logging system.</td>
+            <td>none</td>
+          </tr>
+          <tr>
+            <td>dpml.system.strict</td>
+            <td>A value of 'true' or 'false' that declares if strict a profile creation policy 
+            is to be applied.  When strict policy is enabled a component type must declare a profile
+            before it can be considered as a candidate during assembly.  If strict profile handling is
+            disabled then metro will construct an implicit profile for the type.</td>
+            <td>false</td>
+          </tr>
+        </table>
+
+      </subsection>
+
+    </section>
+  </body>
+</document>
+

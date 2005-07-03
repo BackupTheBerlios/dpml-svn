@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<document>
+  <properties>
+    <author email="mcconnell@dpml.net">Stephen McConnell</author>
+    <contributor email="dleangen@dpml.net">David Leangen</contributor>
+    <title>DPML Transit</title>
+  </properties>
+
+  <body verified="true">
+    <section name="Plugin Management">
+
+        <p>
+        In addition to the structural classloader information - the plugin file
+        may contain the declaration of a main class or an internal resource and
+        namespace. The resource path information is a special case used within the
+        Magic build system to support dynamic task loading.  The main class
+        declaration is the entry point for classic plugin class loading relative
+        to an established classloader.
+        </p>
+
+        <p>
+        The Transit repository service provides support for class creation and
+        object instantiation.  Class creation is typically used by applications
+        that handle a particular semantics concerning a plugin model whereas
+        the Transit object instantiation provides a simple but flexible model
+        suitable for control over selectable sub-system strategies (e.g. the
+        loading of a logging system or application runtime).
+        </p>
+
+        <p>
+        The following code fragments demonstrates the creation of a plugin instance
+        using Transit's standard plugin loader.
+        </p>
+
+        <p>
+          We create a API project called hello-api, which contains the following
+          interface.
+        </p>
+<source>
+/**
+ * API of the Hello service.
+ */
+public interface Hello
+{
+    void announce();
+}
+</source>
+        <p>
+          And then we need an implementation of the API, and we call that
+          hello-impl.
+        </p>
+<source>
+/**
+ * Implementation of the Hello API.
+ */
+public class HelloImpl
+    implements Hello
+{
+    private String m_message;
+
+    public Hello( String message )
+    {
+        m_message = message;
+    }
+
+    public void announce()
+    {
+        System.out.println( m_message );
+    }
+}
+</source>
+
+   <p>
+    so we need to do the following from the class that loads the plugin;
+   </p>
+
+<source>
+  Repository repository = new StandardLoader();
+  ClassLoader parent = getClass().getClassLoader();
+  URI uri = new URI( "artifact:plugin:mycompany/thisproject/hello-impl#1.4.1" );
+  Object[] args = new Object[] { "Hello, World!" };
+  Object plugin = repository.getPlugin( parent, uri, args );
+  if( plugin instanceof Hello )
+  {
+      m_hello = (Hello) plugin;
+  }
+  else
+  {
+      throw Exception( "Loaded plugin is not of the right type." );
+  }
+  :
+  :
+  :
+  m_hello.announce();
+</source>
+        <p>
+          For this to work, you will also need to create the plugin meta
+          descriptor. The easiest way is to use the DPML Magic build system,
+          but it can also be done manually or with other tools. The above
+          would need a simple descriptor like this;
+        </p>
+<source>
+
+#
+# Specification classifier.
+#
+dpml.plugin.meta.namespace = net.dpml
+dpml.plugin.meta.version = 1.0
+
+#
+# Artifact descriptor.
+#
+dpml.artifact.group = mycompany/thisproject
+dpml.artifact.name = hello-impl
+dpml.artifact.version = 1.4.1
+dpml.artifact.signature = 20050116.140842
+
+#
+# Type.
+#
+dpml.plugin.class = com.mycompany.thisproject.HelloImpl
+
+#
+# API dependency.
+#
+dpml.artifact.dependency.api.0 = artifact:jar:mycompany/thisproject/hello-api#1.4.1
+
+#
+# SPI dependencies.
+#
+# No SPI dependencies
+# dpml.artifact.dependency.spi.0 =
+
+#
+# Implementation dependencies.
+#
+# No impl dependencies
+# dpml.artifact.dependency.0 =
+</source>
+        <p>
+          Now, the beauty of Transit is that IF the hello-api artifact is present
+          in the parent classloader (or higher), the API classloader will NOT
+          receive an additional instance of the Jar. This means that, if
+          the plugin user have the hello-api already loaded it is not added to the
+          API classloader, and the correct classloader management is ensured.
+          Furthermore, if any of the Classloaders in the chain
+          becomes empty, i.e. no new URLs not present in the parent structure,
+          then the Classloader in question is not created.
+        </p>
+        <p>
+        Examples of plugin loading and general plugin handling is provided
+        under the <a href="../guide/plugins/index.html">Transit Guide</a>.
+        </p>
+    </section>
+  </body>
+</document>

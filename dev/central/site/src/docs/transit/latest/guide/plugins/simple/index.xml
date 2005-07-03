@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!--
+ Copyright 2004 Stephen McConnell
+
+ Licensed  under the  Apache License,  Version 2.0  (the "License");
+ you may not use  this file  except in  compliance with the License.
+ You may obtain a copy of the License at
+
+   http://www.dpml.net/central/about/legal/
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed  under the  License is distributed on an "AS IS" BASIS,
+ WITHOUT  WARRANTIES OR CONDITIONS  OF ANY KIND, either  express  or
+ implied.
+
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+
+<document>
+  <properties>
+    <author email="mcconnell@dpml.net">Stephen McConnell</author>
+    <title>DPML Guide</title>
+  </properties>
+
+  <body>
+    <section name="Simple Plugin">
+
+      <p>
+        This tutorial runs through the creation of a very simple plugin. It
+        demonstrates the creation of the plugin class and shows how the plugin
+        can be loaded within an application or via the Transit command line
+        utility.
+      </p>
+
+      <subsection name="Plugin Source">
+        <p>
+          An example plugin java source:
+        </p>
+<source><![CDATA[
+package tutorial.plugin;
+
+/**
+ * A really simple plugin that just prints an array of messages to
+ * System.out.
+ */
+public class SimplePlugin
+{
+    public SimplePlugin( String[] messages )
+    {
+        for( int i=0; i<messages.length; i++ )
+        {
+            System.out.println( messages[i] );
+        }
+    }
+}
+]]></source>
+
+      </subsection>
+
+      <subsection name="Generating the Plugin meta data">
+
+        <p>
+          A plugin is described using a <code>.plugin</code> file that contains
+          information such as the name of the class and a list jar files needed
+          to construct a classloader for plugin deployment.  The following ant
+          build file demonstrates the use of the <code>&lt;x:export&gt;</code>
+          task which is used to generate plugin meta data automatically based on
+          the dependencies declared under the Magic build system.
+        </p>
+        <p>
+          Example build.xml:
+        </p>
+
+<source><![CDATA[<project name="dpml-transit-tutorial-plugin-simple" default="install" basedir="."
+    xmlns:transit="antlib:net.dpml.transit" xmlns:x="plugin:dpml/magic/dpml-magic-core" >
+
+
+  <transit:import uri="artifact:template:dpml/magic/standard"/>
+
+  <target name="package" depends="standard.package">
+    <x:export class="tutorial.plugin.SimplePlugin"/>
+  </target>
+
+</project>]]></source>
+
+      </subsection>
+
+      <subsection name="Plugin meta data">
+
+        <p>
+          After executing the build (using ant) the following plugin descriptor
+          is created under the ${basedir}/target/deliverables/plugins directory. It
+          contains the name of the plugin class and the names of the jar files
+          needed to construct the plugin.  The plugin data file is itself registered
+          in your local cache directory and can be referenced using the Transit
+          artifact protocol.
+        </p>
+
+<source>
+#
+# Specification classifier.
+#
+dpml.plugin.meta.namespace = net.dpml
+dpml.plugin.meta.version = 1.0
+
+#
+# Artifact descriptor.
+#
+dpml.artifact.group = dpml/tutorial
+dpml.artifact.name = dpml-transit-tutorial-plugin-simple
+dpml.artifact.version = null
+dpml.artifact.signature = 20041204.082137
+
+#
+# Type.
+#
+dpml.plugin.class = tutorial.plugin.SimplePlugin
+
+#
+# Implementation dependencies.
+#
+dpml.artifact.dependency.0 = artifact:jar:dpml/transit/dpml-transit-main#SNAPSHOT
+dpml.artifact.dependency.1 = artifact:jar:dpml/tutorial/dpml-transit-tutorial-plugin-simple
+
+#
+# EOF.
+#
+</source>
+
+      </subsection>
+
+      <subsection name="Executing the Plugin">
+
+        <p>
+          The establishment of a plugin is the responsibility of the Transit
+          repository.  Actual deployment of the plugin is the responsibility
+          of a managing application.  In the following example we will use
+          the Transit CLI utility to run the plugin.
+        </p>
+
+        <pre>$ transit -load artifact:plugin:dpml/tutorial/dpml-transit-tutorial-plugin-simple Hello.</pre>
+
+        <p>
+          The above command simply instructs Transit to load the plugin described by
+          plugin referenced under the -load option and passes any command line arguments
+          on to the plugin.  The result of running the plugin is show below:
+        </p>
+
+        <pre>Hello.</pre>
+
+      </subsection>
+
+      <subsection name="Next Step">
+
+        <p>
+          In the <a href="../cli/index.html">next tutorial</a> we do some implementation
+          changes involving the addition of cli handling using the commons-cli package and
+          look at the impact on our plugin metadata.
+        </p>
+
+      </subsection>
+
+
+    </section>
+
+  </body>
+</document>
+
+

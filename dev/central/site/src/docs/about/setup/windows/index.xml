@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<document>
+  <properties>
+    <author email="mcconnell@dpml.net">Stephen McConnell</author>
+    <title>DPML Transit</title>
+  </properties>
+
+  <body>
+    <section name="DPML Setup">
+
+      <p>
+      The binary installer from OSM requires does not require any additional action.
+      </p>
+
+      <p>
+      Binary installations from zip file require the creation of a DPML installation 
+      directory and the unpacking the zip file content into that directory. Please
+      review the following instructions for single or shared installations.
+      </p>
+
+      <p>Single user setup:</p>
+
+      <ol>
+        <li>create the directory %APPDATA%\DPML</li>
+        <li>define an environment variable DPML_HOME referring to %APPDATA%\DPML</li>
+        <li>add %DPML_HOME%\bin to your system PATH</li>
+        <li>copy or move the contents of the distribution to your DPML_HOME directory</li>
+      </ol>
+
+      <p>Alternative shared setup:</p>
+
+      <ol>
+        <li>create the directory %PROGRAMFILES%\DPML (or a alternative preferred location)</li>
+        <li>define an environment variable DPML_SYSTEM referring to this location</li>
+        <li>add %DPML_SYSTEM%\bin to your system PATH</li>
+        <li>copy or move the content of the distribution 'Shared' directory into %DPML_SYSTEM%</li>
+        <li>create the per-user application data directory %APPDATA%\DPML (or 
+          declare the environment variable DPML_HOME to point to an alternative location)</li>
+        <li>copy or move the distribution 'Data' and 'Preferences' directory, and related txt files
+           to each users %APPDATA%\DPML directory</li>
+      </ol>
+
+      <p>The following section describes the procedures for defining the DPML_SYSTEM and/or DPML_HOME
+      environment variables and modifying your system path.</p>
+
+      <subsection name="Configuring MyComputer">
+
+        <p>
+        Under Windows select Properties for 'My Computer' to display 
+        the <a href="system.html">system properties</a> panel.
+        </p>
+
+        <img src="/images/setup/mycomputer.png"/>
+
+      </subsection>
+
+    </section>
+  </body>
+</document>
+

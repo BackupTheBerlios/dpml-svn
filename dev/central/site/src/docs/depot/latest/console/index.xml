@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document> 
+  <properties>
+    <author email="mcconnell@dpml.net">Stephen McConnell</author>
+    <title>DPML Central</title>
+  </properties>
+  <body>
+    <section name="Depot Station ...">
+
+      <subsection name="Objective ...">
+
+        <p>
+        The Depot Console aims to provide a simple to use and 
+        easily maintained application deployment solution.
+        </p>
+
+      </subsection>
+
+      <subsection name="Local Application Deployment">
+
+        <p>
+        The current Depot implementation provides some basic support 
+        for the deployment of applications based on a application profile 
+        name.  Application profiles are maintained under user preferences
+        relative to the key /dpml/depot/lang/profiles/[name].  Each 
+        profile declare a main class classname, an application title, 
+        and two nested preference nodes - one for the classpath and 
+        another for system property declarations.
+        </p>
+
+        <p>
+        The Depot CLI script assigns the DepotClassLoader as the system 
+        classloader.  The DepotClassLoader has an unusual feature of 
+        providing support for the late-binding of application URLs. This 
+        allows us to setup the initial system classloader during JVM setup
+        following which Depot populates the classloader based on application 
+        profile settings.  The current implementation is working in that
+        it is handling the setup of the Depot Preferences application, however
+        it has not been tested on anything more rigorous and I'm expected 
+        some more evolution to occur - in particular, classpath URL ordering
+        is significant when dealing with bootstrap resources (e.g. protocol 
+        handlers).
+        </p>
+
+        <p>
+        Deploying an application using the Depot script is basically 
+        the following:
+        </p>
+
+<pre>$ depot -profile [name] [your-application-args]</pre>
+
+        <p>
+        Where [name] is the name of a preferences node under the tree
+        /dpml/depot/lang/profiles/.
+        </p>
+
+      </subsection>
+
+
+    </section>
+
+  </body>
+
+</document>
+

@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!-- 
+ Copyright 2004 Niclas Hedhman
+
+ Licensed  under the  Apache License,  Version 2.0  (the "License");
+ you may not use  this file  except in  compliance with the License.
+ You may obtain a copy of the License at 
+ 
+   http://www.dpml.net/central/about/legal/
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed  under the  License is distributed on an "AS IS" BASIS,
+ WITHOUT  WARRANTIES OR CONDITIONS  OF ANY KIND, either  express  or
+ implied.
+ 
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+
+<document>
+  <properties>
+    <author email="niclas@hedhman.org">Niclas Hedhman</author>
+    <title>DPML Transit</title>
+  </properties> 
+
+  <body>
+    <section name="Hosts Configuration">
+
+      <p>
+        A Resource Host is a place where Artifacts can be downloaded. Transit
+        is capable of handling many types of resource hosts. Conceptually, you
+        only need to implement the 
+        <code><a href="@TRANSIT-DOCS-PATH@/net/dpml/transit/artifact/ResourceHost.html">
+        net.dpml.transit.artifact.ResourceHost</a></code> interface, and 
+        specify the implementation class of the host handler.
+      </p>
+
+      <p>
+        Resource hosts may be declared via XML (default) or property files.
+      </p>
+
+      <subsection name="XML Specification">
+
+      <p>
+        The hosts configuation files when full expanded contains multiple &lt;host&gt; 
+        element entries.  The following example shows a host element with all 
+        elements declared:
+      </p>
+
+<source><![CDATA[
+<hosts>
+
+  <host href="http://www.dpml.net" enabled="true">
+    <priority>20</priority>
+    <policy>fast</policy>
+    <trusted>false</trusted>
+    <class>net.dpml.transit.artifact.ClassicResourceHost</class>
+    <index href="index.idx">
+    <credentials>
+      <username>fred</username>
+      <password>blogs</password>
+    </credentials>
+    <scheme>basic</scheme>
+    <prompt>repository</prompt>
+  </host>
+
+</hosts>
+]]></source>
+
+      <p>
+        The default host configuration file is shown below, and find the 
+        description of the elements in the <strong>properties</strong> section
+        below.
+      </p>
+
+<source><![CDATA[
+<hosts>
+
+  <host dir="local/SNAPSHOT">
+    <priority>10</priority>
+    <trusted>true</trusted>
+  </host>
+
+  <host href="http://repository.dpml.net/classic">
+    <priority>20</priority>
+  </host>
+
+  <host href="http://www.ibiblio.org/maven">
+    <priority>50</priority>
+  </host>
+
+  <host href="http://www.apache.org/dist/java-repository">
+    <priority>70</priority>
+  </host>
+
+</hosts>]]></source>
+
+      </subsection>
+
+    </section>
+  </body>
+</document>
+
+ 
+ 

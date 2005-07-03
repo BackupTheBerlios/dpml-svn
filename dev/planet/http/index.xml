@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<index>
+
+  <import index="../index.xml"/>
+
+  <project basedir="api">
+    <info>
+      <group>dpml/planet/http</group>
+      <name>dpml-http-api</name>
+      <version>1.0.0</version>
+      <status>SNAPSHOT</status>
+      <types>
+        <type>jar</type>
+      </types>
+    </info>
+    <dependencies>
+      <include key="org.mortbay.jetty"/>
+    </dependencies>
+  </project>
+
+  <project basedir="spi">
+    <info>
+      <group>dpml/planet/http</group>
+      <name>dpml-http-spi</name>
+      <version>1.0.0</version>
+      <status>SNAPSHOT</status>
+    </info>
+    <dependencies>
+      <include key="dpml-http-api"/>
+      <include key="org.mortbay.jetty"/>
+    </dependencies>
+  </project>
+
+  <project basedir="util">
+    <info>
+      <group>dpml/planet/http</group>
+      <name>dpml-http-util</name>
+      <version>1.0.0</version>
+      <status>SNAPSHOT</status>
+    </info>
+    <dependencies>
+      <include key="dpml-http-api"/>
+    </dependencies>
+  </project>
+
+  <project basedir="impl">
+    <info>
+      <group>dpml/planet/http</group>
+      <name>dpml-http-impl</name>
+      <version>1.0.0</version>
+      <status>SNAPSHOT</status>
+    </info>
+    <dependencies>
+      <include key="dpml-transit-main"/>
+      <include key="dpml-activity-api"/>
+      <include key="dpml-logging-api"/>
+      <include key="dpml-configuration-api"/>
+      <include key="dpml-parameters-api"/>
+      <include key="dpml-http-spi"/>
+      <include key="dpml-http-util"/>
+      <include key="dpml-configuration-impl"/>
+      <include key="org.mortbay.jetty"/>
+      <include key="org.mortbay.jaas"/>
+      <include key="servletapi" runtime="true" build="true" />
+      <include key="jsp-api" runtime="true" build="false" />
+      <include key="jasper-runtime" runtime="true" build="false" />
+      <include key="jasper-compiler" runtime="true" build="false" />
+      <include key="xercesImpl" runtime="true" build="false" />
+    </dependencies>
+    <plugins>
+      <include key="dpml-composition-builder" runtime="false"/>
+    </plugins>
+  </project>
+
+  <project basedir="demo">
+    <info>
+      <group>dpml/planet/http</group>
+      <name>dpml-http-demo</name>
+      <version>1.0.0</version>
+      <status>SNAPSHOT</status>
+      <types>
+        <type>part</type>
+        <type>jar</type>
+      </types>
+    </info>
+    <dependencies>
+      <include key="dpml-http-impl"/>
+      <include key="dpml-part-api"/>
+      <include key="dpml-depot-console"/>
+      <include key="dpml-metro-central"/>
+    </dependencies>
+    <plugins>
+      <include key="dpml-composition-builder" runtime="false"/>
+    </plugins>
+  </project>
+
+  <resource>
+    <info>
+      <group>jetty</group>
+      <name>org.mortbay.jetty</name>
+      <version>5.1.1</version>
+      <types>
+        <type>jar</type>
+      </types>
+    </info>
+    <dependencies>
+      <include key="servletapi" />
+      <include key="commons-logging" runtime="true"/>
+    </dependencies>
+  </resource>
+
+  <resource>
+    <info>
+      <group>jetty</group>
+      <name>org.mortbay.jaas</name>
+      <version>5.1.1</version>
+      <type>jar</type>
+    </info>
+  </resource>
+
+  <resource>
+    <info>
+      <group>servletapi</group>
+      <name>servletapi</name>
+      <version>2.3</version>
+      <type>jar</type>
+    </info>
+  </resource>
+
+  <resource>
+    <info>
+      <group>tomcat</group>
+      <name>jsp-api</name>
+      <version>5.0.18</version>
+      <type>jar</type>
+    </info>
+  </resource>
+
+  <resource>
+    <info>
+      <group>tomcat</group>
+      <name>jasper-runtime</name>
+      <version>5.0.25</version>
+      <type>jar</type>
+    </info>
+  </resource>
+
+  <resource>
+    <info>
+      <group>tomcat</group>
+      <name>jasper-compiler</name>
+      <version>5.0.25</version>
+      <type>jar</type>
+    </info>
+  </resource>
+
+  <resource>
+    <info>
+      <name>commons-logging</name>
+      <version>1.0.4</version>
+      <group>commons-logging</group>
+    </info>
+  </resource>
+
+</index>

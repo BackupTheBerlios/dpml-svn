@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<document>
+  <properties>
+    <author email="mcconnell@dpml.net">Stephen McConnell</author>
+    <title>DPML Metro</title>
+  </properties> 
+
+  <body>
+    <section name="Container Element">
+
+      <subsection name="Nested Elements">
+        <table>
+          <tr><th>Element</th><th>Occurance</th><th>Description</th></tr>
+          <tr>
+            <td><a href="services/index.html">services</a></td><td>0..1</td>
+            <td>
+             A container can declare the export of a set of services established
+             by the components contained within it.  This enables a container to 
+             function as a composite component relative to its peers.
+            </td>
+          </tr>
+          <tr>
+            <td><a href="classloader/index.html">classloader</a></td><td>0..1</td>
+            <td>
+             The classloader to assign to the container.
+            </td>
+          </tr>
+          <tr>
+            <td><a href="component/index.html">component</a></td><td>0..n</td>
+            <td>
+             A component directive is an instruction to Metro to build
+             a component of the type specified, and deploy the component 
+             in accordance with a stated policy.
+            </td>
+          </tr>
+          <tr>
+            <td><a href="index.html">container</a></td><td>0..n</td>
+            <td>
+             A container directive is simply a composite component.  A container
+             establishes a partition within which a set of other components and 
+             containers can be declared.
+            </td>
+          </tr>
+          <tr>
+            <td><a href="include/index.html">include</a></td><td>0..n</td>
+            <td>
+             An include directive instructs Metro to include an external 
+             block within the container.  Services exported by the block will 
+             be made available to other components at the same level as the 
+             included block.
+            </td>
+          </tr>
+        </table>
+      </subsection>
+
+      <subsection name="Sample XML">
+        <p>
+           The following XML is a sample of a implementation declaration
+           containing an engine, components, subcontainers and block includes.
+        </p>
+
+<source><![CDATA[
+<container name="playground">
+
+  <services>
+    <service type="net.dpml.test.playground.basic.BasicService">
+      <source>basic</source>
+    </service>
+  </services>
+
+  <classloader>
+    <classpath>
+      <artifact>jar:dpml/logging/dpml-logging-api#SNAPSHOT</artifact>
+      <artifact>jar:dpml/context/dpml-context-api#SNAPSHOT</artifact>
+      <artifact>jar:dpml/configuration/dpml-configuration-api#SNAPSHOT</artifact>
+      <artifact>jar:dpml/service/dpml-service-api#SNAPSHOT</artifact>
+      <artifact>jar:dpml/activity/dpml-activity-api#SNAPSHOT</artifact>
+      <artifact>jar:dpml/composition/dpml-classic-api#SNAPSHOT</artifact>
+      <artifact>jar:dpml/transit/dpml-transit-main#SNAPSHOT</artifact>
+      <artifact>jar:dpml/meta/dpml-meta-api#SNAPSHOT</artifact>
+      <artifact>jar:dpml/parameters/dpml-parameters-api#SNAPSHOT</artifact>
+      <artifact>jar:dpml/util/dpml-util-i18n#SNAPSHOT</artifact>
+      <artifact>jar:dpml/extension/dpml-extension-api#SNAPSHOT</artifact>
+      <artifact>jar:dpml/context/dpml-context-impl#SNAPSHOT</artifact>
+      <artifact>jar:dpml/test/dpml-test-playground</artifact>
+    </classpath>
+  </classloader>
+
+  <component name="complex" class="net.dpml.test.playground.ComplexComponent"/>
+
+  <component name="test" class="net.dpml.test.playground.SimpleComponent"/>
+
+  <component name="basic" class="net.dpml.test.playground.basic.BasicComponent" profile="basic" activation="false" />
+
+</container>
+]]></source>
+      </subsection>
+
+    </section>
+  </body>
+</document>
+

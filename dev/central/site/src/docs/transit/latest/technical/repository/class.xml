@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<document>
+  <properties>
+    <author email="mcconnell@dpml.net">Stephen McConnell</author>
+    <title>DPML Transit</title>
+  </properties> 
+
+  <body>
+    <section name="Plugin Class Loading">
+
+        <p>
+        The loading of a plugin class is a convinience operation that 
+        that takes the same arguments as the classloader 
+        chain creation operation.  Following establishment of the classloader
+        <a href="chain.html">chain</a> the implmentation classloader is used 
+        to resolve the main class declared within the 
+        <a href="@TRANSIT-DOCS-PATH@/net/dpml/transit/repository/Plugin.html">Plugin</a> descriptor.
+        </p>
+
+        <p><i>Example plugin class loading:</i></p>
+        <pre>
+Repository repository = new <a href="@TRANSIT-DOCS-PATH@/net/dpml/transit/repository/StandardLoader.html">StandardLoader()</a>;
+ClassLoader parent = getClass().getClassLoader();
+URI uri = new URI( "@METRO-PLUGIN-URI@" );
+Class pluginClass = repository.getPluginClass( parent, uri );
+....
+        </pre>
+
+    </section>
+  </body>
+</document>

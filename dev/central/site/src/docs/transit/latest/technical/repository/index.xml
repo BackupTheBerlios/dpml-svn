@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<document>
+  <properties>
+    <author email="mcconnell@dpml.net">Stephen McConnell</author>
+    <title>DPML Transit</title>
+  </properties> 
+
+  <body>
+    <section name="Repository Service">
+
+      <p>
+        The repository service provides support for the construction of 
+        classloader <a href="descriptor.html">descriptors</a>, classloader 
+        <a href="chain.html">chains</a>, plugin <a href="class.html">class loading</a>, 
+        and plugin <a href="instantiation.html">instantiation</a>.
+      </p>
+
+    </section>
+  </body>
+</document>

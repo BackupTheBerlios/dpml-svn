@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<document>
+  <properties>
+    <author email="mcconnell@dpml.net">Stephen McConnell</author>
+    <title>About the DPML</title>
+  </properties> 
+
+  <body>
+    <section name="History">
+<pre>
+2002
+
+   o An ant task known as Merlin 1.0 was created to deal with the
+     deployment of components based on the Avalon component model.
+   o Merlin 2.0 adds a formal type meta-info model.
+   o Introduction of packaged profiles and hierarchical containers.
+   o Avalon becomes a TLP.
+   o Development of Merlin moves forward with enhancements to
+     assembly automation.
+   o Refactoring of Merlin based on feedback from users and
+     reflections of the subject of profilable container strategies.
+
+2003
+
+   o The Merlin system is seperated into a kernel and assembly engine.
+   o The Cornerstone component suite and James mail-server successfully
+     validated in Merlin.
+   o Merlin kernel and deployment configuration are separated.
+   o Improved command line handler is introduced supporting
+     deployment of remote block definitions.
+   o Refactoring continues leading to the delivery of composite
+     component support.
+   o Repository support enabled in Merlin.
+   o Separation of the activation and composition sub-systems
+   o Eighteen months after the announcement of 1.0, the Avalon
+     Community endorses a vote for a 3.0 beta release, triggering
+     a surge in end-user and developer interest.
+   o Alex Karasulu turns Merlin inside-out, inverting the
+     kernel/repository relationship.  The repository sub-system
+     becomes the resource management solution handling merlin
+     bootstrapping, cache management and proxy support.
+   o Niclas Hedhman starts asking difficult questions about
+     packaging and distribution.
+   o Alexis Agahi migrates OpenIM to Merlin.
+   o Timothy Bennett start work on jetty-http and hsql database
+     components.
+   o Several common utitilities are factored out and astablished
+     as independent Avalon projects.
+   o New and improved embedding strategy for Merlin comes together.
+   o December 27, Merlin 3.2 is released.
+
+2004
+
+   o Andreas Oberhack joins the team and brings MerlinDeveloper,
+     an Eclipse-based Merlin development tool, out of the incubator.
+   o Cameron Fieber submits JMX extensions.
+   o Work on security strategies is initiated by Niclas
+     + Big improvements in the separation between composition
+       model and runtime
+     + Leads to a pure model-driven platform and the
+       introduction of the notion of facilities
+   o Avalon Community endorses a single Avalon Platform Strategy.
+   o A JMS facility is added to the suite of container extensions
+     by J. Aaron Farr.
+   o Work commences on cleaning up the Avalon landscape, focusing
+     content and preparing for the retirement of older Avalon
+     technologies.
+   o Niclas Hedhman and Stephen McConnell prepare a joint proposal 
+     for the establishment of an independent project under the DPML.
+</pre>
+    </section>
+  </body>
+</document>
+

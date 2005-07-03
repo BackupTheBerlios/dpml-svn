@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document> 
+  <properties>
+    <author email="mcconnell@dpml.net">Stephen McConnell</author>
+    <title>DPML Central</title>
+  </properties>
+  <body>
+    <section name="Freight Train">
+
+      <subsection name="Observations">
+
+        <ol>
+          <li>speed
+            <ol>
+              <li>FT is at least 300% faster than classic</li>
+            </ol>
+          </li>
+          <li>size
+            <ol>
+              <li>runtime (composition layer) codebase is about 20% of classic</li>
+              <li>buildtime codebase (type and component generator tasks) is about 70% of classic while packing a lot more functionality as class introspection is simply more efficient than javadoc tag handling</li>
+              <li>note - auto-assembly functionality not included in FT</li>
+            </ol>
+          </li>
+          <li>impact
+            <ol>
+              <li>buildtime validation is absolutely great - if something goes wrong is normally a build time error</li>
+              <li>build exception reporting needs to be enhanced (not clear where an error is coming from when you have nested components</li>
+              <li>runtime error reporting is good but on the other hand it feels a lot less important as a result of the strong buildtime validation</li>
+            </ol>
+          </li>
+        </ol>
+
+      </subsection>
+
+      <subsection name="Issues">
+        <ol>
+          <li>logging manager
+            <ol>
+              <li>transit or metro</li>
+              <li>refactoring to use java.util.logging</li>
+            </ol>
+          </li>
+          <li>configuration and parameters
+            <ol>
+              <li>some work remaining to be done</li>
+              <li>safe to assume that config and params are immutable supply and forget artifacts (i.e. any runtime modification of a component would be through the context manager by the enclosing system)</li>
+            </ol>
+          </li>
+          <li>type and part viewers
+            <ol>
+              <li>FT does not provide an XML view of a type or part</li>
+              <li>can be addressed with a totally separate ant task - could be used to generate documentation about a component type and/or part automatically</li>
+            </ol>
+          </li>
+          <li>assembly logic
+            <ol>
+              <li>all assembly directives are explicit</li>
+              <li>need to add an assembly system in order to validate the explicit assembly instructions</li>
+              <li>deployment and decommissioning ordering will be required when handling serialized models which in turn requires a deployment graph</li>
+            </ol>
+          </li>
+          <li>intergrate with Transit server mode
+            <ol>
+              <li>Transit provides a server mode which triggers the setup of a reference transit instance.  It is desirable to launch metro in server mode and direct cli requests to the remote metro instance.</li>
+              <li>Server mode should be backed by an ant task that basically fires commands to a remote metro instance.  Such a task could be used as part of a deployment test framework.</li>
+            </ol>
+          </li>
+          <li>a <code>Manager</code> inner interface
+            <ol>
+              <li>Thinking is needed about a <code>Manager</code> inner interface within a component.</li>
+              <li>Seems to be the right place for a component to publish instrumention info it makes available.</li>
+              <li>Execution semantic are not currently handled.</li>
+            </ol>
+          </li>
+          <li>context manager development
+            <ol>
+              <li>More trials with <code>ContextManager</code> are needed to sort some of the details out.</li>
+              <li>Currently no validation on the <code>ContextManager</code> return type - but this is in effect a constraint declared by a container of the potential component that may be added as parts.  This constraint needs to be handled as part of the component part creation task.</li>
+              <li>Implementation of the context manager invocation handler needs more work - specifically, we need to clone the model context entries and resolved values into the per-instance context table enabling a complete context model view (current implementation just exposes the modified values).</li>
+            </ol>
+          </li>
+          <li>default parts creation and parts management
+            <ol>
+              <li>Packaging of default part with a component (e.g. [classname].parts) is required.</li>
+              <li>The &lt;type&gt; task needs to be updated to include the part association or we could put in place a .parts serialized object colocated with the class.</li>
+              <li>Parts builders need to updated to load and check for pre-declared default part entries.</li>
+              <li>The PartsManager is not currently implemented (however, it is expected that this will follow closely the general approach used for context management.</li>
+            </ol>
+          </li>
+          <li>integration between FT and classic
+            <ol>
+              <li>Need to update system context to load FT by default in no deployment targets are provided.</li>
+              <li>If the target is classic metro then bootstrap the classic composition otherwise bootstrap FT.</li>
+              <li>With an FT manager we could wrap classic with a dedicated controller - we could also do the same thing for Avalon 4 but this needs to be demand driven.</li>
+              <li>But ultimately would should be working on the assumption concurrent maintenance of classic and FT should be temporary and that final numbered build of classic should be a milestone target following which we would freeze the classic codebase and continue with FT as the Metro codebase.</li>
+            </ol>
+          </li>
+          <li>classloader handling needs to move down to transit
+            <ol>
+              <li>FT contains a specialized classloader with debugging support.</li>
+              <li>This should be moved down to Transit as part of the net.dpml.transit.repository package.</li>
+            </ol>
+          </li>
+          <li>general observations on Magic
+            <ol>
+              <li>get some experience in on using links in Transit/Magic/Metro </li>
+              <li>rebuild magic's index/module as this is currently Magic's weakest link</li>
+            </ol>
+          </li>
+          <li>model serialization
+            <ol>
+              <li>model serialization is not implemented yet</li>
+              <li>serialized models is central to the delivery of continuations</li>
+            </ol>
+          </li>
+          <li>documentation
+            <ol>
+              <li>FT makes most of our technical documentation redundant.</li>
+              <li>New tutorials are needed and documentation updates are required across the board.</li>
+              <li>Lots of opportunities exist for additional tasks the load parts and generate documentation automatically.</li>
+            </ol>
+          </li>
+        </ol>
+
+      </subsection>
+
+      <subsection name="Recommendations">
+
+        <p>
+        The next section address <a href="recommendations.html">recommendations</a> based 
+        on the current development status.
+        </p>
+
+      </subsection>
+
+    </section>
+
+  </body>
+
+</document>
+

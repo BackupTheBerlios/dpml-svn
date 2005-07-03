@@ -1,0 +1,97 @@
+<?xml version="1.0"?>
+
+<!-- 
+ Copyright 2004 Apache Software Foundation
+ Licensed  under the  Apache License,  Version 2.0  (the "License");
+ you may not use  this file  except in  compliance with the License.
+ You may obtain a copy of the License at 
+ 
+   http://www.dpml.net/central/about/legal/
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed  under the  License is distributed on an "AS IS" BASIS,
+ WITHOUT  WARRANTIES OR CONDITIONS  OF ANY KIND, either  express  or
+ implied.
+ 
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+
+<document>
+  <properties>
+    <author email="mcconnell@dpml.net">Stephen McConnell</author>
+    <title>DPML Guide</title>
+  </properties> 
+
+  <body>
+    <section name="Dependency Management">
+      <subsection name="Managing Dependencies - Manual Association">
+        <p>
+The manual dependencies tutorial covers additional information dealing 
+with the explict control over dependency binding.  In this example we 
+have HelloComponent with a dependency on two services of the same type. If we 
+depended on classic metro auto-assembly we would not necessarily get the 
+desired result.  In such a situation, Metro provides support for 
+overriding the auto assembly process though explicit dependency directives
+included inside a &lt;component/&gt; tag.
+        </p>
+        <p>
+        Resources supporting this tutorial are contained in the 
+        turorials/dependencies/manual package.
+        </p>
+        <p>
+In the block.xml we have three component directives - gloria, nancy, and hello:
+        </p>
+<source><![CDATA[
+    <x:block name="tutorial" embed="MAIN">
+      <x:component name="gloria" class="tutorial.IdentifiableComponent"/>
+      <x:component name="nancy" class="tutorial.IdentifiableComponent"/>
+      <x:component name="hello" class="tutorial.HelloComponent">
+        <x:dependencies>
+          <x:dependency key="primary" source="gloria"/>
+          <x:dependency key="secondary" source="nancy"/>
+        </x:dependencies>
+      </x:component>
+    </x:block>
+]]></source>
+        <p>
+        The "hello" component has been manually wired together using named 
+        components references under a set of <dependency/> directives, thereby 
+        overriding Metro auto-assembly heuristics.
+        </p>
+      </subsection>
+
+      <subsection name="Executing the demo">
+        <p>
+        Build and run the tutorial.
+        </p>
+        <source>
+$ ant
+$ metro target\classes -execute
+        </source>
+        <p>
+        In the logging output we see that Metro has established and 
+        and assigned the components we requested based on our directives
+        in the block.xml file.
+        </p>
+<source>
+[INFO   ] (tutorial.hello): assigned primary: /tutorial/gloria
+[INFO   ] (tutorial.hello): assigned secondary: /tutorial/nancy
+</source>
+      </subsection>
+
+      <subsection name="Next Topic">
+        <p>
+        We are now ready to move on to the subject of packaged
+        <a href="../profiles/packaging.html">deployment profiles</a>. 
+        </p>
+      </subsection>
+
+    </section>
+  </body>
+
+</document>
+
+
+
+

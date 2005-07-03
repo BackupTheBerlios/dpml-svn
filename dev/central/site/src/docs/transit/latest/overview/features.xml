@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<!-- 
+ Copyright 2005 David Leangen
+ Copyright 2004 Stephen McConnell
+ Copyright 2004 Niclas Hedhman
+
+ Licensed  under the  Apache License,  Version 2.0  (the "License");
+ you may not use  this file  except in  compliance with the License.
+ You may obtain a copy of the License at 
+ 
+   http://www.dpml.net/central/about/legal/
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed  under the  License is distributed on an "AS IS" BASIS,
+ WITHOUT  WARRANTIES OR CONDITIONS  OF ANY KIND, either  express  or
+ implied.
+ 
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+
+<document>
+  <properties>
+    <author email="mcconnell@dpml.net">Stephen McConnell</author>
+    <author email="niclas@hedhman.org">Niclas Hedhman</author>
+    <author email="david.leangen@konova.com">David Leangen</author>
+    <title>DPML Transit</title>
+  </properties> 
+
+  <body verified="false">
+    <section name="Features and Benefits">
+
+      <p>
+        The core of the Transit product is a URL protocol handler which serves as
+        the basic construct on which classloader management in provided.  The classloader
+        creation services provide the framework with a simple plugin framework.
+      </p>
+
+      <p>
+        Key features of the Transit system include:
+      </p>
+
+      <ol>
+        <li>high level of integration with the JVM</li>
+        <li>simple configuration model</li>
+        <li>small footprint</li>
+        <li>flexible event monitoring</li>
+      </ol>
+
+      <p>
+        Key benefits delivered by Transit include:
+      </p>
+
+      <ol>
+        <li>cost reduction on product deployment and upgrade</li>
+        <li>reduced risk though improved control over version management</li>
+        <li>improved quality through reduction in class conflicts</li>
+
+        <li>improved security through repository management</li>
+        <li>low maintenance though centralized configuration</li>
+      </ol>
+
+    </section>
+  </body>
+</document>

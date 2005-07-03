@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+
+<document>
+
+  <properties>
+    <author email="mcconnell@dpml.net">Stephen McConnell</author>
+    <title>DPML Metro</title>
+  </properties> 
+
+  <body>
+
+    <section name="Descriptors">
+        <table>
+          <tr><th>Topic</th><th>Summary</th></tr>
+          <tr>
+            <td><a href="type/index.html">Type</a></td>
+            <td>
+            Definition of the component type.  A Type meta info object
+            describes the structural features of component at the level 
+            equivalent to a class.  A type includes information about 
+            deployment and runtime dependencies together with arbitrary attributes,
+            a component implementation version and a component type name.
+            </td>
+          </tr>
+          <tr>
+            <td><a href="service.html">Service</a></td>
+            <td>
+            A service is a meta info object that describes a service 
+            provided by a component type.  Service supports the attribution
+            of a version and arbitrary properties.</td>
+          </tr>
+          <tr>
+            <td><a href="attributes/index.html">Attributes</a></td>
+            <td>
+            Attribute declarations used in conjunction with meta-info
+            descriptors supporting customisation of the meta-info model.
+            </td>
+          </tr>
+        </table>
+    </section>
+
+  </body>
+</document>
