@@ -41,7 +41,9 @@ public class ConfigurationHandler
         Properties properties = new Properties();
         properties.setProperty( 
            "handlers", 
-           "java.util.logging.FileHandler, java.util.logging.ConsoleHandler" );
+           System.getProperty( 
+             "handlers", 
+             "java.util.logging.FileHandler, java.util.logging.ConsoleHandler" ) );
         properties.setProperty( 
            "java.util.logging.ConsoleHandler.formatter", 
            "net.dpml.transit.util.StandardFormatter" );
@@ -66,7 +68,9 @@ public class ConfigurationHandler
         // set the level that the console handler will handle
         //
 
-        properties.setProperty( "java.util.logging.ConsoleHandler.level", "FINEST" );
+        properties.setProperty( 
+          "java.util.logging.ConsoleHandler.level", 
+          System.getProperty( "java.util.logging.ConsoleHandler.level", "FINEST" ) );
 
         try
         {

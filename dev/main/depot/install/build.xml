@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<project name="dpml-depot-install" default="install" basedir="." 
+    xmlns:transit="antlib:net.dpml.transit" 
+    xmlns:x="plugin:dpml/magic/dpml-magic-core" >
+
+  <transit:import uri="artifact:template:dpml/magic/standard"/>
+
+  <target name="package" depends="standard.package">
+    <x:export class="net.dpml.depot.install.PackageInstaller"/>
+    <property name="link.path" value="target/deliverables/plugins/${project.name}-LATEST.plugin.link"/>
+    <property name="link.uri" value="artifact:plugin:${project.group}/${project.name}#${project.version}"/>
+    <echo file="${link.path}">${link.uri}</echo>
+  </target>
+
+</project>

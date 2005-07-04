@@ -148,5 +148,4 @@ public class DepotStorageUnit extends AbstractStorageUnit implements DepotHome
         prefs.put( "uri", "link:part:dpml/planet/http/dpml-http-demo#LATEST" );
         prefs.put( "title", "HTTP Demo" );
     }
-
 }

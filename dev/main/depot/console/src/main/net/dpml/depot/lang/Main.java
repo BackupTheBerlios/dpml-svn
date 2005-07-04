@@ -88,9 +88,10 @@ public final class Main
         throws Exception
     {
         long start = new Date().getTime();
-	  System.setSecurityManager(new RMISecurityManager());
         boolean termination = false;
+
         System.setProperty( "dpml.logging.category", "depot" );
+	  System.setSecurityManager(new RMISecurityManager());
 
         boolean help = isFlagPresent( args, "-help" );
         if( help )
@@ -128,16 +129,6 @@ public final class Main
             System.setProperty( "dpml.depot.metal", "true" );
         }
 
-        for( int i=0; i < args.length; i++ )
-        {
-            String arg = args[i];
-            if( arg.equals( "-station" ) )
-            {
-                System.setProperty( "dpml.logging.category", "depot.station" );
-                break;
-            }
-        }
-
         //
         // check if -get has been requested
         //
@@ -163,6 +154,13 @@ public final class Main
             }
         }
 
+        boolean install = isFlagPresent( args, "-install" );
+        if( install )
+        {
+            System.setProperty( "java.util.logging.ConsoleHandler.level", "SEVERE" );
+        }
+
+
         try
         {
             //
@@ -186,18 +184,28 @@ public final class Main
                 String arg = args[i];
                 if( arg.equals( "-prefs" ) )
                 {
+                    args = consolidate( args, "-prefs" );
                     model = loadTransitModel( args, logger, true );
                     profile = createPrefsProfile( logger );
                     break;
                 }
                 else if( arg.equals( "-station" ) )
                 {
+                    args = consolidate( args, "-station" );
                     model = loadTransitModel( args, logger, false );
                     profile = createStationProfile( logger );
                     break;
                 }
+                else if( arg.equals( "-install" ) )
+                {
+                    args = consolidate( args, "-install" );
+                    model = loadTransitModel( args, logger, false );
+                    profile = createInstallProfile( logger );
+                    break;
+                }
                 else if( arg.equals( "-profile" ) )
                 {
+                    //args = consolidate( args, "-profile" );
                     model = loadTransitModel( args, logger, true );
                     String target = getTargetProfile( args );
                     if( null != target )
@@ -343,9 +351,23 @@ public final class Main
         Logger log = logger.getChildLogger( "prefs" );
         boolean policy = true;
         URI uri = new URI( "@DEPOT-PREFS-URI@" );
-        String title = "DepotProfile Preferences";
+        String title = "Depot Preferences Management";
         boolean command = false;
         Properties args = new Properties();
+        return new DefaultApplicationProfile( 
+          log, id, title, null, command, null, uri, true, args );
+    }
+
+    private static ApplicationProfile createInstallProfile( Logger logger ) throws Exception
+    {
+        String id = "install";
+        Logger log = logger.getChildLogger( "install" );
+        boolean policy = true;
+        URI uri = new URI( "link:plugin:dpml/depot/dpml-depot-install#LATEST" );
+        String title = "Depot Installation Manager";
+        boolean command = false;
+        Properties args = new Properties();
+        args.setProperty( "java.util.logging.ConsoleHandler.level", "SEVERE" );
         return new DefaultApplicationProfile( 
           log, id, title, null, command, null, uri, true, args );
     }
@@ -585,13 +607,13 @@ public final class Main
     private static TransitModel loadTransitModel( String[] args, Logger logger, boolean resolve )
       throws Exception
     {
-        int port = Registry.REGISTRY_PORT;
-        Connection connection = new Connection( null, port, true, true );
-     
         if( false == resolve )
         {
             return new DefaultTransitModel( logger );
         }
+
+        int port = Registry.REGISTRY_PORT;
+        Connection connection = new Connection( null, port, true, true );
 
         logger.info( "resolving transit model" );
 

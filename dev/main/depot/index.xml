@@ -65,6 +65,21 @@
     </dependencies>
   </project>
 
+  <project basedir="install">
+    <info>
+      <group>dpml/depot</group>
+      <name>dpml-depot-install</name>
+      <types>
+        <type>jar</type>
+        <type>plugin</type>
+      </types>
+    </info>
+    <dependencies>
+      <include key="dpml-transit-main" tag="api"/>
+      <include key="dpml-depot-console" tag="api"/>
+    </dependencies>
+  </project>
+
   <project basedir="test/brazil">
     <info>
       <group>dpml/test</group>
