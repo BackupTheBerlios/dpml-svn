@@ -107,10 +107,10 @@ class CacheModelPanel extends ClassicPanel implements PropertyChangeListener
         JLabel label = 
           IconHelper.createImageIconJLabel( 
             getClass().getClassLoader(), MISC_IMG_PATH, 
-            "Artifact", "Cache Controller settings." ); 
+            "Cache", "Cache settings." ); 
         label.setBorder( new EmptyBorder( 0, 5, 0, 0 ) );
-        ControllerAction controller = new ControllerAction( "Controller" );
-        getHeader().addEntry( label, "Cache Controller", new JButton( controller ) );
+        CacheAction cacheHandler = new CacheAction( "Cache" );
+        getHeader().addEntry( label, "Cache Directory Settings", new JButton( cacheHandler ) );
 
         JPanel hostPanel = new JPanel();
 	  hostPanel.setLayout( new BorderLayout() );
@@ -194,7 +194,7 @@ class CacheModelPanel extends ClassicPanel implements PropertyChangeListener
             try
             {
                 final String title = "Resource Cache";
-                final Dimension size = new Dimension( 400, 160 );
+                final Dimension size = new Dimension( 400, 220 );
                 ClassicDialog dialog = ClassicDialog.createDialog( m_parent, title, size );
                 CacheDirectoryPanel panel = new CacheDirectoryPanel( dialog, m_model );
                 dialog.getBody().add( panel );
@@ -398,6 +398,6 @@ class CacheModelPanel extends ClassicPanel implements PropertyChangeListener
     }
 
     private static String CACHE_IMG_PATH = "net/dpml/depot/prefs/images/cache.jpg";
-    private static String MISC_IMG_PATH = "net/dpml/depot/prefs/images/settings.png";
+    private static String MISC_IMG_PATH = "net/dpml/depot/prefs/images/cache.png";
 
 }

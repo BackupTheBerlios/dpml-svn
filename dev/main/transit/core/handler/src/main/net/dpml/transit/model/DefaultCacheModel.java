@@ -23,6 +23,7 @@ import java.io.IOException;
 import java.rmi.RemoteException;
 import java.net.URI;
 import java.net.UnknownHostException;
+import java.net.MalformedURLException;
 import java.util.Arrays;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -79,7 +80,7 @@ public class DefaultCacheModel extends DisposableCodeBaseModel
 
     public DefaultCacheModel( 
       Logger logger, CacheHome home, LayoutRegistryModel registry )
-      throws DuplicateKeyException, RemoteException, UnknownKeyException
+      throws DuplicateKeyException, RemoteException, UnknownKeyException, MalformedURLException
     {
         super( logger, home );
         if( null == registry )
@@ -94,8 +95,8 @@ public class DefaultCacheModel extends DisposableCodeBaseModel
         m_layout = registry.getLayoutModel( key );
         m_layout.addDisposalListener( this );
 
-        File cache = home.getCacheDirectory();
-        setCacheDirectory( cache, false );
+        String path = home.getCacheDirectoryPath();
+        setCacheDirectoryPath( path, false );
 
         HostStorage[] hosts = home.getInitialHosts();
         m_sortedHosts = sortHosts();
@@ -147,9 +148,9 @@ public class DefaultCacheModel extends DisposableCodeBaseModel
     *
     * @param file the cache directory
     */
-    public void setCacheDirectory( final File file ) throws RemoteException
+    public void setCacheDirectoryPath( final String path ) throws RemoteException
     {
-        setCacheDirectory( file, true );
+        setCacheDirectoryPath( path, true );
     }
 
    /**
@@ -157,19 +158,21 @@ public class DefaultCacheModel extends DisposableCodeBaseModel
     *
     * @param file the cache directory
     */
-    public void setCacheDirectory( final File file, boolean notify ) throws RemoteException
+    public void setCacheDirectoryPath( final String path, boolean notify ) throws RemoteException
     {
         synchronized( m_lock )
         {
-            if( null == file )
+            if( null == path )
             {
-                throw new NullPointerException( "file" );
+                throw new NullPointerException( "path" );
             }
-            File cache = file;
+
+            String resolved = PropertyResolver.resolve( path );
+            File cache = new File( resolved );
             if( false == cache.isAbsolute() )
             {
                 File anchor = getAnchorDirectory();
-                cache = new File( anchor, file.toString() );
+                cache = new File( anchor, resolved );
                 cache.mkdirs();
             }
             if( null == m_cache )
@@ -181,10 +184,10 @@ public class DefaultCacheModel extends DisposableCodeBaseModel
                 getLogger().debug( "updating cache: " + cache ); 
             }
             m_cache = cache;
-            m_home.setCacheDirectory( cache );
             if( notify )
             {
-                CacheDirectoryChangeEvent event = new CacheDirectoryChangeEvent( this, m_cache );
+                m_home.setCacheDirectoryPath( path );
+                CacheDirectoryChangeEvent event = new CacheDirectoryChangeEvent( this, path );
                 enqueueEvent( event );
             }
         }
@@ -225,14 +228,15 @@ public class DefaultCacheModel extends DisposableCodeBaseModel
         }
     }
 
-    public void addHostModel( String id ) throws DuplicateKeyException, UnknownKeyException, RemoteException
+    public void addHostModel( String id ) 
+       throws DuplicateKeyException, UnknownKeyException, RemoteException, MalformedURLException
     {
         HostStorage store = m_home.getHostStorage( id );
         addHostModel( store, true );
     }
 
     public void addHostModel( HostStorage store, boolean notify ) 
-      throws DuplicateKeyException, UnknownKeyException, RemoteException
+      throws DuplicateKeyException, UnknownKeyException, RemoteException, MalformedURLException
     {
         String id = store.getID();
         Logger logger = getLogger().getChildLogger( id );
@@ -279,6 +283,15 @@ public class DefaultCacheModel extends DisposableCodeBaseModel
             HostRemovedEvent event = new HostRemovedEvent( this, model );
             enqueueEvent( event );
         }
+    }
+
+   /**
+    * Return the cache directory path.
+    * @return the cache path.
+    */
+    public String getCacheDirectoryPath() throws RemoteException
+    {
+        return m_home.getCacheDirectoryPath();
     }
 
    /**
@@ -435,14 +448,6 @@ public class DefaultCacheModel extends DisposableCodeBaseModel
         public HostRemovedEvent( CacheModel source, HostModel host )
         {
             super( source, host );
-        }
-    }
-
-    class CacheDirectoryChangeEvent extends FileChangeEvent
-    {
-        public CacheDirectoryChangeEvent( Object source, File file )
-        {
-            super( source, file );
         }
     }
 }

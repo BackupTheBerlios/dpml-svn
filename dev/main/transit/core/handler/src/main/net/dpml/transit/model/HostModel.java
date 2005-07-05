@@ -20,6 +20,7 @@ package net.dpml.transit.model;
 
 import java.net.URL;
 import java.net.URI;
+import java.net.MalformedURLException; 
 import java.net.Authenticator; 
 import java.net.PasswordAuthentication;
 import java.rmi.RemoteException;
@@ -62,10 +63,22 @@ public interface HostModel extends CodeBaseModel, Disposable
     int getPriority() throws RemoteException;
 
    /**
+    * Return the host base path.
+    * @return the base path
+    */
+    String getBasePath() throws RemoteException;
+
+   /**
     * Return the host base url.
     * @return the base url
     */
     URL getBaseURL() throws RemoteException;
+
+   /**
+    * Return index path.
+    * @return the index path
+    */
+    String getIndexPath() throws RemoteException;
 
    /**
     * Return index url.
@@ -125,9 +138,9 @@ public interface HostModel extends CodeBaseModel, Disposable
     void setLayoutModel( LayoutModel layout ) throws BootstrapException, RemoteException;
 
     void update( 
-      URL base, URL index, boolean enabled, boolean trusted, String layout, 
+      String base, String index, boolean enabled, boolean trusted, String layout, 
       PasswordAuthentication auth, String scheme, String prompt ) 
-      throws BootstrapException, UnknownKeyException, RemoteException;
+      throws BootstrapException, UnknownKeyException, MalformedURLException, RemoteException;
 
    /**
     * Add a host change listener to the director.

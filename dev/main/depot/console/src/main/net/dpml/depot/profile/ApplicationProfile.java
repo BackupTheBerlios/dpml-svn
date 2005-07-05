@@ -43,6 +43,10 @@ public interface ApplicationProfile extends Profile
 
     void setConnection( Connection connection ) throws RemoteException;
 
+    Properties getProperties() throws RemoteException;
+
+    void setProperties( Properties args ) throws RemoteException;
+
 }
 
 

@@ -20,170 +20,146 @@ package net.dpml.depot.prefs;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dialog;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
-import java.io.File;
+import java.io.IOException;
+import java.lang.reflect.Constructor;
+import java.net.ContentHandler;
+import java.net.PasswordAuthentication;
+import java.net.URISyntaxException;
+import java.net.URI;
+import java.net.URL;
 import java.rmi.RemoteException;
-import java.rmi.server.UnicastRemoteObject;
+import java.util.logging.Logger;
+import java.util.logging.Level;
 
 import javax.swing.AbstractAction;
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JDialog;
-import javax.swing.JFileChooser;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
+import javax.swing.ImageIcon;
+import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
+import javax.swing.border.TitledBorder;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 
-import net.dpml.transit.Transit;
 import net.dpml.transit.model.CacheModel;
-import net.dpml.transit.model.CacheListener;
-import net.dpml.transit.model.FileChangeEvent;
-import net.dpml.transit.model.CacheEvent;
 
 /**
  * Control panel for editing the cache preferences.
  *
  * @author <a href="mailto:mcconnell@osm.net">OSM</a>
  */
-class CacheDirectoryPanel extends ClassicPanel implements PropertyChangeListener
+class CacheDirectoryPanel extends ClassicPanel implements PropertyChangeListener, DocumentListener
 {
-    //--------------------------------------------------------------
-    // static
-    //--------------------------------------------------------------
-
-    static EmptyBorder border5 = new EmptyBorder( 5, 5, 5, 5);
-
     //--------------------------------------------------------------
     // state
     //--------------------------------------------------------------
 
     private final JDialog m_parent;
-    private JLabel m_label;
+    private final CacheModel m_model;
+    private JTextField m_base;
     private JButton m_ok;
     private JButton m_revert;
-
-    private File m_target;
-
-    private final CacheModel m_manager;
-
-    private final PropertyChangeSupport m_propertyChangeSupport;
-    private final RemoteCacheListener m_cacheListener;
+    private PropertyChangeSupport m_propertyChangeSupport;
+    private String m_cache;
+    private JButton m_close;
 
     //--------------------------------------------------------------
     // constructor
     //--------------------------------------------------------------
 
-    public CacheDirectoryPanel( JDialog parent, CacheModel manager ) throws Exception 
+   /**
+    * Creation of a panel containing the name of an exclude host.
+    * 
+    * @param parent the parent dialog 
+    */
+    public CacheDirectoryPanel( JDialog parent, CacheModel model ) throws Exception 
     {
         m_parent = parent;
-        m_manager = manager;
+        m_model = model;
 
+        m_cache = model.getCacheDirectoryPath();
         m_propertyChangeSupport = new PropertyChangeSupport( this );
-
-        File cache = getCurrentCacheFile();
-        String filename = cache.getCanonicalPath();
-        JLabel label = 
-          IconHelper.createImageIconJLabel( 
-            getClass().getClassLoader(), CACHE_ICON_SRC, "Filename", "Directory: " + filename ); 
-        label.setBorder( new EmptyBorder( 0, 5, 0, 0 ) );
-
-        m_label = label;
         m_ok = new JButton( new OKAction( "OK" ) );
         m_revert = new JButton( new RevertAction( "Undo" ) );
+        m_close = new JButton( new CloseAction( "Close" ) );
 
-        m_cacheListener = new RemoteCacheListener();
-        m_manager.addCacheListener( m_cacheListener );
+        // add a text field containing the host url
 
-        if( null == cache )
         {
-            // setup an error dialog content
+            JLabel label = 
+              IconHelper.createImageIconJLabel( 
+                getClass().getClassLoader(), FOLDER_IMG_PATH, 
+                "Cache", "Cache Settings." ); 
+
+            label.setBorder( new EmptyBorder( 0, 5, 0, 0 ) );
+            JPanel padding = new JPanel();
+            padding.setLayout( new BorderLayout() );
+            padding.setBorder( new EmptyBorder( 10, 2, 5, 2) );
+            m_base = new JTextField( m_cache );
+            m_base.getDocument().addDocumentListener( this ); // listen for changes
+            padding.add( m_base );
+
+            getHeader().addStackedEntry( label, "Cache Directory", padding );
         }
-        else
-        {
-            // create a label containing an icon and the current filename
 
+        // add revert, ok, and cancel
+
+        {
             JPanel panel = new JPanel();
-            panel.setLayout( new BorderLayout() );
-            panel.add( label, BorderLayout.WEST );
-            add( panel, BorderLayout.NORTH );
-
-            // add controls for modification of the cache value
-
-            JPanel buttonHolder = new JPanel();
-            buttonHolder.setLayout( new FlowLayout( FlowLayout.RIGHT ) );
-            buttonHolder.add( m_revert );
-            buttonHolder.add( new JButton( new ChangeAction( "Change" ) ) );
-            buttonHolder.add( m_ok );
-            buttonHolder.add( new JButton( new CloseAction( "Cancel" ) ) );
-            buttonHolder.setBorder( new EmptyBorder( 10, 10, 5, 0 ) );
-            add( buttonHolder, BorderLayout.SOUTH );
-
-            m_propertyChangeSupport.addPropertyChangeListener( this );
+            panel.setLayout( new FlowLayout( FlowLayout.RIGHT ) );
+            panel.add( m_revert );
+            panel.add( m_ok );
+            panel.add( m_close );
+            panel.setBorder( new EmptyBorder( 10, 10, 5, 0 ) );
+            add( panel, BorderLayout.SOUTH );
         }
+
+        m_propertyChangeSupport.addPropertyChangeListener( this );
     }
 
-    public void dispose()
+    //--------------------------------------------------------------
+    // DocumentListener
+    //--------------------------------------------------------------
+
+    public void insertUpdate( DocumentEvent event )
     {
-        m_propertyChangeSupport.removePropertyChangeListener( this );
-        try
-        {
-            m_manager.removeCacheListener( m_cacheListener );
-        }
-        catch( RemoteException e )
-        {
-            System.err.println( "CacheDirectoryPanel disposal error." );
-            e.printStackTrace();
-        }
+        fireBaseChangedEvent();
     }
-  
-    //--------------------------------------------------------------------------
-    // CacheListener
-    //--------------------------------------------------------------------------
 
-    private class RemoteCacheListener extends UnicastRemoteObject implements CacheListener
+    public void removeUpdate( DocumentEvent event )
     {
-        public RemoteCacheListener() throws RemoteException
-        {
-            super();
-        }
-
-       /**
-        * Notify the listener of a change to the cache directory.
-        * @param event the cache directory change event
-        */
-        public void cacheDirectoryChanged( FileChangeEvent event )
-        {
-            File cache = getCurrentCacheFile();
-            String path = convertToPath( cache );
-            String text = "Directory: " + path;
-            m_label.setText( text );
-        }
-
-       /**
-        * Notify the listener of the addition of a new host.
-        * @param event the host added event
-        */
-        public void hostAdded( CacheEvent event )
-        {
-            // ignore
-        }
-    
-       /**
-        * Notify the listener of the removal of a host.
-        * @param event the host removed event
-        */
-        public void hostRemoved( CacheEvent event )
-        {
-            // ignore
-        }
+        fireBaseChangedEvent();
     }
 
-    //--------------------------------------------------------------------------
+    public void changedUpdate( DocumentEvent event )
+    {
+        fireBaseChangedEvent();
+    }
+
+    private void fireBaseChangedEvent()
+    {
+        PropertyChangeEvent e = 
+          new PropertyChangeEvent( 
+            m_base, "cache", null, m_base.getText() );
+        m_propertyChangeSupport.firePropertyChange( e );
+    }
+
+    //--------------------------------------------------------------
     // PropertyChangeListener
-    //--------------------------------------------------------------------------
+    //--------------------------------------------------------------
 
    /**
     * The actions dealing with changes to the dialog raise change events that 
@@ -193,53 +169,49 @@ class CacheDirectoryPanel extends ClassicPanel implements PropertyChangeListener
     */
     public void propertyChange( PropertyChangeEvent event )
     {
-        File cache = getCurrentCacheFile();
-        boolean flag = ( false == cache.equals( m_target ) );
+        String base = m_base.getText();
+
+        boolean flag = ( false == m_cache.equals( base ) );
         m_ok.setEnabled( flag );
         m_revert.setEnabled( flag );
+
+        if( flag )
+        {
+            getRootPane().setDefaultButton( m_ok );
+        }
+        else
+        {
+            getRootPane().setDefaultButton( m_close );
+        }
     }
+
+    public JButton getDefaultButton()
+    {
+        String base = m_base.getText();
+        boolean flag = ( false == m_cache.equals( base ) );
+        if( flag )
+        {
+            return m_ok;
+        }
+        else
+        {
+            return m_close;
+        }
+    }
+
+    //--------------------------------------------------------------
+    // utilities
+    //--------------------------------------------------------------
 
     private class CloseAction extends AbstractAction
     {
-         CloseAction( String name )
-         {
-             super( name );
-         }
-
-         public void actionPerformed( ActionEvent event )
-         {
-             m_parent.hide();
-         }
-     }
-
-     private class OKAction extends AbstractAction
-     {
-        OKAction( String name )
+        CloseAction( String name )
         {
             super( name );
-            setEnabled( false );
         }
 
         public void actionPerformed( ActionEvent event )
         {
-            if( null != m_target )
-            {
-                File file = getCurrentCacheFile();
-                if( false == file.equals( m_target ) )
-                {
-                    String path = convertToPath( m_target );
-                    try
-                    {
-                        m_manager.setCacheDirectory( new File( path ) );
-                    }
-                    catch( RemoteException e )
-                    {
-                        final String error = 
-                          "Unable to set cache directory due to a remote exception.";
-                        throw new RuntimeException( error, e );
-                    }
-                }
-            }
             m_parent.hide();
         }
     }
@@ -254,74 +226,55 @@ class CacheDirectoryPanel extends ClassicPanel implements PropertyChangeListener
 
         public void actionPerformed( ActionEvent event )
         {
-            File old = m_target;
-            m_target = getCurrentCacheFile();
-            String text = "Directory: " + convertToPath( m_target );
-            m_label.setText( text );
+            String old = m_base.getText();
+            m_base.setText( m_cache );
             PropertyChangeEvent e = 
-              new PropertyChangeEvent( 
-                this, "location", old, m_target);
+              new PropertyChangeEvent( this, "undo", null, null );
             m_propertyChangeSupport.firePropertyChange( e );
         }
     }
 
-    private class ChangeAction extends AbstractAction
+    private class OKAction extends AbstractAction
     {
-        ChangeAction( String name )
+        OKAction( String name )
         {
             super( name );
+            setEnabled( false );
         }
 
         public void actionPerformed( ActionEvent event )
         {
-            File file = getCurrentCacheFile();
-            JFileChooser chooser = new JFileChooser();
-            chooser.setFileSelectionMode( JFileChooser.DIRECTORIES_ONLY );
-            chooser.setCurrentDirectory( file );
-            int result = chooser.showOpenDialog( m_parent );
-            if( result == JFileChooser.APPROVE_OPTION )
+            String text = m_base.getText();
+            if( false == text.equals( m_cache ) )
             {
-                m_target = chooser.getSelectedFile();
-                String text = "Directory: " + convertToPath( m_target );
-                m_label.setText( text );
-                PropertyChangeEvent e = 
-                  new PropertyChangeEvent( 
-                    this, "location", file, m_target );
-                m_propertyChangeSupport.firePropertyChange( e );
+                try
+                {
+                    if( "".equals( text ) )
+                    {
+                        m_model.setCacheDirectoryPath( null );
+                    }
+                    else
+                    {
+                        m_model.setCacheDirectoryPath( text );
+                    }
+                }
+                catch( RemoteException e )
+                {
+                    final String error = 
+                      "Unexpected remote exception setting cache directory path.";
+                    throw new RuntimeException( error, e );
+                }
             }
-        }
-    }
-
-    private String convertToPath( File file )
-    {
-        try
-        {
-            return file.getCanonicalPath();
-        }
-        catch( Exception e )
-        {
-            return file.toString();
-        }
-    }
-
-    private File getCurrentCacheFile()
-    {
-        try
-        {
-            return m_manager.getCacheDirectory();
-        }
-        catch( RemoteException e )
-        {
-            final String error = 
-              "Unexpected remote exception while reading cache directory value.";
-            throw new RuntimeException( error, e );
+            m_parent.hide();
         }
     }
 
     //--------------------------------------------------------------
-    // static (utils)
+    // static utils
     //--------------------------------------------------------------
 
-    private static String CACHE_ICON_SRC = "net/dpml/depot/prefs/images/cache.jpg";
-
+    private static EmptyBorder border5 = new EmptyBorder( 5, 5, 5, 5);
+    private static String FOLDER_IMG_PATH = "net/dpml/depot/prefs/images/folder.png";
 }
+
+

@@ -44,9 +44,9 @@ public interface HostStorage extends CodeBaseStorage
 
     String getLayoutModelKey();
 
-    URL getBaseURL();
+    String getBasePath();
 
-    URL getIndexURL( URL base );
+    String getIndexPath();
 
     PasswordAuthentication getAuthentication();
 
@@ -57,7 +57,7 @@ public interface HostStorage extends CodeBaseStorage
     Strategy getStrategy();
 
     void setHostSettings( 
-      URL base, URL index, boolean enabled, boolean trusted, String layout, 
+      String base, String index, boolean enabled, boolean trusted, String layout, 
       PasswordAuthentication auth, String scheme, String prompt );
 
     void setName( String name );

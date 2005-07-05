@@ -9,6 +9,9 @@
     <x:filter feature="name" token="NAME"/>
     <x:filter feature="version" token="VERSION"/>
     <x:filter feature="group" token="GROUP"/>
+    <x:property name="plugin.uri" feature="uri" type="plugin"/>
+    <filter token="PRODUCTION_URI" value="${plugin.uri}"/>
+    <filter token="DEVELOPMENT_URI" value="link:plugin:${project.group}/${project.name}#LATEST"/>
   </target>
 
   <target name="build" depends="standard.build">
@@ -24,7 +27,8 @@
 
   <target name="install" depends="standard.install">
     <x:property name="plugin.uri" feature="uri" type="plugin"/>
-    <transit:link target="${plugin.uri}" uri="link:plugin:${project.group}/${project.name}#LATEST"/>
+    <property name="link" value="${basedir}/target/deliverables/plugins/${project.name}-LATEST.plugin.link"/>
+    <echo file="${link}">${plugin.uri}</echo>
   </target>
 
 </project>

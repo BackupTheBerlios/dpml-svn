@@ -36,6 +36,9 @@
         <home href="http://www.dpml.net/central/products/metro/"/>
       </header>
     </x:module>
+    <x:property name="module.uri" feature="uri" type="module"/>
+    <property name="link" value="target/deliverables/modules/${project.name}.module.link"/>
+    <echo file="${link}">${module.uri}</echo>
   </target>
 
   <target name="package" depends="standard.package">
@@ -45,9 +48,9 @@
     <!-- create the README and LICENSE files-->
     <copy todir="${bundle}" filtering="true">
       <fileset dir="${basedir}">
-        <include name="LICENSE.TXT"/>
-        <include name="NOTICE.TXT"/>
-        <include name="METRO.TXT"/>
+        <include name="METRO_LICENSE.TXT"/>
+        <include name="METRO_NOTICE.TXT"/>
+        <include name="METRO_README.TXT"/>
       </fileset>
     </copy>
     <property name="prefs" value="${bundle}/prefs"/>
@@ -59,27 +62,35 @@
     <copy todir="${local}/${project.group}">
       <fileset dir="target/deliverables"/>
     </copy>
-    <!--
-    Add the non-version bin files to the bin directory.
-    -->
-    <!--
-    <copy todir="${share}/bin">
-      <fileset dir="${basedir}/main/target/bin"/>
-    </copy>
-    <chmod file="${share}/bin/metro" perm="755"/>
-    -->
-    <!--
-    Add the javadoc to the dist.
-    -->
+
+    <!-- add the javadoc -->
+
     <property name="docs.src" location="${basedir}/target/api"/>
     <property name="docs.dest" location="${share}/docs/api/${project.group}/${project.version}"/>
     <mkdir dir="${docs.dest}"/>
     <copy todir="${docs.dest}">
       <fileset dir="${docs.src}"/>
     </copy>
-    <!--
-    Package the bundle into a compressed archive.
-    -->
+
+    <!-- zip up a copy of the platform independent bundle for use by depot -->
+
+    <x:property name="metro.plugin.uri" key="dpml-metro-central" feature="uri" type="plugin"/>
+    <echo file="${bundle}/BUNDLE">
+dpml.depot.installer.class = net.dpml.metro.central.MetroInstaller
+dpml.depot.installer.uri = ${metro.plugin.uri}
+    </echo>
+
+    <property name="zip.filename" 
+      value="${basedir}/target/deliverables/zips/${project.name}-${project.version}.zip"/>
+    <mkdir dir="target/deliverables/zips"/>
+    <zip destfile="${zip.filename}" whenempty="create">
+      <zipfileset dir="${bundle}">
+        <include name="**/*"/>
+      </zipfileset>
+    </zip>
+
+    <!-- create the standalone distribution -->
+
     <x:dist compression="gzip">
       <fileset dir="${bundle}">
         <include name="*.TXT"/>
@@ -97,11 +108,11 @@
         <include name="**/metro"/>
       </tarfileset>
     </x:dist>
+
   </target>
 
   <target name="install" depends="docs,standard.install">
-    <x:property name="module.uri" feature="uri" type="module"/>
-    <transit:link target="${module.uri}" uri="link:module:${project.group}/${project.name}"/>
+
     <echo>
 #----------------------------------------------------------------------------------
 # Updating DPML PREFS ${dpml.prefs}
@@ -128,6 +139,7 @@
     <copy todir="${export}">
       <fileset dir="target/dist"/>
     </copy>
+
   </target>
 
   <target name="docs" depends="javadocs,junit-report"/>

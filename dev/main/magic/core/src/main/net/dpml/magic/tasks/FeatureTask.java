@@ -145,7 +145,14 @@ public abstract class FeatureTask extends ProjectTask
         }
         else if( m_feature.equals( "path" ) )
         {
-            return convertString( resource.getInfo().getPath() );
+            if( null == m_type )
+            {
+                return convertString( resource.getInfo().getPath() );
+            }
+            else
+            {
+                return convertString( resource.getInfo().getPath( m_type ) );
+            }
         }
         else if( m_feature.equals( "docs" ) )
         {

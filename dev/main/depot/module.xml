@@ -36,53 +36,88 @@
         <home href="http://www.dpml.net/central/products/depot/"/>
       </header>
     </x:module>
+    <x:property name="module.uri" feature="uri" type="module"/>
+    <property name="link" value="target/deliverables/modules/${project.name}.module.link"/>
+    <echo file="${link}">${module.uri}</echo>
     <x:javadoc>
       <link href="http://java.sun.com/j2se/1.4/docs/api"/>
     </x:javadoc>
   </target>
 
   <target name="package" depends="standard.package">
+   
+    <!--
+    Grab a copy of the Transit bundle to form the basis for the depot bundle.
+    -->
+
+    <mkdir dir="${bundle}"/>
+    <x:property name="transit.bundle" key="dpml-transit" feature="path" type="zip"/>
+    <unzip src="${dpml.cache}/${transit.bundle}" dest="${bundle}"/>
+
+    <!--
+    Add the additional content provided by Depot.
+    -->
+
     <property name="share" value="${bundle}/share"/>
     <property name="data" value="${bundle}/data"/>
+
     <!-- create the README and LICENSE files-->
     <copy todir="${bundle}" filtering="true">
       <fileset dir="${basedir}">
-        <include name="LICENSE.TXT"/>
-        <include name="NOTICE.TXT"/>
-        <include name="DEPOT.TXT"/>
+        <include name="DEPOT_LICENSE.TXT"/>
+        <include name="DEPOT_NOTICE.TXT"/>
+        <include name="DEPOT_README.TXT"/>
       </fileset>
     </copy>
+
+    <!-- build the lib directory -->
+
+    <property name="lib" value="${data}/lib"/>
+    <mkdir dir="${lib}"/>
+    <x:property name="transit.main.version" key="dpml-transit-main" feature="version"/>
+    <x:property name="depot.console.version" key="dpml-depot-console" feature="version"/>
+    <copy file="${dpml.cache}/dpml/transit/jars/dpml-transit-main-${transit.main.version}.jar"
+      toFile="${lib}/dpml-transit-main.jar"/>
+    <copy file="${dpml.cache}/dpml/depot/jars/dpml-depot-console-${depot.console.version}.jar"
+      toFile="${lib}/dpml-depot-console.jar"/>
+
+    <!-- build the local repository -->
+
     <property name="local" value="${share}/local"/>
     <x:path id="module.path" type="*" mode="RUNTIME" module="true"/>
     <x:replicate refid="module.path" toDir="${local}" />
     <copy todir="${local}/${project.group}">
       <fileset dir="target/deliverables"/>
     </copy>
-    <!--
-    Add the non-version bin files to the bin directory.
-    -->
+
+    <!-- build the bin directory -->
+
     <copy todir="${share}/bin">
       <fileset dir="${basedir}/console/target/bin"/>
     </copy>
-    <!--
-    Add the javadoc to the dist.
-    -->
+
+    <!-- add depot javadocs to the distribution -->
+
     <property name="docs.src" location="${basedir}/target/api"/>
     <property name="docs.dest" location="${share}/docs/api/${project.group}/${project.version}"/>
     <mkdir dir="${docs.dest}"/>
     <copy todir="${docs.dest}">
       <fileset dir="${docs.src}"/>
     </copy>
-    <!--
-    Package the bundle into a compressed archive.
-    -->
+
+    <!-- package it all up -->
+
     <x:dist compression="gzip">
       <fileset dir="${bundle}">
         <include name="*.TXT"/>
       </fileset>
+      <zipfileset dir="${bundle}/data" prefix="Data"/>
+      <zipfileset dir="${bundle}/prefs" prefix="Preferences"/>
       <zipfileset dir="${bundle}/share" prefix="Shared">
-        <exclude name="**/metro"/>
+        <exclude name="**/depot"/>
       </zipfileset>
+      <tarfileset dir="${bundle}/data" prefix="data" mode="644" />
+      <tarfileset dir="${bundle}/prefs" prefix="prefs" mode="644" />
       <tarfileset dir="${bundle}/share" prefix="share" mode="444" >
         <exclude name="**/depot.bat"/>
         <exclude name="**/depot"/>
@@ -94,8 +129,6 @@
   </target>
 
   <target name="install" depends="standard.install">
-    <x:property name="module.uri" feature="uri" type="module"/>
-    <transit:link target="${module.uri}" uri="link:module:${project.group}/${project.name}"/>
     <echo>
 #----------------------------------------------------------------------------------
 # Updating DPML DATA ${dpml.data}

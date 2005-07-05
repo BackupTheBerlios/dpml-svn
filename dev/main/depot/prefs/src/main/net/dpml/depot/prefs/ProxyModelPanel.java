@@ -101,7 +101,7 @@ class ProxyModelPanel extends ClassicPanel implements PropertyChangeListener
         JLabel label = 
           IconHelper.createImageIconJLabel( 
             getClass().getClassLoader(), SERVER_IMG_PATH, 
-            "Proxy", "Proxy server properties and settings." ); 
+            "Proxy", "Proxy server settings." ); 
         label.setBorder( new EmptyBorder( 0, 5, 0, 0 ) );
         m_settings = new SettingsAction( "Settings" );
         getHeader().addEntry( label, "Proxy Server", new JButton( m_settings ) );

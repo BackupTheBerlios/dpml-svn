@@ -58,14 +58,14 @@ class HostStorageUnit extends CodeBaseStorageUnit implements HostStorage, Remova
     // ------------------------------------------------------------------------
 
     public void setHostSettings( 
-      URL base, URL index, boolean enabled, boolean trusted, String layout, 
+      String base, String index, boolean enabled, boolean trusted, String layout, 
       PasswordAuthentication auth, String scheme, String prompt )
     {
         Preferences prefs = getPreferences();
         synchronized( prefs )
         {
-            setURL( "base", base );
-            setURL( "index", index );
+            setValue( "base", base );
+            setValue( "index", index );
             setTrusted( trusted );
             setEnabled( enabled );
             setLayoutModelKey( layout );
@@ -143,33 +143,10 @@ class HostStorageUnit extends CodeBaseStorageUnit implements HostStorage, Remova
         }
     }
 
-    public URL getBaseURL() throws BuilderException
+    public String getBasePath() throws BuilderException
     {
         Preferences prefs = getPreferences();
-        String baseSpec = prefs.get( "base", "http://localhost" );
-
-        //
-        // make sure the base path ends with a "/" otherwise relative url references 
-        // will not be correct
-        //
-
-        if( false == baseSpec.endsWith( "/" ) )
-        {
-            baseSpec = baseSpec + "/";
-        }
-
-        try
-        {
-            return new URL( baseSpec );
-        }
-        catch( MalformedURLException e )
-        {
-            final String error =  
-              "Invalid host base url"
-              + "\nHost ID: " + prefs.name()
-              + "\nHost Path: " + baseSpec;
-            throw new BuilderException( error, e );
-        }
+        return prefs.get( "base", "http://localhost" );
     }
 
     public PasswordAuthentication getAuthentication()
@@ -187,31 +164,10 @@ class HostStorageUnit extends CodeBaseStorageUnit implements HostStorage, Remova
         }
     }
 
-    public URL getIndexURL( URL base ) throws BuilderException
+    public String getIndexPath() throws BuilderException
     {
         Preferences prefs = getPreferences();
-        if( null == base )
-        {
-            throw new NullPointerException( "base" );
-        }
-        String indexSpec = prefs.get( "index", null );
-        if( null == indexSpec )
-        {
-            return null;
-        }
-
-        try
-        {
-            return new URL( indexSpec );
-        }
-        catch( MalformedURLException e )
-        {
-            final String error =  
-              "Invalid index url"
-              + "\nHost ID: " + prefs.name()
-              + "\nIndex Path: " + indexSpec;
-            throw new BuilderException( error, e );
-        }
+        return prefs.get( "index", null );
     }
 
     private void setTrusted( boolean trusted )

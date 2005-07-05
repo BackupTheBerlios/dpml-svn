@@ -155,11 +155,11 @@ public final class Main
         }
 
         boolean install = isFlagPresent( args, "-install" );
-        if( install )
+        boolean remove = isFlagPresent( args, "-remove" );
+        if( install || remove )
         {
             System.setProperty( "java.util.logging.ConsoleHandler.level", "SEVERE" );
         }
-
 
         try
         {
@@ -200,7 +200,14 @@ public final class Main
                 {
                     args = consolidate( args, "-install" );
                     model = loadTransitModel( args, logger, false );
-                    profile = createInstallProfile( logger );
+                    profile = createInstallProfile( logger, true );
+                    break;
+                }
+                else if( arg.equals( "-remove" ) )
+                {
+                    args = consolidate( args, "-remove" );
+                    model = loadTransitModel( args, logger, false );
+                    profile = createInstallProfile( logger, false );
                     break;
                 }
                 else if( arg.equals( "-profile" ) )
@@ -317,9 +324,13 @@ public final class Main
 
         Artifact artifact = Artifact.createArtifact( uri );
         String type = artifact.getType();
+        Properties params = profile.getProperties();
         if( "plugin".equals( type ) )
         {
-            return loader.getPlugin( parent, uri, new Object[]{ args, manager, model, logger, profile } );
+            return loader.getPlugin( 
+              parent, 
+              uri, 
+              new Object[]{ args, manager, model, logger, profile, params } );
         }
         else if( "part".equals( type ) )
         {
@@ -358,7 +369,7 @@ public final class Main
           log, id, title, null, command, null, uri, true, args );
     }
 
-    private static ApplicationProfile createInstallProfile( Logger logger ) throws Exception
+    private static ApplicationProfile createInstallProfile( Logger logger, boolean install ) throws Exception
     {
         String id = "install";
         Logger log = logger.getChildLogger( "install" );
@@ -368,6 +379,7 @@ public final class Main
         boolean command = false;
         Properties args = new Properties();
         args.setProperty( "java.util.logging.ConsoleHandler.level", "SEVERE" );
+        args.setProperty( "dpml.depot.install", "" + install );
         return new DefaultApplicationProfile( 
           log, id, title, null, command, null, uri, true, args );
     }
@@ -585,10 +597,17 @@ public final class Main
           + "\n\n -debug            Enable debug level logging."
           + "\n -get [artifact]   Load the supplied artifact to the cache."
           + "\n -help             List command line help."
+          + "\n -install          Launch the package installation manager."
           + "\n -prefs            Start the DepotProfile preferences editor."
           + "\n -profile [name]   Launch a named application."
           + "\n -reset            Clear DepotProfile and Transit prefences."
-          + "\n -version          List DepotProfile version information.";
+          + "\n -version          List DepotProfile version information."
+          + "\n"
+          + "\nNB: The -install option may be invoked with the argument 'magic' "
+          + "and 'metro'.  This is equivalent to entering the installation manager "
+          + "and requesting installation of the respective packages. The -remove option "
+          + "is also recognized as an alias to the installion manager."
+          + "\n";
         getLogger().info( message );
     }
 

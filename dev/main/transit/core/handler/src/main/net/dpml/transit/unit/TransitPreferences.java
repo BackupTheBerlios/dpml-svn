@@ -174,7 +174,7 @@ public class TransitPreferences
                         //}
                         Preferences host = hostsPrefs.node( name );
                         URL hostUrl = fileToURL( file );
-                        Properties properties = Util.readProps( hostUrl );
+                        Properties properties = Util.readProps( hostUrl, false );
                         setupHost( properties, host );
                     }
                 }
@@ -218,7 +218,7 @@ public class TransitPreferences
     {
         try
         {
-            Properties properties = Util.readProps( resource );
+            Properties properties = Util.readProps( resource, false );
             setupCachePreferences( properties, prefs );
         }
         catch( IOException ioe )
@@ -237,11 +237,6 @@ public class TransitPreferences
         if( null != location )
         {
             prefs.put( "location", location );
-        }
-        String classname = properties.getProperty( CacheModel.CACHE_CLASS_KEY );
-        if( null != classname )
-        {
-            prefs.put( "classname", classname );
         }
         String resolver = properties.getProperty( CacheModel.CACHE_LAYOUT_KEY );
         if( null != resolver )
@@ -264,7 +259,7 @@ public class TransitPreferences
         try
         {
             Preferences host = prefs.node( name );
-            Properties properties = Util.readProps( url );
+            Properties properties = Util.readProps( url, false );
             setupHost( properties, host );
         }
         catch( IOException ioe )
@@ -281,7 +276,7 @@ public class TransitPreferences
     {
         try
         {
-            Properties properties = Util.readProps( hostDef );
+            Properties properties = Util.readProps( hostDef, false );
             String id = properties.getProperty( HOST_ID_KEY );
             if( null == id )
             {

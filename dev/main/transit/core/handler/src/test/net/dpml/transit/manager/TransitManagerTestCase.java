@@ -52,10 +52,9 @@ public class TransitManagerTestCase extends TestCase
 
     public void testCacheDirectory() throws Exception
     {
-        File dir = new File( m_data, "cache" ).getAbsoluteFile();
-        m_model.getCacheModel().setCacheDirectory( dir );
-        File cache = m_model.getCacheModel().getCacheDirectory();
-        assertEquals( "cache", dir, cache );
+        m_model.getCacheModel().setCacheDirectoryPath( "my-cache" );
+        String cache = m_model.getCacheModel().getCacheDirectoryPath();
+        assertEquals( "cache", "my-cache", cache );
     }
 }
 

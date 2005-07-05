@@ -16,26 +16,31 @@
  * limitations under the License.
  */
 
-package net.dpml.transit.store;
+package net.dpml.transit.model;
 
 import java.io.File;
+import java.util.EventObject;
 
 /**
- * 
- *
- * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
+ * Event signalling a change to the Tranist cache directory.
  */
-public interface CacheStorage extends CodeBaseStorage
+public class CacheDirectoryChangeEvent extends EventObject
 {
-   /**
-    * Return the cache directory path.
-    * @return the cache directory path
-    */
-    String getCacheDirectoryPath();
+    private final String m_path;
 
-    void setCacheDirectoryPath( String path );
+    public CacheDirectoryChangeEvent( CacheModel source, String path )
+    {
+        super( source );
+        m_path = path;
+    }
 
-    String getLayoutModelKey();
-
-    void setLayoutModelKey( String key );
+    public CacheModel getCacheModel()
+    {
+        return (CacheModel) getSource();
+    }
+    
+    public String getCachePath()
+    {
+        return m_path;
+    }
 }

@@ -19,7 +19,7 @@
 -->
 
 
-<project name="dpml-home" default="install" basedir=".">
+<project name="transit" default="install" basedir=".">
 
   <import file="${basedir}/standard.xml"/>
 
@@ -50,22 +50,26 @@
 
     <delete dir="${bundle}"/>
 
-    <!-- create the README and LICENSE files-->
-    <copy todir="${bundle}" filtering="true">
-      <fileset dir="${basedir}">
-        <include name="TRANSIT.TXT"/>
-        <include name="LICENSE.TXT"/>
-        <include name="NOTICE.TXT"/>
-      </fileset>
-    </copy>
-
     <property name="data" value="${bundle}/data"/>
+    <property name="lib" value="${data}/lib"/>
+    <property name="prefs" value="${bundle}/prefs"/>
+    <property name="share" value="${bundle}/share"/>
+    <property name="local" value="${share}/local"/>
+
     <mkdir dir="${data}/cache"/>
     <mkdir dir="${data}/docs"/>
     <mkdir dir="${data}/dist"/>
-
-    <property name="prefs" value="${bundle}/prefs"/>
+    <mkdir dir="${lib}"/>
     <mkdir dir="${prefs}"/>
+
+    <!-- create LICENSE files-->
+    <copy todir="${bundle}" filtering="true">
+      <fileset dir="${basedir}">
+        <include name="TRANSIT_LICENSE.TXT"/>
+        <include name="TRANSIT_NOTICE.TXT"/>
+        <include name="TRANSIT_README.TXT"/>
+      </fileset>
+    </copy>
 
     <!-- create the transit configuration directory -->
     <property name="transit" value="${prefs}/transit"/>
@@ -75,24 +79,26 @@
       <fileset dir="${basedir}/core/handler/target/setup"/>
     </copy>
 
-    <!-- include the util package -->
-    <property name="share" value="${bundle}/share"/>
-    <property name="local" value="${share}/local"/>
+    <echo>Creating lib ${lib}</echo>
+    <mkdir dir="${lib}"/>
+    <copy file="core/handler/target/deliverables/jars/dpml-transit-main-${project.version}.jar"
+      toFile="${lib}/dpml-transit-main.jar"/>
+
     <echo>Creating local repository ${local}</echo>
 
-    <!-- put ant jars into the library -->
+    <!-- put ant jars into local -->
     <mkdir dir="${local}/ant/jars"/>
     <copy file="${dpml.cache}/ant/jars/${ant.junit.filename}" 
        tofile="${local}/ant/jars/${ant.junit.filename}"/>
     <copy file="${dpml.cache}/ant/jars/${transit-ant.filename}" 
        tofile="${local}/ant/jars/${transit-ant.filename}"/>
 
-    <!-- put ant junit into the library -->
+    <!-- put ant junit into local -->
     <mkdir dir="${local}/junit/jars"/>
     <copy file="${dpml.cache}/junit/jars/${junit.filename}" 
        tofile="${local}/junit/jars/${junit.filename}"/>
 
-    <!-- put transit module and link into the library -->
+    <!-- put transit module and link into local -->
     <mkdir dir="${local}/dpml/transit"/>
     <copy todir="${local}/dpml/transit">
       <fileset dir="${basedir}/core/target/deliverables"/>
@@ -114,6 +120,18 @@
     <mkdir dir="${templates}"/>
     <copy file="${basedir}/standard.xml" tofile="${templates}/standard-${project.version}.template" />
     <copy file="${basedir}/target/standard.template.link" toDir="${templates}"/>
+
+    <!-- zip up a copy of the platform independent bundle for use by depot -->
+
+    <property name="zip.filename" 
+      value="${basedir}/target/deliverables/zips/${project.name}-${project.version}.zip"/>
+    <mkdir dir="target/deliverables/zips"/>
+    <zip destfile="${zip.filename}" whenempty="create">
+      <zipfileset dir="${bundle}">
+        <include name="**/*"/>
+      </zipfileset>
+    </zip>
+
   </target>
 
   <target name="install" depends="standard.install">
@@ -148,9 +166,7 @@
     <echo message="Generating ZIP dist"/>
     <zip destfile="${dist}/${project.name}-win32-${project.version}.zip" whenempty="create">
       <zipfileset dir="${bundle}">
-        <include name="LICENSE.TXT"/>
-        <include name="NOTICE.TXT"/>
-        <include name="TRANSIT.TXT"/>
+        <include name="*.TXT"/>
       </zipfileset>
       <zipfileset dir="${prefs}" prefix="Preferences"/>
       <zipfileset dir="${bundle}/data" prefix="Data"/>

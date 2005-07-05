@@ -28,6 +28,7 @@ import java.util.EventListener;
 import java.util.List;
 import java.net.URI;
 import java.net.URL;
+import java.net.MalformedURLException;
 import java.net.UnknownHostException;
 import java.net.PasswordAuthentication; 
 
@@ -36,8 +37,8 @@ import net.dpml.transit.store.Removable;
 import net.dpml.transit.store.Strategy;
 import net.dpml.transit.store.PluginStrategy;
 import net.dpml.transit.store.LocalStrategy;
-
 import net.dpml.transit.network.RequestIdentifier;
+import net.dpml.transit.util.PropertyResolver;
 
 /**
  * Default implementation of a host manager. The implementation establishes
@@ -56,8 +57,10 @@ public class DefaultHostModel extends DisposableCodeBaseModel
     private final String m_id;
 
     private String m_name;
-    private URL m_base;
-    private URL m_index;
+    private String m_base;
+    private String m_index;
+    private URL m_baseURL;
+    private URL m_indexURL;
     private boolean m_enabled = false;
     private boolean m_trusted = false;
     private LayoutModel m_layout;
@@ -73,10 +76,10 @@ public class DefaultHostModel extends DisposableCodeBaseModel
     // ------------------------------------------------------------------------
 
     public DefaultHostModel( 
-      Logger logger, LayoutRegistryModel registry, URI uri, String id, URL base, URL index, 
+      Logger logger, LayoutRegistryModel registry, URI uri, String id, String base, String index, 
       String name, boolean trusted, boolean enabled, int priority, String layout, 
       PasswordAuthentication auth, String scheme, String prompt, boolean bootstrap ) 
-      throws RemoteException, UnknownKeyException 
+      throws RemoteException, UnknownKeyException, MalformedURLException
     {
         super( logger, uri );
 
@@ -89,17 +92,18 @@ public class DefaultHostModel extends DisposableCodeBaseModel
         m_enabled = enabled;
         m_priority = priority;
         m_layout = registry.getLayoutModel( layout );
-        m_base = base;
+        m_base = resolveBaseValue( base );
         m_index = index;
+        m_baseURL = resolveBaseURL( m_id, m_base );
+        m_indexURL = resolveIndexURL( m_id, m_baseURL, m_index );
         m_authentication = auth;
-
         m_layout.addDisposalListener( this );
-        m_identifier = getRequestIdentifier( base, scheme, prompt );
+        m_identifier = getRequestIdentifier( m_baseURL, scheme, prompt );
         m_bootstrap = bootstrap;
     }
 
     public DefaultHostModel( Logger logger, HostStorage home, LayoutRegistryModel registry ) 
-      throws RemoteException, UnknownKeyException 
+      throws RemoteException, UnknownKeyException, MalformedURLException
     {
         super( logger, home );
 
@@ -111,8 +115,11 @@ public class DefaultHostModel extends DisposableCodeBaseModel
         m_trusted = home.getTrusted();
         m_enabled = home.getEnabled();
         m_priority = home.getPriority();
-        m_base = home.getBaseURL();
-        m_index = home.getIndexURL( m_base );
+
+        m_base = resolveBaseValue( home.getBasePath() );
+        m_index = home.getIndexPath();
+        m_baseURL = resolveBaseURL( m_id, m_base );
+        m_indexURL = resolveIndexURL( m_id, m_baseURL, m_index );
         m_authentication = home.getAuthentication();
 
         String key = home.getLayoutModelKey();
@@ -121,7 +128,7 @@ public class DefaultHostModel extends DisposableCodeBaseModel
 
         String scheme = home.getScheme();
         String prompt = home.getPrompt();
-        m_identifier = getRequestIdentifier( m_base, scheme, prompt );
+        m_identifier = getRequestIdentifier( m_baseURL, scheme, prompt );
 
         Strategy strategy = home.getStrategy();
         if( strategy instanceof PluginStrategy )
@@ -186,21 +193,24 @@ public class DefaultHostModel extends DisposableCodeBaseModel
     //----------------------------------------------------------------------
 
     public void update( 
-      URL base, URL index, boolean enabled, boolean trusted, String layout, 
+      String base, String index, boolean enabled, boolean trusted, String layout, 
       PasswordAuthentication auth, String scheme, String prompt ) 
-      throws BootstrapException, UnknownKeyException, RemoteException 
+      throws BootstrapException, UnknownKeyException, RemoteException, MalformedURLException
     {
         synchronized( m_lock )
         {
             LayoutModel layoutModel = m_registry.getLayoutModel( layout );
             setLayoutModel( layoutModel );
 
-            m_base = base;
+            m_base = resolveBaseValue( base );
             m_index = index;
+            m_baseURL = resolveBaseURL( m_id, m_base );
+            m_indexURL = resolveIndexURL( m_id, m_baseURL, m_index );
+
             m_enabled = enabled;
             m_trusted = trusted;
             m_authentication = auth;
-            m_identifier = getRequestIdentifier( base, scheme, prompt );
+            m_identifier = getRequestIdentifier( m_baseURL, scheme, prompt );
             
             if( null != m_home )
             {
@@ -209,7 +219,7 @@ public class DefaultHostModel extends DisposableCodeBaseModel
 
             HostChangeEvent e = 
               new HostChangeEvent( 
-                this, base, index, m_identifier, auth, enabled, trusted );
+                this, m_baseURL, m_indexURL, m_identifier, auth, enabled, trusted );
             enqueueEvent( e );
         }
     }
@@ -365,11 +375,35 @@ public class DefaultHostModel extends DisposableCodeBaseModel
     * Return the host base url.
     * @return the base url
     */
-    public URL getBaseURL() throws RemoteException
+    public String getBasePath() throws RemoteException
     {
         synchronized( m_lock )
         {
             return m_base;
+        }
+    }
+
+   /**
+    * Return the host base url.
+    * @return the base url
+    */
+    public URL getBaseURL() throws RemoteException
+    {
+        synchronized( m_lock )
+        {
+            return m_baseURL;
+        }
+    }
+
+   /**
+    * Return index url.
+    * @return the index url
+    */
+    public String getIndexPath() throws RemoteException
+    {
+        synchronized( m_lock )
+        {
+            return m_index;
         }
     }
 
@@ -381,7 +415,7 @@ public class DefaultHostModel extends DisposableCodeBaseModel
     {
         synchronized( m_lock )
         {
-            return m_index;
+            return m_indexURL;
         }
     }
 
@@ -595,6 +629,23 @@ public class DefaultHostModel extends DisposableCodeBaseModel
     // static (utils)
     // ------------------------------------------------------------------------
 
+    private static String resolveBaseValue( String path )
+    {
+        //
+        // make sure the base path ends with a "/" otherwise relative url references 
+        // will not be correct
+        //
+
+        if( false == path.endsWith( "/" ) )
+        {
+            return path + "/";
+        }
+        else
+        {
+            return path;
+        }
+    }
+
     private static RequestIdentifier getRequestIdentifier( URL base, String scheme, String prompt )
     {
         if( null == base )
@@ -630,6 +681,59 @@ public class DefaultHostModel extends DisposableCodeBaseModel
         return new RequestIdentifier( host, port, protocol, scheme, prompt );
     }
 
+    private static URL resolveBaseURL( String id, String path ) throws MalformedURLException
+    {
+        if( null == path )
+        {
+            return getDefaultHostURL();
+        }
+        try
+        {
+            return new URL( path );
+        }
+        catch( MalformedURLException e )
+        {
+            final String error =  
+              "Invalid host base url"
+              + "\nHost ID: " + id
+              + "\nHost Path: " + path
+              + "\nCause: " + e.getMessage();
+            throw new MalformedURLException( error );
+        }
+    }
+
+    private static URL resolveIndexURL( String id, URL base, String path ) throws MalformedURLException
+    {
+        if( null == path )
+        {
+            return null;
+        }
+
+        String resolved = PropertyResolver.resolve( path );
+
+        try
+        {
+            return new URL( resolved );
+        }
+        catch( MalformedURLException e )
+        {
+            try
+            {
+                return new URL( base, resolved );
+            }
+            catch( MalformedURLException ee )
+            {
+                final String error =  
+                  "Invalid index url"
+                  + "\nHost ID: " + id
+                  + "\nHost Path: " + base
+                  + "\nIndex Path: " + path
+                  + "\nCause: " + e.getMessage();
+                throw new MalformedURLException( error );
+            }
+        }
+    }
+
     private static URL getDefaultHostURL()
     {
         try
@@ -641,6 +745,5 @@ public class DefaultHostModel extends DisposableCodeBaseModel
             return null;
         }
     }
-
 }
 

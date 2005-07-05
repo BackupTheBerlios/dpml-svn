@@ -35,7 +35,7 @@ import net.dpml.transit.TransitRuntimeException;
  * specifications.
  *
  * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
- * @version $Id: Artifact.java 2949 2005-07-02 05:16:49Z mcconnell@dpml.net $
+ * @version $Id: Artifact.java 2972 2005-07-05 01:43:50Z mcconnell@dpml.net $
  */
 public final class Artifact
     implements Serializable, Comparable
@@ -128,6 +128,12 @@ public final class Artifact
             throw new NullArgumentException( "uri" );
         }
         String scheme = uri.getScheme();
+        if( null == scheme )
+        {
+            final String error = 
+              "URI does not declare a scheme: " + uri;
+            throw new UnsupportedSchemeException( error );
+        }
         if( !scheme.equals( "artifact" ) && !scheme.equals( "link" ) )
         {
             final String error = 
@@ -248,9 +254,9 @@ public final class Artifact
         else
         {
             final String error =
-              "Supplied artifact specification ["
+              "Artifact specification ["
               + uri + "] does not contain a group.";
-            throw new IllegalArgumentException( error );
+            throw new MissingGroupException( error );
         }
 
         //

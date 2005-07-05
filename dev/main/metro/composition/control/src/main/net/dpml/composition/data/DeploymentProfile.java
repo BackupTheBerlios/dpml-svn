@@ -29,7 +29,7 @@ import net.dpml.part.part.Part;
  * Abstract base class for ComponentProfile and ContainmentProfile.
  *
  * @author <a href="mailto:dev-dpml@lists.ibiblio.org">The Digital Product Meta Library</a>
- * @version $Id: DeploymentProfile.java 2960 2005-07-03 08:32:41Z mcconnell@dpml.net $
+ * @version $Id: DeploymentProfile.java 2961 2005-07-04 20:50:31Z mcconnell@dpml.net $
  */
 public abstract class DeploymentProfile implements Serializable, Comparable, Part
 {

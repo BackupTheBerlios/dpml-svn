@@ -122,7 +122,10 @@ class ClassicPanel extends JPanel
 
             JPanel panel = new JPanel();
 	      panel.setLayout( new BorderLayout() );
-            panel.add( label, BorderLayout.CENTER );
+            if( null != label )
+            {
+                panel.add( label, BorderLayout.CENTER );
+            }
             panel.setBorder( 
               new CompoundBorder(
                 new TitledBorder( 
@@ -148,7 +151,10 @@ class ClassicPanel extends JPanel
 
             JPanel panel = new JPanel();
 	      panel.setLayout( new BorderLayout() );
-            panel.add( label, BorderLayout.WEST );
+            if( null != label )
+            {
+                panel.add( label, BorderLayout.WEST );
+            }
             panel.setBorder( 
               new CompoundBorder(
                 new TitledBorder( 

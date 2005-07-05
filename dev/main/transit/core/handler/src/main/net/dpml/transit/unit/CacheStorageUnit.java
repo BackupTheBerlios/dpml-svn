@@ -60,16 +60,15 @@ class CacheStorageUnit extends CodeBaseStorageUnit implements CacheHome, Removab
     *
     * @param file the cache directory
     */
-    public void setCacheDirectory( File file )
+    public void setCacheDirectoryPath( String path )
     {
         Preferences prefs = getPreferences();
-        if( null == file )
+        if( null == path )
         {
             setValue( "location", null );
         }
         else
         {
-            String path = file.toString();
             setValue( "location", path );
         }
     }
@@ -131,12 +130,11 @@ class CacheStorageUnit extends CodeBaseStorageUnit implements CacheHome, Removab
     * @param prefs the cache preferences
     * @return the cache directory
     */
-    public File getCacheDirectory()
+    public String getCacheDirectoryPath()
     {
         Preferences prefs = getPreferences();
-        String path = prefs.get( "location", "cache" );
-        String cache = PropertyResolver.resolve( System.getProperties(), path );
-        return new File( cache );
+        String path = prefs.get( "location", "${dpml.data}/cache" );
+        return path;
     }
 
     private Preferences getHostsNodePreferences()

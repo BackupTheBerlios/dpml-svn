@@ -43,42 +43,21 @@
         <x:home href="http://www.dpml.net/products/magic"/>
       </x:header>
     </x:module>
-  </target>
-
-  <target name="install" depends="standard.install,junit-report,checkstyle">
     <x:property name="module.uri" feature="uri" type="module"/>
-    <transit:link target="${module.uri}" uri="link:module:${project.group}/${project.name}"/>
-    <echo>
-#----------------------------------------------------------------------------------
-# Updating DPML PREFS ${dpml.prefs}
-#----------------------------------------------------------------------------------
-    </echo>
-    <copy todir="${dpml.prefs}">
-      <fileset dir="${prefs}">
-        <include name="magic/**"/>
-      </fileset>
-    </copy>
-    <echo>
-#----------------------------------------------------------------------------------
-# Updating DPML DATA installation. ${dpml.data}/docs
-#----------------------------------------------------------------------------------
-    </echo>
-    <mkdir dir="${dpml.data}"/>
-    <copy todir="${dpml.data}" preservelastmodified="true">
-      <fileset dir="${bundle}">
-        <include name="docs/**"/>
-      </fileset>
-    </copy>
+    <property name="link" value="target/deliverables/modules/${project.name}.module.link"/>
+    <echo file="${link}">${module.uri}</echo>
   </target>
 
   <target name="package" depends="standard.package,javadoc">
 
+    <transit:link target="${module.uri}" uri="link:module:${project.group}/${project.name}"/>
+
     <!-- create LICENSE files-->
     <copy todir="${bundle}" filtering="true">
       <fileset dir="${basedir}">
-        <include name="LICENSE.TXT"/>
-        <include name="NOTICE.TXT"/>
-        <include name="MAGIC.TXT"/>
+        <include name="MAGIC_LICENSE.TXT"/>
+        <include name="MAGIC_NOTICE.TXT"/>
+        <include name="MAGIC_README.TXT"/>
       </fileset>
     </copy>
 
@@ -140,7 +119,49 @@
       <fileset dir="target/dist"/>
     </copy>
 
+    <!-- zip up a copy of the platform independent bundle for use by depot -->
+
+    <x:property name="magic.plugin.uri" key="dpml-magic-core" feature="uri" type="plugin"/>
+    <echo file="${bundle}/BUNDLE">
+dpml.depot.installer.class = net.dpml.magic.MagicInstaller
+dpml.depot.installer.uri = ${magic.plugin.uri}
+    </echo>
+
+    <property name="zip.filename" 
+      value="${basedir}/target/deliverables/zips/${project.name}-${project.version}.zip"/>
+    <mkdir dir="target/deliverables/zips"/>
+    <zip destfile="${zip.filename}" whenempty="create">
+      <zipfileset dir="${bundle}">
+        <include name="**/*"/>
+      </zipfileset>
+    </zip>
+
   </target>
+
+  <target name="install" depends="standard.install,junit-report,checkstyle">
+    <echo>
+#----------------------------------------------------------------------------------
+# Updating DPML PREFS ${dpml.prefs}
+#----------------------------------------------------------------------------------
+    </echo>
+    <copy todir="${dpml.prefs}">
+      <fileset dir="${prefs}">
+        <include name="magic/**"/>
+      </fileset>
+    </copy>
+    <echo>
+#----------------------------------------------------------------------------------
+# Updating DPML DATA installation. ${dpml.data}/docs
+#----------------------------------------------------------------------------------
+    </echo>
+    <mkdir dir="${dpml.data}"/>
+    <copy todir="${dpml.data}" preservelastmodified="true">
+      <fileset dir="${bundle}">
+        <include name="docs/**"/>
+      </fileset>
+    </copy>
+  </target>
+
 
   <target name="javadoc" depends="build">
     <x:javadoc>

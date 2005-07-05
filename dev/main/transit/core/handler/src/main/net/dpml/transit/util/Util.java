@@ -49,19 +49,35 @@ public final class Util
     public static Properties readProps( URL propsUrl )
         throws IOException
     {
+         return readProps( propsUrl, true );
+    }
+
+   /**
+    * Read a set of properties from a property file specificed by a url.
+    * Property files may reference symbolic properties in the form ${name}.
+    * @param propsUrl the url of the property file to read
+    * @return the resolved properties
+    * @exception IOException if an io error occurs
+    */
+    public static Properties readProps( URL propsUrl, boolean resolve )
+        throws IOException
+    {
         InputStream stream = propsUrl.openStream();
         try
         {
             Properties p = new Properties();
-            p.setProperty( Transit.HOME_KEY, Transit.DPML_HOME.toString() );
             p.load( stream );
-            Iterator list = p.entrySet().iterator();
-            while ( list.hasNext() )
+            if( resolve )
             {
-                Map.Entry entry = (Map.Entry) list.next();
-                String value = (String) entry.getValue();
-                value = resolveProperty( p, value );
-                entry.setValue( value );
+                p.setProperty( Transit.HOME_KEY, Transit.DPML_HOME.toString() );
+                Iterator list = p.entrySet().iterator();
+                while ( list.hasNext() )
+                {
+                    Map.Entry entry = (Map.Entry) list.next();
+                    String value = (String) entry.getValue();
+                    value = resolveProperty( p, value );
+                    entry.setValue( value );
+                }
             }
             return p;
         } 

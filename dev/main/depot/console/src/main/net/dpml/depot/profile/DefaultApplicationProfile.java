@@ -53,7 +53,15 @@ public class DefaultApplicationProfile extends DefaultProfile implements Applica
         m_enabled = enabled;
         m_connection = connection;
         m_command = command;
-        m_params = params;
+
+        if( null == params )
+        {
+            m_params = new Properties();
+        }
+        else
+        {
+            m_params = params;
+        }
     }
 
     public DefaultApplicationProfile( Logger logger, ApplicationStorage store )

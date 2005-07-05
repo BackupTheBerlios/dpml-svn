@@ -1,5 +1,5 @@
 /*
- * Copyright 2005 Stephen J. McConnell.
+ * Copyright 2004-2005 Stephen J. McConnell.
  *
  * Licensed  under the  Apache License,  Version 2.0  (the "License");
  * you may not use  this file  except in  compliance with the License.
@@ -16,26 +16,28 @@
  * limitations under the License.
  */
 
-package net.dpml.transit.store;
-
-import java.io.File;
+package net.dpml.transit.artifact;
 
 /**
- * 
+ * Exception to indicate that the group component of an artifact uri 
+ * was not found.
  *
  * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
  */
-public interface CacheStorage extends CodeBaseStorage
+public class MissingGroupException extends IllegalArgumentException
 {
-   /**
-    * Return the cache directory path.
-    * @return the cache directory path
-    */
-    String getCacheDirectoryPath();
+    // ------------------------------------------------------------------------
+    // constructor
+    // ------------------------------------------------------------------------
 
-    void setCacheDirectoryPath( String path );
-
-    String getLayoutModelKey();
-
-    void setLayoutModelKey( String key );
+    /**
+     * Construct a new <code>MissingGroupException </code> instance.
+     *
+     * @param message The detail message for this exception.
+     */
+    public MissingGroupException( String message )
+    {
+        super( message );
+    }
 }
+

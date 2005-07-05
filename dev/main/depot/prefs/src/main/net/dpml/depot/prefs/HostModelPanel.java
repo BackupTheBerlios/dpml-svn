@@ -597,8 +597,7 @@ class HostModelPanel extends ClassicPanel
 
         public void actionPerformed( ActionEvent event )
         {
-            String baseValue = m_base.getText();
-            URL base = resolveBaseURL( baseValue );
+            String base = m_base.getText();
             boolean trusted = m_trusted.isSelected();
             boolean enabled = m_enabled.isSelected();
             LayoutModel layout = (LayoutModel) m_strategy.getSelectedItem();

@@ -58,7 +58,7 @@ public class DepotPreferencesFrame extends JFrame
    /**
     * The default dialog height.
     */
-    private static final int DEFAULT_DIALOG_HEIGHT = 600;
+    private static final int DEFAULT_DIALOG_HEIGHT = 700;
 
    /**
     * Empty boarder offset.

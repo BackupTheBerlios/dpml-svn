@@ -20,6 +20,7 @@ package net.dpml.transit.model;
 
 import java.io.File;
 import java.net.URI;
+import java.net.MalformedURLException;
 import java.rmi.RemoteException;
 
 /**
@@ -34,17 +35,23 @@ public interface CacheModel extends CodeBaseModel, Disposable
     static final String CACHE_LAYOUT_KEY = "dpml.transit.cache.layout";
 
    /**
+    * Return the directory path to be used by the cache handler.
+    * @return the cache directory path.
+    */
+    String getCacheDirectoryPath() throws RemoteException;
+
+   /**
     * Return the directory to be used by the cache handler as the cache directory.
     * @return the cache directory.
     */
     File getCacheDirectory() throws RemoteException;
 
    /**
-    * Update the value the local cache directory.
+    * Update the value the local cache directory path.
     *
     * @param file the cache directory
     */
-    void setCacheDirectory( final File file ) throws RemoteException;
+    void setCacheDirectoryPath( final String path ) throws RemoteException;
 
    /**
     * Return the array of hosts configured for the cache.
@@ -90,7 +97,8 @@ public interface CacheModel extends CodeBaseModel, Disposable
     * @exception DuplicateKeyException if a host of the same identifier already exists
     * @exception UnknownKeyException if a host references an unknown layout key
     */
-    void addHostModel( String id ) throws DuplicateKeyException, UnknownKeyException, RemoteException;
+    void addHostModel( String id ) 
+     throws DuplicateKeyException, UnknownKeyException, RemoteException, MalformedURLException;
 
    /**
     * Add a new host model to the cache model.

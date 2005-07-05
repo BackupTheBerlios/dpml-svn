@@ -49,7 +49,7 @@ import net.dpml.transit.artifact.ArtifactNotFoundException;
 import net.dpml.transit.model.CacheModel;
 import net.dpml.transit.model.CacheListener;
 import net.dpml.transit.model.Logger;
-import net.dpml.transit.model.FileChangeEvent;
+import net.dpml.transit.model.CacheDirectoryChangeEvent;
 import net.dpml.transit.model.HostModel;
 import net.dpml.transit.model.CacheEvent;
 import net.dpml.transit.model.LayoutModel;
@@ -187,9 +187,9 @@ public class DefaultCacheHandler extends UnicastRemoteObject implements CacheHan
     * Notify the listener of a change to the cache directory.
     * @param event the cache directory change event
     */
-    public void cacheDirectoryChanged( FileChangeEvent event ) throws RemoteException
+    public void cacheDirectoryChanged( CacheDirectoryChangeEvent event ) throws RemoteException
     {
-        File cache = event.getFile();
+        File cache = m_model.getCacheDirectory();
         synchronized( this )
         {
             setLocalCacheDirectory( cache );
