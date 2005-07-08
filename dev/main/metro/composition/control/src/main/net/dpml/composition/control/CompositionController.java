@@ -42,22 +42,23 @@ import net.dpml.composition.runtime.ValueHandler;
 import net.dpml.composition.runtime.ValueController;
 import net.dpml.composition.runtime.ComponentController;
 import net.dpml.composition.runtime.CompositionHandler;
+import net.dpml.composition.runtime.DefaultLogger;
 
+import net.dpml.part.DelegationException;
+import net.dpml.part.Part;
+import net.dpml.part.PartHandlerNotFoundException;
+import net.dpml.part.PartNotFoundException;
 import net.dpml.part.control.ControllerContext;
-import net.dpml.part.control.HandlerNotFoundException;
 import net.dpml.part.control.ControlException;
 import net.dpml.part.control.ControllerRuntimeException;
 import net.dpml.part.control.Controller;
-import net.dpml.part.control.DelegationException;
 import net.dpml.part.control.Disposable;
 import net.dpml.part.control.LifecycleException;
-import net.dpml.part.control.PartNotFoundException;
 import net.dpml.part.control.UnsupportedPartTypeException;
-import net.dpml.part.manager.Component;
-import net.dpml.part.manager.ClassLoadingContext;
-import net.dpml.part.manager.ComponentException;
-import net.dpml.part.manager.Container;
-import net.dpml.part.part.Part;
+import net.dpml.part.control.Component;
+import net.dpml.part.control.ClassLoadingContext;
+import net.dpml.part.control.ComponentException;
+import net.dpml.part.control.Container;
 
 import net.dpml.transit.adapter.LoggingAdapter;
 import net.dpml.transit.model.ContentModel;
@@ -92,24 +93,25 @@ public class CompositionController extends CompositionPartHandler implements Con
     // constructor
     //--------------------------------------------------------------------
 
-    public CompositionController()
-       throws ControlException
-    {
-        this( createDefaultContext() );
-    }
-
     public CompositionController( ControllerContext context )
        throws ControlException
     {
         super( context );
 
         m_context = context;
-        m_logger = m_context.getLogger();
+
+        if( context instanceof CompositionControllerContext )
+        {
+            CompositionControllerContext c = (CompositionControllerContext) context;
+            m_logger = c.getLogger();
+        }
+        else
+        {
+            m_logger = getLoggerForURI( m_context.getURI() );
+        }
         m_valueController = new ValueController( this );
         m_componentController = new ComponentController( m_logger, this );
-
-        m_logger.info( "metro controller established" );
-
+        m_logger.debug( "metro controller established" );
         //m_lifestyleHandler = new LifestyleHandler( m_logger, m_componentController );
     }
 
@@ -152,14 +154,14 @@ public class CompositionController extends CompositionPartHandler implements Con
     * @exception ComponentException is an error occurs during component establishment
     * @exception IOException if an error occurs while attempting to resolve the component part uri
     * @exception PartNotFoundException if the uri could not be resolved to a physical resource
-    * @exception HandlerNotFoundException if the part references a handler but the handler could not be found
+    * @exception PartHandlerNotFoundException if the part references a handler but the handler could not be found
     * @exception DelegationException if an error occurs following handover of control to a foreign controller
     */
     public Component newComponent( URI uri )
       throws IOException, ComponentException, PartNotFoundException, 
-      HandlerNotFoundException, DelegationException 
+      PartHandlerNotFoundException, DelegationException 
     {
-        m_logger.debug( "loading component " + uri );
+        m_logger.debug( "loading part " + uri );
         Part part = loadPart( uri );
         return newComponent( null, part, null );
     }
@@ -173,12 +175,12 @@ public class CompositionController extends CompositionPartHandler implements Con
     * @param name the name to assign to the new component
     * @return a new component
     * @exception ComponentException is an error occurs during component establishment
-    * @exception HandlerNotFoundException if the part references a handler but the handler could not be found
+    * @exception PartHandlerNotFoundException if the part references a handler but the handler could not be found
     * @exception DelegationException if an error occurs following handover of control to a foreign controller
     * @exception UnsupportedPartTypeException if the component type is recognized but not supported
     */
     public Component newComponent( Component parent, Part part, String name )
-      throws ComponentException, HandlerNotFoundException, DelegationException
+      throws ComponentException, PartHandlerNotFoundException, DelegationException
     {
         URI partition = getPartition( parent );
         if( isRecognizedPart( part ) )
@@ -191,7 +193,9 @@ public class CompositionController extends CompositionPartHandler implements Con
                 String defaultName = directive.getKey();
                 String theName = getName( defaultName, name );
                 URI id = createURI( partition, theName );
-                return new ValueHandler( m_logger, this, classloader, id, directive, parent );
+                Logger logger = getLoggerForURI( id );
+                logger.debug( "new value" );
+                return new ValueHandler( logger, this, classloader, id, directive, parent );
             }
             else if( part instanceof ComponentProfile )
             {
@@ -199,8 +203,10 @@ public class CompositionController extends CompositionPartHandler implements Con
                 String defaultName = profile.getName();
                 String theName = getName( defaultName, name );
                 URI id = createURI( partition, theName );
+                Logger logger = getLoggerForURI( id );
+                logger.debug( "new component" );
                 ClassLoader loader = getClassLoader( classloader, id, profile );
-                return new CompositionHandler( m_logger, this, loader, id, profile, parent );
+                return new CompositionHandler( logger, this, loader, id, profile, parent );
             }
             else
             {
@@ -217,6 +223,54 @@ public class CompositionController extends CompositionPartHandler implements Con
             URI handlerUri = part.getPartHandlerURI();
             Controller controller = (Controller) getPrimaryController( handlerUri );
             return controller.newComponent( parent, part, name );
+        }
+    }
+
+   /**
+    * Construct a new component using the supplied part as the defintion of the 
+    * component type and deployment criteria.  This method is typically used by
+    * buildtime tools where the buildtime classloader is establised prior to 
+    * component deployment.
+    *
+    * @param classloader the root classloader
+    * @param part component definition including type and deployment data
+    * @return a new component
+    * @exception ComponentException is an error occurs during component establishment
+    * @exception PartHandlerNotFoundException if the part references a handler but the handler could not be found
+    * @exception DelegationException if an error occurs following handover of control to a foreign controller
+    * @exception UnsupportedPartTypeException if the component type is recognized but not supported
+    */
+    public Container newContainer( ClassLoader classloader, Part part )
+      throws ComponentException, PartHandlerNotFoundException, DelegationException
+    {
+        URI partition = getPartition();
+        if( isRecognizedPart( part ) )
+        {
+            if( part instanceof ComponentProfile )
+            {
+                ComponentProfile profile = (ComponentProfile) part;
+                String name = profile.getName();
+                URI id = createURI( partition, name );
+                return new CompositionHandler( m_logger, this, classloader, id, profile, null );
+            }
+            else
+            {
+                String classname = part.getClass().getName();
+                final String error = 
+                  "Unsupported part implementation class ["
+                  + classname
+                  + "] passed to newComponent/3.";
+                throw new UnsupportedPartTypeException( CONTROLLER_URI, classname, error );
+            }
+        }
+        else
+        {
+            String classname = part.getClass().getName();
+            final String error = 
+              "Unsupported part implementation class ["
+              + classname
+              + "] passed to newComponent/2.";
+            throw new UnsupportedPartTypeException( CONTROLLER_URI, classname, error );
         }
     }
 
@@ -450,6 +504,16 @@ public class CompositionController extends CompositionPartHandler implements Con
         }
     }
 
+    private Logger getLoggerForURI( URI uri )
+    {
+        String path = uri.getSchemeSpecificPart();
+        if( path.endsWith( "/" ) )
+        {
+            path = path.substring( 0, path.length() - 1 );
+        }
+        path.replace( '/', '.' );
+        return new DefaultLogger( path );
+    }
 
     static final URI CONTROLLER_URI = setupURI( "@PART-CONTROLLER-URI@" );
 
@@ -475,6 +539,7 @@ public class CompositionController extends CompositionPartHandler implements Con
             net.dpml.transit.model.Logger logger = new LoggingAdapter( "metro" );
             DefaultContentModel model = 
               new DefaultContentModel( logger, null, type, title, properties );
+            
             return new CompositionControllerContext( model );
         }
         catch( Throwable e )

@@ -19,13 +19,26 @@
 package net.dpml.transit.store;
 
 /**
- * The ProxyManager is an interface implemented by proxy managers.
+ * The LayoutRegistryHome is an interface implemented by objects
+ * providing services supporting the management of a collection of 
+ * layout configurations.
  *
  * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
  */
 public interface LayoutRegistryHome extends CodeBaseStorage
 {
+   /**
+    * Return the array of inital layout storage units.
+    * @return the layout unit storage array
+    */
     LayoutStorage[] getInitialLayoutStores();
 
+   /**
+    * Return a layout storage unit given a storae unit identifier.  If the 
+    * stroage unit does not exist an implementation shall create and return a 
+    * net storage unit.
+    * 
+    * @return the layout storage unit
+    */
     LayoutStorage getLayoutStorage( String id );
 }

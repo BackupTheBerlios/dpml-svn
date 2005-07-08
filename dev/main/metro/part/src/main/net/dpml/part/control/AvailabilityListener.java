@@ -16,25 +16,19 @@
  * limitations under the License.
  */
 
-package net.dpml.part.manager;
+package net.dpml.part.control;
+
+import java.util.EventListener;
 
 /**
- * Exception raised by a container.
+ * Interface implemented by objects that listen to the availablity of a 
+ * particular components.
  *
  * @author <a href="mailto:dev-dpml@lists.ibiblio.org">The Digital Product Meta Library</a>
  * @version $Revision: 1.2 $ $Date: 2004/03/17 10:30:09 $
  */
-public class ContainmentException extends Exception 
+public interface AvailabilityListener extends EventListener
 {
-    public ContainmentException( String message )
-    {
-        this( message, null );
-    }
-
-    public ContainmentException( String message, Throwable cause )
-    {
-        super( message, cause );
-    }
-
+    void availabilityChanged( AvailabilityEvent event );
 }
 

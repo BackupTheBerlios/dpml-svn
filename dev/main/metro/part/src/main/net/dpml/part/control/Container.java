@@ -16,14 +16,14 @@
  * limitations under the License.
  */
 
-package net.dpml.part.manager;
+package net.dpml.part.control;
 
 import java.io.IOException;
 import java.net.URI;
 
-import net.dpml.part.control.DelegationException;
-import net.dpml.part.control.HandlerNotFoundException;
-import net.dpml.part.control.PartNotFoundException;
+import net.dpml.part.DelegationException;
+import net.dpml.part.PartHandlerNotFoundException;
+import net.dpml.part.PartNotFoundException;
 
 /**
  * The Container interface defines the a contract for a component that 
@@ -43,7 +43,7 @@ public interface Container extends Component
     */
     Component addComponent( URI part, String key ) 
       throws IOException, ComponentException, PartNotFoundException, 
-      HandlerNotFoundException, DelegationException;
+      PartHandlerNotFoundException, DelegationException;
 
    /**
     * Retrieve a component using a supplied key.
@@ -52,5 +52,19 @@ public interface Container extends Component
     * @exception ComponentNotFoundException if the key is unknown
     */
     Component getComponent( String key ) throws ComponentNotFoundException;
+
+   /**
+    * Return the ordered startup sequence for the set of components contained 
+    * within the container.
+    * @return the startup sequence
+    */
+    Component[] getStartupSequence();
+
+   /**
+    * Return the ordered shutdown sequence for the set of components contained 
+    * within the container.
+    * @return the shutdown sequence
+    */
+    Component[] getShutdownSequence();
 
 }

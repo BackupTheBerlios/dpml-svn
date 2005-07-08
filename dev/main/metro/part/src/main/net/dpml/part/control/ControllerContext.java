@@ -21,11 +21,10 @@ package net.dpml.part.control;
 import java.net.URI;
 import java.io.File;
 
-import net.dpml.logging.Logger;
-
-
 /**
- * The ControllerContext is a management service supplied to a controller instance.
+ * The ControllerContext declares the runtime context that a controller
+ * is established within. Controller implementations will typically receive   
+ * be bsupplied with a context object as a constructor argument.
  *
  * @author <a href="mailto:dev-dpml@lists.ibiblio.org">The Digital Product Meta Library</a>
  * @version $Revision: 1.2 $ $Date: 2004/03/17 10:30:09 $
@@ -37,12 +36,6 @@ public interface ControllerContext
     * @return the context uri
     */
     URI getURI();
-
-   /**
-    * Return the root logging channel.
-    * @return the logging channel
-    */
-    Logger getLogger();
 
    /**
     * Return the root working directory path.

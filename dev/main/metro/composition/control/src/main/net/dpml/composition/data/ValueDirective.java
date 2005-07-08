@@ -22,7 +22,7 @@ import java.io.Serializable;
 import java.net.URI;
 import java.net.URISyntaxException;
 
-import net.dpml.part.part.Part;
+import net.dpml.part.Part;
 
 /**
  * A <code>Value</code> represents a single constructor typed argument value. The directive

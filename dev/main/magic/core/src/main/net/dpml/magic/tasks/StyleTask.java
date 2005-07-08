@@ -20,7 +20,7 @@ package net.dpml.magic.tasks;
 import java.io.File;
 import java.net.URL;
 
-import net.dpml.transit.artifact.Handler;
+import net.dpml.transit.artifact.Artifact;
 
 import org.apache.tools.ant.taskdefs.XSLTProcess;
 import org.apache.tools.ant.BuildException;
@@ -30,24 +30,16 @@ public class StyleTask extends XSLTProcess
 {
     public void setStyle( String uri )
     {
-        if( !uri.startsWith( "artifact:" ) )
-        {
-            super.setStyle( uri );
-        }
-
         try
         {
-            URL url = new URL( null, uri, new Handler() );
+            Artifact artifact = Artifact.createArtifact( uri );
+            URL url = artifact.toURL();
             File local = (File) url.getContent( new Class[]{File.class} );
             super.setStyle( local.getAbsolutePath() );
         }
         catch( Throwable e )
         {
-            final String error = 
-              "Could not resolve the uri ["
-              + uri 
-              + "]";
-            throw new BuildException( error, e );
+            super.setStyle( uri );
         }
     }
 }

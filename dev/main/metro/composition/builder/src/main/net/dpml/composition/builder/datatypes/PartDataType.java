@@ -24,13 +24,14 @@ import java.net.URISyntaxException;
 
 import net.dpml.composition.builder.PartReferenceBuilder;
 import net.dpml.composition.control.CompositionController;
+import net.dpml.composition.control.CompositionControllerContext;
 import net.dpml.composition.info.Type;
 
 import net.dpml.part.control.ControllerContext;
-import net.dpml.part.control.DelegationException;
-import net.dpml.part.control.PartNotFoundException;
-import net.dpml.part.part.Part;
-import net.dpml.part.part.PartReference;
+import net.dpml.part.DelegationException;
+import net.dpml.part.PartNotFoundException;
+import net.dpml.part.Part;
+import net.dpml.part.PartReference;
 
 import org.apache.tools.ant.BuildException;
 
@@ -128,7 +129,8 @@ public class PartDataType implements PartReferenceBuilder
         URI uri = getURI();
         try
         {
-            CompositionController handler = new CompositionController();
+            ControllerContext context = CompositionControllerContext.newContext();
+            CompositionController handler = new CompositionController( context );
             return handler.loadPart( uri );
         }
         catch( PartNotFoundException pnfe )

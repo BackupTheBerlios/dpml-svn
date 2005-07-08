@@ -1,3 +1,4 @@
+dpml.transit.host.id=local
 dpml.transit.host.enabled=true
 dpml.transit.host.class=net.dpml.transit.host.ClassicResourceHost
 dpml.transit.host.base=file:${dpml.system}/local

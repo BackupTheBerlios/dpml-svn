@@ -25,8 +25,8 @@ import java.util.prefs.Preferences;
 
 import junit.framework.TestCase;
 
-import net.dpml.part.part.Part;
-import net.dpml.part.manager.Component;
+import net.dpml.part.Part;
+import net.dpml.part.control.Component;
 
 import net.dpml.test.acme.Dimension;
 

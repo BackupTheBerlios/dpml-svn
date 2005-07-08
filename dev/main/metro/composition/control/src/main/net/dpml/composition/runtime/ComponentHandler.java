@@ -58,32 +58,35 @@ import net.dpml.parameters.Parameterizable;
 import net.dpml.parameters.impl.DefaultParameters;
 
 import net.dpml.part.control.LifecycleException;
-import net.dpml.part.control.HandlerNotFoundException;
-import net.dpml.part.control.DelegationException;
+import net.dpml.part.PartHandlerNotFoundException;
+import net.dpml.part.DelegationException;
 import net.dpml.part.state.StateEvent;
 import net.dpml.part.state.StateListener;
 import net.dpml.part.state.State;
 import net.dpml.part.state.ResourceUnavailableException;
-import net.dpml.part.manager.Component;
-import net.dpml.part.manager.ClassLoadingContext;
-import net.dpml.part.manager.ComponentException;
-import net.dpml.part.manager.ComponentRuntimeException;
-import net.dpml.part.manager.AvailabilityEvent;
-import net.dpml.part.manager.AvailabilityListener;
-import net.dpml.part.manager.TypeClassNotFoundException;
-import net.dpml.part.manager.ServiceClassNotFoundException;
-import net.dpml.part.manager.ComponentNotFoundException;
-import net.dpml.part.part.Part;
-import net.dpml.part.part.PartReference;
+import net.dpml.part.control.Consumer;
+import net.dpml.part.control.Component;
+import net.dpml.part.control.ClassLoadingContext;
+import net.dpml.part.control.ComponentException;
+import net.dpml.part.control.ComponentRuntimeException;
+import net.dpml.part.control.AvailabilityEvent;
+import net.dpml.part.control.AvailabilityListener;
+import net.dpml.part.control.TypeClassNotFoundException;
+import net.dpml.part.control.ServiceClassNotFoundException;
+import net.dpml.part.control.ComponentNotFoundException;
+import net.dpml.part.Part;
+import net.dpml.part.PartReference;
 
 /**
  *
  * @author <a href="mailto:dev-dpml@lists.ibiblio.org">The Digital Product Meta Library</a>
  * @version $Id: LifestyleManager.java 259 2004-10-30 07:24:40Z mcconnell $
  */
-public class ComponentHandler extends WeakEventProducer implements Component, ClassLoadingContext, Configurable, Parameterizable
+public class ComponentHandler extends WeakEventProducer 
+  implements Component, Consumer, ClassLoadingContext, Configurable, Parameterizable
 {
     private final Map m_proxies = new WeakHashMap();
+    private final DependencyGraph m_dependencies = new DependencyGraph();
 
     private final Logger m_logger;
     private final ComponentProfile m_profile;
@@ -111,9 +114,14 @@ public class ComponentHandler extends WeakEventProducer implements Component, Cl
     public ComponentHandler( 
       Logger logger, CompositionController controller, ClassLoader classloader, 
       URI uri, ComponentProfile profile, Component parent ) 
-      throws ComponentException, HandlerNotFoundException, DelegationException
+      throws ComponentException, PartHandlerNotFoundException, DelegationException
     {
         super();
+
+        if( null != parent )
+        {
+            addShutdownHook( this );
+        }
 
         m_logger = logger;
         m_controller = controller;
@@ -144,7 +152,8 @@ public class ComponentHandler extends WeakEventProducer implements Component, Cl
             PartReference reference = parts[i];
             String key = reference.getKey();
             Part part = reference.getPart();
-            getPartsTable().addPart( key, part );
+            Component component = getPartsTable().addComponent( key, part );
+            m_dependencies.add( component );
         }
 
         //
@@ -181,6 +190,35 @@ public class ComponentHandler extends WeakEventProducer implements Component, Cl
                 getContextMap().addEntry( key, part );
             }
         }
+    }
+
+   /**
+    * Return the startup sequence for the set of components contained 
+    * within the container.
+    * @return the startup sequence
+    */
+    public Component[] getStartupSequence()
+    {
+        return m_dependencies.getStartupGraph();
+    }
+
+   /**
+    * Return the shudown sequence for the set of components contained 
+    * within the container.
+    * @return the shutdown sequence
+    */
+    public Component[] getShutdownSequence()
+    {
+        return m_dependencies.getShutdownGraph();
+    }
+
+   /**
+    * Return an array of components providing services to this component.
+    * @return the provider component array
+    */
+    public Component[] getProviders()
+    {
+        return m_context.getProviders();
     }
 
     public ClassLoader getClassLoader()
@@ -392,6 +430,7 @@ public class ComponentHandler extends WeakEventProducer implements Component, Cl
     */
     public void terminate()
     {
+        getLogger().debug( "terminating" );
         m_manager.terminate( this );
     }
 
@@ -757,4 +796,38 @@ public class ComponentHandler extends WeakEventProducer implements Component, Cl
             throw new ServiceClassNotFoundException( type, classname );
         }
     }
+
+   /**
+    * Create a shutdown hook that will trigger shutdown of the supplied plugin.
+    * @param thread the application thread
+    */
+    private static void addShutdownHook( final Component component )
+    {
+        //
+        // Create a shutdown hook to trigger clean disposal of the
+        // component.
+        //
+        
+        Runtime.getRuntime().addShutdownHook(
+          new Thread()
+          {
+              public void run()
+              {
+                  try
+                  {
+                      component.terminate();
+                  }
+                  catch( Throwable e )
+                  {
+                      // ignore it
+                  }
+                  finally
+                  {
+                      System.runFinalization();
+                  }
+              }
+          }
+        );
+    }
+
 }

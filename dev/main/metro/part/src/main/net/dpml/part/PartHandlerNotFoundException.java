@@ -16,24 +16,35 @@
  * limitations under the License.
  */
 
-package net.dpml.part.part;
+package net.dpml.part;
 
-import java.io.Serializable;
 import java.net.URI;
 
 /**
- * The common interface implemented by all parts.
+ * Exception thrown when an attempt is made to reference an unknown handler.
  *
  * @author <a href="mailto:dev-dpml@lists.ibiblio.org">The Digital Product Meta Library</a>
  * @version $Revision: 1.2 $ $Date: 2004/03/17 10:30:09 $
  */
-public interface Part extends Serializable
+public class PartHandlerNotFoundException extends Exception 
 {
-   static final String ARTIFACT_TYPE = "part";
+    private URI m_uri;
 
-  /**
-   * Return the part handler uri.
-   * @return the uri of the part handler
-   */
-   URI getPartHandlerURI();
+    public PartHandlerNotFoundException( URI uri )
+    {
+        this( uri, null );
+    }
+
+    public PartHandlerNotFoundException( URI uri, Throwable cause )
+    {
+        super( uri.toString(), cause );
+        m_uri = uri;
+    }
+
+    public URI getURI()
+    {
+        return m_uri;
+    }
+
 }
+

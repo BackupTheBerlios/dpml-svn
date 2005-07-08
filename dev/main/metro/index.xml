@@ -43,9 +43,6 @@
         <type>jar</type>
       </types>
     </info>
-    <dependencies>
-      <include key="dpml-logging-api"/>
-    </dependencies>
   </project>
 
   <!-- Activity -->

@@ -21,13 +21,22 @@ package net.dpml.transit.store;
 import java.io.File;
 
 /**
- * 
+ * Interface implemented by classes providing cache storage management.
  *
  * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
  */
 public interface CacheHome extends CacheStorage
 {
+   /**
+    * Return the inital set of host storage units.
+    * @return an array of host storage units
+    */
     HostStorage[] getInitialHosts();
 
+   /**
+    * Return an identified host storage unit creating it if necessary.
+    * @param id the host storage unit identifier
+    * @return the identified host storage unit
+    */
     HostStorage getHostStorage( String id );
 }

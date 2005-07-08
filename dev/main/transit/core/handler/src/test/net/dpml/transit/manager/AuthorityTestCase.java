@@ -16,17 +16,28 @@
  * limitations under the License.
  */
 
-package net.dpml.transit.store;
+package net.dpml.transit.manager;
+
+import java.net.URL;
+
+import junit.framework.TestCase;
+
+import net.dpml.transit.model.TransitModel;
+import net.dpml.transit.model.HostModel;
+import net.dpml.transit.model.DefaultTransitModel;
+import net.dpml.transit.unit.TransitStorageUnit;
 
 /**
- * Interface implemented by removable storage unit.
- *
  * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
  */
-public interface Removable
+public class AuthorityTestCase extends TestCase
 {
-   /**
-    * Remove the storage unit.
-    */
-    void remove();
+    public void testAuthority() throws Exception
+    {
+        TransitStorageUnit store = new TransitStorageUnit( new URL( "http://staging.dpml.net/test/" ) );
+        TransitModel model = new DefaultTransitModel( store );
+        HostModel[] hosts = model.getCacheModel().getHostModels();
+        assertEquals( "hosts", 2, hosts.length );
+    }
 }
+

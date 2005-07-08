@@ -30,16 +30,16 @@ import java.rmi.server.UnicastRemoteObject;
 import java.util.Properties ;
 import java.util.WeakHashMap ;
 
-import net.dpml.part.part.Part;
-import net.dpml.part.part.PartHolder;
-import net.dpml.part.control.PartNotFoundException;
+import net.dpml.part.Part;
+import net.dpml.part.PartHolder;
+import net.dpml.part.PartHandler;
+import net.dpml.part.PartHandlerRuntimeException;
+import net.dpml.part.PartNotFoundException;
 import net.dpml.part.control.Controller;
 import net.dpml.part.control.ControllerContext;
+import net.dpml.part.PartHandlerNotFoundException;
+import net.dpml.part.DelegationException;
 import net.dpml.part.control.ControlException;
-import net.dpml.part.control.PartHandler;
-import net.dpml.part.control.PartHandlerRuntimeException;
-import net.dpml.part.control.HandlerNotFoundException;
-import net.dpml.part.control.DelegationException;
 
 import net.dpml.logging.Logger;
 
@@ -97,7 +97,8 @@ public abstract class CompositionPartHandler implements PartHandler
     * implementation will attempt to locate and delegate part loading requests 
     * to the foreign handler.
     *
-    * @return the part estracted from the part handler referenced by the uri
+    * @param uri the part uri
+    * @return the part estracted from the part referenced by the uri
     */
     public Part loadPart( URI uri )
         throws PartNotFoundException, IOException, DelegationException
@@ -130,7 +131,7 @@ public abstract class CompositionPartHandler implements PartHandler
     * @return the part handler
     */
     public Controller getPrimaryController( URI uri ) 
-       throws HandlerNotFoundException, DelegationException
+       throws PartHandlerNotFoundException, DelegationException
     {
         if( false == getURI().equals( uri ) )
         {
@@ -160,7 +161,7 @@ public abstract class CompositionPartHandler implements PartHandler
             {
                 try
                 {
-                    PartHandler handler = resolvePartHandler( uri );
+                    PartHandler handler = resolvePartHandler( foreign );
                     return handler.loadPart( holder.getByteArray() );
                 }
                 catch( Throwable e )
@@ -197,7 +198,7 @@ public abstract class CompositionPartHandler implements PartHandler
         }
     }
 
-    protected PartHandler resolvePartHandler( URI uri ) throws HandlerNotFoundException
+    protected PartHandler resolvePartHandler( URI uri ) throws PartHandlerNotFoundException
     {
         if( getURI().equals( uri ) )
         {
@@ -235,7 +236,7 @@ public abstract class CompositionPartHandler implements PartHandler
         }
     }
 
-    private PartHandler loadHandler( URI uri ) throws HandlerNotFoundException
+    private PartHandler loadHandler( URI uri ) throws PartHandlerNotFoundException
     {
         ClassLoader classloader = Type.class.getClassLoader();
         DefaultLogger logger = new DefaultLogger( "handler" );
@@ -245,7 +246,7 @@ public abstract class CompositionPartHandler implements PartHandler
         }
         catch( IOException e )
         {
-            throw new HandlerNotFoundException( uri, e );
+            throw new PartHandlerNotFoundException( uri, e );
         }
     }
 
@@ -262,5 +263,4 @@ public abstract class CompositionPartHandler implements PartHandler
             return null;
         }
     }
-
 }

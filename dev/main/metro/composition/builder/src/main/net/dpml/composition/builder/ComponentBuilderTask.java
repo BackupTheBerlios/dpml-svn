@@ -21,6 +21,7 @@ package net.dpml.composition.builder;
 import java.beans.IntrospectionException;
 import java.io.ByteArrayInputStream;
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.ObjectInputStream;
@@ -29,15 +30,20 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ArrayList;
 
-import net.dpml.part.part.Part;
-import net.dpml.part.part.PartHolder;
-import net.dpml.part.part.PartReference;
+import net.dpml.part.Part;
+import net.dpml.part.PartHolder;
+import net.dpml.part.PartReference;
+import net.dpml.part.control.ControllerContext;
+import net.dpml.part.control.Component;
+import net.dpml.part.control.Container;
 
 import net.dpml.composition.builder.datatypes.CategoriesDataType;
 import net.dpml.composition.builder.datatypes.ConfigurationDataType;
 import net.dpml.composition.builder.datatypes.ContextDataType;
 import net.dpml.composition.builder.datatypes.ParametersDataType;
 import net.dpml.composition.builder.datatypes.PartsDataType;
+import net.dpml.composition.control.CompositionController;
+import net.dpml.composition.control.CompositionControllerContext;
 import net.dpml.composition.data.ClassLoaderDirective;
 import net.dpml.composition.data.ClasspathDirective;
 import net.dpml.composition.data.ComponentProfile;
@@ -60,10 +66,16 @@ import net.dpml.magic.tasks.ProjectTask;
 import net.dpml.parameters.Parameters;
 import net.dpml.parameters.impl.DefaultParameters;
 
+import net.dpml.transit.tools.AntAdapter;
+import net.dpml.transit.model.Logger;
+
 import org.apache.tools.ant.AntClassLoader;
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.types.Path;
+
+import com.thoughtworks.xstream.XStream;
+import com.thoughtworks.xstream.io.xml.DomDriver;
 
 /**
  * Task that handles the construction of a serialized container part.
@@ -235,7 +247,35 @@ public class ComponentBuilderTask extends ProjectTask implements PartReferenceBu
             ClassLoaderDirective cld = constructClassLoaderDirective();
             ComponentProfile profile = buildComponentProfile( classloader, cld );
 
-            // ?? ASSEMBLY ??
+            Logger logger = new AntAdapter( this );
+            ControllerContext context = CompositionControllerContext.newContext( logger );
+            CompositionController controller = new CompositionController( context );
+            Container container = controller.newContainer( classloader, profile );
+            Component[] startup = container.getStartupSequence();
+
+            log( "componet: " + profile.getName() );
+            log( "Startup sequence length: " + startup.length );
+            for( int i=0; i<startup.length; i++ )
+            {
+                log( "" + (i+1) + " " + startup[i] );
+            }
+
+            File target = getContext().getTargetDirectory();
+            File reports = new File( target, "reports/parts" );
+            reports.mkdirs();
+            File report = new File( reports, profile.getName() + ".xml" );
+            try
+            {
+                XStream XStream = new XStream( new DomDriver() );
+                XStream.alias( "componentprofile", ComponentProfile.class );
+                XStream.toXML( profile, new FileWriter( report ) );
+                log( "Created report in " + report );
+            }
+            catch( Throwable e )
+            {
+                log( "XML reporting failed due to: " + e.toString() );
+            }
+
 
             URI uri = getDefinition().getArtifactURI( Part.ARTIFACT_TYPE );
             if( null == m_output )

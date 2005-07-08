@@ -73,6 +73,11 @@ public class MetroHelper
 
     public MetroHelper() throws Exception
     {
+        this( new LoggingAdapter( "metro" ) );
+    }
+
+    public MetroHelper( Logger logger ) throws Exception
+    {
         String title = "Metro Part Handler.";
         String type = "part";
         Properties properties = new Properties();
@@ -81,7 +86,6 @@ public class MetroHelper
         {
             properties.put( "work.dir", dir );
         }
-        Logger logger = new LoggingAdapter( "metro" );
         DefaultContentModel model = new DefaultContentModel( logger, null, type, title, properties );
         ControllerContext context = new CompositionControllerContext( model );
         m_controller = new CompositionController( context );

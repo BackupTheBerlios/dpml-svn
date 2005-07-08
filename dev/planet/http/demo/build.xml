@@ -54,7 +54,7 @@
             </value>
             <component key="requestLog" type="net.dpml.http.impl.NcsaRequestLog">
               <context>
-                <entry key="filename" value="${dpml.data}/logs/http/static_request.log"/>
+                <entry key="filename" value="$${dpml.data}/logs/http/static_request.log"/>
                 <entry key="append" value="true"/>
                 <entry key="extended" value="true"/>
               </context>

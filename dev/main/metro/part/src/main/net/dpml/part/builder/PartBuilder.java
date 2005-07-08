@@ -22,7 +22,7 @@ import java.io.IOException;
 import java.net.URI;
 import java.beans.IntrospectionException;
 
-import net.dpml.part.part.Part;
+import net.dpml.part.Part;
 
 /**
  * The contract for builders that create component parts.

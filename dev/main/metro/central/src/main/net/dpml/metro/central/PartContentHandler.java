@@ -39,8 +39,8 @@ import net.dpml.transit.repository.Repository;
 import net.dpml.part.control.Controller;
 import net.dpml.part.control.ControllerContext;
 
-import net.dpml.part.part.Part;
-import net.dpml.part.manager.Component;
+import net.dpml.part.Part;
+import net.dpml.part.control.Component;
 
 import net.dpml.transit.Transit;
 import net.dpml.transit.model.ContentModel;

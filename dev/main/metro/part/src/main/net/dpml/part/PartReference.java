@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package net.dpml.part.part;
+package net.dpml.part;
 
 import java.io.Serializable;
 

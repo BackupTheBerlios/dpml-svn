@@ -21,6 +21,8 @@ package net.dpml.composition.builder;
 import java.beans.IntrospectionException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.File;
+import java.io.FileWriter;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
@@ -51,6 +53,10 @@ import net.dpml.magic.tasks.ProjectTask;
 import net.dpml.part.state.State;
 
 import org.apache.tools.ant.BuildException;
+
+import com.thoughtworks.xstream.XStream;
+import com.thoughtworks.xstream.io.xml.DomDriver;
+
 
 /**
  * The TypeTask creates a serialized descriptor of a component type.
@@ -179,9 +185,33 @@ public class TypeBuilderTask extends ProjectTask implements TypeBuilder
         Configuration config = createDefaultConfiguration( subject );
         State graph = resolveStateGraph( subject );
 
-        // TODO: add state model
+        Type type = new Type( graph, info, categories, context, services, config, parts );
+       
+        File target = getContext().getTargetDirectory();
+        File reports = new File( target, "reports/types" );
+        reports.mkdirs();
 
-        return new Type( graph, info, categories, context, services, config, parts );
+        File report = getReportDestination( reports, type );
+        try
+        {
+            XStream XStream = new XStream( new DomDriver() );
+            XStream.alias( "type", Type.class );
+            XStream.toXML( type, new FileWriter( report ) );
+        }
+        catch( Throwable e )
+        {
+            log( "XML reporting failed due to: " + e.toString() );
+        }
+
+        return type;
+    }
+
+    private File getReportDestination( File dir, Type type )
+    {
+        final String classname = type.getInfo().getClassname();
+        String path = classname.replace( '.', '-' );
+        String filename = path + ".xml";
+        return new File( dir, filename );
     }
 
     //---------------------------------------------------------------

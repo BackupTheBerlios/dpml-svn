@@ -16,28 +16,30 @@
  * limitations under the License.
  */
 
-package net.dpml.part.manager;
+package net.dpml.part;
+
+import java.net.URI;
 
 /**
- * Exception thrown in response to an attempt to register a part model 
- * under a key that is already assigned.
+ * Exception thrown when an attempt is made to reference an unknown handler.
  *
  * @author <a href="mailto:dev-dpml@lists.ibiblio.org">The Digital Product Meta Library</a>
  * @version $Revision: 1.2 $ $Date: 2004/03/17 10:30:09 $
  */
-public class  ResourceUnavailableException extends ComponentException 
+public class DelegationException extends Exception 
 {
-    private String m_key;
+    private URI m_target;
 
-    public ResourceUnavailableException( String key )
+    public DelegationException( URI target, String message, Throwable cause )
     {
-        super( key );
-        m_key = key;
+        super( message, cause );
+        m_target = target;
     }
 
-    public String getKey()
+    public URI getDelegationTarget()
     {
-        return m_key;
+        return m_target;
     }
+
 }
 

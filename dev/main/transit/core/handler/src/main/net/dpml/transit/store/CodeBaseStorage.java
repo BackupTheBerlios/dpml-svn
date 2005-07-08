@@ -27,7 +27,18 @@ import java.net.URI;
  */
 public interface CodeBaseStorage
 {
+   /**
+    * Return the URI identifying a codebase.  Tpically this value returned from 
+    * this operation identifes a plugin uses as a system extension or customization 
+    * point.
+    *
+    * @return the codebase uri
+    */
     URI getCodeBaseURI();
 
+   /**
+    * Set the codebase uri.
+    * @param the uri identifying the codebase for a system extension
+    */
     void setCodeBaseURI( URI uri );
 }

@@ -20,7 +20,7 @@ package net.dpml.composition.data;
 
 import java.io.Serializable;
 
-import net.dpml.part.part.PartReference;
+import net.dpml.part.PartReference;
 
 /**
  * A context descriptor declares the context creation criteria for
@@ -44,7 +44,7 @@ import net.dpml.part.part.PartReference;
  * </pre>
  *
  * @author <a href="mailto:dev-dpml@lists.ibiblio.org">The Digital Product Meta Library</a>
- * @version $Id: ContextDirective.java 2871 2005-06-17 18:56:23Z mcconnell@dpml.net $
+ * @version $Id: ContextDirective.java 2991 2005-07-07 00:00:04Z mcconnell@dpml.net $
  */
 public class ContextDirective implements Serializable
 {

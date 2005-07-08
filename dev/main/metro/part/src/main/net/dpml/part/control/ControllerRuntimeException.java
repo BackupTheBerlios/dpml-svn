@@ -21,7 +21,7 @@ package net.dpml.part.control;
 import java.net.URI;
 
 /**
- * Exception indicating an unexpected controller related error.  A controller 
+ * Exception indicating an unexpected controller related runtime error.  A controller 
  * runtime exception delcares the URI of the controller form which the exception 
  * was initiated.
  *

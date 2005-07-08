@@ -26,7 +26,7 @@ import java.util.Map.Entry;
 import junit.framework.TestCase;
 
 import net.dpml.part.control.Controller;
-import net.dpml.part.manager.Component;
+import net.dpml.part.control.Component;
 
 import net.dpml.metro.central.MetroHelper;
 

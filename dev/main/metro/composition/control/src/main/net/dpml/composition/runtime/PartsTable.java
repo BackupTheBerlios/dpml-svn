@@ -22,12 +22,12 @@ import java.rmi.RemoteException;
 import java.util.Map;
 import java.util.Hashtable;
 
-import net.dpml.part.control.DelegationException;
-import net.dpml.part.control.HandlerNotFoundException;
-import net.dpml.part.manager.DuplicateKeyException;
-import net.dpml.part.manager.Component;
-import net.dpml.part.manager.ComponentException;
-import net.dpml.part.part.Part;
+import net.dpml.part.DelegationException;
+import net.dpml.part.PartHandlerNotFoundException;
+import net.dpml.part.control.DuplicateKeyException;
+import net.dpml.part.control.Component;
+import net.dpml.part.control.ComponentException;
+import net.dpml.part.Part;
 
 import net.dpml.composition.data.ReferenceDirective;
 import net.dpml.composition.control.CompositionController;
@@ -54,8 +54,8 @@ public class PartsTable
         m_component = component;
     }
 
-    public void addPart( String key, Part part ) 
-      throws ComponentException, DelegationException, HandlerNotFoundException
+    public Component addComponent( String key, Part part ) 
+      throws ComponentException, DelegationException, PartHandlerNotFoundException
     {
         if( null == key )
         {
@@ -77,11 +77,11 @@ public class PartsTable
         {
             CompositionController controller = m_component.getController();
             Component component = controller.newComponent( m_component, part, key );
-            addComponent( key, component );
+            return addComponent( key, component );
         }
     }
 
-    public void addComponent( String key, Component component ) throws DuplicateKeyException
+    public Component addComponent( String key, Component component ) throws DuplicateKeyException
     {
         synchronized( m_parts )
         {
@@ -90,6 +90,7 @@ public class PartsTable
                 throw new DuplicateKeyException( key );
             }
             m_parts.put( key, component );
+            return component;
         }
     }
 
@@ -105,5 +106,10 @@ public class PartsTable
     public Component getComponent( String key )
     {
         return (Component) m_parts.get( key );
+    }
+
+    Component[] getComponents()
+    {
+        return (Component[]) m_parts.values().toArray( new Component[0] );
     }
 }

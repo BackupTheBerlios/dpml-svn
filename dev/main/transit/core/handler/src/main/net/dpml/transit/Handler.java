@@ -19,7 +19,7 @@
 package net.dpml.transit;
 
 /**
- * A handler is an interface implemented by a disposable Transit sub-system.
+ * A handler is an interface implemented by a disposable sub-system.
  *
  * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
  */

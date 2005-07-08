@@ -23,7 +23,7 @@ import net.dpml.http.impl.*;
 import net.dpml.http.HttpService;
 import net.dpml.http.HttpContextService;
 
-import net.dpml.part.manager.Component;
+import net.dpml.part.control.Component;
 
 import org.mortbay.http.HttpHandler;
 
@@ -41,12 +41,6 @@ public class Demo implements Startable
     private final Logger m_logger;
     private final Parts m_parts;
     
-    private Object m_context;
-    private Object m_server;
-    private Object m_listener;
-    private Object m_handler;
-    private Object m_nf;
-
     public Demo( Logger logger, Parts parts )
     {
         m_logger = logger;
@@ -56,19 +50,11 @@ public class Demo implements Startable
     public void start() throws Exception
     {
         m_logger.info( "Starting" );
-        m_server = m_parts.getServerComponent().resolve( false );
-        m_context = m_parts.getContextComponent().resolve( false );
-        m_listener = m_parts.getSocketListenerComponent().resolve( false );
-        m_handler = m_parts.getResourceHandlerComponent().resolve( false );
-        m_nf = m_parts.getNotFoundHandlerComponent().resolve( false );
-        m_logger.info( "Started" );
     }
 
     public void stop() throws Exception
     {
         m_logger.info( "Stopping" );
-        m_parts.getServerComponent().terminate();
-        m_logger.info( "Stopped" );
     }
 }
 

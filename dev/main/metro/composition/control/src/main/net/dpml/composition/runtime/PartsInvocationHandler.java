@@ -29,8 +29,8 @@ import net.dpml.composition.info.PartDescriptor;
 import net.dpml.composition.control.CompositionController;
 
 import net.dpml.part.control.Controller;
-import net.dpml.part.control.DelegationException;
-import net.dpml.part.manager.Component;
+import net.dpml.part.DelegationException;
+import net.dpml.part.control.Component;
 
 /**
  * The parts invocation handler maps client request for 'get', 'create' and 

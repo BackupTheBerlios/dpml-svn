@@ -30,10 +30,10 @@ import net.dpml.logging.Logger;
 
 import net.dpml.part.control.Controller;
 import net.dpml.part.control.ControllerContext;
-import net.dpml.part.manager.Component;
-import net.dpml.part.manager.ClassLoadingContext;
-import net.dpml.part.manager.ComponentException;
-import net.dpml.part.manager.ComponentRuntimeException;
+import net.dpml.part.control.Component;
+import net.dpml.part.control.ClassLoadingContext;
+import net.dpml.part.control.ComponentException;
+import net.dpml.part.control.ComponentRuntimeException;
 import net.dpml.part.state.State;
 
 /**

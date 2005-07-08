@@ -16,15 +16,34 @@
  * limitations under the License.
  */
 
-package net.dpml.part.manager;
+package net.dpml.part.control;
 
 /**
- * Interfact implemented by local components.
+ * Exception raised by a container.
  *
  * @author <a href="mailto:dev-dpml@lists.ibiblio.org">The Digital Product Meta Library</a>
  * @version $Revision: 1.2 $ $Date: 2004/03/17 10:30:09 $
  */
-public interface ClassLoadingContext
+public class ContainmentException extends Exception 
 {
-    ClassLoader getClassLoader();
+   /**
+    * Creation of a new containment exception.
+    * @param message the excetion message
+    */
+    public ContainmentException( String message )
+    {
+        this( message, null );
+    }
+
+   /**
+    * Creation of a new containment exception.
+    * @param message the exception message
+    * @param cause the causal exception
+    */
+    public ContainmentException( String message, Throwable cause )
+    {
+        super( message, cause );
+    }
+
 }
+

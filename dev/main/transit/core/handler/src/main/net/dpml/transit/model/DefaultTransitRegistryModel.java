@@ -69,7 +69,6 @@ public class DefaultTransitRegistryModel extends DefaultModel implements Transit
     // TransitRegistryModel
     // ------------------------------------------------------------------------
 
-
     public int getTransitModelCount()
     {
         synchronized( m_lock )

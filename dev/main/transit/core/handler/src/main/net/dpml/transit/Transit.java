@@ -19,20 +19,22 @@
 
 package net.dpml.transit;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
+import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.net.URL;
 import java.rmi.NotBoundException ;
 import java.rmi.AccessException;
 import java.rmi.RemoteException;
 import java.rmi.activation.ActivationSystem;
 import java.rmi.registry.Registry;
 import java.rmi.registry.LocateRegistry;
-
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStreamWriter;
-import java.io.PrintWriter;
+import java.util.Properties;
 
 import net.dpml.transit.adapter.LoggingAdapter;
 import net.dpml.transit.monitors.Monitor;
@@ -45,6 +47,9 @@ import net.dpml.transit.model.DefaultTransitModel;
 import net.dpml.transit.model.TransitModel;
 import net.dpml.transit.repository.Repository;
 import net.dpml.transit.repository.StandardLoader;
+import net.dpml.transit.store.TransitStorage;
+import net.dpml.transit.unit.TransitStorageUnit;
+import net.dpml.transit.util.PropertyResolver;
 
 /**
  * The Transit class manages the establishment of a singleton transit instance
@@ -149,16 +154,35 @@ public final class Transit
         {
             if( m_INSTANCE == null )
             {
-                try
+                URL authority = getAuthority();
+                if( null == authority )
                 {
-                    TransitModel model = new DefaultTransitModel();
-                    return getInstance( model );
+                    try
+                    {
+                        TransitModel model = new DefaultTransitModel();
+                        return getInstance( model );
+                    }
+                    catch( IOException e )
+                    {
+                        String message = e.getMessage();
+                        Throwable cause = e.getCause();
+                        throw new TransitRuntimeException( message, cause );
+                    }
                 }
-                catch( IOException e )
+                else
                 {
-                    String message = e.getMessage();
-                    Throwable cause = e.getCause();
-                    throw new TransitRuntimeException( message, cause );
+                    try
+                    {
+                        TransitStorage store = new TransitStorageUnit( authority );
+                        TransitModel model = new DefaultTransitModel( store );
+                        return getInstance( model );
+                    }
+                    catch( IOException e )
+                    {
+                        String message = e.getMessage();
+                        Throwable cause = e.getCause();
+                        throw new TransitRuntimeException( message, cause );
+                    }
                 }
             }
             else
@@ -397,9 +421,9 @@ public final class Transit
     * returned otherwise the implementation will look for an environment
     * variable named "DPML_SYSTEM" which if defined will be
     * returned as a file.  If neither case holds, the value assigned
-    * if platform dependent.  If the os is Windows, the equivalent of
-    * $PROGRAMFILES\DPML is returned otherwise the default value
-    * of "/usr/share/dpml" is returned.
+    * if platform dependent.  If the os is Windows, DPML_HOME\Shared 
+    * is returned otherwise $DPML_HOME/share" is returned for a nix 
+    * platforms.
     *
     * @param dpmlHomeDir the default DPML_HOME value
     * @return the transit system directory
@@ -426,22 +450,6 @@ public final class Transit
         {
             return new File( dpmlHomeDir, "share" );
         }
-
-        /*
-        String os = System.getProperty( "os.name" ).toLowerCase();
-        if( os.indexOf( "win" ) >= 0 )
-        {
-            home = Environment.getEnvVariable( "PROGRAMFILES" );
-            File anchor = new File( home );
-            return new File( anchor, "DPML" );
-        }
-        else
-        {
-            home = "/usr/share";
-            File anchor = new File( home );
-            return new File( anchor, "dpml" );
-        }
-        */
     }
 
    /**
@@ -506,5 +514,35 @@ public final class Transit
     * Singleton transit instance.
     */
     private static Transit m_INSTANCE;
+
+    private static URL getAuthority()
+    {
+        String auth = System.getProperty( AUTHORITY_KEY, null );
+        if( null != auth )
+        {
+            Properties properties = new Properties( System.getProperties() );
+            properties.setProperty( Transit.HOME_KEY, Transit.DPML_HOME.toString() );
+            properties.setProperty( Transit.PREFS_KEY, Transit.DPML_PREFS.toString() );
+            properties.setProperty( Transit.DATA_KEY, Transit.DPML_DATA.toString() );
+            properties.setProperty( Transit.SYSTEM_KEY, Transit.DPML_SYSTEM.toString() );
+            String path = PropertyResolver.resolve( properties, auth );
+            try
+            {
+                return new URL( path );
+            }
+            catch( MalformedURLException e )
+            {
+                final String error = 
+                  "Invaid authority url: " + path;
+                throw new TransitError( error, e );
+            }
+        }
+        else
+        {
+            return null;
+        }
+    }
+
+    private static final String AUTHORITY_KEY = "dpml.transit.authority";
 
 }

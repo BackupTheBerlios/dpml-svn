@@ -16,18 +16,26 @@
  * limitations under the License.
  */
 
-package net.dpml.part.manager;
-
-import java.util.EventListener;
+package net.dpml.part.control;
 
 /**
- * 
+ * Interfact implemented by local components through which a classloader 
+ * may be exposed to the managing controller.  Typically a composite component
+ * implementation will implement this interface and expose it's classloader 
+ * to a controller enabling the controller to build new classloaders relative 
+ * the exposed classloader.  A component implementing this interface may choose
+ * to restrict the exposure of internals by returning an appropriate API 
+ * classloader.
  *
  * @author <a href="mailto:dev-dpml@lists.ibiblio.org">The Digital Product Meta Library</a>
  * @version $Revision: 1.2 $ $Date: 2004/03/17 10:30:09 $
  */
-public interface AvailabilityListener extends EventListener
+public interface ClassLoadingContext
 {
-    void availabilityChanged( AvailabilityEvent event );
+   /**
+    * Return the classloader that is to be used for construction of 
+    * subsidiary classloaders.
+    * @return the anchor classloader
+    */
+    ClassLoader getClassLoader();
 }
-

@@ -49,7 +49,7 @@ public interface CacheModel extends CodeBaseModel, Disposable
    /**
     * Update the value the local cache directory path.
     *
-    * @param file the cache directory
+    * @param path the cache directory path
     */
     void setCacheDirectoryPath( final String path ) throws RemoteException;
 

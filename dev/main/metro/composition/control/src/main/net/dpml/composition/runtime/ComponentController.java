@@ -46,8 +46,9 @@ import net.dpml.composition.control.CompositionController;
 import net.dpml.part.control.ControlException;
 import net.dpml.part.control.ControllerRuntimeException;
 import net.dpml.part.control.Disposable;
-import net.dpml.part.manager.Component;
-import net.dpml.part.manager.DuplicateKeyException;
+import net.dpml.part.control.Component;
+import net.dpml.part.control.Container;
+import net.dpml.part.control.DuplicateKeyException;
 import net.dpml.part.state.State;
 import net.dpml.part.state.Transition;
 import net.dpml.part.state.ResourceUnavailableException;
@@ -204,6 +205,32 @@ public class ComponentController extends LoggingHandler implements Manager
         if( component.isInitialized() )
         {
             return;
+        }
+
+        getLogger().debug( "initialization of " + component.getURI() );
+        if( component instanceof Container )
+        {
+            Container container = (Container) component;
+
+            Component[] parts = container.getStartupSequence();
+            for( int i=0; i<parts.length; i++ )
+            {
+                Component part = parts[i];
+                try
+                {
+                    getLogger().debug( "initializing part" + part.getURI() );
+                    part.initialize();
+                }
+                catch( Throwable e )
+                {
+                    URI uri = getURI();
+                    final String error = 
+                      "Failed to initialize component due to a part initaliation failure."
+                      + "\nContainer: " + component.getURI()
+                      + "\nComponent: " + part.getURI();
+                    throw new ControlException( uri, error, e );
+                }
+            }
         }
 
         Object instance = getInstance( component );
@@ -791,6 +818,30 @@ public class ComponentController extends LoggingHandler implements Manager
         {
             return;
         }
+
+        if( component instanceof Container )
+        {
+            Container container = (Container) component;
+            Component[] parts = container.getShutdownSequence();
+            for( int i=0; i<parts.length; i++ )
+            {
+                Component part = parts[i];
+                try
+                {
+                    part.terminate();
+                }
+                catch( Throwable e )
+                {
+                    URI uri = getURI();
+                    final String error = 
+                      "Failed to terminate a subsidiary part."
+                      + "\nContainer: " + component.getURI()
+                      + "\nComponent: " + part.getURI();
+                    getLogger().warn( error, e );
+                }
+            }
+        }
+    
         List visited = new LinkedList();
         boolean flag = true;
         while( flag )

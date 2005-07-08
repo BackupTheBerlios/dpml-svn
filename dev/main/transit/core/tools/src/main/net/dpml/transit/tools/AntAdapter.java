@@ -33,7 +33,7 @@ import org.apache.tools.ant.Project;
  * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
  * @version $Id: AntMonitor.java 183 2004-10-23 16:53:31Z niclas $
  */
-class AntAdapter implements Adapter
+public class AntAdapter implements Adapter
 {
    /**
     * The ant task that this adapter is assigned to.

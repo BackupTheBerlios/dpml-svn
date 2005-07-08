@@ -23,10 +23,10 @@ import java.io.IOException;
 import java.net.URI;
 import java.rmi.RemoteException;
 
-import net.dpml.part.manager.Component;
-import net.dpml.part.manager.Container;
-import net.dpml.part.manager.ComponentException;
-import net.dpml.part.part.Part;
+import net.dpml.part.Part;
+import net.dpml.part.PartNotFoundException;
+import net.dpml.part.PartHandlerNotFoundException;
+import net.dpml.part.DelegationException;
 
 /**
  * The Controller interface defines the a contract for an object that provides general
@@ -60,11 +60,11 @@ public interface Controller
     * @exception ComponentException is an error occurs during component establishment
     * @exception IOException if an error occurs while attempting to resolve the component part uri
     * @exception PartNotFoundException if the uri could not be resolved to a physical resource
-    * @exception HandlerNotFoundException if the part references a handler but the handler could not be found
+    * @exception PartHandlerNotFoundException if the part references a handler but the handler could not be found
     * @exception DelegationException if an error occurs following handover of control to a foreign controller
     */
     Component newComponent( URI uri ) throws 
-      ComponentException, IOException, PartNotFoundException, HandlerNotFoundException, 
+      ComponentException, IOException, PartNotFoundException, PartHandlerNotFoundException, 
       DelegationException;
 
    /**
@@ -76,11 +76,11 @@ public interface Controller
     * @param name the name to assign to the new component
     * @return a new component
     * @exception ComponentException is an error occurs during component establishment
-    * @exception HandlerNotFoundException if the part references a handler but the handler could not be found
+    * @exception PartHandlerNotFoundException if the part references a handler but the handler could not be found
     * @exception DelegationException if an error occurs following handover of control to a foreign controller
     * @exception UnsupportedPartTypeException if the component type is recognized but not supported
     */
     Component newComponent( Component parent, Part part, String name )
-      throws ComponentException, HandlerNotFoundException, DelegationException;
+      throws ComponentException, PartHandlerNotFoundException, DelegationException;
 
 }

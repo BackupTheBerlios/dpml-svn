@@ -1,5 +1,5 @@
 /*
- * Copyright 2005 Stephen McConnell
+ * Copyright (c) 2005 Stephen J. McConnell
  *
  * Licensed  under the  Apache License,  Version 2.0  (the "License");
  * you may not use  this file  except in  compliance with the License.
@@ -16,31 +16,24 @@
  * limitations under the License.
  */
 
-package net.dpml.part.manager;
+package net.dpml.part.control;
 
-import java.util.EventObject;
-
-/** 
- * Exception thrown if a requested resource is unavailable.
+/**
+ * Exception thrown in response to a request for an unknown component.
  *
+ * @author <a href="mailto:dev-dpml@lists.ibiblio.org">The Digital Product Meta Library</a>
+ * @version $Revision: 1.2 $ $Date: 2004/03/17 10:30:09 $
  */
-public class AvailabilityEvent extends EventObject
-{   
-    private final boolean m_available;
-
-    /**
-     * Creation of a new availability event.
-     * @param model the component model
-     * @param available the component model availability status
-     */
-    public AvailabilityEvent( Component model, boolean available )
+public class ComponentNotFoundException extends ContainmentException 
+{
+    public ComponentNotFoundException( String key )
     {
-        super( model );
-        m_available = available;
+        super( key );
     }
 
-    public boolean isAvailable()
+    public String getKey()
     {
-        return m_available;
+        return getMessage();
     }
 }
+

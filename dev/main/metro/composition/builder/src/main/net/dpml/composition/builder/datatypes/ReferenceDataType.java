@@ -21,8 +21,8 @@ package net.dpml.composition.builder.datatypes;
 import java.net.URI;
 import java.net.URISyntaxException;
 
-import net.dpml.part.part.Part;
-import net.dpml.part.part.PartReference;
+import net.dpml.part.Part;
+import net.dpml.part.PartReference;
 import net.dpml.composition.builder.ConstructionException;
 import net.dpml.composition.builder.PartReferenceBuilder;
 import net.dpml.composition.data.ReferenceDirective;

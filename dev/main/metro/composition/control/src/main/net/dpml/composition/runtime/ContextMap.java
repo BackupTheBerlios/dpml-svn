@@ -23,18 +23,19 @@ import java.rmi.RemoteException;
 import java.util.Hashtable;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.ArrayList;
 
 import net.dpml.part.control.Controller;
-import net.dpml.part.control.DelegationException;
-import net.dpml.part.control.HandlerNotFoundException;
-import net.dpml.part.control.DelegationException;
-import net.dpml.part.manager.Container;
-import net.dpml.part.manager.Component;
-import net.dpml.part.manager.ComponentException;
-import net.dpml.part.manager.ComponentRuntimeException;
-import net.dpml.part.manager.DuplicateKeyException;
-import net.dpml.part.manager.ComponentNotFoundException;
-import net.dpml.part.part.Part;
+import net.dpml.part.DelegationException;
+import net.dpml.part.PartHandlerNotFoundException;
+import net.dpml.part.DelegationException;
+import net.dpml.part.control.Container;
+import net.dpml.part.control.Component;
+import net.dpml.part.control.ComponentException;
+import net.dpml.part.control.ComponentRuntimeException;
+import net.dpml.part.control.DuplicateKeyException;
+import net.dpml.part.control.ComponentNotFoundException;
+import net.dpml.part.Part;
 
 import net.dpml.composition.control.CompositionController;
 import net.dpml.composition.data.ReferenceDirective;
@@ -76,7 +77,7 @@ public class ContextMap extends Hashtable
     }
 
     public void addEntry( String key, Part part ) 
-      throws ComponentException, HandlerNotFoundException, DelegationException
+      throws ComponentException, PartHandlerNotFoundException, DelegationException
     {
         if( null == key )
         {
@@ -210,5 +211,29 @@ public class ContextMap extends Hashtable
         {
             return entry;
         }
+    }
+
+   /**
+    * Return an array of components providing services to the component.
+    * @return the provider component array
+    */
+    public synchronized Component[] getProviders()
+    {
+        ArrayList list = new ArrayList();
+        Component[] components = getComponents();
+        for( int i=0; i<components.length; i++ )
+        {
+            Component component = components[i];
+            if( component instanceof ComponentHandler )
+            {
+                list.add( component );
+            }
+        }
+        return (Component[]) list.toArray( new Component[ list.size() ] );
+    }
+
+    private Component[] getComponents()
+    {
+        return (Component[]) values().toArray( new Component[0] );
     }
 }

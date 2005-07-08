@@ -20,8 +20,8 @@ package net.dpml.composition.runtime;
 
 import java.net.URI;
 
-import net.dpml.part.manager.ResourceUnavailableException;
-import net.dpml.part.manager.Component;
+import net.dpml.part.control.ResourceUnavailableException;
+import net.dpml.part.control.Component;
 import net.dpml.part.state.State;
 
 /**

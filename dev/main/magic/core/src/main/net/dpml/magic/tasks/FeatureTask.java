@@ -135,10 +135,6 @@ public abstract class FeatureTask extends ProjectTask
         {
             return resource.getInfo().getURI( "plugin" );
         }
-        else if( m_feature.equals( "block" ) )
-        {
-            return resource.getInfo().getURI( "block" );
-        }
         else if( m_feature.equals( "spec" ) )
         {
             return resource.getInfo().getSpec();
@@ -164,7 +160,14 @@ public abstract class FeatureTask extends ProjectTask
         }
         else if( m_feature.equals( "filename" ) )
         {
-            return resource.getInfo().getFilename();
+            if( null == m_type )
+            {
+                return resource.getInfo().getFilename();
+            }
+            else
+            {
+                return resource.getInfo().getFilename( m_type );
+            }
         }
         else if( m_feature.equals( "short-filename" ) )
         {

@@ -144,9 +144,9 @@ public class DefaultCacheModel extends DisposableCodeBaseModel
     }
 
    /**
-    * Update the value the local cache directory.
+    * Update the value the local cache directory path.
     *
-    * @param file the cache directory
+    * @param path the cache directory path
     */
     public void setCacheDirectoryPath( final String path ) throws RemoteException
     {
@@ -154,11 +154,12 @@ public class DefaultCacheModel extends DisposableCodeBaseModel
     }
 
    /**
-    * Update the value the local cache directory.
+    * Update the value the local cache directory path.
     *
-    * @param file the cache directory
+    * @param path the cache directory path
+    * @param notify if true then notify listeners
     */
-    public void setCacheDirectoryPath( final String path, boolean notify ) throws RemoteException
+    protected void setCacheDirectoryPath( final String path, boolean notify ) throws RemoteException
     {
         synchronized( m_lock )
         {

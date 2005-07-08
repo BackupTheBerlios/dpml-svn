@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package net.dpml.part.manager;
+package net.dpml.part.control;
 
 /**
  * Unexpected runtime exception indicating an internal model error.

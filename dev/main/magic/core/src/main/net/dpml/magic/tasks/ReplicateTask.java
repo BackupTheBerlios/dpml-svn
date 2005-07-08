@@ -135,6 +135,7 @@ public class ReplicateTask extends ProjectTask
                 log( relativeFilename, Project.MSG_VERBOSE );
                 fileset.createInclude().setName( relativeFilename );
                 fileset.createInclude().setName( relativeFilename + ".*" );
+                fileset.createInclude().setName( relativeFilename + ".*.*" );
                 count++;
             }
             else

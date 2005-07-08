@@ -16,25 +16,20 @@
  * limitations under the License.
  */
 
-package net.dpml.part.manager;
+package net.dpml.part.control;
 
 /**
- * Exception raised by a component.
+ * The Consumer interface exposes an operation through which provider
+ * components may be declared.
  *
  * @author <a href="mailto:dev-dpml@lists.ibiblio.org">The Digital Product Meta Library</a>
  * @version $Revision: 1.2 $ $Date: 2004/03/17 10:30:09 $
  */
-public class ComponentRuntimeException extends RuntimeException 
+public interface Consumer
 {
-    public ComponentRuntimeException( String message )
-    {
-        this( message, null );
-    }
-
-    public ComponentRuntimeException( String message, Throwable cause )
-    {
-        super( message, cause );
-    }
-
+   /**
+    * Return an array of components providing services to this component.
+    * @return the provider component array
+    */
+    Component[] getProviders();
 }
-

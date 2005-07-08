@@ -16,33 +16,27 @@
  * limitations under the License.
  */
 
-package net.dpml.composition.builder;
-
-import java.io.IOException;
-import java.beans.IntrospectionException;
-
-import net.dpml.part.PartReference;
-import net.dpml.composition.info.Type;
+package net.dpml.part.control;
 
 /**
- * The contract for builders that create component part.
+ * Unexpected runtime exception indicating an internal model error.
  *
  * @author <a href="mailto:dev-dpml@lists.ibiblio.org">The Digital Product Meta Library</a>
  * @version $Revision: 1.2 $ $Date: 2004/03/17 10:30:09 $
  */
-public interface PartReferenceBuilder
+public class TypeClassNotFoundException extends ComponentRuntimeException 
 {
-   /**
-    * Return the key identifying the part that this builder is building.
-    */
-    String getKey();
+    private String m_classname;
 
-   /**
-    * Build the part.
-    * @param classloader the classloader to use if type creation is required
-    * @return the serializable part
-    * @exception Exception if a construction error occurs
-    */
-    PartReference buildPartReference( ClassLoader classloader, Type type ) 
-       throws IntrospectionException, IOException, ClassNotFoundException;
+    public TypeClassNotFoundException( String classname )
+    {
+        super( classname );
+        m_classname = classname;
+    }
+
+    public String getClassname()
+    {
+        return m_classname;
+    }
 }
+

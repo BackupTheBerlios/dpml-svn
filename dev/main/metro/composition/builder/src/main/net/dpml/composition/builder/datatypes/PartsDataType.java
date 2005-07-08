@@ -23,7 +23,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.beans.IntrospectionException;
 
-import net.dpml.part.part.PartReference;
+import net.dpml.part.PartReference;
 import net.dpml.composition.builder.ComponentBuilderTask;
 import net.dpml.composition.builder.PartReferenceBuilder;
 import net.dpml.composition.info.Type;

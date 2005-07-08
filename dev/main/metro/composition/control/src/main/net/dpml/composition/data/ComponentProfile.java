@@ -18,7 +18,7 @@
 
 package net.dpml.composition.data;
 
-import net.dpml.part.part.PartReference;
+import net.dpml.part.PartReference;
 import net.dpml.configuration.Configuration;
 import net.dpml.composition.info.InfoDescriptor;
 import net.dpml.parameters.Parameters;
@@ -96,7 +96,7 @@ import net.dpml.parameters.Parameters;
  *
  *
  * @author <a href="mailto:dev-dpml@lists.ibiblio.org">The Digital Product Meta Library</a>
- * @version $Id: ComponentProfile.java 2960 2005-07-03 08:32:41Z mcconnell@dpml.net $
+ * @version $Id: ComponentProfile.java 2991 2005-07-07 00:00:04Z mcconnell@dpml.net $
  */
 public class ComponentProfile extends DeploymentProfile
 {

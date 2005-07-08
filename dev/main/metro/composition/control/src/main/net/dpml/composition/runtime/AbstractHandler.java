@@ -26,9 +26,9 @@ import net.dpml.composition.event.WeakEventProducer;
 
 import net.dpml.logging.Logger;
 
-import net.dpml.part.manager.Component;
-import net.dpml.part.manager.AvailabilityEvent;
-import net.dpml.part.manager.AvailabilityListener;
+import net.dpml.part.control.Component;
+import net.dpml.part.control.AvailabilityEvent;
+import net.dpml.part.control.AvailabilityListener;
 
 import net.dpml.part.state.StateEvent;
 import net.dpml.part.state.StateListener;
@@ -55,6 +55,15 @@ public abstract class AbstractHandler extends WeakEventProducer implements Compo
     {
         super();
         m_logger = logger;
+    }
+
+   /**
+    * Return an array of components providing services to this component.
+    * @return the provider component array
+    */
+    public Component[] getProviders()
+    {
+        return new Component[0];
     }
 
    /**

@@ -23,13 +23,13 @@ import java.lang.Comparable;
 import java.net.URI;
 import java.net.URISyntaxException;
 
-import net.dpml.part.part.Part;
+import net.dpml.part.Part;
 
 /**
  * Abstract base class for ComponentProfile and ContainmentProfile.
  *
  * @author <a href="mailto:dev-dpml@lists.ibiblio.org">The Digital Product Meta Library</a>
- * @version $Id: DeploymentProfile.java 2961 2005-07-04 20:50:31Z mcconnell@dpml.net $
+ * @version $Id: DeploymentProfile.java 2991 2005-07-07 00:00:04Z mcconnell@dpml.net $
  */
 public abstract class DeploymentProfile implements Serializable, Comparable, Part
 {

@@ -24,7 +24,7 @@ import java.rmi.server.UnicastRemoteObject;
 
 import net.dpml.composition.control.CompositionController;
 
-import net.dpml.part.manager.Component;
+import net.dpml.part.control.Component;
 import net.dpml.part.state.NoSuchOperationException;
 import net.dpml.part.state.NoSuchTransitionException;
 import net.dpml.part.state.State;

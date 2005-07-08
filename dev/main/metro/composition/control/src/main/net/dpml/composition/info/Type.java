@@ -28,7 +28,7 @@ import java.net.URL;
 import net.dpml.configuration.Configuration;
 
 import net.dpml.part.state.State;
-import net.dpml.part.manager.ComponentException;
+import net.dpml.part.control.ComponentException;
 
 /**
  * This class contains the meta information about a particular
@@ -48,7 +48,7 @@ import net.dpml.part.manager.ComponentException;
  * <p><image src="doc-files/Type.gif" border="0"/></p>
  *
  * @author <a href="mailto:dev-dpml@lists.ibiblio.org">The Digital Product Meta Library</a>
- * @version $Id: Type.java 2958 2005-07-03 08:11:07Z mcconnell@dpml.net $
+ * @version $Id: Type.java 2991 2005-07-07 00:00:04Z mcconnell@dpml.net $
  */
 public class Type implements Serializable
 {

@@ -50,7 +50,6 @@ public abstract class TransitTask extends Task
     static
     {
         System.setProperty( "java.protocol.handler.pkgs", "net.dpml.transit" );
-        System.setProperty( "dpml.transit.authority", "file:${dpml.prefs}/transit/authority" );
         System.setProperty( "dpml.transit.profile", "development" );
     }
 
@@ -118,6 +117,13 @@ public abstract class TransitTask extends Task
         updateProperty( project, "dpml.dist", dist.getAbsolutePath() );
         updateProperty( project, "dpml.logs", dist.getAbsolutePath() );
         updateProperty( project, "dpml.prefs", prefs.getAbsolutePath() );
+
+        String auth = project.getProperty( "dpml.transit.authority" );
+        if( null != auth )
+        {
+            System.setProperty( "dpml.transit.authority", 
+              System.getProperty( "dpml.transit.authority", auth ) );
+        }
     }
 
    /**

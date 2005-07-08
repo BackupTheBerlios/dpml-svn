@@ -32,7 +32,7 @@ import net.dpml.configuration.Configuration;
 
 import net.dpml.parameters.Parameters;
 
-import net.dpml.part.manager.Component;
+import net.dpml.part.control.Component;
 
 
 /**

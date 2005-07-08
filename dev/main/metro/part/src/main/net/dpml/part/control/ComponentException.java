@@ -16,27 +16,25 @@
  * limitations under the License.
  */
 
-package net.dpml.part.manager;
+package net.dpml.part.control;
 
 /**
- * Unexpected runtime exception indicating an internal model error.
+ * Exception raised by a component.
  *
  * @author <a href="mailto:dev-dpml@lists.ibiblio.org">The Digital Product Meta Library</a>
  * @version $Revision: 1.2 $ $Date: 2004/03/17 10:30:09 $
  */
-public class TypeClassNotFoundException extends ComponentRuntimeException 
+public class ComponentException extends Exception 
 {
-    private String m_classname;
-
-    public TypeClassNotFoundException( String classname )
+    public ComponentException( String message )
     {
-        super( classname );
-        m_classname = classname;
+        this( message, null );
     }
 
-    public String getClassname()
+    public ComponentException( String message, Throwable cause )
     {
-        return m_classname;
+        super( message, cause );
     }
+
 }
 

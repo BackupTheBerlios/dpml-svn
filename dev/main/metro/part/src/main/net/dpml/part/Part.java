@@ -16,25 +16,24 @@
  * limitations under the License.
  */
 
-package net.dpml.part.manager;
+package net.dpml.part;
+
+import java.io.Serializable;
+import java.net.URI;
 
 /**
- * Exception thrown in response to an attempt to register a part model 
- * under a key that is already assigned.
+ * The common interface implemented by all parts.
  *
  * @author <a href="mailto:dev-dpml@lists.ibiblio.org">The Digital Product Meta Library</a>
  * @version $Revision: 1.2 $ $Date: 2004/03/17 10:30:09 $
  */
-public class ComponentNotFoundException extends ContainmentException 
+public interface Part extends Serializable
 {
-    public ComponentNotFoundException( String key )
-    {
-        super( key );
-    }
+   static final String ARTIFACT_TYPE = "part";
 
-    public String getKey()
-    {
-        return getMessage();
-    }
+  /**
+   * Return the part handler uri.
+   * @return the uri of the part handler
+   */
+   URI getPartHandlerURI();
 }
-

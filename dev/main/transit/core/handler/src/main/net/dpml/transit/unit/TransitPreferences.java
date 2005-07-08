@@ -186,7 +186,15 @@ public class TransitPreferences
                 for( int i=0; i < paths.length; i++ )
                 {
                     String path = paths[i];
-                    URL spec = new URL( path );
+                    URL spec = null;
+                    try
+                    {
+                        spec = new URL( path );
+                    }
+                    catch( MalformedURLException e )
+                    {
+                        spec = new URL( authority, path );
+                    }
                     setupHost( hostsPrefs, spec );
                 }
             }

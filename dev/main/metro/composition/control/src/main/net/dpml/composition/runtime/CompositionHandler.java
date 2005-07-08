@@ -31,19 +31,19 @@ import java.util.HashSet;
 import net.dpml.composition.control.CompositionController;
 import net.dpml.composition.data.ComponentProfile;
 
-import net.dpml.part.control.DelegationException;
-import net.dpml.part.control.HandlerNotFoundException;
-import net.dpml.part.control.PartNotFoundException;
+import net.dpml.part.DelegationException;
+import net.dpml.part.PartHandlerNotFoundException;
+import net.dpml.part.PartNotFoundException;
 
-import net.dpml.part.manager.Component;
-import net.dpml.part.manager.ComponentException;
-import net.dpml.part.manager.ComponentNotFoundException;
-import net.dpml.part.manager.Container;
+import net.dpml.part.control.Component;
+import net.dpml.part.control.ComponentException;
+import net.dpml.part.control.ComponentNotFoundException;
+import net.dpml.part.control.Container;
 
 import net.dpml.part.state.NoSuchOperationException;
 import net.dpml.part.state.NoSuchTransitionException;
 import net.dpml.part.state.State;
-import net.dpml.part.part.Part;
+import net.dpml.part.Part;
 
 import net.dpml.logging.Logger;
 
@@ -59,7 +59,7 @@ public class CompositionHandler extends ComponentHandler implements Container
     public CompositionHandler(
       Logger logger, CompositionController controller, ClassLoader classloader, URI uri, 
       ComponentProfile profile, Component parent ) 
-      throws ComponentException, HandlerNotFoundException, DelegationException
+      throws ComponentException, PartHandlerNotFoundException, DelegationException
     {
         super( logger, controller, classloader, uri, profile, parent );
     }
@@ -73,7 +73,7 @@ public class CompositionHandler extends ComponentHandler implements Container
     */
     public Component addComponent( URI uri, String key ) 
       throws IOException, ComponentException, PartNotFoundException, 
-      DelegationException, HandlerNotFoundException
+      DelegationException, PartHandlerNotFoundException
     {
         CompositionController controller = getController();
         Part part = controller.loadPart( uri );
@@ -100,4 +100,5 @@ public class CompositionHandler extends ComponentHandler implements Container
             return component;
         }
     }
+
 }

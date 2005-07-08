@@ -81,6 +81,7 @@
       <status>SNAPSHOT</status>
       <types>
         <type>part</type>
+        <type>part.link</type>
         <type>jar</type>
       </types>
     </info>

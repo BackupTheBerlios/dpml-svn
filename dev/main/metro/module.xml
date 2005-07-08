@@ -156,11 +156,10 @@ dpml.depot.installer.uri = ${metro.plugin.uri}
         <package name="net.dpml.parameters"/>
       </group>
       <group title="Part SPI">
+        <package name="net.dpml.part"/>
         <package name="net.dpml.part.builder"/>
         <package name="net.dpml.part.control"/>
-        <package name="net.dpml.part.manager"/>
         <package name="net.dpml.part.model"/>
-        <package name="net.dpml.part.part"/>
         <package name="net.dpml.part.state"/>
       </group>
       <group title="Metro">

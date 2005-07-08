@@ -66,6 +66,11 @@ public class TransitStorageUnit extends AbstractStorageUnit implements TransitSt
         this( getTransitPreferences( profile ) );
     }
 
+    public TransitStorageUnit( URL url )
+    {
+        this( getLocalPreferences( url ) );
+    }
+
     public TransitStorageUnit( Preferences prefs )
     {
         super( prefs );
@@ -152,20 +157,12 @@ public class TransitStorageUnit extends AbstractStorageUnit implements TransitSt
 
     private static Preferences getTransitPreferences( String profile )
     {
-        URL authority = getAuthority();
         Preferences root = Preferences.userNodeForPackage( Transit.class );
         Preferences prefs = root.node( "profiles" ).node( profile );
-        if( null != authority )
+        long install = prefs.getLong( "installation", -1 );
+        if( install < 0 )
         {
-            TransitPreferences.setupPreferences( prefs, authority );
-        }
-        else
-        {
-            long install = prefs.getLong( "installation", -1 );
-            if( install < 0 )
-            {
-                TransitPreferences.setupFactoryPreferences( prefs );
-            }
+            TransitPreferences.setupFactoryPreferences( prefs );
         }
         return prefs;
     }
@@ -175,38 +172,17 @@ public class TransitStorageUnit extends AbstractStorageUnit implements TransitSt
         return System.getProperty( PROFILE_KEY, DEFAULT_PROFILE_NAME );
     }
 
-    private static URL getAuthority()
+    private static Preferences getLocalPreferences( URL url )
     {
-        String auth = System.getProperty( AUTHORITY_KEY, null );
-        if( null != auth )
-        {
-            Properties properties = new Properties( System.getProperties() );
-            properties.setProperty( Transit.HOME_KEY, Transit.DPML_HOME.toString() );
-            properties.setProperty( Transit.PREFS_KEY, Transit.DPML_PREFS.toString() );
-            properties.setProperty( Transit.DATA_KEY, Transit.DPML_DATA.toString() );
-            properties.setProperty( Transit.SYSTEM_KEY, Transit.DPML_SYSTEM.toString() );
-            String path = PropertyResolver.resolve( properties, auth );
-            try
-            {
-                return new URL( path );
-            }
-            catch( MalformedURLException e )
-            {
-                final String error = 
-                  "Invaid authority url: " + path;
-                throw new TransitError( error, e );
-            }
-        }
-        else
-        {
-            return null;
-        }
+        LocalPreferences root = new LocalPreferences( null, "" );
+        String selection = getDefaultProfileName();
+        Preferences prefs = new LocalPreferences( root, selection );
+        TransitPreferences.setupPreferences( prefs, url );
+        return prefs;
     }
 
     private static final String DEFAULT_PROFILE_NAME = "default";
     private static final String PROFILE_KEY = "dpml.transit.profile";
-    private static final String AUTHORITY_KEY = "dpml.transit.authority";
-
 }
 
 

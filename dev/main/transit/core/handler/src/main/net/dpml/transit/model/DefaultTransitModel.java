@@ -72,6 +72,11 @@ public class DefaultTransitModel extends DefaultModel implements TransitModel
         this( logger, new TransitStorageUnit() );
     }
 
+    public DefaultTransitModel( TransitStorage store ) throws RemoteException
+    {
+        this( new LoggingAdapter( "transit" ), store );
+    }
+
     public DefaultTransitModel( Logger logger, TransitStorage store ) throws RemoteException
     {
         super( logger );
