@@ -50,61 +50,61 @@ public class OnlineTestCase extends TestCase
 
     public void testStackedJarUrl() throws Exception
     {
-        URL url = new URL( "jar:artifact:jar:testcasegroup/dpml-test-testb!/net/dpml/test/testb/B.class" );
+        URL url = new URL( "jar:artifact:jar:dpml/test/dpml-test-testb!/net/dpml/test/testb/B.class" );
         Object obj = url.getContent();
         System.out.println( obj.getClass() );
     }
 
     public void testDownloadNoVersion() throws Exception
     {
-        URL url = new URL( "artifact:testfile:testcasegroup/1" );
+        URL url = new URL( "artifact:testfile:dpml/test/1" );
         String content = getContent( url );
         assertEquals( "Content not retrieved.", "abc\n", content );
     }
 
     public void testDownloadWithVersion() throws Exception
     {
-        URL url = new URL( "artifact:testfile:testcasegroup/abc#1.0.1" );
+        URL url = new URL( "artifact:testfile:dpml/test/abc#1.0.1" );
         String content = getContent( url );
         assertEquals( "Content not retrieved.", "abc\ndef\n", content );
     }
 
     public void testClassLoader1() throws Exception
     {
-        URL url = new URL( "artifact:jar:testcasegroup/dpml-test-testa" );
+        URL url = new URL( "artifact:jar:dpml/test/dpml-test-testa" );
         ClassLoader classloader = new URLClassLoader( new URL[]{ url } );
         classloader.loadClass( "net.dpml.test.testa.A" );
     }
 
     public void testClassLoader2() throws Exception
     {
-        URL url = new URL( "artifact:jar:testcasegroup/dpml-test-testb" );
+        URL url = new URL( "artifact:jar:dpml/test/dpml-test-testb" );
         ClassLoader classloader = new URLClassLoader( new URL[]{ url } );
         classloader.loadClass( "net.dpml.test.testb.B" );
     }
 
     public void testInternalResource() throws Exception
     {
-        URL url = new URL( "artifact:jar:testcasegroup/dpml-test-testb" );
+        URL url = new URL( "artifact:jar:dpml/test/dpml-test-testb" );
         ClassLoader classloader = new URLClassLoader( new URL[]{ url } );
         Class clazz = classloader.loadClass( "net.dpml.test.testb.B" );
         URL resourceUrl = clazz.getResource( "TestB.xinfo" );
         String external =
-          "artifact:jar:testcasegroup/dpml-test-testb!/net/dpml/test/testb/TestB.xinfo";
+          "artifact:jar:dpml/test/dpml-test-testb!/net/dpml/test/testb/TestB.xinfo";
         assertEquals( "external", external, resourceUrl.toExternalForm() );
         resourceUrl.openStream();
     }
 
     public void testContentConversionA() throws Exception
     {
-        URL url = new URL( "artifact:jar:testcasegroup/dpml-test-testa" );
+        URL url = new URL( "artifact:jar:dpml/test/dpml-test-testa" );
         Object content = url.getContent();
         assertTrue( "Content type not correct.", content instanceof InputStream );
     }
 
     public void testContentConversionB() throws Exception
     {
-        URL url = new URL( "artifact:png:testcasegroup/sample" );
+        URL url = new URL( "artifact:png:dpml/test/sample" );
         Object content = url.getContent();
         assertTrue( "Content type not correct.", content instanceof java.awt.image.ImageProducer );
     }

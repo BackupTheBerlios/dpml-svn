@@ -38,7 +38,7 @@ public interface CodeBaseStorage
 
    /**
     * Set the codebase uri.
-    * @param the uri identifying the codebase for a system extension
+    * @param uri the uri identifying the codebase for a system extension
     */
     void setCodeBaseURI( URI uri );
 }

@@ -43,7 +43,11 @@ import java.util.prefs.Preferences;
 import net.dpml.transit.Transit;
 import net.dpml.transit.TransitError;
 import net.dpml.transit.TransitException;
+import net.dpml.transit.adapter.Adapter;
 import net.dpml.transit.adapter.LoggingAdapter;
+import net.dpml.transit.adapter.RepositoryMonitorAdapter;
+import net.dpml.transit.adapter.CacheMonitorAdapter;
+import net.dpml.transit.adapter.NetworkMonitorAdapter;
 import net.dpml.transit.artifact.Artifact;
 import net.dpml.transit.model.Logger;
 import net.dpml.transit.model.Connection;
@@ -348,12 +352,22 @@ public final class Main
 
     private static void handleGet( Logger logger, String[] args, String path ) throws Exception
     {
-        TransitModel model = loadTransitModel( args, logger, false );
-        Transit transit = Transit.getInstance( model );
-        URI uri = new URI( path );
-        URL url = new URL( uri.toASCIIString() );
-        File file = (File) url.getContent( new Class[]{ File.class } );
-        getLogger().info( "Cached as: " + file );
+        try
+        {
+            TransitModel model = loadTransitModel( args, logger, false );
+            Transit transit = Transit.getInstance( model );
+            setupMonitors( transit, (Adapter) getLogger() );
+            URI uri = new URI( path );
+            URL url = new URL( uri.toASCIIString() );
+            File file = (File) url.getContent( new Class[]{ File.class } );
+            getLogger().info( "Cached as: " + file );
+        }
+        catch( Throwable e )
+        {
+            final String error = "ERROR: Could not complete get request.";
+            getLogger().error( error, e );
+            System.exit( -1 );
+        }
     }
 
     private static ApplicationProfile createPrefsProfile( Logger logger ) throws Exception
@@ -708,6 +722,19 @@ public final class Main
             }
         }
         return (String[]) list.toArray( new String[0] );
+    }
+
+   /**
+    * Setup the monitors.
+    */
+    private static void setupMonitors( Transit instance, Adapter adapter ) throws Exception
+    {
+        instance.getRepositoryMonitorRouter().addMonitor(
+          new RepositoryMonitorAdapter( adapter ) );
+        instance.getCacheMonitorRouter().addMonitor(
+          new CacheMonitorAdapter( adapter ) );
+        instance.getNetworkMonitorRouter().addMonitor(
+          new NetworkMonitorAdapter( adapter ) );
     }
 
 }

@@ -43,9 +43,14 @@ import net.dpml.transit.NullArgumentException;
 import net.dpml.transit.Handler;
 import net.dpml.transit.Transit;
 import net.dpml.transit.TransitException;
-import net.dpml.transit.artifact.Artifact;
+import net.dpml.transit.adapter.Adapter;
+import net.dpml.transit.adapter.RepositoryMonitorAdapter;
+import net.dpml.transit.adapter.CacheMonitorAdapter;
+import net.dpml.transit.adapter.NetworkMonitorAdapter;
+import net.dpml.transit.artifact.ArtifactAlreadyExistsException;
 import net.dpml.transit.artifact.ArtifactAlreadyExistsException;
 import net.dpml.transit.artifact.ArtifactNotFoundException;
+import net.dpml.transit.artifact.Artifact;
 import net.dpml.transit.model.CacheModel;
 import net.dpml.transit.model.CacheListener;
 import net.dpml.transit.model.Logger;
@@ -526,7 +531,7 @@ public class DefaultCacheHandler extends UnicastRemoteObject implements CacheHan
         {
             Iterator list = m_resourceHosts.values().iterator();
             while ( list.hasNext() )
-                {
+            {
                 ResourceHost host = (ResourceHost) list.next();
                 if( host.isEnabled() )
                 {

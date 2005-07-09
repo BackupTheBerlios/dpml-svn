@@ -131,7 +131,7 @@ public final class Util
         throws IOException
     {
         ArrayList list = new ArrayList();
-        InputStream stream = listFile.openStream();
+        InputStream stream = openInputStream( listFile );
         try
         {
             InputStreamReader isr = new InputStreamReader( stream, "UTF-8" );
@@ -149,6 +149,20 @@ public final class Util
         finally
         {
             stream.close();
+        }
+    }
+
+    private static InputStream openInputStream( URL url ) throws IOException
+    {
+        try
+        {
+            return url.openStream();
+        }
+        catch( IOException e )
+        {
+            System.out.println( "#URL: " + url );
+            System.out.println( e.toString() );
+            throw e;
         }
     }
 
