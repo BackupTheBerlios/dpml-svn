@@ -123,6 +123,8 @@ public final class Transit
     */
     public static final File DPML_PREFS;
 
+    public static final String VERSION = "@PROJECT-VERSION@";
+
     static
     {
         System.setProperty( "java.protocol.handler.pkgs", "net.dpml.transit" );
@@ -138,7 +140,7 @@ public final class Transit
         System.setProperty( HOME_KEY, DPML_HOME.getAbsolutePath() );
         System.setProperty( DATA_KEY, DPML_DATA.getAbsolutePath() );
         System.setProperty( PREFS_KEY, DPML_PREFS.getAbsolutePath() );
-        System.setProperty( "dpml.transit.version", "@PROJECT-VERSION@" );
+        System.setProperty( "dpml.transit.version", VERSION );
     }
 
    /**

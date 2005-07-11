@@ -177,65 +177,68 @@ public class AntFileIndex extends DataType implements Index
     // implementation
     //-------------------------------------------------------------
 
-    /* (non-Javadoc)
-	 * @see net.dpml.magic.Index#getHomeDirectory()
-	 */
+   /**
+    * Return the home directory.
+    * @see net.dpml.magic.Index#getHomeDirectory()
+    */
     public File getHomeDirectory()
     {
         return new File( Transit.DPML_PREFS, "transit" );
     }
 
-    /* (non-Javadoc)
-	 * @see net.dpml.magic.Index#getCacheDirectory()
-	 */
+   /**
+    * Return the cache directory.
+    * @see net.dpml.magic.Index#getCacheDirectory()
+    */
     public File getCacheDirectory()
     {
-        return new File( Transit.DPML_DATA, "cache" );
+        String cache = getProject().getProperty( "dpml.cache" );
+        return new File( cache );
     }
 
     /* (non-Javadoc)
-	 * @see net.dpml.magic.Index#getDocsDirectory()
-	 */
+     * @see net.dpml.magic.Index#getDocsDirectory()
+     */
     public File getDocsDirectory()
     {
         return new File( Transit.DPML_DATA, "docs" );
     }
 
     /* (non-Javadoc)
-	 * @see net.dpml.magic.Index#getRepository()
-	 */
+     * @see net.dpml.magic.Index#getRepository()
+     */
     public Repository getRepository()
     {
         return m_repository;
     }
 
    /* (non-Javadoc)
- * @see net.dpml.magic.Index#getIndexFile()
- */
+    * @see net.dpml.magic.Index#getIndexFile()
+    */
     public File getIndexFile()
     {
         return m_index;
     }
 
    /* (non-Javadoc)
- * @see net.dpml.magic.Index#getIndexLastModified()
- */
+    * @see net.dpml.magic.Index#getIndexLastModified()
+    */
     public long getIndexLastModified()
     {
         return m_index.lastModified();
     }
 
    /* (non-Javadoc)
- * @see net.dpml.magic.Index#getProperty(java.lang.String)
- */
+    * @see net.dpml.magic.Index#getProperty(java.lang.String)
+    */
     public String getProperty( String key )
     {
         return getProperty( key, null );
     }
 
    /* (non-Javadoc)
- * @see net.dpml.magic.Index#getProperty(java.lang.String, java.lang.String)
- */
+    * @see net.dpml.magic.Index#getProperty(java.lang.String, java.lang.String)
+    */
     public String getProperty( String key, String fallback )
     {
         String value = getProject().getProperty( key );
@@ -251,48 +254,48 @@ public class AntFileIndex extends DataType implements Index
 
 
    /* (non-Javadoc)
- * @see net.dpml.magic.Index#isaResourceKey(java.lang.String)
- */
+    * @see net.dpml.magic.Index#isaResourceKey(java.lang.String)
+    */
     public boolean isaResourceKey( String key )
     {
         return ( null != m_resources.get( key ) );
     }
 
    /* (non-Javadoc)
- * @see net.dpml.magic.Index#isaRelease()
- */
+    * @see net.dpml.magic.Index#isaRelease()
+    */
     public boolean isaRelease()
     {
         return m_builder.isaRelease();
     }
 
    /* (non-Javadoc)
- * @see net.dpml.magic.Index#getReleaseSignature()
- */
+    * @see net.dpml.magic.Index#getReleaseSignature()
+    */
     public String getReleaseSignature()
     {
         return m_builder.getReleaseSignature();
     }
 
    /* (non-Javadoc)
- * @see net.dpml.magic.Index#getResources()
- */
+    * @see net.dpml.magic.Index#getResources()
+    */
     public Resource[] getResources()
     {
         return (Resource[]) m_resources.values().toArray( new Resource[0] );
     }
 
    /* (non-Javadoc)
- * @see net.dpml.magic.Index#isaDefinition(net.dpml.magic.model.ResourceRef)
- */
+    * @see net.dpml.magic.Index#isaDefinition(net.dpml.magic.model.ResourceRef)
+    */
     public boolean isaDefinition( final ResourceRef reference )
     {
         return ( getResource( reference ) instanceof Definition );
     }
 
    /* (non-Javadoc)
- * @see net.dpml.magic.Index#getDefinitions()
- */
+    * @see net.dpml.magic.Index#getDefinitions()
+    */
     public Definition[] getDefinitions()
         throws BuildException
     {
@@ -310,8 +313,8 @@ public class AntFileIndex extends DataType implements Index
     }
 
    /* (non-Javadoc)
- * @see net.dpml.magic.Index#getSubsidiaryRefs(net.dpml.magic.model.Resource)
- */
+    * @see net.dpml.magic.Index#getSubsidiaryRefs(net.dpml.magic.model.Resource)
+    */
     public ResourceRef[] getSubsidiaryRefs( Resource module )
         throws BuildException
     {
@@ -338,21 +341,12 @@ public class AntFileIndex extends DataType implements Index
                 list.add( new ResourceRef( resource.getKey() ) );
             }
         }
-        if( module instanceof Definition )
-        {
-            Definition def = (Definition) module;
-            ResourceRef[] parts = def.getPartRefs();
-            for( int i=0; i<parts.length; i++ )
-            {
-                list.add( parts[i] );
-            }
-        }
         return (ResourceRef[]) list.toArray( new ResourceRef[0] );
     }
 
    /* (non-Javadoc)
- * @see net.dpml.magic.Index#getSubsidiaryDefinitions(net.dpml.magic.model.Resource)
- */
+    * @see net.dpml.magic.Index#getSubsidiaryDefinitions(net.dpml.magic.model.Resource)
+    */
     public Definition[] getSubsidiaryDefinitions( Resource module )
         throws BuildException
     {
@@ -375,9 +369,10 @@ public class AntFileIndex extends DataType implements Index
         return (Definition[]) list.toArray( new Definition[0] );
     }
 
-   /* (non-Javadoc)
- * @see net.dpml.magic.Index#getResource(java.lang.String)
- */
+   /**
+    * Return a resource relative to a supplied key.
+    * @see net.dpml.magic.Index#getResource(java.lang.String)
+    */
     public Resource getResource( final String key )
         throws BuildException
     {
@@ -386,8 +381,8 @@ public class AntFileIndex extends DataType implements Index
     }
 
    /* (non-Javadoc)
- * @see net.dpml.magic.Index#getResource(net.dpml.magic.model.ResourceRef)
- */
+    * @see net.dpml.magic.Index#getResource(net.dpml.magic.model.ResourceRef)
+    */
     public Resource getResource( final ResourceRef reference )
         throws BuildException
     {
@@ -401,8 +396,8 @@ public class AntFileIndex extends DataType implements Index
     }
 
    /* (non-Javadoc)
- * @see net.dpml.magic.Index#getDefinition(java.lang.String)
- */
+    * @see net.dpml.magic.Index#getDefinition(java.lang.String)
+    */
     public Definition getDefinition( final String key )
         throws BuildException
     {
@@ -411,8 +406,8 @@ public class AntFileIndex extends DataType implements Index
     }
 
    /* (non-Javadoc)
- * @see net.dpml.magic.Index#getDefinition(net.dpml.magic.model.ResourceRef)
- */
+    * @see net.dpml.magic.Index#getDefinition(net.dpml.magic.model.ResourceRef)
+    */
     public Definition getDefinition( final ResourceRef reference )
         throws BuildException
     {

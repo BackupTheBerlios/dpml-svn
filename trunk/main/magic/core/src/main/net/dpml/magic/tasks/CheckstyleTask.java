@@ -94,39 +94,26 @@ public class CheckstyleTask extends CheckStyleTask
                 addTargetToFileset( d );
             }
         }
-
-        //
-        // add any projects referenced as parts of the defintion
-        //
-
-        ResourceRef[] parts = def.getPartRefs();
-        for( int i = 0; i < parts.length; i++ )
-        {
-            Resource resource = getIndex().getResource( parts[i] );
-            if( resource instanceof Definition )
-            {
-                Definition d = (Definition) resource;
-                addTargetToFileset( d );
-            }
-        }
     }
+
     /**
      * 
      * @param def the project to analyse
      * @return the main source dir
      */
-    private File getSrcMainDirectory(Definition def) {
+    private File getSrcMainDirectory(Definition def) 
+    {
 		
-		File main = new File(def.getBaseDir(), "src/main");
-		File java = new File(def.getBaseDir(), "src/java");
-		if (main.exists())
-		{
-			return main;
-		}
-		return java;
-	}
+        File main = new File(def.getBaseDir(), "src/main");
+        File java = new File(def.getBaseDir(), "src/java");
+        if (main.exists())
+        {
+            return main;
+        }
+        return java;
+    }
 
-	private String getKey()
+    private String getKey()
     {
         return getContext().getKey();
     }
@@ -145,6 +132,4 @@ public class CheckstyleTask extends CheckStyleTask
     {
         return m_context;
     }
-
-
 }

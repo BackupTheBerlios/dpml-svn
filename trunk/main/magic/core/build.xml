@@ -24,17 +24,27 @@
   <transit:import uri="link:template:dpml/transit/standard"/>
 
   <target name="init" depends="standard.init">
+
+    <echo>Building Magic core using Transit ${dpml.transit.version}</echo>
+
     <property name="dpml-magic-core.uri"
         value="artifact:plugin:dpml/magic/dpml-magic-core#${project.version}"/>
     <filter token="PROJECT-PLUGIN-URN" value="plugin:dpml/magic/dpml-magic-core"/>
     <filter token="PROJECT-PLUGIN-URI" value="${dpml-magic-core.uri}"/>
+
+    <!-- installer filters -->
+    <filter token="JUNIT-URI" value="artifact:jar:junit/junit#${junit.version}"/>
+    <filter token="TRANSIT-MAIN-URI" 
+       value="artifact:jar:dpml/transit/dpml-transit-main#${dpml.transit.version}"/>
+    <filter token="TRANSIT-TOOLS-URI" 
+       value="artifact:jar:dpml/transit/dpml-transit-tools#${dpml.transit.version}"/>
   </target>
 
   <target name="setup-path" depends="standard.setup-path">
     <transit:get property="checkstyle.path" uri="${checkstyle.uri}"/>
     <path id="project.main.path">
-      <pathelement location="${dpml.cache}/dpml/transit/jars/dpml-transit-main-${dpml.build.signature}.jar"/>
-      <pathelement location="${dpml.cache}/dpml/transit/jars/dpml-transit-tools-${dpml.build.signature}.jar"/>
+      <pathelement location="${dpml.cache}/dpml/transit/jars/dpml-transit-main-${dpml.transit.version}.jar"/>
+      <pathelement location="${dpml.cache}/dpml/transit/jars/dpml-transit-tools-${dpml.transit.version}.jar"/>
       <pathelement location="${checkstyle.path}"/>
       <pathelement location="${basedir}/target/classes"/>
     </path>
@@ -44,10 +54,10 @@
     <taskdef name="export" classname="net.dpml.magic.tasks.ExportTask">
       <classpath refid="project.main.path"/>
     </taskdef>
-    <echo>plugin:dpml/magic/dpml-magic-core#${dpml.build.signature}</echo>
+    <echo>plugin:dpml/magic/dpml-magic-core#${project.version}</echo>
     <export>
       <antlib resource="net/dpml/magic/plugin.xml" 
-        urn="plugin:dpml/magic/dpml-magic-core#${dpml.build.signature}"/>
+        urn="plugin:dpml/magic/dpml-magic-core#${project.version}"/>
     </export>
   </target>
 

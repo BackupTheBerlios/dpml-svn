@@ -49,11 +49,14 @@ public abstract class TransitTask extends Task
 {
     static
     {
-        System.setProperty( "java.protocol.handler.pkgs", "net.dpml.transit" );
-        System.setProperty( "dpml.transit.profile", "development" );
+        System.setProperty( "java.protocol.handler.pkgs", 
+          System.getProperty( "java.protocol.handler.pkgs", "net.dpml.transit" ) );
+        System.setProperty( "dpml.transit.profile", 
+          System.getProperty( "dpml.transit.profile", "development" ) );
     }
 
     private static boolean m_INIT = false;
+    private static TransitModel m_MODEL;
 
     public void setProject( Project project )
     {
@@ -65,29 +68,29 @@ public abstract class TransitTask extends Task
     {
         synchronized( TransitTask.class )
         {
-            checkProperties( task.getProject() );
-            if( true == m_INIT )
+            Project project = task.getProject();
+            if( null == m_MODEL )
             {
-                return;
+                try
+                {
+                    Adapter logger = new AntAdapter( task );
+                    TransitModel model = new DefaultTransitModel( logger );
+                    Transit transit = Transit.getInstance( model );
+                    setupMonitors( transit, logger );
+                    m_MODEL = model;
+                }
+                catch( TransitAlreadyInitializedException e )
+                {
+                    // Transit is already initialized.
+                }
+                catch( Throwable e )
+                {
+                    final String error =
+                      "Internal error while initializing Transit";
+                    throw new BuildException( error, e );
+                }
             }
-            try
-            {
-                Adapter logger = new AntAdapter( task );
-                TransitModel model = new DefaultTransitModel( logger );
-                Transit transit = Transit.getInstance( model );
-                setupMonitors( transit, logger );
-                m_INIT = true;
-            }
-            catch( TransitAlreadyInitializedException e )
-            {
-                // Transit is already initialized.
-            }
-            catch( Throwable e )
-            {
-                final String error =
-                  "Internal error while initializing Transit";
-                throw new BuildException( error, e );
-            }
+            checkProperties( project );
         }
     }
 
@@ -99,13 +102,15 @@ public abstract class TransitTask extends Task
     */
     private static void checkProperties( Project project ) throws BuildException
     {
+        String version = Transit.VERSION;
+        updateProperty( project, "dpml.transit.version", version );
+
         File home = Transit.DPML_HOME;
         File system = Transit.DPML_SYSTEM;
         File data = Transit.DPML_DATA;
         File prefs = Transit.DPML_PREFS;
 
         File docs = new File( data, "docs" );
-        File cache = new File( data, "cache" ); // <---  FIX ME !!
         File dist = new File( data, "dist" );
         File logs = new File( data, "logs" );
 
@@ -113,10 +118,19 @@ public abstract class TransitTask extends Task
         updateProperty( project, "dpml.system", system.getAbsolutePath() );
         updateProperty( project, "dpml.data", data.getAbsolutePath() );
         updateProperty( project, "dpml.docs", docs.getAbsolutePath() );
-        updateProperty( project, "dpml.cache", cache.getAbsolutePath() );
         updateProperty( project, "dpml.dist", dist.getAbsolutePath() );
         updateProperty( project, "dpml.logs", dist.getAbsolutePath() );
         updateProperty( project, "dpml.prefs", prefs.getAbsolutePath() );
+
+        try
+        {
+            String cache = m_MODEL.getCacheModel().getCacheDirectory().getAbsolutePath();
+            updateProperty( project, "dpml.cache", cache );
+        }
+        catch( Throwable e )
+        {
+            throw new BuildException( e );
+        }
 
         String auth = project.getProperty( "dpml.transit.authority" );
         if( null != auth )

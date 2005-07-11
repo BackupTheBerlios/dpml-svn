@@ -18,8 +18,16 @@
 
 package net.dpml.magic;
 
+import java.io.*;
+import java.net.URISyntaxException;
+import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URL;
+
+import net.dpml.transit.artifact.Artifact;
 import net.dpml.transit.model.TransitRegistryModel;
 import net.dpml.transit.model.UnknownKeyException;
+import net.dpml.transit.util.StreamUtils;
 
 /**
  */
@@ -41,10 +49,121 @@ public class MagicInstaller
                 home.addTransitModel( profile );
                 System.out.println( "  profile created" );
             }
+
+            System.out.println( "  checking ${user.home}/.ant/lib" );
+            File user = new File( System.getProperty( "user.home" ) );
+            File ant = new File( user, ".ant" );
+            File lib = new File( ant, "lib" );
+            checkAntLib( lib );
+            purgeAntLib( lib );
+            updateAntLib( lib );
+  
         }
         else
         {
             System.out.println( "  removing transit development profile" );
         }
     }
+
+    private void checkAntLib( File file )
+    {
+        if( false == file.exists() )
+        {
+            System.out.println( "  creating " + file );
+            file.mkdirs();
+        }
+    }
+
+    private void purgeAntLib( File file )
+    {
+        File[] files = file.listFiles( new DpmlFileFilter() );
+        for( int i=0; i<files.length; i++ )
+        {
+            File f = files[i];
+            System.out.println( "  removing old file ${user.home}/.ant/lib/" + f.getName() );
+            f.delete();
+        }
+    }
+
+    private void updateAntLib( File lib )
+    {
+        updateJUnit( lib );
+        updateTransitMain( lib );
+        updateTransitTools( lib );
+    }
+
+    private void updateJUnit( File lib )
+    {
+        try
+        {
+            URI unit = new URI( JUNIT_PATH );
+            copyInto( lib, unit );
+        }
+        catch( Exception e )
+        {
+            final String error = 
+              "Unexpected error while attempting to update the Junit jar file."
+              + "\nSource URI: " + JUNIT_PATH;
+            throw new RuntimeException( error, e );
+        }
+    }
+
+    private void updateTransitMain( File lib )
+    {
+        try
+        {
+            URI uri = new URI( TRANSIT_MAIN_PATH );
+            copyInto( lib, uri );
+        }
+        catch( Exception e )
+        {
+            final String error = 
+              "Unexpected error while attempting to update the Transit Main jar file."
+              + "\nSource URI: " + TRANSIT_MAIN_PATH;
+            throw new RuntimeException( error, e );
+        }
+    }
+
+    private void updateTransitTools( File lib )
+    {
+        try
+        {
+            URI uri = new URI( TRANSIT_TOOLS_PATH );
+            copyInto( lib, uri );
+        }
+        catch( Exception e )
+        {
+            final String error = 
+              "Unexpected error while attempting to update the Transit Tools jar file."
+              + "\nSource URI: " + TRANSIT_TOOLS_PATH;
+            throw new RuntimeException( error, e );
+        }
+    }
+
+    private static class DpmlFileFilter implements FileFilter
+    {
+        public boolean accept( File file )
+        {
+            return file.getName().startsWith( "dpml-transit-" );
+        }
+    }
+
+    private void copyInto( File lib, URI source ) throws IOException
+    {
+        Artifact artifact = Artifact.createArtifact( source );
+        String name = artifact.getName();
+        String type = artifact.getType();
+        URL url = artifact.toURL();
+        InputStream input = url.openStream();
+        String filename = name + "." + type;
+        System.out.println( "  adding file ${user.home}/.ant/lib/" + filename );
+        File destination = new File( lib, filename );
+        FileOutputStream output = new FileOutputStream( destination );
+        StreamUtils.copyStream( input, output, true );
+    }
+
+    private static String JUNIT_PATH = "@JUNIT-URI@";
+    private static String TRANSIT_MAIN_PATH = "@TRANSIT-MAIN-URI@";
+    private static String TRANSIT_TOOLS_PATH = "@TRANSIT-TOOLS-URI@";
+
 }

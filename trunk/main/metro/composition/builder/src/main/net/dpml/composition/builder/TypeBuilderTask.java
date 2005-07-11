@@ -44,15 +44,20 @@ import net.dpml.composition.info.PartDescriptor;
 import net.dpml.composition.info.ServiceDescriptor;
 import net.dpml.composition.info.Type;
 import net.dpml.composition.info.PartDescriptor.Operation;
+import net.dpml.composition.info.TypeHolder;
 
 import net.dpml.configuration.Configuration;
 import net.dpml.configuration.impl.DefaultConfigurationBuilder;
 
 import net.dpml.magic.tasks.ProjectTask;
+import net.dpml.magic.model.Policy;
 
 import net.dpml.part.state.State;
 
 import org.apache.tools.ant.BuildException;
+import org.apache.tools.ant.Project;
+import org.apache.tools.ant.AntClassLoader;
+import org.apache.tools.ant.types.Path;
 
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.DomDriver;
@@ -220,10 +225,54 @@ public class TypeBuilderTask extends ProjectTask implements TypeBuilder
 
     public void execute()
     {
-        final String error = 
-          "The type builder task does not support standalone operation. "
-          + "Please use the 'types' task instead.";
-        throw new UnsupportedOperationException( error );
+        Project proj = getProject();
+        Path path = getDefinition().getPath( proj, Policy.RUNTIME );
+        File classes = getContext().getClassesDirectory();
+        path.createPathElement().setLocation( classes );
+        ClassLoader classloader = new AntClassLoader( proj, path );
+
+        try
+        {
+            final Type type = buildType( classloader );
+            final String classname = type.getInfo().getClassname();
+            final String resource = getEmbeddedResourcePath( classname );
+            final File file = getEmbeddedOutputFile( resource );
+            final URI handler = getTypeHandlerURI();
+            final byte[] bytes = SerializableObjectHelper.writeToByteArray( type );
+            final TypeHolder holder = new TypeHolder( handler, bytes );
+            SerializableObjectHelper.write( holder, file );
+        }
+        catch( IntrospectionException e )
+        {
+            final String error = e.getMessage();
+            throw new BuildException( error, e, getLocation() );
+        }
+        catch( BuildException e )
+        {
+            throw e;
+        }
+        catch( Throwable e )
+        {
+            final String error = 
+              "Internal error while attempting to build types."
+              + "\nCause: " + e.getClass().getName()
+              + "\nMessage: " + e.getMessage();
+            throw new BuildException( error, e, getLocation() );
+        }
+    }
+
+    private String getEmbeddedResourcePath( String classname )
+    {
+        String path = classname.replace( '.', '/' );
+        String filename = path + ".type";
+        return filename;
+    }
+
+    private File getEmbeddedOutputFile( String filename )
+    {
+        File classes = getContext().getClassesDirectory();
+        File destination = new File( classes, filename );
+        return destination;
     }
 
     //---------------------------------------------------------------

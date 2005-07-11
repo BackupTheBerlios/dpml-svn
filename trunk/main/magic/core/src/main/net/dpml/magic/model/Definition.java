@@ -38,7 +38,7 @@ import java.io.File;
 public class Definition extends Resource
 {
     private final ResourceRef[] m_plugins;
-    private final ResourceRef[] m_parts;
+    //private final ResourceRef[] m_parts;
     private final File m_basedir;
     private final String m_path;
     private final String m_build;
@@ -70,7 +70,7 @@ public class Definition extends Resource
         m_plugins = plugins;
         m_path = path;
         m_build = build;
-        m_parts = parts;
+        //m_parts = parts;
     }
 
    /**
@@ -137,16 +137,6 @@ public class Definition extends Resource
         }
 
         Path path = getPath( project, Policy.BUILD );
-        ResourceRef[] parts = getPartRefs();
-        for( int i=0; i<parts.length; i++ )
-        {
-            Resource resource = getIndex().getResource( parts[i] );
-            if( resource instanceof Definition )
-            {
-                Definition d = (Definition) resource;
-                path.add( d.getClassPath( project ) );
-            }
-        }
 
         if( "module".equals( getInfo().getType() ) )
         {
@@ -172,16 +162,6 @@ public class Definition extends Resource
     }
 
    /**
-    * Return the set of part references that this defintion declares
-    * @return the set of part references referencing defintions that
-    *    are logically a part of this defintion
-    */
-    public ResourceRef[] getPartRefs()
-    {
-        return m_parts;
-    }
-
-   /**
     * Return TRUE is this defintionj is equal to a supplied defintion
     * @return the equality status
     */
@@ -201,17 +181,6 @@ public class Definition extends Resource
             for( int i=0; i<plugins.length; i++ )
             {
                 if( !plugins[i].equals( plugins2[i] ) ) return false;
-            }
-
-            final ResourceRef[] parts = getPartRefs();
-            final ResourceRef[] parts2 = def.getPartRefs();
-            if( parts.length != parts2.length )
-            {
-                return false;
-            }
-            for( int i=0; i<parts.length; i++ )
-            {
-                if( !parts[i].equals( parts2[i] ) ) return false;
             }
 
             return true;

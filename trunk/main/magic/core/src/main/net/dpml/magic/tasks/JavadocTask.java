@@ -243,21 +243,6 @@ public class JavadocTask extends ProjectTask
                 addDefinitionSource( d, javadoc, source );
             }
         }
-
-        //
-        // add any projects referenced as parts of the defintion
-        //
-
-        ResourceRef[] parts = definition.getPartRefs();
-        for( int i=0; i<parts.length; i++ )
-        {
-            Resource resource = getIndex().getResource( parts[i] );
-            if( resource instanceof Definition )
-            {
-                Definition d = (Definition) resource;
-                addDefinitionSource( d, javadoc, source );
-            }
-        }
     }
 
     private void addLink( Definition definition, Javadoc javadoc, Link link )

@@ -78,7 +78,6 @@ public class XMLDefinitionBuilder
         }
         else if( tag.equals( "project" ) )
         {
-
             //
             // otherwise its a project or module defintion
             //
@@ -91,7 +90,6 @@ public class XMLDefinitionBuilder
 
             final String path = element.getAttribute( "basedir" );
             final File basedir = getBasedir( anchor, path );
-
             final String file = getBuildFile( element );
 
             final Element dependenciesElement = ElementHelper.getChild( element, "dependencies" );

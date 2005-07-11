@@ -202,25 +202,6 @@ public class ModuleTask extends ProjectTask
         }
 
         //
-        // parts will be dropped shortly
-        //
-
-        ResourceRef[] parts = definition.getPartRefs();
-        if( parts.length > 0 )
-        {
-            writer.write( "\n\n    <!-- parts -->\n" );
-            for( int i=0; i<parts.length; i++ )
-            {
-                ResourceRef ref = parts[i];
-                Resource part = getIndex().getResource( ref );
-                if( "module".equals( part.getInfo().getType() ) )
-                {
-                   writer.write( "\n    <import uri=\"" + part.getInfo().getURI() + "\"/>" );
-                }
-            }
-        }
-
-        //
         // write out the list of projects (in the form of <resource> statements
         // for all projects that are within the scope of the module
         //
