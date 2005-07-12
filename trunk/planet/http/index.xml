@@ -28,7 +28,6 @@
     <info>
       <group>dpml/planet/http</group>
       <name>dpml-http-api</name>
-      <version>1.0.0</version>
       <types>
         <type>jar</type>
       </types>
@@ -42,7 +41,6 @@
     <info>
       <group>dpml/planet/http</group>
       <name>dpml-http-spi</name>
-      <version>1.0.0</version>
       <types>
         <type>jar</type>
       </types>
@@ -57,7 +55,6 @@
     <info>
       <group>dpml/planet/http</group>
       <name>dpml-http-util</name>
-      <version>1.0.0</version>
       <types>
         <type>jar</type>
       </types>
@@ -71,7 +68,6 @@
     <info>
       <group>dpml/planet/http</group>
       <name>dpml-http-impl</name>
-      <version>1.0.0</version>
       <types>
         <type>jar</type>
         <type>part</type>
@@ -103,7 +99,6 @@
     <info>
       <group>dpml/planet/http</group>
       <name>dpml-http-demo</name>
-      <version>1.0.0</version>
       <types>
         <type>part</type>
         <type>part.link</type>
