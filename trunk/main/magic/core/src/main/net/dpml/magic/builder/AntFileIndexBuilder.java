@@ -111,6 +111,10 @@ public class AntFileIndexBuilder extends DataType
         {
             return new AntFileIndex( proj, this, file );
         }
+        catch( BuildException e )
+        {
+            throw e;
+        }
         catch( Throwable e )
         {
             e.printStackTrace();
@@ -118,7 +122,7 @@ public class AntFileIndexBuilder extends DataType
               "Internal error while attempting to construct index."+
               "file:" + file.getAbsolutePath() +
               "project:" + proj.toString();
-            throw new BuildException( error );
+            throw new BuildException( error, e );
         }
     }
 

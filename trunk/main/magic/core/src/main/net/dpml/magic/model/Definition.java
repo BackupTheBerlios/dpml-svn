@@ -56,7 +56,6 @@ public class Definition extends Resource
     * @param info a descriptor of the name, grolup, version and delivery status
     * @param resources the set of resource dependencies
     * @param plugins the set of plugin dependencies
-    * @param parts defintions logically part of this defintion
     * @param uri containing module uri
     */
     public Definition(

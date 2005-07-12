@@ -119,9 +119,7 @@ public class AntFileIndex extends DataType implements Index
         }
 
         m_builder = system;
-
         m_index = resolveIndex( index );
-
         final File user = new File( System.getProperty( "user.home" ) );
         final File props = new File( user, "magic.properties" );
         loadProperties( proj, props );
@@ -439,6 +437,13 @@ public class AntFileIndex extends DataType implements Index
 
     private void buildList( final File source, String uri )
     {
+        if( false == source.exists() )
+        {
+            final String error = 
+              "Imported index file [" + source + "] does not exist.";
+            throw new BuildException( error, new Location( m_index.toString() ) );
+        }
+
         final String filename = source.toString();
         final boolean exists = m_includes.contains( filename );
         if( exists )
@@ -464,17 +469,22 @@ public class AntFileIndex extends DataType implements Index
             else
             {
                 final String error =
-                  "Unrecognized root element [" + rootElementName + "].";
+                  "Unrecognized root element [" + rootElementName + "] in index ["
+                  + m_index;
                 throw new BuildException( error );
             }
+        }
+        catch( BuildException e )
+        {
+            throw e;
         }
         catch( Throwable e )
         {
             final String error = 
               "Unexpected error while building index list."
-              + "\nSource file: " + source
-              + "\nURI: " + uri;
-            throw new BuildException( error, e, new Location( source.toString() ) );
+              + "\nSource index: " + source
+              + "\nBase index: " + m_index;
+            throw new BuildException( error, e, new Location( m_index.toString() ) );
         }
     }
 
@@ -738,6 +748,10 @@ public class AntFileIndex extends DataType implements Index
                     URL url = artifact.toURL();
                     File local = (File) url.getContent( new Class[]{ File.class } );
                     buildList( local, urn );
+                }
+                catch( BuildException e )
+                {
+                    throw e;
                 }
                 catch( Exception ioe )
                 {
