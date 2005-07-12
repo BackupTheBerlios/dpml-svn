@@ -171,7 +171,7 @@ public class XMLDefinitionBuilder
         final String name = ElementHelper.getValue( nameElement );
         final Element groupElement = ElementHelper.getChild( info, "group" );
         String group = ElementHelper.getValue( groupElement );
-        if( null == group && external )
+        if( null == group && !external )
         {
             group = getDefaultGroup( home, name, uri );
         }
