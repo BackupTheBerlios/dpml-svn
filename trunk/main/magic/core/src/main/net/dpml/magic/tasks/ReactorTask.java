@@ -17,21 +17,22 @@
 
 package net.dpml.magic.tasks;
 
-import net.dpml.magic.AntFileIndex;
-import net.dpml.magic.UnknownResourceException;
-import net.dpml.magic.model.Definition;
-import net.dpml.magic.model.ResourceRef;
-import net.dpml.magic.project.Context;
-import org.apache.tools.ant.BuildException;
-import org.apache.tools.ant.Project;
-import org.apache.tools.ant.taskdefs.Ant;
-import org.apache.tools.ant.taskdefs.Sequential;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.dpml.magic.AntFileIndex;
+import net.dpml.magic.UnknownResourceException;
+import net.dpml.magic.model.Definition;
+import net.dpml.magic.model.ResourceRef;
+import net.dpml.magic.project.Context;
+
+import org.apache.tools.ant.BuildException;
+import org.apache.tools.ant.Project;
+import org.apache.tools.ant.taskdefs.Ant;
+import org.apache.tools.ant.taskdefs.Sequential;
+import org.apache.tools.ant.taskdefs.Property;
 
 /**
  * Build a set of projects taking into account cross-project dependencies.
@@ -114,8 +115,21 @@ public class ReactorTask extends Sequential
         }
     }
 
+    private Definition getDefinition()
+    {
+        try
+        {
+            return m_context.getDefinition();
+        }
+        catch( UnknownResourceException e )
+        {
+            return null;
+        }
+    }
+
     private List getDefinitionList()
     {
+        final Definition definition = getDefinition();
         final Project project = getProject();
         final File basedir = project.getBaseDir();
         try
@@ -126,14 +140,10 @@ public class ReactorTask extends Sequential
             for( int i=0; i<defs.length; i++ )
             {
                 final Definition def = defs[i];
-                final String base = def.getBaseDir().getCanonicalPath();
-                if( base.startsWith( path ) )
+                if( def != definition )
                 {
-                    if( base.length() == path.length() )
-                    {
-                        list.add( def );
-                    }
-                    else
+                    String base = def.getLocation().getFileName();
+                    if( base.startsWith( path ) )
                     {
                         String next = base.substring( path.length() );
                         if( next.startsWith( File.separator ) )
@@ -253,6 +263,11 @@ public class ReactorTask extends Sequential
         ant.setDir( definition.getBaseDir() );
         ant.setInheritRefs( true );
         ant.setInheritAll( false );
+
+        Property property = ant.createProperty();
+        property.setName( "dpml.magic.reactive" );
+        property.setValue( "true" );
+
         if( null != definition.getBuildFile() )
         {
             ant.setAntfile( definition.getBuildFile() );

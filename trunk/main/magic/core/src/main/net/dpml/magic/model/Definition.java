@@ -17,6 +17,9 @@
 
 package net.dpml.magic.model;
 
+import java.io.IOException;
+import java.io.File;
+
 import net.dpml.magic.AntFileIndex;
 
 import net.dpml.transit.NullArgumentException;
@@ -25,7 +28,6 @@ import org.apache.tools.ant.Location;
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.types.Path;
 
-import java.io.File;
 
 
 /**
@@ -38,7 +40,6 @@ import java.io.File;
 public class Definition extends Resource
 {
     private final ResourceRef[] m_plugins;
-    //private final ResourceRef[] m_parts;
     private final File m_basedir;
     private final String m_path;
     private final String m_build;
@@ -61,8 +62,7 @@ public class Definition extends Resource
     public Definition(
       final AntFileIndex index, final String key, final File basedir, String build,
       final String path, final Info info,
-      final ResourceRef[] resources, final ResourceRef[] plugins,
-      final ResourceRef[] parts, String uri )
+      final ResourceRef[] resources, final ResourceRef[] plugins, String uri )
     {
         super( index, key, info, resources, uri );
 
@@ -70,7 +70,6 @@ public class Definition extends Resource
         m_plugins = plugins;
         m_path = path;
         m_build = build;
-        //m_parts = parts;
     }
 
    /**
@@ -101,12 +100,26 @@ public class Definition extends Resource
         if( null == getBuildFile() )
         {
             File build = new File( getBaseDir(), "build.xml" );
-            return new Location( build.toString() );
+            try
+            {
+                return new Location( build.getCanonicalPath() );
+            }
+            catch( IOException e )
+            {
+                return new Location( build.toString() );
+            }
         }
         else
         {
             File build = new File( getBaseDir(), getBuildFile() );
-            return new Location( build.toString() );
+            try
+            {
+                return new Location( build.getCanonicalPath() );
+            }
+            catch( IOException e )
+            {
+                return new Location( build.toString() );
+            }
         }
     }
 

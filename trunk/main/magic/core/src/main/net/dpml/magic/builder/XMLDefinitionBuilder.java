@@ -76,10 +76,10 @@ public class XMLDefinitionBuilder
         {
             return createResource( home, element, uri );
         }
-        else if( tag.equals( "project" ) )
+        else if( tag.equals( "project" ) || tag.equals( "index" ) )
         {
             //
-            // otherwise its a project or module defintion
+            // its a project or module defintion
             //
 
             boolean external = isExternal( element );
@@ -98,17 +98,14 @@ public class XMLDefinitionBuilder
             final Element pluginsElement = ElementHelper.getChild( element, "plugins" );
             final ResourceRef[] plugins = createPluginRefs( pluginsElement );
 
-            final Element partsElement = ElementHelper.getChild( element, "parts" );
-            final ResourceRef[] parts = createResourceRefs( partsElement );
-
-            return new Definition( home, key, basedir, file, path, info, resources, plugins, parts, uri );
+            return new Definition( home, key, basedir, file, path, info, resources, plugins, uri );
         }
         else
         {
             final String error =
               "Unrecognized element name \""
               + tag
-              + "\" (recognized types include 'resource', 'project' and 'import').";
+              + "\" (recognized types include 'resource', 'project', 'index', and 'import').";
             throw new BuildException( error );
         }
     }

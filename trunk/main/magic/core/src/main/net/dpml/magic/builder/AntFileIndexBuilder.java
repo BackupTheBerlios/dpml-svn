@@ -34,7 +34,7 @@ import org.apache.tools.ant.types.DataType;
 
 /**
  * The Magic class is the application root of the magic system.  It is responsible
- * for the onetime establishment of an index
+ * for the onetime establishment of an index.
  *
  * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
  * @version $Revision: 1.2 $ $Date: 2004/03/17 10:30:09 $

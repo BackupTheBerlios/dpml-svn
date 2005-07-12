@@ -20,40 +20,44 @@
     xmlns:transit="antlib:net.dpml.transit"
     xmlns:x="plugin:dpml/magic/dpml-magic-core">
 
+  <condition property="reactive" value="true">
+    <isset property="dpml.magic.reactive"/>
+  </condition>
+
   <transit:init>
     <map urn="@PROJECT-PLUGIN-URN@"
        uri="@PROJECT-PLUGIN-URI@"/>
   </transit:init>
 
-  <target name="init">
+  <target name="init" unless="reactive">
     <x:reactor target="init"/>
   </target>
 
-  <target name="clean" description="Clean all projects with the reactor scope.">
+  <target name="clean" description="Clean all projects with the reactor scope." unless="reactive">
     <x:reactor target="clean"/>
   </target>
 
-  <target name="prepare" description="Prepare all sub-project sources.">
+  <target name="prepare" description="Prepare all sub-project sources." unless="reactive">
     <x:reactor target="prepare"/>
   </target>
 
-  <target name="build" description="Build all sub-project sources.">
+  <target name="build" description="Build all sub-project sources." unless="reactive">
     <x:reactor target="build"/>
   </target>
 
-  <target name="package" description="Prepare the sub-project artifacts.">
+  <target name="package" description="Prepare the sub-project artifacts." unless="reactive">
     <x:reactor target="package"/>
   </target>
 
-  <target name="test" description="Invoke tests on all sub-projects.">
+  <target name="test" description="Invoke tests on all sub-projects." unless="reactive">
     <x:reactor target="test"/>
   </target>
 
-  <target name="install" description="Build and install all sub-project artifacts.">
+  <target name="install" description="Build and install all sub-project artifacts." unless="reactive">
     <x:reactor target="install"/>
   </target>
 
-  <target name="default" description="Invoke the default target in all sub-projects.">
+  <target name="default" description="Invoke the default target in all sub-projects." unless="reactive">
     <x:reactor/>
   </target>
 

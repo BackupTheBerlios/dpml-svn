@@ -133,7 +133,7 @@ public class AntFileIndex extends DataType implements Index
         // load the initial context
         //
 
-        m_repository = new StandardLoader();
+        m_repository = Transit.getInstance().getRepository();
         File home = getHomeDirectory();
         if( null == proj.getProperty( HOME_KEY ) )
         {
@@ -484,9 +484,9 @@ public class AntFileIndex extends DataType implements Index
         // its a native magic index
         //
 
+        final File anchor = source.getParentFile();
         String key = ElementHelper.getAttribute( root, "key", null );
         final Element[] elements = ElementHelper.getChildren( root );
-        final File anchor = source.getParentFile();
 
         if( ( null != key ) && ( key.length() > 0 ) )
         {
