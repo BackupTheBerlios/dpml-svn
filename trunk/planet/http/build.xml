@@ -17,21 +17,33 @@
   limitations under the License.
 -->
 
-<project name="dpml-http" default="default" basedir="." 
-    xmlns:transit="antlib:net.dpml.transit">
+<project name="dpml-http" default="install" basedir="." 
+    xmlns:transit="antlib:net.dpml.transit"
+    xmlns:x="plugin:dpml/magic/dpml-magic-core">
 
-  <transit:import uri="artifact:template:dpml/magic/reactor"/>
+  <transit:import uri="artifact:template:dpml/magic/standard"/>
 
-  <target name="patch">
-    <replace token="m_Logger" value="m_logger" dir=".">
-      <include name="**/*.java"/>
-    </replace>
-    <replace token="m_Context" value="m_context" dir=".">
-      <include name="**/*.java"/>
-    </replace>
-    <replace token="m_Index" value="m_index" dir=".">
-      <include name="**/*.java"/>
-    </replace>
+  <target name="init" depends="standard.init">
+    <x:reactor/>
+  </target>
+
+  <target name="clean" depends="standard.clean">
+    <x:reactor target="clean"/>
+  </target>
+
+  <target name="build" depends="standard.build">
+    <x:module index="index.xml">
+      <header>
+        <svn href="svn://dpml.berlios.de/repos/dpml/trunk/planet/http"/>
+        <home href="http://www.dpml.net/planet/http"/>
+      </header>
+    </x:module>
+    <x:property name="module.uri" feature="uri" type="module"/>
+    <property name="link" value="target/deliverables/modules/${project.name}.module.link"/>
+    <echo file="${link}">${module.uri}</echo>
+    <x:javadoc>
+      <link href="http://java.sun.com/j2se/1.4/docs/api"/>
+    </x:javadoc>
   </target>
 
 </project>

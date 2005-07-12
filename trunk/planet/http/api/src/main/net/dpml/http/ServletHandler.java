@@ -1,5 +1,6 @@
 /*
  * Copyright 2004 Niclas Hedman.
+ * Copyright 2005 Stephen McConnell.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,7 +20,6 @@ import org.mortbay.http.HttpHandler;
 
 /**
  * Interface implemented by servlet handlers.
- * @metro.service type="net.dpml.http.ServletHandler" version="1.0"
  */
 public interface ServletHandler extends HttpHandler
 {

@@ -1,5 +1,6 @@
 /*
  * Copyright 2004 Niclas Hedman.
+ * Copyright 2005 Stephen McConnell.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,7 +18,7 @@ package net.dpml.http.impl;
 
 import net.dpml.activity.Startable;
 import net.dpml.logging.Logger;
-import net.dpml.http.HttpContextService;
+import net.dpml.http.spi.HttpContextService;
 
 public class RootNotFoundHandler
     extends org.mortbay.http.handler.RootNotFoundHandler

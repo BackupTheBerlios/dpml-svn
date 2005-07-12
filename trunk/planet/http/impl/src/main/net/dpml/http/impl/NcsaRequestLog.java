@@ -1,5 +1,6 @@
 /*
  * Copyright 2004 Niclas Hedman.
+ * Copyright 2005 Stephen McConnell.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -27,8 +28,6 @@ import org.mortbay.http.RequestLog;
 
 /** Wrapper for the Jetty NCSA request logger.
  *
- * @metro.component name="http-ncsa-log" lifestyle="singleton"
- * @metro.service type="org.mortbay.http.RequestLog"
  */
 public class NcsaRequestLog extends NCSARequestLog
     implements RequestLog

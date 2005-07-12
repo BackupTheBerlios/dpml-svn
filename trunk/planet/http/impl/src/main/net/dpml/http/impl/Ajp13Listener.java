@@ -1,5 +1,6 @@
 /*
  * Copyright 2004 Niclas Hedman.
+ * Copyright 2005 Stephen McConnell.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,13 +21,11 @@ import net.dpml.logging.Logger;
 import net.dpml.parameters.ParameterException;
 import net.dpml.parameters.Parameterizable;
 import net.dpml.parameters.Parameters;
-import net.dpml.http.HttpService;
+import net.dpml.http.spi.HttpService;
 import org.mortbay.http.HttpListener;
 
-/** Wrapper for the Jetty SocketListener.
- *
- * @metro.component name="http-socket-listener" lifestyle="singleton"
- * @metro.service type="org.mortbay.http.HttpListener"
+/** 
+ * Wrapper for the Jetty SocketListener.
  */
 public class Ajp13Listener extends org.mortbay.http.ajp.AJP13Listener
     implements HttpListener, Startable

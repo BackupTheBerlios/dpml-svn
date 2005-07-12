@@ -39,7 +39,6 @@
       <type class="net.dpml.http.impl.IPAccessHandler" threadsafe="true"/>
       <type class="net.dpml.http.impl.JaasUserRealm" threadsafe="true"/>
       <type class="net.dpml.http.impl.JsseListener" threadsafe="true"/>
-      <!--<type class="net.dpml.http.impl.ModelHandler" threadsafe="true"/>-->
       <type class="net.dpml.http.impl.MsieSslHandler" threadsafe="true"/>
       <type class="net.dpml.http.impl.NcsaRequestLog" threadsafe="true"/>
       <type class="net.dpml.http.impl.NotFoundHandler" threadsafe="true"/>
@@ -55,6 +54,16 @@
       <type class="net.dpml.http.impl.SystemMimeTypes" threadsafe="true"/>
       <type class="net.dpml.http.impl.WebApplicationContext" threadsafe="true"/>
     </types>
+
+    <component xmlns="plugin:dpml/composition/dpml-composition-builder" 
+        type="net.dpml.http.impl.HttpServerImpl" name="http">
+      <context>
+        <entry key="trace" value="false"/>
+        <entry key="anonymous" value="false"/>
+        <entry key="gracefulStop" value="true"/>
+        <entry key="requestsPerGC" value="100"/>
+      </context>
+    </component>
 
   </target>
 

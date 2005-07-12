@@ -1,5 +1,6 @@
 /*
  * Copyright 2004 Niclas Hedman.
+ * Copyright 2005 Stephen McConnell.
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,10 +20,9 @@ import net.dpml.parameters.ParameterException;
 import net.dpml.parameters.Parameterizable;
 import net.dpml.parameters.Parameters;
 
-/** Wrapper for the Jetty ClientCertAuthenticator
+/** 
+ * Wrapper for the Jetty ClientCertAuthenticator
  *
- * @metro.component name="http-authenticator-clientcert" lifestyle="singleton"
- * @metro.service type="org.mortbay.http.Authenticator"
  */
 public class ClientCertAuthenticator extends org.mortbay.http.ClientCertAuthenticator
 {

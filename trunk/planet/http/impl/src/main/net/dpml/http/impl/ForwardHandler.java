@@ -1,5 +1,6 @@
 /*
  * Copyright 2004 Niclas Hedman.
+ * Copyright 2005 Stephen McConnell.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,11 +20,9 @@ import net.dpml.activity.Startable;
 import net.dpml.configuration.Configuration;
 import net.dpml.configuration.ConfigurationException;
 import net.dpml.logging.Logger;
-import net.dpml.http.HttpContextService;
+import net.dpml.http.spi.HttpContextService;
 
 /**
- * @metro.component name="http-forward-handler" lifestyle="singleton"
- * @metro.service   type="org.mortbay.http.HttpHandler"
  */
 public class ForwardHandler
     extends org.mortbay.http.handler.ForwardHandler
@@ -42,13 +41,6 @@ public class ForwardHandler
     private HttpContextService  m_context;
     private int                 m_index;
 
-    /**
-     * @metro.logger name="http"
-     * @metro.entry key="urn:metro:name"
-     *               type="java.lang.String"
-     * @metro.dependency type="net.dpml.http.HttpContextService"
-     *                    key="http-context"
-     */
     public ForwardHandler(Logger logger, Context context, Configuration conf )
         throws ConfigurationException
     {

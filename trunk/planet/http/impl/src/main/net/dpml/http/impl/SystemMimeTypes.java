@@ -24,7 +24,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.StringTokenizer;
 
-import net.dpml.http.MimeTypes;
+import net.dpml.http.spi.MimeTypes;
 
 public class SystemMimeTypes implements MimeTypes
 {

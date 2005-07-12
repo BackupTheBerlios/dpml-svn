@@ -1,5 +1,6 @@
 /*
  * Copyright 2004 Niclas Hedman.
+ * Copyright 2005 Stephen McConnell.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,7 +21,7 @@ import net.dpml.configuration.Configurable;
 import net.dpml.configuration.Configuration;
 import net.dpml.configuration.ConfigurationException;
 import net.dpml.logging.Logger;
-import net.dpml.http.HttpContextService;
+import net.dpml.http.spi.HttpContextService;
 
 public class SetResponseHeadersHandler
     extends org.mortbay.http.handler.SetResponseHeadersHandler

@@ -1,5 +1,6 @@
 /*
  * Copyright 2004 Niclas Hedman.
+ * Copyright 2005 Stephen McConnell.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,9 +23,10 @@ import net.dpml.activity.Disposable;
 import net.dpml.activity.Startable;
 import net.dpml.configuration.ConfigurationException;
 import net.dpml.logging.Logger;
-import net.dpml.http.HttpContextService;
-import net.dpml.http.HttpService;
-import net.dpml.http.MimeTypes;
+
+import net.dpml.http.spi.HttpContextService;
+import net.dpml.http.spi.HttpService;
+import net.dpml.http.spi.MimeTypes;
 
 import org.mortbay.http.Authenticator;
 import org.mortbay.http.HttpContext;
@@ -33,9 +35,6 @@ import org.mortbay.http.RequestLog;
 import org.mortbay.http.UserRealm;
 
 /**
- * @metro.component name="http-web-context" lifestyle="singleton"
- * @metro.service type="net.dpml.http.HttpContextService"
- * @metro.service type="net.dpml.http.ServletHandler"
  */
 public class WebApplicationContext
     extends org.mortbay.jetty.servlet.WebApplicationContext

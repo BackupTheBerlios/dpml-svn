@@ -1,15 +1,34 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 
-<index>
+<index key="dpml-http">
 
-  <import index="../index.xml"/>
+  <import uri="${dpml.transit.uri}"/>
+  <import uri="${dpml.depot.uri}"/>
+  <import uri="${dpml.magic.uri}"/>
+  <import uri="${dpml.metro.uri}"/>
+
+  <!-- module -->
+
+  <project basedir=".">
+    <info>
+      <group>dpml/planet/http</group>
+      <name>dpml-http</name>
+      <types>
+        <type>module</type>
+      </types>
+    </info>
+    <dependencies>
+      <include key="dpml-metro"/>
+      <include key="dpml-transit"/>
+      <include key="dpml-magic"/>
+    </dependencies>
+  </project>
 
   <project basedir="api">
     <info>
       <group>dpml/planet/http</group>
       <name>dpml-http-api</name>
       <version>1.0.0</version>
-      <status>SNAPSHOT</status>
       <types>
         <type>jar</type>
       </types>
@@ -24,7 +43,9 @@
       <group>dpml/planet/http</group>
       <name>dpml-http-spi</name>
       <version>1.0.0</version>
-      <status>SNAPSHOT</status>
+      <types>
+        <type>jar</type>
+      </types>
     </info>
     <dependencies>
       <include key="dpml-http-api"/>
@@ -37,7 +58,9 @@
       <group>dpml/planet/http</group>
       <name>dpml-http-util</name>
       <version>1.0.0</version>
-      <status>SNAPSHOT</status>
+      <types>
+        <type>jar</type>
+      </types>
     </info>
     <dependencies>
       <include key="dpml-http-api"/>
@@ -49,21 +72,24 @@
       <group>dpml/planet/http</group>
       <name>dpml-http-impl</name>
       <version>1.0.0</version>
-      <status>SNAPSHOT</status>
+      <types>
+        <type>jar</type>
+        <type>part</type>
+      </types>
     </info>
     <dependencies>
-      <include key="dpml-transit-main"/>
-      <include key="dpml-activity-api"/>
-      <include key="dpml-logging-api"/>
-      <include key="dpml-configuration-api"/>
-      <include key="dpml-parameters-api"/>
-      <include key="dpml-http-spi"/>
+      <include key="dpml-transit-main" tag="api"/>
+      <include key="dpml-activity-api" tag="api"/>
+      <include key="dpml-logging-api" tag="api"/>
+      <include key="dpml-configuration-api" tag="api"/>
+      <include key="dpml-parameters-api" tag="api"/>
+      <include key="dpml-http-spi" tag="spi"/>
       <include key="dpml-http-util"/>
       <include key="dpml-configuration-impl"/>
       <include key="org.mortbay.jetty"/>
       <include key="org.mortbay.jaas"/>
-      <include key="servletapi" runtime="true" build="true" />
-      <include key="jsp-api" runtime="true" build="false" />
+      <include key="servletapi" tag="api"/>
+      <include key="jsp-api" runtime="true" build="false"/>
       <include key="jasper-runtime" runtime="true" build="false" />
       <include key="jasper-compiler" runtime="true" build="false" />
       <include key="xercesImpl" runtime="true" build="false" />
@@ -78,7 +104,6 @@
       <group>dpml/planet/http</group>
       <name>dpml-http-demo</name>
       <version>1.0.0</version>
-      <status>SNAPSHOT</status>
       <types>
         <type>part</type>
         <type>part.link</type>
@@ -87,6 +112,7 @@
     </info>
     <dependencies>
       <include key="dpml-http-impl"/>
+      <include key="dpml-http-spi"/>
       <include key="dpml-part-api"/>
       <include key="dpml-depot-console"/>
       <include key="dpml-metro-central"/>

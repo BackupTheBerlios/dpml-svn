@@ -1,5 +1,6 @@
 /*
  * Copyright 2004 Niclas Hedman.
+ * Copyright 2005 Stephen McConnell.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,10 +19,14 @@ package net.dpml.http.impl;
 import javax.servlet.ServletContext;
 
 import net.dpml.activity.Startable;
+
 import net.dpml.configuration.Configuration;
 import net.dpml.configuration.ConfigurationException;
+
 import net.dpml.logging.Logger;
-import net.dpml.http.HttpContextService;
+
+import net.dpml.http.spi.HttpContextService;
+
 import org.mortbay.jetty.servlet.SessionManager;
 
 public class ServletHandler extends org.mortbay.jetty.servlet.ServletHandler

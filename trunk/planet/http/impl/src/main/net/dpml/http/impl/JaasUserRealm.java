@@ -1,5 +1,6 @@
 /*
  * Copyright 2004 Niclas Hedman.
+ * Copyright 2005 Stephen McConnell.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,8 +22,6 @@ import net.dpml.parameters.Parameters;
 
 /** Wrapper for the Jetty JaasUserRealm.
  *
- * @metro.component name="http-userrealm-jaas" lifestyle="singleton"
- * @metro.service type="org.mortbay.http.UserRealm"
  */
 public class JaasUserRealm extends org.mortbay.jaas.JAASUserRealm
 {

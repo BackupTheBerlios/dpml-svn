@@ -19,9 +19,8 @@ import net.dpml.logging.Logger;
 
 import net.dpml.activity.Startable;
 
-import net.dpml.http.impl.*;
-import net.dpml.http.HttpService;
-import net.dpml.http.HttpContextService;
+import net.dpml.http.spi.HttpService;
+import net.dpml.http.spi.HttpContextService;
 
 import net.dpml.part.control.Component;
 

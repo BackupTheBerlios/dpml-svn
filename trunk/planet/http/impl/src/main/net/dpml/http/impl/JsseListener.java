@@ -1,5 +1,6 @@
 /*
  * Copyright 2004 Niclas Hedman.
+ * Copyright 2005 Stephen McConnell.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,13 +20,12 @@ import java.io.IOException;
 
 import net.dpml.activity.Startable;
 import net.dpml.logging.Logger;
-import net.dpml.http.HttpService;
+import net.dpml.http.spi.HttpService;
+
 import org.mortbay.http.HttpListener;
 
 /** Wrapper for the Jetty SocketListener.
  *
- * @metro.component name="http-socket-listener" lifestyle="singleton"
- * @metro.service type="org.mortbay.http.HttpListener"
  */
 public class JsseListener extends org.mortbay.http.SunJsseListener
     implements HttpListener, Startable
@@ -57,12 +57,6 @@ public class JsseListener extends org.mortbay.http.SunJsseListener
     private HttpService m_HttpServer;
     private Logger      m_logger;
 
-    /**
-     *
-     * @metro.logger name="http"
-     * @metro.dependency type="net.dpml.http.HttpService"
-     *                   key="server"
-     */
     public JsseListener( Logger logger, Context context ) throws java.net.UnknownHostException
     {
         m_logger = logger;

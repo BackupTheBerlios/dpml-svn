@@ -1,5 +1,6 @@
 /*
  * Copyright 2004 Niclas Hedman.
+ * Copyright 2005 Stephen McConnell.
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,8 +14,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package net.dpml.http;
 
+package net.dpml.http.spi;
 
 import org.mortbay.http.HttpContext;
 import org.mortbay.http.HttpListener;
@@ -24,8 +25,6 @@ import org.mortbay.http.UserRealm;
 
 /**
  * Defintion of the HttpService service contract.
- *
- * @metro.service type="net.dpml.http.HttpService" version="1.0"
  */
 public interface HttpService
 {
