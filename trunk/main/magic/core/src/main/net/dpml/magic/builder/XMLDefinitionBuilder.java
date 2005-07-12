@@ -49,7 +49,7 @@ public class XMLDefinitionBuilder
     {
         boolean external = isExternal( element );
         final Element infoElement = ElementHelper.getChild( element, "info" );
-        final Info info = createInfo( home, infoElement, external );
+        final Info info = createInfo( home, infoElement, external, uri );
         final String key = getDefinitionKey( element, info );
         final Element dependenciesElement = ElementHelper.getChild( element, "dependencies" );
         final ResourceRef[] resources = createResourceRefs( dependenciesElement );
@@ -85,7 +85,7 @@ public class XMLDefinitionBuilder
             boolean external = isExternal( element );
 
             Element infoElement = ElementHelper.getChild( element, "info" );
-            final Info info = createInfo( home, infoElement, external );
+            final Info info = createInfo( home, infoElement, external, uri );
             final String key = getDefinitionKey( element, info );
 
             final String path = element.getAttribute( "basedir" );
@@ -164,17 +164,87 @@ public class XMLDefinitionBuilder
         return key;
     }
 
-    public static Info createInfo( AntFileIndex home, final Element info, boolean external )
+    public static Info createInfo( AntFileIndex home, final Element info, boolean external, String uri )
     {
         final Element groupElement = ElementHelper.getChild( info, "group" );
         final String group = ElementHelper.getValue( groupElement );
         final Element nameElement = ElementHelper.getChild( info, "name" );
         final String name = ElementHelper.getValue( nameElement );
-
-
         final String[] types = createTypes( info );
-        final String version = createVersion( home, info, external );
+        String version = null;
+        if( external )
+        {
+            version = createExternalVersion( info );
+        }
+        else
+        {
+            String defaultVersion = getDefaultVersion( home, name, uri );
+            version = createVersion( info, defaultVersion );
+        } 
         return Info.create( group, name, version, types );
+    }
+
+   /**
+    * Construct a default version value using the enclosing module uri reference.  The 
+    * enclosing uri is in the form "key:[key]" where the value of [key] is the identifier of 
+    * the project that defines the module.  If the uri value is null the implementation
+    * ruturns the value of the property 'dpml.release.signature' or SNAPSHOT if undefined.
+    * If not null, the version of the enclosing module is returned.
+    * 
+    * @param index the working index
+    * @param name the name of the project we are evaluating
+    * @param uri the uri pointer to the enclosing module project
+    * @return the default version value
+    */
+    private static String getDefaultVersion( AntFileIndex index, String name, String uri )
+    {
+        if( null == uri )
+        {
+            return index.getReleaseSignature();
+        }
+
+        if( uri.startsWith( "key:" ) )
+        {
+            final String key = uri.substring( 4 );
+            if( key.equals( name ) )
+            {
+                return index.getReleaseSignature();
+            }
+            else if( key.equals( "UNKNOWN" ) )
+            {
+                return index.getReleaseSignature();
+            }
+            else
+            {
+                Resource resource = index.getResource( key );
+                return resource.getInfo().getVersion();
+            }
+        }
+        else
+        {
+            final String error = 
+              "The URI value declared as the enclosing module value does not declare a 'key:' prefix.";
+            throw new BuildException( error ); 
+        }
+    }
+
+    private static String createExternalVersion( Element info )
+    {
+        final Element versionElement = ElementHelper.getChild( info, "version" );
+        return ElementHelper.getValue( versionElement );
+    }
+
+    private static String createVersion( Element info, String defaultVersion )
+    {
+        final Element versionElement = ElementHelper.getChild( info, "version" );
+        if( null == versionElement )
+        {
+            return defaultVersion;
+        }
+        else
+        {
+            return ElementHelper.getValue( versionElement );
+        }
     }
 
     private static String[] createTypes( Element info )
@@ -212,27 +282,6 @@ public class XMLDefinitionBuilder
             {
                 return new String[]{ "jar" };
             }
-        }
-    }
-
-    private static String createVersion( AntFileIndex home, Element info, boolean external )
-    {
-        final Element versionElement = ElementHelper.getChild( info, "version" );
-        String version = ElementHelper.getValue( versionElement );
-        if( external )
-        {
-            return version;
-        }
-
-        boolean release = home.isaRelease();
-
-        if( version == null || release )
-        {
-            return home.getReleaseSignature();
-        }
-        else
-        {
-            return version;
         }
     }
 
