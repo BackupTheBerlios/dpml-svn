@@ -27,9 +27,8 @@ import net.dpml.composition.event.WeakEventProducer;
 import net.dpml.logging.Logger;
 
 import net.dpml.part.control.Component;
-import net.dpml.part.control.AvailabilityEvent;
-import net.dpml.part.control.AvailabilityListener;
-
+import net.dpml.part.service.AvailabilityEvent;
+import net.dpml.part.service.AvailabilityListener;
 import net.dpml.part.state.StateEvent;
 import net.dpml.part.state.StateListener;
 import net.dpml.part.state.State;

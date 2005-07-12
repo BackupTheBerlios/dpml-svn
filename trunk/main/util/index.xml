@@ -4,17 +4,13 @@
 
   <import uri="${dpml.magic.uri}"/>
 
-  <!--
-  Depot Modules
-  -->
+  <!-- module -->
 
-  <project file="module.xml">
+  <project basedir=".">
     <info>
       <group>dpml/util</group>
       <name>dpml-util</name>
-      <types>
-        <type>module</type>
-      </types>
+      <type>module</type>
     </info>
   </project>
 

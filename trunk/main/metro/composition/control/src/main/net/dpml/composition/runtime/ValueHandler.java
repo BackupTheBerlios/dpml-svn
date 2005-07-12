@@ -34,6 +34,7 @@ import net.dpml.part.control.Component;
 import net.dpml.part.control.ClassLoadingContext;
 import net.dpml.part.control.ComponentException;
 import net.dpml.part.control.ComponentRuntimeException;
+import net.dpml.part.service.ServiceDescriptor;
 import net.dpml.part.state.State;
 
 /**
@@ -53,6 +54,7 @@ public class ValueHandler extends AbstractHandler implements Component, ClassLoa
     private final Manager m_manager;
     private final Component m_parent;
     private final CompositionController m_controller;
+    private final ServiceDescriptor[] m_services;
 
     private Object m_key;
     private Object m_value;
@@ -93,8 +95,20 @@ public class ValueHandler extends AbstractHandler implements Component, ClassLoa
         m_directive = part;
         m_classloader = classloader;
         m_uri = uri;
-
         m_manager = controller.getValueController();
+
+        String classname = getReturnTypeClassname();
+        m_services = new ServiceDescriptor[]{ new ServiceDescriptor( classname ) };
+    }
+
+   /**
+    * Return an array of service descriptors corresponding to 
+    * the service contracts that the service publishes.
+    * @return the service descriptor array
+    */
+    public ServiceDescriptor[] getDescriptors()
+    {
+        return m_services;
     }
 
     public ClassLoader getClassLoader()

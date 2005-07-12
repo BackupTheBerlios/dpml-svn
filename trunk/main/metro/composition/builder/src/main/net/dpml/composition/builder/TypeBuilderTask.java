@@ -37,11 +37,9 @@ import net.dpml.activity.Executable;
 
 import net.dpml.composition.info.CategoryDescriptor;
 import net.dpml.composition.info.ContextDescriptor;
-import net.dpml.composition.info.DependencyDescriptor;
 import net.dpml.composition.info.EntryDescriptor;
 import net.dpml.composition.info.InfoDescriptor;
 import net.dpml.composition.info.PartDescriptor;
-import net.dpml.composition.info.ServiceDescriptor;
 import net.dpml.composition.info.Type;
 import net.dpml.composition.info.PartDescriptor.Operation;
 import net.dpml.composition.info.TypeHolder;
@@ -53,6 +51,7 @@ import net.dpml.magic.tasks.ProjectTask;
 import net.dpml.magic.model.Policy;
 
 import net.dpml.part.state.State;
+import net.dpml.part.service.ServiceDescriptor;
 
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Project;

@@ -29,6 +29,8 @@ import net.dpml.configuration.Configuration;
 
 import net.dpml.part.state.State;
 import net.dpml.part.control.ComponentException;
+import net.dpml.part.service.ServiceDescriptor;
+import net.dpml.part.service.Version;
 
 /**
  * This class contains the meta information about a particular
@@ -227,12 +229,12 @@ public class Type implements Serializable
      * @param reference a service reference descriptor
      * @return the service descriptor or null if it does not exist
      */
-    public ServiceDescriptor getService( final ReferenceDescriptor reference )
+    public ServiceDescriptor getService( final ServiceDescriptor reference )
     {
         for ( int i = 0; i < m_services.length; i++ )
         {
             final ServiceDescriptor service = m_services[i];
-            if ( service.getReference().matches( reference ) )
+            if ( service.matches( reference ) )
             {
                 return service;
             }
@@ -251,7 +253,7 @@ public class Type implements Serializable
         for ( int i = 0; i < m_services.length; i++ )
         {
             final ServiceDescriptor service = m_services[i];
-            if ( service.getReference().getClassname().equals( classname ) )
+            if ( service.getClassname().equals( classname ) )
             {
                 return service;
             }

@@ -22,8 +22,7 @@ import java.net.URI;
 import java.util.Map.Entry;
 
 import net.dpml.part.state.State;
-import net.dpml.part.state.StateEvent;
-import net.dpml.part.state.StateListener;
+import net.dpml.part.service.Service;
 
 /**
  * The Component interface is implemented by objects that handle the runtime
@@ -32,7 +31,7 @@ import net.dpml.part.state.StateListener;
  * @author <a href="mailto:dev-dpml@lists.ibiblio.org">The Digital Product Meta Library</a>
  * @version $Revision: 1.2 $ $Date: 2004/03/17 10:30:09 $
  */
-public interface Component 
+public interface Component extends Service
 {
    /**
     * Return the short name of this component.
@@ -47,51 +46,9 @@ public interface Component
     URI getURI();
 
    /**
-    * Return the operational status of the component.
-    * @return the operational status
-    */
-    boolean isOperational();
-
-   /**
-    * Add an availability listener to the provider.
-    * @param listener the availability listener
-    */
-    void addAvailabilityListener( AvailabilityListener listener );
-
-   /**
-    * Remove an availability listener from the provider.
-    * @param listener the availability listener
-    */
-    void removeAvailabilityListener( AvailabilityListener listener );
-
-   /**
     * Initialize the component.  
     */
     void initialize() throws Exception;
-
-   /**
-    * Return the current state of the component.
-    * @return the current state
-    */
-    State getState();
-
-   /**
-    * Add a state listener to the provider.
-    * @param listener the state listener
-    */
-    void addStateListener( StateListener listener );
-
-   /**
-    * Remove a state listener from the provider.
-    * @param listener the state listener
-    */
-    void removeStateListener( StateListener listener );
-
-   /**
-    * Return an initialized instance of the component.
-    * @return the resolved instance
-    */
-    Object resolve() throws Exception;
 
    /**
     * Return an initialized instance of the component using a supplied isolation policy.
@@ -122,13 +79,6 @@ public interface Component
     * @exception if a transition error occurs
     */
     void execute( String key ) throws Exception;
-
-   /**
-    * Release a reference to an object managed by the instance.
-    * 
-    * @param instance the instance to release
-    */
-    void release( Object instance );
 
    /**
     * Terminate the component and its associated instance.

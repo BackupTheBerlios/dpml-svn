@@ -35,6 +35,8 @@ import net.dpml.part.control.ComponentException;
 import net.dpml.part.control.ComponentRuntimeException;
 import net.dpml.part.control.DuplicateKeyException;
 import net.dpml.part.control.ComponentNotFoundException;
+import net.dpml.part.service.Service;
+import net.dpml.part.service.ServiceContext;
 import net.dpml.part.Part;
 
 import net.dpml.composition.control.CompositionController;
@@ -95,25 +97,42 @@ public class ContextMap extends Hashtable
         {
             ReferenceDirective reference = (ReferenceDirective) part;
             URI uri = reference.getURI();
-            if( null == m_parent )
+            if( "parts".equals( uri.getScheme() ) )
             {
-                final String error = 
-                  "Cannot resolve a reference to an enclosing container from a root component."
-                  + "\nComponent: " + m_component.getURI()
-                  + "\nContext Key: " + key;
-                throw new ComponentException( error );
-            }
+                if( null == m_parent )
+                {
+                    final String error = 
+                      "Cannot resolve a reference to an enclosing container from a root component."
+                      + "\nComponent: " + m_component.getURI()
+                      + "\nContext Key: " + key;
+                    throw new ComponentException( error );
+                }
 
-            String ref = uri.getSchemeSpecificPart();
-            try
-            {
-                Component entry = m_parent.getComponent( ref );
-                addEntry( key, entry );
+                String ref = uri.getSchemeSpecificPart();
+                try
+                {
+                    Component entry = m_parent.getComponent( ref );
+                    addEntry( key, entry );
+                }
+                catch( ComponentNotFoundException cnfe )
+                {
+                    final String error = 
+                      "Component not found."
+                      + "\nContainer: " + m_parent.getURI()
+                      + "\nComponent: " + m_component.getURI()
+                      + "\nContext Key: " + key;
+                    throw new ComponentException( error );
+                }
             }
-            catch( ComponentNotFoundException cnfe )
+            //else if( m_component instanceof ServiceContext )
+            //{
+            //    ServiceContext context = (ServiceContext) m_component;
+            //}
+            else
             {
                 final String error = 
-                  "Component not found."
+                  "Part reference resolution not supported at this time."
+                  + "\nReference URI: " + uri
                   + "\nContainer: " + m_parent.getURI()
                   + "\nComponent: " + m_component.getURI()
                   + "\nContext Key: " + key;

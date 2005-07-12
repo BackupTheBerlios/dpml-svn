@@ -18,8 +18,45 @@
 -->
 
 <project name="dpml-util" default="default" basedir="." 
-    xmlns:transit="antlib:net.dpml.transit">
+    xmlns:transit="antlib:net.dpml.transit"
+    xmlns:x="plugin:dpml/magic/dpml-magic-core">
 
-  <transit:import uri="artifact:template:dpml/magic/reactor"/>
+  <transit:import uri="artifact:template:dpml/magic/standard"/>
+
+  <target name="init" depends="standard.init">
+    <x:reactor/>
+    <filter token="PROJECT-NAME" value="${project.name}"/>
+    <filter token="PROJECT-VERSION" value="${project.version}"/>
+    <property name="bundle" value="${basedir}/target/bundle"/>
+  </target>
+
+  <target name="build" depends="standard.build">
+    <x:module index="index.xml">
+      <header>
+        <svn href="svn://dpml.berlios.de/repos/dpml/trunk/util"/>
+        <home href="http://www.dpml.net"/>
+      </header>
+    </x:module>
+    <x:property name="module.uri" feature="uri" type="module"/>
+    <property name="link" value="target/deliverables/modules/${project.name}.module.link"/>
+    <echo file="${link}">${module.uri}</echo>
+    <x:javadoc>
+      <link href="http://java.sun.com/j2se/1.4/docs/api"/>
+    </x:javadoc>
+  </target>
+
+  <target name="test" depends="standard.test">
+    <mkdir dir="target/reports/junit"/>
+    <junitreport todir="target/reports/junit">
+      <fileset dir=".">
+        <include name="**/target/test-reports/TEST-*.xml"/>
+      </fileset>
+      <report format="frames" todir="target/reports/junit"/>
+    </junitreport>
+  </target>
+
+  <target name="clean" depends="standard.clean">
+    <x:reactor target="clean"/>
+  </target>
 
 </project>

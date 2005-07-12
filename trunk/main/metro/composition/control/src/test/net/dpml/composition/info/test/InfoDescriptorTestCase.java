@@ -21,7 +21,7 @@ package net.dpml.composition.info.test;
 
 import net.dpml.composition.info.Descriptor;
 import net.dpml.composition.info.InfoDescriptor;
-import net.dpml.composition.info.Version;
+import net.dpml.part.service.Version;
 
 /**
  * InfoDescriptorTestCase does XYZ
@@ -48,7 +48,8 @@ public class InfoDescriptorTestCase extends AbstractDescriptorTestCase
     protected Descriptor getDescriptor()
     {
         return new InfoDescriptor(
-          m_name, m_classname, m_version, m_lifestyle, m_collection, m_schema, m_threadsafe, m_native, getProperties());
+          m_name, m_classname, m_version, m_lifestyle, m_collection, 
+          m_schema, m_threadsafe, m_native, getProperties());
     }
 
     protected void checkDescriptor( Descriptor desc )
@@ -69,7 +70,8 @@ public class InfoDescriptorTestCase extends AbstractDescriptorTestCase
         try
         {
             new InfoDescriptor(
-              m_name, null, m_version, m_lifestyle, m_collection, m_schema, m_threadsafe, m_native, getProperties() );
+              m_name, null, m_version, m_lifestyle, m_collection, m_schema, 
+              m_threadsafe, m_native, getProperties() );
             fail("Did not throw the proper NullPointerException");
         }
         catch( NullPointerException npe )

@@ -34,8 +34,6 @@ import net.dpml.composition.info.CategoryDescriptor;
 import net.dpml.composition.info.ContextDescriptor;
 import net.dpml.composition.info.EntryDescriptor;
 import net.dpml.composition.info.InfoDescriptor;
-import net.dpml.composition.info.ReferenceDescriptor;
-import net.dpml.composition.info.ServiceDescriptor;
 import net.dpml.composition.info.PartDescriptor;
 import net.dpml.composition.info.PartDescriptor.Operation;
 import net.dpml.composition.info.Type;
@@ -43,6 +41,7 @@ import net.dpml.composition.info.Type;
 import net.dpml.configuration.Configuration;
 
 import net.dpml.part.state.State;
+import net.dpml.part.service.ServiceDescriptor;
 
 
 /**
@@ -59,7 +58,7 @@ public class TypeTestCase extends TestCase
     private ContextDescriptor m_context;
     private ServiceDescriptor[] m_services;
     private PartDescriptor[] m_parts;
-    private ReferenceDescriptor m_reference;
+    private ServiceDescriptor m_reference;
     private String m_key;
 
     public TypeTestCase( String name )
@@ -70,22 +69,20 @@ public class TypeTestCase extends TestCase
     public void setUp()
     {
         m_graph = new State();
-        m_reference = new ReferenceDescriptor(TypeTestCase.class.getName());
+        m_reference = new ServiceDescriptor( TypeTestCase.class.getName() );
         m_key = TypeTestCase.class.getName();
-        m_descriptor = createSimpleInfo(TypeTestCase.class.getName());
+        m_descriptor = createSimpleInfo( TypeTestCase.class.getName() );
         m_loggers = new CategoryDescriptor[] {
             new CategoryDescriptor("name", new Properties())
         };
         m_context = new ContextDescriptor( 
           TypeTestCase.class.getName(), new EntryDescriptor[0]);
-        m_services = new ServiceDescriptor[] {
-            new ServiceDescriptor(m_reference)
-        };
+        m_services = new ServiceDescriptor[] { m_reference };
         m_parts = new PartDescriptor[] {
           new PartDescriptor( 
             "key", 
             new Operation[]{ 
-              new Operation( PartDescriptor.GET, ReferenceDescriptor.class.getName() ) } )
+              new Operation( PartDescriptor.GET, ServiceDescriptor.class.getName() ) } )
         };
     }
 
@@ -95,8 +92,8 @@ public class TypeTestCase extends TestCase
         checkArray( m_loggers, type.getCategories());
         assertEquals( m_context, type.getContext());
         assertEquals( m_descriptor, type.getInfo() );
-        assertEquals( m_services[0], type.getService(m_reference));
-        assertEquals( m_services[0], type.getService( m_services[0].getReference().getClassname()));
+        assertEquals( m_services[0], type.getService( m_reference ) );
+        assertEquals( m_services[0], type.getService( m_services[0].getClassname() ) );
         checkArray( m_services, type.getServices());
         checkArray( m_parts, type.getPartDescriptors());
         assertTrue( type.isaCategory(m_loggers[0].getName()));

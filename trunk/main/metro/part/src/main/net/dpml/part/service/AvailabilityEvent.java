@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package net.dpml.part.control;
+package net.dpml.part.service;
 
 import java.util.EventObject;
 
@@ -29,12 +29,12 @@ public class AvailabilityEvent extends EventObject
 
     /**
      * Creation of a new availability event.
-     * @param model the component model
-     * @param available the component model availability status
+     * @param source the service instance
+     * @param available the service availability status
      */
-    public AvailabilityEvent( Component model, boolean available )
+    public AvailabilityEvent( Service source, boolean available )
     {
-        super( model );
+        super( source );
         m_available = available;
     }
 

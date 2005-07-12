@@ -26,8 +26,8 @@ import java.net.URI;
 import java.rmi.RemoteException;
 
 import net.dpml.part.control.Disposable;
-import net.dpml.part.control.AvailabilityEvent;
-import net.dpml.part.control.AvailabilityListener;
+import net.dpml.part.service.AvailabilityEvent;
+import net.dpml.part.service.AvailabilityListener;
 import net.dpml.part.state.ResourceUnavailableException;
 
 /**

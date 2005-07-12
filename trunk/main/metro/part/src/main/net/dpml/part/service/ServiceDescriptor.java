@@ -1,6 +1,5 @@
 /*
- * Copyright 2004 Stephen J. McConnell.
- * Copyright 1999-2004 The Apache Software Foundation
+ * Copyright 2005 Stephen J. McConnell.
  *
  * Licensed  under the  Apache License,  Version 2.0  (the "License");
  * you may not use  this file  except in  compliance with the License.
@@ -17,22 +16,17 @@
  * limitations under the License.
  */
 
-package net.dpml.composition.info;
+package net.dpml.part.service;
 
 import java.io.Serializable;
 
 /**
- * This reference defines the type of interface required
- * by a component. The type corresponds to the class name of the
- * interface implemented by component. Associated with each
- * classname is a version object so that different versions of same
- * interface can be represented.
+ * This ServiceDescriptor defines the interface and service version
+ * published by a service instance.
  *
- * @author <a href="mailto:dev-dpml@lists.ibiblio.org">The Digital Product Meta Library</a>
- * @version $Id: ReferenceDescriptor.java 2387 2005-04-23 19:12:58Z mcconnell@dpml.net $
+ * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
  */
-public final class ReferenceDescriptor
-        implements Serializable
+public final class ServiceDescriptor implements Serializable
 {
     /**
      * The name of service class.
@@ -46,26 +40,26 @@ public final class ReferenceDescriptor
 
     /**
      * Construct a service with specified type. The type argument will be
-     * parsed for a classname and version in the form [classname]:[version].
+     * parsed for a classname and version in the form [classname]#[version].
      * If not version is present a default 1.0.0 version will be assigned.
      *
-     * @param type the service type spec
-     * @exception NullPointerException if the classname is null
+     * @param spec the service specification
+     * @exception NullPointerException if the spec is null
      */
-    public ReferenceDescriptor( final String type ) throws NullPointerException
+    public ServiceDescriptor( final String spec ) throws NullPointerException
     {
-        this( parseClassname(type), parseVersion(type) );
+        this( parseClassname( spec ), parseVersion( spec ) );
     }
 
     /**
-     * Construct a service with specified name, version and attributes.
+     * Construct a service with specified name, version.
      *
      * @param classname the name of the service
      * @param version the version of service
      * @exception NullPointerException if the classname or version is null
      * @exception IllegalArgumentException if the classname string is invalid
      */
-    public ReferenceDescriptor( final String classname,
+    public ServiceDescriptor( final String classname,
                                 final Version version )
         throws NullPointerException
     {
@@ -74,10 +68,6 @@ public final class ReferenceDescriptor
             throw new NullPointerException( "classname" );
         }
         if( classname.equals( "" ) )
-        {
-            throw new NullPointerException( "classname" );
-        }
-        if( classname.indexOf( "/" ) > -1 )
         {
             throw new NullPointerException( "classname" );
         }
@@ -95,9 +85,9 @@ public final class ReferenceDescriptor
     }
 
     /**
-     * Return classname of interface this reference refers to.
+     * Return classname of service specification.
      *
-     * @return the classname of the Service
+     * @return the classname of the service specification
      */
     public String getClassname()
     {
@@ -105,7 +95,7 @@ public final class ReferenceDescriptor
     }
 
     /**
-     * Return the version of interface.
+     * Return the service version.
      *
      * @return the version of interface
      */
@@ -121,7 +111,7 @@ public final class ReferenceDescriptor
      * @param other the other ServiceInfo
      * @return true if matches, false otherwise
      */
-    public boolean matches( final ReferenceDescriptor other )
+    public boolean matches( final ServiceDescriptor other )
     {
         if( !m_classname.equals( other.m_classname ) ) return false;
         if( other.getVersion().complies( getVersion() ) ) return true;
@@ -146,28 +136,24 @@ public final class ReferenceDescriptor
      */
     public boolean equals( Object other )
     {
-        boolean match = false;
-
-        //
-        // TODO: check validity of the following - this is
-        // assuming the equality is equivalent to compliance
-        // which is not true
-        //
-
-        if ( other instanceof ReferenceDescriptor )
+        if( false == other instanceof ServiceDescriptor )
         {
-            match = ( (ReferenceDescriptor) other ).matches( this );
-        }
-        else if ( other instanceof Service )
-        {
-            match = ( (Service) other ).matches( this );
-        }
-        else if ( other instanceof ServiceDescriptor )
-        {
-            match = ( (ServiceDescriptor) other ).getReference().matches( this );
+            return false;
         }
 
-        return match;
+        ServiceDescriptor service = (ServiceDescriptor) other;
+        if( false == getClassname().equals( service.getClassname() ) )
+        {
+            return false;
+        }
+        else if( false == getVersion().equals( service.getVersion() ) )
+        {
+            return false;
+        }
+        else
+        {
+            return true;
+        }
     }
 
     /**
@@ -187,7 +173,7 @@ public final class ReferenceDescriptor
             throw new NullPointerException( "type" );
         }
 
-        int index = type.indexOf( ":" );
+        int index = type.indexOf( "#" );
         if( index == -1 )
         {
             return type;
@@ -200,24 +186,15 @@ public final class ReferenceDescriptor
 
     private static final Version parseVersion( final String type )
     {
-        if( type.indexOf( ":" ) == -1 )
+        int index = type.indexOf( "#" );
+        if( index == -1 )
         {
-            return Version.getVersion( "1.0" );
+            return Version.getVersion( "1" );
         }
         else
         {
-            return Version.getVersion( type.substring( getColonIndex( type ) + 1) );
+            String value = type.substring( index + 1 );
+            return Version.getVersion( value );
         }
-    }
-
-    private static final int getColonIndex( final String type )
-        throws NullPointerException 
-    {
-        if ( null == type )
-        {
-            throw new NullPointerException( "type" );
-        }
-
-        return Math.min( type.length(), Math.max( 0, type.indexOf( ":" ) ) );
     }
 }

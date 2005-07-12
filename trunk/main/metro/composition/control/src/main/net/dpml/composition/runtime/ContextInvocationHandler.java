@@ -22,7 +22,7 @@ import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.util.Observer;
 
-import net.dpml.part.control.AvailabilityListener;
+import net.dpml.part.service.AvailabilityListener;
 import net.dpml.part.state.StateListener;
 
 import net.dpml.composition.control.CompositionController;

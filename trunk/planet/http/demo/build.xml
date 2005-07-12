@@ -35,7 +35,7 @@
           <context>
             <entry key="trace" value="false"/>
             <entry key="anonymous" value="false"/>
-            <entry key="gracefulStop" value="false"/>
+            <entry key="gracefulStop" value="true"/>
             <entry key="requestsPerGC" value="100"/>
           </context>
         </component>

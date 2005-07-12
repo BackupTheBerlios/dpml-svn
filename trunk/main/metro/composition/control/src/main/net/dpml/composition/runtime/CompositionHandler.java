@@ -27,6 +27,7 @@ import java.util.Map;
 import java.util.Hashtable;
 import java.util.Collections;
 import java.util.HashSet;
+import java.lang.reflect.Proxy;
 
 import net.dpml.composition.control.CompositionController;
 import net.dpml.composition.data.ComponentProfile;
@@ -39,7 +40,11 @@ import net.dpml.part.control.Component;
 import net.dpml.part.control.ComponentException;
 import net.dpml.part.control.ComponentNotFoundException;
 import net.dpml.part.control.Container;
-
+import net.dpml.part.service.Service;
+import net.dpml.part.service.ServiceContext;
+import net.dpml.part.service.ServiceException;
+import net.dpml.part.service.ServiceDescriptor;
+import net.dpml.part.service.ServiceNotFoundException;
 import net.dpml.part.state.NoSuchOperationException;
 import net.dpml.part.state.NoSuchTransitionException;
 import net.dpml.part.state.State;
@@ -52,7 +57,7 @@ import net.dpml.logging.Logger;
  *
  * @author <a href="mailto:dev-dpml@lists.ibiblio.org">The Digital Product Meta Library</a>
  */
-public class CompositionHandler extends ComponentHandler implements Container
+public class CompositionHandler extends ComponentHandler implements Container, ServiceContext
 { 
     private final Map m_components = new Hashtable();
 
@@ -101,4 +106,63 @@ public class CompositionHandler extends ComponentHandler implements Container
         }
     }
 
+   /**
+    * Handle a request for the provision of a service relative to the supplied
+    * uri. 
+    *
+    * @param uri a uri identifying or resolvable to a service
+    */
+    public Service lookup( URI uri ) throws ServiceException
+    {
+        String scheme = uri.getScheme();
+        if( "service".equals( scheme ) )
+        {
+            String spec = uri.getSchemeSpecificPart();
+            ServiceDescriptor request = new ServiceDescriptor( spec );
+            getLogger().info( "resolving service: " + request );
+            return lookup( request );
+        }
+        else
+        {
+            final String error = 
+              "Service lookup scheme [" + scheme + "] not recognized.";
+            throw new ServiceException( error );
+        }
+    }
+
+    public Service lookup( ServiceDescriptor spec ) throws ServiceException
+    {
+        Component[] candidates = getPartsTable().getComponents( spec );
+        if( candidates.length == 0 )
+        {
+            Component parent = getParent();
+            if( null == parent )
+            {
+                String value = spec.toString();
+                throw new ServiceNotFoundException( value );
+            }
+            else if( parent instanceof ServiceContext )
+            {
+                ServiceContext context = (ServiceContext) parent;
+                return context.lookup( spec );
+            }
+            else
+            {
+                String value = spec.toString();
+                throw new ServiceNotFoundException( value );
+            }
+        }
+        else
+        {
+            Component candidate = candidates[0];
+            return createService( candidate );
+        }
+    }
+
+    private Service createService( Component component )
+    {
+        ClassLoader classloader = getClassLoader();
+        DefaultInvocationHandler handler = new DefaultInvocationHandler( component );
+        return (Service) Proxy.newProxyInstance( classloader, new Class[]{ Service.class }, handler );
+    }
 }

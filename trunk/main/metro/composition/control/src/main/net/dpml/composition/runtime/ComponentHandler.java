@@ -39,9 +39,7 @@ import net.dpml.activity.Startable;
 
 import net.dpml.composition.data.ComponentProfile;
 import net.dpml.composition.data.ContextDirective;
-import net.dpml.composition.info.DependencyDescriptor;
 import net.dpml.composition.info.EntryDescriptor;
-import net.dpml.composition.info.ServiceDescriptor;
 import net.dpml.composition.info.Type;
 import net.dpml.composition.control.CompositionController;
 import net.dpml.composition.event.EventProducer;
@@ -69,11 +67,13 @@ import net.dpml.part.control.Component;
 import net.dpml.part.control.ClassLoadingContext;
 import net.dpml.part.control.ComponentException;
 import net.dpml.part.control.ComponentRuntimeException;
-import net.dpml.part.control.AvailabilityEvent;
-import net.dpml.part.control.AvailabilityListener;
 import net.dpml.part.control.TypeClassNotFoundException;
 import net.dpml.part.control.ServiceClassNotFoundException;
 import net.dpml.part.control.ComponentNotFoundException;
+import net.dpml.part.service.AvailabilityEvent;
+import net.dpml.part.service.AvailabilityListener;
+import net.dpml.part.service.Service;
+import net.dpml.part.service.ServiceDescriptor;
 import net.dpml.part.Part;
 import net.dpml.part.PartReference;
 
@@ -89,6 +89,7 @@ public class ComponentHandler extends WeakEventProducer
     private final DependencyGraph m_dependencies = new DependencyGraph();
 
     private final Logger m_logger;
+    private final Component m_parent;
     private final ComponentProfile m_profile;
     private final CompositionController m_controller;
     private final ClassLoader m_classloader;
@@ -129,11 +130,13 @@ public class ComponentHandler extends WeakEventProducer
         m_profile = profile;
         m_uri = uri;
 
+        m_parent = parent;
         m_manager = controller.getComponentController();
         m_class = loadComponentClass( classloader, profile );
         m_type = Type.loadType( m_class );
         m_lifestyle = profile.getLifestylePolicy();
         m_interfaces = loadServiceClasses( classloader, m_type );
+
         m_parts = new PartsTable( this );
         m_context = new ContextMap( this, parent );
         m_graph = resolveStateGraph( m_class );
@@ -190,6 +193,25 @@ public class ComponentHandler extends WeakEventProducer
                 getContextMap().addEntry( key, part );
             }
         }
+    }
+
+   /**
+    * Return an array of service descriptors corresponding to 
+    * the service contracts that the service publishes.
+    * @return the service descriptor array
+    */
+    public ServiceDescriptor[] getDescriptors()
+    {
+        return m_type.getServices();
+    }
+
+   /**
+    * Return the enclosing parent component.
+    * @return the parent component or null if this is a top-level component
+    */
+    Component getParent()
+    {
+        return m_parent;
     }
 
    /**
@@ -785,7 +807,7 @@ public class ComponentHandler extends WeakEventProducer
 
     private Class loadServiceClass( ClassLoader classloader, ServiceDescriptor service )
     {
-        final String classname = service.getReference().getClassname();
+        final String classname = service.getClassname();
         try
         {
             return classloader.loadClass( classname );

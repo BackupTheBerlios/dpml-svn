@@ -1,5 +1,0 @@
-
-19-FEB-2005 SJM 1823M1
-20-FEB-2005 SJM Changed the Policy class exposed by the public interface ResourceHost from protected to public.
-20-FEB-2005 SJM Updated the svn structure such that the transit distribution is named transit
-20-FEB-2005 SJM Removed the build number from the plugin descriptor (redundant function)

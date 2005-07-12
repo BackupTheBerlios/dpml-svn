@@ -19,6 +19,7 @@
 package net.dpml.composition.runtime;
 
 import java.rmi.RemoteException;
+import java.util.ArrayList;
 import java.util.Map;
 import java.util.Hashtable;
 
@@ -27,6 +28,7 @@ import net.dpml.part.PartHandlerNotFoundException;
 import net.dpml.part.control.DuplicateKeyException;
 import net.dpml.part.control.Component;
 import net.dpml.part.control.ComponentException;
+import net.dpml.part.service.ServiceDescriptor;
 import net.dpml.part.Part;
 
 import net.dpml.composition.data.ReferenceDirective;
@@ -68,7 +70,8 @@ public class PartsTable
         if( part instanceof ReferenceDirective )
         {
             final String error = 
-              "Illegal attempt to add a part reference to a parts collection."
+              "Illegal attempt to add a part reference to a parts collection "
+              + "(parts within a component are strongly aggregated and may be associated by reference)."
               + "\nComponent: " + m_component.getURI()
               + "\nKey: " + key;
             throw new ComponentException( error );
@@ -111,5 +114,26 @@ public class PartsTable
     Component[] getComponents()
     {
         return (Component[]) m_parts.values().toArray( new Component[0] );
+    }
+
+    Component[] getComponents( ServiceDescriptor spec )
+    {
+        ArrayList list = new ArrayList();
+        Component[] components = getComponents();
+        for( int i=0; i<components.length; i++ )
+        {
+            Component component = components[i];
+            ServiceDescriptor[] services = component.getDescriptors();
+            for( int j=0; i<services.length; j++ )
+            {
+                ServiceDescriptor service = services[j];
+                if( service.matches( spec ) )
+                { 
+                    list.add( component );
+                    break;
+                }
+            }
+        }
+        return (Component[]) list.toArray( new Component[0] );
     }
 }

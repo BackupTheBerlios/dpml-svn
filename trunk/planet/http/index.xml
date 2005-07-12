@@ -24,13 +24,11 @@
     </dependencies>
   </project>
 
+  <!-- projects -->
+
   <project basedir="api">
     <info>
-      <group>dpml/planet/http</group>
       <name>dpml-http-api</name>
-      <types>
-        <type>jar</type>
-      </types>
     </info>
     <dependencies>
       <include key="org.mortbay.jetty"/>
@@ -39,11 +37,7 @@
 
   <project basedir="spi">
     <info>
-      <group>dpml/planet/http</group>
       <name>dpml-http-spi</name>
-      <types>
-        <type>jar</type>
-      </types>
     </info>
     <dependencies>
       <include key="dpml-http-api"/>
@@ -53,11 +47,7 @@
 
   <project basedir="util">
     <info>
-      <group>dpml/planet/http</group>
       <name>dpml-http-util</name>
-      <types>
-        <type>jar</type>
-      </types>
     </info>
     <dependencies>
       <include key="dpml-http-api"/>
@@ -66,7 +56,6 @@
 
   <project basedir="impl">
     <info>
-      <group>dpml/planet/http</group>
       <name>dpml-http-impl</name>
       <types>
         <type>jar</type>
@@ -97,11 +86,9 @@
 
   <project basedir="demo">
     <info>
-      <group>dpml/planet/http</group>
       <name>dpml-http-demo</name>
       <types>
         <type>part</type>
-        <type>part.link</type>
         <type>jar</type>
       </types>
     </info>

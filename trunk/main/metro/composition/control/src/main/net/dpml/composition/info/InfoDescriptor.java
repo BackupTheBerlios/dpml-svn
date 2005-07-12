@@ -20,6 +20,7 @@
 package net.dpml.composition.info;
 
 import java.util.Properties;
+import net.dpml.part.service.Version;
 
 /**
  * This class is used to provide explicit information to assembler

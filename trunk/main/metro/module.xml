@@ -55,7 +55,6 @@
     </copy>
     <property name="prefs" value="${bundle}/prefs"/>
     <mkdir dir="${prefs}/metro"/>
-    <copy toFile="${prefs}/metro/metro.properties" file="${basedir}/template.metro.properties"/>
     <property name="local" value="${share}/local"/>
     <x:path id="module.path" type="*" mode="RUNTIME" module="true"/>
     <x:replicate refid="module.path" toDir="${local}" />

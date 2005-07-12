@@ -14,14 +14,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package net.dpml.composition.info;
+package net.dpml.part.service;
 
 import java.io.Serializable;
 
 import java.util.StringTokenizer;
 
 /**
- * This class is used to hold version information pertaining to a Component or interface.
+ * This class is used to hold version information pertaining to a Component or 
+ * ServiceSpecification.
  * <p />
  *
  * The version number of a <code>Component</code> is made up of three
