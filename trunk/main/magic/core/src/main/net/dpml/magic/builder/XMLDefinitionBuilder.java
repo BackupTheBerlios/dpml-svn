@@ -47,6 +47,7 @@ public class XMLDefinitionBuilder
     */
     public static Resource createResource( final AntFileIndex home, final Element element, String uri )
     {
+        
         boolean external = isExternal( element );
         final Element infoElement = ElementHelper.getChild( element, "info" );
         final Info info = createInfo( home, infoElement, external, uri );
@@ -166,10 +167,14 @@ public class XMLDefinitionBuilder
 
     public static Info createInfo( AntFileIndex home, final Element info, boolean external, String uri )
     {
-        final Element groupElement = ElementHelper.getChild( info, "group" );
-        final String group = ElementHelper.getValue( groupElement );
         final Element nameElement = ElementHelper.getChild( info, "name" );
         final String name = ElementHelper.getValue( nameElement );
+        final Element groupElement = ElementHelper.getChild( info, "group" );
+        String group = ElementHelper.getValue( groupElement );
+        if( null == group && external )
+        {
+            group = getDefaultGroup( home, name, uri );
+        }
         final String[] types = createTypes( info );
         String version = null;
         if( external )
@@ -218,6 +223,49 @@ public class XMLDefinitionBuilder
             {
                 Resource resource = index.getResource( key );
                 return resource.getInfo().getVersion();
+            }
+        }
+        else
+        {
+            final String error = 
+              "The URI value declared as the enclosing module value does not declare a 'key:' prefix.";
+            throw new BuildException( error ); 
+        }
+    }
+
+   /**
+    * Construct a default group value using the enclosing module uri reference.  The 
+    * enclosing uri is in the form "key:[key]" where the value of [key] is the identifier of 
+    * the project that defines the module.  If the uri value is null the implementation
+    * ruturns null otherwise the implementation returns the enclosing module group id.
+    * 
+    * @param index the working index
+    * @param name the name of the project we are evaluating
+    * @param uri the uri pointer to the enclosing module project
+    * @return the default group id
+    */
+    private static String getDefaultGroup( AntFileIndex index, String name, String uri )
+    {
+        if( null == uri )
+        {
+            return null;
+        }
+
+        if( uri.startsWith( "key:" ) )
+        {
+            final String key = uri.substring( 4 );
+            if( key.equals( name ) )
+            {
+                return null;
+            }
+            else if( key.equals( "UNKNOWN" ) )
+            {
+                return null;
+            }
+            else
+            {
+                Resource resource = index.getResource( key );
+                return resource.getInfo().getGroup();
             }
         }
         else
