@@ -20,6 +20,7 @@ package net.dpml.composition.runtime;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
+import java.lang.reflect.Proxy;
 import java.util.Observer;
 
 import net.dpml.part.service.AvailabilityListener;
@@ -28,14 +29,12 @@ import net.dpml.part.state.StateListener;
 import net.dpml.composition.control.CompositionController;
 
 /**
- * This makes a dynamic proxy for an object.  The object can be represented
- * by one, some or all of it's interfaces.
+ * Invoication handler for the Context inner class.
  *
  * @author <a href="mailto:dev-dpml@lists.ibiblio.org">The Digital Product Meta Library</a>
  * @version $Id: ApplianceInvocationHandler.java 2106 2005-03-21 18:46:10Z mcconnell@dpml.net $
  */
-class ContextInvocationHandler
-  implements InvocationHandler
+class ContextInvocationHandler implements InvocationHandler
 {
     //-------------------------------------------------------------------
     // state

@@ -24,6 +24,7 @@ import java.net.URI;
 import net.dpml.part.DelegationException;
 import net.dpml.part.PartHandlerNotFoundException;
 import net.dpml.part.PartNotFoundException;
+import net.dpml.part.service.Service;
 
 /**
  * The Container interface defines the a contract for a component that 
@@ -58,13 +59,13 @@ public interface Container extends Component
     * within the container.
     * @return the startup sequence
     */
-    Component[] getStartupSequence();
+    Service[] getStartupSequence();
 
    /**
     * Return the ordered shutdown sequence for the set of components contained 
     * within the container.
     * @return the shutdown sequence
     */
-    Component[] getShutdownSequence();
+    Service[] getShutdownSequence();
 
 }

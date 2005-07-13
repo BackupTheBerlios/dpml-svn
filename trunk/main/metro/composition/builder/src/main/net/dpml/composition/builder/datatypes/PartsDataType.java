@@ -26,6 +26,7 @@ import java.beans.IntrospectionException;
 import net.dpml.part.PartReference;
 import net.dpml.composition.builder.ComponentBuilderTask;
 import net.dpml.composition.builder.PartReferenceBuilder;
+import net.dpml.composition.builder.ClassLoaderBuilderTask;
 import net.dpml.composition.info.Type;
 
 import org.apache.tools.ant.BuildException;
@@ -41,7 +42,8 @@ import org.apache.tools.ant.Task;
  * @author <a href="mailto:dev-dpml@lists.ibiblio.org">The Digital Product Meta Library</a>
  * @version $Revision: 1.2 $ $Date: 2004/03/17 10:30:09 $
  */
-public class PartsDataType extends ProjectComponent implements DynamicElementNS
+//public class PartsDataType extends ProjectComponent implements DynamicElementNS
+public class PartsDataType extends ClassLoaderBuilderTask implements DynamicElementNS
 {
     private List m_builders = new LinkedList();
     private Task m_owner;

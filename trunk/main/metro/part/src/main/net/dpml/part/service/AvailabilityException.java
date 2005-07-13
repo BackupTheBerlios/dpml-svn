@@ -16,22 +16,26 @@
  * limitations under the License.
  */
 
-package net.dpml.part.control;
-
-import net.dpml.part.service.Service;
+package net.dpml.part.service;
 
 /**
- * The Consumer interface exposes an operation through which service providers
- * may be declared.
+ * Exception thrown in response to a request (direct or indirect) for service   
+ * availability when the service is not available or cannot be brought to an
+ * available state.
  *
  * @author <a href="mailto:dev-dpml@lists.ibiblio.org">The Digital Product Meta Library</a>
  * @version $Revision: 1.2 $ $Date: 2004/03/17 10:30:09 $
  */
-public interface Consumer
+public class AvailabilityException extends ServiceException 
 {
-   /**
-    * Return an array of services supporting the component.
-    * @return the provider array
-    */
-    Service[] getProviders();
+    public AvailabilityException( String message )
+    {
+        super( message );
+    }
+
+    public AvailabilityException( String message, Throwable cause )
+    {
+        super( message, cause );
+    }
 }
+

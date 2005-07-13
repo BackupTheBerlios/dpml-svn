@@ -27,58 +27,19 @@
       <type class="net.dpml.http.Demo" threadsafe="true"/>
     </types>
 
+    <x:property name="http.uri" key="dpml-http-impl" feature="uri" type="part"/>
+
     <component xmlns="plugin:dpml/composition/dpml-composition-builder" 
-        type="net.dpml.http.Demo"
-        name="demo">
-      <parts>
-        <component type="net.dpml.http.impl.HttpServerImpl" name="server">
-          <context>
-            <entry key="trace" value="false"/>
-            <entry key="anonymous" value="false"/>
-            <entry key="gracefulStop" value="true"/>
-            <entry key="requestsPerGC" value="100"/>
-          </context>
-        </component>
-        <component type="net.dpml.http.impl.SocketListener" name="socketListener">
-          <context>
-            <reference key="httpServer" uri="parts:server"/>
-          </context>
-        </component>
-        <component name="context" type="net.dpml.http.impl.HttpContextImpl" >
-          <context>
-            <entry key="name" value="context"/>
-            <reference key="server" uri="parts:server"/>
-            <value key="tempDirectory">
-              <param class="java.io.File" value="urn:system:temp.dir"/>
-              <param value="http/context"/>
-            </value>
-            <component key="requestLog" type="net.dpml.http.impl.NcsaRequestLog">
-              <context>
-                <entry key="filename" value="$${dpml.data}/logs/http/static_request.log"/>
-                <entry key="append" value="true"/>
-                <entry key="extended" value="true"/>
-              </context>
-            </component>
-          </context>
-        </component>
-        <component name="resourceHandler" type="net.dpml.http.impl.ResourceHandler">
-          <context>
-            <entry key="name" value="resource-handler"/>
-            <entry key="dirAllowed" value="true"/>
-            <entry key="allowedMethods" value="GET"/>
-            <reference key="httpContext" uri="parts:context"/>
-          </context>
-        </component>
-        <component name="notFoundHandler" type="net.dpml.http.impl.NotFoundHandler">
-          <context>
-            <entry key="name" value="not-found-handler"/>
-            <reference key="httpContext" uri="parts:context"/>
-          </context>
-        </component>
-      </parts>
+         name="demo" type="net.dpml.http.Demo" extends="${http.uri}">
+      <context>
+        <reference key="httpHandler" uri="service:net.dpml.http.spi.FileResourceHandler"/>
+        <reference key="socketListener" uri="service:net.dpml.http.spi.SocketListenerService"/>
+      </context>
     </component>
+
     <mkdir dir="target/test"/>
     <copy file="target/deliverables/parts/${project.filename}" toFile="target/test/demo.part"/>
+
   </target>
 
   <target name="install" depends="standard.install">

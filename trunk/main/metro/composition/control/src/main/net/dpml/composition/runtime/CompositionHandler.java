@@ -20,6 +20,7 @@ package net.dpml.composition.runtime;
 
 import java.io.IOException;
 import java.net.URI;
+import java.net.URL;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.Set;
@@ -28,6 +29,7 @@ import java.util.Hashtable;
 import java.util.Collections;
 import java.util.HashSet;
 import java.lang.reflect.Proxy;
+import java.lang.reflect.InvocationHandler;
 
 import net.dpml.composition.control.CompositionController;
 import net.dpml.composition.data.ComponentProfile;
@@ -119,7 +121,6 @@ public class CompositionHandler extends ComponentHandler implements Container, S
         {
             String spec = uri.getSchemeSpecificPart();
             ServiceDescriptor request = new ServiceDescriptor( spec );
-            getLogger().info( "resolving service: " + request );
             return lookup( request );
         }
         else
@@ -135,6 +136,8 @@ public class CompositionHandler extends ComponentHandler implements Container, S
         Component[] candidates = getPartsTable().getComponents( spec );
         if( candidates.length == 0 )
         {
+            getLogger().debug( "no candidates in the parts of [" + this + "]" );
+
             Component parent = getParent();
             if( null == parent )
             {
@@ -155,6 +158,7 @@ public class CompositionHandler extends ComponentHandler implements Container, S
         else
         {
             Component candidate = candidates[0];
+            getLogger().debug( "selected [" + candidate + "] in [" + this + "]" );
             return createService( candidate );
         }
     }
@@ -164,5 +168,32 @@ public class CompositionHandler extends ComponentHandler implements Container, S
         ClassLoader classloader = getClassLoader();
         DefaultInvocationHandler handler = new DefaultInvocationHandler( component );
         return (Service) Proxy.newProxyInstance( classloader, new Class[]{ Service.class }, handler );
+    }
+
+    public boolean equals( Object other )
+    {
+        if( other instanceof CompositionHandler )
+        {
+            CompositionHandler handler = (CompositionHandler) other;
+            return getURI().equals( handler.getURI() );
+        }
+        else if( Proxy.isProxyClass( other.getClass() ) )
+        {
+            InvocationHandler handler = Proxy.getInvocationHandler( other );
+            if( handler instanceof DefaultInvocationHandler )
+            {
+                DefaultInvocationHandler h = (DefaultInvocationHandler) handler;
+                Object instance = h.getInstance();
+                return instance.equals( other );
+            }
+            else
+            {
+                return false;
+            }
+        }
+        else
+        {
+            return false;
+        }
     }
 }

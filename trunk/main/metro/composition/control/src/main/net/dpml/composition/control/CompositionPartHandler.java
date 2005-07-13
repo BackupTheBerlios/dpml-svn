@@ -106,6 +106,18 @@ public abstract class CompositionPartHandler implements PartHandler
         return loadSerializedPart( uri );
     }
 
+   /**
+    * Load a part from serialized form. 
+    *
+    * @param url the part url
+    * @return the part estracted from the part referenced by the url
+    */
+    public Part loadPart( URL url )
+        throws PartNotFoundException, IOException, DelegationException
+    {
+        return loadSerializedPart( url );
+    }
+
     public Part loadPart( byte[] bytes ) throws IOException
     {
         try
@@ -147,10 +159,16 @@ public abstract class CompositionPartHandler implements PartHandler
         throws IOException, DelegationException, PartNotFoundException
     {
         URL url = Artifact.toURL( uri );
+        return loadSerializedPart( url );
+    }
+
+    private Part loadSerializedPart( URL url )
+        throws IOException, DelegationException, PartNotFoundException
+    {
         InputStream input = url.openStream();
         if( null == input )
         {
-            throw new PartNotFoundException( uri );
+            throw new PartNotFoundException( getURIFromURL( url ) );
         }
         ObjectInputStream stream = new ObjectInputStream( input );
         try
@@ -168,7 +186,7 @@ public abstract class CompositionPartHandler implements PartHandler
                 {
                     final String error = 
                       "Delegate raised an error while attempting to load a serialized part ["
-                      + uri
+                      + url
                       + "] using the external handler ["
                       + foreign 
                       + "].";
@@ -192,7 +210,7 @@ public abstract class CompositionPartHandler implements PartHandler
         {
             final String error = 
              "Error loading part ["
-              + uri
+              + url
               + "].";
             throw new PartHandlerRuntimeException( error, e );
         }
@@ -261,6 +279,18 @@ public abstract class CompositionPartHandler implements PartHandler
         catch( Throwable e )
         {
             return null;
+        }
+    }
+
+    private URI getURIFromURL( URL url )
+    {
+        try
+        {
+            return new URI( url.toExternalForm() );
+        }
+        catch( Throwable e )
+        {
+            throw new RuntimeException( e );
         }
     }
 }

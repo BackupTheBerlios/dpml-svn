@@ -18,6 +18,8 @@
 
 package net.dpml.part.service;
 
+import java.net.URI;
+
 import net.dpml.part.state.State;
 import net.dpml.part.state.StateEvent;
 import net.dpml.part.state.StateListener;
@@ -32,11 +34,23 @@ import net.dpml.part.state.StateListener;
 public interface Service
 {
    /**
+    * Returns the identity of the service.
+    * @return a uri identifying the service
+    */
+    URI getURI();
+
+   /**
     * Return an array of service descriptors corresponding to 
     * the service contracts that the service publishes.
     * @return the service descriptor array
     */
     ServiceDescriptor[] getDescriptors();
+
+   /**
+    * Issue a request to the service to prepare for operations.
+    * @exception AvailabilityException if the service cannot be made available
+    */
+    void prepare() throws AvailabilityException;
 
    /**
     * Return the operational status of the component.

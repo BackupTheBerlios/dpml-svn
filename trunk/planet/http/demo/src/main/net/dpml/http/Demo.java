@@ -19,36 +19,34 @@ import net.dpml.logging.Logger;
 
 import net.dpml.activity.Startable;
 
-import net.dpml.http.spi.HttpService;
+import net.dpml.http.spi.FileResourceHandler;
 import net.dpml.http.spi.HttpContextService;
-
-import net.dpml.part.control.Component;
+import net.dpml.http.spi.HttpService;
+import net.dpml.http.spi.SocketListenerService;
 
 import org.mortbay.http.HttpHandler;
 
 public class Demo implements Startable
 {
-    public interface Parts
+    public interface Context
     {
-        Component getServerComponent();
-        Component getSocketListenerComponent();
-        Component getContextComponent();
-        Component getNotFoundHandlerComponent();
-        Component getResourceHandlerComponent();
+        FileResourceHandler getHttpHandler();
+        SocketListenerService getSocketListener();
     }
 
     private final Logger m_logger;
-    private final Parts m_parts;
+    private final Context m_context;
     
-    public Demo( Logger logger, Parts parts )
+    public Demo( Logger logger, Context context )
     {
         m_logger = logger;
-        m_parts = parts;
+        m_context = context;
     }
 
     public void start() throws Exception
     {
         m_logger.info( "Starting" );
+        FileResourceHandler handler = m_context.getHttpHandler();
     }
 
     public void stop() throws Exception

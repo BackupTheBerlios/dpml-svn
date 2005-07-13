@@ -34,7 +34,9 @@ import net.dpml.part.control.Component;
 import net.dpml.part.control.ClassLoadingContext;
 import net.dpml.part.control.ComponentException;
 import net.dpml.part.control.ComponentRuntimeException;
+import net.dpml.part.service.Service;
 import net.dpml.part.service.ServiceDescriptor;
+import net.dpml.part.service.AvailabilityException;
 import net.dpml.part.state.State;
 
 /**
@@ -143,6 +145,15 @@ public class ValueHandler extends AbstractHandler implements Component, ClassLoa
     public Object getInstance()
     {
         return getValue();
+    }
+
+   /**
+    * Issue a request to the service to prepare for operations.
+    * @exception AvailabilityException if the service cannot be made available
+    */
+    public void prepare() throws AvailabilityException
+    {
+        m_manager.prepare( this );
     }
 
    /**

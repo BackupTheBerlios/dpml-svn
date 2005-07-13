@@ -113,27 +113,33 @@ public class PartsTable
 
     Component[] getComponents()
     {
-        return (Component[]) m_parts.values().toArray( new Component[0] );
+        synchronized( m_parts )
+        {
+            return (Component[]) m_parts.values().toArray( new Component[0] );
+        }
     }
 
     Component[] getComponents( ServiceDescriptor spec )
     {
-        ArrayList list = new ArrayList();
-        Component[] components = getComponents();
-        for( int i=0; i<components.length; i++ )
+        synchronized( m_parts )
         {
-            Component component = components[i];
-            ServiceDescriptor[] services = component.getDescriptors();
-            for( int j=0; i<services.length; j++ )
+            ArrayList list = new ArrayList();
+            Component[] components = getComponents();
+            for( int i=0; i<components.length; i++ )
             {
-                ServiceDescriptor service = services[j];
-                if( service.matches( spec ) )
-                { 
-                    list.add( component );
-                    break;
-                }
-            }
-        }
-        return (Component[]) list.toArray( new Component[0] );
-    }
+                 Component component = components[i];
+                 ServiceDescriptor[] services = component.getDescriptors();
+                 for( int j=0; j<services.length; j++ )
+                 {
+                     ServiceDescriptor service = services[j];
+                     if( service.matches( spec ) )
+                     { 
+                         list.add( component );
+                         break;
+                     }
+                 }
+             }
+             return (Component[]) list.toArray( new Component[0] );
+         }
+     }
 }

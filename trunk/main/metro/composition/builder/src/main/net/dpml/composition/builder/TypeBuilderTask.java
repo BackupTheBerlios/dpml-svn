@@ -29,6 +29,7 @@ import java.lang.reflect.Modifier;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
@@ -481,6 +482,11 @@ public class TypeBuilderTask extends ProjectTask implements TypeBuilder
     private ServiceDescriptor[] createServiceDescriptors( Class subject )
     {
         ArrayList list = new ArrayList();
+        return createServiceDescriptors( subject, list );
+    }
+
+    private ServiceDescriptor[] createServiceDescriptors( Class subject, List list )
+    {
         Class[] interfaces = subject.getInterfaces();
         for( int i=0; i<interfaces.length; i++ )
         {
@@ -488,10 +494,21 @@ public class TypeBuilderTask extends ProjectTask implements TypeBuilder
             ServiceDescriptor descriptor = createServiceDescriptor( subject, service );
             if( null != descriptor )
             {
-                list.add( descriptor );
+                if( false == list.contains( descriptor ) )
+                {
+                    list.add( descriptor );
+                }
             }
         }
-        return (ServiceDescriptor[]) list.toArray( new ServiceDescriptor[0] );
+        Class superclass = subject.getSuperclass();
+        if( null != superclass )
+        {
+            return createServiceDescriptors( superclass, list );
+        }
+        else
+        {
+            return (ServiceDescriptor[]) list.toArray( new ServiceDescriptor[0] );
+        }
     }
 
     public ServiceDescriptor createServiceDescriptor( Class type, Class subject )

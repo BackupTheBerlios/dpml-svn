@@ -22,6 +22,7 @@ import java.net.URI;
 
 import net.dpml.part.control.ResourceUnavailableException;
 import net.dpml.part.control.Component;
+import net.dpml.part.service.AvailabilityException;
 import net.dpml.part.state.State;
 
 /**
@@ -36,6 +37,12 @@ public interface Manager
     * @return the uri
     */
     URI getURI();
+
+   /**
+    * Issue a request to the service to prepare for operations.
+    * @exception AvailabilityException if the service cannot be made available
+    */
+    void prepare( Component component ) throws AvailabilityException;
 
    /**
     * Return an instance of the component type represented 

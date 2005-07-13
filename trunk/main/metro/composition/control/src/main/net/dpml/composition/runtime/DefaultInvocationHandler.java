@@ -54,6 +54,11 @@ public final class DefaultInvocationHandler
         m_instance = instance;
     }
 
+    Object getInstance()
+    {
+        return m_instance;
+    }
+
     //-------------------------------------------------------------------
     // InvocationHandler
     //-------------------------------------------------------------------
@@ -122,8 +127,6 @@ public final class DefaultInvocationHandler
         }
         return e;
     }
-
-
 
     private void assertNotNull( Object object, String key )
         throws NullPointerException

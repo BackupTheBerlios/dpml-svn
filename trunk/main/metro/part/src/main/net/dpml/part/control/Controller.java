@@ -27,6 +27,7 @@ import net.dpml.part.Part;
 import net.dpml.part.PartNotFoundException;
 import net.dpml.part.PartHandlerNotFoundException;
 import net.dpml.part.DelegationException;
+import net.dpml.part.service.Service;
 
 /**
  * The Controller interface defines the a contract for an object that provides general
@@ -81,6 +82,21 @@ public interface Controller
     * @exception UnsupportedPartTypeException if the component type is recognized but not supported
     */
     Component newComponent( Component parent, Part part, String name )
+      throws ComponentException, PartHandlerNotFoundException, DelegationException;
+
+   /**
+    * Construct a new service using a supplied part.
+    *
+    * @param parent the enclosing parent component (may be null)
+    * @param part service definition including type and deployment data
+    * @param name the name to assign to the service
+    * @return the service
+    * @exception ComponentException is an error occurs during component establishment
+    * @exception PartHandlerNotFoundException if the part references a handler but the handler could not be found
+    * @exception DelegationException if an error occurs following handover of control to a foreign controller
+    * @exception UnsupportedPartTypeException if the component type is recognized but not supported
+    */
+    Service newService( Component parent, Part part, String name )
       throws ComponentException, PartHandlerNotFoundException, DelegationException;
 
 }

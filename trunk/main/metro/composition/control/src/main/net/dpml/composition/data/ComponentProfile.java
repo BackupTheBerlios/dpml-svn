@@ -18,6 +18,8 @@
 
 package net.dpml.composition.data;
 
+import java.net.URI;
+
 import net.dpml.part.PartReference;
 import net.dpml.configuration.Configuration;
 import net.dpml.composition.info.InfoDescriptor;
@@ -135,6 +137,11 @@ public class ComponentProfile extends DeploymentProfile
      */
     private final PartReference[] m_parts;
 
+    /**
+     * URI of the profile that this profile extends.
+     */
+    private final URI m_extends;
+
     //--------------------------------------------------------------------------
     // constructor
     //--------------------------------------------------------------------------
@@ -154,7 +161,7 @@ public class ComponentProfile extends DeploymentProfile
           InfoDescriptor.UNDEFINED_COLLECTION, 
           "request", 
           classname, 
-          null, null, null, null, null, null );
+          null, null, null, null, null, null, null );
     }
 
    /**
@@ -176,7 +183,8 @@ public class ComponentProfile extends DeploymentProfile
           template.getParts(),
           template.getParameters(),
           template.getConfiguration(),
-          template.getClassLoaderDirective() );
+          template.getClassLoaderDirective(),
+          template.getExtends() );
     }
 
     public ComponentProfile(
@@ -190,14 +198,19 @@ public class ComponentProfile extends DeploymentProfile
            final PartReference[] parts,
            final Parameters parameters,
            final Configuration config,
-           final ClassLoaderDirective classloader )
+           final ClassLoaderDirective classloader,
+           final URI extendsURI )
         throws NullPointerException
     {
         super( name, activation, categories, classloader );
 
         if( null == classname )
         {
-            throw new NullPointerException( "classname" );
+            m_classname = Object.class.getName();
+        }
+        else
+        {
+            m_classname = classname;
         }
 
         if( null == context )
@@ -219,9 +232,9 @@ public class ComponentProfile extends DeploymentProfile
         }
 
         m_collection = collection;
-        m_classname = classname;
         m_parameters = parameters;
         m_configuration = config;
+        m_extends = extendsURI;
 
         if( null == parts )
         {
@@ -236,6 +249,17 @@ public class ComponentProfile extends DeploymentProfile
     //--------------------------------------------------------------------------
     // implementation
     //--------------------------------------------------------------------------
+
+    /**
+     * Return the uri of the profile that this profile extends or null if the
+     * profile is standalone.
+     *
+     * @return the base profile URI
+     */
+    public URI getExtends()
+    {
+        return m_extends;
+    }
 
     /**
      * Return the component type classname.

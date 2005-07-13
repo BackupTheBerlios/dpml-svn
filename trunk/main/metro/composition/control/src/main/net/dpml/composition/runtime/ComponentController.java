@@ -61,6 +61,8 @@ import net.dpml.part.state.StateListener;
 import net.dpml.part.state.NoSuchHandlerException;
 import net.dpml.part.state.RecursiveInitializationException;
 import net.dpml.part.state.RecursiveTerminationException;
+import net.dpml.part.service.Service;
+import net.dpml.part.service.AvailabilityException;
 
 /**
  * The ComponentController class is a controller of a component instance.
@@ -157,6 +159,25 @@ public class ComponentController extends LoggingHandler implements Manager
     }
 
    /**
+    * Issue a request to the service to prepare for operations.
+    * @exception AvailabilityException if the service cannot be made available
+    */
+    public void prepare( Component component ) throws AvailabilityException
+    {
+        try
+        {
+            initialize( component );
+        }
+        catch( Throwable e )
+        {
+            final String error = 
+              "Componet could not be brought to an available state."
+              + "\nComponent URI: " + component.getURI();
+            throw new AvailabilityException( error, e );
+        }
+    }
+
+   /**
     * Initialization of the manager by a controller.
     * If the root state is not terminal the implementation will invoke a 
     * transiton named "initalize".  If the transition results in a modified 
@@ -208,30 +229,53 @@ public class ComponentController extends LoggingHandler implements Manager
         }
 
         getLogger().debug( "initialization of " + component.getURI() );
+
+        Service[] providers = component.getProviders();
+        for( int i=0; i<providers.length; i++ )
+        {
+            Service provider = providers[i];
+            try
+            {
+                getLogger().debug( "preparing service" + provider.getURI() );
+                provider.prepare();
+            }
+            catch( AvailabilityException e )
+            {
+                URI uri = getURI();
+                final String error = 
+                  "Failed to initialize component due to non-availability of a dependent service."
+                  + "\nComponent: " + component.getURI()
+                  + "\nService Provider: " + provider.getURI();
+                throw new ControlException( uri, error, e );
+            }
+        }
+
+        /*
         if( component instanceof Container )
         {
             Container container = (Container) component;
 
-            Component[] parts = container.getStartupSequence();
-            for( int i=0; i<parts.length; i++ )
+            Service[] services = container.getStartupSequence();
+            for( int i=0; i<services.length; i++ )
             {
-                Component part = parts[i];
+                Service service = services[i];
                 try
                 {
-                    getLogger().debug( "initializing part" + part.getURI() );
-                    part.initialize();
+                    getLogger().debug( "preparing service" + service.getURI() );
+                    service.prepare();
                 }
-                catch( Throwable e )
+                catch( AvailabilityException e )
                 {
                     URI uri = getURI();
                     final String error = 
-                      "Failed to initialize component due to a part initaliation failure."
-                      + "\nContainer: " + component.getURI()
-                      + "\nComponent: " + part.getURI();
+                      "Failed to initialize component due to non-availability of a dependent service."
+                      + "\nComponent: " + component.getURI()
+                      + "\nService Provider: " + service.getURI();
                     throw new ControlException( uri, error, e );
                 }
             }
         }
+        */
 
         Object instance = getInstance( component );
         List visited = new LinkedList();
@@ -819,28 +863,34 @@ public class ComponentController extends LoggingHandler implements Manager
             return;
         }
 
+        /*
         if( component instanceof Container )
         {
             Container container = (Container) component;
-            Component[] parts = container.getShutdownSequence();
-            for( int i=0; i<parts.length; i++ )
+            Service[] services = container.getShutdownSequence();
+            for( int i=0; i<services.length; i++ )
             {
-                Component part = parts[i];
-                try
+                Service service = services[i];
+                if( service instanceof Component )
                 {
-                    part.terminate();
-                }
-                catch( Throwable e )
-                {
-                    URI uri = getURI();
-                    final String error = 
-                      "Failed to terminate a subsidiary part."
-                      + "\nContainer: " + component.getURI()
-                      + "\nComponent: " + part.getURI();
-                    getLogger().warn( error, e );
+                    Component part = (Component) service;
+                    try
+                    {
+                        part.terminate();
+                    }
+                    catch( Throwable e )
+                    {
+                        URI uri = getURI();
+                        final String error = 
+                          "Failed to terminate a subsidiary part."
+                          + "\nContainer: " + component.getURI()
+                          + "\nComponent: " + part.getURI();
+                        getLogger().warn( error, e );
+                    }
                 }
             }
         }
+        */
     
         List visited = new LinkedList();
         boolean flag = true;

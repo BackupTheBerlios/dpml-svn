@@ -146,7 +146,6 @@ dpml.depot.installer.uri = ${metro.plugin.uri}
   <target name="javadocs" depends="build">
     <x:javadoc>
       <link href="http://java.sun.com/j2se/1.4/docs/api"/>
-      <link href="http://www.dpml.net/api/commons-cli/1.0"/>
       <link href="http://www.dpml.net/api/ant/${dpml.ant.version}"/>
       <group title="Component API">
         <package name="net.dpml.activity"/>
@@ -159,6 +158,7 @@ dpml.depot.installer.uri = ${metro.plugin.uri}
         <package name="net.dpml.part.builder"/>
         <package name="net.dpml.part.control"/>
         <package name="net.dpml.part.model"/>
+        <package name="net.dpml.part.service"/>
         <package name="net.dpml.part.state"/>
       </group>
       <group title="Metro">

@@ -56,8 +56,15 @@ public class Type implements Serializable
 {
     static final long serialVersionUID = 1L;
 
+    private static final Type OBJECT_TYPE = createObjectType();
+
     public static Type loadType( Class clazz ) throws ComponentException
     {
+        if( Object.class == clazz )
+        {
+            return OBJECT_TYPE;
+        }
+
         String path = clazz.getName().replace( '.', '/' ) + ".type";
         URL url = clazz.getClassLoader().getResource( path );
         if( null == url )
@@ -85,10 +92,10 @@ public class Type implements Serializable
 
     private final State m_graph;
     private final InfoDescriptor m_descriptor;
-    private final ContextDescriptor m_context;
-    private final Configuration m_configuration;
-    private final ServiceDescriptor[] m_services;
     private final CategoryDescriptor[] m_loggers;
+    private final ContextDescriptor m_context;
+    private final ServiceDescriptor[] m_services;
+    private final Configuration m_configuration;
     private final PartDescriptor[] m_parts;
 
     /**
@@ -423,5 +430,17 @@ public class Type implements Serializable
             hash = hash + 471312761;
         }
         return hash;
+    }
+
+    private static Type createObjectType()
+    {
+        final State graph = new State();
+        final InfoDescriptor info = new InfoDescriptor( "object", Object.class.getName() );
+        final CategoryDescriptor[] loggers = new CategoryDescriptor[0];
+        final ContextDescriptor context = new ContextDescriptor( new EntryDescriptor[0] );
+        final ServiceDescriptor[] services = new ServiceDescriptor[0];
+        final Configuration configuration = null;
+        final PartDescriptor[] parts = new PartDescriptor[0];
+        return new Type( graph, info, loggers, context, services, configuration, parts );
     }
 }

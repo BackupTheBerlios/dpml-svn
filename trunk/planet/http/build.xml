@@ -25,6 +25,11 @@
 
   <target name="init" depends="standard.init">
     <x:reactor/>
+    <echo>
+----------------------------------------------------------------------
+key: ${project.key} (finalization)
+----------------------------------------------------------------------
+    </echo>
   </target>
 
   <target name="clean" depends="standard.clean">

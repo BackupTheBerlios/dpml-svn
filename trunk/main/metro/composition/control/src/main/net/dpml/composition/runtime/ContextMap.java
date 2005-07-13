@@ -37,6 +37,8 @@ import net.dpml.part.control.DuplicateKeyException;
 import net.dpml.part.control.ComponentNotFoundException;
 import net.dpml.part.service.Service;
 import net.dpml.part.service.ServiceContext;
+import net.dpml.part.service.ServiceException;
+import net.dpml.part.service.ServiceNotFoundException;
 import net.dpml.part.Part;
 
 import net.dpml.composition.control.CompositionController;
@@ -124,10 +126,24 @@ public class ContextMap extends Hashtable
                     throw new ComponentException( error );
                 }
             }
-            //else if( m_component instanceof ServiceContext )
-            //{
-            //    ServiceContext context = (ServiceContext) m_component;
-            //}
+            else if( m_component instanceof ServiceContext )
+            {
+                ServiceContext context = (ServiceContext) m_component;
+                try
+                {
+                    Service service = context.lookup( uri );
+                    addEntry( key, service );
+                }
+                catch( ServiceException e )
+                {
+                    final String error = 
+                      "Unresolvable context reference."
+                      + "\nComponent: " + m_component.getURI()
+                      + "\nContext Key: " + key
+                      + "\nContext Entry URI: " + uri;
+                    throw new ComponentException( error, e );
+                }
+            }
             else
             {
                 final String error = 
@@ -142,12 +158,12 @@ public class ContextMap extends Hashtable
         else
         {
             CompositionController controller = m_component.getController();
-            Component component = controller.newComponent( m_component, part, key );
-            addEntry( key, component );
+            Service provider = controller.newService( m_component, part, key );
+            addEntry( key, provider );
         }
     }
 
-    public void addEntry( String key, Component provider ) throws DuplicateKeyException
+    public void addEntry( String key, Service provider ) throws DuplicateKeyException
     {
         if( null == key )
         {
@@ -164,7 +180,7 @@ public class ContextMap extends Hashtable
         setEntry( key, provider );
     }
 
-    public void setEntry( String key, Component value )
+    public void setEntry( String key, Service value )
     {
         if( null == key )
         {
@@ -173,9 +189,9 @@ public class ContextMap extends Hashtable
         put( key, value );
     }
 
-    public Component getEntry( String key )
+    public Service getEntry( String key )
     {
-        return (Component) super.get( key );
+        return (Service) super.get( key );
     }
 
     public Object getValue( String key, Object[] args ) throws RemoteException
@@ -209,19 +225,19 @@ public class ContextMap extends Hashtable
         {
             return null;
         }
-        else if( entry instanceof Component )
+        else if( entry instanceof Service )
         {
-            Component component = (Component) entry;
+            Service service = (Service) entry;
             try
             {
-                return component.resolve();
+                return service.resolve();
             }
             catch( Throwable e )
             {
                 final String error = 
                   "Unexpected error while attempting to resolve the value of context entry."
                   + "\nEnclosing component: " + m_component.getURI()
-                  + "\nProvider Component: " + component.getURI()
+                  + "\nProvider: " + service
                   + "\nContext Key: " + key;
                 throw new ComponentRuntimeException( error, e );
             }
@@ -232,27 +248,18 @@ public class ContextMap extends Hashtable
         }
     }
 
-   /**
-    * Return an array of components providing services to the component.
-    * @return the provider component array
-    */
-    public synchronized Component[] getProviders()
+    public synchronized Service[] getProviders()
     {
         ArrayList list = new ArrayList();
-        Component[] components = getComponents();
-        for( int i=0; i<components.length; i++ )
+        Object[] values = values().toArray();
+        for( int i=0; i<values.length; i++ )
         {
-            Component component = components[i];
-            if( component instanceof ComponentHandler )
+            Object value = values[i];
+            if( value instanceof Service )
             {
-                list.add( component );
+                list.add( value );
             }
         }
-        return (Component[]) list.toArray( new Component[ list.size() ] );
-    }
-
-    private Component[] getComponents()
-    {
-        return (Component[]) values().toArray( new Component[0] );
+        return (Service[]) list.toArray( new Service[0] );
     }
 }

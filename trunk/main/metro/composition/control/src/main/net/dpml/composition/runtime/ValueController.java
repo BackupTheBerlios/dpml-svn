@@ -28,6 +28,7 @@ import net.dpml.part.control.Component;
 import net.dpml.part.state.NoSuchOperationException;
 import net.dpml.part.state.NoSuchTransitionException;
 import net.dpml.part.state.State;
+import net.dpml.part.service.AvailabilityException;
 
 /**
  * The ValueController class manages value instances.
@@ -55,6 +56,14 @@ public class ValueController implements Manager
     public URI getURI()
     {
         return m_uri;
+    }
+
+   /**
+    * Issue a request to the service to prepare for operations.
+    * @exception AvailabilityException if the service cannot be made available
+    */
+    public void prepare( Component entry ) throws AvailabilityException
+    {
     }
 
    /**

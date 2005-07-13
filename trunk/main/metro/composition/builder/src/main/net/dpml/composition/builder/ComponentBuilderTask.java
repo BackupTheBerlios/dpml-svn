@@ -30,13 +30,6 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ArrayList;
 
-import net.dpml.part.Part;
-import net.dpml.part.PartHolder;
-import net.dpml.part.PartReference;
-import net.dpml.part.control.ControllerContext;
-import net.dpml.part.control.Component;
-import net.dpml.part.control.Container;
-
 import net.dpml.composition.builder.datatypes.CategoriesDataType;
 import net.dpml.composition.builder.datatypes.ConfigurationDataType;
 import net.dpml.composition.builder.datatypes.ContextDataType;
@@ -66,6 +59,14 @@ import net.dpml.magic.tasks.ProjectTask;
 import net.dpml.parameters.Parameters;
 import net.dpml.parameters.impl.DefaultParameters;
 
+import net.dpml.part.Part;
+import net.dpml.part.PartHolder;
+import net.dpml.part.PartReference;
+import net.dpml.part.control.ControllerContext;
+import net.dpml.part.control.Component;
+import net.dpml.part.control.Container;
+import net.dpml.part.service.Service;
+
 import net.dpml.transit.tools.AntAdapter;
 import net.dpml.transit.model.Logger;
 
@@ -83,10 +84,12 @@ import com.thoughtworks.xstream.io.xml.DomDriver;
  * @author <a href="mailto:dev-dpml@lists.ibiblio.org">The Digital Product Meta Library</a>
  * @version $Revision: 1.2 $ $Date: 2004/03/17 10:30:09 $
  */
-public class ComponentBuilderTask extends ProjectTask implements PartReferenceBuilder
+public class ComponentBuilderTask extends ClassLoaderBuilderTask implements PartReferenceBuilder
 {
     private URI m_uri;
     private String m_key;
+    private boolean m_embedded = false;
+    private URI m_extends;
 
     private String m_name;
     private String m_classname;
@@ -115,6 +118,16 @@ public class ComponentBuilderTask extends ProjectTask implements PartReferenceBu
     public void setKey( String key )
     {
         m_key = key;
+    }
+
+    public void setExtends( URI uri )
+    {
+        m_extends = uri;
+    }
+
+    public void setEmbedded( boolean flag )
+    {
+        m_embedded = flag;
     }
 
     public void setName( String name )
@@ -195,8 +208,8 @@ public class ComponentBuilderTask extends ProjectTask implements PartReferenceBu
     {
         if( null == m_parameters )
         {
-            Project t_project = getProject();
-            m_parameters = new ParametersDataType( t_project );
+            Project project = getProject();
+            m_parameters = new ParametersDataType( project );
             return m_parameters;
         }
         else
@@ -215,8 +228,8 @@ public class ComponentBuilderTask extends ProjectTask implements PartReferenceBu
     {
         if( null == m_configuration )
         {
-            Project t_project = getProject();
-            m_configuration = new ConfigurationDataType( t_project );
+            Project project = getProject();
+            m_configuration = new ConfigurationDataType( project );
             return m_configuration;
         }
         else
@@ -229,11 +242,15 @@ public class ComponentBuilderTask extends ProjectTask implements PartReferenceBu
 
     public void execute()
     {
-        Project t_project = getProject();
-        Path path = getDefinition().getPath( t_project, Policy.RUNTIME );
-        File classes = getContext().getClassesDirectory();
-        path.createPathElement().setLocation( classes );
-        ClassLoader classloader = new AntClassLoader( t_project, path );
+        if( null == m_name )
+        {
+            final String error =
+              "Missing name attribute.";
+            throw new BuildException( error, getLocation() );
+        }
+
+        ClassLoader classloader = createClassLoader();
+        ClassLoaderDirective cld = constructClassLoaderDirective();
 
         File file = getOutputFile();
         File parent = file.getParentFile();
@@ -242,40 +259,52 @@ public class ComponentBuilderTask extends ProjectTask implements PartReferenceBu
             parent.mkdirs();
         }
 
+        ComponentProfile profile = createComponent( classloader, cld, file );
+
+        File target = getContext().getTargetDirectory();
+        File reports = new File( target, "reports/parts" );
+        reports.mkdirs();
+        if( m_embedded )
+        {
+            reports = new File( reports, "embedded" );
+            reports.mkdirs();
+        }
+
+        File report = new File( reports, m_name + ".xml" );
+
         try
         {
-            ClassLoaderDirective cld = constructClassLoaderDirective();
-            ComponentProfile profile = buildComponentProfile( classloader, cld );
+            XStream XStream = new XStream( new DomDriver() );
+            XStream.alias( "component", ComponentProfile.class );
+            XStream.toXML( profile, new FileWriter( report ) );
+            log( "Created report in " + report );
+        }
+        catch( Throwable e )
+        {
+            log( "XML reporting failed due to: " + e.toString() );
+        }
+    }
 
+    public ComponentProfile createComponent( ClassLoader classloader, ClassLoaderDirective cld, File file )
+    {
+        try
+        {
+            ComponentProfile profile = buildComponentProfile( classloader, cld );
             Logger logger = new AntAdapter( this );
             ControllerContext context = CompositionControllerContext.newContext( logger );
             CompositionController controller = new CompositionController( context );
             Container container = controller.newContainer( classloader, profile );
-            Component[] startup = container.getStartupSequence();
+            Service[] startup = container.getStartupSequence();
 
-            log( "componet: " + profile.getName() );
+            log( "component: " + profile.getName() );
+            /*
             log( "Startup sequence length: " + startup.length );
             for( int i=0; i<startup.length; i++ )
             {
-                log( "" + (i+1) + " " + startup[i] );
+                Service service = startup[i];
+                log( "" + (i+1) + " " + service.getURI() );
             }
-
-            File target = getContext().getTargetDirectory();
-            File reports = new File( target, "reports/parts" );
-            reports.mkdirs();
-            File report = new File( reports, profile.getName() + ".xml" );
-            try
-            {
-                XStream XStream = new XStream( new DomDriver() );
-                XStream.alias( "componentprofile", ComponentProfile.class );
-                XStream.toXML( profile, new FileWriter( report ) );
-                log( "Created report in " + report );
-            }
-            catch( Throwable e )
-            {
-                log( "XML reporting failed due to: " + e.toString() );
-            }
-
+            */
 
             URI uri = getDefinition().getArtifactURI( Part.ARTIFACT_TYPE );
             if( null == m_output )
@@ -290,6 +319,7 @@ public class ComponentBuilderTask extends ProjectTask implements PartReferenceBu
             byte[] bytes = SerializableObjectHelper.writeToByteArray( profile );
             PartHolder holder = new PartHolder( handler, bytes );
             SerializableObjectHelper.write( holder, file );
+            return profile;
         }
         catch( ConstructionException e )
         {
@@ -322,56 +352,6 @@ public class ComponentBuilderTask extends ProjectTask implements PartReferenceBu
         }
     }
 
-    private ClassLoaderDirective constructClassLoaderDirective()
-    {
-        ArrayList list = new ArrayList();
-        URI[] uris = createURISequence( ResourceRef.API );
-        if( uris.length > 0 )
-        {
-            list.add( new ClasspathDirective( "api", uris ) );
-        }
-        uris = createURISequence( ResourceRef.SPI );
-        if( uris.length > 0 )
-        {
-            list.add( new ClasspathDirective( "spi", uris ) );
-        }
-        uris = createURISequence( ResourceRef.IMPL );
-        if( uris.length > 0 )
-        {
-            list.add( new ClasspathDirective( "impl", uris ) );
-        }
-        ClasspathDirective[] cps = (ClasspathDirective[]) list.toArray( new ClasspathDirective[0] );
-        return new ClassLoaderDirective( cps );
-    }
-
-    private URI[] createURISequence( int category )
-    {
-        Definition def = getDefinition();
-        ArrayList list = new ArrayList();
-        final ResourceRef[] resources =
-          def.getResourceRefs( getProject(), Policy.RUNTIME, category, true );
-        for( int i=0; i<resources.length; i++ )
-        {
-            final ResourceRef ref = resources[i];
-            final Policy policy = ref.getPolicy();
-            if( policy.isRuntimeEnabled() )
-            {
-                final Resource resource = getIndex().getResource( ref );
-                if( "jar".equals( resource.getInfo().getType() ) )
-                {
-                    URI uri = resource.getArtifactURI( "jar" );
-                    list.add( uri );
-                }
-            }
-        }
-        if( def.getInfo().isa( "jar" ) )
-        {
-            URI local = def.getArtifactURI( "jar" );
-            list.add( local );
-        }
-        return (URI[]) list.toArray( new URI[0] );
-    }
-
     private File getOutputFile()
     {
         if( null != m_output )
@@ -386,11 +366,31 @@ public class ComponentBuilderTask extends ProjectTask implements PartReferenceBu
 
     private File getDefaultOutputFile()
     {
-        File dir = getContext().getDeliverablesDirectory( Part.ARTIFACT_TYPE );
-        String filename = getDefinition().getFilename( Part.ARTIFACT_TYPE );
-        return new File( dir, filename );
+        if( m_embedded ) 
+        {
+            String classname = getClassname();
+            String path = getEmbeddedResourcePath( classname );
+            return getEmbeddedOutputFile( path );
+        }
+        else
+        {
+            return getPartOutputFile();
+        }
     }
 
+    public String getEmbeddedResourcePath( String classname )
+    {
+        String path = classname.replace( '.', '/' );
+        String filename = path + ".xprofile";
+        return filename;
+    }
+
+    public File getEmbeddedOutputFile( String filename )
+    {
+        File classes = getContext().getClassesDirectory();
+        File destination = new File( classes, filename );
+        return destination;
+    }
 
     //---------------------------------------------------------------------
     // Builder
@@ -487,14 +487,12 @@ public class ComponentBuilderTask extends ProjectTask implements PartReferenceBu
         // return the component profile
         //
 
+        log( "extends: " + m_extends );
         return new ComponentProfile( 
           id, activation, collection, lifestyle, classname, categories, context, 
-          parts, parameters, configuration, cld );
+          parts, parameters, configuration, cld, m_extends );
     }
 
-   /**
-    * TODO: move this to a part controller
-    */
     private Type loadType( ClassLoader classloader, String classname )
     {
         if( null == classloader )
@@ -542,11 +540,12 @@ public class ComponentBuilderTask extends ProjectTask implements PartReferenceBu
     {
         if( null == m_classname )
         {
-            final String error = 
-              "Missing component 'type' attribute.";
-            throw new BuildException( error, getLocation() );
+            return Object.class.getName();
         }
-        return m_classname;
+        else
+        {
+            return m_classname;
+        }
     }
 
    /**

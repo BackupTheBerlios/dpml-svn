@@ -40,12 +40,6 @@ public interface Component extends Service
     String getName();
 
    /**
-    * Returns the identity of the component.
-    * @return a uri identifying the component
-    */
-    URI getURI();
-
-   /**
     * Initialize the component.  
     */
     void initialize() throws Exception;

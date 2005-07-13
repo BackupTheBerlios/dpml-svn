@@ -74,6 +74,7 @@ import net.dpml.part.service.AvailabilityEvent;
 import net.dpml.part.service.AvailabilityListener;
 import net.dpml.part.service.Service;
 import net.dpml.part.service.ServiceDescriptor;
+import net.dpml.part.service.AvailabilityException;
 import net.dpml.part.Part;
 import net.dpml.part.PartReference;
 
@@ -196,6 +197,15 @@ public class ComponentHandler extends WeakEventProducer
     }
 
    /**
+    * Issue a request to the service to prepare for operations.
+    * @exception AvailabilityException if the service cannot be made available
+    */
+    public void prepare() throws AvailabilityException
+    {
+        getManager().prepare( this );
+    }
+
+   /**
     * Return an array of service descriptors corresponding to 
     * the service contracts that the service publishes.
     * @return the service descriptor array
@@ -219,7 +229,7 @@ public class ComponentHandler extends WeakEventProducer
     * within the container.
     * @return the startup sequence
     */
-    public Component[] getStartupSequence()
+    public Service[] getStartupSequence()
     {
         return m_dependencies.getStartupGraph();
     }
@@ -229,7 +239,7 @@ public class ComponentHandler extends WeakEventProducer
     * within the container.
     * @return the shutdown sequence
     */
-    public Component[] getShutdownSequence()
+    public Service[] getShutdownSequence()
     {
         return m_dependencies.getShutdownGraph();
     }
@@ -238,7 +248,7 @@ public class ComponentHandler extends WeakEventProducer
     * Return an array of components providing services to this component.
     * @return the provider component array
     */
-    public Component[] getProviders()
+    public Service[] getProviders()
     {
         return m_context.getProviders();
     }

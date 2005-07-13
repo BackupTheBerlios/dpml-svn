@@ -19,12 +19,13 @@ package net.dpml.http.impl;
 import net.dpml.activity.Startable;
 import net.dpml.logging.Logger;
 import net.dpml.http.spi.HttpContextService;
+import net.dpml.http.spi.FileResourceHandler;
 
 /**
  */
 public class ResourceHandler
     extends org.mortbay.http.handler.ResourceHandler
-    implements Startable
+    implements Startable, FileResourceHandler 
 {
     public interface Context
     {

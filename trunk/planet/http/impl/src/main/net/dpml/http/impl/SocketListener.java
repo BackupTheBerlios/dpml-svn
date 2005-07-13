@@ -19,10 +19,12 @@ package net.dpml.http.impl;
 import net.dpml.activity.Startable;
 import net.dpml.logging.Logger;
 import net.dpml.http.spi.HttpService;
+import net.dpml.http.spi.SocketListenerService;
+
 import org.mortbay.http.HttpListener;
 
 public class SocketListener extends org.mortbay.http.SocketListener
-    implements HttpListener, Startable
+    implements HttpListener, Startable, SocketListenerService 
 {
     public interface Context
     {
