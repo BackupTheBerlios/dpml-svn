@@ -105,20 +105,6 @@
       </parts>
     </component>
 
-    <!--
-    <catalog xmlns="plugin:dpml/composition/dpml-composition-builder">
-      <component 
-          type="net.dpml.http.impl.HttpServerImpl" name="http" embedded="true">
-        <context>
-          <entry key="trace" value="false"/>
-          <entry key="anonymous" value="false"/>
-          <entry key="gracefulStop" value="true"/>
-          <entry key="requestsPerGC" value="100"/>
-        </context>
-      </component>
-    </catalog>
-    -->
-
   </target>
 
 </project>
