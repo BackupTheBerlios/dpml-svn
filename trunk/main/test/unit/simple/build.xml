@@ -22,16 +22,16 @@
         type="net.dpml.test.acme.WidgetComponent"
         name="widget">
       <context>
-        <value key="name" value="urn:component:name"/>
-        <value key="uri" value="urn:component:uri"/>
-        <value key="workingDirectory">
+        <entry key="name" value="urn:component:name"/>
+        <entry key="uri" value="urn:component:uri"/>
+        <entry key="workingDirectory">
           <param class="java.io.File" value="urn:system:work.dir"/>
           <param value="acme/workspace"/>
-        </value>
-        <value key="dimension" class="net.dpml.test.acme.DimensionValue">
+        </entry>
+        <entry key="dimension" class="net.dpml.test.acme.DimensionValue">
           <param class="int" value="12"/>
           <param class="int" value="100"/>
-        </value>
+        </entry>
       </context>
     </component>
 
@@ -48,16 +48,16 @@
         type="net.dpml.test.acme.WidgetComponent"
         name="widget">
       <context>
-        <value key="name" value="urn:component:name"/>
-        <value key="uri" value="urn:component:uri"/>
-        <value key="workingDirectory">
+        <entry key="name" value="urn:component:name"/>
+        <entry key="uri" value="urn:component:uri"/>
+        <entry key="workingDirectory">
           <param class="java.io.File" value="urn:system:work.dir"/>
           <param value="acme/workspace"/>
-        </value>
+        </entry>
         <component key="dimension" type="net.dpml.test.acme.DimensionComponent">
           <context>
-            <value key="width" value="12"/>
-            <value key="height" value="100"/>
+            <entry key="width" value="12"/>
+            <entry key="height" value="100"/>
           </context>
         </component>
       </context>
@@ -71,10 +71,10 @@
         type="net.dpml.test.acme.ExampleComponent"
         name="demo">
       <context>
-        <value key="dimension" class="net.dpml.test.acme.DimensionValue">
+        <entry key="dimension" class="net.dpml.test.acme.DimensionValue">
           <param class="int" value="2"/>
           <param class="int" value="5"/>
-        </value>
+        </entry>
       </context>
     </component>
 
@@ -88,8 +88,8 @@
       <context>
         <component key="dimension" type="net.dpml.test.acme.DimensionComponent">
           <context>
-            <value key="width" value="12"/>
-            <value key="height" value="100"/>
+            <entry key="width" value="12"/>
+            <entry key="height" value="100"/>
           </context>
         </component>
       </context>
@@ -131,7 +131,7 @@
     this example is the usage of a reference element as the mechanisms
     to wire the context 'widget' part into the context supplied to the 
     'gizmo' component.  Wiring of dependencies is explicit and handled 
-    by the reference element within Gizmo's context.  The reference element
+    by the value uri within Gizmo's context.  The reference element
     declares that the context entry for the key 'widget', supplied to 
     Gizmo shall be the selected from the 'parts' of the enclosing component
     using the name 'widget' (where the uri is in the form [scope]:[name] and
@@ -145,18 +145,18 @@
       <parts>
         <component name="widget" type="net.dpml.test.acme.WidgetComponent">
           <context>
-            <value key="workingDirectory">
+            <entry key="workingDirectory">
               <param class="java.io.File" value="urn:system:work.dir"/>
               <param value="acme/workspace"/>
-            </value>
-            <value key="name" value="urn:component:name"/>
-            <value key="uri" value="urn:component:uri"/>
+            </entry>
+            <entry key="name" value="urn:component:name"/>
+            <entry key="uri" value="urn:component:uri"/>
           </context>
         </component>
         <component name="gizmo" type="net.dpml.test.acme.GizmoComponent">
           <context>
-            <value key="color" value="red"/>
-            <reference key="widget" uri="parts:widget"/>
+            <entry key="color" value="red"/>
+            <entry key="widget" uri="parts:widget"/>
           </context>
         </component>
       </parts>
@@ -176,8 +176,8 @@
         <component name="widget" type="net.dpml.test.acme.SimpleWidget"/>
         <component name="gizmo" type="net.dpml.test.acme.GizmoComponent">
           <context>
-            <value key="color" value="red"/>
-            <reference key="widget" uri="parts:widget"/>
+            <entry key="color" value="red"/>
+            <entry key="widget" uri="parts:widget"/>
           </context>
         </component>
       </parts>
@@ -194,8 +194,8 @@
         <component name="widget" type="net.dpml.test.acme.BadWidget"/>
         <component name="gizmo" type="net.dpml.test.acme.GizmoComponent">
           <context>
-            <value key="color" value="red"/>
-            <reference key="widget" uri="parts:widget"/>
+            <entry key="color" value="red"/>
+            <entry key="widget" uri="parts:widget"/>
           </context>
         </component>
       </parts>

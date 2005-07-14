@@ -126,9 +126,9 @@ public class ContextMap extends Hashtable
                     throw new ComponentException( error );
                 }
             }
-            else if( m_component instanceof ServiceContext )
+            else if( m_parent instanceof ServiceContext )
             {
-                ServiceContext context = (ServiceContext) m_component;
+                ServiceContext context = (ServiceContext) m_parent;
                 try
                 {
                     Service service = context.lookup( uri );

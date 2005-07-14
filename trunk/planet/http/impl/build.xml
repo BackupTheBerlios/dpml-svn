@@ -59,47 +59,47 @@
       <parts>
         <component type="net.dpml.http.impl.HttpServerImpl" name="server">
           <context>
-            <value key="trace" value="false"/>
-            <value key="anonymous" value="false"/>
-            <value key="gracefulStop" value="true"/>
-            <value key="requestsPerGC" value="100"/>
+            <entry key="trace" value="false"/>
+            <entry key="anonymous" value="false"/>
+            <entry key="gracefulStop" value="true"/>
+            <entry key="requestsPerGC" value="100"/>
           </context>
         </component>
         <component key="requestLog" type="net.dpml.http.impl.NcsaRequestLog">
           <context>
-            <value key="filename" value="$${dpml.data}/logs/http/static_request.log"/>
-            <value key="append" value="true"/>
-            <value key="extended" value="true"/>
+            <entry key="filename" value="$${dpml.data}/logs/http/static_request.log"/>
+            <entry key="append" value="true"/>
+            <entry key="extended" value="true"/>
           </context>
         </component>
         <component type="net.dpml.http.impl.SocketListener" name="socketListener">
           <context>
-            <reference key="httpServer" uri="service:net.dpml.http.spi.HttpService"/>
+            <entry key="httpServer" uri="service:net.dpml.http.spi.HttpService"/>
           </context>
         </component>
         <component name="context" type="net.dpml.http.impl.HttpContextImpl" >
           <context>
-            <value key="name" value="context"/>
-            <reference key="server" uri="service:net.dpml.http.spi.HttpService"/>
-            <reference key="requestLog" uri="service:org.mortbay.http.RequestLog"/>
-            <value key="tempDirectory">
+            <entry key="name" value="context"/>
+            <entry key="server" uri="service:net.dpml.http.spi.HttpService"/>
+            <entry key="requestLog" uri="service:org.mortbay.http.RequestLog"/>
+            <entry key="tempDirectory">
               <param class="java.io.File" value="urn:system:temp.dir"/>
               <param value="http/context"/>
-            </value>
+            </entry>
           </context>
         </component>
         <component name="resourceHandler" type="net.dpml.http.impl.ResourceHandler">
           <context>
-            <value key="name" value="resource-handler"/>
-            <value key="dirAllowed" value="true"/>
-            <value key="allowedMethods" value="GET"/>
-            <reference key="httpContext" uri="service:net.dpml.http.spi.HttpContextService"/>
+            <entry key="name" value="resource-handler"/>
+            <entry key="dirAllowed" value="true"/>
+            <entry key="allowedMethods" value="GET"/>
+            <entry key="httpContext" uri="service:net.dpml.http.spi.HttpContextService"/>
           </context>
         </component>
         <component name="notFoundHandler" type="net.dpml.http.impl.NotFoundHandler">
           <context>
-            <value key="name" value="not-found-handler"/>
-            <reference key="httpContext" uri="service:net.dpml.http.spi.HttpContextService"/>
+            <entry key="name" value="not-found-handler"/>
+            <entry key="httpContext" uri="service:net.dpml.http.spi.HttpContextService"/>
           </context>
         </component>
       </parts>

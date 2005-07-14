@@ -32,8 +32,8 @@
     <component xmlns="plugin:dpml/composition/dpml-composition-builder" 
          name="demo" type="net.dpml.http.Demo" extends="${http.uri}">
       <context>
-        <reference key="httpHandler" uri="service:net.dpml.http.spi.FileResourceHandler"/>
-        <reference key="socketListener" uri="service:net.dpml.http.spi.SocketListenerService"/>
+        <entry key="httpHandler" uri="service:net.dpml.http.spi.FileResourceHandler"/>
+        <entry key="socketListener" uri="service:net.dpml.http.spi.SocketListenerService"/>
       </context>
     </component>
 

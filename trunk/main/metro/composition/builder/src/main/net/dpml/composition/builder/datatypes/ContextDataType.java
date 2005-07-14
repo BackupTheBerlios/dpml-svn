@@ -61,18 +61,18 @@ public class ContextDataType
     * Create a new constructed part builder.
     * @return a part builder
     */
-    public ReferenceDataType createReference()
-    {
-        final ReferenceDataType builder = new ReferenceDataType();
-        m_builders.add( builder );
-        return builder;
-    }
+    //public ReferenceDataType createReference()
+    //{
+    //    final ReferenceDataType builder = new ReferenceDataType();
+    //    m_builders.add( builder );
+    //    return builder;
+    //}
 
    /**
     * Create a new constructed part builder.
     * @return a part builder
     */
-    public EntryDataType createValue()
+    public EntryDataType createEntry()
     {
         final EntryDataType builder = new EntryDataType();
         m_builders.add( builder );

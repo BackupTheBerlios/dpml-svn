@@ -27,6 +27,7 @@ import net.dpml.composition.builder.ConstructionException;
 import net.dpml.composition.builder.PartReferenceBuilder;
 import net.dpml.composition.data.ValueDirective;
 import net.dpml.composition.data.ValueDirective.Value;
+import net.dpml.composition.data.ReferenceDirective;
 import net.dpml.composition.info.EntryDescriptor;
 import net.dpml.composition.info.PartDescriptor;
 import net.dpml.composition.info.Type;
@@ -38,6 +39,7 @@ public class EntryDataType extends ValueDataType implements PartReferenceBuilder
 {
     private String m_key;
     private ClassLoader m_classloader;
+    private URI m_uri;
 
    /**
     * Set the key that this directive qualifies.
@@ -46,6 +48,15 @@ public class EntryDataType extends ValueDataType implements PartReferenceBuilder
     public void setKey( final String key )
     {
         m_key = key;
+    }
+
+   /**
+    * Set the uri that this directive references.
+    * @param uri the uri
+    */
+    public void setURI( final URI uri )
+    {
+        m_uri = uri;
     }
 
     //---------------------------------------------------------------------
@@ -80,11 +91,29 @@ public class EntryDataType extends ValueDataType implements PartReferenceBuilder
         return m_key;
     }
 
+   /**
+    * Return the uri reference.
+    * @return the uri
+    */
+    public URI getURI()
+    {
+        return m_uri;
+    }
+
     public PartReference buildPartReference( ClassLoader classloader, Type type )
     {
         String key = getKey();
-        Part part = getValueDirective( classloader, type );
-        return new PartReference( key, part );
+        URI uri = getURI();
+        if( null != uri )
+        {
+            Part part = new ReferenceDirective( m_uri );
+            return new PartReference( key, part );
+        }
+        else
+        {
+            Part part = getValueDirective( classloader, type );
+            return new PartReference( key, part );
+        }
     }
 
    /**
