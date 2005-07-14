@@ -44,7 +44,8 @@
 
   <target name="install" depends="standard.install">
     <x:property name="part.uri" feature="uri" type="part"/>
-    <transit:link target="${part.uri}" uri="link:part:${project.group}/${project.name}#LATEST"/>
+    <property name="link" value="target/deliverables/parts/${project.name}-LATEST.part.link"/>
+    <echo file="${link}">${part.uri}</echo>
   </target>
 
 </project>

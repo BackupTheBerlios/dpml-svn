@@ -83,10 +83,10 @@ public class ContextDataType
     * Create a new constructed part builder.
     * @return a part builder
     */
-    public EntryDataType createEntry()
-    {
-        return createValue();
-    }
+    //public EntryDataType createEntry()
+    //{
+    //    return createValue();
+    //}
 
     public ComponentBuilderTask createComponent()
     {

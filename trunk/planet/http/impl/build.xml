@@ -59,17 +59,17 @@
       <parts>
         <component type="net.dpml.http.impl.HttpServerImpl" name="server">
           <context>
-            <entry key="trace" value="false"/>
-            <entry key="anonymous" value="false"/>
-            <entry key="gracefulStop" value="true"/>
-            <entry key="requestsPerGC" value="100"/>
+            <value key="trace" value="false"/>
+            <value key="anonymous" value="false"/>
+            <value key="gracefulStop" value="true"/>
+            <value key="requestsPerGC" value="100"/>
           </context>
         </component>
         <component key="requestLog" type="net.dpml.http.impl.NcsaRequestLog">
           <context>
-            <entry key="filename" value="$${dpml.data}/logs/http/static_request.log"/>
-            <entry key="append" value="true"/>
-            <entry key="extended" value="true"/>
+            <value key="filename" value="$${dpml.data}/logs/http/static_request.log"/>
+            <value key="append" value="true"/>
+            <value key="extended" value="true"/>
           </context>
         </component>
         <component type="net.dpml.http.impl.SocketListener" name="socketListener">
@@ -79,7 +79,7 @@
         </component>
         <component name="context" type="net.dpml.http.impl.HttpContextImpl" >
           <context>
-            <entry key="name" value="context"/>
+            <value key="name" value="context"/>
             <reference key="server" uri="service:net.dpml.http.spi.HttpService"/>
             <reference key="requestLog" uri="service:org.mortbay.http.RequestLog"/>
             <value key="tempDirectory">
@@ -90,15 +90,15 @@
         </component>
         <component name="resourceHandler" type="net.dpml.http.impl.ResourceHandler">
           <context>
-            <entry key="name" value="resource-handler"/>
-            <entry key="dirAllowed" value="true"/>
-            <entry key="allowedMethods" value="GET"/>
+            <value key="name" value="resource-handler"/>
+            <value key="dirAllowed" value="true"/>
+            <value key="allowedMethods" value="GET"/>
             <reference key="httpContext" uri="service:net.dpml.http.spi.HttpContextService"/>
           </context>
         </component>
         <component name="notFoundHandler" type="net.dpml.http.impl.NotFoundHandler">
           <context>
-            <entry key="name" value="not-found-handler"/>
+            <value key="name" value="not-found-handler"/>
             <reference key="httpContext" uri="service:net.dpml.http.spi.HttpContextService"/>
           </context>
         </component>
