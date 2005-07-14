@@ -58,6 +58,11 @@
     <property name="local" value="${share}/local"/>
     <x:path id="module.path" type="*" mode="RUNTIME" module="true"/>
     <x:replicate refid="module.path" toDir="${local}" />
+
+    <!-- while replicate does a good job of handling classic artifacts it does not
+      handle links (because links don't match the [name]-[version] pattern so we 
+      need to copy links in manually -->
+
     <copy todir="${local}/${project.group}">
       <fileset dir="target/deliverables"/>
     </copy>

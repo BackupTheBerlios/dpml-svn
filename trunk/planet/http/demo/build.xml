@@ -31,6 +31,9 @@
         <entry key="socketListener" uri="service:net.dpml.http.spi.SocketListenerService"/>
       </context>
     </c:component>
+  </target>
+
+  <target name="package" depends="standard.package">
     <mkdir dir="target/test"/>
     <copy file="target/deliverables/parts/${project.filename}" toFile="target/test/demo.part"/>
   </target>

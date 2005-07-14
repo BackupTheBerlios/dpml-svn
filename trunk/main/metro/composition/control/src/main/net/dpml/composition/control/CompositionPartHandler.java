@@ -44,7 +44,6 @@ import net.dpml.part.control.ControlException;
 import net.dpml.logging.Logger;
 
 import net.dpml.composition.info.Type;
-import net.dpml.composition.info.TypeHolder;
 import net.dpml.composition.runtime.DefaultLogger;
 
 import net.dpml.transit.Transit;
@@ -60,9 +59,7 @@ import net.dpml.transit.repository.Repository;
 public abstract class CompositionPartHandler implements PartHandler
 {
    /**
-    * Map containing the foreign part handlers.  The map keys
-    * are the string representation of the handler uri.  The entry is the 
-    * handler.
+    * Map containing the foreign part handlers.
     */
     private final WeakHashMap m_handlers = new WeakHashMap();
 
@@ -139,7 +136,7 @@ public abstract class CompositionPartHandler implements PartHandler
     }
 
    /**
-    * Load a part handler giiven a handler uri.
+    * Load a part handler given a handler uri.
     * @return the part handler
     */
     public Controller getPrimaryController( URI uri ) 
@@ -256,7 +253,7 @@ public abstract class CompositionPartHandler implements PartHandler
 
     private PartHandler loadHandler( URI uri ) throws PartHandlerNotFoundException
     {
-        ClassLoader classloader = Type.class.getClassLoader();
+        ClassLoader classloader = Part.class.getClassLoader();
         DefaultLogger logger = new DefaultLogger( "handler" );
         try
         {

@@ -36,7 +36,6 @@ public final class MimeTypeHandler
 
     static
     {
-        MIME_TYPES.put( "block", "text/x-dpml-block" );
         MIME_TYPES.put( "plugin", "text/x-dpml-plugin" );
         MIME_TYPES.put( "conf", "text/x-dpml-conf" );
         MIME_TYPES.put( "jar", "application/x-jar" );
@@ -46,11 +45,12 @@ public final class MimeTypeHandler
         MIME_TYPES.put( "gif", "image/gif" );
         MIME_TYPES.put( "jpg", "image/jpg" );
         MIME_TYPES.put( "link", "application/x-dpml-link" );
+        MIME_TYPES.put( "part", "application/x-dpml-part" );
     }
 
    /**
     * Return the mimetype given a artifact type.
-    * @param artifactType the artifact type such as "block", "jar", etc.
+    * @param artifactType the artifact type such as "part", "jar", etc.
     * @return the matching mimetype of null if unknown
     */
     static public String getMimeType( String artifactType )

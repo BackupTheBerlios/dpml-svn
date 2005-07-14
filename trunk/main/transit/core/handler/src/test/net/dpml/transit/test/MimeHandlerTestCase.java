@@ -28,7 +28,6 @@ public class MimeHandlerTestCase extends TestCase
 {
     static private String[][] TESTS = new String[][]
     {
-        { "block", "text/x-dpml-block" },
         { "plugin", "text/x-dpml-plugin" },
         { "conf", "text/x-dpml-conf" },
         { "jar", "application/x-jar" },
@@ -37,7 +36,8 @@ public class MimeHandlerTestCase extends TestCase
         { "png", "image/png" },
         { "jpg", "image/jpg" },
         { "gif", "image/gif" },
-        { "link", "application/x-dpml-link" }
+        { "link", "application/x-dpml-link" },
+        { "part", "application/x-dpml-part" }
     };
 
     static public Test suite()

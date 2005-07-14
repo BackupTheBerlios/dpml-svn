@@ -41,6 +41,9 @@
         <type>jar</type>
       </types>
     </info>
+    <dependencies>
+      <include key="dpml-transit-main"/>
+    </dependencies>
   </project>
 
   <!-- Activity -->
@@ -158,6 +161,9 @@
         <type>plugin</type>
       </types>
     </info>
+    <links>
+      <link type="plugin" version="LATEST"/>
+    </links>
     <dependencies>
       <include key="dpml-composition-control"/>
     </dependencies>

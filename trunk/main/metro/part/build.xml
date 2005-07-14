@@ -1,8 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
 <project name="dpml-part-api" default="install" basedir="." 
-    xmlns:transit="antlib:net.dpml.transit">
+    xmlns:transit="antlib:net.dpml.transit" 
+    xmlns:x="plugin:dpml/magic/dpml-magic-core" >
 
   <transit:import uri="artifact:template:dpml/magic/standard"/>
+
+  <target name="init" depends="standard.init">
+    <x:filter feature="uri" type="plugin" token="METRO-CENTRAL-URI" key="dpml-metro-central"/>
+  </target>
 
 </project>
