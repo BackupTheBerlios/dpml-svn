@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!--
- * Copyright 2004 Stephen J. McConnell.
- * Copyright 2004 Niclas Hedman.
+ * Copyright 2004-2005 Stephen J. McConnell.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,29 +16,23 @@
 -->
 
 <project name="dpml-http-demo" default="install" basedir="." 
-    xmlns:transit="antlib:net.dpml.transit" xmlns:x="plugin:dpml/magic/dpml-magic-core" >
+    xmlns:transit="antlib:net.dpml.transit" 
+    xmlns:x="plugin:dpml/magic/dpml-magic-core"
+    xmlns:c="plugin:dpml/composition/dpml-composition-builder">
 
   <transit:import uri="artifact:template:dpml/magic/standard"/>
 
   <target name="build" depends="standard.build">
-
-    <types xmlns="plugin:dpml/composition/dpml-composition-builder">
-      <type class="net.dpml.http.Demo" threadsafe="true"/>
-    </types>
-
     <x:property name="http.uri" key="dpml-http-impl" feature="uri" type="part"/>
-
-    <component xmlns="plugin:dpml/composition/dpml-composition-builder" 
-         name="demo" type="net.dpml.http.Demo" extends="${http.uri}">
+    <c:type class="net.dpml.http.Demo" threadsafe="true"/>
+    <c:component name="demo" type="net.dpml.http.Demo" extends="${http.uri}">
       <context>
         <entry key="httpHandler" uri="service:net.dpml.http.spi.FileResourceHandler"/>
         <entry key="socketListener" uri="service:net.dpml.http.spi.SocketListenerService"/>
       </context>
-    </component>
-
+    </c:component>
     <mkdir dir="target/test"/>
     <copy file="target/deliverables/parts/${project.filename}" toFile="target/test/demo.part"/>
-
   </target>
 
   <target name="install" depends="standard.install">

@@ -50,7 +50,7 @@ public class TypesTask extends ProjectTask implements DynamicElementNS
     {
         Project proj = getProject();
         TypeBuilderTask builder = new TypeBuilderTask();
-        builder.setTaskName( "type" );
+        //builder.setTaskName( "type" );
         builder.setProject( proj );
         m_builders.add( builder );
         return builder;
@@ -89,10 +89,6 @@ public class TypesTask extends ProjectTask implements DynamicElementNS
         for( int i=0; i<builders.length; i++ )
         {
             final TypeBuilder builder = builders[i];
-            if( builder instanceof Task )
-            {
-               ((Task)builder).setTaskName( "type" );
-            }
             try
             {
                 final Type type = builder.buildType( classloader );

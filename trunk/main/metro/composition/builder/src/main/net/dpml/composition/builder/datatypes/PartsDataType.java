@@ -184,10 +184,6 @@ public class PartsDataType extends ClassLoaderBuilderTask implements DynamicElem
         for( int i=0; i<builders.length; i++ )
         {
             PartReferenceBuilder builder = builders[i];
-            if( builder instanceof ComponentBuilderTask )
-            {
-                ((Task)builder).setTaskName( "component" );
-            }
             parts[i] = builder.buildPartReference( classloader, type );
         }
         return parts;

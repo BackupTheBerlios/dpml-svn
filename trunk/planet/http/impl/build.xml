@@ -17,13 +17,15 @@
 -->
 
 <project name="dpml-http-impl" default="install" basedir="." 
-    xmlns:transit="antlib:net.dpml.transit" xmlns:x="plugin:dpml/magic/dpml-magic-core" >
+    xmlns:transit="antlib:net.dpml.transit" 
+    xmlns:x="plugin:dpml/magic/dpml-magic-core"
+    xmlns:c="plugin:dpml/composition/dpml-composition-builder">
 
   <transit:import uri="artifact:template:dpml/magic/standard"/>
 
   <target name="build" depends="standard.build">
 
-    <types xmlns="plugin:dpml/composition/dpml-composition-builder">
+    <c:types>
       <type class="net.dpml.http.impl.Ajp13Listener" threadsafe="true"/>
       <type class="net.dpml.http.impl.ClientCertAuthenticator" threadsafe="true"/>
       <type class="net.dpml.http.impl.ConfigurationMimeTypes" threadsafe="true"/>
@@ -53,9 +55,9 @@
       <type class="net.dpml.http.impl.SocketListener" threadsafe="true"/>
       <type class="net.dpml.http.impl.SystemMimeTypes" threadsafe="true"/>
       <type class="net.dpml.http.impl.WebApplicationContext" threadsafe="true"/>
-    </types>
+    </c:types>
 
-    <component xmlns="plugin:dpml/composition/dpml-composition-builder" name="http">
+    <c:component name="http">
       <parts>
         <component type="net.dpml.http.impl.HttpServerImpl" name="server">
           <context>
@@ -103,7 +105,7 @@
           </context>
         </component>
       </parts>
-    </component>
+    </c:component>
 
   </target>
 

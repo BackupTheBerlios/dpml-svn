@@ -2,7 +2,8 @@
 
 <project name="dpml-test-plus-unit" default="install" basedir="."
     xmlns:transit="antlib:net.dpml.transit" 
-    xmlns:x="plugin:dpml/magic/dpml-magic-core">
+    xmlns:x="plugin:dpml/magic/dpml-magic-core"
+    xmlns:c="plugin:dpml/composition/dpml-composition-builder">
 
   <transit:import uri="artifact:template:dpml/magic/standard"/>
 
@@ -20,8 +21,7 @@
     <!--
     Configuration examples.
     -->
-    <component dest="target/test/configurable-container.part"
-        xmlns="plugin:dpml/composition/dpml-composition-builder" 
+    <c:component dest="target/test/configurable-container.part"
         type="net.dpml.test.acme.plus.ConfigurableContainer"
         name="container">
       <configuration>
@@ -36,23 +36,22 @@
           </configuration>
         </component>
       </parts>
-    </component>
+    </c:component>
 
     <!-- 
     State management examples.
     -->
-    <component dest="target/test/managed-component.part" 
-        xmlns="plugin:dpml/composition/dpml-composition-builder" 
+    <c:component dest="target/test/managed-component.part" 
         type="net.dpml.test.acme.plus.ManagedComponent"
         name="component"/>
-    <component dest="target/test/managing-container.part" 
+    <c:component dest="target/test/managing-container.part" 
         xmlns="plugin:dpml/composition/dpml-composition-builder" 
         type="net.dpml.test.acme.plus.ManagingContainer"
         name="container">
       <parts>
         <component key="test" type="net.dpml.test.acme.plus.ManagedComponent"/>
       </parts>
-    </component>
+    </c:component>
 
   </target>
 

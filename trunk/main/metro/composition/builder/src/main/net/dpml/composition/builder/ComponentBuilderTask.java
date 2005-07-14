@@ -294,9 +294,9 @@ public class ComponentBuilderTask extends ClassLoaderBuilderTask implements Part
             ControllerContext context = CompositionControllerContext.newContext( logger );
             CompositionController controller = new CompositionController( context );
             Container container = controller.newContainer( classloader, profile );
-            Service[] startup = container.getStartupSequence();
 
             /*
+            Service[] startup = container.getStartupSequence();
             log( "Startup sequence length: " + startup.length );
             for( int i=0; i<startup.length; i++ )
             {
