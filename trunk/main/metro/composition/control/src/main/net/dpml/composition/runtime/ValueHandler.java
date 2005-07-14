@@ -39,6 +39,8 @@ import net.dpml.part.service.ServiceDescriptor;
 import net.dpml.part.service.AvailabilityException;
 import net.dpml.part.state.State;
 
+import net.dpml.transit.util.PropertyResolver;
+
 /**
  * Default implementation of a value component.
  *
@@ -186,7 +188,8 @@ public class ValueHandler extends AbstractHandler implements Component, ClassLoa
 
         try
         {
-            String argument = m_directive.getLocalValue();
+            String local = m_directive.getLocalValue();
+            String argument = expandSymbols( local );
             Object object = checkForURNReference( argument );
             if( null == object )
             {
@@ -211,6 +214,18 @@ public class ValueHandler extends AbstractHandler implements Component, ClassLoa
         }
     }
 
+    private String expandSymbols( String value )
+    {
+        if( null == value )
+        {
+            return null;
+        }
+        else
+        {
+            return PropertyResolver.resolve( value );
+        }
+    }
+
     private String getReturnTypeClassname()
     {
         return m_directive.getClassname();
@@ -224,7 +239,8 @@ public class ValueHandler extends AbstractHandler implements Component, ClassLoa
     public Object getValue( Value p )
         throws ComponentException
     {
-        String argument = p.getArgument();
+        String local = p.getArgument();
+        String argument = expandSymbols( local );
         Object object = checkForURNReference( argument );
         if( null != object )
         {

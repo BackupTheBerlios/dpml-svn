@@ -180,7 +180,7 @@ public class TypeBuilderTask extends ProjectTask implements TypeBuilder
     public Type buildType( Class subject )
        throws IntrospectionException, IOException
     {
-        log( "creating: " + subject.getName() );
+        log( "creating [" + subject.getName() + "]" );
 
         InfoDescriptor info = createInfoDescriptor( subject );
         ServiceDescriptor[] services = createServiceDescriptors( subject );

@@ -296,7 +296,6 @@ public class ComponentBuilderTask extends ClassLoaderBuilderTask implements Part
             Container container = controller.newContainer( classloader, profile );
             Service[] startup = container.getStartupSequence();
 
-            log( "component: " + profile.getName() );
             /*
             log( "Startup sequence length: " + startup.length );
             for( int i=0; i<startup.length; i++ )
@@ -471,8 +470,8 @@ public class ComponentBuilderTask extends ClassLoaderBuilderTask implements Part
       throws IntrospectionException, IOException, ClassNotFoundException
     {
         String id = getName();        
-        log( "building component: " + id );
         String classname = getClassname();
+        log( "creating [" + id + "] using [" + classname + "]" );
         Type type = loadType( classloader, classname );
         String lifestyle = getLifestylePolicy( type ); 
         int collection = getCollectionPolicy( type );
@@ -487,7 +486,6 @@ public class ComponentBuilderTask extends ClassLoaderBuilderTask implements Part
         // return the component profile
         //
 
-        log( "extends: " + m_extends );
         return new ComponentProfile( 
           id, activation, collection, lifestyle, classname, categories, context, 
           parts, parameters, configuration, cld, m_extends );

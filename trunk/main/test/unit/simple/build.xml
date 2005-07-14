@@ -41,7 +41,9 @@
     with a component as a declaration directly inside the context
     element.  This example demonstrates the mixing of different component
     strategies and the ability of a component to be handled without 
-    explicit management.
+    explicit management.  The example also shows the usage of an symbolic
+    system property reference passes as an argument to the working directory
+    context entry value.
     -->
     <component dest="target/test/acme-widget.part" 
         xmlns="plugin:dpml/composition/dpml-composition-builder" 
@@ -50,10 +52,7 @@
       <context>
         <entry key="name" value="urn:component:name"/>
         <entry key="uri" value="urn:component:uri"/>
-        <entry key="workingDirectory">
-          <param class="java.io.File" value="urn:system:work.dir"/>
-          <param value="acme/workspace"/>
-        </entry>
+        <entry key="workingDirectory" value="$${user.dir}"/>
         <component key="dimension" type="net.dpml.test.acme.DimensionComponent">
           <context>
             <entry key="width" value="12"/>
