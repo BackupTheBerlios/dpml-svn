@@ -179,7 +179,7 @@ public class ComponentHandler extends WeakEventProducer
         {
             EntryDescriptor entry = entries[i];
             final String key = entry.getKey();
-            PartReference reference = context.getPartReference( key );
+            PartReference reference = context.getDirective( key );
             if( null == reference )
             {
                 if( entry.isRequired() )

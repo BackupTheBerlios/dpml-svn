@@ -106,7 +106,7 @@ public class ContextDirective implements Serializable
      * Return the set of entry directives.
      * @return the entries
      */
-    public PartReference[] getPartReferences()
+    public PartReference[] getDirectives()
     {
         return m_entries;
     }
@@ -117,7 +117,7 @@ public class ContextDirective implements Serializable
      * @return the entry corresponding to the supplied key or null if the
      *   key is unknown
      */
-    public PartReference getPartReference( String key )
+    public PartReference getDirective( String key )
     {
         for( int i = 0; i < m_entries.length; i++ )
         {
@@ -157,14 +157,14 @@ public class ContextDirective implements Serializable
                 {
                     return false;
                 }
-                if( getPartReferences().length != context.getPartReferences().length )
+                if( getDirectives().length != context.getDirectives().length )
                 {
                     return false;
                 }
                 else
                 {
-                    PartReference[] mine = getPartReferences();
-                    PartReference[] yours = context.getPartReferences();
+                    PartReference[] mine = getDirectives();
+                    PartReference[] yours = context.getDirectives();
                     for( int i=0; i<mine.length; i++ )
                     {
                         PartReference p = mine[i];

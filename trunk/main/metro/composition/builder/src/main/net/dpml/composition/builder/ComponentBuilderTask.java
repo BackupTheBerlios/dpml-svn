@@ -658,7 +658,7 @@ public class ComponentBuilderTask extends ClassLoaderBuilderTask implements Part
             EntryDescriptor entry = entries[i];
             String key = entry.getKey();
 
-            PartReference reference = context.getPartReference( key );
+            PartReference reference = context.getDirective( key );
 
             if( entry.isRequired() && ( null == reference ) )
             {
