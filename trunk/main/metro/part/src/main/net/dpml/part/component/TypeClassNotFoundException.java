@@ -16,23 +16,27 @@
  * limitations under the License.
  */
 
-package net.dpml.part.service;
-
-import java.net.URI;
-
-import net.dpml.part.state.State;
+package net.dpml.part.component;
 
 /**
- * The Identifiable interface is implemented by components that declare 
- * identity.
+ * Unexpected runtime exception indicating an internal model error.
  *
  * @author <a href="mailto:dev-dpml@lists.ibiblio.org">The Digital Product Meta Library</a>
+ * @version $Revision: 1.2 $ $Date: 2004/03/17 10:30:09 $
  */
-public interface Identifiable
+public class TypeClassNotFoundException extends ComponentRuntimeException 
 {
-   /**
-    * Return the uri identifying the component.  
-    */
-    URI getURI();
+    private String m_classname;
+
+    public TypeClassNotFoundException( String classname )
+    {
+        super( classname );
+        m_classname = classname;
+    }
+
+    public String getClassname()
+    {
+        return m_classname;
+    }
 }
 

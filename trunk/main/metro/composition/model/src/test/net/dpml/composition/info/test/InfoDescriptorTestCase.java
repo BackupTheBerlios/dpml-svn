@@ -21,7 +21,7 @@ package net.dpml.composition.info.test;
 
 import net.dpml.composition.info.Descriptor;
 import net.dpml.composition.info.InfoDescriptor;
-import net.dpml.part.service.Version;
+import net.dpml.part.component.Version;
 
 /**
  * InfoDescriptorTestCase does XYZ

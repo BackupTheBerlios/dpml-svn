@@ -21,8 +21,8 @@ package net.dpml.composition.runtime;
 
 import java.util.ArrayList;
 
-import net.dpml.part.control.Consumer;
-import net.dpml.part.control.Component;
+import net.dpml.part.component.Consumer;
+import net.dpml.part.component.Component;
 
 /**
  * <p>Utility class to aquire an ordered graph of

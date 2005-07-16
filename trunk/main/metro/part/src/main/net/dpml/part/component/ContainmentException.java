@@ -16,24 +16,34 @@
  * limitations under the License.
  */
 
-package net.dpml.part.control;
+package net.dpml.part.component;
 
 /**
- * Exception thrown in response to a request for an unknown component.
+ * Exception raised by a container.
  *
  * @author <a href="mailto:dev-dpml@lists.ibiblio.org">The Digital Product Meta Library</a>
  * @version $Revision: 1.2 $ $Date: 2004/03/17 10:30:09 $
  */
-public class ComponentNotFoundException extends ContainmentException 
+public class ContainmentException extends Exception 
 {
-    public ComponentNotFoundException( String key )
+   /**
+    * Creation of a new containment exception.
+    * @param message the excetion message
+    */
+    public ContainmentException( String message )
     {
-        super( key );
+        this( message, null );
     }
 
-    public String getKey()
+   /**
+    * Creation of a new containment exception.
+    * @param message the exception message
+    * @param cause the causal exception
+    */
+    public ContainmentException( String message, Throwable cause )
     {
-        return getMessage();
+        super( message, cause );
     }
+
 }
 

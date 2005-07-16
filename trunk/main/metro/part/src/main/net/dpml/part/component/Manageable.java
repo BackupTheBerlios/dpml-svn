@@ -20,19 +20,18 @@ package net.dpml.part.service;
 
 import java.net.URI;
 
-import net.dpml.part.Part;
 import net.dpml.part.state.State;
 import net.dpml.part.state.StateListener;
 import net.dpml.part.state.StateEvent;
 
 /**
- * The manager interface declares a set of operations dealing with 
- * the management of a component.
+ * The Initializable interface is implemented by components that support an 
+ * explicit establishment process.
  *
  * @author <a href="mailto:dev-dpml@lists.ibiblio.org">The Digital Product Meta Library</a>
  * @version $Revision: 1.2 $ $Date: 2004/03/17 10:30:09 $
  */
-public interface Manager
+public interface Manageable
 {
    /**
     * Initialize the component.  

@@ -24,11 +24,11 @@ import java.rmi.server.UnicastRemoteObject;
 
 import net.dpml.composition.control.CompositionController;
 
-import net.dpml.part.control.Component;
+import net.dpml.part.component.Component;
 import net.dpml.part.state.NoSuchOperationException;
 import net.dpml.part.state.NoSuchTransitionException;
 import net.dpml.part.state.State;
-import net.dpml.part.service.AvailabilityException;
+import net.dpml.part.component.AvailabilityException;
 
 /**
  * The ValueController class manages value instances.

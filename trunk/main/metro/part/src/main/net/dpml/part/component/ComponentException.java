@@ -16,26 +16,25 @@
  * limitations under the License.
  */
 
-package net.dpml.part.control;
+package net.dpml.part.component;
 
 /**
- * Interfact implemented by local components through which a classloader 
- * may be exposed to the managing controller.  Typically a composite component
- * implementation will implement this interface and expose it's classloader 
- * to a controller enabling the controller to build new classloaders relative 
- * the exposed classloader.  A component implementing this interface may choose
- * to restrict the exposure of internals by returning an appropriate API 
- * classloader.
+ * Exception raised by a component.
  *
  * @author <a href="mailto:dev-dpml@lists.ibiblio.org">The Digital Product Meta Library</a>
  * @version $Revision: 1.2 $ $Date: 2004/03/17 10:30:09 $
  */
-public interface ClassLoadingContext
+public class ComponentException extends Exception 
 {
-   /**
-    * Return the classloader that is to be used for construction of 
-    * subsidiary classloaders.
-    * @return the anchor classloader
-    */
-    ClassLoader getClassLoader();
+    public ComponentException( String message )
+    {
+        this( message, null );
+    }
+
+    public ComponentException( String message, Throwable cause )
+    {
+        super( message, cause );
+    }
+
 }
+

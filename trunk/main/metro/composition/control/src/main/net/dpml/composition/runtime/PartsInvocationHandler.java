@@ -30,8 +30,8 @@ import net.dpml.composition.control.CompositionController;
 
 import net.dpml.part.control.Controller;
 import net.dpml.part.DelegationException;
-import net.dpml.part.control.Component;
-import net.dpml.part.service.Resolvable;
+import net.dpml.part.component.Component;
+import net.dpml.part.component.Resolvable;
 
 /**
  * The parts invocation handler maps client request for 'get', 'create' and 

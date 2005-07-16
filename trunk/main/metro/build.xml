@@ -23,4 +23,11 @@
 
   <transit:import uri="artifact:template:dpml/magic/reactor"/>
 
+  <target name="patch">
+    <replace token="net.dpml.part.component.Component" value="net.dpml.part.component.Component" dir="..">
+      <include name="**/*.java"/>
+      <include name="**/*.xml"/>
+    </replace>
+  </target>
+
 </project>

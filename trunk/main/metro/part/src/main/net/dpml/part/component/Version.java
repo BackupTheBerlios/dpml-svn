@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package net.dpml.part.service;
+package net.dpml.part.component;
 
 import java.io.Serializable;
 

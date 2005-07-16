@@ -16,26 +16,19 @@
  * limitations under the License.
  */
 
-package net.dpml.part.service;
+package net.dpml.part.component;
 
 /**
- * Exception thrown in response to a request (direct or indirect) for service   
- * availability when the service is not available or cannot be brought to an
- * available state.
+ * Exception thrown in response to a request for an unknown service.
  *
  * @author <a href="mailto:dev-dpml@lists.ibiblio.org">The Digital Product Meta Library</a>
  * @version $Revision: 1.2 $ $Date: 2004/03/17 10:30:09 $
  */
-public class AvailabilityException extends ServiceException 
+public class ServiceNotFoundException extends ServiceException 
 {
-    public AvailabilityException( String message )
+    public ServiceNotFoundException( String message )
     {
         super( message );
-    }
-
-    public AvailabilityException( String message, Throwable cause )
-    {
-        super( message, cause );
     }
 }
 

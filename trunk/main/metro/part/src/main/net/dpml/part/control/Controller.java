@@ -27,7 +27,9 @@ import net.dpml.part.Part;
 import net.dpml.part.PartNotFoundException;
 import net.dpml.part.PartHandlerNotFoundException;
 import net.dpml.part.DelegationException;
-import net.dpml.part.service.Service;
+import net.dpml.part.component.Service;
+import net.dpml.part.component.Component;
+import net.dpml.part.component.ComponentException;
 
 /**
  * The Controller interface defines the a contract for an object that provides general

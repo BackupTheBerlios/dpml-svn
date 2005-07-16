@@ -67,6 +67,11 @@ public class ValueDirective implements Part, Serializable
     // constructors
     //--------------------------------------------------------------------------
 
+    public ValueDirective( String key, String value )
+    {
+        this( key, String.class.getName(), value );
+    }
+
     public ValueDirective( String key, String classname, String value )
     {
         if( null == classname )

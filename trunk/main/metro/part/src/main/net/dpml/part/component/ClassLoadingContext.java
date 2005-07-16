@@ -16,35 +16,26 @@
  * limitations under the License.
  */
 
-package net.dpml.part.control;
-
-import java.net.URI;
-
-import net.dpml.part.Part;
-import net.dpml.part.service.Service;
-import net.dpml.part.service.Identifiable;
-import net.dpml.part.service.Resolvable;
+package net.dpml.part.component;
 
 /**
- * The Component interface is implemented by objects that handle the runtime
- * state of a component instance.
+ * Interfact implemented by local components through which a classloader 
+ * may be exposed to the managing controller.  Typically a composite component
+ * implementation will implement this interface and expose it's classloader 
+ * to a controller enabling the controller to build new classloaders relative 
+ * the exposed classloader.  A component implementing this interface may choose
+ * to restrict the exposure of internals by returning an appropriate API 
+ * classloader.
  *
  * @author <a href="mailto:dev-dpml@lists.ibiblio.org">The Digital Product Meta Library</a>
  * @version $Revision: 1.2 $ $Date: 2004/03/17 10:30:09 $
  */
-public interface Component extends Service, Identifiable, Resolvable
+public interface ClassLoadingContext
 {
    /**
-    * Return the short name of this component.
-    * @return the component name
+    * Return the classloader that is to be used for construction of 
+    * subsidiary classloaders.
+    * @return the anchor classloader
     */
-    String getName();
-
-   /**
-    * Return the part that defines this component.
-    * @return the component part definition
-    */
-    Part getDefinition();
-
+    ClassLoader getClassLoader();
 }
-

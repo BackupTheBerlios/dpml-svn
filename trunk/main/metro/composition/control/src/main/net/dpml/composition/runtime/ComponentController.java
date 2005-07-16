@@ -43,12 +43,15 @@ import net.dpml.logging.Logger;
 
 import net.dpml.composition.control.CompositionController;
 
+import net.dpml.part.component.Service;
+import net.dpml.part.component.Available;
+import net.dpml.part.component.AvailabilityException;
+import net.dpml.part.component.Component;
+import net.dpml.part.component.Container;
+import net.dpml.part.component.DuplicateKeyException;
 import net.dpml.part.control.ControlException;
 import net.dpml.part.control.ControllerRuntimeException;
 import net.dpml.part.control.Disposable;
-import net.dpml.part.control.Component;
-import net.dpml.part.control.Container;
-import net.dpml.part.control.DuplicateKeyException;
 import net.dpml.part.state.State;
 import net.dpml.part.state.Transition;
 import net.dpml.part.state.ResourceUnavailableException;
@@ -61,9 +64,6 @@ import net.dpml.part.state.StateListener;
 import net.dpml.part.state.NoSuchHandlerException;
 import net.dpml.part.state.RecursiveInitializationException;
 import net.dpml.part.state.RecursiveTerminationException;
-import net.dpml.part.service.Service;
-import net.dpml.part.service.Available;
-import net.dpml.part.service.AvailabilityException;
 
 /**
  * The ComponentController class is a controller of a component instance.

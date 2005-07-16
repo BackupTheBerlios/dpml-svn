@@ -16,19 +16,27 @@
  * limitations under the License.
  */
 
-package net.dpml.part.service;
-
-import java.util.EventListener;
+package net.dpml.part.component;
 
 /**
- * Interface implemented by objects that listen to the availablity of a 
- * particular components.
+ * The Consumer interface exposes an operation through which service providers
+ * may be declared.
  *
- * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
+ * @author <a href="mailto:dev-dpml@lists.ibiblio.org">The Digital Product Meta Library</a>
  * @version $Revision: 1.2 $ $Date: 2004/03/17 10:30:09 $
  */
-public interface AvailabilityListener extends EventListener
+public interface Consumer
 {
-    void availabilityChanged( AvailabilityEvent event );
-}
+   /**
+    * Return an array of components supporting the component.
+    * @return the provider array
+    */
+    Component[] getProviders();
 
+   /**
+    * Return the component assigned as provider for the specified context key.
+    * @param key the context entry key
+    * @return the provider component
+    */
+    Component getProvider( String key );
+}

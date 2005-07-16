@@ -28,8 +28,8 @@ import junit.framework.TestCase;
 
 import net.dpml.metro.central.MetroHelper;
 
-import net.dpml.part.control.Component;
-import net.dpml.part.service.Manager;
+import net.dpml.part.component.Component;
+import net.dpml.part.component.Manager;
 import net.dpml.part.state.State;
 
 /**

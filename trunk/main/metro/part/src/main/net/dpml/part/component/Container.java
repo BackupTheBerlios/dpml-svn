@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package net.dpml.part.control;
+package net.dpml.part.component;
 
 import java.io.IOException;
 import java.net.URI;
@@ -24,7 +24,7 @@ import java.net.URI;
 import net.dpml.part.DelegationException;
 import net.dpml.part.PartHandlerNotFoundException;
 import net.dpml.part.PartNotFoundException;
-import net.dpml.part.service.Service;
+import net.dpml.part.component.Service;
 
 /**
  * The Container interface defines the a contract for a component that 

@@ -16,34 +16,28 @@
  * limitations under the License.
  */
 
-package net.dpml.part.control;
+package net.dpml.part;
 
 /**
- * Exception raised by a container.
+ * Exception thrown when an attempt is made to locate a class declared 
+ * by a parts accessor and the class cannot be found.
  *
  * @author <a href="mailto:dev-dpml@lists.ibiblio.org">The Digital Product Meta Library</a>
  * @version $Revision: 1.2 $ $Date: 2004/03/17 10:30:09 $
  */
-public class ContainmentException extends Exception 
+public class PartClassNotFoundException extends RuntimeException 
 {
-   /**
-    * Creation of a new containment exception.
-    * @param message the excetion message
-    */
-    public ContainmentException( String message )
+    private String m_classname;
+
+    public PartClassNotFoundException( String classname )
     {
-        this( message, null );
+        super( classname );
+        m_classname = classname;
     }
 
-   /**
-    * Creation of a new containment exception.
-    * @param message the exception message
-    * @param cause the causal exception
-    */
-    public ContainmentException( String message, Throwable cause )
+    public String getClassname()
     {
-        super( message, cause );
+        return m_classname;
     }
-
 }
 

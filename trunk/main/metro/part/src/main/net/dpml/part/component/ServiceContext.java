@@ -16,11 +16,11 @@
  * limitations under the License.
  */
 
-package net.dpml.part.service;
+package net.dpml.part.component;
 
 import java.net.URI;
 
-import net.dpml.part.control.Component;
+import net.dpml.part.component.Component;
 
 /**
  * A ServiceContext is a local interface implemented by components that 

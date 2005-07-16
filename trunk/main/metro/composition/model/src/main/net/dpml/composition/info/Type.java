@@ -28,9 +28,9 @@ import java.net.URL;
 import net.dpml.configuration.Configuration;
 
 import net.dpml.part.state.State;
-import net.dpml.part.control.ComponentException;
-import net.dpml.part.service.ServiceDescriptor;
-import net.dpml.part.service.Version;
+import net.dpml.part.component.ComponentException;
+import net.dpml.part.component.ServiceDescriptor;
+import net.dpml.part.component.Version;
 
 /**
  * This class contains the meta information about a particular

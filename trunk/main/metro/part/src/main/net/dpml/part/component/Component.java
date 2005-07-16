@@ -16,27 +16,35 @@
  * limitations under the License.
  */
 
-package net.dpml.part.control;
+package net.dpml.part.component;
+
+import java.net.URI;
+
+import net.dpml.part.Part;
+import net.dpml.part.component.Service;
+import net.dpml.part.component.Identifiable;
+import net.dpml.part.component.Resolvable;
 
 /**
- * Unexpected runtime exception indicating an internal model error.
+ * The Component interface is implemented by objects that handle the runtime
+ * state of a component instance.
  *
  * @author <a href="mailto:dev-dpml@lists.ibiblio.org">The Digital Product Meta Library</a>
  * @version $Revision: 1.2 $ $Date: 2004/03/17 10:30:09 $
  */
-public class TypeClassNotFoundException extends ComponentRuntimeException 
+public interface Component extends Service, Identifiable, Resolvable
 {
-    private String m_classname;
+   /**
+    * Return the short name of this component.
+    * @return the component name
+    */
+    String getName();
 
-    public TypeClassNotFoundException( String classname )
-    {
-        super( classname );
-        m_classname = classname;
-    }
+   /**
+    * Return the part that defines this component.
+    * @return the component part definition
+    */
+    Part getDefinition();
 
-    public String getClassname()
-    {
-        return m_classname;
-    }
 }
 

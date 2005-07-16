@@ -52,7 +52,7 @@ import net.dpml.magic.tasks.ProjectTask;
 import net.dpml.magic.model.Policy;
 
 import net.dpml.part.state.State;
-import net.dpml.part.service.ServiceDescriptor;
+import net.dpml.part.component.ServiceDescriptor;
 
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Project;

@@ -55,11 +55,11 @@ import net.dpml.part.control.Controller;
 import net.dpml.part.control.Disposable;
 import net.dpml.part.control.LifecycleException;
 import net.dpml.part.control.UnsupportedPartTypeException;
-import net.dpml.part.control.Component;
-import net.dpml.part.control.ClassLoadingContext;
-import net.dpml.part.control.ComponentException;
-import net.dpml.part.control.Container;
-import net.dpml.part.service.Service;
+import net.dpml.part.component.Component;
+import net.dpml.part.component.ClassLoadingContext;
+import net.dpml.part.component.ComponentException;
+import net.dpml.part.component.Container;
+import net.dpml.part.component.Service;
 
 import net.dpml.transit.adapter.LoggingAdapter;
 import net.dpml.transit.model.ContentModel;

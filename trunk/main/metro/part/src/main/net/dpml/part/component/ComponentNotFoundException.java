@@ -16,25 +16,24 @@
  * limitations under the License.
  */
 
-package net.dpml.part.service;
+package net.dpml.part.component;
 
 /**
- * Exception raised in relation to service aquisition.
+ * Exception thrown in response to a request for an unknown component.
  *
  * @author <a href="mailto:dev-dpml@lists.ibiblio.org">The Digital Product Meta Library</a>
  * @version $Revision: 1.2 $ $Date: 2004/03/17 10:30:09 $
  */
-public class ServiceException extends Exception 
+public class ComponentNotFoundException extends ContainmentException 
 {
-    public ServiceException( String message )
+    public ComponentNotFoundException( String key )
     {
-        this( message, null );
+        super( key );
     }
 
-    public ServiceException( String message, Throwable cause )
+    public String getKey()
     {
-        super( message, cause );
+        return getMessage();
     }
-
 }
 

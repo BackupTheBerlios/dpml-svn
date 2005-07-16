@@ -16,28 +16,25 @@
  * limitations under the License.
  */
 
-package net.dpml.part.control;
+package net.dpml.part.component;
 
 /**
- * Exception thrown when an attempt is made to locate a class declared 
- * by a parts accessor and the class cannot be found.
+ * Runtime exception raised by a component.
  *
  * @author <a href="mailto:dev-dpml@lists.ibiblio.org">The Digital Product Meta Library</a>
  * @version $Revision: 1.2 $ $Date: 2004/03/17 10:30:09 $
  */
-public class PartClassNotFoundException extends ComponentRuntimeException 
+public class ComponentRuntimeException extends RuntimeException 
 {
-    private String m_classname;
-
-    public PartClassNotFoundException( String classname )
+    public ComponentRuntimeException( String message )
     {
-        super( classname );
-        m_classname = classname;
+        this( message, null );
     }
 
-    public String getClassname()
+    public ComponentRuntimeException( String message, Throwable cause )
     {
-        return m_classname;
+        super( message, cause );
     }
+
 }
 

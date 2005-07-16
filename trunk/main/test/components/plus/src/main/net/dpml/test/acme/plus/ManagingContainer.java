@@ -21,8 +21,8 @@ package net.dpml.test.acme.plus;
 import java.net.URI;
 import java.util.logging.Logger;
 
-import net.dpml.part.control.Component;
-import net.dpml.part.service.Manager;
+import net.dpml.part.component.Component;
+import net.dpml.part.component.Manager;
 import net.dpml.part.state.State;
 
 import net.dpml.activity.Startable;

@@ -16,19 +16,23 @@
  * limitations under the License.
  */
 
-package net.dpml.part.service;
+package net.dpml.part.component;
+
+import java.net.URI;
+
+import net.dpml.part.state.State;
 
 /**
- * Exception thrown in response to a request for an unknown service.
+ * The Identifiable interface is implemented by components that declare 
+ * identity.
  *
  * @author <a href="mailto:dev-dpml@lists.ibiblio.org">The Digital Product Meta Library</a>
- * @version $Revision: 1.2 $ $Date: 2004/03/17 10:30:09 $
  */
-public class ServiceNotFoundException extends ServiceException 
+public interface Identifiable
 {
-    public ServiceNotFoundException( String message )
-    {
-        super( message );
-    }
+   /**
+    * Return the uri identifying the component.  
+    */
+    URI getURI();
 }
 

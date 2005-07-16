@@ -16,22 +16,22 @@
  * limitations under the License.
  */
 
-package net.dpml.part.control;
+package net.dpml.part.component;
 
 /**
- * Runtime exception raised by a component.
+ * Exception raised in relation to service aquisition.
  *
  * @author <a href="mailto:dev-dpml@lists.ibiblio.org">The Digital Product Meta Library</a>
  * @version $Revision: 1.2 $ $Date: 2004/03/17 10:30:09 $
  */
-public class ComponentRuntimeException extends RuntimeException 
+public class ServiceException extends Exception 
 {
-    public ComponentRuntimeException( String message )
+    public ServiceException( String message )
     {
         this( message, null );
     }
 
-    public ComponentRuntimeException( String message, Throwable cause )
+    public ServiceException( String message, Throwable cause )
     {
         super( message, cause );
     }
