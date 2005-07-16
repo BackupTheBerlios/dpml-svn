@@ -35,7 +35,7 @@ import net.dpml.part.service.AvailabilityException;
  *
  * @author <a href="mailto:dev-dpml@lists.ibiblio.org">The Digital Product Meta Library</a>
  */
-public class ValueController implements Manager
+public class ValueController
 {
     private URI m_uri;
 

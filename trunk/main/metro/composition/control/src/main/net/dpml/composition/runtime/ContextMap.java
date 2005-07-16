@@ -43,6 +43,7 @@ import net.dpml.part.service.Resolvable;
 import net.dpml.part.Part;
 
 import net.dpml.composition.control.CompositionController;
+import net.dpml.composition.data.FeatureDirective;
 import net.dpml.composition.data.ReferenceDirective;
 import net.dpml.composition.data.ValueDirective;
 
@@ -88,6 +89,10 @@ public class ContextMap extends Hashtable
         else if( containsKey( key ) )
         {
             throw new DuplicateKeyException( key );
+        }
+        else if( part instanceof FeatureDirective )
+        {
+            put( key, part );
         }
         else if( part instanceof ReferenceDirective )
         {
@@ -196,11 +201,6 @@ public class ContextMap extends Hashtable
         put( key, value );
     }
 
-    //public Service getEntry( String key )
-    //{
-    //    return (Service) super.get( key );
-    //}
-
     public Object getValue( String key, Object[] args ) throws RemoteException
     {
         Object value = get( key );
@@ -232,6 +232,32 @@ public class ContextMap extends Hashtable
         {
             return null;
         }
+        else if( entry instanceof FeatureDirective )
+        {
+            FeatureDirective directive = (FeatureDirective) entry;
+            int feature = directive.getFeature();
+            if( FeatureDirective.URI == feature )
+            {
+                return m_component.getURI();
+            }
+            else if( FeatureDirective.NAME == feature )
+            {
+                return m_component.getName();
+            }
+            else if( FeatureDirective.WORK == feature )
+            {
+                return m_controller.getControllerContext().getWorkingDirectory();
+            }
+            else if( FeatureDirective.TEMP == feature )
+            {
+                return m_controller.getControllerContext().getTempDirectory();
+            }
+            else
+            {
+                // will not happen
+                throw new IllegalStateException( "Bad feature reference: " + feature );
+            }
+        }
         else if( entry instanceof Resolvable )
         {
             Resolvable service = (Resolvable) entry;
@@ -253,6 +279,11 @@ public class ContextMap extends Hashtable
         {
             return entry;
         }
+    }
+
+    public synchronized Component getProvider( String key )
+    {
+        throw new UnsupportedOperationException( "getProvider/1" );
     }
 
     public synchronized Component[] getProviders()

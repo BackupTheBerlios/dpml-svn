@@ -28,6 +28,7 @@ import net.dpml.composition.data.ValueDirective.Value;
 
 import net.dpml.logging.Logger;
 
+import net.dpml.part.Part;
 import net.dpml.part.control.Controller;
 import net.dpml.part.control.ControllerContext;
 import net.dpml.part.control.Component;
@@ -46,7 +47,7 @@ import net.dpml.transit.util.PropertyResolver;
  *
  * @author <a href="mailto:dev-dpml@lists.ibiblio.org">The Digital Product Meta Library</a>
  */
-public class ValueHandler extends AbstractHandler implements Component, ClassLoadingContext
+public class ValueHandler implements Component, ClassLoadingContext
 {
     //--------------------------------------------------------------
     // state
@@ -55,10 +56,11 @@ public class ValueHandler extends AbstractHandler implements Component, ClassLoa
     private final URI m_uri;
     private final ValueDirective m_directive;
     private final ClassLoader m_classloader;
-    private final Manager m_manager;
+    private final ValueController m_manager;
     private final Component m_parent;
     private final CompositionController m_controller;
     private final ServiceDescriptor[] m_services;
+    private final Logger m_logger;
 
     private Object m_key;
     private Object m_value;
@@ -83,17 +85,20 @@ public class ValueHandler extends AbstractHandler implements Component, ClassLoa
         Logger logger, CompositionController controller, ClassLoader classloader, 
         URI uri, ValueDirective part, Component parent )
     {
-        super( logger );
-
         if( controller == null )
         {
             throw new NullPointerException( "controller" );
+        }
+        if( logger == null )
+        {
+            throw new NullPointerException( "logger" );
         }
         if( null == part )
         {
             throw new NullPointerException( "part" );
         }
 
+        m_logger = logger;
         m_parent = parent;
         m_controller = controller;
         m_directive = part;
@@ -103,6 +108,20 @@ public class ValueHandler extends AbstractHandler implements Component, ClassLoa
 
         String classname = getReturnTypeClassname();
         m_services = new ServiceDescriptor[]{ new ServiceDescriptor( classname ) };
+    }
+
+    protected Logger getLogger()
+    {
+        return m_logger;
+    }
+
+   /**
+    * Return the part that defines this component.
+    * @return the component part definition
+    */
+    public Part getDefinition()
+    { 
+        return m_directive;
     }
 
    /**
@@ -125,19 +144,54 @@ public class ValueHandler extends AbstractHandler implements Component, ClassLoa
         return m_directive.getKey();
     }
 
-    public Manager getManager()
+    public ValueController getValueController()
     {
         return m_manager;
+    }
+
+   /**
+    * Return an instance of the component.
+    * @return the resolved instance
+    */
+    public Object resolve() throws Exception
+    {
+        return getValueController().resolve( this, true );
+    }
+
+   /**
+    * Return an instance of the component using a supplied isolation policy.
+    * If the isolation policy is TRUE an implementation shall make best efforts to isolate
+    * implementation concerns under the object that is returned.  Typically isolation 
+    * involves the creation of a proxy of a component implementation instance that 
+    * exposes a component's service interfaces to a client.  If the isolation policy if
+    * FALSE the implementation shall return the component implementation instance.
+    * 
+    * @param policy the isolation policy
+    * @return the resolved instance
+    */
+    public Object resolve( boolean policy ) throws Exception
+    {
+        return getValueController().resolve( this, policy );
+    }
+
+   /**
+    * Release a reference to an object managed by the instance.
+    * 
+    * @param instance the instance to release
+    */
+    public void release( Object instance )
+    {
+        // nothing to do
     }
 
    /**
     * Return the availability status of the component.
     * @return the availability status
     */
-    public boolean isOperational()
-    {
-        return true;
-    }
+    //public boolean isOperational()
+    //{
+    //    return true;
+    //}
 
     public URI getURI()
     {
@@ -153,26 +207,26 @@ public class ValueHandler extends AbstractHandler implements Component, ClassLoa
     * Issue a request to the service to prepare for operations.
     * @exception AvailabilityException if the service cannot be made available
     */
-    public void prepare() throws AvailabilityException
-    {
-        m_manager.prepare( this );
-    }
+    //public void prepare() throws AvailabilityException
+    //{
+    //    getValueController().prepare( this );
+    //}
 
    /**
     * Initialize the component.  
     */
-    public void initialize() throws Exception
-    {
-        m_manager.initialize( this );
-    }
+    //public void initialize() throws Exception
+    //{
+    //    getValueController().initialize( this );
+    //}
 
    /**
     * Termination of the component.
     */
-    public void terminate()
-    {
-        m_manager.terminate( this );
-    }
+    //public void terminate()
+    //{
+    //    getValueController().terminate( this );
+    //}
 
    /**
     * Return the context entry value.

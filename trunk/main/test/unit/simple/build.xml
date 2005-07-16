@@ -22,8 +22,8 @@
         type="net.dpml.test.acme.WidgetComponent"
         name="widget">
       <context>
-        <entry key="name" value="urn:component:name"/>
-        <entry key="uri" value="urn:component:uri"/>
+        <entry key="name" feature="name"/>
+        <entry key="uri" feature="uri"/>
         <entry key="workingDirectory">
           <param class="java.io.File" value="urn:system:work.dir"/>
           <param value="acme/workspace"/>
@@ -49,8 +49,8 @@
         type="net.dpml.test.acme.WidgetComponent"
         name="widget">
       <context>
-        <entry key="name" value="urn:component:name"/>
-        <entry key="uri" value="urn:component:uri"/>
+        <entry key="name" feature="name"/>
+        <entry key="uri" feature="uri"/>
         <entry key="workingDirectory" value="$${user.dir}"/>
         <component key="dimension" type="net.dpml.test.acme.DimensionComponent">
           <context>
@@ -142,8 +142,8 @@
               <param class="java.io.File" value="urn:system:work.dir"/>
               <param value="acme/workspace"/>
             </entry>
-            <entry key="name" value="urn:component:name"/>
-            <entry key="uri" value="urn:component:uri"/>
+            <entry key="name" feature="name"/>
+            <entry key="uri" feature="uri"/>
           </context>
         </component>
         <component name="gizmo" type="net.dpml.test.acme.GizmoComponent">

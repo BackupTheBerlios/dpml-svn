@@ -20,6 +20,7 @@ package net.dpml.part.control;
 
 import java.net.URI;
 
+import net.dpml.part.Part;
 import net.dpml.part.service.Service;
 import net.dpml.part.service.Identifiable;
 import net.dpml.part.service.Resolvable;
@@ -38,5 +39,12 @@ public interface Component extends Service, Identifiable, Resolvable
     * @return the component name
     */
     String getName();
+
+   /**
+    * Return the part that defines this component.
+    * @return the component part definition
+    */
+    Part getDefinition();
+
 }
 

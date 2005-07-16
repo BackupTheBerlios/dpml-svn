@@ -87,11 +87,14 @@ public abstract class ClassLoaderBuilderTask extends ProjectTask
     protected ClassLoader createClassLoader()
     {
         Project project = getProject();
-        Path path = getDefinition().getPath( project, Policy.RUNTIME );
+        Path path = getDefinition().getPath( project, Policy.BUILD );
         File classes = getContext().getClassesDirectory();
         path.createPathElement().setLocation( classes );
         ClassLoader parentClassLoader = ClassLoaderBuilderTask.class.getClassLoader();
-        return new AntClassLoader( parentClassLoader, project, path, true );
+        System.out.println( "# PARENT: " + parentClassLoader  );
+        AntClassLoader cl = new AntClassLoader( parentClassLoader, project, path, true );
+        System.out.println( "# CLASSLOADER: " + cl.getClasspath() );
+        return cl;
     }
 
     protected ClassLoaderDirective constructClassLoaderDirective()

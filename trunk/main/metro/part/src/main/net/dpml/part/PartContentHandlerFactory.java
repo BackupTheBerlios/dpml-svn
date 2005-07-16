@@ -32,7 +32,6 @@ public class PartContentHandlerFactory implements ContentHandlerFactory
 {
     public ContentHandler createContentHandler( String mimetype )
     {
-        System.out.println( "# mimetype: " + mimetype );
         return new PartContentHandler();
     }
 }

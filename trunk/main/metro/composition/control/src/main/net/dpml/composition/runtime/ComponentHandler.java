@@ -55,13 +55,14 @@ import net.dpml.parameters.Parameters;
 import net.dpml.parameters.Parameterizable;
 import net.dpml.parameters.impl.DefaultParameters;
 
-import net.dpml.part.control.LifecycleException;
+import net.dpml.part.Part;
 import net.dpml.part.PartHandlerNotFoundException;
 import net.dpml.part.DelegationException;
 import net.dpml.part.state.StateEvent;
 import net.dpml.part.state.StateListener;
 import net.dpml.part.state.State;
 import net.dpml.part.state.ResourceUnavailableException;
+import net.dpml.part.control.LifecycleException;
 import net.dpml.part.control.Consumer;
 import net.dpml.part.control.Component;
 import net.dpml.part.control.ClassLoadingContext;
@@ -76,17 +77,16 @@ import net.dpml.part.service.Service;
 import net.dpml.part.service.ServiceDescriptor;
 import net.dpml.part.service.Available;
 import net.dpml.part.service.AvailabilityException;
-import net.dpml.part.service.Manageable;
+import net.dpml.part.service.Manager;
 import net.dpml.part.Part;
 import net.dpml.part.PartReference;
 
 /**
  *
  * @author <a href="mailto:dev-dpml@lists.ibiblio.org">The Digital Product Meta Library</a>
- * @version $Id: LifestyleManager.java 259 2004-10-30 07:24:40Z mcconnell $
  */
 public class ComponentHandler extends WeakEventProducer 
-  implements Component, Available, Manageable, Consumer, 
+  implements Component, Available, Manager, Consumer, 
   ClassLoadingContext, Configurable, Parameterizable
 {
     private final Map m_proxies = new WeakHashMap();
@@ -98,7 +98,7 @@ public class ComponentHandler extends WeakEventProducer
     private final CompositionController m_controller;
     private final ClassLoader m_classloader;
     private final URI m_uri;
-    private final ComponentController m_manager;
+    private final ComponentController m_componentController;
     private final ContextMap m_context;
     private final State m_graph;
     private final PartsTable m_parts;
@@ -135,7 +135,7 @@ public class ComponentHandler extends WeakEventProducer
         m_uri = uri;
 
         m_parent = parent;
-        m_manager = controller.getComponentController();
+        m_componentController = controller.getComponentController();
         m_class = loadComponentClass( classloader, profile );
         m_type = Type.loadType( m_class );
         m_lifestyle = profile.getLifestylePolicy();
@@ -200,12 +200,21 @@ public class ComponentHandler extends WeakEventProducer
     }
 
    /**
+    * Return the part that defines this component.
+    * @return the component part definition
+    */
+    public Part getDefinition()
+    { 
+        return m_profile;
+    }
+
+   /**
     * Issue a request to the service to prepare for operations.
     * @exception AvailabilityException if the service cannot be made available
     */
     public void prepare() throws AvailabilityException
     {
-        getManager().prepare( this );
+        getComponentController().prepare( this );
     }
 
    /**
@@ -254,6 +263,16 @@ public class ComponentHandler extends WeakEventProducer
     public Component[] getProviders()
     {
         return m_context.getProviders();
+    }
+
+   /**
+    * Return the component assigned as provider for the supplied context key.
+    * @param key the context key
+    * @return the provider component
+    */
+    public Component getProvider( String key )
+    {
+        return m_context.getProvider( key );
     }
 
     public ClassLoader getClassLoader()
@@ -401,9 +420,9 @@ public class ComponentHandler extends WeakEventProducer
         }
     }
 
-    public ComponentController getManager()
+    public ComponentController getComponentController()
     {
-        return m_manager;
+        return m_componentController;
     }
 
    /**
@@ -414,7 +433,7 @@ public class ComponentHandler extends WeakEventProducer
     */
     public Object resolve() throws Exception
     {
-        return getManager().resolve( this, true );
+        return getComponentController().resolve( this, true );
     }
 
    /**
@@ -426,7 +445,7 @@ public class ComponentHandler extends WeakEventProducer
     */
     public Object resolve( boolean policy ) throws Exception
     {
-        return getManager().resolve( this, policy );
+        return getComponentController().resolve( this, policy );
     }
 
    /**
@@ -434,7 +453,7 @@ public class ComponentHandler extends WeakEventProducer
     */
     public void initialize() throws Exception
     {
-        m_manager.initialize( this );
+        m_componentController.initialize( this );
     }
 
    /**
@@ -446,7 +465,7 @@ public class ComponentHandler extends WeakEventProducer
     */
     public State apply( String key ) throws Exception
     {
-        return m_manager.apply( this, key );
+        return m_componentController.apply( this, key );
     }
 
    /**
@@ -457,7 +476,7 @@ public class ComponentHandler extends WeakEventProducer
     */
     public void execute( String key ) throws Exception
     {
-        m_manager.execute( this, key );
+        m_componentController.execute( this, key );
     }
 
    /**
@@ -466,7 +485,7 @@ public class ComponentHandler extends WeakEventProducer
     public void terminate()
     {
         getLogger().debug( "terminating" );
-        m_manager.terminate( this );
+        m_componentController.terminate( this );
     }
 
     public boolean isInitialized()
@@ -637,7 +656,7 @@ public class ComponentHandler extends WeakEventProducer
         try
         {
             //Object instance = getLocalInstance();
-            m_manager.terminate( this );
+            m_componentController.terminate( this );
         }
         catch( IllegalStateException e )
         {
@@ -653,14 +672,14 @@ public class ComponentHandler extends WeakEventProducer
         //    for( int i=0; i<proxies.length; i++ )
         //    {
         //        Object proxy = proxies[i];
-        //        m_manager.release( proxy );
+        //        m_componentController.release( proxy );
         //    }
         //    m_proxies.clear();
         //    getCompositionModel().getComponentTable().remove( this );
         //    try
         //    {
         //        Object instance = getLocalInstance();
-        //        m_manager.release( instance );
+        //        m_componentController.release( instance );
         //    }
         //    catch( IllegalStateException e )
         //    {

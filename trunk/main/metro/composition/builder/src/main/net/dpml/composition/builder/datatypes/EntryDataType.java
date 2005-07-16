@@ -28,9 +28,12 @@ import net.dpml.composition.builder.PartReferenceBuilder;
 import net.dpml.composition.data.ValueDirective;
 import net.dpml.composition.data.ValueDirective.Value;
 import net.dpml.composition.data.ReferenceDirective;
+import net.dpml.composition.data.FeatureDirective;
 import net.dpml.composition.info.EntryDescriptor;
 import net.dpml.composition.info.PartDescriptor;
 import net.dpml.composition.info.Type;
+
+import org.apache.tools.ant.BuildException;
 
 /**
  * A simple part datatype.
@@ -40,6 +43,7 @@ public class EntryDataType extends ValueDataType implements PartReferenceBuilder
     private String m_key;
     private ClassLoader m_classloader;
     private URI m_uri;
+    private int m_feature = -1;
 
    /**
     * Set the key that this directive qualifies.
@@ -57,6 +61,29 @@ public class EntryDataType extends ValueDataType implements PartReferenceBuilder
     public void setURI( final URI uri )
     {
         m_uri = uri;
+    }
+
+   /**
+    * Set the feature that this directive references.
+    * @param feature the component feature
+    */
+    public void setFeature( String feature )
+    {
+        if( null != m_uri )
+        {
+            final String error = 
+              "Attributes 'feature' and 'uri' are mutually exlusive.";
+            throw new BuildException( error ); 
+        }
+        try
+        {
+            m_feature = FeatureDirective.getFeatureForName( feature );
+        }
+        catch( IllegalArgumentException e )
+        {
+            final String error = e.getMessage();
+            throw new BuildException( error );
+        }
     }
 
     //---------------------------------------------------------------------
@@ -107,6 +134,11 @@ public class EntryDataType extends ValueDataType implements PartReferenceBuilder
         if( null != uri )
         {
             Part part = new ReferenceDirective( m_uri );
+            return new PartReference( key, part );
+        }
+        else if( m_feature > -1 )
+        {
+            Part part = new FeatureDirective( key, m_feature );
             return new PartReference( key, part );
         }
         else

@@ -32,4 +32,11 @@ public interface Consumer
     * @return the provider array
     */
     Component[] getProviders();
+
+   /**
+    * Return the component assigned as provider for the specified context key.
+    * @param key the context entry key
+    * @return the provider component
+    */
+    Component getProvider( String key );
 }

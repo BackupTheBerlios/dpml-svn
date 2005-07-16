@@ -31,7 +31,7 @@
     </info>
   </project>
 
-  <!-- Parts -->
+  <!-- Part -->
 
   <project basedir="part">
     <info>
@@ -110,7 +110,25 @@
     </dependencies>
   </project>
 
-  <!-- FT Composition -->
+  <!-- Composition Model -->
+
+  <project basedir="composition/model">
+    <info>
+      <group>dpml/metro</group>
+      <name>dpml-composition-model</name>
+      <types>
+        <type>jar</type>
+      </types>
+    </info>
+    <dependencies>
+      <include key="dpml-transit-main" tag="api"/>
+      <include key="dpml-part-api" tag="api"/>
+      <include key="dpml-parameters-api" tag="api"/>
+      <include key="dpml-configuration-api" tag="api"/>
+    </dependencies>
+  </project>
+
+  <!-- Composition Runtime -->
 
   <project basedir="composition/control">
     <info>
@@ -121,12 +139,10 @@
       </types>
     </info>
     <dependencies>
-      <include key="dpml-part-api" tag="api"/>
+      <include key="dpml-composition-model" tag="api"/>
       <include key="dpml-logging-api" tag="api"/>
       <include key="dpml-transit-main" tag="api"/>
       <include key="dpml-activity-api" tag="api"/>
-      <include key="dpml-parameters-api" tag="api"/>
-      <include key="dpml-configuration-api" tag="api"/>
       <include key="dpml-parameters-impl"/>
       <include key="dpml-configuration-impl"/>
     </dependencies>
@@ -141,12 +157,7 @@
       </types>
     </info>
     <dependencies>
-      <include key="dpml-part-api"/>
       <include key="dpml-magic-core"/>
-      <include key="dpml-configuration-api"/>
-      <include key="dpml-configuration-impl"/>
-      <include key="dpml-parameters-api"/>
-      <include key="dpml-parameters-impl"/>
       <include key="dpml-composition-control"/>
       <include key="xstream"/>
     </dependencies>
