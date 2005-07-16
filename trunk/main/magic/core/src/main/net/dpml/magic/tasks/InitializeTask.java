@@ -17,18 +17,23 @@
 
 package net.dpml.magic.tasks;
 
+import java.io.File;
 import java.net.URI;
 
 import net.dpml.magic.model.Definition;
 import net.dpml.magic.model.Resource;
 import net.dpml.magic.model.ResourceRef;
+import net.dpml.magic.model.Policy;
 
 import net.dpml.transit.NullArgumentException;
 import net.dpml.transit.tools.PluginTask;
 import net.dpml.transit.repository.Plugin;
 
+import org.apache.tools.ant.Project;
+import org.apache.tools.ant.AntClassLoader;
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.BuildListener;
+import org.apache.tools.ant.types.Path;
 
 /**
  * The initialize task loads and plugins that a project
@@ -118,6 +123,7 @@ public class InitializeTask extends ProjectTask
             throw new BuildException( error, e );
         }
     }
+
 /*
     private void printClassLoaderURLs( ClassLoader cl )
     {

@@ -29,7 +29,7 @@ import junit.framework.TestCase;
 import net.dpml.metro.central.MetroHelper;
 
 import net.dpml.part.control.Component;
-import net.dpml.part.service.Manageable;
+import net.dpml.part.service.Manager;
 import net.dpml.part.state.State;
 
 /**
@@ -51,7 +51,7 @@ public class ManagementTestCase extends TestCase
      */
     public void testManagedComponent() throws Exception
     {
-        Manageable component = (Manageable) getComponent( "managed-component.part" );
+        Manager component = (Manager) getComponent( "managed-component.part" );
         component.initialize();
         List list = new LinkedList();
         while ( false == list.contains( component.getState() ) )
@@ -71,7 +71,7 @@ public class ManagementTestCase extends TestCase
 
     public void testManagingContainer() throws Exception
     {
-        Manageable component = (Manageable) getComponent( "managing-container.part" );
+        Manager component = (Manager) getComponent( "managing-container.part" );
         try
         {
             component.initialize();

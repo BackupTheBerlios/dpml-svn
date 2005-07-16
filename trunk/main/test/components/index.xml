@@ -14,7 +14,7 @@
       </types>
     </info>
     <plugins>
-      <include key="dpml-composition-builder" runtime="false"/>
+      <include key="dpml-composition-builder"/>
     </plugins>
   </project>
 
@@ -33,7 +33,7 @@
       <include key="dpml-activity-api"/>
     </dependencies>
     <plugins>
-      <include key="dpml-composition-builder" runtime="false"/>
+      <include key="dpml-composition-builder"/>
     </plugins>
   </project>
 

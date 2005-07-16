@@ -353,6 +353,7 @@ public class CompositionController extends CompositionPartHandler implements Con
             }
             else
             {
+                System.out.println( "THIS CL: " + getClass().getClassLoader() );
                 String classname = part.getClass().getName();
                 final String error = 
                   "Unsupported part implementation class ["
@@ -365,9 +366,9 @@ public class CompositionController extends CompositionPartHandler implements Con
         {
             String classname = part.getClass().getName();
             final String error = 
-              "Unsupported part implementation class ["
-              + classname
-              + "] passed to newComponent/2.";
+              "Method does not support foreign part handlers."
+              + "\nController: " + part.getPartHandlerURI()
+              + "\nPart classname: " + classname;
             throw new UnsupportedPartTypeException( CONTROLLER_URI, classname, error );
         }
     }
