@@ -31,6 +31,7 @@ import net.dpml.composition.control.CompositionController;
 import net.dpml.part.control.Controller;
 import net.dpml.part.DelegationException;
 import net.dpml.part.control.Component;
+import net.dpml.part.service.Resolvable;
 
 /**
  * The parts invocation handler maps client request for 'get', 'create' and 
@@ -146,39 +147,47 @@ final class PartsInvocationHandler
         {
             if( null == postfix )
             {
-                if( null == args )
+                if( provider instanceof Resolvable )
                 {
-                    return provider.resolve();
-                }
-                else if( args.length == 0 )
-                {
-                    return provider.resolve();
-                }
-                else if( args.length == 1 )
-                {
-                    Object arg = args[0];
-                    Class argClass = arg.getClass();
-                    if( ( Boolean.TYPE == argClass ) || ( Boolean.class == argClass ) )
+                    Resolvable resolvable = (Resolvable) provider;
+                    if( null == args || args.length == 0 )
                     {
-                        boolean policy = getBooleanValue( arg );
-                        return provider.resolve( policy );
+                        return resolvable.resolve();
+                    }
+                    else if( args.length == 1 )
+                    {
+                        Object arg = args[0];
+                        Class argClass = arg.getClass();
+                        if( ( Boolean.TYPE == argClass ) || ( Boolean.class == argClass ) )
+                        {
+                            boolean policy = getBooleanValue( arg );
+                            return resolvable.resolve( policy );
+                        }
+                        else
+                        {
+                            final String error = 
+                              "Part accessor parameter type not supported."
+                              + "\nMethod: " + method.getDeclaringClass().getName() + "#" + method.getName()
+                              + "\nParameter: " + arg.getClass();
+                             throw new IllegalArgumentException( error );
+                        }
                     }
                     else
                     {
                         final String error = 
-                          "Part accessor parameter type not supported."
-                          + "\nMethod: " + method.getDeclaringClass().getName() + "#" + method.getName()
-                          + "\nParameter: " + arg.getClass();
-                         throw new IllegalArgumentException( error );
+                          "Illegal number of parameters in ["
+                          + method.getName()
+                          + "].";
+                        throw new IllegalArgumentException( error );
                     }
                 }
                 else
                 {
                     final String error = 
-                      "Illegal number of parameters in ["
-                      + method.getName()
-                      + "].";
-                    throw new IllegalArgumentException( error );
+                      "Cannot resolve a value from a non-resolvable provider."
+                      + "\nProvider: " + provider.getURI()
+                      + "\nComponent: " + m_component.getURI();
+                    throw new IllegalStateException( error );
                 }
             }
             else if( PartDescriptor.CONTEXT_MANAGER_KEY.equals( postfix )
@@ -236,18 +245,26 @@ final class PartsInvocationHandler
         }
         else if( PartDescriptor.RELEASE == semantic )
         {
-            if( args.length == 1 )
+            if( provider instanceof Resolvable )
             {
-                provider.release( args[0] );
-                return null;
+                Resolvable resolvable = (Resolvable) provider;
+                if( args.length == 1 )
+                {
+                    resolvable.release( args[0] );
+                    return null;
+                }
+                else
+                {
+                    final String error = 
+                      "Illegal number of parameters supplied under the 'release' method ["
+                      + method.getName()
+                      + "].";
+                    throw new IllegalStateException( error );
+                }
             }
             else
             {
-                final String error = 
-                  "Illegal number of parameters supplied under the 'release' method ["
-                  + method.getName()
-                  + "].";
-                throw new IllegalStateException( error );
+                return null;
             }
         }
         else

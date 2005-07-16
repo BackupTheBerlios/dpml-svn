@@ -74,7 +74,9 @@ import net.dpml.part.service.AvailabilityEvent;
 import net.dpml.part.service.AvailabilityListener;
 import net.dpml.part.service.Service;
 import net.dpml.part.service.ServiceDescriptor;
+import net.dpml.part.service.Available;
 import net.dpml.part.service.AvailabilityException;
+import net.dpml.part.service.Manageable;
 import net.dpml.part.Part;
 import net.dpml.part.PartReference;
 
@@ -84,7 +86,8 @@ import net.dpml.part.PartReference;
  * @version $Id: LifestyleManager.java 259 2004-10-30 07:24:40Z mcconnell $
  */
 public class ComponentHandler extends WeakEventProducer 
-  implements Component, Consumer, ClassLoadingContext, Configurable, Parameterizable
+  implements Component, Available, Manageable, Consumer, 
+  ClassLoadingContext, Configurable, Parameterizable
 {
     private final Map m_proxies = new WeakHashMap();
     private final DependencyGraph m_dependencies = new DependencyGraph();
@@ -229,7 +232,7 @@ public class ComponentHandler extends WeakEventProducer
     * within the container.
     * @return the startup sequence
     */
-    public Service[] getStartupSequence()
+    public Component[] getStartupSequence()
     {
         return m_dependencies.getStartupGraph();
     }
@@ -239,7 +242,7 @@ public class ComponentHandler extends WeakEventProducer
     * within the container.
     * @return the shutdown sequence
     */
-    public Service[] getShutdownSequence()
+    public Component[] getShutdownSequence()
     {
         return m_dependencies.getShutdownGraph();
     }
@@ -248,7 +251,7 @@ public class ComponentHandler extends WeakEventProducer
     * Return an array of components providing services to this component.
     * @return the provider component array
     */
-    public Service[] getProviders()
+    public Component[] getProviders()
     {
         return m_context.getProviders();
     }
@@ -398,7 +401,7 @@ public class ComponentHandler extends WeakEventProducer
         }
     }
 
-    public Manager getManager()
+    public ComponentController getManager()
     {
         return m_manager;
     }
@@ -833,7 +836,7 @@ public class ComponentHandler extends WeakEventProducer
     * Create a shutdown hook that will trigger shutdown of the supplied plugin.
     * @param thread the application thread
     */
-    private static void addShutdownHook( final Component component )
+    private static void addShutdownHook( final ComponentHandler component )
     {
         //
         // Create a shutdown hook to trigger clean disposal of the

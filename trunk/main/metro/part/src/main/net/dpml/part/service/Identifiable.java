@@ -16,20 +16,23 @@
  * limitations under the License.
  */
 
-package net.dpml.part.control;
+package net.dpml.part.service;
+
+import java.net.URI;
+
+import net.dpml.part.state.State;
 
 /**
- * The Consumer interface exposes an operation through which service providers
- * may be declared.
+ * The Identifiable interface is implemented by components that declare 
+ * identity.
  *
  * @author <a href="mailto:dev-dpml@lists.ibiblio.org">The Digital Product Meta Library</a>
- * @version $Revision: 1.2 $ $Date: 2004/03/17 10:30:09 $
  */
-public interface Consumer
+public interface Identifiable
 {
    /**
-    * Return an array of components supporting the component.
-    * @return the provider array
+    * Return the uri identifying the component.  
     */
-    Component[] getProviders();
+    URI getURI();
 }
+

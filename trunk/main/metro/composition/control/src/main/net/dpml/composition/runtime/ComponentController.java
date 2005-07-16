@@ -62,6 +62,7 @@ import net.dpml.part.state.NoSuchHandlerException;
 import net.dpml.part.state.RecursiveInitializationException;
 import net.dpml.part.state.RecursiveTerminationException;
 import net.dpml.part.service.Service;
+import net.dpml.part.service.Available;
 import net.dpml.part.service.AvailabilityException;
 
 /**
@@ -69,7 +70,7 @@ import net.dpml.part.service.AvailabilityException;
  *
  * @author <a href="mailto:dev-dpml@lists.ibiblio.org">The Digital Product Meta Library</a>
  */
-public class ComponentController extends LoggingHandler implements Manager
+public class ComponentController extends LoggingHandler
 {
     private final Map m_handlers = new Hashtable();
     private final LifecycleHandler m_lifecycleHandler;
@@ -230,23 +231,27 @@ public class ComponentController extends LoggingHandler implements Manager
 
         getLogger().debug( "initialization of " + component.getURI() );
 
-        Service[] providers = component.getProviders();
+        Component[] providers = component.getProviders();
         for( int i=0; i<providers.length; i++ )
         {
-            Service provider = providers[i];
-            try
+            Component provider = providers[i];
+            if( provider instanceof Available )
             {
-                getLogger().debug( "preparing service" + provider.getURI() );
-                provider.prepare();
-            }
-            catch( AvailabilityException e )
-            {
-                URI uri = getURI();
-                final String error = 
-                  "Failed to initialize component due to non-availability of a dependent service."
-                  + "\nComponent: " + component.getURI()
-                  + "\nService Provider: " + provider.getURI();
-                throw new ControlException( uri, error, e );
+                Available available = (Available) provider;
+                try
+                {
+                    getLogger().debug( "preparing service" + provider.getURI() );
+                    available.prepare();
+                }
+                catch( AvailabilityException e )
+                {
+                    URI uri = getURI();
+                    final String error = 
+                      "Failed to initialize component due to non-availability of a dependent service."
+                      + "\nComponent: " + component.getURI()
+                      + "\nService Provider: " + provider.getURI();
+                    throw new ControlException( uri, error, e );
+                }
             }
         }
 
@@ -479,28 +484,16 @@ public class ComponentController extends LoggingHandler implements Manager
     * @return the state established by the transition
     * @exception if a error occurs in transition execution
     */
-    public State apply( Component component, String key ) throws Exception
+    public State apply( ComponentHandler component, String key ) throws Exception
     {
-        if( component instanceof ComponentHandler )
+        ComponentHandler entry = (ComponentHandler) component;
+        if( false == component.isInitialized() )
         {
-            ComponentHandler entry = (ComponentHandler) component;
-            if( false == entry.isInitialized() )
-            {
-                initialize( entry );
-            }
-            Transition transition = getNamedTransition( entry, key );
-            applyTransition( entry, transition );
-            return component.getState();
+            initialize( entry );
         }
-        else
-        {
-            final String error = 
-              "Unsupported component implementation class."
-              + "\nComponent: " + component.getURI()
-              + "\nClass: " + component.getClass().getName()
-              + "\nMethod: apply/2";
-            throw new IllegalArgumentException( error );
-        }
+        Transition transition = getNamedTransition( entry, key );
+        applyTransition( component, transition );
+        return component.getState();
     }
 
     private Transition getNamedTransition( ComponentHandler component, String key )
@@ -592,43 +585,30 @@ public class ComponentController extends LoggingHandler implements Manager
     * @param key the operation key
     * @exception if a error occurs in transition execution
     */
-    public void execute( Component component, String key ) throws Exception
+    public void execute( ComponentHandler component, String key ) throws Exception
     {
-        if( component instanceof ComponentHandler )
+        if( false == component.isInitialized() )
         {
-            ComponentHandler entry = (ComponentHandler) component;
-            if( false == entry.isInitialized() )
-            {
-                initialize( entry );
-            }
-            Operation operation = getNamedOperation( entry, key );
-            URI handler = operation.getHandlerURI();
-            if( null == handler )
-            {
-                return;
-            }
-            else
-            {
-                if( getLogger().isDebugEnabled() )
-                {
-                    final String message = 
-                      "executing operation ["
-                      + handler.toString()
-                      + "]";
-                    getLogger().debug( message );
-                }
-                State state = entry.getCurrentState();
-                execution( entry, handler, state, null );
-            }
+            initialize( component );
+        }
+        Operation operation = getNamedOperation( component, key );
+        URI handler = operation.getHandlerURI();
+        if( null == handler )
+        {
+            return;
         }
         else
         {
-            final String error = 
-              "Unsupported component implementation class."
-              + "\nComponent: " + component.getURI()
-              + "\nClass: " + component.getClass().getName()
-              + "\nMethod: execute/2";
-            throw new IllegalArgumentException( error );
+            if( getLogger().isDebugEnabled() )
+            {
+                final String message = 
+                  "executing operation ["
+                  + handler.toString()
+                  + "]";
+                getLogger().debug( message );
+            }
+            State state = component.getCurrentState();
+            execution( component, handler, state, null );
         }
     }
 
@@ -824,35 +804,22 @@ public class ComponentController extends LoggingHandler implements Manager
     * non-terminal state the procedure will be repeated.  If the current state
     * is a terminal state the operation simply returns.
     */
-    public synchronized void terminate( Component component )
+    public synchronized void terminate( ComponentHandler component )
     {
-        if( component instanceof ComponentHandler )
+        try
         {
-            ComponentHandler entry = (ComponentHandler) component;
-            try
-            {
-                executeTermination( entry );
-            }
-            catch( RecursiveTerminationException e ) 
-            {
-                // recusive termination path
-                String error = e.getMessage();
-                getLogger().warn( error, e );
-            }
-            finally
-            {
-                entry.setInitialized( false );
-                entry.setState( entry.getStateGraph() );
-            }
+            executeTermination( component );
         }
-        else
+        catch( RecursiveTerminationException e ) 
         {
-            final String error = 
-              "Unsupported component implementation class."
-              + "\nComponent: " + component.getURI()
-              + "\nClass: " + component.getClass().getName()
-              + "\nMethod: terminate/1";
-            throw new IllegalArgumentException( error );
+            // recusive termination path
+            String error = e.getMessage();
+            getLogger().warn( error, e );
+        }
+        finally
+        {
+            component.setInitialized( false );
+            component.setState( component.getStateGraph() );
         }
     }
 

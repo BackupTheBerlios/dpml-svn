@@ -114,7 +114,7 @@ public class CompositionHandler extends ComponentHandler implements Container, S
     *
     * @param uri a uri identifying or resolvable to a service
     */
-    public Service lookup( URI uri ) throws ServiceException
+    public Component lookup( URI uri ) throws ServiceException
     {
         String scheme = uri.getScheme();
         if( "service".equals( scheme ) )
@@ -131,7 +131,7 @@ public class CompositionHandler extends ComponentHandler implements Container, S
         }
     }
 
-    public Service lookup( ServiceDescriptor spec ) throws ServiceException
+    public Component lookup( ServiceDescriptor spec ) throws ServiceException
     {
         Component[] candidates = getPartsTable().getComponents( spec );
         if( candidates.length == 0 )
@@ -159,15 +159,15 @@ public class CompositionHandler extends ComponentHandler implements Container, S
         {
             Component candidate = candidates[0];
             getLogger().debug( "selected [" + candidate + "] in [" + this + "]" );
-            return createService( candidate );
+            return createComponentReference( candidate );
         }
     }
 
-    private Service createService( Component component )
+    private Component createComponentReference( Component component )
     {
         ClassLoader classloader = getClassLoader();
         DefaultInvocationHandler handler = new DefaultInvocationHandler( component );
-        return (Service) Proxy.newProxyInstance( classloader, new Class[]{ Service.class }, handler );
+        return (Component) Proxy.newProxyInstance( classloader, new Class[]{ Component.class }, handler );
     }
 
     public boolean equals( Object other )

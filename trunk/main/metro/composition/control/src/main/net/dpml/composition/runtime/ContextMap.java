@@ -39,6 +39,7 @@ import net.dpml.part.service.Service;
 import net.dpml.part.service.ServiceContext;
 import net.dpml.part.service.ServiceException;
 import net.dpml.part.service.ServiceNotFoundException;
+import net.dpml.part.service.Resolvable;
 import net.dpml.part.Part;
 
 import net.dpml.composition.control.CompositionController;
@@ -56,7 +57,7 @@ public class ContextMap extends Hashtable
 {
     private final CompositionController m_controller;
     private final ComponentHandler m_component;
-    private final Container m_parent;
+    private final Component m_parent;
 
    /**
     * Creation of a new context entry table.
@@ -70,14 +71,7 @@ public class ContextMap extends Hashtable
 
         m_component = component;
         m_controller = component.getController();
-        if( component instanceof Container )
-        {
-            m_parent = (Container) parent;
-        }
-        else
-        {
-            m_parent = null;
-        }
+        m_parent = parent;
     }
 
     public void addEntry( String key, Part part ) 
@@ -111,17 +105,30 @@ public class ContextMap extends Hashtable
                 }
 
                 String ref = uri.getSchemeSpecificPart();
-                try
+                if( m_parent instanceof Container )
                 {
-                    Component entry = m_parent.getComponent( ref );
-                    addEntry( key, entry );
+                    Container container = (Container) m_parent;
+                    try
+                    {
+                        Component entry = container.getComponent( ref );
+                        addEntry( key, entry );
+                    }
+                    catch( ComponentNotFoundException cnfe )
+                    {
+                        final String error = 
+                          "Component not found."
+                          + "\nContainer: " + m_parent.getURI()
+                          + "\nComponent: " + m_component.getURI()
+                          + "\nContext Key: " + key;
+                        throw new ComponentException( error );
+                    }
                 }
-                catch( ComponentNotFoundException cnfe )
+                else
                 {
                     final String error = 
-                      "Component not found."
-                      + "\nContainer: " + m_parent.getURI()
+                      "Enclosing component is not a container."
                       + "\nComponent: " + m_component.getURI()
+                      + "\nEnclosing Component: " + m_parent.getURI()
                       + "\nContext Key: " + key;
                     throw new ComponentException( error );
                 }
@@ -131,7 +138,7 @@ public class ContextMap extends Hashtable
                 ServiceContext context = (ServiceContext) m_parent;
                 try
                 {
-                    Service service = context.lookup( uri );
+                    Component service = context.lookup( uri );
                     addEntry( key, service );
                 }
                 catch( ServiceException e )
@@ -158,12 +165,12 @@ public class ContextMap extends Hashtable
         else
         {
             CompositionController controller = m_component.getController();
-            Service provider = controller.newService( m_component, part, key );
+            Component provider = controller.newComponent( m_component, part, key );
             addEntry( key, provider );
         }
     }
 
-    public void addEntry( String key, Service provider ) throws DuplicateKeyException
+    public void addEntry( String key, Component provider ) throws DuplicateKeyException
     {
         if( null == key )
         {
@@ -180,7 +187,7 @@ public class ContextMap extends Hashtable
         setEntry( key, provider );
     }
 
-    public void setEntry( String key, Service value )
+    public void setEntry( String key, Component value )
     {
         if( null == key )
         {
@@ -189,10 +196,10 @@ public class ContextMap extends Hashtable
         put( key, value );
     }
 
-    public Service getEntry( String key )
-    {
-        return (Service) super.get( key );
-    }
+    //public Service getEntry( String key )
+    //{
+    //    return (Service) super.get( key );
+    //}
 
     public Object getValue( String key, Object[] args ) throws RemoteException
     {
@@ -225,9 +232,9 @@ public class ContextMap extends Hashtable
         {
             return null;
         }
-        else if( entry instanceof Service )
+        else if( entry instanceof Resolvable )
         {
-            Service service = (Service) entry;
+            Resolvable service = (Resolvable) entry;
             try
             {
                 return service.resolve();
@@ -248,18 +255,18 @@ public class ContextMap extends Hashtable
         }
     }
 
-    public synchronized Service[] getProviders()
+    public synchronized Component[] getProviders()
     {
         ArrayList list = new ArrayList();
         Object[] values = values().toArray();
         for( int i=0; i<values.length; i++ )
         {
             Object value = values[i];
-            if( value instanceof Service )
+            if( value instanceof Component )
             {
                 list.add( value );
             }
         }
-        return (Service[]) list.toArray( new Service[0] );
+        return (Component[]) list.toArray( new Component[0] );
     }
 }

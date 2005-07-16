@@ -22,6 +22,7 @@ import java.net.URI;
 import java.util.logging.Logger;
 
 import net.dpml.part.control.Component;
+import net.dpml.part.service.Manageable;
 import net.dpml.part.state.State;
 
 import net.dpml.activity.Startable;
@@ -64,8 +65,8 @@ public class ManagingContainer implements Startable
     public synchronized void start() throws Exception
     {
          Parts parts = getParts();
-         Component component = parts.getTestComponent();
-         component.initialize();
+         Manageable component = (Manageable) parts.getTestComponent();
+         component.initialize();         
          component.apply( "start" );
          component.execute( "audit" );
     }
@@ -73,7 +74,7 @@ public class ManagingContainer implements Startable
     public synchronized void stop() throws Exception
     {
          Parts parts = getParts();
-         Component component = parts.getTestComponent();
+         Manageable component = (Manageable) parts.getTestComponent();
          component.terminate();
     }
 

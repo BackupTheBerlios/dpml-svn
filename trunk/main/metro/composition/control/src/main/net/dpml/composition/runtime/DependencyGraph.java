@@ -22,7 +22,7 @@ package net.dpml.composition.runtime;
 import java.util.ArrayList;
 
 import net.dpml.part.control.Consumer;
-import net.dpml.part.service.Service;
+import net.dpml.part.control.Component;
 
 /**
  * <p>Utility class to aquire an ordered graph of
@@ -35,7 +35,7 @@ public class DependencyGraph
 {
     /**
      * Parent Map. Services in the parent Map are potential Providers for
-     * services if no service in the current graph satisfies a dependency.
+     * services if no component in the current graph satisfies a dependency.
      */
     private final DependencyGraph m_parent;
 
@@ -66,8 +66,8 @@ public class DependencyGraph
 
     /**
      * Creation of a new dependecy graph holding a reference to a parent graph.
-     * Service instances in the parent graph are potential providers for
-     * services if no service in current assembly satisfies a dependency.
+     * Component instances in the parent graph are potential providers for
+     * services if no component in current assembly satisfies a dependency.
      * 
      * @param parent the parent graph
      */
@@ -97,26 +97,26 @@ public class DependencyGraph
     }
 
     /**
-     * Add a service to current dependency graph.
+     * Add a component to current dependency graph.
      * 
-     * @param service the service to add to the graph
+     * @param component the component to add to the graph
      */
-    public void add( final Service service )
+    public void add( final Component component )
     {
-        if( !m_components.contains( service ) )
+        if( !m_components.contains( component ) )
         {
-            m_components.add( service );
+            m_components.add( component );
         }
     }
 
     /**
-     * Remove a service from the dependency graph.
+     * Remove a component from the dependency graph.
      * 
-     * @param service the service to remove
+     * @param component the component to remove
      */
-    public void remove( final Service service )
+    public void remove( final Component component )
     {
-        m_components.remove( service );
+        m_components.remove( component );
     }
 
     /**
@@ -126,7 +126,7 @@ public class DependencyGraph
      * 
      * @return the ordered list of components
      */
-    public Service[] getStartupGraph()
+    public Component[] getStartupGraph()
     {
         try
         {
@@ -144,9 +144,9 @@ public class DependencyGraph
      * when shutting down all the components. This makes sure that all consumer
      * shutdown actions occur before their coresponding providers in graph.
      * 
-     * @return the ordered list of service instances
+     * @return the ordered list of component instances
      */
-    public Service[] getShutdownGraph()
+    public Component[] getShutdownGraph()
     {
         try
         {
@@ -160,12 +160,12 @@ public class DependencyGraph
     }
 
     /**
-     * Get the serilized graph of instances that use services of the specified service.
+     * Get the serilized graph of instances that use services of the specified component.
      * 
-     * @param provider the provider service
+     * @param provider the provider component
      * @return the ordered list of consumer components
      */
-    public Service[] getConsumerGraph( final Service provider )
+    public Component[] getConsumerGraph( final Component provider )
     {
         if( m_parent != null )
         {
@@ -173,7 +173,7 @@ public class DependencyGraph
         }
         try
         {
-            Service[] graph = getComponentGraph( provider, false );
+            Component[] graph = getComponentGraph( provider, false );
             return referencedComponents( provider, graph );
         }
         catch ( Throwable e )
@@ -186,12 +186,12 @@ public class DependencyGraph
 
     /**
      * Get the serilized graph of istances that provide
-     * specified service with services.
+     * specified component with services.
      * 
-     * @param consumer the consumer service
+     * @param consumer the consumer component
      * @return the ordered list of providers
      */
-    public Service[] getProviderGraph( final Service consumer )
+    public Component[] getProviderGraph( final Component consumer )
     {
         try
         {
@@ -206,35 +206,35 @@ public class DependencyGraph
     }
 
     /**
-     * Return an service array that does not include the provided service.
+     * Return an component array that does not include the provided component.
      */
-    private Service[] referencedComponents( final Service service, Service[] components )
+    private Component[] referencedComponents( final Component component, Component[] components )
     {
         ArrayList list = new ArrayList();
         for ( int i = 0; i < components.length; i++ )
         {
-            if( !components[i].equals( service ) )
+            if( !components[i].equals( component ) )
             {
                 list.add( components[i] );
             }
         }
-        return (Service[]) list.toArray( new Service[0] );
+        return (Component[]) list.toArray( new Component[0] );
     }
 
     /**
-     * Get the graph of a single service.
+     * Get the graph of a single component.
      * 
-     * @param service the target service
+     * @param component the target component
      * @param providers true if traversing providers, false if consumers
      * @return the list of components
      */
-    private Service[] getComponentGraph( final Service service,
+    private Component[] getComponentGraph( final Component component,
             final boolean providers )
     {
         final ArrayList result = new ArrayList();
-        visitcomponent( service, providers, new ArrayList(), result );
-        final Service[] returnValue = new Service[result.size()];
-        return (Service[]) result.toArray( returnValue );
+        visitcomponent( component, providers, new ArrayList(), result );
+        final Component[] returnValue = new Component[result.size()];
+        return (Component[]) result.toArray( returnValue );
     }
 
     /**
@@ -244,9 +244,9 @@ public class DependencyGraph
      * 
      * @param direction true if forward dependencys traced, false if 
      *     dependencies reversed
-     * @return the ordered service list
+     * @return the ordered component list
      */
-    private Service[] walkGraph( final boolean direction )
+    private Component[] walkGraph( final boolean direction )
     {
         final ArrayList result = new ArrayList();
         final ArrayList done = new ArrayList();
@@ -254,76 +254,76 @@ public class DependencyGraph
         final int size = m_components.size();
         for ( int i = 0; i < size; i++ )
         {
-            final Service service = (Service) m_components.get( i );
+            final Component component = (Component) m_components.get( i );
 
-            visitcomponent( service, direction, done, result );
+            visitcomponent( component, direction, done, result );
         }
 
-        final Service[] returnValue = new Service[result.size()];
+        final Component[] returnValue = new Component[result.size()];
         if( m_inProgress.size() != 0 )
         {
             throw new RuntimeException( "there where non-assembled components: "
                     + m_inProgress );
         }
-        return (Service[]) result.toArray( returnValue );
+        return (Component[]) result.toArray( returnValue );
     }
 
     /**
-     * Visit a service when traversing dependencies.
+     * Visit a component when traversing dependencies.
      * 
-     * @param service the service 
+     * @param component the component 
      * @param direction true if walking tree looking for providers, else false
      * @param done those nodes already traversed
      * @param order the order in which nodes have already been traversed
      */
-    private void visitcomponent( final Service service,
+    private void visitcomponent( final Component component,
             final boolean direction, final ArrayList done, final ArrayList order )
     {
         //if circular dependency
-        if( m_inProgress.contains( service ) )
+        if( m_inProgress.contains( component ) )
         {
             throw new RuntimeException(
-                    "Cyclic dependency encoutered in:" + service 
+                    "Cyclic dependency encoutered in:" + component 
                             + "is already in progress stack: "
                             + m_inProgress );
         }
 
-        //If already visited this service return
+        //If already visited this component return
 
-        if( done.contains( service ) )
+        if( done.contains( component ) )
         {
             return;
         }
-        done.add( service );
-        m_inProgress.add( service );
+        done.add( component );
+        m_inProgress.add( component );
         if( direction )
         {
-            visitProviders( service, done, order );
+            visitProviders( component, done, order );
         }
         else
         {
-            visitConsumers( service, done, order );
+            visitConsumers( component, done, order );
         }
 
-        m_inProgress.remove( service );
-        order.add( service );
+        m_inProgress.remove( component );
+        order.add( component );
     }
 
     /**
      * Traverse graph of components that provide services to the specified
-     * service.
+     * component.
      * 
-     * @param service the service to be checked
-     * @param done the list of already checked service
+     * @param component the component to be checked
+     * @param done the list of already checked component
      * @param order the order
      */
-    private void visitProviders( final Service service,
+    private void visitProviders( final Component component,
             final ArrayList done, final ArrayList order )
     {
-        if( service instanceof Consumer )
+        if( component instanceof Consumer )
         {
-            Consumer consumer = (Consumer) service;
-            Service[] providers = consumer.getProviders();
+            Consumer consumer = (Consumer) component;
+            Component[] providers = consumer.getProviders();
             for ( int i = ( providers.length - 1 ); i > -1; i-- )
             {
                 visitcomponent( providers[i], true, done, order );
@@ -332,28 +332,28 @@ public class DependencyGraph
     }
 
     /**
-     * Traverse all consumers of a service. I.e. all components that use service
-     * provided by the supplied service.
+     * Traverse all consumers of a component. I.e. all components that use component
+     * provided by the supplied component.
      * 
-     * @param service the service to be checked
+     * @param component the component to be checked
      * @param done the list of already checked components
      * @param order the order
      */
-    private void visitConsumers( final Service service,
+    private void visitConsumers( final Component component,
             final ArrayList done, final ArrayList order )
     {
         final int size = m_components.size();
         for ( int i = 0; i < size; i++ )
         {
-            final Service other = (Service) m_components.get( i );
+            final Component other = (Component) m_components.get( i );
             if( other instanceof Consumer )
             {
                 Consumer consumer = (Consumer) other;
-                final Service[] providers = consumer.getProviders();
+                final Component[] providers = consumer.getProviders();
                 for ( int j = 0; j < providers.length; j++ )
                 {
-                    Service provider = providers[j];
-                    if( provider.equals( service ) )
+                    Component provider = providers[j];
+                    if( provider.equals( component ) )
                     {
                         visitcomponent( other, false, done, order );
                     }
@@ -364,7 +364,7 @@ public class DependencyGraph
         for ( int i = 0; i < childCount; i++ )
         {
             final DependencyGraph map = (DependencyGraph) m_children.get( i );
-            map.visitConsumers( service, done, order );
+            map.visitConsumers( component, done, order );
         }
     }
 }

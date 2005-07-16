@@ -20,6 +20,8 @@ package net.dpml.part.service;
 
 import java.net.URI;
 
+import net.dpml.part.control.Component;
+
 /**
  * A ServiceContext is a local interface implemented by components that 
  * provide support for the resolution of service requests from sibling 
@@ -31,18 +33,18 @@ import java.net.URI;
 public interface ServiceContext 
 {
    /**
-    * Handle a request for the provision of a service relative to the supplied
+    * Handle a request for the provision of a component relative to the supplied
     * uri. 
     *
     * @param uri a uri identifying or resolvable to a service
     */
-    Service lookup( URI uri ) throws ServiceException;
+    Component lookup( URI uri ) throws ServiceException;
 
    /**
-    * Handle a request for the provision of a service relative to a supplied descriptor.
+    * Handle a request for the provision of a component relative to a supplied descriptor.
     *
     * @param service a service descriptor
     */
-    Service lookup( ServiceDescriptor service ) throws ServiceException;
+    Component lookup( ServiceDescriptor service ) throws ServiceException;
 
 }

@@ -50,6 +50,6 @@ public class HttpTestCase extends TestCase
         URI uri = helper.toURI( PATH );
         Component component = controller.newComponent( uri );
         Demo demo = (Demo) component.resolve( false );
-        component.terminate();
+        component.release( demo );
     }
 }
