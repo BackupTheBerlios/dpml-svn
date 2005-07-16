@@ -275,6 +275,12 @@ public class ComponentHandler extends WeakEventProducer
         return m_context.getProvider( key );
     }
 
+    public void setProvider( String key, Part part )
+      throws ComponentException, PartHandlerNotFoundException, DelegationException
+    {
+        m_context.setProvider( key, part );
+    }
+
     public ClassLoader getClassLoader()
     {
         return m_classloader;

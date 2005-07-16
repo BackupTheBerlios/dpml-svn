@@ -78,6 +78,19 @@ public class ContextMap extends Hashtable
     public void addEntry( String key, Part part ) 
       throws ComponentException, PartHandlerNotFoundException, DelegationException
     {
+        if( containsKey( key ) )
+        {
+            throw new DuplicateKeyException( key );
+        }
+        else
+        {
+            setProvider( key, part );
+        }
+    }
+
+    public void setProvider( String key, Part part )
+      throws ComponentException, PartHandlerNotFoundException, DelegationException
+    {
         if( null == key )
         {
             throw new NullPointerException( "key" );
@@ -85,10 +98,6 @@ public class ContextMap extends Hashtable
         else if( null == part )
         {
             throw new NullPointerException( "part" );
-        }
-        else if( containsKey( key ) )
-        {
-            throw new DuplicateKeyException( key );
         }
         else if( part instanceof FeatureDirective )
         {
@@ -171,7 +180,7 @@ public class ContextMap extends Hashtable
         {
             CompositionController controller = m_component.getController();
             Component provider = controller.newComponent( m_component, part, key );
-            addEntry( key, provider );
+            setEntry( key, provider );
         }
     }
 

@@ -18,6 +18,11 @@
 
 package net.dpml.part.component;
 
+import net.dpml.part.Part;
+import net.dpml.part.PartHandlerNotFoundException;
+import net.dpml.part.DelegationException;
+
+
 /**
  * The Consumer interface exposes an operation through which service providers
  * may be declared.
@@ -39,4 +44,15 @@ public interface Consumer
     * @return the provider component
     */
     Component getProvider( String key );
+
+   /**
+    * Set the component part to use as the provider for the supplied key.
+    * @param key the context entry key
+    * @param part the provider definition
+    * @exception ComponentException if an error occurs during component establishment
+    * @exception PartHandlerNotFoundException if the handler for the part could not be resolved
+    * @exception DelegationException if the handler raised an exception
+    */
+    void setProvider( String key, Part part )
+      throws ComponentException, PartHandlerNotFoundException, DelegationException;
 }
