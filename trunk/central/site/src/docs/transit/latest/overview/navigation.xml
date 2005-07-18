@@ -26,16 +26,6 @@
  <body>
 
     <menu>
-
-      <!--
-      <item name="Features and Benefits" href="features.html"/>
-      <item name="Dynamic Retrieval" href="retrieval.html"/>
-      -->
-
-      <item name="Dynamic Retrieval" href="artifact.html"/>
-      <item name="Classloader Construction" href="classloading.html"/>
-      <item name="Plugin Management" href="plugins.html"/>
-
     </menu>
 
  </body>

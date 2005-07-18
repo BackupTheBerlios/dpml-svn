@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 
 <!-- 
- Copyright 2005 David Leangen
- Copyright 2004 Stephen McConnell
+ Copyright 2004-2005 Stephen McConnell
  Copyright 2004 Niclas Hedhman
+ Copyright 2005 David Leangen
 
  Licensed  under the  Apache License,  Version 2.0  (the "License");
  you may not use  this file  except in  compliance with the License.
@@ -33,20 +33,19 @@
 
       <p>
         Transit provides a flexible framework for dynamically 
-        <a href="overview/artifact.html">retrieving</a> 
-        system and application resources, constructing 
+        retrieving system and application resources, constructing 
         <a href="overview/classloading.html">classloaders</a>, and 
-        managing <a href="overview/plugins.html">plugins</a>.
-
-        As a resource management system, Transit provides the foundation
+        managing <a href="overview/plugins.html">plugins</a> via 
+        an abstract resource identifier referred to as an artifact.
+        As a resource management system Transit provides the foundation
         for building <a href="overview/index.html">repository-enabled</a> 
         applications.
       </p>
 
       <p>
-      The @TRANSIT-BUILD-ID@ milestone build of Transit is considered stable
-      and close to formal release pending evaluation and user feedback from the 
-      milestone distribution cycle.
+        The @TRANSIT-BUILD-ID@ milestone build of Transit is considered stable
+        and close to formal release pending evaluation and user feedback from the 
+        milestone distribution cycle.
       </p>
 
       <img src="/images/transit/repositories.png"/>

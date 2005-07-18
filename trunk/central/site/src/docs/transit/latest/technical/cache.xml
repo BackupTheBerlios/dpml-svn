@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<document>
+  <properties>
+    <author email="mcconnell@dpml.net">Stephen McConnell</author>
+    <contributor email="dleangen@dpml.net">David Leangen</contributor>
+    <title>DPML Transit</title>
+  </properties> 
+
+  <body>
+    <section name="Cache Management">
+
+      <p>
+      Resource are retrieved from one or more 
+      <a href="../hosts/index.html">host</a> repositories 
+      and maintained under a local cache.  The default location of 
+      the cache is <code>${dpml.home}/cache</code> where the value of 
+      <code>${dpml.home}</code> is either declared explicity via 
+      the <code>DPML_HOME</code> environment variable or defaults
+      to a platform dependent location.
+      </p>
+
+    </section>
+
+    <section name="Cache Configuration">
+      
+      <p>
+        The transit system stores the downloaded resources
+        on your local file system. The cache provides DPML-enabled
+        applications with quickly retrieval of required resources.
+      </p>
+
+      <p>
+        When requested by your application, a cache manager will first
+        check the local cache for the required resource.
+        If the resource is not available in the local cache, the cache manager
+        will then query each remote repository defined under the Transit
+        configuration until the resource is resolved.
+      </p>
+
+      <p>
+        Requests to remote repositories are conducted sequentially in order of
+        priority, with the highest priority value queried first.
+      </p>
+
+      <subsection name="Static Properties" >
+
+        <p>
+        If the system property <code>dpml.transit.authority</code> is defined and the 
+        value is a valid url then cache properties will be read from a property file 
+        resolved from ${dpml.transit.authority}/cache.properties.  Otherwise configuration
+        information will be resolved using preferences stored under the net.dpml.transit
+        group relative to the profile name declared by the <code>dpml.transit.authority</code>
+        system property (where 'development' is the default profile name).
+        </p>
+
+        <table>
+          <tr>
+            <th>Property</th>
+            <th>Default Value</th>
+            <th>Description</th>
+          </tr>
+          <tr>
+            <td>dpml.transit.cache.location</td>
+            <td><code>${dpml.home}/cache</code></td>
+            <td>The location of the cache system.</td>
+          </tr>
+        </table>
+      </subsection>
+    </section>
+
+  </body>
+</document>

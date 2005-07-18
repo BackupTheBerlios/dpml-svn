@@ -28,7 +28,6 @@
       <item name="Model" href="model/index.html"/>
       <item name="Tasks" href="tasks/index.html"/>
       <item name="Plugins" href="plugins/index.html"/>
-      <item name="Users Guide" href="guide/index.html"/>
       <item name="Javadoc" href="../../@MAGIC-DOCS-PATH@/index.html"/>
     </menu>
 

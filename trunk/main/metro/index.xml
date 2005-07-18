@@ -122,9 +122,9 @@
     </info>
     <dependencies>
       <include key="dpml-transit-main" tag="api"/>
-      <include key="dpml-part-api" tag="api"/>
       <include key="dpml-parameters-api" tag="api"/>
       <include key="dpml-configuration-api" tag="api"/>
+      <include key="dpml-part-api" tag="spi"/>
     </dependencies>
   </project>
 
@@ -136,15 +136,18 @@
       <name>dpml-composition-control</name>
       <types>
         <type>jar</type>
+        <type>plugin</type>
       </types>
     </info>
     <dependencies>
-      <include key="dpml-composition-model" tag="api"/>
+      <include key="dpml-composition-model" tag="spi"/>
       <include key="dpml-logging-api" tag="api"/>
-      <include key="dpml-transit-main" tag="api"/>
       <include key="dpml-activity-api" tag="api"/>
       <include key="dpml-parameters-impl"/>
       <include key="dpml-configuration-impl"/>
+      <include key="dpml-parameters-api" tag="api"/>
+      <include key="dpml-configuration-api" tag="api"/>
+      <include key="dpml-transit-main" tag="api"/>
     </dependencies>
   </project>
 

@@ -26,10 +26,9 @@
  <body>
 
     <menu>
-      <item name="Product Overview" href="overview/index.html"/>
-      <item name="Product Specifications" href="technical/index.html"/>
+      <item name="Overview" href="overview/index.html"/>
+      <item name="Specifications" href="technical/index.html"/>
       <item name="Transit Antlib" href="antlib/index.html"/>
-      <item name="Users Guide" href="guide/index.html"/>
       <item name="Javadocs" href="../../../@TRANSIT-DOCS-PATH@/index.html"/>
     </menu>
 

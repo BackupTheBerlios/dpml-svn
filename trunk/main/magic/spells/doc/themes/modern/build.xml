@@ -5,4 +5,12 @@
 
   <transit:import uri="artifact:template:dpml/magic/standard"/>
 
+  <target name="install" depends="standard.install">
+    <property name="themes" value="${dpml.prefs}/magic/themes"/>
+    <mkdir dir="${themes}"/>
+    <copy toDir="${themes}">
+      <fileset dir="target/themes"/>
+    </copy>
+  </target>
+
 </project>

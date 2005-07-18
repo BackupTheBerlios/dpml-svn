@@ -34,6 +34,8 @@ import java.text.SimpleDateFormat;
 
 import net.dpml.magic.tasks.ProjectTask;
 
+import net.dpml.transit.Transit;
+
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.taskdefs.Copy;
@@ -134,8 +136,7 @@ public class DocTask extends ProjectTask
 
     private File getThemesDirectory()
     {
-        final File cache = getIndex().getCacheDirectory();
-        return new File( cache, "dpml/magic/themes" );
+        return new File( Transit.DPML_PREFS, "magic/themes" );
     }
 
     private String getOutputFormat()

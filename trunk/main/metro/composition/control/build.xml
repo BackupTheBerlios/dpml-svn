@@ -22,4 +22,8 @@
     </rmic>
   </target>
 
+  <target name="package" depends="standard.package">
+    <x:export class="net.dpml.composition.control.CompositionController"/>
+  </target>
+
 </project>

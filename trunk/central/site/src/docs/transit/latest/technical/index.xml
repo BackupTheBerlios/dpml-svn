@@ -41,8 +41,7 @@
       an artifact to a locally cached resource), the underlying <a href="cache/index.html">
       cache</a> management system and associated <a href="hosts/index.html">hosts</a>. In 
       addition, the specification cover the transit <a href="monitors/index.html">event</a> 
-      monitoring system, the <a href="repository/index.html">repository service</a> and the 
-      application <a href="launcher/index.html">launcher</a>.
+      monitoring system and <a href="repository/index.html">repository service</a>.
       </p>
       </subsection>
 

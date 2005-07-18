@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<document>
+  <properties>
+    <author email="mcconnell@dpml.net">Stephen McConnell</author>
+    <contributor email="dleangen@dpml.net">David Leangen</contributor>
+    <title>DPML Transit</title>
+  </properties> 
+
+  <body>
+
+    <section name="Host Management">
+
+      <p>
+      Transit uses artifact uris to identify a resource. These identifiers 
+      are in turn mapped internally to a repository url (i.e. mapping 
+      identity to a location).  Locations are defined relative to one or 
+      more hosts. Each Transit host declares a base url, an implementation strategy,
+      a layout strategy (dealing with uri to url mapping), and policies concerning 
+      the handling of timestamped resources.  
+      </p>
+
+    </section>
+
+    <section name="Host Configuration">
+
+      <p>
+        If the ${dpml.transit.authority} is undefined (the default condition) Transit will 
+        resolve host information using preferences declared under <code>net/dpml/transit/profiles</code>
+        using the profile name 'production' unless oetherwise directed by the ${dpml.transit.profile}
+        system property.
+      </p>
+
+      <p>
+        If the system property <code>dpml.transit.authority</code> is defined, Transit 
+        behaviour is a function of the protocol declared by the ${dpml.transit.authority}
+        value.  If the value is a URL with a file: protocol, Transit will attempt to locate
+        a directory at ${dpml.transit.authority}/hosts and load host defintions from files located 
+        in that directory.  If the value of ${dpml.transit.authority} is anot a file URL Transit
+        will attempt to locate a file named ${dpml.transit.authority}/index.lst containing a list 
+        of host defintion URLs.
+      </p>
+
+      <subsection name="Host Properties">
+
+        <p>
+        Property based host defintion files are declared in accordance with the following 
+        specification.
+        </p>
+
+        <table>
+        <tr>
+          <th>Property</th>
+          <th>Default Value</th>
+          <th>Description</th>
+        </tr>
+        <tr>
+          <td>dpml.transit.resourcehost.enabled</td>
+          <td>true</td>
+          <td>
+            If true, the remote host repository will be used. If false, it 
+            will be skipped completely.
+          </td>
+        </tr>
+        <tr>
+          <td>dpml.transit.resourcehost.base</td>          
+          <td></td>          
+          <td>This defines the base URL of the remote host repository.</td>          
+        </tr>
+        <tr>
+          <td>dpml.transit.resourcehost.index</td>          
+          <td></td>
+          <td>
+            A URL pointing to a file containing a line-separated list of 
+            groups that are known to be installed on the remote host 
+            repository.
+          </td>
+        </tr>
+        <tr>
+          <td>dpml.transit.resourcehost.username</td>
+          <td></td>
+          <td>The username required for the remote host.</td>
+        </tr>
+        <tr>
+          <td>dpml.transit.resourcehost.password</td>
+          <td></td>
+          <td>The password for the user required to access the remote host.</td>
+        </tr>
+        <tr>
+          <td>dpml.transit.resourcehost.scheme</td>
+          <td></td>
+          <td>The authentication scheme used for the connection.</td>
+        </tr>
+        <tr>
+          <td>dpml.transit.resourcehost.prompt</td>
+          <td></td>
+          <td>
+            The authentication <strong>prompt</strong> or 
+            <strong>realm</strong> sent by the server.
+          </td>
+        </tr>
+        <tr>
+          <td>dpml.transit.resourcehost.policy</td>
+          <td>fast</td>
+          <td>
+            Download policy. "fast"=if the artifact exist in the cache, use
+            it.
+          </td>
+        </tr>
+        <tr>
+          <td>dpml.transit.resourcehost.priority</td>
+          <td>80</td>
+          <td>
+            The priority defines which host should take precedence over 
+            another host for obtaining the artifact. A lower number indicates
+            a higher priority.
+          </td>
+        </tr>
+        <tr>
+          <td>dpml.transit.resourcehost.trusted</td>
+          <td>false</td>
+          <td>
+            If true Transit shall assume that the host connection is trusted.
+            When set to "true" in conjunction with an https:// conection, the 
+            certificate chain of the host will be accepted unconditionally.
+          </td>
+        </tr>
+        </table>
+
+      </subsection>
+
+      <subsection name="Classic Layout Strategy">
+
+        <p>
+        The Classic resource host layout is based on the
+        conventions popularized by the Maven build system and subsequently used
+        within the Apache Software Foundation as a format for repository
+        layout.  The Classic layout can be viewed as a super-set of the
+        Maven model in that Transit implementation fully supports unlimited
+        group segmentation.
+        </p>
+
+        <p>
+          The official format for the artifact protocol is as follows;
+        </p>
+<source>  artifact:[type]:[group]/[name]#version </source>
+        <p>
+          which for Classic resource hosts will be translated into;
+        </p>
+<source> [resource-host-base-url]/[group]/[type]s/[name]-[version].[type] </source>
+        <p>
+          where,
+        </p>
+        <table>
+          <tr>
+            <td>type</td>
+            <td>
+              The type of the resource.
+            </td>
+          </tr>
+          <tr>
+            <td>group</td>
+            <td>
+              The group the resource belongs to. Slashes in the group are
+              allowed and denotes subgrouping.
+            </td>
+          </tr>
+          <tr>
+            <td>name</td>
+            <td>
+              The name of the resource.
+            </td>
+          </tr>
+          <tr>
+            <td>version</td>
+            <td>
+              The version of the resource. The version is an opaque string
+              in the current Classic resource host implementation, but may
+              evolve in the future, and known version formats should be used
+              for maximum future compatibility.
+            </td>
+          </tr>
+        </table>
+
+        <p>
+         with the exception that if the [version] is an empty string the
+         dash will not be part of the resolved URL.
+        </p>
+
+      </subsection>
+
+    </section>
+
+  </body>
+
+</document>
