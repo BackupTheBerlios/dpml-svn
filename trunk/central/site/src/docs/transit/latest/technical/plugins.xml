@@ -35,7 +35,7 @@
 
         <p><i>Example classloader creation:</i></p>
         <pre>
-Repository repository = new <a href="@TRANSIT-DOCS-PATH@/net/dpml/transit/repository/StandardLoader.html">StandardLoader()</a>;
+<a href="@TRANSIT-DOCS-PATH@/net/dpml/transit/repository/Repository.html">Repository</a> repository = Transit.getInstance().getRepository();
 ClassLoader parent = getClass().getClassLoader();
 URI uri = new URI( "@MAGIC-PLUGIN-URI@" );
 ClassLoader classloader = repository.getPluginClassLoader( parent, uri );
@@ -56,7 +56,7 @@ ClassLoader classloader = repository.getPluginClassLoader( parent, uri );
 
         <p><i>Example plugin descriptor creation:</i></p>
         <pre>
-Repository repository = new StandardLoader();
+<a href="@TRANSIT-DOCS-PATH@/net/dpml/transit/repository/Repository.html">Repository</a> repository = Transit.getInstance().getRepository();
 URI uri = new URI( "@MAGIC-PLUGIN-URI@" );
 <a href="@TRANSIT-DOCS-PATH@/net/dpml/transit/repository/Plugin.html">Plugin</a> plugin = repository.getPluginDescriptor( uri );
 ....
@@ -77,7 +77,7 @@ URI uri = new URI( "@MAGIC-PLUGIN-URI@" );
 
         <p><i>Example plugin class loading:</i></p>
         <pre>
-Repository repository = new <a href="@TRANSIT-DOCS-PATH@/net/dpml/transit/repository/StandardLoader.html">StandardLoader()</a>;
+<a href="@TRANSIT-DOCS-PATH@/net/dpml/transit/repository/Repository.html">Repository</a> repository = Transit.getInstance().getRepository();
 ClassLoader parent = getClass().getClassLoader();
 URI uri = new URI( "@MAGIC-PLUGIN-URI@" );
 Class pluginClass = repository.getPluginClass( parent, uri );
@@ -104,7 +104,7 @@ Class pluginClass = repository.getPluginClass( parent, uri );
 
         <p><i>Example plugin instantiation:</i></p>
         <pre>
-Repository repository = new <a href="@TRANSIT-DOCS-PATH@/net/dpml/transit/repository/StandardLoader.html">StandardLoader()</a>;
+<a href="@TRANSIT-DOCS-PATH@/net/dpml/transit/repository/Repository.html">Repository</a> repository = Transit.getInstance().getRepository();
 ClassLoader parent = getClass().getClassLoader();
 URI uri = new URI( "@MAGIC-PLUGIN-URI@" );
 String[] args = new String[]{ "-debug", "-audit" ); // simulate cli args
@@ -145,6 +145,6 @@ Object plugin = repository.getPlugin( parent, uri, params );
 
     </section>
 
-
   </body>
+
 </document>

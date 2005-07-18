@@ -25,11 +25,11 @@
  <body>
 
     <menu>
-      <item name="Artifact Protocol" href="protocol/index.html"/>
+      <item name="Artifact Protocol" href="protocol.html"/>
       <item name="Cache Management" href="cache.html"/>
       <item name="Local and Remote Hosts" href="hosts.html"/>
       <item name="Event Monitors" href="monitors.html"/>
-      <item name="Plugin Service" href="plugins/index.html"/>
+      <item name="Plugin Service" href="plugins.html"/>
     </menu>
 
  </body>

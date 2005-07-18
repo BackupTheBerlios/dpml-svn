@@ -96,10 +96,10 @@
         <p>
           The following example artifact URI identifies a resource named
           "dpml-http-server" associated with the "dpml/http" group, a
-          resource type called "block" and a version value of "1024".
+          resource type called "part" and a version value of "1024".
         </p>
 
-        <source>artifact:block:dpml/http/dpml-http-server#1024</source>
+        <source>artifact:part:dpml/http/dpml-http-server#1024</source>
 
       </subsection>
 
