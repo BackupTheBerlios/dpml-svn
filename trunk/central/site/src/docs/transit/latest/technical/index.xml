@@ -33,16 +33,18 @@
 
       <subsection name="URI"><source>@TRANSIT-MAIN-URI@</source></subsection>
 
-      <subsection name="Overview">
-      <p>
-      The section contains the formal specification of the Transit system.
-      This includes the description of the <a href="protocol/index.html">artifact protocol</a>
-      (a uri that can be used to construct a url which in turn can be used to resolve 
-      an artifact to a locally cached resource), the underlying <a href="cache/index.html">
-      cache</a> management system and associated <a href="hosts/index.html">hosts</a>. In 
-      addition, the specification cover the transit <a href="monitors/index.html">event</a> 
-      monitoring system and <a href="repository/index.html">repository service</a>.
-      </p>
+      <subsection name="Description">
+
+        <p>
+        The section contains the formal specification of the Transit system.
+        This includes the description of the <a href="protocol/index.html">artifact protocol</a>
+        (a uri that can be used to construct a url which in turn can be used to resolve 
+        an artifact to a locally cached resource), the underlying <a href="cache/index.html">
+        cache</a> management system and associated <a href="hosts/index.html">hosts</a>. In 
+        addition, the specification cover the transit <a href="monitors/index.html">event</a> 
+        monitoring system and <a href="repository/index.html">repository service</a>.
+        </p>
+
       </subsection>
 
     </section>

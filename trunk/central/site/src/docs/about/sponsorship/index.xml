@@ -14,11 +14,35 @@
         If you would like your company to contribute, please contact
         pr-dpml@lists.ibiblio.org for more information.
       </p>
+
       <table>
+
         <tr>
           <th></th>
           <th>Description</th>
           <th></th>
+        </tr>
+
+        <tr>
+          <td>
+            <a href="http://www.berlios.de/">
+              <img src="../../images/sponsorship/berlios.png"
+                alt="BERLIOS"/></a>
+            <br/>
+         </td>
+          <td>
+            The Berlios project agress to provide essential infrastructure services to 
+            the DPML as part of their ongoing committment to world-wide open-source 
+            iniatives.  Berlios resources supplied to the DPML include secure SCV, 
+            web hosting, wiki services, bug tracking, and operations support. 
+            web, 
+          </td>
+          <td>
+            <a href="http://developer.berlios.de">
+              <img src="../../images/sponsorship/berlios.png"
+                alt="BERLIOS"/></a>
+            <br/>
+         </td>
         </tr>
         <tr>
           <td>

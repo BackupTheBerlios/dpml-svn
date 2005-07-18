@@ -34,8 +34,7 @@
       <p>
         Transit provides a flexible framework for dynamically 
         retrieving system and application resources, constructing 
-        <a href="overview/classloading.html">classloaders</a>, and 
-        managing <a href="overview/plugins.html">plugins</a> via 
+        classloaders and management of plugins via 
         an abstract resource identifier referred to as an artifact.
         As a resource management system Transit provides the foundation
         for building <a href="overview/index.html">repository-enabled</a> 

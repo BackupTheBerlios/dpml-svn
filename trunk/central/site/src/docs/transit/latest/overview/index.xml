@@ -77,7 +77,7 @@
 
         <p>
           Each artifact has a unique identifier conforming to the Transit
-          <a href="../technical/protocol/index.html">protocol specification</a>.
+          <a href="../technical/protocol.html">protocol specification</a>.
           Using an extension to the java.net.URL class in the Java API, Transit
           accesses an artifact through an artifact URI.
           The artifact URI locically identifies a resource and the Transit
