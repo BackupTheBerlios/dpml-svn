@@ -129,6 +129,8 @@ public class ReactorTask extends Sequential
 
     private List getDefinitionList()
     {
+System.out.println( "# Getting the definition list" );
+
         final Definition definition = getDefinition();
         final Project project = getProject();
         final File basedir = project.getBaseDir();
@@ -145,6 +147,7 @@ public class ReactorTask extends Sequential
                     String base = def.getLocation().getFileName();
                     if( base.startsWith( path ) )
                     {
+
                         String next = base.substring( path.length() );
                         if( next.startsWith( File.separator ) )
                         {

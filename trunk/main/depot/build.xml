@@ -17,7 +17,7 @@
   limitations under the License.
 -->
 
-<project name="dpml-depot" default="default" basedir="." 
+<project name="dpml-depot-reactor" default="default" basedir="." 
     xmlns:transit="antlib:net.dpml.transit">
 
   <transit:import uri="artifact:template:dpml/magic/reactor"/>
