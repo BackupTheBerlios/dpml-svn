@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<document>
+  <properties>
+    <author email="mcconnell@dpml.net">Stephen McConnell</author>
+    <title>DPML Magic</title>
+  </properties> 
+
+  <body>
+    <section name="Info Element">
+
+      <p>
+      The <code>&lt;info&gt;</code> element declares the resource 
+      group, name, optional version, and resource types.
+      </p>
+
+      <subsection name="Nested Elements">
+
+        <table>
+          <tr>
+            <td>name</td>
+            <td>1</td>
+            <td>Declaration of the resource name.
+                <source>&lt;name&gt;xstream&lt;/name&gt;</source></td>
+          </tr>
+          <tr>
+            <td>group</td>
+            <td>0..1</td>
+            <td>Declaration of the resource group.
+                <source>&lt;group&gt;xstream&lt;/group&gt;</source>
+                If the enclosing index declares a defining module then the 
+                module group will be used as the default group.  If no module
+                key is declared the group element must be included.</td>
+          </tr>
+          <tr>
+            <td>version</td>
+            <td>optional</td>
+            <td>Declaration of the resource version.
+                <source>&lt;version&gt;1.1&lt;/version&gt;</source></td>
+          </tr>
+          <tr>
+            <td>type</td>
+            <td>optional</td>
+            <td>Declaration of the resource type (may not be declared if the 
+                &lt;types&gt; element is used). If undeclared the 'jar' type 
+                is assumed.
+                <source>&lt;type&gt;plugin&lt;/type&gt;</source>
+                </td>
+          </tr>
+          <tr>
+            <td>types</td>
+            <td>optional</td>
+            <td>Declaration of multiple types (may not be used in conjuction with 
+                the single &lt;type&gt; element declaration).
+                <source>&lt;types&gt;
+   &lt;type&gt;jar&lt;/type&gt;
+   &lt;type&gt;plugin&lt;/type&gt;
+&lt;/types&gt;</source>
+                </td>
+          </tr>
+        </table>
+
+      </subsection>
+
+      <subsection name="Example">
+<source><![CDATA[
+  <info>
+    <group>xstream</group>
+    <name>xstream</name>
+    <version>1.1</version>
+  </info>
+]]></source>
+      </subsection>
+
+    </section>
+  </body>
+</document>
+

@@ -25,9 +25,10 @@
  <body>
 
     <menu>
-      <item name="Model" href="model/index.html"/>
-      <item name="Tasks" href="tasks/index.html"/>
-      <item name="Plugins" href="plugins/index.html"/>
+      <item name="Index" href="model/index.html"/>
+      <item name="Templates" href="templates/index.html"/>
+      <item name="Core Tasks" href="tasks/index.html"/>
+      <item name="Optional Plugins" href="plugins/index.html"/>
       <item name="Javadoc" href="../../@MAGIC-DOCS-PATH@/index.html"/>
     </menu>
 

@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<document>
+  <properties>
+    <author email="mcconnell@dpml.net">Stephen McConnell</author>
+    <title>DPML Magic</title>
+  </properties> 
+
+  <body>
+    <section name="Info Element">
+
+      <p>
+      The <code>&lt;info&gt;</code> element declares the resource 
+      group, name, optional version, and resource types.
+      </p>
+
+      <subsection name="Nested Elements">
+
+        <table>
+          <tr>
+            <td>name</td>
+            <td>1</td>
+            <td>Declaration of the project name.
+                <source>&lt;name&gt;dpml-test-plus&lt;/name&gt;</source></td>
+          </tr>
+          <tr>
+            <td>group</td>
+            <td>0..1</td>
+            <td>Declaration of the project group.
+                <source>&lt;group&gt;dpml/test&lt;/group&gt;</source>
+                If the enclosing index declares a defining module then the 
+                module group will be used as the default group.  If no module
+                key is declared the group element must be included.</td>
+          </tr>
+          <tr>
+            <td>version</td>
+            <td>optional</td>
+            <td>Declaration of the resource version. If undeclared, the default
+                value is SNAPSHOT undes the system property ${dpml.release.signature}
+                is declared in which case the value of ${dpml.release.signature} will be 
+                assigned as the project version.
+                <source>&lt;version&gt;1.1&lt;/version&gt;</source></td>
+          </tr>
+          <tr>
+            <td>type</td>
+            <td>optional</td>
+            <td>Declaration of the project type (may not be declared if the 
+                &lt;types&gt; element is used). If undeclared the 'jar' type 
+                is assumed.
+                <source>&lt;type&gt;plugin&lt;/type&gt;</source>
+                </td>
+          </tr>
+          <tr>
+            <td>types</td>
+            <td>optional</td>
+            <td>Declaration of multiple resource types produced by the project
+                (may not be used in conjuction with the single &lt;type&gt; 
+                element declaration).
+                <source>&lt;types&gt;
+   &lt;type&gt;jar&lt;/type&gt;
+   &lt;type&gt;part&lt;/type&gt;
+&lt;/types&gt;</source>
+                </td>
+          </tr>
+        </table>
+
+      </subsection>
+
+      <subsection name="Example">
+<source><![CDATA[
+  <project basedir="plus">
+    <info>
+      <group>dpml/test</group>
+      <name>dpml-test-plus</name>
+      <types>
+        <type>jar</type>
+        <type>part</type>
+      </types>
+    </info>
+    ...
+  </project>
+]]></source>
+      </subsection>
+
+    </section>
+  </body>
+</document>
+

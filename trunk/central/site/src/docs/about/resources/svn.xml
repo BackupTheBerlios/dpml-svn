@@ -25,9 +25,12 @@
           <li> Enables binary diffs </li> 
         </ul> 
       </p>
-      <subsection name="DPML Repository" >
+      <subsection name="DPML SVN Repository" >
         <p>Checkout the DPML codebase using the following svn commandline:</p>
-        <source>svn checkout https://scm.dpml.net/repos/dpml/development/main/</source>
+        <source>svn checkout svn://svn.berlios.de/dpml/trunk/main</source>
+        <p>Developers registered with the DPML project should use the following command:</p>
+        <source>svn checkout \ 
+svn+ssh://developername@svn.berlios.de/svnroot/repos/dpml/trunk/main</source>
       </subsection>
     </section> 
 

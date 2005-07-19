@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<document>
+  <properties>
+    <author email="mcconnell@dpml.net">Stephen McConnell</author>
+    <title>DPML Magic</title>
+  </properties> 
+
+  <body>
+    <section name="Dependencies Element">
+
+      <p>
+      The <code>&lt;dependencies&gt;</code> element declares the set of 
+      dependencies that a project has on other resources or projects.  The 
+      <code>&lt;dependencies&gt;</code> element may contain 0..n 
+      <code>&lt;include&gt;</code> elements where each include is a 
+      reference to the dependent resource.
+      </p>
+
+    </section>
+
+    <section name="Include Element">
+
+      <subsection name="Include Attributes">
+
+        <table>
+          <tr>
+            <td>key</td>
+            <td>required</td>
+            <td>
+              The name of the resource or project that the dependency refers to.
+              <source>&lt;include key="dpml-part-api"&gt;</source>
+            </td>
+          </tr>
+          <tr>
+            <td>tag</td>
+            <td>optional</td>
+            <td>
+              Assiates the dependency under one of the following categories: 
+              'api', 'spi', or 'impl'.  Using in conjuction with the construction 
+              of classloader chains.  The default value is 'impl'.
+              <source>&lt;include key="dpml-part-api" tag="api"&gt;</source>
+            </td>
+          </tr>
+          <tr>
+            <td>build</td>
+            <td>optional</td>
+            <td>
+              Declares if the dependency is a build time dependency.  Defaults
+              to 'true'.
+              <source>&lt;include key="dpml-part-api" build="true"&gt;</source>
+            </td>
+          </tr>
+          <tr>
+            <td>test</td>
+            <td>optional</td>
+            <td>
+              Declares if the dependency is a test time dependency.  Defaults
+              to the build dependency value.
+              <source>&lt;include key="dpml-part-api" test="true"&gt;</source>
+            </td>
+          </tr>
+          <tr>
+            <td>runtime</td>
+            <td>optional</td>
+            <td>
+              Declares if the dependency is a runtime time dependency.  Defaults
+              to the test dependency value.
+              <source>&lt;include key="dpml-part-api" test="true"&gt;</source>
+            </td>
+          </tr>
+        </table>
+
+      </subsection>
+
+      <subsection name="Example">
+
+        <p>The following example shows the declaration of a project with multiple
+        dependencies with tagged includes.
+        </p>
+
+<source><![CDATA[
+  <project basedir="composition/control">
+    <info>
+      <group>dpml/metro</group>
+      <name>dpml-composition-control</name>
+      <types>
+        <type>jar</type>
+        <type>plugin</type>
+      </types>
+    </info>
+    <dependencies>
+      <include key="dpml-logging-api" tag="api"/>
+      <include key="dpml-activity-api" tag="api"/>
+      <include key="dpml-parameters-api" tag="api"/>
+      <include key="dpml-configuration-api" tag="api"/>
+      <include key="dpml-transit-main" tag="api"/>
+      <include key="dpml-composition-model" tag="spi"/>
+      <include key="dpml-parameters-impl"/>
+      <include key="dpml-configuration-impl"/>
+    </dependencies>
+  </project>
+]]></source>
+      </subsection>
+
+    </section>
+  </body>
+</document>
+

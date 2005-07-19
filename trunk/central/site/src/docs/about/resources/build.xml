@@ -11,41 +11,47 @@
 
       <subsection name="Build Procedure">
 
+        <p>The DPML platform has the following major product groups:</p>
+
+        <ul>
+         <li>transit     .. a resource management system</li>
+         <li>magic       .. an intelligent build system</li>
+         <li>metro       .. an advanced IoC container</li>
+         <li>depot       .. an application managment system</li>
+        </ul>
+
         <p>
-The DPML platform has the four major product groups.
-To build respective products please invoke the following commands:
+        To build respective products a build.bat and build.sh script are provided.
         </p>
 
 <pre>
-$ cd main
-$ ant transit           ... builds the transit diustribution and updates the local installation
-$ ant magic             ... builds the magic build system (requires transit)
-$ ant metro             ... builds Metro (requires Magic)
-$ ant central           ... builds site documentation (requires Metro)
+  $ build all   .. builds all of the DPML core products
 </pre>
-
-<p>
-Please note that the Transit build will install the junit jar file
-under the .ant/lib directory if not available.  In such a case the
-build will exit with a failed condition and a message requesting
-recommencement of the build.  If you run transit target a second
-time the build will continue as normal.
-</p>
-
-<p>
-For a complete build of the whole platform you can use a Utility script. Windows users will execute build.bat and Linux users will execute build.sh. The syntax for the usage is (in this case showing the Usage for Linux, Windows will have to adapt) :
-</p>
+  
+        <p>
+        You can also build a selected product:
+        </p>
 
 <pre>
-$ cd main
-$ ./build.sh all 1234
+  $ build transit
+  $ build magic
+  $ build metro
+  $ build depot
+</pre>
+        <p>
+        Finally, the build script also enables the creation of distributions 
+        using a release identifier.  The following example build the distributiing 
+        using the build identifier 1234.
+        </p>
+
+<pre>
+  $ build all 1234
 </pre>
 
-<p>
-The first argument determines what will be build. Here 'all' is the keyword to build the whole platform. The above listing is still valid (with all it dependencies), so you can replace 'all' with 'transit' and the script will build only the 'transit'-product.
-
-The second argument is optional and describes a build revision identifier.
-</p>
+        <p>
+        Any issues concerning building of the platform should be directed 
+        to the DPML dev mailing list.
+        </p>
 
       </subsection>
 

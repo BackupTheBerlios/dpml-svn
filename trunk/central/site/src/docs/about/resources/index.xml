@@ -20,13 +20,9 @@
       <p>
         The resources we offer include
         <a href="lists.html">mailing lists</a> for posting relevant e-mail messages,
-        an <a href="issues.html">issue tracking</a> service for signaling bugs or change requests, a
-        <a href="ci.html">Contineous integration system</a>
+        an <a href="issues.html">issue tracking</a> service for signaling bugs or change requests, 
         and a <a href="svn.html">code management</a> system for keeping the source code in order
         and up to date.
-      </p>
-      <p>
-	      There is even a <a href="http://wiki.dpml.net">wiki</a> starting to form that has some more information on infrastructure, processes and community, like <a href="http://wiki.dpml.net/dokuwiki/doku.php?id=misc:ops">Open Participation Software</a> and other thoughts.
       </p>
     </section>
   </body>

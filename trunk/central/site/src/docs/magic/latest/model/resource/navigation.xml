@@ -25,9 +25,8 @@
  <body>
 
     <menu>
-      <item name="build.xml" href="build.html"/>
-      <item name="project.properties" href="properties.html"/>
-      <item name="user.properties" href="user.html"/>
+      <item name="Info" href="info.html"/>
+      <item name="Dependencies" href="dependencies.html"/>
     </menu>
 
  </body>

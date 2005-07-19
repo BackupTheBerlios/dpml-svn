@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<document>
+  <properties>
+    <author email="mcconnell@dpml.net">Stephen McConnell</author>
+    <title>DPML Magic</title>
+  </properties> 
+
+  <body>
+    <section name="Plugins Element">
+
+      <p>
+      The <code>&lt;plugins&gt;</code> element declares the set of 
+      plugins that a project uses.  The 
+      <code>&lt;plugins&gt;</code> element may contain 0..n 
+      <code>&lt;include&gt;</code> elements where each include is a 
+      reference to a plugin resource. Plugins referenced by a project 
+      will be automatically loaded by Magic under the 'init' task.
+      Buildfile may reference the plugin simply be referencing the plugin
+      namespace urn.
+      </p>
+
+    </section>
+
+    <section name="Include Element">
+
+      <subsection name="Include Attributes">
+
+        <table>
+          <tr>
+            <td>key</td>
+            <td>required</td>
+            <td>
+              The name of the plugin.
+              <source>&lt;include key="dpml-composition-builder"&gt;</source>
+            </td>
+          </tr>
+        </table>
+
+      </subsection>
+
+      <subsection name="Example">
+
+        <p>The following example shows the declaration of a project that declares
+        its usage of the dpml-composition-builder plugin.
+        </p>
+
+<source><![CDATA[
+  <project basedir="simple">
+    <info>
+      <group>dpml/test</group>
+      <name>dpml-test-simple</name>
+      <types>
+        <type>jar</type>
+        <type>part</type>
+      </types>
+    </info>
+    <plugins>
+      <include key="dpml-composition-builder"/>
+    </plugins>
+  </project>
+]]></source>
+      </subsection>
+
+      <subsection name="Usage Example">
+
+        <p>
+        The following is the build file of the project declared in the above example.
+        Note the reference to the plugin urn at the begginig of the build file and 
+        it's subsequent usage of the plugin to construct component types and deployment
+        data.
+        </p>
+
+<source><![CDATA[
+<project name="dpml-test-simple" default="install" basedir="."
+    xmlns:transit="antlib:net.dpml.transit" 
+    xmlns:x="plugin:dpml/magic/dpml-magic-core"
+    xmlns:c="plugin:dpml/composition/dpml-composition-builder">
+
+  <transit:import uri="artifact:template:dpml/magic/standard"/>
+
+  <target name="build" depends="standard.build">
+
+    <!-- create the component types -->
+    <c:types>
+      <type class="net.dpml.test.acme.ExampleComponent"/>
+      <type class="net.dpml.test.acme.ExampleContainer"/>
+      <type class="net.dpml.test.acme.SimpleWidget"/>
+      <type class="net.dpml.test.acme.DimensionComponent"/>
+      <type class="net.dpml.test.acme.BadWidget" threadsafe="true"/>
+      <type class="net.dpml.test.acme.GizmoComponent" threadsafe="true"/>
+      <type class="net.dpml.test.acme.AcmeContainer" threadsafe="true"/>
+      <type class="net.dpml.test.acme.WidgetComponent" threadsafe="true"/>
+    </c:types>
+
+    <!-- creation of a component for reference by uri -->
+    <c:component type="net.dpml.test.acme.DimensionComponent" name="dimension"/>
+
+  </target>
+
+</project>
+]]></source>
+
+      </subsection>
+
+    </section>
+  </body>
+</document>
+

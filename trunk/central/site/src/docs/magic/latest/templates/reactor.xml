@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<document>
+  <properties>
+    <author email="mcconnell@dpml.net">Stephen McConnell</author>
+    <title>DPML Magic</title>
+  </properties> 
+
+  <body>
+
+    <section name="Reactor Template">
+
+      <p>
+      The reactor template is used to build the set of subsidiary project
+      taking into account inter-project dependencies.  The template includes
+      the same targets as declared in the standard template however, the usage 
+      typically involves only the following two targets.
+      </p>
+
+      <subsection name="Task Declarations">
+
+        <p>The standard template contains the following target declarations.</p>
+
+        <table>
+          <tr>
+            <th>Target</th>
+            <th>Dependency</th>
+            <th>Description</th>
+          </tr>
+          <tr>
+            <td>default</td>
+            <td></td>
+            <td>Invokes the default target on the reactor projects.</td>
+          </tr>
+          <tr>
+            <td>clean</td>
+            <td></td>
+            <td>Invokes the 'clean' target on the reactor projects.</td>
+          </tr>
+        </table>
+
+    </subsection>
+
+    <subsection name="Example Ant build file">
+<source>
+<![CDATA[<?xml version="1.0" encoding="UTF-8" ?>
+
+<project name="dpml-depot" default="default" basedir="." 
+    xmlns:transit="antlib:net.dpml.transit">
+
+  <transit:import uri="artifact:template:dpml/magic/reactor"/>
+
+</project>]]></source>
+    </subsection>
+
+    <subsection name="Template Listing">
+<source>
+<![CDATA[
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<project name="reactor"
+    xmlns:transit="antlib:net.dpml.transit"
+    xmlns:x="plugin:dpml/magic/dpml-magic-core">
+
+  <condition property="reactive" value="true">
+    <isset property="dpml.magic.reactive"/>
+  </condition>
+
+  <transit:init>
+    <map urn="plugin:dpml/magic/dpml-magic-core"
+       uri="artifact:plugin:dpml/magic/dpml-magic-core#SNAPSHOT"/>
+  </transit:init>
+
+  <target name="init" unless="reactive">
+    <x:reactor target="init"/>
+  </target>
+
+  <target name="clean" description="Clean all projects with the reactor scope." unless="reactive">
+    <x:reactor target="clean"/>
+  </target>
+
+  <target name="prepare" description="Prepare all sub-project sources." unless="reactive">
+    <x:reactor target="prepare"/>
+  </target>
+
+  <target name="build" description="Build all sub-project sources." unless="reactive">
+    <x:reactor target="build"/>
+  </target>
+
+  <target name="package" description="Prepare the sub-project artifacts." unless="reactive">
+    <x:reactor target="package"/>
+  </target>
+
+  <target name="test" description="Invoke tests on all sub-projects." unless="reactive">
+    <x:reactor target="test"/>
+  </target>
+
+  <target name="install" description="Build and install all sub-project artifacts." unless="reactive">
+    <x:reactor target="install"/>
+  </target>
+
+  <target name="default" description="Invoke the default target in all sub-projects." unless="reactive">
+    <x:reactor/>
+  </target>
+
+</project>
+]]></source>
+
+      </subsection>
+
+    </section>
+
+  </body>
+
+</document>
+

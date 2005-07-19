@@ -11,7 +11,7 @@
 
       <p>
       Before attempting to build the bootstrap build system please 
-      install Apache Ant version 1.6.2 or later and SVN 1.0 or later.
+      install Apache Ant version 1.6.4 or later and SVN 1.0 or later.
       </p>
 
       <subsection name="SVN Checkout">
@@ -24,13 +24,7 @@
 
         <p>DO NOT USE THE DPML_HOME DIRECTORY FOR YOU DEVELOPMENT CONTENT.</p>
 
-        <source>$ svn checkout https://scm.dpml.net/repos/dpml/development/main/</source>
-
-        <p>
-        The equivalent action in TortoiseSVN is shown below:
-        </p>
-
-        <img src="/images/setup/checkout.png"/>
+        <source>$ svn checkout svn://svn.berlios.de/dpml/trunk/main/</source>
 
       </subsection>
 

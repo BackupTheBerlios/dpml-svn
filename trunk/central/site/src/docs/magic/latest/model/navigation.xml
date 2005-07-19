@@ -25,9 +25,10 @@
  <body>
 
     <menu>
-      <item name="Index" href="index/index.html"/>
-      <item name="Module" href="module/index.html"/>
-      <item name="Project" href="projectBuildFiles/index.html"/>
+      <item name="Import" href="import.html"/>
+      <item name="Resource" href="resource/index.html"/>
+      <item name="Project" href="project/index.html"/>
+      <item name="Module" href="module.html"/>
     </menu>
 
  </body>

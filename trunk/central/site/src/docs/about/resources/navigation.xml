@@ -27,7 +27,6 @@
       <item name="Issue Tracking" href="issues.html"/>
       <item name="Code Management" href="svn.html"/>
       <item name="Code Checkout" href="checkout.html"/>
-      <item name="Contineous Integration" href="ci.html"/>
       <item name="Build Procedure" href="build.html"/>
     </menu>
   </body>
