@@ -58,20 +58,6 @@
     </dependencies>
   </project>
 
-  <project basedir="spells/bar">
-    <info>
-      <group>dpml/magic</group>
-      <name>dpml-magic-bar</name>
-      <types>
-        <type>jar</type>
-        <type>plugin</type>
-      </types>
-    </info>
-    <dependencies>
-      <include key="dpml-magic-core"/>
-    </dependencies>
-  </project>
-
   <project basedir="spells/publish">
     <info>
       <group>dpml/magic</group>
