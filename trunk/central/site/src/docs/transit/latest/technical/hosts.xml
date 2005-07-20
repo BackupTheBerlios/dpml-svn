@@ -55,7 +55,14 @@
           <th>Description</th>
         </tr>
         <tr>
-          <td>dpml.transit.resourcehost.enabled</td>
+          <td>dpml.transit.host.id</td>
+          <td>none</td>
+          <td>
+            A name that uniquely identifies the host.
+          </td>
+        </tr>
+        <tr>
+          <td>dpml.transit.host.enabled</td>
           <td>true</td>
           <td>
             If true, the remote host repository will be used. If false, it 
@@ -63,12 +70,12 @@
           </td>
         </tr>
         <tr>
-          <td>dpml.transit.resourcehost.base</td>          
+          <td>dpml.transit.host.base</td>          
           <td></td>          
-          <td>This defines the base URL of the remote host repository.</td>          
+          <td>The base URL of the remote host repository.</td>          
         </tr>
         <tr>
-          <td>dpml.transit.resourcehost.index</td>          
+          <td>dpml.transit.host.index</td>          
           <td></td>
           <td>
             A URL pointing to a file containing a line-separated list of 
@@ -77,22 +84,22 @@
           </td>
         </tr>
         <tr>
-          <td>dpml.transit.resourcehost.username</td>
+          <td>dpml.transit.host.username</td>
           <td></td>
           <td>The username required for the remote host.</td>
         </tr>
         <tr>
-          <td>dpml.transit.resourcehost.password</td>
+          <td>dpml.transit.host.password</td>
           <td></td>
           <td>The password for the user required to access the remote host.</td>
         </tr>
         <tr>
-          <td>dpml.transit.resourcehost.scheme</td>
+          <td>dpml.transit.host.scheme</td>
           <td></td>
           <td>The authentication scheme used for the connection.</td>
         </tr>
         <tr>
-          <td>dpml.transit.resourcehost.prompt</td>
+          <td>dpml.transit.host.prompt</td>
           <td></td>
           <td>
             The authentication <strong>prompt</strong> or 
@@ -100,7 +107,7 @@
           </td>
         </tr>
         <tr>
-          <td>dpml.transit.resourcehost.policy</td>
+          <td>dpml.transit.host.policy</td>
           <td>fast</td>
           <td>
             Download policy. "fast"=if the artifact exist in the cache, use
@@ -108,7 +115,7 @@
           </td>
         </tr>
         <tr>
-          <td>dpml.transit.resourcehost.priority</td>
+          <td>dpml.transit.host.priority</td>
           <td>80</td>
           <td>
             The priority defines which host should take precedence over 
@@ -117,7 +124,7 @@
           </td>
         </tr>
         <tr>
-          <td>dpml.transit.resourcehost.trusted</td>
+          <td>dpml.transit.host.trusted</td>
           <td>false</td>
           <td>
             If true Transit shall assume that the host connection is trusted.
