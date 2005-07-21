@@ -21,7 +21,7 @@
       </p>
 
       <p>
-      A project index is located by search up the directory hierachy for a file 
+      A project index is located by search up the directory hierarchy for a file 
       named index.xml.  This allows for the centralization of project information
       at levels appropriate to the scale of projects you are dealing with.
       </p>
@@ -69,8 +69,8 @@
             <td>optional</td>
             <td>
               Optional attribute that if present identifies the project 
-              defintined within the index that is used to construct a 
-              module.  If a project exists the project group and version 
+              definition within the index that is used to construct a 
+              module resource.  If a project exists the project group and version 
               will serve as the default group and version.
               <source>&lt;index key="my-module"&gt;</source>
             </td>

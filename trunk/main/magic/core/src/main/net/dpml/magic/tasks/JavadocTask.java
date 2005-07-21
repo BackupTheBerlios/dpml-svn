@@ -234,7 +234,7 @@ public class JavadocTask extends ProjectTask
         // of the module and edd each source path
         //
 
-        if( "module".equals( definition.getInfo().getType() ) )
+        if( definition.getInfo().isa( "module" ) )
         {
             Definition[] defs = getIndex().getSubsidiaryDefinitions( definition );
             for( int i=0; i<defs.length; i++ )
@@ -268,7 +268,7 @@ public class JavadocTask extends ProjectTask
 
     private Link getModuleLink( Definition def, Resource resource )
     {
-        if( !"module".equals( resource.getInfo().getType() ) )
+        if( false == resource.getInfo().isa( "module" ) )
         {
             final String error =
               "Cannot construct a module link form a non-module resource: "
@@ -276,7 +276,7 @@ public class JavadocTask extends ProjectTask
             throw new BuildException( error, def.getLocation() );
         }
 
-        String uri = resource.getInfo().getURI();
+        String uri = resource.getInfo().getURI( "module" );
         try
         {
             URL url = new URL( null, uri, new Handler() );
@@ -304,7 +304,7 @@ public class JavadocTask extends ProjectTask
         for( int i=0; i<refs.length; i++ )
         {
             Resource resource = getIndex().getResource( refs[i] );
-            if( "module".equals( resource.getInfo().getType() ) )
+            if( resource.getInfo().isa( "module" ) )
             {
                 list.add( resource );
             }
@@ -338,20 +338,7 @@ public class JavadocTask extends ProjectTask
 
     private String[][] TAG_LIST =
     {
-        // TODO: turn this into something based on properties
-        /*
-        { "metro.component", "Metro Component Type", "types" },
-        { "metro.service", "Metro Service", "types" },
-        { "metro.attribute", "Metro Attribute", "types" },
-        { "metro.stage", "Metro Lifecycle Stage", "types" },
-        { "metro.extension", "Metro Extension", "types" },
-
-        { "metro.entry", "Metro Context Entry", "methods,constructors" },
-        { "metro.dependency", "Metro Dependency Declaration", "methods,constructors" },
-        { "metro.logger", "Metro Logger", "methods,constructors" },
-        { "metro.configuration", "Metro Configuration Schema", "methods,constructors" },
-        { "metro.context", "Metro Context", "methods,constructors" }
-        */
+        // tags no long used
     };
 
     //-----------------------------------------------------------------------

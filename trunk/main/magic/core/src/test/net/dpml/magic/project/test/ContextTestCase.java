@@ -97,8 +97,6 @@ public class ContextTestCase extends TestCase
         project.setName( "test" );
         Context context = new Context( project );
         File test = context.getTargetDirectory();
-        // TODO: dir is never used.
-        File dir = new File( System.getProperty( "user.dir" ) );
         File target = project.resolveFile( "target" );
         assertEquals( target, test );
     }

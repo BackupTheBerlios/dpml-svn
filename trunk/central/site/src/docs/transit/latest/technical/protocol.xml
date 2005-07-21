@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <!--
+ Copyright 2005 Stephen McConnell
  Copyright 2004 Niclas Hedhman
 
  Licensed  under the  Apache License,  Version 2.0  (the "License");
@@ -100,6 +101,15 @@
         </p>
 
         <source>artifact:part:dpml/http/dpml-http-server#1024</source>
+
+        <table>
+          <tr>
+            <td><img src="/images/info.gif"/></td>
+            <td><i>See also <a href="http://www.osm.net/training/resources/artifacts.html">
+               OSM Tutorial on Transit Artifacts</a>.</i>
+            </td>
+          </tr>
+        </table>
 
       </subsection>
 

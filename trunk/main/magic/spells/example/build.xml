@@ -6,7 +6,7 @@
   <transit:import uri="artifact:template:dpml/magic/standard"/>
 
   <target name="init" depends="standard.init">
-    <x:filter feature="path" token="MESSAGE"/>
+    <x:filter feature="path" type="jar" token="MESSAGE"/>
   </target>
 
   <target name="package" depends="standard.package">

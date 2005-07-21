@@ -25,6 +25,7 @@ import net.dpml.magic.model.Info;
 import net.dpml.magic.model.Policy;
 import net.dpml.magic.model.Resource;
 import net.dpml.magic.model.ResourceRef;
+import net.dpml.magic.model.Type;
 
 import org.apache.tools.ant.BuildException;
 
@@ -175,7 +176,7 @@ public class XMLDefinitionBuilder
         {
             group = getDefaultGroup( home, name, uri );
         }
-        final String[] types = createTypes( info );
+        final Type[] types = createTypes( info );
         String version = null;
         if( external )
         {
@@ -295,7 +296,7 @@ public class XMLDefinitionBuilder
         }
     }
 
-    private static String[] createTypes( Element info )
+    private static Type[] createTypes( Element info )
     {
         Element types = ElementHelper.getChild( info, "types" );
         if( null != types )
@@ -303,15 +304,15 @@ public class XMLDefinitionBuilder
             Element[] children = ElementHelper.getChildren( types, "type" );
             if( children.length == 0 )
             {
-                return new String[]{ "jar" };
+                return new Type[]{ new Type() };
             }
             else
             {
-                String[] values = new String[ children.length ];
+                Type[] values = new Type[ children.length ];
                 for( int i=0; i<children.length; i++ )
                 {
                     Element child = children[i];
-                    String type = ElementHelper.getValue( child );
+                    Type type = createType( child );
                     values[i] = type;
                 }
                 return values;
@@ -320,17 +321,32 @@ public class XMLDefinitionBuilder
         else
         {
             Element typeElement = ElementHelper.getChild( info, "type" );
-            if( null != typeElement )
-            {
-                final String type =
-                  ElementHelper.getValue( typeElement );
-                return new String[]{ type };
-            }
-            else
-            {
-                return new String[]{ "jar" };
-            }
+            final Type type = createType( typeElement );
+            return new Type[]{ type };
         }
+    }
+
+    private static Type createType( final Element element )
+    {
+        if( null == element )
+        {
+            return new Type();
+        }
+        String type = null;
+        if( element.hasAttribute( "name" ) )
+        {
+            type = element.getAttribute( "name" );
+        }
+        else
+        {
+            type = ElementHelper.getValue( element );
+        }
+        String alias = null;
+        if( element.hasAttribute( "alias" ) )
+        {
+            alias = element.getAttribute( "alias" );
+        }
+        return new Type( type, alias );
     }
 
     private static ResourceRef[] createResourceRefs( final Element element )

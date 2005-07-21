@@ -27,24 +27,24 @@
       <p>
         If the ${dpml.transit.authority} is undefined (the default condition) Transit will 
         resolve host information using preferences declared under <code>net/dpml/transit/profiles</code>
-        using the profile name 'production' unless oetherwise directed by the ${dpml.transit.profile}
+        using the profile name 'production' unless otherwise directed by the ${dpml.transit.profile}
         system property.
       </p>
 
       <p>
         If the system property <code>dpml.transit.authority</code> is defined, Transit 
-        behaviour is a function of the protocol declared by the ${dpml.transit.authority}
+        behavior is a function of the protocol declared by the ${dpml.transit.authority}
         value.  If the value is a URL with a file: protocol, Transit will attempt to locate
-        a directory at ${dpml.transit.authority}/hosts and load host defintions from files located 
-        in that directory.  If the value of ${dpml.transit.authority} is anot a file URL Transit
+        a directory at ${dpml.transit.authority}/hosts and load host definitions from files located 
+        in that directory.  If the value of ${dpml.transit.authority} is not a file URL Transit
         will attempt to locate a file named ${dpml.transit.authority}/index.lst containing a list 
-        of host defintion URLs.
+        of host definition URLs.
       </p>
 
       <subsection name="Host Properties">
 
         <p>
-        Property based host defintion files are declared in accordance with the following 
+        Property based host definition files are declared in accordance with the following 
         specification.
         </p>
 
@@ -56,17 +56,9 @@
         </tr>
         <tr>
           <td>dpml.transit.host.id</td>
-          <td>none</td>
+          <td></td>
           <td>
-            A name that uniquely identifies the host.
-          </td>
-        </tr>
-        <tr>
-          <td>dpml.transit.host.enabled</td>
-          <td>true</td>
-          <td>
-            If true, the remote host repository will be used. If false, it 
-            will be skipped completely.
+            A short name that uniquely identifies the host.
           </td>
         </tr>
         <tr>
@@ -75,12 +67,11 @@
           <td>The base URL of the remote host repository.</td>          
         </tr>
         <tr>
-          <td>dpml.transit.host.index</td>          
-          <td></td>
+          <td>dpml.transit.host.enabled</td>
+          <td>true</td>
           <td>
-            A URL pointing to a file containing a line-separated list of 
-            groups that are known to be installed on the remote host 
-            repository.
+            If true, the remote host repository will be used. If false, it 
+            will be skipped completely.
           </td>
         </tr>
         <tr>
@@ -107,6 +98,15 @@
           </td>
         </tr>
         <tr>
+          <td>dpml.transit.host.index</td>          
+          <td></td>
+          <td>
+            A URL pointing to a file containing a line-separated list of 
+            groups that are known to be installed on the remote host 
+            repository.
+          </td>
+        </tr>
+        <tr>
           <td>dpml.transit.host.policy</td>
           <td>fast</td>
           <td>
@@ -128,7 +128,7 @@
           <td>false</td>
           <td>
             If true Transit shall assume that the host connection is trusted.
-            When set to "true" in conjunction with an https:// conection, the 
+            When set to "true" in conjunction with an https:// connection, the 
             certificate chain of the host will be accepted unconditionally.
           </td>
         </tr>

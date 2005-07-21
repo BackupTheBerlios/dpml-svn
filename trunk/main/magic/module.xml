@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!--
-  Copyright 2004 Stephen J McConnell
+  Copyright 2004-2005 Stephen J McConnell
   Copyright 2004 Niclas Hedhman
 
   Licensed  under the  Apache License,  Version 2.0  (the "License");
@@ -43,14 +43,9 @@
         <x:home href="http://www.dpml.net/products/magic"/>
       </x:header>
     </x:module>
-    <x:property name="module.uri" feature="uri" type="module"/>
-    <property name="link" value="target/deliverables/modules/${project.name}.module.link"/>
-    <echo file="${link}">${module.uri}</echo>
   </target>
 
   <target name="package" depends="standard.package,javadoc">
-
-    <transit:link target="${module.uri}" uri="link:module:${project.group}/${project.name}"/>
 
     <!-- create LICENSE files-->
     <copy todir="${bundle}" filtering="true">
@@ -84,10 +79,17 @@
       <fileset dir="${dpml.cache}/dpml/magic">
         <include name="eclipses/**"/>
         <include name="templates/**"/>
-        <include name="formats/**"/>
-        <include name="licenses/**"/>
         <include name="processes/**"/>
+      </fileset>
+    </copy>
+
+    <copy todir="${prefs}/magic">
+      <fileset dir="spells/doc/target">
         <include name="themes/**"/>
+      </fileset>
+      <fileset dir="core/target">
+        <include name="formats/**"/>
+        <include name="xsls/**"/>
       </fileset>
     </copy>
 

@@ -33,14 +33,14 @@
             <td>
               <a href="@TRANSIT-DOCS-PATH@/net/dpml/transit/monitors/ConnectionMonitor.html">
 ConnectionMonitor</a></td>
-            <td>Handles events dealing with the openning and closing of connections.</td>
+            <td>Handles events dealing with the opening and closing of connections.</td>
           </tr>
           <tr>
             <td>
               <a href="@TRANSIT-DOCS-PATH@/net/dpml/transit/monitors/NetworkMonitor.html">
 NetworkMonitor</a></td>
-            <td>Handles events dealing with network activitiy including progressive 
-                download activitiy and download completion.</td>
+            <td>Handles events dealing with network activity including progressive 
+                download activity and download completion.</td>
           </tr>
           <tr>
             <td>

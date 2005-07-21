@@ -34,6 +34,7 @@ public class AuthorityTestCase extends TestCase
 {
     public void testAuthority() throws Exception
     {
+        System.setProperty( "dpml.data", "target/test/data" );
         TransitStorageUnit store = new TransitStorageUnit( new URL( "http://www.dpml.net/staging/test/" ) );
         TransitModel model = new DefaultTransitModel( store );
         HostModel[] hosts = model.getCacheModel().getHostModels();

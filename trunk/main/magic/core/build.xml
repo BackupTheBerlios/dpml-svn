@@ -61,4 +61,18 @@
     </export>
   </target>
 
+  <target name="install" depends="standard.install">
+    <property name="formats" value="${dpml.prefs}/magic/formats"/>
+    <mkdir dir="${formats}"/>
+    <copy toDir="${formats}">
+      <fileset dir="target/formats"/>
+    </copy>
+    <property name="xsls" value="${dpml.prefs}/magic/xsls"/>
+    <mkdir dir="${xsls}"/>
+    <copy toDir="${xsls}">
+      <fileset dir="target/xsls"/>
+    </copy>
+  </target>
+
+
 </project>

@@ -295,9 +295,10 @@ public class EclipseTask extends ContextualTask
             }
 
             Info info = resource.getInfo();
-            String type = info.getType();
-            if ( !"jar".equalsIgnoreCase( type ) )
+            if( false == info.isa( "jar" ) )
+            {
                 continue;
+            }
             writer.write( "  " + getEclipseClasspath( resource ) + "\n" );
             
             // add key to exclude keys so that we don't add it again
@@ -382,7 +383,7 @@ public class EclipseTask extends ContextualTask
             sb.append( info.getVersion() );
         }
         sb.append( "." );
-        sb.append( info.getType() );
+        sb.append( info.getType( "jar" ) );
         sb.append( "\"/>" );
         return sb.toString();
     }

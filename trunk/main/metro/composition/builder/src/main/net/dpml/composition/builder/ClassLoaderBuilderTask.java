@@ -135,7 +135,7 @@ public abstract class ClassLoaderBuilderTask extends ProjectTask
             if( policy.isRuntimeEnabled() )
             {
                 final Resource resource = getIndex().getResource( ref );
-                if( "jar".equals( resource.getInfo().getType() ) )
+                if( resource.getInfo().isa( "jar" ) )
                 {
                     URI uri = resource.getArtifactURI( "jar" );
                     if( false == visited.contains( uri ) )

@@ -14,8 +14,8 @@
       <p>
       The checkstyle task provides support for the integration of checkstyle
       code style validation and reporting into the Magic development environment.
-      The task allows the selection of a style format using Transit uris and
-      and postprocessing of XML based report output using Magic's Style Task.
+      The task allows the selection of a style format and
+      and postprocessing of XML based report output.
       </p>
 
     </subsection>
@@ -24,8 +24,7 @@
 
       <p>
       The following example buildfile applies checkstyle checks against the
-      project src path (typically target/build/src or the aggregated set of
-      target/build/src directories in the case of a module). In the case of
+      project src path (typically target/build/src). In the case of
       module projects the source path is prepared taking into account all
       projects within the same group.  Output in generated into the target
       directory and is subsequently post processed into a checkstyle report
@@ -37,8 +36,6 @@
     xmlns:transit="antlib:net.dpml.transit">
 
   <transit:import uri="artifact:template:dpml/magic/standard"/>
-  <transit:import uri="artifact:template:dpml/magic/checkstyle"/>
-
   <target name="demo" depends="checkstyle"/>
 
 </project>
@@ -49,14 +46,10 @@
       </p>
 
 <pre>init:
-   [x:init] loading: artifact:plugin:dpml/magic/dpml-magic-checkstyle#SNAPSHOT
-
-prepare:
-
 checkstyle:
     [style] Processing D:\demo\target\checkstyle\checkstyle_errors.xml to
 D:\demo\target\reports\checkstyle\checkstyle_report.html
-    [style] Loading stylesheet D:\dpml\main\dpml\magic\xsls\checkstyle-frames.xsl
+    [style] Loading stylesheet D:\dpml\Preferences\magic\xsls\checkstyle-frames.xsl
 </pre>
 
     </subsection>
@@ -76,32 +69,13 @@ D:\demo\target\reports\checkstyle\checkstyle_report.html
         </tr>
         <tr>
           <td>${project.checkstyle.format}</td>
-          <td>artifact:format:dpml/magic/dpml</td>
-          <td>The transit uri of the checkstyle format rules specification.</td>
+          <td>${dpml.prefs}/magic/formats/dpml.format</td>
+          <td>The checkstyle formating rules.</td>
         </tr>
         <tr>
           <td>${project.checkstyle.reports}</td>
           <td>target/reports/checkstyle</td>
           <td>Destination directory for html report content.</td>
-        </tr>
-      </table>
-
-    </subsection>
-
-    <subsection name="Attributes">
-
-      <p>
-      The checkstyle task is a direct extension of the standard checkstyle ant task
-      with the addition of a single attribute value against which the checkstyle format
-      specification may be declared as a transit artifact uri.
-      </p>
-
-      <table>
-        <tr><th>Attribute</th><th>Default</th><th>Description</th></tr>
-        <tr>
-          <td>uri</td>
-          <td>${project.checkstyle.format}</td>
-          <td>A transit artifact uri referencing a checkstyle format rule sheet.</td>
         </tr>
       </table>
 
@@ -113,7 +87,7 @@ D:\demo\target\reports\checkstyle\checkstyle_report.html
       The default formatting rules correspond to the
       <a href="/about/community/process/code.html">DPML standard code format</a>
       specification and is required for all contributions to the DPML.  Alternative
-      code formats include a format approximating the Sun coding guidlines.
+      code format specifications include a format approximating the Sun coding guidlines.
       </p>
 
     </subsection>

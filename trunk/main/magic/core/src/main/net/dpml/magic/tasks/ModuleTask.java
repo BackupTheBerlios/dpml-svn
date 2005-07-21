@@ -126,9 +126,18 @@ public class ModuleTask extends ProjectTask
     {
         Definition definition = getDefinition();
         final Info info = definition.getInfo();
-        String type = info.getType();
-        String filename = info.getFilename();
+  
+        if( false == info.isa( "module" ) )
+        {
+            final String error =
+              "Illegal attempt to build a module from the project "
+              + definition 
+              + " as the project does not declare itself as producing a 'module' resource type.";
+            throw new BuildException( error, getLocation() );
+        }
 
+        String type = "module";
+        String filename = info.getFilename( type );
         File deliverables = getContext().getDeliverablesDirectory();
         File modules = new File( deliverables, type + "s" );
         File module = new File( modules, filename );
@@ -144,7 +153,7 @@ public class ModuleTask extends ProjectTask
             try
             {
                 writer.write( "<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>" );
-                writer.write( "\n\n<module uri=\"" + definition.getInfo().getURI() + "\">" );
+                writer.write( "\n\n<module uri=\"" + definition.getInfo().getURI( "module" ) + "\">" );
                 writeHeader( writer, getHeader() );
                 writeModule( writer, definition );
                 writer.write( "\n\n</module>\n" );
@@ -265,14 +274,14 @@ public class ModuleTask extends ProjectTask
     private void expand( Definition definition, ResourceRef reference, List list, List modules )
     {
         Resource resource = getPrivateIndex().getResource( reference );
-        if( "module".equals( resource.getInfo().getType() ) )
+        if( resource.getInfo().isa( "module" ) )
         {
             //
             // the resource is a module - add it to the list of modules to import
             //
 
-            String uri = resource.getInfo().getURI();
-            if( !uri.equals( definition.getInfo().getURI() ) && !modules.contains( uri ) )
+            String uri = resource.getInfo().getURI( "module" );
+            if( !uri.equals( definition.getInfo().getURI( "module" ) ) && !modules.contains( uri ) )
             {
                 modules.add( uri );
             }
@@ -282,7 +291,7 @@ public class ModuleTask extends ProjectTask
             String module = resource.getModule();
             if(( null != module ) && !"".equals( module ) )
             {
-                if( !module.equals( definition.getInfo().getURI() ) )
+                if( !module.equals( definition.getInfo().getURI( "module" ) ) )
                 {
                     if( !modules.contains( module ) )
                     {
@@ -326,7 +335,14 @@ public class ModuleTask extends ProjectTask
         {
             writer.write( "\n        <version>" + res.getInfo().getVersion() + "</version>" );
         }
-        writer.write( "\n        <type>" + res.getInfo().getType() + "</type>" );
+        writer.write( "\n        <types>" );
+        Type[] types = res.getInfo().getTypes();
+        for( int i=0; i<types.length; i++ )
+        {
+            Type type = types[i];
+            writer.write( "\n          <type name=\"" + type.getName() + "\"/>" );
+        }
+        writer.write( "\n        </types>" );
         writer.write( "\n      </info>" );
 
         ResourceRef[] refs = res.getResourceRefs();

@@ -51,8 +51,8 @@
       <group>dpml/test</group>
       <name>dpml-test-simple</name>
       <types>
-        <type>jar</type>
-        <type>part</type>
+        <type name="jar"/>
+        <type name="part"/>
       </types>
     </info>
     <plugins>
@@ -66,7 +66,7 @@
 
         <p>
         The following is the build file of the project declared in the above example.
-        Note the reference to the plugin urn at the begginig of the build file and 
+        Note the reference to the plugin urn at the beginning of the build file and 
         it's subsequent usage of the plugin to construct component types and deployment
         data.
         </p>

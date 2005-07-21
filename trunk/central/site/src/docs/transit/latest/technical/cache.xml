@@ -14,8 +14,8 @@
       Resource are retrieved from one or more 
       <a href="../hosts/index.html">host</a> repositories 
       and maintained under a local cache.  The default location of 
-      the cache is <code>${dpml.home}/cache</code> where the value of 
-      <code>${dpml.home}</code> is either declared explicity via 
+      the cache is <code>${dpml.data}/cache</code> where the value of 
+      <code>${dpml.data}</code> is either resolved via 
       the <code>DPML_HOME</code> environment variable or defaults
       to a platform dependent location.
       </p>

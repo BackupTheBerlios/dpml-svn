@@ -10,7 +10,9 @@
     <info>
       <group>dpml/util</group>
       <name>dpml-util</name>
-      <type>module</type>
+      <types>
+        <type name="module"/>
+      </types>
     </info>
   </project>
 
@@ -21,7 +23,7 @@
       <group>dpml/util</group>
       <name>dpml-util-i18n</name>
       <types>
-        <type>jar</type>
+        <type name="jar"/>
       </types>
     </info>
   </project>

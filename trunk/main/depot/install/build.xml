@@ -13,9 +13,6 @@
 
   <target name="package" depends="standard.package">
     <x:export class="net.dpml.depot.install.PackageInstaller"/>
-    <property name="link.path" value="target/deliverables/plugins/${project.name}-LATEST.plugin.link"/>
-    <property name="link.uri" value="artifact:plugin:${project.group}/${project.name}#${project.version}"/>
-    <echo file="${link.path}">${link.uri}</echo>
   </target>
 
 </project>

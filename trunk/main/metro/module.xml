@@ -36,9 +36,6 @@
         <home href="http://www.dpml.net/central/products/metro/"/>
       </header>
     </x:module>
-    <x:property name="module.uri" feature="uri" type="module"/>
-    <property name="link" value="target/deliverables/modules/${project.name}.module.link"/>
-    <echo file="${link}">${module.uri}</echo>
   </target>
 
   <target name="package" depends="standard.package">
@@ -58,10 +55,6 @@
     <property name="local" value="${share}/local"/>
     <x:path id="module.path" type="*" mode="RUNTIME" module="true"/>
     <x:replicate refid="module.path" toDir="${local}" />
-
-    <!-- while replicate does a good job of handling classic artifacts it does not
-      handle links (because links don't match the [name]-[version] pattern so we 
-      need to copy links in manually -->
 
     <copy todir="${local}/${project.group}">
       <fileset dir="target/deliverables"/>

@@ -10,7 +10,7 @@
     <section name="Module">
       <p>
       A module is a XML file containing the declaration of a set of available
-      resources.  A module is typicaly created using the Magic module task and 
+      resources.  A module is typically created using the Magic module task and 
       is used to publish the general availability of the resources it declares.
       The module file is normally references via an artifact uri.
       </p>
@@ -75,7 +75,9 @@
         <group>dpml/metro</group>
         <name>dpml-parameters-impl</name>
         <version>SNAPSHOT</version>
-        <type>jar</type>
+        <types>
+          <type name="jar"/>
+        </types>
       </info>
       <dependencies>
         <include key="dpml-parameters-api"/>
@@ -88,7 +90,9 @@
         <group>dpml/metro</group>
         <name>dpml-part-api</name>
         <version>SNAPSHOT</version>
-        <type>jar</type>
+        <types>
+          <type name="jar"/>
+        </types>
       </info>
       <dependencies>
         <include key="dpml-transit-main"/>
@@ -100,7 +104,9 @@
         <group>dpml/metro</group>
         <name>dpml-parameters-api</name>
         <version>SNAPSHOT</version>
-        <type>jar</type>
+        <types>
+          <type name="jar"/>
+        </types>
       </info>
     </resource>
 
@@ -109,15 +115,20 @@
         <group>dpml/metro</group>
         <name>dpml-composition-control</name>
         <version>SNAPSHOT</version>
-        <type>jar</type>
+        <types>
+          <type name="jar"/>
+          <type name="plugin"/>
+        </types>
       </info>
       <dependencies>
         <include key="dpml-composition-model"/>
         <include key="dpml-logging-api"/>
-        <include key="dpml-transit-main"/>
         <include key="dpml-activity-api"/>
         <include key="dpml-parameters-impl"/>
         <include key="dpml-configuration-impl"/>
+        <include key="dpml-parameters-api"/>
+        <include key="dpml-configuration-api"/>
+        <include key="dpml-transit-main"/>
       </dependencies>
     </resource>
 
@@ -126,7 +137,9 @@
         <group>dpml/metro</group>
         <name>dpml-composition-builder</name>
         <version>SNAPSHOT</version>
-        <type>jar</type>
+        <types>
+          <type name="jar"/>
+        </types>
       </info>
       <dependencies>
         <include key="dpml-magic-core"/>
@@ -140,7 +153,10 @@
         <group>dpml/metro</group>
         <name>dpml-metro-central</name>
         <version>SNAPSHOT</version>
-        <type>jar</type>
+        <types>
+          <type name="jar"/>
+          <type name="plugin"/>
+        </types>
       </info>
       <dependencies>
         <include key="dpml-composition-control"/>
@@ -152,7 +168,9 @@
         <group>dpml/metro</group>
         <name>dpml-activity-api</name>
         <version>SNAPSHOT</version>
-        <type>jar</type>
+        <types>
+          <type name="jar"/>
+        </types>
       </info>
     </resource>
 
@@ -161,7 +179,9 @@
         <group>dpml/metro</group>
         <name>dpml-logging-api</name>
         <version>SNAPSHOT</version>
-        <type>jar</type>
+        <types>
+          <type name="jar"/>
+        </types>
       </info>
     </resource>
 
@@ -170,7 +190,9 @@
         <group>dpml/metro</group>
         <name>dpml-configuration-api</name>
         <version>SNAPSHOT</version>
-        <type>jar</type>
+        <types>
+          <type name="jar"/>
+        </types>
       </info>
     </resource>
 
@@ -179,13 +201,15 @@
         <group>dpml/metro</group>
         <name>dpml-composition-model</name>
         <version>SNAPSHOT</version>
-        <type>jar</type>
+        <types>
+          <type name="jar"/>
+        </types>
       </info>
       <dependencies>
         <include key="dpml-transit-main"/>
-        <include key="dpml-part-api"/>
         <include key="dpml-parameters-api"/>
         <include key="dpml-configuration-api"/>
+        <include key="dpml-part-api"/>
       </dependencies>
     </resource>
 
@@ -194,7 +218,9 @@
         <group>dpml/metro</group>
         <name>dpml-configuration-impl</name>
         <version>SNAPSHOT</version>
-        <type>jar</type>
+        <types>
+          <type name="jar"/>
+        </types>
       </info>
       <dependencies>
         <include key="dpml-configuration-api"/>
@@ -209,7 +235,9 @@
         <group>xstream</group>
         <name>xstream</name>
         <version>1.1</version>
-        <type>jar</type>
+        <types>
+          <type name="jar"/>
+        </types>
       </info>
     </resource>
 
@@ -218,7 +246,9 @@
         <group>xerces</group>
         <name>xercesImpl</name>
         <version>2.6.2</version>
-        <type>jar</type>
+        <types>
+          <type name="jar"/>
+        </types>
       </info>
       <dependencies>
         <include key="xmlParserAPIs"/>
@@ -230,14 +260,15 @@
         <group>xerces</group>
         <name>xmlParserAPIs</name>
         <version>2.6.2</version>
-        <type>jar</type>
+        <types>
+          <type name="jar"/>
+        </types>
       </info>
     </resource>
 
   </resources>
 
 </module>
-
 ]]></source>
 
       </subsection>

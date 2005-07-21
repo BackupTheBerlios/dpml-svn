@@ -125,7 +125,7 @@ public class Resource
 
     public ResourceRef[] getResourceRefs()
     {
-        if( "module".equals( getInfo().getType() ) )
+        if( getInfo().isa( "module" ) )
         {
             ResourceRef[] implicit = getIndex().getSubsidiaryRefs( this );
             ArrayList list = new ArrayList();
@@ -161,7 +161,7 @@ public class Resource
             final String key = m_uri.substring( 4 );
             try
             {
-                return getIndex().getResource( key ).getInfo().getURI();
+                return getIndex().getResource( key ).getInfo().getURI( "module" );
             }
             catch( BuildException e )
             {
@@ -259,23 +259,28 @@ public class Resource
                     Info info = resource.getInfo();
                     if( "*".equals( filter ) )
                     {
-                        String[] types = info.getTypes();
+                        Type[] types = info.getTypes();
                         for( int j=0; j<types.length; j++ )
                         {
-                            String type = types[j];
-                            if( !"theme".equals( type ) )
+                            Type type = types[j];
+                            String name = type.getName();
+                            final File file = resource.getArtifact( project, name );
+                            path.createPathElement().setLocation( file );
+                            String alias = type.getAlias();
+                            if( null != alias )
                             {
-                                final File file = resource.getArtifact( project, type );
-                                path.createPathElement().setLocation( file );
+                                //
+                                // include the alias resource in the path
+                                //
 
-                                //final URI uri = resource.getArtifactURI( type );
-                                //path.createPathElement().setPath( uri.toString() );
+                                final File link = resource.getArtifact( project, name, alias );
+                                path.createPathElement().setLocation( link );
                             }
                         }
                     }
-                    else if( !"theme".equals( filter ) )
+                    else
                     {
-                        if( info.isa( filter ) )
+                       if( info.isa( filter ) )
                         {
                             final File file = resource.getArtifact( project, filter );
                             path.createPathElement().setLocation( file );
@@ -360,19 +365,24 @@ public class Resource
         return (ResourceRef[]) list.toArray( new ResourceRef[0] );
     }
 
-    public File getArtifact( final Project project )
-    {
-        return get( getInfo().getType() );
-    }
-
     public File getArtifact( final Project project, String type )
     {
         return get( type );
     }
 
+    public File getArtifact( final Project project, String type, String alias )
+    {
+        return get( type, alias );
+    }
+
     private File get( String type ) throws BuildException
     {
-        final String path = getInfo().getURI( type );
+        return get( type, null );
+    }
+
+    private File get( String type, String alias ) throws BuildException
+    {
+        final String path = getInfo().getURI( type, alias );
         try
         {
             URL url = new URL( null, path, new Handler() );
@@ -421,12 +431,6 @@ public class Resource
               + this;
             throw new BuildException( error, e );
         }
-    }
-
-
-    public String getFilename()
-    {
-        return getFilename( getInfo().getType() );
     }
 
     public String getFilename( final String type )

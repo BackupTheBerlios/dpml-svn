@@ -9,8 +9,8 @@
       <group>dpml/test</group>
       <name>dpml-test-simple</name>
       <types>
-        <type>jar</type>
-        <type>part</type>
+        <type name="jar"/>
+        <type name="part"/>
       </types>
     </info>
     <plugins>
@@ -23,8 +23,8 @@
       <group>dpml/test</group>
       <name>dpml-test-plus</name>
       <types>
-        <type>jar</type>
-        <type>part</type>
+        <type name="jar"/>
+        <type name="part"/>
       </types>
     </info>
     <dependencies>

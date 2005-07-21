@@ -21,17 +21,9 @@
     <!--<x:filter key="dpml-context-api" feature="spec" token="CONTEXT-API-SPEC"/>-->
     <!--<x:filter key="dpml-service-api" feature="spec" token="SERVICE-API-SPEC"/>-->
     <!--x:filter key="dpml-tutorial-hello" feature="spec" token="TUTORIAL-HELLO-SPEC"/-->
-    <!--<x:filter key="dpml-system-impl" feature="plugin" token="SYSTEM-PLUGIN-URI"/>-->
-    <!--<x:filter key="dpml-classic-impl" feature="plugin" token="COMPOSITION-PLUGIN-URI"/>-->
-    <!--<x:filter key="dpml-logging-logkit-impl" feature="plugin" token="LOGGING-LOGKIT-PLUGIN-URI"/>-->
-    <!--<x:filter key="dpml-logging-log4j" feature="plugin" token="LOGGING-LOG4J-PLUGIN-URI"/>-->
-    <!--<x:filter key="dpml-activation-impl" feature="plugin" token="RUNTIME-PLUGIN-URI"/>-->
-    <!--<x:filter key="dpml-activation-avalon-provider" feature="plugin" token="AVALON-RUNTIME-PLUGIN-URI"/>-->
-    <!--<x:filter key="dpml-activation-metro-provider" feature="plugin" token="METRO-RUNTIME-PLUGIN-URI"/>-->
-    <!--<x:filter key="dpml-metro-main" feature="plugin" token="METRO-PLUGIN-URI"/>-->
-    <x:filter key="dpml-transit-tools" feature="uri" token="MAGIC-BOOTSTRAP-URI"/>
-    <x:filter key="dpml-magic-core" feature="plugin" token="MAGIC-PLUGIN-URI"/>
-    <x:filter key="dpml-transit-main" feature="uri" token="TRANSIT-MAIN-URI"/>
+    <x:filter key="dpml-transit-tools" feature="uri" type="jar" token="MAGIC-BOOTSTRAP-URI"/>
+    <x:filter key="dpml-magic-core" feature="uri" type="plugin" token="MAGIC-PLUGIN-URI"/>
+    <x:filter key="dpml-transit-main" feature="uri" type="jar" token="TRANSIT-MAIN-URI"/>
     <x:filter key="dpml-transit" feature="api" token="TRANSIT-DOCS-PATH"/>
     <x:filter key="dpml-magic" feature="api" token="MAGIC-DOCS-PATH"/>
     <x:filter key="dpml-metro" feature="api" token="METRO-JAVADOC-PATH"/>
@@ -47,7 +39,7 @@
   <target name="javadoc" depends="prepare"/>
 
   <target name="docs" depends="prepare">
-    <x:property name="spec" feature="plugin" key="dpml-magic-doc"/>
+    <x:property name="spec" feature="uri" type="plugin" key="dpml-magic-doc"/>
     <transit:plugin uri="${spec}">
       <task class="net.dpml.magic.doc.DocTask" name="docs"/>
     </transit:plugin>

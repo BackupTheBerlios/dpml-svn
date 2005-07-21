@@ -224,7 +224,7 @@ public class ProjectPath extends Path
         }
         else
         {
-            return new File( getIndex().getCacheDirectory(), resource.getInfo().getPath() );
+            return new File( getIndex().getCacheDirectory(), resource.getInfo().getPath( m_type ) );
         }
     }
 

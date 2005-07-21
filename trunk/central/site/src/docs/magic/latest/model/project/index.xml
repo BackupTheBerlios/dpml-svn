@@ -23,7 +23,7 @@
             <td>
               If undefined the project key defaults to the name  
               defined under the &lt;info&gt;&lt;name&gt; element.
-              If declared the key attribute value takes precidence.  The 
+              If declared the key attribute value takes precedence.  The 
               value of the key is used as the unique identifier of the 
               project.
             </td>
@@ -71,8 +71,8 @@
       <group>dpml/test</group>
       <name>dpml-test-plus</name>
       <types>
-        <type>jar</type>
-        <type>part</type>
+        <type name="jar"/>
+        <type name="part"/>
       </types>
     </info>
     <dependencies>

@@ -55,24 +55,6 @@ public class CheckstyleTask extends CheckStyleTask
         m_init = true;
     }
 
-    public void setUri( String uri )
-    {
-        try
-        {
-            URL url = new URL( null, uri, new Handler() );
-            File local = (File) url.getContent( new Class[]{File.class} );
-            super.setConfig( local );
-        }
-        catch( Throwable e )
-        {
-            final String error = 
-              "Could not resolve the uri ["
-              + uri 
-              + "]";
-            throw new BuildException( error, e );
-        }
-    }
-
     private void addTargetToFileset( Definition def )
     {
         File file = def.getBaseDir();
@@ -85,7 +67,7 @@ public class CheckstyleTask extends CheckStyleTask
             super.addFileset( fileset );
         }
 
-        if( "module".equals( def.getInfo().getType() ) )
+        if( def.getInfo().isa( "module" ) )
         {
             Definition[] defs = getIndex().getSubsidiaryDefinitions( def );
             for( int i=0; i<defs.length; i++ )

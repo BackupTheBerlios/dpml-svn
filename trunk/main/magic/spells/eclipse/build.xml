@@ -7,7 +7,7 @@
   <transit:import uri="artifact:template:dpml/magic/eclipse"/ -->
 	
   <target name="init" depends="standard.init">
-    <x:filter feature="plugin" token="PLUGIN-URI"/>
+    <x:filter feature="uri" type="plugin" token="PLUGIN-URI"/>
   </target>
 
   <target name="build" depends="standard.build">

@@ -14,7 +14,7 @@
       <group>dpml/planet/http</group>
       <name>dpml-http</name>
       <types>
-        <type>module</type>
+        <type name="module" alias=""/>
       </types>
     </info>
     <dependencies>
@@ -29,6 +29,9 @@
   <project basedir="api">
     <info>
       <name>dpml-http-api</name>
+      <types>
+        <type name="jar"/>
+      </types>
     </info>
     <dependencies>
       <include key="org.mortbay.jetty"/>
@@ -38,6 +41,9 @@
   <project basedir="spi">
     <info>
       <name>dpml-http-spi</name>
+      <types>
+        <type name="jar"/>
+      </types>
     </info>
     <dependencies>
       <include key="dpml-http-api"/>
@@ -48,6 +54,9 @@
   <project basedir="util">
     <info>
       <name>dpml-http-util</name>
+      <types>
+        <type name="jar"/>
+      </types>
     </info>
     <dependencies>
       <include key="dpml-http-api"/>
@@ -58,8 +67,8 @@
     <info>
       <name>dpml-http-impl</name>
       <types>
-        <type>jar</type>
-        <type>part</type>
+        <type name="jar"/>
+        <type name="part"/>
       </types>
     </info>
     <dependencies>
@@ -88,8 +97,8 @@
     <info>
       <name>dpml-http-demo</name>
       <types>
-        <type>part</type>
-        <type>jar</type>
+        <type name="part" alias=""/>
+        <type name="jar"/>
       </types>
     </info>
     <dependencies>
@@ -110,7 +119,7 @@
       <name>org.mortbay.jetty</name>
       <version>5.1.1</version>
       <types>
-        <type>jar</type>
+        <type name="jar"/>
       </types>
     </info>
     <dependencies>
@@ -124,7 +133,9 @@
       <group>jetty</group>
       <name>org.mortbay.jaas</name>
       <version>5.1.1</version>
-      <type>jar</type>
+      <types>
+        <type name="jar"/>
+      </types>
     </info>
   </resource>
 
@@ -133,7 +144,9 @@
       <group>servletapi</group>
       <name>servletapi</name>
       <version>2.3</version>
-      <type>jar</type>
+      <types>
+        <type name="jar"/>
+      </types>
     </info>
   </resource>
 
@@ -142,7 +155,9 @@
       <group>tomcat</group>
       <name>jsp-api</name>
       <version>5.0.18</version>
-      <type>jar</type>
+      <types>
+        <type name="jar"/>
+      </types>
     </info>
   </resource>
 
@@ -151,7 +166,9 @@
       <group>tomcat</group>
       <name>jasper-runtime</name>
       <version>5.0.25</version>
-      <type>jar</type>
+      <types>
+        <type name="jar"/>
+      </types>
     </info>
   </resource>
 
@@ -160,7 +177,9 @@
       <group>tomcat</group>
       <name>jasper-compiler</name>
       <version>5.0.25</version>
-      <type>jar</type>
+      <types>
+        <type name="jar"/>
+      </types>
     </info>
   </resource>
 
@@ -169,6 +188,9 @@
       <name>commons-logging</name>
       <version>1.0.4</version>
       <group>commons-logging</group>
+      <types>
+        <type name="jar"/>
+      </types>
     </info>
   </resource>
 

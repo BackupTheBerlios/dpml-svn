@@ -316,7 +316,7 @@ public class AntFileIndex extends DataType implements Index
     public ResourceRef[] getSubsidiaryRefs( Resource module )
         throws BuildException
     {
-        if( !"module".equals( module.getInfo().getType() ) )
+        if( false == module.getInfo().isa( "module" ) )
         {
             final String error =
               "Resource argument [" + module + "] is not a module.";

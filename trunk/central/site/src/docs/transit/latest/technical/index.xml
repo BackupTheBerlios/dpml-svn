@@ -2,14 +2,14 @@
 
 <!-- 
  Copyright 2005 David Leangen
- Copyright 2004 Stephen McConnell
+ Copyright 2004-2005 Stephen McConnell
  Copyright 2004 Niclas Hedhman
 
  Licensed  under the  Apache License,  Version 2.0  (the "License");
  you may not use  this file  except in  compliance with the License.
  You may obtain a copy of the License at 
  
-   http://www.dpml.net/central/about/legal/
+   http://www.dpml.net/central/about/legal/ 
  
  Unless required by applicable law or agreed to in writing, software
  distributed  under the  License is distributed on an "AS IS" BASIS,
@@ -29,23 +29,19 @@
   </properties> 
 
   <body>
-    <section name="Transit Reference Specifications">
-
-      <subsection name="URI"><source>@TRANSIT-MAIN-URI@</source></subsection>
-
-      <subsection name="Description">
+    <section name="Transit Specifications">
 
         <p>
         The section contains the formal specification of the Transit system.
-        This includes the description of the <a href="protocol/index.html">artifact protocol</a>
+        This includes the description of the <a href="protocol.html">artifact protocol</a>
         (a uri that can be used to construct a url which in turn can be used to resolve 
-        an artifact to a locally cached resource), the underlying <a href="cache/index.html">
-        cache</a> management system and associated <a href="hosts/index.html">hosts</a>. In 
-        addition, the specification cover the transit <a href="monitors/index.html">event</a> 
-        monitoring system and <a href="repository/index.html">repository service</a>.
+        an artifact to a locally cached resource), the underlying <a href="cache.html">
+        cache</a> management system and associated <a href="hosts.html">hosts</a>. In 
+        addition, the specification cover the transit <a href="monitors.html">event</a> 
+        monitoring system and <a href="plugins.html">plugin service</a>.
         </p>
 
-      </subsection>
+      <subsection name="Artifact URI"><source>@TRANSIT-MAIN-URI@</source></subsection>
 
     </section>
   </body>

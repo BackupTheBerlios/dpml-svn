@@ -14,7 +14,9 @@
     <info>
       <group>dpml/depot</group>
       <name>dpml-depot</name>
-      <type>module</type>
+      <types>
+        <type name="module" alias=""/>
+      </types>
     </info>
     <dependencies>
       <include key="dpml-transit"/>
@@ -28,7 +30,7 @@
       <group>dpml/depot</group>
       <name>dpml-depot-console</name>
       <types>
-        <type>jar</type>
+        <type name="jar"/>
       </types>
     </info>
     <dependencies>
@@ -41,8 +43,8 @@
       <group>dpml/depot</group>
       <name>dpml-depot-prefs</name>
       <types>
-        <type>jar</type>
-        <type>plugin</type>
+        <type name="jar"/>
+        <type name="plugin"/>
       </types>
     </info>
     <dependencies>
@@ -55,8 +57,8 @@
       <group>dpml/depot</group>
       <name>dpml-depot-station</name>
       <types>
-        <type>jar</type>
-        <type>plugin</type>
+        <type name="jar"/>
+        <type name="plugin"/>
       </types>
     </info>
     <dependencies>
@@ -70,8 +72,8 @@
       <group>dpml/depot</group>
       <name>dpml-depot-install</name>
       <types>
-        <type>jar</type>
-        <type>plugin</type>
+        <type name="jar"/>
+        <type name="plugin" alias=""/>
       </types>
     </info>
     <dependencies>
@@ -85,8 +87,8 @@
       <group>dpml/test</group>
       <name>dpml-depot-test</name>
       <types>
-        <type>jar</type>
-        <type>plugin</type>
+        <type name="jar"/>
+        <type name="plugin"/>
       </types>
     </info>
     <dependencies>
@@ -99,7 +101,7 @@
       <group>dpml/test</group>
       <name>dpml-test-mexico</name>
       <types>
-        <type>jar</type>
+        <type name="jar"/>
       </types>
     </info>
   </project>

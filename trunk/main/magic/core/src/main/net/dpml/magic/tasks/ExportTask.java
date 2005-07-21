@@ -252,7 +252,7 @@ public class ExportTask extends ProjectTask
         }
 
         final ResourceRef[] impl = def.getQualifiedRefs( getProject(), visited, ResourceRef.IMPL );
-        boolean isaJar = def.getInfo().getType().equals( "jar" );
+        boolean isaJar = def.getInfo().isa( "jar" );
         if( ( impl.length > 0 ) || isaJar )
         {
             final String lead = ARTIFACT_PRIVATE;
@@ -289,9 +289,8 @@ public class ExportTask extends ProjectTask
         writer.write( lead );
         writer.write( "." + i );
         writer.write( " = " );
-        writer.write( resource.getInfo().getURI() );
+        writer.write( resource.getInfo().getURI( "jar" ) );
     }
-
 
    /**
     * Write the factory class.

@@ -49,7 +49,7 @@ public class Info
         final String name = artifact.getName();
         final String version = artifact.getVersion();
         final String type = artifact.getType();
-        return create( group, name, version, new String[]{ type } );
+        return create( group, name, version, new Type[]{ new Type( type ) } );
     }
 
    /**
@@ -62,7 +62,7 @@ public class Info
     */
     public static Info create(
       final String group, final String name, final String version,
-      String[] types )
+      Type[] types )
     {
         return new Info( group, name, version, types );
     }
@@ -70,9 +70,9 @@ public class Info
     private final String m_name;
     private final String m_group;
     private final String m_version;
-    private final String[] m_types;
+    private final Type[] m_types;
 
-    private Info( String group, String name, String version, String[] types )
+    private Info( String group, String name, String version, Type[] types )
     {
         assertNotNull( "group", group );
         assertNotNull( "name", name );
@@ -119,19 +119,27 @@ public class Info
     }
 
    /**
-    * Return a string identifying the aritfact type.
+    * Return a type identified by name.
     * @return the artifact type
     */
-    public String getType()
+    public Type getType( String name )
     {
-        return m_types[0];
+        for( int i=0; i<m_types.length; i++ )
+        {
+            Type type = m_types[i];
+            if( type.getName().equals( name ) )
+            {
+                return type;
+            }
+        }
+        throw new IllegalArgumentException( "Invalid type argument [" + name + "]." );
     }
 
    /**
-    * Return a string array identifying the aritfact types.
+    * Return the array of the aritfact types.
     * @return the artifact types
     */
-    public String[] getTypes()
+    public Type[] getTypes()
     {
         return m_types;
     }
@@ -144,7 +152,7 @@ public class Info
     {
         for( int i=0; i<m_types.length; i++ )
         {
-            if( m_types[i].equals( type ) )
+            if( m_types[i].getName().equals( type ) )
             {
                 return true;
             }
@@ -152,14 +160,28 @@ public class Info
         return false;
     }
 
-
    /**
     * Return the type at the supplied index position.
     * @return the artifact type
     */
-    public String getType( int index )
+    public Type getType( int index )
     {
         return m_types[ index ];
+    }
+
+    public String getLinkFilename( Type type )
+    {
+        final StringBuffer buffer = new StringBuffer( getName() );
+        if( false == "".equals( type.getAlias() ) )
+        {
+            buffer.append( "-" );
+            buffer.append( type.getAlias() );
+        }
+        String name = type.getName();
+        buffer.append( "." );
+        buffer.append( name );
+        buffer.append( ".link" );
+        return buffer.toString();
     }
 
    /**
@@ -183,16 +205,6 @@ public class Info
     * [name]-[version].[type] or in the case of a null version [name].[type].
     * @return the artifact filename
     */
-    public String getFilename()
-    {
-        return getFilename( getType() );
-    }
-
-   /**
-    * Return the full filename of the artifact. The value returned is in the form
-    * [name]-[version].[type] or in the case of a null version [name].[type].
-    * @return the artifact filename
-    */
     public String getFilename( String type )
     {
         final String shortFilename = getShortFilename();
@@ -200,16 +212,6 @@ public class Info
         buffer.append( "." );
         buffer.append( type );
         return buffer.toString();
-    }
-
-   /**
-    * Return the path to the artifact.  The path is returned in the
-    * form [group]/[type]s/[filename].
-    * @return the artifact relative path
-    */
-    public String getPath()
-    {
-        return getPath( getType() );
     }
 
    /**
@@ -232,23 +234,44 @@ public class Info
     * Return the artifact uri. The path is returned in the form "artifact:[type]:[spec].
     * @return the artifact uri
     */
-    public String getURI()
+    public String getURI( String type )
     {
-        return getURI( getType() );
+        return getURI( type, null );
     }
 
    /**
     * Return the artifact uri. The path is returned in the form "artifact:[type]:[spec].
     * @return the artifact uri
     */
-    public String getURI( String type )
+    public String getURI( String name, String alias )
     {
-        final StringBuffer buffer = new StringBuffer( PROTOCOL );
-        buffer.append( ":" );
-        buffer.append( type );
-        buffer.append( ":" );
-        buffer.append( getSpec() );
-        return buffer.toString();
+        if( null == alias )
+        {
+            final StringBuffer buffer = new StringBuffer( PROTOCOL );
+            buffer.append( ":" );
+            buffer.append( name );
+            buffer.append( ":" );
+            buffer.append( getSpec() );
+            return buffer.toString();
+        }
+        else
+        {
+            final StringBuffer buffer = new StringBuffer( "link" );
+            buffer.append( ":" );
+            buffer.append( name );
+            buffer.append( ":" );
+            buffer.append( m_group );
+            buffer.append( "/" );
+            buffer.append( getName() );
+            Type type = getType( name );
+            String version = type.getAlias();
+            if( null != version )
+            {
+                buffer.append( "#" );
+                buffer.append( version );
+            }
+            return buffer.toString();
+        }
     }
 
    /**
@@ -280,21 +303,11 @@ public class Info
     */
     public String getJavadocPath()
     {
-        return getJavadocPath( getType() );
-    }
+        //return getJavadocPath( getType().getName() );
 
-   /**
-    * Return the api javadoc path. The path is retured in the form
-    * /api/[group]/[version] for a module and /api/[group]/[name]/[version]
-    * for other types.
-    *
-    * @return the javadoc api path
-    */
-    public String getJavadocPath( String type )
-    {
         StringBuffer buffer = new StringBuffer( "/api/" );
         buffer.append( getGroup() );
-        if( !"module".equals( type ) )
+        if( false == isa( "module" ) )
         {
             buffer.append( "/" + getName() );
         }
@@ -332,7 +345,7 @@ public class Info
     */
     public String toString()
     {
-        return getURI();
+        return getGroup() + "/" + getName();
     }
 
    /**

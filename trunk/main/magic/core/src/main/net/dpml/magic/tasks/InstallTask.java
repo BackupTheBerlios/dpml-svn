@@ -17,12 +17,19 @@
 
 package net.dpml.magic.tasks;
 
+import java.io.File;
+import java.io.OutputStream;
+import java.io.FileOutputStream;
+import java.io.OutputStreamWriter;
+import java.io.IOException;
+import java.io.Writer;
+
+import net.dpml.magic.model.Type;
 import net.dpml.magic.model.Definition;
+
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.types.FileSet;
-
-import java.io.File;
 
 /**
  * Install the ${basedir}/target/deliverables content into the local
@@ -61,16 +68,101 @@ public class InstallTask extends ProjectTask
     private void installDeliverables( final Definition definition )
     {
         final File deliverables = getContext().getDeliverablesDirectory();
+        Definition def = getReferenceDefinition();
+        Type[] types = def.getInfo().getTypes();
+        for( int i=0; i<types.length; i++ )
+        {
+            //
+            // Check that the project has actually built the resource
+            // type that it declares
+            //
+
+            Type type = types[i];
+            String name = type.getName();
+            String filename = def.getInfo().getFilename( name );
+            File group = new File( deliverables, name + "s" );
+            File target = new File( group, filename );
+            if( false == target.exists() && false == name.equalsIgnoreCase( "null" ) )
+            {
+                final String error = 
+                  "Project " 
+                  + def 
+                  + " declares that it produces the resource type ["
+                  + name 
+                  + "] however no artifacts of that type are present in the target/deliverables directory.";
+                throw new BuildException( error, getLocation() );
+            }
+
+            //
+            // If the type declares an alias then construct a link 
+            // and add the link to the deliverables directory as part of 
+            // install process.
+            //
+
+            String alias = type.getAlias();
+            if( null != alias )
+            {
+                String uri = def.getInfo().getURI( name );
+                String link = def.getInfo().getLinkFilename( type );
+
+                final String message = 
+                   "Creating link ["
+                   + link
+                   + "] with uri ["
+                   + uri
+                   + "]";
+                log( message );
+
+                File out = new File( group, link );
+                try
+                {
+                    out.createNewFile();
+                    final OutputStream output = new FileOutputStream( out );
+                    final Writer writer = new OutputStreamWriter( output );
+                    writer.write( uri );
+                    writer.close();
+                    output.close();
+               }
+               catch( IOException e )
+               {
+                   final String error = 
+                     "Internal error while attempting to create a link for the resource type ["
+                     + name 
+                     + "] for the project "
+                     + def;
+                   throw new BuildException( error, e, getLocation() );
+               }
+            }
+        }
+
         if( deliverables.exists() )
         {
-            log( "Installing deliverables", Project.MSG_VERBOSE );
+            log( "Installing deliverables from [" + deliverables + "]", Project.MSG_VERBOSE );
             final File cache = getCacheDirectory();
-            final FileSet fileset = new FileSet();
-            fileset.setDir( deliverables );
-            fileset.createInclude().setName( "**/*" );
-            final String group = definition.getInfo().getGroup();
-            final File destination = new File( cache, group );
-            copy( destination, fileset, true );
+            log( "To cache dir [" + cache + "]", Project.MSG_VERBOSE );
+            try
+            {
+                final FileSet fileset = new FileSet();
+
+                //
+                // WARNING: Ant is kind of brittle - if you do a 
+                // fileset.toString() you will break things with an NPE
+                // (ant 1.6.4)
+                //
+
+                fileset.setDir( deliverables );
+                fileset.createInclude().setName( "**/*" );
+                final String group = definition.getInfo().getGroup();
+                final File destination = new File( cache, group );
+                copy( destination, fileset, true );
+            }
+            catch( Throwable e )
+            {
+                final String error = 
+                  "Unexpected error while constructing ant fileset."
+                  + "\nDeliverables dir: " + deliverables;
+                throw new BuildException( error, e );
+            }
         }
     }
 }

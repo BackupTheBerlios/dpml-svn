@@ -110,10 +110,6 @@ public abstract class FeatureTask extends ProjectTask
         {
             return resource.getInfo().getGroup();
         }
-        else if( m_feature.equals( "type" ) )
-        {
-            return resource.getInfo().getType();
-        }
         else if( m_feature.equals( "version" ) )
         {
             final String version = resource.getInfo().getVersion();
@@ -124,16 +120,27 @@ public abstract class FeatureTask extends ProjectTask
         {
             if( null == m_type )
             {
-                return resource.getInfo().getURI();
+                final String error = 
+                  "Type attribute must be supplied in conjuction with the uri attribute.";
+                throw new BuildException( error, getLocation() );
             }
             else
             {
                 return resource.getInfo().getURI( m_type );
             }
         }
-        else if( m_feature.equals( "plugin" ) )
+        else if( m_feature.equals( "alias" ) )
         {
-            return resource.getInfo().getURI( "plugin" );
+            if( null == m_type )
+            {
+                final String error = 
+                  "Type attribute must be supplied in conjuction with the alias attribute.";
+                throw new BuildException( error, getLocation() );
+            }
+            else
+            {
+                return resource.getInfo().getType( m_type ).getAlias();
+            }
         }
         else if( m_feature.equals( "spec" ) )
         {
@@ -143,7 +150,9 @@ public abstract class FeatureTask extends ProjectTask
         {
             if( null == m_type )
             {
-                return convertString( resource.getInfo().getPath() );
+                final String error = 
+                  "Type attribute must be supplied in conjuction with the path attribute.";
+                throw new BuildException( error, getLocation() );
             }
             else
             {
@@ -162,7 +171,9 @@ public abstract class FeatureTask extends ProjectTask
         {
             if( null == m_type )
             {
-                return resource.getInfo().getFilename();
+                final String error = 
+                  "Type attribute must be supplied in conjuction with the filename attribute.";
+                throw new BuildException( error, getLocation() );
             }
             else
             {

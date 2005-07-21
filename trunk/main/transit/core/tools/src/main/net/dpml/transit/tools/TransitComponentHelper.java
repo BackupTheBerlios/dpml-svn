@@ -320,13 +320,26 @@ public class TransitComponentHelper extends ComponentHelper
             {
                 Class clazz = classloader.loadClass( descriptor.getClassname() );
                 final String key = uri + ":" + name;
-                getProject().log( "installing single task [" + key + "]", Project.MSG_VERBOSE );
+                getProject().log( "installing single task plugin [" + key + "]", Project.MSG_VERBOSE );
                 super.addTaskDefinition( key, clazz );
             }
             else
             {
                 String resource = descriptor.getResource();
+                getProject().log( "installing antlib plugin [" + resource + "]", Project.MSG_VERBOSE );
                 InputStream input = classloader.getResourceAsStream( resource );
+                if( null == input )
+                {
+                    final String error = 
+                      "Cannot load plugin resource [" 
+                      + resource 
+                      + "] because it does not exist within the cloassloader defined by the uri [" 
+                      + uri 
+                      + "]"
+                      + "\n" + classloader.toString();
+                    throw new BuildException( error );
+                }
+
                 Element root = ElementHelper.getRootElement( input );
                 Element[] tasks = ElementHelper.getChildren( root, "taskdef" );
 
@@ -353,6 +366,10 @@ public class TransitComponentHelper extends ComponentHelper
             }
 
             m_uris.add( uri );
+        }
+        catch( BuildException e )
+        {
+            throw e;
         }
         catch( Throwable e )
         {

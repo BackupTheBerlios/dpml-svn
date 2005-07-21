@@ -388,7 +388,7 @@ public final class Main
         String id = "install";
         Logger log = logger.getChildLogger( "install" );
         boolean policy = true;
-        URI uri = new URI( "link:plugin:dpml/depot/dpml-depot-install#LATEST" );
+        URI uri = new URI( "link:plugin:dpml/depot/dpml-depot-install" );
         String title = "Depot Installation Manager";
         boolean command = false;
         Properties args = new Properties();

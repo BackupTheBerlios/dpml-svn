@@ -17,7 +17,7 @@
       <p><i>Example get:</i></p>
 
 <source><![CDATA[
-  <transit:get uri="artifact:jar:ant/ant#1.6.2" property="filename"/>
+  <transit:get uri="artifact:jar:ant/ant#1.6.4" property="filename"/>
 ]]></source>
 
     </section>

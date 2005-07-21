@@ -36,31 +36,24 @@
             <td>version</td>
             <td>optional</td>
             <td>Declaration of the resource version. If undeclared, the default
-                value is SNAPSHOT undes the system property ${dpml.release.signature}
+                value is SNAPSHOT unless the system property ${dpml.release.signature}
                 is declared in which case the value of ${dpml.release.signature} will be 
                 assigned as the project version.
                 <source>&lt;version&gt;1.1&lt;/version&gt;</source></td>
           </tr>
           <tr>
-            <td>type</td>
-            <td>optional</td>
-            <td>Declaration of the project type (may not be declared if the 
-                &lt;types&gt; element is used). If undeclared the 'jar' type 
-                is assumed.
-                <source>&lt;type&gt;plugin&lt;/type&gt;</source>
-                </td>
-          </tr>
-          <tr>
             <td>types</td>
             <td>optional</td>
-            <td>Declaration of multiple resource types produced by the project
-                (may not be used in conjuction with the single &lt;type&gt; 
-                element declaration).
+            <td>Declaration of the resource types produced by the project.
                 <source>&lt;types&gt;
-   &lt;type&gt;jar&lt;/type&gt;
-   &lt;type&gt;part&lt;/type&gt;
+   &lt;type name="jar"/&gt;
+   &lt;type name="plugin" alias=""/&gt;
 &lt;/types&gt;</source>
-                </td>
+                The &lt;type&gt; element declares the resource type under the 'name' attribute
+                and may optionally declare an alias attribute.  If the value of the alias attribute
+                is "" a link without version will be created for the resource.  If the value of the
+                alias attribute is not "" the value will be used as the link version.
+            </td>
           </tr>
         </table>
 
@@ -73,8 +66,8 @@
       <group>dpml/test</group>
       <name>dpml-test-plus</name>
       <types>
-        <type>jar</type>
-        <type>part</type>
+        <type name="jar"/>
+        <type name="part"/>
       </types>
     </info>
     ...

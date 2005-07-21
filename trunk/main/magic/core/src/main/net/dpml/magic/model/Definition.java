@@ -150,7 +150,7 @@ public class Definition extends Resource
 
         Path path = getPath( project, Policy.BUILD );
 
-        if( "module".equals( getInfo().getType() ) )
+        if( getInfo().isa( "module" ) )
         {
             Definition[] defs = getIndex().getSubsidiaryDefinitions( this );
             for( int i=0; i<defs.length; i++ )

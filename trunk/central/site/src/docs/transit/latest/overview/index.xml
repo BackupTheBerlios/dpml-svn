@@ -2,7 +2,7 @@
 
 <!--
  Copyright 2005 David Leangen
- Copyright 2004 Stephen McConnell
+ Copyright 2004-2005 Stephen McConnell
  Copyright 2004 Niclas Hedhman
 
  Licensed  under the  Apache License,  Version 2.0  (the "License");
@@ -57,11 +57,16 @@
         and more advanced services.
       </p>
 
-      <p>
-        A training programme dealing with Transit resource management is 
-        provides by OSM under the <a href="http://www.osm.net/training/resources/index.html">
-        Resource Management Tutorial</a>.
-      </p>
+      <table>
+        <tr>
+          <td><img src="/images/info.gif"/></td>
+          <td><i>The <a href="http://www.osm.net/training/resources/">
+               OSM Resource Management Tutorial</a> covers artifact 
+               creation, plugin management, content handlers and 
+               repository creation.</i>
+          </td>
+        </tr>
+      </table>
 
     </section>
 
@@ -70,7 +75,7 @@
       <p>
         An <strong>artifact</strong> is a URI used to identify a resource.  An artifact
         Basically, an artifact can be any type of file: JAR, image, text... Based on 
-        the artifact uri content Transit delivers dynamic retrival of the resource.
+        the artifact uri content Transit delivers dynamic retrieval of the resource.
       </p>
 
       <subsection name="Artifact URI">
@@ -80,8 +85,8 @@
           <a href="../technical/protocol.html">protocol specification</a>.
           Using an extension to the java.net.URL class in the Java API, Transit
           accesses an artifact through an artifact URI.
-          The artifact URI locically identifies a resource and the Transit
-          system provides the means for resource retrival.
+          The artifact URI logically identifies a resource and the Transit
+          system provides the means for resource retrieval.
        </p>
 
         <p>
@@ -97,8 +102,8 @@
         <p>
           The purpose of the group is to avoid naming conflicts in the artifact
           name space. The top level group should be a distinguishable and well
-          accepted name of the organisation, and any sub groups to be decided
-          by the organisation itself to further avoid name clashes.
+          accepted name of the organization, and any sub groups to be decided
+          by the organization itself to further avoid name clashes.
           It is recommended that the bottom level group is the release level, i.e.
           all resources within the 'release' shares the same version and are
           meant to be working in a group within that version, and not mixed
@@ -126,6 +131,15 @@
           configured to know about which servers are available in its running
           environment.
         </p>
+
+        <table>
+          <tr>
+            <td><img src="/images/info.gif"/></td>
+            <td><i>See also <a href="http://www.osm.net/training/resources/artifacts.html/">
+               OSM Tutorial on Transit Artifacts</a>.</i>
+            </td>
+          </tr>
+        </table>
 
       </subsection>
 
@@ -243,7 +257,7 @@ public class HelloImpl
    </p>
 
 <source>
-  Repository repository = new StandardLoader();
+  Repository repository = Transit.getInstance().getRepository();
   ClassLoader parent = getClass().getClassLoader();
   URI uri = new URI( "artifact:plugin:mycompany/thisproject/hello-impl#1.4.1" );
   Object[] args = new Object[] { "Hello, World!" };
@@ -315,6 +329,15 @@ dpml.artifact.dependency.api.0 = artifact:jar:mycompany/thisproject/hello-api#1.
           becomes empty, i.e. no new URLs not present in the parent structure,
           then the Classloader in question is not created.
         </p>
+
+        <table>
+          <tr>
+            <td><img src="/images/info.gif"/></td>
+            <td><i>See also <a href="http://www.osm.net/training/resources/plugins.html">
+               OSM Tutorial on Plugin Management</a>.</i>
+            </td>
+          </tr>
+        </table>
 
       </subsection>
 

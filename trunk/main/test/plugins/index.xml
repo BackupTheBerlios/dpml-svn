@@ -9,8 +9,8 @@
       <group>dpml/test</group>
       <name>dpml-test-layout</name>
       <types>
-        <type>jar</type>
-        <type>plugin</type>
+        <type name="jar"/>
+        <type name="plugin"/>
       </types>
     </info>
     <dependencies>
@@ -24,8 +24,8 @@
       <group>dpml/test</group>
       <name>dpml-test-content</name>
       <types>
-        <type>jar</type>
-        <type>plugin</type>
+        <type name="jar"/>
+        <type name="plugin"/>
       </types>
     </info>
     <dependencies>

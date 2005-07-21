@@ -2,7 +2,7 @@
 
 <!-- 
  Copyright 2005 David Leangen
- Copyright 2004 Stephen McConnell
+ Copyright 2004-2005 Stephen McConnell
  Copyright 2004 Niclas Hedhman
 
  Licensed  under the  Apache License,  Version 2.0  (the "License");
@@ -28,7 +28,7 @@
     <title>DPML Transit</title>
   </properties> 
 
-  <body verified="false">
+  <body>
     <section name="Features and Benefits">
 
       <p>

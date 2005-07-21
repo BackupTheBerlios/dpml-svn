@@ -6,7 +6,6 @@
 
   <!-- taskdefs -->
   <taskdef name="bar"        classname="net.dpml.magic.tasks.BarTask"/>
-  <taskdef name="block"      classname="net.dpml.magic.tasks.BlockTask"/>
   <taskdef name="clean"      classname="net.dpml.magic.tasks.CleanTask"/>
   <taskdef name="checkstyle" classname="net.dpml.magic.tasks.CheckstyleTask"/>
   <taskdef name="dist"       classname="net.dpml.magic.tasks.DistTask"/>
@@ -25,6 +24,5 @@
   <taskdef name="property"   classname="net.dpml.magic.tasks.PropertyTask"/>
   <taskdef name="reactor"    classname="net.dpml.magic.tasks.ReactorTask"/>
   <taskdef name="replicate"  classname="net.dpml.magic.tasks.ReplicateTask"/>
-  <taskdef name="style"      classname="net.dpml.magic.tasks.StyleTask"/>
 
 </antlib>

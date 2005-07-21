@@ -8,6 +8,7 @@
 
   <body>
     <section name="Filter Task">
+
       <p>
       The filter task establish a classic ant filter values 
       based on project information.
@@ -15,77 +16,99 @@
       <p>
       The following example demonstrates the resolution of 
       a artifact uri feature for a project identified by the 
-      key "avalon-activation-impl".
+      key "dpml-composition-control".
       </p>
 
 <source><![CDATA[
 <x:filter 
-    key="avalon-activation-impl" 
+    key="dpml-composition-control" 
     feature="uri" 
-    token="STANDARD_RUNTIME"/>
+    type="plugin"
+    token="COMPOSITION-PLUGIN-URI"/>
 ]]></source>
+
+    <subsection name="Attributes">
+      
+      <p>
+      Task attributes are described in the following table.
+      </p>
+
+      <table>
+        <tr><th>Attribute</th><th>Required</th><th>Description</th></tr>
+        <tr>
+          <td>token</td>
+          <td>true</td>
+          <td>The filter token.</td>
+        </tr>
+        <tr>
+          <td>key</td>
+          <td>false</td>
+          <td>The name of the project or resource that the feature request refers
+              (if undeclared the current project key is assumed).</td>
+        </tr>
+        <tr>
+          <td>feature</td>
+          <td>true</td>
+          <td>The feature keyword (see feature list below).</td>
+        </tr>
+        <tr>
+          <td>type</td>
+          <td>depends</td>
+          <td>Required when referencing a feature of a resource type (see feature list).
+            The value refers to a resource type declared by a resource or project.</td>
+        </tr>
+      </table>
+
+    </subsection>
 
       <subsection name="Features">
       
       <p>
-      Features that may be aquired from any defintion (resource, 
-      project, or plugin) are shown in the following table along
-      with example output.
+      Available features are listed in the following table.
       </p>
 
       <table>
-        <tr>
-          <th>Feature</th>
-          <th>Description</th>
-        </tr>
+        <tr><th>Feature</th><th>Description</th></tr>
         <tr>
           <td>name</td>
-          <td>The name of the resource, project or plugin.
-<source><![CDATA[
-avalon-activation-impl
-]]></source>
-</td>
+          <td>The resource name.</td>
         </tr>
         <tr>
           <td>group</td>
-          <td>The group within which the resource, project or plugin
-            is defined under.
-<source><![CDATA[
-avalon/activation
-]]></source>
-          </td>
+          <td>The resource group.</td>
         </tr>
         <tr>
           <td>version</td>
-          <td>The version of the resource, project or plugin.
-<source><![CDATA[
-2.0.0
-]]></source>
-          </td>
+          <td>The resource version.</td>
+        </tr>
+        <tr>
+          <td>key</td>
+          <td>The key the resource is referenced by in the project model (the index.xml). 
+           If no key attribute is given, the current project is assumed.</td>
         </tr>
         <tr>
           <td>uri</td>
-          <td>An artifact uri.
-<source><![CDATA[
-artifact:jar:avalon/activation/avalon-activation-impl#2.0.0
-]]></source>
-          </td>
+          <td>The full artifact uri (requires type attribute).</td>
+        </tr>
+        <tr>
+          <td>path</td>
+          <td>A relative file path that can be used to a locate an artifact
+              relative to a repository root (requires type attribute).</td>
+        </tr>
+        <tr>
+          <td>spec</td>
+          <td>Short form of uri.  The spec value is equivalent to the 
+            uri with the "artifact:" protocol identifier (requires type attribute).</td>
+        </tr>
+        <tr>
+          <td>filename</td>
+          <td>The filename of the final artifact that the resource represents (requires type attribute).</td>
+        </tr>
+        <tr>
+          <td>short-filename</td>
+          <td>The filename without the file type suffix.</td>
         </tr>
       </table>
-
-      <p>
-      The following two features may be aquired from a project 
-      definition.  The value returned is a string build from the 
-      runtime path definition containing fully expanded repository
-      filesnames prepended with the string %MAGIC_SCD% for windows
-      and $MAGIC_SCD on unix - suitable for use in a application 
-      script or command file.
-      </p>
-
-      <pre>
-      system-classpath-for-windows
-      system-classpath-for-unix
-      </pre>
 
       </subsection>
 

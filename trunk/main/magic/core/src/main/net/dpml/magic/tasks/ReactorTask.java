@@ -129,8 +129,6 @@ public class ReactorTask extends Sequential
 
     private List getDefinitionList()
     {
-System.out.println( "# Getting the definition list" );
-
         final Definition definition = getDefinition();
         final Project project = getProject();
         final File basedir = project.getBaseDir();

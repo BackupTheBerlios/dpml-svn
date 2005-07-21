@@ -26,6 +26,7 @@ import org.apache.tools.ant.Project;
 import org.apache.tools.ant.types.FileSet;
 import org.apache.tools.ant.taskdefs.optional.ssh.Scp;
 
+import net.dpml.magic.model.Type;
 import net.dpml.magic.model.Definition;
 import net.dpml.magic.tasks.ProjectTask;
 
@@ -50,20 +51,26 @@ public class UploadTask extends ProjectTask
         Project project = getProject();
         File deliverables = getContext().getDeliverablesDirectory();
         Definition def = getDefinition();
-        String type = def.getInfo().getType();
-        File types = new File( deliverables, type + "s" );
-        String filename = def.getFilename();
-        File artifactFile = new File( types, filename );
+
+        Type[] types = def.getInfo().getTypes();
+        for( int i=0; i<types.length; i++ )
+        {
+            Type type = types[i];
+            String name = type.getName();
+            File typesDir = new File( deliverables, name + "s" );
+            String filename = def.getFilename( name );
+            File artifactFile = new File( typesDir, filename );
         
-        String username = project.getProperty( KEY_PUBLISH_USER_NAME );
-        File[] files = new File[3];
-        files[0] = artifactFile;
-        files[1] = new File( artifactFile.getAbsolutePath() + ".md5" );
-        files[2] = new File( artifactFile.getAbsolutePath() + ".asc" );
-        String root = project.getProperty( KEY_PUBLISH_AUTHORATIVE_DESTINATION );
-        String destination = root + "/" + def.getInfo().getGroup() + "/" + type;
-        FileSet fileset = createFileSet( files );
-        copy( destination, fileset, username );        
+            String username = project.getProperty( KEY_PUBLISH_USER_NAME );
+            File[] files = new File[3];
+            files[0] = artifactFile;
+            files[1] = new File( artifactFile.getAbsolutePath() + ".md5" );
+            files[2] = new File( artifactFile.getAbsolutePath() + ".asc" );
+            String root = project.getProperty( KEY_PUBLISH_AUTHORATIVE_DESTINATION );
+            String destination = root + "/" + def.getInfo().getGroup() + "/" + name;
+            FileSet fileset = createFileSet( files );
+            copy( destination, fileset, username );
+        }       
     }
 
     private FileSet createFileSet( File[] files )

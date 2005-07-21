@@ -123,7 +123,6 @@ public class Context
         {
             updateProperty( project, "project.group", m_definition.getInfo().getGroup() );
             updateProperty( project, "project.name", m_definition.getInfo().getName() );
-            updateProperty( project, "project.type", m_definition.getInfo().getType() );
 
             final String version = m_definition.getInfo().getVersion();
             if( version != null )
@@ -136,9 +135,6 @@ public class Context
             }
 
             updateProperty( project, "project.short-filename", m_definition.getInfo().getShortFilename() );
-            updateProperty( project, "project.filename", m_definition.getInfo().getFilename() );
-            updateProperty( project, "project.path", m_definition.getInfo().getPath() );
-            updateProperty( project, "project.uri", m_definition.getInfo().getURI() );
             updateProperty( project, "project.spec", m_definition.getInfo().getSpec() );
         }
 

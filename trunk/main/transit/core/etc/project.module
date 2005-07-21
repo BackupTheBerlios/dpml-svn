@@ -27,7 +27,9 @@
         <group>dpml/transit</group>
         <name>dpml-transit-main</name>
         <version>@PROJECT-VERSION@</version>
-        <type>jar</type>
+        <types>
+          <type name="jar"/>
+        </types>
       </info>
     </resource>
 
@@ -36,7 +38,9 @@
         <group>dpml/transit</group>
         <name>dpml-transit-tools</name>
         <version>@PROJECT-VERSION@</version>
-        <type>jar</type>
+        <types>
+          <type name="jar"/>
+        </types>
       </info>
       <dependencies>
         <include key="dpml-transit-main"/>
@@ -49,7 +53,9 @@
         <group>junit</group>
         <name>junit</name>
         <version>3.8.1</version>
-        <type>jar</type>
+        <types>
+          <type name="jar"/>
+        </types>
       </info>
     </resource>
 
@@ -58,7 +64,9 @@
         <group>ant</group>
         <name>ant</name>
         <version>@COMMON-ANT-VERSION@</version>
-        <type>jar</type>
+        <types>
+          <type name="jar"/>
+        </types>
       </info>
     </resource>
 
@@ -67,7 +75,9 @@
         <group>ant</group>
         <name>ant-junit</name>
         <version>@COMMON-ANT-VERSION@</version>
-        <type>jar</type>
+        <types>
+          <type name="jar"/>
+        </types>
       </info>
       <dependencies>
         <include key="junit" />

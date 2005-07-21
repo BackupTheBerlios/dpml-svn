@@ -9,7 +9,7 @@
       <group>dpml/test</group>
       <name>dpml-test-simple-unit</name>
       <types>
-        <type>test</type>
+        <type name="null"/>
       </types>
     </info>
     <dependencies>
@@ -27,7 +27,7 @@
       <group>dpml/test</group>
       <name>dpml-test-plus-unit</name>
       <types>
-        <type>test</type>
+        <type name="null"/>
       </types>
     </info>
     <dependencies>

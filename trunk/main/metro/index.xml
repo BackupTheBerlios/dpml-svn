@@ -11,7 +11,9 @@
     <info>
       <group>dpml/metro</group>
       <name>dpml-metro</name>
-      <type>module</type>
+      <types>
+        <type name="module" alias=""/>
+      </types>
     </info>
     <dependencies>
       <include key="dpml-transit"/>
@@ -26,7 +28,7 @@
       <group>dpml/metro</group>
       <name>dpml-logging-api</name>
       <types>
-        <type>jar</type>
+        <type name="jar"/>
       </types>
     </info>
   </project>
@@ -38,7 +40,7 @@
       <group>dpml/metro</group>
       <name>dpml-part-api</name>
       <types>
-        <type>jar</type>
+        <type name="jar"/>
       </types>
     </info>
     <dependencies>
@@ -53,7 +55,7 @@
       <group>dpml/metro</group>
       <name>dpml-activity-api</name>
       <types>
-        <type>jar</type>
+        <type name="jar"/>
       </types>
     </info>
   </project>
@@ -65,7 +67,7 @@
       <group>dpml/metro</group>
       <name>dpml-configuration-api</name>
       <types>
-        <type>jar</type>
+        <type name="jar"/>
       </types>
     </info>
   </project>
@@ -75,7 +77,7 @@
       <group>dpml/metro</group>
       <name>dpml-configuration-impl</name>
       <types>
-        <type>jar</type>
+        <type name="jar"/>
       </types>
     </info>
     <dependencies>
@@ -91,7 +93,7 @@
       <group>dpml/metro</group>
       <name>dpml-parameters-api</name>
       <types>
-        <type>jar</type>
+        <type name="jar"/>
       </types>
     </info>
   </project>
@@ -101,7 +103,7 @@
       <group>dpml/metro</group>
       <name>dpml-parameters-impl</name>
       <types>
-        <type>jar</type>
+        <type name="jar"/>
       </types>
     </info>
     <dependencies>
@@ -117,7 +119,7 @@
       <group>dpml/metro</group>
       <name>dpml-composition-model</name>
       <types>
-        <type>jar</type>
+        <type name="jar"/>
       </types>
     </info>
     <dependencies>
@@ -135,8 +137,8 @@
       <group>dpml/metro</group>
       <name>dpml-composition-control</name>
       <types>
-        <type>jar</type>
-        <type>plugin</type>
+        <type name="jar"/>
+        <type name="plugin"/>
       </types>
     </info>
     <dependencies>
@@ -156,7 +158,7 @@
       <group>dpml/metro</group>
       <name>dpml-composition-builder</name>
       <types>
-        <type>jar</type>
+        <type name="jar"/>
       </types>
     </info>
     <dependencies>
@@ -171,13 +173,10 @@
       <group>dpml/metro</group>
       <name>dpml-metro-central</name>
       <types>
-        <type>jar</type>
-        <type>plugin</type>
+        <type name="jar"/>
+        <type name="plugin" alias=""/>
       </types>
     </info>
-    <links>
-      <link type="plugin" version="LATEST"/>
-    </links>
     <dependencies>
       <include key="dpml-composition-control"/>
     </dependencies>
@@ -187,9 +186,12 @@
 
   <resource>
     <info>
+      <group>xerces</group>
       <name>xercesImpl</name>
       <version>2.6.2</version>
-      <group>xerces</group>
+      <types>
+        <type name="jar"/>
+      </types>
     </info>
     <dependencies>
       <include key="xmlParserAPIs" />
@@ -198,17 +200,23 @@
 
   <resource>
     <info>
+      <group>xerces</group>
       <name>xmlParserAPIs</name>
       <version>2.6.2</version>
-      <group>xerces</group>
+      <types>
+        <type name="jar"/>
+      </types>
     </info>
   </resource>
 
   <resource>
     <info>
+      <group>xstream</group>
       <name>xstream</name>
       <version>1.1</version>
-      <group>xstream</group>
+      <types>
+        <type name="jar"/>
+      </types>
     </info>
   </resource>
 

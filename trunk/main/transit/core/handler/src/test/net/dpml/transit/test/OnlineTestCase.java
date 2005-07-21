@@ -46,6 +46,7 @@ public class OnlineTestCase extends TestCase
            "net.dpml.transit.unit.LocalPreferencesFactory" );
         System.setProperty( "java.protocol.handler.pkgs", "net.dpml.transit" );
         System.setProperty( "dpml.transit.profile", "test-online" );
+        System.setProperty( "dpml.data", "target/test/data" );
     }
 
     public void testStackedJarUrl() throws Exception

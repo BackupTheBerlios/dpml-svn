@@ -11,7 +11,7 @@
     <x:filter feature="group" token="GROUP"/>
     <x:property name="plugin.uri" feature="uri" type="plugin"/>
     <filter token="PRODUCTION_URI" value="${plugin.uri}"/>
-    <filter token="DEVELOPMENT_URI" value="link:plugin:${project.group}/${project.name}#LATEST"/>
+    <filter token="DEVELOPMENT_URI" value="link:plugin:${project.group}/${project.name}"/>
   </target>
 
   <target name="build" depends="standard.build">
@@ -23,12 +23,6 @@
 
   <target name="package" depends="standard.package">
     <x:export class="net.dpml.metro.central.PartContentHandler"/>
-  </target>
-
-  <target name="install" depends="standard.install">
-    <x:property name="plugin.uri" feature="uri" type="plugin"/>
-    <property name="link" value="${basedir}/target/deliverables/plugins/${project.name}-LATEST.plugin.link"/>
-    <echo file="${link}">${plugin.uri}</echo>
   </target>
 
 </project>

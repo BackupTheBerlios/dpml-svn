@@ -39,22 +39,12 @@
                 <source>&lt;version&gt;1.1&lt;/version&gt;</source></td>
           </tr>
           <tr>
-            <td>type</td>
-            <td>optional</td>
-            <td>Declaration of the resource type (may not be declared if the 
-                &lt;types&gt; element is used). If undeclared the 'jar' type 
-                is assumed.
-                <source>&lt;type&gt;plugin&lt;/type&gt;</source>
-                </td>
-          </tr>
-          <tr>
             <td>types</td>
             <td>optional</td>
-            <td>Declaration of multiple types (may not be used in conjuction with 
-                the single &lt;type&gt; element declaration).
+            <td>Declaration of the available resource types.
                 <source>&lt;types&gt;
-   &lt;type&gt;jar&lt;/type&gt;
-   &lt;type&gt;plugin&lt;/type&gt;
+   &lt;type name="jar"/&gt;
+   &lt;type name="plugin"/&gt;
 &lt;/types&gt;</source>
                 </td>
           </tr>
