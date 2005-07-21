@@ -117,7 +117,7 @@
       &lt;group&gt;osm/home&lt;/group&gt;
       &lt;name&gt;osm-home-site&lt;/name&gt;
       &lt;types&gt;
-        &lt;type&gt;doc&lt;/type&gt;
+        &lt;type name="doc"/&gt;
       &lt;/types&gt;
     &lt;/info&gt;
     &lt;dependencies&gt;
