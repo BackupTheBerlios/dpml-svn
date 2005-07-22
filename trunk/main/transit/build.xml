@@ -35,17 +35,6 @@
     <ant dir="core" inheritall="false"/>
   </target>
 
-  <target name="package" depends="standard.package">
-    <mkdir dir="${dist}"/>
-    <antcall target="install.zip"/>
-    <antcall target="install.tar"/>
-    <property name="export" location="${dpml.dist}/${project.group}/${project.version}"/>
-    <mkdir dir="${export}"/>
-    <copy todir="${export}">
-      <fileset dir="${dist}"/>
-    </copy>
-  </target>
-
   <target name="build" depends="standard.build">
 
     <delete dir="${bundle}"/>
@@ -158,58 +147,6 @@
         <include name="transit/**"/>
       </fileset>
     </copy>
-  </target>
-
-  <!-- internal utilities -->
-
-  <target name="install.zip">
-    <echo message="Generating ZIP dist"/>
-    <zip destfile="${dist}/${project.name}-win32-${project.version}.zip" whenempty="create">
-      <zipfileset dir="${bundle}">
-        <include name="*.TXT"/>
-      </zipfileset>
-      <zipfileset dir="${prefs}" prefix="Preferences"/>
-      <zipfileset dir="${bundle}/data" prefix="Data"/>
-      <zipfileset dir="${share}" prefix="Shared">
-        <include name="**/*"/>
-        <exclude name="prefs/**"/>
-        <exclude name="data/**"/>
-      </zipfileset>
-    </zip>
-    <checksum fileext=".md5" file="${dist}/${project.name}-win32-${project.version}.zip"/>
-    <antcall target="install.zip.asc"/>
-  </target>
-
-  <target name="install.zip.asc" if="gpg.declared">
-    <delete file="${dist}/${project.name}-win32-${project.version}.zip.asc"/>
-    <exec executable="${project.gpg.exe}">
-      <arg value="-a"/>
-      <arg value="-b"/>
-      <arg value="-o"/>
-      <arg value="${dist}/${project.name}-win32-${project.version}.zip.asc"/>
-      <arg value="${dist}/${project.name}-win32-${project.version}.zip"/>
-    </exec>
-  </target>
-
-  <target name="install.tar">
-    <echo message="Generating TAR dist"/>
-    <tar destfile="${dist}/${project.name}-linux-${project.version}.tar.gz" compression="gzip" longfile="gnu">
-      <tarfileset dir="${bundle}">
-      </tarfileset>
-    </tar>
-    <checksum fileext=".md5" file="${dist}/${project.name}-linux-${project.version}.tar.gz"/>
-    <antcall target="install.tar.asc"/>
-  </target>
-
-  <target name="install.tar.asc" if="gpg.declared">
-    <delete file="${dist}/${project.name}-linux-${project.version}.tar.gz.asc"/>
-    <exec executable="${project.gpg.exe}">
-      <arg value="-a"/>
-      <arg value="-b"/>
-      <arg value="-o"/>
-      <arg value="${dist}/${project.name}-linux-${project.version}.tar.gz.asc"/>
-      <arg value="${dist}/${project.name}-linux-${project.version}.tar.gz"/>
-    </exec>
   </target>
 
   <target name="update" depends="install"/>

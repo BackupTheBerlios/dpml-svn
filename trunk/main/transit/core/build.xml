@@ -87,8 +87,6 @@
          packagelistloc="${home}/etc/packagelists/jdk"/>
       <link offline="true" href="http://www.dpml.net/api/ant/${transit-ant.version}" 
          packagelistloc="${home}/etc/packagelists/ant"/>
-      <link offline="true" href="http://www.dpml.net/api/dpml/util/${project.version}" 
-         packagelistloc="${home}/util/target/api"/>
     </javadoc>
   </target>
 

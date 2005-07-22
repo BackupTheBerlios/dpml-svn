@@ -72,8 +72,7 @@
     <!--
     Eeek - because we have non-versioned templates and a few other non-versioned things
     we need to workaround non-inclusion of these artifacts in the replication path. This
-    means reaching into the cache and pulling in the resources manually.  The long-term
-    solution to this is to untroduce urn to uri mapping within transit.
+    means reaching into the cache and pulling in the resources manually.
     -->
     <copy todir="${local}/${project.group}">
       <fileset dir="${dpml.cache}/dpml/magic">
@@ -115,11 +114,6 @@
       <tarfileset dir="${bundle}/prefs" prefix="prefs"/>
       <tarfileset dir="${bundle}/share" prefix="share"/>
     </x:dist>
-    <property name="export" location="${dpml.dist}/${project.group}/${project.version}"/>
-    <mkdir dir="${export}"/>
-    <copy todir="${export}">
-      <fileset dir="target/dist"/>
-    </copy>
 
     <!-- zip up a copy of the platform independent bundle for use by depot -->
 
@@ -164,7 +158,6 @@ dpml.depot.installer.uri = ${magic.plugin.uri}
     </copy>
   </target>
 
-
   <target name="javadoc" depends="build">
     <x:javadoc>
       <link href="http://java.sun.com/j2se/1.4/docs/api"/>
@@ -181,13 +174,11 @@ dpml.depot.installer.uri = ${magic.plugin.uri}
         <package name="net.dpml.magic.tasks"/>
       </group>
       <group title="Magic Spells">
-        <package name="net.dpml.magic.bar"/>
         <package name="net.dpml.magic.doc"/>
         <package name="net.dpml.magic.publish"/>
         <package name="net.dpml.magic.upload"/>
         <package name="net.dpml.magic.checkstyle"/>
         <package name="net.dpml.magic.eclipse"/>
-        <package name="net.dpml.magic.style"/>
       </group>
     </x:javadoc>
   </target>

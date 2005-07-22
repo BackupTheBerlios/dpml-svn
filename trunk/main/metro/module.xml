@@ -86,26 +86,6 @@ dpml.depot.installer.uri = ${metro.plugin.uri}
       </zipfileset>
     </zip>
 
-    <!-- create the standalone distribution -->
-
-    <x:dist compression="gzip">
-      <fileset dir="${bundle}">
-        <include name="*.TXT"/>
-      </fileset>
-      <zipfileset dir="${bundle}/prefs" prefix="Preferences"/>
-      <zipfileset dir="${bundle}/share" prefix="Shared">
-        <exclude name="**/metro"/>
-      </zipfileset >
-      <tarfileset dir="${bundle}/prefs" prefix="prefs" mode="644" />
-      <tarfileset dir="${bundle}/share" prefix="share" mode="444" >
-        <exclude name="**/metro.bat"/>
-        <exclude name="**/metro"/>
-      </tarfileset>
-      <tarfileset dir="${bundle}/share" prefix="share" mode="555" >
-        <include name="**/metro"/>
-      </tarfileset>
-    </x:dist>
-
   </target>
 
   <target name="install" depends="docs,standard.install">
@@ -130,11 +110,6 @@ dpml.depot.installer.uri = ${metro.plugin.uri}
       <fileset dir="${share}">
         <include name="docs/**"/>
       </fileset>
-    </copy>
-    <property name="export" location="${dpml.dist}/${project.group}/${project.version}"/>
-    <mkdir dir="${export}"/>
-    <copy todir="${export}">
-      <fileset dir="target/dist"/>
     </copy>
 
   </target>
