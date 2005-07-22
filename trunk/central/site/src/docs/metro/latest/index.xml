@@ -23,6 +23,21 @@ Metro aims to simplify the process of managing component-based systems.  It achi
         contained here is already out-of-date.  New content is in the pipeline.
       </i></p>
 
+      <p><i>
+        TODO: List of items to be completed:
+      </i></p>
+
+      <ol>
+        <li>Enable remote management of the Component class and friends.</li>
+        <li>Improve the specification of foreign controller instantiation.</li>
+        <li>Lifestyle handling for transitent and per-thread policies.</li>
+        <li>Internal assembly model completion.</li>
+        <li>Improve internal handling of proxied Component reference.</li>
+        <li>Improve context model modifications handling.</li>
+        <li>Bring this section of the site up-to-date.</li>
+        <li>Tutorials.</li>
+      </ol>
+
       <img src="../../images/metro/metro.png"/>
 
     </section>

@@ -24,6 +24,24 @@
         WARNING: Depot is under active development.
       </i></p>
 
+      <p><i>
+        TODO: List of items to be completed:
+      </i></p>
+
+      <ol>
+        <li>Host priority settings.</li>
+        <li>Application profile dialogs to be completed (jvm profiles, system properties and
+          marshalled data arguments).</li>
+        <li>Logging configuration management panel.</li>
+        <li>A separate view of remotely manageable models.</li>
+        <li>Tranist plugin controls should be moved to a separate panel.</li>
+        <li>Pure CLI control over transit configuration.</li>
+        <li>Cleanup of the installer CLI logic.</li>
+        <li>Add scripts supporting depot-station in Linux envronment.</li>
+        <li>Bring these docs up-to-date.</li>
+        <li>Add tutorials.</li>
+      </ol>
+
       <img src="/images/depot/metro-ft-prefs.png"/>
 
     </section>

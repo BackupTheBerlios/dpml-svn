@@ -21,6 +21,15 @@
         respect to the generation of runtime meta-data.
       </p>
 
+      <p><i>
+        TODO: List of items to be completed:
+      </i></p>
+
+      <ol>
+        <li>Removal of non-versioned resource usage (templates and eclipse resources).</li>
+        <li>Removal of platform bundles from the build.</li>
+      </ol>
+
       <img src="/images/magic/magic-index.png"/>
 
       

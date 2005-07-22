@@ -7,6 +7,7 @@
   </properties> 
 
   <body>
+
     <section name="DPML Community">
 
       <p>
@@ -17,12 +18,11 @@
         (a.k.a <a href="history.html">beyond Avalon</a>).
         The community established itself with general principals of 
         "low barrier to entry", the "flock of bird" principal concerning evolution, and 
-        a high priority on commerical friendliness. Development during 2005 witnessed a
-        a movement towards a greater product-driven focus and the <a href="people/index.html">
-        core community</a> is currently working towards our first release and the parrallel 
-        development of the the operational and administrative 
-        <a href="process/index.html">processes</a> aimed towards the growth and development 
-        of a self-sustaining community.
+        a high priority on commerical friendliness. Development during the first half of 
+        2005 witnessed a shift towards greater product-driven focus with the 
+        <a href="people/index.html">core community</a> working towards our first release 
+        and the development of operational and administrative <a href="process/index.html">
+        processes</a> aimed at community growth and development.
       </p>
       <p>
         One of our aims is the creation of a non-profit organization,
@@ -30,7 +30,10 @@
         us to engage in more formal activities, establish better infrastructure, 
         marketing materials and much more.
       </p>
+
     </section>
+
   </body>
+
 </document>
 

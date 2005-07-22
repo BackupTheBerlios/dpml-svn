@@ -41,6 +41,17 @@
         applications.
       </p>
 
+      <p><i>
+        TODO: List of items to be completed:
+      </i></p>
+
+      <ol>
+        <li>Removal of platform bundles from the build.</li>
+        <li>Finalize import task handing of imported template (via link or prefs).</li>
+        <li>Final review of the core APIs.</li>
+        <li>Validate javadocs.</li>
+      </ol>
+
       <img src="/images/transit/repositories.png"/>
 
       
