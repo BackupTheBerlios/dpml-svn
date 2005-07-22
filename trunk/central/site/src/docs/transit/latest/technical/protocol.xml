@@ -39,6 +39,19 @@
         two system properties.
       </p>
 
+      <subsection name="Tutorial">
+
+        <table>
+          <tr>
+            <td><img src="/images/info.gif"/></td>
+            <td><i>See <a href="http://www.osm.net/training/resources/artifacts.html">
+               OSM Tutorial on Transit Artifacts</a>.</i>
+            </td>
+          </tr>
+        </table>
+
+      </subsection>
+
       <subsection name="Specification">
         <p>
           The official specification of the artifact protocol is as follows;
@@ -101,15 +114,6 @@
         </p>
 
         <source>artifact:part:dpml/http/dpml-http-server#1024</source>
-
-        <table>
-          <tr>
-            <td><img src="/images/info.gif"/></td>
-            <td><i>See also <a href="http://www.osm.net/training/resources/artifacts.html">
-               OSM Tutorial on Transit Artifacts</a>.</i>
-            </td>
-          </tr>
-        </table>
 
       </subsection>
 

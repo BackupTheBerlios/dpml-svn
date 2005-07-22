@@ -57,16 +57,20 @@
         and more advanced services.
       </p>
 
-      <table>
-        <tr>
-          <td><img src="/images/info.gif"/></td>
-          <td><i>The <a href="http://www.osm.net/training/resources/">
+      <subsection name="Tutorials">
+
+        <table>
+          <tr>
+            <td><img src="/images/info.gif"/></td>
+            <td><i>The <a href="http://www.osm.net/training/resources/">
                OSM Resource Management Tutorial</a> covers artifact 
                creation, plugin management, content handlers and 
                repository creation.</i>
-          </td>
-        </tr>
-      </table>
+            </td>
+          </tr>
+        </table>
+
+      </subsection>
 
     </section>
 

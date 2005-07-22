@@ -8,6 +8,7 @@
 
   <body>
     <section name="JUnit Task">
+
       <p>
       The junit task handles unit test compilation, execution and reporting.  The 
       classpaths used for compilation is derived automatically from the project model
@@ -32,6 +33,18 @@
     [junit] Running org.apache.avalon.activation.impl.test.PlaygroundTestCase
     [junit] Tests run: 1, Failures: 0, Errors: 0, Time elapsed: 27.156 sec</pre>
 
+    <subsection name="Tutorial">
+      <table>
+        <tr>
+          <td><img src="/images/info.gif"/></td>
+          <td><i>The <a href="http://www.osm.net/training/tooling/testcase.html">
+               OSM Development Tooling Testcase Tutorial</a> demonstrates the 
+               setup of unit tests within a Magic environment.</i>
+          </td>
+        </tr>
+      </table>
+    </subsection>
+ 
     <subsection name="Properties">
       
       <p>

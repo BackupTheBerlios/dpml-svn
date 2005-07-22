@@ -9,7 +9,7 @@
   <body>
     <section name="Intelligent Build System">
 
-        <p>Magic is an advanced build system for Java based component development.
+      <p>Magic is an advanced build system for Java based component development.
         It provides support for a centralized project object model, version and 
         dependency management, and a suite of tools that automate the processes
         of building well-structured component solutions.  Each project within 
@@ -18,9 +18,11 @@
         are implied as dependencies of a dependent project.  This information 
         enables automated build sequencing and high levels of automation with 
         respect to the generation of runtime meta-data.
-        </p>
+      </p>
 
-        <img src="/images/magic/magic-index.png"/>
+      <img src="/images/magic/magic-index.png"/>
+
+      
 
     </section>
   </body>

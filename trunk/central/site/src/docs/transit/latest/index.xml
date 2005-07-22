@@ -41,22 +41,6 @@
         applications.
       </p>
 
-      <p>
-        The @TRANSIT-BUILD-ID@ milestone build of Transit is considered stable
-        and close to formal release pending evaluation and user feedback from the 
-        milestone distribution cycle.
-      </p>
-
-      <table>
-        <tr>
-          <td><img src="/images/info.gif"/></td>
-          <td><i>The <a href="http://www.osm.net/training/resources/">
-               OSM Resource Management Tutorial</a> provides a fast track 
-               introduction to Transit.</i>
-          </td>
-        </tr>
-      </table>
-
       <img src="/images/transit/repositories.png"/>
 
       

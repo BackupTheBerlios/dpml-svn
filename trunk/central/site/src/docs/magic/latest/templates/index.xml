@@ -16,6 +16,21 @@
       using the Transit import task as show in the example below.
       </p>
 
+      <subsection name="Tutorials">
+
+        <table>
+          <tr>
+            <td><img src="/images/info.gif"/></td>
+            <td><i>The <a href="http://www.osm.net/training/tooling/example.html">
+               OSM Development Tooling Getting Started Tutorial</a> covers the 
+               usage of both the standard template and the reactor template
+               in typical development scenarios.</i>
+            </td>
+          </tr>
+        </table>
+
+      </subsection>
+
       <subsection name="Available Templates">
 
         <table>

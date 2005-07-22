@@ -20,17 +20,29 @@
       reactive builds.
       </p>
 
-      <p>
-      A project index is located by search up the directory hierarchy for a file 
-      named index.xml.  This allows for the centralization of project information
-      at levels appropriate to the scale of projects you are dealing with.
-      </p>
+      <subsection name="Tutorials">
 
         <table>
           <tr>
-            <th>Concept</th>
-            <th>Description</th>
+            <td><img src="/images/info.gif"/></td>
+            <td><i>The <a href="http://www.osm.net/training/tooling/example.html">
+               OSM Development Tooling Getting Started Tutorial</a> covers the 
+               creation of a new index.</i>
+            </td>
           </tr>
+        </table>
+
+      </subsection>
+
+      <subsection name="Concepts">
+
+        <p>
+        A project index is located by search up the directory hierarchy for a file 
+        named index.xml.  This allows for the centralization of project information
+        at levels appropriate to the scale of projects you are dealing with.
+        </p>
+
+        <table>
           <tr>
             <td>Index</td>
             <td>An index contains the declaration of imported modules together with 
@@ -56,6 +68,8 @@
                 imported into another index.</td>
           </tr>
         </table>
+
+      </subsection>
 
     </section>
 

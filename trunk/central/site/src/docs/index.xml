@@ -15,8 +15,26 @@
         <a href="about/community/index.html">community</a> project contributing to 
         the development of advanced Java-based component management solutions.
       </p>
-        
-      <subsection name="Metro Runtime">
+
+    </section>        
+
+    <section name="DPML Opensource Products">
+
+        <p>
+          <a href="transit/latest/index.html">Transit</a> is a framework for managing 
+          system artifacts and application resources. As a resource 
+          management system, Transit provides the foundation for building 
+          repository-enabled applications enabling automated classloading 
+          construction and dynamic plugin management.
+        </p>
+
+        <p> 
+          <a href="magic/latest/index.html">Magic</a> is an intelligent build system for Java 
+          based component development. Magic provides support for a centralized project 
+          object model, transitive version and dependency management, and a suite of  
+          tools that automate the processes of building well-structured component 
+          solutions.
+        </p>
 
         <p>
           The <a href="metro/latest/index.html">Metro</a> system is a light weight container 
@@ -29,33 +47,31 @@
           flexibility.
         </p>
 
-      </subsection>
+    </section>
 
-      <subsection name="Magic Build System">
+    <section name="OSM Opensource Tutorials">
 
-        <p> 
-          <a href="magic/latest/index.html">Magic</a> is an intelligent build system for Java 
-          based component development. Magic provides support for a centralized project 
-          object model, transitive version and dependency management, and a suite of  
-          tools that automate the processes of building well-structured component 
-          solutions.
-        </p>
-
-      </subsection>
-
-      <subsection name="Transit Resource Management System">
-
-        <p>
-          <a href="transit/latest/index.html">Transit</a> is a framework for managing 
-          system artifacts and application resources. As a resource 
-          management system, Transit provides the foundation for building 
-          repository-enabled applications enabling automated classloading 
-          construction and dynamic plugin management.
-        </p>
-
-      </subsection>
+        <table>
+          <tr>
+            <td><img src="images/info.gif"/></td>
+            <td><i>The <a href="http://www.osm.net/training/resources/">
+               OSM Resource Management Tutorial</a> provides a fast track 
+               introduction to Transit.</i>
+            </td>
+          </tr>
+          <tr>
+            <td><img src="images/info.gif"/></td>
+            <td><i>The <a href="http://www.osm.net/training/tooling/index.html">
+               OSM Development Tooling Tutorial</a> covers the installation
+               of Magic, a Getting Started tutorial, working with testcases, 
+               module creation and an collection of examples dealing with 
+               a variety of Magic functions.</i>
+            </td>
+          </tr>
+        </table>
 
     </section>
+
   </body>
 </document>
 
