@@ -28,15 +28,23 @@
         </p>
 
         <p>
-          The <a href="metro/latest/index.html">Metro</a> system is a light weight container 
-          that provides comprehensive support for the management of composite component 
-          systems.  Metro simplifies component management through automated 
+          <a href="metro/latest/index.html">Metro</a> is a light weight container 
+          that provides comprehensive support for the management of composite components.
+          Metro simplifies component management through automated 
           assembly and deployment combined with strong support for the isolation of 
           implementations from the service that a component provides. Metro applications 
           and services are implemented through component composition enabling a building 
           blocks approach that delivers very high reuse and unprecedented runtime 
           flexibility.
         </p>
+
+        <p>
+          <a href="depot/latest/index.html">Depot</a> is an application that provides 
+          support for (a) application deployment services, and (b) configuration management  
+          for humans. Depot requirements are focused on the management concerns driven 
+          by Metro including remote management of Transit and automated deployment of 
+          Metro based server applications.
+       </p>
 
     </section>
 
