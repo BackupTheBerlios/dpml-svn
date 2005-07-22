@@ -9,7 +9,7 @@
   <body>
     <section name="Sponsored Links">
       <p>
-        The following companies have actively contributed resources
+        The following companies and organizations have actively contributed resources
         to the Digital Product Meta Library, for which we are very grateful.
         If you would like your company to contribute, please contact
         pr-dpml@lists.ibiblio.org for more information.
@@ -25,6 +25,31 @@
 
         <tr>
           <td>
+            <a href="http://www.ibiblio.org/">
+              <img src="../../images/sponsorship/ibiblio.gif"
+                alt="IBIBLIO"/></a>
+            <br/>
+         </td>
+          <td>
+            Home to one of the largest "collections of collections" on the Internet, 
+            ibiblio.org is a conservancy of freely available information, including 
+            software, music, literature, art, history, science, politics, and cultural 
+            studies. ibiblio.org is a collaboration of the Center for the Public Domain 
+            and The University of North Carolina - Chapel Hill. ibiblio.org hosts the 
+            DPML web site, our resource repository, product archives, the DPML mailing 
+            lists and virtual hosting of the dpml.net domain.  Ibiblio have been there 
+            supportig the DPML since it's inception and have recently extended their 
+            support to include web and virtual hosting of the OSM training content.
+          </td>
+          <td>
+            <a href="http://www.ibiblio.org/">
+              <img src="../../images/sponsorship/ibiblio.gif"
+                alt="IBIBLIO"/></a>
+            <br/>
+         </td>
+        </tr>
+        <tr>
+          <td>
             <a href="http://www.berlios.de/">
               <img src="../../images/sponsorship/berlios.png"
                 alt="BERLIOS"/></a>
@@ -33,9 +58,8 @@
           <td>
             The Berlios project agress to provide essential infrastructure services to 
             the DPML as part of their ongoing committment to world-wide open-source 
-            iniatives.  Berlios resources supplied to the DPML include secure SCV, 
+            iniatives.  Berlios resources supplied to the DPML include secure SVN, 
             web hosting, wiki services, bug tracking, and operations support. 
-            web, 
           </td>
           <td>
             <a href="http://developer.berlios.de">

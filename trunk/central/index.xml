@@ -4,6 +4,7 @@
 
   <import uri="${dpml.magic.uri}"/>
   <import uri="${dpml.metro.uri}"/>
+  <import uri="${dpml.depot.uri}"/>
 
   <project basedir="site">
     <info>

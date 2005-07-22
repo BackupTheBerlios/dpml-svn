@@ -8,7 +8,7 @@
 
   <body>
 
-    <section name="Composite Component Management">
+    <section name="Metro Composite Component Management - @METRO-BUILD-ID@">
 
       <p>
 The Metro system is a container that provides comprehensive support for the management of complex component based systems based on an underlying meta-model that facilitates automated assembly and deployment of components.

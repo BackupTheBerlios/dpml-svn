@@ -8,17 +8,8 @@
   </properties> 
 
   <body>
-    <section name="Welcome">
 
-      <p>
-        The Digital Product Meta Library is a global 
-        <a href="about/community/index.html">community</a> project contributing to 
-        the development of advanced Java-based component management solutions.
-      </p>
-
-    </section>        
-
-    <section name="DPML Opensource Products">
+    <section name="DPML Opensource Products for Component-Based Development in Java">
 
         <p>
           <a href="transit/latest/index.html">Transit</a> is a framework for managing 
@@ -49,7 +40,7 @@
 
     </section>
 
-    <section name="OSM Opensource Tutorials">
+    <section name="OSM Tutorials">
 
         <table>
           <tr>

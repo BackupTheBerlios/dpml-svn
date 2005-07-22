@@ -4,10 +4,11 @@
   <properties>
     <author email="mcconnell@dpml.net">Stephen McConnell</author>
     <title>DPML Magic</title>
-  </properties> 
+  </properties>
 
   <body>
-    <section name="Intelligent Build System">
+
+    <section name="Magic Intelligent Build System - @MAGIC-BUILD-ID@">
 
       <p>Magic is an advanced build system for Java based component development.
         It provides support for a centralized project object model, version and 

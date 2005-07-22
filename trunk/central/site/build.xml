@@ -8,19 +8,8 @@
 
   <target name="init" depends="standard.init">
     <x:filter key="dpml-magic-core" feature="uri" type="plugin" token="MAGIC-PLUGIN-URI"/>
-    <!--<x:filter key="dpml-metro-main" feature="version" token="RUNTIME-VERSION"/>-->
-    <!--<x:filter key="dpml-logging-api" feature="spec" token="LOGGING-API-SPEC"/>-->
     <x:filter key="dpml-activity-api" feature="spec" token="ACTIVITY-API-SPEC"/>
     <x:filter key="dpml-configuration-api" feature="spec" token="CONFIGURATION-API-SPEC"/>
-    <!--x:filter key="dpml-tutorial-context-custom" feature="spec" token="TUTORIAL-CONTEXT-CUSTOM-SPEC"/>-->
-    <!--<x:filter key="dpml-tutorial-context-casting" feature="spec" token="TUTORIAL-CONTEXT-CASTING-SPEC"/>-->
-    <!--<x:filter key="dpml-tutorial-location-api" feature="spec" token="TUTORIAL-LOCATION-API-SPEC"/>-->
-    <!--<x:filter key="dpml-tutorial-location-impl" feature="spec" token="TUTORIAL-LOCATION-IMPL-SPEC"/>-->
-    <!--<x:filter key="dpml-tutorial-publisher-api" feature="spec" token="TUTORIAL-PUBLISHER-API-SPEC"/>-->
-    <!--<x:filter key="dpml-tutorial-publisher-impl" feature="spec" token="TUTORIAL-PUBLISHER-IMPL-SPEC"/-->
-    <!--<x:filter key="dpml-context-api" feature="spec" token="CONTEXT-API-SPEC"/>-->
-    <!--<x:filter key="dpml-service-api" feature="spec" token="SERVICE-API-SPEC"/>-->
-    <!--x:filter key="dpml-tutorial-hello" feature="spec" token="TUTORIAL-HELLO-SPEC"/-->
     <x:filter key="dpml-transit-tools" feature="uri" type="jar" token="MAGIC-BOOTSTRAP-URI"/>
     <x:filter key="dpml-magic-core" feature="uri" type="plugin" token="MAGIC-PLUGIN-URI"/>
     <x:filter key="dpml-transit-main" feature="uri" type="jar" token="TRANSIT-MAIN-URI"/>
@@ -32,6 +21,7 @@
     <x:filter key="dpml-transit" feature="version" token="TRANSIT-BUILD-ID"/>
     <x:filter key="dpml-magic" feature="version" token="MAGIC-BUILD-ID"/>
     <x:filter key="dpml-metro" feature="version" token="METRO-BUILD-ID"/>
+    <x:filter key="dpml-depot" feature="version" token="DEPOT-BUILD-ID"/>
   </target>
 
   <target name="install" depends="docs"/>

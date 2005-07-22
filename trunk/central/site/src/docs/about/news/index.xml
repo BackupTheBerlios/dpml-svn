@@ -8,7 +8,41 @@
   </properties>
 
   <body>
+
     <section name="News &amp; Events">
+
+      <subsection name="22 July 2005 - Ibiblio extends support for the DPML." >
+        <p>
+        <a href="http://www.ibiblio.org">Ibiblio</a> extends it ongoing support 
+        for the DPML infrastructure with the addition of virtual hosting for the 
+        <a href="http://www.osm.net">OSM</a> training content and related resources.
+        </p>
+      </subsection>
+
+      <subsection name="8 July 2005 - Niclas and Peter head off to launch OPS4J." >
+        <p>
+        With a focus on the development of the "Open Participation Model"
+        Niclas and Peter launch an independent initiative - OPS4J (OPS4J stands 
+        for Open Participation Software for Java).  The DPML wish to thank Peter
+        for his contribution to the infrastructure and Niclas for his work on 
+        the development of Transit product.
+        </p>
+      </subsection>
+
+      <subsection name="26 June 2005 - Claude Bernard Diesse joins the DPML Team." >
+        <p>
+        While studying existing containers solutions and their
+        related development framework, looking for technical characteristics
+        such as IOC, SOA, JMX, service, remoting etc.,
+        capabilities. Avalon Merlin container seems to present on the paper, the
+        most potential. Following, Melin become Metro and the present development
+        (codename Freigh Train) is presenting itself as the platform of choice.
+        </p>
+        <p> 
+        Claude joins DPML community to work on what will be the supporting
+        environment of his dream's project.
+        </p>
+      </subsection>
 
       <subsection name="21 June 2005 - Berlios Sponsors DPML." >
         <p>

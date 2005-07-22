@@ -53,25 +53,6 @@
           with using the Subversion tool.
         </p>
       </subsection>
-      <subsection name="Code Ladder" >
-        <p>
-          We use an informal code ladder, which at the moment starts in the
-          Laboratory (<a href="https://scm.dpml.net/repos/dpml/development/laboratory/">
-          /development/laboratory</a>), then moves to Main, then QA and 
-          finally Production. Laboratory is a place where new parts or subsystems
-          are added first. If the community feels comfortable with it, it is 
-          moved to Main, where the bulk of the development occurs. When there
-          is time for a release, the Main (or part of it) is moved to QA, where
-          the codebase is tested and ensured that it is in a releasable state.
-          Only extremely small changes are made in QA, anything larger and the
-          release process starts over in Main. Once the QA Team is happy with
-          the QA step, the Release Manager puts it into Production. Production
-          is where most users will check out the code, without worrying about
-          stability. I.e. our primary release mechanism is through 
-          Subversion and in source format. We are currently discussing which
-          other release formats should be 'official'.
-        </p>
-      </subsection>
     </section>
   </body>
 </document>
