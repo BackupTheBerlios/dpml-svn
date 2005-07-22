@@ -23,10 +23,6 @@
 
   <body>
     <menu>
-      <item name="Depot Console" href="console/index.html"/>
-      <item name="Depot Preferences" href="prefs/index.html"/>
-      <item name="Depot Install" href="install/index.html"/>
-      <item name="Depot Station" href="station/index.html"/>
     </menu>
   </body>
 

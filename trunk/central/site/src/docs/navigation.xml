@@ -29,6 +29,7 @@
 
       <!--<item name="Services" href="services/index.html"/>-->
 
+      <item name="Depot" href="depot/latest/index.html"/>
       <item name="Metro" href="metro/latest/index.html"/>
       <item name="Magic" href="magic/latest/index.html"/>
       <item name="Transit" href="transit/latest/index.html"/>

@@ -10,10 +10,18 @@
       <subsection name="Objective ...">
 
         <p>
-        The aim of Depot Station is to provide a rich human interface
-        to the management of <a href="/metro/index.html">Metro</a>
-        solutions.
+        The aim of Depot Station is to provide support for the 
+        registration and management of server applications.  The Station
+        provides support for automated activation of Metro applications,
+        the configuration of virtual machine profiles, system properties, 
+        and remote management of registered systems.  Functionality is
+        driven by the requirements of the <a href="/metro/index.html">Metro</a>
+        platform which is itself in active development.
         </p>
+
+        <p><i>
+        Stay tunned for more information ...
+        </i></p>
 
       </subsection>
 
