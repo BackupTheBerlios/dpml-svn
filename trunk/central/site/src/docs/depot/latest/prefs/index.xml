@@ -11,7 +11,7 @@
       To launch the Depot Preferences application enter the following:
       </p>
  
-<pre>$ depot -profile prefs</pre>
+<pre>$ depot -prefs</pre>
 
       <subsection name="Cache and Host Preferences ...">
 
