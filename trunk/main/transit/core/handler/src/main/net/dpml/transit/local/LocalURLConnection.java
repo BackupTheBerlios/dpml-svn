@@ -92,10 +92,20 @@ public class LocalURLConnection extends URLConnection
                         String groupSpec = artifact.getGroup() ;
                         String artifactName = artifact.getName();
                         String typeSpec = artifact.getType();
+                        String versionSpec = artifact.getVersion();
                         File prefs = Transit.DPML_PREFS;
                         File group = new File( prefs, groupSpec );
                         File type = new File( group, typeSpec + "s" );
-                        m_target = new File( type, artifactName + "." + typeSpec );
+                        if( null == versionSpec )
+                        {
+                            final String filename = artifactName + "." + typeSpec;
+                            m_target = new File( type, filename );
+                        }
+                        else
+                        {
+                            final String filename = artifactName + "-" + versionSpec + "." + typeSpec;
+                            m_target = new File( type, filename );
+                        }
                     }
                     catch( Throwable e )
                     {

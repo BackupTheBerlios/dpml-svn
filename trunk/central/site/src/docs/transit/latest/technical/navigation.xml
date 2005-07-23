@@ -26,6 +26,8 @@
 
     <menu>
       <item name="Artifact Protocol" href="protocol.html"/>
+      <item name="Link Protocol" href="link.html"/>
+      <item name="Local Protocol" href="local.html"/>
       <item name="Cache Management" href="cache.html"/>
       <item name="Local and Remote Hosts" href="hosts.html"/>
       <item name="Event Monitors" href="monitors.html"/>
