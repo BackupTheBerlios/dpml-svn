@@ -23,7 +23,7 @@
   <property file="${basedir}/build.properties"/>
   <property name="project.name" value="dpml-transit-main"/>
 
-  <import file="${home}/standard.xml"/>
+  <import file="${home}/bootstrap.xml"/>
 
   <target name="setup-path" depends="init">
     <path id="project.test.path">
@@ -32,7 +32,7 @@
     </path>
   </target>
 
-  <target name="init" depends="standard.init">
+  <target name="init" depends="bootstrap.init">
     <filter token="PROJECT-VERSION" value="${project.version}"/>
     <filter token="PROJECT-URI"
         value="artifact:plugin:dpml/transit/dpml-transit-main#${project.version}"/>
@@ -41,14 +41,14 @@
     <filter token="PROJECT-NAME" value="${project.name}"/>
   </target>
 
-  <target name="prepare" depends="standard.prepare">
+  <target name="prepare" depends="bootstrap.prepare">
     <mkdir dir="${basedir}/target/classes/transit"/>
     <copy todir="${basedir}/target/classes/transit" filtering="true">
       <fileset dir="${basedir}/target/setup"/>
     </copy>
   </target>
 
-  <target name="build" depends="standard.build">
+  <target name="build" depends="bootstrap.build">
     <rmic base="${basedir}/target/classes">
       <include name="**/DefaultHostModel.class"/>
       <include name="**/DefaultContentModel.class"/>
@@ -84,7 +84,7 @@
     <mkdir dir="target/dist"/>
   </target>
 
-  <target name="install" depends="standard.install">
+  <target name="install" depends="bootstrap.install">
     <property name="lib" location="${dpml.data}/lib"/>
     <property name="short.filename" value="${project.name}.jar"/>
     <property name="long.filename" value="${project.name}-${project.version}.jar"/>

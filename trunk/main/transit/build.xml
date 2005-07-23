@@ -21,21 +21,21 @@
 
 <project name="transit" default="install" basedir=".">
 
-  <import file="${basedir}/standard.xml"/>
+  <import file="${basedir}/bootstrap.xml"/>
 
   <property name="bundle" value="${basedir}/target/bundle"/>
   <property name="dist" location="${basedir}/target/dist"/>
 
-  <target name="init" depends="standard.init">
+  <target name="init" depends="bootstrap.init">
     <filter token="PROJECT-NAME" value="${project.name}"/>
     <filter token="PROJECT-VERSION" value="${project.version}"/>
   </target>
 
-  <target name="prepare" depends="standard.prepare">
+  <target name="prepare" depends="bootstrap.prepare">
     <ant dir="core" inheritall="false"/>
   </target>
 
-  <target name="build" depends="standard.build">
+  <target name="build" depends="bootstrap.build">
 
     <delete dir="${bundle}"/>
 
@@ -103,12 +103,11 @@
       <fileset dir="${basedir}/core/target/api"/>
     </copy>
 
-    <!-- add the standard.xml build procedure as a template -->
-    <property name="templates" value="${local}/dpml/transit/templates"/>
+    <!-- add the bootstrap.xml template to transit prefs -->
+    <property name="templates" value="${prefs}/transit/templates"/>
     <echo>Adding build template to ${templates}</echo>
     <mkdir dir="${templates}"/>
-    <copy file="${basedir}/standard.xml" tofile="${templates}/standard-${project.version}.template" />
-    <copy file="${basedir}/target/standard.template.link" toDir="${templates}"/>
+    <copy file="${basedir}/bootstrap.xml" tofile="${templates}/bootstrap.template" />
 
     <!-- zip up a copy of the platform independent bundle for use by depot -->
 
@@ -123,16 +122,12 @@
 
   </target>
 
-  <target name="install" depends="standard.install">
+  <target name="install" depends="bootstrap.install">
     <echo>
 #----------------------------------------------------------------------------------
 # Updating DPML DATA ${dpml.data}
 #----------------------------------------------------------------------------------
     </echo>
-    <mkdir dir="${dpml.cache}/dpml/transit/templates"/>
-    <copy toDir="${dpml.cache}/dpml/transit/templates">
-      <fileset dir="${templates}"/>
-    </copy>
     <mkdir dir="${dpml.docs}/api"/>
     <copy todir="${dpml.docs}/api" preservelastmodified="true">
       <fileset dir="${api}"/>

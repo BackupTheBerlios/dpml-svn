@@ -23,15 +23,15 @@
 
   <property file="${basedir}/build.properties"/>
   <property file="${home}/commons.properties"/>
-  <import file="${home}/standard.xml"/>
+  <import file="${home}/bootstrap.xml"/>
 
-  <target name="init" depends="standard.init">
+  <target name="init" depends="bootstrap.init">
     <filter token="PROJECT-VERSION" value="${project.version}"/>
     <property name="dpml.util.version" value="${project.version}"/>
     <filter token="COMMON-ANT-VERSION" value="${transit-ant.version}"/>
   </target>
 
-  <target name="prepare" depends="standard.prepare">
+  <target name="prepare" depends="bootstrap.prepare">
     <mkdir dir="${dpml.cache}/ant/jars"/>
     <get src="${dpml.repository}/ant/jars/${transit-ant.filename}" 
        usetimestamp="true" dest="${dpml.cache}/ant/jars/${transit-ant.filename}"/>
@@ -39,7 +39,7 @@
        usetimestamp="true" dest="${dpml.cache}/ant/jars/${ant.junit.filename}"/>
   </target>
 
-  <target name="package" depends="standard.package">
+  <target name="package" depends="bootstrap.package">
     <ant dir="handler" inheritall="false"/>
     <ant dir="tools" inheritall="false"/>
     <mkdir dir="${basedir}/target/deliverables/modules"/>
@@ -66,7 +66,7 @@
     </exec>
   </target>
 
-  <target name="install" depends="standard.install,javadoc"/>
+  <target name="install" depends="bootstrap.install,javadoc"/>
 
   <target name="javadoc" depends="prepare">
     <mkdir dir="${dpml.cache}/ant/jars"/>

@@ -69,7 +69,6 @@ public class ImportArtifactTask extends ImportTask
     public void setFile( String file )
     {
         String path = PropertyResolver.resolve( file );
-        System.out.println( "# Setting import path to : " + path );
         super.setFile( path );
     }
 

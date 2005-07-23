@@ -21,7 +21,7 @@
 <project name="dpml-transit-tools" default="install" basedir=".">
 
   <property file="${basedir}/build.properties"/>
-  <import file="${home}/standard.xml"/>
+  <import file="${home}/bootstrap.xml"/>
 
   <target name="setup-path" depends="init">
     <path id="project.main.path">
@@ -30,7 +30,7 @@
     </path>
   </target>
 
-  <target name="install" depends="standard.install">
+  <target name="install" depends="bootstrap.install">
     <echo>
 #----------------------------------------------------------------------------------
 # Updating Ant. ${user.dir}/.ant/lib
