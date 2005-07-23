@@ -18,6 +18,20 @@ The Metro system is a container that provides comprehensive support for the mana
 Metro aims to simplify the process of managing component-based systems.  It achieves this objective through delivery of functionality supporting automated component assembly and deployment combined with strong support for the isolation of implementation from the service that a component provides. Applications are implemented through component composition. In turn, applications can be exposed as simple components and used by other components as building blocks.
       </p>
 
+      <subsection name="Tutorials">
+
+        <table>
+          <tr>
+            <td><img src="/images/info.gif"/></td>
+            <td><i>The <a href="http://www.osm.net/training/components/index.html">
+               OSM Component Tutorial</a> is just getting off the ground - take at look 
+               at out initial content. Your feedback will be highly valued.</i>
+            </td>
+          </tr>
+        </table>
+
+      </subsection>
+
       <p><i>
         WARNING: Metro is under active development and most of the information 
         contained here is already out-of-date.  New content is in the pipeline.
