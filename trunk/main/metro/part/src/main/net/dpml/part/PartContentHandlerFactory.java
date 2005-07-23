@@ -22,6 +22,13 @@ import java.io.IOException;
 import java.net.URLConnection;
 import java.net.ContentHandler;
 import java.net.ContentHandlerFactory;
+import java.util.Properties;
+
+import net.dpml.transit.adapter.LoggingAdapter;
+import net.dpml.transit.model.Logger;
+import net.dpml.transit.model.ContentModel;
+import net.dpml.transit.model.DefaultContentModel;
+
 
 /**
  * A utility class supporting the establishment of a part content handler factory.
@@ -32,6 +39,39 @@ public class PartContentHandlerFactory implements ContentHandlerFactory
 {
     public ContentHandler createContentHandler( String mimetype )
     {
-        return new PartContentHandler();
+        try
+        {
+            ContentModel content = createContentModel();
+            return new PartContentHandler( content );
+        }
+        catch( Exception e )
+        {
+            System.err.println( "Exception while attempting to establish the default content handler." );
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    private ContentModel createContentModel() throws Exception
+    {
+        String title = "Default Part Handler.";
+        String type = "part";
+        Properties properties = new Properties();
+        String dir = System.getProperty( "project.test.dir" );
+        if( null != dir )
+        {
+            properties.put( "work.dir", dir );
+        }
+        Logger logger = new LoggingAdapter( "part" );
+        return new DefaultContentModel( logger, null, type, title, properties );
+    }
+
+    static
+    {
+        System.setProperty( 
+          "java.util.logging.config.class", 
+          System.getProperty( 
+            "java.util.logging.config.class", 
+            "net.dpml.transit.util.ConfigurationHandler" ) );
     }
 }

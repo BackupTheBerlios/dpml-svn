@@ -16,17 +16,19 @@
  * limitations under the License.
  */
 
-package net.dpml.metro.central;
+package net.dpml.part;
 
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
-import java.beans.PropertyChangeSupport;
 import java.awt.Dialog;
 import java.awt.Dimension;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
+import java.net.URL;
+
 import javax.swing.JDialog;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JPanel;
@@ -44,8 +46,6 @@ import javax.swing.JTextField;
 
 import net.dpml.transit.model.ContentModel;
 
-import net.dpml.composition.control.CompositionControllerContext;
-
 
 /**
  * A registry of descriptions of plugable content handlers.  This implementation
@@ -53,13 +53,13 @@ import net.dpml.composition.control.CompositionControllerContext;
  */
 public class PartContentHandlerControlPanel extends JDialog implements PropertyChangeListener
 {
-    private static String METRO_ICON_FILENAME = "net/dpml/metro/central/images/setup.png";
+    private static String METRO_ICON_FILENAME = "net/dpml/part/images/setup.png";
 
-    private static String SOURCE_ICON_FILENAME = "net/dpml/metro/central/images/source.png";
+    private static String SOURCE_ICON_FILENAME = "net/dpml/part/images/source.png";
 
-    private static String WORK_ICON_FILENAME = "net/dpml/metro/central/images/working.png";
+    private static String WORK_ICON_FILENAME = "net/dpml/part/images/working.png";
 
-    private static String TEMP_ICON_FILENAME = "net/dpml/metro/central/images/temp.png";
+    private static String TEMP_ICON_FILENAME = "net/dpml/part/images/temp.png";
 
     private static String PLUGIN_VERSION = "@VERSION@";
 
@@ -70,17 +70,17 @@ public class PartContentHandlerControlPanel extends JDialog implements PropertyC
     private PropertyChangeSupport m_propertyChangeSupport;
 
 
-    private final CompositionControllerContext m_model;
+    private final ContentModel m_model;
 
     public PartContentHandlerControlPanel( Dialog parent, ContentModel model ) throws Exception
     {
         super( parent );
 
-        m_model = new CompositionControllerContext( model );
+        m_model = model;
 
         m_propertyChangeSupport = new PropertyChangeSupport( this );
 
-        setTitle( "Metro FT Content Controller" );
+        setTitle( "DPML Part Content Controller" );
         setModal( true );
         setBackground( Color.white );
 
@@ -133,9 +133,8 @@ public class PartContentHandlerControlPanel extends JDialog implements PropertyC
 
     private JLabel createHeaderLabel()
     {
-        JLabel label = 
-          IconHelper.createImageIconJLabel( 
-            getClass().getClassLoader(), METRO_ICON_FILENAME, "", "Metro (FT) Content Handler" ); 
+        JLabel label = createImageIconJLabel( 
+            getClass().getClassLoader(), METRO_ICON_FILENAME, "", "DPML Part Content Handler" ); 
         label.setBorder( new EmptyBorder( 15, 10, 10, 10 ) );
         return label;
     }
@@ -173,17 +172,6 @@ public class PartContentHandlerControlPanel extends JDialog implements PropertyC
             )
           );
 
-        /*
-        ImageIcon label = 
-          IconHelper.createImageIcon( 
-            getClass().getClassLoader(), SOURCE_ICON_FILENAME, "Plugin" );
-        JPanel labelHolder = new JPanel( new BorderLayout() );
-        labelHolder.setBackground( Color.white );
-        labelHolder.setBorder( new EmptyBorder( 3, 0, 0, 10 ) );
-        labelHolder.add( new JLabel( label ), BorderLayout.NORTH );
-        panel.add( labelHolder, BorderLayout.WEST );
-        */
-
         JPanel stack = new JPanel();
 	  stack.setLayout( new BoxLayout( stack, BoxLayout.Y_AXIS ) );
         stack.setBackground( Color.white );
@@ -215,8 +203,8 @@ public class PartContentHandlerControlPanel extends JDialog implements PropertyC
         JPanel stack = new JPanel();
 	  stack.setLayout( new BoxLayout( stack, BoxLayout.Y_AXIS ) );
 
-        String workPath = m_model.getWorkingDirectoryPath();
-        String tempPath = m_model.getTempDirectoryPath();
+        String workPath = getWorkingDirectoryPath();
+        String tempPath = getTempDirectoryPath();
 
         JPanel working = createWorkingDirectoryPanel( workPath );
         JPanel temp = createTempDirectoryPanel( tempPath );
@@ -232,7 +220,7 @@ public class PartContentHandlerControlPanel extends JDialog implements PropertyC
         panel.setBackground( Color.white );
 
         ImageIcon label = 
-          IconHelper.createImageIcon( 
+          createImageIcon( 
             getClass().getClassLoader(), WORK_ICON_FILENAME, "Working Directory" );
         JPanel labelHolder = new JPanel( new BorderLayout() );
         labelHolder.setBackground( Color.white );
@@ -264,8 +252,7 @@ public class PartContentHandlerControlPanel extends JDialog implements PropertyC
         panel.setBackground( Color.white );
         panel.setBorder( new EmptyBorder( 10, 0, 5, 0 ) );
 
-        ImageIcon label = 
-          IconHelper.createImageIcon( 
+        ImageIcon label = createImageIcon( 
             getClass().getClassLoader(), TEMP_ICON_FILENAME, "Temp Directory" );
         JPanel labelHolder = new JPanel( new BorderLayout() );
         labelHolder.setBackground( Color.white );
@@ -379,4 +366,67 @@ public class PartContentHandlerControlPanel extends JDialog implements PropertyC
             m_propertyChangeSupport.firePropertyChange( e );
         }
     }
+
+    private static JLabel createImageIconJLabel( 
+      ClassLoader classloader, String path, String description, String text )
+    {
+        ImageIcon icon = createImageIcon( classloader, path, description );
+        return new JLabel( text, icon, JLabel.LEFT );
+    }
+
+    public static ImageIcon createImageIcon( ClassLoader classloader, String path, String description )
+    {
+        URL url = classloader.getResource( path );
+        if( null != url )
+        {
+            return new ImageIcon( url );
+        }
+        else
+        {
+            final String error =
+              "Supplied image icon resource path is unknown ["
+              + path 
+              + "].";
+            throw new IllegalArgumentException( error );
+        }
+    }
+
+   /**
+    * Return the root working directory path.
+    *
+    * @return directory path representing the root of the working directory hierachy
+    */
+    public String getWorkingDirectoryPath()
+    {
+        try
+        {
+            return m_model.getProperty( "work.dir", "${dpml.data}/work" );
+        }
+        catch( Exception e )
+        {
+            final String error = 
+              "Remote error while attempting to reslve working directory.";
+            throw new RuntimeException( error, e );
+        }
+    }
+
+   /**
+    * Return the root temporary directory path.
+    *
+    * @return directory path representing the root of the temporary directory hierachy.
+    */
+    public String getTempDirectoryPath()
+    {
+        try
+        {
+            return m_model.getProperty( "temp.dir", "${java.io.tmpdir}" );
+        }
+        catch( Exception e )
+        {
+            final String error = 
+              "Remote error while attempting to reslve temp directory.";
+            throw new RuntimeException( error, e );
+        }
+    }
+
 }

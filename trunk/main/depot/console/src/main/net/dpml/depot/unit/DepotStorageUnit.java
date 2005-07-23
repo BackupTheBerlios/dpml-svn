@@ -49,7 +49,6 @@ public class DepotStorageUnit extends AbstractStorageUnit implements DepotHome
 
         setupTestProfile();
         setupMexicoProfile();
-        setupMetroProfile();
         setupHttpProfile();
     }
 
@@ -120,7 +119,7 @@ public class DepotStorageUnit extends AbstractStorageUnit implements DepotHome
         String id = "test";
         Preferences prefs = getPreferences().node( "profiles" ).node( id );
         prefs.put( "uri", "@TEST-PLUGIN-URI@" );
-        prefs.put( "title", "Depot Cient Test" );
+        prefs.put( "title", "DPML Depot Client Test" );
         prefs.putBoolean( "command", true );
     }
 
@@ -129,23 +128,15 @@ public class DepotStorageUnit extends AbstractStorageUnit implements DepotHome
         String id = "mexico";
         Preferences prefs = getPreferences().node( "groups" ).node( "demo" ).node( "profiles" ).node( id );
         prefs.put( "uri", "@TEST-SERVER-URI@" );
-        prefs.put( "title", "Depot Activation Test" );
+        prefs.put( "title", "DPML Depot Activation Test" );
         prefs.put( "classname", "net.dpml.test.mexico.Server" );
-    }
-
-    private void setupMetroProfile()
-    {
-        String id = "metro";
-        Preferences prefs = getPreferences().node( "profiles" ).node( id );
-        prefs.put( "uri", "@METRO-CENTRAL-URI@" );
-        prefs.put( "title", "Metro" );
     }
 
     private void setupHttpProfile()
     {
         String id = "http";
         Preferences prefs = getPreferences().node( "profiles" ).node( id );
-        prefs.put( "uri", "link:part:dpml/planet/http/dpml-http-demo#LATEST" );
-        prefs.put( "title", "HTTP Demo" );
+        prefs.put( "uri", "link:part:dpml/planet/http/dpml-http-demo" );
+        prefs.put( "title", "DPML HTTP Demo" );
     }
 }

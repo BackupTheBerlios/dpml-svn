@@ -93,4 +93,22 @@ public interface Controller extends Remote
     Service newService( Component parent, Part part, String name )
       throws ComponentException, PartHandlerNotFoundException, DelegationException, RemoteException;
 
+   /**
+    * Load a part from serialized form.  The uri is assumed to be a uri that 
+    * can be transformed to a URL from which an input stream to a PartHolder 
+    * can be established.  
+    *
+    * @return the part estracted from the part handler referenced by the uri
+    */
+    Part loadPart( URI uri )
+        throws DelegationException, PartNotFoundException, IOException, RemoteException;
+
+   /**
+    * Load a part from a serialized object byte array. 
+    * @param bytes the byte array
+    * @return the part
+    */
+    Part loadPart( byte[] bytes ) throws IOException, RemoteException;
+
+
 }

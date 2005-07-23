@@ -41,6 +41,7 @@
       <name>dpml-part-api</name>
       <types>
         <type name="jar"/>
+        <type name="plugin" alias=""/>
       </types>
     </info>
     <dependencies>

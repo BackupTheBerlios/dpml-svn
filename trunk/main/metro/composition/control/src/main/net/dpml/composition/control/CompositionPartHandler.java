@@ -32,7 +32,6 @@ import java.util.WeakHashMap ;
 
 import net.dpml.part.Part;
 import net.dpml.part.PartHolder;
-import net.dpml.part.PartHandler;
 import net.dpml.part.PartHandlerRuntimeException;
 import net.dpml.part.PartNotFoundException;
 import net.dpml.part.control.Controller;
@@ -56,7 +55,7 @@ import net.dpml.transit.repository.Repository;
  * @author <a href="mailto:dev-dpml@lists.ibiblio.org">The Digital Product Meta Library</a>
  * @version $Revision: 1.2 $ $Date: 2004/03/17 10:30:09 $
  */
-public abstract class CompositionPartHandler extends UnicastRemoteObject implements PartHandler
+public abstract class CompositionPartHandler extends UnicastRemoteObject implements Controller
 {
    /**
     * Map containing the foreign part handlers.
@@ -182,7 +181,7 @@ public abstract class CompositionPartHandler extends UnicastRemoteObject impleme
             {
                 try
                 {
-                    PartHandler handler = resolvePartHandler( foreign );
+                    Controller handler = resolvePartHandler( foreign );
                     return handler.loadPart( holder.getByteArray() );
                 }
                 catch( Throwable e )
@@ -219,7 +218,7 @@ public abstract class CompositionPartHandler extends UnicastRemoteObject impleme
         }
     }
 
-    protected PartHandler resolvePartHandler( URI uri ) throws PartHandlerNotFoundException
+    protected Controller resolvePartHandler( URI uri ) throws PartHandlerNotFoundException
     {
         if( getURI().equals( uri ) )
         {
@@ -228,12 +227,12 @@ public abstract class CompositionPartHandler extends UnicastRemoteObject impleme
         String key = uri.toString();
         synchronized( m_handlers )
         {
-            PartHandler[] handlers = (PartHandler[]) m_handlers.keySet().toArray( new PartHandler[0] );
+            Controller[] handlers = (Controller[]) m_handlers.keySet().toArray( new Controller[0] );
             for( int i=0; i<handlers.length; i++ )
             {
                 try
                 {
-                    PartHandler handler = handlers[i];
+                    Controller handler = handlers[i];
                     if( handler.getURI().equals( uri ) )
                     {
                         return handler;
@@ -246,7 +245,7 @@ public abstract class CompositionPartHandler extends UnicastRemoteObject impleme
             }
             try
             {
-                PartHandler handler = loadHandler( uri );
+                Controller handler = loadHandler( uri );
                 m_handlers.put( handler, null );
                 return handler;
             }
@@ -257,13 +256,13 @@ public abstract class CompositionPartHandler extends UnicastRemoteObject impleme
         }
     }
 
-    private PartHandler loadHandler( URI uri ) throws PartHandlerNotFoundException
+    private Controller loadHandler( URI uri ) throws PartHandlerNotFoundException
     {
         ClassLoader classloader = Part.class.getClassLoader();
         DefaultLogger logger = new DefaultLogger( "handler" );
         try
         {
-            return (PartHandler) m_loader.getPlugin( classloader, uri, new Object[]{ this, logger } );
+            return (Controller) m_loader.getPlugin( classloader, uri, new Object[]{ this, logger } );
         }
         catch( IOException e )
         {
