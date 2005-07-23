@@ -27,5 +27,13 @@
     <x:export class="net.dpml.magic.upload.UploadTask"/>
   </target>
 
+  <target name="install" depends="standard.install">
+    <property name="templates" value="${dpml.prefs}/magic/templates"/>
+    <mkdir dir="${templates}"/>
+    <copy toDir="${templates}">
+      <fileset dir="target/templates"/>
+    </copy>
+  </target>
+
 </project>
 

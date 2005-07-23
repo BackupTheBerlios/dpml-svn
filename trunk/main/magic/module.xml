@@ -94,6 +94,9 @@
         <include name="eclipses/**"/>
         <include name="templates/**"/>
       </fileset>
+      <fileset dir="spells/upload/target">
+        <include name="templates/**"/>
+      </fileset>
     </copy>
 
     <!--
