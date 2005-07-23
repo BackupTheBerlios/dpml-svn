@@ -26,8 +26,8 @@
       </i></p>
 
       <ol>
-        <li>Validate javadocs.</li>
-        <li>Validate site docs.</li>
+        <li>Final API review.</li>
+        <li>Validate site and javadoc content.</li>
       </ol>
 
       <img src="/images/magic/magic-index.png"/>

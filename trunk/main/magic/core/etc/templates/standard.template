@@ -22,7 +22,7 @@
 
   <transit:init>
     <map urn="@PROJECT-PLUGIN-URN@"
-       uri="@PROJECT-PLUGIN-URI@"/>
+       uri="@PROJECT-PLUGIN-LINK-URI@"/>
   </transit:init>
 
   <target name="info" description="List the project key.">
