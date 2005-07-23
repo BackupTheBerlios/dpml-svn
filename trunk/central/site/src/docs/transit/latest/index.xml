@@ -46,7 +46,6 @@
       </i></p>
 
       <ol>
-        <li>Finalize import task handing of imported template (via link or prefs).</li>
         <li>Final review of the core APIs.</li>
         <li>Validate javadocs.</li>
       </ol>
