@@ -11,7 +11,7 @@
       <group>dpml/util</group>
       <name>dpml-util</name>
       <types>
-        <type name="module"/>
+        <type name="module" alias=""/>
       </types>
     </info>
   </project>

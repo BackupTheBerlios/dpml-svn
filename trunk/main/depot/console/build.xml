@@ -6,7 +6,7 @@
 
   <available property="depot.exe.available" file="${dpml.system}/bin/dpml/depot.exe"/>
 
-  <transit:import uri="artifact:template:dpml/magic/standard"/>
+  <transit:import uri="local:template:magic/standard"/>
 
   <target name="init" depends="standard.init">
     <property name="depot.short.filename" value="${project.name}.jar"/>

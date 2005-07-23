@@ -21,13 +21,6 @@
 <project name="dpml-runtime" default="default" basedir="." 
     xmlns:transit="antlib:net.dpml.transit">
 
-  <transit:import uri="artifact:template:dpml/magic/reactor"/>
-
-  <target name="patch">
-    <replace token="net.dpml.part.component.Component" value="net.dpml.part.component.Component" dir="..">
-      <include name="**/*.java"/>
-      <include name="**/*.xml"/>
-    </replace>
-  </target>
+  <transit:import uri="local:template:magic/reactor"/>
 
 </project>

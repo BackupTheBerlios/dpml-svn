@@ -11,16 +11,44 @@
 
       <p>
       The import task imports an ant template file from a supplied 
-      artifact uri.
+      artifact uri or file.  
       </p>
 
-      <p><i>Example of a import request.</i></p>
+      <p><i>Example of a import request using a uri.</i></p>
        
 <source><![CDATA[
-  <transit:import uri="artifact:template:dpml/magic/standard"/>
+  <transit:import uri="local:template:magic/standard"/>
 ]]></source>
 
+      <p><i>Example of a import request using a file.</i></p>
+       
+<source><![CDATA[
+  <transit:import file="${dpml.prefs}/magic/standard.template"/>
+]]></source>
+
+    <subsection name="Attributes">
+      
+      <p>
+      Task attributes are described in the following table. Usage of 
+      the uri and file attribute are mutually exclusive.
+      </p>
+
+      <table>
+        <tr><th>Attribute</th><th>Description</th></tr>
+        <tr>
+          <td>uri</td>
+          <td>A URI resolvable to a template resource.</td>
+        </tr>
+        <tr>
+          <td>file</td>
+          <td>A path resolvable to a template resource. Symbolic
+            references to ${dpml.home}, ${dpml.data}, ${dpml.prefs}, and ${dpml.system}
+            will be resolved.</td>
+        </tr>
+      </table>
+
     </section>
+
   </body>
 
 </document>

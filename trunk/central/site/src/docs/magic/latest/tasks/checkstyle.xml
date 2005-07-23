@@ -35,7 +35,7 @@
 <project name="demo" default="demo" basedir="."
     xmlns:transit="antlib:net.dpml.transit">
 
-  <transit:import uri="artifact:template:dpml/magic/standard"/>
+  <transit:import uri="local:template:magic/standard"/>
   <target name="demo" depends="checkstyle"/>
 
 </project>

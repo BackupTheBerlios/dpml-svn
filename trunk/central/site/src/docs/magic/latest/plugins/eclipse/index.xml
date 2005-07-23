@@ -37,7 +37,7 @@
     xmlns:transit="antlib:net.dpml.transit" >
 
   <property file="build.properties" />
-  <transit:import uri="artifact:template:dpml/magic/reactor"/>
+  <transit:import uri="local:template:magic/reactor"/>
   <transit:import uri="artifact:template:dpml/magic/eclipse"/>
 
 

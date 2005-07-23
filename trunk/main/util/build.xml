@@ -17,11 +17,11 @@
   limitations under the License.
 -->
 
-<project name="dpml-util" default="default" basedir="." 
+<project name="dpml-util" default="install" basedir="." 
     xmlns:transit="antlib:net.dpml.transit"
     xmlns:x="plugin:dpml/magic/dpml-magic-core">
 
-  <transit:import uri="artifact:template:dpml/magic/standard"/>
+  <transit:import uri="local:template:magic/standard"/>
 
   <target name="init" depends="standard.init">
     <x:reactor/>
@@ -37,9 +37,6 @@
         <home href="http://www.dpml.net"/>
       </header>
     </x:module>
-    <x:property name="module.uri" feature="uri" type="module"/>
-    <property name="link" value="target/deliverables/modules/${project.name}.module.link"/>
-    <echo file="${link}">${module.uri}</echo>
     <x:javadoc>
       <link href="http://java.sun.com/j2se/1.4/docs/api"/>
     </x:javadoc>

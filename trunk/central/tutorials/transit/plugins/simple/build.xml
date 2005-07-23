@@ -3,7 +3,7 @@
 <project name="dpml-transit-tutorial-plugin-simple" default="install" basedir="."
     xmlns:transit="antlib:net.dpml.transit" xmlns:x="plugin:dpml/magic/dpml-magic-core" >
 
-  <transit:import uri="artifact:template:dpml/magic/standard"/>
+  <transit:import uri="local:template:magic/standard"/>
 
   <target name="package" depends="standard.package">
     <x:export class="tutorial.plugin.SimplePlugin"/>
