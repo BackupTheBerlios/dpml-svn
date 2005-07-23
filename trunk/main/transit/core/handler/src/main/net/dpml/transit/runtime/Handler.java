@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package net.dpml.transit;
+package net.dpml.transit.runtime;
 
 /**
  * A handler is an interface implemented by a disposable sub-system.

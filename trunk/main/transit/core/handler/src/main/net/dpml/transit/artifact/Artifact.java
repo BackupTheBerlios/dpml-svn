@@ -134,7 +134,7 @@ public final class Artifact
               "URI does not declare a scheme: " + uri;
             throw new UnsupportedSchemeException( error );
         }
-        if( !scheme.equals( "artifact" ) && !scheme.equals( "link" ) )
+        if( !scheme.equals( "artifact" ) && !scheme.equals( "link" ) && !scheme.equals( "local" ) )
         {
             final String error = 
               "URI contains a scheme that is not recognized: " + uri;
@@ -402,6 +402,10 @@ public final class Artifact
         else if( "link".equals( scheme ) )
         {
             return toURL( new net.dpml.transit.link.Handler() );
+        }
+        else if( "local".equals( scheme ) )
+        {
+            return toURL( new net.dpml.transit.local.Handler() );
         }
         else
         {

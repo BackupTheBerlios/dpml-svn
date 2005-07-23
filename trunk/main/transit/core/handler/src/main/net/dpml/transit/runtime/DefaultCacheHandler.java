@@ -40,7 +40,6 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
 import net.dpml.transit.NullArgumentException;
-import net.dpml.transit.Handler;
 import net.dpml.transit.Transit;
 import net.dpml.transit.TransitException;
 import net.dpml.transit.adapter.Adapter;

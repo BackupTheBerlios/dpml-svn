@@ -45,7 +45,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 
-import net.dpml.transit.Handler;
 import net.dpml.transit.Transit;
 import net.dpml.transit.TransitException;
 import net.dpml.transit.artifact.Artifact;

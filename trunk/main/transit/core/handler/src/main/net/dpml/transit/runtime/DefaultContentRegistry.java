@@ -33,7 +33,6 @@ import java.util.prefs.NodeChangeListener;
 import java.util.prefs.NodeChangeEvent;
 import java.util.prefs.BackingStoreException;
 
-import net.dpml.transit.Handler;
 import net.dpml.transit.Transit;
 import net.dpml.transit.TransitException;
 import net.dpml.transit.repository.Repository;

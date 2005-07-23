@@ -54,6 +54,7 @@ import net.dpml.transit.network.TransitAuthenticator;
 import net.dpml.transit.network.TransitAuthenticatorImpl;
 import net.dpml.transit.repository.Repository;
 import net.dpml.transit.repository.StandardLoader;
+import net.dpml.transit.runtime.Handler;
 import net.dpml.transit.runtime.CacheHandler;
 import net.dpml.transit.runtime.DefaultCacheHandler;
 import net.dpml.transit.runtime.ContentRegistry;

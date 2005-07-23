@@ -33,6 +33,7 @@ import net.dpml.transit.monitors.Monitor;
 import net.dpml.transit.model.Logger;
 import net.dpml.transit.model.TransitModel;
 import net.dpml.transit.model.DefaultTransitModel;
+import net.dpml.transit.util.PropertyResolver;
 
 /**
  * Ant task that provides support for the import of build file templates
@@ -59,7 +60,21 @@ public class ImportArtifactTask extends ImportTask
     // ------------------------------------------------------------------------
 
    /**
-    * set the artifact to import.
+    * Set the file to import. Any symbolic references in the supplied 
+    * file argument will be resolved prior to invoking the standard setFile
+    * operation.
+    *
+    * @param file the template filename
+    */
+    public void setFile( String file )
+    {
+        String path = PropertyResolver.resolve( file );
+        System.out.println( "# Setting import path to : " + path );
+        super.setFile( path );
+    }
+
+   /**
+    * Set the artifact to import.
     * @param uri the artifact to import into the build file
     * @exception BuildException if an error occurs while attempting to
     *   resolve the artifact uri
