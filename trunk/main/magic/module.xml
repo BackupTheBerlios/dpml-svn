@@ -22,7 +22,7 @@
 <project name="dpml-magic" default="install" basedir="."
     xmlns:transit="antlib:net.dpml.transit" xmlns:x="plugin:dpml/magic/dpml-magic-core" >
 
-  <transit:import uri="artifact:template:dpml/magic/standard"/>
+  <transit:import uri="local:template:magic/standard"/>
 
   <target name="init" depends="standard.init">
     <property name="dpml.transit.version" value="${project.version}"/>
@@ -39,7 +39,7 @@
           <package name="net.dpml.magic"/>
           <package name="net.dpml.magic.*"/>
         </packages>
-        <x:svn href="http://scm.dpml.net/repos/dpml/development/main/magic"/>
+        <x:svn href="svn://svn.berlios.de/dpml/trunk/main/"/>
         <x:home href="http://www.dpml.net/products/magic"/>
       </x:header>
     </x:module>
@@ -69,6 +69,7 @@
     <copy todir="${local}/${project.group}">
       <fileset dir="target/deliverables"/>
     </copy>
+
     <!--
     Eeek - because we have non-versioned templates and a few other non-versioned things
     we need to workaround non-inclusion of these artifacts in the replication path. This
@@ -77,8 +78,6 @@
     <copy todir="${local}/${project.group}">
       <fileset dir="${dpml.cache}/dpml/magic">
         <include name="eclipses/**"/>
-        <include name="templates/**"/>
-        <include name="processes/**"/>
       </fileset>
     </copy>
 
@@ -88,6 +87,7 @@
       </fileset>
       <fileset dir="core/target">
         <include name="formats/**"/>
+        <include name="templates/**"/>
         <include name="xsls/**"/>
       </fileset>
     </copy>

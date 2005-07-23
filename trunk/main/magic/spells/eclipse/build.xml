@@ -1,7 +1,7 @@
 <project name="dpml-magic-eclipse" default="install" basedir="." 
       xmlns:transit="antlib:net.dpml.transit" xmlns:x="plugin:dpml/magic/dpml-magic-core" >
 
-  <transit:import uri="artifact:template:dpml/magic/standard"/>
+  <transit:import uri="local:template:magic/standard"/>
 	
 	<!-- example of usage
   <transit:import uri="artifact:template:dpml/magic/eclipse"/ -->

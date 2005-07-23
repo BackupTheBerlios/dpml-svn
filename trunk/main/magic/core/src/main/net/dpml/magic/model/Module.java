@@ -17,7 +17,7 @@
 
 package net.dpml.magic.model;
 
-import java.net.URL;
+import java.net.URI;
 
 import net.dpml.magic.AntFileIndex;
 import net.dpml.magic.builder.ElementHelper;
@@ -87,10 +87,10 @@ public class Module extends Resource
             {
                 Element header = ElementHelper.getChild( element, "header" );
                 String publisher = createPublisher( header );
-                URL home = createHref( header, "home" );
-                URL docs = createHref( header, "docs" );
-                URL svn = createHref( header, "svn" );
-                URL repository = createHref( header, "repository" );
+                URI home = createHref( header, "home" );
+                URI docs = createHref( header, "docs" );
+                URI svn = createHref( header, "svn" );
+                URI repository = createHref( header, "repository" );
                 Legal legal = createLegal( header );
                 return new Header( publisher, legal, home, svn, new String[0], repository, docs );
             }
@@ -122,7 +122,7 @@ public class Module extends Resource
             }
         }
 
-        private static URL createHref( Element element, String name ) throws Exception
+        private static URI createHref( Element element, String name ) throws Exception
         {
             if( null == element )
             {
@@ -145,7 +145,7 @@ public class Module extends Resource
 
                     try
                     {
-                        return new URL( href );
+                        return new URI( href );
                     }
                     catch( Throwable e )
                     {
@@ -172,8 +172,8 @@ public class Module extends Resource
                 try
                 {
                     Element legal = ElementHelper.getChild( header, "legal" );
-                    URL license = createHref( legal, "license" );
-                    URL notice = createHref( legal, "notice" );
+                    URI license = createHref( legal, "license" );
+                    URI notice = createHref( legal, "notice" );
                     return new Legal( license, notice );
                 }
                 catch( BuildException e )
@@ -187,14 +187,14 @@ public class Module extends Resource
 
         private final String m_publisher;
         private final Legal m_legal;
-        private final URL m_home;
-        private final URL m_svn;
+        private final URI m_home;
+        private final URI m_svn;
         private final String[] m_packages;
-        private final URL m_repository;
-        private final URL m_docs;
+        private final URI m_repository;
+        private final URI m_docs;
 
-        public Header( String publisher, Legal legal, URL home, URL svn, String[] packages,
-          URL repository, URL docs )
+        public Header( String publisher, Legal legal, URI home, URI svn, String[] packages,
+          URI repository, URI docs )
         {
             m_publisher = publisher;
             m_legal = legal;
@@ -215,12 +215,12 @@ public class Module extends Resource
             return m_legal;
         }
 
-        public URL getHome()
+        public URI getHome()
         {
             return m_home;
         }
 
-        public URL getSvn()
+        public URI getSvn()
         {
             return m_svn;
         }
@@ -230,38 +230,38 @@ public class Module extends Resource
             return m_packages;
         }
 
-        public URL getRepository()
+        public URI getRepository()
         {
             return m_repository;
         }
 
-        public URL getDocs()
+        public URI getDocs()
         {
             return m_docs;
         }
 
         public static class Legal
         {
-            private URL m_license;
-            private URL m_notice;
+            private URI m_license;
+            private URI m_notice;
 
            /**
             * Creation of a new legal entry.
-            * @param license a url referencing the module license
-            * @param notice a url referencing the module notice
+            * @param license a uri referencing the module license
+            * @param notice a uri referencing the module notice
             */
-            public Legal( URL license, URL notice )
+            public Legal( URI license, URI notice )
             {
                 m_license = license;
                 m_notice = notice;
             }
 
-            public URL getLicense()
+            public URI getLicense()
             {
                 return m_license;
             }
 
-            public URL getNotice()
+            public URI getNotice()
             {
                 return m_notice;
             }

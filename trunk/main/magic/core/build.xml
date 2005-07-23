@@ -21,9 +21,9 @@
 <project name="dpml-magic-core" default="install" basedir="."
     xmlns:transit="antlib:net.dpml.transit">
 
-  <transit:import uri="link:template:dpml/transit/standard"/>
+  <transit:import file="${dpml.prefs}/transit/templates/bootstrap.template"/>
 
-  <target name="init" depends="standard.init">
+  <target name="init" depends="bootstrap.init">
 
     <echo>Building Magic core using Transit ${dpml.transit.version}</echo>
 
@@ -31,6 +31,7 @@
         value="artifact:plugin:dpml/magic/dpml-magic-core#${project.version}"/>
     <filter token="PROJECT-PLUGIN-URN" value="plugin:dpml/magic/dpml-magic-core"/>
     <filter token="PROJECT-PLUGIN-URI" value="${dpml-magic-core.uri}"/>
+    <filter token="PROJECT-PLUGIN-LINK-URI" value="link:plugin:dpml/magic/dpml-magic-core"/>
 
     <!-- installer filters -->
     <filter token="JUNIT-URI" value="artifact:jar:junit/junit#${junit.version}"/>
@@ -40,7 +41,7 @@
        value="artifact:jar:dpml/transit/dpml-transit-tools#${dpml.transit.version}"/>
   </target>
 
-  <target name="setup-path" depends="standard.setup-path">
+  <target name="setup-path" depends="bootstrap.setup-path">
     <transit:get property="checkstyle.path" uri="${checkstyle.uri}"/>
     <path id="project.main.path">
       <pathelement location="${dpml.cache}/dpml/transit/jars/dpml-transit-main-${dpml.transit.version}.jar"/>
@@ -50,7 +51,7 @@
     </path>
   </target>
 
-  <target name="build" depends="standard.build">
+  <target name="build" depends="bootstrap.build">
     <taskdef name="export" classname="net.dpml.magic.tasks.ExportTask">
       <classpath refid="project.main.path"/>
     </taskdef>
@@ -59,9 +60,11 @@
       <antlib resource="net/dpml/magic/plugin.xml" 
         urn="plugin:dpml/magic/dpml-magic-core#${project.version}"/>
     </export>
+    <property name="link" location="${basedir}/target/deliverables/plugins/${project.name}.plugin.link"/>
+    <echo file="${link}">artifact:plugin:dpml/magic/${project.name}#${project.version}</echo>
   </target>
 
-  <target name="install" depends="standard.install">
+  <target name="install" depends="bootstrap.install">
     <property name="formats" value="${dpml.prefs}/magic/formats"/>
     <mkdir dir="${formats}"/>
     <copy toDir="${formats}">
@@ -71,6 +74,11 @@
     <mkdir dir="${xsls}"/>
     <copy toDir="${xsls}">
       <fileset dir="target/xsls"/>
+    </copy>
+    <property name="templates" value="${dpml.prefs}/magic/templates"/>
+    <mkdir dir="${templates}"/>
+    <copy toDir="${templates}">
+      <fileset dir="target/templates"/>
     </copy>
   </target>
 
