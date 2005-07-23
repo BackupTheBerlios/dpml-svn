@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!--
-  Copyright 2004 Stephen J McConnell
+  Copyright 2004-2005 Stephen J McConnell
   Copyright 2004 Niclas Hedhman
   
   Licensed  under the  Apache License,  Version 2.0  (the "License");
@@ -24,8 +24,8 @@
   <target name="eclipse" unless="project.eclipse.disable" >
   
   
-    <property name="project.eclipse.project.uri" value="artifact:eclipse:dpml/magic/project"/>
-    <property name="project.eclipse.classpath.uri" value="artifact:eclipse:dpml/magic/classpath"/>
+    <property name="project.eclipse.project.uri" value="local:eclipse:magic/project"/>
+    <property name="project.eclipse.classpath.uri" value="local:eclipse:magic/classpath"/>
     
     <!-- is empty strings then the default values will be used -->
     <property name="project.eclipse.project.keys" value=""/>
