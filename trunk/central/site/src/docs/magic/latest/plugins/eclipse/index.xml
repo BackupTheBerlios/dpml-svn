@@ -43,8 +43,6 @@
 </project>
 ]]></source>
 
-     
-
     </subsection>
 
     <subsection name="Properties">
@@ -57,27 +55,32 @@
         <tr><th>Property</th><th>Default</th><th>Description</th></tr>
 	  <tr>
 		<td>project.eclipse.project.uri</td>
+		<td>local:eclipse:magic/project</td>
 		<td>the URI for the .project template file</td>
 	  </tr>
 
 	  <tr>
 		<td>project.eclipse.classpath.uri</td>
+		<td>local:eclipse:magic/classpath</td>
 		<td>the URI for the .classpath template file</td>
 	  </tr>
 
 	  <tr>
 		<td>project.eclipse.project.name</td>
+            <td></td>
 		<td>name of the generated eclipse project</td>
 	  </tr>
 
 	  <tr>
 		<td>project.eclipse.project.keys</td>
+            <td></td>
 		<td>which project keys the task should look for dependent resources</td>
 	  </tr>
 
 	  <tr>
 		<td>project.eclipse.disable</td>
-		<td>if defined then the eclipse task will not be executed</td>
+            <td>false</td>
+		<td>if true the eclipse task will not be executed</td>
 	  </tr>
       </table>
 
