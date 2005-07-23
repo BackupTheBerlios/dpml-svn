@@ -310,7 +310,7 @@ public class TransitComponentHelper extends ComponentHelper
 
         try
         {
-            m_project.log( "installing: " + uri + " as " + + urn );
+            m_project.log( "installing: " + uri + " as " + urn );
 
             StandardLoader loader = new StandardLoader();
             Plugin descriptor = loader.getPluginDescriptor( uri );
