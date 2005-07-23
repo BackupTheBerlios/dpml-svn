@@ -32,19 +32,6 @@
         references to content undere the user's <code>${dpml.prefs}</code> directory.
       </p>
 
-      <subsection name="Tutorial">
-
-        <table>
-          <tr>
-            <td><img src="/images/info.gif"/></td>
-            <td><i>See <a href="http://www.osm.net/training/resources/artifacts.html">
-               OSM Tutorial on Transit Artifacts</a>.</i>
-            </td>
-          </tr>
-        </table>
-
-      </subsection>
-
       <subsection name="Specification">
         <p>
           The specification of the local protocol is as follows;
