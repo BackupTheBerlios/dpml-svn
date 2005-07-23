@@ -22,24 +22,24 @@
     xmlns:transit="antlib:net.dpml.transit">
 
   <target name="eclipse" unless="project.eclipse.disable" >
-  
-  
+
     <property name="project.eclipse.project.uri" value="local:eclipse:magic/project"/>
     <property name="project.eclipse.classpath.uri" value="local:eclipse:magic/classpath"/>
     
     <!-- is empty strings then the default values will be used -->
     <property name="project.eclipse.project.keys" value=""/>
     <property name="project.eclipse.project.name" value=""/>
-  
+
     <transit:plugin uri="@PLUGIN-URI@"/>
     <mkdir dir="target/eclipse"/>
-    <eclipse 
-     xmlns="plugin:dpml/magic/dpml-magic-eclipse"
-     description="generates the .project and .classpath files in the target dir"
+
+    <e:eclipse xmlns="plugin:dpml/magic/dpml-magic-eclipse"
+     description="Generates the .project and .classpath files in the target directory."
      projectUri="${project.eclipse.project.uri}"
      classpathUri="${project.eclipse.classpath.uri}"
      projectKeys="${project.eclipse.project.keys}"
-     projectName="${project.eclipse.project.name}"    />
+     projectName="${project.eclipse.project.name}"/>
+
   </target>
 
 </project>
