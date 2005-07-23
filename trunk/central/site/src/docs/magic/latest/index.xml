@@ -26,12 +26,11 @@
       </i></p>
 
       <ol>
-        <li>Removal of non-versioned resource usage (templates and eclipse resources).</li>
+        <li>Validate javadocs.</li>
+        <li>Validate site docs.</li>
       </ol>
 
       <img src="/images/magic/magic-index.png"/>
-
-      
 
     </section>
   </body>

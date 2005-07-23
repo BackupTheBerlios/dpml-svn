@@ -26,26 +26,28 @@
   <transit:import file="${dpml.prefs}/magic/standard.template"/>
 ]]></source>
 
-    <subsection name="Attributes">
+      <subsection name="Attributes">
       
-      <p>
-      Task attributes are described in the following table. Usage of 
-      the uri and file attribute are mutually exclusive.
-      </p>
+        <p>
+        Task attributes are described in the following table. Usage of 
+        the uri and file attribute are mutually exclusive.
+        </p>
 
-      <table>
-        <tr><th>Attribute</th><th>Description</th></tr>
-        <tr>
-          <td>uri</td>
-          <td>A URI resolvable to a template resource.</td>
-        </tr>
-        <tr>
-          <td>file</td>
-          <td>A path resolvable to a template resource. Symbolic
-            references to ${dpml.home}, ${dpml.data}, ${dpml.prefs}, and ${dpml.system}
-            will be resolved.</td>
-        </tr>
-      </table>
+        <table>
+          <tr><th>Attribute</th><th>Description</th></tr>
+          <tr>
+            <td>uri</td>
+            <td>A URI resolvable to a template resource.</td>
+          </tr>
+          <tr>
+            <td>file</td>
+            <td>A path resolvable to a template resource. Symbolic
+              references to ${dpml.home}, ${dpml.data}, ${dpml.prefs}, and ${dpml.system}
+              will be resolved.</td>
+          </tr>
+        </table>
+
+      </subsection>
 
     </section>
 

@@ -48,6 +48,7 @@
       <ol>
         <li>Final review of the core APIs.</li>
         <li>Validate javadocs.</li>
+        <li>Validate site docs.</li>
       </ol>
 
       <img src="/images/transit/repositories.png"/>
