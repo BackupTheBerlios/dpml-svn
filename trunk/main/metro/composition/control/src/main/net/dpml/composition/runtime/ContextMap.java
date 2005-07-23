@@ -76,7 +76,7 @@ public class ContextMap extends Hashtable
     }
 
     public void addEntry( String key, Part part ) 
-      throws ComponentException, PartHandlerNotFoundException, DelegationException
+      throws ComponentException, PartHandlerNotFoundException, DelegationException, RemoteException
     {
         if( containsKey( key ) )
         {
@@ -89,7 +89,7 @@ public class ContextMap extends Hashtable
     }
 
     public void setProvider( String key, Part part )
-      throws ComponentException, PartHandlerNotFoundException, DelegationException
+      throws ComponentException, PartHandlerNotFoundException, DelegationException, RemoteException
     {
         if( null == key )
         {
@@ -131,8 +131,7 @@ public class ContextMap extends Hashtable
                     {
                         final String error = 
                           "Component not found."
-                          + "\nContainer: " + m_parent.getURI()
-                          + "\nComponent: " + m_component.getURI()
+                          + "\nComponent: " + m_component.getLocalURI()
                           + "\nContext Key: " + key;
                         throw new ComponentException( error );
                     }
@@ -141,8 +140,7 @@ public class ContextMap extends Hashtable
                 {
                     final String error = 
                       "Enclosing component is not a container."
-                      + "\nComponent: " + m_component.getURI()
-                      + "\nEnclosing Component: " + m_parent.getURI()
+                      + "\nComponent: " + m_component.getLocalURI()
                       + "\nContext Key: " + key;
                     throw new ComponentException( error );
                 }
@@ -159,7 +157,7 @@ public class ContextMap extends Hashtable
                 {
                     final String error = 
                       "Unresolvable context reference."
-                      + "\nComponent: " + m_component.getURI()
+                      + "\nComponent: " + m_component.getLocalURI()
                       + "\nContext Key: " + key
                       + "\nContext Entry URI: " + uri;
                     throw new ComponentException( error, e );
@@ -170,8 +168,7 @@ public class ContextMap extends Hashtable
                 final String error = 
                   "Part reference resolution not supported at this time."
                   + "\nReference URI: " + uri
-                  + "\nContainer: " + m_parent.getURI()
-                  + "\nComponent: " + m_component.getURI()
+                  + "\nComponent: " + m_component.getLocalURI()
                   + "\nContext Key: " + key;
                 throw new ComponentException( error );
             }
@@ -247,7 +244,7 @@ public class ContextMap extends Hashtable
             int feature = directive.getFeature();
             if( FeatureDirective.URI == feature )
             {
-                return m_component.getURI();
+                return m_component.getLocalURI();
             }
             else if( FeatureDirective.NAME == feature )
             {
@@ -278,7 +275,7 @@ public class ContextMap extends Hashtable
             {
                 final String error = 
                   "Unexpected error while attempting to resolve the value of context entry."
-                  + "\nEnclosing component: " + m_component.getURI()
+                  + "\nEnclosing component: " + m_component.getLocalURI()
                   + "\nProvider: " + service
                   + "\nContext Key: " + key;
                 throw new ComponentRuntimeException( error, e );

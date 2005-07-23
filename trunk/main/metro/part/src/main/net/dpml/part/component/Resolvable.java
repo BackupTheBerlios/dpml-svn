@@ -19,6 +19,7 @@
 package net.dpml.part.component;
 
 import java.net.URI;
+import java.rmi.RemoteException;
 
 import net.dpml.part.state.State;
 import net.dpml.part.state.StateEvent;
@@ -57,6 +58,6 @@ public interface Resolvable
     * 
     * @param instance the instance to release
     */
-    void release( Object instance );
+    void release( Object instance ) throws RemoteException;
 
 }

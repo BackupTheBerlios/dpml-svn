@@ -33,7 +33,7 @@ import net.dpml.transit.util.ExceptionHelper;
  * A abstract base class that established an event queue and handles event dispatch 
  * operations for listeners declared in a class extending this base class.
  */
-public abstract class WeakEventProducer
+public abstract class WeakEventProducer extends UnicastRemoteObject
 {
     private Map m_listeners = new WeakHashMap();
 
@@ -42,8 +42,9 @@ public abstract class WeakEventProducer
     */
     protected final Object m_lock = new Object();
 
-    public WeakEventProducer()
+    public WeakEventProducer() throws RemoteException
     {
+        super();
     }
 
    /**

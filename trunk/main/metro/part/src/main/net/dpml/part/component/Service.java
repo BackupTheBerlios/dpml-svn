@@ -19,6 +19,7 @@
 package net.dpml.part.component;
 
 import java.net.URI;
+import java.rmi.RemoteException;
 
 import net.dpml.part.state.State;
 import net.dpml.part.state.StateEvent;
@@ -38,6 +39,6 @@ public interface Service
     * the service contracts that the service publishes.
     * @return the service descriptor array
     */
-    ServiceDescriptor[] getDescriptors();
+    ServiceDescriptor[] getDescriptors() throws RemoteException;
 
 }

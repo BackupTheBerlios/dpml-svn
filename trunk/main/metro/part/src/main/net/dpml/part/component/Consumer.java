@@ -18,6 +18,9 @@
 
 package net.dpml.part.component;
 
+import java.rmi.Remote;
+import java.rmi.RemoteException;
+
 import net.dpml.part.Part;
 import net.dpml.part.PartHandlerNotFoundException;
 import net.dpml.part.DelegationException;
@@ -30,20 +33,20 @@ import net.dpml.part.DelegationException;
  * @author <a href="mailto:dev-dpml@lists.ibiblio.org">The Digital Product Meta Library</a>
  * @version $Revision: 1.2 $ $Date: 2004/03/17 10:30:09 $
  */
-public interface Consumer
+public interface Consumer extends Remote
 {
    /**
     * Return an array of components supporting the component.
     * @return the provider array
     */
-    Component[] getProviders();
+    Component[] getProviders() throws RemoteException;
 
    /**
     * Return the component assigned as provider for the specified context key.
     * @param key the context entry key
     * @return the provider component
     */
-    Component getProvider( String key );
+    Component getProvider( String key ) throws RemoteException;
 
    /**
     * Set the component part to use as the provider for the supplied key.
@@ -54,5 +57,5 @@ public interface Consumer
     * @exception DelegationException if the handler raised an exception
     */
     void setProvider( String key, Part part )
-      throws ComponentException, PartHandlerNotFoundException, DelegationException;
+      throws ComponentException, PartHandlerNotFoundException, DelegationException, RemoteException;
 }

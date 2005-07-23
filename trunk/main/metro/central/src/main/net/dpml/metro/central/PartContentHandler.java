@@ -69,8 +69,7 @@ public class PartContentHandler extends ContentHandler
         {
             throw new NullPointerException( "model" );
         }
-        ControllerContext context = new CompositionControllerContext( model );
-        m_controller = new CompositionController( context );
+        m_controller = new CompositionController( model );
     }
 
     //------------------------------------------------------------------

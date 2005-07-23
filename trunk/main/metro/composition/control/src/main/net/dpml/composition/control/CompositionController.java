@@ -27,6 +27,7 @@ import java.net.URI;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.net.URISyntaxException;
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.Properties;
 
@@ -83,7 +84,6 @@ public class CompositionController extends CompositionPartHandler implements Con
     // state
     //--------------------------------------------------------------------
 
-    private final ControllerContext m_context;
     private final ValueController m_valueController;
     private final ComponentController m_componentController;
     private final Logger m_logger;
@@ -94,22 +94,12 @@ public class CompositionController extends CompositionPartHandler implements Con
     // constructor
     //--------------------------------------------------------------------
 
-    public CompositionController( ControllerContext context )
-       throws ControlException
+    public CompositionController( ContentModel model )
+       throws ControlException, RemoteException
     {
-        super( context );
+        super( new CompositionControllerContext( model ) );
 
-        m_context = context;
-
-        if( context instanceof CompositionControllerContext )
-        {
-            CompositionControllerContext c = (CompositionControllerContext) context;
-            m_logger = c.getLogger();
-        }
-        else
-        {
-            m_logger = getLoggerForURI( m_context.getURI() );
-        }
+        m_logger = getContext().getLogger();
         m_valueController = new ValueController( this );
         m_componentController = new ComponentController( m_logger, this );
         m_logger.debug( "metro controller established" );
@@ -125,7 +115,7 @@ public class CompositionController extends CompositionPartHandler implements Con
     */
     public ControllerContext getControllerContext()
     {
-        return m_context;
+        return getContext();
     }
 
     Logger getLogger()
@@ -181,7 +171,7 @@ public class CompositionController extends CompositionPartHandler implements Con
     * @exception UnsupportedPartTypeException if the component type is recognized but not supported
     */
     public Service newService( Component parent, Part part, String name )
-      throws ComponentException, PartHandlerNotFoundException, DelegationException
+      throws ComponentException, PartHandlerNotFoundException, DelegationException, RemoteException
     {
         URI partition = getPartition( parent );
         if( isRecognizedPart( part ) )
@@ -234,7 +224,7 @@ public class CompositionController extends CompositionPartHandler implements Con
     * @exception UnsupportedPartTypeException if the component type is recognized but not supported
     */
     public Component newComponent( Component parent, Part part, String name )
-      throws ComponentException, PartHandlerNotFoundException, DelegationException
+      throws ComponentException, PartHandlerNotFoundException, DelegationException, RemoteException
     {
         Component container = parent;
         URI partition = getPartition( parent );
@@ -317,7 +307,7 @@ public class CompositionController extends CompositionPartHandler implements Con
     * @exception UnsupportedPartTypeException if the component type is recognized but not supported
     */
     public Container newContainer( ClassLoader classloader, Part part )
-      throws ComponentException, PartHandlerNotFoundException, DelegationException
+      throws ComponentException, PartHandlerNotFoundException, DelegationException, RemoteException
     {
         URI partition = getPartition();
         if( isRecognizedPart( part ) )
@@ -392,7 +382,7 @@ public class CompositionController extends CompositionPartHandler implements Con
 
     private URI getPartition()
     {
-        return m_context.getURI();
+        return getContext().getURI();
     }
 
     private URI getPartition( Component component )
@@ -403,7 +393,17 @@ public class CompositionController extends CompositionPartHandler implements Con
         }
         else
         {
-            return component.getURI();
+            try
+            {
+                return component.getURI();
+            }
+            catch( RemoteException e )
+            {
+                final String error =
+                  "Component raised a remote in response to uri request."
+                  + "Component class: " + component.getClass().getName();
+                throw new ControllerRuntimeException( CONTROLLER_URI, error, e );
+            }
         }
     }
 

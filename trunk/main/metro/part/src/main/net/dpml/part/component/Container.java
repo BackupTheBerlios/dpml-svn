@@ -20,6 +20,8 @@ package net.dpml.part.component;
 
 import java.io.IOException;
 import java.net.URI;
+import java.rmi.Remote;
+import java.rmi.RemoteException;
 
 import net.dpml.part.DelegationException;
 import net.dpml.part.PartHandlerNotFoundException;
@@ -33,7 +35,7 @@ import net.dpml.part.component.Service;
  * @author <a href="mailto:dev-dpml@lists.ibiblio.org">The Digital Product Meta Library</a>
  * @version $Revision: 1.2 $ $Date: 2004/03/17 10:30:09 $
  */
-public interface Container
+public interface Container extends Remote
 {
    /**
     * Add a component to the collection of components managed by the container.
@@ -44,7 +46,7 @@ public interface Container
     */
     Component addComponent( URI part, String key ) 
       throws IOException, ComponentException, PartNotFoundException, 
-      PartHandlerNotFoundException, DelegationException;
+      PartHandlerNotFoundException, DelegationException, RemoteException;
 
    /**
     * Retrieve a component using a supplied key.
@@ -52,21 +54,21 @@ public interface Container
     * @return the component
     * @exception ComponentNotFoundException if the key is unknown
     */
-    Component getComponent( String key ) throws ComponentNotFoundException;
+    Component getComponent( String key ) throws ComponentNotFoundException, RemoteException;
 
    /**
     * Return the ordered startup sequence for the set of components contained 
     * within the container.
     * @return the startup sequence
     */
-    Component[] getStartupSequence();
+    Component[] getStartupSequence() throws RemoteException;
 
    /**
     * Return the ordered shutdown sequence for the set of components contained 
     * within the container.
     * @return the shutdown sequence
     */
-    Component[] getShutdownSequence();
+    Component[] getShutdownSequence() throws RemoteException;
 
 }
 

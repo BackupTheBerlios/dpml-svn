@@ -56,7 +56,7 @@ import net.dpml.transit.repository.Repository;
  * @author <a href="mailto:dev-dpml@lists.ibiblio.org">The Digital Product Meta Library</a>
  * @version $Revision: 1.2 $ $Date: 2004/03/17 10:30:09 $
  */
-public abstract class CompositionPartHandler implements PartHandler
+public abstract class CompositionPartHandler extends UnicastRemoteObject implements PartHandler
 {
    /**
     * Map containing the foreign part handlers.
@@ -68,14 +68,20 @@ public abstract class CompositionPartHandler implements PartHandler
     */
     private final Repository m_loader;
 
-    private final ControllerContext m_context;
+    private final CompositionControllerContext m_context;
 
-    public CompositionPartHandler( ControllerContext context ) throws ControlException
+    public CompositionPartHandler( CompositionControllerContext context ) 
+       throws ControlException, RemoteException
     {
         super();
 
         m_context = context;
         m_loader = Transit.getInstance().getRepository();
+    }
+
+    CompositionControllerContext getContext()
+    {
+        return m_context;
     }
 
    /**

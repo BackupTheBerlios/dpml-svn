@@ -29,6 +29,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Properties;
 
 import net.dpml.composition.builder.datatypes.CategoriesDataType;
 import net.dpml.composition.builder.datatypes.ConfigurationDataType;
@@ -69,6 +70,7 @@ import net.dpml.part.component.Service;
 
 import net.dpml.transit.tools.AntAdapter;
 import net.dpml.transit.model.Logger;
+import net.dpml.transit.model.DefaultContentModel;
 
 import org.apache.tools.ant.AntClassLoader;
 import org.apache.tools.ant.BuildException;
@@ -291,8 +293,13 @@ public class ComponentBuilderTask extends ClassLoaderBuilderTask implements Part
         {
             ComponentProfile profile = buildComponentProfile( classloader, cld );
             Logger logger = new AntAdapter( this );
-            ControllerContext context = CompositionControllerContext.newContext( logger );
-            CompositionController controller = new CompositionController( context );
+
+            String title = "Build Context.";
+            String type = "part";
+            Properties properties = new Properties();
+            DefaultContentModel model = 
+              new DefaultContentModel( logger, null, type, title, properties );
+            CompositionController controller = new CompositionController( model );
             Container container = controller.newContainer( classloader, profile );
 
             /*

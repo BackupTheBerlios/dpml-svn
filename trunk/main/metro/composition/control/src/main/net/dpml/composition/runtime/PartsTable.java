@@ -57,7 +57,7 @@ public class PartsTable
     }
 
     public Component addComponent( String key, Part part ) 
-      throws ComponentException, DelegationException, PartHandlerNotFoundException
+      throws ComponentException, DelegationException, PartHandlerNotFoundException, RemoteException
     {
         if( null == key )
         {
@@ -119,7 +119,7 @@ public class PartsTable
         }
     }
 
-    Component[] getComponents( ServiceDescriptor spec )
+    Component[] getComponents( ServiceDescriptor spec ) throws RemoteException
     {
         synchronized( m_parts )
         {

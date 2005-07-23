@@ -19,6 +19,7 @@
 package net.dpml.part.component;
 
 import java.net.URI;
+import java.rmi.RemoteException;
 
 import net.dpml.part.state.State;
 
@@ -33,6 +34,6 @@ public interface Identifiable
    /**
     * Return the uri identifying the component.  
     */
-    URI getURI();
+    URI getURI() throws RemoteException;
 }
 

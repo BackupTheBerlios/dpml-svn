@@ -88,12 +88,12 @@ class LifecycleHandler extends LoggingHandler
         {
             final String message = 
               "Incarnating ["
-              + component.getURI() 
+              + component.getLocalURI() 
               + "].";
             getLogger().debug( message );
         }
 
-        URI uri = component.getURI();
+        URI uri = component.getLocalURI();
         Class subject = component.getDeploymentClass();
         ClassLoader classloader = subject.getClassLoader();
         Constructor constructor = getConstructor( subject );

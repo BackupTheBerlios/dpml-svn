@@ -95,7 +95,7 @@ final class Appliance implements InvocationHandler, AvailabilityListener, Dispos
         {
             final String error = 
               "Component is not currently available."
-              + "\nComponent: " + m_component.getURI()
+              + "\nComponent: " + m_component.getLocalURI()
               + "\nClass: " + m_component.getDeploymentClass().getName();
             throw new ResourceUnavailableException( error );
         }
@@ -119,7 +119,7 @@ final class Appliance implements InvocationHandler, AvailabilityListener, Dispos
 
     public URI getURI()
     {
-        return m_component.getURI();
+        return m_component.getLocalURI();
     }
 
    /**

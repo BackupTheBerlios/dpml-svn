@@ -21,11 +21,15 @@ package net.dpml.composition.builder.datatypes;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.Properties;
 
 import net.dpml.composition.builder.PartReferenceBuilder;
 import net.dpml.composition.control.CompositionController;
-import net.dpml.composition.control.CompositionControllerContext;
 import net.dpml.composition.info.Type;
+
+import net.dpml.transit.tools.AntAdapter;
+import net.dpml.transit.model.DefaultContentModel;
+import net.dpml.transit.model.Logger;
 
 import net.dpml.part.control.ControllerContext;
 import net.dpml.part.DelegationException;
@@ -33,6 +37,7 @@ import net.dpml.part.PartNotFoundException;
 import net.dpml.part.Part;
 import net.dpml.part.PartReference;
 
+import org.apache.tools.ant.Task;
 import org.apache.tools.ant.BuildException;
 
 /**
@@ -41,7 +46,7 @@ import org.apache.tools.ant.BuildException;
  * @author <a href="mailto:dev-dpml@lists.ibiblio.org">The Digital Product Meta Library</a>
  * @version $Revision: 1.2 $ $Date: 2004/03/17 10:30:09 $
  */
-public class PartDataType implements PartReferenceBuilder
+public class PartDataType extends Task implements PartReferenceBuilder
 {
     private URI m_uri;
     private String m_key;
@@ -129,9 +134,13 @@ public class PartDataType implements PartReferenceBuilder
         URI uri = getURI();
         try
         {
-            ControllerContext context = CompositionControllerContext.newContext();
-            CompositionController handler = new CompositionController( context );
-            return handler.loadPart( uri );
+            Logger logger = new AntAdapter( this );
+            String title = "Build Context.";
+            Properties properties = new Properties();
+            DefaultContentModel model = 
+              new DefaultContentModel( logger, null, "part", title, properties );
+            CompositionController controller = new CompositionController( model );
+            return controller.loadPart( uri );
         }
         catch( PartNotFoundException pnfe )
         {

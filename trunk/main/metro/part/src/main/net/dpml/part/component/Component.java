@@ -19,6 +19,8 @@
 package net.dpml.part.component;
 
 import java.net.URI;
+import java.rmi.Remote;
+import java.rmi.RemoteException;
 
 import net.dpml.part.Part;
 import net.dpml.part.component.Service;
@@ -32,19 +34,19 @@ import net.dpml.part.component.Resolvable;
  * @author <a href="mailto:dev-dpml@lists.ibiblio.org">The Digital Product Meta Library</a>
  * @version $Revision: 1.2 $ $Date: 2004/03/17 10:30:09 $
  */
-public interface Component extends Service, Identifiable, Resolvable
+public interface Component extends Service, Identifiable, Resolvable, Remote
 {
    /**
     * Return the short name of this component.
     * @return the component name
     */
-    String getName();
+    String getName() throws RemoteException;
 
    /**
     * Return the part that defines this component.
     * @return the component part definition
     */
-    Part getDefinition();
+    Part getDefinition() throws RemoteException;
 
 }
 

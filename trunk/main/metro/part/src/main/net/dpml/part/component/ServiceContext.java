@@ -19,6 +19,7 @@
 package net.dpml.part.component;
 
 import java.net.URI;
+import java.rmi.RemoteException;
 
 import net.dpml.part.component.Component;
 
@@ -38,13 +39,13 @@ public interface ServiceContext
     *
     * @param uri a uri identifying or resolvable to a service
     */
-    Component lookup( URI uri ) throws ServiceException;
+    Component lookup( URI uri ) throws ServiceException, RemoteException;
 
    /**
     * Handle a request for the provision of a component relative to a supplied descriptor.
     *
     * @param service a service descriptor
     */
-    Component lookup( ServiceDescriptor service ) throws ServiceException;
+    Component lookup( ServiceDescriptor service ) throws ServiceException, RemoteException;
 
 }

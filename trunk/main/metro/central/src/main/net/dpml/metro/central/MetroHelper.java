@@ -87,8 +87,7 @@ public class MetroHelper
             properties.put( "work.dir", dir );
         }
         DefaultContentModel model = new DefaultContentModel( logger, null, type, title, properties );
-        ControllerContext context = new CompositionControllerContext( model );
-        m_controller = new CompositionController( context );
+        m_controller = new CompositionController( model );
     }
 
     public MetroHelper( ContentModel model ) throws Exception
@@ -97,8 +96,7 @@ public class MetroHelper
         {
             throw new NullPointerException( "model" );
         }
-        ControllerContext context = new CompositionControllerContext( model );
-        m_controller = new CompositionController( context );
+        m_controller = new CompositionController( model );
     }
 
     //------------------------------------------------------------------

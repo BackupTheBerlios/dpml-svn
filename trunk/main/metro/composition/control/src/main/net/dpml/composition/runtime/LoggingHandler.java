@@ -51,7 +51,7 @@ class LoggingHandler
     * @param model the composition model
     * @return the logging channel
     */
-    java.util.logging.Logger getJavaLogger( Component component )
+    java.util.logging.Logger getJavaLogger( ComponentHandler component )
     {
         return getJavaLogger( component, null );
     }
@@ -62,9 +62,9 @@ class LoggingHandler
     * @param category the logging category name
     * @return the logging channel
     */
-    java.util.logging.Logger getJavaLogger( Component component, String category )
+    java.util.logging.Logger getJavaLogger( ComponentHandler component, String category )
     {
-        URI uri = component.getURI();
+        URI uri = component.getLocalURI();
         String path = uri.getSchemeSpecificPart();
         String channel = path.replace( '/', '.' );
         if( category != null )
@@ -74,9 +74,9 @@ class LoggingHandler
         return Logger.getLogger( channel );
     }
 
-    net.dpml.logging.Logger getLoggingChannel( Component component )
+    net.dpml.logging.Logger getLoggingChannel( ComponentHandler component )
     {
-        URI uri = component.getURI();
+        URI uri = component.getLocalURI();
         String path = uri.getSchemeSpecificPart();
         if( path.endsWith( "/" ) )
         {

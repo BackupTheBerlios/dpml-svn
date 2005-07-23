@@ -119,7 +119,7 @@ public class ComponentHandler extends WeakEventProducer
     public ComponentHandler( 
       Logger logger, CompositionController controller, ClassLoader classloader, 
       URI uri, ComponentProfile profile, Component parent ) 
-      throws ComponentException, PartHandlerNotFoundException, DelegationException
+      throws ComponentException, PartHandlerNotFoundException, DelegationException, RemoteException
     {
         super();
 
@@ -186,7 +186,7 @@ public class ComponentHandler extends WeakEventProducer
                 {
                     final String error =
                       "Unresolved context entry."
-                      + "\nComponent: " + getURI()
+                      + "\nComponent: " + getLocalURI()
                       + "\nContext Key: " + key;
                     throw new ComponentRuntimeException( error );
                 }
@@ -276,7 +276,7 @@ public class ComponentHandler extends WeakEventProducer
     }
 
     public void setProvider( String key, Part part )
-      throws ComponentException, PartHandlerNotFoundException, DelegationException
+      throws ComponentException, PartHandlerNotFoundException, DelegationException, RemoteException
     {
         m_context.setProvider( key, part );
     }
@@ -532,7 +532,7 @@ public class ComponentHandler extends WeakEventProducer
             {
                 final String message = 
                   "State change."
-                  + "\nInstance: " + getURI()
+                  + "\nInstance: " + getLocalURI()
                   + "\nOld State: " + m_state.getName()
                   + "\nNew State: " + state.getName();
                 getLogger().debug( message );
@@ -593,7 +593,12 @@ public class ComponentHandler extends WeakEventProducer
     *
     * @return the instance uri
     */
-    public URI getURI()
+    public URI getURI() throws RemoteException
+    {
+        return getLocalURI();
+    }
+
+    URI getLocalURI()
     {
         return m_uri;
     }
@@ -621,7 +626,7 @@ public class ComponentHandler extends WeakEventProducer
     {
         if( false == isInitialized() )
         {
-            String spec = getURI().toString();
+            String spec = getLocalURI().toString();
             throw new ResourceUnavailableException( spec );
         }
         else
@@ -718,7 +723,7 @@ public class ComponentHandler extends WeakEventProducer
 
     public String toString()
     {
-        return getURI().toString();
+        return getLocalURI().toString();
     }
 
    /**
@@ -727,7 +732,7 @@ public class ComponentHandler extends WeakEventProducer
     */
     protected void finalize()
     {
-        m_logger.debug( "component model finalization in " + getURI() );
+        m_logger.debug( "component model finalization in " + getLocalURI() );
         dispose();
     }
 

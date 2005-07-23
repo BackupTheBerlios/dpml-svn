@@ -19,6 +19,7 @@
 package net.dpml.part.component;
 
 import java.net.URI;
+import java.rmi.RemoteException;
 
 import net.dpml.part.Part;
 import net.dpml.part.state.State;
@@ -43,19 +44,19 @@ public interface Manager extends Component
     * Return the current state of the component.
     * @return the current state
     */
-    State getState();
+    State getState() throws RemoteException;
 
    /**
     * Add a state listener to the provider.
     * @param listener the state listener
     */
-    void addStateListener( StateListener listener );
+    void addStateListener( StateListener listener ) throws RemoteException;
 
    /**
     * Remove a state listener from the provider.
     * @param listener the state listener
     */
-    void removeStateListener( StateListener listener );
+    void removeStateListener( StateListener listener ) throws RemoteException;
 
    /**
     * Applies a state transition identified by a supplied transition key.
@@ -77,6 +78,6 @@ public interface Manager extends Component
    /**
     * Terminate the component and its associated resources.
     */
-    void terminate();
+    void terminate() throws RemoteException;
 }
 

@@ -21,6 +21,7 @@ package net.dpml.composition.runtime;
 import java.lang.reflect.Constructor;
 import java.net.URI;
 import java.rmi.RemoteException;
+import java.rmi.server.UnicastRemoteObject;
 
 import net.dpml.composition.control.CompositionController;
 import net.dpml.composition.data.ValueDirective;
@@ -47,7 +48,7 @@ import net.dpml.transit.util.PropertyResolver;
  *
  * @author <a href="mailto:dev-dpml@lists.ibiblio.org">The Digital Product Meta Library</a>
  */
-public class ValueHandler implements Component, ClassLoadingContext
+public class ValueHandler extends UnicastRemoteObject implements Component, ClassLoadingContext
 {
     //--------------------------------------------------------------
     // state
@@ -83,8 +84,10 @@ public class ValueHandler implements Component, ClassLoadingContext
     */
     public ValueHandler(
         Logger logger, CompositionController controller, ClassLoader classloader, 
-        URI uri, ValueDirective part, Component parent )
+        URI uri, ValueDirective part, Component parent ) throws RemoteException
     {
+        super();
+
         if( controller == null )
         {
             throw new NullPointerException( "controller" );
@@ -129,7 +132,7 @@ public class ValueHandler implements Component, ClassLoadingContext
     * the service contracts that the service publishes.
     * @return the service descriptor array
     */
-    public ServiceDescriptor[] getDescriptors()
+    public ServiceDescriptor[] getDescriptors() throws RemoteException
     {
         return m_services;
     }
@@ -139,7 +142,7 @@ public class ValueHandler implements Component, ClassLoadingContext
         return m_classloader;
     }
 
-    public String getName()
+    public String getName() throws RemoteException
     {
         return m_directive.getKey();
     }
@@ -179,21 +182,17 @@ public class ValueHandler implements Component, ClassLoadingContext
     * 
     * @param instance the instance to release
     */
-    public void release( Object instance )
+    public void release( Object instance ) throws RemoteException
     {
         // nothing to do
     }
 
-   /**
-    * Return the availability status of the component.
-    * @return the availability status
-    */
-    //public boolean isOperational()
-    //{
-    //    return true;
-    //}
+    public URI getURI() throws RemoteException
+    {
+        return getLocalURI();
+    }
 
-    public URI getURI()
+    URI getLocalURI()
     {
         return m_uri;
     }
@@ -202,31 +201,6 @@ public class ValueHandler implements Component, ClassLoadingContext
     {
         return getValue();
     }
-
-   /**
-    * Issue a request to the service to prepare for operations.
-    * @exception AvailabilityException if the service cannot be made available
-    */
-    //public void prepare() throws AvailabilityException
-    //{
-    //    getValueController().prepare( this );
-    //}
-
-   /**
-    * Initialize the component.  
-    */
-    //public void initialize() throws Exception
-    //{
-    //    getValueController().initialize( this );
-    //}
-
-   /**
-    * Termination of the component.
-    */
-    //public void terminate()
-    //{
-    //    getValueController().terminate( this );
-    //}
 
    /**
     * Return the context entry value.
@@ -262,7 +236,7 @@ public class ValueHandler implements Component, ClassLoadingContext
         {
             final String error =
               "Cannot establish a constructed value  ["
-              + getURI()
+              + getLocalURI()
               + "].";
             throw new ComponentRuntimeException( error, e );
         }
@@ -354,7 +328,7 @@ public class ValueHandler implements Component, ClassLoadingContext
                   "Unable to instantiate instance of class [" 
                   + clazz.getName()
                   + "] withing the value type ["
-                  + getURI()
+                  + getLocalURI()
                   + "].";
                 throw new ComponentException( error, e );
             }
@@ -364,7 +338,7 @@ public class ValueHandler implements Component, ClassLoadingContext
                   "Cannot access null constructor for the class ["
                   + clazz.getName()
                   + "] withing the value type ["
-                  + getURI()
+                  + getLocalURI()
                   + "].";
                 throw new ComponentException( error, e );
             }
@@ -387,7 +361,7 @@ public class ValueHandler implements Component, ClassLoadingContext
                       + "] for the parameter [" 
                       + clazz.getName()
                       + "] withing the value type ["
-                      + getURI()
+                      + getLocalURI()
                       + "].";
                     throw new ComponentException( error, e );
                 }
@@ -410,7 +384,7 @@ public class ValueHandler implements Component, ClassLoadingContext
                       + "] inside the parameter [" 
                       + clazz.getName()
                       + "] withing the value type ["
-                      + getURI()
+                      + getLocalURI()
                       + "].";
                     throw new ComponentException( error, e );
                 }
@@ -426,7 +400,7 @@ public class ValueHandler implements Component, ClassLoadingContext
                   "Supplied parameters class ["
                   + clazz.getName()
                   + "] withing the value type ["
-                  + getURI()
+                  + getLocalURI()
                   + "] does not match the available class constructors.";
                 throw new ComponentException( error, e );
             }
@@ -441,7 +415,7 @@ public class ValueHandler implements Component, ClassLoadingContext
                   "Unable to instantiate an instance of a multi-parameter constructor for class ["
                   + clazz.getName()
                   + "] withing the value type ["
-                  + getURI()
+                  + getLocalURI()
                   + "].";
                 throw new ComponentException( error, e );
             }
@@ -451,7 +425,7 @@ public class ValueHandler implements Component, ClassLoadingContext
                   "Cannot access multi-parameter constructor for the class ["
                   + clazz.getName() 
                   + "] withing the value type ["
-                  + getURI()
+                  + getLocalURI()
                   + "].";
                 throw new ComponentException( error, e );
             }
@@ -461,7 +435,7 @@ public class ValueHandler implements Component, ClassLoadingContext
                   "Unexpected error while attempting to instantiate a multi-parameter constructor for the class [" 
                   + clazz.getName() 
                   + "] withing the value type ["
-                  + getURI()
+                  + getLocalURI()
                   + "].";
                 throw new ComponentException( error, e );
             }
@@ -481,7 +455,7 @@ public class ValueHandler implements Component, ClassLoadingContext
               "Unable to instantiate instance of class [" 
               + clazz.getName()
               + "] withing the value type ["
-              + getURI()
+              + getLocalURI()
               + "].";
             throw new ComponentException( error, e );
         }
@@ -491,7 +465,7 @@ public class ValueHandler implements Component, ClassLoadingContext
               "Cannot access null parameter constructor for the class ["
               + clazz.getName()
               + "] withing the value type ["
-              + getURI()
+              + getLocalURI()
               + "].";
             throw new ComponentException( error, e );
         }
@@ -501,7 +475,7 @@ public class ValueHandler implements Component, ClassLoadingContext
               "Unexpected exception while creating the class ["
               + clazz.getName()
               + "] withing the value type ["
-              + getURI()
+              + getLocalURI()
               + "].";
             throw new ComponentException( error, e );
         }
@@ -540,7 +514,7 @@ public class ValueHandler implements Component, ClassLoadingContext
                   "Class: [" 
                   + clazz.getName()
                   + "] referenced withing the value type ["
-                  + getURI()
+                  + getLocalURI()
                   + "] does not implement a single string argument constructor.";
                 throw new ComponentException( error );
             }
@@ -552,7 +526,7 @@ public class ValueHandler implements Component, ClassLoadingContext
                   + "] with the single argument ["
                   + argument 
                   + "] withing the value type ["
-                  + getURI()
+                  + getLocalURI()
                   + "].";
                 throw new ComponentException( error, e );
             }
@@ -562,7 +536,7 @@ public class ValueHandler implements Component, ClassLoadingContext
                   "Cannot access single string parameter constructor for the class: ["
                   + clazz.getName() 
                   + "] withing the value type ["
-                  + getURI()
+                  + getLocalURI()
                   + "].";
                 throw new ComponentException( error, e );
             }
@@ -572,7 +546,7 @@ public class ValueHandler implements Component, ClassLoadingContext
                   "Unexpected exception while creating a single string parameter value for the class ["
                   + clazz.getName() 
                   + "] withing the value type ["
-                  + getURI()
+                  + getLocalURI()
                   + "].";
                 throw new ComponentException( error, e );
             }
@@ -615,7 +589,7 @@ public class ValueHandler implements Component, ClassLoadingContext
               "The primitive return type ["
               + clazz.getName()
               + "] withing the value type ["
-              + getURI()
+              + getLocalURI()
               + "] is not supported.";
             throw new ComponentException( error );
         }
@@ -700,7 +674,7 @@ public class ValueHandler implements Component, ClassLoadingContext
                   "Could not locate the implementation for class ["
                   + classname 
                   + "] withing the value type ["
-                  + getURI()
+                  + getLocalURI()
                   + "].";
                throw new ComponentException( error, e );
             }
@@ -747,11 +721,33 @@ public class ValueHandler implements Component, ClassLoadingContext
             String key = argument.substring( 14 );
             if( "name".equals( key ) )
             {
-                return m_parent.getName();
+                try
+                {
+                    return m_parent.getName();
+                }
+                catch( RemoteException e )
+                {
+                    final String error = 
+                      "Remote exception raised by parent component when requesting name."
+                      + "\nParent component: " + m_parent.getClass().getName()
+                      + "\nComponent: " + getLocalURI();
+                    throw new ComponentRuntimeException( error, e );
+                }
             }
             else if( "uri".equals( key ) )
             {
-                return m_parent.getURI();
+                try
+                {
+                    return m_parent.getURI();
+                }
+                catch( RemoteException e )
+                {
+                    final String error = 
+                      "Remote exception raised by parent component when requesting uri."
+                      + "\nParent component: " + m_parent.getClass().getName()
+                      + "\nComponent: " + getLocalURI();
+                    throw new ComponentRuntimeException( error, e );
+                }
             }
             else
             {

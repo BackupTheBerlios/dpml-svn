@@ -30,7 +30,7 @@ import java.util.Properties;
 
 import net.dpml.logging.Logger;
 
-import net.dpml.composition.event.WeakEventProducer;
+import net.dpml.composition.event.LocalWeakEventProducer;
 import net.dpml.composition.runtime.DefaultLogger;
 
 import net.dpml.part.control.ControllerContext;
@@ -50,7 +50,7 @@ import net.dpml.transit.util.PropertyResolver;
  * @author <a href="mailto:dev-dpml@lists.ibiblio.org">The Digital Product Meta Library</a>
  * @version $Revision: 1.2 $ $Date: 2004/03/17 10:30:09 $
  */
-public class CompositionControllerContext extends WeakEventProducer implements ControllerContext
+public class CompositionControllerContext extends LocalWeakEventProducer implements ControllerContext
 {
     //----------------------------------------------------------------------------
     // static
@@ -103,8 +103,10 @@ public class CompositionControllerContext extends WeakEventProducer implements C
     // constructor
     //----------------------------------------------------------------------------
 
-    public CompositionControllerContext( ContentModel model ) throws RemoteException
+    public CompositionControllerContext( ContentModel model )
     {
+        super();
+
         m_model = model;
 
         // TODO: add listeners to changes to the content model properties
@@ -112,11 +114,20 @@ public class CompositionControllerContext extends WeakEventProducer implements C
         String work = getWorkingDirectoryPath();
         String temp = getTempDirectoryPath();
 
-        String domain = model.getProperty( "domain.name", "local" );
-        m_uri = setupContextURI( domain );
-        m_work = getWorkingDirectory( work );
-        m_temp = getTempDirectory( temp );
-        m_logger = getLoggerForURI( m_uri );
+        try
+        {
+            String domain = model.getProperty( "domain.name", "local" );
+            m_uri = setupContextURI( domain );
+            m_work = getWorkingDirectory( work );
+            m_temp = getTempDirectory( temp );
+            m_logger = getLoggerForURI( m_uri );
+        }
+        catch( RemoteException e )
+        {
+            final String error = 
+              "Supplied content model raised a remote exception in response to a property request.";
+            throw new RuntimeException( error, e );
+        }
     }
 
     private Logger getLoggerForURI( URI uri )

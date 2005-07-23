@@ -133,7 +133,7 @@ final class ManagerInvocationHandler implements InvocationHandler
                   + name 
                   + " method is not implemented."
                   + "\nOperation: " + name
-                  + "\nInstance: " + m_component.getURI();
+                  + "\nInstance: " + m_component.getLocalURI();
                 throw new UnsupportedOperationException( error );
             }
             catch( Throwable e )
@@ -146,7 +146,7 @@ final class ManagerInvocationHandler implements InvocationHandler
             final String error = 
               "The requested operation is not recognized."
               + "\nOperation: " + name
-              + "\nInstance: " + m_component.getURI();
+              + "\nInstance: " + m_component.getLocalURI();
             throw new UnsupportedOperationException( error );
         }
     }
@@ -157,7 +157,7 @@ final class ManagerInvocationHandler implements InvocationHandler
         final String error =
           "Unexpected error while attempting to invoke a state manager operation."
           + "\nMethod: " + name
-          + "\nInstance: " + m_component.getURI();
+          + "\nInstance: " + m_component.getLocalURI();
 
         while( true )
         {

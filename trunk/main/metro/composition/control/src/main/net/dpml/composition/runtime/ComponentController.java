@@ -108,7 +108,7 @@ public class ComponentController extends LoggingHandler
         return resolve( component, true );
     }
 
-    public Object resolve( Component component, boolean policy ) throws Exception
+    public Object resolve( ComponentHandler component, boolean policy ) throws Exception
     {
         if( component instanceof ComponentHandler )
         {
@@ -130,7 +130,7 @@ public class ComponentController extends LoggingHandler
         {
             final String error = 
               "Unsupported component implementation class."
-              + "\nComponent: " + component.getURI()
+              + "\nComponent: " + component.getLocalURI()
               + "\nClass: " + component.getClass().getName()
               + "\nMethod: resolve/2";
             throw new IllegalArgumentException( error );
@@ -163,7 +163,7 @@ public class ComponentController extends LoggingHandler
     * Issue a request to the service to prepare for operations.
     * @exception AvailabilityException if the service cannot be made available
     */
-    public void prepare( Component component ) throws AvailabilityException
+    public void prepare( ComponentHandler component ) throws AvailabilityException
     {
         try
         {
@@ -173,7 +173,7 @@ public class ComponentController extends LoggingHandler
         {
             final String error = 
               "Componet could not be brought to an available state."
-              + "\nComponent URI: " + component.getURI();
+              + "\nComponent URI: " + component.getLocalURI();
             throw new AvailabilityException( error, e );
         }
     }
@@ -191,7 +191,7 @@ public class ComponentController extends LoggingHandler
     * @exception Exception if an error is raised by a handler assigned to 
     *  and invoked initialization transition
     */
-    public void initialize( Component component ) throws Exception
+    public void initialize( ComponentHandler component ) throws Exception
     {
         if( component instanceof ComponentHandler )
         {
@@ -202,7 +202,7 @@ public class ComponentController extends LoggingHandler
         {
             final String error = 
               "Unsupported component implementation class."
-              + "\nComponent: " + component.getURI()
+              + "\nComponent: " + component.getLocalURI()
               + "\nClass: " + component.getClass().getName()
               + "\nMethod: initialize/1";
             throw new IllegalArgumentException( error );
@@ -229,7 +229,7 @@ public class ComponentController extends LoggingHandler
             return;
         }
 
-        getLogger().debug( "initialization of " + component.getURI() );
+        getLogger().debug( "initialization of " + component.getLocalURI() );
 
         Component[] providers = component.getProviders();
         for( int i=0; i<providers.length; i++ )
@@ -248,7 +248,7 @@ public class ComponentController extends LoggingHandler
                     URI uri = getURI();
                     final String error = 
                       "Failed to initialize component due to non-availability of a dependent service."
-                      + "\nComponent: " + component.getURI()
+                      + "\nComponent: " + component.getLocalURI()
                       + "\nService Provider: " + provider.getURI();
                     throw new ControlException( uri, error, e );
                 }
@@ -274,7 +274,7 @@ public class ComponentController extends LoggingHandler
                     URI uri = getURI();
                     final String error = 
                       "Failed to initialize component due to non-availability of a dependent service."
-                      + "\nComponent: " + component.getURI()
+                      + "\nComponent: " + component.getLocalURI()
                       + "\nService Provider: " + service.getURI();
                     throw new ControlException( uri, error, e );
                 }
@@ -345,7 +345,7 @@ public class ComponentController extends LoggingHandler
                 URI uri = getURI();
                 final String error = 
                   "Unable to establish a component instance."
-                  + "\nComponent: " + component.getURI()
+                  + "\nComponent: " + component.getLocalURI()
                   + "\nClass: " + component.getDeploymentClass();
                 throw new ControllerRuntimeException( uri, error, e );
             }
@@ -690,7 +690,7 @@ public class ComponentController extends LoggingHandler
                     URI controller = getURI();
                     final String error = 
                       "Unable to apply transition due to an error while resolving transition method parameters."
-                      + "\nComponent: " + entry.getURI()
+                      + "\nComponent: " + entry.getLocalURI()
                       + "\nTransition URI: " + uri
                       + "\nCurrent state: " + state
                       + "\nTarget state: " + target;
@@ -742,7 +742,7 @@ public class ComponentController extends LoggingHandler
             Class c = parameters[i];
             if( java.util.logging.Logger.class.isAssignableFrom( c ) )
             {
-                URI uri = entry.getURI();
+                URI uri = entry.getLocalURI();
                 args[i] = getJavaLoggerForURI( uri );
             }
             else if( Logger.class.isAssignableFrom( c ) )
@@ -850,7 +850,7 @@ public class ComponentController extends LoggingHandler
                         URI uri = getURI();
                         final String error = 
                           "Failed to terminate a subsidiary part."
-                          + "\nContainer: " + component.getURI()
+                          + "\nContainer: " + component.getLocalURI()
                           + "\nComponent: " + part.getURI();
                         getLogger().warn( error, e );
                     }

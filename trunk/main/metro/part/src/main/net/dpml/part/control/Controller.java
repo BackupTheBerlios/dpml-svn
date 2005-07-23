@@ -21,6 +21,7 @@ package net.dpml.part.control;
 import java.io.File;
 import java.io.IOException;
 import java.net.URI;
+import java.rmi.Remote;
 import java.rmi.RemoteException;
 
 import net.dpml.part.Part;
@@ -38,22 +39,13 @@ import net.dpml.part.component.ComponentException;
  * @author <a href="mailto:dev-dpml@lists.ibiblio.org">The Digital Product Meta Library</a>
  * @version $Revision: 1.2 $ $Date: 2004/03/17 10:30:09 $
  */
-public interface Controller
+public interface Controller extends Remote
 {
    /**
     * Returns the identity of the object implementing this interface.
     * @return a uri identifying the object
     */
-    URI getURI();
-
-   /**
-    * Return the controllers runtime context. The runtime context holds infromation 
-    * about the working and temporary directories and a uri identifying the execution 
-    * domain.
-    * 
-    * @return the runtime context
-    */
-    ControllerContext getControllerContext();
+    URI getURI() throws RemoteException;
 
    /**
     * Construct a new top-level component.
@@ -68,7 +60,7 @@ public interface Controller
     */
     Component newComponent( URI uri ) throws 
       ComponentException, IOException, PartNotFoundException, PartHandlerNotFoundException, 
-      DelegationException;
+      DelegationException, RemoteException;
 
    /**
     * Construct a new component using the supplied part as the defintion of the 
@@ -84,7 +76,7 @@ public interface Controller
     * @exception UnsupportedPartTypeException if the component type is recognized but not supported
     */
     Component newComponent( Component parent, Part part, String name )
-      throws ComponentException, PartHandlerNotFoundException, DelegationException;
+      throws ComponentException, PartHandlerNotFoundException, DelegationException, RemoteException;
 
    /**
     * Construct a new service using a supplied part.
@@ -99,6 +91,6 @@ public interface Controller
     * @exception UnsupportedPartTypeException if the component type is recognized but not supported
     */
     Service newService( Component parent, Part part, String name )
-      throws ComponentException, PartHandlerNotFoundException, DelegationException;
+      throws ComponentException, PartHandlerNotFoundException, DelegationException, RemoteException;
 
 }

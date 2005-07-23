@@ -66,7 +66,7 @@ public class CompositionHandler extends ComponentHandler implements Container, S
     public CompositionHandler(
       Logger logger, CompositionController controller, ClassLoader classloader, URI uri, 
       ComponentProfile profile, Component parent ) 
-      throws ComponentException, PartHandlerNotFoundException, DelegationException
+      throws ComponentException, PartHandlerNotFoundException, DelegationException, RemoteException
     {
         super( logger, controller, classloader, uri, profile, parent );
     }
@@ -114,7 +114,7 @@ public class CompositionHandler extends ComponentHandler implements Container, S
     *
     * @param uri a uri identifying or resolvable to a service
     */
-    public Component lookup( URI uri ) throws ServiceException
+    public Component lookup( URI uri ) throws ServiceException, RemoteException
     {
         String scheme = uri.getScheme();
         if( "service".equals( scheme ) )
@@ -131,7 +131,7 @@ public class CompositionHandler extends ComponentHandler implements Container, S
         }
     }
 
-    public Component lookup( ServiceDescriptor spec ) throws ServiceException
+    public Component lookup( ServiceDescriptor spec ) throws ServiceException, RemoteException
     {
         Component[] candidates = getPartsTable().getComponents( spec );
         if( candidates.length == 0 )
@@ -175,7 +175,7 @@ public class CompositionHandler extends ComponentHandler implements Container, S
         if( other instanceof CompositionHandler )
         {
             CompositionHandler handler = (CompositionHandler) other;
-            return getURI().equals( handler.getURI() );
+            return getLocalURI().equals( handler.getLocalURI() );
         }
         else if( Proxy.isProxyClass( other.getClass() ) )
         {

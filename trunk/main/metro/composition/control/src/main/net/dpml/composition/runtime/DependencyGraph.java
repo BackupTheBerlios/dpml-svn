@@ -20,9 +20,11 @@
 package net.dpml.composition.runtime;
 
 import java.util.ArrayList;
+import java.rmi.RemoteException;
 
 import net.dpml.part.component.Consumer;
 import net.dpml.part.component.Component;
+import net.dpml.part.component.ComponentRuntimeException;
 
 /**
  * <p>Utility class to aquire an ordered graph of
@@ -323,10 +325,20 @@ public class DependencyGraph
         if( component instanceof Consumer )
         {
             Consumer consumer = (Consumer) component;
-            Component[] providers = consumer.getProviders();
-            for ( int i = ( providers.length - 1 ); i > -1; i-- )
+            try
             {
-                visitcomponent( providers[i], true, done, order );
+                Component[] providers = consumer.getProviders();
+                for ( int i = ( providers.length - 1 ); i > -1; i-- )
+                {
+                     visitcomponent( providers[i], true, done, order );
+                }
+            }
+            catch( RemoteException e )
+            {
+                final String error = 
+                  "Component raised a remote exception while querying providers."
+                  + "\nComponent: " + component.getClass().getName();
+                throw new ComponentRuntimeException( error, e );
             }
         }
     }
@@ -349,14 +361,24 @@ public class DependencyGraph
             if( other instanceof Consumer )
             {
                 Consumer consumer = (Consumer) other;
-                final Component[] providers = consumer.getProviders();
-                for ( int j = 0; j < providers.length; j++ )
+                try
                 {
-                    Component provider = providers[j];
-                    if( provider.equals( component ) )
+                    final Component[] providers = consumer.getProviders();
+                    for ( int j = 0; j < providers.length; j++ )
                     {
-                        visitcomponent( other, false, done, order );
+                        Component provider = providers[j];
+                        if( provider.equals( component ) )
+                        {
+                            visitcomponent( other, false, done, order );
+                        }
                     }
+                }
+                catch( RemoteException e )
+                {
+                    final String error = 
+                      "Component raised a remote exception while querying providers."
+                      + "\nComponent: " + component.getClass().getName();
+                    throw new ComponentRuntimeException( error, e );
                 }
             }
         }
