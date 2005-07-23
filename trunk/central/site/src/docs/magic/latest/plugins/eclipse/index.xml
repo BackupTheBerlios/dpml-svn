@@ -38,8 +38,7 @@
 
   <property file="build.properties" />
   <transit:import uri="local:template:magic/reactor"/>
-  <transit:import uri="artifact:template:dpml/magic/eclipse"/>
-
+  <transit:import uri="local:template:magic/eclipse"/>
 
 </project>
 ]]></source>
@@ -58,7 +57,7 @@
         <tr><th>Property</th><th>Default</th><th>Description</th></tr>
 	  <tr>
 		<td>project.eclipse.project.uri</td>
-		<td>the artifact URI for the .project template file (must be an artifact)</td>
+		<td>the URI for the .project template file</td>
 	  </tr>
 
 	  <tr>

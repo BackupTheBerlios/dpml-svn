@@ -29,6 +29,7 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
 import java.net.URL;
+import java.net.URI;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -42,7 +43,8 @@ import net.dpml.magic.model.Resource;
 import net.dpml.magic.model.ResourceRef;
 import net.dpml.magic.project.Context;
 import net.dpml.magic.tasks.ContextualTask;
-import net.dpml.transit.artifact.Handler;
+
+import net.dpml.transit.artifact.Artifact;
 
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.taskdefs.Copy;
@@ -172,13 +174,13 @@ public class EclipseTask extends ContextualTask
 
     /**
      * 
-     * @param projectUri the artifact uri for the eclipse project file
+     * @param projectUri the uri for the eclipse project file
      */
     public void setProjectUri( String projectUri )
     {
         try
         {
-            URL url = new URL( null, projectUri, new Handler() );
+            URL url = Artifact.toURL( new URI( projectUri ) );
             m_projectFile = ( File ) url
                     .getContent( new Class[] { File.class } );
         }
@@ -422,7 +424,7 @@ public class EclipseTask extends ContextualTask
             // now try with transit
             try
             {
-                URL url = new URL( null, urlString, new Handler() );
+                URL url = Artifact.toURL( new URI( urlString ) );
                 File file = ( File ) url
                         .getContent( new Class[] { File.class } );
                 in = new FileInputStream(file);
