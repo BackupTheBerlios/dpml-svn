@@ -70,10 +70,10 @@
     <copy toDir="${formats}">
       <fileset dir="target/formats"/>
     </copy>
-    <property name="xsls" value="${dpml.prefs}/magic/xsls"/>
-    <mkdir dir="${xsls}"/>
-    <copy toDir="${xsls}">
-      <fileset dir="target/xsls"/>
+    <property name="eclipses" value="${dpml.prefs}/magic/eclipses"/>
+    <mkdir dir="${eclipses}"/>
+    <copy toDir="${eclipses}">
+      <fileset dir="target/eclipses"/>
     </copy>
     <property name="templates" value="${dpml.prefs}/magic/templates"/>
     <mkdir dir="${templates}"/>
@@ -81,6 +81,5 @@
       <fileset dir="target/templates"/>
     </copy>
   </target>
-
 
 </project>

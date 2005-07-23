@@ -90,6 +90,10 @@
         <include name="templates/**"/>
         <include name="xsls/**"/>
       </fileset>
+      <fileset dir="spells/eclipse/target">
+        <include name="eclipses/**"/>
+        <include name="templates/**"/>
+      </fileset>
     </copy>
 
     <!--
