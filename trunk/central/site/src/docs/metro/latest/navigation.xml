@@ -31,7 +31,7 @@
       <item name="Runtime" href="runtime/index.html"/>
       <item name="Users Guide" href="guide/index.html"/>
       <item name="Javadoc" 
-         href="../../@METRO-JAVADOC-PATH@/index.html"/>
+         href="../..@METRO-JAVADOC-PATH@/index.html"/>
     </menu>
 
  </body>

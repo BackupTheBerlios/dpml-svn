@@ -27,6 +27,7 @@
       <item name="Depot Preferences" href="prefs/index.html"/>
       <item name="Depot Install" href="install/index.html"/>
       <item name="Depot Station" href="station/index.html"/>
+      <item name="Javadoc" href="../..@DEPOT-DOCS-PATH@/index.html"/>
     </menu>
   </body>
 

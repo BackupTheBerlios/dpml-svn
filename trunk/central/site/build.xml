@@ -16,6 +16,7 @@
     <x:filter key="dpml-transit" feature="api" token="TRANSIT-DOCS-PATH"/>
     <x:filter key="dpml-magic" feature="api" token="MAGIC-DOCS-PATH"/>
     <x:filter key="dpml-metro" feature="api" token="METRO-JAVADOC-PATH"/>
+    <x:filter key="dpml-depot" feature="api" token="DEPOT-DOCS-PATH"/>
     <filter token="CENTRAL-SITE-GLOSSARY-PATH" value="products/transit/glossary/index.html"/>
     <filter token="CENTRAL-SITE-CONCEPTS-PATH" value="products/transit/concepts/index.html"/>
     <x:filter key="dpml-transit" feature="version" token="TRANSIT-BUILD-ID"/>

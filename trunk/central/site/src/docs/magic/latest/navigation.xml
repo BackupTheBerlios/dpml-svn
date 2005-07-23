@@ -29,7 +29,7 @@
       <item name="Templates" href="templates/index.html"/>
       <item name="Core Tasks" href="tasks/index.html"/>
       <item name="Optional Plugins" href="plugins/index.html"/>
-      <item name="Javadoc" href="../../@MAGIC-DOCS-PATH@/index.html"/>
+      <item name="Javadoc" href="../..@MAGIC-DOCS-PATH@/index.html"/>
     </menu>
 
  </body>
