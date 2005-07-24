@@ -25,12 +25,21 @@ public class HostLayoutEvent extends HostEvent
 {
     private final LayoutModel m_layout;
 
+   /**
+    * Event signalliing the change to a host layout model.
+    * @param host the host model that was changed
+    * @param layout the layout model that was assinged to the host
+    */
     public HostLayoutEvent( HostModel host, LayoutModel layout )
     {
         super( host );
         m_layout = layout;
     }
     
+   /**
+    * Return the layout model that was assigned to the host.
+    * @return the assinged layout model
+    */
     public LayoutModel getLayoutModel()
     {
         return m_layout;

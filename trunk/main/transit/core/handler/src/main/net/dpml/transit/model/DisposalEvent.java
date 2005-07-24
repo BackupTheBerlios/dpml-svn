@@ -21,15 +21,23 @@ package net.dpml.transit.model;
 import java.util.EventObject;
 
 /**
- * An event signalling a model modification.
+ * An event signalling a model disposal.
  */
 public class DisposalEvent extends EventObject 
 {
+   /**
+    * Creation of a new disposal event.
+    * @param model the model initiating the event
+    */
     public DisposalEvent( Model model )
     {
         super( model );
     }
 
+   /**
+    * Return the source of the disposalo event.
+    * @return the source model
+    */
     public Model getModel()
     {
         return (Model) getSource();

@@ -32,7 +32,7 @@ import net.dpml.transit.unit.TransitStorageUnit;
 
 /**
  * The DefaultTransitRegistryModel class maintains the set of 
- * registered Transit configurations.
+ * registered Transit profiles.
  *
  * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
  */
@@ -50,6 +50,13 @@ public class DefaultTransitRegistryModel extends DefaultModel implements Transit
     // constructor
     // ------------------------------------------------------------------------
 
+   /**
+    * Creation of a new Transit registry.
+    * @param logger the assigned logging channel
+    * @param home the registry storage unit
+    * @exception DuplicateKeyException if a suplicate is present in the subsystems
+    *   declared within the supplied storage unit
+    */
     public DefaultTransitRegistryModel( Logger logger, TransitHome home ) 
       throws RemoteException, DuplicateKeyException
     {
@@ -69,6 +76,10 @@ public class DefaultTransitRegistryModel extends DefaultModel implements Transit
     // TransitRegistryModel
     // ------------------------------------------------------------------------
 
+   /**
+    * Return the number of transit profiles within the registry.
+    * @return the profile count
+    */
     public int getTransitModelCount()
     {
         synchronized( m_lock )
@@ -95,17 +106,35 @@ public class DefaultTransitRegistryModel extends DefaultModel implements Transit
         super.removeListener( listener );
     }
 
+   /**
+    * Add a new Transit profile to the registry.
+    * @param id the identifier of the new profile
+    * @exception DuplicateKeyException if a profile with the same id is already registered
+    */
     public void addTransitModel( String id ) throws DuplicateKeyException, RemoteException
     {
         TransitStorage store = m_home.getTransitStorage( id );
         addTransitModel( store, true );
     }
 
+   /**
+    * Add a new Transit profile to the registry.
+    * @param model the profile to add
+    * @exception DuplicateKeyException if a profile with the same id as the 
+    *    id declared by the supplied model is already registered
+    */
     public void addTransitModel( TransitModel model ) throws DuplicateKeyException, RemoteException
     {
         addTransitModel( model, true );
     }
 
+   /**
+    * Add a transit profile using a suppled stroage unit.
+    * @param store the transit profile storage unit
+    * @param notify TRUE if a notification event should be raised
+    * @exception DuplicateKeyException if a profile with the same id as the 
+    *    id declared by the supplied store is already registered
+    */
     private void addTransitModel( TransitStorage store, boolean notify ) 
       throws DuplicateKeyException, RemoteException
     {
@@ -115,6 +144,13 @@ public class DefaultTransitRegistryModel extends DefaultModel implements Transit
         addTransitModel( model, notify );
     }
 
+   /**
+    * Add a transit profile using a supplied model.
+    * @param model the transit profile
+    * @param notify TRUE if a notification event should be raised
+    * @exception DuplicateKeyException if a profile with the same id as the 
+    *    id declared by the supplied model is already registered
+    */
     private void addTransitModel( TransitModel model, boolean notify ) 
       throws DuplicateKeyException, RemoteException
     {
@@ -138,6 +174,10 @@ public class DefaultTransitRegistryModel extends DefaultModel implements Transit
         }
     }
 
+   /**
+    * Return the set of transit models in the registry.
+    * @return the model array
+    */
     public TransitModel[] getTransitModels() throws RemoteException
     {
         synchronized( m_lock )
@@ -146,6 +186,11 @@ public class DefaultTransitRegistryModel extends DefaultModel implements Transit
         }
     }
 
+   /**
+    * Return a transit profile matching the supplied model identifier.
+    * @param id the model identifier
+    * @return the transit model
+    */
     public TransitModel getTransitModel( String id ) throws UnknownKeyException, RemoteException
     {
         synchronized( m_lock )
@@ -167,6 +212,11 @@ public class DefaultTransitRegistryModel extends DefaultModel implements Transit
         }
     }
 
+   /**
+    * Remove a transit model from the registry.
+    * @param model the model to remove
+    * @exception ModelReferenceException if the model is in use
+    */
     public void removeTransitModel( TransitModel model ) throws ModelReferenceException, RemoteException
     {
         synchronized( m_lock )
@@ -197,7 +247,9 @@ public class DefaultTransitRegistryModel extends DefaultModel implements Transit
         }
         else
         {
-            super.processEvent( event );
+            final String error = 
+              "Event class not recognized: " + event.getClass().getName();
+            throw new IllegalArgumentException( error );
         }
     }
 

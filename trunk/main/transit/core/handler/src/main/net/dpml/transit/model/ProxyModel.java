@@ -26,7 +26,7 @@ import net.dpml.transit.network.RequestIdentifier;
 
 /**
  * The ProxyModel is an interface implemented by objects that
- * manage the configuration of a running transit system.
+ * manage the configuration of transit proxy settings.
  */
 public interface ProxyModel extends Model
 {
@@ -55,12 +55,30 @@ public interface ProxyModel extends Model
     */
     String[] getExcludes() throws RemoteException;
 
+   /**
+    * Update the state of the proxy model.
+    * @param host the proxy host
+    * @param auth the proxy host authentication settings
+    * @param excludes the set of roxy excludes
+    */
     void update( URL host, PasswordAuthentication auth, String[] excludes ) throws RemoteException;
 
+   /**
+    * Update the proxy host url.
+    * @param host the proxy host
+    */
     void setHost( URL host ) throws RemoteException;
 
+   /**
+    * Update the proxy excludes.
+    * @param excludes the proxy excludes
+    */
     void setExcludes( String[] excludes ) throws RemoteException;
 
+   /**
+    * Update the proxy authentication settings.
+    * @param auth the proxy authentication settings
+    */
     void setAuthentication( PasswordAuthentication auth ) throws RemoteException;
 
    /**

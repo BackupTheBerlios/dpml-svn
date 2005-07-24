@@ -36,8 +36,8 @@ import net.dpml.transit.store.LayoutRegistryHome;
 import net.dpml.transit.store.LayoutStorage;
 
 /**
- * Default implementation of a layout subsystem that maitains 
- * information about the set of registred location resolver configurations.
+ * Default implementation of a layout registry model that maitains 
+ * information about the set of available layout models.
  *
  * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
  * @version $Id: StandardTransitDirector.java 2480 2005-05-10 04:44:32Z mcconnell@dpml.net $
@@ -57,6 +57,12 @@ public class DefaultLayoutRegistryModel extends DisposableCodeBaseModel
     // constructor
     // ------------------------------------------------------------------------
 
+   /**
+    * Creation of a new layout registry model.
+    * @param logger the assinged logging channel
+    * @param home the layout registry persistent storage home
+    * @exception DuplicateKeyException if a duplicate layout is declared in the assingned home
+    */
     public DefaultLayoutRegistryModel( Logger logger, LayoutRegistryHome home )
       throws DuplicateKeyException, RemoteException
     {
@@ -77,7 +83,7 @@ public class DefaultLayoutRegistryModel extends DisposableCodeBaseModel
     // ------------------------------------------------------------------------
 
    /**
-    * Add a regstry change listener.
+    * Add a layout registry change listener.
     * @param listener the registry change listener to add
     */
     public void addLayoutRegistryListener( LayoutRegistryListener listener ) throws RemoteException
@@ -86,7 +92,7 @@ public class DefaultLayoutRegistryModel extends DisposableCodeBaseModel
     }
 
    /**
-    * Remove a regstry change listener.
+    * Remove a layout registry change listener.
     * @param listener the registry change listener to remove
     */
     public void removeLayoutRegistryListener( LayoutRegistryListener listener ) throws RemoteException
@@ -94,16 +100,92 @@ public class DefaultLayoutRegistryModel extends DisposableCodeBaseModel
         super.removeListener( listener );
     }
 
+   /**
+    * Add a new layout model to the registry.
+    * @param id the layout model identity
+    * @exception DuplicateKeyException if a layout model of the same id already exists
+    */
     public void addLayoutModel( String id ) throws DuplicateKeyException, RemoteException
     {
         LayoutStorage store = m_home.getLayoutStorage( id );
         addLayoutModel( store, true );
     }
 
-    public void addLayoutModel( LayoutModel manager ) throws DuplicateKeyException, RemoteException
+   /**
+    * Add a new layout model to the registry.
+    * @param model the layout model
+    * @exception DuplicateKeyException if a layout model of the same id already exists
+    */
+    public void addLayoutModel( LayoutModel model ) throws DuplicateKeyException, RemoteException
     {
-        addLayoutModel( manager, true );
+        addLayoutModel( model, true );
     }
+
+   /**
+    * Return an array of content managers currently assigned to the registry.
+    * @return the content manager array
+    */
+    public LayoutModel[] getLayoutModels() throws RemoteException
+    {
+        synchronized( m_lock )
+        {
+            return (LayoutModel[]) m_list.toArray( new LayoutModel[0] );
+        }
+    }
+
+   /**
+    * Return a layout resolver model matching the supplied id. If the id is unknown
+    * an implementation shall return a null value.
+    *
+    * @return the layout model
+    */
+    public LayoutModel getLayoutModel( String id ) throws UnknownKeyException, RemoteException
+    {
+        synchronized( m_lock )
+        {
+            if( null == id )
+            {
+                throw new NullPointerException( "id" );
+            }
+            LayoutModel[] managers = getLayoutModels();
+            for( int i=0; i<managers.length; i++ )
+            {
+                LayoutModel manager = managers[i];
+                if( id.equals( manager.getID() ) )
+                {
+                    return manager;
+                }
+            }
+            throw new UnknownKeyException( id );
+        }
+    }
+
+   /**
+    * Remove a layout model from the registry.
+    * @param model the layout model to be removed
+    * @exception ModelReferenceException if the layout is in use
+    */
+    public void removeLayoutModel( LayoutModel model ) throws ModelReferenceException, RemoteException
+    {
+        synchronized( m_lock )
+        {
+            try
+            {
+                model.dispose();
+                m_list.remove( model );
+                LayoutRemovedEvent event = new LayoutRemovedEvent( this, model );
+                enqueueEvent( event );
+            }
+            catch( VetoDisposalException e ) 
+            {
+                throw new ModelReferenceException( this, model );
+            }
+        }
+    }
+
+    // ------------------------------------------------------------------------
+    // impl
+    // ------------------------------------------------------------------------
 
     private void addLayoutModel( LayoutStorage store, boolean notify ) 
       throws DuplicateKeyException, RemoteException
@@ -137,62 +219,7 @@ public class DefaultLayoutRegistryModel extends DisposableCodeBaseModel
         }
     }
 
-   /**
-    * Return an array of content managers currently assigned to the registry.
-    * @return the content manager array
-    */
-    public LayoutModel[] getLayoutModels() throws RemoteException
-    {
-        synchronized( m_lock )
-        {
-            return (LayoutModel[]) m_list.toArray( new LayoutModel[0] );
-        }
-    }
-
-    public LayoutModel getLayoutModel( String id ) throws UnknownKeyException, RemoteException
-    {
-        synchronized( m_lock )
-        {
-            if( null == id )
-            {
-                throw new NullPointerException( "id" );
-            }
-            LayoutModel[] managers = getLayoutModels();
-            for( int i=0; i<managers.length; i++ )
-            {
-                LayoutModel manager = managers[i];
-                if( id.equals( manager.getID() ) )
-                {
-                    return manager;
-                }
-            }
-            throw new UnknownKeyException( id );
-        }
-    }
-
-    public void removeLayoutModel( LayoutModel model ) throws ModelReferenceException, RemoteException
-    {
-        synchronized( m_lock )
-        {
-            try
-            {
-                model.dispose();
-                m_list.remove( model );
-                LayoutRemovedEvent event = new LayoutRemovedEvent( this, model );
-                enqueueEvent( event );
-            }
-            catch( VetoDisposalException e ) 
-            {
-                throw new ModelReferenceException( this, model );
-            }
-        }
-    }
-
-    // ------------------------------------------------------------------------
-    // impl
-    // ------------------------------------------------------------------------
-
-    public void processEvent( EventObject event )
+    protected void processEvent( EventObject event )
     {
         if( event instanceof LayoutRegistryEvent )
         {

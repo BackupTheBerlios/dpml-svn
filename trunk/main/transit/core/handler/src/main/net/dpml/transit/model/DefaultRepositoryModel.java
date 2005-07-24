@@ -32,6 +32,11 @@ import net.dpml.transit.store.CodeBaseStorage;
  */
 public class DefaultRepositoryModel extends DisposableCodeBaseModel implements RepositoryModel
 {
+   /**
+    * Creation of a new repository service codebase model.
+    * @param logger the assinged logging channel
+    * @param home the codebase storage unit
+    */
     public DefaultRepositoryModel( Logger logger, CodeBaseStorage home ) 
       throws RemoteException
     {

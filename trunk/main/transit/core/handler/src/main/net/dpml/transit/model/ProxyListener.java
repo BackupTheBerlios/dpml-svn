@@ -23,8 +23,8 @@ import java.rmi.Remote;
 import java.rmi.RemoteException;
 
 /**
- * A ProxyListener maintains information about the configuration of 
- * tranist proxy settings.
+ * A ProxyListener is implemented by clients whishing to be notified about changes to 
+ * a transit proxy configuration.
  */
 public interface ProxyListener extends EventListener, Remote
 {

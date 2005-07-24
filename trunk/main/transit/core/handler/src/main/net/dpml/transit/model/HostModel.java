@@ -38,6 +38,21 @@ import net.dpml.transit.network.RequestIdentifier;
 public interface HostModel extends CodeBaseModel, Disposable
 {
    /**
+    * HTTP port number.
+    */
+    static final int HTTP_PORT = 80;
+
+   /**
+    * FTP port number.
+    */
+    static final int FTP_PORT = 21;
+
+   /**
+    * HTTPS port number.
+    */
+    static final int HTTPS_PORT = 443;
+
+   /**
     * Return an immutable host identifier.  The host identifier shall be 
     * guranteed to be unique and constant for the life of the model.
     */
@@ -117,26 +132,43 @@ public interface HostModel extends CodeBaseModel, Disposable
     LayoutModel getLayoutModel() throws RemoteException;
 
    /**
-    * HTTP port number.
+    * Set the human readable name of the host to the supplied value.
+    *
+    * @param name the human readable name
     */
-    static final int HTTP_PORT = 80;
-
-   /**
-    * FTP port number.
-    */
-    static final int FTP_PORT = 21;
-
-   /**
-    * HTTPS port number.
-    */
-    static final int HTTPS_PORT = 443;
-
     void setName( String name ) throws RemoteException;
 
+   /**
+    * Set the host priority to the supplied value.
+    * @param priority the host priority
+    */
     void setPriority( int priority ) throws RemoteException;
 
+   /**
+    * Set the layout model assigned to the host.
+    *
+    * @param layout the layout model to assign
+    * @exception BootstrapException if the host model is a bootstrap host and 
+    *   the assigned layout model is not a bootstrap layout model
+    */
     void setLayoutModel( LayoutModel layout ) throws BootstrapException, RemoteException;
 
+   /**
+    * Update the state of the host model.
+    *
+    * @param base the host base url path
+    * @param index the host content index
+    * @param enabled the enabled status of the host
+    * @param trusted the trusted status of the host
+    * @param layout the assigned host layout identifier
+    * @param auth a possibly null host authentication username and password
+    * @param scheme the host security scheme
+    * @param prompt the security prompt raised by the host
+    * @exception UnknownKeyException if the layout id is unknown
+    * @exception MalformedURLException if the host base url path is malformed
+    * @exception BootstrapException if the host is a bootstrap host and a 
+    *   non-bootstrap layout is assigned
+    */
     void update( 
       String base, String index, boolean enabled, boolean trusted, String layout, 
       PasswordAuthentication auth, String scheme, String prompt ) 

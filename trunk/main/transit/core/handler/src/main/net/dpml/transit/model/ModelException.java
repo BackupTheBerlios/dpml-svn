@@ -21,7 +21,7 @@ package net.dpml.transit.model;
 import net.dpml.transit.TransitException;
 
 /**
- * Exception to indicate that there was a configuration model related error.
+ * Exception to indicate that there was a model related error.
  *
  * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
  */
@@ -41,7 +41,7 @@ public class ModelException extends TransitException
      * Construct a new <code>ModelException</code> instance.
      *
      * @param message The detail message for this exception.
-     * @param cause the root cause of the exception
+     * @param cause the causal exception
      */
     public ModelException( final String message, final Throwable cause )
     {

@@ -27,7 +27,7 @@ public class LayoutEvent extends EventObject
 {
    /**
     * Creation of a new LayoutEvent signalling modification of 
-    * location resolver configuration.
+    * layout model configuration.
     * 
     * @param model the resolver model
     */
@@ -37,8 +37,8 @@ public class LayoutEvent extends EventObject
     }
     
    /**
-    * Return the resolver that was modified.
-    * @return the resolver model
+    * Return the layout model that was modified.
+    * @return the layout model
     */
     public LayoutModel getLayoutModel()
     {

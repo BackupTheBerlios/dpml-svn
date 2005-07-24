@@ -24,8 +24,8 @@ import java.rmi.RemoteException;
 
 /** 
  * The HostListener is an interface implmented by resource host
- * implementation.  The interface declares a single host change notification
- * method that is invoked by a host director signalling one or more changes 
+ * implementation.  The interface declares host change notification
+ * methods that is invoked by a host model following one or more changes 
  * to the host configuration.
  */
 public interface HostListener extends EventListener, Remote
@@ -45,7 +45,7 @@ public interface HostListener extends EventListener, Remote
 
    /**
     * Notify a consumer of a change to the host priority.
-    * @param event the host event
+    * @param event the host priority event
     */
     void priorityChanged( HostPriorityEvent event ) throws RemoteException;
 

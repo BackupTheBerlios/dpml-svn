@@ -22,18 +22,27 @@ import java.io.File;
 import java.util.EventObject;
 
 /**
- * Event signalling a change to the Tranist cache directory.
+ * Event signalling a change to the Transit cache directory.
  */
 public abstract class FileChangeEvent extends EventObject
 {
     private final File m_file;
 
+   /**
+    * Creation of a new file change event.
+    * @param source the object raising the event
+    * @param file the new file value
+    */
     public FileChangeEvent( Object source, File file )
     {
         super( source );
         m_file = file;
     }
     
+   /**
+    * Return the new file value.
+    * @return the new file
+    */
     public File getFile()
     {
         return m_file;

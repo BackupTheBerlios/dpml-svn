@@ -23,20 +23,19 @@ import java.rmi.Remote;
 import java.rmi.RemoteException;
 
 /**
- * A RegistryListener maintains information about the configuration of a Transit
- * content management system. An implementation of this interface would be supplied 
- * a ContentRegistry implementation.
+ * Interface implemented by objects that are interested in changes
+ * to a layout registry.
  */
 public interface LayoutRegistryListener extends EventListener, Remote
 {
    /**
-    * Notify all listeners of the addition of a location resolver model.
+    * Notify all listeners of the addition of a layout model.
     * @param event the layout event
     */
     void layoutAdded( LayoutRegistryEvent event ) throws RemoteException;
 
    /**
-    * Notify all listeners of the removal of a location resolver model.
+    * Notify all listeners of the removal of a layout model.
     * @param event the layout event
     */
     void layoutRemoved( LayoutRegistryEvent event ) throws RemoteException;

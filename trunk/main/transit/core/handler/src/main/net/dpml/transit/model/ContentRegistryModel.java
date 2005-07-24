@@ -36,11 +36,11 @@ public interface ContentRegistryModel extends CodeBaseModel
     ContentModel[] getContentModels() throws RemoteException;
 
    /**
-    * Return a content model matching the supplied type. If the type is unknown
-    * an implementation shall return a null value.
+    * Return a content model matching the supplied type.
     *
     * @param type the content model type
-    * @return the content model or null if the type is unknown
+    * @return the content model
+    * @exception UnknownKeyException if the content model type is unknown
     */
     ContentModel getContentModel( String type ) throws UnknownKeyException, RemoteException;
 

@@ -29,8 +29,8 @@ import net.dpml.transit.store.ContentStorage;
 import net.dpml.transit.store.Removable;
 
 /**
- * Default implementation of a content manager that maintains an active 
- * configuration model of a pluggable content handler.
+ * Default implementation of a content model that maintains an active 
+ * configuration of a pluggable content handler.
  *
  * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
  */
@@ -50,6 +50,13 @@ public class DefaultContentModel extends DisposableCodeBaseModel implements Cont
     // constructor
     //----------------------------------------------------------------------
 
+   /**
+    * Construction of a new content model.
+    * @param logger the assigned logging channel
+    * @param uri the codebase uri
+    * @param type the contnet type key
+    * @param properties properties to assign to the content model
+    */
     public DefaultContentModel( 
        Logger logger, URI uri, String type, String title, Properties properties ) throws RemoteException
     {
@@ -62,6 +69,11 @@ public class DefaultContentModel extends DisposableCodeBaseModel implements Cont
         m_properties = properties;
     }
 
+   /**
+    * Construction of a new content model using a supplied storage unit.
+    * @param logger the assigned logging channel
+    * @param home the content model persistent storage home
+    */
     public DefaultContentModel( Logger logger, ContentStorage home ) throws RemoteException
     {
         super( logger, home );
@@ -87,7 +99,7 @@ public class DefaultContentModel extends DisposableCodeBaseModel implements Cont
     }
 
    /**
-    * Returns the human readable name of the content type handler.
+    * Returns the human readable name of the content model.
     * @return the content type human readable name
     */
     public String getTitle() throws RemoteException
@@ -95,6 +107,10 @@ public class DefaultContentModel extends DisposableCodeBaseModel implements Cont
         return m_title;
     }
 
+   /**
+    * Set the content model title to the supplied value.
+    * @param title the content type title
+    */
     public void setTitle( String title ) throws RemoteException
     {
         synchronized( m_lock )
@@ -111,16 +127,32 @@ public class DefaultContentModel extends DisposableCodeBaseModel implements Cont
         }
     }
 
+   /**
+    * Reutn the value of a property associated with the content model.
+    * @param key the property key
+    * @return the property value (possibly null)
+    */
     public String getProperty( String key )
     {
         return m_properties.getProperty( key );
     }
  
+   /**
+    * Return the value of a property associated with the content model.
+    * @param key the property key
+    * @param value the value to return if the property is unknown
+    * @return the resolved value
+    */
     public String getProperty( String key, String value )
     {
         return m_properties.getProperty( key, value );
     }
 
+   /**
+    * Set a property on the content model.
+    * @param key the property key
+    * @param value the property value
+    */
     public void setProperty( String key, String value )
     {
         synchronized( m_lock )
@@ -135,6 +167,10 @@ public class DefaultContentModel extends DisposableCodeBaseModel implements Cont
         }
     }
 
+   /**
+    * Remove a property from the content model.
+    * @param key the property key
+    */
     public void removeProperty( String key )
     {
         synchronized( m_lock )
@@ -171,6 +207,9 @@ public class DefaultContentModel extends DisposableCodeBaseModel implements Cont
     // Disposable
     //----------------------------------------------------------------------
 
+   /**
+    * Dispose of the content model.
+    */
     public void dispose() throws RemoteException
     {
         super.dispose();

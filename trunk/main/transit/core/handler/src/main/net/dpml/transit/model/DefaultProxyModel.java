@@ -54,10 +54,21 @@ public class DefaultProxyModel extends DefaultModel implements ProxyModel
     // constructor
     // ------------------------------------------------------------------------
 
+   /**
+    * Construction of a new proxy model.
+    * @param logger the assigned logging channel
+    * @param home the proxy model stroage home
+    * @exception NullPointerException if the logging channel or home are null
+    */
     public DefaultProxyModel( Logger logger, ProxyStorage home ) 
       throws NullPointerException, RemoteException
     {
         super( logger );
+
+        if( null == home )
+        {
+            throw new NullPointerException( "home" );
+        }
 
         m_home = home;
         m_host = home.getHost();
@@ -65,6 +76,14 @@ public class DefaultProxyModel extends DefaultModel implements ProxyModel
         m_excludes = home.getExcludes();
     }
 
+   /**
+    * Construction of a new proxy model.
+    * @param logger the assigned logging channel
+    * @param host the proxy host url
+    * @param auth the proxy authentication settings
+    * @param excludes a set of proxy excludes
+    * @exception NullPointerException if the logging channel is null
+    */
     public DefaultProxyModel( 
       Logger logger, URL host, PasswordAuthentication auth, String[] excludes ) 
       throws NullPointerException, RemoteException
@@ -78,9 +97,15 @@ public class DefaultProxyModel extends DefaultModel implements ProxyModel
     }
 
     // ------------------------------------------------------------------------
-    // ProxyManager
+    // ProxyModel
     // ------------------------------------------------------------------------
 
+   /**
+    * Update the state of the proxy model.
+    * @param host the proxy host
+    * @param auth the proxy host authentication settings
+    * @param excludes the set of proxy excludes
+    */   
     public void update( URL host, PasswordAuthentication auth, String[] excludes )
     {
         synchronized( m_lock )
@@ -101,6 +126,10 @@ public class DefaultProxyModel extends DefaultModel implements ProxyModel
         }
     }
 
+   /**
+    * Update the proxy host url.
+    * @param host the proxy host
+    */
     public void setHost( URL host )
     {
         synchronized( m_lock )
@@ -119,6 +148,10 @@ public class DefaultProxyModel extends DefaultModel implements ProxyModel
         }
     }
 
+   /**
+    * Update the proxy excludes
+    * @param excludes the proxy excludes
+    */
     public void setExcludes( String[] excludes )
     {
         synchronized( m_lock )
@@ -137,6 +170,10 @@ public class DefaultProxyModel extends DefaultModel implements ProxyModel
         }
     }
 
+   /**
+    * Update the proxy authentication settings.
+    * @param auth the proxy authentication settings
+    */
     public void setAuthentication( PasswordAuthentication auth )
     {
         synchronized( m_lock )
@@ -154,10 +191,6 @@ public class DefaultProxyModel extends DefaultModel implements ProxyModel
             super.enqueueEvent( event );
         }
     }
-
-    // ------------------------------------------------------------------------
-    // ProxyModel
-    // ------------------------------------------------------------------------
 
    /**
     * Return the proxy host name. 
@@ -226,7 +259,9 @@ public class DefaultProxyModel extends DefaultModel implements ProxyModel
         }
         else
         {
-            super.processEvent( eventObject );
+            final String error = 
+              "Event class not recognized: " + eventObject.getClass().getName();
+            throw new IllegalArgumentException( error );
         }
     }
 

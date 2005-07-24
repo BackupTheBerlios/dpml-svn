@@ -25,12 +25,21 @@ public class HostPriorityEvent extends HostEvent
 {
     private final int m_priority;
 
+   /**
+    * Creation of a new host priority change event.
+    * @param host the host that was changed
+    * @param priority the new host prority value
+    */
     public HostPriorityEvent( HostModel host, int priority )
     {
         super( host );
         m_priority = priority;
     }
     
+   /**   
+    * Return the new host priority value.
+    * @return the assigned host prority
+    */
     public int getPriority()
     {
         return m_priority;

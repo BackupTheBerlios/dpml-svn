@@ -21,14 +21,25 @@ package net.dpml.transit.model;
 import java.rmi.RemoteException;
 
 /**
- * The abstract model interface.
+ * Interface implementated by disposable models.
  */
 public interface Disposable
 {
+   /**
+    * Add a disposal listener to the model.
+    * @param listener the disposal listener to add
+    */
     void addDisposalListener( DisposalListener listener ) throws RemoteException;
 
+   /**
+    * Remove a disposal listener from the model.
+    * @param listener the disposal listener to remove
+    */
     void removeDisposalListener( DisposalListener listener ) throws RemoteException;
 
+   /**
+    * Dispose of the model.
+    */
     void dispose() throws RemoteException;
 
 }

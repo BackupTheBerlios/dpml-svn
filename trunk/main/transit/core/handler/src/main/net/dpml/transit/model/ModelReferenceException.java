@@ -42,11 +42,19 @@ public class ModelReferenceException extends ModelException
         m_reference = reference;
     }
 
+   /**
+    * Return the consumer model.
+    * @return the consumer model that is using the referenced model.
+    */
     public Model getConsumerModel()
     {
         return m_consumer;
     }
 
+   /**
+    * Return the model that is referenced by the consumer.
+    * @return the referenced model
+    */
     public Model getReferencedModel()
     {
         return m_reference;

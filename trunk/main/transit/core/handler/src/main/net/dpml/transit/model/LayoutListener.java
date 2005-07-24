@@ -23,15 +23,16 @@ import java.rmi.Remote;
 import java.rmi.RemoteException;
 
 /**
- * A ContentListener maintains information about the configuration of 
- * content type.
+ * A LayoutListener is implementated by objects whishing to monitor
+ * layout model changes.
  */
 public interface LayoutListener extends EventListener, Remote
 {
    /**
-    * Notify a listener of the change to the human readable name of 
-    * a location resolver plaugin.
-    * @param event the resolver model event
+    * Notify a listener of the change to the title of 
+    * a layout model.
+    *
+    * @param event the layout model event
     */
     void titleChanged( LayoutEvent event ) throws RemoteException;
 }

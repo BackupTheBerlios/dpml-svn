@@ -31,13 +31,12 @@ import java.util.prefs.Preferences;
 import net.dpml.transit.store.CodeBaseStorage;
 
 /**
- * An abstract plugin manager is an implementation that monitors configuration changes 
- * to a preferences node containg a uri attribute.  Modifications to the uri attribute 
- * will trigger a PluginChangeEvent which can be monitored by controllers dealing with  
+ * The abstract codebase is an implementation that monitors configuration changes 
+ * to a a codebase storage unit containg a uri attribute.  Modifications to the uri value 
+ * will trigger a CodeBaseEvent which can be monitored by controllers dealing with  
  * pluggable system maintenance.
  *
  * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
- * @version $Id: StandardTransitDirector.java 2480 2005-05-10 04:44:32Z mcconnell@dpml.net $
  */
 public abstract class DefaultCodeBaseModel extends DefaultModel implements CodeBaseModel
 {
@@ -53,6 +52,11 @@ public abstract class DefaultCodeBaseModel extends DefaultModel implements CodeB
     // constructor
     // ------------------------------------------------------------------------
 
+   /**
+    * Construction of a new codebase model.
+    * @param logger the assigned logging channel
+    * @param uri the codebase uri
+    */
     public DefaultCodeBaseModel( Logger logger, URI uri )
       throws RemoteException
     {
@@ -61,6 +65,11 @@ public abstract class DefaultCodeBaseModel extends DefaultModel implements CodeB
         m_home = null;
     }
 
+   /**
+    * Construction of a new codebase model using a supplied codebase storage unit.
+    * @param logger the assigned logging channel
+    * @param home the codebase storage unit
+    */
     public DefaultCodeBaseModel( Logger logger, CodeBaseStorage home )
       throws RemoteException
     {
@@ -74,12 +83,12 @@ public abstract class DefaultCodeBaseModel extends DefaultModel implements CodeB
     }
 
     // ------------------------------------------------------------------------
-    // PluginModel
+    // CodeBaseModel
     // ------------------------------------------------------------------------
 
    /**
-    * Set the plugin uri value.
-    * @return the plugin uri
+    * Set the codebase uri value.
+    * @param uri the codebase uri
     */
     public void setCodeBaseURI( URI uri )
     {
@@ -87,8 +96,9 @@ public abstract class DefaultCodeBaseModel extends DefaultModel implements CodeB
     }
 
    /**
-    * Set the plugin uri value.
-    * @return the plugin uri
+    * Set the codebase uri value.
+    * @param uri the codebase uri
+    * @param notify if TRUE raise a notification event
     */
     protected void setCodeBaseURI( URI uri, boolean notify )
     {
@@ -108,8 +118,8 @@ public abstract class DefaultCodeBaseModel extends DefaultModel implements CodeB
     }
 
    /**
-    * Return the plugin uri.
-    * @return the plugin uri
+    * Return the codebase uri.
+    * @return the codebase uri
     */
     public URI getCodeBaseURI()
     {
@@ -155,7 +165,9 @@ public abstract class DefaultCodeBaseModel extends DefaultModel implements CodeB
         }
         else
         {
-            super.processEvent( eventObject );
+            final String error = 
+              "Event class not recognized: " + eventObject.getClass().getName();
+            throw new IllegalArgumentException( error );
         }
     }
 

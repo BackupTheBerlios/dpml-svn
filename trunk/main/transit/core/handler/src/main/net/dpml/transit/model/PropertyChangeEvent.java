@@ -28,10 +28,12 @@ public class PropertyChangeEvent extends ContentEvent
     private final String m_value;
 
    /**
-    * Creation of a new ContentEvent signalling modification of 
-    * content director configuration.
+    * Creation of a new PropertyChangeEvent signalling modification of 
+    * a property value.
     * 
-    * @param content the content director that was added or removed
+    * @param content the content model that was changed
+    * @param key the property key
+    * @param value the the updated property value
     */
     public PropertyChangeEvent( ContentModel content, String key, String value )
     {

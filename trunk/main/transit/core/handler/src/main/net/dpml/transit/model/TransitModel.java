@@ -23,7 +23,7 @@ import java.rmi.RemoteException;
 
 /**
  * The TransitModel is an interface implemented by objects that
- * manage the configuration of a running transit system.
+ * maintain an active Tranist configuration.
  */
 public interface TransitModel extends Model, Disposable
 {

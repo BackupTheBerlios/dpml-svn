@@ -22,8 +22,7 @@ import java.net.URI;
 import java.rmi.RemoteException;
 
 /**
- * A LayoutRegistryModel maintains information about the configuration of the Transit
- * location resolver models.
+ * A LayoutRegistryModel maintains a collection of layout models.
  */
 public interface LayoutRegistryModel extends CodeBaseModel
 {

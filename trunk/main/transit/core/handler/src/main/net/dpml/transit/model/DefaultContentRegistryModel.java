@@ -33,11 +33,10 @@ import net.dpml.transit.store.ContentStorage;
 import net.dpml.transit.store.ContentRegistryHome;
 
 /**
- * Default implementation of a content handler registry manager that maitains 
- * infomration about the set of registred plugin handler configurations.
+ * Default implementation of a content model registry manager that maitains 
+ * information about the set of registred content models.
  *
  * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
- * @version $Id: DefaultContentRegistryModel.java 2480 2005-05-10 04:44:32Z mcconnell@dpml.net $
  */
 public class DefaultContentRegistryModel extends DisposableCodeBaseModel 
   implements ContentRegistryModel
@@ -54,6 +53,13 @@ public class DefaultContentRegistryModel extends DisposableCodeBaseModel
     // constructor
     // ------------------------------------------------------------------------
 
+   /**
+    * Creation of a new content registry model.
+    * @param logger the supplied logging channel
+    * @param home the content registry storage home
+    * @exception DuplicateKeyException if the supplied home contains 
+    *   duplicate content model identities
+    */
     public DefaultContentRegistryModel( Logger logger, ContentRegistryHome home ) 
       throws DuplicateKeyException, RemoteException
     {
@@ -77,8 +83,8 @@ public class DefaultContentRegistryModel extends DisposableCodeBaseModel
     // ------------------------------------------------------------------------
 
    /**
-    * Return an array of content managers currently assigned to the registry.
-    * @return the content manager array
+    * Return an array of content models currently assigned to the registry.
+    * @return the content model array
     */
     public ContentModel[] getContentModels() throws RemoteException
     {
@@ -88,6 +94,13 @@ public class DefaultContentRegistryModel extends DisposableCodeBaseModel
         }
     }
 
+   /**
+    * Return a content model matching the supplied type.
+    *
+    * @param type the content model type
+    * @return the content model
+    * @exception UnknownKeyException if the content model type is unknown
+    */
     public ContentModel getContentModel( String type ) throws UnknownKeyException, RemoteException
     {
         synchronized( m_lock )
@@ -105,6 +118,11 @@ public class DefaultContentRegistryModel extends DisposableCodeBaseModel
         }
     }
 
+   /**
+    * Create a new content model for the supplied type.
+    * @param type the content model type
+    * @exception DuplicateKeyException if a content model already exists for the supplied type
+    */
     public void addContentModel( String type ) throws DuplicateKeyException, RemoteException
     {
         ContentStorage store = m_home.createContentStorage( type );
@@ -113,6 +131,13 @@ public class DefaultContentRegistryModel extends DisposableCodeBaseModel
         addContentModel( model );
     }
 
+   /**
+    * Create a new content model for the supplied type using a supplied title and codebase uri.
+    * @param type the content model type
+    * @param title the content model title
+    * @param uri the content model codebase uri
+    * @exception DuplicateKeyException if a content model already exists for the supplied type
+    */
     public void addContentModel( String type, String title, URI uri ) 
       throws DuplicateKeyException, RemoteException
     {
@@ -122,11 +147,54 @@ public class DefaultContentRegistryModel extends DisposableCodeBaseModel
         addContentModel( model );
     }
 
-    public void addContentModel( ContentModel manager ) 
+   /**
+    * Add a new content model to the content registry.
+    * @param model the content model to add
+    * @exception DuplicateKeyException if a content model already exists for the type
+    *   declared by the supplied model
+    */
+    public void addContentModel( ContentModel model ) 
       throws DuplicateKeyException, RemoteException
     {
-        addContentModel( manager, true );
+        addContentModel( model, true );
     }
+
+   /**
+    * Remove a content model from the registry.
+    * @param model the model to remove
+    */
+    public void removeContentModel( ContentModel model ) throws RemoteException
+    {
+        synchronized( m_lock )
+        {
+            model.dispose();
+            m_list.remove( model );
+            ContentRemovedEvent event = new ContentRemovedEvent( this, model );
+            super.enqueueEvent( event );
+        }
+    }
+
+   /**
+    * Add a regsitry change listener.
+    * @param listener the registry change listener to add
+    */
+    public void addRegistryListener( ContentRegistryListener listener ) throws RemoteException
+    {
+        super.addListener( listener );
+    }
+
+   /**
+    * Remove a registry change listener.
+    * @param listener the registry change listener to remove
+    */
+    public void removeRegistryListener( ContentRegistryListener listener ) throws RemoteException
+    {
+        super.removeListener( listener );
+    }
+
+    // ------------------------------------------------------------------------
+    // internal
+    // ------------------------------------------------------------------------
 
     private void addContentModel( ContentModel manager, boolean notify ) 
       throws DuplicateKeyException, RemoteException
@@ -151,40 +219,7 @@ public class DefaultContentRegistryModel extends DisposableCodeBaseModel
         }
     }
 
-    public void removeContentModel( ContentModel model ) throws RemoteException
-    {
-        synchronized( m_lock )
-        {
-            model.dispose();
-            m_list.remove( model );
-            ContentRemovedEvent event = new ContentRemovedEvent( this, model );
-            super.enqueueEvent( event );
-        }
-    }
-
-   /**
-    * Add a regstry change listener.
-    * @param listener the registry change listener to add
-    */
-    public void addRegistryListener( ContentRegistryListener listener ) throws RemoteException
-    {
-        super.addListener( listener );
-    }
-
-   /**
-    * Remove a regstry change listener.
-    * @param listener the registry change listener to remove
-    */
-    public void removeRegistryListener( ContentRegistryListener listener ) throws RemoteException
-    {
-        super.removeListener( listener );
-    }
-
-    // ------------------------------------------------------------------------
-    // internal
-    // ------------------------------------------------------------------------
-
-    public void processEvent( EventObject event )
+    protected void processEvent( EventObject event )
     {
         if( event instanceof ContentRegistryEvent )
         {

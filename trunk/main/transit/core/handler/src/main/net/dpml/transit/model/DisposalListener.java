@@ -23,19 +23,22 @@ import java.rmi.Remote;
 import java.rmi.RemoteException;
 
 /**
- * A ProxyListener maintains information about the configuration of 
- * tranist proxy settings.
+ * A DisposalListener interface provides support for notification of 
+ * an imminent disposal and post disposal notification.  Implementations
+ * may veto disposal by raising the VetoDisposalException.
  */
 public interface DisposalListener extends EventListener, Remote
 {
    /**
-    * Notify the listener of the disposal of a manager.
+    * Notify the listener of the imminent disposal of a model.
+    * @param event the dsposal event
+    * @exception VetoDisposalException thrown by an implementation whishing to veto the disposal
     */
     void disposing( DisposalEvent event ) throws VetoDisposalException, RemoteException;
 
    /**
-    * Notify a listener of a change to the manager modification date.
-    * @param event the modification event
+    * Notify a listener of the disposal of a model.
+    * @param event the disposal event
     */
     void disposed( DisposalEvent event ) throws RemoteException;
 }

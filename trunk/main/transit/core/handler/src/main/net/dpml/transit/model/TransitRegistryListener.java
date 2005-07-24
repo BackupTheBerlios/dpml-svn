@@ -23,9 +23,8 @@ import java.rmi.Remote;
 import java.rmi.RemoteException;
 
 /**
- * A RegistryListener maintains information about the configuration of a Transit
- * content management system. An implementation of this interface would be supplied 
- * a ContentRegistry implementation.
+ * A RegistryListener is an interface implemented by objects wishing to be 
+ * notified of changes to the registry of transit models.
  */
 public interface TransitRegistryListener extends EventListener, Remote
 {

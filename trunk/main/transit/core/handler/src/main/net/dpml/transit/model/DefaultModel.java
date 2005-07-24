@@ -33,7 +33,7 @@ import net.dpml.transit.adapter.LoggingAdapter;
 
 /**
  * A abstract base class that established an event queue and handles event dispatch 
- * operations for listeners declared in a class extending this base class.
+ * operations for listeners declared in classes extending this base class.
  */
 public abstract class DefaultModel extends UnicastRemoteObject
 {
@@ -57,12 +57,21 @@ public abstract class DefaultModel extends UnicastRemoteObject
     // constructor
     // ------------------------------------------------------------------------
 
+   /**
+    * Creation of a new model.
+    * @param name the name used to construct a logging channel
+    */
     public DefaultModel( String name ) 
-      throws NullPointerException, RemoteException
+      throws RemoteException
     {
         this( getLoggerForCategory( name ) );
     }
 
+   /**
+    * Creation of a new model.
+    * @param logger the assigned logging channel
+    * @exception NullPointerException if the supplied logging channel is null
+    */
     public DefaultModel( Logger logger ) 
       throws NullPointerException, RemoteException
     {
@@ -79,6 +88,10 @@ public abstract class DefaultModel extends UnicastRemoteObject
     // Model
     // ------------------------------------------------------------------------
 
+   /**
+    * Return the assingned logging channel.
+    * @return the logging channel
+    */
     public Logger getLogger()
     {
         return m_logger;
@@ -88,16 +101,60 @@ public abstract class DefaultModel extends UnicastRemoteObject
     // DefaultModel
     // ------------------------------------------------------------------------
 
-    protected void processEvent( EventObject event )
-    {
-        final String error = 
-          "Event class not recognized: " + event.getClass().getName();
-        throw new IllegalArgumentException( error );
-    }
+   /**
+    * Abstract method that must be implemented by classes extending this class.
+    * An implementation is responsible for handling the processing of events 
+    * it is aware of or throwing an llegalArgumentException in the case of 
+    * unrecognized event types.  A typical implementation is shown in the following
+    * code fragment:
+    * 
+    * <pre>
+    * protected void processEvent( EventObject eventObject )
+    * {
+    *    if( eventObject instanceof ProxyEvent )
+    *    {
+    *        ProxyEvent event = (ProxyEvent) eventObject;
+    *        processProxyEvent( event );
+    *    }
+    *    else
+    *    {
+    *        final String error = 
+    *          "Event class not recognized: " + eventObject.getClass().getName();
+    *        throw new IllegalArgumentException( error );
+    *    }
+    * }
+    *
+    * private void processProxyEvent( ProxyEvent event )
+    * {
+    *    EventListener[] listeners = super.listeners();
+    *    for( int i=0; i&lt;listeners.length; i++ )
+    *    {
+    *        EventListener listener = listeners[i];
+    *        if( listener instanceof ProxyListener )
+    *        {
+    *            ProxyListener pl = (ProxyListener) listener;
+    *            try
+    *            {
+    *                pl.proxyChanged( event );
+    *            }
+    *            catch( Throwable e )
+    *            {
+    *                final String error =
+    *                  "Proxy listener notification error.";
+    *                getLogger().error( error, e );
+    *            }
+    *        }
+    *    }
+    * }
+    * </pre>
+    * 
+    */
+    protected abstract void processEvent( EventObject event );
 
    /**
-    * Add a listener to the set of listeners handled by this producer.
+    * Add a listener to the set of listeners handled by the model.
     * @param listener the event listener
+    * @exception NullPointerException if the supplied listener is null
     */
     protected void addListener( EventListener listener ) 
     {
@@ -116,6 +173,7 @@ public abstract class DefaultModel extends UnicastRemoteObject
    /**
     * Remove a listener to the set of listeners handled by this producer.
     * @param listener the event listener
+    * @exception NullPointerException if the supplied listener is null
     */
     protected void removeListener( EventListener listener )
     {
@@ -237,10 +295,7 @@ public abstract class DefaultModel extends UnicastRemoteObject
     }
 
     /**
-     * Return this node's preference/node change listeners.  Even though
-     * we're using a copy-on-write lists, we use synchronized accessors to
-     * ensure information transmission from the writing thread to the
-     * reading thread.
+     * Return the set of registered listeners.
      */
     protected EventListener[] listeners() 
     {
@@ -284,6 +339,11 @@ public abstract class DefaultModel extends UnicastRemoteObject
         }
     }
 
+   /**
+    * Return a logging channel for the supplied name.
+    * @param name the name to use in construction of the logging channel
+    * @return the logging channel
+    */
     static Logger getLoggerForCategory( String name )
     {
         if( null == name )

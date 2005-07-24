@@ -28,13 +28,13 @@ import java.rmi.RemoteException;
 public interface LayoutModel extends CodeBaseModel, Disposable
 {
    /**
-    * Return the immutable resolver identifier.
+    * Return the immutable model identifier.
     * @return the resolver identifier
     */
     String getID() throws RemoteException;
 
    /**
-    * Return true if this is a bootstrap resolver.
+    * Return true if this is a bootstrap layout model.
     *
     * @return the bootstrap status of the resolver.
     */
@@ -42,7 +42,7 @@ public interface LayoutModel extends CodeBaseModel, Disposable
 
    /**
     * Return a possibly null classname.  If the classname is not null the 
-    * manager represents a bootstrap resolver. Bootstrap resolver plugin
+    * manager represents a bootstrap layout model. Bootstrap model plugin
     * uris shall return a null value.
     *
     * @return the resolver classname
@@ -50,21 +50,25 @@ public interface LayoutModel extends CodeBaseModel, Disposable
     String getClassname() throws RemoteException;
 
    /**
-    * Returns the human readable name of the location resolver.
-    * @return the layout human readable name
+    * Returns the title of the layout model.
+    * @return the layout human readable title
     */
     public String getTitle() throws RemoteException;
 
+   /**
+    * Set the title of the layout model.
+    * @param title the new title
+    */
     void setTitle( String title ) throws RemoteException;
 
    /**
-    * Add a resolver model listener.
+    * Add a layout model listener.
     * @param listener the listener to add
     */
     void addLayoutListener( LayoutListener listener ) throws RemoteException;
 
    /**
-    * Remove a resolver listener from the model.
+    * Remove a layout model listener from the model.
     * @param listener the listener to remove
     */
     void removeLayoutListener( LayoutListener listener ) throws RemoteException;

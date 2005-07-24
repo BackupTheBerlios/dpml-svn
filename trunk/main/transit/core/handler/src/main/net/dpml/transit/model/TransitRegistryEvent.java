@@ -21,8 +21,8 @@ package net.dpml.transit.model;
 import java.util.EventObject;
 
 /**
- * An event issued by a registry signalling changes tye addition or removal
- * of a content model.
+ * An event issued by a Tranist registry signalling addition or removal
+ * of Transit profiles from or to a Transit model registry.
  */
 public abstract class TransitRegistryEvent extends EventObject
 {

@@ -33,6 +33,13 @@ public class ProxyEvent extends EventObject
     private final PasswordAuthentication m_authentication;
     private final String[] m_excludes;
 
+   /**
+    * Creation of a new ProxyEvent.
+    * @param model the proxy model
+    * @param identifier the request identifier
+    * @param auth the password authentifcation credentials
+    * @param excludes the set of proxy host excludes
+    */
     public ProxyEvent( 
       ProxyModel model, RequestIdentifier identifier, 
       PasswordAuthentication auth, String[] excludes )
@@ -44,21 +51,37 @@ public class ProxyEvent extends EventObject
         m_excludes = excludes;
     }
 
+   /**
+    * Return the proxy model that is the subject of change.
+    * @return the proxy model
+    */
     public ProxyModel getProxyModel()
     {
         return (ProxyModel) super.getSource();
     }
 
+   /**
+    * Return the proxy model request identifier.
+    * @return the proxy model request identifier
+    */
     public RequestIdentifier getRequestIdentifier()
     {
         return m_identifier;
     }
 
+   /**
+    * Return the proxy model password authentication.
+    * @return the proxy model password authentication
+    */
     public PasswordAuthentication getPasswordAuthentication()
     {
         return m_authentication;
     }
 
+   /**
+    * Return the proxy model excludes.
+    * @return the proxy model excludes
+    */
     public String[] getExcludes()
     {
         return m_excludes;

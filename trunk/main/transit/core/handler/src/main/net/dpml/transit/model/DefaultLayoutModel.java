@@ -31,8 +31,10 @@ import net.dpml.transit.store.PluginStrategy;
 import net.dpml.transit.store.Strategy;
 
 /**
- * Default implementation of a content manager that maintains an active 
- * configuration model of a pluggable content handler.
+ * The DefaultLayoutModel is a model supplied to a layout strategy handler. It 
+ * provides two mdes of construction - one dealing with local layout handlers
+ * (the classic layout and the ecli8pse layout) and the second dealing with
+ * plugin layout strategies.
  *
  * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
  * @version $Id: HostManager.java 2480 2005-05-10 04:44:32Z mcconnell@dpml.net $
@@ -54,6 +56,13 @@ public class DefaultLayoutModel extends DisposableCodeBaseModel implements Layou
     // constructor
     //----------------------------------------------------------------------
 
+   /**
+    * Creation of a new layout model.
+    * @param logger the assigned logging channel
+    * @param id the layout identifier
+    * @param strategy the layout yhandler creation strategy
+    * @param title the layout title
+    */
     public DefaultLayoutModel( 
       final Logger logger, final String id, Strategy strategy, final String title )
       throws RemoteException
@@ -79,6 +88,11 @@ public class DefaultLayoutModel extends DisposableCodeBaseModel implements Layou
         }
     }
 
+   /**
+    * Creation of a new layout model using a supplied layout store.
+    * @param logger the assigned logging channel
+    * @param home the layout storage home
+    */
     public DefaultLayoutModel( final Logger logger, final LayoutStorage home )
       throws RemoteException
     {
@@ -108,6 +122,10 @@ public class DefaultLayoutModel extends DisposableCodeBaseModel implements Layou
     // LayoutModel
     //----------------------------------------------------------------------
 
+   /**
+    * Set the title of the layout model.
+    * @param title the new title
+    */
     public void setTitle( String title ) throws RemoteException
     {
         synchronized( m_lock )
@@ -167,7 +185,7 @@ public class DefaultLayoutModel extends DisposableCodeBaseModel implements Layou
     }
 
    /**
-    * Add a resolver listener to the model.
+    * Add a layout listener to the model.
     * @param listener the listener to add
     */
     public void addLayoutListener( LayoutListener listener ) throws RemoteException
@@ -176,7 +194,7 @@ public class DefaultLayoutModel extends DisposableCodeBaseModel implements Layou
     }
 
    /**
-    * Remove a content listener from the director.
+    * Remove a layout listener from the director.
     * @param listener the listener to remove
     */
     public void removeLayoutListener( LayoutListener listener ) throws RemoteException
@@ -188,6 +206,9 @@ public class DefaultLayoutModel extends DisposableCodeBaseModel implements Layou
     // Disposable
     //----------------------------------------------------------------------
 
+   /**
+    * Dispose of the layout model.
+    */
     public void dispose() throws RemoteException
     {
         super.dispose();
@@ -202,7 +223,7 @@ public class DefaultLayoutModel extends DisposableCodeBaseModel implements Layou
     // internal
     // ------------------------------------------------------------------------
 
-    public void processEvent( EventObject event )
+    protected void processEvent( EventObject event )
     {
         if( event instanceof LayoutEvent )
         {
@@ -214,7 +235,7 @@ public class DefaultLayoutModel extends DisposableCodeBaseModel implements Layou
         }
     }
 
-    public void processLayoutEvent( LayoutEvent event )
+    private void processLayoutEvent( LayoutEvent event )
     {
         EventListener[] listeners = super.listeners();
         for( int i=0; i<listeners.length; i++ )

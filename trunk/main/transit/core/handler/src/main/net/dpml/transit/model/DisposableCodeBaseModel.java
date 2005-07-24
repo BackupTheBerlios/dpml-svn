@@ -31,6 +31,8 @@ import java.util.prefs.Preferences;
 import net.dpml.transit.store.CodeBaseStorage;
 
 /**
+ * The DisposableCodeBaseModel is codebase model that is disposable.
+ *
  * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
  */
 public abstract class DisposableCodeBaseModel extends DefaultCodeBaseModel implements Disposable
@@ -39,12 +41,22 @@ public abstract class DisposableCodeBaseModel extends DefaultCodeBaseModel imple
     // constructor
     // ------------------------------------------------------------------------
 
+   /**
+    * Creation of a new disposable codebase model.
+    * @param logger the assigned logging channel
+    * @param uri the codebase uri
+    */
     public DisposableCodeBaseModel( Logger logger, URI uri )
       throws RemoteException
     {
         super( logger, uri );
     }
 
+   /**
+    * Creation of a new disposable codebase model using a supplied storage unit.
+    * @param logger the assigned logging channel
+    * @param home the codebase storage unit
+    */
     public DisposableCodeBaseModel( Logger logger, CodeBaseStorage home )
       throws RemoteException
     {
@@ -73,6 +85,9 @@ public abstract class DisposableCodeBaseModel extends DefaultCodeBaseModel imple
         super.removeListener( listener );
     }
 
+   /**
+    * Dispose of the disposable codebase model
+    */
     public void dispose() throws RemoteException
     {
         VetoableDisposalEvent veto = new VetoableDisposalEvent( this );

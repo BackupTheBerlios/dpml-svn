@@ -45,13 +45,38 @@ public interface TransitRegistryModel extends Model
     */
     void removeTransitRegistryListener( TransitRegistryListener listener ) throws RemoteException;
 
+   /**
+    * Add a new Transit profile to the registry.
+    * @param id the identifier of the new profile
+    * @exception DuplicateKeyException if a profile with the same id is already registered
+    */
     void addTransitModel( String id ) throws DuplicateKeyException, RemoteException;
 
+   /**
+    * Add a new Transit profile to the registry.
+    * @param model the profile to add
+    * @exception DuplicateKeyException if a profile with the same id as the 
+    *    id declared by the supplied model is already registered
+    */
     void addTransitModel( TransitModel model ) throws DuplicateKeyException, RemoteException;
 
+   /**
+    * Return the set of transit models in the registry.
+    * @return the model array
+    */
     TransitModel[] getTransitModels() throws RemoteException;
 
+   /**
+    * Return a transit profile matching the supplied model identifier.
+    * @param id the model identifier
+    * @return the transit model
+    */
     TransitModel getTransitModel( String id ) throws UnknownKeyException, RemoteException;
 
+   /**
+    * Remove a transit model from the registry.
+    * @param model the model to remove
+    * @exception ModelReferenceException if the model is in use
+    */
     void removeTransitModel( TransitModel model ) throws ModelReferenceException, RemoteException;
 }

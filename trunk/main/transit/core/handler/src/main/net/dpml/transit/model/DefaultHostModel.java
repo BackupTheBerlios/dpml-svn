@@ -75,6 +75,27 @@ public class DefaultHostModel extends DisposableCodeBaseModel
     // constructor
     // ------------------------------------------------------------------------
 
+   /**
+    * Construction of a new host model.  
+    *
+    * @param logger the assigned logging channel
+    * @param registry the layout model registry 
+    * @param uri the codebase uri
+    * @param id the host model identifier
+    * @param base the host base url path
+    * @param index the host index path
+    * @param name the human readable host name
+    * @param trusted TRUE if this is a trusted host
+    * @param enabled TRUE if this host model is enabled
+    * @param priority the priority of this host
+    * @param layout the id of the layout model to assign to the host model
+    * @param auth a possibly null host authentication username and password
+    * @param scheme the host security scheme
+    * @param prompt the security prompt raised by the host
+    * @param bootstrap TRUE if this is a bootstrap host
+    * @exception UnknownKeyException if the layout id is unknown
+    * @exception MalformedURLException if the host base url path is malformed
+    */
     public DefaultHostModel( 
       Logger logger, LayoutRegistryModel registry, URI uri, String id, String base, String index, 
       String name, boolean trusted, boolean enabled, int priority, String layout, 
@@ -102,6 +123,15 @@ public class DefaultHostModel extends DisposableCodeBaseModel
         m_bootstrap = bootstrap;
     }
 
+   /**
+    * Creation of a new host model.
+    *
+    * @param logger the assigned logging channel
+    * @param home the host persistent storage home
+    * @param registry the layout model registry
+    * @exception UnknownKeyException if the layout id is unknown
+    * @exception MalformedURLException if the host base url path is malformed
+    */
     public DefaultHostModel( Logger logger, HostStorage home, LayoutRegistryModel registry ) 
       throws RemoteException, UnknownKeyException, MalformedURLException
     {
@@ -148,6 +178,9 @@ public class DefaultHostModel extends DisposableCodeBaseModel
     // Disposable
     //----------------------------------------------------------------------
 
+   /**
+    * Dispose of the model.
+    */
     public void dispose() throws RemoteException
     {
         super.dispose();
@@ -165,6 +198,10 @@ public class DefaultHostModel extends DisposableCodeBaseModel
 
    /**
     * Notify the listener of the disposal of a layout.
+    * The implementation will always throw a VetoDisposalException to declare usage 
+    * of the layout model.
+    * @param event the disposal warning event
+    * @exception VetoDisposalException always thrown to veto layout removal
     */
     public void disposing( DisposalEvent event ) throws VetoDisposalException, RemoteException
     {
@@ -174,7 +211,9 @@ public class DefaultHostModel extends DisposableCodeBaseModel
     }
 
    /**
-    * Notify the listener of the disposal of the layout.
+    * Notify the listener of the disposal of the layout. 
+    * This method should never be invoked and will result in the logging 
+    * of an error.
     */
     public void disposed( DisposalEvent event ) throws RemoteException // should never happen
     {
@@ -192,6 +231,22 @@ public class DefaultHostModel extends DisposableCodeBaseModel
     // HostModel
     //----------------------------------------------------------------------
 
+   /**
+    * Update the state of the host model.
+    *
+    * @param base the host base url path
+    * @param index the host content index
+    * @param enabled the enabled status of the host
+    * @param trusted the trusted status of the host
+    * @param layout the assigned host layout identifier
+    * @param auth a possibly null host authentication username and password
+    * @param scheme the host security scheme
+    * @param prompt the security prompt raised by the host
+    * @exception UnknownKeyException if the layout id is unknown
+    * @exception MalformedURLException if the host base url path is malformed
+    * @exception BootstrapException if the host is a bootstrap host and a 
+    *   non-bootstrap layout is assigned
+    */
     public void update( 
       String base, String index, boolean enabled, boolean trusted, String layout, 
       PasswordAuthentication auth, String scheme, String prompt ) 
@@ -224,6 +279,10 @@ public class DefaultHostModel extends DisposableCodeBaseModel
         }
     }
 
+   /**
+    * Set the human readable name of the host to the supplied value.
+    * @param name the human readable name
+    */
     public void setName( String name ) throws RemoteException
     {
         synchronized( m_lock )
@@ -240,6 +299,10 @@ public class DefaultHostModel extends DisposableCodeBaseModel
         }
     }
 
+   /**
+    * Set the host priority to the supplied value.
+    * @param priority the host priority
+    */
     public void setPriority( int priority ) throws RemoteException
     {
         synchronized( m_lock )
@@ -260,6 +323,10 @@ public class DefaultHostModel extends DisposableCodeBaseModel
     * If this is a bootstrap host then resolver ids must map to
     * a resolver model that is based on a classname as opposed to 
     * plugin (because bootstrap hosts are repository indepedent)
+    *
+    * @param layout the layout model to assign
+    * @exception BootstrapException if the host model is a bootstrap host and 
+    *   the assigned layout model is not a bootstrap layout model
     */
     public void setLayoutModel( LayoutModel layout ) throws BootstrapException, RemoteException
     {
@@ -278,53 +345,6 @@ public class DefaultHostModel extends DisposableCodeBaseModel
 
             HostLayoutEvent e = new HostLayoutEvent( this, m_layout );
             enqueueEvent( e );
-        }
-    }
-
-    private void checkLayout( LayoutModel layout ) throws BootstrapException, RemoteException
-    {
-        if( isBootstrap() )
-        {
-            if( null != layout.getCodeBaseURI() )
-            {
-                final String error = 
-                  "Illegal attempt to assign a plugin based layout to a bootstrap host."
-                  + "\nHost ID: " + getID()
-                  + "\nLayout ID: " + layout.getID();
-                throw new BootstrapException( error );
-            }
-        }
-    }
-
-    //----------------------------------------------------------------------
-    // Comparable
-    //----------------------------------------------------------------------
-
-    public int compareTo( Object other )
-    {
-        if( null == other )
-        {
-            return -1;
-        }
-        else if( false == other instanceof HostModel )
-        {
-            return -1;
-        }
-        else
-        {
-            try
-            {
-                HostModel host = (HostModel) other;
-                Integer i = new Integer( getPriority() );
-                Integer j = new Integer( host.getPriority() );
-                return i.compareTo( j );
-            }
-            catch( RemoteException e )
-            {
-                final String error = 
-                  "Unable to compare host due to a remote exception.";
-                throw new ModelRuntimeException( error, e );
-            }
         }
     }
 
@@ -372,8 +392,8 @@ public class DefaultHostModel extends DisposableCodeBaseModel
     }
 
    /**
-    * Return the host base url.
-    * @return the base url
+    * Return the host base url path.
+    * @return the base url path
     */
     public String getBasePath() throws RemoteException
     {
@@ -396,8 +416,8 @@ public class DefaultHostModel extends DisposableCodeBaseModel
     }
 
    /**
-    * Return index url.
-    * @return the index url
+    * Return index url path.
+    * @return the index url path
     */
     public String getIndexPath() throws RemoteException
     {
@@ -498,8 +518,60 @@ public class DefaultHostModel extends DisposableCodeBaseModel
     }
 
     //----------------------------------------------------------------------
+    // Comparable
+    //----------------------------------------------------------------------
+
+   /**
+    * Compare this host with another object.
+    * @param other the object to compare with this host model
+    * @return the comparitive value based on a comparison of host priorities
+    */
+    public int compareTo( Object other )
+    {
+        if( null == other )
+        {
+            return -1;
+        }
+        else if( false == other instanceof HostModel )
+        {
+            return -1;
+        }
+        else
+        {
+            try
+            {
+                HostModel host = (HostModel) other;
+                Integer i = new Integer( getPriority() );
+                Integer j = new Integer( host.getPriority() );
+                return i.compareTo( j );
+            }
+            catch( RemoteException e )
+            {
+                final String error = 
+                  "Unable to compare host due to a remote exception.";
+                throw new ModelRuntimeException( error, e );
+            }
+        }
+    }
+
+    //----------------------------------------------------------------------
     // internal
     //----------------------------------------------------------------------
+
+    private void checkLayout( LayoutModel layout ) throws BootstrapException, RemoteException
+    {
+        if( isBootstrap() )
+        {
+            if( null != layout.getCodeBaseURI() )
+            {
+                final String error = 
+                  "Illegal attempt to assign a plugin based layout to a bootstrap host."
+                  + "\nHost ID: " + getID()
+                  + "\nLayout ID: " + layout.getID();
+                throw new BootstrapException( error );
+            }
+        }
+    }
 
     private void setEnabled( boolean enabled )
     {

@@ -48,6 +48,10 @@ public class VetoDisposalException extends RuntimeException
         super( message );
     }
 
+   /**
+    * Return the object rasing the veto.
+    * @return the veto source
+    */
     public Object getSource()
     {
         return m_source;

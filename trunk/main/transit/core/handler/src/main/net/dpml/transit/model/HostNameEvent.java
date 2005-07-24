@@ -25,12 +25,21 @@ public class HostNameEvent extends HostEvent
 {
     private final String m_name;
 
+   /**
+    * Creation of a new host name change event.
+    * @param host the host that was changed
+    * @param name the new host name
+    */
     public HostNameEvent( HostModel host, String name )
     {
         super( host );
         m_name = name;
     }
     
+   /**   
+    * Return the new host name.
+    * @return the host name that was assingned to the host
+    */
     public String getName()
     {
         return m_name;

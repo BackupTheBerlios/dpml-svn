@@ -21,8 +21,8 @@ package net.dpml.transit.model;
 import java.util.EventObject;
 
 /**
- * An event issued by a registry signalling changes tye addition or removal
- * of a content model.
+ * An event issued by a layout registry signalling addition or removal
+ * of a layout model.
  */
 public abstract class LayoutRegistryEvent extends EventObject
 {
@@ -31,7 +31,7 @@ public abstract class LayoutRegistryEvent extends EventObject
 
    /**
     * Creation of a new LayoutRegistryEvent signalling the addition
-    * or removal of a layout resolver.
+    * or removal of a layout model.
     * 
     * @param system the layout model
     * @param resolver the layout resolver model that was added or removed

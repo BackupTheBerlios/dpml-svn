@@ -19,6 +19,7 @@
 package net.dpml.transit.model;
 
 import java.rmi.RemoteException;
+import java.util.EventObject;
 
 import net.dpml.transit.TransitError;
 import net.dpml.transit.adapter.LoggingAdapter;
@@ -62,21 +63,46 @@ public class DefaultTransitModel extends DefaultModel implements TransitModel
     // constructor
     // ------------------------------------------------------------------------
 
+   /**
+    * Creation of a new TransitModel using a default logging channel
+    * and preferences based storage solution.
+    */
     public DefaultTransitModel() throws RemoteException
     {
         this( new LoggingAdapter( "transit" ) );
     }
 
+   /**
+    * Creation of a new TransitModel using preferences based storage.
+    * 
+    * @param logger the assigned loging channel
+    */
     public DefaultTransitModel( Logger logger ) throws RemoteException
     {
         this( logger, new TransitStorageUnit() );
     }
 
+   /**
+    * Creation of a new TransitModel using a supplied storage unit
+    * and a default logging channel.
+    * 
+    * @param store the storage unit
+    */
     public DefaultTransitModel( TransitStorage store ) throws RemoteException
     {
         this( new LoggingAdapter( "transit" ), store );
     }
 
+   /**
+    * Creation of a new TransitModel using a supplied storage unit
+    * and logging channel.  The implementation will construct a proxy
+    * model, layout registry model, cache modle, content registry model, 
+    * and repository codebase model using the supplied storage unit.
+    *
+    * @param logger the assigned loging channel
+    * @param store the storage unit 
+    * @exception NullPointerException if the logger or store arguments are null
+    */
     public DefaultTransitModel( Logger logger, TransitStorage store ) throws RemoteException
     {
         super( logger );
@@ -167,7 +193,9 @@ public class DefaultTransitModel extends DefaultModel implements TransitModel
         super.removeListener( listener );
     }
 
-
+   /**
+    * Trigger disposal of the transit modle.
+    */
     public void dispose() throws RemoteException
     {
         VetoableDisposalEvent veto = new VetoableDisposalEvent( this );
@@ -184,6 +212,13 @@ public class DefaultTransitModel extends DefaultModel implements TransitModel
     // ------------------------------------------------------------------------
     // impl
     // ------------------------------------------------------------------------
+
+    protected void processEvent( EventObject eventObject )
+    {
+        final String error = 
+          "Event class not recognized: " + eventObject.getClass().getName();
+        throw new IllegalArgumentException( error );
+    }
 
     private ProxyModel createProxyModel()
     {

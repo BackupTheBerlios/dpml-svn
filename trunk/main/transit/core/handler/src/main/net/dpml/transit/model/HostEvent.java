@@ -25,11 +25,19 @@ import java.util.EventObject;
  */
 public abstract class HostEvent extends EventObject
 {
+   /**
+    * Creation of a new host event.
+    * @param source the host model initiating the event
+    */
     public HostEvent( HostModel source )
     {
         super( source );
     }
     
+   /**
+    * Return the host model that this event pertains to.
+    * @return the host model
+    */
     public HostModel getHostModel()
     {
         return (HostModel) getSource();
