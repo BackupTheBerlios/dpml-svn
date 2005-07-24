@@ -22,12 +22,18 @@ import java.net.URI;
 import java.util.EventObject;
 
 /**
- * An event pertaining to the change in a plugin uri.
+ * An event pertaining to a change in a plugin uri assigned to 
+ * a codebase model.
  */
 public class CodeBaseEvent extends EventObject
 {
     private final URI m_plugin;
 
+   /**
+    * Construction of a new codebase change event.
+    * @param source the codebase model initiating the event
+    * @param plugin the uri assigned as the codebase
+    */
     public CodeBaseEvent( CodeBaseModel source, URI plugin )
     {
         super( source );
@@ -35,11 +41,19 @@ public class CodeBaseEvent extends EventObject
         m_plugin = plugin;
     }
     
+   /**
+    * Return the codebase model that initiating the event.
+    * @return the codebase model
+    */
     public CodeBaseModel getCodeBaseModel()
     {
         return (CodeBaseModel) getSource();
     }
 
+   /**
+    * Return the new codebase plugin uri.
+    * @return the codebase uri
+    */
     public URI getCodeBaseURI()
     {
         return m_plugin;

@@ -23,8 +23,8 @@ import java.rmi.RemoteException;
 import java.util.EventListener;
 
 /**
- * Interface implemented by objects concerning with plugin 
- * bindings.
+ * Interface implemented by objects concerning with changes to 
+ * a codebase model.
  */
 public interface CodeBaseListener extends EventListener, Remote
 {

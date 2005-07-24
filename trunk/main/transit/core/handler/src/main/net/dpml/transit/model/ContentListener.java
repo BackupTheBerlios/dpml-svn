@@ -29,9 +29,8 @@ import java.util.EventListener;
 public interface ContentListener extends EventListener, Remote
 {
    /**
-    * Notify a regstry listener of the change to the plugin assigned 
-    * to be the content handler for a content type.
-    * @param event the content plugin change event
+    * Notify a content model listener of a change to content model title.
+    * @param event the content change event
     */
     void titleChanged( ContentEvent event ) throws RemoteException;
 

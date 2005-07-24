@@ -31,10 +31,10 @@ public abstract class ContentRegistryEvent extends EventObject
 
    /**
     * Creation of a new RegistryEvent signalling the addition
-    * or removal of a content director to or from a registry.
+    * or removal of a content model to or from a registry.
     * 
-    * @param registry the content registry director
-    * @param content the content director that was added or removed
+    * @param registry the content registry model
+    * @param content the content model that was added or removed
     */   
     public ContentRegistryEvent( ContentRegistryModel registry, ContentModel content )
     {
@@ -44,8 +44,8 @@ public abstract class ContentRegistryEvent extends EventObject
     }
     
    /**
-    * Return the registry director initiating the event.
-    * @return the registry director
+    * Return the content registry model initiating the event.
+    * @return the content registry model
     */
     public ContentRegistryModel getRegistryModel()
     {
@@ -53,8 +53,8 @@ public abstract class ContentRegistryEvent extends EventObject
     }
 
    /**
-    * Return the content director that was added or removed.
-    * @return the content director
+    * Return the content model that was added or removed.
+    * @return the content model
     */
     public ContentModel getContentModel()
     {

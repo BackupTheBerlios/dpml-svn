@@ -53,7 +53,6 @@ import net.dpml.transit.util.PropertyResolver;
  * about the current cache directory and the associated hosts.
  *
  * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
- * @version $Id: StandardTransitDirector.java 2480 2005-05-10 04:44:32Z mcconnell@dpml.net $
  */
 public class DefaultCacheModel extends DisposableCodeBaseModel 
    implements CacheModel, DisposalListener
@@ -78,6 +77,21 @@ public class DefaultCacheModel extends DisposableCodeBaseModel
     // constructor
     // ------------------------------------------------------------------------
 
+   /**
+    * Construct a new cache model.  The cache module uses the supplied layout registry
+    * model ads the source for the layout model to use for the cache and as the source when
+    * resolving layout models for assigned hosts.  Data is supplied via a cache home that
+    * is itself responsible for the maintaince of the cache model persistent state.
+    *
+    * @param logger the assigned logging channel
+    * @param home the cache storage home
+    * @param registry a registry of layout models
+    * @exception DuplicateKeyException if the storage home references duplicate host identities
+    * @exception UnknownKeyException if the storage home references a host storage unit that references
+    *    an unknown layout model
+    * @exception MalformedURLException if the storage home references a host storage unit containing
+    *    a malfo9rmed base url
+    */
     public DefaultCacheModel( 
       Logger logger, CacheHome home, LayoutRegistryModel registry )
       throws DuplicateKeyException, RemoteException, UnknownKeyException, MalformedURLException
@@ -112,7 +126,10 @@ public class DefaultCacheModel extends DisposableCodeBaseModel
     // ------------------------------------------------------------------------
 
    /**
-    * Notify the listener of the disposal of a layout.
+    * The cache model listens for fisposal events of the layout model it 
+    * is using and will raise a VetoDisposalException automatically.
+    * @param event the layout predisposal disposal event
+    * @exception VetoDisposalException it veto the disposal
     */
     public void disposing( DisposalEvent event ) throws VetoDisposalException, RemoteException
     {
@@ -121,7 +138,10 @@ public class DefaultCacheModel extends DisposableCodeBaseModel
     }
 
    /**
-    * Notify the listener of the disposal of a manager.
+    * Notify the listener of the disposal of a manager. If the cache model 
+    * receives this event a TransitError will be raised as this signals the 
+    * unexpected condition that disposal event veto was not respected (which should 
+    * not happen).
     */
     public void disposed( DisposalEvent event )  throws RemoteException // should never happen
     {
@@ -135,7 +155,7 @@ public class DefaultCacheModel extends DisposableCodeBaseModel
     // ------------------------------------------------------------------------
 
    /**
-    * Return the cache layout strategy model.
+    * Return the cache layout strategy model used by the cache implementation.
     * @return the layout model
     */
     public LayoutModel getLayoutModel() throws RemoteException
@@ -194,15 +214,18 @@ public class DefaultCacheModel extends DisposableCodeBaseModel
         }
     }
 
+   /**
+    * Return the layout registry model.
+    * @return the registry of layout models
+    */
     public LayoutRegistryModel getLayoutRegistryModel() throws RemoteException
     {
         return m_registry;
     }
 
    /**
-    * Return an array of host managers assigned to the cache.
-     *
-    * @return the host manager array
+    * Return an array of host models established by the implementation.
+    * @return the host model array
     */
     public HostModel[] getHostModels() throws RemoteException
     {
@@ -212,6 +235,12 @@ public class DefaultCacheModel extends DisposableCodeBaseModel
         }
     }
 
+   /**
+    * Return an identified host model .
+    * @param id the host model id
+    * @return the host model
+    * @exception UnknownKeyException the host model id is not recognized
+    */
     public HostModel getHostModel( String id ) throws UnknownKeyException, RemoteException
     {
         synchronized( m_lock )
@@ -229,6 +258,13 @@ public class DefaultCacheModel extends DisposableCodeBaseModel
         }
     }
 
+   /**
+    * Add a new host model to the cache model using a host model identifier .
+    * @param id the host model id to be added
+    * @exception DuplicateKeyException a host model with a matching id already exists
+    * @exception UnknownKeyException the host model requests a layout model id that is not recognized
+    * @exception MalformedURLException the host model baseurl is malformed
+    */
     public void addHostModel( String id ) 
        throws DuplicateKeyException, UnknownKeyException, RemoteException, MalformedURLException
     {
@@ -236,44 +272,20 @@ public class DefaultCacheModel extends DisposableCodeBaseModel
         addHostModel( store, true );
     }
 
-    public void addHostModel( HostStorage store, boolean notify ) 
-      throws DuplicateKeyException, UnknownKeyException, RemoteException, MalformedURLException
-    {
-        String id = store.getID();
-        Logger logger = getLogger().getChildLogger( id );
-        LayoutRegistryModel registry = getLayoutRegistryModel();
-        HostModel model = new DefaultHostModel( logger, store, registry );
-        addHostModel( model, notify );
-    }
-
+   /**
+    * Add a new host model to the cache model using a supplied host model.
+    * @param model the host model to add
+    * @exception DuplicateKeyException a host model with a matching id already exists
+    */
     public void addHostModel( HostModel model ) throws DuplicateKeyException, RemoteException
     {
         addHostModel( model, true );
     }
 
-    public void addHostModel( HostModel manager, boolean notify ) throws DuplicateKeyException, RemoteException
-    {
-        synchronized( m_lock )
-        {
-            String id = manager.getID();
-            try
-            {
-                HostModel m = getHostModel( id );
-                throw new DuplicateKeyException( id );
-            }
-            catch( UnknownKeyException e )
-            {
-                m_list.add( manager );
-                m_sortedHosts = sortHosts();
-                if( notify )
-                {
-                    HostAddedEvent event = new HostAddedEvent( this, manager );
-                    enqueueEvent( event );
-                }
-            }
-        }
-    }
-
+   /**
+    * Remove a host from the cache model.
+    * @param model the host model to remove
+    */
     public void removeHostModel( HostModel model ) throws RemoteException
     {
         synchronized( m_lock )
@@ -336,7 +348,53 @@ public class DefaultCacheModel extends DisposableCodeBaseModel
     // internal
     // ------------------------------------------------------------------------
 
-    public void processEvent( EventObject event )
+   /**
+    * Add a new host model to the cache model.
+    * @param model the host model to be added
+    * @exception DuplicateKeyException a host model with a matching id already exists
+    */
+    void addHostModel( HostModel manager, boolean notify ) throws DuplicateKeyException, RemoteException
+    {
+        synchronized( m_lock )
+        {
+            String id = manager.getID();
+            try
+            {
+                HostModel m = getHostModel( id );
+                throw new DuplicateKeyException( id );
+            }
+            catch( UnknownKeyException e )
+            {
+                m_list.add( manager );
+                m_sortedHosts = sortHosts();
+                if( notify )
+                {
+                    HostAddedEvent event = new HostAddedEvent( this, manager );
+                    enqueueEvent( event );
+                }
+            }
+        }
+    }
+
+   /**
+    * Add a new host model to the cache model using a host model store .
+    * @param store the host model storage unit
+    * @param notify if TRUE issue a notification event of host model addition
+    * @exception DuplicateKeyException a host model with a matching id already exists
+    * @exception UnknownKeyException the host model requests a layout model id that is not recognized
+    * @exception MalformedURLException the host model base url is malformed
+    */
+    void addHostModel( HostStorage store, boolean notify ) 
+      throws DuplicateKeyException, UnknownKeyException, RemoteException, MalformedURLException
+    {
+        String id = store.getID();
+        Logger logger = getLogger().getChildLogger( id );
+        LayoutRegistryModel registry = getLayoutRegistryModel();
+        HostModel model = new DefaultHostModel( logger, store, registry );
+        addHostModel( model, notify );
+    }
+
+    protected void processEvent( EventObject event )
     {
         if( event instanceof CacheEvent )
         {

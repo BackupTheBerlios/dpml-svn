@@ -29,9 +29,9 @@ public class ContentEvent extends EventObject
 
    /**
     * Creation of a new ContentEvent signalling modification of 
-    * content director configuration.
+    * a content model.
     * 
-    * @param content the content director that was added or removed
+    * @param content the content model that was added or removed
     */
     public ContentEvent( ContentModel content )
     {
@@ -40,8 +40,8 @@ public class ContentEvent extends EventObject
     }
     
    /**
-    * Return the content director that was modified.
-    * @return the content director
+    * Return the content model that was modified.
+    * @return the content model
     */
     public ContentModel getContentModel()
     {

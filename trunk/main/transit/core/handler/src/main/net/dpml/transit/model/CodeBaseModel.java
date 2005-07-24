@@ -22,14 +22,14 @@ import java.net.URI;
 import java.rmi.RemoteException;
 
 /**
- * A PluginModel maintains information about the configuration of 
+ * A CodeBaseModel maintains information about the configuration of 
  * a pluggable subsystem.
  */
 public interface CodeBaseModel extends Model
 {
    /**
-    * Return the uri of the plugin to be used for cache management.
-    * @return the cache handler plugin uri
+    * Return the uri of the plugin to be used for the subsystem.
+    * @return the codebase plugin uri
     */
     URI getCodeBaseURI() throws RemoteException;
 

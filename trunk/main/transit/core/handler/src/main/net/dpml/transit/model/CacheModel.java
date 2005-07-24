@@ -30,8 +30,16 @@ import java.rmi.RemoteException;
  */
 public interface CacheModel extends CodeBaseModel, Disposable
 {
+   /**
+    * The property key used to identify the cache location when configuring 
+    * a transit profile via an authorative url.
+    */
     static final String CACHE_LOCATION_KEY = "dpml.transit.cache.location";
-    static final String CACHE_CLASS_KEY = "dpml.transit.cache.class";
+
+   /**
+    * The property key used to identify the cache layout model id when configuring 
+    * a transit profile via an authorative url.
+    */
     static final String CACHE_LAYOUT_KEY = "dpml.transit.cache.layout";
 
    /**
@@ -68,19 +76,19 @@ public interface CacheModel extends CodeBaseModel, Disposable
     HostModel getHostModel( String id ) throws UnknownKeyException, RemoteException;
 
    /**
-    * Add a cache listener to the director.
+    * Add a cache listener to the model.
     * @param listener the listener to add
     */
     void addCacheListener( CacheListener listener ) throws RemoteException;
 
    /**
-    * Remove a cache listener from the director.
+    * Remove a cache listener from the model.
     * @param listener the listener to remove
     */
     void removeCacheListener( CacheListener listener ) throws RemoteException;
 
    /**
-    * Return the cache layout strategy model.
+    * Return the cache layout model.
     * @return the layout model
     */
     LayoutModel getLayoutModel() throws RemoteException;

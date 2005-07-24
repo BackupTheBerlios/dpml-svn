@@ -30,8 +30,8 @@ import java.net.URI;
 public interface ContentRegistryModel extends CodeBaseModel
 {
    /**
-    * Return an array of content managers currently assigned to the registry.
-    * @return the content manager array
+    * Return an array of content models currently assigned to the registry.
+    * @return the content model array
     */
     ContentModel[] getContentModels() throws RemoteException;
 
@@ -39,30 +39,52 @@ public interface ContentRegistryModel extends CodeBaseModel
     * Return a content model matching the supplied type. If the type is unknown
     * an implementation shall return a null value.
     *
-    * @return the content model
+    * @param type the content model type
+    * @return the content model or null if the type is unknown
     */
     ContentModel getContentModel( String type ) throws UnknownKeyException, RemoteException;
 
+   /**
+    * Create a new content model for the supplied type.
+    * @param type the content model type
+    * @exception DuplicateKeyException if a content model already exists for the supplied type
+    */
     void addContentModel( String type ) throws DuplicateKeyException, RemoteException;
 
+   /**
+    * Create a new content model for the supplied type using a supplied title and codebase uri.
+    * @param type the content model type
+    * @param title the content model title
+    * @param uri the content model codebase uri
+    * @exception DuplicateKeyException if a content model already exists for the supplied type
+    */
     void addContentModel( String type, String title, URI uri ) 
       throws DuplicateKeyException, RemoteException;
 
+   /**
+    * Add a new content model to the content registry.
+    * @param model the content model to add
+    * @exception DuplicateKeyException if a content model already exists for the type
+    *   declared by the supplied model
+    */
     void addContentModel( ContentModel model ) throws DuplicateKeyException, RemoteException;
 
+   /**
+    * Remove a content model from the registry.
+    * @param model the model to remove
+    */
     void removeContentModel( ContentModel model ) throws RemoteException;
 
    /**
-    * Add a regstry change listener.
+    * Add a content registry change listener.
     * @param listener the registry change listener to add
     */
     void addRegistryListener( ContentRegistryListener listener ) throws RemoteException;
 
    /**
-    * Remove a regstry change listener.
+    * Remove a registry change listener.
     * @param listener the registry change listener to remove
     */
     void removeRegistryListener( ContentRegistryListener listener ) throws RemoteException;
-
 
 }

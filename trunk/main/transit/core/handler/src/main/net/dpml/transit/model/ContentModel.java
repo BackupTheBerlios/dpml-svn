@@ -46,22 +46,42 @@ public interface ContentModel extends CodeBaseModel, Disposable
     */
     void setTitle( String title ) throws RemoteException;
 
+   /**
+    * Reutn the value of a property associated with the content model.
+    * @param key the property key
+    * @return the property value (possibly null)
+    */
     String getProperty( String key ) throws RemoteException;
    
+   /**
+    * Return the value of a property associated with the content model.
+    * @param key the property key
+    * @param value the value to return if the property is unknown
+    * @return the resolved value
+    */
     String getProperty( String key, String value ) throws RemoteException;
 
+   /**
+    * Set a property on the content model.
+    * @param key the property key
+    * @param value the property value
+    */
     void setProperty( String key, String value ) throws RemoteException;
 
+   /**
+    * Remove a property from the content model.
+    * @param key the property key
+    */
     void removeProperty( String key ) throws RemoteException;
 
    /**
-    * Add a content listener to the director.
+    * Add a content listener to the model.
     * @param listener the listener to add
     */
     void addContentListener( ContentListener listener ) throws RemoteException;
 
    /**
-    * Remove a content listener from the director.
+    * Remove a content listener from the model.
     * @param listener the listener to remove
     */
     void removeContentListener( ContentListener listener ) throws RemoteException;

@@ -95,6 +95,11 @@ public class Connection implements Serializable
         return m_optional;
     }
 
+   /**
+    * Test is the supplied object is equal to this object.
+    * @param other the other object
+    * @return true if the objects are equal
+    */
     public boolean equals( Object other )
     {
         if( null == other )
@@ -131,6 +136,10 @@ public class Connection implements Serializable
         }
     }
 
+   /**
+    * Return a hascode for the object.
+    * @return the hashcode value
+    */
     public int hashCode()
     {
         int hash = new Integer( m_port ).hashCode();

@@ -28,17 +28,30 @@ public class CacheDirectoryChangeEvent extends EventObject
 {
     private final String m_path;
 
+   /**
+    * Creation of a new cache directory change event.
+    * @param source the cache model initialing the change
+    * @param path the new cache path value
+    */
     public CacheDirectoryChangeEvent( CacheModel source, String path )
     {
         super( source );
         m_path = path;
     }
 
+   /**
+    * Return the source cache model that rased the event.
+    * @return the source of the event
+    */
     public CacheModel getCacheModel()
     {
         return (CacheModel) getSource();
     }
     
+   /**
+    * Return the new cache path.
+    * @return the value assigned as the new cache path
+    */
     public String getCachePath()
     {
         return m_path;

@@ -21,23 +21,37 @@ package net.dpml.transit.model;
 import java.util.EventObject;
 
 /**
- * An event related to the addition or removal of a host.
+ * An abstract event related to the addition and removal of hosts
+ * to and from the cache model.
  */
 public abstract class CacheEvent extends EventObject
 {
     private final HostModel m_host;
 
+   /**
+    * Construction of a new cache change event.
+    * @param source the cache model initiating the event
+    * @param host the host model added or removed from the cache
+    */
     public CacheEvent( CacheModel source, HostModel host )
     {
         super( source );
         m_host = host;
     }
     
+   /**
+    * Return the cache model that initiating the event.
+    * @return the cache model
+    */
     public CacheModel getCacheModel()
     {
         return (CacheModel) getSource();
     }
 
+   /**
+    * Return the host model that was added or removed.
+    * @return the host model
+    */
     public HostModel getHostModel()
     {
         return m_host;

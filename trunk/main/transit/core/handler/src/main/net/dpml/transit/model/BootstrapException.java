@@ -27,7 +27,7 @@ package net.dpml.transit.model;
 public class BootstrapException extends ModelException
 {
     /**
-     * Construct a new <code>ModelReferenceException</code> instance.
+     * Construct a new <code>BootstrapException</code> instance.
      *
      * @param message the detailed error message
      */
