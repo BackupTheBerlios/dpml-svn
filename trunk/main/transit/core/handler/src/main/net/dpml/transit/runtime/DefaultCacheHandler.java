@@ -407,7 +407,7 @@ public class DefaultCacheHandler extends UnicastRemoteObject implements CacheHan
         }
 
         String error = "Unresolvable artifact: [" + artifact + "]. (" + destination + ")";
-        throw new ArtifactNotFoundException( error, artifact );
+        throw new ArtifactNotFoundException( error, artifact.toURI() );
     }
 
     /**

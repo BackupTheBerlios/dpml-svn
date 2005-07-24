@@ -16,50 +16,33 @@
  * limitations under the License.
  */
 
-package net.dpml.transit.artifact;
+package net.dpml.transit.link;
 
 import java.net.URI;
 
+import net.dpml.transit.artifact.ArtifactNotFoundException;
+
 /**
- * Exception to indicate that ther Artifact could not be located.
+ * Exception to indicate that a link could not be located.
  *
  * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
  * @version $Id: ArtifactNotFoundException.java 2445 2005-04-28 23:44:22Z niclas@hedhman.org $
  */
-public class ArtifactNotFoundException extends ArtifactException
+public class LinkNotFoundException extends ArtifactNotFoundException
 {
-    // ------------------------------------------------------------------------
-    // state
-    // ------------------------------------------------------------------------
-
-   /**
-    * The artifact that we not found.
-    */
-    private final URI m_artifact;
-
     // ------------------------------------------------------------------------
     // constructor
     // ------------------------------------------------------------------------
 
     /**
-     * Construct a new <code>ArtifactException</code> instance.
+     * Construct a new <code>LinkNotFoundException</code> instance.
      *
      * @param message The detail message for this exception.
-     * @param artifact the subject artifact
+     * @param uri the link uri
      */
-    public ArtifactNotFoundException( final String message, final URI artifact )
+    public LinkNotFoundException( final String message, final URI uri )
     {
-        super( message );
-        m_artifact = artifact;
-    }
-
-    /**
-     * Returns the uri that could not be found.
-     * @return the subject uri
-     */
-    public URI getURI()
-    {
-        return m_artifact;
+        super( message, uri );
     }
 }
 

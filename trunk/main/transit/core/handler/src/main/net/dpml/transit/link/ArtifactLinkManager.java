@@ -54,7 +54,8 @@ import net.dpml.transit.util.PropertyResolver;
 public class ArtifactLinkManager
     implements LinkManager
 {
-    /** Sets the URI for the provided Link.
+    /** 
+     * Sets the URI for the provided Link.
      * The LinkManager is required to persist this information between
      * JVM restarts and should be persisted on a scope larger than a
      * single JVM, typically a host or a local area network. LinkManagers
@@ -107,11 +108,14 @@ public class ArtifactLinkManager
         }
     }
 
-    /** Returns the URI that the provided link: URI instance is pointing to.
+    /** 
+     * Returns the URI that the provided link URI instance is pointing to.
+     * @param linkUri the link uri from which the target will be resolved
+     * @exception LinkNotFoundException if the supplied link uri could not be located
      * @exception IOException if the mapping could not be retrieved, due to
-     *            a IOException.
-     * @return target URI that the link points to, or null if it could not
-     *         be found.
+     *    an IOException during link retrival.
+     * @return target URI that the link points to (possibly null if the link does 
+     *    not declare a target)
      */
     public URI getTargetURI( final URI linkUri )
         throws IOException
@@ -143,7 +147,10 @@ public class ArtifactLinkManager
             Exception exception = e.getException();
             if( exception instanceof ArtifactNotFoundException )
             {
-                 return null;
+                 final String error =
+                   "Link not found: "
+                   + linkUri;
+                 throw new LinkNotFoundException( error, linkUri );
             }
             else
             {
@@ -151,5 +158,4 @@ public class ArtifactLinkManager
             }
         }
     }
-
 }

@@ -35,7 +35,6 @@ import java.util.Properties;
 
 import net.dpml.transit.adapter.LoggingAdapter;
 import net.dpml.transit.link.ArtifactLinkManager;
-import net.dpml.transit.link.FileLinkManager;
 import net.dpml.transit.link.LinkManager;
 import net.dpml.transit.model.Logger;
 import net.dpml.transit.model.CacheModel;
@@ -312,7 +311,6 @@ public final class SecuredTransitContext
     */
     protected void initialize() throws IOException
     {
-        //m_linkManager = new FileLinkManager();
         m_linkManager = new ArtifactLinkManager();
         m_repository = new StandardLoader();
         initializeCache();

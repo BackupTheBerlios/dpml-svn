@@ -40,6 +40,15 @@ import java.util.Properties;
 import java.util.prefs.BackingStoreException;
 import java.util.prefs.Preferences;
 
+import net.dpml.depot.lang.DepotClassLoader;
+import net.dpml.depot.profile.ApplicationProfile;
+import net.dpml.depot.profile.DefaultApplicationProfile;
+import net.dpml.depot.profile.DepotProfile;
+import net.dpml.depot.profile.DefaultDepotProfile;
+import net.dpml.depot.profile.Profile;
+import net.dpml.depot.store.DepotHome;
+import net.dpml.depot.unit.DepotStorageUnit;
+
 import net.dpml.transit.Transit;
 import net.dpml.transit.TransitError;
 import net.dpml.transit.TransitException;
@@ -49,21 +58,13 @@ import net.dpml.transit.adapter.RepositoryMonitorAdapter;
 import net.dpml.transit.adapter.CacheMonitorAdapter;
 import net.dpml.transit.adapter.NetworkMonitorAdapter;
 import net.dpml.transit.artifact.Artifact;
+import net.dpml.transit.artifact.ArtifactNotFoundException;
 import net.dpml.transit.model.Logger;
 import net.dpml.transit.model.Connection;
 import net.dpml.transit.model.UnknownKeyException;
 import net.dpml.transit.model.TransitModel;
 import net.dpml.transit.model.DefaultTransitModel;
 import net.dpml.transit.repository.Repository;
-
-import net.dpml.depot.lang.DepotClassLoader;
-import net.dpml.depot.profile.ApplicationProfile;
-import net.dpml.depot.profile.DefaultApplicationProfile;
-import net.dpml.depot.profile.DepotProfile;
-import net.dpml.depot.profile.DefaultDepotProfile;
-import net.dpml.depot.profile.Profile;
-import net.dpml.depot.store.DepotHome;
-import net.dpml.depot.unit.DepotStorageUnit;
 
 /**
  * CLI hander for the depot package.
@@ -293,6 +294,11 @@ public final class Main
                 logger.info( "loaded " + OBJECT.getClass().getName() );
             }
         }
+        catch( ArtifactNotFoundException e )
+        {
+            getLogger().error( e.getMessage() );
+            System.exit( -1 );
+        }
         catch( Throwable e )
         {
             final String error = 
@@ -339,6 +345,13 @@ public final class Main
         else if( "part".equals( type ) )
         {
             String path = uri.toASCIIString();
+            final String message = 
+              "loading part ["
+              + path 
+              + "] with Transit [" 
+              + model.getID()
+              + "] profile";
+            getLogger().info( message );
             URL url = new URL( path );
             return url.getContent( new Class[]{ Object.class } );
         }

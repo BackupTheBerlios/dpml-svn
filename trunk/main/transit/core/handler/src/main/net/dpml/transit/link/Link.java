@@ -85,12 +85,14 @@ public class Link
     public URI getTargetURI( URI defaultUri )
         throws IOException
     {
-        URI uri = m_manager.getTargetURI( m_uri );
-        if( uri == null )
+        try
+        {
+            return m_manager.getTargetURI( m_uri );
+        }
+        catch( LinkNotFoundException e )
         {
             return defaultUri;
         }
-        return uri;
     }
 
    /** 

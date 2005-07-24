@@ -49,7 +49,10 @@ import java.security.PrivilegedAction;
  *  string representation of the target URI.
  * </p>
  */
-public class FileLinkManager
+
+// CLASS NOT USED
+
+class FileLinkManager
     implements LinkManager
 {
     private File m_linksDir;
