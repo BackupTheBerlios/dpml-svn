@@ -21,7 +21,7 @@ package net.dpml.transit.store;
 import java.io.File;
 
 /**
- * Interface implemented by classes maintaining a cache configuration.
+ * Interface implemented by classes maintaining a persistent cache configuration.
  *
  * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
  */

@@ -66,8 +66,7 @@ public interface HostModel extends CodeBaseModel, Disposable
     boolean isBootstrap() throws RemoteException;
 
    /**
-    * Return the name of the resource host.  The value returned may be used to uniquely 
-    * identify the host within the set of managed hosts. 
+    * Return the name of the resource host.
     */
     String getHostName() throws RemoteException;
 

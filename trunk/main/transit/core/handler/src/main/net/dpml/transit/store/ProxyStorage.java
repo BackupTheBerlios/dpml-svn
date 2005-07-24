@@ -29,17 +29,47 @@ import java.net.URL;
  */
 public interface ProxyStorage
 {
+   /**
+    * Return the proxy host URL.
+    * @return the proxy host url
+    */
     URL getHost();
 
+   /**
+    * Return the proxy authentication credentials.
+    * @return the credentials
+    */
     PasswordAuthentication getAuthentication();
 
+   /**
+    * Return the array of proxy host excludes.
+    * @return the proxy excludes
+    */
     String[] getExcludes();
 
+   /**
+    * Set the proxy host value.
+    * @param host the new proxy host value
+    */
     void setHost( URL host );
 
+   /**
+    * Set the proxy excludes value.
+    * @param excludes the new proxy excludes value
+    */
     void setExcludes( String[] excludes );
 
+   /**
+    * Set the proxy host authentication credentials.
+    * @param host the password authentication credentials
+    */
     void setAuthentication( PasswordAuthentication auth );
 
+   /**
+    * Update the persistent storage object with the aggregates data collection.
+    * @param host the new proxy host value
+    * @param auth the new proxy password authentication credentials
+    * @param excludes the new proxy host excludes value
+    */
     void saveProxySettings( URL host, PasswordAuthentication auth, String[] excludes );
 }

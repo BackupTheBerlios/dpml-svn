@@ -21,7 +21,8 @@ package net.dpml.transit.store;
 import java.net.URI;
 
 /**
- * The ProxyManager is an interface implemented by proxy managers.
+ * The CodeBaseStorage is an interface implemented by objects maintaining
+ * the persistent configuration of a codebase model.
  *
  * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
  */

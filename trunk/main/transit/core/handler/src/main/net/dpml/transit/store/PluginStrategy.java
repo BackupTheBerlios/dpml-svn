@@ -21,7 +21,7 @@ package net.dpml.transit.store;
 import java.net.URI;
 
 /**
- * Interface implemented by removable storage unit.
+ * Serializable class that describes a plugin stratelgy.
  *
  * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
  */
@@ -29,16 +29,29 @@ public class PluginStrategy extends Strategy
 {
     private URI m_uri;
 
+   /**
+    * Creation of a new plugin strategy instance.
+    * @param uri the plugin codebase uri
+    */
     public PluginStrategy( URI uri )
     {
         m_uri = uri;
     }
 
+   /**
+    * Return the codebase uri.
+    * @return the uri
+    */
     public URI getURI()
     {
         return m_uri;
     }
 
+   /**
+    * Test if this object is equal to the supplied object.
+    * @param other the other object
+    * @return TRUE if the supplied object is equal to this object
+    */
     public boolean equals( Object other )
     {
         if( null == other )
@@ -56,6 +69,10 @@ public class PluginStrategy extends Strategy
         }
     }
 
+   /**
+    * Return the object hashcode.
+    * @return the hashcode value
+    */
     public int hashCode()
     {
         return m_uri.hashCode();

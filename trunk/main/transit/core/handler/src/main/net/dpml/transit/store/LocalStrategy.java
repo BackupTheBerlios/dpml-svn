@@ -19,7 +19,8 @@
 package net.dpml.transit.store;
 
 /**
- * Interface implemented by removable storage unit.
+ * The LocalStrategy  class declares the creation criteria for an instance
+ * that is locally available withuin the classloader of the invoking client.
  *
  * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
  */
@@ -28,22 +29,40 @@ public class LocalStrategy extends Strategy
     private String m_classname;
     private boolean m_bootstrap;
 
+   /**
+    * Creation of a new llocal stratey instance.
+    * @param classname the classname of the locally available class
+    * @param bootstrap the bootstrap policy
+    */
     public LocalStrategy( String classname, boolean bootstrap )
     {
         m_classname = classname;
         m_bootstrap = bootstrap;
     }
 
+   /**
+    * Return the local classname.
+    * @return the name of the local class
+    */
     public String getClassname()
     {
         return m_classname;
     }
 
+   /**
+    * Return the bootstrap policy.
+    * @return the bootstrap policy value
+    */
     public boolean isBootstrap()
     {
         return m_bootstrap;
     }
 
+   /**
+    * Test if this object is equal to the supplied object.
+    * @param other the other object
+    * @return TRUE if the supplied object is equal to this object
+    */
     public boolean equals( Object other )
     {
         if( null == other )
@@ -72,6 +91,10 @@ public class LocalStrategy extends Strategy
         }
     }
 
+   /**
+    * Return the object hashcode.
+    * @return the hashcode value
+    */
     public int hashCode()
     {
         int hash = new Boolean( m_bootstrap ).hashCode();

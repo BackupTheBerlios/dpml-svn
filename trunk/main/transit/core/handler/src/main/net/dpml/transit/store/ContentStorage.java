@@ -21,21 +21,47 @@ package net.dpml.transit.store;
 import java.util.Properties;
 
 /**
- * The ProxyManager is an interface implemented by proxy managers.
+ * The ContentStorage defines the contract of object implementing persistent storage
+ * of a content handler model.
  *
  * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
  */
 public interface ContentStorage extends CodeBaseStorage
 {
+   /**
+    * Return the content storage type identifier.
+    * @return the content type immutable identifier
+    */
     String getType();
 
+   /**
+    * Return the content title
+    * @return the content type title
+    */
     String getTitle();
 
+   /**
+    * Return the content properties.
+    * @return the properties
+    */
     Properties getProperties();
 
+   /**
+    * Set the content title to the supplied value.
+    * @param title the content title
+    */
     void setTitle( String title );
 
+   /**
+    * Set a property to the supplied value.
+    * @param key the property key
+    * @param value the property value
+    */
     void setProperty( String key, String value );
 
+   /**
+    * Remove a property.
+    * @param key the property key
+    */
     void removeProperty( String key );
 }

@@ -22,7 +22,7 @@ import java.net.URI;
 
 /**
  * Interface implemented by classes providing content handler configuration
- * stroage management.
+ * storage.
  *
  * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
  */
