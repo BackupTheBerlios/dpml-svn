@@ -50,7 +50,7 @@ import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
 
 import net.dpml.transit.Transit;
-import net.dpml.transit.runtime.ContentRegistry;
+import net.dpml.transit.ContentRegistry;
 import net.dpml.transit.model.ContentRegistryModel;
 import net.dpml.transit.model.ContentModel;
 import net.dpml.transit.model.UnknownKeyException;

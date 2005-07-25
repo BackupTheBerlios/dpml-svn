@@ -22,8 +22,6 @@ import java.net.URL;
 import java.util.EventObject;
 import java.net.PasswordAuthentication; 
 
-import net.dpml.transit.network.RequestIdentifier;
-
 /**
  * An event pertaining to a modification to a host model base url, 
  * index, request identifier or connection credentials.

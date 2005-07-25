@@ -32,7 +32,7 @@ import net.dpml.transit.TransitRuntimeException;
 import net.dpml.transit.SecuredTransitContext;
 
 /**
- * Repository artifact: URL protocol handler.
+ * The artifact URL protocol handler.
  */
 public class Handler extends URLStreamHandler
 {

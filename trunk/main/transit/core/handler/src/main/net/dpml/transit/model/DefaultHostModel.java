@@ -37,7 +37,6 @@ import net.dpml.transit.store.Removable;
 import net.dpml.transit.store.Strategy;
 import net.dpml.transit.store.PluginStrategy;
 import net.dpml.transit.store.LocalStrategy;
-import net.dpml.transit.network.RequestIdentifier;
 import net.dpml.transit.util.PropertyResolver;
 
 /**

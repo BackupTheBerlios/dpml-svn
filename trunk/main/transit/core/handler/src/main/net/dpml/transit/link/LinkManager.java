@@ -21,27 +21,30 @@ import java.io.IOException;
 
 import java.net.URI;
 
-/** The LinkManager is responsible for storing the mapping between a Link
- *  instance and a URI.
- *  Applications should never call the methods for the LinkManager directly,
- *  and it is likely that the LinkManager remains outside the reachability of
- *  applications.
+/** 
+ * The LinkManager is responsible for storing the mapping between a Link
+ * instance and a URI.
  */
 public interface LinkManager
 {
-    /** Sets the URI for the provided link URI.
-     * The LinkManager is required to persist this information between
-     * JVM restarts and should be persisted on a scope larger than a
-     * single JVM, typically a host or a local area network. LinkManagers
-     * are encouraged to establish other virtual scopes independent of
-     * network topologies.
-     */
-    void setTargetURI( URI link, URI target )
-        throws IOException;
+   /** 
+    * Sets the URI for the provided link URI.
+    * The LinkManager is required to persist this information between
+    * JVM restarts and should be persisted on a scope larger than a
+    * single JVM, typically a host or a local area network. LinkManagers
+    * are encouraged to establish other virtual scopes independent of
+    * network topologies.
+    *
+    * @param link the uri of the link
+    * @param target the uri of the target that the link redirects to
+    */
+    void setTargetURI( URI link, URI target ) throws IOException;
 
-    /** Returns the URI that the provided link URI is pointing to.
-     */
-    URI getTargetURI( URI link )
-        throws IOException;
+   /** 
+    * Returns the URI that the supplied link URI is referencing.
+    * 
+    * @param link the link uri
+    */
+    URI getTargetURI( URI link ) throws IOException;
 
 }

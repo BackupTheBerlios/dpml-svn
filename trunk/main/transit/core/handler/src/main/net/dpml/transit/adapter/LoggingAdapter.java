@@ -25,10 +25,9 @@ import java.util.logging.Level;
 import net.dpml.transit.util.ExceptionHelper;
 
 /**
- * Console montor for download messages.
+ * Generic adapter that redirects monitor events to a logging channel.
  *
  * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
- * @version $Id: LoggingAdapter.java 2890 2005-06-18 02:08:46Z mcconnell@dpml.net $
  */
 public class LoggingAdapter implements Adapter
 {

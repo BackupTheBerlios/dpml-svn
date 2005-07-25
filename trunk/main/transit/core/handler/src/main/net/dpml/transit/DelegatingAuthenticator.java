@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package net.dpml.transit.network;
+package net.dpml.transit;
 
 import net.dpml.transit.Transit;
 
@@ -29,11 +29,11 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
+import net.dpml.transit.model.RequestIdentifier;
+
 /**
- * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Id: DelegatingAuthenticator.java 2730 2005-06-06 10:45:42Z niclas@hedhman.org $
  */
-public final class DelegatingAuthenticator extends Authenticator
+final class DelegatingAuthenticator extends Authenticator
 {
     // ------------------------------------------------------------------------
     // static

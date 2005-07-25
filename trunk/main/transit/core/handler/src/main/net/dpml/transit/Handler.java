@@ -1,5 +1,5 @@
 /*
- * Copyright 2005 Stephen McConnell
+ * Copyright 2005 Stephen J. McConnell.
  *
  * Licensed  under the  Apache License,  Version 2.0  (the "License");
  * you may not use  this file  except in  compliance with the License.
@@ -16,24 +16,20 @@
  * limitations under the License.
  */
 
-package net.dpml.transit.runtime;
-
-import java.io.IOException;
-import java.net.ContentHandler;
+package net.dpml.transit;
 
 /**
- * A interface supporting access to pluggable content handlers.
+ * A handler is an interface implemented by a disposable sub-system.
+ *
+ * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
  */
-public interface ContentRegistry
+public interface Handler
 {
    /**
-    * Return a content handler capable for supporting the supplied type. If
-    * the a handler is available the handler is returned otherwise the returned
-    * value is null.
-    *
-    * @param type the artifact type
-    * @return the content handler or null if not available
+    * Dispose of the manager.  During disposal a manager is required to 
+    * release all references such as listeners and internal resources
+    * in preparation for garbage collection.
     */
-    ContentHandler getContentHandler( final String type ) throws IOException;
+    void dispose();
 }
 

@@ -17,7 +17,7 @@
  * limitations under the License.
  */
 
-package net.dpml.transit.runtime;
+package net.dpml.transit;
 
 import java.io.BufferedInputStream;
 import java.io.File;
@@ -39,9 +39,6 @@ import java.util.WeakHashMap;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
-import net.dpml.transit.NullArgumentException;
-import net.dpml.transit.Transit;
-import net.dpml.transit.TransitException;
 import net.dpml.transit.adapter.Adapter;
 import net.dpml.transit.adapter.RepositoryMonitorAdapter;
 import net.dpml.transit.adapter.CacheMonitorAdapter;

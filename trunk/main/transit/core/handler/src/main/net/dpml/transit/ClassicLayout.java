@@ -17,27 +17,26 @@
  * limitations under the License.
  */
 
-package net.dpml.transit.runtime;
+package net.dpml.transit;
 
 import net.dpml.transit.artifact.Artifact;
-import net.dpml.transit.TransitRuntimeException;
 
-/** The EclipseLayout decodes artifacts into the Eclipse specified layout
+/** The ClassicLayout decodes artifacts into the Classic/Maven layout
  * of artifacts on a file system or http server.
  * This format says that for an artifact <code>artifact:[type]:[group]/[name]#[version]</code>
  * the location of such artifact would be;
- * <code>[group]-[version]/[name].[type]</code>.
- * Example; <code>artifact:jar:eclipse/plugins/eclipse-osgi-runtime/core#3.1.0</code>
- * would return the path <code>eclipse/plugins/eclipse-osgi-runtime-3.1.0/core.jar</code>.
+ * <code>[group]/[type]s/[name]-[version].[type]</code>.
+ * Example; <code>artifact:jar:metro/cache/dpml-cache-main#1.0.0</code>
+ * would return the path <code>metro/cache/jars/dpml-cache-main-1.0.0.jar</code>.
  */
-public class EclipseLayout extends AbstractLayout
+public class ClassicLayout
     implements Layout
 {
     /**
      * Return the base path for an artifact.  The base path is derived from
-     * the artifact group and version.  For an artifact group of "metro/cache" and a
-     * version equal to "1.3", the base value will be translated using the pattern
-     * "[group]-[version]" to form "metro/cache-1.3".  The base path value represents
+     * the artifact group and type.  For an artifact group of "metro/cache" and a
+     * type equal to "jar", the base value will be translated using the pattern
+     * "[group]/[type]s" to form "metro/cache/jars".  The base path value represents
      * the directory path relative to a repository root of the directory containing
      * this artifact.
      *
@@ -45,7 +44,7 @@ public class EclipseLayout extends AbstractLayout
      */
     public final String resolveBase( Artifact artifact )
     {
-        return artifact.getGroup() + "-" + artifact.getVersion();
+        return artifact.getGroup() + "/" + artifact.getType() + "s";        
     }
 
     /**
@@ -53,10 +52,8 @@ public class EclipseLayout extends AbstractLayout
      * The full path is equivalent to the base path and artifact filename using the
      * pattern "[base]/[filename]".  Path values may be used to resolve an artifact
      * from a remote repository or local cache relative to the repository or cache
-     * root. An artifact such as
-     * <code>artifact:jar:eclipse/plugins/eclipse-osgi-runtime/core#3.1.0</code>
-     * would return the path
-     * <code>eclipse/plugins/eclipse-osgi-runtime-3.1.0/core.jar</code>.
+     * root. An artifact such as <code>artifact:jar:metro/cache/dpml-cache-main#1.0.0</code>
+     * would return the path <code>metro/cache/jars/dpml-cache-main-1.0.0.jar</code>.
      *
      * @see #resolveBase
      * @see #resolveFilename
@@ -67,10 +64,9 @@ public class EclipseLayout extends AbstractLayout
         return resolveBase( artifact ) + "/" + resolveFilename( artifact );
     }
 
-
     /**
-     * Return the expanded filename of the artifact.
-     * The filename is expressed as <code>[name].[type]</code>.
+     * Return the expanded filename of the artifact. The filename is expressed
+     * as [name]-[version].[type] or in case of a null version simply [name].[type].
      *
      * @return the artifact expanded filename
      */
@@ -94,14 +90,16 @@ public class EclipseLayout extends AbstractLayout
         }
     }
 
-    /**
-     * Return the expanded filename of the artifact.
-     * The filename is expressed as <code>[name].[type]</code>.
-     *
-     * @return the artifact expanded filename
-     */
     public String resolveBaseFilename( Artifact artifact )
     {
-        return artifact.getName() + "." + artifact.getType();
+        String ver = artifact.getVersion();
+        if( null == ver )
+        {
+            return artifact.getName() + "." + artifact.getType();
+        }
+        else
+        {
+            return artifact.getName() + "-" + ver + "." + artifact.getType();
+        }
     }
 }

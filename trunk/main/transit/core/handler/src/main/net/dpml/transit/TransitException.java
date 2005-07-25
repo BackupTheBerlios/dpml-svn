@@ -22,10 +22,9 @@ package net.dpml.transit;
 import java.net.ProtocolException;
 
 /**
- * Exception to indicate that there was a transit artifact related error.
+ * Exception to indicate that there was an exception related to the transit protocol.
  *
  * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
- * @version $Id: TransitException.java 2790 2005-06-08 13:03:50Z mcconnell@dpml.net $
  */
 public class TransitException extends ProtocolException
 {

@@ -17,7 +17,7 @@
  * limitations under the License.
  */
 
-package net.dpml.transit.network;
+package net.dpml.transit;
 
 import java.net.Authenticator;
 import java.net.PasswordAuthentication;
@@ -30,7 +30,7 @@ import net.dpml.transit.NullArgumentException;
  *
  * @version $Id: TransitAuthenticatorImpl.java 2854 2005-06-14 05:44:50Z mcconnell@dpml.net $
  */
-public final class TransitAuthenticatorImpl
+final class TransitAuthenticatorImpl
     implements TransitAuthenticator
 {
     // ------------------------------------------------------------------------

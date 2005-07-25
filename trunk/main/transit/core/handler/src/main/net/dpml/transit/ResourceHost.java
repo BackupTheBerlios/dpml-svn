@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package net.dpml.transit.runtime;
+package net.dpml.transit;
 
 import net.dpml.transit.artifact.Artifact;
 

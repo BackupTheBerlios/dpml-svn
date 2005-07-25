@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package net.dpml.transit.network;
+package net.dpml.transit;
 
 import java.net.Authenticator;
 import java.net.PasswordAuthentication;

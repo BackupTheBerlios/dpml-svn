@@ -38,7 +38,7 @@ import net.dpml.part.control.Controller;
 
 /**
  */
-class PartContentHandler extends ContentHandler
+public class PartContentHandler extends ContentHandler
 {
     private final Controller m_controller;
 

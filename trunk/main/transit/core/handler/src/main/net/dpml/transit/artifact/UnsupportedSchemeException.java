@@ -20,7 +20,7 @@ package net.dpml.transit.artifact;
 
 /**
  * Exception to indicate that the scheme of a supplied uri is not recognized
- * by Transit.
+ * as a member of the artifact family.
  *
  * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
  */

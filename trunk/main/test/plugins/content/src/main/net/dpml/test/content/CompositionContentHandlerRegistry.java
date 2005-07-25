@@ -29,7 +29,7 @@ import net.dpml.transit.model.ContentRegistryModel;
 import net.dpml.transit.model.ContentModel;
 import net.dpml.transit.model.DuplicateKeyException;
 import net.dpml.transit.model.UnknownKeyException;
-import net.dpml.transit.runtime.DefaultContentRegistry;
+import net.dpml.transit.DefaultContentRegistry;
 
 /**
  * A registry of descriptions of plugable content handlers.  This implementation
@@ -97,5 +97,5 @@ public class CompositionContentHandlerRegistry extends DefaultContentRegistry
     private static final String PART = "part";
     private static final String TITLE = "Part Content Handler";
 
-    private static final String PART_HANDLER_PLUGIN_PATH = "@COMPOSITION-CONTENT-PART-HANDLER-PLUGIN-URI@";
+    private static final String PART_HANDLER_PLUGIN_PATH = "@PART-HANDLER-PLUGIN-URI@";
 }

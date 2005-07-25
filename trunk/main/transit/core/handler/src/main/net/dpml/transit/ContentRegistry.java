@@ -16,24 +16,24 @@
  * limitations under the License.
  */
 
-package net.dpml.transit.runtime;
+package net.dpml.transit;
 
 import java.io.IOException;
+import java.net.ContentHandler;
 
 /**
  * A interface supporting access to pluggable content handlers.
  */
-public interface LayoutRegistry
+public interface ContentRegistry
 {
-    public static final String LAYOUT_HANDLER_PLUGIN_KEY = "dpml.transit.layout.plugin";
-
    /**
-    * Return a location resolver capable for supporting the supplied id. If
-    * a handler is available the handler is returned otherwise the returned
+    * Return a content handler capable for supporting the supplied type. If
+    * the a handler is available the handler is returned otherwise the returned
     * value is null.
     *
-    * @param id the layout identifier
-    * @return the location resolver or null if not available
+    * @param type the artifact type
+    * @return the content handler or null if not available
     */
-    Layout getLayout( final String id ) throws IOException;
+    ContentHandler getContentHandler( final String type ) throws IOException;
 }
+

@@ -20,8 +20,8 @@ package net.dpml.transit.test;
 
 import junit.framework.TestCase;
 
-import net.dpml.transit.runtime.ClassicLayout;
-import net.dpml.transit.runtime.Layout;
+import net.dpml.transit.ClassicLayout;
+import net.dpml.transit.Layout;
 import net.dpml.transit.artifact.Artifact;
 
 /**

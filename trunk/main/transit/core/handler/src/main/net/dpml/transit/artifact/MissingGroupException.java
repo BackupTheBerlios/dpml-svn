@@ -20,7 +20,7 @@ package net.dpml.transit.artifact;
 
 /**
  * Exception to indicate that the group component of an artifact uri 
- * was not found.
+ * specification was not found.
  *
  * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
  */

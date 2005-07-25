@@ -25,7 +25,7 @@ import java.util.prefs.Preferences;
 import java.util.prefs.BackingStoreException;
 import java.net.PasswordAuthentication;
 
-import net.dpml.transit.runtime.DefaultResourceHost;
+import net.dpml.transit.DefaultResourceHost;
 import net.dpml.transit.store.HostStorage;
 import net.dpml.transit.store.Removable;
 import net.dpml.transit.store.Strategy;

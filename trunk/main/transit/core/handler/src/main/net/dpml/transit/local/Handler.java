@@ -24,13 +24,14 @@ import java.net.URLConnection;
 import java.net.URLStreamHandler;
 
 /** 
- * The <strong>local:</strong> protocol references a local resource 
- * within the users preferences.
+ * The <strong>local</strong> protocol references a local resource 
+ * under ${dpml.prefs}. Local resources are located using the artifact 
+ * protocol uri structure with a direct mapping to ${dpml.prefs}/[group]/[type]s/[name].[type].
  */
 public class Handler extends URLStreamHandler
 {
    /**
-    * Creation of a new transit link: protocol handler.
+    * Creation of a new local protocol handler.
     */
     public Handler()
     {

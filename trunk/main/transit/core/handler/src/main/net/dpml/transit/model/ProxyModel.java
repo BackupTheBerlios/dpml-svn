@@ -22,8 +22,6 @@ import java.net.URL;
 import java.net.PasswordAuthentication; 
 import java.rmi.RemoteException; 
 
-import net.dpml.transit.network.RequestIdentifier;
-
 /**
  * The ProxyModel is an interface implemented by objects that
  * manage the configuration of transit proxy settings.

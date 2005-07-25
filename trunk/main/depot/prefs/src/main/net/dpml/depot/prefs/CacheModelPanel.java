@@ -54,7 +54,7 @@ import net.dpml.transit.model.CacheModel;
 import net.dpml.transit.model.LayoutRegistryModel;
 import net.dpml.transit.model.HostModel;
 import net.dpml.transit.model.UnknownKeyException;
-import net.dpml.transit.runtime.CacheHandler;
+import net.dpml.transit.CacheHandler;
 
 /**
  * Runnable plugin that handles DPML environment setup.

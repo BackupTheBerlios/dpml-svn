@@ -48,8 +48,8 @@ import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
 
 import net.dpml.transit.Transit;
-import net.dpml.transit.runtime.Layout;
-import net.dpml.transit.runtime.LayoutRegistry;
+import net.dpml.transit.Layout;
+import net.dpml.transit.LayoutRegistry;
 import net.dpml.transit.model.LayoutRegistryModel;
 import net.dpml.transit.model.LayoutModel;
 import net.dpml.transit.model.DuplicateKeyException;

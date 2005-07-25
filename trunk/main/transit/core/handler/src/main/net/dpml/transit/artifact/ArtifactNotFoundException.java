@@ -21,7 +21,7 @@ package net.dpml.transit.artifact;
 import java.net.URI;
 
 /**
- * Exception to indicate that ther Artifact could not be located.
+ * Exception to indicate that an Artifact could not be located.
  *
  * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
  * @version $Id: ArtifactNotFoundException.java 2445 2005-04-28 23:44:22Z niclas@hedhman.org $

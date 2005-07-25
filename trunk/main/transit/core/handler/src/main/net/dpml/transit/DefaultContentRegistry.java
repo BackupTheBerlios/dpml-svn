@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package net.dpml.transit.runtime;
+package net.dpml.transit;
 
 import java.io.IOException;
 import java.net.URI;
@@ -33,15 +33,13 @@ import java.util.prefs.NodeChangeListener;
 import java.util.prefs.NodeChangeEvent;
 import java.util.prefs.BackingStoreException;
 
-import net.dpml.transit.Transit;
-import net.dpml.transit.TransitException;
-import net.dpml.transit.repository.Repository;
 import net.dpml.transit.model.ContentRegistryModel;
 import net.dpml.transit.model.ContentRegistryListener;
 import net.dpml.transit.model.ContentRegistryEvent;
 import net.dpml.transit.model.ContentModel;
 import net.dpml.transit.model.UnknownKeyException;
 import net.dpml.transit.model.Logger;
+import net.dpml.transit.repository.Repository;
 
 /**
  * A registry of descriptions of plugable content handlers.  This implementation

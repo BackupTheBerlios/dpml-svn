@@ -175,7 +175,6 @@
       <name>dpml-metro-central</name>
       <types>
         <type name="jar"/>
-        <type name="plugin" alias=""/>
       </types>
     </info>
     <dependencies>

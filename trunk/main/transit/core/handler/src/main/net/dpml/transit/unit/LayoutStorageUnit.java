@@ -23,8 +23,8 @@ import java.util.Date;
 import java.util.prefs.Preferences;
 import java.util.prefs.BackingStoreException;
 
-import net.dpml.transit.runtime.ClassicLayout;
-import net.dpml.transit.runtime.EclipseLayout;
+import net.dpml.transit.ClassicLayout;
+import net.dpml.transit.EclipseLayout;
 import net.dpml.transit.store.Strategy;
 import net.dpml.transit.store.LocalStrategy;
 import net.dpml.transit.store.PluginStrategy;

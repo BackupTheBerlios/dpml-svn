@@ -17,14 +17,14 @@
  * limitations under the License.
  */
 
-package net.dpml.transit.runtime;
+package net.dpml.transit;
 
 import java.io.Serializable;
 
 
 /** 
  */
-public abstract class AbstractLayout implements Layout, Serializable
+abstract class AbstractLayout implements Layout, Serializable
 {
     public boolean equals( Object other )
     {

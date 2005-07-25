@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package net.dpml.transit.network;
+package net.dpml.transit;
 
 import net.dpml.transit.Transit;
 import net.dpml.transit.TransitException;
@@ -35,7 +35,7 @@ import java.util.Date;
 /**
  * Nework loader utility.
  */
-public class NetworkLoader
+class NetworkLoader
 {
    /**
     * Network monitor router.

@@ -41,7 +41,7 @@ import net.dpml.transit.artifact.UnsupportedSchemeException;
 import net.dpml.transit.util.MimeTypeHandler;
 
 /**
- * link: URL protocol connection processor.
+ * The local URL protocol connection implementation.
  */
 public class LocalURLConnection extends URLConnection
 {

@@ -25,8 +25,6 @@ import java.net.Authenticator;
 import java.net.PasswordAuthentication;
 import java.rmi.RemoteException;
 
-import net.dpml.transit.network.RequestIdentifier;
-
 /** 
  * The HostModel interface is implemented by objects that control the
  * the configuration of resource host implementations.  An instance of an 

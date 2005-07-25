@@ -20,10 +20,10 @@
 package net.dpml.transit;
 
 /**
- * Runtime exception to indicate that there was a transit system error.
+ * Runtime exception throw when an attempt is made to initialize transit 
+ * when an existing Transit instance is already active.
  *
  * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
- * @version $Id: TransitException.java 2480 2005-05-10 04:44:32Z mcconnell@dpml.net $
  */
 public class TransitAlreadyInitializedException extends TransitRuntimeException
 {
@@ -38,7 +38,7 @@ public class TransitAlreadyInitializedException extends TransitRuntimeException
     }
 
     /**
-     * Construct a new <code>TransitRuntimeException</code> instance.
+     * Construct a new <code>TransitAlreadyInitializedException</code> instance.
      *
      * @param message The detail message for this exception.
      * @param cause the root cause of the exception

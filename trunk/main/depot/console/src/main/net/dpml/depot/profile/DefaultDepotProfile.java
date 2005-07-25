@@ -186,7 +186,9 @@ public class DefaultDepotProfile extends DefaultModel implements DepotProfile
         }
         else
         {
-            super.processEvent( event );
+            final String error = 
+              "Event class not recognized: " + event.getClass().getName();
+            throw new IllegalArgumentException( error );
         }
     }
 

@@ -1,5 +1,5 @@
 /*
- * Copyright 2005 Stephen J. McConnell.
+ * Copyright 2005 Stephen McConnell
  *
  * Licensed  under the  Apache License,  Version 2.0  (the "License");
  * you may not use  this file  except in  compliance with the License.
@@ -16,20 +16,24 @@
  * limitations under the License.
  */
 
-package net.dpml.transit.runtime;
+package net.dpml.transit;
+
+import java.io.IOException;
 
 /**
- * A handler is an interface implemented by a disposable sub-system.
- *
- * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
+ * A interface supporting access to pluggable content handlers.
  */
-public interface Handler
+public interface LayoutRegistry
 {
-   /**
-    * Dispose of the manager.  During disposal a manager is required to 
-    * release all references such as listeners and internal resources
-    * in preparation for garbage collection.
-    */
-    void dispose();
-}
+    public static final String LAYOUT_HANDLER_PLUGIN_KEY = "dpml.transit.layout.plugin";
 
+   /**
+    * Return a location resolver capable for supporting the supplied id. If
+    * a handler is available the handler is returned otherwise the returned
+    * value is null.
+    *
+    * @param id the layout identifier
+    * @return the location resolver or null if not available
+    */
+    Layout getLayout( final String id ) throws IOException;
+}

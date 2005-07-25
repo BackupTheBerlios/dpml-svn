@@ -26,8 +26,7 @@ import java.net.URL;
 import java.net.URLClassLoader;
 
 /**
- * Adapts monitor notification events to string based messages sutable for output
- * to a logging channel.
+ * Adapts repository service monitor events to a logging channel.
  */
 public class RepositoryMonitorAdapter extends AbstractAdapter
     implements RepositoryMonitor

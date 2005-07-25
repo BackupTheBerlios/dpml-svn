@@ -43,10 +43,10 @@ import java.util.Date;
 import net.dpml.transit.NullArgumentException;
 import net.dpml.transit.Transit;
 import net.dpml.transit.TransitException;
-import net.dpml.transit.runtime.Layout;
-import net.dpml.transit.runtime.ClassicLayout;
-import net.dpml.transit.runtime.EclipseLayout;
-import net.dpml.transit.runtime.CacheHandler;
+import net.dpml.transit.Layout;
+import net.dpml.transit.ClassicLayout;
+import net.dpml.transit.EclipseLayout;
+import net.dpml.transit.CacheHandler;
 import net.dpml.transit.util.Util;
 
 import net.dpml.transit.model.CacheModel;

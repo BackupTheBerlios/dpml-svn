@@ -17,7 +17,7 @@
  * limitations under the License.
  */
 
-package net.dpml.transit.runtime;
+package net.dpml.transit;
 
 import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLContext;
@@ -45,16 +45,9 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 
-import net.dpml.transit.Transit;
-import net.dpml.transit.TransitException;
 import net.dpml.transit.artifact.Artifact;
-import net.dpml.transit.network.ConnectionCache;
-import net.dpml.transit.network.DelegatingAuthenticator;
-import net.dpml.transit.network.NetworkLoader;
-import net.dpml.transit.network.RequestIdentifier;
-import net.dpml.transit.network.TransitAuthenticator;
-import net.dpml.transit.network.TransitAuthenticatorImpl;
 import net.dpml.transit.model.HostModel;
+import net.dpml.transit.model.RequestIdentifier;
 import net.dpml.transit.model.HostListener;
 import net.dpml.transit.model.HostNameEvent;
 import net.dpml.transit.model.HostChangeEvent;

@@ -32,18 +32,18 @@ import java.util.prefs.Preferences;
 
 import net.dpml.transit.Transit;
 import net.dpml.transit.TransitException;
-import net.dpml.transit.SecuredTransitContext;
 import net.dpml.transit.repository.Repository;
 import net.dpml.transit.repository.Plugin;
-import net.dpml.transit.runtime.ContentRegistry;
-import net.dpml.transit.runtime.CacheHandler;
-import net.dpml.transit.runtime.ClassicLayout;
-import net.dpml.transit.runtime.Layout;
+import net.dpml.transit.SecuredTransitContext;
+import net.dpml.transit.ContentRegistry;
+import net.dpml.transit.CacheHandler;
+import net.dpml.transit.ClassicLayout;
+import net.dpml.transit.Layout;
 import net.dpml.transit.util.MimeTypeHandler;
 import net.dpml.transit.util.StreamUtils;
 
 /**
- * Artifact URL protocol connection processor.
+ * The connection handler for URLs based on the "artifact" protocol family.
  */
 public class ArtifactURLConnection extends URLConnection
 {

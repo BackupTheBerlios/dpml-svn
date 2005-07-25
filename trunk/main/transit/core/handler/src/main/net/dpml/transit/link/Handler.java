@@ -23,13 +23,13 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLStreamHandler;
 
-/** link: URL protocol handler.
- * <p>
- *   The <strong>link:</strong> protocol is similar to the symlink concept
- *   in Linux/Unix, where something that looks like a file points to another
- *   file. In this case, the link URL points to another URL. The resolution
- *   of the link translation is picked up from managed Transit server(s)
- * </p>
+/** 
+ * The link URL protocol handler.
+ *
+ * The <strong>link:</strong> protocol is similar to the symlink concept
+ * in Linux/Unix, where something that looks like a file points to another
+ * file. In this case, the link URL points to another URL. The resolution
+ * of the link translation is picked up from managed Transit server(s)
  */
 public class Handler extends URLStreamHandler
 {

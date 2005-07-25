@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package net.dpml.transit.network;
+package net.dpml.transit;
 
 import net.dpml.transit.artifact.Artifact;
 
@@ -25,7 +25,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.WeakHashMap;
 
-public class ConnectionCache
+class ConnectionCache
     implements Runnable
 {
     static private Object DUMMY = new Object();

@@ -19,7 +19,7 @@
 package net.dpml.test.layout;
 
 import net.dpml.transit.artifact.Artifact;
-import net.dpml.transit.runtime.Layout;
+import net.dpml.transit.Layout;
 
 /** 
  * A layout manager used to vaidate plugin layout handlers in Transit.

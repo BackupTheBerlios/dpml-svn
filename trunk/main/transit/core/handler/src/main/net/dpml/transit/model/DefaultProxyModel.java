@@ -29,8 +29,6 @@ import java.net.URL;
 
 import net.dpml.transit.store.ProxyStorage;
 
-import net.dpml.transit.network.RequestIdentifier;
-
 /**
  * The ProxyManager class maintains an active configuration model of the 
  * Transit proxy settings.

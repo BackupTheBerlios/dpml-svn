@@ -26,13 +26,14 @@ import java.net.URI;
 import net.dpml.transit.NullArgumentException;
 
 /** 
- *  The Link class represents the content of the link: URL and not the content
- *  of the target that the link: points to.
+ *  The Link class is a data structure that holds the target uri of a link.
+ * 
  *  It is not intended that the applications instantiates this class directly,
  *  but obtains it as a object from the <code>URL.getContent()</code> method.
  *  Example;
+ *
  *  <pre><code>
- *      URL url = new URL( "link:blob:some/opague/pointer" );
+ *      URL url = new URL( "link:jar:some/opague/pointer" );
  *      Class[] type = new Class[] { Link.class };
  *
  *      // Get the Link object from the URL

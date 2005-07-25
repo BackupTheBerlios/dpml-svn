@@ -47,21 +47,9 @@ import net.dpml.transit.model.CodeBaseModel;
 import net.dpml.transit.model.ProxyModel;
 import net.dpml.transit.model.ProxyListener;
 import net.dpml.transit.model.ProxyEvent;
-import net.dpml.transit.network.DelegatingAuthenticator;
-import net.dpml.transit.network.RequestIdentifier;
-import net.dpml.transit.network.TransitAuthenticator;
-import net.dpml.transit.network.TransitAuthenticatorImpl;
+import net.dpml.transit.model.RequestIdentifier;
 import net.dpml.transit.repository.Repository;
 import net.dpml.transit.repository.StandardLoader;
-import net.dpml.transit.runtime.Handler;
-import net.dpml.transit.runtime.CacheHandler;
-import net.dpml.transit.runtime.DefaultCacheHandler;
-import net.dpml.transit.runtime.ContentRegistry;
-import net.dpml.transit.runtime.DefaultContentRegistry;
-import net.dpml.transit.runtime.Layout;
-import net.dpml.transit.runtime.LayoutRegistry;
-import net.dpml.transit.runtime.DefaultLayoutRegistry;
-import net.dpml.transit.runtime.ClassicLayout;
 import net.dpml.transit.util.Util;
 
 /**

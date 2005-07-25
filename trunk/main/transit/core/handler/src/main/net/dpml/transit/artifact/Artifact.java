@@ -31,11 +31,10 @@ import net.dpml.transit.NullArgumentException;
 import net.dpml.transit.TransitRuntimeException;
 
 /**
- * An Artifact is a utility class the handles validation of <code>artifact</code> uri
- * specifications.
+ * A utility class the handles validation of <code>artifact</code> style uri
+ * strings.
  *
  * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
- * @version $Id: Artifact.java 2972 2005-07-05 01:43:50Z mcconnell@dpml.net $
  */
 public final class Artifact
     implements Serializable, Comparable

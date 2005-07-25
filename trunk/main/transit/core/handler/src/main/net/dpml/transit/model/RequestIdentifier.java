@@ -17,7 +17,7 @@
  * limitations under the License.
  */
 
-package net.dpml.transit.network;
+package net.dpml.transit.model;
 
 import java.io.Serializable;
 import java.net.InetAddress;

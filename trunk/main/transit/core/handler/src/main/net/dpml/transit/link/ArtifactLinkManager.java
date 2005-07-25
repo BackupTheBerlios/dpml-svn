@@ -39,17 +39,13 @@ import net.dpml.transit.artifact.ArtifactNotFoundException;
 import net.dpml.transit.util.PropertyResolver;
 
 /** 
- * The LinkManager is responsible for storing the mapping between a Link
- * instance and a URI.
- * <p>
- *  Applications should never call the methods for the LinkManager directly,
- *  and it is likely that the LinkManager remains outside the reachability of
- *  applications.
- * </p>
- * <p>
- * This LinkManager stores all the link: to URI mappings as artifacts with 
- * the file extension postfix ".link".
- * </p>
+ * A link manager that maintains persistent link information as a resource.
+ * Link resource located using the [cache]/[group]/[name]/[type]s/[name]-[version].[type].link
+ * resource naming convention.
+ * 
+ * Applications should not call the methods for the LinkManager directly,
+ * and it is likely that the LinkManager remains outside the reachability of
+ * applications.
  */
 public class ArtifactLinkManager
     implements LinkManager
@@ -93,18 +89,6 @@ public class ArtifactLinkManager
         catch( PrivilegedActionException e )
         {
             throw (IOException) e.getException();
-        }
-    }
-
-    private byte[] getByteArray( URI uri ) throws IOException
-    {
-        if( null != uri )
-        {
-            return uri.toString().getBytes( "ISO8859-1" );
-        }
-        else
-        {
-            return new byte[0];
         }
     }
 
@@ -156,6 +140,18 @@ public class ArtifactLinkManager
             {
                  throw (IOException) exception;
             }
+        }
+    }
+
+    private byte[] getByteArray( URI uri ) throws IOException
+    {
+        if( null != uri )
+        {
+            return uri.toString().getBytes( "ISO8859-1" );
+        }
+        else
+        {
+            return new byte[0];
         }
     }
 }

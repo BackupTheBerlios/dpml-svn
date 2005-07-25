@@ -17,7 +17,7 @@
  * limitations under the License.
  */
 
-package net.dpml.transit.runtime;
+package net.dpml.transit;
 
 import java.io.File;
 import java.io.IOException;
@@ -25,7 +25,6 @@ import java.io.InputStream;
 import java.io.OutputStream;
 
 import net.dpml.transit.NullArgumentException;
-import net.dpml.transit.SecuredTransitContext;
 import net.dpml.transit.TransitException;
 import net.dpml.transit.artifact.Artifact;
 import net.dpml.transit.artifact.ArtifactAlreadyExistsException;
