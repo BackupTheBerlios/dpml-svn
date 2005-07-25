@@ -19,14 +19,14 @@
 package net.dpml.transit;
 
 /**
- * A handler is an interface implemented by a disposable sub-system.
+ * The Service interface is implemented by a disposable sub-system within Transit.
  *
  * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
  */
-public interface Handler
+public interface Service
 {
    /**
-    * Dispose of the manager.  During disposal a manager is required to 
+    * Dispose of the service.  During disposal a sub-system is required to 
     * release all references such as listeners and internal resources
     * in preparation for garbage collection.
     */

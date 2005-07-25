@@ -64,7 +64,7 @@ import net.dpml.transit.util.Util;
 /**
  * Default cache handler that maintains a file based cache.  
  */
-public class DefaultCacheHandler extends UnicastRemoteObject implements CacheHandler, CacheListener, Handler
+public class DefaultCacheHandler extends UnicastRemoteObject implements CacheHandler, CacheListener, Service
 {
     // ------------------------------------------------------------------------
     // state
@@ -233,9 +233,9 @@ public class DefaultCacheHandler extends UnicastRemoteObject implements CacheHan
                 {
                     getLogger().debug( "removing host: " + id );
                 }
-                if( host instanceof Handler )
+                if( host instanceof Service )
                 {
-                    Handler handler = (Handler) host;
+                    Service handler = (Service) host;
                     handler.dispose();
                 }
                 m_resourceHosts.remove( id );
@@ -244,7 +244,7 @@ public class DefaultCacheHandler extends UnicastRemoteObject implements CacheHan
     }
 
     // ------------------------------------------------------------------------
-    // Handler
+    // Service
     // ------------------------------------------------------------------------
 
    /**
@@ -264,9 +264,9 @@ public class DefaultCacheHandler extends UnicastRemoteObject implements CacheHan
                 for( int i=0; i<hosts.length; i++ )
                 {
                     ResourceHost host = hosts[i];
-                    if( host instanceof Handler )
+                    if( host instanceof Service )
                     {
-                        Handler handler = (Handler) host;
+                        Service handler = (Service) host;
                         handler.dispose();
                     }
                 }

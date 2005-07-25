@@ -40,7 +40,7 @@ import net.dpml.transit.repository.Repository;
 /**
  * A registry of descriptions of plugable content handlers. 
  */
-public class DefaultContentRegistry extends UnicastRemoteObject implements Handler, ContentRegistry, ContentRegistryListener
+public class DefaultContentRegistry extends UnicastRemoteObject implements Service, ContentRegistry, ContentRegistryListener
 {
     // ------------------------------------------------------------------------
     // state

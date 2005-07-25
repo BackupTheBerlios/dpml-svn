@@ -65,7 +65,7 @@ import net.dpml.transit.util.Util;
  * </p>
  */
 public class DefaultResourceHost extends UnicastRemoteObject 
-  implements ResourceHost, HostListener, Handler
+  implements ResourceHost, HostListener, Service
 {
     // ------------------------------------------------------------------------
     // state
