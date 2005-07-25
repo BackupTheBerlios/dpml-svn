@@ -24,9 +24,10 @@ import java.util.Vector;
 import java.util.Hashtable;
 import java.net.URI;
 
+import net.dpml.transit.Plugin;
+import net.dpml.transit.Repository;
+import net.dpml.transit.Transit;
 import net.dpml.transit.util.ElementHelper;
-import net.dpml.transit.repository.Plugin;
-import net.dpml.transit.repository.StandardLoader;
 
 import org.apache.tools.ant.Main;
 import org.apache.tools.ant.Project;
@@ -312,7 +313,7 @@ public class TransitComponentHelper extends ComponentHelper
         {
             m_project.log( "installing: " + uri + " as " + urn );
 
-            StandardLoader loader = new StandardLoader();
+            Repository loader = Transit.getInstance().getRepository();
             Plugin descriptor = loader.getPluginDescriptor( uri );
             ClassLoader current = Thread.currentThread().getContextClassLoader();
             ClassLoader classloader = loader.getPluginClassLoader( current, uri );

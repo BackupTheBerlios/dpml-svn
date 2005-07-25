@@ -39,8 +39,7 @@ import net.dpml.transit.Transit;
 import net.dpml.transit.TransitException;
 import net.dpml.transit.artifact.Artifact;
 import net.dpml.transit.artifact.Handler;
-import net.dpml.transit.repository.Repository;
-import net.dpml.transit.repository.StandardLoader;
+import net.dpml.transit.Repository;
 
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Location;

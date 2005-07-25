@@ -32,8 +32,8 @@ import java.util.prefs.Preferences;
 
 import net.dpml.transit.Transit;
 import net.dpml.transit.TransitException;
-import net.dpml.transit.repository.Repository;
-import net.dpml.transit.repository.Plugin;
+import net.dpml.transit.Repository;
+import net.dpml.transit.Plugin;
 import net.dpml.transit.SecuredTransitContext;
 import net.dpml.transit.ContentRegistry;
 import net.dpml.transit.CacheHandler;

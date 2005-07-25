@@ -30,7 +30,7 @@ import net.dpml.transit.model.Logger;
 import net.dpml.transit.model.ContentModel;
 import net.dpml.transit.model.DefaultContentModel;
 import net.dpml.transit.monitor.LoggingAdapter;
-import net.dpml.transit.repository.Repository;
+import net.dpml.transit.Repository;
 
 import net.dpml.part.Part;
 import net.dpml.part.component.Component;

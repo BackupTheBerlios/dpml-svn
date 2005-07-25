@@ -36,7 +36,7 @@ import net.dpml.depot.profile.DepotProfile;
 import net.dpml.depot.profile.ApplicationProfile;
 
 import net.dpml.transit.Transit;
-import net.dpml.transit.repository.Repository;
+import net.dpml.transit.Repository;
 import net.dpml.transit.artifact.Artifact;
 import net.dpml.transit.artifact.ArtifactNotFoundException;
 import net.dpml.transit.model.Logger;

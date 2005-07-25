@@ -28,9 +28,8 @@ import java.util.ArrayList;
 import net.dpml.transit.NullArgumentException;
 import net.dpml.transit.TransitException;
 import net.dpml.transit.Transit;
-import net.dpml.transit.repository.Repository;
-import net.dpml.transit.repository.StandardLoader;
-import net.dpml.transit.repository.Plugin;
+import net.dpml.transit.Repository;
+import net.dpml.transit.Plugin;
 import net.dpml.transit.util.ElementHelper;
 
 import org.apache.tools.ant.BuildException;
@@ -554,7 +553,7 @@ public class PluginTask extends TransitTask
     {
         try
         {
-            return new StandardLoader();
+            return Transit.getInstance().getRepository();
         }
         catch( Throwable e )
         {

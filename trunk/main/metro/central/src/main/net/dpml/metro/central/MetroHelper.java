@@ -37,8 +37,7 @@ import net.dpml.transit.model.Logger;
 import net.dpml.transit.model.ContentModel;
 import net.dpml.transit.model.DefaultContentModel;
 import net.dpml.transit.monitor.LoggingAdapter;
-import net.dpml.transit.repository.Repository;
-import net.dpml.transit.repository.StandardLoader;
+import net.dpml.transit.Repository;
 
 /**
  * A utility class used for the deployment of components in embedded scenarios

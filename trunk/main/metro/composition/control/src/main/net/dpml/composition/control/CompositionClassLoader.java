@@ -29,7 +29,7 @@ import net.dpml.part.control.ControllerRuntimeException;
 
 import net.dpml.transit.artifact.Artifact;
 import net.dpml.transit.artifact.UnsupportedSchemeException;
-import net.dpml.transit.repository.StandardClassLoader;
+import net.dpml.transit.StandardClassLoader;
 
 /**
  * A named classloader.

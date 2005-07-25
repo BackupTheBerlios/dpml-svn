@@ -99,7 +99,7 @@
           <li>classloader handling needs to move down to transit
             <ol>
               <li>FT contains a specialized classloader with debugging support.</li>
-              <li>This should be moved down to Transit as part of the net.dpml.transit.repository package.</li>
+              <li>This should be moved down to Transit as part of the net.dpml.transit package.</li>
             </ol>
           </li>
           <li>general observations on Magic

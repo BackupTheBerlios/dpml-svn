@@ -64,7 +64,7 @@ import net.dpml.transit.monitor.LoggingAdapter;
 import net.dpml.transit.monitor.RepositoryMonitorAdapter;
 import net.dpml.transit.monitor.CacheMonitorAdapter;
 import net.dpml.transit.monitor.NetworkMonitorAdapter;
-import net.dpml.transit.repository.Repository;
+import net.dpml.transit.Repository;
 
 /**
  * CLI hander for the depot package.

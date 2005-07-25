@@ -48,8 +48,8 @@ import net.dpml.transit.model.ProxyListener;
 import net.dpml.transit.model.ProxyEvent;
 import net.dpml.transit.model.RequestIdentifier;
 import net.dpml.transit.monitor.LoggingAdapter;
-import net.dpml.transit.repository.Repository;
-import net.dpml.transit.repository.StandardLoader;
+import net.dpml.transit.Repository;
+import net.dpml.transit.StandardLoader;
 import net.dpml.transit.util.Util;
 
 /**

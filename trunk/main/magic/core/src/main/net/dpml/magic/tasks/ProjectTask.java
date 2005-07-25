@@ -20,7 +20,7 @@ package net.dpml.magic.tasks;
 
 import net.dpml.magic.UnknownResourceException;
 import net.dpml.magic.model.Definition;
-import net.dpml.transit.repository.Repository;
+import net.dpml.transit.Repository;
 import org.apache.tools.ant.taskdefs.Mkdir;
 import org.apache.tools.ant.taskdefs.Delete;
 import org.apache.tools.ant.taskdefs.Copy;

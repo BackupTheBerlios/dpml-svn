@@ -21,8 +21,8 @@ package tutorial.plugin.controller;
 import java.net.URI;
 import java.net.URL;
 
-import net.dpml.transit.repository.Repository;
-import net.dpml.transit.repository.StandardLoader;
+import net.dpml.transit.Repository;
+import net.dpml.transit.StandardLoader;
 
 /**
  * A simple plugin enhanced to include cli handling.

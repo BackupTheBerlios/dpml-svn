@@ -27,7 +27,7 @@ import net.dpml.magic.model.Policy;
 
 import net.dpml.transit.NullArgumentException;
 import net.dpml.transit.tools.PluginTask;
-import net.dpml.transit.repository.Plugin;
+import net.dpml.transit.Plugin;
 
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.AntClassLoader;

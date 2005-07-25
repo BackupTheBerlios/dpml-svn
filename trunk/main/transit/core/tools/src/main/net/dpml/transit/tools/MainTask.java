@@ -37,8 +37,7 @@ import net.dpml.transit.monitor.Monitor;
 import net.dpml.transit.monitor.RepositoryMonitorAdapter;
 import net.dpml.transit.monitor.CacheMonitorAdapter;
 import net.dpml.transit.monitor.NetworkMonitorAdapter;
-import net.dpml.transit.repository.Repository;
-import net.dpml.transit.repository.StandardLoader;
+import net.dpml.transit.Repository;
 
 /**
  * Task that initializes the Transit sub-system during which a transit

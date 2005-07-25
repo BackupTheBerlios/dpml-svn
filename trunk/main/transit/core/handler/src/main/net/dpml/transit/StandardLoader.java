@@ -17,7 +17,7 @@
  * limitations under the License.
  */
 
-package net.dpml.transit.repository;
+package net.dpml.transit;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -46,7 +46,7 @@ import net.dpml.transit.monitor.RepositoryMonitorRouter;
  * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
  * @version $Id: StandardLoader.java 2865 2005-06-17 09:54:23Z mcconnell@dpml.net $
  */
-public class StandardLoader
+class StandardLoader
     implements Repository
 {
     // ------------------------------------------------------------------------

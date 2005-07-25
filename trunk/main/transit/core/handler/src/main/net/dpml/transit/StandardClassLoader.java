@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package net.dpml.transit.repository;
+package net.dpml.transit;
 
 import java.net.URI;
 import java.net.URL;

@@ -57,7 +57,7 @@ import net.dpml.transit.monitor.CacheMonitorAdapter;
 import net.dpml.transit.monitor.NetworkMonitorAdapter;
 import net.dpml.transit.monitor.CacheMonitorRouter;
 import net.dpml.transit.monitor.Monitor;
-import net.dpml.transit.repository.Repository;
+import net.dpml.transit.Repository;
 import net.dpml.transit.util.PropertyResolver;
 import net.dpml.transit.util.Util;
 

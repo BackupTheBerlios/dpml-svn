@@ -6,7 +6,7 @@ import net.dpml.magic.model.Definition;
 import net.dpml.magic.model.Module;
 import net.dpml.magic.model.Resource;
 import net.dpml.magic.model.ResourceRef;
-import net.dpml.transit.repository.Repository;
+import net.dpml.transit.Repository;
 
 import org.apache.tools.ant.BuildException;
 

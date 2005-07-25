@@ -17,7 +17,7 @@
  * limitations under the License.
  */
 
-package net.dpml.transit.repository;
+package net.dpml.transit;
 
 import java.io.Serializable;
 
@@ -32,8 +32,6 @@ import net.dpml.transit.artifact.Artifact;
 /**
  * An implementation of a plugin descriptor based the original properties
  * external format.
- *
- * NOTE: This class is not to be used directly by application developers.
  *
  * @author <a href="mailto:mcconnell@dpml.net">Stephen McConnell</a>
  */

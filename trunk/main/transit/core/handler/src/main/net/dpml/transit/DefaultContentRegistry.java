@@ -35,7 +35,7 @@ import net.dpml.transit.model.ContentRegistryEvent;
 import net.dpml.transit.model.ContentModel;
 import net.dpml.transit.model.UnknownKeyException;
 import net.dpml.transit.model.Logger;
-import net.dpml.transit.repository.Repository;
+import net.dpml.transit.Repository;
 
 /**
  * A registry of descriptions of plugable content handlers. 

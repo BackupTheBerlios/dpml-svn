@@ -56,8 +56,8 @@ import net.dpml.transit.TransitException;
 import net.dpml.transit.model.CodeBaseModel;
 import net.dpml.transit.model.CodeBaseListener;
 import net.dpml.transit.model.CodeBaseEvent;
-import net.dpml.transit.repository.Plugin;
-import net.dpml.transit.repository.Repository;
+import net.dpml.transit.Plugin;
+import net.dpml.transit.Repository;
 
 /**
  * Control panel for editing the cache preferences.
