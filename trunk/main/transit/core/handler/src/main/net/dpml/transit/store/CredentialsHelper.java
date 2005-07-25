@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package net.dpml.transit.unit;
+package net.dpml.transit.store;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -50,7 +50,7 @@ class CredentialsHelper
     * @param auth the password authentication
     * @return the byte array
     */
-    public static byte[] exportCredentials( PasswordAuthentication auth ) throws BuilderException
+    public static byte[] exportCredentials( PasswordAuthentication auth ) throws StorageRuntimeException
     {
         CrendentialsHolder holder = new CrendentialsHolder( auth );
         return toByteArray( holder );
@@ -61,7 +61,7 @@ class CredentialsHelper
     * @param the byte array
     * @return auth the password authentication
     */
-    public static PasswordAuthentication importCredentials( byte[] bytes ) throws BuilderException
+    public static PasswordAuthentication importCredentials( byte[] bytes ) throws StorageRuntimeException
     {
         try
         {
@@ -74,7 +74,7 @@ class CredentialsHelper
         {
             final String error = 
              "Error while attempting to load credentials input stream.";
-            throw new BuilderException( error, e );
+            throw new StorageRuntimeException( error, e );
         }
     }
 
@@ -83,7 +83,7 @@ class CredentialsHelper
     * @param the object the serializable object
     * @return the byte array
     */
-    public static byte[] toByteArray( Serializable object ) throws BuilderException
+    public static byte[] toByteArray( Serializable object ) throws StorageRuntimeException
     {
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
         ObjectOutputStream output = null;
@@ -99,7 +99,7 @@ class CredentialsHelper
               "Error while attempting to write object to a byte array."
               + "\nclass: " + object.getClass().getName()
               + "\nreason: " + e.toString();
-            throw new BuilderException( error, e );
+            throw new StorageRuntimeException( error, e );
         }
         finally
         {

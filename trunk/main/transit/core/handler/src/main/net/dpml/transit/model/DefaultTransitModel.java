@@ -38,7 +38,7 @@ import net.dpml.transit.store.ContentRegistryHome;
 import net.dpml.transit.store.ProxyStorage;
 import net.dpml.transit.store.CacheHome;
 import net.dpml.transit.store.Removable;
-import net.dpml.transit.unit.TransitStorageUnit;
+import net.dpml.transit.store.TransitStorageUnit;
 
 /**
  * The DefaultTransitModel class maintains an active configuration of the 

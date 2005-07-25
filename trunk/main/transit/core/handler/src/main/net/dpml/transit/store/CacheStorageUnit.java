@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package net.dpml.transit.unit;
+package net.dpml.transit.store;
 
 import java.io.File;
 import java.net.URL;
@@ -81,7 +81,7 @@ class CacheStorageUnit extends CodeBaseStorageUnit implements CacheHome, Removab
     * Return a new host storage unit relative to the supplied host id.
     * @param id the host identifier
     */
-    public HostStorage getHostStorage( String id ) throws BuilderException
+    public HostStorage getHostStorage( String id ) throws StorageRuntimeException
     {
         Preferences prefs = getHostsNodePreferences().node( id );
         return new HostStorageUnit( prefs );
@@ -149,7 +149,7 @@ class CacheStorageUnit extends CodeBaseStorageUnit implements CacheHome, Removab
         {
             final String error = 
               "Unexpected error while constructing cache manager hosts.";
-            throw new BuilderException( error, e );
+            throw new StorageRuntimeException( error, e );
         }
     }
 
@@ -181,7 +181,7 @@ class CacheStorageUnit extends CodeBaseStorageUnit implements CacheHome, Removab
         {
             final String error = 
               "Unexected error raised by preferences backing store while resolving child nodes.";
-            throw new BuilderException( error, e );
+            throw new StorageRuntimeException( error, e );
         }
     }
 }

@@ -47,7 +47,7 @@ public class ProxyManagerTestCase extends TestCase
     {
         System.setProperty( 
            "java.util.prefs.PreferencesFactory", 
-           "net.dpml.transit.unit.LocalPreferencesFactory" );
+           "net.dpml.transit.store.LocalPreferencesFactory" );
         System.setProperty( "dpml.transit.profile", "test-proxy" );
         System.setProperty( "dpml.data", "target/test/data" );
     }

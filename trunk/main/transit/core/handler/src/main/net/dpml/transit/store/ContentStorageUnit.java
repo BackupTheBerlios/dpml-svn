@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package net.dpml.transit.unit;
+package net.dpml.transit.store;
 
 import java.net.URI;
 import java.net.MalformedURLException;
@@ -31,7 +31,7 @@ import net.dpml.transit.store.Removable;
  * The ContentSorageUnit class is responsible for the setup of initial factory
  * default preference settings.
  */
-public class ContentStorageUnit extends CodeBaseStorageUnit implements ContentStorage, Removable
+class ContentStorageUnit extends CodeBaseStorageUnit implements ContentStorage, Removable
 {
     // ------------------------------------------------------------------------
     // constructor
@@ -128,7 +128,7 @@ public class ContentStorageUnit extends CodeBaseStorageUnit implements ContentSt
         {
             final String error = 
               "Stroage removal failure.";
-            throw new BuilderException( error, e );
+            throw new StorageRuntimeException( error, e );
         }
     }
 

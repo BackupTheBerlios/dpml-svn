@@ -44,7 +44,7 @@ import net.dpml.transit.monitor.Monitor;
  *
  * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
  */
-public abstract class TransitTask extends Task
+abstract class TransitTask extends Task
 {
     static
     {

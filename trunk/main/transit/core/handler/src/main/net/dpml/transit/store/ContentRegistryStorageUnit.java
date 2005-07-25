@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package net.dpml.transit.unit;
+package net.dpml.transit.store;
 
 import java.net.URI;
 import java.net.URL;
@@ -71,7 +71,7 @@ class ContentRegistryStorageUnit extends CodeBaseStorageUnit implements ContentR
     * @param type the content type
     * @return the content storage unit
     */
-    public ContentStorage createContentStorage( String id ) throws BuilderException
+    public ContentStorage createContentStorage( String id ) throws StorageRuntimeException
     {
         Preferences prefs = getPreferences();
         Preferences p = prefs.node( id );
@@ -103,7 +103,7 @@ class ContentRegistryStorageUnit extends CodeBaseStorageUnit implements ContentR
         {
             final String error = 
               "Unexpected error while constructing content registry manager.";
-            throw new BuilderException( error, e );
+            throw new StorageRuntimeException( error, e );
         }
     }
 }

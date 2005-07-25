@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package net.dpml.transit.unit;
+package net.dpml.transit.store;
 
 import java.net.URL;
 import java.net.MalformedURLException;
@@ -78,7 +78,7 @@ class ProxyStorageUnit extends AbstractStorageUnit implements ProxyStorage
     * @param auth the password authentication credentials
     */
     public void setAuthentication( PasswordAuthentication auth )
-      throws BuilderException
+      throws StorageRuntimeException
     {
         Preferences prefs = getPreferences();
         if( null == auth )
@@ -124,7 +124,7 @@ class ProxyStorageUnit extends AbstractStorageUnit implements ProxyStorage
         {
             final String error = 
               "Cannot resolve excludes due to preferences backing store error.";
-            throw new BuilderException( error, e );
+            throw new StorageRuntimeException( error, e );
         }
     }
 
@@ -159,7 +159,7 @@ class ProxyStorageUnit extends AbstractStorageUnit implements ProxyStorage
     * @return the credentials
     */
     public PasswordAuthentication getAuthentication()
-      throws BuilderException
+      throws StorageRuntimeException
     {
         Preferences prefs = getPreferences();
         byte[] bytes = prefs.getByteArray( "authentication", new byte[0] );
@@ -177,7 +177,7 @@ class ProxyStorageUnit extends AbstractStorageUnit implements ProxyStorage
     * Return the array of proxy host excludes.
     * @return the proxy excludes
     */
-    public String[] getExcludes() throws BuilderException
+    public String[] getExcludes() throws StorageRuntimeException
     {
         try
         {
@@ -189,7 +189,7 @@ class ProxyStorageUnit extends AbstractStorageUnit implements ProxyStorage
         {
             final String error = 
               "Cannot resolve excludes due to preferences backing store error.";
-            throw new BuilderException( error, e );
+            throw new StorageRuntimeException( error, e );
         }
     }
 }

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package net.dpml.transit.unit;
+package net.dpml.transit.store;
 
 import java.io.File;
 import java.io.IOException;
@@ -55,7 +55,7 @@ import net.dpml.transit.model.CacheModel;
  * The TransitPreferences class is responsible for the setup of initial factory
  * default preference settings.
  */
-public class TransitPreferences
+class TransitPreferences
 {
     //--------------------------------------------------------------------------
     // static
@@ -82,9 +82,9 @@ public class TransitPreferences
    /**
     * Setup the default factory preferences for the Transit system.
     * @param root the preferences node to use for the population of transit preferences
-    * @exception BuilderException if a error occcurs during preferences initialization
+    * @exception StorageRuntimeException if a error occcurs during preferences initialization
     */
-    public static void setupFactoryPreferences( Preferences root ) throws BuilderException
+    public static void setupFactoryPreferences( Preferences root ) throws StorageRuntimeException
     {
         ClassLoader classloader = Transit.class.getClassLoader();
         URL cacheUrl = classloader.getResource( "transit/authority/cache.properties" );
@@ -102,7 +102,7 @@ public class TransitPreferences
         {
             final String error = 
               "Unable to resolve default transit preferences due to an unexpected error.";
-            throw new BuilderException( error, e );
+            throw new StorageRuntimeException( error, e );
         }
     }
 
@@ -112,9 +112,9 @@ public class TransitPreferences
     *
     * @param root the preferences node to use for the population of transit preferences
     * @param authority URL referencing an authorative source
-    * @exception BuilderException if a error occcurs during preferences initialization
+    * @exception StorageRuntimeException if a error occcurs during preferences initialization
     */
-    public static void setupPreferences( Preferences root, URL authority ) throws BuilderException
+    public static void setupPreferences( Preferences root, URL authority ) throws StorageRuntimeException
     {
         String protocol =  authority.getProtocol();
         Preferences cachePrefs = root.node( "cache" );
@@ -204,7 +204,7 @@ public class TransitPreferences
         {
             final String error = 
               "Unable to resolve transit preferences due to an unexpected error.";
-            throw new BuilderException( error, e );
+            throw new StorageRuntimeException( error, e );
         }
     }
 
@@ -223,7 +223,7 @@ public class TransitPreferences
     }
 
     private static void setupCachePreferences( URL resource, Preferences prefs ) 
-      throws BuilderException
+      throws StorageRuntimeException
     {
         try
         {
@@ -235,12 +235,12 @@ public class TransitPreferences
             final String error = 
               "IO exception while attempting to read cache properties."
               + "\nProperties URL: " + resource;
-            throw new BuilderException( error, ioe ); 
+            throw new StorageRuntimeException( error, ioe ); 
         }
     }
 
     private static void setupCachePreferences( Properties properties, Preferences prefs ) 
-      throws BuilderException
+      throws StorageRuntimeException
     {
         String location = properties.getProperty( CacheModel.CACHE_LOCATION_KEY );
         if( null != location )
@@ -254,7 +254,7 @@ public class TransitPreferences
         }
     }
 
-    private static void setupHostsPreferences( Preferences prefs ) throws BuilderException
+    private static void setupHostsPreferences( Preferences prefs ) throws StorageRuntimeException
     {
         setupNamedHost( prefs, "local", "transit/authority/hosts/local.host" );
         setupNamedHost( prefs, "repository.dpml.net", "transit/authority/hosts/repository.dpml.net.host" );
@@ -262,7 +262,7 @@ public class TransitPreferences
         setupNamedHost( prefs, "www.ibiblio.org", "transit/authority/hosts/www.ibiblio.org.host" );
     }
 
-    private static void setupNamedHost( Preferences prefs, String name, String resource ) throws BuilderException
+    private static void setupNamedHost( Preferences prefs, String name, String resource ) throws StorageRuntimeException
     {
         URL url = Transit.class.getClassLoader().getResource( resource );
         try
@@ -277,11 +277,11 @@ public class TransitPreferences
               "IO exception while attempting to read named host properties."
               + "\nHost: " + name
               + "\nURL: " + url;
-            throw new BuilderException( error, ioe ); 
+            throw new StorageRuntimeException( error, ioe ); 
         }
     }
 
-    private static void setupHost( Preferences prefs, URL hostDef ) throws BuilderException
+    private static void setupHost( Preferences prefs, URL hostDef ) throws StorageRuntimeException
     {
         try
         {
@@ -294,7 +294,7 @@ public class TransitPreferences
                   + HOST_ID_KEY 
                   + "' property."
                  + "\nHost descriptor URL: " + hostDef;
-                throw new BuilderException( error );
+                throw new StorageRuntimeException( error );
             }
             Preferences host = prefs.node( id );
             setupHost( properties, host );
@@ -304,11 +304,11 @@ public class TransitPreferences
             final String error = 
               "IO exception while attempting to read host properties."
               + "\nURL: " + hostDef ;
-            throw new BuilderException( error, ioe ); 
+            throw new StorageRuntimeException( error, ioe ); 
         }
     }
 
-    private static void setupHost( Properties properties, Preferences prefs ) throws BuilderException
+    private static void setupHost( Properties properties, Preferences prefs ) throws StorageRuntimeException
     {
         if( null == properties )
         {
@@ -328,7 +328,7 @@ public class TransitPreferences
                 final String error = 
                   "Invalid host defintion (no base url declaration)."
                   + "\nHost ID: " + prefs.name();
-                throw new BuilderException( error );
+                throw new StorageRuntimeException( error );
             }
             String index = Util.getProperty( properties, HOST_INDEX_KEY, null );
             String priorityText = Util.getProperty( properties, HOST_PRIORITY_KEY, DEFAULT_PRIORITY_STRING );
@@ -370,11 +370,11 @@ public class TransitPreferences
               "Unexpected error occured while attempting to construct a default host preferences."
               + "\nHost Name: " + name
               + "\nProperties: " + properties;
-            throw new BuilderException( error, e );
+            throw new StorageRuntimeException( error, e );
         }
     }
 
-    private static File convertToFile( URL url ) throws BuilderException
+    private static File convertToFile( URL url ) throws StorageRuntimeException
     {
         String protocol = url.getProtocol();
         if( "file".equals( protocol ) )
@@ -387,7 +387,7 @@ public class TransitPreferences
         {
             final String error = 
               "Don't know how to convert the '" + protocol + "' protocol to a file.";
-            throw new BuilderException( error );
+            throw new StorageRuntimeException( error );
         }
     }
 
@@ -412,9 +412,9 @@ public class TransitPreferences
     * Return the url of a file.
     * @param file the file to convert
     * @return the equivalent url
-    * @exception BuilderException if a error occurs in file to url conversion
+    * @exception StorageRuntimeException if a error occurs in file to url conversion
     */
-    private static URL fileToURL( File file ) throws BuilderException
+    private static URL fileToURL( File file ) throws StorageRuntimeException
     {
         try
         {
@@ -430,11 +430,11 @@ public class TransitPreferences
               + ") raised a malformed url exception with the message '"
               + mue.getMessage()
               + "'.";
-            throw new BuilderException( error );
+            throw new StorageRuntimeException( error );
         }
     }
 
-    private static URL resolveAuthority( Preferences prefs ) throws BuilderException
+    private static URL resolveAuthority( Preferences prefs ) throws StorageRuntimeException
     {
         String authority = prefs.get( "authority", null );
         if( null == authority )
@@ -442,7 +442,7 @@ public class TransitPreferences
             final String error = 
               "Authority attribute is undefined."
               + "\nPreferences: " + prefs;
-            throw new BuilderException( error );
+            throw new StorageRuntimeException( error );
         }
         try
         {
@@ -460,7 +460,7 @@ public class TransitPreferences
             final String error = 
               "Unable to resolve the Transit authority url."
               + "\nPreferences: " + prefs;
-            throw new BuilderException( error, e ); 
+            throw new StorageRuntimeException( error, e ); 
         }
     }
 }

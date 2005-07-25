@@ -28,7 +28,7 @@ import java.rmi.RemoteException;
 import net.dpml.transit.TransitError;
 import net.dpml.transit.store.TransitStorage;
 import net.dpml.transit.store.TransitHome;
-import net.dpml.transit.unit.TransitStorageUnit;
+import net.dpml.transit.store.TransitStorageUnit;
 
 /**
  * The DefaultTransitRegistryModel class maintains the set of 

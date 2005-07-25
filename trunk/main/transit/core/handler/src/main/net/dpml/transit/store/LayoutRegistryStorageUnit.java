@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package net.dpml.transit.unit;
+package net.dpml.transit.store;
 
 import java.net.URL;
 import java.net.URI;
@@ -75,7 +75,7 @@ class LayoutRegistryStorageUnit extends CodeBaseStorageUnit implements LayoutReg
         {
             final String error = 
               "Unexpected error while constructing layout registry manager.";
-            throw new BuilderException( error, e );
+            throw new StorageRuntimeException( error, e );
         }
     }
 
@@ -86,7 +86,7 @@ class LayoutRegistryStorageUnit extends CodeBaseStorageUnit implements LayoutReg
     * 
     * @return the layout storage unit
     */
-    public LayoutStorage getLayoutStorage( String id ) throws BuilderException
+    public LayoutStorage getLayoutStorage( String id ) throws StorageRuntimeException
     {
         Preferences prefs = getPreferences().node( id );
         return new LayoutStorageUnit( prefs );

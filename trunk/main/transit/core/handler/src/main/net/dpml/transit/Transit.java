@@ -48,7 +48,7 @@ import net.dpml.transit.model.TransitModel;
 import net.dpml.transit.repository.Repository;
 import net.dpml.transit.repository.StandardLoader;
 import net.dpml.transit.store.TransitStorage;
-import net.dpml.transit.unit.TransitStorageUnit;
+import net.dpml.transit.store.TransitStorageUnit;
 import net.dpml.transit.util.PropertyResolver;
 
 /**

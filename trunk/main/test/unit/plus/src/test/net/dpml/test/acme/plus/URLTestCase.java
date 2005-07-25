@@ -111,7 +111,7 @@ public class URLTestCase extends TestCase
         System.setProperty( "java.protocol.handler.pkgs", "net.dpml.transit" );
         System.setProperty( 
            "java.util.prefs.PreferencesFactory", 
-           "net.dpml.transit.unit.LocalPreferencesFactory" );
+           "net.dpml.transit.store.LocalPreferencesFactory" );
         System.setProperty( "dpml.transit.profile", "url-testcase" );
         System.setProperty( 
          "java.util.logging.config.class", 

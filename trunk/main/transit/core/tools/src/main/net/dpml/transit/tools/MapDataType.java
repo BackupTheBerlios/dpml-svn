@@ -21,7 +21,7 @@ package net.dpml.transit.tools;
 import java.net.URI;
 
 /**
- * Utility class that declares a map beterrn a urn and a plugin uri.
+ * Utility class that declares a map between a urn and a plugin uri.
  *
  * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
  */

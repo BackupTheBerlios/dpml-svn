@@ -36,7 +36,7 @@ import net.dpml.transit.artifact.MissingGroupException;
 import net.dpml.transit.model.TransitRegistryModel;
 import net.dpml.transit.model.DefaultTransitRegistryModel;
 import net.dpml.transit.model.Logger;
-import net.dpml.transit.unit.TransitStorageHome;
+import net.dpml.transit.store.TransitStorageHome;
 
 /**
  * Table model that maps table rows to child nodes of a supplied preferences node.

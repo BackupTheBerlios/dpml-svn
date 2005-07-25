@@ -25,6 +25,14 @@
 
   <import file="${home}/bootstrap.xml"/>
 
+  <target name="patch">
+    <replace token="StorageRuntimeException" value="StorageRuntimeException" dir=".">
+      <include name="**/*.java"/>
+      <include name="**/*.xml"/>
+    </replace>
+  </target>
+
+
   <target name="setup-path" depends="init">
     <path id="project.test.path">
       <pathelement location="${target.deliverables.jars.dir}/${project.filename}"/>

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package net.dpml.transit.unit;
+package net.dpml.depot.unit;
 
 import java.io.IOException;
 import java.net.URL;
@@ -26,10 +26,12 @@ import java.util.Date;
 import java.util.prefs.Preferences;
 import java.util.prefs.BackingStoreException;
 
+import net.dpml.transit.store.StorageRuntimeException;
+
 /**
  * Abstract base class providing a framework for preferences based persistance.
  */
-public abstract class AbstractStorageUnit
+abstract class AbstractStorageUnit
 {
     // ------------------------------------------------------------------------
     // state
@@ -67,9 +69,9 @@ public abstract class AbstractStorageUnit
     * Utility operation to return a URI given a preferences attribute key.
     * @param key the attribute key
     * @return the uri value or null if the key is unknown
-    * @exception BuilderException if a value was located but was not resolvable to a URI.
+    * @exception StorageRuntimeException if a value was located but was not resolvable to a URI.
     */
-    protected URI getURI( String key ) throws BuilderException
+    protected URI getURI( String key ) throws StorageRuntimeException
     {
         Preferences prefs = getPreferences();
         return getURI( prefs, key );
@@ -80,9 +82,9 @@ public abstract class AbstractStorageUnit
     * @param prefs a preferences node
     * @param key the attribute key
     * @return the uri value or null if the key is unknown
-    * @exception BuilderException if a value was located but was not resolvable to a URI.
+    * @exception StorageRuntimeException if a value was located but was not resolvable to a URI.
     */
-    protected URI getURI( Preferences prefs, String key ) throws BuilderException
+    protected URI getURI( Preferences prefs, String key ) throws StorageRuntimeException
     {
         String path = prefs.get( key, null );
         try
@@ -103,7 +105,7 @@ public abstract class AbstractStorageUnit
               + "\nPreferences: " + prefs
               + "\nAttribute: " + key
               + "\nValue: " + path;
-            throw new BuilderException( error, e );
+            throw new StorageRuntimeException( error, e );
         }
         catch( Throwable e )
         {
@@ -112,7 +114,7 @@ public abstract class AbstractStorageUnit
               + "\nPreferences: " + prefs
               + "\nAttribute: " + key
               + "\nValue: " + path;
-            throw new BuilderException( error, e );
+            throw new StorageRuntimeException( error, e );
         }
     }
 
@@ -138,9 +140,9 @@ public abstract class AbstractStorageUnit
     * Utility operation to return a URL given a preferences attribute key.
     * @param key the attribute key
     * @return the URL value or null if the key is unknown
-    * @exception BuilderException if a value was located but was not resolvable to a URI.
+    * @exception StorageRuntimeException if a value was located but was not resolvable to a URI.
     */
-    protected URL getURL( String key ) throws BuilderException
+    protected URL getURL( String key ) throws StorageRuntimeException
     {
         Preferences prefs = getPreferences();
         return getURL( prefs, key );
@@ -151,9 +153,9 @@ public abstract class AbstractStorageUnit
     * @param prefs a preferences node
     * @param key the attribute key
     * @return the URL value or null if the key is unknown
-    * @exception BuilderException if a value was located but was not resolvable to a URI.
+    * @exception StorageRuntimeException if a value was located but was not resolvable to a URI.
     */
-    protected URL getURL( Preferences prefs, String key ) throws BuilderException
+    protected URL getURL( Preferences prefs, String key ) throws StorageRuntimeException
     {
         String path = prefs.get( key, null );
         try
@@ -174,7 +176,7 @@ public abstract class AbstractStorageUnit
               + "\nPreferences: " + prefs
               + "\nAttribute: " + key
               + "\nValue: " + path;
-            throw new BuilderException( error, e );
+            throw new StorageRuntimeException( error, e );
         }
         catch( Throwable e )
         {
@@ -183,7 +185,7 @@ public abstract class AbstractStorageUnit
               + "\nPreferences: " + prefs
               + "\nAttribute: " + key
               + "\nValue: " + path;
-            throw new BuilderException( error, e );
+            throw new StorageRuntimeException( error, e );
         }
     }
 

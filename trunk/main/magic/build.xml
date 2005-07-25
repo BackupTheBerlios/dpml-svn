@@ -38,8 +38,7 @@
     <delete quiet="true" dir="target"/>
     <delete quiet="true" dir="core/target"/>
     <delete quiet="true" dir="spells/bar/target"/>
-    <delete quiet="true" dir="spells/doc/task/target"/>
-    <delete quiet="true" dir="spells/doc/themes/modern/target"/>
+    <delete quiet="true" dir="spells/doc/target"/>
     <delete quiet="true" dir="spells/eclipse/target"/>
     <delete quiet="true" dir="spells/example/target"/>
     <delete quiet="true" dir="spells/publish/target"/>

@@ -28,7 +28,6 @@ import java.util.prefs.Preferences;
 
 import net.dpml.transit.model.Logger;
 import net.dpml.transit.store.StorageRuntimeException;
-import net.dpml.transit.unit.AbstractStorageUnit;
 
 import net.dpml.depot.store.DepotHome;
 import net.dpml.depot.store.ApplicationStorage;

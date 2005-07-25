@@ -25,7 +25,7 @@ import junit.framework.TestCase;
 import net.dpml.transit.model.TransitModel;
 import net.dpml.transit.model.HostModel;
 import net.dpml.transit.model.DefaultTransitModel;
-import net.dpml.transit.unit.TransitStorageUnit;
+import net.dpml.transit.store.TransitStorageUnit;
 
 /**
  * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>

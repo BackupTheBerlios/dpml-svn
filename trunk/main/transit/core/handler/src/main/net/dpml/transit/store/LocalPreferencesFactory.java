@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package net.dpml.transit.unit;
+package net.dpml.transit.store;
 
 import java.io.File;
 import java.util.Properties;
@@ -37,7 +37,7 @@ import net.dpml.transit.TransitError;
  * <pre>
  *   System.setProperty( 
  *          "java.util.prefs.PreferencesFactory", 
- *          "net.dpml.transit.unit.LocalPreferencesFactory" );
+ *          "net.dpml.transit.store.LocalPreferencesFactory" );
  * </pre>
  *
  * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>

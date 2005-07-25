@@ -28,7 +28,6 @@ import java.util.prefs.Preferences;
 import net.dpml.transit.model.Logger;
 import net.dpml.transit.store.Removable;
 import net.dpml.transit.store.StorageRuntimeException;
-import net.dpml.transit.unit.CodeBaseStorageUnit;
 
 import net.dpml.depot.store.ProfileStorage;
 

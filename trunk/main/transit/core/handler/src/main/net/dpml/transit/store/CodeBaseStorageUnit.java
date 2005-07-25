@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package net.dpml.transit.unit;
+package net.dpml.transit.store;
 
 import java.net.URI;
 import java.net.MalformedURLException;
@@ -30,7 +30,7 @@ import net.dpml.transit.store.CodeBaseStorage;
  * The LayoutHelper class is responsible for the setup of initial factory
  * default preference settings.
  */
-public abstract class CodeBaseStorageUnit extends AbstractStorageUnit implements CodeBaseStorage
+abstract class CodeBaseStorageUnit extends AbstractStorageUnit implements CodeBaseStorage
 {
     // ------------------------------------------------------------------------
     // constructor
@@ -78,7 +78,7 @@ public abstract class CodeBaseStorageUnit extends AbstractStorageUnit implements
     * @param prefs the preferences node
     * @return the property set
     */
-    protected Properties getProperties( Preferences prefs ) throws BuilderException
+    protected Properties getProperties( Preferences prefs ) throws StorageRuntimeException
     {
         Properties properties = new Properties();
         try
@@ -99,7 +99,7 @@ public abstract class CodeBaseStorageUnit extends AbstractStorageUnit implements
         {
             final String error = 
               "Internal error while resolving persistent application properties.";
-            throw new BuilderException( error, e );   
+            throw new StorageRuntimeException( error, e );   
         }
     }
 

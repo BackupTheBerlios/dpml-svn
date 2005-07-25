@@ -43,7 +43,7 @@ public class OnlineTestCase extends TestCase
     {
         System.setProperty( 
            "java.util.prefs.PreferencesFactory", 
-           "net.dpml.transit.unit.LocalPreferencesFactory" );
+           "net.dpml.transit.store.LocalPreferencesFactory" );
         System.setProperty( "java.protocol.handler.pkgs", "net.dpml.transit" );
         System.setProperty( "dpml.transit.profile", "test-online" );
         System.setProperty( "dpml.data", "target/test/data" );

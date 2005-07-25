@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package net.dpml.transit.unit;
+package net.dpml.transit.store;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -32,7 +32,7 @@ import net.dpml.transit.Transit;
  * for scenarios where the persistent information lifetime is limited to 
  * the lifetype of the JVM.
  */
-public class LocalPreferences extends AbstractPreferences
+class LocalPreferences extends AbstractPreferences
 {
     private final Properties m_properties;
     private Hashtable m_table = new Hashtable();

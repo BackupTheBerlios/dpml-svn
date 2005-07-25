@@ -30,6 +30,9 @@ import net.dpml.transit.NullArgumentException;
 
 import net.dpml.transit.monitor.NetworkMonitor;
 
+/**
+ * Utility class that provides support for stream copy operations.
+ */
 public class StreamUtils
 {
    /**

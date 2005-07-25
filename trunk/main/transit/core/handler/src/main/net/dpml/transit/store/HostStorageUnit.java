@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package net.dpml.transit.unit;
+package net.dpml.transit.store;
 
 import java.net.URI;
 import java.net.URL;
@@ -203,7 +203,7 @@ class HostStorageUnit extends CodeBaseStorageUnit implements HostStorage, Remova
     * Return the host base path.
     * @return the base path
     */
-    public String getBasePath() throws BuilderException
+    public String getBasePath() throws StorageRuntimeException
     {
         Preferences prefs = getPreferences();
         return prefs.get( "base", "http://localhost" );
@@ -214,7 +214,7 @@ class HostStorageUnit extends CodeBaseStorageUnit implements HostStorage, Remova
     * @return the password authentication credentials
     */
     public PasswordAuthentication getAuthentication()
-      throws BuilderException
+      throws StorageRuntimeException
     {
         Preferences prefs = getPreferences();
         byte[] bytes = prefs.getByteArray( "authentication", new byte[0] );
@@ -232,7 +232,7 @@ class HostStorageUnit extends CodeBaseStorageUnit implements HostStorage, Remova
     * Return index path.
     * @return the index path
     */
-    public String getIndexPath() throws BuilderException
+    public String getIndexPath() throws StorageRuntimeException
     {
         Preferences prefs = getPreferences();
         return prefs.get( "index", null );
@@ -291,7 +291,7 @@ class HostStorageUnit extends CodeBaseStorageUnit implements HostStorage, Remova
         }
         catch( BackingStoreException e )
         {
-            throw new BuilderException( "storage removal failure", e );
+            throw new StorageRuntimeException( "storage removal failure", e );
         }
     }
 
@@ -316,7 +316,7 @@ class HostStorageUnit extends CodeBaseStorageUnit implements HostStorage, Remova
     * @param auth the password authentication to use for host sign-on
     */
     private void setAuthentication( PasswordAuthentication auth ) 
-      throws BuilderException
+      throws StorageRuntimeException
     {
         Preferences prefs = getPreferences();
         if( null == auth )

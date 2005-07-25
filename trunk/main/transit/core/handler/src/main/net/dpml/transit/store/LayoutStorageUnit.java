@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package net.dpml.transit.unit;
+package net.dpml.transit.store;
 
 import java.net.URL;
 import java.net.URI;
@@ -137,7 +137,7 @@ class LayoutStorageUnit extends CodeBaseStorageUnit implements LayoutStorage, Re
         }
         catch( BackingStoreException e )
         {
-            throw new BuilderException( "storage removal failure", e );
+            throw new StorageRuntimeException( "storage removal failure", e );
         }
     }
 }

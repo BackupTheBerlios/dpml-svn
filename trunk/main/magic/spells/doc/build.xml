@@ -24,8 +24,8 @@
   <transit:import uri="local:template:magic/standard"/>
 
   <target name="package" depends="standard.package">
-    <!-- x:export class="net.dpml.magic.doc.DocTask"/ -->
-    <x:export class="net.dpml.magic.doc.DocTargetFactory"/>
+    <x:export class="net.dpml.magic.doc.DocTask"/>
+    <!--<x:export class="net.dpml.magic.doc.DocTargetFactory"/>-->
   </target>
 
   <target name="install" depends="standard.install">
