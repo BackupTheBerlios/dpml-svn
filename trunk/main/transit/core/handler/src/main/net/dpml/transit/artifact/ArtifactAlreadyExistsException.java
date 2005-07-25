@@ -18,6 +18,8 @@
 
 package net.dpml.transit.artifact;
 
+import net.dpml.transit.Artifact;
+
 /**
  * Exception to indicate that the Artifact already exists in the cache and
  * can therefor not be written to.

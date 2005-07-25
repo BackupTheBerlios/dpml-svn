@@ -46,7 +46,7 @@ import net.dpml.transit.Repository;
  *
  * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
  */
-public class DefaultLayoutRegistry extends UnicastRemoteObject implements LayoutRegistry, LayoutRegistryListener
+class DefaultLayoutRegistry extends UnicastRemoteObject implements LayoutRegistry, LayoutRegistryListener
 {
     // ------------------------------------------------------------------------
     // state

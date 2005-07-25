@@ -54,7 +54,7 @@ import net.dpml.transit.util.PropertyResolver;
  *
  * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
  */
-public class DefaultCacheModel extends DisposableCodeBaseModel 
+class DefaultCacheModel extends DisposableCodeBaseModel 
    implements CacheModel, DisposalListener
 {
     // ------------------------------------------------------------------------

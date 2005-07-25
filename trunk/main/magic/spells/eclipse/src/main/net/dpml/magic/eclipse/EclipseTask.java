@@ -44,7 +44,7 @@ import net.dpml.magic.model.ResourceRef;
 import net.dpml.magic.project.Context;
 import net.dpml.magic.tasks.ContextualTask;
 
-import net.dpml.transit.artifact.Artifact;
+import net.dpml.transit.Artifact;
 
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.taskdefs.Copy;

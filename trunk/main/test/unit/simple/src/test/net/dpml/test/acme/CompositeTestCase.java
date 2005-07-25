@@ -19,16 +19,15 @@
 
 package net.dpml.test.acme;
 
-import java.net.URI;
-import java.util.Hashtable;
-import java.util.Map.Entry;
+import java.io.File;
+import java.net.URL;
+import java.net.URLConnection;
 
 import junit.framework.TestCase;
 
+import net.dpml.part.PartContentHandlerFactory;
 import net.dpml.part.control.Controller;
 import net.dpml.part.component.Component;
-
-import net.dpml.metro.central.MetroHelper;
 
 /**
  * Test a simple component case.
@@ -64,12 +63,10 @@ public class CompositeTestCase extends TestCase
     */
     public void testBadWidget() throws Exception
     {
-        MetroHelper helper = new MetroHelper();
-        URI uri = helper.toURI( "acme-bad-widget.part" );
-
-        Component component = helper.getController().newComponent( uri );
+        File test = new File( System.getProperty( "project.test.dir" ) );
+        URL url = new File( test, "acme-bad-widget.part" ).toURL();
+        Component component = (Component) url.getContent( new Class[]{ Component.class } );
         AcmeContainer container = (AcmeContainer) component.resolve( false );
-
         try
         {
             container.execute();
@@ -81,16 +78,14 @@ public class CompositeTestCase extends TestCase
         finally
         {
             component.release( container );
-            helper.dispose();
         }
     }
 
     private void executeTestOnPart( String path ) throws Exception
     {
-        MetroHelper helper = new MetroHelper();
-        URI uri = helper.toURI( path );
-
-        Component component = helper.getController().newComponent( uri );
+        File test = new File( System.getProperty( "project.test.dir" ) );
+        URL url = new File( test, path ).toURL();
+        Component component = (Component) url.getContent( new Class[]{ Component.class } );
         AcmeContainer container = (AcmeContainer) component.resolve( false );
         try
         {
@@ -99,7 +94,12 @@ public class CompositeTestCase extends TestCase
         finally
         {
             component.release( container );
-            helper.dispose();
         }
     }
+
+    static
+    {
+        URLConnection.setContentHandlerFactory( new PartContentHandlerFactory() );
+    }
+
 }

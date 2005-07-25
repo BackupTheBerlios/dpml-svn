@@ -18,7 +18,7 @@
 
 package net.dpml.transit;
 
-import net.dpml.transit.artifact.Artifact;
+import net.dpml.transit.Artifact;
 
 /** 
  * A Layout abstracts the decoding process of the location

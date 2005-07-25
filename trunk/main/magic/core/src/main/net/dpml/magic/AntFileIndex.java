@@ -37,7 +37,7 @@ import net.dpml.magic.model.ResourceRef;
 import net.dpml.transit.NullArgumentException;
 import net.dpml.transit.Transit;
 import net.dpml.transit.TransitException;
-import net.dpml.transit.artifact.Artifact;
+import net.dpml.transit.Artifact;
 import net.dpml.transit.artifact.Handler;
 import net.dpml.transit.Repository;
 

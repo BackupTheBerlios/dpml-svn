@@ -67,6 +67,13 @@
                a variety of Magic functions.</i>
             </td>
           </tr>
+          <tr>
+            <td><img src="images/info.gif"/></td>
+            <td><i>The <a href="http://www.osm.net/training/components/index.html">
+               OSM Component Tutorial</a> covers component development, creation of 
+               deployment scenarios and component testing.</i>
+            </td>
+          </tr>
         </table>
 
     </section>

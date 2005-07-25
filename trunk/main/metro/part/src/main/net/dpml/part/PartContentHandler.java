@@ -28,7 +28,6 @@ import java.util.Properties;
 import net.dpml.transit.Transit;
 import net.dpml.transit.model.Logger;
 import net.dpml.transit.model.ContentModel;
-import net.dpml.transit.model.DefaultContentModel;
 import net.dpml.transit.monitor.LoggingAdapter;
 import net.dpml.transit.Repository;
 
@@ -44,12 +43,17 @@ public class PartContentHandler extends ContentHandler
 
     public PartContentHandler( ContentModel content )
     {
+        m_controller = newController( content );
+    }
+
+    public static Controller newController( ContentModel model )
+    {
         try
         {
             ClassLoader classloader = Thread.currentThread().getContextClassLoader();
             URI uri = new URI( "@COMPOSITION-CONTROLLER-URI@" );
             Repository repository = Transit.getInstance().getRepository();
-            m_controller = (Controller) repository.getPlugin( classloader, uri, new Object[]{ content } );
+            return (Controller) repository.getPlugin( classloader, uri, new Object[]{ model } );
         }
         catch( Throwable e )
         {

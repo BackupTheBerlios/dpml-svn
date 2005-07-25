@@ -30,7 +30,7 @@ import net.dpml.transit.store.CodeBaseStorage;
  *
  * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
  */
-public class DefaultRepositoryModel extends DisposableCodeBaseModel implements RepositoryModel
+class DefaultRepositoryModel extends DisposableCodeBaseModel implements RepositoryModel
 {
    /**
     * Creation of a new repository service codebase model.

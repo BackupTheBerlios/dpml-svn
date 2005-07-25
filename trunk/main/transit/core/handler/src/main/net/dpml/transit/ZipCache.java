@@ -18,7 +18,7 @@
 
 package net.dpml.transit;
 
-import net.dpml.transit.artifact.Artifact;
+import net.dpml.transit.Artifact;
 
 import java.util.HashMap;
 import java.util.Iterator;

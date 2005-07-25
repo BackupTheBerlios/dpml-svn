@@ -37,9 +37,9 @@ import net.dpml.part.control.ControllerContext;
 import net.dpml.part.control.ControllerContextListener;
 import net.dpml.part.control.ControllerContextEvent;
 
-import net.dpml.transit.model.DefaultModel;
+//import net.dpml.transit.model.DefaultModel;
 import net.dpml.transit.model.ContentModel;
-import net.dpml.transit.model.DefaultContentModel;
+//import net.dpml.transit.model.DefaultContentModel;
 import net.dpml.transit.util.PropertyResolver;
 
 /**
@@ -56,11 +56,12 @@ public class CompositionControllerContext extends LocalWeakEventProducer impleme
     // static
     //----------------------------------------------------------------------------
 
-    public static ControllerContext newContext()
-    {
-        return newContext( new net.dpml.transit.monitor.LoggingAdapter( "metro" ) );
-    }
+    //public static ControllerContext newContext()
+    //{
+    //    return newContext( new net.dpml.transit.monitor.LoggingAdapter( "metro" ) );
+    //}
 
+    /*
     public static ControllerContext newContext( net.dpml.transit.model.Logger logger )
     {
         try
@@ -78,6 +79,7 @@ public class CompositionControllerContext extends LocalWeakEventProducer impleme
             return null;
         }
     }
+    */
 
     //----------------------------------------------------------------------------
     // state
@@ -106,6 +108,11 @@ public class CompositionControllerContext extends LocalWeakEventProducer impleme
     public CompositionControllerContext( ContentModel model )
     {
         super();
+
+        if( null == model )
+        {
+            throw new NullPointerException( "model" );
+        }
 
         m_model = model;
 

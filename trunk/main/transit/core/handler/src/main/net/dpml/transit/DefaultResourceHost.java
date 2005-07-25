@@ -45,7 +45,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 
-import net.dpml.transit.artifact.Artifact;
+import net.dpml.transit.Artifact;
 import net.dpml.transit.model.HostModel;
 import net.dpml.transit.model.RequestIdentifier;
 import net.dpml.transit.model.HostListener;
@@ -67,7 +67,7 @@ import net.dpml.transit.util.Util;
  *
  * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
  */
-public class DefaultResourceHost extends UnicastRemoteObject 
+class DefaultResourceHost extends UnicastRemoteObject 
   implements ResourceHost, HostListener, Service
 {
     // ------------------------------------------------------------------------

@@ -26,7 +26,6 @@ import java.util.EventObject;
 import java.util.EventListener;
 
 import net.dpml.transit.model.Logger;
-import net.dpml.transit.model.DisposableCodeBaseModel;
 import net.dpml.transit.model.Disposable;
 
 import net.dpml.depot.store.ProfileStorage;

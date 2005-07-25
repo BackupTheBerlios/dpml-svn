@@ -19,7 +19,7 @@
 
 package net.dpml.transit;
 
-import net.dpml.transit.artifact.Artifact;
+import net.dpml.transit.Artifact;
 
 /** 
  * The ClassicLayout decodes artifacts into the Classic/Maven layout

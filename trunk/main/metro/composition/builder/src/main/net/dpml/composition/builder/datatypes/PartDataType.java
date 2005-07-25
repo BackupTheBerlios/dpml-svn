@@ -28,14 +28,15 @@ import net.dpml.composition.control.CompositionController;
 import net.dpml.composition.info.Type;
 
 import net.dpml.transit.tools.AntAdapter;
-import net.dpml.transit.model.DefaultContentModel;
 import net.dpml.transit.model.Logger;
+import net.dpml.transit.model.ContentModel;
 
 import net.dpml.part.control.ControllerContext;
 import net.dpml.part.DelegationException;
 import net.dpml.part.PartNotFoundException;
 import net.dpml.part.Part;
 import net.dpml.part.PartReference;
+import net.dpml.part.PartContentHandlerFactory;
 
 import org.apache.tools.ant.Task;
 import org.apache.tools.ant.BuildException;
@@ -135,10 +136,7 @@ public class PartDataType extends Task implements PartReferenceBuilder
         try
         {
             Logger logger = new AntAdapter( this );
-            String title = "Build Context.";
-            Properties properties = new Properties();
-            DefaultContentModel model = 
-              new DefaultContentModel( logger, null, "part", title, properties );
+            ContentModel model = PartContentHandlerFactory.newContentModel( logger, null );
             CompositionController controller = new CompositionController( model );
             return controller.loadPart( uri );
         }

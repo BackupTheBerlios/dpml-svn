@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package net.dpml.transit.model;
+package net.dpml.depot.profile;
 
 import java.net.URI;
 import java.rmi.RemoteException;
@@ -25,6 +25,7 @@ import java.util.EventListener;
 import java.util.Date;
 import java.util.Properties;
 
+import net.dpml.transit.model.*;
 import net.dpml.transit.store.ContentStorage;
 import net.dpml.transit.store.Removable;
 
@@ -62,11 +63,25 @@ class DefaultContentModel extends DisposableCodeBaseModel implements ContentMode
     {
         super( logger, uri );
 
-        m_home = null;
-
+        if( null == type )
+        {
+            throw new NullPointerException( "type" );
+        }
+        if( null == title )
+        {
+            throw new NullPointerException( "title" );
+        }
+        if( null == properties )
+        {
+            m_properties = new Properties();
+        }
+        else
+        {
+            m_properties = properties;
+        }
         m_type = type;
         m_title = title;
-        m_properties = properties;
+        m_home = null;
     }
 
    /**

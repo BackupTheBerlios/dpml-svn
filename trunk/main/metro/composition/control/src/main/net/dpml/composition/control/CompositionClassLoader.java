@@ -27,8 +27,8 @@ import net.dpml.logging.Logger;
 
 import net.dpml.part.control.ControllerRuntimeException;
 
-import net.dpml.transit.artifact.Artifact;
-import net.dpml.transit.artifact.UnsupportedSchemeException;
+import net.dpml.transit.Artifact;
+import net.dpml.transit.UnsupportedSchemeException;
 import net.dpml.transit.StandardClassLoader;
 
 /**

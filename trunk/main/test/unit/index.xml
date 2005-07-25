@@ -14,7 +14,7 @@
     </info>
     <dependencies>
       <include key="dpml-test-simple"/>
-      <include key="dpml-metro-central"/>
+      <include key="dpml-part-api"/>
       <include key="ant-junit"/>
     </dependencies>
     <plugins>
@@ -33,7 +33,7 @@
     <dependencies>
       <include key="dpml-test-simple"/>
       <include key="dpml-test-plus"/>
-      <include key="dpml-metro-central"/>
+      <include key="dpml-part-api"/>
       <include key="ant-junit"/>
     </dependencies>
     <plugins>

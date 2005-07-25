@@ -12,7 +12,7 @@
 
       <p>
       Resource are retrieved from one or more 
-      <a href="../hosts/index.html">host</a> repositories 
+      <a href="hosts.html">host</a> repositories 
       and maintained under a local cache.  The default location of 
       the cache is <code>${dpml.data}/cache</code> where the value of 
       <code>${dpml.data}</code> is either resolved via 
@@ -50,8 +50,8 @@
         value is a valid url then cache properties will be read from a property file 
         resolved from ${dpml.transit.authority}/cache.properties.  Otherwise configuration
         information will be resolved using preferences stored under the net.dpml.transit
-        group relative to the profile name declared by the <code>dpml.transit.authority</code>
-        system property (where 'development' is the default profile name).
+        group relative to the profile name declared by the <code>dpml.transit.profile</code>
+        system property (where 'default' is the default profile name).
         </p>
 
         <table>

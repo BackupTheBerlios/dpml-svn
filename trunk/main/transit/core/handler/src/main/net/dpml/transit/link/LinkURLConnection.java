@@ -33,8 +33,8 @@ import java.security.PrivilegedAction;
 
 import net.dpml.transit.Transit;
 import net.dpml.transit.SecuredTransitContext;
-import net.dpml.transit.artifact.Artifact;
-import net.dpml.transit.artifact.UnsupportedSchemeException;
+import net.dpml.transit.Artifact;
+import net.dpml.transit.UnsupportedSchemeException;
 import net.dpml.transit.util.MimeTypeHandler;
 
 /**

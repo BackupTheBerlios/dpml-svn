@@ -63,8 +63,6 @@ import net.dpml.part.component.Container;
 import net.dpml.part.component.Service;
 
 import net.dpml.transit.model.ContentModel;
-import net.dpml.transit.model.DefaultContentModel;
-import net.dpml.transit.monitor.LoggingAdapter;
 
 /**
  * A initial test controller.
@@ -628,26 +626,6 @@ public class CompositionController extends CompositionPartHandler implements Con
         }
         catch( URISyntaxException ioe )
         {
-            return null;
-        }
-    }
-
-    private static ControllerContext createDefaultContext()
-    {
-        try
-        {
-            String title = "Metro Build Context.";
-            String type = "part";
-            Properties properties = new Properties();
-            net.dpml.transit.model.Logger logger = new LoggingAdapter( "metro" );
-            DefaultContentModel model = 
-              new DefaultContentModel( logger, null, type, title, properties );
-            
-            return new CompositionControllerContext( model );
-        }
-        catch( Throwable e )
-        {
-            e.printStackTrace();
             return null;
         }
     }

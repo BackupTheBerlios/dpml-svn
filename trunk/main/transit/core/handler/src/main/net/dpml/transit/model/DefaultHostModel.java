@@ -48,7 +48,7 @@ import net.dpml.transit.util.PropertyResolver;
  *
  * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
  */
-public class DefaultHostModel extends DisposableCodeBaseModel 
+class DefaultHostModel extends DisposableCodeBaseModel 
   implements HostModel, DisposalListener, Comparable
 {
     private final HostStorage m_home;

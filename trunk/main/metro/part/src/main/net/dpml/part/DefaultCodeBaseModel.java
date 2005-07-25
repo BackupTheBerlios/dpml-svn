@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package net.dpml.transit.model;
+package net.dpml.part;
 
 import java.net.URI;
 import java.rmi.RemoteException;
@@ -29,6 +29,7 @@ import java.util.prefs.BackingStoreException;
 import java.util.prefs.Preferences;
 
 import net.dpml.transit.store.CodeBaseStorage;
+import net.dpml.transit.model.*;
 
 /**
  * The abstract codebase is an implementation that monitors configuration changes 

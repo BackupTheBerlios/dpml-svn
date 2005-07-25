@@ -19,16 +19,17 @@
 
 package net.dpml.test.acme;
 
-import java.net.URI;
+import java.io.File;
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.Hashtable;
 import java.util.Map.Entry;
 
 import junit.framework.TestCase;
 
+import net.dpml.part.PartContentHandlerFactory;
 import net.dpml.part.control.Controller;
 import net.dpml.part.component.Component;
-
-import net.dpml.metro.central.MetroHelper;
 
 /**
  * Test a simple component case.
@@ -46,11 +47,16 @@ public class ContainerTestCase extends TestCase
     */
     public void testGetValue() throws Exception
     {
-        MetroHelper helper = new MetroHelper();
-        URI uri = helper.toURI( PATH );
-        Component component = helper.getController().newComponent( uri );
+        File test = new File( System.getProperty( "project.test.dir" ) );
+        URL url = new File( test, PATH ).toURL();
+        Component component = (Component) url.getContent( new Class[]{ Component.class } );
         Widget widget = (Widget) component.resolve();
         widget.doWidgetStuff( "green" );
         component.release( widget );
+    }
+
+    static
+    {
+        URLConnection.setContentHandlerFactory( new PartContentHandlerFactory() );
     }
 }

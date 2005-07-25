@@ -30,6 +30,7 @@ import java.net.URLConnection;
 import java.net.URISyntaxException;
 import java.util.prefs.Preferences;
 
+import net.dpml.transit.Artifact;
 import net.dpml.transit.Transit;
 import net.dpml.transit.TransitException;
 import net.dpml.transit.Repository;

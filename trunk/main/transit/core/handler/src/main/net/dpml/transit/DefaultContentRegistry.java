@@ -42,7 +42,7 @@ import net.dpml.transit.Repository;
  *
  * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
  */
-public class DefaultContentRegistry extends UnicastRemoteObject implements Service, ContentRegistry, ContentRegistryListener
+class DefaultContentRegistry extends UnicastRemoteObject implements Service, ContentRegistry, ContentRegistryListener
 {
     // ------------------------------------------------------------------------
     // state

@@ -8,8 +8,8 @@
   <transit:import uri="local:template:magic/standard"/>
 
   <target name="init" depends="standard.init">
-    <x:property key="dpml-test-content" feature="uri" type="plugin" name="content.plugin"/>
-    <filter token="CONTENT-MANAGER-PLUGIN" value="${content.plugin}"/>
+    <x:property key="dpml-part-api" feature="uri" type="plugin" name="part.plugin"/>
+    <filter token="PART-MANAGER-PLUGIN" value="${part.plugin}"/>
     <x:property key="dpml-test-simple" feature="uri" type="part" name="simple.part"/>
     <filter token="SIMPLE-TEST-PART" value="${simple.part}"/>
     <x:property key="dpml-test-plus" feature="uri" type="part" name="plus.part"/>

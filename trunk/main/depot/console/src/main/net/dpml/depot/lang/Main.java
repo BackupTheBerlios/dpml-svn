@@ -52,7 +52,7 @@ import net.dpml.depot.unit.DepotStorageUnit;
 import net.dpml.transit.Transit;
 import net.dpml.transit.TransitError;
 import net.dpml.transit.TransitException;
-import net.dpml.transit.artifact.Artifact;
+import net.dpml.transit.Artifact;
 import net.dpml.transit.artifact.ArtifactNotFoundException;
 import net.dpml.transit.model.Logger;
 import net.dpml.transit.model.Connection;

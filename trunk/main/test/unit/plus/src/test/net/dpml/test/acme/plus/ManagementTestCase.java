@@ -19,15 +19,15 @@
 
 package net.dpml.test.acme.plus;
 
-import java.net.URI;
+import java.io.File;
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.List;
 import java.util.LinkedList;
-import java.util.Map.Entry;
 
 import junit.framework.TestCase;
 
-import net.dpml.metro.central.MetroHelper;
-
+import net.dpml.part.PartContentHandlerFactory;
 import net.dpml.part.component.Component;
 import net.dpml.part.component.Manager;
 import net.dpml.part.state.State;
@@ -84,8 +84,13 @@ public class ManagementTestCase extends TestCase
 
     Component getComponent( String path ) throws Exception
     {
-        MetroHelper helper = new MetroHelper();
-        URI uri = helper.toURI( path );
-        return helper.getController().newComponent( uri );
+        File test = new File( System.getProperty( "project.test.dir" ) );
+        URL url = new File( test, path ).toURL();
+        return (Component) url.getContent( new Class[]{ Component.class } );
+    }
+
+    static
+    {
+        URLConnection.setContentHandlerFactory( new PartContentHandlerFactory() );
     }
 }

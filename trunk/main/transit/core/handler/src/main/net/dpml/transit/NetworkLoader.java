@@ -65,7 +65,7 @@ class NetworkLoader
      * @param connection the url connection
      * @param destination where to store it
      * @return the lastModified date of the downloaded artifact.
-     * @exception net.dpml.transit.artifact.ArtifactException if an artifact related errror occurs
+     * @exception net.dpml.transit.ArtifactException if an artifact related errror occurs
      * @exception IOException if an IO error occurs
      */
     public Date loadResource( URL url, URLConnection connection, OutputStream destination )

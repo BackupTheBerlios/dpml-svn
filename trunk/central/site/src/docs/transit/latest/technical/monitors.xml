@@ -25,26 +25,26 @@
           <tr><th>Type</th><th>Description</th></tr>
           <tr>
             <td>
-              <a href="@TRANSIT-DOCS-PATH@/net/dpml/transit/monitors/CacheMonitor.html">CacheMonitor</a></td>
+              <a href="@TRANSIT-DOCS-PATH@/net/dpml/transit/monitor/CacheMonitor.html">CacheMonitor</a></td>
             <td>Handles events related to resource requests, modification of the 
                 local cache, and download failures.</td>
           </tr>
           <tr>
             <td>
-              <a href="@TRANSIT-DOCS-PATH@/net/dpml/transit/monitors/ConnectionMonitor.html">
+              <a href="@TRANSIT-DOCS-PATH@/net/dpml/transit/monitor/ConnectionMonitor.html">
 ConnectionMonitor</a></td>
             <td>Handles events dealing with the opening and closing of connections.</td>
           </tr>
           <tr>
             <td>
-              <a href="@TRANSIT-DOCS-PATH@/net/dpml/transit/monitors/NetworkMonitor.html">
+              <a href="@TRANSIT-DOCS-PATH@/net/dpml/transit/monitor/NetworkMonitor.html">
 NetworkMonitor</a></td>
             <td>Handles events dealing with network activity including progressive 
                 download activity and download completion.</td>
           </tr>
           <tr>
             <td>
-              <a href="@TRANSIT-DOCS-PATH@/net/dpml/transit/monitors/RepositoryMonitor.html">
+              <a href="@TRANSIT-DOCS-PATH@/net/dpml/transit/monitor/RepositoryMonitor.html">
 RepositoryMonitor</a></td>
             <td>Handles events dealing with plugin requests, plugin class establishment, constructor
                discovery, plugin instantiation, classloader creation, and plugin error reporting.</td>

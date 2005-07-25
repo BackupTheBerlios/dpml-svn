@@ -26,7 +26,6 @@ import java.util.Properties;
 
 import net.dpml.transit.model.Logger;
 import net.dpml.transit.model.ContentModel;
-import net.dpml.transit.model.DefaultContentModel;
 import net.dpml.transit.monitor.LoggingAdapter;
 
 
@@ -41,7 +40,7 @@ public class PartContentHandlerFactory implements ContentHandlerFactory
     {
         try
         {
-            ContentModel content = createContentModel();
+            ContentModel content = newContentModel();
             return new PartContentHandler( content );
         }
         catch( Exception e )
@@ -52,18 +51,48 @@ public class PartContentHandlerFactory implements ContentHandlerFactory
         }
     }
 
-    private ContentModel createContentModel() throws Exception
+    public static ContentModel newContentModel() throws Exception
+    {
+        return newContentModel( null, null );
+    }
+
+    public static ContentModel newContentModel( Logger logger, Properties properties ) throws Exception
     {
         String title = "Default Part Handler.";
         String type = "part";
-        Properties properties = new Properties();
-        String dir = System.getProperty( "project.test.dir" );
-        if( null != dir )
+        Logger log = resolveLogger( logger );
+        Properties props = resolveProperties( properties );
+        return new DefaultContentModel( log, null, type, title, props );
+    }
+
+    private static Properties resolveProperties( Properties properties )
+    {
+        if( null != properties )
         {
-            properties.put( "work.dir", dir );
+            return properties;
         }
-        Logger logger = new LoggingAdapter( "part" );
-        return new DefaultContentModel( logger, null, type, title, properties );
+        else
+        {
+            Properties props = new Properties();
+            String dir = System.getProperty( "project.test.dir" );
+            if( null != dir )
+            {
+                props.put( "work.dir", dir );
+            }
+            return props;
+       }
+    }
+
+    private static Logger resolveLogger( Logger logger )
+    {
+        if( null != logger )
+        {
+            return logger;
+        }
+        else
+        {
+            return new LoggingAdapter( "part" );
+        }
     }
 
     static

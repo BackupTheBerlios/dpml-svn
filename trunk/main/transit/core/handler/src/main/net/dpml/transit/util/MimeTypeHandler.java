@@ -21,7 +21,7 @@ package net.dpml.transit.util;
 import java.util.HashMap;
 
 /**
- * Mimetype utility hanlder.
+ * Mimetype utility handler.
  */
 public final class MimeTypeHandler
 {

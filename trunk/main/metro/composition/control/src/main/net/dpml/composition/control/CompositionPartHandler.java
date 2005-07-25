@@ -46,7 +46,7 @@ import net.dpml.composition.info.Type;
 import net.dpml.composition.runtime.DefaultLogger;
 
 import net.dpml.transit.Transit;
-import net.dpml.transit.artifact.Artifact;
+import net.dpml.transit.Artifact;
 import net.dpml.transit.Repository;
 
 /**

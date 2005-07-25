@@ -26,6 +26,7 @@ import java.net.URLStreamHandler;
 import java.security.AccessController;
 import java.security.PrivilegedAction;
 
+import net.dpml.transit.Artifact;
 import net.dpml.transit.Transit;
 import net.dpml.transit.TransitException;
 import net.dpml.transit.TransitRuntimeException;
@@ -60,10 +61,8 @@ public class Handler extends URLStreamHandler
 
    /**
     * Creation of a new transit artifact protocol handler.
-    * @exception TransitException if a transit system error occurs
     */
     public Handler()
-        throws TransitException
     {
         try
         {

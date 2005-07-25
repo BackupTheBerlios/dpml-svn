@@ -63,6 +63,7 @@ import net.dpml.parameters.impl.DefaultParameters;
 import net.dpml.part.Part;
 import net.dpml.part.PartHolder;
 import net.dpml.part.PartReference;
+import net.dpml.part.PartContentHandlerFactory;
 import net.dpml.part.control.ControllerContext;
 import net.dpml.part.component.Component;
 import net.dpml.part.component.Container;
@@ -70,7 +71,7 @@ import net.dpml.part.component.Service;
 
 import net.dpml.transit.tools.AntAdapter;
 import net.dpml.transit.model.Logger;
-import net.dpml.transit.model.DefaultContentModel;
+import net.dpml.transit.model.ContentModel;
 
 import org.apache.tools.ant.AntClassLoader;
 import org.apache.tools.ant.BuildException;
@@ -293,12 +294,7 @@ public class ComponentBuilderTask extends ClassLoaderBuilderTask implements Part
         {
             ComponentProfile profile = buildComponentProfile( classloader, cld );
             Logger logger = new AntAdapter( this );
-
-            String title = "Build Context.";
-            String type = "part";
-            Properties properties = new Properties();
-            DefaultContentModel model = 
-              new DefaultContentModel( logger, null, type, title, properties );
+            ContentModel model = PartContentHandlerFactory.newContentModel( logger, null );
             CompositionController controller = new CompositionController( model );
             Container container = controller.newContainer( classloader, profile );
 

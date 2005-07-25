@@ -24,7 +24,7 @@ import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URL;
 
-import net.dpml.transit.artifact.Artifact;
+import net.dpml.transit.Artifact;
 import net.dpml.transit.model.TransitRegistryModel;
 import net.dpml.transit.model.UnknownKeyException;
 import net.dpml.transit.util.StreamUtils;

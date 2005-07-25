@@ -25,7 +25,6 @@ import java.util.prefs.Preferences;
 import java.util.prefs.BackingStoreException;
 import java.net.PasswordAuthentication;
 
-import net.dpml.transit.DefaultResourceHost;
 import net.dpml.transit.store.HostStorage;
 import net.dpml.transit.store.Removable;
 import net.dpml.transit.store.Strategy;
@@ -41,7 +40,7 @@ class HostStorageUnit extends CodeBaseStorageUnit implements HostStorage, Remova
     // state
     // ------------------------------------------------------------------------
 
-    private static final String DEFAULT_HOST_CLASSNAME = DefaultResourceHost.class.getName();
+    private static final String DEFAULT_HOST_CLASSNAME = "net.dpml.transit.DefaultResourceHost";
 
     // ------------------------------------------------------------------------
     // constructor

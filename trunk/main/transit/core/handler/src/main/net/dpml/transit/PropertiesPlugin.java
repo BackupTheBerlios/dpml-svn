@@ -27,7 +27,7 @@ import java.util.ArrayList;
 import java.util.Properties;
 
 import net.dpml.transit.NullArgumentException;
-import net.dpml.transit.artifact.Artifact;
+import net.dpml.transit.Artifact;
 
 /**
  * An implementation of a plugin descriptor based the original properties

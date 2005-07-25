@@ -102,7 +102,7 @@ public class URLTestCase extends TestCase
     */
     private final static String SIMPLE_TEST_PART = "@SIMPLE-TEST-PART@";
     private final static String PLUS_TEST_PART = "@PLUS-TEST-PART@";
-    private final static String CONTENT_MANAGER_PLUGIN = "@CONTENT-MANAGER-PLUGIN@";
+    private final static String PART_MANAGER_PLUGIN = "@PART-MANAGER-PLUGIN@";
 
     private static Transit TRANSIT;
 
@@ -120,9 +120,10 @@ public class URLTestCase extends TestCase
            "net.dpml.transit.util.ConfigurationHandler" ) );
         try
         {
-            URI uri = new URI( CONTENT_MANAGER_PLUGIN );
+            URI uri = new URI( PART_MANAGER_PLUGIN );
             TransitModel model = new DefaultTransitModel();
-            model.getContentRegistryModel().setCodeBaseURI( uri );
+            model.getContentRegistryModel().addContentModel( "part" );
+            model.getContentRegistryModel().getContentModel( "part" ).setCodeBaseURI( uri );
             TRANSIT = Transit.getInstance( model );
         }
         catch( Throwable e )

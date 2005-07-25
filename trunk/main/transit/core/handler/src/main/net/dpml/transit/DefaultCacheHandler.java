@@ -39,10 +39,9 @@ import java.util.WeakHashMap;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
-import net.dpml.transit.artifact.ArtifactAlreadyExistsException;
-import net.dpml.transit.artifact.ArtifactAlreadyExistsException;
+import net.dpml.transit.Artifact;
 import net.dpml.transit.artifact.ArtifactNotFoundException;
-import net.dpml.transit.artifact.Artifact;
+import net.dpml.transit.artifact.ArtifactAlreadyExistsException;
 import net.dpml.transit.model.CacheModel;
 import net.dpml.transit.model.CacheListener;
 import net.dpml.transit.model.Logger;
@@ -66,7 +65,7 @@ import net.dpml.transit.util.Util;
  *
  * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
  */
-public class DefaultCacheHandler extends UnicastRemoteObject implements CacheHandler, CacheListener, Service
+class DefaultCacheHandler extends UnicastRemoteObject implements CacheHandler, CacheListener, Service
 {
     // ------------------------------------------------------------------------
     // state

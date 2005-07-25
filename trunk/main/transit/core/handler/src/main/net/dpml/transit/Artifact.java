@@ -1,5 +1,5 @@
 /*
- * Copyright 2004 Stephen J. McConnell.
+ * Copyright 2004-2005 Stephen J. McConnell.
  * Copyright 2004 Niclas Hedhman.
  *
  * Licensed  under the  Apache License,  Version 2.0  (the "License");
@@ -17,7 +17,7 @@
  * limitations under the License.
  */
 
-package net.dpml.transit.artifact;
+package net.dpml.transit;
 
 import java.io.Serializable;
 import java.net.URLStreamHandler;
@@ -177,7 +177,10 @@ public final class Artifact
         catch( URISyntaxException e )
         {
             // Can not happen.
-            throw new TransitRuntimeException( "An internal error has occurred. The following URI could not be constructed: " + composite );
+            final String error =
+              "An internal error has occurred. "
+              + "The following URI could not be constructed: " + composite;
+            throw new TransitRuntimeException( error );
         }
     }
 
@@ -224,9 +227,8 @@ public final class Artifact
 
     /**
      * Creation of a new Artifact using a supplied uri.
-     * @param uri a uri of the form artifact:[type]:[group]/[name]#[version]
-     * @exception IllegalArgumentException if the supplied uri does not
-     *    declare the 'artifact:' protocol
+     * @param uri a uri of the form [scheme]:[type]:[group]/[name]#[version]
+     *   where [scheme] is one of 'link', 'artifact' or 'local'.
      */
     private Artifact( URI uri )
         throws IllegalArgumentException
@@ -386,17 +388,7 @@ public final class Artifact
         String scheme = getScheme();
         if( "artifact".equals( scheme ) )
         {
-            try
-            {
-                return toURL( new Handler() );
-            }
-            catch( Exception e )
-            {
-                final String error =
-                  "Unexpected error while attempting to construct artifact url."
-                  + "\nURI: " + m_uri;
-                throw new TransitRuntimeException( error, e );
-            }
+            return toURL( new net.dpml.transit.artifact.Handler() );
         }
         else if( "link".equals( scheme ) )
         {
@@ -428,7 +420,11 @@ public final class Artifact
         catch( MalformedURLException e )
         {
             // Can not happen!
-            throw new TransitRuntimeException( "An Artifact URI could not be converted to a URL: " + m_uri );
+            final String error =
+              "An artifact URI could not be converted to a URL [" 
+              + m_uri 
+              + "].";
+            throw new TransitRuntimeException( error );
         }
     }
 

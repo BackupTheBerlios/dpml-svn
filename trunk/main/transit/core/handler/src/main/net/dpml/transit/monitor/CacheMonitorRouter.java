@@ -22,7 +22,7 @@ import java.io.File;
 
 import java.net.URL;
 
-import net.dpml.transit.artifact.Artifact;
+import net.dpml.transit.Artifact;
 
 /**
  * The cache monitor router is responsible for the dispatiching of cache monitor 

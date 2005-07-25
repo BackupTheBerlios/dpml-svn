@@ -178,7 +178,7 @@
       </types>
     </info>
     <dependencies>
-      <include key="dpml-composition-control"/>
+      <include key="dpml-part-api"/>
     </dependencies>
   </project>
 

@@ -22,7 +22,7 @@ import junit.framework.TestCase;
 
 import net.dpml.transit.ClassicLayout;
 import net.dpml.transit.Layout;
-import net.dpml.transit.artifact.Artifact;
+import net.dpml.transit.Artifact;
 
 /**
  * Create of a new Artifact test case.

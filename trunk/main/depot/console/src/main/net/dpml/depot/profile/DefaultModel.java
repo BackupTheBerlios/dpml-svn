@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package net.dpml.transit.model;
+package net.dpml.depot.profile;
 
 import java.io.Serializable;
 import java.net.URI;
@@ -29,6 +29,7 @@ import java.util.LinkedList;
 import java.util.Map;
 import java.util.WeakHashMap;
 
+import net.dpml.transit.model.*;
 import net.dpml.transit.monitor.LoggingAdapter;
 
 /**

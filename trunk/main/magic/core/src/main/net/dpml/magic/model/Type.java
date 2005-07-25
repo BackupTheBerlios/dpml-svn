@@ -20,7 +20,7 @@ package net.dpml.magic.model;
 import java.net.URISyntaxException;
 
 import net.dpml.transit.NullArgumentException;
-import net.dpml.transit.artifact.Artifact;
+import net.dpml.transit.Artifact;
 
 /**
  * Immutable data object that holds the name of a type and optionally 

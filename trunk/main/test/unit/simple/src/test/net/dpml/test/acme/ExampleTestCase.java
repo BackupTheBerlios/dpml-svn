@@ -19,16 +19,15 @@
 
 package net.dpml.test.acme;
 
-import java.net.URI;
-import java.util.Hashtable;
-import java.util.Map.Entry;
+import java.io.File;
+import java.net.URL;
+import java.net.URLConnection;
 
 import junit.framework.TestCase;
 
+import net.dpml.part.PartContentHandlerFactory;
 import net.dpml.part.component.Component;
 import net.dpml.part.control.Controller;
-
-import net.dpml.metro.central.MetroHelper;
 
 /**
  * Test a simple component case.
@@ -44,9 +43,9 @@ public class ExampleTestCase extends TestCase
     */
     public void testExampleUsingValue() throws Exception
     {
-        MetroHelper helper = new MetroHelper();
-        URI uri = helper.toURI( "acme-example-one.part" );
-        Component component = helper.getController().newComponent( uri );
+        File test = new File( System.getProperty( "project.test.dir" ) );
+        URL url = new File( test, "acme-example-one.part" ).toURL();
+        Component component = (Component) url.getContent( new Class[]{ Component.class } );
         Example example = (Example) component.resolve();
         example.doMyStuff();
     }
@@ -58,9 +57,9 @@ public class ExampleTestCase extends TestCase
     */
     public void testExampleUsingComponent() throws Exception
     {
-        MetroHelper helper = new MetroHelper();
-        URI uri = helper.toURI( "acme-example-two.part" );
-        Component component = helper.getController().newComponent( uri );
+        File test = new File( System.getProperty( "project.test.dir" ) );
+        URL url = new File( test, "acme-example-two.part" ).toURL();
+        Component component = (Component) url.getContent( new Class[]{ Component.class } );
         Example example = (Example) component.resolve();
         example.doMyStuff();
     }
@@ -71,9 +70,9 @@ public class ExampleTestCase extends TestCase
     */
     public void testExampleUsingContainer() throws Exception
     {
-        MetroHelper helper = new MetroHelper();
-        URI uri = helper.toURI( "acme-example-three.part" );
-        Component component = helper.getController().newComponent( uri );
+        File test = new File( System.getProperty( "project.test.dir" ) );
+        URL url = new File( test, "acme-example-three.part" ).toURL();
+        Component component = (Component) url.getContent( new Class[]{ Component.class } );
         Example example = (Example) component.resolve();
         example.doMyStuff();
     }
@@ -85,10 +84,16 @@ public class ExampleTestCase extends TestCase
     */
     public void testExampleUsingPartReference() throws Exception
     {
-        MetroHelper helper = new MetroHelper();
-        URI uri = helper.toURI( "acme-example-four.part" );
-        Component component = helper.getController().newComponent( uri );
+        File test = new File( System.getProperty( "project.test.dir" ) );
+        URL url = new File( test, "acme-example-four.part" ).toURL();
+        Component component = (Component) url.getContent( new Class[]{ Component.class } );
         Example example = (Example) component.resolve();
         example.doMyStuff();
     }
+
+    static
+    {
+        URLConnection.setContentHandlerFactory( new PartContentHandlerFactory() );
+    }
+
 }

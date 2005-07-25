@@ -19,16 +19,17 @@
 
 package net.dpml.test.acme;
 
-import java.net.URI;
+import java.io.File;
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.Hashtable;
 import java.util.Map.Entry;
 
 import junit.framework.TestCase;
 
+import net.dpml.part.PartContentHandlerFactory;
 import net.dpml.part.control.Controller;
 import net.dpml.part.component.Component;
-
-import net.dpml.metro.central.MetroHelper;
 
 /**
  * Test a simple component case.
@@ -51,9 +52,7 @@ public class SimpleTestCase extends TestCase
     */
     public void testGetValue() throws Exception
     {
-        MetroHelper helper = new MetroHelper();
-        URI uri = helper.toURI( PATH );
-        Component component = helper.getController().newComponent( uri );
+        Component component = getComponent( PATH );
         Widget widget = (Widget) component.resolve();
         widget.doWidgetStuff( "green" );
         component.release( widget );
@@ -65,9 +64,7 @@ public class SimpleTestCase extends TestCase
     */
     public void testDimensionInWidget() throws Exception
     {
-        MetroHelper helper = new MetroHelper();
-        URI uri = helper.toURI( "acme-widget.part" );
-        Component component = helper.getController().newComponent( uri );
+        Component component = getComponent( "acme-widget.part" );
         Widget widget = (Widget) component.resolve();
         widget.doWidgetStuff( "green" );
         component.release( widget );
@@ -78,9 +75,7 @@ public class SimpleTestCase extends TestCase
     */
     public void testServiceIsolation() throws Exception
     {
-        MetroHelper helper = new MetroHelper();
-        URI uri = helper.toURI( PATH );
-        Component component = helper.getController().newComponent( uri );
+        Component component = getComponent( PATH );
         Widget widget = (Widget) component.resolve();
         try
         {
@@ -103,9 +98,7 @@ public class SimpleTestCase extends TestCase
     */
     public void testNonProxiedCreation() throws Exception
     {
-        MetroHelper helper = new MetroHelper();
-        URI uri = helper.toURI( PATH );
-        Component component = helper.getController().newComponent( uri );
+        Component component = getComponent( PATH );
         WidgetComponent widget = (WidgetComponent) component.resolve( false );
         String name = widget.getName();
         assertEquals( "name", "widget", name );
@@ -121,10 +114,7 @@ public class SimpleTestCase extends TestCase
     */
     public void testIdentifiableManagerCreation() throws Exception
     {
-        String id = "steve";
-        MetroHelper helper = new MetroHelper();
-        URI uri = helper.toURI( PATH );
-        Component component = helper.getController().newComponent( uri );
+        Component component = getComponent( PATH );
         WidgetComponent widget = (WidgetComponent) component.resolve( false );
         component.release( widget );
     }
@@ -138,10 +128,8 @@ public class SimpleTestCase extends TestCase
     */
     public void testIdentifiableCreation() throws Exception
     {
-        MetroHelper helper = new MetroHelper();
-        URI uri = helper.toURI( PATH );
-        Component c1 = helper.getController().newComponent( uri );
-        Component c2 = helper.getController().newComponent( uri );
+        Component c1 = getComponent( PATH );
+        Component c2 = getComponent( PATH );
         Widget w1 = (Widget) c1.resolve( false );
         Widget w2 = (Widget) c2.resolve( false );
         if( w1.equals( w2 ) )
@@ -149,4 +137,17 @@ public class SimpleTestCase extends TestCase
             fail( "Widget w1 and w2 are not unique!" );
         }
     }
+
+    Component getComponent( String path ) throws Exception
+    {
+        File test = new File( System.getProperty( "project.test.dir" ) );
+        URL url = new File( test, path ).toURL();
+        return (Component) url.getContent( new Class[]{ Component.class } );
+    }
+
+    static
+    {
+        URLConnection.setContentHandlerFactory( new PartContentHandlerFactory() );
+    }
+
 }

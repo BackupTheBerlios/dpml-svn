@@ -36,7 +36,7 @@ import net.dpml.transit.store.ProxyStorage;
  * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
  * @version $Id: StandardTransitDirector.java 2480 2005-05-10 04:44:32Z mcconnell@dpml.net $
  */
-public class DefaultProxyModel extends DefaultModel implements ProxyModel
+class DefaultProxyModel extends DefaultModel implements ProxyModel
 {
     // ------------------------------------------------------------------------
     // state

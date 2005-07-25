@@ -8,7 +8,6 @@
   <import uri="${dpml.metro.uri}"/>
 
   <import index="components/index.xml" />
-  <import index="plugins/index.xml" />
   <import index="unit/index.xml" />
 
 </index>

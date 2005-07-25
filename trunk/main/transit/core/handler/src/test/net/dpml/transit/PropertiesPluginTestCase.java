@@ -26,7 +26,7 @@ import java.util.Properties;
 
 import junit.framework.TestCase;
 
-import net.dpml.transit.artifact.Artifact;
+import net.dpml.transit.Artifact;
 
 /**
  * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>

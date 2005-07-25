@@ -26,7 +26,7 @@ import java.io.OutputStream;
 
 import net.dpml.transit.NullArgumentException;
 import net.dpml.transit.TransitException;
-import net.dpml.transit.artifact.Artifact;
+import net.dpml.transit.Artifact;
 import net.dpml.transit.artifact.ArtifactAlreadyExistsException;
 
 /**
@@ -100,7 +100,7 @@ public interface CacheHandler
      *   and do any post-processing there.
      * </p>
      * @exception NullArgumentException if the artifact argument is null.
-     * @exception net.dpml.transit.artifact.ArtifactAlreadyExistsException if the artifact already exists
+     * @exception net.dpml.transit.ArtifactAlreadyExistsException if the artifact already exists
      *            in the cache.
      */
     OutputStream createOutputStream( Artifact artifact )

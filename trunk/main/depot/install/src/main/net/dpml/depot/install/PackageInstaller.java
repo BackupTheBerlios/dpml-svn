@@ -29,10 +29,10 @@ import net.dpml.depot.profile.DepotProfile;
 import net.dpml.depot.profile.ApplicationProfile;
 
 import net.dpml.transit.Transit;
-import net.dpml.transit.artifact.Artifact;
+import net.dpml.transit.Artifact;
+import net.dpml.transit.UnsupportedSchemeException;
+import net.dpml.transit.MissingGroupException;
 import net.dpml.transit.artifact.ArtifactNotFoundException;
-import net.dpml.transit.artifact.UnsupportedSchemeException;
-import net.dpml.transit.artifact.MissingGroupException;
 import net.dpml.transit.model.TransitRegistryModel;
 import net.dpml.transit.model.DefaultTransitRegistryModel;
 import net.dpml.transit.model.Logger;

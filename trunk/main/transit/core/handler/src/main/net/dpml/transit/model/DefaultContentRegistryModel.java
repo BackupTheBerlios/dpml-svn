@@ -38,7 +38,7 @@ import net.dpml.transit.store.ContentRegistryHome;
  *
  * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
  */
-public class DefaultContentRegistryModel extends DisposableCodeBaseModel 
+class DefaultContentRegistryModel extends DisposableCodeBaseModel 
   implements ContentRegistryModel
 {
     // ------------------------------------------------------------------------

@@ -16,26 +16,26 @@
  * limitations under the License.
  */
 
-package net.dpml.transit.artifact;
+package net.dpml.transit;
 
 /**
- * Exception to indicate that the scheme of a supplied uri is not recognized
- * as a member of the artifact family.
+ * Exception to indicate that the group component of an artifact uri 
+ * specification was not found.
  *
  * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
  */
-public class UnsupportedSchemeException extends IllegalArgumentException
+public class MissingGroupException extends IllegalArgumentException
 {
     // ------------------------------------------------------------------------
     // constructor
     // ------------------------------------------------------------------------
 
     /**
-     * Construct a new <code>UnsupportedSchemeException</code> instance.
+     * Construct a new <code>MissingGroupException </code> instance.
      *
      * @param message The detail message for this exception.
      */
-    public UnsupportedSchemeException( String message )
+    public MissingGroupException( String message )
     {
         super( message );
     }
