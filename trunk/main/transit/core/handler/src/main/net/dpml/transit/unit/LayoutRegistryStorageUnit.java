@@ -29,8 +29,9 @@ import net.dpml.transit.store.LayoutRegistryHome;
 import net.dpml.transit.store.LayoutStorage;
 
 /**
- * The LayoutHelper class is responsible for the setup of initial factory
- * default preference settings.
+ * The LayoutRegistryStorageUnit maintains persstent storage of 
+ * the layout registry.  The persistent strategy employed by the implementation 
+ * is based on the java.util.prefs Preferences object model.
  */
 class LayoutRegistryStorageUnit extends CodeBaseStorageUnit implements LayoutRegistryHome
 {
@@ -38,6 +39,10 @@ class LayoutRegistryStorageUnit extends CodeBaseStorageUnit implements LayoutReg
     // constructor
     // ------------------------------------------------------------------------
 
+   /**
+    * Construction of a new layout registry storage unit.
+    * @param prefs the preferences node
+    */
     LayoutRegistryStorageUnit( Preferences prefs )
     {
         super( prefs );
@@ -47,6 +52,10 @@ class LayoutRegistryStorageUnit extends CodeBaseStorageUnit implements LayoutReg
     // LayoutRegistryHome
     // ------------------------------------------------------------------------
 
+   /**
+    * Return the array of inital layout storage units.
+    * @return the layout unit storage array
+    */
     public LayoutStorage[] getInitialLayoutStores()
     {
         Preferences prefs = getPreferences();
@@ -70,6 +79,13 @@ class LayoutRegistryStorageUnit extends CodeBaseStorageUnit implements LayoutReg
         }
     }
 
+   /**
+    * Return a layout storage unit given a storae unit identifier.  If the 
+    * stroage unit does not exist an implementation shall create and return a 
+    * net storage unit.
+    * 
+    * @return the layout storage unit
+    */
     public LayoutStorage getLayoutStorage( String id ) throws BuilderException
     {
         Preferences prefs = getPreferences().node( id );

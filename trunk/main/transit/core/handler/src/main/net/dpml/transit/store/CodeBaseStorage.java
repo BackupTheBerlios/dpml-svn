@@ -29,7 +29,7 @@ import java.net.URI;
 public interface CodeBaseStorage
 {
    /**
-    * Return the URI identifying a codebase.  Tpically this value returned from 
+    * Return the URI identifying a codebase.  Typically this value returned from 
     * this operation identifes a plugin uses as a system extension or customization 
     * point.
     *

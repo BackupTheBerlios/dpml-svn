@@ -34,6 +34,8 @@ public interface HostStorage extends CodeBaseStorage
    /**
     * Return an immutable host identifier.  The host identifier shall be 
     * guranteed to be unique and constant for the life of the storage unit.
+    * 
+    * @return the immutable host model identifier
     */
     String getID();
 
@@ -127,19 +129,19 @@ public interface HostStorage extends CodeBaseStorage
 
    /**
     * Set the host name.
-    * @param the name
+    * @param name the name
     */
     void setName( String name );
 
    /**
     * Set the host priority.
-    * @param the priority value
+    * @param priority the priority value
     */
     void setPriority( int priority );
 
    /**
     * Set the host layout model identitfier.
-    * @param the layout key
+    * @param layout the layout key
     */
     void setLayoutModelKey( String layout );
 

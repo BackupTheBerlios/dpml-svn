@@ -37,7 +37,7 @@ import net.dpml.transit.store.CodeBaseStorage;
 import net.dpml.transit.util.PropertyResolver;
 
 /**
- * The TransitStorageUnit is responsible for the construction of persistent
+ * The TransitStorageUnit is responsible for the maintenance of persistent
  * storage units for all Transit subsystems.
  */
 public class TransitStorageUnit extends AbstractStorageUnit implements TransitStorage
@@ -56,21 +56,47 @@ public class TransitStorageUnit extends AbstractStorageUnit implements TransitSt
     // constructor
     // ------------------------------------------------------------------------
 
+   /**
+    * Creation of a new Transit storage unit using the default profile.
+    */
     public TransitStorageUnit()
     {
         this( getDefaultProfileName() );
     }
 
+   /**
+    * Creation of a new Transit storage unit using the supplied
+    * profile name.  If the profile does not exist the implementation will 
+    * create and return a new profile with the supplied name as the 
+    * profile identifier.
+    *
+    * @param profile the profile name
+    *
+    */
     public TransitStorageUnit( String profile )
     {
         this( getTransitPreferences( profile ) );
     }
 
+   /**
+    * Creation of a new Transit storage unit using an authorative 
+    * URL as the source for the inital parameterization of the data structure.
+    * The underlying stroage system will be based on a non-persistent 
+    * preference implementation.
+    *
+    * @param url the authorative url
+    */
     public TransitStorageUnit( URL url )
     {
         this( getLocalPreferences( url ) );
     }
 
+   /**
+    * Creation of a new Transit storage unit using a supplied prefernces
+    * node.
+    *
+    * @param prefs the preferences node use as the storage solution
+    */
     public TransitStorageUnit( Preferences prefs )
     {
         super( prefs );

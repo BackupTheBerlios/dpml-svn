@@ -45,12 +45,22 @@ class CredentialsHelper
         // static utility class
     }
 
+   /**
+    * Utility operation to convert a password authentication instance to a byte array.
+    * @param auth the password authentication
+    * @return the byte array
+    */
     public static byte[] exportCredentials( PasswordAuthentication auth ) throws BuilderException
     {
         CrendentialsHolder holder = new CrendentialsHolder( auth );
         return toByteArray( holder );
     }
 
+   /**
+    * Utility operation to convert a byte array to a password authentication instance.
+    * @param the byte array
+    * @return auth the password authentication
+    */
     public static PasswordAuthentication importCredentials( byte[] bytes ) throws BuilderException
     {
         try
@@ -68,6 +78,11 @@ class CredentialsHelper
         }
     }
 
+   /**
+    * Utility operation to convert a serialized object to a a byte array
+    * @param the object the serializable object
+    * @return the byte array
+    */
     public static byte[] toByteArray( Serializable object ) throws BuilderException
     {
         ByteArrayOutputStream stream = new ByteArrayOutputStream();

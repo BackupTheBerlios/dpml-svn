@@ -61,7 +61,7 @@ public interface ProxyStorage
 
    /**
     * Set the proxy host authentication credentials.
-    * @param host the password authentication credentials
+    * @param auth the password authentication credentials
     */
     void setAuthentication( PasswordAuthentication auth );
 

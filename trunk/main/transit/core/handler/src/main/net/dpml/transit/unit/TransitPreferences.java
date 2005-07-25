@@ -52,7 +52,7 @@ import net.dpml.transit.util.Util;
 import net.dpml.transit.model.CacheModel;
 
 /**
- * The TransitInstaller class is responsible for the setup of initial factory
+ * The TransitPreferences class is responsible for the setup of initial factory
  * default preference settings.
  */
 public class TransitPreferences
@@ -111,6 +111,7 @@ public class TransitPreferences
     * the authority attribute.
     *
     * @param root the preferences node to use for the population of transit preferences
+    * @param authority URL referencing an authorative source
     * @exception BuilderException if a error occcurs during preferences initialization
     */
     public static void setupPreferences( Preferences root, URL authority ) throws BuilderException

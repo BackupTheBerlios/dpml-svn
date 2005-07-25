@@ -26,8 +26,9 @@ import net.dpml.transit.Transit;
 import net.dpml.transit.TransitError;
 
 /**
- * <p>A transient non-persistent implementation of the Preferences services.  This 
- * implementation holds preferences attribue values in memory using Properties.
+ * <p>A implementation of the Preferences services that provides persistence for 
+ * the duration of the JVM.  
+ * The implementation holds preferences attribue values in memory using Properties.
  * The implementation is suitable for the construction of preferences that for 
  * usage in nono-shared scenarios (such as testcases or short running applications).
  * The preference implementation is established via declaration of the following
@@ -47,11 +48,19 @@ public class LocalPreferencesFactory implements PreferencesFactory
     // PreferencesFactory
     // ------------------------------------------------------------------------
 
+   /**
+    * Return the root system preferences node.
+    * @return the root node of the system prefs
+    */
     public Preferences systemRoot()
     {
         return new LocalPreferences( null, "" );
     }
 
+   /**
+    * Return the root user preferences node.
+    * @return the root node of the user prefs
+    */
     public Preferences userRoot()
     {
         return new LocalPreferences( null, "" );

@@ -32,8 +32,8 @@ import net.dpml.transit.store.LayoutStorage;
 import net.dpml.transit.store.Removable;
 
 /**
- * The LayoutHelper class is responsible for the setup of initial factory
- * default preference settings.
+ * The LayoutStorageUnit class maintains persistent information about a 
+ * layout model.
  */
 class LayoutStorageUnit extends CodeBaseStorageUnit implements LayoutStorage, Removable
 {
@@ -41,6 +41,10 @@ class LayoutStorageUnit extends CodeBaseStorageUnit implements LayoutStorage, Re
     // constructor
     // ------------------------------------------------------------------------
 
+   /**
+    * Creation of a new layout storage unit.
+    * @param prefs the preferences to use as the underlying storage model
+    */
     LayoutStorageUnit( Preferences prefs )
     {
         super( prefs );
@@ -50,12 +54,20 @@ class LayoutStorageUnit extends CodeBaseStorageUnit implements LayoutStorage, Re
     // LayoutStorage
     // ------------------------------------------------------------------------
 
+   /**
+    * The layout model identifier.
+    * @return the layout id
+    */
     public String getID()
     {
         Preferences prefs = getPreferences();
         return prefs.name();
     }
 
+   /**
+    * The layout model title.
+    * @return the layout title
+    */
     public String getTitle()
     {
         Preferences prefs = getPreferences();
@@ -63,11 +75,19 @@ class LayoutStorageUnit extends CodeBaseStorageUnit implements LayoutStorage, Re
         return prefs.get( "title", id );
     }
 
+   /**
+    * Set the layout model title.
+    * @param title the new layout title
+    */
     public void setTitle( String title )
     {
         setValue( "title", title );
     }
 
+   /**
+    * Return the strategy object for the layout model.
+    * @return the strategy
+    */
     public Strategy getStrategy()
     {
         URI uri = getCodeBaseURI();
@@ -83,6 +103,10 @@ class LayoutStorageUnit extends CodeBaseStorageUnit implements LayoutStorage, Re
         }
     }
 
+   /**
+    * Set the model construction strategy.
+    * @param strategy the construction strategy
+    */
     public void setStrategy( Strategy strategy )
     {
         if( strategy instanceof PluginStrategy )
@@ -102,6 +126,9 @@ class LayoutStorageUnit extends CodeBaseStorageUnit implements LayoutStorage, Re
     // Removable
     // ------------------------------------------------------------------------
 
+   /**
+    * Remove the storage unit.
+    */
     public void remove()
     {
         try

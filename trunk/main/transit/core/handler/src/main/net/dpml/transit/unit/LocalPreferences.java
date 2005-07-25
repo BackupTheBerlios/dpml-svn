@@ -28,7 +28,9 @@ import java.util.prefs.PreferencesFactory;
 import net.dpml.transit.Transit;
 
 /**
- * An implementation of Preferences based on java.util.Properties.
+ * An implementation of Preferences based on java.util.Properties suitable
+ * for scenarios where the persistent information lifetime is limited to 
+ * the lifetype of the JVM.
  */
 public class LocalPreferences extends AbstractPreferences
 {
@@ -39,6 +41,11 @@ public class LocalPreferences extends AbstractPreferences
     // constructor
     // ------------------------------------------------------------------------
 
+   /**
+    * Constructs a new local prefeences object.
+    * @param parent the parent node
+    * @param name the preferences node name
+    */
     public LocalPreferences( LocalPreferences parent, String name )
     {
         super( parent, name );
@@ -49,21 +56,38 @@ public class LocalPreferences extends AbstractPreferences
     // LocalPreferences
     // ------------------------------------------------------------------------
 
+   /**
+    * Set an attribute value.
+    * @param key the attribute key
+    * @param value the attribute value
+    */
     protected void putSpi( String key, String value )
     {
         getProperties().setProperty( key, value );
     }
 
+   /**
+    * Get an attribute value.
+    * @param key the attribute key
+    * @return the attribute value
+    */
     protected String getSpi( String key )
     { 
         return getProperties().getProperty( key );
     }
 
+   /**
+    * Remove an attribute.
+    * @param key the attribute key
+    */
     protected void removeSpi( String key )
     {
         getProperties().remove( key );
     }
 
+   /**
+    * Remove the preferences node.
+    */
     protected void removeNodeSpi() throws BackingStoreException
     {
         LocalPreferences parent = (LocalPreferences) parent();
@@ -73,16 +97,29 @@ public class LocalPreferences extends AbstractPreferences
         }
     }
 
+   /**
+    * Return the set of attribute keys in this preferences node.
+    * @return the array of attribute names
+    */
     protected String[] keysSpi() throws BackingStoreException 
     {
         return (String[]) m_properties.keySet().toArray( new String[0] );
     }
 
+   /**
+    * Return an array of child node names.
+    * @return the array of child node names
+    */
     protected String[] childrenNamesSpi() throws BackingStoreException 
     {
         return (String[]) m_table.keySet().toArray( new String[0] );
     }
 
+   /**
+    * Return a named child node.
+    * @param name the the child node name
+    * @return the the child node
+    */
     protected AbstractPreferences childSpi( String name )
     {
         synchronized( m_table )
@@ -101,10 +138,16 @@ public class LocalPreferences extends AbstractPreferences
         }
     }
 
+   /**
+    * Synchronize changes.
+    */
     protected void syncSpi() throws BackingStoreException
     {
     }
 
+   /**
+    * Flush changes.
+    */
     protected void flushSpi() throws BackingStoreException
     {
     }

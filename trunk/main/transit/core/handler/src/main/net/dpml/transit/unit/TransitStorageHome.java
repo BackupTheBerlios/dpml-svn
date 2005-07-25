@@ -31,7 +31,7 @@ import net.dpml.transit.store.TransitHome;
 import net.dpml.transit.store.TransitStorage;
 
 /**
- * The TransitStorageUnit is responsible for the construction of persistent
+ * The TransitStorageHome is responsible for the construction of persistent
  * storage units for all Transit subsystems.
  */
 public class TransitStorageHome extends AbstractStorageUnit implements TransitHome
@@ -40,6 +40,10 @@ public class TransitStorageHome extends AbstractStorageUnit implements TransitHo
     // constructor
     // ------------------------------------------------------------------------
 
+   /**
+    * Creation of a new Transit storage home using preferences from the
+    * net.dpml.transit user preferences node.
+    */
     public TransitStorageHome()
     {
         super( Preferences.userNodeForPackage( Transit.class ) );
@@ -49,6 +53,10 @@ public class TransitStorageHome extends AbstractStorageUnit implements TransitHo
     // TransitHome
     // ------------------------------------------------------------------------
 
+   /**
+    * Return the inital set of transit storage instances.
+    * @return the transit storage unit array
+    */
     public TransitStorage[] getInitialTransitStores()
     {
         String[] names = getProfileNames();
@@ -61,11 +69,20 @@ public class TransitStorageHome extends AbstractStorageUnit implements TransitHo
         return stores;
     }
 
+   /**
+    * Return an identified transit storage unit.
+    * @param id the storage ujnit id
+    * @return the transit storage unit
+    */
     public TransitStorage getTransitStorage( String id )
     {
         return new TransitStorageUnit( id );
     }
 
+   /**
+    * Return an array of the storage unit names
+    * @return the array of transit storage unit names
+    */
     public String[] getProfileNames()
     {
         try

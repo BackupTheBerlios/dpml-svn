@@ -36,6 +36,10 @@ class ProxyStorageUnit extends AbstractStorageUnit implements ProxyStorage
     // constructor
     // ------------------------------------------------------------------------
 
+   /**
+    * Creation of a new proxy stroage unit.
+    * @param prefs the preference node to use as the storage solution
+    */
     ProxyStorageUnit( Preferences prefs )
     {
         super( prefs );
@@ -45,6 +49,10 @@ class ProxyStorageUnit extends AbstractStorageUnit implements ProxyStorage
     // ProxyStorage
     // ------------------------------------------------------------------------
 
+   /**
+    * Set the proxy host value.
+    * @param host the new proxy host value
+    */
     public void setHost( URL host )
     {
         Preferences prefs = getPreferences();
@@ -65,6 +73,10 @@ class ProxyStorageUnit extends AbstractStorageUnit implements ProxyStorage
         }
     }
 
+   /**
+    * Set the proxy host authentication credentials.
+    * @param auth the password authentication credentials
+    */
     public void setAuthentication( PasswordAuthentication auth )
       throws BuilderException
     {
@@ -80,11 +92,48 @@ class ProxyStorageUnit extends AbstractStorageUnit implements ProxyStorage
         }
     }
 
+   /**
+    * Set the proxy excludes value.
+    * @param excludes the new proxy excludes value
+    */
     public void setExcludes( String[] excludes )
     {
-        // TODO: 
+        try
+        {
+            Preferences prefs = getPreferences();
+            Preferences node = prefs.node( "excludes" );
+            String[] keys = node.keys();
+            for( int i=0; i<keys.length; i++ )
+            {
+                node.remove( keys[i] );
+            }
+
+            if( null != excludes )
+            {
+                for( int i=0; i<excludes.length; i++ )
+                {
+                    String exclude = excludes[i];
+                    if( null != exclude )
+                    {
+                        node.put( exclude, "" );
+                    }
+                }
+            }
+        }
+        catch( BackingStoreException e )
+        {
+            final String error = 
+              "Cannot resolve excludes due to preferences backing store error.";
+            throw new BuilderException( error, e );
+        }
     }
 
+   /**
+    * Update the persistent storage object with the aggregates data collection.
+    * @param host the new proxy host value
+    * @param auth the new proxy password authentication credentials
+    * @param excludes the new proxy host excludes value
+    */
     public void saveProxySettings( URL host, PasswordAuthentication auth, String[] excludes )
     {
         Preferences prefs = getPreferences();
@@ -96,11 +145,19 @@ class ProxyStorageUnit extends AbstractStorageUnit implements ProxyStorage
         }
     }
 
+   /**
+    * Return the proxy host URL.
+    * @return the proxy host url
+    */
     public URL getHost()
     {
         return getURL( "host" );
     }
 
+   /**
+    * Return the proxy authentication credentials.
+    * @return the credentials
+    */
     public PasswordAuthentication getAuthentication()
       throws BuilderException
     {
@@ -116,6 +173,10 @@ class ProxyStorageUnit extends AbstractStorageUnit implements ProxyStorage
         }
     }
 
+   /**
+    * Return the array of proxy host excludes.
+    * @return the proxy excludes
+    */
     public String[] getExcludes() throws BuilderException
     {
         try
@@ -131,7 +192,6 @@ class ProxyStorageUnit extends AbstractStorageUnit implements ProxyStorage
             throw new BuilderException( error, e );
         }
     }
-
 }
 
 

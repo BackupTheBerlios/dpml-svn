@@ -43,6 +43,10 @@ class CacheStorageUnit extends CodeBaseStorageUnit implements CacheHome, Removab
     // constructor
     // ------------------------------------------------------------------------
 
+   /**
+    * Creation of a new cache storage unit.
+    * @param prefs the preferences to use as the underlying storage model
+    */
     CacheStorageUnit( Preferences prefs )
     {
         super( prefs );
@@ -73,17 +77,33 @@ class CacheStorageUnit extends CodeBaseStorageUnit implements CacheHome, Removab
         }
     }
 
+   /**
+    * Return a new host storage unit relative to the supplied host id.
+    * @param id the host identifier
+    */
     public HostStorage getHostStorage( String id ) throws BuilderException
     {
         Preferences prefs = getHostsNodePreferences().node( id );
         return new HostStorageUnit( prefs );
     }
 
+   /**
+    * Return the assigned layout model id from the "layout" attribute.  
+    * If no layout key is declared the implementation returns "classic" as the
+    * layout model identifier.
+    *
+    * @return the layout identifier
+    */
     public String getLayoutModelKey()
     {
         return getValue( "layout", "classic" );
     }
 
+   /**
+    * Set the layout model id to a supplied value under the "layout" attribute key.
+    *
+    * @param the layout identifier
+    */
     public void setLayoutModelKey( String key )
     {
         setValue( "layout", key );
@@ -93,6 +113,10 @@ class CacheStorageUnit extends CodeBaseStorageUnit implements CacheHome, Removab
     // Removable
     // ------------------------------------------------------------------------
 
+   /**
+    * Cache stroage units are not removable.
+    * @exception UnsupportedOperationException is always thrown
+    */
     public void remove()
     {
         throw new UnsupportedOperationException();
@@ -102,6 +126,10 @@ class CacheStorageUnit extends CodeBaseStorageUnit implements CacheHome, Removab
     // impl
     // ------------------------------------------------------------------------
 
+   /**
+    * Return the initial set of host storage units.
+    * @return the array of host storage units
+    */
     public HostStorage[] getInitialHosts()
     {
         Preferences prefs = getHostsNodePreferences();
@@ -136,7 +164,7 @@ class CacheStorageUnit extends CodeBaseStorageUnit implements CacheHome, Removab
         String path = prefs.get( "location", "${dpml.data}/cache" );
         return path;
     }
-
+   
     private Preferences getHostsNodePreferences()
     {
         Preferences prefs = getPreferences();

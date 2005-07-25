@@ -37,6 +37,10 @@ class ContentRegistryStorageUnit extends CodeBaseStorageUnit implements ContentR
     // constructor
     // ------------------------------------------------------------------------
 
+   /**
+    * Creation of a new content registry storage unit.
+    * @param prefs the preferences node backing this storage model
+    */
     ContentRegistryStorageUnit( Preferences prefs )
     {
         super( prefs );
@@ -46,6 +50,13 @@ class ContentRegistryStorageUnit extends CodeBaseStorageUnit implements ContentR
     // ContentRegistryHome
     // ------------------------------------------------------------------------
 
+   /**
+    * Create a content storage unit using a supplied type, title and uri.
+    * @param type the content type
+    * @param title the content type title
+    * @param uri a plugin codebase uri
+    * return the content storage unit
+    */
     public ContentStorage createContentStorage( String id, String title, URI uri )
     {
         Preferences prefs = getPreferences();
@@ -55,6 +66,11 @@ class ContentRegistryStorageUnit extends CodeBaseStorageUnit implements ContentR
         return createContentStorage( id );
     }
 
+   /**
+    * Create a content storage unit for the supplied content type.
+    * @param type the content type
+    * @return the content storage unit
+    */
     public ContentStorage createContentStorage( String id ) throws BuilderException
     {
         Preferences prefs = getPreferences();
@@ -62,6 +78,12 @@ class ContentRegistryStorageUnit extends CodeBaseStorageUnit implements ContentR
         return new ContentStorageUnit( p );
     }
 
+   /**
+    * Return an aray of the content storage units initally assigned under
+    * the content registry storage home.
+    * 
+    * @return an array of content storage units
+    */
     public ContentStorage[] getInitialContentStores()
     {
         Preferences prefs = getPreferences();

@@ -33,8 +33,7 @@ import net.dpml.transit.store.PluginStrategy;
 import net.dpml.transit.store.LocalStrategy;
 
 /**
- * The LayoutHelper class is responsible for the setup of initial factory
- * default preference settings.
+ * Default implementation of a persistent host storage using java.util.Preferences.
  */
 class HostStorageUnit extends CodeBaseStorageUnit implements HostStorage, Removable
 {
@@ -48,6 +47,10 @@ class HostStorageUnit extends CodeBaseStorageUnit implements HostStorage, Remova
     // constructor
     // ------------------------------------------------------------------------
 
+   /**
+    * Creation of the hew host storage unit.
+    * @param prefs the preferences to use as the persistent store
+    */
     HostStorageUnit( Preferences prefs )
     {
         super( prefs );
@@ -57,6 +60,18 @@ class HostStorageUnit extends CodeBaseStorageUnit implements HostStorage, Remova
     // HostStorage
     // ------------------------------------------------------------------------
 
+   /**
+    * Update the storage unit with the supplied values.
+    *
+    * @param base the host base url path
+    * @param index the host content index
+    * @param enabled the enabled status of the host
+    * @param trusted the trusted status of the host
+    * @param layout the assigned host layout identifier
+    * @param auth a possibly null host authentication username and password
+    * @param scheme the host security scheme
+    * @param prompt the security prompt raised by the host
+    */
     public void setHostSettings( 
       String base, String index, boolean enabled, boolean trusted, String layout, 
       PasswordAuthentication auth, String scheme, String prompt )
@@ -75,59 +90,100 @@ class HostStorageUnit extends CodeBaseStorageUnit implements HostStorage, Remova
         }
     }
 
-
+   /**
+    * Return an immutable host identifier.  The host identifier shall be 
+    * guranteed to be unique and constant for the life of the storage unit.
+    * 
+    * @return the immutable host model identifier
+    */
     public String getID()
     {
         Preferences prefs = getPreferences();
         return prefs.name();
     }
 
+   /**
+    * Return the name of the resource host.
+    * @return the host name
+    */
     public String getName()
     {
         String id = getID();
         return getValue( "name", id );
     }
 
+   /**
+    * Return a striong identify the authentication scheme employed by the host.
+    * @return the scheme
+    */
     public String getScheme()
     {
         return getValue( "scheme", "" );
     }
 
+   /**
+    * Return the authentication prompt.
+    * Return the prompt value
+    */
     public String getPrompt()
     {
         return getValue( "prompt", "" );
     }
 
+   /**
+    * Return the bootstrap status of the host.
+    * @return TRUE if this is a bootstrap host
+    */
     public boolean getBootstrap()
     {
         Preferences prefs = getPreferences();
         return prefs.getBoolean( "bootstrap", false );
     }
 
+   /**
+    * Return the trusted status.
+    * @return TRUE if trusted 
+    */
     public boolean getTrusted()
     {
         Preferences prefs = getPreferences();
         return prefs.getBoolean( "trusted", false );
     }
 
+   /**
+    * Return the enabled status of the host.
+    * @return TRUE if enabled 
+    */
     public boolean getEnabled()
     {
         Preferences prefs = getPreferences();
         return prefs.getBoolean( "enabled", false );
     }
 
+   /**
+    * Return the host priority.
+    * @return the host priority setting
+    */
     public int getPriority()
     {
         Preferences prefs = getPreferences();
         return prefs.getInt( "priority", 600 );
     }
 
+   /**
+    * Return the layout strategy model key.
+    * @return the layout model key7
+    */
     public String getLayoutModelKey()
     {
         Preferences prefs = getPreferences();
         return getValue( "layout", "classic" );
     }
 
+   /**
+    * Return the strategy using to establish a host model.
+    * @return the strategy
+    */
     public Strategy getStrategy()
     {
         URI uri = getCodeBaseURI();
@@ -143,12 +199,20 @@ class HostStorageUnit extends CodeBaseStorageUnit implements HostStorage, Remova
         }
     }
 
+   /**
+    * Return the host base path.
+    * @return the base path
+    */
     public String getBasePath() throws BuilderException
     {
         Preferences prefs = getPreferences();
         return prefs.get( "base", "http://localhost" );
     }
 
+   /**
+    * Return the host password authentication credentials.
+    * @return the password authentication credentials
+    */
     public PasswordAuthentication getAuthentication()
       throws BuilderException
     {
@@ -164,11 +228,76 @@ class HostStorageUnit extends CodeBaseStorageUnit implements HostStorage, Remova
         }
     }
 
+   /**
+    * Return index path.
+    * @return the index path
+    */
     public String getIndexPath() throws BuilderException
     {
         Preferences prefs = getPreferences();
         return prefs.get( "index", null );
     }
+
+   /**
+    * Set the host name.
+    * @param name the name
+    */
+    public void setName( String name )
+    {
+        setValue( "name", name );
+    }
+
+   /**
+    * Set the host priority.
+    * @param priority the priority value
+    */
+    public void setPriority( int priority )
+    {
+        Preferences prefs = getPreferences();
+        synchronized( prefs )
+        {
+            prefs.putInt( "priority", priority );
+        }
+    }
+
+   /**
+    * Set the host layout model identitfier.
+    * @param layout the layout key
+    */
+    public void setLayoutModelKey( String layout )
+    {
+        if( null == layout )
+        {
+            setValue( "layout", null );
+        }
+        else
+        {
+            setValue( "layout", layout );
+        }
+    }
+
+    // ------------------------------------------------------------------------
+    // Removable
+    // ------------------------------------------------------------------------
+
+   /**
+    * Remove the storage unit.
+    */
+    public void remove()
+    {
+        try
+        {
+            getPreferences().removeNode();
+        }
+        catch( BackingStoreException e )
+        {
+            throw new BuilderException( "storage removal failure", e );
+        }
+    }
+
+    // ------------------------------------------------------------------------
+    // impl
+    // ------------------------------------------------------------------------
 
     private void setTrusted( boolean trusted )
     {
@@ -180,32 +309,6 @@ class HostStorageUnit extends CodeBaseStorageUnit implements HostStorage, Remova
     {
         Preferences prefs = getPreferences();
         prefs.putBoolean( "enabled", enabled );
-    }
-
-    public void setName( String name )
-    {
-        setValue( "name", name );
-    }
-
-    public void setPriority( int priority )
-    {
-        Preferences prefs = getPreferences();
-        synchronized( prefs )
-        {
-            prefs.putInt( "priority", priority );
-        }
-    }
-
-    public void setLayoutModelKey( String layout )
-    {
-        if( null == layout )
-        {
-            setValue( "layout", null );
-        }
-        else
-        {
-            setValue( "layout", layout );
-        }
     }
 
    /**
@@ -224,22 +327,6 @@ class HostStorageUnit extends CodeBaseStorageUnit implements HostStorage, Remova
         {
             byte[] bytes = CredentialsHelper.exportCredentials( auth );
             prefs.putByteArray( "authentication", bytes );
-        }
-    }
-
-    // ------------------------------------------------------------------------
-    // Removable
-    // ------------------------------------------------------------------------
-
-    public void remove()
-    {
-        try
-        {
-            getPreferences().removeNode();
-        }
-        catch( BackingStoreException e )
-        {
-            throw new BuilderException( "storage removal failure", e );
         }
     }
 }

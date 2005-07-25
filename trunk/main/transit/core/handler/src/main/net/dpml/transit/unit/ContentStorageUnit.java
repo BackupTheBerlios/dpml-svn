@@ -37,6 +37,10 @@ public class ContentStorageUnit extends CodeBaseStorageUnit implements ContentSt
     // constructor
     // ------------------------------------------------------------------------
 
+   /**
+    * Creation of a new content stroage unit.
+    * @param prefs the preferences to use as the underlying storage model
+    */
     protected ContentStorageUnit( Preferences prefs )
     {
         super( prefs );
@@ -46,47 +50,74 @@ public class ContentStorageUnit extends CodeBaseStorageUnit implements ContentSt
     // ContentStorage
     // ------------------------------------------------------------------------
 
+   /**
+    * Set the content title to the supplied value.
+    * @param title the content title
+    */
     public void setTitle( String title )
     {
         Preferences prefs = getPreferences();
         setValue( "title", title );
     }
 
+   /**
+    * Set a property to the supplied value.
+    * @param key the property key
+    * @param value the property value
+    */
     public void setProperty( String key, String value )
     {
         Preferences prefs = getPreferences().node( "properties" );
         setProperty( prefs, key, value );
     }
 
+   /**
+    * Remove a property.
+    * @param key the property key
+    */
     public void removeProperty( String key )
     {
         Preferences prefs = getPreferences().node( "properties" );
         removeProperty( prefs, key );
     }
 
+   /**
+    * Return the content properties.
+    * @return the properties
+    */
     public Properties getProperties()
     {
         Preferences prefs = getPreferences().node( "properties" );
         return getProperties( prefs );
     }
 
+   /**
+    * Return the content storage type identifier.
+    * @return the content type immutable identifier
+    */
     public String getType()
     {
         Preferences prefs = getPreferences();
         return prefs.name();
     }
 
+   /**
+    * Return the content title
+    * @return the content type title
+    */
     public String getTitle()
     {
         Preferences prefs = getPreferences();
         return prefs.get( "title", prefs.name() );
     }
 
-
     // ------------------------------------------------------------------------
     // Removable
     // ------------------------------------------------------------------------
 
+   /**
+    * Removal of the storage unit.
+    */
     public void remove()
     {
         try

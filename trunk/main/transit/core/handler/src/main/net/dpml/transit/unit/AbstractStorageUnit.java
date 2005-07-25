@@ -41,6 +41,10 @@ public abstract class AbstractStorageUnit
     // constructors
     // ------------------------------------------------------------------------
 
+   /**
+    * Creation of a new abstract storage unit.
+    * @param prefs a preferences node
+    */
     public AbstractStorageUnit( Preferences prefs )
     {
         m_prefs = prefs;
@@ -50,17 +54,34 @@ public abstract class AbstractStorageUnit
     // impl
     // ------------------------------------------------------------------------
 
+   /**
+    * Return the preferences node.
+    * @return the preference node assigned to the storage unit
+    */
     protected Preferences getPreferences()
     {
         return m_prefs;
     }
 
+   /**
+    * Utility operation to return a URI given a preferences attribute key.
+    * @param key the attribute key
+    * @return the uri value or null if the key is unknown
+    * @exception BuilderException if a value was located but was not resolvable to a URI.
+    */
     protected URI getURI( String key ) throws BuilderException
     {
         Preferences prefs = getPreferences();
         return getURI( prefs, key );
     }
 
+   /**
+    * Utility operation to return a URI given a preferences attribute key.
+    * @param prefs a preferences node
+    * @param key the attribute key
+    * @return the uri value or null if the key is unknown
+    * @exception BuilderException if a value was located but was not resolvable to a URI.
+    */
     protected URI getURI( Preferences prefs, String key ) throws BuilderException
     {
         String path = prefs.get( key, null );
@@ -95,6 +116,11 @@ public abstract class AbstractStorageUnit
         }
     }
 
+   /**
+    * Utility operation to set a URI value under a supplied attrbute key.
+    * @param key the attribute key
+    * @param uri the URI value
+    */
     protected void setURI( String key, URI uri )
     {
         if( null == uri )
@@ -108,12 +134,25 @@ public abstract class AbstractStorageUnit
         }
     }
 
+   /**
+    * Utility operation to return a URL given a preferences attribute key.
+    * @param key the attribute key
+    * @return the URL value or null if the key is unknown
+    * @exception BuilderException if a value was located but was not resolvable to a URI.
+    */
     protected URL getURL( String key ) throws BuilderException
     {
         Preferences prefs = getPreferences();
         return getURL( prefs, key );
     }
 
+   /**
+    * Utility operation to return a URL given a preferences attribute key.
+    * @param prefs a preferences node
+    * @param key the attribute key
+    * @return the URL value or null if the key is unknown
+    * @exception BuilderException if a value was located but was not resolvable to a URI.
+    */
     protected URL getURL( Preferences prefs, String key ) throws BuilderException
     {
         String path = prefs.get( key, null );
@@ -148,6 +187,11 @@ public abstract class AbstractStorageUnit
         }
     }
 
+   /**
+    * Utility operation to set a URL value under a supplied attribute key.
+    * @param key the attribute key
+    * @param url the URL value
+    */
     protected void setURL( String key, URL url )
     {
         if( null == url )
@@ -170,6 +214,11 @@ public abstract class AbstractStorageUnit
         }
     }
 
+   /**
+    * Utility operation to set an attribute value.
+    * @param key the attribute key
+    * @param value the value to assign to the attribute
+    */
     protected void setValue( String key, String value )
     {
         Preferences prefs = getPreferences();
@@ -183,6 +232,12 @@ public abstract class AbstractStorageUnit
         }
     }
 
+   /**
+    * Utility operation to get an attribute value.
+    * @param key the attribute key
+    * @param value the default value
+    * @return the attribute value if assigned otherwise the default value
+    */
     protected String getValue( String key, String value )
     {
         Preferences prefs = getPreferences();

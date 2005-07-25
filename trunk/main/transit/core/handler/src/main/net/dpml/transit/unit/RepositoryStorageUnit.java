@@ -27,8 +27,8 @@ import java.util.Date;
 import net.dpml.transit.store.CodeBaseStorage;
 
 /**
- * The LayoutHelper class is responsible for the setup of initial factory
- * default preference settings.
+ * The RepositoryStorageUnit maintains the persistent settings for the 
+ * plugin repository service.
  */
 class RepositoryStorageUnit extends CodeBaseStorageUnit implements CodeBaseStorage
 {
@@ -36,6 +36,10 @@ class RepositoryStorageUnit extends CodeBaseStorageUnit implements CodeBaseStora
     // constructor
     // ------------------------------------------------------------------------
 
+   /**
+    * Creation of a new repository stroage unit.
+    * @param prefs the preferences node
+    */
     RepositoryStorageUnit( Preferences prefs )
     {
         super( prefs );

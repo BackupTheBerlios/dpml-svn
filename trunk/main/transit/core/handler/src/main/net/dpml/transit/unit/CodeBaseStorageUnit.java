@@ -36,25 +36,48 @@ public abstract class CodeBaseStorageUnit extends AbstractStorageUnit implements
     // constructor
     // ------------------------------------------------------------------------
 
+   /**
+    * Creation of a new codebase storage unit.
+    * @param prefs the preferences to use as the undrlying storage model
+    */
     public CodeBaseStorageUnit( Preferences prefs )
     {
         super( prefs );
     }
 
     // ------------------------------------------------------------------------
-    // PluginHome
+    // CodeBaseStorage
     // ------------------------------------------------------------------------
 
+   /**
+    * Return the URI identifying a codebase.  Typically the value returned from 
+    * this operation identifes a plugin uses as a system extension or customization 
+    * point.  The implement maps codebase uris under the attribute key "uri".
+    *
+    * @return the codebase uri
+    */
     public URI getCodeBaseURI()
     {
         return getURI( "uri" );
     }
 
+   /**
+    * Set the codebase uri under the attribute "uri".
+    * @param uri the uri identifying the codebase for a system extension
+    */
     public void setCodeBaseURI( URI uri )
     {
         setURI( "uri", uri );
     }
 
+   /**
+    * Utility operation to construct a set of properties from a preferences
+    * node wherein all attributes in the supplied node are mapped to property 
+    * values witin the returned property instahnce.
+    *
+    * @param prefs the preferences node
+    * @return the property set
+    */
     protected Properties getProperties( Preferences prefs ) throws BuilderException
     {
         Properties properties = new Properties();
@@ -80,17 +103,26 @@ public abstract class CodeBaseStorageUnit extends AbstractStorageUnit implements
         }
     }
 
+   /**
+    * Utility operation to set a property value on a supplied node.
+    * @param prefs the preference node
+    * @param key the property key
+    * @param value the properrty value
+    */
     protected void setProperty( Preferences prefs, String key, String value )
     {
         prefs.put( key, value );
     }
 
+   /**
+    * Utility operation to remove a property.
+    * @param prefs the preference node
+    * @param key the property key
+    */
     public void removeProperty( Preferences prefs, String key )
     {
         prefs.remove( key );
     }
-
-
 }
 
 

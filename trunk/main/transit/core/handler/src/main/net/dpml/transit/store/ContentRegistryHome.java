@@ -29,7 +29,7 @@ import java.net.URI;
 public interface ContentRegistryHome extends CodeBaseStorage
 {
    /**
-    * Return an aray of the content staorage units initally assigned under
+    * Return an aray of the content storage units initally assigned under
     * the content registry storage home.
     * 
     * @return an array of content storage units
