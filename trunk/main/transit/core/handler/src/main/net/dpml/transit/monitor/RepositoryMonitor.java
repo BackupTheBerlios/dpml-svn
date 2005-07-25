@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package net.dpml.transit.monitors;
+package net.dpml.transit.monitor;
 
 import java.net.URI;
 

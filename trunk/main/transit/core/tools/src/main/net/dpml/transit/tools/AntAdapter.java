@@ -20,7 +20,7 @@ package net.dpml.transit.tools;
 
 import java.net.URL;
 
-import net.dpml.transit.adapter.Adapter;
+import net.dpml.transit.monitor.Adapter;
 import net.dpml.transit.util.ExceptionHelper;
 import net.dpml.transit.model.Logger;
 

@@ -33,12 +33,12 @@ import net.dpml.composition.control.CompositionControllerContext;
 import net.dpml.part.control.Controller;
 import net.dpml.part.control.ControllerContext;
 
-import net.dpml.transit.adapter.LoggingAdapter;
-import net.dpml.transit.repository.Repository;
-import net.dpml.transit.repository.StandardLoader;
 import net.dpml.transit.model.Logger;
 import net.dpml.transit.model.ContentModel;
 import net.dpml.transit.model.DefaultContentModel;
+import net.dpml.transit.monitor.LoggingAdapter;
+import net.dpml.transit.repository.Repository;
+import net.dpml.transit.repository.StandardLoader;
 
 /**
  * A utility class used for the deployment of components in embedded scenarios

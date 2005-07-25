@@ -28,7 +28,7 @@ import java.net.URL;
 
 import net.dpml.transit.NullArgumentException;
 
-import net.dpml.transit.monitors.NetworkMonitor;
+import net.dpml.transit.monitor.NetworkMonitor;
 
 public class StreamUtils
 {

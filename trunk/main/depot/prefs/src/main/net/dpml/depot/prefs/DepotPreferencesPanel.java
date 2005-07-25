@@ -42,7 +42,6 @@ import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
 
 import net.dpml.transit.Transit;
-import net.dpml.transit.adapter.LoggingAdapter;
 import net.dpml.transit.model.TransitModel;
 import net.dpml.transit.model.TransitRegistryModel;
 import net.dpml.transit.model.DefaultTransitRegistryModel;
@@ -50,6 +49,7 @@ import net.dpml.transit.model.LayoutRegistryModel;
 import net.dpml.transit.model.CacheModel;
 import net.dpml.transit.model.ContentRegistryModel;
 import net.dpml.transit.model.ProxyModel;
+import net.dpml.transit.monitor.LoggingAdapter;
 import net.dpml.transit.unit.TransitStorageHome;
 
 import net.dpml.depot.profile.DepotProfile;

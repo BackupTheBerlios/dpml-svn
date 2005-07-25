@@ -29,7 +29,7 @@ import java.util.LinkedList;
 import java.util.Map;
 import java.util.WeakHashMap;
 
-import net.dpml.transit.adapter.LoggingAdapter;
+import net.dpml.transit.monitor.LoggingAdapter;
 
 /**
  * A abstract base class that established an event queue and handles event dispatch 

@@ -27,7 +27,7 @@ import java.util.prefs.BackingStoreException;
 
 import net.dpml.transit.Transit;
 import net.dpml.transit.TransitError;
-import net.dpml.transit.adapter.LoggingAdapter;
+import net.dpml.transit.monitor.LoggingAdapter;
 import net.dpml.transit.store.TransitStorage;
 import net.dpml.transit.store.ProxyStorage;
 import net.dpml.transit.store.CacheHome;

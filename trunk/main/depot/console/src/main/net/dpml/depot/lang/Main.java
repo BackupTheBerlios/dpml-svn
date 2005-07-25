@@ -52,11 +52,6 @@ import net.dpml.depot.unit.DepotStorageUnit;
 import net.dpml.transit.Transit;
 import net.dpml.transit.TransitError;
 import net.dpml.transit.TransitException;
-import net.dpml.transit.adapter.Adapter;
-import net.dpml.transit.adapter.LoggingAdapter;
-import net.dpml.transit.adapter.RepositoryMonitorAdapter;
-import net.dpml.transit.adapter.CacheMonitorAdapter;
-import net.dpml.transit.adapter.NetworkMonitorAdapter;
 import net.dpml.transit.artifact.Artifact;
 import net.dpml.transit.artifact.ArtifactNotFoundException;
 import net.dpml.transit.model.Logger;
@@ -64,6 +59,11 @@ import net.dpml.transit.model.Connection;
 import net.dpml.transit.model.UnknownKeyException;
 import net.dpml.transit.model.TransitModel;
 import net.dpml.transit.model.DefaultTransitModel;
+import net.dpml.transit.monitor.Adapter;
+import net.dpml.transit.monitor.LoggingAdapter;
+import net.dpml.transit.monitor.RepositoryMonitorAdapter;
+import net.dpml.transit.monitor.CacheMonitorAdapter;
+import net.dpml.transit.monitor.NetworkMonitorAdapter;
 import net.dpml.transit.repository.Repository;
 
 /**

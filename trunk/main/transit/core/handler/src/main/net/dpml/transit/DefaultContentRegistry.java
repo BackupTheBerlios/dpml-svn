@@ -28,10 +28,6 @@ import java.rmi.server.UnicastRemoteObject;
 import java.util.Hashtable;
 import java.util.Map;
 import java.util.WeakHashMap;
-import java.util.prefs.Preferences;
-import java.util.prefs.NodeChangeListener;
-import java.util.prefs.NodeChangeEvent;
-import java.util.prefs.BackingStoreException;
 
 import net.dpml.transit.model.ContentRegistryModel;
 import net.dpml.transit.model.ContentRegistryListener;
@@ -42,8 +38,7 @@ import net.dpml.transit.model.Logger;
 import net.dpml.transit.repository.Repository;
 
 /**
- * A registry of descriptions of plugable content handlers.  This implementation
- * maps user defined preferences to instance of ContentHandlerDescriptor.
+ * A registry of descriptions of plugable content handlers. 
  */
 public class DefaultContentRegistry extends UnicastRemoteObject implements Handler, ContentRegistry, ContentRegistryListener
 {

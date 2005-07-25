@@ -36,12 +36,12 @@ import java.rmi.registry.Registry;
 import java.rmi.registry.LocateRegistry;
 import java.util.Properties;
 
-import net.dpml.transit.adapter.LoggingAdapter;
 import net.dpml.transit.link.LinkManager;
-import net.dpml.transit.monitors.Monitor;
-import net.dpml.transit.monitors.RepositoryMonitorRouter;
-import net.dpml.transit.monitors.CacheMonitorRouter;
-import net.dpml.transit.monitors.NetworkMonitorRouter;
+import net.dpml.transit.monitor.LoggingAdapter;
+import net.dpml.transit.monitor.Monitor;
+import net.dpml.transit.monitor.RepositoryMonitorRouter;
+import net.dpml.transit.monitor.CacheMonitorRouter;
+import net.dpml.transit.monitor.NetworkMonitorRouter;
 import net.dpml.transit.model.Connection;
 import net.dpml.transit.model.DefaultTransitModel;
 import net.dpml.transit.model.TransitModel;

@@ -62,9 +62,9 @@ import net.dpml.part.component.ComponentException;
 import net.dpml.part.component.Container;
 import net.dpml.part.component.Service;
 
-import net.dpml.transit.adapter.LoggingAdapter;
 import net.dpml.transit.model.ContentModel;
 import net.dpml.transit.model.DefaultContentModel;
+import net.dpml.transit.monitor.LoggingAdapter;
 
 /**
  * A initial test controller.

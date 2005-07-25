@@ -16,21 +16,20 @@
  * limitations under the License.
  */
 
-package net.dpml.transit.adapter;
+package net.dpml.transit.monitor;
 
 import java.io.File;
 
 import java.net.URL;
 
 import net.dpml.transit.artifact.Artifact;
-import net.dpml.transit.monitors.CacheMonitor;
 
 /**
  * Adapts cache events to logging messages.
  *
  * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
  * @version $Id: CacheMonitorAdapter.java 2445 2005-04-28 23:44:22Z niclas@hedhman.org $
- * @see net.dpml.transit.monitors.Monitor
+ * @see net.dpml.transit.monitor.Monitor
  */
 public class CacheMonitorAdapter extends AbstractAdapter
     implements CacheMonitor

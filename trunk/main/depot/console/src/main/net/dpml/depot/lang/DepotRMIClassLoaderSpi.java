@@ -24,7 +24,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 import net.dpml.transit.model.Logger;
-import net.dpml.transit.adapter.LoggingAdapter;
+import net.dpml.transit.monitor.LoggingAdapter;
 
 /**
  * The DepotRMIClassLoaderSpi handles the loading of classes that are based on 

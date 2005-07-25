@@ -17,38 +17,32 @@
  * limitations under the License.
  */
 
-package net.dpml.transit.monitors;
+package net.dpml.transit.monitor;
 
 import java.net.URL;
 
 /**
- * A monitor of a network activity or activities.
+ * A monitor of a download activity or activities.
  *
- * <p>
- *   The NetworkMonitor must be thread safe.
- * </p>
  * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
- * @version $Id: ConnectionMonitor.java 2445 2005-04-28 23:44:22Z niclas@hedhman.org $
  * @see Monitor
  */
-public interface ConnectionMonitor extends Monitor
+public interface NetworkMonitor extends Monitor
 {
-   /**
-    * Notify the monitor that a connection was opened.
-    * @param url the url on which the open connection was issued
-    */
-    void connectionOpened( URL url );
+    /**
+     * Notify the monitor of the update in the download status.
+     *
+     * @param resource the name of the remote resource being downloaded.
+     * @param expected the expected number of bytes to be downloaded.
+     * @param count the number of bytes downloaded.
+     */
+    void notifyUpdate( URL resource, int expected, int count );
 
-   /**
-    * Notify the monitor that a connection was started.
-    * @param url the target connection
-    */
-    void connectStarted( URL url );
-
-
-   /**
-    * Notify the monitor that a connection was completed.
-    * @param url the target connection
-    */
-    void connectCompleted( URL url );
+    /**
+     * Notify the monitor of the successful completion of a download
+     * process.
+     * @param resource the name of the remote resource.
+     */
+    void notifyCompletion( URL resource );
 }
+

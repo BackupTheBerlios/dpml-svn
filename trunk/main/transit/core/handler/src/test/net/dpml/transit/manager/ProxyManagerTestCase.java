@@ -30,7 +30,7 @@ import java.net.URL;
 import junit.framework.TestCase;
 
 import net.dpml.transit.Transit;
-import net.dpml.transit.adapter.LoggingAdapter;
+import net.dpml.transit.monitor.LoggingAdapter;
 import net.dpml.transit.model.ProxyEvent;
 import net.dpml.transit.model.ProxyListener;
 import net.dpml.transit.model.Logger;

@@ -29,7 +29,7 @@ import org.apache.tools.ant.taskdefs.ImportTask;
 import net.dpml.transit.Transit;
 import net.dpml.transit.TransitAlreadyInitializedException;
 import net.dpml.transit.artifact.Artifact;
-import net.dpml.transit.monitors.Monitor;
+import net.dpml.transit.monitor.Monitor;
 import net.dpml.transit.model.Logger;
 import net.dpml.transit.model.TransitModel;
 import net.dpml.transit.model.DefaultTransitModel;

@@ -32,13 +32,13 @@ import org.apache.tools.ant.Task;
 
 import net.dpml.transit.Transit;
 import net.dpml.transit.TransitException;
-import net.dpml.transit.adapter.Adapter;
-import net.dpml.transit.adapter.RepositoryMonitorAdapter;
-import net.dpml.transit.adapter.CacheMonitorAdapter;
-import net.dpml.transit.adapter.NetworkMonitorAdapter;
+import net.dpml.transit.monitor.Adapter;
+import net.dpml.transit.monitor.Monitor;
+import net.dpml.transit.monitor.RepositoryMonitorAdapter;
+import net.dpml.transit.monitor.CacheMonitorAdapter;
+import net.dpml.transit.monitor.NetworkMonitorAdapter;
 import net.dpml.transit.repository.Repository;
 import net.dpml.transit.repository.StandardLoader;
-import net.dpml.transit.monitors.Monitor;
 
 /**
  * Task that initializes the Transit sub-system during which a transit

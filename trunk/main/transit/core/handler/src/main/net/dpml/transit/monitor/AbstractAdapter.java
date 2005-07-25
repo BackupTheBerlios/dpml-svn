@@ -16,9 +16,7 @@
  * limitations under the License.
  */
 
-package net.dpml.transit.adapter;
-
-import net.dpml.transit.monitors.Monitor;
+package net.dpml.transit.monitor;
 
 /**
  * Abstract adapter utility class.

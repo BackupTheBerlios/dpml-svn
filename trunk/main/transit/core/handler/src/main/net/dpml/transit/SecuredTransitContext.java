@@ -33,7 +33,6 @@ import java.net.UnknownHostException;
 import java.util.prefs.Preferences;
 import java.util.Properties;
 
-import net.dpml.transit.adapter.LoggingAdapter;
 import net.dpml.transit.link.ArtifactLinkManager;
 import net.dpml.transit.link.LinkManager;
 import net.dpml.transit.model.Logger;
@@ -48,6 +47,7 @@ import net.dpml.transit.model.ProxyModel;
 import net.dpml.transit.model.ProxyListener;
 import net.dpml.transit.model.ProxyEvent;
 import net.dpml.transit.model.RequestIdentifier;
+import net.dpml.transit.monitor.LoggingAdapter;
 import net.dpml.transit.repository.Repository;
 import net.dpml.transit.repository.StandardLoader;
 import net.dpml.transit.util.Util;

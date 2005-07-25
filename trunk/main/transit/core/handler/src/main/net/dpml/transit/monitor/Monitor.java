@@ -16,25 +16,17 @@
  * limitations under the License.
  */
 
-package net.dpml.transit.monitors;
- 
+package net.dpml.transit.monitor;
+
 /**
- * Generic interface implemented by classes that support multicast distribution
- * of monotor events to registered monitors.
- */
-public interface Router
+ * Genric interface marking a class as a monitor.
+ */ 
+public interface Monitor
 {
    /**
-    * Add a monitor to the set of monitors managed by the router.
-    * @param monitor the monitor to add
+    * Immutable key used to lookup the a system property containing the value
+    * of a debug trace policy.
     */
-    void addMonitor( Monitor monitor );
-    
-   /**
-    * Remove a monitor from the set of monitors managed by the router.
-    * @param monitor the monitor to remove
-    */
-    void removeMonitor( Monitor monitor );
-
+    final String BOOTSTRAP_DEBUG_KEY = "dpml.transit.debug";
 }
  

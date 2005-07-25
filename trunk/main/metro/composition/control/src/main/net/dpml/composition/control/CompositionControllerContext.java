@@ -58,7 +58,7 @@ public class CompositionControllerContext extends LocalWeakEventProducer impleme
 
     public static ControllerContext newContext()
     {
-        return newContext( new net.dpml.transit.adapter.LoggingAdapter( "metro" ) );
+        return newContext( new net.dpml.transit.monitor.LoggingAdapter( "metro" ) );
     }
 
     public static ControllerContext newContext( net.dpml.transit.model.Logger logger )

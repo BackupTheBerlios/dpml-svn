@@ -22,7 +22,7 @@ import java.rmi.RemoteException;
 import java.util.EventObject;
 
 import net.dpml.transit.TransitError;
-import net.dpml.transit.adapter.LoggingAdapter;
+import net.dpml.transit.monitor.LoggingAdapter;
 import net.dpml.transit.model.DefaultProxyModel;
 import net.dpml.transit.model.DefaultLayoutRegistryModel;
 import net.dpml.transit.model.DefaultContentRegistryModel;

@@ -24,10 +24,10 @@ import java.net.ContentHandler;
 import java.net.ContentHandlerFactory;
 import java.util.Properties;
 
-import net.dpml.transit.adapter.LoggingAdapter;
 import net.dpml.transit.model.Logger;
 import net.dpml.transit.model.ContentModel;
 import net.dpml.transit.model.DefaultContentModel;
+import net.dpml.transit.monitor.LoggingAdapter;
 
 
 /**

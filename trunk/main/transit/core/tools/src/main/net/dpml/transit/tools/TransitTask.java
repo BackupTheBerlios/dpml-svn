@@ -27,17 +27,16 @@ import org.apache.tools.ant.Task;
 
 import net.dpml.transit.Transit;
 import net.dpml.transit.TransitAlreadyInitializedException;
-import net.dpml.transit.adapter.Adapter;
 import net.dpml.transit.artifact.Handler;
-import net.dpml.transit.monitors.Monitor;
 import net.dpml.transit.model.Logger;
 import net.dpml.transit.model.TransitModel;
 import net.dpml.transit.model.DefaultTransitModel;
-import net.dpml.transit.adapter.Adapter;
-import net.dpml.transit.adapter.RepositoryMonitorAdapter;
-import net.dpml.transit.adapter.CacheMonitorAdapter;
-import net.dpml.transit.adapter.NetworkMonitorAdapter;
-import net.dpml.transit.monitors.Monitor;
+import net.dpml.transit.monitor.Adapter;
+import net.dpml.transit.monitor.Monitor;
+import net.dpml.transit.monitor.RepositoryMonitorAdapter;
+import net.dpml.transit.monitor.CacheMonitorAdapter;
+import net.dpml.transit.monitor.NetworkMonitorAdapter;
+import net.dpml.transit.monitor.Monitor;
 
 /**
  * Ant task that provides support for the import of build file templates

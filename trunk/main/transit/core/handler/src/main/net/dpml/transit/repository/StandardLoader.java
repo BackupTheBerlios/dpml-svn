@@ -37,7 +37,7 @@ import net.dpml.transit.TransitException;
 import net.dpml.transit.artifact.Artifact;
 import net.dpml.transit.artifact.ArtifactNotFoundException;
 import net.dpml.transit.artifact.Handler;
-import net.dpml.transit.monitors.RepositoryMonitorRouter;
+import net.dpml.transit.monitor.RepositoryMonitorRouter;
 
 /**
  * Utility class supporting downloading of resources based on
