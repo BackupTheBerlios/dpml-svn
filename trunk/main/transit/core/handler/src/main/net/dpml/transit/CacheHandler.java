@@ -36,6 +36,8 @@ import net.dpml.transit.artifact.ArtifactAlreadyExistsException;
  * manager implementations may provide varying levels of quality-of-services.
  * Selection of a cache manager is defined under the transit cache configuration
  * properties.
+ *
+ * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
  */
 public interface CacheHandler
 {

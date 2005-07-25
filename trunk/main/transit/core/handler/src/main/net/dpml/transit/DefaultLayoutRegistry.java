@@ -43,6 +43,8 @@ import net.dpml.transit.repository.Repository;
 /**
  * A registry of descriptions of plugable content handlers.  This implementation
  * maps user defined preferences to instance of ContentHandlerDescriptor.
+ *
+ * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
  */
 public class DefaultLayoutRegistry extends UnicastRemoteObject implements LayoutRegistry, LayoutRegistryListener
 {

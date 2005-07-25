@@ -55,6 +55,8 @@ import net.dpml.transit.util.PropertyResolver;
  * The Transit class manages the establishment of a singleton transit instance
  * together with a service supporting the deployment of a application plugin and
  * access to transit monitor routers.
+ *
+ * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
  */
 public final class Transit
 {

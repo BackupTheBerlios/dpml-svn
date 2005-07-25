@@ -33,7 +33,6 @@ import java.util.Enumeration;
  * variables.
  *
  * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
- * @version $Id: Environment.java 2445 2005-04-28 23:44:22Z niclas@hedhman.org $
  */
 public class Environment extends Properties
 {

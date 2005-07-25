@@ -20,8 +20,11 @@ package net.dpml.transit;
 
 import net.dpml.transit.artifact.Artifact;
 
-/** The LocationResolver abstracts the decoding process of the location
+/** 
+ * A Layout abstracts the decoding process of the location
  * of artifacts in various filesystems.
+ *
+ * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
  */
 public interface Layout
 {

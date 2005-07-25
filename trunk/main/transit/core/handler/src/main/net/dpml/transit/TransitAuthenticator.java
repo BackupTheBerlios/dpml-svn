@@ -23,8 +23,8 @@ import java.net.PasswordAuthentication;
 
 /**
  * Transit authenticator contract.
- * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
- * @version $Id: TransitAuthenticator.java 2143 2005-03-26 18:22:09Z niclas@hedhman.org $
+ *
+ * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
  */
 public interface TransitAuthenticator
 {

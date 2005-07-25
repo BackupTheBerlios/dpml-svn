@@ -34,6 +34,8 @@ import java.util.Date;
 
 /**
  * Nework loader utility.
+ *
+ * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
  */
 class NetworkLoader
 {

@@ -31,8 +31,6 @@ import java.util.Map;
 
 import net.dpml.transit.model.RequestIdentifier;
 
-/**
- */
 final class DelegatingAuthenticator extends Authenticator
 {
     // ------------------------------------------------------------------------

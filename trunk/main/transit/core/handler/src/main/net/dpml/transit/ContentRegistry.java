@@ -23,6 +23,8 @@ import java.net.ContentHandler;
 
 /**
  * A interface supporting access to pluggable content handlers.
+ *
+ * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
  */
 public interface ContentRegistry
 {

@@ -19,7 +19,8 @@
 package net.dpml.transit;
 
 
-/** Exception thrown when the argument to a method or constructor is
+/** 
+ * Exception thrown when the argument to a method or constructor is
  *  <i>null</i> and not handled by the method/constructor/class.
  *
  * The argument in the only constructor of this exception should only
@@ -35,6 +36,8 @@ package net.dpml.transit;
  *             throw new IllegalArgumentException( "age < 0" );
  *     }
  * </pre></code>
+ *
+ * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
  */
 public class NullArgumentException extends IllegalArgumentException
 {

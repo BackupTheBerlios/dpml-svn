@@ -23,6 +23,8 @@ import java.io.Serializable;
 
 
 /** 
+ * Abstract base class for layout implementations.
+ * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
  */
 abstract class AbstractLayout implements Layout, Serializable
 {

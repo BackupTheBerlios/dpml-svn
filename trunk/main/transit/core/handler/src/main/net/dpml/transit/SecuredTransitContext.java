@@ -56,7 +56,6 @@ import net.dpml.transit.util.Util;
  * The initial context of the transit system.
  *
  * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
- * @version $Id: SecuredTransitContext.java 2932 2005-06-28 17:26:08Z mcconnell@dpml.net $
  */
 public final class SecuredTransitContext
 {

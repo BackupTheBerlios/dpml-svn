@@ -22,6 +22,8 @@ import java.io.IOException;
 
 /**
  * A interface supporting access to pluggable content handlers.
+ *
+ * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
  */
 public interface LayoutRegistry
 {

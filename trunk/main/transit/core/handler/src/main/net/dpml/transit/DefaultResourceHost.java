@@ -58,11 +58,14 @@ import net.dpml.transit.model.Logger;
 import net.dpml.transit.util.Util;
 
 
-/** This class represents a single host where resources are stored at.
+/** 
+ * This class represents a single host where resources are stored at.
  * <p>
  *   <strong>NOTE:</strong> This ResourceHost does NOT currently support
  *   realm/domain authentication. It may be introduced in the future.
  * </p>
+ *
+ * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
  */
 public class DefaultResourceHost extends UnicastRemoteObject 
   implements ResourceHost, HostListener, Service

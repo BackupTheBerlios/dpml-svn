@@ -28,7 +28,7 @@ import net.dpml.transit.NullArgumentException;
  * Default authenticator that provides support for username password
  * based authentication in conjunction with the repository proxy settings.
  *
- * @version $Id: TransitAuthenticatorImpl.java 2854 2005-06-14 05:44:50Z mcconnell@dpml.net $
+ * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
  */
 final class TransitAuthenticatorImpl
     implements TransitAuthenticator

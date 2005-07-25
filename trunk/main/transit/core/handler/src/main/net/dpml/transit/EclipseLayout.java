@@ -22,13 +22,16 @@ package net.dpml.transit;
 import net.dpml.transit.artifact.Artifact;
 import net.dpml.transit.TransitRuntimeException;
 
-/** The EclipseLayout decodes artifacts into the Eclipse specified layout
+/** 
+ * The EclipseLayout decodes artifacts into the Eclipse specified layout
  * of artifacts on a file system or http server.
  * This format says that for an artifact <code>artifact:[type]:[group]/[name]#[version]</code>
  * the location of such artifact would be;
  * <code>[group]-[version]/[name].[type]</code>.
  * Example; <code>artifact:jar:eclipse/plugins/eclipse-osgi-runtime/core#3.1.0</code>
  * would return the path <code>eclipse/plugins/eclipse-osgi-runtime-3.1.0/core.jar</code>.
+ *
+ * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
  */
 public class EclipseLayout extends AbstractLayout
     implements Layout

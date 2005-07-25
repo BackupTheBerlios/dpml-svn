@@ -21,13 +21,16 @@ package net.dpml.transit;
 
 import net.dpml.transit.artifact.Artifact;
 
-/** The ClassicLayout decodes artifacts into the Classic/Maven layout
+/** 
+ * The ClassicLayout decodes artifacts into the Classic/Maven layout
  * of artifacts on a file system or http server.
  * This format says that for an artifact <code>artifact:[type]:[group]/[name]#[version]</code>
  * the location of such artifact would be;
  * <code>[group]/[type]s/[name]-[version].[type]</code>.
  * Example; <code>artifact:jar:metro/cache/dpml-cache-main#1.0.0</code>
  * would return the path <code>metro/cache/jars/dpml-cache-main-1.0.0.jar</code>.
+ *
+ * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
  */
 public class ClassicLayout
     implements Layout

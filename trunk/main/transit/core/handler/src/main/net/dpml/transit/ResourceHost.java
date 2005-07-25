@@ -31,6 +31,8 @@ import java.util.Date;
 /**
  * An interface that represents locations where the artifacts can be
  * downloaded.
+ *
+ * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
  */
 public interface ResourceHost
 {

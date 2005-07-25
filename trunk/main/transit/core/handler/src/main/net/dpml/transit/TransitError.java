@@ -23,7 +23,6 @@ package net.dpml.transit;
  * Critical Transit system error. 
  *
  * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
- * @version $Id: TransitException.java 2480 2005-05-10 04:44:32Z mcconnell@dpml.net $
  */
 public class TransitError extends Error
 {
