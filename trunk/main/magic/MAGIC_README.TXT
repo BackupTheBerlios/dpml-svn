@@ -5,15 +5,16 @@ Publisher: The Digital Product Meta Library
 Revision: @PROJECT-VERSION@
 
 Installation Instructions
-=========================
+-------------------------
 
 $ depot -install magic
 
-Special Notes:
---------------
+Release Notes: Version 1.0 RC1
+------------------------------
 
-23-JUL-2005:
-------------
+URL: svn+ssh://svn.berlios.de/svnroot/repos/dpml/trunk/main
+Repository UUID: 00579e91-1ffa-0310-aa18-b241b61564ef
+Revision: 116
 
 The usage of non-versioned tremplates has been removed.  As such you may need to update you Transit import statements to either reference the template from DPML Preferences or declare you own alternative uri.  To update build files to use the Magic's Prefs supplied template you can use the following ant script:
 
