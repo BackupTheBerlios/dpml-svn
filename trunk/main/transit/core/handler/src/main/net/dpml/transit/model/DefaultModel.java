@@ -85,19 +85,6 @@ abstract class DefaultModel extends UnicastRemoteObject
     }
 
     // ------------------------------------------------------------------------
-    // Model
-    // ------------------------------------------------------------------------
-
-   /**
-    * Return the assingned logging channel.
-    * @return the logging channel
-    */
-    public Logger getLogger()
-    {
-        return m_logger;
-    }
-
-    // ------------------------------------------------------------------------
     // DefaultModel
     // ------------------------------------------------------------------------
 
@@ -150,6 +137,15 @@ abstract class DefaultModel extends UnicastRemoteObject
     * 
     */
     protected abstract void processEvent( EventObject event );
+
+   /**
+    * Return the assingned logging channel.
+    * @return the logging channel
+    */
+    protected Logger getLogger()
+    {
+        return m_logger;
+    }
 
    /**
     * Add a listener to the set of listeners handled by the model.
