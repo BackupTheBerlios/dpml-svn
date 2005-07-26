@@ -8,13 +8,13 @@
       <package name="net.dpml.transit"/>
       <package name="net.dpml.transit.*"/>
     </packages>
-    <home href="http://www.dpml.net/products/transit"/>
-    <docs href="http://www.dpml.net"/>
+    <home href="http://www.dpml.net/transit"/>
+    <docs href="http://www.dpml.net/transit"/>
     <legal>
-      <license href="http://www.dpml.net/central/about/legal/license.html"/>
-      <notice href="http://www.dpml.net/central/about/legal/notice.html"/>
+      <license href="http://www.dpml.net/about/legal/license.html"/>
+      <notice href="http://www.dpml.net/about/legal/notice.html"/>
     </legal>
-    <svn href="https://scm.dpml.net/repos/dpml/development/main/transit"/>
+    <svn href="svn://svn.berlios.de/dpml/trunk/main/transit"/>
     <repository href="http://repository.dpml.net/classic"/>
   </header>
 
