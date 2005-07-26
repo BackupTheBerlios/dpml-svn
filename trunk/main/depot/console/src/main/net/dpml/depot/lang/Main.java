@@ -642,9 +642,11 @@ public final class Main
     {
         final String message = 
           "DepotProfile Version.\n"
-          + "\nConsole: \t@DEPOT-CONSOLE-URI@"
-          + "\nPreferences: \t@DEPOT-PREFS-URI@"
-          + "\nStation: \t@STATION-PLUGIN-URI@";
+          + "\n  Transit: \t@TRANSIT-CORE-URI@"
+          + "\n  Console: \t@DEPOT-CONSOLE-URI@"
+          + "\n  Install: \t@DEPOT-INSTALL-URI@"
+          + "\n  Preferences: \t@DEPOT-PREFS-URI@"
+          + "\n  Station: \t@STATION-PLUGIN-URI@";
         getLogger().info( message );
     }
 

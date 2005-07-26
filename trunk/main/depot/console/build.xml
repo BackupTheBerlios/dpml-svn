@@ -15,11 +15,13 @@
     <filter token="DEPOT-PATH" value="${depot.short.filename}"/>
     <filter token="TRANSIT-PATH" value="${transit.short.filename}"/>
     <filter token="DEPOT-MAIN-CLASS" value="net.dpml.depot.lang.Main" />
+    <x:filter token="TRANSIT-CORE-URI" key="dpml-transit-main" feature="uri" type="jar"/>
     <x:filter token="STATION-PLUGIN-URI" key="dpml-depot-station" feature="uri" type="plugin"/>
     <x:filter token="TEST-PLUGIN-URI" key="dpml-depot-test" feature="uri" type="plugin"/>
     <x:filter token="TEST-SERVER-URI" key="dpml-test-mexico" feature="uri" type="jar"/>
     <x:filter token="DEPOT-CONSOLE-URI" feature="uri" type="jar"/>
     <x:filter token="DEPOT-PREFS-URI" key="dpml-depot-prefs" feature="uri" type="plugin"/>
+    <x:filter token="DEPOT-INSTALL-URI" key="dpml-depot-install" feature="uri" type="plugin"/>
     <filter token="METRO-CENTRAL-URI" value="link:plugin:dpml/metro/dpml-metro-central#LATEST"/>
   </target>
 
