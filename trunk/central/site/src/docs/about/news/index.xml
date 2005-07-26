@@ -11,6 +11,16 @@
 
     <section name="News &amp; Events">
 
+      <subsection name="26 July 2005 - Milestone Release." >
+        <p>
+        A milestone release 20050726 has been prepared with final version of 
+        Transit and Magic and development versions of Depot and Metro. A 
+        <a href="http://www.osm.net/download/index.html">binary
+        distribution</a> of of Depot is available (which includes Transit)
+        and built-in support for Magic and Metro installs.
+        </p>
+      </subsection>
+
       <subsection name="22 July 2005 - Ibiblio extends support for the DPML." >
         <p>
         <a href="http://www.ibiblio.org">Ibiblio</a> extends it ongoing support 

@@ -11,15 +11,14 @@
     <section name="Binary Distributions">
       
       <p>
-      Current binary distributions of the DPML products are available from the 
+      Current binary distributions of the DPML products and installation procedures
+      are available from the 
       <a href="http://www.osm.net/download/index.html">OSM Download Center</a>.
       Unlike earlier versions we are moving towatards the centralization of 
       product installation and configuration via the Depot Application Management
-      tool.  The upcomming release of Depot will provide convinient, automatic, 
+      tool.  The latest release of Depot provides convinient, automatic, 
       and reliable installation of all DPML products.
       </p>
-
-      <p><i>Stay tunned for product announcements ...</i></p>
 
     </section>
 
@@ -29,93 +28,39 @@
       The following table list milestone distributions published by the DPML.
       </p>
 
-      <subsection name="Build 2579">
+      <subsection name="Build 20050726">
 
-        <ol>
-          <li>Transit 2579 is nearing release.</li>
-          <li>Magic 2579 is fully functional but lacks documentation.  The product is under 
-              active development including possible API and configuration file changes.</li>
-          <li>Metro 2579 is a mature product and suitable for experimental deployment.  
-              Metro is the subject of on-going development and incompatible changes across milestone 
-              builds are anticipated.</li>
-        </ol>
+        <p>
+        The 20050726 milestone is single product distribution of the Depot platform.
+        The installation includes release ready versions of Transit and Magic and links
+        to a version of Metro.  The Depot application provides built-in support for the 
+        install of Magic and Metro.  
+        </p>
 
         <table>
-          <tr><th>Platform</th><th>Product</th><th>Binary</th><th>MD5</th></tr>
+          <tr><th>Platform</th><th>Binary</th><th>MD5</th></tr>
           <tr>
             <td>Windows</td>
-            <td>Transit</td>
             <td>
-              <a href="http://staging.dpml.net/download/dpml/transit/2579/dpml-transit-win32-2579.zip">
-                dpml-transit-win32-2579.zip</a>
+              <a href="http://download.dpml.net/milestones/depot/20050726/dpml-depot-win32-20050726.zip">
+                dpml-transit-win32-20050726.zip</a>
             </td>
             <td>
-              <a href="http://staging.dpml.net/download/dpml/transit/2579/dpml-transit-win32-2579.zip.md5">
+              <a href="http://download.dpml.net/milestones/depot/20050726/dpml-depot-win32-20050726.zip.md5">
               MD5</a>
             </td>
-          </tr>
-          <tr>
-            <td></td>
-            <td>Magic</td>
-            <td>
-              <a href="http://staging.dpml.net/download/dpml/magic/2579/dpml-magic-win32-2579.zip">
-                dpml-magic-win32-2579.zip</a>
-            </td>
-            <td>
-              <a href="http://staging.dpml.net/download/dpml/magic/2579/dpml-magic-win32-2579.zip.md5">
-              MD5</a>
-            </td>
-          </tr>
-          <tr>
-            <td></td>
-            <td>Metro</td>
-            <td>
-              <a href="http://staging.dpml.net/download/dpml/metro/2579/dpml-metro-win32-2579.zip">
-                dpml-metro-win32-2579.zip</a>
-            </td>
-            <td>
-              <a href="http://staging.dpml.net/download/dpml/metro/2579/dpml-metro-win32-2579.zip.md5">
-              MD5</a>
-            </td>
-          </tr>
-  
+          </tr>  
           <tr>
             <td>Linux</td>
-            <td>Transit</td>
             <td>
-              <a href="http://staging.dpml.net/download/dpml/transit/2579/dpml-transit-linux-2579.tar.gz">
-                dpml-transit-linux-2579.zip</a>
+              <a href="http://download.dpml.net/milestones/depot/20050726/dpml-depot-linux-20050726.tar.gz">
+                dpml-transit-linux-20050726.tar.gz</a>
             </td>
             <td>
-              <a href="http://staging.dpml.net/download/dpml/transit/2579/dpml-transit-linux-2579.tar.gz.md5">
+              <a href="http://download.dpml.net/milestones/depot/20050726/dpml-depot-linux-20050726.tar.gz.md5">
               MD5</a>
             </td>
-          </tr>
-  
-          <tr>
-            <td></td>
-            <td>Magic</td>
-            <td>
-              <a href="http://staging.dpml.net/download/dpml/magic/2579/dpml-magic-linux-2579.tar.gz">
-                dpml-magic-linux-2579.zip</a>
-            </td>
-            <td>
-              <a href="http://staging.dpml.net/download/dpml/magic/2579/dpml-magic-linux-2579.tar.gz.md5">MD5</a>
-            </td>
-          </tr>
-  
-          <tr>
-            <td></td>
-            <td>Metro</td>
-            <td>
-              <a href="http://staging.dpml.net/download/dpml/metro/2579/dpml-metro-linux-2579.tar.gz">
-                dpml-metro-linux-2579.zip</a>
-            </td>
-            <td>
-              <a href="http://staging.dpml.net/download/dpml/metro/2579/dpml-metro-linux-2579.tar.gz.md5">MD5</a>
-            </td>
-          </tr>
-  
+          </tr>  
         </table>
 
       </subsection>
