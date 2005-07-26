@@ -2,7 +2,6 @@
 <!-- 
  Copyright 2004 Stephen McConnell
  Copyright 2004 Niclas Hedhman
- Copyright 2005 David Leangen
 
  Licensed  under the  Apache License,  Version 2.0  (the "License");
  you may not use  this file  except in  compliance with the License.
@@ -26,6 +25,8 @@
  <body>
 
     <menu>
+      <item name="Cache Properties" href="cache.html"/>
+      <item name="Host Properties" href="hosts.html"/>
     </menu>
 
  </body>

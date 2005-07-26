@@ -130,63 +130,42 @@ public final class Transit
     static
     {
         System.setProperty( "java.protocol.handler.pkgs", "net.dpml.transit" );
-    }
+        System.setProperty( "dpml.transit.version", VERSION );
 
-    static
-    {
         DPML_HOME = resolveHomeDirectory();
         DPML_SYSTEM = resolveSystemDirectory( DPML_HOME );
         DPML_DATA = resolveDataDirectory( DPML_HOME );
         DPML_PREFS = resolvePreferencesDirectory( DPML_HOME );
+
         System.setProperty( SYSTEM_KEY, DPML_SYSTEM.getAbsolutePath() );
         System.setProperty( HOME_KEY, DPML_HOME.getAbsolutePath() );
         System.setProperty( DATA_KEY, DPML_DATA.getAbsolutePath() );
         System.setProperty( PREFS_KEY, DPML_PREFS.getAbsolutePath() );
-        System.setProperty( "dpml.transit.version", VERSION );
+
     }
 
    /**
     * Returns the singleton instance of the transit system.  If this method
     * has already been invoked the server and monitor argument will be ignored.
     * @return the singleton transit instance
-    * @exception TransitException if an error occurs during establishment
+    * @exception TransitError if an error occurs during establishment
     */
-    public static Transit getInstance()
-        throws TransitRuntimeException, NullArgumentException
+    public static Transit getInstance() throws TransitError
     {
         synchronized( Transit.class )
         {
             if( m_INSTANCE == null )
             {
-                URL authority = getAuthority();
-                if( null == authority )
+                try
                 {
-                    try
-                    {
-                        TransitModel model = new DefaultTransitModel();
-                        return getInstance( model );
-                    }
-                    catch( IOException e )
-                    {
-                        String message = e.getMessage();
-                        Throwable cause = e.getCause();
-                        throw new TransitRuntimeException( message, cause );
-                    }
+                    TransitModel model = new DefaultTransitModel();
+                    return getInstance( model );
                 }
-                else
+                catch( Throwable e )
                 {
-                    try
-                    {
-                        TransitStorage store = new TransitStorageUnit( authority );
-                        TransitModel model = new DefaultTransitModel( store );
-                        return getInstance( model );
-                    }
-                    catch( IOException e )
-                    {
-                        String message = e.getMessage();
-                        Throwable cause = e.getCause();
-                        throw new TransitRuntimeException( message, cause );
-                    }
+                    String message = e.getMessage();
+                    Throwable cause = e.getCause();
+                    throw new TransitError( message, cause );
                 }
             }
             else
@@ -518,35 +497,5 @@ public final class Transit
     * Singleton transit instance.
     */
     private static Transit m_INSTANCE;
-
-    private static URL getAuthority()
-    {
-        String auth = System.getProperty( AUTHORITY_KEY, null );
-        if( null != auth )
-        {
-            Properties properties = new Properties( System.getProperties() );
-            properties.setProperty( Transit.HOME_KEY, Transit.DPML_HOME.toString() );
-            properties.setProperty( Transit.PREFS_KEY, Transit.DPML_PREFS.toString() );
-            properties.setProperty( Transit.DATA_KEY, Transit.DPML_DATA.toString() );
-            properties.setProperty( Transit.SYSTEM_KEY, Transit.DPML_SYSTEM.toString() );
-            String path = PropertyResolver.resolve( properties, auth );
-            try
-            {
-                return new URL( path );
-            }
-            catch( MalformedURLException e )
-            {
-                final String error = 
-                  "Invaid authority url: " + path;
-                throw new TransitError( error, e );
-            }
-        }
-        else
-        {
-            return null;
-        }
-    }
-
-    private static final String AUTHORITY_KEY = "dpml.transit.authority";
 
 }

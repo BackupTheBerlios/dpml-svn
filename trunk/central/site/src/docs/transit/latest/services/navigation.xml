@@ -25,9 +25,8 @@
  <body>
 
     <menu>
-      <item name="Artifact" href="artifact.html"/>
-      <item name="Link" href="link.html"/>
-      <item name="Local" href="local.html"/>
+      <item name="Event Monitors" href="monitors.html"/>
+      <item name="Plugin Service" href="plugins.html"/>
     </menu>
 
  </body>

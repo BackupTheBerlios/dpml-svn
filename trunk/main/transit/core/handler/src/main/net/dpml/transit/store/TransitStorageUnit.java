@@ -183,14 +183,22 @@ public class TransitStorageUnit extends AbstractStorageUnit implements TransitSt
 
     private static Preferences getTransitPreferences( String profile )
     {
-        Preferences root = Preferences.userNodeForPackage( Transit.class );
-        Preferences prefs = root.node( "profiles" ).node( profile );
-        long install = prefs.getLong( "installation", -1 );
-        if( install < 0 )
+        URL authority = getAuthority();
+        if( null == authority )
         {
-            TransitPreferences.setupFactoryPreferences( prefs );
+            Preferences root = Preferences.userNodeForPackage( Transit.class );
+            Preferences prefs = root.node( "profiles" ).node( profile );
+            long install = prefs.getLong( "installation", -1 );
+            if( install < 0 )
+            {
+                TransitPreferences.setupFactoryPreferences( prefs );
+            }
+            return prefs;
         }
-        return prefs;
+        else
+        {
+           return getLocalPreferences( authority );
+        }
     }
 
     private static String getDefaultProfileName()
@@ -209,6 +217,35 @@ public class TransitStorageUnit extends AbstractStorageUnit implements TransitSt
 
     private static final String DEFAULT_PROFILE_NAME = "default";
     private static final String PROFILE_KEY = "dpml.transit.profile";
+    private static final String AUTHORITY_KEY = "dpml.transit.authority";
+
+    private static URL getAuthority()
+    {
+        String auth = System.getProperty( AUTHORITY_KEY, null );
+        if( null != auth )
+        {
+            Properties properties = new Properties( System.getProperties() );
+            properties.setProperty( Transit.HOME_KEY, Transit.DPML_HOME.toString() );
+            properties.setProperty( Transit.PREFS_KEY, Transit.DPML_PREFS.toString() );
+            properties.setProperty( Transit.DATA_KEY, Transit.DPML_DATA.toString() );
+            properties.setProperty( Transit.SYSTEM_KEY, Transit.DPML_SYSTEM.toString() );
+            String path = PropertyResolver.resolve( properties, auth );
+            try
+            {
+                return new URL( path );
+            }
+            catch( MalformedURLException e )
+            {
+                final String error = 
+                  "Invaid authority url: " + path;
+                throw new TransitError( error, e );
+            }
+        }
+        else
+        {
+            return null;
+        }
+    }
 }
 
 

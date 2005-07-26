@@ -9,6 +9,8 @@
   <body>
     <section name="Transit Antlib">
 
+      <pre>@MAGIC-BOOTSTRAP-URI@</pre>
+
       <subsection name="Description">
  
         <p>
@@ -24,8 +26,6 @@
         </p>
 
       </subsection>
-
-      <subsection name="Artifact URI"><source>@MAGIC-BOOTSTRAP-URI@</source></subsection>
 
       <subsection name="Antlib Namespace"><source>antlib:net.dpml.transit</source></subsection>
 

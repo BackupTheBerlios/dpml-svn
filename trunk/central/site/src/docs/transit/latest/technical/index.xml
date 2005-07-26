@@ -29,19 +29,16 @@
   </properties> 
 
   <body>
-    <section name="Transit Specifications">
+    <section name="Transit Protocol Specifications">
 
         <p>
-        The section contains the formal specification of the Transit system.
-        This includes the description of the <a href="protocol.html">artifact protocol</a>
+        The section contains the formal specification of the Transit system protocols.
+        This includes the the <a href="artifact.html">artifact</a> protocol 
         (a uri that can be used to construct a url which in turn can be used to resolve 
-        an artifact to a locally cached resource), the underlying <a href="cache.html">
-        cache</a> management system and associated <a href="hosts.html">hosts</a>. In 
-        addition, the specification cover the transit <a href="monitors.html">event</a> 
-        monitoring system and <a href="plugins.html">plugin service</a>.
+        a remote resource to a local cache), the <a href="link.html">link</a> protocol 
+        enabling logical uri references to physical uris, and the <a href="local.html">local</a> 
+        protocol supporting structured access to application preferences.
         </p>
-
-      <subsection name="Artifact URI"><source>@TRANSIT-MAIN-URI@</source></subsection>
 
     </section>
   </body>

@@ -77,18 +77,19 @@
     <section name="Key Concepts">
 
       <p>
-        An <strong>artifact</strong> is a URI used to identify a resource.  An artifact
-        Basically, an artifact can be any type of file: JAR, image, text... Based on 
-        the artifact uri content Transit delivers dynamic retrieval of the resource.
+        An <strong>artifact</strong> is a URI used to identify a resource.  An 
+        artifact can be any type of file: JAR, image, text... Based on 
+        content of an artifact uri Transit is able to deliver dynamic retrieval 
+        of the resource.
       </p>
 
       <subsection name="Artifact URI">
 
         <p>
           Each artifact has a unique identifier conforming to the Transit
-          <a href="../technical/protocol.html">protocol specification</a>.
-          Using an extension to the java.net.URL class in the Java API, Transit
-          accesses an artifact through an artifact URI.
+          <a href="../technical/artifact.html">artifact</a> protocol specification.
+          Using a standard extension to the java.net.URL class in the Java API, 
+          Transit accesses an artifact through an artifact URI.
           The artifact URI logically identifies a resource and the Transit
           system provides the means for resource retrieval.
        </p>

@@ -25,13 +25,6 @@
     <section name="Host Configuration">
 
       <p>
-        If the ${dpml.transit.authority} is undefined (the default condition) Transit will 
-        resolve host information using preferences declared under <code>net/dpml/transit/profiles</code>
-        using the profile name 'production' unless otherwise directed by the ${dpml.transit.profile}
-        system property.
-      </p>
-
-      <p>
         If the system property <code>dpml.transit.authority</code> is defined, Transit 
         behavior is a function of the protocol declared by the ${dpml.transit.authority}
         value.  If the value is a URL with a file: protocol, Transit will attempt to locate
