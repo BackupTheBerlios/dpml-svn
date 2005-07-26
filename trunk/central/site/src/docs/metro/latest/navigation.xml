@@ -25,11 +25,6 @@
  <body>
 
     <menu>
-      <item name="Properties" href="properties.html"/>
-      <item name="System" href="system/index.html"/>
-      <item name="Composition" href="composition/index.html"/>
-      <item name="Runtime" href="runtime/index.html"/>
-      <item name="Users Guide" href="guide/index.html"/>
       <item name="Javadoc" 
          href="../..@METRO-JAVADOC-PATH@/index.html"/>
     </menu>

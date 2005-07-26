@@ -10,6 +10,8 @@
 
     <section name="Magic Intelligent Build System - @MAGIC-BUILD-ID@">
 
+      <pre>@MAGIC-PLUGIN-URI@</pre>
+
       <p>Magic is an advanced build system for Java based component development.
         It provides support for a centralized project object model, version and 
         dependency management, and a suite of tools that automate the processes
@@ -21,14 +23,19 @@
         respect to the generation of runtime meta-data.
       </p>
 
-      <p><i>
-        TODO: List of items to be completed:
-      </i></p>
+        <table>
+          <tr>
+            <td><img src="/images/info.gif"/></td>
+            <td><i>The <a href="http://www.osm.net/training/tooling/index.html">
+               OSM Development Tooling Tutorial</a> covers the instalation 
+               and usage of the Magic build system.</i>
+            </td>
+          </tr>
+        </table>
 
-      <ol>
-        <li>Final API review.</li>
-        <li>Validate site and javadoc content.</li>
-      </ol>
+      <br/>
+      <br/>
+      <br/>
 
       <img src="/images/magic/magic-index.png"/>
 
