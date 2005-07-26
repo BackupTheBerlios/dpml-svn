@@ -19,14 +19,14 @@
 
 package net.dpml.http;
 
-import java.net.URI;
+import java.io.File;
+import java.net.URL;
+import java.net.URLConnection;
 
 import junit.framework.TestCase;
 
-import net.dpml.part.control.Controller;
 import net.dpml.part.component.Component;
-
-import net.dpml.metro.central.MetroHelper;
+import net.dpml.part.PartContentHandlerFactory;
 
 /**
  * Test a simple component case.
@@ -37,6 +37,7 @@ import net.dpml.metro.central.MetroHelper;
 public class HttpTestCase extends TestCase
 {
     private static final String PATH = "demo.part";
+    private static final String TEST_DIR_KEY = "project.test.dir";
     
    /**
     * Test the construction of the widget implementation and invocation
@@ -44,12 +45,16 @@ public class HttpTestCase extends TestCase
     */
     public void testHttp() throws Exception
     {
-        String id = "test";
-        MetroHelper helper = new MetroHelper();
-        Controller controller = helper.getController();
-        URI uri = helper.toURI( PATH );
-        Component component = controller.newComponent( uri );
+        File test = new File( System.getProperty( TEST_DIR_KEY ) );
+        URL url = new File( test, PATH ).toURL();
+        Component component = (Component) url.getContent( new Class[]{ Component.class } );
         Demo demo = (Demo) component.resolve( false );
         component.release( demo );
     }
+
+    static
+    {
+        URLConnection.setContentHandlerFactory( new PartContentHandlerFactory() );
+    }
+
 }
