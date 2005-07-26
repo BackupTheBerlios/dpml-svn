@@ -9,8 +9,8 @@ Installation Instructions
 
 $ depot -install magic
 
-Release Notes: Version 1.0 RC1
-------------------------------
+Release Notes: Version 20050726
+-------------------------------
 
 URL: svn+ssh://svn.berlios.de/svnroot/repos/dpml/trunk/main
 Repository UUID: 00579e91-1ffa-0310-aa18-b241b61564ef
