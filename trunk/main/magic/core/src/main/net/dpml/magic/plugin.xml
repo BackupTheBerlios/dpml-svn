@@ -5,7 +5,6 @@
   <typedef name="path"       classname="net.dpml.magic.project.ProjectPath"/>
 
   <!-- taskdefs -->
-  <taskdef name="bar"        classname="net.dpml.magic.tasks.BarTask"/>
   <taskdef name="clean"      classname="net.dpml.magic.tasks.CleanTask"/>
   <taskdef name="checkstyle" classname="net.dpml.magic.tasks.CheckstyleTask"/>
   <taskdef name="dist"       classname="net.dpml.magic.tasks.DistTask"/>
