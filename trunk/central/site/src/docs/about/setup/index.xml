@@ -24,6 +24,11 @@
 
     <section name="Milestone Archive">
        
+      <p><strong>WARNING: A problem has been identified with build 20050726 and is currently
+      under investigation.  Please check back in the following hours for an updated build.  Please 
+      note that the problem does not effect Magic, Transit or Depot.  The problem does
+      effect Metro and related facilities.</strong></p>
+
       <p>
       The following table list milestone distributions published by the DPML.
       </p>

@@ -232,9 +232,14 @@ public class ComponentController extends LoggingHandler
         getLogger().debug( "initialization of " + component.getLocalURI() );
 
         Component[] providers = component.getProviders();
+
+        getLogger().debug( "provider count: " + providers.length );
+
         for( int i=0; i<providers.length; i++ )
         {
             Component provider = providers[i];
+            getLogger().debug( "provider (" + i + ") " + providers[i].getClass().getName() );
+            getLogger().debug( "provider (" + i + ") " + providers[i] + " " + ( provider instanceof Available ) );
             if( provider instanceof Available )
             {
                 Available available = (Available) provider;
@@ -255,14 +260,18 @@ public class ComponentController extends LoggingHandler
             }
         }
 
-        /*
         if( component instanceof Container )
         {
             Container container = (Container) component;
 
-            Service[] services = container.getStartupSequence();
+            getLogger().debug( "startup sequence for " + component );
+
+            Component[] services = container.getStartupSequence();
             for( int i=0; i<services.length; i++ )
             {
+                getLogger().debug( " (" + i + ") " + services[i] );
+
+                /*
                 Service service = services[i];
                 try
                 {
@@ -278,9 +287,9 @@ public class ComponentController extends LoggingHandler
                       + "\nService Provider: " + service.getURI();
                     throw new ControlException( uri, error, e );
                 }
+                */
             }
         }
-        */
 
         Object instance = getInstance( component );
         List visited = new LinkedList();

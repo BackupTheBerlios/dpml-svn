@@ -106,7 +106,7 @@
       <include key="dpml-http-spi"/>
       <include key="dpml-part-api"/>
       <include key="dpml-depot-console"/>
-      <include key="dpml-metro-central"/>
+      <include key="dpml-part-api"/>
     </dependencies>
     <plugins>
       <include key="dpml-composition-builder" runtime="false"/>

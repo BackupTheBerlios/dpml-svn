@@ -28,6 +28,7 @@ import java.util.Map;
 import java.util.Hashtable;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.ArrayList;
 import java.lang.reflect.Proxy;
 import java.lang.reflect.InvocationHandler;
 
@@ -38,7 +39,9 @@ import net.dpml.part.DelegationException;
 import net.dpml.part.PartHandlerNotFoundException;
 import net.dpml.part.PartNotFoundException;
 
+import net.dpml.part.component.Available;
 import net.dpml.part.component.Component;
+import net.dpml.part.component.Consumer;
 import net.dpml.part.component.ComponentException;
 import net.dpml.part.component.ComponentNotFoundException;
 import net.dpml.part.component.Container;
@@ -167,7 +170,18 @@ public class CompositionHandler extends ComponentHandler implements Container, S
     {
         ClassLoader classloader = getClassLoader();
         DefaultInvocationHandler handler = new DefaultInvocationHandler( component );
-        return (Component) Proxy.newProxyInstance( classloader, new Class[]{ Component.class }, handler );
+        ArrayList interfaces = new ArrayList();
+        interfaces.add( Component.class );
+        if( component instanceof Available )
+        {
+            interfaces.add( Available.class );
+        }
+        if( component instanceof Consumer )
+        {
+            interfaces.add( Consumer.class );
+        }
+        Class[] classes = (Class[]) interfaces.toArray( new Class[0] );
+        return (Component) Proxy.newProxyInstance( classloader, classes, handler );
     }
 
     public boolean equals( Object other )
