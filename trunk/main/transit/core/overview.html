@@ -49,12 +49,12 @@ The default behavour Transit is controlled by the following system properties:
   <TD><B>Description</B></TD>
 </TR>
 <TR BGCOLOR="white" CLASS="TableRowColor">
-  <TD>net.dpml.transit.profile</TD>
+  <TD>dpml.transit.profile</TD>
   <TD>none</TD>
   <TD>Used to select a stored configuration profile.  If undefined a default profile named <code>"default"</code> will be used.  If the profile does not exist it will initalized using Transit factory defaults or overriding authorative defaults if the <code>net.dpml.transit.authority</code> property is not null.</TD>
 <TD>
 <TR BGCOLOR="white" CLASS="TableRowColor">
-  <TD>net.dpml.transit.authority</TD>
+  <TD>dpml.transit.authority</TD>
   <TD>none</TD>
   <TD>May be used to declare a remote location for Transit configuration data.  If declared, the value supplied must be a URL referencing an authoritive directory.  If the url declares the <code>file:</code> protocol the configuration of Transit will be based on information declared under a [URL]/cache.properties file and [URL]/hosts/*.host files.  If the URL references a remote directory, host files will be resolved by expanding a index file at the address [URL]/hosts.idx containing a list of host file urls.  If the host file URL is not absolute it will be resolved relative to the the base url.
   </TD>
