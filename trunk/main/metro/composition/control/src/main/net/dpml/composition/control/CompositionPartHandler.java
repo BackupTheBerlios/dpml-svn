@@ -48,6 +48,7 @@ import net.dpml.composition.runtime.DefaultLogger;
 import net.dpml.transit.Transit;
 import net.dpml.transit.Artifact;
 import net.dpml.transit.Repository;
+import net.dpml.transit.model.ContentModel;
 
 /**
  * Composition part handler.
@@ -69,12 +70,15 @@ public abstract class CompositionPartHandler extends UnicastRemoteObject impleme
 
     private final CompositionControllerContext m_context;
 
-    public CompositionPartHandler( CompositionControllerContext context ) 
+    private final ContentModel m_model;
+
+    public CompositionPartHandler( ContentModel model ) 
        throws ControlException, RemoteException
     {
         super();
 
-        m_context = context;
+        m_model = model;
+        m_context = new CompositionControllerContext( model );
         m_loader = Transit.getInstance().getRepository();
     }
 
@@ -262,7 +266,7 @@ public abstract class CompositionPartHandler extends UnicastRemoteObject impleme
         DefaultLogger logger = new DefaultLogger( "handler" );
         try
         {
-            return (Controller) m_loader.getPlugin( classloader, uri, new Object[]{ this, logger } );
+            return (Controller) m_loader.getPlugin( classloader, uri, new Object[]{ logger, m_model } );
         }
         catch( IOException e )
         {

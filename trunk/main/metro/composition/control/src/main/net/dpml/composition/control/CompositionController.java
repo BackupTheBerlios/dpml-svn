@@ -95,7 +95,7 @@ public class CompositionController extends CompositionPartHandler implements Con
     public CompositionController( ContentModel model )
        throws ControlException, RemoteException
     {
-        super( new CompositionControllerContext( model ) );
+        super( model );
 
         m_logger = getContext().getLogger();
         m_valueController = new ValueController( this );
@@ -370,7 +370,7 @@ public class CompositionController extends CompositionPartHandler implements Con
         }
         else
         {
-            return Part.class.getClassLoader();
+            return Logger.class.getClassLoader();
         }
     }
 

@@ -44,7 +44,7 @@ public class LifecycleException extends Exception
      */
     public LifecycleException( final String message, final Throwable throwable )
     {
-        super( null, throwable );
+        super( message, throwable );
     }
 }
 

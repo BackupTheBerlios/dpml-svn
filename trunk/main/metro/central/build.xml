@@ -14,4 +14,8 @@
     <filter token="DEVELOPMENT_URI" value="link:plugin:${part.group}/${part.name}"/>
   </target>
 
+  <target name="package" depends="standard.package">
+    <x:export class="net.dpml.metro.central.MetroInstaller"/>
+  </target>
+
 </project>

@@ -139,6 +139,7 @@ class LifecycleHandler extends LoggingHandler
                   + "] decares an unsupported constructor parameter type ["
                   + c.getName()
                   + "].";
+
                 throw new LifecycleException( error );
             }
         }

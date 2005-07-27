@@ -50,10 +50,25 @@ public class PartContentHandler extends ContentHandler
     {
         try
         {
-            ClassLoader classloader = Thread.currentThread().getContextClassLoader();
+            //ClassLoader classloader = Thread.currentThread().getContextClassLoader();
+            ClassLoader classloader = Part.class.getClassLoader();
             URI uri = new URI( "@COMPOSITION-CONTROLLER-URI@" );
             Repository repository = Transit.getInstance().getRepository();
-            return (Controller) repository.getPlugin( classloader, uri, new Object[]{ model } );
+            Object object = repository.getPlugin( classloader, uri, new Object[]{ model } );
+            if( object instanceof Controller )
+            {
+                return (Controller) object;
+            }
+            else
+            {
+                Class c = object.getClass();
+                final String error = "Plugin class is not a controller.";
+                System.out.println( 
+                 "THIS CONTROLLER: " + Controller.class.getName() + ", " + Controller.class.hashCode() );
+                System.out.println( "THAT CONTROLLER: " + c.getName() + ", " + c.hashCode() );
+                System.out.println( classloader.toString() );
+                throw new RuntimeException( error );
+            }
         }
         catch( Throwable e )
         {
