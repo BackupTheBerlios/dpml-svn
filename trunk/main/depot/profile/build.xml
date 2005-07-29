@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<project name="dpml-depot-console" default="install" basedir="." 
+    xmlns:transit="antlib:net.dpml.transit" 
+    xmlns:x="plugin:dpml/magic/dpml-magic-core" >
+
+  <available property="depot.exe.available" file="${dpml.system}/bin/dpml/depot.exe"/>
+
+  <transit:import uri="local:template:magic/standard"/>
+
+  <target name="init" depends="standard.init">
+    <property name="depot.short.filename" value="${project.name}.jar"/>
+    <property name="transit.short.filename" value="dpml-transit-main.jar"/>
+    <filter token="BUILD-ID" value="${project.version}" />
+    <filter token="DEPOT-PATH" value="${depot.short.filename}"/>
+    <filter token="TRANSIT-PATH" value="${transit.short.filename}"/>
+    <filter token="DEPOT-MAIN-CLASS" value="net.dpml.depot.lang.Main" />
+    <x:filter token="TRANSIT-CORE-URI" key="dpml-transit-main" feature="uri" type="jar"/>
+    <x:filter token="STATION-PLUGIN-URI" key="dpml-depot-station" feature="uri" type="plugin"/>
+    <x:filter token="TEST-PLUGIN-URI" key="dpml-depot-test" feature="uri" type="plugin"/>
+    <x:filter token="TEST-SERVER-URI" key="dpml-test-mexico" feature="uri" type="jar"/>
+    <x:filter token="DEPOT-CONSOLE-URI" feature="uri" type="jar"/>
+    <x:filter token="DEPOT-PREFS-URI" key="dpml-depot-prefs" feature="uri" type="plugin"/>
+    <x:filter token="DEPOT-INSTALL-URI" key="dpml-depot-install" feature="uri" type="plugin"/>
+    <filter token="METRO-CENTRAL-URI" value="link:plugin:dpml/metro/dpml-metro-central#LATEST"/>
+  </target>
+
+  <target name="build" depends="standard.build">
+    <rmic base="${basedir}/target/classes">
+      <include name="**/DefaultProfile.class"/>
+      <include name="**/DefaultApplicationProfile.class"/>
+      <include name="**/DefaultActivationProfile.class"/>
+      <include name="**/DefaultActivationGroupProfile.class"/>
+      <include name="**/DefaultDepotProfile.class"/>
+    </rmic>
+  </target>
+
+  <target name="install" depends="standard.install,win32-exe-install">
+    <echo>
+#----------------------------------------------------------------------------------
+# Updating DPML DATA ${dpml.data}/lib
+#----------------------------------------------------------------------------------
+    </echo>
+    <property name="lib" location="${dpml.data}/lib"/>
+    <mkdir dir="${lib}"/>
+    <delete verbose="true" failonerror="false">
+      <fileset dir="${lib}">
+        <include name="${project.name}-*.*"/>
+        <exclude name="${depot.short.filename}"/>
+      </fileset>
+    </delete>
+    <property name="depot.long.filename" value="${project.name}-${project.version}.jar"/>
+    <copy toFile="${lib}/${depot.short.filename}" preservelastmodified="true" overwrite="true" 
+      file="${basedir}/target/deliverables/jars/${depot.long.filename}"/>
+    <echo>
+#----------------------------------------------------------------------------------
+# Updating DPML SYSTEM ${dpml.system}/bin
+#----------------------------------------------------------------------------------
+    </echo>
+    <copy todir="${dpml.system}" preservelastmodified="true" overwrite="true">
+      <fileset dir="target">
+        <include name="bin/**"/>
+        <exclude name="bin/dpml/**"/>
+      </fileset>
+    </copy>
+    <chmod perm="755">
+      <fileset dir="${dpml.system}/bin">
+  	  <include name="**/*.sh"/>
+  	  <include name="**/depot"/>
+  	</fileset>
+    </chmod>
+  </target>
+
+  <target name="win32-exe-install" depends="standard.install" unless="depot.exe.available">
+    <copy todir="${dpml.system}" preservelastmodified="true">
+      <fileset dir="target">
+        <include name="bin/dpml/**"/>
+      </fileset>
+    </copy>
+  </target>
+
+</project>
