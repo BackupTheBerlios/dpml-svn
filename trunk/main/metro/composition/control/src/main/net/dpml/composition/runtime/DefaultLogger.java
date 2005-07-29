@@ -166,8 +166,21 @@ public class DefaultLogger implements net.dpml.logging.Logger
 
     public net.dpml.logging.Logger getChildLogger( String category )
     {
-        String name = m_logger.getName();
-        String path = name + "." + category;
+        String path = m_logger.getName();
+        if( "" != path )
+        {
+             path = path + "." + category;
+        }
+        else
+        {
+             path = category;
+        }
+
+        if( path.endsWith( "/" ) )
+        {
+            path = path.substring( 0, path.length() - 1 );
+        }
+        path = path.replace( '/', '.' );
         return new DefaultLogger( path );
     }
 

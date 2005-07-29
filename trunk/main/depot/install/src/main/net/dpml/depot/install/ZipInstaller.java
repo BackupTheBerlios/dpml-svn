@@ -55,6 +55,7 @@ public class ZipInstaller
     private final Logger m_logger;
     private final TransitRegistryModel m_transit;
     private final DepotProfile m_depot;
+    private final String[] m_args;
 
     private File m_bundle = null;
 
@@ -70,44 +71,47 @@ public class ZipInstaller
     * @param depot the depot application registry
     * @param transit the transit profile registry
     */
-    public ZipInstaller( Logger logger, DepotProfile depot, TransitRegistryModel transit ) throws Exception
+    public ZipInstaller( 
+      Logger logger, DepotProfile depot, TransitRegistryModel transit, String[] args ) throws Exception
     {
         m_logger = logger;
         m_depot = depot;
         m_transit = transit;
+        m_args = args;
+    }
+
+    private Logger getLogger()
+    {
+        return m_logger;
     }
 
     public synchronized void install( Artifact artifact ) throws Exception
     {
         m_bundle = null;
-
         try
         {
             URL url = artifact.toURL();
-            System.out.println( "\n  loading: " + url );
+            getLogger().info( "loading: " + url );
             File file = (File) url.getContent( new Class[]{ File.class } );
-            System.out.println( "  cached to: " + file );
+            getLogger().debug( "Cached as: " + file );
             ZipFile zip = new ZipFile( file );
             int size = zip.size();
-            System.out.println( "  unpacking " + size + " entries\n" );
+            getLogger().info( "unpacking " + size + " entries" );
             unpack( zip );
-
-            System.out.println( "\n  content update complete" );
-
+            getLogger().info( "update complete" );
         }
         catch( ArtifactNotFoundException e )
         {
-            System.out.println( "  Artifact not found.\n" );
-            throw new HandledException();
+            throw e;
         }
 
         //
-        // if the installation declared a bundle then fire it 
+        // if the installation declared a bundle then fire it up
         //
 
         if( m_bundle != null )
         {
-            System.out.println( "  resolving package installer" );
+            getLogger().debug( "resolving package installer" );
             Properties properties = new Properties();
             try
             {
@@ -117,11 +121,11 @@ public class ZipInstaller
             catch( IOException e )
             {
                 final String error = 
-                  "  Unable to load installer parameters."
+                  "Unable to load installer parameters."
                   + "\n  Cause: " + e.getClass().getName()
                   + "\n  Message: " + e.getMessage()
                   + "\n";
-                System.out.println( error );
+                getLogger().error( error, e );
                 throw new HandledException();
             }
 
@@ -129,8 +133,8 @@ public class ZipInstaller
             if( null == plugin )
             {
                 final String error = 
-                  "  ERROR: Installer does not declare a plugin uri.\n";
-                System.out.println( error );
+                  "Installer does not declare a plugin uri.";
+                getLogger().error( error );
                 throw new HandledException();
             }
 
@@ -138,13 +142,13 @@ public class ZipInstaller
             if( null == classname )
             {
                 final String error = 
-                  "  ERROR: Installer does not declare a classname.\n";
-                System.out.println( error );
+                  "Installer does not declare a classname.\n";
+                getLogger().error( error );
                 throw new HandledException();
             }
 
-            System.out.println( "  installer: " + plugin );
-            System.out.println( "  class: [" + classname + "]" );
+            getLogger().debug( "  installer: " + plugin );
+            getLogger().debug( "  class: [" + classname + "]" );
 
             try
             {
@@ -154,23 +158,21 @@ public class ZipInstaller
                 ClassLoader classloader = loader.getPluginClassLoader( parent, uri );
                 Class c = classloader.loadClass( classname );
                 Boolean flag = new Boolean( true );
-                loader.instantiate( c, new Object[]{ m_logger, m_transit, m_depot, flag } );
-                System.out.println( "  Installation complete.\n" );
+                loader.instantiate( c, new Object[]{ m_logger, m_transit, m_depot, m_args, flag } );
+                getLogger().info( "installation complete" );
             }
             catch( Throwable e )
             {
                 final String error = 
-                  "  ERROR: Installer deployment failure.";
-                System.out.println( error );
-                e.printStackTrace();
-                throw new HandledException();
+                  "Installer deployment failure.";
+                throw new Exception( error, e );
             }
         }
     }
   
     public void deinstall( Artifact artifact )
     {
-        System.out.println( "\n  WARNING: deinstallation service not available in this version.\n" );
+        getLogger().warn( "deinstallation service not available in this version.\n" );
     }
 
     private void unpack( ZipFile zip ) throws Exception
@@ -193,7 +195,7 @@ public class ZipInstaller
         parent.mkdirs();
         InputStream input = zip.getInputStream( entry );
         OutputStream output = new FileOutputStream( out );
-        System.out.println( "" + out );
+        getLogger().debug( "" + out );
         StreamUtils.copyStream( input, output, true );
     }
 

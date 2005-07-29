@@ -42,7 +42,7 @@ public class ArtifactNotFoundException extends ArtifactException
     // ------------------------------------------------------------------------
 
     /**
-     * Construct a new <code>ArtifactException</code> instance.
+     * Construct a new <code>ArtifactNotFoundException</code> instance.
      *
      * @param message The detail message for this exception.
      * @param artifact the subject artifact

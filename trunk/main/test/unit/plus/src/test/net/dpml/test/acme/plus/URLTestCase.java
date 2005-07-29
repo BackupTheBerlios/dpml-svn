@@ -75,21 +75,6 @@ public class URLTestCase extends TestCase
         assertNotNull( "part", part );
     }
 
-   /**
-    * Check that the loading of a url results in the loading of the Part 
-    * class from the same classloader. This validate that the caching of plugins 
-    * by the Transit content manager is doing what it should be doing. If caching
-    * is not performing correctly the returned part classes will not be the same.
-    */
-    public void testPartLoading() throws Exception
-    {
-        URL urlA = new URL( SIMPLE_TEST_PART );
-        Part partA = (Part) urlA.getContent();
-        URL urlB = new URL( PLUS_TEST_PART );
-        Part partB = (Part) urlB.getContent();
-        assertEquals( "same class", partA.getClass(), partB.getClass() );
-    }
-
     //--------------------------------------------------------------------------
     // static utils
     //--------------------------------------------------------------------------

@@ -20,13 +20,22 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.File;
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.URI;
 import java.net.URL;
 import java.util.Properties;
+import java.util.prefs.Preferences;
 import java.net.URISyntaxException;
 import java.rmi.RemoteException;
 
+import net.dpml.depot.lang.ShutdownHandler;
+import net.dpml.depot.store.DepotHome;
 import net.dpml.depot.profile.DepotProfile;
+import net.dpml.depot.profile.DefaultDepotProfile;
 import net.dpml.depot.profile.ApplicationProfile;
+import net.dpml.depot.unit.DepotStorageUnit;
 
 import net.dpml.transit.Transit;
 import net.dpml.transit.Artifact;
@@ -39,10 +48,22 @@ import net.dpml.transit.model.Logger;
 import net.dpml.transit.store.TransitStorageHome;
 
 /**
- * Table model that maps table rows to child nodes of a supplied preferences node.
+ * The DepotInstaller is responsible for the establishment and integrity of 
+ * the DPML installation.
  */
 public class PackageInstaller implements Runnable
 {
+    //--------------------------------------------------------------------------
+    // static
+    //--------------------------------------------------------------------------
+
+    private static final String PROFILE_OPT = "-profile";
+    private static final String VERSION_OPT = "-version";
+    private static final String STANDARD_PROFILE = "standard";
+    private static final String MAGIC_PROFILE = "magic";
+    private static final String METRO_PROFILE = "metro";
+    private static final String VERSION = "@VERSION@";
+
     //--------------------------------------------------------------------------
     // state
     //--------------------------------------------------------------------------
@@ -51,7 +72,8 @@ public class PackageInstaller implements Runnable
     private final TransitRegistryModel m_transit;
     private final DepotProfile m_depot;
     private final String[] m_args;
-    private final Properties m_properties;
+
+    private ShutdownHandler m_handler;
 
     private boolean m_continue = true;
 
@@ -64,17 +86,21 @@ public class PackageInstaller implements Runnable
     * of a target package via commandline instructions.
     *
     * @param logger the assigned logging channel
-    * @param depot the profile application and activatable server registry 
-    * @param args commandline args
+    * @param args suplimentary commandline arguments
+    * @param handler the shutdown handler
     */
-    public PackageInstaller( Logger logger, DepotProfile depot, Properties properties, String[] args ) throws Exception
+    //public PackageInstaller( Logger logger, DepotProfile depot, Properties properties, String[] args )
+    public PackageInstaller( Logger logger, String[] args, ShutdownHandler handler, Preferences prefs ) 
+      throws Exception
     {
         super();
 
-        m_depot = depot;
         m_logger = logger;
         m_args = args;
-        m_properties = properties;
+        m_handler = handler;
+
+        DepotHome store = new DepotStorageUnit( prefs );
+        m_depot = new DefaultDepotProfile( logger, store );
 
         TransitStorageHome home = new TransitStorageHome();
         m_transit = new DefaultTransitRegistryModel( logger, home );
@@ -82,158 +108,227 @@ public class PackageInstaller implements Runnable
 
     public void run()
     {
-        if( m_args.length > 0 )
-        {
-            if( m_args.length == 1 )
-            {
-                m_continue = false;
+        getLogger().debug( "processing [" + m_args.length + "] command options" );
+        boolean reset = isFlagPresent( "-reset" );
 
-                String flag = m_properties.getProperty( "dpml.depot.install", "true" );
-                boolean isInstallation = "true".equals( flag );
-                String arg = m_args[0];
-                try
+        try
+        {
+            String version = getSetupVersion();
+            if( VERSION.equals( version ) && false == reset )
+            {
+                //
+                // we are working with the installed Depot system and rest has 
+                // not been requested so we go ahead with the install based on 
+                // this current classloader stack
+                //
+
+                getLogger().info( "initiating depot setup" );
+
+                String profile = getProfileName();
+                if( STANDARD_PROFILE.equals( profile ) || METRO_PROFILE.equals( profile ) )
                 {
-                    processCommand( isInstallation, arg );
+                    getLogger().info( "invoking standard profile setup" );
+                    installMagic();
+                    installMetro();
                 }
-                catch( HandledException e )
+                else if( MAGIC_PROFILE.equals( profile ) )
                 {
+                    getLogger().info( "invoking magic profile setup" );
+                    installMagic();
                 }
-                catch( Exception e )
+                else
                 {
-                    System.out.println( e.toString() );
+                    final String error = 
+                      "Requested profile is not recognized. "  
+                      + "Recognized profiles include 'standard', 'magic' and 'metro'.";
+                    getLogger().error( error );
+                    m_handler.exit( -1 );
                 }
             }
             else
             {
-                final String error = 
-                  "  ERROR: Invalid command: too many parameters.\n";
-                System.out.println( error );
+                //
+                // the request is for the setup of Depot using a different version
+                // so we need to install the requested Depot version and launch
+                // another process so that we pick up the version of Depot and Transit
+                // classes corresponding to the install version argument
+                //
+
+                String spec = "artifact:zip:dpml/depot/dpml-depot#" + version;
+                install( spec, new String[0] );
+                getLogger().info( "switching to version: " + version );
+
+                String[] command = new String[]{ 
+                     "java",
+                     "-Djava.ext.dirs=lib",
+                     "net.dpml.depot.lang.Main",
+                     "-setup",
+                     "-postprocess" };
+                File dir = Transit.DPML_DATA;
+                getLogger().info( "launching process" );
+                Process process = Runtime.getRuntime().exec( command, null, dir );
+                StreamReader out = new StreamReader( process.getInputStream() );
+                StreamReader err = new StreamReader( process.getErrorStream() );
+                out.start();
+                err.start();
+                int result = process.waitFor();
+                getLogger().info( "result: " + result );
             }
         }
+        catch( IllegalArgumentException e )
+        {
+            getLogger().error( e.getMessage() );
+            m_handler.exit( -1 );
+        }
+        catch( ArtifactNotFoundException e )
+        {
+            URI uri = e.getURI();
+            getLogger().error( "Resource not found: [" + uri + "]" );
+            m_handler.exit( -1 );
+        }
+        catch( Throwable e )
+        {
+            final String error = 
+              "Installation failure.";
+            getLogger().error( error, e );
+            m_handler.exit( -1 );
+        }
 
-        while( m_continue )
+        getLogger().info( "setup procedure complete" );
+        m_handler.exit();
+    }
+
+    private void installMagic() throws Exception
+    {
+        String spec = "@MAGIC_BUNDLE_URI@";
+        install( spec, new String[0] );
+    }
+
+    private void installMetro() throws Exception
+    {
+        String spec = "@METRO_BUNDLE_URI@";
+        install( spec, new String[0] );
+    }
+
+    private class StreamReader extends Thread
+    {
+        InputStream m_input;
+        boolean m_error = false;
+        
+        public StreamReader( InputStream input )
+        {
+            m_input = input;
+        }
+  
+        public void run()
         {
             try
             {
-                String command = getInputString( "INSTALL> " );
-                if( command.length() > 0 )
+                InputStreamReader isr = new InputStreamReader( m_input );
+                BufferedReader reader = new BufferedReader( isr );
+                String line = null;
+                while( ( line = reader.readLine() ) != null )
                 {
-                    processCommand( command );
+                    getLogger().info( line );
                 }
             }
-            catch( HandledException e )
+            catch( IOException e )
             {
-            }
-            catch( Exception e )
-            {
-                System.out.println( e.toString() );
+                 getLogger().error( "Process read error.", e );
             }
         }
-
-        System.exit( 0 );
     }
 
-    private void processCommand( String command ) throws Exception
+    private Logger getLogger()
     {
-        processCommand( true, command );
+        return m_logger;
     }
 
-    private void processCommand( boolean flag, String command ) throws Exception
+    private String getProfileName()
     {
-        if( "exit".equals( command ) )
+        if( m_args.length == 0 )
         {
-            m_continue = false;
-        }
-        else if( "list".equals( command ) )
-        {
-            processListCommand();
-        }
-        else if( command.startsWith( "install " ) )
-        {
-            String args = command.substring( "install ".length() );
-            processInstallCommand( true, args );
-        }
-        else if( command.startsWith( "remove " ) )
-        {
-            String args = command.substring( "remove ".length() );
-            processInstallCommand( false, args );
-        }
-        else if( "magic".equals( command ) )
-        {
-            processInstallCommand( flag, "magic" );
-        }
-        else if( "metro".equals( command ) )
-        {
-            processInstallCommand( flag, "metro" );
-        }
-        else if( "help".equals( command ) )
-        {
-            System.out.println( "\n  Depot Installation Manager (Command Help)" );
-            System.out.println( "\n  Available commands:\n" );
-            System.out.println( "    list           -- list installed applications" );
-            System.out.println( "    install magic  -- installs the magic build system" );
-            System.out.println( "    install metro  -- installs the metro container" );
-            System.out.println( "    install [urn]  -- installs an application" );
-            System.out.println( "    remove magic   -- deinstall magic" );
-            System.out.println( "    remove metro   -- deinstall metro" );
-            System.out.println( "    remove [urn]   -- deinstalls an application" );
-            System.out.println( "    exit           -- exit the manager" );
-            System.out.println( "\n" );
+            return STANDARD_PROFILE;
         }
         else
         {
-            System.out.println( "  Invalid command: [" + command + "]" );
-        }
-    }
-
-    private void processListCommand()
-    {
-        System.out.println( "\n  Listing installed applications:\n" );
-        try
-        {
-            ApplicationProfile[] applications = m_depot.getApplicationProfiles();
-            for( int i=0; i<applications.length; i++ )
-            {
-                ApplicationProfile profile = applications[i];
-                System.out.println( "\t" + profile.getID()
-                  + "\t" + profile.getCodeBaseURI() );
+            for( int i=0; i<m_args.length; i++ )
+            { 
+                String arg = m_args[i];
+                if( arg.equals( PROFILE_OPT ) )
+                {
+                    if( i+1 < m_args.length )
+                    {
+                        return m_args[ i+1 ];
+                    }
+                    else
+                    {
+                        final String error = 
+                          "Invalid commandline. The -profile option must be followed by a profile name.";
+                        throw new IllegalArgumentException( error );
+                    }
+                }
             }
         }
-        catch( Exception e )
-        {
-            final String error = "Internal error while processing application list.";
-            m_logger.error( error, e );
-        }
-        System.out.println( "" );
+        return STANDARD_PROFILE;
     }
 
-    private void processInstallCommand( boolean flag, String args ) throws Exception
+    private String getSetupVersion()
     {
-        if( "magic".equals( args ) )
+        if( m_args.length == 0 )
         {
-            processInstallCommand( flag, "@MAGIC_BUNDLE_URI@" );
-        }
-        else if( "metro".equals( args ) )
-        {
-            processInstallCommand( flag, "@METRO_BUNDLE_URI@" );
+            return VERSION;
         }
         else
         {
-            Artifact artifact = resolveArtifact( args );
-            String type = artifact.getType();
-            if( "zip".equals( type ) )
-            {
-                installZipBundle( flag, artifact );
-            }
-            else
-            {
-                final String error =
-                  "  Artifact type [" + type + "] is not supported at this time.\n";
-                System.out.println( error );
-                throw new HandledException();
+            for( int i=0; i<m_args.length; i++ )
+            { 
+                String arg = m_args[i];
+                if( arg.equals( VERSION_OPT ) )
+                {
+                    if( i+1 < m_args.length )
+                    {
+                        return m_args[ i+1 ];
+                    }
+                    else
+                    {
+                        final String error = 
+                          "Invalid commandline. The -version option must be followed by a version value.";
+                        throw new IllegalArgumentException( error );
+                    }
+                }
             }
         }
-        System.out.println( "" );
+        return VERSION;
+    }
+
+    private boolean isFlagPresent( String flag )
+    {
+        for( int i=0; i < m_args.length; i++ )
+        {
+            String arg = m_args[i];
+            if( arg.equals( flag ) )
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private void install( String spec, String[] args ) throws Exception
+    {
+        Artifact artifact = resolveArtifact( spec );
+        String type = artifact.getType();
+        if( "zip".equals( type ) )
+        {
+            installZipBundle( true, artifact, args );
+        }
+        else
+        {
+            final String error =
+              "Artifact [" + spec + "] is not zip bundle.\n";
+            throw new IllegalArgumentException();
+        }
     }
 
     private Artifact resolveArtifact( String arg ) throws Exception
@@ -265,9 +360,9 @@ public class PackageInstaller implements Runnable
         }
     }
 
-    private void installZipBundle( boolean flag, Artifact artifact ) throws Exception
+    private void installZipBundle( boolean flag, Artifact artifact, String[] args ) throws Exception
     {
-        ZipInstaller installer = new ZipInstaller( m_logger, m_depot, m_transit );
+        ZipInstaller installer = new ZipInstaller( m_logger, m_depot, m_transit, args );
         if( flag )
         {
             installer.install( artifact );
@@ -276,17 +371,5 @@ public class PackageInstaller implements Runnable
         {
             installer.deinstall( artifact );
         }
-    }
-
-    //--------------------------------------------------------------------------
-    // stuic utils
-    //--------------------------------------------------------------------------
-
-    private static BufferedReader m_INPUT = new BufferedReader( new InputStreamReader( System.in ) );
-
-    private static String getInputString( String prompt ) throws IOException
-    {
-        System.out.print( prompt );
-        return m_INPUT.readLine();
     }
 }

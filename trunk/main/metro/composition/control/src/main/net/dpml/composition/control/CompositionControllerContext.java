@@ -53,35 +53,6 @@ import net.dpml.transit.util.PropertyResolver;
 public class CompositionControllerContext extends LocalWeakEventProducer implements ControllerContext
 {
     //----------------------------------------------------------------------------
-    // static
-    //----------------------------------------------------------------------------
-
-    //public static ControllerContext newContext()
-    //{
-    //    return newContext( new net.dpml.transit.monitor.LoggingAdapter( "metro" ) );
-    //}
-
-    /*
-    public static ControllerContext newContext( net.dpml.transit.model.Logger logger )
-    {
-        try
-        {
-            String title = "Default Composition Context.";
-            String type = "part";
-            Properties properties = new Properties();
-            DefaultContentModel model = 
-              new DefaultContentModel( logger, null, type, title, properties );
-            return new CompositionControllerContext( model );
-        }
-        catch( Throwable e )
-        {
-            e.printStackTrace();
-            return null;
-        }
-    }
-    */
-
-    //----------------------------------------------------------------------------
     // state
     //----------------------------------------------------------------------------
 
@@ -144,7 +115,7 @@ public class CompositionControllerContext extends LocalWeakEventProducer impleme
         {
             path = path.substring( 0, path.length() - 1 );
         }
-        path.replace( '/', '.' );
+        path = path.replace( '/', '.' );
         return new DefaultLogger( path );
     }
 

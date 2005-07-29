@@ -75,11 +75,13 @@ public class DepotPreferencesFrame extends JFrame
     */
     private static final int ZERO = 0;
 
-    public DepotPreferencesFrame( TransitModel model, DepotProfile depot ) throws Exception
+    //public DepotPreferencesFrame( TransitModel model, DepotProfile depot ) throws Exception
+    public DepotPreferencesFrame( String[] args ) throws Exception
     {
         super();
 
-        if( null == System.getProperty( "dpml.depot.metal" ) )
+        boolean metal = isFlagPresent( args, "-metal" );
+        if( false == metal )
         {
             String os = System.getProperty( "os.name" ).toLowerCase();
             if( ( os.indexOf( "win" ) >= 0 ) || ( os.indexOf( "Mac OS" ) >= 0 ) )
@@ -88,7 +90,13 @@ public class DepotPreferencesFrame extends JFrame
                UIManager.setLookAndFeel( classname );
             }
         }
-        
+
+        TransitModel model = null;
+        DepotProfile depot = null;
+
+        throw new UnsupportedOperationException( "DepotPreferencesFrame/1" );
+
+        /*
         setTitle( "DPML DepotProfile" );
         Dimension size = new Dimension( DEFAULT_DIALOG_WIDTH, DEFAULT_DIALOG_HEIGHT );
         setSize( size );
@@ -106,5 +114,20 @@ public class DepotPreferencesFrame extends JFrame
         );
         setLocation( 300, 200 );
         setVisible(true);
+        */
     }
+
+    private static boolean isFlagPresent( String[] args, String flag )
+    {
+        for( int i=0; i < args.length; i++ )
+        {
+            String arg = args[i];
+            if( arg.equals( flag ) )
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
 }

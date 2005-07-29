@@ -110,37 +110,32 @@ public class ComponentProfile extends DeploymentProfile
     /**
      * The component lifestyle policy.
      */
-    private final String m_lifestyle;
+    private String m_lifestyle;
 
     /**
      * The component classname.
      */
-    private final String m_classname;
+    private String m_classname;
 
     /**
      * The parameters for component (if any).
      */
-    private final Parameters m_parameters;
+    private Parameters m_parameters;
 
     /**
      * The configuration for component (if any).
      */
-    private final Configuration m_configuration;
+    private Configuration m_configuration;
 
     /**
      * The components context directive.
      */
-    private final ContextDirective m_context;
+    private ContextDirective m_context;
 
     /**
      * The internal parts.
      */
-    private final PartReference[] m_parts;
-
-    /**
-     * URI of the profile that this profile extends.
-     */
-    private final URI m_extends;
+    private PartReference[] m_parts;
 
     //--------------------------------------------------------------------------
     // constructor
@@ -161,7 +156,7 @@ public class ComponentProfile extends DeploymentProfile
           InfoDescriptor.UNDEFINED_COLLECTION, 
           "request", 
           classname, 
-          null, null, null, null, null, null, null );
+          null, null, null, null, null, null );
     }
 
    /**
@@ -183,8 +178,7 @@ public class ComponentProfile extends DeploymentProfile
           template.getParts(),
           template.getParameters(),
           template.getConfiguration(),
-          template.getClassLoaderDirective(),
-          template.getExtends() );
+          template.getClassLoaderDirective() );
     }
 
     public ComponentProfile(
@@ -198,8 +192,7 @@ public class ComponentProfile extends DeploymentProfile
            final PartReference[] parts,
            final Parameters parameters,
            final Configuration config,
-           final ClassLoaderDirective classloader,
-           final URI extendsURI )
+           final ClassLoaderDirective classloader )
         throws NullPointerException
     {
         super( name, activation, categories, classloader );
@@ -234,7 +227,6 @@ public class ComponentProfile extends DeploymentProfile
         m_collection = collection;
         m_parameters = parameters;
         m_configuration = config;
-        m_extends = extendsURI;
 
         if( null == parts )
         {
@@ -251,17 +243,6 @@ public class ComponentProfile extends DeploymentProfile
     //--------------------------------------------------------------------------
 
     /**
-     * Return the uri of the profile that this profile extends or null if the
-     * profile is standalone.
-     *
-     * @return the base profile URI
-     */
-    public URI getExtends()
-    {
-        return m_extends;
-    }
-
-    /**
      * Return the component type classname.
      *
      * @return classname of the component type
@@ -269,6 +250,11 @@ public class ComponentProfile extends DeploymentProfile
     public String getClassname()
     {
         return m_classname;
+    }
+
+    public void setClassname( String classname )
+    {
+        m_classname = classname;
     }
 
     /**
@@ -279,6 +265,11 @@ public class ComponentProfile extends DeploymentProfile
     public String getLifestylePolicy()
     {
         return m_lifestyle;
+    }
+
+    public void setLifestylePolicy( String lifestyle )
+    {
+        m_lifestyle = lifestyle;
     }
 
     /**
@@ -292,6 +283,11 @@ public class ComponentProfile extends DeploymentProfile
         return m_collection;
     }
 
+    public void setCollectionPolicy( int policy )
+    {
+        m_collection = policy;
+    }
+
     /**
      * Return the context directive for the profile.
      *
@@ -300,6 +296,11 @@ public class ComponentProfile extends DeploymentProfile
     public ContextDirective getContextDirective()
     {
         return m_context;
+    }
+
+    public void setContextDirective( ContextDirective directive )
+    {
+        m_context = directive;
     }
 
     /**
@@ -312,6 +313,11 @@ public class ComponentProfile extends DeploymentProfile
         return m_parts;
     }
 
+    public void setParts( PartReference[] parts )
+    {
+        m_parts = parts;
+    }
+
     /**
      * Return the Parameters for the profile.
      *
@@ -320,6 +326,11 @@ public class ComponentProfile extends DeploymentProfile
     public Parameters getParameters()
     {
         return m_parameters;
+    }
+
+    public void setParameters( Parameters params )
+    {
+        m_parameters = params;
     }
 
     /**
@@ -331,6 +342,11 @@ public class ComponentProfile extends DeploymentProfile
     public Configuration getConfiguration()
     {
         return m_configuration;
+    }
+
+    public void setConfiguration( Configuration config )
+    {
+        m_configuration = config;
     }
 
     /**

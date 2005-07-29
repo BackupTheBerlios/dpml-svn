@@ -69,7 +69,7 @@ class LoggingHandler
         String channel = path.replace( '/', '.' );
         if( category != null )
         {
-            channel = channel + "." + category;
+            channel = channel + "." + category.replace( '/', '.' );
         }
         return Logger.getLogger( channel );
     }
@@ -82,7 +82,7 @@ class LoggingHandler
         {
             path = path.substring( 0, path.length() - 1 );
         }
-        path.replace( '/', '.' );
+        path = path.replace( '/', '.' );
         return new DefaultLogger( path );
     }
 }

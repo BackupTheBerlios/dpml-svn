@@ -1,5 +1,5 @@
 /*
- * Copyright 2005 Stephen McConnell
+ * Copyright 2005 Stephen J. McConnell.
  *
  * Licensed  under the  Apache License,  Version 2.0  (the "License");
  * you may not use  this file  except in  compliance with the License.
@@ -16,18 +16,18 @@
  * limitations under the License.
  */
 
-package net.dpml.depot.store;
+package net.dpml.depot.lang;
 
 /**
+ * Interface through which Depot command handlers can request process 
+ * termination.
+ *
+ * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
  */
-public interface ActivationStorage extends ProfileStorage
+public interface ShutdownHandler
 {
-    String getClassname();
+    void exit();
 
-    void setClassname( String classname );
-
-    boolean getRestartPolicy();
-
-    void setRestartPolicy( boolean policy );
-
+    void exit( int flag );
 }
+

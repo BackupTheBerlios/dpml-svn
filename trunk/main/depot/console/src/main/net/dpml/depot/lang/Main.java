@@ -41,6 +41,8 @@ import java.util.prefs.BackingStoreException;
 import java.util.prefs.Preferences;
 
 import net.dpml.depot.lang.DepotClassLoader;
+
+/*
 import net.dpml.depot.profile.ApplicationProfile;
 import net.dpml.depot.profile.DefaultApplicationProfile;
 import net.dpml.depot.profile.DepotProfile;
@@ -48,6 +50,7 @@ import net.dpml.depot.profile.DefaultDepotProfile;
 import net.dpml.depot.profile.Profile;
 import net.dpml.depot.store.DepotHome;
 import net.dpml.depot.unit.DepotStorageUnit;
+*/
 
 import net.dpml.transit.Transit;
 import net.dpml.transit.TransitError;
@@ -72,9 +75,13 @@ import net.dpml.transit.Repository;
  * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
  * @version $Id: Main.java 2480 2005-05-10 04:44:32Z mcconnell@dpml.net $
  */
-public final class Main
+public final class Main implements ShutdownHandler
 {
-    private static Object OBJECT;
+    private static Main MAIN;
+
+    private Object m_plugin;
+
+    //private static Object OBJECT;
 
     public static void start( final String[] args )
         throws Exception
@@ -86,79 +93,219 @@ public final class Main
     public static void stop( final String[] args )
         throws Exception
     {
-        System.exit( 0 );
+        if( null != MAIN )
+        {
+            MAIN.exit();
+        }
+        else
+        {
+            System.exit( 0 );
+        }
     }
 
+   /**
+    * Processes command line options to establish the command handler plugin to deploy.
+    * Command parameters recognixed by the console include the following:
+    * <ul>
+    *   <li>-help</li>
+    *   <li>-version</li>
+    *   <li>-reset</li>
+    *   <li>-debug</li>
+    *   <li>-setup</li>
+    *   <li>-prefs</li>
+    *   <li>-station</li>
+    * </ul>
+    */
     public static void main( String[] args )
         throws Exception
     {
-        long start = new Date().getTime();
-        boolean termination = false;
-
-        System.setProperty( "dpml.logging.category", "depot" );
-	  System.setSecurityManager(new RMISecurityManager());
-
-        boolean help = isFlagPresent( args, "-help" );
-        if( help )
+        if( null != MAIN )
         {
-            handleHelp();
-            exit();
+            final String error = 
+              "Console already established.";
+            throw new IllegalArgumentException( error );
         }
-
-        boolean reset = isFlagPresent( args, "-reset" );
-        if( reset )
+        else
         {
-            clearPreferences( Main.class );
-            clearPreferences( Transit.class );
-            exit();
+            MAIN = new Main( args );
         }
+    }
 
-        boolean version = isFlagPresent( args, "-version" );
-        if( version )
+    private String getSwitch( String[] args )
+    {
+        if( args.length == 0 ) 
         {
-            handleVersion();
-            exit();
+            return "-help";
         }
+        else
+        {
+            return args[0];
+        }
+    }
 
-        boolean debug = isFlagPresent( args, "-debug" );
-        if( debug )
+    private Main( String[] arguments )
+    {
+        String[] args = arguments;
+        if( isFlagPresent( args, "-debug" ) )
         {
             args = consolidate( args, "-debug" );
             System.setProperty( "dpml.logging.level", "FINE" );
         }
 
-        boolean metal = isFlagPresent( args, "-metal" );
-        if( metal )
-        {
-            args = consolidate( args, "-metal" );
-            System.setProperty( "dpml.depot.metal", "true" );
-        }
+        String option = getSwitch( args );
 
-        //
-        // check if -get has been requested
-        //
-   
-        for( int i=0; i < args.length; i++ )
+        if( "-help".equals( option ) )
         {
-            String arg = args[i];
-            if( arg.equals( "-get" ) )
+            handleHelp();
+            exit();
+        }
+        else if( "-reset".equals( option ) )
+        {
+            int result = handleReset();
+            exit( result );
+        }
+        else if( "-version".equals( option ) )
+        {
+            handleVersion();
+            exit();
+        }
+        else if( "-get".equals( option ) )
+        {
+            for( int i=0; i < args.length; i++ )
             {
-                System.setProperty( "dpml.logging.category", "depot.get" );
-                if( i+1 < args.length )
+                String arg = args[i];
+                if( arg.equals( "-get" ) )
                 {
-                    String path = args[i+1];
-                    handleGet( getLogger(), args, path );
+                    if( i+1 < args.length )
+                    {
+                        String path = args[i+1];
+                        try
+                        {
+                            handleGet( getLogger(), args, path );
+                            exit();
+                        }
+                        catch( Throwable e )
+                        {
+                            String message = e.getMessage();
+                            Throwable cause = e.getCause();
+                            getLogger().error( message, e );
+                            exit( -1 );
+                        }
+                    }
+                    else
+                    {
+                        final String error = 
+                          "Missing get parameter value.";
+                        getLogger().error( error );
+                        exit( -1 );
+                    }
                 }
-                else
-                {
-                    final String error = 
-                      "Missing get parameter value.";
-                    getLogger().error( error );
-                }
-                exit();
             }
         }
+        else if( "-setup".equals( option ) )
+        {
+            args = consolidate( args, "-setup" );
+            handleSetup( args );
+        }
+        //else if( "-prefs".equals( option ) )
+        //{
+        //    handlePrefs( args );
+        //}
+        else
+        {
+            handleHelp();
+            exit();
+        }
+    }
 
+    private int handleReset()
+    {
+        try
+        {
+            clearPreferences( Main.class );
+            clearPreferences( Transit.class );
+            return 0;
+        }
+        catch( Throwable e )
+        {
+            final String message =
+              "Preferences reset error occured.";
+            getLogger().warn( message, e );
+            return -1;
+        }
+    }
+
+
+    public void exit()
+    {
+        exit( 0 );
+    }
+
+    public void exit( int flag )
+    {
+        System.exit( flag );
+    }
+
+    private void handleSetup( String[] args )
+    {
+        // get setup uri
+
+        Preferences prefs = getRootPreferences();
+        Preferences handlers = prefs.node( "handlers" );
+        Preferences setup = handlers.node( "setup" );
+        String path = setup.get( "uri", "@DEPOT-INSTALL-URI@" );
+        
+        // deploy plugin
+
+        boolean waitForCompletion = deployHandler( "setup", path, args, this );
+        if( false == waitForCompletion )
+        {
+            exit();
+        }
+    }
+
+    private boolean deployHandler( String command, String path, String[] args, ShutdownHandler shutdown )
+    {
+        Logger logger = getLogger();
+        try
+        {
+            Preferences prefs = getRootPreferences();
+            URI uri = new URI( path );
+            Repository repository = Transit.getInstance().getRepository();
+            ClassLoader classloader = getSystemClassLoader();
+            m_plugin = 
+              repository.getPlugin( 
+                classloader, uri, new Object[]{ args, logger, shutdown, prefs } );
+        }
+        catch( Throwable e )
+        {
+            final String error = 
+              "Unable to deploy the [" + command + "] handler due to deployment failure.";
+            getLogger().error( error, e );
+        }
+
+        if( null == m_plugin )
+        {
+            return false;
+        }
+        else if( m_plugin instanceof Runnable )
+        {
+            Thread thread = null;
+            getLogger().info( "starting " + m_plugin.getClass().getName() );
+            thread = new Thread( (Runnable) m_plugin );
+            thread.start();
+            setShutdownHook( thread );
+            return true;
+        }
+        else
+        {
+            getLogger().info( "deployed " + m_plugin.getClass().getName() );
+            return false;
+        }
+    }
+
+
+   /*
         boolean install = isFlagPresent( args, "-install" );
         boolean remove = isFlagPresent( args, "-remove" );
         if( install || remove )
@@ -318,12 +465,16 @@ public final class Main
             exit();
         }
     }
+    */
 
+    /*
     private static void exit()
     {
         System.exit( 0 );
     }
+    */
 
+    /*
     private static Object resolveTargetObject( 
       ClassLoader parent, URI uri, String[] args, DepotProfile manager, TransitModel model, 
       Logger logger, ApplicationProfile profile ) 
@@ -362,13 +513,15 @@ public final class Main
             throw new Exception( error );
         }
     }
+    */
 
-    private static void handleGet( Logger logger, String[] args, String path ) throws Exception
+    private void handleGet( Logger logger, String[] args, String path ) throws Exception
     {
         try
         {
-            TransitModel model = loadTransitModel( args, logger, false );
-            Transit transit = Transit.getInstance( model );
+            //TransitModel model = loadTransitModel( args, logger, false );
+            //Transit transit = Transit.getInstance( model );
+            Transit transit = Transit.getInstance();
             setupMonitors( transit, (Adapter) getLogger() );
             URI uri = new URI( path );
             URL url = new URL( uri.toASCIIString() );
@@ -379,10 +532,10 @@ public final class Main
         {
             final String error = "ERROR: Could not complete get request.";
             getLogger().error( error, e );
-            System.exit( -1 );
         }
     }
 
+    /*
     private static ApplicationProfile createPrefsProfile( Logger logger ) throws Exception
     {
         String id = "prefs";
@@ -395,7 +548,9 @@ public final class Main
         return new DefaultApplicationProfile( 
           log, id, title, null, command, null, uri, true, args );
     }
+    */
 
+    /*
     private static ApplicationProfile createInstallProfile( Logger logger, boolean install ) throws Exception
     {
         String id = "install";
@@ -410,7 +565,9 @@ public final class Main
         return new DefaultApplicationProfile( 
           log, id, title, null, command, null, uri, true, args );
     }
+    */
 
+    /*
     private static ApplicationProfile createStationProfile( Logger logger ) throws Exception
     {
         String id = "station";
@@ -424,7 +581,9 @@ public final class Main
         return new DefaultApplicationProfile( 
           log, id, title, null, command, connection, uri, true, args );
     }
+    */
 
+    /*
     public static Registry getRegistry( Connection connection, boolean create ) 
       throws RemoteException, ConnectException
     {
@@ -460,19 +619,24 @@ public final class Main
             }
         }
     }
+    */
 
+    /*
     private static Registry getLocalRegistry( int port ) throws RemoteException 
     {
         Registry registry = LocateRegistry.getRegistry( port );
         getLogger().info( "using local registry on port " + port );
         return registry;
     }
+    */
 
+    /*
     private static ApplicationProfile getApplicationProfile( DepotProfile manager, String target )
       throws Exception
     {
         return manager.getApplicationProfile( target );
     }
+    */
 
     private static ClassLoader getSystemClassLoader()
     {
@@ -490,6 +654,7 @@ public final class Main
     * Setup the system properties for the target.
     * @param prefs the profile's system properties preferences node
     */
+    /*
     private static void applySystemProperties( Properties properties ) throws BackingStoreException
     {
         if( null == properties )
@@ -507,7 +672,9 @@ public final class Main
             }
         }
     }
+    */
 
+    /*
     private static void deploy( Class c, String[] args ) throws Exception
     {
         try
@@ -529,7 +696,9 @@ public final class Main
             setShutdownHook( thread );
         }
     }
+    */
 
+   /*
     private static String getTargetProfile( String[] args ) throws BackingStoreException
     {
         for( int i=0; i<args.length; i++ )
@@ -553,14 +722,17 @@ public final class Main
         }
         return null;
     }
+    */
 
    /**
-    * Constructor (disabled).
+    * Internal constructor.
     */
-    private Main()
+    /*
+    private Main( Object handler )
     {
-        // disabled
+        m_handler = handler;
     }
+    */
 
     private static URL getCodeSourceLocation()
     {
@@ -618,22 +790,17 @@ public final class Main
     private static void handleHelp()
     {
         final String message = 
-          "DepotProfile application deployment."
-          + "\n\nUsage: depot [-help] | [-version] | [-prefs] | [-get [artifact]] | [-profile [name]]"
+          "Help"
+          + "\n\nUsage: depot [-help] | [-version] | [-setup] | [-prefs] | [-get [artifact]] "
           + "\n\nAvailable command line options:"
           + "\n\n -debug            Enable debug level logging."
           + "\n -get [artifact]   Load the supplied artifact to the cache."
           + "\n -help             List command line help."
-          + "\n -install          Launch the package installation manager."
-          + "\n -prefs            Start the DepotProfile preferences editor."
-          + "\n -profile [name]   Launch a named application."
-          + "\n -reset            Clear DepotProfile and Transit prefences."
-          + "\n -version          List DepotProfile version information."
-          + "\n"
-          + "\nNB: The -install option may be invoked with the argument 'magic' "
-          + "and 'metro'.  This is equivalent to entering the installation manager "
-          + "and requesting installation of the respective packages. The -remove option "
-          + "is also recognized as an alias to the installion manager."
+          + "\n -setup            Initiate setup of the DPML system."
+          + "\n -prefs            Start the preferences editor."
+          //+ "\n -profile [name]   Launch a named application."
+          + "\n -reset            Clear Depot and Transit prefences."
+          + "\n -version          List Depot version information."
           + "\n";
         getLogger().info( message );
     }
@@ -641,10 +808,11 @@ public final class Main
     private static void handleVersion()
     {
         final String message = 
-          "DepotProfile Version.\n"
+          "Version\n"
           + "\n  Transit: \t@TRANSIT-CORE-URI@"
           + "\n  Console: \t@DEPOT-CONSOLE-URI@"
-          + "\n  Install: \t@DEPOT-INSTALL-URI@"
+          + "\n  Profile: \t@DEPOT-PROFILE-URI@"
+          + "\n  Setup: \t@DEPOT-INSTALL-URI@"
           + "\n  Preferences: \t@DEPOT-PREFS-URI@"
           + "\n  Station: \t@STATION-PLUGIN-URI@";
         getLogger().info( message );
@@ -652,6 +820,7 @@ public final class Main
 
     // TODO: add support for transit configuration profile selection
 
+    /*
     private static TransitModel loadTransitModel( String[] args, Logger logger, boolean resolve )
       throws Exception
     {
@@ -679,6 +848,7 @@ public final class Main
             return new DefaultTransitModel( logger );
         }
     }
+    */
 
     //--------------------------------------------------------------------------
     // static utilities for setup of logging manager and root prefs

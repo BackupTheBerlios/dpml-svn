@@ -22,10 +22,12 @@
     <x:filter token="DEPOT-CONSOLE-URI" feature="uri" type="jar"/>
     <x:filter token="DEPOT-PREFS-URI" key="dpml-depot-prefs" feature="uri" type="plugin"/>
     <x:filter token="DEPOT-INSTALL-URI" key="dpml-depot-install" feature="uri" type="plugin"/>
+    <x:filter token="DEPOT-PROFILE-URI" key="dpml-depot-profile" feature="uri" type="plugin"/>
     <filter token="METRO-CENTRAL-URI" value="link:plugin:dpml/metro/dpml-metro-central#LATEST"/>
   </target>
 
   <target name="build" depends="standard.build">
+    <!--
     <rmic base="${basedir}/target/classes">
       <include name="**/DefaultProfile.class"/>
       <include name="**/DefaultApplicationProfile.class"/>
@@ -33,6 +35,7 @@
       <include name="**/DefaultActivationGroupProfile.class"/>
       <include name="**/DefaultDepotProfile.class"/>
     </rmic>
+    -->
   </target>
 
   <target name="install" depends="standard.install,win32-exe-install">

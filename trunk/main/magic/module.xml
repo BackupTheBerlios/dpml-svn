@@ -70,17 +70,6 @@
       <fileset dir="target/deliverables"/>
     </copy>
 
-    <!--
-    Eeek - because we have non-versioned templates and a few other non-versioned things
-    we need to workaround non-inclusion of these artifacts in the replication path. This
-    means reaching into the cache and pulling in the resources manually.
-    -->
-    <copy todir="${local}/${project.group}">
-      <fileset dir="${dpml.cache}/dpml/magic">
-        <include name="eclipses/**"/>
-      </fileset>
-    </copy>
-
     <copy todir="${prefs}/magic">
       <fileset dir="spells/doc/target">
         <include name="themes/**"/>
@@ -112,6 +101,7 @@
     <!--
     Package the bundle into a compressed archive is place under ${dpml.dist}.
     -->
+    <!--
     <x:dist compression="gzip">
       <fileset dir="${bundle}">
         <include name="*.TXT"/>
@@ -121,6 +111,7 @@
       <tarfileset dir="${bundle}/prefs" prefix="prefs"/>
       <tarfileset dir="${bundle}/share" prefix="share"/>
     </x:dist>
+    -->
 
     <!-- zip up a copy of the platform independent bundle for use by depot -->
 

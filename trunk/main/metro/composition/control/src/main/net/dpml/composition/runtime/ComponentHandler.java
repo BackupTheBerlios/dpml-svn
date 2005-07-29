@@ -18,6 +18,7 @@
 
 package net.dpml.composition.runtime;
 
+import java.io.IOException;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Proxy;
@@ -56,6 +57,7 @@ import net.dpml.parameters.Parameterizable;
 import net.dpml.parameters.impl.DefaultParameters;
 
 import net.dpml.part.Part;
+import net.dpml.part.PartNotFoundException;
 import net.dpml.part.PartHandlerNotFoundException;
 import net.dpml.part.DelegationException;
 import net.dpml.part.state.StateEvent;
@@ -142,7 +144,10 @@ public class ComponentHandler extends WeakEventProducer
         m_interfaces = loadServiceClasses( classloader, m_type );
 
         m_parts = new PartsTable( this );
-        m_context = new ContextMap( this, parent );
+
+        DependencyGraph graph = new DependencyGraph();
+        m_dependencies.addChild( graph );
+        m_context = new ContextMap( this, parent, graph );
         m_graph = resolveStateGraph( m_class );
         m_state = m_graph;
         m_configuration = m_profile.getConfiguration();
@@ -159,9 +164,8 @@ public class ComponentHandler extends WeakEventProducer
             PartReference reference = parts[i];
             String key = reference.getKey();
             Part part = reference.getPart();
-            Component component = getPartsTable().addComponent( key, part );
-            m_dependencies.add( component );
-        }
+            addComponent( key, part );
+        }        
 
         //
         // Build the context model.  The initial population of the context 
@@ -197,6 +201,36 @@ public class ComponentHandler extends WeakEventProducer
                 getContextMap().addEntry( key, part );
             }
         }
+    }
+
+   /**
+    * Add a component to the collection of components managed by the container.
+    *
+    * @param uri a part uri
+    * @param key the key under which the component will be referenced
+    * @return the component
+    */
+    public Component addComponent( String key, URI uri ) 
+      throws IOException, ComponentException, PartNotFoundException, 
+      DelegationException, PartHandlerNotFoundException
+    {
+        Part part = getController().loadPart( uri );
+        return addComponent( key, part );
+    }
+
+   /**
+    * Add a component to the collection of components managed by the container.
+    *
+    * @param part a part
+    * @param key the key under which the component will be referenced
+    * @return the component
+    */
+    public Component addComponent( String key, Part part ) 
+      throws ComponentException, DelegationException, PartHandlerNotFoundException, RemoteException
+    {
+        Component component = getPartsTable().addComponent( key, part );
+        m_dependencies.add( component );
+        return component;
     }
 
    /**

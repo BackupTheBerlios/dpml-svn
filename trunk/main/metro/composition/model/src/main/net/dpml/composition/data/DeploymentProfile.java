@@ -71,12 +71,12 @@ public abstract class DeploymentProfile implements Serializable, Comparable, Par
     /**
      * The activation policy.
      */
-    private final int m_activation;
+    private int m_activation;
 
    /**
     * Logging category directives.
     */
-    private final CategoriesDirective m_categories;
+    private CategoriesDirective m_categories;
 
     /**
      * The classpath directive.
@@ -165,6 +165,11 @@ public abstract class DeploymentProfile implements Serializable, Comparable, Par
         return m_name;
     }
 
+    public void setName( String name )
+    {
+        m_name = name;
+    }
+
     /**
      * Return the logging categories for the profile.
      *
@@ -174,6 +179,12 @@ public abstract class DeploymentProfile implements Serializable, Comparable, Par
     {
         return m_categories;
     }
+
+    public void setCategoriesDirective( CategoriesDirective directive )
+    {
+        m_categories = directive;
+    }
+
 
    /**
     * Get the activation policy for the profile.
@@ -188,6 +199,11 @@ public abstract class DeploymentProfile implements Serializable, Comparable, Par
         return m_activation;
     }
 
+    public void setActivationPolicy( int policy )
+    {
+        m_activation = policy;
+    }
+
     /**
      * Return the classloader directive that describes the creation
      * arguments for the classloader required by this profile.
@@ -197,6 +213,11 @@ public abstract class DeploymentProfile implements Serializable, Comparable, Par
     public ClassLoaderDirective getClassLoaderDirective()
     {
         return m_classloader;
+    }
+
+    public void setClassLoaderDirective( ClassLoaderDirective directive )
+    {
+        m_classloader = directive;
     }
 
     /**

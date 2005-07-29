@@ -63,19 +63,39 @@ class CredentialsHelper
     */
     public static PasswordAuthentication importCredentials( byte[] bytes ) throws StorageRuntimeException
     {
+        CrendentialsHolder holder = (CrendentialsHolder) import( bytes );
+        return holder.getPasswordAuthentication();
+    }
+
+   /**
+    * Utility operation to convert a byte array to a password authentication instance.
+    * @param the byte array
+    * @return auth the password authentication
+    */
+    public static Object import( byte[] bytes ) throws StorageRuntimeException
+    {
         try
         {
             ByteArrayInputStream input = new ByteArrayInputStream( bytes );
             ObjectInputStream stream = new ObjectInputStream( input );
-            CrendentialsHolder holder = (CrendentialsHolder) stream.readObject();
-            return holder.getPasswordAuthentication();
+            return stream.readObject();
         }
         catch( Throwable e )
         {
             final String error = 
-             "Error while attempting to load credentials input stream.";
+             "Error while attempting to load byte array input stream.";
             throw new StorageRuntimeException( error, e );
         }
+    }
+
+   /**
+    * Utility operation to convert a serialized object to a a byte array
+    * @param the object the serializable object
+    * @return the byte array
+    */
+    public static byte[] export( Serializable object ) throws StorageRuntimeException
+    {
+        return toByteArray( object );
     }
 
    /**

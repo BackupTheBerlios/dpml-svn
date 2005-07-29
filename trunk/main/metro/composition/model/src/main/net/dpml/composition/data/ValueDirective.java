@@ -67,6 +67,11 @@ public class ValueDirective implements Part, Serializable
     // constructors
     //--------------------------------------------------------------------------
 
+    public ValueDirective( String value )
+    {
+        this( "anonymous", value );
+    }
+
     public ValueDirective( String key, String value )
     {
         this( key, String.class.getName(), value );

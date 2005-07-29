@@ -75,24 +75,6 @@ public class CompositionHandler extends ComponentHandler implements Container, S
     }
 
    /**
-    * Add a component to the collection of components managed by the container.
-    *
-    * @param uri a part uri
-    * @param key the key under which the component will be referenced
-    * @return the component
-    */
-    public Component addComponent( URI uri, String key ) 
-      throws IOException, ComponentException, PartNotFoundException, 
-      DelegationException, PartHandlerNotFoundException
-    {
-        CompositionController controller = getController();
-        Part part = controller.loadPart( uri );
-        Component component = controller.newComponent( this, part, key );
-        getPartsTable().addComponent( key, component );
-        return component;
-    }
-
-   /**
     * Retrieve a component using a supplied key.
     * @param key the key
     * @return the component
@@ -139,7 +121,7 @@ public class CompositionHandler extends ComponentHandler implements Container, S
         Component[] candidates = getPartsTable().getComponents( spec );
         if( candidates.length == 0 )
         {
-            getLogger().debug( "no candidates in the parts of [" + this + "]" );
+            getLogger().debug( "no candidates for [" + spec + "] in the parts of [" + this + "]" );
 
             Component parent = getParent();
             if( null == parent )

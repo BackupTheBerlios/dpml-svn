@@ -7,8 +7,10 @@
   <transit:import uri="local:template:magic/standard"/>
 
   <target name="init" depends="standard.init">
+    <x:filter token="VERSION" feature="version" />
     <x:filter token="MAGIC_BUNDLE_URI" key="dpml-magic" feature="uri" type="zip"/>
     <x:filter token="METRO_BUNDLE_URI" key="dpml-metro" feature="uri" type="zip"/>
+    <x:filter token="DEPOT_BUNDLE_URI" key="dpml-depot" feature="uri" type="zip"/>
   </target>
 
   <target name="package" depends="standard.package">

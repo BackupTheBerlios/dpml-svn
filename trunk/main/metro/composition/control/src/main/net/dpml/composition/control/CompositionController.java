@@ -37,6 +37,8 @@ import net.dpml.composition.data.ClassLoaderDirective;
 import net.dpml.composition.data.ClasspathDirective;
 import net.dpml.composition.data.ComponentProfile;
 import net.dpml.composition.data.ValueDirective;
+import net.dpml.composition.data.DeploymentProfile;
+import net.dpml.composition.info.InfoDescriptor;
 
 import net.dpml.composition.runtime.ComponentHandler;
 import net.dpml.composition.runtime.ValueHandler;
@@ -88,6 +90,8 @@ public class CompositionController extends CompositionPartHandler implements Con
 
     //private final LifestyleHandler m_lifestyleHandler;
 
+    private final CompositionHandler m_root;
+
     //--------------------------------------------------------------------
     // constructor
     //--------------------------------------------------------------------
@@ -101,7 +105,35 @@ public class CompositionController extends CompositionPartHandler implements Con
         m_valueController = new ValueController( this );
         m_componentController = new ComponentController( m_logger, this );
         m_logger.debug( "metro controller established" );
+
         //m_lifestyleHandler = new LifestyleHandler( m_logger, m_componentController );
+
+        //
+        // create the root container
+        //
+
+        ClassLoader classloader = Logger.class.getClassLoader();
+        URI partition = getPartition();
+
+        try
+        {
+            ComponentProfile profile = 
+              new ComponentProfile(
+                "root", DeploymentProfile.DEFAULT, InfoDescriptor.UNDEFINED_COLLECTION, 
+                "singleton", Object.class.getName(), null, null, null, null, null, null );
+            m_root = new CompositionHandler( m_logger, this, classloader, partition, profile, null );
+        }
+        catch( Throwable e )
+        {
+            final String error = 
+              "Unexpected error while attempt to construct the root container.";
+            throw new ControllerRuntimeException( CONTROLLER_URI, error, e );
+        }
+    }
+
+    public Container getContainer() throws RemoteException
+    {
+        return m_root;
     }
 
    /**
@@ -156,59 +188,6 @@ public class CompositionController extends CompositionPartHandler implements Con
     }
 
    /**
-    * Construct a new service using the supplied part as the defintion of the 
-    * serive type and deployment criteria.
-    *
-    * @param parent the enclosing parent component (may be null)
-    * @param part component definition including type and deployment data
-    * @param name the name to assign to the new component
-    * @return a new service
-    * @exception ComponentException is an error occurs during component establishment
-    * @exception PartHandlerNotFoundException if the part references a handler but the handler could not be found
-    * @exception DelegationException if an error occurs following handover of control to a foreign controller
-    * @exception UnsupportedPartTypeException if the component type is recognized but not supported
-    */
-    public Service newService( Component parent, Part part, String name )
-      throws ComponentException, PartHandlerNotFoundException, DelegationException, RemoteException
-    {
-        URI partition = getPartition( parent );
-        if( isRecognizedPart( part ) )
-        {
-            ClassLoader classloader = getClassLoader( parent );
-
-            if( part instanceof ValueDirective )
-            {
-                ValueDirective directive = (ValueDirective) part;
-                String defaultName = directive.getKey();
-                String theName = getName( defaultName, name );
-                URI id = createURI( partition, theName );
-                Logger logger = getLoggerForURI( id );
-                logger.debug( "new value" );
-                return new ValueHandler( logger, this, classloader, id, directive, parent );
-            }
-            else if( part instanceof ComponentProfile )
-            {
-                return newComponent( parent, part, name );
-            }
-            else
-            {
-                String classname = part.getClass().getName();
-                final String error = 
-                  "Unsupported part implementation class ["
-                  + classname
-                  + "] passed to newComponent/3.";
-                throw new UnsupportedPartTypeException( CONTROLLER_URI, classname, error );
-            }
-        }
-        else
-        {
-            URI handlerUri = part.getPartHandlerURI();
-            Controller controller = (Controller) getPrimaryController( handlerUri );
-            return controller.newService( parent, part, name );
-        }
-    }
-
-   /**
     * Construct a new component using the supplied part as the defintion of the 
     * component type and deployment criteria.
     *
@@ -225,6 +204,7 @@ public class CompositionController extends CompositionPartHandler implements Con
       throws ComponentException, PartHandlerNotFoundException, DelegationException, RemoteException
     {
         Component container = parent;
+
         URI partition = getPartition( parent );
         if( isRecognizedPart( part ) )
         {
@@ -236,8 +216,8 @@ public class CompositionController extends CompositionPartHandler implements Con
                 String defaultName = directive.getKey();
                 String theName = getName( defaultName, name );
                 URI id = createURI( partition, theName );
-                Logger logger = getLoggerForURI( id );
-                logger.debug( "new value" );
+                Logger logger = getLogger().getChildLogger( theName );
+                logger.debug( "constructing value [" + theName + "] as [" + id + "]" );
                 return new ValueHandler( logger, this, classloader, id, directive, parent );
             }
             else if( part instanceof ComponentProfile )
@@ -245,30 +225,32 @@ public class CompositionController extends CompositionPartHandler implements Con
                 ComponentProfile profile = (ComponentProfile) part;
                 String defaultName = profile.getName();
                 String theName = getName( defaultName, name );
-                URI superPart = profile.getExtends();
-                getLogger().debug( "creating super: " + superPart );
-                if( null != superPart )
-                {
-                    try
-                    {
-                        Part extension = loadPart( superPart );
-                        container = newComponent( parent, extension, null );
-                        partition = container.getURI();
-                        classloader = getClassLoader( container );
-                    }
-                    catch( Throwable e )
-                    {
-                        final String error = 
-                          "Internal error while attempting to establish enclosing component."
-                          + "\nComponent name: " + theName
-                          + "\nExtends: " + superPart;
-                        throw new ComponentException( error, e );
-                    }
-                }
+                //URI superPart = profile.getExtends();
+                //if( null != superPart )
+                //{
+                //    getLogger().debug( "creating super: " + superPart );
+                //}
+                //if( null != superPart )
+                //{
+                //    try
+                //    {
+                //        Part extension = loadPart( superPart );
+                //        container = newComponent( parent, extension, null );
+                //        partition = container.getURI();
+                //        classloader = getClassLoader( container );
+                //    }
+                //    catch( Throwable e )
+                //    {
+                //        final String error = 
+                //          "Internal error while attempting to establish enclosing component."
+                //          + "\nComponent name: " + theName
+                //          + "\nExtends: " + superPart;
+                //        throw new ComponentException( error, e );
+                //    }
+                //}
                 URI id = createURI( partition, theName );
-                getLogger().debug( "creating component: " + theName + " as [" + id + "]" );
-                Logger logger = getLoggerForURI( id );
-                logger.debug( "new component" );
+                getLogger().debug( "constructing component: " + theName + " as [" + id + "]" );
+                Logger logger = getLogger().getChildLogger( theName );
                 ClassLoader loader = getClassLoader( classloader, id, profile );
                 return new CompositionHandler( logger, this, loader, id, profile, container );
             }
@@ -291,7 +273,7 @@ public class CompositionController extends CompositionPartHandler implements Con
     }
 
    /**
-    * Construct a new component using the supplied part as the defintion of the 
+    * Construct a new container using the supplied part as the defintion of the 
     * component type and deployment criteria.  This method is typically used by
     * buildtime tools where the buildtime classloader is establised prior to 
     * component deployment.
@@ -315,27 +297,27 @@ public class CompositionController extends CompositionPartHandler implements Con
                 Component parent = null;
                 ComponentProfile profile = (ComponentProfile) part;
                 String name = profile.getName();
-                URI superPart = profile.getExtends();
-                if( null != superPart )
-                {
-                    try
-                    {
-                        Part extension = loadPart( superPart );
-                        parent = newComponent( null, extension, null );
-                        partition = parent.getURI();
-                    }
-                    catch( Throwable e )
-                    {
-                        final String error = 
-                          "Internal error while attempting to establish enclosing component."
-                          + "\nComponent name: " + name
-                          + "\nExtends: " + superPart;
-                        throw new ComponentException( error, e );
-                    }
-                }
+                //URI superPart = profile.getExtends();
+                //if( null != superPart )
+                //{
+                //    try
+                //    {
+                //        Part extension = loadPart( superPart );
+                //        parent = newComponent( null, extension, null );
+                //        partition = parent.getURI();
+                //    }
+                //    catch( Throwable e )
+                //    {
+                //        final String error = 
+                //          "Internal error while attempting to establish enclosing component."
+                //          + "\nComponent name: " + name
+                //          + "\nExtends: " + superPart;
+                //        throw new ComponentException( error, e );
+                //    }
+                //}
                 URI id = createURI( partition, name );
                 getLogger().debug( "creating component: " + name + " as [" + id + "]" );
-                Logger logger = getLoggerForURI( id );
+                Logger logger = getLogger().getChildLogger( name );
                 ClassLoader loader = getClassLoader( classloader, id, profile );
                 return new CompositionHandler( logger, this, loader, id, profile, parent );
             }
@@ -599,21 +581,6 @@ public class CompositionController extends CompositionPartHandler implements Con
               "Invalid URI specification [" + spec + "].";
             throw new ControllerRuntimeException( CONTROLLER_URI, error, e );
         }
-    }
-
-    private Logger getLoggerForURI( URI uri )
-    {
-        String path = uri.getSchemeSpecificPart();
-
-        if( path.endsWith( "/" ) )
-        {
-            path = path.substring( 0, path.length() - 1 );
-        }
-        path.replace( '/', '.' );
-
-        return m_logger.getChildLogger( path );
-        
-        //return new DefaultLogger( path );
     }
 
     static final URI CONTROLLER_URI = setupURI( "@PART-CONTROLLER-URI@" );

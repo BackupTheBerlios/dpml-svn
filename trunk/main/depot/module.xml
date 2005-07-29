@@ -102,7 +102,24 @@
       <fileset dir="${docs.src}"/>
     </copy>
 
-    <!-- package it all up -->
+    <!-- package it all up as a installable bundle -->
+
+    <x:property name="plugin.uri" key="dpml-depot-install" feature="uri" type="plugin"/>
+    <echo file="${bundle}/BUNDLE">
+dpml.depot.installer.class = net.dpml.depot.install.DepotInstaller
+dpml.depot.installer.uri = ${plugin.uri}
+    </echo>
+
+    <property name="zip.filename" 
+      value="${basedir}/target/deliverables/zips/${project.name}-${project.version}.zip"/>
+    <mkdir dir="target/deliverables/zips"/>
+    <zip destfile="${zip.filename}" whenempty="create">
+      <zipfileset dir="${bundle}">
+        <include name="**/*"/>
+      </zipfileset>
+    </zip>
+
+    <!-- prepare platform specific binaries -->
 
     <x:dist compression="gzip">
       <fileset dir="${bundle}">

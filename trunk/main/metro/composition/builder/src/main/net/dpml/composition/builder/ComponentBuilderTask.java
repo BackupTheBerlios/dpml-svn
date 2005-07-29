@@ -108,6 +108,8 @@ public class ComponentBuilderTask extends ClassLoaderBuilderTask implements Part
     private File m_output;
     private Type m_type;
 
+    private ComponentProfile m_profile;
+
    /**
     * Override the default output destination.
     *
@@ -262,6 +264,7 @@ public class ComponentBuilderTask extends ClassLoaderBuilderTask implements Part
             parent.mkdirs();
         }
 
+
         ComponentProfile profile = createComponent( classloader, cld, file );
 
         File target = getContext().getTargetDirectory();
@@ -293,21 +296,6 @@ public class ComponentBuilderTask extends ClassLoaderBuilderTask implements Part
         try
         {
             ComponentProfile profile = buildComponentProfile( classloader, cld );
-            Logger logger = new AntAdapter( this );
-            ContentModel model = PartContentHandlerFactory.newContentModel( logger, null );
-            CompositionController controller = new CompositionController( model );
-            Container container = controller.newContainer( classloader, profile );
-
-            /*
-            Service[] startup = container.getStartupSequence();
-            log( "Startup sequence length: " + startup.length );
-            for( int i=0; i<startup.length; i++ )
-            {
-                Service service = startup[i];
-                log( "" + (i+1) + " " + service.getURI() );
-            }
-            */
-
             URI uri = getDefinition().getArtifactURI( Part.ARTIFACT_TYPE );
             if( null == m_output )
             {
@@ -475,6 +463,39 @@ public class ComponentBuilderTask extends ClassLoaderBuilderTask implements Part
         String id = getName();        
         String classname = getClassname();
         log( "creating [" + id + "] using [" + classname + "]" );
+
+        if( null == m_extends )
+        {
+            m_profile = new ComponentProfile( id, classname );
+        }
+        else
+        {
+            try
+            {
+                Part part = getController().loadPart( m_extends );
+                if( part instanceof ComponentProfile )
+                {
+                    m_profile = (ComponentProfile) part;
+                }
+                else
+                {
+                    final String error = 
+                      "Super-part is not an instance of "
+                      + ComponentProfile.class.getName();
+                    throw new BuildException( error );
+                }
+            }
+            catch( Throwable e )
+            {
+                final String error = 
+                  "Unable to resolve component super-part ["
+                  + m_extends
+                  + "] due to: "
+                  + e.getMessage();
+                throw new BuildException( error, e, getLocation() );
+            }
+        }
+
         Type type = loadType( classloader, classname );
         String lifestyle = getLifestylePolicy( type ); 
         int collection = getCollectionPolicy( type );
@@ -491,7 +512,7 @@ public class ComponentBuilderTask extends ClassLoaderBuilderTask implements Part
 
         return new ComponentProfile( 
           id, activation, collection, lifestyle, classname, categories, context, 
-          parts, parameters, configuration, cld, m_extends );
+          parts, parameters, configuration, cld );
     }
 
     private Type loadType( ClassLoader classloader, String classname )
@@ -640,7 +661,7 @@ public class ComponentBuilderTask extends ClassLoaderBuilderTask implements Part
         }
         else
         {
-            return DeploymentProfile.DISABLED;
+            return m_profile.getActivationPolicy();
         }
     }
 
@@ -649,6 +670,10 @@ public class ComponentBuilderTask extends ClassLoaderBuilderTask implements Part
     {
         String classname = type.getInfo().getClassname();
         ContextDirective context = createContextDirective( classloader, type );
+        if( null == context )
+        {
+            return m_profile.getContextDirective();
+        }
 
         //
         // validate that the context directives are declared
@@ -689,7 +714,7 @@ public class ComponentBuilderTask extends ClassLoaderBuilderTask implements Part
     {
         if( null == m_context )
         {
-            return new ContextDirective();
+            return null;
         }
         else
         {
@@ -701,7 +726,7 @@ public class ComponentBuilderTask extends ClassLoaderBuilderTask implements Part
     {
          if( null == m_categories )
          {
-              return new CategoriesDirective();
+              return m_profile.getCategoriesDirective();
          }
          else
          {
@@ -713,7 +738,7 @@ public class ComponentBuilderTask extends ClassLoaderBuilderTask implements Part
     {
          if( null == m_parameters )
          {
-              return DefaultParameters.EMPTY_PARAMETERS;
+              return m_profile.getParameters();
          }
          else
          {
@@ -725,7 +750,7 @@ public class ComponentBuilderTask extends ClassLoaderBuilderTask implements Part
     {
          if( null == m_configuration )
          {
-              return null;
+              return m_profile.getConfiguration();
          }
          else
          {
@@ -738,11 +763,24 @@ public class ComponentBuilderTask extends ClassLoaderBuilderTask implements Part
     {
         if( null == m_parts )
         {
-            return new PartReference[0];
+            return m_profile.getParts();
         }
         else
         {
-            return m_parts.getParts( classloader, type );
+            PartReference[] parts = m_profile.getParts();
+            ArrayList list = new ArrayList();
+            for( int i=0; i<parts.length; i++ )
+            {
+                PartReference part = parts[i];
+                list.add( part );
+            }
+            PartReference[] extra = m_parts.getParts( classloader, type );
+            for( int i=0; i<extra.length; i++ )
+            {
+                PartReference part = extra[i];
+                list.add( part );
+            }
+            return (PartReference[]) list.toArray( new PartReference[0] ); 
         }
     }
 

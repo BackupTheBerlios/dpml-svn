@@ -39,22 +39,23 @@ import net.dpml.part.control.Controller;
  */
 public class PartContentHandler extends ContentHandler
 {
-    private final Controller m_controller;
+    private final ContentModel m_model;
+    //private final Controller m_controller;
 
     public PartContentHandler( ContentModel content )
     {
-        m_controller = newController( content );
+        //m_controller = newController( content );
+        m_model = content;
     }
 
-    public static Controller newController( ContentModel model )
+    public Controller newController()
     {
         try
         {
-            //ClassLoader classloader = Thread.currentThread().getContextClassLoader();
             ClassLoader classloader = Part.class.getClassLoader();
             URI uri = new URI( "@COMPOSITION-CONTROLLER-URI@" );
             Repository repository = Transit.getInstance().getRepository();
-            Object object = repository.getPlugin( classloader, uri, new Object[]{ model } );
+            Object object = repository.getPlugin( classloader, uri, new Object[]{ m_model } );
             if( object instanceof Controller )
             {
                 return (Controller) object;
@@ -143,7 +144,7 @@ public class PartContentHandler extends ContentHandler
         {
             String path = url.toExternalForm();
             URI uri = new URI( path );
-            return (Part) m_controller.loadPart( uri );
+            return (Part) getController().loadPart( uri );
         }
         catch( Throwable e )
         {
@@ -159,7 +160,7 @@ public class PartContentHandler extends ContentHandler
         {
             String path = url.toExternalForm();
             URI uri = new URI( path );
-            return m_controller.newComponent( uri );
+            return getController().getContainer().addComponent( "anon", uri );
         }
         catch( Throwable e )
         {
@@ -167,5 +168,10 @@ public class PartContentHandler extends ContentHandler
               "Error occured while attempting to load component: " + url;
             throw new RuntimeException( error, e );
         }
+    }
+
+    private Controller getController()
+    {
+        return newController();
     }
 }

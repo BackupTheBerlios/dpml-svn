@@ -30,6 +30,7 @@ import net.dpml.part.PartHandlerNotFoundException;
 import net.dpml.part.DelegationException;
 import net.dpml.part.component.Service;
 import net.dpml.part.component.Component;
+import net.dpml.part.component.Container;
 import net.dpml.part.component.ComponentException;
 
 /**
@@ -46,6 +47,12 @@ public interface Controller extends Remote
     * @return a uri identifying the object
     */
     URI getURI() throws RemoteException;
+
+   /**
+    * Return the root container managed by the controller.
+    * @return the root container
+    */
+    Container getContainer() throws RemoteException;
 
    /**
     * Construct a new top-level component.
@@ -79,21 +86,6 @@ public interface Controller extends Remote
       throws ComponentException, PartHandlerNotFoundException, DelegationException, RemoteException;
 
    /**
-    * Construct a new service using a supplied part.
-    *
-    * @param parent the enclosing parent component (may be null)
-    * @param part service definition including type and deployment data
-    * @param name the name to assign to the service
-    * @return the service
-    * @exception ComponentException is an error occurs during component establishment
-    * @exception PartHandlerNotFoundException if the part references a handler but the handler could not be found
-    * @exception DelegationException if an error occurs following handover of control to a foreign controller
-    * @exception UnsupportedPartTypeException if the component type is recognized but not supported
-    */
-    Service newService( Component parent, Part part, String name )
-      throws ComponentException, PartHandlerNotFoundException, DelegationException, RemoteException;
-
-   /**
     * Load a part from serialized form.  The uri is assumed to be a uri that 
     * can be transformed to a URL from which an input stream to a PartHolder 
     * can be established.  
@@ -109,6 +101,5 @@ public interface Controller extends Remote
     * @return the part
     */
     Part loadPart( byte[] bytes ) throws IOException, RemoteException;
-
 
 }

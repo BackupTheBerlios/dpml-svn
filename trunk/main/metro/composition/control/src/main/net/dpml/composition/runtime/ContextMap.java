@@ -56,6 +56,7 @@ import net.dpml.composition.data.ValueDirective;
  */
 public class ContextMap extends Hashtable
 {
+    private final DependencyGraph m_consumers;
     private final CompositionController m_controller;
     private final ComponentHandler m_component;
     private final Component m_parent;
@@ -66,13 +67,14 @@ public class ContextMap extends Hashtable
     * @param component the component that is managing this context map
     * @param parent an enclosing partent component used for lookup of part references
     */
-    public ContextMap( ComponentHandler component, Component parent )
+    public ContextMap( ComponentHandler component, Component parent, DependencyGraph graph )
     {
         super();
 
         m_component = component;
         m_controller = component.getController();
         m_parent = parent;
+        m_consumers = graph;
     }
 
     public void addEntry( String key, Part part ) 
@@ -109,19 +111,10 @@ public class ContextMap extends Hashtable
             URI uri = reference.getURI();
             if( "parts".equals( uri.getScheme() ) )
             {
-                if( null == m_parent )
-                {
-                    final String error = 
-                      "Cannot resolve a reference to an enclosing container from a root component."
-                      + "\nComponent: " + m_component.getURI()
-                      + "\nContext Key: " + key;
-                    throw new ComponentException( error );
-                }
-
                 String ref = uri.getSchemeSpecificPart();
-                if( m_parent instanceof Container )
+                if( m_component instanceof Container )
                 {
-                    Container container = (Container) m_parent;
+                    Container container = (Container) m_component;
                     try
                     {
                         Component entry = container.getComponent( ref );
@@ -145,9 +138,9 @@ public class ContextMap extends Hashtable
                     throw new ComponentException( error );
                 }
             }
-            else if( m_parent instanceof ServiceContext )
+            else if( m_component instanceof ServiceContext )
             {
-                ServiceContext context = (ServiceContext) m_parent;
+                ServiceContext context = (ServiceContext) m_component;
                 try
                 {
                     Component service = context.lookup( uri );
@@ -204,6 +197,7 @@ public class ContextMap extends Hashtable
         {
             throw new NullPointerException( "key" );
         }
+        //m_consumers.add( value );
         put( key, value );
     }
 
