@@ -20,6 +20,7 @@ package net.dpml.metro.central;
 
 import java.net.URI;
 
+import net.dpml.transit.model.Logger;
 import net.dpml.transit.model.ContentModel;
 import net.dpml.transit.model.ContentRegistryModel;
 import net.dpml.transit.model.TransitModel;
@@ -32,9 +33,12 @@ public class MetroInstaller
 {
     private final URI m_production;
     private final URI m_development;
+    private final Logger m_logger;
 
-    public MetroInstaller( TransitRegistryModel home, Boolean install ) throws Exception
+    public MetroInstaller( TransitRegistryModel home, Logger logger, Boolean install ) throws Exception
     {
+        m_logger = logger;
+
         m_production = new URI( PRODUCTION_PATH );
         m_development = new URI( DEVELOPMENT_PATH );
 
@@ -75,6 +79,11 @@ public class MetroInstaller
         }
     }
 
+    private Logger getLogger()
+    {
+        return m_logger;
+    }
+
     private void setContentModel( TransitModel transit, ContentRegistryModel registry ) throws Exception
     {
         String id = transit.getID();
@@ -85,18 +94,18 @@ public class MetroInstaller
             URI uri = model.getCodeBaseURI();
             if( codebase.equals( uri ) )
             {
-                System.out.println( "  transit profile " + transit.getID() + " is uptodate (no change)" );
+                getLogger().info( "transit profile " + transit.getID() + " is uptodate (no change)" );
             }
             else
             {
-                System.out.println( "  updating transit profile " + transit.getID() );
+                getLogger().info( "updating transit profile " + transit.getID() );
                 model.setCodeBaseURI( codebase );
             }
         }
         catch( UnknownKeyException e )
         {
-            System.out.println( 
-              "  adding 'part' content handler to transit profile " 
+            getLogger().info( 
+              "adding 'part' content handler to transit profile " 
               + transit.getID() );
             registry.addContentModel( PART, TITLE, codebase );
         }

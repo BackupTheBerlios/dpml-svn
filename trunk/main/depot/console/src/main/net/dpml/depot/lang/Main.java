@@ -201,6 +201,10 @@ public final class Main implements ShutdownHandler
         {
             handlePrefs( args );
         }
+        else if( "-apps".equals( option ) )
+        {
+            handleProfile( args );
+        }
         else
         {
             handleHelp();
@@ -225,7 +229,6 @@ public final class Main implements ShutdownHandler
         }
     }
 
-
     public void exit()
     {
         exit( 0 );
@@ -238,34 +241,37 @@ public final class Main implements ShutdownHandler
 
     private void handleSetup( String[] args )
     {
-        // get setup uri
-
-        Preferences prefs = getRootPreferences();
-        Preferences handlers = prefs.node( "handlers" );
-        Preferences setup = handlers.node( "setup" );
-        String path = setup.get( "uri", "@DEPOT-INSTALL-URI@" );
-        
-        // deploy plugin
-
-        boolean waitForCompletion = deployHandler( "setup", path, args, this, true );
-        if( false == waitForCompletion )
-        {
-            exit();
-        }
+        String name = "setup";
+        String spec = "@DEPOT-INSTALL-URI@";
+        handlePlugin( name, spec, args );
     }
 
     private void handlePrefs( String[] args )
+    {
+        String name = "prefs";
+        String spec = "@DEPOT-PREFS-URI@";
+        handlePlugin( name, spec, args );
+    }
+
+    private void handleProfile( String[] args )
+    {
+        String name = "apps";
+        String spec = "@DEPOT-PROFILE-URI@";
+        handlePlugin( name, spec, args );
+    }
+
+    private void handlePlugin( String name, String spec, String[] args )
     {
         // get setup uri
 
         Preferences prefs = getRootPreferences();
         Preferences handlers = prefs.node( "handlers" );
-        Preferences setup = handlers.node( "prefs" );
-        String path = setup.get( "uri", "@DEPOT-PREFS-URI@" );
+        Preferences setup = handlers.node( name );
+        String path = setup.get( "uri", spec );
         
         // deploy plugin
 
-        boolean waitForCompletion = deployHandler( "prefs", path, args, this, true );
+        boolean waitForCompletion = deployHandler( name, path, args, this, true );
         if( false == waitForCompletion )
         {
             exit();

@@ -154,7 +154,7 @@ public class PackageInstaller implements Runnable
                 //
 
                 String spec = "artifact:zip:dpml/depot/dpml-depot#" + version;
-                install( spec, new String[0] );
+                install( spec, getLogger(), new String[0] );
                 getLogger().info( "switching to version: " + version );
 
                 String[] command = new String[]{ 
@@ -200,13 +200,15 @@ public class PackageInstaller implements Runnable
     private void installMagic() throws Exception
     {
         String spec = "@MAGIC_BUNDLE_URI@";
-        install( spec, new String[0] );
+        Logger logger = getLogger().getChildLogger( "magic" );
+        install( spec, logger, new String[0] );
     }
 
     private void installMetro() throws Exception
     {
         String spec = "@METRO_BUNDLE_URI@";
-        install( spec, new String[0] );
+        Logger logger = getLogger().getChildLogger( "metro" );
+        install( spec, logger, new String[0] );
     }
 
     private class StreamReader extends Thread
@@ -314,13 +316,13 @@ public class PackageInstaller implements Runnable
         return false;
     }
 
-    private void install( String spec, String[] args ) throws Exception
+    private void install( String spec, Logger logger, String[] args ) throws Exception
     {
         Artifact artifact = resolveArtifact( spec );
         String type = artifact.getType();
         if( "zip".equals( type ) )
         {
-            installZipBundle( true, artifact, args );
+            installZipBundle( true, artifact, logger, args );
         }
         else
         {
@@ -359,9 +361,9 @@ public class PackageInstaller implements Runnable
         }
     }
 
-    private void installZipBundle( boolean flag, Artifact artifact, String[] args ) throws Exception
+    private void installZipBundle( boolean flag, Artifact artifact, Logger logger, String[] args ) throws Exception
     {
-        ZipInstaller installer = new ZipInstaller( m_logger, m_depot, m_transit, args );
+        ZipInstaller installer = new ZipInstaller( logger, m_depot, m_transit, args );
         if( flag )
         {
             installer.install( artifact );

@@ -25,6 +25,7 @@ import java.net.URI;
 import java.net.URL;
 
 import net.dpml.transit.Artifact;
+import net.dpml.transit.model.Logger;
 import net.dpml.transit.model.TransitRegistryModel;
 import net.dpml.transit.model.UnknownKeyException;
 import net.dpml.transit.util.StreamUtils;
@@ -33,43 +34,51 @@ import net.dpml.transit.util.StreamUtils;
  */
 public class MagicInstaller
 {
-    public MagicInstaller( TransitRegistryModel home, Boolean install ) throws Exception
+    private Logger m_logger;
+
+    public MagicInstaller( TransitRegistryModel home, Boolean install, Logger logger ) throws Exception
     {
+        m_logger = logger;
+
         String profile = "development";
         if( install.booleanValue() )
         {
             try
             {
                 home.getTransitModel( profile );
-                System.out.println( "  transit development profile exists (no action required)" );
+                getLogger().info( "transit development profile exists (no action required)" );
             }
             catch( UnknownKeyException e )
             {
-                System.out.println( "  adding transit development profile" );
+                getLogger().info( "adding transit development profile" );
                 home.addTransitModel( profile );
-                System.out.println( "  profile created" );
+                getLogger().info( "profile created" );
             }
 
-            System.out.println( "  checking ${user.home}/.ant/lib" );
+            getLogger().info( "checking ${user.home}/.ant/lib" );
             File user = new File( System.getProperty( "user.home" ) );
             File ant = new File( user, ".ant" );
             File lib = new File( ant, "lib" );
             checkAntLib( lib );
             purgeAntLib( lib );
             updateAntLib( lib );
-  
         }
         else
         {
-            System.out.println( "  removing transit development profile" );
+            getLogger().info( "removing transit development profile" );
         }
+    }
+
+    private Logger getLogger()
+    {
+        return m_logger;
     }
 
     private void checkAntLib( File file )
     {
         if( false == file.exists() )
         {
-            System.out.println( "  creating " + file );
+            getLogger().debug( "  creating " + file );
             file.mkdirs();
         }
     }
@@ -80,7 +89,7 @@ public class MagicInstaller
         for( int i=0; i<files.length; i++ )
         {
             File f = files[i];
-            System.out.println( "  removing old file ${user.home}/.ant/lib/" + f.getName() );
+            getLogger().debug( "removing old file ${user.home}/.ant/lib/" + f.getName() );
             f.delete();
         }
     }
@@ -156,7 +165,7 @@ public class MagicInstaller
         URL url = artifact.toURL();
         InputStream input = url.openStream();
         String filename = name + "." + type;
-        System.out.println( "  adding file ${user.home}/.ant/lib/" + filename );
+        getLogger().debug( "adding file ${user.home}/.ant/lib/" + filename );
         File destination = new File( lib, filename );
         FileOutputStream output = new FileOutputStream( destination );
         StreamUtils.copyStream( input, output, true );
