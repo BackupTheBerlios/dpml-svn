@@ -6,6 +6,11 @@
 
   <transit:import uri="local:template:magic/standard"/>
 
+  <target name="init" depends="standard.init">
+    <x:filter token="TEST-PLUGIN-URI" key="dpml-depot-test" feature="uri" type="plugin"/>
+    <x:filter token="TEST-SERVER-URI" key="dpml-test-mexico" feature="uri" type="jar"/>
+  </target>
+
   <target name="build" depends="standard.build">
     <x:path id="build.path"/>
     <rmic base="${basedir}/target/classes" classpathref="build.path">

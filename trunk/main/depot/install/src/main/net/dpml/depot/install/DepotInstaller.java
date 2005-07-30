@@ -38,20 +38,5 @@ public class DepotInstaller
         {
             logger.info( "  " + args[i] );
         }
-
-        /*
-        String path = System.getProperty( "dpml.depot.install.bootstrap", null );
-        if( null != path )
-        {
-            //
-            // create the ${dpml.data}/[path] directory 
-            //
-
-            File data = Transit.DPML_DATA;
-            File boot = new File( data, path );
-            boot.mkdirs();
-
-        }
-        */
     }
 }

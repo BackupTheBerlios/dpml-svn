@@ -16,7 +16,11 @@ setlocal
 :SET_RMID
 if "%DPML_HOME%" == "" set DPML_HOME=%APPDATA%\DPML
 if "%DPML_SYSTEM%" == "" set DPML_SYSTEM=%DPML_HOME%\Shared
-set DPML_TRANSIT_JAR=%DPML_HOME%\Data\lib\@TRANSIT-PATH@
+
+set $DPML_BOOT=%DPML_HOME%\Data\boot\%RANDOM%
+mkdir %$DPML_BOOT%
+copy/B/Y %DPML_HOME%\Data\lib %$DPML_BOOT% > %DPML_HOME%\Data\logs\rmid-boot.log
+set DPML_TRANSIT_JAR=%$DPML_BOOT%\@TRANSIT-PATH@
 set $POLICY=-Djava.security.policy=%DPML_SYSTEM%\bin\security.policy
 set $BOOTCLASSPATH=-Xbootclasspath/a:%DPML_TRANSIT_JAR%
 set $TRACE=-Dsun.rmi.server.exceptionTrace=true

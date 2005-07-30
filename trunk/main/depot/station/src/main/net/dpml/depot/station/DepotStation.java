@@ -1,6 +1,7 @@
 
 package net.dpml.depot.station; 
 
+import java.net.URI;
 import java.rmi.Remote;
 import java.rmi.Naming;
 import java.rmi.RemoteException;
@@ -23,6 +24,8 @@ import java.util.prefs.Preferences;
 import java.util.LinkedList;
 import java.util.Properties;
 
+import net.dpml.transit.Transit;
+import net.dpml.transit.Repository;
 import net.dpml.transit.model.Logger;
 import net.dpml.transit.model.TransitModel;
 import net.dpml.transit.model.Connection;
@@ -42,29 +45,46 @@ public class DepotStation extends UnicastRemoteObject implements Station
 
     private ActivationGroupID m_rootID;
 
-    public DepotStation( Logger logger, DepotProfile model ) throws RemoteException
+    public DepotStation( Logger logger, Preferences prefs ) throws RemoteException
     {
         super();
 
-        m_model = model;
-        m_logger = logger;
-
-        //
-        // startup the general registry
-        //
-        
-        int port = Registry.REGISTRY_PORT;
-        Connection connection = new Connection( null, port, true, true );
-        Registry registry = getRegistry( connection );
-
-        // get groups and initiate deployment
-
-        ActivationGroupProfile[] profiles = m_model.getActivationGroupProfiles();
-        for( int i=0; i<profiles.length; i++ )
+        try
         {
-            ActivationGroupProfile profile = profiles[i];
-            ActivationGroupID id = deployActivationGroupProfile( profile );
-            m_table.put( profile, id );
+            Repository repository = Transit.getInstance().getRepository();
+            ClassLoader classloader = DepotStation.class.getClassLoader();
+            URI uri = new URI( DEPOT_PROFILE_URI );
+            m_model = (DepotProfile) repository.getPlugin( classloader, uri, new Object[]{ prefs, logger } );
+
+            m_logger = logger;
+
+            //
+            // startup the general registry
+            //
+            
+            int port = Registry.REGISTRY_PORT;
+            Connection connection = new Connection( null, port, true, true );
+            Registry registry = getRegistry( connection );
+    
+            // get groups and initiate deployment
+    
+            ActivationGroupProfile[] profiles = m_model.getActivationGroupProfiles();
+            for( int i=0; i<profiles.length; i++ )
+            {
+                ActivationGroupProfile profile = profiles[i];
+                ActivationGroupID id = deployActivationGroupProfile( profile );
+                m_table.put( profile, id );
+            }
+        }
+        catch( RemoteException e )
+        {
+            throw e;
+        }
+        catch( Exception e )
+        {
+            final String error = 
+              "Unexpected error occured while establishing depot station.";
+            throw new ServerException( error, e );
         }
     }
 
@@ -203,4 +223,6 @@ public class DepotStation extends UnicastRemoteObject implements Station
             }
         }
     }
+
+    private static final String DEPOT_PROFILE_URI = "@DEPOT-PROFILE-PLUGIN-URI@";
 }

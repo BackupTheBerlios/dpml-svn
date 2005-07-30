@@ -205,6 +205,10 @@ public final class Main implements ShutdownHandler
         {
             handleProfile( args );
         }
+        else if( "-station".equals( option ) )
+        {
+            handleStation( args );
+        }
         else
         {
             handleHelp();
@@ -260,8 +264,17 @@ public final class Main implements ShutdownHandler
         handlePlugin( name, spec, args );
     }
 
+    private void handleStation( String[] args )
+    {
+        String name = "station";
+        String spec = "@DEPOT-STATION-URI@";
+        handlePlugin( name, spec, args );
+    }
+
     private void handlePlugin( String name, String spec, String[] args )
     {
+	  System.setSecurityManager(new RMISecurityManager());
+
         // get setup uri
 
         Preferences prefs = getRootPreferences();
