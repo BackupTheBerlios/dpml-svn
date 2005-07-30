@@ -30,7 +30,8 @@ import java.util.prefs.Preferences;
 import java.net.URISyntaxException;
 import java.rmi.RemoteException;
 
-import net.dpml.depot.lang.ShutdownHandler;
+import net.dpml.depot.ShutdownHandler;
+
 import net.dpml.profile.ApplicationProfile;
 import net.dpml.profile.DepotProfile;
 

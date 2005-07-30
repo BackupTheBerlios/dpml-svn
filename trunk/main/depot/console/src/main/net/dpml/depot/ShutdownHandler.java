@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package net.dpml.depot.lang;
+package net.dpml.depot;
 
 /**
  * Interface through which Depot command handlers can request process 

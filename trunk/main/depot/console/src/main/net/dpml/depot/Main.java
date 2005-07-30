@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package net.dpml.depot.lang;
+package net.dpml.depot;
 
 import java.io.File;
 import java.io.IOException;
@@ -39,8 +39,6 @@ import java.util.Date;
 import java.util.Properties;
 import java.util.prefs.BackingStoreException;
 import java.util.prefs.Preferences;
-
-import net.dpml.depot.lang.DepotClassLoader;
 
 import net.dpml.transit.Transit;
 import net.dpml.transit.TransitError;
@@ -201,9 +199,9 @@ public final class Main implements ShutdownHandler
         {
             handlePrefs( args );
         }
-        else if( "-apps".equals( option ) )
+        else if( "-exec".equals( option ) )
         {
-            handleProfile( args );
+            handleExec( args );
         }
         else if( "-station".equals( option ) )
         {
@@ -257,10 +255,10 @@ public final class Main implements ShutdownHandler
         handlePlugin( name, spec, args );
     }
 
-    private void handleProfile( String[] args )
+    private void handleExec( String[] args )
     {
-        String name = "apps";
-        String spec = "@DEPOT-PROFILE-URI@";
+        String name = "exec";
+        String spec = "@DEPOT-EXEC-URI@";
         handlePlugin( name, spec, args );
     }
 

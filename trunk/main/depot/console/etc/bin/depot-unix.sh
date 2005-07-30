@@ -32,6 +32,6 @@ echo ""
 
 JAVA="$JAVA_HOME/bin/java"
 
-ARGS="$DEPOT_JVM_OPTS -Djava.system.class.loader=net.dpml.depot.lang.DepotClassLoader \"-Djava.security.policy=$SECURITY_POLICY\" -classpath \"$DEPOT_CLASSPATH\" @DEPOT-MAIN-CLASS@ $DEPOT_ARGS $@"
+ARGS="$DEPOT_JVM_OPTS -Djava.system.class.loader=@DEPOT-CLASSLOADER-CLASS@ \"-Djava.security.policy=$SECURITY_POLICY\" -classpath \"$DEPOT_CLASSPATH\" @DEPOT-MAIN-CLASS@ $DEPOT_ARGS $@"
 
 echo $ARGS | xargs "$JAVA"

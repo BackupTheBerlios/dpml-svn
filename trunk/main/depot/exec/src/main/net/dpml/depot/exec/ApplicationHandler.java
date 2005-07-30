@@ -16,25 +16,29 @@
  * limitations under the License.
  */
 
-package net.dpml.profile.impl;
+package net.dpml.depot.exec;
 
-import java.rmi.RemoteException;
 import java.util.prefs.Preferences;
 
-import net.dpml.transit.model.DuplicateKeyException;
+import net.dpml.profile.DepotProfile;
 import net.dpml.transit.model.Logger;
-import net.dpml.transit.model.UnknownKeyException;
 
-import net.dpml.profile.unit.DepotStorageUnit;
 
 /**
- * Plugin implements of the DepotModel.
+ * Depot application deployment plugin.  This plugin handles the deployment of 
+ * a target application based on commandline arguments supplied by the Depot 
+ * Console.  It uses the Application Profile sub-system to retireve information 
+ * about registered applications and criteria for JVM setup.
  */
-public class StandardDepot extends DefaultDepotProfile
+public class ApplicationHandler
 {
-    public StandardDepot( Logger logger, Preferences prefs ) 
-      throws NullPointerException, DuplicateKeyException, RemoteException
+   /**
+    * Plugin class used to handle the deployment of target application.
+    * 
+    * @param logger the assigned logging channel
+    * @param profile the depot profile
+    */
+    public ApplicationHandler( Logger logger, DepotProfile profile ) 
     {
-         super( logger, new DepotStorageUnit( prefs ) );
     }
 }

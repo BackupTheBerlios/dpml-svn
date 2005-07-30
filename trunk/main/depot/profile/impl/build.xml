@@ -23,7 +23,7 @@
   </target>
 
   <target name="package" depends="standard.package">
-    <x:export class="net.dpml.profile.impl.StandardDepot"/>
+    <x:export class="net.dpml.profile.model.StandardDepot"/>
   </target>
 
 </project>

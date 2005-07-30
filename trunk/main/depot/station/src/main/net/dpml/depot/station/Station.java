@@ -1,5 +1,5 @@
 
-package net.dpml.depot.station;
+package net.dpml.depot.station; 
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;

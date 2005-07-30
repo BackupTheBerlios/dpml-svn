@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package net.dpml.profile.impl;
+package net.dpml.profile.model;
 
 import java.io.Serializable;
 import java.net.URI;

@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package net.dpml.depot.lang;
+package net.dpml.depot;
 
 import java.io.File;
 import java.io.IOException;

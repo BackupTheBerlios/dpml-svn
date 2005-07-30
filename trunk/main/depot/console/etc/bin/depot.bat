@@ -29,7 +29,7 @@ set $POLICY=-Djava.security.policy="%DPML_SYSTEM%\bin\security.policy"
 set $ARGS=%*
 
 :RUN_DEPOT
-%JAVA% -Djava.system.class.loader=net.dpml.depot.lang.DepotClassLoader %$POLICY% %DEPOT_JVM_OPTS% -classpath %$DEPOT_CLASSPATH% @DEPOT-MAIN-CLASS@ %DEPOT_ARGS% %$ARGS%
+%JAVA% -Djava.system.class.loader=@DEPOT-CLASSLOADER-CLASS@ %$POLICY% %DEPOT_JVM_OPTS% -classpath %$DEPOT_CLASSPATH% @DEPOT-MAIN-CLASS@ %DEPOT_ARGS% %$ARGS%
 goto EndOfScript
 :EndOfScript
 

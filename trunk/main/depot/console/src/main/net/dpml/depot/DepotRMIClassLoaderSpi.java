@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package net.dpml.depot.lang;
+package net.dpml.depot;
 
 import java.rmi.server.RMIClassLoader;
 import java.rmi.server.RMIClassLoaderSpi;

@@ -108,6 +108,21 @@
     </dependencies>
   </project>
 
+  <project basedir="exec">
+    <info>
+      <group>dpml/depot</group>
+      <name>dpml-depot-exec</name>
+      <types>
+        <type name="jar"/>
+        <type name="plugin"/>
+      </types>
+    </info>
+    <dependencies>
+      <include key="dpml-transit-main" tag="api"/>
+      <include key="dpml-profile-api" tag="api"/>
+    </dependencies>
+  </project>
+
   <project basedir="install">
     <info>
       <group>dpml/depot</group>
