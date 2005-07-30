@@ -63,7 +63,7 @@ class CredentialsHelper
     */
     public static PasswordAuthentication importCredentials( byte[] bytes ) throws StorageRuntimeException
     {
-        CrendentialsHolder holder = (CrendentialsHolder) import( bytes );
+        CrendentialsHolder holder = (CrendentialsHolder) importObject( bytes );
         return holder.getPasswordAuthentication();
     }
 
@@ -72,7 +72,7 @@ class CredentialsHelper
     * @param the byte array
     * @return auth the password authentication
     */
-    public static Object import( byte[] bytes ) throws StorageRuntimeException
+    public static Object importObject( byte[] bytes ) throws StorageRuntimeException
     {
         try
         {

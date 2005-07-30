@@ -34,5 +34,14 @@ public class UnknownKeyException extends ModelException
     {
         super( key );
     }
+
+   /**
+    * Return the key.
+    * @return the key
+    */
+    public String getKey()
+    {
+        return super.getMessage();
+    }
 }
 
