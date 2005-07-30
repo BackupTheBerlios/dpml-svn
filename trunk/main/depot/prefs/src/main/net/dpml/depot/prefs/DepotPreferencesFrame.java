@@ -18,6 +18,7 @@
 
 package net.dpml.depot.prefs;
 
+import java.net.URI;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
@@ -39,12 +40,13 @@ import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
 
-import net.dpml.depot.profile.DepotProfile;
-import net.dpml.depot.store.DepotHome;
-import net.dpml.depot.unit.DepotStorageUnit;
-import net.dpml.depot.profile.DefaultDepotProfile;
+import net.dpml.profile.DepotProfile;
+//import net.dpml.depot.store.DepotHome;
+//import net.dpml.depot.unit.DepotStorageUnit;
+//import net.dpml.depot.profile.DefaultDepotProfile;
 
 import net.dpml.transit.Transit;
+import net.dpml.transit.Repository;
 import net.dpml.transit.model.Logger;
 
 /**
@@ -94,8 +96,13 @@ public class DepotPreferencesFrame extends JFrame
             }
         }
 
-        DepotHome store = new DepotStorageUnit( prefs );
-        DepotProfile depot = new DefaultDepotProfile( logger, store );
+        Repository repository = Transit.getInstance().getRepository();
+        ClassLoader classloader = DepotPreferencesFrame.class.getClassLoader();
+        URI uri = new URI( DEPOT_PROFILE_URI );
+        DepotProfile depot = (DepotProfile) repository.getPlugin( classloader, uri, new Object[]{ prefs, logger } );
+
+        //DepotHome store = new DepotStorageUnit( prefs );
+        //DepotProfile depot = new DefaultDepotProfile( logger, store );
 
         setTitle( "DPML DepotProfile" );
         Dimension size = new Dimension( DEFAULT_DIALOG_WIDTH, DEFAULT_DIALOG_HEIGHT );
@@ -128,5 +135,7 @@ public class DepotPreferencesFrame extends JFrame
         }
         return false;
     }
+
+    private static final String DEPOT_PROFILE_URI = "@DEPOT-PROFILE-PLUGIN-URI@";
 
 }

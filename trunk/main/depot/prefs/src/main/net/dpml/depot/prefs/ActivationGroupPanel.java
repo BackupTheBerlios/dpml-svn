@@ -48,9 +48,9 @@ import javax.swing.table.DefaultTableColumnModel;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
 
-import net.dpml.depot.profile.DepotProfile;
-import net.dpml.depot.profile.ActivationProfile;
-import net.dpml.depot.profile.ActivationGroupProfile;
+import net.dpml.profile.DepotProfile;
+import net.dpml.profile.ActivationProfile;
+import net.dpml.profile.ActivationGroupProfile;
 
 import net.dpml.transit.model.DuplicateKeyException;
 import net.dpml.transit.model.UnknownKeyException;

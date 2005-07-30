@@ -59,9 +59,9 @@ import javax.swing.JList;
 import javax.swing.ListCellRenderer;
 import javax.swing.ImageIcon;
 
-import net.dpml.depot.profile.DepotProfile;
-import net.dpml.depot.profile.ApplicationProfile;
-import net.dpml.depot.profile.ActivationGroupProfile;
+import net.dpml.profile.DepotProfile;
+import net.dpml.profile.ApplicationProfile;
+import net.dpml.profile.ActivationGroupProfile;
 
 import net.dpml.transit.model.DuplicateKeyException;
 import net.dpml.transit.model.UnknownKeyException;

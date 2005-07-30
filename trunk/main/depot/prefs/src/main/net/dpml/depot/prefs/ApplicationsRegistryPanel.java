@@ -48,8 +48,8 @@ import javax.swing.table.DefaultTableColumnModel;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
 
-import net.dpml.depot.profile.DepotProfile;
-import net.dpml.depot.profile.ApplicationProfile;
+import net.dpml.profile.DepotProfile;
+import net.dpml.profile.ApplicationProfile;
 
 import net.dpml.transit.model.DuplicateKeyException;
 import net.dpml.transit.model.UnknownKeyException;

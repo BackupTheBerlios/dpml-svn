@@ -23,10 +23,11 @@ import javax.swing.Icon;
 import javax.swing.AbstractListModel;
 
 import net.dpml.transit.Transit;
-import net.dpml.depot.profile.DepotApplicationEvent;
-import net.dpml.depot.profile.DepotGroupEvent;
-import net.dpml.depot.profile.DepotListener;
-import net.dpml.depot.profile.DepotProfile;
+
+import net.dpml.profile.DepotApplicationEvent;
+import net.dpml.profile.DepotGroupEvent;
+import net.dpml.profile.DepotListener;
+import net.dpml.profile.DepotProfile;
 
 /**
  * Table model that maps table rows to child nodes of a supplied preferences node.

@@ -27,10 +27,10 @@ import net.dpml.transit.model.Logger;
 import net.dpml.transit.model.TransitModel;
 import net.dpml.transit.model.Connection;
 
-import net.dpml.depot.profile.DepotProfile;
-import net.dpml.depot.profile.ProfileException;
-import net.dpml.depot.profile.ActivationProfile;
-import net.dpml.depot.profile.ActivationGroupProfile;
+import net.dpml.profile.DepotProfile;
+import net.dpml.profile.ProfileException;
+import net.dpml.profile.ActivationProfile;
+import net.dpml.profile.ActivationGroupProfile;
 
 public class DepotStation extends UnicastRemoteObject implements Station
 {

@@ -51,7 +51,7 @@ import javax.swing.event.DocumentListener;
 import javax.swing.event.ListDataListener;
 import javax.swing.event.ListDataEvent;
 
-import net.dpml.depot.profile.ApplicationProfile;
+import net.dpml.profile.ApplicationProfile;
 
 /**
  * A interactive panel that presents the preferences for a single host.

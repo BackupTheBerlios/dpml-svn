@@ -38,17 +38,44 @@
     </dependencies>
   </project>
 
-  <project basedir="profile">
+  <project basedir="profile/api">
     <info>
       <group>dpml/depot</group>
-      <name>dpml-depot-profile</name>
+      <name>dpml-profile-api</name>
+      <types>
+        <type name="jar"/>
+      </types>
+    </info>
+    <dependencies>
+      <include key="dpml-depot-console"/>
+    </dependencies>
+  </project>
+
+  <project basedir="profile/spi">
+    <info>
+      <group>dpml/depot</group>
+      <name>dpml-profile-spi</name>
+      <types>
+        <type name="jar"/>
+      </types>
+    </info>
+    <dependencies>
+      <include key="dpml-profile-api"/>
+    </dependencies>
+  </project>
+
+  <project basedir="profile/impl">
+    <info>
+      <group>dpml/depot</group>
+      <name>dpml-profile-impl</name>
       <types>
         <type name="jar"/>
         <type name="plugin"/>
       </types>
     </info>
     <dependencies>
-      <include key="dpml-depot-console"/>
+      <include key="dpml-profile-api" tag="api"/>
+      <include key="dpml-profile-spi" tag="spi"/>
     </dependencies>
   </project>
 
@@ -62,7 +89,7 @@
       </types>
     </info>
     <dependencies>
-      <include key="dpml-depot-profile"/>
+      <include key="dpml-profile-spi"/>
     </dependencies>
   </project>
 
@@ -77,7 +104,7 @@
     </info>
     <dependencies>
       <include key="dpml-transit-main" tag="api"/>
-      <include key="dpml-depot-profile" tag="api"/>
+      <include key="dpml-profile-spi" tag="api"/>
     </dependencies>
   </project>
 
@@ -92,7 +119,7 @@
     </info>
     <dependencies>
       <include key="dpml-transit-main" tag="api"/>
-      <include key="dpml-depot-profile" tag="api"/>
+      <include key="dpml-profile-spi" tag="api"/>
     </dependencies>
   </project>
 

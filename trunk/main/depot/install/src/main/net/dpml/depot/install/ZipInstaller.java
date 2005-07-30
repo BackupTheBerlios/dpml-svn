@@ -32,8 +32,7 @@ import java.util.Enumeration;
 import java.util.Properties;
 import java.util.Date;
 
-import net.dpml.depot.profile.DepotProfile;
-import net.dpml.depot.profile.ApplicationProfile;
+import net.dpml.profile.DepotProfile;
 
 import net.dpml.transit.Transit;
 import net.dpml.transit.Repository;

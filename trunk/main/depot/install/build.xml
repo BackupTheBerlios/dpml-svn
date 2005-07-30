@@ -11,6 +11,7 @@
     <x:filter token="MAGIC_BUNDLE_URI" key="dpml-magic" feature="uri" type="zip"/>
     <x:filter token="METRO_BUNDLE_URI" key="dpml-metro" feature="uri" type="zip"/>
     <x:filter token="DEPOT_BUNDLE_URI" key="dpml-depot" feature="uri" type="zip"/>
+    <x:filter token="DEPOT-PROFILE-PLUGIN-URI" key="dpml-profile-impl" feature="uri" type="plugin"/>
   </target>
 
   <target name="package" depends="standard.package">

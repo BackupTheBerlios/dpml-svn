@@ -52,7 +52,7 @@ import javax.swing.event.ListDataListener;
 import javax.swing.event.ListDataEvent;
 import javax.swing.JTabbedPane;
 
-import net.dpml.depot.profile.ActivationProfile;
+import net.dpml.profile.ActivationProfile;
 
 /**
  * A interactive panel that presents the preferences for a single host.

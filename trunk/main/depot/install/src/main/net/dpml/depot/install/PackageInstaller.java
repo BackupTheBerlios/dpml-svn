@@ -31,16 +31,17 @@ import java.net.URISyntaxException;
 import java.rmi.RemoteException;
 
 import net.dpml.depot.lang.ShutdownHandler;
-import net.dpml.depot.store.DepotHome;
-import net.dpml.depot.profile.DepotProfile;
-import net.dpml.depot.profile.DefaultDepotProfile;
-import net.dpml.depot.profile.ApplicationProfile;
-import net.dpml.depot.unit.DepotStorageUnit;
+import net.dpml.profile.ApplicationProfile;
+import net.dpml.profile.DepotProfile;
+//import net.dpml.profile.impl.DefaultDepotProfile;
+//import net.dpml.profile.store.DepotHome;
+//import net.dpml.profile.unit.DepotStorageUnit;
 
 import net.dpml.transit.Transit;
 import net.dpml.transit.Artifact;
 import net.dpml.transit.UnsupportedSchemeException;
 import net.dpml.transit.MissingGroupException;
+import net.dpml.transit.Repository;
 import net.dpml.transit.artifact.ArtifactNotFoundException;
 import net.dpml.transit.model.TransitRegistryModel;
 import net.dpml.transit.model.DefaultTransitRegistryModel;
@@ -98,8 +99,13 @@ public class PackageInstaller implements Runnable
         m_args = args;
         m_handler = handler;
 
-        DepotHome store = new DepotStorageUnit( prefs );
-        m_depot = new DefaultDepotProfile( logger, store );
+        Repository repository = Transit.getInstance().getRepository();
+        ClassLoader classloader = PackageInstaller.class.getClassLoader();
+        URI uri = new URI( DEPOT_PROFILE_URI );
+        m_depot = (DepotProfile) repository.getPlugin( classloader, uri, new Object[]{ prefs, logger } );
+
+        //DepotHome store = new DepotStorageUnit( prefs );
+        //m_depot = new DefaultDepotProfile( logger, store );
 
         TransitStorageHome home = new TransitStorageHome();
         m_transit = new DefaultTransitRegistryModel( logger, home );
@@ -373,4 +379,6 @@ public class PackageInstaller implements Runnable
             installer.deinstall( artifact );
         }
     }
+
+    private static final String DEPOT_PROFILE_URI = "@DEPOT-PROFILE-PLUGIN-URI@";
 }
