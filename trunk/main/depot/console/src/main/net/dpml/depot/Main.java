@@ -508,54 +508,6 @@ public final class Main implements ShutdownHandler
     }
     */
 
-    /*
-    private static void exit()
-    {
-        System.exit( 0 );
-    }
-    */
-
-    /*
-    private static Object resolveTargetObject( 
-      ClassLoader parent, URI uri, String[] args, DepotProfile manager, TransitModel model, 
-      Logger logger, ApplicationProfile profile ) 
-      throws Exception
-    {
-        Transit transit = Transit.getInstance( model );
-        Repository loader = transit.getRepository();
-
-        Artifact artifact = Artifact.createArtifact( uri );
-        String type = artifact.getType();
-        Properties params = profile.getProperties();
-        if( "plugin".equals( type ) )
-        {
-            return loader.getPlugin( 
-              parent, 
-              uri, 
-              new Object[]{ args, manager, model, logger, profile, params } );
-        }
-        else if( "part".equals( type ) )
-        {
-            String path = uri.toASCIIString();
-            final String message = 
-              "loading part ["
-              + path 
-              + "] with Transit [" 
-              + model.getID()
-              + "] profile";
-            getLogger().info( message );
-            URL url = new URL( path );
-            return url.getContent( new Class[]{ Object.class } );
-        }
-        else
-        {
-            final String error = 
-              "Artifact type [" + type + "] is not supported.";
-            throw new Exception( error );
-        }
-    }
-    */
-
     private void handleGet( Logger logger, String[] args, String path ) throws Exception
     {
         try
@@ -575,54 +527,6 @@ public final class Main implements ShutdownHandler
             getLogger().error( error, e );
         }
     }
-
-    /*
-    private static ApplicationProfile createPrefsProfile( Logger logger ) throws Exception
-    {
-        String id = "prefs";
-        Logger log = logger.getChildLogger( "prefs" );
-        boolean policy = true;
-        URI uri = new URI( "@DEPOT-PREFS-URI@" );
-        String title = "Depot Preferences Management";
-        boolean command = false;
-        Properties args = new Properties();
-        return new DefaultApplicationProfile( 
-          log, id, title, null, command, null, uri, true, args );
-    }
-    */
-
-    /*
-    private static ApplicationProfile createInstallProfile( Logger logger, boolean install ) throws Exception
-    {
-        String id = "install";
-        Logger log = logger.getChildLogger( "install" );
-        boolean policy = true;
-        URI uri = new URI( "link:plugin:dpml/depot/dpml-depot-install" );
-        String title = "Depot Installation Manager";
-        boolean command = false;
-        Properties args = new Properties();
-        args.setProperty( "java.util.logging.ConsoleHandler.level", "SEVERE" );
-        args.setProperty( "dpml.depot.install", "" + install );
-        return new DefaultApplicationProfile( 
-          log, id, title, null, command, null, uri, true, args );
-    }
-    */
-
-    /*
-    private static ApplicationProfile createStationProfile( Logger logger ) throws Exception
-    {
-        String id = "station";
-        Logger log = logger.getChildLogger( "station" );
-        boolean policy = true;
-        URI uri = new URI( "@STATION-PLUGIN-URI@" );
-        String title = "DepotProfile Station";
-        boolean command = false;
-        Connection connection = new Connection();
-        Properties args = new Properties();
-        return new DefaultApplicationProfile( 
-          log, id, title, null, command, connection, uri, true, args );
-    }
-    */
 
     /*
     public static Registry getRegistry( Connection connection, boolean create ) 
@@ -671,14 +575,6 @@ public final class Main implements ShutdownHandler
     }
     */
 
-    /*
-    private static ApplicationProfile getApplicationProfile( DepotProfile manager, String target )
-      throws Exception
-    {
-        return manager.getApplicationProfile( target );
-    }
-    */
-
     private static ClassLoader getSystemClassLoader()
     {
         return ClassLoader.getSystemClassLoader();
@@ -690,90 +586,6 @@ public final class Main implements ShutdownHandler
         getLogger().info( "Resetting: " + prefs );
         prefs.removeNode();
     }
-
-   /**
-    * Setup the system properties for the target.
-    * @param prefs the profile's system properties preferences node
-    */
-    /*
-    private static void applySystemProperties( Properties properties ) throws BackingStoreException
-    {
-        if( null == properties )
-        {
-            return;
-        }
-        String[] keys = (String[]) properties.keySet().toArray( new String[0] );
-        for( int i=0; i<keys.length; i++ )
-        {
-            String key = keys[i];
-            String value = properties.getProperty( key, null );
-            if( null != value )
-            {
-                System.setProperty( key, value );
-            }
-        }
-    }
-    */
-
-    /*
-    private static void deploy( Class c, String[] args ) throws Exception
-    {
-        try
-        {
-            Method method = c.getDeclaredMethod( "main", new Class[]{ String[].class } );
-            Object[] params = new Object[]{ args };
-            method.invoke( null, params );
-            setShutdownHook( null );
-        }
-        catch( NoSuchMethodException e )
-        {
-            Thread thread = null;
-            Object object = c.newInstance();
-            if( object instanceof Runnable )
-            {
-                thread = new Thread( (Runnable) object );
-                thread.start();
-            }
-            setShutdownHook( thread );
-        }
-    }
-    */
-
-   /*
-    private static String getTargetProfile( String[] args ) throws BackingStoreException
-    {
-        for( int i=0; i<args.length; i++ )
-        {
-            String arg = args[i];
-            if( arg.equals( "-profile" ) )
-            {
-                if( i+1 < args.length )
-                {
-                    String profile = args[ i+1 ];
-                    return profile;
-                }
-                else
-                {
-                    final String error = 
-                      "Missing profile name.";
-                    getLogger().error( error );
-                    System.exit( -1 );
-                }
-            }
-        }
-        return null;
-    }
-    */
-
-   /**
-    * Internal constructor.
-    */
-    /*
-    private Main( Object handler )
-    {
-        m_handler = handler;
-    }
-    */
 
     private static URL getCodeSourceLocation()
     {
@@ -850,12 +662,15 @@ public final class Main implements ShutdownHandler
     {
         final String message = 
           "Version\n"
-          + "\n  Transit: \t@TRANSIT-CORE-URI@"
-          + "\n  Console: \t@DEPOT-CONSOLE-URI@"
-          + "\n  Profile: \t@DEPOT-PROFILE-URI@"
-          + "\n  Setup: \t@DEPOT-INSTALL-URI@"
-          + "\n  Preferences: \t@DEPOT-PREFS-URI@"
-          + "\n  Station: \t@STATION-PLUGIN-URI@";
+          + "\n"
+          + "\n  Depot Console: \t@DEPOT-CONSOLE-URI@"
+          + "\n  Exec Handler: \t@DEPOT-EXEC-URI@"
+          + "\n  Install Handler: \t@DEPOT-INSTALL-URI@"
+          + "\n  Prefs Handler: \t@DEPOT-PREFS-URI@"
+          + "\n  Station Handler: \t@DEPOT-STATION-URI@"
+          + "\n  Transit Library: \t@TRANSIT-CORE-URI@"
+          + "\n  Profile Library: \t@PROFILE-PLUGIN-URI@"
+          + "\n";
         getLogger().info( message );
     }
 

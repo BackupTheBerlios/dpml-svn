@@ -22,6 +22,7 @@
     <x:filter token="DEPOT-INSTALL-URI" key="dpml-depot-install" feature="uri" type="plugin"/>
     <x:filter token="DEPOT-EXEC-URI" key="dpml-depot-exec" feature="uri" type="plugin"/>
     <x:filter token="DEPOT-STATION-URI" key="dpml-depot-station" feature="uri" type="plugin"/>
+    <x:filter token="PROFILE-PLUGIN-URI" key="dpml-profile-impl" feature="uri" type="plugin"/>
     <filter token="METRO-CENTRAL-URI" value="link:plugin:dpml/metro/dpml-metro-central#LATEST"/>
   </target>
 
