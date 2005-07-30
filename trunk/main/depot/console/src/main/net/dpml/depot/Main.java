@@ -644,16 +644,17 @@ public final class Main implements ShutdownHandler
     {
         final String message = 
           "Help"
-          + "\n\nUsage: depot [-help] | [-version] | [-setup] | [-prefs] | [-get [artifact]] "
+          + "\n\nUsage: depot [-help] | [-version] | [-setup] | [-prefs] | [-get [artifact]] | [-exec [key]]"
           + "\n\nAvailable command line options:"
-          + "\n\n -debug            Enable debug level logging."
-          + "\n -get [artifact]   Load the supplied artifact to the cache."
+          + "\n"
           + "\n -help             List command line help."
-          + "\n -setup            Initiate setup of the DPML system."
+          + "\n -version          List version information."
+          + "\n -get [artifact]   Load the supplied artifact to the cache."
           + "\n -prefs            Start the preferences editor."
-          //+ "\n -profile [name]   Launch a named application."
-          + "\n -reset            Clear Depot and Transit prefences."
-          + "\n -version          List Depot version information."
+          + "\n -exec [key]       Launch an application using a supplied profile key."
+          + "\n -reset            Clear Depot and Transit preferences."
+          + "\n -setup            DPML system setup (use -setup -help for additional info)"
+          + "\n -debug            Enable debug level logging."
           + "\n";
         getLogger().info( message );
     }

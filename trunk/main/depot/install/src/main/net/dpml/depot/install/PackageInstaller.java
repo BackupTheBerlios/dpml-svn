@@ -52,16 +52,6 @@ import net.dpml.transit.store.TransitStorageHome;
  */
 public class PackageInstaller implements Runnable
 {
-    //--------------------------------------------------------------------------
-    // static
-    //--------------------------------------------------------------------------
-
-    private static final String PROFILE_OPT = "-profile";
-    private static final String VERSION_OPT = "-version";
-    private static final String STANDARD_PROFILE = "standard";
-    private static final String MAGIC_PROFILE = "magic";
-    private static final String METRO_PROFILE = "metro";
-    private static final String VERSION = "@VERSION@";
 
     //--------------------------------------------------------------------------
     // state
@@ -109,6 +99,15 @@ public class PackageInstaller implements Runnable
     public void run()
     {
         getLogger().debug( "processing [" + m_args.length + "] command options" );
+
+        boolean help = isFlagPresent( "-help" );
+
+        if( help )
+        {
+            handleHelp();
+            m_handler.exit();
+        }
+
         boolean reset = isFlagPresent( "-reset" );
 
         try
@@ -375,5 +374,34 @@ public class PackageInstaller implements Runnable
         }
     }
 
+    private void handleHelp()
+    {
+        final String message = 
+          "Setup Help"
+          + "\n"
+          + "\nUsage: depot -setup [[-profile [NAME]] [-version [VERSION]] [-reset] [-debug]] | [-help]"
+          + "\nDefault: depot -setup -profile standard -version " + VERSION
+          + "\nOptions:"
+          + "\n"
+          + "\n -profile [NAME]    Setup using the named profile 'magic', 'metro' or 'standard' (default)."
+          + "\n -version [VERSION] Installs Depot and sub-systems using the requested version (defaults"
+          + "\n                    to current installed Depot version)"
+          + "\n -reset             Forces installation process to execute with factory resources."
+          + "\n -debug             Enable debug level logging."
+          + "\n -help              This message."
+          + "\n";
+        getLogger().info( message );
+    }
+
+    //--------------------------------------------------------------------------
+    // static
+    //--------------------------------------------------------------------------
+
+    private static final String PROFILE_OPT = "-profile";
+    private static final String VERSION_OPT = "-version";
+    private static final String STANDARD_PROFILE = "standard";
+    private static final String MAGIC_PROFILE = "magic";
+    private static final String METRO_PROFILE = "metro";
+    private static final String VERSION = "@VERSION@";
     private static final String DEPOT_PROFILE_URI = "@DEPOT-PROFILE-PLUGIN-URI@";
 }

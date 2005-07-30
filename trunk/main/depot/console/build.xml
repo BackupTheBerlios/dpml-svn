@@ -26,18 +26,6 @@
     <filter token="METRO-CENTRAL-URI" value="link:plugin:dpml/metro/dpml-metro-central#LATEST"/>
   </target>
 
-  <target name="build" depends="standard.build">
-    <!--
-    <rmic base="${basedir}/target/classes">
-      <include name="**/DefaultProfile.class"/>
-      <include name="**/DefaultApplicationProfile.class"/>
-      <include name="**/DefaultActivationProfile.class"/>
-      <include name="**/DefaultActivationGroupProfile.class"/>
-      <include name="**/DefaultDepotProfile.class"/>
-    </rmic>
-    -->
-  </target>
-
   <target name="install" depends="standard.install,win32-exe-install">
     <echo>
 #----------------------------------------------------------------------------------
