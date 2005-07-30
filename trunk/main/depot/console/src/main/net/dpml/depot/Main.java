@@ -197,14 +197,17 @@ public final class Main implements ShutdownHandler
         }
         else if( "-prefs".equals( option ) )
         {
+            args = consolidate( args, "-prefs" );
             handlePrefs( args );
         }
         else if( "-exec".equals( option ) )
         {
+            args = consolidate( args, "-exec" );
             handleExec( args );
         }
         else if( "-station".equals( option ) )
         {
+            args = consolidate( args, "-station" );
             handleStation( args );
         }
         else
@@ -296,11 +299,12 @@ public final class Main implements ShutdownHandler
         {
             Preferences prefs = getRootPreferences();
             URI uri = new URI( path );
-            Repository repository = Transit.getInstance().getRepository();
+            TransitModel model = getTransitModel( args );
+            Repository repository = Transit.getInstance( model ).getRepository();
             ClassLoader classloader = getSystemClassLoader();
             m_plugin = 
               repository.getPlugin( 
-                classloader, uri, new Object[]{ args, logger, shutdown, prefs } );
+                classloader, uri, new Object[]{ model, args, logger, shutdown, prefs } );
         }
         catch( Throwable e )
         {
@@ -327,6 +331,18 @@ public final class Main implements ShutdownHandler
             getLogger().info( "deployed " + m_plugin.getClass().getName() );
             return waitFor;
         }
+    }
+
+    private TransitModel getTransitModel( String[] args ) throws RemoteException
+    {
+        //
+        // TODO: impriove this so that we can direct the selction of the transit model
+        // in a way that would allow resolution of the model from the rmi registry
+        // e.g. -model rmi://some/name
+        //
+
+        Logger logger = getLogger();
+        return new DefaultTransitModel( logger );
     }
 
 

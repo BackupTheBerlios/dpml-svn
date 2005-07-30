@@ -47,7 +47,7 @@
       </types>
     </info>
     <dependencies>
-      <include key="dpml-depot-console"/>
+      <include key="dpml-transit-main"/>
     </dependencies>
   </project>
 
@@ -89,7 +89,7 @@
       </types>
     </info>
     <dependencies>
-      <include key="dpml-profile-spi"/>
+      <include key="dpml-profile-api"/>
     </dependencies>
   </project>
 
@@ -104,7 +104,7 @@
     </info>
     <dependencies>
       <include key="dpml-transit-main" tag="api"/>
-      <include key="dpml-profile-spi" tag="api"/>
+      <include key="dpml-profile-api" tag="api"/>
     </dependencies>
   </project>
 
@@ -118,8 +118,8 @@
       </types>
     </info>
     <dependencies>
-      <include key="dpml-transit-main" tag="api"/>
-      <include key="dpml-profile-api" tag="api"/>
+      <include key="dpml-depot-console"/>
+      <include key="dpml-profile-api"/>
     </dependencies>
   </project>
 
@@ -134,7 +134,8 @@
     </info>
     <dependencies>
       <include key="dpml-transit-main" tag="api"/>
-      <include key="dpml-profile-spi" tag="api"/>
+      <include key="dpml-depot-console" tag="api"/>
+      <include key="dpml-profile-api" tag="api"/>
     </dependencies>
   </project>
 
