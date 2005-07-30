@@ -131,7 +131,7 @@ class CacheModelPanel extends ClassicPanel implements PropertyChangeListener
         buttons[0] = new JButton( new AddAction( "Add" ) );
         buttons[1] = m_edit;
         buttons[2] = m_delete;
-        getBody().addScrollingEntry( m_table, "Content Handlers", buttons );
+        getBody().addScrollingEntry( m_table, "Hosts", buttons );
     }
 
     public void dispose()

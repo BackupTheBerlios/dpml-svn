@@ -24,19 +24,14 @@
 
     <section name="Milestone Archive">
        
-      <p><strong>WARNING: A problem has been identified with build 20050726 and is currently
-      under investigation.  Please check back in the following hours for an updated build.  Please 
-      note that the problem does not effect Magic, Transit or Depot.  The problem does
-      effect Metro and related facilities.</strong></p>
-
       <p>
       The following table list milestone distributions published by the DPML.
       </p>
 
-      <subsection name="Build 20050726">
+      <subsection name="Build 20050727">
 
         <p>
-        The 20050726 milestone is single product distribution of the Depot platform.
+        The 20050727 milestone is single product distribution of the Depot platform.
         The installation includes release ready versions of Transit and Magic and links
         to a version of Metro.  The Depot application provides built-in support for the 
         install of Magic and Metro.  
@@ -47,22 +42,22 @@
           <tr>
             <td>Windows</td>
             <td>
-              <a href="http://download.dpml.net/milestones/depot/20050726/dpml-depot-win32-20050726.zip">
-                dpml-transit-win32-20050726.zip</a>
+              <a href="http://download.dpml.net/milestones/depot/20050727/dpml-depot-win32-20050727.zip">
+                dpml-transit-win32-20050727.zip</a>
             </td>
             <td>
-              <a href="http://download.dpml.net/milestones/depot/20050726/dpml-depot-win32-20050726.zip.md5">
+              <a href="http://download.dpml.net/milestones/depot/20050727/dpml-depot-win32-20050727.zip.md5">
               MD5</a>
             </td>
           </tr>  
           <tr>
             <td>Linux</td>
             <td>
-              <a href="http://download.dpml.net/milestones/depot/20050726/dpml-depot-linux-20050726.tar.gz">
-                dpml-transit-linux-20050726.tar.gz</a>
+              <a href="http://download.dpml.net/milestones/depot/20050727/dpml-depot-linux-20050727.tar.gz">
+                dpml-transit-linux-20050727.tar.gz</a>
             </td>
             <td>
-              <a href="http://download.dpml.net/milestones/depot/20050726/dpml-depot-linux-20050726.tar.gz.md5">
+              <a href="http://download.dpml.net/milestones/depot/20050727/dpml-depot-linux-20050727.tar.gz.md5">
               MD5</a>
             </td>
           </tr>  

@@ -42,16 +42,6 @@ import java.util.prefs.Preferences;
 
 import net.dpml.depot.lang.DepotClassLoader;
 
-/*
-import net.dpml.depot.profile.ApplicationProfile;
-import net.dpml.depot.profile.DefaultApplicationProfile;
-import net.dpml.depot.profile.DepotProfile;
-import net.dpml.depot.profile.DefaultDepotProfile;
-import net.dpml.depot.profile.Profile;
-import net.dpml.depot.store.DepotHome;
-import net.dpml.depot.unit.DepotStorageUnit;
-*/
-
 import net.dpml.transit.Transit;
 import net.dpml.transit.TransitError;
 import net.dpml.transit.TransitException;
@@ -207,10 +197,10 @@ public final class Main implements ShutdownHandler
             args = consolidate( args, "-setup" );
             handleSetup( args );
         }
-        //else if( "-prefs".equals( option ) )
-        //{
-        //    handlePrefs( args );
-        //}
+        else if( "-prefs".equals( option ) )
+        {
+            handlePrefs( args );
+        }
         else
         {
             handleHelp();
@@ -257,16 +247,34 @@ public final class Main implements ShutdownHandler
         
         // deploy plugin
 
-        boolean waitForCompletion = deployHandler( "setup", path, args, this );
+        boolean waitForCompletion = deployHandler( "setup", path, args, this, true );
         if( false == waitForCompletion )
         {
             exit();
         }
     }
 
-    private boolean deployHandler( String command, String path, String[] args, ShutdownHandler shutdown )
+    private void handlePrefs( String[] args )
     {
-        Logger logger = getLogger();
+        // get setup uri
+
+        Preferences prefs = getRootPreferences();
+        Preferences handlers = prefs.node( "handlers" );
+        Preferences setup = handlers.node( "prefs" );
+        String path = setup.get( "uri", "@DEPOT-PREFS-URI@" );
+        
+        // deploy plugin
+
+        boolean waitForCompletion = deployHandler( "prefs", path, args, this, true );
+        if( false == waitForCompletion )
+        {
+            exit();
+        }
+    }
+
+    private boolean deployHandler( String command, String path, String[] args, ShutdownHandler shutdown, boolean waitFor )
+    {
+        Logger logger = getLogger().getChildLogger( command );
         try
         {
             Preferences prefs = getRootPreferences();
@@ -300,7 +308,7 @@ public final class Main implements ShutdownHandler
         else
         {
             getLogger().info( "deployed " + m_plugin.getClass().getName() );
-            return false;
+            return waitFor;
         }
     }
 

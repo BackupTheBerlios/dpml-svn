@@ -54,6 +54,7 @@ public class HttpTestCase extends TestCase
 
     static
     {
+        //System.setProperty( "dpml.logging.level", "FINE" );
         URLConnection.setContentHandlerFactory( new PartContentHandlerFactory() );
     }
 

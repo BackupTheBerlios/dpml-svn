@@ -24,6 +24,7 @@ import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.prefs.Preferences;
 
 import javax.swing.AbstractAction;
 import javax.swing.Action;
@@ -39,9 +40,12 @@ import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
 
 import net.dpml.depot.profile.DepotProfile;
+import net.dpml.depot.store.DepotHome;
+import net.dpml.depot.unit.DepotStorageUnit;
+import net.dpml.depot.profile.DefaultDepotProfile;
 
 import net.dpml.transit.Transit;
-import net.dpml.transit.model.TransitModel;
+import net.dpml.transit.model.Logger;
 
 /**
  * Dialog that presents the default preferences for DPML applications including
@@ -75,8 +79,7 @@ public class DepotPreferencesFrame extends JFrame
     */
     private static final int ZERO = 0;
 
-    //public DepotPreferencesFrame( TransitModel model, DepotProfile depot ) throws Exception
-    public DepotPreferencesFrame( String[] args ) throws Exception
+    public DepotPreferencesFrame( String[] args, Preferences prefs, Logger logger ) throws Exception
     {
         super();
 
@@ -86,21 +89,18 @@ public class DepotPreferencesFrame extends JFrame
             String os = System.getProperty( "os.name" ).toLowerCase();
             if( ( os.indexOf( "win" ) >= 0 ) || ( os.indexOf( "Mac OS" ) >= 0 ) )
             {
-               String classname = UIManager.getSystemLookAndFeelClassName();
-               UIManager.setLookAndFeel( classname );
+                String classname = UIManager.getSystemLookAndFeelClassName();
+                UIManager.setLookAndFeel( classname );
             }
         }
 
-        TransitModel model = null;
-        DepotProfile depot = null;
+        DepotHome store = new DepotStorageUnit( prefs );
+        DepotProfile depot = new DefaultDepotProfile( logger, store );
 
-        throw new UnsupportedOperationException( "DepotPreferencesFrame/1" );
-
-        /*
         setTitle( "DPML DepotProfile" );
         Dimension size = new Dimension( DEFAULT_DIALOG_WIDTH, DEFAULT_DIALOG_HEIGHT );
         setSize( size );
-        DepotPreferencesPanel panel = new DepotPreferencesPanel( this, model, depot );
+        DepotPreferencesPanel panel = new DepotPreferencesPanel( this, depot );
         setContentPane( panel );
         getRootPane().setDefaultButton( panel.getDefaultButton() );
         addWindowListener( 
@@ -114,7 +114,6 @@ public class DepotPreferencesFrame extends JFrame
         );
         setLocation( 300, 200 );
         setVisible(true);
-        */
     }
 
     private static boolean isFlagPresent( String[] args, String flag )

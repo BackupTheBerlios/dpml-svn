@@ -84,7 +84,6 @@ class DepotPreferencesPanel extends JPanel
     private ButtonPanel m_buttons;
 
     private TransitRegistryModel m_home;
-    private TransitModel m_model;
     private LayoutRegistryModelPanel m_layoutPanel;
     private CacheModelPanel m_cachePanel;
     private ContentRegistryModelPanel m_registryPanel;
@@ -97,12 +96,11 @@ class DepotPreferencesPanel extends JPanel
     private final DepotProfile m_depot;
 
     public DepotPreferencesPanel( 
-      Window window, final TransitModel model, final DepotProfile depot ) throws Exception
+      Window window, final DepotProfile depot ) throws Exception
     {
         super( new BorderLayout() );
 
         m_window = window;
-        m_model = model;
         m_depot = depot;
 
         net.dpml.transit.model.Logger logger = new LoggingAdapter( "depot.prefs" );

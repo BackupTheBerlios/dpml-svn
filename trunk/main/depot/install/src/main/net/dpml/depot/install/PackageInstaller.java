@@ -89,7 +89,6 @@ public class PackageInstaller implements Runnable
     * @param args suplimentary commandline arguments
     * @param handler the shutdown handler
     */
-    //public PackageInstaller( Logger logger, DepotProfile depot, Properties properties, String[] args )
     public PackageInstaller( Logger logger, String[] args, ShutdownHandler handler, Preferences prefs ) 
       throws Exception
     {
@@ -229,7 +228,7 @@ public class PackageInstaller implements Runnable
                 String line = null;
                 while( ( line = reader.readLine() ) != null )
                 {
-                    getLogger().info( line );
+                    System.out.println( line );
                 }
             }
             catch( IOException e )
