@@ -33,6 +33,7 @@ import net.dpml.transit.Artifact;
 import net.dpml.transit.Repository;
 import net.dpml.transit.model.Logger;
 import net.dpml.transit.model.TransitModel;
+import net.dpml.transit.model.UnknownKeyException;
 
 
 /**
@@ -70,44 +71,69 @@ public class ApplicationHandler
 
         String id = args[0];
         getLogger().info( "target profile: " + id );
-        ApplicationProfile profile = getApplicationProfile( logger, prefs, id );
-
-        // prepare application context
-    
-        String[] arguments = getTargetArgs( args );
-        Logger channel = getLogger().getChildLogger( id );
-        URI codebase = profile.getCodeBaseURI();
-        getLogger().info( "profile codebase: " + codebase );
-        ClassLoader system = ClassLoader.getSystemClassLoader();
-        Properties properties = profile.getSystemProperties();
-        applySystemProperties( properties );
-    
-        // light the fires and spin the tyres
 
         try
         {
-            Object object = resolveTargetObject( model, system, codebase, arguments, channel, profile );
-            if( profile.getCommandPolicy() )
+            ApplicationProfile profile = getApplicationProfile( logger, prefs, id );
+
+            // prepare application context
+    
+            String[] arguments = getTargetArgs( args );
+            Logger channel = getLogger().getChildLogger( id );
+            URI codebase = profile.getCodeBaseURI();
+            getLogger().info( "profile codebase: " + codebase );
+            ClassLoader system = ClassLoader.getSystemClassLoader();
+            Properties properties = profile.getSystemProperties();
+            applySystemProperties( properties );
+    
+            // light the fires and spin the tyres
+
+            try
             {
-                handler.exit();
+                Object object = resolveTargetObject( model, system, codebase, arguments, channel, profile );
+                if( profile.getCommandPolicy() )
+                {
+                    handler.exit();
+                }
             }
+            catch( Throwable e )
+            {
+                final String error = 
+                  "Application deployment failure.";
+                getLogger().error( error, e );
+                handler.exit( -1 );
+            }
+        }
+        catch( HandledException e )
+        {
+            handler.exit( -1 );
         }
         catch( Throwable e )
         {
             final String error = 
-              "Application deployment failure.";
-            getLogger().error( error, e );
+              "Unexpected failure.";
+                getLogger().error( error, e );
             handler.exit( -1 );
         }
     }
-
+    
     private ApplicationProfile getApplicationProfile( Logger logger, Preferences prefs, String id ) throws Exception
     {
-        Repository repository = Transit.getInstance().getRepository();
-        ClassLoader classloader = getClass().getClassLoader();
-        URI uri = new URI( DEPOT_PROFILE_URI );
-        DepotProfile depot = (DepotProfile) repository.getPlugin( classloader, uri, new Object[]{ prefs, logger } );
-        return depot.getApplicationProfile( id );
+        try
+        {
+            Repository repository = Transit.getInstance().getRepository();
+            ClassLoader classloader = getClass().getClassLoader();
+            URI uri = new URI( DEPOT_PROFILE_URI );
+            DepotProfile depot = (DepotProfile) repository.getPlugin( classloader, uri, new Object[]{ prefs, logger } );
+            return depot.getApplicationProfile( id );
+        }
+        catch( UnknownKeyException e )
+        {
+            final String error = 
+              "Application key [" + e.getKey() + "] not found.";
+            getLogger().error( error );
+            throw new HandledException();
+        }
     }
 
     private String[] getTargetArgs( String[] args )
