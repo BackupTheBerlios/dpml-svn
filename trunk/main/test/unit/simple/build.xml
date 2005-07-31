@@ -149,7 +149,7 @@
         <component name="gizmo" type="net.dpml.test.acme.GizmoComponent">
           <context>
             <entry key="color" value="red"/>
-            <entry key="widget" uri="parts:widget"/>
+            <entry key="widget" uri="service:net.dpml.test.acme.Widget"/>
           </context>
         </component>
       </parts>
@@ -169,7 +169,7 @@
         <component name="gizmo" type="net.dpml.test.acme.GizmoComponent">
           <context>
             <entry key="color" value="red"/>
-            <entry key="widget" uri="parts:widget"/>
+            <entry key="widget" uri="service:net.dpml.test.acme.Widget"/>
           </context>
         </component>
       </parts>
@@ -186,7 +186,7 @@
         <component name="gizmo" type="net.dpml.test.acme.GizmoComponent">
           <context>
             <entry key="color" value="red"/>
-            <entry key="widget" uri="parts:widget"/>
+            <entry key="widget" uri="service:net.dpml.test.acme.Widget"/>
           </context>
         </component>
       </parts>
