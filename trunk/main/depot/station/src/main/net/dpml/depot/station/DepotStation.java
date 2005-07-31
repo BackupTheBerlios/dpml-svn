@@ -35,6 +35,10 @@ import net.dpml.profile.ProfileException;
 import net.dpml.profile.ActivationProfile;
 import net.dpml.profile.ActivationGroupProfile;
 
+/**
+ * The DepotStation class provides support for the establishment and maintenance
+ * of DPML server processes and applications.
+ */
 public class DepotStation extends UnicastRemoteObject implements Station
 {
     private int m_count = 0;
@@ -45,7 +49,7 @@ public class DepotStation extends UnicastRemoteObject implements Station
 
     private ActivationGroupID m_rootID;
 
-    public DepotStation( Logger logger, Preferences prefs ) throws RemoteException
+    public DepotStation( Logger logger, Preferences prefs, String[] args ) throws RemoteException
     {
         super();
 

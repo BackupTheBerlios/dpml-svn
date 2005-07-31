@@ -7,9 +7,9 @@ Example usage that default to launching the preferences editor:
 
 Alternative target application launching:
 
-  $ depot -profile [name]
+  $ depot -exec [name]
 
-The profile [name] is a user preferences node under the path net/dpml/depot/console/profiles.
+The -exec [name] is a user preferences node under the path net/dpml/depot/profiles/[name].
 
 Application preferences node atributes:
 

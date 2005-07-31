@@ -139,6 +139,22 @@
     </dependencies>
   </project>
 
+  <project basedir="audit">
+    <info>
+      <group>dpml/depot</group>
+      <name>dpml-depot-audit</name>
+      <types>
+        <type name="jar"/>
+        <type name="plugin"/>
+      </types>
+    </info>
+    <dependencies>
+      <include key="dpml-transit-main" tag="api"/>
+      <include key="dpml-depot-console" tag="api"/>
+      <include key="dpml-profile-api" tag="api"/>
+    </dependencies>
+  </project>
+
   <project basedir="test/brazil">
     <info>
       <group>dpml/test</group>
