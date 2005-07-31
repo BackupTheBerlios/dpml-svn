@@ -157,12 +157,19 @@ public class PackageInstaller implements Runnable
                 install( spec, getLogger(), new String[0] );
                 getLogger().info( "switching to version: " + version );
 
+                /*
                 String[] command = new String[]{ 
                      "java",
                      "-Djava.ext.dirs=lib",
-                     "net.dpml.depot.lang.Main",
+                     "net.dpml.depot.Main",
                      "-setup",
                      "-postprocess" };
+                */
+
+                String[] command = new String[]{ 
+                     "depot",
+                     "-setup" };
+
                 File dir = Transit.DPML_DATA;
                 getLogger().info( "launching process" );
                 Process process = Runtime.getRuntime().exec( command, null, dir );
