@@ -40,17 +40,13 @@
       <link href="http://java.sun.com/j2se/1.4/docs/api"/>
       <group title="Depot Console">
         <package name="net.dpml.depot"/>
+        <package name="net.dpml.depot.logging"/>
+      </group>
+      <group title="Depot Command Handler">
         <package name="net.dpml.depot.exec"/>
         <package name="net.dpml.depot.install"/>
         <package name="net.dpml.depot.prefs"/>
         <package name="net.dpml.depot.station"/>
-        <package name="net.dpml.depot.logging"/>
-      </group>
-      <group title="Application and Server Profiles">
-        <package name="net.dpml.profile"/>
-        <package name="net.dpml.profile.model"/>
-        <package name="net.dpml.profile.store"/>
-        <package name="net.dpml.profile.unit"/>
       </group>
     </x:javadoc>
   </target>
