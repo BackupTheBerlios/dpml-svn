@@ -130,6 +130,7 @@ dpml.depot.installer.uri = ${plugin.uri}
     <zip destfile="${zip.filename}" whenempty="create">
       <zipfileset dir="${bundle}">
         <include name="**/*"/>
+        <exclude name="share/bin/**"/>
       </zipfileset>
     </zip>
 

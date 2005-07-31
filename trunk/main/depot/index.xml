@@ -129,7 +129,7 @@
       <name>dpml-depot-install</name>
       <types>
         <type name="jar"/>
-        <type name="plugin" alias=""/>
+        <type name="plugin"/>
       </types>
     </info>
     <dependencies>
