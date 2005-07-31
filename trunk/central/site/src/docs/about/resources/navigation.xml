@@ -25,8 +25,7 @@
     <menu>
       <item name="Mailing Lists" href="lists.html"/>
       <item name="Issue Tracking" href="issues.html"/>
-      <item name="Code Management" href="svn.html"/>
-      <item name="Code Checkout" href="checkout.html"/>
+      <item name="SVN Code Management" href="svn.html"/>
       <item name="Build Procedure" href="build.html"/>
     </menu>
   </body>

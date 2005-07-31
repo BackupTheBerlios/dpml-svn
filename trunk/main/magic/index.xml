@@ -226,7 +226,7 @@
     <info>
       <group>ant</group>
       <name>ant-jsch</name>
-      <version>1.6.4</version>
+      <version>1.6.5</version>
       <types>
         <type name="jar"/>
       </types>
