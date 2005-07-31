@@ -727,7 +727,7 @@ public final class Main implements ShutdownHandler
         System.setProperty( "java.util.logging.manager", "net.dpml.depot.logging.LoggingManager" );
         System.setProperty( "java.util.logging.manager.altclassloader", "net.dpml.depot.logging.LoggingManager" );
         System.setProperty( "java.util.logging.config.class", "net.dpml.transit.util.ConfigurationHandler" );
-        System.setProperty( "java.rmi.server.RMIClassLoaderSpi", "net.dpml.depot.lang.DepotRMIClassLoaderSpi" );
+        System.setProperty( "java.rmi.server.RMIClassLoaderSpi", "net.dpml.depot.DepotRMIClassLoaderSpi" );
         System.setProperty( Transit.SYSTEM_KEY, Transit.DPML_SYSTEM.getAbsolutePath() );
         System.setProperty( Transit.HOME_KEY, Transit.DPML_HOME.getAbsolutePath() );
         System.setProperty( Transit.DATA_KEY, Transit.DPML_DATA.getAbsolutePath() );
