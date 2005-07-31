@@ -6,4 +6,5 @@ import java.rmi.RemoteException;
 
 public interface Station extends Remote 
 {
+
 }

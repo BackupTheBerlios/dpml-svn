@@ -69,8 +69,6 @@ public final class Main implements ShutdownHandler
 
     private Object m_plugin;
 
-    //private static Object OBJECT;
-
     public static void start( final String[] args )
         throws Exception
     {
@@ -119,25 +117,15 @@ public final class Main implements ShutdownHandler
         }
     }
 
-    private String getSwitch( String[] args )
-    {
-        if( args.length == 0 ) 
-        {
-            return "-help";
-        }
-        else
-        {
-            return args[0];
-        }
-    }
-
     private Main( String[] arguments )
     {
-        String[] args = arguments;
+        String[] args = processSystemProperties( arguments );
+
         if( isFlagPresent( args, "-debug" ) )
         {
             args = consolidate( args, "-debug" );
-            System.setProperty( "dpml.logging.level", "FINE" );
+            System.setProperty( "dpml.logging.level", 
+              System.getProperty( "dpml.logging.level", "FINE" ) );
         }
 
         String option = getSwitch( args );
@@ -655,6 +643,7 @@ public final class Main implements ShutdownHandler
           + "\n -reset            Clear Depot and Transit preferences."
           + "\n -setup            DPML system setup (use -setup -help for additional info)"
           + "\n -debug            Enable debug level logging."
+          + "\n -D[name]=[value]  Set one or more system properties."
           + "\n";
         getLogger().info( message );
     }
@@ -752,6 +741,18 @@ public final class Main implements ShutdownHandler
         return false;
     }
 
+    private String getSwitch( String[] args )
+    {
+        if( args.length == 0 ) 
+        {
+            return "-help";
+        }
+        else
+        {
+            return args[0];
+        }
+    }
+
     private static String[] consolidate( String [] args, String argument )
     {
         ArrayList list = new ArrayList();
@@ -764,6 +765,27 @@ public final class Main implements ShutdownHandler
             }
         }
         return (String[]) list.toArray( new String[0] );
+    }
+
+    private String[] processSystemProperties( String[] args )
+    {
+        ArrayList result = new ArrayList();
+        for( int i=0; i<args.length; i++ )
+        {
+            String arg = args[i];
+            int index = arg.indexOf( "=" );
+            if( index > -1 && arg.startsWith( "-D" ) )
+            {
+                String name = arg.substring( 2, index );
+                String value = arg.substring( index + 1 );
+                System.setProperty( name, value );
+            }
+            else
+            {
+                result.add( arg );
+            }
+        }
+        return (String[]) result.toArray( new String[0] );
     }
 
    /**

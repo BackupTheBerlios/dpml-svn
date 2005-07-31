@@ -17,9 +17,7 @@ setlocal
 if "%DPML_HOME%" == "" set DPML_HOME=%APPDATA%\DPML
 if "%DPML_SYSTEM%" == "" set DPML_SYSTEM=%DPML_HOME%\Shared
 
-set $DPML_BOOT=%DPML_HOME%\Data\boot\%RANDOM%
-mkdir %$DPML_BOOT%
-copy/B/Y %DPML_HOME%\Data\lib %$DPML_BOOT% > %DPML_HOME%\Data\logs\rmid-boot.log
+set $DPML_BOOT=%DPML_HOME%\Data\lib
 set DPML_TRANSIT_JAR=%$DPML_BOOT%\@TRANSIT-PATH@
 set $POLICY=-Djava.security.policy=%DPML_SYSTEM%\bin\security.policy
 set $BOOTCLASSPATH=-Xbootclasspath/a:%DPML_TRANSIT_JAR%
@@ -28,7 +26,7 @@ set $TRANSIT=-Djava.protocol.handler.pkgs=net.dpml.transit
 
 :RUN_RMID
 @echo on
-rmid -log %DPML_HOME%\Data\logs\rmid -J%$BOOTCLASSPATH% -J%$POLICY% -J%$TRANSIT% -J%$TRACE% -C%$BOOTCLASSPATH% -C%$POLICY% -C%$TRANSIT%
+rmid -log %DPML_HOME%\Data\logs\rmid -J%$POLICY% -J%$TRACE% -C%$BOOTCLASSPATH% -C%$POLICY% -C%$TRANSIT%
 @echo off
 
 goto EndOfScript

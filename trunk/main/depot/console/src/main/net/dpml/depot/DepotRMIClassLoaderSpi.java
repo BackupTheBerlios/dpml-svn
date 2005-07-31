@@ -76,7 +76,7 @@ public class DepotRMIClassLoaderSpi extends RMIClassLoaderSpi
             final String message = 
               "Loading class: " + name 
               + "\nCodebase: " + codebase;
-            getLogger().info( message );
+            getLogger().debug( message );
         }
         return m_delegate.loadClass( codebase, name, defaultLoader );
     }
@@ -122,7 +122,7 @@ public class DepotRMIClassLoaderSpi extends RMIClassLoaderSpi
     {
         if( null != codebase )
         {
-            getLogger().info( "Loading proxy: " + codebase );
+            getLogger().debug( "Loading proxy: " + codebase );
         }
         return m_delegate.loadProxyClass( codebase, interfaces, defaultLoader );
     }
@@ -164,7 +164,7 @@ public class DepotRMIClassLoaderSpi extends RMIClassLoaderSpi
     {
         if( null != codebase )
         {
-            getLogger().info( "getClassLoader: " + codebase );
+            getLogger().debug( "getClassLoader: " + codebase );
         }
         return m_delegate.getClassLoader( codebase );
     }
