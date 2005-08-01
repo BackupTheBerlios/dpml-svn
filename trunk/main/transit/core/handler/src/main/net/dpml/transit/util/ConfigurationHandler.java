@@ -76,5 +76,5 @@ public class ConfigurationHandler
     private void setProperty( Properties properties, String key, String value )
     {
         properties.setProperty( key, System.getProperty( key, value ) );
-    |
+    }
 }
