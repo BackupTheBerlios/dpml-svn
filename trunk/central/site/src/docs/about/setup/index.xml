@@ -28,6 +28,56 @@
       The following table list milestone distributions published by the DPML.
       </p>
 
+      <subsection name="Build 20050803">
+
+        <p>
+        Includes a refactoring of the Depot system within which command handles
+        are separated into plugin processors.  In addition of the profile APIs
+        have been separated out and included under the Metro package.  Improvements
+        have been added for the Win32 platform with the replacement of the depot.bat
+        script with a debot.exe.  This milestone represents a solid Transit/Magic
+        combination, and improved Depot system (but still subject to change), and 
+        an evolving Metro system.
+        </p>
+
+        <p><i>
+        Please note: following unpacking the distribution you will need to run 
+        the following command to comlete the installation:
+        </i></p>
+
+        <pre>
+ $ depot -setup
+        </pre>
+
+        <table>
+          <tr><th>Platform</th><th>Binary</th><th>MD5</th></tr>
+          <tr>
+            <td>Windows</td>
+            <td>
+              <a href="http://download.dpml.net/milestones/depot/20050803/dpml-depot-win32-20050803.zip">
+                dpml-transit-win32-20050803.zip</a>
+            </td>
+            <td>
+              <a href="http://download.dpml.net/milestones/depot/20050803/dpml-depot-win32-20050803.zip.md5">
+              MD5</a>
+            </td>
+          </tr>  
+          <tr>
+            <td>Linux</td>
+            <td>
+              <a href="http://download.dpml.net/milestones/depot/20050803/dpml-depot-linux-20050803.tar.gz">
+                dpml-transit-linux-20050803.tar.gz</a>
+            </td>
+            <td>
+              <a href="http://download.dpml.net/milestones/depot/20050803/dpml-depot-linux-20050803.tar.gz.md5">
+              MD5</a>
+            </td>
+          </tr>  
+        </table>
+
+      </subsection>
+
+
       <subsection name="Build 20050727">
 
         <p>

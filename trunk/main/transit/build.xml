@@ -123,7 +123,8 @@
   </target>
 
   <target name="install" depends="bootstrap.install">
-    <copy todir="${dpml.cache}" file="${zip.filename}"/>
+    <mkdir dir="${dpml.cache}/dpml/transit/zips"/>
+    <copy todir="${dpml.cache}/dpml/transit/zips" file="${zip.filename}"/>
     <echo>
 #----------------------------------------------------------------------------------
 # Updating DPML DATA ${dpml.data}
