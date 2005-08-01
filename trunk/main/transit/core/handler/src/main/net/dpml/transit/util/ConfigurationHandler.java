@@ -39,24 +39,12 @@ public class ConfigurationHandler
         String level = System.getProperty( "dpml.logging.level", "INFO" ).toUpperCase();
 
         Properties properties = new Properties();
-        properties.setProperty( 
-           "handlers", 
-           System.getProperty( 
-             "handlers", 
-             "java.util.logging.FileHandler, java.util.logging.ConsoleHandler" ) );
-        properties.setProperty( 
-           "java.util.logging.ConsoleHandler.formatter", 
-           "net.dpml.transit.util.StandardFormatter" );
-
-        //
-        // set the file handler properties
-        //
-
-        properties.setProperty( "java.util.logging.FileHandler.pattern", "%h/" + group + "%u.log" );
-        properties.setProperty( "java.util.logging.FileHandler.limit", "50000" );
-        properties.setProperty( "java.util.logging.FileHandler.count", "1" );
-        properties.setProperty( 
-          "java.util.logging.FileHandler.formatter", "net.dpml.transit.util.StandardFormatter" );
+        setProperty( properties, "handlers", "java.util.logging.FileHandler, java.util.logging.ConsoleHandler" );
+        setProperty( properties, "java.util.logging.ConsoleHandler.formatter", "net.dpml.transit.util.StandardFormatter" );
+        setProperty( properties, "java.util.logging.FileHandler.pattern", "%h/" + group + "%u.log" );
+        setProperty( properties, "java.util.logging.FileHandler.limit", "50000" );
+        setProperty( properties, "java.util.logging.FileHandler.count", "1" );
+        setProperty( properties, "java.util.logging.FileHandler.formatter", "net.dpml.transit.util.StandardFormatter" );
 
         //
         // set the default level by setting the root logger level
@@ -68,9 +56,7 @@ public class ConfigurationHandler
         // set the level that the console handler will handle
         //
 
-        properties.setProperty( 
-          "java.util.logging.ConsoleHandler.level", 
-          System.getProperty( "java.util.logging.ConsoleHandler.level", "FINEST" ) );
+        setProperty( properties, "java.util.logging.ConsoleHandler.level", "FINEST" );
 
         try
         {
@@ -86,4 +72,9 @@ public class ConfigurationHandler
             e.printStackTrace();
         }
     }
+
+    private void setProperty( Properties properties, String key, String value )
+    {
+        properties.setProperty( key, System.getProperty( key, value ) );
+    |
 }

@@ -112,7 +112,7 @@
       <fileset dir="${docs.src}"/>
     </copy>
 
-    <!-- package it all up as a installable bundle -->
+    <!-- package the platform independent upgrade bundle -->
 
     <x:property name="plugin.uri" key="dpml-depot-install" feature="uri" type="plugin"/>
     <echo file="${bundle}/BUNDLE">
@@ -140,11 +140,13 @@ dpml.depot.installer.uri = ${plugin.uri}
       <zipfileset dir="${bundle}/prefs" prefix="Preferences"/>
       <zipfileset dir="${bundle}/share" prefix="Shared">
         <exclude name="**/depot"/>
+        <exclude name="**/*.sh"/>
       </zipfileset>
       <tarfileset dir="${bundle}/data" prefix="data" mode="644" />
       <tarfileset dir="${bundle}/prefs" prefix="prefs" mode="644" />
       <tarfileset dir="${bundle}/share" prefix="share" mode="444" >
-        <exclude name="**/depot.bat"/>
+        <exclude name="**/*.bat"/>
+        <exclude name="**/depot.exe"/>
         <exclude name="**/depot"/>
       </tarfileset>
       <tarfileset dir="${bundle}/share" prefix="share" mode="555" >
