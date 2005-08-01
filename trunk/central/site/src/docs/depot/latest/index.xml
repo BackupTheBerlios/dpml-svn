@@ -36,7 +36,6 @@
         <li>A separate view of remotely manageable models.</li>
         <li>Tranist plugin controls should be moved to a separate panel.</li>
         <li>Pure CLI control over transit configuration.</li>
-        <li>Cleanup of the installer CLI logic.</li>
         <li>Add scripts supporting depot-station in Linux envronment.</li>
         <li>Bring these docs up-to-date.</li>
         <li>Add tutorials.</li>

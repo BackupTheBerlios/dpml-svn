@@ -23,7 +23,7 @@
 
 2003
 
-   o The Merlin system is seperated into a kernel and assembly engine.
+   o The Merlin system is separated into a kernel and assembly engine.
    o The Cornerstone component suite and James mail-server successfully
      validated in Merlin.
    o Merlin kernel and deployment configuration are separated.
@@ -45,7 +45,7 @@
    o Alexis Agahi migrates OpenIM to Merlin.
    o Timothy Bennett start work on jetty-http and hsql database
      components.
-   o Several common utitilities are factored out and astablished
+   o Several common utilities are factored out and established
      as independent Avalon projects.
    o New and improved embedding strategy for Merlin comes together.
    o December 27, Merlin 3.2 is released.

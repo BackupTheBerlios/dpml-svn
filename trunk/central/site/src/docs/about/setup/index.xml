@@ -13,10 +13,10 @@
       <p>
       Current binary distributions of the DPML products and installation procedures
       are available from the 
-      <a href="http://www.osm.net/download/index.html">OSM Download Center</a>.
-      Unlike earlier versions we are moving towatards the centralization of 
+      <a href="http://www.osm.net/download/index.html">OSM Download Centre</a>.
+      Unlike earlier versions we are moving towards the centralization of 
       product installation and configuration via the Depot Application Management
-      tool.  The latest release of Depot provides convinient, automatic, 
+      tool.  The latest release of Depot provides convenient, automatic, 
       and reliable installation of all DPML products.
       </p>
 
@@ -31,8 +31,8 @@
       <subsection name="Build 20050803">
 
         <p>
-        Includes a refactoring of the Depot system within which command handles
-        are separated into plugin processors.  In addition of the profile APIs
+        Includes a reengineering of the Depot system within which command handles
+        are now separated into plugin processors.  In addition of the profile APIs
         have been separated out and included under the Metro package.  Improvements
         have been added for the Win32 platform with the replacement of the depot.bat
         script with a debot.exe.  This milestone represents a solid Transit/Magic
@@ -42,7 +42,7 @@
 
         <p><i>
         Please note: following unpacking the distribution you will need to run 
-        the following command to comlete the installation:
+        the following command to complete the installation:
         </i></p>
 
         <pre>
@@ -50,7 +50,6 @@
         </pre>
 
         <table>
-          <tr><th>Platform</th><th>Binary</th><th>MD5</th></tr>
           <tr>
             <td>Windows</td>
             <td>
@@ -88,7 +87,6 @@
         </p>
 
         <table>
-          <tr><th>Platform</th><th>Binary</th><th>MD5</th></tr>
           <tr>
             <td>Windows</td>
             <td>

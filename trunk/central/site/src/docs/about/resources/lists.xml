@@ -6,7 +6,7 @@
   </properties> 
 
 <body>
-
+ 
 <section name="Mailing Lists">
 
     <p>
@@ -19,7 +19,7 @@
     <ul>
 
       <li>The <a href="http://lists.ibiblio.org/mailman/listinfo/support-dpml">
-      DPML Support List</a> is aimed towards facilitating and assiting product 
+      DPML Support List</a> is aimed towards facilitating and assisting product 
       users of DPML solutions.</li>
 
       <li>The <a href="http://lists.ibiblio.org/mailman/listinfo/dev-dpml">

@@ -17,11 +17,11 @@
          <li>transit     .. a resource management system</li>
          <li>magic       .. an intelligent build system</li>
          <li>metro       .. an advanced IoC container</li>
-         <li>depot       .. an application managment system</li>
+         <li>depot       .. an application management system</li>
         </ul>
 
         <p>
-        To build respective products a build.bat and build.sh script are provided.
+        To build respective products a build.bat and build bash script are provided.
         </p>
 
 <pre>
@@ -40,7 +40,7 @@
 </pre>
         <p>
         Finally, the build script also enables the creation of distributions 
-        using a release identifier.  The following example build the distributiing 
+        using a release identifier.  The following example builds the distribution 
         using the build identifier 1234.
         </p>
 
