@@ -78,8 +78,6 @@
     <info>
       <group>dpml/magic</group>
       <name>dpml-magic-eclipse</name>
-      <version>1.0.0</version>
-      <status>SNAPSHOT</status>
       <types>
         <type name="jar"/>
         <type name="plugin"/>
