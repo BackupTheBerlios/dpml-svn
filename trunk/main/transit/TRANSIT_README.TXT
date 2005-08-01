@@ -16,10 +16,10 @@ Release Notes: Version 20050726
 
 Revision: 118
 
-Release Notes: Version 20050802
+Release Notes: Version 20050803
 -------------------------------
 
-Revision: 152
+Revision: 155
 
 Running RMID with Transit
   

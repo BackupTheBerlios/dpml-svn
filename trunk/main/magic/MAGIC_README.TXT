@@ -27,7 +27,7 @@ The usage of non-versioned tremplates has been removed.  As such you may need to
     </replace>
   </target>
 
-Release Notes: Version 20050802
+Release Notes: Version 20050803
 -------------------------------
 
-Revision: 152
+Revision: 155

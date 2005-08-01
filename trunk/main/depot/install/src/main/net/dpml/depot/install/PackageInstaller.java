@@ -37,6 +37,7 @@ import net.dpml.profile.DepotProfile;
 
 import net.dpml.transit.Transit;
 import net.dpml.transit.Artifact;
+import net.dpml.transit.Environment;
 import net.dpml.transit.UnsupportedSchemeException;
 import net.dpml.transit.MissingGroupException;
 import net.dpml.transit.Repository;
@@ -116,7 +117,7 @@ public class PackageInstaller implements Runnable
             if( VERSION.equals( version ) && false == reset )
             {
                 //
-                // we are working with the installed Depot system and rest has 
+                // we are working with the installed Depot system and reset has 
                 // not been requested so we go ahead with the install based on 
                 // this current classloader stack
                 //
@@ -148,37 +149,27 @@ public class PackageInstaller implements Runnable
             {
                 //
                 // the request is for the setup of Depot using a different version
+                // (or possibly the same version as the current version if -reset
+                // was included in the args) 
+                //
                 // so we need to install the requested Depot version and launch
                 // another process so that we pick up the version of Depot and Transit
                 // classes corresponding to the install version argument
                 //
 
-                String spec = "artifact:zip:dpml/depot/dpml-depot#" + version;
+                String spec = "artifact:zip:@DEPOT-MODULE-GROUP@/@DEPOT-MODULE-NAME@#" + version;
                 install( spec, getLogger(), new String[0] );
                 getLogger().info( "switching to version: " + version );
 
-                /*
-                String[] command = new String[]{ 
-                     "java",
-                     "-Djava.ext.dirs=lib",
-                     "net.dpml.depot.Main",
-                     "-setup",
-                     "-postprocess" };
-                */
-
-                String[] command = new String[]{ 
-                     "depot",
-                     "-setup" };
-
+                String[] command = getSpawnCommand();
                 File dir = Transit.DPML_DATA;
-                getLogger().info( "launching process" );
                 Process process = Runtime.getRuntime().exec( command, null, dir );
                 StreamReader out = new StreamReader( process.getInputStream() );
                 StreamReader err = new StreamReader( process.getErrorStream() );
                 out.start();
                 err.start();
                 int result = process.waitFor();
-                getLogger().info( "result: " + result );
+                getLogger().info( "subprocess result: " + result );
             }
         }
         catch( IllegalArgumentException e )
@@ -202,6 +193,39 @@ public class PackageInstaller implements Runnable
 
         getLogger().info( "setup procedure complete" );
         m_handler.exit();
+    }
+
+   /**
+    * If the underlying OS is Windows then then depot translates to depot.exe
+    * and everyting works fine.  If the OSM is not windows then return a command
+    * using the java exec.
+    * 
+    * @param arg a single commandline option
+    * @return the command array to use to execute a depot sub-process
+    */
+    private String[] getSpawnCommand() throws IOException
+    {
+        boolean useJava = "java".equals( System.getProperty( "dpml.depot.install.spawn", "" ) );
+        if( !useJava && Environment.isWindows() )
+        {
+            getLogger().info( "launching native subprocess" );
+            return new String[]{ "depot", "-setup" };
+        }
+        else
+        {
+            getLogger().info( "launching java subprocess" );
+            File bin = new File( Transit.DPML_SYSTEM, "bin" );
+            String policy = new File( bin, "security.policy" ).getCanonicalPath();
+            String lib = new File( Transit.DPML_DATA, "lib" ).getCanonicalPath();
+            
+            return new String[]{ 
+              "java", 
+              "-Djava.ext.dirs=" + lib,
+              "-Djava.security.policy=" + policy,
+              "net.dpml.depot.Main", 
+              "-setup"
+            };
+        }
     }
 
     private void installMagic() throws Exception

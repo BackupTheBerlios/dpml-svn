@@ -123,6 +123,7 @@
   </target>
 
   <target name="install" depends="bootstrap.install">
+    <copy todir="${dpml.cache}" file="${zip.filename}"/>
     <echo>
 #----------------------------------------------------------------------------------
 # Updating DPML DATA ${dpml.data}
