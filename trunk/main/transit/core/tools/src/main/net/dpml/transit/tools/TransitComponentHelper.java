@@ -71,7 +71,6 @@ public class TransitComponentHelper extends ComponentHelper
     * Creation of a component helper for the supplied project.
     *
     * @param project the project
-    * @return the project component for a specific project
     */
     public static void initialize( Project project )
     {
@@ -82,7 +81,6 @@ public class TransitComponentHelper extends ComponentHelper
     * Creation of a component helper for the supplied project.
     *
     * @param project the project
-    * @return the project component for a specific project
     */
     public static void initialize( Project project, boolean flag )
     {
@@ -272,6 +270,7 @@ public class TransitComponentHelper extends ComponentHelper
     * TODO: turn this into a parameteizable namespace to artifact map.
     *
     * @param urn the urn to convert to a uri
+    * @return the converted uri
     */
     private URI convertUrnToURI( String urn )
     {
