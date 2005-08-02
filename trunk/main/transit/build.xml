@@ -77,14 +77,14 @@
 
     <!-- put ant jars into local -->
     <mkdir dir="${local}/ant/jars"/>
-    <copy file="${dpml.cache}/ant/jars/${ant.junit.filename}" 
+    <copy file="${dpml.local.cache}/ant/jars/${ant.junit.filename}" 
        tofile="${local}/ant/jars/${ant.junit.filename}"/>
-    <copy file="${dpml.cache}/ant/jars/${transit-ant.filename}" 
+    <copy file="${dpml.local.cache}/ant/jars/${transit-ant.filename}" 
        tofile="${local}/ant/jars/${transit-ant.filename}"/>
 
     <!-- put ant junit into local -->
     <mkdir dir="${local}/junit/jars"/>
-    <copy file="${dpml.cache}/junit/jars/${junit.filename}" 
+    <copy file="${dpml.local.cache}/junit/jars/${junit.filename}" 
        tofile="${local}/junit/jars/${junit.filename}"/>
 
     <!-- put transit module and link into local -->
@@ -123,8 +123,8 @@
   </target>
 
   <target name="install" depends="bootstrap.install">
-    <mkdir dir="${dpml.cache}/dpml/transit/zips"/>
-    <copy todir="${dpml.cache}/dpml/transit/zips" file="${zip.filename}"/>
+    <mkdir dir="${dpml.local.cache}/dpml/transit/zips"/>
+    <copy todir="${dpml.local.cache}/dpml/transit/zips" file="${zip.filename}"/>
     <echo>
 #----------------------------------------------------------------------------------
 # Updating DPML DATA ${dpml.data}

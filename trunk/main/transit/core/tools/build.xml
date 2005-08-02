@@ -25,7 +25,7 @@
 
   <target name="setup-path" depends="init">
     <path id="project.main.path">
-      <pathelement location="${dpml.cache}/dpml/transit/jars/${dpml-transit-handler.filename}"/>
+      <pathelement location="${dpml.local.cache}/dpml/transit/jars/${dpml-transit-handler.filename}"/>
       <pathelement location="${target.classes.dir}"/>
     </path>
   </target>

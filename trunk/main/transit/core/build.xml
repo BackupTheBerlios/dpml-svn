@@ -32,11 +32,11 @@
   </target>
 
   <target name="prepare" depends="bootstrap.prepare">
-    <mkdir dir="${dpml.cache}/ant/jars"/>
+    <mkdir dir="${dpml.local.cache}/ant/jars"/>
     <get src="${dpml.repository}/ant/jars/${transit-ant.filename}" 
-       usetimestamp="true" dest="${dpml.cache}/ant/jars/${transit-ant.filename}"/>
+       usetimestamp="true" dest="${dpml.local.cache}/ant/jars/${transit-ant.filename}"/>
     <get src="${dpml.repository}/ant/jars/${ant.junit.filename}" 
-       usetimestamp="true" dest="${dpml.cache}/ant/jars/${ant.junit.filename}"/>
+       usetimestamp="true" dest="${dpml.local.cache}/ant/jars/${ant.junit.filename}"/>
   </target>
 
   <target name="package" depends="bootstrap.package">
@@ -69,12 +69,12 @@
   <target name="install" depends="bootstrap.install,javadoc"/>
 
   <target name="javadoc" depends="prepare">
-    <mkdir dir="${dpml.cache}/ant/jars"/>
+    <mkdir dir="${dpml.local.cache}/ant/jars"/>
     <property name="api.dir" location="target/api"/>
     <mkdir dir="${api.dir}"/>
     <javadoc overview="overview.html" destdir="${api.dir}" use="true">
       <classpath>
-        <pathelement location="${dpml.cache}/ant/jars/${transit-ant.filename}"/>
+        <pathelement location="${dpml.local.cache}/ant/jars/${transit-ant.filename}"/>
         <pathelement location="${user.home}/.ant/lib/junit.jar"/>
       </classpath>
       <doctitle><![CDATA[<h1>${project.name} API, Build ${project.version}</h1>]]></doctitle>

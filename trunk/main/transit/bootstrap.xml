@@ -84,12 +84,17 @@
   </target>
 
   <target name="dpml-data" depends="dpml-data-unix,dpml-data-windows">
+    <echo>$${dpml.data} set to ${dpml.data}</echo>
     <mkdir dir="${dpml.data}"/>
-    <property name="dpml.cache" location="${dpml.data}/cache"/>
+    <property name="dpml.local.cache" location="${dpml.data}/cache"/>
     <property name="dpml.docs" location="${dpml.data}/docs"/>
     <property name="dpml.dist" location="${dpml.data}/dist"/>
     <property name="dpml.logs" location="${dpml.data}/logs"/>
-    <mkdir dir="${dpml.cache}"/>
+    <echo>$${dpml.local.cache} set to ${dpml.local.cache}</echo>
+    <echo>$${dpml.docs} set to ${dpml.docs}</echo>
+    <echo>$${dpml.dist} set to ${dpml.dist}</echo>
+    <echo>$${dpml.logs} set to ${dpml.logs}</echo>
+    <mkdir dir="${dpml.local.cache}"/>
     <mkdir dir="${dpml.docs}"/>
     <mkdir dir="${dpml.dist}"/>
     <mkdir dir="${dpml.logs}"/>
@@ -125,8 +130,8 @@
   </target>
 
   <target name="junit-test" depends="dpml-data">
-    <mkdir dir="${dpml.cache}/junit/jars"/>
-    <get src="${junit.url}" usetimestamp="true" dest="${dpml.cache}/junit/jars/${junit.filename}"/>
+    <mkdir dir="${dpml.local.cache}/junit/jars"/>
+    <get src="${junit.url}" usetimestamp="true" dest="${dpml.local.cache}/junit/jars/${junit.filename}"/>
     <available property="junit.available" file="${user.home}/.ant/lib/junit.jar"/>
   </target>
 
@@ -137,10 +142,10 @@
 # Installing JUnit
 #----------------------------------------------------------------------------------
     </echo>
-    <mkdir dir="${dpml.cache}/junit/jars"/>
-    <get src="${junit.url}" usetimestamp="true" dest="${dpml.cache}/junit/jars/${junit.filename}"/>
+    <mkdir dir="${dpml.local.cache}/junit/jars"/>
+    <get src="${junit.url}" usetimestamp="true" dest="${dpml.local.cache}/junit/jars/${junit.filename}"/>
     <mkdir dir="${user.home}/.ant/lib"/>
-    <copy tofile="${user.home}/.ant/lib/junit.jar" file="${dpml.cache}/junit/jars/${junit.filename}"/>
+    <copy tofile="${user.home}/.ant/lib/junit.jar" file="${dpml.local.cache}/junit/jars/${junit.filename}"/>
     <echo>
 #----------------------------------------------------------------------------------
 # The build procedure has updated the contents of the .ant/lib directory.  In order
@@ -209,7 +214,7 @@
     </path>
     <path id="project.test.path">
       <path refid="project.main.path"/>
-      <pathelement location="${dpml.cache}/junit/jars/${junit.filename}"/>
+      <pathelement location="${dpml.local.cache}/junit/jars/${junit.filename}"/>
     </path>
   </target>
 
@@ -472,9 +477,9 @@
     <!--
     Install any deliverables under the project cache relative to the project group path.
     -->
-    <echo>Installing to: ${dpml.cache}/${project.group}</echo>
-    <mkdir dir="${dpml.cache}/${project.group}"/>
-    <copy toDir="${dpml.cache}/${project.group}" overwrite="true">
+    <echo>Installing to: ${dpml.local.cache}/${project.group}</echo>
+    <mkdir dir="${dpml.local.cache}/${project.group}"/>
+    <copy toDir="${dpml.local.cache}/${project.group}" overwrite="true">
       <fileset dir="${target.deliverables.dir}"/>
     </copy>
   </target>

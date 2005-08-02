@@ -186,7 +186,6 @@ public class ComponentController extends LoggingHandler
     * initialize operations until a non-initializing state is established 
     * as the current state.
     *
-    * @return the initialized object
     * @exception IllegalStateException if an error occurs during validation 
     * @exception Exception if an error is raised by a handler assigned to 
     *  and invoked initialization transition
@@ -217,7 +216,7 @@ public class ComponentController extends LoggingHandler
     * initialize operations until a non-initializing state is established 
     * as the current state.
     *
-    * @return the initialized object
+    * @param component the component handler
     * @exception IllegalStateException if an error occurs during validation 
     * @exception Exception if an error is raised by a handler assigned to 
     *  and invoked initialization transition

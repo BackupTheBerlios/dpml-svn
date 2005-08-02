@@ -44,8 +44,8 @@
   <target name="setup-path" depends="bootstrap.setup-path">
     <transit:get property="checkstyle.path" uri="${checkstyle.uri}"/>
     <path id="project.main.path">
-      <pathelement location="${dpml.cache}/dpml/transit/jars/dpml-transit-main-${dpml.transit.version}.jar"/>
-      <pathelement location="${dpml.cache}/dpml/transit/jars/dpml-transit-tools-${dpml.transit.version}.jar"/>
+      <pathelement location="${dpml.local.cache}/dpml/transit/jars/dpml-transit-main-${dpml.transit.version}.jar"/>
+      <pathelement location="${dpml.local.cache}/dpml/transit/jars/dpml-transit-tools-${dpml.transit.version}.jar"/>
       <pathelement location="${checkstyle.path}"/>
       <pathelement location="${basedir}/target/classes"/>
     </path>

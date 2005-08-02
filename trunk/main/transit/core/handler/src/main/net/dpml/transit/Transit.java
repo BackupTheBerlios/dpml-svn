@@ -141,7 +141,6 @@ public final class Transit
         System.setProperty( HOME_KEY, DPML_HOME.getAbsolutePath() );
         System.setProperty( DATA_KEY, DPML_DATA.getAbsolutePath() );
         System.setProperty( PREFS_KEY, DPML_PREFS.getAbsolutePath() );
-
     }
 
    /**

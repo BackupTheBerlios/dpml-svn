@@ -28,7 +28,7 @@
   <target name="setup-path" depends="init">
     <path id="project.test.path">
       <pathelement location="${target.deliverables.jars.dir}/${project.filename}"/>
-      <pathelement location="${dpml.cache}/junit/jars/${junit.filename}"/>
+      <pathelement location="${dpml.local.cache}/junit/jars/${junit.filename}"/>
     </path>
   </target>
 

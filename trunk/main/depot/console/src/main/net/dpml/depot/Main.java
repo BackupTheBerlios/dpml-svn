@@ -121,11 +121,13 @@ public final class Main implements ShutdownHandler
     {
         String[] args = processSystemProperties( arguments );
 
+        boolean debug = false;
         if( isFlagPresent( args, "-debug" ) )
         {
             args = consolidate( args, "-debug" );
             System.setProperty( "dpml.logging.level", 
               System.getProperty( "dpml.logging.level", "FINE" ) );
+            debug = true;
         }
 
         String option = getSwitch( args );
@@ -142,7 +144,7 @@ public final class Main implements ShutdownHandler
         }
         else if( "-version".equals( option ) )
         {
-            handleVersion();
+            handleVersion( debug );
             exit();
         }
         else if( "-get".equals( option ) )
@@ -648,7 +650,7 @@ public final class Main implements ShutdownHandler
         getLogger().info( message );
     }
 
-    private static void handleVersion()
+    private static void handleVersion( boolean debug )
     {
         final String message = 
           "Version\n"
@@ -662,6 +664,11 @@ public final class Main implements ShutdownHandler
           + "\n  Profile Library: \t@PROFILE-PLUGIN-URI@"
           + "\n";
         getLogger().info( message );
+
+        if( debug )
+        {
+            System.getProperties().list( System.out );
+        }
     }
 
     // TODO: add support for transit configuration profile selection

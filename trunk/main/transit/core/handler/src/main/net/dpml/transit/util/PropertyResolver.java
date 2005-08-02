@@ -21,6 +21,8 @@ import java.util.Properties;
 import java.util.Stack;
 import java.util.StringTokenizer;
 
+import net.dpml.transit.Transit;
+
 /**
  * Utility class that handles substitution of property names in the string
  * for ${value} relative to a supplied set of properties.
@@ -30,6 +32,11 @@ public final class PropertyResolver
     // ------------------------------------------------------------------------
     // static
     // ------------------------------------------------------------------------
+
+    static
+    {
+        Object xx = Transit.DPML_DATA;
+    }
 
    /**
     * System property symbol substitution from properties.
@@ -76,6 +83,7 @@ public final class PropertyResolver
         while ( st.hasMoreTokens() )
         {
             String token = st.nextToken();
+
             if( token.equals( "}" ) )
             {
                 String name = (String) stack.pop();

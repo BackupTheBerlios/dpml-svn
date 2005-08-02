@@ -124,7 +124,7 @@ abstract class TransitTask extends Task
         try
         {
             String cache = m_MODEL.getCacheModel().getCacheDirectory().getAbsolutePath();
-            updateProperty( project, "dpml.cache", cache );
+            project.setProperty( "dpml.cache", cache );
         }
         catch( Throwable e )
         {
