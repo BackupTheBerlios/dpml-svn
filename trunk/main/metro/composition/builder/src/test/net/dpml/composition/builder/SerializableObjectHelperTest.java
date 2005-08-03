@@ -54,4 +54,12 @@ public class SerializableObjectHelperTest extends TestCase
         System.out.println(partFile.getAbsolutePath());
     }
 
+    static
+    {
+        System.setProperty( 
+           "java.util.prefs.PreferencesFactory", 
+           "net.dpml.transit.store.LocalPreferencesFactory" );
+    }
+
+
 }
