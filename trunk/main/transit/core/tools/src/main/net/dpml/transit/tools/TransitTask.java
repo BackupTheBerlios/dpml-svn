@@ -48,6 +48,11 @@ abstract class TransitTask extends Task
 {
     static
     {
+        if( Transit.DPML_DATA != null )
+        {
+            // now we know that transit statics have been initialized
+        }
+
         System.setProperty( "java.protocol.handler.pkgs", 
           System.getProperty( "java.protocol.handler.pkgs", "net.dpml.transit" ) );
         System.setProperty( "dpml.transit.profile", 
