@@ -30,6 +30,13 @@ import org.apache.tools.ant.Project;
  */
 public class IndexBuilderTestCase extends TestCase
 {
+    static
+    {
+        System.setProperty( 
+           "java.util.prefs.PreferencesFactory", 
+           "net.dpml.transit.store.LocalPreferencesFactory" );
+    }
+
     private AntFileIndexBuilder m_builder;
 
     public void setUp()

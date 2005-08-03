@@ -131,6 +131,11 @@ public class JavacTask extends ProjectTask
         final Javac javac = (Javac) getProject().createTask( "javac" );
         javac.setTaskName( getTaskName() );
         javac.setIncludeantruntime( false );
+        String lint = getProject().getProperty( "project.javac.lint" );
+        if( null != lint )
+        {
+            javac.createCompilerArg().setValue( "-Xlint:" + lint );
+        }
         final Path src = javac.createSrc();
         final Path.PathElement element = src.createPathElement();
         element.setLocation( sources );
