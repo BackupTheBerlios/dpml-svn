@@ -32,6 +32,13 @@ import java.io.File;
  */
 public class ContextTestCase extends TestCase
 {
+    static
+    {
+        System.setProperty( 
+           "java.util.prefs.PreferencesFactory", 
+           "net.dpml.transit.store.LocalPreferencesFactory" );
+    }
+
     public void setUp()
     {
         Project project = new Project();
