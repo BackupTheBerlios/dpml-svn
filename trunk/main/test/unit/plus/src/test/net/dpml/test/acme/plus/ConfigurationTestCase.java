@@ -52,6 +52,9 @@ public class ConfigurationTestCase extends TestCase
 
     static
     {
+        System.setProperty( 
+           "java.util.prefs.PreferencesFactory", 
+           "net.dpml.transit.store.LocalPreferencesFactory" );
         URLConnection.setContentHandlerFactory( new PartContentHandlerFactory() );
     }
 
