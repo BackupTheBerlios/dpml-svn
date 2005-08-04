@@ -24,15 +24,25 @@ import org.apache.tools.ant.types.FileSet;
 
 import java.io.File;
 
+/**
+ * Publish project docs to ${dpml.data}/docs.
+ */
 public class PublishTask extends ProjectTask
 {
     private String m_path;
 
+   /**
+    * Set the path.
+    * @param path the path
+    */
     public void setPath( final String path )
     {
         m_path = path;
     }
 
+   /**
+    * Task execution.
+    */
     public void execute()
     {
         final File source = getContext().getDocsDirectory();

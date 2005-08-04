@@ -30,11 +30,18 @@ import net.dpml.magic.model.Type;
 import net.dpml.magic.model.Definition;
 import net.dpml.magic.tasks.ProjectTask;
 
+/**
+ * Upload task (experimental).
+ */
 public class UploadTask extends ProjectTask
 {
     private static final String KEY_PUBLISH_USER_NAME = "project.publish.username";
     private static final String KEY_PUBLISH_AUTHORATIVE_DESTINATION = "project.publish.authorative.destination";
     
+   /**
+    * Task initalization.
+    * @exception BuildException if a build error occurs.
+    */
     public void init() throws BuildException 
     {
         if( !isInitialized() )
@@ -46,6 +53,9 @@ public class UploadTask extends ProjectTask
         }
     }
 
+   /**
+    * Task execution.
+    */
     public void execute()
     {
         Project project = getProject();
@@ -53,7 +63,7 @@ public class UploadTask extends ProjectTask
         Definition def = getDefinition();
 
         Type[] types = def.getInfo().getTypes();
-        for( int i=0; i<types.length; i++ )
+        for( int i=0; i < types.length; i++ )
         {
             Type type = types[i];
             String name = type.getName();
@@ -62,7 +72,7 @@ public class UploadTask extends ProjectTask
             File artifactFile = new File( typesDir, filename );
         
             String username = project.getProperty( KEY_PUBLISH_USER_NAME );
-            File[] files = new File[3];
+            File[] files = new File[ THREE ];
             files[0] = artifactFile;
             files[1] = new File( artifactFile.getAbsolutePath() + ".md5" );
             files[2] = new File( artifactFile.getAbsolutePath() + ".asc" );
@@ -70,7 +80,7 @@ public class UploadTask extends ProjectTask
             String destination = root + "/" + def.getInfo().getGroup() + "/" + name;
             FileSet fileset = createFileSet( files );
             copy( destination, fileset, username );
-        }       
+        }
     }
 
     private FileSet createFileSet( File[] files )
@@ -78,10 +88,12 @@ public class UploadTask extends ProjectTask
         final FileSet fileset = new FileSet();
         fileset.setDir( new File( "/" ) );
         StringBuffer includes = new StringBuffer();
-        for( int i = 0 ; i < files.length ; i++ )
+        for( int i=0; i < files.length; i++ )
         {
             if( i != 0 )
+            {
                 includes.append( ", " );
+            }
             includes.append( files[ i ].getAbsolutePath() );
         }
         fileset.setIncludes( includes.toString() );
@@ -100,4 +112,6 @@ public class UploadTask extends ProjectTask
         scp.setUsername( username );
         scp.execute();
     }
+
+    private static final int THREE = 3;
 }

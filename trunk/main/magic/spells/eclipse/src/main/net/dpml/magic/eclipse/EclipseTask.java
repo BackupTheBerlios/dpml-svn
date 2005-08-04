@@ -1,5 +1,6 @@
 /*
  * Copyright 2004 Cameron Taggart Copyright 2004 Dwango Wireless
+ * Copyright 2005 Stephen McConnell
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -55,8 +56,7 @@ import org.apache.tools.ant.types.FilterSet;
  * 
  * @author Andreas Ronge
  * @author Cameron Taggart
- * @author <a href="mailto:dev-dpml@lists.ibiblio.org">The Digital Product Meta
- *         Library </a>
+ * @author <a href="http://www.dpml.net">The Digital Product Meta Library </a>
  */
 public class EclipseTask extends ContextualTask
 {
@@ -100,6 +100,7 @@ public class EclipseTask extends ContextualTask
      * @see org.apache.tools.ant.Task#execute()
      * @see #PROJECT_FILENAME
      * @see #CLASSPATH_FILENAME
+     * @exception BuildException if a build error occurs
      */
     public void execute() throws BuildException
     {
@@ -111,10 +112,9 @@ public class EclipseTask extends ContextualTask
         {
             createClasspath( classpathOutput );
         }
-        catch ( IOException e )
+        catch( IOException e )
         {
-            throw new BuildException( "Can't write to eclipse project files",
-                    e );
+            throw new BuildException( "Can't write to eclipse project files", e );
         }
         finally
         {
@@ -122,26 +122,26 @@ public class EclipseTask extends ContextualTask
         }
     }
 
-    /**
-     * If this property is not set then the calling ant build.xml project key
-     * will be used. A comma separated list of projects.
-     * 
-     * @param projectKeys the keys to the project we want to create an eclipse
-     *            project for
-     */
+   /**
+    * If this property is not set then the calling ant build.xml project key
+    * will be used. A comma separated list of projects.
+    * 
+    * @param projectKeys the keys to the project we want to create an eclipse
+    *            project for
+    */
     public void setProjectKeys( String projectKeys )
     {
         m_projectKeys = projectKeys;
     }
 
-    /**
-     * 
-     * @return a comma separated list of project keys that this eclipse project
-     *         contains
-     */
+   /**
+    * Return the project keys.
+    * @return a comma separated list of project keys that this eclipse project
+    *         contains
+    */
     public String getProjectKeys()
     {
-        if ( m_projectKeys == null || m_projectKeys.length() == 0 )
+        if( m_projectKeys == null || m_projectKeys.length() == 0 )
         {
             Context ctx = getContext();
             return ctx.getKey();
@@ -149,71 +149,76 @@ public class EclipseTask extends ContextualTask
         return m_projectKeys;
     }
 
-    /**
-     * The project name for the eclipse project. If this is not set then the
-     * projectKeys will be used instead
-     * 
-     * @param projectName set the name of the eclipse project
-     */
+   /**
+    * The project name for the eclipse project. If this is not set then the
+    * projectKeys will be used instead
+    * 
+    * @param projectName set the name of the eclipse project
+    */
     public void setProjectName( String projectName )
     {
         m_projectName = projectName;
     }
 
-    /**
-     * @return the name of the eclipse project
-     */
+   /**
+    * Set the project name.
+    * @return the name of the eclipse project
+    */
     public String getProjectName()
     {
-        if ( m_projectName == null || m_projectName.length() == 0 )
+        if( m_projectName == null || m_projectName.length() == 0 )
         {
             return getProjectKeys();
         }
         return m_projectName;
     }
 
-    /**
-     * 
-     * @param projectUri the uri for the eclipse project file
-     */
+   /**
+    * Set the project URI.
+    * @param projectUri the uri for the eclipse project file
+    */
     public void setProjectUri( String projectUri )
     {
         try
         {
             URL url = Artifact.toURL( new URI( projectUri ) );
-            m_projectFile = ( File ) url
-                    .getContent( new Class[] { File.class } );
+            m_projectFile = (File) url.getContent( new Class[] {File.class} );
         }
         catch ( Throwable e )
         {
-            final String error = "Could not resolve the project uri ["
-                    + projectUri + "]";
+            final String error = "Could not resolve the project uri [" + projectUri + "]";
             throw new BuildException( error, e );
         }
     }
 
-    /**
-     * 
-     * @param classpathUri the artifact uri for the eclipse classpath fragment
-     */
+   /**
+    * Set the classpath uri.
+    * @param classpathUri the artifact uri for the eclipse classpath fragment
+    */
     public void setClasspathUri( String classpathUri )
     {
-        m_classpathStream = getInputStreamFromUrl(classpathUri);
+        m_classpathStream = getInputStreamFromUrl( classpathUri );
     }
 
-    
     // -------------------------------------------------------------------------
     // protected methods
     // -------------------------------------------------------------------------
 
+   /**
+    * Execute project creation.
+    */
     protected void createProject()
     {
         if ( m_projectFile == null )
+        {
             throw new BuildException( "Missing projectUri property for task" );
+        }
 
         if ( !m_projectFile.canRead() )
+        {
             throw new BuildException( "Can't read from resource '"
                     + m_projectFile.getAbsolutePath() );
+        }
 
         Copy copy = new Copy();
         copy.setProject( getProject() );
@@ -233,30 +238,23 @@ public class EclipseTask extends ContextualTask
     /**
      * Adds jar files and classpath header to the outputstream.
      * 
-     * @param classpathOutput
-     * @throws IOException
+     * @param classpathOutput the classpath output stream
+     * @exception IOException if an IO related error occurs
      */
-    protected void createClasspath( OutputStream classpathOutput )
-            throws IOException
+    protected void createClasspath( OutputStream classpathOutput ) throws IOException
     {
-
         Writer writer = new OutputStreamWriter( classpathOutput );
-
         writer.write( "<?xml version=\"1.0\"?>\n" );
         writer.write( "<classpath>\n" );
-
         appendClasspathHeader( writer );
-
         String keys = getProjectKeys();
-
         Set excludeKeys = getExcludeKeysSet();        
         StringTokenizer tokenizer = new StringTokenizer( keys, ", ", false );
-        while ( tokenizer.hasMoreTokens() )
+        while( tokenizer.hasMoreTokens() )
         {
             String key = tokenizer.nextToken();
             createProjectClasspath( writer, key, excludeKeys );
         }
-
         writer.write( "</classpath>\n" );
         writer.flush();
     }
@@ -270,7 +268,7 @@ public class EclipseTask extends ContextualTask
         Set excludeKeys = new HashSet();
         String keys = getProjectKeys();
         StringTokenizer tokenizer = new StringTokenizer( keys, ", ", false );
-        while ( tokenizer.hasMoreTokens() )
+        while( tokenizer.hasMoreTokens() )
         {
             String key = tokenizer.nextToken();
             excludeKeys.add( key );
@@ -279,32 +277,31 @@ public class EclipseTask extends ContextualTask
         return excludeKeys;
     }
 
-    private void createProjectClasspath( Writer writer, String key, Set excludeKeys)
+    private void createProjectClasspath( Writer writer, String key, Set excludeKeys )
             throws IOException
     {
         Definition projectDef = getProjectDefinition( key );
         ResourceRef[] resourceRefs = projectDef.getResourceRefs();
         Collection resources = getResources( resourceRefs );
         Iterator iter = resources.iterator();
-        while ( iter.hasNext() )
+        while( iter.hasNext() )
         {
-            Resource resource = ( Resource ) iter.next();
-
+            Resource resource = (Resource) iter.next();
             String resourceKey = resource.getKey();
-            if ( excludeKeys.contains( resourceKey ) )
+            if( excludeKeys.contains( resourceKey ) )
             {
                 continue;
             }
 
             Info info = resource.getInfo();
-            if( false == info.isa( "jar" ) )
+            if( !info.isa( "jar" ) )
             {
                 continue;
             }
             writer.write( "  " + getEclipseClasspath( resource ) + "\n" );
             
             // add key to exclude keys so that we don't add it again
-            excludeKeys.add(resourceKey);
+            excludeKeys.add( resourceKey );
         }
         
     }
@@ -327,17 +324,15 @@ public class EclipseTask extends ContextualTask
         InputStreamReader tInputReader = new InputStreamReader( iInStream );
         BufferedReader tReader = new BufferedReader( tInputReader );
         StringBuffer readData = new StringBuffer();
-
         try
         {
             int tTemp = tReader.read();
-            while ( tTemp != -1 )
+            while( tTemp != -1 )
             {
-                readData.append( ( char ) tTemp );
+                readData.append( (char) tTemp );
                 tTemp = tReader.read();
             }
             String tFileData = readData.toString();
-
             return tFileData;
         }
         catch ( IOException e )
@@ -360,8 +355,7 @@ public class EclipseTask extends ContextualTask
     private Collection getResources( ResourceRef[] resourceRefs )
     {
         Set resources = new HashSet();
-
-        for ( int i = 0; i < resourceRefs.length; i++ )
+        for ( int i=0; i < resourceRefs.length; i++ )
         {
             Resource r = getIndex().getResource( resourceRefs[i] );
             resources.add( r );
@@ -379,7 +373,7 @@ public class EclipseTask extends ContextualTask
         sb.append( info.getGroup() );
         sb.append( "/jars/" );
         sb.append( info.getName() );
-        if ( info.getVersion() != null )
+        if( info.getVersion() != null )
         {
             sb.append( "-" );
             sb.append( info.getVersion() );
@@ -399,17 +393,15 @@ public class EclipseTask extends ContextualTask
         {
             out = new FileOutputStream( projectFile );
         }
-        catch ( FileNotFoundException e )
+        catch( FileNotFoundException e )
         {
             String fileLocation = projectFile.getAbsolutePath();
-            throw new BuildException( "Can't create file '" + fileLocation
-                    + "'", e );
+            throw new BuildException( "Can't create file '" + fileLocation + "'", e );
         }
         return out;
     }
 
-    
-    private InputStream getInputStreamFromUrl (String urlString)
+    private InputStream getInputStreamFromUrl( String urlString )
     {
         InputStream in;
         
@@ -419,34 +411,33 @@ public class EclipseTask extends ContextualTask
             URL url = new URL( urlString );
             in = (InputStream) url.getContent( );
         }
-        catch ( Throwable e )
+        catch( Throwable e )
         {
             // now try with transit
             try
             {
                 URL url = Artifact.toURL( new URI( urlString ) );
-                File file = ( File ) url
-                        .getContent( new Class[] { File.class } );
-                in = new FileInputStream(file);
+                File file = ( File ) url.getContent( new Class[] {File.class} );
+                in = new FileInputStream( file );
             }
-            catch ( Throwable e2 )
+            catch( Throwable e2 )
             {
-                final String error = "Could not resolve uri ["
-                        + urlString + "]";
+                final String error = "Could not resolve uri [" + urlString + "]";
                 throw new BuildException( error, e2 );
             }
         }
         
         // check inputstream
-        if ( in == null )
+        if( in == null )
+        {
             throw new BuildException( "Can't open resource at '" + urlString + "'" );
-        
+        }
         return in;
     }
     
     private void closeStream( OutputStream output )
     {
-        if ( null != output )
+        if( null != output )
         {
             try
             {
@@ -454,14 +445,14 @@ public class EclipseTask extends ContextualTask
             }
             catch ( IOException e )
             {
-                // ignore
+                e.printStackTrace();
             }
         }
     }
 
     private void closeStream( InputStream input )
     {
-        if ( null != input )
+        if( null != input )
         {
             try
             {
@@ -469,7 +460,7 @@ public class EclipseTask extends ContextualTask
             }
             catch ( IOException e )
             {
-                // ignore
+                e.printStackTrace();
             }
         }
     }

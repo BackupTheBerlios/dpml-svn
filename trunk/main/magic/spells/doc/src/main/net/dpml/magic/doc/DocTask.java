@@ -27,7 +27,11 @@ import java.io.File;
 import java.io.FileFilter;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.util.*;
+import java.util.Calendar;
+import java.util.Hashtable;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.text.SimpleDateFormat;
@@ -41,74 +45,143 @@ import org.apache.tools.ant.Project;
 import org.apache.tools.ant.taskdefs.Copy;
 import org.apache.tools.ant.types.FileSet;
 
+/**
+ * Site generation.
+ */
 public class DocTask extends ProjectTask
 {
+    private static final String ORG_NAME_VALUE = "The Digital Product Meta Library";
+    private static final String DOC_TEMP_VALUE = "docs";
+    private static final String DOC_SRC_VALUE = "docs";
+    private static final String DOC_RESOURCES_VALUE = "resources";
+    private static final String DOC_THEME_VALUE = "modern";
+    private static final String DOC_FORMAT_VALUE = "html";
+    private static final String DOC_DATE_FORMAT_VALUE = "yyyy-MMM-dd";
+    private static final String DOC_STYLE_VALUE = "standard";
+    private static final String DOC_ENTRY_VALUE = "";
+    private static final String DOC_LOGO_RIGHT_FILE_VALUE = "";
+    private static final String DOC_LOGO_RIGHT_URL_VALUE = "";
+    private static final String DOC_LOGO_LEFT_FILE_VALUE = "";
+    private static final String DOC_LOGO_LEFT_URL_VALUE = "";
+    private static final String DOC_LOGO_MIDDLE_FILE_VALUE = "";
+    private static final String DOC_LOGO_MIDDLE_URL_VALUE = "";
+    private static final String DOC_BRAND_NAME_VALUE = "DPML";
+
+   /**
+    * Constant organization key.
+    */
     public static final String ORG_NAME_KEY = "project.organization.name";
-    public static final String ORG_NAME_VALUE = "The Digital Product Meta Library";
 
+   /**
+    * Constant temp docs key.
+    */
     public static final String DOC_TEMP_KEY = "project.target.temp.docs";
-    public static final String DOC_TEMP_VALUE = "docs";
 
+   /**
+    * Constant docs src key.
+    */
     public static final String DOC_SRC_KEY = "project.docs.src";
-    public static final String DOC_SRC_VALUE = "docs";
 
+   /**
+    * Constant docs resources key.
+    */
     public static final String DOC_RESOURCES_KEY = "project.docs.resources";
-    public static final String DOC_RESOURCES_VALUE = "resources";
 
+   /**
+    * Constant docs theme key.
+    */
     public static final String DOC_THEME_KEY = "project.docs.theme";
-    public static final String DOC_THEME_VALUE = "modern";
 
+   /**
+    * Constant docs output format key.
+    */
     public static final String DOC_FORMAT_KEY = "project.docs.output.format";
-    public static final String DOC_FORMAT_VALUE = "html";
 
+   /**
+    * Constant docs date format key.
+    */
     public static final String DOC_DATE_FORMAT_KEY = "project.docs.date.format";
-    public static final String DOC_DATE_FORMAT_VALUE = "yyyy-MMM-dd";
 
+   /**
+    * Constant docs output style key.
+    */
     public static final String DOC_STYLE_KEY = "project.docs.output.style";
-    public static final String DOC_STYLE_VALUE = "standard";
 
+   /**
+    * Constant docs entry-point key.
+    */
     public static final String DOC_ENTRY_KEY = "project.docs.entry-point";
-    public static final String DOC_ENTRY_VALUE = "";
 
+   /**
+    * Constant docs logo-right-file key.
+    */
     public static final String DOC_LOGO_RIGHT_FILE_KEY = "project.docs.logo.right.file";
-    public static final String DOC_LOGO_RIGHT_FILE_VALUE = "";
 
+   /**
+    * Constant docs logo-right url key.
+    */
     public static final String DOC_LOGO_RIGHT_URL_KEY = "project.docs.logo.right.url";
-    public static final String DOC_LOGO_RIGHT_URL_VALUE = "";
 
+   /**
+    * Constant docs logo-left file key.
+    */
     public static final String DOC_LOGO_LEFT_FILE_KEY = "project.docs.logo.left.file";
-    public static final String DOC_LOGO_LEFT_FILE_VALUE = "";
 
+   /**
+    * Constant docs logo-left url key.
+    */
     public static final String DOC_LOGO_LEFT_URL_KEY = "project.docs.logo.left.url";
-    public static final String DOC_LOGO_LEFT_URL_VALUE = "";
 
+   /**
+    * Constant docs logo-middle file key.
+    */
     public static final String DOC_LOGO_MIDDLE_FILE_KEY = "project.docs.logo.middle.file";
-    public static final String DOC_LOGO_MIDDLE_FILE_VALUE = "";
 
+   /**
+    * Constant docs logo-middle url key.
+    */
     public static final String DOC_LOGO_MIDDLE_URL_KEY = "project.docs.logo.middle.url";
-    public static final String DOC_LOGO_MIDDLE_URL_VALUE = "";
 
+   /**
+    * Constant docs brand key.
+    */
     public static final String DOC_BRAND_NAME_KEY = "project.docs.brand.name";
-    public static final String DOC_BRAND_NAME_VALUE = "DPML";
 
+   /**
+    * Constant docs anchor url key.
+    */
     public static final String DOC_ANCHOR_URL_KEY = "project.docs.anchor.url";
 
     private String m_theme;
-    private File m_BaseToDir;
-    private File m_BaseSrcDir;
+    private File m_baseToDir;
+    private File m_baseSrcDir;
 
+   /**
+    * Return the assigned theme.
+    * @return the theme
+    */
     public String getTheme()
     {
         if( m_theme != null )
+        {
             return m_theme;
+        }
         return getProject().getProperty( DOC_THEME_KEY );
     }
 
+   /**
+    * Set the doc theme.
+    * @param theme the theme name
+    */
     public void setTheme( final String theme )
     {
         m_theme = theme;
     }
 
+   /**
+    * Initialize the task.
+    * @exception BuildException if a build error occurs
+    */
     public void init() throws BuildException
     {
         if( !isInitialized() )
@@ -134,26 +207,9 @@ public class DocTask extends ProjectTask
         }
     }
 
-    private File getThemesDirectory()
-    {
-        return new File( Transit.DPML_PREFS, "magic/themes" );
-    }
-
-    private String getOutputFormat()
-    {
-        return getProject().getProperty( DOC_FORMAT_KEY );
-    }
-
-    private String getOutputStyle()
-    {
-        return getProject().getProperty( DOC_STYLE_KEY );
-    }
-
-    private String getDateFormat()
-    {
-        return getProject().getProperty( DOC_DATE_FORMAT_KEY );
-    }
-
+   /**
+    * Execute the task.
+    */
     public void execute()
     {
         final Project project = getProject();
@@ -175,8 +231,10 @@ public class DocTask extends ProjectTask
         }
 
         final File srcDir = new File( build, docsPath );
-        if( ! srcDir.exists() )
+        if( !srcDir.exists() )
+        {
             return;
+        }
         log( "Filtered source: " + srcDir.getAbsolutePath() );
 
         //
@@ -232,12 +290,33 @@ public class DocTask extends ProjectTask
         }
     }
 
+    private File getThemesDirectory()
+    {
+        return new File( Transit.DPML_PREFS, "magic/themes" );
+    }
+
+    private String getOutputFormat()
+    {
+        return getProject().getProperty( DOC_FORMAT_KEY );
+    }
+
+    private String getOutputStyle()
+    {
+        return getProject().getProperty( DOC_STYLE_KEY );
+    }
+
+    private String getDateFormat()
+    {
+        return getProject().getProperty( DOC_DATE_FORMAT_KEY );
+    }
+
     private void transformNavigation( final File themeDir, final File source, final File dest )
     {
         final File xslFile = new File( themeDir,  "nav-aggregate.xsl" );
-        if( ! xslFile.exists() )
+        if( !xslFile.exists() )
+        {
             return;  // Theme may not use navigation.
-
+        }
         log( "Transforming navigation." );
         transformTrax(
           source, dest, xslFile,
@@ -273,8 +352,10 @@ public class DocTask extends ProjectTask
 
     private void copy( final File fromDir, final File toDir, final String includes, final String excludes )
     {
-        if( ! fromDir.exists() )
+        if( !fromDir.exists() )
+        {
             return;
+        }
 
         final FileSet from = new FileSet();
         from.setDir( fromDir );
@@ -316,31 +397,36 @@ public class DocTask extends ProjectTask
 
             final RegexpFilter filter = new RegexpFilter( includes, excludes );
 
-            m_BaseToDir = toDir;
-            m_BaseSrcDir = srcDir.getAbsoluteFile();
+            m_baseToDir = toDir;
+            m_baseSrcDir = srcDir.getAbsoluteFile();
             String entrypoint = getEntryPoint();
             if( "".equals( entrypoint ) )
             {
-                transform( transformer, m_BaseSrcDir, toDir, filter, extension );
+                transform( transformer, m_baseSrcDir, toDir, filter, extension );
             }
             else
             {
-                File fileToConvert = new File( m_BaseSrcDir, entrypoint );
-                transformFile( transformer, fileToConvert, m_BaseSrcDir,
-                               entrypoint, extension, m_BaseToDir );
+                File fileToConvert = new File( m_baseSrcDir, entrypoint );
+                transformFile(
+                  transformer, fileToConvert, m_baseSrcDir, entrypoint, extension, m_baseToDir );
             }
-        } catch( Exception e )
+        } 
+        catch( Exception e )
         {
             throw new BuildException( e.getMessage(), e );
-        } finally
+        }
+        finally
         {
             if( fis != null )
             {
                 try
                 {
                     fis.close();
-                } catch( IOException f )
-                {}
+                } 
+                catch( IOException f )
+                {
+                    log( f.toString() );
+                }
             }
         }
     }
@@ -350,9 +436,8 @@ public class DocTask extends ProjectTask
         throws BuildException
     {
         boolean recursive = isRecursive();
-
         final File[] content = srcDir.listFiles( filter );
-        for( int i = 0 ; i < content.length ; i++ )
+        for( int i=0; i < content.length; i++ )
         {
             String base = content[i].getName();
             if( content[i].isDirectory() && recursive )
@@ -375,14 +460,20 @@ public class DocTask extends ProjectTask
         final String year = getYear();
         final String org = getOrganization();
         final String copyright =
-          "Copyright " + year + ", " + org + " All rights reserved.";
+          "Copyright " 
+          + year 
+          + ", " 
+          + org 
+          + " All rights reserved.";
 
         final String svnRoot = getProject().getProperty( DOC_ANCHOR_URL_KEY );
         final String svnSource = svnRoot + getRelSrcPath( srcDir ) + "/" + base;
 
         final int pos = base.lastIndexOf( '.' );
         if( pos > 0 )
+        {
             base = base.substring( 0, pos );
+        }
         base = base + extension;
 
         final File newDest = new File( toDir, base );
@@ -402,7 +493,7 @@ public class DocTask extends ProjectTask
             getProject().getProperty( DOC_LOGO_RIGHT_FILE_KEY ).trim() );
         transformer.setParameter(
             "logoright_url",
-            getProject().getProperty( DOC_LOGO_RIGHT_URL_KEY).trim() );
+            getProject().getProperty( DOC_LOGO_RIGHT_URL_KEY ).trim() );
         transformer.setParameter(
             "logoleft_file",
             getProject().getProperty( DOC_LOGO_LEFT_FILE_KEY ).trim() );
@@ -420,7 +511,6 @@ public class DocTask extends ProjectTask
             getProject().getProperty( DOC_BRAND_NAME_KEY ).trim() );
 
         transformer.setParameter( "generated_date", getNow() );
-
         setOtherProperties( transformer );
         try
         {
@@ -429,59 +519,77 @@ public class DocTask extends ProjectTask
         catch( Exception e )
         {
             log( "ERROR: " + getRelToPath( newDest ) + " : " + e.getMessage() );
-            throw new BuildException(
-                "Unable to transform document." );
+            throw new BuildException( "Unable to transform document." );
         }
     }
 
     private String getRelToPath( final File dir )
     {
-        final String basedir = m_BaseToDir.getAbsolutePath();
+        final String basedir = m_baseToDir.getAbsolutePath();
         final String curdir = dir.getAbsolutePath();
         return curdir.substring( basedir.length() );
     }
 
     private String getRelSrcPath( final File dir )
     {
-        final String basedir = m_BaseSrcDir.getAbsolutePath();
+        final String basedir = m_baseSrcDir.getAbsolutePath();
         final String curdir = dir.getAbsolutePath();
         return curdir.substring( basedir.length() );
     }
 
-
-    public class RegexpFilter
-        implements FileFilter
+   /**
+    * Utility regualar expression filter.
+    */
+    public class RegexpFilter implements FileFilter
     {
-        private Pattern m_Includes;
-        private Pattern m_Excludes;
+        private Pattern m_includes;
+        private Pattern m_excludes;
 
+       /**
+        * New filter creation.
+        * @param includes the includes
+        * @param excludes the excludes
+        */
         public RegexpFilter( final String includes, final String excludes )
         {
-            m_Includes = Pattern.compile( includes );
-            m_Excludes = Pattern.compile( excludes );
+            m_includes = Pattern.compile( includes );
+            m_excludes = Pattern.compile( excludes );
         }
 
+       /**
+        * Test supplied file for acceptance.
+        * @param file the candidate
+        * @return TRUE if acceptable
+        */
         public boolean accept( final File file )
         {
             final String basename = file.getName();
 
             if( basename.equals( ".svn" ) )
+            {
                 return false;
+            }
 
             if( basename.equals( "CVS" ) )
+            {
                 return false;
+            }
 
             if( file.isDirectory() )
+            {
                 return true;
+            }
 
             final String fullpath = file.getAbsolutePath().replace( '\\', '/' );
 
-            Matcher m = m_Includes.matcher( fullpath );
-            if( ! m.matches() )
+            Matcher m = m_includes.matcher( fullpath );
+            if( !m.matches() )
+            {
                 return false;
+            }
 
-            m = m_Excludes.matcher( fullpath );
-            return ! m.matches() ;
+            m = m_excludes.matcher( fullpath );
+            return !m.matches();
         }
     }
 
@@ -513,7 +621,9 @@ public class DocTask extends ProjectTask
     {
         String point = getProject().getProperty( DOC_ENTRY_KEY );
         if( point == null )
+        {
             return "";
+        }
         return point;
     }
 
