@@ -19,7 +19,12 @@ package net.dpml.magic.tasks;
 
 import net.dpml.magic.AntFileIndex;
 import net.dpml.magic.builder.AntFileIndexBuilder;
-import net.dpml.magic.model.*;
+import net.dpml.magic.model.Definition;
+import net.dpml.magic.model.Resource;
+import net.dpml.magic.model.ResourceRef;
+import net.dpml.magic.model.Policy;
+import net.dpml.magic.model.Info;
+import net.dpml.magic.model.Type;
 import net.dpml.magic.project.Context;
 import net.dpml.magic.project.DeliverableHelper;
 
@@ -46,20 +51,55 @@ public class ModuleTask extends ProjectTask
     // static
     //-----------------------------------------------------------------------
 
+   /**
+    * Constant module type.
+    */
     public static final String MODULE_EXT = "module";
 
+   /**
+    * Constant module repository key.
+    */
     public static final String REPOSITORY_KEY = "project.module.repository";
+
+   /**
+    * Constant module svn key.
+    */
     public static final String SVN_KEY = "project.module.svn";
+
+   /**
+    * Constant module home key.
+    */
     public static final String HOME_KEY = "project.module.home";
+
+   /**
+    * Constant module license key.
+    */
     public static final String LICENSE_KEY = "project.module.license";
+
+   /**
+    * Constant module license notice key.
+    */
     public static final String NOTICE_KEY = "project.module.notice";
+
+   /**
+    * Constant module publisher key.
+    */
     public static final String PUBLISHER_KEY = "project.module.publisher";
+
+   /**
+    * Constant module docs href key.
+    */
     public static final String DOCS_KEY = "project.module.docs";
+
+   /**
+    * Constant module package key.
+    */
     public static final String PACKAGE_KEY = "project.module.package";
 
     //-----------------------------------------------------------------------
     // state
     //-----------------------------------------------------------------------
+
     private AntFileIndex m_target;
     private Header m_header;
 
@@ -67,12 +107,20 @@ public class ModuleTask extends ProjectTask
     // ModuleTask
     //-----------------------------------------------------------------------
 
+   /**
+    * Set the index file.
+    * @param target the index file
+    */
     public void setIndex( File target )
     {
         AntFileIndexBuilder builder = new AntFileIndexBuilder( getProject(), target );
         m_target = builder.getIndex();
     }
 
+   /**
+    * Return the working index file.
+    * @return the index
+    */
     private AntFileIndex getPrivateIndex()
     {
          if( null == m_target )
@@ -85,21 +133,37 @@ public class ModuleTask extends ProjectTask
          }
     }
 
+   /**
+    * Return the module group.
+    * @return the group name
+    */
     public String getGroup()
     {
         return getDefinition().getInfo().getGroup();
     }
 
+   /**
+    * Return the module version.
+    * @return the module version
+    */
     public String getVersion()
     {
         return getDefinition().getInfo().getVersion();
     }
 
+   /**
+    * Return the module name.
+    * @return the module name
+    */
     public String getName()
     {
         return getDefinition().getInfo().getName();
     }
 
+   /**
+    * Create and add a header.
+    * @return the module header
+    */
     public Header createHeader()
     {
         if( null == m_header )
@@ -113,6 +177,10 @@ public class ModuleTask extends ProjectTask
         }
     }
 
+   /**
+    * Get the module header.
+    * @return the module header
+    */
     private Header getHeader()
     {
         if( null == m_header )
@@ -122,12 +190,16 @@ public class ModuleTask extends ProjectTask
         return m_header;
     }
 
+   /**
+    * Execute module creation.
+    * @exception BuildException if a build errro occurs
+    */
     public void execute() throws BuildException
     {
         Definition definition = getDefinition();
         final Info info = definition.getInfo();
   
-        if( false == info.isa( "module" ) )
+        if( !info.isa( "module" ) )
         {
             final String error =
               "Illegal attempt to build a module from the project "
@@ -178,6 +250,12 @@ public class ModuleTask extends ProjectTask
         }
     }
 
+   /**
+    * Write out the module defintion.
+    * @param writer the print writer
+    * @param definition the module definition 
+    * @exception IOException if an IO related error occurs
+    */
     protected void writeModule( final Writer writer, Definition definition )
         throws IOException
     {
@@ -185,7 +263,7 @@ public class ModuleTask extends ProjectTask
 
         List external = new ArrayList();
         List modules = new ArrayList();
-        for( int i=0; i<definitions.length; i++ )
+        for( int i=0; i < definitions.length; i++ )
         {
             Definition def = definitions[i];
             expand( definition, def, external, modules );
@@ -204,7 +282,7 @@ public class ModuleTask extends ProjectTask
         if( uris.length > 0 )
         {
             writer.write( "\n\n    <!-- imports -->\n" );
-            for( int i=0; i<uris.length; i++ )
+            for( int i=0; i < uris.length; i++ )
             {
                writer.write( "\n    <import uri=\"" + uris[i] + "\"/>" );
             }
@@ -216,7 +294,7 @@ public class ModuleTask extends ProjectTask
         //
 
         writer.write( "\n\n    <!-- module resources -->" );
-        for( int i=0; i<definitions.length; i++ )
+        for( int i=0; i < definitions.length; i++ )
         {
             Definition def = definitions[i];
             writeResource( writer, def );
@@ -233,7 +311,7 @@ public class ModuleTask extends ProjectTask
         if( resources.length > 0 )
         {
             writer.write( "\n\n    <!-- referenced resources -->" );
-            for( int i=0; i<resources.length; i++ )
+            for( int i=0; i < resources.length; i++ )
             {
                 Resource resource = resources[i];
                 writeResource( writer, resource );
@@ -255,7 +333,7 @@ public class ModuleTask extends ProjectTask
     private void expand( final Definition definition, final Definition def, final List list, final List modules )
     {
         ResourceRef[] refs = def.getResourceRefs();
-        for( int i=0; i<refs.length; i++ )
+        for( int i=0; i < refs.length; i++ )
         {
             ResourceRef ref = refs[i];
             expand( definition, ref, list, modules );
@@ -289,7 +367,7 @@ public class ModuleTask extends ProjectTask
         else
         {
             String module = resource.getModule();
-            if(( null != module ) && !"".equals( module ) )
+            if( ( null != module ) && !"".equals( module ) )
             {
                 if( !module.equals( definition.getInfo().getURI( "module" ) ) )
                 {
@@ -300,11 +378,11 @@ public class ModuleTask extends ProjectTask
                 }
                 else
                 {
-                    if( !(resource instanceof Definition) && !list.contains( resource ) )
+                    if( !( resource instanceof Definition ) && !list.contains( resource ) )
                     {
                         list.add( resource );
                         ResourceRef[] refs = resource.getResourceRefs();
-                        for( int i=0; i<refs.length; i++ )
+                        for( int i=0; i < refs.length; i++ )
                         {
                             ResourceRef ref = refs[i];
                             if( ref.getPolicy().matches( Policy.RUNTIME ) )
@@ -337,7 +415,7 @@ public class ModuleTask extends ProjectTask
         }
         writer.write( "\n        <types>" );
         Type[] types = res.getInfo().getTypes();
-        for( int i=0; i<types.length; i++ )
+        for( int i=0; i < types.length; i++ )
         {
             Type type = types[i];
             writer.write( "\n          <type name=\"" + type.getName() + "\"/>" );
@@ -349,7 +427,7 @@ public class ModuleTask extends ProjectTask
         if( refs.length > 0 )
         {
             writer.write( "\n      <dependencies>" );
-            for( int i=0; i<refs.length; i++ )
+            for( int i=0; i < refs.length; i++ )
             {
                 ResourceRef ref = refs[i];
                 if( ref.getPolicy().matches( Policy.RUNTIME ) )
@@ -383,7 +461,7 @@ public class ModuleTask extends ProjectTask
         if( packages.length > 0 )
         {
             writer.write( "\n    <packages>" );
-            for( int i=0; i<packages.length; i++ )
+            for( int i=0; i < packages.length; i++ )
             {
                 writer.write( "\n      <package name=\"" + packages[i].getName() + "\"/>" );
             }
@@ -411,7 +489,7 @@ public class ModuleTask extends ProjectTask
             }
             catch( IOException e )
             {
-                // ignore
+                log( e.toString() );
             }
         }
     }
@@ -420,20 +498,37 @@ public class ModuleTask extends ProjectTask
     // nested classes
     //-----------------------------------------------------------------------
 
+   /**
+    * Base class for href entries.
+    */
     public static class Resolver
     {
         private AntFileIndex m_index;
 
+       /**
+        * Creation of a new href resolver.
+        * @param index the working index
+        */
         public Resolver( AntFileIndex index )
         {
             m_index = index;
         }
 
+       /**
+        * Return the working index.
+        * @return the index
+        */
         public AntFileIndex getIndex()
         {
             return m_index;
         }
 
+       /**
+        * Return a property.
+        * @param key the property key
+        * @param fallback the default value
+        * @return the resolved property value
+        */
         protected String getProperty( String key, String fallback )
         {
             String value = getIndex().getProperty( key );
@@ -448,12 +543,21 @@ public class ModuleTask extends ProjectTask
         }
     }
 
+   /**
+    * A defintion of a href.
+    */
     public static class Href extends Resolver
     {
         private String m_href;
         private String m_key;
         private String m_default;
 
+       /**
+        * Creation of a new href.
+        * @param index the working index
+        * @param key a defintion key
+        * @param fallback the default href value
+        */
         public Href( AntFileIndex index, String key, String fallback )
         {
             super( index );
@@ -461,11 +565,19 @@ public class ModuleTask extends ProjectTask
             m_default = fallback;
         }
 
+       /**
+        * Set the href value.
+        * @param href the href value
+        */
         public void setHref( String href )
         {
             m_href= href;
         }
 
+       /**
+        * Return the href value.
+        * @return the href value
+        */
         public String getHref()
         {
             if( null != m_href )
@@ -487,20 +599,35 @@ public class ModuleTask extends ProjectTask
         }
     }
 
+   /**
+    * The publisher.
+    */
     public static class Publisher extends Resolver
     {
         private String m_name;
 
+       /**
+        * Creation of a new publisher.
+        * @param index the working index
+        */
         public Publisher( AntFileIndex index )
         {
             super( index );
         }
 
+       /**
+        * Set the publisher name.
+        * @param name the publisher name
+        */
         public void setName( String name )
         {
-            m_name = name ;
+            m_name = name;
         }
 
+       /**
+        * Return the publisher name.
+        * @return the publisher name
+        */
         public String getName()
         {
             if( null != m_name )
@@ -523,20 +650,35 @@ public class ModuleTask extends ProjectTask
         }
     }
 
+   /**
+    * A new package description.
+    */
     public static class Package extends Resolver
     {
         private String m_name;
 
+       /**
+        * Creation of a new package description.
+        * @param index the working index
+        */
         public Package( AntFileIndex index )
         {
             super( index );
         }
 
+       /**
+        * Set the package name.
+        * @param name the pckage name
+        */
         public void setName( String name )
         {
-            m_name = name ;
+            m_name = name;
         }
 
+       /**
+        * Return the package name.
+        * @return the package name
+        */
         public String getName()
         {
             if( null != m_name )
@@ -554,21 +696,31 @@ public class ModuleTask extends ProjectTask
                 {
                     return value;
                 }
-
             }
         }
     }
 
+   /**
+    * A collection of packages.
+    */
     public static class Packages
     {
         private List m_packages = new ArrayList();
         private AntFileIndex m_index;
 
+       /**
+        * Creation of a new packages instance.
+        * @param index the working index
+        */
         public Packages( AntFileIndex index )
         {
             m_index = index;
         }
 
+       /**
+        * Add a new package to the colection of packages.
+        * @return the new package
+        */
         public Package createPackage()
         {
             Package p = new Package( m_index );
@@ -576,71 +728,128 @@ public class ModuleTask extends ProjectTask
             return p;
         }
 
+       /**
+        * Return the colleciton of packages.
+        * @return the package array
+        */
         public Package[] getPackages()
         {
             return (Package[]) m_packages.toArray( new Package[0] );
         }
     }
 
-
+   /**
+    * The license href.
+    */
     public static class License extends Href
     {
+       /**
+        * Creation of a new licence href.
+        * @param index the working index
+        */
         public License( AntFileIndex index )
         {
             super( index, LICENSE_KEY, "" );
         }
     }
 
+   /**
+    * The notice href.
+    */
     public static class Notice extends Href
     {
+       /**
+        * Creation of a new notice href.
+        * @param index the working index
+        */
         public Notice( AntFileIndex index )
         {
             super( index, NOTICE_KEY, ""  );
         }
     }
 
+
+   /**
+    * The svn href.
+    */
     public static class Svn extends Href
     {
+       /**
+        * Creation of a new svn href.
+        * @param index the working index
+        */
         public Svn( AntFileIndex index )
         {
             super( index, SVN_KEY, "" );
         }
     }
 
+   /**
+    * The home page href.
+    */
     public static class Home extends Href
     {
+       /**
+        * Creation of a new home href.
+        * @param index the working index
+        */
         public Home( AntFileIndex index )
         {
             super( index, HOME_KEY, "" );
         }
     }
 
+   /**
+    * The repository href.
+    */
     public static class Repository extends Href
     {
+       /**
+        * Creation of a repository href.
+        * @param index the working index
+        */
         public Repository( AntFileIndex index )
         {
             super( index, REPOSITORY_KEY, "" );
         }
     }
 
+   /**
+    * The docs href.
+    */
     public static class Docs extends Href
     {
+       /**
+        * Creation of a docs href.
+        * @param index the working index
+        */
         public Docs( AntFileIndex index )
         {
             super( index, DOCS_KEY, "" );
         }
     }
 
+   /**
+    * The legal datastructure.
+    */
     public static class Legal extends Resolver
     {
         private License m_license;
         private Notice m_notice;
 
+       /**
+        * Creation of a legal datastructure.
+        * @param index the working index
+        */
         public Legal( AntFileIndex index )
         {
             super( index );
         }
 
+       /**
+        * Creation of a new license.
+        * @return the license
+        */
         public License createLicense()
         {
             if( null == m_license )
@@ -654,6 +863,10 @@ public class ModuleTask extends ProjectTask
             }
         }
 
+       /**
+        * Creation of a new notice.
+        * @return the notice
+        */
         public Notice createNotice()
         {
             if( null == m_notice )
@@ -667,6 +880,10 @@ public class ModuleTask extends ProjectTask
             }
         }
 
+       /**
+        * Return the license.
+        * @return the license
+        */
         public License getLicense()
         {
             if( null == m_license )
@@ -676,6 +893,10 @@ public class ModuleTask extends ProjectTask
             return m_license;
         }
 
+       /**
+        * Return the notice.
+        * @return the notice
+        */
         public Notice getNotice()
         {
             if( null == m_notice )
@@ -686,6 +907,9 @@ public class ModuleTask extends ProjectTask
         }
     }
 
+   /**
+    * Header datatype definition.
+    */
     public static class Header extends Resolver
     {
         private Publisher m_publisher;
@@ -696,12 +920,20 @@ public class ModuleTask extends ProjectTask
         private Repository m_repository;
         private Docs m_docs;
 
+       /**
+        * Creation of a new header.
+        * @param index the working index
+        */
         public Header( AntFileIndex index )
         {
             super( index  );
             m_packages = new Packages( index );
         }
 
+       /**
+        * Creation and addition of a publisher entry.
+        * @return the publisher entry
+        */
         public Publisher createPublisher()
         {
             if( null == m_publisher )
@@ -715,6 +947,10 @@ public class ModuleTask extends ProjectTask
             }
         }
 
+       /**
+        * Return the publisher.
+        * @return the publisher entry
+        */
         public Publisher getPublisher()
         {
             if( null == m_publisher )
@@ -724,16 +960,28 @@ public class ModuleTask extends ProjectTask
             return m_publisher;
         }
 
+       /**
+        * Create and return a new package.
+        * @return the package
+        */
         public Packages createPackages()
         {
             return m_packages;
         }
 
+       /**
+        * Return the array of module packages.
+        * @return the package array
+        */
         public Package[] getPackages()
         {
             return m_packages.getPackages();
         }
 
+       /**
+        * Create and return the home declaration.
+        * @return the home href
+        */
         public Home createHome()
         {
             if( null == m_home )
@@ -747,6 +995,10 @@ public class ModuleTask extends ProjectTask
             }
         }
 
+       /**
+        * Return the home declaration.
+        * @return the home href
+        */
         public Home getHome()
         {
             if( null == m_home )
@@ -756,6 +1008,10 @@ public class ModuleTask extends ProjectTask
             return m_home;
         }
 
+       /**
+        * Create and return the docs declaration.
+        * @return the docs href
+        */
         public Docs createDocs()
         {
             if( null == m_docs )
@@ -769,6 +1025,10 @@ public class ModuleTask extends ProjectTask
             }
         }
 
+       /**
+        * Return the docs declaration.
+        * @return the docs href
+        */
         public Docs getDocs()
         {
             if( null == m_docs )
@@ -778,6 +1038,10 @@ public class ModuleTask extends ProjectTask
             return m_docs;
         }
 
+       /**
+        * Create and return the legal declaration.
+        * @return the legal datastructure
+        */
         public Legal createLegal()
         {
             if( null == m_legal )
@@ -791,6 +1055,10 @@ public class ModuleTask extends ProjectTask
             }
         }
 
+       /**
+        * Return the legal declaration.
+        * @return the legal datastructure
+        */
         public Legal getLegal()
         {
             if( null == m_legal )
@@ -800,6 +1068,10 @@ public class ModuleTask extends ProjectTask
             return m_legal;
         }
 
+       /**
+        * Create and return the svn href.
+        * @return the svn href
+        */
         public Svn createSvn()
         {
             if( null == m_svn )
@@ -813,6 +1085,10 @@ public class ModuleTask extends ProjectTask
             }
         }
 
+       /**
+        * Return the svn href.
+        * @return the svn href
+        */
         public Svn getSvn()
         {
             if( null == m_svn )
@@ -822,6 +1098,10 @@ public class ModuleTask extends ProjectTask
             return m_svn;
         }
 
+       /**
+        * Create and return a new repository href.
+        * @return the repository href
+        */
         public Repository createRepository()
         {
             if( null == m_repository )
@@ -835,6 +1115,10 @@ public class ModuleTask extends ProjectTask
             }
         }
 
+       /**
+        * Return the repository href.
+        * @return the repository href
+        */
         public Repository getRepository()
         {
             if( null == m_repository )
@@ -844,5 +1128,4 @@ public class ModuleTask extends ProjectTask
             return m_repository;
         }
     }
-
 }

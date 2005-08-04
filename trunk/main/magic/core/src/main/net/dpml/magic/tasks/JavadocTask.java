@@ -67,21 +67,37 @@ public class JavadocTask extends ProjectTask
     // ModuleDocTask
     //-----------------------------------------------------------------------
 
+   /**
+    * Set the target project defintion identifier.
+    * @param id the defintion id
+    */
     public void setId( final String id )
     {
         m_id = id;
     }
 
+   /**
+    * Set the javadoc title.
+    * @param title the title
+    */
     public void setTitle( final String title )
     {
         m_title = title;
     }
 
+   /**
+    * Set the javadoc overview file.
+    * @param overview the overview file
+    */
     public void setOverview( final File overview )
     {
         m_overview = overview;
     }
 
+   /**
+    * Create and add a new link to the javadoc run.
+    * @return the new link
+    */
     public Link createLink()
     {
         final Link link = new Link();
@@ -89,6 +105,10 @@ public class JavadocTask extends ProjectTask
         return link;
     }
 
+   /**
+    * Create and add a new group to the javadoc defintion.
+    * @return the new group
+    */
     public Group createGroup()
     {
         final Group group = new Group();
@@ -96,15 +116,14 @@ public class JavadocTask extends ProjectTask
         return group;
     }
 
-    private Group[] getGroups()
-    {
-        return (Group[]) m_groups.toArray( new Group[0] );
-    }
-
     //-----------------------------------------------------------------------
     // Task
     //-----------------------------------------------------------------------
 
+   /**
+    * Task execution.
+    * @exception BuildException if a build error occurs
+    */
     public void execute() throws BuildException
     {
         final Definition def = getReferenceDefinition();
@@ -127,6 +146,15 @@ public class JavadocTask extends ProjectTask
         install( api, destination );
     }
 
+    //-----------------------------------------------------------------------
+    // internal
+    //-----------------------------------------------------------------------
+
+    private Group[] getGroups()
+    {
+        return (Group[]) m_groups.toArray( new Group[0] );
+    }
+
     private void install( final File source, final File destination )
     {
         if( source.exists() )
@@ -138,10 +166,6 @@ public class JavadocTask extends ProjectTask
         }
     }
 
-    //-----------------------------------------------------------------------
-    // internal
-    //-----------------------------------------------------------------------
-
     private void process(
        final Definition definition, final Path classpath, final File root )
     {
@@ -149,7 +173,6 @@ public class JavadocTask extends ProjectTask
 
         final Javadoc javadoc = (Javadoc) getProject().createTask( JAVADOC_TASK_NAME );
         javadoc.setTaskName( getTaskName() );
-        createTags( javadoc );
         javadoc.init();
         javadoc.setDestdir( root );
         javadoc.setUse( true );
@@ -160,14 +183,14 @@ public class JavadocTask extends ProjectTask
         javadoc.createClasspath().add( classpath );
 
         Resource[] modules = getReferencedModules( definition );
-        for( int i=0; i<modules.length; i++ )
+        for( int i=0; i < modules.length; i++ )
         {
             Resource module = modules[i];
             Link link = getModuleLink( definition, module );
             addLink( definition, javadoc, link );
         }
 
-        for( int i=0; i<m_links.size(); i++ )
+        for( int i=0; i < m_links.size(); i++ )
         {
             final Link link = (Link) m_links.get( i );
             addLink( definition, javadoc, link );
@@ -189,13 +212,13 @@ public class JavadocTask extends ProjectTask
         }
 
         Group[] groups = getGroups();
-        for( int i=0; i<groups.length; i++ )
+        for( int i=0; i < groups.length; i++ )
         {
             Group group = groups[i];
             Javadoc.GroupArgument jgroup = javadoc.createGroup();
             jgroup.setTitle( group.getTitle() );
             Group.Package[] packages = group.getPackages();
-            for( int j=0; j<packages.length; j++ )
+            for( int j=0; j < packages.length; j++ )
             {
                 Javadoc.PackageName name = new Javadoc.PackageName();
                 name.setName( packages[j].getName() );
@@ -237,7 +260,7 @@ public class JavadocTask extends ProjectTask
         if( definition.getInfo().isa( "module" ) )
         {
             Definition[] defs = getIndex().getSubsidiaryDefinitions( definition );
-            for( int i=0; i<defs.length; i++ )
+            for( int i=0; i < defs.length; i++ )
             {
                 Definition d = defs[i];
                 addDefinitionSource( d, javadoc, source );
@@ -268,7 +291,7 @@ public class JavadocTask extends ProjectTask
 
     private Link getModuleLink( Definition def, Resource resource )
     {
-        if( false == resource.getInfo().isa( "module" ) )
+        if( !resource.getInfo().isa( "module" ) )
         {
             final String error =
               "Cannot construct a module link form a non-module resource: "
@@ -301,7 +324,7 @@ public class JavadocTask extends ProjectTask
         ResourceRef[] refs =
           definition.getResourceRefs( getProject(), Policy.ANY, ResourceRef.ANY, true );
         ArrayList list = new ArrayList();
-        for( int i=0; i<refs.length; i++ )
+        for( int i=0; i < refs.length; i++ )
         {
             Resource resource = getIndex().getResource( refs[i] );
             if( resource.getInfo().isa( "module" ) )
@@ -310,18 +333,6 @@ public class JavadocTask extends ProjectTask
             }
         }
         return (Resource[]) list.toArray( new Resource[0] );
-    }
-
-    private void createTags( Javadoc javadoc )
-    {
-        for( int i=0 ; i < TAG_LIST.length ; i++ )
-        {
-            Javadoc.TagArgument tag = javadoc.createTag();
-            tag.setName( TAG_LIST[i][0] );
-            tag.setDescription( TAG_LIST[i][1] );
-            tag.setScope( TAG_LIST[i][2] );
-            tag.setEnabled( true );
-        }
     }
 
     private Definition getReferenceDefinition()
@@ -336,15 +347,13 @@ public class JavadocTask extends ProjectTask
         }
     }
 
-    private String[][] TAG_LIST =
-    {
-        // tags no long used
-    };
-
     //-----------------------------------------------------------------------
     // static classes
     //-----------------------------------------------------------------------
 
+   /**
+    * Delcaration of a link.
+    */
     public static class Link
     {
         private String m_href;
@@ -352,22 +361,40 @@ public class JavadocTask extends ProjectTask
         private File m_dir;
         private String m_key;
 
+       /**
+        * Creation of a new link instance.
+        */
         public Link()
         {
             m_href = null;
         }
 
+       /**
+        * Creation of a new link instance.
+        * @param key the defintion key
+        * @param host the remote host containing the references apis
+        */
         public Link( final String key, final String host )
         {
             m_key = key;
             m_host = host;
         }
 
+       /**
+        * Set the href attrbute for the api packagelist base.
+        * @param href the href to the packacke list base 
+        */
         public void setHref( final String href )
         {
             m_href = href;
         }
 
+       /**
+        * Get the href attrbute.
+        * @param index the magic index
+        * @param def the project definition
+        * @return the href attriute value
+        */
         public String getHref( AntFileIndex index, Definition def )
         {
             if( null == m_key )
@@ -394,28 +421,41 @@ public class JavadocTask extends ProjectTask
                 }
                 final Resource resource = index.getResource( m_key );
                 return m_host + resource.getInfo().getJavadocPath();
-                //final String spec =
-                //  resource.getInfo().getSpecification( "/", "/" );
-                //final String path = spec + "/api";
-                //return m_host + "/" + path;
             }
         }
 
+       /**
+        * Set the project key.
+        * @param key the key
+        */
         public void setKey( final String key )
         {
             m_key = key;
         }
 
+       /**
+        * Set the link host.
+        * @param host the host
+        */
         public void setHost( final String host )
         {
             m_host = host;
         }
 
+       /**
+        * Set the local offline directory.
+        * @param dir the directory to the local offline content
+        */
         public void setDir( final File dir )
         {
             m_dir = dir;
         }
 
+       /**
+        * Return the local offline directory.
+        * @param index the mgic index
+        * @return the directory
+        */
         public File getDir( AntFileIndex index )
         {
             if( null == m_key )
@@ -431,6 +471,10 @@ public class JavadocTask extends ProjectTask
             }
         }
 
+       /**
+        * Return the link as a string.
+        * @return the string
+        */
         public String toString()
         {
             if( null == m_dir )
@@ -451,16 +495,27 @@ public class JavadocTask extends ProjectTask
         }
     }
 
+   /**
+    * Defintion of a package group.
+    */
     public static class Group
     {
         private String m_title;
         private ArrayList m_packages = new ArrayList();
 
+       /**
+        * Set the package group title.
+        * @param title the package group title
+        */
         public void setTitle( String title )
         {
             m_title = title;
         }
 
+       /**
+        * Return the package group title.
+        * @return the title
+        */
         public String getTitle()
         {
             if( null == m_title )
@@ -475,27 +530,46 @@ public class JavadocTask extends ProjectTask
             }
         }
 
+       /**
+        * Return the packages within the group.
+        * @return the array of packages
+        */
         public Group.Package[] getPackages()
         {
             return (Group.Package[]) m_packages.toArray( new Group.Package[0] );
         }
 
+       /**
+        * Create and add a new package.
+        * @return the new package
+        */
         public Group.Package createPackage()
         {
             final Package pkg = new Package();
             m_packages.add( pkg );
-            return pkg ;
+            return pkg;
         }
 
+       /**
+        * Defintionof a package.
+        */
         public static class Package
         {
             private String m_name;
 
+           /**
+            * Set the package name.
+            * @param name the package name
+            */
             public void setName( String name )
             {
                 m_name = name;
             }
 
+           /**
+            * Return the package name.
+            * @return the name 
+            */
             public String getName()
             {
                 if( null == m_name )

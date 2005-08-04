@@ -43,34 +43,55 @@ import java.util.StringTokenizer;
  */
 public class JUnitTestTask extends ProjectTask
 {
+   /**
+    * Constant test enabled key.
+    */
     public static final String TEST_ENABLED_KEY = "project.test.enabled";
 
+   /**
+    * Constant test src directory key.
+    */
     public static final String TEST_SRC_KEY = "project.test.src";
-    public static final String TEST_SRC_VALUE = "test";
 
+   /**
+    * Constant test env directory key.
+    */
     public static final String TEST_ENV_KEY = "project.test.env";
-    public static final String TEST_ENV_VALUE = "env";
 
+   /**
+    * Constant test debug key.
+    */
     public static final String DEBUG_KEY = "project.test.debug";
-    public static final boolean DEBUG_VALUE = true;
 
+   /**
+    * Constant test fork key.
+    */
     public static final String FORK_KEY = "project.test.fork";
-    public static final boolean FORK_VALUE = false;
 
+   /**
+    * Constant test halt-on-error key.
+    */
     public static final String HALT_ON_ERROR_KEY = "project.test.halt-on-error";
-    public static final boolean HALT_ON_ERROR_VALUE = true;
 
+   /**
+    * Constant test fork mode key.
+    */
     public static final String TEST_FORK_MODE_KEY = "project.test.fork.mode";
 
+   /**
+    * Constant test halt-on-failure key.
+    */
     public static final String HALT_ON_FAILURE_KEY = "project.test.halt-on-failure";
-    public static final boolean HALT_ON_FAILURE_VALUE = true;
 
+   /**
+    * Constant cache path key.
+    */
     public static final String CACHE_PATH_KEY = "dpml.cache";
 
+   /**
+    * Constant work dir key.
+    */
     public static final String WORK_DIR_KEY = "project.dir"; // <--- CHANGE TO "project.test.dir"
-
-    private static final String ERROR_KEY = "project.test.error";
-    private static final String FAILURE_KEY = "project.test.failure";
 
     /**
     * the key for the include pattern for test cases
@@ -92,7 +113,10 @@ public class JUnitTestTask extends ProjectTask
     */
     public static final String TEST_EXCLUDES_VALUE = "**/Abstract*.java, **/AllTest*.java";
 
-
+   /**
+    * Task initialization.
+    * @exception BuildException if a build error occurs.
+    */
     public void init() throws BuildException
     {
         if( !isInitialized() )
@@ -108,12 +132,16 @@ public class JUnitTestTask extends ProjectTask
         }
     }
 
+   /**
+    * Task execution.
+    * @exception BuildException if a build error occurs.
+    */
     public void execute() throws BuildException
     {
         final Project project = getProject();
 
         final String enabled = project.getProperty( TEST_ENABLED_KEY );
-        if(( null != enabled ) && enabled.equals( "false" ))
+        if( ( null != enabled ) && enabled.equals( "false" ) )
         {
             return;
         }
@@ -159,11 +187,15 @@ public class JUnitTestTask extends ProjectTask
         {
             final String message =
                 "One or more unit test errors occured.";
-            if ( !getBooleanProperty( ReactorTask.REACTOR_HALT_ON_ERROR_KEY, true ) )
+            if( !getBooleanProperty( ReactorTask.REACTOR_HALT_ON_ERROR_KEY, true ) )
             {
                 getIndex().getProject().setProperty( ReactorTask.REACTOR_TEST_ERRORS_KEY, "true" );
-                project.log( message + ", IGNORED since " + ReactorTask.REACTOR_HALT_ON_ERROR_KEY
-                        + "=" + getBooleanProperty( ReactorTask.REACTOR_HALT_ON_ERROR_KEY, true ));
+                project.log( 
+                  message 
+                  + ", IGNORED since " 
+                  + ReactorTask.REACTOR_HALT_ON_ERROR_KEY
+                  + "=" 
+                  + getBooleanProperty( ReactorTask.REACTOR_HALT_ON_ERROR_KEY, true ) );
             }
             else
             {
@@ -178,11 +210,15 @@ public class JUnitTestTask extends ProjectTask
         {
             final String message =
                 "One or more unit test failures occured.";
-            if ( !getBooleanProperty( ReactorTask.REACTOR_HALT_ON_FAILURE_KEY, ReactorTask.REACTOR_HALT_ON_ERROR_VALUE   ) )
+            if( !getBooleanProperty( ReactorTask.REACTOR_HALT_ON_FAILURE_KEY, ReactorTask.REACTOR_HALT_ON_ERROR_VALUE ) )
             {
                 getIndex().getProject().setProperty( ReactorTask.REACTOR_TEST_FAILURES_KEY, "true" );
-                project.log( message + ", IGNORED since " + ReactorTask.REACTOR_HALT_ON_FAILURE_KEY
-                        + "=" + getBooleanProperty( ReactorTask.REACTOR_HALT_ON_FAILURE_KEY, true ));
+                project.log( 
+                  message 
+                  + ", IGNORED since " 
+                  + ReactorTask.REACTOR_HALT_ON_FAILURE_KEY
+                  + "=" 
+                  + getBooleanProperty( ReactorTask.REACTOR_HALT_ON_FAILURE_KEY, true ) );
             }
             else
             {
@@ -192,10 +228,12 @@ public class JUnitTestTask extends ProjectTask
                 }
             }
         }
-
-        // System.setProperty( "user.dir", origUserDir );
     }
 
+   /**
+    * Return the projects deliverable jar file.
+    * @return the jar file
+    */ 
     public File getJarFile()
     {
         final File deliverables = getContext().getDeliverablesDirectory();
@@ -250,7 +288,6 @@ public class JUnitTestTask extends ProjectTask
     {
         final Javac javac = (Javac) getProject().createTask( "javac" );
         javac.setTaskName( getTaskName() );
-        //javac.setIncludeantruntime( false );
         final Path src = javac.createSrc();
         final Path.PathElement element = src.createPathElement();
         element.setLocation( sources );
@@ -280,7 +317,7 @@ public class JUnitTestTask extends ProjectTask
         String excludes = getProject().getProperty( TEST_EXCLUDES_KEY );
         if( null != excludes )
         {
-            return excludes ;
+            return excludes;
         }
         else
         {
@@ -297,8 +334,8 @@ public class JUnitTestTask extends ProjectTask
         fileset.setDir( src );
         final String includes = getTestIncludes();
         final String excludes = getTestExcludes();
-        createIncludes(fileset, includes);
-        createExcludes(fileset, excludes);
+        createIncludes( fileset, includes );
+        createExcludes( fileset, excludes );
         log( "Test filters: includes=" + includes + ", excludes=" + excludes, Project.MSG_VERBOSE );
 
         final JUnitTask junit = (JUnitTask) getProject().createTask( "junit" );
@@ -400,26 +437,24 @@ public class JUnitTestTask extends ProjectTask
         junit.execute();
     }
 
-    private void createIncludes(FileSet set, String pattern)
+    private void createIncludes( FileSet set, String pattern )
     {
-        StringTokenizer tokenizer = new StringTokenizer(pattern, ", ", false);
-        while( tokenizer.hasMoreTokens())
+        StringTokenizer tokenizer = new StringTokenizer( pattern, ", ", false );
+        while( tokenizer.hasMoreTokens() )
         {
             String item = tokenizer.nextToken();
             set.createInclude().setName( item );
         }
-
     }
 
-    private void createExcludes(FileSet set, String pattern)
+    private void createExcludes( FileSet set, String pattern )
     {
-        StringTokenizer tokenizer = new StringTokenizer(pattern, ", ", false);
-        while( tokenizer.hasMoreTokens())
+        StringTokenizer tokenizer = new StringTokenizer( pattern, ", ", false );
+        while( tokenizer.hasMoreTokens() )
         {
             String item = tokenizer.nextToken();
             set.createExclude().setName( item );
         }
-
     }
 
     private String getCachePath()
@@ -483,51 +518,20 @@ public class JUnitTestTask extends ProjectTask
 
     private void fail( final String message )
     {
-        // final File reports = getContext().getTestReportsDirectory();
-        //if( reports.exists() )
-        //{
-        //    FileSet list = new FileSet();
-        //    list.setDir( reports );
-        //    list.setIncludes( "**/*.txt" );
-        //
-        //    Concat concat = (Concat) getProject().createTask( "concat" );
-        //    concat.addFileset( list );
-        //    concat.addHeader( getHeader() );
-        //    concat.addFooter( getFooter() );
-        //    concat.setTaskName( getTaskName() );
-        //    concat.init();
-        //    concat.execute();
-        //}
-
         final Exit exit = (Exit) getProject().createTask( "fail" );
         exit.setMessage( message );
         exit.init();
         exit.execute();
     }
-/*
-    private Concat.TextElement getHeader()
-    {
-        org.apache.tools.ant.taskdefs.Concat.TextElement header = new org.apache.tools.ant.taskdefs.Concat.TextElement();
-        header.setProject( getProject() );
-        header.addText(
-    "-------------------------------------------------------------------------------"
-+ "\n One or more errors occured during unit tests."
-+ "\n Listing error reports."
-+ "\n-------------------------------------------------------------------------------"
-+ "\n" );
-        return header;
-    }
 
-    private Concat.TextElement getFooter()
-    {
-        org.apache.tools.ant.taskdefs.Concat.TextElement footer = new org.apache.tools.ant.taskdefs.Concat.TextElement();
-        footer.setProject( getProject() );
-        footer.addText(
-    "-------------------------------------------------------------------------------"
-+ "\nEnd of Listing."
-+ "\n-------------------------------------------------------------------------------"
-+ "\n" );
-        return footer;
-    }
-*/
+    private static final String ERROR_KEY = "project.test.error";
+    private static final String FAILURE_KEY = "project.test.failure";
+
+    private static final String TEST_SRC_VALUE = "test";
+    private static final String TEST_ENV_VALUE = "env";
+    private static final boolean DEBUG_VALUE = true;
+    private static final boolean FORK_VALUE = false;
+    private static final boolean HALT_ON_ERROR_VALUE = true;
+    private static final boolean HALT_ON_FAILURE_VALUE = true;
+
 }
