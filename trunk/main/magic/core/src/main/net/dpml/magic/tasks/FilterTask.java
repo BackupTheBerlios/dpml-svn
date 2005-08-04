@@ -32,11 +32,19 @@ public class FilterTask extends FeatureTask
 {
     private String m_token;
 
+   /**
+    * Set the filter token value.
+    * @param token the token value
+    */
     public void setToken( final String token )
     {
         m_token = token;
     }
 
+   /**
+    * Execute the task.
+    * @exception BuildExcetion if a build error occurs
+    */
     public void execute() throws BuildException
     {
         if( null == m_token )

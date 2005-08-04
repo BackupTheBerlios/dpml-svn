@@ -30,9 +30,21 @@ import java.io.File;
  * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
  * @version $Revision: 1.2 $ $Date: 2004/03/17 10:30:09 $
  */
-public class DeliverableHelper
+public final class DeliverableHelper
 {
+    private DeliverableHelper()
+    {
+        // static util
+    }
+
+   /**
+    * MD5 file type.
+    */
     public static final String MD5_EXT = "md5";
+
+   /**
+    * ASC file type.
+    */
     public static final String ASC_EXT = "asc";
 
    /**
@@ -64,11 +76,10 @@ public class DeliverableHelper
    /**
     * Creation of an ASC signature relative to a supplied file.  If a [filename].asc
     * exists it will be deleted and recreated relative to the supplied file content.
-    * The ASC signature will be generated using the executable assigned to the property
-    * Context.GPG_EXE_KEY.
     *
     * @param task the task creating the file
     * @param file the file to sign
+    * @param gpg the gpg exe name
     */
     public static void asc( final Task task, final File file, String gpg )
     {
@@ -79,7 +90,7 @@ public class DeliverableHelper
             asc.delete();
         }
 
-        if(( null != gpg ) && !"".equals( gpg ) )
+        if( ( null != gpg ) && !"".equals( gpg ) )
         {
             task.log( "Creating asc signature using '" + gpg + "'." );
             final ExecTask execute = (ExecTask) task.getProject().createTask( "exec" );
@@ -95,8 +106,11 @@ public class DeliverableHelper
             execute.setDir( task.getProject().getBaseDir() );
             execute.setSpawn( false );
             execute.setAppend( false );
-            execute.setTimeout( new Integer( 10000 ) );
+            execute.setTimeout( new Integer( TIMEOUT ) );
             execute.execute();
         }
     }
+
+    private static final int TIMEOUT = 10000;
+
 }

@@ -376,11 +376,10 @@ public final class XMLDefinitionBuilder
         {
             final Element child = children[i];
             final String key = child.getAttribute( "key" );
-            final String scope = child.getAttribute( "scope" );
             final String tagAttribute = child.getAttribute( "tag" );
             final int tag = ResourceRef.getCategory( tagAttribute );
             final Policy policy = createPolicy( child );
-            refs[i] = new ResourceRef( key, policy, tag, scope );
+            refs[i] = new ResourceRef( key, policy, tag );
         }
         return refs;
     }

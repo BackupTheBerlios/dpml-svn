@@ -48,9 +48,12 @@ public class PrepareTask extends ProjectTask
     private static final String ETC_FILTERED_EXCLUDES_VALUE =
       "**/*.exe,**/*.jar*,**/*.dll,**/*.gif,**/*.jpeg,**/*.jpg,**/*.ico";
 
+   /**
+    * Task initiaization during which filter include valies are established.
+    * @exception BuildException if an error occurs
+    */
     public void init() throws BuildException
     {
-
         if( !isInitialized() )
         {
             super.init();
@@ -64,6 +67,12 @@ public class PrepareTask extends ProjectTask
         }
     }
 
+   /**
+    * Replicates the content of the src and etc directory to the target directory applying
+    * a set of fixed rules - see prepare task documentation for details.
+    *
+    * @exception BuildException if an error occurs
+    */
     public void execute() throws BuildException
     {
         final Project project = getProject();

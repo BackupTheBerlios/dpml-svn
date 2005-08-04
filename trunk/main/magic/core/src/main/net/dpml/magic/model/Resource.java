@@ -105,11 +105,11 @@ public class Resource
         {
             ResourceRef[] implicit = getIndex().getSubsidiaryRefs( this );
             ArrayList list = new ArrayList();
-            for( int i=0; i<implicit.length; i++ )
+            for( int i=0; i < implicit.length; i++ )
             {
                 list.add( implicit[i] );
             }
-            for( int i=0; i<m_resources.length; i++ )
+            for( int i=0; i < m_resources.length; i++ )
             {
                 list.add( m_resources[i] );
             }
@@ -148,6 +148,7 @@ public class Resource
     * Create and return a uri for the resource based on a supplied type.
     * @param type the resource type
     * @return the URI value
+    * @exception BuildException if the uri could not be created
     */
     public URI getArtifactURI( String type ) throws BuildException
     {
@@ -279,7 +280,7 @@ public class Resource
       final Project project, final List list, final int mode, final int tag, final boolean flag )
     {
         final ResourceRef[] refs = getResourceRefs();
-        for( int i=0; i<refs.length; i++ )
+        for( int i=0; i < refs.length; i++ )
         {
             final ResourceRef ref = refs[i];
             if( !list.contains( ref ) )
@@ -301,6 +302,10 @@ public class Resource
    /**
     * Returns a path of artifact filenames relative to the supplied scope.
     * The mode may be one of Policy.ANY, Policy.BUILD, Policy.TEST or Policy.RUNTIME.
+    *
+    * @param project the current project
+    * @param mode the associated policy
+    * @return the path
     */
     public Path getPath( final Project project, final int mode )
     {
@@ -313,6 +318,8 @@ public class Resource
     * @param project the current project
     * @param mode one of Policy.ANY, Policy.BUILD, Policy.TEST or Policy.RUNTIME
     * @param filter a value of "*" for any or a type identifier such as "jar"
+    * @param moduleFilter module filter flag
+    * @return the path
     * @exception NullArgumentException if the supplied project argument is null.
     */
     public Path getPath( final Project project, final int mode, String filter, boolean moduleFilter )
@@ -327,10 +334,10 @@ public class Resource
         final ArrayList visited = new ArrayList();
 
         final ResourceRef[] refs = getResourceRefs( project, mode, ResourceRef.ANY, true );
-        for( int i=0; i<refs.length; i++ )
+        for( int i=0; i < refs.length; i++ )
         {
             final ResourceRef ref = refs[i];
-            if( ! visited.contains( ref ) )
+            if( !visited.contains( ref ) )
             {
                 final Resource resource = getResource( project, ref );
                 if( filterModule( resource, moduleFilter ) )
@@ -339,7 +346,7 @@ public class Resource
                     if( "*".equals( filter ) )
                     {
                         Type[] types = info.getTypes();
-                        for( int j=0; j<types.length; j++ )
+                        for( int j=0; j < types.length; j++ )
                         {
                             Type type = types[j];
                             String name = type.getName();
@@ -359,7 +366,7 @@ public class Resource
                     }
                     else
                     {
-                       if( info.isa( filter ) )
+                        if( info.isa( filter ) )
                         {
                             final File file = resource.getArtifact( project, filter );
                             path.createPathElement().setLocation( file );
@@ -370,6 +377,33 @@ public class Resource
             }
         }
         return path;
+    }
+
+   /**
+    * Return the set of resource refs for a given category not including resources
+    * already visited in the supplied list.
+    *
+    * @param project the current project
+    * @param visited a list of Resource instances already handled
+    * @param category a value of ResourceRef.API, SPI, IMPL or ANY
+    * @return the set of resource refs
+    */
+    public ResourceRef[] getQualifiedRefs( Project project, final List visited, final int category )
+    {
+        final ArrayList list = new ArrayList();
+        final ResourceRef[] refs =
+          getResourceRefs( project, Policy.RUNTIME, category, true );
+        for( int i=0; i < refs.length; i++ )
+        {
+            final ResourceRef ref = refs[i];
+            final Resource resource = getIndex().getResource( ref );
+            if( !visited.contains( resource ) && !list.contains( ref ) )
+            {
+                list.add( ref );
+                visited.add( resource );
+            }
+        }
+        return (ResourceRef[]) list.toArray( new ResourceRef[0] );
     }
 
     private void assertNotNull( Object object, String key ) throws NullArgumentException
@@ -457,37 +491,14 @@ public class Resource
         catch( UnknownResourceException ure )
         {
             final String error =
-              "Resource defintion " + this + " contains a unknown resource reference ["
-                 + ure.getKey() + "] (referenced by project '" + project.getName() + "'.";
+              "Resource defintion " 
+              + this 
+              + " contains a unknown resource reference ["
+              + ure.getKey() 
+              + "] (referenced in project '" 
+              + project.getName() + "'.";
             throw new BuildException( error );
         }
-    }
-
-   /**
-    * Return the set of resource refs for a given category not including resources
-    * already visited in the supplied list.
-    *
-    * @param project the current project
-    * @param visited a list of Resource instances already handled
-    * @param category a value of ResourceRef.API, SPI, IMPL or ANY
-    * @return the set of resource refs
-    */
-    public ResourceRef[] getQualifiedRefs( Project project, final List visited, final int category )
-    {
-        final ArrayList list = new ArrayList();
-        final ResourceRef[] refs =
-          getResourceRefs( project, Policy.RUNTIME, category, true );
-        for( int i=0; i<refs.length; i++ )
-        {
-            final ResourceRef ref = refs[i];
-            final Resource resource = getIndex().getResource( ref );
-            if( !visited.contains( resource ) && !list.contains( ref ) )
-            {
-                list.add( ref );
-                visited.add( resource );
-            }
-        }
-        return (ResourceRef[]) list.toArray( new ResourceRef[0] );
     }
 
     private File get( String type ) throws BuildException
@@ -501,7 +512,7 @@ public class Resource
         try
         {
             URL url = new URL( null, path, new Handler() );
-            Object object = url.openConnection().getContent( new Class[]{ File.class } );
+            Object object = url.openConnection().getContent( new Class[]{File.class} );
             if( null == object )
             {
                 final String error =
@@ -528,18 +539,27 @@ public class Resource
         }
     }
 
+   /**
+    * Return the string represention of this instance.
+    * @return the string
+    */
     public String toString()
     {
         return "[" + getInfo().toString() + "]";
     }
 
+   /**
+    * Test this object for equality with another.
+    * @param other the other object
+    * @return TRUE if this object is equal to the other
+    */
     public boolean equals( final Object other )
     {
-        if( ! ( other instanceof Resource ) )
+        if( !( other instanceof Resource ) )
+        {
             return false;
-
+        }
         final Resource def = (Resource) other;
-
         if( null == getKey() )
         {
             if( def.getKey() != null )
@@ -554,36 +574,35 @@ public class Resource
                 return false;
             }
         }
-
         if( !getInfo().equals( def.getInfo() ) )
         {
             return false;
         }
-
         final ResourceRef[] refs = getResourceRefs();
         final ResourceRef[] references = def.getResourceRefs();
-
         if( refs.length != references.length )
         {
             return false;
         }
-
-        for( int i=0; i<refs.length; i++ )
+        for( int i=0; i < refs.length; i++ )
         {
             if( !refs[i].equals( references[i] ) )
             {
                 return false;
             }
         }
-
         return true;
     }
 
+   /**
+    * Return the hashcode for this instance.
+    * @return the hashcode
+    */
     public int hashCode()
     {
         int hash = getInfo().hashCode();
         final ResourceRef[] refs = getResourceRefs();
-        for( int i = 0 ; i < refs.length ; i++ )
+        for( int i=0; i < refs.length; i++ )
         {
             hash = hash ^ refs[i].hashCode();
         }

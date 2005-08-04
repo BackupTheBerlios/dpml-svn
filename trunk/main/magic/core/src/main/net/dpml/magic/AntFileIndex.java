@@ -130,8 +130,7 @@ public class AntFileIndex extends DataType implements Index
 
         if( !index.exists() )
         {
-            throw new BuildException(
-              new FileNotFoundException( index.toString() ) );
+            throw new BuildException( new FileNotFoundException( index.toString() ) );
         }
 
         m_builder = system;
@@ -311,7 +310,8 @@ public class AntFileIndex extends DataType implements Index
     */
     public boolean isaDefinition( final ResourceRef reference )
     {
-        return ( getResource( reference ) instanceof Definition );
+        final Resource resource = getResource( reference );
+        return ( resource instanceof Definition );
     }
 
    /**
@@ -348,7 +348,7 @@ public class AntFileIndex extends DataType implements Index
     public ResourceRef[] getSubsidiaryRefs( Resource module )
         throws BuildException
     {
-        if( false == module.getInfo().isa( "module" ) )
+        if( !module.getInfo().isa( "module" ) )
         {
             final String error =
               "Resource argument [" + module + "] is not a module.";
@@ -537,7 +537,7 @@ public class AntFileIndex extends DataType implements Index
 
     private void buildList( final File source, String uri )
     {
-        if( false == source.exists() )
+        if( !source.exists() )
         {
             final String error = 
               "Imported index file [" + source + "] does not exist.";
@@ -757,7 +757,7 @@ public class AntFileIndex extends DataType implements Index
         }
     }
 
-    private void buildResource(final Element element, final File anchor, String uri)
+    private void buildResource( final Element element, final File anchor, String uri )
     {
         final Resource resource = createResource( element, anchor, uri );
         final String key = resource.getKey();
@@ -787,7 +787,7 @@ public class AntFileIndex extends DataType implements Index
         }
     }
 
-    private void buildImport(final Element element, final File anchor, String uri)
+    private void buildImport( final Element element, final File anchor, String uri )
     {
         final String filename = element.getAttribute( "index" );
         final String uriAttribute = element.getAttribute( "uri" );

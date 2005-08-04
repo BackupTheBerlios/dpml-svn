@@ -41,6 +41,10 @@ public abstract class ContextualTask extends Task
     // Task
     //------------------------------------------------------------------
 
+   /**
+    * Return the initiaized state of the task.
+    * @return TRUE if initialized
+    */
     public boolean isInitialized()
     {
         return ( m_context != null );
@@ -50,6 +54,10 @@ public abstract class ContextualTask extends Task
     // ProjectTask
     //------------------------------------------------------------------
 
+   /**
+    * Return the context instance.
+    * @return the context
+    */
     public Context getContext()
     {
         if( null == m_context )
@@ -59,6 +67,10 @@ public abstract class ContextualTask extends Task
         return m_context;
     }
 
+   /**
+    * Return the index.
+    * @return the singleton index
+    */
     public AntFileIndex getIndex()
     {
         return getContext().getIndex();

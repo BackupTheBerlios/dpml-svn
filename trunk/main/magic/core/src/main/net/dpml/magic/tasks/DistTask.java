@@ -79,16 +79,28 @@ public class DistTask extends ProjectTask
         }
     }
 
+   /**
+    * Add a fileset to the distribution.
+    * @param set the fileset to add
+    */
     public void addFileset( FileSet set )
     {
         m_filesets.add( set );
     }
 
+   /**
+    * Add a zipfileset to the distribution.
+    * @param set the zipfileset to add
+    */
     public void addZipFileset( ZipFileSet set )
     {
         m_zipFilesets.add( set );
     }
 
+   /**
+    * Create and add a tarfileset to the distribution.
+    * @return a new tarfileset
+    */
     public TarTask.TarFileSet createTarFileSet()
     {
         if( null == m_tar )
@@ -98,13 +110,10 @@ public class DistTask extends ProjectTask
         return m_tar.createTarFileSet();
     }
 
-    private TarTask createNewTarTask()
-    {
-        TarTask task = new TarTask();
-        task.setProject( getProject() );
-        return task;
-    }
-
+   /**
+    * Execute the task.
+    * @exception BuildException if there is a build failue
+    */
     public void execute() throws BuildException
     {
         final File dist = new File( getContext().getTargetDirectory(), DIST_DIRECTORY_NAME );
@@ -124,6 +133,13 @@ public class DistTask extends ProjectTask
             final File tarfile = new File( dist, tarfilename );
             tarIt( tarfile );
         }
+    }
+
+    private TarTask createNewTarTask()
+    {
+        TarTask task = new TarTask();
+        task.setProject( getProject() );
+        return task;
     }
 
     private String getTarFilename()

@@ -32,6 +32,9 @@ public class InfoTask extends ContextualTask
 {
     private boolean m_ReportMemory = false;
 
+   /**
+    * Task initization.
+    */
     public void init()
     {
         super.init();
@@ -42,6 +45,10 @@ public class InfoTask extends ContextualTask
         }
     }
 
+   /**
+    * Task execution.
+    * @exception BuildException if a build error occurs
+    */
     public void execute() throws BuildException
     {
         final Project project = getProject();

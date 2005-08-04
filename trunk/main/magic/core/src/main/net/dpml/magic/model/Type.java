@@ -17,11 +17,6 @@
 
 package net.dpml.magic.model;
 
-import java.net.URISyntaxException;
-
-import net.dpml.transit.NullArgumentException;
-import net.dpml.transit.Artifact;
-
 /**
  * Immutable data object that holds the name of a type and optionally 
  * an alias used in the construction of a link.
@@ -39,16 +34,28 @@ public class Type
     private final String m_name;
     private final String m_alias;
 
+   /**
+    * Creation of a new Type instance using the default type name.
+    */
     public Type()
     {
         this( DEFAULT_TYPE_NAME );
     }
 
+   /**
+    * Creation of a new type description using the supplied type name.
+    * @param name the type name
+    */
     public Type( String name )
     {
         this( name, null );
     }
 
+   /**
+    * Creation of a new type description using the supplied type name and link alias.
+    * @param name the type name
+    * @param alias the link alias name
+    */
     public Type( String name, String alias )
     {
         if( null == name )
@@ -97,7 +104,7 @@ public class Type
         }
 
         final Type type = (Type) other;
-        if( ! getName().equals( type.getName() ) )
+        if( !getName().equals( type.getName() ) )
         {
             return false;
         }
@@ -111,6 +118,10 @@ public class Type
         }
     }
 
+   /**
+    * Return the hashcode for this object.
+    * @return the hashcode value
+    */
     public int hashCode()
     {
         int hash = m_name.hashCode();

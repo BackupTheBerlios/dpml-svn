@@ -31,11 +31,20 @@ public class PropertyTask extends FeatureTask
 {
     private String m_property;
 
+   /**
+    * Set the property name. The property task will assign a value to the 
+    * property declared by the supplied name.
+    * @param property the property name
+    */
     public void setName( final String property )
     {
         m_property = property;
     }
 
+   /**
+    * Task execution.
+    * @exception BuildException if an error occurs
+    */
     public void execute() throws BuildException
     {
         if( null == m_property )

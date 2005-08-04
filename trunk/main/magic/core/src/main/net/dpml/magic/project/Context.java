@@ -48,14 +48,30 @@ public class Context
     // static
     //-------------------------------------------------------------
 
+   /**
+    * Constant resource key for context.
+    */
     public static final String KEY = "project.context";
 
+   /**
+    * Constant key for the GPG exe name.
+    */
     public static final String GPG_EXE_KEY = "project.gpg.exe";
 
+   /**
+    * Constant name of the user properties filename.
+    */
     public static final String USER_PROPERTIES = "user.properties";
+
+   /**
+    * Constant name of the build properties filename.
+    */
     public static final String BUILD_PROPERTIES = "build.properties";
 
-    public static AntFileIndex INDEX;
+   /**
+    * The singleton index.
+    */
+    private static AntFileIndex m_INDEX;    
 
    /**
     * Return the UTC YYMMDD.HHMMSSS signature.
@@ -104,6 +120,11 @@ public class Context
     // constructor
     //-------------------------------------------------------------
 
+   /**
+    * Creation of a new context instance.
+    * @param project the current project
+    * @exception BuildException if a build error occurs
+    */
     public Context( Project project ) throws BuildException
     {
         m_project = project;
@@ -188,7 +209,7 @@ public class Context
     */
     public AntFileIndex getIndex()
     {
-        return INDEX;
+        return m_INDEX;
     }
 
    /**
@@ -210,71 +231,129 @@ public class Context
         }
     }
 
+   /**
+    * Return the project src directory.
+    * @return the src dir
+    */
     public File getSrcDirectory()
     {
         return m_src;
     }
 
+   /**
+    * Return the project filtered target/main/src directory.
+    * @return the filtered src dir
+    */
     public File getSrcMainDirectory()
     {
         return m_srcMain;
     }
 
+   /**
+    * Return the project filtered target/main/test directory.
+    * @return the filtered test dir
+    */
     public File getSrcTestDirectory()
     {
         return m_srcTest;
     }
 
+   /**
+    * Return the project etc dir
+    * @return the etc dir
+    */
     public File getEtcDirectory()
     {
         return m_etc;
     }
 
+   /**
+    * Return the project target dir
+    * @return the target dir
+    */
     public File getTargetDirectory()
     {
         return m_target;
     }
 
+   /**
+    * Return the project target/build dir
+    * @return the build dir
+    */
     public File getBuildDirectory()
     {
         return m_build;
     }
 
+   /**
+    * Return the project target/classes dir
+    * @return the classes dir
+    */
     public File getClassesDirectory()
     {
         return m_classes;
     }
 
+   /**
+    * Return the project target/test-classes dir
+    * @return the test classes dir
+    */
     public File getTestClassesDirectory()
     {
         return m_testClasses;
     }
 
+   /**
+    * Return the project target/test dir
+    * @return the test dir
+    */
     public File getTestDirectory()
     {
         return m_test;
     }
 
+   /**
+    * Return the project target/test-reports dir
+    * @return the test reports dir
+    */
     public File getTestReportsDirectory()
     {
         return m_reports;
     }
 
+   /**
+    * Return the project docs dir
+    * @return the docs dir
+    */
     public File getDocsDirectory()
     {
         return m_docs;
     }
 
+   /**
+    * Return the project temp dir
+    * @return the temp dir
+    */
     public File getTempDirectory()
     {
         return m_temp;
     }
 
+   /**
+    * Return the project target/deliverables dir.
+    * @return the deliverables dir
+    */
     public File getDeliverablesDirectory()
     {
         return m_deliverables;
     }
 
+   /**
+    * Return the project target/deliverables/[type] dir.
+    * @param type the deliverable type
+    * @return the deliverables dir
+    * @exception NullArgumentException if the type argument is null
+    */
     public File getDeliverablesDirectory( String type )
         throws NullArgumentException
     {
@@ -294,6 +373,12 @@ public class Context
     // private immplementation
     //-------------------------------------------------------------
 
+   /**
+    * Load properties into the project.
+    * @param project the current project
+    * @param file the property file to load
+    * @exception BuildException if a build error occurs
+    */
     protected void loadProperties(
       final Project project, final File file ) throws BuildException
     {
@@ -344,14 +429,14 @@ public class Context
 
     private void resolveIndex( final Project project )
     {
-        if( null != INDEX )
+        if( null != m_INDEX )
         {
             return;
         }
         else
         {
             AntFileIndexBuilder builder = new AntFileIndexBuilder( project );
-            INDEX = builder.getIndex();
+            m_INDEX = builder.getIndex();
         }
     }
 

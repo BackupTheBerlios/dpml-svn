@@ -21,27 +21,30 @@ import com.puppycrawl.tools.checkstyle.CheckStyleTask;
 
 import net.dpml.magic.model.Definition;
 import net.dpml.magic.model.Resource;
-import net.dpml.magic.model.ResourceRef;
 import net.dpml.magic.project.Context;
 import net.dpml.magic.AntFileIndex;
 
-import net.dpml.transit.artifact.Handler;
-
 import org.apache.tools.ant.types.FileSet;
-import org.apache.tools.ant.BuildException;
 
 import java.io.File;
-import java.net.URL;
 
+/**
+ * The checkstyle task handes the establishment of a classic checkstyle task 
+ * with automatic resolution of source directories.  Typical usage is within 
+ * a build file that aggregates results for a module.
+ */
 public class CheckstyleTask extends CheckStyleTask
 {
     private boolean m_init = false;
     private Context m_context;
 
+   /**
+    * Task initiaization.
+    */
     public void init()
     {
         super.init();
-        if( ! m_init )
+        if( !m_init )
         {
             m_init = true;
             m_context = new Context( getProject() );
@@ -58,7 +61,7 @@ public class CheckstyleTask extends CheckStyleTask
     private void addTargetToFileset( Definition def )
     {
         File file = def.getBaseDir();
-        File main = getSrcMainDirectory(def);
+        File main = getSrcMainDirectory( def );
         if( main.exists() )
         {
             FileSet fileset = new FileSet();
@@ -66,11 +69,10 @@ public class CheckstyleTask extends CheckStyleTask
             fileset.setIncludes( "**/*.java" );
             super.addFileset( fileset );
         }
-
-        if( def.getInfo().isa( "module" ) )
+        if( def.getInfo().isa( "module" ) )    
         {
             Definition[] defs = getIndex().getSubsidiaryDefinitions( def );
-            for( int i=0; i<defs.length; i++ )
+            for( int i=0; i < defs.length; i++ )
             {
                 Definition d = defs[i];
                 addTargetToFileset( d );
@@ -78,17 +80,16 @@ public class CheckstyleTask extends CheckStyleTask
         }
     }
 
-    /**
-     * 
-     * @param def the project to analyse
-     * @return the main source dir
+   /**
+    * Resolve the source directory for a project definition.
+    * @param def the defintion
+    * @return the source dir
      */
-    private File getSrcMainDirectory(Definition def) 
+    private File getSrcMainDirectory( Definition def ) 
     {
-		
-        File main = new File(def.getBaseDir(), "src/main");
-        File java = new File(def.getBaseDir(), "src/java");
-        if (main.exists())
+        File main = new File( def.getBaseDir(), "src/main" );
+        File java = new File( def.getBaseDir(), "src/java" );
+        if( main.exists() )
         {
             return main;
         }

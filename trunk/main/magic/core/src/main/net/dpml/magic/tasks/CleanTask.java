@@ -35,6 +35,10 @@ public class CleanTask extends ContextualTask
     // Task
     //------------------------------------------------------------------
 
+   /**
+    * Remove the ${basedir}/target directory.
+    * @exception BuildException if an error occures
+    */
     public void execute() throws BuildException
     {
         final File target = getContext().getTargetDirectory();

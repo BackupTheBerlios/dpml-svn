@@ -147,24 +147,40 @@ public class ProjectPath extends Path
     // private
     //------------------------------------------------------------
 
+   /**
+    * Return a clone of this instance.
+    * @return the cloned instance
+    */
     public Object clone()
     {
         setup();
         return super.clone();
     }
 
+   /**
+    * Return a strong array of the content of this path.
+    * @return the list contents
+    */
     public String[] list()
     {
         setup();
         return super.list();
     }
 
+   /**
+    * Return the path size.
+    * @return the size
+    */
     public int size()
     {
         setup();
         return super.size();
     }
 
+   /**
+    * Return the string representation of this instance.
+    * @return the string representation
+    */
     public String toString()
     {
         setup();

@@ -142,6 +142,7 @@ public class Policy
 
    /**
     * Return TRUE if this policy matches the supplied mode.
+    * @param mode the made value to match against
     * @return TRUE if the mode matches
     */
     public boolean matches( final int mode )
@@ -180,15 +181,23 @@ public class Policy
     */
     public boolean equals( final Object other )
     {
-        if( ! ( other instanceof Policy ) )
+        if( !( other instanceof Policy ) )
+        {
             return false;
+        }
         final Policy policy = (Policy) other;
         if( m_build != policy.m_build )
+        {
             return false;
+        }
         if( m_test != policy.m_test )
+        {
             return false;
+        }
         if( m_runtime != policy.m_runtime )
+        {
             return false;
+        }
         return true;
     }
 
@@ -198,31 +207,40 @@ public class Policy
     */
     public int hashCode()
     {
-        int hash = 913823634;
+        int hash = MAGIC_A;
         if( m_build )
         {
-            hash = hash + 611623192;
+            hash = hash + MAGIC_B;
         }
         else
         {
-            hash = hash - 171623434;
+            hash = hash - MAGIC_C;
         }
         if( m_test )
         {
-            hash = hash + 145126277;
+            hash = hash + MAGIC_G;
         }
         else
         {
-            hash = hash - 725635214;
+            hash = hash - MAGIC_D;
         }
         if( m_runtime )
         {
-            hash = hash + 1237983478;
+            hash = hash + MAGIC_E;
         }
         else
         {
-            hash = hash - 2094897234;
+            hash = hash - MAGIC_F;
         }
         return hash;
     }
+
+    private static final int MAGIC_A = 913823634;
+    private static final int MAGIC_B = 611623192;
+    private static final int MAGIC_C = 171623434;
+    private static final int MAGIC_D = 725635214;
+    private static final int MAGIC_E = 1237983478;
+    private static final int MAGIC_F = 2094897234;
+    private static final int MAGIC_G = 145126277;
+
 }

@@ -20,7 +20,8 @@ package net.dpml.magic;
 import org.apache.tools.ant.BuildException;
 
 /**
- * Project info.
+ * UnknownResourceException is thrown in response to a request for a resource 
+ * that is unknown.
  *
  * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
  * @version $Revision: 1.2 $ $Date: 2004/03/17 10:30:09 $
@@ -29,6 +30,10 @@ public class UnknownResourceException extends BuildException
 {
     private final String m_key;
 
+   /**
+    * Creation of a new UnknownResourceException.
+    * @param key the request resource key
+    */
     public UnknownResourceException( final String key )
     {
         super( "Requested key [" + key + "] is unknown." );
@@ -36,7 +41,8 @@ public class UnknownResourceException extends BuildException
     }
 
    /**
-    * Return the problem key.
+    * Return the key.
+    * @return the resource key
     */
     public String getKey()
     {
