@@ -42,30 +42,67 @@ import org.apache.tools.ant.taskdefs.Property;
  */
 public class ReactorTask extends Sequential
 {
-
+   /**
+    * Constant halt-on-failure key.
+    */
     public static final String REACTOR_HALT_ON_FAILURE_KEY = "reactor.test.halt-on-failure";
-    public static final boolean REACTOR_HALT_ON_FAILURE_VALUE = true;
+
+   /**
+    * Constant test failure key.
+    */
     public static final String REACTOR_TEST_FAILURES_KEY = "reactor.test.failures";
 
+   /**
+    * Constant halt-on-error key.
+    */
     public static final String REACTOR_HALT_ON_ERROR_KEY = "reactor.test.halt-on-error";
-    public static final boolean REACTOR_HALT_ON_ERROR_VALUE = true;
+
+   /**
+    * Constant test error key.
+    */
     public static final String REACTOR_TEST_ERRORS_KEY = "reactor.test.errors";
+
+   /**
+    * default halt-on-failure value.
+    */
+    public static final boolean REACTOR_HALT_ON_FAILURE_VALUE = true;
+
+   /**
+    * default halt-on-error value.
+    */
+    public static final boolean REACTOR_HALT_ON_ERROR_VALUE = true;
 
     private String m_target;
 
     private Context m_context;
 
+   /**
+    * Set the reactor target.
+    * @param target the target
+    */
     public void setTarget( final String target )
     {
         m_target = target;
     }
 
+   /**
+    * Task initiaization.
+    */
     public void init()
     {
         if( null == m_context )
         {
             m_context = new Context( getProject() );
         }
+    }
+
+   /**
+    * Task execution.
+    * @exception BuildException if a build error occurs
+    */
+    public void execute() throws BuildException
+    {
+        executeReactiveBuild( m_target );
     }
 
     private Context getContext()
@@ -78,28 +115,20 @@ public class ReactorTask extends Sequential
         return getContext().getIndex();
     }
 
-    public void execute() throws BuildException
-    {
-        executeReactiveBuild( m_target );
-    }
-
     private void executeReactiveBuild( String target )
     {
         final Project project = getProject();
         List definitions = getDefinitionList();
         final Definition[] defs = walkGraph( definitions );
-
         getProject().log( "Candidates: " + defs.length );
-
         project.log( AntFileIndex.BANNER );
-        for( int i=0; i<defs.length; i++ )
+        for( int i=0; i < defs.length; i++ )
         {
             final Definition def = defs[i];
             project.log( def.toString() );
         }
         project.log( AntFileIndex.BANNER );
-
-        for( int i=0; i<defs.length; i++ )
+        for( int i=0; i < defs.length; i++ )
         {
             final Definition def = defs[i];
             try
@@ -137,7 +166,7 @@ public class ReactorTask extends Sequential
             final ArrayList list = new ArrayList();
             final String path = basedir.getCanonicalPath();
             final Definition[] defs = getIndex().getDefinitions();
-            for( int i=0; i<defs.length; i++ )
+            for( int i=0; i < defs.length; i++ )
             {
                 final Definition def = defs[i];
                 if( def != definition )
@@ -168,12 +197,11 @@ public class ReactorTask extends Sequential
         final ArrayList done = new ArrayList();
 
         final int size = definitions.size();
-        for( int i = 0; i < size; i++ )
+        for( int i=0; i < size; i++ )
         {
             final Definition def = (Definition) definitions.get( i );
             visit( definitions, def, done, result );
         }
-
         final Definition[] returnValue = new Definition[result.size()];
         return (Definition[]) result.toArray( returnValue );
     }
@@ -181,7 +209,10 @@ public class ReactorTask extends Sequential
     private void visit( final List definitions, final Definition def, final ArrayList done,
             final ArrayList order )
     {
-        if( done.contains( def ) ) return;
+        if( done.contains( def ) ) 
+        {
+            return;
+        }
         done.add( def );
         visitProviders( definitions, def, done, order );
         order.add( def );
@@ -191,8 +222,7 @@ public class ReactorTask extends Sequential
       final List definitions, final Definition def, final ArrayList done, final ArrayList order )
     {
         final Definition[] providers = getProviders( definitions, def );
-
-        for( int i = (providers.length - 1); i > -1; i-- )
+        for( int i=( providers.length - 1 ); i > -1; i-- )
         {
             visit( definitions, providers[i], done, order );
         }
@@ -202,7 +232,7 @@ public class ReactorTask extends Sequential
     {
         final ArrayList list = new ArrayList();
         final ResourceRef[] refs = def.getResourceRefs();
-        for( int i=0; i<refs.length; i++ )
+        for( int i=0; i < refs.length; i++ )
         {
             final ResourceRef ref = refs[i];
             try
@@ -229,7 +259,7 @@ public class ReactorTask extends Sequential
         }
 
         final ResourceRef[] plugins = def.getPluginRefs();
-        for( int i=0; i<plugins.length; i++ )
+        for( int i=0; i < plugins.length; i++ )
         {
             final ResourceRef ref = plugins[i];
             try
@@ -275,7 +305,7 @@ public class ReactorTask extends Sequential
         }
         if( null != target )
         {
-            if( ! "default".equals( target ) )
+            if( !"default".equals( target ) )
             {
                 log( "building " + definition + " with target: " + target );
                 ant.setTarget( target );
@@ -292,4 +322,5 @@ public class ReactorTask extends Sequential
         ant.init();
         ant.execute();
     }
+
 }

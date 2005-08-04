@@ -21,7 +21,6 @@ import net.dpml.magic.project.ProjectPath;
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.taskdefs.Copy;
-import org.apache.tools.ant.taskdefs.Mkdir;
 import org.apache.tools.ant.types.FileSet;
 import org.apache.tools.ant.types.Path;
 
@@ -32,15 +31,17 @@ import java.io.File;
  * Build a set of projects taking into account cross-project dependencies.
  *
  * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
- * @version $Revision: 1.2 $ $Date: 2004/03/17 10:30:09 $
  */
 public class ReplicateTask extends ProjectTask
 {
     private File m_todir;
     private Path m_path;
-
     private boolean m_flatten = false;
 
+   /**
+    * Set the flattern policy.
+    * @param flag the flattern policy
+    */
     public void setFlatten( boolean flag )
     {
         m_flatten = flag;
@@ -48,6 +49,9 @@ public class ReplicateTask extends ProjectTask
 
    /**
     * The id of a repository based path.
+    * @param id the path identifier
+    * @exception BuildException if the id does not reference a path, or the path is
+    *  already set, or the id references an object that is not a path
     */
     public void setRefid( String id )
         throws BuildException
@@ -80,12 +84,16 @@ public class ReplicateTask extends ProjectTask
 
    /**
     * The target directory to copy cached based path elements to.
+    * @param todir the destination directory
     */
     public void setTodir( File todir )
     {
         m_todir = todir;
     }
 
+   /**
+    * Execute the task.
+    */
     public void execute()
     {
         if( null == m_path )
@@ -126,7 +134,7 @@ public class ReplicateTask extends ProjectTask
 
         int count = 0;
         log( "Constructing repository based fileset", Project.MSG_VERBOSE );
-        for( int i=0; i<translation.length; i++ )
+        for( int i=0; i < translation.length; i++ )
         {
             String trans = translation[i];
             if( trans.startsWith( root ) )
@@ -167,11 +175,4 @@ public class ReplicateTask extends ProjectTask
         copy.execute();
     }
 
-    public void mkDir( final File dir )
-    {
-        final Mkdir mkdir = (Mkdir) getProject().createTask( "mkdir" );
-        mkdir.setDir( dir );
-        mkdir.init();
-        mkdir.execute();
-    }
 }

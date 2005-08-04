@@ -52,7 +52,6 @@ import org.apache.tools.zip.UnixStat;
  */
 public class TarTask extends MatchingTask
 {
-
     /**
      * @deprecated Tar.WARN is deprecated and is replaced with
      *             Tar.TarLongFileMode.WARN
@@ -79,20 +78,16 @@ public class TarTask extends MatchingTask
      */
     public static final String OMIT = "omit";
 
-    File m_tarFile;
-    File m_basedir;
-
-    private TarLongFileMode longFileMode = new TarLongFileMode();
-
-    Vector filesets = new Vector();
-    Vector fileSetFiles = new Vector();
+    private File m_tarFile;
+    private File m_basedir;
+    private TarLongFileMode m_longFileMode = new TarLongFileMode();
+    private Vector m_filesets = new Vector();
 
     /**
      * Indicates whether the user has been warned about long files already.
      */
-    private boolean longWarningGiven = false;
-
-    private TarCompressionMethod compression = new TarCompressionMethod();
+    private boolean m_longWarningGiven = false;
+    private TarCompressionMethod m_compression = new TarCompressionMethod();
 
    /**
     * Add a new fileset with the option to specify permissions
@@ -101,14 +96,18 @@ public class TarTask extends MatchingTask
     public TarFileSet createTarFileSet() 
     {
         TarFileSet fs = new TarFileSet();
-        filesets.addElement(fs);
+        m_filesets.addElement( fs );
         return fs;
     }
 
+   /**
+    * Add a fileset.
+    * @param fileset the fileset to add
+    */
     public void addFileset( FileSet fileset )
     {
         TarFileSet fs = new TarFileSet( fileset );
-        filesets.addElement( fs );
+        m_filesets.addElement( fs );
     }
 
     /**
@@ -116,7 +115,7 @@ public class TarTask extends MatchingTask
      * @param tarFile the location of the tar file.
      * @deprecated for consistency with other tasks, please use setDestFile()
      */
-    public void setTarfile(File tarFile)
+    public void setTarfile( File tarFile )
     {
         m_tarFile = tarFile;
     }
@@ -126,7 +125,7 @@ public class TarTask extends MatchingTask
      * @since Ant 1.5
      * @param destFile The output of the tar
      */
-    public void setDestFile(File destFile) 
+    public void setDestFile( File destFile ) 
     {
         m_tarFile = destFile;
     }
@@ -135,7 +134,7 @@ public class TarTask extends MatchingTask
      * This is the base directory to look in for things to tar.
      * @param baseDir the base directory.
      */
-    public void setBasedir(File baseDir) 
+    public void setBasedir( File baseDir ) 
     {
         m_basedir = baseDir;
     }
@@ -158,11 +157,12 @@ public class TarTask extends MatchingTask
      *             mechanism do the work and also to encapsulate operations on
      *             the mode in its own class.
      */
-    public void setLongfile(String mode) {
-        log("DEPRECATED - The setLongfile(String) method has been deprecated."
-            + " Use setLongfile(Tar.TarLongFileMode) instead.");
-        this.longFileMode = new TarLongFileMode();
-        longFileMode.setValue(mode);
+    public void setLongfile( String mode ) 
+    {
+        log( "DEPRECATED - The setLongfile( String ) method has been deprecated."
+            + " Use setLongfile( Tar.TarLongFileMode ) instead." );
+        m_longFileMode = new TarLongFileMode();
+        m_longFileMode.setValue( mode );
     }
 
     /**
@@ -179,9 +179,9 @@ public class TarTask extends MatchingTask
      * </ul>
      * @param mode the mode to handle long file names.
      */
-    public void setLongfile(TarLongFileMode mode) 
+    public void setLongfile( TarLongFileMode mode ) 
     {
-        this.longFileMode = mode;
+        m_longFileMode = mode;
     }
 
     /**
@@ -194,9 +194,9 @@ public class TarTask extends MatchingTask
      * </ul>
      * @param mode the compression method.
      */
-    public void setCompression(TarCompressionMethod mode)
+    public void setCompression( TarCompressionMethod mode )
     {
-        this.compression = mode;
+        m_compression = mode;
     }
 
     /**
@@ -205,7 +205,7 @@ public class TarTask extends MatchingTask
      */
     public void execute() throws BuildException 
     {
-        if( m_tarFile == null) 
+        if( m_tarFile == null ) 
         {
             throw new BuildException(
               "tarfile attribute must be set!", getLocation() );
@@ -213,15 +213,15 @@ public class TarTask extends MatchingTask
 
         if( m_tarFile.exists() && m_tarFile.isDirectory() ) 
         {
-            throw new BuildException( "tarfile is a directory!", getLocation());
+            throw new BuildException( "tarfile is a directory!", getLocation() );
         }
 
-        if (m_tarFile.exists() && !m_tarFile.canWrite()) 
+        if( m_tarFile.exists() && !m_tarFile.canWrite() ) 
         {
             throw new BuildException( "Can not write to the specified tarfile!", getLocation() );
         }
 
-        Vector savedFileSets = (Vector) filesets.clone();
+        Vector savedFileSets = (Vector) m_filesets.clone();
         try 
         {
             if( m_basedir != null ) 
@@ -234,10 +234,10 @@ public class TarTask extends MatchingTask
                 // add the main fileset to the list of filesets to process.
                 TarFileSet mainFileSet = new TarFileSet( fileset );
                 mainFileSet.setDir( m_basedir );
-                filesets.addElement( mainFileSet );
+                m_filesets.addElement( mainFileSet );
             }
 
-            if( filesets.size() == 0) 
+            if( m_filesets.size() == 0 ) 
             {
                 final String error = 
                   "You must supply either a basedir "
@@ -248,80 +248,102 @@ public class TarTask extends MatchingTask
             // check if tar is out of date with respect to each
             // fileset
             boolean upToDate = true;
-            for (Enumeration e = filesets.elements(); e.hasMoreElements();) {
+            for( Enumeration e = m_filesets.elements(); e.hasMoreElements(); ) 
+            {
                 TarFileSet fs = (TarFileSet) e.nextElement();
-                String[] files = fs.getFiles(getProject());
-
-                if (!archiveIsUpToDate(files, fs.getDir(getProject()))) {
+                String[] files = fs.getFiles( getProject() );
+                if( !archiveIsUpToDate( files, fs.getDir( getProject() ) ) ) 
+                {
                     upToDate = false;
                 }
-
-                for (int i = 0; i < files.length; ++i) {
-                    if (m_tarFile.equals(new File(fs.getDir(getProject()),
-                                                files[i]))) {
-                        throw new BuildException("A tar file cannot include "
-                                                 + "itself", getLocation());
+                for( int i=0; i < files.length; ++i ) 
+                {
+                    if( m_tarFile.equals( new File( fs.getDir( getProject() ), files[i] ) ) ) 
+                    {
+                        throw new BuildException(
+                          "A tar file cannot include "
+                          + "itself", getLocation() );
                     }
                 }
             }
 
-            if (upToDate) {
-                log("Nothing to do: " + m_tarFile.getAbsolutePath()
-                    + " is up to date.", Project.MSG_INFO);
+            if( upToDate ) 
+            {
+                log( "Nothing to do: " + m_tarFile.getAbsolutePath()
+                    + " is up to date.", Project.MSG_INFO );
                 return;
             }
 
-            log("Building tar: " + m_tarFile.getAbsolutePath(), Project.MSG_INFO);
+            log( "Building tar: " + m_tarFile.getAbsolutePath(), Project.MSG_INFO );
 
             TarOutputStream tOut = null;
-            try {
-                tOut = new TarOutputStream(
-                    compression.compress(
+            try
+            {
+                tOut = 
+                  new TarOutputStream(
+                    m_compression.compress(
                         new BufferedOutputStream(
-                            new FileOutputStream(m_tarFile))));
-                tOut.setDebug(true);
-                if (longFileMode.isTruncateMode()) {
-                    tOut.setLongFileMode(TarOutputStream.LONGFILE_TRUNCATE);
-                } else if (longFileMode.isFailMode()
-                            || longFileMode.isOmitMode()) {
-                    tOut.setLongFileMode(TarOutputStream.LONGFILE_ERROR);
-                } else {
+                            new FileOutputStream( m_tarFile ) ) ) );
+                tOut.setDebug( true );
+                if( m_longFileMode.isTruncateMode() ) 
+                {
+                    tOut.setLongFileMode( TarOutputStream.LONGFILE_TRUNCATE );
+                }
+                else if( m_longFileMode.isFailMode() || m_longFileMode.isOmitMode() ) 
+                {
+                    tOut.setLongFileMode( TarOutputStream.LONGFILE_ERROR );
+                }
+                else
+                {
                     // warn or GNU
-                    tOut.setLongFileMode(TarOutputStream.LONGFILE_GNU);
+                    tOut.setLongFileMode( TarOutputStream.LONGFILE_GNU );
                 }
 
-                longWarningGiven = false;
-                for (Enumeration e = filesets.elements();
-                     e.hasMoreElements();) {
+                m_longWarningGiven = false;
+                for( Enumeration e = m_filesets.elements(); e.hasMoreElements(); ) 
+                {
                     TarFileSet fs = (TarFileSet) e.nextElement();
-                    String[] files = fs.getFiles(getProject());
-                    if (files.length > 1 && fs.getFullpath().length() > 0) {
-                        throw new BuildException("fullpath attribute may only "
-                                                 + "be specified for "
-                                                 + "filesets that specify a "
-                                                 + "single file.");
+                    String[] files = fs.getFiles( getProject() );
+                    if( files.length > 1 && fs.getFullpath().length() > 0 ) 
+                    {
+                        throw new BuildException(
+                          "fullpath attribute may only "
+                          + "be specified for "
+                          + "filesets that specify a "
+                          + "single file." );
                     }
-                    for (int i = 0; i < files.length; i++) {
-                        File f = new File(fs.getDir(getProject()), files[i]);
-                        String name = files[i].replace(File.separatorChar, '/');
-                        tarFile(f, tOut, name, fs);
+                    for( int i=0; i < files.length; i++ ) 
+                    {
+                        File f = new File( fs.getDir( getProject() ), files[i] );
+                        String name = files[i].replace( File.separatorChar, '/' );
+                        tarFile( f, tOut, name, fs );
                     }
                 }
-            } catch (IOException ioe) {
+            } 
+            catch( IOException ioe ) 
+            {
                 String msg = "Problem creating TAR: " + ioe.getMessage();
-                throw new BuildException(msg, ioe, getLocation());
-            } finally {
-                if (tOut != null) {
-                    try {
+                throw new BuildException( msg, ioe, getLocation() );
+            } 
+            finally 
+            {
+                if( tOut != null ) 
+                {
+                    try
+                    {
                         // close up
                         tOut.close();
-                    } catch (IOException e) {
-                        // ignore
+                    }
+                    catch( IOException e ) 
+                    {
+                        log( e.toString() );
                     }
                 }
             }
-        } finally {
-            filesets = savedFileSets;
+        } 
+        finally
+        {
+            m_filesets = savedFileSets;
         }
     }
 
@@ -338,7 +360,7 @@ public class TarTask extends MatchingTask
         FileInputStream fIn = null;
 
         String fullpath = tarFileSet.getFullpath();
-        if (fullpath.length() > 0) 
+        if( fullpath.length() > 0 ) 
         {
             vPath = fullpath;
         }
@@ -349,93 +371,96 @@ public class TarTask extends MatchingTask
             {
                 return;
             }
-
-            if( file.isDirectory() && !vPath.endsWith("/") ) 
+            if( file.isDirectory() && !vPath.endsWith( "/" ) ) 
             {
                 vPath += "/";
             }
 
             String prefix = tarFileSet.getPrefix();
             // '/' is appended for compatibility with the zip task.
-            if( prefix.length() > 0 && !prefix.endsWith("/") ) 
+            if( prefix.length() > 0 && !prefix.endsWith( "/" ) ) 
             {
                 prefix = prefix + "/";
             }
             vPath = prefix + vPath;
         }
 
-        if( vPath.startsWith("/") && !tarFileSet.getPreserveLeadingSlashes() ) 
+        if( vPath.startsWith( "/" ) && !tarFileSet.getPreserveLeadingSlashes() ) 
         {
             int l = vPath.length();
-            if (l <= 1)
+            if( l <= 1 )
             {
                 // we would end up adding "" to the archive
                 return;
             }
-            vPath = vPath.substring(1, l);
+            vPath = vPath.substring( 1, l );
         }
 
-        try 
+        try
         {
             if( vPath.length() >= TarConstants.NAMELEN ) 
             {
-                if( longFileMode.isOmitMode() )
+                if( m_longFileMode.isOmitMode() )
                 {
-                    log("Omitting: " + vPath, Project.MSG_INFO);
+                    log( "Omitting: " + vPath, Project.MSG_INFO );
                     return;
                 }
-                else if( longFileMode.isWarnMode() )
+                else if( m_longFileMode.isWarnMode() )
                 {
                     log( "Entry: " + vPath + " longer than "
                         + TarConstants.NAMELEN + " characters.",
                         Project.MSG_WARN );
-                    if( !longWarningGiven )
+                    if( !m_longWarningGiven )
                     {
-                        log( "Resulting tar file can only be processed "
-                            + "successfully by GNU compatible tar commands",
-                            Project.MSG_WARN );
-                        longWarningGiven = true;
+                        log( 
+                          "Resulting tar file can only be processed "
+                          + "successfully by GNU compatible tar commands",
+                          Project.MSG_WARN );
+                        m_longWarningGiven = true;
                     }
                 }
-                else if( longFileMode.isFailMode() )
+                else if( m_longFileMode.isFailMode() )
                 {
                     throw new BuildException(
                       "Entry: " + vPath
                       + " longer than " + TarConstants.NAMELEN
-                      + "characters.", getLocation() );
+                      + "characters.", 
+                      getLocation() );
                 }
             }
 
-            TarEntry te = new TarEntry(vPath);
-            te.setModTime(file.lastModified());
-            if (!file.isDirectory())
+            TarEntry te = new TarEntry( vPath );
+            te.setModTime( file.lastModified() );
+            if( !file.isDirectory() )
             {
-                te.setSize(file.length());
-                te.setMode(tarFileSet.getMode());
+                te.setSize( file.length() );
+                te.setMode( tarFileSet.getMode() );
             }
             else
             {
-                te.setMode(tarFileSet.getDirMode());
+                te.setMode( tarFileSet.getDirMode() );
             }
-            te.setUserName(tarFileSet.getUserName());
-            te.setGroupName(tarFileSet.getGroup());
-            te.setUserId(tarFileSet.getUid());
-            te.setGroupId(tarFileSet.getGid());
+            te.setUserName( tarFileSet.getUserName() );
+            te.setGroupName( tarFileSet.getGroup() );
+            te.setUserId( tarFileSet.getUid() );
+            te.setGroupId( tarFileSet.getGid() );
 
-            tOut.putNextEntry(te);
+            tOut.putNextEntry( te );
 
             if( !file.isDirectory() )
             {
-                fIn = new FileInputStream(file);
-                byte[] buffer = new byte[8 * 1024];
+                fIn = new FileInputStream( file );
+                byte[] buffer = new byte[ BUFFER_SIZE ];
                 int count = 0;
-                do {
-                    tOut.write(buffer, 0, count);
-                    count = fIn.read(buffer, 0, buffer.length);
-                } while (count != -1);
+                do 
+                {
+                    tOut.write( buffer, 0, count );
+                    count = fIn.read( buffer, 0, buffer.length );
+                }
+                while( count != -1 );
             }
             tOut.closeEntry();
-        } 
+        }
         finally
         {
             if( fIn != null ) 
@@ -465,10 +490,10 @@ public class TarTask extends MatchingTask
      */
     protected boolean archiveIsUpToDate( String[] files, File dir ) 
     {
-        SourceFileScanner sfs = new SourceFileScanner(this);
+        SourceFileScanner sfs = new SourceFileScanner( this );
         MergingMapper mm = new MergingMapper();
-        mm.setTo(m_tarFile.getAbsolutePath());
-        return sfs.restrict(files, dir, null, mm).length == 0;
+        mm.setTo( m_tarFile.getAbsolutePath() );
+        return sfs.restrict( files, dir, null, mm ).length == 0;
     }
 
     /**
@@ -477,18 +502,18 @@ public class TarTask extends MatchingTask
      */
     public static class TarFileSet extends FileSet 
     {
-        private String[] files = null;
+        private String[] m_files = null;
 
-        private int fileMode = UnixStat.FILE_FLAG | UnixStat.DEFAULT_FILE_PERM;
-        private int dirMode = UnixStat.DIR_FLAG | UnixStat.DEFAULT_DIR_PERM;
+        private int m_fileMode = UnixStat.FILE_FLAG | UnixStat.DEFAULT_FILE_PERM;
+        private int m_dirMode = UnixStat.DIR_FLAG | UnixStat.DEFAULT_DIR_PERM;
 
-        private String userName = "";
-        private String groupName = "";
-        private int    uid;
-        private int    gid;
-        private String prefix = "";
-        private String fullpath = "";
-        private boolean preserveLeadingSlashes = false;
+        private String m_userName = "";
+        private String m_groupName = "";
+        private int m_uid;
+        private int m_gid;
+        private String m_prefix = "";
+        private String m_fullpath = "";
+        private boolean m_preserveLeadingSlashes = false;
 
         /**
          * Creates a new <code>TarFileSet</code> instance.
@@ -496,9 +521,9 @@ public class TarTask extends MatchingTask
          *
          * @param fileset a <code>FileSet</code> value
          */
-        public TarFileSet(FileSet fileset) 
+        public TarFileSet( FileSet fileset ) 
         {
-            super(fileset);
+            super( fileset );
         }
 
         /**
@@ -511,25 +536,23 @@ public class TarTask extends MatchingTask
         }
 
         /**
-         *  Get a list of files and directories specified in the fileset.
+         * Get a list of files and directories specified in the fileset.
          * @param p the current project.
          * @return a list of file and directory names, relative to
          *    the baseDir for the project.
          */
         public String[] getFiles( Project p ) 
         {
-            if (files == null)
+            if( m_files == null )
             {
-                DirectoryScanner ds = getDirectoryScanner(p);
+                DirectoryScanner ds = getDirectoryScanner( p );
                 String[] directories = ds.getIncludedDirectories();
                 String[] filesPerSe = ds.getIncludedFiles();
-                files = new String [directories.length + filesPerSe.length];
-                System.arraycopy( directories, 0, files, 0, directories.length );
-                System.arraycopy( filesPerSe, 0, files, directories.length,
-                        filesPerSe.length );
+                m_files = new String[ directories.length + filesPerSe.length ];
+                System.arraycopy( directories, 0, m_files, 0, directories.length );
+                System.arraycopy( filesPerSe, 0, m_files, directories.length, filesPerSe.length );
             }
-
-            return files;
+            return m_files;
         }
 
         /**
@@ -540,8 +563,7 @@ public class TarTask extends MatchingTask
          */
         public void setMode( String octalString ) 
         {
-            this.fileMode =
-                UnixStat.FILE_FLAG | Integer.parseInt(octalString, 8);
+            m_fileMode = UnixStat.FILE_FLAG | Integer.parseInt( octalString, EIGHT );
         }
 
         /**
@@ -549,7 +571,7 @@ public class TarTask extends MatchingTask
          */
         public int getMode()
         {
-            return fileMode;
+            return m_fileMode;
         }
 
         /**
@@ -560,10 +582,9 @@ public class TarTask extends MatchingTask
          * @param octalString a 3 digit octal string.
          * @since Ant 1.6
          */
-        public void setDirMode(String octalString) 
+        public void setDirMode( String octalString ) 
         {
-            this.dirMode =
-                UnixStat.DIR_FLAG | Integer.parseInt( octalString, 8 );
+            m_dirMode = UnixStat.DIR_FLAG | Integer.parseInt( octalString, EIGHT );
         }
 
         /**
@@ -572,7 +593,7 @@ public class TarTask extends MatchingTask
          */
         public int getDirMode() 
         {
-            return dirMode;
+            return m_dirMode;
         }
 
         /**
@@ -582,7 +603,7 @@ public class TarTask extends MatchingTask
          */
         public void setUserName( String userName )
         {
-            this.userName = userName;
+            m_userName = userName;
         }
 
         /**
@@ -590,7 +611,7 @@ public class TarTask extends MatchingTask
          */
         public String getUserName() 
         {
-            return userName;
+            return m_userName;
         }
 
         /**
@@ -600,7 +621,7 @@ public class TarTask extends MatchingTask
          */
         public void setUid( int uid ) 
         {
-            this.uid = uid;
+            m_uid = uid;
         }
 
         /**
@@ -608,7 +629,7 @@ public class TarTask extends MatchingTask
          */
         public int getUid() 
         {
-            return uid;
+            return m_uid;
         }
 
         /**
@@ -618,7 +639,7 @@ public class TarTask extends MatchingTask
          */
         public void setGroup( String groupName ) 
         {
-            this.groupName = groupName;
+            m_groupName = groupName;
         }
 
         /**
@@ -626,7 +647,7 @@ public class TarTask extends MatchingTask
          */
         public String getGroup()
         {
-            return groupName;
+            return m_groupName;
         }
 
         /**
@@ -636,7 +657,7 @@ public class TarTask extends MatchingTask
          */
         public void setGid( int gid ) 
         {
-            this.gid = gid;
+            m_gid = gid;
         }
 
         /**
@@ -644,7 +665,7 @@ public class TarTask extends MatchingTask
          */
         public int getGid() 
         {
-            return gid;
+            return m_gid;
         }
 
         /**
@@ -655,7 +676,7 @@ public class TarTask extends MatchingTask
          */
         public void setPrefix( String prefix ) 
         {
-            this.prefix = prefix;
+            m_prefix = prefix;
         }
 
         /**
@@ -663,7 +684,7 @@ public class TarTask extends MatchingTask
          */
         public String getPrefix() 
         {
-            return prefix;
+            return m_prefix;
         }
 
         /**
@@ -675,7 +696,7 @@ public class TarTask extends MatchingTask
          */
         public void setFullpath( String fullpath ) 
         {
-            this.fullpath = fullpath;
+            m_fullpath = fullpath;
         }
 
         /**
@@ -683,7 +704,7 @@ public class TarTask extends MatchingTask
          */
         public String getFullpath()
         {
-            return fullpath;
+            return m_fullpath;
         }
 
         /**
@@ -692,16 +713,17 @@ public class TarTask extends MatchingTask
          * Optional, default is <code>false</code>.
          * @param b the leading slashes flag.
          */
-        public void setPreserveLeadingSlashes(boolean b)
+        public void setPreserveLeadingSlashes( boolean b )
         {
-            this.preserveLeadingSlashes = b;
+            m_preserveLeadingSlashes = b;
         }
 
         /**
          * @return the leading slashes flag.
          */
-        public boolean getPreserveLeadingSlashes() {
-            return preserveLeadingSlashes;
+        public boolean getPreserveLeadingSlashes() 
+        {
+            return m_preserveLeadingSlashes;
         }
     }
 
@@ -720,7 +742,7 @@ public class TarTask extends MatchingTask
             GNU = "gnu",
             OMIT = "omit";
 
-        private final String[] validModes = {WARN, FAIL, TRUNCATE, GNU, OMIT};
+        private final String[] m_validModes = {WARN, FAIL, TRUNCATE, GNU, OMIT};
 
        /**
         * Constructor, defaults to "warn".
@@ -728,7 +750,7 @@ public class TarTask extends MatchingTask
         public TarLongFileMode() 
         {
             super();
-            setValue(WARN);
+            setValue( WARN );
         }
 
         /**
@@ -736,7 +758,7 @@ public class TarTask extends MatchingTask
          */
         public String[] getValues() 
         {
-            return validModes;
+            return m_validModes;
         }
 
         /**
@@ -776,7 +798,7 @@ public class TarTask extends MatchingTask
          */
         public boolean isOmitMode()
         {
-            return OMIT.equalsIgnoreCase(getValue());
+            return OMIT.equalsIgnoreCase( getValue() );
         }
     }
 
@@ -786,7 +808,6 @@ public class TarTask extends MatchingTask
      */
     public static final class TarCompressionMethod extends EnumeratedAttribute 
     {
-
         // permissible values for compression attribute
 
        /**
@@ -811,7 +832,7 @@ public class TarTask extends MatchingTask
         public TarCompressionMethod() 
         {
             super();
-            setValue(NONE);
+            setValue( NONE );
         }
 
         /**
@@ -820,7 +841,7 @@ public class TarTask extends MatchingTask
          */
         public String[] getValues() 
         {
-            return new String[] {NONE, GZIP, BZIP2 };
+            return new String[]{NONE, GZIP, BZIP2};
         }
 
         /**
@@ -850,4 +871,8 @@ public class TarTask extends MatchingTask
             return ostream;
         }
     }
+
+    private static final int BUFFER_SIZE = 8 * 1024;
+    private static final int EIGHT = 8;
+
 }

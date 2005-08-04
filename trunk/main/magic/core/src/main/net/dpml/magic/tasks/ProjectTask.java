@@ -30,7 +30,7 @@ import java.io.File;
 
 
 /**
- * Abstract task that hanldes the resolution of the current project context.
+ * Abstract task suitable for definition based tasks.
  *
  * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
  * @version $Revision: 1.2 $ $Date: 2004/03/17 10:30:09 $
@@ -42,11 +42,19 @@ public abstract class ProjectTask extends ContextualTask
     // ProjectTask
     //------------------------------------------------------------------
 
+   /**
+    * Return the working cache directory.
+    * @return the cache directory
+    */
     public File getCacheDirectory()
     {
         return getIndex().getCacheDirectory();
     }
 
+   /**
+    * Return the transit repository service reference.
+    * @return the repository service
+    */
     public Repository getRepository()
     {
         return getIndex().getRepository();
@@ -64,6 +72,10 @@ public abstract class ProjectTask extends ContextualTask
         return getContext().getDefinition();
     }
 
+   /**
+    * Utility operation to create a new directory if it does not exist.
+    * @param dir the directory to create
+    */
     public void mkDir( final File dir )
     {
         final Mkdir mkdir = (Mkdir) getProject().createTask( "mkdir" );
@@ -73,6 +85,10 @@ public abstract class ProjectTask extends ContextualTask
         mkdir.execute();
     }
 
+   /**
+    * Utility operation to delete a directory .
+    * @param dir the directory to delete
+    */
     public void deleteDir( final File dir )
     {
         final Delete task = (Delete) getProject().createTask( "delete" );
@@ -82,6 +98,12 @@ public abstract class ProjectTask extends ContextualTask
         task.execute();
     }
 
+   /**
+    * Utility operation to copy a fileset to a destination directory.
+    * @param destination the destination directory
+    * @param fileset the fileset to copy
+    * @param preserve the preserve timestamp flag
+    */
     public void copy( final File destination, final FileSet fileset, boolean preserve )
     {
         mkDir( destination );
