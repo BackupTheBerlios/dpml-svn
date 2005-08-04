@@ -20,7 +20,6 @@ package net.dpml.magic;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Hashtable;
@@ -38,7 +37,6 @@ import net.dpml.transit.NullArgumentException;
 import net.dpml.transit.Transit;
 import net.dpml.transit.TransitException;
 import net.dpml.transit.Artifact;
-import net.dpml.transit.artifact.Handler;
 import net.dpml.transit.Repository;
 
 import org.apache.tools.ant.BuildException;
@@ -62,12 +60,30 @@ public class AntFileIndex extends DataType implements Index
     // static
     //-------------------------------------------------------------
 
+   /**
+    * Banner.
+    */
     public static final String BANNER =
       "------------------------------------------------------------------------";
 
+   /**
+    * Project home key.
+    */
     public static final String HOME_KEY = "project.home";
+
+   /**
+    * Project index key.
+    */
     public static final String INDEX_KEY = "project.index";
+
+   /**
+    * Project hosts key.
+    */
     public static final String HOSTS_KEY = "project.hosts";
+
+   /**
+    * Project gpg key.
+    */
     public static final String GPG_EXE_KEY = "project.gpg.exe";
 
     //-------------------------------------------------------------
@@ -90,6 +106,7 @@ public class AntFileIndex extends DataType implements Index
     * @param system the magic system instance
     * @param index the magic project index
     * @exception NullArgumentException if any of the supplied arguments are null.
+    * @exception TransitException if a Transit initialization error occurs
     */
     public AntFileIndex( Project proj, AntFileIndexBuilder system, File index )
         throws TransitException, NullArgumentException
@@ -158,25 +175,13 @@ public class AntFileIndex extends DataType implements Index
         log( "Resources: " + n, Project.MSG_VERBOSE );
     }
 
-    private void processModuleProperties( Project proj, File base )
-    {
-        if( null == base )
-        {
-            return;
-        }
-        File module = new File( base, "module.properties" );
-        loadProperties( proj, module );
-        File parent = base.getParentFile();
-        processModuleProperties( proj, parent );
-    }
-
     //-------------------------------------------------------------
     // implementation
     //-------------------------------------------------------------
 
    /**
     * Return the home directory.
-    * @see net.dpml.magic.Index#getHomeDirectory()
+    * @return the home directory
     */
     public File getHomeDirectory()
     {
@@ -185,7 +190,7 @@ public class AntFileIndex extends DataType implements Index
 
    /**
     * Return the cache directory.
-    * @see net.dpml.magic.Index#getCacheDirectory()
+    * @return the cache directory
     */
     public File getCacheDirectory()
     {
@@ -193,48 +198,57 @@ public class AntFileIndex extends DataType implements Index
         return new File( cache );
     }
 
-    /* (non-Javadoc)
-     * @see net.dpml.magic.Index#getDocsDirectory()
-     */
+   /**
+    * Return the docs directory.
+    * @return the docs directory
+    */
     public File getDocsDirectory()
     {
         return new File( Transit.DPML_DATA, "docs" );
     }
 
-    /* (non-Javadoc)
-     * @see net.dpml.magic.Index#getRepository()
-     */
+   /**
+    * Return the repository service.
+    * @return the repository service
+    */
     public Repository getRepository()
     {
         return m_repository;
     }
 
-   /* (non-Javadoc)
-    * @see net.dpml.magic.Index#getIndexFile()
+   /**
+    * Return the index file used to establish this home.
+    * @return the index file
     */
     public File getIndexFile()
     {
         return m_index;
     }
 
-   /* (non-Javadoc)
-    * @see net.dpml.magic.Index#getIndexLastModified()
+   /**
+    * Return the last modification time of the index file as a long.
+    * @return the last modification time
     */
     public long getIndexLastModified()
     {
         return m_index.lastModified();
     }
 
-   /* (non-Javadoc)
-    * @see net.dpml.magic.Index#getProperty(java.lang.String)
+   /**
+    * Return a property declared under the project that established the root index.
+    * @param key the property key
+    * @return the value matching the supplied property key
     */
     public String getProperty( String key )
     {
         return getProperty( key, null );
     }
 
-   /* (non-Javadoc)
-    * @see net.dpml.magic.Index#getProperty(java.lang.String, java.lang.String)
+   /**
+    * Return a property declared undr the project that established the root index.
+    * @param key the property key
+    * @param fallback the default value if the property is undefined
+    * @return the value matching the supplied property key or the default
     */
     public String getProperty( String key, String fallback )
     {
@@ -250,55 +264,68 @@ public class AntFileIndex extends DataType implements Index
     }
 
 
-   /* (non-Javadoc)
-    * @see net.dpml.magic.Index#isaResourceKey(java.lang.String)
+   /**
+    * Return TRUE if the supplied key is the name of a key of a resource
+    * declared within this home.
+    * @param key the key
+    * @return TRUE if the key is a resource
     */
     public boolean isaResourceKey( String key )
     {
         return ( null != m_resources.get( key ) );
     }
 
-   /* (non-Javadoc)
-    * @see net.dpml.magic.Index#isaRelease()
+   /**
+    * Return TRUE if this is a release build.
+    * @return TRUE if this is a release build sequence
     */
     public boolean isaRelease()
     {
         return m_builder.isaRelease();
     }
 
-   /* (non-Javadoc)
-    * @see net.dpml.magic.Index#getReleaseSignature()
+   /**
+    * Return the release signature.
+    * @return a string corresponding to the svn revision or null
+    *    if this is not a release build
     */
     public String getReleaseSignature()
     {
         return m_builder.getReleaseSignature();
     }
 
-   /* (non-Javadoc)
-    * @see net.dpml.magic.Index#getResources()
+   /**
+    * Return all of the resource declared within this home.
+    * @return the resource defintions
     */
     public Resource[] getResources()
     {
         return (Resource[]) m_resources.values().toArray( new Resource[0] );
     }
 
-   /* (non-Javadoc)
-    * @see net.dpml.magic.Index#isaDefinition(net.dpml.magic.model.ResourceRef)
+   /**
+    * Return TRUE if the suppied resource ref references a project
+    * definition.
+    * @param reference the resource reference
+    * @return TRUE is the resource is a definition
     */
     public boolean isaDefinition( final ResourceRef reference )
     {
         return ( getResource( reference ) instanceof Definition );
     }
 
-   /* (non-Javadoc)
-    * @see net.dpml.magic.Index#getDefinitions()
+   /**
+    * Return all definitions with the home.
+    *
+    * @return array of know definitions
+    * @exception BuildException if a build error occurs
     */
     public Definition[] getDefinitions()
         throws BuildException
     {
         final ArrayList list = new ArrayList();
         final Resource[] resources = getResources();
-        for( int i=0; i<resources.length; i++ )
+        for( int i=0; i < resources.length; i++ )
         {
             final Resource resource = resources[i];
             if( resource instanceof Definition )
@@ -309,8 +336,14 @@ public class AntFileIndex extends DataType implements Index
         return (Definition[]) list.toArray( new Definition[0] );
     }
 
-   /* (non-Javadoc)
-    * @see net.dpml.magic.Index#getSubsidiaryRefs(net.dpml.magic.model.Resource)
+   /**
+    * Return all resource refs within the index that are members of the
+    * group identified by the supplied resource and not equal to the
+    * supplied resource key.
+    *
+    * @param module the resource representing the module
+    * @return array of subsidiary resources
+    * @exception BuildException if a build error occurs
     */
     public ResourceRef[] getSubsidiaryRefs( Resource module )
         throws BuildException
@@ -325,7 +358,7 @@ public class AntFileIndex extends DataType implements Index
         final String group = module.getInfo().getGroup();
         final ArrayList list = new ArrayList();
         Resource[] resources = getResources();
-        for( int i=0; i<resources.length; i++ )
+        for( int i=0; i < resources.length; i++ )
         {
             Resource resource = resources[i];
             if( resource.getInfo().getGroup().startsWith( group + "/" ) )
@@ -341,8 +374,14 @@ public class AntFileIndex extends DataType implements Index
         return (ResourceRef[]) list.toArray( new ResourceRef[0] );
     }
 
-   /* (non-Javadoc)
-    * @see net.dpml.magic.Index#getSubsidiaryDefinitions(net.dpml.magic.model.Resource)
+   /**
+    * Return all definitions with the index that are members of the
+    * group identified by the supplied resource and not equal to the
+    * supplied resource key.
+    *
+    * @param module the resource representing the module
+    * @return array of subsidiary definitions
+    * @exception BuildException if a build error occurs
     */
     public Definition[] getSubsidiaryDefinitions( Resource module )
         throws BuildException
@@ -350,7 +389,7 @@ public class AntFileIndex extends DataType implements Index
         final String group = module.getInfo().getGroup();
         final ArrayList list = new ArrayList();
         Definition[] defs = getDefinitions();
-        for( int i=0; i<defs.length; i++ )
+        for( int i=0; i < defs.length; i++ )
         {
             Definition d = defs[i];
             if( d.getInfo().getGroup().startsWith( group + "/" ) )
@@ -367,8 +406,10 @@ public class AntFileIndex extends DataType implements Index
     }
 
    /**
-    * Return a resource relative to a supplied key.
-    * @see net.dpml.magic.Index#getResource(java.lang.String)
+    * Return a resource matching the supplied key.
+    * @param key the resource key
+    * @return the resource mathing the key
+    * @exception BuildException if the resource is unknown
     */
     public Resource getResource( final String key )
         throws BuildException
@@ -377,11 +418,15 @@ public class AntFileIndex extends DataType implements Index
         return getResource( reference );
     }
 
-   /* (non-Javadoc)
-    * @see net.dpml.magic.Index#getResource(net.dpml.magic.model.ResourceRef)
+   /**
+    * Return a resource matching the supplied reference.
+    * @param reference the resource reference
+    * @return the resource mathing the reference
+    * @exception BuildException if the resource is unknown
+    * @exception UnknownResourceException if the resource is unknown
     */
     public Resource getResource( final ResourceRef reference )
-        throws BuildException
+        throws BuildException, UnknownResourceException
     {
         final String key = reference.getKey();
         final Resource resource = (Resource) m_resources.get( key );
@@ -392,8 +437,11 @@ public class AntFileIndex extends DataType implements Index
         return resource;
     }
 
-   /* (non-Javadoc)
-    * @see net.dpml.magic.Index#getDefinition(java.lang.String)
+   /**
+    * Return a definition matching the supplied key.
+    * @param key the project defintion key
+    * @return the definition mathing the key
+    * @exception BuildException if the definition is unknown
     */
     public Definition getDefinition( final String key )
         throws BuildException
@@ -402,8 +450,11 @@ public class AntFileIndex extends DataType implements Index
         return getDefinition( reference );
     }
 
-   /* (non-Javadoc)
-    * @see net.dpml.magic.Index#getDefinition(net.dpml.magic.model.ResourceRef)
+   /**
+    * Return a definition matching the supplied reference.
+    * @param reference the resource reference
+    * @return the definition mathing the reference
+    * @exception BuildException if the definition is unknown
     */
     public Definition getDefinition( final ResourceRef reference )
         throws BuildException
@@ -419,6 +470,56 @@ public class AntFileIndex extends DataType implements Index
               "Reference [" + reference + "] does not refer to a projects.";
             throw new BuildException( error );
         }
+    }
+
+   /**
+    * Build the module from a supplied source.
+    * @param source the module source
+    * @return the module
+    */
+    public Module buildModule( File source )
+    {
+        try
+        {
+            final Element root = ElementHelper.getRootElement( source );
+            final String rootElementName = root.getTagName();
+            if( "module".equals( rootElementName ) )
+            {
+                return buildModule( root, source );
+            }
+            else
+            {
+                final String error =
+                  "Unexpected root module element name ["
+                  + rootElementName
+                  + "] while reading source ["
+                  + source + "].";
+                throw new BuildException( error );
+            }
+        }
+        catch( Throwable e )
+        {
+            final String error =
+              "Module construction failure using source ["
+              + source
+              + "]";
+           throw new BuildException( error, e );
+        }
+    }
+
+   /**
+    * Load file based properties.
+    * @param proj the project
+    * @param file the property file
+    * @exception BuildException if build error occurs
+    */
+    protected void loadProperties( final Project proj, final File file )
+       throws BuildException
+    {
+        final Property props = (Property) proj.createTask( "property" );
+        props.init();
+        props.setFile( file );
+        props.execute();
     }
 
     //-------------------------------------------------------------
@@ -511,46 +612,13 @@ public class AntFileIndex extends DataType implements Index
         }
     }
 
-   /* (non-Javadoc)
-    * @see net.dpml.magic.Index#buildModule(java.io.File)
-    */
-    public Module buildModule( File source )
-    {
-        try
-        {
-            final Element root = ElementHelper.getRootElement( source );
-            final String rootElementName = root.getTagName();
-            if( "module".equals( rootElementName ) )
-            {
-                return buildModule( root, source );
-            }
-            else
-            {
-                final String error =
-                  "Unexpected root module element name ["
-                  + rootElementName
-                  + "] while reading source ["
-                  + source + "].";
-                throw new BuildException( error );
-            }
-        }
-        catch( Throwable e )
-        {
-            final String error =
-              "Module construction failure using source ["
-              + source
-              + "]";
-           throw new BuildException( error, e );
-        }
-    }
-
     private Module buildModule( String uri )
     {
         try
         {
             Artifact artifact = Artifact.createArtifact( uri );
             URL url = artifact.toURL();
-            File local = (File) url.getContent( new Class[]{ File.class } );
+            File local = (File) url.getContent( new Class[]{File.class} );
             final Element root = ElementHelper.getRootElement( local );
             return buildModule( root, local );
         }
@@ -724,7 +792,7 @@ public class AntFileIndex extends DataType implements Index
         final String filename = element.getAttribute( "index" );
         final String uriAttribute = element.getAttribute( "uri" );
         String urn = parse( uriAttribute );
-        if(( null != filename ) && ( !"".equals( filename )))
+        if( ( null != filename ) && ( !"".equals( filename ) ) )
         {
             final File index = AntFileIndexBuilder.getFile( anchor, filename );
             buildList( index, uri );
@@ -745,7 +813,7 @@ public class AntFileIndex extends DataType implements Index
                 {
                     Artifact artifact = Artifact.createArtifact( urn );
                     URL url = artifact.toURL();
-                    File local = (File) url.getContent( new Class[]{ File.class } );
+                    File local = (File) url.getContent( new Class[]{File.class} );
                     buildList( local, urn );
                 }
                 catch( BuildException e )
@@ -794,12 +862,15 @@ public class AntFileIndex extends DataType implements Index
           || "project".equals( tag ) );
     }
 
-    protected void loadProperties( final Project proj, final File file )
-       throws BuildException
+    private void processModuleProperties( Project proj, File base )
     {
-        final Property props = (Property) proj.createTask( "property" );
-        props.init();
-        props.setFile( file );
-        props.execute();
+        if( null == base )
+        {
+            return;
+        }
+        File module = new File( base, "module.properties" );
+        loadProperties( proj, module );
+        File parent = base.getParentFile();
+        processModuleProperties( proj, parent );
     }
 }

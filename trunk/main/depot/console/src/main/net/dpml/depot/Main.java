@@ -655,6 +655,8 @@ public final class Main implements ShutdownHandler
         final String message = 
           "Version\n"
           + "\n"
+          + "\n  Java:          \t" 
+          + System.getProperty( "java.version" )
           + "\n  Depot Console: \t@DEPOT-CONSOLE-URI@"
           + "\n  Exec Handler: \t@DEPOT-EXEC-URI@"
           + "\n  Install Handler: \t@DEPOT-INSTALL-URI@"

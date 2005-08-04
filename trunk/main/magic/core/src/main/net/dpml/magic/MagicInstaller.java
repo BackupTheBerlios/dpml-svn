@@ -18,9 +18,11 @@
 
 package net.dpml.magic;
 
-import java.io.*;
-import java.net.URISyntaxException;
-import java.net.MalformedURLException;
+import java.io.File;
+import java.io.InputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.FileFilter;
 import java.net.URI;
 import java.net.URL;
 
@@ -31,11 +33,20 @@ import net.dpml.transit.model.UnknownKeyException;
 import net.dpml.transit.util.StreamUtils;
 
 /**
+ * Installer for the Magic build system.  Handles registration of a transit development
+ * profile and updating of the user's ${user.home}/.ant/lib environment.
  */
 public class MagicInstaller
 {
     private Logger m_logger;
 
+   /**
+    * Creation of a new installer instance.
+    * @param home the transit registry
+    * @param install evalues to TRUE if this is an install othwise it's a deinstall
+    * @param logger the assigned logging channel
+    * @exception Exception if an error occurs
+    */
     public MagicInstaller( TransitRegistryModel home, Boolean install, Logger logger ) throws Exception
     {
         m_logger = logger;
@@ -69,24 +80,36 @@ public class MagicInstaller
         }
     }
 
+   /**
+    * Return the assigned logging channel.
+    * @return the logging channel
+    */
     private Logger getLogger()
     {
         return m_logger;
     }
 
+   /**
+    * Check that supplied ant lib dir exist creating if if necessary.
+    * @param file the ${user.home}/.ant/lib directory
+    */
     private void checkAntLib( File file )
     {
-        if( false == file.exists() )
+        if( !file.exists() )
         {
             getLogger().debug( "  creating " + file );
             file.mkdirs();
         }
     }
 
+   /**
+    * Remove any old version of DPML files from the antlib directory.
+    * @param file the ${user.home}/.ant/lib directory
+    */
     private void purgeAntLib( File file )
     {
         File[] files = file.listFiles( new DpmlFileFilter() );
-        for( int i=0; i<files.length; i++ )
+        for( int i=0; i < files.length; i++ )
         {
             File f = files[i];
             getLogger().debug( "removing old file ${user.home}/.ant/lib/" + f.getName() );
@@ -94,6 +117,10 @@ public class MagicInstaller
         }
     }
 
+   /**
+    * Update the antlib directory with JUnit, Transit main and Transit tools.
+    * @param file the ${user.home}/.ant/lib directory
+    */
     private void updateAntLib( File lib )
     {
         updateJUnit( lib );
@@ -101,6 +128,10 @@ public class MagicInstaller
         updateTransitTools( lib );
     }
 
+   /**
+    * Update the antlib directory with JUnit.
+    * @param file the ${user.home}/.ant/lib directory
+    */
     private void updateJUnit( File lib )
     {
         try
@@ -117,6 +148,10 @@ public class MagicInstaller
         }
     }
 
+   /**
+    * Update the antlib directory with Transit main.
+    * @param file the ${user.home}/.ant/lib directory
+    */
     private void updateTransitMain( File lib )
     {
         try
@@ -133,6 +168,10 @@ public class MagicInstaller
         }
     }
 
+   /**
+    * Update the antlib directory with Transit tools.
+    * @param file the ${user.home}/.ant/lib directory
+    */
     private void updateTransitTools( File lib )
     {
         try
@@ -149,14 +188,26 @@ public class MagicInstaller
         }
     }
 
+   /**
+    * Internal class used for DPML content filtering.
+    */
     private static class DpmlFileFilter implements FileFilter
     {
+       /**
+        * Return true if the supplied file matchines the dpml-transit filter criteria.
+        * @return TRUE if the filter matches
+        */
         public boolean accept( File file )
         {
             return file.getName().startsWith( "dpml-transit-" );
         }
     }
 
+   /**
+    * Utility to copy a artifact to a directory.
+    * @param lib the target directory
+    * @param source the source uri
+    */
     private void copyInto( File lib, URI source ) throws IOException
     {
         Artifact artifact = Artifact.createArtifact( source );
@@ -171,8 +222,8 @@ public class MagicInstaller
         StreamUtils.copyStream( input, output, true );
     }
 
-    private static String JUNIT_PATH = "@JUNIT-URI@";
-    private static String TRANSIT_MAIN_PATH = "@TRANSIT-MAIN-URI@";
-    private static String TRANSIT_TOOLS_PATH = "@TRANSIT-TOOLS-URI@";
+    private static final String JUNIT_PATH = "@JUNIT-URI@";
+    private static final String TRANSIT_MAIN_PATH = "@TRANSIT-MAIN-URI@";
+    private static final String TRANSIT_TOOLS_PATH = "@TRANSIT-TOOLS-URI@";
 
 }

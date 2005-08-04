@@ -132,7 +132,7 @@ dpml.depot.installer.uri = ${magic.plugin.uri}
 
   </target>
 
-  <target name="install" depends="standard.install,junit-report,checkstyle">
+  <target name="install" depends="standard.install,junit-report">
     <echo>
 #----------------------------------------------------------------------------------
 # Updating DPML PREFS ${dpml.prefs}

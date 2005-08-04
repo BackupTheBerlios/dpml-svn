@@ -47,6 +47,16 @@ public class Resource
     private AntFileIndex m_index;
     private String m_uri;
 
+   /**
+    * Creation of a new resource.
+    * @param index the index
+    * @param key the resource key
+    * @param info the info datastructure
+    * @param resources resource referenced by the resource
+    * @param uri the module uri
+    * @exception IllegalArgumentException if the key is zero length
+    * @exception NullArgumentException if the index, key, info, resources or uri argumetns are null
+    */
     public Resource(
       final AntFileIndex index, final String key, final Info info, final ResourceRef[] resources, String uri )
       throws IllegalArgumentException, NullArgumentException
@@ -67,62 +77,28 @@ public class Resource
         m_uri = uri;
     }
 
-    private void assertNotNull( Object object, String key ) throws NullArgumentException
-    {
-        if( null == object )
-        {
-            throw new NullArgumentException( key );
-        }
-    }
-
-    private void assertNotZeroLength( String value, String key ) throws IllegalArgumentException
-    {
-        if( value.length() == 0 )
-        {
-            final String error =
-              "Supplied argument value for the parameter ["
-              + key
-              + "] contains an illegal zero length string.";
-            throw new IllegalArgumentException( error );
-        }
-    }
-
-    private void assertNotInvalidKeyLength( String id, String value, String key ) throws IllegalArgumentException
-    {
-        if( value.startsWith( "key:" ) )
-        {
-            final String ref = value.substring( 4 );
-            try
-            {
-                assertNotZeroLength( ref , key );
-            }
-            catch( IllegalArgumentException iae )
-            {
-                final String error =
-                  "Module key binding for the resource ["
-                  + id
-                  + "] under the parameter ["
-                  + key
-                  + "] is undefined.";
-                throw new IllegalArgumentException ( error );
-            }
-        }
-        else
-        {
-            assertNotZeroLength( value, key );
-        }
-    }
-
+   /**
+    * Return the unique resource key.
+    * @return the key
+    */
     public String getKey()
     {
         return m_key;
     }
 
+   /**
+    * Return the resource info data.
+    * @return the info datastructure
+    */
     public Info getInfo()
     {
         return m_info;
     }
 
+   /**
+    * Return the array of resource refs referenced by the resource.
+    * @return the resource ref array
+    */
     public ResourceRef[] getResourceRefs()
     {
         if( getInfo().isa( "module" ) )
@@ -145,9 +121,94 @@ public class Resource
         }
     }
 
-    protected AntFileIndex getIndex()
+   /**
+    * Create and return the file representing a cached artifact.
+    * @param project the current project
+    * @param type the resource type
+    * @return the file value
+    */
+    public File getArtifact( final Project project, String type )
     {
-        return m_index;
+        return get( type );
+    }
+
+   /**
+    * Create and return the file representing a cached artifact.
+    * @param project the current project
+    * @param type the resource type
+    * @param alias a link alias
+    * @return the file value
+    */
+    public File getArtifact( final Project project, String type, String alias )
+    {
+        return get( type, alias );
+    }
+
+   /**
+    * Create and return a uri for the resource based on a supplied type.
+    * @param type the resource type
+    * @return the URI value
+    */
+    public URI getArtifactURI( String type ) throws BuildException
+    {
+        final String path = getInfo().getURI( type );
+        try
+        {
+            return new URI( path );
+        }
+        catch( BuildException e )
+        {
+            throw e;
+        }
+        catch( Throwable e )
+        {
+            final String error =
+              "Unable to resolve artifact uri for the resource: "
+              + this;
+            throw new BuildException( error, e );
+        }
+    }
+
+   /**
+    * Return a filename using a supplied type.
+    * @param type the resource type
+    * @return the filename
+    */
+    public String getFilename( final String type )
+    {
+        final Info info = getInfo();
+        final String name = info.getName();
+        if( null != info.getVersion() )
+        {
+            return name + "-" + info.getVersion() + "." + type;
+        }
+        else
+        {
+            return name + "." + type;
+        }
+    }
+
+   /**
+    * Return a filename using a supplied prefix and type.
+    * @param prefix the filename prefix
+    * @param type the resource type
+    * @return the filename
+    */
+    public String getFilename( final String prefix, final String type )
+    {
+        if( null == prefix )
+        {
+            throw new NullArgumentException( "prefix" );
+        }
+        final String name = getInfo().getName() + "-" + prefix;
+        if( null != getInfo().getVersion() )
+        {
+            return name + "-" + getInfo().getVersion() + "." + type;
+        }
+        else
+        {
+            return name + "." + type;
+        }
     }
 
    /**
@@ -196,6 +257,24 @@ public class Resource
         return (ResourceRef[]) list.toArray( new ResourceRef[0] );
     }
 
+   /**
+    * Return the working index.
+    * @return the index
+    */
+    protected AntFileIndex getIndex()
+    {
+        return m_index;
+    }
+
+   /**
+    * Pupoluate a working list with resource references matching a supplied mode.
+    *
+    * @param project the current project
+    * @param list the list of visited refs
+    * @param mode the mode filter
+    * @param tag the tag filter
+    * @param flag if TRUE recuse into resources refeenced by refs
+    */
     protected void getResourceRefs(
       final Project project, final List list, final int mode, final int tag, final boolean flag )
     {
@@ -293,6 +372,52 @@ public class Resource
         return path;
     }
 
+    private void assertNotNull( Object object, String key ) throws NullArgumentException
+    {
+        if( null == object )
+        {
+            throw new NullArgumentException( key );
+        }
+    }
+
+    private void assertNotZeroLength( String value, String key ) throws IllegalArgumentException
+    {
+        if( value.length() == 0 )
+        {
+            final String error =
+              "Supplied argument value for the parameter ["
+              + key
+              + "] contains an illegal zero length string.";
+            throw new IllegalArgumentException( error );
+        }
+    }
+
+    private void assertNotInvalidKeyLength( String id, String value, String key ) throws IllegalArgumentException
+    {
+        if( value.startsWith( "key:" ) )
+        {
+            final String ref = value.substring( 4 );
+            try
+            {
+                assertNotZeroLength( ref , key );
+            }
+            catch( IllegalArgumentException iae )
+            {
+                final String error =
+                  "Module key binding for the resource ["
+                  + id
+                  + "] under the parameter ["
+                  + key
+                  + "] is undefined.";
+                throw new IllegalArgumentException ( error );
+            }
+        }
+        else
+        {
+            assertNotZeroLength( value, key );
+        }
+    }
+
    /**
     * Used to filter the resources assigned to a path based on a module
     * restriction policy.  If the supplied module argument is false then
@@ -365,16 +490,6 @@ public class Resource
         return (ResourceRef[]) list.toArray( new ResourceRef[0] );
     }
 
-    public File getArtifact( final Project project, String type )
-    {
-        return get( type );
-    }
-
-    public File getArtifact( final Project project, String type, String alias )
-    {
-        return get( type, alias );
-    }
-
     private File get( String type ) throws BuildException
     {
         return get( type, null );
@@ -410,57 +525,6 @@ public class Resource
               "Unable to resolve local file for the resource: "
               + this;
             throw new BuildException( error, e );
-        }
-    }
-
-    public URI getArtifactURI( String type ) throws BuildException
-    {
-        final String path = getInfo().getURI( type );
-        try
-        {
-            return new URI( path );
-        }
-        catch( BuildException e )
-        {
-            throw e;
-        }
-        catch( Throwable e )
-        {
-            final String error =
-              "Unable to resolve artifact uri for the resource: "
-              + this;
-            throw new BuildException( error, e );
-        }
-    }
-
-    public String getFilename( final String type )
-    {
-        final Info info = getInfo();
-        final String name = info.getName();
-        if( null != info.getVersion() )
-        {
-            return name + "-" + info.getVersion() + "." + type;
-        }
-        else
-        {
-            return name + "." + type;
-        }
-    }
-
-    public String getFilename( final String prefix, final String type )
-    {
-        if( null == prefix )
-        {
-            throw new NullArgumentException( "prefix" );
-        }
-        final String name = getInfo().getName() + "-" + prefix;
-        if( null != getInfo().getVersion() )
-        {
-            return name + "-" + getInfo().getVersion() + "." + type;
-        }
-        else
-        {
-            return name + "." + type;
         }
     }
 
@@ -507,7 +571,9 @@ public class Resource
         for( int i=0; i<refs.length; i++ )
         {
             if( !refs[i].equals( references[i] ) )
+            {
                 return false;
+            }
         }
 
         return true;
@@ -518,7 +584,9 @@ public class Resource
         int hash = getInfo().hashCode();
         final ResourceRef[] refs = getResourceRefs();
         for( int i = 0 ; i < refs.length ; i++ )
+        {
             hash = hash ^ refs[i].hashCode();
+        }
         return hash;
     }
 }

@@ -120,12 +120,14 @@
         </module>
         <module name="com.puppycrawl.tools.checkstyle.checks.javadoc.JavadocMethodCheck">
             <property name="severity" value="warning"/>
+            <property name="scope" value="protected"/>
         </module>
         <module name="com.puppycrawl.tools.checkstyle.checks.javadoc.JavadocTypeCheck">
             <property name="severity" value="warning"/>
         </module>
         <module name="com.puppycrawl.tools.checkstyle.checks.javadoc.JavadocVariableCheck">
             <property name="severity" value="warning"/>
+            <property name="scope" value="protected"/>
         </module>
         <module name="com.puppycrawl.tools.checkstyle.checks.naming.ConstantNameCheck">
             <property name="severity" value="warning"/>

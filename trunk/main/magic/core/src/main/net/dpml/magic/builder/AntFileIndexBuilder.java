@@ -70,12 +70,23 @@ public class AntFileIndexBuilder extends DataType
     // constructor
     //-------------------------------------------------------------
 
+   /**
+    * Creation of a new ant file index builder.
+    * @param proj the ant project
+    * @exception BuildException if a build error occurs
+    */
     public AntFileIndexBuilder( final Project proj )
         throws BuildException
     {
         this( proj, null );
     }
 
+   /**
+    * Creation of a new ant file index builder.
+    * @param proj the ant project
+    * @param index the index file
+    * @exception BuildException if a build error occurs
+    */
     public AntFileIndexBuilder( final Project proj, File index )
         throws BuildException
     {
@@ -119,9 +130,9 @@ public class AntFileIndexBuilder extends DataType
         {
             e.printStackTrace();
             final String error =
-              "Internal error while attempting to construct index."+
-              "file:" + file.getAbsolutePath() +
-              "project:" + proj.toString();
+              "Internal error while attempting to construct index."
+              + "file:" + file.getAbsolutePath()
+              + "project:" + proj.toString();
             throw new BuildException( error, e );
         }
     }
@@ -157,8 +168,7 @@ public class AntFileIndexBuilder extends DataType
     public String getReleaseSignature()
     {
         Project project = getProject();
-        String signature = project.getProperty( BUILD_SIGNATURE_KEY );
-        return signature;
+        return project.getProperty( BUILD_SIGNATURE_KEY );
     }
 
     //-------------------------------------------------------------
@@ -189,17 +199,23 @@ public class AntFileIndexBuilder extends DataType
     private File resolve( File index, boolean traverse )
     {
         if( index.isFile() )
+        {
             return index;
+        }
         if( index.isDirectory() )
         {
             File file = new File( index, "index.xml" );
             if( file.isFile() )
+            {
                 return file;
+            }
             if( traverse )
             {
                 File resolved = traverse( index );
                 if( resolved != null )
+                {
                     return resolved;
+                }
             }
         }
 
@@ -212,10 +228,14 @@ public class AntFileIndexBuilder extends DataType
     {
         File file = new File( dir, "index.xml" );
         if( file.isFile() )
+        {
             return file;
+        }
         File parent = dir.getParentFile();
         if( null != parent )
+        {
             return traverse( parent );
+        }
         return null;
     }
 
@@ -270,7 +290,8 @@ public class AntFileIndexBuilder extends DataType
    /**
     * Return the concatonal variant of a file.
     * @param file the file argument
-    * @return the concatonal variant
+    * @return the canonical variant
+    * @exception BuildException if a build error occurs
     */
     public static File getCanonicalFile( final File file ) throws BuildException
     {
@@ -282,7 +303,9 @@ public class AntFileIndexBuilder extends DataType
     * path is created.
     *
     * @param file the file argument
-    * @return the concatonal variant
+    * @param create if TRUE create pararent directories of the supplied file
+    * @return the canonical variant
+    * @exception BuildException if a build error occurs
     */
     public static File getCanonicalFile( final File file, boolean create ) throws BuildException
     {
@@ -311,7 +334,8 @@ public class AntFileIndexBuilder extends DataType
    /**
     * Return the concatonal path of a file.
     * @param file the file argument
-    * @return the concatonal path
+    * @return the canonical path
+    * @exception BuildException if a build error occurs
     */
     public static String getCanonicalPath( final File file ) throws BuildException
     {

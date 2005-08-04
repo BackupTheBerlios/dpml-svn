@@ -28,14 +28,11 @@ import org.apache.tools.ant.Location;
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.types.Path;
 
-
-
 /**
  * A definition is an immutable description of a project including its name,
  * group, version, structrual dependencies and plugin dependencies.
  *
  * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
- * @version $Revision: 1.2 $ $Date: 2004/03/17 10:30:09 $
  */
 public class Definition extends Resource
 {
@@ -52,6 +49,7 @@ public class Definition extends Resource
     * @param index the index into which this project is bound
     * @param key a key unique with the home that identifies this project
     * @param basedir the base directory relative to the index file that this project is defined
+    * @param build the build file filename
     * @param path the basedir as a relative path
     * @param info a descriptor of the name, grolup, version and delivery status
     * @param resources the set of resource dependencies
@@ -137,6 +135,7 @@ public class Definition extends Resource
     * from all projects with the same or deeper group, otherwise
     * the path corresponds to external resource reference path entries.
     *
+    * @param project and current project
     * @return the classpath
     * @exception NullArgumentException if the supplied project argument is null.
     */
@@ -153,7 +152,7 @@ public class Definition extends Resource
         if( getInfo().isa( "module" ) )
         {
             Definition[] defs = getIndex().getSubsidiaryDefinitions( this );
-            for( int i=0; i<defs.length; i++ )
+            for( int i=0; i < defs.length; i++ )
             {
                 Definition d = defs[i];
                 path.add( d.getClassPath( project ) );
@@ -175,28 +174,46 @@ public class Definition extends Resource
 
    /**
     * Return TRUE is this defintionj is equal to a supplied defintion
+    * @param other the other object
     * @return the equality status
     */
     public boolean equals( final Object other )
     {
-        if( super.equals( other ) && ( other instanceof Definition ))
+        if( super.equals( other ) && ( other instanceof Definition ) )
         {
             final Definition def = (Definition) other;
-
             final ResourceRef[] plugins = getPluginRefs();
             final ResourceRef[] plugins2 = def.getPluginRefs();
-
             if( plugins.length != plugins2.length )
             {
                 return false;
             }
-            for( int i=0; i<plugins.length; i++ )
+            for( int i=0; i < plugins.length; i++ )
             {
-                if( !plugins[i].equals( plugins2[i] ) ) return false;
+                if( !plugins[i].equals( plugins2[i] ) ) 
+                {
+                    return false;
+                }
             }
-
             return true;
         }
         return false;
+    }
+
+   /**
+    * Return the hashcode for the defintion instance.
+    * @return the hashcode
+    */
+    public int hashCode()
+    {
+        int hash = super.hashCode();
+        hash = hash ^ m_basedir.hashCode();
+        hash = hash ^ m_path.hashCode();
+        hash = hash ^ m_build.hashCode();
+        for( int i=0; i < m_plugins.length; i++ )
+        {
+           hash = hash ^ m_plugins[i].hashCode();
+        }
+        return hash;
     }
 }

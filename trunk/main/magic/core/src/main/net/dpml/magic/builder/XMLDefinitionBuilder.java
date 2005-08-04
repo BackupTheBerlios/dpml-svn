@@ -31,24 +31,28 @@ import org.apache.tools.ant.BuildException;
 
 import org.w3c.dom.Element;
 
-
 /**
- * Definition of a project.
+ * Utility class that supports construction of project and resource datastructures.
  *
  * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
  * @version $Revision: 1.2 $ $Date: 2004/03/17 10:30:09 $
  */
-public class XMLDefinitionBuilder
+public final class XMLDefinitionBuilder
 {
+    private XMLDefinitionBuilder()
+    {
+        // static utility class
+    }
+
    /**
     * Create a resource.
     * @param home the project index
     * @param element the DOM element definition
+    * @param uri the module uri
     * @return the resource
     */
     public static Resource createResource( final AntFileIndex home, final Element element, String uri )
     {
-        
         boolean external = isExternal( element );
         final Element infoElement = ElementHelper.getChild( element, "info" );
         final Info info = createInfo( home, infoElement, external, uri );
@@ -58,18 +62,24 @@ public class XMLDefinitionBuilder
         return new Resource( home, key, info, resources, uri );
     }
 
+   /**
+    * Return TRUE is the element is an external resource.
+    * @param element the DOM element
+    * @return TRUE is the element is a resource
+    */
     public static boolean isExternal( Element element )
     {
-        if( element.getTagName().equals( "resource" ) )
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
+        return element.getTagName().equals( "resource" );
     }
 
+   /**
+    * Construct a resource from an element.
+    * @param home the index
+    * @param element the dom element
+    * @param anchor the file anchor from which relative references will be resolved
+    * @param uri the module uri
+    * @return the resource
+    */
     public static Resource createResource( AntFileIndex home, Element element, File anchor, String uri )
     {
         final String tag = element.getTagName();
@@ -114,7 +124,7 @@ public class XMLDefinitionBuilder
 
     private static File getBasedir( final File anchor, final String path )
     {
-        if(( null == path ) || "".equals( path ) )
+        if( ( null == path ) || "".equals( path ) )
         {
             return anchor;
         }
@@ -166,6 +176,14 @@ public class XMLDefinitionBuilder
         return key;
     }
 
+   /**
+    * Creation of a info descriptor.
+    * @param home the index
+    * @param info the dom element
+    * @param external TRUE if this is an external element
+    * @param uri the module uri
+    * @return the info descriptor
+    */
     public static Info createInfo( AntFileIndex home, final Element info, boolean external, String uri )
     {
         final Element nameElement = ElementHelper.getChild( info, "name" );
@@ -304,12 +322,12 @@ public class XMLDefinitionBuilder
             Element[] children = ElementHelper.getChildren( types, "type" );
             if( children.length == 0 )
             {
-                return new Type[]{ new Type() };
+                return new Type[]{new Type()};
             }
             else
             {
                 Type[] values = new Type[ children.length ];
-                for( int i=0; i<children.length; i++ )
+                for( int i=0; i < children.length; i++ )
                 {
                     Element child = children[i];
                     Type type = createType( child );
@@ -322,7 +340,7 @@ public class XMLDefinitionBuilder
         {
             Element typeElement = ElementHelper.getChild( info, "type" );
             final Type type = createType( typeElement );
-            return new Type[]{ type };
+            return new Type[]{type};
         }
     }
 
@@ -354,7 +372,7 @@ public class XMLDefinitionBuilder
     {
         final Element[] children = ElementHelper.getChildren( element, "include" );
         final ResourceRef[] refs = new ResourceRef[ children.length ];
-        for( int i=0; i<children.length; i++ )
+        for( int i=0; i < children.length; i++ )
         {
             final Element child = children[i];
             final String key = child.getAttribute( "key" );
@@ -372,7 +390,7 @@ public class XMLDefinitionBuilder
     {
         final Element[] children = ElementHelper.getChildren( element, "include" );
         final ResourceRef[] refs = new ResourceRef[ children.length ];
-        for( int i=0; i<children.length; i++ )
+        for( int i=0; i < children.length; i++ )
         {
             final Element child = children[i];
             final String key = child.getAttribute( "key" );

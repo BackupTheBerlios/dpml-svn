@@ -65,22 +65,22 @@
     <xsl:template match="checkstyle">
 
         <!-- create the index.html -->
-        <redirect:write file="concat( $output.dir, '/index.html')">
+        <redirect:write file="{$output.dir}/index.html">
             <xsl:call-template name="index.html"/>
         </redirect:write>
 
         <!-- create the stylesheet.css -->
-        <redirect:write file="concat( $output.dir, '/stylesheet.css')">
+        <redirect:write file="{$output.dir}/stylesheet.css">
             <xsl:call-template name="stylesheet.css"/>
         </redirect:write>
 
         <!-- create the overview-summary.html at the root -->
-        <redirect:write file="concat( $output.dir, '/overview-frame.html')" >
+        <redirect:write file="{$output.dir}/overview-frame.html">
             <xsl:apply-templates select="." mode="overview"/>
         </redirect:write>
 
         <!-- create the all-classes.html at the root -->
-        <redirect:write file="concat( $output.dir, '/allclasses-frame.html')" >
+        <redirect:write file="{$output.dir}/allclasses-frame.html">
             <xsl:apply-templates select="." mode="all.classes"/>
         </redirect:write>
 

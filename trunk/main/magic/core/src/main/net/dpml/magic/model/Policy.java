@@ -19,26 +19,53 @@ package net.dpml.magic.model;
 
 
 /**
- * Project info.
+ * Policy datastructure that declares a build, test, or runtime association.
  *
  * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
- * @version $Revision: 1.2 $ $Date: 2004/03/17 10:30:09 $
  */
 public class Policy
 {
+   /**
+    * Constant declaring a dependency as applicable to all categories.
+    */
     public static final int ANY = -1;
+
+   /**
+    * Constant declaring a build time dependency.
+    */
     public static final int BUILD = 0;
+
+   /**
+    * Constant declaring a test time dependency.
+    */
     public static final int TEST = 1;
+
+   /**
+    * Constant declaring a runtime time dependency.
+    */
     public static final int RUNTIME = 2;
 
+   /**
+    * Enabled constant.
+    */
     public static final boolean ENABLED = true;
+
+   /**
+    * Disabled constant.
+    */
     public static final boolean DISABLED = false;
 
     private final boolean m_build;
     private final boolean m_test;
     private final boolean m_runtime;
 
-    public static int getPolicy( final String policy )
+   /**
+    * Return a policy value as an int given a supplied policy string argument.
+    * @param policy the policy value
+    * @return the value as a policy int
+    * @exception IllegalArgumentException if the supplied value is invalid
+    */
+    public static int getPolicy( final String policy ) throws IllegalArgumentException
     {
         String p = policy.trim().toLowerCase();
         if( "runtime".equals( p ) )
@@ -65,11 +92,20 @@ public class Policy
         }
     }
 
+   /**
+    * Creation of a new policy object with build, test and runtime dependencies.
+    */
     public Policy()
     {
         this( true, true, true );
     }
 
+   /**
+    * Creation of a new policy object.
+    * @param build TRUE if policy is build time
+    * @param test TRUE if policy is test time
+    * @param runtime TRUE if policy is runtime
+    */
     public Policy( final boolean build, final boolean test, final boolean runtime )
     {
         m_build = build;
@@ -77,21 +113,37 @@ public class Policy
         m_runtime = runtime;
     }
 
+   /**
+    * Return the build time enabled state.
+    * @return TRUE if build time enabled
+    */
     public boolean isBuildEnabled()
     {
         return m_build;
     }
 
+   /**
+    * Return the test time enabled state.
+    * @return TRUE if test time enabled
+    */
     public boolean isTestEnabled()
     {
         return m_test;
     }
 
+   /**
+    * Return the runtime enabled state.
+    * @return TRUE if runtime time enabled
+    */
     public boolean isRuntimeEnabled()
     {
         return m_runtime;
     }
 
+   /**
+    * Return TRUE if this policy matches the supplied mode.
+    * @return TRUE if the mode matches
+    */
     public boolean matches( final int mode )
     {
         if( mode == BUILD )
@@ -112,11 +164,20 @@ public class Policy
         }
     }
 
+   /**
+    * Return the string representation of the policy instance.
+    * @return the string value
+    */
     public String toString()
     {
         return "{" + m_build + ", " + m_test + ", " + m_runtime + "}";
     }
 
+   /**
+    * Compare this object with another for equality.
+    * @param other the other object
+    * @return the equality status
+    */
     public boolean equals( final Object other )
     {
         if( ! ( other instanceof Policy ) )
@@ -131,6 +192,10 @@ public class Policy
         return true;
     }
 
+   /**
+    * Return the hashcode for this instance.
+    * @return the hashcode value
+    */
     public int hashCode()
     {
         int hash = 913823634;

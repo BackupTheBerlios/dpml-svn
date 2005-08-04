@@ -148,9 +148,11 @@ dpml.depot.installer.uri = ${plugin.uri}
         <exclude name="**/*.bat"/>
         <exclude name="**/depot.exe"/>
         <exclude name="**/depot"/>
+        <exclude name="**/*.sh"/>
       </tarfileset>
       <tarfileset dir="${bundle}/share" prefix="share" mode="555" >
         <include name="**/depot"/>
+        <include name="**/*.sh"/>
       </tarfileset>
     </x:dist>
   </target>
