@@ -30,7 +30,7 @@ import net.dpml.magic.AntFileIndex;
  */
 public class InfoTask extends ContextualTask
 {
-    private boolean m_ReportMemory = false;
+    private boolean m_reportMemoryPolicy = false;
 
    /**
     * Task initization.
@@ -41,7 +41,7 @@ public class InfoTask extends ContextualTask
         String value = getProject().getProperty( "magic.memory.report" );
         if( null != value )
         {
-            m_ReportMemory = value.equalsIgnoreCase( "true" );
+            m_reportMemoryPolicy = value.equalsIgnoreCase( "true" );
         }
     }
 
@@ -56,7 +56,7 @@ public class InfoTask extends ContextualTask
         String key = getContext().getKey();
         project.log( "key: " + key );
 
-        if( m_ReportMemory )
+        if( m_reportMemoryPolicy )
         {
             Runtime rt = Runtime.getRuntime();
             rt.gc();

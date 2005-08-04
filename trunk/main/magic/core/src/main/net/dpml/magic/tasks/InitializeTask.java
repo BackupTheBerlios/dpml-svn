@@ -17,23 +17,19 @@
 
 package net.dpml.magic.tasks;
 
-import java.io.File;
 import java.net.URI;
 
 import net.dpml.magic.model.Definition;
 import net.dpml.magic.model.Resource;
 import net.dpml.magic.model.ResourceRef;
-import net.dpml.magic.model.Policy;
 
 import net.dpml.transit.NullArgumentException;
 import net.dpml.transit.tools.PluginTask;
 import net.dpml.transit.Plugin;
 
 import org.apache.tools.ant.Project;
-import org.apache.tools.ant.AntClassLoader;
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.BuildListener;
-import org.apache.tools.ant.types.Path;
 
 /**
  * The initialize task loads and plugins that a project
@@ -44,6 +40,10 @@ import org.apache.tools.ant.types.Path;
  */
 public class InitializeTask extends ProjectTask
 {
+   /**
+    * Task initialization.
+    * @exception BuildException if a build error occurs
+    */
     public void execute() throws BuildException
     {
         //
@@ -52,7 +52,7 @@ public class InitializeTask extends ProjectTask
         //
         final Definition def = getDefinition();
         final ResourceRef[] refs = def.getPluginRefs();
-        for( int i=0; i<refs.length; i++ )
+        for( int i=0; i < refs.length; i++ )
         {
             final ResourceRef ref = refs[i];
             final Resource plugin = getIndex().getResource( ref );
@@ -78,11 +78,6 @@ public class InitializeTask extends ProjectTask
             {
                 String urn = plugin.getURN();
                 Object task = getProject().createTask( "antlib:net.dpml.transit:plugin" );
-//                System.out.println( "-------------   Loaded PluginTask   --------------" );
-//                printClassLoaderURLs( task.getClass().getClassLoader() );
-//                System.out.println( "-------------  Resident PluginTask  --------------" );
-//                printClassLoaderURLs( PluginTask.class.getClassLoader() );
-//                System.out.println( "--------------------------------------------------" );
                 PluginTask p =(PluginTask) task;
                 p.init();
                 p.setUri( spec );
@@ -98,7 +93,8 @@ public class InitializeTask extends ProjectTask
                 //
 
                 ClassLoader classloader = this.getClass().getClassLoader();
-                Object[] params = new Object[]{ getProject() };
+                Project project = getProject();
+                Object[] params = new Object[]{project};
                 Object object = getRepository().getPlugin( classloader, uri, params );
                 if( object instanceof BuildListener )
                 {
@@ -123,30 +119,4 @@ public class InitializeTask extends ProjectTask
             throw new BuildException( error, e );
         }
     }
-
-/*
-    private void printClassLoaderURLs( ClassLoader cl )
-    {
-        if( cl == null )
-            return;
-        if( cl instanceof URLClassLoader )
-        {
-            URLClassLoader ucl = (URLClassLoader) cl;
-            URL[] urls = ucl.getURLs();
-            System.out.print( " * " + ucl + " : " );
-            for( int i=0 ; i < urls.length ; i++ )
-            {
-                if( i != 0 )
-                    System.out.print( ", " );
-                System.out.print( urls[i] );
-            }
-            System.out.println();
-        }
-        else
-        {
-            log( "Unable to print the URL for classloader " + cl.getClass().getName() );
-        }
-        printClassLoaderURLs( cl.getParent() );
-    }
-*/
 }

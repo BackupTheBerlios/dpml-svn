@@ -43,7 +43,7 @@ public class FilterTask extends FeatureTask
 
    /**
     * Execute the task.
-    * @exception BuildExcetion if a build error occurs
+    * @exception BuildException if a build error occurs
     */
     public void execute() throws BuildException
     {

@@ -42,11 +42,19 @@ public class InstallTask extends ProjectTask
 {
     private String m_id;
 
+   /**
+    * Set the project definiton id.
+    * @param id the defintion id
+    */
     public void setId( final String id )
     {
         m_id = id;
     }
 
+   /**
+    * Execute the project.
+    * @exception BuildException if a build errror occurs
+    */
     public void execute() throws BuildException
     {
         final Definition definition = getReferenceDefinition();
@@ -70,7 +78,7 @@ public class InstallTask extends ProjectTask
         final File deliverables = getContext().getDeliverablesDirectory();
         Definition def = getReferenceDefinition();
         Type[] types = def.getInfo().getTypes();
-        for( int i=0; i<types.length; i++ )
+        for( int i=0; i < types.length; i++ )
         {
             //
             // Check that the project has actually built the resource
@@ -82,7 +90,7 @@ public class InstallTask extends ProjectTask
             String filename = def.getInfo().getFilename( name );
             File group = new File( deliverables, name + "s" );
             File target = new File( group, filename );
-            if( false == target.exists() && false == name.equalsIgnoreCase( "null" ) )
+            if( !target.exists() && !name.equalsIgnoreCase( "null" ) )
             {
                 final String error = 
                   "Project " 

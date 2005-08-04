@@ -43,20 +43,39 @@ import java.io.File;
  */
 public class JavacTask extends ProjectTask
 {
-
+   /**
+    * Constant debug key.
+    */ 
     public static final String DEBUG_KEY = "project.javac.debug";
-    public static final boolean DEBUG_VALUE = true;
 
+   /**
+    * Constant fork key.
+    */ 
     public static final String FORK_KEY = "project.javac.fork";
-    public static final boolean FORK_VALUE = false;
 
+   /**
+    * Constant deprecation warning key.
+    */ 
     public static final String DEPRECATION_KEY = "project.javac.deprecation";
-    public static final boolean DEPRECATION_VALUE = true;
 
+   /**
+    * Constant src directory key.
+    */ 
     public static final String SOURCE_KEY = "project.javac.source";
 
+   /**
+    * Constant classes target directory key.
+    */ 
     public static final String TARGET_KEY = "project.javac.target";
 
+    private static final boolean DEBUG_VALUE = true;
+    private static final boolean FORK_VALUE = false;
+    private static final boolean DEPRECATION_VALUE = true;
+
+   /**
+    * Task initialization.
+    * @exception BuildException if a initialization failure occurs
+    */
     public void init() throws BuildException
     {
         if( !isInitialized() )
@@ -68,6 +87,10 @@ public class JavacTask extends ProjectTask
         }
     }
 
+   /**
+    * Task execution.
+    * @exception BuildException if a build failure occurs
+    */
     public void execute() throws BuildException
     {
         final Project project = getProject();

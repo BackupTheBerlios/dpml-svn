@@ -36,11 +36,27 @@ import java.io.File;
  */
 public class JarTask extends ProjectTask
 {
+   /**
+    * Constant type identifier for a jar.
+    */
     public static final String JAR_EXT = "jar";
-    public static final String JAR_MAIN_KEY = "project.jar.main.class";
-    public static final String JAR_CLASSPATH_KEY = "project.jar.classpath";
-    public static final String DPML = "The Digital Product Meta Library.";
 
+   /**
+    * Constant key for the manifest main class value.
+    */
+    public static final String JAR_MAIN_KEY = "project.jar.main.class";
+
+   /**
+    * Constant key for the manifest classpath value.
+    */
+    public static final String JAR_CLASSPATH_KEY = "project.jar.classpath";
+
+    private static final String DPML = "The Digital Product Meta Library.";
+
+   /**
+    * Task execution.
+    * @exception BuildException if a build error occurs
+    */
     public void execute() throws BuildException
     {
         final File classes =
@@ -62,6 +78,11 @@ public class JarTask extends ProjectTask
         }
     }
 
+   /**
+    * Return the jar file that the task will produce.
+    * @param deliverables the deliverables directory
+    * @return the jar file
+    */
     public File getJarFile( final File deliverables )
     {
         final Definition def = getDefinition();

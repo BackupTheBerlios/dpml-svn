@@ -47,36 +47,96 @@ import org.apache.tools.ant.Project;
  */
 public class ExportTask extends ProjectTask
 {
+   /**
+    * The constant namespace key.
+    */
     public static final String NAMESPACE = "net.dpml";
+
+   /**
+    * The constant version key.
+    */
     public static final String VERSION = "1.0";
+
+   /**
+    * The constant plugin class key.
+    */
     public static final String CLASS_KEY = "dpml.plugin.class";
+
+   /**
+    * The constant plugin export key.
+    */
     public static final String EXPORT_KEY = "dpml.plugin.export";
+
+   /**
+    * The constant resource key.
+    */
     public static final String RESOURCE_KEY = "dpml.plugin.resource";
+
+   /**
+    * The constant urn key.
+    */
     public static final String URN_KEY = "dpml.plugin.urn";
 
-    private static final String TYPE_ID = "plugin";
-
+   /**
+    * The constant group key.
+    */
     public static final String ARTIFACT_GROUP = "dpml.artifact.group";
+
+   /**
+    * The constant name key.
+    */
     public static final String ARTIFACT_NAME = "dpml.artifact.name";
+
+   /**
+    * The constant artifact version key.
+    */
     public static final String ARTIFACT_VERSION = "dpml.artifact.version";
+
+   /**
+    * The constant artifact signature key.
+    */
     public static final String ARTIFACT_SIGNATURE = "dpml.artifact.signature";
 
+   /**
+    * The constant artifact api dependency key.
+    */
     public static final String ARTIFACT_PUBLIC = "dpml.artifact.dependency.api";
+
+   /**
+    * The constant artifact spi dependency key.
+    */
     public static final String ARTIFACT_PROTECTED = "dpml.artifact.dependency.spi";
+
+   /**
+    * The constant artifact impl dependency key.
+    */
     public static final String ARTIFACT_PRIVATE = "dpml.artifact.dependency";
+
+    private static final String TYPE_ID = "plugin";
 
     private String m_class;
     private Antlib m_antlib;
 
+   /**
+    * Creation of a new AntLib instance.
+    */
     public static class Antlib extends PluginTask.Antlib
     {
     }
 
+   /**
+    * Set the plugin classname.
+    * @param type the classname
+    */
     public void setClass( String type )
     {
         m_class = type;
     }
 
+   /**
+    * Construct a new antlib defintion.
+    * @return the antlib definition
+    */
     public Antlib createAntlib()
     {
         if( null == m_antlib )
@@ -92,6 +152,10 @@ public class ExportTask extends ProjectTask
         }
     }
 
+   /**
+    * task execution during which the prugin descriptior is created.
+    * @exception BuildException if a build error occurs
+    */
     public void execute() throws BuildException
     {
         if( ( null == getClassname() ) && ( null == m_antlib ) )
@@ -250,7 +314,6 @@ public class ExportTask extends ProjectTask
             final String lead = ARTIFACT_PROTECTED;
             writeRefs( writer, spis, lead );
         }
-
         final ResourceRef[] impl = def.getQualifiedRefs( getProject(), visited, ResourceRef.IMPL );
         boolean isaJar = def.getInfo().isa( "jar" );
         if( ( impl.length > 0 ) || isaJar )
@@ -272,7 +335,7 @@ public class ExportTask extends ProjectTask
       final Writer writer, final ResourceRef[] refs, final String lead )
       throws IOException
     {
-        for( int i=0; i<refs.length; i++ )
+        for( int i=0; i < refs.length; i++ )
         {
             final ResourceRef ref = refs[i];
             final Resource resource = getIndex().getResource( ref );
@@ -356,7 +419,7 @@ public class ExportTask extends ProjectTask
             }
             catch( IOException e )
             {
-                // ignore
+                log( e.toString() );
             }
         }
     }

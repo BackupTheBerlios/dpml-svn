@@ -44,21 +44,39 @@ public abstract class FeatureTask extends ProjectTask
     private boolean m_flag = false;  // os not set
     private String m_type; // optional - used to select type when resolving uris
 
+   /**
+    * Set the key of the target project or resource description from which features will be 
+    * resolved from.  If not declared the key defaults to tyhe current defintion.
+    *
+    * @param key the resource key
+    */
     public void setKey( final String key )
     {
         m_key = key;
     }
 
+   /**
+    * Set the name of the feature.
+    * @param feature the feature name
+    */
     public void setFeature( final String feature )
     {
         m_feature = feature;
     }
 
+   /**
+    * Set the prefix.
+    * @param prefix ??
+    */
     public void setPrefix( final String prefix )
     {
         m_prefix = prefix;
     }
 
+   /**
+    * Set the platform.
+    * @param os a value of 'windows' or 'unix'
+    */
     public void setPlatform( final String os )
     {
         m_flag = true;
@@ -72,16 +90,28 @@ public abstract class FeatureTask extends ProjectTask
         }
     }
 
+   /**
+    * Optionaly set the resource type that the feature is related to.
+    * @param type the resource type
+    */
     public void setType( final String type )
     {
         m_type = type;
     }
 
+   /**
+    * Return the assigned feature name.
+    * @return the feature name
+    */
     protected String getFeature()
     {
         return m_feature;
     }
 
+   /**
+    * Resolve the feature value.
+    * @return the feature value
+    */
     protected String resolve()
     {
         if( null == m_feature )
@@ -113,8 +143,14 @@ public abstract class FeatureTask extends ProjectTask
         else if( m_feature.equals( "version" ) )
         {
             final String version = resource.getInfo().getVersion();
-            if( null == version ) return "";
-            return version;
+            if( null == version )
+            {
+                return "";
+            }
+            else
+            {
+                return version;
+            }
         }
         else if( m_feature.equals( "uri" ) )
         {
@@ -219,7 +255,7 @@ public abstract class FeatureTask extends ProjectTask
         // substitute the cache directory with the prefix symbol
         //
 
-        for( int i=0; i<translation.length; i++ )
+        for( int i=0; i < translation.length; i++ )
         {
             String trans = translation[i];
             if( trans.startsWith( root ) )
@@ -235,10 +271,10 @@ public abstract class FeatureTask extends ProjectTask
         //
 
         StringBuffer buffer = new StringBuffer();
-        for( int i=0; i<translation.length; i++ )
+        for( int i=0; i < translation.length; i++ )
         {
             String trans = convertString( translation[i] );
-            if( i>0 )
+            if( i > 0 )
             {
                 if( m_windows )
                 {
@@ -257,7 +293,10 @@ public abstract class FeatureTask extends ProjectTask
 
     private String convertString( String value )
     {
-        if( !m_flag ) return value;
+        if( !m_flag )
+        {
+            return value;
+        }
         if( m_windows )
         {
             return value.replace( '/', '\\' );
