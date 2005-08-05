@@ -18,8 +18,6 @@
 
 package net.dpml.transit;
 
-import net.dpml.transit.Transit;
-import net.dpml.transit.TransitException;
 import net.dpml.transit.artifact.ArtifactException;
 import net.dpml.transit.monitor.NetworkMonitorRouter;
 import net.dpml.transit.util.StreamUtils;

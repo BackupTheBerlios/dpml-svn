@@ -18,11 +18,6 @@
 
 package net.dpml.transit.store;
 
-import java.net.URL;
-
-import net.dpml.transit.model.Logger;
-import net.dpml.transit.model.TransitModel;
-
 /**
  * The Home defines the persistent storage home for transit management configurations.
  *

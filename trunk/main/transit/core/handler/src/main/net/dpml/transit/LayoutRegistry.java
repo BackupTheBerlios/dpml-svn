@@ -27,6 +27,9 @@ import java.io.IOException;
  */
 public interface LayoutRegistry
 {
+   /**
+    * Constrant layout plugin key.
+    */
     public static final String LAYOUT_HANDLER_PLUGIN_KEY = "dpml.transit.layout.plugin";
 
    /**
@@ -36,6 +39,7 @@ public interface LayoutRegistry
     *
     * @param id the layout identifier
     * @return the location resolver or null if not available
+    * @exception IOException if an IO error occurs
     */
     Layout getLayout( final String id ) throws IOException;
 }

@@ -19,7 +19,6 @@
 package net.dpml.transit.model;
 
 import java.rmi.Remote;
-import java.util.Date;
 
 /**
  * The abstract model interface.

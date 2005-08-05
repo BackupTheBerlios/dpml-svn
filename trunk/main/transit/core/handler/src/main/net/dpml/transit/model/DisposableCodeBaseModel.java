@@ -20,13 +20,8 @@ package net.dpml.transit.model;
 
 import java.net.URI;
 import java.rmi.RemoteException;
-import java.util.Date;
 import java.util.EventObject;
 import java.util.EventListener;
-import java.util.prefs.PreferenceChangeListener;
-import java.util.prefs.PreferenceChangeEvent;
-import java.util.prefs.BackingStoreException;
-import java.util.prefs.Preferences;
 
 import net.dpml.transit.store.CodeBaseStorage;
 
@@ -45,6 +40,7 @@ abstract class DisposableCodeBaseModel extends DefaultCodeBaseModel implements D
     * Creation of a new disposable codebase model.
     * @param logger the assigned logging channel
     * @param uri the codebase uri
+    * @exception RemoteException if a remote exception occurs
     */
     public DisposableCodeBaseModel( Logger logger, URI uri )
       throws RemoteException
@@ -56,6 +52,7 @@ abstract class DisposableCodeBaseModel extends DefaultCodeBaseModel implements D
     * Creation of a new disposable codebase model using a supplied storage unit.
     * @param logger the assigned logging channel
     * @param home the codebase storage unit
+    * @exception RemoteException if a remote exception occurs
     */
     public DisposableCodeBaseModel( Logger logger, CodeBaseStorage home )
       throws RemoteException
@@ -70,6 +67,7 @@ abstract class DisposableCodeBaseModel extends DefaultCodeBaseModel implements D
    /**
     * Add a disposal listener to the model.
     * @param listener the listener to add
+    * @exception RemoteException if a remote exception occurs
     */
     public void addDisposalListener( DisposalListener listener ) throws RemoteException
     {
@@ -79,6 +77,7 @@ abstract class DisposableCodeBaseModel extends DefaultCodeBaseModel implements D
    /**
     * Remove a disposal listener from the model.
     * @param listener the listener to remove
+    * @exception RemoteException if a remote exception occurs
     */
     public void removeDisposalListener( DisposalListener listener ) throws RemoteException
     {
@@ -87,6 +86,7 @@ abstract class DisposableCodeBaseModel extends DefaultCodeBaseModel implements D
 
    /**
     * Dispose of the disposable codebase model
+    * @exception RemoteException if a remote exception occurs
     */
     public void dispose() throws RemoteException
     {
@@ -100,6 +100,10 @@ abstract class DisposableCodeBaseModel extends DefaultCodeBaseModel implements D
     // impl
     //----------------------------------------------------------------------
 
+   /**
+    * Intenal event handler.
+    * @param event the event to handle
+    */
     protected void processEvent( EventObject event )
     {
         if( event instanceof DisposalEvent )
@@ -116,7 +120,7 @@ abstract class DisposableCodeBaseModel extends DefaultCodeBaseModel implements D
     {
         DisposalEvent event = (DisposalEvent) eventObject;
         EventListener[] listeners = listeners();
-        for( int i=0; i<listeners.length; i++ )
+        for( int i=0; i < listeners.length; i++ )
         {
             EventListener listener = listeners[i];
             if( listener instanceof DisposalListener )
@@ -152,8 +156,15 @@ abstract class DisposableCodeBaseModel extends DefaultCodeBaseModel implements D
         }
     }
 
+   /**
+    * Internal VetoableDisposalEvent.
+    */
     private static class VetoableDisposalEvent extends DisposalEvent
     {
+       /**
+        * Creation of a new vetoable disposal event.
+        * @param source the code base model pending disposal
+        */
         public VetoableDisposalEvent( CodeBaseModel source )
         {
             super( source );

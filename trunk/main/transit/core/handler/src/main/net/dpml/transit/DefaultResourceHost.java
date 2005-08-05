@@ -30,7 +30,6 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.net.HttpURLConnection;
-import java.net.InetAddress;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
@@ -45,7 +44,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 
-import net.dpml.transit.Artifact;
 import net.dpml.transit.model.HostModel;
 import net.dpml.transit.model.RequestIdentifier;
 import net.dpml.transit.model.HostListener;
@@ -411,7 +409,7 @@ class DefaultResourceHost extends UnicastRemoteObject
         synchronized( m_knownGroups )
         {
             m_knownGroups.clear();
-            for( int i = 0; i < groups.length; i++ )
+            for( int i=0; i < groups.length; i++ )
             {
                 String group = groups[i];
                 m_knownGroups.add( group );
@@ -614,7 +612,7 @@ class DefaultResourceHost extends UnicastRemoteObject
             log.println( "NullTrustManager:  authType=" + authType );
             log.println( "Server Certificates" );
             log.println( "-------------------" );
-            for( int i=0 ; i < certs.length ; i++ )
+            for( int i=0; i < certs.length; i++ )
             {
                 log.println( "   " + certs[ i ] );
             }
@@ -631,7 +629,7 @@ class DefaultResourceHost extends UnicastRemoteObject
             log.println( "NullTrustManager:  authType=" + authType );
             log.println( "Client Certificates" );
             log.println( "-------------------" );
-            for( int i=0 ; i < certs.length ; i++ )
+            for( int i=0; i < certs.length; i++ )
             {
                 log.println( "   " + certs[ i ] );
             }

@@ -18,35 +18,17 @@ package net.dpml.transit.store;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.ObjectOutputStream;
-import java.io.OutputStream;
-import java.io.Serializable;
 import java.io.FileNotFoundException;
 import java.net.URL;
 import java.net.MalformedURLException;
 import java.util.prefs.Preferences;
-import java.util.prefs.BackingStoreException;
-import java.util.jar.JarFile;
-import java.util.zip.ZipEntry;
-import java.util.Enumeration;
-import java.util.Map;
-import java.util.Hashtable;
 import java.util.Properties;
-import java.util.Date;
-import java.lang.reflect.Constructor;
-import java.util.logging.Logger;
-import java.util.logging.Level;
 import java.util.Date;
 
 import net.dpml.transit.NullArgumentException;
 import net.dpml.transit.Transit;
-import net.dpml.transit.TransitException;
-import net.dpml.transit.Layout;
 import net.dpml.transit.ClassicLayout;
 import net.dpml.transit.EclipseLayout;
-import net.dpml.transit.CacheHandler;
 import net.dpml.transit.util.Util;
 
 import net.dpml.transit.model.CacheModel;
@@ -55,7 +37,7 @@ import net.dpml.transit.model.CacheModel;
  * The TransitPreferences class is responsible for the setup of initial factory
  * default preference settings.
  */
-class TransitPreferences
+final class TransitPreferences
 {
     //--------------------------------------------------------------------------
     // static
@@ -303,7 +285,7 @@ class TransitPreferences
         {
             final String error = 
               "IO exception while attempting to read host properties."
-              + "\nURL: " + hostDef ;
+              + "\nURL: " + hostDef;
             throw new StorageRuntimeException( error, ioe ); 
         }
     }
@@ -380,7 +362,7 @@ class TransitPreferences
         if( "file".equals( protocol ) )
         {
             String spec = url.toExternalForm();
-            String s = spec.substring( 6 );
+            String s = spec.substring( SIX );
             return new File( s );
         }
         else
@@ -463,5 +445,7 @@ class TransitPreferences
             throw new StorageRuntimeException( error, e ); 
         }
     }
+
+    private static final int SIX = 6;
 }
 

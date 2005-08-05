@@ -30,18 +30,21 @@ public interface TransitRegistryModel extends Model
    /**
     * Return the number of registered transit profiles.
     * @return the number of registered models
+    * @exception RemoteException if a remote exception occurs
     */
     int getTransitModelCount() throws RemoteException;
 
    /**
     * Add a registry change listener.
     * @param listener the registry change listener to add
+    * @exception RemoteException if a remote exception occurs
     */
     void addTransitRegistryListener( TransitRegistryListener listener ) throws RemoteException;
 
    /**
     * Remove a registry change listener.
     * @param listener the registry change listener to remove
+    * @exception RemoteException if a remote exception occurs
     */
     void removeTransitRegistryListener( TransitRegistryListener listener ) throws RemoteException;
 
@@ -49,6 +52,7 @@ public interface TransitRegistryModel extends Model
     * Add a new Transit profile to the registry.
     * @param id the identifier of the new profile
     * @exception DuplicateKeyException if a profile with the same id is already registered
+    * @exception RemoteException if a remote exception occurs
     */
     void addTransitModel( String id ) throws DuplicateKeyException, RemoteException;
 
@@ -57,12 +61,14 @@ public interface TransitRegistryModel extends Model
     * @param model the profile to add
     * @exception DuplicateKeyException if a profile with the same id as the 
     *    id declared by the supplied model is already registered
+    * @exception RemoteException if a remote exception occurs
     */
     void addTransitModel( TransitModel model ) throws DuplicateKeyException, RemoteException;
 
    /**
     * Return the set of transit models in the registry.
     * @return the model array
+    * @exception RemoteException if a remote exception occurs
     */
     TransitModel[] getTransitModels() throws RemoteException;
 
@@ -70,6 +76,8 @@ public interface TransitRegistryModel extends Model
     * Return a transit profile matching the supplied model identifier.
     * @param id the model identifier
     * @return the transit model
+    * @exception UnknownKeyException if the id is unknown
+    * @exception RemoteException if a remote exception occurs
     */
     TransitModel getTransitModel( String id ) throws UnknownKeyException, RemoteException;
 
@@ -77,6 +85,7 @@ public interface TransitRegistryModel extends Model
     * Remove a transit model from the registry.
     * @param model the model to remove
     * @exception ModelReferenceException if the model is in use
+    * @exception RemoteException if a remote exception occurs
     */
     void removeTransitModel( TransitModel model ) throws ModelReferenceException, RemoteException;
 }

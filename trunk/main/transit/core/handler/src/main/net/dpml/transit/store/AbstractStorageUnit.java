@@ -16,15 +16,11 @@
 
 package net.dpml.transit.store;
 
-import java.io.IOException;
 import java.net.URL;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.MalformedURLException;
-import java.security.AccessControlException;
-import java.util.Date;
 import java.util.prefs.Preferences;
-import java.util.prefs.BackingStoreException;
 
 /**
  * Abstract base class providing a framework for preferences based persistance.

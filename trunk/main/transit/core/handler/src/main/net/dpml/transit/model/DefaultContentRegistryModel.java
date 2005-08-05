@@ -18,14 +18,11 @@
 
 package net.dpml.transit.model;
 
-import java.io.IOException;
 import java.net.URI;
 import java.rmi.RemoteException;
 import java.util.Collections;
-import java.util.Date;
 import java.util.List;
 import java.util.LinkedList;
-import java.util.Iterator;
 import java.util.EventObject;
 import java.util.EventListener;
 
@@ -59,6 +56,7 @@ class DefaultContentRegistryModel extends DisposableCodeBaseModel
     * @param home the content registry storage home
     * @exception DuplicateKeyException if the supplied home contains 
     *   duplicate content model identities
+    * @exception RemoteException if a remote exception occurs
     */
     public DefaultContentRegistryModel( Logger logger, ContentRegistryHome home ) 
       throws DuplicateKeyException, RemoteException
@@ -68,7 +66,7 @@ class DefaultContentRegistryModel extends DisposableCodeBaseModel
         m_home = home;
 
         ContentStorage[] stores = home.getInitialContentStores();
-        for( int i=0; i<stores.length; i++ )
+        for( int i=0; i < stores.length; i++ )
         {
             ContentStorage store = stores[i];
             String id = store.getType();
@@ -85,6 +83,7 @@ class DefaultContentRegistryModel extends DisposableCodeBaseModel
    /**
     * Return an array of content models currently assigned to the registry.
     * @return the content model array
+    * @exception RemoteException if a remote exception occurs
     */
     public ContentModel[] getContentModels() throws RemoteException
     {
@@ -100,13 +99,14 @@ class DefaultContentRegistryModel extends DisposableCodeBaseModel
     * @param type the content model type
     * @return the content model
     * @exception UnknownKeyException if the content model type is unknown
+    * @exception RemoteException if a remote exception occurs
     */
     public ContentModel getContentModel( String type ) throws UnknownKeyException, RemoteException
     {
         synchronized( m_lock )
         {
             ContentModel[] managers = getContentModels();
-            for( int i=0; i<managers.length; i++ )
+            for( int i=0; i < managers.length; i++ )
             {
                 ContentModel manager = managers[i];
                 if( type.equals( manager.getContentType() ) )
@@ -122,6 +122,7 @@ class DefaultContentRegistryModel extends DisposableCodeBaseModel
     * Create a new content model for the supplied type.
     * @param type the content model type
     * @exception DuplicateKeyException if a content model already exists for the supplied type
+    * @exception RemoteException if a remote exception occurs
     */
     public void addContentModel( String type ) throws DuplicateKeyException, RemoteException
     {
@@ -137,6 +138,7 @@ class DefaultContentRegistryModel extends DisposableCodeBaseModel
     * @param title the content model title
     * @param uri the content model codebase uri
     * @exception DuplicateKeyException if a content model already exists for the supplied type
+    * @exception RemoteException if a remote exception occurs
     */
     public void addContentModel( String type, String title, URI uri ) 
       throws DuplicateKeyException, RemoteException
@@ -152,6 +154,7 @@ class DefaultContentRegistryModel extends DisposableCodeBaseModel
     * @param model the content model to add
     * @exception DuplicateKeyException if a content model already exists for the type
     *   declared by the supplied model
+    * @exception RemoteException if a remote exception occurs
     */
     public void addContentModel( ContentModel model ) 
       throws DuplicateKeyException, RemoteException
@@ -162,6 +165,7 @@ class DefaultContentRegistryModel extends DisposableCodeBaseModel
    /**
     * Remove a content model from the registry.
     * @param model the model to remove
+    * @exception RemoteException if a remote exception occurs
     */
     public void removeContentModel( ContentModel model ) throws RemoteException
     {
@@ -177,6 +181,7 @@ class DefaultContentRegistryModel extends DisposableCodeBaseModel
    /**
     * Add a regsitry change listener.
     * @param listener the registry change listener to add
+    * @exception RemoteException if a remote exception occurs
     */
     public void addRegistryListener( ContentRegistryListener listener ) throws RemoteException
     {
@@ -186,6 +191,7 @@ class DefaultContentRegistryModel extends DisposableCodeBaseModel
    /**
     * Remove a registry change listener.
     * @param listener the registry change listener to remove
+    * @exception RemoteException if a remote exception occurs
     */
     public void removeRegistryListener( ContentRegistryListener listener ) throws RemoteException
     {
@@ -219,6 +225,10 @@ class DefaultContentRegistryModel extends DisposableCodeBaseModel
         }
     }
 
+   /**
+    * Internal event handler.
+    * @param event the event to handle
+    */
     protected void processEvent( EventObject event )
     {
         if( event instanceof ContentRegistryEvent )
@@ -234,7 +244,7 @@ class DefaultContentRegistryModel extends DisposableCodeBaseModel
     private void processContentRegistryEvent( ContentRegistryEvent event )
     {
         EventListener[] listeners = super.listeners();
-        for( int i=0; i<listeners.length; i++ )
+        for( int i=0; i < listeners.length; i++ )
         {
             EventListener listener = listeners[i];
             if( listener instanceof ContentRegistryListener )
@@ -270,16 +280,32 @@ class DefaultContentRegistryModel extends DisposableCodeBaseModel
         }
     }
 
+   /**
+    * Content model addition event.
+    */
     static class ContentAddedEvent extends ContentRegistryEvent
     {
+       /**
+        * Creation of a new content model addition event.
+        * @param source the source registry
+        * @param handler the content model
+        */
         public ContentAddedEvent( ContentRegistryModel source, ContentModel handler )
         {
             super( source, handler );
         }
     }
 
+   /**
+    * Content model removal event.
+    */
     static class ContentRemovedEvent extends ContentRegistryEvent
     {
+       /**
+        * Creation of a new content model removal event.
+        * @param source the source registry
+        * @param handler the content model
+        */
         public ContentRemovedEvent( ContentRegistryModel source, ContentModel handler )
         {
             super( source, handler );

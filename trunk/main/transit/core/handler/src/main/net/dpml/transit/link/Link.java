@@ -58,7 +58,7 @@ public class Link
     * @param manager the link manager
     * @exception NullArgumentException if the link uri or manager is null
     */
-    public Link( URI uri, LinkManager manager )
+    public Link( URI uri, LinkManager manager ) throws NullArgumentException
     {
         if( null == manager )
         {
@@ -73,6 +73,10 @@ public class Link
         m_uri = uri;
     }
 
+   /**
+    * Return the link uri.
+    * @return the link uri value
+    */
     public URI getLinkURI()
     {
         return m_uri;
@@ -82,9 +86,9 @@ public class Link
     * Return the URI that is currently bound to the Link.
     * @param defaultUri the default value
     * @return the current URI the link: is pointing to.
+    * @exception IOException if an IO error occurs
     */
-    public URI getTargetURI( URI defaultUri )
-        throws IOException
+    public URI getTargetURI( URI defaultUri ) throws IOException
     {
         try
         {
@@ -99,9 +103,9 @@ public class Link
    /** 
     * Sets (and permanently remembers) the Link to point to a new URI.
     * @param uri the URI that this link: should be pointing to.
+    * @exception IOException if an IO error occurs
     */
-    public void setTargetURI( URI uri )
-        throws IOException
+    public void setTargetURI( URI uri ) throws IOException
     {
         m_manager.setTargetURI( m_uri, uri );
     }

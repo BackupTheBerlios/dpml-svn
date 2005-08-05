@@ -18,7 +18,6 @@
 
 package net.dpml.transit.model;
 
-import java.io.IOException;
 import java.rmi.RemoteException;
 import java.net.URI;
 
@@ -32,6 +31,7 @@ public interface ContentRegistryModel extends CodeBaseModel
    /**
     * Return an array of content models currently assigned to the registry.
     * @return the content model array
+    * @exception RemoteException if a remote exception occurs
     */
     ContentModel[] getContentModels() throws RemoteException;
 
@@ -41,6 +41,7 @@ public interface ContentRegistryModel extends CodeBaseModel
     * @param type the content model type
     * @return the content model
     * @exception UnknownKeyException if the content model type is unknown
+    * @exception RemoteException if a remote exception occurs
     */
     ContentModel getContentModel( String type ) throws UnknownKeyException, RemoteException;
 
@@ -48,6 +49,7 @@ public interface ContentRegistryModel extends CodeBaseModel
     * Create a new content model for the supplied type.
     * @param type the content model type
     * @exception DuplicateKeyException if a content model already exists for the supplied type
+    * @exception RemoteException if a remote exception occurs
     */
     void addContentModel( String type ) throws DuplicateKeyException, RemoteException;
 
@@ -57,6 +59,7 @@ public interface ContentRegistryModel extends CodeBaseModel
     * @param title the content model title
     * @param uri the content model codebase uri
     * @exception DuplicateKeyException if a content model already exists for the supplied type
+    * @exception RemoteException if a remote exception occurs
     */
     void addContentModel( String type, String title, URI uri ) 
       throws DuplicateKeyException, RemoteException;
@@ -66,24 +69,28 @@ public interface ContentRegistryModel extends CodeBaseModel
     * @param model the content model to add
     * @exception DuplicateKeyException if a content model already exists for the type
     *   declared by the supplied model
+    * @exception RemoteException if a remote exception occurs
     */
     void addContentModel( ContentModel model ) throws DuplicateKeyException, RemoteException;
 
    /**
     * Remove a content model from the registry.
     * @param model the model to remove
+    * @exception RemoteException if a remote exception occurs
     */
     void removeContentModel( ContentModel model ) throws RemoteException;
 
    /**
     * Add a content registry change listener.
     * @param listener the registry change listener to add
+    * @exception RemoteException if a remote exception occurs
     */
     void addRegistryListener( ContentRegistryListener listener ) throws RemoteException;
 
    /**
     * Remove a registry change listener.
     * @param listener the registry change listener to remove
+    * @exception RemoteException if a remote exception occurs
     */
     void removeRegistryListener( ContentRegistryListener listener ) throws RemoteException;
 

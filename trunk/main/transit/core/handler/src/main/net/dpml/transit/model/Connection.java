@@ -106,7 +106,7 @@ public class Connection implements Serializable
         {
             return false;
         }
-        else if( false == ( other instanceof Connection ) )
+        else if( !( other instanceof Connection ) )
         {
             return false;
         }
@@ -125,13 +125,9 @@ public class Connection implements Serializable
             {
                 return false;
             }
-            else if( m_enabled != connection.m_enabled )
-            {
-                return false;
-            }
             else
             {
-                return true;
+                return m_enabled == connection.m_enabled;
             }
         }
     }

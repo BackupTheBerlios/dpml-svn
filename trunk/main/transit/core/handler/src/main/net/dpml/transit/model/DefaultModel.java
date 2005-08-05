@@ -18,8 +18,6 @@
 
 package net.dpml.transit.model;
 
-import java.io.Serializable;
-import java.net.URI;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.EventObject;
@@ -60,6 +58,7 @@ abstract class DefaultModel extends UnicastRemoteObject
    /**
     * Creation of a new model.
     * @param name the name used to construct a logging channel
+    * @exception RemoteException if a remote exception occurs
     */
     public DefaultModel( String name ) 
       throws RemoteException
@@ -71,6 +70,7 @@ abstract class DefaultModel extends UnicastRemoteObject
     * Creation of a new model.
     * @param logger the assigned logging channel
     * @exception NullPointerException if the supplied logging channel is null
+    * @exception RemoteException if a remote exception occurs
     */
     public DefaultModel( Logger logger ) 
       throws NullPointerException, RemoteException
@@ -135,11 +135,12 @@ abstract class DefaultModel extends UnicastRemoteObject
     * }
     * </pre>
     * 
+    * @param event the event to process
     */
     protected abstract void processEvent( EventObject event );
 
    /**
-    * Return the assingned logging channel.
+    * Return the assigned logging channel.
     * @return the logging channel
     */
     protected Logger getLogger()
@@ -226,7 +227,7 @@ abstract class DefaultModel extends UnicastRemoteObject
                         { 
                             EVENT_QUEUE.wait();
                         }
-                        Object object = EVENT_QUEUE.remove(0);
+                        Object object = EVENT_QUEUE.remove( 0 );
                         try
                         {
                             event = (EventObject) object;
@@ -239,7 +240,7 @@ abstract class DefaultModel extends UnicastRemoteObject
                             throw new IllegalStateException( error );
                         }
                     }
-                    catch (InterruptedException e)
+                    catch( InterruptedException e )
                     {
                         return;
                     }
@@ -273,7 +274,7 @@ abstract class DefaultModel extends UnicastRemoteObject
         }
     }
 
-    private static Thread EVENT_DISPATCH_THREAD = null;
+    private static Thread m_EVENT_DISPATCH_THREAD = null;
 
     /**
      * This method starts the event dispatch thread the first time it
@@ -282,11 +283,11 @@ abstract class DefaultModel extends UnicastRemoteObject
      */
     private static synchronized void startEventDispatchThread( Logger logger ) 
     {
-        if( EVENT_DISPATCH_THREAD == null ) 
+        if( m_EVENT_DISPATCH_THREAD == null ) 
         {
-            EVENT_DISPATCH_THREAD = new EventDispatchThread( logger );
-            EVENT_DISPATCH_THREAD.setDaemon( true );
-            EVENT_DISPATCH_THREAD.start();
+            m_EVENT_DISPATCH_THREAD = new EventDispatchThread( logger );
+            m_EVENT_DISPATCH_THREAD.setDaemon( true );
+            m_EVENT_DISPATCH_THREAD.start();
         }
     }
 
@@ -297,7 +298,7 @@ abstract class DefaultModel extends UnicastRemoteObject
     {
         synchronized( m_lock )
         {
-            return (EventListener[])m_listeners.keySet().toArray( new EventListener[0] );
+            return (EventListener[]) m_listeners.keySet().toArray( new EventListener[0] );
         }
     }
 

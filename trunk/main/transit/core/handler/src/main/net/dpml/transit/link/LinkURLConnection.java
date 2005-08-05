@@ -25,14 +25,12 @@ import java.io.OutputStream;
 import java.net.URI;
 import java.net.URL;
 import java.net.URLConnection;
-import java.net.UnknownServiceException;
 import java.security.AccessController;
 import java.security.PrivilegedExceptionAction;
 import java.security.PrivilegedActionException;
 import java.security.PrivilegedAction;
 
 import net.dpml.transit.Transit;
-import net.dpml.transit.SecuredTransitContext;
 import net.dpml.transit.Artifact;
 import net.dpml.transit.UnsupportedSchemeException;
 import net.dpml.transit.util.MimeTypeHandler;
@@ -75,8 +73,9 @@ public class LinkURLConnection extends URLConnection
         
         try
         {
-            AccessController.doPrivileged( new PrivilegedExceptionAction()
-            {
+            AccessController.doPrivileged( 
+              new PrivilegedExceptionAction()
+              {
                 public Object run()
                     throws IOException
                 {
@@ -101,7 +100,8 @@ public class LinkURLConnection extends URLConnection
                     }
                     return null; // nothing to return
                 }
-            });
+              }
+            );
         } 
         catch( PrivilegedActionException e )
         {

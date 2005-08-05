@@ -33,13 +33,11 @@ import java.rmi.server.UnicastRemoteObject;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.Map;
-import java.util.Properties;
 import java.util.TreeMap;
 import java.util.WeakHashMap;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
-import net.dpml.transit.Artifact;
 import net.dpml.transit.artifact.ArtifactNotFoundException;
 import net.dpml.transit.artifact.ArtifactAlreadyExistsException;
 import net.dpml.transit.model.CacheModel;
@@ -50,15 +48,7 @@ import net.dpml.transit.model.HostModel;
 import net.dpml.transit.model.CacheEvent;
 import net.dpml.transit.model.LayoutModel;
 import net.dpml.transit.model.LayoutRegistryModel;
-import net.dpml.transit.monitor.Adapter;
-import net.dpml.transit.monitor.RepositoryMonitorAdapter;
-import net.dpml.transit.monitor.CacheMonitorAdapter;
-import net.dpml.transit.monitor.NetworkMonitorAdapter;
 import net.dpml.transit.monitor.CacheMonitorRouter;
-import net.dpml.transit.monitor.Monitor;
-import net.dpml.transit.Repository;
-import net.dpml.transit.util.PropertyResolver;
-import net.dpml.transit.util.Util;
 
 /**
  * Default cache handler that maintains a file based cache.  
@@ -145,7 +135,7 @@ class DefaultCacheHandler extends UnicastRemoteObject implements CacheHandler, C
         {
             getLogger().debug( "host count: " + hosts.length );
         }
-        for( int i=0; i<hosts.length; i++ )
+        for( int i=0; i < hosts.length; i++ )
         {
             HostModel host = hosts[i];
             if( null == host.getCodeBaseURI() )
@@ -262,7 +252,7 @@ class DefaultCacheHandler extends UnicastRemoteObject implements CacheHandler, C
             {
 
                 ResourceHost[] hosts = (ResourceHost[]) m_resourceHosts.values().toArray( new ResourceHost[0] );
-                for( int i=0; i<hosts.length; i++ )
+                for( int i=0; i < hosts.length; i++ )
                 {
                     ResourceHost host = hosts[i];
                     if( host instanceof Service )
@@ -304,7 +294,7 @@ class DefaultCacheHandler extends UnicastRemoteObject implements CacheHandler, C
         m_model.addCacheListener( this );
 
         HostModel[] hosts = m_model.getHostModels();
-        for( int i=0; i<hosts.length; i++ )
+        for( int i=0; i < hosts.length; i++ )
         {
             HostModel host = hosts[i];
             if( null != host.getCodeBaseURI() )
@@ -360,7 +350,7 @@ class DefaultCacheHandler extends UnicastRemoteObject implements CacheHandler, C
               + "\nNew: " + cache;
              getLogger().debug( message );
         }
-        if( false == cache.isAbsolute() )
+        if( !cache.isAbsolute() )
         {
             cache = new File( Transit.DPML_DATA, file.toString() );
         }
@@ -431,9 +421,13 @@ class DefaultCacheHandler extends UnicastRemoteObject implements CacheHandler, C
         synchronized( this )
         {
             if( internalReference.startsWith( "!" ) )
+            {
                 internalReference = internalReference.substring( 1 );
+            }
             if( internalReference.startsWith( "/" ) )
+            {
                 internalReference = internalReference.substring( 1 );
+            }
 
             ZipFile zip = m_zipCache.get( artifact );
             if( zip == null )
@@ -585,8 +579,8 @@ class DefaultCacheHandler extends UnicastRemoteObject implements CacheHandler, C
         }
     }
 
-    private void endNotifyMonitor( CacheMonitorRouter monitor, boolean existed,
-                                   Artifact artifact, File destination )
+    private void endNotifyMonitor( 
+      CacheMonitorRouter monitor, boolean existed, Artifact artifact, File destination )
     {
         if( monitor != null )
         {
@@ -604,9 +598,14 @@ class DefaultCacheHandler extends UnicastRemoteObject implements CacheHandler, C
     private void checkInternalConsistency( Artifact artifact, File destination )
     {
         if( destination.exists() )
+        {
             return;
-        String error = "Download reported [success], but the destination does not exist: "
-            + artifact + ", " + destination;
+        }
+        final String error = 
+          "Download reported [success], but the destination does not exist: "
+          + artifact 
+          + ", " 
+          + destination;
         throw new InternalError( error );
     }
 
@@ -623,7 +622,6 @@ class DefaultCacheHandler extends UnicastRemoteObject implements CacheHandler, C
         {
             monitor.resourceRequested( artifact );
         }
-
         if( null == artifact )
         {
             throw new NullArgumentException( "artifact" );
@@ -710,7 +708,7 @@ class DefaultCacheHandler extends UnicastRemoteObject implements CacheHandler, C
         Repository loader = Transit.getInstance().getRepository();
         try
         {
-            return (ResourceHost) loader.instantiate( clazz, new Object[]{ model, m_registry } );
+            return (ResourceHost) loader.instantiate( clazz, new Object[]{model, m_registry} );
         }
         catch( Throwable e )
         { 

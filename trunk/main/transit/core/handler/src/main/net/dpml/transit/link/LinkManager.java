@@ -37,6 +37,7 @@ public interface LinkManager
     *
     * @param link the uri of the link
     * @param target the uri of the target that the link redirects to
+    * @exception IOException if an IO error occurs
     */
     void setTargetURI( URI link, URI target ) throws IOException;
 
@@ -44,6 +45,8 @@ public interface LinkManager
     * Returns the URI that the supplied link URI is referencing.
     * 
     * @param link the link uri
+    * @return the target uri
+    * @exception IOException if an IO error occurs
     */
     URI getTargetURI( URI link ) throws IOException;
 

@@ -16,16 +16,9 @@
 
 package net.dpml.transit.store;
 
-import java.net.URI;
-import java.net.MalformedURLException;
-import java.rmi.RemoteException;
-import java.util.Date;
 import java.util.Properties;
 import java.util.prefs.Preferences;
 import java.util.prefs.BackingStoreException;
-
-import net.dpml.transit.store.ContentStorage;
-import net.dpml.transit.store.Removable;
 
 /**
  * The ContentSorageUnit class is responsible for the setup of initial factory

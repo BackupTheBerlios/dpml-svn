@@ -20,7 +20,6 @@
 package net.dpml.transit.model;
 
 import java.io.Serializable;
-import java.net.InetAddress;
 
 import net.dpml.transit.NullArgumentException;
 
@@ -81,9 +80,9 @@ public final class RequestIdentifier implements Serializable
     * @exception NullArgumentException if any of the address, protocol, scheme
     *   or prompt arguments is null.
     */
-    public RequestIdentifier( String address, int port, String protocol,
-                       String scheme, String prompt )
-        throws NullArgumentException
+    public RequestIdentifier( 
+      String address, int port, String protocol, String scheme, String prompt ) 
+      throws NullArgumentException
     {
         if( address == null )
         {

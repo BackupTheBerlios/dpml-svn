@@ -30,18 +30,21 @@ public interface TransitModel extends Model, Disposable
    /**
     * Return the model identifier.
     * @return the model id
+    * @exception RemoteException if a remote exception occurs
     */
     String getID() throws RemoteException;
 
    /**
     * Return the proxy model.
     * @return the proxy model
+    * @exception RemoteException if a remote exception occurs
     */
     ProxyModel getProxyModel() throws RemoteException;
 
    /**
     * Return the cache model.
-    * @return the cache director
+    * @return the cache model
+    * @exception RemoteException if a remote exception occurs
     */
     CacheModel getCacheModel() throws RemoteException;
 
@@ -50,6 +53,7 @@ public interface TransitModel extends Model, Disposable
     * the content registry.
     *
     * @return the content model
+    * @exception RemoteException if a remote exception occurs
     */
     ContentRegistryModel getContentRegistryModel() throws RemoteException;
 
@@ -58,6 +62,7 @@ public interface TransitModel extends Model, Disposable
     * the repository service.
     *
     * @return the repository model
+    * @exception RemoteException if a remote exception occurs
     */
     RepositoryModel getRepositoryModel() throws RemoteException;
 

@@ -18,8 +18,6 @@
 
 package net.dpml.transit;
 
-import net.dpml.transit.Artifact;
-
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.IOException;

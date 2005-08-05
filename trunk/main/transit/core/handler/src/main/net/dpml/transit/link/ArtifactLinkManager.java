@@ -31,8 +31,6 @@ import java.net.URL;
 import java.security.AccessController;
 import java.security.PrivilegedActionException;
 import java.security.PrivilegedExceptionAction;
-import java.util.logging.Logger;
-import java.util.logging.Level;
 
 import net.dpml.transit.NullArgumentException;
 import net.dpml.transit.artifact.ArtifactNotFoundException;
@@ -57,6 +55,9 @@ public class ArtifactLinkManager
      * single JVM, typically a host or a local area network. LinkManagers
      * are encouraged to establish other virtual scopes independent of
      * network topologies.
+     *
+     * @param linkUri the uri of the link resource
+     * @param targetUri the uri that the link redirects to
      * @exception IOException if the mapping could not be updated.
      */
     public void setTargetURI( final URI linkUri, final URI targetUri )
@@ -102,7 +103,7 @@ public class ArtifactLinkManager
      *    not declare a target)
      */
     public URI getTargetURI( final URI linkUri )
-        throws IOException
+        throws IOException, LinkNotFoundException
     {
         try
         {
@@ -120,7 +121,7 @@ public class ArtifactLinkManager
                     String target = out.toString( "ISO8859-1" );
                     String path = PropertyResolver.resolve( target );
                     URI value = URI.create( path );
-                    return value ;
+                    return value;
                 }
               }
             );

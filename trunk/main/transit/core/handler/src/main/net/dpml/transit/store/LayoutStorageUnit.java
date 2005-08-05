@@ -16,20 +16,11 @@
 
 package net.dpml.transit.store;
 
-import java.net.URL;
 import java.net.URI;
-import java.rmi.RemoteException;
-import java.util.Date;
 import java.util.prefs.Preferences;
 import java.util.prefs.BackingStoreException;
 
 import net.dpml.transit.ClassicLayout;
-import net.dpml.transit.EclipseLayout;
-import net.dpml.transit.store.Strategy;
-import net.dpml.transit.store.LocalStrategy;
-import net.dpml.transit.store.PluginStrategy;
-import net.dpml.transit.store.LayoutStorage;
-import net.dpml.transit.store.Removable;
 
 /**
  * The LayoutStorageUnit class maintains persistent information about a 

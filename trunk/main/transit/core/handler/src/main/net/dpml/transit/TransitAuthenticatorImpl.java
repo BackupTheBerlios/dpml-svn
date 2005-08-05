@@ -22,8 +22,6 @@ package net.dpml.transit;
 import java.net.Authenticator;
 import java.net.PasswordAuthentication;
 
-import net.dpml.transit.NullArgumentException;
-
 /**
  * Default authenticator that provides support for username password
  * based authentication in conjunction with the repository proxy settings.

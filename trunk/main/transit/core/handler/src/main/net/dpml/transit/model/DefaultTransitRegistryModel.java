@@ -25,10 +25,8 @@ import java.util.EventObject;
 import java.util.EventListener;
 import java.rmi.RemoteException;
 
-import net.dpml.transit.TransitError;
 import net.dpml.transit.store.TransitStorage;
 import net.dpml.transit.store.TransitHome;
-import net.dpml.transit.store.TransitStorageUnit;
 
 /**
  * The DefaultTransitRegistryModel class maintains the set of 
@@ -56,6 +54,7 @@ public class DefaultTransitRegistryModel extends DefaultModel implements Transit
     * @param home the registry storage unit
     * @exception DuplicateKeyException if a suplicate is present in the subsystems
     *   declared within the supplied storage unit
+    * @exception RemoteException if a remote exception occurs
     */
     public DefaultTransitRegistryModel( Logger logger, TransitHome home ) 
       throws RemoteException, DuplicateKeyException
@@ -65,7 +64,7 @@ public class DefaultTransitRegistryModel extends DefaultModel implements Transit
         m_home = home;
 
         TransitStorage[] stores = m_home.getInitialTransitStores();
-        for( int i=0; i<stores.length; i++ )
+        for( int i=0; i < stores.length; i++ )
         {
             TransitStorage store = stores[i];
             addTransitModel( store, false );
@@ -91,6 +90,7 @@ public class DefaultTransitRegistryModel extends DefaultModel implements Transit
    /**
     * Add a regstry change listener.
     * @param listener the registry change listener to add
+    * @exception RemoteException if a remote exception occurs
     */
     public void addTransitRegistryListener( TransitRegistryListener listener ) throws RemoteException
     {
@@ -100,6 +100,7 @@ public class DefaultTransitRegistryModel extends DefaultModel implements Transit
    /**
     * Remove a regstry change listener.
     * @param listener the registry change listener to remove
+    * @exception RemoteException if a remote exception occurs
     */
     public void removeTransitRegistryListener( TransitRegistryListener listener ) throws RemoteException
     {
@@ -110,6 +111,7 @@ public class DefaultTransitRegistryModel extends DefaultModel implements Transit
     * Add a new Transit profile to the registry.
     * @param id the identifier of the new profile
     * @exception DuplicateKeyException if a profile with the same id is already registered
+    * @exception RemoteException if a remote exception occurs
     */
     public void addTransitModel( String id ) throws DuplicateKeyException, RemoteException
     {
@@ -122,6 +124,7 @@ public class DefaultTransitRegistryModel extends DefaultModel implements Transit
     * @param model the profile to add
     * @exception DuplicateKeyException if a profile with the same id as the 
     *    id declared by the supplied model is already registered
+    * @exception RemoteException if a remote exception occurs
     */
     public void addTransitModel( TransitModel model ) throws DuplicateKeyException, RemoteException
     {
@@ -134,6 +137,7 @@ public class DefaultTransitRegistryModel extends DefaultModel implements Transit
     * @param notify TRUE if a notification event should be raised
     * @exception DuplicateKeyException if a profile with the same id as the 
     *    id declared by the supplied store is already registered
+    * @exception RemoteException if a remote exception occurs
     */
     private void addTransitModel( TransitStorage store, boolean notify ) 
       throws DuplicateKeyException, RemoteException
@@ -150,6 +154,7 @@ public class DefaultTransitRegistryModel extends DefaultModel implements Transit
     * @param notify TRUE if a notification event should be raised
     * @exception DuplicateKeyException if a profile with the same id as the 
     *    id declared by the supplied model is already registered
+    * @exception RemoteException if a remote exception occurs
     */
     private void addTransitModel( TransitModel model, boolean notify ) 
       throws DuplicateKeyException, RemoteException
@@ -177,6 +182,7 @@ public class DefaultTransitRegistryModel extends DefaultModel implements Transit
    /**
     * Return the set of transit models in the registry.
     * @return the model array
+    * @exception RemoteException if a remote exception occurs
     */
     public TransitModel[] getTransitModels() throws RemoteException
     {
@@ -190,6 +196,8 @@ public class DefaultTransitRegistryModel extends DefaultModel implements Transit
     * Return a transit profile matching the supplied model identifier.
     * @param id the model identifier
     * @return the transit model
+    * @exception UnknownKeyException if the key is not recognized
+    * @exception RemoteException if a remote exception occurs
     */
     public TransitModel getTransitModel( String id ) throws UnknownKeyException, RemoteException
     {
@@ -200,7 +208,7 @@ public class DefaultTransitRegistryModel extends DefaultModel implements Transit
                 throw new NullPointerException( "id" );
             }
             TransitModel[] models = getTransitModels();
-            for( int i=0; i<models.length; i++ )
+            for( int i=0; i < models.length; i++ )
             {
                 TransitModel model = models[i];
                 if( id.equals( model.getID() ) )
@@ -216,6 +224,7 @@ public class DefaultTransitRegistryModel extends DefaultModel implements Transit
     * Remove a transit model from the registry.
     * @param model the model to remove
     * @exception ModelReferenceException if the model is in use
+    * @exception RemoteException if a remote exception occurs
     */
     public void removeTransitModel( TransitModel model ) throws ModelReferenceException, RemoteException
     {
@@ -239,7 +248,11 @@ public class DefaultTransitRegistryModel extends DefaultModel implements Transit
     // impl
     // ------------------------------------------------------------------------
 
-    public void processEvent( EventObject event )
+   /**
+    * Internal event handler.
+    * @param event the event to handle
+    */
+    protected void processEvent( EventObject event )
     {
         if( event instanceof TransitRegistryEvent )
         {
@@ -256,7 +269,7 @@ public class DefaultTransitRegistryModel extends DefaultModel implements Transit
     private void processTransitRegistryEvent( TransitRegistryEvent event )
     {
         EventListener[] listeners = super.listeners();
-        for( int i=0; i<listeners.length; i++ )
+        for( int i=0; i < listeners.length; i++ )
         {
             EventListener listener = listeners[i];
             if( listener instanceof TransitRegistryListener )
@@ -292,16 +305,32 @@ public class DefaultTransitRegistryModel extends DefaultModel implements Transit
         }
     }
 
+   /**
+    * TransitModel addition event.
+    */
     static class ModelAddedEvent extends TransitRegistryEvent
     {
+       /**
+        * Creation of a new model addition event.
+        * @param source the transit model registry
+        * @param handler the transit model that was added to the registry
+        */
         public ModelAddedEvent( TransitRegistryModel source, TransitModel handler )
         {
             super( source, handler );
         }
     }
 
+   /**
+    * TransitModel removal event.
+    */
     static class ModelRemovedEvent extends TransitRegistryEvent
     {
+       /**
+        * Creation of a new model removal event.
+        * @param source the transit model registry
+        * @param handler the transit model that was removed from the registry
+        */
         public ModelRemovedEvent( TransitRegistryModel source, TransitModel handler )
         {
             super( source, handler );

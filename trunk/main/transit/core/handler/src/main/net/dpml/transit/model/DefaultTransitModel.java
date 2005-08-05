@@ -23,14 +23,6 @@ import java.util.EventObject;
 
 import net.dpml.transit.TransitError;
 import net.dpml.transit.monitor.LoggingAdapter;
-import net.dpml.transit.model.DefaultProxyModel;
-import net.dpml.transit.model.DefaultLayoutRegistryModel;
-import net.dpml.transit.model.DefaultContentRegistryModel;
-import net.dpml.transit.model.DefaultRepositoryModel;
-import net.dpml.transit.model.LayoutRegistryModel;
-import net.dpml.transit.model.ContentRegistryModel;
-import net.dpml.transit.model.RepositoryModel;
-import net.dpml.transit.model.ProxyModel;
 import net.dpml.transit.store.TransitStorage;
 import net.dpml.transit.store.CodeBaseStorage;
 import net.dpml.transit.store.LayoutRegistryHome;
@@ -66,6 +58,7 @@ public class DefaultTransitModel extends DefaultModel implements TransitModel
    /**
     * Creation of a new TransitModel using a default logging channel
     * and preferences based storage solution.
+    * @exception RemoteException if a remote exception occurs
     */
     public DefaultTransitModel() throws RemoteException
     {
@@ -76,6 +69,7 @@ public class DefaultTransitModel extends DefaultModel implements TransitModel
     * Creation of a new TransitModel using preferences based storage.
     * 
     * @param logger the assigned loging channel
+    * @exception RemoteException if a remote exception occurs
     */
     public DefaultTransitModel( Logger logger ) throws RemoteException
     {
@@ -87,6 +81,7 @@ public class DefaultTransitModel extends DefaultModel implements TransitModel
     * and a default logging channel.
     * 
     * @param store the storage unit
+    * @exception RemoteException if a remote exception occurs
     */
     public DefaultTransitModel( TransitStorage store ) throws RemoteException
     {
@@ -102,8 +97,10 @@ public class DefaultTransitModel extends DefaultModel implements TransitModel
     * @param logger the assigned loging channel
     * @param store the storage unit 
     * @exception NullPointerException if the logger or store arguments are null
+    * @exception RemoteException if a remote exception occurs
     */
-    public DefaultTransitModel( Logger logger, TransitStorage store ) throws RemoteException
+    public DefaultTransitModel( Logger logger, TransitStorage store ) 
+      throws RemoteException, NullPointerException
     {
         super( logger );
 
@@ -178,6 +175,7 @@ public class DefaultTransitModel extends DefaultModel implements TransitModel
    /**
     * Add a disposal listener to the model.
     * @param listener the listener to add
+    * @exception RemoteException if a remote exception occurs
     */
     public void addDisposalListener( DisposalListener listener ) throws RemoteException
     {
@@ -187,6 +185,7 @@ public class DefaultTransitModel extends DefaultModel implements TransitModel
    /**
     * Remove a disposal listener from the model.
     * @param listener the listener to remove
+    * @exception RemoteException if a remote exception occurs
     */
     public void removeDisposalListener( DisposalListener listener ) throws RemoteException
     {
@@ -194,7 +193,8 @@ public class DefaultTransitModel extends DefaultModel implements TransitModel
     }
 
    /**
-    * Trigger disposal of the transit modle.
+    * Trigger disposal of the transit model.
+    * @exception RemoteException if a remote exception occurs
     */
     public void dispose() throws RemoteException
     {
@@ -213,6 +213,10 @@ public class DefaultTransitModel extends DefaultModel implements TransitModel
     // impl
     // ------------------------------------------------------------------------
 
+   /**
+    * Internal event handler.
+    * @param eventObject the event to handle
+    */
     protected void processEvent( EventObject eventObject )
     {
         final String error = 
@@ -300,8 +304,15 @@ public class DefaultTransitModel extends DefaultModel implements TransitModel
         }
     }
 
+   /**
+    * VetoableDisposalEvent class.
+    */
     private static class VetoableDisposalEvent extends DisposalEvent
     {
+       /**
+        * Creation of a new VetoableDisposalEvent.
+        * @param source the source transit model
+        */
         public VetoableDisposalEvent( TransitModel source )
         {
             super( source );

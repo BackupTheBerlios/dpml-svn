@@ -16,14 +16,8 @@
 
 package net.dpml.transit.store;
 
-import java.io.File;
-import java.util.Properties;
 import java.util.prefs.Preferences;
-import java.util.prefs.BackingStoreException;
 import java.util.prefs.PreferencesFactory;
-
-import net.dpml.transit.Transit;
-import net.dpml.transit.TransitError;
 
 /**
  * <p>A implementation of the Preferences services that provides persistence for 

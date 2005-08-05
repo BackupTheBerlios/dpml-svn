@@ -16,17 +16,8 @@
 
 package net.dpml.transit.store;
 
-import java.net.URL;
-import java.net.URI;
-import java.net.MalformedURLException;
-import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.prefs.Preferences;
-import java.util.prefs.BackingStoreException;
-import java.util.Date;
-
-import net.dpml.transit.store.LayoutRegistryHome;
-import net.dpml.transit.store.LayoutStorage;
 
 /**
  * The LayoutRegistryStorageUnit maintains persstent storage of 
@@ -63,7 +54,7 @@ class LayoutRegistryStorageUnit extends CodeBaseStorageUnit implements LayoutReg
         {
             ArrayList list = new ArrayList();
             String[] names = prefs.childrenNames();
-            for( int i=0; i<names.length; i++ )
+            for( int i=0; i < names.length; i++ )
             {
                 String name = names[i];
                 LayoutStorage layout = getLayoutStorage( name );
@@ -83,7 +74,7 @@ class LayoutRegistryStorageUnit extends CodeBaseStorageUnit implements LayoutReg
     * Return a layout storage unit given a storae unit identifier.  If the 
     * stroage unit does not exist an implementation shall create and return a 
     * net storage unit.
-    * 
+    * @param id the layout storage unit id
     * @return the layout storage unit
     */
     public LayoutStorage getLayoutStorage( String id ) throws StorageRuntimeException

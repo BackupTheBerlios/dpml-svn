@@ -18,19 +18,11 @@
 
 package net.dpml.transit.model;
 
-import java.util.ArrayList;
 import java.rmi.RemoteException;
-import java.util.Date;
 import java.util.List;
 import java.util.LinkedList;
-import java.util.Iterator;
 import java.util.EventObject;
 import java.util.EventListener;
-import java.util.prefs.Preferences;
-import java.util.prefs.NodeChangeEvent;
-import java.util.prefs.NodeChangeListener;
-import java.util.prefs.BackingStoreException;
-import java.net.URI;
 
 import net.dpml.transit.store.LayoutRegistryHome;
 import net.dpml.transit.store.LayoutStorage;
@@ -62,6 +54,7 @@ class DefaultLayoutRegistryModel extends DisposableCodeBaseModel
     * @param logger the assinged logging channel
     * @param home the layout registry persistent storage home
     * @exception DuplicateKeyException if a duplicate layout is declared in the assingned home
+    * @exception RemoteException if a remote exception occurs
     */
     public DefaultLayoutRegistryModel( Logger logger, LayoutRegistryHome home )
       throws DuplicateKeyException, RemoteException
@@ -71,7 +64,7 @@ class DefaultLayoutRegistryModel extends DisposableCodeBaseModel
         m_home = home;
 
         LayoutStorage[] stores = home.getInitialLayoutStores();
-        for( int i=0; i<stores.length; i++ )
+        for( int i=0; i < stores.length; i++ )
         {
             LayoutStorage store = stores[i];
             addLayoutModel( store, false );
@@ -85,6 +78,7 @@ class DefaultLayoutRegistryModel extends DisposableCodeBaseModel
    /**
     * Add a layout registry change listener.
     * @param listener the registry change listener to add
+    * @exception RemoteException if a remote exception occurs
     */
     public void addLayoutRegistryListener( LayoutRegistryListener listener ) throws RemoteException
     {
@@ -94,6 +88,7 @@ class DefaultLayoutRegistryModel extends DisposableCodeBaseModel
    /**
     * Remove a layout registry change listener.
     * @param listener the registry change listener to remove
+    * @exception RemoteException if a remote exception occurs
     */
     public void removeLayoutRegistryListener( LayoutRegistryListener listener ) throws RemoteException
     {
@@ -104,6 +99,7 @@ class DefaultLayoutRegistryModel extends DisposableCodeBaseModel
     * Add a new layout model to the registry.
     * @param id the layout model identity
     * @exception DuplicateKeyException if a layout model of the same id already exists
+    * @exception RemoteException if a remote exception occurs
     */
     public void addLayoutModel( String id ) throws DuplicateKeyException, RemoteException
     {
@@ -115,6 +111,7 @@ class DefaultLayoutRegistryModel extends DisposableCodeBaseModel
     * Add a new layout model to the registry.
     * @param model the layout model
     * @exception DuplicateKeyException if a layout model of the same id already exists
+    * @exception RemoteException if a remote exception occurs
     */
     public void addLayoutModel( LayoutModel model ) throws DuplicateKeyException, RemoteException
     {
@@ -124,6 +121,7 @@ class DefaultLayoutRegistryModel extends DisposableCodeBaseModel
    /**
     * Return an array of content managers currently assigned to the registry.
     * @return the content manager array
+    * @exception RemoteException if a remote exception occurs
     */
     public LayoutModel[] getLayoutModels() throws RemoteException
     {
@@ -138,6 +136,7 @@ class DefaultLayoutRegistryModel extends DisposableCodeBaseModel
     * an implementation shall return a null value.
     *
     * @return the layout model
+    * @exception RemoteException if a remote exception occurs
     */
     public LayoutModel getLayoutModel( String id ) throws UnknownKeyException, RemoteException
     {
@@ -148,7 +147,7 @@ class DefaultLayoutRegistryModel extends DisposableCodeBaseModel
                 throw new NullPointerException( "id" );
             }
             LayoutModel[] managers = getLayoutModels();
-            for( int i=0; i<managers.length; i++ )
+            for( int i=0; i < managers.length; i++ )
             {
                 LayoutModel manager = managers[i];
                 if( id.equals( manager.getID() ) )
@@ -164,6 +163,7 @@ class DefaultLayoutRegistryModel extends DisposableCodeBaseModel
     * Remove a layout model from the registry.
     * @param model the layout model to be removed
     * @exception ModelReferenceException if the layout is in use
+    * @exception RemoteException if a remote exception occurs
     */
     public void removeLayoutModel( LayoutModel model ) throws ModelReferenceException, RemoteException
     {
@@ -219,6 +219,10 @@ class DefaultLayoutRegistryModel extends DisposableCodeBaseModel
         }
     }
 
+   /**
+    * Internal event handler.
+    * @param event the event to handle
+    */
     protected void processEvent( EventObject event )
     {
         if( event instanceof LayoutRegistryEvent )
@@ -234,7 +238,7 @@ class DefaultLayoutRegistryModel extends DisposableCodeBaseModel
     private void processLayoutRegistryEvent( LayoutRegistryEvent event )
     {
         EventListener[] listeners = super.listeners();
-        for( int i=0; i<listeners.length; i++ )
+        for( int i=0; i < listeners.length; i++ )
         {
             EventListener listener = listeners[i];
             if( listener instanceof LayoutRegistryListener )
@@ -270,16 +274,32 @@ class DefaultLayoutRegistryModel extends DisposableCodeBaseModel
         }
     }
 
+   /**
+    * Layout addition event.
+    */
     static class LayoutAddedEvent extends LayoutRegistryEvent
     {
+       /** 
+        * Creation of a new layout model addition event.
+        * @param source the layout registry
+        * @param handler the layout model that was added
+        */
         public LayoutAddedEvent( LayoutRegistryModel source, LayoutModel handler )
         {
             super( source, handler );
         }
     }
 
+   /**
+    * Layout removal event.
+    */
     static class LayoutRemovedEvent extends LayoutRegistryEvent
     {
+       /** 
+        * Creation of a new layout model removal event.
+        * @param source the layout registry
+        * @param handler the layout model that was removed
+        */
         public LayoutRemovedEvent( LayoutRegistryModel source, LayoutModel handler )
         {
             super( source, handler );

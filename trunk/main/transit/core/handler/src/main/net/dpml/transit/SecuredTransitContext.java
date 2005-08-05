@@ -18,19 +18,12 @@
 
 package net.dpml.transit;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.lang.reflect.Constructor;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
-import java.net.MalformedURLException;
 import java.net.PasswordAuthentication;
 import java.net.URI;
 import java.net.URL;
-import java.net.UnknownHostException;
-import java.util.prefs.Preferences;
 import java.util.Properties;
 
 import net.dpml.transit.link.ArtifactLinkManager;
@@ -39,7 +32,6 @@ import net.dpml.transit.model.Logger;
 import net.dpml.transit.model.CacheModel;
 import net.dpml.transit.model.TransitModel;
 import net.dpml.transit.model.ContentRegistryModel;
-import net.dpml.transit.model.LayoutRegistryModel;
 import net.dpml.transit.model.CodeBaseListener;
 import net.dpml.transit.model.CodeBaseEvent;
 import net.dpml.transit.model.CodeBaseModel;
@@ -48,9 +40,6 @@ import net.dpml.transit.model.ProxyListener;
 import net.dpml.transit.model.ProxyEvent;
 import net.dpml.transit.model.RequestIdentifier;
 import net.dpml.transit.monitor.LoggingAdapter;
-import net.dpml.transit.Repository;
-import net.dpml.transit.StandardLoader;
-import net.dpml.transit.util.Util;
 
 /**
  * The initial context of the transit system.
@@ -67,7 +56,7 @@ public final class SecuredTransitContext
     * Creation of the transit context.  If the transit context has already
     * been established the method returns the singeton context otherwise a new 
     * context is created relative to the authoritve url and returned.
-    *
+    * @param model the active transit model
     * @return the secured transit context
     * @exception TransitException if an error occurs during context creation
     * @exception NullArgumentException if the supplied configration model is null 
@@ -258,8 +247,9 @@ public final class SecuredTransitContext
    /**
     * General setup.
     * @exception UnknownHostException if a proxy host is declared but is unknown
+    * @exception RemoteException if a remote error occurs
     */
-    protected synchronized void setupProxy() throws RemoteException
+    protected synchronized void setupProxy() throws RemoteException, UnknownHostException 
     {
         ProxyModel model = m_model.getProxyModel();
         URL proxy = model.getHost();
@@ -294,7 +284,7 @@ public final class SecuredTransitContext
     * an appropriate message and fallback to the initial setup thereby ensuring that
     * an operable transit system is available.
     *
-    * @exception TransitException if an initialization error occurs
+    * @exception IOException if an io error occurs
     */
     protected void initialize() throws IOException
     {
@@ -307,7 +297,7 @@ public final class SecuredTransitContext
    /**
     * ContentRegistry initialization.
     *
-    * @exception TransitException if an initialization error occurs
+    * @exception IOException if an initialization error occurs
     */
     private void initializeRegistry() throws IOException
     {
@@ -336,7 +326,7 @@ public final class SecuredTransitContext
 
    /**
     * ContentRegistry initialization.
-    *
+    * @param model the content registry model
     * @exception TransitException if an initialization error occurs
     */
     private ContentRegistry loadContentRegistry( ContentRegistryModel model ) throws IOException
@@ -351,7 +341,7 @@ public final class SecuredTransitContext
                 try
                 {
                     Logger log = m_logger.getChildLogger( "content" );
-                    Object[] args = new Object[]{ model, log };
+                    Object[] args = new Object[]{model, log};
                     Repository repository = getRepository();
                     return (ContentRegistry) repository.getPlugin( classloader, uri, args );
                 }
@@ -386,7 +376,7 @@ public final class SecuredTransitContext
    /**
     * Cache initialization.
     *
-    * @exception TransitException if an initialization error occurs
+    * @exception IOException if an initialization error occurs
     */
     private void initializeCache() throws IOException
     {
@@ -406,7 +396,7 @@ public final class SecuredTransitContext
    /**
     * Cache initialization.
     *
-    * @exception TransitException if an initialization error occurs
+    * @exception IOException if an initialization error occurs
     */
     private void setCacheHandler( CacheModel model ) throws IOException
     {
@@ -419,7 +409,7 @@ public final class SecuredTransitContext
                 try
                 {
                     Logger log = m_logger.getChildLogger( "cache" );
-                    Object[] args = new Object[]{ model, log };
+                    Object[] args = new Object[]{model, log};
                     ClassLoader classloader = Transit.class.getClassLoader();
                     CacheHandler handler = 
                       (CacheHandler) getRepository().getPlugin( classloader, uri, args );
@@ -464,19 +454,27 @@ public final class SecuredTransitContext
             }
             catch( Throwable e )
             {
-                // interesting but ignorable for now
+                // interesting but ignorable
+                e.printStackTrace();
             }
         }
     }
 
+   /**
+    * Internal listener to the proxy model.
+    */
     private class ProxyController extends UnicastRemoteObject implements ProxyListener
     {
+       /**
+        * Listener creation.
+        * @exeption RemoteException if a remote error occurs
+        */
         public ProxyController() throws RemoteException
         {
             super();
         }
 
-        /**
+       /**
         * Notify a listener of the change to Transit proxy settings.
         * @param event the proxy change event
         */
@@ -498,11 +496,13 @@ public final class SecuredTransitContext
    /**
     * Internal listener that listens to changes to plugable sub-systems 
     * and is responsible for swapping facilities on the fly.
-    * 
-    * @param manager the transit manager
     */
     private class TransitListener extends UnicastRemoteObject implements CodeBaseListener
     {
+       /**
+        * Creation of a new transit listener.
+        * @exception RemoteException if an remote error occurs
+        */
         public TransitListener() throws RemoteException
         {
             super();
@@ -511,6 +511,7 @@ public final class SecuredTransitContext
        /**
         * Notification of the change to a plugin uri assigned to a sub-system.
         * @param event a plugin change event
+        * @exception RemoteException if an remote error occurs
         */
         public void codeBaseChanged( CodeBaseEvent event ) throws RemoteException
         {
@@ -573,7 +574,7 @@ public final class SecuredTransitContext
     private static String toExcludesPath( String[] names )
     {
         String spec = null;
-        for( int i=0; i<names.length; i++ )
+        for( int i=0; i < names.length; i++ )
         {
             String name = names[i];
             if( null == spec )
@@ -591,7 +592,7 @@ public final class SecuredTransitContext
    /**
     * The namespace string for transit related properties.
     */
-    static public final String DOMAIN = "dpml.transit";
+    public static final String DOMAIN = "dpml.transit";
 
    /**
     * The singleton transit context.

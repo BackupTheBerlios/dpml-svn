@@ -19,9 +19,7 @@
 package net.dpml.transit.model;
 
 import java.net.URL;
-import java.net.URI;
 import java.net.MalformedURLException; 
-import java.net.Authenticator; 
 import java.net.PasswordAuthentication;
 import java.rmi.RemoteException;
 
@@ -53,6 +51,8 @@ public interface HostModel extends CodeBaseModel, Disposable
    /**
     * Return an immutable host identifier.  The host identifier shall be 
     * guranteed to be unique and constant for the life of the model.
+    * @return the host id
+    * @exception RemoteException if a remote exception occurs
     */
     String getID() throws RemoteException;
 
@@ -60,71 +60,85 @@ public interface HostModel extends CodeBaseModel, Disposable
     * Return TRUE if this is a bootstrap host. Bootstrap hosts shall be 
     * provided such that they independent of the Transit respository 
     * service.
+    * @return the bootstrap flag
+    * @exception RemoteException if a remote exception occurs
     */
     boolean isBootstrap() throws RemoteException;
 
    /**
     * Return the name of the resource host.
+    * @return the host name
+    * @exception RemoteException if a remote exception occurs
     */
     String getHostName() throws RemoteException;
 
    /**
     * Return the host priority.
     * @return the host priority setting
+    * @exception RemoteException if a remote exception occurs
     */
     int getPriority() throws RemoteException;
 
    /**
     * Return the host base path.
     * @return the base path
+    * @exception RemoteException if a remote exception occurs
     */
     String getBasePath() throws RemoteException;
 
    /**
     * Return the host base url.
     * @return the base url
+    * @exception RemoteException if a remote exception occurs
     */
     URL getBaseURL() throws RemoteException;
 
    /**
     * Return index path.
     * @return the index path
+    * @exception RemoteException if a remote exception occurs
     */
     String getIndexPath() throws RemoteException;
 
    /**
     * Return index url.
     * @return the index url
+    * @exception RemoteException if a remote exception occurs
     */
     URL getIndexURL() throws RemoteException;
 
    /**
     * Return the enabled status of the host.
     * @return TRUE if enabled 
+    * @exception RemoteException if a remote exception occurs
     */
     boolean getEnabled() throws RemoteException;
 
    /**
     * Return the trusted status.
     * @return TRUE if trusted 
+    * @exception RemoteException if a remote exception occurs
     */
     boolean getTrusted() throws RemoteException;
    
    /**
     * Return the host password authentication credentials.
     * @return the password authentication credentials
+    * @exception RemoteException if a remote exception occurs
     */
     public PasswordAuthentication getAuthentication() throws RemoteException; 
 
    /**
     * Return the host request identifier.
     * @return the identifier
+    * @exception RemoteException if a remote exception occurs
     */
     public RequestIdentifier getRequestIdentifier() throws RemoteException; 
 
    /**
     * Return the layout strategy model.
     * @return the layout model
+    * @exception RemoteException if a remote exception occurs
     */
     LayoutModel getLayoutModel() throws RemoteException;
 
@@ -132,12 +146,14 @@ public interface HostModel extends CodeBaseModel, Disposable
     * Set the human readable name of the host to the supplied value.
     *
     * @param name the human readable name
+    * @exception RemoteException if a remote exception occurs
     */
     void setName( String name ) throws RemoteException;
 
    /**
     * Set the host priority to the supplied value.
     * @param priority the host priority
+    * @exception RemoteException if a remote exception occurs
     */
     void setPriority( int priority ) throws RemoteException;
 
@@ -147,6 +163,7 @@ public interface HostModel extends CodeBaseModel, Disposable
     * @param layout the layout model to assign
     * @exception BootstrapException if the host model is a bootstrap host and 
     *   the assigned layout model is not a bootstrap layout model
+    * @exception RemoteException if a remote exception occurs
     */
     void setLayoutModel( LayoutModel layout ) throws BootstrapException, RemoteException;
 
@@ -165,6 +182,7 @@ public interface HostModel extends CodeBaseModel, Disposable
     * @exception MalformedURLException if the host base url path is malformed
     * @exception BootstrapException if the host is a bootstrap host and a 
     *   non-bootstrap layout is assigned
+    * @exception RemoteException if a remote exception occurs
     */
     void update( 
       String base, String index, boolean enabled, boolean trusted, String layout, 
@@ -174,12 +192,14 @@ public interface HostModel extends CodeBaseModel, Disposable
    /**
     * Add a host change listener to the director.
     * @param listener the host change listener to add
+    * @exception RemoteException if a remote exception occurs
     */
     void addHostListener( HostListener listener ) throws RemoteException;
 
    /**
     * Remove a host change listener from the director.
     * @param listener the host change listener to remove
+    * @exception RemoteException if a remote exception occurs
     */
     void removeHostListener( HostListener listener ) throws RemoteException;
 

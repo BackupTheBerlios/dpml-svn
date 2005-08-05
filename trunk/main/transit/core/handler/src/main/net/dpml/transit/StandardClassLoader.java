@@ -40,11 +40,22 @@ public class StandardClassLoader extends URLClassLoader
     // constructor
     //--------------------------------------------------------------------
 
+   /**
+    * Creation of a new classloader.
+    * @param partition the classloader identifier
+    * @param parent the parent classloader
+    */
     public StandardClassLoader( URI partition, ClassLoader parent )
     {
         this( partition, new URL[0], parent );
     }
 
+   /**
+    * Creation of a new classloader.
+    * @param partition the classloader identifier
+    * @param urls an array of urls to add to the classloader
+    * @param parent the parent classloader
+    */
     public StandardClassLoader( URI partition, URL[] urls, ClassLoader parent )
     {
         super( urls, parent );
@@ -55,6 +66,10 @@ public class StandardClassLoader extends URLClassLoader
     // CompositionClassLoader
     //--------------------------------------------------------------------
 
+   /**
+    * Return the classloader identifying partition.
+    * @return the partition
+    */
     public URI getPartition()
     {
         return m_partition;
@@ -64,6 +79,10 @@ public class StandardClassLoader extends URLClassLoader
     // Object
     //--------------------------------------------------------------------
 
+   /**
+    * Return a string representing of the classloader.
+    * @return the string representation 
+    */
     public String toString()
     {
         StringBuffer buffer = new StringBuffer();
@@ -71,12 +90,21 @@ public class StandardClassLoader extends URLClassLoader
         return buffer.toString();
     }
 
+   /**
+    * Internal operation to list the classloader classpath.
+    * @param buffer the buffer to list to
+    */
     protected void listClasspath( StringBuffer buffer )
     {
         listClasspath( buffer, this );
         buffer.append( "\n" );
     }
 
+   /**
+    * Internal operation to list a classloader classpath.
+    * @param buffer the buffer to list to
+    * @param classloader the classloader to list
+    */
     protected void listClasspath( StringBuffer buffer, ClassLoader classloader )
     {
         if( classloader instanceof StandardClassLoader )
@@ -112,7 +140,7 @@ public class StandardClassLoader extends URLClassLoader
     private void appendEntries( StringBuffer buffer, URLClassLoader classloader )
     {
         URL[] urls = classloader.getURLs();
-        for( int i=0; i<urls.length; i++ )
+        for( int i=0; i < urls.length; i++ )
         {
             buffer.append( "\n    " );
             URL url = urls[i];

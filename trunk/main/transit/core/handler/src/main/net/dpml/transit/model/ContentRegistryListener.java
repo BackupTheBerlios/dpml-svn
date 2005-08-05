@@ -32,12 +32,14 @@ public interface ContentRegistryListener extends EventListener, Remote
    /**
     * Notify all listeners of the addition of a content model.
     * @param event the registry event
+    * @exception RemoteException if a remote exception occurs
     */
     void contentAdded( ContentRegistryEvent event ) throws RemoteException;
 
    /**
     * Notify all listeners of the removal of a content model.
     * @param event the registry event
+    * @exception RemoteException if a remote exception occurs
     */
     void contentRemoved( ContentRegistryEvent event ) throws RemoteException;
 

@@ -18,8 +18,6 @@
 
 package net.dpml.transit.model;
 
-import net.dpml.transit.model.ModelException;
-
 /**
  * Exception to indicate an error arrising from the use of a duplicate key.
  *

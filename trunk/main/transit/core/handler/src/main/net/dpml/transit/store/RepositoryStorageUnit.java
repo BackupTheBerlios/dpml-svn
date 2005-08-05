@@ -16,15 +16,7 @@
 
 package net.dpml.transit.store;
 
-import java.net.URI;
-import java.net.MalformedURLException;
-import java.net.PasswordAuthentication;
-import java.rmi.RemoteException;
 import java.util.prefs.Preferences;
-import java.util.prefs.BackingStoreException;
-import java.util.Date;
-
-import net.dpml.transit.store.CodeBaseStorage;
 
 /**
  * The RepositoryStorageUnit maintains the persistent settings for the 

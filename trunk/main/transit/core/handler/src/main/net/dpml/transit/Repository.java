@@ -86,6 +86,8 @@ public interface Repository
     * @param clazz the class of the object to instantiate
     * @param params a priority ordered array of instances values to be used in
     *    constructor parameter value assignment
+    * @return the instanciated object
+    * @exception Exception if an instantiation error occurs
     */
     Object instantiate( Class clazz, Object[] params ) throws Exception;
 

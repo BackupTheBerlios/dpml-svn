@@ -18,19 +18,18 @@
 
 package net.dpml.transit;
 
-import net.dpml.transit.Transit;
-
 import java.io.PrintWriter;
 import java.net.Authenticator;
-import java.net.InetAddress;
 import java.net.PasswordAuthentication;
-import java.net.UnknownHostException;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
 import net.dpml.transit.model.RequestIdentifier;
 
+/**
+ * Internal class used to handle delegated authentication.
+ */
 final class DelegatingAuthenticator extends Authenticator
 {
     // ------------------------------------------------------------------------
@@ -55,7 +54,7 @@ final class DelegatingAuthenticator extends Authenticator
     * Return the singleton authenticator.
     * @return the authenticator
     */
-    static public DelegatingAuthenticator getInstance()
+    public static DelegatingAuthenticator getInstance()
     {
         synchronized( DelegatingAuthenticator.class )
         {
@@ -144,8 +143,11 @@ final class DelegatingAuthenticator extends Authenticator
             PrintWriter log = Transit.getInstance().getLogWriter();
             log.println( "Authentication Required: " + id );
             log.println( "Authenticators Available: " + m_authenticators );
-        } catch( Exception e )
-        {} // ignore
+        } 
+        catch( Exception e )
+        {
+            boolean ignorable = true;
+        } 
 
         synchronized( m_authenticators )
         {

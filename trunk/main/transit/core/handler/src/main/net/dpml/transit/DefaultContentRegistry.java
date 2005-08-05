@@ -20,8 +20,6 @@ package net.dpml.transit;
 
 import java.io.IOException;
 import java.net.URI;
-import java.net.URL;
-import java.net.URISyntaxException;
 import java.net.ContentHandler;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
@@ -35,7 +33,6 @@ import net.dpml.transit.model.ContentRegistryEvent;
 import net.dpml.transit.model.ContentModel;
 import net.dpml.transit.model.UnknownKeyException;
 import net.dpml.transit.model.Logger;
-import net.dpml.transit.Repository;
 
 /**
  * A registry of descriptions of plugable content handlers. 
@@ -193,7 +190,7 @@ class DefaultContentRegistry extends UnicastRemoteObject implements Service, Con
                 Repository loader = Transit.getInstance().getRepository();
                 try
                 {
-                    handler = (ContentHandler) loader.instantiate( clazz, new Object[]{ model } );
+                    handler = (ContentHandler) loader.instantiate( clazz, new Object[]{model} );
                 }
                 catch( Throwable e )
                 {

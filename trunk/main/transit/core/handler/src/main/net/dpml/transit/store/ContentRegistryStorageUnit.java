@@ -17,15 +17,8 @@
 package net.dpml.transit.store;
 
 import java.net.URI;
-import java.net.URL;
-import java.net.MalformedURLException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.prefs.Preferences;
-import java.util.prefs.BackingStoreException;
-
-import net.dpml.transit.store.ContentRegistryHome;
-import net.dpml.transit.store.ContentStorage;
 
 /**
  * The LayoutRegistryHelper class provides support for the crreating of a 
@@ -91,7 +84,7 @@ class ContentRegistryStorageUnit extends CodeBaseStorageUnit implements ContentR
         {
             ArrayList list = new ArrayList();
             String[] names = prefs.childrenNames();
-            for( int i=0; i<names.length; i++ )
+            for( int i=0; i < names.length; i++ )
             {
                 String name = names[i];
                 ContentStorage manager = createContentStorage( name );

@@ -45,6 +45,7 @@ public class ArtifactAlreadyExistsException extends ArtifactException
     /**
      * Construct a new <code>ArtifactAlreadyExistsException</code> instance.
      *
+     * @param message the exception message
      * @param artifact the subject artifact
      */
     public ArtifactAlreadyExistsException( final String message, final Artifact artifact )

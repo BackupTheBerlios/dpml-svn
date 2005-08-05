@@ -31,6 +31,7 @@ public interface ProxyListener extends EventListener, Remote
    /**
     * Notify a listener of the change to Transit proxy settings.
     * @param event the proxy change event
+    * @exception RemoteException if a remote exception occurs
     */
     void proxyChanged( ProxyEvent event ) throws RemoteException;
 

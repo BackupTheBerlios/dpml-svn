@@ -20,25 +20,16 @@ package net.dpml.transit;
 
 import java.io.IOException;
 import java.net.URI;
-import java.net.URL;
-import java.net.URISyntaxException;
-import java.net.ContentHandler;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
-import java.util.Hashtable;
 import java.util.Map;
 import java.util.WeakHashMap;
-import java.util.prefs.Preferences;
-import java.util.prefs.NodeChangeListener;
-import java.util.prefs.NodeChangeEvent;
-import java.util.prefs.BackingStoreException;
 
 import net.dpml.transit.model.LayoutRegistryModel;
 import net.dpml.transit.model.LayoutRegistryListener;
 import net.dpml.transit.model.LayoutRegistryEvent;
 import net.dpml.transit.model.LayoutModel;
 import net.dpml.transit.model.Logger;
-import net.dpml.transit.Repository;
 
 /**
  * A registry of descriptions of plugable content handlers.  This implementation
@@ -128,7 +119,7 @@ class DefaultLayoutRegistry extends UnicastRemoteObject implements LayoutRegistr
         Repository loader = Transit.getInstance().getRepository();
         try
         {
-            return (Layout) loader.instantiate( clazz, new Object[]{ model } );
+            return (Layout) loader.instantiate( clazz, new Object[]{model} );
         }
         catch( Throwable e )
         { 

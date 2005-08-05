@@ -21,14 +21,12 @@ package net.dpml.transit.util;
 import java.util.logging.Formatter;
 import java.util.logging.LogRecord;
 
-import net.dpml.transit.util.ExceptionHelper;
-
 /**
  * Logging message formatter that includes the category in the logging statement.
  */
 public class StandardFormatter extends Formatter 
 {
-    private String lineSeparator = System.getProperty( "line.separator");
+    private static final String SEPARATOR = System.getProperty( "line.separator" );
 
     /**
      * Format a LogRecord using the classic style.
@@ -51,7 +49,7 @@ public class StandardFormatter extends Formatter
         }
         String message = formatMessage( record );
         buffer.append( message );
-        buffer.append( lineSeparator );
+        buffer.append( SEPARATOR );
         if( record.getThrown() != null ) 
         {
             //boolean trace = record.getLevel().intValue() > 900;
@@ -69,6 +67,8 @@ public class StandardFormatter extends Formatter
         buffer.append( record.getLevel().getLocalizedName() );
         buffer.append( "        " );
         String tag = buffer.toString();
-        return tag.substring( 0, 8 ) + "] ";
+        return tag.substring( 0, EIGHT ) + "] ";
     }
+
+    private static final into EIGHT = 8;
 }

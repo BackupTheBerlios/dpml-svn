@@ -25,20 +25,15 @@ import java.io.FileInputStream;
 import java.io.OutputStream;
 import java.io.FileOutputStream;
 import java.io.File;
-import java.net.URI;
 import java.net.URL;
 import java.net.URLConnection;
-import java.net.UnknownServiceException;
 import java.security.AccessController;
 import java.security.PrivilegedExceptionAction;
 import java.security.PrivilegedActionException;
 import java.security.PrivilegedAction;
 
 import net.dpml.transit.Transit;
-import net.dpml.transit.SecuredTransitContext;
 import net.dpml.transit.Artifact;
-import net.dpml.transit.UnsupportedSchemeException;
-import net.dpml.transit.util.MimeTypeHandler;
 
 /**
  * The local URL protocol connection implementation.
@@ -80,8 +75,9 @@ public class LocalURLConnection extends URLConnection
         
         try
         {
-            AccessController.doPrivileged( new PrivilegedExceptionAction()
-            {
+            AccessController.doPrivileged( 
+              new PrivilegedExceptionAction()
+              {
                 public Object run()
                     throws IOException
                 {
@@ -89,7 +85,7 @@ public class LocalURLConnection extends URLConnection
                     try
                     {
                         Artifact artifact = Artifact.createArtifact( spec );
-                        String groupSpec = artifact.getGroup() ;
+                        String groupSpec = artifact.getGroup();
                         String artifactName = artifact.getName();
                         String typeSpec = artifact.getType();
                         String versionSpec = artifact.getVersion();
@@ -116,7 +112,8 @@ public class LocalURLConnection extends URLConnection
                     }
                     return null; // nothing to return
                 }
-            });
+              }
+            );
         } 
         catch( PrivilegedActionException e )
         {

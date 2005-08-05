@@ -18,18 +18,13 @@
 
 package net.dpml.transit.model;
 
-import java.io.IOException;
 import java.rmi.RemoteException;
-import java.util.Date;
-import java.util.Map;
 import java.util.ArrayList;
 import java.util.EventObject;
 import java.util.EventListener;
-import java.util.List;
 import java.net.URI;
 import java.net.URL;
 import java.net.MalformedURLException;
-import java.net.UnknownHostException;
 import java.net.PasswordAuthentication; 
 
 import net.dpml.transit.store.HostStorage;
@@ -51,6 +46,8 @@ import net.dpml.transit.util.PropertyResolver;
 class DefaultHostModel extends DisposableCodeBaseModel 
   implements HostModel, DisposalListener, Comparable
 {
+    private static final int DEFAULT_PRIORITY = 600;
+
     private final HostStorage m_home;
     private final LayoutRegistryModel m_registry;
     private final String m_id;
@@ -63,7 +60,7 @@ class DefaultHostModel extends DisposableCodeBaseModel
     private boolean m_enabled = false;
     private boolean m_trusted = false;
     private LayoutModel m_layout;
-    private int m_priority = 600;
+    private int m_priority = DEFAULT_PRIORITY;
     private RequestIdentifier m_identifier;
     private PasswordAuthentication m_authentication;
     private boolean m_bootstrap = false;
@@ -94,6 +91,7 @@ class DefaultHostModel extends DisposableCodeBaseModel
     * @param bootstrap TRUE if this is a bootstrap host
     * @exception UnknownKeyException if the layout id is unknown
     * @exception MalformedURLException if the host base url path is malformed
+    * @exception RemoteException if a remote exception occurs
     */
     public DefaultHostModel( 
       Logger logger, LayoutRegistryModel registry, URI uri, String id, String base, String index, 
@@ -130,6 +128,7 @@ class DefaultHostModel extends DisposableCodeBaseModel
     * @param registry the layout model registry
     * @exception UnknownKeyException if the layout id is unknown
     * @exception MalformedURLException if the host base url path is malformed
+    * @exception RemoteException if a remote exception occurs
     */
     public DefaultHostModel( Logger logger, HostStorage home, LayoutRegistryModel registry ) 
       throws RemoteException, UnknownKeyException, MalformedURLException
@@ -179,6 +178,7 @@ class DefaultHostModel extends DisposableCodeBaseModel
 
    /**
     * Dispose of the model.
+    * @exception RemoteException if a remote exception occurs
     */
     public void dispose() throws RemoteException
     {
@@ -201,6 +201,7 @@ class DefaultHostModel extends DisposableCodeBaseModel
     * of the layout model.
     * @param event the disposal warning event
     * @exception VetoDisposalException always thrown to veto layout removal
+    * @exception RemoteException if a remote exception occurs
     */
     public void disposing( DisposalEvent event ) throws VetoDisposalException, RemoteException
     {
@@ -213,6 +214,7 @@ class DefaultHostModel extends DisposableCodeBaseModel
     * Notify the listener of the disposal of the layout. 
     * This method should never be invoked and will result in the logging 
     * of an error.
+    * @exception RemoteException if a remote exception occurs
     */
     public void disposed( DisposalEvent event ) throws RemoteException // should never happen
     {
@@ -245,6 +247,7 @@ class DefaultHostModel extends DisposableCodeBaseModel
     * @exception MalformedURLException if the host base url path is malformed
     * @exception BootstrapException if the host is a bootstrap host and a 
     *   non-bootstrap layout is assigned
+    * @exception RemoteException if a remote exception occurs
     */
     public void update( 
       String base, String index, boolean enabled, boolean trusted, String layout, 
@@ -281,6 +284,7 @@ class DefaultHostModel extends DisposableCodeBaseModel
    /**
     * Set the human readable name of the host to the supplied value.
     * @param name the human readable name
+    * @exception RemoteException if a remote exception occurs
     */
     public void setName( String name ) throws RemoteException
     {
@@ -301,6 +305,7 @@ class DefaultHostModel extends DisposableCodeBaseModel
    /**
     * Set the host priority to the supplied value.
     * @param priority the host priority
+    * @exception RemoteException if a remote exception occurs
     */
     public void setPriority( int priority ) throws RemoteException
     {
@@ -326,6 +331,7 @@ class DefaultHostModel extends DisposableCodeBaseModel
     * @param layout the layout model to assign
     * @exception BootstrapException if the host model is a bootstrap host and 
     *   the assigned layout model is not a bootstrap layout model
+    * @exception RemoteException if a remote exception occurs
     */
     public void setLayoutModel( LayoutModel layout ) throws BootstrapException, RemoteException
     {
@@ -350,6 +356,7 @@ class DefaultHostModel extends DisposableCodeBaseModel
    /**
     * Return an immutable host identifier.  The host identifier shall be 
     * guranteed to be unique and constant for the life of the model.
+    * @exception RemoteException if a remote exception occurs
     */
     public String getID() throws RemoteException
     {
@@ -360,6 +367,7 @@ class DefaultHostModel extends DisposableCodeBaseModel
     * Return TRUE if this is a bootstrap host. Bootstrap hosts shall be 
     * provided such that they independent of the Transit respository 
     * service.
+    * @exception RemoteException if a remote exception occurs
     */
     public boolean isBootstrap() throws RemoteException
     {
@@ -369,6 +377,7 @@ class DefaultHostModel extends DisposableCodeBaseModel
    /**
     * Return the host priority.
     * @return the host priority setting
+    * @exception RemoteException if a remote exception occurs
     */
     public int getPriority() throws RemoteException
     {
@@ -381,6 +390,7 @@ class DefaultHostModel extends DisposableCodeBaseModel
    /**
     * Return the name of the resource host.  The value returned may be used to uniquely 
     * identify the host within the set of managed hosts. 
+    * @exception RemoteException if a remote exception occurs
     */
     public String getHostName() throws RemoteException
     {
@@ -393,6 +403,7 @@ class DefaultHostModel extends DisposableCodeBaseModel
    /**
     * Return the host base url path.
     * @return the base url path
+    * @exception RemoteException if a remote exception occurs
     */
     public String getBasePath() throws RemoteException
     {
@@ -405,6 +416,7 @@ class DefaultHostModel extends DisposableCodeBaseModel
    /**
     * Return the host base url.
     * @return the base url
+    * @exception RemoteException if a remote exception occurs
     */
     public URL getBaseURL() throws RemoteException
     {
@@ -417,6 +429,7 @@ class DefaultHostModel extends DisposableCodeBaseModel
    /**
     * Return index url path.
     * @return the index url path
+    * @exception RemoteException if a remote exception occurs
     */
     public String getIndexPath() throws RemoteException
     {
@@ -429,6 +442,7 @@ class DefaultHostModel extends DisposableCodeBaseModel
    /**
     * Return index url.
     * @return the index url
+    * @exception RemoteException if a remote exception occurs
     */
     public URL getIndexURL() throws RemoteException
     {
@@ -441,6 +455,7 @@ class DefaultHostModel extends DisposableCodeBaseModel
    /**
     * Return the enabled status of the host.
     * @return TRUE if enabled 
+    * @exception RemoteException if a remote exception occurs
     */
     public boolean getEnabled() throws RemoteException
     {
@@ -453,6 +468,7 @@ class DefaultHostModel extends DisposableCodeBaseModel
    /**
     * Return the trusted status.
     * @return TRUE if trusted 
+    * @exception RemoteException if a remote exception occurs
     */
     public boolean getTrusted() throws RemoteException
     {
@@ -465,6 +481,7 @@ class DefaultHostModel extends DisposableCodeBaseModel
    /**
     * Return the host password authentication credentials.
     * @return the password authentication credentials
+    * @exception RemoteException if a remote exception occurs
     */
     public PasswordAuthentication getAuthentication() throws RemoteException
     {
@@ -477,6 +494,7 @@ class DefaultHostModel extends DisposableCodeBaseModel
    /**
     * Return the host request identifier.
     * @return the identifier
+    * @exception RemoteException if a remote exception occurs
     */
     public RequestIdentifier getRequestIdentifier() throws RemoteException
     {
@@ -489,6 +507,7 @@ class DefaultHostModel extends DisposableCodeBaseModel
    /**
     * Return the layout strategy model.
     * @return the layout model
+    * @exception RemoteException if a remote exception occurs
     */
     public LayoutModel getLayoutModel() throws RemoteException
     {
@@ -501,6 +520,7 @@ class DefaultHostModel extends DisposableCodeBaseModel
    /**
     * Add a host change listener to the model.
     * @param listener the host change listener to add
+    * @exception RemoteException if a remote exception occurs
     */
     public void addHostListener( HostListener listener ) throws RemoteException
     {
@@ -510,6 +530,7 @@ class DefaultHostModel extends DisposableCodeBaseModel
    /**
     * Remove a host change listener from the model.
     * @param listener the host change listener to remove
+    * @exception RemoteException if a remote exception occurs
     */
     public void removeHostListener( HostListener listener ) throws RemoteException
     {
@@ -531,7 +552,7 @@ class DefaultHostModel extends DisposableCodeBaseModel
         {
             return -1;
         }
-        else if( false == other instanceof HostModel )
+        else if( !( other instanceof HostModel ) )
         {
             return -1;
         }
@@ -576,10 +597,14 @@ class DefaultHostModel extends DisposableCodeBaseModel
     {
         synchronized( m_lock )
         {
-            m_enabled = enabled ;
+            m_enabled = enabled;
         }
     }
 
+   /**
+    * Internal event handler.
+    * @param event the event to handle
+    */
     protected void processEvent( EventObject event )
     {
         if( event instanceof HostChangeEvent )
@@ -607,7 +632,7 @@ class DefaultHostModel extends DisposableCodeBaseModel
     private void processHostLayoutEvent( HostLayoutEvent event )
     {
         HostListener[] listeners = getHostListeners();
-        for( int i=0; i<listeners.length; i++ )
+        for( int i=0; i < listeners.length; i++ )
         {
             HostListener listener = listeners[i];
             try
@@ -626,7 +651,7 @@ class DefaultHostModel extends DisposableCodeBaseModel
     private void processHostPriorityEvent( HostPriorityEvent event )
     {
         HostListener[] listeners = getHostListeners();
-        for( int i=0; i<listeners.length; i++ )
+        for( int i=0; i < listeners.length; i++ )
         {
             HostListener listener = listeners[i];
             try
@@ -645,7 +670,7 @@ class DefaultHostModel extends DisposableCodeBaseModel
     private void processHostNameEvent( HostNameEvent event )
     {
         HostListener[] listeners = getHostListeners();
-        for( int i=0; i<listeners.length; i++ )
+        for( int i=0; i < listeners.length; i++ )
         {
             HostListener listener = listeners[i];
             try
@@ -664,7 +689,7 @@ class DefaultHostModel extends DisposableCodeBaseModel
     private void processHostChangeEvent( HostChangeEvent event )
     {
         HostListener[] listeners = getHostListeners();
-        for( int i=0; i<listeners.length; i++ )
+        for( int i=0; i < listeners.length; i++ )
         {
             HostListener listener = listeners[i];
             try
@@ -684,7 +709,7 @@ class DefaultHostModel extends DisposableCodeBaseModel
     {
         ArrayList list = new ArrayList();
         EventListener[] listeners = super.listeners();
-        for( int i=0; i<listeners.length; i++ )
+        for( int i=0; i < listeners.length; i++ )
         {
             EventListener eventListener = listeners[i];
             if( eventListener instanceof HostListener )
@@ -707,7 +732,7 @@ class DefaultHostModel extends DisposableCodeBaseModel
         // will not be correct
         //
 
-        if( false == path.endsWith( "/" ) )
+        if( !path.endsWith( "/" ) )
         {
             return path + "/";
         }

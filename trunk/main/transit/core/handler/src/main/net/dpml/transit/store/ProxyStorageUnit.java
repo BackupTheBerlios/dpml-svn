@@ -17,14 +17,9 @@
 package net.dpml.transit.store;
 
 import java.net.URL;
-import java.net.MalformedURLException;
 import java.net.PasswordAuthentication;
-import java.rmi.RemoteException;
 import java.util.prefs.Preferences;
 import java.util.prefs.BackingStoreException;
-import java.util.Date;
-
-import net.dpml.transit.store.ProxyStorage;
 
 /**
  * The LayoutHelper class is responsible for the setup of initial factory
@@ -103,14 +98,14 @@ class ProxyStorageUnit extends AbstractStorageUnit implements ProxyStorage
             Preferences prefs = getPreferences();
             Preferences node = prefs.node( "excludes" );
             String[] keys = node.keys();
-            for( int i=0; i<keys.length; i++ )
+            for( int i=0; i < keys.length; i++ )
             {
                 node.remove( keys[i] );
             }
 
             if( null != excludes )
             {
-                for( int i=0; i<excludes.length; i++ )
+                for( int i=0; i < excludes.length; i++ )
                 {
                     String exclude = excludes[i];
                     if( null != exclude )

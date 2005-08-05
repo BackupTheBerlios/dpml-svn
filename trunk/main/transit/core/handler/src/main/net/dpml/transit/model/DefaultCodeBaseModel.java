@@ -20,13 +20,8 @@ package net.dpml.transit.model;
 
 import java.net.URI;
 import java.rmi.RemoteException;
-import java.util.Date;
 import java.util.EventObject;
 import java.util.EventListener;
-import java.util.prefs.PreferenceChangeListener;
-import java.util.prefs.PreferenceChangeEvent;
-import java.util.prefs.BackingStoreException;
-import java.util.prefs.Preferences;
 
 import net.dpml.transit.store.CodeBaseStorage;
 
@@ -56,6 +51,7 @@ abstract class DefaultCodeBaseModel extends DefaultModel implements CodeBaseMode
     * Construction of a new codebase model.
     * @param logger the assigned logging channel
     * @param uri the codebase uri
+    * @exception RemoteException if a remote exception occurs
     */
     public DefaultCodeBaseModel( Logger logger, URI uri )
       throws RemoteException
@@ -69,6 +65,7 @@ abstract class DefaultCodeBaseModel extends DefaultModel implements CodeBaseMode
     * Construction of a new codebase model using a supplied codebase storage unit.
     * @param logger the assigned logging channel
     * @param home the codebase storage unit
+    * @exception RemoteException if a remote exception occurs
     */
     public DefaultCodeBaseModel( Logger logger, CodeBaseStorage home )
       throws RemoteException
@@ -151,11 +148,19 @@ abstract class DefaultCodeBaseModel extends DefaultModel implements CodeBaseMode
     // internals
     // ------------------------------------------------------------------------
 
+   /**
+    * Return the codebase storage object.
+    * @return the codebase storage
+    */
     protected CodeBaseStorage getCodeBaseStorage()
     {
         return m_home;
     }
 
+   /**
+    * Internal event handler.
+    * @param eventObject the event
+    */
     protected void processEvent( EventObject eventObject )
     {
         if( eventObject instanceof CodeBaseEvent )
@@ -174,7 +179,7 @@ abstract class DefaultCodeBaseModel extends DefaultModel implements CodeBaseMode
     private void processCodeBaseEvent( CodeBaseEvent event )
     {
         EventListener[] listeners = super.listeners();
-        for( int i=0; i<listeners.length; i++ )
+        for( int i=0; i < listeners.length; i++ )
         {
             EventListener listener = listeners[i];
             if( listener instanceof CodeBaseListener )

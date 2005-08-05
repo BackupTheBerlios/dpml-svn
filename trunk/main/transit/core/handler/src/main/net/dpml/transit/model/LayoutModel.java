@@ -18,7 +18,6 @@
 
 package net.dpml.transit.model;
 
-import java.net.URI;
 import java.rmi.RemoteException;
 
 /**
@@ -30,6 +29,7 @@ public interface LayoutModel extends CodeBaseModel, Disposable
    /**
     * Return the immutable model identifier.
     * @return the resolver identifier
+    * @exception RemoteException if a remote exception occurs
     */
     String getID() throws RemoteException;
 
@@ -37,6 +37,7 @@ public interface LayoutModel extends CodeBaseModel, Disposable
     * Return true if this is a bootstrap layout model.
     *
     * @return the bootstrap status of the resolver.
+    * @exception RemoteException if a remote exception occurs
     */
     boolean isBootstrap() throws RemoteException;
 
@@ -46,30 +47,35 @@ public interface LayoutModel extends CodeBaseModel, Disposable
     * uris shall return a null value.
     *
     * @return the resolver classname
+    * @exception RemoteException if a remote exception occurs
     */
     String getClassname() throws RemoteException;
 
    /**
     * Returns the title of the layout model.
     * @return the layout human readable title
+    * @exception RemoteException if a remote exception occurs
     */
     public String getTitle() throws RemoteException;
 
    /**
     * Set the title of the layout model.
     * @param title the new title
+    * @exception RemoteException if a remote exception occurs
     */
     void setTitle( String title ) throws RemoteException;
 
    /**
     * Add a layout model listener.
     * @param listener the listener to add
+    * @exception RemoteException if a remote exception occurs
     */
     void addLayoutListener( LayoutListener listener ) throws RemoteException;
 
    /**
     * Remove a layout model listener from the model.
     * @param listener the listener to remove
+    * @exception RemoteException if a remote exception occurs
     */
     void removeLayoutListener( LayoutListener listener ) throws RemoteException;
 

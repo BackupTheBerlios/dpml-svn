@@ -24,9 +24,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
-import net.dpml.transit.NullArgumentException;
-import net.dpml.transit.TransitException;
-import net.dpml.transit.Artifact;
 import net.dpml.transit.artifact.ArtifactAlreadyExistsException;
 
 /**
@@ -43,8 +40,9 @@ public interface CacheHandler
 {
    /**
     * Return the cache directory.
-    *
+    * @param artifact the artifact to resolve
     * @return the working cache directory
+    * @exception IOException if an IO error occurs
     */
     File getLocalFile( Artifact artifact ) throws IOException;
 
@@ -54,7 +52,7 @@ public interface CacheHandler
     * services.  During initialization the implementation loads any custom
     * resource hosts.
     *
-    * @exception TransitException if a custom host deployment error occurs
+    * @exception IOException if an IO error occurs
     */
     void initialize() throws IOException;
 
@@ -99,9 +97,11 @@ public interface CacheHandler
      *   writes through the <code>close()</code> method in the output stream,
      *   and do any post-processing there.
      * </p>
+     * @param artifact the artifact
+     * @return an output stream
      * @exception NullArgumentException if the artifact argument is null.
-     * @exception net.dpml.transit.ArtifactAlreadyExistsException if the artifact already exists
-     *            in the cache.
+     * @exception ArtifactAlreadyExistsException if the artifact already exists in the cache.
+     * @exception IOException if an IO error occurs
      */
     OutputStream createOutputStream( Artifact artifact )
         throws NullArgumentException, ArtifactAlreadyExistsException, IOException;

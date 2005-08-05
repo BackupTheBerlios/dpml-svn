@@ -19,7 +19,6 @@
 package net.dpml.transit.model;
 
 import java.rmi.RemoteException;
-import java.net.URI;
 
 /**
  * A ContentModel maintains information about the configuration
@@ -31,18 +30,21 @@ public interface ContentModel extends CodeBaseModel, Disposable
    /**
     * Return the immutable content type identifier.
     * @return the content type
+    * @exception RemoteException if a remote exception occurs
     */
     String getContentType() throws RemoteException;
 
    /**
     * Returns the human readable name of the content type handler.
     * @return the content type human readable name
+    * @exception RemoteException if a remote exception occurs
     */
     public String getTitle() throws RemoteException;
 
    /**
     * Set the layout title.
     * @param title the layout title to assign
+    * @exception RemoteException if a remote exception occurs
     */
     void setTitle( String title ) throws RemoteException;
 
@@ -50,6 +52,7 @@ public interface ContentModel extends CodeBaseModel, Disposable
     * Reutn the value of a property associated with the content model.
     * @param key the property key
     * @return the property value (possibly null)
+    * @exception RemoteException if a remote exception occurs
     */
     String getProperty( String key ) throws RemoteException;
    
@@ -58,6 +61,7 @@ public interface ContentModel extends CodeBaseModel, Disposable
     * @param key the property key
     * @param value the value to return if the property is unknown
     * @return the resolved value
+    * @exception RemoteException if a remote exception occurs
     */
     String getProperty( String key, String value ) throws RemoteException;
 
@@ -65,24 +69,28 @@ public interface ContentModel extends CodeBaseModel, Disposable
     * Set a property on the content model.
     * @param key the property key
     * @param value the property value
+    * @exception RemoteException if a remote exception occurs
     */
     void setProperty( String key, String value ) throws RemoteException;
 
    /**
     * Remove a property from the content model.
     * @param key the property key
+    * @exception RemoteException if a remote exception occurs
     */
     void removeProperty( String key ) throws RemoteException;
 
    /**
     * Add a content listener to the model.
     * @param listener the listener to add
+    * @exception RemoteException if a remote exception occurs
     */
     void addContentListener( ContentListener listener ) throws RemoteException;
 
    /**
     * Remove a content listener from the model.
     * @param listener the listener to remove
+    * @exception RemoteException if a remote exception occurs
     */
     void removeContentListener( ContentListener listener ) throws RemoteException;
 

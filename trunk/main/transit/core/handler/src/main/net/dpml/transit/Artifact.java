@@ -27,9 +27,6 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 
-import net.dpml.transit.NullArgumentException;
-import net.dpml.transit.TransitRuntimeException;
-
 /**
  * A utility class the handles validation of <code>artifact</code> style uri
  * strings.
@@ -71,7 +68,7 @@ public final class Artifact
      * @param uri the artifact uri
      * @return the new artifact
      * @exception java.net.URISyntaxException if the supplied uri is not valid.
-     * @throws UnsupportedSchemeException if the URI does not have "artifact"
+     * @exception UnsupportedSchemeException if the URI does not have "artifact"
      *         or "link" as its <strong>scheme</strong>.
      */
     public static final Artifact createArtifact( String uri )
@@ -116,7 +113,7 @@ public final class Artifact
      *
      * @param uri the artifact uri
      * @return the new artifact
-     * @throws UnsupportedSchemeException if the URI does not have "artifact"
+     * @exception UnsupportedSchemeException if the URI does not have "artifact"
      *     or "link" as its <strong>scheme</strong>.
      */
     public static final Artifact createArtifact( URI uri )
@@ -151,8 +148,6 @@ public final class Artifact
      * @param version the version
      * @param type the type
      * @return the new artifact
-     * @exception java.net.URISyntaxException if the supplied set of argument
-     *            is not a valid URI.
      * @exception NullArgumentException if any of the <code>group</code>,
      *            <code>name</code> or <code>type</code> arguments are
      *            <code>null</code>.
@@ -161,13 +156,21 @@ public final class Artifact
         throws NullArgumentException
     {
         if( group == null )
+        {
             throw new NullArgumentException( "group" );
+        }
         if( name == null )
+        {
             throw new NullArgumentException( "name" );
+        }
         if( type == null )
+        {
             throw new NullArgumentException( "type" );
+        }
         if( version == null )
+        {
             version = "";
+        }
         String composite = "artifact:" + type + ":" + group + "/" + name + "#" + version;
         try
         {
@@ -184,6 +187,13 @@ public final class Artifact
         }
     }
 
+   /**
+    * Construct a new URL form a given URI.  If the URI is a Transit URI the 
+    * returned URL will be associated with the appropriate handler.
+    * @param uri the uri to convert
+    * @return the converted url
+    * @exception MalformedURLException if the url could not be created
+    */
     public static URL toURL( URI uri ) throws MalformedURLException
     {
         try

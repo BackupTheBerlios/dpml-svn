@@ -16,19 +16,11 @@
 
 package net.dpml.transit.store;
 
-import java.net.URL;
-import java.net.MalformedURLException;
-import java.rmi.registry.Registry;
-import java.rmi.activation.ActivationSystem;
-import java.util.Date;
-import java.util.Properties;
 import java.util.prefs.Preferences;
 import java.util.prefs.BackingStoreException;
 
 import net.dpml.transit.Transit;
 import net.dpml.transit.TransitError;
-import net.dpml.transit.store.TransitHome;
-import net.dpml.transit.store.TransitStorage;
 
 /**
  * The TransitStorageHome is responsible for the construction of persistent
@@ -61,7 +53,7 @@ public class TransitStorageHome extends AbstractStorageUnit implements TransitHo
     {
         String[] names = getProfileNames();
         TransitStorage[] stores = new TransitStorage[ names.length ];
-        for( int i=0; i<names.length; i++ )
+        for( int i=0; i < names.length; i++ )
         {
             String id = names[i];
             stores[i] = getTransitStorage( id );

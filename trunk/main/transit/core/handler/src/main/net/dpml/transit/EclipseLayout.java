@@ -19,9 +19,6 @@
 
 package net.dpml.transit;
 
-import net.dpml.transit.Artifact;
-import net.dpml.transit.TransitRuntimeException;
-
 /** 
  * The EclipseLayout decodes artifacts into the Eclipse specified layout
  * of artifacts on a file system or http server.
@@ -44,6 +41,7 @@ public class EclipseLayout extends AbstractLayout
      * the directory path relative to a repository root of the directory containing
      * this artifact.
      *
+     * @param artifact the artifact to resolve the base path from
      * @return the base path
      */
     public final String resolveBase( Artifact artifact )
@@ -61,6 +59,7 @@ public class EclipseLayout extends AbstractLayout
      * would return the path
      * <code>eclipse/plugins/eclipse-osgi-runtime-3.1.0/core.jar</code>.
      *
+     * @param artifact the artifact to resolve the path from
      * @see #resolveBase
      * @see #resolveFilename
      * @return the logical artifact path
@@ -70,11 +69,11 @@ public class EclipseLayout extends AbstractLayout
         return resolveBase( artifact ) + "/" + resolveFilename( artifact );
     }
 
-
     /**
      * Return the expanded filename of the artifact.
      * The filename is expressed as <code>[name].[type]</code>.
      *
+     * @param artifact the artifact to resolve
      * @return the artifact expanded filename
      */
     public String resolveFilename( Artifact artifact )
@@ -101,6 +100,7 @@ public class EclipseLayout extends AbstractLayout
      * Return the expanded filename of the artifact.
      * The filename is expressed as <code>[name].[type]</code>.
      *
+     * @param artifact the artifact to resolve
      * @return the artifact expanded filename
      */
     public String resolveBaseFilename( Artifact artifact )

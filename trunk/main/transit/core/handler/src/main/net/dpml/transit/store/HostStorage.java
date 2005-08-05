@@ -18,10 +18,7 @@
 
 package net.dpml.transit.store;
 
-import java.net.URL;
 import java.net.PasswordAuthentication; 
-
-import net.dpml.transit.model.LayoutModel;
 
 /**
  * A HostStorage implementation is responsible for the maintainence of 
@@ -101,7 +98,7 @@ public interface HostStorage extends CodeBaseStorage
 
    /**
     * Return the authentication prompt.
-    * Return the prompt value
+    * @return the prompt value
     */
     String getPrompt();
 

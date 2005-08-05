@@ -22,7 +22,6 @@ import java.net.URI;
 import java.rmi.RemoteException;
 import java.util.EventObject;
 import java.util.EventListener;
-import java.util.Date;
 import java.util.Properties;
 
 import net.dpml.transit.store.ContentStorage;
@@ -56,6 +55,7 @@ class DefaultContentModel extends DisposableCodeBaseModel implements ContentMode
     * @param uri the codebase uri
     * @param type the contnet type key
     * @param properties properties to assign to the content model
+    * @exception RemoteException if a remote exception occurs
     */
     public DefaultContentModel( 
        Logger logger, URI uri, String type, String title, Properties properties ) throws RemoteException
@@ -63,7 +63,6 @@ class DefaultContentModel extends DisposableCodeBaseModel implements ContentMode
         super( logger, uri );
 
         m_home = null;
-
         m_type = type;
         m_title = title;
         m_properties = properties;
@@ -73,13 +72,13 @@ class DefaultContentModel extends DisposableCodeBaseModel implements ContentMode
     * Construction of a new content model using a supplied storage unit.
     * @param logger the assigned logging channel
     * @param home the content model persistent storage home
+    * @exception RemoteException if a remote exception occurs
     */
     public DefaultContentModel( Logger logger, ContentStorage home ) throws RemoteException
     {
         super( logger, home );
 
         m_home = home;
-
         m_type = home.getType();
         m_title = home.getTitle();
         m_properties = home.getProperties();
@@ -92,6 +91,7 @@ class DefaultContentModel extends DisposableCodeBaseModel implements ContentMode
    /**
     * Return the immutable content type identifier.
     * @return the content type
+    * @exception RemoteException if a remote exception occurs
     */
     public String getContentType() throws RemoteException
     {
@@ -101,6 +101,7 @@ class DefaultContentModel extends DisposableCodeBaseModel implements ContentMode
    /**
     * Returns the human readable name of the content model.
     * @return the content type human readable name
+    * @exception RemoteException if a remote exception occurs
     */
     public String getTitle() throws RemoteException
     {
@@ -110,6 +111,7 @@ class DefaultContentModel extends DisposableCodeBaseModel implements ContentMode
    /**
     * Set the content model title to the supplied value.
     * @param title the content type title
+    * @exception RemoteException if a remote exception occurs
     */
     public void setTitle( String title ) throws RemoteException
     {
@@ -188,6 +190,7 @@ class DefaultContentModel extends DisposableCodeBaseModel implements ContentMode
    /**
     * Add a content listener to the director.
     * @param listener the listener to add
+    * @exception RemoteException if a remote exception occurs
     */
     public void addContentListener( ContentListener listener ) throws RemoteException
     {
@@ -197,6 +200,7 @@ class DefaultContentModel extends DisposableCodeBaseModel implements ContentMode
    /**
     * Remove a content listener from the director.
     * @param listener the listener to remove
+    * @exception RemoteException if a remote exception occurs
     */
     public void removeContentListener( ContentListener listener ) throws RemoteException
     {
@@ -209,6 +213,7 @@ class DefaultContentModel extends DisposableCodeBaseModel implements ContentMode
 
    /**
     * Dispose of the content model.
+    * @exception RemoteException if a remote exception occurs
     */
     public void dispose() throws RemoteException
     {
@@ -224,6 +229,10 @@ class DefaultContentModel extends DisposableCodeBaseModel implements ContentMode
     // internal
     // ------------------------------------------------------------------------
 
+   /**
+    * Internal event handler.
+    * @param event the event to handle
+    */
     protected void processEvent( EventObject event )
     {
         if( event instanceof PropertyChangeEvent )
@@ -240,10 +249,10 @@ class DefaultContentModel extends DisposableCodeBaseModel implements ContentMode
         }
     }
 
-    public void processContentEvent( ContentEvent event )
+    private void processContentEvent( ContentEvent event )
     {
         EventListener[] listeners = super.listeners();
-        for( int i=0; i<listeners.length; i++ )
+        for( int i=0; i < listeners.length; i++ )
         {
             EventListener eventListener = listeners[i];
             if( eventListener instanceof ContentListener )
@@ -263,10 +272,10 @@ class DefaultContentModel extends DisposableCodeBaseModel implements ContentMode
         }
     }
 
-    public void processPropertyChangeEvent( PropertyChangeEvent event )
+    private void processPropertyChangeEvent( PropertyChangeEvent event )
     {
         EventListener[] listeners = super.listeners();
-        for( int i=0; i<listeners.length; i++ )
+        for( int i=0; i < listeners.length; i++ )
         {
             EventListener eventListener = listeners[i];
             if( eventListener instanceof ContentListener )

@@ -34,10 +34,11 @@ public interface LayoutRegistryHome extends CodeBaseStorage
     LayoutStorage[] getInitialLayoutStores();
 
    /**
-    * Return a layout storage unit given a storae unit identifier.  If the 
+    * Return a layout storage unit given a storage unit identifier.  If the 
     * stroage unit does not exist an implementation shall create and return a 
     * net storage unit.
-    * 
+    *
+    * @param id the layout storage unit id
     * @return the layout storage unit
     */
     LayoutStorage getLayoutStorage( String id );

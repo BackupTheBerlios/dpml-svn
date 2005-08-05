@@ -17,14 +17,9 @@
 package net.dpml.transit.store;
 
 import java.net.URI;
-import java.net.MalformedURLException;
-import java.net.PasswordAuthentication;
-import java.util.Date;
 import java.util.Properties;
 import java.util.prefs.Preferences;
 import java.util.prefs.BackingStoreException;
-
-import net.dpml.transit.store.CodeBaseStorage;
 
 /**
  * The LayoutHelper class is responsible for the setup of initial factory
@@ -84,7 +79,7 @@ abstract class CodeBaseStorageUnit extends AbstractStorageUnit implements CodeBa
         try
         {
             String[] keys = prefs.keys();
-            for( int i=0; i<keys.length; i++ )
+            for( int i=0; i < keys.length; i++ )
             {
                 String key = keys[i];
                 String value = prefs.get( key, null );

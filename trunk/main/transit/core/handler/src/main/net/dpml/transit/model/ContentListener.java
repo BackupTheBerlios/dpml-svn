@@ -31,12 +31,14 @@ public interface ContentListener extends EventListener, Remote
    /**
     * Notify a content model listener of a change to content model title.
     * @param event the content change event
+    * @exception RemoteException if a remote exception occurs
     */
     void titleChanged( ContentEvent event ) throws RemoteException;
 
    /**
     * Notify a regstry listener of a change to a property of the content model.
     * @param event the content property change event
+    * @exception RemoteException if a remote exception occurs
     */
     void propertyChanged( PropertyChangeEvent event ) throws RemoteException;
 

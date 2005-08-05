@@ -17,7 +17,6 @@
 
 package net.dpml.transit.artifact;
 
-import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -28,20 +27,15 @@ import java.net.URI;
 import java.net.URL;
 import java.net.URLConnection;
 import java.net.URISyntaxException;
-import java.util.prefs.Preferences;
 
 import net.dpml.transit.Artifact;
 import net.dpml.transit.Transit;
-import net.dpml.transit.TransitException;
 import net.dpml.transit.Repository;
 import net.dpml.transit.Plugin;
 import net.dpml.transit.SecuredTransitContext;
 import net.dpml.transit.ContentRegistry;
 import net.dpml.transit.CacheHandler;
-import net.dpml.transit.ClassicLayout;
-import net.dpml.transit.Layout;
 import net.dpml.transit.util.MimeTypeHandler;
-import net.dpml.transit.util.StreamUtils;
 
 /**
  * The connection handler for URLs based on the "artifact" protocol family.
@@ -211,7 +205,7 @@ public class ArtifactURLConnection extends URLConnection
             }
             else
             {
-                for( int i=0; i<classes.length; i++ )
+                for( int i=0; i < classes.length; i++ )
                 {
                     Class c = classes[i];
                     if( ClassLoader.class.equals( c ) )
@@ -255,7 +249,7 @@ public class ArtifactURLConnection extends URLConnection
         }
         catch( UnknownServiceException use )
         {
-            // Ignore
+            boolean ignoreThis = true;
         }
 
         //

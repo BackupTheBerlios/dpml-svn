@@ -18,7 +18,6 @@
 
 package net.dpml.transit.model;
 
-import java.net.URI;
 import java.rmi.RemoteException;
 
 /**
@@ -29,26 +28,31 @@ public interface LayoutRegistryModel extends CodeBaseModel
    /**
     * Return the set of location resolver models.
     * @return the model array.
+    * @exception RemoteException if a remote exception occurs
     */
     LayoutModel[] getLayoutModels() throws RemoteException;
 
    /**
     * Return a layout resolver model matching the supplied id. If the id is unknown
     * an implementation shall return a null value.
-    *
+    * @param id the layout id
     * @return the layout model
+    * @exception UnknownKeyException if the key is unknown
+    * @exception RemoteException if a remote exception occurs
     */
     LayoutModel getLayoutModel( String id ) throws UnknownKeyException, RemoteException;
 
    /**
     * Add a change listener.
     * @param listener the registry change listener to add
+    * @exception RemoteException if a remote exception occurs
     */
     void addLayoutRegistryListener( LayoutRegistryListener listener ) throws RemoteException;
 
    /**
     * Remove a change listener.
     * @param listener the registry change listener to remove
+    * @exception RemoteException if a remote exception occurs
     */
     void removeLayoutRegistryListener( LayoutRegistryListener listener ) throws RemoteException;
 
@@ -56,6 +60,7 @@ public interface LayoutRegistryModel extends CodeBaseModel
     * Add a new layout model to the registry.
     * @param id the layout model identity
     * @exception DuplicateKeyException if a layout model of the same id already exists
+    * @exception RemoteException if a remote exception occurs
     */
     void addLayoutModel( String id ) throws DuplicateKeyException, RemoteException;
 
@@ -63,6 +68,7 @@ public interface LayoutRegistryModel extends CodeBaseModel
     * Add a new layout model to the registry.
     * @param model the layout model
     * @exception DuplicateKeyException if a layout model of the same id already exists
+    * @exception RemoteException if a remote exception occurs
     */
     void addLayoutModel( LayoutModel model ) throws DuplicateKeyException, RemoteException;
 
@@ -70,6 +76,7 @@ public interface LayoutRegistryModel extends CodeBaseModel
     * Remove a layout model from the registry.
     * @param model the layout model to be removed
     * @exception ModelReferenceException if the layout is in use
+    * @exception RemoteException if a remote exception occurs
     */
     void removeLayoutModel( LayoutModel model ) throws ModelReferenceException, RemoteException;
 

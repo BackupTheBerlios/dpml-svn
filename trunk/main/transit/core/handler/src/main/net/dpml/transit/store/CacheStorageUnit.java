@@ -16,20 +16,9 @@
 
 package net.dpml.transit.store;
 
-import java.io.File;
-import java.net.URL;
-import java.net.URI;
-import java.net.MalformedURLException;
-import java.rmi.RemoteException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.prefs.Preferences;
 import java.util.prefs.BackingStoreException;
-
-import net.dpml.transit.store.CacheHome;
-import net.dpml.transit.store.Removable;
-import net.dpml.transit.store.HostStorage;
-import net.dpml.transit.util.PropertyResolver;
 
 /**
  * The CacheStorageUnit class maintains persistent information about a 
@@ -137,7 +126,7 @@ class CacheStorageUnit extends CodeBaseStorageUnit implements CacheHome, Removab
         {
             ArrayList list = new ArrayList();
             String[] names = prefs.childrenNames();
-            for( int i=0; i<names.length; i++ )
+            for( int i=0; i < names.length; i++ )
             {
                 String name = names[i];
                 HostStorage host = getHostStorage( name );

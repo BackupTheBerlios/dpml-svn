@@ -33,12 +33,14 @@ public interface DisposalListener extends EventListener, Remote
     * Notify the listener of the imminent disposal of a model.
     * @param event the dsposal event
     * @exception VetoDisposalException thrown by an implementation whishing to veto the disposal
+    * @exception RemoteException if a remote exception occurs
     */
     void disposing( DisposalEvent event ) throws VetoDisposalException, RemoteException;
 
    /**
     * Notify a listener of the disposal of a model.
     * @param event the disposal event
+    * @exception RemoteException if a remote exception occurs
     */
     void disposed( DisposalEvent event ) throws RemoteException;
 }

@@ -30,18 +30,21 @@ public interface CacheListener extends EventListener, Remote
    /**
     * Notify the listener of a change to the cache directory.
     * @param event the cache directory change event
+    * @exception RemoteException if a remote exception occurs
     */
     void cacheDirectoryChanged( CacheDirectoryChangeEvent event ) throws RemoteException;
 
    /**
     * Notify the listener of the addition of a new host.
     * @param event the host added event
+    * @exception RemoteException if a remote exception occurs
     */
     void hostAdded( CacheEvent event ) throws RemoteException;
 
    /**
     * Notify the listener of the removal of a host.
     * @param event the host removed event
+    * @exception RemoteException if a remote exception occurs
     */
     void hostRemoved( CacheEvent event ) throws RemoteException;
 

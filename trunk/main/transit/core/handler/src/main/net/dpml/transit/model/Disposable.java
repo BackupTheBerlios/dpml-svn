@@ -28,17 +28,20 @@ public interface Disposable
    /**
     * Add a disposal listener to the model.
     * @param listener the disposal listener to add
+    * @exception RemoteException if a remote exception occurs
     */
     void addDisposalListener( DisposalListener listener ) throws RemoteException;
 
    /**
     * Remove a disposal listener from the model.
     * @param listener the disposal listener to remove
+    * @exception RemoteException if a remote exception occurs
     */
     void removeDisposalListener( DisposalListener listener ) throws RemoteException;
 
    /**
     * Dispose of the model.
+    * @exception RemoteException if a remote exception occurs
     */
     void dispose() throws RemoteException;
 

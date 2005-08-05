@@ -33,6 +33,7 @@ public interface LayoutListener extends EventListener, Remote
     * a layout model.
     *
     * @param event the layout model event
+    * @exception RemoteException if a remote exception occurs
     */
     void titleChanged( LayoutEvent event ) throws RemoteException;
 }

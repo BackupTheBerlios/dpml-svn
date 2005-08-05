@@ -19,7 +19,6 @@
 package net.dpml.transit.model;
 
 import java.net.URL;
-import java.util.EventObject;
 import java.net.PasswordAuthentication; 
 
 /**

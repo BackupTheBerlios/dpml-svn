@@ -20,16 +20,12 @@ package net.dpml.transit.store;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.io.Serializable;
 import java.net.PasswordAuthentication;
-
-import net.dpml.transit.TransitException;
 
 
 /**
@@ -38,8 +34,11 @@ import net.dpml.transit.TransitException;
  * @author <a href="mailto:dev-dpml@lists.ibiblio.org">The Digital Product Meta Library</a>
  * @version $Revision: 1.2 $ $Date: 2004/03/17 10:30:09 $
  */
-class CredentialsHelper
+final class CredentialsHelper
 {
+   /**
+    * Internal constructor.
+    */
     private CredentialsHelper()
     {
         // static utility class
@@ -142,6 +141,9 @@ class CredentialsHelper
         }
     }
 
+   /**
+    * Serializable credentials holder class.
+    */
     private static class CrendentialsHolder implements Serializable
     {
         static final long serialVersionUID = 1L;
@@ -166,20 +168,19 @@ class CredentialsHelper
             {
                 return false;
             }
-            if( false == ( other instanceof CrendentialsHolder ) )
+            if( !( other instanceof CrendentialsHolder ) )
             {
                 return false;
             }
             CrendentialsHolder holder = (CrendentialsHolder) other;
-            if( false == equals( m_username, holder.m_username ) )
+            if( !equals( m_username, holder.m_username ) )
             {
                 return false;
             }
-            if( false == equals( m_password , holder.m_password ) )
+            else
             {
-                return false;
+                equals( m_password , holder.m_password );
             }
-            return true;
         }
 
         public int hashCode()
@@ -217,7 +218,7 @@ class CredentialsHelper
             }
             else
             {
-                for( int i=0; i<s1.length; i++ )
+                for( int i=0; i < s1.length; i++ )
                 {
                     char c = s1[i];
                     if( c != s2[i] )

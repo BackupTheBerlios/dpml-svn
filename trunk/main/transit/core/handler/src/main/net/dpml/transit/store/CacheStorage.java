@@ -18,8 +18,6 @@
 
 package net.dpml.transit.store;
 
-import java.io.File;
-
 /**
  * Interface implemented by classes maintaining a persistent cache configuration.
  *

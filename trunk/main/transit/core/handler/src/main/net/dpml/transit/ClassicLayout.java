@@ -19,8 +19,6 @@
 
 package net.dpml.transit;
 
-import net.dpml.transit.Artifact;
-
 /** 
  * The ClassicLayout decodes artifacts into the Classic/Maven layout
  * of artifacts on a file system or http server.
@@ -43,6 +41,7 @@ public class ClassicLayout
      * the directory path relative to a repository root of the directory containing
      * this artifact.
      *
+     * @param artifact the resource artifact
      * @return the base path
      */
     public final String resolveBase( Artifact artifact )
@@ -58,6 +57,7 @@ public class ClassicLayout
      * root. An artifact such as <code>artifact:jar:metro/cache/dpml-cache-main#1.0.0</code>
      * would return the path <code>metro/cache/jars/dpml-cache-main-1.0.0.jar</code>.
      *
+     * @param artifact the resource artifact
      * @see #resolveBase
      * @see #resolveFilename
      * @return the logical artifact path
@@ -71,6 +71,7 @@ public class ClassicLayout
      * Return the expanded filename of the artifact. The filename is expressed
      * as [name]-[version].[type] or in case of a null version simply [name].[type].
      *
+     * @param artifact the resource artifact
      * @return the artifact expanded filename
      */
     public String resolveFilename( Artifact artifact )
@@ -93,7 +94,7 @@ public class ClassicLayout
         }
     }
 
-    public String resolveBaseFilename( Artifact artifact )
+    private String resolveBaseFilename( Artifact artifact )
     {
         String ver = artifact.getVersion();
         if( null == ver )

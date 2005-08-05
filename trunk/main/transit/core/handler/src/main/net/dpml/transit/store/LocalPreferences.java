@@ -16,16 +16,10 @@
 
 package net.dpml.transit.store;
 
-import java.io.File;
-import java.io.FileInputStream;
 import java.util.Hashtable;
 import java.util.Properties;
-import java.util.prefs.Preferences;
 import java.util.prefs.AbstractPreferences;
 import java.util.prefs.BackingStoreException;
-import java.util.prefs.PreferencesFactory;
-
-import net.dpml.transit.Transit;
 
 /**
  * An implementation of Preferences based on java.util.Properties suitable

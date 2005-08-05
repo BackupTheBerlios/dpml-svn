@@ -56,6 +56,7 @@ public final class Util
     * Read a set of properties from a property file specificed by a url.
     * Property files may reference symbolic properties in the form ${name}.
     * @param propsUrl the url of the property file to read
+    * @param resolve if TRUE apply property symbol resolution
     * @return the resolved properties
     * @exception IOException if an io error occurs
     */

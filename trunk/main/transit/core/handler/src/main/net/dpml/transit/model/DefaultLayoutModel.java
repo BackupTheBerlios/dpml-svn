@@ -22,7 +22,6 @@ import java.net.URI;
 import java.rmi.RemoteException;
 import java.util.EventObject;
 import java.util.EventListener;
-import java.util.Date;
 
 import net.dpml.transit.store.LayoutStorage;
 import net.dpml.transit.store.Removable;
@@ -62,6 +61,7 @@ class DefaultLayoutModel extends DisposableCodeBaseModel implements LayoutModel
     * @param id the layout identifier
     * @param strategy the layout yhandler creation strategy
     * @param title the layout title
+    * @exception RemoteException if a remote exception occurs
     */
     public DefaultLayoutModel( 
       final Logger logger, final String id, Strategy strategy, final String title )
@@ -92,6 +92,7 @@ class DefaultLayoutModel extends DisposableCodeBaseModel implements LayoutModel
     * Creation of a new layout model using a supplied layout store.
     * @param logger the assigned logging channel
     * @param home the layout storage home
+    * @exception RemoteException if a remote exception occurs
     */
     public DefaultLayoutModel( final Logger logger, final LayoutStorage home )
       throws RemoteException
@@ -125,6 +126,7 @@ class DefaultLayoutModel extends DisposableCodeBaseModel implements LayoutModel
    /**
     * Set the title of the layout model.
     * @param title the new title
+    * @exception RemoteException if a remote exception occurs
     */
     public void setTitle( String title ) throws RemoteException
     {
@@ -145,6 +147,7 @@ class DefaultLayoutModel extends DisposableCodeBaseModel implements LayoutModel
    /**
     * Return the immutable resolver identifier.
     * @return the resolver identifier
+    * @exception RemoteException if a remote exception occurs
     */
     public String getID() throws RemoteException
     {
@@ -155,6 +158,7 @@ class DefaultLayoutModel extends DisposableCodeBaseModel implements LayoutModel
     * Return true if this is a bootstrap resolver.
     *
     * @return the bootstrap status of the resolver.
+    * @exception RemoteException if a remote exception occurs
     */
     public boolean isBootstrap() throws RemoteException
     {
@@ -166,6 +170,7 @@ class DefaultLayoutModel extends DisposableCodeBaseModel implements LayoutModel
     * manager represents a bootstrap resolver.
     *
     * @return the resolver classname
+    * @exception RemoteException if a remote exception occurs
     */
     public String getClassname() throws RemoteException
     {
@@ -175,6 +180,7 @@ class DefaultLayoutModel extends DisposableCodeBaseModel implements LayoutModel
    /**
     * Returns the human readable name of the resolver.
     * @return the resolver human readable name
+    * @exception RemoteException if a remote exception occurs
     */
     public String getTitle() throws RemoteException
     {
@@ -187,6 +193,7 @@ class DefaultLayoutModel extends DisposableCodeBaseModel implements LayoutModel
    /**
     * Add a layout listener to the model.
     * @param listener the listener to add
+    * @exception RemoteException if a remote exception occurs
     */
     public void addLayoutListener( LayoutListener listener ) throws RemoteException
     {
@@ -196,6 +203,7 @@ class DefaultLayoutModel extends DisposableCodeBaseModel implements LayoutModel
    /**
     * Remove a layout listener from the director.
     * @param listener the listener to remove
+    * @exception RemoteException if a remote exception occurs
     */
     public void removeLayoutListener( LayoutListener listener ) throws RemoteException
     {
@@ -208,11 +216,12 @@ class DefaultLayoutModel extends DisposableCodeBaseModel implements LayoutModel
 
    /**
     * Dispose of the layout model.
+    * @exception RemoteException if a remote exception occurs
     */
     public void dispose() throws RemoteException
     {
         super.dispose();
-        if( false == isBootstrap() && ( null != m_home ) && ( m_home instanceof Removable ) )
+        if( !isBootstrap() && ( null != m_home ) && ( m_home instanceof Removable ) )
         {
             Removable store = (Removable) m_home;
             store.remove();
@@ -223,6 +232,10 @@ class DefaultLayoutModel extends DisposableCodeBaseModel implements LayoutModel
     // internal
     // ------------------------------------------------------------------------
 
+   /**
+    * Internal event handler.
+    * @param event the event to handle
+    */
     protected void processEvent( EventObject event )
     {
         if( event instanceof LayoutEvent )
@@ -238,7 +251,7 @@ class DefaultLayoutModel extends DisposableCodeBaseModel implements LayoutModel
     private void processLayoutEvent( LayoutEvent event )
     {
         EventListener[] listeners = super.listeners();
-        for( int i=0; i<listeners.length; i++ )
+        for( int i=0; i < listeners.length; i++ )
         {
             EventListener eventListener = listeners[i];
             if( eventListener instanceof LayoutListener )

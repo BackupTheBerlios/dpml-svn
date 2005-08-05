@@ -72,17 +72,13 @@ public class LocalStrategy extends Strategy
         else if( other instanceof LocalStrategy )
         {
             LocalStrategy local = (LocalStrategy) other;
-            if( false == m_classname.equals( local.getClassname() ) )
-            {
-                return false;
-            }
-            else if( isBootstrap() != local.isBootstrap() )
+            if( !m_classname.equals( local.getClassname() ) )
             {
                 return false;
             }
             else
             {
-                return true;
+                return isBootstrap() == local.isBootstrap();
             }
         }
         else

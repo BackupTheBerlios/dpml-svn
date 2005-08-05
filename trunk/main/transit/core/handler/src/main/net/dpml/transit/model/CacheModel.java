@@ -19,7 +19,6 @@
 package net.dpml.transit.model;
 
 import java.io.File;
-import java.net.URI;
 import java.net.MalformedURLException;
 import java.rmi.RemoteException;
 
@@ -45,12 +44,14 @@ public interface CacheModel extends CodeBaseModel, Disposable
    /**
     * Return the directory path to be used by the cache handler.
     * @return the cache directory path.
+    * @exception RemoteException if a remote exception occurs
     */
     String getCacheDirectoryPath() throws RemoteException;
 
    /**
     * Return the directory to be used by the cache handler as the cache directory.
     * @return the cache directory.
+    * @exception RemoteException if a remote exception occurs
     */
     File getCacheDirectory() throws RemoteException;
 
@@ -58,12 +59,14 @@ public interface CacheModel extends CodeBaseModel, Disposable
     * Update the value the local cache directory path.
     *
     * @param path the cache directory path
+    * @exception RemoteException if a remote exception occurs
     */
     void setCacheDirectoryPath( final String path ) throws RemoteException;
 
    /**
     * Return the array of hosts configured for the cache.
-    * @return the host director array
+    * @return the host model array
+    * @exception RemoteException if a remote exception occurs
     */
     HostModel[] getHostModels() throws RemoteException;
 
@@ -72,38 +75,45 @@ public interface CacheModel extends CodeBaseModel, Disposable
     * @param id the host identifier
     * @return the host model
     * @exception UnknownKeyException if the requested host id is unknown
+    * @exception RemoteException if a remote exception occurs
     */
     HostModel getHostModel( String id ) throws UnknownKeyException, RemoteException;
 
    /**
     * Add a cache listener to the model.
     * @param listener the listener to add
+    * @exception RemoteException if a remote exception occurs
     */
     void addCacheListener( CacheListener listener ) throws RemoteException;
 
    /**
     * Remove a cache listener from the model.
     * @param listener the listener to remove
+    * @exception RemoteException if a remote exception occurs
     */
     void removeCacheListener( CacheListener listener ) throws RemoteException;
 
    /**
     * Return the cache layout model.
     * @return the layout model
+    * @exception RemoteException if a remote exception occurs
     */
     LayoutModel getLayoutModel() throws RemoteException;
 
    /**
     * Return the layout registry model.
     * @return the layout registry model
+    * @exception RemoteException if a remote exception occurs
     */
     LayoutRegistryModel getLayoutRegistryModel() throws RemoteException;
 
    /**
     * Add a new host model to the cache model.
     * @param id the host identifier
+    * @exception MalformedURLException if the host definition references a bad url spec
     * @exception DuplicateKeyException if a host of the same identifier already exists
     * @exception UnknownKeyException if a host references an unknown layout key
+    * @exception RemoteException if a remote exception occurs
     */
     void addHostModel( String id ) 
      throws DuplicateKeyException, UnknownKeyException, RemoteException, MalformedURLException;
@@ -112,12 +122,14 @@ public interface CacheModel extends CodeBaseModel, Disposable
     * Add a new host model to the cache model.
     * @param model the host model to add to the cache model
     * @exception DuplicateKeyException if a host of the same identifier already exists
+    * @exception RemoteException if a remote exception occurs
     */
     void addHostModel( HostModel model ) throws DuplicateKeyException, RemoteException;
 
    /**
     * Remove a host from the cache model.
     * @param model the host model to remove
+    * @exception RemoteException if a remote exception occurs
     */
     void removeHostModel( HostModel model ) throws RemoteException;
 

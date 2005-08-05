@@ -31,10 +31,6 @@ import java.util.ArrayList;
 import java.util.Properties;
 import java.util.prefs.Preferences;
 
-import net.dpml.transit.NullArgumentException;
-import net.dpml.transit.Transit;
-import net.dpml.transit.TransitException;
-import net.dpml.transit.Artifact;
 import net.dpml.transit.artifact.ArtifactNotFoundException;
 import net.dpml.transit.artifact.Handler;
 import net.dpml.transit.monitor.RepositoryMonitorRouter;
@@ -44,7 +40,6 @@ import net.dpml.transit.monitor.RepositoryMonitorRouter;
  * artifact references.
  *
  * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
- * @version $Id: StandardLoader.java 2865 2005-06-17 09:54:23Z mcconnell@dpml.net $
  */
 class StandardLoader
     implements Repository
@@ -291,8 +286,8 @@ class StandardLoader
         {
             throw new NullArgumentException( "descriptor" );
         }
-        Object[] params = new Object[ args.length + 3 ];
-        for( int i=0; i<args.length; i++ )
+        Object[] params = new Object[ args.length + THREE ];
+        for( int i=0; i < args.length; i++ )
         {
             params[i] = args[i];
         }
@@ -338,10 +333,10 @@ class StandardLoader
         // see if we can assign a value based on the supplied args
         //
 
-        for( int i=0; i<classes.length; i++ )
+        for( int i=0; i < classes.length; i++ )
         {
             Class c = classes[i];
-            for( int j=0; j<args.length; j++ )
+            for( int j=0; j < args.length; j++ )
             {
                 Object object = args[j];
                 if( c.isAssignableFrom( object.getClass() ) )
@@ -357,7 +352,7 @@ class StandardLoader
         // is something we can implicity establish
         //
 
-        for( int i=0; i<arguments.length; i++ )
+        for( int i=0; i < arguments.length; i++ )
         {
             if( null == arguments[i] )
             {
@@ -450,7 +445,7 @@ class StandardLoader
         {
             throw new NullArgumentException( "args" );
         }
-        for( int i=0; i<args.length; i++ )
+        for( int i=0; i < args.length; i++ )
         {
             Object p = args[i];
             if( null == p )
@@ -669,14 +664,6 @@ class StandardLoader
         {
             URL url = artifact.toURL();
             Properties props = new Properties();
-
-            //
-            // SJM: the next line will fail if transit/server is running
-            // due to the attempt by the remote cache handler to receive an
-            // input stream over RMI.  The specfic exception is
-            // java.io.NotSerializableException: java.io.BufferedInputStream
-            //
-
             InputStream input = url.openConnection().getInputStream();
             props.load( input );
             return props;

@@ -48,7 +48,7 @@ public interface ContentRegistryHome extends CodeBaseStorage
     * @param type the content type
     * @param title the content type title
     * @param uri a plugin codebase uri
-    * return the content storage unit
+    * @return the content storage unit
     */
     ContentStorage createContentStorage( String type, String title, URI uri );
 

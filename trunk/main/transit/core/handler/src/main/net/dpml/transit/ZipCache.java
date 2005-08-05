@@ -18,24 +18,30 @@
 
 package net.dpml.transit;
 
-import net.dpml.transit.Artifact;
-
 import java.util.HashMap;
 import java.util.Iterator;
 
 import java.util.zip.ZipFile;
 
-class ZipCache
-    implements Runnable
+/**
+ * Internal cache.
+ */
+class ZipCache implements Runnable
 {
-    private HashMap m_store;
-    private long    m_timeToLive;
-    private Thread  m_thread;
+    private static final int TIME_TO_LIVE = 30000;
+    private static final int DELAY = 10000;
 
+    private HashMap m_store;
+    private long m_timeToLive;
+    private Thread m_thread;
+
+   /**
+    * Internal zip cache constructor.
+    */
     ZipCache()
     {
         m_store = new HashMap();
-        m_timeToLive = 30000;
+        m_timeToLive = TIME_TO_LIVE;
     }
 
     ZipFile get( Artifact key )
@@ -44,7 +50,9 @@ class ZipCache
         {
             Entry entry = (Entry) m_store.get( key );
             if( entry == null )
+            {
                 return null;
+            }
             ZipFile zip = entry.m_file;
             return zip;
         }
@@ -65,6 +73,9 @@ class ZipCache
         }
     }
 
+   /**
+    * Start the cache handler.
+    */
     public void run()
     {
         while( true )
@@ -89,9 +100,10 @@ class ZipCache
                         m_thread = null;
                         break;
                     }
-                    wait( 10000 );
+                    wait( DELAY );
                 }
-            } catch( Exception e )
+            }
+            catch( Exception e )
             {
                 // Can not happen?
                 // Just ignore and it will be handled in the next round.
@@ -100,36 +112,62 @@ class ZipCache
         }
     }
 
+   /**
+    * Internal class that maintains a cache entry.
+    */
     class Entry
     {
         private ZipFile  m_file;
         private long     m_collectTime;
 
+       /**
+        * Creation of a new zip cache entry.
+        * @param file the zip file to cache
+        */
         Entry( ZipFile file )
         {
             m_file = file;
             m_collectTime = System.currentTimeMillis() + m_timeToLive;
         }
 
+       /**
+        * Test this objexct for equality with another.
+        * @param obj the other object
+        * @return the equaility status
+        */
         public boolean equals( Object obj )
         {
             if( obj == null )
+            {
                 return false;
-            if( obj.getClass().equals( Entry.class ) == false )
+            }
+            if( !obj.getClass().equals( Entry.class ) )
+            {
                 return false;
+            }
             Entry other = (Entry) obj;
 
-            if( m_file.equals( other.m_file ) == false )
+            if( !m_file.equals( other.m_file ) )
+            {
                 return false;
+            }
 
             return true;
         }
 
+       /**
+        * Retun the instance hashcode.
+        * @return the hashcode value
+        */
         public int hashCode()
         {
             return m_file.hashCode();
         }
 
+       /**
+        * Return a string represention of the cache entry.
+        * @return the string value
+        */
         public String toString()
         {
             return "Entry[" + m_file + ", " + m_collectTime + "]";

@@ -18,10 +18,7 @@
 
 package net.dpml.transit.model;
 
-import java.net.URI;
 import java.rmi.RemoteException;
-import java.util.EventObject;
-import java.util.Date;
 
 import net.dpml.transit.store.CodeBaseStorage;
 
@@ -36,6 +33,7 @@ class DefaultRepositoryModel extends DisposableCodeBaseModel implements Reposito
     * Creation of a new repository service codebase model.
     * @param logger the assinged logging channel
     * @param home the codebase storage unit
+    * @exception RemoteException if a remote exception occurs
     */
     public DefaultRepositoryModel( Logger logger, CodeBaseStorage home ) 
       throws RemoteException

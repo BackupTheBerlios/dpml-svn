@@ -18,10 +18,7 @@
 
 package net.dpml.transit.model;
 
-import java.io.File;
-import java.io.IOException;
 import java.rmi.RemoteException;
-import java.util.Date;
 import java.util.EventObject;
 import java.util.EventListener;
 import java.net.PasswordAuthentication; 
@@ -57,6 +54,7 @@ class DefaultProxyModel extends DefaultModel implements ProxyModel
     * @param logger the assigned logging channel
     * @param home the proxy model stroage home
     * @exception NullPointerException if the logging channel or home are null
+    * @exception RemoteException if a remote exception occurs
     */
     public DefaultProxyModel( Logger logger, ProxyStorage home ) 
       throws NullPointerException, RemoteException
@@ -81,6 +79,7 @@ class DefaultProxyModel extends DefaultModel implements ProxyModel
     * @param auth the proxy authentication settings
     * @param excludes a set of proxy excludes
     * @exception NullPointerException if the logging channel is null
+    * @exception RemoteException if a remote exception occurs
     */
     public DefaultProxyModel( 
       Logger logger, URL host, PasswordAuthentication auth, String[] excludes ) 
@@ -248,6 +247,10 @@ class DefaultProxyModel extends DefaultModel implements ProxyModel
     // internal
     // ------------------------------------------------------------------------
 
+   /**
+    * Internal event handler.
+    * @param eventObject the event to handle
+    */
     protected void processEvent( EventObject eventObject )
     {
         if( eventObject instanceof ProxyEvent )
@@ -266,7 +269,7 @@ class DefaultProxyModel extends DefaultModel implements ProxyModel
     private void processProxyEvent( ProxyEvent event )
     {
         EventListener[] listeners = super.listeners();
-        for( int i=0; i<listeners.length; i++ )
+        for( int i=0; i < listeners.length; i++ )
         {
             EventListener listener = listeners[i];
             if( listener instanceof ProxyListener )

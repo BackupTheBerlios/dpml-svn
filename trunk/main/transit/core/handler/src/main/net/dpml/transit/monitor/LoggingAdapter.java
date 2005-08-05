@@ -22,8 +22,6 @@ import java.net.URL;
 import java.util.logging.Logger;
 import java.util.logging.Level;
 
-import net.dpml.transit.util.ExceptionHelper;
-
 /**
  * Generic adapter that redirects monitor events to a logging channel.
  *
@@ -67,6 +65,7 @@ public class LoggingAdapter implements Adapter
    /**
     * Creation of a new console adapter that is used to redirect transit events
     * the system output stream.
+    * @param logger the assigned logging channel
     */
     public LoggingAdapter( Logger logger )
     {
@@ -76,6 +75,7 @@ public class LoggingAdapter implements Adapter
    /**
     * Creation of a new console adapter that is used to redirect transit events
     * the system output stream.
+    * @param category the logging channel category name
     */
     public LoggingAdapter( String category )
     {
@@ -161,6 +161,7 @@ public class LoggingAdapter implements Adapter
    /**
     * Record a warning message.
     * @param message the warning message to record
+    * @param cause the causal exception
     */
     public void warn( String message, Throwable cause )
     {
@@ -195,6 +196,11 @@ public class LoggingAdapter implements Adapter
         }
     }
 
+   /**
+    * Return a child logger.
+    * @param category the sub-category name.
+    * @return the child logging channel
+    */
     public net.dpml.transit.model.Logger getChildLogger( String category )
     {
         String name = m_logger.getName();
@@ -311,7 +317,7 @@ public class LoggingAdapter implements Adapter
     */
     private void log( String message )
     {
-        debug( message);
+        debug( message );
     }
 }
 

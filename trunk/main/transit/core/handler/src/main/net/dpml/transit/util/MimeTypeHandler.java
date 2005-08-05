@@ -53,7 +53,7 @@ public final class MimeTypeHandler
     * @param artifactType the artifact type such as "part", "jar", etc.
     * @return the matching mimetype of null if unknown
     */
-    static public String getMimeType( String artifactType )
+    public static String getMimeType( String artifactType )
     {
         return (String) MIME_TYPES.get( artifactType );
     }
@@ -64,7 +64,7 @@ public final class MimeTypeHandler
      * Only for use with testcases.
      * @return the known mimetype count
      */
-    static public int getMimeTypesSize()
+    public static int getMimeTypesSize()
     {
         return MIME_TYPES.size();
     }

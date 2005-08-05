@@ -24,32 +24,13 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
-import java.net.MalformedURLException;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.net.URL;
-import java.rmi.NotBoundException ;
-import java.rmi.AccessException;
-import java.rmi.RemoteException;
-import java.rmi.activation.ActivationSystem;
-import java.rmi.registry.Registry;
-import java.rmi.registry.LocateRegistry;
-import java.util.Properties;
 
 import net.dpml.transit.link.LinkManager;
-import net.dpml.transit.monitor.LoggingAdapter;
-import net.dpml.transit.monitor.Monitor;
 import net.dpml.transit.monitor.RepositoryMonitorRouter;
 import net.dpml.transit.monitor.CacheMonitorRouter;
 import net.dpml.transit.monitor.NetworkMonitorRouter;
-import net.dpml.transit.model.Connection;
 import net.dpml.transit.model.DefaultTransitModel;
 import net.dpml.transit.model.TransitModel;
-import net.dpml.transit.Repository;
-import net.dpml.transit.StandardLoader;
-import net.dpml.transit.store.TransitStorage;
-import net.dpml.transit.store.TransitStorageUnit;
-import net.dpml.transit.util.PropertyResolver;
 
 /**
  * The Transit class manages the establishment of a singleton transit instance
@@ -125,6 +106,9 @@ public final class Transit
     */
     public static final File DPML_PREFS;
 
+   /**
+    * The Transit system version.
+    */
     public static final String VERSION = "@PROJECT-VERSION@";
 
     static
@@ -177,8 +161,10 @@ public final class Transit
    /**
     * Returns the singleton instance of the transit system.  If this method
     * has already been invoked the server and monitor argument will be ignored.
+    *
+    * @param model the activate transit model
     * @return the singleton transit instance
-    * @exception TransitException if an error occurs during establishment
+    * @exception IOException if an error occurs during establishment
     */
     public static Transit getInstance( TransitModel model )
         throws IOException
@@ -232,7 +218,12 @@ public final class Transit
 
     private SecuredTransitContext m_context;
 
-    SecuredTransitContext getTransitContext()
+   /**
+    * Return the singleton transit content.
+    * @return the context instance
+    * @exception IllegalStateException if transit has not been initialized
+    */
+    SecuredTransitContext getTransitContext() throws IllegalStateException
     {
         if( null == m_context )
         {
@@ -248,6 +239,7 @@ public final class Transit
 
    /**
     * Private constructor of a transit instance.
+    * @param model the active transit model
     * @exception TransitException if an establishment error occurs
     */
     private Transit( TransitModel model ) throws TransitException
@@ -302,6 +294,10 @@ public final class Transit
         }
     }
 
+   /**
+    * Return the link manager.
+    * @return the link manager
+    */
     public LinkManager getLinkManager()
     {
         return getTransitContext().getLinkManager();
@@ -312,7 +308,7 @@ public final class Transit
     * @return the repository service
     * @exception IllegalStateException if Transit has not been initialized
     */
-    public Repository getRepository()
+    public Repository getRepository() throws IllegalStateException 
     {
         return getTransitContext().getRepository();
     }

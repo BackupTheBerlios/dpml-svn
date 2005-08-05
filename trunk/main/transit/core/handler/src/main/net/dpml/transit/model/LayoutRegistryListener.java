@@ -31,12 +31,14 @@ public interface LayoutRegistryListener extends EventListener, Remote
    /**
     * Notify all listeners of the addition of a layout model.
     * @param event the layout event
+    * @exception RemoteException if a remote exception occurs
     */
     void layoutAdded( LayoutRegistryEvent event ) throws RemoteException;
 
    /**
     * Notify all listeners of the removal of a layout model.
     * @param event the layout event
+    * @exception RemoteException if a remote exception occurs
     */
     void layoutRemoved( LayoutRegistryEvent event ) throws RemoteException;
 

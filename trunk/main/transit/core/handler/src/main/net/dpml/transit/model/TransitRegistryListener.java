@@ -31,12 +31,14 @@ public interface TransitRegistryListener extends EventListener, Remote
    /**
     * Notify all listeners of the addition of a model to the registry.
     * @param event the registry event
+    * @exception RemoteException if a remote exception occurs
     */
     void modelAdded( TransitRegistryEvent event ) throws RemoteException;
 
    /**
     * Notify all listeners of the removal of a model from the registry.
     * @param event the registry event
+    * @exception RemoteException if a remote exception occurs
     */
     void modelRemoved( TransitRegistryEvent event ) throws RemoteException;
 

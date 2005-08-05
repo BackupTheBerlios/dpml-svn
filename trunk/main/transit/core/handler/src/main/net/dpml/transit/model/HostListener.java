@@ -33,6 +33,7 @@ public interface HostListener extends EventListener, Remote
    /**
     * Notify a consumer of the change to the host name.
     * @param event the host name change event
+    * @exception RemoteException if a remote exception occurs
     */
     void nameChanged( HostNameEvent event ) throws RemoteException;
 
@@ -40,18 +41,21 @@ public interface HostListener extends EventListener, Remote
     * Notify a consumer of an aggregated set of changes concerning the 
     * base url, index, request identifier and/or authentication.
     * @param event the host change event
+    * @exception RemoteException if a remote exception occurs
     */
     void hostChanged( HostChangeEvent event ) throws RemoteException;
 
    /**
     * Notify a consumer of a change to the host priority.
     * @param event the host priority event
+    * @exception RemoteException if a remote exception occurs
     */
     void priorityChanged( HostPriorityEvent event ) throws RemoteException;
 
    /**
     * Notify a consumer of a change to the host layout.
     * @param event the host layout change event
+    * @exception RemoteException if a remote exception occurs
     */
     void layoutChanged( HostLayoutEvent event ) throws RemoteException;
 

@@ -17,19 +17,9 @@
 package net.dpml.transit.store;
 
 import java.net.URI;
-import java.net.URL;
-import java.net.MalformedURLException;
-import java.rmi.RemoteException;
-import java.util.Date;
 import java.util.prefs.Preferences;
 import java.util.prefs.BackingStoreException;
 import java.net.PasswordAuthentication;
-
-import net.dpml.transit.store.HostStorage;
-import net.dpml.transit.store.Removable;
-import net.dpml.transit.store.Strategy;
-import net.dpml.transit.store.PluginStrategy;
-import net.dpml.transit.store.LocalStrategy;
 
 /**
  * Default implementation of a persistent host storage using java.util.Preferences.
@@ -41,6 +31,8 @@ class HostStorageUnit extends CodeBaseStorageUnit implements HostStorage, Remova
     // ------------------------------------------------------------------------
 
     private static final String DEFAULT_HOST_CLASSNAME = "net.dpml.transit.DefaultResourceHost";
+
+    private static final int DEFAULT_PRIORITY = 600;
 
     // ------------------------------------------------------------------------
     // constructor
@@ -166,7 +158,7 @@ class HostStorageUnit extends CodeBaseStorageUnit implements HostStorage, Remova
     public int getPriority()
     {
         Preferences prefs = getPreferences();
-        return prefs.getInt( "priority", 600 );
+        return prefs.getInt( "priority", DEFAULT_PRIORITY );
     }
 
    /**

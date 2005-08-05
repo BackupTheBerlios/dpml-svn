@@ -18,9 +18,6 @@
 
 package net.dpml.transit.model;
 
-import java.net.URL;
-
-
 /**
  * Transit Logger is a interface through which different logging solutions
  * can be provided.  Typical examples of logging implementations include 

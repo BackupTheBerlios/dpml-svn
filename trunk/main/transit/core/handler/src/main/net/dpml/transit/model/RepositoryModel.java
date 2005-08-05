@@ -18,8 +18,6 @@
 
 package net.dpml.transit.model;
 
-import java.net.URI;
-
 /**
  * A RepositoryModel maintains information about the configuration of the Transit
  * repository service.

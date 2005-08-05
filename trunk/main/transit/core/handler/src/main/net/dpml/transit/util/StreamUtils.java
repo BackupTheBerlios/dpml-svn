@@ -33,35 +33,47 @@ import net.dpml.transit.monitor.NetworkMonitor;
 /**
  * Utility class that provides support for stream copy operations.
  */
-public class StreamUtils
+public final class StreamUtils
 {
+   /**
+    * Disabled constructor.
+    */
+    private StreamUtils()
+    {
+        // utility class
+    }
+
    /**
     * Buffer size.
     */
     private static final int BUFFER_SIZE = 102400;
 
-
-   /** Copy a stream.
+   /** 
+    * Copy a stream.
     * @param src the source input stream
     * @param dest the destination output stream
     * @param closeStreams TRUE if the streams should be closed on completion
     * @exception IOException if an IO error occurs
+    * @exception NullArgumentException if src or destination are null
     */
-    static public void copyStream( InputStream src, OutputStream dest, boolean closeStreams )
+    public static void copyStream( InputStream src, OutputStream dest, boolean closeStreams )
         throws IOException, NullArgumentException
     {
         copyStream( null, null, 0, src, dest, closeStreams );
     }
 
-   /** Copy a stream.
+   /** 
+    * Copy a stream.
+    * @param monitor optional network monitor to log updates
     * @param source the source url
     * @param expected the expected size in bytes
     * @param src the source input stream
     * @param dest the destination output stream
     * @param closeStreams TRUE if the streams should be closed on completion
     * @exception IOException if an IO error occurs
+    * @exception NullArgumentException if src or destination are null
     */
-    static public void copyStream( NetworkMonitor monitor, URL source, int expected,
+    public static void copyStream( NetworkMonitor monitor, URL source, int expected,
                             InputStream src, OutputStream dest, boolean closeStreams )
         throws IOException, NullArgumentException
     {
@@ -78,18 +90,18 @@ public class StreamUtils
         int length;
         int count = 0; // cumulative total read
         byte[] buffer = new byte[BUFFER_SIZE];
-        if( dest instanceof BufferedOutputStream == false )
+        if( !( dest instanceof BufferedOutputStream ) )
         {
             dest = new BufferedOutputStream( dest );
         }
-        if( src instanceof BufferedInputStream == false )
+        if( !( src instanceof BufferedInputStream ) )
         {
             src = new BufferedInputStream( src );
         }
 
         try
         {
-            while ( ( length = src.read( buffer ) ) >= 0 )
+            while( ( length = src.read( buffer ) ) >= 0 )
             {
                 count = count + length;
                 dest.write( buffer, 0, length );
@@ -128,7 +140,14 @@ public class StreamUtils
         }
     }
 
-    static public boolean compareStreams( InputStream in1, InputStream in2 )
+   /**
+    * Compare two streams.
+    * @param in1 the first input stream
+    * @param in2 the second input stream
+    * @return the equality status
+    * @exception IOException if an IO error occurs
+    */
+    public static boolean compareStreams( InputStream in1, InputStream in2 )
         throws IOException
     {
         boolean result = true;
@@ -141,7 +160,9 @@ public class StreamUtils
                 return false;
             }
             if( v1 == -1 )
+            {
                 break;
+            }
         } while( true );
         return result;
     }

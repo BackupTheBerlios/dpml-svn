@@ -30,24 +30,28 @@ public interface CodeBaseModel extends Model
    /**
     * Return the uri of the plugin to be used for the subsystem.
     * @return the codebase plugin uri
+    * @exception RemoteException if a remote exception occurs
     */
     URI getCodeBaseURI() throws RemoteException;
 
    /**
     * Set the plugin uri value.
     * @param uri the plugin uri
+    * @exception RemoteException if a remote exception occurs
     */
     void setCodeBaseURI( URI uri ) throws RemoteException;
 
    /**
     * Add a codebase listener to the model.
     * @param listener the listener to add
+    * @exception RemoteException if a remote exception occurs
     */
     void addCodeBaseListener( CodeBaseListener listener ) throws RemoteException;
 
    /**
     * Remove a codebase listener from the model.
     * @param listener the listener to remove
+    * @exception RemoteException if a remote exception occurs
     */
     void removeCodeBaseListener( CodeBaseListener listener ) throws RemoteException;
 

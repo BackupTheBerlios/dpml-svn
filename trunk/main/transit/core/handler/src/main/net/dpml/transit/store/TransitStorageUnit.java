@@ -18,22 +18,11 @@ package net.dpml.transit.store;
 
 import java.net.URL;
 import java.net.MalformedURLException;
-import java.rmi.registry.Registry;
-import java.rmi.activation.ActivationSystem;
-import java.util.Date;
 import java.util.Properties;
 import java.util.prefs.Preferences;
-import java.util.prefs.BackingStoreException;
 
 import net.dpml.transit.Transit;
 import net.dpml.transit.TransitError;
-import net.dpml.transit.monitor.LoggingAdapter;
-import net.dpml.transit.store.TransitStorage;
-import net.dpml.transit.store.ProxyStorage;
-import net.dpml.transit.store.CacheHome;
-import net.dpml.transit.store.LayoutRegistryHome;
-import net.dpml.transit.store.ContentRegistryHome;
-import net.dpml.transit.store.CodeBaseStorage;
 import net.dpml.transit.util.PropertyResolver;
 
 /**

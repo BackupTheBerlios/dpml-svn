@@ -26,9 +26,7 @@ import java.net.URLStreamHandler;
 import java.security.AccessController;
 import java.security.PrivilegedAction;
 
-import net.dpml.transit.Artifact;
 import net.dpml.transit.Transit;
-import net.dpml.transit.TransitException;
 import net.dpml.transit.TransitRuntimeException;
 import net.dpml.transit.SecuredTransitContext;
 
@@ -103,8 +101,7 @@ public class Handler extends URLStreamHandler
         StringBuffer buf = new StringBuffer( BUFFER_SIZE );
         buf.append( u.getProtocol() );
         buf.append( ":" );
-        //String path = u.getPath();
-        String path = getRealPath( u ); //SJM
+        String path = getRealPath( u );
         if( path != null )
         {
             int lastPos = path.length() - 1;
@@ -118,7 +115,7 @@ public class Handler extends URLStreamHandler
             }
         }
 
-        String internal = getInternalPath( u ); //SJM
+        String internal = getInternalPath( u );
         if( null != internal )
         {
             buf.append( internal );
@@ -131,7 +128,7 @@ public class Handler extends URLStreamHandler
             buf.append( version );
         }
         String result = buf.toString();
-        buf.setLength( 0 );   // NH: Suspecting severe memory leak which seems to go away with this.
+        buf.setLength( 0 );
         return result;
     }
 
@@ -248,14 +245,16 @@ public class Handler extends URLStreamHandler
             final String ref = null;
             final String finalPath = path;
             
-            AccessController.doPrivileged( new PrivilegedAction()
-            {
+            AccessController.doPrivileged( 
+              new PrivilegedAction()
+              {
                 public Object run()
                 {
                     setURL( dest, protocol, host, port, authority, user, finalPath, query, ref );
                     return null;
                 }
-            });
+              }
+            );
         }
         catch( Throwable e )
         {

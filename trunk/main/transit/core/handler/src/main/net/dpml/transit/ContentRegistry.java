@@ -35,6 +35,7 @@ public interface ContentRegistry
     *
     * @param type the artifact type
     * @return the content handler or null if not available
+    * @exception IOException if an IO error occurs
     */
     ContentHandler getContentHandler( final String type ) throws IOException;
 }
