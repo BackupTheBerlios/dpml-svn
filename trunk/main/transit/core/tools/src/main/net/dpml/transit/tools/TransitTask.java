@@ -19,7 +19,6 @@
 package net.dpml.transit.tools;
 
 import java.io.File;
-import java.net.URL;
 
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.BuildException;
@@ -27,16 +26,12 @@ import org.apache.tools.ant.Task;
 
 import net.dpml.transit.Transit;
 import net.dpml.transit.TransitAlreadyInitializedException;
-import net.dpml.transit.artifact.Handler;
-import net.dpml.transit.model.Logger;
 import net.dpml.transit.model.TransitModel;
 import net.dpml.transit.model.DefaultTransitModel;
 import net.dpml.transit.monitor.Adapter;
-import net.dpml.transit.monitor.Monitor;
 import net.dpml.transit.monitor.RepositoryMonitorAdapter;
 import net.dpml.transit.monitor.CacheMonitorAdapter;
 import net.dpml.transit.monitor.NetworkMonitorAdapter;
-import net.dpml.transit.monitor.Monitor;
 
 /**
  * Ant task that provides support for the import of build file templates
@@ -51,6 +46,7 @@ abstract class TransitTask extends Task
         if( Transit.DPML_DATA != null )
         {
             // now we know that transit statics have been initialized
+            boolean lifeIsGood = true;
         }
 
         System.setProperty( "java.protocol.handler.pkgs", 
@@ -86,6 +82,7 @@ abstract class TransitTask extends Task
                 catch( TransitAlreadyInitializedException e )
                 {
                     // Transit is already initialized.
+                    boolean ok = true;
                 }
                 catch( Throwable e )
                 {

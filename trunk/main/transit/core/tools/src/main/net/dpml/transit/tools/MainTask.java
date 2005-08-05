@@ -18,26 +18,12 @@
 
 package net.dpml.transit.tools;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Logger;
-import java.util.logging.Level;
-import java.util.logging.LogManager;
 
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.ComponentHelper;
 import org.apache.tools.ant.Project;
-import org.apache.tools.ant.Task;
-
-import net.dpml.transit.Transit;
-import net.dpml.transit.TransitException;
-import net.dpml.transit.monitor.Adapter;
-import net.dpml.transit.monitor.Monitor;
-import net.dpml.transit.monitor.RepositoryMonitorAdapter;
-import net.dpml.transit.monitor.CacheMonitorAdapter;
-import net.dpml.transit.monitor.NetworkMonitorAdapter;
-import net.dpml.transit.Repository;
 
 /**
  * Task that initializes the Transit sub-system during which a transit
@@ -92,6 +78,10 @@ public class MainTask extends TransitTask
         return map;
     }
 
+   /**
+    * Set the project.
+    * @param project the current project
+    */
     public void setProject( Project project )
     {
         setTaskName( "transit" );

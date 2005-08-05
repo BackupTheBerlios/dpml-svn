@@ -18,7 +18,6 @@
 
 package net.dpml.transit.tools;
 
-import java.io.File;
 import java.io.InputStream;
 import java.util.Vector;
 import java.util.Hashtable;
@@ -29,16 +28,9 @@ import net.dpml.transit.Repository;
 import net.dpml.transit.Transit;
 import net.dpml.transit.util.ElementHelper;
 
-import org.apache.tools.ant.Main;
 import org.apache.tools.ant.Project;
-import org.apache.tools.ant.ProjectHelper;
-import org.apache.tools.ant.helper.ProjectHelper2;
-import org.apache.tools.ant.BuildLogger;
 import org.apache.tools.ant.BuildException;
-import org.apache.tools.ant.DefaultLogger;
-import org.apache.tools.ant.input.DefaultInputHandler;
 import org.apache.tools.ant.ComponentHelper;
-import org.apache.tools.ant.AntTypeDefinition;
 import org.apache.tools.ant.SubBuildListener;
 import org.apache.tools.ant.BuildEvent;
 
@@ -59,12 +51,34 @@ public class TransitComponentHelper extends ComponentHelper
    // static
    //------------------------------------------------------------------------
 
+   /**
+    * The constant Transit ANTLIB namespace.
+    */
     public static final String TRANSIT_ANTLIB_URN = "antlib:net.dpml.transit";
+
+   /**
+    * The constant Transit ANTLIB init task namespace.
+    */
     public static final String TRANSIT_INIT_URN = TRANSIT_ANTLIB_URN + ":init";
+
+   /**
+    * The constant Transit ANTLIB plugin task namespace.
+    */
     public static final String TRANSIT_PLUGIN_URN = TRANSIT_ANTLIB_URN + ":plugin";
+
+   /**
+    * The constant Transit ANTLIB import task namespace.
+    */
     public static final String TRANSIT_IMPORT_URN = TRANSIT_ANTLIB_URN + ":import";
+
+   /**
+    * The constant Transit ANTLIB get task namespace.
+    */
     public static final String TRANSIT_GET_URN = TRANSIT_ANTLIB_URN + ":get";
 
+   /**
+    * The constant artifact plugin header.
+    */
     public static final String PLUGIN_ARTIFACT_HEADER = "artifact:plugin:";
 
    /**
@@ -81,12 +95,13 @@ public class TransitComponentHelper extends ComponentHelper
     * Creation of a component helper for the supplied project.
     *
     * @param project the project
+    * @param flag subproject flag
     */
     public static void initialize( Project project, boolean flag )
     {
         ComponentHelper current =
           (ComponentHelper) project.getReference( "ant.ComponentHelper" );
-        if( ( null != current ) && ( current instanceof TransitComponentHelper) )
+        if( ( null != current ) && ( current instanceof TransitComponentHelper ) )
         {
             return;
         }
@@ -106,18 +121,17 @@ public class TransitComponentHelper extends ComponentHelper
         }
         project.addReference( "ant.ComponentHelper", helper );
         project.addBuildListener( helper );
-
     }
 
    /**
     * Vector of plugin uris already loaded.
     */
-    private static Vector m_uris = new Vector();
+    private static Vector m_URIS = new Vector();
 
    /**
     * Table of urn to uri mappings.
     */
-    private static Hashtable m_mappings = new Hashtable();
+    private static Hashtable m_MAPPINGS = new Hashtable();
 
    /**
     * Register the mapping between a urn and a plugin uri.
@@ -130,14 +144,14 @@ public class TransitComponentHelper extends ComponentHelper
             throw new NullPointerException( "maps" );
         }
 
-        for( int i=0; i<maps.length; i++ )
+        for( int i=0; i < maps.length; i++ )
         {
             MapDataType map = maps[i];
             String urn = map.getURN();
-            if( m_mappings.contains( urn ) == false )
+            if( !m_MAPPINGS.contains( urn ) )
             {
                 URI uri = map.getURI();
-                m_mappings.put( urn, uri );
+                m_MAPPINGS.put( urn, uri );
             }
         }
     }
@@ -160,33 +174,42 @@ public class TransitComponentHelper extends ComponentHelper
    // constructor
    //------------------------------------------------------------------------
 
-   public TransitComponentHelper( Project project )
-   {
-       this( project, ComponentHelper.getComponentHelper( project ) );
-   }
+   /**
+    * Creation of a new transit component helper.
+    * @param project the current project
+    */  
+    public TransitComponentHelper( Project project )
+    {
+        this( project, ComponentHelper.getComponentHelper( project ) );
+    }
 
-   public TransitComponentHelper( Project project, ComponentHelper parent )
-   {
-       setProject( project );
-       m_parent = parent;
-       if( null != parent )
-       {
-           parent.setNext( this );
-       }
+   /**
+    * Creation of a new transit component helper.
+    * @param project the current project
+    * @param parent the parent component helper
+    */  
+    public TransitComponentHelper( Project project, ComponentHelper parent )
+    {
+        setProject( project );
+        m_parent = parent;
+        if( null != parent )
+        {
+            parent.setNext( this );
+        }
 
-       Hashtable map = getTaskDefinitions();
-       if( null == map.get( TRANSIT_INIT_URN ) )
-       {
-           addTaskDefinition( TRANSIT_INIT_URN, MainTask.class );
-           addTaskDefinition( TRANSIT_PLUGIN_URN, PluginTask.class );
-           addTaskDefinition( TRANSIT_IMPORT_URN, ImportArtifactTask.class );
-           addTaskDefinition( TRANSIT_GET_URN, GetTask.class );
-       }
-   }
+        Hashtable map = getTaskDefinitions();
+        if( null == map.get( TRANSIT_INIT_URN ) )
+        {
+            addTaskDefinition( TRANSIT_INIT_URN, MainTask.class );
+            addTaskDefinition( TRANSIT_PLUGIN_URN, PluginTask.class );
+            addTaskDefinition( TRANSIT_IMPORT_URN, ImportArtifactTask.class );
+            addTaskDefinition( TRANSIT_GET_URN, GetTask.class );
+        }
+    }
 
-   //------------------------------------------------------------------------
-   // implementation
-   //------------------------------------------------------------------------
+    //------------------------------------------------------------------------
+    // implementation
+    //------------------------------------------------------------------------
 
    /**
     * Set the current project.
@@ -267,14 +290,13 @@ public class TransitComponentHelper extends ComponentHelper
 
    /**
     * Convert a urn to a uri taking into account possible urn alias names.
-    * TODO: turn this into a parameteizable namespace to artifact map.
     *
     * @param urn the urn to convert to a uri
     * @return the converted uri
     */
     private URI convertUrnToURI( String urn )
     {
-        URI uri = (URI) m_mappings.get( urn );
+        URI uri = (URI) m_MAPPINGS.get( urn );
         if( null != uri )
         {
             return uri;
@@ -342,7 +364,6 @@ public class TransitComponentHelper extends ComponentHelper
 
                 Element root = ElementHelper.getRootElement( input );
                 Element[] tasks = ElementHelper.getChildren( root, "taskdef" );
-
                 for( int i=0; i < tasks.length; i++ )
                 {
                     Element task = tasks[i];
@@ -352,7 +373,6 @@ public class TransitComponentHelper extends ComponentHelper
                     Class clazz = classloader.loadClass( classname );
                     super.addTaskDefinition( key, clazz );
                 }
-
                 Element[] types = ElementHelper.getChildren( root, "typedef" );
                 for( int i=0; i < types.length; i++ )
                 {
@@ -364,8 +384,7 @@ public class TransitComponentHelper extends ComponentHelper
                     super.addDataTypeDefinition( key, clazz );
                 }
             }
-
-            m_uris.add( uri );
+            m_URIS.add( uri );
         }
         catch( BuildException e )
         {
@@ -407,7 +426,7 @@ public class TransitComponentHelper extends ComponentHelper
         }
         else
         {
-            String spec = "artifact:plugin:" + urn.substring( 7 );
+            String spec = "artifact:plugin:" + urn.substring( SEVEN );
             return convertToURI( spec );
         }
     }
@@ -434,44 +453,82 @@ public class TransitComponentHelper extends ComponentHelper
         }
     }
 
+   /**
+    * Notification that the build has started.
+    * @param event the build event
+    * @exception BuildException if a build error occurs
+    */
     public void buildStarted( BuildEvent event )
         throws BuildException
     {
         initialize( event.getProject(), false );
     }
 
+   /**
+    * Notification that a sub build has started.
+    * @param event the build event
+    */
     public void subBuildStarted( BuildEvent event )
     {
         initialize( event.getProject(), true );
     }
 
+   /**
+    * Notification that a sub build has finished.
+    * @param event the build event
+    */
     public void subBuildFinished( BuildEvent event )
     {
     }
 
+   /**
+    * Notification that the build has finished.
+    * @param event the build event
+    */
     public void buildFinished( BuildEvent event )
     {
     }
 
+   /**
+    * Notification that the build target has started.
+    * @param event the build event
+    */
     public void targetStarted( BuildEvent event )
     {
     }
 
+   /**
+    * Notification that the build target has finished.
+    * @param event the build event
+    */
     public void targetFinished( BuildEvent event )
     {
     }
 
+   /**
+    * Notification that the build task has started.
+    * @param event the build event
+    */
     public void taskStarted( BuildEvent event )
     {
     }
 
+   /**
+    * Notification that the build task has finaished.
+    * @param event the build event
+    */
     public void taskFinished( BuildEvent event )
     {
     }
 
+   /**
+    * Notification of a message logged.
+    * @param event the build event
+    */
     public void messageLogged( BuildEvent event )
     {
     }
 
+    private static final int SEVEN = 7;
 }
 

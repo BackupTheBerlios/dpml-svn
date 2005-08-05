@@ -26,13 +26,7 @@ import org.apache.tools.ant.Project;
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.taskdefs.ImportTask;
 
-import net.dpml.transit.Transit;
-import net.dpml.transit.TransitAlreadyInitializedException;
 import net.dpml.transit.Artifact;
-import net.dpml.transit.monitor.Monitor;
-import net.dpml.transit.model.Logger;
-import net.dpml.transit.model.TransitModel;
-import net.dpml.transit.model.DefaultTransitModel;
 import net.dpml.transit.util.PropertyResolver;
 
 /**
@@ -48,6 +42,10 @@ public class ImportArtifactTask extends ImportTask
     */
     private boolean m_flag = false;
 
+   /**
+    * Set the project.
+    * @param project the current project
+    */
     public void setProject( Project project )
     {
         super.setProject( project );

@@ -30,11 +30,19 @@ public class MapDataType
     private String m_urn;
     private URI m_uri;
 
+   /**
+    * Set the urn value.
+    * @param urn the urn
+    */
     public void setUrn( String urn )
     {
         m_urn = urn;
     }
 
+   /**
+    * Get the urn value.
+    * @return the urn
+    */
     public String getURN()
     {
         if( null == m_urn )
@@ -44,11 +52,19 @@ public class MapDataType
         return m_urn;
     }
 
+   /**
+    * Set the uri value.
+    * @param uri the uri
+    */
     public void setUri( URI uri )
     {
         m_uri = uri;
     }
 
+   /**
+    * Get the uri value.
+    * @return the uri
+    */
     public URI getURI()
     {
         if( null == m_urn )
@@ -58,6 +74,10 @@ public class MapDataType
         return m_uri;
     }
 
+   /**
+    * Return the string representing of this instance.
+    * @return the string value
+    */
     public String toString()
     {
         return "[map urn:" + m_urn + " uri:" + m_uri + "]";

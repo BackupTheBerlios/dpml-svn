@@ -25,8 +25,6 @@ import java.net.URI;
 import java.util.List;
 import java.util.ArrayList;
 
-import net.dpml.transit.NullArgumentException;
-import net.dpml.transit.TransitException;
 import net.dpml.transit.Transit;
 import net.dpml.transit.Repository;
 import net.dpml.transit.Plugin;
@@ -48,7 +46,7 @@ import org.w3c.dom.Element;
  */
 public class PluginTask extends TransitTask
 {
-    private static Repository REPOSITORY;
+    private static Repository m_REPOSITORY;
 
    /**
     * The uri of the plugin to load.
@@ -80,6 +78,10 @@ public class PluginTask extends TransitTask
     */
     private boolean m_flag = false;
 
+   /**
+    * Set the project.
+    * @param project the current project
+    */
     public void setProject( Project project )
     {
         setTaskName( "plugin" );
@@ -513,9 +515,9 @@ public class PluginTask extends TransitTask
        /**
         * Return the antlib urn.
         * @return the urn (possibly null in which case the a urn must be declared
-        *   within the plugin descriptor)
+        *   within the plugin descriptor)0
         */
-        public String getURN() throws BuildException
+        public String getURN()
         {
             return m_urn;
         }
@@ -542,11 +544,11 @@ public class PluginTask extends TransitTask
 
     private Repository getRepository()
     {
-        if( null == REPOSITORY )
+        if( null == m_REPOSITORY )
         {
-            REPOSITORY = setupRepository();
+            m_REPOSITORY = setupRepository();
         }
-        return REPOSITORY;
+        return m_REPOSITORY;
     }
 
     private Repository setupRepository()

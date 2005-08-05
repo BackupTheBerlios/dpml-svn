@@ -106,6 +106,7 @@ public class AntAdapter implements Adapter
    /**
     * Record a warning message.
     * @param message the warning message to record
+    * @param cause the causal exception
     */
     public void warn( String message, Throwable cause )
     {
@@ -141,6 +142,11 @@ public class AntAdapter implements Adapter
         }
     }
 
+   /**
+    * Create a new subsidiary logging channel.
+    * @param category the channel name relative to this logging channel
+    * @return the new logging channel
+    */
     public Logger getChildLogger( String category )
     {
         return this;

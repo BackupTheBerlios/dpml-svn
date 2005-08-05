@@ -46,6 +46,10 @@ public class GetTask extends TransitTask
     */
     private String m_name;
 
+   /**
+    * Set the project.
+    * @param project the current project
+    */
     public void setProject( Project project )
     {
         setTaskName( "get" );
@@ -128,7 +132,7 @@ public class GetTask extends TransitTask
             String spec = getURI().toString();
             log( "artifact: " + spec );
             URL url = new URL( (URL) null, spec, new Handler() );
-            File file = (File) url.getContent( new Class[]{ File.class } );
+            File file = (File) url.getContent( new Class[]{File.class} );
             getProject().setNewProperty( name, file.getAbsolutePath() );
         }
         catch( Throwable e )
