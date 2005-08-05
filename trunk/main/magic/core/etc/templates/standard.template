@@ -72,6 +72,13 @@
     <x:checkstyle config="${project.checkstyle.format}">
       <formatter type="xml" toFile="${project.checkstyle.dest}/checkstyle_errors.xml"/>
     </x:checkstyle>
+    <!--
+    Changes between JDK 1.4 and 1.5 result in the style task breaking when executed under
+    JDK 1.5.  You can resolve this by placing the Xerlan jar into lib/endorced in 
+    jdk/jre installs.  Alternativly you can replace the checkstyle-frames.xsl style
+    sheet with ${ant.home}/etc/checkstyle/checkstyle-text.xsl and change the out 
+    argument to checkstyle_report.txt and everything will work fine under 1.5.
+    -->
     <mkdir dir="${project.checkstyle.reports}"/>
     <style style="${dpml.prefs}/magic/xsls/checkstyle-frames.xsl"
         in="${project.checkstyle.dest}/checkstyle_errors.xml"
