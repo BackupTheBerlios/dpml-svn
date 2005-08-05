@@ -6,7 +6,6 @@
 
   <!-- taskdefs -->
   <taskdef name="clean"      classname="net.dpml.magic.tasks.CleanTask"/>
-  <taskdef name="checkstyle" classname="net.dpml.magic.tasks.CheckstyleTask"/>
   <taskdef name="dist"       classname="net.dpml.magic.tasks.DistTask"/>
   <taskdef name="export"     classname="net.dpml.magic.tasks.ExportTask"/>
   <taskdef name="filter"     classname="net.dpml.magic.tasks.FilterTask"/>

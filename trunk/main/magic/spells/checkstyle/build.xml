@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!--
   Copyright 2004 Stephen J McConnell
-  Copyright 2004 Niclas Hedhman
 
   Licensed  under the  Apache License,  Version 2.0  (the "License");
   you may not use  this file  except in  compliance with the License.
@@ -18,20 +17,25 @@
   limitations under the License.
 -->
 
-<project name="dpml-magic-doc" default="install" basedir="."
+<project name="dpml-magic-checkstyle" default="install" basedir="."
     xmlns:transit="antlib:net.dpml.transit" xmlns:x="plugin:dpml/magic/dpml-magic-core" >
 
   <transit:import uri="local:template:magic/standard"/>
 
   <target name="package" depends="standard.package">
-    <x:export class="net.dpml.magic.doc.DocTask"/>
+    <x:export class="net.dpml.magic.checkstyle.CheckstyleTask"/>
   </target>
 
   <target name="install" depends="standard.install">
-    <property name="themes" value="${dpml.prefs}/magic/themes"/>
-    <mkdir dir="${themes}"/>
-    <copy toDir="${themes}">
-      <fileset dir="target/themes"/>
+    <property name="formats" value="${dpml.prefs}/magic/formats"/>
+    <mkdir dir="${formats}"/>
+    <copy toDir="${formats}">
+      <fileset dir="target/formats"/>
+    </copy>
+    <property name="xsls" value="${dpml.prefs}/magic/xsls"/>
+    <mkdir dir="${xsls}"/>
+    <copy toDir="${xsls}">
+      <fileset dir="target/xsls"/>
     </copy>
   </target>
 

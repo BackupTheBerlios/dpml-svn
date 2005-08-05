@@ -75,9 +75,7 @@
         <include name="themes/**"/>
       </fileset>
       <fileset dir="core/target">
-        <include name="formats/**"/>
         <include name="templates/**"/>
-        <include name="xsls/**"/>
       </fileset>
       <fileset dir="spells/eclipse/target">
         <include name="eclipses/**"/>
@@ -85,6 +83,10 @@
       </fileset>
       <fileset dir="spells/upload/target">
         <include name="templates/**"/>
+      </fileset>
+      <fileset dir="spells/checkstyle/target">
+        <include name="formats/**"/>
+        <include name="xsls/**"/>
       </fileset>
     </copy>
 
@@ -189,6 +191,21 @@ dpml.depot.installer.uri = ${magic.plugin.uri}
       </fileset>
       <report format="frames" todir="target/reports/junit"/>
     </junitreport>
+  </target>
+
+  <target name="checkstyle" depends="prepare" unless="project.checkstyle.disable">
+    <x:property name="spec" feature="uri" type="plugin" key="dpml-magic-checkstyle"/>
+    <transit:plugin uri="${spec}">
+      <task class="net.dpml.magic.checkstyle.CheckstyleTask" name="checkstyle"/>
+    </transit:plugin>
+    <checkstyle>
+      <formatter type="xml" toFile="target/checkstyle.xml"/>
+    </checkstyle>
+    <property name="project.checkstyle.reports" value="target/reports/checkstyle"/>
+    <mkdir dir="${project.checkstyle.reports}"/>
+    <style style="${dpml.prefs}/magic/xsls/checkstyle-frames.xsl"
+        in="target/checkstyle.xml"
+        out="${project.checkstyle.reports}/checkstyle_report.html" />
   </target>
 
 </project>

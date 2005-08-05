@@ -15,7 +15,9 @@
  * limitations under the License.
  */
 
-package net.dpml.magic.tasks;
+package net.dpml.magic.checkstyle;
+
+import java.io.File;
 
 import com.puppycrawl.tools.checkstyle.CheckStyleTask;
 
@@ -24,9 +26,11 @@ import net.dpml.magic.model.Resource;
 import net.dpml.magic.project.Context;
 import net.dpml.magic.AntFileIndex;
 
+import net.dpml.transit.Transit;
+
 import org.apache.tools.ant.types.FileSet;
 
-import java.io.File;
+
 
 /**
  * The checkstyle task handes the establishment of a classic checkstyle task 
@@ -54,6 +58,12 @@ public class CheckstyleTask extends CheckStyleTask
                 Definition def = (Definition) resource;
                 addTargetToFileset( def );
             }
+
+            File prefs = Transit.DPML_PREFS;
+            File magic = new File( prefs, "magic" );
+            File formats = new File( magic, "formats" );
+            File format = new File( formats, "dpml.format" );
+            setConfig( format );
         }
         m_init = true;
     }

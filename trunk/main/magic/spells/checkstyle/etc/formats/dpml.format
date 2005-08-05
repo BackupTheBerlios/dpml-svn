@@ -156,7 +156,7 @@
             <property name="severity" value="warning"/>
         </module>
         <module name="com.puppycrawl.tools.checkstyle.checks.naming.StaticVariableNameCheck">
-            <property name="format" value="^m_[A-Z0-9]*$"/>
+            <property name="format" value="^m_[A-Z_0-9]*$"/>
             <property name="severity" value="warning"/>
         </module>
         <module name="com.puppycrawl.tools.checkstyle.checks.naming.TypeNameCheck">

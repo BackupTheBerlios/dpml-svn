@@ -107,8 +107,10 @@ public class AntFileIndexBuilder extends DataType
         if( null == index )
         {
             log( "locating index", Project.MSG_VERBOSE );
+
             File file = getIndexFile( proj );
             m_index = constructIndex( proj, file );
+
         }
         else
         {
@@ -219,9 +221,11 @@ public class AntFileIndexBuilder extends DataType
             }
         }
 
-        final FileNotFoundException fnfe =
-          new FileNotFoundException( index.toString() );
-        throw new BuildException( fnfe );
+        final String error = 
+          "Unable to locate an 'index.xml' file relative to the project directory ["
+          + getProject().getBaseDir()
+          + "].";
+        throw new BuildException( error );
     }
 
     private File traverse( File dir )

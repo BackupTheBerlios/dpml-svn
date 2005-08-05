@@ -55,7 +55,6 @@
     </info>
     <dependencies>
       <include key="dpml-transit-tools"/>
-      <include key="checkstyle"/>
       <include key="ant-junit"/>
     </dependencies>
   </project>
@@ -99,6 +98,21 @@
     </info>
     <dependencies>
       <include key="dpml-magic-core"/>
+    </dependencies>
+  </project>
+
+  <project basedir="spells/checkstyle">
+    <info>
+      <group>dpml/magic</group>
+      <name>dpml-magic-checkstyle</name>
+      <types>
+        <type name="jar"/>
+        <type name="plugin"/>
+      </types>
+    </info>
+    <dependencies>
+      <include key="dpml-magic-core"/>
+      <include key="checkstyle"/>
     </dependencies>
   </project>
 
