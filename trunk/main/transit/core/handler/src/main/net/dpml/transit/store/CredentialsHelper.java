@@ -179,7 +179,7 @@ final class CredentialsHelper
             }
             else
             {
-                equals( m_password , holder.m_password );
+                return equals( m_password , holder.m_password );
             }
         }
 

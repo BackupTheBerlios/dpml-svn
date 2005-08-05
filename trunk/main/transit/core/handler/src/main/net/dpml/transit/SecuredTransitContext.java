@@ -246,10 +246,9 @@ public final class SecuredTransitContext
 
    /**
     * General setup.
-    * @exception UnknownHostException if a proxy host is declared but is unknown
     * @exception RemoteException if a remote error occurs
     */
-    protected synchronized void setupProxy() throws RemoteException, UnknownHostException 
+    protected synchronized void setupProxy() throws RemoteException
     {
         ProxyModel model = m_model.getProxyModel();
         URL proxy = model.getHost();

@@ -70,5 +70,5 @@ public class StandardFormatter extends Formatter
         return tag.substring( 0, EIGHT ) + "] ";
     }
 
-    private static final into EIGHT = 8;
+    private static final int EIGHT = 8;
 }

@@ -727,4 +727,5 @@ class StandardLoader
         return Transit.getInstance().getRepositoryMonitorRouter();
     }
 
+    private static final int THREE = 3;
 }
