@@ -28,6 +28,52 @@
       The following table list milestone distributions published by the DPML.
       </p>
 
+      <subsection name="Build 20050806">
+
+        <p>
+        Resolves identified issues with build scripts under unix platforms. Includes
+        separation of the checkstyle to a standalone plugin.  Release is synchronized
+        with a general quality review of the Transit and Magic systems incororating 
+        substantial javadoc enhancements and checkstyle compliance.  Subject to feedback
+        this release should be considered as a final release candidate.
+        </p>
+
+        <p><i>
+        After unpacking the distribution run the following command to complete the 
+        installation:
+        </i></p>
+
+        <pre>
+ $ depot -setup
+        </pre>
+
+        <table>
+          <tr>
+            <td>Windows</td>
+            <td>
+              <a href="http://download.dpml.net/milestones/depot/20050806/dpml-depot-win32-20050806.zip">
+                dpml-transit-win32-20050806.zip</a>
+            </td>
+            <td>
+              <a href="http://download.dpml.net/milestones/depot/20050806/dpml-depot-win32-20050806.zip.md5">
+              MD5</a>
+            </td>
+          </tr>  
+          <tr>
+            <td>Linux</td>
+            <td>
+              <a href="http://download.dpml.net/milestones/depot/20050806/dpml-depot-linux-20050806.tar.gz">
+                dpml-transit-linux-20050806.tar.gz</a>
+            </td>
+            <td>
+              <a href="http://download.dpml.net/milestones/depot/20050806/dpml-depot-linux-20050806.tar.gz.md5">
+              MD5</a>
+            </td>
+          </tr>  
+        </table>
+
+      </subsection>
+
       <subsection name="Build 20050803">
 
         <p>

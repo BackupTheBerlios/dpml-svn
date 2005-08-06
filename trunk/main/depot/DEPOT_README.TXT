@@ -4,10 +4,10 @@ Description: DPML Product Management Tool
 Publisher: The Digital Product Meta Library
 Revision: @PROJECT-VERSION@
 
-Release Notes: Version 20050726
+Release Notes: Version 20050806
 -------------------------------
 
-Revision: 119
+Revision: 176
 
 Release Notes: Version 20050803
 -------------------------------
@@ -22,6 +22,9 @@ Replacement of -install option with -setup option.
 Cleaner and safer setup process (such to validation unde nix).
 Support for native Win32 setup subprocess and java for nix.
 
+Release Notes: Version 20050726
+-------------------------------
 
+Revision: 119
 
 

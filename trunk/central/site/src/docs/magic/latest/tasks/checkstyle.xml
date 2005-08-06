@@ -92,6 +92,17 @@ D:\demo\target\reports\checkstyle\checkstyle_report.html
 
     </subsection>
 
+    <subsection name="Special Note concerning JDK 1.5">
+
+      <p>
+      There is a known problem with the Ant style task when running under JDK 1.5.
+      Due to changes in the XML apis between 1.4 and 1.5, certain transformations 
+      will fail.  Checkstyle HTML generation falls into this category.  A simple
+      workaround is descripted in the standard template file.
+      </p>
+
+    </subsection>
+
     </section>
   </body>
 

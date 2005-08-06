@@ -26,4 +26,10 @@
 
   </target>
 
+  <target name="style" depends="prepare">
+    <property name="reports" value="target/reports/types"/>
+    <mkdir dir="${reports}/html"/>
+    <xslt basedir="${reports}" destdir="${reports}/html" includes="*.xml" style="${basedir}/types.xsl"/>
+  </target>
+
 </project>

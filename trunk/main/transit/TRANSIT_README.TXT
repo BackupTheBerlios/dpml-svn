@@ -11,10 +11,12 @@ Installation Instructions
 Transit is installed as a part of the Depot installation.  
 Please refer to the Depot README for additional information.
 
-Release Notes: Version 20050726
+Release Notes: Version 20050806
 -------------------------------
 
-Revision: 118
+Revision: 176
+Complete checkstyle cleanup.
+Javadoc improvements.
 
 Release Notes: Version 20050803
 -------------------------------
@@ -33,5 +35,10 @@ Running RMID with Transit
       -C-Xbootclasspath/a:[DPML]\Data\lib\dpml-transit-main.jar 
       -C-Djava.security.policy=[DPML]\Shared\bin\security.policy 
       -C-Djava.protocol.handler.pkgs=net.dpml.transit
+
+Release Notes: Version 20050726
+-------------------------------
+
+Revision: 118
 
 

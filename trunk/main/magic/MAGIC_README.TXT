@@ -9,6 +9,19 @@ Installation Instructions
 
 $ depot -setup
 
+Release Notes: Version 20050806
+-------------------------------
+
+Revision: 176
+
+Checkstyle task moved out of core and to an independent plugin.
+Complete checkstyle cleanup.
+
+Release Notes: Version 20050803
+-------------------------------
+
+Revision: 155
+
 Release Notes: Version 20050726
 -------------------------------
 
@@ -27,7 +40,3 @@ The usage of non-versioned tremplates has been removed.  As such you may need to
     </replace>
   </target>
 
-Release Notes: Version 20050803
--------------------------------
-
-Revision: 155
