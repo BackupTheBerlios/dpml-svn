@@ -23,10 +23,10 @@ import java.util.prefs.BackingStoreException;
 
 /**
  * An implementation of Preferences based on java.util.Properties suitable
- * for scenarios where the persistent information lifetime is limited to 
- * the lifetype of the JVM.
+ * for scenarios where the persistent lifetime is limited to the lifetype 
+ * of the JVM.
  */
-class LocalPreferences extends AbstractPreferences
+public class LocalPreferences extends AbstractPreferences
 {
     private final Properties m_properties;
     private Hashtable m_table = new Hashtable();

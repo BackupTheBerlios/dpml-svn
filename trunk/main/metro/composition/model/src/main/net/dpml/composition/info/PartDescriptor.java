@@ -56,6 +56,11 @@ import java.beans.Introspector;
 public final class PartDescriptor
         implements Serializable
 {
+   /**
+    * Serial version identifier.
+    */
+    static final long serialVersionUID = 1L;
+
     public static final int GET = 1;
     public static final int RELEASE = -1;
 

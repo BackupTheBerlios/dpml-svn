@@ -30,6 +30,11 @@ import java.io.Serializable;
  */
 public class CategoriesDirective extends CategoryDirective implements Serializable
 {
+   /**
+    * Serial version identifier.
+    */
+    static final long serialVersionUID = 1L;
+
     /**
      * The root category hierachy.
      */
@@ -72,10 +77,8 @@ public class CategoriesDirective extends CategoryDirective implements Serializab
      * @param target the default logging target
      * @param categories the logging category descriptors
      */
-    public CategoriesDirective( final String name,
-                                 final String priority,
-                                 final String target,
-                                 final CategoryDirective[] categories )
+    public CategoriesDirective( 
+      final String name, final String priority, final String target, final CategoryDirective[] categories )
     {
         super( name, priority, target );
         if( categories == null )
@@ -157,6 +160,4 @@ public class CategoriesDirective extends CategoryDirective implements Serializab
         }
         return hash;
     }
-
-
 }

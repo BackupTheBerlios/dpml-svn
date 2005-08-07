@@ -32,6 +32,11 @@ import java.util.Properties;
 public abstract class Descriptor
     implements Serializable
 {
+   /**
+    * Serial version identifier.
+    */
+    static final long serialVersionUID = 1L;
+
     private static final String[] EMPTY_SET = new String[0];
 
     /**

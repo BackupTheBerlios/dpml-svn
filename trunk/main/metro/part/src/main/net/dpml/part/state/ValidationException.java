@@ -27,22 +27,27 @@ package net.dpml.part.state;
  */
 public class ValidationException extends Exception
 {
-    /**
-     * Construct a new <code>ValidationException</code> instance.
-     *
-     * @param message the exception message
-     */
+   /**
+    * Serial version identifier.
+    */
+    static final long serialVersionUID = 1L;
+
+   /**
+    * Construct a new <code>ValidationException</code> instance.
+    *
+    * @param message the exception message
+    */
     public ValidationException( final String message )
     {
         super( message );
     }
 
-    /**
-     * Construct a new <code>ValidationException</code> instance.
-     *
-     * @param message the exception message
-     * @param cause the causal exception
-     */
+   /**
+    * Construct a new <code>ValidationException</code> instance.
+    *
+    * @param message the exception message
+    * @param cause the causal exception
+    */
     public ValidationException( final String message, Throwable cause )
     {
         super( message, cause );

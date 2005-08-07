@@ -25,6 +25,11 @@ package net.dpml.transit.model;
  */
 public class DuplicateKeyException extends ModelException
 {
+   /**
+    * Serial version identifier.
+    */
+    static final long serialVersionUID = 1L;
+
     /**
      * Construct a new <code>DuplicateKeyException</code> instance.
      *

@@ -27,7 +27,12 @@ package net.dpml.part.state;
  */
 public class NoSuchStateException extends RuntimeException
 {
-     private String m_transition;
+   /**
+    * Serial version identifier.
+    */
+    static final long serialVersionUID = 1L;
+
+    private String m_transition;
 
     /**
      * Construct a new <code>NoSuchStateException</code> instance.

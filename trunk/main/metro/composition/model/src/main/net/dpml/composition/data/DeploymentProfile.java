@@ -38,6 +38,11 @@ public abstract class DeploymentProfile implements Serializable, Comparable, Par
     //--------------------------------------------------------------------------
 
    /**
+    * Serial version identifier.
+    */
+    static final long serialVersionUID = 1L;
+
+   /**
     * System default activation policy.
     */
     public static final int DEFAULT = -1;

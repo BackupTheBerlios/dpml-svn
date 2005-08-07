@@ -33,6 +33,11 @@ import net.dpml.part.Part;
  */
 public class FeatureDirective implements Part, Serializable
 {
+   /**
+    * Serial version identifier.
+    */
+    static final long serialVersionUID = 1L;
+
     public static int NAME = 0;
     public static int URI = 1;
     public static int WORK = 2;

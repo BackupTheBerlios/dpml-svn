@@ -26,6 +26,11 @@ package net.dpml.transit.model;
  */
 public class ModelReferenceException extends ModelException
 {
+   /**
+    * Serial version identifier.
+    */
+    static final long serialVersionUID = 1L;
+
      private final Model m_consumer;
      private final Model m_reference; 
 

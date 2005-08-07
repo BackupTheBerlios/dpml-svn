@@ -26,6 +26,11 @@ package net.dpml.transit;
  */
 public class TransitRuntimeException extends RuntimeException
 {
+   /**
+    * Serial version identifier.
+    */
+    static final long serialVersionUID = 1L;
+
     /**
      * Construct a new <code>TransitRuntimeException </code> instance.
      *

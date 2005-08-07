@@ -26,6 +26,11 @@ package net.dpml.transit;
  */
 public class TransitError extends Error
 {
+   /**
+    * Serial version identifier.
+    */
+    static final long serialVersionUID = 1L;
+
     /**
      * Construct a new <code>TransitError</code> instance.
      *

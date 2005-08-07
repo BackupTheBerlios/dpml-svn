@@ -28,6 +28,11 @@ package net.dpml.part.component;
  */
 public class AvailabilityException extends ServiceException 
 {
+   /**
+    * Serial version identifier.
+    */
+    static final long serialVersionUID = 1L;
+
     public AvailabilityException( String message )
     {
         super( message );

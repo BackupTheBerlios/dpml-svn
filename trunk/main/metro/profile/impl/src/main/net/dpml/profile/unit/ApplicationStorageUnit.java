@@ -29,6 +29,7 @@ import java.util.prefs.Preferences;
 import net.dpml.transit.model.Logger;
 import net.dpml.transit.model.Connection;
 import net.dpml.transit.store.StorageRuntimeException;
+import net.dpml.transit.store.LocalPreferences;
 
 import net.dpml.profile.store.ApplicationStorage;
 
@@ -41,6 +42,11 @@ public class ApplicationStorageUnit extends ProfileStorageUnit implements Applic
     // ------------------------------------------------------------------------
     // constructor
     // ------------------------------------------------------------------------
+
+    public ApplicationStorageUnit()
+    {
+        super( new LocalPreferences( null, "" ) );
+    }
 
     public ApplicationStorageUnit( Preferences prefs )
     {

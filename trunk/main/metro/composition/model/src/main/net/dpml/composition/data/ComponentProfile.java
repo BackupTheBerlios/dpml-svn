@@ -102,6 +102,11 @@ import net.dpml.parameters.Parameters;
  */
 public class ComponentProfile extends DeploymentProfile
 {
+   /**
+    * Serial version identifier.
+    */
+    static final long serialVersionUID = 1L;
+
     /**
      * The collection policy override.
      */

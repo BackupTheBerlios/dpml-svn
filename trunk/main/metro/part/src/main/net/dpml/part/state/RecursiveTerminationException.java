@@ -25,11 +25,16 @@ package net.dpml.part.state;
  */
 public class RecursiveTerminationException extends ValidationException
 {
-    /**
-     * Construct a new <code>RecursiveTerminationException</code> instance.
-     *
-     * @param message the exception message 
-     */
+   /**
+    * Serial version identifier.
+    */
+    static final long serialVersionUID = 1L;
+
+   /**
+    * Construct a new <code>RecursiveTerminationException</code> instance.
+    *
+    * @param message the exception message 
+    */
     public RecursiveTerminationException( final String message )
     {
         super( message );

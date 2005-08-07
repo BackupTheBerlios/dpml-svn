@@ -26,22 +26,27 @@ package net.dpml.part.control;
  */
 public class LifecycleException extends Exception
 {
-    /**
-     * Construct a new <code>LifecycleException</code> instance.
-     *
-     * @param message the exception message
-     */
+   /**
+    * Serial version identifier.
+    */
+    static final long serialVersionUID = 1L;
+
+   /**
+    * Construct a new <code>LifecycleException</code> instance.
+    *
+    * @param message the exception message
+    */
     public LifecycleException( final String message )
     {
         this( message, null );
     }
 
-    /**
-     * Construct a new <code>LifecycleException</code> instance.
-     *
-     * @param message the exception message
-     * @param throwable the root cause of the exception
-     */
+   /**
+    * Construct a new <code>LifecycleException</code> instance.
+    *
+    * @param message the exception message
+    * @param throwable the root cause of the exception
+    */
     public LifecycleException( final String message, final Throwable throwable )
     {
         super( message, throwable );

@@ -26,6 +26,11 @@ package net.dpml.transit.model;
  */
 public class BootstrapException extends ModelException
 {
+   /**
+    * Serial version identifier.
+    */
+    static final long serialVersionUID = 1L;
+
     /**
      * Construct a new <code>BootstrapException</code> instance.
      *

@@ -28,6 +28,11 @@ import java.net.ProtocolException;
  */
 public class TransitException extends ProtocolException
 {
+   /**
+    * Serial version identifier.
+    */
+    static final long serialVersionUID = 1L;
+
     /**
      * Construct a new <code>TransitException</code> instance.
      *

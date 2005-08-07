@@ -26,13 +26,18 @@ package net.dpml.part.state;
  */
 public class DuplicateKeyException extends RuntimeException
 {
-     private String m_transition;
+   /**
+    * Serial version identifier.
+    */
+    static final long serialVersionUID = 1L;
 
-    /**
-     * Construct a new <code>DuplicateKeyException</code> instance.
-     *
-     * @param transition the transition name
-     */
+    private String m_transition;
+
+   /**
+    * Construct a new <code>DuplicateKeyException</code> instance.
+    *
+    * @param transition the transition name
+    */
     public DuplicateKeyException( final String transition )
     {
         super( transition );

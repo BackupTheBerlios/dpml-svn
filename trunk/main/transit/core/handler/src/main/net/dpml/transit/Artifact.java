@@ -33,8 +33,7 @@ import java.net.URL;
  *
  * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
  */
-public final class Artifact
-    implements Serializable, Comparable
+public final class Artifact implements Serializable, Comparable
 {
     static final long serialVersionUID = 1L;
 

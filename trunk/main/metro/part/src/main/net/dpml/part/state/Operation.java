@@ -28,6 +28,11 @@ import java.io.Serializable;
  */
 public final class Operation implements Serializable
 {
+   /**
+    * Serial version identifier.
+    */
+    static final long serialVersionUID = 1L;
+
     private final URI m_handler;
 
    /**

@@ -44,6 +44,10 @@ import java.io.Serializable;
  */
 public class CategoryDirective implements Serializable
 {
+   /**
+    * Serial version identifier.
+    */
+    static final long serialVersionUID = 1L;
 
     /**
      * Constant category priority value for debug mode.

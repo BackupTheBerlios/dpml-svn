@@ -27,6 +27,11 @@ package net.dpml.part.control;
  */
 public class  ResourceUnavailableException extends Exception 
 {
+   /**
+    * Serial version identifier.
+    */
+    static final long serialVersionUID = 1L;
+
     private String m_key;
 
     public ResourceUnavailableException( String key )

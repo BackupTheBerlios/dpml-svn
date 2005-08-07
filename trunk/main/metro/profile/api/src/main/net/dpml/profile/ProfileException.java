@@ -27,6 +27,11 @@ package net.dpml.profile;
  */
 public class ProfileException extends Exception
 {
+   /**
+    * Serial version identifier.
+    */
+    static final long serialVersionUID = 1L;
+
     /**
      * Construct a new <code>ProfileException</code> instance.
      *

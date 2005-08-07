@@ -27,6 +27,11 @@ import java.net.PasswordAuthentication;
  */
 public class HostChangeEvent extends HostEvent 
 {
+   /**
+    * Serial version identifier.
+    */
+    static final long serialVersionUID = 1L;
+
     private final URL m_base;
     private final URL m_index;
     private final RequestIdentifier m_identifier;

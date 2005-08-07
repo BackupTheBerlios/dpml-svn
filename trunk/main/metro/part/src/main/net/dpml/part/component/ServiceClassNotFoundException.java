@@ -26,6 +26,11 @@ package net.dpml.part.component;
  */
 public class ServiceClassNotFoundException extends ComponentRuntimeException 
 {
+   /**
+    * Serial version identifier.
+    */
+    static final long serialVersionUID = 1L;
+
     private String m_serviceClassname;
     private String m_componentClassname;
 

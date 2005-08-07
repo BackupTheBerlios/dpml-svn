@@ -26,6 +26,11 @@ package net.dpml.part.component;
  */
 public class TypeClassNotFoundException extends ComponentRuntimeException 
 {
+   /**
+    * Serial version identifier.
+    */
+    static final long serialVersionUID = 1L;
+
     private String m_classname;
 
     public TypeClassNotFoundException( String classname )

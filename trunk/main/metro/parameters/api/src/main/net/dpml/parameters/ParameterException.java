@@ -26,6 +26,11 @@ package net.dpml.parameters;
 public final class ParameterException
     extends Exception
 {
+   /**
+    * Serial version identifier.
+    */
+    static final long serialVersionUID = 1L;
+
     private final Throwable m_cause;
 
     /**

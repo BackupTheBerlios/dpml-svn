@@ -26,6 +26,11 @@ import java.util.EventObject;
  */
 public class ActivationGroupEvent extends EventObject 
 {
+   /**
+    * Serial version identifier.
+    */
+    static final long serialVersionUID = 1L;
+
     ActivationProfile m_profile;
 
     public ActivationGroupEvent( ActivationGroupProfile group, ActivationProfile profile )

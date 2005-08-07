@@ -26,6 +26,11 @@ import java.util.EventObject;
 public abstract class HostEvent extends EventObject
 {
    /**
+    * Serial version identifier.
+    */
+    static final long serialVersionUID = 1L;
+
+   /**
     * Creation of a new host event.
     * @param source the host model initiating the event
     */

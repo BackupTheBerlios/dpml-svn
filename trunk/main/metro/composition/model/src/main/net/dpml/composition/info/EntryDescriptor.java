@@ -39,6 +39,11 @@ import java.lang.reflect.Method;
 public final class EntryDescriptor
     implements Serializable
 {
+   /**
+    * Serial version identifier.
+    */
+    static final long serialVersionUID = 1L;
+
     public static final String GET = "get";
 
     public static String getEntryKey( Method method )

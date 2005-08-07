@@ -28,6 +28,11 @@ import java.net.URI;
  */
 public class ArtifactNotFoundException extends ArtifactException
 {
+   /**
+    * Serial version identifier.
+    */
+    static final long serialVersionUID = 1L;
+
     // ------------------------------------------------------------------------
     // state
     // ------------------------------------------------------------------------

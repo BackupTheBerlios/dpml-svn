@@ -27,6 +27,11 @@ package net.dpml.transit;
 public class EnvironmentException extends RuntimeException
 {
    /**
+    * Serial version identifier.
+    */
+    static final long serialVersionUID = 1L;
+
+   /**
     * the environment variable name if available
     */
     private final String m_variable;

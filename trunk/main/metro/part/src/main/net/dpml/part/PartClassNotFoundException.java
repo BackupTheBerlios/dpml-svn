@@ -27,6 +27,11 @@ package net.dpml.part;
  */
 public class PartClassNotFoundException extends RuntimeException 
 {
+   /**
+    * Serial version identifier.
+    */
+    static final long serialVersionUID = 1L;
+
     private String m_classname;
 
     public PartClassNotFoundException( String classname )

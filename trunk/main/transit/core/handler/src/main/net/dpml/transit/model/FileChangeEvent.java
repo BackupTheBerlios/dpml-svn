@@ -26,6 +26,11 @@ import java.util.EventObject;
  */
 public abstract class FileChangeEvent extends EventObject
 {
+   /**
+    * Serial version identifier.
+    */
+    static final long serialVersionUID = 1L;
+
     private final File m_file;
 
    /**

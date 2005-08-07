@@ -24,7 +24,7 @@ import java.util.prefs.PreferencesFactory;
  * the duration of the JVM.  
  * The implementation holds preferences attribue values in memory using Properties.
  * The implementation is suitable for the construction of preferences that for 
- * usage in nono-shared scenarios (such as testcases or short running applications).
+ * usage in non-shared scenarios (such as testcases or short running applications).
  * The preference implementation is established via declaration of the following
  * system property prior to preferences usage:</p>
  *
@@ -39,6 +39,13 @@ import java.util.prefs.PreferencesFactory;
 public class LocalPreferencesFactory implements PreferencesFactory
 {
     // ------------------------------------------------------------------------
+    // static
+    // ------------------------------------------------------------------------
+
+    private static final Preferences SYSTEM = new LocalPreferences( null, "" );
+    private static final Preferences USER = new LocalPreferences( null, "" );
+
+    // ------------------------------------------------------------------------
     // PreferencesFactory
     // ------------------------------------------------------------------------
 
@@ -48,7 +55,7 @@ public class LocalPreferencesFactory implements PreferencesFactory
     */
     public Preferences systemRoot()
     {
-        return new LocalPreferences( null, "" );
+        return SYSTEM;
     }
 
    /**
@@ -57,6 +64,6 @@ public class LocalPreferencesFactory implements PreferencesFactory
     */
     public Preferences userRoot()
     {
-        return new LocalPreferences( null, "" );
+        return USER;
     }
 }

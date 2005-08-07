@@ -26,6 +26,11 @@ package net.dpml.part.builder;
  */
 public class BuilderRuntimeException extends RuntimeException
 {
+   /**
+    * Serial version identifier.
+    */
+    static final long serialVersionUID = 1L;
+
     public BuilderRuntimeException( String message, Throwable cause )
     {
         super( message, cause );

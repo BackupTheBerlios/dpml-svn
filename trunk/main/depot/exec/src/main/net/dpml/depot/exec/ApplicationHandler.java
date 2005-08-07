@@ -46,6 +46,7 @@ public class ApplicationHandler
 {
     private final Logger m_logger;
     private final ShutdownHandler m_handler;
+    private final DepotProfile m_depot;
 
    /**
     * Plugin class used to handle the deployment of a target application.
@@ -67,6 +68,22 @@ public class ApplicationHandler
               "Missing application profile name (usage $ depot -exec [name])";
             getLogger().error( error );
             handler.exit( -1 );
+        }
+
+        try
+        {
+            Repository repository = Transit.getInstance().getRepository();
+            ClassLoader classloader = getClass().getClassLoader();
+            URI uri = new URI( DEPOT_PROFILE_URI );
+            m_depot = (DepotProfile) repository.getPlugin( 
+               classloader, uri, new Object[]{ prefs, logger } );
+        }
+        catch( Throwable e )
+        {
+            final String error = 
+              "Unexpected failure while attempting to establish the depot profile.";
+                getLogger().error( error, e );
+            throw new HandledException();
         }
 
         String id = args[0];
@@ -117,22 +134,38 @@ public class ApplicationHandler
         }
     }
     
-    private ApplicationProfile getApplicationProfile( Logger logger, Preferences prefs, String id ) throws Exception
+   /**
+    * Return an application profile matching the supplied id.  If the id 
+    * is a artifact or link uri then we construct and return a new profile
+    * otherwise the profile id will be assumed to be a name of a profile 
+    * registered within the set of stored profiles.
+    * 
+    * @param logger the assigned lohgging channel
+    * @param prefs the root depot prefs
+    * @param id the profile id
+    * @return the application profile
+    */ 
+    private ApplicationProfile getApplicationProfile( 
+      Logger logger, Preferences prefs, String id ) throws Exception
     {
-        try
+        if( id.startsWith( "artifact:" ) || id.startsWith( "link:" ) )
         {
-            Repository repository = Transit.getInstance().getRepository();
-            ClassLoader classloader = getClass().getClassLoader();
-            URI uri = new URI( DEPOT_PROFILE_URI );
-            DepotProfile depot = (DepotProfile) repository.getPlugin( classloader, uri, new Object[]{ prefs, logger } );
-            return depot.getApplicationProfile( id );
+            URI uri = new URI( id );
+            return m_depot.createAnonymousApplicationProfile( uri );
         }
-        catch( UnknownKeyException e )
+        else
         {
-            final String error = 
-              "Application key [" + e.getKey() + "] not found.";
-            getLogger().error( error );
-            throw new HandledException();
+            try
+            {
+                return m_depot.getApplicationProfile( id );
+            }
+            catch( UnknownKeyException e )
+            {
+                final String error = 
+                  "Application key [" + e.getKey() + "] not found.";
+                getLogger().error( error );
+                throw new HandledException();
+            }
         }
     }
 

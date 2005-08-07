@@ -25,6 +25,11 @@ import java.util.EventObject;
  */
 public class DepotGroupEvent extends DepotEvent 
 {
+   /**
+    * Serial version identifier.
+    */
+    static final long serialVersionUID = 1L;
+
     ActivationGroupProfile m_profile;
 
     public DepotGroupEvent( DepotProfile model, ActivationGroupProfile profile )

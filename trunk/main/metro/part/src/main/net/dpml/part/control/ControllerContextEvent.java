@@ -30,6 +30,11 @@ import java.util.EventObject;
  */
 public abstract class ControllerContextEvent extends EventObject
 {
+   /**
+    * Serial version identifier.
+    */
+    static final long serialVersionUID = 1L;
+
     private ControllerContext m_context;
 
     private File m_old;

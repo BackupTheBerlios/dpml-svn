@@ -26,6 +26,11 @@ package net.dpml.transit;
  */
 public class UnsupportedSchemeException extends IllegalArgumentException
 {
+   /**
+    * Serial version identifier.
+    */
+    static final long serialVersionUID = 1L;
+
     // ------------------------------------------------------------------------
     // constructor
     // ------------------------------------------------------------------------

@@ -25,6 +25,11 @@ import java.util.EventObject;
  */
 public class AvailabilityEvent extends EventObject
 {   
+   /**
+    * Serial version identifier.
+    */
+    static final long serialVersionUID = 1L;
+
     private final boolean m_available;
 
     /**

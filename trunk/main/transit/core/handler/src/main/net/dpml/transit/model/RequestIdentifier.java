@@ -33,6 +33,11 @@ public final class RequestIdentifier implements Serializable
     // ------------------------------------------------------------------------
 
    /**
+    * Serial version identifier.
+    */
+    static final long serialVersionUID = 1L;
+
+   /**
     * Used in hashcode calculation.
     */
     private static final int MAGIC_NUMBER = 72349724;

@@ -30,6 +30,11 @@ import net.dpml.transit.artifact.ArtifactNotFoundException;
  */
 public class LinkNotFoundException extends ArtifactNotFoundException
 {
+   /**
+    * Serial version identifier.
+    */
+    static final long serialVersionUID = 1L;
+
     // ------------------------------------------------------------------------
     // constructor
     // ------------------------------------------------------------------------

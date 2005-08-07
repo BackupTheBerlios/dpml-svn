@@ -30,6 +30,11 @@ import java.io.Serializable;
  */
 public class PartReference implements Serializable
 {
+   /**
+    * Serial version identifier.
+    */
+    static final long serialVersionUID = 1L;
+
     /**
      * The key.
      */

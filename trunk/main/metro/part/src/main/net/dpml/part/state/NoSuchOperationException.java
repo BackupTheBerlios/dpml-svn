@@ -27,11 +27,16 @@ package net.dpml.part.state;
  */
 public class NoSuchOperationException extends RuntimeException
 {
-    /**
-     * Construct a new <code>NoSuchOperationException</code> instance.
-     *
-     * @param key the operation key
-     */
+   /**
+    * Serial version identifier.
+    */
+    static final long serialVersionUID = 1L;
+
+   /**
+    * Construct a new <code>NoSuchOperationException</code> instance.
+    *
+    * @param key the operation key
+    */
     public NoSuchOperationException( final String key )
     {
         super( key );

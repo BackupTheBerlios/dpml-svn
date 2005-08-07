@@ -29,6 +29,11 @@ import java.net.URI;
  */
 public class ControlException extends Exception 
 {
+   /**
+    * Serial version identifier.
+    */
+    static final long serialVersionUID = 1L;
+
     private final URI m_uri;
 
    /**

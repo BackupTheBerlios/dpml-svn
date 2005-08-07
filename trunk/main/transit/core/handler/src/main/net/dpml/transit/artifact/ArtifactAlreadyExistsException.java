@@ -29,6 +29,11 @@ import net.dpml.transit.Artifact;
  */
 public class ArtifactAlreadyExistsException extends ArtifactException
 {
+   /**
+    * Serial version identifier.
+    */
+    static final long serialVersionUID = 1L;
+
     // ------------------------------------------------------------------------
     // state
     // ------------------------------------------------------------------------

@@ -33,6 +33,11 @@ public class DefaultImmutableConfiguration
     extends AbstractConfiguration
     implements Serializable
 {
+   /**
+    * Serial version identifier.
+    */
+    static final long serialVersionUID = 1L;
+
     /**
      * An empty (length zero) array of configuration objects.
      */

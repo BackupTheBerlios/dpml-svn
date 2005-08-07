@@ -26,6 +26,11 @@ package net.dpml.part;
  */
 public class PartHandlerRuntimeException extends RuntimeException 
 {
+   /**
+    * Serial version identifier.
+    */
+    static final long serialVersionUID = 1L;
+
     public PartHandlerRuntimeException( String message, Throwable cause )
     {
         super( message, cause );

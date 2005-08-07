@@ -26,6 +26,11 @@ import java.net.PasswordAuthentication;
  */
 public class ProxyEvent extends EventObject 
 {
+   /**
+    * Serial version identifier.
+    */
+    static final long serialVersionUID = 1L;
+
     private final RequestIdentifier m_identifier;
     private final PasswordAuthentication m_authentication;
     private final String[] m_excludes;

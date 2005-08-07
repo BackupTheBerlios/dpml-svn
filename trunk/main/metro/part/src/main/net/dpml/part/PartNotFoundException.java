@@ -28,6 +28,11 @@ import java.net.URI;
  */
 public class PartNotFoundException extends Exception 
 {
+   /**
+    * Serial version identifier.
+    */
+    static final long serialVersionUID = 1L;
+
     private URI m_target;
     private URI m_parent;
 

@@ -25,6 +25,11 @@ import java.util.EventObject;
  */
 public class ContentEvent extends EventObject
 {
+   /**
+    * Serial version identifier.
+    */
+    static final long serialVersionUID = 1L;
+
     private final ContentModel m_content;
 
    /**

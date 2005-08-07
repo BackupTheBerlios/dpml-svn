@@ -23,6 +23,11 @@ package net.dpml.transit.model;
  */
 public class HostLayoutEvent extends HostEvent 
 {
+   /**
+    * Serial version identifier.
+    */
+    static final long serialVersionUID = 1L;
+
     private final LayoutModel m_layout;
 
    /**

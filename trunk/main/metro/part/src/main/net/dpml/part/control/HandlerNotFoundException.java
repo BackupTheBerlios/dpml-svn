@@ -28,6 +28,11 @@ import java.net.URI;
  */
 public class HandlerNotFoundException extends Exception 
 {
+   /**
+    * Serial version identifier.
+    */
+    static final long serialVersionUID = 1L;
+
     private URI m_uri;
 
     public HandlerNotFoundException( URI uri )

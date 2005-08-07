@@ -48,6 +48,11 @@ public final class InfoDescriptor extends Descriptor
     // static
     //-------------------------------------------------------------------
 
+   /**
+    * Serial version identifier.
+    */
+    static final long serialVersionUID = 1L;
+
     public static final String TRANSIENT = "transient";
     public static final String SINGLETON = "singleton";
     public static final String THREAD = "thread";

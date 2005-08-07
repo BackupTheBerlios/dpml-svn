@@ -27,6 +27,11 @@ package net.dpml.part.component;
 public class ContainmentException extends Exception 
 {
    /**
+    * Serial version identifier.
+    */
+    static final long serialVersionUID = 1L;
+
+   /**
     * Creation of a new containment exception.
     * @param message the excetion message
     */

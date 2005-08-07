@@ -29,6 +29,11 @@ import java.net.URI;
  */
 public class UnsupportedPartTypeException extends ControllerRuntimeException 
 {
+   /**
+    * Serial version identifier.
+    */
+    static final long serialVersionUID = 1L;
+
     private String m_type;
 
     public UnsupportedPartTypeException( URI uri, String classname, String message )

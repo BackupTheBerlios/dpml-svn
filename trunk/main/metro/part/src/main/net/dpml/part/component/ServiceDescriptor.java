@@ -28,6 +28,11 @@ import java.io.Serializable;
  */
 public final class ServiceDescriptor implements Serializable
 {
+   /**
+    * Serial version identifier.
+    */
+    static final long serialVersionUID = 1L;
+
     /**
      * The name of service class.
      */

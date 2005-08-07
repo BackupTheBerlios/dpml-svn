@@ -27,6 +27,11 @@ package net.dpml.transit;
  */
 public class TransitAlreadyInitializedException extends TransitRuntimeException
 {
+   /**
+    * Serial version identifier.
+    */
+    static final long serialVersionUID = 1L;
+
     /**
      * Construct a new <code>TransitAlreadyInitializedException</code> instance.
      *

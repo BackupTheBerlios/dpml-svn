@@ -27,6 +27,11 @@ import java.util.EventObject;
  */
 public class CodeBaseEvent extends EventObject
 {
+   /**
+    * Serial version identifier.
+    */
+    static final long serialVersionUID = 1L;
+
     private final URI m_plugin;
 
    /**

@@ -26,6 +26,11 @@ package net.dpml.part.control;
  */
 public class DuplicateNameException extends Exception 
 {
+   /**
+    * Serial version identifier.
+    */
+    static final long serialVersionUID = 1L;
+
     private String m_name;
 
     public DuplicateNameException( String name )

@@ -26,6 +26,11 @@ package net.dpml.part.component;
  */
 public class ServiceNotFoundException extends ServiceException 
 {
+   /**
+    * Serial version identifier.
+    */
+    static final long serialVersionUID = 1L;
+
     public ServiceNotFoundException( String message )
     {
         super( message );

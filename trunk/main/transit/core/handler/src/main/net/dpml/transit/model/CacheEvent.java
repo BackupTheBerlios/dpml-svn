@@ -26,6 +26,11 @@ import java.util.EventObject;
  */
 public abstract class CacheEvent extends EventObject
 {
+   /**
+    * Serial version identifier.
+    */
+    static final long serialVersionUID = 1L;
+
     private final HostModel m_host;
 
    /**

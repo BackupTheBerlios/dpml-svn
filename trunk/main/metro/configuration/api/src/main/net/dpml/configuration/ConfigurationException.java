@@ -25,6 +25,11 @@ package net.dpml.configuration;
 public class ConfigurationException
     extends Exception
 {
+   /**
+    * Serial version identifier.
+    */
+    static final long serialVersionUID = 1L;
+
     private final Throwable m_cause;
     private final Configuration m_config;
 

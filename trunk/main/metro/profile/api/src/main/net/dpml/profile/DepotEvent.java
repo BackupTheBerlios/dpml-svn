@@ -25,6 +25,11 @@ import java.util.EventObject;
  */
 public abstract class DepotEvent extends EventObject 
 {
+   /**
+    * Serial version identifier.
+    */
+    static final long serialVersionUID = 1L;
+
     public DepotEvent( DepotProfile model )
     {
         super( model );

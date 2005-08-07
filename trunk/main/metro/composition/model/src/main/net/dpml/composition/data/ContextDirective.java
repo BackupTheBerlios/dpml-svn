@@ -48,6 +48,11 @@ import net.dpml.part.PartReference;
  */
 public class ContextDirective implements Serializable
 {
+   /**
+    * Serial version identifier.
+    */
+    static final long serialVersionUID = 1L;
+
     /**
      * The set of entry directives.
      */

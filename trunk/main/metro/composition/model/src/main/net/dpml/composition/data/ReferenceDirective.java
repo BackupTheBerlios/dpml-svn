@@ -33,6 +33,11 @@ import net.dpml.part.Part;
  */
 public class ReferenceDirective implements Serializable, Part
 {
+   /**
+    * Serial version identifier.
+    */
+    static final long serialVersionUID = 1L;
+
     /**
      * The container scoped key.
      */

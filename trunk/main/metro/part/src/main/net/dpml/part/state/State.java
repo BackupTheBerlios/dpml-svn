@@ -34,6 +34,11 @@ import java.net.URI;
  */
 public final class State implements Serializable
 {
+   /**
+    * Serial version identifier.
+    */
+    static final long serialVersionUID = 1L;
+
     private final String m_name;
     private final State m_parent;
     private final boolean m_terminal;

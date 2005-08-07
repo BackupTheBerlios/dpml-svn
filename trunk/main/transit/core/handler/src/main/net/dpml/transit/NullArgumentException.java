@@ -41,6 +41,11 @@ package net.dpml.transit;
  */
 public class NullArgumentException extends IllegalArgumentException
 {
+   /**
+    * Serial version identifier.
+    */
+    static final long serialVersionUID = 1L;
+
     /** Constructor taking the name of the argument that was null.
      * @param argumentName the source code name of the argument that caused
      *        this exception.

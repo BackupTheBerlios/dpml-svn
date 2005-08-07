@@ -34,6 +34,11 @@ public class DefaultConfiguration
     extends AbstractConfiguration
     implements MutableConfiguration, Serializable
 {
+   /**
+    * Serial version identifier.
+    */
+    static final long serialVersionUID = 1L;
+
     /**
      * An empty (length zero) array of configuration objects.
      */

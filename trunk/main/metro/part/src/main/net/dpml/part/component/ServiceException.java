@@ -26,6 +26,11 @@ package net.dpml.part.component;
  */
 public class ServiceException extends Exception 
 {
+   /**
+    * Serial version identifier.
+    */
+    static final long serialVersionUID = 1L;
+
     public ServiceException( String message )
     {
         this( message, null );

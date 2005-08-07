@@ -25,24 +25,29 @@ package net.dpml.transit.model;
  */
 public class VetoDisposalException extends RuntimeException
 {
-     private Object m_source;
+   /**
+    * Serial version identifier.
+    */
+    static final long serialVersionUID = 1L;
 
-    /**
-     * Construct a new <code>VetoDisposalException</code> instance.
-     *
-     * @param source the object initiating the veto
-     */
+    private Object m_source;
+
+   /**
+    * Construct a new <code>VetoDisposalException</code> instance.
+    *
+    * @param source the object initiating the veto
+    */
     public VetoDisposalException( Object source )
     {
         super( "Disposal veto." );
     }
 
-    /**
-     * Construct a new <code>VetoDisposalException</code> instance.
-     *
-     * @param source the object initiating the veto
-     * @param message the reason for the veto
-     */
+   /**
+    * Construct a new <code>VetoDisposalException</code> instance.
+    *
+    * @param source the object initiating the veto
+    * @param message the reason for the veto
+    */
     public VetoDisposalException( Object source, String message )
     {
         super( message );

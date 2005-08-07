@@ -29,6 +29,11 @@ import java.io.IOException;
  */
 public class RepositoryException extends IOException
 {
+   /**
+    * Serial version identifier.
+    */
+    static final long serialVersionUID = 1L;
+
     /**
      * The causal exception.
      */

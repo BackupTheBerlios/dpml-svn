@@ -23,6 +23,11 @@ package net.dpml.transit.model;
  */
 public class PropertyChangeEvent extends ContentEvent 
 {
+   /**
+    * Serial version identifier.
+    */
+    static final long serialVersionUID = 1L;
+
     private final String m_key;
 
     private final String m_value;

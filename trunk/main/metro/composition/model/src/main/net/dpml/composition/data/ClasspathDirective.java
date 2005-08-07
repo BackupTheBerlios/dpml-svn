@@ -29,7 +29,12 @@ import java.net.URI;
  */
 public final class ClasspathDirective implements Serializable
 {
-     private static final URI[] EMPTY_URIS = new URI[0]; 
+   /**
+    * Serial version identifier.
+    */
+    static final long serialVersionUID = 1L;
+
+    private static final URI[] EMPTY_URIS = new URI[0]; 
 
     /**
      * The resource references

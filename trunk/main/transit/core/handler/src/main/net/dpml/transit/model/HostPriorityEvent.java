@@ -23,6 +23,11 @@ package net.dpml.transit.model;
  */
 public class HostPriorityEvent extends HostEvent 
 {
+   /**
+    * Serial version identifier.
+    */
+    static final long serialVersionUID = 1L;
+
     private final int m_priority;
 
    /**

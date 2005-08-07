@@ -48,34 +48,9 @@ public class ContextDescriptor extends Descriptor
     //---------------------------------------------------------
 
    /**
-    * The context entry key for accessing a component name.
+    * Serial version identifier.
     */
-    public static final String NAME_KEY =
-            "urn:metro:name";
-
-   /**
-    * The context entry key for accessing a component partition name.
-    */
-    public static final String PARTITION_KEY =
-            "urn:metro:partition";
-
-   /**
-    * The context entry key for accessing a component home directory.
-    */
-    public static final String DIR_KEY =
-            "urn:metro:dir";
-
-   /**
-    * The context entry key for accessing a component temporary directory.
-    */
-    public static final String TEMP_KEY =
-            "urn:metro:temp";
-
-   /**
-    * The context entry key for accessing a component classloader.
-    */
-    public static final String CLASSLOADER_KEY =
-            "urn:metro:classloader";
+    static final long serialVersionUID = 1L;
 
     //---------------------------------------------------------
     // immutable state

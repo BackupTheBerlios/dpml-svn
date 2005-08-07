@@ -60,6 +60,11 @@ import net.dpml.parameters.ParameterException;
  */
 public class DefaultParameters implements Parameters, Serializable
 {
+   /**
+    * Serial version identifier.
+    */
+    static final long serialVersionUID = 1L;
+
     /**
      * Empty Parameters object
      *

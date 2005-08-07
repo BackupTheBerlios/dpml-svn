@@ -25,11 +25,16 @@ package net.dpml.part.state;
  */
 public class NoSuchHandlerException extends RuntimeException
 {
-    /**
-     * Construct a new <code>NoSuchHandlerException</code> instance.
-     *
-     * @param handler the handler name
-     */
+   /**
+    * Serial version identifier.
+    */
+    static final long serialVersionUID = 1L;
+
+   /**
+    * Construct a new <code>NoSuchHandlerException</code> instance.
+    *
+    * @param handler the handler name
+    */
     public NoSuchHandlerException( final String handler )
     {
         super( handler );

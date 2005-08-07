@@ -26,6 +26,11 @@ package net.dpml.part.component;
  */
 public class ComponentNotFoundException extends ContainmentException 
 {
+   /**
+    * Serial version identifier.
+    */
+    static final long serialVersionUID = 1L;
+
     public ComponentNotFoundException( String key )
     {
         super( key );

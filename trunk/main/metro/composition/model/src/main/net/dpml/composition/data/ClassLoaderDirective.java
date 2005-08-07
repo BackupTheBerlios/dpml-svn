@@ -28,7 +28,12 @@ import java.io.Serializable;
  */
 public final class ClassLoaderDirective implements Serializable
 {
-     private static final ClasspathDirective[] EMPTY_CLASSPATH_ARRAY = new ClasspathDirective[0]; 
+   /**
+    * Serial version identifier.
+    */
+    static final long serialVersionUID = 1L;
+
+    private static final ClasspathDirective[] EMPTY_CLASSPATH_ARRAY = new ClasspathDirective[0]; 
 
     /**
      * The classpath directives

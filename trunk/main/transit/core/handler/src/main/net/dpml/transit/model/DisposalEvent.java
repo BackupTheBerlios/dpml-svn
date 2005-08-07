@@ -26,6 +26,11 @@ import java.util.EventObject;
 public class DisposalEvent extends EventObject 
 {
    /**
+    * Serial version identifier.
+    */
+    static final long serialVersionUID = 1L;
+
+   /**
     * Creation of a new disposal event.
     * @param model the model initiating the event
     */

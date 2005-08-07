@@ -56,6 +56,11 @@ import java.util.StringTokenizer;
 public final class Version
     implements Comparable, Serializable
 {
+   /**
+    * Serial version identifier.
+    */
+    static final long serialVersionUID = 1L;
+
     private int m_major;
     private int m_minor;
     private int m_micro;

@@ -29,6 +29,11 @@ import java.net.URI;
  */
 public class Transition implements Serializable
 {
+   /**
+    * Serial version identifier.
+    */
+    static final long serialVersionUID = 1L;
+
     private final State m_target;
     private final URI m_handler;
 

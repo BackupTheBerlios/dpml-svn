@@ -26,6 +26,11 @@ import java.util.EventObject;
 public class LayoutEvent extends EventObject
 {
    /**
+    * Serial version identifier.
+    */
+    static final long serialVersionUID = 1L;
+
+   /**
     * Creation of a new LayoutEvent signalling modification of 
     * layout model configuration.
     * 

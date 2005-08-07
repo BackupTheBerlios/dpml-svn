@@ -290,7 +290,9 @@ public final class Main implements ShutdownHandler
             Preferences prefs = getRootPreferences();
             URI uri = new URI( path );
             TransitModel model = getTransitModel( args );
-            Repository repository = Transit.getInstance( model ).getRepository();
+            Transit transit = Transit.getInstance( model );
+            setupMonitors( transit, (Adapter) getLogger() );
+            Repository repository = transit.getRepository();
             ClassLoader classloader = getSystemClassLoader();
             m_plugin = 
               repository.getPlugin( 
@@ -806,6 +808,7 @@ public final class Main implements ShutdownHandler
           new RepositoryMonitorAdapter( adapter ) );
         instance.getCacheMonitorRouter().addMonitor(
           new CacheMonitorAdapter( adapter ) );
+        System.out.println( "# Setting up network monitor adapter: " + adapter.getClass().getName() );
         instance.getNetworkMonitorRouter().addMonitor(
           new NetworkMonitorAdapter( adapter ) );
     }

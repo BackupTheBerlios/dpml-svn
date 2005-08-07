@@ -26,6 +26,11 @@ import java.util.EventObject;
  */
 public abstract class LayoutRegistryEvent extends EventObject
 {
+   /**
+    * Serial version identifier.
+    */
+    static final long serialVersionUID = 1L;
+
     private final LayoutModel m_resolver;
     private final LayoutRegistryModel m_system;
 

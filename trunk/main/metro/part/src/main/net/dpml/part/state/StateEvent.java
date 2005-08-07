@@ -28,16 +28,21 @@ import java.util.EventObject;
  */
 public class StateEvent extends EventObject
 {
-     private final State m_from;
-     private final State m_to;
+   /**
+    * Serial version identifier.
+    */
+    static final long serialVersionUID = 1L;
 
-    /**
-     * Construct a new <code>StateEvent</code>.
-     *
-     * @param model the source compoent model
-     * @param from the originating state
-     * @param to the new current state
-     */
+    private final State m_from;
+    private final State m_to;
+
+   /**
+    * Construct a new <code>StateEvent</code>.
+    *
+    * @param model the source compoent model
+    * @param from the originating state
+    * @param to the new current state
+    */
     public StateEvent( final Object model, State from, State to )
     {
         super( model );

@@ -31,6 +31,7 @@ import java.util.EventListener;
 import net.dpml.transit.model.DuplicateKeyException;
 import net.dpml.transit.model.Logger;
 import net.dpml.transit.model.UnknownKeyException;
+import net.dpml.transit.model.Connection;
 
 import net.dpml.profile.*;
 import net.dpml.profile.DepotProfile;
@@ -107,6 +108,20 @@ public class DefaultDepotProfile extends DefaultModel implements DepotProfile
         {
             return (ApplicationProfile[]) m_list.toArray( new ApplicationProfile[0] );
         }
+    }
+
+    public ApplicationProfile createAnonymousApplicationProfile( URI codebase ) throws RemoteException
+    {
+        Logger logger = getLogger();
+        String id = "anonymous";
+        String title = id;
+        Properties properties = new Properties();
+        boolean command = false;
+        Connection connection = null;
+        boolean enabled = true;
+        Properties params = new Properties();
+        return new DefaultApplicationProfile(  
+          logger, id, title, properties, command, connection, codebase, enabled, params );
     }
 
     public ApplicationProfile getApplicationProfile( String key ) throws UnknownKeyException, RemoteException

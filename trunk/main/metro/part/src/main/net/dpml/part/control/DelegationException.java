@@ -28,6 +28,11 @@ import java.net.URI;
  */
 public class DelegationException extends Exception 
 {
+   /**
+    * Serial version identifier.
+    */
+    static final long serialVersionUID = 1L;
+
     private URI m_target;
 
     public DelegationException( URI target, String message, Throwable cause )

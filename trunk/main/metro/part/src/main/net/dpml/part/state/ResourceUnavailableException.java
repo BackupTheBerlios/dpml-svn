@@ -25,10 +25,15 @@ package net.dpml.part.state;
  */
 public class ResourceUnavailableException extends IllegalStateException
 {
-    /**
-     * Creation of a new unavailable resource exception.
-     * @param message the message
-     */
+   /**
+    * Serial version identifier.
+    */
+    static final long serialVersionUID = 1L;
+
+   /**
+    * Creation of a new unavailable resource exception.
+    * @param message the message
+    */
     public ResourceUnavailableException( String message )
     {
         super( message );

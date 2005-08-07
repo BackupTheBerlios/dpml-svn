@@ -29,6 +29,11 @@ import net.dpml.transit.TransitException;
  */
 public class ArtifactException extends TransitException
 {
+   /**
+    * Serial version identifier.
+    */
+    static final long serialVersionUID = 1L;
+
     // ------------------------------------------------------------------------
     // constructor
     // ------------------------------------------------------------------------

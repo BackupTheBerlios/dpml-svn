@@ -29,6 +29,11 @@ import java.rmi.registry.Registry;
  */
 public class Connection implements Serializable
 {
+   /**
+    * Serial version identifier.
+    */
+    static final long serialVersionUID = 1L;
+
     private String m_host;
     private int m_port;
     private boolean m_optional;

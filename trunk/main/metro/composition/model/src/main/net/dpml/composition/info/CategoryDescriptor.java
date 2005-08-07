@@ -42,6 +42,11 @@ import java.util.Properties;
 public class CategoryDescriptor
     extends Descriptor
 {
+   /**
+    * Serial version identifier.
+    */
+    static final long serialVersionUID = 1L;
+
     public static final String SEPERATOR = ".";
 
     private final String m_name;

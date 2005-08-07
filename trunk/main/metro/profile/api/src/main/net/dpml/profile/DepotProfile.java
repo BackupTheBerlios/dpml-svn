@@ -18,6 +18,7 @@
 
 package net.dpml.profile;
 
+import java.net.URI;
 import java.rmi.RemoteException;
 
 import net.dpml.transit.model.Model;
@@ -34,6 +35,8 @@ public interface DepotProfile extends Model
     int getActivationGroupProfileCount() throws RemoteException;
 
     ApplicationProfile[] getApplicationProfiles() throws RemoteException;
+
+    ApplicationProfile createAnonymousApplicationProfile( URI codebase ) throws RemoteException;
 
     ApplicationProfile getApplicationProfile( String key ) throws UnknownKeyException, RemoteException;
 
