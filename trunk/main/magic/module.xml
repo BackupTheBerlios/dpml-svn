@@ -64,8 +64,8 @@
     <!-- create the local repository -->
     <property name="share" value="${bundle}/share"/>
     <property name="local" value="${share}/local"/>
-    <x:path id="module.path" type="*" mode="RUNTIME" module="true"/>
-    <x:replicate refid="module.path" toDir="${local}" />
+    <!--<x:path id="module.path" type="*" mode="RUNTIME" module="true" self="true"/>-->
+    <x:replicate toDir="${local}" self="true"/>
     <copy todir="${local}/${project.group}">
       <fileset dir="target/deliverables"/>
     </copy>

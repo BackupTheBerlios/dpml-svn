@@ -18,6 +18,9 @@
 package net.dpml.magic.tasks;
 
 import net.dpml.magic.project.ProjectPath;
+import net.dpml.magic.model.Definition;
+import net.dpml.magic.model.Policy;
+
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.taskdefs.Copy;
@@ -37,6 +40,7 @@ public class ReplicateTask extends ProjectTask
     private File m_todir;
     private Path m_path;
     private boolean m_flatten = false;
+    private boolean m_self = false;
 
    /**
     * Set the flattern policy.
@@ -45,6 +49,15 @@ public class ReplicateTask extends ProjectTask
     public void setFlatten( boolean flag )
     {
         m_flatten = flag;
+    }
+
+   /**
+    * Set the self inclusion policy.
+    * @param flag the self flag
+    */
+    public void setSelf( boolean flag )
+    {
+        m_self = flag;
     }
 
    /**
@@ -98,10 +111,9 @@ public class ReplicateTask extends ProjectTask
     {
         if( null == m_path )
         {
-            ProjectPath path = new ProjectPath( getProject() );
-            path.setMode( "RUNTIME" );
-            path.setType( "*" );
-            m_path = path;
+            Definition def = getDefinition();
+            Project project = getProject();
+            m_path = def.getPath( project, Policy.RUNTIME, "*", true, m_self );
         }
         if( null == m_todir )
         {

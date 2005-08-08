@@ -20,6 +20,8 @@ package net.dpml.magic.project;
 import net.dpml.magic.AntFileIndex;
 import net.dpml.magic.model.Policy;
 import net.dpml.magic.model.Resource;
+import net.dpml.magic.model.Definition;
+import net.dpml.magic.model.Policy;
 
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Project;
@@ -48,6 +50,7 @@ public class ProjectPath extends Path
     private String m_key;
     private String m_type = "jar";
     private boolean m_module = false;
+    private boolean m_self = false;
     private int m_mode = Policy.RUNTIME;
     private boolean m_initialized = false;
     private boolean m_resolve = true;
@@ -96,6 +99,16 @@ public class ProjectPath extends Path
     public void setModule( final boolean module )
     {
         m_module = module;
+    }
+
+   /**
+    * Set self flag.
+    *
+    * @param flag if TRUE include own resources.
+    */
+    public void setSelf( final boolean flag )
+    {
+        m_self = flag;
     }
 
    /**
@@ -218,7 +231,7 @@ public class ProjectPath extends Path
 
         Resource def = getResource();
 
-        Path path = def.getPath( getProject(), getMode(), m_type, m_module );
+        Path path = def.getPath( getProject(), getMode(), m_type, m_module, m_self );
 
         if( null != m_key )
         {

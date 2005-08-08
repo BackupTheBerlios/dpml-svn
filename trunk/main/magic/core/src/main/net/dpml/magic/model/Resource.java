@@ -325,6 +325,23 @@ public class Resource
     public Path getPath( final Project project, final int mode, String filter, boolean moduleFilter )
         throws NullArgumentException
     {
+        return getPath( project, mode, filter, moduleFilter, false );
+    }
+
+   /**
+    * Returns a path of artifact filenames relative to the supplied scope.
+    * The mode may be one of ANY, BUILD, TEST or RUNTIME.
+    * @param project the current project
+    * @param mode one of Policy.ANY, Policy.BUILD, Policy.TEST or Policy.RUNTIME
+    * @param filter a value of "*" for any or a type identifier such as "jar"
+    * @param moduleFilter module filter flag
+    * @return the path
+    * @exception NullArgumentException if the supplied project argument is null.
+    */
+    public Path getPath( 
+      final Project project, final int mode, String filter, boolean moduleFilter, boolean self )
+        throws NullArgumentException
+    {
         if( null == project )
         {
             throw new NullArgumentException( "project" );
@@ -332,6 +349,10 @@ public class Resource
 
         final Path path = new Path( project );
         final ArrayList visited = new ArrayList();
+        if( self )
+        {
+            addResourceToPath( project, this, path, filter );
+        }
 
         final ResourceRef[] refs = getResourceRefs( project, mode, ResourceRef.ANY, true );
         for( int i=0; i < refs.length; i++ )
@@ -342,41 +363,48 @@ public class Resource
                 final Resource resource = getResource( project, ref );
                 if( filterModule( resource, moduleFilter ) )
                 {
-                    Info info = resource.getInfo();
-                    if( "*".equals( filter ) )
-                    {
-                        Type[] types = info.getTypes();
-                        for( int j=0; j < types.length; j++ )
-                        {
-                            Type type = types[j];
-                            String name = type.getName();
-                            final File file = resource.getArtifact( project, name );
-                            path.createPathElement().setLocation( file );
-                            String alias = type.getAlias();
-                            if( null != alias )
-                            {
-                                //
-                                // include the alias resource in the path
-                                //
-
-                                final File link = resource.getArtifact( project, name, alias );
-                                path.createPathElement().setLocation( link );
-                            }
-                        }
-                    }
-                    else
-                    {
-                        if( info.isa( filter ) )
-                        {
-                            final File file = resource.getArtifact( project, filter );
-                            path.createPathElement().setLocation( file );
-                        }
-                    }
+                    addResourceToPath( project, resource, path, filter );
                 }
                 visited.add( ref );
             }
         }
+
         return path;
+    }
+
+    private void addResourceToPath( final Project project, Resource resource, Path path, String filter )
+    {
+        Info info = resource.getInfo();
+        if( "*".equals( filter ) )
+        {
+            Type[] types = info.getTypes();
+            for( int j=0; j < types.length; j++ )
+            {
+                Type type = types[j];
+                addTypeToPath( project, resource, path, type );
+            }
+        }
+        else if( info.isa( filter ) )
+        {
+            Type type = info.getType( filter );
+            addTypeToPath( project, resource, path, type );
+        }
+    }
+
+    private void addTypeToPath( final Project project, Resource resource, Path path, Type type )
+    {
+        String name = type.getName();
+        final File file = resource.getArtifact( project, name );
+        path.createPathElement().setLocation( file );
+        String alias = type.getAlias();
+        if( null != alias )
+        {
+            //
+            // include the alias resource in the path
+            //
+            final File link = resource.getArtifact( project, name, alias );
+            path.createPathElement().setLocation( link );
+        }
     }
 
    /**
