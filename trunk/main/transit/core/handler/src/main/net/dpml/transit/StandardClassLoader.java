@@ -34,7 +34,7 @@ public class StandardClassLoader extends URLClassLoader
     // state
     //--------------------------------------------------------------------
 
-    private final URI m_partition;
+    private final String m_partition;
 
     //--------------------------------------------------------------------
     // constructor
@@ -45,7 +45,7 @@ public class StandardClassLoader extends URLClassLoader
     * @param partition the classloader identifier
     * @param parent the parent classloader
     */
-    public StandardClassLoader( URI partition, ClassLoader parent )
+    public StandardClassLoader( String partition, ClassLoader parent )
     {
         this( partition, new URL[0], parent );
     }
@@ -56,7 +56,7 @@ public class StandardClassLoader extends URLClassLoader
     * @param urls an array of urls to add to the classloader
     * @param parent the parent classloader
     */
-    public StandardClassLoader( URI partition, URL[] urls, ClassLoader parent )
+    public StandardClassLoader( String partition, URL[] urls, ClassLoader parent )
     {
         super( urls, parent );
         m_partition = partition;
@@ -67,10 +67,10 @@ public class StandardClassLoader extends URLClassLoader
     //--------------------------------------------------------------------
 
    /**
-    * Return the classloader identifying partition.
+    * Return the partition name.
     * @return the partition
     */
-    public URI getPartition()
+    public String getPartition()
     {
         return m_partition;
     }
@@ -115,8 +115,10 @@ public class StandardClassLoader extends URLClassLoader
             {
                 listClasspath( buffer, parent );
             }
-            URI partition = cl.getPartition();
-            buffer.append( "\n  transit: " + partition );
+            String partition = cl.getPartition();
+            buffer.append( "\n  transit classloader: " + partition + " " 
+              + System.identityHashCode( classloader ) );
+            buffer.append( "\n" );
             appendEntries( buffer, cl );
         }
         else if( classloader instanceof URLClassLoader )

@@ -188,9 +188,11 @@ class DefaultContentRegistry extends UnicastRemoteObject implements Service, Con
             {
                 Class clazz = loadContentHandlerClass( model );
                 Repository loader = Transit.getInstance().getRepository();
+                String type =  model.getContentType();
+                Logger logger = getLogger().getChildLogger( type );
                 try
                 {
-                    handler = (ContentHandler) loader.instantiate( clazz, new Object[]{model} );
+                    handler = (ContentHandler) loader.instantiate( clazz, new Object[]{logger, model} );
                 }
                 catch( Throwable e )
                 {
@@ -220,7 +222,6 @@ class DefaultContentRegistry extends UnicastRemoteObject implements Service, Con
             {
                 m_logger.debug( "loading content handler plugin: " + uri );
                 Repository loader = Transit.getInstance().getRepository();
-                //ClassLoader classloader = Thread.currentThread().getContextClassLoader();
                 ClassLoader classloader = model.getClass().getClassLoader();
                 clazz = loader.getPluginClass( classloader, uri );
             }
@@ -245,6 +246,15 @@ class DefaultContentRegistry extends UnicastRemoteObject implements Service, Con
                 throw new TransitException( error );
             }
         }
+    }
+
+   /**
+    * Return the assigned logging channel.
+    * @return the logging channel
+    */
+    protected Logger getLogger()
+    {
+        return m_logger;
     }
 }
 

@@ -41,6 +41,12 @@ public interface Logger
     boolean isInfoEnabled();
 
    /**
+    * Return TRUE is warn level logging is enabled.
+    * @return the enabled state of warn level logging
+    */
+    boolean isWarnEnabled();
+
+   /**
     * Return TRUE is error level logging is enabled.
     * @return the enabled state of error logging
     */

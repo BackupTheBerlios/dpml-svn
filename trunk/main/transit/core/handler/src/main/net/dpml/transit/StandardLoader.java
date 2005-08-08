@@ -501,18 +501,18 @@ class StandardLoader
 
         URI[] apiArtifacts = descriptor.getDependencies( Plugin.API_KEY );
         URL[] apis = getURLs( apiArtifacts  );
-        URI apiUri = appendFragment( descriptor.getURI(), "api" );
-        ClassLoader api = buildClassLoader( apiUri, base, apis );
+        String apiLabel = appendFragment( descriptor.getURI(), "api" );
+        ClassLoader api = buildClassLoader( apiLabel, base, apis );
 
         URI[] spiArtifacts = descriptor.getDependencies( Plugin.SPI_KEY );
         URL[] spis = getURLs( spiArtifacts );
-        URI spiUri = appendFragment( descriptor.getURI(), "spi" );
-        ClassLoader spi = buildClassLoader( spiUri, api, spis );
+        String spiLabel = appendFragment( descriptor.getURI(), "spi" );
+        ClassLoader spi = buildClassLoader( spiLabel, api, spis );
 
         URI[] impArtifacts = descriptor.getDependencies( Plugin.IMPL_KEY );
         URL[] imps = getURLs( impArtifacts );
-        URI implUri = appendFragment( descriptor.getURI(), "impl" );
-        ClassLoader classloader = buildClassLoader( implUri, spi, imps );
+        String implLabel = appendFragment( descriptor.getURI(), "impl" );
+        ClassLoader classloader = buildClassLoader( implLabel, spi, imps );
 
         return classloader;
     }
@@ -542,7 +542,7 @@ class StandardLoader
     * @param urls the urls to assign as classloader content
     * @return the classloader
     */
-    private ClassLoader buildClassLoader( URI type, ClassLoader parent, URL[] urls )
+    private ClassLoader buildClassLoader( String label, ClassLoader parent, URL[] urls )
     {
         if( 0 == urls.length )
         {
@@ -563,8 +563,8 @@ class StandardLoader
         }
         else
         {
-            ClassLoader loader = new StandardClassLoader( type, qualified, parent );
-            getMonitor().classloaderConstructed( type.toString(), loader );
+            ClassLoader loader = new StandardClassLoader( label, qualified, parent );
+            getMonitor().classloaderConstructed( label, loader );
             return loader;
         }
     }
@@ -708,18 +708,10 @@ class StandardLoader
         }
     }
 
-    private URI appendFragment( URI base, String fragment )
+    private String appendFragment( URI base, String fragment )
     {
-        try
-        {
-            String scheme = base.getScheme();
-            String spec = base.getSchemeSpecificPart();
-            return new URI( scheme, spec, fragment );
-        }
-        catch( Throwable e )
-        {
-            return base;
-        }
+        String path = base.toString();
+        return "[" + path + "] (" + fragment + ")";
     }
 
     private RepositoryMonitorRouter getMonitor()

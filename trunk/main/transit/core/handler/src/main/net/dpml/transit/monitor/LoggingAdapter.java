@@ -317,7 +317,7 @@ public class LoggingAdapter implements Adapter
     */
     private void log( String message )
     {
-        debug( message );
+        m_logger.fine( message );
     }
 }
 

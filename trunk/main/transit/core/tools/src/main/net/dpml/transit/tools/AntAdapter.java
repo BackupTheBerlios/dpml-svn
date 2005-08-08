@@ -68,6 +68,15 @@ public class AntAdapter implements Adapter
     }
 
    /**
+    * Return TRUE is warn level logging is enabled.
+    * @return the enabled state of warn logging
+    */
+    public boolean isWarnEnabled()
+    {
+        return true;
+    }
+
+   /**
     * Return TRUE is error level logging is enabled.
     * @return the enabled state of error logging
     */
