@@ -40,12 +40,12 @@ import net.dpml.part.control.Controller;
 public class PartContentHandler extends ContentHandler
 {
     private final ContentModel m_model;
-    //private final Controller m_controller;
+    private final Logger m_logger;
 
-    public PartContentHandler( ContentModel content )
+    public PartContentHandler( Logger logger, ContentModel content )
     {
-        //m_controller = newController( content );
         m_model = content;
+        m_logger = logger;
     }
 
     public Controller newController()
@@ -55,7 +55,7 @@ public class PartContentHandler extends ContentHandler
             ClassLoader classloader = Part.class.getClassLoader();
             URI uri = new URI( "@COMPOSITION-CONTROLLER-URI@" );
             Repository repository = Transit.getInstance().getRepository();
-            Object object = repository.getPlugin( classloader, uri, new Object[]{ m_model } );
+            Object object = repository.getPlugin( classloader, uri, new Object[]{m_logger, m_model} );
             if( object instanceof Controller )
             {
                 return (Controller) object;

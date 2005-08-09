@@ -40,8 +40,9 @@ public class PartContentHandlerFactory implements ContentHandlerFactory
     {
         try
         {
-            ContentModel content = newContentModel();
-            return new PartContentHandler( content );
+            Logger logger = resolveLogger( null );
+            ContentModel content = newContentModel( logger );
+            return new PartContentHandler( logger, content );
         }
         catch( Exception e )
         {
@@ -53,7 +54,13 @@ public class PartContentHandlerFactory implements ContentHandlerFactory
 
     public static ContentModel newContentModel() throws Exception
     {
-        return newContentModel( null, null );
+        Logger logger = resolveLogger( null );
+        return newContentModel( logger );
+    }
+
+    public static ContentModel newContentModel( Logger logger ) throws Exception
+    {
+        return newContentModel( logger, null );
     }
 
     public static ContentModel newContentModel( Logger logger, Properties properties ) throws Exception
