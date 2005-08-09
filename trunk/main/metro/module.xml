@@ -53,12 +53,7 @@
     <property name="prefs" value="${bundle}/prefs"/>
     <mkdir dir="${prefs}/metro"/>
     <property name="local" value="${share}/local"/>
-    <x:path id="module.path" type="*" mode="RUNTIME" module="true"/>
-    <x:replicate refid="module.path" toDir="${local}" />
-
-    <copy todir="${local}/${project.group}">
-      <fileset dir="target/deliverables"/>
-    </copy>
+    <x:replicate toDir="${local}" verbose="true"/>
 
     <!-- add the javadoc -->
 
@@ -132,10 +127,6 @@ dpml.depot.installer.uri = ${metro.plugin.uri}
         <package name="net.dpml.part.control"/>
         <package name="net.dpml.part.component"/>
         <package name="net.dpml.part.state"/>
-        <package name="net.dpml.profile"/>
-        <package name="net.dpml.profile.model"/>
-        <package name="net.dpml.profile.store"/>
-        <package name="net.dpml.profile.unit"/>
       </group>
       <group title="Metro Controller SPI">
         <package name="net.dpml.composition.data"/>
