@@ -4,6 +4,17 @@ Description: DPML Product Management Tool
 Publisher: The Digital Product Meta Library
 Revision: @PROJECT-VERSION@
 
+Release Notes: Version 20050809
+-------------------------------
+
+Revision: 191
+Improvements to the install task relating to the removal of cached 
+links during the bundle expansion process - which in turn resolves issue
+related to version downgrading.  This milestone now properly supports setup
+version arguments greater then or less than the current version.  Also 
+includes upgrades to download logging info and general feedback provided 
+during the setup process.
+
 Release Notes: Version 20050806
 -------------------------------
 

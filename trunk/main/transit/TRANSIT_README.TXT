@@ -11,6 +11,15 @@ Installation Instructions
 Transit is installed as a part of the Depot installation.  
 Please refer to the Depot README for additional information.
 
+Release Notes: Version 20050809
+-------------------------------
+
+Revision: 191
+Implementation improvements to transit management of dynamic content
+handlers concerning supply of the current logging channel to the handler.
+Addition of isWarnEnabled to Translit Logger. Improvements to debug info 
+generated from the transit classloader.
+
 Release Notes: Version 20050806
 -------------------------------
 

@@ -9,6 +9,17 @@ Installation Instructions
 
 $ depot -setup
 
+Release Notes: Version 20050809
+-------------------------------
+
+Revision: 191
+Improvements to <x:path> enabling self reference of content in a path
+(i.e. a project can request a path that includes its own resources).
+Restructruring of the handling of links under <x:path> creation and 
+path creation in the Resource class. Enhancements to the replicate 
+task to provide support for replication of project resources associated
+with a project invoking <x:replicate>.
+
 Release Notes: Version 20050806
 -------------------------------
 
