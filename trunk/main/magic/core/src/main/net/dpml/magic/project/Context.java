@@ -180,9 +180,14 @@ public class Context
         m_temp = new File( m_target, "temp" );
 
         updateFileProperty( project, "project.build.dir", m_build );
-        updateFileProperty( project, "project.target.dir", m_target );
+        updateFileProperty( project, "project.target", m_target );
         updateFileProperty( project, "project.test.dir", m_test );
         updateFileProperty( project, "project.deliverables.dir", m_deliverables );
+
+        updateFileProperty( project, "project.target.dir", m_target );
+        updateFileProperty( project, "project.deliverables", m_deliverables );
+        updateFileProperty( project, "project.build", m_build );
+        updateFileProperty( project, "project.test", m_test );
     }
 
     //-------------------------------------------------------------

@@ -50,7 +50,7 @@
       <name>dpml-magic-core</name>
       <types>
         <type name="jar"/>
-        <type name="plugin"/>
+        <type name="plugin" alias=""/>
       </types>
     </info>
     <dependencies>

@@ -17,6 +17,9 @@
 
 package net.dpml.magic.tasks;
 
+import java.io.File;
+import java.util.ArrayList;
+
 import net.dpml.magic.project.ProjectPath;
 import net.dpml.magic.model.Definition;
 import net.dpml.magic.model.Policy;
@@ -26,8 +29,6 @@ import org.apache.tools.ant.Project;
 import org.apache.tools.ant.taskdefs.Copy;
 import org.apache.tools.ant.types.FileSet;
 import org.apache.tools.ant.types.Path;
-
-import java.io.File;
 
 
 /**
@@ -41,6 +42,7 @@ public class ReplicateTask extends ProjectTask
     private Path m_path;
     private boolean m_flatten = false;
     private boolean m_self = false;
+    private boolean m_verbose = false;
 
    /**
     * Set the flattern policy.
@@ -58,6 +60,15 @@ public class ReplicateTask extends ProjectTask
     public void setSelf( boolean flag )
     {
         m_self = flag;
+    }
+
+   /**
+    * Set the verbose policy.
+    * @param flag the verbose flag
+    */
+    public void setVerbose( boolean flag )
+    {
+        m_verbose = flag;
     }
 
    /**
@@ -119,59 +130,94 @@ public class ReplicateTask extends ProjectTask
         {
             m_todir = new File( getContext().getTargetDirectory(), "replicate" );
         }
-
         File cache = getCacheDirectory();
-        FileSet fileset = createFileSet( cache, m_path );
-        if( null == fileset )
+        FileSet[] filesets = createFileSets( cache, m_path );
+        for( int i=0; i<filesets.length; i++ )
         {
-            final String message =
-              "Supplied path is empty - nothing to replicate.";
-            log( message );
-        }
-        else
-        {
+            FileSet fileset = filesets[i];
             copy( m_todir, fileset );
         }
     }
 
-    private FileSet createFileSet( final File cache, final Path path )
+    private FileSet[] createFileSets( final File cache, final Path path )
     {
         getProject().log( "using replication path: " + m_path, Project.MSG_VERBOSE );
 
-        String[] translation = path.list();
-        String root = cache.toString();
+        ArrayList list = new ArrayList();
 
-        final FileSet fileset = new FileSet();
-        fileset.setDir( cache );
+        final FileSet cacheset = new FileSet();
+        cacheset.setDir( cache );
+        list.add( cacheset );
+
+        final File deliverables = getContext().getDeliverablesDirectory();
+        final FileSet localset = new FileSet();
+        localset.setDir( deliverables );
+        list.add( localset );
+
+        String root = cache.toString();
+        String local = deliverables.toString();
 
         int count = 0;
         log( "Constructing repository based fileset", Project.MSG_VERBOSE );
+        String[] translation = path.list();
         for( int i=0; i < translation.length; i++ )
         {
             String trans = translation[i];
             if( trans.startsWith( root ) )
             {
                 String relativeFilename = trans.substring( root.length() + 1 );
-                log( relativeFilename, Project.MSG_VERBOSE );
-                fileset.createInclude().setName( relativeFilename );
-                fileset.createInclude().setName( relativeFilename + ".*" );
-                fileset.createInclude().setName( relativeFilename + ".*.*" );
+                if( m_verbose )
+                {
+                    log( "${dpml.cache}" + File.separator + relativeFilename );
+                }
+                else
+                {
+                    log( "${dpml.cache}" + File.separator + relativeFilename, Project.MSG_VERBOSE );
+                }
+                cacheset.createInclude().setName( relativeFilename );
+                cacheset.createInclude().setName( relativeFilename + ".*" );
+                cacheset.createInclude().setName( relativeFilename + ".*.*" );
+                count++;
+            }
+            else if( trans.startsWith( local ) )
+            {
+                String relativeFilename = trans.substring( local.length() + 1 );
+                if( m_verbose )
+                {
+                    log( "${project.deliverables}" + File.separator + relativeFilename );
+                }
+                else
+                {
+                    log( "${project.deliverables}" + File.separator + relativeFilename, Project.MSG_VERBOSE );
+                }
+                localset.createInclude().setName( relativeFilename );
+                localset.createInclude().setName( relativeFilename + ".*" );
+                localset.createInclude().setName( relativeFilename + ".*.*" );
                 count++;
             }
             else
             {
-                log( "ignoring " + trans, Project.MSG_VERBOSE );
+                if( m_verbose )
+                {
+                    log( "including: " + trans );
+                }
+                else
+                {
+                    log( "including: " + trans, Project.MSG_VERBOSE );
+                }
+
+                FileSet fileset = new FileSet();
+                File file = new File( trans );
+                fileset.setFile( file );
+                list.add( fileset );
+                String filename = file.getName();
+                fileset.createInclude().setName( filename + ".*" );
+                fileset.createInclude().setName( filename + ".*.*" );
+                count++;
             }
         }
-        if( count > 0 )
-        {
-            log( "entries: " + count );
-            return fileset;
-        }
-        else
-        {
-            return null;
-        }
+        log( "entries: " + count );
+        return (FileSet[]) list.toArray( new FileSet[0] );
     }
 
     private void copy( final File destination, final FileSet fileset )

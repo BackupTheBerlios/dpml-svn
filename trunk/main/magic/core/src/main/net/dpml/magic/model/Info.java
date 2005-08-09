@@ -231,12 +231,50 @@ public final class Info
     */
     public String getPath( String type )
     {
-        final String filename = getFilename( type );
         final StringBuffer buffer = new StringBuffer( getGroup() );
         buffer.append( "/" );
         buffer.append( type );
         buffer.append( "s/" );
+        final String filename = getFilename( type );
         buffer.append( filename );
+        return buffer.toString();
+    }
+
+   /**
+    * Return the path to the artifact.  The path is returned in the
+    * form [group]/[type]s/[filename].
+    * @param type the resource type
+    * @param link if TRUE return the link filename
+    * @return the artifact relative path
+    */
+    public String getPath( Type type )
+    {
+        return getPath( type, false );
+    }
+
+   /**
+    * Return the path to the artifact.  The path is returned in the
+    * form [group]/[type]s/[filename].
+    * @param type the resource type
+    * @param link if TRUE return the link filename
+    * @return the artifact relative path
+    */
+    public String getPath( Type type, boolean link )
+    {
+        final StringBuffer buffer = new StringBuffer( getGroup() );
+        buffer.append( "/" );
+        buffer.append( type.getName() );
+        buffer.append( "s/" );
+        if( link )
+        {
+            final String filename = getLinkFilename( type );
+            buffer.append( filename );
+        }
+        else
+        {
+            final String filename = getFilename( type.getName() );
+            buffer.append( filename );
+        }
         return buffer.toString();
     }
 

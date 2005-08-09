@@ -26,6 +26,7 @@ import java.util.List;
 import net.dpml.magic.AntFileIndex;
 import net.dpml.magic.UnknownResourceException;
 
+import net.dpml.transit.Artifact;
 import net.dpml.transit.NullArgumentException;
 import net.dpml.transit.artifact.Handler;
 
@@ -190,6 +191,27 @@ public class Resource
     }
 
    /**
+    * Return a link filename using a supplied type and link lias.
+    * @param type the resource type
+    * @param alias the link alias
+    * @return the filename
+    */
+    public String getAliasFilename( final String type, String alias )
+    {
+        final Info info = getInfo();
+        final String name = info.getName();
+        if( "" != alias )
+        {
+            return name + "-" + alias + "." + type + ".link";
+        }
+        else
+        {
+            return name + "." + type + ".link";
+        }
+    }
+
+
+   /**
     * Return a filename using a supplied prefix and type.
     * @param prefix the filename prefix
     * @param type the resource type
@@ -351,7 +373,7 @@ public class Resource
         final ArrayList visited = new ArrayList();
         if( self )
         {
-            addResourceToPath( project, this, path, filter );
+            addResourceToPath( project, this, path, filter, false );
         }
 
         final ResourceRef[] refs = getResourceRefs( project, mode, ResourceRef.ANY, true );
@@ -363,7 +385,7 @@ public class Resource
                 final Resource resource = getResource( project, ref );
                 if( filterModule( resource, moduleFilter ) )
                 {
-                    addResourceToPath( project, resource, path, filter );
+                    addResourceToPath( project, resource, path, filter, true );
                 }
                 visited.add( ref );
             }
@@ -372,7 +394,8 @@ public class Resource
         return path;
     }
 
-    private void addResourceToPath( final Project project, Resource resource, Path path, String filter )
+    private void addResourceToPath( 
+      final Project project, Resource resource, Path path, String filter, boolean cached )
     {
         Info info = resource.getInfo();
         if( "*".equals( filter ) )
@@ -381,29 +404,58 @@ public class Resource
             for( int j=0; j < types.length; j++ )
             {
                 Type type = types[j];
-                addTypeToPath( project, resource, path, type );
+                addTypeToPath( project, resource, path, type, cached );
             }
         }
         else if( info.isa( filter ) )
         {
             Type type = info.getType( filter );
-            addTypeToPath( project, resource, path, type );
+            addTypeToPath( project, resource, path, type, cached );
         }
     }
 
-    private void addTypeToPath( final Project project, Resource resource, Path path, Type type )
+    private void addTypeToPath( 
+      final Project project, Resource resource, Path path, Type type, boolean cached )
     {
         String name = type.getName();
-        final File file = resource.getArtifact( project, name );
-        path.createPathElement().setLocation( file );
-        String alias = type.getAlias();
-        if( null != alias )
+        if( cached )
         {
-            //
-            // include the alias resource in the path
-            //
-            final File link = resource.getArtifact( project, name, alias );
-            path.createPathElement().setLocation( link );
+            final File file = resource.getArtifact( project, name );
+            path.createPathElement().setLocation( file );
+            String alias = type.getAlias();
+            if( null != alias )
+            {
+                //
+                // include the alias resource in the path
+                //
+
+                final String spec = resource.getInfo().getPath( type, true );
+                final File link = new File( m_index.getCacheDirectory(), spec );
+                path.createPathElement().setLocation( link );
+            }
+        }
+        else
+        {
+            // its a deliverable in the project's targets/deliverables dir
+
+            Definition def = (Definition) resource;
+            File base = def.getBaseDir();
+            File deliverables = new File( base, "target/deliverables" );
+
+            String filename = def.getInfo().getFilename( name );
+            File file = new File( deliverables, name + "s/" + filename );
+            path.createPathElement().setLocation( file );
+            String alias = type.getAlias();
+            if( null != alias )
+            {
+                //
+                // include the alias resource in the path
+                //
+
+                final String linkPath = def.getInfo().getLinkFilename( type );
+                final File link = new File( deliverables, name + "s/" + linkPath );
+                path.createPathElement().setLocation( link );
+            }
         }
     }
 
@@ -539,7 +591,7 @@ public class Resource
         final String path = getInfo().getURI( type, alias );
         try
         {
-            URL url = new URL( null, path, new Handler() );
+            URL url = Artifact.createArtifact( path ).toURL();
             Object object = url.openConnection().getContent( new Class[]{File.class} );
             if( null == object )
             {
@@ -562,7 +614,9 @@ public class Resource
         {
             final String error =
               "Unable to resolve local file for the resource: "
-              + this;
+              + this
+              + "\nType: [" + type + "]"
+              + "\nPath: [" + path + "]";
             throw new BuildException( error, e );
         }
     }

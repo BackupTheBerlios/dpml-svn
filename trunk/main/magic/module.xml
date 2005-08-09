@@ -45,7 +45,7 @@
     </x:module>
   </target>
 
-  <target name="package" depends="standard.package,javadoc">
+  <target name="package" depends="build,javadoc">
 
     <!-- create LICENSE files-->
     <copy todir="${bundle}" filtering="true">
@@ -64,8 +64,9 @@
     <!-- create the local repository -->
     <property name="share" value="${bundle}/share"/>
     <property name="local" value="${share}/local"/>
-    <!--<x:path id="module.path" type="*" mode="RUNTIME" module="true" self="true"/>-->
-    <x:replicate toDir="${local}" self="true"/>
+
+    <x:install/>
+    <x:replicate toDir="${local}" self="true" verbose="true"/>
     <copy todir="${local}/${project.group}">
       <fileset dir="target/deliverables"/>
     </copy>
@@ -99,21 +100,6 @@
     <copy todir="${docs.dest}">
       <fileset dir="${docs.src}"/>
     </copy>
-
-    <!--
-    Package the bundle into a compressed archive is place under ${dpml.dist}.
-    -->
-    <!--
-    <x:dist compression="gzip">
-      <fileset dir="${bundle}">
-        <include name="*.TXT"/>
-      </fileset>
-      <zipfileset dir="${bundle}/prefs" prefix="Preferences"/>
-      <zipfileset dir="${bundle}/share" prefix="Shared"/>
-      <tarfileset dir="${bundle}/prefs" prefix="prefs"/>
-      <tarfileset dir="${bundle}/share" prefix="share"/>
-    </x:dist>
-    -->
 
     <!-- zip up a copy of the platform independent bundle for use by depot -->
 
