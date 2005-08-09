@@ -42,6 +42,7 @@ import net.dpml.transit.UnsupportedSchemeException;
 import net.dpml.transit.MissingGroupException;
 import net.dpml.transit.Repository;
 import net.dpml.transit.artifact.ArtifactNotFoundException;
+import net.dpml.transit.model.TransitModel;
 import net.dpml.transit.model.TransitRegistryModel;
 import net.dpml.transit.model.DefaultTransitRegistryModel;
 import net.dpml.transit.model.Logger;
@@ -62,6 +63,7 @@ public class PackageInstaller implements Runnable
     private final TransitRegistryModel m_transit;
     private final DepotProfile m_depot;
     private final String[] m_args;
+    private final TransitModel m_model;
 
     private ShutdownHandler m_handler;
 
@@ -79,7 +81,8 @@ public class PackageInstaller implements Runnable
     * @param args suplimentary commandline arguments
     * @param handler the shutdown handler
     */
-    public PackageInstaller( Logger logger, String[] args, ShutdownHandler handler, Preferences prefs ) 
+    public PackageInstaller( 
+      Logger logger, String[] args, ShutdownHandler handler, TransitModel model, Preferences prefs ) 
       throws Exception
     {
         super();
@@ -87,6 +90,7 @@ public class PackageInstaller implements Runnable
         m_logger = logger;
         m_args = args;
         m_handler = handler;
+        m_model = model;
 
         Repository repository = Transit.getInstance().getRepository();
         ClassLoader classloader = PackageInstaller.class.getClassLoader();
@@ -394,7 +398,7 @@ public class PackageInstaller implements Runnable
 
     private void installZipBundle( boolean flag, Artifact artifact, Logger logger, String[] args ) throws Exception
     {
-        ZipInstaller installer = new ZipInstaller( logger, m_depot, m_transit, args );
+        ZipInstaller installer = new ZipInstaller( logger, m_depot, m_transit, m_model, args );
         if( flag )
         {
             installer.install( artifact );

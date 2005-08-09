@@ -39,6 +39,7 @@ import net.dpml.transit.Repository;
 import net.dpml.transit.Artifact;
 import net.dpml.transit.artifact.ArtifactNotFoundException;
 import net.dpml.transit.model.Logger;
+import net.dpml.transit.model.TransitModel;
 import net.dpml.transit.model.TransitRegistryModel;
 import net.dpml.transit.util.StreamUtils;
 
@@ -52,11 +53,13 @@ public class ZipInstaller
     //--------------------------------------------------------------------------
 
     private final Logger m_logger;
+    private final TransitModel m_model;
     private final TransitRegistryModel m_transit;
     private final DepotProfile m_depot;
     private final String[] m_args;
 
     private File m_bundle = null;
+    private File m_cache = null;
 
     //--------------------------------------------------------------------------
     // constructor
@@ -71,12 +74,16 @@ public class ZipInstaller
     * @param transit the transit profile registry
     */
     public ZipInstaller( 
-      Logger logger, DepotProfile depot, TransitRegistryModel transit, String[] args ) throws Exception
+      Logger logger, DepotProfile depot, TransitRegistryModel transit, 
+      TransitModel model, String[] args ) throws Exception
     {
         m_logger = logger;
         m_depot = depot;
         m_transit = transit;
+        m_model = model;
         m_args = args;
+
+        m_cache = m_model.getCacheModel().getCacheDirectory();
     }
 
     private Logger getLogger()
@@ -132,7 +139,8 @@ public class ZipInstaller
             if( null == plugin )
             {
                 final String error = 
-                  "Installer does not declare a plugin uri.";
+                  "Installer does not declare a plugin uri."
+                  + "\nBundle: " + m_bundle;
                 getLogger().error( error );
                 throw new HandledException();
             }
@@ -141,7 +149,8 @@ public class ZipInstaller
             if( null == classname )
             {
                 final String error = 
-                  "Installer does not declare a classname.\n";
+                  "Installer does not declare a classname.\n"
+                  + "\nBundle: " + m_bundle;
                 getLogger().error( error );
                 throw new HandledException();
             }
@@ -159,6 +168,7 @@ public class ZipInstaller
                 Boolean flag = new Boolean( true );
                 loader.instantiate( c, new Object[]{ m_logger, m_transit, m_depot, m_args, flag } );
                 getLogger().info( "installation complete" );
+                m_bundle.deleteOnExit();
             }
             catch( Throwable e )
             {
@@ -189,23 +199,12 @@ public class ZipInstaller
 
     private void unpackEntry( ZipFile zip, ZipEntry entry ) throws Exception
     {
-        File out = getDestination( entry );
-        File parent = out.getParentFile();
-        parent.mkdirs();
-        InputStream input = zip.getInputStream( entry );
-        OutputStream output = new FileOutputStream( out );
-        getLogger().debug( "" + out );
-        StreamUtils.copyStream( input, output, true );
-    }
-
-    private File getDestination( ZipEntry entry ) throws Exception
-    {
         String name = entry.getName();
         if( name.equals( "BUNDLE" ) )
         {
             long time = new Date().getTime();
             m_bundle = File.createTempFile( "depot-bundle", "" + time );
-            return m_bundle;
+            expand( zip, entry, m_bundle );
         }
         else if( name.startsWith( "share/" ) )
         {
@@ -214,7 +213,23 @@ public class ZipInstaller
             //
 
             String path = name.substring( 6 );
-            return new File( Transit.DPML_SYSTEM, path );
+            File target = new File( Transit.DPML_SYSTEM, path );
+            expand( zip, entry, target );
+
+            //
+            // check if its a link and if so scrub the entry from the cache
+            //
+
+            if( name.startsWith( "share/local/" ) && name.endsWith( ".link" ) )
+            {
+                String filename = name.substring( "share/local/".length() );
+                File cached = new File( m_cache, filename );
+                if( cached.exists() )
+                {
+                    getLogger().info( "updating cached link: " + filename );
+                    cached.deleteOnExit();
+                }
+            }
         }
         else if( name.startsWith( "data/" ) )
         {
@@ -223,7 +238,8 @@ public class ZipInstaller
             //
 
             String path = name.substring( 5 );
-            return new File( Transit.DPML_DATA, path );
+            File target = new File( Transit.DPML_DATA, path );
+            expand( zip, entry, target );
         }
         else if( name.startsWith( "prefs/" ) )
         {
@@ -232,7 +248,8 @@ public class ZipInstaller
             //
 
             String path = name.substring( 6 );
-            return new File( Transit.DPML_PREFS, path );
+            File target = new File( Transit.DPML_PREFS, path );
+            expand( zip, entry, target );
         }
         else
         {
@@ -240,7 +257,18 @@ public class ZipInstaller
             // otherwise use DPML_HOME
             //
 
-            return new File( Transit.DPML_HOME, name );
+            File target = new File( Transit.DPML_HOME, name );
+            expand( zip, entry, target );
         }
+    }
+
+    private void expand( ZipFile zip, ZipEntry entry, File out ) throws Exception
+    {
+        File parent = out.getParentFile();
+        parent.mkdirs();
+        InputStream input = zip.getInputStream( entry );
+        OutputStream output = new FileOutputStream( out );
+        getLogger().debug( "" + out );
+        StreamUtils.copyStream( input, output, true );
     }
 }

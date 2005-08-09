@@ -23,6 +23,49 @@
     </dependencies>
   </project>
 
+  <!-- Profile -->
+
+  <project basedir="profile/api">
+    <info>
+      <group>dpml/depot</group>
+      <name>dpml-profile-api</name>
+      <types>
+        <type name="jar"/>
+      </types>
+    </info>
+    <dependencies>
+      <include key="dpml-transit-main"/>
+    </dependencies>
+  </project>
+
+  <project basedir="profile/spi">
+    <info>
+      <group>dpml/depot</group>
+      <name>dpml-profile-spi</name>
+      <types>
+        <type name="jar"/>
+      </types>
+    </info>
+    <dependencies>
+      <include key="dpml-profile-api"/>
+    </dependencies>
+  </project>
+
+  <project basedir="profile/impl">
+    <info>
+      <group>dpml/depot</group>
+      <name>dpml-profile-impl</name>
+      <types>
+        <type name="jar"/>
+        <type name="plugin"/>
+      </types>
+    </info>
+    <dependencies>
+      <include key="dpml-profile-api" tag="api"/>
+      <include key="dpml-profile-spi" tag="spi"/>
+    </dependencies>
+  </project>
+
   <!-- Station -->
 
   <project basedir="console">

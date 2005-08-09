@@ -808,7 +808,6 @@ public final class Main implements ShutdownHandler
           new RepositoryMonitorAdapter( adapter ) );
         instance.getCacheMonitorRouter().addMonitor(
           new CacheMonitorAdapter( adapter ) );
-        System.out.println( "# Setting up network monitor adapter: " + adapter.getClass().getName() );
         instance.getNetworkMonitorRouter().addMonitor(
           new NetworkMonitorAdapter( adapter ) );
     }

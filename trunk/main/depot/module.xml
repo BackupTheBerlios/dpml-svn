@@ -32,7 +32,7 @@
   <target name="build" depends="standard.build">
     <x:module index="index.xml">
       <header>
-        <svn href="http://scm.dpml.net/repos/dpml/development/main/depot"/>
+        <svn href="svn://svn.berlios.de/dpml/trunk/main/depot"/>
         <home href="http://www.dpml.net/central/products/depot/"/>
       </header>
     </x:module>
@@ -47,6 +47,12 @@
         <package name="net.dpml.depot.install"/>
         <package name="net.dpml.depot.prefs"/>
         <package name="net.dpml.depot.station"/>
+      </group>
+      <group title="Depot Profile APIs">
+        <package name="net.dpml.profile"/>
+        <package name="net.dpml.profile.model"/>
+        <package name="net.dpml.profile.store"/>
+        <package name="net.dpml.profile.unit"/>
       </group>
     </x:javadoc>
   </target>
@@ -91,11 +97,7 @@
     <!-- build the local repository -->
 
     <property name="local" value="${share}/local"/>
-    <x:path id="module.path" type="*" mode="RUNTIME" module="true"/>
-    <x:replicate refid="module.path" toDir="${local}" />
-    <copy todir="${local}/${project.group}">
-      <fileset dir="target/deliverables"/>
-    </copy>
+    <x:replicate toDir="${local}" verbose="true"/>
 
     <!-- build the bin directory -->
 
@@ -169,6 +171,11 @@ dpml.depot.installer.uri = ${plugin.uri}
         <include name="docs/**"/>
       </fileset>
     </copy>
+    <echo>
+#----------------------------------------------------------------------------------
+# Updating DPML DIST ${dpml.dist}/${project.group}
+#----------------------------------------------------------------------------------
+    </echo>
     <property name="export" location="${dpml.dist}/${project.group}/${project.version}"/>
     <mkdir dir="${export}"/>
     <copy todir="${export}">
