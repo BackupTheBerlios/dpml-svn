@@ -96,15 +96,15 @@ public class CompositionController extends CompositionPartHandler implements Con
     // constructor
     //--------------------------------------------------------------------
 
-    public CompositionController( ContentModel model )
+    public CompositionController( net.dpml.transit.model.Logger logger, ContentModel model )
        throws ControlException, RemoteException
     {
-        super( model );
+        super( logger, model );
 
         m_logger = getContext().getLogger();
         m_valueController = new ValueController( this );
         m_componentController = new ComponentController( m_logger, this );
-        m_logger.debug( "metro controller established" );
+        m_logger.info( "controller: " + CONTROLLER_URI );
 
         //m_lifestyleHandler = new LifestyleHandler( m_logger, m_componentController );
 
@@ -208,7 +208,7 @@ public class CompositionController extends CompositionPartHandler implements Con
         URI partition = getPartition( parent );
         if( isRecognizedPart( part ) )
         {
-            ClassLoader classloader = getClassLoader( parent );
+            ClassLoader classloader = getAnchorClassLoader( parent );
 
             if( part instanceof ValueDirective )
             {
@@ -267,7 +267,9 @@ public class CompositionController extends CompositionPartHandler implements Con
         else
         {
             URI handlerUri = part.getPartHandlerURI();
+            getLogger().info( "delegating to: " + handlerUri );
             Controller controller = (Controller) getPrimaryController( handlerUri );
+            getLogger().info( "delegate established: " + controller );
             return controller.newComponent( parent, part, name );
         }
     }
@@ -343,17 +345,20 @@ public class CompositionController extends CompositionPartHandler implements Con
         }
     }
 
-    private ClassLoader getClassLoader( Component component )
+    private ClassLoader getAnchorClassLoader( Component component )
     {
         if( component instanceof ClassLoadingContext )
         {
             ClassLoadingContext context = (ClassLoadingContext) component;
-            return context.getClassLoader();
+            ClassLoader classloader = context.getClassLoader();
+            if( classloader != null )
+            {
+                return new CompositionClassLoader( 
+                   m_logger, "xxx", getClass().getClassLoader(), classloader );
+                //return classloader;
+            }
         }
-        else
-        {
-            return Logger.class.getClassLoader();
-        }
+        return Logger.class.getClassLoader();
     }
 
     //--------------------------------------------------------------------
@@ -405,6 +410,7 @@ public class CompositionController extends CompositionPartHandler implements Con
 
     private ClassLoader getClassLoader( ClassLoader parent, URI partition, ComponentProfile profile )
     {
+        final ClassLoader base = getClass().getClassLoader();
         final String name = profile.getName();
         final ClassLoaderDirective cld = profile.getClassLoaderDirective();
         final ClasspathDirective[] cpds = cld.getClasspathDirectives();
@@ -412,12 +418,12 @@ public class CompositionController extends CompositionPartHandler implements Con
         {
             ClasspathDirective cpd = cpds[i];
             String tag = cpd.getCategoryName();
-            URI id = createInstanceURI( partition, tag );
+            String label = createClassLoaderLabel( partition, tag );
             URI[] uris = filter( cpd.getURIs(), parent );
             if( uris.length > 0 )
             {
                 getLogger().debug( "creating " + tag + " classloader with " + uris.length + " entries" );
-                parent = new CompositionClassLoader( m_logger, id, i, uris, parent );
+                parent = new CompositionClassLoader( m_logger, label, base, uris, parent );
             }
         }
         return parent;
@@ -516,7 +522,7 @@ public class CompositionController extends CompositionPartHandler implements Con
 
     private boolean isRecognizedPart( Part part )
     {
-        return getURI().equals( part.getPartHandlerURI() );
+        return CONTROLLER_URI.equals( part.getPartHandlerURI() );
     }
 
     //--------------------------------------------------------------------
@@ -539,11 +545,10 @@ public class CompositionController extends CompositionPartHandler implements Con
         }
     }
 
-    public static URI createInstanceURI( URI base, String id )
+    public static String createClassLoaderLabel( URI base, String id )
     {
-        String scheme = base.getScheme();
-        String partition = base.getSchemeSpecificPart();
-        return createURI( scheme, partition, id );
+        String path = "[" + base.toString() + "]";
+        return path + " (" + id + ")";
     }
 
     public static URI createURI( String scheme, String path )

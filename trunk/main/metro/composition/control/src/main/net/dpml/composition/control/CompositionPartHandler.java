@@ -40,15 +40,13 @@ import net.dpml.part.PartHandlerNotFoundException;
 import net.dpml.part.DelegationException;
 import net.dpml.part.control.ControlException;
 
-import net.dpml.logging.Logger;
-
 import net.dpml.composition.info.Type;
-import net.dpml.composition.runtime.DefaultLogger;
 
 import net.dpml.transit.Transit;
 import net.dpml.transit.Artifact;
 import net.dpml.transit.Repository;
 import net.dpml.transit.model.ContentModel;
+import net.dpml.transit.model.Logger;
 
 /**
  * Composition part handler.
@@ -72,19 +70,32 @@ public abstract class CompositionPartHandler extends UnicastRemoteObject impleme
 
     private final ContentModel m_model;
 
-    public CompositionPartHandler( ContentModel model ) 
+    private final Logger m_logger;
+
+    public CompositionPartHandler( Logger logger, ContentModel model ) 
        throws ControlException, RemoteException
     {
         super();
 
         m_model = model;
-        m_context = new CompositionControllerContext( model );
+        m_logger = logger;
+
+        m_context = new CompositionControllerContext( logger, model );
         m_loader = Transit.getInstance().getRepository();
     }
 
     CompositionControllerContext getContext()
     {
         return m_context;
+    }
+
+   /**
+    * Returns the logging channel assigned to the handler.
+    * @return the logging channel
+    */
+    private Logger getLogger()
+    {
+        return m_logger;
     }
 
    /**
@@ -228,29 +239,35 @@ public abstract class CompositionPartHandler extends UnicastRemoteObject impleme
         {
             return this;
         }
-        String key = uri.toString();
+
+        getLogger().debug( "resolving foreign controller: " + uri );
+
         synchronized( m_handlers )
         {
             Controller[] handlers = (Controller[]) m_handlers.keySet().toArray( new Controller[0] );
             for( int i=0; i<handlers.length; i++ )
             {
+                Controller handler = handlers[i];
                 try
                 {
-                    Controller handler = handlers[i];
                     if( handler.getURI().equals( uri ) )
                     {
+                        getLogger().debug( "returning cached controller" );
                         return handler;
                     }
                 }
                 catch( RemoteException e )
                 {
-                    // TODO: log but continue
+                    final String warning = 
+                      "Bypassing controller selection due to remote exception.";
+                    m_logger.warn( warning, e );
                 }
             }
             try
             {
                 Controller handler = loadHandler( uri );
                 m_handlers.put( handler, null );
+                getLogger().info( "loaded foreign controller: " + uri );
                 return handler;
             }
             finally
@@ -263,10 +280,10 @@ public abstract class CompositionPartHandler extends UnicastRemoteObject impleme
     private Controller loadHandler( URI uri ) throws PartHandlerNotFoundException
     {
         ClassLoader classloader = Part.class.getClassLoader();
-        DefaultLogger logger = new DefaultLogger( "handler" );
+        Logger logger = getLogger();
         try
         {
-            return (Controller) m_loader.getPlugin( classloader, uri, new Object[]{ logger, m_model } );
+            return (Controller) m_loader.getPlugin( classloader, uri, new Object[]{logger, m_model} );
         }
         catch( IOException e )
         {

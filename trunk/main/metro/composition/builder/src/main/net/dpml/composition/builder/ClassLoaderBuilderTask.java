@@ -92,7 +92,7 @@ public abstract class ClassLoaderBuilderTask extends ProjectTask
         {
             Logger logger = new AntAdapter( this );
             ContentModel model = PartContentHandlerFactory.newContentModel( logger, null );
-            return new CompositionController( model );
+            return new CompositionController( logger, model );
         }
         catch( Throwable e )
         {

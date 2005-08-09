@@ -133,13 +133,29 @@ class LifecycleHandler extends LoggingHandler
             }
             else
             {
-                final String error =
-                  "The component class ["
-                  + subject.getName()
-                  + "] decares an unsupported constructor parameter type ["
-                  + c.getName()
-                  + "].";
+                StringBuffer buffer = new StringBuffer();
+                buffer.append( "The component class [" );
+                buffer.append( subject.getName() );
+                buffer.append( "] from the codebase [" );
+                buffer.append( subject.getProtectionDomain().getCodeSource().getLocation() );
+                buffer.append( "] decares an unsupported constructor parameter type [" );
+                buffer.append( c.getName() );
+                buffer.append( "] in [" );
+                buffer.append( c.getProtectionDomain().getCodeSource().getLocation() );
+                buffer.append( "]" );
+                String error = buffer.toString();
 
+                buffer = new StringBuffer();
+                buffer.append( "\n# Container ClassLoader -----------------------" );
+                buffer.append( "\n" + getClass().getClassLoader().toString() );
+                buffer.append( "\n# Component ClassLoader -----------------------" );
+                buffer.append( "\n" + subject.getClassLoader().toString() );
+                buffer.append( "\n# Parameter ClassLoader -----------------------" );
+                buffer.append( "\n" + c.getClassLoader().toString() );
+                buffer.append( "\n# ---------------------------------------------" );
+                String debug = error + buffer.toString();
+
+                getLogger().error( debug );
                 throw new LifecycleException( error );
             }
         }

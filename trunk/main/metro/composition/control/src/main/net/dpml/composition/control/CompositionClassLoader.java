@@ -18,10 +18,12 @@
 
 package net.dpml.composition.control;
 
+import java.io.InputStream;
 import java.net.URI;
 import java.net.URL;
 import java.net.URLClassLoader;
-import java.net.MalformedURLException ;
+import java.net.MalformedURLException;
+import java.util.ArrayList;
 
 import net.dpml.logging.Logger;
 
@@ -44,38 +46,50 @@ class CompositionClassLoader extends StandardClassLoader
     //--------------------------------------------------------------------
 
     private final Logger m_logger;
-    private final URI m_partition;
-    private final int m_index;
+    private final ClassLoader m_base;
 
     //--------------------------------------------------------------------
     // constructor
     //--------------------------------------------------------------------
 
-    public CompositionClassLoader( Logger Logger, URI partition, ClassLoader parent )
+    public CompositionClassLoader( Logger Logger, String label, ClassLoader base, ClassLoader parent )
     {
-        this( Logger, partition, 0, new URI[0], parent );
+        this( Logger, label, base, new URI[0], parent );
     }
 
-    public CompositionClassLoader( Logger logger, URI partition, int index, URI[] uris, ClassLoader parent )
+    public CompositionClassLoader( Logger logger, String label, ClassLoader base, URI[] uris, ClassLoader parent )
     {
-        super( partition, urisToURLs( uris ), parent );
-        m_partition = partition;
-        m_index = index;
+        super( label, urisToURLs( uris, parent ), parent );
+        m_base = base;
         m_logger = logger;
     }
 
     //--------------------------------------------------------------------
-    // CompositionClassLoader
+    // ClassLoader
     //--------------------------------------------------------------------
 
-    public URI getPartition()
+    protected Class loadClass( String name, boolean resolve ) throws ClassNotFoundException 
     {
-        return m_partition;
+        try
+        {
+            return m_base.loadClass( name );
+        }
+        catch( ClassNotFoundException e )
+        {
+            return super.loadClass( name, resolve );
+        }
     }
 
-    public int getIndex()
+    protected Class findClass( String name ) throws ClassNotFoundException 
     {
-        return m_index;
+        try
+        {
+            return m_base.loadClass( name );
+        }
+        catch( ClassNotFoundException e )
+        {
+            return super.findClass( name );
+        }
     }
 
     //--------------------------------------------------------------------
@@ -95,70 +109,12 @@ class CompositionClassLoader extends StandardClassLoader
         buffer.append( "\n" );
     }
 
-    protected void listClasspath( StringBuffer buffer, ClassLoader classloader )
-    {
-        if( classloader instanceof CompositionClassLoader )
-        {
-            CompositionClassLoader cl = (CompositionClassLoader) classloader;
-            ClassLoader parent = cl.getParent();
-            if( null != parent )
-            {
-                listClasspath( buffer, parent );
-            }
-            int index = cl.getIndex();
-            URI partition = cl.getPartition();
-            buffer.append( "\n  " + partition + " (" + index + ")" );
-            appendEntries( buffer, cl );
-        }
-        else if( classloader instanceof StandardClassLoader )
-        {
-            StandardClassLoader cl = (StandardClassLoader) classloader;
-            ClassLoader parent = cl.getParent();
-            if( null != parent )
-            {
-                listClasspath( buffer, parent );
-            }
-            URI partition = cl.getPartition();
-            buffer.append( "\n  transit:" + partition );
-            appendEntries( buffer, cl );
-        }
-        else if( classloader instanceof URLClassLoader )
-        {
-            URLClassLoader cl = (URLClassLoader) classloader;
-            ClassLoader parent = cl.getParent();
-            if( null != parent )
-            {
-                listClasspath( buffer, parent );
-            }
-            buffer.append( "\n  url classloader"  );
-            appendEntries( buffer, cl );
-        }
-        else
-        {
-            buffer.append( "\n  classloader (no details)"  );
-            buffer.append( "\n" );
-        }
-    }
-
-    private void appendEntries( StringBuffer buffer, URLClassLoader classloader )
-    {
-        URL[] urls = classloader.getURLs();
-        for( int i=0; i<urls.length; i++ )
-        {
-            buffer.append( "\n    " );
-            URL url = urls[i];
-            String spec = url.toString();
-            buffer.append( spec );
-        }
-        buffer.append( "\n" );
-    }
-
     protected void finalize()
     {
         if( m_logger.isDebugEnabled() )
         {
             final String message = 
-              "classloader finalization: " + m_partition;
+              "classloader finalization: " + getPartition();
             m_logger.debug( message );
         }
     }
@@ -167,15 +123,19 @@ class CompositionClassLoader extends StandardClassLoader
     // static utilities
     //--------------------------------------------------------------------
 
-    private static URL[] urisToURLs( final URI[] uris )
+    private static URL[] urisToURLs( final URI[] uris, ClassLoader parent )
     {
-        URL[] urls = new URL[ uris.length ];
+        ArrayList list = new ArrayList();
         for( int i=0; i<uris.length; i++ )
         {
             URI uri = uris[i];
-            urls[i] = uriToURL( uri );
+            URL url = uriToURL( uri );
+            if( isaCandidate( parent, url ) )
+            {
+                list.add( url );
+            }
         }
-        return urls;
+        return (URL[]) list.toArray( new URL[0] );
     }
 
     private static URL uriToURL( URI uri )
@@ -204,6 +164,40 @@ class CompositionClassLoader extends StandardClassLoader
         catch( UnsupportedSchemeException e )
         {
             return uri.toURL();
+        }
+    }
+
+   /**
+    * Test if the supplied url is already present within the supplied classloader.
+    * @param classloader the classloader to validate against
+    * @param url to url to check for
+    * @return true if the url is not included in the classloader
+    */
+    private static boolean isaCandidate( ClassLoader classloader, URL url )
+    {
+        if( classloader instanceof URLClassLoader )
+        {
+            URL[] urls = ( (URLClassLoader) classloader ).getURLs();
+            for( int i=0; i < urls.length; i++ )
+            {
+                if( urls[i].equals( url ) )
+                {
+                    return false;
+                }
+            }
+            ClassLoader parent = classloader.getParent();
+            if( parent == null )
+            {
+                return true;
+            }
+            else
+            {
+                return isaCandidate( parent, url );
+            }
+        }
+        else
+        {
+            return true;
         }
     }
 }

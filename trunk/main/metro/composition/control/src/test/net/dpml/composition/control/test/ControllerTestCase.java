@@ -39,6 +39,7 @@ import net.dpml.part.component.Container;
 import net.dpml.part.component.DuplicateKeyException;
 
 import net.dpml.transit.model.ContentModel;
+import net.dpml.transit.monitor.LoggingAdapter;
 
 /**
  * Test the controller.
@@ -53,7 +54,8 @@ public class ControllerTestCase extends TestCase
     {
         PartContentHandlerFactory factory = new PartContentHandlerFactory();
         ContentModel model = factory.newContentModel();
-        CompositionController controller = new CompositionController( model );
+        LoggingAdapter logger = new LoggingAdapter( "test" );
+        CompositionController controller = new CompositionController( logger, model );
         m_root = controller.getContainer();
     }
 

@@ -37,9 +37,7 @@ import net.dpml.part.control.ControllerContext;
 import net.dpml.part.control.ControllerContextListener;
 import net.dpml.part.control.ControllerContextEvent;
 
-//import net.dpml.transit.model.DefaultModel;
 import net.dpml.transit.model.ContentModel;
-//import net.dpml.transit.model.DefaultContentModel;
 import net.dpml.transit.util.PropertyResolver;
 
 /**
@@ -76,7 +74,7 @@ public class CompositionControllerContext extends LocalWeakEventProducer impleme
     // constructor
     //----------------------------------------------------------------------------
 
-    public CompositionControllerContext( ContentModel model )
+    public CompositionControllerContext( net.dpml.transit.model.Logger logger, ContentModel model )
     {
         super();
 
@@ -98,7 +96,7 @@ public class CompositionControllerContext extends LocalWeakEventProducer impleme
             m_uri = setupContextURI( domain );
             m_work = getWorkingDirectory( work );
             m_temp = getTempDirectory( temp );
-            m_logger = getLoggerForURI( m_uri );
+            m_logger = new StandardLogger( logger );
         }
         catch( RemoteException e )
         {
@@ -106,17 +104,6 @@ public class CompositionControllerContext extends LocalWeakEventProducer impleme
               "Supplied content model raised a remote exception in response to a property request.";
             throw new RuntimeException( error, e );
         }
-    }
-
-    private Logger getLoggerForURI( URI uri )
-    {
-        String path = uri.getSchemeSpecificPart();
-        if( path.endsWith( "/" ) )
-        {
-            path = path.substring( 0, path.length() - 1 );
-        }
-        path = path.replace( '/', '.' );
-        return new DefaultLogger( path );
     }
 
     //----------------------------------------------------------------------------

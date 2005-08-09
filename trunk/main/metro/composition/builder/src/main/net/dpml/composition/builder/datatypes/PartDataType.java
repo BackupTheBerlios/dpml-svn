@@ -137,7 +137,7 @@ public class PartDataType extends Task implements PartReferenceBuilder
         {
             Logger logger = new AntAdapter( this );
             ContentModel model = PartContentHandlerFactory.newContentModel( logger, null );
-            CompositionController controller = new CompositionController( model );
+            CompositionController controller = new CompositionController( logger, model );
             return controller.loadPart( uri );
         }
         catch( PartNotFoundException pnfe )

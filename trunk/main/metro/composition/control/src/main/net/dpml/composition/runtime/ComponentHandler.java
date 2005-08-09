@@ -315,8 +315,32 @@ public class ComponentHandler extends WeakEventProducer
         m_context.setProvider( key, part );
     }
 
+   /**
+    * TODO: Grabbing the first service as the API hook is not a very reliable way
+    * of establishing the classloader for sibling components.  Instead we need a part
+    * to explicitly declare the classname that represents the API anchor. 
+    */
     public ClassLoader getClassLoader()
     {
+        ServiceDescriptor[] services = getDescriptors();
+        if( services.length > 0 )
+        {
+            ServiceDescriptor service = services[0]; // eeek!
+            String classname = service.getClassname();
+            try
+            {
+                Class c = m_classloader.loadClass( classname );
+                return c.getClassLoader();
+            }
+            catch( Throwable e )
+            {
+                final String error = 
+                  "Internal error - unable to load a service class declared by component."
+                  + "\nComponent: " + getDeploymentClass().getName()
+                  + "\nService Class: " + classname;
+                throw new ComponentRuntimeException( error, e );
+            }
+        }
         return m_classloader;
     }
 
