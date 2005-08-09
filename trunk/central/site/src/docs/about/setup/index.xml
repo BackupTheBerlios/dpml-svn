@@ -28,6 +28,53 @@
       The following table list milestone distributions published by the DPML.
       </p>
 
+      <subsection name="Build 20050809">
+
+        <p>
+        Improvements to Transit handling of dynamic content handlers.
+        Improvements to the Depot setup procedure to support version
+        downgrading.  Enhancments to Transit and Magic related to link management.
+        Internal improvements to Metro enabling mixed component controllers 
+        within a composite component structure.
+        </p>
+
+        <p><i>
+        After unpacking the distribution run the following command to complete the 
+        installation:
+        </i></p>
+
+        <pre>
+ $ depot -setup
+        </pre>
+
+        <table>
+          <tr>
+            <td>Windows</td>
+            <td>
+              <a href="http://download.dpml.net/milestones/depot/20050809/dpml-depot-win32-20050809.zip">
+                dpml-transit-win32-20050809.zip</a>
+            </td>
+            <td>
+              <a href="http://download.dpml.net/milestones/depot/20050809/dpml-depot-win32-20050809.zip.md5">
+              MD5</a>
+            </td>
+          </tr>  
+          <tr>
+            <td>Linux</td>
+            <td>
+              <a href="http://download.dpml.net/milestones/depot/20050809/dpml-depot-linux-20050809.tar.gz">
+                dpml-transit-linux-20050809.tar.gz</a>
+            </td>
+            <td>
+              <a href="http://download.dpml.net/milestones/depot/20050809/dpml-depot-linux-20050809.tar.gz.md5">
+              MD5</a>
+            </td>
+          </tr>  
+        </table>
+
+      </subsection>
+
+
       <subsection name="Build 20050806">
 
         <p>

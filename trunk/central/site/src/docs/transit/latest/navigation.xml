@@ -31,7 +31,7 @@
       <item name="Configuration" href="config/index.html"/>
       <item name="Services" href="services/index.html"/>
       <item name="Antlib" href="antlib/index.html"/>
-      <item name="Javadocs" href="../../..@TRANSIT-DOCS-PATH@/index.html"/>
+      <item name="Javadocs" href="../..@TRANSIT-DOCS-PATH@/index.html"/>
     </menu>
 
  </body>
