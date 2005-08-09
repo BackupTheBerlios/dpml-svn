@@ -41,7 +41,6 @@ public class ReplicateTask extends ProjectTask
     private File m_todir;
     private Path m_path;
     private boolean m_flatten = false;
-    private boolean m_self = false;
     private boolean m_verbose = false;
 
    /**
@@ -51,15 +50,6 @@ public class ReplicateTask extends ProjectTask
     public void setFlatten( boolean flag )
     {
         m_flatten = flag;
-    }
-
-   /**
-    * Set the self inclusion policy.
-    * @param flag the self flag
-    */
-    public void setSelf( boolean flag )
-    {
-        m_self = flag;
     }
 
    /**
@@ -124,21 +114,142 @@ public class ReplicateTask extends ProjectTask
         {
             Definition def = getDefinition();
             Project project = getProject();
-            m_path = def.getPath( project, Policy.RUNTIME, "*", true, m_self );
+            m_path = def.getPath( project, Policy.RUNTIME, "*", true, true );
+
+            InstallTask install = new InstallTask();
+            install.setProject( getProject() );
+            install.init();
+            install.execute();
         }
+
         if( null == m_todir )
         {
             m_todir = new File( getContext().getTargetDirectory(), "replicate" );
         }
+        
+        //
+        // replicate the resources that the project references as runtime dependencies
+        //
+
         File cache = getCacheDirectory();
-        FileSet[] filesets = createFileSets( cache, m_path );
-        for( int i=0; i<filesets.length; i++ )
-        {
-            FileSet fileset = filesets[i];
-            copy( m_todir, fileset );
-        }
+        FileSet cacheSet = createCacheFileSet( cache, m_path );
+        copy( m_todir, cacheSet );
+
+        //
+        // replicate the resource produced by the project itself
+        //
+
+        Definition definition = getDefinition();
+        final File deliverables = getContext().getDeliverablesDirectory();
+        FileSet localSet = createLocalFileSet( deliverables, m_path );
+        File destination = new File( m_todir, definition.getInfo().getGroup() );
+        copy( destination, localSet );
     }
 
+    private FileSet createCacheFileSet( final File cache, final Path path )
+    {
+        getProject().log( "using replication path: " + m_path, Project.MSG_VERBOSE );
+
+        final FileSet fileset = new FileSet();
+        fileset.setDir( cache );
+
+        String root = cache.toString();
+
+        int count = 0;
+        log( "Constructing repository based fileset", Project.MSG_VERBOSE );
+        String[] translation = path.list();
+        for( int i=0; i < translation.length; i++ )
+        {
+            String trans = translation[i];
+            if( trans.startsWith( root ) )
+            {
+                boolean exists = new File( trans ).exists();
+                if( !exists )
+                {
+                    final String error = 
+                      "Cached replication path entry ["
+                      + trans 
+                      + "] does not exist.";
+                    throw new BuildException( error );
+                }
+                String relativeFilename = trans.substring( root.length() + 1 );
+                if( m_verbose )
+                {
+                    log( "${dpml.cache}" + File.separator + relativeFilename );
+                }
+                else
+                {
+                    log( "${dpml.cache}" + File.separator + relativeFilename, Project.MSG_VERBOSE );
+                }
+                fileset.createInclude().setName( relativeFilename );
+                fileset.createInclude().setName( relativeFilename + ".*" );
+                fileset.createInclude().setName( relativeFilename + ".*.*" );
+                count++;
+            }
+        }
+        log( "cached entries: " + count );
+        return fileset;
+    }
+
+    private FileSet createLocalFileSet( final File base, final Path path )
+    {
+        getProject().log( "using replication path: " + m_path, Project.MSG_VERBOSE );
+
+        final FileSet fileset = new FileSet();
+        fileset.setDir( base );
+
+        String root = base.toString();
+
+        int count = 0;
+        log( "Constructing local fileset", Project.MSG_VERBOSE );
+        String[] translation = path.list();
+        for( int i=0; i < translation.length; i++ )
+        {
+            String trans = translation[i];
+            boolean exists = new File( trans ).exists();
+            if( trans.startsWith( root ) )
+            {
+                if( !exists )
+                {
+                    final String error = 
+                      "Local replication path entry ["
+                      + trans 
+                      + "] does not exist.";
+                    throw new BuildException( error );
+                }
+                String relativeFilename = trans.substring( root.length() + 1 );
+                if( m_verbose )
+                {
+                    log( "${project.deliverables}" + File.separator + relativeFilename );
+                }
+                else
+                {
+                    log( "${project.deliverables}" + File.separator + relativeFilename, Project.MSG_VERBOSE );
+                }
+                fileset.createInclude().setName( relativeFilename );
+                fileset.createInclude().setName( relativeFilename + ".*" );
+                fileset.createInclude().setName( relativeFilename + ".*.*" );
+                count++;
+            }
+        }
+        log( "cached entries: " + count );
+        return fileset;
+    }
+
+    private void copy( final File destination, final FileSet fileset )
+    {
+        mkDir( destination );
+        final Copy copy = (Copy) getProject().createTask( "copy" );
+        copy.setTaskName( getTaskName() );
+        copy.setPreserveLastModified( true );
+        copy.setFlatten( m_flatten );
+        copy.setTodir( destination );
+        copy.addFileset( fileset );
+        copy.init();
+        copy.execute();
+    }
+
+   /*
     private FileSet[] createFileSets( final File cache, final Path path )
     {
         getProject().log( "using replication path: " + m_path, Project.MSG_VERBOSE );
@@ -219,18 +330,6 @@ public class ReplicateTask extends ProjectTask
         log( "entries: " + count );
         return (FileSet[]) list.toArray( new FileSet[0] );
     }
-
-    private void copy( final File destination, final FileSet fileset )
-    {
-        mkDir( destination );
-        final Copy copy = (Copy) getProject().createTask( "copy" );
-        copy.setTaskName( getTaskName() );
-        copy.setPreserveLastModified( true );
-        copy.setFlatten( m_flatten );
-        copy.setTodir( destination );
-        copy.addFileset( fileset );
-        copy.init();
-        copy.execute();
-    }
+    */
 
 }

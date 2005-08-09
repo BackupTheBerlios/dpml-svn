@@ -244,7 +244,6 @@ public final class Info
     * Return the path to the artifact.  The path is returned in the
     * form [group]/[type]s/[filename].
     * @param type the resource type
-    * @param link if TRUE return the link filename
     * @return the artifact relative path
     */
     public String getPath( Type type )

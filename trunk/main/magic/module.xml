@@ -65,11 +65,7 @@
     <property name="share" value="${bundle}/share"/>
     <property name="local" value="${share}/local"/>
 
-    <x:install/>
-    <x:replicate toDir="${local}" self="true" verbose="true"/>
-    <copy todir="${local}/${project.group}">
-      <fileset dir="target/deliverables"/>
-    </copy>
+    <x:replicate toDir="${local}" verbose="true"/>
 
     <copy todir="${prefs}/magic">
       <fileset dir="spells/doc/target">
