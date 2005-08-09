@@ -99,7 +99,7 @@ public class ZipInstaller
             URL url = artifact.toURL();
             getLogger().info( "loading: " + url );
             File file = (File) url.getContent( new Class[]{ File.class } );
-            getLogger().debug( "Cached as: " + file );
+            getLogger().debug( "cached as: " + file );
             ZipFile zip = new ZipFile( file );
             int size = zip.size();
             getLogger().info( "unpacking " + size + " entries" );

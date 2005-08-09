@@ -101,6 +101,7 @@ public final class StreamUtils
 
         try
         {
+            monitor.notifyUpdate( source, expected, 0 );
             while( ( length = src.read( buffer ) ) >= 0 )
             {
                 count = count + length;

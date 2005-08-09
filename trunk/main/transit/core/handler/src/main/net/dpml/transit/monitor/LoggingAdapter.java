@@ -216,9 +216,12 @@ public class LoggingAdapter implements Adapter
      */
     public void notify( URL resource, int total, int count )
     {
-        if( isAnt() && total == count )
+        if( isAnt() || ( null != System.getProperty( "dpml.spawn" ) ) )
         {
-            info( "downloaded: " + resource );
+            if( count == 0 )
+            {
+                info( "downloading [" + resource + "] (" + getFranctionalValue( total ) + ")" );
+            }
             return;
         }
 
@@ -337,8 +340,6 @@ public class LoggingAdapter implements Adapter
         int j = value.indexOf( "." );
         if( j > -1 )
         {
-             return value.substring( 0, j-1 );
-             /*
              int q = value.length();
              int k = q - j;
              if( k > offset )
@@ -349,7 +350,6 @@ public class LoggingAdapter implements Adapter
              {
                  return value;
              }
-             */
         }
         else
         {

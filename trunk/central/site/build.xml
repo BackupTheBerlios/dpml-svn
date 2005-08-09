@@ -25,7 +25,16 @@
     <x:filter key="dpml-depot" feature="version" token="DEPOT-BUILD-ID"/>
   </target>
 
-  <target name="install" depends="docs"/>
+  <target name="install" depends="docs">
+    <echo>
+#----------------------------------------------------------------------------------
+# Updating ${dpml.docs}
+#----------------------------------------------------------------------------------
+    </echo>
+    <copy todir="${dpml.docs}">
+      <fileset dir="${basedir}/target/docs"/>
+    </copy>
+  </target>
 
   <target name="javadoc" depends="prepare"/>
 
@@ -35,9 +44,6 @@
       <task class="net.dpml.magic.doc.DocTask" name="docs"/>
     </transit:plugin>
     <docs/>
-    <copy todir="${dpml.docs}">
-      <fileset dir="${basedir}/target/docs"/>
-    </copy>
   </target>
 
 </project>

@@ -213,7 +213,7 @@ public class PackageInstaller implements Runnable
         if( !useJava && Environment.isWindows() )
         {
             getLogger().info( "launching native subprocess" );
-            return new String[]{ "depot", "-setup" };
+            return new String[]{ "depot", "-setup", "-Ddpml.spawn=true" };
         }
         else
         {
@@ -224,6 +224,7 @@ public class PackageInstaller implements Runnable
             
             return new String[]{ 
               "java", 
+              "-Ddpml.spawn=true",
               "-Djava.ext.dirs=" + lib,
               "-Djava.security.policy=" + policy,
               "net.dpml.depot.Main", 
