@@ -228,7 +228,12 @@ public class LoggingAdapter implements Adapter
 
             String value = getFranctionalValue( count );
             int pad = max.length() - value.length();
-            StringBuffer buffer = new StringBuffer( "[TRANSIT] " + "Progress: " );
+            String level = getLogHeader();
+            StringBuffer buffer = new StringBuffer( level );
+            String path = resource.toString();
+            String name = path.substring( path.lastIndexOf( '/' ) + 1 );
+            buffer.append( "(" + m_logger.getName() + "): " );
+            buffer.append( "retrieving: " + name + " " );
             for( int i=0; i < pad; i++ )
             {
                 buffer.append( " " );
@@ -251,6 +256,44 @@ public class LoggingAdapter implements Adapter
             else
             {
                 System.out.print( buffer.toString() );
+            }
+        }
+    }
+
+   /**
+    * Internal utility to return the locaized logging level name.
+    * @return the localized name
+    */
+    private String getLogHeader()
+    {
+        StringBuffer buffer = new StringBuffer();
+        buffer.append( "[" );
+        Level level = getLoggerLevel( m_logger );
+        buffer.append( level.getLocalizedName() );
+        buffer.append( "        " );
+        String tag = buffer.toString();
+        return tag.substring( 0, EIGHT ) + "] ";
+    }
+
+    private Level getLoggerLevel( Logger logger )
+    {
+        Level level = logger.getLevel();
+        if( level != null )
+        {
+            return level;
+        }
+        else
+        {
+            Logger parent = logger.getParent();
+            if( null != parent )
+            {
+                return getLoggerLevel( parent );
+            }
+            else
+            {
+                final String error = 
+                  "Logging level is not defined.";
+                throw new IllegalStateException( error );
             }
         }
     }
@@ -294,6 +337,8 @@ public class LoggingAdapter implements Adapter
         int j = value.indexOf( "." );
         if( j > -1 )
         {
+             return value.substring( 0, j-1 );
+             /*
              int q = value.length();
              int k = q - j;
              if( k > offset )
@@ -304,6 +349,7 @@ public class LoggingAdapter implements Adapter
              {
                  return value;
              }
+             */
         }
         else
         {
@@ -319,5 +365,7 @@ public class LoggingAdapter implements Adapter
     {
         m_logger.fine( message );
     }
+
+    private static final int EIGHT = 8;
 }
 
