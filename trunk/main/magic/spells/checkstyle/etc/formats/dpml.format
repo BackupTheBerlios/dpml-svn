@@ -72,9 +72,11 @@
         <module name="com.puppycrawl.tools.checkstyle.checks.coding.InnerAssignmentCheck">
             <property name="severity" value="warning"/>
         </module>
+        <!--
         <module name="com.puppycrawl.tools.checkstyle.checks.coding.MagicNumberCheck">
             <property name="severity" value="warning"/>
         </module>
+        -->
         <module name="com.puppycrawl.tools.checkstyle.checks.coding.MissingSwitchDefaultCheck">
             <property name="severity" value="warning"/>
         </module>

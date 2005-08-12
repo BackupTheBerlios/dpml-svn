@@ -20,8 +20,6 @@ package net.dpml.magic.project;
 import net.dpml.magic.AntFileIndex;
 import net.dpml.magic.model.Policy;
 import net.dpml.magic.model.Resource;
-import net.dpml.magic.model.Definition;
-import net.dpml.magic.model.Policy;
 
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Project;

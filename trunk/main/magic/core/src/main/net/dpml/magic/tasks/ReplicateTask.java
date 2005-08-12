@@ -18,9 +18,7 @@
 package net.dpml.magic.tasks;
 
 import java.io.File;
-import java.util.ArrayList;
 
-import net.dpml.magic.project.ProjectPath;
 import net.dpml.magic.model.Definition;
 import net.dpml.magic.model.Policy;
 

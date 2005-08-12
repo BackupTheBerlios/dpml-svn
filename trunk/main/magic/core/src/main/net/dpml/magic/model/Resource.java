@@ -28,7 +28,6 @@ import net.dpml.magic.UnknownResourceException;
 
 import net.dpml.transit.Artifact;
 import net.dpml.transit.NullArgumentException;
-import net.dpml.transit.artifact.Handler;
 
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Project;
@@ -357,6 +356,7 @@ public class Resource
     * @param mode one of Policy.ANY, Policy.BUILD, Policy.TEST or Policy.RUNTIME
     * @param filter a value of "*" for any or a type identifier such as "jar"
     * @param moduleFilter module filter flag
+    * @param self TRUE if the path should include it's own resources
     * @return the path
     * @exception NullArgumentException if the supplied project argument is null.
     */

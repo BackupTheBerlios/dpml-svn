@@ -20,7 +20,6 @@
 package net.dpml.magic.builder;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import net.dpml.magic.AntFileIndex;
