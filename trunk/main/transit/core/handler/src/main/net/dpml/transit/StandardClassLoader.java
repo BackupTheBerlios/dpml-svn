@@ -18,7 +18,6 @@
 
 package net.dpml.transit;
 
-import java.net.URI;
 import java.net.URL;
 import java.net.URLClassLoader;
 

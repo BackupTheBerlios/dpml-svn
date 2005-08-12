@@ -450,7 +450,7 @@
     <junit fork="true" dir="${basedir}"
            printsummary="yes"
            showoutput="true"
-           haltonfailure="yes" failureproperty="junit.failure"
+           haltonfailure="no" failureproperty="junit.failure"
            haltonerror="no" errorproperty="junit.error">
       <sysproperty key="dpml.build.signature" value="${dpml.build.signature}"/>
       <classpath>
@@ -465,8 +465,10 @@
         </fileset>
       </batchtest>
     </junit>
+    <!--
     <fail message="There were unittest failures." if="junit.failure" />
     <fail message="There were unittest errors." if="junit.error" />
+    -->
   </target>
 
   <target name="install.setup" depends="test">

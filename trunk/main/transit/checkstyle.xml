@@ -17,7 +17,7 @@
   limitations under the License.
 -->
 
-<project name="dpml-transit" default="install" basedir="."
+<project name="dpml-transit" default="checkstyle" basedir="."
     xmlns:transit="antlib:net.dpml.transit">
 
   <target name="checkstyle">
