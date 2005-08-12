@@ -94,11 +94,11 @@ public class MetroInstaller
             URI uri = model.getCodeBaseURI();
             if( codebase.equals( uri ) )
             {
-                getLogger().info( "transit profile " + transit.getID() + " is uptodate (no change)" );
+                getLogger().info( "transit profile [" + transit.getID() + "] is uptodate (no change)" );
             }
             else
             {
-                getLogger().info( "updating transit profile " + transit.getID() );
+                getLogger().info( "updating transit profile [" + transit.getID() + "]" );
                 model.setCodeBaseURI( codebase );
             }
         }
