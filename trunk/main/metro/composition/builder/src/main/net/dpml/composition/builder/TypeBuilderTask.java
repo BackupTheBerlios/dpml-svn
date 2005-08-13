@@ -191,7 +191,7 @@ public class TypeBuilderTask extends ProjectTask implements TypeBuilder
         State graph = resolveStateGraph( subject );
 
         Type type = new Type( graph, info, categories, context, services, config, parts );
-       
+
         File target = getContext().getTargetDirectory();
         File reports = new File( target, "reports/types" );
         reports.mkdirs();
@@ -309,7 +309,7 @@ public class TypeBuilderTask extends ProjectTask implements TypeBuilder
         String schema = getConfigurationSchema( subject );
         Properties properties = getTypeProperties( subject );
         return new InfoDescriptor( 
-          name, classname, null, lifestyle, collection, schema, threadsafe, true, properties );
+          name, classname, null, lifestyle, collection, schema, threadsafe, properties );
     }
 
     private boolean getThreadSafeCapability( Class subject ) throws IntrospectionException
