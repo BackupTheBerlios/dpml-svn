@@ -80,7 +80,7 @@
     -->
     <c:component dest="target/test/acme-example-two.part" 
         type="net.dpml.test.acme.ExampleComponent"
-        name="demo">
+        name="nested">
       <context>
         <component key="dimension" type="net.dpml.test.acme.DimensionComponent">
           <context>
@@ -96,7 +96,7 @@
     -->
     <c:component dest="target/test/acme-example-three.part" 
         type="net.dpml.test.acme.ExampleContainer"
-        name="demo">
+        name="internal">
       <parts>
         <component name="dimension" type="net.dpml.test.acme.DimensionComponent"/>
       </parts>
@@ -108,7 +108,7 @@
     <x:property key="dpml-test-simple" feature="uri" type="part" name="acme.uri"/>
     <c:component dest="target/test/acme-example-four.part" 
         type="net.dpml.test.acme.ExampleContainer"
-        name="demo">
+        name="reference">
       <parts>
         <part key="dimension" uri="${acme.uri}"/>
       </parts>
@@ -163,7 +163,7 @@
     -->
     <c:component dest="target/test/acme-test-container.part"
         type="net.dpml.test.acme.AcmeContainer"
-        name="acme">
+        name="composite">
       <parts>
         <component name="widget" type="net.dpml.test.acme.SimpleWidget"/>
         <component name="gizmo" type="net.dpml.test.acme.GizmoComponent">
@@ -180,7 +180,7 @@
     -->
     <c:component dest="target/test/acme-bad-widget.part"
         type="net.dpml.test.acme.AcmeContainer"
-        name="acme">
+        name="bad">
       <parts>
         <component name="widget" type="net.dpml.test.acme.BadWidget"/>
         <component name="gizmo" type="net.dpml.test.acme.GizmoComponent">
