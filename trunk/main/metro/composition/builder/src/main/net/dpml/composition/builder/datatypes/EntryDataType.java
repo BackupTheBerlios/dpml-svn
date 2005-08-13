@@ -166,8 +166,7 @@ public class EntryDataType extends ValueDataType implements PartReferenceBuilder
     {
         String key = getKey();
         EntryDescriptor entry = type.getContext().getEntry( key );
-        PartDescriptor part = type.getPartDescriptor( key );
-        if( ( null == entry ) && ( null == part ) )
+        if( null == entry )
         {
             final String error = 
               "The value key ["
@@ -187,24 +186,19 @@ public class EntryDataType extends ValueDataType implements PartReferenceBuilder
             }
             else
             {
-                classname = part.getReturnType();
+                final String error = 
+                  "Unable to construct a value directive for the key ["
+                  + key 
+                  + "] relative to the component type ["
+                  + type.getInfo().getClassname() 
+                  + "] as the primary classname was not resolvable.";
+                throw new ConstructionException( error );
             }
-        }
-
-        if( null == classname )
-        {
-            final String error = 
-              "Unable to construct a value directive for the key ["
-              + key 
-              + "] relative to the component type ["
-              + type.getInfo().getClassname() 
-              + "] as the primary classname was not resolvable.";
-            throw new ConstructionException( error );
         }
 
         String value = getValue();
         if( null != value )
-        {  
+        {
             return new ValueDirective( key, classname, value );
         }
         else
