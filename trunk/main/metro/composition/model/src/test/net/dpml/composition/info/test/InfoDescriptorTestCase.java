@@ -37,7 +37,6 @@ public class InfoDescriptorTestCase extends AbstractDescriptorTestCase
     private final String m_lifestyle = InfoDescriptor.SINGLETON;
     private final String m_collection = InfoDescriptor.WEAK;
     private final String m_schema = "schema";
-    private final boolean m_native = true;
     private final boolean m_threadsafe = false;
 
     public InfoDescriptorTestCase ( String name )
@@ -49,7 +48,7 @@ public class InfoDescriptorTestCase extends AbstractDescriptorTestCase
     {
         return new InfoDescriptor(
           m_name, m_classname, m_version, m_lifestyle, m_collection, 
-          m_schema, m_threadsafe, m_native, getProperties());
+          m_schema, m_threadsafe, getProperties());
     }
 
     protected void checkDescriptor( Descriptor desc )
@@ -71,7 +70,7 @@ public class InfoDescriptorTestCase extends AbstractDescriptorTestCase
         {
             new InfoDescriptor(
               m_name, null, m_version, m_lifestyle, m_collection, m_schema, 
-              m_threadsafe, m_native, getProperties() );
+              m_threadsafe, getProperties() );
             fail("Did not throw the proper NullPointerException");
         }
         catch( NullPointerException npe )
@@ -83,7 +82,7 @@ public class InfoDescriptorTestCase extends AbstractDescriptorTestCase
         {
             new InfoDescriptor(
               m_name, "foo/fake/ClassName", m_version, m_lifestyle, m_collection,
-              m_schema, m_threadsafe, m_native, getProperties());
+              m_schema, m_threadsafe, getProperties());
             fail("Did not throw the proper IllegalArgumentException");
         }
         catch( IllegalArgumentException iae )
@@ -95,19 +94,19 @@ public class InfoDescriptorTestCase extends AbstractDescriptorTestCase
         {
             new InfoDescriptor(
               m_name, m_classname, m_version, InfoDescriptor.SINGLETON, m_collection,
-              m_schema, m_threadsafe, m_native, getProperties() );
+              m_schema, m_threadsafe, getProperties() );
             new InfoDescriptor(
               m_name, m_classname, m_version, InfoDescriptor.THREAD, m_collection,
-              m_schema, m_threadsafe, m_native, getProperties() );
+              m_schema, m_threadsafe, getProperties() );
             new InfoDescriptor(
               m_name, m_classname, m_version, InfoDescriptor.TRANSIENT, m_collection,
-              m_schema, m_threadsafe, m_native, getProperties() );
+              m_schema, m_threadsafe, getProperties() );
 
             // All these should pass.
 
             new InfoDescriptor(
               m_name, m_classname, m_version, "Fake Lifestyle", m_collection,
-              m_schema, m_threadsafe, m_native, getProperties() );
+              m_schema, m_threadsafe, getProperties() );
 
             fail( "Did not throw the proper IllegalArgumentException" );
         }

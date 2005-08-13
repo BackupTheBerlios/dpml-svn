@@ -283,10 +283,12 @@ public class Type implements Serializable
      *
      * @return the part descriptors
      */
+    /*
     public PartDescriptor[] getPartDescriptors()
     {
         return m_parts;
     }
+    */
 
     /**
      * Retrieve an identified part.
@@ -294,6 +296,7 @@ public class Type implements Serializable
      * @param key the part key
      * @return the part (possibly null)
      */
+    /*
     public PartDescriptor getPartDescriptor( final String key )
     {
         for ( int i = 0; i < m_parts.length; i++ )
@@ -306,6 +309,7 @@ public class Type implements Serializable
         }
         return null;
     }
+    */
 
     /**
      * Return a string representation of the type.

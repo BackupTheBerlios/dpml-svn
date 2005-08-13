@@ -290,6 +290,7 @@ final class PartsInvocationHandler
         }
     }
 
+    /*
     public String toString()
     {
         StringBuffer buffer = new StringBuffer();
@@ -303,6 +304,7 @@ final class PartsInvocationHandler
         buffer.append( "}]" );
         return buffer.toString();
     }
+    */
 
     private boolean getBooleanValue( Object object ) throws IllegalArgumentException
     {
