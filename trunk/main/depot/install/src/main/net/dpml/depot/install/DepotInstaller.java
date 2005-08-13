@@ -16,27 +16,20 @@
 
 package net.dpml.depot.install;
 
-import java.io.File;
-
-import net.dpml.transit.Transit;
 import net.dpml.transit.model.Logger;
 
 /**
+ * Depot package installer. 
  */
 public class DepotInstaller
 {
    /**
-    * Handles the setup of the depot and transit bootstrap jar files 
-    * under the ${dpml.data}/bootstrap directory in preparation for 
-    * a subprocess execution of the Install plugin.
+    * Depot package installer constructor.
+    * @param logger the assigned logging channel
+    * @param args command line arguments
     */
     public DepotInstaller( Logger logger, String[] args )
     {
         logger.info( "executing bootstrap setup" );
-
-        for( int i=0; i<args.length; i++ )
-        {
-            logger.info( "  " + args[i] );
-        }
     }
 }

@@ -19,28 +19,21 @@
 package net.dpml.depot.prefs;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Component;
-import java.awt.Dialog;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.Window;
-import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.rmi.RemoteException;
 import java.util.logging.Logger;
 import java.util.logging.Level;
 import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeListener;    
 
 import javax.swing.AbstractAction;
-import javax.swing.BoxLayout;
 import javax.swing.JButton;
-import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
@@ -48,11 +41,9 @@ import javax.swing.table.DefaultTableColumnModel;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
 
-import net.dpml.profile.DepotProfile;
 import net.dpml.profile.ActivationProfile;
 import net.dpml.profile.ActivationGroupProfile;
 
-import net.dpml.transit.model.DuplicateKeyException;
 import net.dpml.transit.model.UnknownKeyException;
 
 /**
@@ -81,6 +72,12 @@ class ActivationGroupPanel extends ClassicPanel implements PropertyChangeListene
     // constructor
     //--------------------------------------------------------------
 
+   /**
+    * Creation of a new panel presenting the state of a activation group.
+    * @param window the parent window
+    * @param model the activation group model
+    * @exception Exception if an error occurs
+    */
     public ActivationGroupPanel( Window parent, ActivationGroupProfile model ) throws Exception
     {
         super();
@@ -97,14 +94,13 @@ class ActivationGroupPanel extends ClassicPanel implements PropertyChangeListene
             getClass().getClassLoader(), MISC_IMG_PATH, 
             "Artifact", "System Properties." ); 
         label.setBorder( new EmptyBorder( 0, 5, 0, 0 ) );
-        //ControllerAction controller = new ControllerAction( "Controller" );
         getHeader().addEntry( label, "JVM Properties", new JButton( "Properties" ) );
 
         JPanel panel = new JPanel();
-	  panel.setLayout( new BorderLayout() );
+        panel.setLayout( new BorderLayout() );
         TitledBorder tb = 
           new TitledBorder( 
-            new EmptyBorder( 0,0,0,0 ), "Group", TitledBorder.LEFT, TitledBorder.TOP );
+            new EmptyBorder( 0, 0, 0, 0 ), "Group", TitledBorder.LEFT, TitledBorder.TOP );
         panel.setBorder( new CompoundBorder( tb, border5 ) );
         getBody().add( panel );
 
@@ -123,6 +119,9 @@ class ActivationGroupPanel extends ClassicPanel implements PropertyChangeListene
         getBody().addScrollingEntry( m_table, "Activation Profiles", buttons );
     }
 
+   /**
+    * Panel disposal.
+    */
     public void dispose()
     {
         m_table.removePropertyChangeListener( this );
@@ -184,24 +183,27 @@ class ActivationGroupPanel extends ClassicPanel implements PropertyChangeListene
     */
     private static TableColumnModel createProfilesColumnModel()
     {
-	  TableColumn iconColumn = new TableColumn( 0, 30, new ClassicCellRenderer(), null );
-        iconColumn.setHeaderValue( "" );
-	  iconColumn.setMaxWidth( 30 );
-	  iconColumn.setMinWidth( 30 );
-	  TableColumn typeColumn = new TableColumn( 1, 100, new ClassicCellRenderer(), null );
+        TableColumn iconColumn = new TableColumn( 0, 30, new ClassicCellRenderer(), null );
+          iconColumn.setHeaderValue( "" );
+        iconColumn.setMaxWidth( 30 );
+        iconColumn.setMinWidth( 30 );
+        TableColumn typeColumn = new TableColumn( 1, 100, new ClassicCellRenderer(), null );
         typeColumn.setHeaderValue( "Profile" );
         TableColumnModel model = new DefaultTableColumnModel();
-	  model.addColumn( iconColumn  );
-	  model.addColumn( typeColumn );
-	  return model;
+        model.addColumn( iconColumn  );
+        model.addColumn( typeColumn );
+        return model;
     }
 
+   /**
+    * Add action handler.
+    */
     private class AddAction extends EditAction
     {
         public AddAction( String name )
         {
-             super( name );
-             setEnabled( true );
+            super( name );
+            setEnabled( true );
         }
 
         public void actionPerformed( ActionEvent event )
@@ -211,6 +213,9 @@ class ActivationGroupPanel extends ClassicPanel implements PropertyChangeListene
         }
     }
 
+   /**
+    * Edit action handler.
+    */
     private class EditAction extends AbstractAction
     {
         public EditAction( String name )
@@ -236,7 +241,7 @@ class ActivationGroupPanel extends ClassicPanel implements PropertyChangeListene
                 dialog.getBody().add( panel );
                 dialog.setLocationRelativeTo( source );
                 dialog.setResizable( false );
-                dialog.setVisible(true);
+                dialog.setVisible( true );
             }
             catch( Throwable e )
             {
@@ -250,6 +255,9 @@ class ActivationGroupPanel extends ClassicPanel implements PropertyChangeListene
         }
     }
 
+   /**
+    * Delete action handler.
+    */
     private class DeleteAction extends AbstractAction
     {
         public DeleteAction( String name )
@@ -264,8 +272,6 @@ class ActivationGroupPanel extends ClassicPanel implements PropertyChangeListene
         }
     }
 
-    private static String MISC_IMG_PATH = "net/dpml/depot/prefs/images/source.png";
-
-    private static final EmptyBorder border = new EmptyBorder(1,5,1,3);
+    private static final String MISC_IMG_PATH = "net/dpml/depot/prefs/images/source.png";
 
 }

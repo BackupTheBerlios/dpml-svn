@@ -35,7 +35,6 @@ import net.dpml.transit.model.Logger;
 import net.dpml.transit.model.TransitModel;
 import net.dpml.transit.model.UnknownKeyException;
 
-
 /**
  * Depot application deployment plugin.  This plugin handles the deployment of 
  * a target application based on commandline arguments supplied by the Depot 
@@ -53,11 +52,14 @@ public class ApplicationHandler
     * 
     * @param logger the assigned logging channel
     * @param handler the shutdown handler
+    * @param model the current transit model
     * @param prefs the depot root preferences
     * @param args command line arguments
+    * @exception Exception if an error occurs
     */
     public ApplicationHandler( 
-      Logger logger, ShutdownHandler handler, TransitModel model, Preferences prefs, String[] args ) throws Exception
+      Logger logger, ShutdownHandler handler, TransitModel model, 
+      Preferences prefs, String[] args ) throws Exception
     {
         m_logger = logger;
         m_handler = handler;
@@ -76,7 +78,7 @@ public class ApplicationHandler
             ClassLoader classloader = getClass().getClassLoader();
             URI uri = new URI( DEPOT_PROFILE_URI );
             m_depot = (DepotProfile) repository.getPlugin( 
-               classloader, uri, new Object[]{ prefs, logger } );
+               classloader, uri, new Object[]{prefs, logger} );
         }
         catch( Throwable e )
         {
@@ -178,9 +180,9 @@ public class ApplicationHandler
         else
         {
             String[] result = new String[ args.length - 1 ];
-            for( int i=1; i<args.length; i++ )
+            for( int i=1; i < args.length; i++ )
             {
-                result[i-1] = args[i];
+                result[ i - 1 ] = args[i];
             }
             return result;
         }
@@ -202,7 +204,7 @@ public class ApplicationHandler
             return;
         }
         String[] keys = (String[]) properties.keySet().toArray( new String[0] );
-        for( int i=0; i<keys.length; i++ )
+        for( int i=0; i < keys.length; i++ )
         {
             String key = keys[i];
             String value = properties.getProperty( key, null );
@@ -225,7 +227,7 @@ public class ApplicationHandler
         if( "plugin".equals( type ) )
         {
             return loader.getPlugin( 
-              parent, uri, new Object[]{ args, logger, profile, params } );
+              parent, uri, new Object[]{args, logger, profile, params} );
         }
         else if( "part".equals( type ) )
         {
@@ -238,7 +240,7 @@ public class ApplicationHandler
               + "] profile";
             getLogger().info( message );
             URL url = new URL( path );
-            return url.getContent( new Class[]{ Object.class } );
+            return url.getContent( new Class[]{Object.class} );
         }
         else
         {

@@ -26,8 +26,15 @@ package net.dpml.depot;
  */
 public interface ShutdownHandler
 {
+   /**
+    * Invoke virtual machine termination.
+    */
     void exit();
 
+   /**
+    * Invoke virtual machine termination.
+    * @param flag the exit status
+    */
     void exit( int flag );
 }
 

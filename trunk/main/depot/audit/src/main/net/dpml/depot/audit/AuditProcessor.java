@@ -16,31 +16,15 @@
 
 package net.dpml.depot.audit;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.File;
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.net.URI;
-import java.net.URL;
-import java.util.Properties;
 import java.util.prefs.Preferences;
-import java.net.URISyntaxException;
-import java.rmi.RemoteException;
 
 import net.dpml.depot.ShutdownHandler;
 
-import net.dpml.profile.ApplicationProfile;
 import net.dpml.profile.DepotProfile;
 
 import net.dpml.transit.Transit;
-import net.dpml.transit.Artifact;
-import net.dpml.transit.UnsupportedSchemeException;
-import net.dpml.transit.MissingGroupException;
 import net.dpml.transit.Repository;
-import net.dpml.transit.artifact.ArtifactNotFoundException;
 import net.dpml.transit.model.TransitRegistryModel;
 import net.dpml.transit.model.DefaultTransitRegistryModel;
 import net.dpml.transit.model.Logger;
@@ -77,6 +61,8 @@ public class AuditProcessor implements Runnable
     * @param logger the assigned logging channel
     * @param args suplimentary commandline arguments
     * @param handler the shutdown handler
+    * @param prefs the root depot prefs
+    * @exception Exception if an error occurs
     */
     public AuditProcessor( Logger logger, String[] args, ShutdownHandler handler, Preferences prefs ) 
       throws Exception
@@ -90,12 +76,15 @@ public class AuditProcessor implements Runnable
         Repository repository = Transit.getInstance().getRepository();
         ClassLoader classloader = getClass().getClassLoader();
         URI uri = new URI( DEPOT_PROFILE_URI );
-        m_depot = (DepotProfile) repository.getPlugin( classloader, uri, new Object[]{ prefs, logger } );
+        m_depot = (DepotProfile) repository.getPlugin( classloader, uri, new Object[]{prefs, logger} );
 
         TransitStorageHome home = new TransitStorageHome();
         m_transit = new DefaultTransitRegistryModel( logger, home );
     }
 
+   /**
+    * Start the audit processor.
+    */
     public void run()
     {
         getLogger().debug( "processing [" + m_args.length + "] command options" );

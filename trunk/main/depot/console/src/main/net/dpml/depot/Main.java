@@ -19,35 +19,15 @@
 package net.dpml.depot;
 
 import java.io.File;
-import java.io.IOException;
-import java.lang.reflect.Method;
 import java.net.URL;
 import java.net.URI;
-import java.net.MalformedURLException;
-import java.net.URISyntaxException;
-import java.rmi.Remote;
-import java.rmi.MarshalledObject;
-import java.rmi.NotBoundException;
-import java.rmi.activation.ActivationSystem;
-import java.rmi.ConnectException;
 import java.rmi.RemoteException;
 import java.rmi.RMISecurityManager;
-import java.rmi.registry.Registry;
-import java.rmi.registry.LocateRegistry;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.Properties;
-import java.util.prefs.BackingStoreException;
 import java.util.prefs.Preferences;
 
 import net.dpml.transit.Transit;
-import net.dpml.transit.TransitError;
-import net.dpml.transit.TransitException;
-import net.dpml.transit.Artifact;
-import net.dpml.transit.artifact.ArtifactNotFoundException;
 import net.dpml.transit.model.Logger;
-import net.dpml.transit.model.Connection;
-import net.dpml.transit.model.UnknownKeyException;
 import net.dpml.transit.model.TransitModel;
 import net.dpml.transit.model.DefaultTransitModel;
 import net.dpml.transit.monitor.Adapter;
@@ -65,23 +45,33 @@ import net.dpml.transit.Repository;
  */
 public final class Main implements ShutdownHandler
 {
-    private static Main MAIN;
+    private static Main m_MAIN;
 
     private Object m_plugin;
 
+   /**
+    * Static start method used by NT service.
+    * @param args command link arguments
+    * @exception Exception if a error occurs
+    */
     public static void start( final String[] args )
         throws Exception
     {
         System.out.println( "starting station" );
-        Main.main( new String[]{ "-station" } );
+        Main.main( new String[]{"-station"} );
     }
 
+   /**
+    * Static stop method used by NT service.
+    * @param args command link arguments
+    * @exception Exception if a error occurs
+    */
     public static void stop( final String[] args )
         throws Exception
     {
-        if( null != MAIN )
+        if( null != m_MAIN )
         {
-            MAIN.exit();
+            m_MAIN.exit();
         }
         else
         {
@@ -100,12 +90,15 @@ public final class Main implements ShutdownHandler
     *   <li>-setup</li>
     *   <li>-prefs</li>
     *   <li>-station</li>
+    *   <li>-exec</li>
     * </ul>
+    * @param args the command linke argument array
+    * @exception Exception if a error occurs
     */
     public static void main( String[] args )
         throws Exception
     {
-        if( null != MAIN )
+        if( null != m_MAIN )
         {
             final String error = 
               "Console already established.";
@@ -113,7 +106,7 @@ public final class Main implements ShutdownHandler
         }
         else
         {
-            MAIN = new Main( args );
+            m_MAIN = new Main( args );
         }
     }
 
@@ -147,16 +140,16 @@ public final class Main implements ShutdownHandler
             handleVersion( debug );
             exit();
         }
-        else if( "-get".equals( option ) )
+        else if( "-get".equals( option ) )    
         {
             for( int i=0; i < args.length; i++ )
             {
                 String arg = args[i];
                 if( arg.equals( "-get" ) )
                 {
-                    if( i+1 < args.length )
+                    if( i + 1 < args.length )
                     {
-                        String path = args[i+1];
+                        String path = args[ i + 1 ];
                         try
                         {
                             handleGet( getLogger(), args, path );
@@ -264,7 +257,7 @@ public final class Main implements ShutdownHandler
 
     private void handlePlugin( String name, String spec, String[] args )
     {
-	  System.setSecurityManager(new RMISecurityManager());
+        System.setSecurityManager( new RMISecurityManager() );
 
         // get setup uri
 
@@ -276,13 +269,14 @@ public final class Main implements ShutdownHandler
         // deploy plugin
 
         boolean waitForCompletion = deployHandler( name, path, args, this, true );
-        if( false == waitForCompletion )
+        if( !waitForCompletion )
         {
             exit();
         }
     }
 
-    private boolean deployHandler( String command, String path, String[] args, ShutdownHandler shutdown, boolean waitFor )
+    private boolean deployHandler( 
+      String command, String path, String[] args, ShutdownHandler shutdown, boolean waitFor )
     {
         Logger logger = getLogger().getChildLogger( command );
         try
@@ -296,12 +290,14 @@ public final class Main implements ShutdownHandler
             ClassLoader classloader = getSystemClassLoader();
             m_plugin = 
               repository.getPlugin( 
-                classloader, uri, new Object[]{ model, args, logger, shutdown, prefs } );
+                classloader, uri, new Object[]{model, args, logger, shutdown, prefs} );
         }
         catch( Throwable e )
         {
             final String error = 
-              "Unable to deploy the [" + command + "] handler due to deployment failure.";
+              "Unable to deploy the [" 
+              + command 
+              + "] handler due to deployment failure.";
             getLogger().error( error, e );
         }
 
@@ -328,7 +324,7 @@ public final class Main implements ShutdownHandler
     private TransitModel getTransitModel( String[] args ) throws RemoteException
     {
         //
-        // TODO: impriove this so that we can direct the selction of the transit model
+        // TODO: improve this so that we can direct the selction of the transit model
         // in a way that would allow resolution of the model from the rmi registry
         // e.g. -model rmi://some/name
         //
@@ -448,13 +444,18 @@ public final class Main implements ShutdownHandler
                 {
                     logger.info( 
                       "service bound to "
-                      + connection.getPort() + "/" + id );
+                      + connection.getPort() 
+                      + "/" 
+                      + id );
                 }
                 else
                 {
                     logger.info( 
-                       "service bound to " + connection.getHost() 
-                       + ":" + connection.getPort() + "/" + id );
+                       "service bound to " 
+                       + connection.getHost() 
+                       + ":" 
+                       + connection.getPort() 
+                       + "/" + id );
                 }
             }
             else if( OBJECT instanceof Runnable )
@@ -504,13 +505,11 @@ public final class Main implements ShutdownHandler
     {
         try
         {
-            //TransitModel model = loadTransitModel( args, logger, false );
-            //Transit transit = Transit.getInstance( model );
             Transit transit = Transit.getInstance();
             setupMonitors( transit, (Adapter) getLogger() );
             URI uri = new URI( path );
             URL url = new URL( uri.toASCIIString() );
-            File file = (File) url.getContent( new Class[]{ File.class } );
+            File file = (File) url.getContent( new Class[]{File.class} );
             getLogger().info( "Cached as: " + file );
         }
         catch( Throwable e )
@@ -604,11 +603,13 @@ public final class Main implements ShutdownHandler
                   {
                       try
                       {
-                          ((Thread)object).interrupt();
+                          Thread thread = (Thread) object;
+                          thread.interrupt();
                       }
                       catch( Throwable e )
                       {
                           // ignore it
+                          boolean ignrable = true;
                       }
                   }
                   System.runFinalization();
@@ -624,12 +625,12 @@ public final class Main implements ShutdownHandler
 
     private static Logger getLogger()
     {
-        if( null == LOGGER )
+        if( null == m_LOGGER )
         {
             String category = System.getProperty( "dpml.logging.category", "depot" );
-            LOGGER = new LoggingAdapter( java.util.logging.Logger.getLogger( category ) );
+            m_LOGGER = new LoggingAdapter( java.util.logging.Logger.getLogger( category ) );
         }
-        return LOGGER;
+        return m_LOGGER;
     }
 
     private static void handleHelp()
@@ -735,7 +736,7 @@ public final class Main implements ShutdownHandler
         System.setProperty( BUILD_KEY, BUILD_ID );
     }
 
-    private static Logger LOGGER = null;
+    private static Logger m_LOGGER = null;
     private static final Preferences ROOT_PREFS = 
       Preferences.userNodeForPackage( Main.class );
 
@@ -770,7 +771,7 @@ public final class Main implements ShutdownHandler
         for( int i=0; i < args.length; i++ )
         {
             String arg = args[i];
-            if( false == arg.equals( argument ) )
+            if( !arg.equals( argument ) )
             {
                 list.add( arg );
             }
@@ -781,7 +782,7 @@ public final class Main implements ShutdownHandler
     private String[] processSystemProperties( String[] args )
     {
         ArrayList result = new ArrayList();
-        for( int i=0; i<args.length; i++ )
+        for( int i=0; i < args.length; i++ )
         {
             String arg = args[i];
             int index = arg.indexOf( "=" );

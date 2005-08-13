@@ -22,9 +22,7 @@ import java.rmi.server.UnicastRemoteObject;
 import javax.swing.Icon;
 import javax.swing.table.AbstractTableModel;
 
-import net.dpml.transit.Transit;
-
-import net.dpml.profile.ActivationGroupEvent ;
+import net.dpml.profile.ActivationGroupEvent;
 import net.dpml.profile.ActivationGroupListener;
 import net.dpml.profile.ActivationGroupProfile;
 
@@ -76,6 +74,7 @@ public class ActivationGroupTableModel extends AbstractTableModel
     * node as table entries.
     *
     * @param model the registry of application profiles
+    * @exception Exception if an error occurs
     */
     public ActivationGroupTableModel( ActivationGroupProfile model ) throws Exception
     {
@@ -85,6 +84,9 @@ public class ActivationGroupTableModel extends AbstractTableModel
         model.addActivationGroupListener( m_listener );
     }
 
+   /**
+    * Table model disposal.
+    */
     protected void dispose()
     {
         try
@@ -93,6 +95,7 @@ public class ActivationGroupTableModel extends AbstractTableModel
         }
         catch( Throwable e )
         {
+            boolean ignoreme = true;
         }
     }
 
@@ -100,6 +103,9 @@ public class ActivationGroupTableModel extends AbstractTableModel
     // ActivationGroupListener
     //--------------------------------------------------------------------------
 
+   /**
+    * Internal activation group listener. 
+    */
     private class RemoteListener extends UnicastRemoteObject implements ActivationGroupListener
     {
         public RemoteListener() throws RemoteException

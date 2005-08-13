@@ -28,7 +28,7 @@ import net.dpml.transit.util.ExceptionHelper;
  */
 public class StandardFormatter extends Formatter 
 {
-    private String lineSeparator = System.getProperty( "line.separator");
+    private static final String SEPARATOR = System.getProperty( "line.separator" );
 
     /**
      * Format a LogRecord using the classic style.
@@ -51,12 +51,12 @@ public class StandardFormatter extends Formatter
         }
         String message = formatMessage( record );
         buffer.append( message );
-        buffer.append( lineSeparator );
+        buffer.append( SEPARATOR );
         if( record.getThrown() != null ) 
         {
-            boolean trace = record.getLevel().intValue() > 900;
+            //boolean trace = record.getLevel().intValue() > 900;
             Throwable cause = record.getThrown();
-            String error = ExceptionHelper.packException( cause, trace );
+            String error = ExceptionHelper.packException( cause, true );
             buffer.append( error );
         }
         return buffer.toString();
@@ -69,6 +69,8 @@ public class StandardFormatter extends Formatter
         buffer.append( record.getLevel().getLocalizedName() );
         buffer.append( "        " );
         String tag = buffer.toString();
-        return tag.substring( 0, 8 ) + "] ";
+        return tag.substring( 0, EIGHT ) + "] ";
     }
+
+    private static final int EIGHT = 8;
 }

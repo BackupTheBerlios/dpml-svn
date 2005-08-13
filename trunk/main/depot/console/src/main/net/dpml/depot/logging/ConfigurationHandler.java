@@ -22,7 +22,6 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.util.Properties;
 import java.util.logging.LogManager;
-import java.util.prefs.Preferences;
 
 /**
  * Utility class used to establish the logging configuration.  The contents of 

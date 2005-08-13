@@ -16,10 +16,8 @@
 
 package net.dpml.depot.install;
 
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.FileInputStream;
@@ -72,6 +70,9 @@ public class ZipInstaller
     * @param logger the assigned logging channel
     * @param depot the depot application registry
     * @param transit the transit profile registry
+    * @param model the current transit model
+    * @param args the remaining command line arguments
+    * @exception Exception if an error occurs
     */
     public ZipInstaller( 
       Logger logger, DepotProfile depot, TransitRegistryModel transit, 
@@ -91,14 +92,19 @@ public class ZipInstaller
         return m_logger;
     }
 
-    public synchronized void install( Artifact artifact ) throws Exception
+   /**
+    * Install an platform independent zip bundle.
+    * @param artifact the artifact to install
+    * @exception Exception if an error occurs during the install process
+    */
+    synchronized void install( Artifact artifact ) throws Exception
     {
         m_bundle = null;
         try
         {
             URL url = artifact.toURL();
             getLogger().info( "loading: " + url );
-            File file = (File) url.getContent( new Class[]{ File.class } );
+            File file = (File) url.getContent( new Class[]{File.class} );
             getLogger().debug( "cached as: " + file );
             ZipFile zip = new ZipFile( file );
             int size = zip.size();
@@ -166,7 +172,7 @@ public class ZipInstaller
                 ClassLoader classloader = loader.getPluginClassLoader( parent, uri );
                 Class c = classloader.loadClass( classname );
                 Boolean flag = new Boolean( true );
-                loader.instantiate( c, new Object[]{ m_logger, m_transit, m_depot, m_args, flag } );
+                loader.instantiate( c, new Object[]{m_logger, m_transit, m_depot, m_args, flag} );
                 getLogger().info( "installation complete" );
                 m_bundle.deleteOnExit();
             }
@@ -179,7 +185,12 @@ public class ZipInstaller
         }
     }
   
-    public void deinstall( Artifact artifact )
+   /**
+    * Deinstall an platform independent zip bundle.
+    * @param artifact the artifact to deinstall
+    * @exception Exception if an error occurs during the deinstall process
+    */
+    void deinstall( Artifact artifact )
     {
         getLogger().warn( "deinstallation service not available in this version.\n" );
     }
@@ -190,7 +201,7 @@ public class ZipInstaller
         while( entries.hasMoreElements() )
         {
             ZipEntry entry = (ZipEntry) entries.nextElement();
-            if( false == entry.isDirectory() )
+            if( !entry.isDirectory() )
             {
                 unpackEntry( zip, entry );
             }
@@ -212,7 +223,7 @@ public class ZipInstaller
             // shared resources go into into DPML_SYSTEM
             //
 
-            String path = name.substring( 6 );
+            String path = name.substring( "share/".length() );
             File target = new File( Transit.DPML_SYSTEM, path );
             expand( zip, entry, target );
 
@@ -237,7 +248,7 @@ public class ZipInstaller
             // data resources go into into DPML_DATA
             //
 
-            String path = name.substring( 5 );
+            String path = name.substring( "data/".length() );
             File target = new File( Transit.DPML_DATA, path );
             expand( zip, entry, target );
         }
@@ -247,7 +258,7 @@ public class ZipInstaller
             // preferences resources go into into DPML_PREFS
             //
 
-            String path = name.substring( 6 );
+            String path = name.substring( "prefs/".length() );
             File target = new File( Transit.DPML_PREFS, path );
             expand( zip, entry, target );
         }
@@ -266,6 +277,14 @@ public class ZipInstaller
     {
         File parent = out.getParentFile();
         parent.mkdirs();
+        //if( out.exists() )
+        //{
+        //    boolean deleted = out.delete();
+        //    if( !deleted )
+        //    {
+        //        getLogger().warn( "failed to delete: " + out );
+        //    }
+        //}
         InputStream input = zip.getInputStream( entry );
         OutputStream output = new FileOutputStream( out );
         getLogger().debug( "" + out );

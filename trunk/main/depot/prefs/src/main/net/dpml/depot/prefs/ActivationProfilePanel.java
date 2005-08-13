@@ -19,37 +19,22 @@
 package net.dpml.depot.prefs;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
-import java.net.URI;
-import java.rmi.RemoteException;
-import java.util.Date;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import javax.swing.AbstractAction;
-import javax.swing.BoxLayout;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
-import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
-import javax.swing.border.TitledBorder;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
-import javax.swing.event.ListDataListener;
-import javax.swing.event.ListDataEvent;
 import javax.swing.JTabbedPane;
 
 import net.dpml.profile.ActivationProfile;
@@ -62,12 +47,6 @@ import net.dpml.profile.ActivationProfile;
 class ActivationProfilePanel extends ClassicPanel 
   implements PropertyChangeListener, DocumentListener
 {
-    //--------------------------------------------------------------
-    // static
-    //--------------------------------------------------------------
-
-    static EmptyBorder border5 = new EmptyBorder( 5, 5, 5, 5);
-
     //--------------------------------------------------------------
     // state
     //--------------------------------------------------------------
@@ -150,6 +129,9 @@ class ActivationProfilePanel extends ClassicPanel
         m_propertyChangeSupport.addPropertyChangeListener( this );
     }
 
+   /**
+    * Disposal of the panel.
+    */
     public void dispose()
     {
         m_propertyChangeSupport.removePropertyChangeListener( this );
@@ -176,16 +158,28 @@ class ActivationProfilePanel extends ClassicPanel
     // DocumentListener
     //--------------------------------------------------------------
 
+   /**
+    * Notification of an insert update on the document value.
+    * @param event the document event
+    */
     public void insertUpdate( DocumentEvent event )
     {
         fireBaseChangedEvent();
     }
 
+   /**
+    * Notification of an remove update on the document value.
+    * @param event the document event
+    */
     public void removeUpdate( DocumentEvent event )
     {
         fireBaseChangedEvent();
     }
 
+   /**
+    * Notification of an changed update on the document value.
+    * @param event the document event
+    */
     public void changedUpdate( DocumentEvent event )
     {
         fireBaseChangedEvent();
@@ -217,8 +211,11 @@ class ActivationProfilePanel extends ClassicPanel
          }
      }
 
-     private class OKAction extends AbstractAction 
-     {
+   /**
+    * OK action handler.
+    */
+    private class OKAction extends AbstractAction 
+    {
         OKAction( String name )
         {
             super( name );
@@ -232,6 +229,9 @@ class ActivationProfilePanel extends ClassicPanel
         }
     }
 
+   /**
+    * Revert action handler.
+    */
     private class RevertAction extends AbstractAction
     {
         RevertAction( String name )

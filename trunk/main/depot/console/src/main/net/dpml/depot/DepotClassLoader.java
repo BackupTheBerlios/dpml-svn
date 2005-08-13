@@ -23,17 +23,13 @@ import java.io.IOException;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.Properties;
-import java.util.prefs.BackingStoreException;
-import java.util.prefs.Preferences;
 
 import net.dpml.transit.util.PropertyResolver;
 
 /**
- * The DepotClassLoader is a URLClassLoader that supports late binding of the 
- * URLs it contains.  This class is used by the Depot CLI scripts as the system
- * classloader and is supplied with a preferences node that contains a set of 
- * attributes.  The values of each attribute are resolved to URLs and added to 
- * system classloader at the time of application deployment.
+ * The DepotClassLoader is a URLClassLoader that supports late binding of 
+ * URLs.  This class is used by the Depot CLI scripts as the system
+ * classloader.
  *
  * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
  * @version $Id: Main.java 2480 2005-05-10 04:44:32Z mcconnell@dpml.net $
@@ -52,7 +48,13 @@ public final class DepotClassLoader extends URLClassLoader
         super( new URL[0], parent );
     }
 
-    public void setClasspath( String[] classpath ) throws BackingStoreException, IOException
+   /**
+    * Set the classpath of the classloader.
+    * @param classpath an array of Transit uris
+    * @exception IOException if a classloader element could not be converted to a vaid URL
+    * @exception IllegalStateException if the classpath has already been set
+    */
+    public void setClasspath( String[] classpath ) throws IOException, IllegalStateException
     {
         if( m_sealed )
         {
@@ -61,7 +63,7 @@ public final class DepotClassLoader extends URLClassLoader
             throw new IllegalStateException( error );
         }
         Properties properties = System.getProperties();
-        for( int i=0; i<classpath.length; i++ )
+        for( int i=0; i < classpath.length; i++ )
         {
             String entry = classpath[i];
             URL url = resolveURL( properties, entry );
@@ -85,6 +87,10 @@ public final class DepotClassLoader extends URLClassLoader
         }
     }
 
+   /**
+    * Return a string representation of the classloader.  
+    * @return the classloader presented as a stack
+    */
     public String toString()
     {
         StringBuffer buffer = new StringBuffer();
@@ -92,12 +98,22 @@ public final class DepotClassLoader extends URLClassLoader
         return buffer.toString();
     }
 
+   /**
+    * List the contents of the classloader.
+    * @param buffer a string buffer to write to
+    */
     protected void listClasspath( StringBuffer buffer )
     {
         listClasspath( buffer, this, 0 );
         buffer.append( "\n" );
     }
 
+   /**
+    * List the contents of the classloader.
+    * @param buffer a string buffer to write to
+    * @param classloader the classloader to list
+    * @param n the classloader index
+    */
     protected void listClasspath( StringBuffer buffer, ClassLoader classloader, int n )
     {
         if( classloader instanceof URLClassLoader )
@@ -107,7 +123,7 @@ public final class DepotClassLoader extends URLClassLoader
             if( null != parent )
             {
 
-                listClasspath( buffer, parent, n+1 );
+                listClasspath( buffer, parent, n + 1 );
             }
             if( n == 0 )
             {
@@ -137,7 +153,7 @@ public final class DepotClassLoader extends URLClassLoader
     private void appendEntries( StringBuffer buffer, URLClassLoader classloader )
     {
         URL[] urls = classloader.getURLs();
-        for( int i=0; i<urls.length; i++ )
+        for( int i=0; i < urls.length; i++ )
         {
             buffer.append( "\n    " );
             URL url = urls[i];

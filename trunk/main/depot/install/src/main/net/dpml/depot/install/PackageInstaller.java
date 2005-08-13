@@ -16,23 +16,17 @@
 
 package net.dpml.depot.install;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.File;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URI;
-import java.net.URL;
-import java.util.Properties;
 import java.util.prefs.Preferences;
 import java.net.URISyntaxException;
-import java.rmi.RemoteException;
 
 import net.dpml.depot.ShutdownHandler;
 
-import net.dpml.profile.ApplicationProfile;
 import net.dpml.profile.DepotProfile;
 
 import net.dpml.transit.Transit;
@@ -80,6 +74,9 @@ public class PackageInstaller implements Runnable
     * @param logger the assigned logging channel
     * @param args suplimentary commandline arguments
     * @param handler the shutdown handler
+    * @param model the current transit model
+    * @param prefs root depot preferences
+    * @exception Exception if an error occurs
     */
     public PackageInstaller( 
       Logger logger, String[] args, ShutdownHandler handler, TransitModel model, Preferences prefs ) 
@@ -95,12 +92,15 @@ public class PackageInstaller implements Runnable
         Repository repository = Transit.getInstance().getRepository();
         ClassLoader classloader = PackageInstaller.class.getClassLoader();
         URI uri = new URI( DEPOT_PROFILE_URI );
-        m_depot = (DepotProfile) repository.getPlugin( classloader, uri, new Object[]{ prefs, logger } );
+        m_depot = (DepotProfile) repository.getPlugin( classloader, uri, new Object[]{prefs, logger} );
 
         TransitStorageHome home = new TransitStorageHome();
         m_transit = new DefaultTransitRegistryModel( logger, home );
     }
 
+   /**
+    * Start the install handler.
+    */
     public void run()
     {
         getLogger().debug( "processing [" + m_args.length + "] command options" );
@@ -118,7 +118,7 @@ public class PackageInstaller implements Runnable
         try
         {
             String version = getSetupVersion();
-            if( VERSION.equals( version ) && false == reset )
+            if( VERSION.equals( version ) && !reset )
             {
                 //
                 // we are working with the installed Depot system and reset has 
@@ -206,6 +206,7 @@ public class PackageInstaller implements Runnable
     * 
     * @param arg a single commandline option
     * @return the command array to use to execute a depot sub-process
+    * @exception IOException if an IO error occurs
     */
     private String[] getSpawnCommand() throws IOException
     {
@@ -213,7 +214,7 @@ public class PackageInstaller implements Runnable
         if( !useJava && Environment.isWindows() )
         {
             getLogger().info( "launching native subprocess" );
-            return new String[]{ "depot", "-setup", "-Ddpml.spawn=true" };
+            return new String[]{"depot", "-setup", "-Ddpml.spawn=true"};
         }
         else
         {
@@ -247,16 +248,26 @@ public class PackageInstaller implements Runnable
         install( spec, logger, new String[0] );
     }
 
+   /**
+    * Internal class to handle reading of subprocess output and error streams.
+    */
     private class StreamReader extends Thread
     {
-        InputStream m_input;
-        boolean m_error = false;
+        private InputStream m_input;
+        private boolean m_error = false;
         
+       /**
+        * Creation of a new reader.
+        * @param input the subprocess input stream
+        */
         public StreamReader( InputStream input )
         {
             m_input = input;
         }
   
+       /**
+        * Start thestream reader.
+        */
         public void run()
         {
             try
@@ -289,14 +300,14 @@ public class PackageInstaller implements Runnable
         }
         else
         {
-            for( int i=0; i<m_args.length; i++ )
+            for( int i=0; i < m_args.length; i++ )
             { 
                 String arg = m_args[i];
                 if( arg.equals( PROFILE_OPT ) )
                 {
-                    if( i+1 < m_args.length )
+                    if( i + 1 < m_args.length )
                     {
-                        return m_args[ i+1 ];
+                        return m_args[ i + 1 ];
                     }
                     else
                     {
@@ -318,14 +329,14 @@ public class PackageInstaller implements Runnable
         }
         else
         {
-            for( int i=0; i<m_args.length; i++ )
+            for( int i=0; i < m_args.length; i++ )
             { 
                 String arg = m_args[i];
                 if( arg.equals( VERSION_OPT ) )
                 {
-                    if( i+1 < m_args.length )
+                    if( i + 1 < m_args.length )
                     {
-                        return m_args[ i+1 ];
+                        return m_args[ i + 1 ];
                     }
                     else
                     {
@@ -397,7 +408,8 @@ public class PackageInstaller implements Runnable
         }
     }
 
-    private void installZipBundle( boolean flag, Artifact artifact, Logger logger, String[] args ) throws Exception
+    private void installZipBundle( 
+      boolean flag, Artifact artifact, Logger logger, String[] args ) throws Exception
     {
         ZipInstaller installer = new ZipInstaller( logger, m_depot, m_transit, m_model, args );
         if( flag )

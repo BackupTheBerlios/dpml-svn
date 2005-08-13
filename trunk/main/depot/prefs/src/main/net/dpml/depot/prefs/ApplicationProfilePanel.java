@@ -19,9 +19,6 @@
 package net.dpml.depot.prefs;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.beans.PropertyChangeEvent;
@@ -29,16 +26,11 @@ import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.net.URI;
 import java.rmi.RemoteException;
-import java.util.Date;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import javax.swing.AbstractAction;
 import javax.swing.BoxLayout;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
-import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -48,13 +40,11 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
-import javax.swing.event.ListDataListener;
-import javax.swing.event.ListDataEvent;
 
 import net.dpml.profile.ApplicationProfile;
 
 /**
- * A interactive panel that presents the preferences for a single host.
+ * An activation profile editor panel.
  *
  * @author <a href="mailto:mcconnell@osm.net">Stephen McConnell</a>
  */
@@ -65,7 +55,7 @@ class ApplicationProfilePanel extends ClassicPanel
     // static
     //--------------------------------------------------------------
 
-    static EmptyBorder border5 = new EmptyBorder( 5, 5, 5, 5);
+    private static final EmptyBorder BORDER_5 = new EmptyBorder( 5, 5, 5, 5 );
 
     //--------------------------------------------------------------
     // state
@@ -86,6 +76,12 @@ class ApplicationProfilePanel extends ClassicPanel
     // constructor
     //--------------------------------------------------------------
 
+   /**
+    * Creation of a new activation profile editor panel.
+    * @param parent the parent dialog
+    * @param profile the application profile
+    * @exception Excetion if an error occurs
+    */
     public ApplicationProfilePanel( JDialog parent, ApplicationProfile profile ) throws Exception 
     {
         super();
@@ -117,14 +113,16 @@ class ApplicationProfilePanel extends ClassicPanel
         //
 
         JPanel panel = new JPanel();
-	  panel.setLayout( new BoxLayout( panel, BoxLayout.Y_AXIS ) );
+        panel.setLayout( new BoxLayout( panel, BoxLayout.Y_AXIS ) );
 
         JPanel paths = new JPanel();
         panel.add( paths );
-	  paths.setLayout( new BorderLayout() );
+        paths.setLayout( new BorderLayout() );
         paths.setBorder( 
           new CompoundBorder(
-            new TitledBorder( null, "Plugin URI", TitledBorder.LEFT, TitledBorder.TOP), border5 ) );
+            new TitledBorder( null, "Plugin URI", TitledBorder.LEFT, TitledBorder.TOP ), 
+            BORDER_5 ) 
+        );
 
         m_base = new JTextField( getBasePath() );
         m_base.getDocument().addDocumentListener( this ); // listen for changes
@@ -132,19 +130,18 @@ class ApplicationProfilePanel extends ClassicPanel
         basePanel.setLayout( new BorderLayout() );
         basePanel.setBorder( new EmptyBorder( 0, 0, 0, 30 ) );
         basePanel.add( m_base, BorderLayout.CENTER );
-
-        paths.add( basePanel, BorderLayout.CENTER  );
+        paths.add( basePanel, BorderLayout.CENTER );
 
         //
         // create a box layout for the enabled and trusted checkboxs
         //
 
         JPanel holder = new JPanel();
-	  holder.setLayout( new BoxLayout( holder, BoxLayout.Y_AXIS ) );
+        holder.setLayout( new BoxLayout( holder, BoxLayout.Y_AXIS ) );
         holder.setBorder( 
           new CompoundBorder(
-            new TitledBorder( null, "Parameters", TitledBorder.LEFT, TitledBorder.TOP), 
-            border5 ) );
+            new TitledBorder( null, "Parameters", TitledBorder.LEFT, TitledBorder.TOP ), 
+            BORDER_5 ) );
         panel.add( holder );
 
         // add enabled status
@@ -206,19 +203,15 @@ class ApplicationProfilePanel extends ClassicPanel
     {
         
         boolean flag = false;
+        boolean value = m_enabled.isSelected();
+        if( isProfileEnabled() != value )
         {
-            boolean value = m_enabled.isSelected();
-            if( isProfileEnabled() != value )
-            {
-                flag = true;
-            }
+            flag = true;
         }
+        String path = m_base.getText();
+        if( !path.equals( getBasePath() ) )
         {
-            String path = m_base.getText();
-            if( false == path.equals( getBasePath()) )
-            {
-                flag = true;
-            }
+            flag = true;
         }
         m_ok.setEnabled( flag );
         m_revert.setEnabled( flag );
@@ -251,16 +244,28 @@ class ApplicationProfilePanel extends ClassicPanel
     // DocumentListener
     //--------------------------------------------------------------
 
+   /**
+    * Document insert event.
+    * @param event the document event
+    */
     public void insertUpdate( DocumentEvent event )
     {
         fireBaseChangedEvent();
     }
 
+   /**
+    * Document remove event.
+    * @param event the document event
+    */
     public void removeUpdate( DocumentEvent event )
     {
         fireBaseChangedEvent();
     }
 
+   /**
+    * Document change event.
+    * @param event the document event
+    */
     public void changedUpdate( DocumentEvent event )
     {
         fireBaseChangedEvent();
@@ -279,6 +284,9 @@ class ApplicationProfilePanel extends ClassicPanel
     // utility classes
     //--------------------------------------------------------------
 
+   /**
+    * Enable action handler.
+    */
     private class EnableAction extends AbstractAction
     {
         EnableAction( String name )
@@ -314,6 +322,9 @@ class ApplicationProfilePanel extends ClassicPanel
          }
      }
 
+    /**
+     * OK action handler.
+     */
      private class OKAction extends AbstractAction 
      {
         OKAction( String name )
@@ -321,27 +332,11 @@ class ApplicationProfilePanel extends ClassicPanel
             super( name );
             setEnabled( false );
         }
-
-        // TODO: include index changes
-
         public void actionPerformed( ActionEvent event )
         {
             String baseValue = m_base.getText();
             URI base = resolveBaseURI( baseValue );
             boolean enabled = m_enabled.isSelected();
-            /*
-            try
-            {
-                m_profile.update( base, null, enabled, trusted, layout, m_auth, "", "" );
-            }
-            catch( Exception e )
-            {
-                final String error = 
-                  "Unexpected error while attempting to update the host.";
-                Logger logger = Logger.getLogger( "depot.prefs" );
-                logger.log( Level.SEVERE, error, e );
-            }
-            */
             m_parent.hide();
             dispose();
         }
@@ -361,6 +356,9 @@ class ApplicationProfilePanel extends ClassicPanel
         }
     }
 
+   /**
+    * Revert action handler.
+    */
     private class RevertAction extends AbstractAction
     {
         RevertAction( String name )
@@ -374,12 +372,11 @@ class ApplicationProfilePanel extends ClassicPanel
             m_enabled.setSelected( isProfileEnabled() );
             m_base.setText( getBasePath() );
             PropertyChangeEvent e = 
-              new PropertyChangeEvent( 
-                this, "revert", null, null );
+              new PropertyChangeEvent( this, "revert", null, null );
             m_propertyChangeSupport.firePropertyChange( e );
         }
     }
-
+    
     private String getBasePath()
     {
         try
