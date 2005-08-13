@@ -26,12 +26,12 @@ import java.net.URISyntaxException;
 import net.dpml.part.Part;
 
 /**
- * Abstract base class for ComponentProfile and ContainmentProfile.
+ * Abstract base class for ComponentDirective and ContainmentProfile.
  *
  * @author <a href="mailto:dev-dpml@lists.ibiblio.org">The Digital Product Meta Library</a>
- * @version $Id: DeploymentProfile.java 2991 2005-07-07 00:00:04Z mcconnell@dpml.net $
+ * @version $Id: DeploymentDirective.java 2991 2005-07-07 00:00:04Z mcconnell@dpml.net $
  */
-public abstract class DeploymentProfile implements Serializable, Comparable, Part
+public abstract class DeploymentDirective implements Serializable, Comparable, Part
 {
     //--------------------------------------------------------------------------
     // static
@@ -98,7 +98,7 @@ public abstract class DeploymentProfile implements Serializable, Comparable, Par
     * @param activation the activation policy
     * @param categories logging category directives
     */
-    public DeploymentProfile( 
+    public DeploymentDirective( 
       final String name, int activation, CategoriesDirective categories ) 
     {
         this( name, activation, categories, null );
@@ -110,7 +110,7 @@ public abstract class DeploymentProfile implements Serializable, Comparable, Par
     * @param activation the activation policy
     * @param categories logging category directives
     */
-    public DeploymentProfile( 
+    public DeploymentDirective( 
       final String name, int activation, CategoriesDirective categories, ClassLoaderDirective classloader ) 
     {
         m_activation = activation;
@@ -254,9 +254,9 @@ public abstract class DeploymentProfile implements Serializable, Comparable, Par
         }
         else
         {
-            if( other instanceof DeploymentProfile )
+            if( other instanceof DeploymentDirective )
             {
-                DeploymentProfile profile = (DeploymentProfile) other;
+                DeploymentDirective profile = (DeploymentDirective) other;
                 if( false == m_name.equals( profile.getName() ) )
                 {
                     return false;

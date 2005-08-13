@@ -114,12 +114,6 @@ public final class InfoDescriptor extends Descriptor
     private final int m_collection;
 
     /**
-     * Flag indicating if this is a native metro descriptor or avalon descriptor.
-     * TODO: change this to a versioned service protocol spec
-     */
-    private final boolean m_native;
-
-    /**
      * Flag indicating if the type is threadsafe.
      */
     private final boolean m_threadsafe;
@@ -139,7 +133,7 @@ public final class InfoDescriptor extends Descriptor
     public InfoDescriptor( final String name, final String classname )
             throws IllegalArgumentException, NullPointerException
     {
-        this( name, classname, null, null, null, null, false, true, null );
+        this( name, classname, null, null, null, null, false, null );
     }
 
     /**
@@ -153,7 +147,6 @@ public final class InfoDescriptor extends Descriptor
      * @param collection the garbage collection policy for the component
      * @param threadsafe if TRUE the type is declaring itself as threadsafe
      * @param schema the configuration schema
-     * @param flag native metro flag
      * @param attributes a set of attributes associated with the component type
      * @exception IllegalArgumentException if the implementation key is not a classname
      * @exception NullArgumentException if the classname argument is null.
@@ -166,13 +159,11 @@ public final class InfoDescriptor extends Descriptor
                            final String collection,
                            final String schema,
                            final boolean threadsafe,
-                           final boolean flag,
                            final Properties attributes )
             throws IllegalArgumentException, NullPointerException
     {
         super( attributes );
 
-        m_native = flag;
         m_threadsafe = threadsafe;
 
         if ( null == classname )
@@ -386,16 +377,6 @@ public final class InfoDescriptor extends Descriptor
     }
 
     /**
-     * Ruturn TRUE is this is a native descriptor else FALSE.
-     *
-     * @return the native status
-     */
-    public boolean isNative()
-    {
-        return m_native;
-    }
-
-    /**
      * Return a string representation of the info descriptor.
      * @return the stringified type
      */
@@ -415,13 +396,11 @@ public final class InfoDescriptor extends Descriptor
         if (isEqual)
         {
             InfoDescriptor info = (InfoDescriptor)other;
-            isEqual = isEqual && m_native == info.m_native;
             isEqual = isEqual && m_threadsafe == info.m_threadsafe;
             isEqual = isEqual && m_classname.equals( info.m_classname );
             isEqual = isEqual && ( m_collection == info.m_collection );
             isEqual = isEqual && m_name.equals( info.m_name );
             isEqual = isEqual && m_lifestyle.equals( info.m_lifestyle );
-
             if ( null == m_version )
             {
                 isEqual = isEqual && null == info.m_version;
@@ -442,15 +421,6 @@ public final class InfoDescriptor extends Descriptor
     public int hashCode()
     {
         int hash = super.hashCode();
-
-        if( m_native )
-        {
-            hash = hash + 818972391;
-        }
-        else
-        {
-            hash = hash - 293741397;
-        }
         if( m_threadsafe )
         {
             hash = hash + 383972391;

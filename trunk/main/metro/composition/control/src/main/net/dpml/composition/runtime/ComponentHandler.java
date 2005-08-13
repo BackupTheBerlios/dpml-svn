@@ -38,7 +38,7 @@ import java.util.Vector;
 import net.dpml.activity.Executable;
 import net.dpml.activity.Startable;
 
-import net.dpml.composition.data.ComponentProfile;
+import net.dpml.composition.data.ComponentDirective;
 import net.dpml.composition.data.ContextDirective;
 import net.dpml.composition.info.EntryDescriptor;
 import net.dpml.composition.info.Type;
@@ -96,7 +96,7 @@ public class ComponentHandler extends WeakEventProducer
 
     private final Logger m_logger;
     private final Component m_parent;
-    private final ComponentProfile m_profile;
+    private final ComponentDirective m_profile;
     private final CompositionController m_controller;
     private final ClassLoader m_classloader;
     private final URI m_uri;
@@ -120,7 +120,7 @@ public class ComponentHandler extends WeakEventProducer
 
     public ComponentHandler( 
       Logger logger, CompositionController controller, ClassLoader classloader, 
-      URI uri, ComponentProfile profile, Component parent ) 
+      URI uri, ComponentDirective profile, Component parent ) 
       throws ComponentException, PartHandlerNotFoundException, DelegationException, RemoteException
     {
         super();
@@ -872,7 +872,7 @@ public class ComponentHandler extends WeakEventProducer
         return new State( true );
     }
 
-    private Class loadComponentClass( ClassLoader classloader, ComponentProfile profile )
+    private Class loadComponentClass( ClassLoader classloader, ComponentDirective profile )
     {
         final String classname = profile.getClassname();
         try

@@ -40,9 +40,9 @@ import net.dpml.composition.control.CompositionController;
 import net.dpml.composition.control.CompositionControllerContext;
 import net.dpml.composition.data.ClassLoaderDirective;
 import net.dpml.composition.data.ClasspathDirective;
-import net.dpml.composition.data.ComponentProfile;
+import net.dpml.composition.data.ComponentDirective;
 import net.dpml.composition.data.ContextDirective;
-import net.dpml.composition.data.DeploymentProfile;
+import net.dpml.composition.data.DeploymentDirective;
 import net.dpml.composition.data.CategoriesDirective;
 import net.dpml.composition.info.EntryDescriptor;
 import net.dpml.composition.info.InfoDescriptor;
@@ -108,7 +108,7 @@ public class ComponentBuilderTask extends ClassLoaderBuilderTask implements Part
     private File m_output;
     private Type m_type;
 
-    private ComponentProfile m_profile;
+    private ComponentDirective m_profile;
 
    /**
     * Override the default output destination.
@@ -265,7 +265,7 @@ public class ComponentBuilderTask extends ClassLoaderBuilderTask implements Part
         }
 
 
-        ComponentProfile profile = createComponent( classloader, cld, file );
+        ComponentDirective profile = createComponent( classloader, cld, file );
 
         File target = getContext().getTargetDirectory();
         File reports = new File( target, "reports/parts" );
@@ -281,7 +281,7 @@ public class ComponentBuilderTask extends ClassLoaderBuilderTask implements Part
         try
         {
             XStream XStream = new XStream( new DomDriver() );
-            XStream.alias( "component", ComponentProfile.class );
+            XStream.alias( "component", ComponentDirective.class );
             XStream.toXML( profile, new FileWriter( report ) );
             log( "Created report in " + report );
         }
@@ -291,11 +291,11 @@ public class ComponentBuilderTask extends ClassLoaderBuilderTask implements Part
         }
     }
 
-    public ComponentProfile createComponent( ClassLoader classloader, ClassLoaderDirective cld, File file )
+    public ComponentDirective createComponent( ClassLoader classloader, ClassLoaderDirective cld, File file )
     {
         try
         {
-            ComponentProfile profile = buildComponentProfile( classloader, cld );
+            ComponentDirective profile = buildComponentDirective( classloader, cld );
             URI uri = getDefinition().getArtifactURI( Part.ARTIFACT_TYPE );
             if( null == m_output )
             {
@@ -415,7 +415,7 @@ public class ComponentBuilderTask extends ClassLoaderBuilderTask implements Part
     {
         String classname = getClassname();
         Type type = loadType( classloader, classname );
-        return buildComponentProfile( type, classloader );
+        return buildComponentDirective( type, classloader );
     }
 
     //---------------------------------------------------------------------
@@ -443,7 +443,7 @@ public class ComponentBuilderTask extends ClassLoaderBuilderTask implements Part
       throws IntrospectionException, IOException, ClassNotFoundException
     {
         String key = getKey();
-        Part part = buildComponentProfile( type, classloader );
+        Part part = buildComponentDirective( type, classloader );
         return new PartReference( key, part );
     }
 
@@ -451,13 +451,13 @@ public class ComponentBuilderTask extends ClassLoaderBuilderTask implements Part
     // impl
     //---------------------------------------------------------------------
 
-    private ComponentProfile buildComponentProfile( Type type, ClassLoader classloader ) 
+    private ComponentDirective buildComponentDirective( Type type, ClassLoader classloader ) 
       throws IntrospectionException, IOException, ClassNotFoundException
     {
-        return buildComponentProfile( classloader, null );
+        return buildComponentDirective( classloader, null );
     }
 
-    private ComponentProfile buildComponentProfile( ClassLoader classloader, ClassLoaderDirective cld ) 
+    private ComponentDirective buildComponentDirective( ClassLoader classloader, ClassLoaderDirective cld ) 
       throws IntrospectionException, IOException, ClassNotFoundException
     {
         String id = getName();        
@@ -466,22 +466,22 @@ public class ComponentBuilderTask extends ClassLoaderBuilderTask implements Part
 
         if( null == m_extends )
         {
-            m_profile = new ComponentProfile( id, classname );
+            m_profile = new ComponentDirective( id, classname );
         }
         else
         {
             try
             {
                 Part part = getController().loadPart( m_extends );
-                if( part instanceof ComponentProfile )
+                if( part instanceof ComponentDirective )
                 {
-                    m_profile = (ComponentProfile) part;
+                    m_profile = (ComponentDirective) part;
                 }
                 else
                 {
                     final String error = 
                       "Super-part is not an instance of "
-                      + ComponentProfile.class.getName();
+                      + ComponentDirective.class.getName();
                     throw new BuildException( error );
                 }
             }
@@ -510,7 +510,7 @@ public class ComponentBuilderTask extends ClassLoaderBuilderTask implements Part
         // return the component profile
         //
 
-        return new ComponentProfile( 
+        return new ComponentDirective( 
           id, activation, collection, lifestyle, classname, categories, context, 
           parts, parameters, configuration, cld );
     }
@@ -657,7 +657,7 @@ public class ComponentBuilderTask extends ClassLoaderBuilderTask implements Part
     {
         if( m_activation )
         {
-            return DeploymentProfile.ENABLED;
+            return DeploymentDirective.ENABLED;
         }
         else
         {

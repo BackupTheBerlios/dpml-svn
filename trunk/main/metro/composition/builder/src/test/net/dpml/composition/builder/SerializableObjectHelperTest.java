@@ -22,7 +22,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 
 import junit.framework.TestCase;
-import net.dpml.composition.data.ComponentProfile;
+import net.dpml.composition.data.ComponentDirective;
 
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.DomDriver;
@@ -31,19 +31,19 @@ public class SerializableObjectHelperTest extends TestCase
 {
     private File partFile;
 
-    public void _testComponentProfileSerialization() throws Exception
+    public void _testComponentDirectiveSerialization() throws Exception
     {
-        ComponentProfile profile = new ComponentProfile( "test", "acme.Test" );
+        ComponentDirective profile = new ComponentDirective( "test", "acme.Test" );
         SerializableObjectHelper.write( profile, new File( "Test.type" ) );
     }
 
     public void testXmlSerialization() throws Exception
     {
-        ComponentProfile profile = new ComponentProfile( "test", "acme.Test" );
+        ComponentDirective profile = new ComponentDirective( "test", "acme.Test" );
         XStream XStream = new XStream( new DomDriver() );
-        XStream.alias( "componentprofile", ComponentProfile.class );
+        XStream.alias( "componentprofile", ComponentDirective.class );
         XStream.toXML( profile, new FileWriter( partFile ) );
-        ComponentProfile result = (ComponentProfile) XStream
+        ComponentDirective result = (ComponentDirective) XStream
                 .fromXML( new FileReader( partFile ) );
         assertNotNull( result );
 

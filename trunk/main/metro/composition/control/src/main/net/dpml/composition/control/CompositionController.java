@@ -35,9 +35,9 @@ import net.dpml.logging.Logger;
 
 import net.dpml.composition.data.ClassLoaderDirective;
 import net.dpml.composition.data.ClasspathDirective;
-import net.dpml.composition.data.ComponentProfile;
+import net.dpml.composition.data.ComponentDirective;
 import net.dpml.composition.data.ValueDirective;
-import net.dpml.composition.data.DeploymentProfile;
+import net.dpml.composition.data.DeploymentDirective;
 import net.dpml.composition.info.InfoDescriptor;
 
 import net.dpml.composition.runtime.ComponentHandler;
@@ -117,9 +117,9 @@ public class CompositionController extends CompositionPartHandler implements Con
 
         try
         {
-            ComponentProfile profile = 
-              new ComponentProfile(
-                "root", DeploymentProfile.DEFAULT, InfoDescriptor.UNDEFINED_COLLECTION, 
+            ComponentDirective profile = 
+              new ComponentDirective(
+                "root", DeploymentDirective.DEFAULT, InfoDescriptor.UNDEFINED_COLLECTION, 
                 "singleton", Object.class.getName(), null, null, null, null, null, null );
             m_root = new CompositionHandler( m_logger, this, classloader, partition, profile, null );
         }
@@ -208,8 +208,40 @@ public class CompositionController extends CompositionPartHandler implements Con
         URI partition = getPartition( parent );
         if( isRecognizedPart( part ) )
         {
-            ClassLoader classloader = getAnchorClassLoader( parent );
+            ClassLoader anchor = getAnchorClassLoader( parent );
+            return newComponent( parent, anchor, part, name );
+        }
+        else
+        {
+            URI handlerUri = part.getPartHandlerURI();
+            getLogger().info( "delegating to: " + handlerUri );
+            Controller controller = (Controller) getPrimaryController( handlerUri );
+            getLogger().info( "delegate established: " + controller );
+            return controller.newComponent( parent, part, name );
+        }
+    }
 
+   /**
+    * Construct a new component using the supplied part as the defintion of the 
+    * component type and deployment criteria.
+    *
+    * @param parent the enclosing parent component (may be null)
+    * @param part component definition including type and deployment data
+    * @param name the name to assign to the new component
+    * @return a new component
+    * @exception ComponentException is an error occurs during component establishment
+    * @exception PartHandlerNotFoundException if the part references a handler but the handler could not be found
+    * @exception DelegationException if an error occurs following handover of control to a foreign controller
+    * @exception UnsupportedPartTypeException if the component type is recognized but not supported
+    */
+    public Component newComponent( Component parent, ClassLoader classloader, Part part, String name )
+      throws ComponentException, PartHandlerNotFoundException, DelegationException, RemoteException
+    {
+        Component container = parent;
+
+        URI partition = getPartition( parent );
+        if( isRecognizedPart( part ) )
+        {
             if( part instanceof ValueDirective )
             {
                 ValueDirective directive = (ValueDirective) part;
@@ -220,34 +252,11 @@ public class CompositionController extends CompositionPartHandler implements Con
                 logger.debug( "constructing value [" + theName + "] as [" + id + "]" );
                 return new ValueHandler( logger, this, classloader, id, directive, parent );
             }
-            else if( part instanceof ComponentProfile )
+            else if( part instanceof ComponentDirective )
             {
-                ComponentProfile profile = (ComponentProfile) part;
+                ComponentDirective profile = (ComponentDirective) part;
                 String defaultName = profile.getName();
                 String theName = getName( defaultName, name );
-                //URI superPart = profile.getExtends();
-                //if( null != superPart )
-                //{
-                //    getLogger().debug( "creating super: " + superPart );
-                //}
-                //if( null != superPart )
-                //{
-                //    try
-                //    {
-                //        Part extension = loadPart( superPart );
-                //        container = newComponent( parent, extension, null );
-                //        partition = container.getURI();
-                //        classloader = getClassLoader( container );
-                //    }
-                //    catch( Throwable e )
-                //    {
-                //        final String error = 
-                //          "Internal error while attempting to establish enclosing component."
-                //          + "\nComponent name: " + theName
-                //          + "\nExtends: " + superPart;
-                //        throw new ComponentException( error, e );
-                //    }
-                //}
                 URI id = createURI( partition, theName );
                 getLogger().debug( "constructing component: " + theName + " as [" + id + "]" );
                 Logger logger = getLogger().getChildLogger( theName );
@@ -294,29 +303,11 @@ public class CompositionController extends CompositionPartHandler implements Con
         URI partition = getPartition();
         if( isRecognizedPart( part ) )
         {
-            if( part instanceof ComponentProfile )
+            if( part instanceof ComponentDirective )
             {
                 Component parent = null;
-                ComponentProfile profile = (ComponentProfile) part;
+                ComponentDirective profile = (ComponentDirective) part;
                 String name = profile.getName();
-                //URI superPart = profile.getExtends();
-                //if( null != superPart )
-                //{
-                //    try
-                //    {
-                //        Part extension = loadPart( superPart );
-                //        parent = newComponent( null, extension, null );
-                //        partition = parent.getURI();
-                //    }
-                //    catch( Throwable e )
-                //    {
-                //        final String error = 
-                //          "Internal error while attempting to establish enclosing component."
-                //          + "\nComponent name: " + name
-                //          + "\nExtends: " + superPart;
-                //        throw new ComponentException( error, e );
-                //    }
-                //}
                 URI id = createURI( partition, name );
                 getLogger().debug( "creating component: " + name + " as [" + id + "]" );
                 Logger logger = getLogger().getChildLogger( name );
@@ -353,9 +344,15 @@ public class CompositionController extends CompositionPartHandler implements Con
             ClassLoader classloader = context.getClassLoader();
             if( classloader != null )
             {
-                return new CompositionClassLoader( 
-                   m_logger, "xxx", getClass().getClassLoader(), classloader );
-                //return classloader;
+                if( classloader instanceof CompositionClassLoader )
+                {
+                    return classloader;
+                }
+                else
+                {
+                    return new CompositionClassLoader( 
+                      m_logger, "context", getClass().getClassLoader(), classloader );
+                }
             }
         }
         return Logger.class.getClassLoader();
@@ -408,8 +405,9 @@ public class CompositionController extends CompositionPartHandler implements Con
     // private
     //--------------------------------------------------------------------
 
-    private ClassLoader getClassLoader( ClassLoader parent, URI partition, ComponentProfile profile )
+    private ClassLoader getClassLoader( ClassLoader anchor, URI partition, ComponentDirective profile )
     {
+        ClassLoader parent = anchor;
         final ClassLoader base = getClass().getClassLoader();
         final String name = profile.getName();
         final ClassLoaderDirective cld = profile.getClassLoaderDirective();

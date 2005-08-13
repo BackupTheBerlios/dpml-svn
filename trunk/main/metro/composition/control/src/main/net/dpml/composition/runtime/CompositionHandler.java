@@ -33,7 +33,7 @@ import java.lang.reflect.Proxy;
 import java.lang.reflect.InvocationHandler;
 
 import net.dpml.composition.control.CompositionController;
-import net.dpml.composition.data.ComponentProfile;
+import net.dpml.composition.data.ComponentDirective;
 
 import net.dpml.part.DelegationException;
 import net.dpml.part.PartHandlerNotFoundException;
@@ -68,7 +68,7 @@ public class CompositionHandler extends ComponentHandler implements Container, S
 
     public CompositionHandler(
       Logger logger, CompositionController controller, ClassLoader classloader, URI uri, 
-      ComponentProfile profile, Component parent ) 
+      ComponentDirective profile, Component parent ) 
       throws ComponentException, PartHandlerNotFoundException, DelegationException, RemoteException
     {
         super( logger, controller, classloader, uri, profile, parent );

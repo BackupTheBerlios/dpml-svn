@@ -29,8 +29,8 @@ import junit.framework.TestCase;
 
 import net.dpml.composition.control.CompositionController;
 import net.dpml.composition.data.ValueDirective;
-import net.dpml.composition.data.ComponentProfile;
-import net.dpml.composition.data.DeploymentProfile;
+import net.dpml.composition.data.ComponentDirective;
+import net.dpml.composition.data.DeploymentDirective;
 
 import net.dpml.part.PartContentHandlerFactory;
 import net.dpml.part.control.Controller;
@@ -120,8 +120,8 @@ public class ControllerTestCase extends TestCase
 
     public void testComponentAddition() throws Exception
     {
-        ComponentProfile profile = new ComponentProfile( "demo", "java.lang.Object" );
-        profile.setActivationPolicy( DeploymentProfile.ENABLED );
+        ComponentDirective profile = new ComponentDirective( "demo", "java.lang.Object" );
+        profile.setActivationPolicy( DeploymentDirective.ENABLED );
         m_root.addComponent( "demo", profile );
         Component[] startup = m_root.getStartupSequence();
         System.out.println( "# component startup: " + startup.length );
@@ -129,9 +129,9 @@ public class ControllerTestCase extends TestCase
 
     public void testMultipleComponentAddition() throws Exception
     {
-        ComponentProfile p1 = new ComponentProfile( "demo", "java.lang.Object" );
-        ComponentProfile p2 = new ComponentProfile( "demo", "java.lang.Object" );
-        ComponentProfile p3 = new ComponentProfile( "demo", "java.lang.Object" );
+        ComponentDirective p1 = new ComponentDirective( "demo", "java.lang.Object" );
+        ComponentDirective p2 = new ComponentDirective( "demo", "java.lang.Object" );
+        ComponentDirective p3 = new ComponentDirective( "demo", "java.lang.Object" );
         m_root.addComponent( "p1", p1 );
         m_root.addComponent( "p2", p2 );
         m_root.addComponent( "p3", p3 );
@@ -141,9 +141,9 @@ public class ControllerTestCase extends TestCase
 
     public void testNestedAssembly() throws Exception
     {
-        ComponentProfile p1 = new ComponentProfile( "demo", "java.lang.Object" );
-        ComponentProfile p2 = new ComponentProfile( "demo", "java.lang.Object" );
-        ComponentProfile p3 = new ComponentProfile( "demo", "java.lang.Object" );
+        ComponentDirective p1 = new ComponentDirective( "demo", "java.lang.Object" );
+        ComponentDirective p2 = new ComponentDirective( "demo", "java.lang.Object" );
+        ComponentDirective p3 = new ComponentDirective( "demo", "java.lang.Object" );
         m_root.addComponent( "p1", p1 );
         Container container = (Container) m_root.addComponent( "p2", p2 );
         container.addComponent( "p3", p3 );
@@ -164,9 +164,9 @@ public class ControllerTestCase extends TestCase
     public void testDependentAssembly() throws Exception
     {
         /*
-        ComponentProfile p1 = new ComponentProfile( "demo", "java.lang.Object" );
-        ComponentProfile p2 = new ComponentProfile( "demo", "java.lang.Object" );
-        ComponentProfile p3 = new ComponentProfile( "demo", "java.lang.Object" );
+        ComponentDirective p1 = new ComponentDirective( "demo", "java.lang.Object" );
+        ComponentDirective p2 = new ComponentDirective( "demo", "java.lang.Object" );
+        ComponentDirective p3 = new ComponentDirective( "demo", "java.lang.Object" );
         */
     }
 }

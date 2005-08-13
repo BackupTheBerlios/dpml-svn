@@ -98,9 +98,9 @@ import net.dpml.parameters.Parameters;
  *
  *
  * @author <a href="mailto:dev-dpml@lists.ibiblio.org">The Digital Product Meta Library</a>
- * @version $Id: ComponentProfile.java 2991 2005-07-07 00:00:04Z mcconnell@dpml.net $
+ * @version $Id: ComponentDirective.java 2991 2005-07-07 00:00:04Z mcconnell@dpml.net $
  */
-public class ComponentProfile extends DeploymentProfile
+public class ComponentDirective extends DeploymentDirective
 {
    /**
     * Serial version identifier.
@@ -152,12 +152,12 @@ public class ComponentProfile extends DeploymentProfile
     * @param name the name to assign to the component deployment scenario
     * @param classname the classname of the component type
     */
-    public ComponentProfile( final String name, final String classname )
+    public ComponentDirective( final String name, final String classname )
         throws NullPointerException
     {
         this(
           name, 
-          DeploymentProfile.DEFAULT, 
+          DeploymentDirective.DEFAULT, 
           InfoDescriptor.UNDEFINED_COLLECTION, 
           "request", 
           classname, 
@@ -169,7 +169,7 @@ public class ComponentProfile extends DeploymentProfile
     * @param name the name to assign to the created profile
     * @param template the template deployment profile
     */
-    public ComponentProfile( String name, ComponentProfile template )
+    public ComponentDirective( String name, ComponentDirective template )
         throws NullPointerException
     {
         this(
@@ -186,7 +186,7 @@ public class ComponentProfile extends DeploymentProfile
           template.getClassLoaderDirective() );
     }
 
-    public ComponentProfile(
+    public ComponentDirective(
            final String name,
            final int activation,
            final int collection,
@@ -378,11 +378,11 @@ public class ComponentProfile extends DeploymentProfile
         {
             return false;
         }
-        if( false == ( other instanceof ComponentProfile ) )
+        if( false == ( other instanceof ComponentDirective ) )
         {
             return false;
         }
-        ComponentProfile profile = (ComponentProfile) other;
+        ComponentDirective profile = (ComponentDirective) other;
         if( false == m_classname.equals( profile.getClassname() ) )
         {
             return false;
