@@ -118,6 +118,7 @@ public class CompositionHandler extends ComponentHandler implements Container, S
 
     public Component lookup( ServiceDescriptor spec ) throws ServiceException, RemoteException
     {
+        getLogger().debug( "looking for [" + spec + "] in the parts of [" + this + "]" );
         Component[] candidates = getPartsTable().getComponents( spec );
         if( candidates.length == 0 )
         {

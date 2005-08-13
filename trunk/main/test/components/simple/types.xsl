@@ -113,7 +113,7 @@
     </table>
   </xsl:template>
 
-  <xsl:template match="net.dpml.composition.info.PartDescriptor">
+  <xsl:template match="net.dpml.part.PartReference">
     <xsl:apply-templates/>
   </xsl:template>
 
@@ -125,21 +125,6 @@
     </td>
   </xsl:template>
 
-  <xsl:template match="net.dpml.composition.info.PartDescriptor-Operation">
-    <tr><td><xsl:apply-templates/></td></tr>
-  </xsl:template>
-
-  <xsl:template match="m__type">
-    <xsl:apply-templates/>
-  </xsl:template>
-
-  <xsl:template match="m__semantic">
-    <xsl:apply-templates/>
-  </xsl:template>
-
-  <xsl:template match="m__postfix">
-    <xsl:apply-templates/>
-  </xsl:template>
 
 </xsl:stylesheet>
 

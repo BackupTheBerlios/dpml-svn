@@ -44,45 +44,7 @@ public class CompositeTestCase extends TestCase
     */
     public void testAcmeContainerUsingComponent() throws Exception
     {
-        executeTestOnPart( "acme-container.part" );
-    }
-
-   /**
-    * Test the construction of a component that contains two child components
-    * (widget and gizmo) where the widget is a value object.
-    */
-    public void testAcmeContainerUsingValue() throws Exception
-    {
-        executeTestOnPart( "acme-test-container.part" );
-    }
-
-   /**
-    * Test the construction of a component that contains two child components
-    * widget and gizmo where both are components and gizmo declares a dependency
-    * on widget.
-    */
-    public void testBadWidget() throws Exception
-    {
-        File test = new File( System.getProperty( "project.test.dir" ) );
-        URL url = new File( test, "acme-bad-widget.part" ).toURL();
-        Component component = (Component) url.getContent( new Class[]{ Component.class } );
-        AcmeContainer container = (AcmeContainer) component.resolve( false );
-        try
-        {
-            container.execute();
-        }
-        catch( BadColorException e )
-        {
-             // success
-        }
-        finally
-        {
-            component.release( container );
-        }
-    }
-
-    private void executeTestOnPart( String path ) throws Exception
-    {
+        String path = "acme-container.part";
         File test = new File( System.getProperty( "project.test.dir" ) );
         URL url = new File( test, path ).toURL();
         Component component = (Component) url.getContent( new Class[]{ Component.class } );
@@ -104,6 +66,4 @@ public class CompositeTestCase extends TestCase
            "net.dpml.transit.store.LocalPreferencesFactory" );
         URLConnection.setContentHandlerFactory( new PartContentHandlerFactory() );
     }
-
-
 }

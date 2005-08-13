@@ -108,11 +108,6 @@ public class ReferenceDataType implements PartReferenceBuilder
     // PartBuilder
     //---------------------------------------------------------------------
 
-    //public Part buildPart( ClassLoader classloader )
-    //{
-    //    return getValueDirective( classloader );
-    //}
-
    /**
     * Return a urn identitifying the part handler for this builder.
     *

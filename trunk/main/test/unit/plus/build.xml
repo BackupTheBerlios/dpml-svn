@@ -29,13 +29,6 @@
           <color>red</color>
         </test>
       </configuration>
-      <parts>
-        <component name="test" type="net.dpml.test.acme.plus.ConfigurableComponent">
-          <configuration>
-            <color>blue</color>
-          </configuration>
-        </component>
-      </parts>
     </c:component>
 
     <!-- 
@@ -44,13 +37,11 @@
     <c:component dest="target/test/managed-component.part" 
         type="net.dpml.test.acme.plus.ManagedComponent"
         name="component"/>
+
     <c:component dest="target/test/managing-container.part" 
         xmlns="plugin:dpml/composition/dpml-composition-builder" 
         type="net.dpml.test.acme.plus.ManagingContainer"
         name="container">
-      <parts>
-        <component key="test" type="net.dpml.test.acme.plus.ManagedComponent"/>
-      </parts>
     </c:component>
 
   </target>

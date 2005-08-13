@@ -165,35 +165,34 @@ public class EntryDataType extends ValueDataType implements PartReferenceBuilder
     public ValueDirective getValueDirective( ClassLoader classloader, Type type )
     {
         String key = getKey();
-        EntryDescriptor entry = type.getContext().getEntry( key );
-        if( null == entry )
-        {
-            final String error = 
-              "The value key ["
-              + key
-              + "] is unknown relative to the component type ["
-              + type.getInfo().getClassname()
-              + "].";
-            throw new ConstructionException( error );
-        }
-
         String classname = getClassname();
-        if( null == classname )
+
+        if( null != type )
         {
-            if( null != entry )
+            EntryDescriptor entry = type.getContext().getEntry( key );
+            if( null == entry )
+            {
+                final String error = 
+                  "The value key ["
+                  + key
+                  + "] is unknown relative to the component type ["
+                  + type.getInfo().getClassname()
+                  + "].";
+                throw new ConstructionException( error );
+            }
+            else if( null == classname )
             {
                 classname = entry.getClassname();
             }
-            else
-            {
-                final String error = 
-                  "Unable to construct a value directive for the key ["
-                  + key 
-                  + "] relative to the component type ["
-                  + type.getInfo().getClassname() 
-                  + "] as the primary classname was not resolvable.";
-                throw new ConstructionException( error );
-            }
+        }
+
+        if( null == classname )
+        {
+            final String error = 
+              "Missing value classname attribute for key ["
+              + key 
+              + "].";
+            throw new ConstructionException( error );
         }
 
         String value = getValue();

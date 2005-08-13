@@ -36,6 +36,8 @@ import java.util.Properties;
 import net.dpml.activity.Startable;
 import net.dpml.activity.Executable;
 
+import net.dpml.composition.builder.datatypes.PartsDataType;
+
 import net.dpml.composition.info.CategoryDescriptor;
 import net.dpml.composition.info.ContextDescriptor;
 import net.dpml.composition.info.EntryDescriptor;
@@ -51,6 +53,7 @@ import net.dpml.configuration.impl.DefaultConfigurationBuilder;
 import net.dpml.magic.tasks.ProjectTask;
 import net.dpml.magic.model.Policy;
 
+import net.dpml.part.PartReference;
 import net.dpml.part.state.State;
 import net.dpml.part.component.ServiceDescriptor;
 
@@ -81,6 +84,7 @@ public class TypeBuilderTask extends ProjectTask implements TypeBuilder
     private String m_lifestyle;
     private String m_collection;
     private boolean m_threadsafe = false;
+    private PartsDataType m_parts;
 
     //---------------------------------------------------------------
     // setters
@@ -141,6 +145,21 @@ public class TypeBuilderTask extends ProjectTask implements TypeBuilder
         }
     }
 
+    public PartsDataType createParts()
+    {
+        if( m_parts == null )
+        {
+            m_parts = new PartsDataType( this );
+            return m_parts;
+        }
+        else
+        {
+             final String error =
+              "Illegal attempt to create a duplicate parts element.";
+             throw new BuildException( error, getLocation() );
+        }
+    }
+
     //---------------------------------------------------------------
     // Builder
     //---------------------------------------------------------------
@@ -186,7 +205,8 @@ public class TypeBuilderTask extends ProjectTask implements TypeBuilder
         ServiceDescriptor[] services = createServiceDescriptors( subject );
         CategoryDescriptor[] categories = new CategoryDescriptor[0];
         ContextDescriptor context = createContextDescriptor( subject );
-        PartDescriptor[] parts = createPartDescriptors( subject );
+        //PartDescriptor[] parts = createPartDescriptors( subject );
+        PartReference[] parts = getPartReferences( subject.getClassLoader() );
         Configuration config = createDefaultConfiguration( subject );
         State graph = resolveStateGraph( subject );
 
@@ -530,6 +550,28 @@ public class TypeBuilderTask extends ProjectTask implements TypeBuilder
         else
         {
             return new ServiceDescriptor( classname );
+        }
+    }
+
+    private PartReference[] getPartReferences( ClassLoader classloader ) 
+      throws IntrospectionException, IOException
+    {
+        if( null != m_parts )
+        {
+            try
+            {
+                return m_parts.getParts( classloader, null );
+            }
+            catch( ClassNotFoundException cnfe )
+            {
+                final String error = 
+                  "Unable to load a class referenced by a nested part within a component type.";
+                throw new BuildException( error, cnfe );
+            }
+        }
+        else
+        {
+            return new PartReference[0];
         }
     }
 

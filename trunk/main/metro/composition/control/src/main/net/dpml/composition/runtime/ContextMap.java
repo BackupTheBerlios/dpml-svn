@@ -109,6 +109,34 @@ public class ContextMap extends Hashtable
         {
             ReferenceDirective reference = (ReferenceDirective) part;
             URI uri = reference.getURI();
+            if( ( null != m_parent ) && ( m_parent instanceof ServiceContext ) )
+            {
+                ServiceContext context = (ServiceContext) m_parent;
+                try
+                {
+                    Component service = context.lookup( uri );
+                    addEntry( key, service );
+                }
+                catch( ServiceException e )
+                {
+                    final String error = 
+                      "Unresolvable context reference."
+                      + "\nComponent: " + m_component.getLocalURI()
+                      + "\nContext Key: " + key
+                      + "\nContext Entry URI: " + uri;
+                    throw new ComponentException( error, e );
+                }
+            }
+            else
+            {
+                final String error = 
+                  "Unresolvable reference."
+                  + "\nComponent: " + m_component.getLocalURI()
+                  + "\nContext Key: " + key
+                  + "\nContext Entry URI: " + uri;
+                throw new ComponentException( error );
+            }
+            /*
             if( "parts".equals( uri.getScheme() ) )
             {
                 String ref = uri.getSchemeSpecificPart();
@@ -165,6 +193,7 @@ public class ContextMap extends Hashtable
                   + "\nContext Key: " + key;
                 throw new ComponentException( error );
             }
+            */
         }
         else
         {
@@ -293,7 +322,7 @@ public class ContextMap extends Hashtable
         for( int i=0; i<values.length; i++ )
         {
             Object value = values[i];
-            if( value instanceof Component )
+            if( value instanceof ComponentHandler )
             {
                 list.add( value );
             }

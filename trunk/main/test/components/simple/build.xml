@@ -10,16 +10,39 @@
   <target name="build" depends="standard.build">
 
     <!-- create the component types -->
-    <c:types>
-      <type class="net.dpml.test.acme.ExampleComponent"/>
-      <type class="net.dpml.test.acme.ExampleContainer"/>
-      <type class="net.dpml.test.acme.SimpleWidget"/>
-      <type class="net.dpml.test.acme.DimensionComponent"/>
-      <type class="net.dpml.test.acme.BadWidget" threadsafe="true"/>
-      <type class="net.dpml.test.acme.GizmoComponent" threadsafe="true"/>
-      <type class="net.dpml.test.acme.AcmeContainer" threadsafe="true"/>
-      <type class="net.dpml.test.acme.WidgetComponent" threadsafe="true"/>
-    </c:types>
+    <c:type class="net.dpml.test.acme.ExampleComponent"/>
+    <c:type class="net.dpml.test.acme.DimensionComponent"/>
+    <c:type class="net.dpml.test.acme.SimpleWidget"/>
+    <c:type class="net.dpml.test.acme.BadWidget" threadsafe="true"/>
+    <c:type class="net.dpml.test.acme.GizmoComponent" threadsafe="true"/>
+    <c:type class="net.dpml.test.acme.WidgetComponent" threadsafe="true"/>
+
+    <c:type class="net.dpml.test.acme.ExampleContainer">
+      <parts>
+        <component name="dimension" type="net.dpml.test.acme.DimensionComponent"/>
+      </parts>
+    </c:type>
+
+    <c:type class="net.dpml.test.acme.AcmeContainer" threadsafe="true">
+      <parts>
+        <component name="widget" type="net.dpml.test.acme.WidgetComponent">
+          <context>
+            <entry key="workingDirectory">
+              <param class="java.io.File" value="urn:system:work.dir"/>
+              <param value="acme/workspace"/>
+            </entry>
+            <entry key="name" feature="name"/>
+            <entry key="uri" feature="uri"/>
+          </context>
+        </component>
+        <component name="gizmo" type="net.dpml.test.acme.GizmoComponent">
+          <context>
+            <entry key="color" value="red"/>
+            <entry key="widget" uri="service:net.dpml.test.acme.Widget"/>
+          </context>
+        </component>
+      </parts>
+    </c:type>
 
     <!-- creation of a component for reference by uri -->
     <c:component type="net.dpml.test.acme.DimensionComponent" name="dimension"/>

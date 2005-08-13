@@ -9,18 +9,31 @@
 
   <target name="build" depends="standard.build">
 
-    <c:types>
-      <type class="net.dpml.test.acme.plus.ConfigurableComponent" threadsafe="true"/>
-      <type class="net.dpml.test.acme.plus.ConfigurableContainer" threadsafe="true"/>
-      <type class="net.dpml.test.acme.plus.ManagedComponent" threadsafe="true"/>
-      <type class="net.dpml.test.acme.plus.ManagingContainer" threadsafe="true"/>
-    </c:types>
+    <!-- create the configuration component -->
+    <c:type class="net.dpml.test.acme.plus.ConfigurableComponent" threadsafe="true"/>
 
-    <c:component type="net.dpml.test.acme.plus.ManagingContainer" name="container">
+    <!-- create a configuration container with the configurable component as an internal part -->
+    <c:type class="net.dpml.test.acme.plus.ConfigurableContainer" threadsafe="true">
+      <parts>
+        <component name="test" type="net.dpml.test.acme.plus.ConfigurableComponent">
+          <configuration>
+            <color>blue</color>
+          </configuration>
+        </component>
+      </parts>
+    </c:type>
+
+    <!-- create the managed component -->
+    <c:type class="net.dpml.test.acme.plus.ManagedComponent" threadsafe="true"/>
+
+    <!-- create a managing container with the managed component as an internal part -->
+    <c:type class="net.dpml.test.acme.plus.ManagingContainer" threadsafe="true">
       <parts>
         <component key="test" type="net.dpml.test.acme.plus.ManagedComponent"/>
       </parts>
-    </c:component>
+    </c:type>
+
+    <c:component type="net.dpml.test.acme.plus.ManagingContainer" name="container"/>
 
   </target>
 

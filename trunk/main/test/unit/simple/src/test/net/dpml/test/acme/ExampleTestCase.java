@@ -64,33 +64,6 @@ public class ExampleTestCase extends TestCase
         example.doMyStuff();
     }
 
-   /**
-    * Test the construction of the example component using a 
-    * component declared as a part of an enclosing component.
-    */
-    public void testExampleUsingContainer() throws Exception
-    {
-        File test = new File( System.getProperty( "project.test.dir" ) );
-        URL url = new File( test, "acme-example-three.part" ).toURL();
-        Component component = (Component) url.getContent( new Class[]{ Component.class } );
-        Example example = (Example) component.resolve();
-        example.doMyStuff();
-    }
-
-   /**
-    * Test the construction of the example component using a 
-    * component declared as a part of an enclosing component using 
-    * a part reference.
-    */
-    public void testExampleUsingPartReference() throws Exception
-    {
-        File test = new File( System.getProperty( "project.test.dir" ) );
-        URL url = new File( test, "acme-example-four.part" ).toURL();
-        Component component = (Component) url.getContent( new Class[]{ Component.class } );
-        Example example = (Example) component.resolve();
-        example.doMyStuff();
-    }
-
     static
     {
         System.setProperty( 

@@ -34,12 +34,13 @@ import net.dpml.composition.info.CategoryDescriptor;
 import net.dpml.composition.info.ContextDescriptor;
 import net.dpml.composition.info.EntryDescriptor;
 import net.dpml.composition.info.InfoDescriptor;
-import net.dpml.composition.info.PartDescriptor;
+//import net.dpml.composition.info.PartDescriptor;
 import net.dpml.composition.info.PartDescriptor.Operation;
 import net.dpml.composition.info.Type;
 
 import net.dpml.configuration.Configuration;
 
+import net.dpml.part.PartReference;
 import net.dpml.part.state.State;
 import net.dpml.part.component.ServiceDescriptor;
 
@@ -57,7 +58,8 @@ public class TypeTestCase extends TestCase
     private CategoryDescriptor[] m_loggers;
     private ContextDescriptor m_context;
     private ServiceDescriptor[] m_services;
-    private PartDescriptor[] m_parts;
+    //private PartDescriptor[] m_parts;
+    private PartReference[] m_parts;
     private ServiceDescriptor m_reference;
     private String m_key;
 
@@ -78,12 +80,7 @@ public class TypeTestCase extends TestCase
         m_context = new ContextDescriptor( 
           TypeTestCase.class.getName(), new EntryDescriptor[0]);
         m_services = new ServiceDescriptor[] { m_reference };
-        m_parts = new PartDescriptor[] {
-          new PartDescriptor( 
-            "key", 
-            new Operation[]{ 
-              new Operation( PartDescriptor.GET, ServiceDescriptor.class.getName() ) } )
-        };
+        m_parts = new PartReference[0];
     }
 
     private void checkType(Type type)
@@ -95,7 +92,7 @@ public class TypeTestCase extends TestCase
         assertEquals( m_services[0], type.getService( m_reference ) );
         assertEquals( m_services[0], type.getService( m_services[0].getClassname() ) );
         checkArray( m_services, type.getServices());
-        //checkArray( m_parts, type.getPartDescriptors());
+        checkArray( m_parts, type.getPartReferences());
         assertTrue( type.isaCategory(m_loggers[0].getName()));
         assertTrue( !type.isaCategory( "fake name" ) );
     }

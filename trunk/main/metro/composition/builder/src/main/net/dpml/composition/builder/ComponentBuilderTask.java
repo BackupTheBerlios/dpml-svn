@@ -528,7 +528,17 @@ public class ComponentBuilderTask extends ClassLoaderBuilderTask implements Part
         try
         {
             Class c = classloader.loadClass( classname );
-            return Type.loadType( c );
+            Type type = Type.loadType( c );
+            if( null != type )
+            {
+                return type;
+            }
+            else
+            {
+                final String error = 
+                  "Component type [" + classname + "] is unknown or undefined.";
+                throw new BuildException( error );
+            }
         }
         catch( Throwable e )
         {

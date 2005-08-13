@@ -233,43 +233,12 @@ public class ComponentController extends LoggingHandler
         if( component instanceof Container )
         {
             Container container = (Container) component;
-            Component[] services = container.getStartupSequence();
-            getLogger().info( "startup sequence (" + services.length + ")" );
-
-            for( int i=0; i<services.length; i++ )
+            Component[] providers = container.getStartupSequence();
+            getLogger().info( "startup sequence (" + providers.length + ")" );
+            for( int i=0; i<providers.length; i++ )
             {
-                getLogger().debug( " (" + i + ") " + services[i] );
-
-                /*
-                Service service = services[i];
-                try
-                {
-                    getLogger().debug( "preparing service" + service.getURI() );
-                    service.prepare();
-                }
-                catch( AvailabilityException e )
-                {
-                    URI uri = getURI();
-                    final String error = 
-                      "Failed to initialize component due to non-availability of a dependent service."
-                      + "\nComponent: " + component.getLocalURI()
-                      + "\nService Provider: " + service.getURI();
-                    throw new ControlException( uri, error, e );
-                }
-                */
-            }
-        }
-
-        Component[] providers = component.getProviders();
-        getLogger().debug( "provider count: " + providers.length );
-
-        for( int i=0; i<providers.length; i++ )
-        {
-            Component provider = providers[i];
-            getLogger().debug( "provider (" + i + ") " + providers[i].getClass().getName() );
-            getLogger().debug( "provider (" + i + ") " + providers[i] + " " + ( provider instanceof Available ) );
-            if( provider instanceof Available )
-            {
+                Component provider = providers[i];
+                getLogger().debug( " (" + i + ") " + providers[i] );
                 Available available = (Available) provider;
                 try
                 {

@@ -158,14 +158,14 @@ public class ComponentHandler extends WeakEventProducer
         // within this model.
         //
 
-        PartReference[] parts = profile.getParts();
+        PartReference[] parts = m_type.getPartReferences();
         for( int i=0; i<parts.length; i++ )
         {
             PartReference reference = parts[i];
             String key = reference.getKey();
             Part part = reference.getPart();
             addComponent( key, part );
-        }        
+        }
 
         //
         // Build the context model.  The initial population of the context 
@@ -206,8 +206,8 @@ public class ComponentHandler extends WeakEventProducer
    /**
     * Add a component to the collection of components managed by the container.
     *
-    * @param uri a part uri
     * @param key the key under which the component will be referenced
+    * @param uri a part uri
     * @return the component
     */
     public Component addComponent( String key, URI uri ) 

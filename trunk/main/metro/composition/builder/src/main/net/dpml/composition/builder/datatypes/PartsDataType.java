@@ -42,7 +42,6 @@ import org.apache.tools.ant.Task;
  * @author <a href="mailto:dev-dpml@lists.ibiblio.org">The Digital Product Meta Library</a>
  * @version $Revision: 1.2 $ $Date: 2004/03/17 10:30:09 $
  */
-//public class PartsDataType extends ProjectComponent implements DynamicElementNS
 public class PartsDataType extends ClassLoaderBuilderTask implements DynamicElementNS
 {
     private List m_builders = new LinkedList();
@@ -173,13 +172,16 @@ public class PartsDataType extends ClassLoaderBuilderTask implements DynamicElem
     }
 
    /**
-    * Return the set of parts contained within this container.
+    * Return the set of parts contained within this parts collection.
+    * @param classloader the runtime classloader
+    * @param type the component type that references are relative to
     * @return the contained parts
     */
     public PartReference[] getParts( ClassLoader classloader, Type type ) 
       throws IntrospectionException, IOException, ClassNotFoundException
     {
-        PartReferenceBuilder[] builders = (PartReferenceBuilder[]) m_builders.toArray( new PartReferenceBuilder[0] );
+        PartReferenceBuilder[] builders = 
+          (PartReferenceBuilder[]) m_builders.toArray( new PartReferenceBuilder[0] );
         PartReference[] parts = new PartReference[ builders.length ];
         for( int i=0; i<builders.length; i++ )
         {

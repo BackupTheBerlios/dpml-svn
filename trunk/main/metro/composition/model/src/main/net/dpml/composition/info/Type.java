@@ -27,6 +27,8 @@ import java.net.URL;
 
 import net.dpml.configuration.Configuration;
 
+import net.dpml.part.Part;
+import net.dpml.part.PartReference;
 import net.dpml.part.state.State;
 import net.dpml.part.component.ComponentException;
 import net.dpml.part.component.ServiceDescriptor;
@@ -96,7 +98,7 @@ public class Type implements Serializable
     private final ContextDescriptor m_context;
     private final ServiceDescriptor[] m_services;
     private final Configuration m_configuration;
-    private final PartDescriptor[] m_parts;
+    private final PartReference[] m_parts;
 
     /**
      * Creation of a new Type instance using a supplied component descriptor,
@@ -113,6 +115,7 @@ public class Type implements Serializable
      *   this component type is capable of supplying
      * @param defaults the static configuration defaults
      * @param parts an array of part descriptors
+     * @param supertype classname of the supertype
      * @exception NullPointerException if the graph, descriptor, loggers, context, services
      *   or part argument are null
      */
@@ -122,7 +125,7 @@ public class Type implements Serializable
                  final ContextDescriptor context,
                  final ServiceDescriptor[] services,
                  final Configuration defaults,
-                 final PartDescriptor[] parts )
+                 final PartReference[] parts )
             throws NullPointerException 
     {
         if ( null == descriptor )
@@ -151,7 +154,7 @@ public class Type implements Serializable
 
         if( null == parts )
         {
-            m_parts = new PartDescriptor[0];
+            m_parts = new PartReference[0];
         }
         else
         {
@@ -283,33 +286,29 @@ public class Type implements Serializable
      *
      * @return the part descriptors
      */
-    /*
-    public PartDescriptor[] getPartDescriptors()
+    public PartReference[] getPartReferences()
     {
         return m_parts;
     }
-    */
 
     /**
      * Retrieve an identified part.
      *
-     * @param key the part key
-     * @return the part (possibly null)
+     * @param key the part reference key
+     * @return the part or null if the part key is unknown
      */
-    /*
-    public PartDescriptor getPartDescriptor( final String key )
+    public Part getPart( final String key )
     {
         for ( int i = 0; i < m_parts.length; i++ )
         {
-            PartDescriptor part = m_parts[i];
-            if ( part.getKey().equals( key ) )
+            PartReference reference = m_parts[i];
+            if( reference.getKey().equals( key ) )
             {
-                return part;
+                return reference.getPart();
             }
         }
         return null;
     }
-    */
 
     /**
      * Return a string representation of the type.
@@ -444,7 +443,7 @@ public class Type implements Serializable
         final ContextDescriptor context = new ContextDescriptor( new EntryDescriptor[0] );
         final ServiceDescriptor[] services = new ServiceDescriptor[0];
         final Configuration configuration = null;
-        final PartDescriptor[] parts = new PartDescriptor[0];
+        final PartReference[] parts = new PartReference[0];
         return new Type( graph, info, loggers, context, services, configuration, parts );
     }
 }
