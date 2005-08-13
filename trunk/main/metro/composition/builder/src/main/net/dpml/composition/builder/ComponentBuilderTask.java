@@ -460,7 +460,7 @@ public class ComponentBuilderTask extends ClassLoaderBuilderTask implements Part
     private ComponentDirective buildComponentDirective( ClassLoader classloader, ClassLoaderDirective cld ) 
       throws IntrospectionException, IOException, ClassNotFoundException
     {
-        String id = getName();        
+        String id = getName();
         String classname = getClassname();
         log( "creating [" + id + "] using [" + classname + "]" );
 
