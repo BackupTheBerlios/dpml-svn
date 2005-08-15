@@ -30,7 +30,18 @@ import java.util.LinkedList;
 import java.util.Hashtable;
 import java.util.Map;
 
+import net.dpml.part.Part;
+import net.dpml.part.PartReference;
+import net.dpml.part.component.ServiceDescriptor;
+
 import net.dpml.composition.info.Type;
+import net.dpml.composition.info.InfoDescriptor;
+import net.dpml.composition.info.ContextDescriptor;
+import net.dpml.composition.info.EntryDescriptor;
+import net.dpml.composition.data.ComponentDirective;
+
+import net.dpml.configuration.Configuration;
+import net.dpml.configuration.impl.ConfigurationUtil;
 
 import net.dpml.magic.tasks.ProjectTask;
 
@@ -59,6 +70,7 @@ public class CatalogTask extends ProjectTask
     private File m_work;
     private File m_destination;
     private String m_style;
+    private String m_title;
     private List m_filesets = new LinkedList();
     private Map m_packages = new Hashtable();
 
@@ -71,28 +83,39 @@ public class CatalogTask extends ProjectTask
         m_destination = destination;
     }
 
+   /**
+    * Optional override of the XSL stylesheet used to transform type descriptors.
+    * @param style the XSL transformation to use
+    */
     public void setStyle( String style )
     {
         m_style = style;
     }
 
-    private String getStyle()
+   /**
+    * Optional override of the index page title.
+    * @param title the index page title
+    */
+    public void setTitle( String title )
     {
-        if( null == m_style )
-        {
-            return new File( Transit.DPML_PREFS, "metro/style/type-formatter.xsl" ).toString();
-        }
-        else
-        {
-            return m_style;
-        }
+        m_title = title;
     }
 
+   /**
+    * Add a fileset to the set of filesets definted within the catalog generation. If no
+    * filesets are added the default behaviour will be resolve against component types 
+    * declared under the current projects ${basedir}/target/classes directory.
+    *
+    * @param set the fileset to add
+    */
     public void addFileset( FileSet set )
     {
         m_filesets.add( set );
     }
 
+   /**
+    * Task initialization.
+    */
     public void init()
     {
         File target = getContext().getTargetDirectory();
@@ -101,6 +124,10 @@ public class CatalogTask extends ProjectTask
         m_work = types;
     }
 
+   /**
+    * Task execution during which all component types declared in the current project or referenced
+    * by nested filesets will be used as the source defintions fro the generation of a Type catalog.
+    */
     public void execute()
     {
         Project proj = getProject();
@@ -163,7 +190,7 @@ public class CatalogTask extends ProjectTask
             writer.write( "\n  <head>" );
             writer.write( "\n    <META http-equiv=\"Content-Type\" content=\"text/html; charset=US-ASCII\">" );
             writer.write( "\n    <title>Package Index</title>" );
-            writer.write( "\n    <link href=\"stylesheet.css\" type=\"text/css\" rel=\"stylesheet\">" );
+            writer.write( "\n    <link href=\"stylesheet.css\" type=\"text/css\" rel=\"stylesheet\"/>" );
             writer.write( "\n  </head>" );
             writer.write( "\n  <body>" );
             writer.write( "\n    <p><b>Overview</b></p>" );
@@ -212,7 +239,7 @@ public class CatalogTask extends ProjectTask
             writer.write( "\n  <head>" );
             writer.write( "\n    <META http-equiv=\"Content-Type\" content=\"text/html; charset=US-ASCII\">" );
             writer.write( "\n    <title>Type Packages List</title>" );
-            writer.write( "\n    <link href=\"stylesheet.css\" type=\"text/css\" rel=\"stylesheet\">" );
+            writer.write( "\n    <link href=\"stylesheet.css\" type=\"text/css\" rel=\"stylesheet\"/>" );
             writer.write( "\n  </head>" );
             writer.write( "\n  <body>" );
             writer.write( "\n  <h3>Overview</h3>" );
@@ -278,7 +305,7 @@ public class CatalogTask extends ProjectTask
             writer.write( "\n    <link href=\"stylesheet.css\" type=\"text/css\" rel=\"stylesheet\">" );
             writer.write( "\n  </head>" );
             writer.write( "\n  <body>" );
-            writer.write( "\n  <h3>Metro</h3>" );
+            writer.write( "\n  <h3>DPML Metro</h3>" );
             writer.write( "\n  <p><a href=\"types.html\" target=\"typeListFrame\">All Types</a></p>" );
             writer.write( "\n  <p><b>Packages</b></p>" );
             writer.write( "\n    <table>" );
@@ -322,7 +349,7 @@ public class CatalogTask extends ProjectTask
             writer.write( "\n  <head>" );
             writer.write( "\n    <META http-equiv=\"Content-Type\" content=\"text/html; charset=US-ASCII\">" );
             writer.write( "\n    <title>Package Index</title>" );
-            writer.write( "\n    <link href=\"" + offset + "/stylesheet.css\" type=\"text/css\" rel=\"stylesheet\">" );
+            writer.write( "\n    <link href=\"" + offset + "/stylesheet.css\" type=\"text/css\" rel=\"stylesheet\"/>" );
             writer.write( "\n  </head>" );
             writer.write( "\n  <body>" );
             writer.write( "\n    <p><b>Overview</b></p>" );
@@ -370,7 +397,7 @@ public class CatalogTask extends ProjectTask
             writer.write( "\n  <head>" );
             writer.write( "\n    <META http-equiv=\"Content-Type\" content=\"text/html; charset=US-ASCII\">" );
             writer.write( "\n    <title>Package Overview: " + name + "</title>" );
-            writer.write( "\n    <link href=\"" + offset + "/stylesheet.css\" type=\"text/css\" rel=\"stylesheet\">" );
+            writer.write( "\n    <link href=\"" + offset + "/stylesheet.css\" type=\"text/css\" rel=\"stylesheet\"/>" );
             writer.write( "\n  </head>" );
             writer.write( "\n  <body>" );
             writer.write( "\n    <h3>Package " + name + "</h3>" );
@@ -392,6 +419,19 @@ public class CatalogTask extends ProjectTask
                 writer.write( classname );
                 writer.write( "</a>" );
                 writer.write( "\n        </td>" );
+
+                writer.write( "\n        <td>" );
+                ServiceDescriptor[] services = type.getServices();
+                for( int j=0; j < services.length; j++ )
+                {
+                     String service = services[j].getClassname();
+                     if( j > 0 )
+                     {
+                         writer.write( ", " );
+                     }
+                     writer.write( service );
+                }
+
                 writer.write( "\n        <td></td>" );
                 writer.write( "\n      </tr>" );
             }
@@ -408,6 +448,189 @@ public class CatalogTask extends ProjectTask
         }
     }
 
+    private void createTypePage( File root, Type type )
+    {
+        File html = getReportDestination( root, type, "html" );
+        html.getParentFile().mkdirs();
+        String classname = type.getInfo().getClassname();
+        String cname = getClassName( type );
+        String packagename = getPackageName( type );
+        String offset = getOffset( packagename );
+        List packageList = getPackageList( packagename );
+        packageList.add( type );
+        try
+        {
+            FileWriter writer = new FileWriter( html );
+            writer.write( "<html>" );
+            writer.write( "\n  <head>" );
+            writer.write( "\n    <META http-equiv=\"Content-Type\" content=\"text/html; charset=US-ASCII\">" );
+            writer.write( "\n    <title>Component Type: " + classname + "</title>" );
+            writer.write( "\n    <link href=\"" + offset + "/stylesheet.css\" type=\"text/css\" rel=\"stylesheet\"/>" );
+            writer.write( "\n  </head>" );
+            writer.write( "\n  <body>" );
+            writer.write( "\n    <table>" );
+            writer.write( "\n      <tr><td class=\"package\"><a class=\"package\" href=\"overview.html\">" + packagename + "</a></td></tr>" );
+            writer.write( "\n    </table>" );
+            writer.write( "\n    <table>" );
+            writer.write( "\n      <tr><td class=\"type\">" + cname + "</td></tr>" );
+            writer.write( "\n    </table>" );
+
+            //
+            // write out the InfoDescriptor freatures
+            //
+
+            writer.write( "\n    <table>" );
+            writer.write( "\n      <tr><td class=\"feature\">Version:</td><td>" + type.getInfo().getVersion() + "</td></tr>" );
+            writer.write( "\n      <tr><td class=\"feature\">Name:</td><td>" + type.getInfo().getName() + "</td></tr>" );
+            writer.write( "\n      <tr><td class=\"feature\">Lifestyle:</td><td>" + type.getInfo().getLifestyle() + "</td></tr>" );
+            writer.write( "\n      <tr><td class=\"feature\">Thread-Safe:</td><td>" + type.getInfo().isThreadsafe() + "</td></tr>" );
+            writer.write( "\n      <tr><td class=\"feature\">Collection:</td><td>" 
+              + InfoDescriptor.getCollectionPolicyKey( type.getInfo().getCollectionPolicy() ) + "</td></tr>" );
+            writer.write( "\n    </table>" );
+
+            //
+            // write out the exported services that the component provides
+            //
+
+            boolean flag = true;
+            ServiceDescriptor[] services = type.getServices();
+            if( services.length > 0 )
+            {
+                writer.write( "\n    <p class=\"category\">Services</p>" );
+                writer.write( "\n    <table width=\"100%\">" );
+                for( int j=0; j < services.length; j++ )
+                {
+                     String service = services[j].getClassname();
+                     if( flag )
+                     {
+                         writer.write( "<tr class=\"even\"><td>" + service + "</td></tr>" );
+                     }
+                     else
+                     {
+                         writer.write( "<tr class=\"odd\"><td>" + service + "</td></tr>" );
+                     }
+                     flag = !flag;
+                }
+                writer.write( "\n    </table>" );
+            }
+
+            //
+            // write out the context model
+            //
+
+            flag = true;
+            ContextDescriptor context = type.getContext();
+            EntryDescriptor[] entries = context.getEntries();
+            String contextClassname = context.getContextInterfaceClassname();
+            if( ( entries.length > 0 ) || ( contextClassname != null ) )
+            {
+                writer.write( "\n    <p class=\"category\">Context</p>" );
+                if( contextClassname != null )
+                {
+                    writer.write( "\n    <p class=\"feature\">Class: " + contextClassname + "</p>" );
+                }
+                writer.write( "\n    <table width=\"100%\">" );
+                for( int j=0; j < entries.length; j++ )
+                {
+                     EntryDescriptor entry = entries[j];
+                     String key = entry.getKey();
+                     String entryClassname = entry.getClassname();
+                     boolean optional = entry.isOptional();
+
+                     if( flag )
+                     {
+                         writer.write( "<tr class=\"c-even\">" );
+                     }
+                     else
+                     {
+                         writer.write( "<tr class=\"c-odd\">" );
+                     }
+                     writer.write( "<td>" + key + "</td>" );
+                     if( optional )
+                     {
+                         writer.write( "<td>optional</td>" );
+                     }
+                     else
+                     {
+                         writer.write( "<td>required</td>" );
+                     }
+                     writer.write( "<td>" + entryClassname + "</td>" );
+                     writer.write( "</tr>" );
+                     flag = !flag;
+                }
+                writer.write( "\n    </table>" );
+            }
+
+            //
+            // write out the default configuration
+            //
+
+            Configuration config = type.getConfiguration();
+            if( null != config )
+            {
+                writer.write( "\n    <p class=\"category\">Default Configuration</p>" );
+                writer.write( "\n    <pre>" );
+                String str = ConfigurationUtil.list( config );
+                str = str.replaceAll( "<", "&lt;" );
+                str = str.replaceAll( ">", "&gt;" );
+                writer.write( str );
+                writer.write( "\n   </pre>" );
+            }
+
+            //
+            // write out links to embedded types
+            //
+
+            flag = true;
+            PartReference[] parts = type.getPartReferences();
+            if( parts.length > 0 )
+            {
+                writer.write( "\n    <p class=\"category\">Embedded Components</p>" );
+                writer.write( "\n    <table width=\"100%\">" );
+                for( int j=0; j < parts.length; j++ )
+                {
+                     PartReference ref = parts[j];
+                     String key = ref.getKey();
+                     Part part = type.getPart( key );
+
+                     if( flag )
+                     {
+                         writer.write( "<tr class=\"p-even\">" );
+                     }
+                     else
+                     {
+                         writer.write( "<tr class=\"p-odd\">" );
+                     }
+                     writer.write( "<td>" + key + "</td>" );
+                     String pname = part.getClass().getName();
+                     if( pname.equals( ComponentDirective.class.getName() ) )
+                     {
+                         ComponentDirective directive = (ComponentDirective) part;
+                         String tname = directive.getClassname();
+                         String tpath = tname.replace( '.', '/' ).concat( ".html" );
+                         writer.write( "<td><a href=\"" + offset + "/" + tpath + "\">" + tname + "</a></td>" );
+                     }
+                     else
+                     {
+                         writer.write( "<td>" + part.getClass().getName() + "</td>" );
+                     }
+                     writer.write( "</tr>" );
+                     flag = !flag;
+                }
+                writer.write( "\n    </table>" );
+            }
+
+            writer.write( "\n  </body>" );
+            writer.write( "\n</html>" );
+            writer.close();
+        }
+        catch( Exception e )
+        {
+            final String error = 
+              "Internal error while attempting to create type page.";
+            throw new BuildException( error, e, getLocation() );
+        }
+    }
 
     private List getPackageList( String name )
     {
@@ -422,6 +645,19 @@ public class CatalogTask extends ProjectTask
 
     private void processType( File reports, File source )
     {
+        File htmls = new File( reports, "html" );
+        try
+        {
+            InputStream input = new FileInputStream( source );
+            Type type = Type.loadType( input );
+            createTypePage( htmls, type );
+        }
+        catch( Exception e )
+        {
+            throw new BuildException( e.getMessage(), e, getLocation() );
+        }
+
+        /*
         File xmls = new File( reports, "xml" );
         File htmls = new File( reports, "html" );
 
@@ -469,6 +705,7 @@ public class CatalogTask extends ProjectTask
         {
             throw new BuildException( e.getMessage(), e, getLocation() );
         }
+        */
     }
 
     private File getReportDestination( File dir, Type type, String suffix )
@@ -538,7 +775,29 @@ public class CatalogTask extends ProjectTask
         return base;
     }
 
+    private String getStyle()
+    {
+        if( null == m_style )
+        {
+            return new File( Transit.DPML_PREFS, "metro/style/type-formatter.xsl" ).toString();
+        }
+        else
+        {
+            return m_style;
+        }
+    }
 
+    private String getTitle()
+    {
+        if( null == m_title )
+        {
+            return "DPML Metro Catalog";
+        }
+        else
+        {
+            return m_title;
+        }
+    }
 
     private File getWorkingDirectory()
     {
@@ -610,6 +869,7 @@ public class CatalogTask extends ProjectTask
 
     private void createIndex( File root )
     {
+        String title = getTitle();
         File index = new File( root, "index.html" );
         try
         {
@@ -617,8 +877,8 @@ public class CatalogTask extends ProjectTask
             writer.write( "<html>" );
             writer.write( "\n  <head>" );
             writer.write( "\n    <META http-equiv=\"Content-Type\" content=\"text/html; charset=US-ASCII\">" );
-            writer.write( "\n    <title>Type Packages List</title>" );
-            writer.write( "\n    <link href=\"stylesheet.css\" type=\"text/css\" rel=\"stylesheet\">" );
+            writer.write( "\n    <title>" + title + "</title>" );
+            writer.write( "\n    <link href=\"stylesheet.css\" type=\"text/css\" rel=\"stylesheet\"/>" );
             writer.write( "\n  </head>" );
             writer.write( "\n  <frameset cols=\"20%,80%\">" );
             writer.write( "\n    <frameset rows=\"30%,70%\">" );
@@ -637,4 +897,5 @@ public class CatalogTask extends ProjectTask
             throw new BuildException( error, e, getLocation() );
         }
     }
+
 }

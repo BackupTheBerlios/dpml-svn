@@ -26,21 +26,16 @@ import net.dpml.http.spi.MimeTypes;
 
 /**
  */
-public class ConfigurationMimeTypes
-    implements Configurable, MimeTypes
+public class ConfigurationMimeTypes implements MimeTypes
 {
     private HashMap m_MimeTypeToExtMap;
     private HashMap m_ExtToMimeTypeMap;
 
-    public ConfigurationMimeTypes()
+    public ConfigurationMimeTypes( Configuration conf )
+        throws ConfigurationException
     {
         m_MimeTypeToExtMap = new HashMap();
         m_ExtToMimeTypeMap = new HashMap();
-    }
-
-    public void configure( Configuration conf )
-        throws ConfigurationException
-    {
         Configuration typesConf = conf.getChild( "mimetypes" );
         configureTypes( typesConf );
     }

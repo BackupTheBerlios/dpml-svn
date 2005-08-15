@@ -49,8 +49,4 @@
 
   </target>
 
-  <target name="package" depends="standard.package">
-    <c:catalog/>
-  </target>
-
 </project>

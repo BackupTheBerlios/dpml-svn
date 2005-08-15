@@ -1,13 +1,98 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 
-<index>
+<index key="dpml-test">
 
   <import uri="${dpml.transit.uri}"/>
   <import uri="${dpml.depot.uri}"/>
   <import uri="${dpml.magic.uri}"/>
   <import uri="${dpml.metro.uri}"/>
 
-  <import index="components/index.xml" />
-  <import index="unit/index.xml" />
+  <project file="module.xml">
+    <info>
+      <group>dpml/test</group>
+      <name>dpml-test</name>
+      <types>
+        <type name="module" alias=""/>
+      </types>
+    </info>
+    <dependencies>
+      <include key="dpml-metro"/>
+      <include key="dpml-transit"/>
+      <include key="dpml-magic"/>
+    </dependencies>
+    <plugins>
+      <include key="dpml-composition-builder" runtime="false"/>
+    </plugins>
+  </project>
+
+  <project basedir="components/simple">
+    <info>
+      <group>dpml/test</group>
+      <name>dpml-test-simple</name>
+      <types>
+        <type name="jar"/>
+        <type name="part"/>
+      </types>
+    </info>
+    <plugins>
+      <include key="dpml-composition-builder"/>
+    </plugins>
+  </project>
+
+  <project basedir="components/plus">
+    <info>
+      <group>dpml/test</group>
+      <name>dpml-test-plus</name>
+      <types>
+        <type name="jar"/>
+        <type name="part"/>
+      </types>
+    </info>
+    <dependencies>
+      <include key="dpml-part-api"/>
+      <include key="dpml-configuration-api"/>
+      <include key="dpml-activity-api"/>
+    </dependencies>
+    <plugins>
+      <include key="dpml-composition-builder"/>
+    </plugins>
+  </project>
+
+  <project basedir="unit/simple">
+    <info>
+      <group>dpml/test</group>
+      <name>dpml-test-simple-unit</name>
+      <types>
+        <type name="null"/>
+      </types>
+    </info>
+    <dependencies>
+      <include key="dpml-test-simple"/>
+      <include key="dpml-part-api"/>
+      <include key="ant-junit"/>
+    </dependencies>
+    <plugins>
+      <include key="dpml-composition-builder" runtime="false"/>
+    </plugins>
+  </project>
+
+  <project basedir="unit/plus">
+    <info>
+      <group>dpml/test</group>
+      <name>dpml-test-plus-unit</name>
+      <types>
+        <type name="null"/>
+      </types>
+    </info>
+    <dependencies>
+      <include key="dpml-test-simple"/>
+      <include key="dpml-test-plus"/>
+      <include key="dpml-part-api"/>
+      <include key="ant-junit"/>
+    </dependencies>
+    <plugins>
+      <include key="dpml-composition-builder" runtime="false"/>
+    </plugins>
+  </project>
 
 </index>

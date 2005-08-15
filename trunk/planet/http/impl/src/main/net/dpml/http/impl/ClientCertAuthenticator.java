@@ -22,15 +22,21 @@ import net.dpml.parameters.Parameters;
 
 /** 
  * Wrapper for the Jetty ClientCertAuthenticator
- *
  */
 public class ClientCertAuthenticator extends org.mortbay.http.ClientCertAuthenticator
 {
-    public ClientCertAuthenticator( Parameters params )
+    public interface Context 
     {
-        int maxHandshakeSec = params.getParameterAsInteger( "max-handshake-sec", -1 );
-        if( maxHandshakeSec >= 0 )
-            setMaxHandShakeSeconds( maxHandshakeSec );
+        int getMaxHandshake( int value );
     }
-} 
+
+    public ClientCertAuthenticator( Context context )
+    {
+        int maxHandshakeSec = context.getMaxHandshake( -1 );
+        if( maxHandshakeSec > -1 )
+        {
+            setMaxHandShakeSeconds( maxHandshakeSec );
+        }
+    }
+}
  

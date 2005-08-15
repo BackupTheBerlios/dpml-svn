@@ -18,6 +18,15 @@
         <link rel="stylesheet" type="text/css" href="{$basepath}/stylesheet.css"/>
       </head>
       <body>
+
+        <!--
+        <table>
+          <tr>
+            <td class="overview"><a href="{$basepath}/packages-overview.html">Overview</a></td>
+          </tr>
+        </table>
+        -->
+
         <xsl:apply-templates select="m__descriptor"/>
         <h4>Services</h4>
         <xsl:apply-templates select="m__services"/>
@@ -30,7 +39,7 @@
   </xsl:template>
 
   <xsl:template match="m__descriptor">
-    <p><xsl:value-of select="$package"/></p>
+    <p class="package"><a href="overview.html"><xsl:value-of select="$package"/></a></p>
     <h3><xsl:value-of select="$classname"/></h3>
     <!--<h3><xsl:apply-templates select="m__classname"/></h3>-->
     <h4>Info</h4>

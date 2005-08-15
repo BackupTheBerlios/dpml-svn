@@ -24,7 +24,7 @@
 
   <target name="build" depends="standard.build">
     <x:property name="http.uri" key="dpml-http-impl" feature="uri" type="part"/>
-    <c:type class="net.dpml.http.Demo" threadsafe="true">
+    <c:type class="net.dpml.http.Demo" threadsafe="true" name="demo">
       <parts>
         <component type="net.dpml.http.impl.HttpServerImpl" name="server">
           <context>

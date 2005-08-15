@@ -26,35 +26,35 @@
   <target name="build" depends="standard.build">
 
     <c:types>
-      <type class="net.dpml.http.impl.Ajp13Listener" threadsafe="true"/>
-      <type class="net.dpml.http.impl.ClientCertAuthenticator" threadsafe="true"/>
-      <type class="net.dpml.http.impl.ConfigurationMimeTypes" threadsafe="true"/>
-      <type class="net.dpml.http.impl.DumpHandler" threadsafe="true"/>
-      <type class="net.dpml.http.impl.ErrorPageHandler" threadsafe="true"/>
-      <type class="net.dpml.http.impl.ExpiryHandler" threadsafe="true"/>
-      <type class="net.dpml.http.impl.FormAuthenticator" threadsafe="true"/>
-      <type class="net.dpml.http.impl.ForwardHandler" threadsafe="true"/>
-      <type class="net.dpml.http.impl.HashSessionManager" threadsafe="true"/>
-      <type class="net.dpml.http.impl.HashUserRealm" threadsafe="true"/>
-      <type class="net.dpml.http.impl.HttpContextImpl" threadsafe="true"/>
-      <type class="net.dpml.http.impl.HttpServerImpl" threadsafe="true"/>
-      <type class="net.dpml.http.impl.IPAccessHandler" threadsafe="true"/>
-      <type class="net.dpml.http.impl.JaasUserRealm" threadsafe="true"/>
-      <type class="net.dpml.http.impl.JsseListener" threadsafe="true"/>
-      <type class="net.dpml.http.impl.MsieSslHandler" threadsafe="true"/>
-      <type class="net.dpml.http.impl.NcsaRequestLog" threadsafe="true"/>
-      <type class="net.dpml.http.impl.NotFoundHandler" threadsafe="true"/>
-      <type class="net.dpml.http.impl.NullHandler" threadsafe="true"/>
-      <type class="net.dpml.http.impl.ProxyHandler" threadsafe="true"/>
-      <type class="net.dpml.http.impl.ResourceHandler" threadsafe="true"/>
-      <type class="net.dpml.http.impl.RootNotFoundHandler" threadsafe="true"/>
-      <type class="net.dpml.http.impl.SecurityConstraint" threadsafe="true"/>
-      <type class="net.dpml.http.impl.SecurityHandler" threadsafe="true"/>
-      <type class="net.dpml.http.impl.ServletHandler" threadsafe="true"/>
-      <type class="net.dpml.http.impl.SetResponseHeadersHandler" threadsafe="true"/>
-      <type class="net.dpml.http.impl.SocketListener" threadsafe="true"/>
-      <type class="net.dpml.http.impl.SystemMimeTypes" threadsafe="true"/>
-      <type class="net.dpml.http.impl.WebApplicationContext" threadsafe="true"/>
+      <type class="net.dpml.http.impl.Ajp13Listener" threadsafe="true" name="ajp13"/>
+      <type class="net.dpml.http.impl.ClientCertAuthenticator" threadsafe="true" name="cert-auth"/>
+      <type class="net.dpml.http.impl.ConfigurationMimeTypes" threadsafe="true" name="mime"/>
+      <type class="net.dpml.http.impl.DumpHandler" threadsafe="true" name="dump"/>
+      <type class="net.dpml.http.impl.ErrorPageHandler" threadsafe="true" name="error"/>
+      <type class="net.dpml.http.impl.ExpiryHandler" threadsafe="true" name="expiry"/>
+      <type class="net.dpml.http.impl.FormAuthenticator" threadsafe="true" name="form"/>
+      <type class="net.dpml.http.impl.ForwardHandler" threadsafe="true" name="forward"/>
+      <type class="net.dpml.http.impl.HashSessionManager" threadsafe="true" name="session"/>
+      <type class="net.dpml.http.impl.HashUserRealm" threadsafe="true" name="hash"/>
+      <type class="net.dpml.http.impl.HttpContextImpl" threadsafe="true" name="context"/>
+      <type class="net.dpml.http.impl.HttpServerImpl" threadsafe="true" name="http"/>
+      <type class="net.dpml.http.impl.IPAccessHandler" threadsafe="true" name="ip"/>
+      <type class="net.dpml.http.impl.JaasUserRealm" threadsafe="true" name="jaas"/>
+      <type class="net.dpml.http.impl.JsseListener" threadsafe="true" name="jsse"/>
+      <type class="net.dpml.http.impl.MsieSslHandler" threadsafe="true" name="msie"/>
+      <type class="net.dpml.http.impl.NcsaRequestLog" threadsafe="true" name="ncsa"/>
+      <type class="net.dpml.http.impl.NotFoundHandler" threadsafe="true" name="nf"/>
+      <type class="net.dpml.http.impl.NullHandler" threadsafe="true" name="null"/>
+      <type class="net.dpml.http.impl.ProxyHandler" threadsafe="true" name="proxy"/>
+      <type class="net.dpml.http.impl.ResourceHandler" threadsafe="true" name="resource"/>
+      <type class="net.dpml.http.impl.RootNotFoundHandler" threadsafe="true" name="root"/>
+      <type class="net.dpml.http.impl.SecurityConstraint" threadsafe="true" name="seccon"/>
+      <type class="net.dpml.http.impl.SecurityHandler" threadsafe="true" name="sec"/>
+      <type class="net.dpml.http.impl.ServletHandler" threadsafe="true" name="servlet"/>
+      <type class="net.dpml.http.impl.SetResponseHeadersHandler" threadsafe="true" name="response"/>
+      <type class="net.dpml.http.impl.SocketListener" threadsafe="true" name="socket"/>
+      <type class="net.dpml.http.impl.SystemMimeTypes" threadsafe="true" name="smime"/>
+      <type class="net.dpml.http.impl.WebApplicationContext" threadsafe="true" name="web"/>
     </c:types>
 
   </target>
