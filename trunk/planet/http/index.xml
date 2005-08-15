@@ -9,7 +9,7 @@
 
   <!-- module -->
 
-  <project basedir=".">
+  <project file="module.xml">
     <info>
       <group>dpml/planet/http</group>
       <name>dpml-http</name>
@@ -22,6 +22,9 @@
       <include key="dpml-transit"/>
       <include key="dpml-magic"/>
     </dependencies>
+    <plugins>
+      <include key="dpml-composition-builder" runtime="false"/>
+    </plugins>
   </project>
 
   <!-- projects -->
@@ -68,7 +71,7 @@
       <name>dpml-http-impl</name>
       <types>
         <type name="jar"/>
-        <type name="part"/>
+        <!--<type name="part"/>-->
       </types>
     </info>
     <dependencies>
@@ -106,7 +109,6 @@
       <include key="dpml-http-spi"/>
       <include key="dpml-part-api"/>
       <include key="dpml-depot-console"/>
-      <include key="dpml-part-api"/>
     </dependencies>
     <plugins>
       <include key="dpml-composition-builder" runtime="false"/>

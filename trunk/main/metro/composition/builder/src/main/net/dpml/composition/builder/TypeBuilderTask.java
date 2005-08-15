@@ -212,6 +212,7 @@ public class TypeBuilderTask extends ProjectTask implements TypeBuilder
 
         Type type = new Type( graph, info, categories, context, services, config, parts );
 
+        /*
         File target = getContext().getTargetDirectory();
         File reports = new File( target, "reports/types" );
         reports.mkdirs();
@@ -219,6 +220,7 @@ public class TypeBuilderTask extends ProjectTask implements TypeBuilder
         File report = getReportDestination( reports, type );
         try
         {
+            report.getParentFile().mkdirs();
             XStream XStream = new XStream( new DomDriver() );
             XStream.alias( "type", Type.class );
             XStream.toXML( type, new FileWriter( report ) );
@@ -227,14 +229,14 @@ public class TypeBuilderTask extends ProjectTask implements TypeBuilder
         {
             log( "XML reporting failed due to: " + e.toString() );
         }
-
+        */
         return type;
     }
 
     private File getReportDestination( File dir, Type type )
     {
         final String classname = type.getInfo().getClassname();
-        String path = classname.replace( '.', '-' );
+        String path = classname.replace( '.', '/' );
         String filename = path + ".xml";
         return new File( dir, filename );
     }

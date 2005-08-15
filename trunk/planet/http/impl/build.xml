@@ -57,56 +57,6 @@
       <type class="net.dpml.http.impl.WebApplicationContext" threadsafe="true"/>
     </c:types>
 
-    <c:component name="http">
-      <parts>
-        <component type="net.dpml.http.impl.HttpServerImpl" name="server">
-          <context>
-            <entry key="trace" value="false"/>
-            <entry key="anonymous" value="false"/>
-            <entry key="gracefulStop" value="true"/>
-            <entry key="requestsPerGC" value="100"/>
-          </context>
-        </component>
-        <component key="requestLog" type="net.dpml.http.impl.NcsaRequestLog">
-          <context>
-            <entry key="filename" value="$${dpml.data}/logs/http/static_request.log"/>
-            <entry key="append" value="true"/>
-            <entry key="extended" value="true"/>
-          </context>
-        </component>
-        <component type="net.dpml.http.impl.SocketListener" name="socketListener">
-          <context>
-            <entry key="httpServer" uri="service:net.dpml.http.spi.HttpService"/>
-          </context>
-        </component>
-        <component name="context" type="net.dpml.http.impl.HttpContextImpl" >
-          <context>
-            <entry key="name" value="context"/>
-            <entry key="server" uri="service:net.dpml.http.spi.HttpService"/>
-            <entry key="requestLog" uri="service:org.mortbay.http.RequestLog"/>
-            <entry key="tempDirectory">
-              <param class="java.io.File" value="urn:system:temp.dir"/>
-              <param value="http/context"/>
-            </entry>
-          </context>
-        </component>
-        <component name="resourceHandler" type="net.dpml.http.impl.ResourceHandler">
-          <context>
-            <entry key="name" value="resource-handler"/>
-            <entry key="dirAllowed" value="true"/>
-            <entry key="allowedMethods" value="GET"/>
-            <entry key="httpContext" uri="service:net.dpml.http.spi.HttpContextService"/>
-          </context>
-        </component>
-        <component name="notFoundHandler" type="net.dpml.http.impl.NotFoundHandler">
-          <context>
-            <entry key="name" value="not-found-handler"/>
-            <entry key="httpContext" uri="service:net.dpml.http.spi.HttpContextService"/>
-          </context>
-        </component>
-      </parts>
-    </c:component>
-
   </target>
 
 </project>

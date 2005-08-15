@@ -21,4 +21,14 @@
     </x:export>
   </target>
 
+  <target name="install" depends="standard.install">
+    <property name="metro.prefs" location="${dpml.prefs}/metro"/>
+    <mkdir dir="${metro.prefs}"/>
+    <copy toDir="${metro.prefs}">
+      <fileset dir="${basedir}/target">
+        <include name="style/**"/>
+      </fileset>
+    </copy>
+  </target>
+
 </project>

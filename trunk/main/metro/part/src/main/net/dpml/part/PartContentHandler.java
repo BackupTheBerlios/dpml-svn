@@ -160,7 +160,7 @@ public class PartContentHandler extends ContentHandler
         {
             String path = url.toExternalForm();
             URI uri = new URI( path );
-            return getController().getContainer().addComponent( "anon", uri );
+            return getController().getContainer().addComponent( null, uri );
         }
         catch( Throwable e )
         {

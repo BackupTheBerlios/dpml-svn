@@ -59,10 +59,6 @@ public class PartsTable
     public Component addComponent( String key, Part part ) 
       throws ComponentException, DelegationException, PartHandlerNotFoundException, RemoteException
     {
-        if( null == key )
-        {
-            throw new NullPointerException( "key" );
-        }
         if( null == part )
         {
             throw new NullPointerException( "part" );
@@ -80,7 +76,15 @@ public class PartsTable
         {
             CompositionController controller = m_component.getController();
             Component component = controller.newComponent( m_component, part, key );
-            return addComponent( key, component );
+            if( null == key )
+            {
+                String name = component.getName();
+                return addComponent( name, component );
+            }
+            else
+            {
+                return addComponent( key, component );
+            }
         }
     }
 

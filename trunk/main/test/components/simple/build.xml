@@ -17,13 +17,13 @@
     <c:type class="net.dpml.test.acme.GizmoComponent" threadsafe="true"/>
     <c:type class="net.dpml.test.acme.WidgetComponent" threadsafe="true"/>
 
-    <c:type class="net.dpml.test.acme.ExampleContainer">
+    <c:type class="net.dpml.test.acme.ExampleContainer" name="example">
       <parts>
         <component name="dimension" type="net.dpml.test.acme.DimensionComponent"/>
       </parts>
     </c:type>
 
-    <c:type class="net.dpml.test.acme.AcmeContainer" threadsafe="true">
+    <c:type class="net.dpml.test.acme.AcmeContainer" threadsafe="true" name="container">
       <parts>
         <component name="widget" type="net.dpml.test.acme.WidgetComponent">
           <context>
@@ -49,10 +49,8 @@
 
   </target>
 
-  <target name="style" depends="prepare">
-    <property name="reports" value="target/reports/types"/>
-    <mkdir dir="${reports}/html"/>
-    <xslt basedir="${reports}" destdir="${reports}/html" includes="*.xml" style="${basedir}/types.xsl"/>
+  <target name="package" depends="standard.package">
+    <c:catalog/>
   </target>
 
 </project>

@@ -28,25 +28,35 @@ import org.mortbay.http.HttpHandler;
 
 public class Demo implements Startable
 {
-    public interface Context
+    //public interface Context
+    //{
+    //    FileResourceHandler getHttpHandler();
+    //    SocketListenerService getSocketListener();
+    //}
+
+    public interface Parts
     {
         FileResourceHandler getHttpHandler();
         SocketListenerService getSocketListener();
     }
 
     private final Logger m_logger;
-    private final Context m_context;
+    //private final Context m_context;
+
+    private final Parts m_parts;
     
-    public Demo( Logger logger, Context context )
+    //public Demo( Logger logger, Context context )
+    public Demo( Logger logger, Parts parts )
     {
         m_logger = logger;
-        m_context = context;
+        m_parts = parts;
     }
 
     public void start() throws Exception
     {
         m_logger.info( "Starting" );
-        FileResourceHandler handler = m_context.getHttpHandler();
+        //FileResourceHandler handler = m_context.getHttpHandler();
+        FileResourceHandler handler = m_parts.getHttpHandler();
     }
 
     public void stop() throws Exception

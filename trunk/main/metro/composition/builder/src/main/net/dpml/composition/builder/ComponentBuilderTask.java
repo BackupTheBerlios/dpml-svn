@@ -103,7 +103,6 @@ public class ComponentBuilderTask extends ClassLoaderBuilderTask implements Part
     private ContextDataType m_context;
     private ParametersDataType m_parameters;
     private ConfigurationDataType m_configuration;
-    private PartsDataType m_parts;
 
     private File m_output;
     private Type m_type;
@@ -171,21 +170,6 @@ public class ComponentBuilderTask extends ClassLoaderBuilderTask implements Part
         {
              final String error =
               "Illegal attempt to create a duplicate categories declaration.";
-             throw new BuildException( error, getLocation() );
-        }
-    }
-
-    public PartsDataType createParts()
-    {
-        if( m_parts == null )
-        {
-            m_parts = new PartsDataType( this );
-            return m_parts;
-        }
-        else
-        {
-             final String error =
-              "Illegal attempt to create a duplicate parts element.";
              throw new BuildException( error, getLocation() );
         }
     }
@@ -502,7 +486,6 @@ public class ComponentBuilderTask extends ClassLoaderBuilderTask implements Part
         int activation = getActivationPolicy();
         CategoriesDirective categories = getCategoriesDirective();
         ContextDirective context = getContextDirective( classloader, type );
-        PartReference[] parts = getParts( classloader, type );
         Parameters parameters = getParameters();
         Configuration configuration = getConfiguration();
 
@@ -512,7 +495,7 @@ public class ComponentBuilderTask extends ClassLoaderBuilderTask implements Part
 
         return new ComponentDirective( 
           id, activation, collection, lifestyle, classname, categories, context, 
-          parts, parameters, configuration, cld );
+          parameters, configuration, cld );
     }
 
     private Type loadType( ClassLoader classloader, String classname )
@@ -766,32 +749,6 @@ public class ComponentBuilderTask extends ClassLoaderBuilderTask implements Part
          {
               return m_configuration.getConfiguration();
          }
-    }
-
-    private PartReference[] getParts( ClassLoader classloader, Type type ) 
-      throws IntrospectionException, IOException, ClassNotFoundException
-    {
-        if( null == m_parts )
-        {
-            return m_profile.getParts();
-        }
-        else
-        {
-            PartReference[] parts = m_profile.getParts();
-            ArrayList list = new ArrayList();
-            for( int i=0; i<parts.length; i++ )
-            {
-                PartReference part = parts[i];
-                list.add( part );
-            }
-            PartReference[] extra = m_parts.getParts( classloader, type );
-            for( int i=0; i<extra.length; i++ )
-            {
-                PartReference part = extra[i];
-                list.add( part );
-            }
-            return (PartReference[]) list.toArray( new PartReference[0] ); 
-        }
     }
 
     private static URI PART_HANDLER_URI = setupURI( "@PART-HANDLER-URI@" );

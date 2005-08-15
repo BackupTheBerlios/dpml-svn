@@ -50,8 +50,12 @@
         <include name="METRO_README.TXT"/>
       </fileset>
     </copy>
-    <property name="prefs" value="${bundle}/prefs"/>
-    <mkdir dir="${prefs}/metro"/>
+    <copy toDir="${prefs}/metro">
+      <fileset dir="${basedir}/composition/builder/target">
+        <include name="style/**"/>
+      </fileset>
+    </copy>
+
     <property name="local" value="${share}/local"/>
     <x:replicate toDir="${local}" verbose="true"/>
 

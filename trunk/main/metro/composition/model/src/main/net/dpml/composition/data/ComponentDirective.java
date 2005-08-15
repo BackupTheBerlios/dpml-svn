@@ -137,11 +137,6 @@ public class ComponentDirective extends DeploymentDirective
      */
     private ContextDirective m_context;
 
-    /**
-     * The internal parts.
-     */
-    private PartReference[] m_parts;
-
     //--------------------------------------------------------------------------
     // constructor
     //--------------------------------------------------------------------------
@@ -161,7 +156,7 @@ public class ComponentDirective extends DeploymentDirective
           InfoDescriptor.UNDEFINED_COLLECTION, 
           "request", 
           classname, 
-          null, null, null, null, null, null );
+          null, null, null, null, null );
     }
 
    /**
@@ -180,7 +175,6 @@ public class ComponentDirective extends DeploymentDirective
           template.getClassname(),
           template.getCategoriesDirective(),
           template.getContextDirective(),
-          template.getParts(),
           template.getParameters(),
           template.getConfiguration(),
           template.getClassLoaderDirective() );
@@ -194,7 +188,6 @@ public class ComponentDirective extends DeploymentDirective
            final String classname,
            final CategoriesDirective categories,
            final ContextDirective context,
-           final PartReference[] parts,
            final Parameters parameters,
            final Configuration config,
            final ClassLoaderDirective classloader )
@@ -232,15 +225,6 @@ public class ComponentDirective extends DeploymentDirective
         m_collection = collection;
         m_parameters = parameters;
         m_configuration = config;
-
-        if( null == parts )
-        {
-            m_parts = new PartReference[0];
-        }
-        else
-        {
-            m_parts = parts;
-        }
     }
 
     //--------------------------------------------------------------------------
@@ -306,21 +290,6 @@ public class ComponentDirective extends DeploymentDirective
     public void setContextDirective( ContextDirective directive )
     {
         m_context = directive;
-    }
-
-    /**
-     * Return the internal parts.
-     *
-     * @return the array of internal parts.
-     */
-    public PartReference[] getParts()
-    {
-        return m_parts;
-    }
-
-    public void setParts( PartReference[] parts )
-    {
-        m_parts = parts;
     }
 
     /**
@@ -403,24 +372,6 @@ public class ComponentDirective extends DeploymentDirective
         {
             return false;
         }
-        if( getParts().length != profile.getParts().length )
-        {
-            return false;
-        }
-        else
-        {
-            PartReference[] mine = getParts();
-            PartReference[] yours = profile.getParts();
-            for( int i=0; i<mine.length; i++ )
-            {
-                PartReference a = mine[i];
-                PartReference b = yours[i];
-                if( false == a.equals( b ) )
-                {
-                    return false;
-                }
-            }
-        }
         return true;
     }
 
@@ -453,10 +404,6 @@ public class ComponentDirective extends DeploymentDirective
         if( false == ( null == m_configuration ) )
         {
             hash ^= m_configuration.hashCode();
-        }
-        for( int i=0; i<m_parts.length; i++ )
-        {
-            hash ^= m_parts[i].hashCode();
         }
         return hash;
     }

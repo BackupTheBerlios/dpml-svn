@@ -120,7 +120,7 @@ public class CompositionController extends CompositionPartHandler implements Con
             ComponentDirective profile = 
               new ComponentDirective(
                 "root", DeploymentDirective.DEFAULT, InfoDescriptor.UNDEFINED_COLLECTION, 
-                "singleton", Object.class.getName(), null, null, null, null, null, null );
+                "singleton", Object.class.getName(), null, null, null, null, null );
             m_root = new CompositionHandler( m_logger, this, classloader, partition, profile, null );
         }
         catch( Throwable e )

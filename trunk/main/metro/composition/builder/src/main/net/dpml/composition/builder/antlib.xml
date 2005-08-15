@@ -4,4 +4,5 @@
   <taskdef name="type" classname="net.dpml.composition.builder.TypeBuilderTask"/>
   <taskdef name="types" classname="net.dpml.composition.builder.TypesTask"/>
   <taskdef name="component" classname="net.dpml.composition.builder.ComponentBuilderTask"/>
+  <taskdef name="catalog" classname="net.dpml.composition.builder.CatalogTask"/>
 </antlib>

@@ -23,6 +23,7 @@ import java.io.Serializable;
 import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.net.URL;
 
 import net.dpml.configuration.Configuration;
@@ -76,12 +77,7 @@ public class Type implements Serializable
         try
         {
             InputStream input = url.openStream();
-            ObjectInputStream stream = new ObjectInputStream( input );
-            TypeHolder holder = (TypeHolder) stream.readObject();
-            byte[] bytes = holder.getByteArray();
-            ByteArrayInputStream byteinput = new ByteArrayInputStream( bytes );
-            ObjectInputStream bytestream = new ObjectInputStream( byteinput );
-            return (Type) bytestream.readObject();
+            return loadType( input );
         }
         catch( Exception e )
         {
@@ -91,6 +87,17 @@ public class Type implements Serializable
             throw new ComponentException( error, e );
         }
     }
+
+    public static Type loadType( InputStream input ) throws IOException, ClassNotFoundException
+    {
+        ObjectInputStream stream = new ObjectInputStream( input );
+        TypeHolder holder = (TypeHolder) stream.readObject();
+        byte[] bytes = holder.getByteArray();
+        ByteArrayInputStream byteinput = new ByteArrayInputStream( bytes );
+        ObjectInputStream bytestream = new ObjectInputStream( byteinput );
+        return (Type) bytestream.readObject();
+    }
+
 
     private final State m_graph;
     private final InfoDescriptor m_descriptor;
@@ -115,7 +122,6 @@ public class Type implements Serializable
      *   this component type is capable of supplying
      * @param defaults the static configuration defaults
      * @param parts an array of part descriptors
-     * @param supertype classname of the supertype
      * @exception NullPointerException if the graph, descriptor, loggers, context, services
      *   or part argument are null
      */
