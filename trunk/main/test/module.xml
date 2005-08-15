@@ -17,7 +17,7 @@
   limitations under the License.
 -->
 
-<project name="dpml-http" default="install" basedir="."
+<project name="dpml-test" default="install" basedir="."
     xmlns:transit="antlib:net.dpml.transit"
     xmlns:x="plugin:dpml/magic/dpml-magic-core"
     xmlns:c="plugin:dpml/composition/dpml-composition-builder">
@@ -27,21 +27,24 @@
   <target name="build" depends="standard.build">
     <x:module index="index.xml">
       <header>
-        <svn href="svn://dpml.berlios.de/repos/dpml/trunk/planet/http"/>
-        <home href="http://www.dpml.net/planet/http"/>
+        <svn href="svn://dpml.berlios.de/repos/dpml/trunk/main/test"/>
       </header>
     </x:module>
-    <x:javadoc>
-      <link href="http://java.sun.com/j2se/1.4/docs/api"/>
-    </x:javadoc>
   </target>
 
   <target name="package" depends="standard.package">
     <c:catalog>
-      <fileset dir="${basedir}">
+      <fileset dir=".">
         <include name="**/target/classes/**/*.type"/>
       </fileset>
     </c:catalog>
+    <mkdir dir="target/reports/junit"/>
+    <junitreport todir="target/reports/junit">
+      <fileset dir=".">
+        <include name="**/target/test-reports/TEST-*.xml"/>
+      </fileset>
+      <report format="frames" todir="target/reports/junit"/>
+    </junitreport>
   </target>
 
 </project>

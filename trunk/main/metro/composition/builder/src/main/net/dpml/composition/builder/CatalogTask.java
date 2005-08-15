@@ -815,6 +815,7 @@ public class CatalogTask extends ProjectTask
         {
             ArrayList list = new ArrayList();
             Project project = getProject();
+            File basedir = project.getBaseDir();
             FileSet[] filesets = (FileSet[]) m_filesets.toArray( new FileSet[0] );
             for( int i=0; i < filesets.length; i++ )
             {
@@ -823,7 +824,9 @@ public class CatalogTask extends ProjectTask
                 String[] files = ds.getIncludedFiles();
                 for( int j=0; j < files.length; j++ )
                 {
-                    list.add( new File( files[j] ) );
+                    String path = files[j];
+                    File file = new File( basedir, path );
+                    list.add( file );
                 }
             }
             return (File[]) list.toArray( new File[0] );
