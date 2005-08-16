@@ -27,7 +27,6 @@
 
   <project basedir="components/simple">
     <info>
-      <group>dpml/test</group>
       <name>dpml-test-simple</name>
       <types>
         <type name="jar"/>
@@ -41,7 +40,6 @@
 
   <project basedir="components/plus">
     <info>
-      <group>dpml/test</group>
       <name>dpml-test-plus</name>
       <types>
         <type name="jar"/>
@@ -60,7 +58,6 @@
 
   <project basedir="unit/simple">
     <info>
-      <group>dpml/test</group>
       <name>dpml-test-simple-unit</name>
       <types>
         <type name="null"/>
@@ -78,7 +75,6 @@
 
   <project basedir="unit/plus">
     <info>
-      <group>dpml/test</group>
       <name>dpml-test-plus-unit</name>
       <types>
         <type name="null"/>
