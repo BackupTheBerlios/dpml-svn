@@ -6,10 +6,31 @@ body, td
     font-family: Verdana, Tahoma, Helvetica, Sans-Serif;
 }
 
+td.title
+{
+    font-size: 14pt;
+    padding-top: 4px;
+    padding-bottom: 4px;
+    padding-left: 0px;
+    padding-right: 6px;
+}
+
 td.package
 {
-    color: rgb(220,220,220);
+    color: black;
     background-color: rgb(220,220,220);
+    padding-top: 4px;
+    padding-bottom: 4px;
+    padding-left: 6px;
+    padding-right: 6px;
+}
+
+td.package-selected
+{
+    display: block;
+    /*background-color: #9999FF;*/
+    background-color: #BFCFFF;
+    color: black;
     padding-top: 4px;
     padding-bottom: 4px;
     padding-left: 6px;
@@ -61,6 +82,15 @@ tr.p-odd
     background-color: #E6FFFF;
 }
 
+.title
+{
+    font-size: 14pt;
+    padding-top: 4px;
+    padding-bottom: 4px;
+    padding-left: 0px;
+    padding-right: 6px;
+}
+
 .category
 {
     font-size: 10pt;
@@ -72,6 +102,12 @@ tr.p-odd
 }
 
 a.package:link, a.package:visited, a.package:link:hover, a.package:visited:hover, a.package:active
+{
+    color: black;
+    text-decoration: none;
+}
+
+a.package-selected:link, a.package-selected:visited, a.package-selected:link:hover, a.package-selected:visited:hover, a.package-selected:active
 {
     color: black;
     text-decoration: none;
@@ -168,7 +204,6 @@ th
 
 td
 {
-
     text-align: left;
     vertical-align: top;
     padding-left: 0em;

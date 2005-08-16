@@ -156,7 +156,7 @@ public class CatalogTask extends ProjectTask
                 processType( reports, type );
             }
 
-            createIndexFile( html );
+            createCatalog( html );
         }
     }
 
@@ -168,7 +168,7 @@ public class CatalogTask extends ProjectTask
     *
     * @param root the root html directory
     */
-    private void createIndexFile( File root )
+    private void createCatalog( File root )
     {
          createIndex( root );
          createPackagesIndex( root );
@@ -242,17 +242,41 @@ public class CatalogTask extends ProjectTask
             writer.write( "\n    <link href=\"stylesheet.css\" type=\"text/css\" rel=\"stylesheet\"/>" );
             writer.write( "\n  </head>" );
             writer.write( "\n  <body>" );
-            writer.write( "\n  <h3>Overview</h3>" );
+
+            //
+            // add menu containing packages overview links
+            //
+
+            writer.write( "\n    <table class=\"menubar\">" );
+            writer.write( "\n      <tr>" );
+            writer.write( "<td class=\"package\"><a class=\"package\" href=\"packages-overview.html\">" );
+            writer.write( "overview" );
+            writer.write( "</a></td>" );
+            writer.write( "\n      </tr>" );
+            writer.write( "\n    </table>" );
+
+            writer.write( "\n  <p class=\"title\">Overview</p>" );
+
             writer.write( "\n    <table>" );
             writer.write( "\n    <tr><th>Package</th><th>Components</th></tr>" );
 
+            boolean flag = true;
             Object[] keys = m_packages.keySet().toArray();
             for( int i=0; i < keys.length; i++ )
             {
                 String name = (String) keys[i];
                 createPackageOverview( root, name );
                 List list = getPackageList( name );
-                writer.write( "\n      <tr>" );
+                if( flag )
+                {
+                    writer.write( "\n      <tr class=\"p-even\">" );
+                }
+                else
+                {
+                    writer.write( "\n      <tr class=\"p-odd\">" );
+                }
+                flag = !flag;
+
                 writer.write( "<td><a href=\"" );
                 String path = name.replace( '.', '/' );
                 writer.write( path + "/overview.html\" target=\"typeFrame\">" );
@@ -305,7 +329,13 @@ public class CatalogTask extends ProjectTask
             writer.write( "\n    <link href=\"stylesheet.css\" type=\"text/css\" rel=\"stylesheet\">" );
             writer.write( "\n  </head>" );
             writer.write( "\n  <body>" );
-            writer.write( "\n  <h3>DPML Metro</h3>" );
+
+            String title = getTitle();
+
+            writer.write( "\n    <table>" );
+            writer.write( "\n      <tr><td class=\"title\">" + title + "</td></tr>" );
+            writer.write( "\n    </table>" );
+
             writer.write( "\n  <p><a href=\"types.html\" target=\"typeListFrame\">All Types</a></p>" );
             writer.write( "\n  <p><b>Packages</b></p>" );
             writer.write( "\n    <table>" );
@@ -400,19 +430,55 @@ public class CatalogTask extends ProjectTask
             writer.write( "\n    <link href=\"" + offset + "/stylesheet.css\" type=\"text/css\" rel=\"stylesheet\"/>" );
             writer.write( "\n  </head>" );
             writer.write( "\n  <body>" );
-            writer.write( "\n    <h3>Package " + name + "</h3>" );
-            writer.write( "\n    <p><b>Types</b></p>" );
-            writer.write( "\n    <table>" );
-            writer.write( "\n      <tr><th>Type</th><th>Services</th></tr>" );
 
+            //
+            // add the menubar containing the link to the all packages overview
+            //
+
+            writer.write( "\n    <table class=\"menubar\">" );
+            writer.write( "\n      <tr>" );
+            writer.write( "<td class=\"package\"><a class=\"package\" href=\"" + offset + "/packages-overview.html\">" );
+            writer.write( "overview" );
+            writer.write( "</a></td>" );
+            writer.write( "<td class=\"package-selected\"><a class=\"package-selected\" href=\"overview.html\">" );
+            writer.write( name );
+            writer.write( "</a></td>" );
+            writer.write( "\n      </tr>" );
+            writer.write( "\n    </table>" );
+
+            //
+            // add the package name
+            //
+
+            writer.write( "\n    <table>" );
+            writer.write( "\n      <tr><td class=\"title\">" + name + "</td></tr>" );
+            writer.write( "\n    </table>" );
+
+            writer.write( "\n    <table width=\"100%\">" );
+            writer.write( "\n      <tr><th>Type</th><th>Name</th><th>Version</th><th>Lifestyle</th></tr>" );
+
+            //
+            // list all component types in the package
+            //
+
+            boolean flag = true;
             List list = getPackageList( name );
             Type[] types = (Type[]) list.toArray( new Type[0] );
             for( int i=0; i < types.length; i++ )
             {
                 Type type = types[i];
+                if( flag )
+                {
+                    writer.write( "\n      <tr class=\"p-even\">" );
+                }
+                else
+                {
+                    writer.write( "\n      <tr class=\"p-odd\">" );
+                }
+                flag = !flag;
+
                 String classname = getClassName( type );
                 String filename = classname + ".html"; 
-                writer.write( "\n      <tr>" );
                 writer.write( "\n        <td><a href=\"" );
                 writer.write( filename );
                 writer.write( "\" target=\"typeFrame\">" );
@@ -421,18 +487,17 @@ public class CatalogTask extends ProjectTask
                 writer.write( "\n        </td>" );
 
                 writer.write( "\n        <td>" );
-                ServiceDescriptor[] services = type.getServices();
-                for( int j=0; j < services.length; j++ )
-                {
-                     String service = services[j].getClassname();
-                     if( j > 0 )
-                     {
-                         writer.write( ", " );
-                     }
-                     writer.write( service );
-                }
+                writer.write( type.getInfo().getName() );
+                writer.write( "\n        </td>" );
 
-                writer.write( "\n        <td></td>" );
+                writer.write( "\n        <td>" );
+                writer.write( type.getInfo().getVersion().toString() );
+                writer.write( "\n        </td>" );
+
+                writer.write( "\n        <td>" );
+                writer.write( type.getInfo().getLifestyle() );
+                writer.write( "\n        </td>" );
+
                 writer.write( "\n      </tr>" );
             }
             writer.write( "\n    </table>" );
@@ -468,9 +533,27 @@ public class CatalogTask extends ProjectTask
             writer.write( "\n    <link href=\"" + offset + "/stylesheet.css\" type=\"text/css\" rel=\"stylesheet\"/>" );
             writer.write( "\n  </head>" );
             writer.write( "\n  <body>" );
-            writer.write( "\n    <table>" );
-            writer.write( "\n      <tr><td class=\"package\"><a class=\"package\" href=\"overview.html\">" + packagename + "</a></td></tr>" );
+
+            //
+            // add menu containing packages and package overview links
+            //
+
+            writer.write( "\n    <table class=\"menubar\">" );
+            writer.write( "\n      <tr>" );
+            writer.write( "<td class=\"package\"><a class=\"package\" href=\"" + offset + "/packages-overview.html\">" );
+            writer.write( "overview" );
+            writer.write( "</a></td>" );
+            writer.write( "<td class=\"package\"><a class=\"package\" href=\"overview.html\">" );
+            writer.write( packagename );
+            writer.write( "</a></td>" );
+            writer.write( "<td class=\"package-selected\">" + cname + "</td>" );
+            writer.write( "\n      </tr>" );
             writer.write( "\n    </table>" );
+
+            //
+            // add component type classname as title
+            //
+
             writer.write( "\n    <table>" );
             writer.write( "\n      <tr><td class=\"type\">" + cname + "</td></tr>" );
             writer.write( "\n    </table>" );
