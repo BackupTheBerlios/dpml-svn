@@ -80,6 +80,54 @@ public final class Main implements ShutdownHandler
     }
 
    /**
+    * Utility operation to consolidate a supplied array of command line arguments 
+    * by removal of the supplied argument.
+    * 
+    * @param args the command line arguments to consolidate
+    * @param argument the argument to remove
+    * @return the consolidated argument array
+    */
+    public static String[] consolidate( String [] args, String argument )
+    {
+        return consolidate( args, argument, 0 );
+    }
+
+   /**
+    * Utility operation to consolidate a supplied array of command line arguments 
+    * by removal of the supplied argument and the subsequent parameter values. 
+    * 
+    * @param args the command line arguments to consolidate
+    * @param argument the argument to remove
+    * @return the consolidated argument array
+    */
+    public static String[] consolidate( String [] args, String argument, int n )
+    {
+        boolean flag = false;
+        ArrayList list = new ArrayList();
+        for( int i=0; i < args.length; i++ )
+        {
+            String arg = args[i];
+            if( flag )
+            {
+                list.add( arg );
+            }
+            else
+            {
+                if( arg.equals( argument ) )
+                {
+                    flag = true;
+                    i = i+n;
+                }
+                else
+                {
+                    list.add( arg );
+                }
+            }
+        }
+        return (String[]) list.toArray( new String[0] );
+    }
+
+   /**
     * Processes command line options to establish the command handler plugin to deploy.
     * Command parameters recognixed by the console include the following:
     * <ul>
@@ -763,20 +811,6 @@ public final class Main implements ShutdownHandler
         {
             return args[0];
         }
-    }
-
-    private static String[] consolidate( String [] args, String argument )
-    {
-        ArrayList list = new ArrayList();
-        for( int i=0; i < args.length; i++ )
-        {
-            String arg = args[i];
-            if( !arg.equals( argument ) )
-            {
-                list.add( arg );
-            }
-        }
-        return (String[]) list.toArray( new String[0] );
     }
 
     private String[] processSystemProperties( String[] args )

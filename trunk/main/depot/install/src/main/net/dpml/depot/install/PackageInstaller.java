@@ -25,6 +25,7 @@ import java.net.URI;
 import java.util.prefs.Preferences;
 import java.net.URISyntaxException;
 
+import net.dpml.depot.Main;
 import net.dpml.depot.ShutdownHandler;
 
 import net.dpml.profile.DepotProfile;
@@ -56,11 +57,10 @@ public class PackageInstaller implements Runnable
     private final Logger m_logger;
     private final TransitRegistryModel m_transit;
     private final DepotProfile m_depot;
-    private final String[] m_args;
     private final TransitModel m_model;
 
+    private String[] m_args;
     private ShutdownHandler m_handler;
-
     private boolean m_continue = true;
 
     //--------------------------------------------------------------------------
@@ -114,6 +114,7 @@ public class PackageInstaller implements Runnable
         }
 
         boolean reset = isFlagPresent( "-reset" );
+        m_args = Main.consolidate( m_args, "-reset" );
 
         try
         {
@@ -126,9 +127,31 @@ public class PackageInstaller implements Runnable
                 // this current classloader stack
                 //
 
-                getLogger().info( "initiating depot setup" );
-
                 String profile = getProfileName();
+
+                //
+                // check if there are any left over arguments
+                //
+
+                if( m_args.length > 0 )
+                {
+                    final StringBuffer buffer = 
+                      new StringBuffer( "Unrecognized command line option [" );
+                    for( int i=0; i < m_args.length; i++ )
+                    {
+                        if( i > 0 )
+                        {
+                            buffer.append( "," );
+                        }
+                        buffer.append( m_args[i] );
+                    }
+                    buffer.append( "]." );
+                    getLogger().error( buffer.toString() );
+                    handleHelp();
+                    m_handler.exit( -1 );
+                }
+
+                getLogger().info( "initiating depot setup" );
                 if( STANDARD_PROFILE.equals( profile ) || METRO_PROFILE.equals( profile ) )
                 {
                     getLogger().info( "invoking standard profile setup" );
@@ -146,6 +169,7 @@ public class PackageInstaller implements Runnable
                       "Requested profile is not recognized. "  
                       + "Recognized profiles include 'standard', 'magic' and 'metro'.";
                     getLogger().error( error );
+                    
                     m_handler.exit( -1 );
                 }
             }
@@ -307,7 +331,9 @@ public class PackageInstaller implements Runnable
                 {
                     if( i + 1 < m_args.length )
                     {
-                        return m_args[ i + 1 ];
+                        String profile = m_args[ i + 1 ];
+                        m_args = Main.consolidate( m_args, PROFILE_OPT, 1 );
+                        return profile;
                     }
                     else
                     {
@@ -336,7 +362,9 @@ public class PackageInstaller implements Runnable
                 {
                     if( i + 1 < m_args.length )
                     {
-                        return m_args[ i + 1 ];
+                        String version = m_args[ i + 1 ];
+                        m_args = Main.consolidate( m_args, VERSION_OPT, 1 );
+                        return version;
                     }
                     else
                     {
@@ -424,8 +452,7 @@ public class PackageInstaller implements Runnable
 
     private void handleHelp()
     {
-        final String message = 
-          "Setup Help"
+        final String message = ""
           + "\n"
           + "\nUsage: depot -setup [[-profile [NAME]] [-version [VERSION]] [-reset] [-debug]] | [-help]"
           + "\nDefault: depot -setup -profile standard -version " + VERSION
