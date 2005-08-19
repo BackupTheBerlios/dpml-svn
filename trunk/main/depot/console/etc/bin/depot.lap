@@ -1,5 +1,5 @@
 # 
-# This file contains the runtime configuration of the Janel java lunch application.
+# This file contains the runtime configuration of the Janel java launcher application.
 #
 
 -Djava.system.class.loader=net.dpml.depot.DepotClassLoader
