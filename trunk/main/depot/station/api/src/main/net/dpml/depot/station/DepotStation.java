@@ -10,6 +10,7 @@ import java.rmi.ServerException;
 import java.rmi.MarshalledObject;
 import java.rmi.NotBoundException;
 import java.rmi.AccessException;
+import java.rmi.AlreadyBoundException;
 import java.rmi.activation.ActivationSystem;
 import java.rmi.activation.ActivationDesc;
 import java.rmi.activation.ActivationGroup;
@@ -35,12 +36,17 @@ import net.dpml.profile.ProfileException;
 import net.dpml.profile.ActivationProfile;
 import net.dpml.profile.ActivationGroupProfile;
 
+import net.dpml.depot.GeneralException;
+
 /**
  * The DepotStation class provides support for the establishment and maintenance
- * of DPML server processes and applications.
+ * of DPML server processes.  Each process represents an identifiable virtual machine
+ * and associated component model. 
  */
 public class DepotStation extends UnicastRemoteObject implements Station
 {
+    public static final String STATION = "dpml:station";
+
     private int m_count = 0;
     private final Logger m_logger;
     private Hashtable m_table = new Hashtable();
@@ -69,9 +75,31 @@ public class DepotStation extends UnicastRemoteObject implements Station
             int port = Registry.REGISTRY_PORT;
             Connection connection = new Connection( null, port, true, true );
             Registry registry = getRegistry( connection );
-    
+
+            //
+            // register ourself into the registry
+            //
+
+            try
+            {
+                registry.bind( STATION, this );
+            }
+            catch( AlreadyBoundException e )
+            {
+                final String error = 
+                  "Another instance of the Depot Station is already bound to port: " + port;
+                throw new GeneralException( error );
+            }
+
+            String[] list = registry.list();
+            logger.info( "registry: " + list.length );
+            for( int i=0; i<list.length; i++ )
+            {
+                logger.info( "entry: " + list[i] );
+            }
+
+            /*
             // get groups and initiate deployment
-    
             ActivationGroupProfile[] profiles = m_model.getActivationGroupProfiles();
             for( int i=0; i<profiles.length; i++ )
             {
@@ -79,6 +107,7 @@ public class DepotStation extends UnicastRemoteObject implements Station
                 ActivationGroupID id = deployActivationGroupProfile( profile );
                 m_table.put( profile, id );
             }
+            */
         }
         catch( RemoteException e )
         {
