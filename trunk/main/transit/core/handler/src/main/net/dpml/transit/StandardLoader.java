@@ -158,6 +158,13 @@ class StandardLoader
             getMonitor().establishedPluginClass( clazz );
             return createPlugin( classloader, descriptor, clazz, args );
         }
+        catch( RepositoryException e )
+        {
+            final String error = e.getMessage();
+            final Throwable cause = e.getCause();
+            final String message = error + "\nPlugin URI: " + uri + "].";
+            throw new RepositoryException( message, cause );
+        }
         catch( Exception ce )
         {
             String error = "Unable to create a plugin using [" + uri + "].";
