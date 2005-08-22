@@ -21,6 +21,9 @@ package net.dpml.transit.tools;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.dpml.transit.model.TransitModel;
+import net.dpml.transit.model.Logger;
+
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.ComponentHelper;
 import org.apache.tools.ant.Project;
@@ -62,6 +65,20 @@ public class MainTask extends TransitTask
     * List of plugin declarations.
     */
     private List m_mappings = new ArrayList();
+
+    // ------------------------------------------------------------------------
+    // constructor
+    // ------------------------------------------------------------------------
+
+    public MainTask()
+    {
+        super();
+    }
+
+    public MainTask( TransitModel model, Logger logger ) throws Exception
+    {
+        super( model, logger );
+    }
 
     // ------------------------------------------------------------------------
     // Task

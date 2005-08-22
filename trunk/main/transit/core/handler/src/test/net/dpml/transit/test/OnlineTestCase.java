@@ -132,21 +132,4 @@ public class OnlineTestCase extends TestCase
             stream.close();
         }
     }
-
-/* TODO: Not used.
-    private void print( URL url )
-    {
-        System.out.println( "URL: " + url );
-        System.out.println( "Authority: " + url.getAuthority() );
-        System.out.println( "File: " + url.getFile() );
-        System.out.println( "Host: " + url.getHost() );
-        System.out.println( "Path: " + url.getPath() );
-        System.out.println( "Port: " + url.getPort() );
-        System.out.println( "Protocol: " + url.getProtocol() );
-        System.out.println( "Query: " + url.getQuery() );
-        System.out.println( "Ref: " + url.getRef() );
-        System.out.println( "Userinfo: " + url.getUserInfo() );
-        System.out.println( "--------------" );
-    }
-*/
 }

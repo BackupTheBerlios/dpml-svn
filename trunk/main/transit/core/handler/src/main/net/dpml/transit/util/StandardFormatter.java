@@ -18,6 +18,8 @@
 
 package net.dpml.transit.util;
 
+import net.dpml.transit.PID;
+
 import java.util.logging.Formatter;
 import java.util.logging.LogRecord;
 
@@ -26,6 +28,8 @@ import java.util.logging.LogRecord;
  */
 public class StandardFormatter extends Formatter 
 {
+    private static final PID ID = new PID();
+
     private static final String SEPARATOR = System.getProperty( "line.separator" );
 
     /**
@@ -35,8 +39,14 @@ public class StandardFormatter extends Formatter
      */
     public synchronized String format( LogRecord record ) 
     {
-        StringBuffer buffer = new StringBuffer();
-  
+        String message = formatMessage( record );
+        if( message.startsWith( "[" ) )
+        {
+            return message + SEPARATOR;
+        }
+
+        String process = getProcessHeader();
+        StringBuffer buffer = new StringBuffer( process );
         String header = getLogHeader( record );
         buffer.append( header );
         if( null != record.getLoggerName() ) 
@@ -47,12 +57,10 @@ public class StandardFormatter extends Formatter
         {
             buffer.append( "() " );
         }
-        String message = formatMessage( record );
         buffer.append( message );
         buffer.append( SEPARATOR );
         if( record.getThrown() != null ) 
         {
-            //boolean trace = record.getLevel().intValue() > 900;
             Throwable cause = record.getThrown();
             String error = ExceptionHelper.packException( cause, true );
             buffer.append( error );
@@ -65,6 +73,16 @@ public class StandardFormatter extends Formatter
         StringBuffer buffer = new StringBuffer();
         buffer.append( "[" );
         buffer.append( record.getLevel().getLocalizedName() );
+        buffer.append( "        " );
+        String tag = buffer.toString();
+        return tag.substring( 0, EIGHT ) + "] ";
+    }
+
+    private String getProcessHeader()
+    {
+        StringBuffer buffer = new StringBuffer();
+        buffer.append( "[" );
+        buffer.append( ID.getValue() );
         buffer.append( "        " );
         String tag = buffer.toString();
         return tag.substring( 0, EIGHT ) + "] ";

@@ -27,8 +27,10 @@ import org.apache.tools.ant.Task;
 import net.dpml.transit.Transit;
 import net.dpml.transit.TransitAlreadyInitializedException;
 import net.dpml.transit.model.TransitModel;
+import net.dpml.transit.model.Logger;
 import net.dpml.transit.model.DefaultTransitModel;
 import net.dpml.transit.monitor.Adapter;
+import net.dpml.transit.monitor.LoggingAdapter;
 import net.dpml.transit.monitor.RepositoryMonitorAdapter;
 import net.dpml.transit.monitor.CacheMonitorAdapter;
 import net.dpml.transit.monitor.NetworkMonitorAdapter;
@@ -58,6 +60,29 @@ abstract class TransitTask extends Task
     private static boolean m_INIT = false;
     private static TransitModel m_MODEL;
 
+    public TransitTask()
+    {
+    }
+
+    public TransitTask( TransitModel model, Logger logger ) throws Exception
+    {
+        if( null == m_MODEL )
+        {
+            m_MODEL = model;
+            Transit transit = Transit.getInstance();
+            if( logger instanceof Adapter )
+            {
+                setupMonitors( transit, (Adapter)logger );
+            }
+            else
+            {
+                final String error = 
+                  "Don't know how to wrap a transit logger to an adapter.";
+                throw new BuildException( error );
+            }
+        }
+    }
+
     public void setProject( Project project )
     {
         super.setProject( project );
@@ -74,15 +99,15 @@ abstract class TransitTask extends Task
                 try
                 {
                     Adapter logger = new AntAdapter( task );
-                    TransitModel model = new DefaultTransitModel( logger );
-                    Transit transit = Transit.getInstance( model );
+                    m_MODEL = new DefaultTransitModel( logger );
+                    Transit transit = Transit.getInstance( m_MODEL );
                     setupMonitors( transit, logger );
-                    m_MODEL = model;
                 }
                 catch( TransitAlreadyInitializedException e )
                 {
-                    // Transit is already initialized.
-                    boolean ok = true;
+                    final String error =
+                      "Detected condition where Transit has already been initialized.";
+                    throw new BuildException( error, e );
                 }
                 catch( Throwable e )
                 {
@@ -103,6 +128,11 @@ abstract class TransitTask extends Task
     */
     private static void checkProperties( Project project ) throws BuildException
     {
+        if( null == project )
+        {
+            throw new NullPointerException( "project" );
+        }
+
         String version = Transit.VERSION;
         updateProperty( project, "dpml.transit.version", version );
 
