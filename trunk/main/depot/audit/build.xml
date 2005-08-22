@@ -12,7 +12,7 @@
   </target>
 
   <target name="package" depends="standard.package">
-    <x:export class="net.dpml.depot.install.AuditProcessor"/>
+    <x:export class="net.dpml.depot.audit.AuditProcessor"/>
   </target>
 
 </project>

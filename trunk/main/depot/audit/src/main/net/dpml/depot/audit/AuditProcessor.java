@@ -18,6 +18,8 @@ package net.dpml.depot.audit;
 
 import java.net.URI;
 import java.util.prefs.Preferences;
+import java.rmi.registry.Registry;
+import java.rmi.registry.LocateRegistry;
 
 import net.dpml.depot.ShutdownHandler;
 
@@ -34,7 +36,7 @@ import net.dpml.transit.store.TransitStorageHome;
  * The DepotInstaller is responsible for the establishment and integrity of 
  * the DPML installation.
  */
-public class AuditProcessor implements Runnable
+public class AuditProcessor
 {
 
     //--------------------------------------------------------------------------
@@ -80,15 +82,25 @@ public class AuditProcessor implements Runnable
 
         TransitStorageHome home = new TransitStorageHome();
         m_transit = new DefaultTransitRegistryModel( logger, home );
-    }
 
-   /**
-    * Start the audit processor.
-    */
-    public void run()
-    {
-        getLogger().debug( "processing [" + m_args.length + "] command options" );
-        m_handler.exit();
+        Thread.currentThread().setContextClassLoader( getClass().getClassLoader() );
+
+        Registry registry = LocateRegistry.getRegistry( Registry.REGISTRY_PORT );
+        String[] names = registry.list();
+        System.out.println( "# REGISTRY: " + names.length );
+        for( int i=0; i<names.length; i++ )
+        {
+            System.out.println( "# ENTRY: " + names[i] );
+            try
+            {
+                Object obj = registry.lookup( names[i] );
+               System.out.println( "# LOCATED: " + obj.getClass().getName() );
+            }
+            catch( Throwable e )
+            {
+                System.out.println( "## " + e.toString() );
+            }
+        }
     }
 
     private Logger getLogger()
