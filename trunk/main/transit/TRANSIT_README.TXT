@@ -11,6 +11,14 @@ Installation Instructions
 Transit is installed as a part of the Depot installation.  
 Please refer to the Depot README for additional information.
 
+Release Notes: Version SNAPSHOT
+-------------------------------
+
+Add a registry protocol handler enabling publication of regerences to an 
+RMI registry in the form registry://[host]:[port]/[path] or the shortform
+registry:/[path]. Updates to the standard log message formatter to include
+the JVM process identifier.
+
 Release Notes: Version 20050809
 -------------------------------
 
