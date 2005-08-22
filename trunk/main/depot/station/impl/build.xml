@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
-<project name="dpml-depot-station" default="install" basedir="." 
+<project name="dpml-station-impl" default="install" basedir="." 
     xmlns:transit="antlib:net.dpml.transit" 
     xmlns:x="plugin:dpml/magic/dpml-magic-core" >
 
@@ -11,13 +11,15 @@
   </target>
 
   <target name="build" depends="standard.build">
-    <rmic base="${basedir}/target/classes">
+    <x:path id="build.path"/>
+    <rmic base="${basedir}/target/classes" classpathref="build.path">
       <include name="**/DepotStation.class"/>
+      <include name="**/DefaultApplication.class"/>
     </rmic>
   </target>
 
   <target name="package" depends="standard.package">
-    <x:export class="net.dpml.depot.station.DepotStation"/>
+    <x:export class="net.dpml.station.impl.DepotStation"/>
   </target>
 
 </project>

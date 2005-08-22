@@ -1,7 +1,8 @@
 
-package net.dpml.depot.station; 
+package net.dpml.station.impl; 
 
 import java.net.URI;
+import java.net.URL;
 import java.rmi.Remote;
 import java.rmi.Naming;
 import java.rmi.RemoteException;
@@ -29,24 +30,29 @@ import net.dpml.transit.Transit;
 import net.dpml.transit.Repository;
 import net.dpml.transit.model.Logger;
 import net.dpml.transit.model.TransitModel;
+import net.dpml.transit.model.UnknownKeyException;
+import net.dpml.transit.model.DuplicateKeyException;
 import net.dpml.transit.model.Connection;
 
+import net.dpml.profile.ApplicationProfile;
 import net.dpml.profile.DepotProfile;
 import net.dpml.profile.ProfileException;
 import net.dpml.profile.ActivationProfile;
 import net.dpml.profile.ActivationGroupProfile;
 
 import net.dpml.depot.GeneralException;
+import net.dpml.depot.Handler;
+
+import net.dpml.station.Station;
+import net.dpml.station.Application;
 
 /**
  * The DepotStation class provides support for the establishment and maintenance
  * of DPML server processes.  Each process represents an identifiable virtual machine
  * and associated component model. 
  */
-public class DepotStation extends UnicastRemoteObject implements Station
+public class DepotStation extends UnicastRemoteObject implements Station, Handler
 {
-    public static final String STATION = "dpml:station";
-
     private int m_count = 0;
     private final Logger m_logger;
     private Hashtable m_table = new Hashtable();
@@ -59,14 +65,14 @@ public class DepotStation extends UnicastRemoteObject implements Station
     {
         super();
 
+        m_logger = logger;
+
         try
         {
             Repository repository = Transit.getInstance().getRepository();
             ClassLoader classloader = DepotStation.class.getClassLoader();
             URI uri = new URI( DEPOT_PROFILE_URI );
             m_model = (DepotProfile) repository.getPlugin( classloader, uri, new Object[]{ prefs, logger } );
-
-            m_logger = logger;
 
             //
             // startup the general registry
@@ -80,15 +86,39 @@ public class DepotStation extends UnicastRemoteObject implements Station
             // register ourself into the registry
             //
 
-            try
+            //try
+            //{
+            //    registry.bind( Station.STATION_KEY, this );
+            //}
+            //catch( AlreadyBoundException e )
+            //{
+            //    final String error = 
+            //      "Another instance of the Depot Station is already bound to port: " + port;
+            //    throw new GeneralException( error );
+            //}
+
+            ApplicationProfile[] profiles = m_model.getApplicationProfiles();
+            for( int i=0; i<profiles.length; i++ )
             {
-                registry.bind( STATION, this );
-            }
-            catch( AlreadyBoundException e )
-            {
-                final String error = 
-                  "Another instance of the Depot Station is already bound to port: " + port;
-                throw new GeneralException( error );
+                ApplicationProfile profile = profiles[i];
+                String key = profile.getID();
+                logger.info( "profile: " + key );
+                String path = Station.STATION_KEY + "/" + key;
+                String urn = "registry:" + path;
+                registry.rebind( path, profile );
+                Application application = new DefaultApplication( logger, profile, urn );
+
+                m_table.put( key, application );
+                try
+                {
+                    application.start();
+                }
+                catch( Exception e )
+                {
+                    final String error = 
+                      "Startup error raised by application [" + key + "]";
+                    getLogger().warn( error );
+                }
             }
 
             String[] list = registry.list();
@@ -119,6 +149,67 @@ public class DepotStation extends UnicastRemoteObject implements Station
               "Unexpected error occured while establishing depot station.";
             throw new ServerException( error, e );
         }
+    }
+
+    public void destroy()
+    {
+        String[] keys = (String[]) m_table.keySet().toArray( new String[0] );
+        for( int i=0; i<keys.length; i++ )
+        {
+            final String key = keys[i];
+            Application application = (Application) m_table.get( key );
+            try
+            {
+                application.stop();
+            }
+            catch( Throwable e )
+            {
+                getLogger().warn( e.toString() );
+            }
+        }
+    }
+
+    public Application addApplication( ApplicationProfile profile ) 
+      throws DuplicateKeyException, RemoteException
+    {
+        throw new UnsupportedOperationException( "addApplication/1" );
+    }
+
+    public void removeApplication( String key ) throws UnknownKeyException, RemoteException
+    {
+        throw new UnsupportedOperationException( "removeApplication/1" );
+    }
+
+    public String[] getApplicationKeys() throws RemoteException
+    {
+        try
+        {
+            ApplicationProfile[] profiles = m_model.getApplicationProfiles();
+            String[] keys = new String[ profiles.length ];
+            for( int i=0; i < profiles.length; i++ )
+            {
+                ApplicationProfile profile = profiles[i];
+                String key = profile.getID();
+                keys[i] = key;
+            }
+            return keys;
+        }
+        catch( Exception e )
+        {
+            final String error = 
+              "An unexpected error occured while resolving profile keys.";
+            throw new ServerException( error, e );
+        }
+    }
+
+    public ApplicationProfile getApplicationProfile( String key ) throws UnknownKeyException, RemoteException
+    {
+        return m_model.getApplicationProfile( key );
+    }
+
+    public Application getApplication( String key ) throws UnknownKeyException, RemoteException
+    {
+        throw new UnsupportedOperationException( "getApplication/1" );
     }
 
     private ActivationGroupID deployActivationGroupProfile( ActivationGroupProfile group )

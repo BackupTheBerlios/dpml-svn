@@ -1,23 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
-<project name="dpml-depot-station" default="install" basedir="." 
+<project name="dpml-station-api" default="install" basedir="." 
     xmlns:transit="antlib:net.dpml.transit" 
     xmlns:x="plugin:dpml/magic/dpml-magic-core" >
 
   <transit:import uri="local:template:magic/standard"/>
-
-  <target name="init" depends="standard.init">
-    <x:filter token="DEPOT-PROFILE-PLUGIN-URI" key="dpml-profile-impl" feature="uri" type="plugin"/>
-  </target>
-
-  <target name="build" depends="standard.build">
-    <rmic base="${basedir}/target/classes">
-      <include name="**/DepotStation.class"/>
-    </rmic>
-  </target>
-
-  <target name="package" depends="standard.package">
-    <x:export class="net.dpml.depot.station.DepotStation"/>
-  </target>
 
 </project>

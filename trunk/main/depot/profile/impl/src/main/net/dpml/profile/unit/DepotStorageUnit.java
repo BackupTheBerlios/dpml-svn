@@ -45,10 +45,6 @@ public class DepotStorageUnit extends AbstractStorageUnit implements DepotHome
     public DepotStorageUnit( Preferences prefs ) 
     {
         super( prefs );
-
-        setupTestProfile();
-        setupMexicoProfile();
-        setupHttpProfile();
     }
 
     // ------------------------------------------------------------------------
@@ -111,31 +107,5 @@ public class DepotStorageUnit extends AbstractStorageUnit implements DepotHome
     {
         Preferences prefs = getPreferences().node( "profiles" ).node( id );
         return new ApplicationStorageUnit( prefs );
-    }
-
-    private void setupTestProfile()
-    {
-        String id = "test";
-        Preferences prefs = getPreferences().node( "profiles" ).node( id );
-        prefs.put( "uri", "@TEST-PLUGIN-URI@" );
-        prefs.put( "title", "DPML Depot Client Test" );
-        prefs.putBoolean( "command", true );
-    }
-
-    private void setupMexicoProfile()
-    {
-        String id = "mexico";
-        Preferences prefs = getPreferences().node( "groups" ).node( "demo" ).node( "profiles" ).node( id );
-        prefs.put( "uri", "@TEST-SERVER-URI@" );
-        prefs.put( "title", "DPML Depot Activation Test" );
-        prefs.put( "classname", "net.dpml.test.mexico.Server" );
-    }
-
-    private void setupHttpProfile()
-    {
-        String id = "http";
-        Preferences prefs = getPreferences().node( "profiles" ).node( id );
-        prefs.put( "uri", "link:part:dpml/planet/http/dpml-http-demo" );
-        prefs.put( "title", "DPML HTTP Demo" );
     }
 }

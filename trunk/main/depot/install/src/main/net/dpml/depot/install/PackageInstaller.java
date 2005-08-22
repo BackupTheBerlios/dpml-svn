@@ -103,22 +103,44 @@ public class PackageInstaller implements Runnable
     */
     public void run()
     {
-        getLogger().debug( "processing [" + m_args.length + "] command options" );
-
-        boolean help = isFlagPresent( "-help" );
-
+        boolean help = Main.isOptionPresent( m_args, "-help" );
         if( help )
         {
             handleHelp();
             m_handler.exit();
         }
 
-        boolean reset = isFlagPresent( "-reset" );
+        boolean reset = Main.isOptionPresent( m_args, "-reset" );
         m_args = Main.consolidate( m_args, "-reset" );
 
         try
         {
             String version = getSetupVersion();
+            String profile = getProfileName();
+
+            //
+            // in principal we should have consumed all of the command line 
+            // arguments so if m_args.length is < 0 we have an unbrecognized
+            // option
+            //
+
+            if( m_args.length > 0 )
+            {
+                final StringBuffer buffer = 
+                   new StringBuffer( "Unrecognized command line option [" );
+                for( int i=0; i < m_args.length; i++ )
+                {
+                    if( i > 0 )
+                    {
+                        buffer.append( "," );
+                    }
+                    buffer.append( m_args[i] );
+                }
+                buffer.append( "]." );
+                getLogger().error( buffer.toString() );
+                m_handler.exit( -1 );
+            }
+
             if( VERSION.equals( version ) && !reset )
             {
                 //
@@ -127,34 +149,11 @@ public class PackageInstaller implements Runnable
                 // this current classloader stack
                 //
 
-                String profile = getProfileName();
-
-                //
-                // check if there are any left over arguments
-                //
-
-                if( m_args.length > 0 )
-                {
-                    final StringBuffer buffer = 
-                      new StringBuffer( "Unrecognized command line option [" );
-                    for( int i=0; i < m_args.length; i++ )
-                    {
-                        if( i > 0 )
-                        {
-                            buffer.append( "," );
-                        }
-                        buffer.append( m_args[i] );
-                    }
-                    buffer.append( "]." );
-                    getLogger().error( buffer.toString() );
-                    handleHelp();
-                    m_handler.exit( -1 );
-                }
-
                 getLogger().info( "initiating depot setup" );
                 if( STANDARD_PROFILE.equals( profile ) || METRO_PROFILE.equals( profile ) )
                 {
                     getLogger().info( "invoking standard profile setup" );
+                    setupDepot();
                     installMagic();
                     installMetro();
                 }
@@ -258,6 +257,13 @@ public class PackageInstaller implements Runnable
         }
     }
 
+    private void setupDepot() throws Exception
+    {
+        Logger logger = getLogger();
+        DepotInstaller installer = new DepotInstaller( logger );
+        installer.install();
+    }
+
     private void installMagic() throws Exception
     {
         String spec = "@MAGIC_BUNDLE_URI@";
@@ -318,77 +324,30 @@ public class PackageInstaller implements Runnable
 
     private String getProfileName()
     {
-        if( m_args.length == 0 )
+        if( !Main.isOptionPresent( m_args, PROFILE_OPT ) )
         {
             return STANDARD_PROFILE;
         }
         else
         {
-            for( int i=0; i < m_args.length; i++ )
-            { 
-                String arg = m_args[i];
-                if( arg.equals( PROFILE_OPT ) )
-                {
-                    if( i + 1 < m_args.length )
-                    {
-                        String profile = m_args[ i + 1 ];
-                        m_args = Main.consolidate( m_args, PROFILE_OPT, 1 );
-                        return profile;
-                    }
-                    else
-                    {
-                        final String error = 
-                          "Invalid commandline. The -profile option must be followed by a profile name.";
-                        throw new IllegalArgumentException( error );
-                    }
-                }
-            }
+            String profile = Main.getOption( m_args, PROFILE_OPT );
+            m_args = Main.consolidate( m_args, PROFILE_OPT, 1 );
+            return profile;
         }
-        return STANDARD_PROFILE;
     }
 
     private String getSetupVersion()
     {
-        if( m_args.length == 0 )
+        if( !Main.isOptionPresent( m_args, VERSION_OPT ) )
         {
             return VERSION;
         }
         else
         {
-            for( int i=0; i < m_args.length; i++ )
-            { 
-                String arg = m_args[i];
-                if( arg.equals( VERSION_OPT ) )
-                {
-                    if( i + 1 < m_args.length )
-                    {
-                        String version = m_args[ i + 1 ];
-                        m_args = Main.consolidate( m_args, VERSION_OPT, 1 );
-                        return version;
-                    }
-                    else
-                    {
-                        final String error = 
-                          "Invalid commandline. The -version option must be followed by a version value.";
-                        throw new IllegalArgumentException( error );
-                    }
-                }
-            }
+            String version = Main.getOption( m_args, VERSION_OPT );
+            m_args = Main.consolidate( m_args, VERSION_OPT, 1 );
+            return version;
         }
-        return VERSION;
-    }
-
-    private boolean isFlagPresent( String flag )
-    {
-        for( int i=0; i < m_args.length; i++ )
-        {
-            String arg = m_args[i];
-            if( arg.equals( flag ) )
-            {
-                return true;
-            }
-        }
-        return false;
     }
 
     private void install( String spec, Logger logger, String[] args ) throws Exception

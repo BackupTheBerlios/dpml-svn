@@ -18,18 +18,58 @@ package net.dpml.depot.install;
 
 import net.dpml.transit.model.Logger;
 
+import net.dpml.depot.Main;
+
+import java.util.prefs.Preferences;
+
 /**
  * Depot package installer. 
  */
 public class DepotInstaller
 {
+    private Logger m_logger;
+
    /**
     * Depot package installer constructor.
     * @param logger the assigned logging channel
-    * @param args command line arguments
     */
-    public DepotInstaller( Logger logger, String[] args )
+    public DepotInstaller( Logger logger ) throws Exception
     {
-        logger.info( "executing bootstrap setup" );
+        m_logger = logger;
+    }
+
+    public void install() throws Exception
+    {
+        m_logger.info( "executing bootstrap setup" );
+        m_logger.info( "adding http profile" );
+        setupHttpProfile();
+        if( getProfilesPreferences().nodeExists( "test" ) )
+        {
+            m_logger.info( "removing test profile" );
+            getProfilePreferences( "test" ).removeNode();
+        }
+    }
+
+    private void setupHttpProfile()
+    {
+        String id = "http";
+        Preferences prefs = getProfilePreferences( id );
+        prefs.put( "uri", "link:part:dpml/planet/http/dpml-http-demo" );
+        prefs.put( "title", "DPML HTTP Demo" );
+    }
+
+    private Preferences getPreferences()
+    {
+        return Preferences.userNodeForPackage( Main.class );
+    }
+
+    private Preferences getProfilesPreferences()
+    {
+        return getPreferences().node( "profiles" );
+    }
+
+    private Preferences getProfilePreferences( String id )
+    {
+        return getProfilesPreferences().node( id );
     }
 }

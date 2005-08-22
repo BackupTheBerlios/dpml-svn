@@ -22,8 +22,13 @@ import java.net.URI;
 import java.net.URL;
 import java.util.prefs.Preferences;
 import java.util.Properties;
+import java.rmi.registry.Registry;
+import java.rmi.registry.LocateRegistry;
 
+import net.dpml.depot.Main;
 import net.dpml.depot.ShutdownHandler;
+
+import net.dpml.station.Station;
 
 import net.dpml.profile.DepotProfile;
 import net.dpml.profile.ApplicationProfile;
@@ -41,14 +46,21 @@ import net.dpml.transit.model.UnknownKeyException;
  * Console.  It uses the Application Profile sub-system to retireve information 
  * about registered applications and criteria for JVM setup.
  */
-public class ApplicationHandler
+public class ApplicationHandler 
 {
     private final Logger m_logger;
+    private final TransitModel m_model;
     private final ShutdownHandler m_handler;
     private final DepotProfile m_depot;
 
+    private String m_spec;
+    private String[] m_args;
+
    /**
-    * Plugin class used to handle the deployment of a target application.
+    * Plugin class used to handle the deployment of a target application.  The 
+    * plugin assumes that the first argument of the supplied args parameter is
+    * the specification of the deployment unit.  This may be (a) a uri to a Transit 
+    * plugin, (b) a part uri, or (c) the name of a stored application profile.
     * 
     * @param logger the assigned logging channel
     * @param handler the shutdown handler
@@ -63,11 +75,15 @@ public class ApplicationHandler
     {
         m_logger = logger;
         m_handler = handler;
+        m_args = args;
+        m_model = model;
+
+        Thread.currentThread().setContextClassLoader( getClass().getClassLoader() );
 
         if( args.length < 1 )
         {
             final String error = 
-              "Missing application profile name (usage $ depot -exec [name])";
+              "Missing application profile specification (usage $ depot -exec [spec])";
             getLogger().error( error );
             handler.exit( -1 );
         }
@@ -88,17 +104,29 @@ public class ApplicationHandler
             throw new HandledException();
         }
 
-        String id = args[0];
-        getLogger().info( "target profile: " + id );
+        m_spec = args[0];
+        m_args = Main.consolidate( args, m_spec );
+       
+        getLogger().info( "target profile: " + m_spec );
+
+        Object object = null;
+        ApplicationProfile profile = null;
+        boolean flag = false;
+
+        //
+        // There are a number of things we could be doing here.  First off 
+        // is publication of an application profile.  Another option is to 
+        // execute the profile.  A third option is to publish and start.  A 
+        // forth is to stop a started profile.  A last option is to stop and 
+        // retract a profile.
+        //
 
         try
         {
-            ApplicationProfile profile = getApplicationProfile( logger, prefs, id );
-
             // prepare application context
     
-            String[] arguments = getTargetArgs( args );
-            Logger channel = getLogger().getChildLogger( id );
+            profile = getApplicationProfile( m_spec );
+            flag = profile.getCommandPolicy();
             URI codebase = profile.getCodeBaseURI();
             getLogger().info( "profile codebase: " + codebase );
             ClassLoader system = ClassLoader.getSystemClassLoader();
@@ -109,30 +137,50 @@ public class ApplicationHandler
 
             try
             {
-                Object object = resolveTargetObject( model, system, codebase, arguments, channel, profile );
-                if( profile.getCommandPolicy() )
-                {
-                    handler.exit();
-                }
+                object = 
+                  resolveTargetObject( 
+                    m_model, system, codebase, m_args, m_logger, profile );
             }
             catch( Throwable e )
             {
                 final String error = 
                   "Application deployment failure.";
                 getLogger().error( error, e );
-                handler.exit( -1 );
+                m_handler.exit( -1 );
             }
         }
         catch( HandledException e )
         {
-            handler.exit( -1 );
+            m_handler.exit( -1 );
         }
         catch( Throwable e )
         {
             final String error = 
               "Unexpected failure.";
                 getLogger().error( error, e );
-            handler.exit( -1 );
+            m_handler.exit( -1 );
+        }
+
+        if( flag )
+        {
+            m_handler.exit();
+        }
+        else if( object instanceof Runnable )
+        {
+            try
+            {
+                getLogger().info( "starting " + object.getClass().getName() );
+                Thread thread = new Thread( (Runnable) object );
+                Main.setShutdownHook( thread );
+                thread.start();
+            }
+            catch( Throwable e )
+            {
+                final String error = 
+                  "Terminating due to process error.";
+                getLogger().error( error, e );
+                m_handler.exit( -1 );
+            }
         }
     }
     
@@ -142,18 +190,21 @@ public class ApplicationHandler
     * otherwise the profile id will be assumed to be a name of a profile 
     * registered within the set of stored profiles.
     * 
-    * @param logger the assigned lohgging channel
+    * @param logger the assigned logging channel
     * @param prefs the root depot prefs
     * @param id the profile id
     * @return the application profile
     */ 
-    private ApplicationProfile getApplicationProfile( 
-      Logger logger, Preferences prefs, String id ) throws Exception
+    private ApplicationProfile getApplicationProfile( String id ) throws Exception
     {
         if( id.startsWith( "artifact:" ) || id.startsWith( "link:" ) )
         {
             URI uri = new URI( id );
             return m_depot.createAnonymousApplicationProfile( uri );
+        }
+        else if( id.startsWith( "registry:" ) )
+        {
+            return (ApplicationProfile) new URL( id ).getContent();
         }
         else
         {
@@ -168,23 +219,6 @@ public class ApplicationHandler
                 getLogger().error( error );
                 throw new HandledException();
             }
-        }
-    }
-
-    private String[] getTargetArgs( String[] args )
-    {
-        if( args.length < 2 )
-        {
-            return new String[0];
-        }
-        else
-        {
-            String[] result = new String[ args.length - 1 ];
-            for( int i=1; i < args.length; i++ )
-            {
-                result[ i - 1 ] = args[i];
-            }
-            return result;
         }
     }
 
@@ -227,7 +261,7 @@ public class ApplicationHandler
         if( "plugin".equals( type ) )
         {
             return loader.getPlugin( 
-              parent, uri, new Object[]{args, logger, profile, params} );
+              parent, uri, new Object[]{args, model, logger, profile, params} );
         }
         else if( "part".equals( type ) )
         {
@@ -250,6 +284,10 @@ public class ApplicationHandler
         }
     }
 
+    private Registry getRegistry( String host, int port ) throws Exception
+    {
+        return LocateRegistry.getRegistry( host, port );
+    }
 
     private static final String DEPOT_PROFILE_URI = "@DEPOT-PROFILE-PLUGIN-URI@";
 

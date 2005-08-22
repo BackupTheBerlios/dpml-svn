@@ -95,10 +95,24 @@
     </dependencies>
   </project>
 
-  <project basedir="station">
+  <project basedir="station/api">
     <info>
       <group>dpml/depot</group>
-      <name>dpml-depot-station</name>
+      <name>dpml-station-api</name>
+      <types>
+        <type name="jar"/>
+      </types>
+    </info>
+    <dependencies>
+      <include key="dpml-depot-console" tag="api"/>
+      <include key="dpml-profile-api" tag="api"/>
+    </dependencies>
+  </project>
+
+  <project basedir="station/impl">
+    <info>
+      <group>dpml/depot</group>
+      <name>dpml-station-impl</name>
       <types>
         <type name="jar"/>
         <type name="plugin"/>
@@ -107,8 +121,10 @@
     <dependencies>
       <include key="dpml-transit-main" tag="api"/>
       <include key="dpml-profile-api" tag="api"/>
+      <include key="dpml-station-api" tag="api"/>
     </dependencies>
   </project>
+
 
   <project basedir="exec">
     <info>
@@ -120,6 +136,7 @@
       </types>
     </info>
     <dependencies>
+      <include key="dpml-station-api"/>
       <include key="dpml-depot-console"/>
       <include key="dpml-profile-api"/>
     </dependencies>
@@ -155,30 +172,6 @@
       <include key="dpml-depot-console" tag="api"/>
       <include key="dpml-profile-api" tag="api"/>
     </dependencies>
-  </project>
-
-  <project basedir="test/brazil">
-    <info>
-      <group>dpml/test</group>
-      <name>dpml-depot-test</name>
-      <types>
-        <type name="jar"/>
-        <type name="plugin"/>
-      </types>
-    </info>
-    <dependencies>
-      <include key="dpml-test-mexico"/>
-    </dependencies>
-  </project>
-
-  <project basedir="test/mexico">
-    <info>
-      <group>dpml/test</group>
-      <name>dpml-test-mexico</name>
-      <types>
-        <type name="jar"/>
-      </types>
-    </info>
   </project>
 
 </index>

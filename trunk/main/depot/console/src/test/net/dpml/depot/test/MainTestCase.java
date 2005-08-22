@@ -73,4 +73,25 @@ public class MainTestCase extends TestCase
         assertEquals( "length", result.length, 1 );
         assertEquals( "value", result[0], "aaa" );
     }
+
+   /**
+    * Test the conslidation of a single that is not the inital argument and one parameters.
+    */
+    public void testIsOptionPresent() throws Exception
+    {
+        String[] args = new String[]{"aaa", "bbb", "ccc"};
+        assertTrue( "option aaa", Main.isOptionPresent( args, "aaa" ) );
+        assertTrue( "option bbb", Main.isOptionPresent( args, "bbb" ) );
+        assertTrue( "option ccc", Main.isOptionPresent( args, "ccc" ) );
+    }
+
+   /**
+    * Test the conslidation of a single that is not the inital argument and one parameters.
+    */
+    public void testGetOption() throws Exception
+    {
+        String[] args = new String[]{"aaa", "bbb", "ccc"};
+        assertEquals( "get option", Main.getOption( args, "aaa" ), "bbb" );
+    }
+
 }

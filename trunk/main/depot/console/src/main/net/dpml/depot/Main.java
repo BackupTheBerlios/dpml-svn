@@ -25,6 +25,7 @@ import java.rmi.RemoteException;
 import java.rmi.RMISecurityManager;
 import java.util.ArrayList;
 import java.util.prefs.Preferences;
+import java.util.Random;
 
 import net.dpml.transit.Transit;
 import net.dpml.transit.model.Logger;
@@ -36,6 +37,7 @@ import net.dpml.transit.monitor.RepositoryMonitorAdapter;
 import net.dpml.transit.monitor.CacheMonitorAdapter;
 import net.dpml.transit.monitor.NetworkMonitorAdapter;
 import net.dpml.transit.Repository;
+import net.dpml.transit.RepositoryException;
 
 /**
  * CLI hander for the depot package.
@@ -46,6 +48,7 @@ import net.dpml.transit.Repository;
 public final class Main implements ShutdownHandler
 {
     private static Main m_MAIN;
+    private static final PID PROCESS_ID = new PID();
 
     private Object m_plugin;
 
@@ -128,6 +131,122 @@ public final class Main implements ShutdownHandler
     }
 
    /**
+    * Test is the supplied option is present in the set of supplied command line 
+    * arguments.
+    *
+    * @param args the set of command line arguments to test against
+    * @param flag the command line option to test for
+    * @return TRUE if one of the command line options matching the supplied falg argument
+    */
+    public static boolean isOptionPresent( String[] args, String flag )
+    {
+        for( int i=0; i < args.length; i++ )
+        {
+            String arg = args[i];
+            if( arg.equals( flag ) )
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
+   /**
+    * Return a command line argument immediately following an option.
+    * @param args an array of command line arguments
+    * @param option the command line option used as the key to locate the option value
+    * @return the option argument value
+    */
+    public static String getOption( String[] args, String option )
+    {
+        for( int i=0; i < args.length; i++ )
+        {
+            String arg = args[i];
+            if( arg.equals( option ) )
+            {
+                try
+                {
+                    return args[i+1];
+                }
+                catch( IndexOutOfBoundsException e )
+                {
+                    final String error = 
+                      "Requestion option ["
+                      + option
+                      + "] is not followed by an argument value.";
+                    throw new IllegalArgumentException( error );
+                }
+            }
+        }
+        final String error = 
+          "Option does not exist within the supplied commandline.";
+        throw new IllegalArgumentException( error );
+    }
+
+   /**
+    * Create a shutdown hook that will trigger shutdown of the supplied plugin.
+    * @param thread the application thread
+    */
+    public static void setShutdownHook( final Thread thread )
+    {
+        //
+        // Create a shutdown hook to trigger clean disposal of the
+        // controller
+        //
+        
+        Runtime.getRuntime().addShutdownHook(
+          new Thread()
+          {
+              public void run()
+              {
+                  try
+                  {
+                      thread.interrupt();
+                  }
+                  catch( Throwable e )
+                  {
+                      // ignore it
+                      boolean ignorable = true;
+                  }
+                  System.runFinalization();
+              }
+          }
+        );
+    }
+
+   /**
+    * Create a shutdown hook that will trigger shutdown of the supplied plugin.
+    * @param thread the application thread
+    */
+    private void setInternalShutdownHook( final Logger logger, final Handler handler )
+    {
+        //
+        // Create a shutdown hook to trigger clean disposal of the
+        // handler
+        //
+        
+        Runtime.getRuntime().addShutdownHook(
+          new Thread()
+          {
+              public void run()
+              {
+                  try
+                  {
+                      logger.info( "shutdown" ); 
+                      handler.destroy();
+                  }
+                  catch( Throwable e )
+                  {
+                      // ignore it
+                      boolean ignorable = true;
+                  }
+                  System.runFinalization();
+              }
+          }
+        );
+    }
+
+   /**
     * Processes command line options to establish the command handler plugin to deploy.
     * Command parameters recognixed by the console include the following:
     * <ul>
@@ -140,7 +259,7 @@ public final class Main implements ShutdownHandler
     *   <li>-station</li>
     *   <li>-exec</li>
     * </ul>
-    * @param args the command linke argument array
+    * @param args the command line argument array
     * @exception Exception if a error occurs
     */
     public static void main( String[] args )
@@ -163,7 +282,7 @@ public final class Main implements ShutdownHandler
         String[] args = processSystemProperties( arguments );
 
         boolean debug = false;
-        if( isFlagPresent( args, "-debug" ) )
+        if( isOptionPresent( args, "-debug" ) )
         {
             args = consolidate( args, "-debug" );
             System.setProperty( "dpml.logging.level", 
@@ -241,6 +360,11 @@ public final class Main implements ShutdownHandler
             args = consolidate( args, "-station" );
             handleStation( args );
         }
+        else if( "-audit".equals( option ) )
+        {
+            args = consolidate( args, "-audit" );
+            handleAudit( args );
+        }
         else
         {
             handleHelp();
@@ -303,7 +427,19 @@ public final class Main implements ShutdownHandler
         handlePlugin( name, spec, args );
     }
 
+    private void handleAudit( String[] args )
+    {
+        String name = "audit";
+        String spec = "@DEPOT-AUDIT-URI@";
+        handlePlugin( name, spec, args, false );
+    }
+
     private void handlePlugin( String name, String spec, String[] args )
+    {
+        handlePlugin( name, spec, args, true );
+    }
+
+    private void handlePlugin( String name, String spec, String[] args, boolean wait )
     {
         System.setSecurityManager( new RMISecurityManager() );
 
@@ -316,7 +452,7 @@ public final class Main implements ShutdownHandler
         
         // deploy plugin
 
-        boolean waitForCompletion = deployHandler( name, path, args, this, true );
+        boolean waitForCompletion = deployHandler( name, path, args, this, wait );
         if( !waitForCompletion )
         {
             exit();
@@ -336,9 +472,29 @@ public final class Main implements ShutdownHandler
             setupMonitors( transit, (Adapter) getLogger() );
             Repository repository = transit.getRepository();
             ClassLoader classloader = getSystemClassLoader();
+
             m_plugin = 
               repository.getPlugin( 
                 classloader, uri, new Object[]{model, args, logger, shutdown, prefs} );
+        }
+        catch( RepositoryException e )
+        {
+            Throwable cause = e.getCause();
+            if( ( null != cause ) && ( cause instanceof GeneralException ) )
+            {
+                getLogger().error( cause.getMessage() );
+                return false;
+            }
+            else
+            {
+                getLogger().error( e.getMessage(), e.getCause() );
+                return false;
+            }
+        }
+        catch( GeneralException e )
+        {
+            getLogger().error( e.getMessage() );
+            return false;
         }
         catch( Throwable e )
         {
@@ -347,17 +503,17 @@ public final class Main implements ShutdownHandler
               + command 
               + "] handler due to deployment failure.";
             getLogger().error( error, e );
-        }
-
-        if( null == m_plugin )
-        {
             return false;
         }
-        else if( m_plugin instanceof Runnable )
+
+        if( m_plugin instanceof Handler )
         {
-            Thread thread = null;
+            setInternalShutdownHook( logger, (Handler) m_plugin );
+        }
+        if( m_plugin instanceof Runnable )
+        {
             getLogger().info( "starting " + m_plugin.getClass().getName() );
-            thread = new Thread( (Runnable) m_plugin );
+            Thread thread = new Thread( (Runnable) m_plugin );
             thread.start();
             setShutdownHook( thread );
             return true;
@@ -383,8 +539,8 @@ public final class Main implements ShutdownHandler
 
 
    /*
-        boolean install = isFlagPresent( args, "-install" );
-        boolean remove = isFlagPresent( args, "-remove" );
+        boolean install = isOptionPresent( args, "-install" );
+        boolean remove = isOptionPresent( args, "-remove" );
         if( install || remove )
         {
             System.setProperty( "java.util.logging.ConsoleHandler.level", "SEVERE" );
@@ -512,9 +668,8 @@ public final class Main implements ShutdownHandler
                 // run the plugin
                 //
     
-                Thread thread = null;
                 logger.info( "starting " + OBJECT.getClass().getName() );
-                thread = new Thread( (Runnable) OBJECT );
+                Thread thread = new Thread( (Runnable) OBJECT );
                 thread.start();
                 setShutdownHook( thread );
             }
@@ -631,41 +786,6 @@ public final class Main implements ShutdownHandler
         return Main.class.getProtectionDomain().getCodeSource().getLocation();
     }
 
-   /**
-    * Create a shutdown hook that will trigger shutdown of the supplied plugin.
-    * @param thread the application thread
-    */
-    private static void setShutdownHook( final Object object )
-    {
-        //
-        // Create a shutdown hook to trigger clean disposal of the
-        // controller
-        //
-        
-        Runtime.getRuntime().addShutdownHook(
-          new Thread()
-          {
-              public void run()
-              {
-                  if( ( null != object ) && ( object instanceof Thread ) )
-                  {
-                      try
-                      {
-                          Thread thread = (Thread) object;
-                          thread.interrupt();
-                      }
-                      catch( Throwable e )
-                      {
-                          // ignore it
-                          boolean ignrable = true;
-                      }
-                  }
-                  System.runFinalization();
-              }
-          }
-        );
-    }
-
     private static Preferences getRootPreferences()
     {
         return ROOT_PREFS;
@@ -685,14 +805,14 @@ public final class Main implements ShutdownHandler
     {
         final String message = 
           "Help"
-          + "\n\nUsage: depot [-help] | [-version] | [-setup] | [-prefs] | [-get [artifact]] | [-exec [key]]"
+          + "\n\nUsage: depot [-help] | [-version] | [-setup] | [-prefs] | [-get [artifact]] | [-exec [spec]]"
           + "\n\nAvailable command line options:"
           + "\n"
           + "\n -help             List command line help."
           + "\n -version          List version information."
           + "\n -get [artifact]   Load the supplied artifact to the cache."
           + "\n -prefs            Start the preferences editor."
-          + "\n -exec [key]       Launch an application using a supplied profile key."
+          + "\n -exec [spec]      Launch an application using a supplied specification."
           + "\n -reset            Clear Depot and Transit preferences."
           + "\n -setup            DPML system setup (use -setup -help for additional info)"
           + "\n -debug            Enable debug level logging."
@@ -706,12 +826,14 @@ public final class Main implements ShutdownHandler
         final String message = 
           "Version\n"
           + "\n"
-          + "\n  Java:          \t" 
-          + System.getProperty( "java.version" )
-          + "\n  Depot Console: \t@DEPOT-CONSOLE-URI@"
-          + "\n  Exec Handler: \t@DEPOT-EXEC-URI@"
+          + "\n  Process ID:      \t" + PROCESS_ID
+          + "\n  Java Runtime:    \t" 
+          + System.getProperty( "java.runtime.name" ) + " ("
+          + System.getProperty( "java.version" ).replace( '_', ' ' ) + ")"
+          + "\n  Depot Console:   \t@DEPOT-CONSOLE-URI@"
+          + "\n  Exec Handler:    \t@DEPOT-EXEC-URI@"
           + "\n  Install Handler: \t@DEPOT-INSTALL-URI@"
-          + "\n  Prefs Handler: \t@DEPOT-PREFS-URI@"
+          + "\n  Prefs Handler:   \t@DEPOT-PREFS-URI@"
           + "\n  Station Handler: \t@DEPOT-STATION-URI@"
           + "\n  Transit Library: \t@TRANSIT-CORE-URI@"
           + "\n  Profile Library: \t@PROFILE-PLUGIN-URI@"
@@ -788,19 +910,6 @@ public final class Main implements ShutdownHandler
     private static final Preferences ROOT_PREFS = 
       Preferences.userNodeForPackage( Main.class );
 
-    private static boolean isFlagPresent( String[] args, String flag )
-    {
-        for( int i=0; i < args.length; i++ )
-        {
-            String arg = args[i];
-            if( arg.equals( flag ) )
-            {
-                return true;
-            }
-        }
-        return false;
-    }
-
     private String getSwitch( String[] args )
     {
         if( args.length == 0 ) 
@@ -846,6 +955,5 @@ public final class Main implements ShutdownHandler
         instance.getNetworkMonitorRouter().addMonitor(
           new NetworkMonitorAdapter( adapter ) );
     }
-
 }
 
