@@ -9,6 +9,12 @@ Installation Instructions
 
 $ depot -install metro
 
+Release Notes: Version SNAPSHOT
+-------------------------------
+
+General enhancements to the Part contract model inclding improvements 
+in the way top-level versus composite parts and handled.
+
 Release Notes: Version 20050809
 -------------------------------
 

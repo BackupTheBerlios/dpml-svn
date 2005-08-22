@@ -49,6 +49,7 @@ import net.dpml.part.component.AvailabilityException;
 import net.dpml.part.component.Component;
 import net.dpml.part.component.Container;
 import net.dpml.part.component.DuplicateKeyException;
+import net.dpml.part.component.Manager;
 import net.dpml.part.control.ControlException;
 import net.dpml.part.control.ControllerRuntimeException;
 import net.dpml.part.control.Disposable;
@@ -234,7 +235,10 @@ public class ComponentController extends LoggingHandler
         {
             Container container = (Container) component;
             Component[] providers = container.getStartupSequence();
-            getLogger().info( "startup sequence (" + providers.length + ")" );
+            if( providers.length > 0 )
+            {
+                getLogger().info( "startup sequence (" + providers.length + ")" );
+            }
             for( int i=0; i<providers.length; i++ )
             {
                 Component provider = providers[i];
@@ -263,7 +267,7 @@ public class ComponentController extends LoggingHandler
         Class subject = component.getDeploymentClass();
         validate( subject, graph );
         boolean flag = true;
-        while( flag  )
+        while( flag )
         {
             State state = component.getCurrentState();
             Transition initialization = state.getInitialization();
@@ -805,35 +809,31 @@ public class ComponentController extends LoggingHandler
             return;
         }
 
-        /*
-        if( component instanceof Container )
+        Service[] shutdown = component.getShutdownSequence();
+        for( int i=0; i<shutdown.length; i++ )
         {
-            Container container = (Container) component;
-            Service[] services = container.getShutdownSequence();
-            for( int i=0; i<services.length; i++ )
+            Service provider = shutdown[i];
+            if( provider instanceof Manager )
             {
-                Service service = services[i];
-                if( service instanceof Component )
+                Manager manager = (Manager) provider;
+                try
                 {
-                    Component part = (Component) service;
-                    try
-                    {
-                        part.terminate();
-                    }
-                    catch( Throwable e )
-                    {
-                        URI uri = getURI();
-                        final String error = 
-                          "Failed to terminate a subsidiary part."
-                          + "\nContainer: " + component.getLocalURI()
-                          + "\nComponent: " + part.getURI();
-                        getLogger().warn( error, e );
-                    }
+                    manager.terminate();
+                }
+                catch( Throwable e )
+                {
+                    URI uri = getURI();
+                    final String error = 
+                      "Failed to terminate a subsidiary part."
+                      + "\nContainer: " + component.getLocalURI()
+                      + "\nComponent: " + getRemoteComponentURI( manager );
+                    getLogger().warn( error, e );
                 }
             }
         }
-        */
     
+        getLogger().info( "initiating termination in " + component );
+
         List visited = new LinkedList();
         boolean flag = true;
         while( flag )
@@ -854,7 +854,7 @@ public class ComponentController extends LoggingHandler
                 catch( Exception e )
                 {
                     flag = false;
-                    getLogger().warn( "Ignoring termination handler error", e );
+                    getLogger().warn( "Ignoring termination handler error in " + component, e );
                 }
             }
             else
@@ -883,6 +883,7 @@ public class ComponentController extends LoggingHandler
                 throw new RecursiveTerminationException( error );
             }
         }
+        getLogger().debug( "temination complete in " + component );
     }
 
    /**
@@ -937,6 +938,18 @@ public class ComponentController extends LoggingHandler
               + "'."
               + "\nClass: " + c.getName();
             throw new ValidationException( error );
+        }
+    }
+
+    private URI getRemoteComponentURI( Component component )
+    {
+        try
+        {
+            return component.getURI();
+        }
+        catch( RemoteException e )
+        {
+            return null;
         }
     }
 }

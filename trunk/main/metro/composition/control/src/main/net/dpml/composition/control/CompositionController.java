@@ -104,7 +104,7 @@ public class CompositionController extends CompositionPartHandler implements Con
         m_logger = getContext().getLogger();
         m_valueController = new ValueController( this );
         m_componentController = new ComponentController( m_logger, this );
-        m_logger.info( "controller: " + CONTROLLER_URI );
+        m_logger.debug( "controller: " + CONTROLLER_URI );
 
         //m_lifestyleHandler = new LifestyleHandler( m_logger, m_componentController );
 
@@ -122,6 +122,8 @@ public class CompositionController extends CompositionPartHandler implements Con
                 "root", DeploymentDirective.DEFAULT, InfoDescriptor.UNDEFINED_COLLECTION, 
                 "singleton", Object.class.getName(), null, null, null, null, null );
             m_root = new CompositionHandler( m_logger, this, classloader, partition, profile, null );
+            m_root.initialize();
+            addShutdownHook( m_logger, m_root );
         }
         catch( Throwable e )
         {
@@ -184,14 +186,14 @@ public class CompositionController extends CompositionPartHandler implements Con
     {
         m_logger.debug( "loading part " + uri );
         Part part = loadPart( uri );
-        return newComponent( null, part, null );
+        return newComponent( m_root, part, null );
     }
 
    /**
     * Construct a new component using the supplied part as the defintion of the 
     * component type and deployment criteria.
     *
-    * @param parent the enclosing parent component (may be null)
+    * @param parent the enclosing parent container
     * @param part component definition including type and deployment data
     * @param name the name to assign to the new component
     * @return a new component
@@ -200,11 +202,9 @@ public class CompositionController extends CompositionPartHandler implements Con
     * @exception DelegationException if an error occurs following handover of control to a foreign controller
     * @exception UnsupportedPartTypeException if the component type is recognized but not supported
     */
-    public Component newComponent( Component parent, Part part, String name )
+    public Component newComponent( Container parent, Part part, String name )
       throws ComponentException, PartHandlerNotFoundException, DelegationException, RemoteException
     {
-        Component container = parent;
-
         URI partition = getPartition( parent );
         if( isRecognizedPart( part ) )
         {
@@ -225,7 +225,7 @@ public class CompositionController extends CompositionPartHandler implements Con
     * Construct a new component using the supplied part as the defintion of the 
     * component type and deployment criteria.
     *
-    * @param parent the enclosing parent component (may be null)
+    * @param parent the enclosing container
     * @param part component definition including type and deployment data
     * @param name the name to assign to the new component
     * @return a new component
@@ -234,12 +234,10 @@ public class CompositionController extends CompositionPartHandler implements Con
     * @exception DelegationException if an error occurs following handover of control to a foreign controller
     * @exception UnsupportedPartTypeException if the component type is recognized but not supported
     */
-    public Component newComponent( Component parent, ClassLoader classloader, Part part, String name )
+    public Component newComponent( Container container, ClassLoader classloader, Part part, String name )
       throws ComponentException, PartHandlerNotFoundException, DelegationException, RemoteException
     {
-        Component container = parent;
-
-        URI partition = getPartition( parent );
+        URI partition = getPartition( container );
         if( isRecognizedPart( part ) )
         {
             if( part instanceof ValueDirective )
@@ -250,7 +248,7 @@ public class CompositionController extends CompositionPartHandler implements Con
                 URI id = createURI( partition, theName );
                 Logger logger = getLogger().getChildLogger( theName );
                 logger.debug( "constructing value [" + theName + "] as [" + id + "]" );
-                return new ValueHandler( logger, this, classloader, id, directive, parent );
+                return new ValueHandler( logger, this, classloader, id, directive, container );
             }
             else if( part instanceof ComponentDirective )
             {
@@ -279,7 +277,7 @@ public class CompositionController extends CompositionPartHandler implements Con
             getLogger().info( "delegating to: " + handlerUri );
             Controller controller = (Controller) getPrimaryController( handlerUri );
             getLogger().info( "delegate established: " + controller );
-            return controller.newComponent( parent, part, name );
+            return controller.newComponent( container, part, name );
         }
     }
 
@@ -367,9 +365,9 @@ public class CompositionController extends CompositionPartHandler implements Con
         return getContext().getURI();
     }
 
-    private URI getPartition( Component component )
+    private URI getPartition( Container container )
     {
-        if( null == component )
+        if( null == container )
         {
             return getPartition();
         }
@@ -377,13 +375,13 @@ public class CompositionController extends CompositionPartHandler implements Con
         {
             try
             {
-                return component.getURI();
+                return container.getURI();
             }
             catch( RemoteException e )
             {
                 final String error =
-                  "Component raised a remote in response to uri request."
-                  + "Component class: " + component.getClass().getName();
+                  "Container raised a remote exception in response to uri request."
+                  + "Container class: " + container.getClass().getName();
                 throw new ControllerRuntimeException( CONTROLLER_URI, error, e );
             }
         }
@@ -598,5 +596,40 @@ public class CompositionController extends CompositionPartHandler implements Con
         {
             return null;
         }
+    }
+
+   /**
+    * Create a shutdown hook that will trigger termination of the root component.
+    * @param component the root component
+    */
+    private void addShutdownHook( final Logger logger, final ComponentHandler component )
+    {
+        //
+        // Create a shutdown hook to trigger clean disposal of the
+        // component.
+        //
+        
+        Runtime.getRuntime().addShutdownHook(
+          new Thread()
+          {
+              public void run()
+              {
+                  try
+                  {
+                      logger.info( "initiating controller shutdown" );
+                      component.terminate();
+                  }
+                  catch( Throwable e )
+                  {
+                      logger.warn( "ignoring shutdown error", e );
+                  }
+                  finally
+                  {
+                      logger.info( "controller shutdown complete" );
+                      System.runFinalization();
+                  }
+              }
+          }
+        );
     }
 }

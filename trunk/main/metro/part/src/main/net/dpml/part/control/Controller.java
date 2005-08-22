@@ -73,7 +73,7 @@ public interface Controller extends Remote
     * Construct a new component using the supplied part as the defintion of the 
     * component type and deployment criteria.
     *
-    * @param parent the enclosing parent component (may be null)
+    * @param parent the enclosing parent container
     * @param part component definition including type and deployment data
     * @param name the name to assign to the new component
     * @return a new component
@@ -82,7 +82,7 @@ public interface Controller extends Remote
     * @exception DelegationException if an error occurs following handover of control to a foreign controller
     * @exception UnsupportedPartTypeException if the component type is recognized but not supported
     */
-    Component newComponent( Component parent, Part part, String name )
+    Component newComponent( Container parent, Part part, String name )
       throws ComponentException, PartHandlerNotFoundException, DelegationException, RemoteException;
 
    /**

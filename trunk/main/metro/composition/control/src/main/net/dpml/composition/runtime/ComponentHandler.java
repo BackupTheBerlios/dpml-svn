@@ -67,6 +67,7 @@ import net.dpml.part.state.ResourceUnavailableException;
 import net.dpml.part.control.LifecycleException;
 import net.dpml.part.component.Consumer;
 import net.dpml.part.component.Component;
+import net.dpml.part.component.Container;
 import net.dpml.part.component.ClassLoadingContext;
 import net.dpml.part.component.ComponentException;
 import net.dpml.part.component.ComponentRuntimeException;
@@ -87,8 +88,8 @@ import net.dpml.part.PartReference;
  *
  * @author <a href="mailto:dev-dpml@lists.ibiblio.org">The Digital Product Meta Library</a>
  */
-public class ComponentHandler extends WeakEventProducer 
-  implements Component, Available, Manager, Consumer, 
+public abstract class ComponentHandler extends WeakEventProducer 
+  implements Container, Available, Manager, Consumer, 
   ClassLoadingContext, Configurable, Parameterizable
 {
     private final Map m_proxies = new WeakHashMap();
@@ -124,11 +125,6 @@ public class ComponentHandler extends WeakEventProducer
       throws ComponentException, PartHandlerNotFoundException, DelegationException, RemoteException
     {
         super();
-
-        if( null != parent )
-        {
-            addShutdownHook( this );
-        }
 
         m_logger = logger;
         m_controller = controller;
@@ -919,38 +915,4 @@ public class ComponentHandler extends WeakEventProducer
             throw new ServiceClassNotFoundException( type, classname );
         }
     }
-
-   /**
-    * Create a shutdown hook that will trigger shutdown of the supplied plugin.
-    * @param thread the application thread
-    */
-    private static void addShutdownHook( final ComponentHandler component )
-    {
-        //
-        // Create a shutdown hook to trigger clean disposal of the
-        // component.
-        //
-        
-        Runtime.getRuntime().addShutdownHook(
-          new Thread()
-          {
-              public void run()
-              {
-                  try
-                  {
-                      component.terminate();
-                  }
-                  catch( Throwable e )
-                  {
-                      // ignore it
-                  }
-                  finally
-                  {
-                      System.runFinalization();
-                  }
-              }
-          }
-        );
-    }
-
 }
