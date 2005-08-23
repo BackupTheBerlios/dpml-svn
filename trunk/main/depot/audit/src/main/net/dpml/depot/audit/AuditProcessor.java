@@ -23,7 +23,7 @@ import java.rmi.registry.LocateRegistry;
 
 import net.dpml.depot.ShutdownHandler;
 
-import net.dpml.profile.DepotProfile;
+import net.dpml.profile.ApplicationRegistry;
 
 import net.dpml.transit.Transit;
 import net.dpml.transit.Repository;
@@ -45,7 +45,7 @@ public class AuditProcessor
 
     private final Logger m_logger;
     private final TransitRegistryModel m_transit;
-    private final DepotProfile m_depot;
+    private final Registry m_registry;
     private final String[] m_args;
 
     private ShutdownHandler m_handler;
@@ -78,28 +78,39 @@ public class AuditProcessor
         Repository repository = Transit.getInstance().getRepository();
         ClassLoader classloader = getClass().getClassLoader();
         URI uri = new URI( DEPOT_PROFILE_URI );
-        m_depot = (DepotProfile) repository.getPlugin( classloader, uri, new Object[]{prefs, logger} );
+        m_registry = (Registry) repository.getPlugin( classloader, uri, new Object[]{prefs, logger} );
 
         TransitStorageHome home = new TransitStorageHome();
         m_transit = new DefaultTransitRegistryModel( logger, home );
+        ClassLoader current = Thread.currentThread().getContextClassLoader();
+        Thread.currentThread().setContextClassLoader( classloader );
 
-        Thread.currentThread().setContextClassLoader( getClass().getClassLoader() );
-
-        Registry registry = LocateRegistry.getRegistry( Registry.REGISTRY_PORT );
-        String[] names = registry.list();
-        System.out.println( "# REGISTRY: " + names.length );
-        for( int i=0; i<names.length; i++ )
+        try
         {
-            System.out.println( "# ENTRY: " + names[i] );
-            try
+            Registry registry = LocateRegistry.getRegistry( Registry.REGISTRY_PORT );
+            String[] names = registry.list();
+            logger.info( "registry entries: " + names.length );
+            for( int i=0; i<names.length; i++ )
             {
-                Object obj = registry.lookup( names[i] );
-               System.out.println( "# LOCATED: " + obj.getClass().getName() );
+                String message = "entry (" + (i+1) + "): " + names[i];
+                try
+                {
+                    Object obj = registry.lookup( names[i] );
+                    message = message.concat( ", " + obj.getClass().getName() );
+                }
+                catch( Throwable e )
+                {
+                    message = message.concat( " [" + e.toString() + "]" );
+                }
+                finally
+                {
+                    logger.info( message );
+                }
             }
-            catch( Throwable e )
-            {
-                System.out.println( "## " + e.toString() );
-            }
+        }
+        finally
+        {
+            Thread.currentThread().setContextClassLoader( current );
         }
     }
 

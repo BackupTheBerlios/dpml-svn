@@ -38,6 +38,7 @@ import net.dpml.transit.monitor.CacheMonitorAdapter;
 import net.dpml.transit.monitor.NetworkMonitorAdapter;
 import net.dpml.transit.Repository;
 import net.dpml.transit.RepositoryException;
+import net.dpml.transit.PID;
 
 /**
  * CLI hander for the depot package.
@@ -894,17 +895,26 @@ public final class Main implements ShutdownHandler
 
     static
     {
-        System.setProperty( "java.protocol.handler.pkgs", "net.dpml.transit" );
-        System.setProperty( "java.util.logging.manager", "net.dpml.depot.logging.LoggingManager" );
-        System.setProperty( "java.util.logging.manager.altclassloader", "net.dpml.depot.logging.LoggingManager" );
-        System.setProperty( "java.util.logging.config.class", "net.dpml.transit.util.ConfigurationHandler" );
-        System.setProperty( "java.rmi.server.RMIClassLoaderSpi", "net.dpml.depot.DepotRMIClassLoaderSpi" );
-        System.setProperty( Transit.SYSTEM_KEY, Transit.DPML_SYSTEM.getAbsolutePath() );
-        System.setProperty( Transit.HOME_KEY, Transit.DPML_HOME.getAbsolutePath() );
-        System.setProperty( Transit.DATA_KEY, Transit.DPML_DATA.getAbsolutePath() );
-        System.setProperty( Transit.PREFS_KEY, Transit.DPML_PREFS.getAbsolutePath() );
-        System.setProperty( BUILD_KEY, BUILD_ID );
+        //setSystemProperty( "java.util.logging.manager", "net.dpml.depot.logging.LoggingManager" );
+        //setSystemProperty( "java.util.logging.manager.altclassloader", "net.dpml.depot.logging.LoggingManager" );
+
+        setSystemProperty( "java.protocol.handler.pkgs", "net.dpml.transit" );
+        setSystemProperty( "java.util.logging.config.class", "net.dpml.transit.util.ConfigurationHandler" );
+        setSystemProperty( "java.rmi.server.RMIClassLoaderSpi", "net.dpml.depot.DepotRMIClassLoaderSpi" );
+        setSystemProperty( Transit.SYSTEM_KEY, Transit.DPML_SYSTEM.getAbsolutePath() );
+        setSystemProperty( Transit.HOME_KEY, Transit.DPML_HOME.getAbsolutePath() );
+        setSystemProperty( Transit.DATA_KEY, Transit.DPML_DATA.getAbsolutePath() );
+        setSystemProperty( Transit.PREFS_KEY, Transit.DPML_PREFS.getAbsolutePath() );
+        setSystemProperty( BUILD_KEY, BUILD_ID );
     }
+
+    private static void setSystemProperty( String key, String value )
+    {
+        if( null == System.getProperty( key ) )
+        {
+            System.setProperty( key, value );
+        }
+    } 
 
     private static Logger m_LOGGER = null;
     private static final Preferences ROOT_PREFS = 

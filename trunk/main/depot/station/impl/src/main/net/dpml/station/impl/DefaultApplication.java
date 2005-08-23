@@ -10,8 +10,10 @@ import java.net.URL;
 import java.rmi.RemoteException;
 import java.rmi.ServerException;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.Enumeration;
+import java.util.ArrayList;
+import java.util.Properties;
 
-import net.dpml.depot.PID;
 import net.dpml.station.Application;
 
 import net.dpml.profile.ApplicationProfile;
@@ -20,6 +22,7 @@ import net.dpml.transit.Transit;
 import net.dpml.transit.model.Logger;
 import net.dpml.transit.model.Connection;
 import net.dpml.transit.Environment;
+import net.dpml.transit.PID;
 
 /**
  * Default implementation of a remote controlled application.
@@ -115,15 +118,15 @@ public class DefaultApplication extends UnicastRemoteObject implements Applicati
     */
     private String[] getProcessCommand() throws IOException
     {
+        ArrayList list = new ArrayList();
         String key = m_profile.getID();
         boolean useJava = "java".equals( System.getProperty( "dpml.station.subprocess", "" ) );
         if( !useJava && Environment.isWindows() )
         {
             getLogger().info( "launching native subprocess" );
-            return new String[]
-            {
-              "depot", "-exec", m_path
-            };
+            list.add( "depot" );
+            list.add( "-exec" );
+            list.add( m_path );
         }
         else
         {
@@ -132,17 +135,36 @@ public class DefaultApplication extends UnicastRemoteObject implements Applicati
             String policy = new File( bin, "security.policy" ).getCanonicalPath();
             String lib = new File( Transit.DPML_DATA, "lib" ).getCanonicalPath();
             
-            return new String[]
-            {
-              "java", 
-              "-Ddpml.spawn=true",
-              "-Djava.ext.dirs=" + lib,
-              "-Djava.security.policy=" + policy,
-              "net.dpml.depot.Main", 
-              "-exec",
-              m_path
-            };
+            list.add( "java" );
+            list.add( "-Ddpml.spawn=true" );
+            list.add( "-Djava.ext.dirs=" + lib );
+            list.add( "-Djava.security.policy=" + policy );
+            list.add( "net.dpml.depot.Main" );
+            list.add( "-exec" );
+            list.add( "-m_path" );
         }
+
+        Properties properties = m_profile.getSystemProperties();
+
+        //
+        // unless otherwise defined, set the loging configuration for the 
+        // process to use the logging service established by the Station
+        //
+
+        if( null == properties.getProperty( "java.util.logging.config.class" ) )
+        {
+            properties.setProperty( 
+              "java.util.logging.config.class", 
+              "net.dpml.depot.DepotLoggingConfiguration" );
+        }
+        Enumeration names = properties.propertyNames();
+        while( names.hasMoreElements() )
+        {
+            String name = (String) names.nextElement();
+            String value = properties.getProperty( name );
+            list.add( "-D" + name + "=" + value );
+        }
+        return (String[]) list.toArray( new String[0] );
     }
 
    /**
@@ -174,7 +196,7 @@ public class DefaultApplication extends UnicastRemoteObject implements Applicati
                 String line = null;
                 while( ( line = reader.readLine() ) != null )
                 {
-                    getLogger().info( line );
+                    System.out.println( line );
                 }
             }
             catch( IOException e )
@@ -183,5 +205,4 @@ public class DefaultApplication extends UnicastRemoteObject implements Applicati
             }
         }
     }
-
 }

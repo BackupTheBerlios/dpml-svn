@@ -4,7 +4,7 @@ package net.dpml.station;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 
-import net.dpml.depot.PID;
+import net.dpml.transit.PID;
 
 import net.dpml.profile.ApplicationProfile;
 

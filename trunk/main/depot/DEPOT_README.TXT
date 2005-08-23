@@ -10,7 +10,11 @@ Release Notes: Version SNAPSHOT
 Incorporated Janel distribution under ASL 2.0 and added project and 
 copyright atrtribution to NOTICE.TXT.  Upgrade to Janel 2.5.0 (resolving 
 issues with working directory resolution). Updates to DPML Station with 
-support for multi-JVM deployment and teardown.
+support for multi-JVM deployment and teardown.  Added a remote logging
+services that handles message aggregation from multiple JVMs to the central
+station and support for JCM process identity within the default log message
+formatter. Mahor cleanup of the profile API and implementation with 
+consolidation around the ApplicationProfile.
 
 Release Notes: Version 20050809
 -------------------------------

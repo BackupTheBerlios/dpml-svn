@@ -23,33 +23,22 @@ import java.rmi.RemoteException;
 import java.util.EventListener;
 
 /**
- * A ProxyListener maintains information about the configuration of 
- * tranist proxy settings.
+ * A RegistryListener enabled client application to receive notification
+ * of the addition and removale of application profiles from the application
+ * registry.
  */
-public interface DepotListener extends EventListener, Remote
+public interface RegistryListener extends EventListener, Remote
 {
    /**
     * Notify the listener of the addition of a new application profile.
-    * @param event the depot event
+    * @param event the registry event
     */
-    void profileAdded( DepotApplicationEvent event ) throws RemoteException;
+    void profileAdded( RegistryEvent event ) throws RemoteException;
 
    /**
     * Notify a listener of the removal of an application profile.
-    * @param event the depot event
+    * @param event the registry event
     */
-    void profileRemoved( DepotApplicationEvent event ) throws RemoteException;
-
-   /**
-    * Notify the listener of the addition of a new activation group profile.
-    * @param event the depot event
-    */
-    void groupAdded( DepotGroupEvent event ) throws RemoteException;
-
-   /**
-    * Notify a listener of the removal of an application group profile.
-    * @param event the depot event
-    */
-    void groupRemoved( DepotGroupEvent event ) throws RemoteException;
+    void profileRemoved( RegistryEvent event ) throws RemoteException;
 
 }

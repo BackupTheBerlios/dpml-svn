@@ -52,7 +52,7 @@ import net.dpml.transit.model.ProxyModel;
 import net.dpml.transit.monitor.LoggingAdapter;
 import net.dpml.transit.store.TransitStorageHome;
 
-import net.dpml.profile.DepotProfile;
+import net.dpml.profile.ApplicationRegistry;
 
 /**
  * Panel that presents the default preferences for DPML applications including
@@ -89,14 +89,13 @@ class DepotPreferencesPanel extends JPanel
     private ContentRegistryModelPanel m_registryPanel;
     private ProxyModelPanel m_proxyPanel;
     private ApplicationsRegistryPanel m_depotPanel;
-    private GroupsPanel m_groups;
     private TransitHomePanel m_transitPanel;
 
     private final Window m_window;
-    private final DepotProfile m_depot;
+    private final ApplicationRegistry m_depot;
 
     public DepotPreferencesPanel( 
-      Window window, final DepotProfile depot ) throws Exception
+      Window window, final ApplicationRegistry depot ) throws Exception
     {
         super( new BorderLayout() );
 
@@ -134,26 +133,6 @@ class DepotPreferencesPanel extends JPanel
                {
                     final String error =
                       "Unexpected during transit home panel establishment.";
-                   Logger logger = Logger.getLogger( "depot.prefs" );
-                   logger.log( Level.SEVERE, error, e );
-               }
-            }
-          }
-        );
-
-        SwingUtilities.invokeLater( 
-          new Runnable() {
-            public void run()
-            {
-               try
-               {
-                   m_groups = new GroupsPanel( m_window, m_depot );
-                   tabbedPane.addTab( "Activation", m_groups );
-               }
-               catch( Throwable e )
-               {
-                    final String error =
-                      "Unexpected during depot server panel establishment.";
                    Logger logger = Logger.getLogger( "depot.prefs" );
                    logger.log( Level.SEVERE, error, e );
                }

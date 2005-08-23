@@ -28,11 +28,9 @@ import net.dpml.transit.model.UnknownKeyException;
 /**
  * 
  */
-public interface DepotProfile extends Model
+public interface ApplicationRegistry extends Model
 {
     int getApplicationProfileCount() throws RemoteException;
-
-    int getActivationGroupProfileCount() throws RemoteException;
 
     ApplicationProfile[] getApplicationProfiles() throws RemoteException;
 
@@ -40,31 +38,22 @@ public interface DepotProfile extends Model
 
     ApplicationProfile getApplicationProfile( String key ) throws UnknownKeyException, RemoteException;
 
-    void addActivationGroupProfile( ActivationGroupProfile profile ) 
+    void addApplicationProfile( ApplicationProfile profile ) 
       throws DuplicateKeyException, RemoteException;
 
-    void removeActivationGroupProfile( ActivationGroupProfile profile ) throws RemoteException;
-
-    ActivationGroupProfile[] getActivationGroupProfiles() throws RemoteException;
-
-    ActivationGroupProfile getActivationGroupProfile( String key ) throws UnknownKeyException, RemoteException;
+    void removeApplicationProfile( ApplicationProfile profile ) throws RemoteException;
 
    /**
     * Add a depot content change listener.
     * @param listener the registry change listener to add
     */
-    void addDepotListener( DepotListener listener ) throws RemoteException;
+    void addRegistryListener( RegistryListener listener ) throws RemoteException;
 
    /**
     * Remove a depot content change listener.
     * @param listener the registry change listener to remove
     */
-    void removeDepotListener( DepotListener listener ) throws RemoteException;
-
-    void addApplicationProfile( ApplicationProfile profile ) 
-      throws DuplicateKeyException, RemoteException;
-
-    void removeApplicationProfile( ApplicationProfile profile ) throws RemoteException;
+    void removeRegistryListener( RegistryListener listener ) throws RemoteException;
 
 }
 

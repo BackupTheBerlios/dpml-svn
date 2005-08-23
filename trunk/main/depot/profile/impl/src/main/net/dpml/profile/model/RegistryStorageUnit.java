@@ -16,69 +16,66 @@
  * limitations under the License.
  */
 
-package net.dpml.profile.unit;
+package net.dpml.profile.model;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.rmi.RemoteException;
 import java.util.Date;
 import java.util.Properties;
 import java.util.prefs.BackingStoreException;
 import java.util.prefs.Preferences;
 
 import net.dpml.transit.model.Logger;
-import net.dpml.transit.store.Removable;
 import net.dpml.transit.store.StorageRuntimeException;
 
-import net.dpml.profile.store.ProfileStorage;
+import net.dpml.profile.RegistryStorage;
+import net.dpml.profile.ApplicationStorage;
 
 /**
- * A ProfileHome maintains a persistent application profile.
+ * A DepotStorage maintains persistent records of application profiles.
  */
-public abstract class ProfileStorageUnit extends CodeBaseStorageUnit implements ProfileStorage
+public class RegistryStorageUnit extends AbstractStorageUnit implements RegistryStorage
 {
     // ------------------------------------------------------------------------
     // constructor
     // ------------------------------------------------------------------------
 
-    public ProfileStorageUnit( Preferences prefs ) 
+    public RegistryStorageUnit( Preferences prefs ) 
     {
         super( prefs );
     }
 
     // ------------------------------------------------------------------------
-    // ProfileStorage
+    // DepotStorage
     // ------------------------------------------------------------------------
 
-    public String getID()
-    {
-        return getPreferences().name();
-    }
-
-    public String getTitle()
-    {
-        String id = getID();
-        return getPreferences().get( "title", id );
-    }
-
-    public Properties getSystemProperties()
-    {
-        Preferences prefs = getPreferences().node( "system" );
-        return getProperties( prefs );
-    }
-
-    // ------------------------------------------------------------------------
-    // Removable
-    // ------------------------------------------------------------------------
-
-    public void remove()
+    public ApplicationStorage[] getInitialApplicationStorageArray()
     {
         try
         {
-            getPreferences().removeNode();
+            Preferences prefs = getPreferences().node( "profiles" );
+            String[] names = prefs.childrenNames();
+            ApplicationStorage[] stores = new ApplicationStorage[ names.length ];
+            for( int i=0; i<names.length; i++ )
+            {
+                String id = names[i];
+                ApplicationStorage store = getApplicationStorage( id );
+                stores[i] = store;
+            }
+            return stores;
         }
         catch( BackingStoreException e )
         {
-            throw new StorageRuntimeException( "storage removal failure", e );
+            final String error = 
+              "Internal error while resolving profiles due to non-availability of the preferences store.";
+            throw new StorageRuntimeException( error, e );   
         }
+    }
+
+    public ApplicationStorage getApplicationStorage( String id ) 
+    {
+        Preferences prefs = getPreferences().node( "profiles" ).node( id );
+        return new ApplicationStorageUnit( prefs );
     }
 }

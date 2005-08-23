@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package net.dpml.depot.logging;
+package net.dpml.depot;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -24,55 +24,35 @@ import java.util.Properties;
 import java.util.logging.LogManager;
 
 /**
- * Utility class used to establish the logging configuration.  The contents of 
- * this class are subject to radical change but that's largely academic because 
- * this class does not expose any operations.  Changes will include reading 
- * logging configuration info from preferences (and initialization of prefs if 
- * required).
+ * Utility class used to establish the logging configuration for managed subprocesses.
+ * The handler redirects logging records to a remote LoggingService via RMI that 
+ * aggregates logging messages from multiple JVM within a local domain.  This 
+ * configuration handler is declared as the default logging configuration for 
+ * suprocesses launched by the DPML Station.
  */
-public class ConfigurationHandler
+public class DepotLoggingConfiguration
 {
    /**
     * Creation of the logging controller.
     */
-    public ConfigurationHandler()
+    public DepotLoggingConfiguration()
     {
         String group = System.getProperty( "dpml.system.group", "root" );
         String level = System.getProperty( "dpml.logging.level", "INFO" ).toUpperCase();
 
         Properties properties = new Properties();
-        properties.setProperty( 
-           "handlers", 
-           System.getProperty( 
-             "handlers", 
-             "java.util.logging.FileHandler, java.util.logging.ConsoleHandler" ) );
-        properties.setProperty( 
-           "java.util.logging.ConsoleHandler.formatter", 
-           "net.dpml.depot.logging.StandardFormatter" );
 
-        //
-        // set the file handler properties
-        //
-
-        properties.setProperty( "java.util.logging.FileHandler.pattern", "%h/" + group + "%u.log" );
-        properties.setProperty( "java.util.logging.FileHandler.limit", "50000" );
-        properties.setProperty( "java.util.logging.FileHandler.count", "1" );
         properties.setProperty( 
-          "java.util.logging.FileHandler.formatter", "net.dpml.depot.logging.StandardFormatter" );
+          "handlers", 
+          System.getProperty( 
+            "handlers", 
+            "net.dpml.depot.DepotHandler" ) );
 
         //
         // set the default level by setting the root logger level
         //
 
         properties.setProperty( ".level", level );
-
-        //
-        // set the level that the console handler will handle
-        //
-
-        properties.setProperty( 
-          "java.util.logging.ConsoleHandler.level", 
-          System.getProperty( "java.util.logging.ConsoleHandler.level", "FINEST" ) );
 
         try
         {
@@ -89,3 +69,4 @@ public class ConfigurationHandler
         }
     }
 }
+

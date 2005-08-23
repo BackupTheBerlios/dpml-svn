@@ -1,54 +1,108 @@
 /*
  * Copyright 2005 Stephen McConnell
- * 
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
+ *
+ * Licensed  under the  Apache License,  Version 2.0  (the "License");
+ * you may not use  this file  except in  compliance with the License.
  * You may obtain a copy of the License at
- * 
- *     http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
  * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * distributed  under the  License is distributed on an "AS IS" BASIS,
+ * WITHOUT  WARRANTIES OR CONDITIONS  OF ANY KIND, either  express  or
+ * implied.
+ *
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
 
-package net.dpml.profile.unit;
+package net.dpml.profile.model;
 
 import java.net.URI;
-import java.net.MalformedURLException;
-import java.net.PasswordAuthentication;
+import java.net.URISyntaxException;
+import java.rmi.RemoteException;
 import java.util.Date;
 import java.util.Properties;
-import java.util.prefs.Preferences;
 import java.util.prefs.BackingStoreException;
+import java.util.prefs.Preferences;
 
-import net.dpml.transit.store.CodeBaseStorage;
+import net.dpml.transit.model.Logger;
+import net.dpml.transit.model.Connection;
 import net.dpml.transit.store.StorageRuntimeException;
+import net.dpml.transit.store.LocalPreferences;
+
+import net.dpml.profile.ApplicationStorage;
+import net.dpml.profile.Parameter;
 
 /**
- * The LayoutHelper class is responsible for the setup of initial factory
- * default preference settings.
+ * An ApplicationStorageUnit maintains persistent information 
+ * about an application profile.
  */
-abstract class CodeBaseStorageUnit extends AbstractStorageUnit implements CodeBaseStorage
+public class ApplicationStorageUnit extends AbstractStorageUnit implements ApplicationStorage 
 {
     // ------------------------------------------------------------------------
     // constructor
     // ------------------------------------------------------------------------
 
-   /**
-    * Creation of a new codebase storage unit.
-    * @param prefs the preferences to use as the undrlying storage model
-    */
-    public CodeBaseStorageUnit( Preferences prefs )
+    public ApplicationStorageUnit()
+    {
+        super( new LocalPreferences( null, "" ) );
+    }
+
+    public ApplicationStorageUnit( Preferences prefs )
     {
         super( prefs );
     }
 
     // ------------------------------------------------------------------------
-    // CodeBaseStorage
+    // ApplicationStorage
     // ------------------------------------------------------------------------
+
+    public String getID()
+    {
+        return getPreferences().name();
+    }
+
+    public String getTitle()
+    {
+        String id = getID();
+        return getPreferences().get( "title", id );
+    }
+
+    public Properties getSystemProperties()
+    {
+        Preferences prefs = getPreferences().node( "system" );
+        return getProperties( prefs );
+    }
+
+    public boolean getEnabled()
+    {
+        Preferences prefs = getPreferences();
+        return prefs.getBoolean( "enabled", true );
+    }
+
+    public boolean isaServer()
+    {
+        Preferences prefs = getPreferences();
+        return prefs.getBoolean( "server", true );
+    }
+
+    public Parameter[] getParameters()
+    {
+        return new Parameter[0]; // TODO
+    }
+
+    public void remove()
+    {
+        try
+        {
+            getPreferences().removeNode();
+        }
+        catch( BackingStoreException e )
+        {
+            throw new StorageRuntimeException( "storage removal failure", e );
+        }
+    }
 
    /**
     * Return the URI identifying a codebase.  Typically the value returned from 
@@ -124,6 +178,6 @@ abstract class CodeBaseStorageUnit extends AbstractStorageUnit implements CodeBa
     {
         prefs.remove( key );
     }
+
+
 }
-
-

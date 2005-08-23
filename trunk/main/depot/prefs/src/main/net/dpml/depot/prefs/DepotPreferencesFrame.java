@@ -40,10 +40,7 @@ import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
 
-import net.dpml.profile.DepotProfile;
-//import net.dpml.depot.store.DepotHome;
-//import net.dpml.depot.unit.DepotStorageUnit;
-//import net.dpml.depot.profile.DefaultDepotProfile;
+import net.dpml.profile.ApplicationRegistry;
 
 import net.dpml.transit.Transit;
 import net.dpml.transit.Repository;
@@ -99,12 +96,12 @@ public class DepotPreferencesFrame extends JFrame
         Repository repository = Transit.getInstance().getRepository();
         ClassLoader classloader = DepotPreferencesFrame.class.getClassLoader();
         URI uri = new URI( DEPOT_PROFILE_URI );
-        DepotProfile depot = (DepotProfile) repository.getPlugin( classloader, uri, new Object[]{ prefs, logger } );
+        ApplicationRegistry depot = (ApplicationRegistry) repository.getPlugin( classloader, uri, new Object[]{ prefs, logger } );
 
         //DepotHome store = new DepotStorageUnit( prefs );
-        //DepotProfile depot = new DefaultDepotProfile( logger, store );
+        //ApplicationRegistry depot = new DefaultDepotProfile( logger, store );
 
-        setTitle( "DPML DepotProfile" );
+        setTitle( "DPML ApplicationRegistry" );
         Dimension size = new Dimension( DEFAULT_DIALOG_WIDTH, DEFAULT_DIALOG_HEIGHT );
         setSize( size );
         DepotPreferencesPanel panel = new DepotPreferencesPanel( this, depot );

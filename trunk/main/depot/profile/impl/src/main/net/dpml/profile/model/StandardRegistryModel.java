@@ -16,30 +16,31 @@
  * limitations under the License.
  */
 
-package net.dpml.profile;
+package net.dpml.profile.model;
 
 import java.rmi.RemoteException;
+import java.util.prefs.Preferences;
 
 import net.dpml.transit.model.DuplicateKeyException;
+import net.dpml.transit.model.Logger;
 import net.dpml.transit.model.UnknownKeyException;
 
+import net.dpml.profile.ApplicationRegistry;
 
 /**
- * A ActivationProfile maintains information about the configuration
- * of an activation profile.
+ * Plugin implements of the DepotModel.
  */
-public interface ActivationGroupProfile extends Profile
+public class StandardRegistryModel extends RegistryModel implements ApplicationRegistry
 {
-    ActivationProfile[] getActivationProfiles() throws RemoteException;
-
-    ActivationProfile getActivationProfile( String key ) throws UnknownKeyException, RemoteException;
-
-    void addActivationProfile( ActivationProfile profile ) throws DuplicateKeyException, RemoteException;
-
-    void removeActivationProfile( ActivationProfile profile ) throws RemoteException;
-
-    void addActivationGroupListener( ActivationGroupListener listener ) throws RemoteException;
-
-    void removeActivationGroupListener( ActivationGroupListener listener ) throws RemoteException;
-
+   /**
+    * Plugin class used to handle the establishment of the DepotProfile.  
+    * 
+    * @param logger the assigned logging channel
+    * @param prefs the root depot preferences
+    */
+    public StandardRegistryModel( Logger logger, Preferences prefs ) 
+      throws NullPointerException, DuplicateKeyException, RemoteException
+    {
+         super( logger, new RegistryStorageUnit( prefs ) );
+    }
 }

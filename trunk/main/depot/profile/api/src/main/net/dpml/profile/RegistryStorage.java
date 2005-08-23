@@ -1,5 +1,5 @@
 /*
- * Copyright 2005 Stephen J. McConnell.
+ * Copyright 2005 Stephen McConnell
  *
  * Licensed  under the  Apache License,  Version 2.0  (the "License");
  * you may not use  this file  except in  compliance with the License.
@@ -18,25 +18,12 @@
 
 package net.dpml.profile;
 
-import java.util.EventObject;
-
 /**
- * An event pertaining to the Depot profile collection.
+ * A ApplicationRegistry maintains persistent records of available application profiles.
  */
-public abstract class DepotEvent extends EventObject 
+public interface RegistryStorage
 {
-   /**
-    * Serial version identifier.
-    */
-    static final long serialVersionUID = 1L;
+    ApplicationStorage[] getInitialApplicationStorageArray();
 
-    public DepotEvent( DepotProfile model )
-    {
-        super( model );
-    }
-
-    public DepotProfile getDepotProfile()
-    {
-        return (DepotProfile) super.getSource();
-    }
+    ApplicationStorage getApplicationStorage( String id );
 }

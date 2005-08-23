@@ -48,7 +48,7 @@ import javax.swing.table.DefaultTableColumnModel;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
 
-import net.dpml.profile.DepotProfile;
+import net.dpml.profile.ApplicationRegistry;
 import net.dpml.profile.ApplicationProfile;
 
 import net.dpml.transit.model.DuplicateKeyException;
@@ -73,14 +73,14 @@ class ApplicationsRegistryPanel extends ClassicPanel implements PropertyChangeLi
     private JButton m_delete;
     private String m_selection;
 
-    private DepotProfile m_model;
+    private ApplicationRegistry m_model;
     private ApplicationsRegistryTableModel m_tableModel;
 
     //--------------------------------------------------------------
     // constructor
     //--------------------------------------------------------------
 
-    public ApplicationsRegistryPanel( Window parent, DepotProfile model ) throws Exception
+    public ApplicationsRegistryPanel( Window parent, ApplicationRegistry model ) throws Exception
     {
         super();
 

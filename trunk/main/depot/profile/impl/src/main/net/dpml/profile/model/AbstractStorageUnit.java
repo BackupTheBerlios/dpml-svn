@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package net.dpml.profile.unit;
+package net.dpml.profile.model;
 
 import java.io.IOException;
 import java.net.URL;

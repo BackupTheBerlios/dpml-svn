@@ -30,7 +30,7 @@ import java.util.Enumeration;
 import java.util.Properties;
 import java.util.Date;
 
-import net.dpml.profile.DepotProfile;
+import net.dpml.profile.ApplicationRegistry;
 
 import net.dpml.transit.Transit;
 import net.dpml.transit.Repository;
@@ -53,7 +53,7 @@ public class ZipInstaller
     private final Logger m_logger;
     private final TransitModel m_model;
     private final TransitRegistryModel m_transit;
-    private final DepotProfile m_depot;
+    private final ApplicationRegistry m_depot;
     private final String[] m_args;
 
     private File m_bundle = null;
@@ -75,7 +75,7 @@ public class ZipInstaller
     * @exception Exception if an error occurs
     */
     public ZipInstaller( 
-      Logger logger, DepotProfile depot, TransitRegistryModel transit, 
+      Logger logger, ApplicationRegistry depot, TransitRegistryModel transit, 
       TransitModel model, String[] args ) throws Exception
     {
         m_logger = logger;

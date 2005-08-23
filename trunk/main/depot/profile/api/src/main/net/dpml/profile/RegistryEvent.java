@@ -21,26 +21,30 @@ package net.dpml.profile;
 import java.util.EventObject;
 
 /**
- * An event pertaining to the Depot collection of application profiles.
+ * An application registry event.
  */
-public class DepotGroupEvent extends DepotEvent 
+public class RegistryEvent extends EventObject 
 {
    /**
     * Serial version identifier.
     */
     static final long serialVersionUID = 1L;
 
-    ActivationGroupProfile m_profile;
+    ApplicationProfile m_profile;
 
-    public DepotGroupEvent( DepotProfile model, ActivationGroupProfile profile )
+    public RegistryEvent( ApplicationRegistry registry, ApplicationProfile profile )
     {
-        super( model );
+        super( registry );
         m_profile = profile;
     }
 
-    public ActivationGroupProfile getActivationGroupProfile()
+    public ApplicationRegistry getApplicationRegistry()
+    {
+        return (ApplicationRegistry) super.getSource();
+    }
+
+    public ApplicationProfile getApplicationProfile()
     {
         return m_profile;
     }
-
 }

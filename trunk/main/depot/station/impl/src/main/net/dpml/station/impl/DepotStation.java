@@ -35,13 +35,13 @@ import net.dpml.transit.model.DuplicateKeyException;
 import net.dpml.transit.model.Connection;
 
 import net.dpml.profile.ApplicationProfile;
-import net.dpml.profile.DepotProfile;
+import net.dpml.profile.ApplicationRegistry;
 import net.dpml.profile.ProfileException;
-import net.dpml.profile.ActivationProfile;
-import net.dpml.profile.ActivationGroupProfile;
 
+import net.dpml.depot.Main;
 import net.dpml.depot.GeneralException;
 import net.dpml.depot.Handler;
+import net.dpml.depot.LoggingService;
 
 import net.dpml.station.Station;
 import net.dpml.station.Application;
@@ -57,45 +57,63 @@ public class DepotStation extends UnicastRemoteObject implements Station, Handle
     private final Logger m_logger;
     private Hashtable m_table = new Hashtable();
 
-    private DepotProfile m_model;
+    private ApplicationRegistry m_model;
+    private String[] m_args;
 
     private ActivationGroupID m_rootID;
 
-    public DepotStation( Logger logger, Preferences prefs, String[] args ) throws RemoteException
+   /**
+    * Creation of a station instance.
+    *
+    * @param logger the assigned logging channel
+    * @param prefs the depot root preferences
+    * @param args supplimentary command line arguments
+    * @exception RemoteException if a remote exception occurs during establishment
+    */
+    public DepotStation( Logger logger, Preferences prefs, String[] args ) throws Exception
     {
         super();
 
         m_logger = logger;
+        m_args = args;
 
         try
         {
             Repository repository = Transit.getInstance().getRepository();
             ClassLoader classloader = DepotStation.class.getClassLoader();
             URI uri = new URI( DEPOT_PROFILE_URI );
-            m_model = (DepotProfile) repository.getPlugin( classloader, uri, new Object[]{ prefs, logger } );
+            m_model = (ApplicationRegistry) repository.getPlugin( classloader, uri, new Object[]{ prefs, logger } );
 
             //
             // startup the general registry
             //
             
-            int port = Registry.REGISTRY_PORT;
+            int port = getStationPort();
             Connection connection = new Connection( null, port, true, true );
             Registry registry = getRegistry( connection );
+            
+            try
+            {
+                registry.bind( STATION_KEY, this );
+            }
+            catch( AlreadyBoundException e )
+            {
+                final String error =
+                  "An instance of the Station is already bound to port " + port;
+                throw new GeneralException( error );
+            }
 
-            //
-            // register ourself into the registry
-            //
-
-            //try
-            //{
-            //    registry.bind( Station.STATION_KEY, this );
-            //}
-            //catch( AlreadyBoundException e )
-            //{
-            //    final String error = 
-            //      "Another instance of the Depot Station is already bound to port: " + port;
-            //    throw new GeneralException( error );
-            //}
+            try
+            {
+                LoggingService logging = new LoggingServer();
+                registry.bind( LoggingService.LOGGING_KEY, logging );
+            }
+            catch( AlreadyBoundException e )
+            {
+                final String error =
+                  "An instance of the Logging Service is already bound to port " + port;
+                throw new GeneralException( error );
+            }
 
             ApplicationProfile[] profiles = m_model.getApplicationProfiles();
             for( int i=0; i<profiles.length; i++ )
@@ -103,9 +121,8 @@ public class DepotStation extends UnicastRemoteObject implements Station, Handle
                 ApplicationProfile profile = profiles[i];
                 String key = profile.getID();
                 logger.info( "profile: " + key );
-                String path = Station.STATION_KEY + "/" + key;
-                String urn = "registry:" + path;
-                registry.rebind( path, profile );
+                String urn = "registry:" + key;
+                registry.rebind( key, profile );
                 Application application = new DefaultApplication( logger, profile, urn );
 
                 m_table.put( key, application );
@@ -127,17 +144,6 @@ public class DepotStation extends UnicastRemoteObject implements Station, Handle
             {
                 logger.info( "entry: " + list[i] );
             }
-
-            /*
-            // get groups and initiate deployment
-            ActivationGroupProfile[] profiles = m_model.getActivationGroupProfiles();
-            for( int i=0; i<profiles.length; i++ )
-            {
-                ActivationGroupProfile profile = profiles[i];
-                ActivationGroupID id = deployActivationGroupProfile( profile );
-                m_table.put( profile, id );
-            }
-            */
         }
         catch( RemoteException e )
         {
@@ -148,6 +154,31 @@ public class DepotStation extends UnicastRemoteObject implements Station, Handle
             final String error = 
               "Unexpected error occured while establishing depot station.";
             throw new ServerException( error, e );
+        }
+    }
+
+    private int getStationPort() throws GeneralException
+    {
+        if( Main.isOptionPresent( m_args, "-port" ) )
+        {
+            String value = Main.getOption( m_args, "-port" );
+            m_args = Main.consolidate( m_args, "-port", 1 );
+            try
+            {
+                return Integer.parseInt( value );
+            }
+            catch( NumberFormatException e )
+            {
+                final String error = 
+                  "Supplied -port argument value [" 
+                  + value 
+                  + "] could not be converted to a number.";
+                throw new GeneralException( error );
+            }
+        }
+        else
+        {
+            return Registry.REGISTRY_PORT;
         }
     }
 
@@ -210,104 +241,6 @@ public class DepotStation extends UnicastRemoteObject implements Station, Handle
     public Application getApplication( String key ) throws UnknownKeyException, RemoteException
     {
         throw new UnsupportedOperationException( "getApplication/1" );
-    }
-
-    private ActivationGroupID deployActivationGroupProfile( ActivationGroupProfile group )
-      throws RemoteException
-    {
-        String gid = group.getID();
-        ActivationGroupID id = null;
-        try
-        {
-            ActivationGroupDesc desc = createActivationGroupDesc( group );
-            id = ActivationGroup.getSystem().registerGroup( desc );
-        }
-        catch( Exception e )
-        {
-            final String error =
-              "Internal error while attempting to register an activation group.";
-            throw new ServerException( error, e );
-        }
-
-        ActivationProfile[] profiles = group.getActivationProfiles();
-        for( int i=0; i<profiles.length; i++ )
-        {
-            ActivationProfile profile = profiles[i];
-            String aid = profile.getID();
-            try
-            {
-                registerActivatable( id, profile );
-            }
-            catch( Exception e )
-            {
-                final String error = 
-                  "An error occured while attempt to deploy an activation profile."
-                  + "\nGroup Profile: " + gid
-                  + "\nActivatable Profile: " + aid;
-                getLogger().error( error, e );
-            }
-        }
-
-        return id;
-    }
-
-    private ActivationGroupDesc createActivationGroupDesc( ActivationGroupProfile profile )
-      throws RemoteException
-    {
-        String id = profile.getID();
-        try
-        {
-            String[] args = new String[0];
-            Properties properties = profile.getSystemProperties();
-            CommandEnvironment environment = new CommandEnvironment( null, args ) ;
-            return new ActivationGroupDesc( properties, environment );
-        }
-        catch( Exception e )
-        {
-            final String error =
-              "Internal error while attempting to construct an activation group descriptor."
-              + "\nGroup ID: " + id;
-            throw new ServerException( error, e );
-        }
-    }
-
-    private void registerActivatable( 
-      ActivationGroupID group, ActivationProfile profile ) 
-      throws RemoteException
-    {
-        String id = profile.getID();
-        String location = profile.getCodeBaseURI().toASCIIString();
-        String classname = profile.getClassname();
-        MarshalledObject data = null;
-
-        final String message = 
-          "Deploying activation profile: " + id
-          + "\nCode Source: " + location
-          + "\nClassname: " + classname;
-        getLogger().info( message );
-
-        try
-        {
-            ActivationDesc desc = new ActivationDesc( group, classname, location, data );
-            Remote remote = Activatable.register( desc );
-            getLogger().info( "Registered: " + id + " (" + remote.getClass().getName() + ")" );
-            Naming.rebind( id, remote );
-            getLogger().info( "binding complete" );
-        }
-        catch( Exception e )
-        {
-            getLogger().error( "error attempting to bind stub", e );
-            final String error =
-              "Registration error due to " + e.toString();
-            throw new ServerException( error, e );
-        }
-        catch( Throwable e )
-        {
-            final String error =
-              "Registration failed due to " + e.toString();
-            Exception exception = new Exception( error, e );
-            throw new ServerException( error, exception );
-        }
     }
 
     private Logger getLogger()

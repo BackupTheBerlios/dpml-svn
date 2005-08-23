@@ -15,6 +15,7 @@
     <rmic base="${basedir}/target/classes" classpathref="build.path">
       <include name="**/DepotStation.class"/>
       <include name="**/DefaultApplication.class"/>
+      <include name="**/LoggingServer.class"/>
     </rmic>
   </target>
 

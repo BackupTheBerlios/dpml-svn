@@ -20,6 +20,7 @@ package net.dpml.depot.exec;
 
 import java.net.URI;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.prefs.Preferences;
 import java.util.Properties;
 import java.rmi.registry.Registry;
@@ -27,11 +28,13 @@ import java.rmi.registry.LocateRegistry;
 
 import net.dpml.depot.Main;
 import net.dpml.depot.ShutdownHandler;
+import net.dpml.depot.GeneralException;
 
 import net.dpml.station.Station;
 
-import net.dpml.profile.DepotProfile;
+import net.dpml.profile.ApplicationRegistry;
 import net.dpml.profile.ApplicationProfile;
+import net.dpml.profile.Parameter;
 
 import net.dpml.transit.Transit;
 import net.dpml.transit.Artifact;
@@ -51,7 +54,7 @@ public class ApplicationHandler
     private final Logger m_logger;
     private final TransitModel m_model;
     private final ShutdownHandler m_handler;
-    private final DepotProfile m_depot;
+    private final ApplicationRegistry m_depot;
 
     private String m_spec;
     private String[] m_args;
@@ -78,8 +81,6 @@ public class ApplicationHandler
         m_args = args;
         m_model = model;
 
-        Thread.currentThread().setContextClassLoader( getClass().getClassLoader() );
-
         if( args.length < 1 )
         {
             final String error = 
@@ -93,7 +94,7 @@ public class ApplicationHandler
             Repository repository = Transit.getInstance().getRepository();
             ClassLoader classloader = getClass().getClassLoader();
             URI uri = new URI( DEPOT_PROFILE_URI );
-            m_depot = (DepotProfile) repository.getPlugin( 
+            m_depot = (ApplicationRegistry) repository.getPlugin( 
                classloader, uri, new Object[]{prefs, logger} );
         }
         catch( Throwable e )
@@ -121,18 +122,24 @@ public class ApplicationHandler
         // retract a profile.
         //
 
+        boolean applySysProperties = !m_spec.startsWith( "registry:" );
+
         try
         {
             // prepare application context
     
             profile = getApplicationProfile( m_spec );
-            flag = profile.getCommandPolicy();
+            flag = profile.isaServer();
             URI codebase = profile.getCodeBaseURI();
             getLogger().info( "profile codebase: " + codebase );
             ClassLoader system = ClassLoader.getSystemClassLoader();
-            Properties properties = profile.getSystemProperties();
-            applySystemProperties( properties );
-    
+
+            if( applySysProperties ) 
+            {
+                Properties properties = profile.getSystemProperties();
+                applySystemProperties( properties );
+            }   
+ 
             // light the fires and spin the tyres
 
             try
@@ -149,6 +156,10 @@ public class ApplicationHandler
                 m_handler.exit( -1 );
             }
         }
+        catch( GeneralException e )
+        {
+            throw e;
+        }
         catch( HandledException e )
         {
             m_handler.exit( -1 );
@@ -156,12 +167,12 @@ public class ApplicationHandler
         catch( Throwable e )
         {
             final String error = 
-              "Unexpected failure.";
+              "Unexpected failure while attempting to deploy: " + m_spec;
                 getLogger().error( error, e );
             m_handler.exit( -1 );
         }
 
-        if( flag )
+        if( !flag )
         {
             m_handler.exit();
         }
@@ -204,7 +215,16 @@ public class ApplicationHandler
         }
         else if( id.startsWith( "registry:" ) )
         {
-            return (ApplicationProfile) new URL( id ).getContent();
+            ClassLoader classloader = Thread.currentThread().getContextClassLoader();
+            Thread.currentThread().setContextClassLoader( getClass().getClassLoader() );
+            try
+            {
+                return (ApplicationProfile) new URL( id ).getContent();
+            }
+            finally
+            {
+                Thread.currentThread().setContextClassLoader( classloader );
+            }
         }
         else
         {
@@ -216,8 +236,7 @@ public class ApplicationHandler
             {
                 final String error = 
                   "Application key [" + e.getKey() + "] not found.";
-                getLogger().error( error );
-                throw new HandledException();
+                throw new GeneralException( error );
             }
         }
     }
@@ -257,14 +276,28 @@ public class ApplicationHandler
         Repository loader = Transit.getInstance().getRepository();
         Artifact artifact = Artifact.createArtifact( uri );
         String type = artifact.getType();
-        Properties params = profile.getProperties();
+        Parameter[] params = profile.getParameters();
         if( "plugin".equals( type ) )
         {
-            return loader.getPlugin( 
-              parent, uri, new Object[]{args, model, logger, profile, params} );
+            ArrayList list = new ArrayList();
+            for( int i=0; i<params.length; i++ )
+            {
+                Parameter param = params[i];
+                list.add( param.getValue() );
+            }
+            list.add( args );
+            list.add( model );
+            list.add( logger );
+            list.add( profile );
+            Object[] parameters = list.toArray();
+            return loader.getPlugin( parent, uri, parameters );
         }
         else if( "part".equals( type ) )
         {
+            //
+            // TODO change to this include a fully embedded controller
+            //
+
             String path = uri.toASCIIString();
             final String message = 
               "loading part ["

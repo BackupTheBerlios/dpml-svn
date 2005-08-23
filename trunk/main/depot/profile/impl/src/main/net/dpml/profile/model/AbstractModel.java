@@ -36,7 +36,7 @@ import net.dpml.transit.monitor.LoggingAdapter;
  * A abstract base class that established an event queue and handles event dispatch 
  * operations for listeners declared in classes extending this base class.
  */
-abstract class DefaultModel extends UnicastRemoteObject
+abstract class AbstractModel extends UnicastRemoteObject
 {
     // ------------------------------------------------------------------------
     // state
@@ -62,7 +62,7 @@ abstract class DefaultModel extends UnicastRemoteObject
     * Creation of a new model.
     * @param name the name used to construct a logging channel
     */
-    public DefaultModel( String name ) 
+    public AbstractModel( String name ) 
       throws RemoteException
     {
         this( getLoggerForCategory( name ) );
@@ -73,7 +73,7 @@ abstract class DefaultModel extends UnicastRemoteObject
     * @param logger the assigned logging channel
     * @exception NullPointerException if the supplied logging channel is null
     */
-    public DefaultModel( Logger logger ) 
+    public AbstractModel( Logger logger ) 
       throws NullPointerException, RemoteException
     {
         super();
@@ -99,7 +99,7 @@ abstract class DefaultModel extends UnicastRemoteObject
     }
 
     // ------------------------------------------------------------------------
-    // DefaultModel
+    // AbstractModel
     // ------------------------------------------------------------------------
 
    /**
@@ -251,9 +251,9 @@ abstract class DefaultModel extends UnicastRemoteObject
                 }
 
                 Object source = event.getSource();
-                if( source instanceof DefaultModel )
+                if( source instanceof AbstractModel )
                 {
-                    DefaultModel producer = (DefaultModel) source;
+                    AbstractModel producer = (AbstractModel) source;
                     try
                     {
                         producer.processEvent( event );
@@ -271,7 +271,7 @@ abstract class DefaultModel extends UnicastRemoteObject
                 {
                     final String error = 
                       "Event source is not an instance of " 
-                      + DefaultModel.class.getName();
+                      + AbstractModel.class.getName();
                     throw new IllegalStateException( error );
                 }
             }

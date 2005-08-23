@@ -198,7 +198,7 @@ class TransitHomePanel extends ClassicPanel implements ListSelectionListener
 
     private static String MISC_IMG_PATH = "net/dpml/depot/prefs/images/process.png";
     private ImageIcon MISC_ICON = 
-      IconHelper.createImageIcon( GroupsPanel.class.getClassLoader(), MISC_IMG_PATH, "" );
+      IconHelper.createImageIcon( TransitHomePanel.class.getClassLoader(), MISC_IMG_PATH, "" );
     static EmptyBorder border = new EmptyBorder( 5, 5, 5, 5);
     static final Color ENABLED_COLOR = new Color( 204, 204, 255 );
     static final Color DISABLED_COLOR = new Color( 228, 228, 255 );

@@ -18,26 +18,27 @@
 
 package net.dpml.profile;
 
-import java.rmi.RemoteException;
 import java.util.Properties;
 
-import net.dpml.transit.model.CodeBaseModel;
-import net.dpml.transit.model.Disposable;
+import net.dpml.profile.Parameter;
+
+import net.dpml.transit.store.CodeBaseStorage;
+import net.dpml.transit.store.Removable;
 
 /**
- * A ProfileModel maintains information about the configuration
- * of an application profile.
+ *
  */
-public interface Profile extends CodeBaseModel, Disposable
+public interface ApplicationStorage extends CodeBaseStorage, Removable
 {
-    String getID() throws RemoteException;
+    String getID();
 
-    String getTitle() throws RemoteException;
+    String getTitle();
 
-    void setTitle( String title ) throws RemoteException;
+    boolean getEnabled();
 
-    Properties getSystemProperties() throws RemoteException;
+    boolean isaServer();
 
-    void setSystemProperties( Properties properties ) throws RemoteException;
+    Properties getSystemProperties();
+
+    Parameter[] getParameters();
 }
-

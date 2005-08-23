@@ -28,7 +28,7 @@ import java.net.URISyntaxException;
 import net.dpml.depot.Main;
 import net.dpml.depot.ShutdownHandler;
 
-import net.dpml.profile.DepotProfile;
+import net.dpml.profile.ApplicationRegistry;
 
 import net.dpml.transit.Transit;
 import net.dpml.transit.Artifact;
@@ -56,7 +56,7 @@ public class PackageInstaller implements Runnable
 
     private final Logger m_logger;
     private final TransitRegistryModel m_transit;
-    private final DepotProfile m_depot;
+    private final ApplicationRegistry m_depot;
     private final TransitModel m_model;
 
     private String[] m_args;
@@ -92,7 +92,7 @@ public class PackageInstaller implements Runnable
         Repository repository = Transit.getInstance().getRepository();
         ClassLoader classloader = PackageInstaller.class.getClassLoader();
         URI uri = new URI( DEPOT_PROFILE_URI );
-        m_depot = (DepotProfile) repository.getPlugin( classloader, uri, new Object[]{prefs, logger} );
+        m_depot = (ApplicationRegistry) repository.getPlugin( classloader, uri, new Object[]{prefs, logger} );
 
         TransitStorageHome home = new TransitStorageHome();
         m_transit = new DefaultTransitRegistryModel( logger, home );

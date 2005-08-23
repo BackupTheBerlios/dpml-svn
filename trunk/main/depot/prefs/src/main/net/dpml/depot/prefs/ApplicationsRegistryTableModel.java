@@ -23,10 +23,9 @@ import javax.swing.Icon;
 import javax.swing.table.AbstractTableModel;
 
 import net.dpml.transit.Transit;
-import net.dpml.profile.DepotApplicationEvent;
-import net.dpml.profile.DepotGroupEvent;
-import net.dpml.profile.DepotListener;
-import net.dpml.profile.DepotProfile;
+import net.dpml.profile.RegistryEvent;
+import net.dpml.profile.RegistryListener;
+import net.dpml.profile.ApplicationRegistry;
 
 /**
  * Table model that maps table rows to child nodes of a supplied preferences node.
@@ -64,7 +63,7 @@ public class ApplicationsRegistryTableModel extends AbstractTableModel
       IconHelper.createImageIcon( 
         ApplicationsRegistryTableModel.class.getClassLoader(), ICON_PATH, "Features" );
 
-    private final DepotProfile m_model;
+    private final ApplicationRegistry m_model;
     private final RemoteListener m_listener;
 
     //--------------------------------------------------------------------------
@@ -77,19 +76,19 @@ public class ApplicationsRegistryTableModel extends AbstractTableModel
     *
     * @param model the registry of application profiles
     */
-    public ApplicationsRegistryTableModel( DepotProfile model ) throws Exception
+    public ApplicationsRegistryTableModel( ApplicationRegistry model ) throws Exception
     {
         super();
         m_model = model;
         m_listener = new RemoteListener();
-        model.addDepotListener( m_listener );
+        model.addRegistryListener( m_listener );
     }
 
     protected void dispose()
     {
         try
         {
-            m_model.removeDepotListener( m_listener );
+            m_model.removeRegistryListener( m_listener );
         }
         catch( Throwable e )
         {
@@ -97,10 +96,10 @@ public class ApplicationsRegistryTableModel extends AbstractTableModel
     }
 
     //--------------------------------------------------------------------------
-    // DepotListener
+    // RegistryListener
     //--------------------------------------------------------------------------
 
-    private class RemoteListener extends UnicastRemoteObject implements DepotListener
+    private class RemoteListener extends UnicastRemoteObject implements RegistryListener
     {
         public RemoteListener() throws RemoteException
         {
@@ -111,7 +110,7 @@ public class ApplicationsRegistryTableModel extends AbstractTableModel
         * Notify all listeners of the addition of an application profile.
         * @param event the depot event
         */
-        public void profileAdded( DepotApplicationEvent event ) throws RemoteException
+        public void profileAdded( RegistryEvent event ) throws RemoteException
         {
             fireTableStructureChanged();
         }
@@ -120,27 +119,10 @@ public class ApplicationsRegistryTableModel extends AbstractTableModel
         * Notify all listeners of the removal of an application profile.
         * @param event the depot event
         */
-        public void profileRemoved( DepotApplicationEvent event ) throws RemoteException
+        public void profileRemoved( RegistryEvent event ) throws RemoteException
         {
             fireTableStructureChanged();
         }
-
-       /**
-        * Notify all listeners of the addition of an application profile.
-        * @param event the depot event
-        */
-        public void groupAdded( DepotGroupEvent event ) throws RemoteException
-        {
-        }
-    
-       /**
-        * Notify all listeners of the removal of an application profile.
-        * @param event the depot event
-        */
-        public void groupRemoved( DepotGroupEvent event ) throws RemoteException
-        {
-        }
-
     }
 
     //--------------------------------------------------------------------------
