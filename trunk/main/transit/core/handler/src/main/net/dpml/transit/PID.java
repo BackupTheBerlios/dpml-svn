@@ -30,9 +30,14 @@ import java.util.Random;
  */
 public class PID implements Serializable
 {
-    private static final int ID = getInitialValue();
+    private final int m_id;
 
-    private static int getInitialValue()
+    public PID()
+    {
+        m_id = setupInitialValue();
+    }
+
+    private static int setupInitialValue()
     {
         String id = System.getProperty( "process.id" );
         if( null == id )
@@ -54,12 +59,12 @@ public class PID implements Serializable
 
     public int getValue()
     {
-        return ID;
+        return m_id;
     }
 
     public String toString()
     {
-        return "[" + ID + "]";
+        return "[" + m_id + "]";
     }
 
     public boolean equals( Object other )

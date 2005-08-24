@@ -35,7 +35,6 @@ import net.dpml.transit.model.CodeBaseEvent;
 
 import net.dpml.profile.Parameter;
 import net.dpml.profile.ApplicationProfile;
-import net.dpml.profile.ApplicationStorage;
 
 /**
  * A DefaultApplicationProfile maintains information about the configuration

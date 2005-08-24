@@ -33,19 +33,19 @@ public class StandardFormatter extends Formatter
     private static final String SEPARATOR = System.getProperty( "line.separator" );
 
     /**
-     * Format a LogRecord using the classic style.
+     * Format a LogRecord using a style appropriate for console messages. The
+     * the log record message will be checked for a process identifier that is 
+     * prepended to the raw message using the convention "$[" + PID + "] ".  If
+     * a process id is resolved the value is assigned to the process block and 
+     * the raw message is trimmed.  The resulting formatted message is presented 
+     * in the form "[PID  ] [LEVEL  ] (log.category): the message".
+     *
      * @param record the log record to be formatted.
      * @return a formatted log record
      */
     public synchronized String format( LogRecord record ) 
     {
-        String message = formatMessage( record );
-        if( message.startsWith( "[" ) )
-        {
-            return message + SEPARATOR;
-        }
-
-        String process = getProcessHeader();
+        String process = getProcessHeader( record );
         StringBuffer buffer = new StringBuffer( process );
         String header = getLogHeader( record );
         buffer.append( header );
@@ -57,6 +57,7 @@ public class StandardFormatter extends Formatter
         {
             buffer.append( "() " );
         }
+        String message = getFormattedMessage( record );
         buffer.append( message );
         buffer.append( SEPARATOR );
         if( record.getThrown() != null ) 
@@ -68,6 +69,20 @@ public class StandardFormatter extends Formatter
         return buffer.toString();
     }
 
+    private String getFormattedMessage( LogRecord record )
+    {
+        String message = formatMessage( record );
+        if( message.startsWith( "$[" ) )
+        {
+            int n = message.indexOf( "] " );
+            return message.substring( n + 2 );
+        }
+        else
+        {
+            return message;
+        }
+    }
+
     private String getLogHeader( LogRecord record )
     {
         StringBuffer buffer = new StringBuffer();
@@ -75,18 +90,29 @@ public class StandardFormatter extends Formatter
         buffer.append( record.getLevel().getLocalizedName() );
         buffer.append( "        " );
         String tag = buffer.toString();
-        return tag.substring( 0, EIGHT ) + "] ";
+        return tag.substring( 0, LEVEL_HEADER_WEIDTH ) + "] ";
     }
 
-    private String getProcessHeader()
+    private String getProcessHeader( LogRecord record )
     {
         StringBuffer buffer = new StringBuffer();
         buffer.append( "[" );
-        buffer.append( ID.getValue() );
+        String message = record.getMessage();
+        if( message.startsWith( "$[" ) )
+        {
+            int n = message.indexOf( "] " );
+            String id = message.substring( 2, n );
+            buffer.append( id );
+        }
+        else
+        {
+            buffer.append( ID.getValue() );
+        }
         buffer.append( "        " );
         String tag = buffer.toString();
-        return tag.substring( 0, EIGHT ) + "] ";
+        return tag.substring( 0, PROCESS_HEADER_WIDTH ) + "] ";
     }
 
-    private static final int EIGHT = 8;
+    private static final int LEVEL_HEADER_WEIDTH = 8;
+    private static final int PROCESS_HEADER_WIDTH = 6;
 }

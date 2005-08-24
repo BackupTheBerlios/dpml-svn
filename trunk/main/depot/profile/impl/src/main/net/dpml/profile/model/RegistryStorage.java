@@ -16,29 +16,14 @@
  * limitations under the License.
  */
 
-package net.dpml.profile;
-
-import java.util.Properties;
-
-import net.dpml.profile.Parameter;
-
-import net.dpml.transit.store.CodeBaseStorage;
-import net.dpml.transit.store.Removable;
+package net.dpml.profile.model;
 
 /**
- *
+ * A ApplicationRegistry maintains persistent records of available application profiles.
  */
-public interface ApplicationStorage extends CodeBaseStorage, Removable
+public interface RegistryStorage
 {
-    String getID();
+    ApplicationStorage[] getInitialApplicationStorageArray();
 
-    String getTitle();
-
-    boolean getEnabled();
-
-    boolean isaServer();
-
-    Properties getSystemProperties();
-
-    Parameter[] getParameters();
+    ApplicationStorage getApplicationStorage( String id );
 }

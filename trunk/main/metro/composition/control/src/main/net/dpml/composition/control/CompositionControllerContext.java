@@ -85,8 +85,6 @@ public class CompositionControllerContext extends LocalWeakEventProducer impleme
 
         m_model = model;
 
-        // TODO: add listeners to changes to the content model properties
-
         String work = getWorkingDirectoryPath();
         String temp = getTempDirectoryPath();
 

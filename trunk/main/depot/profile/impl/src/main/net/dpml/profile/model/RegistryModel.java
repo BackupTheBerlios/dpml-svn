@@ -37,8 +37,6 @@ import net.dpml.profile.ApplicationRegistry;
 import net.dpml.profile.RegistryEvent;
 import net.dpml.profile.RegistryListener;
 import net.dpml.profile.ApplicationProfile;
-import net.dpml.profile.RegistryStorage;
-import net.dpml.profile.ApplicationStorage;
 
 /**
  * Implements of the DepotModel within which a set of application profiles 

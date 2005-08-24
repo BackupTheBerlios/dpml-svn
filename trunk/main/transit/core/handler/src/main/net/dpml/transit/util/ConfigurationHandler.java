@@ -39,12 +39,18 @@ public class ConfigurationHandler
         String level = System.getProperty( "dpml.logging.level", "INFO" ).toUpperCase();
 
         Properties properties = new Properties();
+
+        setProperty( properties, "handlers", "java.util.logging.ConsoleHandler" );
+        setProperty( properties, "java.util.logging.ConsoleHandler.formatter", "net.dpml.transit.util.StandardFormatter" );
+
+        /*
         setProperty( properties, "handlers", "java.util.logging.FileHandler, java.util.logging.ConsoleHandler" );
         setProperty( properties, "java.util.logging.ConsoleHandler.formatter", "net.dpml.transit.util.StandardFormatter" );
         setProperty( properties, "java.util.logging.FileHandler.pattern", "%h/" + group + "%u.log" );
         setProperty( properties, "java.util.logging.FileHandler.limit", "50000" );
         setProperty( properties, "java.util.logging.FileHandler.count", "1" );
         setProperty( properties, "java.util.logging.FileHandler.formatter", "net.dpml.transit.util.StandardFormatter" );
+        */
 
         //
         // set the default level by setting the root logger level

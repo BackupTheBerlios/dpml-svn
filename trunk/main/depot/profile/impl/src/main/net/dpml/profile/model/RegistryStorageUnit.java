@@ -29,9 +29,6 @@ import java.util.prefs.Preferences;
 import net.dpml.transit.model.Logger;
 import net.dpml.transit.store.StorageRuntimeException;
 
-import net.dpml.profile.RegistryStorage;
-import net.dpml.profile.ApplicationStorage;
-
 /**
  * A DepotStorage maintains persistent records of application profiles.
  */

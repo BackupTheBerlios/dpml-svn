@@ -31,7 +31,6 @@ import net.dpml.transit.model.Connection;
 import net.dpml.transit.store.StorageRuntimeException;
 import net.dpml.transit.store.LocalPreferences;
 
-import net.dpml.profile.ApplicationStorage;
 import net.dpml.profile.Parameter;
 
 /**
