@@ -24,14 +24,13 @@ import java.net.URLStreamHandler;
 import java.rmi.registry.Registry;
 
 /** 
- * The <code>local</code> protocol references a local resource 
- * under ${dpml.prefs}. Local resources are located using the artifact 
- * protocol uri structure with a direct mapping to ${dpml.prefs}/[group]/[type]s/[name].[type].
+ * The <code>registry</code> protocol references an remote resource
+ * published under an RMI Registry.
  */
 public class Handler extends URLStreamHandler
 {
    /**
-    * Creation of a new local protocol handler.
+    * Creation of a new registry protocol handler.
     */
     public Handler()
     {
@@ -41,6 +40,10 @@ public class Handler extends URLStreamHandler
     // implementation
     // ------------------------------------------------------------------------
 
+   /**
+    * Returns the default registry port.
+    * @return the registry default port
+    */
     protected int getDefaultPort()
     {
         return Registry.REGISTRY_PORT;

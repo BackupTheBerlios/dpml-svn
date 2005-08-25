@@ -30,7 +30,7 @@ import net.dpml.transit.model.ProxyEvent;
 /**
  * Table model that presents the set of excluded hosts.
  */
-public class ProxyExcludesTableModel extends AbstractTableModel
+class ProxyExcludesTableModel extends AbstractTableModel
 {
     //--------------------------------------------------------------------------
     // state

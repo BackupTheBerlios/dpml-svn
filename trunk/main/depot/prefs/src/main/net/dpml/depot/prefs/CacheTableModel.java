@@ -35,7 +35,7 @@ import net.dpml.transit.model.CacheModel;
 /**
  * Table model that maps table rows to child nodes of a supplied preferences node.
  */
-public class CacheTableModel extends AbstractTableModel
+class CacheTableModel extends AbstractTableModel
 {
     //--------------------------------------------------------------------------
     // static

@@ -29,16 +29,32 @@ import net.dpml.depot.LoggingService;
 import net.dpml.transit.PID;
 
 /**
+ * The LoggingServer is a remote service that handles the aggregation of 
+ * log records from multiple jvm processes.
  */
 public class LoggingServer extends UnicastRemoteObject implements LoggingService
 {
     private final Logger m_logger = Logger.getLogger( "station" );
 
+   /**
+    * Creation of a new logging service instance.
+    * @exception RemoteException if a remote exception occurs
+    */
     public LoggingServer() throws RemoteException
     {
         super();
     }
 
+   /**
+    * Dispach a log record to the server for processing.  The implementation
+    * prepends the log record message with the process id.  Subsequent processing
+    * of log records is subject to the logging configuration applied to the 
+    * JVM process in which the server is established.
+    *
+    * @param process the process id of the jvm initiating the log record
+    * @param record the log record
+    * @exception RemoteException is a remote exception occurs
+    */
     public void log( PID process, LogRecord record ) throws RemoteException
     {
         String raw = record.getMessage();

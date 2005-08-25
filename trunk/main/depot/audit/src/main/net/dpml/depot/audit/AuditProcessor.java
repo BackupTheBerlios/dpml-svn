@@ -33,8 +33,7 @@ import net.dpml.transit.model.Logger;
 import net.dpml.transit.store.TransitStorageHome;
 
 /**
- * The DepotInstaller is responsible for the establishment and integrity of 
- * the DPML installation.
+ * Command handler that lists information about installed applications.
  */
 public class AuditProcessor
 {

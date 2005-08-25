@@ -45,7 +45,7 @@ import net.dpml.transit.store.TransitStorageHome;
 
 /**
  * The DepotInstaller is responsible for the establishment and integrity of 
- * the DPML installation.
+ * the DPML installation and substytem install processes.
  */
 public class PackageInstaller implements Runnable
 {

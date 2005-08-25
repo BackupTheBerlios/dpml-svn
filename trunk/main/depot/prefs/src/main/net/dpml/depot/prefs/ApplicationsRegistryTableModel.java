@@ -30,7 +30,7 @@ import net.dpml.profile.ApplicationRegistry;
 /**
  * Table model that maps table rows to child nodes of a supplied preferences node.
  */
-public class ApplicationsRegistryTableModel extends AbstractTableModel
+class ApplicationsRegistryTableModel extends AbstractTableModel
 {
     //--------------------------------------------------------------------------
     // static

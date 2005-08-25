@@ -30,7 +30,7 @@ import net.dpml.transit.model.LayoutRegistryModel;
 /**
  * Table model that maps table rows to child nodes of a supplied preferences node.
  */
-public class LayoutRegistryTableModel extends AbstractTableModel
+class LayoutRegistryTableModel extends AbstractTableModel
 {
     //--------------------------------------------------------------------------
     // static

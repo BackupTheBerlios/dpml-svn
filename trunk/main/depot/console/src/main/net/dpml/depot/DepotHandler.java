@@ -26,6 +26,8 @@ import java.util.logging.LogRecord;
 import net.dpml.transit.PID;
 
 /**
+ * Logging message handler that redirects log messages from a subprocess to 
+ * a remote logging system.
  */
 public class DepotHandler extends Handler
 {

@@ -23,7 +23,7 @@ import net.dpml.depot.Main;
 import java.util.prefs.Preferences;
 
 /**
- * Depot package installer. 
+ * Handles the setup of Depot preferences.
  */
 public class DepotInstaller
 {

@@ -38,7 +38,7 @@ import net.dpml.transit.Transit;
 import net.dpml.transit.Artifact;
 
 /**
- * The local URL protocol connection implementation.
+ * The registry URL protocol connection implementation.
  */
 public class RegistryURLConnection extends URLConnection
 {
@@ -109,7 +109,7 @@ public class RegistryURLConnection extends URLConnection
 
    /**
     * Return an input stream to the resource.
-    * @return the input stream
+    * @return current implementation returns null
     * @exception IOException is an error occurs
     */
     public InputStream getInputStream()
@@ -120,7 +120,7 @@ public class RegistryURLConnection extends URLConnection
 
    /**
     * Return an output stream to the resource.
-    * @return the output stream
+    * @return current implementation returns null
     * @exception IOException if any I/O problems occur.
     */
     public OutputStream getOutputStream()
