@@ -12,9 +12,11 @@ copyright atrtribution to NOTICE.TXT.  Upgrade to Janel 2.5.0 (resolving
 issues with working directory resolution). Updates to DPML Station with 
 support for multi-JVM deployment and teardown.  Added a remote logging
 services that handles message aggregation from multiple JVMs to the central
-station and support for JCM process identity within the default log message
-formatter. Mahor cleanup of the profile API and implementation with 
-consolidation around the ApplicationProfile.
+station and support for JVM process identity within the default log message
+formatter. Major cleanup of the profile API and implementation with 
+consolidation around the ApplicationProfile class.  Updated Depot icons 
+based on content from CrystalXP.net and inclusion of credits in 
+NOTICE.TXT.
 
 Release Notes: Version 20050809
 -------------------------------

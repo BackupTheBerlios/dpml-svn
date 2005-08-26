@@ -11,6 +11,52 @@
 
     <section name="News &amp; Events">
 
+      <subsection name="26 August 2005 - Crystal XP Icons" >
+
+        <table>
+          <tr>
+            <td>
+              <a href="http://forum.crystalxp.net/index.php?showuser=194">
+                <img src="../../images/sponsorship/overlord.jpg" alt="OVERLORD59"/></a>
+            </td>
+          </tr>
+        </table>
+
+        <p>
+          Permission to use icons and graphics from the Crystal XP 
+          Alien collection and redistribution under ASL 2.0 as part of 
+          the Depot product has been granted by the author 
+          <a href="http://forum.crystalxp.net/index.php?showuser=194">Overlord59</a>.
+          Crystal XP is entirely devoted to the customisation of Windows XP 
+          under the Crystal style created by everaldo. The 
+          <a href="http://www.crystalxp.net">Crystal XP</a> site provides 
+          Tux, Icons, Penguins, Wallpapers, Visual Styles, PNG Icons, BricoPack, 
+          Everaldo icons, Software, Skins, a big forum... and more.
+        </p>
+
+        <table>
+          <tr>
+            <td>
+              <img src="../../images/sponsorship/desktop.png" alt="ALIEN"/>
+            </td>
+            <td>
+              <img src="../../images/sponsorship/AlienAquaRun.png" alt="ALIEN"/>
+            </td>
+          </tr>
+        </table>
+      </subsection>
+
+      <subsection name="23 August 2005 - Janel Project License." >
+        <p>
+        <a href="http://janel.sourceforge.net/janel">
+        Janel</a> is an open-source Java Launcher for Windows developed by Tim Kil.  The 
+        launcher provides excellent integration between the Windows OS environment 
+        and Java applications and is used within the DPML Depot application.  Tim Kil
+        announced today that the DPML may redistribute Janel under ASL 2.0 thereby 
+        maintaining our single license coverage.  
+        </p>
+      </subsection>
+   
       <subsection name="26 July 2005 - Milestone Release." >
         <p>
         A milestone release 20050726 has been prepared with final version of 

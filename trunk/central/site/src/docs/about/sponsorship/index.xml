@@ -7,7 +7,9 @@
   </properties>
 
   <body>
-    <section name="Sponsored Links">
+
+    <section name="Sponsors">
+
       <p>
         The following companies and organizations have actively contributed resources
         to the Digital Product Meta Library, for which we are very grateful.
@@ -59,7 +61,7 @@
             The Berlios project agrees to provide essential infrastructure services to 
             the DPML as part of their ongoing commitment to world-wide open-source 
             initiatives.  Berlios resources supplied to the DPML include secure SVN, 
-            web hosting, wiki services, bug tracking, and operations support. 
+            wiki services, bug tracking, and operations support. 
           </td>
           <td>
             <a href="http://developer.berlios.de">
@@ -68,6 +70,7 @@
             <br/>
          </td>
         </tr>
+
         <tr>
           <td>
             <a href="http://www.cenqua.com">
@@ -158,7 +161,26 @@
             </a>
           </td>
         </tr>
+
+        <tr>
+          <td>
+          </td>
+          <td>
+            Permission has been kindly granted by <strong>
+            <a href="http://eldorado.com">Eldorado</a></strong> for the use of 
+            images and icons in the content of this site and our desktop 
+            applications. Since 1998 Everaldo Coelho has worked as a graphic 
+            designer and illustrator, doing from general illustrations, comics 
+            and child books to corporate design and many other creative areas. 
+            Currently, he is the art director at Yellowicon Studio.
+          </td>
+          <td></td>
+        </tr>
+
       </table>
+
     </section>
+
   </body>
+
 </document>

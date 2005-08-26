@@ -529,9 +529,9 @@ public final class Main implements ShutdownHandler
     private TransitModel getTransitModel( String[] args ) throws RemoteException
     {
         //
-        // TODO: improve this so that we can direct the selction of the transit model
+        // TODO: improve this so that we can direct the selection of the transit model
         // in a way that would allow resolution of the model from the rmi registry
-        // e.g. -model rmi://some/name
+        // e.g. -transit registry://some/name
         //
 
         Logger logger = getLogger();
