@@ -30,7 +30,7 @@ import net.dpml.transit.store.CodeBaseStorage;
  *
  * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
  */
-abstract class DisposableCodeBaseModel extends DefaultCodeBaseModel implements Disposable
+public abstract class DisposableCodeBaseModel extends DefaultCodeBaseModel implements Disposable
 {
     // ------------------------------------------------------------------------
     // constructor

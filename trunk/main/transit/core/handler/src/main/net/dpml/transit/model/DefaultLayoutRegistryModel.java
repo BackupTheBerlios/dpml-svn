@@ -125,7 +125,7 @@ class DefaultLayoutRegistryModel extends DisposableCodeBaseModel
     */
     public LayoutModel[] getLayoutModels() throws RemoteException
     {
-        synchronized( m_lock )
+        synchronized( getLock() )
         {
             return (LayoutModel[]) m_list.toArray( new LayoutModel[0] );
         }
@@ -140,7 +140,7 @@ class DefaultLayoutRegistryModel extends DisposableCodeBaseModel
     */
     public LayoutModel getLayoutModel( String id ) throws UnknownKeyException, RemoteException
     {
-        synchronized( m_lock )
+        synchronized( getLock() )
         {
             if( null == id )
             {
@@ -167,7 +167,7 @@ class DefaultLayoutRegistryModel extends DisposableCodeBaseModel
     */
     public void removeLayoutModel( LayoutModel model ) throws ModelReferenceException, RemoteException
     {
-        synchronized( m_lock )
+        synchronized( getLock() )
         {
             try
             {
@@ -199,7 +199,7 @@ class DefaultLayoutRegistryModel extends DisposableCodeBaseModel
     private void addLayoutModel( LayoutModel manager, boolean notify ) 
       throws DuplicateKeyException, RemoteException
     {
-        synchronized( m_lock )
+        synchronized( getLock() )
         {
             String id = manager.getID();
             try

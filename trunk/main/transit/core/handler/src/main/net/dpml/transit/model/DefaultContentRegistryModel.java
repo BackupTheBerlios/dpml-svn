@@ -87,7 +87,7 @@ class DefaultContentRegistryModel extends DisposableCodeBaseModel
     */
     public ContentModel[] getContentModels() throws RemoteException
     {
-        synchronized( m_lock )
+        synchronized( getLock() )
         {
             return (ContentModel[]) m_list.toArray( new ContentModel[0] );
         }
@@ -103,7 +103,7 @@ class DefaultContentRegistryModel extends DisposableCodeBaseModel
     */
     public ContentModel getContentModel( String type ) throws UnknownKeyException, RemoteException
     {
-        synchronized( m_lock )
+        synchronized( getLock() )
         {
             ContentModel[] managers = getContentModels();
             for( int i=0; i < managers.length; i++ )
@@ -169,7 +169,7 @@ class DefaultContentRegistryModel extends DisposableCodeBaseModel
     */
     public void removeContentModel( ContentModel model ) throws RemoteException
     {
-        synchronized( m_lock )
+        synchronized( getLock() )
         {
             model.dispose();
             m_list.remove( model );
@@ -205,7 +205,7 @@ class DefaultContentRegistryModel extends DisposableCodeBaseModel
     private void addContentModel( ContentModel manager, boolean notify ) 
       throws DuplicateKeyException, RemoteException
     {
-        synchronized( m_lock )
+        synchronized( getLock() )
         {
             String id = manager.getContentType();
             try

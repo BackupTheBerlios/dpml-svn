@@ -33,7 +33,7 @@ import net.dpml.transit.store.Removable;
  *
  * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
  */
-class DefaultContentModel extends DisposableCodeBaseModel implements ContentModel
+public class DefaultContentModel extends DisposableCodeBaseModel implements ContentModel
 {
     //----------------------------------------------------------------------
     // state
@@ -53,7 +53,8 @@ class DefaultContentModel extends DisposableCodeBaseModel implements ContentMode
     * Construction of a new content model.
     * @param logger the assigned logging channel
     * @param uri the codebase uri
-    * @param type the contnet type key
+    * @param type the content type key
+    * @param title the title of the content type
     * @param properties properties to assign to the content model
     * @exception RemoteException if a remote exception occurs
     */
@@ -115,7 +116,7 @@ class DefaultContentModel extends DisposableCodeBaseModel implements ContentMode
     */
     public void setTitle( String title ) throws RemoteException
     {
-        synchronized( m_lock )
+        synchronized( getLock() )
         {
             m_title = title;
 
@@ -157,7 +158,7 @@ class DefaultContentModel extends DisposableCodeBaseModel implements ContentMode
     */
     public void setProperty( String key, String value )
     {
-        synchronized( m_lock )
+        synchronized( getLock() )
         {
             Object result = m_properties.setProperty( key, value );
             if( null != m_home )
@@ -175,7 +176,7 @@ class DefaultContentModel extends DisposableCodeBaseModel implements ContentMode
     */
     public void removeProperty( String key )
     {
-        synchronized( m_lock )
+        synchronized( getLock() )
         {
             Object result = m_properties.remove( key );
             if( null != m_home )

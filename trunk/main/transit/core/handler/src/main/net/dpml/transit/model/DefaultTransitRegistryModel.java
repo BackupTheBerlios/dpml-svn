@@ -81,7 +81,7 @@ public class DefaultTransitRegistryModel extends DefaultModel implements Transit
     */
     public int getTransitModelCount()
     {
-        synchronized( m_lock )
+        synchronized( getLock() )
         {
             return m_list.size();
         }
@@ -159,7 +159,7 @@ public class DefaultTransitRegistryModel extends DefaultModel implements Transit
     private void addTransitModel( TransitModel model, boolean notify ) 
       throws DuplicateKeyException, RemoteException
     {
-        synchronized( m_lock )
+        synchronized( getLock() )
         {
             String id = model.getID();
             try
@@ -186,7 +186,7 @@ public class DefaultTransitRegistryModel extends DefaultModel implements Transit
     */
     public TransitModel[] getTransitModels() throws RemoteException
     {
-        synchronized( m_lock )
+        synchronized( getLock() )
         {
             return (TransitModel[]) m_list.toArray( new TransitModel[0] );
         }
@@ -201,7 +201,7 @@ public class DefaultTransitRegistryModel extends DefaultModel implements Transit
     */
     public TransitModel getTransitModel( String id ) throws UnknownKeyException, RemoteException
     {
-        synchronized( m_lock )
+        synchronized( getLock() )
         {
             if( null == id )
             {
@@ -228,7 +228,7 @@ public class DefaultTransitRegistryModel extends DefaultModel implements Transit
     */
     public void removeTransitModel( TransitModel model ) throws ModelReferenceException, RemoteException
     {
-        synchronized( m_lock )
+        synchronized( getLock() )
         {
             try
             {

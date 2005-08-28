@@ -33,7 +33,7 @@ import net.dpml.transit.store.CodeBaseStorage;
  *
  * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
  */
-abstract class DefaultCodeBaseModel extends DefaultModel implements CodeBaseModel
+public abstract class DefaultCodeBaseModel extends DefaultModel implements CodeBaseModel
 {
     // ------------------------------------------------------------------------
     // state
@@ -99,7 +99,7 @@ abstract class DefaultCodeBaseModel extends DefaultModel implements CodeBaseMode
     */
     protected void setCodeBaseURI( URI uri, boolean notify )
     {
-        synchronized( m_lock )
+        synchronized( getLock() )
         {
             m_uri = uri;
             if( null != m_home )
@@ -120,7 +120,7 @@ abstract class DefaultCodeBaseModel extends DefaultModel implements CodeBaseMode
     */
     public URI getCodeBaseURI()
     {
-        synchronized( m_lock )
+        synchronized( getLock() )
         {
             return m_uri;
         }

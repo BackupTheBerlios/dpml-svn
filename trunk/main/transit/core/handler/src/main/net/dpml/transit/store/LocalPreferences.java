@@ -81,6 +81,7 @@ public class LocalPreferences extends AbstractPreferences
 
    /**
     * Remove the preferences node.
+    * @exception BackingStoreException if a backing store exception occurs 
     */
     protected void removeNodeSpi() throws BackingStoreException
     {
@@ -94,6 +95,7 @@ public class LocalPreferences extends AbstractPreferences
    /**
     * Return the set of attribute keys in this preferences node.
     * @return the array of attribute names
+    * @exception BackingStoreException if a backing store exception occurs 
     */
     protected String[] keysSpi() throws BackingStoreException 
     {
@@ -103,6 +105,7 @@ public class LocalPreferences extends AbstractPreferences
    /**
     * Return an array of child node names.
     * @return the array of child node names
+    * @exception BackingStoreException if a backing store exception occurs 
     */
     protected String[] childrenNamesSpi() throws BackingStoreException 
     {
@@ -134,6 +137,7 @@ public class LocalPreferences extends AbstractPreferences
 
    /**
     * Synchronize changes.
+    * @exception BackingStoreException if a backing store exception occurs 
     */
     protected void syncSpi() throws BackingStoreException
     {
@@ -141,6 +145,7 @@ public class LocalPreferences extends AbstractPreferences
 
    /**
     * Flush changes.
+    * @exception BackingStoreException if a backing store exception occurs 
     */
     protected void flushSpi() throws BackingStoreException
     {

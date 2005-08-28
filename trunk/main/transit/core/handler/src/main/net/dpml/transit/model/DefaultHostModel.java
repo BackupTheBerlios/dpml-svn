@@ -254,7 +254,7 @@ class DefaultHostModel extends DisposableCodeBaseModel
       PasswordAuthentication auth, String scheme, String prompt ) 
       throws BootstrapException, UnknownKeyException, RemoteException, MalformedURLException
     {
-        synchronized( m_lock )
+        synchronized( getLock() )
         {
             LayoutModel layoutModel = m_registry.getLayoutModel( layout );
             setLayoutModel( layoutModel );
@@ -288,7 +288,7 @@ class DefaultHostModel extends DisposableCodeBaseModel
     */
     public void setName( String name ) throws RemoteException
     {
-        synchronized( m_lock )
+        synchronized( getLock() )
         {
             m_name = name;
 
@@ -309,7 +309,7 @@ class DefaultHostModel extends DisposableCodeBaseModel
     */
     public void setPriority( int priority ) throws RemoteException
     {
-        synchronized( m_lock )
+        synchronized( getLock() )
         {
             m_priority = priority;
 
@@ -335,7 +335,7 @@ class DefaultHostModel extends DisposableCodeBaseModel
     */
     public void setLayoutModel( LayoutModel layout ) throws BootstrapException, RemoteException
     {
-        synchronized( m_lock )
+        synchronized( getLock() )
         {
             checkLayout( layout );
             m_layout.removeDisposalListener( this );
@@ -381,7 +381,7 @@ class DefaultHostModel extends DisposableCodeBaseModel
     */
     public int getPriority() throws RemoteException
     {
-        synchronized( m_lock )
+        synchronized( getLock() )
         {
             return m_priority;
         }
@@ -394,7 +394,7 @@ class DefaultHostModel extends DisposableCodeBaseModel
     */
     public String getHostName() throws RemoteException
     {
-        synchronized( m_lock )
+        synchronized( getLock() )
         {
             return m_name;
         }
@@ -407,7 +407,7 @@ class DefaultHostModel extends DisposableCodeBaseModel
     */
     public String getBasePath() throws RemoteException
     {
-        synchronized( m_lock )
+        synchronized( getLock() )
         {
             return m_base;
         }
@@ -420,7 +420,7 @@ class DefaultHostModel extends DisposableCodeBaseModel
     */
     public URL getBaseURL() throws RemoteException
     {
-        synchronized( m_lock )
+        synchronized( getLock() )
         {
             return m_baseURL;
         }
@@ -433,7 +433,7 @@ class DefaultHostModel extends DisposableCodeBaseModel
     */
     public String getIndexPath() throws RemoteException
     {
-        synchronized( m_lock )
+        synchronized( getLock() )
         {
             return m_index;
         }
@@ -446,7 +446,7 @@ class DefaultHostModel extends DisposableCodeBaseModel
     */
     public URL getIndexURL() throws RemoteException
     {
-        synchronized( m_lock )
+        synchronized( getLock() )
         {
             return m_indexURL;
         }
@@ -459,7 +459,7 @@ class DefaultHostModel extends DisposableCodeBaseModel
     */
     public boolean getEnabled() throws RemoteException
     {
-        synchronized( m_lock )
+        synchronized( getLock() )
         {
             return m_enabled;
         }
@@ -472,7 +472,7 @@ class DefaultHostModel extends DisposableCodeBaseModel
     */
     public boolean getTrusted() throws RemoteException
     {
-        synchronized( m_lock )
+        synchronized( getLock() )
         {
             return m_trusted;
         }
@@ -485,7 +485,7 @@ class DefaultHostModel extends DisposableCodeBaseModel
     */
     public PasswordAuthentication getAuthentication() throws RemoteException
     {
-        synchronized( m_lock )
+        synchronized( getLock() )
         {
             return m_authentication;
         }
@@ -498,7 +498,7 @@ class DefaultHostModel extends DisposableCodeBaseModel
     */
     public RequestIdentifier getRequestIdentifier() throws RemoteException
     {
-        synchronized( m_lock )
+        synchronized( getLock() )
         {
             return m_identifier;
         }
@@ -511,7 +511,7 @@ class DefaultHostModel extends DisposableCodeBaseModel
     */
     public LayoutModel getLayoutModel() throws RemoteException
     {
-        synchronized( m_lock )
+        synchronized( getLock() )
         {
             return m_layout;
         }
@@ -595,7 +595,7 @@ class DefaultHostModel extends DisposableCodeBaseModel
 
     private void setEnabled( boolean enabled )
     {
-        synchronized( m_lock )
+        synchronized( getLock() )
         {
             m_enabled = enabled;
         }

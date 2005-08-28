@@ -105,7 +105,7 @@ class DefaultProxyModel extends DefaultModel implements ProxyModel
     */   
     public void update( URL host, PasswordAuthentication auth, String[] excludes )
     {
-        synchronized( m_lock )
+        synchronized( getLock() )
         {
             m_host = host;
             m_authentication = auth;
@@ -129,7 +129,7 @@ class DefaultProxyModel extends DefaultModel implements ProxyModel
     */
     public void setHost( URL host )
     {
-        synchronized( m_lock )
+        synchronized( getLock() )
         {
             m_host = host;
 
@@ -151,7 +151,7 @@ class DefaultProxyModel extends DefaultModel implements ProxyModel
     */
     public void setExcludes( String[] excludes )
     {
-        synchronized( m_lock )
+        synchronized( getLock() )
         {
             m_excludes = excludes;
 
@@ -173,7 +173,7 @@ class DefaultProxyModel extends DefaultModel implements ProxyModel
     */
     public void setAuthentication( PasswordAuthentication auth )
     {
-        synchronized( m_lock )
+        synchronized( getLock() )
         {
             m_authentication = auth;
 

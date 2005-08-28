@@ -21,21 +21,14 @@ package net.dpml.transit.registry;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.FileInputStream;
 import java.io.OutputStream;
-import java.io.FileOutputStream;
-import java.io.File;
 import java.net.URL;
 import java.net.URLConnection;
 import java.security.AccessController;
 import java.security.PrivilegedExceptionAction;
 import java.security.PrivilegedActionException;
-import java.security.PrivilegedAction;
 import java.rmi.registry.Registry;
 import java.rmi.registry.LocateRegistry;
-
-import net.dpml.transit.Transit;
-import net.dpml.transit.Artifact;
 
 /**
  * The registry URL protocol connection implementation.

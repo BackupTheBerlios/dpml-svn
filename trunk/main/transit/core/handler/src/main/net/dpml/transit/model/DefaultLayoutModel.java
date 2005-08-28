@@ -130,7 +130,7 @@ class DefaultLayoutModel extends DisposableCodeBaseModel implements LayoutModel
     */
     public void setTitle( String title ) throws RemoteException
     {
-        synchronized( m_lock )
+        synchronized( getLock() )
         {
             m_title = title;
 
@@ -184,7 +184,7 @@ class DefaultLayoutModel extends DisposableCodeBaseModel implements LayoutModel
     */
     public String getTitle() throws RemoteException
     {
-        synchronized( m_lock )
+        synchronized( getLock() )
         {
             return m_title;
         }

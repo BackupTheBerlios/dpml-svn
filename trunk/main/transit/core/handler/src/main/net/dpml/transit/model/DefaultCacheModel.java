@@ -173,7 +173,7 @@ class DefaultCacheModel extends DisposableCodeBaseModel
     */
     protected void setCacheDirectoryPath( final String path, boolean notify ) throws RemoteException
     {
-        synchronized( m_lock )
+        synchronized( getLock() )
         {
             if( null == path )
             {
@@ -223,7 +223,7 @@ class DefaultCacheModel extends DisposableCodeBaseModel
     */
     public HostModel[] getHostModels() throws RemoteException
     {
-        synchronized( m_lock )
+        synchronized( getLock() )
         {
             return m_sortedHosts;
         }
@@ -238,7 +238,7 @@ class DefaultCacheModel extends DisposableCodeBaseModel
     */
     public HostModel getHostModel( String id ) throws UnknownKeyException, RemoteException
     {
-        synchronized( m_lock )
+        synchronized( getLock() )
         {
             HostModel[] managers = getHostModels();
             for( int i=0; i < managers.length; i++ )
@@ -286,7 +286,7 @@ class DefaultCacheModel extends DisposableCodeBaseModel
     */
     public void removeHostModel( HostModel model ) throws RemoteException
     {
-        synchronized( m_lock )
+        synchronized( getLock() )
         {
             model.dispose();
             m_list.remove( model );
@@ -362,7 +362,7 @@ class DefaultCacheModel extends DisposableCodeBaseModel
     */
     void addHostModel( HostModel manager, boolean notify ) throws DuplicateKeyException, RemoteException
     {
-        synchronized( m_lock )
+        synchronized( getLock() )
         {
             String id = manager.getID();
             try
@@ -486,7 +486,7 @@ class DefaultCacheModel extends DisposableCodeBaseModel
 
     private HostModel[] sortHosts() throws RemoteException
     {
-        synchronized( m_lock )
+        synchronized( getLock() )
         {
             HostModel[] hosts = (HostModel[]) m_list.toArray( new HostModel[0] );
             HostModel[] list = new HostModel[ hosts.length ];

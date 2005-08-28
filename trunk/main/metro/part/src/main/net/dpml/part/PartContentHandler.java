@@ -24,6 +24,7 @@ import java.net.URI;
 import java.net.URL;
 import java.net.ContentHandler;
 import java.util.Properties;
+import java.util.Date;
 
 import net.dpml.transit.Transit;
 import net.dpml.transit.model.Logger;
@@ -33,6 +34,7 @@ import net.dpml.transit.Repository;
 
 import net.dpml.part.Part;
 import net.dpml.part.component.Component;
+import net.dpml.part.component.Container;
 import net.dpml.part.control.Controller;
 
 /**
@@ -46,6 +48,20 @@ public class PartContentHandler extends ContentHandler
     {
         m_model = content;
         m_logger = logger;
+    }
+
+    public Container getRootContainer() 
+    {
+        try
+        {
+           return newController().getContainer();
+        }
+        catch( Throwable e )
+        {
+            final String error =
+              "Internal error while attempting to establish the root container.";
+            throw new RuntimeException( error, e );
+        }
     }
 
     public Controller newController()
@@ -160,7 +176,8 @@ public class PartContentHandler extends ContentHandler
         {
             String path = url.toExternalForm();
             URI uri = new URI( path );
-            return getController().getContainer().addComponent( null, uri );
+            String name = "" + new Date().getTime(); // fabricate a unique name
+            return getController().getContainer().addComponent( name, uri );
         }
         catch( Throwable e )
         {

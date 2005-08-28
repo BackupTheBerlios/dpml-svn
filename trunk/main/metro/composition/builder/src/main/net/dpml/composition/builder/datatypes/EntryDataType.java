@@ -198,7 +198,7 @@ public class EntryDataType extends ValueDataType implements PartReferenceBuilder
         String value = getValue();
         if( null != value )
         {
-            return new ValueDirective( key, classname, value );
+            return new ValueDirective( classname, value );
         }
         else
         {
@@ -209,7 +209,7 @@ public class EntryDataType extends ValueDataType implements PartReferenceBuilder
                  ValueDataType p = params[i];
                  values[i] = p.constructValue();
             }
-            return new ValueDirective( key, classname, values );
+            return new ValueDirective( classname, values );
         }
     }
 

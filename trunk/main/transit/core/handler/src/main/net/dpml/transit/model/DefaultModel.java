@@ -33,7 +33,7 @@ import net.dpml.transit.monitor.LoggingAdapter;
  * A abstract base class that established an event queue and handles event dispatch 
  * operations for listeners declared in classes extending this base class.
  */
-abstract class DefaultModel extends UnicastRemoteObject
+public abstract class DefaultModel extends UnicastRemoteObject
 {
     // ------------------------------------------------------------------------
     // state
@@ -49,7 +49,7 @@ abstract class DefaultModel extends UnicastRemoteObject
    /**
     * Internal synchronization lock.
     */
-    protected final Object m_lock = new Object();
+    private final Object m_lock = new Object();
 
     // ------------------------------------------------------------------------
     // constructor
@@ -153,7 +153,7 @@ abstract class DefaultModel extends UnicastRemoteObject
     * @param listener the event listener
     * @exception NullPointerException if the supplied listener is null
     */
-    protected void addListener( EventListener listener ) 
+    protected void addListener( EventListener listener ) throws NullPointerException 
     {
         if( null == listener )
         {
@@ -172,7 +172,7 @@ abstract class DefaultModel extends UnicastRemoteObject
     * @param listener the event listener
     * @exception NullPointerException if the supplied listener is null
     */
-    protected void removeListener( EventListener listener )
+    protected void removeListener( EventListener listener ) throws NullPointerException 
     {
         if( null == listener )
         {
@@ -291,8 +291,18 @@ abstract class DefaultModel extends UnicastRemoteObject
         }
     }
 
+   /**
+    * Return the internal synchronization lock object.
+    * @return the lock object
+    */
+    protected Object getLock()
+    {
+        return m_lock;
+    }
+
     /**
      * Return the set of registered listeners.
+     * @return an array of registered listeners
      */
     protected EventListener[] listeners() 
     {
@@ -306,6 +316,8 @@ abstract class DefaultModel extends UnicastRemoteObject
      * Enqueue an event for delivery to registered
      * listeners unless there are no registered
      * listeners.
+     *
+     * @param event the event object to add to the queue
      */
     protected void enqueueEvent( EventObject event )
     {
@@ -316,6 +328,9 @@ abstract class DefaultModel extends UnicastRemoteObject
      * Enqueue an event for delivery to registered
      * listeners unless there are no registered
      * listeners.
+     *
+     * @param event the event object to add to the queue
+     * @param asynchronouse TRUE if asynchronouse delivery
      */
     protected void enqueueEvent( EventObject event, boolean asynchronouse )
     {

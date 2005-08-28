@@ -30,7 +30,6 @@ import net.dpml.transit.model.TransitModel;
 import net.dpml.transit.model.Logger;
 import net.dpml.transit.model.DefaultTransitModel;
 import net.dpml.transit.monitor.Adapter;
-import net.dpml.transit.monitor.LoggingAdapter;
 import net.dpml.transit.monitor.RepositoryMonitorAdapter;
 import net.dpml.transit.monitor.CacheMonitorAdapter;
 import net.dpml.transit.monitor.NetworkMonitorAdapter;
@@ -60,10 +59,19 @@ abstract class TransitTask extends Task
     private static boolean m_INIT = false;
     private static TransitModel m_MODEL;
 
+   /**
+    * Creation of a new TransitTask.
+    */
     public TransitTask()
     {
     }
 
+   /**
+    * Creation of a new TransitTask.
+    * @param model the assigned transit model
+    * @param logger the assinged logging channel
+    * @exception if an error occurs
+    */
     public TransitTask( TransitModel model, Logger logger ) throws Exception
     {
         if( null == m_MODEL )
@@ -72,7 +80,7 @@ abstract class TransitTask extends Task
             Transit transit = Transit.getInstance();
             if( logger instanceof Adapter )
             {
-                setupMonitors( transit, (Adapter)logger );
+                setupMonitors( transit, (Adapter) logger );
             }
             else
             {
@@ -83,12 +91,21 @@ abstract class TransitTask extends Task
         }
     }
 
+   /**
+    * Set the project.
+    * @param project the project
+    */
     public void setProject( Project project )
     {
         super.setProject( project );
         initialize( this );
     }
 
+   /**
+    * Initialize the supplied task.
+    * @param task the task to initialize
+    * @exception BuildException if an initialization error occurs
+    */
     public static void initialize( Task task ) throws BuildException
     {
         synchronized( TransitTask.class )

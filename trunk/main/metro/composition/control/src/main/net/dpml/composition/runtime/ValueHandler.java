@@ -54,6 +54,7 @@ public class ValueHandler extends UnicastRemoteObject implements Component, Clas
     // state
     //--------------------------------------------------------------
 
+    private final String m_name;
     private final URI m_uri;
     private final ValueDirective m_directive;
     private final ClassLoader m_classloader;
@@ -84,7 +85,7 @@ public class ValueHandler extends UnicastRemoteObject implements Component, Clas
     */
     public ValueHandler(
         Logger logger, CompositionController controller, ClassLoader classloader, 
-        URI uri, ValueDirective part, Component parent ) throws RemoteException
+        URI uri, String name, ValueDirective part, Component parent ) throws RemoteException
     {
         super();
 
@@ -100,7 +101,12 @@ public class ValueHandler extends UnicastRemoteObject implements Component, Clas
         {
             throw new NullPointerException( "part" );
         }
+        if( null == name )
+        {
+            throw new NullPointerException( "name" );
+        }
 
+        m_name = name;
         m_logger = logger;
         m_parent = parent;
         m_controller = controller;
@@ -144,7 +150,7 @@ public class ValueHandler extends UnicastRemoteObject implements Component, Clas
 
     public String getName() throws RemoteException
     {
-        return m_directive.getKey();
+        return m_name;
     }
 
     public ValueController getValueController()

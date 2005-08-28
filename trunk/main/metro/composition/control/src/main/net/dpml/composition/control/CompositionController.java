@@ -237,27 +237,29 @@ public class CompositionController extends CompositionPartHandler implements Con
     public Component newComponent( Container container, ClassLoader classloader, Part part, String name )
       throws ComponentException, PartHandlerNotFoundException, DelegationException, RemoteException
     {
+        if( null == name )
+        {
+            throw new NullPointerException( "name" );
+        }
+
         URI partition = getPartition( container );
         if( isRecognizedPart( part ) )
         {
             if( part instanceof ValueDirective )
             {
                 ValueDirective directive = (ValueDirective) part;
-                String defaultName = directive.getKey();
-                String theName = getName( defaultName, name );
-                URI id = createURI( partition, theName );
-                Logger logger = getLogger().getChildLogger( theName );
-                logger.debug( "constructing value [" + theName + "] as [" + id + "]" );
-                return new ValueHandler( logger, this, classloader, id, directive, container );
+                URI id = createURI( partition, name );
+                Logger logger = getLogger().getChildLogger( name );
+                logger.debug( "constructing value [" + name + "] as [" + id + "]" );
+                return new ValueHandler( logger, this, classloader, id, name, directive, container );
             }
             else if( part instanceof ComponentDirective )
             {
                 ComponentDirective profile = (ComponentDirective) part;
                 String defaultName = profile.getName();
-                String theName = getName( defaultName, name );
-                URI id = createURI( partition, theName );
-                getLogger().debug( "constructing component: " + theName + " as [" + id + "]" );
-                Logger logger = getLogger().getChildLogger( theName );
+                URI id = createURI( partition, name );
+                getLogger().debug( "constructing component: " + name + " as [" + id + "]" );
+                Logger logger = getLogger().getChildLogger( name );
                 ClassLoader loader = getClassLoader( classloader, id, profile );
                 return new CompositionHandler( logger, this, loader, id, profile, container );
             }

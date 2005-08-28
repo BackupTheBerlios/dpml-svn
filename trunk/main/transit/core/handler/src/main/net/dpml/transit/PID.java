@@ -32,6 +32,9 @@ public class PID implements Serializable
 {
     private final int m_id;
 
+   /**
+    * Creation of a new process identifier.
+    */
     public PID()
     {
         m_id = setupInitialValue();
@@ -57,16 +60,29 @@ public class PID implements Serializable
         }
     }
 
+   /**
+    * Return the process identifier int value.
+    * @return the process id value
+    */
     public int getValue()
     {
         return m_id;
     }
 
+   /**
+    * Return the string representation of this process identifier.
+    * @return the process identifier as a string
+    */
     public String toString()
     {
         return "[" + m_id + "]";
     }
 
+   /**
+    * Test if a supplied object is equal to this process identifier.
+    * @param other the object to compare with this object
+    * @return TRUE if the objects are equivalent
+    */
     public boolean equals( Object other )
     {
        if( other instanceof PID )
@@ -80,6 +96,10 @@ public class PID implements Serializable
        }
     }
 
+   /**
+    * Return the hashcode for this PID instance.
+    * @return the hashcode value
+    */
     public int hashCode()
     {
         return getValue();

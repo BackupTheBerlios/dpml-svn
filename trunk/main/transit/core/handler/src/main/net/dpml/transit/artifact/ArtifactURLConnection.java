@@ -164,7 +164,7 @@ public class ArtifactURLConnection extends URLConnection
     * @return the content object (possibly null)
     * @exception IOException is an error occurs
     */
-    public Object getContent( )
+    public Object getContent()
         throws IOException
     {
         Object content = getContent( new Class[0] );

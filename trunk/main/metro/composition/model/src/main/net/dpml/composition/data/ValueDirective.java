@@ -1,5 +1,5 @@
 /*
- * Copyright 2004 Stephen J. McConnell.
+ * Copyright 2004-2005 Stephen J. McConnell.
  *
  * Licensed  under the  Apache License,  Version 2.0  (the "License");
  * you may not use  this file  except in  compliance with the License.
@@ -67,7 +67,6 @@ public class ValueDirective implements Part, Serializable
     // state
     //--------------------------------------------------------------------------
 
-    private final String m_key;
     private final String m_classname;
     private final String m_local;
     private final Value[] m_values;
@@ -78,32 +77,21 @@ public class ValueDirective implements Part, Serializable
 
     public ValueDirective( String value )
     {
-        this( "anonymous", value );
+        this( String.class.getName(), value );
     }
 
-    public ValueDirective( String key, String value )
-    {
-        this( key, String.class.getName(), value );
-    }
-
-    public ValueDirective( String key, String classname, String value )
+    public ValueDirective( String classname, String value )
     {
         if( null == classname )
         {
             throw new NullPointerException( "classname" );
         }
-        if( null == key )
-        {
-            throw new NullPointerException( "key" );
-        }
-        m_key = key;
         m_classname = classname;
         m_local = value;
-
         m_values = new Value[0];
     }
 
-    public ValueDirective( String key, String classname, Value[] values )
+    public ValueDirective( String classname, Value[] values )
     {
         if( null == classname )
         {
@@ -113,11 +101,6 @@ public class ValueDirective implements Part, Serializable
         {
             throw new NullPointerException( "values" );
         }
-        if( null == key )
-        {
-            throw new NullPointerException( "key" );
-        }
-        m_key = key;
         m_classname = classname;
         m_values = values;
         m_local = null;
@@ -139,11 +122,6 @@ public class ValueDirective implements Part, Serializable
     //--------------------------------------------------------------------------
     // ValueDirective
     //--------------------------------------------------------------------------
-
-    public String getKey()
-    {
-        return m_key;
-    }
 
     public String getClassname()
     {
@@ -173,11 +151,12 @@ public class ValueDirective implements Part, Serializable
         else
         {
             ValueDirective value = (ValueDirective) other;
-            if( false == equals( m_key, value.getKey() ) )
-            {
-                return false;
-            }
-            else if( false == equals( m_classname, value.getClassname() ) )
+            //if( false == equals( m_key, value.getKey() ) )
+            //{
+            //    return false;
+            //}
+            //else 
+            if( false == equals( m_classname, value.getClassname() ) )
             {
                 return false;
             }
@@ -209,11 +188,12 @@ public class ValueDirective implements Part, Serializable
 
     public int hashCode()
     {
-        int hash = m_key.hashCode();
-        if( null != m_classname )
-        {
-            hash ^= m_classname.hashCode();
-        }
+        //int hash = m_key.hashCode();
+        int hash = m_classname.hashCode();
+        //if( null != m_classname )
+        //{
+        //    hash ^= m_classname.hashCode();
+        //}
         if( null != m_local )
         {
             hash ^= m_local.hashCode();
