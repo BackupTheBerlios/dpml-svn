@@ -181,11 +181,11 @@ public class DefaultLogger implements net.dpml.logging.Logger
             path = path.substring( 0, path.length() - 1 );
         }
         path = path.replace( '/', '.' );
+        if( path.startsWith( "." ) )
+        {
+            path = path.substring( 1 );
+        }
         return new DefaultLogger( path );
     }
-
-    // ------------------------------------------------------------------------
-    // implementation
-    // ------------------------------------------------------------------------
 }
 

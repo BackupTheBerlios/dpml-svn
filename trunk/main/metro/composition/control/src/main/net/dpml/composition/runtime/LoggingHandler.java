@@ -66,7 +66,7 @@ class LoggingHandler
     {
         URI uri = component.getLocalURI();
         String path = uri.getSchemeSpecificPart();
-        String channel = path.replace( '/', '.' );
+        String channel = trim( path.replace( '/', '.' ) );
         if( category != null )
         {
             channel = channel + "." + category.replace( '/', '.' );

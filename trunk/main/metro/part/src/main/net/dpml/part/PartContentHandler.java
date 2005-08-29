@@ -55,6 +55,8 @@ public class PartContentHandler extends ContentHandler
     {
         m_logger = logger;
 
+        File working = resolveWorkingDir( work );
+
         try
         {
             ClassLoader classloader = Part.class.getClassLoader();
@@ -71,7 +73,7 @@ public class PartContentHandler extends ContentHandler
             Object[] params = 
               new Object[]
               {
-                  logger, work, temp
+                  logger, working, temp
               };
             
             Constructor constructor = clazz.getConstructor( signature );
@@ -82,6 +84,27 @@ public class PartContentHandler extends ContentHandler
             final String error =
               "Internal error while attempting to establish the composition controller.";
             throw new RuntimeException( error, e );
+        }
+    }
+
+    private File resolveWorkingDir( File work )
+    {
+        if( null != work )
+        {
+            return work;
+        }
+        else
+        {
+            String path = System.getProperty( "project.test.dir" );
+            if( null == path )
+            {
+                String classic = System.getProperty( "user.dir" );
+                return new File( classic );
+            }
+            else
+            {
+                return new File( path );
+            }
         }
     }
 
