@@ -67,7 +67,7 @@ class DefaultLayoutModel extends DisposableCodeBaseModel implements LayoutModel
       final Logger logger, final String id, Strategy strategy, final String title )
       throws RemoteException
     {
-        super( logger, (URI) null );
+        super( logger, (URI) null, new Parameter[0] );
 
         m_home = null;
 

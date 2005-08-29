@@ -20,25 +20,19 @@ package net.dpml.profile.model;
 
 import java.util.Properties;
 
-import net.dpml.profile.Parameter;
-
-import net.dpml.transit.store.CodeBaseStorage;
+import net.dpml.transit.store.ContentStorage;
 import net.dpml.transit.store.Removable;
 
 /**
  *
  */
-public interface ApplicationStorage extends CodeBaseStorage, Removable
+public interface ApplicationStorage extends ContentStorage, Removable
 {
     String getID();
-
-    String getTitle();
 
     boolean getEnabled();
 
     boolean isaServer();
 
     Properties getSystemProperties();
-
-    Parameter[] getParameters();
 }

@@ -77,6 +77,7 @@ class DefaultHostModel extends DisposableCodeBaseModel
     * @param logger the assigned logging channel
     * @param registry the layout model registry 
     * @param uri the codebase uri
+    * @param params the codebase parameters
     * @param id the host model identifier
     * @param base the host base url path
     * @param index the host index path
@@ -94,12 +95,12 @@ class DefaultHostModel extends DisposableCodeBaseModel
     * @exception RemoteException if a remote exception occurs
     */
     public DefaultHostModel( 
-      Logger logger, LayoutRegistryModel registry, URI uri, String id, String base, String index, 
+      Logger logger, LayoutRegistryModel registry, URI uri, Parameter[] params, String id, String base, String index, 
       String name, boolean trusted, boolean enabled, int priority, String layout, 
       PasswordAuthentication auth, String scheme, String prompt, boolean bootstrap ) 
       throws RemoteException, UnknownKeyException, MalformedURLException
     {
-        super( logger, uri );
+        super( logger, uri, params );
 
         m_home = null;
         m_registry = registry;

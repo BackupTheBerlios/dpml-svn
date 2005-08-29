@@ -27,6 +27,7 @@ import java.util.prefs.BackingStoreException;
 import java.util.prefs.Preferences;
 
 import net.dpml.transit.model.Logger;
+import net.dpml.transit.store.AbstractStorageUnit;
 import net.dpml.transit.store.StorageRuntimeException;
 
 /**

@@ -17,7 +17,11 @@ Release Notes: Version SNAPSHOT
 Add a registry protocol handler enabling publication of regerences to an 
 RMI registry in the form registry://[host]:[port]/[path] or the shortform
 registry:/[path]. Updates to the standard log message formatter to include
-the JVM process identifier.
+the JVM process identifier.  Updates to the ContentModel implementation to
+include the declaration of constructed types used as plugin parameters.
+Improvement to the plugin loader preventing the assignment of an argument 
+to more than one constructor parameter value.  Addition of support for
+primitive arguments in plugin constructors (such as int, boolean, etc.).
 
 Release Notes: Version 20050809
 -------------------------------

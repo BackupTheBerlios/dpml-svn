@@ -18,14 +18,10 @@
 
 package net.dpml.part;
 
-import java.io.IOException;
-import java.net.URLConnection;
 import java.net.ContentHandler;
 import java.net.ContentHandlerFactory;
-import java.util.Properties;
 
 import net.dpml.transit.model.Logger;
-import net.dpml.transit.model.ContentModel;
 import net.dpml.transit.monitor.LoggingAdapter;
 
 
@@ -40,65 +36,14 @@ public class PartContentHandlerFactory implements ContentHandlerFactory
     {
         try
         {
-            Logger logger = resolveLogger( null );
-            ContentModel content = newContentModel( logger );
-            return new PartContentHandler( logger, content );
+            Logger logger = new LoggingAdapter( "part" );
+            return new PartContentHandler( logger, null, null );
         }
-        catch( Exception e )
+        catch( Throwable e )
         {
-            System.err.println( "Exception while attempting to establish the default content handler." );
-            e.printStackTrace();
-            return null;
-        }
-    }
-
-    public static ContentModel newContentModel() throws Exception
-    {
-        Logger logger = resolveLogger( null );
-        return newContentModel( logger );
-    }
-
-    public static ContentModel newContentModel( Logger logger ) throws Exception
-    {
-        return newContentModel( logger, null );
-    }
-
-    public static ContentModel newContentModel( Logger logger, Properties properties ) throws Exception
-    {
-        String title = "Default Part Handler.";
-        String type = "part";
-        Logger log = resolveLogger( logger );
-        Properties props = resolveProperties( properties );
-        return new DefaultContentModel( log, null, type, title, props );
-    }
-
-    private static Properties resolveProperties( Properties properties )
-    {
-        if( null != properties )
-        {
-            return properties;
-        }
-        else
-        {
-            Properties props = new Properties();
-            String dir = System.getProperty( "project.test.dir" );
-            if( null != dir )
-            {
-                props.put( "work.dir", dir );
-            }
-            return props;
-       }
-    }
-
-    private static Logger resolveLogger( Logger logger )
-    {
-        if( null != logger )
-        {
-            return logger;
-        }
-        else
-        {
-            return new LoggingAdapter( "part" );
+            final String error = 
+              "Internal error while atrempting to construct the 'part' content handler.";
+            throw new RuntimeException( error, e );
         }
     }
 

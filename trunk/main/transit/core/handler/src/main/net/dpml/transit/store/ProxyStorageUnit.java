@@ -82,7 +82,7 @@ class ProxyStorageUnit extends AbstractStorageUnit implements ProxyStorage
         }
         else
         {
-            byte[] bytes = CredentialsHelper.exportCredentials( auth );
+            byte[] bytes = SerializationHelper.exportCredentials( auth );
             prefs.putByteArray( "authentication", bytes );
         }
     }
@@ -164,7 +164,7 @@ class ProxyStorageUnit extends AbstractStorageUnit implements ProxyStorage
         }
         else
         {
-            return CredentialsHelper.importCredentials( bytes );
+            return SerializationHelper.importCredentials( bytes );
         }
     }
 

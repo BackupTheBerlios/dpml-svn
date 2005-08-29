@@ -52,7 +52,7 @@ public interface Controller extends Remote
     * Return the root container managed by the controller.
     * @return the root container
     */
-    Container getContainer() throws RemoteException;
+    //Container getContainer() throws RemoteException;
 
    /**
     * Construct a new top-level component.

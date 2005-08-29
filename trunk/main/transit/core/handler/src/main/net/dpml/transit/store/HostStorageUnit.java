@@ -215,7 +215,7 @@ class HostStorageUnit extends CodeBaseStorageUnit implements HostStorage, Remova
         }
         else
         {
-            return CredentialsHelper.importCredentials( bytes );
+            return SerializationHelper.importCredentials( bytes );
         }
     }
 
@@ -316,7 +316,7 @@ class HostStorageUnit extends CodeBaseStorageUnit implements HostStorage, Remova
         }
         else
         {
-            byte[] bytes = CredentialsHelper.exportCredentials( auth );
+            byte[] bytes = SerializationHelper.exportCredentials( auth );
             prefs.putByteArray( "authentication", bytes );
         }
     }

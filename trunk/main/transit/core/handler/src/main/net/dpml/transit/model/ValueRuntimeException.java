@@ -18,34 +18,37 @@
 
 package net.dpml.transit.model;
 
-import java.util.EventObject;
-
 /**
- * An event pertaining to a change in a plugin uri assigned to 
- * a codebase model.
+ * Exception to indicate an error arrising from a value type.
+ *
+ * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
  */
-public abstract class CodeBaseEvent extends EventObject
+public class ValueRuntimeException extends RuntimeException
 {
    /**
     * Serial version identifier.
     */
     static final long serialVersionUID = 1L;
 
-   /**
-    * Construction of a new codebase change event.
-    * @param source the codebase model initiating the event
-    */
-    public CodeBaseEvent( CodeBaseModel source )
+    /**
+     * Construct a new <code>ValueRuntimeException</code> instance.
+     *
+     * @param message the exception message
+     */
+    public ValueRuntimeException( final String message )
     {
-        super( source );
+        super( message );
     }
-    
-   /**
-    * Return the codebase model that initiating the event.
-    * @return the codebase model
-    */
-    public CodeBaseModel getCodeBaseModel()
+
+    /**
+     * Construct a new <code>ValueRuntimeException</code> instance.
+     *
+     * @param message the exception message
+     * @param cause the causal exception
+     */
+    public ValueRuntimeException( final String message, Throwable cause )
     {
-        return (CodeBaseModel) getSource();
+        super( message, cause );
     }
 }
+

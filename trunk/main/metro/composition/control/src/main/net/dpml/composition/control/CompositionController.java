@@ -84,58 +84,36 @@ public class CompositionController extends CompositionPartHandler implements Con
     // state
     //--------------------------------------------------------------------
 
+    private final Logger m_logger;
     private final ValueController m_valueController;
     private final ComponentController m_componentController;
-    private final Logger m_logger;
+    private final ControllerContext m_context;
 
+    //private final CompositionHandler m_root;
     //private final LifestyleHandler m_lifestyleHandler;
-
-    private final CompositionHandler m_root;
 
     //--------------------------------------------------------------------
     // constructor
     //--------------------------------------------------------------------
 
-    public CompositionController( net.dpml.transit.model.Logger logger, ContentModel model )
+    public CompositionController( net.dpml.transit.model.Logger logger, File work, File temp )
        throws ControlException, RemoteException
     {
-        super( logger, model );
-
-        m_logger = getContext().getLogger();
-        m_valueController = new ValueController( this );
-        m_componentController = new ComponentController( m_logger, this );
-        m_logger.debug( "controller: " + CONTROLLER_URI );
-
-        //m_lifestyleHandler = new LifestyleHandler( m_logger, m_componentController );
-
-        //
-        // create the root container
-        //
-
-        ClassLoader classloader = Logger.class.getClassLoader();
-        URI partition = getPartition();
-
-        try
-        {
-            ComponentDirective profile = 
-              new ComponentDirective(
-                "root", DeploymentDirective.DEFAULT, InfoDescriptor.UNDEFINED_COLLECTION, 
-                "singleton", Object.class.getName(), null, null, null, null, null );
-            m_root = new CompositionHandler( m_logger, this, classloader, partition, profile, null );
-            m_root.initialize();
-            addShutdownHook( m_logger, m_root );
-        }
-        catch( Throwable e )
-        {
-            final String error = 
-              "Unexpected error while attempt to construct the root container.";
-            throw new ControllerRuntimeException( CONTROLLER_URI, error, e );
-        }
+        this( new CompositionContext( logger, work, temp ) );
     }
 
-    public Container getContainer() throws RemoteException
+    public CompositionController( ControllerContext context )
+       throws ControlException, RemoteException
     {
-        return m_root;
+        super( context );
+
+        m_context = context;
+        m_logger = new StandardLogger( context.getLogger() );
+        m_valueController = new ValueController( this );
+        m_componentController = new ComponentController( m_logger, this );
+        //m_lifestyleHandler = new LifestyleHandler( m_logger, m_componentController );
+        m_logger.debug( "controller: " + CONTROLLER_URI );
+
     }
 
    /**
@@ -147,12 +125,7 @@ public class CompositionController extends CompositionPartHandler implements Con
     */
     public ControllerContext getControllerContext()
     {
-        return getContext();
-    }
-
-    Logger getLogger()
-    {
-        return m_logger;
+        return m_context;
     }
 
     public ComponentController getComponentController()
@@ -163,6 +136,11 @@ public class CompositionController extends CompositionPartHandler implements Con
     public ValueController getValueController()
     {
         return m_valueController;
+    }
+
+    public Logger getLogger()
+    {
+        return m_logger;
     }
 
     //--------------------------------------------------------------------
@@ -184,9 +162,15 @@ public class CompositionController extends CompositionPartHandler implements Con
       throws IOException, ComponentException, PartNotFoundException, 
       PartHandlerNotFoundException, DelegationException 
     {
-        m_logger.debug( "loading part " + uri );
+        getLogger().debug( "loading part " + uri );
         Part part = loadPart( uri );
-        return newComponent( m_root, part, null );
+        Component component = newComponent( null, part, "" );
+        if( component instanceof CompositionHandler )
+        {
+            CompositionHandler handler = (CompositionHandler) component;
+            addShutdownHook( getLogger(), handler );
+        }
+        return component;
     }
 
    /**
@@ -202,14 +186,14 @@ public class CompositionController extends CompositionPartHandler implements Con
     * @exception DelegationException if an error occurs following handover of control to a foreign controller
     * @exception UnsupportedPartTypeException if the component type is recognized but not supported
     */
-    public Component newComponent( Container parent, Part part, String name )
+    public Component newComponent( Container container, Part part, String name )
       throws ComponentException, PartHandlerNotFoundException, DelegationException, RemoteException
     {
-        URI partition = getPartition( parent );
+        URI partition = getPartition( container );
         if( isRecognizedPart( part ) )
         {
-            ClassLoader anchor = getAnchorClassLoader( parent );
-            return newComponent( parent, anchor, part, name );
+            ClassLoader anchor = getAnchorClassLoader( container );
+            return newComponent( container, anchor, part, name );
         }
         else
         {
@@ -217,7 +201,7 @@ public class CompositionController extends CompositionPartHandler implements Con
             getLogger().info( "delegating to: " + handlerUri );
             Controller controller = (Controller) getPrimaryController( handlerUri );
             getLogger().info( "delegate established: " + controller );
-            return controller.newComponent( parent, part, name );
+            return controller.newComponent( container, part, name );
         }
     }
 
@@ -350,8 +334,9 @@ public class CompositionController extends CompositionPartHandler implements Con
                 }
                 else
                 {
+                    Logger logger = getLogger();
                     return new CompositionClassLoader( 
-                      m_logger, "context", getClass().getClassLoader(), classloader );
+                      logger, "context", getClass().getClassLoader(), classloader );
                 }
             }
         }
@@ -364,7 +349,7 @@ public class CompositionController extends CompositionPartHandler implements Con
 
     private URI getPartition()
     {
-        return getContext().getURI();
+        return ROOT_URI;
     }
 
     private URI getPartition( Container container )
@@ -420,8 +405,9 @@ public class CompositionController extends CompositionPartHandler implements Con
             URI[] uris = filter( cpd.getURIs(), parent );
             if( uris.length > 0 )
             {
-                getLogger().debug( "creating " + tag + " classloader with " + uris.length + " entries" );
-                parent = new CompositionClassLoader( m_logger, label, base, uris, parent );
+                Logger logger = getLogger();
+                logger.debug( "creating " + tag + " classloader with " + uris.length + " entries" );
+                parent = new CompositionClassLoader( logger, label, base, uris, parent );
             }
         }
         return parent;
@@ -587,6 +573,7 @@ public class CompositionController extends CompositionPartHandler implements Con
     }
 
     static final URI CONTROLLER_URI = setupURI( "@PART-CONTROLLER-URI@" );
+    static final URI ROOT_URI = setupURI( "metro:/" );
 
     protected static URI setupURI( String spec )
     {
@@ -634,4 +621,5 @@ public class CompositionController extends CompositionPartHandler implements Con
           }
         );
     }
+
 }

@@ -18,34 +18,37 @@
 
 package net.dpml.transit.model;
 
-import java.util.EventObject;
-
 /**
  * An event pertaining to a change in a plugin uri assigned to 
  * a codebase model.
  */
-public abstract class CodeBaseEvent extends EventObject
+public class ParametersEvent extends CodeBaseEvent
 {
    /**
     * Serial version identifier.
     */
     static final long serialVersionUID = 1L;
 
+    private final Parameter[] m_parameters;
+
    /**
     * Construction of a new codebase change event.
     * @param source the codebase model initiating the event
+    * @param parameters the constructor parameters
     */
-    public CodeBaseEvent( CodeBaseModel source )
+    public ParametersEvent( CodeBaseModel source, Parameter[] parameters )
     {
         super( source );
+
+        m_parameters = parameters;
     }
     
    /**
-    * Return the codebase model that initiating the event.
-    * @return the codebase model
+    * Return the codebase parameters.
+    * @return the parameters array
     */
-    public CodeBaseModel getCodeBaseModel()
+    public Parameter[] getParameters()
     {
-        return (CodeBaseModel) getSource();
+        return m_parameters;
     }
 }

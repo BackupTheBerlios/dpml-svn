@@ -699,7 +699,7 @@ public class ValueHandler extends UnicastRemoteObject implements Component, Clas
             String key = argument.substring( 11 );
             if( "context.uri".equals( key ) )
             {
-                return context.getURI();
+                return m_controller.getURI();
             }
             else if( "work.dir".equals( key ) )
             {

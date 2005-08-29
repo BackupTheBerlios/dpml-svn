@@ -56,6 +56,8 @@ import net.dpml.transit.TransitException;
 import net.dpml.transit.model.CodeBaseModel;
 import net.dpml.transit.model.CodeBaseListener;
 import net.dpml.transit.model.CodeBaseEvent;
+import net.dpml.transit.model.ParametersEvent;
+import net.dpml.transit.model.LocationEvent;
 import net.dpml.transit.Plugin;
 import net.dpml.transit.Repository;
 
@@ -318,7 +320,7 @@ class PluginModelPanel extends ClassicPanel
             super();
         }
 
-        public void codeBaseChanged( CodeBaseEvent event ) throws RemoteException
+        public void codeBaseChanged( LocationEvent event ) throws RemoteException
         {
             URI uri = event.getCodeBaseURI();
             String artifact = "";
@@ -330,6 +332,11 @@ class PluginModelPanel extends ClassicPanel
             {
                 m_base.setText( artifact );
             }
+        }
+
+        public void parametersChanged( ParametersEvent event ) throws RemoteException
+        {
+            // TODO
         }
     }
 

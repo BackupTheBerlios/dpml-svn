@@ -20,6 +20,8 @@ package net.dpml.transit.store;
 
 import java.net.URI;
 
+import net.dpml.transit.model.Parameter;
+
 /**
  * The CodeBaseStorage is an interface implemented by objects maintaining
  * the persistent configuration of a codebase model.
@@ -42,4 +44,18 @@ public interface CodeBaseStorage
     * @param uri the uri identifying the codebase for a system extension
     */
     void setCodeBaseURI( URI uri );
+
+   /**
+    * Return the array of codebase parameters.
+    *
+    * @return the value array
+    */
+    Parameter[] getParameters();
+
+   /**
+    * Set the array of parameters assigned to the codebase model.
+    * @param parameters the parameters array
+    */
+    void setParameters( Parameter[] parameters );
+
 }

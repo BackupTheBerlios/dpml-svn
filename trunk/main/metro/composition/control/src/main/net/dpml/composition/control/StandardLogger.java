@@ -146,7 +146,14 @@ public class StandardLogger implements net.dpml.logging.Logger
 
     public net.dpml.logging.Logger getChildLogger( String category )
     {
-        return new StandardLogger( m_logger.getChildLogger( category ) );
+        if( ( null == category ) || ( "".equals( category ) ) )
+        {
+            return this;
+        }
+        else
+        {
+            return new StandardLogger( m_logger.getChildLogger( category ) );
+        }
     }
 }
 

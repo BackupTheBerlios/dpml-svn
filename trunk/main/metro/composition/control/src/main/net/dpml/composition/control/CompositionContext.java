@@ -28,8 +28,6 @@ import java.util.EventListener;
 import java.util.WeakHashMap;
 import java.util.Properties;
 
-import net.dpml.logging.Logger;
-
 import net.dpml.composition.event.LocalWeakEventProducer;
 import net.dpml.composition.runtime.DefaultLogger;
 
@@ -38,6 +36,7 @@ import net.dpml.part.control.ControllerContextListener;
 import net.dpml.part.control.ControllerContextEvent;
 
 import net.dpml.transit.model.ContentModel;
+import net.dpml.transit.model.Logger;
 import net.dpml.transit.util.PropertyResolver;
 
 /**
@@ -48,7 +47,7 @@ import net.dpml.transit.util.PropertyResolver;
  * @author <a href="mailto:dev-dpml@lists.ibiblio.org">The Digital Product Meta Library</a>
  * @version $Revision: 1.2 $ $Date: 2004/03/17 10:30:09 $
  */
-public class CompositionControllerContext extends LocalWeakEventProducer implements ControllerContext
+public class CompositionContext extends LocalWeakEventProducer implements ControllerContext
 {
     //----------------------------------------------------------------------------
     // state
@@ -64,43 +63,41 @@ public class CompositionControllerContext extends LocalWeakEventProducer impleme
     */
     private File m_temp;
 
-    private final ContentModel m_model;
-
-    private URI m_uri;
-
     private Logger m_logger;
 
     //----------------------------------------------------------------------------
     // constructor
     //----------------------------------------------------------------------------
 
-    public CompositionControllerContext( net.dpml.transit.model.Logger logger, ContentModel model )
+    public CompositionContext( Logger logger, File work, File temp )
     {
         super();
 
-        if( null == model )
+        if( null == logger )
         {
-            throw new NullPointerException( "model" );
+            throw new NullPointerException( "logger" );
         }
 
-        m_model = model;
+        m_logger = logger;
 
-        String work = getWorkingDirectoryPath();
-        String temp = getTempDirectoryPath();
-
-        try
+        if( null == work )
         {
-            String domain = model.getProperty( "domain.name", "local" );
-            m_uri = setupContextURI( domain );
-            m_work = getWorkingDirectory( work );
-            m_temp = getTempDirectory( temp );
-            m_logger = new StandardLogger( logger );
+            String path = System.getProperty( "user.dir" );
+            m_work = new File( path );
         }
-        catch( RemoteException e )
+        else
         {
-            final String error = 
-              "Supplied content model raised a remote exception in response to a property request.";
-            throw new RuntimeException( error, e );
+            m_work = work;
+        }
+        
+        if( null == temp )
+        {
+            String path = System.getProperty( "java.io.tmpdir" );
+            m_temp = new File( path );
+        }
+        else
+        {
+            m_temp = temp;
         }
     }
 
@@ -111,54 +108,6 @@ public class CompositionControllerContext extends LocalWeakEventProducer impleme
     public Logger getLogger()
     {
         return m_logger;
-    }
-
-   /**
-    * Return the root working directory path.
-    *
-    * @return directory path representing the root of the working directory hierachy
-    */
-    public String getWorkingDirectoryPath()
-    {
-        try
-        {
-            return m_model.getProperty( "work.dir", "${dpml.data}/work" );
-        }
-        catch( Exception e )
-        {
-            final String error = 
-              "Remote error while attempting to reslve working directory.";
-            throw new RuntimeException( error, e );
-        }
-    }
-
-   /**
-    * Return the root temporary directory path.
-    *
-    * @return directory path representing the root of the temporary directory hierachy.
-    */
-    public String getTempDirectoryPath()
-    {
-        try
-        {
-            return m_model.getProperty( "temp.dir", "${java.io.tmpdir}" );
-        }
-        catch( Exception e )
-        {
-            final String error = 
-              "Remote error while attempting to reslve temp directory.";
-            throw new RuntimeException( error, e );
-        }
-    }
-
-   /**
-    * Return the context uri.
-    *
-    * @return the uri for this context.
-    */
-    public URI getURI()
-    {
-        return m_uri;
     }
 
    /**
@@ -288,35 +237,9 @@ public class CompositionControllerContext extends LocalWeakEventProducer impleme
         }
     }
 
-    private File getWorkingDirectory( String value )
-    {
-        Properties properties = System.getProperties();
-        String path = PropertyResolver.resolve( properties, value );
-        return new File( path );
-    }
-
-    private File getTempDirectory( String value )
-    {
-        Properties properties = System.getProperties();
-        String path = PropertyResolver.resolve( properties, value );
-        return new File( path );
-    }
-
     //----------------------------------------------------------------------------
     // static (private)
     //----------------------------------------------------------------------------
-
-    private static URI setupContextURI( String domain )
-    {
-        try
-        {
-            return new URI( "metro:" + domain );
-        }
-        catch( Throwable e )
-        {
-            return null;
-        }
-    }
 
     static class WorkingDirectoryChangeEvent extends ControllerContextEvent
     {

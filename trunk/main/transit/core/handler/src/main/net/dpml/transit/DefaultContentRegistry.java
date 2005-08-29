@@ -33,6 +33,7 @@ import net.dpml.transit.model.ContentRegistryEvent;
 import net.dpml.transit.model.ContentModel;
 import net.dpml.transit.model.UnknownKeyException;
 import net.dpml.transit.model.Logger;
+import net.dpml.transit.model.Parameter;
 
 /**
  * A registry of descriptions of plugable content handlers. 
@@ -187,12 +188,17 @@ class DefaultContentRegistry extends UnicastRemoteObject implements Service, Con
             if( null == handler )
             {
                 Class clazz = loadContentHandlerClass( model );
+                ClassLoader current = Thread.currentThread().getContextClassLoader();
+                ClassLoader classloader = clazz.getClassLoader();
+                Thread.currentThread().setContextClassLoader( classloader );
                 Repository loader = Transit.getInstance().getRepository();
                 String type =  model.getContentType();
                 Logger logger = getLogger().getChildLogger( type );
+                Parameter[] params = model.getParameters();
+                Object[] args = Parameter.getArgs( params, new Object[]{logger, model} );
                 try
                 {
-                    handler = (ContentHandler) loader.instantiate( clazz, new Object[]{logger, model} );
+                    handler = (ContentHandler) loader.instantiate( clazz, args );
                 }
                 catch( Throwable e )
                 {
@@ -200,6 +206,10 @@ class DefaultContentRegistry extends UnicastRemoteObject implements Service, Con
                       "Unable to load content handler due to an instantiation failure."
                       + "\nContent Type: " + model.getContentType();
                     throw new TransitException( error, e );
+                }
+                finally
+                {
+                    Thread.currentThread().setContextClassLoader( current );
                 }
                 m_handlers.put( model, handler );
             }

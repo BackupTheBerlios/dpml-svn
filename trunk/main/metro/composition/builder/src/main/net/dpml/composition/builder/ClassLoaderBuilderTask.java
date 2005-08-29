@@ -37,7 +37,7 @@ import net.dpml.composition.builder.datatypes.ContextDataType;
 import net.dpml.composition.builder.datatypes.ParametersDataType;
 import net.dpml.composition.builder.datatypes.PartsDataType;
 import net.dpml.composition.control.CompositionController;
-import net.dpml.composition.control.CompositionControllerContext;
+import net.dpml.composition.control.CompositionContext;
 import net.dpml.composition.data.ClassLoaderDirective;
 import net.dpml.composition.data.ClasspathDirective;
 import net.dpml.composition.data.ComponentDirective;
@@ -91,8 +91,7 @@ public abstract class ClassLoaderBuilderTask extends ProjectTask
         try
         {
             Logger logger = new AntAdapter( this );
-            ContentModel model = PartContentHandlerFactory.newContentModel( logger, null );
-            return new CompositionController( logger, model );
+            return new CompositionController( logger, null, null );
         }
         catch( Throwable e )
         {

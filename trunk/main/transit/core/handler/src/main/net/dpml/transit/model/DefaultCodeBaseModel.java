@@ -41,6 +41,7 @@ public abstract class DefaultCodeBaseModel extends DefaultModel implements CodeB
 
     private final CodeBaseStorage m_home;
 
+    private Parameter[] m_parameters;
     private URI m_uri;
 
     // ------------------------------------------------------------------------
@@ -51,13 +52,22 @@ public abstract class DefaultCodeBaseModel extends DefaultModel implements CodeB
     * Construction of a new codebase model.
     * @param logger the assigned logging channel
     * @param uri the codebase uri
+    * @param params the codebase parameters
     * @exception RemoteException if a remote exception occurs
     */
-    public DefaultCodeBaseModel( Logger logger, URI uri )
+    public DefaultCodeBaseModel( Logger logger, URI uri, Parameter[] params )
       throws RemoteException
     {
         super( logger );
         m_uri = uri;
+        if( null == params )
+        {
+            m_parameters = new Parameter[0];
+        }
+        else
+        {
+            m_parameters = params;
+        }
         m_home = null;
     }
 
@@ -77,6 +87,7 @@ public abstract class DefaultCodeBaseModel extends DefaultModel implements CodeB
         }
         m_home = home;
         m_uri = home.getCodeBaseURI();
+        m_parameters = home.getParameters();
     }
 
     // ------------------------------------------------------------------------
@@ -108,7 +119,7 @@ public abstract class DefaultCodeBaseModel extends DefaultModel implements CodeB
             }
             if( notify )
             {
-                CodeBaseEvent e = new CodeBaseEvent( this, m_uri );
+                CodeBaseEvent e = new LocationEvent( this, m_uri );
                 super.enqueueEvent( e );
             }
         }
@@ -142,6 +153,56 @@ public abstract class DefaultCodeBaseModel extends DefaultModel implements CodeB
     public void removeCodeBaseListener( CodeBaseListener listener )
     {
         super.removeListener( listener );
+    }
+
+   /**
+    * Return the array of codebase parameters.
+    *
+    * @return the parameters array
+    */
+    public Parameter[] getParameters()
+    {
+        synchronized( getLock() )
+        {
+            return m_parameters;
+        }
+    }
+
+   /**
+    * Set the array of parameters assigned to the codebase model.
+    * @param parameters the parameters array
+    */
+    public void setParameters( Parameter[] parameters )
+    {
+        synchronized( getLock() )
+        {
+            m_parameters = parameters;
+            if( null != m_home )
+            {
+                m_home.setParameters( parameters );
+            }
+            ParametersEvent e = new ParametersEvent( this, parameters );
+            super.enqueueEvent( e );
+        }
+    }
+
+   /**
+    * Return a named codebase parameter.
+    * @param key the parameter key
+    * @return the parameter
+    * @exception UnknownKeyException if the supplied key is not recognized
+    */
+    public Parameter getParameter( String key ) throws UnknownKeyException
+    {
+        for( int i=0; i < m_parameters.length; i++ )
+        {
+            Parameter param = m_parameters[i];
+            if( param.getKey().equals( key ) )
+            {
+                return param;
+            }
+        }
+        throw new UnknownKeyException( key );
     }
 
     // ------------------------------------------------------------------------
@@ -185,15 +246,37 @@ public abstract class DefaultCodeBaseModel extends DefaultModel implements CodeB
             if( listener instanceof CodeBaseListener )
             {
                 CodeBaseListener pl = (CodeBaseListener) listener;
-                try
+                if( event instanceof LocationEvent )
                 {
-                    pl.codeBaseChanged( event );
+                    try
+                    {
+                        pl.codeBaseChanged( (LocationEvent) event );
+                    }
+                    catch( Throwable e )
+                    {
+                        final String error =
+                          "CodeBaseListener notification error.";
+                        getLogger().error( error, e );
+                    }
                 }
-                catch( Throwable e )
+                else if( event instanceof ParametersEvent )
                 {
-                    final String error =
-                      "CodeBaseListener notification error.";
-                    getLogger().error( error, e );
+                    try
+                    {
+                        pl.parametersChanged( (ParametersEvent) event );
+                    }
+                    catch( Throwable e )
+                    {
+                        final String error =
+                          "CodeBaseListener notification error.";
+                        getLogger().error( error, e );
+                    }
+                }
+                else
+                {
+                    final String error = 
+                      "Event class not recognized: " + event.getClass().getName();
+                    throw new IllegalArgumentException( error );
                 }
             }
         }

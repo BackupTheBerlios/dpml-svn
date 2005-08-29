@@ -18,34 +18,38 @@
 
 package net.dpml.transit.model;
 
-import java.util.EventObject;
+import java.net.URI;
 
 /**
  * An event pertaining to a change in a plugin uri assigned to 
  * a codebase model.
  */
-public abstract class CodeBaseEvent extends EventObject
+public class LocationEvent extends CodeBaseEvent
 {
    /**
     * Serial version identifier.
     */
     static final long serialVersionUID = 1L;
 
+    private final URI m_plugin;
+
    /**
     * Construction of a new codebase change event.
     * @param source the codebase model initiating the event
+    * @param plugin the uri assigned as the codebase
     */
-    public CodeBaseEvent( CodeBaseModel source )
+    public LocationEvent( CodeBaseModel source, URI plugin )
     {
         super( source );
+        m_plugin = plugin;
     }
     
    /**
-    * Return the codebase model that initiating the event.
-    * @return the codebase model
+    * Return the new codebase plugin uri.
+    * @return the codebase uri
     */
-    public CodeBaseModel getCodeBaseModel()
+    public URI getCodeBaseURI()
     {
-        return (CodeBaseModel) getSource();
+        return m_plugin;
     }
 }

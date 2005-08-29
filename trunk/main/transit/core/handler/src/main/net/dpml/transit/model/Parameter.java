@@ -17,36 +17,66 @@
  * limitations under the License.
  */
 
-package net.dpml.profile;
+package net.dpml.transit.model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 /**
- * Exception to indicate that there was a profile related error.
- *
+ * A parameter represents a codebase constructor argument.  A parameter 
+ * combines a nbame and a resolvable value.  The name is primarily for management 
+ * usage. The associated value is an a resolvable object.  Resolved parameter values take 
+ * precendence during the selection of constructor parameter arguments during 
+ * instantiation of a codebase plugin.
+ * 
  * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
- * @version $Id: TransitException.java 2786 2005-06-08 03:02:29Z mcconnell@dpml.net $
  */
 public class Parameter implements Serializable
 {
+   /**
+    * Utility operation that consiolidates an array of parameters and supplimentary
+    * arguments to an array of objects.
+    * 
+    * @param params the parameter array
+    * @param args supplimentary arguments
+    * @return the consolidated argument array
+    */
+    public static Object[] getArgs( Parameter[] params, Object[] args )
+    {
+        ArrayList list = new ArrayList();
+        for( int i=0; i < params.length; i++ )
+        {
+            Parameter param = params[i];
+            Value value = param.getValue();
+            Object object = value.resolve();
+            list.add( object );
+        }
+        for( int i=0; i < args.length; i++ )
+        {
+            Object value = args[i];
+            list.add( value );
+        }
+        return list.toArray();
+    }
+
    /**
     * Serial version identifier.
     */
     static final long serialVersionUID = 1L;
 
-    private final String m_name;
-    private final Serializable m_value;
+    private final String m_key;
+    private final Value m_value;
 
     /**
      * Construct a new <code>Parameter</code> instance.
      *
-     * @param name the parameter name
+     * @param key the parameter key
      * @param value the serializable parameter value (may be null)
-     * @exception NullPointerException if the supplied parameter name is null
+     * @exception NullPointerException if the supplied parameter key is null
      */
-    public Parameter( final String name, Serializable value ) throws NullPointerException
+    public Parameter( final String key, Value value ) throws NullPointerException
     {
-        m_name = name;
+        m_key = key;
         m_value = value;
     }
 
@@ -54,20 +84,25 @@ public class Parameter implements Serializable
     * Return the name of the parameter.
     * @return the parameter name
     */
-    public String getName()
+    public String getKey()
     {
-        return m_name;
+        return m_key;
     }
 
    /**
     * Return the parameter value.
     * @return the value of the parameter (possibly null)
     */
-    public Object getValue()
+    public Value getValue()
     {
         return m_value;
     }
 
+   /**
+    * Test if the supplied object is equal to this object.
+    * @param other the other object
+    * @return TRUE if the objects are equivalent
+    */
     public boolean equals( Object other )
     {
         if( null == other )
@@ -77,7 +112,7 @@ public class Parameter implements Serializable
         else if( other instanceof Parameter )
         {
             Parameter param = (Parameter) other;
-            if( !m_name.equals( param.getName() ) )
+            if( !m_key.equals( param.getKey() ) )
             {
                 return false;
             }
@@ -96,9 +131,13 @@ public class Parameter implements Serializable
         }
     }
 
+   /**
+    * Return the hashcode for the instance.
+    * @return the hashcode value
+    */
     public int hashCode()
     {
-        int hash = m_name.hashCode();
+        int hash = m_key.hashCode();
         if( null == m_value )
         {
             return hash;

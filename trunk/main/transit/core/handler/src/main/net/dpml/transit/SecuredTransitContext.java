@@ -33,12 +33,13 @@ import net.dpml.transit.model.CacheModel;
 import net.dpml.transit.model.TransitModel;
 import net.dpml.transit.model.ContentRegistryModel;
 import net.dpml.transit.model.CodeBaseListener;
-import net.dpml.transit.model.CodeBaseEvent;
 import net.dpml.transit.model.CodeBaseModel;
 import net.dpml.transit.model.ProxyModel;
 import net.dpml.transit.model.ProxyListener;
 import net.dpml.transit.model.ProxyEvent;
 import net.dpml.transit.model.RequestIdentifier;
+import net.dpml.transit.model.ParametersEvent;
+import net.dpml.transit.model.LocationEvent;
 import net.dpml.transit.monitor.LoggingAdapter;
 
 /**
@@ -512,7 +513,7 @@ public final class SecuredTransitContext
         * @param event a plugin change event
         * @exception RemoteException if an remote error occurs
         */
-        public void codeBaseChanged( CodeBaseEvent event ) throws RemoteException
+        public void codeBaseChanged( LocationEvent event ) throws RemoteException
         {
             CodeBaseModel model = event.getCodeBaseModel();
             URI uri = event.getCodeBaseURI();
@@ -524,7 +525,24 @@ public final class SecuredTransitContext
                   + "\nURI: " + uri;
                 getLogger().debug( message );
             }
+            reload( model );
+        }
 
+        public void parametersChanged( ParametersEvent event ) throws RemoteException
+        {
+            CodeBaseModel model = event.getCodeBaseModel();
+            if( getLogger().isDebugEnabled() )
+            {
+                final String message = 
+                  "Initiating sub-system parameter change."
+                  + "\nSub-System: " + model;
+                getLogger().debug( message );
+            }
+            reload( model );
+        }
+
+        void reload( CodeBaseModel model )
+        {
             //
             // Currently the only switchable sub-system is the content management
             // system (which is where Metro gets connected).  This needs to be extended to 

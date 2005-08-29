@@ -71,7 +71,14 @@ class LoggingHandler
         {
             channel = channel + "." + category.replace( '/', '.' );
         }
-        return Logger.getLogger( channel );
+        if( ".".equals( channel ) )
+        {
+            return Logger.getLogger( "" );
+        }
+        else
+        {
+            return Logger.getLogger( channel );
+        }
     }
 
     net.dpml.logging.Logger getLoggingChannel( ComponentHandler component )
@@ -83,6 +90,23 @@ class LoggingHandler
             path = path.substring( 0, path.length() - 1 );
         }
         path = path.replace( '/', '.' );
+        path = trim( path );
         return new DefaultLogger( path );
+    }
+
+    private String trim( String path )
+    {
+        if( path.startsWith( "." ) )
+        {
+            return trim( path.substring( 1 ) );
+        }
+        else if( ".".equals( path ) )
+        {
+            return "";
+        }
+        else
+        {
+            return path;
+        }
     }
 }

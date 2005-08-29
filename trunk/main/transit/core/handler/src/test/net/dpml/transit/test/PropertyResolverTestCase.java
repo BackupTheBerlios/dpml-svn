@@ -1,5 +1,7 @@
 /*
  * Copyright 2004 Apache Software Foundation
+ * Copyright 2005 Stephen J. McConnell.
+ *
  * Licensed  under the  Apache License,  Version 2.0  (the "License");
  * you may not use  this file  except in  compliance with the License.
  * You may obtain a copy of the License at
@@ -15,11 +17,13 @@
  * limitations under the License.
  */
 
-package net.dpml.transit.util;
+package net.dpml.transit.test;
 
 import junit.framework.TestCase;
 
 import java.util.Properties;
+
+import net.dpml.transit.util.PropertyResolver;
 
 /**
  * Testcases for the PropertyResolver
@@ -29,17 +33,17 @@ import java.util.Properties;
  */
 public class PropertyResolverTestCase extends TestCase
 {
-    private Properties m_Properties;
+    private Properties m_properties;
 
     public void setUp()
     {
-        m_Properties = new Properties();
-        m_Properties.put( "abc", "def" );
-        m_Properties.put( "def", "Hi" );
-        m_Properties.put( "mama", "abc" );
-        m_Properties.put( "papa", "def" );
-        m_Properties.put( "child", "ghi" );
-        m_Properties.put( "some.abc.def.ghi.value", "All that." );
+        m_properties = new Properties();
+        m_properties.put( "abc", "def" );
+        m_properties.put( "def", "Hi" );
+        m_properties.put( "mama", "abc" );
+        m_properties.put( "papa", "def" );
+        m_properties.put( "child", "ghi" );
+        m_properties.put( "some.abc.def.ghi.value", "All that." );
     }
 
     public PropertyResolverTestCase( String name )
@@ -50,7 +54,7 @@ public class PropertyResolverTestCase extends TestCase
     public void testSimple1() throws Exception
     {
         String src = "${abc}";
-        String result = PropertyResolver.resolve( m_Properties, src );
+        String result = PropertyResolver.resolve( m_properties, src );
         String expected = "def";
         assertEquals( expected, result );
     }
@@ -58,7 +62,7 @@ public class PropertyResolverTestCase extends TestCase
     public void testSimple2() throws Exception
     {
         String src = "Def = ${abc} is it.";
-        String result = PropertyResolver.resolve( m_Properties, src );
+        String result = PropertyResolver.resolve( m_properties, src );
         String expected = "Def = def is it.";
         assertEquals( expected, result );
     }
@@ -66,7 +70,7 @@ public class PropertyResolverTestCase extends TestCase
     public void testSimple3() throws Exception
     {
         String src = "def = ${abc} = ${def}";
-        String result = PropertyResolver.resolve( m_Properties, src );
+        String result = PropertyResolver.resolve( m_properties, src );
         String expected = "def = def = Hi";
         assertEquals( expected, result );
     }
@@ -74,7 +78,7 @@ public class PropertyResolverTestCase extends TestCase
     public void testComplex1() throws Exception
     {
         String src = "${${abc}}";
-        String result = PropertyResolver.resolve( m_Properties, src );
+        String result = PropertyResolver.resolve( m_properties, src );
         String expected = "Hi";
         assertEquals( expected, result );
     }
@@ -82,7 +86,7 @@ public class PropertyResolverTestCase extends TestCase
     public void testComplex2() throws Exception
     {
         String src = "${some.${mama}.${papa}.${child}.value}";
-        String result = PropertyResolver.resolve( m_Properties, src );
+        String result = PropertyResolver.resolve( m_properties, src );
         String expected = "All that.";
         assertEquals( expected, result );
     }

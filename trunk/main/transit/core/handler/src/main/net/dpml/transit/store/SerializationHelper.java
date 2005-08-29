@@ -27,19 +27,19 @@ import java.io.OutputStream;
 import java.io.Serializable;
 import java.net.PasswordAuthentication;
 
+import net.dpml.transit.model.Parameter;
 
 /**
  * Helper class used to convert credentials to and from byte arrays.
  *
- * @author <a href="mailto:dev-dpml@lists.ibiblio.org">The Digital Product Meta Library</a>
- * @version $Revision: 1.2 $ $Date: 2004/03/17 10:30:09 $
+ * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
  */
-final class CredentialsHelper
+final class SerializationHelper
 {
    /**
     * Internal constructor.
     */
-    private CredentialsHelper()
+    private SerializationHelper()
     {
         // static utility class
     }
@@ -56,6 +56,17 @@ final class CredentialsHelper
     }
 
    /**
+    * Utility operation to convert a parameters array to a byte array.
+    * @param params the parameters to export
+    * @return the byte array
+    */
+    public static byte[] exportParameters( Parameter[] params ) throws StorageRuntimeException
+    {
+        ParametersHolder holder = new ParametersHolder( params );
+        return toByteArray( holder );
+    }
+
+   /**
     * Utility operation to convert a byte array to a password authentication instance.
     * @param the byte array
     * @return auth the password authentication
@@ -64,6 +75,17 @@ final class CredentialsHelper
     {
         CrendentialsHolder holder = (CrendentialsHolder) importObject( bytes );
         return holder.getPasswordAuthentication();
+    }
+
+   /**
+    * Utility operation to convert a byte array to a parameter array.
+    * @param the byte array
+    * @return the parameters array
+    */
+    public static Parameter[] importParameters( byte[] bytes ) throws StorageRuntimeException
+    {
+        ParametersHolder holder = (ParametersHolder) importObject( bytes );
+        return holder.getParameters();
     }
 
    /**
@@ -140,6 +162,62 @@ final class CredentialsHelper
             }
         }
     }
+  
+   /**
+    * Serializable parameters holder class.
+    */
+    private static class ParametersHolder implements Serializable
+    {
+        static final long serialVersionUID = 1L;
+
+        private final Parameter[] m_params;
+
+        ParametersHolder( Parameter[] params )
+        {
+            m_params = params;
+        }
+
+        public Parameter[] getParameters()
+        {
+            return m_params;
+        }
+
+        public boolean equals( Object other )
+        {
+            if( null == other ) 
+            {
+                return false;
+            }
+            if( !( other instanceof ParametersHolder ) )
+            {
+                return false;
+            }
+            ParametersHolder holder = (ParametersHolder) other;
+            if( m_params.length != holder.m_params.length )
+            {
+                return false;
+            }
+            for( int i=0; i < m_params.length; i++ )
+            {
+                if( !m_params[i].equals( holder.m_params[i] ) )
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        public int hashCode()
+        {
+            int hash = getClass().hashCode();
+            for( int i=0; i < m_params.length; i++ )
+            {
+                hash ^= m_params[i].hashCode();
+            }
+            return hash;
+        }
+    }
+
 
    /**
     * Serializable credentials holder class.

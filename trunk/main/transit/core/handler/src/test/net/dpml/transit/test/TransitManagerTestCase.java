@@ -16,31 +16,45 @@
  * limitations under the License.
  */
 
-package net.dpml.transit.manager;
+package net.dpml.transit.test;
 
-import java.net.URL;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 
 import junit.framework.TestCase;
 
 import net.dpml.transit.model.TransitModel;
-import net.dpml.transit.model.HostModel;
 import net.dpml.transit.model.DefaultTransitModel;
-import net.dpml.transit.store.TransitStorageUnit;
 
 /**
  * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
  */
-public class AuthorityTestCase extends TestCase
+public class TransitManagerTestCase extends TestCase
 {
-    public void testAuthority() throws Exception
+    static
     {
+        System.setProperty( 
+           "java.util.prefs.PreferencesFactory", 
+           "net.dpml.transit.store.LocalPreferencesFactory" );
+        System.setProperty( "dpml.transit.profile", "test-cache" );
         System.setProperty( "dpml.data", "target/test/data" );
-        TransitStorageUnit store = 
-          new TransitStorageUnit( 
-            new URL( "http://staging.dpml.net/test/" ) );
-        TransitModel model = new DefaultTransitModel( store );
-        HostModel[] hosts = model.getCacheModel().getHostModels();
-        assertEquals( "hosts", 2, hosts.length );
+    }
+
+    private TransitModel m_model;
+    private File m_data;
+
+    public void setUp() throws Exception
+    {
+        m_data = new File( System.getProperty( "dpml.data" ) );
+        m_model = new DefaultTransitModel();
+    }
+
+    public void testCacheDirectory() throws Exception
+    {
+        m_model.getCacheModel().setCacheDirectoryPath( "my-cache" );
+        String cache = m_model.getCacheModel().getCacheDirectoryPath();
+        assertEquals( "cache", "my-cache", cache );
     }
 }
 

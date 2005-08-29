@@ -25,7 +25,7 @@ import java.util.prefs.Preferences;
 /**
  * Abstract base class providing a framework for preferences based persistance.
  */
-abstract class AbstractStorageUnit
+public abstract class AbstractStorageUnit
 {
     // ------------------------------------------------------------------------
     // state

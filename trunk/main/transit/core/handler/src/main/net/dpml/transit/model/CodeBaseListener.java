@@ -30,9 +30,16 @@ public interface CodeBaseListener extends EventListener, Remote
 {
    /**
     * Notification of the change to a plugin uri assigned to a sub-system.
-    * @param event a plugin change event
+    * @param event a codebase location change event
     * @exception RemoteException if a remote exception occurs
     */
-    void codeBaseChanged( CodeBaseEvent event ) throws RemoteException;
+    void codeBaseChanged( LocationEvent event ) throws RemoteException;
+
+   /**
+    * Notification of the change to a plugin parameters.
+    * @param event the parameters event
+    * @exception RemoteException if a remote exception occurs
+    */
+    void parametersChanged( ParametersEvent event ) throws RemoteException;
 
 }

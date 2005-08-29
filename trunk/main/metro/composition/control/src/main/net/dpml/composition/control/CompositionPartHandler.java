@@ -27,8 +27,8 @@ import java.net.URL;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
-import java.util.Properties ;
-import java.util.WeakHashMap ;
+import java.util.Properties;
+import java.util.WeakHashMap;
 
 import net.dpml.part.Part;
 import net.dpml.part.PartHolder;
@@ -66,36 +66,15 @@ public abstract class CompositionPartHandler extends UnicastRemoteObject impleme
     */
     private final Repository m_loader;
 
-    private final CompositionControllerContext m_context;
+    private final ControllerContext m_context;
 
-    private final ContentModel m_model;
-
-    private final Logger m_logger;
-
-    public CompositionPartHandler( Logger logger, ContentModel model ) 
+    public CompositionPartHandler( ControllerContext context ) 
        throws ControlException, RemoteException
     {
         super();
 
-        m_model = model;
-        m_logger = logger;
-
-        m_context = new CompositionControllerContext( logger, model );
+        m_context = context;
         m_loader = Transit.getInstance().getRepository();
-    }
-
-    CompositionControllerContext getContext()
-    {
-        return m_context;
-    }
-
-   /**
-    * Returns the logging channel assigned to the handler.
-    * @return the logging channel
-    */
-    private Logger getLogger()
-    {
-        return m_logger;
     }
 
    /**
@@ -240,8 +219,6 @@ public abstract class CompositionPartHandler extends UnicastRemoteObject impleme
             return this;
         }
 
-        getLogger().debug( "resolving foreign controller: " + uri );
-
         synchronized( m_handlers )
         {
             Controller[] handlers = (Controller[]) m_handlers.keySet().toArray( new Controller[0] );
@@ -252,38 +229,28 @@ public abstract class CompositionPartHandler extends UnicastRemoteObject impleme
                 {
                     if( handler.getURI().equals( uri ) )
                     {
-                        getLogger().debug( "returning cached controller" );
                         return handler;
                     }
                 }
                 catch( RemoteException e )
                 {
-                    final String warning = 
-                      "Bypassing controller selection due to remote exception.";
-                    m_logger.warn( warning, e );
+                    final String error = 
+                      "Unexpected remote exception while resolving remote controller.";
+                    throw new RuntimeException( error, e );
                 }
             }
-            try
-            {
-                Controller handler = loadHandler( uri );
-                m_handlers.put( handler, null );
-                getLogger().info( "loaded foreign controller: " + uri );
-                return handler;
-            }
-            finally
-            {
-                // log loading event
-            }
+            Controller handler = loadHandler( uri );
+            m_handlers.put( handler, null );
+            return handler;
         }
     }
 
     private Controller loadHandler( URI uri ) throws PartHandlerNotFoundException
     {
         ClassLoader classloader = Part.class.getClassLoader();
-        Logger logger = getLogger();
         try
         {
-            return (Controller) m_loader.getPlugin( classloader, uri, new Object[]{logger, m_model} );
+            return (Controller) m_loader.getPlugin( classloader, uri, new Object[]{m_context} );
         }
         catch( IOException e )
         {

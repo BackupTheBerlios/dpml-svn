@@ -21,6 +21,8 @@ package net.dpml.part.control;
 import java.net.URI;
 import java.io.File;
 
+import net.dpml.transit.model.Logger;
+
 /**
  * The ControllerContext declares the runtime context that a controller
  * is established within. Controller implementations will typically receive   
@@ -32,24 +34,11 @@ import java.io.File;
 public interface ControllerContext
 {
    /**
-    * Return the URI identifying the controller working context.
-    * @return the context uri
-    */
-    URI getURI();
-
-   /**
-    * Return the root working directory path.
+    * Return the assigned logging channel.
     *
-    * @return directory path representing the root of the working directory hierachy
+    * @return the logging channel
     */
-    String getWorkingDirectoryPath();
-
-   /**
-    * Return the root temporary directory path.
-    *
-    * @return directory path representing the root of the temporary directory hierachy.
-    */
-    String getTempDirectoryPath();
+    Logger getLogger();
 
    /**
     * Return the root working directory.

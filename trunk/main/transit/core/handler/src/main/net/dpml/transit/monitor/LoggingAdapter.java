@@ -203,9 +203,32 @@ public class LoggingAdapter implements Adapter
     */
     public net.dpml.transit.model.Logger getChildLogger( String category )
     {
-        String name = m_logger.getName();
-        String path = name + "." + category;
-        return new LoggingAdapter( Logger.getLogger( path ) );
+        if( ( null == category ) || "".equals( category ) )
+        {
+            return this;
+        }
+        else
+        {
+            String name = m_logger.getName();
+            String path = trim( name + "." + category );
+            return new LoggingAdapter( Logger.getLogger( path ) );
+        }
+    }
+
+    private String trim( String path )
+    {
+        if( path.startsWith( "." ) )
+        {
+            return trim( path.substring( 1 ) );
+        }
+        else if( ".".equals( path ) )
+        {
+            return "";
+        }
+        else
+        {
+            return path;
+        }
     }
 
     /**

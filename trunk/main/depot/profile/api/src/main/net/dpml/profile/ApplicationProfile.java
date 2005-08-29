@@ -77,21 +77,6 @@ public interface ApplicationProfile extends CodeBaseModel, Disposable
     * @exception RemoteException if a remote exception occurs
     */
     void setServerMode( boolean policy ) throws RemoteException;
-
-   /**
-    * Return the array of constructor parameters for the application.
-    * @return the declare constructor parameters
-    * @exception RemoteException if a remote exception occurs
-    */
-    Parameter[] getParameters() throws RemoteException;
-
-   /**
-    * Set the constructor parameters for the application.
-    * @param params an array of constructor parameters
-    * @exception RemoteException if a remote exception occurs
-    */
-    void setParameters( Parameter[] params ) throws RemoteException;
-
 }
 
 

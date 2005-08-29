@@ -18,34 +18,32 @@
 
 package net.dpml.transit.model;
 
-import java.util.EventObject;
+import java.io.Serializable;
 
 /**
- * An event pertaining to a change in a plugin uri assigned to 
- * a codebase model.
+ * A object resolvable from primative arguments.
+ * 
+ * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
  */
-public abstract class CodeBaseEvent extends EventObject
+public interface Value extends Serializable
 {
    /**
-    * Serial version identifier.
+    * Resolve an instance from the value.
+    * @return the resolved instance
     */
-    static final long serialVersionUID = 1L;
+    Object resolve();
 
    /**
-    * Construction of a new codebase change event.
-    * @param source the codebase model initiating the event
+    * Resolve an instance from the value.
+    * @param classloader the classloader 
+    * @return the resolved instance
     */
-    public CodeBaseEvent( CodeBaseModel source )
-    {
-        super( source );
-    }
-    
+    Object resolve( ClassLoader classloader );
+
    /**
-    * Return the codebase model that initiating the event.
-    * @return the codebase model
+    * Resolve the value base class using the supplied classloader.
+    * @param classloader the classloader
+    * @return the resolved class
     */
-    public CodeBaseModel getCodeBaseModel()
-    {
-        return (CodeBaseModel) getSource();
-    }
+    Class getBaseClass( ClassLoader classloader );
 }

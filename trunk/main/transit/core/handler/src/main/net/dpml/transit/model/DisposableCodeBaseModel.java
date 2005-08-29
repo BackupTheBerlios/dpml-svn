@@ -40,12 +40,13 @@ public abstract class DisposableCodeBaseModel extends DefaultCodeBaseModel imple
     * Creation of a new disposable codebase model.
     * @param logger the assigned logging channel
     * @param uri the codebase uri
+    * @param params the constructor parameters
     * @exception RemoteException if a remote exception occurs
     */
-    public DisposableCodeBaseModel( Logger logger, URI uri )
+    public DisposableCodeBaseModel( Logger logger, URI uri, Parameter[] params )
       throws RemoteException
     {
-        super( logger, uri );
+        super( logger, uri, params );
     }
 
    /**

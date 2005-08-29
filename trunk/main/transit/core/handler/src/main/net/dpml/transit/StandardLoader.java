@@ -28,6 +28,7 @@ import java.net.URI;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Properties;
 import java.util.prefs.Preferences;
 
@@ -334,6 +335,11 @@ class StandardLoader
 
         Class[] classes = constructor.getParameterTypes();
         Object[] arguments = new Object[ classes.length ];
+        ArrayList list = new ArrayList();
+        for( int i=0; i < args.length; i++ )
+        {
+            list.add( args[i] );
+        }
 
         //
         // sweep though the construct arguments one by one and
@@ -342,13 +348,16 @@ class StandardLoader
 
         for( int i=0; i < classes.length; i++ )
         {
-            Class c = classes[i];
-            for( int j=0; j < args.length; j++ )
+            Class clazz = classes[i];
+            Iterator iterator = list.iterator();
+            while( iterator.hasNext() )
             {
-                Object object = args[j];
-                if( c.isAssignableFrom( object.getClass() ) )
+                Object object = iterator.next();
+                Class c = object.getClass();
+                if( isAssignableFrom( clazz, c ) )
                 {
                     arguments[i] = object;
+                    list.remove( object );
                     break;
                 }
             }
@@ -364,15 +373,7 @@ class StandardLoader
             if( null == arguments[i] )
             {
                 Class c = classes[i];
-                if( ClassLoader.class.isAssignableFrom( c ) )
-                {
-                    arguments[i] = constructor.getDeclaringClass().getClassLoader();
-                }
-                else if( Preferences.class.isAssignableFrom( c ) )
-                {
-                    arguments[i] = Preferences.userNodeForPackage( c );
-                }
-                else if( c.isArray() )
+                if( c.isArray() )
                 {
                     arguments[i] = getEmptyArrayInstance( c );
                 }
@@ -388,6 +389,53 @@ class StandardLoader
             }
         }
         return arguments;
+    }
+
+    private boolean isAssignableFrom( Class clazz, Class c )
+    {
+        if( clazz.isPrimitive() )
+        {
+            if( Integer.TYPE == clazz )
+            {
+                return Integer.class.isAssignableFrom( c );
+            }
+            else if( Boolean.TYPE == clazz )
+            {
+                return Boolean.class.isAssignableFrom( c );
+            }
+            else if( Byte.TYPE == clazz )
+            {
+                return Byte.class.isAssignableFrom( c );
+            }
+            else if( Short.TYPE == clazz )
+            {
+                return Short.class.isAssignableFrom( c );
+            }
+            else if( Long.TYPE == clazz )
+            {
+                return Long.class.isAssignableFrom( c );
+            }
+            else if( Float.TYPE == clazz )
+            {
+                return Float.class.isAssignableFrom( c );
+            }
+            else if( Double.TYPE == clazz )
+            {
+                return Double.class.isAssignableFrom( c );
+            }
+            else
+            {
+                final String error =
+                  "Primitive type ["
+                  + c.getName()
+                  + "] not supported.";
+                throw new RuntimeException( error );
+            }
+        }
+        else
+        {
+            return clazz.isAssignableFrom( c );
+        }
     }
 
     private Object newInstance( Constructor constructor, Object[] arguments ) throws RepositoryException

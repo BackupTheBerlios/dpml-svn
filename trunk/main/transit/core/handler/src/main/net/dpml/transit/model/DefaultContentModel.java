@@ -22,7 +22,6 @@ import java.net.URI;
 import java.rmi.RemoteException;
 import java.util.EventObject;
 import java.util.EventListener;
-import java.util.Properties;
 
 import net.dpml.transit.store.ContentStorage;
 import net.dpml.transit.store.Removable;
@@ -41,7 +40,6 @@ public class DefaultContentModel extends DisposableCodeBaseModel implements Cont
 
     private final ContentStorage m_home;
     private final String m_type;
-    private final Properties m_properties;
 
     private String m_title;
 
@@ -53,20 +51,19 @@ public class DefaultContentModel extends DisposableCodeBaseModel implements Cont
     * Construction of a new content model.
     * @param logger the assigned logging channel
     * @param uri the codebase uri
+    * @param parameters codebase constructor parameters
     * @param type the content type key
     * @param title the title of the content type
-    * @param properties properties to assign to the content model
     * @exception RemoteException if a remote exception occurs
     */
     public DefaultContentModel( 
-       Logger logger, URI uri, String type, String title, Properties properties ) throws RemoteException
+       Logger logger, URI uri, Parameter[] parameters, String type, String title ) throws RemoteException
     {
-        super( logger, uri );
+        super( logger, uri, parameters );
 
         m_home = null;
         m_type = type;
         m_title = title;
-        m_properties = properties;
     }
 
    /**
@@ -82,7 +79,6 @@ public class DefaultContentModel extends DisposableCodeBaseModel implements Cont
         m_home = home;
         m_type = home.getType();
         m_title = home.getTitle();
-        m_properties = home.getProperties();
     }
 
     //----------------------------------------------------------------------
@@ -126,64 +122,6 @@ public class DefaultContentModel extends DisposableCodeBaseModel implements Cont
             }
 
             ContentEvent event = new ContentEvent( this );
-            super.enqueueEvent( event );
-        }
-    }
-
-   /**
-    * Reutn the value of a property associated with the content model.
-    * @param key the property key
-    * @return the property value (possibly null)
-    */
-    public String getProperty( String key )
-    {
-        return m_properties.getProperty( key );
-    }
- 
-   /**
-    * Return the value of a property associated with the content model.
-    * @param key the property key
-    * @param value the value to return if the property is unknown
-    * @return the resolved value
-    */
-    public String getProperty( String key, String value )
-    {
-        return m_properties.getProperty( key, value );
-    }
-
-   /**
-    * Set a property on the content model.
-    * @param key the property key
-    * @param value the property value
-    */
-    public void setProperty( String key, String value )
-    {
-        synchronized( getLock() )
-        {
-            Object result = m_properties.setProperty( key, value );
-            if( null != m_home )
-            {
-                m_home.setProperty( key, value );
-            }
-            PropertyChangeEvent event = new PropertyChangeEvent( this, key, value );
-            super.enqueueEvent( event );
-        }
-    }
-
-   /**
-    * Remove a property from the content model.
-    * @param key the property key
-    */
-    public void removeProperty( String key )
-    {
-        synchronized( getLock() )
-        {
-            Object result = m_properties.remove( key );
-            if( null != m_home )
-            {
-                m_home.removeProperty( key );
-            }
-            PropertyChangeEvent event = new PropertyChangeEvent( this, key, null );
             super.enqueueEvent( event );
         }
     }
@@ -236,11 +174,7 @@ public class DefaultContentModel extends DisposableCodeBaseModel implements Cont
     */
     protected void processEvent( EventObject event )
     {
-        if( event instanceof PropertyChangeEvent )
-        {
-            processPropertyChangeEvent( (PropertyChangeEvent) event );
-        }
-        else if( event instanceof ContentEvent )
+        if( event instanceof ContentEvent )
         {
             processContentEvent( (ContentEvent) event );
         }
@@ -267,29 +201,6 @@ public class DefaultContentModel extends DisposableCodeBaseModel implements Cont
                 {
                     final String error =
                       "ContentListener title change notification error.";
-                    getLogger().error( error, e );
-                }
-            }
-        }
-    }
-
-    private void processPropertyChangeEvent( PropertyChangeEvent event )
-    {
-        EventListener[] listeners = super.listeners();
-        for( int i=0; i < listeners.length; i++ )
-        {
-            EventListener eventListener = listeners[i];
-            if( eventListener instanceof ContentListener )
-            {
-                ContentListener listener = (ContentListener) eventListener;
-                try
-                {
-                    listener.propertyChanged( event );
-                }
-                catch( Throwable e )
-                {
-                    final String error =
-                      "ContentListener property change notification error.";
                     getLogger().error( error, e );
                 }
             }

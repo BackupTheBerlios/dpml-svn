@@ -28,9 +28,11 @@ import java.util.Collections;
 import java.util.EventObject;
 import java.util.EventListener;
 
+import net.dpml.transit.model.DefaultModel;
 import net.dpml.transit.model.DuplicateKeyException;
 import net.dpml.transit.model.Logger;
 import net.dpml.transit.model.UnknownKeyException;
+import net.dpml.transit.model.Parameter;
 
 import net.dpml.profile.*;
 import net.dpml.profile.ApplicationRegistry;
@@ -42,7 +44,7 @@ import net.dpml.profile.ApplicationProfile;
  * Implements of the DepotModel within which a set of application profiles 
  * are maintained.
  */
-public class RegistryModel extends AbstractModel implements ApplicationRegistry
+public class RegistryModel extends DefaultModel implements ApplicationRegistry
 {
     private final RegistryStorage m_home;
 
@@ -76,7 +78,7 @@ public class RegistryModel extends AbstractModel implements ApplicationRegistry
 
     public void removeApplicationProfile( ApplicationProfile profile ) throws RemoteException
     {
-        synchronized( m_lock )
+        synchronized( getLock() )
         {
             profile.dispose();
             m_list.remove( profile );
@@ -87,7 +89,7 @@ public class RegistryModel extends AbstractModel implements ApplicationRegistry
 
     public ApplicationProfile[] getApplicationProfiles() throws RemoteException
     {
-        synchronized( m_lock )
+        synchronized( getLock() )
         {
             return (ApplicationProfile[]) m_list.toArray( new ApplicationProfile[0] );
         }
@@ -164,7 +166,7 @@ public class RegistryModel extends AbstractModel implements ApplicationRegistry
     private void addApplicationProfile( ApplicationProfile profile, boolean notify ) 
       throws DuplicateKeyException, RemoteException
     {
-        synchronized( m_lock )
+        synchronized( getLock() )
         {
             String key = profile.getID();
             try

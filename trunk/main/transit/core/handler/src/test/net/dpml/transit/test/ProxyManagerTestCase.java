@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package net.dpml.transit.manager;
+package net.dpml.transit.test;
 
 import java.io.File;
 import java.io.FileInputStream;

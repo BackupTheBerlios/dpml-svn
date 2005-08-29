@@ -18,11 +18,13 @@
 
 package net.dpml.part;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URLConnection;
 import java.net.URI;
 import java.net.URL;
 import java.net.ContentHandler;
+import java.lang.reflect.Constructor;
 import java.util.Properties;
 import java.util.Date;
 
@@ -41,56 +43,74 @@ import net.dpml.part.control.Controller;
  */
 public class PartContentHandler extends ContentHandler
 {
-    private final ContentModel m_model;
     private final Logger m_logger;
+    private final Controller m_controller;
 
-    public PartContentHandler( Logger logger, ContentModel content )
+    public PartContentHandler( Logger logger )
     {
-        m_model = content;
+        this( logger, null, null );
+    }
+
+    protected PartContentHandler( Logger logger, File work, File temp )
+    {
         m_logger = logger;
-    }
 
-    public Container getRootContainer() 
-    {
-        try
-        {
-           return newController().getContainer();
-        }
-        catch( Throwable e )
-        {
-            final String error =
-              "Internal error while attempting to establish the root container.";
-            throw new RuntimeException( error, e );
-        }
-    }
-
-    public Controller newController()
-    {
         try
         {
             ClassLoader classloader = Part.class.getClassLoader();
             URI uri = new URI( "@COMPOSITION-CONTROLLER-URI@" );
             Repository repository = Transit.getInstance().getRepository();
-            Object object = repository.getPlugin( classloader, uri, new Object[]{m_logger, m_model} );
-            if( object instanceof Controller )
-            {
-                return (Controller) object;
-            }
-            else
-            {
-                Class c = object.getClass();
-                final String error = "Plugin class is not a controller.";
-                System.out.println( 
-                 "THIS CONTROLLER: " + Controller.class.getName() + ", " + Controller.class.hashCode() );
-                System.out.println( "THAT CONTROLLER: " + c.getName() + ", " + c.hashCode() );
-                System.out.println( classloader.toString() );
-                throw new RuntimeException( error );
-            }
+            Class clazz = repository.getPluginClass( classloader, uri );
+
+            Class[] signature = 
+              new Class[]
+              {
+                  Logger.class, File.class, File.class
+              };
+            
+            Object[] params = 
+              new Object[]
+              {
+                  logger, work, temp
+              };
+            
+            Constructor constructor = clazz.getConstructor( signature );
+            m_controller = (Controller) constructor.newInstance( params );
         }
         catch( Throwable e )
         {
             final String error =
-              "Internal error while attempting to establish the composition part content handler.";
+              "Internal error while attempting to establish the composition controller.";
+            throw new RuntimeException( error, e );
+        }
+    }
+
+    public Component getComponent( URL url )
+    {
+        try
+        {
+            String path = url.toExternalForm();
+            URI uri = new URI( path );
+            return getComponent( uri );
+        }
+        catch( Throwable e )
+        {
+            final String error = 
+              "Error occured while attempting to load component: " + url;
+            throw new RuntimeException( error, e );
+        }
+    }
+
+    public Component getComponent( URI uri ) 
+    {
+        try
+        {
+           return m_controller.newComponent( uri );
+        }
+        catch( Throwable e )
+        {
+            final String error =
+              "Internal error while attempting to establish the root container.";
             throw new RuntimeException( error, e );
         }
     }
@@ -170,25 +190,8 @@ public class PartContentHandler extends ContentHandler
         }
     }
 
-    private Component getComponent( URL url )
-    {
-        try
-        {
-            String path = url.toExternalForm();
-            URI uri = new URI( path );
-            String name = "" + new Date().getTime(); // fabricate a unique name
-            return getController().getContainer().addComponent( name, uri );
-        }
-        catch( Throwable e )
-        {
-            final String error = 
-              "Error occured while attempting to load component: " + url;
-            throw new RuntimeException( error, e );
-        }
-    }
-
     private Controller getController()
     {
-        return newController();
+        return m_controller;
     }
 }

@@ -21,11 +21,12 @@ import java.util.Properties;
 import java.util.prefs.Preferences;
 import java.util.prefs.BackingStoreException;
 
+import net.dpml.transit.model.Parameter;
 /**
  * The LayoutHelper class is responsible for the setup of initial factory
  * default preference settings.
  */
-abstract class CodeBaseStorageUnit extends AbstractStorageUnit implements CodeBaseStorage
+public abstract class CodeBaseStorageUnit extends AbstractStorageUnit implements CodeBaseStorage
 {
     // ------------------------------------------------------------------------
     // constructor
@@ -117,6 +118,43 @@ abstract class CodeBaseStorageUnit extends AbstractStorageUnit implements CodeBa
     public void removeProperty( Preferences prefs, String key )
     {
         prefs.remove( key );
+    }
+
+   /**
+    * Return the array of codebase parameters.
+    *
+    * @return the value array
+    */
+    public Parameter[] getParameters()
+    {
+        Preferences prefs = getPreferences();
+        byte[] bytes = prefs.getByteArray( "parameters", new byte[0] );
+        if( bytes.length == 0 )
+        {
+            return new Parameter[0];
+        }
+        else
+        {
+            return SerializationHelper.importParameters( bytes );
+        }
+    }
+
+   /**
+    * Set the array of parameters assigned to the codebase model.
+    * @param parameters the parameter value array
+    */
+    public void setParameters( Parameter[] parameters )
+    {
+        Preferences prefs = getPreferences();
+        if( null == parameters )
+        {
+            prefs.putByteArray( "parameters", new byte[0] );
+        }
+        else
+        {
+            byte[] bytes = SerializationHelper.exportParameters( parameters );
+            prefs.putByteArray( "parameters", bytes );
+        }
     }
 }
 

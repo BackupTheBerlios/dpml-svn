@@ -28,6 +28,7 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.net.URL;
+import java.rmi.RemoteException;
 
 import javax.swing.JDialog;
 import javax.swing.border.EmptyBorder;
@@ -45,6 +46,8 @@ import javax.swing.ImageIcon;
 import javax.swing.JTextField;
 
 import net.dpml.transit.model.ContentModel;
+import net.dpml.transit.model.UnknownKeyException;
+import net.dpml.transit.model.Parameter;
 
 
 /**
@@ -53,22 +56,7 @@ import net.dpml.transit.model.ContentModel;
  */
 public class PartContentHandlerControlPanel extends JDialog implements PropertyChangeListener
 {
-    private static String METRO_ICON_FILENAME = "net/dpml/part/images/setup.png";
-
-    private static String SOURCE_ICON_FILENAME = "net/dpml/part/images/source.png";
-
-    private static String WORK_ICON_FILENAME = "net/dpml/part/images/working.png";
-
-    private static String TEMP_ICON_FILENAME = "net/dpml/part/images/temp.png";
-
-    private static String PLUGIN_VERSION = "@VERSION@";
-
-    private static String PLUGIN_GROUP = "@GROUP@";
-
-    private static String PLUGIN_NAME = "@NAME@";
-
     private PropertyChangeSupport m_propertyChangeSupport;
-
 
     private final ContentModel m_model;
 
@@ -400,9 +388,32 @@ public class PartContentHandlerControlPanel extends JDialog implements PropertyC
     {
         try
         {
-            return m_model.getProperty( "work.dir", "${dpml.data}/work" );
+            Parameter p =  m_model.getParameter( WORK_PATH_KEY );
+            Object value = p.getValue();
+            if( null == value )
+            {
+                return DEFAULT_WORK_PATH;
+            }
+            else if( value instanceof String )
+            {
+                return (String) value;
+            }
+            else
+            {
+                final String error = 
+                  "Illegal argument assigned to the parameter ["
+                  + WORK_PATH_KEY
+                  + "]. String expected but found '"
+                  + value.getClass().getName()
+                  + "'.";
+                throw new IllegalArgumentException( error );
+            }
         }
-        catch( Exception e )
+        catch( UnknownKeyException e )
+        {
+            return DEFAULT_WORK_PATH;
+        }
+        catch( RemoteException e )
         {
             final String error = 
               "Remote error while attempting to reslve working directory.";
@@ -419,14 +430,52 @@ public class PartContentHandlerControlPanel extends JDialog implements PropertyC
     {
         try
         {
-            return m_model.getProperty( "temp.dir", "${java.io.tmpdir}" );
+            Parameter p =  m_model.getParameter( TEMP_PATH_KEY );
+            Object value = p.getValue();
+            if( null == value )
+            {
+                return DEFAULT_TEMP_PATH;
+            }
+            else if( value instanceof String )
+            {
+                return (String) value;
+            }
+            else
+            {
+                final String error = 
+                  "Illegal argument assigned to the parameter ["
+                  + TEMP_PATH_KEY
+                  + "]. String expected but found '"
+                  + value.getClass().getName()
+                  + "'.";
+                throw new IllegalArgumentException( error );
+            }
         }
-        catch( Exception e )
+        catch( UnknownKeyException e )
+        {
+            return DEFAULT_TEMP_PATH;
+        }
+        catch( RemoteException e )
         {
             final String error = 
               "Remote error while attempting to reslve temp directory.";
             throw new RuntimeException( error, e );
         }
     }
+
+    private static final String WORK_PATH_KEY = "work.dir";
+    private static final String TEMP_PATH_KEY = "temp.dir";
+    private static final String DEFAULT_WORK_PATH = "${dpml.data}/work";
+    private static final String DEFAULT_TEMP_PATH = "${java.io.tmpdir}";
+
+    private static String METRO_ICON_FILENAME = "net/dpml/part/images/setup.png";
+    private static String SOURCE_ICON_FILENAME = "net/dpml/part/images/source.png";
+    private static String WORK_ICON_FILENAME = "net/dpml/part/images/working.png";
+    private static String TEMP_ICON_FILENAME = "net/dpml/part/images/temp.png";
+
+    private static String PLUGIN_VERSION = "@VERSION@";
+    private static String PLUGIN_GROUP = "@GROUP@";
+    private static String PLUGIN_NAME = "@NAME@";
+
 
 }
