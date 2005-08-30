@@ -22,6 +22,7 @@ package net.dpml.test.acme.plus;
 import java.net.URI;
 import java.net.URL;
 import java.util.prefs.Preferences;
+import java.util.logging.Logger;
 
 import junit.framework.TestCase;
 
@@ -60,9 +61,11 @@ public class URLTestCase extends TestCase
     */
     public void testComponentAquisition() throws Exception
     {
+        //Logger.getLogger( "testcase" ).info( "starting aquisition" );
         URL url = new URL( SIMPLE_TEST_PART );
         Component component = (Component) url.getContent( new Class[]{ Component.class } );
         Dimension d = (Dimension) component.resolve();
+        //Logger.getLogger( "testcase" ).info( "aquisition complete" );
     }
 
    /**
@@ -93,16 +96,37 @@ public class URLTestCase extends TestCase
 
     static
     {
+        //
+        // make sure transit is declared as the protocol handler
+        //
+
         System.setProperty( "java.protocol.handler.pkgs", "net.dpml.transit" );
+
+        //
+        // use an in-memory preference store so we don't cause any problems with the
+        // users operational preferences
+        //
+
         System.setProperty( 
            "java.util.prefs.PreferencesFactory", 
            "net.dpml.transit.store.LocalPreferencesFactory" );
-        System.setProperty( "dpml.transit.profile", "url-testcase" );
+        //System.setProperty( "dpml.transit.profile", "url-testcase" );
+
+        //
+        // setup the classic console based logging output
+        //
+
         System.setProperty( 
          "java.util.logging.config.class", 
          System.getProperty( 
            "java.util.logging.config.class", 
            "net.dpml.transit.util.ConfigurationHandler" ) );
+
+        //
+        // create a new transit model and setup the content handler model
+        // to use within the test
+        //
+
         try
         {
             URI uri = new URI( PART_MANAGER_PLUGIN );

@@ -24,6 +24,7 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.util.List;
 import java.util.LinkedList;
+import java.util.logging.Logger;
 
 import junit.framework.TestCase;
 
@@ -51,6 +52,7 @@ public class ManagementTestCase extends TestCase
      */
     public void testManagedComponent() throws Exception
     {
+        Logger.getLogger( "testcase" ).info( "starting managed component test" );
         Manager component = (Manager) getComponent( "managed-component.part" );
         component.initialize();
         List list = new LinkedList();
@@ -67,10 +69,12 @@ public class ManagementTestCase extends TestCase
             }
         }
         component.terminate();
+        Logger.getLogger( "testcase" ).info( "completed managed component test" );
     }
 
     public void testManagingContainer() throws Exception
     {
+        Logger.getLogger( "testcase" ).info( "starting container test" );
         Manager component = (Manager) getComponent( "managing-container.part" );
         try
         {
@@ -80,6 +84,7 @@ public class ManagementTestCase extends TestCase
         {
             component.terminate();
         }
+        Logger.getLogger( "testcase" ).info( "completed container test" );
     }
 
     Component getComponent( String path ) throws Exception

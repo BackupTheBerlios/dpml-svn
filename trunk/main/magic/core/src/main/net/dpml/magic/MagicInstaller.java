@@ -51,21 +51,8 @@ public class MagicInstaller
     {
         m_logger = logger;
 
-        String profile = "development";
         if( install.booleanValue() )
         {
-            try
-            {
-                home.getTransitModel( profile );
-                getLogger().info( "transit development profile exists (no action required)" );
-            }
-            catch( UnknownKeyException e )
-            {
-                getLogger().info( "adding transit development profile" );
-                home.addTransitModel( profile );
-                getLogger().info( "profile created" );
-            }
-
             getLogger().info( "checking ${user.home}/.ant/lib" );
             File user = new File( System.getProperty( "user.home" ) );
             File ant = new File( user, ".ant" );
@@ -73,10 +60,6 @@ public class MagicInstaller
             checkAntLib( lib );
             purgeAntLib( lib );
             updateAntLib( lib );
-        }
-        else
-        {
-            getLogger().info( "removing transit development profile" );
         }
     }
 

@@ -52,8 +52,6 @@ abstract class TransitTask extends Task
 
         System.setProperty( "java.protocol.handler.pkgs", 
           System.getProperty( "java.protocol.handler.pkgs", "net.dpml.transit" ) );
-        System.setProperty( "dpml.transit.profile", 
-          System.getProperty( "dpml.transit.profile", "development" ) );
     }
 
     private static boolean m_INIT = false;

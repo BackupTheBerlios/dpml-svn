@@ -51,6 +51,7 @@ public class ManagedComponent implements StateListener
     public ManagedComponent( final Logger logger, Context context )
     {
         m_logger = logger;
+        m_logger.info( "instantiated" );
         context.addStateListener( this );
     }
 
@@ -104,18 +105,18 @@ public class ManagedComponent implements StateListener
     public void terminate( State state )
     {
         String name = state.getName();
-        getLogger().info( "handling termination within " + name );
+        getLogger().info( "handling termination (current state: " + name + ")" );
     }
 
     public void start( State starting )
     {
-        String from = starting.getName();
-        getLogger().info( "starting from within " + from );
+        String name = starting.getName();
+        getLogger().info( "handling start (current state: " + name + ")" );
     }
 
     public void stop()
     {
-        getLogger().info( "stopping the component" );
+        getLogger().info( "handling stop" );
     }
 
     //
