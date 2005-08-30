@@ -114,7 +114,10 @@ class ProxyModelPanel extends ClassicPanel implements PropertyChangeListener
         m_editButton = new JButton( m_edit );
 
         TableColumnModel columns = new DefaultTableColumnModel();
-	  columns.addColumn( new TableColumn( 0, 100, new ClassicCellRenderer(), null ) );
+        TableColumn column = new TableColumn( 0, 100, new ClassicCellRenderer(), null ) ;
+        column.setHeaderValue( "Host" );
+	  columns.addColumn( column );
+
         m_tableModel = new ProxyExcludesTableModel( model );
         m_table = new ClassicTable( m_tableModel, columns );
         m_table.addPropertyChangeListener( this );
@@ -166,7 +169,6 @@ class ProxyModelPanel extends ClassicPanel implements PropertyChangeListener
             m_edit.edit();
         }
     }
-
 
     //--------------------------------------------------------------
     // impl

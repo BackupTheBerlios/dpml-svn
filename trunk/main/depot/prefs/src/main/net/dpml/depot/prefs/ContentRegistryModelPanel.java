@@ -218,15 +218,16 @@ class ContentRegistryModelPanel extends ClassicPanel implements PropertyChangeLi
     */
     private static TableColumnModel createContentHandlerColumnModel()
     {
-	  TableColumn iconColumn = new TableColumn( 0, 30, new ClassicCellRenderer(), null );
-        iconColumn.setHeaderValue( "" );
-	  iconColumn.setMaxWidth( 30 );
-	  iconColumn.setMinWidth( 30 );
-	  TableColumn typeColumn = new TableColumn( 1, 100, new ClassicCellRenderer(), null );
-        typeColumn.setHeaderValue( "Type" );
         TableColumnModel model = new DefaultTableColumnModel();
-	  model.addColumn( iconColumn  );
-	  model.addColumn( typeColumn );
+
+	  TableColumn type = new TableColumn( 0, 30, new ClassicCellRenderer(), null );
+        type.setHeaderValue( "Type" );
+	  model.addColumn( type );
+
+	  TableColumn codebase = new TableColumn( 1, 250, new ClassicCellRenderer(), null );
+        codebase.setHeaderValue( "Codebase" );
+	  model.addColumn( codebase );
+
 	  return model;
     }
 

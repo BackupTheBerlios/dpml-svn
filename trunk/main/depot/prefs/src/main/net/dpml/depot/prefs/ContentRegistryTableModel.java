@@ -44,12 +44,18 @@ class ContentRegistryTableModel extends AbstractTableModel
    /**
     * Constant row identifier for the icon.
     */
-    public static final int ICON = 0;
+    //public static final int ICON = 0;
 
    /**
     * Constant row identifier for the name.
     */
-    public static final int VALUE = 1;
+    //public static final int VALUE = 1;
+    public static final int VALUE = 0;
+
+   /**
+    * Constant row identifier for the name.
+    */
+    public static final int CODEBASE = 1;
 
    /**
     * Number of columns.
@@ -189,8 +195,10 @@ class ContentRegistryTableModel extends AbstractTableModel
 
         switch( col )
         {
-            case ICON :
-              return FEATURE_ICON;
+            case VALUE :
+              return getHostAtRow( row );
+            case CODEBASE :
+              return getCodeBase( row );
             default: 
               return getHostAtRow( row );
         }
@@ -207,4 +215,17 @@ class ContentRegistryTableModel extends AbstractTableModel
             return "";
         }
     }
+
+    private String getCodeBase( int row )
+    {
+        try
+        {
+            return m_manager.getContentModels()[ row ].getCodeBaseURI().toString();
+        }
+        catch( Throwable e )
+        {
+            return "";
+        }
+    }
+
 }

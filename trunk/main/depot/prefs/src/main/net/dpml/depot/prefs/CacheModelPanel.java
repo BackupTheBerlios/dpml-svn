@@ -283,16 +283,13 @@ class CacheModelPanel extends ClassicPanel implements PropertyChangeListener
     */
     private static TableColumnModel createHostsColumnModel()
     {
-	  TableColumn iconColumn = new TableColumn( 0, 30, new ClassicCellRenderer(), null );
-        iconColumn.setHeaderValue("");
-	  iconColumn.setMaxWidth( 30 );
-	  iconColumn.setMinWidth( 30 );
-	  TableColumn hostColumn = new TableColumn( 1, 100, new ClassicCellRenderer(), null );
-        hostColumn.setHeaderValue("Host");
-        TableColumnModel columnModel = new DefaultTableColumnModel();
-	  columnModel.addColumn( iconColumn  );
-	  columnModel.addColumn( hostColumn );
-	  return columnModel;
+        TableColumnModel model = new DefaultTableColumnModel();
+
+	  TableColumn host = new TableColumn( 0, 250, new ClassicCellRenderer(), null );
+        host.setHeaderValue( "Host" );
+	  model.addColumn( host );
+
+	  return model;
     }
 
     private class AddAction extends AbstractAction

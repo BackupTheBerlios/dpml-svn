@@ -42,19 +42,14 @@ class LayoutRegistryTableModel extends AbstractTableModel
     private static final String ICON_PATH = "net/dpml/depot/prefs/images/item.gif";
 
    /**
-    * Constant row identifier for the icon.
-    */
-    public static final int ICON = 0;
-
-   /**
     * Constant row identifier for the name.
     */
-    public static final int VALUE = 1;
+    public static final int VALUE = 0;
 
    /**
     * Number of columns.
     */
-    private static final int COLUMN_COUNT = 2;
+    private static final int COLUMN_COUNT = 1;
 
    /**
     * Default small icon.
@@ -149,7 +144,7 @@ class LayoutRegistryTableModel extends AbstractTableModel
     * @return int the number of rows maintained by the model
     */
     public int getRowCount()
-    { 
+    {
         try
         {
             return m_manager.getLayoutModels().length;
@@ -178,8 +173,8 @@ class LayoutRegistryTableModel extends AbstractTableModel
 
         switch( col )
         {
-            case ICON :
-              return FEATURE_ICON;
+            case VALUE :
+              return getResolverAtRow( row );
             default: 
               return getResolverAtRow( row );
         }

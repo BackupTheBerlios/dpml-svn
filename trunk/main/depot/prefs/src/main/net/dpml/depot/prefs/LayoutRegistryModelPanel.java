@@ -235,15 +235,12 @@ class LayoutRegistryModelPanel extends ClassicPanel implements PropertyChangeLis
     */
     private static TableColumnModel createResolverHandlerColumnModel()
     {
-	  TableColumn iconColumn = new TableColumn( 0, 30, new ClassicCellRenderer(), null );
-        iconColumn.setHeaderValue( "" );
-	  iconColumn.setMaxWidth( 30 );
-	  iconColumn.setMinWidth( 30 );
-	  TableColumn typeColumn = new TableColumn( 1, 100, new ClassicCellRenderer(), null );
-        typeColumn.setHeaderValue( "Type" );
         TableColumnModel model = new DefaultTableColumnModel();
-	  model.addColumn( iconColumn  );
-	  model.addColumn( typeColumn );
+
+	  TableColumn layout = new TableColumn( 0, 250, new ClassicCellRenderer(), null );
+        layout.setHeaderValue( "Layout" );
+	  model.addColumn( layout );
+
 	  return model;
     }
 

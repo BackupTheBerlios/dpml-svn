@@ -44,12 +44,12 @@ class ApplicationsRegistryTableModel extends AbstractTableModel
    /**
     * Constant row identifier for the icon.
     */
-    public static final int ICON = 0;
+    public static final int ID = 0;
 
    /**
     * Constant row identifier for the name.
     */
-    public static final int VALUE = 1;
+    public static final int CODEBASE = 1;
 
    /**
     * Number of columns.
@@ -173,8 +173,10 @@ class ApplicationsRegistryTableModel extends AbstractTableModel
 
         switch( col )
         {
-            case ICON :
-              return FEATURE_ICON;
+            case ID :
+              return getResolverAtRow( row );
+            case CODEBASE :
+              return getCodeBaseAtRow( row );
             default: 
               return getResolverAtRow( row );
         }
@@ -185,6 +187,18 @@ class ApplicationsRegistryTableModel extends AbstractTableModel
         try
         {
             return m_model.getApplicationProfiles()[ row ].getID();
+        }
+        catch( Throwable e )
+        {
+            return "";
+        }
+    }
+
+    private String getCodeBaseAtRow( int row )
+    {
+        try
+        {
+            return m_model.getApplicationProfiles()[ row ].getCodeBaseURI().toString();
         }
         catch( Throwable e )
         {
