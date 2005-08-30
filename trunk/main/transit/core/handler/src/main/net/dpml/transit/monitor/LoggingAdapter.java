@@ -22,6 +22,8 @@ import java.net.URL;
 import java.util.logging.Logger;
 import java.util.logging.Level;
 
+import net.dpml.transit.PID;
+
 /**
  * Generic adapter that redirects monitor events to a logging channel.
  *
@@ -42,6 +44,8 @@ public class LoggingAdapter implements Adapter
     * The logging channel.
     */
     private static final String CATEGORY = "transit";
+
+    private static final PID ID = new PID();
 
     // ------------------------------------------------------------------------
     // state
@@ -255,7 +259,8 @@ public class LoggingAdapter implements Adapter
             String value = getFranctionalValue( count );
             int pad = max.length() - value.length();
             String level = getLogHeader();
-            StringBuffer buffer = new StringBuffer( level );
+            String process = getProcessHeader();
+            StringBuffer buffer = new StringBuffer( process + level );
             String path = resource.toString();
             String name = path.substring( path.lastIndexOf( '/' ) + 1 );
             buffer.append( "(" + m_logger.getName() + "): " );
@@ -300,6 +305,17 @@ public class LoggingAdapter implements Adapter
         String tag = buffer.toString();
         return tag.substring( 0, EIGHT ) + "] ";
     }
+
+    private String getProcessHeader()
+    {
+        StringBuffer buffer = new StringBuffer();
+        buffer.append( "[" );
+        buffer.append( ID.getValue() );
+        buffer.append( "        " );
+        String tag = buffer.toString();
+        return tag.substring( 0, PROCESS_HEADER_WIDTH ) + "] ";
+    }
+
 
     private Level getLoggerLevel( Logger logger )
     {
@@ -390,5 +406,6 @@ public class LoggingAdapter implements Adapter
     }
 
     private static final int EIGHT = 8;
+    private static final int PROCESS_HEADER_WIDTH = 6;
 }
 

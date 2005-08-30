@@ -32,27 +32,21 @@ import net.dpml.transit.model.UnknownKeyException;
 public class MetroInstaller
 {
     private final URI m_production;
-    private final URI m_development;
     private final Logger m_logger;
 
-    public MetroInstaller( TransitRegistryModel home, Logger logger, Boolean install ) throws Exception
+    public MetroInstaller( TransitRegistryModel home, Logger logger, boolean install ) throws Exception
     {
         m_logger = logger;
 
         m_production = new URI( PRODUCTION_PATH );
-        m_development = new URI( DEVELOPMENT_PATH );
 
-        if( install.booleanValue() )
+        if( install )
         {
             TransitModel[] models = home.getTransitModels();
             for( int i=0; i<models.length; i++ )
             {
                 TransitModel model = models[i];
-                ContentRegistryModel registry = model.getContentRegistryModel();
-                synchronized( registry )
-                {
-                    setContentModel( model, registry );
-                }
+                setupContentModel( model );
             }
         }
         else
@@ -66,10 +60,7 @@ public class MetroInstaller
                 {
                     ContentModel content = registry.getContentModel( PART );
                     URI uri = content.getCodeBaseURI();
-                    if( uri.equals( m_production ) || uri.equals( m_development ) )
-                    {
-                        registry.removeContentModel( content );
-                    }
+                    registry.removeContentModel( content );
                 }
                 catch( UnknownKeyException e )
                 {
@@ -84,49 +75,35 @@ public class MetroInstaller
         return m_logger;
     }
 
-    private void setContentModel( TransitModel transit, ContentRegistryModel registry ) throws Exception
+    private void setupContentModel( TransitModel model ) throws Exception
     {
-        String id = transit.getID();
-        URI codebase = selectURI( transit );
+        ContentRegistryModel registry = model.getContentRegistryModel();
+        String id = model.getID();
+        URI codebase = m_production;
         try
         {
-            ContentModel model = registry.getContentModel( PART );
-            URI uri = model.getCodeBaseURI();
+            ContentModel content = registry.getContentModel( PART );
+            URI uri = content.getCodeBaseURI();
             if( codebase.equals( uri ) )
             {
-                getLogger().info( "transit profile [" + transit.getID() + "] is uptodate (no change)" );
+                getLogger().info( "part handler codebase in [" + id + "] is uptodate (no change)" );
             }
             else
             {
-                getLogger().info( "updating transit profile [" + transit.getID() + "]" );
-                model.setCodeBaseURI( codebase );
+                getLogger().info( "updating codebase in [" + id + "]" );
+                content.setCodeBaseURI( codebase );
             }
         }
         catch( UnknownKeyException e )
         {
             getLogger().info( 
-              "adding 'part' content handler to transit profile " 
-              + transit.getID() );
+              "adding 'part' handler to profile " + id );
             registry.addContentModel( PART, TITLE, codebase );
-        }
-    }
-
-    private URI selectURI( TransitModel model ) throws Exception
-    {
-        String id = model.getID();
-        if( "development".equals( id ) )
-        {
-            return m_development;
-        }
-        else
-        {
-            return m_production;
         }
     }
 
     private static final String PART = "part";
     private static final String TITLE = "Part Content Handler";
     private static final String PRODUCTION_PATH = "@PRODUCTION_URI@";
-    private static final String DEVELOPMENT_PATH = "@DEVELOPMENT_URI@";
 
 }

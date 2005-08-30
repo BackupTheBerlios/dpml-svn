@@ -11,7 +11,6 @@
     <x:property name="part.group" feature="group" key="dpml-part-api"/>
     <x:property name="part.uri" feature="uri" type="plugin" key="dpml-part-api"/>
     <filter token="PRODUCTION_URI" value="${part.uri}"/>
-    <filter token="DEVELOPMENT_URI" value="link:plugin:${part.group}/${part.name}"/>
   </target>
 
   <target name="package" depends="standard.package">

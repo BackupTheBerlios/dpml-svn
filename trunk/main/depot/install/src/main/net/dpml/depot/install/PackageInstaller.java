@@ -110,8 +110,8 @@ public class PackageInstaller implements Runnable
             m_handler.exit();
         }
 
-        boolean reset = Main.isOptionPresent( m_args, "-reset" );
-        m_args = Main.consolidate( m_args, "-reset" );
+        boolean reset = Main.isOptionPresent( m_args, "-reload" );
+        m_args = Main.consolidate( m_args, "-reload" );
 
         try
         {
@@ -413,14 +413,14 @@ public class PackageInstaller implements Runnable
     {
         final String message = ""
           + "\n"
-          + "\nUsage: depot -setup [[-profile [NAME]] [-version [VERSION]] [-reset] [-debug]] | [-help]"
-          + "\nDefault: depot -setup -profile standard -version " + VERSION
+          + "\nUsage: depot -setup [[-package [NAME]] [-version [VERSION]] [-reload] [-debug]] | [-help]"
+          + "\nDefault: depot -setup -package standard -version " + VERSION
           + "\nOptions:"
           + "\n"
-          + "\n -profile [NAME]    Setup using the named profile 'magic', 'metro' or 'standard' (default)."
+          + "\n -package [NAME]    Setup using the named package 'magic', 'metro' or 'standard' (default)."
           + "\n -version [VERSION] Installs Depot and sub-systems using the requested version (defaults"
           + "\n                    to current installed Depot version)"
-          + "\n -reset             Forces installation process to execute with factory resources."
+          + "\n -reload            Forces installation process to execute using factory resources."
           + "\n -debug             Enable debug level logging."
           + "\n -help              This message."
           + "\n";
@@ -431,7 +431,7 @@ public class PackageInstaller implements Runnable
     // static
     //--------------------------------------------------------------------------
 
-    private static final String PROFILE_OPT = "-profile";
+    private static final String PROFILE_OPT = "-package";
     private static final String VERSION_OPT = "-version";
     private static final String STANDARD_PROFILE = "standard";
     private static final String MAGIC_PROFILE = "magic";
