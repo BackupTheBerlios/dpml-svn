@@ -47,11 +47,11 @@ public class MagicInstaller
     * @param logger the assigned logging channel
     * @exception Exception if an error occurs
     */
-    public MagicInstaller( TransitRegistryModel home, Boolean install, Logger logger ) throws Exception
+    public MagicInstaller( TransitRegistryModel home, boolean install, Logger logger ) throws Exception
     {
         m_logger = logger;
 
-        if( install.booleanValue() )
+        if( install )
         {
             getLogger().info( "checking ${user.home}/.ant/lib" );
             File user = new File( System.getProperty( "user.home" ) );
