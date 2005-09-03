@@ -32,6 +32,8 @@ import org.apache.tools.ant.types.Path;
 import org.apache.tools.ant.types.FileSet;
 import org.w3c.dom.Element;
 
+import net.dpml.transit.Plugin;
+
 import java.io.File;
 import java.io.InputStream;
 import java.net.URL;
@@ -322,7 +324,7 @@ public class JavadocTask extends ProjectTask
     private Resource[] getReferencedModules( Definition definition )
     {
         ResourceRef[] refs =
-          definition.getResourceRefs( getProject(), Policy.ANY, ResourceRef.ANY, true );
+          definition.getResourceRefs( getProject(), Policy.ANY, Plugin.ANY, true );
         ArrayList list = new ArrayList();
         for( int i=0; i < refs.length; i++ )
         {

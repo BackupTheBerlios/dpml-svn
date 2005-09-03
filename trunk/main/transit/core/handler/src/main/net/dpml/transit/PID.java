@@ -40,6 +40,15 @@ public class PID implements Serializable
         m_id = setupInitialValue();
     }
 
+   /**
+    * Creation of a new process identifier.
+    * @param pid the process identity
+    */
+    public PID( int pid )
+    {
+        m_id = pid;
+    }
+
     private static int setupInitialValue()
     {
         String id = System.getProperty( "process.id" );

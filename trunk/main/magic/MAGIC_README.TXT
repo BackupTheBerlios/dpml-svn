@@ -4,15 +4,18 @@ Description: Intelligent Build System
 Publisher: The Digital Product Meta Library
 Revision: @PROJECT-VERSION@
 
-Installation Instructions
--------------------------
+Release Notes: Version @PROJECT-VERSION@
+-------------------------------
 
-$ depot -setup
+Added support for tagging dependencies as "system" enabling inclusion of 
+jar files into the system classloader category (used by Depot when launching
+applications that require system classloader suppliments such as protocol 
+handlers and pluginable L&Fs).  Improved the API with the introduction 
+of some type-safe enumerations for dependency categories.
 
 Release Notes: Version 20050809
 -------------------------------
 
-Revision: 191
 Improvements to <x:path> enabling self reference of content in a path
 (i.e. a project can request a path that includes its own resources).
 Restructruring of the handling of links under <x:path> creation and 

@@ -36,11 +36,10 @@ public class StandardRegistryModel extends RegistryModel implements ApplicationR
     * Plugin class used to handle the establishment of the DepotProfile.  
     * 
     * @param logger the assigned logging channel
-    * @param prefs the root depot preferences
     */
-    public StandardRegistryModel( Logger logger, Preferences prefs ) 
+    public StandardRegistryModel( Logger logger ) 
       throws NullPointerException, DuplicateKeyException, RemoteException
     {
-         super( logger, new RegistryStorageUnit( prefs ) );
+         super( logger, new RegistryStorageUnit() );
     }
 }

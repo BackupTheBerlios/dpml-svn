@@ -16,7 +16,11 @@ station and support for JVM process identity within the default log message
 formatter. Major cleanup of the profile API and implementation with 
 consolidation around the ApplicationProfile class.  Updated Depot icons 
 based on content from CrystalXP.net and inclusion of credits in 
-NOTICE.TXT.
+NOTICE.TXT.  Improvements to Depot Preferences when running on JRE 5.0
+under Windows and general enhancements to Preferences table information.
+
+Enhanced the console to support deployment of plugin handlers that add 
+supplimentary content to the system classloader.
 
 Release Notes: Version 20050809
 -------------------------------

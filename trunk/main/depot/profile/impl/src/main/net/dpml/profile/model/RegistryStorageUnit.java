@@ -30,18 +30,23 @@ import net.dpml.transit.model.Logger;
 import net.dpml.transit.store.AbstractStorageUnit;
 import net.dpml.transit.store.StorageRuntimeException;
 
+import net.dpml.station.Station;
+
 /**
  * A DepotStorage maintains persistent records of application profiles.
  */
 public class RegistryStorageUnit extends AbstractStorageUnit implements RegistryStorage
 {
+    private static final Preferences STATION_PREFS = 
+      Preferences.userNodeForPackage( Station.class );
+
     // ------------------------------------------------------------------------
     // constructor
     // ------------------------------------------------------------------------
 
-    public RegistryStorageUnit( Preferences prefs ) 
+    public RegistryStorageUnit() 
     {
-        super( prefs );
+        super( STATION_PREFS );
     }
 
     // ------------------------------------------------------------------------
@@ -52,7 +57,7 @@ public class RegistryStorageUnit extends AbstractStorageUnit implements Registry
     {
         try
         {
-            Preferences prefs = getPreferences().node( "profiles" );
+            Preferences prefs = getProfilesNode();
             String[] names = prefs.childrenNames();
             ApplicationStorage[] stores = new ApplicationStorage[ names.length ];
             for( int i=0; i<names.length; i++ )
@@ -71,9 +76,14 @@ public class RegistryStorageUnit extends AbstractStorageUnit implements Registry
         }
     }
 
+    public Preferences getProfilesNode() 
+    {
+        return getPreferences().node( "profiles" );
+    }
+
     public ApplicationStorage getApplicationStorage( String id ) 
     {
-        Preferences prefs = getPreferences().node( "profiles" ).node( id );
+        Preferences prefs = getProfilesNode().node( id );
         return new ApplicationStorageUnit( prefs );
     }
 }

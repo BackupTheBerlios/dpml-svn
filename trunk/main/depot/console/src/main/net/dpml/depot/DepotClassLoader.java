@@ -20,6 +20,7 @@ package net.dpml.depot;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URI;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.Properties;
@@ -54,7 +55,7 @@ public final class DepotClassLoader extends URLClassLoader
     * @exception IOException if a classloader element could not be converted to a vaid URL
     * @exception IllegalStateException if the classpath has already been set
     */
-    public void setClasspath( String[] classpath ) throws IOException, IllegalStateException
+    public void setClasspath( URI[] classpath ) throws IOException, IllegalStateException
     {
         if( m_sealed )
         {
@@ -62,29 +63,13 @@ public final class DepotClassLoader extends URLClassLoader
               "Illegal attempt to modify the bootstrap classpath.";
             throw new IllegalStateException( error );
         }
-        Properties properties = System.getProperties();
         for( int i=0; i < classpath.length; i++ )
         {
-            String entry = classpath[i];
-            URL url = resolveURL( properties, entry );
+            URI uri = classpath[i];
+            URL url = uri.toURL();
             addURL( url );
         }
         m_sealed = true;
-    }
-
-    private URL resolveURL( Properties properties, String value ) throws IOException
-    {
-        String path = PropertyResolver.resolve( properties, value );
-        if( path.startsWith( "file:" ) || path.startsWith( "http:" ) 
-          || path.startsWith( "https:" ) || path.startsWith( "ftp:" ) )
-        {
-            return new URL( path );
-        }
-        else
-        {
-            File file = new File( path );
-            return file.toURL();
-        }
     }
 
    /**

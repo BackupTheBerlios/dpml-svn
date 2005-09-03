@@ -40,6 +40,10 @@ import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
 
+import com.jgoodies.looks.FontSizeHints;
+import com.jgoodies.looks.LookUtils;
+import com.jgoodies.looks.Options;
+
 import net.dpml.profile.ApplicationRegistry;
 
 import net.dpml.transit.Transit;
@@ -82,6 +86,9 @@ public class DepotPreferencesFrame extends JFrame
     {
         super();
 
+        configureUI();
+
+        /*
         boolean metal = isFlagPresent( args, "-metal" );
         if( false == metal )
         {
@@ -92,6 +99,7 @@ public class DepotPreferencesFrame extends JFrame
                 UIManager.setLookAndFeel( classname );
             }
         }
+        */
 
         Repository repository = Transit.getInstance().getRepository();
         ClassLoader classloader = DepotPreferencesFrame.class.getClassLoader();
@@ -118,6 +126,29 @@ public class DepotPreferencesFrame extends JFrame
         );
         setLocation( 300, 200 );
         setVisible(true);
+    }
+
+    private void configureUI()
+    {
+
+        UIManager.put( Options.USE_SYSTEM_FONTS_APP_KEY, Boolean.TRUE );
+        Options.setGlobalFontSizeHints( FontSizeHints.MIXED );
+        Options.setDefaultIconSize( new Dimension( 18, 18 ) );
+
+        String lafName =
+            LookUtils.IS_OS_WINDOWS_XP
+                ? Options.getCrossPlatformLookAndFeelClassName()
+                : Options.getSystemLookAndFeelClassName();
+
+        com.jgoodies.looks.plastic.PlasticLookAndFeel.setMyCurrentTheme( new com.jgoodies.looks.plastic.theme.SkyBlue() );
+        try 
+        {
+            UIManager.setLookAndFeel( lafName );
+        } 
+        catch( Exception e )
+        {
+            System.err.println( "Can't set look & feel:" + e );
+        }
     }
 
     private static boolean isFlagPresent( String[] args, String flag )

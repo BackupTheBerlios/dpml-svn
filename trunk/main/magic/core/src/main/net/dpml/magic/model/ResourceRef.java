@@ -17,6 +17,9 @@
 
 package net.dpml.magic.model;
 
+import net.dpml.transit.Plugin;
+import net.dpml.transit.Plugin.Category;
+
 /**
  * Delcaration of a repository resource reference.
  *
@@ -25,52 +28,42 @@ package net.dpml.magic.model;
  */
 public final class ResourceRef
 {
-   /**
-    * Constant identifier of an ANY classifier.
-    */
-    public static final int ANY = -1;
-
-   /**
-    * Constant identifier of an API classifier.
-    */
-    public static final int API = 0;
-
-   /**
-    * Constant identifier of an SPI classifier.
-    */
-    public static final int SPI = 1;
-
-   /**
-    * Constant identifier of an IMPL classifier.
-    */
-    public static final int IMPL = 2;
-
     private String m_key;
     private Policy m_policy;
-    private int m_tag;
+    private Category m_tag;
 
    /**
     * Return a classifier int value given a classifier name.
     * @param category the category classifier name
     * @return the classifier value as int
     */
-    public static int getCategory( final String category )
+    public static Category getCategory( final String category )
     {
-        if( "api".equals( category ) )
+        if( "sys".equals( category ) )
         {
-            return API;
+            return Plugin.ANY;
+        }
+        else if( "system".equals( category ) )
+        {
+            return Plugin.SYSTEM;
+        }
+        else if( "api".equals( category ) )
+        {
+            return Plugin.API;
         }
         else if( "spi".equals( category ) )
         {
-            return SPI;
+            return Plugin.SPI;
         }
         else if( "impl".equals( category ) )
         {
-            return IMPL;
+            return Plugin.IMPL;
         }
         else
         {
-            return IMPL;
+            final String error = 
+              "Unrecognized category [" + category + "].";
+            throw new IllegalArgumentException( error );
         }
     }
 
@@ -79,19 +72,33 @@ public final class ResourceRef
     * @param category the category classifier value
     * @return the classifier name
     */
-    public static String getCategoryName( final int category )
+    public static String getCategoryName( final Category category )
     {
-        if( category == API )
+        if( category == Plugin.ANY )
+        {
+            return "any";
+        }
+        if( category == Plugin.SYSTEM )
+        {
+            return "system";
+        }
+        if( category == Plugin.API )
         {
             return "api";
         }
-        else if( category == SPI )
+        else if( category == Plugin.SPI )
         {
             return "spi";
         }
-        else
+        else if( category == Plugin.IMPL )
         {
             return "impl";
+        }
+        else
+        {
+            final String error = 
+              "Unrecognized category [" + category + "].";
+            throw new IllegalArgumentException( error );
         }
     }
 
@@ -101,7 +108,7 @@ public final class ResourceRef
     */
     public ResourceRef( final String key )
     {
-        this( key, new Policy(), ANY );
+        this( key, new Policy(), Plugin.ANY );
     }
 
    /**
@@ -110,7 +117,7 @@ public final class ResourceRef
     * @param policy the build/test/runtime policy
     * @param tag the classloader classifier tag
     */
-    public ResourceRef( final String key, final Policy policy, final int tag )
+    public ResourceRef( final String key, final Policy policy, final Category tag )
     {
         m_key = key;
         m_policy = policy;
@@ -130,7 +137,7 @@ public final class ResourceRef
     * Return the classloader classifier tag.
     * @return the tag value
     */
-    public int getTag()
+    public Category getTag()
     {
         return m_tag;
     }
@@ -149,9 +156,9 @@ public final class ResourceRef
     * @param category the category to match against
     * @return TRUE if the category matches
     */
-    public boolean matches( final int category )
+    public boolean matches( final Category category )
     {
-        if( ( ANY == category ) || ( ANY == m_tag ) )
+        if( ( Plugin.ANY == category ) || ( Plugin.ANY == m_tag ) )
         {
             return true;
         }
@@ -197,7 +204,7 @@ public final class ResourceRef
         int hash = MAGIC_A;
         hash = hash ^ m_key.hashCode();
         hash = hash ^ m_policy.hashCode();
-        hash = hash ^ ( MAGIC_B >> m_tag );
+        hash = hash ^ ( MAGIC_B >> m_tag.hashCode() );
         return hash;
     }
 

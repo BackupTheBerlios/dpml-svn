@@ -11,10 +11,10 @@ Installation Instructions
 Transit is installed as a part of the Depot installation.  
 Please refer to the Depot README for additional information.
 
-Release Notes: Version SNAPSHOT
+Release Notes: Version @PROJECT-VERSION@
 -------------------------------
 
-Add a registry protocol handler enabling publication of regerences to an 
+Added a registry protocol handler enabling publication of references to an 
 RMI registry in the form registry://[host]:[port]/[path] or the shortform
 registry:/[path]. Updates to the standard log message formatter to include
 the JVM process identifier.  Updates to the ContentModel implementation to
@@ -22,6 +22,9 @@ include the declaration of constructed types used as plugin parameters.
 Improvement to the plugin loader preventing the assignment of an argument 
 to more than one constructor parameter value.  Addition of support for
 primitive arguments in plugin constructors (such as int, boolean, etc.).
+Upgrade of plugin model to include support for system level jar files 
+(e.g. protocol handlers or L&F implementations that need to exist in the 
+system classloader).
 
 Release Notes: Version 20050809
 -------------------------------

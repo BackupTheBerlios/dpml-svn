@@ -18,7 +18,9 @@ package net.dpml.depot.install;
 
 import net.dpml.transit.model.Logger;
 
-import net.dpml.depot.Main;
+import net.dpml.station.Station;
+import net.dpml.profile.ApplicationRegistry;
+import net.dpml.profile.ApplicationProfile;
 
 import java.util.prefs.Preferences;
 
@@ -43,11 +45,7 @@ public class DepotInstaller
         m_logger.info( "executing bootstrap setup" );
         m_logger.info( "adding http profile" );
         setupHttpProfile();
-        if( getProfilesPreferences().nodeExists( "test" ) )
-        {
-            m_logger.info( "removing test profile" );
-            getProfilePreferences( "test" ).removeNode();
-        }
+        setupAlternateProfile();
     }
 
     private void setupHttpProfile()
@@ -56,11 +54,33 @@ public class DepotInstaller
         Preferences prefs = getProfilePreferences( id );
         prefs.put( "uri", "link:part:dpml/planet/http/dpml-http-demo" );
         prefs.put( "title", "DPML HTTP Demo" );
+        prefs.put( "startup", ApplicationProfile.MANUAL.key() );
+    }
+
+    private void setupAlternateProfile()
+    {
+        String id = "demo";
+        Preferences prefs = getProfilePreferences( id );
+        prefs.put( "uri", "link:part:dpml/planet/http/dpml-http-demo" );
+        prefs.put( "title", "DPML Alternate Demo" );
+        prefs.putBoolean( "enabled", false );
+        Preferences system = prefs.node( "system" );
+        system.put( "abc", "def" );
+        system.put( "xyz", "qwerty" );
+        Preferences params = prefs.node( "parameters" );
+        params .put( "classname", "net.dpml.composition.impl.CompositionContext" );
+        Preferences basedir = params.node( "base" );
+        basedir.put( "value", "${java.temp.dir}" );
+        basedir.put( "classname", "java.io.File" );
+        Preferences tempdir = params.node( "temp" );
+        tempdir.put( "value", "${user.dir}" );
+        tempdir.put( "classname", "java.io.File" );
+        prefs.put( "startup", ApplicationProfile.DISABLED.key() );
     }
 
     private Preferences getPreferences()
     {
-        return Preferences.userNodeForPackage( Main.class );
+        return Preferences.userNodeForPackage( Station.class );
     }
 
     private Preferences getProfilesPreferences()

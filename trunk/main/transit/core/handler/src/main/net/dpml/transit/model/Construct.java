@@ -77,6 +77,15 @@ public class Construct implements Value
     }
 
    /**
+    * Return the classname of the resolved value.
+    * @return the classname
+    */
+    public String getBaseClassname()
+    {
+        return m_type;
+    }
+
+   /**
     * Resolve an instance from the value.
     * @return the resolved instance
     */

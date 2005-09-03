@@ -554,17 +554,17 @@ class StandardLoader
             throw new NullArgumentException( "base" );
         }
 
-        URI[] apiArtifacts = descriptor.getDependencies( Plugin.API_KEY );
+        URI[] apiArtifacts = descriptor.getDependencies( Plugin.API );
         URL[] apis = getURLs( apiArtifacts  );
         String apiLabel = appendFragment( descriptor.getURI(), "api" );
         ClassLoader api = buildClassLoader( apiLabel, base, apis );
 
-        URI[] spiArtifacts = descriptor.getDependencies( Plugin.SPI_KEY );
+        URI[] spiArtifacts = descriptor.getDependencies( Plugin.SPI );
         URL[] spis = getURLs( spiArtifacts );
         String spiLabel = appendFragment( descriptor.getURI(), "spi" );
         ClassLoader spi = buildClassLoader( spiLabel, api, spis );
 
-        URI[] impArtifacts = descriptor.getDependencies( Plugin.IMPL_KEY );
+        URI[] impArtifacts = descriptor.getDependencies( Plugin.IMPL );
         URL[] imps = getURLs( impArtifacts );
         String implLabel = appendFragment( descriptor.getURI(), "impl" );
         ClassLoader classloader = buildClassLoader( implLabel, spi, imps );

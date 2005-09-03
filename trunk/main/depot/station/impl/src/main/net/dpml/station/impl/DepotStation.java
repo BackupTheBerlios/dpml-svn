@@ -22,7 +22,6 @@ import java.rmi.activation.Activatable;
 import java.rmi.registry.Registry;
 import java.rmi.registry.LocateRegistry;
 import java.util.Hashtable;
-import java.util.prefs.Preferences;
 import java.util.LinkedList;
 import java.util.Properties;
 
@@ -35,6 +34,7 @@ import net.dpml.transit.model.DuplicateKeyException;
 import net.dpml.transit.model.Connection;
 
 import net.dpml.profile.ApplicationProfile;
+import net.dpml.profile.ApplicationProfile.StartupPolicy;
 import net.dpml.profile.ApplicationRegistry;
 import net.dpml.profile.ProfileException;
 
@@ -56,7 +56,6 @@ public class DepotStation extends UnicastRemoteObject implements Station, Handle
     private int m_count = 0;
     private final Logger m_logger;
     private Hashtable m_table = new Hashtable();
-
     private ApplicationRegistry m_model;
     private String[] m_args;
 
@@ -66,11 +65,10 @@ public class DepotStation extends UnicastRemoteObject implements Station, Handle
     * Creation of a station instance.
     *
     * @param logger the assigned logging channel
-    * @param prefs the depot root preferences
     * @param args supplimentary command line arguments
     * @exception RemoteException if a remote exception occurs during establishment
     */
-    public DepotStation( Logger logger, Preferences prefs, String[] args ) throws Exception
+    public DepotStation( Logger logger, String[] args ) throws Exception
     {
         super();
 
@@ -82,7 +80,7 @@ public class DepotStation extends UnicastRemoteObject implements Station, Handle
             Repository repository = Transit.getInstance().getRepository();
             ClassLoader classloader = DepotStation.class.getClassLoader();
             URI uri = new URI( DEPOT_PROFILE_URI );
-            m_model = (ApplicationRegistry) repository.getPlugin( classloader, uri, new Object[]{ prefs, logger } );
+            m_model = (ApplicationRegistry) repository.getPlugin( classloader, uri, new Object[]{ logger } );
 
             //
             // startup the general registry
@@ -122,19 +120,36 @@ public class DepotStation extends UnicastRemoteObject implements Station, Handle
                 String key = profile.getID();
                 logger.info( "profile: " + key );
                 String urn = "registry:" + key;
-                registry.rebind( key, profile );
-                Application application = new DefaultApplication( logger, profile, urn );
 
+                //
+                // TODO:
+                //
+                // for the moment we are registring the application profile into 
+                // into the registry so that the supbrocess picks up a reference to 
+                // the same object we are managing - however, this leaves the profile
+                // exposed - instead we need to setup a uri that references the station
+                // instance together with a query fragment identifying the application
+                // instance (e.g. registry:/dpml/station?profile=/dpml/planet/http) 
+                // following which we can handle security policy controls that restrict 
+                // the query operations based on assigned security policies
+                //
+
+                Application application = new DefaultApplication( logger, profile, urn );
                 m_table.put( key, application );
-                try
+                registry.rebind( key, profile );
+                StartupPolicy policy = profile.getStartupPolicy();
+                if( ApplicationProfile.AUTOMATIC == policy )
                 {
-                    application.start();
-                }
-                catch( Exception e )
-                {
-                    final String error = 
-                      "Startup error raised by application [" + key + "]";
-                    getLogger().warn( error );
+                    try
+                    {
+                        application.start();
+                    }
+                    catch( Exception e )
+                    {
+                        final String error = 
+                          "Startup error raised by application [" + key + "]";
+                        getLogger().warn( error );
+                    }
                 }
             }
 
@@ -200,7 +215,12 @@ public class DepotStation extends UnicastRemoteObject implements Station, Handle
         }
     }
 
-    public Application addApplication( ApplicationProfile profile ) 
+    public ApplicationRegistry getApplicationRegistry()  
+    {
+        return m_model;
+    }
+
+    public Application addApplication( ApplicationProfile profile )
       throws DuplicateKeyException, RemoteException
     {
         throw new UnsupportedOperationException( "addApplication/1" );
@@ -240,7 +260,15 @@ public class DepotStation extends UnicastRemoteObject implements Station, Handle
 
     public Application getApplication( String key ) throws UnknownKeyException, RemoteException
     {
-        throw new UnsupportedOperationException( "getApplication/1" );
+        Application application = (Application) m_table.get( key );
+        if( null == application )
+        {
+            throw new UnknownKeyException( key );
+        }
+        else
+        {
+            return application;
+        }
     }
 
     private Logger getLogger()

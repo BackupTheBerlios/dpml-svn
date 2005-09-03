@@ -19,6 +19,7 @@
 
 package net.dpml.transit;
 
+import java.io.Serializable;
 import java.net.URI;
 
 /**
@@ -33,17 +34,27 @@ public interface Plugin
    /**
     * Key used to designate an api classloader entry.
     */
-    static final String API_KEY = "api";
+    static final Category ANY = new Category( -1 );
+
+   /**
+    * Key used to designate an api classloader entry.
+    */
+    static final Category SYSTEM = new Category( 0 );
+
+   /**
+    * Key used to designate an api classloader entry.
+    */
+    static final Category API = new Category( 1 );
 
    /**
     * Key used to designate an spi classloader entry.
     */
-    static final String SPI_KEY = "spi";
+    static final Category SPI = new Category( 2 );
 
    /**
     * Key used to designate an impl classloader entry.
     */
-    static final String IMPL_KEY = "impl";
+    static final Category IMPL = new Category( 3 );
 
    /**
     * Return the uri to the plugin descriptor.
@@ -78,12 +89,11 @@ public interface Plugin
    /**
     * Return the implementation dependencies
     *
-    * @param key either 'api', 'spi' or 'impl', but use the API_KEY, SPI_KEY and
-    *        IMPL_KEY constants for maximum future compatibility.
+    * @param key SYSTEM, API, SPI and IMPL constants.
     *
     * @return the uris matching the key
     */
-    URI[] getDependencies( String key );
+    URI[] getDependencies( Category key );
 
    /**
     * Return the aggregated set of dependency uris.
@@ -108,5 +118,52 @@ public interface Plugin
     */
     String getURN();
 
+   /**
+    * Classloader category enumeration.
+    */
+    public static class Category implements Serializable
+    {
+        private final int m_index;
+
+       /**
+        * Internal constructor.
+        * @param index the enumeration index.
+        */
+        private Category( int index )
+        {
+            m_index = index;
+        }
+
+       /**
+        * Test this category for equality with the supplied instance.
+        * @param other the object to test against
+        * @return true if the instances are equivalent
+        */
+        public boolean equals( Object other )
+        {
+            if( null == other ) 
+            {
+                return false;
+            }
+            else if( other.getClass() == Category.class )
+            {
+                Category key = (Category) other;
+                return key.m_index == m_index;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+       /**
+        * Return the hascode for this instance.
+        * @return the instance hashcode
+        */
+        public int hashCode()
+        {
+            return m_index;
+        }
+    }
 
 }

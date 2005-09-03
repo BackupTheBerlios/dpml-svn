@@ -27,6 +27,9 @@ import net.dpml.magic.model.Resource;
 import net.dpml.magic.model.ResourceRef;
 import net.dpml.magic.model.Type;
 
+import net.dpml.transit.Plugin;
+import net.dpml.transit.Plugin.Category;
+
 import org.apache.tools.ant.BuildException;
 
 import org.w3c.dom.Element;
@@ -377,11 +380,23 @@ public final class XMLDefinitionBuilder
             final Element child = children[i];
             final String key = child.getAttribute( "key" );
             final String tagAttribute = child.getAttribute( "tag" );
-            final int tag = ResourceRef.getCategory( tagAttribute );
+            final Category tag = resolveCategory( tagAttribute );
             final Policy policy = createPolicy( child );
             refs[i] = new ResourceRef( key, policy, tag );
         }
         return refs;
+    }
+
+    private static Category resolveCategory( String category )
+    {
+        if( "".equals( category ) )
+        {
+            return Plugin.IMPL;
+        }
+        else
+        {
+            return ResourceRef.getCategory( category );
+        }
     }
 
     private static ResourceRef[] createPluginRefs( final Element element )
@@ -394,7 +409,7 @@ public final class XMLDefinitionBuilder
             final Element child = children[i];
             final String key = child.getAttribute( "key" );
             final String tagAttribute = child.getAttribute( "tag" );
-            final int tag = ResourceRef.getCategory( tagAttribute );
+            final Category tag = ResourceRef.getCategory( tagAttribute );
             final Policy policy = createPolicy( child, false );
             refs[i] = new ResourceRef( key, policy, tag );
         }

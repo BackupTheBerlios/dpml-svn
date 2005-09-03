@@ -39,9 +39,10 @@ import net.dpml.profile.ApplicationRegistry;
 import net.dpml.profile.RegistryEvent;
 import net.dpml.profile.RegistryListener;
 import net.dpml.profile.ApplicationProfile;
+import net.dpml.profile.ApplicationProfile.StartupPolicy;
 
 /**
- * Implements of the DepotModel within which a set of application profiles 
+ * Implements of the application registry within which a set of application profiles 
  * are maintained.
  */
 public class RegistryModel extends DefaultModel implements ApplicationRegistry
@@ -101,11 +102,14 @@ public class RegistryModel extends DefaultModel implements ApplicationRegistry
         String id = "anonymous";
         String title = id;
         Properties properties = new Properties();
-        boolean server = true;
-        boolean enabled = false;
+        StartupPolicy policy = ApplicationProfile.MANUAL;
         Parameter[] params = new Parameter[0];
+        String path = "${user.dir}";
         return new ApplicationModel(  
-          logger, id, title, properties, server, codebase, enabled, params );
+          logger, id, title, properties, path, codebase, policy, 
+          ApplicationProfile.DEFAULT_STARTUP_TIMEOUT, 
+          ApplicationProfile.DEFAULT_SHUTDOWN_TIMEOUT, 
+          params );
     }
 
     public ApplicationProfile getApplicationProfile( String key ) throws UnknownKeyException, RemoteException
@@ -152,6 +156,11 @@ public class RegistryModel extends DefaultModel implements ApplicationRegistry
               "Event class not recognized: " + event.getClass().getName();
             throw new IllegalArgumentException( error );
         }
+    }
+
+    public String toString()
+    {
+        return "[registry]";
     }
 
     private void addApplicationProfile( ApplicationStorage store, boolean notify ) 

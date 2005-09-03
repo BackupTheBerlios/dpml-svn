@@ -28,6 +28,8 @@ import net.dpml.magic.UnknownResourceException;
 
 import net.dpml.transit.Artifact;
 import net.dpml.transit.NullArgumentException;
+import net.dpml.transit.Plugin;
+import net.dpml.transit.Plugin.Category;
 
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Project;
@@ -272,7 +274,7 @@ public class Resource
     * @return the set of references
     */
     public ResourceRef[] getResourceRefs(
-      final Project project, final int mode, final int tag, final boolean flag )
+      final Project project, final int mode, final Category tag, final boolean flag )
     {
         final ArrayList list = new ArrayList();
         getResourceRefs( project, list, mode, tag, flag );
@@ -298,7 +300,7 @@ public class Resource
     * @param flag if TRUE recuse into resources refeenced by refs
     */
     protected void getResourceRefs(
-      final Project project, final List list, final int mode, final int tag, final boolean flag )
+      final Project project, final List list, final int mode, final Category tag, final boolean flag )
     {
         final ResourceRef[] refs = getResourceRefs();
         for( int i=0; i < refs.length; i++ )
@@ -313,7 +315,7 @@ public class Resource
                     if( flag )
                     {
                         final Resource def = getResource( project, ref );
-                        def.getResourceRefs( project, list, mode, ResourceRef.ANY, flag );
+                        def.getResourceRefs( project, list, mode, Plugin.ANY, flag );
                     }
                 }
             }
@@ -376,7 +378,7 @@ public class Resource
             addResourceToPath( project, this, path, filter, false );
         }
 
-        final ResourceRef[] refs = getResourceRefs( project, mode, ResourceRef.ANY, true );
+        final ResourceRef[] refs = getResourceRefs( project, mode, Plugin.ANY, true );
         for( int i=0; i < refs.length; i++ )
         {
             final ResourceRef ref = refs[i];
@@ -468,7 +470,7 @@ public class Resource
     * @param category a value of ResourceRef.API, SPI, IMPL or ANY
     * @return the set of resource refs
     */
-    public ResourceRef[] getQualifiedRefs( Project project, final List visited, final int category )
+    public ResourceRef[] getQualifiedRefs( Project project, final List visited, final Category category )
     {
         final ArrayList list = new ArrayList();
         final ResourceRef[] refs =

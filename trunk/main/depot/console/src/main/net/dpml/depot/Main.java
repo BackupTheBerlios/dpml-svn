@@ -39,6 +39,7 @@ import net.dpml.transit.monitor.NetworkMonitorAdapter;
 import net.dpml.transit.Repository;
 import net.dpml.transit.RepositoryException;
 import net.dpml.transit.PID;
+import net.dpml.transit.Plugin;
 
 /**
  * CLI hander for the depot package.
@@ -351,6 +352,11 @@ public final class Main implements ShutdownHandler
             args = consolidate( args, "-prefs" );
             handlePrefs( args );
         }
+        else if( "-desktop".equals( option ) )
+        {
+            args = consolidate( args, "-desktop" );
+            handleDesktop( args );
+        }
         else if( "-exec".equals( option ) )
         {
             args = consolidate( args, "-exec" );
@@ -414,6 +420,13 @@ public final class Main implements ShutdownHandler
         handlePlugin( name, spec, args );
     }
 
+    private void handleDesktop( String[] args )
+    {
+        String name = "desktop";
+        String spec = "@DEPOT-DESKTOP-URI@";
+        handlePlugin( name, spec, args );
+    }
+
     private void handleExec( String[] args )
     {
         String name = "exec";
@@ -472,7 +485,26 @@ public final class Main implements ShutdownHandler
             Transit transit = Transit.getInstance( model );
             setupMonitors( transit, (Adapter) getLogger() );
             Repository repository = transit.getRepository();
-            ClassLoader classloader = getSystemClassLoader();
+            DepotClassLoader classloader = getSystemClassLoader();
+
+            //
+            // get the plugin descriptor and check for system classloader entries
+            //
+
+            Plugin descriptor = repository.getPluginDescriptor( uri );
+            URI[] bootstrap = descriptor.getDependencies( Plugin.SYSTEM );
+            if( bootstrap.length > 0 )
+            {
+                logger.debug( "supplimenting system classpath" );
+                for( int i=0; i < bootstrap.length; i++ )
+                {
+                    URI entry = bootstrap[i];
+                    logger.debug( "system entry: (" + (i+1) + ") " + entry );
+                }
+            }
+
+            classloader.setClasspath( bootstrap );
+            Thread.currentThread().setContextClassLoader( classloader );
 
             m_plugin = 
               repository.getPlugin( 
@@ -513,7 +545,7 @@ public final class Main implements ShutdownHandler
         }
         if( m_plugin instanceof Runnable )
         {
-            getLogger().info( "starting " + m_plugin.getClass().getName() );
+            getLogger().debug( "starting " + m_plugin.getClass().getName() );
             Thread thread = new Thread( (Runnable) m_plugin );
             thread.start();
             setShutdownHook( thread );
@@ -521,7 +553,7 @@ public final class Main implements ShutdownHandler
         }
         else
         {
-            getLogger().info( "deployed " + m_plugin.getClass().getName() );
+            getLogger().debug( "deployed " + m_plugin.getClass().getName() );
             return waitFor;
         }
     }
@@ -770,9 +802,9 @@ public final class Main implements ShutdownHandler
     }
     */
 
-    private static ClassLoader getSystemClassLoader()
+    private static DepotClassLoader getSystemClassLoader()
     {
-        return ClassLoader.getSystemClassLoader();
+        return (DepotClassLoader) ClassLoader.getSystemClassLoader();
     }
 
     private static void clearPreferences( Class c ) throws Exception

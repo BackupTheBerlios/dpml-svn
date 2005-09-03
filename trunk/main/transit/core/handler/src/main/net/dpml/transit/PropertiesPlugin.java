@@ -54,6 +54,11 @@ class PropertiesPlugin
    /**
     * key to designate an api entry.
     */
+    static final String PP_SYS_KEY = "dpml.artifact.dependency.sys";
+
+   /**
+    * key to designate an api entry.
+    */
     static final String PP_API_KEY = "dpml.artifact.dependency.api";
 
    /**
@@ -114,6 +119,11 @@ class PropertiesPlugin
     * The specification namespace version.
     */
     private final String m_specificationVersion;
+
+   /**
+    * The set of uris representing the api.
+    */
+    private final URI[] m_sys;
 
    /**
     * The set of uris representing the api.
@@ -209,6 +219,7 @@ class PropertiesPlugin
 
         m_uri = Artifact.createArtifact( m_group, m_name, m_version, "plugin" ).toURI();
 
+        m_sys = buildDependents( attributes, PP_SYS_KEY );
         m_api = buildDependents( attributes, PP_API_KEY );
         m_spi = buildDependents( attributes, PP_SPI_KEY );
         m_imp = buildDependents( attributes, PP_IMP_KEY );
@@ -341,17 +352,25 @@ class PropertiesPlugin
     * @param key one of classloader group identifiers (api, spi, impl)
     * @return the set of URIs
     */
-    public URI[] getDependencies( String key )
+    public URI[] getDependencies( Category key )
     {
-        if( key == Plugin.API_KEY )
+        if( key == ANY )
+        {
+            return getDependencies();
+        }
+        else if( key == SYSTEM )
+        {
+            return m_sys;
+        }
+        else if( key == API )
         {
             return m_api;
         }
-        else if( key == Plugin.SPI_KEY )
+        else if( key == SPI )
         {
             return m_spi;
         }
-        else if( key == Plugin.IMPL_KEY )
+        else if( key == IMPL )
         {
             return m_imp;
         }
@@ -369,9 +388,14 @@ class PropertiesPlugin
     */
     public URI[] getDependencies()
     {
-        int j = m_api.length + m_spi.length + m_imp.length;
+        int j = m_sys.length + m_api.length + m_spi.length + m_imp.length;
         URI[] all = new URI[ j ];
         int q = 0;
+        for( int i=0; i < m_sys.length; i++ )
+        {
+            all[q] = m_sys[i];
+            q++;
+        }
         for( int i=0; i < m_api.length; i++ )
         {
             all[q] = m_api[i];

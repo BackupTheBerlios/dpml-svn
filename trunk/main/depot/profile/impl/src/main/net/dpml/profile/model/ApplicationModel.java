@@ -36,6 +36,9 @@ import net.dpml.transit.model.CodeBaseEvent;
 import net.dpml.transit.model.Parameter;
 
 import net.dpml.profile.ApplicationProfile;
+import net.dpml.profile.ApplicationProfileEvent;
+import net.dpml.profile.ApplicationProfileListener;
+import net.dpml.profile.ApplicationProfile.StartupPolicy;
 
 /**
  * A DefaultApplicationProfile maintains information about the configuration
@@ -46,21 +49,26 @@ public class ApplicationModel extends DefaultContentModel implements Application
     private final ApplicationStorage m_store;
 
     private Properties m_properties;
-    private boolean m_enabled;
+    private StartupPolicy m_policy;
     private boolean m_server;
+    private String m_path;
+    private int m_startup;
+    private int m_shutdown;
 
     public ApplicationModel( 
       Logger logger, String id, String title, 
-      Properties properties, boolean server, URI uri, 
-      boolean enabled, Parameter[] params ) 
+      Properties properties, String working, URI uri, 
+      StartupPolicy policy, int startup, int shutdown, Parameter[] params ) 
       throws RemoteException
     {
         super( logger, uri, params, id, title );
 
         m_store = null;
         m_properties = properties;
-        m_enabled = enabled;
-        m_server = server;
+        m_policy = policy;
+        m_path = working;
+        m_startup = startup;
+        m_shutdown = shutdown;
     }
 
     public ApplicationModel( Logger logger, ApplicationStorage store )
@@ -69,48 +77,315 @@ public class ApplicationModel extends DefaultContentModel implements Application
         super( logger, store );
 
         m_store = store;
-        m_enabled = store.getEnabled();
-        m_server = store.isaServer();
+        m_policy = store.getStartupPolicy();
         m_properties = store.getSystemProperties();
+        m_path = store.getWorkingDirectoryPath();
+        m_startup = store.getStartupTimeout();
+        m_shutdown = store.getShutdownTimeout();
     }
 
     //----------------------------------------------------------------------
     // impl
     //----------------------------------------------------------------------
 
+   /**
+    * Add a change listener.
+    * @param listener the application profile change listener to add
+    */
+    public void addApplicationProfileListener( ApplicationProfileListener listener ) throws RemoteException
+    {
+        super.addListener( listener );
+    }
+
+   /**
+    * Remove a depot content change listener.
+    * @param listener the registry change listener to remove
+    */
+    public void removeApplicationProfileListener(  ApplicationProfileListener listener ) throws RemoteException
+    {
+        super.removeListener( listener );
+    }
+
+   /**
+    * Return the system wide unique application identifier.
+    *
+    * @return the application identifier
+    * @exception RemoteException if a transport error occurs
+    */
     public String getID() throws RemoteException
     {
         return super.getContentType();
     }
 
+   /**
+    * Get the duration in seconds to wait for startup
+    * of the application before considering deployment as a timeout failure.
+    * 
+    * @return the startup timeout value
+    * @exception RemoteException if a transport error occurs
+    */    
+    public int getStartupTimeout()
+    {
+        return m_startup;
+    }
+
+   /**
+    * Set the duration in seconds to wait for startup
+    * of the application before considering deployment as a timeout failure.
+    * 
+    * @param timeout the startup timeout value
+    * @exception RemoteException if a transport error occurs
+    */
+    public void setStartupTimeout( int timeout )
+    {
+        synchronized( getLock() )
+        {
+            m_startup = timeout;
+            StartupTimeoutChangedEvent event = new StartupTimeoutChangedEvent( this );
+            super.enqueueEvent( event );
+        }
+    }
+
+   /**
+    * Get the duration in seconds to wait for the shutdown
+    * of the application before considering the process as non-responsive.
+    * 
+    * @return the shutdown timeout value
+    * @exception RemoteException if a transport error occurs
+    */
+    public int getShutdownTimeout()
+    {
+        return m_shutdown;
+    }
+
+   /**
+    * Set the duration in seconds to wait for shutdown
+    * of the application before considering the application as non-responsive.
+    * 
+    * @param timeout the shutdown timeout value
+    * @exception RemoteException if a transport error occurs
+    */
+    public void setShutdownTimeout( int timeout )
+    {
+        synchronized( getLock() )
+        {
+            m_shutdown = timeout;
+            ShutdownTimeoutChangedEvent event = new ShutdownTimeoutChangedEvent( this );
+            super.enqueueEvent( event );
+        }
+    }
+
+   /**
+    * Get the working directory path.  The value returned may include
+    * symbolic references to system properties in the form ${name} where 
+    * 'name' corresponds to a system property name.
+    * 
+    * @return the working directory path
+    * @exception RemoteException if a transport error occurs
+    */
+    public String getWorkingDirectoryPath() throws RemoteException
+    {
+        return m_path;
+    }
+
+   /**
+    * Set the working directory path.  The value supplied may include
+    * symbolic references to system properties in the form ${name} where 
+    * 'name' corresponds to a system property name.
+    * 
+    * @param path the working directory path
+    * @exception RemoteException if a transport error occurs
+    */
+    public void setWorkingDirectoryPath( String path ) throws RemoteException
+    {
+        synchronized( getLock() )
+        {
+            m_path = path;
+            WorkingDirectoryChangedEvent event = new WorkingDirectoryChangedEvent( this );
+            super.enqueueEvent( event );
+        }
+    }
+
+   /**
+    * Get the system properties to be assigned to a target virtual machine
+    * on application deployment.
+    * 
+    * @return the system properties set
+    * @exception RemoteException if a transport error occurs
+    */
     public Properties getSystemProperties() throws RemoteException
     {
         return m_properties;
     }
 
+   /**
+    * Set the system properties to be assigned to a target virtual machine
+    * on application deployment.
+    * 
+    * @param properties the system properties set
+    * @exception RemoteException if a transport error occurs
+    */
     public void setSystemProperties( Properties properties ) throws RemoteException
     {
-        m_properties = properties;
+        synchronized( getLock() )
+        {
+            m_properties = properties;
+            SystemPropertiesChangedEvent event = new SystemPropertiesChangedEvent( this );
+            super.enqueueEvent( event );
+        }
     }
 
-    public boolean isEnabled() throws RemoteException
+   /**
+    * Return the startup policy for the application.  If the policy
+    * is DISABLED the application cannot be started.  If the policy 
+    * is MANUAL startup may be invoked manually.  If the policy is 
+    * AUTOMATIC then startup will be handled by the Station.
+    *
+    * @return the startup policy
+    * @exception RemoteException if a remote exception occurs
+    */
+    public StartupPolicy getStartupPolicy() throws RemoteException
     {
-        return m_enabled;
+        return m_policy;
     }
 
-    public void setEnabled( boolean value ) throws RemoteException
+   /**
+    * Set the the startup policy to one of DISABLED, MANUAL or AUTOMATIC.
+    * @param value the startup policy
+    * @exception RemoteException if a remote exception occurs
+    */
+    public void setStartupPolicy( StartupPolicy policy ) throws RemoteException
     {
-        m_enabled = value;
+        synchronized( getLock() )
+        {
+            m_policy = policy;
+            if( m_store != null )
+            {
+                m_store.setStartupPolicy( policy );
+            }
+            StartupPolicyChangedEvent event = new StartupPolicyChangedEvent( this );
+            super.enqueueEvent( event );
+        }
     }
 
-    public boolean isaServer() throws RemoteException
+    public String toString()
     {
-        return m_server;
+        try
+        {
+            return "[app:" + getID() + "]";
+        }
+        catch( Exception e )
+        {
+            return "[app:error]";
+        }
     }
 
-    public void setServerMode( boolean policy ) throws RemoteException
+    protected void processEvent( EventObject event )
     {
-        m_server = policy;
+        if( event instanceof ApplicationProfileEvent )
+        {
+            processApplicationProfileEvent( (ApplicationProfileEvent) event );
+        }
+        else
+        {
+            final String error = 
+              "Event class not recognized: " + event.getClass().getName();
+            throw new IllegalArgumentException( error );
+        }
+    }
+
+    private void processApplicationProfileEvent( ApplicationProfileEvent event )
+    {
+        EventListener[] listeners = super.listeners();
+        for( int i=0; i<listeners.length; i++ )
+        {
+            EventListener listener = listeners[i];
+            if( listener instanceof ApplicationProfileListener )
+            {
+                ApplicationProfileListener rl = (ApplicationProfileListener) listener;
+                try
+                {
+                    if( event instanceof TitleChangedEvent )
+                    {
+                        rl.titleChange( event );
+                    }
+                    else if( event instanceof WorkingDirectoryChangedEvent )
+                    {
+                        rl.workingDirectoryPathChanged( event );
+                    }
+                    else if( event instanceof SystemPropertiesChangedEvent )
+                    {
+                        rl.systemPropertiesChanged( event );
+                    }
+                    else if( event instanceof StartupTimeoutChangedEvent )
+                    {
+                        rl.startupTimeoutChanged( event );
+                    }
+                    else if( event instanceof ShutdownTimeoutChangedEvent )
+                    {
+                        rl.shutdownTimeoutChanged( event );
+                    }
+                    else if( event instanceof StartupPolicyChangedEvent )
+                    {
+                        rl.startupPolicyChanged( event );
+                    }
+                }
+                catch( Throwable e )
+                {
+                    final String error =
+                      "RegistryListener profile removed notification error.";
+                    getLogger().error( error, e );
+                }
+            }
+        }
+    }
+
+    static class TitleChangedEvent extends ApplicationProfileEvent
+    {
+        public TitleChangedEvent( ApplicationProfile profile )
+        {
+            super( profile );
+        }
+    }
+
+    static class WorkingDirectoryChangedEvent extends ApplicationProfileEvent
+    {
+        public WorkingDirectoryChangedEvent( ApplicationProfile profile )
+        {
+            super( profile );
+        }
+    }
+
+    static class SystemPropertiesChangedEvent extends ApplicationProfileEvent
+    {
+        public SystemPropertiesChangedEvent( ApplicationProfile profile )
+        {
+            super( profile );
+        }
+    }
+
+    static class StartupTimeoutChangedEvent extends ApplicationProfileEvent
+    {
+        public StartupTimeoutChangedEvent( ApplicationProfile profile )
+        {
+            super( profile );
+        }
+    }
+
+    static class ShutdownTimeoutChangedEvent extends ApplicationProfileEvent
+    {
+        public ShutdownTimeoutChangedEvent( ApplicationProfile profile )
+        {
+            super( profile );
+        }
+    }
+
+    static class StartupPolicyChangedEvent extends ApplicationProfileEvent
+    {
+        public StartupPolicyChangedEvent( ApplicationProfile profile )
+        {
+            super( profile );
+        }
     }
 }
 

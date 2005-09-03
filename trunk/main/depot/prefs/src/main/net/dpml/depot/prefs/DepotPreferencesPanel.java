@@ -88,7 +88,7 @@ class DepotPreferencesPanel extends JPanel
     private CacheModelPanel m_cachePanel;
     private ContentRegistryModelPanel m_registryPanel;
     private ProxyModelPanel m_proxyPanel;
-    private ApplicationsRegistryPanel m_depotPanel;
+    //private ApplicationsRegistryPanel m_depotPanel;
     private TransitHomePanel m_transitPanel;
 
     private final Window m_window;
@@ -140,6 +140,7 @@ class DepotPreferencesPanel extends JPanel
           }
         );
 
+        /*
         SwingUtilities.invokeLater( 
           new Runnable() {
             public void run()
@@ -159,6 +160,7 @@ class DepotPreferencesPanel extends JPanel
             }
           }
         );
+        */
 
         //
         // add the Close button

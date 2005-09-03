@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.Properties;
 
 import net.dpml.station.Application;
+import net.dpml.station.Application.State;
 
 import net.dpml.profile.ApplicationProfile;
 
@@ -29,11 +30,25 @@ import net.dpml.transit.PID;
  */
 public class DefaultApplication extends UnicastRemoteObject implements Application
 {
+    private static final String NOTIFY_HEADER = "#";
+    private static final String STARTUP_MESSAGE = NOTIFY_HEADER + "startup";
+    private static final String SHUTDOWN_MESSAGE = NOTIFY_HEADER + "shutdown";
+    private static final String ERROR_MESSAGE = NOTIFY_HEADER + "error";
+    private static final String PID_DELIMITER = ":";
+
+    private static final String STARTUP_SYSPROPERTY_ARGUMENT = 
+      "-Ddpml.station.notify.startup=" + STARTUP_MESSAGE;
+    private static final String SHUTDOWN_SYSPROPERTY_ARGUMENT = 
+      "-Ddpml.station.notify.shutdown=" + SHUTDOWN_MESSAGE;
+    private static final String ERROR_SYSPROPERTY_ARGUMENT = 
+      "-Ddpml.station.notify.error=" + ERROR_MESSAGE;
+
     private final Logger m_logger;
     private final ApplicationProfile m_profile;
     private final String m_path;
 
     private Process m_process;
+    private State m_state = Application.READY;
     private PID m_pid;
 
     public DefaultApplication( 
@@ -56,9 +71,17 @@ public class DefaultApplication extends UnicastRemoteObject implements Applicati
         return m_pid;
     }
 
-    public synchronized PID start() throws RemoteException
+    public synchronized void start() throws RemoteException
     {
-        if( null != m_pid )
+        if( m_profile.getStartupPolicy() == ApplicationProfile.DISABLED ) 
+        {
+            final String key = m_profile.getID();
+            final String error = 
+              "Application [" + key + "] is disabled.";
+            throw new ServerException( error );              
+        }
+
+        if( null != getPID() )
         {
             final String key = m_profile.getID();
             final String error = 
@@ -66,11 +89,11 @@ public class DefaultApplication extends UnicastRemoteObject implements Applicati
             throw new ServerException( error );              
         }
         
+        setState( Application.STARTING );
         try
         {
             String[] command = getProcessCommand();
             m_process = Runtime.getRuntime().exec( command, null );
-            getLogger().info( "suprocess established: " + m_process );
         }
         catch( Exception e )
         {
@@ -79,29 +102,138 @@ public class DefaultApplication extends UnicastRemoteObject implements Applicati
             throw new ServerException( error, e );
         }
 
-        StreamReader out = new StreamReader( m_process.getInputStream() );
-        StreamReader err = new StreamReader( m_process.getErrorStream() );
-        out.start();
-        err.start();
-        return null;
-    }
+        OutputStreamReader output = new OutputStreamReader( m_process.getInputStream() );
+        ErrorStreamReader err = new ErrorStreamReader( m_process.getErrorStream() );
 
-    public synchronized void stop() throws RemoteException
-    {
-        if( null != m_process )
+        output.start();
+        err.start();
+
+        long timestamp = System.currentTimeMillis();
+        long timeout = timestamp + getStartupTimeout();
+
+        while( ( getState() == Application.STARTING ) && System.currentTimeMillis() < timeout )
         {
-            m_process.destroy();
-            m_process = null;
-            m_pid = null;
+            try
+            {
+                wait( 600 );
+            }
+            catch( InterruptedException e )
+            {
+            }
+        }
+
+        synchronized( getState() )
+        {
+            final String key = m_profile.getID();
+            if( getState() == Application.STARTING )
+            {
+                final String message = 
+                  "application [" 
+                  + key 
+                  + "] failed to start within the allocated startup time of "
+                  + timestamp
+                  + " miliseconds";
+                getLogger().warn( message );
+                stop();
+            }
+            else
+            {
+                long k = System.currentTimeMillis() - timestamp;
+                final String notice = 
+                  "startup of process [" 
+                  + key 
+                  + "] completed in " 
+                  + k 
+                  + " milliseconds";
+                getLogger().info( notice );
+            }
         }
     }
 
-    public synchronized PID restart() throws RemoteException
+    private long getStartupTimeout()
     {
-        stop();
-        return start();
+        try
+        {
+            return m_profile.getStartupTimeout() * 1000000;
+        }
+        catch( RemoteException e )
+        {
+            return ApplicationProfile.DEFAULT_STARTUP_TIMEOUT * 1000000;
+        }
     }
 
+    private long getShutdownTimeout()
+    {
+        try
+        {
+            return m_profile.getShutdownTimeout() * 1000000;
+        }
+        catch( RemoteException e )
+        {
+            return ApplicationProfile.DEFAULT_SHUTDOWN_TIMEOUT * 1000000;
+        }
+    }
+
+    public State getState()
+    {
+        return m_state;
+    }
+
+    // TODO: add state listeners
+
+    private void setState( State state )
+    {
+        setState( state, null );
+    }
+
+    private void setState( State state, PID pid )
+    {
+        synchronized( m_state )
+        {
+            if( m_state != state )
+            {
+                m_state = state;
+                if( null == pid )
+                {
+                    getLogger().info( "state [" + state.key() + "]" );
+                }
+                else
+                {
+                    m_pid = pid;
+                    getLogger().info( "state [" + state.key() + "] in " + m_pid );
+                }
+                if( m_state == Application.READY )
+                {
+                    m_pid = null;
+                    m_process = null;
+                }
+            }
+        }
+    }
+
+    // TODO: change this to an elegent shutdown request and only 
+    // use Process.destroy as a result of a request timeout
+
+    public synchronized void stop() throws RemoteException
+    {
+        setState( Application.STOPPING );
+        if( null != m_process )
+        {
+            m_process.destroy();
+        }
+        setState( Application.READY );
+    }
+
+    public synchronized void restart() throws RemoteException
+    {
+        stop();
+        start();
+    }
+
+   /**
+    * Return the assigned logging channel.
+    * @return the logging channel
+    */
     private Logger getLogger()
     {
         return m_logger;
@@ -125,6 +257,9 @@ public class DefaultApplication extends UnicastRemoteObject implements Applicati
         {
             getLogger().info( "launching native subprocess" );
             list.add( "depot" );
+            list.add( STARTUP_SYSPROPERTY_ARGUMENT );
+            list.add( SHUTDOWN_SYSPROPERTY_ARGUMENT );
+            list.add( ERROR_SYSPROPERTY_ARGUMENT );
             list.add( "-exec" );
             list.add( m_path );
         }
@@ -136,7 +271,9 @@ public class DefaultApplication extends UnicastRemoteObject implements Applicati
             String lib = new File( Transit.DPML_DATA, "lib" ).getCanonicalPath();
             
             list.add( "java" );
-            list.add( "-Ddpml.spawn=true" );
+            list.add( STARTUP_SYSPROPERTY_ARGUMENT );
+            list.add( SHUTDOWN_SYSPROPERTY_ARGUMENT );
+            list.add( ERROR_SYSPROPERTY_ARGUMENT );
             list.add( "-Djava.ext.dirs=" + lib );
             list.add( "-Djava.security.policy=" + policy );
             list.add( "net.dpml.depot.Main" );
@@ -168,12 +305,11 @@ public class DefaultApplication extends UnicastRemoteObject implements Applicati
     }
 
    /**
-    * Internal class to handle reading of subprocess output and error streams.
+    * Internal abstract class to handle reading of subprocess output and error streams.
     */
-    private class StreamReader extends Thread
+    private abstract class StreamReader extends Thread
     {
-        private InputStream m_input;
-        private boolean m_error = false;
+        private final InputStream m_input;
         
        /**
         * Creation of a new reader.
@@ -183,20 +319,135 @@ public class DefaultApplication extends UnicastRemoteObject implements Applicati
         {
             m_input = input;
         }
+
+        protected InputStream getInputStream()
+        {
+            return m_input;
+        }
+    }
+
+   /**
+    * Internal class to handle reading of subprocess output streams.
+    */
+    private class OutputStreamReader extends StreamReader
+    {
+       /**
+        * Creation of a process output reader.
+        * @param input the subprocess input stream
+        */
+        public OutputStreamReader( InputStream input )
+        {
+            super( input );
+        }
   
        /**
-        * Start thestream reader.
+        * Start the stream reader.
         */
         public void run()
         {
             try
             {
-                InputStreamReader isr = new InputStreamReader( m_input );
+                InputStreamReader isr = new InputStreamReader( getInputStream() );
                 BufferedReader reader = new BufferedReader( isr );
                 String line = null;
                 while( ( line = reader.readLine() ) != null )
                 {
-                    System.out.println( line );
+                    if( line.startsWith( STARTUP_MESSAGE ) )
+                    {
+                        //
+                        // We are receiving notification from the process that 
+                        // process startup has been completed.  The message also
+                        // includes the process identifier.
+                        //
+
+                        String lead = line.substring( STARTUP_MESSAGE.length() + 2 );
+                        int j = lead.indexOf( "]" );
+                        String value = lead.substring( 0, j );
+                        PID pid = new PID( Integer.parseInt( value ) );
+                        setState( Application.RUNNING, pid );
+                    }
+                    else if( line.startsWith( SHUTDOWN_MESSAGE ) )
+                    {
+                        //
+                        // we are receiving notification from the process that 
+                        // a shutdown has been initiated - the following implementation
+                        // waits for process exit before changing the application state
+                        // to READY
+                        //
+
+                        setState( Application.STOPPING );
+                        boolean terminated = false;
+                        while( !terminated )
+                        {
+                            try
+                            {
+                                m_process.exitValue();
+                                terminated = true;
+                            }
+                            catch( IllegalThreadStateException e )
+                            {
+                                try
+                                {
+                                    wait( 1000 );
+                                }
+                                catch( InterruptedException ie )
+                                {
+                                }
+                            }
+                        }
+                        setState( Application.READY );
+                    }
+                    else
+                    {
+                        System.out.println( line );
+                    }
+                }
+            }
+            catch( IOException e )
+            {
+                 getLogger().error( "Process read error.", e );
+            }
+        }
+    }
+
+   /**
+    * Internal class to handle reading of subprocess output and error streams.
+    */
+    private class ErrorStreamReader extends StreamReader
+    {
+       /**
+        * Creation of a process output reader.
+        * @param input the subprocess input stream
+        */
+        public ErrorStreamReader( InputStream input )
+        {
+            super( input );
+        }
+  
+       /**
+        * Start the stream reader.
+        */
+        public void run()
+        {
+            try
+            {
+                InputStreamReader isr = new InputStreamReader( getInputStream() );
+                BufferedReader reader = new BufferedReader( isr );
+                String line = null;
+                while( ( line = reader.readLine() ) != null )
+                {
+                    if( line.startsWith( ERROR_MESSAGE ) )
+                    {
+                        setState( Application.STOPPING );
+                        setState( Application.READY );
+
+                        // TODO: make sure the subprocess has terminated by waiting
+                        // for some timeout period then killing if necessary
+                    }
+                    else
+                    {
+                        System.out.println( line );
+                    }
                 }
             }
             catch( IOException e )

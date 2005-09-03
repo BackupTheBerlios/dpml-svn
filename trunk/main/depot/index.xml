@@ -49,6 +49,7 @@
     </info>
     <dependencies>
       <include key="dpml-profile-api" tag="api"/>
+      <include key="dpml-station-api" tag="api"/>
     </dependencies>
   </project>
 
@@ -78,6 +79,24 @@
     </info>
     <dependencies>
       <include key="dpml-profile-api"/>
+      <include key="looks" tag="system"/>
+    </dependencies>
+  </project>
+
+  <project basedir="desktop">
+    <info>
+      <group>dpml/depot</group>
+      <name>dpml-depot-desktop</name>
+      <types>
+        <type name="jar"/>
+        <type name="plugin"/>
+      </types>
+    </info>
+    <dependencies>
+      <include key="dpml-station-impl"/>
+      <include key="dpml-profile-api"/>
+      <include key="looks" tag="system"/>
+      <include key="forms"/>
     </dependencies>
   </project>
 
@@ -141,6 +160,7 @@
       <include key="dpml-transit-main" tag="api"/>
       <include key="dpml-depot-console" tag="api"/>
       <include key="dpml-profile-api" tag="api"/>
+      <include key="dpml-station-api" tag="api"/>
     </dependencies>
   </project>
 
@@ -161,4 +181,25 @@
     </dependencies>
   </project>
 
+  <resource>
+    <info>
+      <group>jgoodies</group>
+      <name>looks</name>
+      <version>1.3.1</version>
+      <types>
+        <type name="jar"/>
+      </types>
+    </info>
+  </resource>
+
+  <resource>
+    <info>
+      <group>jgoodies</group>
+      <name>forms</name>
+      <version>1.0.5</version>
+      <types>
+        <type name="jar"/>
+      </types>
+    </info>
+  </resource>
 </index>

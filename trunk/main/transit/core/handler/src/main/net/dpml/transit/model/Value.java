@@ -28,6 +28,12 @@ import java.io.Serializable;
 public interface Value extends Serializable
 {
    /**
+    * Return the classname of the resolved value.
+    * @return the classname
+    */
+    String getBaseClassname();
+
+   /**
     * Resolve an instance from the value.
     * @return the resolved instance
     */

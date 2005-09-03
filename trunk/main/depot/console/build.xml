@@ -19,6 +19,7 @@
     <x:filter token="TRANSIT-CORE-URI" key="dpml-transit-main" feature="uri" type="jar"/>
     <x:filter token="DEPOT-CONSOLE-URI" feature="uri" type="jar"/>
     <x:filter token="DEPOT-PREFS-URI" key="dpml-depot-prefs" feature="uri" type="plugin"/>
+    <x:filter token="DEPOT-DESKTOP-URI" key="dpml-depot-desktop" feature="uri" type="plugin"/>
     <x:filter token="DEPOT-INSTALL-URI" key="dpml-depot-install" feature="uri" type="plugin"/>
     <x:filter token="DEPOT-EXEC-URI" key="dpml-depot-exec" feature="uri" type="plugin"/>
     <x:filter token="DEPOT-AUDIT-URI" key="dpml-depot-audit" feature="uri" type="plugin"/>

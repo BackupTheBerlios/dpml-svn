@@ -38,6 +38,7 @@ import net.dpml.profile.ApplicationProfile;
 import net.dpml.transit.Transit;
 import net.dpml.transit.Artifact;
 import net.dpml.transit.Repository;
+import net.dpml.transit.PID;
 import net.dpml.transit.model.Logger;
 import net.dpml.transit.model.Parameter;
 import net.dpml.transit.model.TransitModel;
@@ -51,11 +52,13 @@ import net.dpml.transit.model.UnknownKeyException;
  */
 public class ApplicationHandler 
 {
+    private static final PID PROCESS_ID = new PID();
+
     private final Logger m_logger;
     private final TransitModel m_model;
     private final ShutdownHandler m_handler;
-    private final ApplicationRegistry m_depot;
 
+    private ApplicationRegistry m_depot;
     private String m_spec;
     private String[] m_args;
 
@@ -85,8 +88,7 @@ public class ApplicationHandler
         {
             final String error = 
               "Missing application profile specification (usage $ depot -exec [spec])";
-            getLogger().error( error );
-            handler.exit( -1 );
+            handleError( handler, error );
         }
 
         try
@@ -101,18 +103,20 @@ public class ApplicationHandler
         {
             final String error = 
               "Unexpected failure while attempting to establish the depot profile.";
-                getLogger().error( error, e );
-            throw new HandledException();
+            handleError( handler, error, e );
         }
 
         m_spec = args[0];
         m_args = Main.consolidate( args, m_spec );
-       
         getLogger().info( "target profile: " + m_spec );
-
+       
         Object object = null;
         ApplicationProfile profile = null;
-        boolean flag = false;
+        boolean flag = Main.isOptionPresent( m_args, "-command" );
+        if( flag )
+        {
+            m_args = Main.consolidate( args, "-command" );
+        }
 
         //
         // There are a number of things we could be doing here.  First off 
@@ -129,7 +133,6 @@ public class ApplicationHandler
             // prepare application context
     
             profile = getApplicationProfile( m_spec );
-            flag = profile.isaServer();
             URI codebase = profile.getCodeBaseURI();
             getLogger().info( "profile codebase: " + codebase );
             ClassLoader system = ClassLoader.getSystemClassLoader();
@@ -152,29 +155,23 @@ public class ApplicationHandler
             {
                 final String error = 
                   "Application deployment failure.";
-                getLogger().error( error, e );
-                m_handler.exit( -1 );
+                handleError( handler, error, e );
             }
         }
         catch( GeneralException e )
         {
-            throw e;
-        }
-        catch( HandledException e )
-        {
-            m_handler.exit( -1 );
+            handleError( handler, e.getMessage() );
         }
         catch( Throwable e )
         {
             final String error = 
               "Unexpected failure while attempting to deploy: " + m_spec;
-                getLogger().error( error, e );
-            m_handler.exit( -1 );
+            handleError( handler, error, e );
         }
 
-        if( !flag )
+        if( flag )
         {
-            m_handler.exit();
+            handleShutdown();
         }
         else if( object instanceof Runnable )
         {
@@ -189,10 +186,107 @@ public class ApplicationHandler
             {
                 final String error = 
                   "Terminating due to process error.";
-                getLogger().error( error, e );
-                m_handler.exit( -1 );
+                handleError( handler, error, e );
             }
         }
+
+        handleStartupNotification();
+    }
+
+   /**
+    * If the application handler is running as a Station subprocess the parent
+    * may be monitoring our output stream for a startup notification - the 
+    * protocol is based on a system property "dpml.station.notify.startup"
+    * that declares the startup message - we simply return this message 
+    * together with our process id separted by the colon character
+    */
+    private void handleStartupNotification()
+    {
+        String startupMessage = System.getProperty( "dpml.station.notify.startup" );
+        if( null != startupMessage )
+        {
+            System.out.println( startupMessage + ":" + PROCESS_ID );
+        }
+    }
+
+   /**
+    * If the application handler is running as a Station subprocess the parent
+    * may be monitoring our output stream for a shutdown notification - the 
+    * protocol is based on a system property "dpml.station.notify.shutdown"
+    * that declares the shutdown message - we return this message 
+    * together with our process id separted by the colon character
+    */
+    private void handleShutdown()
+    {
+        String shutdownMessage = System.getProperty( "dpml.station.notify.shutdown" );
+        if( null != shutdownMessage )
+        {
+            System.out.println( shutdownMessage + ":" + PROCESS_ID );
+        }
+        m_handler.exit();
+    }
+
+   /**
+    * If the application handler is running as a Station subprocess the parent
+    * may be monitoring our error stream for a error notification - the 
+    * protocol is based on a system property "dpml.station.notify.error"
+    * that declares the error notification header - we return this message 
+    * together with our process id and the error message separted by the colon 
+    * character.
+    * 
+    * @param handler the shutdown handler
+    * @param error the error message
+    */
+    private void handleError( ShutdownHandler handler, String error )
+    {
+        handleError( handler, error, null );
+    }
+
+   /**
+    * If the application handler is running as a Station subprocess the parent
+    * may be monitoring our error stream for a error notification - the 
+    * protocol is based on a system property "dpml.station.notify.error"
+    * that declares the error notification header - we return this message 
+    * together with our process id and the error message separted by the colon 
+    * character
+    * 
+    * @param handler the shutdown handler
+    * @param error the error message
+    * @param cause the causal exception
+    */
+    private void handleError( ShutdownHandler handler, String error, Throwable cause )
+    {
+        //
+        // perform normal logging of the error condition
+        //
+
+        if( ( null != cause ) && !( cause instanceof GeneralException ) )
+        {
+            getLogger().error( error, cause );
+        }
+
+        //
+        // check for station notification
+        //
+
+        String errorHeader = System.getProperty( "dpml.station.notify.error" );
+        if( null != errorHeader )
+        {
+            if( null != error )
+            {
+                System.err.println( errorHeader + ":" + PROCESS_ID + ":" + error );
+            }
+            else
+            {
+                System.err.println( errorHeader + ":" + PROCESS_ID );
+            }
+        }
+
+        //
+        // terminate the process
+        //
+
+        handler.exit( -1 );
     }
     
    /**
