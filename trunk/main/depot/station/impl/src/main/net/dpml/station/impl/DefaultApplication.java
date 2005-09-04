@@ -7,28 +7,34 @@ import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
+import java.rmi.ConnectException;
 import java.rmi.RemoteException;
 import java.rmi.ServerException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.Enumeration;
 import java.util.ArrayList;
 import java.util.Properties;
+import java.util.EventObject;
+import java.util.EventListener;
 
 import net.dpml.station.Application;
 import net.dpml.station.Application.State;
+import net.dpml.station.ApplicationListener;
+import net.dpml.station.ApplicationEvent;
 
 import net.dpml.profile.ApplicationProfile;
 
 import net.dpml.transit.Transit;
 import net.dpml.transit.model.Logger;
 import net.dpml.transit.model.Connection;
+import net.dpml.transit.model.DefaultModel;
 import net.dpml.transit.Environment;
 import net.dpml.transit.PID;
 
 /**
  * Default implementation of a remote controlled application.
  */
-public class DefaultApplication extends UnicastRemoteObject implements Application
+public class DefaultApplication extends EventProducer implements Application
 {
     private static final String NOTIFY_HEADER = "#";
     private static final String STARTUP_MESSAGE = NOTIFY_HEADER + "startup";
@@ -43,27 +49,60 @@ public class DefaultApplication extends UnicastRemoteObject implements Applicati
     private static final String ERROR_SYSPROPERTY_ARGUMENT = 
       "-Ddpml.station.notify.error=" + ERROR_MESSAGE;
 
-    private final Logger m_logger;
     private final ApplicationProfile m_profile;
     private final String m_path;
 
     private Process m_process;
     private State m_state = Application.READY;
     private PID m_pid;
+    private String m_error;
 
     public DefaultApplication( 
       Logger logger, ApplicationProfile profile, String path ) throws RemoteException
     {
-        super();
+        super( logger );
 
         m_profile = profile;
-        m_logger = logger;
         m_path = path;
+    }
+
+    public void addApplicationListener( ApplicationListener listener )
+    {
+        super.addListener( listener );
+    }
+ 
+    public void removeApplicationListener( ApplicationListener listener )
+    {
+        super.removeListener( listener );
     }
 
     public ApplicationProfile getProfile() throws RemoteException
     {
         return m_profile;
+    }
+
+    private long getStartupTimeout()
+    {
+        try
+        {
+            return m_profile.getStartupTimeout() * 1000000;
+        }
+        catch( RemoteException e )
+        {
+            return ApplicationProfile.DEFAULT_STARTUP_TIMEOUT * 1000000;
+        }
+    }
+
+    private long getShutdownTimeout()
+    {
+        try
+        {
+            return m_profile.getShutdownTimeout() * 1000000;
+        }
+        catch( RemoteException e )
+        {
+            return ApplicationProfile.DEFAULT_SHUTDOWN_TIMEOUT * 1000000;
+        }
     }
 
     public PID getPID() throws RemoteException
@@ -111,7 +150,9 @@ public class DefaultApplication extends UnicastRemoteObject implements Applicati
         long timestamp = System.currentTimeMillis();
         long timeout = timestamp + getStartupTimeout();
 
-        while( ( getState() == Application.STARTING ) && System.currentTimeMillis() < timeout )
+        while( ( getState() == Application.STARTING ) 
+           && ( System.currentTimeMillis() < timeout )
+           && ( null == m_error ) )
         {
             try
             {
@@ -120,6 +161,14 @@ public class DefaultApplication extends UnicastRemoteObject implements Applicati
             catch( InterruptedException e )
             {
             }
+        }
+
+        if( null != m_error )
+        {
+            handleStop( false );
+            String error = m_error;
+            m_error = null;
+            throw new ServerException( error );
         }
 
         synchronized( getState() )
@@ -134,7 +183,8 @@ public class DefaultApplication extends UnicastRemoteObject implements Applicati
                   + timestamp
                   + " miliseconds";
                 getLogger().warn( message );
-                stop();
+                handleStop( false );
+                throw new ServerException( message );
             }
             else
             {
@@ -150,28 +200,28 @@ public class DefaultApplication extends UnicastRemoteObject implements Applicati
         }
     }
 
-    private long getStartupTimeout()
+    // TODO: change this to an elegent shutdown request and only 
+    // use Process.destroy as a result of a request timeout
+
+    public synchronized void stop()
     {
-        try
-        {
-            return m_profile.getStartupTimeout() * 1000000;
-        }
-        catch( RemoteException e )
-        {
-            return ApplicationProfile.DEFAULT_STARTUP_TIMEOUT * 1000000;
-        }
+        handleStop( true );
     }
 
-    private long getShutdownTimeout()
+    private void handleStop( boolean external )
     {
-        try
+        setState( Application.STOPPING );
+        if( null != m_process )
         {
-            return m_profile.getShutdownTimeout() * 1000000;
+            m_process.destroy();
         }
-        catch( RemoteException e )
-        {
-            return ApplicationProfile.DEFAULT_SHUTDOWN_TIMEOUT * 1000000;
-        }
+        setState( Application.READY );
+    }
+
+    public synchronized void restart() throws RemoteException
+    {
+        handleStop( true );
+        start();
     }
 
     public State getState()
@@ -193,6 +243,8 @@ public class DefaultApplication extends UnicastRemoteObject implements Applicati
             if( m_state != state )
             {
                 m_state = state;
+                ApplicationEvent event = new ApplicationEvent ( this, state );
+                super.enqueueEvent( event );
                 if( null == pid )
                 {
                     getLogger().info( "state [" + state.key() + "]" );
@@ -209,34 +261,6 @@ public class DefaultApplication extends UnicastRemoteObject implements Applicati
                 }
             }
         }
-    }
-
-    // TODO: change this to an elegent shutdown request and only 
-    // use Process.destroy as a result of a request timeout
-
-    public synchronized void stop() throws RemoteException
-    {
-        setState( Application.STOPPING );
-        if( null != m_process )
-        {
-            m_process.destroy();
-        }
-        setState( Application.READY );
-    }
-
-    public synchronized void restart() throws RemoteException
-    {
-        stop();
-        start();
-    }
-
-   /**
-    * Return the assigned logging channel.
-    * @return the logging channel
-    */
-    private Logger getLogger()
-    {
-        return m_logger;
     }
 
    /**
@@ -302,6 +326,52 @@ public class DefaultApplication extends UnicastRemoteObject implements Applicati
             list.add( "-D" + name + "=" + value );
         }
         return (String[]) list.toArray( new String[0] );
+    }
+
+   /**
+    * Internal event handler.
+    * @param eventObject the event
+    */
+    protected void processEvent( EventObject eventObject )
+    {
+        if( eventObject instanceof ApplicationEvent )
+        {
+            ApplicationEvent event = (ApplicationEvent) eventObject;
+            processApplicationEvent( event );
+        }
+        else
+        {
+            final String error = 
+              "Event class not recognized: " + eventObject.getClass().getName();
+            throw new IllegalArgumentException( error );
+        }
+    }
+
+    private void processApplicationEvent( ApplicationEvent event )
+    {
+        EventListener[] listeners = super.listeners();
+        for( int i=0; i < listeners.length; i++ )
+        {
+            EventListener listener = listeners[i];
+            if( listener instanceof ApplicationListener )
+            {
+                try
+                {
+                    ApplicationListener applicationListener = (ApplicationListener) listener;
+                    applicationListener.applicationStateChanged( event );
+                }
+                catch( ConnectException e )
+                {
+                    super.removeListener( listener );
+                }
+                catch( Throwable e )
+                {
+                    final String error =
+                      "ApplicationListener notification error.";
+                    getLogger().error( error, e );
+                }
+            }
+        }
     }
 
    /**
@@ -438,8 +508,9 @@ public class DefaultApplication extends UnicastRemoteObject implements Applicati
                 {
                     if( line.startsWith( ERROR_MESSAGE ) )
                     {
-                        setState( Application.STOPPING );
-                        setState( Application.READY );
+                        m_error = line.substring( ERROR_MESSAGE.length() );
+
+                        handleStop( false );
 
                         // TODO: make sure the subprocess has terminated by waiting
                         // for some timeout period then killing if necessary

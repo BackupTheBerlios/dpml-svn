@@ -10,7 +10,7 @@ public interface Volotile
 {
     boolean isModified();
 
-    boolean apply();
+    void apply() throws Exception;
 
-    boolean undo();
+    void revert() throws Exception;
 }

@@ -5,11 +5,15 @@ import java.awt.Component;
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.net.URL;
 import java.net.URI;
+import java.rmi.RemoteException;
+import java.rmi.server.UnicastRemoteObject;
 import java.util.LinkedList;
 import java.beans.PropertyChangeEvent;
 
+import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 import javax.swing.ImageIcon;
@@ -21,11 +25,19 @@ import javax.swing.JTextField;
 import javax.swing.JPanel;
 import javax.swing.JComboBox;
 import javax.swing.JSpinner;
+import javax.swing.JOptionPane;
+import javax.swing.JFrame;
 import javax.swing.SpinnerNumberModel;
+import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import javax.swing.tree.DefaultMutableTreeNode;
 
 import net.dpml.station.Application;
+import net.dpml.station.ApplicationEvent;
+import net.dpml.station.ApplicationListener;
+import net.dpml.station.Application.State;
 
 import net.dpml.profile.ApplicationRegistry;
 import net.dpml.profile.ApplicationProfile;
@@ -58,8 +70,9 @@ public final class ApplicationProfileTreeNode extends Node
     private final JLabel m_label;
     private final Component m_component;
     private final PolicyComboBox m_policy;
-    private final JButton m_apply = new JButton( readImageIcon( "16/save.png" ) );
-    private final JButton m_undo = new JButton( readImageIcon( "16/undo.png" ) );
+    private JButton m_start = new JButton( "Start" );
+    private JButton m_stop = new JButton( "Stop" );
+    private JButton m_restart = new JButton( "Restart" );
 
     private LinkedList m_changes = new LinkedList();
 
@@ -75,15 +88,95 @@ public final class ApplicationProfileTreeNode extends Node
         m_label = new JLabel( m_title, ICON, SwingConstants.LEFT );
         m_label.setBorder( new EmptyBorder( 3, 3, 2, 2 ) );
 
-        m_undo.setEnabled( false );
-        m_undo.setFocusable( false );
-        //m_undo.setContentAreaFilled( false );
-        m_undo.setBorderPainted( false );
+        m_application.addApplicationListener( new RemoteApplicationListener() );
 
-        m_apply.setEnabled( false );
-        m_apply.setFocusable( false );
-        //m_apply.setContentAreaFilled( false );
-        m_apply.setBorderPainted( false );
+        setupControlButtons();
+
+        m_start.addActionListener( 
+          new ActionListener() 
+          {
+            public void actionPerformed( ActionEvent event ) 
+            {
+                Thread thread = 
+                  new Thread()
+                  {
+                      public void run()
+                      {
+                          try
+                          {
+                              m_application.start();
+                          }
+                          catch( Exception e ) 
+                          {
+                              final String message = 
+                                "An application startup error occured."
+                                + "\n" + e.getClass().getName()
+                                + "\n" + e.getMessage();
+                              JOptionPane.showMessageDialog(
+                                getParentFrame( m_start ), message, "Error", JOptionPane.ERROR_MESSAGE );
+                          }
+                      }
+                  };
+                thread.start();
+             }
+          } 
+        );
+        m_stop.addActionListener( 
+          new ActionListener() 
+          {
+            public void actionPerformed( ActionEvent event ) 
+            {
+                Thread thread = 
+                  new Thread()
+                  {
+                      public void run()
+                      {
+                          try
+                          {
+                              m_application.stop();
+                          }
+                          catch( Exception e ) 
+                          {
+                              final String message = 
+                                "An application shutdown error occured."
+                                + "\n" + e.getClass().getName()
+                                + "\n" + e.getMessage();
+                              JOptionPane.showMessageDialog(
+                                getParentFrame( m_start ), message, "Error", JOptionPane.ERROR_MESSAGE );
+                          }
+                      }
+                  };
+                thread.start();
+            }
+        });
+        m_restart.addActionListener( 
+          new ActionListener() 
+          {
+            public void actionPerformed( ActionEvent event ) 
+            {
+                Thread thread = 
+                  new Thread()
+                  {
+                      public void run()
+                      {
+                          try
+                          {
+                              m_application.restart();
+                          }
+                          catch( Exception e ) 
+                          {
+                              final String message = 
+                                "An application restart error occured."
+                                + "\n" + e.getClass().getName()
+                                + "\n" + e.getMessage();
+                              JOptionPane.showMessageDialog(
+                                getParentFrame( m_start ), message, "Error", JOptionPane.ERROR_MESSAGE );
+                          }
+                      }
+                  };
+                thread.start();
+            }
+        });
 
         add( new SystemPropertiesTreeNode( m_profile ) );
         add( new ParametersTreeNode( m_profile ) );
@@ -115,31 +208,16 @@ public final class ApplicationProfileTreeNode extends Node
 
     private Component buildComponent() throws Exception
     {
-        JPanel panel = new JPanel( new BorderLayout() );
-        Component controls = buildControlComponent();
-        panel.add( controls, BorderLayout.CENTER );
-        JPanel buttons = new JPanel( new FlowLayout( FlowLayout.RIGHT ) );
-        buttons.add( new JButton( "Start" ) );
-        buttons.add( new JButton( "Stop" ) );
-        buttons.add( new JButton( "Restart" ) );
-        panel.add( buttons, BorderLayout.SOUTH );
-        return panel;
-    }
-
-    private Component buildControlComponent() throws Exception
-    {
         FormLayout layout = new FormLayout(
           "right:pref, 3dlu, 60dlu, fill:max(60dlu;pref), 7dlu, pref", 
-          "pref, 3dlu, pref, 3dlu, pref, 3dlu, pref, 3dlu, pref, 3dlu, pref, 3dlu, pref, 3dlu, pref, 3dlu, pref, 3dlu, pref" );
-
-        //layout.setColumnGroups( new int[][]{{1, 5},{3, 7}} );
+          "pref, 3dlu, pref, 3dlu, pref, 3dlu, pref, 3dlu, pref, 3dlu, pref, 3dlu, pref, 3dlu, pref, 3dlu, pref, 3dlu, pref, 3dlu, pref, 3dlu, pref" );
 
         PanelBuilder builder = new PanelBuilder( layout );
         builder.setDefaultDialogBorder();
 
         CellConstraints cc = new CellConstraints();
 
-        builder.addSeparator( "Application Profile",       cc.xyw( 1, 1, 6 ) );
+        builder.addSeparator( "Configuration",             cc.xyw( 1, 1, 6 ) );
 
         builder.addLabel( "ID:",                            cc.xy( 1, 3 ) ); 
         builder.addLabel( getProfileID() ,                 cc.xyw( 3, 3, 4 ) );
@@ -165,7 +243,21 @@ public final class ApplicationProfileTreeNode extends Node
         builder.addLabel( "Shutdown",                       cc.xy( 1, 17 ) ); 
         builder.add( getShutdownTimeoutComponent(),        cc.xyw( 3, 17, 1 ) ); 
 
+        builder.addSeparator( "Process",                   cc.xyw( 1, 19, 6 ) );
+
+        builder.add( getProcessComponent(),                cc.xyw( 3, 21, 4 ) ); 
+
         return builder.getPanel();
+    }
+
+    private Component getProcessComponent() throws Exception
+    {
+        JPanel buttons = new JPanel( new FlowLayout( FlowLayout.LEFT ) ); 
+        buttons.setBorder( new EmptyBorder( 0, 0, 0, 0 ) );
+        buttons.add( m_start );
+        buttons.add( m_stop );
+        buttons.add( m_restart );
+        return buttons;
     }
 
     private String getProfileID() throws Exception
@@ -175,26 +267,24 @@ public final class ApplicationProfileTreeNode extends Node
 
     private Component getTitleComponent() throws Exception
     {
-        return new JTextField( m_profile.getTitle() );
+        return new TitleDocument();
     }
 
     private Component getStartupTimeoutComponent() throws Exception
     {
-        int timeout = m_profile.getStartupTimeout();
-        SpinnerNumberModel model = new SpinnerNumberModel( timeout, 0, 100, 1 );
+        StartupTimeoutSpinnerModel model = new StartupTimeoutSpinnerModel();
         return new JSpinner( model );
     }
 
     private Component getShutdownTimeoutComponent() throws Exception
     {
-        int timeout = m_profile.getShutdownTimeout();
-        SpinnerNumberModel model = new SpinnerNumberModel( timeout, 0, 100, 1 );
+        ShutdownTimeoutSpinnerModel model = new ShutdownTimeoutSpinnerModel();
         return new JSpinner( model );
     }
 
     private Component getCodebaseComponent() throws Exception
     {
-        return new JTextField( m_profile.getCodeBaseURI().toString() );
+        return new CodeBaseDocument();
     }
 
     private Component getBasedirComponent() throws Exception
@@ -207,68 +297,29 @@ public final class ApplicationProfileTreeNode extends Node
         return m_policy;
     }
 
-    private class PolicyComboBox extends JComboBox implements Volotile
-    {
-        private PolicyComboBox() throws Exception
-        {
-            super( POLICY_OPTIONS );
-            setSelectedItem( m_profile.getStartupPolicy() );
-        }
-
-        public void selectedItemChanged()
-        {
-            super.selectedItemChanged();
-            updateChangeList( this, isModified() );
-        }
-
-        public boolean isModified()
-        {
-            try
-            {
-                return m_profile.getStartupPolicy() != super.getSelectedItem();
-            }
-            catch( Exception e )
-            {
-                return false;
-            }
-        }
-
-        public boolean undo()
-        {
-            try
-            {
-                super.setSelectedItem( m_profile.getStartupPolicy() );
-                updateChangeList( this, false );
-                return true;
-            }
-            catch( Exception e )
-            {
-                e.printStackTrace();
-                return false;
-            }
-        }
-
-        public boolean apply()
-        {
-            try
-            {
-                StartupPolicy policy = (StartupPolicy) super.getSelectedItem();
-                m_profile.setStartupPolicy( policy );
-                updateChangeList( this, false );
-                return true;
-            }
-            catch( Exception e )
-            {
-                e.printStackTrace();
-                return false;
-            }
-        }
-
-    }
-
     public boolean isModified()
     {
         return m_changes.size() > 0;
+    }
+
+    public void apply() throws Exception
+    {
+        Volotile[] components = (Volotile[]) m_changes.toArray( new Volotile[0] );
+        for( int i=0; i < components.length; i++ )
+        {
+            Volotile component = components[i];
+            component.apply();
+        }
+    }
+
+    public void revert() throws Exception
+    {
+        Volotile[] components = (Volotile[]) m_changes.toArray( new Volotile[0] );
+        for( int i=0; i < components.length; i++ )
+        {
+            Volotile component = components[i];
+            component.revert();
+        }
     }
 
    /**
@@ -295,26 +346,376 @@ public final class ApplicationProfileTreeNode extends Node
         }
     }
 
-    public boolean apply()
+    private void setupControlButtons()
     {
-        Volotile[] components = (Volotile[]) m_changes.toArray( new Volotile[0] );
-        for( int i=0; i < components.length; i++ )
+        try
         {
-            Volotile component = components[i];
-            component.apply();
+            State state = m_application.getState();
+            setupControlButtons( state );
         }
-        return true;
+        catch( Throwable e )
+        {
+            // ignore
+        }
     }
 
-    public boolean undo()
+    private void setupControlButtons( State state )
     {
-        Volotile[] components = (Volotile[]) m_changes.toArray( new Volotile[0] );
-        for( int i=0; i < components.length; i++ )
+        if( Application.READY.equals( state ) )
         {
-            Volotile component = components[i];
-            component.undo();
+            m_start.setEnabled( true );
+            m_stop.setEnabled( false );
+            m_restart.setEnabled( false );
         }
-        return true;
+        else if( Application.STARTING.equals( state ) )
+        {
+            m_start.setEnabled( false );
+            m_stop.setEnabled( false );
+            m_restart.setEnabled( false );
+        }
+        else if( Application.RUNNING.equals( state ) )
+        {
+            m_start.setEnabled( false );
+            m_stop.setEnabled( true );
+            m_restart.setEnabled( true );
+        }
+        else if( Application.STOPPING.equals( state ) )
+        {
+            m_start.setEnabled( false );
+            m_stop.setEnabled( false );
+            m_restart.setEnabled( false );
+        }
+        else
+        {
+            System.out.println( "## STATE?: " + state.getClass().getName() + ", " + state );
+        }
     }
 
+    private JFrame getParentFrame( Component component ) 
+    {
+        return (JFrame) SwingUtilities.getWindowAncestor( component );
+    }
+
+
+    //--------------------------------------------------------------------
+    // startup policy components
+    //--------------------------------------------------------------------
+
+   /**
+    * The PolicyComboBox is a volotile component that maintains the 
+    * presentation of the application profile startup policy. 
+    */
+    private class PolicyComboBox extends JComboBox implements Volotile
+    {
+        private PolicyComboBox() throws Exception
+        {
+            super( POLICY_OPTIONS );
+            setSelectedItem( m_profile.getStartupPolicy() );
+        }
+
+        public void selectedItemChanged()
+        {
+            super.selectedItemChanged();
+            updateChangeList( this, isModified() );
+        }
+
+       /**
+        * Returns TRUE if the selected value is not the same as the application
+        * profile startup policy value.
+        * @return the modified status of the component
+        */
+        public boolean isModified()
+        {
+            try
+            {
+                return !m_profile.getStartupPolicy().equals( super.getSelectedItem() );
+            }
+            catch( Exception e )
+            {
+                return false;
+            }
+        }
+
+       /**
+        * Apply changes such that the application profile statup policy
+        * is synchronized with the component value.
+        * @return true if the update was successfull
+        */
+        public void apply() throws Exception
+        {
+            StartupPolicy policy = (StartupPolicy) super.getSelectedItem();
+            m_profile.setStartupPolicy( policy );
+            updateChangeList( this, false );
+        }
+
+       /**
+        * Revert changes such that the component reflects the status of the 
+        * application profile statup policy.
+        * @return true if the reversion was successfull
+        */
+        public void revert() throws Exception
+        {
+            super.setSelectedItem( m_profile.getStartupPolicy() );
+            updateChangeList( this, false );
+        }
+    }
+
+    //--------------------------------------------------------------------
+    // timeout components
+    //--------------------------------------------------------------------
+
+    private abstract class TimeoutSpinnerModel extends SpinnerNumberModel implements Volotile
+    {
+        TimeoutSpinnerModel()
+        {
+            super();
+        }
+
+        public void setValue( Object value )
+        {
+            super.setValue( value );
+            updateChangeList( this, true );
+        }
+
+        abstract Integer getTimeout();
+        abstract void setTimeout( Integer value );
+
+        public boolean isModified()
+        {
+            try
+            {
+                Object value = getTimeout();
+                return value.equals( getValue() );
+            }
+            catch( Throwable e )
+            {
+                return false;
+            }
+        }
+
+        public void apply() throws Exception
+        {
+            Integer value = (Integer) getValue();
+            setTimeout( value );
+            updateChangeList( this, false );
+        }
+
+        public void revert() throws Exception
+        {
+            Integer value = getTimeout();
+            setValue( value );
+            updateChangeList( this, false );
+        }
+    }
+
+    private class StartupTimeoutSpinnerModel extends TimeoutSpinnerModel
+    {
+        StartupTimeoutSpinnerModel() throws Exception
+        {
+            super();
+            revert();
+        }
+
+        Integer getTimeout()
+        {
+            try
+            {
+                return new Integer( m_profile.getStartupTimeout() );
+            }
+            catch( Throwable e )
+            {
+                e.printStackTrace();
+                return new Integer( 0 );
+            }
+        }
+
+        void setTimeout( Integer value )
+        {
+            try
+            {
+                int n = value.intValue();
+                m_profile.setStartupTimeout( n );
+            }
+            catch( Throwable e )
+            {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private class ShutdownTimeoutSpinnerModel extends TimeoutSpinnerModel
+    {
+        ShutdownTimeoutSpinnerModel() throws Exception
+        {
+            super();
+            revert();
+        }
+
+        Integer getTimeout()
+        {
+            try
+            {
+                return new Integer( m_profile.getShutdownTimeout() );
+            }
+            catch( Throwable e )
+            {
+                e.printStackTrace();
+                return new Integer( 0 );
+            }
+        }
+
+        void setTimeout( Integer value )
+        {
+            try
+            {
+                int n = value.intValue();
+                m_profile.setShutdownTimeout( n );
+            }
+            catch( Throwable e )
+            {
+                // ignore
+            }
+        }
+    }
+
+    //--------------------------------------------------------------------
+    // field components
+    //--------------------------------------------------------------------
+
+    private abstract class VolotileDocument extends JTextField implements DocumentListener, Volotile
+    {
+        public VolotileDocument( String text )
+        {
+            super( text );
+            getDocument().addDocumentListener( this );
+        }
+
+        public void insertUpdate( DocumentEvent event )
+        {
+            setModified();
+        }
+
+        public void removeUpdate( DocumentEvent event )
+        {
+            setModified();
+        }
+
+        public void changedUpdate( DocumentEvent event )
+        {
+            setModified();
+        }
+
+        private void setModified()
+        {
+            updateChangeList( this, true );
+        }
+
+        public abstract boolean isModified();
+        public abstract void apply() throws Exception;
+        public abstract void revert() throws Exception;
+
+    }
+
+    private class TitleDocument extends VolotileDocument 
+    {
+        public TitleDocument() throws Exception
+        {
+            super( m_profile.getTitle() );
+        }
+
+        public boolean isModified()
+        {
+            try
+            {
+                String text = getText();
+                String title = m_profile.getTitle();
+                return text.equals( title );
+            }
+            catch( Exception e )
+            {
+                return false;
+            }
+        }
+
+        public void apply() throws Exception
+        {
+            String text = getText();
+            m_profile.setTitle( text );
+            updateChangeList( this, false );
+        }
+
+        public void revert() throws Exception
+        {
+            String text = m_profile.getTitle();
+            setText( text );
+            updateChangeList( this, false );
+        }
+    }
+
+    private class CodeBaseDocument extends VolotileDocument 
+    {
+        public CodeBaseDocument() throws Exception
+        {
+            super( m_profile.getCodeBaseURI().toString() );
+        }
+
+        public boolean isModified()
+        {
+            try
+            {
+                String text = getText();
+                String codebase = m_profile.getCodeBaseURI().toString();
+                return text.equals( codebase );
+            }
+            catch( Exception e )
+            {
+                return false;
+            }
+        }
+
+        public void apply() throws Exception
+        {
+            String text = getText();
+            m_profile.setCodeBaseURI( new URI( text ) );
+            updateChangeList( this, false );
+        }
+
+        public void revert() throws Exception
+        {
+            String text = m_profile.getCodeBaseURI().toString();
+            setText( text );
+            updateChangeList( this, false );
+        }
+    }
+
+    private class RemoteApplicationListener extends UnicastRemoteObject implements ApplicationListener
+    {
+        private Thread m_thread;
+
+        private RemoteApplicationListener() throws RemoteException
+        {
+            super();
+        }
+
+        public void applicationStateChanged( final ApplicationEvent event ) throws RemoteException
+        {
+            SwingUtilities.invokeLater( 
+              new Runnable() 
+              {
+                public void run()
+                {
+                   try
+                   {
+                       State state = event.getState();
+                       setupControlButtons( state );
+                   }
+                   catch( Throwable e )
+                   {
+                       e.printStackTrace();
+                   }
+                }
+              }
+            );
+        }
+    }
 }

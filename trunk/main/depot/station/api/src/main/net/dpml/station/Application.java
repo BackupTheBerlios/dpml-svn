@@ -28,6 +28,10 @@ public interface Application extends Remote
 
     void restart() throws RemoteException;
 
+    void addApplicationListener( ApplicationListener listener ) throws RemoteException;
+    
+    void removeApplicationListener( ApplicationListener listener ) throws RemoteException;
+
    /**
     * Process state enumeration.
     */

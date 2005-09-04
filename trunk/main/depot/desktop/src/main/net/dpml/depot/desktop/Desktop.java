@@ -126,7 +126,7 @@ public final class Desktop implements Handler
         frame.setIconImage( readImageIcon( "16/folder.png" ).getImage() );
         frame.setJMenuBar( buildMenuBar() );
         frame.setContentPane( buildContentPane() );
-        frame.setSize( 600, 400 );
+        frame.setSize( 600, 500 );
         locateOnScreen( frame );
         frame.setTitle( "DPML :: Desktop" );
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
@@ -136,7 +136,7 @@ public final class Desktop implements Handler
     /**
      * Locates the frame on the screen center.
      */
-    private void locateOnScreen(Frame frame) 
+    private void locateOnScreen( Frame frame ) 
     {
         Dimension paneSize   = frame.getSize();
         Dimension screenSize = frame.getToolkit().getScreenSize();
@@ -262,6 +262,11 @@ public final class Desktop implements Handler
                 boolean modified = m_selected.isModified();
                 m_apply.setEnabled( modified );
                 m_undo.setEnabled( modified );
+            }
+            else
+            {
+                m_apply.setEnabled( false );
+                m_undo.setEnabled( false );
             }
         }
 
@@ -389,8 +394,16 @@ public final class Desktop implements Handler
             super.fireActionPerformed( event );
             if( null != m_selected )
             {
-                boolean status = m_selected.apply();
-                m_apply.setEnabled( !status );
+                try
+                {
+                    m_selected.apply();
+                    m_apply.setEnabled( false );
+                }
+                catch( Exception e )
+                {
+                    // TODO: add a warning dialog
+                    m_apply.setEnabled( true );
+                }
             }
         }
     }
@@ -407,8 +420,16 @@ public final class Desktop implements Handler
             super.fireActionPerformed( event );
             if( null != m_selected )
             {
-                boolean status = m_selected.undo();
-                m_undo.setEnabled( !status );
+                try
+                {
+                    m_selected.revert();
+                    m_undo.setEnabled( false );
+                }
+                catch( Exception e )
+                {
+                    // TODO: add a warning dialog
+                    m_undo.setEnabled( true );
+                }
             }
         }
     }

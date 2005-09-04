@@ -62,14 +62,12 @@ public abstract class Node extends DefaultMutableTreeNode implements Volotile
         return false;
     }
 
-    public boolean apply()
+    public void apply() throws Exception
     {
-        return true;
     }
 
-    public boolean undo()
+    public void revert() throws Exception
     {
-        return true;
     }
 
     abstract Component getLabel();
