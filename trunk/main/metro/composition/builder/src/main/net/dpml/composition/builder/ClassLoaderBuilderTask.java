@@ -72,6 +72,8 @@ import net.dpml.part.component.Service;
 import net.dpml.transit.tools.AntAdapter;
 import net.dpml.transit.model.Logger;
 import net.dpml.transit.model.ContentModel;
+import net.dpml.transit.Plugin;
+import net.dpml.transit.Plugin.Category;
 
 import org.apache.tools.ant.AntClassLoader;
 import org.apache.tools.ant.BuildException;
@@ -115,17 +117,17 @@ public abstract class ClassLoaderBuilderTask extends ProjectTask
     {
         ArrayList list = new ArrayList();
         ArrayList visited = new ArrayList();
-        URI[] uris = createURISequence( ResourceRef.API, visited );
+        URI[] uris = createURISequence( Plugin.API, visited );
         if( uris.length > 0 )
         {
             list.add( new ClasspathDirective( "api", uris ) );
         }
-        uris = createURISequence( ResourceRef.SPI, visited );
+        uris = createURISequence( Plugin.SPI, visited );
         if( uris.length > 0 )
         {
             list.add( new ClasspathDirective( "spi", uris ) );
         }
-        uris = createURISequence( ResourceRef.IMPL, visited, true );
+        uris = createURISequence( Plugin.IMPL, visited, true );
         if( uris.length > 0 )
         {
             list.add( new ClasspathDirective( "impl", uris ) );
@@ -134,12 +136,12 @@ public abstract class ClassLoaderBuilderTask extends ProjectTask
         return new ClassLoaderDirective( cps );
     }
 
-    private URI[] createURISequence( int category, List visited )
+    private URI[] createURISequence( Category category, List visited )
     {
         return createURISequence( category, visited, false );
     }
 
-    private URI[] createURISequence( int category, List visited, boolean flag )
+    private URI[] createURISequence( Category category, List visited, boolean flag )
     {
         Definition def = getDefinition();
         ArrayList list = new ArrayList();

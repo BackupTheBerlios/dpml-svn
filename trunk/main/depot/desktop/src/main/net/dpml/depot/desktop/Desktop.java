@@ -1,3 +1,18 @@
+/*
+ * Copyright 2005 Stephen McConnell
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 
 package net.dpml.depot.desktop;
 
@@ -23,6 +38,8 @@ import javax.swing.tree.TreeCellRenderer;
 import javax.swing.tree.TreePath;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableColumnModel;
+import javax.swing.plaf.metal.MetalLookAndFeel;
+import javax.swing.plaf.metal.DefaultMetalTheme;
 
 import com.jgoodies.looks.FontSizeHints;
 import com.jgoodies.looks.LookUtils;
@@ -30,6 +47,7 @@ import com.jgoodies.looks.Options;
 import com.jgoodies.looks.plastic.PlasticLookAndFeel;
 import com.jgoodies.looks.plastic.theme.Silver;
 import com.jgoodies.looks.plastic.theme.SkyBlue;
+import com.jgoodies.looks.plastic.PlasticXPLookAndFeel;
 
 import net.dpml.depot.Handler;
 
@@ -45,6 +63,8 @@ import net.dpml.transit.model.Logger;
  */
 public final class Desktop implements Handler
 {
+    private final Settings settings = Settings.createDefault();
+
     private Logger m_logger;
     private String[] m_args;
     private JSplitPane m_splitPane;
@@ -75,6 +95,44 @@ public final class Desktop implements Handler
      */
     private void configureUI()
     {
+        Options.setDefaultIconSize(new Dimension(18, 18));
+
+        // Set font options		
+        UIManager.put(
+            Options.USE_SYSTEM_FONTS_APP_KEY,
+            settings.isUseSystemFonts());
+        Options.setGlobalFontSizeHints(settings.getFontSizeHints());
+        Options.setUseNarrowButtons(settings.isUseNarrowButtons());
+        
+        // Global options
+        Options.setTabIconsEnabled(settings.isTabIconsEnabled());
+        UIManager.put(Options.POPUP_DROP_SHADOW_ENABLED_KEY, 
+                settings.isPopupDropShadowEnabled());
+
+        // Swing Settings
+        LookAndFeel selectedLaf = settings.getSelectedLookAndFeel();
+        if (selectedLaf instanceof PlasticLookAndFeel) {
+            PlasticLookAndFeel.setMyCurrentTheme(settings.getSelectedTheme());
+            PlasticLookAndFeel.setTabStyle(settings.getPlasticTabStyle());
+            PlasticLookAndFeel.setHighContrastFocusColorsEnabled(
+                settings.isPlasticHighContrastFocusEnabled());
+        } else if (selectedLaf.getClass() == MetalLookAndFeel.class) {
+            MetalLookAndFeel.setCurrentTheme(new DefaultMetalTheme());
+        }
+        
+        // Work around caching in MetalRadioButtonUI
+        JRadioButton radio = new JRadioButton();
+        radio.getUI().uninstallUI(radio);
+        JCheckBox checkBox = new JCheckBox();
+        checkBox.getUI().uninstallUI(checkBox);
+
+        try {
+            UIManager.setLookAndFeel(selectedLaf);
+        } catch (Exception e) {
+            System.out.println("Can't change L&F: " + e);
+        }
+
+        /*
         PlasticLookAndFeel.setMyCurrentTheme( new Silver() );
         UIManager.put( Options.USE_SYSTEM_FONTS_APP_KEY, Boolean.TRUE );
         Options.setGlobalFontSizeHints( FontSizeHints.MIXED );
@@ -84,7 +142,8 @@ public final class Desktop implements Handler
         {
             if( LookUtils.IS_OS_WINDOWS_XP )
             {
-                UIManager.setLookAndFeel( Options.getCrossPlatformLookAndFeelClassName() );
+                UIManager.setLookAndFeel( new PlasticXPLookAndFeel() );
+                //UIManager.setLookAndFeel( Options.getCrossPlatformLookAndFeelClassName() );
             }
             else
             {
@@ -97,7 +156,9 @@ public final class Desktop implements Handler
               "Internal error while attempting to set look and feel.";
             m_logger.warn( error, e );
         }
+        */
 
+        /*
         final String lookAndFeel = getDefaultLookAndFeel();
         try            
         {
@@ -109,6 +170,7 @@ public final class Desktop implements Handler
               "Internal error while attempting to set look and feel.";
             m_logger.warn( error, e );
         }
+        */
     }
 
     public void destroy()
