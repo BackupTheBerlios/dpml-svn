@@ -1,5 +1,6 @@
 /*
- * Copyright 2004 Apache Software Foundation
+ * Copyright 2004-2005 Stephen McConnell
+ *
  * Licensed  under the  Apache License,  Version 2.0  (the "License");
  * you may not use  this file  except in  compliance with the License.
  * You may obtain a copy of the License at
@@ -17,28 +18,30 @@
 
 package net.dpml.magic.tasks;
 
+import java.io.File;
+import java.io.InputStream;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
+
 import net.dpml.magic.AntFileIndex;
-import net.dpml.magic.builder.ElementHelper;
 import net.dpml.magic.model.Definition;
 import net.dpml.magic.model.Policy;
 import net.dpml.magic.model.Resource;
 import net.dpml.magic.model.ResourceRef;
+
+import net.dpml.transit.Plugin;
+import net.dpml.transit.util.ElementHelper;
 import net.dpml.transit.artifact.Handler;
+
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.taskdefs.Javadoc;
 import org.apache.tools.ant.types.DirSet;
 import org.apache.tools.ant.types.Path;
 import org.apache.tools.ant.types.FileSet;
+
 import org.w3c.dom.Element;
-
-import net.dpml.transit.Plugin;
-
-import java.io.File;
-import java.io.InputStream;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Build the javadoc for a project.

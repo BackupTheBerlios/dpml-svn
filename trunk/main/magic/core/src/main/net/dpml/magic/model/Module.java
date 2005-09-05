@@ -20,7 +20,8 @@ package net.dpml.magic.model;
 import java.net.URI;
 
 import net.dpml.magic.AntFileIndex;
-import net.dpml.magic.builder.ElementHelper;
+
+import net.dpml.transit.util.ElementHelper;
 
 import org.apache.tools.ant.BuildException;
 

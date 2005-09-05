@@ -4,6 +4,7 @@
 
 -Djava.system.class.loader=net.dpml.depot.DepotClassLoader
 -Djava.security.policy=${env.DPML_HOME}\Shared\bin\security.policy
+-Djava.rmi.server.randomIDs=true
 janel.main.class=net.dpml.depot.Main
 janel.min.java.version=1.4
 janel.max.java.version=1.5

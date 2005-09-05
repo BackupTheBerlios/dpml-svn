@@ -7,9 +7,11 @@ import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
+import java.rmi.Remote;
 import java.rmi.ConnectException;
 import java.rmi.RemoteException;
 import java.rmi.ServerException;
+import java.rmi.server.ObjID;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.Enumeration;
 import java.util.ArrayList;
@@ -56,6 +58,7 @@ public class DefaultApplication extends EventProducer implements Application
     private State m_state = Application.READY;
     private PID m_pid;
     private String m_error;
+    private Remote m_controller;
 
     public DefaultApplication( 
       Logger logger, ApplicationProfile profile, String path ) throws RemoteException
@@ -108,6 +111,11 @@ public class DefaultApplication extends EventProducer implements Application
     public PID getPID() throws RemoteException
     {
         return m_pid;
+    }
+
+    public void registerController( Remote controller )
+    {
+        m_controller = controller;
     }
 
     public synchronized void start() throws RemoteException

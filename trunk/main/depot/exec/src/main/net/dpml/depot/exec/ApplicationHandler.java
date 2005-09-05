@@ -26,11 +26,17 @@ import java.util.Properties;
 import java.rmi.registry.Registry;
 import java.rmi.registry.LocateRegistry;
 
+import java.net.Socket;
+import java.net.InetAddress;
+
 import net.dpml.depot.Main;
 import net.dpml.depot.ShutdownHandler;
 import net.dpml.depot.GeneralException;
 
 import net.dpml.station.Station;
+
+import net.dpml.part.component.Component;
+import net.dpml.part.control.Controller;
 
 import net.dpml.profile.ApplicationRegistry;
 import net.dpml.profile.ApplicationProfile;
@@ -83,6 +89,8 @@ public class ApplicationHandler
         m_handler = handler;
         m_args = args;
         m_model = model;
+
+        //Thread.currentThread().setContextClassLoader( ApplicationHandler.class.getClassLoader() );
 
         if( args.length < 1 )
         {
@@ -371,37 +379,44 @@ public class ApplicationHandler
         Artifact artifact = Artifact.createArtifact( uri );
         String type = artifact.getType();
         Parameter[] params = profile.getParameters();
+        Object[] parameters = consolidateParameters( params, new Object[]{logger, args} );
         if( "plugin".equals( type ) )
         {
-            ArrayList list = new ArrayList();
-            for( int i=0; i<params.length; i++ )
-            {
-                Parameter param = params[i];
-                list.add( param.getValue() );
-            }
-            list.add( args );
-            list.add( model );
-            list.add( logger );
-            list.add( profile );
-            Object[] parameters = list.toArray();
             return loader.getPlugin( parent, uri, parameters );
         }
         else if( "part".equals( type ) )
         {
-            //
-            // TODO change to this include a fully embedded controller
-            //
-
             String path = uri.toASCIIString();
             final String message = 
               "loading part ["
               + path 
-              + "] with Transit [" 
+              + "] with [" 
               + model.getID()
               + "] profile";
             getLogger().info( message );
-            URL url = new URL( path );
-            return url.getContent( new Class[]{Object.class} );
+
+            URI controllerUri = new URI( "@COMPOSITION-CONTROLLER-URI@" );
+            ClassLoader system = ClassLoader.getSystemClassLoader();
+
+            final String info = 
+              "\n------------- system classloader ----------------------------------"
+              + "\n" + system.toString()
+              + "\n-------------------------------------------------------------------";
+            m_logger.debug( info );
+
+            for( int i=0; i<parameters.length; i++ )
+            {
+                Object o = parameters[i];
+                m_logger.info( "PARAM: " + o.getClass().getName() );
+            }
+
+            Controller controller = (Controller) loader.getPlugin( system, controllerUri, parameters );
+            Component component = controller.newComponent( uri );
+
+            //Socket socket = new Socket( InetAddress.getLocalHost(), 0 );
+            //System.out.println( "# SOCKET: " + socket.getLocalPort() );
+
+            return component.resolve();
         }
         else
         {
@@ -409,6 +424,22 @@ public class ApplicationHandler
               "Artifact type [" + type + "] is not supported.";
             throw new Exception( error );
         }
+    }
+
+    private Object[] consolidateParameters( Parameter[] params, Object[] suppliment )
+    {
+        ArrayList list = new ArrayList();
+        for( int i=0; i<params.length; i++ )
+        {
+            Parameter param = params[i];
+            list.add( param.getValue() );
+        }
+        for( int i=0; i < suppliment.length; i++ )
+        {
+            Object object = suppliment[i];
+            list.add( object );
+        }
+        return list.toArray();
     }
 
     private Registry getRegistry( String host, int port ) throws Exception

@@ -8,6 +8,7 @@
 
   <target name="init" depends="standard.init">
     <x:filter token="DEPOT-PROFILE-PLUGIN-URI" key="dpml-profile-impl" feature="uri" type="plugin"/>
+    <x:filter feature="uri" type="plugin" token="COMPOSITION-CONTROLLER-URI" key="dpml-composition-control"/>
   </target>
 
   <target name="package" depends="standard.package">

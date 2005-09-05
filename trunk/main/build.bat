@@ -11,7 +11,7 @@ REM
 REM where the first argument is product group and the second (optional) argument is the
 REM build revision identifier. Allowable product group names include:
 REM
-REM  all      builds transit, util, magic, depot, metro and test
+REM  all      builds transit, util, magic, metro, depot and test
 REM  transit  build transit and util
 REM  magic    build magic
 REM  depot    build depot

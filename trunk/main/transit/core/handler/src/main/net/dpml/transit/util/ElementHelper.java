@@ -1,5 +1,5 @@
 /*
- * Copyright 2004 Stephen McConnell
+ * Copyright 2004-2005 Stephen McConnell
  *
  * Licensed  under the  Apache License,  Version 2.0  (the "License");
  * you may not use  this file  except in  compliance with the License.
@@ -18,47 +18,118 @@
 
 package net.dpml.transit.util;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.InputStream;
-
 import java.util.ArrayList;
 import java.util.Properties;
 
-import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+
+import org.apache.tools.ant.BuildException;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-
+import org.xml.sax.SAXException;
 
 /**
- * Utility class supporting the XL document parsing.
+ * Utility class supporting the translation of DOM content into local child, children,
+ * attribute and value values.
  *
  * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
  * @version $Revision: 1.2 $ $Date: 2004/03/17 10:30:09 $
  */
 public final class ElementHelper
 {
-    // ------------------------------------------------------------------------
-    // static
-    // ------------------------------------------------------------------------
+    private ElementHelper()
+    {
+        // utility class
+    }
+
+   /**
+    * Return the root element of the supplied file.
+    * @param definition the file to load
+    * @return the root element
+    * @exception BuildException if the error occurs during root element establishment
+    */
+    public static Element getRootElement( final File definition )
+      throws BuildException
+    {
+        if( !definition.exists() )
+        {
+            throw new BuildException(
+              new FileNotFoundException( definition.toString() ) );
+        }
+
+        if( !definition.isFile() )
+        {
+            final String error =
+              "Source is not a file: " + definition;
+            throw new BuildException(
+              new IllegalArgumentException( error ) );
+        }
+
+        try
+        {
+            final DocumentBuilderFactory factory =
+              DocumentBuilderFactory.newInstance();
+            factory.setValidating( false );
+            factory.setNamespaceAware( false );
+            final Document document =
+              factory.newDocumentBuilder().parse( definition );
+            return document.getDocumentElement();
+        }
+        catch( SAXException sxe )
+        {
+            // Error generated during parsing
+            if( sxe.getException() != null )
+            {
+                throw new BuildException( sxe.getException() );
+            }
+            throw new BuildException( sxe );
+        }
+        catch( ParserConfigurationException pce )
+        {
+            // Parser with specified options can't be built
+            throw new BuildException( pce );
+        }
+        catch( Exception ioe )
+        {
+            throw new BuildException( ioe );
+        }
+    }
 
    /**
     * Return the root element of the supplied input stream.
     * @param input the input stream containing a XML definition
     * @return the root element
-    * @exception Exception if the error occurs during root element establishment
+    * @exception BuildException if an error occurs
     */
     public static Element getRootElement( final InputStream input )
-        throws Exception
+      throws BuildException
     {
-        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-        factory.setValidating( false );
-        factory.setNamespaceAware( false );
-        DocumentBuilder builder = factory.newDocumentBuilder();
-        Document document = builder.parse( input );
-        return document.getDocumentElement();
+        try
+        {
+            final DocumentBuilderFactory factory =
+              DocumentBuilderFactory.newInstance();
+            factory.setValidating( false );
+            factory.setNamespaceAware( false );
+            final Document document =
+              factory.newDocumentBuilder().parse( input );
+            return document.getDocumentElement();
+        }
+        catch( ParserConfigurationException pce )
+        {
+            // Parser with specified options can't be built
+            throw new BuildException( pce );
+        }
+        catch( Exception ioe )
+        {
+            throw new BuildException( ioe );
+        }
     }
 
    /**
@@ -184,16 +255,61 @@ public final class ElementHelper
         {
             return def;
         }
+        if( !node.hasAttribute( key ) )
+        {
+            return def;
+        } 
         final String value = node.getAttribute( key );
-        if( null == value )
-        {
-            return def;
-        }
-        if( "".equals( value ) )
-        {
-            return def;
-        }
         return normalize( value );
+    }
+
+   /**
+    * Return the value of an element attribute as a boolean
+    * @param node the DOM node
+    * @param key the attribute key
+    * @return the attribute value as a boolean or false if undefined
+    */
+    public static boolean getBooleanAttribute( final Element node, final String key )
+    {
+        return getBooleanAttribute( node, key, false );
+    }
+
+   /**
+    * Return the value of an element attribute as a boolean.
+    * @param node the DOM node
+    * @param key the attribute key
+    * @param def the default value if the attribute is undefined
+    * @return the attribute value or the default value if undefined
+    */
+    public static boolean getBooleanAttribute( final Element node, final String key, final boolean def )
+    {
+        if( null == node )
+        {
+            return def;
+        }
+
+        if( !node.hasAttribute( key ) )
+        {
+            return def;
+        } 
+
+        String value = node.getAttribute( key );
+        value = normalize( value );
+        if( value.equals( "" ) )
+        {
+            return def;
+        }
+        if( value.equals( "true" ) )
+        {
+            return true;
+        }
+        if( value.equals( "false" ) )
+        {
+            return false;
+        }
+        final String error =
+          "Boolean argument [" + value + "] not recognized.";
+        throw new BuildException( error );
     }
 
    /**
@@ -215,16 +331,5 @@ public final class ElementHelper
     static String normalize( String value, Properties props )
     {
         return PropertyResolver.resolve( props, value );
-    }
-
-    // ------------------------------------------------------------------------
-    // constructor
-    // ------------------------------------------------------------------------
-
-   /**
-    * Constructor (disabled)
-    */
-    private ElementHelper()
-    {
     }
 }

@@ -48,63 +48,20 @@ public class PartContentHandler extends ContentHandler
 
     public PartContentHandler( Logger logger )
     {
-        this( logger, null, null );
-    }
-
-    protected PartContentHandler( Logger logger, File work, File temp )
-    {
         m_logger = logger;
-
-        File working = resolveWorkingDir( work );
 
         try
         {
             ClassLoader classloader = Part.class.getClassLoader();
             URI uri = new URI( "@COMPOSITION-CONTROLLER-URI@" );
             Repository repository = Transit.getInstance().getRepository();
-            Class clazz = repository.getPluginClass( classloader, uri );
-
-            Class[] signature = 
-              new Class[]
-              {
-                  Logger.class, File.class, File.class
-              };
-            
-            Object[] params = 
-              new Object[]
-              {
-                  logger, working, temp
-              };
-            
-            Constructor constructor = clazz.getConstructor( signature );
-            m_controller = (Controller) constructor.newInstance( params );
+            m_controller = (Controller) repository.getPlugin( classloader, uri, new Object[]{logger} );
         }
         catch( Throwable e )
         {
             final String error =
               "Internal error while attempting to establish the composition controller.";
             throw new RuntimeException( error, e );
-        }
-    }
-
-    private File resolveWorkingDir( File work )
-    {
-        if( null != work )
-        {
-            return work;
-        }
-        else
-        {
-            String path = System.getProperty( "project.test.dir" );
-            if( null == path )
-            {
-                String classic = System.getProperty( "user.dir" );
-                return new File( classic );
-            }
-            else
-            {
-                return new File( path );
-            }
         }
     }
 
@@ -190,7 +147,13 @@ public class PartContentHandler extends ContentHandler
                 {
                     final String error = 
                       "Unsupported class argument: " + c.getName();
-                    throw new RuntimeException( error );
+                    final String message = 
+                      error
+                      + "\n--------- context classloader ------------------------------------"
+                      + "\n" + Thread.currentThread().getContextClassLoader()
+                      + "\n------------------------------------------------------------------";
+                    m_logger.error( message );
+                    throw new PartHandlerRuntimeException( error );
                 }
             }
             return null;

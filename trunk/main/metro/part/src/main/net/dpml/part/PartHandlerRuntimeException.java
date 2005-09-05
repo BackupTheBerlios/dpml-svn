@@ -31,6 +31,11 @@ public class PartHandlerRuntimeException extends RuntimeException
     */
     static final long serialVersionUID = 1L;
 
+    public PartHandlerRuntimeException( String message )
+    {
+        super( message );
+    }
+
     public PartHandlerRuntimeException( String message, Throwable cause )
     {
         super( message, cause );

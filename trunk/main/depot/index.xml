@@ -144,6 +144,7 @@
       <include key="dpml-station-api"/>
       <include key="dpml-depot-console"/>
       <include key="dpml-profile-api"/>
+      <include key="dpml-part-api" tag="system"/>
     </dependencies>
   </project>
 

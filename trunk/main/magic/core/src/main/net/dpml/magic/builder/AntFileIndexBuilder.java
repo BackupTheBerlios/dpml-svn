@@ -25,6 +25,7 @@ import java.io.IOException;
 import net.dpml.magic.AntFileIndex;
 
 import net.dpml.transit.NullArgumentException;
+import net.dpml.transit.util.ElementHelper;
 
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Project;

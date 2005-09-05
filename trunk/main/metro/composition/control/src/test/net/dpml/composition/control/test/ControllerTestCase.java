@@ -53,7 +53,8 @@ public class ControllerTestCase extends TestCase
     public void setUp() throws Exception
     {
         LoggingAdapter logger = new LoggingAdapter( "test" );
-        m_controller = new CompositionController( logger, null, null );
+        //m_controller = new CompositionController( logger, null, null );
+        m_controller = new CompositionController( logger );
     }
 
     /*

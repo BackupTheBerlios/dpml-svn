@@ -504,7 +504,6 @@ public final class Main implements ShutdownHandler
             }
 
             classloader.setClasspath( bootstrap );
-            Thread.currentThread().setContextClassLoader( classloader );
 
             m_plugin = 
               repository.getPlugin( 

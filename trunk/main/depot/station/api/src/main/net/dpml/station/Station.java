@@ -22,6 +22,7 @@ public interface Station extends Remote
 
     Application getApplication( String key ) throws UnknownKeyException, RemoteException;
 
+    //void registerController( Remote controller );
 
     //Application addApplication( ApplicationProfile profile ) throws DuplicateKeyException, RemoteException;
     //void removeApplication( String key ) throws UnknownKeyException, RemoteException;

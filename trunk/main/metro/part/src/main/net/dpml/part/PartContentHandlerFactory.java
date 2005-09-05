@@ -37,7 +37,7 @@ public class PartContentHandlerFactory implements ContentHandlerFactory
         try
         {
             Logger logger = new LoggingAdapter( "part" );
-            return new PartContentHandler( logger, null, null );
+            return new PartContentHandler( logger );
         }
         catch( Throwable e )
         {

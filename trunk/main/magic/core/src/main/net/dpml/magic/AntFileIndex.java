@@ -24,7 +24,6 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Hashtable;
 
-import net.dpml.magic.builder.ElementHelper;
 import net.dpml.magic.builder.AntFileIndexBuilder;
 import net.dpml.magic.builder.XMLDefinitionBuilder;
 import net.dpml.magic.model.Definition;
@@ -38,6 +37,7 @@ import net.dpml.transit.Transit;
 import net.dpml.transit.TransitException;
 import net.dpml.transit.Artifact;
 import net.dpml.transit.Repository;
+import net.dpml.transit.util.ElementHelper;
 
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Location;

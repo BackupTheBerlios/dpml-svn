@@ -96,13 +96,19 @@ public class CompositionController extends CompositionPartHandler implements Con
     // constructor
     //--------------------------------------------------------------------
 
-    public CompositionController( net.dpml.transit.model.Logger logger, File work, File temp )
+    public CompositionController( net.dpml.transit.model.Logger logger )
        throws ControlException, RemoteException
     {
-        this( new CompositionContext( logger, work, temp ) );
+        this( new CompositionContext( logger, null, null ) );
     }
 
-    public CompositionController( ControllerContext context )
+    //public CompositionController( net.dpml.transit.model.Logger logger, File work, File temp )
+    //   throws ControlException, RemoteException
+    //{
+    //    this( new CompositionContext( logger, work, temp ) );
+    //}
+
+    protected CompositionController( ControllerContext context )
        throws ControlException, RemoteException
     {
         super( context );
@@ -113,7 +119,6 @@ public class CompositionController extends CompositionPartHandler implements Con
         m_componentController = new ComponentController( m_logger, this );
         //m_lifestyleHandler = new LifestyleHandler( m_logger, m_componentController );
         m_logger.debug( "controller: " + CONTROLLER_URI );
-
     }
 
    /**

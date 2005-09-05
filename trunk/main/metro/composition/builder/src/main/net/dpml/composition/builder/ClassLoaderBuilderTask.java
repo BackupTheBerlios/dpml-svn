@@ -93,7 +93,7 @@ public abstract class ClassLoaderBuilderTask extends ProjectTask
         try
         {
             Logger logger = new AntAdapter( this );
-            return new CompositionController( logger, null, null );
+            return new CompositionController( logger );
         }
         catch( Throwable e )
         {

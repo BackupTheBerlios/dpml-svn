@@ -29,6 +29,7 @@ import net.dpml.magic.model.Type;
 
 import net.dpml.transit.Plugin;
 import net.dpml.transit.Plugin.Category;
+import net.dpml.transit.util.ElementHelper;
 
 import org.apache.tools.ant.BuildException;
 
@@ -103,7 +104,7 @@ public final class XMLDefinitionBuilder
             final Info info = createInfo( home, infoElement, external, uri );
             final String key = getDefinitionKey( element, info );
 
-            final String path = element.getAttribute( "basedir" );
+            final String path = ElementHelper.getAttribute( element, "basedir" );
             final File basedir = getBasedir( anchor, path );
             final String file = getBuildFile( element );
 
@@ -127,7 +128,7 @@ public final class XMLDefinitionBuilder
 
     private static File getBasedir( final File anchor, final String path )
     {
-        if( ( null == path ) || "".equals( path ) )
+        if( null == path )
         {
             return anchor;
         }
@@ -150,33 +151,20 @@ public final class XMLDefinitionBuilder
 
     private static String getBuildFile( Element element )
     {
-        String value = element.getAttribute( "file" );
-        if( null == value )
-        {
-            return null;
-        }
-        else if( "".equals( value ) )
-        {
-            return null;
-        }
-        else
-        {
-            return value;
-        }
+        return ElementHelper.getAttribute( element, "file" );
     }
 
     private static String getDefinitionKey( final Element element, final Info info )
     {
-        final String key = element.getAttribute( "key" );
+        final String key = ElementHelper.getAttribute( element, "key" );
         if( null == key )
         {
             return info.getName();
         }
-        if( key.equals( "" ) )
+        else
         {
-            return info.getName();
+            return key;
         }
-        return key;
     }
 
    /**
@@ -356,17 +344,13 @@ public final class XMLDefinitionBuilder
         String type = null;
         if( element.hasAttribute( "name" ) )
         {
-            type = element.getAttribute( "name" );
+            type = ElementHelper.getAttribute( element, "name" );
         }
         else
         {
             type = ElementHelper.getValue( element );
         }
-        String alias = null;
-        if( element.hasAttribute( "alias" ) )
-        {
-            alias = element.getAttribute( "alias" );
-        }
+        String alias = ElementHelper.getAttribute( element, "alias" );
         return new Type( type, alias );
     }
 
@@ -378,8 +362,8 @@ public final class XMLDefinitionBuilder
         for( int i=0; i < children.length; i++ )
         {
             final Element child = children[i];
-            final String key = child.getAttribute( "key" );
-            final String tagAttribute = child.getAttribute( "tag" );
+            final String key = ElementHelper.getAttribute( child, "key" );
+            final String tagAttribute = ElementHelper.getAttribute( child, "tag" );
             final Category tag = resolveCategory( tagAttribute );
             final Policy policy = createPolicy( child );
             refs[i] = new ResourceRef( key, policy, tag );
@@ -389,7 +373,7 @@ public final class XMLDefinitionBuilder
 
     private static Category resolveCategory( String category )
     {
-        if( "".equals( category ) )
+        if( ( null == category ) )
         {
             return Plugin.IMPL;
         }
@@ -407,9 +391,9 @@ public final class XMLDefinitionBuilder
         for( int i=0; i < children.length; i++ )
         {
             final Element child = children[i];
-            final String key = child.getAttribute( "key" );
-            final String tagAttribute = child.getAttribute( "tag" );
-            final Category tag = ResourceRef.getCategory( tagAttribute );
+            final String key = ElementHelper.getAttribute( child, "key" );
+            final String tagAttribute = ElementHelper.getAttribute( child, "tag" );
+            final Category tag = resolveCategory( tagAttribute );
             final Policy policy = createPolicy( child, false );
             refs[i] = new ResourceRef( key, policy, tag );
         }
