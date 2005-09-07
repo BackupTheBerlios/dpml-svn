@@ -35,11 +35,12 @@ import net.dpml.part.Part;
 import net.dpml.part.PartHolder;
 import net.dpml.part.PartHandlerRuntimeException;
 import net.dpml.part.PartNotFoundException;
-import net.dpml.component.control.Controller;
-import net.dpml.component.control.ControllerContext;
 import net.dpml.part.PartHandlerNotFoundException;
 import net.dpml.part.DelegationException;
-import net.dpml.component.control.ControlException;
+
+import net.dpml.component.control.Controller;
+import net.dpml.component.control.ControllerContext;
+import net.dpml.component.control.ControllerException;
 
 import net.dpml.composition.info.Type;
 
@@ -70,7 +71,7 @@ public abstract class CompositionPartHandler extends UnicastRemoteObject impleme
     private final ControllerContext m_context;
 
     public CompositionPartHandler( ControllerContext context ) 
-       throws ControlException, RemoteException
+       throws ControllerException, RemoteException
     {
         super();
 

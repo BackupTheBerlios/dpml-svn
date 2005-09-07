@@ -16,29 +16,27 @@
  * limitations under the License.
  */
 
-package net.dpml.component;
-
-import net.dpml.part.ControlException;
+package net.dpml.part;
 
 /**
- * Exception raised by a component.
+ * Unexpected runtime exception indicating an internal part handler error.
  *
  * @author <a href="mailto:dev-dpml@lists.ibiblio.org">The Digital Product Meta Library</a>
  * @version $Revision: 1.2 $ $Date: 2004/03/17 10:30:09 $
  */
-public class ComponentException extends ControlException
+public class ControlException extends Exception 
 {
    /**
     * Serial version identifier.
     */
     static final long serialVersionUID = 1L;
 
-    public ComponentException( String message )
+    public ControlException( String message )
     {
-        this( message, null );
+        super( message );
     }
 
-    public ComponentException( String message, Throwable cause )
+    public ControlException( String message, Throwable cause )
     {
         super( message, cause );
     }

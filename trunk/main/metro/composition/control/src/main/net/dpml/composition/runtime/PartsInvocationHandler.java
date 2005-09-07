@@ -29,9 +29,10 @@ import net.dpml.composition.info.PartDescriptor;
 import net.dpml.composition.control.CompositionController;
 
 import net.dpml.component.control.Controller;
-import net.dpml.part.DelegationException;
 import net.dpml.component.Component;
-import net.dpml.component.Resolvable;
+
+import net.dpml.part.DelegationException;
+import net.dpml.part.Control;
 
 /**
  * The parts invocation handler maps client request for 'get', 'create' and 
@@ -147,9 +148,9 @@ final class PartsInvocationHandler
         {
             if( null == postfix )
             {
-                if( provider instanceof Resolvable )
+                if( provider instanceof Control )
                 {
-                    Resolvable resolvable = (Resolvable) provider;
+                    Control resolvable = (Control) provider;
                     if( null == args || args.length == 0 )
                     {
                         return resolvable.resolve();
@@ -245,9 +246,9 @@ final class PartsInvocationHandler
         }
         else if( PartDescriptor.RELEASE == semantic )
         {
-            if( provider instanceof Resolvable )
+            if( provider instanceof Control )
             {
-                Resolvable resolvable = (Resolvable) provider;
+                Control resolvable = (Control) provider;
                 if( args.length == 1 )
                 {
                     resolvable.release( args[0] );

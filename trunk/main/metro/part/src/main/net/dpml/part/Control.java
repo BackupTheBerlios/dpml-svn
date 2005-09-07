@@ -16,23 +16,20 @@
  * limitations under the License.
  */
 
-package net.dpml.component;
+package net.dpml.part;
 
-import java.net.URI;
+import java.io.IOException;
+import java.rmi.Remote;
 import java.rmi.RemoteException;
-
-import net.dpml.component.state.State;
-import net.dpml.component.state.StateEvent;
-import net.dpml.component.state.StateListener;
 
 /**
  * The Resolvable interface is implemented by components capable of exposing
  * runtime objects.
  *
- * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
+ * @author <a href="mailto:dev-dpml@lists.ibiblio.org">The Digital Product Meta Library</a>
  * @version $Revision: 1.2 $ $Date: 2004/03/17 10:30:09 $
  */
-public interface Resolvable
+public interface Control extends Remote
 {
    /**
     * Return an initialized instance of the service.

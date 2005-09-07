@@ -7,7 +7,7 @@ import java.io.Serializable;
 
 import net.dpml.transit.PID;
 
-import net.dpml.component.Component;
+import net.dpml.part.Control;
 
 import net.dpml.profile.ApplicationProfile;
 
@@ -24,9 +24,9 @@ public interface Application extends Remote
 
     void start() throws RemoteException;
 
-    void handleCallback( PID pid, Component component ) throws RemoteException;
+    void handleCallback( PID pid, Control control ) throws RemoteException;
 
-    Component getComponent() throws RemoteException;
+    Control getControl() throws RemoteException;
 
     PID getPID() throws RemoteException;
 

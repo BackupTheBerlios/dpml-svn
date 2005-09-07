@@ -50,7 +50,7 @@ import net.dpml.component.Component;
 import net.dpml.component.Container;
 import net.dpml.component.DuplicateKeyException;
 import net.dpml.component.Manager;
-import net.dpml.component.control.ControlException;
+import net.dpml.component.control.ControllerException;
 import net.dpml.component.control.ControllerRuntimeException;
 import net.dpml.component.control.Disposable;
 import net.dpml.component.state.State;
@@ -256,7 +256,7 @@ public class ComponentController extends LoggingHandler
                       "Failed to initialize component due to non-availability of a dependent service."
                       + "\nComponent: " + component.getLocalURI()
                       + "\nService Provider: " + provider.getURI();
-                    throw new ControlException( uri, error, e );
+                    throw new ControllerException( uri, error, e );
                 }
             }
         }
@@ -673,7 +673,7 @@ public class ComponentController extends LoggingHandler
                       + "\nTransition URI: " + uri
                       + "\nCurrent state: " + state
                       + "\nTarget state: " + target;
-                    throw new ControlException( controller, error, e );
+                    throw new ControllerException( controller, error, e );
                 }
 
                 try
@@ -687,7 +687,7 @@ public class ComponentController extends LoggingHandler
                     final String error = 
                       "Component raised an exception while applying transition method ["
                       + instance.getClass().getName() + "#" + method.getName() + "]";
-                    throw new ControlException( curi, error, cause );
+                    throw new ControllerException( curi, error, cause );
                 }
             }
         }

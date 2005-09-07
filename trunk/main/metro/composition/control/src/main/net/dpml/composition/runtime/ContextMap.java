@@ -25,10 +25,11 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.ArrayList;
 
-import net.dpml.component.control.Controller;
+import net.dpml.part.Control;
 import net.dpml.part.DelegationException;
 import net.dpml.part.PartHandlerNotFoundException;
-import net.dpml.part.DelegationException;
+import net.dpml.part.Part;
+
 import net.dpml.component.Container;
 import net.dpml.component.Component;
 import net.dpml.component.ComponentException;
@@ -39,8 +40,7 @@ import net.dpml.component.Service;
 import net.dpml.component.ServiceContext;
 import net.dpml.component.ServiceException;
 import net.dpml.component.ServiceNotFoundException;
-import net.dpml.component.Resolvable;
-import net.dpml.part.Part;
+import net.dpml.component.control.Controller;
 
 import net.dpml.composition.control.CompositionController;
 import net.dpml.composition.data.FeatureDirective;
@@ -287,9 +287,9 @@ public class ContextMap extends Hashtable
                 throw new IllegalStateException( "Bad feature reference: " + feature );
             }
         }
-        else if( entry instanceof Resolvable )
+        else if( entry instanceof Control )
         {
-            Resolvable service = (Resolvable) entry;
+            Control service = (Control) entry;
             try
             {
                 return service.resolve();

@@ -26,17 +26,15 @@ import java.util.Properties;
 import java.rmi.registry.Registry;
 import java.rmi.registry.LocateRegistry;
 
-import java.net.Socket;
-import java.net.InetAddress;
-
 import net.dpml.depot.Main;
 import net.dpml.depot.ShutdownHandler;
 import net.dpml.depot.GeneralException;
 
-import net.dpml.station.Station;
+import net.dpml.part.Part;
+import net.dpml.part.Control;
+import net.dpml.part.PartHandler;
 
-import net.dpml.component.Component;
-import net.dpml.component.control.Controller;
+import net.dpml.station.Station;
 
 import net.dpml.profile.ApplicationRegistry;
 import net.dpml.profile.ApplicationProfile;
@@ -397,24 +395,25 @@ public class ApplicationHandler
             getLogger().info( message );
 
             URI controllerUri = new URI( "@COMPOSITION-CONTROLLER-URI@" );
-            ClassLoader system = ClassLoader.getSystemClassLoader();
-            Controller controller = (Controller) loader.getPlugin( system, controllerUri, parameters );
-            Component component = controller.newComponent( uri );
+            ClassLoader system = ClassLoader.getSystemClassLoader(); 
+            PartHandler handler = (PartHandler) loader.getPlugin( system, controllerUri, parameters );
+            
+            Control control = handler.loadControl( uri );
 
             try
             {
                 Station station = getStation();
                 getLogger().info( "located station" );
-                station.getApplication( key ).handleCallback( PROCESS_ID, component );
+                station.getApplication( key ).handleCallback( PROCESS_ID, control );
             }
             catch( Throwable e )
             {
                 final String warning = 
-                  "Station registriation error.";
+                  "Station registration error.";
                 getLogger().warn( warning, e );
             }
 
-            return component.resolve( false );
+            return control.resolve( false );
         }
         else
         {

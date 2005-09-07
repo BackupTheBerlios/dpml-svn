@@ -23,9 +23,10 @@ import java.rmi.Remote;
 import java.rmi.RemoteException;
 
 import net.dpml.part.Part;
+import net.dpml.part.Control;
+
 import net.dpml.component.Service;
 import net.dpml.component.Identifiable;
-import net.dpml.component.Resolvable;
 
 /**
  * The Component interface is implemented by objects that handle the runtime
@@ -34,7 +35,7 @@ import net.dpml.component.Resolvable;
  * @author <a href="mailto:dev-dpml@lists.ibiblio.org">The Digital Product Meta Library</a>
  * @version $Revision: 1.2 $ $Date: 2004/03/17 10:30:09 $
  */
-public interface Component extends Service, Identifiable, Resolvable, Remote
+public interface Component extends Service, Identifiable, Control
 {
    /**
     * Return the short name of this component.

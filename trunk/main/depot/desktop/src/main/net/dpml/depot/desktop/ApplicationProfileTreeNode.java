@@ -63,7 +63,7 @@ import net.dpml.profile.ApplicationRegistry;
 import net.dpml.profile.ApplicationProfile;
 import net.dpml.profile.ApplicationProfile.StartupPolicy;
 
-import net.dpml.component.Container;
+import net.dpml.part.Control;
 
 import net.dpml.transit.Artifact;
 
@@ -103,7 +103,6 @@ public final class ApplicationProfileTreeNode extends Node
     private final RestartAction m_restart = new RestartAction();
 
     private LinkedList m_changes = new LinkedList();
-    private ComponentTreeNode m_componentNode;
     private Desktop m_desktop;
 
     public ApplicationProfileTreeNode( Application application, Desktop desktop ) throws Exception
@@ -166,7 +165,7 @@ public final class ApplicationProfileTreeNode extends Node
             // load the part and resolve the management views
             //
 
-            panel.add( "Component", new JPanel() );
+            panel.add( "Control", new JPanel() );
         }
         return panel;
     }
@@ -334,12 +333,12 @@ public final class ApplicationProfileTreeNode extends Node
             m_stop.setEnabled( false );
             m_restart.setEnabled( false );
             
-            int n = getChildCount();
-            for( int i=0; i<n; i++ )
-            {
-                Node node = (Node) getLastChild();
-                m_desktop.getTreeModel().removeNodeFromParent( node );
-            }
+            //int n = getChildCount();
+            //for( int i=0; i<n; i++ )
+            //{
+            //    Node node = (Node) getLastChild();
+            //    m_desktop.getTreeModel().removeNodeFromParent( node );
+            //}
         }
         else if( Application.STARTING.equals( state ) )
         {
@@ -352,7 +351,7 @@ public final class ApplicationProfileTreeNode extends Node
             m_start.setEnabled( false );
             m_stop.setEnabled( true );
             m_restart.setEnabled( true );
-            setupComponentNodes();
+            //setupComponentNodes();
         }
         else if( Application.STOPPING.equals( state ) )
         {
@@ -362,6 +361,7 @@ public final class ApplicationProfileTreeNode extends Node
         }
     }
 
+    /*
     private void setupComponentNodes()
     {
         try
@@ -384,6 +384,7 @@ public final class ApplicationProfileTreeNode extends Node
             e.printStackTrace();
         }
     }
+    */
 
     private JFrame getParentFrame( Component component ) 
     {
@@ -739,7 +740,8 @@ public final class ApplicationProfileTreeNode extends Node
                             + "\n" + e.getClass().getName()
                             + "\n" + e.getMessage();
                           JOptionPane.showMessageDialog(
-                            getParentFrame( (Component) event.getSource() ), message, "Error", JOptionPane.ERROR_MESSAGE );
+                            getParentFrame( (Component) event.getSource() ), 
+                            message, "Error", JOptionPane.ERROR_MESSAGE );
                       }
                   }
               };
@@ -774,7 +776,8 @@ public final class ApplicationProfileTreeNode extends Node
                             + "\n" + e.getClass().getName()
                             + "\n" + e.getMessage();
                           JOptionPane.showMessageDialog(
-                            getParentFrame( (Component) event.getSource() ), message, "Error", JOptionPane.ERROR_MESSAGE );
+                            getParentFrame( (Component) event.getSource() ), 
+                            message, "Error", JOptionPane.ERROR_MESSAGE );
                       }
                   }
               };
@@ -787,8 +790,9 @@ public final class ApplicationProfileTreeNode extends Node
         private RestartAction()
         {
             putValue( NAME, "Restart" );
-            //putValue( SMALL_ICON, readImageIcon( "restart-process.png" ) );
-            putValue( SHORT_DESCRIPTION, "Terminates the current process and starts a new replacement process." );
+            putValue( 
+              SHORT_DESCRIPTION, 
+              "Terminates the current process and starts a new replacement process." );
         }
 
         public void actionPerformed( final ActionEvent event ) 
@@ -809,12 +813,12 @@ public final class ApplicationProfileTreeNode extends Node
                             + "\n" + e.getClass().getName()
                             + "\n" + e.getMessage();
                           JOptionPane.showMessageDialog(
-                            getParentFrame( (Component) event.getSource() ), message, "Error", JOptionPane.ERROR_MESSAGE );
+                            getParentFrame( (Component) event.getSource() ), 
+                            message, "Error", JOptionPane.ERROR_MESSAGE );
                       }
                   }
               };
             thread.start();
         }
     }
-
 }

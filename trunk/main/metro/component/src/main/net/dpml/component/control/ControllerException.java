@@ -20,6 +20,8 @@ package net.dpml.component.control;
 
 import java.net.URI;
 
+import net.dpml.part.ControlException;
+
 /**
  * Exception indicating an controller related error.  A controller exception
  * delcares the URI of the controller form which the exception was initiated.
@@ -27,7 +29,7 @@ import java.net.URI;
  * @author <a href="mailto:dev-dpml@lists.ibiblio.org">The Digital Product Meta Library</a>
  * @version $Revision: 1.2 $ $Date: 2004/03/17 10:30:09 $
  */
-public class ControlException extends Exception 
+public class ControllerException extends ControlException
 {
    /**
     * Serial version identifier.
@@ -37,34 +39,34 @@ public class ControlException extends Exception
     private final URI m_uri;
 
    /**
-    * Creation of a new ControlException.
+    * Creation of a new ControllerException.
     *
-    * @param controller the uri identifying the controller iniating the exception
+    * @param controller the uri identifying the controller initiating the exception
     */
-    public ControlException( URI controller )
+    public ControllerException( URI controller )
     {
         this( controller, null );
     }
 
    /**
-    * Creation of a new ControlException.
+    * Creation of a new ControllerException.
     *
     * @param controller the uri identifying the controller iniating the exception
     * @param message the description of the exception 
     */
-    public ControlException( URI controller, String message )
+    public ControllerException( URI controller, String message )
     {
         this( controller, message, null );
     }
 
    /**
-    * Creation of a new ControlException.
+    * Creation of a new ControllerException.
     *
     * @param controller the uri identifying the controller iniating the exception
     * @param message the description of the exception 
     * @param cause the causal exception
     */
-    public ControlException( URI controller, String message, Throwable cause )
+    public ControllerException( URI controller, String message, Throwable cause )
     {
         super( message, cause );
         m_uri = controller;

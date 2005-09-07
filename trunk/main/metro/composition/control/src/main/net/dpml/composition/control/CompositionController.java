@@ -48,12 +48,15 @@ import net.dpml.composition.runtime.ComponentController;
 import net.dpml.composition.runtime.CompositionHandler;
 import net.dpml.composition.runtime.DefaultLogger;
 
+import net.dpml.part.Control;
+import net.dpml.part.ControlException;
 import net.dpml.part.DelegationException;
 import net.dpml.part.Part;
 import net.dpml.part.PartHandlerNotFoundException;
 import net.dpml.part.PartNotFoundException;
+
 import net.dpml.component.control.ControllerContext;
-import net.dpml.component.control.ControlException;
+import net.dpml.component.control.ControllerException;
 import net.dpml.component.control.ControllerRuntimeException;
 import net.dpml.component.control.Controller;
 import net.dpml.component.control.Disposable;
@@ -98,13 +101,13 @@ public class CompositionController extends CompositionPartHandler implements Con
     //--------------------------------------------------------------------
 
     public CompositionController( net.dpml.transit.model.Logger logger )
-       throws ControlException, RemoteException
+       throws ControllerException, RemoteException
     {
         this( new CompositionContext( logger, null, null ) );
     }
 
     protected CompositionController( ControllerContext context )
-       throws ControlException, RemoteException
+       throws ControllerException, RemoteException
     {
         super( context );
 
@@ -167,7 +170,7 @@ public class CompositionController extends CompositionPartHandler implements Con
                 for( int i=0; i<classes.length; i++ )
                 {
                     Class c = classes[i];
-                    if( Component.class.isAssignableFrom( c ) )
+                    if( Control.class.isAssignableFrom( c ) )
                     {
                         URI uri = new URI( url.toString() );
                         return newComponent( uri );
@@ -190,6 +193,18 @@ public class CompositionController extends CompositionPartHandler implements Con
             cause.initCause( e );
             throw cause;
         }
+    }
+
+   /**
+    * Returns an control object using the supplied part as the construction template.
+    * @param part the construction criteria
+    * @return the control instance
+    */
+    public Control loadControl( URI uri ) 
+      throws IOException, ControlException, PartNotFoundException, 
+      PartHandlerNotFoundException, DelegationException 
+    {
+        return newComponent( uri );
     }
 
    /**

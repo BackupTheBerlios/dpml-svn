@@ -35,6 +35,15 @@ import java.rmi.RemoteException;
 public interface PartHandler extends Remote
 {
    /**
+    * Returns an control object using the supplied part as the construction template.
+    * @param part the construction criteria
+    * @return the control instance
+    */
+    Control loadControl( URI uri )
+      throws IOException, ControlException, PartNotFoundException, 
+      PartHandlerNotFoundException, DelegationException;
+
+   /**
     * Load a part from serialized form.  The uri is assumed to be a uri that 
     * can be transformed to a URL from which an input stream to a PartHolder 
     * can be established.  
@@ -52,5 +61,4 @@ public interface PartHandler extends Remote
     Part loadPart( byte[] bytes ) throws IOException, RemoteException;
 
     Object getContent( URLConnection connection, Class[] classes ) throws IOException, RemoteException;
-
 }
