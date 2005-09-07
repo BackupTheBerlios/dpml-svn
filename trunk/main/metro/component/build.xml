@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<project name="dpml-part-api" default="install" basedir="." 
+    xmlns:transit="antlib:net.dpml.transit" 
+    xmlns:x="plugin:dpml/magic/dpml-magic-core" >
+
+  <transit:import uri="local:template:magic/standard"/>
+
+  <target name="init" depends="standard.init">
+    <x:filter feature="name" token="NAME"/>
+    <x:filter feature="version" token="VERSION"/>
+    <x:filter feature="group" token="GROUP"/>
+    <x:filter feature="uri" type="plugin" token="COMPOSITION-CONTROLLER-URI" key="dpml-composition-control"/>
+  </target>
+
+  <target name="build" depends="standard.build">
+    <x:path id="build.path"/>
+    <rmic base="${basedir}/target/classes" classpathref="build.path">
+      <include name="**/DefaultContentModel.class"/>
+    </rmic>
+  </target>
+
+  <target name="package" depends="standard.package">
+    <x:export class="net.dpml.part.PartContentHandler"/>
+  </target>
+
+</project>
