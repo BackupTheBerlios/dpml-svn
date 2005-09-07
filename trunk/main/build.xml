@@ -24,6 +24,7 @@
   <property file="${basedir}/user.properties"/>
   <property file="${basedir}/build.properties"/>
   <property name="junitHtmlReportDir" value="target/reports/junit"/>
+
   <target name="transit"
      description="Build the Transit distribution and update the local installation">
     <ant dir="transit"/>
@@ -55,22 +56,6 @@
         <include name="**/target/**/**"/>
       </fileset>
     </delete>
-  </target>
-
-  <target name="luntbuild-clean" depends="clean" description="Clean-up prior to CI builds on ci.dpml.net. Should not be used directly.">
-      <delete includeemptydirs="true" failonerror="false">
-          <fileset dir="${user.home}/.dpml">
-              <include name="data/cache/dpml/**"/>
-              <include name="data/share/**"/>
-              <include name="data/prefs/**"/>
-          </fileset>
-          <fileset dir="${user.home}/.ant/lib">
-              <include name="dpml-**"/>
-          </fileset>
-		  <fileset dir="${user.home}/.java/.userPrefs/net/dpml">
-			  <include name="**/*"/>
-          </fileset>
-      </delete>
   </target>
 
   <target name="junit-report">

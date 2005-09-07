@@ -46,6 +46,16 @@ public abstract class CodeBaseStorageUnit extends AbstractStorageUnit implements
     // ------------------------------------------------------------------------
 
    /**
+    * Return the storage unit identifier.
+    * @return the immutable identifier
+    */
+    public String getID()
+    {
+        Preferences prefs = getPreferences();
+        return prefs.absolutePath();
+    }
+
+   /**
     * Return the URI identifying a codebase.  Typically the value returned from 
     * this operation identifes a plugin uses as a system extension or customization 
     * point.  The implement maps codebase uris under the attribute key "uri".

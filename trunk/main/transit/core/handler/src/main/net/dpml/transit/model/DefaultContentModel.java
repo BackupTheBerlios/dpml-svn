@@ -57,9 +57,9 @@ public class DefaultContentModel extends DisposableCodeBaseModel implements Cont
     * @exception RemoteException if a remote exception occurs
     */
     public DefaultContentModel( 
-       Logger logger, URI uri, Parameter[] parameters, String type, String title ) throws RemoteException
+       Logger logger, String id, URI uri, Parameter[] parameters, String type, String title ) throws RemoteException
     {
-        super( logger, uri, parameters );
+        super( logger, id, uri, parameters );
 
         m_home = null;
         m_type = type;

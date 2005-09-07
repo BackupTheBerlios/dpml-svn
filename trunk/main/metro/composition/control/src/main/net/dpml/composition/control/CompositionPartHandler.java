@@ -24,6 +24,7 @@ import java.io.ByteArrayInputStream;
 import java.io.ObjectInputStream;
 import java.net.URI;
 import java.net.URL;
+import java.net.URLConnection;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
@@ -34,11 +35,11 @@ import net.dpml.part.Part;
 import net.dpml.part.PartHolder;
 import net.dpml.part.PartHandlerRuntimeException;
 import net.dpml.part.PartNotFoundException;
-import net.dpml.part.control.Controller;
-import net.dpml.part.control.ControllerContext;
+import net.dpml.component.control.Controller;
+import net.dpml.component.control.ControllerContext;
 import net.dpml.part.PartHandlerNotFoundException;
 import net.dpml.part.DelegationException;
-import net.dpml.part.control.ControlException;
+import net.dpml.component.control.ControlException;
 
 import net.dpml.composition.info.Type;
 
@@ -148,6 +149,43 @@ public abstract class CompositionPartHandler extends UnicastRemoteObject impleme
         else
         {
             return (Controller) this;
+        }
+    }
+
+    public Object getContent( URLConnection connection, Class[] classes ) throws IOException
+    {
+        URL url = connection.getURL();
+        try
+        {
+            if( classes.length == 0 )
+            {
+                return loadPart( url );
+            }
+            else
+            {
+                for( int i=0; i<classes.length; i++ )
+                {
+                    Class c = classes[i];
+                    if( Part.class.isAssignableFrom( c ) )
+                    {
+                        return loadPart( url );
+                    }
+                    else if( URI.class.isAssignableFrom( c ) )
+                    {
+                        Part part = loadPart( url );
+                        return part.getPartHandlerURI();
+                    }
+                }
+            }
+            return null;
+        }
+        catch( Throwable e )
+        {
+            final String error = 
+              "Internal error whuile attempting to establish content for: " + url;
+            IOException cause = new IOException( error );
+            cause.initCause( e );
+            throw cause;
         }
     }
 

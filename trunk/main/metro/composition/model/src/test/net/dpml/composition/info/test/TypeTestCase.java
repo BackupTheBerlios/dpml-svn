@@ -41,8 +41,8 @@ import net.dpml.composition.info.Type;
 import net.dpml.configuration.Configuration;
 
 import net.dpml.part.PartReference;
-import net.dpml.part.state.State;
-import net.dpml.part.component.ServiceDescriptor;
+import net.dpml.component.state.State;
+import net.dpml.component.ServiceDescriptor;
 
 
 /**

@@ -26,12 +26,6 @@ package net.dpml.transit.store;
 public interface LayoutStorage extends CodeBaseStorage
 {
    /**
-    * The layout model identifier.
-    * @return the layout id
-    */
-    String getID();
-
-   /**
     * The layout model title.
     * @return the layout title
     */

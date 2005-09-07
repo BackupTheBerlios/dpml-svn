@@ -23,7 +23,7 @@ import java.util.Map;
 
 import net.dpml.composition.control.CompositionController;
 
-import net.dpml.part.control.LifecycleException;
+import net.dpml.component.control.LifecycleException;
 
 /**
  * This makes a dynamic proxy for an object.  The object can be represented

@@ -383,8 +383,10 @@ public final class Main implements ShutdownHandler
     {
         try
         {
-            clearPreferences( Main.class );
-            clearPreferences( Transit.class );
+            Preferences netDpml = Preferences.userRoot().node( "/net/dpml" );
+            clearPreferences( netDpml );
+            Preferences rootDpml = Preferences.userRoot().node( "/dpml" );
+            clearPreferences( rootDpml );
             return 0;
         }
         catch( Throwable e )
@@ -806,9 +808,8 @@ public final class Main implements ShutdownHandler
         return (DepotClassLoader) ClassLoader.getSystemClassLoader();
     }
 
-    private static void clearPreferences( Class c ) throws Exception
+    private static void clearPreferences( Preferences prefs ) throws Exception
     {
-        Preferences prefs = Preferences.userNodeForPackage( c );
         getLogger().info( "Resetting: " + prefs );
         prefs.removeNode();
     }

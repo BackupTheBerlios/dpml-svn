@@ -31,7 +31,7 @@ import net.dpml.transit.tools.AntAdapter;
 import net.dpml.transit.model.Logger;
 import net.dpml.transit.model.ContentModel;
 
-import net.dpml.part.control.ControllerContext;
+import net.dpml.component.control.ControllerContext;
 import net.dpml.part.DelegationException;
 import net.dpml.part.PartNotFoundException;
 import net.dpml.part.Part;

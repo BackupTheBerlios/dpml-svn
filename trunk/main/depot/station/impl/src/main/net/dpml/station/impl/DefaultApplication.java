@@ -26,6 +26,8 @@ import net.dpml.station.ApplicationEvent;
 
 import net.dpml.profile.ApplicationProfile;
 
+import net.dpml.component.Component;
+
 import net.dpml.transit.Transit;
 import net.dpml.transit.model.Logger;
 import net.dpml.transit.model.Connection;
@@ -58,7 +60,7 @@ public class DefaultApplication extends EventProducer implements Application
     private State m_state = Application.READY;
     private PID m_pid;
     private String m_error;
-    private Remote m_controller;
+    private Component m_component;
 
     public DefaultApplication( 
       Logger logger, ApplicationProfile profile, String path ) throws RemoteException
@@ -113,9 +115,24 @@ public class DefaultApplication extends EventProducer implements Application
         return m_pid;
     }
 
-    public void registerController( Remote controller )
+    public void handleCallback( PID pid, Component component ) throws RemoteException
     {
-        m_controller = controller;
+        if( null != m_component )
+        {
+            final String error = 
+              "Component already registered.";
+            throw new ServerException( error );
+        }
+        else
+        {
+            m_component = component;
+            setState( Application.RUNNING, pid );
+        }
+    }
+
+    public Component getComponent() throws RemoteException
+    {
+        return m_component;
     }
 
     public synchronized void start() throws RemoteException
@@ -266,6 +283,7 @@ public class DefaultApplication extends EventProducer implements Application
                 {
                     m_pid = null;
                     m_process = null;
+                    m_component = null;
                 }
             }
         }

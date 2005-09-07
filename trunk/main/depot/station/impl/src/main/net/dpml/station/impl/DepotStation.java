@@ -27,11 +27,14 @@ import java.util.Properties;
 
 import net.dpml.transit.Transit;
 import net.dpml.transit.Repository;
+import net.dpml.transit.PID;
 import net.dpml.transit.model.Logger;
 import net.dpml.transit.model.TransitModel;
 import net.dpml.transit.model.UnknownKeyException;
 import net.dpml.transit.model.DuplicateKeyException;
 import net.dpml.transit.model.Connection;
+
+import net.dpml.component.Component;
 
 import net.dpml.profile.ApplicationProfile;
 import net.dpml.profile.ApplicationProfile.StartupPolicy;

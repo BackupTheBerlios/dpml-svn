@@ -43,10 +43,10 @@ public abstract class DisposableCodeBaseModel extends DefaultCodeBaseModel imple
     * @param params the constructor parameters
     * @exception RemoteException if a remote exception occurs
     */
-    public DisposableCodeBaseModel( Logger logger, URI uri, Parameter[] params )
+    public DisposableCodeBaseModel( Logger logger, String id, URI uri, Parameter[] params )
       throws RemoteException
     {
-        super( logger, uri, params );
+        super( logger, id, uri, params );
     }
 
    /**

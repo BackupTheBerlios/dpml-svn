@@ -29,14 +29,6 @@ import java.net.PasswordAuthentication;
 public interface HostStorage extends CodeBaseStorage
 {
    /**
-    * Return an immutable host identifier.  The host identifier shall be 
-    * guranteed to be unique and constant for the life of the storage unit.
-    * 
-    * @return the immutable host model identifier
-    */
-    String getID();
-
-   /**
     * Return the name of the resource host.
     * @return the host name
     */

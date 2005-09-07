@@ -22,9 +22,9 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.logging.Logger;
 
-import net.dpml.part.state.State;
-import net.dpml.part.state.StateEvent;
-import net.dpml.part.state.StateListener;
+import net.dpml.component.state.State;
+import net.dpml.component.state.StateEvent;
+import net.dpml.component.state.StateListener;
 
 /**
  * Experimental component dealing with state management.

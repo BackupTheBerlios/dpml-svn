@@ -30,10 +30,10 @@ import net.dpml.configuration.Configuration;
 
 import net.dpml.part.Part;
 import net.dpml.part.PartReference;
-import net.dpml.part.state.State;
-import net.dpml.part.component.ComponentException;
-import net.dpml.part.component.ServiceDescriptor;
-import net.dpml.part.component.Version;
+import net.dpml.component.state.State;
+import net.dpml.component.ComponentException;
+import net.dpml.component.ServiceDescriptor;
+import net.dpml.component.Version;
 
 /**
  * This class contains the meta information about a particular

@@ -46,11 +46,13 @@ public class DepotInstaller
         m_logger.info( "adding http profile" );
         setupHttpProfile();
         setupAlternateProfile();
+        setupTestProfile();
     }
 
     private void setupHttpProfile()
     {
-        String id = "http";
+        String id = "/test/http";
+        getProfilesPreferences().put( "http", id );
         Preferences prefs = getProfilePreferences( id );
         prefs.put( "uri", "link:part:dpml/planet/http/dpml-http-demo" );
         prefs.put( "title", "DPML HTTP Demo" );
@@ -59,10 +61,33 @@ public class DepotInstaller
 
     private void setupAlternateProfile()
     {
-        String id = "demo";
+        String id = "/test/demo";
+        getProfilesPreferences().put( "alternate", id );
         Preferences prefs = getProfilePreferences( id );
         prefs.put( "uri", "link:part:dpml/planet/http/dpml-http-demo" );
         prefs.put( "title", "DPML Alternate Demo" );
+        prefs.putBoolean( "enabled", false );
+        Preferences system = prefs.node( "system" );
+        system.put( "abc", "def" );
+        system.put( "xyz", "qwerty" );
+        Preferences params = prefs.node( "parameters" );
+        params .put( "classname", "net.dpml.composition.impl.CompositionContext" );
+        Preferences basedir = params.node( "base" );
+        basedir.put( "value", "${java.temp.dir}" );
+        basedir.put( "classname", "java.io.File" );
+        Preferences tempdir = params.node( "temp" );
+        tempdir.put( "value", "${user.dir}" );
+        tempdir.put( "classname", "java.io.File" );
+        prefs.put( "startup", ApplicationProfile.DISABLED.key() );
+    }
+
+    private void setupTestProfile()
+    {
+        String id = "/dpml/planet/http/demo";
+        getProfilesPreferences().put( "test", id );
+        Preferences prefs = getProfilePreferences( id );
+        prefs.put( "uri", "link:part:dpml/planet/http/dpml-http-demo" );
+        prefs.put( "title", "DPML Test Profile" );
         prefs.putBoolean( "enabled", false );
         Preferences system = prefs.node( "system" );
         system.put( "abc", "def" );

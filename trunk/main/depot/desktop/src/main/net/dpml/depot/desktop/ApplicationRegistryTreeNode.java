@@ -23,11 +23,13 @@ import java.rmi.RemoteException;
 import java.rmi.NotBoundException;
 import java.rmi.registry.Registry;
 import java.rmi.registry.LocateRegistry;
+import java.util.Enumeration;
 
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JTable;
 import javax.swing.JScrollPane;
+import javax.swing.JTree;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
@@ -45,21 +47,19 @@ import net.dpml.transit.model.Logger;
 /**
  * Application registry root tree node. 
  */
-public final class ApplicationRegistryTreeNode extends Node
+public final class ApplicationRegistryTreeNode extends GroupTreeNode
 {
     private static final int ID_COLUMN = 0;
     private static final int CODEBASE_COLUMN = 1;
     private static final int COLUMN_COUNT = 2;
-    private static final ImageIcon ICON = readImageIcon( "16/folder.png" );
 
     private final Logger m_logger;
     private final Station m_station;
-    private final JLabel m_label;
     private boolean m_responsibleForTheStation = false;
 
-    public ApplicationRegistryTreeNode( Logger logger, String[] args ) throws Exception
+    public ApplicationRegistryTreeNode( Logger logger, String[] args, Desktop desktop ) throws Exception
     {
-        super();
+        super( "/" );
 
         m_logger = logger;
 
@@ -91,11 +91,24 @@ public final class ApplicationRegistryTreeNode extends Node
         {
             final String key = keys[i];
             Application application = m_station.getApplication( key );
-            add( new ApplicationProfileTreeNode( application ) );
+            GroupTreeNode parent = this;
+            String[] elements = key.split( "/" );
+            for( int j=0; j < elements.length; j++ )
+            {
+                String element = elements[j];
+                if( !"".equals( element ) )
+                {
+                    if( j < ( elements.length - 1 ) )
+                    {
+                        parent = parent.resolve( element );
+                    }
+                    else
+                    {
+                         parent.add( new ApplicationProfileTreeNode( application, desktop ) );
+                    }
+                }
+            }
         }
-
-        m_label = new JLabel( "Registry", ICON, SwingConstants.LEFT );
-        m_label.setBorder( new EmptyBorder( 3, 3, 2, 2 ) );
     }
 
     void dispose()
@@ -152,10 +165,5 @@ public final class ApplicationRegistryTreeNode extends Node
         {
             return LocateRegistry.getRegistry( host, port );
         }
-    }
-
-    Component getLabel()
-    {
-        return m_label;
     }
 }

@@ -107,7 +107,7 @@
     <dependencies>
       <include key="dpml-http-impl"/>
       <include key="dpml-http-spi"/>
-      <include key="dpml-part-api"/>
+      <include key="dpml-component-api"/>
       <include key="dpml-depot-console"/>
     </dependencies>
     <plugins>

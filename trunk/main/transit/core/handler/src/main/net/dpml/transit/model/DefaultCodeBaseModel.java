@@ -39,6 +39,7 @@ public abstract class DefaultCodeBaseModel extends DefaultModel implements CodeB
     // state
     // ------------------------------------------------------------------------
 
+    private final String m_id;
     private final CodeBaseStorage m_home;
 
     private Parameter[] m_parameters;
@@ -55,11 +56,14 @@ public abstract class DefaultCodeBaseModel extends DefaultModel implements CodeB
     * @param params the codebase parameters
     * @exception RemoteException if a remote exception occurs
     */
-    public DefaultCodeBaseModel( Logger logger, URI uri, Parameter[] params )
+    public DefaultCodeBaseModel( Logger logger, String id, URI uri, Parameter[] params )
       throws RemoteException
     {
         super( logger );
+
+        m_id = id;
         m_uri = uri;
+
         if( null == params )
         {
             m_parameters = new Parameter[0];
@@ -86,6 +90,7 @@ public abstract class DefaultCodeBaseModel extends DefaultModel implements CodeB
             throw new NullPointerException( "home" );
         }
         m_home = home;
+        m_id = home.getID();
         m_uri = home.getCodeBaseURI();
         m_parameters = home.getParameters();
     }
@@ -93,6 +98,16 @@ public abstract class DefaultCodeBaseModel extends DefaultModel implements CodeB
     // ------------------------------------------------------------------------
     // CodeBaseModel
     // ------------------------------------------------------------------------
+
+   /**
+    * Return the immutable resolver identifier.
+    * @return the resolver identifier
+    * @exception RemoteException if a remote exception occurs
+    */
+    public String getID() throws RemoteException
+    {
+        return m_id;
+    }
 
    /**
     * Set the codebase uri value.

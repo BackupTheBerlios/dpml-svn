@@ -7,6 +7,8 @@ import java.io.Serializable;
 
 import net.dpml.transit.PID;
 
+import net.dpml.component.Component;
+
 import net.dpml.profile.ApplicationProfile;
 
 public interface Application extends Remote
@@ -20,9 +22,13 @@ public interface Application extends Remote
 
     State getState() throws RemoteException;
 
-    PID getPID() throws RemoteException;
-
     void start() throws RemoteException;
+
+    void handleCallback( PID pid, Component component ) throws RemoteException;
+
+    Component getComponent() throws RemoteException;
+
+    PID getPID() throws RemoteException;
 
     void stop() throws RemoteException;
 

@@ -29,9 +29,9 @@ import java.util.logging.Logger;
 import junit.framework.TestCase;
 
 import net.dpml.part.PartContentHandlerFactory;
-import net.dpml.part.component.Component;
-import net.dpml.part.component.Manager;
-import net.dpml.part.state.State;
+import net.dpml.component.Component;
+import net.dpml.component.Manager;
+import net.dpml.component.state.State;
 
 /**
  * Test a simple component case.
@@ -48,7 +48,7 @@ public class ManagementTestCase extends TestCase
 
     /**
      * Test the construction of the example component and the invocation of 
-     * the provided controller via </code>the net.dpml.part.state.StateManager</code> interface
+     * the provided controller via </code>the net.dpml.component.state.StateManager</code> interface
      */
     public void testManagedComponent() throws Exception
     {

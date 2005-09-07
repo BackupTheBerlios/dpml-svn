@@ -30,16 +30,16 @@ import net.dpml.composition.data.ValueDirective.Value;
 import net.dpml.logging.Logger;
 
 import net.dpml.part.Part;
-import net.dpml.part.control.Controller;
-import net.dpml.part.control.ControllerContext;
-import net.dpml.part.component.Component;
-import net.dpml.part.component.ClassLoadingContext;
-import net.dpml.part.component.ComponentException;
-import net.dpml.part.component.ComponentRuntimeException;
-import net.dpml.part.component.Service;
-import net.dpml.part.component.ServiceDescriptor;
-import net.dpml.part.component.AvailabilityException;
-import net.dpml.part.state.State;
+import net.dpml.component.control.Controller;
+import net.dpml.component.control.ControllerContext;
+import net.dpml.component.Component;
+import net.dpml.component.ClassLoadingContext;
+import net.dpml.component.ComponentException;
+import net.dpml.component.ComponentRuntimeException;
+import net.dpml.component.Service;
+import net.dpml.component.ServiceDescriptor;
+import net.dpml.component.AvailabilityException;
+import net.dpml.component.state.State;
 
 import net.dpml.transit.util.PropertyResolver;
 

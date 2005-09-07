@@ -26,8 +26,10 @@ import java.net.URI;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.LinkedList;
+import java.util.Enumeration;
 import java.beans.PropertyChangeEvent;
 
+import javax.swing.Icon;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
@@ -42,9 +44,12 @@ import javax.swing.JComboBox;
 import javax.swing.JSpinner;
 import javax.swing.JOptionPane;
 import javax.swing.JFrame;
+import javax.swing.JTree;
+import javax.swing.JTabbedPane;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
+import javax.swing.AbstractAction;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.tree.DefaultMutableTreeNode;
@@ -57,6 +62,8 @@ import net.dpml.station.Application.State;
 import net.dpml.profile.ApplicationRegistry;
 import net.dpml.profile.ApplicationProfile;
 import net.dpml.profile.ApplicationProfile.StartupPolicy;
+
+import net.dpml.component.Container;
 
 import net.dpml.transit.Artifact;
 
@@ -71,6 +78,11 @@ import com.jgoodies.forms.layout.FormLayout;
 public final class ApplicationProfileTreeNode extends Node
 {
     private static final ImageIcon ICON = readImageIcon( "16/application.png" );
+
+    public static final Icon DPML_DESKTOP_LEAF_ICON = ICON;
+    public static final Icon DPML_DESKTOP_EXPANDED_ICON = ICON;
+    public static final Icon DPML_DESKTOP_COLLAPSED_ICON = ICON;
+
     private static final Object[] POLICY_OPTIONS = 
       new Object[]
       {
@@ -81,140 +93,44 @@ public final class ApplicationProfileTreeNode extends Node
 
     private final Application m_application;
     private final ApplicationProfile m_profile;
+    private final String m_name;
     private final String m_title;
-    private final JLabel m_label;
     private final Component m_component;
     private final PolicyComboBox m_policy;
-    private JButton m_start = new JButton( "Start" );
-    private JButton m_stop = new JButton( "Stop" );
-    private JButton m_restart = new JButton( "Restart" );
+
+    private final StartAction m_start = new StartAction();
+    private final StopAction m_stop = new StopAction();
+    private final RestartAction m_restart = new RestartAction();
 
     private LinkedList m_changes = new LinkedList();
+    private ComponentTreeNode m_componentNode;
+    private Desktop m_desktop;
 
-    public ApplicationProfileTreeNode( Application application ) throws Exception
+    public ApplicationProfileTreeNode( Application application, Desktop desktop ) throws Exception
     {
         super( application );
+
+        if( null == desktop )
+        {
+            throw new NullPointerException( "desktop" );
+        }
         
+        m_desktop = desktop;
         m_application = application;
         m_profile = application.getProfile();
         m_policy = new PolicyComboBox();
         m_title = m_profile.getTitle();
-
-        m_label = new JLabel( m_title, ICON, SwingConstants.LEFT );
-        m_label.setBorder( new EmptyBorder( 3, 3, 2, 2 ) );
+        m_name = resolveName( m_profile.getID() );
 
         m_application.addApplicationListener( new RemoteApplicationListener() );
 
-        setupControlButtons();
-
-        m_start.addActionListener( 
-          new ActionListener() 
-          {
-            public void actionPerformed( ActionEvent event ) 
-            {
-                Thread thread = 
-                  new Thread()
-                  {
-                      public void run()
-                      {
-                          try
-                          {
-                              m_application.start();
-                          }
-                          catch( Exception e ) 
-                          {
-                              final String message = 
-                                "An application startup error occured."
-                                + "\n" + e.getClass().getName()
-                                + "\n" + e.getMessage();
-                              JOptionPane.showMessageDialog(
-                                getParentFrame( m_start ), message, "Error", JOptionPane.ERROR_MESSAGE );
-                          }
-                      }
-                  };
-                thread.start();
-                
-             }
-          } 
-        );
-        m_stop.addActionListener( 
-          new ActionListener() 
-          {
-            public void actionPerformed( ActionEvent event ) 
-            {
-                Thread thread = 
-                  new Thread()
-                  {
-                      public void run()
-                      {
-                          try
-                          {
-                              m_application.stop();
-                          }
-                          catch( Exception e ) 
-                          {
-                              final String message = 
-                                "An application shutdown error occured."
-                                + "\n" + e.getClass().getName()
-                                + "\n" + e.getMessage();
-                              JOptionPane.showMessageDialog(
-                                getParentFrame( m_start ), message, "Error", JOptionPane.ERROR_MESSAGE );
-                          }
-                      }
-                  };
-                thread.start();
-            }
-        });
-        m_restart.addActionListener( 
-          new ActionListener() 
-          {
-            public void actionPerformed( ActionEvent event ) 
-            {
-                Thread thread = 
-                  new Thread()
-                  {
-                      public void run()
-                      {
-                          try
-                          {
-                              m_application.restart();
-                          }
-                          catch( Exception e ) 
-                          {
-                              final String message = 
-                                "An application restart error occured."
-                                + "\n" + e.getClass().getName()
-                                + "\n" + e.getMessage();
-                              JOptionPane.showMessageDialog(
-                                getParentFrame( m_start ), message, "Error", JOptionPane.ERROR_MESSAGE );
-                          }
-                      }
-                  };
-                thread.start();
-            }
-        });
-
-        add( new SystemPropertiesTreeNode( m_profile ) );
-        add( new ParametersTreeNode( m_profile ) );
-
-        URI uri = m_profile.getCodeBaseURI();
-        Artifact artifact = Artifact.createArtifact( uri );
-        String type = artifact.getType();
-        if( "plugin".equals( type ) )
-        {
-            add( new CodeBaseTreeNode( m_profile ) );
-        }
-        else if( "part".equals( type ) )
-        {
-            add( new HandlerTreeNode( m_profile ) );
-            add( new PartTreeNode( m_profile ) );
-        }
         m_component = buildComponent();
+        setupControlButtons();
     }
 
-    Component getLabel()
+    public String toString()
     {
-        return m_label;
+        return m_name;
     }
 
     Component getComponent()
@@ -222,7 +138,40 @@ public final class ApplicationProfileTreeNode extends Node
         return m_component;
     }
 
+    private String resolveName( String id )
+    {
+        int n = id.lastIndexOf( "/" );
+        return id.substring( n+1 ); 
+    }
+
     private Component buildComponent() throws Exception
+    {
+        JTabbedPane panel = new JTabbedPane();
+        URI uri = m_profile.getCodeBaseURI();
+        Artifact artifact = Artifact.createArtifact( uri );
+        String type = artifact.getType();
+        if( "plugin".equals( type ) )
+        {
+            JPanel pluginPanel = new JPanel();
+            pluginPanel.setName( "Plugin" );
+            panel.add( pluginPanel );
+        }
+        else
+        {
+            panel.add( "Process", buildConfigurationComponent() );
+            panel.add( "Properties", new SystemPropertiesBuilder( m_profile ).getComponent() );
+            panel.add( "Parameters", new ParametersBuilder().buildParametersTablePanel( m_profile ) );
+
+            //
+            // load the part and resolve the management views
+            //
+
+            panel.add( "Component", new JPanel() );
+        }
+        return panel;
+    }
+
+    private Component buildConfigurationComponent() throws Exception
     {
         FormLayout layout = new FormLayout(
           "right:pref, 3dlu, 60dlu, fill:max(60dlu;pref), 7dlu, pref", 
@@ -270,9 +219,11 @@ public final class ApplicationProfileTreeNode extends Node
     {
         JPanel buttons = new JPanel( new FlowLayout( FlowLayout.LEFT ) ); 
         buttons.setBorder( new EmptyBorder( 0, 0, 0, 0 ) );
-        buttons.add( m_start );
-        buttons.add( m_stop );
-        buttons.add( m_restart );
+
+        buttons.add( new JButton( m_start ) );
+        buttons.add( new JButton( m_stop ) );
+        buttons.add( new JButton( m_restart ) );
+
         return buttons;
     }
 
@@ -382,6 +333,13 @@ public final class ApplicationProfileTreeNode extends Node
             m_start.setEnabled( true );
             m_stop.setEnabled( false );
             m_restart.setEnabled( false );
+            
+            int n = getChildCount();
+            for( int i=0; i<n; i++ )
+            {
+                Node node = (Node) getLastChild();
+                m_desktop.getTreeModel().removeNodeFromParent( node );
+            }
         }
         else if( Application.STARTING.equals( state ) )
         {
@@ -394,6 +352,7 @@ public final class ApplicationProfileTreeNode extends Node
             m_start.setEnabled( false );
             m_stop.setEnabled( true );
             m_restart.setEnabled( true );
+            setupComponentNodes();
         }
         else if( Application.STOPPING.equals( state ) )
         {
@@ -401,9 +360,28 @@ public final class ApplicationProfileTreeNode extends Node
             m_stop.setEnabled( false );
             m_restart.setEnabled( false );
         }
-        else
+    }
+
+    private void setupComponentNodes()
+    {
+        try
         {
-            System.out.println( "## STATE?: " + state.getClass().getName() + ", " + state );
+            net.dpml.component.Component component = m_application.getComponent();
+            if( component instanceof Container )
+            {
+                Container container = (Container) component;
+                net.dpml.component.Component[] components = container.getComponents();
+                for( int i=0; i<components.length; i++ )
+                {
+                    net.dpml.component.Component c = components[i];
+                    ComponentTreeNode node = new ComponentTreeNode( c );
+                    m_desktop.getTreeModel().insertNodeInto( node, this, i );
+                }
+            }
+        }
+        catch( Throwable e )
+        {
+            e.printStackTrace();
         }
     }
 
@@ -411,7 +389,6 @@ public final class ApplicationProfileTreeNode extends Node
     {
         return (JFrame) SwingUtilities.getWindowAncestor( component );
     }
-
 
     //--------------------------------------------------------------------
     // startup policy components
@@ -734,4 +711,110 @@ public final class ApplicationProfileTreeNode extends Node
             );
         }
     }
+
+    private class StartAction extends AbstractAction
+    {
+        private StartAction()
+        {
+            putValue( NAME, "Start" );
+            //putValue( SMALL_ICON, readImageIcon( "start-process.png" ) );
+            putValue( SHORT_DESCRIPTION, "Starts a new process." );
+        }
+
+        public void actionPerformed( final ActionEvent event ) 
+        {
+            Thread thread = 
+              new Thread()
+              {
+                  public void run()
+                  {
+                      try
+                      {
+                          m_application.start();
+                      }
+                      catch( Exception e ) 
+                      {
+                          final String message = 
+                            "An process startup error occured."
+                            + "\n" + e.getClass().getName()
+                            + "\n" + e.getMessage();
+                          JOptionPane.showMessageDialog(
+                            getParentFrame( (Component) event.getSource() ), message, "Error", JOptionPane.ERROR_MESSAGE );
+                      }
+                  }
+              };
+            thread.start();
+        }
+    }
+
+    private class StopAction extends AbstractAction
+    {
+        private StopAction()
+        {
+            putValue( NAME, "Stop" );
+            //putValue( SMALL_ICON, readImageIcon( "stop-process.png" ) );
+            putValue( SHORT_DESCRIPTION, "Terminates the process." );
+        }
+
+        public void actionPerformed( final ActionEvent event ) 
+        {
+            Thread thread = 
+              new Thread()
+              {
+                  public void run()
+                  {
+                      try
+                      {
+                          m_application.stop();
+                      }
+                      catch( Exception e ) 
+                      {
+                          final String message = 
+                            "A process termination error occured."
+                            + "\n" + e.getClass().getName()
+                            + "\n" + e.getMessage();
+                          JOptionPane.showMessageDialog(
+                            getParentFrame( (Component) event.getSource() ), message, "Error", JOptionPane.ERROR_MESSAGE );
+                      }
+                  }
+              };
+            thread.start();
+        }
+    }
+
+    private class RestartAction extends AbstractAction
+    {
+        private RestartAction()
+        {
+            putValue( NAME, "Restart" );
+            //putValue( SMALL_ICON, readImageIcon( "restart-process.png" ) );
+            putValue( SHORT_DESCRIPTION, "Terminates the current process and starts a new replacement process." );
+        }
+
+        public void actionPerformed( final ActionEvent event ) 
+        {
+            Thread thread = 
+              new Thread()
+              {
+                  public void run()
+                  {
+                      try
+                      {
+                          m_application.restart();
+                      }
+                      catch( Exception e ) 
+                      {
+                          final String message = 
+                            "A process restart error occured."
+                            + "\n" + e.getClass().getName()
+                            + "\n" + e.getMessage();
+                          JOptionPane.showMessageDialog(
+                            getParentFrame( (Component) event.getSource() ), message, "Error", JOptionPane.ERROR_MESSAGE );
+                      }
+                  }
+              };
+            thread.start();
+        }
+    }
+
 }

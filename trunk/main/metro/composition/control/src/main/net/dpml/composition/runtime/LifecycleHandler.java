@@ -33,7 +33,7 @@ import net.dpml.configuration.Configuration;
 
 import net.dpml.parameters.Parameters;
 
-import net.dpml.part.control.LifecycleException;
+import net.dpml.component.control.LifecycleException;
 
 
 /**

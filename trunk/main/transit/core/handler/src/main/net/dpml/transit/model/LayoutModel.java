@@ -27,13 +27,6 @@ import java.rmi.RemoteException;
 public interface LayoutModel extends CodeBaseModel, Disposable
 {
    /**
-    * Return the immutable model identifier.
-    * @return the resolver identifier
-    * @exception RemoteException if a remote exception occurs
-    */
-    String getID() throws RemoteException;
-
-   /**
     * Return true if this is a bootstrap layout model.
     *
     * @return the bootstrap status of the resolver.

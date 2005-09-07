@@ -22,7 +22,7 @@ import java.net.URI;
 
 import net.dpml.configuration.Configuration;
 
-import net.dpml.part.state.State;
+import net.dpml.component.state.State;
 
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Task;

@@ -31,6 +31,13 @@ import net.dpml.transit.model.Parameter;
 public interface CodeBaseStorage
 {
    /**
+    * Returns the codebase storage identifier.
+    * 
+    * @return the immutable host model identifier
+    */
+    String getID();
+
+   /**
     * Return the URI identifying a codebase.  Typically this value returned from 
     * this operation identifes a plugin uses as a system extension or customization 
     * point.

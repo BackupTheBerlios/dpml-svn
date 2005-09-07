@@ -60,27 +60,27 @@ import net.dpml.part.Part;
 import net.dpml.part.PartNotFoundException;
 import net.dpml.part.PartHandlerNotFoundException;
 import net.dpml.part.DelegationException;
-import net.dpml.part.state.StateEvent;
-import net.dpml.part.state.StateListener;
-import net.dpml.part.state.State;
-import net.dpml.part.state.ResourceUnavailableException;
-import net.dpml.part.control.LifecycleException;
-import net.dpml.part.component.Consumer;
-import net.dpml.part.component.Component;
-import net.dpml.part.component.Container;
-import net.dpml.part.component.ClassLoadingContext;
-import net.dpml.part.component.ComponentException;
-import net.dpml.part.component.ComponentRuntimeException;
-import net.dpml.part.component.TypeClassNotFoundException;
-import net.dpml.part.component.ServiceClassNotFoundException;
-import net.dpml.part.component.ComponentNotFoundException;
-import net.dpml.part.component.AvailabilityEvent;
-import net.dpml.part.component.AvailabilityListener;
-import net.dpml.part.component.Service;
-import net.dpml.part.component.ServiceDescriptor;
-import net.dpml.part.component.Available;
-import net.dpml.part.component.AvailabilityException;
-import net.dpml.part.component.Manager;
+import net.dpml.component.state.StateEvent;
+import net.dpml.component.state.StateListener;
+import net.dpml.component.state.State;
+import net.dpml.component.state.ResourceUnavailableException;
+import net.dpml.component.control.LifecycleException;
+import net.dpml.component.Consumer;
+import net.dpml.component.Component;
+import net.dpml.component.Container;
+import net.dpml.component.ClassLoadingContext;
+import net.dpml.component.ComponentException;
+import net.dpml.component.ComponentRuntimeException;
+import net.dpml.component.TypeClassNotFoundException;
+import net.dpml.component.ServiceClassNotFoundException;
+import net.dpml.component.ComponentNotFoundException;
+import net.dpml.component.AvailabilityEvent;
+import net.dpml.component.AvailabilityListener;
+import net.dpml.component.Service;
+import net.dpml.component.ServiceDescriptor;
+import net.dpml.component.Available;
+import net.dpml.component.AvailabilityException;
+import net.dpml.component.Manager;
 import net.dpml.part.Part;
 import net.dpml.part.PartReference;
 
@@ -227,6 +227,15 @@ public abstract class ComponentHandler extends WeakEventProducer
         Component component = getPartsTable().addComponent( key, part );
         m_dependencies.add( component );
         return component;
+    }
+
+   /**
+    * Return the set of components managed by this container.
+    * @return an array of management components
+    */
+    public Component[] getComponents()
+    {
+        return getPartsTable().getComponents();
     }
 
    /**

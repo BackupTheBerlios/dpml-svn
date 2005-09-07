@@ -24,11 +24,13 @@ import java.awt.Dimension;
 import java.awt.Frame;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
+import java.lang.reflect.Field;
 import java.util.prefs.Preferences;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
 import javax.swing.*;
+import javax.swing.JComponent;
 import javax.swing.JTable;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.TreeSelectionEvent;
@@ -36,6 +38,11 @@ import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.TreeNode;
 import javax.swing.tree.TreeCellRenderer;
 import javax.swing.tree.TreePath;
+import javax.swing.tree.TreeModel;
+import javax.swing.tree.DefaultTreeModel;
+import javax.swing.tree.DefaultTreeCellRenderer;
+import javax.swing.event.TreeModelListener;
+import javax.swing.event.TreeModelEvent;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableColumnModel;
 import javax.swing.plaf.metal.MetalLookAndFeel;
@@ -70,6 +77,7 @@ public final class Desktop implements Handler
     private JSplitPane m_splitPane;
     private ApplicationRegistryTreeNode m_root;
     private JTree m_tree;
+    private DefaultTreeModel m_treeModel;
     private ApplyButton m_apply;
     private UndoButton m_undo;
 
@@ -82,10 +90,19 @@ public final class Desktop implements Handler
 
         configureUI();
 
-        m_root = new ApplicationRegistryTreeNode( m_logger, m_args );
-        m_tree = new JTree( m_root );
+        m_root = new ApplicationRegistryTreeNode( m_logger, m_args, this );
+        m_treeModel = new DefaultTreeModel( m_root );
+        m_tree = new JTree( m_treeModel );
+        m_treeModel.addTreeModelListener( new TreeListener() );
+        m_tree.setRootVisible( false );
+        m_tree.setShowsRootHandles( true );
 
         buildInterface();
+    }
+
+    DefaultTreeModel getTreeModel()
+    {
+        return m_treeModel;
     }
 
     /**
@@ -95,7 +112,7 @@ public final class Desktop implements Handler
      */
     private void configureUI()
     {
-        Options.setDefaultIconSize(new Dimension(18, 18));
+        Options.setDefaultIconSize( new Dimension(18, 18) );
 
         // Set font options		
         UIManager.put(
@@ -104,20 +121,21 @@ public final class Desktop implements Handler
         Options.setGlobalFontSizeHints(settings.getFontSizeHints());
         Options.setUseNarrowButtons(settings.isUseNarrowButtons());
         
-        // Global options
         Options.setTabIconsEnabled(settings.isTabIconsEnabled());
         UIManager.put(Options.POPUP_DROP_SHADOW_ENABLED_KEY, 
                 settings.isPopupDropShadowEnabled());
 
-        // Swing Settings
         LookAndFeel selectedLaf = settings.getSelectedLookAndFeel();
-        if (selectedLaf instanceof PlasticLookAndFeel) {
+        if( selectedLaf instanceof PlasticLookAndFeel ) 
+        {
             PlasticLookAndFeel.setMyCurrentTheme(settings.getSelectedTheme());
             PlasticLookAndFeel.setTabStyle(settings.getPlasticTabStyle());
             PlasticLookAndFeel.setHighContrastFocusColorsEnabled(
                 settings.isPlasticHighContrastFocusEnabled());
-        } else if (selectedLaf.getClass() == MetalLookAndFeel.class) {
-            MetalLookAndFeel.setCurrentTheme(new DefaultMetalTheme());
+        } 
+        else if (selectedLaf.getClass() == MetalLookAndFeel.class) 
+        {
+            MetalLookAndFeel.setCurrentTheme( new DefaultMetalTheme() );
         }
         
         // Work around caching in MetalRadioButtonUI
@@ -126,51 +144,14 @@ public final class Desktop implements Handler
         JCheckBox checkBox = new JCheckBox();
         checkBox.getUI().uninstallUI(checkBox);
 
-        try {
+        try 
+        {
             UIManager.setLookAndFeel(selectedLaf);
-        } catch (Exception e) {
-            System.out.println("Can't change L&F: " + e);
-        }
-
-        /*
-        PlasticLookAndFeel.setMyCurrentTheme( new Silver() );
-        UIManager.put( Options.USE_SYSTEM_FONTS_APP_KEY, Boolean.TRUE );
-        Options.setGlobalFontSizeHints( FontSizeHints.MIXED );
-        Options.setDefaultIconSize( new Dimension( 18, 18 ) );
-
-        try
+        } 
+        catch (Exception e) 
         {
-            if( LookUtils.IS_OS_WINDOWS_XP )
-            {
-                UIManager.setLookAndFeel( new PlasticXPLookAndFeel() );
-                //UIManager.setLookAndFeel( Options.getCrossPlatformLookAndFeelClassName() );
-            }
-            else
-            {
-                UIManager.setLookAndFeel( Options.getSystemLookAndFeelClassName() );
-            }
+            e.printStackTrace();
         }
-        catch( Exception e )
-        {
-            final String error = 
-              "Internal error while attempting to set look and feel.";
-            m_logger.warn( error, e );
-        }
-        */
-
-        /*
-        final String lookAndFeel = getDefaultLookAndFeel();
-        try            
-        {
-            UIManager.setLookAndFeel( lookAndFeel );
-        }
-        catch( Exception e )
-        {
-            final String error = 
-              "Internal error while attempting to set look and feel.";
-            m_logger.warn( error, e );
-        }
-        */
     }
 
     public void destroy()
@@ -282,9 +263,7 @@ public final class Desktop implements Handler
      */
     private Component buildSideBar() 
     {
-        m_tree.setRootVisible( true );
-        TreeCellRenderer renderer = m_tree.getCellRenderer();
-        m_tree.setCellRenderer( new DesktopCellRenderer( renderer ) );
+        m_tree.setCellRenderer( new DesktopCellRenderer() );
         m_tree.addTreeSelectionListener( new SelectionListener() );
         return createStrippedScrollPane( m_tree );
     }
@@ -343,30 +322,53 @@ public final class Desktop implements Handler
         }
     }
 
-    private class DesktopCellRenderer implements TreeCellRenderer
+    private class DesktopCellRenderer extends DefaultTreeCellRenderer
     {
-        private ImageIcon m_binary = readImageIcon( "16/binary.png" );
-        private ImageIcon m_application = readImageIcon( "16/application.png" );
-        TreeCellRenderer m_standard;
-        DesktopCellRenderer( TreeCellRenderer standard )
-        {
-            m_standard = standard;
-        }
-
         public Component getTreeCellRendererComponent( 
           JTree tree, Object value, boolean selected, boolean expanded, 
           boolean leaf, int row, boolean focus )
         {
-            if( value instanceof Node )
+            try
             {
-                Node node = (Node) value;
-                return node.getLabel();
+                if( leaf )
+                {
+                    Field field = value.getClass().getField( "DPML_DESKTOP_LEAF_ICON" );
+                    Object icon = field.get( value );
+                    if( icon instanceof Icon )
+                    {
+                        setLeafIcon( (Icon) icon );
+                    }
+                }
+                else
+                {
+                    if( expanded )
+                    {
+                        Field field = value.getClass().getField( "DPML_DESKTOP_EXPANDED_ICON" );
+                        Object icon = field.get( value );
+                        if( icon instanceof Icon )
+                        {
+                            setOpenIcon( (Icon) icon );
+                        }
+                    }
+                    else
+                    {
+                        Field field = value.getClass().getField( "DPML_DESKTOP_COLLAPSED_ICON" );
+                        Object icon = field.get( value );
+                        if( icon instanceof Icon )
+                        {
+                            setClosedIcon( (Icon) icon );
+                        }
+                    }
+                }
             }
-            else
+            catch( NoSuchFieldException e )
             {
-                return m_standard.getTreeCellRendererComponent( 
-                  tree, value, selected, expanded, leaf, row, focus );
             }
+            catch( IllegalAccessException e )
+            {
+                System.out.println( e.toString() );
+            }
+            return super.getTreeCellRendererComponent( tree, value, selected, expanded, leaf, row, focus );
         }
     }
 
@@ -419,18 +421,6 @@ public final class Desktop implements Handler
         label.setHorizontalAlignment( SwingConstants.LEFT );
         label.setBorder( new EmptyBorder( 3, 3, 3, 3 ) );
         return label;
-    }
-
-    private String getDefaultLookAndFeel()
-    {
-        if( LookUtils.IS_OS_WINDOWS_XP )
-        {
-            return Options.getCrossPlatformLookAndFeelClassName();
-        }
-        else
-        {
-            return Options.getSystemLookAndFeelClassName();
-        }
     }
 
     private abstract class ToolBarButton extends JButton
@@ -494,6 +484,32 @@ public final class Desktop implements Handler
                 }
             }
         }
+    }
+
+    public class TreeListener implements TreeModelListener
+    {
+        public void treeNodesChanged( TreeModelEvent event )
+        {
+            TreePath path = event.getTreePath();
+            m_tree.makeVisible( path );
+        }
+
+        public void treeNodesInserted( TreeModelEvent event )
+        {
+        }
+
+        public void treeNodesRemoved( TreeModelEvent event )
+        {
+        }
+
+        public void treeStructureChanged( TreeModelEvent event )
+        {
+        }
+    }
+
+    JTree getJTree()
+    {
+        return m_tree;
     }
 
     private static final String DEPOT_PROFILE_URI = "@DEPOT-PROFILE-PLUGIN-URI@";

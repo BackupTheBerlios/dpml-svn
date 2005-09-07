@@ -128,9 +128,9 @@ dpml.depot.installer.uri = ${metro.plugin.uri}
       <group title="Component Management">
         <package name="net.dpml.part"/>
         <package name="net.dpml.part.builder"/>
-        <package name="net.dpml.part.control"/>
-        <package name="net.dpml.part.component"/>
-        <package name="net.dpml.part.state"/>
+        <package name="net.dpml.component.control"/>
+        <package name="net.dpml.component"/>
+        <package name="net.dpml.component.state"/>
       </group>
       <group title="Metro Controller SPI">
         <package name="net.dpml.composition.data"/>

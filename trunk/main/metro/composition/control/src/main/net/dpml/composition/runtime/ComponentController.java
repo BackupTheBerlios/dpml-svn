@@ -43,28 +43,28 @@ import net.dpml.logging.Logger;
 
 import net.dpml.composition.control.CompositionController;
 
-import net.dpml.part.component.Service;
-import net.dpml.part.component.Available;
-import net.dpml.part.component.AvailabilityException;
-import net.dpml.part.component.Component;
-import net.dpml.part.component.Container;
-import net.dpml.part.component.DuplicateKeyException;
-import net.dpml.part.component.Manager;
-import net.dpml.part.control.ControlException;
-import net.dpml.part.control.ControllerRuntimeException;
-import net.dpml.part.control.Disposable;
-import net.dpml.part.state.State;
-import net.dpml.part.state.Transition;
-import net.dpml.part.state.ResourceUnavailableException;
-import net.dpml.part.state.NoSuchTransitionException;
-import net.dpml.part.state.NoSuchOperationException;
-import net.dpml.part.state.ValidationException;
-import net.dpml.part.state.Operation;
-import net.dpml.part.state.StateEvent;
-import net.dpml.part.state.StateListener;
-import net.dpml.part.state.NoSuchHandlerException;
-import net.dpml.part.state.RecursiveInitializationException;
-import net.dpml.part.state.RecursiveTerminationException;
+import net.dpml.component.Service;
+import net.dpml.component.Available;
+import net.dpml.component.AvailabilityException;
+import net.dpml.component.Component;
+import net.dpml.component.Container;
+import net.dpml.component.DuplicateKeyException;
+import net.dpml.component.Manager;
+import net.dpml.component.control.ControlException;
+import net.dpml.component.control.ControllerRuntimeException;
+import net.dpml.component.control.Disposable;
+import net.dpml.component.state.State;
+import net.dpml.component.state.Transition;
+import net.dpml.component.state.ResourceUnavailableException;
+import net.dpml.component.state.NoSuchTransitionException;
+import net.dpml.component.state.NoSuchOperationException;
+import net.dpml.component.state.ValidationException;
+import net.dpml.component.state.Operation;
+import net.dpml.component.state.StateEvent;
+import net.dpml.component.state.StateListener;
+import net.dpml.component.state.NoSuchHandlerException;
+import net.dpml.component.state.RecursiveInitializationException;
+import net.dpml.component.state.RecursiveTerminationException;
 
 /**
  * The ComponentController class is a controller of a component instance.

@@ -35,8 +35,8 @@ import net.dpml.depot.GeneralException;
 
 import net.dpml.station.Station;
 
-import net.dpml.part.component.Component;
-import net.dpml.part.control.Controller;
+import net.dpml.component.Component;
+import net.dpml.component.control.Controller;
 
 import net.dpml.profile.ApplicationRegistry;
 import net.dpml.profile.ApplicationProfile;
@@ -89,8 +89,6 @@ public class ApplicationHandler
         m_handler = handler;
         m_args = args;
         m_model = model;
-
-        //Thread.currentThread().setContextClassLoader( ApplicationHandler.class.getClassLoader() );
 
         if( args.length < 1 )
         {
@@ -158,6 +156,7 @@ public class ApplicationHandler
                 object = 
                   resolveTargetObject( 
                     m_model, system, codebase, m_args, m_logger, profile );
+                getLogger().info( "target [" + object.getClass().getName() + "] established" );
             }
             catch( Throwable e )
             {
@@ -299,14 +298,15 @@ public class ApplicationHandler
     
    /**
     * Return an application profile matching the supplied id.  If the id 
-    * is a artifact or link uri then we construct and return a new profile
-    * otherwise the profile id will be assumed to be a name of a profile 
-    * registered within the set of stored profiles.
-    * 
-    * @param logger the assigned logging channel
-    * @param prefs the root depot prefs
+    * is a artifact or link uri then we construct and return a new memory
+    * resident profile.  If the id is a registry uri the profile will be 
+    * resolved using the registry protocol handler.  Otherwise the id will
+    * be assumed to be the name of a registered profile in the application
+    * registry.
+    *
     * @param id the profile id
     * @return the application profile
+    * @exception Exception if an error occurs
     */ 
     private ApplicationProfile getApplicationProfile( String id ) throws Exception
     {
@@ -375,6 +375,7 @@ public class ApplicationHandler
       TransitModel model, ClassLoader parent, URI uri, String[] args, Logger logger, ApplicationProfile profile ) 
       throws Exception
     {
+        String key = profile.getID();
         Repository loader = Transit.getInstance().getRepository();
         Artifact artifact = Artifact.createArtifact( uri );
         String type = artifact.getType();
@@ -397,26 +398,23 @@ public class ApplicationHandler
 
             URI controllerUri = new URI( "@COMPOSITION-CONTROLLER-URI@" );
             ClassLoader system = ClassLoader.getSystemClassLoader();
-
-            final String info = 
-              "\n------------- system classloader ----------------------------------"
-              + "\n" + system.toString()
-              + "\n-------------------------------------------------------------------";
-            m_logger.debug( info );
-
-            for( int i=0; i<parameters.length; i++ )
-            {
-                Object o = parameters[i];
-                m_logger.info( "PARAM: " + o.getClass().getName() );
-            }
-
             Controller controller = (Controller) loader.getPlugin( system, controllerUri, parameters );
             Component component = controller.newComponent( uri );
 
-            //Socket socket = new Socket( InetAddress.getLocalHost(), 0 );
-            //System.out.println( "# SOCKET: " + socket.getLocalPort() );
+            try
+            {
+                Station station = getStation();
+                getLogger().info( "located station" );
+                station.getApplication( key ).handleCallback( PROCESS_ID, component );
+            }
+            catch( Throwable e )
+            {
+                final String warning = 
+                  "Station registriation error.";
+                getLogger().warn( warning, e );
+            }
 
-            return component.resolve();
+            return component.resolve( false );
         }
         else
         {
@@ -445,6 +443,20 @@ public class ApplicationHandler
     private Registry getRegistry( String host, int port ) throws Exception
     {
         return LocateRegistry.getRegistry( host, port );
+    }
+
+    private Station getStation() throws Exception
+    {
+        ClassLoader classloader = Thread.currentThread().getContextClassLoader();
+        Thread.currentThread().setContextClassLoader( getClass().getClassLoader() );
+        try
+        {
+            return (Station) new URL( "registry:/dpml/station" ).getContent();
+        }
+        finally
+        {
+            Thread.currentThread().setContextClassLoader( classloader );
+        }
     }
 
     private static final String DEPOT_PROFILE_URI = "@DEPOT-PROFILE-PLUGIN-URI@";

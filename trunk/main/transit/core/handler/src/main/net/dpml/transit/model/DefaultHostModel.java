@@ -50,7 +50,6 @@ class DefaultHostModel extends DisposableCodeBaseModel
 
     private final HostStorage m_home;
     private final LayoutRegistryModel m_registry;
-    private final String m_id;
 
     private String m_name;
     private String m_base;
@@ -100,12 +99,11 @@ class DefaultHostModel extends DisposableCodeBaseModel
       PasswordAuthentication auth, String scheme, String prompt, boolean bootstrap ) 
       throws RemoteException, UnknownKeyException, MalformedURLException
     {
-        super( logger, uri, params );
+        super( logger, id, uri, params );
 
         m_home = null;
         m_registry = registry;
 
-        m_id = id;
         m_name = name;
         m_trusted = trusted;
         m_enabled = enabled;
@@ -113,8 +111,8 @@ class DefaultHostModel extends DisposableCodeBaseModel
         m_layout = registry.getLayoutModel( layout );
         m_base = resolveBaseValue( base );
         m_index = index;
-        m_baseURL = resolveBaseURL( m_id, m_base );
-        m_indexURL = resolveIndexURL( m_id, m_baseURL, m_index );
+        m_baseURL = resolveBaseURL( id, m_base );
+        m_indexURL = resolveIndexURL( id, m_baseURL, m_index );
         m_authentication = auth;
         m_layout.addDisposalListener( this );
         m_identifier = getRequestIdentifier( m_baseURL, scheme, prompt );
@@ -139,7 +137,6 @@ class DefaultHostModel extends DisposableCodeBaseModel
         m_home = home;
         m_registry = registry;
 
-        m_id = home.getID();
         m_name = home.getName();
         m_trusted = home.getTrusted();
         m_enabled = home.getEnabled();
@@ -147,8 +144,8 @@ class DefaultHostModel extends DisposableCodeBaseModel
 
         m_base = resolveBaseValue( home.getBasePath() );
         m_index = home.getIndexPath();
-        m_baseURL = resolveBaseURL( m_id, m_base );
-        m_indexURL = resolveIndexURL( m_id, m_baseURL, m_index );
+        m_baseURL = resolveBaseURL( getID(), m_base );
+        m_indexURL = resolveIndexURL( getID(), m_baseURL, m_index );
         m_authentication = home.getAuthentication();
 
         String key = home.getLayoutModelKey();
@@ -262,8 +259,8 @@ class DefaultHostModel extends DisposableCodeBaseModel
 
             m_base = resolveBaseValue( base );
             m_index = index;
-            m_baseURL = resolveBaseURL( m_id, m_base );
-            m_indexURL = resolveIndexURL( m_id, m_baseURL, m_index );
+            m_baseURL = resolveBaseURL( getID(), m_base );
+            m_indexURL = resolveIndexURL( getID(), m_baseURL, m_index );
 
             m_enabled = enabled;
             m_trusted = trusted;
@@ -352,16 +349,6 @@ class DefaultHostModel extends DisposableCodeBaseModel
             HostLayoutEvent e = new HostLayoutEvent( this, m_layout );
             enqueueEvent( e );
         }
-    }
-
-   /**
-    * Return an immutable host identifier.  The host identifier shall be 
-    * guranteed to be unique and constant for the life of the model.
-    * @exception RemoteException if a remote exception occurs
-    */
-    public String getID() throws RemoteException
-    {
-        return m_id;
     }
 
    /**

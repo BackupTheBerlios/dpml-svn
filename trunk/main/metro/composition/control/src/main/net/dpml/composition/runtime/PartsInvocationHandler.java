@@ -28,10 +28,10 @@ import java.rmi.RemoteException;
 import net.dpml.composition.info.PartDescriptor;
 import net.dpml.composition.control.CompositionController;
 
-import net.dpml.part.control.Controller;
+import net.dpml.component.control.Controller;
 import net.dpml.part.DelegationException;
-import net.dpml.part.component.Component;
-import net.dpml.part.component.Resolvable;
+import net.dpml.component.Component;
+import net.dpml.component.Resolvable;
 
 /**
  * The parts invocation handler maps client request for 'get', 'create' and 

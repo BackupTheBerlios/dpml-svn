@@ -32,7 +32,7 @@ import java.util.Map;
 
 import net.dpml.part.Part;
 import net.dpml.part.PartReference;
-import net.dpml.part.component.ServiceDescriptor;
+import net.dpml.component.ServiceDescriptor;
 
 import net.dpml.composition.info.Type;
 import net.dpml.composition.info.InfoDescriptor;

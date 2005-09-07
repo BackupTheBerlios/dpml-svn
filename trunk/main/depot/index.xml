@@ -93,9 +93,12 @@
       </types>
     </info>
     <dependencies>
+      <include key="dpml-transit-main" tag="system"/>
+      <include key="dpml-part-api" tag="system"/>
+      <include key="dpml-component-api" tag="system"/>
+      <include key="looks" tag="system"/>
       <include key="dpml-station-impl"/>
       <include key="dpml-profile-api"/>
-      <include key="looks" tag="system"/>
       <include key="forms"/>
     </dependencies>
   </project>
@@ -109,8 +112,10 @@
       </types>
     </info>
     <dependencies>
+      <include key="dpml-part-api"/>
       <include key="dpml-depot-console" tag="api"/>
       <include key="dpml-profile-api" tag="api"/>
+      <include key="dpml-component-api" tag="api"/>
     </dependencies>
   </project>
 
@@ -124,12 +129,13 @@
       </types>
     </info>
     <dependencies>
-      <include key="dpml-transit-main" tag="api"/>
+      <include key="dpml-transit-main" tag="system"/>
+      <include key="dpml-component-api" tag="system"/>
+      <include key="dpml-part-api" tag="system"/>
       <include key="dpml-profile-api" tag="api"/>
       <include key="dpml-station-api" tag="api"/>
     </dependencies>
   </project>
-
 
   <project basedir="exec">
     <info>

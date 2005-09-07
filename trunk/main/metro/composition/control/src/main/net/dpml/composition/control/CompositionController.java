@@ -25,6 +25,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Proxy;
 import java.net.URI;
 import java.net.URL;
+import java.net.URLConnection;
 import java.net.URLClassLoader;
 import java.net.URISyntaxException;
 import java.rmi.RemoteException;
@@ -51,18 +52,18 @@ import net.dpml.part.DelegationException;
 import net.dpml.part.Part;
 import net.dpml.part.PartHandlerNotFoundException;
 import net.dpml.part.PartNotFoundException;
-import net.dpml.part.control.ControllerContext;
-import net.dpml.part.control.ControlException;
-import net.dpml.part.control.ControllerRuntimeException;
-import net.dpml.part.control.Controller;
-import net.dpml.part.control.Disposable;
-import net.dpml.part.control.LifecycleException;
-import net.dpml.part.control.UnsupportedPartTypeException;
-import net.dpml.part.component.Component;
-import net.dpml.part.component.ClassLoadingContext;
-import net.dpml.part.component.ComponentException;
-import net.dpml.part.component.Container;
-import net.dpml.part.component.Service;
+import net.dpml.component.control.ControllerContext;
+import net.dpml.component.control.ControlException;
+import net.dpml.component.control.ControllerRuntimeException;
+import net.dpml.component.control.Controller;
+import net.dpml.component.control.Disposable;
+import net.dpml.component.control.LifecycleException;
+import net.dpml.component.control.UnsupportedPartTypeException;
+import net.dpml.component.Component;
+import net.dpml.component.ClassLoadingContext;
+import net.dpml.component.ComponentException;
+import net.dpml.component.Container;
+import net.dpml.component.Service;
 
 import net.dpml.transit.model.ContentModel;
 
@@ -101,12 +102,6 @@ public class CompositionController extends CompositionPartHandler implements Con
     {
         this( new CompositionContext( logger, null, null ) );
     }
-
-    //public CompositionController( net.dpml.transit.model.Logger logger, File work, File temp )
-    //   throws ControlException, RemoteException
-    //{
-    //    this( new CompositionContext( logger, work, temp ) );
-    //}
 
     protected CompositionController( ControllerContext context )
        throws ControlException, RemoteException
@@ -151,6 +146,51 @@ public class CompositionController extends CompositionPartHandler implements Con
     //--------------------------------------------------------------------
     // Controller
     //--------------------------------------------------------------------
+
+    public Object getContent( URLConnection connection, Class[] classes ) throws IOException
+    {
+        Object content = super.getContent( connection, classes );
+        if( null != content )
+        {
+            return content;
+        }
+
+        URL url = connection.getURL();   
+        try
+        {
+            if( classes.length == 0 )
+            {
+                return loadPart( url );
+            }
+            else
+            {
+                for( int i=0; i<classes.length; i++ )
+                {
+                    Class c = classes[i];
+                    if( Component.class.isAssignableFrom( c ) )
+                    {
+                        URI uri = new URI( url.toString() );
+                        return newComponent( uri );
+                    }
+                    else if( Object.class.equals( c ) )
+                    {
+                        URI uri = new URI( url.toString() );
+                        Component component = newComponent( uri );
+                        return component.resolve( false );
+                    }
+                }
+            }
+            return null;
+        }
+        catch( Throwable e )
+        {
+            final String error = 
+              "Internal error whuile attempting to establish content for the : " + url;
+            IOException cause = new IOException( error );
+            cause.initCause( e );
+            throw cause;
+        }
+    }
 
    /**
     * Construct a new top-level component.

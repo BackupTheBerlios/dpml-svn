@@ -23,11 +23,13 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 
+import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
+import javax.swing.tree.TreeNode;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableColumnModel;
@@ -46,14 +48,10 @@ public abstract class Node extends DefaultMutableTreeNode implements Volotile
 
     private final PropertyChangeSupport m_propertyChangeSupport;
 
-    public Node()
-    {
-        this( null );
-    }
-
     public Node( Object object )
     {
         super( object );
+
         m_propertyChangeSupport = new PropertyChangeSupport( this );
     }
 
@@ -85,8 +83,6 @@ public abstract class Node extends DefaultMutableTreeNode implements Volotile
     {
     }
 
-    abstract Component getLabel();
-
     Component getComponent()
     {
         return DEFAULT_COMPONENT;
@@ -94,8 +90,20 @@ public abstract class Node extends DefaultMutableTreeNode implements Volotile
 
     protected static ImageIcon readImageIcon( final String filename ) 
     {
-        URL url = Node.class.getClassLoader().getResource( "net/dpml/depot/desktop/images/" + filename );
+        return readImageIcon( BASE_IMAGE_PATH, filename );
+    }
+
+    protected static ImageIcon readImageIcon( final String base, final String filename ) 
+    {
+        final String path = base + filename;
+        URL url = Node.class.getClassLoader().getResource( path );
+        if( null == url )
+        {
+           final String error = "Invalid icon path: " + path;
+           throw new IllegalArgumentException( error );
+        }
         return new ImageIcon( url );
     }
 
+    private static final String BASE_IMAGE_PATH = "net/dpml/depot/desktop/images/";
 }

@@ -58,12 +58,13 @@ public class RegistryStorageUnit extends AbstractStorageUnit implements Registry
         try
         {
             Preferences prefs = getProfilesNode();
-            String[] names = prefs.childrenNames();
+            String[] names = prefs.keys();
             ApplicationStorage[] stores = new ApplicationStorage[ names.length ];
             for( int i=0; i<names.length; i++ )
             {
                 String id = names[i];
-                ApplicationStorage store = getApplicationStorage( id );
+                String path = prefs.get( id, id );
+                ApplicationStorage store = getApplicationStorage( path );
                 stores[i] = store;
             }
             return stores;

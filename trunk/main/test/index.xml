@@ -47,7 +47,7 @@
       </types>
     </info>
     <dependencies>
-      <include key="dpml-part-api"/>
+      <include key="dpml-component-api"/>
       <include key="dpml-configuration-api"/>
       <include key="dpml-activity-api"/>
     </dependencies>
@@ -65,7 +65,7 @@
     </info>
     <dependencies>
       <include key="dpml-test-simple"/>
-      <include key="dpml-part-api"/>
+      <include key="dpml-component-api"/>
       <include key="ant-junit"/>
     </dependencies>
     <plugins>
@@ -83,7 +83,7 @@
     <dependencies>
       <include key="dpml-test-simple"/>
       <include key="dpml-test-plus"/>
-      <include key="dpml-part-api"/>
+      <include key="dpml-component-api"/>
       <include key="ant-junit"/>
     </dependencies>
     <plugins>

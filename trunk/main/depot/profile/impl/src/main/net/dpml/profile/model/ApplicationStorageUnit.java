@@ -60,11 +60,6 @@ public class ApplicationStorageUnit extends ContentStorageUnit implements Applic
     // ApplicationStorage
     // ------------------------------------------------------------------------
 
-    public String getID()
-    {
-        return getPreferences().name();
-    }
-
    /**
     * Get the duration in seconds to wait for startup
     * of the application before considering deployment as a timeout failure.

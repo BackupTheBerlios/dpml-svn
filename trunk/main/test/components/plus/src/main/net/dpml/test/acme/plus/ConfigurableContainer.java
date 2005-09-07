@@ -26,8 +26,8 @@ import net.dpml.configuration.ConfigurationException;
 
 import net.dpml.activity.Executable;
 
-import net.dpml.part.control.Controller;
-import net.dpml.part.component.Component;
+import net.dpml.component.control.Controller;
+import net.dpml.component.Component;
 
 /**
  * Demonstration of a component that uses a supplied configuration to 

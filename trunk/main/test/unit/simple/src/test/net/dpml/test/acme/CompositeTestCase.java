@@ -26,8 +26,8 @@ import java.net.URLConnection;
 import junit.framework.TestCase;
 
 import net.dpml.part.PartContentHandlerFactory;
-import net.dpml.part.control.Controller;
-import net.dpml.part.component.Component;
+import net.dpml.component.control.Controller;
+import net.dpml.component.Component;
 
 /**
  * Test a simple component case.

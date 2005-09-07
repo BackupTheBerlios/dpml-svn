@@ -25,7 +25,7 @@ import java.lang.reflect.UndeclaredThrowableException;
 
 import net.dpml.composition.control.CompositionController;
 
-import net.dpml.part.state.State;
+import net.dpml.component.state.State;
 
 /**
  * This makes a dynamic proxy for an component manager.

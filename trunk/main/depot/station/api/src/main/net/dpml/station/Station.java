@@ -7,6 +7,7 @@ import java.rmi.RemoteException;
 import net.dpml.profile.ApplicationProfile;
 import net.dpml.profile.ApplicationRegistry;
 
+import net.dpml.transit.PID;
 import net.dpml.transit.model.UnknownKeyException;
 import net.dpml.transit.model.DuplicateKeyException;
 
@@ -21,8 +22,6 @@ public interface Station extends Remote
     ApplicationProfile getApplicationProfile( String key ) throws UnknownKeyException, RemoteException;
 
     Application getApplication( String key ) throws UnknownKeyException, RemoteException;
-
-    //void registerController( Remote controller );
 
     //Application addApplication( ApplicationProfile profile ) throws DuplicateKeyException, RemoteException;
     //void removeApplication( String key ) throws UnknownKeyException, RemoteException;

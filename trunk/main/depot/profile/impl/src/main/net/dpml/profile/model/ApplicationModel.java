@@ -61,7 +61,7 @@ public class ApplicationModel extends DefaultContentModel implements Application
       StartupPolicy policy, int startup, int shutdown, Parameter[] params ) 
       throws RemoteException
     {
-        super( logger, uri, params, id, title );
+        super( logger, id, uri, params, "app", title );
 
         m_store = null;
         m_properties = properties;
@@ -114,7 +114,7 @@ public class ApplicationModel extends DefaultContentModel implements Application
     */
     public String getID() throws RemoteException
     {
-        return super.getContentType();
+        return super.getID();
     }
 
    /**

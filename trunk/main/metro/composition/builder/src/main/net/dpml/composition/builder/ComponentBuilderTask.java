@@ -61,10 +61,10 @@ import net.dpml.parameters.impl.DefaultParameters;
 import net.dpml.part.Part;
 import net.dpml.part.PartHolder;
 import net.dpml.part.PartReference;
-import net.dpml.part.control.ControllerContext;
-import net.dpml.part.component.Component;
-import net.dpml.part.component.Container;
-import net.dpml.part.component.Service;
+import net.dpml.component.control.ControllerContext;
+import net.dpml.component.Component;
+import net.dpml.component.Container;
+import net.dpml.component.Service;
 
 import net.dpml.transit.tools.AntAdapter;
 import net.dpml.transit.model.Logger;

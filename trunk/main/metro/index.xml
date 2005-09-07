@@ -49,6 +49,21 @@
     </dependencies>
   </project>
 
+  <!-- Component -->
+
+  <project basedir="component">
+    <info>
+      <group>dpml/metro</group>
+      <name>dpml-component-api</name>
+      <types>
+        <type name="jar"/>
+      </types>
+    </info>
+    <dependencies>
+      <include key="dpml-part-api"/>
+    </dependencies>
+  </project>
+
   <!-- Activity -->
 
   <project basedir="activity">
@@ -127,7 +142,7 @@
       <include key="dpml-transit-main"/>
       <include key="dpml-parameters-api"/>
       <include key="dpml-configuration-api"/>
-      <include key="dpml-part-api"/>
+      <include key="dpml-component-api"/>
     </dependencies>
   </project>
 
@@ -143,7 +158,7 @@
       </types>
     </info>
     <dependencies>
-      <include key="dpml-part-api" tag="api"/>
+      <include key="dpml-component-api" tag="api"/>
       <include key="dpml-transit-main" tag="api"/>
       <include key="dpml-logging-api" tag="spi"/>
       <include key="dpml-activity-api" tag="spi"/>
@@ -180,7 +195,7 @@
       </types>
     </info>
     <dependencies>
-      <include key="dpml-part-api"/>
+      <include key="dpml-component-api"/>
     </dependencies>
   </project>
 

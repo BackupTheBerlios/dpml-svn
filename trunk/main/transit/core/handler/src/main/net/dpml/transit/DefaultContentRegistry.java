@@ -188,9 +188,9 @@ class DefaultContentRegistry extends UnicastRemoteObject implements Service, Con
             if( null == handler )
             {
                 Class clazz = loadContentHandlerClass( model );
-                ClassLoader current = Thread.currentThread().getContextClassLoader();
-                ClassLoader classloader = clazz.getClassLoader();
-                Thread.currentThread().setContextClassLoader( classloader );
+                //ClassLoader current = Thread.currentThread().getContextClassLoader();
+                //ClassLoader classloader = clazz.getClassLoader();
+                //Thread.currentThread().setContextClassLoader( classloader );
                 Repository loader = Transit.getInstance().getRepository();
                 String type =  model.getContentType();
                 Logger logger = getLogger().getChildLogger( type );
@@ -209,7 +209,7 @@ class DefaultContentRegistry extends UnicastRemoteObject implements Service, Con
                 }
                 finally
                 {
-                    Thread.currentThread().setContextClassLoader( current );
+                    //Thread.currentThread().setContextClassLoader( current );
                 }
                 m_handlers.put( model, handler );
             }
@@ -232,8 +232,9 @@ class DefaultContentRegistry extends UnicastRemoteObject implements Service, Con
             {
                 m_logger.debug( "loading content handler plugin: " + uri );
                 Repository loader = Transit.getInstance().getRepository();
-                ClassLoader classloader = model.getClass().getClassLoader();
-                clazz = loader.getPluginClass( classloader, uri );
+                //ClassLoader classloader = model.getClass().getClassLoader();
+                ClassLoader system = ClassLoader.getSystemClassLoader();
+                clazz = loader.getPluginClass( system, uri );
             }
             catch( Exception e )
             {

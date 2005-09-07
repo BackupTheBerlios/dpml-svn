@@ -28,6 +28,13 @@ import java.rmi.RemoteException;
 public interface CodeBaseModel extends Model
 {
    /**
+    * Return the immutable model identifier.
+    * @return the resolver identifier
+    * @exception RemoteException if a remote exception occurs
+    */
+    String getID() throws RemoteException;
+
+   /**
     * Return the uri of the plugin to be used for the subsystem.
     * @return the codebase plugin uri
     * @exception RemoteException if a remote exception occurs

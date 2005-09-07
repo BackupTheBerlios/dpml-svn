@@ -44,7 +44,6 @@ class DefaultLayoutModel extends DisposableCodeBaseModel implements LayoutModel
     // state
     //----------------------------------------------------------------------
 
-    private final String m_id;
     private final String m_classname;
     private final boolean m_bootstrap;
     private final LayoutStorage m_home;
@@ -67,11 +66,10 @@ class DefaultLayoutModel extends DisposableCodeBaseModel implements LayoutModel
       final Logger logger, final String id, Strategy strategy, final String title )
       throws RemoteException
     {
-        super( logger, (URI) null, new Parameter[0] );
+        super( logger, id, (URI) null, new Parameter[0] );
 
         m_home = null;
 
-        m_id = id;
         m_title = title;
         if( strategy instanceof PluginStrategy )
         {
@@ -101,7 +99,6 @@ class DefaultLayoutModel extends DisposableCodeBaseModel implements LayoutModel
 
         m_home = home;
 
-        m_id = home.getID();
         m_title = home.getTitle();
         Strategy strategy = home.getStrategy();
         if( strategy instanceof PluginStrategy )
@@ -142,16 +139,6 @@ class DefaultLayoutModel extends DisposableCodeBaseModel implements LayoutModel
             LayoutEvent event = new LayoutEvent( this );
             super.enqueueEvent( event );
         }
-    }
-
-   /**
-    * Return the immutable resolver identifier.
-    * @return the resolver identifier
-    * @exception RemoteException if a remote exception occurs
-    */
-    public String getID() throws RemoteException
-    {
-        return m_id;
     }
 
    /**
