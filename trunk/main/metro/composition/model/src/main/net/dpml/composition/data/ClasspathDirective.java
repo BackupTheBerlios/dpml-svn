@@ -21,6 +21,8 @@ package net.dpml.composition.data;
 import java.io.Serializable;
 import java.net.URI;
 
+import net.dpml.transit.Plugin.Category;
+
 /**
  * Description of classpath.
  *
@@ -44,24 +46,16 @@ public final class ClasspathDirective implements Serializable
     /**
      * The resource references
      */
-    private String m_name;
-
-    /**
-     * Create a empty ClasspathDirective.
-     */
-    public ClasspathDirective()
-    {
-        this( "?", null );
-    }
+    private Category m_category;
 
     /**
      * Create a ClasspathDirective instance.
      *
      * @param uris the set of artifact uris
      */
-    public ClasspathDirective( final String name, final URI[] uris )
+    public ClasspathDirective( final Category category, final URI[] uris )
     {
-        m_name = name;
+        m_category = category;
         if( uris == null )
         {
             m_uris = EMPTY_URIS;
@@ -76,9 +70,9 @@ public final class ClasspathDirective implements Serializable
     * Return the category name.  
     * @return the category name
     */
-    public String getCategoryName()
+    public Category getCategory()
     {
-        return m_name;
+        return m_category;
     }
 
    /**
@@ -112,7 +106,7 @@ public final class ClasspathDirective implements Serializable
             if( other instanceof ClasspathDirective )
             {
                 ClasspathDirective directive = (ClasspathDirective) other;
-                if( false == getCategoryName().equals( directive.getCategoryName() ) )
+                if( !getCategory().equals( directive.getCategory() ) )
                 {
                     return false;
                 }
@@ -149,7 +143,7 @@ public final class ClasspathDirective implements Serializable
     */
     public int hashCode()
     {
-        int hash = m_name.hashCode();
+        int hash = m_category.hashCode();
         for( int i=0; i<m_uris.length; i++ )
         {
             hash ^= m_uris[i].hashCode();

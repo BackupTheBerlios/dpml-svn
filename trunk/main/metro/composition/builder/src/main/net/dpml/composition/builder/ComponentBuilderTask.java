@@ -67,7 +67,7 @@ import net.dpml.component.Container;
 import net.dpml.component.Service;
 
 import net.dpml.transit.tools.AntAdapter;
-import net.dpml.transit.model.Logger;
+import net.dpml.transit.Logger;
 import net.dpml.transit.model.ContentModel;
 
 import org.apache.tools.ant.AntClassLoader;

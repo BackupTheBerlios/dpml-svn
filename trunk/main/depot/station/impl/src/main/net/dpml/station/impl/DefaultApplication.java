@@ -29,7 +29,7 @@ import net.dpml.profile.ApplicationProfile;
 import net.dpml.part.Control;
 
 import net.dpml.transit.Transit;
-import net.dpml.transit.model.Logger;
+import net.dpml.transit.Logger;
 import net.dpml.transit.model.Connection;
 import net.dpml.transit.model.DefaultModel;
 import net.dpml.transit.Environment;
@@ -40,19 +40,6 @@ import net.dpml.transit.PID;
  */
 public class DefaultApplication extends EventProducer implements Application
 {
-    private static final String NOTIFY_HEADER = "#";
-    private static final String STARTUP_MESSAGE = NOTIFY_HEADER + "startup";
-    private static final String SHUTDOWN_MESSAGE = NOTIFY_HEADER + "shutdown";
-    private static final String ERROR_MESSAGE = NOTIFY_HEADER + "error";
-    private static final String PID_DELIMITER = ":";
-
-    private static final String STARTUP_SYSPROPERTY_ARGUMENT = 
-      "-Ddpml.station.notify.startup=" + STARTUP_MESSAGE;
-    private static final String SHUTDOWN_SYSPROPERTY_ARGUMENT = 
-      "-Ddpml.station.notify.shutdown=" + SHUTDOWN_MESSAGE;
-    private static final String ERROR_SYSPROPERTY_ARGUMENT = 
-      "-Ddpml.station.notify.error=" + ERROR_MESSAGE;
-
     private final ApplicationProfile m_profile;
     private final String m_path;
 
@@ -60,7 +47,7 @@ public class DefaultApplication extends EventProducer implements Application
     private State m_state = Application.READY;
     private PID m_pid;
     private String m_error;
-    private Control m_control;
+    private Remote m_control;
 
     public DefaultApplication( 
       Logger logger, ApplicationProfile profile, String path ) throws RemoteException
@@ -115,8 +102,16 @@ public class DefaultApplication extends EventProducer implements Application
         return m_pid;
     }
 
-    public void handleCallback( PID pid, Control control ) throws RemoteException
+    public void handleCallback( PID pid ) throws RemoteException
     {
+        getLogger().info( "incomming callback from process " + pid );
+        getLogger().info( "registering callback" );
+        setState( Application.RUNNING, pid );
+    }
+
+    public void handleCallback( PID pid, Remote control ) throws RemoteException
+    {
+        getLogger().info( "incomming callback from process " + pid );
         if( null != m_control )
         {
             final String error = 
@@ -125,12 +120,13 @@ public class DefaultApplication extends EventProducer implements Application
         }
         else
         {
+            getLogger().info( "registering callback" );
             m_control = control;
             setState( Application.RUNNING, pid );
         }
     }
 
-    public Control getControl() throws RemoteException
+    public Remote getRemote() throws RemoteException
     {
         return m_control;
     }
@@ -553,4 +549,18 @@ public class DefaultApplication extends EventProducer implements Application
             }
         }
     }
+
+    private static final String NOTIFY_HEADER = "#";
+    private static final String STARTUP_MESSAGE = NOTIFY_HEADER + "startup";
+    private static final String SHUTDOWN_MESSAGE = NOTIFY_HEADER + "shutdown";
+    private static final String ERROR_MESSAGE = NOTIFY_HEADER + "error";
+    private static final String PID_DELIMITER = ":";
+
+    private static final String STARTUP_SYSPROPERTY_ARGUMENT = 
+      "-Ddpml.station.notify.startup=" + STARTUP_MESSAGE;
+    private static final String SHUTDOWN_SYSPROPERTY_ARGUMENT = 
+      "-Ddpml.station.notify.shutdown=" + SHUTDOWN_MESSAGE;
+    private static final String ERROR_SYSPROPERTY_ARGUMENT = 
+      "-Ddpml.station.notify.error=" + ERROR_MESSAGE;
+
 }

@@ -30,9 +30,9 @@ import java.util.EventListener;
 
 import net.dpml.transit.model.DefaultModel;
 import net.dpml.transit.model.DuplicateKeyException;
-import net.dpml.transit.model.Logger;
+import net.dpml.transit.Logger;
 import net.dpml.transit.model.UnknownKeyException;
-import net.dpml.transit.model.Parameter;
+import net.dpml.transit.model.Value;
 
 import net.dpml.profile.*;
 import net.dpml.profile.ApplicationRegistry;
@@ -103,7 +103,7 @@ public class RegistryModel extends DefaultModel implements ApplicationRegistry
         String title = id;
         Properties properties = new Properties();
         StartupPolicy policy = ApplicationProfile.MANUAL;
-        Parameter[] params = new Parameter[0];
+        Value[] params = new Value[0];
         String path = "${user.dir}";
         return new ApplicationModel(  
           logger, id, title, properties, path, codebase, policy, 

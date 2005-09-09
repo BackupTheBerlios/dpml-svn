@@ -19,6 +19,7 @@
 package net.dpml.transit.model;
 
 import java.lang.reflect.Constructor;
+import java.util.ArrayList;
 
 import net.dpml.transit.util.PropertyResolver;
 
@@ -29,9 +30,70 @@ import net.dpml.transit.util.PropertyResolver;
  */
 public class Construct implements Value
 {
-    private String m_type;
+   /**
+    * Serial version identifier.
+    */
+    static final long serialVersionUID = 1L;
+
+   /**
+    * Utility operation that consolidates an array of values and supplimentary
+    * arguments to an array of objects.
+    * 
+    * @param params the value array
+    * @param args supplimentary arguments
+    * @return the consolidated argument array
+    */
+    public static Object[] getArgs( Value[] params, Object[] args )
+    {
+        ArrayList list = new ArrayList();
+        for( int i=0; i < params.length; i++ )
+        {
+            Value value = params[i];
+            Object object = value.resolve();
+            list.add( object );
+        }
+        for( int i=0; i < args.length; i++ )
+        {
+            Object value = args[i];
+            list.add( value );
+        }
+        return list.toArray();
+    }
+
+   /**
+    * Utility operation that returns the set of constructor type.
+    * 
+    * @param values the value array
+    * @param suppliment supplimentary classes
+    * @return the consolidated argument types
+    */
+    public static Class[] getTypes( Value[] values, Class[] suppliment )
+    {
+        ArrayList list = new ArrayList();
+        for( int i=0; i < values.length; i++ )
+        {
+            Value value = values[i];
+            Class c = value.getTypeClass();
+            list.add( c );
+        }
+        for( int i=0; i < suppliment.length; i++ )
+        {
+            Class c = suppliment[i];
+            list.add( c );
+        }
+        Object[] objects = list.toArray();
+        Class[] classes = new Class[ objects.length ];
+        for( int i=0; i < objects.length; i++ )
+        {
+            classes[i] = (Class) objects[i];
+        }
+        return classes;
+    }
+
+    private String m_base;
     private String m_value;
     private Value[] m_args;
+    private String m_type;
 
    /**
     * Create a new construct using the default java.lang.String class as the base type.
@@ -47,21 +109,43 @@ public class Construct implements Value
     * @param type the construct classname
     * @param value the construct value
     */
-    public Construct( String type, String value )
+    public Construct( String base, String value )
     {
-        m_type = type;
-        m_value = value;
-        m_args = null;
+        this( base, base, value );
     }
 
    /**
-    * Create a new composit construct using a supplied base type and value array.
+    * Create a new construct using a supplied base type.
+    * @param type the construct classname
+    * @param value the construct value
+    */
+    public Construct( String type, String base, String value )
+    {
+        m_base = base;
+        m_type = type;
+        m_value = value;
+        m_args = new Value[0];
+    }
+
+   /**
+    * Create a new composite construct using a supplied base type and value array.
     * @param type the construct classname
     * @param args an array of constructor values
     */
-    public Construct( String type, Value[] args )
+    public Construct( String base, Value[] args )
+    {
+        this( base, base, args );
+    }
+
+   /**
+    * Create a new composite construct using a supplied base type and value array.
+    * @param type the construct classname
+    * @param args an array of constructor values
+    */
+    public Construct( String type, String base, Value[] args )
     {
         m_type = type;
+        m_base = base;
         m_args = args;
         m_value = null;
     }
@@ -77,10 +161,37 @@ public class Construct implements Value
     }
 
    /**
+    * Return the setu of nest values within this value.
+    * @return the nest value array
+    */
+    public Value[] getValues()
+    {
+        return m_args;
+    }
+
+   /**
+    * Return the classname of the resolved value.
+    * @return the classname
+    */
+    public String getBaseValue()
+    {
+        return m_value;
+    }
+
+   /**
     * Return the classname of the resolved value.
     * @return the classname
     */
     public String getBaseClassname()
+    {
+        return m_base;
+    }
+
+   /**
+    * Return the classname of the type.
+    * @return the type classname
+    */
+    public String getTypeClassname()
     {
         return m_type;
     }
@@ -91,18 +202,19 @@ public class Construct implements Value
     */
     public Object resolve( ClassLoader classloader )
     {
-        if( ( null == m_args ) || ( m_args.length == 0 ) )
+        if( m_args.length == 0 )
         {
             return resolveSimpleConstruct( classloader );
         }
         else
         {
-            return resolveCompoundConstruct( classloader, m_args );
+            return resolveCompoundConstruct( classloader );
         }
     }
 
-    private Object resolveCompoundConstruct( ClassLoader classloader, Value[] args )
+    private Object resolveCompoundConstruct( ClassLoader classloader )
     {
+        Value[] args = getValues();
         Class clazz = getBaseClass( classloader );
 
         //
@@ -126,7 +238,7 @@ public class Construct implements Value
         {
             final String error =
               "Construct class ["
-              + m_type
+              + m_base
               + "] does not declare a matching public constructor.";
             throw new ValueRuntimeException( error, e );
         }
@@ -173,7 +285,7 @@ public class Construct implements Value
         for( int i=0; i < args.length; i++ )
         {
             Value value = args[i];
-            classes[i] = value.getBaseClass( classloader );
+            classes[i] = value.getTypeClass( classloader );
         }
         return classes;
     }
@@ -191,7 +303,7 @@ public class Construct implements Value
             {
                 final String error = 
                   "Unable to instantiate an instance of ["
-                  + m_type
+                  + m_base
                   + "] using a null argument constructor.";
                 throw new ValueRuntimeException( error );
             }
@@ -268,53 +380,84 @@ public class Construct implements Value
      */
     public Class getBaseClass( ClassLoader loader )
     {
+        return resolveClass( loader, m_base );
+    }
+
+    /**
+     * Return the instance class using the context classloader.
+     * @return the class
+     * @exception ComponentException if the parameter class cannot be resolved
+     */
+    public Class getTypeClass()
+    {
+        ClassLoader classloader = resolveClassLoader();
+        return getTypeClass( classloader );
+    }
+
+    /**
+     * Return the instance class using the context classloader.
+     * @return the class
+     * @exception ComponentException if the parameter class cannot be resolved
+     */
+    public Class getTypeClass( ClassLoader loader )
+    {
+        return resolveClass( loader, m_type );
+    }
+
+    /**
+     * Return the instance class using the context classloader.
+     * @return the class
+     * @exception ComponentException if the parameter class cannot be resolved
+     */
+    public Class resolveClass( ClassLoader loader, String classname )
+    {
         try
         {
-            return loader.loadClass( m_type );
+            return loader.loadClass( classname );
         }
         catch( final ClassNotFoundException e )
         {
-            if( m_type.equals( "int" ) )
+            if( classname.equals( "int" ) )
             {
                 return int.class;
             }
-            else if( m_type.equals( "short" ) )
+            else if( classname.equals( "short" ) )
             {
                 return short.class;
             }
-            else if( m_type.equals( "long" ) )
+            else if( classname.equals( "long" ) )
             {
                 return long.class;
             }
-            else if( m_type.equals( "byte" ) )
+            else if( classname.equals( "byte" ) )
             {
                 return byte.class;
             }
-            else if( m_type.equals( "double" ) )
+            else if( classname.equals( "double" ) )
             {
                 return double.class;
             }
-            else if( m_type.equals( "float" ) )
+            else if( classname.equals( "float" ) )
             {
                 return float.class;
             }
-            else if( m_type.equals( "char" ) )
+            else if( classname.equals( "char" ) )
             {
                 return char.class;
             }
-            else if( m_type.equals( "char" ) )
+            else if( classname.equals( "char" ) )
             {
                 return char.class;
             }
-            else if( m_type.equals( "boolean" ) )
+            else if( classname.equals( "boolean" ) )
             {
                 return boolean.class;
             }
             else
             {
                 final String error =
-                  "Primitive class not found ["
-                  + m_type 
+                  "Class not found ["
+                  + classname 
                   + "].";
                throw new ValueRuntimeException( error, e );
             }

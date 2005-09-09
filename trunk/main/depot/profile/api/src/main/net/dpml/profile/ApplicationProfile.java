@@ -123,6 +123,15 @@ public interface ApplicationProfile extends CodeBaseModel, Disposable
     void setSystemProperties( Properties properties ) throws RemoteException;
 
    /**
+    * Set a system property to be assigned to a target virtual machine.
+    * 
+    * @param key the system property key
+    * @param value the property value
+    * @exception RemoteException if a transport error occurs
+    */
+    void setSystemProperty( String key, String value ) throws RemoteException;
+
+   /**
     * Get the duration in seconds to wait for startup
     * of the application before considering deployment as a timeout failure.
     * 

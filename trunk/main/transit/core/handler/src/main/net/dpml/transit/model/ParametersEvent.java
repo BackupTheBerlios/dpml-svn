@@ -29,26 +29,26 @@ public class ParametersEvent extends CodeBaseEvent
     */
     static final long serialVersionUID = 1L;
 
-    private final Parameter[] m_parameters;
+    private final Value[] m_values;
 
    /**
     * Construction of a new codebase change event.
     * @param source the codebase model initiating the event
     * @param parameters the constructor parameters
     */
-    public ParametersEvent( CodeBaseModel source, Parameter[] parameters )
+    public ParametersEvent( CodeBaseModel source, Value[] values )
     {
         super( source );
 
-        m_parameters = parameters;
+        m_values = values;
     }
     
    /**
-    * Return the codebase parameters.
-    * @return the parameters array
+    * Return the codebase parameter value array.
+    * @return the parameter value array
     */
-    public Parameter[] getParameters()
+    public Value[] getParameters()
     {
-        return m_parameters;
+        return m_values;
     }
 }

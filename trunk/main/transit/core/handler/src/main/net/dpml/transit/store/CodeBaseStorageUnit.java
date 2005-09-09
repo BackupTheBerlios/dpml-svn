@@ -21,7 +21,7 @@ import java.util.Properties;
 import java.util.prefs.Preferences;
 import java.util.prefs.BackingStoreException;
 
-import net.dpml.transit.model.Parameter;
+import net.dpml.transit.model.Value;
 /**
  * The LayoutHelper class is responsible for the setup of initial factory
  * default preference settings.
@@ -79,7 +79,7 @@ public abstract class CodeBaseStorageUnit extends AbstractStorageUnit implements
    /**
     * Utility operation to construct a set of properties from a preferences
     * node wherein all attributes in the supplied node are mapped to property 
-    * values witin the returned property instahnce.
+    * values within the returned property instance.
     *
     * @param prefs the preferences node
     * @return the property set
@@ -110,6 +110,38 @@ public abstract class CodeBaseStorageUnit extends AbstractStorageUnit implements
     }
 
    /**
+    * Utility operation to store a set of properties into a preferences
+    * node.
+    *
+    * @param prefs the preferences node
+    * @param properties the property set to stre into the preferences node
+    */
+    protected void setProperties( Preferences prefs, Properties properties ) throws StorageRuntimeException
+    {
+        try
+        {
+            prefs.clear();
+            String[] keys = (String[])properties.keySet().toArray();
+            for( int i=0; i < keys.length; i++ )
+            {
+                String key = keys[i];
+                String value = properties.getProperty( key );
+                if( null != value )
+                {
+                    setProperty( prefs, key, value );
+                }
+            }
+        }
+        catch( BackingStoreException e )
+        {
+            final String error = 
+              "Internal error while resolving persistent application properties.";
+            throw new StorageRuntimeException( error, e );   
+        }
+    }
+
+
+   /**
     * Utility operation to set a property value on a supplied node.
     * @param prefs the preference node
     * @param key the property key
@@ -131,17 +163,18 @@ public abstract class CodeBaseStorageUnit extends AbstractStorageUnit implements
     }
 
    /**
-    * Return the array of codebase parameters.
+    * Return the array of codebase parameter values.
     *
-    * @return the value array
+    * @return the parameter value array
+    * @exception RemoteException if a remote exception occurs
     */
-    public Parameter[] getParameters()
+    public Value[] getParameters()
     {
         Preferences prefs = getPreferences();
         byte[] bytes = prefs.getByteArray( "parameters", new byte[0] );
         if( bytes.length == 0 )
         {
-            return new Parameter[0];
+            return new Value[0];
         }
         else
         {
@@ -150,19 +183,22 @@ public abstract class CodeBaseStorageUnit extends AbstractStorageUnit implements
     }
 
    /**
-    * Set the array of parameters assigned to the codebase model.
-    * @param parameters the parameter value array
+    * Set the array of values assigned to the codebase model for use
+    * as plugin constructor parameter arguments.
+    *
+    * @param values the array of values
+    * @exception RemoteException if a remote exception occurs
     */
-    public void setParameters( Parameter[] parameters )
+    public void setParameters( Value[] values )
     {
         Preferences prefs = getPreferences();
-        if( null == parameters )
+        if( null == values )
         {
             prefs.putByteArray( "parameters", new byte[0] );
         }
         else
         {
-            byte[] bytes = SerializationHelper.exportParameters( parameters );
+            byte[] bytes = SerializationHelper.exportParameters( values );
             prefs.putByteArray( "parameters", bytes );
         }
     }

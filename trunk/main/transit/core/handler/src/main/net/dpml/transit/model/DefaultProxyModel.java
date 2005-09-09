@@ -24,6 +24,7 @@ import java.util.EventListener;
 import java.net.PasswordAuthentication; 
 import java.net.URL; 
 
+import net.dpml.transit.Logger;
 import net.dpml.transit.store.ProxyStorage;
 
 /**

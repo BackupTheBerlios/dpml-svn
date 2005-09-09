@@ -29,7 +29,7 @@ import net.dpml.transit.Transit;
 import net.dpml.transit.Repository;
 import net.dpml.transit.model.TransitRegistryModel;
 import net.dpml.transit.model.DefaultTransitRegistryModel;
-import net.dpml.transit.model.Logger;
+import net.dpml.transit.Logger;
 import net.dpml.transit.store.TransitStorageHome;
 
 /**

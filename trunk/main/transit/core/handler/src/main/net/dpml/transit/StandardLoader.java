@@ -35,6 +35,7 @@ import java.util.prefs.Preferences;
 import net.dpml.transit.artifact.ArtifactNotFoundException;
 import net.dpml.transit.artifact.Handler;
 import net.dpml.transit.monitor.RepositoryMonitorRouter;
+import net.dpml.transit.Plugin.Category;
 
 /**
  * Utility class supporting downloading of resources based on
@@ -42,8 +43,7 @@ import net.dpml.transit.monitor.RepositoryMonitorRouter;
  *
  * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
  */
-class StandardLoader
-    implements Repository
+class StandardLoader implements Repository
 {
     // ------------------------------------------------------------------------
     // Repository
@@ -316,7 +316,7 @@ class StandardLoader
         return instantiate( constructor, args );
     }
 
-    protected Object instantiate( Constructor constructor, Object[] args ) throws RepositoryException
+    public Object instantiate( Constructor constructor, Object[] args ) throws RepositoryException
     {
         Object[] arguments = populate( constructor, args );
         return newInstance( constructor, arguments );
@@ -554,20 +554,19 @@ class StandardLoader
             throw new NullArgumentException( "base" );
         }
 
+        URI plugin = descriptor.getURI();
+
         URI[] apiArtifacts = descriptor.getDependencies( Plugin.API );
         URL[] apis = getURLs( apiArtifacts  );
-        String apiLabel = appendFragment( descriptor.getURI(), "api" );
-        ClassLoader api = buildClassLoader( apiLabel, base, apis );
+        ClassLoader api = buildClassLoader( plugin, Plugin.API, base, apis );
 
         URI[] spiArtifacts = descriptor.getDependencies( Plugin.SPI );
         URL[] spis = getURLs( spiArtifacts );
-        String spiLabel = appendFragment( descriptor.getURI(), "spi" );
-        ClassLoader spi = buildClassLoader( spiLabel, api, spis );
+        ClassLoader spi = buildClassLoader( plugin, Plugin.SPI, api, spis );
 
         URI[] impArtifacts = descriptor.getDependencies( Plugin.IMPL );
         URL[] imps = getURLs( impArtifacts );
-        String implLabel = appendFragment( descriptor.getURI(), "impl" );
-        ClassLoader classloader = buildClassLoader( implLabel, spi, imps );
+        ClassLoader classloader = buildClassLoader( plugin, Plugin.IMPL, spi, imps );
 
         return classloader;
     }
@@ -597,8 +596,12 @@ class StandardLoader
     * @param urls the urls to assign as classloader content
     * @return the classloader
     */
-    private ClassLoader buildClassLoader( String label, ClassLoader parent, URL[] urls )
+    private ClassLoader buildClassLoader( URI plugin, Category category, ClassLoader parent, URL[] urls )
     {
+        //ClassLoader loader = new StandardClassLoader( category, urls, parent );
+        //getMonitor().classloaderConstructed( category.toString(), loader );
+        //return loader;
+
         if( 0 == urls.length )
         {
             return parent;
@@ -618,8 +621,8 @@ class StandardLoader
         }
         else
         {
-            ClassLoader loader = new StandardClassLoader( label, qualified, parent );
-            getMonitor().classloaderConstructed( label, loader );
+            ClassLoader loader = new StandardClassLoader( plugin, category, qualified, parent );
+            getMonitor().classloaderConstructed( category.toString(), loader );
             return loader;
         }
     }

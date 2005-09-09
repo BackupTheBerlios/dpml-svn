@@ -29,7 +29,7 @@ import java.util.Properties;
 import java.util.Date;
 
 import net.dpml.transit.Transit;
-import net.dpml.transit.model.Logger;
+import net.dpml.transit.Logger;
 import net.dpml.transit.model.ContentModel;
 import net.dpml.transit.monitor.LoggingAdapter;
 import net.dpml.transit.Repository;
@@ -50,7 +50,10 @@ public class PartContentHandler extends ContentHandler
             ClassLoader classloader = Part.class.getClassLoader();
             URI uri = new URI( "@COMPOSITION-CONTROLLER-URI@" );
             Repository repository = Transit.getInstance().getRepository();
-            m_handler = (PartHandler) repository.getPlugin( classloader, uri, new Object[]{logger} );
+            Class c = repository.getPluginClass( classloader, uri );
+
+            Constructor constructor = c.getConstructor( new Class[]{Logger.class} );
+            m_handler = (PartHandler) constructor.newInstance( new Object[]{logger} );
         }
         catch( Throwable e )
         {

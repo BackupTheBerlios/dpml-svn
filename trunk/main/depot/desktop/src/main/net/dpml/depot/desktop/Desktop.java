@@ -63,7 +63,7 @@ import net.dpml.profile.ApplicationProfile;
 
 import net.dpml.transit.Transit;
 import net.dpml.transit.Repository;
-import net.dpml.transit.model.Logger;
+import net.dpml.transit.Logger;
 
 /**
  * The Depot Desktop main class. 

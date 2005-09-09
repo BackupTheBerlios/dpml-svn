@@ -69,6 +69,8 @@ import net.dpml.component.Container;
 import net.dpml.component.Service;
 
 import net.dpml.transit.model.ContentModel;
+import net.dpml.transit.Plugin;
+import net.dpml.transit.Plugin.Category;
 
 /**
  * A initial test controller.
@@ -100,13 +102,13 @@ public class CompositionController extends CompositionPartHandler implements Con
     // constructor
     //--------------------------------------------------------------------
 
-    public CompositionController( net.dpml.transit.model.Logger logger )
+    public CompositionController( net.dpml.transit.Logger logger )
        throws ControllerException, RemoteException
     {
         this( new CompositionContext( logger, null, null ) );
     }
 
-    protected CompositionController( ControllerContext context )
+    public CompositionController( ControllerContext context )
        throws ControllerException, RemoteException
     {
         super( context );
@@ -380,11 +382,11 @@ public class CompositionController extends CompositionPartHandler implements Con
         }
     }
 
-    private ClassLoader getAnchorClassLoader( Component component )
+    private ClassLoader getAnchorClassLoader( Container container )
     {
-        if( component instanceof ClassLoadingContext )
+        if( container instanceof ClassLoadingContext )
         {
-            ClassLoadingContext context = (ClassLoadingContext) component;
+            ClassLoadingContext context = (ClassLoadingContext) container;
             ClassLoader classloader = context.getClassLoader();
             if( classloader != null )
             {
@@ -394,9 +396,9 @@ public class CompositionController extends CompositionPartHandler implements Con
                 }
                 else
                 {
-                    Logger logger = getLogger();
+                    URI partition = getPartition( container );
                     return new CompositionClassLoader( 
-                      logger, "context", getClass().getClassLoader(), classloader );
+                      partition, Plugin.ANY, getClass().getClassLoader(), new URI[0], classloader );
                 }
             }
         }
@@ -460,14 +462,13 @@ public class CompositionController extends CompositionPartHandler implements Con
         for( int i=0; i<cpds.length; i++ )
         {
             ClasspathDirective cpd = cpds[i];
-            String tag = cpd.getCategoryName();
-            String label = createClassLoaderLabel( partition, tag );
+            Category tag = cpd.getCategory();
             URI[] uris = filter( cpd.getURIs(), parent );
             if( uris.length > 0 )
             {
                 Logger logger = getLogger();
                 logger.debug( "creating " + tag + " classloader with " + uris.length + " entries" );
-                parent = new CompositionClassLoader( logger, label, base, uris, parent );
+                parent = new CompositionClassLoader( partition, tag, base, uris, parent );
             }
         }
         return parent;
@@ -587,12 +588,6 @@ public class CompositionController extends CompositionPartHandler implements Con
             final String path = partition + "/" + name;
             return createURI( scheme, path );
         }
-    }
-
-    public static String createClassLoaderLabel( URI base, String id )
-    {
-        String path = "[" + base.toString() + "]";
-        return path + " (" + id + ")";
     }
 
     public static URI createURI( String scheme, String path )

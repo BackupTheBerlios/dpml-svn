@@ -29,7 +29,7 @@ import net.dpml.transit.model.LayoutRegistryModel;
 import net.dpml.transit.model.LayoutRegistryListener;
 import net.dpml.transit.model.LayoutRegistryEvent;
 import net.dpml.transit.model.LayoutModel;
-import net.dpml.transit.model.Logger;
+import net.dpml.transit.Logger;
 
 /**
  * A registry of descriptions of plugable content handlers.  This implementation

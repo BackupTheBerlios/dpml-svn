@@ -63,28 +63,20 @@ public interface CodeBaseModel extends Model
     void removeCodeBaseListener( CodeBaseListener listener ) throws RemoteException;
 
    /**
-    * Return the array of codebase parameters.
+    * Return the array of codebase parameter values.
     *
-    * @return the parameters array
+    * @return the parameter value array
     * @exception RemoteException if a remote exception occurs
     */
-    Parameter[] getParameters() throws RemoteException;
+    Value[] getParameters() throws RemoteException;
 
    /**
-    * Set the array of parameters assigned to the codebase model.
-    * @param parameters the parameters array
-    * @exception RemoteException if a remote exception occurs
-    */
-    void setParameters( Parameter[] parameters ) throws RemoteException;
-
-   /**
-    * Return a named codebase parameter.
+    * Set the array of values assigned to the codebase model for use
+    * as plugin constructor parameter arguments.
     *
-    * @param key the parameter key
-    * @return the parameter
-    * @exception UnknownKeyException if the supplied key is not recognized
+    * @param values the array of values
     * @exception RemoteException if a remote exception occurs
     */
-    Parameter getParameter( String key ) throws UnknownKeyException, RemoteException;
+    void setParameters( Value[] values ) throws RemoteException;
 
 }

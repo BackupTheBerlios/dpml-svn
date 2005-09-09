@@ -103,6 +103,23 @@ public interface ApplicationStorage extends ContentStorage, Removable
     Properties getSystemProperties();
 
    /**
+    * Set the system properties to be assigned to a target virtual machine
+    * on application deployment.
+    * 
+    * @param properties the system properties set
+    * @exception RemoteException if a transport error occurs
+    */
+    void setSystemProperties( Properties properties );
+
+   /**
+    * Set a system property to be assigned to a target virtual machine.
+    * 
+    * @param key the system property key
+    * @param value the property value
+    */
+    void setSystemProperty( String key, String value );
+
+   /**
     * Returns the working directory to be used for the application.
     * @return the working directory path
     */

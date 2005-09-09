@@ -20,7 +20,7 @@ package net.dpml.composition.control;
 
 import java.net.URL;
 
-import net.dpml.transit.model.Logger;
+import net.dpml.transit.Logger;
 
 /**
  * Default logging adapter.

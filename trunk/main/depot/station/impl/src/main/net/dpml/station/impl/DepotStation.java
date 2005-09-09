@@ -28,13 +28,11 @@ import java.util.Properties;
 import net.dpml.transit.Transit;
 import net.dpml.transit.Repository;
 import net.dpml.transit.PID;
-import net.dpml.transit.model.Logger;
+import net.dpml.transit.Logger;
 import net.dpml.transit.model.TransitModel;
 import net.dpml.transit.model.UnknownKeyException;
 import net.dpml.transit.model.DuplicateKeyException;
 import net.dpml.transit.model.Connection;
-
-import net.dpml.component.Component;
 
 import net.dpml.profile.ApplicationProfile;
 import net.dpml.profile.ApplicationProfile.StartupPolicy;
@@ -62,8 +60,6 @@ public class DepotStation extends UnicastRemoteObject implements Station, Handle
     private ApplicationRegistry m_model;
     private String[] m_args;
 
-    private ActivationGroupID m_rootID;
-
    /**
     * Creation of a station instance.
     *
@@ -82,6 +78,7 @@ public class DepotStation extends UnicastRemoteObject implements Station, Handle
         {
             Repository repository = Transit.getInstance().getRepository();
             ClassLoader classloader = DepotStation.class.getClassLoader();
+            Thread.currentThread().setContextClassLoader( classloader );
             URI uri = new URI( DEPOT_PROFILE_URI );
             m_model = (ApplicationRegistry) repository.getPlugin( classloader, uri, new Object[]{ logger } );
 

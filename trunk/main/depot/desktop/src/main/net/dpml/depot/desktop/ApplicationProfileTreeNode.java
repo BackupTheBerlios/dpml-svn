@@ -159,7 +159,7 @@ public final class ApplicationProfileTreeNode extends Node
         {
             panel.add( "Process", buildConfigurationComponent() );
             panel.add( "Properties", new SystemPropertiesBuilder( m_profile ).getComponent() );
-            panel.add( "Parameters", new ParametersBuilder().buildParametersTablePanel( m_profile ) );
+            panel.add( "Parameters", new ParametersBuilder().buildParametersPanel( m_profile ) );
 
             //
             // load the part and resolve the management views

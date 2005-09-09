@@ -22,7 +22,7 @@ import java.rmi.RemoteException;
 import java.util.prefs.Preferences;
 
 import net.dpml.transit.model.DuplicateKeyException;
-import net.dpml.transit.model.Logger;
+import net.dpml.transit.Logger;
 import net.dpml.transit.model.UnknownKeyException;
 
 import net.dpml.profile.ApplicationRegistry;

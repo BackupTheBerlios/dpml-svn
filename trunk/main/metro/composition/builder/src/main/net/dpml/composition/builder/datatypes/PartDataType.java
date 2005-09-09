@@ -28,7 +28,7 @@ import net.dpml.composition.control.CompositionController;
 import net.dpml.composition.info.Type;
 
 import net.dpml.transit.tools.AntAdapter;
-import net.dpml.transit.model.Logger;
+import net.dpml.transit.Logger;
 import net.dpml.transit.model.ContentModel;
 
 import net.dpml.component.control.ControllerContext;

@@ -16,11 +16,18 @@
 
 package net.dpml.depot.install;
 
-import net.dpml.transit.model.Logger;
+import java.net.URI;
+
+import net.dpml.transit.Logger;
 
 import net.dpml.station.Station;
 import net.dpml.profile.ApplicationRegistry;
 import net.dpml.profile.ApplicationProfile;
+
+import net.dpml.transit.model.Construct;
+import net.dpml.transit.model.Value;
+
+import net.dpml.profile.model.ApplicationStorageUnit;
 
 import java.util.prefs.Preferences;
 
@@ -71,7 +78,7 @@ public class DepotInstaller
         system.put( "abc", "def" );
         system.put( "xyz", "qwerty" );
         Preferences params = prefs.node( "parameters" );
-        params .put( "classname", "net.dpml.composition.impl.CompositionContext" );
+        params.put( "classname", "net.dpml.composition.impl.CompositionContext" );
         Preferences basedir = params.node( "base" );
         basedir.put( "value", "${java.temp.dir}" );
         basedir.put( "classname", "java.io.File" );
@@ -81,26 +88,34 @@ public class DepotInstaller
         prefs.put( "startup", ApplicationProfile.DISABLED.key() );
     }
 
-    private void setupTestProfile()
+    private void setupTestProfile() throws Exception
     {
         String id = "/dpml/planet/http/demo";
-        getProfilesPreferences().put( "test", id );
+        getProfilesPreferences().put( "demo", id );
         Preferences prefs = getProfilePreferences( id );
-        prefs.put( "uri", "link:part:dpml/planet/http/dpml-http-demo" );
-        prefs.put( "title", "DPML Test Profile" );
-        prefs.putBoolean( "enabled", false );
-        Preferences system = prefs.node( "system" );
-        system.put( "abc", "def" );
-        system.put( "xyz", "qwerty" );
-        Preferences params = prefs.node( "parameters" );
-        params .put( "classname", "net.dpml.composition.impl.CompositionContext" );
-        Preferences basedir = params.node( "base" );
-        basedir.put( "value", "${java.temp.dir}" );
-        basedir.put( "classname", "java.io.File" );
-        Preferences tempdir = params.node( "temp" );
-        tempdir.put( "value", "${user.dir}" );
-        tempdir.put( "classname", "java.io.File" );
-        prefs.put( "startup", ApplicationProfile.DISABLED.key() );
+
+        ApplicationStorageUnit store = new ApplicationStorageUnit( prefs );
+        store.setCodeBaseURI( new URI( "link:part:dpml/planet/http/dpml-http-demo" ) );
+        store.setTitle( "DPML Test Profile" );
+        store.setSystemProperty( "abc", "xyz" );
+        store.setSystemProperty( "xyz", "qwerty" );
+        store.setSystemProperty( "test", "${xyz}" );
+
+        Construct[] args = new Construct[3];
+        args[0] = 
+          new Construct( 
+            "net.dpml.transit.Logger", 
+            "net.dpml.transit.monitor.LoggingAdapter", 
+            id );
+        args[1] = new Construct( "java.io.File", "${user.dir}" );
+        args[2] = new Construct( "java.io.File", "${java.io.tmpdir}" );
+        Construct context = 
+          new Construct( 
+            "net.dpml.component.control.ControllerContext", 
+            "net.dpml.composition.control.CompositionContext", 
+            args );
+        store.setParameters( new Value[]{ context } );
+        store.setStartupPolicy( ApplicationProfile.MANUAL );
     }
 
     private Preferences getPreferences()

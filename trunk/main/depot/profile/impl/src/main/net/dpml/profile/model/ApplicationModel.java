@@ -25,7 +25,7 @@ import java.util.Date;
 import java.util.EventObject;
 import java.util.EventListener;
 
-import net.dpml.transit.model.Logger;
+import net.dpml.transit.Logger;
 import net.dpml.transit.store.CodeBaseStorage;
 import net.dpml.transit.model.CodeBaseModel;
 import net.dpml.transit.model.DefaultContentModel;
@@ -33,7 +33,7 @@ import net.dpml.transit.model.DisposalListener;
 import net.dpml.transit.model.DisposalEvent;
 import net.dpml.transit.model.CodeBaseListener;
 import net.dpml.transit.model.CodeBaseEvent;
-import net.dpml.transit.model.Parameter;
+import net.dpml.transit.model.Value;
 
 import net.dpml.profile.ApplicationProfile;
 import net.dpml.profile.ApplicationProfileEvent;
@@ -58,7 +58,7 @@ public class ApplicationModel extends DefaultContentModel implements Application
     public ApplicationModel( 
       Logger logger, String id, String title, 
       Properties properties, String working, URI uri, 
-      StartupPolicy policy, int startup, int shutdown, Parameter[] params ) 
+      StartupPolicy policy, int startup, int shutdown, Value[] params ) 
       throws RemoteException
     {
         super( logger, id, uri, params, "app", title );
@@ -141,6 +141,10 @@ public class ApplicationModel extends DefaultContentModel implements Application
         synchronized( getLock() )
         {
             m_startup = timeout;
+            if( null != m_store )
+            {
+                m_store.setStartupTimeout( timeout );
+            }
             StartupTimeoutChangedEvent event = new StartupTimeoutChangedEvent( this );
             super.enqueueEvent( event );
         }
@@ -170,6 +174,10 @@ public class ApplicationModel extends DefaultContentModel implements Application
         synchronized( getLock() )
         {
             m_shutdown = timeout;
+            if( null != m_store )
+            {
+                m_store.setShutdownTimeout( timeout );
+            }
             ShutdownTimeoutChangedEvent event = new ShutdownTimeoutChangedEvent( this );
             super.enqueueEvent( event );
         }
@@ -201,6 +209,10 @@ public class ApplicationModel extends DefaultContentModel implements Application
         synchronized( getLock() )
         {
             m_path = path;
+            if( null != m_store )
+            {
+                m_store.setWorkingDirectoryPath( path );
+            }
             WorkingDirectoryChangedEvent event = new WorkingDirectoryChangedEvent( this );
             super.enqueueEvent( event );
         }
@@ -230,6 +242,31 @@ public class ApplicationModel extends DefaultContentModel implements Application
         synchronized( getLock() )
         {
             m_properties = properties;
+            if( null != m_store )
+            {
+                m_store.setSystemProperties( properties );
+            }
+            SystemPropertiesChangedEvent event = new SystemPropertiesChangedEvent( this );
+            super.enqueueEvent( event );
+        }
+    }
+
+   /**
+    * Set a system property to be assigned to a target virtual machine.
+    * 
+    * @param key the system property key
+    * @param value the property value
+    * @exception RemoteException if a transport error occurs
+    */
+    public void setSystemProperty( String key, String value ) throws RemoteException
+    {
+        synchronized( getLock() )
+        {
+            m_properties.setProperty( key, value );
+            if( null != m_store )
+            {
+                m_store.setSystemProperty( key, value );
+            }
             SystemPropertiesChangedEvent event = new SystemPropertiesChangedEvent( this );
             super.enqueueEvent( event );
         }

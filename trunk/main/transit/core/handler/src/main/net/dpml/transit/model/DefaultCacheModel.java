@@ -28,6 +28,7 @@ import java.util.EventListener;
 import java.util.Set;
 import java.util.TreeSet;
 
+import net.dpml.transit.Logger;
 import net.dpml.transit.Transit;
 import net.dpml.transit.TransitError;
 import net.dpml.transit.store.CacheHome;

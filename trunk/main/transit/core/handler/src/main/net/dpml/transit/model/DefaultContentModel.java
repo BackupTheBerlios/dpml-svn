@@ -23,6 +23,7 @@ import java.rmi.RemoteException;
 import java.util.EventObject;
 import java.util.EventListener;
 
+import net.dpml.transit.Logger;
 import net.dpml.transit.store.ContentStorage;
 import net.dpml.transit.store.Removable;
 
@@ -57,7 +58,7 @@ public class DefaultContentModel extends DisposableCodeBaseModel implements Cont
     * @exception RemoteException if a remote exception occurs
     */
     public DefaultContentModel( 
-       Logger logger, String id, URI uri, Parameter[] parameters, String type, String title ) throws RemoteException
+       Logger logger, String id, URI uri, Value[] parameters, String type, String title ) throws RemoteException
     {
         super( logger, id, uri, parameters );
 

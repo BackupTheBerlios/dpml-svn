@@ -23,6 +23,7 @@ import java.rmi.RemoteException;
 import java.util.EventObject;
 import java.util.EventListener;
 
+import net.dpml.transit.Logger;
 import net.dpml.transit.store.LayoutStorage;
 import net.dpml.transit.store.Removable;
 import net.dpml.transit.store.LocalStrategy;
@@ -66,7 +67,7 @@ class DefaultLayoutModel extends DisposableCodeBaseModel implements LayoutModel
       final Logger logger, final String id, Strategy strategy, final String title )
       throws RemoteException
     {
-        super( logger, id, (URI) null, new Parameter[0] );
+        super( logger, id, (URI) null, new Value[0] );
 
         m_home = null;
 

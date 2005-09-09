@@ -23,6 +23,7 @@ import java.rmi.RemoteException;
 import java.util.EventObject;
 import java.util.EventListener;
 
+import net.dpml.transit.Logger;
 import net.dpml.transit.store.CodeBaseStorage;
 
 /**
@@ -42,7 +43,7 @@ public abstract class DefaultCodeBaseModel extends DefaultModel implements CodeB
     private final String m_id;
     private final CodeBaseStorage m_home;
 
-    private Parameter[] m_parameters;
+    private Value[] m_parameters;
     private URI m_uri;
 
     // ------------------------------------------------------------------------
@@ -56,7 +57,7 @@ public abstract class DefaultCodeBaseModel extends DefaultModel implements CodeB
     * @param params the codebase parameters
     * @exception RemoteException if a remote exception occurs
     */
-    public DefaultCodeBaseModel( Logger logger, String id, URI uri, Parameter[] params )
+    public DefaultCodeBaseModel( Logger logger, String id, URI uri, Value[] values )
       throws RemoteException
     {
         super( logger );
@@ -64,13 +65,13 @@ public abstract class DefaultCodeBaseModel extends DefaultModel implements CodeB
         m_id = id;
         m_uri = uri;
 
-        if( null == params )
+        if( null == values )
         {
-            m_parameters = new Parameter[0];
+            m_parameters = new Value[0];
         }
         else
         {
-            m_parameters = params;
+            m_parameters = values;
         }
         m_home = null;
     }
@@ -175,7 +176,7 @@ public abstract class DefaultCodeBaseModel extends DefaultModel implements CodeB
     *
     * @return the parameters array
     */
-    public Parameter[] getParameters()
+    public Value[] getParameters()
     {
         synchronized( getLock() )
         {
@@ -187,7 +188,7 @@ public abstract class DefaultCodeBaseModel extends DefaultModel implements CodeB
     * Set the array of parameters assigned to the codebase model.
     * @param parameters the parameters array
     */
-    public void setParameters( Parameter[] parameters )
+    public void setParameters( Value[] parameters )
     {
         synchronized( getLock() )
         {
@@ -199,25 +200,6 @@ public abstract class DefaultCodeBaseModel extends DefaultModel implements CodeB
             ParametersEvent e = new ParametersEvent( this, parameters );
             super.enqueueEvent( e );
         }
-    }
-
-   /**
-    * Return a named codebase parameter.
-    * @param key the parameter key
-    * @return the parameter
-    * @exception UnknownKeyException if the supplied key is not recognized
-    */
-    public Parameter getParameter( String key ) throws UnknownKeyException
-    {
-        for( int i=0; i < m_parameters.length; i++ )
-        {
-            Parameter param = m_parameters[i];
-            if( param.getKey().equals( key ) )
-            {
-                return param;
-            }
-        }
-        throw new UnknownKeyException( key );
     }
 
     // ------------------------------------------------------------------------

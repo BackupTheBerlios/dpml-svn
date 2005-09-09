@@ -22,7 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.dpml.transit.model.TransitModel;
-import net.dpml.transit.model.Logger;
+import net.dpml.transit.Logger;
 
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.ComponentHelper;

@@ -70,7 +70,7 @@ import net.dpml.component.Container;
 import net.dpml.component.Service;
 
 import net.dpml.transit.tools.AntAdapter;
-import net.dpml.transit.model.Logger;
+import net.dpml.transit.Logger;
 import net.dpml.transit.model.ContentModel;
 import net.dpml.transit.Plugin;
 import net.dpml.transit.Plugin.Category;
@@ -120,17 +120,17 @@ public abstract class ClassLoaderBuilderTask extends ProjectTask
         URI[] uris = createURISequence( Plugin.API, visited );
         if( uris.length > 0 )
         {
-            list.add( new ClasspathDirective( "api", uris ) );
+            list.add( new ClasspathDirective( Plugin.API, uris ) );
         }
         uris = createURISequence( Plugin.SPI, visited );
         if( uris.length > 0 )
         {
-            list.add( new ClasspathDirective( "spi", uris ) );
+            list.add( new ClasspathDirective( Plugin.SPI, uris ) );
         }
         uris = createURISequence( Plugin.IMPL, visited, true );
         if( uris.length > 0 )
         {
-            list.add( new ClasspathDirective( "impl", uris ) );
+            list.add( new ClasspathDirective( Plugin.IMPL, uris ) );
         }
         ClasspathDirective[] cps = (ClasspathDirective[]) list.toArray( new ClasspathDirective[0] );
         return new ClassLoaderDirective( cps );

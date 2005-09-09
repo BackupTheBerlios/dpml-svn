@@ -26,9 +26,8 @@ import java.util.Properties;
 import java.util.prefs.BackingStoreException;
 import java.util.prefs.Preferences;
 
-import net.dpml.transit.model.Logger;
+import net.dpml.transit.Logger;
 import net.dpml.transit.model.Connection;
-import net.dpml.transit.model.Parameter;
 import net.dpml.transit.store.StorageRuntimeException;
 import net.dpml.transit.store.LocalPreferences;
 import net.dpml.transit.store.ContentStorageUnit;
@@ -116,6 +115,31 @@ public class ApplicationStorageUnit extends ContentStorageUnit implements Applic
     {
         Preferences prefs = getPreferences().node( "system" );
         return getProperties( prefs );
+    }
+
+   /**
+    * Set the system properties to be assigned to a target virtual machine
+    * on application deployment.
+    * 
+    * @param properties the system properties set
+    * @exception RemoteException if a transport error occurs
+    */
+    public void setSystemProperties( Properties properties )
+    {
+        Preferences prefs = getPreferences().node( "system" );
+        setProperties( prefs, properties );
+    }
+
+   /**
+    * Set a system property to be assigned to a target virtual machine.
+    * 
+    * @param key the system property key
+    * @param value the property value
+    */
+    public void setSystemProperty( String key, String value )
+    {
+        Preferences prefs = getPreferences().node( "system" );
+        setProperty( prefs, key, value );
     }
 
     public String getWorkingDirectoryPath()

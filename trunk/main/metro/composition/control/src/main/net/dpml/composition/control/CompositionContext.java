@@ -29,14 +29,13 @@ import java.util.WeakHashMap;
 import java.util.Properties;
 
 import net.dpml.composition.event.LocalWeakEventProducer;
-import net.dpml.composition.runtime.DefaultLogger;
 
 import net.dpml.component.control.ControllerContext;
 import net.dpml.component.control.ControllerContextListener;
 import net.dpml.component.control.ControllerContextEvent;
 
+import net.dpml.transit.Logger;
 import net.dpml.transit.model.ContentModel;
-import net.dpml.transit.model.Logger;
 import net.dpml.transit.util.PropertyResolver;
 
 /**
@@ -68,6 +67,11 @@ public class CompositionContext extends LocalWeakEventProducer implements Contro
     //----------------------------------------------------------------------------
     // constructor
     //----------------------------------------------------------------------------
+
+    public CompositionContext( Logger logger )
+    {
+        this( logger, null, null );
+    }
 
     public CompositionContext( Logger logger, File work, File temp )
     {

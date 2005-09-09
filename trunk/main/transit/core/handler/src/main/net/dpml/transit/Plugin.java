@@ -34,27 +34,27 @@ public interface Plugin
    /**
     * Key used to designate an api classloader entry.
     */
-    static final Category ANY = new Category( -1 );
+    static final Category SYSTEM = new Category( "system", 0 );
 
    /**
     * Key used to designate an api classloader entry.
     */
-    static final Category SYSTEM = new Category( 0 );
-
-   /**
-    * Key used to designate an api classloader entry.
-    */
-    static final Category API = new Category( 1 );
+    static final Category API = new Category( "api", 1 );
 
    /**
     * Key used to designate an spi classloader entry.
     */
-    static final Category SPI = new Category( 2 );
+    static final Category SPI = new Category( "spi", 2 );
 
    /**
     * Key used to designate an impl classloader entry.
     */
-    static final Category IMPL = new Category( 3 );
+    static final Category IMPL = new Category( "impl", 3 );
+
+   /**
+    * Key used to designate an api classloader entry.
+    */
+    static final Category ANY = new Category( "any", 4 );
 
    /**
     * Return the uri to the plugin descriptor.
@@ -121,17 +121,44 @@ public interface Plugin
    /**
     * Classloader category enumeration.
     */
-    public static class Category implements Serializable
+    public static class Category implements Serializable, Comparable
     {
         private final int m_index;
+        private final String m_label;
 
        /**
         * Internal constructor.
         * @param index the enumeration index.
         */
-        private Category( int index )
+        private Category( String label, int index )
         {
             m_index = index;
+            m_label = label;
+        }
+
+        public int compareTo( Object other )
+        {
+            if( other instanceof Category )
+            {
+                Category category = (Category) other;
+                int index = category.m_index;
+                if( m_index > index )
+                {
+                    return 1;
+                }
+                else if( m_index == index )
+                {
+                    return 0;
+                }
+                else
+                {
+                    return -1;
+                }
+            }
+            else
+            {
+                return 1;
+            }
         }
 
        /**
@@ -154,6 +181,11 @@ public interface Plugin
             {
                 return false;
             }
+        }
+
+        public String toString()
+        {
+            return "[" + m_label + "]";
         }
 
        /**

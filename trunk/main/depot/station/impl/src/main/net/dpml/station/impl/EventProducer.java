@@ -25,7 +25,7 @@ import java.util.LinkedList;
 import java.rmi.server.UnicastRemoteObject;
 import java.rmi.RemoteException;
 
-import net.dpml.transit.model.Logger;
+import net.dpml.transit.Logger;
 import net.dpml.transit.util.ExceptionHelper;
 
 

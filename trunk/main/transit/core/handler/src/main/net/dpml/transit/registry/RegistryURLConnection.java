@@ -154,7 +154,7 @@ public class RegistryURLConnection extends URLConnection
                     try
                     {
                         String path = getURL().getPath();
-                        if( null == path )
+                        if( ( null == path ) || "".equals( path ) )
                         {
                             return m_registry;
                         }

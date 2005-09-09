@@ -32,6 +32,7 @@ import net.dpml.component.control.ControllerRuntimeException;
 import net.dpml.transit.Artifact;
 import net.dpml.transit.UnsupportedSchemeException;
 import net.dpml.transit.StandardClassLoader;
+import net.dpml.transit.Plugin.Category;
 
 /**
  * A named classloader.
@@ -45,23 +46,18 @@ class CompositionClassLoader extends StandardClassLoader
     // state
     //--------------------------------------------------------------------
 
-    private final Logger m_logger;
     private final ClassLoader m_base;
 
     //--------------------------------------------------------------------
     // constructor
     //--------------------------------------------------------------------
 
-    public CompositionClassLoader( Logger Logger, String label, ClassLoader base, ClassLoader parent )
+    public CompositionClassLoader( 
+      URI uri, Category category, ClassLoader base, URI[] uris, ClassLoader parent )
     {
-        this( Logger, label, base, new URI[0], parent );
-    }
+        super( uri, category, urisToURLs( uris, parent ), parent );
 
-    public CompositionClassLoader( Logger logger, String label, ClassLoader base, URI[] uris, ClassLoader parent )
-    {
-        super( label, urisToURLs( uris, parent ), parent );
         m_base = base;
-        m_logger = logger;
     }
 
     //--------------------------------------------------------------------
@@ -89,33 +85,6 @@ class CompositionClassLoader extends StandardClassLoader
         catch( ClassNotFoundException e )
         {
             return super.findClass( name );
-        }
-    }
-
-    //--------------------------------------------------------------------
-    // Object
-    //--------------------------------------------------------------------
-
-    public String toString()
-    {
-        StringBuffer buffer = new StringBuffer();
-        listClasspath( buffer );
-        return buffer.toString();
-    }
-
-    protected void listClasspath( StringBuffer buffer )
-    {
-        listClasspath( buffer, this );
-        buffer.append( "\n" );
-    }
-
-    protected void finalize()
-    {
-        if( m_logger.isDebugEnabled() )
-        {
-            final String message = 
-              "classloader finalization: " + getPartition();
-            m_logger.debug( message );
         }
     }
 

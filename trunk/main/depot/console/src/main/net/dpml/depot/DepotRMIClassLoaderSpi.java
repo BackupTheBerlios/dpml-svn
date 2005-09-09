@@ -18,12 +18,21 @@
 
 package net.dpml.depot;
 
+import java.io.IOException;
 import java.rmi.server.RMIClassLoader;
 import java.rmi.server.RMIClassLoaderSpi;
 import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLClassLoader;
+import java.security.Permission;
+import java.util.Collections;
+import java.util.IdentityHashMap;
+import java.util.Map;
 
-import net.dpml.transit.model.Logger;
+import net.dpml.transit.Logger;
 import net.dpml.transit.monitor.LoggingAdapter;
+import net.dpml.transit.Plugin;
+import net.dpml.transit.StandardClassLoader;
 
 /**
  * The DepotRMIClassLoaderSpi handles the loading of classes that are based on 
@@ -33,7 +42,18 @@ public class DepotRMIClassLoaderSpi extends RMIClassLoaderSpi
 {
     private RMIClassLoaderSpi m_delegate = RMIClassLoader.getDefaultProviderInstance();
 
-    private Logger m_logger;
+    private static final Map m_loaders = Collections.synchronizedMap( new IdentityHashMap( 5 ) );
+
+    static
+    {
+        for( 
+          ClassLoader classloader = ClassLoader.getSystemClassLoader(); 
+          classloader != null; 
+          classloader = classloader.getParent() )
+        {
+            m_loaders.put( classloader, null );
+        }
+    }
 
    /**
     * Default constructor.
@@ -41,8 +61,6 @@ public class DepotRMIClassLoaderSpi extends RMIClassLoaderSpi
     public DepotRMIClassLoaderSpi()
     {
         super();
-        m_logger = setupLogger();
-        m_logger.debug( "classloader spi established" );
     }
 
    /**
@@ -72,15 +90,15 @@ public class DepotRMIClassLoaderSpi extends RMIClassLoaderSpi
       String codebase, String name, ClassLoader defaultLoader )
       throws MalformedURLException, ClassNotFoundException
     {
-        if( null != codebase )
-        {
-            final String message = 
-              "Loading class: " 
-              + name 
-              + "\nCodebase: " 
-              + codebase;
-            getLogger().debug( message );
-        }
+        //if( null != codebase )
+        //{
+        //    final String message = 
+        //      "Loading class: " 
+        //      + name 
+        //      + "\nCodebase: " 
+        //      + codebase;
+        //    getLogger().debug( message );
+        //}
         return m_delegate.loadClass( codebase, name, defaultLoader );
     }
     
@@ -118,10 +136,10 @@ public class DepotRMIClassLoaderSpi extends RMIClassLoaderSpi
       String codebase, String[] interfaces, ClassLoader defaultLoader )
       throws MalformedURLException, ClassNotFoundException
     {
-        if( null != codebase )
-        {
-            getLogger().debug( "Loading proxy: " + codebase );
-        }
+        //if( null != codebase )
+        //{
+        //    getLogger().debug( "Loading proxy: " + codebase );
+        //}
         return m_delegate.loadProxyClass( codebase, interfaces, defaultLoader );
     }
 
@@ -157,10 +175,6 @@ public class DepotRMIClassLoaderSpi extends RMIClassLoaderSpi
     public ClassLoader getClassLoader( String codebase )
     throws MalformedURLException, SecurityException 
     {
-        if( null != codebase )
-        {
-            getLogger().debug( "getClassLoader: " + codebase );
-        }
         return m_delegate.getClassLoader( codebase );
     }
 
@@ -179,16 +193,139 @@ public class DepotRMIClassLoaderSpi extends RMIClassLoaderSpi
     */
     public String getClassAnnotation( Class cl ) throws NullPointerException
     {
-        return m_delegate.getClassAnnotation( cl );
+        final String annotations = getAnnotation( cl );
+        //if( null != annotations )
+        //{
+        //    System.out.println( "# " + cl.getName() + ", " + annotations );
+        //}
+        return annotations;
     }
 
-    private Logger getLogger()
+    private String getAnnotation( Class cl ) throws NullPointerException
     {
-        return m_logger;
+        String classname = cl.getName();
+        int i = classname.length();
+        if( i > 0 && classname.charAt( 0 ) == '[' )
+        {
+            int j;
+            for( j=1; i > j && classname.charAt( j ) == '['; j++ );
+            if( i > j && classname.charAt(j) != 'L' )
+            {
+                return null;
+            }
+        }
+
+        ClassLoader classloader = cl.getClassLoader();
+        if( classloader == null || m_loaders.containsKey( classloader ) )
+        {
+            return System.getProperty( "java.rmi.server.codebase" );
+        }
+
+        String annotations = null;
+        if( classloader instanceof StandardClassLoader )
+        {
+            annotations = ((StandardClassLoader)classloader).getAnnotations();
+        }
+        else if( classloader instanceof URLClassLoader )
+        {
+            annotations = getAnnotations( (URLClassLoader) classloader );
+        }
+
+        if( annotations != null )
+        {
+            return annotations;
+        }
+        else
+        {
+            return System.getProperty( "java.rmi.server.codebase" );
+        }
     }
 
-    private static Logger setupLogger()
+    private String getAnnotations( URLClassLoader classloader )
     {
-        return new LoggingAdapter( java.util.logging.Logger.getLogger( "depot" ) );
+        StringBuffer buffer = new StringBuffer();
+        return getAnnotations( buffer, classloader );
+    }
+
+    private String getAnnotations( StringBuffer buffer, URLClassLoader classloader )
+    {
+        packAnnotations( buffer, classloader );
+        String result = buffer.toString();
+        return result.trim();
+    }
+
+    private void packAnnotations( StringBuffer buffer, URLClassLoader classloader )
+    {
+        if( ClassLoader.getSystemClassLoader() == classloader )
+        {
+            return;
+        }
+
+        ClassLoader parent = classloader.getParent();
+        if( ( null != parent ) && ( parent instanceof URLClassLoader ) )
+        {
+            packAnnotations( buffer, (URLClassLoader) parent );
+        }
+
+        try
+        {
+            URL urls[] = classloader.getURLs();
+            if( null != urls )
+            {
+                SecurityManager manager = System.getSecurityManager();
+                if( manager != null )
+                {
+                    for( int k = 0; k < urls.length; k++ )
+                    {
+                        Permission permission = urls[k].openConnection().getPermission();
+                        if( permission != null )
+                        {
+                            manager.checkPermission( permission );
+                        }
+                    }
+                }
+                buffer.append( urlsToPath( urls ) + " " );
+            }
+        }
+        catch( SecurityException e ) 
+        {
+            // ignore
+        }
+        catch( IOException e )
+        {
+            // ignore
+        }
+    }
+
+    private static String urlsToPath( URL urls[] )
+    {
+        if( urls.length == 0 )
+        {
+            return null;
+        }
+        else if( urls.length == 1 )
+        {
+            final String path = urls[0].toExternalForm();
+            if( !path.startsWith( "file:" ) )
+            {
+                return path;
+            }
+            else
+            {
+                return "";
+            }
+        }
+        StringBuffer buffer = new StringBuffer( urls[0].toExternalForm() );
+        for( int i=1; i < urls.length; i++ )
+        {
+            final String path = urls[i].toExternalForm();
+            if( !path.startsWith( "file:" ) )
+            {
+                buffer.append(' ');
+                buffer.append( path );
+            }
+
+        }
+        return buffer.toString();
     }
 }

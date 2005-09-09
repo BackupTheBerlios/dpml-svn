@@ -27,7 +27,7 @@ import org.apache.tools.ant.Task;
 import net.dpml.transit.Transit;
 import net.dpml.transit.TransitAlreadyInitializedException;
 import net.dpml.transit.model.TransitModel;
-import net.dpml.transit.model.Logger;
+import net.dpml.transit.Logger;
 import net.dpml.transit.model.DefaultTransitModel;
 import net.dpml.transit.monitor.Adapter;
 import net.dpml.transit.monitor.RepositoryMonitorAdapter;

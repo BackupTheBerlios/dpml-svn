@@ -19,7 +19,10 @@
 package net.dpml.transit;
 
 import java.net.URL;
+import java.net.URI;
 import java.net.URLClassLoader;
+
+import net.dpml.transit.Plugin.Category;
 
 /**
  * A named classloader.
@@ -33,7 +36,8 @@ public class StandardClassLoader extends URLClassLoader
     // state
     //--------------------------------------------------------------------
 
-    private final String m_partition;
+    private final Category m_category;
+    private final URI m_plugin;
 
     //--------------------------------------------------------------------
     // constructor
@@ -44,10 +48,10 @@ public class StandardClassLoader extends URLClassLoader
     * @param partition the classloader identifier
     * @param parent the parent classloader
     */
-    public StandardClassLoader( String partition, ClassLoader parent )
-    {
-        this( partition, new URL[0], parent );
-    }
+    //public StandardClassLoader( Category category, ClassLoader parent )
+    //{
+    //    this( category, new URL[0], parent );
+    //}
 
    /**
     * Creation of a new classloader.
@@ -55,10 +59,11 @@ public class StandardClassLoader extends URLClassLoader
     * @param urls an array of urls to add to the classloader
     * @param parent the parent classloader
     */
-    public StandardClassLoader( String partition, URL[] urls, ClassLoader parent )
+    public StandardClassLoader( URI plugin, Category category, URL[] urls, ClassLoader parent )
     {
         super( urls, parent );
-        m_partition = partition;
+        m_category = category;
+        m_plugin = plugin;
     }
 
     //--------------------------------------------------------------------
@@ -66,12 +71,71 @@ public class StandardClassLoader extends URLClassLoader
     //--------------------------------------------------------------------
 
    /**
-    * Return the partition name.
-    * @return the partition
+    * Return the classloader category
+    * @return the classloader category
     */
-    public String getPartition()
+    public Category getCategory()
     {
-        return m_partition;
+        return m_category;
+    }
+
+   /**
+    * Return the plugin uri identifier
+    * @return the plugin uri
+    */
+    public URI getPluginURI()
+    {
+        return m_plugin;
+    }
+
+    public String getAnnotations()
+    {
+        StringBuffer buffer = new StringBuffer();
+        ClassLoader parent = getParent();
+        if( parent instanceof URLClassLoader )
+        {
+            URLClassLoader urlClassLoader = (URLClassLoader) parent;
+            buffer.append( getURLClassLoaderAnnotations( urlClassLoader ) ); 
+        }
+        buffer.append( " " );
+        URL[] urls = getURLs();
+        for( int i=0; i<urls.length;i++ )
+        {
+            String path = urls[i].toString();
+            if( !path.startsWith( "file:" ) )
+            {
+                buffer.append( path );
+                buffer.append( " " );
+            }
+        }
+        return buffer.toString().trim();
+    }
+
+    private String getURLClassLoaderAnnotations( URLClassLoader classloader )
+    {
+        StringBuffer buffer = new StringBuffer();
+        ClassLoader parent = classloader.getParent();
+        if( ( null != parent ) && ( parent instanceof URLClassLoader ) )
+        {
+            URLClassLoader urlClassLoader = (URLClassLoader) parent;
+            buffer.append( getURLClassLoaderAnnotations( urlClassLoader ) );
+        }
+        if( ClassLoader.getSystemClassLoader() == classloader )
+        {
+            return "";
+        }
+        buffer.append( " " );
+        URL[] urls = classloader.getURLs();
+        for( int i=0; i<urls.length;i++ )
+        {
+            String path = urls[i].toString();
+            if( !path.startsWith( "file:" ) )
+            {
+                buffer.append( path );
+                buffer.append( " " );
+            }
+        }
+        return buffer.toString().trim();
     }
 
     //--------------------------------------------------------------------
@@ -106,6 +170,11 @@ public class StandardClassLoader extends URLClassLoader
     */
     protected void listClasspath( StringBuffer buffer, ClassLoader classloader )
     {
+        String label = 
+          "\nClassLoader: " 
+          + classloader.getClass().getName() 
+          + " (" + System.identityHashCode( classloader ) + ")";
+
         if( classloader instanceof StandardClassLoader )
         {
             StandardClassLoader cl = (StandardClassLoader) classloader;
@@ -114,9 +183,9 @@ public class StandardClassLoader extends URLClassLoader
             {
                 listClasspath( buffer, parent );
             }
-            String partition = cl.getPartition();
-            buffer.append( "\n  transit classloader: " + partition + " " 
-              + System.identityHashCode( classloader ) );
+
+            label = label.concat( "\nGroup: " + m_plugin + " " + cl.getCategory() );
+            buffer.append( label );
             buffer.append( "\n" );
             appendEntries( buffer, cl );
         }
@@ -128,13 +197,13 @@ public class StandardClassLoader extends URLClassLoader
             {
                 listClasspath( buffer, parent );
             }
-            buffer.append( "\n  url classloader"  );
+            buffer.append( label );
             appendEntries( buffer, cl );
         }
         else
         {
-            buffer.append( "\n  classloader (no details)"  );
-            buffer.append( "\n" );
+            buffer.append( label );
+            buffer.append( "]\n" );
         }
     }
 

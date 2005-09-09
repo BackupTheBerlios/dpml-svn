@@ -28,6 +28,12 @@ import java.io.Serializable;
 public interface Value extends Serializable
 {
    /**
+    * Return the classname of the type that this value implements.
+    * @return the type classname
+    */
+    String getTypeClassname();
+
+   /**
     * Return the classname of the resolved value.
     * @return the classname
     */
@@ -52,4 +58,17 @@ public interface Value extends Serializable
     * @return the resolved class
     */
     Class getBaseClass( ClassLoader classloader );
+
+   /**
+    * Resolve the value type class using the context classloader.
+    * @return the resolved class
+    */
+    Class getTypeClass();
+
+   /**
+    * Resolve the value type class using the supplied classloader.
+    * @param classloader the classloader
+    * @return the resolved class
+    */
+    Class getTypeClass( ClassLoader classloader );
 }

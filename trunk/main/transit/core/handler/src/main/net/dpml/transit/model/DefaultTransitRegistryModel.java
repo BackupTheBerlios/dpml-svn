@@ -25,6 +25,7 @@ import java.util.EventObject;
 import java.util.EventListener;
 import java.rmi.RemoteException;
 
+import net.dpml.transit.Logger;
 import net.dpml.transit.store.TransitStorage;
 import net.dpml.transit.store.TransitHome;
 

@@ -195,13 +195,6 @@ public final class ExceptionHelper
             buffer.append( "\n" );
         }
         
-        ActivationGroupID groupID = ActivationGroup.currentGroupID();
-        if( null != groupID )
-        {
-            buffer.append( "Group: " + groupID );
-            buffer.append( "\n" );
-        }
-
         if( e == null )
         {
             return;

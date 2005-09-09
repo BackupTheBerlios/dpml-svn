@@ -23,6 +23,7 @@ import java.rmi.RemoteException;
 import java.util.EventObject;
 import java.util.EventListener;
 
+import net.dpml.transit.Logger;
 import net.dpml.transit.store.CodeBaseStorage;
 
 /**
@@ -43,7 +44,7 @@ public abstract class DisposableCodeBaseModel extends DefaultCodeBaseModel imple
     * @param params the constructor parameters
     * @exception RemoteException if a remote exception occurs
     */
-    public DisposableCodeBaseModel( Logger logger, String id, URI uri, Parameter[] params )
+    public DisposableCodeBaseModel( Logger logger, String id, URI uri, Value[] params )
       throws RemoteException
     {
         super( logger, id, uri, params );

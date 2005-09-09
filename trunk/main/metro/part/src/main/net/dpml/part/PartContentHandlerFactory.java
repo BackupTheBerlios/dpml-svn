@@ -21,7 +21,7 @@ package net.dpml.part;
 import java.net.ContentHandler;
 import java.net.ContentHandlerFactory;
 
-import net.dpml.transit.model.Logger;
+import net.dpml.transit.Logger;
 import net.dpml.transit.monitor.LoggingAdapter;
 
 

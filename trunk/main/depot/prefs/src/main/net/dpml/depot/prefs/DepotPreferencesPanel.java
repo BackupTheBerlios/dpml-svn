@@ -102,7 +102,7 @@ class DepotPreferencesPanel extends JPanel
         m_window = window;
         m_depot = depot;
 
-        net.dpml.transit.model.Logger logger = new LoggingAdapter( "depot.prefs" );
+        net.dpml.transit.Logger logger = new LoggingAdapter( "depot.prefs" );
         TransitStorageHome home = new TransitStorageHome();
         m_home = new DefaultTransitRegistryModel( logger, home );
 

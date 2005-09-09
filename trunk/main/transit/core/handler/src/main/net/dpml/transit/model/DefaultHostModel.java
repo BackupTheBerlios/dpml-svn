@@ -27,6 +27,7 @@ import java.net.URL;
 import java.net.MalformedURLException;
 import java.net.PasswordAuthentication; 
 
+import net.dpml.transit.Logger;
 import net.dpml.transit.store.HostStorage;
 import net.dpml.transit.store.Removable;
 import net.dpml.transit.store.Strategy;
@@ -94,7 +95,7 @@ class DefaultHostModel extends DisposableCodeBaseModel
     * @exception RemoteException if a remote exception occurs
     */
     public DefaultHostModel( 
-      Logger logger, LayoutRegistryModel registry, URI uri, Parameter[] params, String id, String base, String index, 
+      Logger logger, LayoutRegistryModel registry, URI uri, Value[] params, String id, String base, String index, 
       String name, boolean trusted, boolean enabled, int priority, String layout, 
       PasswordAuthentication auth, String scheme, String prompt, boolean bootstrap ) 
       throws RemoteException, UnknownKeyException, MalformedURLException

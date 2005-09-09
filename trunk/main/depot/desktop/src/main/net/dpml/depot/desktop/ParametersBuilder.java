@@ -27,114 +27,136 @@ import javax.swing.JScrollPane;
 import javax.swing.SwingConstants;
 import javax.swing.ImageIcon;
 import javax.swing.border.EmptyBorder;
-import javax.swing.table.AbstractTableModel;
-import javax.swing.table.TableColumn;
-import javax.swing.table.TableColumnModel;
-import javax.swing.table.DefaultTableColumnModel;
-import javax.swing.table.DefaultTableCellRenderer;
-import javax.swing.table.TableModel;
+
+import javax.swing.JTree;
+import javax.swing.JLabel;
+import javax.swing.JSplitPane;
+import javax.swing.JPanel;
+import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.DefaultTreeModel;
+import javax.swing.tree.DefaultTreeCellRenderer;
 
 import net.dpml.profile.ApplicationRegistry;
 import net.dpml.profile.ApplicationProfile;
+
+import net.dpml.transit.model.Value;
+import net.dpml.transit.model.Construct;
 
 /**
  * Application profile tree node. 
  */
 public final class ParametersBuilder
 {
-    private static final TableColumnModel TABLE_COLUMN_MODEL = createColumnModel();
-
-    private static final int KEY_COLUMN = 0;
-    private static final int BASE_CLASS_COLUMN = 1;
-    private static final int COLUMN_COUNT = 2;
-
-    JComponent buildParametersTablePanel( ApplicationProfile profile )
+    JComponent buildParametersPanel( ApplicationProfile profile ) throws Exception
     {
-        TableModel tableModel = new DataModel( profile );
-        JTable table = new JTable( tableModel, TABLE_COLUMN_MODEL );
-        JScrollPane scrollPane = new JScrollPane( table );
-        scrollPane.getViewport().setBackground( table.getBackground() );
-        scrollPane.setBorder( null );
+
+        DefaultMutableTreeNode root = new DefaultMutableTreeNode( profile );
+        DefaultTreeModel model = new DefaultTreeModel( root );
+
+        Value[] values = profile.getParameters();
+        for( int i=0; i<values.length; i++ )
+        {
+            Value value = values[i];
+            ValueTreeNode node = new ValueTreeNode( value );
+            root.add( node );
+        }
+
+        JTree tree = new JTree( model );
+        tree.setRootVisible( false );
+        tree.setShowsRootHandles( true );
+        tree.setCellRenderer( new ValueCellRenderer() );
+
+        JSplitPane panel = new JSplitPane();
+        panel.setOrientation( JSplitPane.VERTICAL_SPLIT );
+        panel.setTopComponent( tree );
+        panel.setBottomComponent( new JPanel() );
+        panel.setDividerLocation( 200 );
+        
+        JScrollPane scrollPane = new JScrollPane( panel );
+        scrollPane.getViewport().setBackground( tree.getBackground() );
+        //scrollPane.setBorder( null );
         return scrollPane;
     }
 
-    private class DataModel extends AbstractTableModel
+    private class ValueTreeNode extends DefaultMutableTreeNode
     {
-        private final ApplicationProfile m_profile;
+        private final Value m_value;
 
-        private DataModel( ApplicationProfile profile ) 
+        private ValueTreeNode( final Value value )
         {
-            m_profile = profile;
+            super( value );
+
+            m_value = value;
+
+            if( value instanceof Construct )
+            {
+                Construct construct = (Construct) value;
+                if( construct.getBaseValue() != null )
+                {
+                    //
+                    // add value node
+                    //
+
+                    String base = construct.getBaseValue();
+                    add( new StringTreeNode( base ) );
+                }
+                else
+                {
+                    //
+                    // add subsidiary value nodes
+                    //
+
+                    Value[] values = construct.getValues();
+                    for( int i=0; i< values.length; i++ )
+                    {
+                        Value v = values[i];
+                        add( new ValueTreeNode( v ) );
+                    }
+                }
+            }
         }
 
-        public int getColumnCount()
+        public String getBaseClassname()
         {
-            return COLUMN_COUNT;
+            return m_value.getBaseClassname();
         }
 
-        public int getRowCount()
-        { 
-            try
-            {
-                return m_profile.getParameters().length;
-            }
-            catch( Throwable e )
-            {
-                return 0;
-            }
-        }
-
-        public Object getValueAt( int row, int col ) 
-        { 
-            switch( col )
-            {
-                case KEY_COLUMN :
-                  getKey( row );
-                case BASE_CLASS_COLUMN :
-                  return getBaseClassname( row );
-                default: 
-                  return null;
-            }
-        }
-
-        private String getKey( int row )
+        public String toString()
         {
-            try
-            {
-                return m_profile.getParameters()[ row ].getKey();
-            }
-            catch( Throwable e )
-            {
-                return "error";
-            }
-        }
-
-        private String getBaseClassname( int row )
-        {
-            try
-            {
-                return m_profile.getParameters()[ row ].getValue().getBaseClassname();
-            }
-            catch( Throwable e )
-            {
-                return "error";
-            }
+            return m_value.getTypeClassname();
         }
     }
 
-    private static TableColumnModel createColumnModel()
+    private class StringTreeNode extends DefaultMutableTreeNode
     {
-        TableColumnModel model = new DefaultTableColumnModel();
-        model.addColumn( createTableColumn( "Key", KEY_COLUMN, 60 ) );
-        model.addColumn( createTableColumn( "Type", BASE_CLASS_COLUMN, 350 ) );
-        return model;
+        private StringTreeNode( final String value )
+        {
+            super( value );
+        }
     }
 
-    private static TableColumn createTableColumn( String name, int index, int width )
+    private class ValueCellRenderer extends DefaultTreeCellRenderer
     {
-        TableColumn column = 
-          new TableColumn( index, width, new StandardCellRenderer(), null );
-        column.setHeaderValue( name );
-        return column;
+        /*
+        public Component getTreeCellRendererComponent( 
+          JTree tree, Object value, boolean selected, boolean expanded, 
+          boolean leaf, int row, boolean focus )
+        {
+            Component label = super.getTreeCellRendererComponent( 
+                tree, value, selected, expanded, leaf, row, focus );
+            if( value instanceof ValueTreeNode )
+            {
+                ValueTreeNode vtn = (ValueTreeNode) value;
+                String base = vtn.getBaseClassname();
+                setToolTipText( base );
+            }
+            else
+            {
+                setToolTipText( null );
+            }
+            return label;
+        }
+        */
     }
+
 }

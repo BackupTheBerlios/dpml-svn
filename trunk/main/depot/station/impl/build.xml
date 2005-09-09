@@ -21,7 +21,6 @@
 
   <target name="package" depends="standard.package">
     <x:export class="net.dpml.station.impl.DepotStation"/>
-    <x:export class="net.dpml.station.impl.DefaultApplication"/>
   </target>
 
 </project>

@@ -19,6 +19,7 @@
 package net.dpml.transit;
 
 import java.io.IOException;
+import java.lang.reflect.Constructor;
 
 import java.net.URI;
 
@@ -90,5 +91,17 @@ public interface Repository
     * @exception Exception if an instantiation error occurs
     */
     Object instantiate( Class clazz, Object[] params ) throws Exception;
+
+   /**
+    * Instantiate an instance using the supplied constructor and array of constructor 
+    * parameter arguments.  
+    *
+    * @param constructor the class constructor
+    * @param params a priority ordered array of instances values to be used in
+    *    constructor parameter value assignment
+    * @return the instanciated object
+    * @exception Exception if an instantiation error occurs
+    */
+    Object instantiate( Constructor constructor, Object[] params ) throws Exception;
 
 }

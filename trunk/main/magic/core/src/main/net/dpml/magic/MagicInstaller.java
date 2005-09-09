@@ -27,7 +27,7 @@ import java.net.URI;
 import java.net.URL;
 
 import net.dpml.transit.Artifact;
-import net.dpml.transit.model.Logger;
+import net.dpml.transit.Logger;
 import net.dpml.transit.model.TransitRegistryModel;
 import net.dpml.transit.model.UnknownKeyException;
 import net.dpml.transit.util.StreamUtils;

@@ -25,7 +25,9 @@ import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.Properties;
 
+import net.dpml.transit.StandardClassLoader;
 import net.dpml.transit.util.PropertyResolver;
+import net.dpml.transit.Plugin;
 
 /**
  * The DepotClassLoader is a URLClassLoader that supports late binding of 
@@ -35,7 +37,7 @@ import net.dpml.transit.util.PropertyResolver;
  * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
  * @version $Id: Main.java 2480 2005-05-10 04:44:32Z mcconnell@dpml.net $
  */
-public final class DepotClassLoader extends URLClassLoader
+public final class DepotClassLoader extends StandardClassLoader 
 {
     private boolean m_sealed = false;
 
@@ -46,7 +48,7 @@ public final class DepotClassLoader extends URLClassLoader
     */
     public DepotClassLoader( ClassLoader parent )
     {
-        super( new URL[0], parent );
+        super( BOOTSTRAP, Plugin.SYSTEM, new URL[0], parent );
     }
 
    /**
@@ -72,80 +74,18 @@ public final class DepotClassLoader extends URLClassLoader
         m_sealed = true;
     }
 
-   /**
-    * Return a string representation of the classloader.  
-    * @return the classloader presented as a stack
-    */
-    public String toString()
+    private static final URI createBootstrapLabel()
     {
-        StringBuffer buffer = new StringBuffer();
-        listClasspath( buffer );
-        return buffer.toString();
-    }
-
-   /**
-    * List the contents of the classloader.
-    * @param buffer a string buffer to write to
-    */
-    protected void listClasspath( StringBuffer buffer )
-    {
-        listClasspath( buffer, this, 0 );
-        buffer.append( "\n" );
-    }
-
-   /**
-    * List the contents of the classloader.
-    * @param buffer a string buffer to write to
-    * @param classloader the classloader to list
-    * @param n the classloader index
-    */
-    protected void listClasspath( StringBuffer buffer, ClassLoader classloader, int n )
-    {
-        if( classloader instanceof URLClassLoader )
+        try
         {
-            URLClassLoader cl = (URLClassLoader) classloader;
-            ClassLoader parent = cl.getParent();
-            if( null != parent )
-            {
-
-                listClasspath( buffer, parent, n + 1 );
-            }
-            if( n == 0 )
-            {
-                buffer.append( "\n  Depot System ClassLoader"  );
-            }
-            else if( n == 1 )
-            {
-                buffer.append( "\n  Bootstrap ClassLoader"  );
-            }
-            else if( n == 2 )
-            {
-                buffer.append( "\n  JRE Extensions ClassLoader"  );
-            }
-            else
-            {
-                buffer.append( "\n  url classloader"  );
-            }
-            appendEntries( buffer, cl );
+           return new URI( "system:depot" );
         }
-        else
+        catch( Exception e )
         {
-            buffer.append( "\n  classloader (no details)"  );
-            buffer.append( "\n" );
+            return null;
         }
     }
 
-    private void appendEntries( StringBuffer buffer, URLClassLoader classloader )
-    {
-        URL[] urls = classloader.getURLs();
-        for( int i=0; i < urls.length; i++ )
-        {
-            buffer.append( "\n    " );
-            URL url = urls[i];
-            String spec = url.toString();
-            buffer.append( spec );
-        }
-        buffer.append( "\n" );
-    }
+    private static URI BOOTSTRAP = createBootstrapLabel();
 }
 

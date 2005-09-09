@@ -205,7 +205,7 @@ public class LoggingAdapter implements Adapter
     * @param category the sub-category name.
     * @return the child logging channel
     */
-    public net.dpml.transit.model.Logger getChildLogger( String category )
+    public net.dpml.transit.Logger getChildLogger( String category )
     {
         if( ( null == category ) || "".equals( category ) )
         {

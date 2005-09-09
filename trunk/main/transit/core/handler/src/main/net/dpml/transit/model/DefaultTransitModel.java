@@ -21,6 +21,7 @@ package net.dpml.transit.model;
 import java.rmi.RemoteException;
 import java.util.EventObject;
 
+import net.dpml.transit.Logger;
 import net.dpml.transit.TransitError;
 import net.dpml.transit.monitor.LoggingAdapter;
 import net.dpml.transit.store.TransitStorage;

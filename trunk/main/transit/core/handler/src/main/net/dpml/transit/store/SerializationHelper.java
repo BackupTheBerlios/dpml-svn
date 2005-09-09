@@ -27,7 +27,7 @@ import java.io.OutputStream;
 import java.io.Serializable;
 import java.net.PasswordAuthentication;
 
-import net.dpml.transit.model.Parameter;
+import net.dpml.transit.model.Value;
 
 /**
  * Helper class used to convert credentials to and from byte arrays.
@@ -60,7 +60,7 @@ final class SerializationHelper
     * @param params the parameters to export
     * @return the byte array
     */
-    public static byte[] exportParameters( Parameter[] params ) throws StorageRuntimeException
+    public static byte[] exportParameters( Value[] params ) throws StorageRuntimeException
     {
         ParametersHolder holder = new ParametersHolder( params );
         return toByteArray( holder );
@@ -82,7 +82,7 @@ final class SerializationHelper
     * @param the byte array
     * @return the parameters array
     */
-    public static Parameter[] importParameters( byte[] bytes ) throws StorageRuntimeException
+    public static Value[] importParameters( byte[] bytes ) throws StorageRuntimeException
     {
         ParametersHolder holder = (ParametersHolder) importObject( bytes );
         return holder.getParameters();
@@ -170,14 +170,14 @@ final class SerializationHelper
     {
         static final long serialVersionUID = 1L;
 
-        private final Parameter[] m_params;
+        private final Value[] m_params;
 
-        ParametersHolder( Parameter[] params )
+        ParametersHolder( Value[] params )
         {
             m_params = params;
         }
 
-        public Parameter[] getParameters()
+        public Value[] getParameters()
         {
             return m_params;
         }

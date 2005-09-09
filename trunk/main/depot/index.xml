@@ -93,47 +93,13 @@
       </types>
     </info>
     <dependencies>
-      <include key="dpml-transit-main" tag="system"/>
-      <include key="dpml-part-api" tag="system"/>
-      <include key="dpml-component-api" tag="system"/>
       <include key="looks" tag="system"/>
-      <include key="dpml-station-impl"/>
-      <include key="dpml-profile-api"/>
-      <include key="forms"/>
-    </dependencies>
-  </project>
-
-  <project basedir="station/api">
-    <info>
-      <group>dpml/depot</group>
-      <name>dpml-station-api</name>
-      <types>
-        <type name="jar"/>
-      </types>
-    </info>
-    <dependencies>
-      <include key="dpml-part-api"/>
-      <include key="dpml-depot-console" tag="api"/>
-      <include key="dpml-profile-api" tag="api"/>
-      <include key="dpml-component-api" tag="api"/>
-    </dependencies>
-  </project>
-
-  <project basedir="station/impl">
-    <info>
-      <group>dpml/depot</group>
-      <name>dpml-station-impl</name>
-      <types>
-        <type name="jar"/>
-        <type name="plugin"/>
-      </types>
-    </info>
-    <dependencies>
       <include key="dpml-transit-main" tag="system"/>
-      <include key="dpml-component-api" tag="system"/>
+      <include key="dpml-depot-console" tag="system"/>
       <include key="dpml-part-api" tag="system"/>
-      <include key="dpml-profile-api" tag="api"/>
-      <include key="dpml-station-api" tag="api"/>
+      <include key="dpml-profile-api" tag="spi"/>
+      <include key="dpml-station-impl"/>
+      <include key="forms"/>
     </dependencies>
   </project>
 
@@ -147,10 +113,44 @@
       </types>
     </info>
     <dependencies>
-      <include key="dpml-station-api"/>
+      <include key="dpml-transit-main" tag="system"/>
+      <include key="dpml-depot-console" tag="system"/>
+      <include key="dpml-part-api" tag="system"/>
+      <include key="dpml-profile-api" tag="spi" />
+      <include key="dpml-station-api" tag="spi"/>
+    </dependencies>
+  </project>
+
+  <project basedir="station/api">
+    <info>
+      <group>dpml/depot</group>
+      <name>dpml-station-api</name>
+      <types>
+        <type name="jar"/>
+      </types>
+    </info>
+    <dependencies>
+      <include key="dpml-part-api"/>
       <include key="dpml-depot-console"/>
       <include key="dpml-profile-api"/>
+    </dependencies>
+  </project>
+
+  <project basedir="station/impl">
+    <info>
+      <group>dpml/depot</group>
+      <name>dpml-station-impl</name>
+      <types>
+        <type name="jar"/>
+        <type name="plugin"/>
+      </types>
+    </info>
+    <dependencies>
+      <include key="dpml-depot-console" tag="system"/>
+      <include key="dpml-transit-main" tag="system"/>
       <include key="dpml-part-api" tag="system"/>
+      <include key="dpml-profile-api" tag="spi"/>
+      <include key="dpml-station-api" tag="spi"/>
     </dependencies>
   </project>
 
@@ -164,10 +164,11 @@
       </types>
     </info>
     <dependencies>
-      <include key="dpml-transit-main" tag="api"/>
-      <include key="dpml-depot-console" tag="api"/>
-      <include key="dpml-profile-api" tag="api"/>
-      <include key="dpml-station-api" tag="api"/>
+      <include key="dpml-transit-main" tag="system"/>
+      <include key="dpml-depot-console" tag="system"/>
+      <include key="dpml-station-api" tag="spi"/>
+      <include key="dpml-profile-api" tag="spi"/>
+      <include key="dpml-profile-impl"/>
     </dependencies>
   </project>
 
@@ -181,10 +182,10 @@
       </types>
     </info>
     <dependencies>
-      <include key="dpml-transit-main" tag="api"/>
-      <include key="dpml-depot-console" tag="api"/>
-      <include key="dpml-profile-api" tag="api"/>
-      <include key="dpml-station-api" tag="api"/>
+      <include key="dpml-transit-main" tag="system"/>
+      <include key="dpml-depot-console" tag="system"/>
+      <include key="dpml-profile-api" tag="spi"/>
+      <include key="dpml-station-api" tag="spi"/>
     </dependencies>
   </project>
 

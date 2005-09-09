@@ -20,6 +20,7 @@ package net.dpml.transit.model;
 
 import java.rmi.RemoteException;
 
+import net.dpml.transit.Logger;
 import net.dpml.transit.store.CodeBaseStorage;
 
 /**

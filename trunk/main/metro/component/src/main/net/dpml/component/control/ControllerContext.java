@@ -21,7 +21,7 @@ package net.dpml.component.control;
 import java.net.URI;
 import java.io.File;
 
-import net.dpml.transit.model.Logger;
+import net.dpml.transit.Logger;
 
 /**
  * The ControllerContext declares the runtime context that a controller

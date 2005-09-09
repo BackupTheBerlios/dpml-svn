@@ -26,6 +26,7 @@ import java.util.LinkedList;
 import java.util.EventObject;
 import java.util.EventListener;
 
+import net.dpml.transit.Logger;
 import net.dpml.transit.store.ContentStorage;
 import net.dpml.transit.store.ContentRegistryHome;
 

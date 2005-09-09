@@ -42,7 +42,7 @@ import net.dpml.profile.ApplicationProfile;
 
 import net.dpml.transit.Transit;
 import net.dpml.transit.Repository;
-import net.dpml.transit.model.Logger;
+import net.dpml.transit.Logger;
 
 /**
  * Application registry root tree node. 
@@ -125,7 +125,9 @@ public final class ApplicationRegistryTreeNode extends GroupTreeNode
         try
         {
             Registry registry = getRegistry( null, Registry.REGISTRY_PORT );
-            return (Station) registry.lookup( Station.STATION_KEY );
+            Station station = (Station) registry.lookup( Station.STATION_KEY );
+            getLogger().info( "resolved remote station" );
+            return station;
         }
         catch( NotBoundException e )
         {
@@ -139,6 +141,7 @@ public final class ApplicationRegistryTreeNode extends GroupTreeNode
 
     private Station createStation()
     {
+        getLogger().info( "creating local station" );
         m_responsibleForTheStation = true;
         Repository repository = Transit.getInstance().getRepository();
         ClassLoader classloader = getClass().getClassLoader();
@@ -153,6 +156,11 @@ public final class ApplicationRegistryTreeNode extends GroupTreeNode
               "Internal error while attempting to establish the Station.";
             throw new RuntimeException( error, e );
         }
+    }
+
+    private Logger getLogger()
+    {
+        return m_logger;
     }
 
     public Registry getRegistry( String host, int port ) throws RemoteException 

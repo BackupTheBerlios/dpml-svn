@@ -32,8 +32,9 @@ import net.dpml.transit.model.ContentRegistryListener;
 import net.dpml.transit.model.ContentRegistryEvent;
 import net.dpml.transit.model.ContentModel;
 import net.dpml.transit.model.UnknownKeyException;
-import net.dpml.transit.model.Logger;
-import net.dpml.transit.model.Parameter;
+import net.dpml.transit.Logger;
+import net.dpml.transit.model.Value;
+import net.dpml.transit.model.Construct;
 
 /**
  * A registry of descriptions of plugable content handlers. 
@@ -188,14 +189,11 @@ class DefaultContentRegistry extends UnicastRemoteObject implements Service, Con
             if( null == handler )
             {
                 Class clazz = loadContentHandlerClass( model );
-                //ClassLoader current = Thread.currentThread().getContextClassLoader();
-                //ClassLoader classloader = clazz.getClassLoader();
-                //Thread.currentThread().setContextClassLoader( classloader );
                 Repository loader = Transit.getInstance().getRepository();
                 String type =  model.getContentType();
                 Logger logger = getLogger().getChildLogger( type );
-                Parameter[] params = model.getParameters();
-                Object[] args = Parameter.getArgs( params, new Object[]{logger, model} );
+                Value[] params = model.getParameters();
+                Object[] args = Construct.getArgs( params, new Object[]{logger, model} );
                 try
                 {
                     handler = (ContentHandler) loader.instantiate( clazz, args );
@@ -206,10 +204,6 @@ class DefaultContentRegistry extends UnicastRemoteObject implements Service, Con
                       "Unable to load content handler due to an instantiation failure."
                       + "\nContent Type: " + model.getContentType();
                     throw new TransitException( error, e );
-                }
-                finally
-                {
-                    //Thread.currentThread().setContextClassLoader( current );
                 }
                 m_handlers.put( model, handler );
             }
@@ -232,7 +226,6 @@ class DefaultContentRegistry extends UnicastRemoteObject implements Service, Con
             {
                 m_logger.debug( "loading content handler plugin: " + uri );
                 Repository loader = Transit.getInstance().getRepository();
-                //ClassLoader classloader = model.getClass().getClassLoader();
                 ClassLoader system = ClassLoader.getSystemClassLoader();
                 clazz = loader.getPluginClass( system, uri );
             }

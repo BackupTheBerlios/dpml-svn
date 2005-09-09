@@ -20,9 +20,11 @@ package net.dpml.depot.exec;
 
 import java.net.URI;
 import java.net.URL;
+import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 import java.util.prefs.Preferences;
 import java.util.Properties;
+import java.rmi.Remote;
 import java.rmi.registry.Registry;
 import java.rmi.registry.LocateRegistry;
 
@@ -35,6 +37,7 @@ import net.dpml.part.Control;
 import net.dpml.part.PartHandler;
 
 import net.dpml.station.Station;
+import net.dpml.station.Application;
 
 import net.dpml.profile.ApplicationRegistry;
 import net.dpml.profile.ApplicationProfile;
@@ -43,8 +46,9 @@ import net.dpml.transit.Transit;
 import net.dpml.transit.Artifact;
 import net.dpml.transit.Repository;
 import net.dpml.transit.PID;
-import net.dpml.transit.model.Logger;
-import net.dpml.transit.model.Parameter;
+import net.dpml.transit.Logger;
+import net.dpml.transit.model.Value;
+import net.dpml.transit.model.Construct;
 import net.dpml.transit.model.TransitModel;
 import net.dpml.transit.model.UnknownKeyException;
 
@@ -112,6 +116,7 @@ public class ApplicationHandler
 
         m_spec = args[0];
         m_args = Main.consolidate( args, m_spec );
+
         getLogger().info( "target profile: " + m_spec );
        
         Object object = null;
@@ -139,7 +144,6 @@ public class ApplicationHandler
             profile = getApplicationProfile( m_spec );
             URI codebase = profile.getCodeBaseURI();
             getLogger().info( "profile codebase: " + codebase );
-            ClassLoader system = ClassLoader.getSystemClassLoader();
 
             if( applySysProperties ) 
             {
@@ -153,7 +157,7 @@ public class ApplicationHandler
             {
                 object = 
                   resolveTargetObject( 
-                    m_model, system, codebase, m_args, m_logger, profile );
+                    m_model, codebase, m_args, m_logger, profile );
                 getLogger().info( "target [" + object.getClass().getName() + "] established" );
             }
             catch( Throwable e )
@@ -316,7 +320,7 @@ public class ApplicationHandler
         else if( id.startsWith( "registry:" ) )
         {
             ClassLoader classloader = Thread.currentThread().getContextClassLoader();
-            Thread.currentThread().setContextClassLoader( getClass().getClassLoader() );
+            Thread.currentThread().setContextClassLoader( ApplicationProfile.class.getClassLoader() );
             try
             {
                 return (ApplicationProfile) new URL( id ).getContent();
@@ -370,50 +374,25 @@ public class ApplicationHandler
     }
 
     private Object resolveTargetObject( 
-      TransitModel model, ClassLoader parent, URI uri, String[] args, Logger logger, ApplicationProfile profile ) 
+      TransitModel model, URI uri, String[] args, Logger logger, ApplicationProfile profile ) 
       throws Exception
     {
         String key = profile.getID();
         Repository loader = Transit.getInstance().getRepository();
         Artifact artifact = Artifact.createArtifact( uri );
         String type = artifact.getType();
-        Parameter[] params = profile.getParameters();
-        Object[] parameters = consolidateParameters( params, new Object[]{logger, args} );
+        Value[] params = profile.getParameters();
+        ClassLoader system = ClassLoader.getSystemClassLoader();
+
+        Class pluginClass = null;
         if( "plugin".equals( type ) )
         {
-            return loader.getPlugin( parent, uri, parameters );
+            pluginClass = loader.getPluginClass( system, uri );
         }
         else if( "part".equals( type ) )
         {
-            String path = uri.toASCIIString();
-            final String message = 
-              "loading part ["
-              + path 
-              + "] with [" 
-              + model.getID()
-              + "] profile";
-            getLogger().info( message );
-
             URI controllerUri = new URI( "@COMPOSITION-CONTROLLER-URI@" );
-            ClassLoader system = ClassLoader.getSystemClassLoader(); 
-            PartHandler handler = (PartHandler) loader.getPlugin( system, controllerUri, parameters );
-            
-            Control control = handler.loadControl( uri );
-
-            try
-            {
-                Station station = getStation();
-                getLogger().info( "located station" );
-                station.getApplication( key ).handleCallback( PROCESS_ID, control );
-            }
-            catch( Throwable e )
-            {
-                final String warning = 
-                  "Station registration error.";
-                getLogger().warn( warning, e );
-            }
-
-            return control.resolve( false );
+            pluginClass = loader.getPluginClass( system, controllerUri );
         }
         else
         {
@@ -421,27 +400,89 @@ public class ApplicationHandler
               "Artifact type [" + type + "] is not supported.";
             throw new Exception( error );
         }
+
+        ClassLoader current = Thread.currentThread().getContextClassLoader();
+        ClassLoader pluginClassLoader = pluginClass.getClassLoader();
+
+        try
+        {
+            Thread.currentThread().setContextClassLoader( pluginClassLoader );
+            if( "plugin".equals( type ) )
+            {
+                Object[] parameters = Construct.getArgs( params, new Object[]{logger, args} );
+                Object object = loader.instantiate( pluginClass, parameters );
+                register( key, null );
+                return object;
+            }
+            else
+            {
+                String path = uri.toASCIIString();
+                final String message = 
+                  "loading part ["
+                  + path 
+                  + "] with [" 
+                  + model.getID()
+                  + "] profile";
+                getLogger().info( message );
+
+                PartHandler handler = null;
+                if( params.length == 0 )
+                {
+                    //
+                    // use the default controller constructor of [classname]{ logger );
+                    //
+
+                    Constructor constructor = pluginClass.getConstructor( new Class[]{Logger.class} );
+                    handler = (PartHandler) constructor.newInstance( new Object[]{ logger } );
+                }
+                else
+                {
+                    //
+                    // use a constructor based on the supplied parameters
+                    //
+
+                    Class[] types = Construct.getTypes( params, new Class[0] );
+                    Constructor constructor = pluginClass.getConstructor( types );
+                    Object[] parameters = Construct.getArgs( params, new Object[0] );
+                    handler = (PartHandler) constructor.newInstance( parameters );
+                }
+
+                Control control = handler.loadControl( uri );
+                getLogger().info( "located control: " + control );
+                register( key, control );
+                return control.resolve( false );
+            }
+        }
+        finally
+        {
+            Thread.currentThread().setContextClassLoader( current );
+        }
     }
 
-    private Object[] consolidateParameters( Parameter[] params, Object[] suppliment )
+    private void register( String key, Remote control ) throws Exception
     {
-        ArrayList list = new ArrayList();
-        for( int i=0; i<params.length; i++ )
+        try
         {
-            Parameter param = params[i];
-            list.add( param.getValue() );
+            Station station = getStation();
+            getLogger().info( "located station - requesting application" );
+            Application application = station.getApplication( key );
+            getLogger().info( "located application - invoking callback" );
+            if( null == control )
+            {
+                application.handleCallback( PROCESS_ID );
+            }
+            else
+            {
+                application.handleCallback( PROCESS_ID, control );
+            }
+            getLogger().info( "callback complete" );
         }
-        for( int i=0; i < suppliment.length; i++ )
+        catch( Throwable e )
         {
-            Object object = suppliment[i];
-            list.add( object );
+            final String error = 
+             "Internal error while attempting to register the process with the station.";
+            throw new Exception( error, e );
         }
-        return list.toArray();
-    }
-
-    private Registry getRegistry( String host, int port ) throws Exception
-    {
-        return LocateRegistry.getRegistry( host, port );
     }
 
     private Station getStation() throws Exception
