@@ -54,124 +54,18 @@ public final class ApplicationRegistryTreeNode extends GroupTreeNode
     private static final int COLUMN_COUNT = 2;
 
     private final Logger m_logger;
-    private final Station m_station;
-    private boolean m_responsibleForTheStation = false;
 
-    public ApplicationRegistryTreeNode( Logger logger, String[] args, Desktop desktop ) throws Exception
+    public ApplicationRegistryTreeNode( Logger logger ) throws Exception
     {
-        super( "/" );
+        super( "" );
 
         m_logger = logger;
-
-        //
-        // when dealing with RMI accessible objects we need to make sure that the 
-        // context classloader is established with a classloader referencing the API
-        // of the classes we are referencing otherwise things will fail with a 
-        // ClassNotFoundException
-        //
-
-        ClassLoader current = Thread.currentThread().getContextClassLoader();
-        Thread.currentThread().setContextClassLoader( getClass().getClassLoader() );
-
-        //
-        // locate the station (creating it if is does not exist)
-        // TODO: update this to display a progress bar as station loading can 
-        // be a time consuming process
-        //
-
-        m_station = resolveStation();
-
-        //
-        // for all of the application profiles registered within the registry
-        // add them as child nodes of this node
-        // 
-
-        String[] keys = m_station.getApplicationKeys();
-        for( int i=0; i < keys.length; i++ )
-        {
-            final String key = keys[i];
-            Application application = m_station.getApplication( key );
-            GroupTreeNode parent = this;
-            String[] elements = key.split( "/" );
-            for( int j=0; j < elements.length; j++ )
-            {
-                String element = elements[j];
-                if( !"".equals( element ) )
-                {
-                    if( j < ( elements.length - 1 ) )
-                    {
-                        parent = parent.resolve( element );
-                    }
-                    else
-                    {
-                         parent.add( new ApplicationProfileTreeNode( application, desktop ) );
-                    }
-                }
-            }
-        }
     }
 
-    void dispose()
-    {
-        if( m_station instanceof Handler && m_responsibleForTheStation )
-        {
-            Handler handler = (Handler) m_station;
-            handler.destroy();
-        }
-    }
-
-    private Station resolveStation()
-    {
-        try
-        {
-            Registry registry = getRegistry( null, Registry.REGISTRY_PORT );
-            Station station = (Station) registry.lookup( Station.STATION_KEY );
-            getLogger().info( "resolved remote station" );
-            return station;
-        }
-        catch( NotBoundException e )
-        {
-            return createStation();
-        }
-        catch( RemoteException e )
-        {
-            return createStation();
-        }
-    }
-
-    private Station createStation()
-    {
-        getLogger().info( "creating local station" );
-        m_responsibleForTheStation = true;
-        Repository repository = Transit.getInstance().getRepository();
-        ClassLoader classloader = getClass().getClassLoader();
-        try
-        {
-            URI uri = new URI( "@STATION-URI@" );
-            return (Station) repository.getPlugin( classloader, uri, new Object[]{ m_logger } );
-        }
-        catch( Throwable e )
-        {
-            final String error = 
-              "Internal error while attempting to establish the Station.";
-            throw new RuntimeException( error, e );
-        }
-    }
 
     private Logger getLogger()
     {
         return m_logger;
     }
 
-    public Registry getRegistry( String host, int port ) throws RemoteException 
-    {
-        if( ( null == host ) || ( "localhost".equals( host ) ) )
-        {
-            return LocateRegistry.getRegistry( port );
-        }
-        else
-        {
-            return LocateRegistry.getRegistry( host, port );
-        }
-    }
 }

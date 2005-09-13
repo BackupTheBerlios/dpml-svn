@@ -425,30 +425,9 @@ public class ApplicationHandler
                   + "] profile";
                 getLogger().info( message );
 
-                PartHandler handler = null;
-                if( params.length == 0 )
-                {
-                    //
-                    // use the default controller constructor of [classname]{ logger );
-                    //
-
-                    Constructor constructor = pluginClass.getConstructor( new Class[]{Logger.class} );
-                    handler = (PartHandler) constructor.newInstance( new Object[]{ logger } );
-                }
-                else
-                {
-                    //
-                    // use a constructor based on the supplied parameters
-                    //
-
-                    Class[] types = Construct.getTypes( params, new Class[0] );
-                    Constructor constructor = pluginClass.getConstructor( types );
-                    Object[] parameters = Construct.getArgs( params, new Object[0] );
-                    handler = (PartHandler) constructor.newInstance( parameters );
-                }
-
+                Object[] parameters = Construct.getArgs( params, new Object[]{logger, args} );
+                PartHandler handler = (PartHandler) loader.instantiate( pluginClass, parameters );
                 Control control = handler.loadControl( uri );
-                getLogger().info( "located control: " + control );
                 register( key, control );
                 return control.resolve( false );
             }

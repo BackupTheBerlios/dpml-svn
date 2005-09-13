@@ -97,7 +97,7 @@ public class PartContentHandler extends ContentHandler
         }
     }
 
-    private PartHandler getPartHandler()
+    public PartHandler getPartHandler()
     {
         return m_handler;
     }

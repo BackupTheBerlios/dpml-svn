@@ -316,11 +316,12 @@ public class Construct implements Value
             }
             else
             {
+                String value = PropertyResolver.resolve( m_value );
                 try
                 {
                     final Class[] params = new Class[]{String.class};
                     Constructor constructor = clazz.getConstructor( params );
-                    final Object[] values = new Object[]{m_value};
+                    final Object[] values = new Object[]{value};
                     return constructor.newInstance( values );
                 }
                 catch ( NoSuchMethodException e )
@@ -337,7 +338,7 @@ public class Construct implements Value
                       "Unable to instantiate instance of class [" 
                       + clazz.getName()
                       + "] with the single argument ["
-                      + m_value 
+                      + value 
                       + "].";
                     throw new ValueRuntimeException( error, e );
                 }
@@ -479,33 +480,34 @@ public class Construct implements Value
 
     private Object getPrimitiveValue( Class clazz )
     {
+        String value = PropertyResolver.resolve( m_value );
         if( Integer.TYPE == clazz )
         {
-            return Integer.valueOf( m_value );
+            return Integer.valueOf( value );
         }
         else if( Boolean.TYPE == clazz )
         {
-            return Boolean.valueOf( m_value );
+            return Boolean.valueOf( value );
         }
         else if( Byte.TYPE == clazz )
         {
-            return Byte.valueOf( m_value );
+            return Byte.valueOf( value );
         }
         else if( Short.TYPE == clazz )
         {
-            return Short.valueOf( m_value );
+            return Short.valueOf( value );
         }
         else if( Long.TYPE == clazz )
         {
-            return Long.valueOf( m_value );
+            return Long.valueOf( value );
         }
         else if( Float.TYPE == clazz )
         {
-            return Float.valueOf(  m_value );
+            return Float.valueOf( value );
         }
         else if( Double.TYPE == clazz )
         {
-            return Double.valueOf( m_value );
+            return Double.valueOf( value );
         }
         else
         {
@@ -516,5 +518,4 @@ public class Construct implements Value
             throw new ValueRuntimeException( error );
         }
     }
-
 }

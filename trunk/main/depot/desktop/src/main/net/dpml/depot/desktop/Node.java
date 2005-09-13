@@ -83,9 +83,22 @@ public abstract class Node extends DefaultMutableTreeNode implements Volotile
     {
     }
 
+    public abstract String getName();
+
     Component getComponent()
     {
         return DEFAULT_COMPONENT;
+    }
+
+    String getAbsolutePath()
+    {
+        Node parent = (Node) getParent();
+        if( null == parent )
+        {
+            return "";
+        }
+        String base = parent.getAbsolutePath();
+        return base.concat( "/" + getName() );
     }
 
     protected static ImageIcon readImageIcon( final String filename ) 

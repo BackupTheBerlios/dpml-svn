@@ -50,23 +50,8 @@ public class GroupTreeNode extends Node
         m_name = name;
     }
 
-    GroupTreeNode resolve( final String name )
+    public String getName()
     {
-        Enumeration children = children();
-        while( children.hasMoreElements() )
-        {
-            Object next = children.nextElement();
-            if( next instanceof GroupTreeNode )
-            {
-                GroupTreeNode child = (GroupTreeNode) next;
-                if( name.equals( child.getUserObject() ) )
-                {
-                    return child;
-                }
-            }
-        }
-        GroupTreeNode group = new GroupTreeNode( name );
-        add( group );
-        return group;
+        return m_name;
     }
 }

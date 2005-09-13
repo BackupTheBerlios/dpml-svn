@@ -100,21 +100,6 @@ public class DepotInstaller
         store.setSystemProperty( "abc", "xyz" );
         store.setSystemProperty( "xyz", "qwerty" );
         store.setSystemProperty( "test", "${xyz}" );
-
-        Construct[] args = new Construct[3];
-        args[0] = 
-          new Construct( 
-            "net.dpml.transit.Logger", 
-            "net.dpml.transit.monitor.LoggingAdapter", 
-            id );
-        args[1] = new Construct( "java.io.File", "${user.dir}" );
-        args[2] = new Construct( "java.io.File", "${java.io.tmpdir}" );
-        Construct context = 
-          new Construct( 
-            "net.dpml.component.control.ControllerContext", 
-            "net.dpml.composition.control.CompositionContext", 
-            args );
-        store.setParameters( new Value[]{ context } );
         store.setStartupPolicy( ApplicationProfile.MANUAL );
     }
 

@@ -206,6 +206,34 @@ public final class Artifact implements Serializable, Comparable
         }
     }
 
+   /**
+    * Test if the supplied uri is from the artifact family.  Specificially
+    * the test validates that the supplied uri has a scheme corresponding to 
+    * 'artifact', link', or 'local'.
+    *
+    * @return true if thie uri is artifact based
+    */
+    public static boolean isRecognized( URI uri )
+    {
+        String scheme = uri.getScheme();
+        if( "artifact".equals( scheme ) )
+        {
+            return true;
+        }
+        else if( "link".equals( scheme ) )
+        {
+            return true;
+        }
+        else if( "local".equals( scheme ) )
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
     // ------------------------------------------------------------------------
     // state
     // ------------------------------------------------------------------------

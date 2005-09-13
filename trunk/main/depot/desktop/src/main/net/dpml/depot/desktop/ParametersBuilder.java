@@ -20,6 +20,7 @@ import java.awt.Component;
 import java.net.URL;
 import java.util.Enumeration;
 import java.util.Properties;
+import java.lang.reflect.Constructor;
 
 import javax.swing.JLabel;
 import javax.swing.JTable;
@@ -55,6 +56,8 @@ import net.dpml.profile.ApplicationProfile;
 
 import net.dpml.transit.model.Value;
 import net.dpml.transit.model.Construct;
+import net.dpml.transit.Repository;
+import net.dpml.transit.Transit;
 
 /**
  * Application profile tree node. 
@@ -63,7 +66,6 @@ public final class ParametersBuilder
 {
     JComponent buildParametersPanel( ApplicationProfile profile ) throws Exception
     {
-
         DefaultMutableTreeNode root = new DefaultMutableTreeNode( profile );
         DefaultTreeModel model = new DefaultTreeModel( root );
 
@@ -87,7 +89,6 @@ public final class ParametersBuilder
         tree.setRootVisible( false );
         tree.setShowsRootHandles( true );
         tree.setCellRenderer( new ValueCellRenderer() );
-        tree.setEditable( true );
 
         expand( tree, new TreePath( root ), true );
  

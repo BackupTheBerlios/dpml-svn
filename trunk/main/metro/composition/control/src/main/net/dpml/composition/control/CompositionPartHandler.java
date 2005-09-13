@@ -287,9 +287,10 @@ public abstract class CompositionPartHandler extends UnicastRemoteObject impleme
     private Controller loadHandler( URI uri ) throws PartHandlerNotFoundException
     {
         ClassLoader classloader = Part.class.getClassLoader();
+        Logger logger = m_context.getLogger();
         try
         {
-            return (Controller) m_loader.getPlugin( classloader, uri, new Object[]{m_context} );
+            return (Controller) m_loader.getPlugin( classloader, uri, new Object[]{logger, m_context} );
         }
         catch( IOException e )
         {

@@ -23,11 +23,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.net.URL;
 import java.net.URI;
+import java.beans.PropertyChangeEvent;
+import java.lang.reflect.Constructor;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.LinkedList;
 import java.util.Enumeration;
-import java.beans.PropertyChangeEvent;
 
 import javax.swing.Icon;
 import javax.swing.border.EmptyBorder;
@@ -64,8 +65,13 @@ import net.dpml.profile.ApplicationProfile;
 import net.dpml.profile.ApplicationProfile.StartupPolicy;
 
 import net.dpml.part.Control;
+import net.dpml.part.PartHandler;
+import net.dpml.part.PartContentHandler;
+import net.dpml.part.Part;
 
+import net.dpml.transit.Logger;
 import net.dpml.transit.Artifact;
+import net.dpml.transit.Transit;
 
 import com.jgoodies.forms.layout.CellConstraints;
 import com.jgoodies.forms.builder.PanelBuilder;
@@ -91,6 +97,7 @@ public final class ApplicationProfileTreeNode extends Node
         ApplicationProfile.AUTOMATIC,
       };
 
+    private final Logger m_logger;
     private final Application m_application;
     private final ApplicationProfile m_profile;
     private final String m_name;
@@ -103,18 +110,12 @@ public final class ApplicationProfileTreeNode extends Node
     private final RestartAction m_restart = new RestartAction();
 
     private LinkedList m_changes = new LinkedList();
-    private Desktop m_desktop;
 
-    public ApplicationProfileTreeNode( Application application, Desktop desktop ) throws Exception
+    public ApplicationProfileTreeNode( Logger logger, Application application ) throws Exception
     {
         super( application );
-
-        if( null == desktop )
-        {
-            throw new NullPointerException( "desktop" );
-        }
         
-        m_desktop = desktop;
+        m_logger = logger;
         m_application = application;
         m_profile = application.getProfile();
         m_policy = new PolicyComboBox();
@@ -127,9 +128,14 @@ public final class ApplicationProfileTreeNode extends Node
         setupControlButtons();
     }
 
-    public String toString()
+    public String getName()
     {
         return m_name;
+    }
+
+    public String toString()
+    {
+        return getName();
     }
 
     Component getComponent()
@@ -159,13 +165,7 @@ public final class ApplicationProfileTreeNode extends Node
         {
             panel.add( "Process", buildConfigurationComponent() );
             panel.add( "Properties", new SystemPropertiesBuilder( m_profile ).getComponent() );
-            panel.add( "Parameters", new ParametersBuilder().buildParametersPanel( m_profile ) );
-
-            //
-            // load the part and resolve the management views
-            //
-
-            panel.add( "Control", new JPanel() );
+            //panel.add( "Parameters", new ParametersBuilder().buildParametersPanel( m_profile ) );
         }
         return panel;
     }
@@ -261,6 +261,13 @@ public final class ApplicationProfileTreeNode extends Node
     private Component getStartupPolicyComponent()
     {
         return m_policy;
+    }
+
+    private Component getPluginClassNameLabel( URI uri ) throws Exception
+    {
+        ClassLoader anchor = getClass().getClassLoader();
+        Class c = Transit.getInstance().getRepository().getPluginClass( anchor, uri );
+        return new JLabel( c.getName() );
     }
 
     public boolean isModified()

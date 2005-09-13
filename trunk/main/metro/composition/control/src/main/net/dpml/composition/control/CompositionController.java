@@ -108,7 +108,7 @@ public class CompositionController extends CompositionPartHandler implements Con
         this( new CompositionContext( logger, null, null ) );
     }
 
-    public CompositionController( ControllerContext context )
+    protected CompositionController( ControllerContext context )
        throws ControllerException, RemoteException
     {
         super( context );
