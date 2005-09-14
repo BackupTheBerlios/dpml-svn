@@ -89,7 +89,7 @@ public final class Desktop implements Handler
     private Logger m_logger;
     private String[] m_args;
     private JSplitPane m_splitPane;
-    private ApplicationRegistryTreeNode m_root;
+    private GroupTreeNode m_root;
     private JTree m_tree;
     private DefaultTreeModel m_treeModel;
     private ApplyButton m_apply;
@@ -119,7 +119,7 @@ public final class Desktop implements Handler
         ClassLoader current = Thread.currentThread().getContextClassLoader();
         Thread.currentThread().setContextClassLoader( getClass().getClassLoader() );
 
-        m_root = new ApplicationRegistryTreeNode( m_logger );
+        m_root = new GroupTreeNode( "" );
 
         //
         // for all of the application profiles registered within the registry

@@ -97,6 +97,33 @@ public class PartContentHandler extends ContentHandler
         }
     }
 
+    public PartEditor getPartEditor( URI uri )
+    {
+        String factoryClassname = null;
+        try
+        {
+            Part part = getPartHandler().loadPart( uri );
+            String classname = part.getClass().getName();
+            factoryClassname = classname + "EditorFactory";
+            Class factoryClass = part.getClass().getClassLoader().loadClass( factoryClassname );
+            PartEditorFactory factory = 
+              (PartEditorFactory) Transit.getInstance().getRepository().instantiate( 
+                 factoryClass, new Object[]{ m_logger } );
+            return factory.getPartEditor( part );
+        }
+        catch( ClassNotFoundException e )
+        {
+            m_logger.warn( "Part editor factory not found: " + factoryClassname );
+            return null;
+        }
+        catch( Throwable e )
+        {
+            final String error = 
+              "Error occured while attempting to load a part editor for: " + uri;
+            throw new PartHandlerRuntimeException( error, e );
+        }
+    }
+
     public PartHandler getPartHandler()
     {
         return m_handler;

@@ -37,6 +37,7 @@ import net.dpml.part.PartHandlerRuntimeException;
 import net.dpml.part.PartNotFoundException;
 import net.dpml.part.PartHandlerNotFoundException;
 import net.dpml.part.DelegationException;
+import net.dpml.part.PartEditor;
 
 import net.dpml.component.control.Controller;
 import net.dpml.component.control.ControllerContext;

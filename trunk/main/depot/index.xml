@@ -189,25 +189,4 @@
     </dependencies>
   </project>
 
-  <resource>
-    <info>
-      <group>jgoodies</group>
-      <name>looks</name>
-      <version>1.3.1</version>
-      <types>
-        <type name="jar"/>
-      </types>
-    </info>
-  </resource>
-
-  <resource>
-    <info>
-      <group>jgoodies</group>
-      <name>forms</name>
-      <version>1.0.5</version>
-      <types>
-        <type name="jar"/>
-      </types>
-    </info>
-  </resource>
 </index>

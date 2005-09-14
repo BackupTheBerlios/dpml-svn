@@ -56,10 +56,14 @@ import net.dpml.parameters.Parameters;
 import net.dpml.parameters.Parameterizable;
 import net.dpml.parameters.impl.DefaultParameters;
 
+import net.dpml.part.Control;
+import net.dpml.part.Control.ActivationPolicy;
+import net.dpml.part.DelegationException;
 import net.dpml.part.Part;
 import net.dpml.part.PartNotFoundException;
 import net.dpml.part.PartHandlerNotFoundException;
-import net.dpml.part.DelegationException;
+import net.dpml.part.PartReference;
+
 import net.dpml.component.state.StateEvent;
 import net.dpml.component.state.StateListener;
 import net.dpml.component.state.State;
@@ -81,8 +85,6 @@ import net.dpml.component.ServiceDescriptor;
 import net.dpml.component.Available;
 import net.dpml.component.AvailabilityException;
 import net.dpml.component.Manager;
-import net.dpml.part.Part;
-import net.dpml.part.PartReference;
 
 /**
  *
@@ -197,6 +199,19 @@ public abstract class ComponentHandler extends WeakEventProducer
                 getContextMap().addEntry( key, part );
             }
         }
+    }
+
+   /**
+    * Get the activation policy for the control.
+    *
+    * @return the activation policy
+    * @see Control#SYSTEM_MANAGED_ACTIVATION
+    * @see Control#ACTIVATION_ON_STARTUP
+    * @see Control#ACTIVATION_ON_DEMAND
+    */
+    public ActivationPolicy getActivationPolicy()
+    {
+        return m_profile.getActivationPolicy();
     }
 
    /**

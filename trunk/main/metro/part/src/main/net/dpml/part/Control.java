@@ -19,6 +19,7 @@
 package net.dpml.part;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 
@@ -31,6 +32,40 @@ import java.rmi.RemoteException;
  */
 public interface Control extends Remote
 {
+   /**
+    * System managed activation policy.
+    */
+    ActivationPolicy SYSTEM_MANAGED_ACTIVATION = new ActivationPolicy( 0, "default", "System" );
+
+   /**
+    * Activation on startup enabled.
+    */
+    ActivationPolicy ACTIVATION_ON_STARTUP = new ActivationPolicy( 0, "startup", "Startup" );
+
+   /**
+    * Activation on startup disabled.
+    */
+    ActivationPolicy ACTIVATION_ON_DEMAND = new ActivationPolicy( 0, "demand", "Demand" );
+
+   /**
+    * Enumeration of available activation policies.
+    */
+    public static final ActivationPolicy[] ACTIVATION_POLICIES = 
+      new ActivationPolicy[]{
+        SYSTEM_MANAGED_ACTIVATION, 
+        ACTIVATION_ON_STARTUP, 
+        ACTIVATION_ON_DEMAND};
+
+   /**
+    * Get the activation policy for the control.
+    *
+    * @return the activation policy
+    * @see #SYSTEM_MANAGED_ACTIVATION
+    * @see #ACTIVATION_ON_STARTUP
+    * @see #ACTIVATION_ON_DEMAND
+    */
+    ActivationPolicy getActivationPolicy() throws RemoteException;
+
    /**
     * Return an initialized instance of the service.
     * @return the resolved service instance
@@ -57,4 +92,73 @@ public interface Control extends Remote
     */
     void release( Object instance ) throws RemoteException;
 
+   /**
+    * Activation policy enumeration.
+    */
+    public static final class ActivationPolicy implements Serializable
+    {
+        private final int m_index;
+        private final String m_label;
+        private final String m_key;
+
+       /**
+        * Internal constructor.
+        * @param index the enumeration index.
+        */
+        private ActivationPolicy( int index, final String key, final String label )
+        {
+            m_index = index;
+            m_label = label;
+            m_key = key;
+        }
+
+       /**
+        * Return the key used to identify this policy instance.
+        * @return the key
+        */
+        public String key()
+        {
+            return m_key;
+        }
+
+       /**
+        * Test this policy for equality with the supplied instance.
+        * @param other the object to test against
+        * @return true if the instances are equivalent
+        */
+        public boolean equals( Object other )
+        {
+            if( null == other ) 
+            {
+                return false;
+            }
+            else if( other.getClass() == ActivationPolicy.class )
+            {
+                ActivationPolicy policy = (ActivationPolicy) other;
+                return policy.m_index == m_index;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+       /**
+        * Return the hascode for this instance.
+        * @return the instance hashcode
+        */
+        public int hashCode()
+        {
+            return m_index;
+        }
+
+       /**
+        * Return the string representation of this instance.
+        * @return the string
+        */
+        public String toString()
+        {
+            return m_label;
+        }
+    }
 }

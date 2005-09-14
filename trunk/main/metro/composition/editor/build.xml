@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<project name="dpml-composition-editor" default="install" basedir="."
+    xmlns:transit="antlib:net.dpml.transit" xmlns:x="plugin:dpml/magic/dpml-magic-core" >
+
+  <transit:import uri="local:template:magic/standard"/>
+
+  <target name="init" depends="standard.init">
+    <x:property key="dpml-composition-control" feature="uri" type="plugin" name="control.plugin"/>
+    <filter token="PART-CONTROLLER-URI" value="${control.plugin}"/>
+  </target>
+
+
+  <target name="package" depends="standard.package">
+    <x:export class="net.dpml.composition.edit.CompositionEditorFactory"/>
+  </target>
+
+</project>

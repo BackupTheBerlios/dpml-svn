@@ -64,11 +64,6 @@ import net.dpml.profile.ApplicationRegistry;
 import net.dpml.profile.ApplicationProfile;
 import net.dpml.profile.ApplicationProfile.StartupPolicy;
 
-import net.dpml.part.Control;
-import net.dpml.part.PartHandler;
-import net.dpml.part.PartContentHandler;
-import net.dpml.part.Part;
-
 import net.dpml.transit.Logger;
 import net.dpml.transit.Artifact;
 import net.dpml.transit.Transit;
@@ -165,7 +160,11 @@ public final class ApplicationProfileTreeNode extends Node
         {
             panel.add( "Process", buildConfigurationComponent() );
             panel.add( "Properties", new SystemPropertiesBuilder( m_profile ).getComponent() );
-            //panel.add( "Parameters", new ParametersBuilder().buildParametersPanel( m_profile ) );
+            Component[] components = new PartBuilder( m_logger, m_application ).getPartPanels();
+            for( int i=0; i<components.length; i++ )
+            {
+                panel.add( components[i] );
+            }
         }
         return panel;
     }

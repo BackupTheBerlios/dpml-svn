@@ -40,6 +40,8 @@ import net.dpml.composition.data.ComponentDirective;
 import net.dpml.composition.data.ValueDirective;
 import net.dpml.composition.data.DeploymentDirective;
 import net.dpml.composition.info.InfoDescriptor;
+import net.dpml.composition.info.Type;
+import net.dpml.composition.model.TypeManager;
 
 import net.dpml.composition.runtime.ComponentHandler;
 import net.dpml.composition.runtime.ValueHandler;
@@ -78,7 +80,7 @@ import net.dpml.transit.Plugin.Category;
  * @author <a href="mailto:dev-dpml@lists.ibiblio.org">The Digital Product Meta Library</a>
  * @version $Revision: 1.2 $ $Date: 2004/03/17 10:30:09 $
  */
-public class CompositionController extends CompositionPartHandler implements Controller
+public class CompositionController extends CompositionPartHandler implements Controller, TypeManager
 {
     //--------------------------------------------------------------------
     // static
@@ -196,6 +198,28 @@ public class CompositionController extends CompositionPartHandler implements Con
             throw cause;
         }
     }
+
+    //-------------------------------------------------------------------------------
+    // TypeManager
+    //-------------------------------------------------------------------------------
+
+   /**
+    * Load a classloader using the supplied anchor classloader and 
+    * component directive.
+    * 
+    * @param anchor the anchor classloader
+    * @param profile the component directive
+    */
+    public ClassLoader createClassLoader( ClassLoader anchor, ComponentDirective profile )
+    {
+         URI partition = getPartition();
+         return getClassLoader( anchor, partition, profile );
+    }
+
+    //-------------------------------------------------------------------------------
+    // Controller
+    //-------------------------------------------------------------------------------
+
 
    /**
     * Returns an control object using the supplied part as the construction template.

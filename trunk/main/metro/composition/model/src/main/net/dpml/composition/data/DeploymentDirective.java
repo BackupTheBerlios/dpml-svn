@@ -24,6 +24,8 @@ import java.net.URI;
 import java.net.URISyntaxException;
 
 import net.dpml.part.Part;
+import net.dpml.part.Control;
+import net.dpml.part.Control.ActivationPolicy;
 
 /**
  * Abstract base class for ComponentDirective and ContainmentProfile.
@@ -41,21 +43,6 @@ public abstract class DeploymentDirective implements Serializable, Comparable, P
     * Serial version identifier.
     */
     static final long serialVersionUID = 1L;
-
-   /**
-    * System default activation policy.
-    */
-    public static final int DEFAULT = -1;
-
-   /**
-    * Activation on startup enabled.
-    */
-    public static final int ENABLED = 1;
-
-   /**
-    * Activation on startup disabled.
-    */
-    public static final int DISABLED = 0;
 
     private static final CategoriesDirective EMPTY_CATEGORIES = 
       new CategoriesDirective();
@@ -76,7 +63,7 @@ public abstract class DeploymentDirective implements Serializable, Comparable, P
     /**
      * The activation policy.
      */
-    private int m_activation;
+    private ActivationPolicy m_activation;
 
    /**
     * Logging category directives.
@@ -99,7 +86,7 @@ public abstract class DeploymentDirective implements Serializable, Comparable, P
     * @param categories logging category directives
     */
     public DeploymentDirective( 
-      final String name, int activation, CategoriesDirective categories ) 
+      final String name, ActivationPolicy activation, CategoriesDirective categories ) 
     {
         this( name, activation, categories, null );
     }
@@ -111,7 +98,8 @@ public abstract class DeploymentDirective implements Serializable, Comparable, P
     * @param categories logging category directives
     */
     public DeploymentDirective( 
-      final String name, int activation, CategoriesDirective categories, ClassLoaderDirective classloader ) 
+      final String name, ActivationPolicy activation, CategoriesDirective categories, 
+      ClassLoaderDirective classloader ) 
     {
         m_activation = activation;
 
@@ -190,21 +178,20 @@ public abstract class DeploymentDirective implements Serializable, Comparable, P
         m_categories = directive;
     }
 
-
    /**
     * Get the activation policy for the profile.
     *
     * @return the declared activation policy
-    * @see #DEFAULT
-    * @see #ENABLED
-    * @see #DISABLED 
+    * @see net.dpml.part.Control#SYSTEM_MANAGED_ACTIVATION
+    * @see net.dpml.part.Control#ACTIVATION_ON_STARTUP
+    * @see net.dpml.part.Control#ACTIVATION_ON_DEMAND
     */
-    public int getActivationPolicy()
+    public ActivationPolicy getActivationPolicy()
     {
         return m_activation;
     }
 
-    public void setActivationPolicy( int policy )
+    public void setActivationPolicy( ActivationPolicy policy )
     {
         m_activation = policy;
     }
@@ -261,7 +248,7 @@ public abstract class DeploymentDirective implements Serializable, Comparable, P
                 {
                     return false;
                 }
-                if( m_activation != profile.getActivationPolicy() )
+                if( false == m_activation.equals( profile.getActivationPolicy() ) )
                 {
                     return false;
                 }
@@ -289,7 +276,7 @@ public abstract class DeploymentDirective implements Serializable, Comparable, P
     public int hashCode()
     {
         int hash = m_name.hashCode();
-        hash ^= m_activation;
+        hash ^= m_activation.hashCode();
         hash ^= m_categories.hashCode();
         hash ^= m_classloader.hashCode();
         return hash;

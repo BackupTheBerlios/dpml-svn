@@ -30,6 +30,9 @@ import net.dpml.composition.data.ValueDirective.Value;
 import net.dpml.logging.Logger;
 
 import net.dpml.part.Part;
+import net.dpml.part.Control;
+import net.dpml.part.Control.ActivationPolicy;
+
 import net.dpml.component.control.Controller;
 import net.dpml.component.control.ControllerContext;
 import net.dpml.component.Component;
@@ -117,6 +120,19 @@ public class ValueHandler extends UnicastRemoteObject implements Component, Clas
 
         String classname = getReturnTypeClassname();
         m_services = new ServiceDescriptor[]{ new ServiceDescriptor( classname ) };
+    }
+
+   /**
+    * Get the activation policy for the control.
+    *
+    * @return the activation policy
+    * @see Control#SYSTEM_MANAGED_ACTIVATION
+    * @see Control#ACTIVATION_ON_STARTUP
+    * @see Control#ACTIVATION_ON_DEMAND
+    */
+    public ActivationPolicy getActivationPolicy()
+    {
+        return Control.SYSTEM_MANAGED_ACTIVATION;
     }
 
     protected Logger getLogger()

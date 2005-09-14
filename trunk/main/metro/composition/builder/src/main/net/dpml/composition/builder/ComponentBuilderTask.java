@@ -61,6 +61,9 @@ import net.dpml.parameters.impl.DefaultParameters;
 import net.dpml.part.Part;
 import net.dpml.part.PartHolder;
 import net.dpml.part.PartReference;
+import net.dpml.part.Control;
+import net.dpml.part.Control.ActivationPolicy;
+
 import net.dpml.component.control.ControllerContext;
 import net.dpml.component.Component;
 import net.dpml.component.Container;
@@ -480,7 +483,7 @@ public class ComponentBuilderTask extends ClassLoaderBuilderTask implements Part
         Type type = loadType( classloader, classname );
         String lifestyle = getLifestylePolicy( type ); 
         int collection = getCollectionPolicy( type );
-        int activation = getActivationPolicy();
+        ActivationPolicy activation = getActivationPolicy();
         CategoriesDirective categories = getCategoriesDirective();
         ContextDirective context = getContextDirective( classloader, type );
         Parameters parameters = getParameters();
@@ -643,11 +646,11 @@ public class ComponentBuilderTask extends ClassLoaderBuilderTask implements Part
         }
     }
 
-    public int getActivationPolicy()
+    public ActivationPolicy getActivationPolicy()
     {
         if( m_activation )
         {
-            return DeploymentDirective.ENABLED;
+            return Control.ACTIVATION_ON_STARTUP;
         }
         else
         {

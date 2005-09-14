@@ -20,6 +20,8 @@ package net.dpml.composition.data;
 
 import java.net.URI;
 
+import net.dpml.part.Control;
+import net.dpml.part.Control.ActivationPolicy;
 import net.dpml.part.PartReference;
 import net.dpml.configuration.Configuration;
 import net.dpml.composition.info.InfoDescriptor;
@@ -152,7 +154,7 @@ public class ComponentDirective extends DeploymentDirective
     {
         this(
           name, 
-          DeploymentDirective.DEFAULT, 
+          Control.SYSTEM_MANAGED_ACTIVATION, 
           InfoDescriptor.UNDEFINED_COLLECTION, 
           "request", 
           classname, 
@@ -182,7 +184,7 @@ public class ComponentDirective extends DeploymentDirective
 
     public ComponentDirective(
            final String name,
-           final int activation,
+           final ActivationPolicy activation,
            final int collection,
            final String lifestyle,
            final String classname,
