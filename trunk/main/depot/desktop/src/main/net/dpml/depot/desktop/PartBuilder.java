@@ -32,6 +32,7 @@ import javax.swing.ImageIcon;
 import javax.swing.border.EmptyBorder;
 
 import javax.swing.JTree;
+import javax.swing.tree.TreeNode;
 import javax.swing.JLabel;
 import javax.swing.JSplitPane;
 import javax.swing.JPanel;
@@ -63,37 +64,53 @@ public final class PartBuilder
 {
     private Application m_application;
     private Logger m_logger;
+    private PartEditor m_editor;
 
     PartBuilder( Logger logger, Application application )
     {
         m_application = application;
         m_logger = logger;
+
+        init();
     }
 
-    Component[] getPartPanels()
+    void init()
     {
         try
         {
             PartContentHandler contentHandler = new PartContentHandler( m_logger );
             URI codebase = m_application.getProfile().getCodeBaseURI();
-            PartEditor editor = contentHandler.getPartEditor( codebase );
-            if( null != editor )
-            {
-                return editor.getPartPanels();
-            }
-            else
-            {
-                JPanel panel = new JPanel();
-                panel.add( new JLabel( "Part type does not declare an editor." ) );
-                return new Component[]{ panel };
-            }
+            m_editor = contentHandler.getPartEditor( codebase );
         }
         catch( Throwable e )
         {
             e.printStackTrace();
+        }
+    }
+
+    Component[] getPartPanels()
+    {
+        if( null != m_editor )
+        {
+            return m_editor.getPartPanels();
+        }
+        else
+        {
             JPanel panel = new JPanel();
-            panel.add( new JLabel( e.toString() ) );
+            panel.add( new JLabel( "Part type does not declare an editor." ) );
             return new Component[]{ panel };
+        }
+    }
+
+    TreeNode[] getPartNodes()
+    {
+        if( null != m_editor )
+        {
+            return m_editor.getPartNodes();
+        }
+        else
+        {
+            return new TreeNode[0];
         }
     }
 }

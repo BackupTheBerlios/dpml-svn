@@ -227,7 +227,7 @@ public final class State implements Serializable
     *
     * @return the local state array
     */
-    protected State[] getStates()
+    public State[] getStates()
     {
         return getStates( this );
     }

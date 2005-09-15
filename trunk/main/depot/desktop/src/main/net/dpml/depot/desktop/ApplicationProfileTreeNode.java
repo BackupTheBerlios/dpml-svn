@@ -53,6 +53,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.AbstractAction;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+import javax.swing.tree.TreeNode;
 import javax.swing.tree.DefaultMutableTreeNode;
 
 import net.dpml.station.Application;
@@ -160,10 +161,20 @@ public final class ApplicationProfileTreeNode extends Node
         {
             panel.add( "Process", buildConfigurationComponent() );
             panel.add( "Properties", new SystemPropertiesBuilder( m_profile ).getComponent() );
-            Component[] components = new PartBuilder( m_logger, m_application ).getPartPanels();
+            PartBuilder builder = new PartBuilder( m_logger, m_application );
+            Component[] components = builder.getPartPanels();
             for( int i=0; i<components.length; i++ )
             {
                 panel.add( components[i] );
+            }
+            TreeNode[] nodes = builder.getPartNodes();
+            for( int i=0; i<nodes.length; i++ )
+            {
+                TreeNode node = nodes[i];
+                if( node instanceof DefaultMutableTreeNode )
+                {
+                    add( (DefaultMutableTreeNode) node );
+                }
             }
         }
         return panel;

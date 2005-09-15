@@ -80,7 +80,9 @@ public final class ClassLoaderBuilder
         tree.setShowsRootHandles( true );
         tree.setCellRenderer( new CellRenderer() );
         expand( tree, new TreePath( root ), true );
-        return new JScrollPane( tree );
+        JScrollPane scroller = new JScrollPane( tree );
+        scroller.setName( "Classloader" );
+        return scroller;
     }
 
     private void expand( JTree tree, TreePath parent, boolean expand )

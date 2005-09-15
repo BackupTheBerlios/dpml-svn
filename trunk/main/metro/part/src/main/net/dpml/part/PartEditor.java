@@ -22,6 +22,8 @@ import java.awt.Component;
 import java.io.IOException;
 import java.net.URI;
 
+import javax.swing.tree.TreeNode;
+
 /**
  * Interface implemented by part editors.
  *
@@ -31,5 +33,9 @@ public interface PartEditor
 {
     Part getPart();
 
+    Component getComponent();
+
     Component[] getPartPanels();
+
+    TreeNode[] getPartNodes();
 }

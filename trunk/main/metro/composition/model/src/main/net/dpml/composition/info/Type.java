@@ -288,7 +288,7 @@ public class Type implements Serializable
     }
 
     /**
-     * Returns the parts declared by this compoent type.
+     * Returns the parts declared by this component type.
      *
      * @return the part descriptors
      */

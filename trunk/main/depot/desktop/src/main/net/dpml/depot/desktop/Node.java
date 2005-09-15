@@ -36,9 +36,6 @@ import javax.swing.table.TableColumnModel;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.DefaultTableColumnModel;
 
-import net.dpml.profile.ApplicationRegistry;
-import net.dpml.profile.ApplicationProfile;
-
 /**
  * Abstract tree node. 
  */

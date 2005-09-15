@@ -24,6 +24,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.JComboBox;
+import javax.swing.tree.TreeNode;
+import javax.swing.tree.DefaultMutableTreeNode;
 
 import com.jgoodies.forms.layout.CellConstraints;
 import com.jgoodies.forms.builder.PanelBuilder;
@@ -32,6 +34,7 @@ import com.jgoodies.forms.layout.FormLayout;
 
 import net.dpml.part.Part;
 import net.dpml.part.PartEditor;
+import net.dpml.part.PartReference;
 
 import net.dpml.component.control.Controller;
 
@@ -47,21 +50,28 @@ import net.dpml.transit.Logger;
 /**
  * ComponentDirective datatype editor. 
  */
-public final class ComponentDirectiveEditor implements PartEditor
+public class ComponentDirectiveEditor extends DefaultMutableTreeNode implements PartEditor
 {
     private Logger m_logger;
     private TypeManager m_manager;
     private ComponentDirective m_directive;
     private Class m_class;
     private Type m_type;
+    private Component[] m_panels;
+    private Component m_component;
+    private DefaultMutableTreeNode[] m_nodes;
 
     ComponentDirectiveEditor( Logger logger, TypeManager manager, ComponentDirective directive )
+    {
+        this( ComponentDirectiveEditor.class.getClassLoader(), logger, manager, directive );
+    }
+
+    ComponentDirectiveEditor( ClassLoader anchor, Logger logger, TypeManager manager, ComponentDirective directive )
     {
         m_directive = directive;
         m_manager = manager;
         m_logger = logger;
 
-        ClassLoader anchor = getClass().getClassLoader();
         ClassLoader classloader = m_manager.createClassLoader( anchor, directive );
         String classname = directive.getClassname();
 
@@ -86,33 +96,98 @@ public final class ComponentDirectiveEditor implements PartEditor
               "Unable to load component type: " + classname;
             throw new RuntimeException( error, e );
         }
+
+        m_panels = buildPartPanels();
+        m_nodes = buildPartNodes( classloader );
+        m_component = buildPrimeComponent( m_panels );
     }
 
     public Part getPart()
     {
-        // TODO: track changes are returned an updated part suitable for 
-        // subsequent externalization
+        // TODO: track changes and return an updated part suitable for 
+        // subsequent externalization (currently we are just just returning
+        // the original part)
+
         return m_directive;
+    }
+
+    public Component getComponent()
+    {
+        return m_component;
+    }
+
+    private Component buildPrimeComponent( Component[] panels )
+    {
+        JTabbedPane pane = new JTabbedPane();
+        for( int i=0; i<panels.length; i++ )
+        {
+            pane.add( panels[i] );
+        }
+        return pane;
     }
 
     public Component[] getPartPanels()
     {
+        return m_panels;
+    }
+
+    private Component[] buildPartPanels()
+    {
         ArrayList list = new ArrayList();
-        list.add( buildTypeComponent() );
+        ClassLoaderDirective classloaderDirective = m_directive.getClassLoaderDirective();
+        if( classloaderDirective.getClasspathDirectives().length > 0 )
+        {
+            list.add( buildClassLoaderComponent() );
+        }
+        list.add( buildTypeStaticComponent() );
+        if( m_type.getCategories().length > 0 )
+        {
+            list.add( buildCategoriesComponent() );
+        }
+        if( m_type.getServices().length > 0 )
+        {
+            list.add( buildServicesComponent() );
+        }
+        if( null != m_type.getStateGraph() )
+        {
+            list.add( buildStateGraphComponent() );
+        }
         list.add( buildContextComponent() );
         return (Component[]) list.toArray( new Component[0] );
     }
 
-    private Component buildTypeComponent()
+    public TreeNode[] getPartNodes()
     {
-        JTabbedPane tabs = new JTabbedPane();
-        tabs.add( "Component", buildTypeStaticComponent() );
-        tabs.add( "ClassLoader", buildClassLoaderComponent() );
-        tabs.add( "Logging", buildCategoriesComponent());
-        tabs.add( "Services", buildServicesComponent());
-        tabs.add( "State", buildStateGraphComponent());
-        tabs.setName( "Type" );
-        return tabs;
+        return getMutableNodes();
+    }
+
+    protected DefaultMutableTreeNode[] getMutableNodes()
+    {
+        return m_nodes;
+    }
+
+    private DefaultMutableTreeNode[] buildPartNodes( ClassLoader classloader )
+    {
+        ArrayList list = new ArrayList();
+        PartReference[] references = m_type.getPartReferences();
+        for( int i=0; i < references.length; i++ )
+        {
+            PartReference ref = references[i];
+            Part part = ref.getPart();
+            if( part instanceof ComponentDirective )
+            {
+                ComponentDirective directive = (ComponentDirective) part;
+                String key = ref.getKey();
+                ComponentDirectiveAdapter adapter = 
+                  new ComponentDirectiveAdapter( classloader, m_logger, m_manager, directive, key );
+                list.add( adapter );
+            }
+            else
+            {
+                list.add( new PartReferenceTreeNode( ref ) );
+            }
+        }
+        return (DefaultMutableTreeNode[]) list.toArray( new DefaultMutableTreeNode[0] );
     }
 
     private Component buildClassLoaderComponent() 
@@ -124,17 +199,23 @@ public final class ComponentDirectiveEditor implements PartEditor
 
     private Component buildCategoriesComponent() 
     {
-        return new JPanel();
+        JPanel panel = new JPanel();
+        panel.setName( "Categories" );
+        return panel;
     }
 
     private Component buildServicesComponent() 
     {
-        return new JPanel();
+        JPanel panel = new JPanel();
+        panel.setName( "Services" );
+        return panel;
     }
 
     private Component buildStateGraphComponent() 
     {
-        return new JPanel();
+        JPanel panel = new JPanel();
+        panel.setName( "State" );
+        return panel;
     }
 
     private Component buildContextComponent() 
@@ -178,7 +259,9 @@ public final class ComponentDirectiveEditor implements PartEditor
         builder.addLabel( "Activation Policy:", cc.xy( 1, 15 ) ); 
         builder.add( getActivationPolicyComponent(), cc.xy( 3, 15 ) );
 
-        return builder.getPanel();
+        JPanel panel = builder.getPanel();
+        panel.setName( "Component" );
+        return panel;
     }
 
     private Component getControllerURIComponent()
@@ -243,4 +326,24 @@ public final class ComponentDirectiveEditor implements PartEditor
         }
     }
     */
+
+    private class PartReferenceTreeNode extends DefaultMutableTreeNode
+    {
+        PartReference m_reference;
+ 
+        PartReferenceTreeNode( PartReference ref )
+        {
+            m_reference = ref;
+        }
+
+        public String getName()
+        {
+            return m_reference.getKey();
+        }
+
+        public String toString()
+        {
+            return getName();
+        }
+    }
 }

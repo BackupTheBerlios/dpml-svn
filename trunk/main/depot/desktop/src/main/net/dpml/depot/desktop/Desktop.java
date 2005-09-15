@@ -72,6 +72,8 @@ import net.dpml.depot.Handler;
 import net.dpml.station.Station;
 import net.dpml.station.Application;
 
+import net.dpml.part.PartEditor;
+
 import net.dpml.profile.ApplicationRegistry;
 import net.dpml.profile.ApplicationProfile;
 
@@ -546,6 +548,15 @@ public final class Desktop implements Handler
                 m_splitPane.setRightComponent( component );
                 m_splitPane.setDividerLocation( location );
             }
+            else if( object instanceof PartEditor )
+            {
+                PartEditor node = (PartEditor) object;
+                setSelectedObject( node );
+                int location = m_splitPane.getDividerLocation();
+                Component component = node.getComponent();
+                m_splitPane.setRightComponent( component );
+                m_splitPane.setDividerLocation( location );
+            }
         }
 
         private void setSelectedObject( Node node )
@@ -569,6 +580,29 @@ public final class Desktop implements Handler
                 m_apply.setEnabled( false );
                 m_undo.setEnabled( false );
             }
+        }
+
+        private void setSelectedObject( PartEditor node )
+        {
+            if( ( m_selected != node ) && ( null != m_selected ) )
+            {
+               m_selected.removePropertyChangeListener( this );
+            }
+
+            //m_selected = node;
+
+            //if( ( m_selected != null ) )
+            //{
+            //    node.addPropertyChangeListener( this );
+            //    boolean modified = m_selected.isModified();
+            //    m_apply.setEnabled( modified );
+            //    m_undo.setEnabled( modified );
+            //}
+            //else
+            //{
+            //    m_apply.setEnabled( false );
+            //    m_undo.setEnabled( false );
+            //}
         }
 
         public void propertyChange( PropertyChangeEvent event )
