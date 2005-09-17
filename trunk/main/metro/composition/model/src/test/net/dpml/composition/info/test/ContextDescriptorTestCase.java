@@ -23,13 +23,15 @@ import net.dpml.composition.info.Descriptor;
 import net.dpml.composition.info.ContextDescriptor;
 import net.dpml.composition.info.EntryDescriptor;
 
+import junit.framework.TestCase;
+
 /**
  * ContextDescriptorTestCase does XYZ
  *
  * @author <a href="mailto:dev-dpml@lists.ibiblio.org">The Digital Product Meta Library</a>
  * @version $Id: ContextDescriptorTestCase.java 2387 2005-04-23 19:12:58Z mcconnell@dpml.net $
  */
-public class ContextDescriptorTestCase extends AbstractDescriptorTestCase
+public class ContextDescriptorTestCase extends TestCase
 {
     private String m_classname;
     private EntryDescriptor[] m_entries;
@@ -39,25 +41,24 @@ public class ContextDescriptorTestCase extends AbstractDescriptorTestCase
         super( name );
     }
 
-    protected Descriptor getDescriptor()
+    protected ContextDescriptor getDescriptor()
     {
-        return new ContextDescriptor( m_classname, m_entries, getProperties() );
+        return new ContextDescriptor( m_classname, m_entries );
     }
 
-    protected void checkDescriptor( Descriptor desc )
+    protected void checkDescriptor( ContextDescriptor desc )
     {
-        super.checkDescriptor( desc );
         ContextDescriptor ctxd = (ContextDescriptor) desc;
 
         assertEquals( m_classname, ctxd.getContextInterfaceClassname() );
-        assertEquals( m_entries.length, ctxd.getEntries().length );
+        assertEquals( m_entries.length, ctxd.getEntryDescriptors().length );
 
-        EntryDescriptor[] entries = ctxd.getEntries();
+        EntryDescriptor[] entries = ctxd.getEntryDescriptors();
 
         for ( int i = 0; i < m_entries.length; i++ )
         {
             assertEquals( m_entries[i], entries[i] );
-            assertEquals( m_entries[i], ctxd.getEntry( m_entries[i].getKey() ) );
+            assertEquals( m_entries[i], ctxd.getEntryDescriptor( m_entries[i].getKey() ) );
         }
     }
 
@@ -94,7 +95,7 @@ public class ContextDescriptorTestCase extends AbstractDescriptorTestCase
 
     public void setUp()
     {
-        m_classname = "org.apache.avalon.playground.MyContext";
+        m_classname = "net.dpml.testing.MyContext";
         m_entries = new EntryDescriptor[]{
             new EntryDescriptor( "key", String.class.getName() )
         };

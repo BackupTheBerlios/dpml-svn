@@ -169,7 +169,7 @@ public class EntryDataType extends ValueDataType implements PartReferenceBuilder
 
         if( null != type )
         {
-            EntryDescriptor entry = type.getContext().getEntry( key );
+            EntryDescriptor entry = type.getContextDescriptor().getEntryDescriptor( key );
             if( null == entry )
             {
                 final String error = 

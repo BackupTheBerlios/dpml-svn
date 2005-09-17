@@ -49,11 +49,7 @@ import net.dpml.component.Version;
  *   <li>extended lifecycle stages that this component uses</li>
  * </ul>
  *
- * <p><b>UML</b></p>
- * <p><image src="doc-files/Type.gif" border="0"/></p>
- *
  * @author <a href="mailto:dev-dpml@lists.ibiblio.org">The Digital Product Meta Library</a>
- * @version $Id: Type.java 2991 2005-07-07 00:00:04Z mcconnell@dpml.net $
  */
 public class Type implements Serializable
 {
@@ -61,6 +57,12 @@ public class Type implements Serializable
 
     private static final Type OBJECT_TYPE = createObjectType();
 
+   /**
+    * Load a component type definition given a supplied class.
+    * @param clazz the component class
+    * @return the component type
+    * @exception ComponentException if a type loading error occurs
+    */
     public static Type loadType( Class clazz ) throws ComponentException
     {
         if( Object.class == clazz )
@@ -82,12 +84,19 @@ public class Type implements Serializable
         catch( Exception e )
         {
             final String error = 
-              "Unexpected error occured while attempting to load a type."
+              "Unexpected error occured while attempting to load a serialized type."
               + "\nResource path: " + path;
             throw new ComponentException( error, e );
         }
     }
 
+   /**
+    * Load a component type definition given a supplied input stream.
+    * @param input a type holder serialized object input stream
+    * @return the component type
+    * @exception IOException if an IO error occurs while reading the input stream
+    * @exception ClassNotFoundException if the stream references a class that connot be found
+    */
     public static Type loadType( InputStream input ) throws IOException, ClassNotFoundException
     {
         ObjectInputStream stream = new ObjectInputStream( input );
@@ -98,10 +107,9 @@ public class Type implements Serializable
         return (Type) bytestream.readObject();
     }
 
-
     private final State m_graph;
-    private final InfoDescriptor m_descriptor;
-    private final CategoryDescriptor[] m_loggers;
+    private final InfoDescriptor m_info;
+    private final CategoryDescriptor[] m_categories;
     private final ContextDescriptor m_context;
     private final ServiceDescriptor[] m_services;
     private final Configuration m_configuration;
@@ -109,11 +117,10 @@ public class Type implements Serializable
 
     /**
      * Creation of a new Type instance using a supplied component descriptor,
-     * logging, cotext, services, and part descriptors.
+     * logging, context, services, and part references.
      *
      * @param graph the component state graph
-     * @param descriptor a component descriptor that contains information about
-     *   the component type
+     * @param info information about the component type
      * @param loggers a set of logger descriptors the declare the logging channels
      *   required by the type
      * @param context a component context descriptor that declares the context type
@@ -126,7 +133,7 @@ public class Type implements Serializable
      *   or part argument are null
      */
     public Type( final State graph, 
-                 final InfoDescriptor descriptor,
+                 final InfoDescriptor info,
                  final CategoryDescriptor[] loggers,
                  final ContextDescriptor context,
                  final ServiceDescriptor[] services,
@@ -134,9 +141,9 @@ public class Type implements Serializable
                  final PartReference[] parts )
             throws NullPointerException 
     {
-        if ( null == descriptor )
+        if ( null == info )
         {
-            throw new NullPointerException( "descriptor" );
+            throw new NullPointerException( "info" );
         }
         if ( null == loggers )
         {
@@ -146,16 +153,19 @@ public class Type implements Serializable
         {
             throw new NullPointerException( "context" );
         }
-        if ( null == services )
+        if( null == services )
         {
-            throw new NullPointerException( "services" );
+            m_services = new ServiceDescriptor[0];
+        }
+        else
+        {
+            m_services = services;
         }
 
         m_graph = graph;
-        m_descriptor = descriptor;
-        m_loggers = loggers;
+        m_info = info;
+        m_categories = loggers;
         m_context = context;
-        m_services = services;
         m_configuration = defaults;
 
         if( null == parts )
@@ -168,14 +178,14 @@ public class Type implements Serializable
         }
     }
 
-    /**
-     * Return the Component descriptor.
-     *
-     * @return the Component descriptor.
-     */
+   /**
+    * Return the info descriptor.
+    *
+    * @return the component info descriptor.
+    */
     public InfoDescriptor getInfo()
     {
-        return m_descriptor;
+        return m_info;
     }
 
     /**
@@ -193,20 +203,21 @@ public class Type implements Serializable
      *
      * @return the set of Logger that this Component will use.
      */
-    public CategoryDescriptor[] getCategories()
+    public CategoryDescriptor[] getCategoryDescriptors()
     {
-        return m_loggers;
+        return m_categories;
     }
 
     /**
-     * Return TRUE if the set of Logger descriptors includes the supplied name.
+     * Return TRUE if the logging categories includes a category with
+     * a matching name.
      *
-     * @param name the logging subcategory name
-     * @return TRUE if the logging subcategory is declared.
+     * @param name the logging category name
+     * @return TRUE if the logging category is declared.
      */
     public boolean isaCategory( String name )
     {
-        CategoryDescriptor[] loggers = getCategories();
+        CategoryDescriptor[] loggers = getCategoryDescriptors();
         for( int i = 0; i < loggers.length; i++ )
         {
             CategoryDescriptor logger = loggers[ i ];
@@ -219,33 +230,33 @@ public class Type implements Serializable
     }
 
     /**
-     * Return the ContextDescriptor for component, may be null.
-     * If null then this component does not implement Contextualizable.
+     * Return the ContextDescriptor for component.
      *
-     * @return the ContextDescriptor for component, may be null.
+     * @return the ContextDescriptor for component.
      */
-    public ContextDescriptor getContext()
+    public ContextDescriptor getContextDescriptor()
     {
         return m_context;
     }
 
     /**
-     * Return the set of Services that this component is capable of providing.
+     * Get the set of service descriptors defining the set of services that
+     * the component type exports.
      *
-     * @return the set of Services that this component is capable of providing.
+     * @return the array of service descriptors
      */
-    public ServiceDescriptor[] getServices()
+    public ServiceDescriptor[] getServiceDescriptors()
     {
         return m_services;
     }
 
     /**
-     * Retrieve a service with a particular reference.
+     * Retrieve a service descriptor matching the supplied reference.
      *
-     * @param reference a service reference descriptor
-     * @return the service descriptor or null if it does not exist
+     * @param reference a service descriptor to match against
+     * @return a matching service descriptor or null if no match found
      */
-    public ServiceDescriptor getService( final ServiceDescriptor reference )
+    public ServiceDescriptor getServiceDescriptor( final ServiceDescriptor reference )
     {
         for ( int i = 0; i < m_services.length; i++ )
         {
@@ -259,12 +270,12 @@ public class Type implements Serializable
     }
 
     /**
-     * Retrieve a service with a particular classname.
+     * Retrieve a service descriptor matching the supplied classname.
      *
      * @param classname the service classname
-     * @return the service descriptor or null if it does not exist
+     * @return the matching service descriptor or null if it does not exist
      */
-    public ServiceDescriptor getService( final String classname )
+    public ServiceDescriptor getServiceDescriptor( final String classname )
     {
         for ( int i = 0; i < m_services.length; i++ )
         {
@@ -339,7 +350,7 @@ public class Type implements Serializable
 
         Type t = (Type) other;
 
-        if( ! m_descriptor.equals( t.m_descriptor ) )
+        if( ! m_info.equals( t.m_info ) )
         {
             return false;
         }
@@ -390,9 +401,9 @@ public class Type implements Serializable
         {
             return false;
         }
-        for( int i=0; i<m_loggers.length; i++ )
+        for( int i=0; i<m_categories.length; i++ )
         {
-            if( ! m_loggers[i].equals( t.m_loggers[i] ) )
+            if( ! m_categories[i].equals( t.m_categories[i] ) )
             {
                 return false;
             }
@@ -413,7 +424,7 @@ public class Type implements Serializable
     */
     public int hashCode()
     {
-        int hash = m_descriptor.hashCode();
+        int hash = m_info.hashCode();
         if( m_graph != null )
         {
             hash ^= m_graph.hashCode();
@@ -433,9 +444,9 @@ public class Type implements Serializable
             hash ^= m_services[i].hashCode();
             hash = hash - 163611323;
         }
-        for( int i = 0; i < m_loggers.length; i++ )
+        for( int i = 0; i < m_categories.length; i++ )
         {
-            hash ^= m_loggers[i].hashCode();
+            hash ^= m_categories[i].hashCode();
             hash = hash + 471312761;
         }
         return hash;

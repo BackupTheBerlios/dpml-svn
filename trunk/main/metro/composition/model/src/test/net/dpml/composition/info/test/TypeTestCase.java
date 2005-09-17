@@ -34,7 +34,6 @@ import net.dpml.composition.info.CategoryDescriptor;
 import net.dpml.composition.info.ContextDescriptor;
 import net.dpml.composition.info.EntryDescriptor;
 import net.dpml.composition.info.InfoDescriptor;
-//import net.dpml.composition.info.PartDescriptor;
 import net.dpml.composition.info.PartDescriptor.Operation;
 import net.dpml.composition.info.Type;
 
@@ -58,7 +57,6 @@ public class TypeTestCase extends TestCase
     private CategoryDescriptor[] m_loggers;
     private ContextDescriptor m_context;
     private ServiceDescriptor[] m_services;
-    //private PartDescriptor[] m_parts;
     private PartReference[] m_parts;
     private ServiceDescriptor m_reference;
     private String m_key;
@@ -77,30 +75,29 @@ public class TypeTestCase extends TestCase
         m_loggers = new CategoryDescriptor[] {
             new CategoryDescriptor("name", new Properties())
         };
-        m_context = new ContextDescriptor( 
-          TypeTestCase.class.getName(), new EntryDescriptor[0]);
+        m_context = new ContextDescriptor( TypeTestCase.class.getName(), new EntryDescriptor[0] );
         m_services = new ServiceDescriptor[] { m_reference };
         m_parts = new PartReference[0];
     }
 
-    private void checkType(Type type)
+    private void checkType( Type type )
     {
-        assertNotNull(type);
-        checkArray( m_loggers, type.getCategories());
-        assertEquals( m_context, type.getContext());
+        assertNotNull( type );
+        checkArray( m_loggers, type.getCategoryDescriptors() );
+        assertEquals( m_context, type.getContextDescriptor() );
         assertEquals( m_descriptor, type.getInfo() );
-        assertEquals( m_services[0], type.getService( m_reference ) );
-        assertEquals( m_services[0], type.getService( m_services[0].getClassname() ) );
-        checkArray( m_services, type.getServices());
+        assertEquals( m_services[0], type.getServiceDescriptor( m_reference ) );
+        assertEquals( m_services[0], type.getServiceDescriptor( m_services[0].getClassname() ) );
+        checkArray( m_services, type.getServiceDescriptors());
         checkArray( m_parts, type.getPartReferences());
-        assertTrue( type.isaCategory(m_loggers[0].getName()));
+        assertTrue( type.isaCategory( m_loggers[0].getName() ) );
         assertTrue( !type.isaCategory( "fake name" ) );
     }
 
     private void checkArray( Object[] orig, Object[] other )
     {
-        assertEquals(orig.length, other.length);
-        for (int i = 0; i < orig.length; i++)
+        assertEquals( orig.length, other.length );
+        for( int i = 0; i < orig.length; i++ )
         {
             assertEquals( orig[i], other[i] );
         }
@@ -112,7 +109,7 @@ public class TypeTestCase extends TestCase
           new Type(
             m_graph, m_descriptor, m_loggers, m_context, m_services, 
             null, m_parts );
-        checkType(type);
+        checkType( type );
     }
 
     public void testSerialization() throws IOException, ClassNotFoundException

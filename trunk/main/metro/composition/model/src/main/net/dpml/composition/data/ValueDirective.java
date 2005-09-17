@@ -151,11 +151,6 @@ public class ValueDirective implements Part, Serializable
         else
         {
             ValueDirective value = (ValueDirective) other;
-            //if( false == equals( m_key, value.getKey() ) )
-            //{
-            //    return false;
-            //}
-            //else 
             if( false == equals( m_classname, value.getClassname() ) )
             {
                 return false;

@@ -576,7 +576,7 @@ public class CatalogTask extends ProjectTask
             //
 
             boolean flag = true;
-            ServiceDescriptor[] services = type.getServices();
+            ServiceDescriptor[] services = type.getServiceDescriptors();
             if( services.length > 0 )
             {
                 writer.write( "\n    <p class=\"category\">Services</p>" );
@@ -602,8 +602,8 @@ public class CatalogTask extends ProjectTask
             //
 
             flag = true;
-            ContextDescriptor context = type.getContext();
-            EntryDescriptor[] entries = context.getEntries();
+            ContextDescriptor context = type.getContextDescriptor();
+            EntryDescriptor[] entries = context.getEntryDescriptors();
             String contextClassname = context.getContextInterfaceClassname();
             if( ( entries.length > 0 ) || ( contextClassname != null ) )
             {

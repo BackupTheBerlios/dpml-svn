@@ -36,8 +36,7 @@ import java.lang.reflect.Method;
  * @author <a href="mailto:dev-dpml@lists.ibiblio.org">The Digital Product Meta Library</a>
  * @version $Id: EntryDescriptor.java 2387 2005-04-23 19:12:58Z mcconnell@dpml.net $
  */
-public final class EntryDescriptor
-    implements Serializable
+public final class EntryDescriptor implements Serializable
 {
    /**
     * Serial version identifier.
@@ -88,12 +87,7 @@ public final class EntryDescriptor
     private final boolean m_volatile;
 
     /**
-     * An alias to a key.
-     */
-    private final String m_alias;
-
-    /**
-     * Construct an non-volotile required Entry.
+     * Construct an non-volotile required EntryDescriptor.
      * @param key the context entry key
      * @param classname the classname of the context entry
      * @exception NullPointerException if the key or type value are null
@@ -105,7 +99,7 @@ public final class EntryDescriptor
     }
 
     /**
-     * Construct an non-volotile Entry.
+     * Construct an non-volotile EntryDescriptor.
      * @param key the context entry key
      * @param classname the classname of the context entry
      * @param optional TRUE if this is an optional entry
@@ -119,7 +113,7 @@ public final class EntryDescriptor
     }
 
     /**
-     * Construct an Entry.
+     * Construct an EntryDescriptor.
      * @param key the context entry key
      * @param classname the classname of the context entry
      * @param optional TRUE if this is an optional entry
@@ -130,25 +124,6 @@ public final class EntryDescriptor
                             final String classname,
                             final boolean optional,
                             final boolean isVolatile ) throws NullPointerException
-    {
-        this( key, classname, optional, isVolatile, null );
-    }
-
-    /**
-     * Construct an Entry.
-     * @param key the context entry key
-     * @param classname the classname of the context entry
-     * @param optional TRUE if this is an optional entry
-     * @param isVolatile TRUE if the entry is is volatile
-     * @param alias an alternative key used by the component to reference the key
-     * @exception NullPointerException if the key or type value are null
-     */
-    public EntryDescriptor( final String key,
-                            final String classname,
-                            final boolean optional,
-                            final boolean isVolatile,
-                            final String alias )
-        throws NullPointerException 
     {
         if ( null == key )
         {
@@ -163,7 +138,6 @@ public final class EntryDescriptor
         m_classname = classname;
         m_optional = optional;
         m_volatile = isVolatile;
-        m_alias = alias;
     }
 
     /**
@@ -177,28 +151,9 @@ public final class EntryDescriptor
     }
 
     /**
-     * Return the alias that Component uses to lookup the entry.
-     * If no alias is declared, the standard lookup key will be
-     * returned.
+     * Return the type of value that is stored in the context entry.
      *
-     * @return the alias to the key.
-     */
-    public String getAlias()
-    {
-        if( m_alias != null )
-        {
-            return m_alias;
-        }
-        else
-        {
-            return m_key;
-        }
-    }
-
-    /**
-     * Return the key type of value that is stored in Context.
-     *
-     * @return the key type of value that is stored in Context.
+     * @return the context entry classname
      */
     public String getClassname()
     {
@@ -243,10 +198,14 @@ public final class EntryDescriptor
     public boolean equals( Object other )
     {
         if( other == null )
+        {
             return false;
+        }
 
         if( ! ( other instanceof EntryDescriptor ) )
+        {
             return false;
+        }
 
         EntryDescriptor entry = (EntryDescriptor) other;
 
@@ -260,26 +219,12 @@ public final class EntryDescriptor
             return false;
         }
 
-        if ( null == m_alias )
-        {
-            if( null != entry.m_alias )
-            {
-                return false;
-            }
-        }
-        else
-        {
-            if( ! m_alias.equals( entry.m_alias ) )
-            {
-                return false;
-            }
-        }
-        if( ! m_key.equals( entry.m_key ) )
+        if( !m_key.equals( entry.m_key ) )
         {
             return false;
         }
 
-        if( ! m_classname.equals( entry.m_classname ) )
+        if( !m_classname.equals( entry.m_classname ) )
         {
             return false;
         }
@@ -295,10 +240,6 @@ public final class EntryDescriptor
     {
         int hash = m_key.hashCode();
         hash ^= m_classname.hashCode();
-        if( m_alias != null )
-        {
-            hash ^=  m_alias.hashCode();
-        }
         if( m_volatile )
         {
             hash =  hash + 1806621635;

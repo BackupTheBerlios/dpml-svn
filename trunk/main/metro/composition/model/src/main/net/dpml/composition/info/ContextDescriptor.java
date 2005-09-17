@@ -19,29 +19,21 @@
 
 package net.dpml.composition.info;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Properties;
 
 /**
- * A descriptor describing the Context that the Component
- * is passed to describe information about Runtime environment
- * of Component. It contains information such as;
- * <ul>
- *   <li>classname: the classname of the Context type if it
- *       differs from base Context class (ie BlockContext).</li>
- *   <li>entries: a list of entries contained in context</li>
- * </ul>
- *
- * <p>Also associated with each Context is a set of arbitrary
- * attributes that can be used to store extra information
- * about Context requirements.</p>
+ * A descriptor describing the context that a component
+ * declares.  The context descriptor contains information about
+ * context entries accessable via keys (typically mapped to 
+ * get[Name] operations on a Context inner interface).
  *
  * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
- * @version $Id: ContextDescriptor.java 2387 2005-04-23 19:12:58Z mcconnell@dpml.net $
  */
-public class ContextDescriptor extends Descriptor
+public class ContextDescriptor implements Serializable
 {
     //---------------------------------------------------------
     // static
@@ -65,40 +57,26 @@ public class ContextDescriptor extends Descriptor
     //---------------------------------------------------------
 
     /**
-     * Create a descriptor without attributes.
-     * @param entries the set of entries required within the context
+     * Creation of a new context descriptor.
+     * @param entries the set of context entries
      */
     public ContextDescriptor( final EntryDescriptor[] entries )
     {
-        this( null, entries, null );
+        this( null, entries );
     }
 
     /**
-     * Create a descriptor without attributes.
+     * Creation of a new context descriptor using a supplied context 
+     * casting class and entry array.
+     *
      * @param classname the classname of a castable interface
      * @param entries the set of entries required within the context
-     */
-    public ContextDescriptor( final String classname,
-                              final EntryDescriptor[] entries )
-    {
-        this( classname, entries, null );
-    }
-
-    /**
-     * Create a descriptor.
-     * @param classname the classname of a castable interface
-     * @param entries the set of entries required within the context
-     * @param attributes supplimentary attributes associated with the context
      * @exception NullPointerException if the entries argument is null
      */
-    public ContextDescriptor( final String classname,
-                              final EntryDescriptor[] entries,
-                              final Properties attributes )
-            throws NullPointerException, IllegalArgumentException
+    public ContextDescriptor( final String classname, final EntryDescriptor[] entries )
+      throws NullPointerException, IllegalArgumentException
     {
-        super( attributes );
-
-        if ( null == entries )
+        if( null == entries )
         {
             throw new NullPointerException( "entries" );
         }
@@ -112,11 +90,10 @@ public class ContextDescriptor extends Descriptor
     //---------------------------------------------------------
 
     /**
-     * Return the classname of the context
-     * object interface that the supplied context argument
-     * supports under a type-safe cast.
+     * Return the classname of the interface that the supplied 
+     * context argument supports under a type-safe cast.
      *
-     * @return the reference descriptor.
+     * @return the type-safe casting class (possibly null)
      */
     public String getContextInterfaceClassname()
     {
@@ -124,45 +101,34 @@ public class ContextDescriptor extends Descriptor
     }
 
     /**
-     * Return the local entries contained in the context.
+     * Return the entries contained in the context.
      *
-     * @return the entries contained in the context.
+     * @return the array of entries contained in the context.
      */
-    public EntryDescriptor[] getEntries()
+    public EntryDescriptor[] getEntryDescriptors()
     {
         return m_entries;
     }
 
     /**
-     * Return the entry with specified alias.  If the entry
-     * does not declare an alias the method will return an
-     * entry with the matching key.
+     * Return the entry with specified key.
      *
-     * @param alias the context entry key to lookup
-     * @return the entry with specified key.
-     * @exception NullArgumentException if the alias argument is null.
+     * @param key the context entry key
+     * @return the entry matching the key of null if no matching entry
+     * @exception NullArgumentException if the key argument is null.
      */
-    public EntryDescriptor getEntry( final String alias )
+    public EntryDescriptor getEntryDescriptor( final String key )
         throws NullPointerException
     {
-        if ( null == alias )
+        if ( null == key )
         {
-            throw new NullPointerException( "alias" );
+            throw new NullPointerException( "key" );
         }
 
         for ( int i = 0; i < m_entries.length; i++ )
         {
             final EntryDescriptor entry = m_entries[i];
-            if( entry.getAlias().equals( alias ) )
-            {
-                return entry;
-            }
-        }
-
-        for ( int i = 0; i < m_entries.length; i++ )
-        {
-            final EntryDescriptor entry = m_entries[i];
-            if( entry.getKey().equals( alias ) )
+            if( entry.getKey().equals( key ) )
             {
                 return entry;
             }
@@ -173,7 +139,7 @@ public class ContextDescriptor extends Descriptor
 
     /**
      * Returns a set of entry descriptors resulting from a merge of the descriptors
-     * container in this descriptor with the supplied descriptors.
+     * contained in this descriptor with the supplied descriptors.
      *
      * @param entries the entries to merge
      * @return the mergerged set of entries
@@ -186,7 +152,7 @@ public class ContextDescriptor extends Descriptor
         {
             EntryDescriptor entry = entries[i];
             final String key = entry.getKey();
-            EntryDescriptor local = getEntry( entry.getKey() );
+            EntryDescriptor local = getEntryDescriptor( entry.getKey() );
             if ( local != null )
             {
                 if ( !entry.getClassname().equals( local.getClassname() ) )
@@ -198,7 +164,7 @@ public class ContextDescriptor extends Descriptor
             }
         }
 
-        return join( entries, getEntries() );
+        return join( entries, getEntryDescriptors() );
     }
 
     private EntryDescriptor[] join( EntryDescriptor[] primary, EntryDescriptor[] secondary )
@@ -215,7 +181,11 @@ public class ContextDescriptor extends Descriptor
     */
     public boolean equals( Object other )
     {
-        boolean isEqual = super.equals( other );
+        if( null == other )
+        {
+            return false;
+        }
+        boolean isEqual = true;
         if( isEqual )
         {
             isEqual = other instanceof ContextDescriptor;
@@ -238,8 +208,11 @@ public class ContextDescriptor extends Descriptor
     */
     public int hashCode()
     {
-        int hash = super.hashCode();
-        hash ^= m_classname.hashCode();
+        int hash = getClass().hashCode();
+        if( null != m_classname )
+        {
+            hash ^= m_classname.hashCode();
+        }
         for( int i = 0; i < m_entries.length; i++ )
         {
             hash = hash + 65152197;

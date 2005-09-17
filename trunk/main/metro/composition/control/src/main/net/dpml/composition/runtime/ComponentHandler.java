@@ -176,13 +176,13 @@ public abstract class ComponentHandler extends WeakEventProducer
         //
 
         ContextDirective context = profile.getContextDirective();
-        EntryDescriptor[] entries = m_type.getContext().getEntries();
+        EntryDescriptor[] entries = m_type.getContextDescriptor().getEntryDescriptors();
         for( int i=0; i<entries.length; i++ )
         {
             EntryDescriptor entry = entries[i];
             final String key = entry.getKey();
-            PartReference reference = context.getDirective( key );
-            if( null == reference )
+            Part part = context.getPartDirective( key );
+            if( null == part )
             {
                 if( entry.isRequired() )
                 {
@@ -195,7 +195,6 @@ public abstract class ComponentHandler extends WeakEventProducer
             }
             else
             {
-                Part part = reference.getPart();
                 getContextMap().addEntry( key, part );
             }
         }
@@ -278,7 +277,7 @@ public abstract class ComponentHandler extends WeakEventProducer
     */
     public ServiceDescriptor[] getDescriptors()
     {
-        return m_type.getServices();
+        return m_type.getServiceDescriptors();
     }
 
    /**
@@ -916,7 +915,7 @@ public abstract class ComponentHandler extends WeakEventProducer
 
     private Class[] loadServiceClasses( ClassLoader classloader, Type type )
     {
-        ServiceDescriptor[] services = m_type.getServices();
+        ServiceDescriptor[] services = m_type.getServiceDescriptors();
         Class[] interfaces = new Class[ services.length ];
         for( int i=0; i<interfaces.length; i++ )
         {

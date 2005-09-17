@@ -39,7 +39,6 @@ import net.dpml.composition.info.EntryDescriptor;
 public class EntryDescriptorTestCase extends TestCase
 {
     private static final String m_key = "key";
-    private static final String m_alias = "otherVal";
     private static final String m_type = EntryDescriptor.class.getName();
     private static final boolean m_optional = true;
     private static final boolean m_volatile = true;
@@ -51,21 +50,18 @@ public class EntryDescriptorTestCase extends TestCase
 
     public void testEntryDescriptor()
     {
-        EntryDescriptor entry = new EntryDescriptor(m_key, m_type, m_optional, m_volatile, m_alias);
-        checkEntry(entry, m_key, m_type, m_optional, m_volatile, m_alias );
+        EntryDescriptor entry = new EntryDescriptor( m_key, m_type, m_optional, m_volatile );
+        checkEntry( entry, m_key, m_type, m_optional, m_volatile );
 
-        entry = new EntryDescriptor(m_key, m_type);
-        checkEntry(entry, m_key, m_type, false, false, null );
+        entry = new EntryDescriptor( m_key, m_type );
+        checkEntry( entry, m_key, m_type, false, false );
 
-        entry = new EntryDescriptor(m_key, m_type, m_optional);
-        checkEntry(entry, m_key, m_type, m_optional, false, null );
-
-        entry = new EntryDescriptor( m_key, m_type, m_optional, m_volatile );
-        checkEntry( entry, m_key, m_type, m_optional, m_volatile, null );
+        entry = new EntryDescriptor(m_key, m_type, m_optional );
+        checkEntry( entry, m_key, m_type, m_optional, false );
 
         try
         {
-            new EntryDescriptor(null, m_type);
+            new EntryDescriptor( null, m_type );
             fail("Did not throw expected NullPointerException ");
         }
         catch( NullPointerException npe)
@@ -84,18 +80,10 @@ public class EntryDescriptorTestCase extends TestCase
         }
     }
 
-    private void checkEntry(EntryDescriptor desc, String key, String type, boolean isOptional, boolean isVolatile, String alias)
+    private void checkEntry( EntryDescriptor desc, String key, String type, boolean isOptional, boolean isVolatile )
     {
         assertNotNull( desc );
         assertEquals( key, desc.getKey() );
-        if( alias == null )
-        {
-            assertEquals( key, desc.getAlias() );
-        }
-        else
-        {
-            assertEquals( alias, desc.getAlias() );
-        }
         assertEquals( type, desc.getClassname() );
         assertEquals( isOptional, desc.isOptional() );
         assertEquals( ! isOptional, desc.isRequired() );
@@ -104,8 +92,8 @@ public class EntryDescriptorTestCase extends TestCase
 
     public void testSerialization() throws IOException, ClassNotFoundException
     {
-        EntryDescriptor entry = new EntryDescriptor( m_key, m_type, m_optional, m_volatile, m_alias );
-        checkEntry( entry, m_key, m_type, m_optional, m_volatile, m_alias );
+        EntryDescriptor entry = new EntryDescriptor( m_key, m_type, m_optional, m_volatile );
+        checkEntry( entry, m_key, m_type, m_optional, m_volatile );
 
         File file = new File( "test.out" );
         ObjectOutputStream oos = new ObjectOutputStream( new FileOutputStream( file ) );
@@ -117,7 +105,7 @@ public class EntryDescriptorTestCase extends TestCase
         ois.close();
         file.delete();
 
-        checkEntry( serialized, m_key, m_type, m_optional, m_volatile, m_alias );
+        checkEntry( serialized, m_key, m_type, m_optional, m_volatile );
 
         assertEquals( entry, serialized );
         assertEquals( entry.hashCode(), serialized.hashCode() );

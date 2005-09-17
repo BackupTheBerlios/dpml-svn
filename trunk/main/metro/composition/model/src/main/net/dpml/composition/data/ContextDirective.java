@@ -20,6 +20,7 @@ package net.dpml.composition.data;
 
 import java.io.Serializable;
 
+import net.dpml.part.Part;
 import net.dpml.part.PartReference;
 
 /**
@@ -117,12 +118,12 @@ public class ContextDirective implements Serializable
     }
 
     /**
-     * Return a named entry.
+     * Return part reference defining the value for the requested entry.
      * @param key the context entry key
-     * @return the entry corresponding to the supplied key or null if the
+     * @return the part reference corresponding to the supplied key or null if the
      *   key is unknown
      */
-    public PartReference getDirective( String key )
+    public PartReference getPartReference( String key )
     {
         for( int i = 0; i < m_entries.length; i++ )
         {
@@ -133,6 +134,26 @@ public class ContextDirective implements Serializable
             }
         }
         return null;
+    }
+
+
+    /**
+     * Return part defining the value for the requested entry.
+     * @param key the context entry key
+     * @return the part defintion corresponding to the supplied key or null if the
+     *   key is unknown
+     */
+    public Part getPartDirective( String key )
+    {
+        PartReference ref = getPartReference( key );
+        if( null != ref )
+        {
+            return ref.getPart();
+        }
+        else
+        {
+            return null;
+        }
     }
 
    /**

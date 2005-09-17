@@ -51,10 +51,7 @@
             <entry key="name" value="context"/>
             <entry key="server" uri="service:net.dpml.http.spi.HttpService"/>
             <entry key="requestLog" uri="service:org.mortbay.http.RequestLog"/>
-            <entry key="tempDirectory">
-              <param class="java.io.File" value="urn:system:temp.dir"/>
-              <param value="http/context"/>
-            </entry>
+            <entry key="tempDirectory" value="$${java.io.tmpdir}/http/context"/>
           </context>
         </component>
         <component name="httpHandler" type="net.dpml.http.impl.ResourceHandler">

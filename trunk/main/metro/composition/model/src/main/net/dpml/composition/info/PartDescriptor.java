@@ -32,7 +32,6 @@ import java.beans.Introspector;
  * {
  *    public interface Parts
  *    {
- *        Gizmo createGizmo();
  *        Gizmo getGizmo();
  *        Gizmo getGizmo( Object id );
  *        void releaseGizmo( Gizmo gizmo );

@@ -19,6 +19,9 @@
 package net.dpml.composition.builder;
 
 import java.beans.IntrospectionException;
+import java.beans.XMLEncoder;
+import java.io.FileOutputStream;
+import java.io.BufferedOutputStream;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileWriter;
@@ -248,7 +251,6 @@ public class ComponentBuilderTask extends ClassLoaderBuilderTask implements Part
             parent.mkdirs();
         }
 
-
         ComponentDirective profile = createComponent( classloader, cld, file );
 
         File target = getContext().getTargetDirectory();
@@ -272,6 +274,14 @@ public class ComponentBuilderTask extends ClassLoaderBuilderTask implements Part
         catch( Throwable e )
         {
             log( "XML reporting failed due to: " + e.toString() );
+        }
+    }
+
+    private class LocalExceptionListener implements java.beans.ExceptionListener
+    {
+        public void exceptionThrown( Exception e )
+        {
+            e.printStackTrace();
         }
     }
 
@@ -673,15 +683,14 @@ public class ComponentBuilderTask extends ClassLoaderBuilderTask implements Part
         // and if not - throw an exception
         //
 
-        EntryDescriptor[] entries = type.getContext().getEntries();
+        EntryDescriptor[] entries = type.getContextDescriptor().getEntryDescriptors();
         for( int i=0; i<entries.length; i++ )
         {
             EntryDescriptor entry = entries[i];
             String key = entry.getKey();
 
-            PartReference reference = context.getDirective( key );
-
-            if( entry.isRequired() && ( null == reference ) )
+            Part part = context.getPartDirective( key );
+            if( entry.isRequired() && ( null == part ) )
             {
                 final String error = 
                   "The component model ["

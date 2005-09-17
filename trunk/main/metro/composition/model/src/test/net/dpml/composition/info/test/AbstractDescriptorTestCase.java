@@ -26,6 +26,7 @@ import java.io.ObjectOutputStream;
 import java.util.Properties;
 
 import junit.framework.TestCase;
+
 import net.dpml.composition.info.Descriptor;
 
 /**

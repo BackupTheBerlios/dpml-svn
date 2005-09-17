@@ -40,9 +40,12 @@ import net.dpml.component.control.Controller;
 
 import net.dpml.composition.info.Type;
 import net.dpml.composition.info.InfoDescriptor;
+import net.dpml.composition.info.ContextDescriptor;
 import net.dpml.composition.data.DeploymentDirective;
 import net.dpml.composition.data.ComponentDirective;
+import net.dpml.composition.data.ContextDirective;
 import net.dpml.composition.data.ClassLoaderDirective;
+import net.dpml.composition.data.ValueDirective;
 import net.dpml.composition.model.TypeManager;
 
 import net.dpml.transit.Logger;
@@ -97,7 +100,7 @@ public class ComponentDirectiveEditor extends DefaultMutableTreeNode implements 
             throw new RuntimeException( error, e );
         }
 
-        m_panels = buildPartPanels();
+        m_panels = buildPartPanels( classloader );
         m_nodes = buildPartNodes( classloader );
         m_component = buildPrimeComponent( m_panels );
     }
@@ -131,20 +134,24 @@ public class ComponentDirectiveEditor extends DefaultMutableTreeNode implements 
         return m_panels;
     }
 
-    private Component[] buildPartPanels()
+    private Component[] buildPartPanels( ClassLoader classloader )
     {
         ArrayList list = new ArrayList();
+        if( m_type.getContextDescriptor().getEntryDescriptors().length > 0 )
+        {
+            list.add( new ContextBuilder( m_type, m_directive ).getComponent() );
+        }
         ClassLoaderDirective classloaderDirective = m_directive.getClassLoaderDirective();
         if( classloaderDirective.getClasspathDirectives().length > 0 )
         {
             list.add( buildClassLoaderComponent() );
         }
         list.add( buildTypeStaticComponent() );
-        if( m_type.getCategories().length > 0 )
+        if( m_type.getCategoryDescriptors().length > 0 )
         {
             list.add( buildCategoriesComponent() );
         }
-        if( m_type.getServices().length > 0 )
+        if( m_type.getServiceDescriptors().length > 0 )
         {
             list.add( buildServicesComponent() );
         }
@@ -152,7 +159,6 @@ public class ComponentDirectiveEditor extends DefaultMutableTreeNode implements 
         {
             list.add( buildStateGraphComponent() );
         }
-        list.add( buildContextComponent() );
         return (Component[]) list.toArray( new Component[0] );
     }
 
@@ -173,14 +179,19 @@ public class ComponentDirectiveEditor extends DefaultMutableTreeNode implements 
         for( int i=0; i < references.length; i++ )
         {
             PartReference ref = references[i];
+            String key = ref.getKey();
             Part part = ref.getPart();
             if( part instanceof ComponentDirective )
             {
                 ComponentDirective directive = (ComponentDirective) part;
-                String key = ref.getKey();
                 ComponentDirectiveAdapter adapter = 
                   new ComponentDirectiveAdapter( classloader, m_logger, m_manager, directive, key );
                 list.add( adapter );
+            }
+            else if( part instanceof ValueDirective )
+            {
+                ValueDirective directive = (ValueDirective) part;
+                list.add( new ValueDirectiveAdapter( classloader, m_logger, directive, key ) );
             }
             else
             {
@@ -216,13 +227,6 @@ public class ComponentDirectiveEditor extends DefaultMutableTreeNode implements 
         JPanel panel = new JPanel();
         panel.setName( "State" );
         return panel;
-    }
-
-    private Component buildContextComponent() 
-    {
-        JPanel context = new JPanel();
-        context.setName( "Context" );
-        return context;
     }
 
     private Component buildTypeStaticComponent() 

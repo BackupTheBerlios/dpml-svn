@@ -852,14 +852,28 @@ public final class Desktop implements Handler
     private String convertTreePathToAddress( TreePath path )
     {
         Object object = path.getLastPathComponent();
-        if( object instanceof Node )
+        if( object instanceof TreeNode )
         {
-            Node group = (Node) object;
-            return group.getAbsolutePath();
+            TreeNode group = (TreeNode) object;
+            return getAbsolutePath( group );
         }
         else
         {
             return null;
+        }
+    }
+
+    String getAbsolutePath( TreeNode node )
+    {
+        TreeNode parent = node.getParent();
+        if( null == parent )
+        {
+            return "";
+        }
+        else
+        {
+            String base = getAbsolutePath( parent );
+            return base.concat( "/" + node.toString() );
         }
     }
 
