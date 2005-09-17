@@ -16,23 +16,30 @@
  */
 package net.dpml.http.impl;
 
-import net.dpml.parameters.ParameterException;
-import net.dpml.parameters.Parameters;
-
-/** Wrapper for the Jetty FormAuthenticator.
+/** 
+ * Wrapper for the Jetty FormAuthenticator.
  *
  */
 public class FormAuthenticator extends org.mortbay.jetty.servlet.FormAuthenticator
 {
-    public FormAuthenticator( Parameters params )
+    public interface Context
     {
-        String loginPage = params.getParameter( "login-page", null );
-        if( loginPage != null )
-            setLoginPage( loginPage );
-        
-        String errorPage = params.getParameter( "error-page", null );
-        if( errorPage != null )
-            setErrorPage( errorPage );
+        String getLoginPage( String value );
+        String getErrorPage( String value );
     }
-} 
- 
+
+    public FormAuthenticator( Context context )
+    {
+        String loginPage = context.getLoginPage( null );
+        if( loginPage != null )
+        {
+            setLoginPage( loginPage );
+        }
+        String errorPage = context.getErrorPage( null );
+        if( errorPage != null )
+        {
+            setErrorPage( errorPage );
+        }
+    }
+}
+

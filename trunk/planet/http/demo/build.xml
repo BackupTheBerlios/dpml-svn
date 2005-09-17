@@ -31,7 +31,7 @@
             <entry key="trace" value="false"/>
             <entry key="anonymous" value="false"/>
             <entry key="gracefulStop" value="true"/>
-            <entry key="requestsPerGC" value="100"/>
+            <entry key="requestsPerGC" value="1000"/>
           </context>
         </component>
         <component key="requestLog" type="net.dpml.http.impl.NcsaRequestLog">
@@ -44,14 +44,17 @@
         <component type="net.dpml.http.impl.SocketListener" name="socketListener">
           <context>
             <entry key="httpServer" uri="service:net.dpml.http.spi.HttpService"/>
+            <entry key="port" value="8080"/>
           </context>
         </component>
         <component name="context" type="net.dpml.http.impl.HttpContextImpl" >
           <context>
-            <entry key="name" value="context"/>
             <entry key="server" uri="service:net.dpml.http.spi.HttpService"/>
             <entry key="requestLog" uri="service:org.mortbay.http.RequestLog"/>
             <entry key="tempDirectory" value="$${java.io.tmpdir}/http/context"/>
+            <entry key="contextPath" value="/"/>
+            <entry key="gracefulStop" value="true"/>
+            <entry key="resourceBase" value="."/>
           </context>
         </component>
         <component name="httpHandler" type="net.dpml.http.impl.ResourceHandler">

@@ -50,18 +50,23 @@ public class HttpContextImpl extends HttpContext
         Authenticator getAuthenticator( Authenticator value );
         UserRealm getUserRealm( UserRealm value );
         MimeTypes getMimeTypes( MimeTypes value );
+        String getContextPath( String path );
+        String getResourceBase( String base );
         RequestLog getRequestLog();
-        String getName();
+        boolean getGracefulStop( boolean flag );
+        int getMaxCachedFileSize( int max );
+        int getMaxCacheSize( int max );
     }
 
     private HttpService m_HttpServer;
-    private boolean     m_Graceful;
+    private boolean     m_graceful;
     private Logger      m_logger;
 
     public HttpContextImpl( Logger logger, Context context, Configuration conf )
         throws ConfigurationException
     {
         m_logger = logger;
+
         File tmpDir = context.getTempDirectory();
         tmpDir.mkdirs();
         setTempDirectory( tmpDir );
@@ -81,7 +86,6 @@ public class HttpContextImpl extends HttpContext
         }
         RequestLog requestLog = context.getRequestLog();
         setRequestLog( requestLog );
-
         MimeTypes mimeTypes = context.getMimeTypes( null );
         if( null != mimeTypes )
         {
@@ -91,11 +95,11 @@ public class HttpContextImpl extends HttpContext
         Configuration virtualHostConf = conf.getChild( "virtual-hosts" );
         configureVirtualHosts( virtualHostConf );
 
-        Configuration contextConf = conf.getChild( "context-path" );
-        String contextPath = contextConf.getValue( "/" );
+        m_graceful = context.getGracefulStop( false );
+        String contextPath = context.getContextPath( "/" );
         setContextPath( contextPath );
-
-        m_Graceful = conf.getChild( "graceful-stop" ).getValueAsBoolean( false );
+        String resourceBase = context.getResourceBase( "." );
+        setResourceBase( resourceBase );
 
         Configuration attributes = conf.getChild( "attributes" );
         configureAttributes( attributes );
@@ -106,17 +110,17 @@ public class HttpContextImpl extends HttpContext
         Configuration welcomeFiles = conf.getChild( "welcome-files" );
         configureWelcomeFiles( welcomeFiles );
 
-        String resourceBase = conf.getChild( "resource-base").getValue( "." );
-        setResourceBase( resourceBase );
-
-        int maxCachedFilesize = conf.getChild( "max-cached-filesize" ).getValueAsInteger( -1 );
+        int maxCachedFilesize = context.getMaxCachedFileSize( -1 );
         if( maxCachedFilesize > 0 )
+        {
             setMaxCachedFileSize( maxCachedFilesize );
+        }
 
-        int maxCacheSize = conf.getChild( "max-cache-size" ).getValueAsInteger( -1 );
+        int maxCacheSize = context.getMaxCacheSize( -1 );
         if( maxCacheSize > 0 )
+        {
             setMaxCacheSize( maxCacheSize );
-
+        }
     }
 
     public HttpContext getHttpContext()
@@ -171,7 +175,9 @@ public class HttpContextImpl extends HttpContext
     {
         Configuration[] files = conf.getChildren( "file" );
         for( int i=0 ; i < files.length ; i++ )
+        {
             addWelcomeFile( files[i].getValue() );
+        }
     }
 
     protected void doStart()

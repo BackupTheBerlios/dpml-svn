@@ -17,28 +17,24 @@
 package net.dpml.http.impl;
 
 import java.io.IOException;
-import net.dpml.parameters.ParameterException;
-import net.dpml.parameters.Parameterizable;
-import net.dpml.parameters.Parameters;
 
-/** Wrapper for the Jetty HashUserRealm.
- *
+/** 
+ * Wrapper for the Jetty HashUserRealm.
  */
 public class HashUserRealm extends org.mortbay.http.HashUserRealm
 {
-    public HashUserRealm( Parameters params )
-        throws ParameterException
+    public interface Context
     {
-        String realmName = params.getParameter( "name" );
+        String getRealmName();
+        String getRealmURI();
+    }
+
+    public HashUserRealm( Context context ) throws IOException
+    {
+        String realmName = context.getRealmName();
         setName( realmName );
 
-        String uri = params.getParameter( "realm-uri" );
-        try
-        {
-            load( uri );
-        } catch( IOException e )
-        {
-            throw new ParameterException( "Unable to read realm from " + uri, e );
-        }
+        String uri = context.getRealmURI();
+        load( uri );
     }
 }

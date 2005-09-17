@@ -43,9 +43,9 @@ public class SocketListener extends org.mortbay.http.SocketListener
     }
 
     private HttpService m_HttpServer;
-    private Logger      m_logger;
+    private Logger m_logger;
 
-    public SocketListener(Logger logger, Context context ) throws java.net.UnknownHostException 
+    public SocketListener( Logger logger, Context context ) throws java.net.UnknownHostException 
     {
         m_logger = logger;
         m_HttpServer = context.getHttpServer();

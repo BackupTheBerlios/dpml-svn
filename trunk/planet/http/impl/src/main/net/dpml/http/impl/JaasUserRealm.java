@@ -16,22 +16,23 @@
  */
 package net.dpml.http.impl;
 
-import net.dpml.parameters.ParameterException;
-import net.dpml.parameters.Parameterizable;
-import net.dpml.parameters.Parameters;
-
-/** Wrapper for the Jetty JaasUserRealm.
- *
+/** 
+ * Wrapper for the Jetty JaasUserRealm.
  */
 public class JaasUserRealm extends org.mortbay.jaas.JAASUserRealm
 {
-    public JaasUserRealm( Parameters params )
-        throws ParameterException
+    public interface Context
     {
-        String realmName = params.getParameter( "name" );
+        String getRealmName();
+        String setLoginModuleName();
+    }
+
+    public JaasUserRealm( Context context )
+    {
+        String realmName = context.getRealmName();
         setName( realmName );
 
-        String filename = params.getParameter( "login-modulename" );
+        String filename = context.setLoginModuleName();
         setLoginModuleName( filename );
     }
 }

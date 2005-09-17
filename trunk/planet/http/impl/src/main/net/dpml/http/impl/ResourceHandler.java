@@ -43,7 +43,7 @@ public class ResourceHandler
     private HttpContextService  m_context;
     private int                 m_index;
 
-    public ResourceHandler(Logger logger, Context context )
+    public ResourceHandler( Logger logger, Context context )
     {
         m_logger = logger;
         m_context = context.getHttpContext();

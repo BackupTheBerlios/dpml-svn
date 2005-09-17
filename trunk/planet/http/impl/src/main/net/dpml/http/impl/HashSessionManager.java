@@ -17,33 +17,42 @@
 package net.dpml.http.impl;
 
 import net.dpml.activity.Startable;
-import net.dpml.parameters.ParameterException;
-import net.dpml.parameters.Parameterizable;
-import net.dpml.parameters.Parameters;
 
 /**
  */
 public class HashSessionManager
-    extends org.mortbay.jetty.servlet.HashSessionManager
-    implements Startable
+    extends org.mortbay.jetty.servlet.HashSessionManager implements Startable
 {
-
-    public HashSessionManager( Parameters params )
+    public interface Context
     {
-        int maxInactiveInterval = params.getParameterAsInteger( "max-inactive-interval", -1 );
-        if( maxInactiveInterval >= 0 )
-            setMaxInactiveInterval( maxInactiveInterval );
-            
-        int scavangePeriod = params.getParameterAsInteger( "scavange-period", -1 );
-        if( scavangePeriod >= 0 )
-            setScavengePeriod( scavangePeriod );
+        int getMaxInactiveInterval( int value );
+        int getScavengePeriod( int value );
+        boolean getUseRequestedId( boolean flag );
+        String getWorkerName( String name );
+    }
 
-        boolean useRequestedId = params.getParameterAsBoolean( "use-requested-id", false );
+    public HashSessionManager( Context context )
+    {
+        int maxInactiveInterval = context.getMaxInactiveInterval( -1 );
+        if( maxInactiveInterval > -1 )
+        {
+            setMaxInactiveInterval( maxInactiveInterval );
+        }
+   
+        int scavangePeriod = context.getScavengePeriod( -1 );
+        if( scavangePeriod > -1 )
+        {
+            setScavengePeriod( scavangePeriod );
+        }
+
+        boolean useRequestedId = context.getUseRequestedId( false );
         setUseRequestedId( useRequestedId );
         
-        String workerName = params.getParameter( "worker-name", null );
+        String workerName = context.getWorkerName( null );
         if( workerName != null )
+        {
             setWorkerName( workerName );
+        }
     }
 }
  

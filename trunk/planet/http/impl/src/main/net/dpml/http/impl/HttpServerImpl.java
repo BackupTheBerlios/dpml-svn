@@ -38,7 +38,7 @@ public class HttpServerImpl extends Server
     private Logger  m_logger;
     private boolean m_Graceful;
 
-    public HttpServerImpl(Logger logger, Context context )
+    public HttpServerImpl( Logger logger, Context context )
     {
         m_logger = logger;
         
