@@ -47,6 +47,7 @@ public class SerializableObjectHelper
         FileOutputStream stream = null;
         try
         {
+            file.getParentFile().mkdirs();
             stream = new FileOutputStream( file );
             output = new ObjectOutputStream( stream );
             output.writeObject( object );
