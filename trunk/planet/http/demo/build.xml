@@ -54,7 +54,6 @@
             <entry key="tempDirectory" value="$${java.io.tmpdir}/http/context"/>
             <entry key="contextPath" value="/"/>
             <entry key="gracefulStop" value="true"/>
-            <entry key="resourceBase" value="."/>
           </context>
         </component>
         <component name="httpHandler" type="net.dpml.http.impl.ResourceHandler">

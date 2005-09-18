@@ -84,7 +84,7 @@ public final class ContextBuilder
     private class DataModel extends AbstractTableModel
     {
         public int getColumnCount()
-        { 
+        {
             return COLUMN_COUNT;
         }
 
@@ -93,12 +93,71 @@ public final class ContextBuilder
             return m_type.getContextDescriptor().getEntryDescriptors().length; 
         }
 
-        public Object getValueAt( int row, int col ) 
+        public boolean isCellEditable( int row, int column )
+        {
+            if( column == VALUE_COLUMN )
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public void setValueAt( Object value, int row, int col ) 
+        {
+            System.out.println( "# set (" + row + "," + col + ") " + value );
+        }
+
+        public Object getValueAt( int row, int column )
         {
             EntryDescriptor entry = getEntryDescriptor( row );
-            Part part = getPartDirective( entry );
-            return new Entry( entry, part );
+            if( null == entry )
+            {
+                return null;
+            }
+
+            switch( column )
+            {
+                case NAME_COLUMN :
+                  return entry.getKey();
+                case TYPE_COLUMN :
+                  String classname = entry.getClassname();
+                  if( classname.equals( "java.lang.String" ) )
+                  {
+                      return "String";
+                  }
+                  else if( classname.equals( "int" ) )
+                  {
+                      return "integer";
+                  }
+                  else
+                  {
+                      return classname;
+                  }
+                case VALUE_COLUMN :
+                  return getPartDirective( entry );
+                case REQUIRED_COLUMN :
+                  if( entry.isRequired() )
+                  {
+                      return "required";
+                  }
+                  else
+                  {
+                      return null;
+                  }
+                default: 
+                  return null;
+            }
         }
+
+        //public Object getValueAt( int row, int col )
+        //{
+        //    EntryDescriptor entry = getEntryDescriptor( row );
+        //    Part part = getPartDirective( entry );
+        //    return new Entry( entry, part );
+        //}
 
         private EntryDescriptor getEntryDescriptor( int index ) 
         {
@@ -147,60 +206,30 @@ public final class ContextBuilder
         public Component getTableCellRendererComponent(
           JTable table, Object object, boolean selected, boolean focus, int row, int column )
         {
-            Object value = null;
-            Entry entry = (Entry) object;
-            switch( column )
+            Object value = object;
+            if( column == VALUE_COLUMN )
             {
-                case NAME_COLUMN :
-                  value = entry.getEntryDescriptor().getKey();
-                  break;
-                case TYPE_COLUMN :
-                  String classname = entry.getEntryDescriptor().getClassname();
-                  if( classname.equals( "java.lang.String" ) )
-                  {
-                      value = "String";
-                  }
-                  else if( classname.equals( "int" ) )
-                  {
-                      value = "integer";
-                  }
-                  else
-                  {
-                      value = classname;
-                  }
-                  break;
-                case VALUE_COLUMN :
-                  Part part = entry.getPartDirective();
-                  if( null != part )
-                  {
-                      if( part instanceof ValueDirective )
-                      {
-                          ValueDirective directive = (ValueDirective) part;
-                          value = directive.getLocalValue();
-                          if( null == value )
-                          {
-                              value = "Compound Value";
-                          }
-                      }
-                      else if( part instanceof ReferenceDirective )
-                      {
-                          ReferenceDirective ref = (ReferenceDirective) part;
-                          value = ref.getURI();
-                      }
-                      else
-                      {
-                          value = part.getClass().getName();
-                      }
-                  }
-                  break;
-                case REQUIRED_COLUMN :
-                  if( entry.getEntryDescriptor().isRequired() )
-                  {
-                      value = "required";
-                  }
-                  break;
-                default: 
-                  //value = "? " + entry;
+                if( null != object )
+                {
+                    if( object instanceof ValueDirective )
+                    {
+                        ValueDirective directive = (ValueDirective) object;
+                        value = directive.getLocalValue();
+                        if( null == value )
+                        {
+                            value = "Compound Value";
+                        }
+                    }
+                    else if( object instanceof ReferenceDirective )
+                    {
+                        ReferenceDirective ref = (ReferenceDirective) object;
+                        value = ref.getURI();
+                    }
+                    else
+                    {
+                        value = object.getClass().getName();
+                    }
+                }
             }
 
             JLabel label = 
