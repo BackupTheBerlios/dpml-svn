@@ -25,6 +25,8 @@ import java.net.URLConnection;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 
+import net.dpml.part.context.Context;
+
 /**
  * The PartHandler interface defines the a contract for an object that provides generalized
  * part loading.
@@ -41,6 +43,22 @@ public interface PartHandler extends Remote
     Control loadControl( URI uri )
       throws IOException, ControlException, PartNotFoundException, 
       PartHandlerNotFoundException, DelegationException;
+
+   /**
+    * Create and return a new context object using a supplied part uri.
+    * @param uri the part uri
+    * @return the context instance
+    */
+    public Context getContext( URI uri ) 
+      throws IOException, ControlException, PartNotFoundException, 
+      PartHandlerNotFoundException, DelegationException;
+
+   /**
+    * Create and return a new context object using a supplied part.
+    * @param part the part 
+    * @return the context instance
+    */
+    Context getContext( Part part ) throws ControlException, RemoteException;
 
    /**
     * Load a part from serialized form.  The uri is assumed to be a uri that 

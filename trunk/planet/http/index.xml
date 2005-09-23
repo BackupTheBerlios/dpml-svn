@@ -71,7 +71,6 @@
       <name>dpml-http-impl</name>
       <types>
         <type name="jar"/>
-        <!--<type name="part"/>-->
       </types>
     </info>
     <dependencies>
@@ -107,8 +106,7 @@
     <dependencies>
       <include key="dpml-http-impl"/>
       <include key="dpml-http-spi"/>
-      <include key="dpml-component-api"/>
-      <include key="dpml-depot-console"/>
+      <include key="dpml-component-api" runtime="false"/>
     </dependencies>
     <plugins>
       <include key="dpml-composition-builder" runtime="false"/>

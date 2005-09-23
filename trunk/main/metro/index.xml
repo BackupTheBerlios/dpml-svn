@@ -49,6 +49,35 @@
     </dependencies>
   </project>
 
+  <!-- State -->
+
+  <project basedir="state/api">
+    <info>
+      <group>dpml/metro</group>
+      <name>dpml-state-api</name>
+      <types>
+        <type name="jar"/>
+      </types>
+    </info>
+    <dependencies>
+      <include key="dpml-transit-main"/>
+    </dependencies>
+  </project>
+
+  <project basedir="state/impl">
+    <info>
+      <group>dpml/metro</group>
+      <name>dpml-state-impl</name>
+      <types>
+        <type name="jar"/>
+      </types>
+    </info>
+    <dependencies>
+      <include key="dpml-state-api"/>
+      <include key="dpml-configuration-impl"/>
+    </dependencies>
+  </project>
+
   <!-- Component -->
 
   <project basedir="component">

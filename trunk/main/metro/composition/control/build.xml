@@ -20,6 +20,8 @@
       <include name="**/CompositionHandler.class"/>
       <include name="**/ComponentHandler.class"/>
       <include name="**/ValueHandler.class"/>
+      <include name="**/ValueContext.class"/>
+      <include name="**/ComponentContext.class"/>
     </rmic>
   </target>
 

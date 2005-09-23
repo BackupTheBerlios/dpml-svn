@@ -21,7 +21,7 @@ package net.dpml.composition.builder.datatypes;
 import java.util.ArrayList;
 import java.util.List;
 
-import net.dpml.composition.data.ValueDirective.Value;
+import net.dpml.composition.data.ValueDirective;
 
 
 /**
@@ -90,24 +90,24 @@ public class ValueDataType
         return (ValueDataType[]) m_params.toArray( new ValueDataType[0] );
     }
 
-    public Value constructValue()
+    public ValueDirective constructValue()
     {
         String classname = getClassname();
         String value = getValue();
         if( null != value )
         {  
-            return new Value( classname, value );
+            return new ValueDirective( classname, value );
         }
         else
         {
             ValueDataType[] params = getValueDataTypes();
-            Value[] values = new Value[ params.length ];
+            ValueDirective[] values = new ValueDirective[ params.length ];
             for( int i=0; i<values.length; i++ )
             {
                 ValueDataType p = params[i];
                 values[i] = p.constructValue();
             }
-            return new Value( classname, values );
+            return new ValueDirective( classname, values );
         }
     }
 }

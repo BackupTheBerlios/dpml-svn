@@ -32,9 +32,9 @@ import junit.framework.TestCase;
 
 import net.dpml.composition.info.CategoryDescriptor;
 import net.dpml.composition.info.ContextDescriptor;
-import net.dpml.composition.info.EntryDescriptor;
+import net.dpml.part.context.EntryDescriptor;
 import net.dpml.composition.info.InfoDescriptor;
-import net.dpml.composition.info.PartDescriptor.Operation;
+import net.dpml.composition.info.InfoDescriptor.CollectionPolicy;
 import net.dpml.composition.info.Type;
 
 import net.dpml.configuration.Configuration;
@@ -42,7 +42,7 @@ import net.dpml.configuration.Configuration;
 import net.dpml.part.PartReference;
 import net.dpml.component.state.State;
 import net.dpml.component.ServiceDescriptor;
-
+import net.dpml.composition.AbstractEncodingTestCase;
 
 /**
  * TypeTestCase does XYZ
@@ -50,7 +50,7 @@ import net.dpml.component.ServiceDescriptor;
  * @author <a href="mailto:dev-dpml@lists.ibiblio.org">The Digital Product Meta Library</a>
  * @version $Id: TypeTestCase.java 2958 2005-07-03 08:11:07Z mcconnell@dpml.net $
  */
-public class TypeTestCase extends TestCase
+public class TypeTestCase extends AbstractEncodingTestCase
 {
     private State m_graph;
     private InfoDescriptor m_descriptor;
@@ -61,11 +61,6 @@ public class TypeTestCase extends TestCase
     private ServiceDescriptor m_reference;
     private String m_key;
 
-    public TypeTestCase( String name )
-    {
-        super( name );
-    }
-
     public void setUp()
     {
         m_graph = new State();
@@ -75,7 +70,7 @@ public class TypeTestCase extends TestCase
         m_loggers = new CategoryDescriptor[] {
             new CategoryDescriptor("name", new Properties())
         };
-        m_context = new ContextDescriptor( TypeTestCase.class.getName(), new EntryDescriptor[0] );
+        m_context = new ContextDescriptor( new EntryDescriptor[0] );
         m_services = new ServiceDescriptor[] { m_reference };
         m_parts = new PartReference[0];
     }
@@ -139,6 +134,15 @@ public class TypeTestCase extends TestCase
 
     private static InfoDescriptor createSimpleInfo( String classname )
     {
-        return new InfoDescriptor( null, classname, null, null, null, null, false, null );
+        return new InfoDescriptor( null, classname, null, null, CollectionPolicy.WEAK, null, false, null );
     }
- }
+    
+    public void testEncoding() throws Exception
+    {
+        Type type = 
+          new Type(
+            m_graph, m_descriptor, m_loggers, m_context, m_services, 
+            null, m_parts );
+        executeEncodingTest( type, "type.xml" );
+    }
+}

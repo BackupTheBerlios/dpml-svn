@@ -82,6 +82,11 @@ public abstract class Node extends DefaultMutableTreeNode implements Volotile
 
     public abstract String getName();
 
+    public String toString()
+    {
+        return getName();
+    }
+    
     Component getComponent()
     {
         return DEFAULT_COMPONENT;

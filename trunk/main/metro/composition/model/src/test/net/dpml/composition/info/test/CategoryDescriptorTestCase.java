@@ -19,6 +19,19 @@
 
 package net.dpml.composition.info.test;
 
+import java.beans.Encoder;
+import java.beans.XMLDecoder;
+import java.beans.XMLEncoder;
+import java.beans.ExceptionListener;
+import java.beans.Expression;
+import java.beans.PersistenceDelegate;
+import java.beans.DefaultPersistenceDelegate;
+import java.io.FileOutputStream;
+import java.io.FileInputStream;
+import java.io.BufferedOutputStream;
+import java.io.BufferedInputStream;
+import java.io.File;
+
 import net.dpml.composition.info.Descriptor;
 import net.dpml.composition.info.CategoryDescriptor;
 
@@ -33,14 +46,14 @@ public class CategoryDescriptorTestCase extends AbstractDescriptorTestCase
 {
     private final String m_name = "name";
 
-    public CategoryDescriptorTestCase( String name )
+    protected CategoryDescriptor getCategoryDescriptor()
     {
-        super( name );
+        return new CategoryDescriptor(m_name, getProperties());
     }
 
     protected Descriptor getDescriptor()
     {
-        return new CategoryDescriptor(m_name, getProperties());
+        return getCategoryDescriptor();
     }
 
 
@@ -50,5 +63,11 @@ public class CategoryDescriptorTestCase extends AbstractDescriptorTestCase
         CategoryDescriptor cat = (CategoryDescriptor) desc;
 
         assertEquals( m_name, cat.getName() );
+    }
+    
+    public void testEncoding() throws Exception
+    {
+        CategoryDescriptor descriptor = getCategoryDescriptor();
+        executeEncodingTest( descriptor, "category.xml" );
     }
 }

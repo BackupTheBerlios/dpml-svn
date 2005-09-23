@@ -56,6 +56,7 @@ import net.dpml.part.DelegationException;
 import net.dpml.part.Part;
 import net.dpml.part.PartHandlerNotFoundException;
 import net.dpml.part.PartNotFoundException;
+import net.dpml.part.context.Context;
 
 import net.dpml.component.control.ControllerContext;
 import net.dpml.component.control.ControllerException;
@@ -220,6 +221,70 @@ public class CompositionController extends CompositionPartHandler implements Con
     // Controller
     //-------------------------------------------------------------------------------
 
+   /**
+    * Create and return a new context object using a supplied part uri.
+    * @param uri the part uri
+    * @return the context instance
+    */
+    public Context getContext( URI uri ) 
+      throws IOException, ControlException, PartNotFoundException, 
+      PartHandlerNotFoundException, DelegationException 
+    {
+        Part part = loadPart( uri );
+        if( isRecognizedPart( part ) )
+        {
+            return getContext( part );
+        }
+        else
+        {
+            URI handlerUri = part.getPartHandlerURI();
+            getLogger().info( "delegating to: " + handlerUri );
+            Controller controller = (Controller) getPrimaryController( handlerUri );
+            getLogger().info( "delegate established: " + controller );
+            return controller.getContext( part );
+        }
+    }
+
+   /**
+    * Create and return a new context object using a supplied part.
+    * @param part the part 
+    * @return the context instance
+    */
+    public Context getContext( Part part ) throws ControlException, RemoteException
+    {
+        if( null == part )
+        {
+            throw new NullPointerException( "part" );
+        }
+        if( part instanceof ValueDirective )
+        {
+            ValueDirective directive = (ValueDirective) part;
+            return new ValueContext( directive );
+        }
+        else if( part instanceof ComponentDirective )
+        {
+            try
+            {
+                ComponentDirective profile = (ComponentDirective) part;
+                return new ComponentContext( profile );
+            }
+            catch( Throwable e )
+            {
+                final String error =
+                  "Unexpected error while attempting to construct component context.";
+                throw new ControlException( error, e );
+            }
+        }
+        else
+        {
+            String classname = part.getClass().getName();
+            final String error = 
+              "Unsupported part implementation class ["
+              + classname
+              + "] passed to getContext(Part).";
+            throw new UnsupportedPartTypeException( CONTROLLER_URI, classname, error );
+        }
+    }
 
    /**
     * Returns an control object using the supplied part as the construction template.

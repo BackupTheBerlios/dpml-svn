@@ -19,7 +19,6 @@
 package net.dpml.composition.builder;
 
 import java.beans.IntrospectionException;
-import java.beans.XMLEncoder;
 import java.io.FileOutputStream;
 import java.io.BufferedOutputStream;
 import java.io.ByteArrayInputStream;
@@ -45,8 +44,9 @@ import net.dpml.composition.data.ComponentDirective;
 import net.dpml.composition.data.ContextDirective;
 import net.dpml.composition.data.DeploymentDirective;
 import net.dpml.composition.data.CategoriesDirective;
-import net.dpml.composition.info.EntryDescriptor;
 import net.dpml.composition.info.InfoDescriptor;
+import net.dpml.composition.info.InfoDescriptor.LifestylePolicy;
+import net.dpml.composition.info.InfoDescriptor.CollectionPolicy;
 import net.dpml.composition.info.Type;
 import net.dpml.composition.info.TypeHolder;
 
@@ -66,6 +66,7 @@ import net.dpml.part.PartHolder;
 import net.dpml.part.PartReference;
 import net.dpml.part.Control;
 import net.dpml.part.Control.ActivationPolicy;
+import net.dpml.part.context.EntryDescriptor;
 
 import net.dpml.component.control.ControllerContext;
 import net.dpml.component.Component;
@@ -99,8 +100,8 @@ public class ComponentBuilderTask extends ClassLoaderBuilderTask implements Part
 
     private String m_name;
     private String m_classname;
-    private String m_lifestyle;
-    private String m_collection;
+    private LifestylePolicy m_lifestyle;
+    private CollectionPolicy m_collection;
     private boolean m_activation = true;
     private CategoriesDataType m_categories;
     private ContextDataType m_context;
@@ -149,10 +150,10 @@ public class ComponentBuilderTask extends ClassLoaderBuilderTask implements Part
 
     public void setLifestyle( String policy )
     {
-        m_lifestyle = policy;
+        m_lifestyle = LifestylePolicy.parse( policy );
     }
 
-    public void setCollection( String policy )
+    public void setCollection( CollectionPolicy policy )
     {
         m_collection = policy;
     }
@@ -491,8 +492,8 @@ public class ComponentBuilderTask extends ClassLoaderBuilderTask implements Part
         }
 
         Type type = loadType( classloader, classname );
-        String lifestyle = getLifestylePolicy( type ); 
-        int collection = getCollectionPolicy( type );
+        LifestylePolicy lifestyle = getLifestylePolicy( type ); 
+        CollectionPolicy collection = getCollectionPolicy( type );
         ActivationPolicy activation = getActivationPolicy();
         CategoriesDirective categories = getCategoriesDirective();
         ContextDirective context = getContextDirective( classloader, type );
@@ -521,7 +522,7 @@ public class ComponentBuilderTask extends ClassLoaderBuilderTask implements Part
         try
         {
             Class c = classloader.loadClass( classname );
-            Type type = Type.loadType( c );
+            Type type = Type.decode( c );
             if( null != type )
             {
                 return type;
@@ -592,7 +593,7 @@ public class ComponentBuilderTask extends ClassLoaderBuilderTask implements Part
     * @param type the component type
     * @return the lifestyle policy
     */
-    public String getLifestylePolicy( Type type )
+    public LifestylePolicy getLifestylePolicy( Type type )
     {
         if( null == m_lifestyle )
         {
@@ -600,31 +601,11 @@ public class ComponentBuilderTask extends ClassLoaderBuilderTask implements Part
         }
         else
         {
-            String spec = m_lifestyle.toLowerCase();
-            if( "request".equals( spec ) )
-            {
-                return InfoDescriptor.TRANSIENT;
-            }
-            else if( "thread".equals( spec ) )
-            {
-                return InfoDescriptor.THREAD;
-            }
-            else if( "shared".equals( spec ) )
-            {
-                return InfoDescriptor.SINGLETON;
-            }
-            else
-            {
-                final String error = 
-                  "Lifestyle policy [" 
-                  + spec 
-                  + "] not regignized. Valid policies include 'request', 'thread' and 'shared'.";
-                throw new BuildException( error, getLocation() );
-            }
+            return m_lifestyle;
         }
     }
 
-    public int getCollectionPolicy( Type type )
+    public CollectionPolicy getCollectionPolicy( Type type )
     {
         if( null == m_collection )
         {
@@ -632,27 +613,7 @@ public class ComponentBuilderTask extends ClassLoaderBuilderTask implements Part
         }
         else
         {
-            String spec = m_collection.toLowerCase();
-            if( "hard".equals( spec ) )
-            {
-                return InfoDescriptor.HARD_COLLECTION;
-            }
-            else if( "soft".equals( spec ) )
-            {
-                return InfoDescriptor.SOFT_COLLECTION;
-            }
-            else if( "weak".equals( spec ) )
-            {
-                return InfoDescriptor.WEAK_COLLECTION;
-            }
-            else
-            {
-                final String error = 
-                  "Collection policy [" 
-                  + spec 
-                  + "] not recognized. Valid policies include 'hard', 'soft' and 'weak'.";
-                throw new BuildException( error, getLocation() );
-            }
+            return m_collection;
         }
     }
 
@@ -660,7 +621,7 @@ public class ComponentBuilderTask extends ClassLoaderBuilderTask implements Part
     {
         if( m_activation )
         {
-            return Control.ACTIVATION_ON_STARTUP;
+            return ActivationPolicy.STARTUP;
         }
         else
         {

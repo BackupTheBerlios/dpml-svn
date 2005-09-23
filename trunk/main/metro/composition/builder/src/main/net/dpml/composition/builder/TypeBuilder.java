@@ -22,24 +22,22 @@ import java.io.IOException;
 import java.net.URI;
 import java.beans.IntrospectionException;
 
-import net.dpml.part.builder.Builder;
-
 import net.dpml.composition.info.Type;
 
 /**
- * The contract for builders that create component part.
+ * The contract for builders that create component types.
  *
  * @author <a href="mailto:dev-dpml@lists.ibiblio.org">The Digital Product Meta Library</a>
  * @version $Revision: 1.2 $ $Date: 2004/03/17 10:30:09 $
  */
-public interface TypeBuilder extends Builder
+public interface TypeBuilder
 {
    /**
     * Return a urn identitifying the type handler for this builder.
     *
     * @return a uri identifing the type handler.
     */
-    URI getTypeHandlerURI();
+    //URI getTypeHandlerURI();
 
    /**
     * Build a part type.

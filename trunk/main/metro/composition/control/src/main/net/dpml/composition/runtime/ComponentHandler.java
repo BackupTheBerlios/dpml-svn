@@ -40,8 +40,9 @@ import net.dpml.activity.Startable;
 
 import net.dpml.composition.data.ComponentDirective;
 import net.dpml.composition.data.ContextDirective;
-import net.dpml.composition.info.EntryDescriptor;
+import net.dpml.part.context.EntryDescriptor;
 import net.dpml.composition.info.Type;
+import net.dpml.composition.info.InfoDescriptor.LifestylePolicy;
 import net.dpml.composition.control.CompositionController;
 import net.dpml.composition.event.EventProducer;
 import net.dpml.composition.event.WeakEventProducer;
@@ -107,7 +108,7 @@ public abstract class ComponentHandler extends WeakEventProducer
     private final ContextMap m_context;
     private final State m_graph;
     private final PartsTable m_parts;
-    private final String m_lifestyle;
+    private final LifestylePolicy m_lifestyle;
 
     private State m_state;
     private boolean m_initialized = false;
@@ -137,7 +138,18 @@ public abstract class ComponentHandler extends WeakEventProducer
         m_parent = parent;
         m_componentController = controller.getComponentController();
         m_class = loadComponentClass( classloader, profile );
-        m_type = Type.loadType( m_class );
+        
+        try
+        {
+            m_type = Type.decode( m_class );
+        }
+        catch( Throwable e )
+        {
+            final String error = 
+              "Unable to load component type: " + m_class.getName();
+            throw new ComponentException( error, e );
+        }
+
         m_lifestyle = profile.getLifestylePolicy();
         m_interfaces = loadServiceClasses( classloader, m_type );
 
@@ -204,9 +216,9 @@ public abstract class ComponentHandler extends WeakEventProducer
     * Get the activation policy for the control.
     *
     * @return the activation policy
-    * @see Control#SYSTEM_MANAGED_ACTIVATION
-    * @see Control#ACTIVATION_ON_STARTUP
-    * @see Control#ACTIVATION_ON_DEMAND
+    * @see ActivationPolicy#SYSTEM
+    * @see ActivationPolicy#STARTUP
+    * @see ActivationPolicy#DEMAND
     */
     public ActivationPolicy getActivationPolicy()
     {
@@ -382,7 +394,7 @@ public abstract class ComponentHandler extends WeakEventProducer
         return m_class;
     }
 
-    String getLifestylePolicy()
+    LifestylePolicy getLifestylePolicy()
     {
         return m_lifestyle;
     }

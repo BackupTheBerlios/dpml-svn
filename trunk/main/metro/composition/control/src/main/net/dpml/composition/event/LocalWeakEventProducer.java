@@ -141,9 +141,9 @@ public abstract class LocalWeakEventProducer
                 }
 
                 Object source = event.getSource();
-                if( source instanceof WeakEventProducer )
+                if( source instanceof LocalWeakEventProducer )
                 {
-                    WeakEventProducer producer = (WeakEventProducer) source;
+                    LocalWeakEventProducer producer = (LocalWeakEventProducer) source;
                     try
                     {
                         producer.processEvent( event );
@@ -161,7 +161,7 @@ public abstract class LocalWeakEventProducer
                 else
                 {
                     final String error = 
-                      "Event source is not an instance of " + EventProducer.class.getName();
+                      "Event source is not an instance of " + LocalWeakEventProducer.class.getName();
                     throw new IllegalStateException( error );
                 }
             }

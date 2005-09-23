@@ -18,6 +18,8 @@
 
 package net.dpml.composition.event;
 
+import java.rmi.RemoteException;
+import java.rmi.server.UnicastRemoteObject;
 import java.util.EventObject;
 import java.util.EventListener;
 import java.util.List;
@@ -30,7 +32,7 @@ import net.dpml.transit.util.ExceptionHelper;
  * A abstract base class that established an event queue and handles event dispatch 
  * operations for listeners declared in a class extending this base class.
  */
-public abstract class EventProducer
+public abstract class EventProducer extends UnicastRemoteObject
 {
    /**
     * Registered event listeners.
@@ -42,6 +44,11 @@ public abstract class EventProducer
     */
     protected final Object m_lock = new Object();
 
+    protected EventProducer() throws RemoteException
+    {
+        super();
+    }
+    
    /**
     * Abstract operation to be implemented by classes extending this base class.
     * An implementation is reposible for the posting of the event to associated 

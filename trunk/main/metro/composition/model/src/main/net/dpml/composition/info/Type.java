@@ -19,17 +19,29 @@
 
 package net.dpml.composition.info;
 
+import java.beans.Encoder;
+import java.beans.XMLEncoder;
+import java.beans.XMLDecoder;
+import java.beans.ExceptionListener;
+import java.beans.Expression;
+import java.beans.PersistenceDelegate;
+import java.beans.DefaultPersistenceDelegate;
 import java.io.Serializable;
 import java.io.InputStream;
 import java.io.ObjectInputStream;
+import java.io.OutputStream;
 import java.io.ByteArrayInputStream;
+import java.io.BufferedInputStream;
 import java.io.IOException;
+import java.net.URI;
 import java.net.URL;
+import java.util.ArrayList;
 
 import net.dpml.configuration.Configuration;
 
 import net.dpml.part.Part;
 import net.dpml.part.PartReference;
+import net.dpml.part.context.EntryDescriptor;
 import net.dpml.component.state.State;
 import net.dpml.component.ComponentException;
 import net.dpml.component.ServiceDescriptor;
@@ -56,6 +68,114 @@ public class Type implements Serializable
     static final long serialVersionUID = 1L;
 
     private static final Type OBJECT_TYPE = createObjectType();
+        
+    public static void encode( Type type, OutputStream output ) throws IOException, EncodingException
+    {
+    
+        final StringBuffer buffer = new StringBuffer();
+        ClassLoader loader = Thread.currentThread().getContextClassLoader();
+        XMLEncoder encoder = new XMLEncoder( output );
+        encoder.setExceptionListener( new TypeEncoderListener( type ) );
+        encoder.setPersistenceDelegate( URI.class, new URIPersistenceDelegate() );
+        Thread.currentThread().setContextClassLoader( Type.class.getClassLoader() );
+        try
+        {
+            encoder.writeObject( type );
+        }
+        finally
+        {
+            Thread.currentThread().setContextClassLoader( loader );
+            encoder.close();
+        }
+    }
+        
+    private static class TypeEncoderListener implements ExceptionListener
+    {
+        private Type m_type;
+        
+        private TypeEncoderListener( Type type )
+        {
+            m_type = type;
+        }
+        
+        public void exceptionThrown( Exception e )
+        {
+            System.err.println( "# encoding error: " + e.toString() );
+            e.printStackTrace();
+            Throwable cause = e.getCause();
+            if( null != cause )
+            {
+                if( cause instanceof EncodingRuntimeException )
+                {
+                    EncodingRuntimeException ere = (EncodingRuntimeException) cause;
+                    throw ere;
+                }
+                else
+                {
+                    final String error = 
+                      "An error occured while attempting to encode the type ["
+                      + m_type.getInfo().getClassname()
+                      + "]\nCause: " + cause.toString();
+                    throw new EncodingRuntimeException( error, cause );
+                }
+            }
+            else
+            {
+                final String error = 
+                  "An unexpected error occured while attempting to encode the type ["
+                  + m_type.getInfo().getClassname()
+                  + "] due to: " + e.toString();
+                throw new EncodingRuntimeException( error, e );
+            }
+        }
+    }
+    
+    private static class EncodingRuntimeException extends RuntimeException
+    {
+        public EncodingRuntimeException( String message, Throwable cause )
+        {
+            super( message, cause );
+        }
+    }
+    
+    public static Type decode( Class clazz ) throws IOException
+    {
+        final ClassLoader loader = Thread.currentThread().getContextClassLoader();
+        String path = clazz.getName().replace( '.', '/' ) + ".type";
+        URL url = clazz.getClassLoader().getResource( path );
+        InputStream input = url.openStream();
+        try
+        {
+            Thread.currentThread().setContextClassLoader( Type.class.getClassLoader() );
+            XMLDecoder decoder = new XMLDecoder( new BufferedInputStream( input ) );
+            return (Type) decoder.readObject();
+        }
+        catch( Throwable e )
+        {
+            final String error = 
+              "Unexpected error occured while attempting to load an encoded type."
+              + "\nResource path: " + path;
+            IOException ioe = new IOException( error );
+            ioe.initCause( e );
+            throw ioe;
+        }
+        finally
+        {
+            input.close();
+            Thread.currentThread().setContextClassLoader( loader );
+        }
+    }
+
+    private static class URIPersistenceDelegate extends DefaultPersistenceDelegate
+    {
+        public Expression instantiate( Object old, Encoder encoder )
+        {
+            URI uri = (URI) old;
+            String spec = uri.toString();
+            Object[] args = new Object[]{ spec };
+            return new Expression( old, old.getClass(), "new", args );
+        }
+    }
 
    /**
     * Load a component type definition given a supplied class.
@@ -63,13 +183,14 @@ public class Type implements Serializable
     * @return the component type
     * @exception ComponentException if a type loading error occurs
     */
-    public static Type loadType( Class clazz ) throws ComponentException
+    /*
+    public static Type loadType( Class clazz ) throws IOException
     {
         if( Object.class == clazz )
         {
             return OBJECT_TYPE;
         }
-
+        
         String path = clazz.getName().replace( '.', '/' ) + ".type";
         URL url = clazz.getClassLoader().getResource( path );
         if( null == url )
@@ -89,7 +210,7 @@ public class Type implements Serializable
             throw new ComponentException( error, e );
         }
     }
-
+    
    /**
     * Load a component type definition given a supplied input stream.
     * @param input a type holder serialized object input stream
@@ -125,7 +246,7 @@ public class Type implements Serializable
      *   required by the type
      * @param context a component context descriptor that declares the context type
      *   and context entry key and value classnames
-     * @param services a set of service descriprors that detail the service that
+     * @param services a set of service descriptors that detail the service that
      *   this component type is capable of supplying
      * @param defaults the static configuration defaults
      * @param parts an array of part descriptors

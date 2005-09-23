@@ -128,4 +128,10 @@ public class PartContentHandler extends ContentHandler
     {
         return m_handler;
     }
+
+    public static PartHandler newPartHandler( Logger logger )
+    {
+        PartContentHandler handler = new PartContentHandler( logger );
+        return handler.getPartHandler();
+    }
 }

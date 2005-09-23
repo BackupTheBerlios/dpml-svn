@@ -6,6 +6,7 @@ import java.io.File;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.URI;
 import java.net.URL;
 import java.rmi.Remote;
 import java.rmi.ConnectException;
@@ -27,6 +28,9 @@ import net.dpml.station.ApplicationEvent;
 import net.dpml.profile.ApplicationProfile;
 
 import net.dpml.part.Control;
+import net.dpml.part.context.Context;
+import net.dpml.part.PartHandler;
+import net.dpml.part.PartContentHandler;
 
 import net.dpml.transit.Transit;
 import net.dpml.transit.Logger;
@@ -48,14 +52,19 @@ public class DefaultApplication extends EventProducer implements Application
     private PID m_pid;
     private String m_error;
     private Remote m_control;
+    private Context m_context;
 
     public DefaultApplication( 
-      Logger logger, ApplicationProfile profile, String path ) throws RemoteException
+      Logger logger, ApplicationProfile profile, String path ) throws Exception
     {
         super( logger );
 
         m_profile = profile;
         m_path = path;
+
+        PartHandler handler = PartContentHandler.newPartHandler( logger );
+        URI uri = profile.getCodeBaseURI();
+        m_context = handler.getContext( uri );
     }
 
     public void addApplicationListener( ApplicationListener listener )
@@ -66,6 +75,11 @@ public class DefaultApplication extends EventProducer implements Application
     public void removeApplicationListener( ApplicationListener listener )
     {
         super.removeListener( listener );
+    }
+
+    public Context getContext() throws RemoteException
+    {
+        return m_context;
     }
 
     public ApplicationProfile getProfile() throws RemoteException

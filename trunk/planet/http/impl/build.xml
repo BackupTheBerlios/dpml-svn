@@ -26,6 +26,8 @@
   <target name="build" depends="standard.build">
 
     <c:types>
+      <type class="org.mortbay.http.BasicAuthenticator" threadsafe="true" name="basic"/>
+      <type class="org.mortbay.http.DigestAuthenticator" threadsafe="true" name="digest"/>
       <type class="net.dpml.http.impl.Ajp13Listener" threadsafe="true" name="ajp13"/>
       <type class="net.dpml.http.impl.ClientCertAuthenticator" threadsafe="true" name="cert-auth"/>
       <type class="net.dpml.http.impl.ConfigurationMimeTypes" threadsafe="true" name="mime"/>

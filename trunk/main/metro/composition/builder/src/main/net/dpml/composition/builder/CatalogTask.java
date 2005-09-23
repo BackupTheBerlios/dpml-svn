@@ -32,13 +32,15 @@ import java.util.Map;
 
 import net.dpml.part.Part;
 import net.dpml.part.PartReference;
-import net.dpml.component.ServiceDescriptor;
+import net.dpml.part.context.EntryDescriptor;
 
 import net.dpml.composition.info.Type;
 import net.dpml.composition.info.InfoDescriptor;
+import net.dpml.composition.info.InfoDescriptor.LifestylePolicy;
 import net.dpml.composition.info.ContextDescriptor;
-import net.dpml.composition.info.EntryDescriptor;
 import net.dpml.composition.data.ComponentDirective;
+
+import net.dpml.component.ServiceDescriptor;
 
 import net.dpml.configuration.Configuration;
 import net.dpml.configuration.impl.ConfigurationUtil;
@@ -495,7 +497,7 @@ public class CatalogTask extends ProjectTask
                 writer.write( "\n        </td>" );
 
                 writer.write( "\n        <td>" );
-                writer.write( type.getInfo().getLifestyle() );
+                writer.write( type.getInfo().getLifestyle().getName() );
                 writer.write( "\n        </td>" );
 
                 writer.write( "\n      </tr>" );
@@ -565,10 +567,10 @@ public class CatalogTask extends ProjectTask
             writer.write( "\n    <table>" );
             writer.write( "\n      <tr><td class=\"feature\">Version:</td><td>" + type.getInfo().getVersion() + "</td></tr>" );
             writer.write( "\n      <tr><td class=\"feature\">Name:</td><td>" + type.getInfo().getName() + "</td></tr>" );
-            writer.write( "\n      <tr><td class=\"feature\">Lifestyle:</td><td>" + type.getInfo().getLifestyle() + "</td></tr>" );
+            writer.write( "\n      <tr><td class=\"feature\">Lifestyle:</td><td>" + type.getInfo().getLifestyle().getName() + "</td></tr>" );
             writer.write( "\n      <tr><td class=\"feature\">Thread-Safe:</td><td>" + type.getInfo().isThreadsafe() + "</td></tr>" );
             writer.write( "\n      <tr><td class=\"feature\">Collection:</td><td>" 
-              + InfoDescriptor.getCollectionPolicyKey( type.getInfo().getCollectionPolicy() ) + "</td></tr>" );
+              + type.getInfo().getCollectionPolicy().getName() + "</td></tr>" );
             writer.write( "\n    </table>" );
 
             //
@@ -604,14 +606,9 @@ public class CatalogTask extends ProjectTask
             flag = true;
             ContextDescriptor context = type.getContextDescriptor();
             EntryDescriptor[] entries = context.getEntryDescriptors();
-            String contextClassname = context.getContextInterfaceClassname();
-            if( ( entries.length > 0 ) || ( contextClassname != null ) )
+            if( entries.length > 0  )
             {
                 writer.write( "\n    <p class=\"category\">Context</p>" );
-                if( contextClassname != null )
-                {
-                    writer.write( "\n    <p class=\"feature\">Class: " + contextClassname + "</p>" );
-                }
                 writer.write( "\n    <table width=\"100%\">" );
                 for( int j=0; j < entries.length; j++ )
                 {

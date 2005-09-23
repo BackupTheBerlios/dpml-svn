@@ -50,6 +50,7 @@ import net.dpml.part.Part;
 import net.dpml.part.PartContentHandler;
 import net.dpml.part.PartHandler;
 import net.dpml.part.PartEditor;
+import net.dpml.part.context.Context;
 
 import net.dpml.transit.Logger;
 import net.dpml.transit.Repository;
@@ -101,16 +102,63 @@ public final class PartBuilder
             return new Component[]{ panel };
         }
     }
-
+    
     TreeNode[] getPartNodes()
     {
-        if( null != m_editor )
+        try
         {
-            return m_editor.getPartNodes();
+            Context context = m_application.getContext();
+            String[] keys = context.getChildKeys();
+            TreeNode[] nodes = new TreeNode[ keys.length ];
+            for( int i=0; i < keys.length; i++ )
+            {
+                String key = keys[i];
+                Context child = context.getChild( key );
+                nodes[i] = new ContextTreeNode( key, child );
+            }
+            return nodes;
         }
-        else
+        catch( Throwable e )
         {
+            e.printStackTrace();
             return new TreeNode[0];
         }
     }
+
+    private static class ContextTreeNode extends Node 
+    {
+        private String m_key;
+        private Context m_context;
+        private Component m_component;
+        
+        private ContextTreeNode( String key, Context context )
+        {
+            super( context );
+            m_context = context;
+            m_key = key;
+            m_component = new ContextBuilder( context ).getComponent();
+        }
+        
+        public Component getComponent()
+        {
+            return m_component;
+        }
+        
+        public String getName()
+        {
+            return m_key;
+        }
+    }
+    
+    //TreeNode[] getPartNodes()
+    //{
+    //    if( null != m_editor )
+    //    {
+    //        return m_editor.getPartNodes();
+    //    }
+    //    else
+    //    {
+    //        return new TreeNode[0];
+    //    }
+    //}
 }

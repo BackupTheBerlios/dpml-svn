@@ -179,7 +179,7 @@ public class ContextDirective implements Serializable
                         return false;
                     }
                 }
-                else if( false == m_classname.equals( context.getClassname() ) )
+                else if( !m_classname.equals( context.getClassname() ) )
                 {
                     return false;
                 }

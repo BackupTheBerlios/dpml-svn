@@ -18,6 +18,7 @@
 
 package net.dpml.composition.runtime;
 
+import java.beans.Introspector;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -25,7 +26,6 @@ import java.lang.reflect.Proxy;
 import java.net.URI;
 import java.rmi.RemoteException;
 
-import net.dpml.composition.info.PartDescriptor;
 import net.dpml.composition.control.CompositionController;
 
 import net.dpml.component.control.Controller;
@@ -129,9 +129,9 @@ final class PartsInvocationHandler
             return method.invoke( this, args );
         }
 
-        int semantic = PartDescriptor.getPartSemantic( method );
-        String postfix = PartDescriptor.getPartPostfix( method );
-        String key = PartDescriptor.getPartKey( method, semantic );
+        int semantic = getPartSemantic( method );
+        String postfix = getPartPostfix( method );
+        String key = getPartKey( method, semantic );
 
         //
         // This is the point wyhere we have a reference to the consumer (the part proxy)
@@ -144,7 +144,7 @@ final class PartsInvocationHandler
 
         Component provider = m_component.getPartsTable().getComponent( key );
 
-        if( PartDescriptor.GET == semantic )
+        if( GET == semantic )
         {
             if( null == postfix )
             {
@@ -191,8 +191,8 @@ final class PartsInvocationHandler
                     throw new IllegalStateException( error );
                 }
             }
-            else if( PartDescriptor.CONTEXT_MANAGER_KEY.equals( postfix )
-              || PartDescriptor.CONTEXT_MAP_KEY.equals( postfix ) )
+            else if( CONTEXT_MANAGER_KEY.equals( postfix )
+              || CONTEXT_MAP_KEY.equals( postfix ) )
             {
                 Class clazz = method.getReturnType();
                 if( !clazz.isInterface() )
@@ -229,7 +229,7 @@ final class PartsInvocationHandler
                     return Proxy.newProxyInstance( classloader, new Class[]{ clazz }, handler );
                 }
             }
-            else if( PartDescriptor.COMPONENT_KEY.equals( postfix ) )
+            else if( COMPONENT_KEY.equals( postfix ) )
             {
                 return provider; // TODO: wrap in a proxy
             }
@@ -244,7 +244,7 @@ final class PartsInvocationHandler
                 throw new IllegalStateException( error );
             }
         }
-        else if( PartDescriptor.RELEASE == semantic )
+        else if( RELEASE == semantic )
         {
             if( provider instanceof Control )
             {
@@ -327,4 +327,119 @@ final class PartsInvocationHandler
             throw new IllegalArgumentException( error );
         }
     }
+    
+    // PartDescriptor stuff
+    
+    public static final String GET_KEY = "get";
+    public static final String RELEASE_KEY = "release";
+    public static final int GET = 1;
+    public static final int RELEASE = -1;
+    public static final String CONTEXT_MAP_KEY = "ContextMap";
+    public static final String CONTEXT_MANAGER_KEY = "ContextManager";
+    public static final String COMPONENT_KEY = "Component";
+
+    private static int getPartSemantic( Method method )
+    {
+        String name = method.getName();
+        if( name.startsWith( GET_KEY ) )
+        {
+            return GET;
+        }
+        else if( name.startsWith( RELEASE_KEY ) )
+        {
+            return RELEASE;
+        }
+        else
+        {
+            final String error = 
+              "Unrecognized part accessor method signature ["
+              + name 
+              + "]";
+            throw new IllegalArgumentException( error );
+        }
+    }
+    
+    public static String getPartPostfix( Method method )
+    {
+        String name = method.getName();
+        if( name.endsWith( CONTEXT_MANAGER_KEY ) )
+        {
+            return CONTEXT_MANAGER_KEY;
+        }
+        else if( name.endsWith( CONTEXT_MAP_KEY ) )
+        {
+            return CONTEXT_MAP_KEY;
+        }
+        else if( name.endsWith( COMPONENT_KEY ) )
+        {
+            return COMPONENT_KEY;
+        }
+        else
+        {
+            return null;
+        }
+    }
+
+    public static String getPartKey( Method method )
+    {
+        int semantic = getPartSemantic( method );
+        return getPartKey( method, semantic );
+    }
+
+    public static String getPartKey( Method method, int semantic )
+    {
+        String name = method.getName();
+        if( GET == semantic )
+        {
+            if( name.endsWith( CONTEXT_MANAGER_KEY ) )
+            {
+                int n = CONTEXT_MANAGER_KEY.length();
+                int j = name.length() - n;
+                String substring = name.substring( 0, j );
+                return formatKey( substring, 3 );
+            }
+            else if( name.endsWith( CONTEXT_MAP_KEY ) )
+            {
+                int n = CONTEXT_MAP_KEY.length();
+                int j = name.length() - n;
+                String substring = name.substring( 0, j );
+                return formatKey( substring, 3 );
+            }
+            else if( name.endsWith( COMPONENT_KEY ) )
+            {
+                int n = COMPONENT_KEY.length();
+                int j = name.length() - n;
+                String substring = name.substring( 0, j );
+                return formatKey( substring, 3 );
+            }
+            else
+            {
+               return formatKey( name, 3 );
+            }
+        }
+        else if( RELEASE == semantic )
+        {
+            return formatKey( name, 7 );
+        }
+        else
+        {
+            final String error = 
+              "Unrecognized part accessor method signature ["
+              + name 
+              + "]";
+            throw new IllegalArgumentException( error );
+        }
+    }
+    
+    private static String formatKey( String method, int offset )
+    {
+        String string = method.substring( offset );
+        return formatKey( string );
+    }
+
+    private static String formatKey( String key )
+    {
+        return Introspector.decapitalize( key );
+    }
+
 }

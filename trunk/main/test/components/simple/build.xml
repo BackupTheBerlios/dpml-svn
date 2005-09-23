@@ -25,7 +25,7 @@
 
     <c:type class="net.dpml.test.acme.AcmeContainer" threadsafe="true" name="container">
       <parts>
-        <component name="widget" type="net.dpml.test.acme.WidgetComponent">
+        <component key="widget" name="widget-a" type="net.dpml.test.acme.WidgetComponent">
           <context>
             <entry key="workingDirectory">
               <param class="java.io.File" value="urn:system:work.dir"/>
@@ -35,7 +35,7 @@
             <entry key="uri" feature="uri"/>
           </context>
         </component>
-        <component name="gizmo" type="net.dpml.test.acme.GizmoComponent">
+        <component key="gizmo" name="gizmo-a" type="net.dpml.test.acme.GizmoComponent">
           <context>
             <entry key="color" value="red"/>
             <entry key="widget" uri="service:net.dpml.test.acme.Widget"/>

@@ -40,6 +40,8 @@ import net.dpml.component.control.Controller;
 
 import net.dpml.composition.info.Type;
 import net.dpml.composition.info.InfoDescriptor;
+import net.dpml.composition.info.InfoDescriptor.CollectionPolicy;
+import net.dpml.composition.info.InfoDescriptor.LifestylePolicy;
 import net.dpml.composition.info.ContextDescriptor;
 import net.dpml.composition.data.DeploymentDirective;
 import net.dpml.composition.data.ComponentDirective;
@@ -91,7 +93,7 @@ public class ComponentDirectiveEditor extends DefaultMutableTreeNode implements 
 
         try
         {
-            m_type = Type.loadType( m_class );
+            m_type = Type.decode( m_class );
         }
         catch( Throwable e )
         {
@@ -295,7 +297,7 @@ public class ComponentDirectiveEditor extends DefaultMutableTreeNode implements 
 
     private Component getLifestyleComponent()
     {
-        return new JLabel( m_type.getInfo().getLifestyle() );
+        return new JLabel( m_type.getInfo().getLifestyle().getName() );
     }
 
     private Component getThreadSafeComponent()
@@ -305,9 +307,7 @@ public class ComponentDirectiveEditor extends DefaultMutableTreeNode implements 
 
     private Component getCollectionPolicyComponent()
     {
-        return new JLabel( 
-          InfoDescriptor.getCollectionPolicyKey( 
-            m_type.getInfo().getCollectionPolicy() ) );
+        return new JLabel( m_type.getInfo().getCollectionPolicy().getName() );
     }
 
    /**

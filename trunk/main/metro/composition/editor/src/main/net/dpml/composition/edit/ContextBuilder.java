@@ -33,13 +33,15 @@ import javax.swing.table.TableColumnModel;
 import javax.swing.table.DefaultTableColumnModel;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableModel;
+import javax.swing.table.TableCellEditor;
+import javax.swing.DefaultCellEditor;
 
 import net.dpml.composition.data.ComponentDirective;
 import net.dpml.composition.data.ContextDirective;
 import net.dpml.composition.data.ValueDirective;
 import net.dpml.composition.data.ReferenceDirective;
 import net.dpml.composition.info.Type;
-import net.dpml.composition.info.EntryDescriptor;
+import net.dpml.part.context.EntryDescriptor;
 import net.dpml.composition.model.TypeManager;
 
 import net.dpml.part.Part;
@@ -117,7 +119,6 @@ public final class ContextBuilder
             {
                 return null;
             }
-
             switch( column )
             {
                 case NAME_COLUMN :
@@ -137,7 +138,33 @@ public final class ContextBuilder
                       return classname;
                   }
                 case VALUE_COLUMN :
-                  return getPartDirective( entry );
+                  Part part = getPartDirective( entry );
+                  if( null == part )
+                  {
+                      return null;
+                  }
+                  else if( part instanceof ValueDirective )
+                  {
+                      ValueDirective directive = (ValueDirective) part;
+                      Object value = directive.getLocalValue();
+                      if( null == value )
+                      {
+                          return "Compound Value";
+                      }
+                      else
+                      {
+                          return value;
+                      }
+                  }
+                  else if( part instanceof ReferenceDirective )
+                  {
+                      ReferenceDirective ref = (ReferenceDirective) part;
+                      return ref.getURI();
+                  }
+                  else
+                  {
+                      return part.getClass().getName();
+                  }
                 case REQUIRED_COLUMN :
                   if( entry.isRequired() )
                   {
@@ -151,13 +178,6 @@ public final class ContextBuilder
                   return null;
             }
         }
-
-        //public Object getValueAt( int row, int col )
-        //{
-        //    EntryDescriptor entry = getEntryDescriptor( row );
-        //    Part part = getPartDirective( entry );
-        //    return new Entry( entry, part );
-        //}
 
         private EntryDescriptor getEntryDescriptor( int index ) 
         {
@@ -181,7 +201,6 @@ public final class ContextBuilder
     //--------------------------------------------------------------------------
     // utilities
     //--------------------------------------------------------------------------
-
 
     private static TableColumnModel createColumnModel()
     {
@@ -207,6 +226,7 @@ public final class ContextBuilder
           JTable table, Object object, boolean selected, boolean focus, int row, int column )
         {
             Object value = object;
+            /*
             if( column == VALUE_COLUMN )
             {
                 if( null != object )
@@ -231,35 +251,13 @@ public final class ContextBuilder
                     }
                 }
             }
-
+            */
             JLabel label = 
               (JLabel) super.getTableCellRendererComponent( 
                 table, value, selected, focus, row, column );
             label.setBorder( EMPTY_BORDER );
             label.setHorizontalAlignment( SwingConstants.LEFT );
             return label;
-        }
-    }
-
-    private static class Entry
-    {
-        private final EntryDescriptor m_entry;
-        private final Part m_part;
-
-        Entry( EntryDescriptor entry, Part part )
-        {
-            m_entry = entry;
-            m_part = part;
-        }
-
-        EntryDescriptor getEntryDescriptor()
-        {
-            return m_entry;
-        }
-        
-        Part getPartDirective()
-        {
-            return m_part;
         }
     }
 

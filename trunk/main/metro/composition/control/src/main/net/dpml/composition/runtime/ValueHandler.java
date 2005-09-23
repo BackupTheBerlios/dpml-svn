@@ -25,7 +25,6 @@ import java.rmi.server.UnicastRemoteObject;
 
 import net.dpml.composition.control.CompositionController;
 import net.dpml.composition.data.ValueDirective;
-import net.dpml.composition.data.ValueDirective.Value;
 
 import net.dpml.logging.Logger;
 
@@ -126,13 +125,11 @@ public class ValueHandler extends UnicastRemoteObject implements Component, Clas
     * Get the activation policy for the control.
     *
     * @return the activation policy
-    * @see Control#SYSTEM_MANAGED_ACTIVATION
-    * @see Control#ACTIVATION_ON_STARTUP
-    * @see Control#ACTIVATION_ON_DEMAND
+    * @see ActivationPolicy#SYSTEM
     */
     public ActivationPolicy getActivationPolicy()
     {
-        return Control.SYSTEM_MANAGED_ACTIVATION;
+        return ActivationPolicy.SYSTEM;
     }
 
     protected Logger getLogger()
@@ -244,7 +241,7 @@ public class ValueHandler extends UnicastRemoteObject implements Component, Clas
             if( null == object )
             {
                 String classname = getReturnTypeClassname();
-                Value[] params = m_directive.getValues();
+                ValueDirective[] params = m_directive.getValues();
                 Class clazz = getValueClass( classname );
                 object = getValue( clazz, argument, params );
             }
@@ -286,10 +283,10 @@ public class ValueHandler extends UnicastRemoteObject implements Component, Clas
     *
     * @return the context entry value
     */
-    public Object getValue( Value p )
+    public Object getValue( ValueDirective p )
         throws ComponentException
     {
-        String local = p.getArgument();
+        String local = p.getLocalValue();
         String argument = expandSymbols( local );
         Object object = checkForURNReference( argument );
         if( null != object )
@@ -297,7 +294,7 @@ public class ValueHandler extends UnicastRemoteObject implements Component, Clas
             return object;
         }
         String classname = p.getClassname();
-        Value[] params = p.getValueDirectives();
+        ValueDirective[] params = p.getValues();
         Class clazz = getValueClass( classname );
         return getValue( clazz, argument, params );
     }
@@ -310,27 +307,27 @@ public class ValueHandler extends UnicastRemoteObject implements Component, Clas
      * @return the value
      * @exception ComponentException if the parameter value cannot be resolved
      */
-    public Object getValue( Class clazz, String argument, Value[] parameters )
+    public Object getValue( Class clazz, String argument, ValueDirective[] parameters )
         throws ComponentException
     {
-        if( parameters.length == 0 )
+        if( null != argument )
         {
-            if( argument == null )
+            return getSingleArgumentConstructorValue( clazz, argument );
+        }
+        else
+        {
+            if( parameters.length == 0 )
             {
                 return getNullArgumentConstructorValue( clazz );
             }
             else
             {
-                return getSingleArgumentConstructorValue( clazz, argument );
+                return getMultiArgumentConstructorValue( clazz, parameters );
             }
-        }
-        else
-        {
-             return getMultiArgumentConstructorValue( clazz, parameters );
         }
     }
 
-    private Object getMultiArgumentConstructorValue( Class clazz, Value[] parameters )
+    private Object getMultiArgumentConstructorValue( Class clazz, ValueDirective[] parameters )
       throws ComponentException
     {
         //
@@ -370,7 +367,7 @@ public class ValueHandler extends UnicastRemoteObject implements Component, Clas
             Class[] params = new Class[ parameters.length ];
             for ( int i = 0; i < parameters.length; i++ )
             {
-                Value value = parameters[i];
+                ValueDirective value = parameters[i];
                 try
                 {
                     params[i] = getValueClass( value );
@@ -392,7 +389,7 @@ public class ValueHandler extends UnicastRemoteObject implements Component, Clas
             Object[] values = new Object[ parameters.length ];
             for ( int i = 0; i < parameters.length; i++ )
             {
-                Value p = parameters[i];
+                ValueDirective p = parameters[i];
                 String classname = p.getClassname();
                 try
                 {
@@ -419,7 +416,7 @@ public class ValueHandler extends UnicastRemoteObject implements Component, Clas
             catch ( NoSuchMethodException e )
             {
                 final String error =
-                  "Supplied parameters class ["
+                  "Parameters class ["
                   + clazz.getName()
                   + "] withing the value type ["
                   + getLocalURI()
@@ -547,7 +544,7 @@ public class ValueHandler extends UnicastRemoteObject implements Component, Clas
                   + clazz.getName()
                   + "] with the single argument ["
                   + argument 
-                  + "] withing the value type ["
+                  + "] within the value type ["
                   + getLocalURI()
                   + "].";
                 throw new ComponentException( error, e );
@@ -557,7 +554,7 @@ public class ValueHandler extends UnicastRemoteObject implements Component, Clas
                 final String error =
                   "Cannot access single string parameter constructor for the class: ["
                   + clazz.getName() 
-                  + "] withing the value type ["
+                  + "] within the value type ["
                   + getLocalURI()
                   + "].";
                 throw new ComponentException( error, e );
@@ -622,9 +619,9 @@ public class ValueHandler extends UnicastRemoteObject implements Component, Clas
      * @return the parameter class
      * @exception ComponentException if the parameter class cannot be resolved
      */
-    Class getValueClass( Value value ) throws ComponentException
+    Class getValueClass( ValueDirective value ) throws ComponentException
     {
-        String v = value.getArgument();
+        String v = value.getLocalValue();
         Object object = checkForURNReference( v );
         if( null != object )
         {

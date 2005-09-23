@@ -19,8 +19,17 @@
 
 package net.dpml.composition.info;
 
+import java.beans.Expression;
+import java.beans.BeanDescriptor;
+import java.beans.PersistenceDelegate;
+import java.beans.DefaultPersistenceDelegate;
+import java.beans.SimpleBeanInfo;
+import java.beans.Encoder;
+
 import java.util.Properties;
 import net.dpml.component.Version;
+
+import net.dpml.transit.util.Enum;
 
 /**
  * This class is used to provide explicit information to assembler
@@ -53,22 +62,22 @@ public final class InfoDescriptor extends Descriptor
     */
     static final long serialVersionUID = 1L;
 
-    public static final String TRANSIENT = "transient";
-    public static final String SINGLETON = "singleton";
-    public static final String THREAD = "thread";
+    //public static final String TRANSIENT = "transient";
+    //public static final String SINGLETON = "singleton";
+    //public static final String THREAD = "thread";
 
-    public static final String WEAK = "weak";
-    public static final String SOFT = "soft";
-    public static final String HARD = "hard";
+    //public static final int TRANSIENT_LIFESTYLE = 0;
+    //public static final int THREAD_LIFESTYLE = 1;
+    //public static final int SINGLETON_LIFESTYLE = 2;
 
-    public static final int TRANSIENT_LIFESTYLE = 0;
-    public static final int THREAD_LIFESTYLE = 1;
-    public static final int SINGLETON_LIFESTYLE = 2;
+    //public static final String WEAK = "weak";
+    //public static final String SOFT = "soft";
+    //public static final String HARD = "hard";
 
-    public static final int UNDEFINED_COLLECTION = -1;
-    public static final int WEAK_COLLECTION = 0;
-    public static final int SOFT_COLLECTION = 1;
-    public static final int HARD_COLLECTION = 2;
+    //public static final int UNDEFINED_COLLECTION = -1;
+    //public static final int WEAK_COLLECTION = 0;
+    //public static final int SOFT_COLLECTION = 1;
+    //public static final int HARD_COLLECTION = 2;
 
     //-------------------------------------------------------------------
     // immutable state
@@ -94,7 +103,7 @@ public final class InfoDescriptor extends Descriptor
     /**
      * The component lifestyle.
      */
-    private final String m_lifestyle;
+    private final LifestylePolicy m_lifestyle;
 
     /**
      * The component configuration schema.
@@ -103,15 +112,15 @@ public final class InfoDescriptor extends Descriptor
 
     /**
      * The component garbage collection policy. The value returned is either
-     * WEAK_COLLECTION, SOFT_COLLECTION or HARD_COLLECTION.  A component implementing a WEAK_COLLECTION policy
+     * WEAK, SOFT, HARD or HARD.  A component implementing a WEAK policy
      * will be decommissioned if no references exist.  A component declaring a
-     * SOFT_COLLECTION policy will exist without reference so long as memory contention
-     * does not occur.  A component implementing HARD_COLLECTION policies will be
-     * maintained irrespective of usage and memory constraints so long as its
-     * scope exists (the jvm for a "singleton" and Thread for "thread" lifestyles).
-     * The default policy is HARD_COLLECTION.
+     * SOFT policy will exist without reference so long as memory contention
+     * does not occur.  A component implementing HARD policies will be
+     * maintained irrespective of usage and memory constraints.  The default
+     * policy is SYSTEM which implies delegation of policy selection to the 
+     * component's container.
      */
-    private final int m_collection;
+    private final CollectionPolicy m_collection;
 
     /**
      * Flag indicating if the type is threadsafe.
@@ -133,7 +142,7 @@ public final class InfoDescriptor extends Descriptor
     public InfoDescriptor( final String name, final String classname )
             throws IllegalArgumentException, NullPointerException
     {
-        this( name, classname, null, null, null, null, false, null );
+        this( name, classname, null, null, CollectionPolicy.SYSTEM, null, false, null );
     }
 
     /**
@@ -143,7 +152,7 @@ public final class InfoDescriptor extends Descriptor
      * @param name the default component name
      * @param classname the implemetation classname
      * @param version the implementation version
-     * @param lifestyle the component lifestyle (singleton, per-thread, etc.)
+     * @param lifestyle the component lifestyle (singleton, thread, etc.)
      * @param collection the garbage collection policy for the component
      * @param threadsafe if TRUE the type is declaring itself as threadsafe
      * @param schema the configuration schema
@@ -155,8 +164,8 @@ public final class InfoDescriptor extends Descriptor
     public InfoDescriptor( final String name,
                            final String classname,
                            final Version version,
-                           final String lifestyle,
-                           final String collection,
+                           final LifestylePolicy lifestyle,
+                           final CollectionPolicy collection,
                            final String schema,
                            final boolean threadsafe,
                            final Properties attributes )
@@ -186,48 +195,58 @@ public final class InfoDescriptor extends Descriptor
         {
             m_version = version;
         }
+        
         m_schema = schema;
 
         if( lifestyle == null )
         {
             if( threadsafe )
             {
-                m_lifestyle = SINGLETON;
+                m_lifestyle = LifestylePolicy.SINGLETON;
             }
             else
             {
-                m_lifestyle = TRANSIENT;
+                m_lifestyle = LifestylePolicy.TRANSIENT;
             }
         }
         else
         {
-            validateLifestyle( lifestyle );
             m_lifestyle = lifestyle;
         }
 
-        int p = getCollectionPolicy( collection );
-        if( p > UNDEFINED_COLLECTION )
+        //int p = getCollectionPolicyValue( collection );
+        
+        if( null == collection )
         {
-            if(( m_lifestyle == TRANSIENT ) && ( p == HARD_COLLECTION ))
-            {
-                m_collection = SOFT_COLLECTION;
-            }
-            else
-            {
-                m_collection = p;
-            }
+            m_collection = CollectionPolicy.SYSTEM;
         }
         else
         {
-            if( m_lifestyle == TRANSIENT )
-            {
-                m_collection = SOFT_COLLECTION;
-            }
-            else
-            {
-                m_collection = HARD_COLLECTION;
-            }
+            m_collection = collection;
         }
+        
+        //if( collection > CollectionPolicy.SYSTEM )
+        //{
+        //    if(( m_lifestyle == TRANSIENT ) && ( collection == HARD_COLLECTION ))
+        //    {
+        //        m_collection = SOFT_COLLECTION;
+        //    }
+        //    else
+        //    {
+        //        m_collection = collection;
+        //    }
+        //}
+        //else
+        //{
+        //    if( m_lifestyle == TRANSIENT )
+        //    {
+        //        m_collection = SOFT_COLLECTION;
+        //    }
+        //    else
+        //    {
+        //        m_collection = HARD_COLLECTION;
+        //    }
+        //}
 
         if ( name != null )
         {
@@ -244,18 +263,18 @@ public final class InfoDescriptor extends Descriptor
     * @param lifestyle the lifestyle string
     * @exception IllegalArgumentException if the value is not recognized
     */
-    private void validateLifestyle( String lifestyle )
-        throws IllegalArgumentException
-    {
-        if ( lifestyle.equals( TRANSIENT )
-                || lifestyle.equals( SINGLETON )
-                || lifestyle.equals( THREAD ) )
-        {
-            return;
-        }
-        final String error = "Lifestyle policy not recognized: " + lifestyle;
-        throw new IllegalArgumentException( error );
-    }
+    //private void validateLifestyle( String lifestyle )
+    //    throws IllegalArgumentException
+    //{
+    //    if ( lifestyle.equals( TRANSIENT )
+    //            || lifestyle.equals( SINGLETON )
+    //            || lifestyle.equals( THREAD ) )
+    //    {
+    //        return;
+    //    }
+    //    final String error = "Lifestyle policy not recognized: " + lifestyle;
+    //    throw new IllegalArgumentException( error );
+    //}
 
    /**
     * Internal utility to get the name of the class without the package name. Used
@@ -287,11 +306,11 @@ public final class InfoDescriptor extends Descriptor
     }
 
     /**
-     * Return the component termination policy as a String.
+     * Return the component collection policy.
      *
      * @return the policy
      */
-    public int getCollectionPolicy()
+    public CollectionPolicy getCollectionPolicy()
     {
         return m_collection;
     }
@@ -303,7 +322,7 @@ public final class InfoDescriptor extends Descriptor
     */
     public boolean isWeak()
     {
-        return m_collection == WEAK_COLLECTION;
+        return m_collection.equals( CollectionPolicy.WEAK );
     }
 
     /**
@@ -313,7 +332,7 @@ public final class InfoDescriptor extends Descriptor
      */
     public boolean isSoft()
     {
-        return m_collection == SOFT_COLLECTION;
+        return m_collection.equals( CollectionPolicy.SOFT );
     }
 
     /**
@@ -323,7 +342,7 @@ public final class InfoDescriptor extends Descriptor
      */
     public boolean isHard()
     {
-        return m_collection == HARD_COLLECTION;
+        return m_collection.equals( CollectionPolicy.HARD );
     }
 
     /**
@@ -361,7 +380,7 @@ public final class InfoDescriptor extends Descriptor
      *
      * @return the lifestyle
      */
-    public String getLifestyle()
+    public LifestylePolicy getLifestyle()
     {
         return m_lifestyle;
     }
@@ -392,13 +411,12 @@ public final class InfoDescriptor extends Descriptor
     public boolean equals( Object other )
     {
         boolean isEqual = super.equals(other) && other instanceof InfoDescriptor;
-
         if (isEqual)
         {
             InfoDescriptor info = (InfoDescriptor)other;
             isEqual = isEqual && m_threadsafe == info.m_threadsafe;
             isEqual = isEqual && m_classname.equals( info.m_classname );
-            isEqual = isEqual && ( m_collection == info.m_collection );
+            isEqual = isEqual && m_collection.equals( info.m_collection );
             isEqual = isEqual && m_name.equals( info.m_name );
             isEqual = isEqual && m_lifestyle.equals( info.m_lifestyle );
             if ( null == m_version )
@@ -410,7 +428,6 @@ public final class InfoDescriptor extends Descriptor
                 isEqual = isEqual && m_version.equals(info.m_version);
             }
         }
-
         return isEqual;
     }
 
@@ -421,6 +438,7 @@ public final class InfoDescriptor extends Descriptor
     public int hashCode()
     {
         int hash = super.hashCode();
+        hash ^= m_collection.hashCode();
         if( m_threadsafe )
         {
             hash = hash + 383972391;
@@ -453,6 +471,7 @@ public final class InfoDescriptor extends Descriptor
     * @param policy the lifestyle preference
     * @return the value as a string
     */
+    /*
     public static String getLifestylePreferenceKey( int policy )
     {
         if( policy == TRANSIENT_LIFESTYLE )
@@ -476,13 +495,14 @@ public final class InfoDescriptor extends Descriptor
             throw new IllegalArgumentException( error );
         }
     }
-
+    */
 
    /**
     * Return a string value of a collection policy.
     * @param policy the collection policy
     * @return the value as a string
     */
+    /*
     public static String getCollectionPolicyKey( int policy )
     {
         if ( policy == UNDEFINED_COLLECTION )
@@ -511,13 +531,15 @@ public final class InfoDescriptor extends Descriptor
             }
         }
     }
+    */
 
    /**
     * Return the integer value of a collection policy string.
     * @param policy the collection policy string value
     * @return the value as a collection policy integer value
     */
-    public static int getCollectionPolicy( String policy )
+    /*
+    public static int getCollectionPolicyValue( String policy )
     {
         if ( policy == null )
         {
@@ -542,6 +564,212 @@ public final class InfoDescriptor extends Descriptor
                 final String error =
                   "Unrecognized collection argument [" + policy + "]";
                 throw new IllegalArgumentException( error );
+            }
+        }
+    }
+    */
+    
+   /**
+    * Collection policy enumeration.
+    */
+    public static final class CollectionPolicy extends Enum
+    {
+        static final long serialVersionUID = 1L;
+
+       /**
+        * Weak collection policy.
+        */
+        public static final CollectionPolicy WEAK = new CollectionPolicy( "weak" );
+
+       /**
+        * Soft collection policy.
+        */
+        public static final CollectionPolicy SOFT = new CollectionPolicy( "soft" );
+
+       /**
+        * Hard collection policy.
+        */
+        public static final CollectionPolicy HARD = new CollectionPolicy( "hard" );
+
+       /**
+        * Collection policy to be established at system discretion.
+        */
+        public static final CollectionPolicy SYSTEM = new CollectionPolicy( "system" );
+        
+       /**
+        * Array of static activation policy enumeration values.
+        */
+        private static final CollectionPolicy[] ENUM_VALUES = new CollectionPolicy[]{ WEAK, SOFT, HARD, SYSTEM };
+
+       /**
+        * Returns an array of activation enum values.
+        * @return the activation policies array
+        */
+        public static CollectionPolicy[] values()
+        {
+            return ENUM_VALUES;
+        }
+        
+       /**
+        * Internal constructor.
+        * @param label the enumeration label.
+        * @param index the enumeration index.
+        * @param map the set of constructed enumerations.
+        */
+        private CollectionPolicy( String label )
+        {
+            super( label );
+        }
+        
+        public static CollectionPolicy parse( String value )
+        {
+            if( value.equalsIgnoreCase( "hard" ) )
+            {
+                return HARD;
+            }
+            else if( value.equalsIgnoreCase( "soft" ))
+            {
+                return SOFT;
+            }
+            else if( value.equalsIgnoreCase( "weak" ))
+            {
+                return WEAK;
+            }
+            else if( value.equalsIgnoreCase( "system" ))
+            {
+                return SYSTEM;
+            }
+            else
+            {
+                final String error =
+                  "Unrecognized collection policy argument [" + value + "]";
+                throw new IllegalArgumentException( error );
+            }
+        }
+    }
+    
+    public static final class CollectionPolicyBeanInfo extends SimpleBeanInfo
+    {
+        private static final BeanDescriptor BEAN_DESCRIPTOR = setupBeanDescriptor();
+    
+        public BeanDescriptor getBeanDescriptor()
+        {
+            return BEAN_DESCRIPTOR;
+        }
+    
+        private static BeanDescriptor setupBeanDescriptor()
+        {
+            BeanDescriptor descriptor = new BeanDescriptor( CollectionPolicy.class );
+            descriptor.setValue( 
+              "persistenceDelegate", 
+              new CollectionPolicyPersistenceDelegate() );
+            return descriptor;
+        }
+        
+        private static class CollectionPolicyPersistenceDelegate extends DefaultPersistenceDelegate
+        {
+            public Expression instantiate( Object old, Encoder encoder )
+            {
+                CollectionPolicy policy = (CollectionPolicy) old;
+                return new Expression( CollectionPolicy.class, "parse", new Object[]{ policy.getName() } );
+            }
+        }
+    }
+    
+   /**
+    * Lifestyle policy enumeration.
+    */
+    public static final class LifestylePolicy extends Enum
+    {
+        static final long serialVersionUID = 1L;
+
+       /**
+        * Weak collection policy.
+        */
+        public static final LifestylePolicy TRANSIENT = new LifestylePolicy( "transient" );
+
+       /**
+        * Soft collection policy.
+        */
+        public static final LifestylePolicy THREAD = new LifestylePolicy( "thread" );
+
+       /**
+        * Hard collection policy.
+        */
+        public static final LifestylePolicy SINGLETON = new LifestylePolicy( "singleton" );
+
+       /**
+        * Array of static activation policy enumeration values.
+        */
+        private static final LifestylePolicy[] ENUM_VALUES = new LifestylePolicy[]{ TRANSIENT, THREAD, SINGLETON };
+
+       /**
+        * Returns an array of activation enum values.
+        * @return the activation policies array
+        */
+        public static LifestylePolicy[] values()
+        {
+            return ENUM_VALUES;
+        }
+        
+       /**
+        * Internal constructor.
+        * @param label the enumeration label.
+        * @param index the enumeration index.
+        * @param map the set of constructed enumerations.
+        */
+        private LifestylePolicy( String label )
+        {
+            super( label );
+        }
+        
+        public static LifestylePolicy parse( String value )
+        {
+            if( value.equalsIgnoreCase( "transient" ) )
+            {
+                return TRANSIENT;
+            }
+            else if( value.equalsIgnoreCase( "thread" ))
+            {
+                return THREAD;
+            }
+            else if( value.equalsIgnoreCase( "singleton" ))
+            {
+                return SINGLETON;
+            }
+            else
+            {
+                final String error =
+                  "Unrecognized lifestyle policy argument [" + value + "]";
+                throw new IllegalArgumentException( error );
+            }
+        }
+    }
+
+    public static final class LifestylePolicyBeanInfo extends SimpleBeanInfo
+    {
+        private static final BeanDescriptor BEAN_DESCRIPTOR = setupBeanDescriptor();
+    
+        public BeanDescriptor getBeanDescriptor()
+        {
+            return BEAN_DESCRIPTOR;
+        }
+    
+        private static BeanDescriptor setupBeanDescriptor()
+        {
+            BeanDescriptor descriptor = new BeanDescriptor( LifestylePolicy.class );
+            descriptor.setValue( 
+              "persistenceDelegate", 
+              new LifestylePolicyPersistenceDelegate() );
+            return descriptor;
+        }
+        
+        private static class LifestylePolicyPersistenceDelegate extends DefaultPersistenceDelegate
+        {
+            public Expression instantiate( Object old, Encoder encoder )
+            {
+                LifestylePolicy policy = (LifestylePolicy) old;
+                return new Expression( LifestylePolicy.class, "parse", new Object[]{ policy.getName() } );
             }
         }
     }

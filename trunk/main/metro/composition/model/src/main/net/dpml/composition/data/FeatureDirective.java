@@ -126,7 +126,7 @@ public class FeatureDirective implements Part, Serializable
         else
         {
             FeatureDirective feature = (FeatureDirective) other;
-            if( m_key != feature.getKey() )
+            if( !m_key.equals( feature.getKey() ) )
             {
                 return false;
             }

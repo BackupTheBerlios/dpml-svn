@@ -19,6 +19,8 @@
 package net.dpml.composition.builder;
 
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.BufferedOutputStream;
 import java.net.URI;
 import java.util.LinkedList;
 import java.util.List;
@@ -95,10 +97,21 @@ public class TypesTask extends ProjectTask implements DynamicElementNS
                 final String classname = type.getInfo().getClassname();
                 final String resource = getEmbeddedResourcePath( classname );
                 final File file = getEmbeddedOutputFile( resource );
-                final URI handler = builder.getTypeHandlerURI();
-                final byte[] bytes = SerializableObjectHelper.writeToByteArray( type );
-                final TypeHolder holder = new TypeHolder( handler, bytes );
-                SerializableObjectHelper.write( holder, file );
+                file.getParentFile().mkdirs();
+                final FileOutputStream output = new FileOutputStream( file );
+                final BufferedOutputStream buffer = new BufferedOutputStream( output );
+                try
+                {
+                    Type.encode( type, output );
+                }
+                finally
+                {
+                    output.close();
+                }
+                //final URI handler = builder.getTypeHandlerURI();
+                //final byte[] bytes = SerializableObjectHelper.writeToByteArray( type );
+                //final TypeHolder holder = new TypeHolder( handler, bytes );
+                //SerializableObjectHelper.write( holder, file );
             }
             catch( IntrospectionException e )
             {

@@ -101,7 +101,7 @@ public class SimpleTestCase extends TestCase
         Component component = getComponent( PATH );
         WidgetComponent widget = (WidgetComponent) component.resolve( false );
         String name = widget.getName();
-        assertEquals( "name", "widget", name );
+        assertEquals( "name", "simple-widget", name );
         String newName = "freight";
         widget.setName( newName );
         assertEquals( "name", newName, widget.getName() );

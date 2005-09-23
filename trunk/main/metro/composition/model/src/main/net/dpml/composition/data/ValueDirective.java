@@ -69,7 +69,8 @@ public class ValueDirective implements Part, Serializable
 
     private final String m_classname;
     private final String m_local;
-    private final Value[] m_values;
+    private final ValueDirective[] m_values;
+    private final URI m_handler;
 
     //--------------------------------------------------------------------------
     // constructors
@@ -82,25 +83,48 @@ public class ValueDirective implements Part, Serializable
 
     public ValueDirective( String classname, String value )
     {
+        this( PART_HANDLER_URI, classname, value );
+    }
+    
+    public ValueDirective( URI handler, String classname, String value )
+    {
+        if( null == handler )
+        {
+            throw new NullPointerException( "handler" );
+        }
         if( null == classname )
         {
-            throw new NullPointerException( "classname" );
+            m_classname = String.class.getName();
         }
-        m_classname = classname;
+        else
+        {
+            m_classname = classname;
+        }
         m_local = value;
-        m_values = new Value[0];
+        m_values = new ValueDirective[0];
+        m_handler = handler;
     }
 
-    public ValueDirective( String classname, Value[] values )
+    public ValueDirective( String classname, ValueDirective[] values )
+    {
+        this( PART_HANDLER_URI, classname, values );
+    }
+    
+    public ValueDirective( URI handler, String classname, ValueDirective[] values )
     {
         if( null == classname )
         {
             throw new NullPointerException( "classname" );
         }
+        if( null == handler )
+        {
+            throw new NullPointerException( "handler" );
+        }
         if( null == values )
         {
             throw new NullPointerException( "values" );
         }
+        m_handler = handler;
         m_classname = classname;
         m_values = values;
         m_local = null;
@@ -116,7 +140,7 @@ public class ValueDirective implements Part, Serializable
      */
      public URI getPartHandlerURI()
      {
-         return PART_HANDLER_URI;
+         return m_handler;
      }
 
     //--------------------------------------------------------------------------
@@ -133,7 +157,7 @@ public class ValueDirective implements Part, Serializable
         return m_local;
     }
 
-    public Value[] getValues()
+    public ValueDirective[] getValues()
     {
         return m_values;
     }
@@ -165,12 +189,12 @@ public class ValueDirective implements Part, Serializable
             }
             else
             {
-                Value[] mine = getValues();
-                Value[] yours = value.getValues();
+                ValueDirective[] mine = getValues();
+                ValueDirective[] yours = value.getValues();
                 for( int i=0; i<mine.length; i++ )
                 {
-                    Value a = mine[i];
-                    Value b = yours[i];
+                    ValueDirective a = mine[i];
+                    ValueDirective b = yours[i];
                     if( false == equals( a, b ) )
                     {
                         return false;
@@ -183,12 +207,7 @@ public class ValueDirective implements Part, Serializable
 
     public int hashCode()
     {
-        //int hash = m_key.hashCode();
         int hash = m_classname.hashCode();
-        //if( null != m_classname )
-        //{
-        //    hash ^= m_classname.hashCode();
-        //}
         if( null != m_local )
         {
             hash ^= m_local.hashCode();
@@ -209,191 +228,6 @@ public class ValueDirective implements Part, Serializable
         else 
         {
             return o1.equals( o2 );
-        }
-    }
-
-    //--------------------------------------------------------------------------
-    // static utils
-    //--------------------------------------------------------------------------
-
-    public static class Value implements Serializable
-    {
-        /**
-         * The classname to use as the parameter implementation class (defaults to java.lang.String)
-         */
-        private final String m_classname;
-    
-        /**
-         * The supplied argument.
-         */
-        private String m_argument;
-    
-        /**
-         * The sub-directives from which the value for this value directive may be derived.
-         */
-        private final Value[] m_children;
-
-        /**
-         * Creation of a new value directive using the default <code>java.lang.String</code>
-         * type and a supplied value.
-         *
-         * @param value the string value
-         */
-        public Value( final String value )
-        {
-            m_classname = "java.lang.String";
-            m_children = new Value[ 0 ];
-            m_argument = value;
-        }
-
-        /**
-         * Creation of a new entry directive using a supplied classname and value.
-         * @param classname the classname of the value
-         * @param value the value constructor value
-         */
-        public Value( final String classname, final String value )
-        {
-            if( null == classname )
-            {
-                m_classname = "java.lang.String";
-            }
-            else
-            {
-                m_classname = classname;
-            }
-            m_children = new Value[ 0 ];
-            m_argument = value;
-        }
-
-        /**
-         * Creation of a new entry directive.
-         * @param classname the classname of the entry implementation
-         * @param children implementation class constructor directives
-         * @exception NullArgumentException if either the classname argument or the
-         *           children argument is null, or any of the elements in the
-         *           children array is null.
-         */
-        public Value( final String classname, final Value[] children )
-            throws NullPointerException
-        {
-            if( null == classname )
-            {
-                throw new NullPointerException( "classname" );
-            }
-            if( null == children )
-            {
-                throw new NullPointerException( "children" );
-            }
-            for( int i = 0; i < children.length; i++ )
-            {
-                if( children[ i ] == null )
-                {
-                    throw new NullPointerException( "child [" + i + "]" );
-                }
-            }
-            m_classname = classname;
-            m_children = children;
-        }
-    
-        /**
-         * Return the classname of the parameter implementation to use.
-         * @return the classname
-         */
-        public String getClassname()
-        {
-            return m_classname;
-        }
-
-        /**
-         * Return the argument (may be null).
-         */
-        public String getArgument()
-        {
-            return m_argument;
-        }
-    
-        /**
-         * Return the constructor descriptors for this value descriptor.
-         */
-        public Value[] getValueDirectives()
-        {
-            return m_children;
-        }
-    
-       /**
-        * Test if the supplied object is equal to this object.
-        * @param other the object to compare with this instance
-        * @return TRUE if the supplied object is equal to this object
-        */
-        public boolean equals( Object other )
-        {
-            if( null == other )
-            {
-                return false;
-            }
-            else
-            {
-                if( other instanceof Value )
-                {
-                    Value param = (Value) other;
-                    if( false == m_classname.equals( param.getClassname() ) )
-                    {
-                        return false;
-                    }
-                    if( null == m_argument )
-                    {
-                        if( null != param.getArgument() )
-                        {
-                            return false;
-                        }
-                    }
-                    else if( false == m_argument.equals( param.getArgument() ) )
-                    {
-                        return false;
-                    }
-                    if( getValueDirectives().length != param.getValueDirectives().length )
-                    {
-                        return false;
-                    }
-                    else
-                    {
-                        Value[] myParams = getValueDirectives();
-                        Value[] yourParams = param.getValueDirectives();
-                            for( int i=0; i<myParams.length; i++ )
-                        {
-                            Value p = myParams[i];
-                            Value q = yourParams[i];
-                            if( false == p.equals( q ) )
-                            {
-                                return false;
-                            }
-                        }
-                        return true;
-                    }
-                }
-                else
-                {
-                    return false;
-                }
-            }
-        }
-    
-       /**
-        * Return the hashcode for the instance.
-        * @return the instance hashcode
-        */
-        public int hashCode()
-        {
-            int hash = m_classname.hashCode();
-            if( null != m_argument )
-            {
-                hash ^= m_argument.hashCode();
-            }
-            for( int i=0; i<m_children.length; i++ )
-            {
-                hash ^= m_children[i].hashCode();
-            }
-            return hash;
         }
     }
 

@@ -21,6 +21,10 @@ package net.dpml.transit;
 
 import java.io.Serializable;
 import java.net.URI;
+import java.util.Hashtable;
+import java.util.Map;
+
+import net.dpml.transit.util.ValuedEnum;
 
 /**
  * A Plugin class contains immutable data about a plugin based on a descriptor resolved
@@ -32,29 +36,29 @@ import java.net.URI;
 public interface Plugin
 {
    /**
-    * Key used to designate an api classloader entry.
+    * Key used to designate an system classloader category.
     */
-    static final Category SYSTEM = new Category( "system", 0 );
+    static final Category SYSTEM = new Category( "system", 0, Category.m_table );
 
    /**
-    * Key used to designate an api classloader entry.
+    * Key used to designate the API classloader category.
     */
-    static final Category API = new Category( "api", 1 );
+    static final Category API = new Category( "api", 1, Category.m_table );
 
    /**
-    * Key used to designate an spi classloader entry.
+    * Key used to designate an SPI classloader category.
     */
-    static final Category SPI = new Category( "spi", 2 );
+    static final Category SPI = new Category( "spi", 2, Category.m_table );
 
    /**
-    * Key used to designate an impl classloader entry.
+    * Key used to designate an IMPL classloader category.
     */
-    static final Category IMPL = new Category( "impl", 3 );
+    static final Category IMPL = new Category( "impl", 3, Category.m_table );
 
    /**
-    * Key used to designate an api classloader entry.
+    * Key used to designate any classloader category.
     */
-    static final Category ANY = new Category( "any", 4 );
+    static final Category ANY = new Category( "any", 4, null );
 
    /**
     * Return the uri to the plugin descriptor.
@@ -121,81 +125,28 @@ public interface Plugin
    /**
     * Classloader category enumeration.
     */
-    public static class Category implements Serializable, Comparable
+    public static class Category extends ValuedEnum
     {
-        private final int m_index;
-        private final String m_label;
-
+        private static Map m_table = new Hashtable();
+     
+       /**
+        * Returns an array of category values.
+        * @return the category value array
+        */
+        public static Category[] values()
+        {
+            return (Category[]) m_table.values().toArray( new Category[0] );
+        }
+        
        /**
         * Internal constructor.
+        * @param label the enumeration label.
         * @param index the enumeration index.
+        * @param map the set of constructed enumerations.
         */
-        private Category( String label, int index )
+        private Category( String label, int index, Map map )
         {
-            m_index = index;
-            m_label = label;
-        }
-
-        public int compareTo( Object other )
-        {
-            if( other instanceof Category )
-            {
-                Category category = (Category) other;
-                int index = category.m_index;
-                if( m_index > index )
-                {
-                    return 1;
-                }
-                else if( m_index == index )
-                {
-                    return 0;
-                }
-                else
-                {
-                    return -1;
-                }
-            }
-            else
-            {
-                return 1;
-            }
-        }
-
-       /**
-        * Test this category for equality with the supplied instance.
-        * @param other the object to test against
-        * @return true if the instances are equivalent
-        */
-        public boolean equals( Object other )
-        {
-            if( null == other ) 
-            {
-                return false;
-            }
-            else if( other.getClass() == Category.class )
-            {
-                Category key = (Category) other;
-                return key.m_index == m_index;
-            }
-            else
-            {
-                return false;
-            }
-        }
-
-        public String toString()
-        {
-            return "[" + m_label + "]";
-        }
-
-       /**
-        * Return the hascode for this instance.
-        * @return the instance hashcode
-        */
-        public int hashCode()
-        {
-            return m_index;
+            super( label, index, map );
         }
     }
-
 }

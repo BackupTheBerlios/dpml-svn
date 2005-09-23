@@ -27,6 +27,7 @@ import java.util.Properties;
 
 import junit.framework.TestCase;
 
+import net.dpml.composition.AbstractEncodingTestCase;
 import net.dpml.composition.info.Descriptor;
 
 /**
@@ -35,17 +36,12 @@ import net.dpml.composition.info.Descriptor;
  * @author <a href="mailto:dev-dpml@lists.ibiblio.org">The Digital Product Meta Library</a>
  * @version $Id: AbstractDescriptorTestCase.java 2387 2005-04-23 19:12:58Z mcconnell@dpml.net $
  */
-public abstract class AbstractDescriptorTestCase extends TestCase
+public abstract class AbstractDescriptorTestCase extends AbstractEncodingTestCase
 {
     protected static final String VALID_KEY = "key";
     protected static final String VALID_VALUE = "value";
     protected static final String INVALID_KEY = "bad-key";
     protected static final String DEFAULT_VALUE = "default";
-
-    public AbstractDescriptorTestCase( String name )
-    {
-        super( name );
-    }
 
     protected Properties getProperties()
     {

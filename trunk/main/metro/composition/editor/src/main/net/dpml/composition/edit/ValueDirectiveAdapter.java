@@ -42,7 +42,6 @@ import net.dpml.composition.info.Type;
 import net.dpml.composition.info.InfoDescriptor;
 import net.dpml.composition.data.DeploymentDirective;
 import net.dpml.composition.data.ValueDirective;
-import net.dpml.composition.data.ValueDirective.Value;
 
 import net.dpml.transit.Logger;
 
@@ -77,7 +76,7 @@ public final class ValueDirectiveAdapter extends DefaultMutableTreeNode implemen
             // its a composite value
             //
 
-            Value[] values = directive.getValues();
+            ValueDirective[] values = directive.getValues();
             m_component = buildComponent( classname, values );
         }
         else
@@ -117,21 +116,21 @@ public final class ValueDirectiveAdapter extends DefaultMutableTreeNode implemen
         return new JLabel( value );
     }
 
-    private Component buildComponent( String classname, Value[] values )
+    private Component buildComponent( String classname, ValueDirective[] values )
     {
         JPanel panel = new JPanel();
         for( int i=0; i < values.length; i++ )
         {
-            Value value = values[i];
-            if( value.getArgument() == null )
+            ValueDirective value = values[i];
+            if( value.getValues().length > 0 )
             {
                 String cname = value.getClassname();
-                Component c = buildComponent( cname, value.getValueDirectives() );
+                Component c = buildComponent( cname, value.getValues() );
                 panel.add( c );
             }
             else
             {
-                panel.add( new JLabel( value.getArgument() ) );
+                panel.add( new JLabel( value.getLocalValue() ) );
             }
         }
         return panel;

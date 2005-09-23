@@ -21,7 +21,7 @@
     -->
     <c:component dest="target/test/acme-simple.part" 
         type="net.dpml.test.acme.WidgetComponent"
-        name="widget">
+        name="simple-widget">
       <context>
         <entry key="name" feature="name"/>
         <entry key="uri" feature="uri"/>

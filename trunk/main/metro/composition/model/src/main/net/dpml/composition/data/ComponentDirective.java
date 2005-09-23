@@ -25,6 +25,8 @@ import net.dpml.part.Control.ActivationPolicy;
 import net.dpml.part.PartReference;
 import net.dpml.configuration.Configuration;
 import net.dpml.composition.info.InfoDescriptor;
+import net.dpml.composition.info.InfoDescriptor.LifestylePolicy;
+import net.dpml.composition.info.InfoDescriptor.CollectionPolicy;
 import net.dpml.parameters.Parameters;
 
 /**
@@ -112,12 +114,12 @@ public class ComponentDirective extends DeploymentDirective
     /**
      * The collection policy override.
      */
-    private int m_collection;
+    private CollectionPolicy m_collection;
 
     /**
      * The component lifestyle policy.
      */
-    private String m_lifestyle;
+    private LifestylePolicy m_lifestyle;
 
     /**
      * The component classname.
@@ -154,9 +156,9 @@ public class ComponentDirective extends DeploymentDirective
     {
         this(
           name, 
-          Control.SYSTEM_MANAGED_ACTIVATION, 
-          InfoDescriptor.UNDEFINED_COLLECTION, 
-          "request", 
+          ActivationPolicy.SYSTEM, 
+          CollectionPolicy.SYSTEM, 
+          LifestylePolicy.TRANSIENT,
           classname, 
           null, null, null, null, null );
     }
@@ -185,8 +187,8 @@ public class ComponentDirective extends DeploymentDirective
     public ComponentDirective(
            final String name,
            final ActivationPolicy activation,
-           final int collection,
-           final String lifestyle,
+           final CollectionPolicy collection,
+           final LifestylePolicy lifestyle,
            final String classname,
            final CategoriesDirective categories,
            final ContextDirective context,
@@ -208,22 +210,14 @@ public class ComponentDirective extends DeploymentDirective
 
         if( null == context )
         {
-            m_context = new ContextDirective();
+            m_context = new ContextDirective( new PartReference[0] );
         }
         else
         {
             m_context = context;
         }
 
-        if( null == lifestyle )
-        {
-            m_lifestyle = "request";
-        }
-        else
-        {
-            m_lifestyle = lifestyle;
-        }
-
+        m_lifestyle = lifestyle;
         m_collection = collection;
         m_parameters = parameters;
         m_configuration = config;
@@ -253,12 +247,12 @@ public class ComponentDirective extends DeploymentDirective
      *
      * @return the lifestyle policy value
      */
-    public String getLifestylePolicy()
+    public LifestylePolicy getLifestylePolicy()
     {
         return m_lifestyle;
     }
 
-    public void setLifestylePolicy( String lifestyle )
+    public void setLifestylePolicy( LifestylePolicy lifestyle )
     {
         m_lifestyle = lifestyle;
     }
@@ -267,14 +261,14 @@ public class ComponentDirective extends DeploymentDirective
      * Return the component collection policy.  If null, the component
      * type collection policy will apply.
      *
-     * @return a HARD_COLLECTION, WEAK_COLLECTION, SOFT_COLLECTION or UNDEFINED_COLLECTION
+     * @return a HARD, WEAK, SOFT or SYSTEM
      */
-    public int getCollectionPolicy()
+    public CollectionPolicy getCollectionPolicy()
     {
         return m_collection;
     }
 
-    public void setCollectionPolicy( int policy )
+    public void setCollectionPolicy( CollectionPolicy policy )
     {
         m_collection = policy;
     }
@@ -345,32 +339,36 @@ public class ComponentDirective extends DeploymentDirective
         {
             return false;
         }
-        if( false == super.equals( other ) )
+        if( !super.equals( other ) )
         {
             return false;
         }
-        if( false == ( other instanceof ComponentDirective ) )
+        if( !( other instanceof ComponentDirective ) )
         {
             return false;
         }
         ComponentDirective profile = (ComponentDirective) other;
-        if( false == m_classname.equals( profile.getClassname() ) )
+        if( !m_classname.equals( profile.getClassname() ) )
         {
             return false;
         }
-        if( false == m_context.equals( profile.getContextDirective() ) )
+        if( !m_context.equals( profile.getContextDirective() ) )
         {
             return false;
         }
-        if( m_collection != profile.getCollectionPolicy() )
+        if( !equals( m_collection, profile.getCollectionPolicy() ) )
         {
             return false;
         }
-        if( false == equals( m_parameters, profile.getParameters() ) )
+        if( !equals( m_lifestyle, profile.getLifestylePolicy() ) )
         {
             return false;
         }
-        if( false == equals( m_configuration, profile.getConfiguration() ) )
+        if( !equals( m_parameters, profile.getParameters() ) )
+        {
+            return false;
+        }
+        if( !equals( m_configuration, profile.getConfiguration() ) )
         {
             return false;
         }
@@ -398,7 +396,14 @@ public class ComponentDirective extends DeploymentDirective
         int hash = super.hashCode();
         hash ^= m_classname.hashCode();
         hash ^= m_context.hashCode();
-        hash ^= m_collection;
+        if( null != m_collection )
+        {
+            hash ^= m_collection.hashCode();
+        }
+        if( null != m_lifestyle )
+        {
+            hash ^= m_lifestyle.hashCode();
+        }
         if( false == ( null == m_parameters ) )
         {
             hash ^= m_parameters.hashCode();

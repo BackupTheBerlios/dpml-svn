@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<state>
+  <initialization target="started"/>
+  <state name="started">
+    <transition name="start" target="started" handler="method:start"/>
+    <termination target="stopped" handler="method:stop"/>
+  </state>
+  <state name="stopped">
+    <transition name="start" target="started" handler="method:start"/>
+  </state>
+</state>
+

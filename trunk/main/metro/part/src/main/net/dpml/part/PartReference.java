@@ -43,7 +43,7 @@ public class PartReference implements Serializable
     /**
      * The supplied argument.
      */
-    private Part m_part;
+    private final Part m_part;
 
     /**
      * Creation of a new parameter using the default <code>java.lang.String</code>
@@ -96,14 +96,14 @@ public class PartReference implements Serializable
         }
         else
         {
-            if( false == ( other instanceof PartReference ) )
+            if( !( other instanceof PartReference ) )
             {
                 return false;
             }
             else
             {
                 PartReference reference = (PartReference) other;
-                if( false == m_key.equals( reference.getKey() ) )
+                if( !m_key.equals( reference.getKey() ) )
                 {
                     return false;
                 }
@@ -124,5 +124,10 @@ public class PartReference implements Serializable
         int hash = m_key.hashCode();
         hash ^= m_part.hashCode();
         return hash;
+    }
+    
+    public String toString()
+    {
+        return "[reference: key=" + m_key + "part=" + m_part + "]";
     }
 }

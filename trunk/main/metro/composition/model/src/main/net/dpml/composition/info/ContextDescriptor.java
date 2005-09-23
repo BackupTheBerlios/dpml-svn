@@ -25,6 +25,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Properties;
 
+import net.dpml.part.context.EntryDescriptor;
+
 /**
  * A descriptor describing the context that a component
  * declares.  The context descriptor contains information about
@@ -48,8 +50,6 @@ public class ContextDescriptor implements Serializable
     // immutable state
     //---------------------------------------------------------
 
-    private final String m_classname;
-
     private final EntryDescriptor[] m_entries;
 
     //---------------------------------------------------------
@@ -62,43 +62,19 @@ public class ContextDescriptor implements Serializable
      */
     public ContextDescriptor( final EntryDescriptor[] entries )
     {
-        this( null, entries );
-    }
-
-    /**
-     * Creation of a new context descriptor using a supplied context 
-     * casting class and entry array.
-     *
-     * @param classname the classname of a castable interface
-     * @param entries the set of entries required within the context
-     * @exception NullPointerException if the entries argument is null
-     */
-    public ContextDescriptor( final String classname, final EntryDescriptor[] entries )
-      throws NullPointerException, IllegalArgumentException
-    {
         if( null == entries )
         {
-            throw new NullPointerException( "entries" );
+            m_entries = new EntryDescriptor[0];
         }
-
-        m_classname = classname;
-        m_entries = entries;
+        else
+        {
+            m_entries = entries;
+        }
     }
 
     //---------------------------------------------------------
     // implementation
     //---------------------------------------------------------
-
-    /**
-     * Return the classname of the interface that the supplied 
-     * context argument supports under a type-safe cast.
-     *
-     * @return the type-safe casting class (possibly null)
-     */
-    public String getContextInterfaceClassname()
-    {
-        return m_classname;
-    }
 
     /**
      * Return the entries contained in the context.
@@ -193,7 +169,6 @@ public class ContextDescriptor implements Serializable
         if( isEqual )
         {
             ContextDescriptor entity = (ContextDescriptor) other;
-            isEqual = isEqual && m_classname.equals( entity.m_classname );
             for( int i = 0; i < m_entries.length; i++ )
             {
                 isEqual = isEqual && m_entries[i].equals( entity.m_entries[i] );
@@ -209,10 +184,6 @@ public class ContextDescriptor implements Serializable
     public int hashCode()
     {
         int hash = getClass().hashCode();
-        if( null != m_classname )
-        {
-            hash ^= m_classname.hashCode();
-        }
         for( int i = 0; i < m_entries.length; i++ )
         {
             hash = hash + 65152197;

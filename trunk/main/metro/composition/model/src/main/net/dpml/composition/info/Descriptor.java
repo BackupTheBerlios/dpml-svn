@@ -144,12 +144,10 @@ public abstract class Descriptor
 
     /**
      * Returns the property set.
-     * TODO: check necessity for this operationi and if really needed return
-     * a cloned equivalent (i.e. disable modification)
      *
      * @return the property set.
      */
-    protected Properties getProperties()
+    public Properties getProperties()
     {
         return m_attributes;
     }

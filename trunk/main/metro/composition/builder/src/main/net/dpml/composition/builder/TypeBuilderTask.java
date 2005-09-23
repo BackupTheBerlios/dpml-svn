@@ -23,6 +23,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.File;
 import java.io.FileWriter;
+import java.io.FileOutputStream;
+import java.io.BufferedOutputStream;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
@@ -40,12 +42,12 @@ import net.dpml.composition.builder.datatypes.PartsDataType;
 
 import net.dpml.composition.info.CategoryDescriptor;
 import net.dpml.composition.info.ContextDescriptor;
-import net.dpml.composition.info.EntryDescriptor;
 import net.dpml.composition.info.InfoDescriptor;
-import net.dpml.composition.info.PartDescriptor;
+import net.dpml.composition.info.InfoDescriptor.LifestylePolicy;
+import net.dpml.composition.info.InfoDescriptor.CollectionPolicy;
 import net.dpml.composition.info.Type;
-import net.dpml.composition.info.PartDescriptor.Operation;
 import net.dpml.composition.info.TypeHolder;
+import net.dpml.composition.info.EncodingException;
 
 import net.dpml.configuration.Configuration;
 import net.dpml.configuration.impl.DefaultConfigurationBuilder;
@@ -54,6 +56,8 @@ import net.dpml.magic.tasks.ProjectTask;
 import net.dpml.magic.model.Policy;
 
 import net.dpml.part.PartReference;
+import net.dpml.part.context.EntryDescriptor;
+
 import net.dpml.component.state.State;
 import net.dpml.component.ServiceDescriptor;
 
@@ -81,8 +85,8 @@ public class TypeBuilderTask extends ProjectTask implements TypeBuilder
     private String m_name;
     private String m_classname;
     private Class m_class;
-    private String m_lifestyle;
-    private String m_collection;
+    private LifestylePolicy m_lifestyle;
+    private CollectionPolicy m_collection;
     private boolean m_threadsafe = false;
     private PartsDataType m_parts;
 
@@ -107,42 +111,12 @@ public class TypeBuilderTask extends ProjectTask implements TypeBuilder
 
     public void setCollection( String value )
     {
-        if( InfoDescriptor.HARD.equalsIgnoreCase( value ) )
-        {
-            m_collection = InfoDescriptor.HARD;
-        }
-        else if( InfoDescriptor.WEAK.equalsIgnoreCase( value ) )
-        {
-            m_collection = InfoDescriptor.WEAK;
-        }
-        else if( InfoDescriptor.SOFT.equalsIgnoreCase( value ) )
-        {
-            m_collection = InfoDescriptor.SOFT;
-        }
-        else
-        {
-            final String error = 
-              "Unsupported collection policy '" + value + "'.";
-            throw new BuildException( error );
-        }
+        m_collection = CollectionPolicy.parse( value );
     }
 
     public void setLifestyle( String value )
     {
-        if( "request".equalsIgnoreCase( value ) || "transient".equalsIgnoreCase( value ) )
-        {
-            m_lifestyle = InfoDescriptor.TRANSIENT;
-        }
-        else if( "singleton".equalsIgnoreCase( value ) || "shared".equalsIgnoreCase( value ) )
-        {
-            m_lifestyle = InfoDescriptor.SINGLETON;
-        }
-        else
-        {
-            final String error = 
-              "Unsupported lifestyle policy '" + value + "'.";
-            throw new BuildException( error );
-        }
+        m_lifestyle = LifestylePolicy.parse( value );
     }
 
     public PartsDataType createParts()
@@ -205,7 +179,6 @@ public class TypeBuilderTask extends ProjectTask implements TypeBuilder
         ServiceDescriptor[] services = createServiceDescriptors( subject );
         CategoryDescriptor[] categories = new CategoryDescriptor[0];
         ContextDescriptor context = createContextDescriptor( subject );
-        //PartDescriptor[] parts = createPartDescriptors( subject );
         PartReference[] parts = getPartReferences( subject.getClassLoader() );
         Configuration config = createDefaultConfiguration( subject );
         State graph = resolveStateGraph( subject );
@@ -259,12 +232,22 @@ public class TypeBuilderTask extends ProjectTask implements TypeBuilder
             final String classname = type.getInfo().getClassname();
             final String resource = getEmbeddedResourcePath( classname );
             final File file = getEmbeddedOutputFile( resource );
-            final URI handler = getTypeHandlerURI();
-            final byte[] bytes = SerializableObjectHelper.writeToByteArray( type );
-            final TypeHolder holder = new TypeHolder( handler, bytes );
-            SerializableObjectHelper.write( holder, file );
+            file.getParentFile().mkdirs();
+            final FileOutputStream output = new FileOutputStream( file );
+            final BufferedOutputStream buffer = new BufferedOutputStream( output );
+            Type.encode( type, output );
+            
+            //final URI handler = getTypeHandlerURI();
+            //final byte[] bytes = SerializableObjectHelper.writeToByteArray( type );
+            //final TypeHolder holder = new TypeHolder( handler, bytes );
+            //SerializableObjectHelper.write( holder, file );
         }
         catch( IntrospectionException e )
+        {
+            final String error = e.getMessage();
+            throw new BuildException( error, e, getLocation() );
+        }
+        catch( EncodingException e )
         {
             final String error = e.getMessage();
             throw new BuildException( error, e, getLocation() );
@@ -326,41 +309,15 @@ public class TypeBuilderTask extends ProjectTask implements TypeBuilder
         String name = getName();
         String classname = subject.getName();
         boolean threadsafe = getThreadSafeCapability( subject );
-        String lifestyle = getLifestylePreference( subject, threadsafe );
-        String collection = getCollectionPolicyPreference( subject );
         String schema = getConfigurationSchema( subject );
         Properties properties = getTypeProperties( subject );
         return new InfoDescriptor( 
-          name, classname, null, lifestyle, collection, schema, threadsafe, properties );
+          name, classname, null, m_lifestyle, m_collection, schema, threadsafe, properties );
     }
 
     private boolean getThreadSafeCapability( Class subject ) throws IntrospectionException
     {
         return m_threadsafe;
-    }
-
-    private String getLifestylePreference( Class subject, boolean threadsafe ) throws IntrospectionException
-    {
-        if( null != m_lifestyle )
-        {
-            return m_lifestyle;
-        }
-        else
-        {
-            if( m_threadsafe )
-            {
-                return InfoDescriptor.SINGLETON;
-            }
-            else
-            {
-                return InfoDescriptor.TRANSIENT;
-            }
-        }
-    }
-
-    private String getCollectionPolicyPreference( Class subject ) throws IntrospectionException
-    {
-        return m_collection;
     }
 
     private String getConfigurationSchema( Class subject ) throws IntrospectionException
@@ -577,125 +534,10 @@ public class TypeBuilderTask extends ProjectTask implements TypeBuilder
         }
     }
 
-    private PartDescriptor[] createPartDescriptors( Class subject ) 
-       throws IntrospectionException
-    {
-        String classname = subject.getName();
-        Class[] classes = subject.getClasses();
-        Class parts = locateClass( "$Parts", classes );
-        if( null == parts )
-        {
-            return new PartDescriptor[0];
-        }
-        else
-        {
-            //
-            // Based on the method declarations in the parts inner class
-            // we collect a list of the unique keys where each key represents a 
-            // unique part.
-            //
-
-            Method[] methods = parts.getMethods();
-            ArrayList list = new ArrayList();
-            for( int i=0; i<methods.length; i++ )
-            {
-                Method method = methods[i];
-                String key = PartDescriptor.getPartKey( method );
-                if( false == list.contains( key ) )
-                {
-                    list.add( key );
-                }
-            }
-
-            String[] keys = (String[]) list.toArray( new String[0] );
-            PartDescriptor[] descriptors = new PartDescriptor[ keys.length ];
-            for( int i=0; i<keys.length; i++ )
-            {
-                String key = keys[i];
-                Operation[] operations = getOperations( subject, key, methods );
-                PartDescriptor descriptor = new PartDescriptor( key, operations );
-                descriptors[i] = descriptor;
-            }
-  
-            return descriptors;
-        }
-    }
-
-    private Operation[] getOperations( Class subject, String key, Method[] methods ) throws IntrospectionException
-    {
-        ArrayList list = new ArrayList();
-        for( int i=0; i<methods.length; i++ )
-        {
-            Method method = methods[i];
-            if( key.equals( PartDescriptor.getPartKey( method ) ) )
-            {
-                Operation operation = getOperation( subject, key, method );
-                list.add( operation );
-            }
-        }
-        return (Operation[]) list.toArray( new Operation[0] );
-    }
-
-    private Operation getOperation( Class subject, String key, Method method ) throws IntrospectionException
-    {
-        final String name = method.getName();
-        final int semantic = PartDescriptor.getPartSemantic( method );
-        if( semantic == PartDescriptor.GET )
-        {
-            validateNoExceptions( method );
-            Class returnType = method.getReturnType();
-            validateNonNullReturnType( method );
-            validateNonArrayReturnType( method, returnType );
-            String type = returnType.getName();
-            String postfix = PartDescriptor.getPartPostfix( method );
-            if( PartDescriptor.COMPONENT_KEY.equals( postfix ) )
-            {
-                validateNonNullReturnType( method );
-                validateAtMostOneParameter( method );
-            }
-            else
-            {
-                validateSelectPattern( subject, method );
-            }
-            return new Operation( PartDescriptor.GET, postfix, type );
-        }
-        else if( semantic == PartDescriptor.RELEASE )
-        {
-            validateNoExceptions( method );
-            Class param = validateSingleParameter( method );
-            validateNonArrayParameter( method, param );
-            validateNonNullParameter( method, param );
-            Class returnType = method.getReturnType();
-            validateNullReturnType( method, returnType );
-            String classname = param.getName();
-            return new Operation( PartDescriptor.RELEASE, classname );
-        }
-        else
-        {
-            final String error = 
-              "Unrecognized part accessor method signature ["
-              + name 
-              + "] for the parts key ["
-              + key 
-              + "].";
-            throw new IllegalArgumentException( error );
-        }
-    }
-
     private ContextDescriptor createContextDescriptor( Class subject ) throws IntrospectionException
     {
-        Class[] classes = subject.getClasses();
-        Class param = locateClass( "$Context", classes );
-        if( null == param )
-        {
-            return new ContextDescriptor( null, new EntryDescriptor[0] );
-        }
-        else
-        {
-            EntryDescriptor[] entries = createEntryDescriptors( subject );
-            String classname = param.getName();
-            return new ContextDescriptor( classname, entries );
-        }
+        EntryDescriptor[] entries = createEntryDescriptors( subject );
+        return new ContextDescriptor( entries );
     }
 
     private EntryDescriptor[] createEntryDescriptors( Class subject ) 

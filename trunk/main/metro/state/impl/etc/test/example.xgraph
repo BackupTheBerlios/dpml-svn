@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<state>
+
+  <trigger event="initialization">
+    <transition name="init" target="available/stopped"/>
+  </trigger>
+
+  <state name="available">
+    <state name="started">
+      <transition name="stop" target="../stopped" handler="method:stop"/>
+      <operation name="audit" handler="method:audit"/>
+      <trigger event="termination">
+        <action id="stop"/>
+      </trigger>
+    </state>
+    <state name="stopped">
+      <trigger event="initialization">
+        <action id="start"/>
+      </trigger>
+      <transition name="start" target="../started" handler="method:start"/>
+      <trigger event="termination">
+        <transition name="terminate" target="../../terminated"/>
+      </trigger>
+    </state>
+  </state>
+
+  <state name="terminated" terminal="true"/>
+
+</state>
+

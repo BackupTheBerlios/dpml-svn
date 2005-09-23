@@ -167,7 +167,7 @@ public abstract class WeakEventProducer extends UnicastRemoteObject
                 else
                 {
                     final String error = 
-                      "Event source is not an instance of " + EventProducer.class.getName();
+                      "Event source is not an instance of " + WeakEventProducer.class.getName();
                     throw new IllegalStateException( error );
                 }
             }

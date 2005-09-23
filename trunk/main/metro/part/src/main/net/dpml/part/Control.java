@@ -18,10 +18,18 @@
 
 package net.dpml.part;
 
+import java.beans.Expression;
+import java.beans.BeanDescriptor;
+import java.beans.PersistenceDelegate;
+import java.beans.DefaultPersistenceDelegate;
+import java.beans.SimpleBeanInfo;
+import java.beans.Encoder;
 import java.io.IOException;
 import java.io.Serializable;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
+
+import net.dpml.transit.util.Enum;
 
 /**
  * The Resolvable interface is implemented by components capable of exposing
@@ -33,36 +41,12 @@ import java.rmi.RemoteException;
 public interface Control extends Remote
 {
    /**
-    * System managed activation policy.
-    */
-    ActivationPolicy SYSTEM_MANAGED_ACTIVATION = new ActivationPolicy( 0, "default", "System" );
-
-   /**
-    * Activation on startup enabled.
-    */
-    ActivationPolicy ACTIVATION_ON_STARTUP = new ActivationPolicy( 0, "startup", "Startup" );
-
-   /**
-    * Activation on startup disabled.
-    */
-    ActivationPolicy ACTIVATION_ON_DEMAND = new ActivationPolicy( 0, "demand", "Demand" );
-
-   /**
-    * Enumeration of available activation policies.
-    */
-    public static final ActivationPolicy[] ACTIVATION_POLICIES = 
-      new ActivationPolicy[]{
-        SYSTEM_MANAGED_ACTIVATION, 
-        ACTIVATION_ON_STARTUP, 
-        ACTIVATION_ON_DEMAND};
-
-   /**
     * Get the activation policy for the control.
     *
     * @return the activation policy
-    * @see #SYSTEM_MANAGED_ACTIVATION
-    * @see #ACTIVATION_ON_STARTUP
-    * @see #ACTIVATION_ON_DEMAND
+    * @see #ActivationPolicy.SYSTEM
+    * @see #ActivationPolicy.STARTUP
+    * @see #ActivationPolicy.DEMAND
     */
     ActivationPolicy getActivationPolicy() throws RemoteException;
 
@@ -95,70 +79,99 @@ public interface Control extends Remote
    /**
     * Activation policy enumeration.
     */
-    public static final class ActivationPolicy implements Serializable
+    public static final class ActivationPolicy extends Enum
     {
-        private final int m_index;
-        private final String m_label;
-        private final String m_key;
+        static final long serialVersionUID = 1L;
 
        /**
-        * Internal constructor.
-        * @param index the enumeration index.
+        * System managed activation policy.
         */
-        private ActivationPolicy( int index, final String key, final String label )
+        public static final ActivationPolicy SYSTEM = new ActivationPolicy( "system" );
+
+       /**
+        * Activation on startup enabled.
+        */
+        public static final ActivationPolicy STARTUP = new ActivationPolicy( "startup" );
+
+       /**
+        * Activation on startup disabled.
+        */
+        public static final ActivationPolicy DEMAND = new ActivationPolicy( "demand" );
+
+       /**
+        * Array of static activation policy enumeration values.
+        */
+        private static final ActivationPolicy[] ENUM_VALUES = new ActivationPolicy[]{ SYSTEM, STARTUP, DEMAND };
+
+       /**
+        * Returns an array of activation enum values.
+        * @return the activation policies array
+        */
+        public static ActivationPolicy[] values()
         {
-            m_index = index;
-            m_label = label;
-            m_key = key;
+            return ENUM_VALUES;
         }
-
-       /**
-        * Return the key used to identify this policy instance.
-        * @return the key
-        */
-        public String key()
+        
+        public static ActivationPolicy parse( String value )
         {
-            return m_key;
-        }
-
-       /**
-        * Test this policy for equality with the supplied instance.
-        * @param other the object to test against
-        * @return true if the instances are equivalent
-        */
-        public boolean equals( Object other )
-        {
-            if( null == other ) 
+            if( value.equalsIgnoreCase( "system" ) )
             {
-                return false;
+                return SYSTEM;
             }
-            else if( other.getClass() == ActivationPolicy.class )
+            else if( value.equalsIgnoreCase( "startup" ))
             {
-                ActivationPolicy policy = (ActivationPolicy) other;
-                return policy.m_index == m_index;
+                return STARTUP;
+            }
+            else if( value.equalsIgnoreCase( "demand" ))
+            {
+                return DEMAND;
             }
             else
             {
-                return false;
+                final String error =
+                  "Unrecognized activation policy argument [" + value + "]";
+                throw new IllegalArgumentException( error );
             }
         }
-
+        
        /**
-        * Return the hascode for this instance.
-        * @return the instance hashcode
+        * Internal constructor.
+        * @param label the enumeration label.
+        * @param index the enumeration index.
+        * @param map the set of constructed enumerations.
         */
-        public int hashCode()
+        private ActivationPolicy( String label )
         {
-            return m_index;
-        }
-
-       /**
-        * Return the string representation of this instance.
-        * @return the string
-        */
-        public String toString()
-        {
-            return m_label;
+            super( label );
         }
     }
+    
+    public static final class ActivationPolicyBeanInfo extends SimpleBeanInfo
+    {
+        private static final BeanDescriptor BEAN_DESCRIPTOR = setupBeanDescriptor();
+    
+        public BeanDescriptor getBeanDescriptor()
+        {
+            return BEAN_DESCRIPTOR;
+        }
+    
+        private static BeanDescriptor setupBeanDescriptor()
+        {
+            BeanDescriptor descriptor = new BeanDescriptor( ActivationPolicy.class );
+            descriptor.setValue( 
+              "persistenceDelegate", 
+              new ActivationPolicyPersistenceDelegate() );
+            return descriptor;
+        }
+        
+        private static class ActivationPolicyPersistenceDelegate extends DefaultPersistenceDelegate
+        {
+            public Expression instantiate( Object old, Encoder encoder )
+            {
+                ActivationPolicy policy = (ActivationPolicy) old;
+                return new Expression( ActivationPolicy.class, "parse", new Object[]{ policy.getName() } );
+            }
+        }
+    }
+
 }

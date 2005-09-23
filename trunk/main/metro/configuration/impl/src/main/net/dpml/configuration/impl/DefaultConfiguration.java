@@ -1,5 +1,5 @@
 /*
- * Copyright 2004 Stephen J. McConnell.
+ * Copyright 2004-2005 Stephen J. McConnell.
  * Copyright 2004 Apache Software Foundation
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -19,6 +19,8 @@ package net.dpml.configuration.impl;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Enumeration;
+import java.util.Properties;
 
 import net.dpml.configuration.Configuration;
 import net.dpml.configuration.ConfigurationException;
@@ -54,7 +56,7 @@ public class DefaultConfiguration
     private boolean m_readOnly;
 
     /**
-     * Shallow copy constructor, suitable for craeting a writable clone of
+     * Shallow copy constructor, suitable for creating a writable clone of
      * a read-only configuration. To modify children, use <code>getChild()</code>,
      * <code>removeChild()</code> and <code>addChild()</code>.
      *
@@ -107,6 +109,48 @@ public class DefaultConfiguration
         m_location = location;
         m_namespace = ns;
         m_prefix = prefix;  // only used as a serialization hint. Cannot be null
+    }
+
+    /**
+     * Create a new <code>DefaultConfiguration</code> instance.
+     * @param name config node name
+     * @param location Builder-specific locator string
+     * @param ns Namespace string (typically a URI). Should not be null; use ""
+     * if no namespace.
+     * @param prefix A short string prefixed to element names, associating
+     * elements with a longer namespace string. Should not be null; use "" if no
+     * namespace.
+     * @since 4.1
+     */
+    public DefaultConfiguration( 
+        final String name,
+        final String location,
+        final String ns,
+        final String prefix,
+        String value,
+        Properties attributes,
+        Configuration[] children,
+        boolean readonly ) throws ConfigurationException
+    {
+        m_name = name;
+        m_location = location;
+        m_namespace = ns;
+        m_prefix = prefix;  // only used as a serialization hint. Cannot be null
+        m_value = value;
+        
+        Enumeration names = attributes.propertyNames();
+        while( names.hasMoreElements() )
+        {
+            String property = (String) names.nextElement();
+            String v = attributes.getProperty( property );
+            addAttribute( property, v );
+        }
+        for( int i=0; i <children.length; i++ )
+        {
+            addChild( children[i] );
+        }
+        
+        m_readOnly = readonly;
     }
 
     /**
@@ -205,9 +249,14 @@ public class DefaultConfiguration
         }
         else
         {
-            throw new ConfigurationException( "No value is associated with the "
-                + "configuration element \"" + getName()
-                + "\" at " + getLocation() );
+            String listing = ConfigurationUtil.list( this );
+            String error = 
+              "No value is associated with the configuration element \"" 
+              + getName()
+              + "\" at " 
+              + getLocation()
+              + "\n" + listing;
+            throw new ConfigurationException( error );
         }
     }
 
@@ -227,6 +276,30 @@ public class DefaultConfiguration
         }
     }
 
+    /**
+     * Return an array of all attributes.
+     * @return a <code>String[String,String]</code> value
+     */
+    public Properties getAttributes()
+    {
+        Properties properties = new Properties();
+        if( null == m_attributes )
+        {
+            return properties;
+        }
+        else
+        {
+            String[] attributes = getAttributeNames();
+            for( int i=0; i < attributes.length; i++ )
+            {
+                String name = attributes[i];
+                String value = getAttribute( name, null );
+                properties.setProperty( name, value );
+            }
+        }
+        return properties;
+    }
+    
     /**
      * Return an array of <code>Configuration</code>
      * elements containing all node children.

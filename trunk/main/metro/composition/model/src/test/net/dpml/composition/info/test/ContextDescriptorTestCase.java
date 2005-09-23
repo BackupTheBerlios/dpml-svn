@@ -19,9 +19,24 @@
 
 package net.dpml.composition.info.test;
 
+import java.beans.Encoder;
+import java.beans.XMLDecoder;
+import java.beans.XMLEncoder;
+import java.beans.ExceptionListener;
+import java.beans.Expression;
+import java.beans.PersistenceDelegate;
+import java.beans.DefaultPersistenceDelegate;
+import java.io.FileOutputStream;
+import java.io.FileInputStream;
+import java.io.BufferedOutputStream;
+import java.io.BufferedInputStream;
+import java.io.File;
+
 import net.dpml.composition.info.Descriptor;
 import net.dpml.composition.info.ContextDescriptor;
-import net.dpml.composition.info.EntryDescriptor;
+
+import net.dpml.composition.AbstractEncodingTestCase;
+import net.dpml.part.context.EntryDescriptor;
 
 import junit.framework.TestCase;
 
@@ -31,26 +46,19 @@ import junit.framework.TestCase;
  * @author <a href="mailto:dev-dpml@lists.ibiblio.org">The Digital Product Meta Library</a>
  * @version $Id: ContextDescriptorTestCase.java 2387 2005-04-23 19:12:58Z mcconnell@dpml.net $
  */
-public class ContextDescriptorTestCase extends TestCase
+public class ContextDescriptorTestCase extends AbstractEncodingTestCase
 {
-    private String m_classname;
     private EntryDescriptor[] m_entries;
-
-    public ContextDescriptorTestCase( String name )
-    {
-        super( name );
-    }
 
     protected ContextDescriptor getDescriptor()
     {
-        return new ContextDescriptor( m_classname, m_entries );
+        return new ContextDescriptor( m_entries );
     }
 
     protected void checkDescriptor( ContextDescriptor desc )
     {
         ContextDescriptor ctxd = (ContextDescriptor) desc;
 
-        assertEquals( m_classname, ctxd.getContextInterfaceClassname() );
         assertEquals( m_entries.length, ctxd.getEntryDescriptors().length );
 
         EntryDescriptor[] entries = ctxd.getEntryDescriptors();
@@ -95,9 +103,14 @@ public class ContextDescriptorTestCase extends TestCase
 
     public void setUp()
     {
-        m_classname = "net.dpml.testing.MyContext";
         m_entries = new EntryDescriptor[]{
             new EntryDescriptor( "key", String.class.getName() )
         };
+    }
+    
+    public void testEncoding() throws Exception
+    {
+        ContextDescriptor context = getDescriptor();
+        executeEncodingTest( context, "context.xml" );
     }
 }
