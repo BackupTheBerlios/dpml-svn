@@ -561,7 +561,7 @@ public class StateMachine
             // its a name relative to the supplied state
             //
             
-            State[] states = state.getLocalStates();
+            State[] states = state.getStates();
             for( int i=0; i<states.length; i++ )
             {
                 State s = states[i];

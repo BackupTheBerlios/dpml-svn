@@ -119,11 +119,6 @@ public class DefaultState implements State, Serializable
         return m_triggers;
     }
     
-    public State[] getLocalStates()
-    {
-        return m_states;
-    }
-    
     public State[] getStatePath()
     {
         if( null == m_parent )
@@ -143,62 +138,16 @@ public class DefaultState implements State, Serializable
     public State[] getStates()
     {
         return m_states;
-        //State[] parents = getStatePath();
-        //State[] local = getLocalStates();
-        //State[] result = new State[ parents.length + local.length ];
-        //System.arraycopy( parents, 0, result, 0, parents.length );
-        //System.arraycopy( local, 0, result, parents.length, local.length  );
-        //return result;
-    }
-    
-    public Transition[] getLocalTransitions()
-    {
-        return m_transitions;
     }
     
     public Transition[] getTransitions()
     {
         return m_transitions;
-        /*
-        if( null != m_parent )
-        {
-            Transition[] parent = m_parent.getTransitions();
-            Transition[] local = m_transitions;
-            Transition[] result = new Transition[ parent.length + local.length ];
-            System.arraycopy( parent, 0, result, 0, parent.length );
-            System.arraycopy( local, 0, result, parent.length, local.length  );
-            return result;
-        }
-        else
-        {
-            return m_transitions;
-        }
-        */
-    }
-    
-    public Operation[] getLocalOperations()
-    {
-        return m_operations;
     }
     
     public Operation[] getOperations()
     {
         return m_operations;
-        /*
-        if( null != m_parent )
-        {
-            Operation[] parent = m_parent.getOperations();
-            Operation[] local = m_operations;
-            Operation[] result = new Operation[ parent.length + local.length ];
-            System.arraycopy( parent, 0, result, 0, parent.length );
-            System.arraycopy( local, 0, result, parent.length, local.length  );
-            return result;
-        }
-        else
-        {
-            return m_operations;
-        }
-        */
     }
     
     public boolean getTerminal()
@@ -237,15 +186,15 @@ public class DefaultState implements State, Serializable
             {
                 return false;
             }
-            else if( !Arrays.equals( m_transitions, state.getLocalTransitions() ) )
+            else if( !Arrays.equals( m_transitions, state.getTransitions() ) )
             {
                 return false;
             }
-            else if( !Arrays.equals( m_operations, state.getLocalOperations() ) )
+            else if( !Arrays.equals( m_operations, state.getOperations() ) )
             {
                 return false;
             }
-            else if( !Arrays.equals( m_states, state.getLocalStates() ) )
+            else if( !Arrays.equals( m_states, state.getStates() ) )
             {
                 return false;
             }

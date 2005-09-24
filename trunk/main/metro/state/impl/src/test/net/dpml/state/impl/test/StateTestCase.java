@@ -225,22 +225,12 @@ public class StateTestCase extends AbstractEncodingTestCase
               + operation.getName() 
               + "]" );
         }
-        State[] states = state.getLocalStates();
+        State[] states = state.getStates();
         for( int i=0; i<states.length; i++ )
         {
             State s = states[i];
-            System.out.println( pad + "# state " + "(" + (i+1) + "): [" + s.getName() + "]" );
-        }
-        State[] local = state.getLocalStates();
-        for( int i=0; i<local.length; i++ )
-        {
-            State s = local[i];
             audit( visited, s, pad + "  " );
         }
-        //if( null != state.getTermination() )
-        //{
-        //    System.out.println( pad + "# <-- [" + state.getTermination().getTargetName() + "]" );
-        //}
     }
 }
 

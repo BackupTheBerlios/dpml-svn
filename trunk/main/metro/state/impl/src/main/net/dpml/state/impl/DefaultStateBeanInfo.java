@@ -47,8 +47,8 @@ public final class DefaultStateBeanInfo extends SimpleBeanInfo
           "persistenceDelegate", 
           new DefaultPersistenceDelegate( 
             new String[]{ 
-              "name", "triggers", "localTransitions", "localOperations",
-              "localStates", "terminal" } ) );
+              "name", "triggers", "transitions", "operations",
+              "states", "terminal" } ) );
         return descriptor;
     }
 }

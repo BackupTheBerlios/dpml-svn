@@ -39,16 +39,9 @@ public interface State
     
     Trigger[] getTriggers();
     
-    State[] getLocalStates();
-    
     Transition[] getTransitions();
     
     Operation[] getOperations();
     
-    //Initialization getInitialization();
-    
-    //Termination getTermination();
-    
     boolean isTerminal();
-    
 }
