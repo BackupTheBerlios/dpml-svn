@@ -39,7 +39,7 @@ public final class DefaultDelegationBeanInfo extends SimpleBeanInfo
         BeanDescriptor descriptor = new BeanDescriptor( DefaultDelegation.class );
         descriptor.setValue( 
           "persistenceDelegate", 
-          new DefaultPersistenceDelegate( new String[]{ "ID" } ) );
+          new DefaultPersistenceDelegate( new String[]{ "URI" } ) );
         return descriptor;
     }
 }

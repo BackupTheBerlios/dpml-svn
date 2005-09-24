@@ -21,6 +21,7 @@ package net.dpml.state.impl;
 import java.io.Serializable;
 import java.net.URI;
 
+import net.dpml.state.State;
 import net.dpml.state.Transition;
 
 /**
@@ -33,12 +34,37 @@ public class DefaultTransition implements Transition, Serializable
     private final String m_name;
     private final String m_target;
     private final URI m_handler;
+    private State m_state;
     
     public DefaultTransition( final String name, final String target, final URI handler )
     {
         m_name = name;
         m_target = target;
         m_handler = handler;
+    }
+    
+    public void setState( State state )
+    {
+        if( null == m_state )
+        {
+            m_state = state;
+        }
+        else
+        {
+            throw new IllegalStateException( "State already set." );
+        }
+    }
+    
+    public State getState()
+    {
+        if( null != m_state )
+        {
+            return m_state;
+        }
+        else
+        {
+            throw new IllegalStateException( "Enclosing state has not been declared." );
+        }
     }
     
     public String getName()

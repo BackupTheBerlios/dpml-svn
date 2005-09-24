@@ -30,14 +30,19 @@ import net.dpml.state.Delegation;
  */
 public class DefaultDelegation implements Delegation, Serializable
 {
-    private final String m_id;
+    private final URI m_id;
     
-    public DefaultDelegation( final String id )
+    public DefaultDelegation( final URI uri )
     {
-        m_id = id;
+        m_id = uri;
     }
     
-    public String getID()
+    public String getName()
+    {
+        return "delegate:"+ m_id;
+    }
+    
+    public URI getURI()
     {
         return m_id;
     }
@@ -51,7 +56,7 @@ public class DefaultDelegation implements Delegation, Serializable
         else if( other instanceof DefaultDelegation )
         {
             DefaultDelegation action = (DefaultDelegation) other;
-            if( !m_id.equals( action.getID() ) )
+            if( !m_id.equals( action.getURI() ) )
             {
                 return false;
             }

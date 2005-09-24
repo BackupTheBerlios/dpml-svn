@@ -27,4 +27,5 @@ import java.net.URI;
  */
 public interface Action
 {
+    String getName();
 }

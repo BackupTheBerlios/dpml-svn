@@ -37,8 +37,8 @@ import net.dpml.state.impl.*;
  */
 public class StateTestCase extends AbstractEncodingTestCase
 {
-    StateMachine machine = new StateMachine();
     State m_state;
+    StateMachine m_machine;
     
     public void setUp() throws Exception
     {
@@ -49,7 +49,8 @@ public class StateTestCase extends AbstractEncodingTestCase
         BufferedInputStream buffer = new BufferedInputStream( input );
         try
         {
-            m_state = machine.loadGraph( buffer );
+            m_state = StateMachine.load( buffer );
+            m_machine = new StateMachine( m_state );
         }
         catch( Throwable e )
         {
@@ -67,32 +68,106 @@ public class StateTestCase extends AbstractEncodingTestCase
         audit( m_state );
     }
     
+    public void testValidation() throws Exception
+    {
+        StateMachine.validate( m_state );
+    }
+    
     public void testRootStateName()
     {
         State state = m_state;
         assertEquals( "name", "", state.getName() );
     }
     
-    //public void testRootInitialization()
-    //{
-    //    Initialization init = m_state.getInitialization();
-    //    assertEquals( "target", "initialized", init.getTargetName() );
-    //}
-    
-    //public void testRootTermination()
-    //{
-    //    Termination exit = m_state.getTermination();
-    //    assertEquals( "target", "terminated", exit.getTargetName() );
-    //}
-    
     public void testRootStates()
     {
         State[] states = m_state.getStates();
-        System.out.println( "# count: " + states.length );
-        //assertEquals( "count", 3, states.length );
+        assertEquals( "count", 2, states.length );
     }
 
-    
+    public void testExecution()
+    {
+        // check that the termination action is null
+        
+        Action termination = m_machine.getTerminationAction();
+        assertNull( "root-termination", termination );
+        
+        // check that the initialization action is correct
+        
+        Action action = m_machine.getInitializationAction();
+        if( action instanceof Transition )
+        {
+            Transition transition = (Transition) action;
+            String name = transition.getName();
+            assertEquals( "init-transition-name", "init", name );
+        }
+        else
+        {
+            fail( "Root initialization action is not a transition." );
+        }
+        
+        // initialize the state 
+        
+        State state = m_machine.initialize( null );
+        assertEquals( "post-init-state", "started", state.getName() );
+        State machineState = m_machine.getState();
+        assertEquals( "machine-state", "started", machineState.getName() );
+        
+        if( action != m_machine.getInitializationAction() )
+        {
+            fail( 
+              "Unexpected initialization action [" 
+              + m_machine.getInitializationAction() 
+              + "] declared by statemachine." );
+        }
+        
+        // check that the termination action has changed to the overridden 'stop' transition
+        
+        termination = m_machine.getTerminationAction();
+        assertNotNull( "termination-in-start", termination );
+        assertEquals( "action-is-stop", "stop", termination.getName() );
+        
+        //
+        // test if the 'stop' transition is accessible
+        //
+        
+        Transition[] transitions = m_machine.getTransitions();
+        assertEquals( "started-transition-count", 1, transitions.length );
+        Transition stop = transitions[0];
+        assertEquals( "stop-transition-name", "stop", stop.getName() );
+        
+        //
+        // test available operations
+        //
+        
+        Operation[] operations = m_machine.getOperations();
+        assertEquals( "started-operation-count", 1, operations.length );
+        Operation audit = operations[0];
+        assertEquals( "audit-operation-name", "audit", audit.getName() );
+        
+        //
+        // apply the stop transition
+        //
+        
+        m_machine.apply( stop.getName(), null );
+        assertEquals( "stopped-state-name", "stopped", m_machine.getState().getName() );
+        
+        //
+        // restart
+        //
+        
+        m_machine.apply( "start", null );
+        assertEquals( "re-started-state-name", "started", m_machine.getState().getName() );
+        
+        //
+        // terminate
+        //
+        
+        m_machine.terminate( null );
+        assertEquals( "terminated-state-name", "terminated", m_machine.getState().getName() );
+        
+    }
+
     public void testEncoding() throws Exception
     {
         Object state = executeEncodingTest( m_state, "state-encoded.xml" );

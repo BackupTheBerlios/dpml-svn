@@ -27,8 +27,10 @@ import java.net.URI;
  * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
  */
 public interface Transition extends Action
-{
-    String getName();
+{    
+    void setState( State state );
+    
+    State getState();
     
     String getTargetName();
     

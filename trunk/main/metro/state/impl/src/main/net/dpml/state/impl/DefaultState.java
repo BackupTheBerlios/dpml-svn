@@ -23,10 +23,9 @@ import java.util.Arrays;
 
 import net.dpml.state.State;
 import net.dpml.state.Transition;
-//import net.dpml.state.Initialization;
-//import net.dpml.state.Termination;
 import net.dpml.state.Operation;
 import net.dpml.state.Trigger;
+import net.dpml.state.Action;
 
 /**
  * Default implementation of an application state descriptor.
@@ -36,11 +35,9 @@ import net.dpml.state.Trigger;
 public class DefaultState implements State, Serializable
 {
     private final String m_name;
-    //private final Initialization m_initialization;
     private final Transition[] m_transitions;
     private final Operation[] m_operations;
     private final State[] m_states;
-    //private final Termination m_termination;
     private final Trigger[] m_triggers;
     private final boolean m_terminal;
     
@@ -48,20 +45,47 @@ public class DefaultState implements State, Serializable
     
     public DefaultState( 
       final String name, final Trigger[] triggers, final Transition[] transitions, 
-      final Operation[] operations, final DefaultState[] states, boolean terminal )
+      final Operation[] operations, final State[] states, boolean terminal )
     {
         m_name = name;
-        //m_initialization = initialization;
         m_triggers = triggers;
         m_transitions = transitions;
         m_operations = operations;
         m_states = states;
-        //m_termination = termination;
         m_terminal = terminal;
+        
+        for( int i=0; i<transitions.length; i++ )
+        {
+            Transition transition = transitions[i];
+            if( null == transition )
+            {
+                throw new NullPointerException( "transition/" + i );
+            }
+            transition.setState( this );
+        }
+        
+        for( int i=0; i<triggers.length; i++ )
+        {
+            Trigger trigger = triggers[i];
+            if( null == trigger )
+            {
+                throw new NullPointerException( "trigger/" + i );
+            }
+            Action action = trigger.getAction();
+            if( action instanceof Transition )
+            {
+                Transition transition = (Transition) action;
+                transition.setState( this );
+            }
+        }
         
         for( int i=0; i<states.length; i++ )
         {
-            DefaultState state = states[i];
+            State state = states[i];
+            if( null == state )
+            {
+                throw new NullPointerException( "state/ " + i );
+            }
             state.setParent( this );
         }
     }
@@ -71,7 +95,7 @@ public class DefaultState implements State, Serializable
         return m_parent;
     }
 
-    void setParent( State state )
+    public void setParent( State state )
     {
         if( null == m_parent )
         {
@@ -89,16 +113,6 @@ public class DefaultState implements State, Serializable
     {
         return m_name;
     }
-    
-    //public Initialization getInitialization()
-    //{
-    //    return m_initialization;
-    //}
-    
-    //public Termination getTermination()
-    //{
-    //    return m_termination;
-    //}
     
     public Trigger[] getTriggers()
     {
@@ -128,12 +142,13 @@ public class DefaultState implements State, Serializable
     
     public State[] getStates()
     {
-        State[] parents = getStatePath();
-        State[] local = getLocalStates();
-        State[] result = new State[ parents.length + local.length ];
-        System.arraycopy( parents, 0, result, 0, parents.length );
-        System.arraycopy( local, 0, result, parents.length, local.length  );
-        return result;
+        return m_states;
+        //State[] parents = getStatePath();
+        //State[] local = getLocalStates();
+        //State[] result = new State[ parents.length + local.length ];
+        //System.arraycopy( parents, 0, result, 0, parents.length );
+        //System.arraycopy( local, 0, result, parents.length, local.length  );
+        //return result;
     }
     
     public Transition[] getLocalTransitions()
@@ -143,6 +158,8 @@ public class DefaultState implements State, Serializable
     
     public Transition[] getTransitions()
     {
+        return m_transitions;
+        /*
         if( null != m_parent )
         {
             Transition[] parent = m_parent.getTransitions();
@@ -156,6 +173,7 @@ public class DefaultState implements State, Serializable
         {
             return m_transitions;
         }
+        */
     }
     
     public Operation[] getLocalOperations()
@@ -165,6 +183,8 @@ public class DefaultState implements State, Serializable
     
     public Operation[] getOperations()
     {
+        return m_operations;
+        /*
         if( null != m_parent )
         {
             Operation[] parent = m_parent.getOperations();
@@ -178,6 +198,7 @@ public class DefaultState implements State, Serializable
         {
             return m_operations;
         }
+        */
     }
     
     public boolean getTerminal()
@@ -192,7 +213,7 @@ public class DefaultState implements State, Serializable
     
     public String toString()
     {
-        return m_name;
+        return "[" + m_name + "]";
     }
     
     public boolean equals( Object other )
@@ -208,14 +229,6 @@ public class DefaultState implements State, Serializable
             {
                 return false;
             }
-            //else if( !equals( m_initialization, state.getInitialization() ) )
-            //{
-            //    return false;
-            //}
-            //else if( !equals( m_termination, state.getTermination() ) )
-            //{
-            //    return false;
-            //}
             else if( m_terminal != state.isTerminal() )
             {
                 return false;

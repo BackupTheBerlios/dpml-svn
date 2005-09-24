@@ -28,5 +28,5 @@ import java.net.URI;
  */
 public interface Delegation extends Action
 {
-    String getID();
+    URI getURI();
 }

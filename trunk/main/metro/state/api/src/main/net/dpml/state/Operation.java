@@ -27,8 +27,6 @@ import java.net.URI;
  * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
  */
 public interface Operation extends Action
-{
-    String getName();
-        
+{        
     URI getHandlerURI();
 }

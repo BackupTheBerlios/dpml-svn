@@ -29,6 +29,8 @@ public interface State
 {    
     String getName();
     
+    void setParent( State state );
+
     State getParent();
     
     State[] getStatePath();

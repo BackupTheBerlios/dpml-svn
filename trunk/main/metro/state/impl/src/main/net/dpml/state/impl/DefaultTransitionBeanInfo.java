@@ -19,6 +19,7 @@ package net.dpml.state.impl;
 import java.beans.SimpleBeanInfo;
 import java.beans.BeanDescriptor;
 import java.beans.DefaultPersistenceDelegate;
+import java.beans.PropertyDescriptor;
 
 /**
  * BeanInfo for the DefaltTransition class that declares a persistence delegate.
@@ -32,6 +33,11 @@ public final class DefaultTransitionBeanInfo extends SimpleBeanInfo
     public BeanDescriptor getBeanDescriptor()
     {
         return BEAN_DESCRIPTOR;
+    }
+    
+    public PropertyDescriptor[] getPropertyDescriptors()
+    {
+        return new PropertyDescriptor[0];
     }
     
     private static BeanDescriptor setupBeanDescriptor()
