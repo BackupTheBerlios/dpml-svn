@@ -130,19 +130,28 @@ public class StateMachine
         return getAction( m_state, Trigger.TERMINATION );
     }
     
+   /**
+    * Invoke initialization of the supplied object using the initialization action
+    * declared under the current state path.
+    * 
+    * @param object the object to initialize
+    * @return the state established as a sidee effect of the initialization
+    */
     public State initialize( Object object )
     {
         ArrayList visited = new ArrayList();
         return initialize( visited, object );
     }
     
-    public void execute( Operation operation, Object object )
+   /**
+    * Execute a named operation on the supplied object.
+    * @param name an operation name
+    * @param object the target object
+    */
+    public void execute( String name, Object object )
     {
-        URI handler = operation.getHandlerURI();
-        if( null != handler )
-        {
-            execute( handler, object );
-        }
+        Operation operation = getOperation( getState(), name );
+        execute( operation, object );
     }
     
    /**
@@ -163,6 +172,10 @@ public class StateMachine
         }
     }
     
+   /**
+    * Return all of the available transitions relative to the current state.
+    * @return the available transitions
+    */
     public Transition[] getTransitions()
     {
         Hashtable table = new Hashtable();
@@ -184,6 +197,10 @@ public class StateMachine
         return (Transition[]) table.values().toArray( new Transition[0] );
     }
     
+   /**
+    * Return all of the available operations relative to the current state.
+    * @return the available operations
+    */
     public Operation[] getOperations()
     {
         Hashtable table = new Hashtable();
@@ -205,6 +222,13 @@ public class StateMachine
         return (Operation[]) table.values().toArray( new Operation[0] );
     }
     
+   /**
+    * Invoke termination of the supplied object using the termination action
+    * declared under the current state path.
+    * 
+    * @param object the object to terminate
+    * @return the state established as a side-effect of the termination
+    */
     public State terminate( Object object )
     {
         ArrayList visited = new ArrayList();
@@ -253,6 +277,15 @@ public class StateMachine
                 final String error = "Unrecognized action: " + action;
                 throw new IllegalStateException( error );
             }
+        }
+    }
+    
+    private void execute( Operation operation, Object object )
+    {
+        URI handler = operation.getHandlerURI();
+        if( null != handler )
+        {
+            execute( handler, object );
         }
     }
     

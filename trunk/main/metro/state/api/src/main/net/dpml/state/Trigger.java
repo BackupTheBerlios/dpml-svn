@@ -57,7 +57,7 @@ public interface Trigger
     Action getAction();
     
    /**
-    * Activation policy enumeration.
+    * Trigger policy enumeration.
     */
     public static final class TriggerEvent extends Enum
     {
