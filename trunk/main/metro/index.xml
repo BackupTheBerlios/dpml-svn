@@ -89,6 +89,7 @@
       </types>
     </info>
     <dependencies>
+      <include key="dpml-state-api"/>
       <include key="dpml-part-api"/>
     </dependencies>
   </project>
@@ -169,6 +170,8 @@
     </info>
     <dependencies>
       <include key="dpml-transit-main"/>
+      <include key="dpml-state-api"/>
+      <include key="dpml-state-impl" runtime="false"/>
       <include key="dpml-parameters-api"/>
       <include key="dpml-configuration-api"/>
       <include key="dpml-component-api"/>
@@ -213,6 +216,7 @@
       <include key="dpml-composition-model"/>
       <include key="dpml-parameters-impl"/>
       <include key="dpml-configuration-impl"/>
+      <include key="dpml-state-impl"/>
     </dependencies>
   </project>
 

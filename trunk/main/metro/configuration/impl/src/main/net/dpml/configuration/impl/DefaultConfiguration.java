@@ -249,13 +249,11 @@ public class DefaultConfiguration
         }
         else
         {
-            String listing = ConfigurationUtil.list( this );
             String error = 
               "No value is associated with the configuration element \"" 
               + getName()
               + "\" at " 
-              + getLocation()
-              + "\n" + listing;
+              + getLocation();
             throw new ConfigurationException( error );
         }
     }

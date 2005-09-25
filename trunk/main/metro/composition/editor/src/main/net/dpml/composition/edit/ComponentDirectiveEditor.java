@@ -157,13 +157,9 @@ public class ComponentDirectiveEditor extends DefaultMutableTreeNode implements 
         {
             list.add( buildServicesComponent() );
         }
-        if( null != m_type.getStateGraph() )
-        {
-            list.add( buildStateGraphComponent() );
-        }
         return (Component[]) list.toArray( new Component[0] );
     }
-
+    
     public TreeNode[] getPartNodes()
     {
         return getMutableNodes();
@@ -221,13 +217,6 @@ public class ComponentDirectiveEditor extends DefaultMutableTreeNode implements 
     {
         JPanel panel = new JPanel();
         panel.setName( "Services" );
-        return panel;
-    }
-
-    private Component buildStateGraphComponent() 
-    {
-        JPanel panel = new JPanel();
-        panel.setName( "State" );
         return panel;
     }
 

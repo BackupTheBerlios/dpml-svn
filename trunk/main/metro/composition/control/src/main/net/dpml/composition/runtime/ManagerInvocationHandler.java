@@ -25,7 +25,8 @@ import java.lang.reflect.UndeclaredThrowableException;
 
 import net.dpml.composition.control.CompositionController;
 
-import net.dpml.component.state.State;
+import net.dpml.state.State;
+import net.dpml.state.impl.DefaultState;
 
 /**
  * This makes a dynamic proxy for an component manager.
@@ -195,6 +196,6 @@ final class ManagerInvocationHandler implements InvocationHandler
         return e;
     }
 
-    private static final State TERMINAL_STATE = new State( true );
+    private static final State TERMINAL_STATE = new DefaultState( "" );
 
 }

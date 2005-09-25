@@ -5,20 +5,19 @@
     <transition name="init" target="available/started" handler="method:start"/>
   </trigger>
   <state name="available">
-   <operation name="audit" handler="method:audit"/>
+   <operation name="audit" uri="method:audit"/>
    <trigger event="termination">
      <transition name="terminate" target="../terminated"/>
    </trigger>
     <state name="started">
-      <transition name="stop" target="../stopped" handler="method:stop"/>
+      <transition name="stop" target="../stopped" uri="method:stop"/>
       <trigger event="termination">
         <action uri="transition:stop"/>
       </trigger>
     </state>
     <state name="stopped">
-      <transition name="start" target="../started" handler="method:start"/>
+      <transition name="start" target="../started" uri="method:start"/>
     </state>
   </state>
   <state name="terminated" terminal="true"/>
 </state>
-

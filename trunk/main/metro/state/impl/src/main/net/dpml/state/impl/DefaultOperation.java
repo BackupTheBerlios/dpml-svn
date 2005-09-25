@@ -35,6 +35,14 @@ public class DefaultOperation implements Operation, Serializable
     
     public DefaultOperation( final String name, URI handler )
     {
+        if( null == name )
+        {
+            throw new NullPointerException( "name" );
+        }
+        if( null == handler )
+        {
+            throw new NullPointerException( "handler" );
+        }
         m_name = name;
         m_handler = handler;
     }
@@ -75,6 +83,17 @@ public class DefaultOperation implements Operation, Serializable
         {
             return false;
         }
+    }
+    
+    public int hashCode()
+    {
+        int hash = getClass().hashCode();
+        hash ^= m_name.hashCode();
+        if( null != m_handler )
+        {
+            hash ^= m_handler.hashCode();
+        }
+        return hash;
     }
     
     private boolean equals( Object a, Object b )

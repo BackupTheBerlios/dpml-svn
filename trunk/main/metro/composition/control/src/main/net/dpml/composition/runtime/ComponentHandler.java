@@ -19,11 +19,13 @@
 package net.dpml.composition.runtime;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Proxy;
 import java.lang.reflect.Field;
 import java.net.URI;
+import java.net.URL;
 import java.net.URISyntaxException;
 import java.rmi.RemoteException;
 import java.util.EventObject;
@@ -67,8 +69,8 @@ import net.dpml.part.PartReference;
 
 import net.dpml.component.state.StateEvent;
 import net.dpml.component.state.StateListener;
-import net.dpml.component.state.State;
-import net.dpml.component.state.ResourceUnavailableException;
+
+import net.dpml.component.ResourceUnavailableException;
 import net.dpml.component.control.LifecycleException;
 import net.dpml.component.Consumer;
 import net.dpml.component.Component;
@@ -86,6 +88,11 @@ import net.dpml.component.ServiceDescriptor;
 import net.dpml.component.Available;
 import net.dpml.component.AvailabilityException;
 import net.dpml.component.Manager;
+
+import net.dpml.state.State;
+import net.dpml.state.StateMachine;
+import net.dpml.state.impl.DefaultState;
+import net.dpml.state.impl.DefaultStateMachine;
 
 /**
  *
@@ -107,6 +114,7 @@ public abstract class ComponentHandler extends WeakEventProducer
     private final ComponentController m_componentController;
     private final ContextMap m_context;
     private final State m_graph;
+    private final StateMachine m_machine;
     private final PartsTable m_parts;
     private final LifestylePolicy m_lifestyle;
 
@@ -159,7 +167,7 @@ public abstract class ComponentHandler extends WeakEventProducer
         m_dependencies.addChild( graph );
         m_context = new ContextMap( this, parent, graph );
         m_graph = resolveStateGraph( m_class );
-        m_state = m_graph;
+        m_machine = new DefaultStateMachine( m_graph );
         m_configuration = m_profile.getConfiguration();
         m_parameters = m_profile.getParameters();
 
@@ -606,34 +614,6 @@ public abstract class ComponentHandler extends WeakEventProducer
     }
 
    /**
-    * Utility operation to apply a state change.  If the supplied state is 
-    * differnet from the current state the current state will be updated to 
-    * the supplied value and a notification event issued to the listener 
-    * assigned under the constructor.
-    *
-    * @param state the state to assign as the current state
-    */
-    public synchronized void setState( State state )
-    {
-        if( false == m_state.equals( state ) )
-        {
-            if( getLogger().isDebugEnabled() )
-            {
-                final String message = 
-                  "State change."
-                  + "\nInstance: " + getLocalURI()
-                  + "\nOld State: " + m_state.getName()
-                  + "\nNew State: " + state.getName();
-                getLogger().debug( message );
-            }
-
-            StateEvent event = new StateEvent( this, m_state, state );
-            m_state = state;
-            super.enqueueEvent( event );
-        }
-    }
-
-   /**
     * Return the current state. The current state is the function of 
     * the initialization and subsequent transition actions applied to 
     * the state model.  The current state established the active 
@@ -649,27 +629,7 @@ public abstract class ComponentHandler extends WeakEventProducer
     */
     public synchronized State getState()
     {
-        return getCurrentState();
-    }
-
-   /**
-    * Internal utility method that returns a non-proxied reference to the 
-    * current state.
-    *
-    * @return the state representing the current state of execution
-    */
-    public State getCurrentState()
-    {
-        if( null == m_state )
-        {
-            final String error = 
-              "State manager has not been initialized.";
-            throw new IllegalStateException( error );
-        }
-        else
-        {
-            return m_state;
-        }
+        return m_machine.getState();
     }
 
     public Logger getLogger()
@@ -708,7 +668,7 @@ public abstract class ComponentHandler extends WeakEventProducer
     }
 
    /**
-    * Return the implementation instance managed by this holder.
+    * Return the implementation instance managed by this handler.
     * @return the implementation instance
     */
     public Object getValue()
@@ -825,82 +785,55 @@ public abstract class ComponentHandler extends WeakEventProducer
         dispose();
     }
 
-    private State resolveStateGraph( Class subject ) 
+    private State resolveStateGraph( Class subject )
     {
-        //
-        // TODO: this has to be thrown away as soon as we have 
-        // the composition builder upgraded to handle the state graph 
-        // generation into the component type descriptor.
-
-        State graph = m_type.getStateGraph();
-
-        if( graph != null )
+        if( Executable.class.isAssignableFrom( subject ) )
         {
-            return graph;
-        }
-        else if( Executable.class.isAssignableFrom( subject ) )
-        {
-            return EXECUTABLE_OBJECT_GRAPH;
+            return loadState( Executable.class );
         }
         else if( Startable.class.isAssignableFrom( subject ) )
         {
-            return STARTABLE_OBJECT_GRAPH;
+            return loadState( Startable.class );
         }
         else
         {
-            return NULL_OBJECT_GRAPH;
+            return loadState( subject );
         }
     }
-
+    
+    State loadState( Class subject )
+    {
+        String resource = subject.getName().replace( '.', '/' ) + ".xgraph";
+        try
+        {
+            URL url = subject.getClassLoader().getResource( resource );
+            if( null == url )
+            {
+                return new DefaultState( "" );
+            }
+            else
+            {
+                InputStream input = url.openConnection().getInputStream();
+                return DefaultStateMachine.load( input );
+            }
+        }
+        catch( Throwable e )
+        {
+            final String error = 
+              "Internal error while attempting to load component state graph resource [" 
+              + resource 
+              + "].";
+            throw new ComponentRuntimeException( error, e );
+        }
+    }
+    
    /**
-    * The operation returns the state instance represening the state graph.
-    * @return the root state 
+    * Return the state-machine for this component.
+    * @return the state-machine
     */
-    public State getStateGraph()
+    public StateMachine getStateMachine()
     {
-        return m_graph;
-    }
-
-    private static final State STARTABLE_OBJECT_GRAPH = createStartableGraph();
-    private static final State EXECUTABLE_OBJECT_GRAPH = createExecutableGraph();
-    private static final State NULL_OBJECT_GRAPH = createNullGraph();
-
-    private static State createStartableGraph()
-    {
-        State root = new State();
-        State started = root.addState( "started" );
-        State stopped = root.addState( "stopped" );
-        try
-        {
-            root.setInitialization( new URI( "method:start" ), started );
-            started.setTerminator( new URI( "method:stop" ), stopped );
-            started.addTransition( "stop", new URI( "method:stop" ), stopped );
-            stopped.addTransition( "start", new URI( "method:start" ), started );
-            return root;
-        }
-        catch( URISyntaxException e )
-        {
-            return null; // will not happen
-        }
-    }
-
-    private static State createExecutableGraph()
-    {
-        State root = new State();
-        try
-        {
-            root.setInitialization( new URI( "method:execute" ) );
-            return root;
-        }
-        catch( URISyntaxException e )
-        {
-            return null; // will not happen
-        }
-    }
-
-    private static State createNullGraph()
-    {
-        return new State( true );
+        return m_machine;
     }
 
     private Class loadComponentClass( ClassLoader classloader, ComponentDirective profile )

@@ -29,9 +29,12 @@ import java.util.logging.Logger;
 import junit.framework.TestCase;
 
 import net.dpml.part.PartContentHandlerFactory;
+
 import net.dpml.component.Component;
 import net.dpml.component.Manager;
-import net.dpml.component.state.State;
+
+import net.dpml.state.State;
+import net.dpml.state.Transition;
 
 /**
  * Test a simple component case.
@@ -60,12 +63,11 @@ public class ManagementTestCase extends TestCase
         {
             State state = component.getState();
             list.add( state );
-            String[] transitions = state.getTransitionNames();
-            for( int i=0; i<transitions.length; i++ )
+            Transition[] transitions = state.getTransitions();
+            if( transitions.length > 0 )
             {
-                String name = transitions[i];
-                component.apply( name );
-                break;
+                System.out.println( "# transition: " + transitions[0] );
+                component.apply( transitions[0].getName() );
             }
         }
         component.terminate();
@@ -79,6 +81,10 @@ public class ManagementTestCase extends TestCase
         try
         {
             component.initialize();
+        }
+        catch( Throwable e )
+        {
+            e.printStackTrace();
         }
         finally
         {

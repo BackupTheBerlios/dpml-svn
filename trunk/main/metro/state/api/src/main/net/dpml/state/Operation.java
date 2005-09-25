@@ -27,6 +27,14 @@ import java.net.URI;
  * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
  */
 public interface Operation extends Action
-{        
+{  
+   /**
+    * <p>Return the uri describing the execution criteria.  Recognized uri 
+    * schemes include:</p>
+    * 
+    * <ol>
+    *  <li>method:[method-name]
+    * </ol>
+    */
     URI getHandlerURI();
 }

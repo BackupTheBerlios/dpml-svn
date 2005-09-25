@@ -46,7 +46,6 @@ import net.dpml.composition.info.InfoDescriptor;
 import net.dpml.composition.info.InfoDescriptor.LifestylePolicy;
 import net.dpml.composition.info.InfoDescriptor.CollectionPolicy;
 import net.dpml.composition.info.Type;
-import net.dpml.composition.info.TypeHolder;
 import net.dpml.composition.info.EncodingException;
 
 import net.dpml.configuration.Configuration;
@@ -58,7 +57,6 @@ import net.dpml.magic.model.Policy;
 import net.dpml.part.PartReference;
 import net.dpml.part.context.EntryDescriptor;
 
-import net.dpml.component.state.State;
 import net.dpml.component.ServiceDescriptor;
 
 import org.apache.tools.ant.BuildException;
@@ -181,9 +179,8 @@ public class TypeBuilderTask extends ProjectTask implements TypeBuilder
         ContextDescriptor context = createContextDescriptor( subject );
         PartReference[] parts = getPartReferences( subject.getClassLoader() );
         Configuration config = createDefaultConfiguration( subject );
-        State graph = resolveStateGraph( subject );
 
-        Type type = new Type( graph, info, categories, context, services, config, parts );
+        Type type = new Type( info, categories, context, services, config, parts );
 
         /*
         File target = getContext().getTargetDirectory();
@@ -912,36 +909,6 @@ public class TypeBuilderTask extends ProjectTask implements TypeBuilder
               + m_classname 
               + "] is not present in the project path.";
             throw new BuildException( error );
-        }
-    }
-
-    private State resolveStateGraph( Class subject )
-    {
-        final String classname = subject.getName();
-        final ClassLoader classloader = subject.getClassLoader();
-        final String xgraph = classname.replace( '.', '/' ) + ".xgraph";
-        final InputStream input = classloader.getResourceAsStream( xgraph );
-        if( null == input )
-        {
-            return null;
-        }
-        else
-        {
-            try
-            {
-                DefaultConfigurationBuilder builder = new DefaultConfigurationBuilder();
-                Configuration config = builder.build( input );
-                StateBuilder stateBuilder = new StateBuilder( this );
-                return stateBuilder.build( config );
-            }
-            catch( Exception e )
-            {
-                final String error =
-                  "An unexpected error occured while resolving the state model [" 
-                  + xgraph 
-                  + "]: " + e.toString();
-                throw new BuildException( error, e, getLocation() );
-            }
         }
     }
 

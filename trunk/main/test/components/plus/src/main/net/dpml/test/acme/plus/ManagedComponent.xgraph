@@ -1,46 +1,23 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
-<graph>
-
-  <initialization target="initialized"/>
-
-  <termination target="terminated"/>
-
-  <state name="initialized">
-    <transition name="start" target="started">
-      <method name="start"/>
-    </transition>
-  </state>
-
+<state>
+  <trigger event="initialization">
+    <transition name="init" target="available/started" handler="method:start"/>
+  </trigger>
   <state name="available">
-
+    <operation name="audit" uri="method:audit"/>
+    <trigger event="termination">
+      <transition name="terminate" target="../terminated"/>
+    </trigger>
     <state name="started">
-
-      <termination target="stopped">
-        <method name="stop"/>
-      </termination>
-
-      <transition name="stop" target="stopped">
-        <method name="stop"/>
-      </transition>
-
-      <operation name="audit">
-        <method name="audit"/>
-      </operation>
-
+      <transition name="stop" target="../stopped" uri="method:stop"/>
+      <trigger event="termination">
+        <action uri="transition:stop"/>
+      </trigger>
     </state>
-
     <state name="stopped">
-
-      <transition name="start" target="started">
-        <method name="start"/>
-      </transition>
-
+      <transition name="start" target="../started" uri="method:start"/>
     </state>
-
   </state>
-
   <state name="terminated" terminal="true"/>
-
-</graph>
-
+</state>

@@ -39,13 +39,14 @@ import java.util.ArrayList;
 
 import net.dpml.configuration.Configuration;
 
-import net.dpml.part.Part;
-import net.dpml.part.PartReference;
-import net.dpml.part.context.EntryDescriptor;
-import net.dpml.component.state.State;
+//import net.dpml.component.state.State;
 import net.dpml.component.ComponentException;
 import net.dpml.component.ServiceDescriptor;
 import net.dpml.component.Version;
+
+import net.dpml.part.Part;
+import net.dpml.part.PartReference;
+import net.dpml.part.context.EntryDescriptor;
 
 /**
  * This class contains the meta information about a particular
@@ -53,12 +54,13 @@ import net.dpml.component.Version;
  *
  * <ul>
  *   <li>Human presentable meta data such as name, version, description etc
- *   useful when assembling the system.</li>
- *   <li>the context object capabilities that this component requires</li>
+ *   useful when assembling a system.</li>
+ *   <li>the context that this component requires</li>
  *   <li>the services that this component type is capable of providing</li>
  *   <li>the services that this component type requires to operate (and the
  *   names via which services are accessed)</li>
- *   <li>extended lifecycle stages that this component uses</li>
+ *   <li>information about the component lifestyle</li>
+ *   <li>component collection preferences</li>
  * </ul>
  *
  * @author <a href="mailto:dev-dpml@lists.ibiblio.org">The Digital Product Meta Library</a>
@@ -71,8 +73,6 @@ public class Type implements Serializable
         
     public static void encode( Type type, OutputStream output ) throws IOException, EncodingException
     {
-    
-        final StringBuffer buffer = new StringBuffer();
         ClassLoader loader = Thread.currentThread().getContextClassLoader();
         XMLEncoder encoder = new XMLEncoder( output );
         encoder.setExceptionListener( new TypeEncoderListener( type ) );
@@ -100,8 +100,6 @@ public class Type implements Serializable
         
         public void exceptionThrown( Exception e )
         {
-            System.err.println( "# encoding error: " + e.toString() );
-            e.printStackTrace();
             Throwable cause = e.getCause();
             if( null != cause )
             {
@@ -140,10 +138,31 @@ public class Type implements Serializable
     
     public static Type decode( Class clazz ) throws IOException
     {
-        final ClassLoader loader = Thread.currentThread().getContextClassLoader();
         String path = clazz.getName().replace( '.', '/' ) + ".type";
         URL url = clazz.getClassLoader().getResource( path );
         InputStream input = url.openStream();
+        try
+        {
+            return decode( input );
+        }
+        catch( IOException e )
+        {
+            throw e;
+        }
+        catch( Throwable e )
+        {
+            final String error = 
+              "Unexpected error occured while attempting to load an encoded type."
+              + "\nResource path: " + path;
+            IOException ioe = new IOException( error );
+            ioe.initCause( e );
+            throw ioe;
+        }
+    }
+
+    public static Type decode( InputStream input ) throws IOException
+    {
+        final ClassLoader loader = Thread.currentThread().getContextClassLoader();
         try
         {
             Thread.currentThread().setContextClassLoader( Type.class.getClassLoader() );
@@ -153,8 +172,7 @@ public class Type implements Serializable
         catch( Throwable e )
         {
             final String error = 
-              "Unexpected error occured while attempting to load an encoded type."
-              + "\nResource path: " + path;
+              "Unexpected error occured while attempting to load an encoded type.";
             IOException ioe = new IOException( error );
             ioe.initCause( e );
             throw ioe;
@@ -176,59 +194,7 @@ public class Type implements Serializable
             return new Expression( old, old.getClass(), "new", args );
         }
     }
-
-   /**
-    * Load a component type definition given a supplied class.
-    * @param clazz the component class
-    * @return the component type
-    * @exception ComponentException if a type loading error occurs
-    */
-    /*
-    public static Type loadType( Class clazz ) throws IOException
-    {
-        if( Object.class == clazz )
-        {
-            return OBJECT_TYPE;
-        }
-        
-        String path = clazz.getName().replace( '.', '/' ) + ".type";
-        URL url = clazz.getClassLoader().getResource( path );
-        if( null == url )
-        {
-            return null;
-        }
-        try
-        {
-            InputStream input = url.openStream();
-            return loadType( input );
-        }
-        catch( Exception e )
-        {
-            final String error = 
-              "Unexpected error occured while attempting to load a serialized type."
-              + "\nResource path: " + path;
-            throw new ComponentException( error, e );
-        }
-    }
     
-   /**
-    * Load a component type definition given a supplied input stream.
-    * @param input a type holder serialized object input stream
-    * @return the component type
-    * @exception IOException if an IO error occurs while reading the input stream
-    * @exception ClassNotFoundException if the stream references a class that connot be found
-    */
-    public static Type loadType( InputStream input ) throws IOException, ClassNotFoundException
-    {
-        ObjectInputStream stream = new ObjectInputStream( input );
-        TypeHolder holder = (TypeHolder) stream.readObject();
-        byte[] bytes = holder.getByteArray();
-        ByteArrayInputStream byteinput = new ByteArrayInputStream( bytes );
-        ObjectInputStream bytestream = new ObjectInputStream( byteinput );
-        return (Type) bytestream.readObject();
-    }
-
-    private final State m_graph;
     private final InfoDescriptor m_info;
     private final CategoryDescriptor[] m_categories;
     private final ContextDescriptor m_context;
@@ -240,7 +206,6 @@ public class Type implements Serializable
      * Creation of a new Type instance using a supplied component descriptor,
      * logging, context, services, and part references.
      *
-     * @param graph the component state graph
      * @param info information about the component type
      * @param loggers a set of logger descriptors the declare the logging channels
      *   required by the type
@@ -250,11 +215,10 @@ public class Type implements Serializable
      *   this component type is capable of supplying
      * @param defaults the static configuration defaults
      * @param parts an array of part descriptors
-     * @exception NullPointerException if the graph, descriptor, loggers, context, services
+     * @exception NullPointerException if the info descriptor, loggers, context, services
      *   or part argument are null
      */
-    public Type( final State graph, 
-                 final InfoDescriptor info,
+    public Type( final InfoDescriptor info,
                  final CategoryDescriptor[] loggers,
                  final ContextDescriptor context,
                  final ServiceDescriptor[] services,
@@ -283,7 +247,6 @@ public class Type implements Serializable
             m_services = services;
         }
 
-        m_graph = graph;
         m_info = info;
         m_categories = loggers;
         m_context = context;
@@ -307,16 +270,6 @@ public class Type implements Serializable
     public InfoDescriptor getInfo()
     {
         return m_info;
-    }
-
-    /**
-     * Return the Component descriptor.
-     *
-     * @return the Component descriptor.
-     */
-    public State getStateGraph()
-    {
-        return m_graph;
     }
 
     /**
@@ -464,41 +417,28 @@ public class Type implements Serializable
     public boolean equals(Object other)
     {
         if( null == other )
+        {
             return false;
-
-        if( ! (other instanceof Type ) )
+        }
+        if( !( other instanceof Type ) )
+        {
             return false;
-
+        }
         Type t = (Type) other;
-
-        if( ! m_info.equals( t.m_info ) )
+        if( !m_info.equals( t.m_info ) )
         {
             return false;
-        }
-        if( null == m_graph )
-        {
-            if( ! ( null == t.m_graph ) )
-            {
-                return false;
-            }
-        }
-        else
-        {
-            if( ! m_graph.equals( t.m_graph ) )
-            {
-                return false;
-            }
         }
         if( null == m_configuration )
         {
-            if( ! ( null == t.m_configuration ) )
+            if( !( null == t.m_configuration ) )
             {
                 return false;
             }
         }
         else
         {
-            if( ! m_configuration.equals( t.m_configuration ) )
+            if( !m_configuration.equals( t.m_configuration ) )
             {
                 return false;
             }
@@ -517,7 +457,6 @@ public class Type implements Serializable
                 }
             }
         }
-
         if( ! m_context.equals( t.m_context ) )
         {
             return false;
@@ -546,10 +485,6 @@ public class Type implements Serializable
     public int hashCode()
     {
         int hash = m_info.hashCode();
-        if( m_graph != null )
-        {
-            hash ^= m_graph.hashCode();
-        }
         hash ^= m_context.hashCode();
         if( m_configuration != null )
         {
@@ -575,13 +510,12 @@ public class Type implements Serializable
 
     private static Type createObjectType()
     {
-        final State graph = new State();
         final InfoDescriptor info = new InfoDescriptor( "object", Object.class.getName() );
         final CategoryDescriptor[] loggers = new CategoryDescriptor[0];
         final ContextDescriptor context = new ContextDescriptor( new EntryDescriptor[0] );
         final ServiceDescriptor[] services = new ServiceDescriptor[0];
         final Configuration configuration = null;
         final PartReference[] parts = new PartReference[0];
-        return new Type( graph, info, loggers, context, services, configuration, parts );
+        return new Type( info, loggers, context, services, configuration, parts );
     }
 }

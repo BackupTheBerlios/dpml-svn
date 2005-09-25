@@ -18,8 +18,10 @@
 
 package net.dpml.state.impl;
 
+import java.beans.Statement;
 import java.io.Serializable;
 import java.io.InputStream;
+import java.lang.reflect.InvocationTargetException;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.Hashtable;
@@ -38,15 +40,17 @@ import net.dpml.state.Trigger;
 import net.dpml.state.Trigger.TriggerEvent;
 import net.dpml.state.Action;
 import net.dpml.state.Delegation;
-
-import net.dpml.transit.model.DuplicateKeyException;
+import net.dpml.state.StateMachine;
+import net.dpml.state.UnknownOperationException;
+import net.dpml.state.UnknownTransitionException;
+import net.dpml.state.IntegrityRuntimeException;
 
 /**
- * Default state graph model builder.
+ * Default state-machine implementation.
  * 
  * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
  */
-public class StateMachine
+public class DefaultStateMachine implements StateMachine
 {
     private static DefaultConfigurationBuilder BUILDER = new DefaultConfigurationBuilder();
     
@@ -81,7 +85,12 @@ public class StateMachine
     // constructor
     //-------------------------------------------------------------------------------
 
-    public StateMachine( State state )
+    public DefaultStateMachine( InputStream input )
+    {
+        this( load( input ) );
+    }
+    
+    public DefaultStateMachine( State state )
     {
         m_state = state;
     }
@@ -113,7 +122,16 @@ public class StateMachine
     */
     public Action getInitializationAction()
     {
-        return getAction( m_state, Trigger.INITIALIZATION );
+        try
+        {
+            return getAction( m_state, Trigger.INITIALIZATION );
+        }
+        catch( Throwable e )
+        {
+            final String error = 
+              "Unexpected error during resolution of initialization actions.";
+            throw new IntegrityRuntimeException( error, e );
+        }
     }
     
    /**
@@ -127,7 +145,16 @@ public class StateMachine
     */
     public Action getTerminationAction()
     {
-        return getAction( m_state, Trigger.TERMINATION );
+        try
+        {
+            return getAction( m_state, Trigger.TERMINATION );
+        }
+        catch( Throwable e )
+        {
+            final String error = 
+              "Unexpected error during resolution of termination actions.";
+            throw new IntegrityRuntimeException( error, e );
+        }
     }
     
    /**
@@ -137,10 +164,35 @@ public class StateMachine
     * @param object the object to initialize
     * @return the state established as a sidee effect of the initialization
     */
-    public State initialize( Object object )
+    public State initialize( Object object ) throws InvocationTargetException
     {
         ArrayList visited = new ArrayList();
-        return initialize( visited, object );
+        try
+        {
+            return initialize( visited, object );
+        }
+        catch( UnknownTransitionException e )
+        {
+            final String error = 
+              "Internal state machine error raised due to an unresolved transition.";
+            throw new IntegrityRuntimeException( error, e );
+        }
+        catch( UnknownOperationException e )
+        {
+            final String error = 
+              "Internal state machine error raised due to an unresolved operation.";
+            throw new IntegrityRuntimeException( error, e );
+        }
+        catch( InvocationTargetException e )
+        {
+            throw e;
+        }
+        catch( Throwable e )
+        {
+            final String error = 
+              "Unexpected error during state-machine initialization.";
+            throw new IntegrityRuntimeException( error, e );
+        }
     }
     
    /**
@@ -148,7 +200,8 @@ public class StateMachine
     * @param name an operation name
     * @param object the target object
     */
-    public void execute( String name, Object object )
+    public void execute( String name, Object object ) 
+      throws UnknownOperationException, InvocationTargetException
     {
         Operation operation = getOperation( getState(), name );
         execute( operation, object );
@@ -159,15 +212,12 @@ public class StateMachine
     * @param name the transition name
     * @param object the object against which any transition handler action are to be applied
     */
-    public State apply( String name, Object object )
+    public State apply( String name, Object object ) 
+      throws UnknownTransitionException, InvocationTargetException
     {
         synchronized( m_state )
         {
             Transition transition = getTransition( m_state, name );
-            if( null == transition )
-            {
-                throw new IllegalArgumentException( "Unknown transition name: " + name );
-            }
             return apply( transition, object );
         }
     }
@@ -201,7 +251,7 @@ public class StateMachine
     * Return all of the available operations relative to the current state.
     * @return the available operations
     */
-    public Operation[] getOperations()
+    public Operation[] getOperations() 
     {
         Hashtable table = new Hashtable();
         State[] states = m_state.getStatePath();
@@ -232,14 +282,22 @@ public class StateMachine
     public State terminate( Object object )
     {
         ArrayList visited = new ArrayList();
-        return terminate( visited, object );
+        try
+        {
+            return terminate( visited, object );
+        }
+        catch( Throwable e )
+        {
+            e.printStackTrace(); // TODO: add logger
+            return getState();
+        }
     }
     
     //-------------------------------------------------------------------------------
     // implementation
     //-------------------------------------------------------------------------------
     
-    private State initialize( List list, Object object )
+    private State initialize( List list, Object object ) throws Exception
     {
         Action action = getInitializationAction();
         if( null == action )
@@ -252,6 +310,7 @@ public class StateMachine
         }
         else
         {
+            list.add( action );
             if( action instanceof Operation )
             {
                 Operation operation = (Operation) action;
@@ -280,7 +339,7 @@ public class StateMachine
         }
     }
     
-    private void execute( Operation operation, Object object )
+    private void execute( Operation operation, Object object ) throws InvocationTargetException
     {
         URI handler = operation.getHandlerURI();
         if( null != handler )
@@ -289,7 +348,7 @@ public class StateMachine
         }
     }
     
-    private State terminate( List list, Object object )
+    private State terminate( List list, Object object ) throws Exception
     {
         Action action = getTerminationAction();
         if( null == action )
@@ -330,7 +389,7 @@ public class StateMachine
         }
     }
     
-    private State apply( Transition transition, Object object )
+    private State apply( Transition transition, Object object ) throws InvocationTargetException
     {
         synchronized( m_state )
         {
@@ -347,9 +406,34 @@ public class StateMachine
         }
     }
     
-    private void execute( URI handler, Object object )
+    private void execute( URI handler, Object object ) throws InvocationTargetException
     {
-        // TODO: handle the declared handler
+        if( null == object )
+        {
+            return;
+        }
+        String scheme = handler.getScheme();
+        if( "method".equals( scheme ) )
+        {
+            String methodName = handler.getSchemeSpecificPart();
+            Statement statement = new Statement( object, methodName, new Object[0] );
+            try
+            {
+                statement.execute();
+            }
+            catch( Exception e )
+            {
+                throw new InvocationTargetException( e );
+            }
+        }
+        else
+        {
+            final String error = 
+              "Operation scheme not recognized."
+              + "\nScheme: " + scheme
+              + "\nURI: " + handler;
+            throw new IllegalArgumentException( error );
+        }
     }
     
     private void setState( State state )
@@ -357,11 +441,11 @@ public class StateMachine
         synchronized( m_state )
         {
             m_state = state;
-            // TODO: add stat change notification
         }
     }
     
     private Action getAction( State state, TriggerEvent category )
+      throws UnknownTransitionException, UnknownOperationException
     {
         Trigger[] triggers = state.getTriggers();
         for( int i=0; i<triggers.length; i++ )
@@ -374,14 +458,14 @@ public class StateMachine
                 {
                     URI uri = ((Delegation)action).getURI();
                     String scheme = uri.getScheme();
-                    String path = uri.getSchemeSpecificPart();
+                    String spec = uri.getSchemeSpecificPart();
                     if( "transition".equals( scheme ) )
                     {
-                        return getTransition( state, path );
+                        return getTransition( state, spec );
                     }
                     else if( "operation".equals( scheme ) )
                     {
-                        return getOperation( state, path );
+                        return getOperation( state, spec );
                     }
                 }
                 else
@@ -401,7 +485,7 @@ public class StateMachine
         }
     }
     
-    private Transition getTransition( State state, String name )
+    private Transition getTransition( State state, String name ) throws UnknownTransitionException
     {
         Transition[] transitions = state.getTransitions();
         for( int i=0; i<transitions.length; i++ )
@@ -415,7 +499,13 @@ public class StateMachine
         State parent = state.getParent();
         if( null == parent )
         {
-            return null;
+            final String error = 
+              "Unable to resolve a transition named [" 
+              + name
+              + "] relative to the state [" 
+              + state.getName()
+              + "].";
+            throw new UnknownTransitionException( error );
         }
         else
         {
@@ -423,7 +513,7 @@ public class StateMachine
         }
     }
 
-    private Operation getOperation( State state, String name )
+    private Operation getOperation( State state, String name ) throws UnknownOperationException
     {
         Operation[] operations = state.getOperations();
         for( int i=0; i<operations.length; i++ )
@@ -437,7 +527,7 @@ public class StateMachine
         State parent = state.getParent();
         if( null == parent )
         {
-            return null;
+            throw new UnknownOperationException( name );
         }
         else
         {
@@ -778,7 +868,7 @@ public class StateMachine
         if( name.equals( "operation" ) )
         {
             String operationName = config.getAttribute( "name" );
-            String handler = config.getAttribute( "target", null );
+            String handler = config.getAttribute( "uri" );
             URI uri = createURI( handler );
             return new DefaultOperation( operationName, uri );
         }
@@ -798,7 +888,7 @@ public class StateMachine
         
         if( name.equals( "transition" ) )
         {
-            String handler = config.getAttribute( "handler", null );
+            String handler = config.getAttribute( "uri", null );
             String target = config.getAttribute( "target", "." );
             URI uri = createURI( handler );
             String transitionName = config.getAttribute( "name" );

@@ -41,7 +41,8 @@ import net.dpml.component.ComponentRuntimeException;
 import net.dpml.component.Service;
 import net.dpml.component.ServiceDescriptor;
 import net.dpml.component.AvailabilityException;
-import net.dpml.component.state.State;
+
+import net.dpml.state.State;
 
 import net.dpml.transit.util.PropertyResolver;
 

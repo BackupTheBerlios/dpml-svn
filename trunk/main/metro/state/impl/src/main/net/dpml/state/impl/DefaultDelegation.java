@@ -34,6 +34,10 @@ public class DefaultDelegation implements Delegation, Serializable
     
     public DefaultDelegation( final URI uri )
     {
+        if( null == uri )
+        {
+            throw new NullPointerException( "uri" );
+        }
         m_id = uri;
     }
     
@@ -71,6 +75,11 @@ public class DefaultDelegation implements Delegation, Serializable
         }
     }
     
+    public int hashCode()
+    {
+        return m_id.hashCode();
+    }
+
     public String toString()
     {
         return "action:" + m_id;

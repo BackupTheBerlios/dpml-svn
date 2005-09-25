@@ -36,6 +36,14 @@ public class DefaultTrigger implements Trigger, Serializable
     
     public DefaultTrigger( final TriggerEvent event, final Action action )
     {
+        if( null == event )
+        {
+            throw new NullPointerException( "event" );
+        }
+        if( null == action )
+        {
+            throw new NullPointerException( "action" );
+        }
         m_event = event;
         m_action = action;
     }
@@ -78,6 +86,13 @@ public class DefaultTrigger implements Trigger, Serializable
         }
     }
     
+    public int hashCode()
+    {
+        int hash = m_event.hashCode();
+        hash ^= m_action.hashCode();
+        return hash;
+    }
+
     public String toString()
     {
         return "trigger:" + m_event.getName();

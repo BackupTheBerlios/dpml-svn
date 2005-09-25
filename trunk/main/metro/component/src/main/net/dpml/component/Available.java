@@ -20,10 +20,6 @@ package net.dpml.component;
 
 import java.net.URI;
 
-import net.dpml.component.state.State;
-import net.dpml.component.state.StateEvent;
-import net.dpml.component.state.StateListener;
-
 /**
  * The Available interface declares a set of operations implemented by 
  * components that are available aware.  Available awareness is the notion 

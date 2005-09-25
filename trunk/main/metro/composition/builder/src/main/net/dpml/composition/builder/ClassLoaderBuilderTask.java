@@ -47,7 +47,6 @@ import net.dpml.composition.data.CategoriesDirective;
 import net.dpml.part.context.EntryDescriptor;
 import net.dpml.composition.info.InfoDescriptor;
 import net.dpml.composition.info.Type;
-import net.dpml.composition.info.TypeHolder;
 
 import net.dpml.configuration.Configuration;
 

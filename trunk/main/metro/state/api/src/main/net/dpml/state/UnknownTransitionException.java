@@ -16,30 +16,31 @@
  * limitations under the License.
  */
 
-package net.dpml.component.state;
-
+package net.dpml.state;
 
 /**
- * Exception thrown when a request is made for retrival of an operation 
- * via an operation key and the key is unresolvable.
+ * Exception thrown when a request is made to apply a transition that is unknown
+ * relative to the target state.
  *
  * @author <a href="mailto:dev-dpml@lists.ibiblio.org">The Digital Product Meta Library</a>
  */
-public class NoSuchOperationException extends RuntimeException
+public class UnknownTransitionException extends Exception
 {
    /**
     * Serial version identifier.
     */
     static final long serialVersionUID = 1L;
 
+    private String m_transition;
+
    /**
-    * Construct a new <code>NoSuchOperationException</code> instance.
+    * Construct a new <code>UnknownTransitionException</code> instance.
     *
-    * @param key the operation key
+    * @param transition the transition name
     */
-    public NoSuchOperationException( final String key )
+    public UnknownTransitionException( final String transition )
     {
-        super( key );
+        super( transition );
     }
 
 }

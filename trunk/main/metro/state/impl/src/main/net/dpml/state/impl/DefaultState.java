@@ -41,12 +41,38 @@ public class DefaultState implements State, Serializable
     private final Trigger[] m_triggers;
     private final boolean m_terminal;
     
-    private State m_parent;
+    private transient State m_parent;
+
+    public DefaultState( final String name )
+    {
+        this( name, new Trigger[0], new Transition[0], new Operation[0], new State[0], true );
+    }
+    
+    public DefaultState( 
+      final String name, final Trigger[] triggers, final Transition[] transitions, 
+      final Operation[] operations, final State[] states )
+    {
+        this( name, triggers, transitions, operations, states, false );
+    }
     
     public DefaultState( 
       final String name, final Trigger[] triggers, final Transition[] transitions, 
       final Operation[] operations, final State[] states, boolean terminal )
     {
+        if( null == name )
+        {
+            throw new NullPointerException( "name" );
+        }
+        
+        for( int i=0; i<operations.length; i++ )
+        {
+            Operation operation = operations[i];
+            if( null == operation )
+            {
+                throw new NullPointerException( "operation/" + i );
+            }
+        }
+        
         m_name = name;
         m_triggers = triggers;
         m_transitions = transitions;
@@ -209,6 +235,20 @@ public class DefaultState implements State, Serializable
         }
     }
     
+    public int hashCode()
+    {
+        if( null == m_parent )
+        {
+            return m_name.hashCode();
+        }
+        else
+        {
+            int hash = m_parent.hashCode();
+            hash ^= m_name.hashCode();
+            return hash;
+        }
+    }
+
     private boolean equals( Object a, Object b )
     {
         if( null == a )

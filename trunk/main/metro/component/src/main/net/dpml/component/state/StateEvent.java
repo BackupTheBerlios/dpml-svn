@@ -20,6 +20,8 @@ package net.dpml.component.state;
 
 import java.util.EventObject;
 
+import net.dpml.state.State;
+
 
 /**
  * Exception thrown when a recursive termination sequence is encountered.

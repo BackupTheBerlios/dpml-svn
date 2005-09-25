@@ -18,12 +18,7 @@
 
 package net.dpml.component;
 
-import java.net.URI;
 import java.rmi.RemoteException;
-
-import net.dpml.component.state.State;
-import net.dpml.component.state.StateEvent;
-import net.dpml.component.state.StateListener;
 
 /**
  * A Service is a local interface implemented by an object that 

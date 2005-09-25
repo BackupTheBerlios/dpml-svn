@@ -50,9 +50,9 @@ import net.dpml.component.ServiceContext;
 import net.dpml.component.ServiceException;
 import net.dpml.component.ServiceDescriptor;
 import net.dpml.component.ServiceNotFoundException;
-import net.dpml.component.state.NoSuchOperationException;
-import net.dpml.component.state.NoSuchTransitionException;
-import net.dpml.component.state.State;
+
+import net.dpml.state.State;
+
 import net.dpml.part.Part;
 
 import net.dpml.logging.Logger;

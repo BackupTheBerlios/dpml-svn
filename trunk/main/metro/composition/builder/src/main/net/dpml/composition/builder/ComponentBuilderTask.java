@@ -48,7 +48,6 @@ import net.dpml.composition.info.InfoDescriptor;
 import net.dpml.composition.info.InfoDescriptor.LifestylePolicy;
 import net.dpml.composition.info.InfoDescriptor.CollectionPolicy;
 import net.dpml.composition.info.Type;
-import net.dpml.composition.info.TypeHolder;
 
 import net.dpml.configuration.Configuration;
 

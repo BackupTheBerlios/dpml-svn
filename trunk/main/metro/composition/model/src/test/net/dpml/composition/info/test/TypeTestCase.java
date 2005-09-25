@@ -40,7 +40,6 @@ import net.dpml.composition.info.Type;
 import net.dpml.configuration.Configuration;
 
 import net.dpml.part.PartReference;
-import net.dpml.component.state.State;
 import net.dpml.component.ServiceDescriptor;
 import net.dpml.composition.AbstractEncodingTestCase;
 
@@ -52,7 +51,6 @@ import net.dpml.composition.AbstractEncodingTestCase;
  */
 public class TypeTestCase extends AbstractEncodingTestCase
 {
-    private State m_graph;
     private InfoDescriptor m_descriptor;
     private CategoryDescriptor[] m_loggers;
     private ContextDescriptor m_context;
@@ -63,7 +61,6 @@ public class TypeTestCase extends AbstractEncodingTestCase
 
     public void setUp()
     {
-        m_graph = new State();
         m_reference = new ServiceDescriptor( TypeTestCase.class.getName() );
         m_key = TypeTestCase.class.getName();
         m_descriptor = createSimpleInfo( TypeTestCase.class.getName() );
@@ -102,7 +99,7 @@ public class TypeTestCase extends AbstractEncodingTestCase
     {
         Type type = 
           new Type(
-            m_graph, m_descriptor, m_loggers, m_context, m_services, 
+            m_descriptor, m_loggers, m_context, m_services, 
             null, m_parts );
         checkType( type );
     }
@@ -111,7 +108,7 @@ public class TypeTestCase extends AbstractEncodingTestCase
     {
         Type type = 
           new Type( 
-            m_graph, m_descriptor, m_loggers, m_context, m_services, null, m_parts );
+            m_descriptor, m_loggers, m_context, m_services, null, m_parts );
 
         checkType( type );
 
@@ -141,7 +138,7 @@ public class TypeTestCase extends AbstractEncodingTestCase
     {
         Type type = 
           new Type(
-            m_graph, m_descriptor, m_loggers, m_context, m_services, 
+            m_descriptor, m_loggers, m_context, m_services, 
             null, m_parts );
         executeEncodingTest( type, "type.xml" );
     }

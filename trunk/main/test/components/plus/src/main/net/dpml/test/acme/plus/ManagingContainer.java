@@ -21,11 +21,12 @@ package net.dpml.test.acme.plus;
 import java.net.URI;
 import java.util.logging.Logger;
 
+import net.dpml.activity.Startable;
+
 import net.dpml.component.Component;
 import net.dpml.component.Manager;
-import net.dpml.component.state.State;
 
-import net.dpml.activity.Startable;
+import net.dpml.state.State;
 
 /**
  * Demonstration of a component that manages the state of a contained part.
@@ -66,8 +67,6 @@ public class ManagingContainer implements Startable
     {
          Parts parts = getParts();
          Manager component = (Manager) parts.getTestComponent();
-         component.initialize();         
-         component.apply( "start" );
          component.execute( "audit" );
     }
 

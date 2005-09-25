@@ -729,7 +729,7 @@ public class CatalogTask extends ProjectTask
         try
         {
             InputStream input = new FileInputStream( source );
-            Type type = Type.loadType( input );
+            Type type = Type.decode( input );
             createTypePage( htmls, type );
         }
         catch( Exception e )

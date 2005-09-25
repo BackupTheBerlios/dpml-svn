@@ -29,7 +29,6 @@ import java.beans.IntrospectionException;
 import net.dpml.magic.model.Policy;
 import net.dpml.magic.tasks.ProjectTask;
 import net.dpml.composition.info.Type;
-import net.dpml.composition.info.TypeHolder;
 
 import org.apache.tools.ant.AntClassLoader;
 import org.apache.tools.ant.BuildException;

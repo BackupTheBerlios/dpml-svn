@@ -22,9 +22,10 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.logging.Logger;
 
-import net.dpml.component.state.State;
 import net.dpml.component.state.StateEvent;
 import net.dpml.component.state.StateListener;
+
+import net.dpml.state.State;
 
 /**
  * Experimental component dealing with state management.
@@ -93,25 +94,14 @@ public class ManagedComponent implements StateListener
         return m_logger;
     }
 
-    //
-    // The following methods are invoked by the state manager based on 
-    // uris assigned to transitions.  The state manager locates the method
-    // from the uri and invokes the operation after constructing arguments
-    // from the possible set of Logger, Object (component impl), State (initial),
-    // and State (target).  If the method requires the target state it must 
-    // delcare both current and target state in the method parameters.
-    //
-
-    public void terminate( State state )
+    public void terminate()
     {
-        String name = state.getName();
-        getLogger().info( "handling termination (current state: " + name + ")" );
+        getLogger().info( "handling termination" );
     }
 
-    public void start( State starting )
+    public void start()
     {
-        String name = starting.getName();
-        getLogger().info( "handling start (current state: " + name + ")" );
+        getLogger().info( "handling start" );
     }
 
     public void stop()
@@ -119,23 +109,15 @@ public class ManagedComponent implements StateListener
         getLogger().info( "handling stop" );
     }
 
-    //
-    // The following method is an example of a method invoked 
-    // via an operation declaration. Operations do not trigger state 
-    // change - instead they are gaurded methods that become visible
-    // to a controlling application when the state to which the operation
-    // is assigned becomes visible in the active state chain.
-    //
-
-    public void audit( State state )
+    public void audit()
     {
         StringBuffer buffer = new StringBuffer( "Audit Report" );
-        buffer.append( "\n-------------------------------------------------" );
-        buffer.append( "\nState Model:" );
-        buffer.append( "\nCurrent State: " + state.getName() );
-        buffer.append( "\n-------------------------------------------------" );
-        buffer.append( state.list() );
-        buffer.append( "\n-------------------------------------------------" );
+        //buffer.append( "\n-------------------------------------------------" );
+        //buffer.append( "\nState Model:" );
+        //buffer.append( "\nCurrent State: " + state.getName() );
+        //buffer.append( "\n-------------------------------------------------" );
+        //buffer.append( state.list() );
+        //buffer.append( "\n-------------------------------------------------" );
         buffer.append( "\nClass Loader Stack" );
         buffer.append( "\n-------------------------------------------------" );
         buffer.append( "\n" + getClass().getClassLoader().toString() );

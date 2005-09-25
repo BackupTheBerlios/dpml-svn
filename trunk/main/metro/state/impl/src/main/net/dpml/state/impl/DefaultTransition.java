@@ -34,10 +34,24 @@ public class DefaultTransition implements Transition, Serializable
     private final String m_name;
     private final String m_target;
     private final URI m_handler;
-    private State m_state;
+    
+    private transient State m_state;
+    
+    public DefaultTransition( final String name, final String target )
+    {
+        this( name, target, null );
+    }
     
     public DefaultTransition( final String name, final String target, final URI handler )
     {
+        if( null == name )
+        {
+            throw new NullPointerException( "name" );
+        }
+        if( null == target )
+        {
+            throw new NullPointerException( "target" );
+        }
         m_name = name;
         m_target = target;
         m_handler = handler;
@@ -45,6 +59,10 @@ public class DefaultTransition implements Transition, Serializable
     
     public void setState( State state )
     {
+        if( null == state )
+        {
+            throw new NullPointerException( "state" );
+        }
         if( null == m_state )
         {
             m_state = state;
@@ -112,6 +130,17 @@ public class DefaultTransition implements Transition, Serializable
         {
             return false;
         }
+    }
+    
+    public int hashCode()
+    {
+        int hash = m_name.hashCode();
+        hash ^= m_target.hashCode();
+        if( m_handler != null )
+        {
+            hash ^= m_handler.hashCode();
+        }
+        return hash;
     }
     
     private boolean equals( Object a, Object b )

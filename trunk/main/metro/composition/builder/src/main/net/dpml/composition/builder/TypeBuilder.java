@@ -1,4 +1,5 @@
 /*
+/*
  * Copyright (c) 2005 Stephen J. McConnell
  *
  * Licensed  under the  Apache License,  Version 2.0  (the "License");
@@ -32,13 +33,6 @@ import net.dpml.composition.info.Type;
  */
 public interface TypeBuilder
 {
-   /**
-    * Return a urn identitifying the type handler for this builder.
-    *
-    * @return a uri identifing the type handler.
-    */
-    //URI getTypeHandlerURI();
-
    /**
     * Build a part type.
     * @return the serializable part type.

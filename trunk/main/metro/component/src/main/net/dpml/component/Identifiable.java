@@ -21,8 +21,6 @@ package net.dpml.component;
 import java.net.URI;
 import java.rmi.RemoteException;
 
-import net.dpml.component.state.State;
-
 /**
  * The Identifiable interface is implemented by components that declare 
  * identity.

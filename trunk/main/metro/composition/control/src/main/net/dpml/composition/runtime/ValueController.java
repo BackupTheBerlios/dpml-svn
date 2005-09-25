@@ -25,10 +25,12 @@ import java.rmi.server.UnicastRemoteObject;
 import net.dpml.composition.control.CompositionController;
 
 import net.dpml.component.Component;
-import net.dpml.component.state.NoSuchOperationException;
-import net.dpml.component.state.NoSuchTransitionException;
-import net.dpml.component.state.State;
 import net.dpml.component.AvailabilityException;
+
+import net.dpml.state.State;
+import net.dpml.state.UnknownOperationException;
+import net.dpml.state.UnknownTransitionException;
+import net.dpml.state.impl.DefaultState;
 
 /**
  * The ValueController class manages value instances.
@@ -104,7 +106,7 @@ public class ValueController
     */
     public State apply( Component entry, String key ) throws Exception
     {
-        throw new NoSuchTransitionException( key );
+        throw new UnknownTransitionException( key );
     }
 
    /**
@@ -115,7 +117,7 @@ public class ValueController
     */
     public void execute( Component entry, String key ) throws Exception
     {
-        throw new NoSuchOperationException ( key );
+        throw new UnknownOperationException ( key );
     }
 
    /**
@@ -125,5 +127,5 @@ public class ValueController
     {
     }
 
-    public static final State AVAILABLE = new State( true );
+    public static final State AVAILABLE = new DefaultState( "" );
 }

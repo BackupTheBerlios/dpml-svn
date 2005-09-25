@@ -35,10 +35,10 @@ import net.dpml.state.impl.*;
  *
  * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
  */
-public class StateTestCase extends AbstractEncodingTestCase
+public class DefaultStateMachineTestCase extends AbstractEncodingTestCase
 {
     State m_state;
-    StateMachine m_machine;
+    DefaultStateMachine m_machine;
     
     public void setUp() throws Exception
     {
@@ -49,8 +49,8 @@ public class StateTestCase extends AbstractEncodingTestCase
         BufferedInputStream buffer = new BufferedInputStream( input );
         try
         {
-            m_state = StateMachine.load( buffer );
-            m_machine = new StateMachine( m_state );
+            m_state = DefaultStateMachine.load( buffer );
+            m_machine = new DefaultStateMachine( m_state );
         }
         catch( Throwable e )
         {
@@ -70,22 +70,10 @@ public class StateTestCase extends AbstractEncodingTestCase
     
     public void testValidation() throws Exception
     {
-        StateMachine.validate( m_state );
+        DefaultStateMachine.validate( m_state );
     }
     
-    public void testRootStateName()
-    {
-        State state = m_state;
-        assertEquals( "name", "", state.getName() );
-    }
-    
-    public void testRootStates()
-    {
-        State[] states = m_state.getStates();
-        assertEquals( "count", 2, states.length );
-    }
-
-    public void testExecution()
+    public void testExecution() throws Exception
     {
         // check that the termination action is null
         
@@ -178,6 +166,7 @@ public class StateTestCase extends AbstractEncodingTestCase
         ArrayList list = new ArrayList();
         audit( list, state, "" );
     }
+    
     private void audit( List visited, State state, String pad  )
     {
         if( visited.contains( state ) )
@@ -190,10 +179,6 @@ public class StateTestCase extends AbstractEncodingTestCase
         }
         System.out.println( pad + "# -------------------" );
         System.out.println( pad + "# state: [" + state.getName() + "]" );
-        //if( null != state.getInitialization() )
-        //{
-        //    System.out.print( " --> [" + state.getInitialization().getTargetName()  + "]" );
-        //}
         Trigger[] triggers = state.getTriggers();
         for( int i=0; i<triggers.length; i++ )
         {

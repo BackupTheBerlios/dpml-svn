@@ -20,9 +20,11 @@ package net.dpml.part.service;
 
 import java.net.URI;
 
-import net.dpml.component.state.State;
+//import net.dpml.component.state.State;
 import net.dpml.component.state.StateListener;
 import net.dpml.component.state.StateEvent;
+
+import net.dpml.state.State;
 
 /**
  * The Initializable interface is implemented by components that support an 

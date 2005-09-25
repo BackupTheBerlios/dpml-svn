@@ -16,14 +16,14 @@
  * limitations under the License.
  */
 
-package net.dpml.component.state;
+package net.dpml.state;
 
 /**
- * Exception thrown when a request for a handler could not be resolved.
+ * Runtime exception thrown when an inconsitent state is encounted within a state-machine.
  *
  * @author <a href="mailto:dev-dpml@lists.ibiblio.org">The Digital Product Meta Library</a>
  */
-public class NoSuchHandlerException extends RuntimeException
+public class IntegrityRuntimeException extends RuntimeException
 {
    /**
     * Serial version identifier.
@@ -31,14 +31,23 @@ public class NoSuchHandlerException extends RuntimeException
     static final long serialVersionUID = 1L;
 
    /**
-    * Construct a new <code>NoSuchHandlerException</code> instance.
+    * Construct a new <code>IntegrityRuntimeException</code> instance.
     *
-    * @param handler the handler name
+    * @param transition the transition name
     */
-    public NoSuchHandlerException( final String handler )
+    public IntegrityRuntimeException( final String message )
     {
-        super( handler );
+        this( message, null );
     }
 
+   /**
+    * Construct a new <code>IntegrityRuntimeException</code> instance.
+    *
+    * @param transition the transition name
+    */
+    public IntegrityRuntimeException( final String message, Throwable cause )
+    {
+        super( message, cause );
+    }
 }
 

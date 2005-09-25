@@ -28,7 +28,7 @@ import java.rmi.RemoteException;
 import net.dpml.component.control.Disposable;
 import net.dpml.component.AvailabilityEvent;
 import net.dpml.component.AvailabilityListener;
-import net.dpml.component.state.ResourceUnavailableException;
+import net.dpml.component.ResourceUnavailableException;
 
 /**
  * An appliance is an invocation handler maintained by a component. It is used
