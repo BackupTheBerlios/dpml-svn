@@ -421,6 +421,10 @@ public class DefaultStateMachine implements StateMachine
             {
                 statement.execute();
             }
+            catch( InvocationTargetException e )
+            {
+                throw e;
+            }
             catch( Exception e )
             {
                 throw new InvocationTargetException( e );
