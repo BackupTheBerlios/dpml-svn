@@ -9,7 +9,7 @@ import net.dpml.transit.PID;
 
 import net.dpml.profile.ApplicationProfile;
 
-import net.dpml.part.context.Context;
+import net.dpml.part.Context;
 
 public interface Application extends Remote
 {

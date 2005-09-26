@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package net.dpml.part.context;
+package net.dpml.part;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
@@ -23,7 +23,7 @@ import net.dpml.transit.model.UnknownKeyException;
 
 /**
  * A component context is a remotely manageble object that exposed context 
- * infromation used by a container in the establishment and runtime execution
+ * information used by a container in the establishment and runtime execution
  * of component instances.
  * 
  * @author <a href="mailto:dev-dpml@lists.ibiblio.org">The Digital Product Meta Library</a>

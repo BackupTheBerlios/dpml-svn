@@ -21,6 +21,8 @@ package net.dpml.transit.test;
 
 import java.io.File;
 import java.util.Date;
+import java.util.Map;
+import java.util.Hashtable;
 
 import net.dpml.transit.model.Value;
 import net.dpml.transit.model.Construct;
@@ -55,7 +57,6 @@ public class ConstructTestCase extends TestCase
         Construct construct = new Construct( "int", "10" );
         ClassLoader cl = ConstructTestCase.class.getClassLoader();
         Object value = construct.resolve();
-        assertEquals( "isa-int", int.class, construct.getBaseClass( cl ) );
         assertEquals( "isa-Integer", Integer.class, value.getClass() );
     }
 
@@ -70,14 +71,14 @@ public class ConstructTestCase extends TestCase
     public void testMultiArgConstruct() throws Exception
     {
         Value a = new Construct( File.class.getName(), "aaa" );
-        Value b = new Construct( File.class.getName(), "bbb" );
+        Value b = new Construct( File.class.getName(), "${java.io.tmpdir}" );
         Value c = new Construct( Context.class.getName(), new Value[]{a, b} );
 
         Object value = c.resolve();
         assertEquals( "isa-context", value.getClass(), Context.class );
         Context context = (Context) value;
         assertEquals( "file-a", context.getA(), new File( "aaa" ) );
-        assertEquals( "file-b", context.getB(), new File( "bbb" ) );
+        assertEquals( "file-b", context.getB(), new File( System.getProperty( "java.io.tmpdir" ) ) );
     }
 
     public void testPrimitiveMultiArgConstruct() throws Exception
@@ -86,6 +87,49 @@ public class ConstructTestCase extends TestCase
         Value b = new Construct( "boolean", "true" );
         Value c = new Construct( Context2.class.getName(), new Value[]{a, b} );
         Object value = c.resolve();
+        assertEquals( "isa-context", value.getClass(), Context2.class );
+        Context2 context = (Context2) value;
+        if( !( context.getNumber() == 100 ) )
+        {
+            System.out.println( "# number: " + context.getNumber() );
+            fail( "context2 number return value is not 100" );
+        }
+        if( !context.getLogical() )
+        {
+            System.out.println( "# logical: " + context.getLogical() );
+            fail( "context2 logical return value is not true" );
+        }
+    }
+    
+    public void testStaticMethod() throws Exception
+    {
+        Value v = new Construct( Context2.class.getName(), "create", new Value[0] );
+        Object value = v.resolve();
+        assertEquals( "isa-context", value.getClass(), Context2.class );
+        Context2 context = (Context2) value;
+        if( !( context.getNumber() == 100 ) )
+        {
+            System.out.println( "# number: " + context.getNumber() );
+            fail( "context2 number return value is not 100" );
+        }
+        if( !context.getLogical() )
+        {
+            System.out.println( "# logical: " + context.getLogical() );
+            fail( "context2 logical return value is not true" );
+        }
+    }
+    
+    public void testSymbolicReference() throws Exception
+    {
+        Map map = new Hashtable();
+        map.put( "number", new Integer( 100 ) );
+        map.put( "logical", new Boolean( true ) );
+        
+        Value number = new Construct( "int", "${number}" );
+        Value logical = new Construct( "boolean", "${logical}" );
+        Value construct = new Construct( Context2.class.getName(), new Value[]{ number, logical } );
+        Object value = construct.resolve( map, null );
+        
         assertEquals( "isa-context", value.getClass(), Context2.class );
         Context2 context = (Context2) value;
         if( !( context.getNumber() == 100 ) )
@@ -126,6 +170,11 @@ public class ConstructTestCase extends TestCase
     {
         private int m_number;
         private boolean m_logical;
+        
+        public static Context2 create()
+        {
+            return new Context2( 100, true );
+        }
 
         public Context2( int number, boolean logical )
         {

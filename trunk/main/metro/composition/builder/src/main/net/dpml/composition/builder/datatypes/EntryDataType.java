@@ -28,7 +28,7 @@ import net.dpml.composition.builder.PartReferenceBuilder;
 import net.dpml.composition.data.ValueDirective;
 import net.dpml.composition.data.ReferenceDirective;
 import net.dpml.composition.data.FeatureDirective;
-import net.dpml.part.context.EntryDescriptor;
+import net.dpml.part.EntryDescriptor;
 import net.dpml.composition.info.Type;
 
 import org.apache.tools.ant.BuildException;

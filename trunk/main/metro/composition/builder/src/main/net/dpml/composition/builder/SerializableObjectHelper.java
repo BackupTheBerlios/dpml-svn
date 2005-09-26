@@ -26,7 +26,7 @@ import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.io.Serializable;
 
-import net.dpml.part.builder.BuilderRuntimeException;
+import net.dpml.part.BuilderRuntimeException;
 
 /**
  * A datatype that enables custom part builders.

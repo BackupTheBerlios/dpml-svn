@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package net.dpml.part.context;
+package net.dpml.part;
 
 import java.beans.SimpleBeanInfo;
 import java.beans.BeanDescriptor;

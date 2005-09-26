@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package net.dpml.part.builder;
+package net.dpml.part;
 
 import java.io.IOException;
 import java.net.URI;

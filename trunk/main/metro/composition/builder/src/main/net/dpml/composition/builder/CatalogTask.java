@@ -32,7 +32,7 @@ import java.util.Map;
 
 import net.dpml.part.Part;
 import net.dpml.part.PartReference;
-import net.dpml.part.context.EntryDescriptor;
+import net.dpml.part.EntryDescriptor;
 
 import net.dpml.composition.info.Type;
 import net.dpml.composition.info.InfoDescriptor;

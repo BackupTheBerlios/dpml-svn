@@ -42,7 +42,7 @@ import net.dpml.activity.Startable;
 
 import net.dpml.composition.data.ComponentDirective;
 import net.dpml.composition.data.ContextDirective;
-import net.dpml.part.context.EntryDescriptor;
+import net.dpml.part.EntryDescriptor;
 import net.dpml.composition.info.Type;
 import net.dpml.composition.info.InfoDescriptor.LifestylePolicy;
 import net.dpml.composition.control.CompositionController;

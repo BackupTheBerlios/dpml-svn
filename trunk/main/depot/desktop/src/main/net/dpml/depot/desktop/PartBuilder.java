@@ -50,7 +50,7 @@ import net.dpml.part.Part;
 import net.dpml.part.PartContentHandler;
 import net.dpml.part.PartHandler;
 import net.dpml.part.PartEditor;
-import net.dpml.part.context.Context;
+import net.dpml.part.Context;
 
 import net.dpml.transit.Logger;
 import net.dpml.transit.Repository;
@@ -59,7 +59,13 @@ import net.dpml.transit.Transit;
 import net.dpml.station.Application;
 
 /**
- * Application profile tree node. 
+ * Utility class that supports the construction of a components used to present
+ * views of a part together with subsidiary nodes exposed by the part.  The 
+ * implementation uses the codebase published by a part to locate and construct 
+ * it's controller from which a part editor is resolved. The part editor is 
+ * responsible for the construction of the component panels and nodes.
+ *  
+ * @see PartEditor
  */
 public final class PartBuilder
 {
@@ -103,6 +109,18 @@ public final class PartBuilder
         }
     }
     
+    //TreeNode[] getPartNodes()
+    //{
+    //    if( null != m_editor )
+    //    {
+    //        return m_editor.getPartNodes();
+    //    }
+    //    else
+    //    {
+    //        return new TreeNode[0];
+    //    }
+    //}
+
     TreeNode[] getPartNodes()
     {
         try
@@ -150,15 +168,4 @@ public final class PartBuilder
         }
     }
     
-    //TreeNode[] getPartNodes()
-    //{
-    //    if( null != m_editor )
-    //    {
-    //        return m_editor.getPartNodes();
-    //    }
-    //    else
-    //    {
-    //        return new TreeNode[0];
-    //    }
-    //}
 }

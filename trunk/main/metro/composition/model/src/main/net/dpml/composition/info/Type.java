@@ -46,7 +46,7 @@ import net.dpml.component.Version;
 
 import net.dpml.part.Part;
 import net.dpml.part.PartReference;
-import net.dpml.part.context.EntryDescriptor;
+import net.dpml.part.EntryDescriptor;
 
 /**
  * This class contains the meta information about a particular

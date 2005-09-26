@@ -34,13 +34,13 @@ import net.dpml.composition.data.ReferenceDirective;
 import net.dpml.composition.data.ClassLoaderDirective;
 import net.dpml.composition.data.ClasspathDirective;
 import net.dpml.composition.info.Type;
-import net.dpml.part.context.EntryDescriptor;
+import net.dpml.part.EntryDescriptor;
 
 import net.dpml.part.Part;
 import net.dpml.part.PartReference;
-import net.dpml.part.context.Context;
-import net.dpml.part.context.ContextException;
-import net.dpml.part.context.EntryDescriptor;
+import net.dpml.part.Context;
+import net.dpml.part.ContextException;
+import net.dpml.part.EntryDescriptor;
 
 import net.dpml.transit.model.UnknownKeyException;
 import net.dpml.transit.Plugin.Category;

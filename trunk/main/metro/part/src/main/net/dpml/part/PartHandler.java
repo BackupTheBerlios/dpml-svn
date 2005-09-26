@@ -25,7 +25,7 @@ import java.net.URLConnection;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 
-import net.dpml.part.context.Context;
+import net.dpml.part.Context;
 
 /**
  * The PartHandler interface defines the a contract for an object that provides generalized

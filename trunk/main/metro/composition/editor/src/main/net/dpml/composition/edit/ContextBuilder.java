@@ -41,7 +41,7 @@ import net.dpml.composition.data.ContextDirective;
 import net.dpml.composition.data.ValueDirective;
 import net.dpml.composition.data.ReferenceDirective;
 import net.dpml.composition.info.Type;
-import net.dpml.part.context.EntryDescriptor;
+import net.dpml.part.EntryDescriptor;
 import net.dpml.composition.model.TypeManager;
 
 import net.dpml.part.Part;

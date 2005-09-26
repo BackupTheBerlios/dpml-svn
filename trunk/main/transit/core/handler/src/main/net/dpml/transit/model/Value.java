@@ -19,56 +19,36 @@
 package net.dpml.transit.model;
 
 import java.io.Serializable;
+import java.util.Map;
 
 /**
- * A object resolvable from primative arguments.
+ * A object resolvable from primitive and symbolic arguments.
  * 
  * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
  */
 public interface Value extends Serializable
 {
    /**
-    * Return the classname of the type that this value implements.
-    * @return the type classname
-    */
-    String getTypeClassname();
-
-   /**
-    * Return the classname of the resolved value.
-    * @return the classname
-    */
-    String getBaseClassname();
-
-   /**
-    * Resolve an instance from the value.
+    * Resolve an instance from the value using the context classloader.
     * @return the resolved instance
     */
     Object resolve();
 
    /**
-    * Resolve an instance from the value.
-    * @param classloader the classloader 
+    * Resolve an instance of the value.
+    * @param classloader the classloader to use
     * @return the resolved instance
     */
     Object resolve( ClassLoader classloader );
-
+    
    /**
-    * Resolve the value base class using the supplied classloader.
-    * @param classloader the classloader
-    * @return the resolved class
+    * Resolve an instance from the value using a supplied context map. If any 
+    * target expressions in immediate or nested values contain a symbolic
+    * expression the value will be resolved using the supplied map.
+    *
+    * @param map the context map
+    * @param classloader the classloader to use
+    * @return the resolved instance
     */
-    Class getBaseClass( ClassLoader classloader );
-
-   /**
-    * Resolve the value type class using the context classloader.
-    * @return the resolved class
-    */
-    Class getTypeClass();
-
-   /**
-    * Resolve the value type class using the supplied classloader.
-    * @param classloader the classloader
-    * @return the resolved class
-    */
-    Class getTypeClass( ClassLoader classloader );
+    Object resolve( Map map, ClassLoader classloader );
 }

@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package net.dpml.part.builder;
+package net.dpml.part;
 
 /**
  * An exception throws if an internal error occurs during builder execution.

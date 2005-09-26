@@ -55,7 +55,7 @@ import net.dpml.magic.tasks.ProjectTask;
 import net.dpml.magic.model.Policy;
 
 import net.dpml.part.PartReference;
-import net.dpml.part.context.EntryDescriptor;
+import net.dpml.part.EntryDescriptor;
 
 import net.dpml.component.ServiceDescriptor;
 

@@ -193,7 +193,7 @@ class DefaultContentRegistry extends UnicastRemoteObject implements Service, Con
                 String type =  model.getContentType();
                 Logger logger = getLogger().getChildLogger( type );
                 Value[] params = model.getParameters();
-                Object[] args = Construct.getArgs( params, new Object[]{logger, model} );
+                Object[] args = Construct.getArgs( null, params, new Object[]{logger, model} );
                 try
                 {
                     handler = (ContentHandler) loader.instantiate( clazz, args );

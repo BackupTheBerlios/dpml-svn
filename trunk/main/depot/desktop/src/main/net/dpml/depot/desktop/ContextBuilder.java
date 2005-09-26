@@ -36,8 +36,8 @@ import javax.swing.table.TableModel;
 import javax.swing.table.TableCellEditor;
 import javax.swing.DefaultCellEditor;
 
-import net.dpml.part.context.Context;
-import net.dpml.part.context.EntryDescriptor;
+import net.dpml.part.Context;
+import net.dpml.part.EntryDescriptor;
 
 /**
  * Application profile tree node. 

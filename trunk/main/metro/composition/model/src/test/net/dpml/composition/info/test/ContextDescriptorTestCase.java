@@ -36,7 +36,7 @@ import net.dpml.composition.info.Descriptor;
 import net.dpml.composition.info.ContextDescriptor;
 
 import net.dpml.composition.AbstractEncodingTestCase;
-import net.dpml.part.context.EntryDescriptor;
+import net.dpml.part.EntryDescriptor;
 
 import junit.framework.TestCase;
 

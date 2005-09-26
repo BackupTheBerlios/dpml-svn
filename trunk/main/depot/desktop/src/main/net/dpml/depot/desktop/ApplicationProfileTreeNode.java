@@ -159,7 +159,7 @@ public final class ApplicationProfileTreeNode extends Node
         }
         else
         {
-            panel.add( "Process", buildConfigurationComponent() );
+            panel.add( "Process", buildProcessComponent() );
             panel.add( "Properties", new SystemPropertiesBuilder( m_profile ).getComponent() );
             PartBuilder builder = new PartBuilder( m_logger, m_application );
             Component[] components = builder.getPartPanels();
@@ -180,7 +180,7 @@ public final class ApplicationProfileTreeNode extends Node
         return panel;
     }
 
-    private Component buildConfigurationComponent() throws Exception
+    private Component buildProcessComponent() throws Exception
     {
         FormLayout layout = new FormLayout(
           "right:pref, 3dlu, 60dlu, fill:max(60dlu;pref), 7dlu, pref", 

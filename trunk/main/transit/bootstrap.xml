@@ -450,8 +450,8 @@
     <junit fork="true" dir="${basedir}"
            printsummary="yes"
            showoutput="true"
-           haltonfailure="no" failureproperty="junit.failure"
-           haltonerror="no" errorproperty="junit.error">
+           haltonfailure="yes" failureproperty="junit.failure"
+           haltonerror="yes" errorproperty="junit.error">
       <sysproperty key="dpml.build.signature" value="${dpml.build.signature}"/>
       <classpath>
         <path refid="project.test.path"/>

@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package net.dpml.part.context.test;
+package net.dpml.part.test;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -36,7 +36,7 @@ import java.beans.DefaultPersistenceDelegate;
 
 import junit.framework.TestCase;
 
-import net.dpml.part.context.EntryDescriptor;
+import net.dpml.part.EntryDescriptor;
 
 /**
  * EntryDescriptorTestCase does XYZ

@@ -18,8 +18,10 @@
 
 package net.dpml.transit.model;
 
+import java.beans.Expression;
 import java.lang.reflect.Constructor;
 import java.util.ArrayList;
+import java.util.Map;
 
 import net.dpml.transit.util.PropertyResolver;
 
@@ -39,17 +41,18 @@ public class Construct implements Value
     * Utility operation that consolidates an array of values and supplimentary
     * arguments to an array of objects.
     * 
+    * @param map a map of keys and values used in symbolic target resolution
     * @param params the value array
     * @param args supplimentary arguments
     * @return the consolidated argument array
     */
-    public static Object[] getArgs( Value[] params, Object[] args )
+    public static Object[] getArgs( Map map, Value[] params, Object[] args )
     {
         ArrayList list = new ArrayList();
         for( int i=0; i < params.length; i++ )
         {
             Value value = params[i];
-            Object object = value.resolve();
+            Object object = value.resolve( map, null );
             list.add( object );
         }
         for( int i=0; i < args.length; i++ )
@@ -59,41 +62,13 @@ public class Construct implements Value
         }
         return list.toArray();
     }
-
-   /**
-    * Utility operation that returns the set of constructor type.
-    * 
-    * @param values the value array
-    * @param suppliment supplimentary classes
-    * @return the consolidated argument types
-    */
-    public static Class[] getTypes( Value[] values, Class[] suppliment )
-    {
-        ArrayList list = new ArrayList();
-        for( int i=0; i < values.length; i++ )
-        {
-            Value value = values[i];
-            Class c = value.getTypeClass();
-            list.add( c );
-        }
-        for( int i=0; i < suppliment.length; i++ )
-        {
-            Class c = suppliment[i];
-            list.add( c );
-        }
-        Object[] objects = list.toArray();
-        Class[] classes = new Class[ objects.length ];
-        for( int i=0; i < objects.length; i++ )
-        {
-            classes[i] = (Class) objects[i];
-        }
-        return classes;
-    }
-
-    private String m_base;
-    private String m_value;
-    private Value[] m_args;
-    private String m_type;
+    
+    private final String m_method;
+    private final String m_target;
+    private final String m_value;
+    private final Value[] m_args;
+    
+    private final transient boolean m_simple;
 
    /**
     * Create a new construct using the default java.lang.String class as the base type.
@@ -105,65 +80,108 @@ public class Construct implements Value
     }
 
    /**
-    * Create a new construct using a supplied base type.
-    * @param type the construct type classname
-    * @param base the construct implementation classname
+    * Create a new construct using a supplied target defintion.  The target argument 
+    * may be either a classname or a symbolic reference in the form ${[key]}.  If the 
+    * argument is symbolic it resolved relative to a context map supplied by the 
+    * application resolving construct values.
+    *
+    * @param target a classname or symbolic reference
     * @param value the construct value
     */
-    public Construct( String base, String value )
+    public Construct( String target, String value )
     {
-        this( base, base, value );
+        this( target, "new", value );
     }
 
    /**
-    * Create a new construct using a supplied base type.
-    * @param base the construct implementation classname
+    * Create a new construct using a supplied target defintion.  The target argument 
+    * may be either a classname or a symbolic reference in the form ${[key]}.  If the 
+    * argument is symbolic it is resolved relative to a context map supplied by the 
+    * application resolving construct values.  If the construct value is symbolic
+    * the implementation will attempt to expand the reference relative to a context
+    * map (if supplied) otherwise the implementation will attempt to expand the value 
+    * using system properties.
+    *
+    * @param target a classname or symbolic reference
+    * @param method the method to invoke on the target
     * @param value the construct value
     */
-    public Construct( String type, String base, String value )
+    public Construct( String target, String method, String value )
     {
-        m_base = base;
-        m_type = type;
+        if( null == target )
+        {
+            throw new NullPointerException( "target" );
+        }
+        if( null == method )
+        {
+            throw new NullPointerException( "method" );
+        }
+        m_target = target;
+        m_method = method;
         m_value = value;
         m_args = new Value[0];
+        m_simple = true;
     }
 
    /**
-    * Create a new composite construct using a supplied base type and value array.
-    * @param type the construct classname
-    * @param args an array of constructor values
+    * Create a new construct using a supplied target defintion.  The target argument 
+    * may be either a classname or a symbolic reference in the form ${[key]}.  If the 
+    * argument is symbolic it is resolved relative to a context map supplied by the 
+    * application resolving construct values. Instance values resolved from the 
+    * supplied Value[] will be used as constructor arguments when resolving the target.
+    *
+    * @param target the construct classname
+    * @param args an array of unresolved parameter values
     */
-    public Construct( String base, Value[] args )
+    public Construct( String target, Value[] args )
     {
-        this( base, base, args );
+        this( target, "new", args );
     }
-
+    
    /**
-    * Create a new composite construct using a supplied base type and value array.
-    * @param type the construct classname
-    * @param args an array of constructor values
+    * Create a new construct using a supplied target defintion.  The target argument 
+    * may be either a classname or a symbolic reference in the form ${[key]}.  If the 
+    * argument is symbolic it is resolved relative to a context map supplied by the 
+    * application resolving construct values. Instance values resolved from the 
+    * supplied Value[] will be used as method arguments when resolving the target.
+    *
+    * @param target the construct classname
+    * @param method the method to invoke on the target
+    * @param args an array of unresolved parameter values
     */
-    public Construct( String type, String base, Value[] args )
+    public Construct( String target, String method, Value[] args )
     {
-        m_type = type;
-        m_base = base;
+        if( null ==target )
+        {
+            throw new NullPointerException( "target" );
+        }
+        if( null == method )
+        {
+            throw new NullPointerException( "method" );
+        }
+        if( null == args )
+        {
+            throw new NullPointerException( "args" );
+        }
+        m_target = target;
+        m_method = method;
         m_args = args;
         m_value = null;
+        m_simple = false;
     }
 
    /**
-    * Resolve an instance from the value.
-    * @return the resolved instance
+    * Return the method name to be applied to the target object.
+    * @return the method name
     */
-    public Object resolve()
+    public String getMethodName()
     {
-        ClassLoader loader = resolveClassLoader();
-        return resolve( loader );
+        return m_method;
     }
 
    /**
-    * Return the setu of nest values within this value.
-    * @return the nest value array
+    * Return the set of nested values within this value.
+    * @return the nested values array
     */
     public Value[] getValues()
     {
@@ -183,18 +201,18 @@ public class Construct implements Value
     * Return the classname of the resolved value.
     * @return the classname
     */
-    public String getBaseClassname()
+    public String getTargetExpression()
     {
-        return m_base;
+        return m_target;
     }
 
    /**
-    * Return the classname of the type.
-    * @return the type classname
+    * Resolve an instance from the value using the context classloader.
+    * @return the resolved instance
     */
-    public String getTypeClassname()
+    public Object resolve()
     {
-        return m_type;
+        return resolve( null );
     }
 
    /**
@@ -203,167 +221,79 @@ public class Construct implements Value
     */
     public Object resolve( ClassLoader classloader )
     {
-        if( m_args.length == 0 )
+        return resolve( null, classloader );
+    }
+    
+   /**
+    * Resolve an instance from the value.
+    * @return the resolved instance
+    */
+    public Object resolve( Map map, ClassLoader classloader )
+    {
+        ClassLoader loader = resolveClassLoader( classloader );
+        try
         {
-            return resolveSimpleConstruct( classloader );
+            Expression expression = buildExpression( map, loader );    
+            return expression.getValue();
+        }
+        catch ( Throwable e )
+        {
+            final String error =
+              "Unable to construct a value from the base class ["
+              + m_target
+              + "].";
+            throw new ValueRuntimeException( error, e );
+        }
+    }
+    
+    private Expression buildExpression( Map map, ClassLoader classloader )
+    {
+        if( m_simple )
+        {
+            return buildSimpleExpression( map, classloader );
         }
         else
         {
-            return resolveCompoundConstruct( classloader );
+            return buildCompoundExpression( map, classloader );
         }
     }
 
-    private Object resolveCompoundConstruct( ClassLoader classloader )
+    private Expression buildCompoundExpression( Map map, ClassLoader classloader )
     {
         Value[] args = getValues();
-        Class clazz = getBaseClass( classloader );
-
-        //
-        // create an object array based on the spplied args
-        // to be uased as a constructor argument
-        //
-
-        Object[] instances = getInstanceValues( classloader, args );
-        Class[] classes = getClassArray( classloader, args );
-
-        //
-        // locate the constructor
-        //
-
-        try
-        {
-            Constructor constructor = clazz.getConstructor( classes );
-            return constructor.newInstance( instances );
-        }
-        catch( NoSuchMethodException e )
-        {
-            final String error =
-              "Construct class ["
-              + m_base
-              + "] does not declare a matching public constructor.";
-            throw new ValueRuntimeException( error, e );
-        }
-        catch( InstantiationException e )
-        {
-            final String error =
-              "Unable to instantiate a multi-parameter construct ["
-              + clazz.getName()
-              + "].";
-            throw new ValueRuntimeException( error, e );
-        }
-        catch( IllegalAccessException e )
-        {
-            final String error =
-              "Cannot access multi-parameter construct ["
-              + clazz.getName() 
-              + "].";
-            throw new ValueRuntimeException( error, e );
-        }
-        catch( Throwable e )
-        {
-            final String error =
-              "Unexpected error while attempting to instantiate a multi-parameter construct [" 
-              + clazz.getName() 
-              + "].";
-            throw new ValueRuntimeException( error, e );
-        }
+        Object target = getTargetObject( map, classloader );
+        Object[] instances = getInstanceValues( map, classloader, args );
+        String method = getMethodName();
+        return new Expression( target, method, instances );
     }
-
-    private Object[] getInstanceValues( ClassLoader classloader, Value[] args )
+    
+    private Object[] getInstanceValues( Map map, ClassLoader classloader, Value[] args )
     {
         Object[] instances = new Object[ args.length ];
         for( int i=0; i < args.length; i++ )
         {
             Value value = args[i];
-            instances[i] = value.resolve( classloader );
+            instances[i] = value.resolve( map, classloader );
         }
         return instances;
     }
 
-    private Class[] getClassArray( ClassLoader classloader, Value[] args )
+    private Expression buildSimpleExpression( Map map, ClassLoader classloader )
     {
-        Class[] classes = new Class[ args.length ];
-        for( int i=0; i < args.length; i++ )
-        {
-            Value value = args[i];
-            classes[i] = value.getTypeClass( classloader );
-        }
-        return classes;
-    }
-
-    private Object resolveSimpleConstruct( ClassLoader classloader )
-    {
-        Class clazz = getBaseClass( classloader );
+        Object target = getTargetObject( map, classloader );
+        final String method = getMethodName();
         if( m_value == null )
         {
-            try
-            {
-                return clazz.newInstance();
-            }
-            catch( Throwable e )
-            {
-                final String error = 
-                  "Unable to instantiate an instance of ["
-                  + m_base
-                  + "] using a null argument constructor.";
-                throw new ValueRuntimeException( error );
-            }
+            return new Expression( target, method, new Object[0] );
         }
         else
         {
-            if( clazz.isPrimitive() )
-            {
-                return getPrimitiveValue( clazz );
-            }
-            else
-            {
-                String value = PropertyResolver.resolve( m_value );
-                try
-                {
-                    final Class[] params = new Class[]{String.class};
-                    Constructor constructor = clazz.getConstructor( params );
-                    final Object[] values = new Object[]{value};
-                    return constructor.newInstance( values );
-                }
-                catch ( NoSuchMethodException e )
-                {
-                    final String error =
-                      "Construct class: [" 
-                      + clazz.getName()
-                      + "] does not implement a single String argument constructor.";
-                    throw new ValueRuntimeException( error );
-                }
-                catch ( InstantiationException e )
-                {
-                    final String error =
-                      "Unable to instantiate instance of class [" 
-                      + clazz.getName()
-                      + "] with the single argument ["
-                      + value 
-                      + "].";
-                    throw new ValueRuntimeException( error, e );
-                }
-                catch ( IllegalAccessException e )
-                {
-                    final String error =
-                      "Cannot access single string parameter constructor for the class: ["
-                      + clazz.getName() 
-                      + "].";
-                    throw new ValueRuntimeException( error, e );
-                }
-                catch ( Throwable e )
-                {
-                    final String error =
-                      "Unexpected exception while creating a single string parameter value for the class ["
-                      + clazz.getName() 
-                      + "].";
-                    throw new ValueRuntimeException( error, e );
-                }
-            }
+            Object value = expandSymbols( map, m_value );
+            return new Expression( target, method, new Object[]{ value } );
         }
     }
-
-    private String expandSymbols( String value )
+    
+    private Object expandSymbols( Map map, String value )
     {
         if( null == value )
         {
@@ -371,18 +301,34 @@ public class Construct implements Value
         }
         else
         {
-            return PropertyResolver.resolve( value );
+            Object object = parseSymbolicValue( map, value );
+            if( null != object )
+            {
+                return object;
+            }
+            else
+            {
+                return PropertyResolver.resolve( value );
+            }
         }
     }
-
-    /**
-     * Return the instance class using the context classloader.
-     * @return the class
-     * @exception ComponentException if the parameter class cannot be resolved
-     */
-    public Class getBaseClass( ClassLoader loader )
+    
+    private Object parseSymbolicValue( Map map, String value )
     {
-        return resolveClass( loader, m_base );
+        if( null == map )
+        {
+            return null;
+        }
+        if( value.startsWith( "${" ) && value.endsWith( "}" ) )
+        {
+            String pre = value.substring( 2 );
+            String key = pre.substring( 0, pre.length() -1 );
+            if( map.containsKey( key ) )
+            {
+                return map.get( key );
+            }
+        }
+        return null;
     }
 
     /**
@@ -390,20 +336,29 @@ public class Construct implements Value
      * @return the class
      * @exception ComponentException if the parameter class cannot be resolved
      */
-    public Class getTypeClass()
+    public Object getTargetObject( Map map, ClassLoader loader )
     {
-        ClassLoader classloader = resolveClassLoader();
-        return getTypeClass( classloader );
-    }
-
-    /**
-     * Return the instance class using the context classloader.
-     * @return the class
-     * @exception ComponentException if the parameter class cannot be resolved
-     */
-    public Class getTypeClass( ClassLoader loader )
-    {
-        return resolveClass( loader, m_type );
+        if( m_target.startsWith( "${" ) )
+        {
+            if( null != map )
+            {
+                String pre = m_target.substring( 2 );
+                String key = pre.substring( 0, pre.length() -1 );
+                if( map.containsKey( key ) )
+                {
+                    return map.get( key );
+                }
+            }
+            final String error = 
+              "Unresolvable target symbolic expression ["
+              + m_target
+              + "].";
+            throw new ValueRuntimeException( error );
+        }
+        else
+        {
+            return resolveClass( loader, m_target );
+        }
     }
 
     /**
@@ -421,31 +376,31 @@ public class Construct implements Value
         {
             if( classname.equals( "int" ) )
             {
-                return int.class;
+                return Integer.class;
             }
             else if( classname.equals( "short" ) )
             {
-                return short.class;
+                return Short.class;
             }
             else if( classname.equals( "long" ) )
             {
-                return long.class;
+                return Long.class;
             }
             else if( classname.equals( "byte" ) )
             {
-                return byte.class;
+                return Byte.class;
             }
             else if( classname.equals( "double" ) )
             {
-                return double.class;
+                return Double.class;
             }
             else if( classname.equals( "float" ) )
             {
-                return float.class;
+                return Float.class;
             }
             else if( classname.equals( "char" ) )
             {
-                return char.class;
+                return Character.class;
             }
             else if( classname.equals( "char" ) )
             {
@@ -453,7 +408,7 @@ public class Construct implements Value
             }
             else if( classname.equals( "boolean" ) )
             {
-                return boolean.class;
+                return Boolean.class;
             }
             else
             {
@@ -466,57 +421,23 @@ public class Construct implements Value
         }
     }
 
-    private ClassLoader resolveClassLoader()
+    private ClassLoader resolveClassLoader( ClassLoader classloader )
     {
-        ClassLoader loader = Thread.currentThread().getContextClassLoader();
-        if( null == loader )
+        if( null != classloader )
         {
-            return Construct.class.getClassLoader();
+            return classloader;
         }
         else
         {
-            return loader;
-        }
-    }
-
-    private Object getPrimitiveValue( Class clazz )
-    {
-        String value = PropertyResolver.resolve( m_value );
-        if( Integer.TYPE == clazz )
-        {
-            return Integer.valueOf( value );
-        }
-        else if( Boolean.TYPE == clazz )
-        {
-            return Boolean.valueOf( value );
-        }
-        else if( Byte.TYPE == clazz )
-        {
-            return Byte.valueOf( value );
-        }
-        else if( Short.TYPE == clazz )
-        {
-            return Short.valueOf( value );
-        }
-        else if( Long.TYPE == clazz )
-        {
-            return Long.valueOf( value );
-        }
-        else if( Float.TYPE == clazz )
-        {
-            return Float.valueOf( value );
-        }
-        else if( Double.TYPE == clazz )
-        {
-            return Double.valueOf( value );
-        }
-        else
-        {
-            final String error =
-              "The primitive type ["
-              + clazz.getName()
-              + "] is not recognized.";
-            throw new ValueRuntimeException( error );
+            ClassLoader loader = Thread.currentThread().getContextClassLoader();
+            if( null == loader )
+            {
+                return Construct.class.getClassLoader();
+            }
+            else
+            {
+                return loader;
+            }
         }
     }
 }

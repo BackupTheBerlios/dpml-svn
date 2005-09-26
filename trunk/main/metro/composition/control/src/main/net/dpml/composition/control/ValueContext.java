@@ -24,9 +24,9 @@ import java.util.EventObject;
 import net.dpml.composition.event.EventProducer;
 import net.dpml.composition.data.ValueDirective;
 
-import net.dpml.part.context.Context;
-import net.dpml.part.context.ContextException;
-import net.dpml.part.context.EntryDescriptor;
+import net.dpml.part.Context;
+import net.dpml.part.ContextException;
+import net.dpml.part.EntryDescriptor;
 
 import net.dpml.transit.model.UnknownKeyException;
 
