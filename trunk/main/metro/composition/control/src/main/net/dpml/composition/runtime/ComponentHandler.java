@@ -59,8 +59,8 @@ import net.dpml.parameters.Parameters;
 import net.dpml.parameters.Parameterizable;
 import net.dpml.parameters.impl.DefaultParameters;
 
+import net.dpml.part.ActivationPolicy;
 import net.dpml.part.Control;
-import net.dpml.part.Control.ActivationPolicy;
 import net.dpml.part.DelegationException;
 import net.dpml.part.Part;
 import net.dpml.part.PartNotFoundException;

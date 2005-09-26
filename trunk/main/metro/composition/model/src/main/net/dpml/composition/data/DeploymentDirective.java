@@ -25,7 +25,7 @@ import java.net.URISyntaxException;
 
 import net.dpml.part.Part;
 import net.dpml.part.Control;
-import net.dpml.part.Control.ActivationPolicy;
+import net.dpml.part.ActivationPolicy;
 
 /**
  * Abstract base class for ComponentDirective and ContainmentProfile.
@@ -182,9 +182,9 @@ public abstract class DeploymentDirective implements Serializable, Comparable, P
     * Get the activation policy for the profile.
     *
     * @return the declared activation policy
-    * @see net.dpml.part.Control#SYSTEM_MANAGED_ACTIVATION
-    * @see net.dpml.part.Control#ACTIVATION_ON_STARTUP
-    * @see net.dpml.part.Control#ACTIVATION_ON_DEMAND
+    * @see ActivationPolicy#SYSTEM
+    * @see ActivationPolicy#STARTUP
+    * @see ActivationPolicy#DEMAND
     */
     public ActivationPolicy getActivationPolicy()
     {

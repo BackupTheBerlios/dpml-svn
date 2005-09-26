@@ -44,9 +44,9 @@ public interface Control extends Remote
     * Get the activation policy for the control.
     *
     * @return the activation policy
-    * @see #ActivationPolicy.SYSTEM
-    * @see #ActivationPolicy.STARTUP
-    * @see #ActivationPolicy.DEMAND
+    * @see ActivationPolicy#SYSTEM
+    * @see ActivationPolicy#STARTUP
+    * @see ActivationPolicy#DEMAND
     */
     ActivationPolicy getActivationPolicy() throws RemoteException;
 
@@ -75,103 +75,4 @@ public interface Control extends Remote
     * @param instance the instance to release
     */
     void release( Object instance ) throws RemoteException;
-
-   /**
-    * Activation policy enumeration.
-    */
-    public static final class ActivationPolicy extends Enum
-    {
-        static final long serialVersionUID = 1L;
-
-       /**
-        * System managed activation policy.
-        */
-        public static final ActivationPolicy SYSTEM = new ActivationPolicy( "system" );
-
-       /**
-        * Activation on startup enabled.
-        */
-        public static final ActivationPolicy STARTUP = new ActivationPolicy( "startup" );
-
-       /**
-        * Activation on startup disabled.
-        */
-        public static final ActivationPolicy DEMAND = new ActivationPolicy( "demand" );
-
-       /**
-        * Array of static activation policy enumeration values.
-        */
-        private static final ActivationPolicy[] ENUM_VALUES = new ActivationPolicy[]{ SYSTEM, STARTUP, DEMAND };
-
-       /**
-        * Returns an array of activation enum values.
-        * @return the activation policies array
-        */
-        public static ActivationPolicy[] values()
-        {
-            return ENUM_VALUES;
-        }
-        
-        public static ActivationPolicy parse( String value )
-        {
-            if( value.equalsIgnoreCase( "system" ) )
-            {
-                return SYSTEM;
-            }
-            else if( value.equalsIgnoreCase( "startup" ))
-            {
-                return STARTUP;
-            }
-            else if( value.equalsIgnoreCase( "demand" ))
-            {
-                return DEMAND;
-            }
-            else
-            {
-                final String error =
-                  "Unrecognized activation policy argument [" + value + "]";
-                throw new IllegalArgumentException( error );
-            }
-        }
-        
-       /**
-        * Internal constructor.
-        * @param label the enumeration label.
-        * @param index the enumeration index.
-        * @param map the set of constructed enumerations.
-        */
-        private ActivationPolicy( String label )
-        {
-            super( label );
-        }
-    }
-    
-    public static final class ActivationPolicyBeanInfo extends SimpleBeanInfo
-    {
-        private static final BeanDescriptor BEAN_DESCRIPTOR = setupBeanDescriptor();
-    
-        public BeanDescriptor getBeanDescriptor()
-        {
-            return BEAN_DESCRIPTOR;
-        }
-    
-        private static BeanDescriptor setupBeanDescriptor()
-        {
-            BeanDescriptor descriptor = new BeanDescriptor( ActivationPolicy.class );
-            descriptor.setValue( 
-              "persistenceDelegate", 
-              new ActivationPolicyPersistenceDelegate() );
-            return descriptor;
-        }
-        
-        private static class ActivationPolicyPersistenceDelegate extends DefaultPersistenceDelegate
-        {
-            public Expression instantiate( Object old, Encoder encoder )
-            {
-                ActivationPolicy policy = (ActivationPolicy) old;
-                return new Expression( ActivationPolicy.class, "parse", new Object[]{ policy.getName() } );
-            }
-        }
-    }
-
 }

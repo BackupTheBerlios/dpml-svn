@@ -45,17 +45,7 @@ public class StandardClassLoader extends URLClassLoader
 
    /**
     * Creation of a new classloader.
-    * @param partition the classloader identifier
-    * @param parent the parent classloader
-    */
-    //public StandardClassLoader( Category category, ClassLoader parent )
-    //{
-    //    this( category, new URL[0], parent );
-    //}
-
-   /**
-    * Creation of a new classloader.
-    * @param partition the classloader identifier
+    * @param category the classloader category identifier
     * @param urls an array of urls to add to the classloader
     * @param parent the parent classloader
     */

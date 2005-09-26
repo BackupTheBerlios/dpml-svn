@@ -21,7 +21,7 @@ package net.dpml.composition.data;
 import java.net.URI;
 
 import net.dpml.part.Control;
-import net.dpml.part.Control.ActivationPolicy;
+import net.dpml.part.ActivationPolicy;
 import net.dpml.part.PartReference;
 import net.dpml.configuration.Configuration;
 import net.dpml.composition.info.InfoDescriptor;

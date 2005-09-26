@@ -106,7 +106,8 @@ public class Construct implements Value
 
    /**
     * Create a new construct using a supplied base type.
-    * @param type the construct classname
+    * @param type the construct type classname
+    * @param base the construct implementation classname
     * @param value the construct value
     */
     public Construct( String base, String value )
@@ -116,7 +117,7 @@ public class Construct implements Value
 
    /**
     * Create a new construct using a supplied base type.
-    * @param type the construct classname
+    * @param base the construct implementation classname
     * @param value the construct value
     */
     public Construct( String type, String base, String value )

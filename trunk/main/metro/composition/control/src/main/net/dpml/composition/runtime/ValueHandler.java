@@ -30,7 +30,7 @@ import net.dpml.logging.Logger;
 
 import net.dpml.part.Part;
 import net.dpml.part.Control;
-import net.dpml.part.Control.ActivationPolicy;
+import net.dpml.part.ActivationPolicy;
 
 import net.dpml.component.control.Controller;
 import net.dpml.component.control.ControllerContext;

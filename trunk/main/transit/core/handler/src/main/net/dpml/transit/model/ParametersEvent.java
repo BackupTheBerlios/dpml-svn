@@ -34,7 +34,7 @@ public class ParametersEvent extends CodeBaseEvent
    /**
     * Construction of a new codebase change event.
     * @param source the codebase model initiating the event
-    * @param parameters the constructor parameters
+    * @param values the constructor parameters
     */
     public ParametersEvent( CodeBaseModel source, Value[] values )
     {

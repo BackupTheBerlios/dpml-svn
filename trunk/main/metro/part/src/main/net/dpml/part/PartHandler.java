@@ -36,8 +36,8 @@ import net.dpml.part.context.Context;
 public interface PartHandler extends Remote
 {
    /**
-    * Returns an control object using the supplied part as the construction template.
-    * @param part the construction criteria
+    * Returns an control object using the supplied part uri as the construction template.
+    * @param uri a uri referencing a part template
     * @return the control instance
     */
     Control loadControl( URI uri )

@@ -54,7 +54,7 @@ public abstract class DefaultCodeBaseModel extends DefaultModel implements CodeB
     * Construction of a new codebase model.
     * @param logger the assigned logging channel
     * @param uri the codebase uri
-    * @param params the codebase parameters
+    * @param values the codebase parameters
     * @exception RemoteException if a remote exception occurs
     */
     public DefaultCodeBaseModel( Logger logger, String id, URI uri, Value[] values )

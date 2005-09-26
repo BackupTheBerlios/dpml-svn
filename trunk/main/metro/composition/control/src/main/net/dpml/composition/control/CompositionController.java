@@ -288,7 +288,7 @@ public class CompositionController extends CompositionPartHandler implements Con
 
    /**
     * Returns an control object using the supplied part as the construction template.
-    * @param part the construction criteria
+    * @param uri the part construction template
     * @return the control instance
     */
     public Control loadControl( URI uri ) 
@@ -328,7 +328,7 @@ public class CompositionController extends CompositionPartHandler implements Con
     * Construct a new component using the supplied part as the defintion of the 
     * component type and deployment criteria.
     *
-    * @param parent the enclosing parent container
+    * @param container the enclosing parent container
     * @param part component definition including type and deployment data
     * @param name the name to assign to the new component
     * @return a new component
@@ -360,7 +360,7 @@ public class CompositionController extends CompositionPartHandler implements Con
     * Construct a new component using the supplied part as the defintion of the 
     * component type and deployment criteria.
     *
-    * @param parent the enclosing container
+    * @param container the enclosing container
     * @param part component definition including type and deployment data
     * @param name the name to assign to the new component
     * @return a new component

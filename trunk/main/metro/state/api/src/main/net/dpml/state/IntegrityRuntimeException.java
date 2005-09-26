@@ -33,7 +33,7 @@ public class IntegrityRuntimeException extends RuntimeException
    /**
     * Construct a new <code>IntegrityRuntimeException</code> instance.
     *
-    * @param transition the transition name
+    * @param message the exception message
     */
     public IntegrityRuntimeException( final String message )
     {
@@ -43,7 +43,8 @@ public class IntegrityRuntimeException extends RuntimeException
    /**
     * Construct a new <code>IntegrityRuntimeException</code> instance.
     *
-    * @param transition the transition name
+    * @param message the exception message
+    * @param cause the causal exception
     */
     public IntegrityRuntimeException( final String message, Throwable cause )
     {
