@@ -128,7 +128,7 @@
     </info>
     <dependencies>
       <include key="dpml-configuration-api"/>
-      <include key="xercesImpl" runtime="true" build="true" />
+      <!--<include key="xercesImpl" runtime="true" build="true" />-->
     </dependencies>
   </project>
 
@@ -251,6 +251,7 @@
 
   <!-- EXTERNAL RESOURCES -->
 
+  <!--
   <resource>
     <info>
       <group>xerces</group>
@@ -275,6 +276,7 @@
       </types>
     </info>
   </resource>
+  -->
 
   <resource>
     <info>

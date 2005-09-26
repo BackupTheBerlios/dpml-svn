@@ -64,7 +64,6 @@ public interface ApplicationStorage extends ContentStorage, Removable
     * of the application before considering the process as non-responsive.
     * 
     * @return the shutdown timeout value
-    * @exception RemoteException if a transport error occurs
     */
     int getShutdownTimeout();
 
@@ -73,7 +72,6 @@ public interface ApplicationStorage extends ContentStorage, Removable
     * of the application before considering the application as non-responsive.
     * 
     * @param timeout the shutdown timeout value
-    * @exception RemoteException if a transport error occurs
     */
     void setShutdownTimeout( int timeout );
 
@@ -84,14 +82,12 @@ public interface ApplicationStorage extends ContentStorage, Removable
     * AUTOMATIC then startup will be handled by the Station.
     *
     * @return the startup policy
-    * @exception RemoteException if a remote exception occurs
     */
     StartupPolicy getStartupPolicy();
 
    /**
     * Set the the startup policy to one of DISABLED, MANUAL or AUTOMATIC.
-    * @param value the startup policy
-    * @exception RemoteException if a remote exception occurs
+    * @param policy the startup policy
     */
     void setStartupPolicy( StartupPolicy policy );
 
@@ -107,7 +103,6 @@ public interface ApplicationStorage extends ContentStorage, Removable
     * on application deployment.
     * 
     * @param properties the system properties set
-    * @exception RemoteException if a transport error occurs
     */
     void setSystemProperties( Properties properties );
 

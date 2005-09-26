@@ -462,6 +462,7 @@
       <batchtest fork="yes" todir="${target.test-reports.dir}">
         <fileset dir="${target.build.test.dir}">
           <include name="**/*TestCase.java"/>
+          <exclude name="**/Abstract*.java"/>
         </fileset>
       </batchtest>
     </junit>

@@ -288,7 +288,7 @@ public class ApplicationModel extends DefaultContentModel implements Application
 
    /**
     * Set the the startup policy to one of DISABLED, MANUAL or AUTOMATIC.
-    * @param value the startup policy
+    * @param policy the startup policy
     * @exception RemoteException if a remote exception occurs
     */
     public void setStartupPolicy( StartupPolicy policy ) throws RemoteException

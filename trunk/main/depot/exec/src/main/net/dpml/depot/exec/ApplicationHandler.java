@@ -22,8 +22,10 @@ import java.net.URI;
 import java.net.URL;
 import java.lang.reflect.Constructor;
 import java.util.ArrayList;
-import java.util.prefs.Preferences;
+import java.util.Hashtable;
+import java.util.Map;
 import java.util.Properties;
+import java.util.prefs.Preferences;
 import java.rmi.Remote;
 import java.rmi.registry.Registry;
 import java.rmi.registry.LocateRegistry;
@@ -406,10 +408,13 @@ public class ApplicationHandler
 
         try
         {
+            Map map = new Hashtable();
+            map.put( "logger", logger );
+            map.put( "args", args );
             Thread.currentThread().setContextClassLoader( pluginClassLoader );
             if( "plugin".equals( type ) )
             {
-                Object[] parameters = Construct.getArgs( params, new Object[]{logger, args} );
+                Object[] parameters = Construct.getArgs( map, params, new Object[]{logger, args} );
                 Object object = loader.instantiate( pluginClass, parameters );
                 register( key, null );
                 return object;
@@ -424,8 +429,7 @@ public class ApplicationHandler
                   + model.getID()
                   + "] profile";
                 getLogger().info( message );
-
-                Object[] parameters = Construct.getArgs( params, new Object[]{logger, args} );
+                Object[] parameters = Construct.getArgs( map, params, new Object[]{logger, args} );
                 PartHandler handler = (PartHandler) loader.instantiate( pluginClass, parameters );
                 Control control = handler.loadControl( uri );
                 register( key, control );

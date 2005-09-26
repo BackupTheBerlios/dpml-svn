@@ -27,15 +27,13 @@ import java.util.Hashtable;
 import net.dpml.transit.model.Value;
 import net.dpml.transit.model.Construct;
 
-import junit.framework.TestCase;
-
 /**
  * Construct testcase.
  *
  * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
  * @version $Id: OnlineTestCase.java 2926 2005-06-27 10:53:17Z mcconnell@dpml.net $
  */
-public class ConstructTestCase extends TestCase
+public class ConstructTestCase extends AbstractEncodingTestCase
 {
     public void testSimpleConstruct() throws Exception
     {
@@ -142,6 +140,15 @@ public class ConstructTestCase extends TestCase
             System.out.println( "# logical: " + context.getLogical() );
             fail( "context2 logical return value is not true" );
         }
+    }
+    
+    public void testEncoding() throws Exception
+    {
+        Value number = new Construct( "int", "${number}" );
+        Value logical = new Construct( "boolean", "${logical}" );
+        Value construct = new Construct( Context2.class.getName(), new Value[]{ number, logical } );
+        Value result = (Value) executeEncodingTest( construct, "construct.xml" );
+        assertEquals( "encoding", construct, result );
     }
 
     public static class Context 

@@ -21,12 +21,13 @@ package net.dpml.transit.model;
 import java.beans.Expression;
 import java.lang.reflect.Constructor;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Map;
 
 import net.dpml.transit.util.PropertyResolver;
 
 /**
- * A object resolvable from primative arguments.
+ * A object resolvable from primitive arguments.
  * 
  * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
  */
@@ -68,7 +69,7 @@ public class Construct implements Value
     private final String m_value;
     private final Value[] m_args;
     
-    private final transient boolean m_simple;
+    private final transient boolean m_compound;
 
    /**
     * Create a new construct using the default java.lang.String class as the base type.
@@ -120,7 +121,7 @@ public class Construct implements Value
         m_method = method;
         m_value = value;
         m_args = new Value[0];
-        m_simple = true;
+        m_compound = false;
     }
 
    /**
@@ -167,7 +168,16 @@ public class Construct implements Value
         m_method = method;
         m_args = args;
         m_value = null;
-        m_simple = false;
+        m_compound = true;
+    }
+    
+   /**
+    * Return TRUE if this construct is a compund construct else FALSE.
+    * @return TRUE if this ia a compound construct
+    */
+    public boolean isCompound()
+    {
+        return m_compound;
     }
 
    /**
@@ -246,15 +256,79 @@ public class Construct implements Value
         }
     }
     
-    private Expression buildExpression( Map map, ClassLoader classloader )
+    public boolean equals( Object other )
     {
-        if( m_simple )
+        if( null == other )
         {
-            return buildSimpleExpression( map, classloader );
+            return false;
+        }
+        if( other instanceof Construct )
+        {
+            Construct construct = (Construct) other;
+            if( !m_method.equals( construct.m_method ) )
+            {
+                return false;
+            }
+            else if( !m_target.equals( construct.m_target ) )
+            {
+                return false;
+            }
+            else if( m_compound != construct.m_compound )
+            {
+                return false;
+            }
+            else if( m_compound )
+            {
+                return Arrays.equals( m_args, construct.m_args );
+            }
+            else
+            {
+                if( null == m_value )
+                {
+                    return ( null == construct.m_value );
+                }
+                else
+                {
+                    return m_value.equals( construct.m_value );
+                }
+            }
         }
         else
         {
+            return false;
+        }
+    }
+    
+    public int hashCode()
+    {
+        int hash = m_target.hashCode();
+        hash ^= m_method.hashCode();
+        if( m_compound )
+        {
+            for( int i=0; i<m_args.length; i++ )
+            {
+                hash ^= m_args[i].hashCode();
+            }
+        }
+        else
+        {
+            if( m_value != null )
+            {
+                hash ^= m_value.hashCode();
+            }
+        }
+        return hash;
+    }
+    
+    private Expression buildExpression( Map map, ClassLoader classloader )
+    {
+        if( m_compound )
+        {
             return buildCompoundExpression( map, classloader );
+        }
+        else
+        {
+            return buildSimpleExpression( map, classloader );
         }
     }
 
@@ -336,7 +410,7 @@ public class Construct implements Value
      * @return the class
      * @exception ComponentException if the parameter class cannot be resolved
      */
-    public Object getTargetObject( Map map, ClassLoader loader )
+    private Object getTargetObject( Map map, ClassLoader loader )
     {
         if( m_target.startsWith( "${" ) )
         {
@@ -366,7 +440,7 @@ public class Construct implements Value
      * @return the class
      * @exception ComponentException if the parameter class cannot be resolved
      */
-    public Class resolveClass( ClassLoader loader, String classname )
+    private Class resolveClass( ClassLoader loader, String classname )
     {
         try
         {

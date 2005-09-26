@@ -26,7 +26,7 @@ import java.util.Map;
  * 
  * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
  */
-public interface Value extends Serializable
+public interface Value
 {
    /**
     * Resolve an instance from the value using the context classloader.

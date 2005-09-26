@@ -180,7 +180,7 @@ public interface ApplicationProfile extends CodeBaseModel, Disposable
 
    /**
     * Set the the statrtup policy to one of DISABLED, MANUAL or AUTOMATIC.
-    * @param value the startup policy
+    * @param policy the startup policy
     * @exception RemoteException if a remote exception occurs
     */
     void setStartupPolicy( StartupPolicy policy ) throws RemoteException;

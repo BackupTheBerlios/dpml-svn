@@ -6,7 +6,15 @@
     <publisher name="The Digital Product Meta Library"/>
     <packages>
       <package name="net.dpml.transit"/>
-      <package name="net.dpml.transit.*"/>
+      <package name="net.dpml.transit.artifact"/>
+      <package name="net.dpml.transit.link"/>
+      <package name="net.dpml.transit.local"/>
+      <package name="net.dpml.transit.model"/>
+      <package name="net.dpml.transit.monitor"/>
+      <package name="net.dpml.transit.registry"/>
+      <package name="net.dpml.transit.store"/>
+      <package name="net.dpml.transit.tools"/>
+      <package name="net.dpml.transit.util"/>
     </packages>
     <home href="http://www.dpml.net/transit"/>
     <docs href="http://www.dpml.net/transit"/>
