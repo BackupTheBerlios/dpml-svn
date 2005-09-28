@@ -41,6 +41,7 @@ public final class ValueDirectiveBeanInfo extends SimpleBeanInfo
         BeanDescriptor descriptor = new BeanDescriptor( ValueDirective.class );
         descriptor.setValue( 
           "persistenceDelegate", 
+          //new DefaultPersistenceDelegate( new String[]{ "construct" } ) );
           new ValueDirectivePersistenceDelegate() );
         return descriptor;
     }
@@ -49,17 +50,17 @@ public final class ValueDirectiveBeanInfo extends SimpleBeanInfo
     {
         public Expression instantiate( Object old, Encoder encoder )
         {
-            ValueDirective value = (ValueDirective) old;
+            ValueDirective construct = (ValueDirective) old;
             Object[] args = new Object[3];
-            args[0] = value.getPartHandlerURI();
-            args[1] = value.getClassname();
-            if( null !=  value.getLocalValue() )
+            args[0] = construct.getTargetExpression();
+            args[1] = construct.getMethodName();
+            if( construct.isCompound() )
             {
-                args[2] = value.getLocalValue();
+                args[2] = construct.getValues();
             }
             else
             {
-                args[2] = value.getValues();
+                args[2] = construct.getBaseValue();
             }
             return new Expression( old, old.getClass(), "new", args );
         }

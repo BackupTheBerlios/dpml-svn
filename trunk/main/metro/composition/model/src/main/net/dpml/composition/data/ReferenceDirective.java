@@ -23,6 +23,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 
 import net.dpml.part.Part;
+import net.dpml.part.Directive;
 
 /**
  * A reference directive is a reference to a part within the enclosing part's
@@ -31,7 +32,7 @@ import net.dpml.part.Part;
  * @author <a href="mailto:dev-dpml@lists.ibiblio.org">The Digital Product Meta Library</a>
  * @version $Id: ImportDirective.java 2230 2005-04-06 18:50:19Z mcconnell@dpml.net $
  */
-public class ReferenceDirective implements Serializable, Part
+public class ReferenceDirective extends Directive
 {
    /**
     * Serial version identifier.
@@ -57,19 +58,6 @@ public class ReferenceDirective implements Serializable, Part
         }
         m_uri = uri;
     }
-
-    //--------------------------------------------------------------------------
-    // Part
-    //--------------------------------------------------------------------------
-
-    /**
-     * Return the part handler uri.
-     * @return the uri of the part handler
-     */
-     public URI getPartHandlerURI()
-     {
-         return PART_HANDLER_URI;
-     }
 
     //--------------------------------------------------------------------------
     // ImportDirective
@@ -118,20 +106,5 @@ public class ReferenceDirective implements Serializable, Part
     {
         int hash = m_uri.hashCode();
         return hash;
-    }
-
-    private static URI PART_HANDLER_URI = setupURI( "@PART-HANDLER-URI@" );
-    private static URI PART_BUILDER_URI = setupURI( "@PART-BUILDER-URI@" );
-
-    protected static URI setupURI( String spec )
-    {
-        try
-        {
-            return new URI( spec );
-        }
-        catch( URISyntaxException ioe )
-        {
-            return null;
-        }
     }
 }

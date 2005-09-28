@@ -23,6 +23,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 
 import net.dpml.part.Part;
+import net.dpml.part.Directive;
 
 /**
  * A <code>FeatureDirective</code> declares a context entry that is itself a feature
@@ -31,7 +32,7 @@ import net.dpml.part.Part;
  *
  * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
  */
-public class FeatureDirective implements Part, Serializable
+public class FeatureDirective extends Directive
 {
    /**
     * Serial version identifier.
@@ -91,20 +92,7 @@ public class FeatureDirective implements Part, Serializable
     }
 
     //--------------------------------------------------------------------------
-    // Part
-    //--------------------------------------------------------------------------
-
-    /**
-     * Return the part handler uri.
-     * @return the uri of the part handler
-     */
-     public URI getPartHandlerURI()
-     {
-         return PART_HANDLER_URI;
-     }
-
-    //--------------------------------------------------------------------------
-    // ValueDirective
+    // FeatureDirective
     //--------------------------------------------------------------------------
 
     public String getKey()
@@ -142,19 +130,5 @@ public class FeatureDirective implements Part, Serializable
         int hash = m_key.hashCode();
         hash ^= m_feature;
         return hash;
-    }
-
-    private static URI PART_HANDLER_URI = setupURI( "@PART-HANDLER-URI@" );
-
-    protected static URI setupURI( String spec )
-    {
-        try
-        {
-            return new URI( spec );
-        }
-        catch( URISyntaxException ioe )
-        {
-            return null;
-        }
     }
 }

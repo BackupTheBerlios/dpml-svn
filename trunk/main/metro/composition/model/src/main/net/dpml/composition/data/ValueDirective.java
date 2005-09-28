@@ -21,8 +21,13 @@ package net.dpml.composition.data;
 import java.io.Serializable;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.Map;
 
 import net.dpml.part.Part;
+import net.dpml.part.Directive;
+
+import net.dpml.transit.model.Value;
+import net.dpml.transit.model.Construct;
 
 /**
  * A <code>Value</code> represents a single constructor typed argument value. The directive
@@ -52,7 +57,7 @@ import net.dpml.part.Part;
  * @author <a href="mailto:dev-dpml@lists.ibiblio.org">The Digital Product Meta Library</a>
  * @version $Id: Parameter.java 2119 2005-03-23 02:04:46Z mcconnell@dpml.net $
  */
-public class ValueDirective implements Part, Serializable
+public class ValueDirective extends Directive implements Value
 {
     //--------------------------------------------------------------------------
     // static
@@ -67,99 +72,131 @@ public class ValueDirective implements Part, Serializable
     // state
     //--------------------------------------------------------------------------
 
-    private final String m_classname;
-    private final String m_local;
-    private final ValueDirective[] m_values;
-    private final URI m_handler;
-
+    private final Construct m_construct;
+    
     //--------------------------------------------------------------------------
     // constructors
     //--------------------------------------------------------------------------
 
+   /**
+    * Create a new construct using the default java.lang.String class as the base type.
+    * @param value the construct value
+    */
     public ValueDirective( String value )
     {
-        this( String.class.getName(), value );
+        m_construct = new Construct( value );
     }
 
-    public ValueDirective( String classname, String value )
+   /**
+    * Create a new construct using a supplied target defintion.  The target argument 
+    * may be either a classname or a symbolic reference in the form ${[key]}.  If the 
+    * argument is symbolic it resolved relative to a context map supplied by the 
+    * application resolving construct values.
+    *
+    * @param target a classname or symbolic reference
+    * @param value the construct value
+    */
+    public ValueDirective( String target, String value )
     {
-        this( PART_HANDLER_URI, classname, value );
+        m_construct = new Construct( target, value );
+    }
+
+   /**
+    * Create a new construct using a supplied target defintion.  The target argument 
+    * may be either a classname or a symbolic reference in the form ${[key]}.  If the 
+    * argument is symbolic it is resolved relative to a context map supplied by the 
+    * application resolving construct values.  If the construct value is symbolic
+    * the implementation will attempt to expand the reference relative to a context
+    * map (if supplied) otherwise the implementation will attempt to expand the value 
+    * using system properties.
+    *
+    * @param target a classname or symbolic reference
+    * @param method the method to invoke on the target
+    * @param value the construct value
+    */
+    public ValueDirective( String target, String method, String value )
+    {
+        m_construct = new Construct( target, method, value );
+    }
+
+   /**
+    * Create a new construct using a supplied target defintion.  The target argument 
+    * may be either a classname or a symbolic reference in the form ${[key]}.  If the 
+    * argument is symbolic it is resolved relative to a context map supplied by the 
+    * application resolving construct values. Instance values resolved from the 
+    * supplied Value[] will be used as constructor arguments when resolving the target.
+    *
+    * @param target the construct classname
+    * @param args an array of unresolved parameter values
+    */
+    public ValueDirective( String target, Value[] args )
+    {
+        m_construct = new Construct( target, args );
     }
     
-    public ValueDirective( URI handler, String classname, String value )
+   /**
+    * Create a new construct using a supplied target defintion.  The target argument 
+    * may be either a classname or a symbolic reference in the form ${[key]}.  If the 
+    * argument is symbolic it is resolved relative to a context map supplied by the 
+    * application resolving construct values. Instance values resolved from the 
+    * supplied Value[] will be used as method arguments when resolving the target.
+    *
+    * @param target the construct classname
+    * @param method the method to invoke on the target
+    * @param args an array of unresolved parameter values
+    */
+    public ValueDirective( String target, String method, Value[] args )
     {
-        if( null == handler )
-        {
-            throw new NullPointerException( "handler" );
-        }
-        if( null == classname )
-        {
-            m_classname = String.class.getName();
-        }
-        else
-        {
-            m_classname = classname;
-        }
-        m_local = value;
-        m_values = new ValueDirective[0];
-        m_handler = handler;
-    }
-
-    public ValueDirective( String classname, ValueDirective[] values )
-    {
-        this( PART_HANDLER_URI, classname, values );
+        m_construct = new Construct( target, method, args );
     }
     
-    public ValueDirective( URI handler, String classname, ValueDirective[] values )
-    {
-        if( null == classname )
-        {
-            throw new NullPointerException( "classname" );
-        }
-        if( null == handler )
-        {
-            throw new NullPointerException( "handler" );
-        }
-        if( null == values )
-        {
-            throw new NullPointerException( "values" );
-        }
-        m_handler = handler;
-        m_classname = classname;
-        m_values = values;
-        m_local = null;
-    }
-
-    //--------------------------------------------------------------------------
-    // Part
-    //--------------------------------------------------------------------------
-
-    /**
-     * Return the part handler uri.
-     * @return the uri of the part handler
-     */
-     public URI getPartHandlerURI()
-     {
-         return m_handler;
-     }
-
     //--------------------------------------------------------------------------
     // ValueDirective
     //--------------------------------------------------------------------------
 
-    public String getClassname()
+    public String getTargetExpression()
     {
-        return m_classname;
+        return m_construct.getTargetExpression();
+    }
+    
+    public String getMethodName()
+    {
+        return m_construct.getMethodName();
+    }
+    
+    public boolean isCompound()
+    {
+        return m_construct.isCompound();
     }
 
-    public String getLocalValue()
+    public String getBaseValue()
     {
-        return m_local;
+        return m_construct.getBaseValue();
+    }
+    
+    public Value[] getValues()
+    {
+        return m_construct.getValues();
     }
 
-    public ValueDirective[] getValues()
+    public Object resolve() throws Exception
     {
-        return m_values;
+        return m_construct.resolve();
+    }
+    
+    public Object resolve( Map map ) throws Exception
+    {
+        return m_construct.resolve( map );
+    }
+    
+    public Object resolve( Map map, ClassLoader classloader ) throws Exception
+    {
+        return m_construct.resolve( map, classloader );
+    }
+
+    public Construct getConstruct()
+    {
+        return m_construct;
     }
 
     public boolean equals( Object other )
@@ -168,81 +205,21 @@ public class ValueDirective implements Part, Serializable
         {
             return false;
         }
-        else if( false == ( other instanceof ValueDirective ) )
+        if( ! ( other instanceof ValueDirective ) )
         {
             return false;
         }
         else
         {
-            ValueDirective value = (ValueDirective) other;
-            if( false == equals( m_classname, value.getClassname() ) )
-            {
-                return false;
-            }
-            else if( false == equals( m_local, value.getLocalValue() ) )
-            {
-                return false;
-            }
-            else if( m_values.length != value.getValues().length )
-            {
-                return false;
-            }
-            else
-            {
-                ValueDirective[] mine = getValues();
-                ValueDirective[] yours = value.getValues();
-                for( int i=0; i<mine.length; i++ )
-                {
-                    ValueDirective a = mine[i];
-                    ValueDirective b = yours[i];
-                    if( false == equals( a, b ) )
-                    {
-                        return false;
-                    }
-                }
-            }
-            return true;
+            ValueDirective directive = (ValueDirective) other;
+            return m_construct.equals( directive.m_construct );
         }
     }
-
+    
     public int hashCode()
     {
-        int hash = m_classname.hashCode();
-        if( null != m_local )
-        {
-            hash ^= m_local.hashCode();
-        }
-        for( int i=0; i<m_values.length; i++ )
-        {
-            hash ^= m_values[i].hashCode();
-        }
+        int hash = getClass().hashCode();
+        hash ^= m_construct.hashCode();
         return hash;
-    }
-
-    private boolean equals( Object o1, Object o2 )
-    {
-        if( null == o1 )
-        {
-            return ( null == o2 );
-        }
-        else 
-        {
-            return o1.equals( o2 );
-        }
-    }
-
-    private static URI PART_HANDLER_URI = setupURI( "@PART-HANDLER-URI@" );
-    private static URI PART_BUILDER_URI = setupURI( "@PART-BUILDER-URI@" );
-
-    protected static URI setupURI( String spec )
-    {
-        try
-        {
-            return new URI( spec );
-        }
-        catch( URISyntaxException ioe )
-        {
-            return null;
-        }
     }
 }

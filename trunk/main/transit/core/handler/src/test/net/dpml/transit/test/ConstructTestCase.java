@@ -39,6 +39,10 @@ public class ConstructTestCase extends AbstractEncodingTestCase
     {
         Construct construct = new Construct( "fred" );
         Object value = construct.resolve();
+        if( null == value )
+        {
+            throw new NullPointerException( "value" );
+        }
         assertEquals( "isa-string", value.getClass(), String.class );
         assertEquals( "simple construct value", value, "fred" );
     }
@@ -95,7 +99,7 @@ public class ConstructTestCase extends AbstractEncodingTestCase
         if( !context.getLogical() )
         {
             System.out.println( "# logical: " + context.getLogical() );
-            fail( "context2 logical return value is not true" );
+            fail( "context2 logical return value is not 'true'" );
         }
     }
     
@@ -113,11 +117,21 @@ public class ConstructTestCase extends AbstractEncodingTestCase
         if( !context.getLogical() )
         {
             System.out.println( "# logical: " + context.getLogical() );
-            fail( "context2 logical return value is not true" );
+            fail( "context2 logical return value is not 'true'" );
         }
     }
-    
+
     public void testSymbolicReference() throws Exception
+    {
+        Map map = new Hashtable();
+        File file = new File( "somewhere" );
+        map.put( "test", file );
+        Value construct = new Construct( "${test}" );
+        Object value = construct.resolve( map );
+        assertEquals( "value", file, value );
+    }
+    
+    public void testTypedSymbolicReference() throws Exception
     {
         Map map = new Hashtable();
         map.put( "number", new Integer( 100 ) );
@@ -126,7 +140,7 @@ public class ConstructTestCase extends AbstractEncodingTestCase
         Value number = new Construct( "int", "${number}" );
         Value logical = new Construct( "boolean", "${logical}" );
         Value construct = new Construct( Context2.class.getName(), new Value[]{ number, logical } );
-        Object value = construct.resolve( map, null );
+        Object value = construct.resolve( map );
         
         assertEquals( "isa-context", value.getClass(), Context2.class );
         Context2 context = (Context2) value;

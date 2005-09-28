@@ -44,6 +44,7 @@ import net.dpml.composition.data.DeploymentDirective;
 import net.dpml.composition.data.ValueDirective;
 
 import net.dpml.transit.Logger;
+import net.dpml.transit.model.Value;
 
 /**
  * ComponentDirective datatype editor. 
@@ -68,20 +69,20 @@ public final class ValueDirectiveAdapter extends DefaultMutableTreeNode implemen
         m_directive = directive;
         m_classloader = classloader;
 
-        String classname = directive.getClassname();
-        String local = directive.getLocalValue();
-        if( null == local )
+        String target = directive.getTargetExpression();
+        if( directive.isCompound() )
         {
             //
             // its a composite value
             //
 
-            ValueDirective[] values = directive.getValues();
-            m_component = buildComponent( classname, values );
+            Value[] values = directive.getValues();
+            m_component = buildComponent( target, values );
         }
         else
         {
-            m_component = buildComponent( classname, local );
+            String local = directive.getBaseValue();
+            m_component = buildComponent( target, local );
         }
         m_panels = new Component[]{ m_component };
     }
@@ -111,26 +112,26 @@ public final class ValueDirectiveAdapter extends DefaultMutableTreeNode implemen
         return m_key;
     }
 
-    private Component buildComponent( String classname, String value )
+    private Component buildComponent( String target, String value )
     {
         return new JLabel( value );
     }
 
-    private Component buildComponent( String classname, ValueDirective[] values )
+    private Component buildComponent( String target, Value[] values )
     {
         JPanel panel = new JPanel();
         for( int i=0; i < values.length; i++ )
         {
-            ValueDirective value = values[i];
-            if( value.getValues().length > 0 )
+            Value value = values[i];
+            if( value.isCompound() )
             {
-                String cname = value.getClassname();
+                String cname = value.getTargetExpression();
                 Component c = buildComponent( cname, value.getValues() );
                 panel.add( c );
             }
             else
             {
-                panel.add( new JLabel( value.getLocalValue() ) );
+                panel.add( new JLabel( value.getBaseValue() ) );
             }
         }
         return panel;

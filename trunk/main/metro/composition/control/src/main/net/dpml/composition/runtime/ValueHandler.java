@@ -22,6 +22,8 @@ import java.lang.reflect.Constructor;
 import java.net.URI;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.Map;
+import java.util.Hashtable;
 
 import net.dpml.composition.control.CompositionController;
 import net.dpml.composition.data.ValueDirective;
@@ -30,8 +32,8 @@ import net.dpml.logging.Logger;
 
 import net.dpml.part.Part;
 import net.dpml.part.Control;
-import net.dpml.part.ActivationPolicy;
 
+import net.dpml.component.ActivationPolicy;
 import net.dpml.component.control.Controller;
 import net.dpml.component.control.ControllerContext;
 import net.dpml.component.Component;
@@ -66,6 +68,7 @@ public class ValueHandler extends UnicastRemoteObject implements Component, Clas
     private final CompositionController m_controller;
     private final ServiceDescriptor[] m_services;
     private final Logger m_logger;
+    private final Map m_map;
 
     private Object m_key;
     private Object m_value;
@@ -118,8 +121,17 @@ public class ValueHandler extends UnicastRemoteObject implements Component, Clas
         m_uri = uri;
         m_manager = controller.getValueController();
 
-        String classname = getReturnTypeClassname();
-        m_services = new ServiceDescriptor[]{ new ServiceDescriptor( classname ) };
+        //String classname = getReturnTypeClassname();
+        //m_services = new ServiceDescriptor[]{ new ServiceDescriptor( classname ) };
+        m_services = new ServiceDescriptor[0];
+        
+        m_map = new Hashtable();
+        ControllerContext context = controller.getControllerContext();
+        m_map.put( "urn:system:context.uri", m_controller.getURI() );
+        m_map.put( "urn:system:work.dir", context.getWorkingDirectory() );
+        m_map.put( "urn:system:work.dir", context.getTempDirectory() );
+        m_map.put( "urn:component:name", getParentName() );
+        m_map.put( "urn:component:uri", getParentURI() );
     }
 
    /**
@@ -178,7 +190,7 @@ public class ValueHandler extends UnicastRemoteObject implements Component, Clas
     */
     public Object resolve() throws Exception
     {
-        return getValueController().resolve( this, true );
+        return getValue();
     }
 
    /**
@@ -194,7 +206,7 @@ public class ValueHandler extends UnicastRemoteObject implements Component, Clas
     */
     public Object resolve( boolean policy ) throws Exception
     {
-        return getValueController().resolve( this, policy );
+        return getValue();
     }
 
    /**
@@ -229,13 +241,27 @@ public class ValueHandler extends UnicastRemoteObject implements Component, Clas
     */
     public Object getValue()
     {
-        if( m_value != null )
+        if( null == m_value )
         {
-            return m_value;
+            try
+            {
+                m_value = m_directive.resolve( m_map, m_classloader );
+            }
+            catch( Throwable e )
+            {
+                final String error =
+                "Cannot establish a constructed value  ["
+                + getLocalURI()
+                + "].";
+                throw new ComponentRuntimeException( error, e );
+            }
         }
-
+        
+        return m_value;
+            
+       /*
         try
-        {
+        {            
             String local = m_directive.getLocalValue();
             String argument = expandSymbols( local );
             Object object = checkForURNReference( argument );
@@ -260,8 +286,50 @@ public class ValueHandler extends UnicastRemoteObject implements Component, Clas
               + "].";
             throw new ComponentRuntimeException( error, e );
         }
+        */
+    }
+    
+    private String getParentName()
+    {
+        if( null == m_parent )
+        {
+            return null;
+        }
+        try
+        {
+            return m_parent.getName();
+        }
+        catch( RemoteException e )
+        {
+            final String error = 
+              "Remote exception raised by parent component when requesting name."
+              + "\nParent component: " + m_parent.getClass().getName()
+              + "\nComponent: " + getLocalURI();
+            throw new ComponentRuntimeException( error, e );
+        }
+    }
+    
+    private URI getParentURI()
+    {
+        if( null == m_parent )
+        {
+            return null;
+        }
+        try
+        {
+            return m_parent.getURI();
+        }
+        catch( RemoteException e )
+        {
+            final String error = 
+              "Remote exception raised by parent component when requesting uri."
+              + "\nParent component: " + m_parent.getClass().getName()
+              + "\nComponent: " + getLocalURI();
+            throw new ComponentRuntimeException( error, e );
+        }
     }
 
+   /*
     private String expandSymbols( String value )
     {
         if( null == value )
@@ -273,17 +341,21 @@ public class ValueHandler extends UnicastRemoteObject implements Component, Clas
             return PropertyResolver.resolve( value );
         }
     }
-
+    */
+    
+   /*
     private String getReturnTypeClassname()
     {
         return m_directive.getClassname();
     }
+    */
 
    /**
     * Return the context entry value.
     *
     * @return the context entry value
     */
+    /*
     public Object getValue( ValueDirective p )
         throws ComponentException
     {
@@ -299,7 +371,10 @@ public class ValueHandler extends UnicastRemoteObject implements Component, Clas
         Class clazz = getValueClass( classname );
         return getValue( clazz, argument, params );
     }
-
+    */
+        
+        
+    
     /**
      * Return the derived parameter value.
      * @param clazz the constructor class
@@ -308,6 +383,7 @@ public class ValueHandler extends UnicastRemoteObject implements Component, Clas
      * @return the value
      * @exception ComponentException if the parameter value cannot be resolved
      */
+    /*
     public Object getValue( Class clazz, String argument, ValueDirective[] parameters )
         throws ComponentException
     {
@@ -327,7 +403,9 @@ public class ValueHandler extends UnicastRemoteObject implements Component, Clas
             }
         }
     }
+    */
 
+   /*
     private Object getMultiArgumentConstructorValue( Class clazz, ValueDirective[] parameters )
       throws ComponentException
     {
@@ -461,7 +539,9 @@ public class ValueHandler extends UnicastRemoteObject implements Component, Clas
             }
         }
     }
+    */
 
+   /*
     private Object getNullArgumentConstructorValue( Class clazz )
       throws ComponentException
     {
@@ -500,7 +580,8 @@ public class ValueHandler extends UnicastRemoteObject implements Component, Clas
             throw new ComponentException( error, e );
         }
     }
-
+    */
+    /*
     private Object getSingleArgumentConstructorValue( Class clazz, String argument )
       throws ComponentException
     {
@@ -572,7 +653,8 @@ public class ValueHandler extends UnicastRemoteObject implements Component, Clas
             }
         }
     }
-
+    */
+   /*
     private Object getPrimitiveValue( Class clazz, String argument ) throws ComponentException
     {
         if( Integer.TYPE == clazz )
@@ -614,12 +696,14 @@ public class ValueHandler extends UnicastRemoteObject implements Component, Clas
             throw new ComponentException( error );
         }
     }
+    */
 
     /**
      * Return the classname of the parameter implementation to use.
      * @return the parameter class
      * @exception ComponentException if the parameter class cannot be resolved
      */
+     /*
     Class getValueClass( ValueDirective value ) throws ComponentException
     {
         String v = value.getLocalValue();
@@ -634,12 +718,14 @@ public class ValueHandler extends UnicastRemoteObject implements Component, Clas
             return getValueClass( classname );
         }
     }
+    */
 
     /**
      * Return the classname of the parameter implementation to use.
      * @return the parameter class
      * @exception ComponentException if the parameter class cannot be resolved
      */
+    /*
     Class getValueClass( String classname ) throws ComponentException
     {
         try
@@ -700,7 +786,9 @@ public class ValueHandler extends UnicastRemoteObject implements Component, Clas
             }
         }
     }
-
+    */
+    
+    /*
     private Object checkForURNReference( String argument )
     {
         if( null == argument )
@@ -783,4 +871,5 @@ public class ValueHandler extends UnicastRemoteObject implements Component, Clas
             return null;
         }
     }
+    */
 }

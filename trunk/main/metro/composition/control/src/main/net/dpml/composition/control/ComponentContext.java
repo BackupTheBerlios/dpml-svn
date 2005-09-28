@@ -36,12 +36,14 @@ import net.dpml.composition.data.ClasspathDirective;
 import net.dpml.composition.info.Type;
 import net.dpml.part.EntryDescriptor;
 
+import net.dpml.part.Directive;
 import net.dpml.part.Part;
 import net.dpml.part.PartReference;
 import net.dpml.part.Context;
 import net.dpml.part.ContextException;
 import net.dpml.part.EntryDescriptor;
 
+import net.dpml.transit.model.Value;
 import net.dpml.transit.model.UnknownKeyException;
 import net.dpml.transit.Plugin.Category;
 
@@ -60,7 +62,7 @@ public class ComponentContext extends EventProducer implements Context
     private final Type m_type;
     private final EntryDescriptor[] m_entries;
     private final String[] m_partKeys;
-    private final HashMap m_baseValueTable = new HashMap(); // entry key, string base value
+    private final HashMap m_contextTable = new HashMap(); // key (String), value (Value)
     private final HashMap m_parts = new HashMap();
 
     // ------------------------------------------------------------------------
@@ -81,20 +83,20 @@ public class ComponentContext extends EventProducer implements Context
         m_directive = directive;
         m_classloader = createClassLoader( anchor, directive );
         m_type = loadType( m_classloader, directive );
-        m_entries = getEntryDescriptors();
+        m_entries = getEntries();
 
         for( int i=0; i < m_entries.length; i++ )
         {
             String key = m_entries[i].getKey();
             try
             {
-                Object value = resolveBaseValue( key );
-                m_baseValueTable.put( key, value );
+                Directive d = resolveDirective( key );
+                m_contextTable.put( key, d );
             }
             catch( UnknownKeyException e )
             {
                 final String error = 
-                  "Component directive does not declare a part for a declared part key.";
+                  "Component directive does not declare a directive for the key [" + key + "].";
                 throw new ContextException( error, e );
             }
         }
@@ -127,18 +129,18 @@ public class ComponentContext extends EventProducer implements Context
     // Context
     // ------------------------------------------------------------------------
 
-    public EntryDescriptor[] getEntryDescriptors() throws RemoteException
+    public EntryDescriptor[] getEntries() throws RemoteException
     {
         return m_type.getContextDescriptor().getEntryDescriptors();
     }
 
-    public Object getBaseValue( String key ) throws UnknownKeyException, RemoteException
+    public Directive getDirective( String key ) throws UnknownKeyException, RemoteException
     {
         checkContextEntryKey( key );
-        return m_baseValueTable.get( key );
+        return (Directive) m_contextTable.get( key );
     }
 
-    public void setBaseValue( String key, Object value ) 
+    public void setDirective( String key, Directive directive ) 
       throws UnknownKeyException, ContextException, RemoteException
     {
         checkContextEntryKey( key );
@@ -151,7 +153,7 @@ public class ComponentContext extends EventProducer implements Context
         //    }
         //}
         // TODO: check value type compliance
-        m_baseValueTable.put( key, value );
+        m_contextTable.put( key, directive );
         
     }
 
@@ -290,7 +292,7 @@ public class ComponentContext extends EventProducer implements Context
         return keys;
     }
 
-    private Object resolveBaseValue( String key ) throws UnknownKeyException
+    private Directive resolveDirective( String key ) throws UnknownKeyException
     {
         checkContextEntryKey( key );
         Part part = getPartDirective( key );
@@ -298,27 +300,13 @@ public class ComponentContext extends EventProducer implements Context
         {
             return null;
         }
-        else if( part instanceof ValueDirective )
+        else if( part instanceof Directive )
         {
-            ValueDirective directive = (ValueDirective) part;
-            Object value = directive.getLocalValue();
-            if( null == value )
-            {
-                throw new UnsupportedOperationException( "getBaseValue/1 - composites not implemented" );
-            }
-            else
-            {
-                return value;
-            }
-        }
-        else if( part instanceof ReferenceDirective )
-        {
-            ReferenceDirective ref = (ReferenceDirective) part;
-            return ref.getURI();
+            return (Directive) part;
         }
         else
         {
-            throw new UnsupportedOperationException( "getBaseValue/1 - components not implemented" );
+            throw new UnsupportedOperationException( "Unsupported directive: " + part.getClass().getName() );
         }
     }
 

@@ -23,6 +23,7 @@ import java.util.List;
 
 import net.dpml.composition.data.ValueDirective;
 
+import net.dpml.transit.model.Construct;
 
 /**
  * Defintion of a context entry parameter directive.
@@ -101,13 +102,34 @@ public class ValueDataType
         else
         {
             ValueDataType[] params = getValueDataTypes();
-            ValueDirective[] values = new ValueDirective[ params.length ];
+            Construct[] values = new Construct[ params.length ];
             for( int i=0; i<values.length; i++ )
             {
                 ValueDataType p = params[i];
-                values[i] = p.constructValue();
+                values[i] = p.newConstruct();
             }
             return new ValueDirective( classname, values );
+        }
+    }
+    
+    public Construct newConstruct()
+    {
+        String classname = getClassname();
+        String value = getValue();
+        if( null != value )
+        {  
+            return new Construct( classname, value );
+        }
+        else
+        {
+            ValueDataType[] params = getValueDataTypes();
+            Construct[] values = new Construct[ params.length ];
+            for( int i=0; i<values.length; i++ )
+            {
+                ValueDataType p = params[i];
+                values[i] = p.newConstruct();
+            }
+            return new Construct( classname, values );
         }
     }
 }

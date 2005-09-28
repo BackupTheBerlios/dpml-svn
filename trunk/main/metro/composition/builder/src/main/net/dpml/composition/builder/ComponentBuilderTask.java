@@ -64,9 +64,9 @@ import net.dpml.part.Part;
 import net.dpml.part.PartHolder;
 import net.dpml.part.PartReference;
 import net.dpml.part.Control;
-import net.dpml.part.ActivationPolicy;
 import net.dpml.part.EntryDescriptor;
 
+import net.dpml.component.ActivationPolicy;
 import net.dpml.component.control.ControllerContext;
 import net.dpml.component.Component;
 import net.dpml.component.Container;

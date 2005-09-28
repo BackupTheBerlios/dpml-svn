@@ -29,6 +29,7 @@ import java.io.Serializable;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 
+import net.dpml.transit.model.Value;
 import net.dpml.transit.util.Enum;
 
 /**
@@ -41,18 +42,9 @@ import net.dpml.transit.util.Enum;
 public interface Control extends Remote
 {
    /**
-    * Get the activation policy for the control.
-    *
-    * @return the activation policy
-    * @see ActivationPolicy#SYSTEM
-    * @see ActivationPolicy#STARTUP
-    * @see ActivationPolicy#DEMAND
-    */
-    ActivationPolicy getActivationPolicy() throws RemoteException;
-
-   /**
-    * Return an initialized instance of the service.
-    * @return the resolved service instance
+    * Resolve an instance from the value.
+    * @return the resolved instance
+    * @exception Exception if error occurs during instance resolution
     */
     Object resolve() throws Exception;
 

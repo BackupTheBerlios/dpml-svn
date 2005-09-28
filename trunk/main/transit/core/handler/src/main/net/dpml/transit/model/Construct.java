@@ -19,6 +19,7 @@
 package net.dpml.transit.model;
 
 import java.beans.Expression;
+import java.io.Serializable;
 import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -31,7 +32,7 @@ import net.dpml.transit.util.PropertyResolver;
  * 
  * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
  */
-public class Construct implements Value
+public class Construct implements Value, Serializable
 {
    /**
     * Serial version identifier.
@@ -47,13 +48,13 @@ public class Construct implements Value
     * @param args supplimentary arguments
     * @return the consolidated argument array
     */
-    public static Object[] getArgs( Map map, Value[] params, Object[] args )
+    public static Object[] getArgs( Map map, Value[] params, Object[] args ) throws Exception
     {
         ArrayList list = new ArrayList();
         for( int i=0; i < params.length; i++ )
         {
             Value value = params[i];
-            Object object = value.resolve( map, null );
+            Object object = value.resolve( map );
             list.add( object );
         }
         for( int i=0; i < args.length; i++ )
@@ -68,8 +69,7 @@ public class Construct implements Value
     private final String m_target;
     private final String m_value;
     private final Value[] m_args;
-    
-    private final transient boolean m_compound;
+    private final boolean m_compound;
 
    /**
     * Create a new construct using the default java.lang.String class as the base type.
@@ -77,7 +77,7 @@ public class Construct implements Value
     */
     public Construct( String value )
     {
-        this( String.class.getName(), value );
+        this( null, value );
     }
 
    /**
@@ -91,7 +91,7 @@ public class Construct implements Value
     */
     public Construct( String target, String value )
     {
-        this( target, "new", value );
+        this( target, null, value );
     }
 
    /**
@@ -109,14 +109,6 @@ public class Construct implements Value
     */
     public Construct( String target, String method, String value )
     {
-        if( null == target )
-        {
-            throw new NullPointerException( "target" );
-        }
-        if( null == method )
-        {
-            throw new NullPointerException( "method" );
-        }
         m_target = target;
         m_method = method;
         m_value = value;
@@ -136,7 +128,7 @@ public class Construct implements Value
     */
     public Construct( String target, Value[] args )
     {
-        this( target, "new", args );
+        this( target, null, args );
     }
     
    /**
@@ -152,22 +144,17 @@ public class Construct implements Value
     */
     public Construct( String target, String method, Value[] args )
     {
-        if( null ==target )
-        {
-            throw new NullPointerException( "target" );
-        }
-        if( null == method )
-        {
-            throw new NullPointerException( "method" );
-        }
         if( null == args )
         {
-            throw new NullPointerException( "args" );
+            m_args = new Value[0];
         }
+        else
+        {
+            m_args = args;
+        }
+        m_value = null;
         m_target = target;
         m_method = method;
-        m_args = args;
-        m_value = null;
         m_compound = true;
     }
     
@@ -220,153 +207,131 @@ public class Construct implements Value
     * Resolve an instance from the value using the context classloader.
     * @return the resolved instance
     */
-    public Object resolve()
+    public Object resolve() throws Exception
     {
         return resolve( null );
     }
-
+    
    /**
-    * Resolve an instance from the value.
+    * Resolve an instance from the value using a supplied map.
+    * @param map the context map
     * @return the resolved instance
     */
-    public Object resolve( ClassLoader classloader )
+    public Object resolve( Map map ) throws Exception
     {
-        return resolve( null, classloader );
+        return resolve( map, null );
     }
     
    /**
     * Resolve an instance from the value.
     * @return the resolved instance
     */
-    public Object resolve( Map map, ClassLoader classloader )
+    public Object resolve( Map map, ClassLoader classloader ) throws Exception
     {
         ClassLoader loader = resolveClassLoader( classloader );
-        try
+        Object target = getTargetObject( map, loader );
+        if( isCompound() )
         {
-            Expression expression = buildExpression( map, loader );    
-            return expression.getValue();
-        }
-        catch ( Throwable e )
-        {
-            final String error =
-              "Unable to construct a value from the base class ["
-              + m_target
-              + "].";
-            throw new ValueRuntimeException( error, e );
-        }
-    }
-    
-    public boolean equals( Object other )
-    {
-        if( null == other )
-        {
-            return false;
-        }
-        if( other instanceof Construct )
-        {
-            Construct construct = (Construct) other;
-            if( !m_method.equals( construct.m_method ) )
+            if( null == target )
             {
-                return false;
-            }
-            else if( !m_target.equals( construct.m_target ) )
-            {
-                return false;
-            }
-            else if( m_compound != construct.m_compound )
-            {
-                return false;
-            }
-            else if( m_compound )
-            {
-                return Arrays.equals( m_args, construct.m_args );
+                throw new NullPointerException( "target" );
             }
             else
             {
-                if( null == m_value )
-                {
-                    return ( null == construct.m_value );
-                }
-                else
-                {
-                    return m_value.equals( construct.m_value );
-                }
+                Expression expression = buildCompoundExpression( target, map, loader );
+                return expression.getValue();
             }
         }
         else
         {
-            return false;
+            Object value = resolveBaseValue( map );
+            if( null == target )
+            {
+                return value;
+            }
+            else
+            {
+                Expression expression = buildSimpleExpression( target, map, loader );
+                return expression.getValue();
+            }
         }
     }
     
-    public int hashCode()
+    private Object resolveBaseValue( Map map )
     {
-        int hash = m_target.hashCode();
-        hash ^= m_method.hashCode();
-        if( m_compound )
-        {
-            for( int i=0; i<m_args.length; i++ )
-            {
-                hash ^= m_args[i].hashCode();
-            }
-        }
-        else
-        {
-            if( m_value != null )
-            {
-                hash ^= m_value.hashCode();
-            }
-        }
-        return hash;
-    }
-    
-    private Expression buildExpression( Map map, ClassLoader classloader )
-    {
-        if( m_compound )
-        {
-            return buildCompoundExpression( map, classloader );
-        }
-        else
-        {
-            return buildSimpleExpression( map, classloader );
-        }
+        return expandSymbols( map, m_value );
     }
 
-    private Expression buildCompoundExpression( Map map, ClassLoader classloader )
+    private Expression buildSimpleExpression( Object target, Map map, ClassLoader classloader ) throws ValueException
     {
-        Value[] args = getValues();
-        Object target = getTargetObject( map, classloader );
-        Object[] instances = getInstanceValues( map, classloader, args );
         String method = getMethodName();
-        return new Expression( target, method, instances );
-    }
-    
-    private Object[] getInstanceValues( Map map, ClassLoader classloader, Value[] args )
-    {
-        Object[] instances = new Object[ args.length ];
-        for( int i=0; i < args.length; i++ )
+        Object value = expandSymbols( map, m_value );
+        if( null == method )
         {
-            Value value = args[i];
-            instances[i] = value.resolve( map, classloader );
+            if( target.getClass() == Class.class )
+            {
+                method = "new";
+            }
+            else
+            {
+                final String error = 
+                  "Missing method declaration in value construct for the target ["
+                  + target 
+                  + "].";
+                throw new ValueException( error );
+            }
         }
-        return instances;
-    }
-
-    private Expression buildSimpleExpression( Map map, ClassLoader classloader )
-    {
-        Object target = getTargetObject( map, classloader );
-        final String method = getMethodName();
-        if( m_value == null )
+        if( value == null )
         {
             return new Expression( target, method, new Object[0] );
         }
         else
         {
-            Object value = expandSymbols( map, m_value );
             return new Expression( target, method, new Object[]{ value } );
         }
     }
     
+    private Expression buildCompoundExpression( Object target, Map map, ClassLoader classloader ) throws Exception
+    {
+        Value[] args = getValues();
+        Object[] instances = getInstanceValues( map, classloader, args );
+        String method = getMethodName();
+        if( null == method )
+        {
+            if( target.getClass() == Class.class )
+            {
+                method = "new";
+            }
+            else
+            {
+                final String error = 
+                  "Missing method declaration in a composite value construct."
+                  + "\nTarget: " + target + " (" + target.getClass().getName() + ")";
+                throw new ValueException( error );
+            }
+        }
+        return new Expression( target, method, instances );
+    }
+    
+    private Object[] getInstanceValues( Map map, ClassLoader classloader, Value[] args ) throws Exception
+    {
+        Object[] instances = new Object[ args.length ];
+        for( int i=0; i < args.length; i++ )
+        {
+            Value value = args[i];
+            if( value instanceof Construct )
+            {
+                Construct construct = (Construct) value;
+                instances[i] = construct.resolve( map, classloader );
+            }
+            else
+            {
+                instances[i] = value.resolve( map );
+            }
+        }
+        return instances;
+    }
+
     private Object expandSymbols( Map map, String value )
     {
         if( null == value )
@@ -376,13 +341,13 @@ public class Construct implements Value
         else
         {
             Object object = parseSymbolicValue( map, value );
-            if( null != object )
+            if( object instanceof String )
             {
-                return object;
+                return PropertyResolver.resolve( value );
             }
             else
             {
-                return PropertyResolver.resolve( value );
+                return object;
             }
         }
     }
@@ -391,7 +356,7 @@ public class Construct implements Value
     {
         if( null == map )
         {
-            return null;
+            return value;
         }
         if( value.startsWith( "${" ) && value.endsWith( "}" ) )
         {
@@ -402,7 +367,7 @@ public class Construct implements Value
                 return map.get( key );
             }
         }
-        return null;
+        return value;
     }
 
     /**
@@ -410,9 +375,13 @@ public class Construct implements Value
      * @return the class
      * @exception ComponentException if the parameter class cannot be resolved
      */
-    private Object getTargetObject( Map map, ClassLoader loader )
+    private Object getTargetObject( Map map, ClassLoader loader ) throws ValueException
     {
-        if( m_target.startsWith( "${" ) )
+        if( null == m_target )
+        {
+            return null;
+        }
+        else if( m_target.startsWith( "${" ) )
         {
             if( null != map )
             {
@@ -427,7 +396,7 @@ public class Construct implements Value
               "Unresolvable target symbolic expression ["
               + m_target
               + "].";
-            throw new ValueRuntimeException( error );
+            throw new ValueException( error );
         }
         else
         {
@@ -440,7 +409,7 @@ public class Construct implements Value
      * @return the class
      * @exception ComponentException if the parameter class cannot be resolved
      */
-    private Class resolveClass( ClassLoader loader, String classname )
+    private Class resolveClass( ClassLoader loader, String classname ) throws ValueException
     {
         try
         {
@@ -490,7 +459,7 @@ public class Construct implements Value
                   "Class not found ["
                   + classname 
                   + "].";
-               throw new ValueRuntimeException( error, e );
+               throw new ValueException( error, e );
             }
         }
     }
@@ -512,6 +481,82 @@ public class Construct implements Value
             {
                 return loader;
             }
+        }
+    }
+    
+    public boolean equals( Object other )
+    {
+        if( null == other )
+        {
+            return false;
+        }
+        if( other instanceof Construct )
+        {
+            Construct construct = (Construct) other;
+            if( !equals( m_target, construct.m_target ) )
+            {
+                return false;
+            }
+            if( m_compound != construct.m_compound )
+            {
+                return false;
+            }
+            if( !equals( m_method, construct.m_method ) )
+            {
+                return false;
+            }
+            if( m_compound )
+            {
+                return Arrays.equals( m_args, construct.m_args );
+            }
+            else
+            {
+                return equals( m_value, construct.m_value );
+            }
+        }
+        else
+        {
+            return false;
+        }
+    }
+    
+    public int hashCode()
+    {
+        int hash = 0;
+        if( null != m_target )
+        {
+            hash ^= m_target.hashCode();
+        }
+        if( null != m_method )
+        {
+            hash ^= m_method.hashCode();
+        }
+        if( m_compound )
+        {
+            for( int i=0; i<m_args.length; i++ )
+            {
+                hash ^= m_args[i].hashCode();
+            }
+        }
+        else
+        {
+            if( m_value != null )
+            {
+                hash ^= m_value.hashCode();
+            }
+        }
+        return hash;
+    }
+    
+    private boolean equals( Object a, Object b )
+    {
+        if( null == a )
+        {
+            return ( null == b );
+        }
+        else
+        {
+            return a.equals( b );
         }
     }
 }

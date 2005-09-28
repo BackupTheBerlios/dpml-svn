@@ -19,6 +19,7 @@ package net.dpml.part;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 
+import net.dpml.transit.model.Value;
 import net.dpml.transit.model.UnknownKeyException;
 
 /**
@@ -30,11 +31,13 @@ import net.dpml.transit.model.UnknownKeyException;
  */
 public interface Context extends Remote
 {
-    EntryDescriptor[] getEntryDescriptors() throws RemoteException;
+    EntryDescriptor[] getEntries() throws RemoteException;
 
-    Object getBaseValue( String key ) throws UnknownKeyException, RemoteException;
+    //Object getBaseValue( String key ) throws UnknownKeyException, RemoteException;
+    Directive getDirective( String key ) throws UnknownKeyException, RemoteException;
 
-    void setBaseValue( String key, Object value ) throws UnknownKeyException, ContextException, RemoteException;
+    //void setBaseValue( String key, Object value ) throws UnknownKeyException, ContextException, RemoteException;
+    void setDirective( String key, Directive value ) throws UnknownKeyException, ContextException, RemoteException;
 
     String[] getChildKeys() throws RemoteException;
 

@@ -50,7 +50,7 @@ import net.dpml.composition.data.ValueDirective;
  */
 public abstract class AbstractEncodingTestCase extends TestCase
 {
-    public void executeEncodingTest( Object object, String filename ) throws Exception
+    public Object executeEncodingTest( Object object, String filename ) throws Exception
     {
         String base = System.getProperty( "project.test.dir" );
         File test = new File( base );
@@ -76,6 +76,7 @@ public abstract class AbstractEncodingTestCase extends TestCase
         XMLDecoder decoder = new XMLDecoder( new BufferedInputStream( input ) );
         Object result = decoder.readObject();
         assertEquals( "encoding", object, result );
+        return result;
     }
 
     public static class URIPersistenceDelegate extends DefaultPersistenceDelegate

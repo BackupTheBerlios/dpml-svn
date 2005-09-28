@@ -28,7 +28,7 @@
         <component key="widget" name="widget-a" type="net.dpml.test.acme.WidgetComponent">
           <context>
             <entry key="workingDirectory">
-              <param class="java.io.File" value="urn:system:work.dir"/>
+              <param value="$${urn:system:work.dir}"/>
               <param value="acme/workspace"/>
             </entry>
             <entry key="name" feature="name"/>

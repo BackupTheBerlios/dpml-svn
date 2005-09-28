@@ -148,12 +148,12 @@ final class PartsInvocationHandler
         {
             if( null == postfix )
             {
-                if( provider instanceof Control )
-                {
-                    Control resolvable = (Control) provider;
+                //if( provider instanceof Control )
+                //{
+                    //Control resolvable = (Control) provider;
                     if( null == args || args.length == 0 )
                     {
-                        return resolvable.resolve();
+                        return provider.resolve();
                     }
                     else if( args.length == 1 )
                     {
@@ -162,7 +162,7 @@ final class PartsInvocationHandler
                         if( ( Boolean.TYPE == argClass ) || ( Boolean.class == argClass ) )
                         {
                             boolean policy = getBooleanValue( arg );
-                            return resolvable.resolve( policy );
+                            return provider.resolve( policy );
                         }
                         else
                         {
@@ -181,15 +181,15 @@ final class PartsInvocationHandler
                           + "].";
                         throw new IllegalArgumentException( error );
                     }
-                }
-                else
-                {
-                    final String error = 
-                      "Cannot resolve a value from a non-resolvable provider."
-                      + "\nProvider: " + provider.getURI()
-                      + "\nComponent: " + m_component.getURI();
-                    throw new IllegalStateException( error );
-                }
+                //}
+                //else
+                //{
+                //    final String error = 
+                //      "Cannot resolve a value from a non-resolvable provider."
+                //      + "\nProvider: " + provider.getURI()
+                //      + "\nComponent: " + m_component.getURI();
+                //    throw new IllegalStateException( error );
+                //}
             }
             else if( CONTEXT_MANAGER_KEY.equals( postfix )
               || CONTEXT_MAP_KEY.equals( postfix ) )
@@ -246,12 +246,12 @@ final class PartsInvocationHandler
         }
         else if( RELEASE == semantic )
         {
-            if( provider instanceof Control )
-            {
-                Control resolvable = (Control) provider;
+            //if( provider instanceof Control )
+            //{
+                //Control resolvable = (Control) provider;
                 if( args.length == 1 )
                 {
-                    resolvable.release( args[0] );
+                    provider.release( args[0] );
                     return null;
                 }
                 else
@@ -262,11 +262,11 @@ final class PartsInvocationHandler
                       + "].";
                     throw new IllegalStateException( error );
                 }
-            }
-            else
-            {
-                return null;
-            }
+            //}
+            //else
+            //{
+                //return null;
+            //}
         }
         else
         {

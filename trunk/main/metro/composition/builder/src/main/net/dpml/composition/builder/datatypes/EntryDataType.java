@@ -31,6 +31,8 @@ import net.dpml.composition.data.FeatureDirective;
 import net.dpml.part.EntryDescriptor;
 import net.dpml.composition.info.Type;
 
+import net.dpml.transit.model.Construct;
+
 import org.apache.tools.ant.BuildException;
 
 /**
@@ -187,7 +189,7 @@ public class EntryDataType extends ValueDataType implements PartReferenceBuilder
         if( null == classname )
         {
             final String error = 
-              "Missing value classname attribute for key ["
+              "Missing 'class' attribute for entry key ["
               + key 
               + "].";
             throw new ConstructionException( error );
@@ -201,13 +203,13 @@ public class EntryDataType extends ValueDataType implements PartReferenceBuilder
         else
         {
             ValueDataType[] params = getValueDataTypes();
-            ValueDirective[] values = new ValueDirective[ params.length ];
+            Construct[] values = new Construct[ params.length ];
             for( int i=0; i<params.length; i++ )
             {
                  ValueDataType p = params[i];
-                 values[i] = p.constructValue();
+                 values[i] = p.newConstruct();
             }
-            return new ValueDirective( classname, values );
+            return new ValueDirective(classname, values );
         }
     }
 

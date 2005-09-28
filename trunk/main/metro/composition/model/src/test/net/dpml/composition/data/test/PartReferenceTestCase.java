@@ -26,6 +26,8 @@ import net.dpml.part.PartReference;
 import net.dpml.composition.AbstractEncodingTestCase;
 import net.dpml.composition.data.ValueDirective;
 
+import net.dpml.transit.model.Construct;
+
 /**
  * EntryDescriptorTestCase does XYZ
  *

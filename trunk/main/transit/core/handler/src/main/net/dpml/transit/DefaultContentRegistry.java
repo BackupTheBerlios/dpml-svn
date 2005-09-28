@@ -193,9 +193,12 @@ class DefaultContentRegistry extends UnicastRemoteObject implements Service, Con
                 String type =  model.getContentType();
                 Logger logger = getLogger().getChildLogger( type );
                 Value[] params = model.getParameters();
-                Object[] args = Construct.getArgs( null, params, new Object[]{logger, model} );
+                Map map = new Hashtable();
+                map.put( "dpml.transit.logger", logger );
+                map.put( "dpml.transit.content.model", model );
                 try
                 {
+                    Object[] args = Construct.getArgs( map, params, new Object[]{logger, model} );
                     handler = (ContentHandler) loader.instantiate( clazz, args );
                 }
                 catch( Throwable e )

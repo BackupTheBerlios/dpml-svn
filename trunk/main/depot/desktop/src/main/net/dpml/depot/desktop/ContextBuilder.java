@@ -37,7 +37,10 @@ import javax.swing.table.TableCellEditor;
 import javax.swing.DefaultCellEditor;
 
 import net.dpml.part.Context;
+import net.dpml.part.Directive;
 import net.dpml.part.EntryDescriptor;
+
+import net.dpml.transit.model.Value;
 
 /**
  * Application profile tree node. 
@@ -63,7 +66,7 @@ public final class ContextBuilder
         
         try
         {
-            m_entries = context.getEntryDescriptors();
+            m_entries = context.getEntries();
             m_size = m_entries.length;
         }
         catch( Exception e )
@@ -167,7 +170,16 @@ public final class ContextBuilder
         {
             try
             {
-                return m_context.getBaseValue( key );
+                Directive directive = m_context.getDirective( key );
+                if( directive instanceof Value )
+                {
+                    Value value = (Value) directive;
+                    return value.getBaseValue();
+                }
+                else
+                {
+                    return "COMPOUND";
+                }
             }
             catch( Exception e )
             {
@@ -184,16 +196,16 @@ public final class ContextBuilder
     private static TableColumnModel createColumnModel()
     {
         TableColumnModel model = new DefaultTableColumnModel();
-	  model.addColumn( createTableColumn( "Name", NAME_COLUMN, 100 ) );
-	  model.addColumn( createTableColumn( "Type", TYPE_COLUMN, 150 ) );
-	  model.addColumn( createTableColumn( "Value", VALUE_COLUMN, 150 ) );
-	  model.addColumn( createTableColumn( "Required", REQUIRED_COLUMN, 60 ) );
-	  return model;
+        model.addColumn( createTableColumn( "Name", NAME_COLUMN, 100 ) );
+        model.addColumn( createTableColumn( "Type", TYPE_COLUMN, 150 ) );
+        model.addColumn( createTableColumn( "Value", VALUE_COLUMN, 150 ) );
+        model.addColumn( createTableColumn( "Required", REQUIRED_COLUMN, 60 ) );
+        return model;
     }
 
     private static TableColumn createTableColumn( String name, int index, int width )
     {
-	  TableColumn column = 
+        TableColumn column = 
           new TableColumn( index, width, new StandardCellRenderer(), null );
         column.setHeaderValue( name );
         return column;

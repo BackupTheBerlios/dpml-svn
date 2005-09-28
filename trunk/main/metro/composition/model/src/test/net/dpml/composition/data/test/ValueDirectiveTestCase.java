@@ -25,7 +25,7 @@ import net.dpml.composition.data.ValueDirective;
 import junit.framework.TestCase;
 
 /**
- * ContextDescriptorTestCase does XYZ
+ * ValueDirectiveTestCase
  *
  * @author <a href="mailto:dev-dpml@lists.ibiblio.org">The Digital Product Meta Library</a>
  * @version $Id: ContextDescriptorTestCase.java 2387 2005-04-23 19:12:58Z mcconnell@dpml.net $
@@ -35,6 +35,8 @@ public class ValueDirectiveTestCase extends AbstractEncodingTestCase
     public void testEncoding() throws Exception
     {
         ValueDirective value = new ValueDirective( "test" );
-        executeEncodingTest( value, "simple-value.xml" );
+        ValueDirective result = (ValueDirective) executeEncodingTest( value, "simple-value.xml" );
+        assertEquals( "encoded-equality", value, result );
+        assertEquals( "resolved", "test", value.resolve() );
     }
 }

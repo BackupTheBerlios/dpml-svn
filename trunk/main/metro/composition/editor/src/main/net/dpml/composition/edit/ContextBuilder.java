@@ -146,14 +146,13 @@ public final class ContextBuilder
                   else if( part instanceof ValueDirective )
                   {
                       ValueDirective directive = (ValueDirective) part;
-                      Object value = directive.getLocalValue();
-                      if( null == value )
+                      if( directive.isCompound() )
                       {
                           return "Compound Value";
                       }
                       else
                       {
-                          return value;
+                          return directive.getBaseValue();
                       }
                   }
                   else if( part instanceof ReferenceDirective )

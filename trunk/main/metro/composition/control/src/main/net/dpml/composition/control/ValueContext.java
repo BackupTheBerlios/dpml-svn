@@ -25,6 +25,7 @@ import net.dpml.composition.event.EventProducer;
 import net.dpml.composition.data.ValueDirective;
 
 import net.dpml.part.Context;
+import net.dpml.part.Directive;
 import net.dpml.part.ContextException;
 import net.dpml.part.EntryDescriptor;
 
@@ -62,17 +63,17 @@ public class ValueContext extends EventProducer implements Context
     // Context
     // ------------------------------------------------------------------------
 
-    public EntryDescriptor[] getEntryDescriptors() throws RemoteException
+    public EntryDescriptor[] getEntries() throws RemoteException
     {
         return new EntryDescriptor[0];
     }
 
-    public Object getBaseValue( String key ) throws UnknownKeyException, RemoteException
+    public Directive getDirective( String key ) throws UnknownKeyException, RemoteException
     {
         throw new UnknownKeyException( key );
     }
 
-    public void setBaseValue( String key, Object value ) 
+    public void setDirective( String key, Directive directive ) 
       throws UnknownKeyException, ContextException, RemoteException
     {
         throw new UnknownKeyException( key );

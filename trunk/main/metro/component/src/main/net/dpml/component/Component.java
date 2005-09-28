@@ -44,10 +44,21 @@ public interface Component extends Service, Identifiable, Control
     String getName() throws RemoteException;
 
    /**
+    * Get the activation policy for the control.
+    *
+    * @return the activation policy
+    * @see ActivationPolicy#SYSTEM
+    * @see ActivationPolicy#STARTUP
+    * @see ActivationPolicy#DEMAND
+    */
+    ActivationPolicy getActivationPolicy() throws RemoteException;
+
+   /**
     * Return the part that defines this component.
     * @return the component part definition
     */
     Part getDefinition() throws RemoteException;
+
 
 }
 

@@ -26,7 +26,7 @@
         <entry key="name" feature="name"/>
         <entry key="uri" feature="uri"/>
         <entry key="workingDirectory">
-          <param class="java.io.File" value="urn:system:work.dir"/>
+          <param value="$${urn:system:work.dir}"/>
           <param value="acme/workspace"/>
         </entry>
         <entry key="dimension" class="net.dpml.test.acme.DimensionValue">

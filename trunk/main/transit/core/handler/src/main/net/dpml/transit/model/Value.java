@@ -29,17 +29,41 @@ import java.util.Map;
 public interface Value
 {
    /**
-    * Resolve an instance from the value using the context classloader.
-    * @return the resolved instance
+    * Return TRUE if the value is a compound else FALSE.
+    * @return TRUE if this ia a compound value construct
     */
-    Object resolve();
+    boolean isCompound();
 
    /**
-    * Resolve an instance of the value.
-    * @param classloader the classloader to use
-    * @return the resolved instance
+    * Return the method name to be applied to the target object.
+    * @return the method name
     */
-    Object resolve( ClassLoader classloader );
+    String getMethodName();
+
+   /**
+    * Return the set of nested values within this value.
+    * @return the nested values array
+    */
+    Value[] getValues();
+
+   /**
+    * Return the classname of the resolved value.
+    * @return the classname
+    */
+    String getBaseValue();
+
+   /**
+    * Return the classname of the resolved value.
+    * @return the classname
+    */
+    String getTargetExpression();
+
+   /**
+    * Resolve an instance from the value using the context classloader.
+    * @return the resolved instance
+    * @exception Exception if error occurs during instance resolution
+    */
+    Object resolve() throws Exception;
     
    /**
     * Resolve an instance from the value using a supplied context map. If any 
@@ -47,8 +71,9 @@ public interface Value
     * expression the value will be resolved using the supplied map.
     *
     * @param map the context map
-    * @param classloader the classloader to use
     * @return the resolved instance
+    * @exception Exception if error occurs during instance resolution
     */
-    Object resolve( Map map, ClassLoader classloader );
+    Object resolve( Map map ) throws Exception;
+
 }

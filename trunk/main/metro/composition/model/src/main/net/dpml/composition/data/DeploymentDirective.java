@@ -23,17 +23,19 @@ import java.lang.Comparable;
 import java.net.URI;
 import java.net.URISyntaxException;
 
+import net.dpml.component.ActivationPolicy;
+
 import net.dpml.part.Part;
 import net.dpml.part.Control;
-import net.dpml.part.ActivationPolicy;
+import net.dpml.part.Directive;
 
 /**
- * Abstract base class for ComponentDirective and ContainmentProfile.
+ * Abstract base class for the ComponentDirective.
  *
  * @author <a href="mailto:dev-dpml@lists.ibiblio.org">The Digital Product Meta Library</a>
  * @version $Id: DeploymentDirective.java 2991 2005-07-07 00:00:04Z mcconnell@dpml.net $
  */
-public abstract class DeploymentDirective implements Serializable, Comparable, Part
+public abstract class DeploymentDirective extends Directive implements Comparable
 {
     //--------------------------------------------------------------------------
     // static
@@ -130,19 +132,6 @@ public abstract class DeploymentDirective implements Serializable, Comparable, P
             m_classloader = classloader;
         }
     }
-
-    //--------------------------------------------------------------------------
-    // Part
-    //--------------------------------------------------------------------------
-
-    /**
-     * Return the part handler uri.
-     * @return the uri of the part handler
-     */
-     public URI getPartHandlerURI()
-     {
-         return PART_HANDLER_URI;
-     }
 
     //--------------------------------------------------------------------------
     // implementation
@@ -282,18 +271,4 @@ public abstract class DeploymentDirective implements Serializable, Comparable, P
         return hash;
     }
 
-    private static URI PART_HANDLER_URI = setupURI( "@PART-HANDLER-URI@" );
-    private static URI PART_BUILDER_URI = setupURI( "@PART-BUILDER-URI@" );
-
-    protected static URI setupURI( String spec )
-    {
-        try
-        {
-            return new URI( spec );
-        }
-        catch( URISyntaxException ioe )
-        {
-            return null;
-        }
-    }
 }
