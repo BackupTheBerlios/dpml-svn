@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package net.dpml.composition.model;
+package net.dpml.composition.data;
 
 import net.dpml.composition.info.Type;
 import net.dpml.composition.data.ComponentDirective;

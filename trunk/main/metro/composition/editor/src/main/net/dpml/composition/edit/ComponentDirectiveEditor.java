@@ -48,7 +48,7 @@ import net.dpml.composition.data.ComponentDirective;
 import net.dpml.composition.data.ContextDirective;
 import net.dpml.composition.data.ClassLoaderDirective;
 import net.dpml.composition.data.ValueDirective;
-import net.dpml.composition.model.TypeManager;
+import net.dpml.composition.data.TypeManager;
 
 import net.dpml.transit.Logger;
 

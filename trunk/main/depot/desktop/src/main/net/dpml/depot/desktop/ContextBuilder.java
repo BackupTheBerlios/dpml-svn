@@ -171,14 +171,25 @@ public final class ContextBuilder
             try
             {
                 Directive directive = m_context.getDirective( key );
-                if( directive instanceof Value )
+                if( null == directive )
+                {
+                    return null;
+                }
+                else if( directive instanceof Value )
                 {
                     Value value = (Value) directive;
-                    return value.getBaseValue();
+                    if( value.isCompound() )
+                    {
+                        return "COMPOUND";
+                    }
+                    else
+                    {
+                        return value.getBaseValue();
+                    }
                 }
                 else
                 {
-                    return "COMPOUND";
+                    return "UNKNOWN";
                 }
             }
             catch( Exception e )

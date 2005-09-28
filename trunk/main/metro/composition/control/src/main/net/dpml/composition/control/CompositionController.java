@@ -39,9 +39,9 @@ import net.dpml.composition.data.ClasspathDirective;
 import net.dpml.composition.data.ComponentDirective;
 import net.dpml.composition.data.ValueDirective;
 import net.dpml.composition.data.DeploymentDirective;
+import net.dpml.composition.data.TypeManager;
 import net.dpml.composition.info.InfoDescriptor;
 import net.dpml.composition.info.Type;
-import net.dpml.composition.model.TypeManager;
 
 import net.dpml.composition.runtime.ComponentHandler;
 import net.dpml.composition.runtime.ValueHandler;

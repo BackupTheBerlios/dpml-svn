@@ -23,7 +23,7 @@ import net.dpml.part.PartEditor;
 import net.dpml.part.PartEditorFactory;
 
 import net.dpml.composition.data.ComponentDirective;
-import net.dpml.composition.model.TypeManager;
+import net.dpml.composition.data.TypeManager;
 
 import net.dpml.transit.Logger;
 import net.dpml.transit.Transit;
