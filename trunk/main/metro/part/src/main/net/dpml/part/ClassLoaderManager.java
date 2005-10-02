@@ -16,18 +16,15 @@
  * limitations under the License.
  */
 
-package net.dpml.composition.data;
-
-import net.dpml.composition.info.Type;
-import net.dpml.composition.data.ComponentDirective;
+package net.dpml.part;
 
 /**
- * Local interface exposing type maangement operations.
+ * Local interface exposing classloader mangement operations.
  *
  * @author <a href="mailto:dev-dpml@lists.ibiblio.org">The Digital Product Meta Library</a>
  * @version $Revision: 1.2 $ $Date: 2004/03/17 10:30:09 $
  */
-public interface TypeManager
+public interface ClassLoaderManager
 {
    /**
     * Load a classloader using the supplied anchor classloader and 
@@ -36,5 +33,5 @@ public interface TypeManager
     * @param anchor the anchor classloader
     * @param profile the component directive
     */
-    ClassLoader createClassLoader( ClassLoader anchor, ComponentDirective profile );
+    ClassLoader createClassLoader( ClassLoader anchor, Directive profile );
 }

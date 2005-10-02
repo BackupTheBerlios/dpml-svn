@@ -22,8 +22,9 @@ import net.dpml.part.Part;
 import net.dpml.part.PartEditor;
 import net.dpml.part.PartEditorFactory;
 
+import net.dpml.part.ClassLoaderManager;
+
 import net.dpml.composition.data.ComponentDirective;
-import net.dpml.composition.data.TypeManager;
 
 import net.dpml.transit.Logger;
 import net.dpml.transit.Transit;
@@ -35,12 +36,12 @@ import net.dpml.transit.Repository;
 public final class CompositionEditorFactory implements PartEditorFactory
 {
     private Logger m_logger;
-    private TypeManager m_manager;
+    private ClassLoaderManager m_manager;
 
     public CompositionEditorFactory( Logger logger )
     {
         m_logger = logger;
-        m_manager = loadTypeManager();
+        m_manager = loadClassLoaderManager();
     }
 
     public PartEditor getPartEditor( Part part )
@@ -58,14 +59,14 @@ public final class CompositionEditorFactory implements PartEditorFactory
         }
     }
 
-    private TypeManager loadTypeManager()
+    private ClassLoaderManager loadClassLoaderManager()
     {
         try
         {
             ClassLoader classloader = getClass().getClassLoader();
             URI uri = new URI( "@PART-CONTROLLER-URI@" );
             Repository repository = Transit.getInstance().getRepository();
-            return (TypeManager) repository.getPlugin( classloader, uri, new Object[]{m_logger} );
+            return (ClassLoaderManager) repository.getPlugin( classloader, uri, new Object[]{m_logger} );
         }
         catch( Throwable e )
         {

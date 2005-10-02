@@ -245,7 +245,7 @@ public class ValueHandler extends UnicastRemoteObject implements Component, Clas
         {
             try
             {
-                m_value = m_directive.resolve( m_map, m_classloader );
+                m_value = m_directive.resolve( m_map, m_classloader, false );
             }
             catch( Throwable e )
             {

@@ -25,41 +25,6 @@ import java.net.URISyntaxException;
  *
  * @author <a href="mailto:dev-dpml@lists.ibiblio.org">The Digital Product Meta Library</a>
  */
-public abstract class Directive implements Part
+public interface Directive extends Part
 {
-    //--------------------------------------------------------------------------
-    // static
-    //--------------------------------------------------------------------------
-
-   /**
-    * Serial version identifier.
-    */
-    static final long serialVersionUID = 1L;
-
-    //--------------------------------------------------------------------------
-    // Part
-    //--------------------------------------------------------------------------
-
-    /**
-     * Return the part handler uri.
-     * @return the uri of the part handler
-     */
-     public URI getPartHandlerURI()
-     {
-         return PART_HANDLER_URI;
-     }
-
-    private static URI PART_HANDLER_URI = setupURI( "@COMPOSITION-CONTROLLER-URI@" );
-
-    protected static URI setupURI( String spec )
-    {
-        try
-        {
-            return new URI( spec );
-        }
-        catch( URISyntaxException ioe )
-        {
-            return null;
-        }
-    }
 }

@@ -17,8 +17,8 @@ public interface Application extends Remote
     State STARTING = new State( 1, "starting", "Starting" );
     State RUNNING = new State( 2, "running", "Running" );
     State STOPPING = new State( 3, "stopping", "Stopping" );
-
-    Context getContext() throws RemoteException;
+    
+    Object getManagementContext() throws RemoteException;
 
     ApplicationProfile getProfile() throws RemoteException;
 
@@ -27,10 +27,6 @@ public interface Application extends Remote
     void start() throws RemoteException;
 
     void handleCallback( PID pid ) throws RemoteException;
-
-    void handleCallback( PID pid, Remote remote ) throws RemoteException;
-
-    Remote getRemote() throws RemoteException;
 
     PID getPID() throws RemoteException;
 

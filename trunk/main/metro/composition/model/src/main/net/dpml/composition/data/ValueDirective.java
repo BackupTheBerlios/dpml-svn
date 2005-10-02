@@ -30,8 +30,8 @@ import net.dpml.transit.model.Value;
 import net.dpml.transit.model.Construct;
 
 /**
- * A <code>Value</code> represents a single constructor typed argument value. The directive
- * container a classname (default value of <code>java.lang.String</code>) and possible sub-directives.
+ * A <code>ValueDirective</code> represents a single constructed argument value. The directive
+ * holds a classname (default value of <code>java.lang.String</code>) and possible sub-directives.
  * The directives value is established by creating a new instance using the classname
  * together with the values directived from the sub-sidiary directives as constructor arguments.
  *
@@ -57,7 +57,7 @@ import net.dpml.transit.model.Construct;
  * @author <a href="mailto:dev-dpml@lists.ibiblio.org">The Digital Product Meta Library</a>
  * @version $Id: Parameter.java 2119 2005-03-23 02:04:46Z mcconnell@dpml.net $
  */
-public class ValueDirective extends Directive implements Value
+public class ValueDirective extends Construct implements Directive
 {
     //--------------------------------------------------------------------------
     // static
@@ -67,12 +67,6 @@ public class ValueDirective extends Directive implements Value
     * Serial version identifier.
     */
     static final long serialVersionUID = 1L;
-
-    //--------------------------------------------------------------------------
-    // state
-    //--------------------------------------------------------------------------
-
-    private final Construct m_construct;
     
     //--------------------------------------------------------------------------
     // constructors
@@ -84,7 +78,7 @@ public class ValueDirective extends Directive implements Value
     */
     public ValueDirective( String value )
     {
-        m_construct = new Construct( value );
+        super( value );
     }
 
    /**
@@ -98,7 +92,7 @@ public class ValueDirective extends Directive implements Value
     */
     public ValueDirective( String target, String value )
     {
-        m_construct = new Construct( target, value );
+        super( target, value );
     }
 
    /**
@@ -116,7 +110,7 @@ public class ValueDirective extends Directive implements Value
     */
     public ValueDirective( String target, String method, String value )
     {
-        m_construct = new Construct( target, method, value );
+        super( target, method, value );
     }
 
    /**
@@ -131,7 +125,7 @@ public class ValueDirective extends Directive implements Value
     */
     public ValueDirective( String target, Value[] args )
     {
-        m_construct = new Construct( target, args );
+        super( target, args );
     }
     
    /**
@@ -147,60 +141,16 @@ public class ValueDirective extends Directive implements Value
     */
     public ValueDirective( String target, String method, Value[] args )
     {
-        m_construct = new Construct( target, method, args );
+        super( target, method, args );
     }
     
     //--------------------------------------------------------------------------
     // ValueDirective
     //--------------------------------------------------------------------------
 
-    public String getTargetExpression()
-    {
-        return m_construct.getTargetExpression();
-    }
-    
-    public String getMethodName()
-    {
-        return m_construct.getMethodName();
-    }
-    
-    public boolean isCompound()
-    {
-        return m_construct.isCompound();
-    }
-
-    public String getBaseValue()
-    {
-        return m_construct.getBaseValue();
-    }
-    
-    public Value[] getValues()
-    {
-        return m_construct.getValues();
-    }
-
-    public Object resolve() throws Exception
-    {
-        return m_construct.resolve();
-    }
-    
-    public Object resolve( Map map ) throws Exception
-    {
-        return m_construct.resolve( map );
-    }
-    
-    public Object resolve( Map map, ClassLoader classloader ) throws Exception
-    {
-        return m_construct.resolve( map, classloader );
-    }
-
-    public Construct getConstruct()
-    {
-        return m_construct;
-    }
-
     public boolean equals( Object other )
     {
+        boolean equals = super.equals( other );
         if( null == other )
         {
             return false;
@@ -212,14 +162,45 @@ public class ValueDirective extends Directive implements Value
         else
         {
             ValueDirective directive = (ValueDirective) other;
-            return m_construct.equals( directive.m_construct );
+            if( !getPartHandlerURI().equals( directive.getPartHandlerURI() ) )
+            {
+                return false;
+            }
+            return super.equals( other );
         }
     }
     
     public int hashCode()
     {
-        int hash = getClass().hashCode();
-        hash ^= m_construct.hashCode();
+        int hash = super.hashCode();
+        hash ^= getPartHandlerURI().hashCode();
         return hash;
+    }
+    
+    //--------------------------------------------------------------------------
+    // Part
+    //--------------------------------------------------------------------------
+
+   /**
+    * Return the part handler uri.
+    * @return the uri of the part handler
+    */
+    public URI getPartHandlerURI()
+    {
+        return PART_HANDLER_URI;
+    }
+
+    private static URI PART_HANDLER_URI = setupURI( "@PART-HANDLER-URI@" );
+
+    protected static URI setupURI( String spec )
+    {
+        try
+        {
+            return new URI( spec );
+        }
+        catch( URISyntaxException ioe )
+        {
+            return null;
+        }
     }
 }

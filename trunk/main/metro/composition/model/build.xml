@@ -11,8 +11,10 @@
     <x:property key="dpml-composition-control" feature="uri" type="plugin" name="control.plugin"/>
     <filter token="PART-HANDLER-URI" value="${control.plugin}"/>
     <filter token="PART-CONTROLLER-URI" value="${control.plugin}"/>
+    <!--
     <x:property key="dpml-composition-editor" feature="uri" type="plugin" name="editor.plugin"/>
     <filter token="COMPOSITION-EDITOR-URI" value="${editor.plugin}"/>
+    -->
   </target>
 
 </project>

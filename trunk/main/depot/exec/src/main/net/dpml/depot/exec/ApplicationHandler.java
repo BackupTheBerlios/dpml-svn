@@ -144,6 +144,7 @@ public class ApplicationHandler
             // prepare application context
     
             profile = getApplicationProfile( m_spec );
+            String key = profile.getID();
             URI codebase = profile.getCodeBaseURI();
             getLogger().info( "profile codebase: " + codebase );
 
@@ -152,6 +153,10 @@ public class ApplicationHandler
                 Properties properties = profile.getSystemProperties();
                 applySystemProperties( properties );
             }   
+            
+            Station station = getStation();
+            getLogger().info( "located station - requesting application" );
+            Application application = station.getApplication( key );
  
             // light the fires and spin the tyres
 
@@ -159,7 +164,7 @@ public class ApplicationHandler
             {
                 object = 
                   resolveTargetObject( 
-                    m_model, codebase, m_args, m_logger, profile );
+                    m_model, codebase, m_args, m_logger, application, profile );
                 getLogger().info( "target [" + object.getClass().getName() + "] established" );
             }
             catch( Throwable e )
@@ -376,10 +381,10 @@ public class ApplicationHandler
     }
 
     private Object resolveTargetObject( 
-      TransitModel model, URI uri, String[] args, Logger logger, ApplicationProfile profile ) 
+      TransitModel model, URI uri, String[] args, Logger logger, Application application, ApplicationProfile profile ) 
       throws Exception
     {
-        String key = profile.getID();
+        //String key = profile.getID();
         Repository loader = Transit.getInstance().getRepository();
         Artifact artifact = Artifact.createArtifact( uri );
         String type = artifact.getType();
@@ -416,7 +421,7 @@ public class ApplicationHandler
             {
                 Object[] parameters = Construct.getArgs( map, params, new Object[]{logger, args} );
                 Object object = loader.instantiate( pluginClass, parameters );
-                register( key, null );
+                application.handleCallback( PROCESS_ID );
                 return object;
             }
             else
@@ -429,42 +434,33 @@ public class ApplicationHandler
                   + model.getID()
                   + "] profile";
                 getLogger().info( message );
+                
+                //
+                // locate the station and retrieve the application reference
+                // and management context
+                //
+                
+                Object context = application.getManagementContext();
+                
+                //
+                // instantiate the application
+                //
+                
                 Object[] parameters = Construct.getArgs( map, params, new Object[]{logger, args} );
                 PartHandler handler = (PartHandler) loader.instantiate( pluginClass, parameters );
-                Control control = handler.loadControl( uri );
-                register( key, control );
+                //Control control = handler.loadControl( context ); // <----------------------------  BIG TODO:
+                Control control = handler.loadControl( uri ); 
+                application.handleCallback( PROCESS_ID );
                 return control.resolve( false );
+                
+                //Control control = handler.loadControl( uri );
+                //register( key, control );
+                
             }
         }
         finally
         {
             Thread.currentThread().setContextClassLoader( current );
-        }
-    }
-
-    private void register( String key, Remote control ) throws Exception
-    {
-        try
-        {
-            Station station = getStation();
-            getLogger().info( "located station - requesting application" );
-            Application application = station.getApplication( key );
-            getLogger().info( "located application - invoking callback" );
-            if( null == control )
-            {
-                application.handleCallback( PROCESS_ID );
-            }
-            else
-            {
-                application.handleCallback( PROCESS_ID, control );
-            }
-            getLogger().info( "callback complete" );
-        }
-        catch( Throwable e )
-        {
-            final String error = 
-             "Internal error while attempting to register the process with the station.";
-            throw new Exception( error, e );
         }
     }
 

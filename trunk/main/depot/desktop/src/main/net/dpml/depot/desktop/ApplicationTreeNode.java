@@ -61,6 +61,8 @@ import net.dpml.station.ApplicationEvent;
 import net.dpml.station.ApplicationListener;
 import net.dpml.station.Application.State;
 
+import net.dpml.part.PartHandler;
+
 import net.dpml.profile.ApplicationRegistry;
 import net.dpml.profile.ApplicationProfile;
 import net.dpml.profile.ApplicationProfile.StartupPolicy;
@@ -77,7 +79,7 @@ import com.jgoodies.forms.layout.FormLayout;
 /**
  * Application profile tree node. 
  */
-public final class ApplicationProfileTreeNode extends Node
+public final class ApplicationTreeNode extends Node
 {
     private static final ImageIcon ICON = readImageIcon( "16/application.png" );
 
@@ -107,7 +109,7 @@ public final class ApplicationProfileTreeNode extends Node
 
     private LinkedList m_changes = new LinkedList();
 
-    public ApplicationProfileTreeNode( Logger logger, Application application ) throws Exception
+    public ApplicationTreeNode( Logger logger, PartHandler handler, Application application ) throws Exception
     {
         super( application );
         
@@ -120,7 +122,7 @@ public final class ApplicationProfileTreeNode extends Node
 
         m_application.addApplicationListener( new RemoteApplicationListener() );
 
-        m_component = buildComponent();
+        m_component = buildComponent( handler );
         setupControlButtons();
     }
 
@@ -145,29 +147,58 @@ public final class ApplicationProfileTreeNode extends Node
         return id.substring( n+1 ); 
     }
 
-    private Component buildComponent() throws Exception
+   /**
+    * Construct a JTabbedPane containing the available views of the application.
+    */
+    private Component buildComponent( PartHandler handler ) throws Exception
     {
         JTabbedPane panel = new JTabbedPane();
         URI uri = m_profile.getCodeBaseURI();
         Artifact artifact = Artifact.createArtifact( uri );
         String type = artifact.getType();
+        
+        //
+        // TODO: update the process component start/stop/restart action handlers 
+        // for consistency with transit plugins and stardard 'main' based execution.
+        //
+        
+        panel.add( "Process", buildProcessComponent() );
+        panel.add( "Properties", new SystemPropertiesBuilder( m_profile ).getComponent() );
+        
+        //
+        // add specific views based on the codebase
+        //
+        
         if( "plugin".equals( type ) )
         {
+            //
+            // TODO: construct the panels presenting a Transit plugin using
+            // the repository to load the Plugin descriptor
+            //
+            
             JPanel pluginPanel = new JPanel();
             pluginPanel.setName( "Plugin" );
             panel.add( pluginPanel );
+            return panel;
         }
-        else
+        else if( "part".equals( type ) )
         {
-            panel.add( "Process", buildProcessComponent() );
-            panel.add( "Properties", new SystemPropertiesBuilder( m_profile ).getComponent() );
-            PartBuilder builder = new PartBuilder( m_logger, m_application );
-            Component[] components = builder.getPartPanels();
+            //
+            // get the set of panels containing the available part views
+            //
+            
+            PartHelper helper = new PartHelper( m_logger, handler, m_application );
+            Component[] components = helper.getPartPanels();
             for( int i=0; i<components.length; i++ )
             {
                 panel.add( components[i] );
             }
-            TreeNode[] nodes = builder.getPartNodes();
+            
+            //
+            // get any child nodes exposed by the part
+            //
+            
+            TreeNode[] nodes = helper.getPartNodes();
             for( int i=0; i<nodes.length; i++ )
             {
                 TreeNode node = nodes[i];
@@ -176,8 +207,17 @@ public final class ApplicationProfileTreeNode extends Node
                     add( (DefaultMutableTreeNode) node );
                 }
             }
+            
+            //
+            // TODO: get declared actions and populate menus
+            //
+            
+            return panel;
         }
-        return panel;
+        else
+        {
+            return panel;
+        }
     }
 
     private Component buildProcessComponent() throws Exception

@@ -35,6 +35,7 @@ import com.jgoodies.forms.layout.FormLayout;
 import net.dpml.part.Part;
 import net.dpml.part.PartEditor;
 import net.dpml.part.PartReference;
+import net.dpml.part.ClassLoaderManager;
 
 import net.dpml.component.control.Controller;
 
@@ -48,7 +49,6 @@ import net.dpml.composition.data.ComponentDirective;
 import net.dpml.composition.data.ContextDirective;
 import net.dpml.composition.data.ClassLoaderDirective;
 import net.dpml.composition.data.ValueDirective;
-import net.dpml.composition.data.TypeManager;
 
 import net.dpml.transit.Logger;
 
@@ -58,7 +58,7 @@ import net.dpml.transit.Logger;
 public class ComponentDirectiveEditor extends DefaultMutableTreeNode implements PartEditor
 {
     private Logger m_logger;
-    private TypeManager m_manager;
+    private ClassLoaderManager m_manager;
     private ComponentDirective m_directive;
     private Class m_class;
     private Type m_type;
@@ -66,23 +66,23 @@ public class ComponentDirectiveEditor extends DefaultMutableTreeNode implements 
     private Component m_component;
     private DefaultMutableTreeNode[] m_nodes;
 
-    ComponentDirectiveEditor( Logger logger, TypeManager manager, ComponentDirective directive )
+    ComponentDirectiveEditor( Logger logger, ClassLoaderManager manager, ComponentDirective directive )
     {
         this( ComponentDirectiveEditor.class.getClassLoader(), logger, manager, directive );
     }
 
-    ComponentDirectiveEditor( ClassLoader anchor, Logger logger, TypeManager manager, ComponentDirective directive )
+    ComponentDirectiveEditor( ClassLoader anchor, Logger logger, ClassLoaderManager manager, ComponentDirective directive )
     {
         m_directive = directive;
         m_manager = manager;
         m_logger = logger;
-
+        
         ClassLoader classloader = m_manager.createClassLoader( anchor, directive );
         String classname = directive.getClassname();
-
+        
         try
         {
-            m_class = classloader.loadClass( classname );         
+            m_class = classloader.loadClass( classname );
         }
         catch( Throwable e )
         {
@@ -90,7 +90,7 @@ public class ComponentDirectiveEditor extends DefaultMutableTreeNode implements 
               "Unable to load component class: " + classname;
             throw new RuntimeException( error, e );
         }
-
+        
         try
         {
             m_type = Type.decode( m_class );
@@ -101,7 +101,7 @@ public class ComponentDirectiveEditor extends DefaultMutableTreeNode implements 
               "Unable to load component type: " + classname;
             throw new RuntimeException( error, e );
         }
-
+        
         m_panels = buildPartPanels( classloader );
         m_nodes = buildPartNodes( classloader );
         m_component = buildPrimeComponent( m_panels );
@@ -112,7 +112,7 @@ public class ComponentDirectiveEditor extends DefaultMutableTreeNode implements 
         // TODO: track changes and return an updated part suitable for 
         // subsequent externalization (currently we are just just returning
         // the original part)
-
+        
         return m_directive;
     }
 

@@ -27,20 +27,32 @@ import java.util.Hashtable;
 import java.util.HashMap;
 import java.util.EventObject;
 
+import net.dpml.component.ActivationPolicy;
+
 import net.dpml.composition.event.EventProducer;
 import net.dpml.composition.data.ComponentDirective;
 import net.dpml.composition.data.ValueDirective;
 import net.dpml.composition.data.ReferenceDirective;
 import net.dpml.composition.data.ClassLoaderDirective;
 import net.dpml.composition.data.ClasspathDirective;
+import net.dpml.composition.data.ContextDirective;
+import net.dpml.composition.info.InfoDescriptor.LifestylePolicy;
+import net.dpml.composition.info.InfoDescriptor.CollectionPolicy;
 import net.dpml.composition.info.Type;
-import net.dpml.part.EntryDescriptor;
+import net.dpml.composition.model.ComponentModel;
+import net.dpml.composition.model.ContextModel;
 
+import net.dpml.configuration.Configuration;
+
+import net.dpml.logging.Logger;
+
+import net.dpml.parameters.Parameters;
+
+import net.dpml.part.EntryDescriptor;
 import net.dpml.part.Directive;
 import net.dpml.part.Part;
 import net.dpml.part.PartReference;
-import net.dpml.part.Context;
-import net.dpml.part.ContextException;
+import net.dpml.part.ControlException;
 import net.dpml.part.EntryDescriptor;
 
 import net.dpml.transit.model.Value;
@@ -51,40 +63,56 @@ import net.dpml.transit.Plugin.Category;
  *
  * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
  */
-public class ComponentContext extends EventProducer implements Context
+public class DefaultComponentModel extends EventProducer implements ComponentModel
 {
     // ------------------------------------------------------------------------
     // state
     // ------------------------------------------------------------------------
 
+    private final Type m_type;
     private final ComponentDirective m_directive;
     private final ClassLoader m_classloader;
-    private final Type m_type;
-    private final EntryDescriptor[] m_entries;
     private final String[] m_partKeys;
-    private final HashMap m_contextTable = new HashMap(); // key (String), value (Value)
     private final HashMap m_parts = new HashMap();
+    private final ContextModel m_context;
+    
+    private String m_classname;
+    private ActivationPolicy m_activation;
+    private LifestylePolicy m_lifestyle;
+    private CollectionPolicy m_collection;
+    private Parameters m_parameters;  // <------------ remove this (covered by context)
+    private Configuration m_configuration; // <----- move to a context entry where the resolved value is a Configuration 
 
     // ------------------------------------------------------------------------
     // constructor
     // ------------------------------------------------------------------------
 
-    public ComponentContext( ComponentDirective directive )
-      throws ContextException, RemoteException
+    public DefaultComponentModel( Logger logger, ComponentDirective directive )
+      throws ControlException, RemoteException
     {
-         this( Thread.currentThread().getContextClassLoader(), directive );
+         this( Thread.currentThread().getContextClassLoader(), logger, directive );
     }
 
-    public ComponentContext( ClassLoader anchor, ComponentDirective directive ) 
-      throws ContextException, RemoteException
+    public DefaultComponentModel( ClassLoader anchor, Logger logger, ComponentDirective directive ) 
+      throws ControlException, RemoteException
     {
         super();
         
         m_directive = directive;
         m_classloader = createClassLoader( anchor, directive );
         m_type = loadType( m_classloader, directive );
-        m_entries = getEntries();
-
+        m_classname = directive.getClassname();
+        m_activation = directive.getActivationPolicy();
+        m_lifestyle = directive.getLifestylePolicy();
+        m_collection = directive.getCollectionPolicy();
+        m_parameters = directive.getParameters();
+        m_configuration = directive.getConfiguration();
+        
+        ContextDirective context = directive.getContextDirective();
+        m_context = new DefaultContextModel( m_classloader, logger, m_type, context );
+        
+        //m_entries = getEntries();
+        /*
         for( int i=0; i < m_entries.length; i++ )
         {
             String key = m_entries[i].getKey();
@@ -100,23 +128,18 @@ public class ComponentContext extends EventProducer implements Context
                 throw new ContextException( error, e );
             }
         }
+        */
 
         m_partKeys = getPartKeys( m_type );
         for( int i=0; i < m_partKeys.length; i++ )
         {
             String key = m_partKeys[i];
             Part part = m_type.getPart( key );
-            if( part instanceof ValueDirective )
-            {
-                ValueDirective value = (ValueDirective) part;
-                ValueContext context = new ValueContext( value );
-                m_parts.put( key, context );
-            }
-            else if( part instanceof ComponentDirective )
+            if( part instanceof ComponentDirective )
             {
                 ComponentDirective component = (ComponentDirective) part;
-                ComponentContext context = new ComponentContext( m_classloader, component );
-                m_parts.put( key, context );
+                ComponentModel model = new DefaultComponentModel( m_classloader, logger, component );
+                m_parts.put( key, model );
             }
         }
     }
@@ -126,53 +149,125 @@ public class ComponentContext extends EventProducer implements Context
     }
 
     // ------------------------------------------------------------------------
-    // Context
+    // ComponentModel
     // ------------------------------------------------------------------------
 
-    public EntryDescriptor[] getEntries() throws RemoteException
+   /**
+    * Return the component implementation class name.
+    *
+    * @return the classname of the implementation 
+    */
+    public String getImplementationClassName()
     {
-        return m_type.getContextDescriptor().getEntryDescriptors();
+        return m_classname;
+    }
+    
+   /**
+    * Return the activation policy for the component.
+    * @return the activation policy value
+    */
+    public ActivationPolicy getActivationPolicy()
+    {
+        return m_activation;
     }
 
-    public Directive getDirective( String key ) throws UnknownKeyException, RemoteException
+   /**
+    * Set the component activation policy to the supplied value.
+    * @return the new activation policy
+    */
+    public void setActivationPolicy( ActivationPolicy policy )
     {
-        checkContextEntryKey( key );
-        return (Directive) m_contextTable.get( key );
+        m_activation = policy;
     }
 
-    public void setDirective( String key, Directive directive ) 
-      throws UnknownKeyException, ContextException, RemoteException
+   /**
+    * Return the component lifestyle policy. The value return is a non-null
+    * lifestyle policy established via overriding policy assignments and 
+    * defaulting to the type lifestyle policy if no override is present.
+    *
+    * @return the lifestyle policy value
+    */
+    public LifestylePolicy getLifestylePolicy()
     {
-        checkContextEntryKey( key );
-        //Part part = getPartDirective( key );
-        //if( null == part )
-        //{
-        //    try
-        //    {
-        //        ValueDirective directive = new ValueDirective( ...
-        //    }
-        //}
-        // TODO: check value type compliance
-        m_contextTable.put( key, directive );
-        
+        return m_lifestyle;
     }
 
-    public String[] getChildKeys() throws RemoteException
+   /**
+    * Override the default lifestyle policy with the supplied lifestyle.
+    * A null value will result in lifestyle policy selection based on the 
+    * component type's preferred lifestyle policy.
+    *
+    * @param lifestyle the lifestyle policy
+    */
+    public void setLifestylePolicy( LifestylePolicy lifestyle )
+    {
+        m_lifestyle = lifestyle;
+    }
+
+   /**
+    * Return the current component collection policy.  If null, the component
+    * type collection policy will be returned.
+    *
+    * @return a HARD, WEAK, SOFT or SYSTEM
+    */
+    public CollectionPolicy getCollectionPolicy()
+    {
+        return m_collection;
+    }
+
+   /**
+    * Override the assigned collection policy.
+    * @param policy the collection policy value
+    */
+    public void setCollectionPolicy( CollectionPolicy policy )
+    {
+        m_collection = policy;
+    }
+
+   /**
+    * Return the current context model.
+    *
+    * @return the context model
+    */
+    public ContextModel getContextModel()
+    {
+        return m_context;
+    }
+    
+   /**
+    * Return the set of component model keys.
+    * @return the component part keys
+    */
+    public String[] getPartKeys()
     {
         return m_partKeys;
     }
 
-    public Context getChild( String key ) throws UnknownKeyException, RemoteException
+   /**
+    * Return the component model of an internal part referenced by the supplied key.
+    * @return the internal part component model 
+    */
+    public ComponentModel getComponentModel( String key ) throws UnknownKeyException
     {
-        Context context = (Context) m_parts.get( key );
-        if( null == context )
+        ComponentModel model = (ComponentModel) m_parts.get( key );
+        if( null == model )
         {
             throw new UnknownKeyException( key );
         }
         else
         {
-            return context;
+            return model;
         }
+    }
+    
+    public Configuration getConfiguration()
+    {
+        return m_configuration;
+    }
+
+    public Parameters getParameters()
+    {
+        return m_parameters;
     }
 
     // ------------------------------------------------------------------------
@@ -254,7 +349,7 @@ public class ComponentContext extends EventProducer implements Context
         return false;
     }
 
-    private Type loadType( ClassLoader classloader, ComponentDirective directive ) throws ContextException
+    private Type loadType( ClassLoader classloader, ComponentDirective directive ) throws ControlException
     {
         String classname = directive.getClassname();
         try
@@ -266,10 +361,11 @@ public class ComponentContext extends EventProducer implements Context
         {
             final String error =
               "Cannot load component type defintion: " + classname;
-            throw new ContextException( error, e );
+            throw new ControlException( error, e );
         }
     }
 
+    /*
     private String[] getContextKeys( Type type )
     {
         EntryDescriptor[] entries = type.getContextDescriptor().getEntryDescriptors();
@@ -280,6 +376,7 @@ public class ComponentContext extends EventProducer implements Context
         }
         return keys;
     }
+    */
 
     private String[] getPartKeys( Type type )
     {
@@ -292,6 +389,7 @@ public class ComponentContext extends EventProducer implements Context
         return keys;
     }
 
+    /*
     private Directive resolveDirective( String key ) throws UnknownKeyException
     {
         checkContextEntryKey( key );
@@ -309,12 +407,16 @@ public class ComponentContext extends EventProducer implements Context
             throw new UnsupportedOperationException( "Unsupported directive: " + part.getClass().getName() );
         }
     }
+    */
 
+    /*
     private Part getPartDirective( String key ) throws UnknownKeyException
     {
         return m_directive.getContextDirective().getPartDirective( key );
     }
+    */
 
+    /*
     private void checkContextEntryKey( String key ) throws UnknownKeyException
     {
         EntryDescriptor entry = m_type.getContextDescriptor().getEntryDescriptor( key );
@@ -323,5 +425,6 @@ public class ComponentContext extends EventProducer implements Context
             throw new UnknownKeyException( key );
         }
     }
+    */
 }
 

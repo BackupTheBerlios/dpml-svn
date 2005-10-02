@@ -51,7 +51,6 @@ public class PartContentHandler extends ContentHandler
             URI uri = new URI( "@COMPOSITION-CONTROLLER-URI@" );
             Repository repository = Transit.getInstance().getRepository();
             Class c = repository.getPluginClass( classloader, uri );
-
             Constructor constructor = c.getConstructor( new Class[]{Logger.class} );
             m_handler = (PartHandler) constructor.newInstance( new Object[]{logger} );
         }
@@ -96,33 +95,44 @@ public class PartContentHandler extends ContentHandler
             throw new PartHandlerRuntimeException( error, e );
         }
     }
+    
+    //public PartEditor getPartEditor( URI uri ) throws Exception
+    //{
+    //    Part part = getPartHandler().loadPart( uri );
+    //    return getPartEditor( part );
+    //}
 
-    public PartEditor getPartEditor( URI uri )
+    public PartEditor getPartEditor( Part part ) throws Exception
     {
-        String factoryClassname = null;
+        return getPartHandler().loadPartEditor( part );
+    }
+
+    /*
+    public PartEditorFactory getPartEditorFactory( Class clazz ) throws Exception
+    {
+        String classname = clazz.getName();
+        String factoryClassname = classname + "EditorFactory";
         try
         {
-            Part part = getPartHandler().loadPart( uri );
-            String classname = part.getClass().getName();
-            factoryClassname = classname + "EditorFactory";
-            Class factoryClass = part.getClass().getClassLoader().loadClass( factoryClassname );
+            Class factoryClass = clazz.getClassLoader().loadClass( factoryClassname );
             PartEditorFactory factory = 
               (PartEditorFactory) Transit.getInstance().getRepository().instantiate( 
-                 factoryClass, new Object[]{ m_logger } );
-            return factory.getPartEditor( part );
+                factoryClass, new Object[]{ m_logger } );
+            return factory;
         }
         catch( ClassNotFoundException e )
         {
-            m_logger.warn( "Part editor factory not found: " + factoryClassname );
             return null;
         }
         catch( Throwable e )
         {
             final String error = 
-              "Error occured while attempting to load a part editor for: " + uri;
+              "Error occured while attempting to load a part editor factory for the class: " 
+              + clazz.getName();
             throw new PartHandlerRuntimeException( error, e );
         }
     }
+    */
 
     public PartHandler getPartHandler()
     {

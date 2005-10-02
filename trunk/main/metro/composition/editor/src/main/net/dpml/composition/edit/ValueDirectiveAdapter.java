@@ -120,6 +120,7 @@ public final class ValueDirectiveAdapter extends DefaultMutableTreeNode implemen
     private Component buildComponent( String target, Value[] values )
     {
         JPanel panel = new JPanel();
+        /*
         for( int i=0; i < values.length; i++ )
         {
             Value value = values[i];
@@ -134,6 +135,7 @@ public final class ValueDirectiveAdapter extends DefaultMutableTreeNode implemen
                 panel.add( new JLabel( value.getBaseValue() ) );
             }
         }
+        */
         return panel;
     }
 

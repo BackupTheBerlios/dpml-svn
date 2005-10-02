@@ -48,7 +48,7 @@ public interface Controller extends PartHandler
     * Returns the identity of the object implementing this interface.
     * @return a uri identifying the object
     */
-    URI getURI() throws RemoteException;
+    URI getURI(); //throws RemoteException;
 
    /**
     * Construct a new top-level component.

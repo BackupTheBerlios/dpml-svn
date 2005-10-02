@@ -51,8 +51,8 @@ public class DefaultApplication extends EventProducer implements Application
     private State m_state = Application.READY;
     private PID m_pid;
     private String m_error;
-    private Remote m_control;
-    private Context m_context;
+    
+    private final Object m_context;
 
     public DefaultApplication( 
       Logger logger, ApplicationProfile profile, String path ) throws Exception
@@ -64,7 +64,7 @@ public class DefaultApplication extends EventProducer implements Application
 
         PartHandler handler = PartContentHandler.newPartHandler( logger );
         URI uri = profile.getCodeBaseURI();
-        m_context = handler.getContext( uri );
+        m_context = handler.newManagementContext( uri );
     }
 
     public void addApplicationListener( ApplicationListener listener )
@@ -77,7 +77,7 @@ public class DefaultApplication extends EventProducer implements Application
         super.removeListener( listener );
     }
 
-    public Context getContext() throws RemoteException
+    public Object getManagementContext() throws RemoteException
     {
         return m_context;
     }
@@ -119,30 +119,7 @@ public class DefaultApplication extends EventProducer implements Application
     public void handleCallback( PID pid ) throws RemoteException
     {
         getLogger().info( "incomming callback from process " + pid );
-        getLogger().info( "registering callback" );
         setState( Application.RUNNING, pid );
-    }
-
-    public void handleCallback( PID pid, Remote control ) throws RemoteException
-    {
-        getLogger().info( "incomming callback from process " + pid );
-        if( null != m_control )
-        {
-            final String error = 
-              "Control instance already registered.";
-            throw new ServerException( error );
-        }
-        else
-        {
-            getLogger().info( "registering callback" );
-            m_control = control;
-            setState( Application.RUNNING, pid );
-        }
-    }
-
-    public Remote getRemote() throws RemoteException
-    {
-        return m_control;
     }
 
     public synchronized void start() throws RemoteException
@@ -293,7 +270,7 @@ public class DefaultApplication extends EventProducer implements Application
                 {
                     m_pid = null;
                     m_process = null;
-                    m_control = null;
+                    //m_control = null;
                 }
             }
         }

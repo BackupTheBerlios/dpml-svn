@@ -30,13 +30,11 @@ import net.dpml.transit.model.UnknownKeyException;
  * @author <a href="mailto:dev-dpml@lists.ibiblio.org">The Digital Product Meta Library</a>
  */
 public interface Context extends Remote
-{
+{    
     EntryDescriptor[] getEntries() throws RemoteException;
 
-    //Object getBaseValue( String key ) throws UnknownKeyException, RemoteException;
     Directive getDirective( String key ) throws UnknownKeyException, RemoteException;
 
-    //void setBaseValue( String key, Object value ) throws UnknownKeyException, ContextException, RemoteException;
     void setDirective( String key, Directive value ) throws UnknownKeyException, ContextException, RemoteException;
 
     String[] getChildKeys() throws RemoteException;

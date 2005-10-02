@@ -33,7 +33,7 @@ import net.dpml.part.Context;
  *
  * @author <a href="mailto:dev-dpml@lists.ibiblio.org">The Digital Product Meta Library</a>
  */
-public interface PartHandler extends Remote
+public interface PartHandler //extends Remote
 {
    /**
     * Returns an control object using the supplied part uri as the construction template.
@@ -45,20 +45,20 @@ public interface PartHandler extends Remote
       PartHandlerNotFoundException, DelegationException;
 
    /**
-    * Create and return a new context object using a supplied part uri.
+    * Create and return a new management context object using a supplied part uri.
     * @param uri the part uri
-    * @return the context instance
+    * @return the management context instance
     */
-    public Context getContext( URI uri ) 
+    public Object newManagementContext( URI uri ) 
       throws IOException, ControlException, PartNotFoundException, 
-      PartHandlerNotFoundException, DelegationException;
+      PartHandlerNotFoundException, DelegationException, RemoteException;
 
    /**
     * Create and return a new context object using a supplied part.
     * @param part the part 
     * @return the context instance
     */
-    Context getContext( Part part ) throws ControlException, RemoteException;
+    //Context getContext( Part part ) throws ControlException, RemoteException;
 
    /**
     * Load a part from serialized form.  The uri is assumed to be a uri that 
@@ -68,14 +68,21 @@ public interface PartHandler extends Remote
     * @return the part estracted from the part handler referenced by the uri
     */
     Part loadPart( URI uri )
-        throws DelegationException, PartNotFoundException, IOException, RemoteException;
+        throws DelegationException, PartNotFoundException, IOException;
+    
+   /**
+    * Load a part editor.
+    * @param part the part 
+    * @return the editor
+    */
+    PartEditor loadPartEditor( Part part ) throws PartHandlerNotFoundException;
 
    /**
     * Load a part from a serialized object byte array. 
     * @param bytes the byte array
     * @return the part
     */
-    Part loadPart( byte[] bytes ) throws IOException, RemoteException;
+    Part loadPart( byte[] bytes ) throws IOException;
 
-    Object getContent( URLConnection connection, Class[] classes ) throws IOException, RemoteException;
+    Object getContent( URLConnection connection, Class[] classes ) throws IOException;
 }

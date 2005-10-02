@@ -35,15 +35,16 @@ import com.jgoodies.forms.layout.FormLayout;
 import net.dpml.part.Part;
 import net.dpml.part.PartEditor;
 import net.dpml.part.PartReference;
+import net.dpml.part.ClassLoaderManager;
 
 import net.dpml.component.control.Controller;
+
 
 import net.dpml.composition.info.Type;
 import net.dpml.composition.info.InfoDescriptor;
 import net.dpml.composition.data.DeploymentDirective;
 import net.dpml.composition.data.ComponentDirective;
 import net.dpml.composition.data.ClassLoaderDirective;
-import net.dpml.composition.data.TypeManager;
 
 import net.dpml.transit.Logger;
 
@@ -54,7 +55,7 @@ public final class ComponentDirectiveAdapter extends ComponentDirectiveEditor
 {
     private String m_key;
 
-    ComponentDirectiveAdapter( ClassLoader classloader, Logger logger, TypeManager manager, ComponentDirective directive, String key )
+    ComponentDirectiveAdapter( ClassLoader classloader, Logger logger, ClassLoaderManager manager, ComponentDirective directive, String key )
     {
         super( classloader, logger, manager, directive );
 

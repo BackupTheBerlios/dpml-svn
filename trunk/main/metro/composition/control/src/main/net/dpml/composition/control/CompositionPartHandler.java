@@ -33,11 +33,13 @@ import java.util.WeakHashMap;
 
 import net.dpml.part.Part;
 import net.dpml.part.PartHolder;
+import net.dpml.part.PartEditor;
+import net.dpml.part.PartHandler;
+import net.dpml.part.PartEditorFactory;
 import net.dpml.part.PartHandlerRuntimeException;
 import net.dpml.part.PartNotFoundException;
 import net.dpml.part.PartHandlerNotFoundException;
 import net.dpml.part.DelegationException;
-import net.dpml.part.PartEditor;
 
 import net.dpml.component.control.Controller;
 import net.dpml.component.control.ControllerContext;
@@ -57,7 +59,8 @@ import net.dpml.transit.Logger;
  * @author <a href="mailto:dev-dpml@lists.ibiblio.org">The Digital Product Meta Library</a>
  * @version $Revision: 1.2 $ $Date: 2004/03/17 10:30:09 $
  */
-public abstract class CompositionPartHandler extends UnicastRemoteObject implements Controller
+//public abstract class CompositionPartHandler extends UnicastRemoteObject implements Controller
+public abstract class CompositionPartHandler implements Controller
 {
    /**
     * Map containing the foreign part handlers.
@@ -70,11 +73,13 @@ public abstract class CompositionPartHandler extends UnicastRemoteObject impleme
     private final Repository m_loader;
 
     private final ControllerContext m_context;
+    
+    private PartEditorFactory m_editorFactory;
 
     public CompositionPartHandler( ControllerContext context ) 
-       throws ControllerException, RemoteException
+       throws ControllerException //, RemoteException
     {
-        super();
+        //super();
 
         m_context = context;
         m_loader = Transit.getInstance().getRepository();
@@ -134,6 +139,53 @@ public abstract class CompositionPartHandler extends UnicastRemoteObject impleme
             final String error = 
              "Unexpected error while attempting to load a part from a byte array.";
             throw new PartHandlerRuntimeException( error, e );
+        }
+    }
+    
+   /**
+    * Load a part editor.
+    * @param part the part 
+    * @return the editor
+    */
+    public PartEditor loadPartEditor( Part part ) throws PartHandlerNotFoundException //, RemoteException
+    {
+        URI uri = part.getPartHandlerURI();
+        if( !getURI().equals( uri ) )
+        {
+            PartHandler handler = resolvePartHandler( uri );
+            return handler.loadPartEditor( part );
+        }
+        else
+        {
+            PartEditorFactory factory = getPartEditorFactory();
+            return factory.getPartEditor( part );
+        }
+    }
+    
+    private PartEditorFactory getPartEditorFactory()
+    {
+        if( null == m_editorFactory )
+        {
+            m_editorFactory = buildPartEditorFactory();
+        }
+        return m_editorFactory;
+    }
+    
+    private PartEditorFactory buildPartEditorFactory()
+    {
+        try
+        {
+            ClassLoader classloader = getClass().getClassLoader();
+            URI uri = new URI( "@PART-EDITOR-FACTORY-URI@" );
+            Repository repository = Transit.getInstance().getRepository();
+            Logger logger = m_context.getLogger();
+            return (PartEditorFactory) repository.getPlugin( classloader, uri, new Object[]{logger} );
+        }
+        catch( Throwable e )
+        {
+            final String error =
+              "Internal error while attempting to establish the composition part editor factory.";
+            throw new RuntimeException( error, e );
         }
     }
 
@@ -265,19 +317,19 @@ public abstract class CompositionPartHandler extends UnicastRemoteObject impleme
             for( int i=0; i<handlers.length; i++ )
             {
                 Controller handler = handlers[i];
-                try
-                {
+                //try
+                //{
                     if( handler.getURI().equals( uri ) )
                     {
                         return handler;
                     }
-                }
-                catch( RemoteException e )
-                {
-                    final String error = 
-                      "Unexpected remote exception while resolving remote controller.";
-                    throw new RuntimeException( error, e );
-                }
+                //}
+                //catch( RemoteException e )
+                //{
+                //    final String error = 
+                //      "Unexpected remote exception while resolving remote controller.";
+                //    throw new RuntimeException( error, e );
+                //}
             }
             Controller handler = loadHandler( uri );
             m_handlers.put( handler, null );

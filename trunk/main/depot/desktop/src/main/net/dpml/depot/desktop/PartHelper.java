@@ -67,34 +67,22 @@ import net.dpml.station.Application;
  *  
  * @see PartEditor
  */
-public final class PartBuilder
+public final class PartHelper
 {
-    private Application m_application;
-    private Logger m_logger;
-    private PartEditor m_editor;
+    private final Application m_application;
+    private final Logger m_logger;
+    private final PartEditor m_editor;
 
-    PartBuilder( Logger logger, Application application )
+    PartHelper( Logger logger, PartHandler handler, Application application ) throws Exception
     {
         m_application = application;
         m_logger = logger;
-
-        init();
+        
+        URI codebase = getCodeBaseURI();
+        Part part = handler.loadPart( codebase );
+        m_editor = handler.loadPartEditor( part );
     }
-
-    void init()
-    {
-        try
-        {
-            PartContentHandler contentHandler = new PartContentHandler( m_logger );
-            URI codebase = m_application.getProfile().getCodeBaseURI();
-            m_editor = contentHandler.getPartEditor( codebase );
-        }
-        catch( Throwable e )
-        {
-            e.printStackTrace();
-        }
-    }
-
+    
     Component[] getPartPanels()
     {
         if( null != m_editor )
@@ -109,18 +97,19 @@ public final class PartBuilder
         }
     }
     
-    //TreeNode[] getPartNodes()
-    //{
-    //    if( null != m_editor )
-    //    {
-    //        return m_editor.getPartNodes();
-    //    }
-    //    else
-    //    {
-    //        return new TreeNode[0];
-    //    }
-    //}
+    TreeNode[] getPartNodes()
+    {
+        if( null != m_editor )
+        {
+            return m_editor.getPartNodes();
+        }
+        else
+        {
+            return new TreeNode[0];
+        }
+    }
 
+    /*
     TreeNode[] getPartNodes()
     {
         try
@@ -142,7 +131,23 @@ public final class PartBuilder
             return new TreeNode[0];
         }
     }
+    */
 
+    private URI getCodeBaseURI()
+    {
+        try
+        {
+            return m_application.getProfile().getCodeBaseURI();
+        }
+        catch( Throwable e )
+        {
+            final String error =
+              "Unable to resolve the application codebase.";
+            throw new RuntimeException( error, e );
+        }
+    }
+
+    /*
     private static class ContextTreeNode extends Node 
     {
         private String m_key;
@@ -154,7 +159,9 @@ public final class PartBuilder
             super( context );
             m_context = context;
             m_key = key;
-            m_component = new ContextBuilder( context ).getComponent();
+            
+            ContextBuilder builder = new ContextBuilder( context );
+            m_component = builder.getComponent();
         }
         
         public Component getComponent()
@@ -167,5 +174,6 @@ public final class PartBuilder
             return m_key;
         }
     }
+    */
     
 }

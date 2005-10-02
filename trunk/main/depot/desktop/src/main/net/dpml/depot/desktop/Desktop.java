@@ -73,6 +73,8 @@ import net.dpml.station.Station;
 import net.dpml.station.Application;
 
 import net.dpml.part.PartEditor;
+import net.dpml.part.PartHandler;
+import net.dpml.part.PartContentHandler;
 
 import net.dpml.profile.ApplicationRegistry;
 import net.dpml.profile.ApplicationProfile;
@@ -99,6 +101,7 @@ public final class Desktop implements Handler
     private LayoutToggleButton m_layout;
     private boolean m_responsibleForTheStation = false;
     private final Station m_station;
+    private final PartHandler m_handler;
 
     private Node m_selected;
 
@@ -107,6 +110,8 @@ public final class Desktop implements Handler
         m_logger = logger;
         m_args = args;
 
+        m_handler = new PartContentHandler( m_logger ).getPartHandler();
+        
         configureUI();
 
         //
@@ -147,7 +152,7 @@ public final class Desktop implements Handler
                     }
                     else
                     {
-                        Node node = new ApplicationProfileTreeNode( m_logger, application );
+                        Node node = new ApplicationTreeNode( m_logger, m_handler, application );
                         parent.add( node );
                     }
                 }

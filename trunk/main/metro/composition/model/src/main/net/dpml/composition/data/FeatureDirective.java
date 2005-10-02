@@ -32,7 +32,7 @@ import net.dpml.part.Directive;
  *
  * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
  */
-public class FeatureDirective extends Directive
+public class FeatureDirective extends AbstractDirective
 {
    /**
     * Serial version identifier.

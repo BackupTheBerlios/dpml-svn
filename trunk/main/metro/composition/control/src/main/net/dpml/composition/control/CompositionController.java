@@ -39,7 +39,6 @@ import net.dpml.composition.data.ClasspathDirective;
 import net.dpml.composition.data.ComponentDirective;
 import net.dpml.composition.data.ValueDirective;
 import net.dpml.composition.data.DeploymentDirective;
-import net.dpml.composition.data.TypeManager;
 import net.dpml.composition.info.InfoDescriptor;
 import net.dpml.composition.info.Type;
 
@@ -53,10 +52,12 @@ import net.dpml.composition.runtime.DefaultLogger;
 import net.dpml.part.Control;
 import net.dpml.part.ControlException;
 import net.dpml.part.DelegationException;
+import net.dpml.part.Directive;
 import net.dpml.part.Part;
 import net.dpml.part.PartHandlerNotFoundException;
 import net.dpml.part.PartNotFoundException;
 import net.dpml.part.Context;
+import net.dpml.part.ClassLoaderManager;
 
 import net.dpml.component.control.ControllerContext;
 import net.dpml.component.control.ControllerException;
@@ -76,12 +77,13 @@ import net.dpml.transit.Plugin;
 import net.dpml.transit.Plugin.Category;
 
 /**
- * A initial test controller.
+ * The composition controller is the controller used to establish remotely accessible
+ * component controls.
  *
  * @author <a href="mailto:dev-dpml@lists.ibiblio.org">The Digital Product Meta Library</a>
  * @version $Revision: 1.2 $ $Date: 2004/03/17 10:30:09 $
  */
-public class CompositionController extends CompositionPartHandler implements Controller, TypeManager
+public class CompositionController extends CompositionPartHandler implements Controller, ClassLoaderManager
 {
     //--------------------------------------------------------------------
     // static
@@ -106,13 +108,13 @@ public class CompositionController extends CompositionPartHandler implements Con
     //--------------------------------------------------------------------
 
     public CompositionController( net.dpml.transit.Logger logger )
-       throws ControllerException, RemoteException
+       throws ControllerException
     {
         this( new CompositionContext( logger, null, null ) );
     }
 
     protected CompositionController( ControllerContext context )
-       throws ControllerException, RemoteException
+       throws ControllerException
     {
         super( context );
 
@@ -193,7 +195,7 @@ public class CompositionController extends CompositionPartHandler implements Con
         catch( Throwable e )
         {
             final String error = 
-              "Internal error whuile attempting to establish content for the : " + url;
+              "Internal error while attempting to establish content for the : " + url;
             IOException cause = new IOException( error );
             cause.initCause( e );
             throw cause;
@@ -201,7 +203,7 @@ public class CompositionController extends CompositionPartHandler implements Con
     }
 
     //-------------------------------------------------------------------------------
-    // TypeManager
+    // ClassLoaderManager
     //-------------------------------------------------------------------------------
 
    /**
@@ -209,26 +211,62 @@ public class CompositionController extends CompositionPartHandler implements Con
     * component directive.
     * 
     * @param anchor the anchor classloader
-    * @param profile the component directive
+    * @param directive a component directive
     */
-    public ClassLoader createClassLoader( ClassLoader anchor, ComponentDirective profile )
+    public ClassLoader createClassLoader( ClassLoader anchor, Directive directive )
     {
-         URI partition = getPartition();
-         return getClassLoader( anchor, partition, profile );
+        if( directive instanceof ComponentDirective )
+        {
+            ComponentDirective profile = (ComponentDirective) directive;
+            URI partition = getPartition();
+            return getClassLoader( anchor, partition, profile );
+        }
+        else
+        {
+            return anchor;
+        }
     }
 
     //-------------------------------------------------------------------------------
     // Controller
     //-------------------------------------------------------------------------------
-
+    
    /**
     * Create and return a new context object using a supplied part uri.
     * @param uri the part uri
     * @return the context instance
     */
+    public Object newManagementContext( URI uri ) 
+      throws IOException, ControlException, PartNotFoundException, 
+      PartHandlerNotFoundException, DelegationException, RemoteException 
+    {
+        Part part = loadPart( uri );
+        if( part instanceof ComponentDirective )
+        {
+            ComponentDirective directive = (ComponentDirective) part;
+            return new DefaultComponentModel( m_logger, directive );
+        }
+        else
+        {
+            final String error =
+              "Construction of a managment context for the part type ["
+              + part.getClass().getName() 
+              + "] resolved from the part uri ["
+              + uri
+              + "] is not supported.";
+            throw new ControlException( error );
+        }
+    }
+    
+   /**
+    * Create and return a new context object using a supplied part uri.
+    * @param uri the part uri
+    * @return the context instance
+    */
+    /*
     public Context getContext( URI uri ) 
       throws IOException, ControlException, PartNotFoundException, 
-      PartHandlerNotFoundException, DelegationException 
+      PartHandlerNotFoundException, DelegationException, RemoteException 
     {
         Part part = loadPart( uri );
         if( isRecognizedPart( part ) )
@@ -244,12 +282,14 @@ public class CompositionController extends CompositionPartHandler implements Con
             return controller.getContext( part );
         }
     }
+    */
 
    /**
     * Create and return a new context object using a supplied part.
     * @param part the part 
     * @return the context instance
     */
+    /*
     public Context getContext( Part part ) throws ControlException, RemoteException
     {
         if( null == part )
@@ -285,6 +325,7 @@ public class CompositionController extends CompositionPartHandler implements Con
             throw new UnsupportedPartTypeException( CONTROLLER_URI, classname, error );
         }
     }
+    */
 
    /**
     * Returns an control object using the supplied part as the construction template.
@@ -311,7 +352,7 @@ public class CompositionController extends CompositionPartHandler implements Con
     */
     public Component newComponent( URI uri )
       throws IOException, ComponentException, PartNotFoundException, 
-      PartHandlerNotFoundException, DelegationException 
+      PartHandlerNotFoundException, DelegationException, RemoteException
     {
         getLogger().debug( "loading part " + uri );
         Part part = loadPart( uri );

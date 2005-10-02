@@ -36,11 +36,11 @@ import javax.swing.table.TableModel;
 import javax.swing.table.TableCellEditor;
 import javax.swing.DefaultCellEditor;
 
+
 import net.dpml.composition.data.ComponentDirective;
 import net.dpml.composition.data.ContextDirective;
 import net.dpml.composition.data.ValueDirective;
 import net.dpml.composition.data.ReferenceDirective;
-import net.dpml.composition.data.TypeManager;
 import net.dpml.composition.info.Type;
 
 import net.dpml.part.EntryDescriptor;
