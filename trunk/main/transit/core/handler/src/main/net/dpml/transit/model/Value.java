@@ -32,31 +32,31 @@ public interface Value
     * Return TRUE if the value is a compound else FALSE.
     * @return TRUE if this ia a compound value construct
     */
-    boolean isCompound();
+    //boolean isCompound();
 
    /**
     * Return the method name to be applied to the target object.
     * @return the method name
     */
-    String getMethodName();
+    //String getMethodName();
 
    /**
     * Return the set of nested values within this value.
     * @return the nested values array
     */
-    Value[] getValues();
+    //Value[] getValues();
 
    /**
     * Return the classname of the resolved value.
     * @return the classname
     */
-    String getBaseValue();
+    //String getBaseValue();
 
    /**
     * Return the classname of the resolved value.
     * @return the classname
     */
-    String getTargetExpression();
+    //String getTargetExpression();
 
    /**
     * Resolve an instance from the value using the context classloader.
@@ -75,5 +75,16 @@ public interface Value
     * @exception Exception if error occurs during instance resolution
     */
     Object resolve( Map map ) throws Exception;
+
+   /**
+    * Resolve an instance from the value using a supplied context map. If any 
+    * target expressions in immediate or nested values contain a symbolic
+    * expression the value will be resolved using the supplied map.
+    *
+    * @param map the context map
+    * @return the resolved instance
+    * @exception Exception if error occurs during instance resolution
+    */
+    Object resolve( Map map, boolean isolate ) throws Exception;
 
 }

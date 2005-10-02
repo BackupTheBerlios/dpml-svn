@@ -225,14 +225,28 @@ public class Construct implements Value, Serializable
     */
     public Object resolve( Map map ) throws Exception
     {
-        return resolve( map, null );
+        return resolve( map, false );
     }
     
+   /**
+    * Resolve an instance from the value using a supplied context map. If any 
+    * target expressions in immediate or nested values contain a symbolic
+    * expression the value will be resolved using the supplied map.
+    *
+    * @param map the context map
+    * @return the resolved instance
+    * @exception Exception if error occurs during instance resolution
+    */
+    public Object resolve( Map map, boolean isolate ) throws Exception
+    {
+        return resolve( map, null, isolate );
+    }
+
    /**
     * Resolve an instance from the value.
     * @return the resolved instance
     */
-    public Object resolve( Map map, ClassLoader classloader ) throws Exception
+    public Object resolve( Map map, ClassLoader classloader, boolean isolate ) throws Exception
     {
         ClassLoader loader = resolveClassLoader( classloader );
         Object target = getTargetObject( map, loader );
@@ -328,7 +342,7 @@ public class Construct implements Value, Serializable
             if( value instanceof Construct )
             {
                 Construct construct = (Construct) value;
-                instances[i] = construct.resolve( map, classloader );
+                instances[i] = construct.resolve( map, classloader, false );
             }
             else
             {
