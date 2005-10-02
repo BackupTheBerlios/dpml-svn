@@ -55,12 +55,18 @@ public class Construct implements Value, Serializable
         {
             Value value = params[i];
             Object object = value.resolve( map );
-            list.add( object );
+            if( null != object )
+            {
+                list.add( object );
+            }
         }
         for( int i=0; i < args.length; i++ )
         {
             Object value = args[i];
-            list.add( value );
+            if( null != value )
+            {
+                list.add( value );
+            }
         }
         return list.toArray();
     }

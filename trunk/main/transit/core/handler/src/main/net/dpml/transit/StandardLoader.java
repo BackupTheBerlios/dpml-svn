@@ -307,10 +307,27 @@ class StandardLoader implements Repository
 
     public Object instantiate( Class clazz, Object[] args ) throws RepositoryException
     {
-        checkArgs( args );
         if( null == clazz )
         {
             throw new NullArgumentException( "clazz" );
+        }
+        if( null == args )
+        {
+            throw new NullArgumentException( "args" );
+        }
+        for( int i=0; i < args.length; i++ )
+        {
+            Object p = args[i];
+            if( null == p )
+            {
+                final String error = 
+                  "User supplied instantiation argument at position [" 
+                  + i 
+                  + "] for the class ["
+                  + clazz.getName()
+                  + "] is a null value.";
+                throw new NullArgumentException( error );
+            }
         }
         Constructor constructor = getSingleConstructor( clazz );
         return instantiate( constructor, args );
@@ -491,24 +508,6 @@ class StandardLoader implements Repository
         else
         {
             return constructors[0];
-        }
-    }
-
-    private void checkArgs( Object[] args )
-    {
-        if( null == args )
-        {
-            throw new NullArgumentException( "args" );
-        }
-        for( int i=0; i < args.length; i++ )
-        {
-            Object p = args[i];
-            if( null == p )
-            {
-                final String error = 
-                  "User supplied constructor argument [" + i + "] is a null value.";
-                throw new NullArgumentException( error );
-            }
         }
     }
 
