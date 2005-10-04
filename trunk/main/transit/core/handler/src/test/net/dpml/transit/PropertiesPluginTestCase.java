@@ -34,20 +34,20 @@ import net.dpml.transit.Artifact;
  */
 public class PropertiesPluginTestCase extends TestCase
 {
-    private PropertiesPlugin m_Plugin;
+    private PropertiesPlugin m_plugin;
 
     protected void setUp() throws Exception
     {
         Properties props = new Properties();
         InputStream stream = getClass().getResourceAsStream( "/plugin.properties" );
         props.load( stream );
-        m_Plugin = new PropertiesPlugin( props );
+        m_plugin = new PropertiesPlugin( props );
     }
 
     public void testArtifact()
         throws Exception
     {
-        Artifact artifact = Artifact.createArtifact( m_Plugin.getURI() );
+        Artifact artifact = Artifact.createArtifact( m_plugin.getURI() );
         assertEquals( "Artifact name", "dpml-metro-cli", artifact.getName() );
 
         URI uri = URI.create( "artifact:plugin:dpml/metro/dpml-metro-cli#123" );
@@ -57,32 +57,32 @@ public class PropertiesPluginTestCase extends TestCase
     public void testDomain()
         throws Exception
     {
-        assertEquals( "Domain", "net.dpml", m_Plugin.getSpecificationNamespace() );
+        assertEquals( "Domain", "net.dpml", m_plugin.getSpecificationNamespace() );
     }
 
     public void testVersion()
         throws Exception
     {
-        assertEquals( "Version", "1.0", m_Plugin.getSpecificationVersion() );
+        assertEquals( "Version", "1.0", m_plugin.getSpecificationVersion() );
     }
 
     public void testClassname()
         throws Exception
     {
-        assertEquals( "Classname", "net.dpml.metro.Metro", m_Plugin.getClassname() );
+        assertEquals( "Classname", "net.dpml.metro.Metro", m_plugin.getClassname() );
     }
 
     public void testInterface()
         throws Exception
     {
         // TODO: Fix a better sample
-        assertEquals( "Interface", null, m_Plugin.getInterface() );
+        assertEquals( "Interface", null, m_plugin.getInterface() );
     }
 
     public void testApiDependencies()
         throws Exception
     {
-        URI[] facts = m_Plugin.getDependencies( Plugin.API );
+        URI[] facts = m_plugin.getDependencies( Plugin.API );
         assertEquals( "API deps", 4, facts.length );
 
         URI uri = URI.create( "artifact:jar:dpml/logging/dpml-logging-api#123" );
@@ -98,7 +98,7 @@ public class PropertiesPluginTestCase extends TestCase
     public void testSpiDependencies()
         throws Exception
     {
-        URI[] facts = m_Plugin.getDependencies( Plugin.SPI );
+        URI[] facts = m_plugin.getDependencies( Plugin.SPI );
         assertEquals( "SPI deps", 2, facts.length );
 
         URI uri = URI.create( "artifact:jar:dpml/transit/dpml-transit-spi#123" );
@@ -110,7 +110,7 @@ public class PropertiesPluginTestCase extends TestCase
     public void testImplDependencies()
         throws Exception
     {
-        URI[] facts = m_Plugin.getDependencies( Plugin.IMPL );
+        URI[] facts = m_plugin.getDependencies( Plugin.IMPL );
         assertEquals( "Impl deps", 5, facts.length );
 
         URI uri = URI.create( "artifact:jar:dpml/util/dpml-util-i18n#123" );
@@ -128,7 +128,7 @@ public class PropertiesPluginTestCase extends TestCase
     public void testAllDependencies()
         throws Exception
     {
-        URI[] facts = m_Plugin.getDependencies();
+        URI[] facts = m_plugin.getDependencies();
         assertEquals( "All deps", 11, facts.length );
 
         URI uri = URI.create( "artifact:jar:dpml/logging/dpml-logging-api#123" );

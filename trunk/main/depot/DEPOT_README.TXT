@@ -22,6 +22,10 @@ under Windows and general enhancements to Preferences table information.
 Enhanced the console to support deployment of plugin handlers that add 
 supplimentary content to the system classloader.
 
+Added support for dynamic loading of a part editor to ensure that different
+versions of parts can supply their own editors based on the underlying 
+controller declared by the part instance.
+
 Release Notes: Version 20050809
 -------------------------------
 

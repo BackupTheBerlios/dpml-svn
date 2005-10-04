@@ -19,6 +19,7 @@
 
 package net.dpml.transit.test;
 
+import java.awt.Color;
 import java.io.File;
 import java.util.Date;
 import java.util.Map;
@@ -119,6 +120,20 @@ public class ConstructTestCase extends AbstractEncodingTestCase
             System.out.println( "# logical: " + context.getLogical() );
             fail( "context2 logical return value is not 'true'" );
         }
+    }
+
+    public void testStaticField() throws Exception
+    {
+        Value v = new Construct( Color.class.getName(), "RED", (String) null );
+        Object value = v.resolve();
+        assertEquals( "color", Color.RED, value );
+    }
+
+    public void testStaticFieldInComposite() throws Exception
+    {
+        Value v = new Construct( Color.class.getName(), "RED", new Value[0] );
+        Object value = v.resolve();
+        assertEquals( "color", Color.RED, value );
     }
 
     public void testSymbolicReference() throws Exception

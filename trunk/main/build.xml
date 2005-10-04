@@ -42,7 +42,7 @@
     <ant dir="depot"/>
   </target>
 
-  <target name="metro" description="Build Metro (requires Depot).">
+  <target name="metro" description="Build Metro (requires Magic).">
     <ant dir="metro"/>
   </target>
 
@@ -59,14 +59,13 @@
   </target>
 
   <target name="junit-report">
-	  <echo>${junitHtmlReportDir}</echo>
-	  <echo>${build.junitHtmlReportDir}</echo>
-	<mkdir dir="${junitHtmlReportDir}"/>
-	<junitreport todir="${junitHtmlReportDir}">
+    <echo>${junitHtmlReportDir}</echo>
+    <mkdir dir="${junitHtmlReportDir}"/>
+    <junitreport todir="${junitHtmlReportDir}">
       <fileset dir=".">
         <include name="**/target/test-reports/TEST-*.xml"/>
       </fileset>
-	  <report format="frames" todir="${junitHtmlReportDir}"/>
+    <report format="frames" todir="${junitHtmlReportDir}"/>
     </junitreport>
   </target>
 

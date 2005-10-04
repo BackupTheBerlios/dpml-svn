@@ -24,7 +24,8 @@ to more than one constructor parameter value.  Addition of support for
 primitive arguments in plugin constructors (such as int, boolean, etc.).
 Upgrade of plugin model to include support for system level jar files 
 (e.g. protocol handlers or L&F implementations that need to exist in the 
-system classloader).  Added Enum and ValuedEnum to util package.
+system classloader).  Added Enum and ValuedEnum to util package. Extended
+the Construct class to alow references to static member variables.
 
 Release Notes: Version 20050809
 -------------------------------

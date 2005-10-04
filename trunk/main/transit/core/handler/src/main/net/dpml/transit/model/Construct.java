@@ -21,6 +21,7 @@ package net.dpml.transit.model;
 import java.beans.Expression;
 import java.io.Serializable;
 import java.lang.reflect.Constructor;
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Map;
@@ -258,8 +259,7 @@ public class Construct implements Value, Serializable
             }
             else
             {
-                Expression expression = buildCompoundExpression( target, map, loader );
-                return expression.getValue();
+                return resolveCompoundExpression( target, map, loader );
             }
         }
         else
@@ -271,8 +271,7 @@ public class Construct implements Value, Serializable
             }
             else
             {
-                Expression expression = buildSimpleExpression( target, map, loader );
-                return expression.getValue();
+                return resolveSimpleExpression( target, map, loader );
             }
         }
     }
@@ -282,13 +281,14 @@ public class Construct implements Value, Serializable
         return expandSymbols( map, m_value );
     }
 
-    private Expression buildSimpleExpression( Object target, Map map, ClassLoader classloader ) throws ValueException
+    private Object resolveSimpleExpression( Object target, Map map, ClassLoader classloader ) throws Exception
     {
         String method = getMethodName();
         Object value = expandSymbols( map, m_value );
+        boolean isaClass = ( target.getClass() == Class.class );
         if( null == method )
         {
-            if( target.getClass() == Class.class )
+            if( isaClass )
             {
                 method = "new";
             }
@@ -301,24 +301,45 @@ public class Construct implements Value, Serializable
                 throw new ValueException( error );
             }
         }
+        else
+        {
+            if( isaClass && ( null == value ) )
+            {
+                // check if the method name is a static field
+                Class c = (Class) target;
+                try
+                {
+                    Field field = c.getField( method );
+                    return field.get( c );
+                }
+                catch( NoSuchFieldException e )
+                {
+                    // assume its a method
+                }
+            }
+        }
+        
         if( value == null )
         {
-            return new Expression( target, method, new Object[0] );
+            Expression expression = new Expression( target, method, new Object[0] );
+            return expression.getValue();
         }
         else
         {
-            return new Expression( target, method, new Object[]{ value } );
+            Expression expression =  new Expression( target, method, new Object[]{ value } );
+            return expression.getValue();
         }
     }
     
-    private Expression buildCompoundExpression( Object target, Map map, ClassLoader classloader ) throws Exception
+    private Object resolveCompoundExpression( Object target, Map map, ClassLoader classloader ) throws Exception
     {
         Value[] args = getValues();
         Object[] instances = getInstanceValues( map, classloader, args );
         String method = getMethodName();
+        boolean isaClass = ( target.getClass() == Class.class );
         if( null == method )
         {
-            if( target.getClass() == Class.class )
+            if( isaClass )
             {
                 method = "new";
             }
@@ -330,7 +351,25 @@ public class Construct implements Value, Serializable
                 throw new ValueException( error );
             }
         }
-        return new Expression( target, method, instances );
+        else
+        {
+            if( isaClass && ( instances.length == 0 ) )
+            {
+                // check if the method name is a static field
+                Class c = (Class) target;
+                try
+                {
+                    Field field = c.getField( method );
+                    return field.get( c );
+                }
+                catch( NoSuchFieldException e )
+                {
+                    // assume its a method
+                }
+            }
+        }
+        Expression expression = new Expression( target, method, instances );
+        return expression.getValue();
     }
     
     private Object[] getInstanceValues( Map map, ClassLoader classloader, Value[] args ) throws Exception

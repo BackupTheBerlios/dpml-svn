@@ -47,23 +47,7 @@ CALL :depot
 if ERRORLEVEL 1 goto fail
 CALL :test
 if ERRORLEVEL 1 goto fail
-GOTO :EOF
-
-:ci
-CALL :luntbuildclean
-IF ERRORLEVEL 1 goto fail
-CALL :transit
-IF ERRORLEVEL 1 goto fail
-CALL :util
-IF ERRORLEVEL 1 goto fail
-CALL :magic
-IF ERRORLEVEL 1 goto fail
-CALL :metro
-if ERRORLEVEL 1 goto fail
-CALL :depot
-if ERRORLEVEL 1 goto fail
-CALL :test
-if ERRORLEVEL 1 goto fail
+CALL :report
 GOTO :EOF
 
 :fail
@@ -83,10 +67,6 @@ PUSHD transit
 CALL :build clean install
 IF ERRORLEVEL 99 goto transit_again
 POPD
-GOTO :EOF
-
-:luntbuildclean
-CALL ant luntbuild-clean
 GOTO :EOF
 
 :magic
@@ -117,6 +97,10 @@ GOTO :EOF
 PUSHD test
 CALL :build clean install
 POPD
+GOTO :EOF
+
+:report
+CALL :build junit-report
 GOTO :EOF
 
 :build
