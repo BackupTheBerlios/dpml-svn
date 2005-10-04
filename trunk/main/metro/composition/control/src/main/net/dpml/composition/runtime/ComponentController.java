@@ -60,15 +60,8 @@ import net.dpml.state.StateMachine;
 import net.dpml.state.Transition;
 import net.dpml.state.UnknownTransitionException;
 import net.dpml.state.UnknownOperationException;
-
-import net.dpml.component.state.StateEvent;
-import net.dpml.component.state.StateListener;
-
-//import net.dpml.component.state.ResourceUnavailableException;
-//import net.dpml.component.state.ValidationException;
-//import net.dpml.component.state.NoSuchHandlerException;
-//import net.dpml.component.state.RecursiveInitializationException;
-//import net.dpml.component.state.RecursiveTerminationException;
+import net.dpml.state.StateEvent;
+import net.dpml.state.StateListener;
 
 /**
  * The ComponentController class is a controller of a component instance.

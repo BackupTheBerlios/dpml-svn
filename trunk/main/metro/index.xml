@@ -235,6 +235,24 @@
     </dependencies>
   </project>
 
+  <project basedir="composition/test">
+    <info>
+      <name>dpml-composition-test</name>
+      <types>
+        <type name="jar"/>
+      </types>
+    </info>
+    <dependencies>
+      <include key="dpml-logging-api"/>
+      <include key="ant-junit" runtime="false"/>
+      <include key="dpml-composition-model" runtime="false"/>
+      <include key="dpml-composition-builder" build="false"/>
+    </dependencies>
+    <plugins>
+      <include key="dpml-composition-builder"/>
+    </plugins>
+  </project>
+
   <project basedir="central">
     <info>
       <group>dpml/metro</group>

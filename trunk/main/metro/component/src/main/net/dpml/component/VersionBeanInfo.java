@@ -1,6 +1,5 @@
 /*
- * Copyright 2004 Stephen J. McConnell.
- * Copyright 1999-2004 The Apache Software Foundation
+ * Copyright 2005 Stephen J. McConnell.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,6 +20,7 @@ import java.beans.BeanDescriptor;
 import java.beans.DefaultPersistenceDelegate;
 
 /**
+ * Bean info thatdeclares a persistence delegate for the Version class.
  * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
  */
 public final class VersionBeanInfo extends SimpleBeanInfo
@@ -32,18 +32,21 @@ public final class VersionBeanInfo extends SimpleBeanInfo
         return BEAN_DESCRIPTOR;
     }
     
-    public static class VersionPersistenceDelegate extends DefaultPersistenceDelegate
-    {
-        public VersionPersistenceDelegate()
-        {
-            super( new String[]{ "major", "minor", "micro" } );
-        }
-    }
-
     private static BeanDescriptor setupBeanDescriptor()
     {
         BeanDescriptor descriptor = new BeanDescriptor( Version.class );
-        descriptor.setValue( "persistenceDelegate", new VersionPersistenceDelegate() );
+        descriptor.setValue( 
+          "persistenceDelegate", 
+          new DefaultPersistenceDelegate( new String[]{ "major", "minor", "micro" } ) );
         return descriptor;
     }
+    
+    //private static class VersionPersistenceDelegate extends DefaultPersistenceDelegate
+    //{
+    //    public VersionPersistenceDelegate()
+    //    {
+    //        super( new String[]{ "major", "minor", "micro" } );
+    //    }
+    //}
+
 }

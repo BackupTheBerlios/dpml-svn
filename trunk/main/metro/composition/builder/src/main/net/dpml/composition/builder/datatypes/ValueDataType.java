@@ -31,6 +31,7 @@ import net.dpml.transit.model.Construct;
 public class ValueDataType
 {
     private String m_classname;
+    private String m_method;
     private String m_value;
     private List m_params = new ArrayList();
 
@@ -45,12 +46,30 @@ public class ValueDataType
     }
 
    /**
+    * Set the method name.
+    * @param method the name of a static method
+    */
+    public void setMethod( final String method )
+    {
+        m_method = method;
+    }
+
+   /**
     * Return the context entry parameter classname.
     * @return the classname
     */
     public String getClassname()
     {
         return m_classname;
+    }
+
+   /**
+    * Return the context entry parameter classname.
+    * @return the classname
+    */
+    String getMethodName()
+    {
+        return m_method;
     }
 
    /**
@@ -94,10 +113,11 @@ public class ValueDataType
     public ValueDirective constructValue()
     {
         String classname = getClassname();
+        String method = getMethodName();
         String value = getValue();
         if( null != value )
-        {  
-            return new ValueDirective( classname, value );
+        {
+            return new ValueDirective( classname, method, value );
         }
         else
         {
@@ -108,17 +128,18 @@ public class ValueDataType
                 ValueDataType p = params[i];
                 values[i] = p.newConstruct();
             }
-            return new ValueDirective( classname, values );
+            return new ValueDirective( classname, method, values );
         }
     }
     
     public Construct newConstruct()
     {
         String classname = getClassname();
+        String method = getMethodName();
         String value = getValue();
         if( null != value )
         {  
-            return new Construct( classname, value );
+            return new Construct( classname, method, value );
         }
         else
         {
@@ -129,7 +150,7 @@ public class ValueDataType
                 ValueDataType p = params[i];
                 values[i] = p.newConstruct();
             }
-            return new Construct( classname, values );
+            return new Construct( classname, method, values );
         }
     }
 }

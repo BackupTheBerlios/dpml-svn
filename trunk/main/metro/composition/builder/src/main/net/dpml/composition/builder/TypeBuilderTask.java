@@ -43,8 +43,8 @@ import net.dpml.composition.builder.datatypes.PartsDataType;
 import net.dpml.composition.info.CategoryDescriptor;
 import net.dpml.composition.info.ContextDescriptor;
 import net.dpml.composition.info.InfoDescriptor;
-import net.dpml.composition.info.InfoDescriptor.LifestylePolicy;
-import net.dpml.composition.info.InfoDescriptor.CollectionPolicy;
+import net.dpml.composition.info.LifestylePolicy;
+import net.dpml.composition.info.CollectionPolicy;
 import net.dpml.composition.info.Type;
 import net.dpml.composition.info.EncodingException;
 
@@ -54,8 +54,8 @@ import net.dpml.configuration.impl.DefaultConfigurationBuilder;
 import net.dpml.magic.tasks.ProjectTask;
 import net.dpml.magic.model.Policy;
 
-import net.dpml.part.PartReference;
-import net.dpml.part.EntryDescriptor;
+import net.dpml.composition.info.PartReference;
+import net.dpml.composition.info.EntryDescriptor;
 
 import net.dpml.component.ServiceDescriptor;
 

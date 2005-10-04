@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package net.dpml.part;
+package net.dpml.composition.info;
 
 import java.io.Serializable;
 import java.beans.Introspector;

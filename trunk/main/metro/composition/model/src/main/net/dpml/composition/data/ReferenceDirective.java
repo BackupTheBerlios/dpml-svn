@@ -23,7 +23,6 @@ import java.net.URI;
 import java.net.URISyntaxException;
 
 import net.dpml.part.Part;
-import net.dpml.part.Directive;
 
 /**
  * A reference directive is a reference to a part within the enclosing part's

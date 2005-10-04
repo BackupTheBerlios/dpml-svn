@@ -21,11 +21,11 @@ package net.dpml.composition.data;
 import java.net.URI;
 
 import net.dpml.part.Control;
-import net.dpml.part.PartReference;
+import net.dpml.composition.info.PartReference;
 import net.dpml.configuration.Configuration;
 import net.dpml.composition.info.InfoDescriptor;
-import net.dpml.composition.info.InfoDescriptor.LifestylePolicy;
-import net.dpml.composition.info.InfoDescriptor.CollectionPolicy;
+import net.dpml.composition.info.LifestylePolicy;
+import net.dpml.composition.info.CollectionPolicy;
 import net.dpml.component.ActivationPolicy;
 import net.dpml.parameters.Parameters;
 

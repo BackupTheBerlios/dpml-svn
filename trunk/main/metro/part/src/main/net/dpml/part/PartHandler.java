@@ -25,15 +25,13 @@ import java.net.URLConnection;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 
-import net.dpml.part.Context;
-
 /**
  * The PartHandler interface defines the a contract for an object that provides generalized
  * part loading.
  *
  * @author <a href="mailto:dev-dpml@lists.ibiblio.org">The Digital Product Meta Library</a>
  */
-public interface PartHandler //extends Remote
+public interface PartHandler
 {
    /**
     * Returns an control object using the supplied part uri as the construction template.
@@ -45,30 +43,35 @@ public interface PartHandler //extends Remote
       PartHandlerNotFoundException, DelegationException;
 
    /**
-    * Create and return a new management context object using a supplied part uri.
-    * @param uri the part uri
+    * Create and return a new management context using the supplied part
+    * as the inital management state.
+    *
+    * @param part the part data structure
     * @return the management context instance
     */
-    public Object newManagementContext( URI uri ) 
-      throws IOException, ControlException, PartNotFoundException, 
-      PartHandlerNotFoundException, DelegationException, RemoteException;
-
-   /**
-    * Create and return a new context object using a supplied part.
-    * @param part the part 
-    * @return the context instance
-    */
-    //Context getContext( Part part ) throws ControlException, RemoteException;
+    Object newManagementContext( Part part )
+      throws ControlException, PartHandlerNotFoundException, 
+      DelegationException, RemoteException;
 
    /**
     * Load a part from serialized form.  The uri is assumed to be a uri that 
     * can be transformed to a URL from which an input stream to a PartHolder 
-    * can be established.  
+    * can be established.  The part holder is used to identify the part handler
+    * to use for part creation.  An implementation will delegate foreign part 
+    * loading to an identified handler.
     *
-    * @return the part estracted from the part handler referenced by the uri
+    * @return the part instance
     */
-    Part loadPart( URI uri )
-        throws DelegationException, PartNotFoundException, IOException;
+    Part loadPart( URI uri ) throws DelegationException, PartNotFoundException, IOException;
+    
+   /**
+    * Load a part from serialized form.  The url identifies a part holder 
+    * which is used to identify the part handler to use for part creation. 
+    * An implementation will delegate foreign part loading to an identified handler.
+    *
+    * @return the part instance
+    */
+    Part loadPart( URL url ) throws DelegationException, PartNotFoundException, IOException;
     
    /**
     * Load a part editor.

@@ -18,8 +18,6 @@
 
 package net.dpml.composition.data;
 
-import net.dpml.part.Directive;
-
 import java.net.URI;
 import java.net.URISyntaxException;
 

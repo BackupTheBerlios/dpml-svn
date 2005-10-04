@@ -39,6 +39,7 @@ import net.dpml.composition.data.ClasspathDirective;
 import net.dpml.composition.data.ComponentDirective;
 import net.dpml.composition.data.ValueDirective;
 import net.dpml.composition.data.DeploymentDirective;
+import net.dpml.composition.data.Directive;
 import net.dpml.composition.info.InfoDescriptor;
 import net.dpml.composition.info.Type;
 
@@ -49,15 +50,13 @@ import net.dpml.composition.runtime.ComponentController;
 import net.dpml.composition.runtime.CompositionHandler;
 import net.dpml.composition.runtime.DefaultLogger;
 
+import net.dpml.part.ClassLoaderManager;
 import net.dpml.part.Control;
 import net.dpml.part.ControlException;
 import net.dpml.part.DelegationException;
-import net.dpml.part.Directive;
 import net.dpml.part.Part;
 import net.dpml.part.PartHandlerNotFoundException;
 import net.dpml.part.PartNotFoundException;
-import net.dpml.part.Context;
-import net.dpml.part.ClassLoaderManager;
 
 import net.dpml.component.control.ControllerContext;
 import net.dpml.component.control.ControllerException;
@@ -213,11 +212,11 @@ public class CompositionController extends CompositionPartHandler implements Con
     * @param anchor the anchor classloader
     * @param directive a component directive
     */
-    public ClassLoader createClassLoader( ClassLoader anchor, Directive directive )
+    public ClassLoader createClassLoader( ClassLoader anchor, Part part )
     {
-        if( directive instanceof ComponentDirective )
+        if( part instanceof ComponentDirective )
         {
-            ComponentDirective profile = (ComponentDirective) directive;
+            ComponentDirective profile = (ComponentDirective) part;
             URI partition = getPartition();
             return getClassLoader( anchor, partition, profile );
         }
@@ -226,21 +225,19 @@ public class CompositionController extends CompositionPartHandler implements Con
             return anchor;
         }
     }
-
+    
     //-------------------------------------------------------------------------------
     // Controller
     //-------------------------------------------------------------------------------
     
    /**
-    * Create and return a new context object using a supplied part uri.
+    * Create and return a new context object using a supplied part.
     * @param uri the part uri
     * @return the context instance
     */
-    public Object newManagementContext( URI uri ) 
-      throws IOException, ControlException, PartNotFoundException, 
-      PartHandlerNotFoundException, DelegationException, RemoteException 
+    public Object newManagementContext( Part part ) 
+      throws ControlException, PartHandlerNotFoundException, DelegationException, RemoteException 
     {
-        Part part = loadPart( uri );
         if( part instanceof ComponentDirective )
         {
             ComponentDirective directive = (ComponentDirective) part;
@@ -248,84 +245,17 @@ public class CompositionController extends CompositionPartHandler implements Con
         }
         else
         {
+            //
+            // TODO delegate to foreign controller
+            //
+            
             final String error =
-              "Construction of a managment context for the part type ["
+              "Construction of a managment context for the part class ["
               + part.getClass().getName() 
-              + "] resolved from the part uri ["
-              + uri
               + "] is not supported.";
             throw new ControlException( error );
         }
     }
-    
-   /**
-    * Create and return a new context object using a supplied part uri.
-    * @param uri the part uri
-    * @return the context instance
-    */
-    /*
-    public Context getContext( URI uri ) 
-      throws IOException, ControlException, PartNotFoundException, 
-      PartHandlerNotFoundException, DelegationException, RemoteException 
-    {
-        Part part = loadPart( uri );
-        if( isRecognizedPart( part ) )
-        {
-            return getContext( part );
-        }
-        else
-        {
-            URI handlerUri = part.getPartHandlerURI();
-            getLogger().info( "delegating to: " + handlerUri );
-            Controller controller = (Controller) getPrimaryController( handlerUri );
-            getLogger().info( "delegate established: " + controller );
-            return controller.getContext( part );
-        }
-    }
-    */
-
-   /**
-    * Create and return a new context object using a supplied part.
-    * @param part the part 
-    * @return the context instance
-    */
-    /*
-    public Context getContext( Part part ) throws ControlException, RemoteException
-    {
-        if( null == part )
-        {
-            throw new NullPointerException( "part" );
-        }
-        if( part instanceof ValueDirective )
-        {
-            ValueDirective directive = (ValueDirective) part;
-            return new ValueContext( directive );
-        }
-        else if( part instanceof ComponentDirective )
-        {
-            try
-            {
-                ComponentDirective profile = (ComponentDirective) part;
-                return new ComponentContext( profile );
-            }
-            catch( Throwable e )
-            {
-                final String error =
-                  "Unexpected error while attempting to construct component context.";
-                throw new ControlException( error, e );
-            }
-        }
-        else
-        {
-            String classname = part.getClass().getName();
-            final String error = 
-              "Unsupported part implementation class ["
-              + classname
-              + "] passed to getContext(Part).";
-            throw new UnsupportedPartTypeException( CONTROLLER_URI, classname, error );
-        }
-    }
-    */
 
    /**
     * Returns an control object using the supplied part as the construction template.

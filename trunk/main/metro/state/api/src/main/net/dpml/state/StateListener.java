@@ -23,7 +23,7 @@ import java.rmi.RemoteException;
 import java.util.EventListener;
 
 /**
- * Exception thrown when a recursive termination sequence is encountered.
+ * Interface implementated by remote listeners to state change events.
  *
  * @author <a href="mailto:dev-dpml@lists.ibiblio.org">The Digital Product Meta Library</a>
  */

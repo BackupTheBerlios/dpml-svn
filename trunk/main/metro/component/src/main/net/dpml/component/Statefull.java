@@ -20,10 +20,8 @@ package net.dpml.component;
 
 import java.net.URI;
 
-//import net.dpml.component.state.State;
-import net.dpml.component.state.StateEvent;
-import net.dpml.component.state.StateListener;
-
+import net.dpml.state.StateEvent;
+import net.dpml.state.StateListener;
 import net.dpml.state.State;
 
 /**

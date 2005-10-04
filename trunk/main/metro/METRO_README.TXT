@@ -4,16 +4,19 @@ Description: Component Runtime Platform
 Publisher: The Digital Product Meta Library
 Revision: @PROJECT-VERSION@
 
-Installation Instructions
--------------------------
-
-$ depot -install metro
-
-Release Notes: Version SNAPSHOT
+Release Notes: Version @PROJECT-VERSION@
 -------------------------------
 
-General enhancements to the Part contract model inclding improvements 
-in the way top-level versus composite parts and handled.
+General enhancements to the Part contract model including improvements 
+in the way top-level versus composite parts and handled.  Separation of
+state related aspects into a new package 'net.dpml.state' supported by a 
+cleaner implementation.  Introduced support for long-term storage of 
+descriptors and directivies compliant with JSR-57. Added definition and 
+implemetnation of a remote component model and context model suitable 
+for deployment independently of a component runtime (i.e. management 
+occurs on machine 'a' and deployment occurs on machine 'b'). Moved all
+enumberations for formally typed enumerations (e.g. CollectionPolicy, 
+LifestylePolicy, etc.).
 
 Release Notes: Version 20050809
 -------------------------------

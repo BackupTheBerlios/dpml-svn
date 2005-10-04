@@ -21,7 +21,7 @@ package net.dpml.composition.builder;
 import java.io.IOException;
 import java.beans.IntrospectionException;
 
-import net.dpml.part.PartReference;
+import net.dpml.composition.info.PartReference;
 import net.dpml.composition.info.Type;
 
 /**

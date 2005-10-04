@@ -21,8 +21,8 @@ package net.dpml.composition.model;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 
-import net.dpml.part.Directive;
-import net.dpml.part.EntryDescriptor;
+import net.dpml.composition.info.EntryDescriptor;
+import net.dpml.composition.data.Directive;
 
 import net.dpml.transit.model.UnknownKeyException;
 

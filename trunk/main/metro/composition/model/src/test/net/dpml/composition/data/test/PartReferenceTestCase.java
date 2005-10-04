@@ -21,7 +21,7 @@ package net.dpml.composition.data.test;
 import junit.framework.TestCase;
 
 import net.dpml.part.Part;
-import net.dpml.part.PartReference;
+import net.dpml.composition.info.PartReference;
 
 import net.dpml.composition.AbstractEncodingTestCase;
 import net.dpml.composition.data.ValueDirective;

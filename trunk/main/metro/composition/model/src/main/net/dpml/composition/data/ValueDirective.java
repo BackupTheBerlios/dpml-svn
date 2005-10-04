@@ -24,7 +24,6 @@ import java.net.URISyntaxException;
 import java.util.Map;
 
 import net.dpml.part.Part;
-import net.dpml.part.Directive;
 
 import net.dpml.transit.model.Value;
 import net.dpml.transit.model.Construct;

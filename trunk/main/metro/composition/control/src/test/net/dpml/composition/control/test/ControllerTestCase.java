@@ -53,12 +53,14 @@ public class ControllerTestCase extends TestCase
     public void setUp() throws Exception
     {
         LoggingAdapter logger = new LoggingAdapter( "test" );
-        //m_controller = new CompositionController( logger, null, null );
         m_controller = new CompositionController( logger );
     }
 
+    public void testSomething()
+    {
+    }
+    
     /*
-
     public void testSingleSimpleValue() throws Exception
     {
         String value = "abc";
@@ -160,14 +162,12 @@ public class ControllerTestCase extends TestCase
             System.out.println( "# s2." + i + " " + s2[i] );
         }
     }
-    */
 
     public void testDependentAssembly() throws Exception
     {
-        /*
         ComponentDirective p1 = new ComponentDirective( "demo", "java.lang.Object" );
         ComponentDirective p2 = new ComponentDirective( "demo", "java.lang.Object" );
         ComponentDirective p3 = new ComponentDirective( "demo", "java.lang.Object" );
-        */
     }
+    */
 }

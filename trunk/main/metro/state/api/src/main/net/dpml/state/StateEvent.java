@@ -22,7 +22,7 @@ import java.util.EventObject;
 
 
 /**
- * Exception thrown when a recursive termination sequence is encountered.
+ * Event triggered as a result of a state change.
  *
  * @author <a href="mailto:dev-dpml@lists.ibiblio.org">The Digital Product Meta Library</a>
  */

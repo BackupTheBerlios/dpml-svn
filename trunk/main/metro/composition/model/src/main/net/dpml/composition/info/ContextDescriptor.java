@@ -25,8 +25,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Properties;
 
-import net.dpml.part.EntryDescriptor;
-
 /**
  * A descriptor describing the context that a component
  * declares.  The context descriptor contains information about

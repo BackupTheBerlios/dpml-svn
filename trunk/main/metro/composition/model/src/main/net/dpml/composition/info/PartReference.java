@@ -16,10 +16,11 @@
  * limitations under the License.
  */
 
-package net.dpml.part;
+package net.dpml.composition.info;
 
 import java.io.Serializable;
 
+import net.dpml.part.Part;
 
 /**
  * A <code>PartReference</code> is a serializable object that contains a key and 

@@ -34,15 +34,15 @@ import com.jgoodies.forms.layout.FormLayout;
 
 import net.dpml.part.Part;
 import net.dpml.part.PartEditor;
-import net.dpml.part.PartReference;
+import net.dpml.composition.info.PartReference;
 import net.dpml.part.ClassLoaderManager;
 
 import net.dpml.component.control.Controller;
 
 import net.dpml.composition.info.Type;
 import net.dpml.composition.info.InfoDescriptor;
-import net.dpml.composition.info.InfoDescriptor.CollectionPolicy;
-import net.dpml.composition.info.InfoDescriptor.LifestylePolicy;
+import net.dpml.composition.info.CollectionPolicy;
+import net.dpml.composition.info.LifestylePolicy;
 import net.dpml.composition.info.ContextDescriptor;
 import net.dpml.composition.data.DeploymentDirective;
 import net.dpml.composition.data.ComponentDirective;

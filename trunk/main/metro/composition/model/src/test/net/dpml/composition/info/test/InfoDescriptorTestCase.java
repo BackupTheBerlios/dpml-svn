@@ -34,8 +34,8 @@ import java.io.File;
 
 import net.dpml.composition.info.Descriptor;
 import net.dpml.composition.info.InfoDescriptor;
-import net.dpml.composition.info.InfoDescriptor.CollectionPolicy;
-import net.dpml.composition.info.InfoDescriptor.LifestylePolicy;
+import net.dpml.composition.info.CollectionPolicy;
+import net.dpml.composition.info.LifestylePolicy;
 import net.dpml.component.Version;
 
 /**

@@ -32,14 +32,14 @@ import junit.framework.TestCase;
 
 import net.dpml.composition.info.CategoryDescriptor;
 import net.dpml.composition.info.ContextDescriptor;
-import net.dpml.part.EntryDescriptor;
+import net.dpml.composition.info.EntryDescriptor;
 import net.dpml.composition.info.InfoDescriptor;
-import net.dpml.composition.info.InfoDescriptor.CollectionPolicy;
+import net.dpml.composition.info.CollectionPolicy;
 import net.dpml.composition.info.Type;
 
 import net.dpml.configuration.Configuration;
 
-import net.dpml.part.PartReference;
+import net.dpml.composition.info.PartReference;
 import net.dpml.component.ServiceDescriptor;
 import net.dpml.composition.AbstractEncodingTestCase;
 

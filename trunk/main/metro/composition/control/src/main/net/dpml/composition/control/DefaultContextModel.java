@@ -29,23 +29,25 @@ import java.util.EventObject;
 
 import net.dpml.component.ActivationPolicy;
 
-import net.dpml.composition.event.EventProducer;
+import net.dpml.composition.data.Directive;
 import net.dpml.composition.data.ValueDirective;
 import net.dpml.composition.data.ReferenceDirective;
 import net.dpml.composition.data.ContextDirective;
-import net.dpml.composition.info.InfoDescriptor.LifestylePolicy;
-import net.dpml.composition.info.InfoDescriptor.CollectionPolicy;
+import net.dpml.composition.info.LifestylePolicy;
+import net.dpml.composition.info.CollectionPolicy;
 import net.dpml.composition.info.Type;
+import net.dpml.composition.info.EntryDescriptor;
+import net.dpml.composition.info.PartReference;
+import net.dpml.composition.info.EntryDescriptor;
+
 import net.dpml.composition.model.ContextModel;
+
+import net.dpml.composition.event.EventProducer;
 
 import net.dpml.logging.Logger;
 
-import net.dpml.part.EntryDescriptor;
-import net.dpml.part.Directive;
 import net.dpml.part.Part;
-import net.dpml.part.PartReference;
 import net.dpml.part.ControlException;
-import net.dpml.part.EntryDescriptor;
 
 import net.dpml.transit.model.Value;
 import net.dpml.transit.model.UnknownKeyException;

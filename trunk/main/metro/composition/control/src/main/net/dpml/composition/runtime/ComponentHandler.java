@@ -40,8 +40,6 @@ import java.util.Vector;
 import net.dpml.activity.Executable;
 import net.dpml.activity.Startable;
 
-import net.dpml.component.state.StateEvent;
-import net.dpml.component.state.StateListener;
 import net.dpml.component.ActivationPolicy;
 import net.dpml.component.ResourceUnavailableException;
 import net.dpml.component.control.LifecycleException;
@@ -63,12 +61,16 @@ import net.dpml.component.AvailabilityException;
 import net.dpml.component.Manager;
 
 import net.dpml.composition.control.CompositionController;
+
 import net.dpml.composition.data.ComponentDirective;
 import net.dpml.composition.data.ContextDirective;
+import net.dpml.composition.info.Type;
+import net.dpml.composition.info.LifestylePolicy;
+import net.dpml.composition.info.PartReference;
+import net.dpml.composition.info.EntryDescriptor;
+
 import net.dpml.composition.event.EventProducer;
 import net.dpml.composition.event.WeakEventProducer;
-import net.dpml.composition.info.Type;
-import net.dpml.composition.info.InfoDescriptor.LifestylePolicy;
 
 import net.dpml.configuration.Configuration;
 import net.dpml.configuration.Configurable;
@@ -85,13 +87,13 @@ import net.dpml.part.DelegationException;
 import net.dpml.part.Part;
 import net.dpml.part.PartNotFoundException;
 import net.dpml.part.PartHandlerNotFoundException;
-import net.dpml.part.PartReference;
-import net.dpml.part.EntryDescriptor;
 
 import net.dpml.state.State;
 import net.dpml.state.StateMachine;
 import net.dpml.state.impl.DefaultState;
 import net.dpml.state.impl.DefaultStateMachine;
+import net.dpml.state.StateEvent;
+import net.dpml.state.StateListener;
 
 /**
  *

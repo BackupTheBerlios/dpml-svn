@@ -27,11 +27,11 @@ package net.dpml.part;
 public interface ClassLoaderManager
 {
    /**
-    * Load a classloader using the supplied anchor classloader and 
+    * Create a classloader using the supplied anchor classloader and 
     * component directive.
     * 
     * @param anchor the anchor classloader
     * @param profile the component directive
     */
-    ClassLoader createClassLoader( ClassLoader anchor, Directive profile );
+    ClassLoader createClassLoader( ClassLoader anchor, Part part );
 }

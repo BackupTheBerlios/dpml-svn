@@ -29,16 +29,21 @@ import java.util.EventObject;
 
 import net.dpml.component.ActivationPolicy;
 
-import net.dpml.composition.event.EventProducer;
 import net.dpml.composition.data.ComponentDirective;
 import net.dpml.composition.data.ValueDirective;
 import net.dpml.composition.data.ReferenceDirective;
 import net.dpml.composition.data.ClassLoaderDirective;
 import net.dpml.composition.data.ClasspathDirective;
 import net.dpml.composition.data.ContextDirective;
-import net.dpml.composition.info.InfoDescriptor.LifestylePolicy;
-import net.dpml.composition.info.InfoDescriptor.CollectionPolicy;
+import net.dpml.composition.data.Directive;
+import net.dpml.composition.info.LifestylePolicy;
+import net.dpml.composition.info.CollectionPolicy;
 import net.dpml.composition.info.Type;
+import net.dpml.composition.info.EntryDescriptor;
+import net.dpml.composition.info.PartReference;
+
+import net.dpml.composition.event.EventProducer;
+
 import net.dpml.composition.model.ComponentModel;
 import net.dpml.composition.model.ContextModel;
 
@@ -48,12 +53,8 @@ import net.dpml.logging.Logger;
 
 import net.dpml.parameters.Parameters;
 
-import net.dpml.part.EntryDescriptor;
-import net.dpml.part.Directive;
 import net.dpml.part.Part;
-import net.dpml.part.PartReference;
 import net.dpml.part.ControlException;
-import net.dpml.part.EntryDescriptor;
 
 import net.dpml.transit.model.Value;
 import net.dpml.transit.model.UnknownKeyException;
@@ -111,25 +112,6 @@ public class DefaultComponentModel extends EventProducer implements ComponentMod
         ContextDirective context = directive.getContextDirective();
         m_context = new DefaultContextModel( m_classloader, logger, m_type, context );
         
-        //m_entries = getEntries();
-        /*
-        for( int i=0; i < m_entries.length; i++ )
-        {
-            String key = m_entries[i].getKey();
-            try
-            {
-                Directive d = resolveDirective( key );
-                m_contextTable.put( key, d );
-            }
-            catch( UnknownKeyException e )
-            {
-                final String error = 
-                  "Component directive does not declare a directive for the key [" + key + "].";
-                throw new ContextException( error, e );
-            }
-        }
-        */
-
         m_partKeys = getPartKeys( m_type );
         for( int i=0; i < m_partKeys.length; i++ )
         {
@@ -333,7 +315,6 @@ public class DefaultComponentModel extends EventProducer implements ComponentMod
                 return true;
             }
         }
-
         String ref = uri.toString();
         URL[] urls = classloader.getURLs();
         for( int i=0; i<urls.length; i++ )
@@ -345,7 +326,6 @@ public class DefaultComponentModel extends EventProducer implements ComponentMod
                 return true;
             }
         }
-
         return false;
     }
 
@@ -365,19 +345,6 @@ public class DefaultComponentModel extends EventProducer implements ComponentMod
         }
     }
 
-    /*
-    private String[] getContextKeys( Type type )
-    {
-        EntryDescriptor[] entries = type.getContextDescriptor().getEntryDescriptors();
-        String[] keys = new String[ entries.length ];
-        for( int i=0; i<entries.length; i++ )
-        {
-            keys[i] = entries[i].getKey();
-        }
-        return keys;
-    }
-    */
-
     private String[] getPartKeys( Type type )
     {
         PartReference[] references = m_type.getPartReferences();
@@ -388,43 +355,5 @@ public class DefaultComponentModel extends EventProducer implements ComponentMod
         }
         return keys;
     }
-
-    /*
-    private Directive resolveDirective( String key ) throws UnknownKeyException
-    {
-        checkContextEntryKey( key );
-        Part part = getPartDirective( key );
-        if( null == part )
-        {
-            return null;
-        }
-        else if( part instanceof Directive )
-        {
-            return (Directive) part;
-        }
-        else
-        {
-            throw new UnsupportedOperationException( "Unsupported directive: " + part.getClass().getName() );
-        }
-    }
-    */
-
-    /*
-    private Part getPartDirective( String key ) throws UnknownKeyException
-    {
-        return m_directive.getContextDirective().getPartDirective( key );
-    }
-    */
-
-    /*
-    private void checkContextEntryKey( String key ) throws UnknownKeyException
-    {
-        EntryDescriptor entry = m_type.getContextDescriptor().getEntryDescriptor( key );
-        if( null == entry )
-        {
-            throw new UnknownKeyException( key );
-        }
-    }
-    */
 }
 

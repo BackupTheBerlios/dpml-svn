@@ -23,7 +23,6 @@ import java.net.URI;
 import java.net.URISyntaxException;
 
 import net.dpml.part.Part;
-import net.dpml.part.Directive;
 
 /**
  * A <code>FeatureDirective</code> declares a context entry that is itself a feature

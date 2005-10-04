@@ -22,13 +22,13 @@ import java.net.URI;
 import java.net.URISyntaxException;
 
 import net.dpml.part.Part;
-import net.dpml.part.PartReference;
+import net.dpml.composition.info.PartReference;
 import net.dpml.composition.builder.ConstructionException;
 import net.dpml.composition.builder.PartReferenceBuilder;
 import net.dpml.composition.data.ValueDirective;
 import net.dpml.composition.data.ReferenceDirective;
 import net.dpml.composition.data.FeatureDirective;
-import net.dpml.part.EntryDescriptor;
+import net.dpml.composition.info.EntryDescriptor;
 import net.dpml.composition.info.Type;
 
 import net.dpml.transit.model.Construct;
@@ -166,6 +166,7 @@ public class EntryDataType extends ValueDataType implements PartReferenceBuilder
     {
         String key = getKey();
         String classname = getClassname();
+        String method = getMethodName();
 
         if( null != type )
         {
@@ -198,7 +199,7 @@ public class EntryDataType extends ValueDataType implements PartReferenceBuilder
         String value = getValue();
         if( null != value )
         {
-            return new ValueDirective( classname, value );
+            return new ValueDirective( classname, method, value );
         }
         else
         {
@@ -209,7 +210,7 @@ public class EntryDataType extends ValueDataType implements PartReferenceBuilder
                  ValueDataType p = params[i];
                  values[i] = p.newConstruct();
             }
-            return new ValueDirective(classname, values );
+            return new ValueDirective( classname, method, values );
         }
     }
 

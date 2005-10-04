@@ -22,10 +22,9 @@ import java.net.URI;
 import java.rmi.RemoteException;
 
 import net.dpml.part.Part;
-//import net.dpml.component.state.State;
-import net.dpml.component.state.StateListener;
-import net.dpml.component.state.StateEvent;
 
+import net.dpml.state.StateListener;
+import net.dpml.state.StateEvent;
 import net.dpml.state.State;
 
 /**

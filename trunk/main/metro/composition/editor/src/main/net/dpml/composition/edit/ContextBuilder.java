@@ -43,7 +43,7 @@ import net.dpml.composition.data.ValueDirective;
 import net.dpml.composition.data.ReferenceDirective;
 import net.dpml.composition.info.Type;
 
-import net.dpml.part.EntryDescriptor;
+import net.dpml.composition.info.EntryDescriptor;
 
 import net.dpml.part.Part;
 

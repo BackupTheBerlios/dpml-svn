@@ -38,13 +38,14 @@ import net.dpml.transit.Repository;
  */
 public class PartContentHandler extends ContentHandler
 {
-    private final Logger m_logger;
-    private final PartHandler m_handler;
-
-    public PartContentHandler( Logger logger )
+    public static final PartHandler STANDARD = newPartHandler( new LoggingAdapter( "" ) );
+    
+    public static PartHandler newPartHandler( final Logger logger )
     {
-        m_logger = logger;
-
+        if( null == logger )
+        {
+            throw new NullPointerException( "logger" );
+        }
         try
         {
             ClassLoader classloader = Part.class.getClassLoader();
@@ -52,14 +53,23 @@ public class PartContentHandler extends ContentHandler
             Repository repository = Transit.getInstance().getRepository();
             Class c = repository.getPluginClass( classloader, uri );
             Constructor constructor = c.getConstructor( new Class[]{Logger.class} );
-            m_handler = (PartHandler) constructor.newInstance( new Object[]{logger} );
+            return (PartHandler) constructor.newInstance( new Object[]{logger} );
         }
         catch( Throwable e )
         {
             final String error =
-              "Internal error while attempting to establish the composition controller.";
+              "Internal error while attempting to establish the default part handler.";
             throw new RuntimeException( error, e );
         }
+    }
+    
+    private final Logger m_logger;
+    private final PartHandler m_handler;
+
+    public PartContentHandler( Logger logger )
+    {
+        m_logger = logger;
+        m_handler = newPartHandler( logger );
     }
 
     public Object getContent( URLConnection connection ) throws IOException
@@ -82,10 +92,15 @@ public class PartContentHandler extends ContentHandler
 
     private Part getPart( URL url )
     {
+        if( null == url )
+        {
+            throw new NullPointerException( "url" );
+        }
         try
         {
             String path = url.toExternalForm();
             URI uri = new URI( path );
+        
             return (Part) getPartHandler().loadPart( uri );
         }
         catch( Throwable e )
@@ -96,52 +111,17 @@ public class PartContentHandler extends ContentHandler
         }
     }
     
-    //public PartEditor getPartEditor( URI uri ) throws Exception
-    //{
-    //    Part part = getPartHandler().loadPart( uri );
-    //    return getPartEditor( part );
-    //}
-
     public PartEditor getPartEditor( Part part ) throws Exception
     {
         return getPartHandler().loadPartEditor( part );
     }
 
-    /*
-    public PartEditorFactory getPartEditorFactory( Class clazz ) throws Exception
-    {
-        String classname = clazz.getName();
-        String factoryClassname = classname + "EditorFactory";
-        try
-        {
-            Class factoryClass = clazz.getClassLoader().loadClass( factoryClassname );
-            PartEditorFactory factory = 
-              (PartEditorFactory) Transit.getInstance().getRepository().instantiate( 
-                factoryClass, new Object[]{ m_logger } );
-            return factory;
-        }
-        catch( ClassNotFoundException e )
-        {
-            return null;
-        }
-        catch( Throwable e )
-        {
-            final String error = 
-              "Error occured while attempting to load a part editor factory for the class: " 
-              + clazz.getName();
-            throw new PartHandlerRuntimeException( error, e );
-        }
-    }
+   /**
+    * Return the working part handler.
+    * @return the part handler
     */
-
     public PartHandler getPartHandler()
     {
         return m_handler;
-    }
-
-    public static PartHandler newPartHandler( Logger logger )
-    {
-        PartContentHandler handler = new PartContentHandler( logger );
-        return handler.getPartHandler();
     }
 }

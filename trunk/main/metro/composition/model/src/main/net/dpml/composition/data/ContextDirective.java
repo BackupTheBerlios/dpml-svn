@@ -21,7 +21,7 @@ package net.dpml.composition.data;
 import java.io.Serializable;
 
 import net.dpml.part.Part;
-import net.dpml.part.PartReference;
+import net.dpml.composition.info.PartReference;
 
 /**
  * A context descriptor declares the context creation criteria for

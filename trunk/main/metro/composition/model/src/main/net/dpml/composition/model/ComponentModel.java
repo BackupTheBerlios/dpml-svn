@@ -22,8 +22,8 @@ import java.rmi.Remote;
 import java.rmi.RemoteException;
 
 import net.dpml.component.ActivationPolicy;
-import net.dpml.composition.info.InfoDescriptor.LifestylePolicy;
-import net.dpml.composition.info.InfoDescriptor.CollectionPolicy;
+import net.dpml.composition.info.LifestylePolicy;
+import net.dpml.composition.info.CollectionPolicy;
 
 import net.dpml.configuration.Configuration;
 
@@ -110,8 +110,8 @@ public interface ComponentModel extends Remote
     */
     ComponentModel getComponentModel( String key ) throws UnknownKeyException, RemoteException;
 
-    Configuration getConfiguration() throws RemoteException;
+    //Configuration getConfiguration() throws RemoteException;
 
-    Parameters getParameters() throws  RemoteException;
+    //Parameters getParameters() throws  RemoteException;
 }
 

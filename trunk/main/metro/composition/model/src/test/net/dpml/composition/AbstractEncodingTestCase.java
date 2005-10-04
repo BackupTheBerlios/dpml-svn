@@ -38,7 +38,7 @@ import java.net.URI;
 import junit.framework.TestCase;
 
 import net.dpml.part.Part;
-import net.dpml.part.PartReference;
+import net.dpml.composition.info.PartReference;
 
 import net.dpml.composition.data.ValueDirective;
 
