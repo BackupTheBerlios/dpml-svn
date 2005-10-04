@@ -41,7 +41,7 @@ import javax.swing.event.ChangeEvent;
 
 import net.dpml.logging.Logger;
 
-import net.dpml.composition.controller.CompositionController;
+import net.dpml.composition.control.CompositionController;
 
 import net.dpml.component.runtime.Service;
 import net.dpml.component.runtime.Available;

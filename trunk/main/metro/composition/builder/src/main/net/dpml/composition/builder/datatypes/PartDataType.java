@@ -24,7 +24,7 @@ import java.net.URISyntaxException;
 import java.util.Properties;
 
 import net.dpml.composition.builder.PartReferenceBuilder;
-import net.dpml.composition.controller.CompositionController;
+import net.dpml.composition.control.CompositionController;
 import net.dpml.component.info;.Type;
 
 import net.dpml.component.control.ControllerContext;

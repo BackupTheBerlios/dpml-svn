@@ -21,7 +21,7 @@ package net.dpml.composition.runtime;
 import java.lang.reflect.Method;
 import java.util.Map;
 
-import net.dpml.composition.controller.CompositionController;
+import net.dpml.composition.control.CompositionController;
 
 import net.dpml.component.control.LifecycleException;
 

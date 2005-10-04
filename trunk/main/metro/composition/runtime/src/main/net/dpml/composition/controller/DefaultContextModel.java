@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package net.dpml.composition.controller;
+package net.dpml.composition.control;
 
 import java.net.URI;
 import java.net.URL;

@@ -42,7 +42,7 @@ import net.dpml.component.runtime.ServiceException;
 import net.dpml.component.runtime.ServiceNotFoundException;
 import net.dpml.component.control.Controller;
 
-import net.dpml.composition.controller.CompositionController;
+import net.dpml.composition.control.CompositionController;
 import net.dpml.component.data.FeatureDirective;
 import net.dpml.component.data.ReferenceDirective;
 import net.dpml.component.data.ValueDirective;

@@ -22,7 +22,7 @@ import java.net.URI;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 
-import net.dpml.composition.controller.CompositionController;
+import net.dpml.composition.control.CompositionController;
 
 import net.dpml.component.runtime.Component;
 import net.dpml.component.runtime.AvailabilityException;

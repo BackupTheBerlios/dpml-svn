@@ -32,7 +32,7 @@ import java.util.ArrayList;
 import java.lang.reflect.Proxy;
 import java.lang.reflect.InvocationHandler;
 
-import net.dpml.composition.controller.CompositionController;
+import net.dpml.composition.control.CompositionController;
 import net.dpml.component.data.ComponentDirective;
 import net.dpml.component.info;.ServiceDescriptor;
 

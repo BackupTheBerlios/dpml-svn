@@ -27,7 +27,7 @@ import net.dpml.component.runtime.AvailabilityListener;
 
 import net.dpml.state.StateListener;
 
-import net.dpml.composition.controller.CompositionController;
+import net.dpml.composition.control.CompositionController;
 
 /**
  * Invoication handler for the Context inner class.
