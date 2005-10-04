@@ -80,6 +80,26 @@
 
   <!-- Component -->
 
+  <project basedir="component/model">
+    <info>
+      <group>dpml/metro</group>
+      <name>dpml-component-model</name>
+      <types>
+        <type name="jar"/>
+      </types>
+    </info>
+    <dependencies>
+      <include key="dpml-transit-main"/>
+      <include key="dpml-state-api"/>
+      <include key="dpml-parameters-api"/>
+      <include key="dpml-configuration-api"/>
+      <include key="dpml-part-api"/>
+      <include key="dpml-state-impl" runtime="false"/>
+      <include key="dpml-parameters-impl" runtime="false"/>
+      <include key="dpml-configuration-impl" runtime="false"/>
+    </dependencies>
+  </project>
+
   <!-- Activity -->
 
   <project basedir="activity">
@@ -157,28 +177,7 @@
     <dependencies>
       <include key="dpml-state-api"/>
       <include key="dpml-part-api"/>
-      <include key="dpml-composition-model"/>
-    </dependencies>
-  </project>
-
-  <project basedir="composition/model">
-    <info>
-      <group>dpml/metro</group>
-      <name>dpml-composition-model</name>
-      <types>
-        <type name="jar"/>
-      </types>
-    </info>
-    <dependencies>
-      <include key="dpml-transit-main"/>
-      <include key="dpml-state-api"/>
-      <include key="dpml-parameters-api"/>
-      <include key="dpml-configuration-api"/>
-      <include key="dpml-part-api"/>
-      <!--<include key="dpml-composition-api"/>-->
-      <include key="dpml-state-impl" runtime="false"/>
-      <include key="dpml-parameters-impl" runtime="false"/>
-      <include key="dpml-configuration-impl" runtime="false"/>
+      <include key="dpml-component-model"/>
     </dependencies>
   </project>
 
@@ -195,7 +194,7 @@
     </info>
     <dependencies>
       <include key="dpml-composition-api"/>
-      <include key="dpml-composition-model"/>
+      <include key="dpml-component-model"/>
       <include key="forms"/>
     </dependencies>
   </project>
@@ -218,7 +217,7 @@
       <include key="dpml-activity-api" tag="spi"/>
       <include key="dpml-parameters-api" tag="spi"/>
       <include key="dpml-configuration-api" tag="spi"/>
-      <include key="dpml-composition-model"/>
+      <include key="dpml-component-model"/>
       <include key="dpml-parameters-impl"/>
       <include key="dpml-configuration-impl"/>
       <include key="dpml-state-impl"/>
@@ -250,7 +249,7 @@
     <dependencies>
       <include key="dpml-logging-api"/>
       <include key="ant-junit" runtime="false"/>
-      <include key="dpml-composition-model" runtime="false"/>
+      <include key="dpml-component-model" runtime="false"/>
       <include key="dpml-composition-builder" build="false"/>
     </dependencies>
     <plugins>
