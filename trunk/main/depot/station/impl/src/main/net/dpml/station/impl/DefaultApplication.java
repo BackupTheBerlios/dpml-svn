@@ -27,8 +27,7 @@ import net.dpml.station.ApplicationEvent;
 
 import net.dpml.profile.ApplicationProfile;
 
-import net.dpml.part.Control;
-import net.dpml.part.Context;
+import net.dpml.part.Part;
 import net.dpml.part.PartHandler;
 import net.dpml.part.PartContentHandler;
 
@@ -64,7 +63,8 @@ public class DefaultApplication extends EventProducer implements Application
 
         PartHandler handler = PartContentHandler.newPartHandler( logger );
         URI uri = profile.getCodeBaseURI();
-        m_context = handler.newManagementContext( uri );
+        Part part = handler.loadPart( uri );
+        m_context = handler.newManagementContext( part );
     }
 
     public void addApplicationListener( ApplicationListener listener )

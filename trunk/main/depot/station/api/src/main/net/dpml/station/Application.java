@@ -9,8 +9,6 @@ import net.dpml.transit.PID;
 
 import net.dpml.profile.ApplicationProfile;
 
-import net.dpml.part.Context;
-
 public interface Application extends Remote
 {
     State READY = new State( 0, "ready", "Ready" );
