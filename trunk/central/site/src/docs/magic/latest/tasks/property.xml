@@ -17,12 +17,12 @@
       </p>
 
 <source><![CDATA[
-    <x:property name="spec" key="dpml-composition-control" feature="uri" type="jar" />
+    <x:property name="spec" key="dpml-composition-runtime" feature="uri" type="jar" />
     <echo message="${spec}"/>
 ]]></source>
 
 <pre>
-     [echo] artifact:jar:dpml/metro/dpml-composition-control#SNAPSHOT
+     [echo] artifact:jar:dpml/metro/dpml-composition-runtime#SNAPSHOT
 </pre>
 
     <subsection name="Attributes">

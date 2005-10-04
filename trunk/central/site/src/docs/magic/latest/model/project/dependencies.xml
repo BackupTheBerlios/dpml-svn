@@ -83,7 +83,7 @@
   <project basedir="composition/control">
     <info>
       <group>dpml/metro</group>
-      <name>dpml-composition-control</name>
+      <name>dpml-composition-runtime</name>
       <types>
         <type name="jar"/>
         <type name="plugin"/>

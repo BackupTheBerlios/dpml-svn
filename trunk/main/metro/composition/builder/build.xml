@@ -7,7 +7,7 @@
 
   <target name="init" depends="standard.init">
     <x:property feature="uri" type="plugin" name="builder.plugin"/>
-    <x:property key="dpml-composition-control" feature="uri" type="plugin" name="control.plugin"/>
+    <x:property key="dpml-composition-runtime" feature="uri" type="plugin" name="control.plugin"/>
     <filter token="PART-BUILDER-URI" value="${builder.plugin}"/>
     <filter token="TYPE-BUILDER-URI" value="${builder.plugin}"/>
     <filter token="PART-HANDLER-URI" value="${control.plugin}"/>

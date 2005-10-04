@@ -110,10 +110,10 @@
       </info>
     </resource>
 
-    <resource key="dpml-composition-control">
+    <resource key="dpml-composition-runtime">
       <info>
         <group>dpml/metro</group>
-        <name>dpml-composition-control</name>
+        <name>dpml-composition-runtime</name>
         <version>SNAPSHOT</version>
         <types>
           <type name="jar"/>
@@ -143,7 +143,7 @@
       </info>
       <dependencies>
         <include key="dpml-magic-core"/>
-        <include key="dpml-composition-control"/>
+        <include key="dpml-composition-runtime"/>
         <include key="xstream"/>
       </dependencies>
     </resource>
@@ -159,7 +159,7 @@
         </types>
       </info>
       <dependencies>
-        <include key="dpml-composition-control"/>
+        <include key="dpml-composition-runtime"/>
       </dependencies>
     </resource>
 

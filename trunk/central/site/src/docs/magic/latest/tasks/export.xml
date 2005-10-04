@@ -41,7 +41,7 @@ dpml.plugin.meta.version = 1.0
 # Artifact descriptor.
 #
 dpml.artifact.group = dpml/metro
-dpml.artifact.name = dpml-composition-control
+dpml.artifact.name = dpml-composition-runtime
 dpml.artifact.version = SNAPSHOT
 dpml.artifact.signature = 20050721.141035
 
@@ -72,7 +72,7 @@ dpml.artifact.dependency.0 = artifact:jar:dpml/metro/dpml-parameters-impl#SNAPSH
 dpml.artifact.dependency.1 = artifact:jar:dpml/metro/dpml-configuration-impl#SNAPSHOT
 dpml.artifact.dependency.2 = artifact:jar:xerces/xercesImpl#2.6.2
 dpml.artifact.dependency.3 = artifact:jar:xerces/xmlParserAPIs#2.6.2
-dpml.artifact.dependency.4 = artifact:jar:dpml/metro/dpml-composition-control#SNAPSHOT
+dpml.artifact.dependency.4 = artifact:jar:dpml/metro/dpml-composition-runtime#SNAPSHOT
 
 #
 # EOF.

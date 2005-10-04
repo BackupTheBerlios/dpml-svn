@@ -6,7 +6,7 @@
   <transit:import uri="local:template:magic/standard"/>
 
   <target name="init" depends="standard.init">
-    <x:property key="dpml-composition-control" feature="uri" type="plugin" name="control.plugin"/>
+    <x:property key="dpml-composition-runtime" feature="uri" type="plugin" name="control.plugin"/>
     <filter token="PART-CONTROLLER-URI" value="${control.plugin}"/>
   </target>
 

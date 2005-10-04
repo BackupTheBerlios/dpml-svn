@@ -26,7 +26,7 @@
               If declared the key attribute value takes precidence.  The 
               value of the key is used as the unique identifier of the 
               resource.
-              <source>&lt;resource key="dpml-composition-control"&gt;</source>
+              <source>&lt;resource key="dpml-composition-runtime"&gt;</source>
             </td>
           </tr>
         </table>

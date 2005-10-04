@@ -10,7 +10,7 @@
     <x:filter feature="name" token="NAME"/>
     <x:filter feature="version" token="VERSION"/>
     <x:filter feature="group" token="GROUP"/>
-    <x:filter feature="uri" type="plugin" token="COMPOSITION-CONTROLLER-URI" key="dpml-composition-control"/>
+    <x:filter feature="uri" type="plugin" token="COMPOSITION-CONTROLLER-URI" key="dpml-composition-runtime"/>
   </target>
 
 </project>

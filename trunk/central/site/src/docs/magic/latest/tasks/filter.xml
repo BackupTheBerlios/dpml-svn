@@ -16,12 +16,12 @@
       <p>
       The following example demonstrates the resolution of 
       a artifact uri feature for a project identified by the 
-      key "dpml-composition-control".
+      key "dpml-composition-runtime".
       </p>
 
 <source><![CDATA[
 <x:filter 
-    key="dpml-composition-control" 
+    key="dpml-composition-runtime" 
     feature="uri" 
     type="plugin"
     token="COMPOSITION-PLUGIN-URI"/>
