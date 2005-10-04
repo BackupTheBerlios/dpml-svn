@@ -47,7 +47,9 @@ import net.dpml.composition.data.CategoriesDirective;
 import net.dpml.composition.info.InfoDescriptor;
 import net.dpml.composition.info.LifestylePolicy;
 import net.dpml.composition.info.CollectionPolicy;
+import net.dpml.composition.info.PartReference;
 import net.dpml.composition.info.Type;
+import net.dpml.composition.info.EntryDescriptor;
 
 import net.dpml.configuration.Configuration;
 
@@ -62,15 +64,14 @@ import net.dpml.parameters.impl.DefaultParameters;
 
 import net.dpml.part.Part;
 import net.dpml.part.PartHolder;
-import net.dpml.composition.info.PartReference;
 import net.dpml.part.Control;
-import net.dpml.composition.info.EntryDescriptor;
 
-import net.dpml.component.ActivationPolicy;
 import net.dpml.component.control.ControllerContext;
 import net.dpml.component.Component;
 import net.dpml.component.Container;
 import net.dpml.component.Service;
+
+import net.dpml.composition.info.ActivationPolicy;
 
 import net.dpml.transit.tools.AntAdapter;
 import net.dpml.transit.Logger;

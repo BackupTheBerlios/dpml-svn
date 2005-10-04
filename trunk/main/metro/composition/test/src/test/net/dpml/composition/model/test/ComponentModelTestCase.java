@@ -27,7 +27,8 @@ import junit.framework.TestCase;
 import net.dpml.part.Part;
 import net.dpml.part.PartHandler;
 
-import net.dpml.component.ActivationPolicy;
+import net.dpml.state.State;
+import net.dpml.composition.info.ActivationPolicy;
 
 import net.dpml.composition.data.ValueDirective;
 import net.dpml.composition.data.Directive;
@@ -64,6 +65,12 @@ public class ComponentModelTestCase extends TestCase
     {
         String classname = ExampleComponent.class.getName();
         assertEquals( "classname", classname, m_model.getImplementationClassName() );
+    }
+    
+    public void testStateGraph() throws Exception
+    {
+        State state = m_model.getStateGraph();
+        assertEquals( "substates", 0, state.getStates().length );
     }
     
     public void testActivationPolicy() throws Exception

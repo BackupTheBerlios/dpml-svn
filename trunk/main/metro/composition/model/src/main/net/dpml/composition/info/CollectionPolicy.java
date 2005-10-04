@@ -26,27 +26,9 @@ import java.beans.DefaultPersistenceDelegate;
 import java.beans.SimpleBeanInfo;
 import java.beans.Encoder;
 
-import java.util.Properties;
-import net.dpml.component.Version;
-
 import net.dpml.transit.util.Enum;
 
 /**
- * This class is used to provide explicit information to assembler
- * and administrator about the Component. It includes information
- * such as;
- *
- * <ul>
- *   <li>a symbolic name</li>
- *   <li>classname</li>
- *   <li>version</li>
- * </ul>
- *
- * <p>The InfoDescriptor also includes an arbitrary set
- * of attributes about component. Usually these are container
- * specific attributes that can store arbitrary information.
- * The attributes should be stored with keys based on package
- * name of container.
  *
  * @author <a href="mailto:dev-dpml@lists.ibiblio.org">The Digital Product Meta Library</a>
  * @version $Id: InfoDescriptor.java 2522 2005-05-12 11:23:50Z mcconnell@dpml.net $

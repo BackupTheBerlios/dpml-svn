@@ -28,6 +28,8 @@ import net.dpml.part.Control;
 import net.dpml.component.Service;
 import net.dpml.component.Identifiable;
 
+import net.dpml.composition.info.ActivationPolicy;
+
 /**
  * The Component interface is implemented by objects that handle the runtime
  * state of a component instance.

@@ -21,7 +21,8 @@ package net.dpml.component;
 import java.net.URI;
 import java.rmi.RemoteException;
 
-import net.dpml.component.Component;
+import net.dpml.composition.info.ServiceDescriptor;
+
 
 /**
  * A ServiceContext is a local interface implemented by components that 

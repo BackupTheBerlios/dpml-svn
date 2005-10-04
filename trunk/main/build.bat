@@ -30,7 +30,7 @@ IF "%TARGET%" == "magic" CALL :magic
 IF "%TARGET%" == "depot" CALL :depot
 IF "%TARGET%" == "metro" CALL :metro
 IF "%TARGET%" == "test" CALL :test
-IF "%TARGET%" == "ci" CALL :ci
+IF "%TARGET%" == "report" CALL :report
 IF "%TARGET%" == "all" CALL :all
 goto end
 

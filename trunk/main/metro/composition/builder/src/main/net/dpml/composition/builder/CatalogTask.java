@@ -38,9 +38,8 @@ import net.dpml.composition.info.Type;
 import net.dpml.composition.info.InfoDescriptor;
 import net.dpml.composition.info.LifestylePolicy;
 import net.dpml.composition.info.ContextDescriptor;
+import net.dpml.composition.info.ServiceDescriptor;
 import net.dpml.composition.data.ComponentDirective;
-
-import net.dpml.component.ServiceDescriptor;
 
 import net.dpml.configuration.Configuration;
 import net.dpml.configuration.impl.ConfigurationUtil;

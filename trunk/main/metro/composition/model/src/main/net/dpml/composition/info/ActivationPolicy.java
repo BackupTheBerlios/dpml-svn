@@ -16,18 +16,7 @@
  * limitations under the License.
  */
 
-package net.dpml.component;
-
-import java.beans.Expression;
-import java.beans.BeanDescriptor;
-import java.beans.PersistenceDelegate;
-import java.beans.DefaultPersistenceDelegate;
-import java.beans.SimpleBeanInfo;
-import java.beans.Encoder;
-import java.io.IOException;
-import java.io.Serializable;
-import java.rmi.Remote;
-import java.rmi.RemoteException;
+package net.dpml.composition.info;
 
 import net.dpml.transit.util.Enum;
 

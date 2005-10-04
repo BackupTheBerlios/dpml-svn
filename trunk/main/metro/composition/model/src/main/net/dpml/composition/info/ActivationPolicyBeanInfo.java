@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package net.dpml.component;
+package net.dpml.composition.info;
 
 import java.beans.Expression;
 import java.beans.BeanDescriptor;
@@ -24,15 +24,12 @@ import java.beans.PersistenceDelegate;
 import java.beans.DefaultPersistenceDelegate;
 import java.beans.SimpleBeanInfo;
 import java.beans.Encoder;
-import java.io.IOException;
-import java.io.Serializable;
-import java.rmi.Remote;
-import java.rmi.RemoteException;
 
 import net.dpml.transit.util.Enum;
 
 /**
- * Utility class containing a persistence encoding delegate.
+ * Utility class containing a persistence encoding delegate for
+ * the ActivationPolicy class.
  */
 public final class ActivationPolicyBeanInfo extends SimpleBeanInfo
 {

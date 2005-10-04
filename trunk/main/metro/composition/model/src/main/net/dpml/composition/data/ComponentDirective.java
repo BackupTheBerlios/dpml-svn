@@ -20,14 +20,17 @@ package net.dpml.composition.data;
 
 import java.net.URI;
 
-import net.dpml.part.Control;
 import net.dpml.composition.info.PartReference;
 import net.dpml.configuration.Configuration;
 import net.dpml.composition.info.InfoDescriptor;
 import net.dpml.composition.info.LifestylePolicy;
 import net.dpml.composition.info.CollectionPolicy;
-import net.dpml.component.ActivationPolicy;
+
+import net.dpml.part.Control;
+
 import net.dpml.parameters.Parameters;
+
+import net.dpml.composition.info.ActivationPolicy;
 
 /**
  * Definition of the criteria for an explicit component profile.  A profile, when

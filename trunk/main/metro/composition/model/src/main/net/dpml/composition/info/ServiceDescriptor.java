@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package net.dpml.component;
+package net.dpml.composition.info;
 
 import java.io.Serializable;
 

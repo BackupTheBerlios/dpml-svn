@@ -27,7 +27,6 @@ import java.beans.SimpleBeanInfo;
 import java.beans.Encoder;
 
 import java.util.Properties;
-import net.dpml.component.Version;
 
 import net.dpml.transit.util.Enum;
 

@@ -39,10 +39,6 @@ import java.util.ArrayList;
 
 import net.dpml.configuration.Configuration;
 
-import net.dpml.component.ComponentException;
-import net.dpml.component.ServiceDescriptor;
-import net.dpml.component.Version;
-
 import net.dpml.part.Part;
 
 /**

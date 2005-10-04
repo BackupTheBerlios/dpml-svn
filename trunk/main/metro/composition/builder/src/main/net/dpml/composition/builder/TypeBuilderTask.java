@@ -47,6 +47,9 @@ import net.dpml.composition.info.LifestylePolicy;
 import net.dpml.composition.info.CollectionPolicy;
 import net.dpml.composition.info.Type;
 import net.dpml.composition.info.EncodingException;
+import net.dpml.composition.info.PartReference;
+import net.dpml.composition.info.EntryDescriptor;
+import net.dpml.composition.info.ServiceDescriptor;
 
 import net.dpml.configuration.Configuration;
 import net.dpml.configuration.impl.DefaultConfigurationBuilder;
@@ -54,10 +57,6 @@ import net.dpml.configuration.impl.DefaultConfigurationBuilder;
 import net.dpml.magic.tasks.ProjectTask;
 import net.dpml.magic.model.Policy;
 
-import net.dpml.composition.info.PartReference;
-import net.dpml.composition.info.EntryDescriptor;
-
-import net.dpml.component.ServiceDescriptor;
 
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Project;

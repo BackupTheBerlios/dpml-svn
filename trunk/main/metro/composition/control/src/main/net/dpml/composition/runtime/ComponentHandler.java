@@ -40,7 +40,6 @@ import java.util.Vector;
 import net.dpml.activity.Executable;
 import net.dpml.activity.Startable;
 
-import net.dpml.component.ActivationPolicy;
 import net.dpml.component.ResourceUnavailableException;
 import net.dpml.component.control.LifecycleException;
 import net.dpml.component.Consumer;
@@ -55,7 +54,6 @@ import net.dpml.component.ComponentNotFoundException;
 import net.dpml.component.AvailabilityEvent;
 import net.dpml.component.AvailabilityListener;
 import net.dpml.component.Service;
-import net.dpml.component.ServiceDescriptor;
 import net.dpml.component.Available;
 import net.dpml.component.AvailabilityException;
 import net.dpml.component.Manager;
@@ -64,6 +62,7 @@ import net.dpml.composition.control.CompositionController;
 
 import net.dpml.composition.data.ComponentDirective;
 import net.dpml.composition.data.ContextDirective;
+import net.dpml.composition.info.ServiceDescriptor;
 import net.dpml.composition.info.Type;
 import net.dpml.composition.info.LifestylePolicy;
 import net.dpml.composition.info.PartReference;
@@ -94,6 +93,7 @@ import net.dpml.state.impl.DefaultState;
 import net.dpml.state.impl.DefaultStateMachine;
 import net.dpml.state.StateEvent;
 import net.dpml.state.StateListener;
+import net.dpml.composition.info.ActivationPolicy;
 
 /**
  *

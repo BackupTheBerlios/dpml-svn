@@ -27,8 +27,6 @@ import java.util.Hashtable;
 import java.util.HashMap;
 import java.util.EventObject;
 
-import net.dpml.component.ActivationPolicy;
-
 import net.dpml.composition.data.Directive;
 import net.dpml.composition.data.ValueDirective;
 import net.dpml.composition.data.ReferenceDirective;

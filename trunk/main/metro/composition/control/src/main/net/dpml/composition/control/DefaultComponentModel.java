@@ -18,6 +18,7 @@
 
 package net.dpml.composition.control;
 
+import java.io.InputStream;
 import java.net.URI;
 import java.net.URL;
 import java.net.URLClassLoader;
@@ -27,7 +28,8 @@ import java.util.Hashtable;
 import java.util.HashMap;
 import java.util.EventObject;
 
-import net.dpml.component.ActivationPolicy;
+import net.dpml.activity.Executable;
+import net.dpml.activity.Startable;
 
 import net.dpml.composition.data.ComponentDirective;
 import net.dpml.composition.data.ValueDirective;
@@ -56,6 +58,11 @@ import net.dpml.parameters.Parameters;
 import net.dpml.part.Part;
 import net.dpml.part.ControlException;
 
+import net.dpml.state.State;
+import net.dpml.composition.info.ActivationPolicy;
+import net.dpml.state.impl.DefaultState;
+import net.dpml.state.impl.DefaultStateMachine;
+
 import net.dpml.transit.model.Value;
 import net.dpml.transit.model.UnknownKeyException;
 import net.dpml.transit.Plugin.Category;
@@ -83,6 +90,8 @@ public class DefaultComponentModel extends EventProducer implements ComponentMod
     private CollectionPolicy m_collection;
     private Parameters m_parameters;  // <------------ remove this (covered by context)
     private Configuration m_configuration; // <----- move to a context entry where the resolved value is a Configuration 
+    private Class m_class;
+    private State m_graph;
 
     // ------------------------------------------------------------------------
     // constructor
@@ -101,7 +110,9 @@ public class DefaultComponentModel extends EventProducer implements ComponentMod
         
         m_directive = directive;
         m_classloader = createClassLoader( anchor, directive );
-        m_type = loadType( m_classloader, directive );
+        m_class = loadComponentClass( m_classloader, directive );
+        m_type = loadType( m_class );
+        m_graph = loadStateGraph( m_class );
         m_classname = directive.getClassname();
         m_activation = directive.getActivationPolicy();
         m_lifestyle = directive.getLifestylePolicy();
@@ -134,6 +145,15 @@ public class DefaultComponentModel extends EventProducer implements ComponentMod
     // ComponentModel
     // ------------------------------------------------------------------------
 
+   /**
+    * Return the immutable state graph for the component.
+    * @return the state graph.
+    */
+    public State getStateGraph()
+    {
+        return m_graph;
+    }
+    
    /**
     * Return the component implementation class name.
     *
@@ -329,22 +349,6 @@ public class DefaultComponentModel extends EventProducer implements ComponentMod
         return false;
     }
 
-    private Type loadType( ClassLoader classloader, ComponentDirective directive ) throws ControlException
-    {
-        String classname = directive.getClassname();
-        try
-        {
-            Class c = classloader.loadClass( classname );
-            return Type.decode( c );
-        }
-        catch( Throwable e )
-        {
-            final String error =
-              "Cannot load component type defintion: " + classname;
-            throw new ControlException( error, e );
-        }
-    }
-
     private String[] getPartKeys( Type type )
     {
         PartReference[] references = m_type.getPartReferences();
@@ -354,6 +358,77 @@ public class DefaultComponentModel extends EventProducer implements ComponentMod
             keys[i] = references[i].getKey();
         }
         return keys;
+    }
+    
+    private Class loadComponentClass( ClassLoader classloader, ComponentDirective directive ) throws ControlException
+    {
+        String classname = directive.getClassname();
+        try
+        {
+            return classloader.loadClass( classname );
+        }
+        catch( Throwable e )
+        {
+            final String error =
+              "Cannot load component class: " + classname;
+            throw new ControlException( error, e );
+        }
+    }
+    
+    private Type loadType( Class subject ) throws ControlException
+    {
+        try
+        {
+            return Type.decode( subject );
+        }
+        catch( Throwable e )
+        {
+            final String error =
+              "Cannot load component type defintion: " + subject.getName();
+            throw new ControlException( error, e );
+        }
+    }
+
+    private State loadStateGraph( Class subject ) throws ControlException
+    {
+        if( Executable.class.isAssignableFrom( subject ) )
+        {
+            return loadState( Executable.class );
+        }
+        else if( Startable.class.isAssignableFrom( subject ) )
+        {
+            return loadState( Startable.class );
+        }
+        else
+        {
+            return loadState( subject );
+        }
+    }
+    
+    State loadState( Class subject ) throws ControlException
+    {
+        String resource = subject.getName().replace( '.', '/' ) + ".xgraph";
+        try
+        {
+            URL url = subject.getClassLoader().getResource( resource );
+            if( null == url )
+            {
+                return new DefaultState( "" );
+            }
+            else
+            {
+                InputStream input = url.openConnection().getInputStream();
+                return DefaultStateMachine.load( input );
+            }
+        }
+        catch( Throwable e )
+        {
+            final String error = 
+              "Internal error while attempting to load component state graph resource [" 
+              + resource 
+              + "].";
+            throw new ControlException( error, e );
+        }
     }
 }
 

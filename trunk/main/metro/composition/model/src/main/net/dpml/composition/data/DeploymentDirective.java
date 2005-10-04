@@ -23,10 +23,10 @@ import java.lang.Comparable;
 import java.net.URI;
 import java.net.URISyntaxException;
 
-import net.dpml.component.ActivationPolicy;
-
 import net.dpml.part.Part;
 import net.dpml.part.Control;
+
+import net.dpml.composition.info.ActivationPolicy;
 
 /**
  * Abstract base class for the ComponentDirective.

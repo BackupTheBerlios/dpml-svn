@@ -21,13 +21,15 @@ package net.dpml.composition.model;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 
-import net.dpml.component.ActivationPolicy;
 import net.dpml.composition.info.LifestylePolicy;
 import net.dpml.composition.info.CollectionPolicy;
 
 import net.dpml.configuration.Configuration;
 
 import net.dpml.parameters.Parameters;
+
+import net.dpml.state.State;
+import net.dpml.composition.info.ActivationPolicy;
 
 import net.dpml.transit.model.UnknownKeyException;
 
@@ -46,6 +48,12 @@ public interface ComponentModel extends Remote
     * @return the classname of the implementation 
     */
     String getImplementationClassName() throws RemoteException;
+    
+   /**
+    * Return the immutable state graph for the component.
+    * @return the state graph.
+    */
+    State getStateGraph() throws RemoteException;
     
    /**
     * Return the activation policy for the component.

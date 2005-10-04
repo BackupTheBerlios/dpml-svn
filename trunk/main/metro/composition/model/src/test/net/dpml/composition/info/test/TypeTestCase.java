@@ -36,11 +36,11 @@ import net.dpml.composition.info.EntryDescriptor;
 import net.dpml.composition.info.InfoDescriptor;
 import net.dpml.composition.info.CollectionPolicy;
 import net.dpml.composition.info.Type;
+import net.dpml.composition.info.PartReference;
+import net.dpml.composition.info.ServiceDescriptor;
 
 import net.dpml.configuration.Configuration;
 
-import net.dpml.composition.info.PartReference;
-import net.dpml.component.ServiceDescriptor;
 import net.dpml.composition.AbstractEncodingTestCase;
 
 /**

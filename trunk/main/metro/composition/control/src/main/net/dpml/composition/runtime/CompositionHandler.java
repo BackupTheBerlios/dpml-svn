@@ -34,6 +34,7 @@ import java.lang.reflect.InvocationHandler;
 
 import net.dpml.composition.control.CompositionController;
 import net.dpml.composition.data.ComponentDirective;
+import net.dpml.composition.info.ServiceDescriptor;
 
 import net.dpml.part.DelegationException;
 import net.dpml.part.PartHandlerNotFoundException;
@@ -48,7 +49,6 @@ import net.dpml.component.Container;
 import net.dpml.component.Service;
 import net.dpml.component.ServiceContext;
 import net.dpml.component.ServiceException;
-import net.dpml.component.ServiceDescriptor;
 import net.dpml.component.ServiceNotFoundException;
 
 import net.dpml.state.State;

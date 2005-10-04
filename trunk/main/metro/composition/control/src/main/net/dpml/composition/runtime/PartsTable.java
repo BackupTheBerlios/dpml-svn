@@ -25,13 +25,15 @@ import java.util.Hashtable;
 
 import net.dpml.part.DelegationException;
 import net.dpml.part.PartHandlerNotFoundException;
+import net.dpml.part.Part;
+
 import net.dpml.component.DuplicateKeyException;
 import net.dpml.component.Component;
 import net.dpml.component.ComponentException;
-import net.dpml.component.ServiceDescriptor;
-import net.dpml.part.Part;
 
+import net.dpml.composition.info.ServiceDescriptor;
 import net.dpml.composition.data.ReferenceDirective;
+
 import net.dpml.composition.control.CompositionController;
 
 /**
