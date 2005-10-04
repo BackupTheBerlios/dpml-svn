@@ -36,14 +36,14 @@ import net.dpml.part.Part;
 import net.dpml.part.PartEditor;
 import net.dpml.part.ClassLoaderManager;
 
-import net.dpml.safe.control.Controller;
+import net.dpml.component.control.Controller;
 
-import net.dpml.composition.info.Type;
-import net.dpml.composition.info.PartReference;
-import net.dpml.composition.info.InfoDescriptor;
-import net.dpml.composition.data.DeploymentDirective;
-import net.dpml.composition.data.ComponentDirective;
-import net.dpml.composition.data.ClassLoaderDirective;
+import net.dpml.component.info;.Type;
+import net.dpml.component.info;.PartReference;
+import net.dpml.component.info;.InfoDescriptor;
+import net.dpml.component.data.DeploymentDirective;
+import net.dpml.component.data.ComponentDirective;
+import net.dpml.component.data.ClassLoaderDirective;
 
 import net.dpml.transit.Logger;
 

@@ -17,7 +17,7 @@
  * limitations under the License.
  */
 
-package net.dpml.composition.info.test;
+package net.dpml.component.info;.test;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -28,7 +28,7 @@ import java.util.Properties;
 import junit.framework.TestCase;
 
 import net.dpml.composition.AbstractEncodingTestCase;
-import net.dpml.composition.info.Descriptor;
+import net.dpml.component.info;.Descriptor;
 
 /**
  * AbstractDescriptorTestCase does XYZ

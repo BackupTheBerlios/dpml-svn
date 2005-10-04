@@ -41,7 +41,7 @@ import net.dpml.activity.Executable;
 import net.dpml.activity.Startable;
 
 import net.dpml.component.runtime.ResourceUnavailableException;
-import net.dpml.safe.control.LifecycleException;
+import net.dpml.component.control.LifecycleException;
 import net.dpml.component.runtime.Consumer;
 import net.dpml.component.runtime.Component;
 import net.dpml.component.runtime.Container;
@@ -60,13 +60,13 @@ import net.dpml.component.runtime.Manager;
 
 import net.dpml.composition.controller.CompositionController;
 
-import net.dpml.composition.data.ComponentDirective;
-import net.dpml.composition.data.ContextDirective;
-import net.dpml.composition.info.ServiceDescriptor;
-import net.dpml.composition.info.Type;
-import net.dpml.composition.info.LifestylePolicy;
-import net.dpml.composition.info.PartReference;
-import net.dpml.composition.info.EntryDescriptor;
+import net.dpml.component.data.ComponentDirective;
+import net.dpml.component.data.ContextDirective;
+import net.dpml.component.info;.ServiceDescriptor;
+import net.dpml.component.info;.Type;
+import net.dpml.component.info;.LifestylePolicy;
+import net.dpml.component.info;.PartReference;
+import net.dpml.component.info;.EntryDescriptor;
 
 import net.dpml.composition.event.EventProducer;
 import net.dpml.composition.event.WeakEventProducer;
@@ -93,7 +93,7 @@ import net.dpml.state.impl.DefaultState;
 import net.dpml.state.impl.DefaultStateMachine;
 import net.dpml.state.StateEvent;
 import net.dpml.state.StateListener;
-import net.dpml.composition.info.ActivationPolicy;
+import net.dpml.component.info;.ActivationPolicy;
 
 /**
  *

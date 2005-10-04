@@ -34,14 +34,14 @@ import java.util.Properties;
 
 import net.dpml.logging.Logger;
 
-import net.dpml.composition.data.ClassLoaderDirective;
-import net.dpml.composition.data.ClasspathDirective;
-import net.dpml.composition.data.ComponentDirective;
-import net.dpml.composition.data.ValueDirective;
-import net.dpml.composition.data.DeploymentDirective;
-import net.dpml.composition.data.Directive;
-import net.dpml.composition.info.InfoDescriptor;
-import net.dpml.composition.info.Type;
+import net.dpml.component.data.ClassLoaderDirective;
+import net.dpml.component.data.ClasspathDirective;
+import net.dpml.component.data.ComponentDirective;
+import net.dpml.component.data.ValueDirective;
+import net.dpml.component.data.DeploymentDirective;
+import net.dpml.component.data.Directive;
+import net.dpml.component.info;.InfoDescriptor;
+import net.dpml.component.info;.Type;
 
 import net.dpml.composition.runtime.ComponentHandler;
 import net.dpml.composition.runtime.ValueHandler;
@@ -58,13 +58,13 @@ import net.dpml.part.Part;
 import net.dpml.part.PartHandlerNotFoundException;
 import net.dpml.part.PartNotFoundException;
 
-import net.dpml.safe.control.ControllerContext;
-import net.dpml.safe.control.ControllerException;
-import net.dpml.safe.control.ControllerRuntimeException;
-import net.dpml.safe.control.Controller;
-import net.dpml.safe.control.Disposable;
-import net.dpml.safe.control.LifecycleException;
-import net.dpml.safe.control.UnsupportedPartTypeException;
+import net.dpml.component.control.ControllerContext;
+import net.dpml.component.control.ControllerException;
+import net.dpml.component.control.ControllerRuntimeException;
+import net.dpml.component.control.Controller;
+import net.dpml.component.control.Disposable;
+import net.dpml.component.control.LifecycleException;
+import net.dpml.component.control.UnsupportedPartTypeException;
 import net.dpml.component.runtime.Component;
 import net.dpml.component.runtime.ClassLoadingContext;
 import net.dpml.component.runtime.ComponentException;

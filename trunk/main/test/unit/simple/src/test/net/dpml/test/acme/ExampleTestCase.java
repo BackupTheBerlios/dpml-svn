@@ -27,7 +27,7 @@ import junit.framework.TestCase;
 
 import net.dpml.part.PartContentHandlerFactory;
 import net.dpml.component.runtime.Component;
-import net.dpml.safe.control.Controller;
+import net.dpml.component.control.Controller;
 
 /**
  * Test a simple component case.

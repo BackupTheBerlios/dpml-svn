@@ -16,17 +16,17 @@
  * limitations under the License.
  */
 
-package net.dpml.composition.data.test;
+package net.dpml.component.data.test;
 
 import net.dpml.composition.AbstractEncodingTestCase;
-import net.dpml.composition.data.ComponentDirective;
-import net.dpml.composition.data.CategoriesDirective;
-import net.dpml.composition.data.CategoryDirective;
-import net.dpml.composition.data.ContextDirective;
-import net.dpml.composition.data.ClassLoaderDirective;
-import net.dpml.composition.info.CollectionPolicy;
-import net.dpml.composition.info.LifestylePolicy;
-import net.dpml.composition.info.PartReference;
+import net.dpml.component.data.ComponentDirective;
+import net.dpml.component.data.CategoriesDirective;
+import net.dpml.component.data.CategoryDirective;
+import net.dpml.component.data.ContextDirective;
+import net.dpml.component.data.ClassLoaderDirective;
+import net.dpml.component.info;.CollectionPolicy;
+import net.dpml.component.info;.LifestylePolicy;
+import net.dpml.component.info;.PartReference;
 
 import net.dpml.configuration.Configuration;
 import net.dpml.configuration.impl.DefaultConfiguration;
@@ -34,7 +34,7 @@ import net.dpml.configuration.impl.DefaultConfiguration;
 import net.dpml.parameters.Parameters;
 import net.dpml.parameters.impl.DefaultParameters;
 
-import net.dpml.composition.info.ActivationPolicy;
+import net.dpml.component.info;.ActivationPolicy;
 
 import junit.framework.TestCase;
 

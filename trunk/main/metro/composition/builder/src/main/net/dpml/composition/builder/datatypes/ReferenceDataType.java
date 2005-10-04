@@ -22,11 +22,11 @@ import java.net.URI;
 import java.net.URISyntaxException;
 
 import net.dpml.part.Part;
-import net.dpml.composition.info.PartReference;
+import net.dpml.component.info;.PartReference;
 import net.dpml.composition.builder.ConstructionException;
 import net.dpml.composition.builder.PartReferenceBuilder;
-import net.dpml.composition.data.ReferenceDirective;
-import net.dpml.composition.info.Type;
+import net.dpml.component.data.ReferenceDirective;
+import net.dpml.component.info;.Type;
 
 /**
  * A simple part datatype.

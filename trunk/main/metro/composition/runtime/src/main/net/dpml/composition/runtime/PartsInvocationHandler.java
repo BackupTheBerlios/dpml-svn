@@ -28,7 +28,7 @@ import java.rmi.RemoteException;
 
 import net.dpml.composition.controller.CompositionController;
 
-import net.dpml.safe.control.Controller;
+import net.dpml.component.control.Controller;
 import net.dpml.component.runtime.Component;
 
 import net.dpml.part.DelegationException;

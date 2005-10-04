@@ -16,10 +16,10 @@
  * limitations under the License.
  */
 
-package net.dpml.composition.data.test;
+package net.dpml.component.data.test;
 
 import net.dpml.composition.AbstractEncodingTestCase;
-import net.dpml.composition.data.FeatureDirective;
+import net.dpml.component.data.FeatureDirective;
 
 /**
  * Test encoding of the reference directive.

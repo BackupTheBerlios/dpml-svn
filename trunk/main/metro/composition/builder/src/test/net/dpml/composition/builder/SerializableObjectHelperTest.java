@@ -22,7 +22,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 
 import junit.framework.TestCase;
-import net.dpml.composition.data.ComponentDirective;
+import net.dpml.component.data.ComponentDirective;
 
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.DomDriver;

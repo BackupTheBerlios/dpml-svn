@@ -25,7 +25,7 @@ import java.lang.reflect.UndeclaredThrowableException;
 import java.net.URI;
 import java.rmi.RemoteException;
 
-import net.dpml.safe.control.Disposable;
+import net.dpml.component.control.Disposable;
 import net.dpml.component.runtime.AvailabilityEvent;
 import net.dpml.component.runtime.AvailabilityListener;
 import net.dpml.component.runtime.ResourceUnavailableException;

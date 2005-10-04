@@ -31,23 +31,23 @@ import java.util.EventObject;
 import net.dpml.activity.Executable;
 import net.dpml.activity.Startable;
 
-import net.dpml.composition.data.ComponentDirective;
-import net.dpml.composition.data.ValueDirective;
-import net.dpml.composition.data.ReferenceDirective;
-import net.dpml.composition.data.ClassLoaderDirective;
-import net.dpml.composition.data.ClasspathDirective;
-import net.dpml.composition.data.ContextDirective;
-import net.dpml.composition.data.Directive;
-import net.dpml.composition.info.LifestylePolicy;
-import net.dpml.composition.info.CollectionPolicy;
-import net.dpml.composition.info.Type;
-import net.dpml.composition.info.EntryDescriptor;
-import net.dpml.composition.info.PartReference;
+import net.dpml.component.data.ComponentDirective;
+import net.dpml.component.data.ValueDirective;
+import net.dpml.component.data.ReferenceDirective;
+import net.dpml.component.data.ClassLoaderDirective;
+import net.dpml.component.data.ClasspathDirective;
+import net.dpml.component.data.ContextDirective;
+import net.dpml.component.data.Directive;
+import net.dpml.component.info;.LifestylePolicy;
+import net.dpml.component.info;.CollectionPolicy;
+import net.dpml.component.info;.Type;
+import net.dpml.component.info;.EntryDescriptor;
+import net.dpml.component.info;.PartReference;
 
 import net.dpml.composition.event.EventProducer;
 
-import net.dpml.composition.model.ComponentModel;
-import net.dpml.composition.model.ContextModel;
+import net.dpml.component.model;.ComponentModel;
+import net.dpml.component.model;.ContextModel;
 
 import net.dpml.configuration.Configuration;
 
@@ -59,7 +59,7 @@ import net.dpml.part.Part;
 import net.dpml.part.ControlException;
 
 import net.dpml.state.State;
-import net.dpml.composition.info.ActivationPolicy;
+import net.dpml.component.info;.ActivationPolicy;
 import net.dpml.state.impl.DefaultState;
 import net.dpml.state.impl.DefaultStateMachine;
 

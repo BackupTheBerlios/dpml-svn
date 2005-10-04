@@ -33,8 +33,8 @@ import java.lang.reflect.Proxy;
 import java.lang.reflect.InvocationHandler;
 
 import net.dpml.composition.controller.CompositionController;
-import net.dpml.composition.data.ComponentDirective;
-import net.dpml.composition.info.ServiceDescriptor;
+import net.dpml.component.data.ComponentDirective;
+import net.dpml.component.info;.ServiceDescriptor;
 
 import net.dpml.part.DelegationException;
 import net.dpml.part.PartHandlerNotFoundException;

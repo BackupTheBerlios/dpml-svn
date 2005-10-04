@@ -27,7 +27,7 @@ import java.util.ArrayList;
 
 import net.dpml.logging.Logger;
 
-import net.dpml.safe.control.ControllerRuntimeException;
+import net.dpml.component.control.ControllerRuntimeException;
 
 import net.dpml.transit.Artifact;
 import net.dpml.transit.UnsupportedSchemeException;

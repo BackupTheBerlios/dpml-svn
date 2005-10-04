@@ -38,18 +38,18 @@ import net.dpml.composition.builder.datatypes.ConfigurationDataType;
 import net.dpml.composition.builder.datatypes.ContextDataType;
 import net.dpml.composition.builder.datatypes.ParametersDataType;
 import net.dpml.composition.builder.datatypes.PartsDataType;
-import net.dpml.composition.data.ClassLoaderDirective;
-import net.dpml.composition.data.ClasspathDirective;
-import net.dpml.composition.data.ComponentDirective;
-import net.dpml.composition.data.ContextDirective;
-import net.dpml.composition.data.DeploymentDirective;
-import net.dpml.composition.data.CategoriesDirective;
-import net.dpml.composition.info.InfoDescriptor;
-import net.dpml.composition.info.LifestylePolicy;
-import net.dpml.composition.info.CollectionPolicy;
-import net.dpml.composition.info.PartReference;
-import net.dpml.composition.info.Type;
-import net.dpml.composition.info.EntryDescriptor;
+import net.dpml.component.data.ClassLoaderDirective;
+import net.dpml.component.data.ClasspathDirective;
+import net.dpml.component.data.ComponentDirective;
+import net.dpml.component.data.ContextDirective;
+import net.dpml.component.data.DeploymentDirective;
+import net.dpml.component.data.CategoriesDirective;
+import net.dpml.component.info;.InfoDescriptor;
+import net.dpml.component.info;.LifestylePolicy;
+import net.dpml.component.info;.CollectionPolicy;
+import net.dpml.component.info;.PartReference;
+import net.dpml.component.info;.Type;
+import net.dpml.component.info;.EntryDescriptor;
 
 import net.dpml.configuration.Configuration;
 
@@ -66,12 +66,12 @@ import net.dpml.part.Part;
 import net.dpml.part.PartHolder;
 import net.dpml.part.Control;
 
-import net.dpml.safe.control.ControllerContext;
+import net.dpml.component.control.ControllerContext;
 import net.dpml.component.runtime.Component;
 import net.dpml.component.runtime.Container;
 import net.dpml.component.runtime.Service;
 
-import net.dpml.composition.info.ActivationPolicy;
+import net.dpml.component.info;.ActivationPolicy;
 
 import net.dpml.transit.tools.AntAdapter;
 import net.dpml.transit.Logger;

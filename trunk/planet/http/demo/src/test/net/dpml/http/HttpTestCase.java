@@ -25,7 +25,7 @@ import java.net.URLConnection;
 
 import junit.framework.TestCase;
 
-import net.dpml.component.Component;
+import net.dpml.component.runtime.Component;
 import net.dpml.part.PartContentHandlerFactory;
 
 /**

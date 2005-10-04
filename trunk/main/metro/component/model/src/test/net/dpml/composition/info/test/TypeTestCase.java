@@ -17,7 +17,7 @@
  * limitations under the License.
  */
 
-package net.dpml.composition.info.test;
+package net.dpml.component.info;.test;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -30,14 +30,14 @@ import java.util.Properties;
 
 import junit.framework.TestCase;
 
-import net.dpml.composition.info.CategoryDescriptor;
-import net.dpml.composition.info.ContextDescriptor;
-import net.dpml.composition.info.EntryDescriptor;
-import net.dpml.composition.info.InfoDescriptor;
-import net.dpml.composition.info.CollectionPolicy;
-import net.dpml.composition.info.Type;
-import net.dpml.composition.info.PartReference;
-import net.dpml.composition.info.ServiceDescriptor;
+import net.dpml.component.info;.CategoryDescriptor;
+import net.dpml.component.info;.ContextDescriptor;
+import net.dpml.component.info;.EntryDescriptor;
+import net.dpml.component.info;.InfoDescriptor;
+import net.dpml.component.info;.CollectionPolicy;
+import net.dpml.component.info;.Type;
+import net.dpml.component.info;.PartReference;
+import net.dpml.component.info;.ServiceDescriptor;
 
 import net.dpml.configuration.Configuration;
 

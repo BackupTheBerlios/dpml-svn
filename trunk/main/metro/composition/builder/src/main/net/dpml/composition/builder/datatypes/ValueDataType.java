@@ -21,7 +21,7 @@ package net.dpml.composition.builder.datatypes;
 import java.util.ArrayList;
 import java.util.List;
 
-import net.dpml.composition.data.ValueDirective;
+import net.dpml.component.data.ValueDirective;
 
 import net.dpml.transit.model.Construct;
 

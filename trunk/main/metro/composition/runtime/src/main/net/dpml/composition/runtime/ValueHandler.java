@@ -26,16 +26,16 @@ import java.util.Map;
 import java.util.Hashtable;
 
 import net.dpml.composition.controller.CompositionController;
-import net.dpml.composition.data.ValueDirective;
-import net.dpml.composition.info.ServiceDescriptor;
+import net.dpml.component.data.ValueDirective;
+import net.dpml.component.info;.ServiceDescriptor;
 
 import net.dpml.logging.Logger;
 
 import net.dpml.part.Part;
 import net.dpml.part.Control;
 
-import net.dpml.safe.control.Controller;
-import net.dpml.safe.control.ControllerContext;
+import net.dpml.component.control.Controller;
+import net.dpml.component.control.ControllerContext;
 import net.dpml.component.runtime.Component;
 import net.dpml.component.runtime.ClassLoadingContext;
 import net.dpml.component.runtime.ComponentException;
@@ -44,7 +44,7 @@ import net.dpml.component.runtime.Service;
 import net.dpml.component.runtime.AvailabilityException;
 
 import net.dpml.state.State;
-import net.dpml.composition.info.ActivationPolicy;
+import net.dpml.component.info;.ActivationPolicy;
 
 import net.dpml.transit.util.PropertyResolver;
 

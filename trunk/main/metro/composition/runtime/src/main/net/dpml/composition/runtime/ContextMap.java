@@ -40,12 +40,12 @@ import net.dpml.component.runtime.Service;
 import net.dpml.component.runtime.ServiceContext;
 import net.dpml.component.runtime.ServiceException;
 import net.dpml.component.runtime.ServiceNotFoundException;
-import net.dpml.safe.control.Controller;
+import net.dpml.component.control.Controller;
 
 import net.dpml.composition.controller.CompositionController;
-import net.dpml.composition.data.FeatureDirective;
-import net.dpml.composition.data.ReferenceDirective;
-import net.dpml.composition.data.ValueDirective;
+import net.dpml.component.data.FeatureDirective;
+import net.dpml.component.data.ReferenceDirective;
+import net.dpml.component.data.ValueDirective;
 
 /**
  * The context map is a utility class that handles the set of components that 

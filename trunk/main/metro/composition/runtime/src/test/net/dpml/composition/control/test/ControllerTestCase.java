@@ -28,12 +28,12 @@ import java.util.Map.Entry;
 import junit.framework.TestCase;
 
 import net.dpml.composition.controller.CompositionController;
-import net.dpml.composition.data.ValueDirective;
-import net.dpml.composition.data.ComponentDirective;
-import net.dpml.composition.data.DeploymentDirective;
+import net.dpml.component.data.ValueDirective;
+import net.dpml.component.data.ComponentDirective;
+import net.dpml.component.data.DeploymentDirective;
 
 import net.dpml.part.PartContentHandlerFactory;
-import net.dpml.safe.control.Controller;
+import net.dpml.component.control.Controller;
 import net.dpml.component.runtime.Component;
 import net.dpml.component.runtime.Container;
 import net.dpml.component.runtime.DuplicateKeyException;

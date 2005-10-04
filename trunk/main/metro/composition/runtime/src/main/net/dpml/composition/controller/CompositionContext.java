@@ -30,9 +30,9 @@ import java.util.Properties;
 
 import net.dpml.composition.event.LocalWeakEventProducer;
 
-import net.dpml.safe.control.ControllerContext;
-import net.dpml.safe.control.ControllerContextListener;
-import net.dpml.safe.control.ControllerContextEvent;
+import net.dpml.component.control.ControllerContext;
+import net.dpml.component.control.ControllerContextListener;
+import net.dpml.component.control.ControllerContextEvent;
 
 import net.dpml.transit.Logger;
 import net.dpml.transit.model.ContentModel;

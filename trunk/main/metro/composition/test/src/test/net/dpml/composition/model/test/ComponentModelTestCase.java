@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package net.dpml.composition.model.test;
+package net.dpml.component.model;.test;
 
 import java.awt.Color;
 import java.io.File;
@@ -28,15 +28,15 @@ import net.dpml.part.Part;
 import net.dpml.part.PartHandler;
 
 import net.dpml.state.State;
-import net.dpml.composition.info.ActivationPolicy;
+import net.dpml.component.info;.ActivationPolicy;
 
-import net.dpml.composition.data.ValueDirective;
-import net.dpml.composition.data.Directive;
-import net.dpml.composition.info.EntryDescriptor;
-import net.dpml.composition.info.LifestylePolicy;
-import net.dpml.composition.info.CollectionPolicy;
-import net.dpml.composition.model.ComponentModel;
-import net.dpml.composition.model.ContextModel;
+import net.dpml.component.data.ValueDirective;
+import net.dpml.component.data.Directive;
+import net.dpml.component.info;.EntryDescriptor;
+import net.dpml.component.info;.LifestylePolicy;
+import net.dpml.component.info;.CollectionPolicy;
+import net.dpml.component.model;.ComponentModel;
+import net.dpml.component.model;.ContextModel;
 
 import net.dpml.transit.model.UnknownKeyException;
 

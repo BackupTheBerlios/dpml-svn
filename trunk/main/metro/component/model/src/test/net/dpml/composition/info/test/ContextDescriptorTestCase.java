@@ -17,7 +17,7 @@
  * limitations under the License.
  */
 
-package net.dpml.composition.info.test;
+package net.dpml.component.info;.test;
 
 import java.beans.Encoder;
 import java.beans.XMLDecoder;
@@ -32,11 +32,11 @@ import java.io.BufferedOutputStream;
 import java.io.BufferedInputStream;
 import java.io.File;
 
-import net.dpml.composition.info.Descriptor;
-import net.dpml.composition.info.ContextDescriptor;
+import net.dpml.component.info;.Descriptor;
+import net.dpml.component.info;.ContextDescriptor;
 
 import net.dpml.composition.AbstractEncodingTestCase;
-import net.dpml.composition.info.EntryDescriptor;
+import net.dpml.component.info;.EntryDescriptor;
 
 import junit.framework.TestCase;
 

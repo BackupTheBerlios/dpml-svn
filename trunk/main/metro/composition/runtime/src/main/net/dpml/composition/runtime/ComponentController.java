@@ -50,9 +50,9 @@ import net.dpml.component.runtime.Component;
 import net.dpml.component.runtime.Container;
 import net.dpml.component.runtime.DuplicateKeyException;
 import net.dpml.component.runtime.Manager;
-import net.dpml.safe.control.ControllerException;
-import net.dpml.safe.control.ControllerRuntimeException;
-import net.dpml.safe.control.Disposable;
+import net.dpml.component.control.ControllerException;
+import net.dpml.component.control.ControllerRuntimeException;
+import net.dpml.component.control.Disposable;
 
 import net.dpml.state.Operation;
 import net.dpml.state.State;

@@ -21,8 +21,8 @@ package net.dpml.composition.builder;
 import java.io.IOException;
 import java.beans.IntrospectionException;
 
-import net.dpml.composition.info.PartReference;
-import net.dpml.composition.info.Type;
+import net.dpml.component.info;.PartReference;
+import net.dpml.component.info;.Type;
 
 /**
  * The contract for builders that create component part.

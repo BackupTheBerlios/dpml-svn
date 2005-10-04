@@ -31,8 +31,8 @@ import net.dpml.component.runtime.DuplicateKeyException;
 import net.dpml.component.runtime.Component;
 import net.dpml.component.runtime.ComponentException;
 
-import net.dpml.composition.info.ServiceDescriptor;
-import net.dpml.composition.data.ReferenceDirective;
+import net.dpml.component.info;.ServiceDescriptor;
+import net.dpml.component.data.ReferenceDirective;
 
 import net.dpml.composition.controller.CompositionController;
 

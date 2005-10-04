@@ -16,15 +16,15 @@
  * limitations under the License.
  */
 
-package net.dpml.composition.data.test;
+package net.dpml.component.data.test;
 
 import junit.framework.TestCase;
 
 import net.dpml.part.Part;
-import net.dpml.composition.info.PartReference;
+import net.dpml.component.info;.PartReference;
 
 import net.dpml.composition.AbstractEncodingTestCase;
-import net.dpml.composition.data.ValueDirective;
+import net.dpml.component.data.ValueDirective;
 
 import net.dpml.transit.model.Construct;
 

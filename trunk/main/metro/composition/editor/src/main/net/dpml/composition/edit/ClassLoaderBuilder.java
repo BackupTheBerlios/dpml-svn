@@ -52,8 +52,8 @@ import com.jgoodies.forms.builder.PanelBuilder;
 import com.jgoodies.forms.builder.DefaultFormBuilder;
 import com.jgoodies.forms.layout.FormLayout;
 
-import net.dpml.composition.data.ClassLoaderDirective;
-import net.dpml.composition.data.ClasspathDirective;
+import net.dpml.component.data.ClassLoaderDirective;
+import net.dpml.component.data.ClasspathDirective;
 
 import net.dpml.transit.Repository;
 import net.dpml.transit.Transit;
