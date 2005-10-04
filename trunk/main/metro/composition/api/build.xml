@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
-<project name="dpml-component-api" default="install" basedir="." 
+<project name="dpml-composition-api" default="install" basedir="." 
     xmlns:transit="antlib:net.dpml.transit" 
     xmlns:x="plugin:dpml/magic/dpml-magic-core" >
 
