@@ -50,7 +50,6 @@ import net.dpml.part.Part;
 import net.dpml.part.PartContentHandler;
 import net.dpml.part.PartHandler;
 import net.dpml.part.PartEditor;
-import net.dpml.part.Context;
 
 import net.dpml.transit.Logger;
 import net.dpml.transit.Repository;
@@ -67,7 +66,7 @@ import net.dpml.station.Application;
  *  
  * @see PartEditor
  */
-public final class PartHelper
+final class PartHelper
 {
     private final Application m_application;
     private final Logger m_logger;
@@ -109,30 +108,6 @@ public final class PartHelper
         }
     }
 
-    /*
-    TreeNode[] getPartNodes()
-    {
-        try
-        {
-            Context context = m_application.getContext();
-            String[] keys = context.getChildKeys();
-            TreeNode[] nodes = new TreeNode[ keys.length ];
-            for( int i=0; i < keys.length; i++ )
-            {
-                String key = keys[i];
-                Context child = context.getChild( key );
-                nodes[i] = new ContextTreeNode( key, child );
-            }
-            return nodes;
-        }
-        catch( Throwable e )
-        {
-            e.printStackTrace();
-            return new TreeNode[0];
-        }
-    }
-    */
-
     private URI getCodeBaseURI()
     {
         try
@@ -146,34 +121,4 @@ public final class PartHelper
             throw new RuntimeException( error, e );
         }
     }
-
-    /*
-    private static class ContextTreeNode extends Node 
-    {
-        private String m_key;
-        private Context m_context;
-        private Component m_component;
-        
-        private ContextTreeNode( String key, Context context )
-        {
-            super( context );
-            m_context = context;
-            m_key = key;
-            
-            ContextBuilder builder = new ContextBuilder( context );
-            m_component = builder.getComponent();
-        }
-        
-        public Component getComponent()
-        {
-            return m_component;
-        }
-        
-        public String getName()
-        {
-            return m_key;
-        }
-    }
-    */
-    
 }
