@@ -34,7 +34,7 @@ import net.dpml.component.ComponentException;
 import net.dpml.composition.info.ServiceDescriptor;
 import net.dpml.composition.data.ReferenceDirective;
 
-import net.dpml.composition.control.CompositionController;
+import net.dpml.composition.controller.CompositionController;
 
 /**
  * The parts table contains the subsidiary parts of an enclosing component.

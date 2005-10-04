@@ -17,7 +17,7 @@
  * limitations under the License.
  */
 
-package net.dpml.composition.control.test;
+package net.dpml.composition.controller.test;
 
 import java.io.File;
 import java.net.URL;
@@ -27,7 +27,7 @@ import java.util.Map.Entry;
 
 import junit.framework.TestCase;
 
-import net.dpml.composition.control.CompositionController;
+import net.dpml.composition.controller.CompositionController;
 import net.dpml.composition.data.ValueDirective;
 import net.dpml.composition.data.ComponentDirective;
 import net.dpml.composition.data.DeploymentDirective;

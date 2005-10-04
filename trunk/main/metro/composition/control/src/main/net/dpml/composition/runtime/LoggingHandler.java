@@ -26,7 +26,7 @@ import java.lang.reflect.Proxy;
 import java.net.URI;
 import java.util.logging.Logger;
 
-import net.dpml.composition.control.CompositionController;
+import net.dpml.composition.controller.CompositionController;
 
 import net.dpml.configuration.Configuration;
 

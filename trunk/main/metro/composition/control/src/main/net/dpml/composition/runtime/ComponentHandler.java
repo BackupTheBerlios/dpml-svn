@@ -58,7 +58,7 @@ import net.dpml.component.Available;
 import net.dpml.component.AvailabilityException;
 import net.dpml.component.Manager;
 
-import net.dpml.composition.control.CompositionController;
+import net.dpml.composition.controller.CompositionController;
 
 import net.dpml.composition.data.ComponentDirective;
 import net.dpml.composition.data.ContextDirective;

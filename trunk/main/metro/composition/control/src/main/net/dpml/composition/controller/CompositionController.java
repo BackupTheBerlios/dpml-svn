@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package net.dpml.composition.control;
+package net.dpml.composition.controller;
 
 import java.io.File;
 import java.io.IOException;

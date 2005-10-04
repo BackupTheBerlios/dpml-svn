@@ -26,7 +26,7 @@ import java.lang.reflect.Proxy;
 import java.net.URI;
 import java.rmi.RemoteException;
 
-import net.dpml.composition.control.CompositionController;
+import net.dpml.composition.controller.CompositionController;
 
 import net.dpml.component.control.Controller;
 import net.dpml.component.Component;

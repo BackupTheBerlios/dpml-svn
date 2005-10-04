@@ -25,7 +25,7 @@ import java.rmi.server.UnicastRemoteObject;
 import java.util.Map;
 import java.util.Hashtable;
 
-import net.dpml.composition.control.CompositionController;
+import net.dpml.composition.controller.CompositionController;
 import net.dpml.composition.data.ValueDirective;
 import net.dpml.composition.info.ServiceDescriptor;
 
