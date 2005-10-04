@@ -27,9 +27,9 @@ import net.dpml.part.DelegationException;
 import net.dpml.part.PartHandlerNotFoundException;
 import net.dpml.part.Part;
 
-import net.dpml.component.DuplicateKeyException;
-import net.dpml.component.Component;
-import net.dpml.component.ComponentException;
+import net.dpml.component.runtime.DuplicateKeyException;
+import net.dpml.component.runtime.Component;
+import net.dpml.component.runtime.ComponentException;
 
 import net.dpml.composition.info.ServiceDescriptor;
 import net.dpml.composition.data.ReferenceDirective;

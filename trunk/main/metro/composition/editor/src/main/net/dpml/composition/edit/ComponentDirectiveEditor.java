@@ -37,7 +37,7 @@ import net.dpml.part.PartEditor;
 import net.dpml.composition.info.PartReference;
 import net.dpml.part.ClassLoaderManager;
 
-import net.dpml.component.control.Controller;
+import net.dpml.safe.control.Controller;
 
 import net.dpml.composition.info.Type;
 import net.dpml.composition.info.InfoDescriptor;

@@ -423,14 +423,14 @@ public final class ApplicationTreeNode extends Node
     {
         try
         {
-            net.dpml.component.Component component = m_application.getComponent();
+            net.dpml.component.runtime.Component component = m_application.getComponent();
             if( component instanceof Container )
             {
                 Container container = (Container) component;
-                net.dpml.component.Component[] components = container.getComponents();
+                net.dpml.component.runtime.Component[] components = container.getComponents();
                 for( int i=0; i<components.length; i++ )
                 {
-                    net.dpml.component.Component c = components[i];
+                    net.dpml.component.runtime.Component c = components[i];
                     ComponentTreeNode node = new ComponentTreeNode( c );
                     m_desktop.getTreeModel().insertNodeInto( node, this, i );
                 }

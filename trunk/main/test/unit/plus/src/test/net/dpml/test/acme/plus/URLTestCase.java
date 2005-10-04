@@ -27,7 +27,7 @@ import java.util.logging.Logger;
 import junit.framework.TestCase;
 
 import net.dpml.part.Part;
-import net.dpml.component.Component;
+import net.dpml.component.runtime.Component;
 
 import net.dpml.test.acme.Dimension;
 

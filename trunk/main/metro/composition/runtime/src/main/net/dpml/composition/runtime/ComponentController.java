@@ -43,16 +43,16 @@ import net.dpml.logging.Logger;
 
 import net.dpml.composition.controller.CompositionController;
 
-import net.dpml.component.Service;
-import net.dpml.component.Available;
-import net.dpml.component.AvailabilityException;
-import net.dpml.component.Component;
-import net.dpml.component.Container;
-import net.dpml.component.DuplicateKeyException;
-import net.dpml.component.Manager;
-import net.dpml.component.control.ControllerException;
-import net.dpml.component.control.ControllerRuntimeException;
-import net.dpml.component.control.Disposable;
+import net.dpml.component.runtime.Service;
+import net.dpml.component.runtime.Available;
+import net.dpml.component.runtime.AvailabilityException;
+import net.dpml.component.runtime.Component;
+import net.dpml.component.runtime.Container;
+import net.dpml.component.runtime.DuplicateKeyException;
+import net.dpml.component.runtime.Manager;
+import net.dpml.safe.control.ControllerException;
+import net.dpml.safe.control.ControllerRuntimeException;
+import net.dpml.safe.control.Disposable;
 
 import net.dpml.state.Operation;
 import net.dpml.state.State;

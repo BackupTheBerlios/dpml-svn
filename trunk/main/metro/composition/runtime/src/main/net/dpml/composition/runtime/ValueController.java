@@ -24,8 +24,8 @@ import java.rmi.server.UnicastRemoteObject;
 
 import net.dpml.composition.controller.CompositionController;
 
-import net.dpml.component.Component;
-import net.dpml.component.AvailabilityException;
+import net.dpml.component.runtime.Component;
+import net.dpml.component.runtime.AvailabilityException;
 
 import net.dpml.state.State;
 import net.dpml.state.UnknownOperationException;

@@ -28,8 +28,8 @@ import java.util.Map.Entry;
 import junit.framework.TestCase;
 
 import net.dpml.part.PartContentHandlerFactory;
-import net.dpml.component.control.Controller;
-import net.dpml.component.Component;
+import net.dpml.safe.control.Controller;
+import net.dpml.component.runtime.Component;
 
 /**
  * Test a simple component case.

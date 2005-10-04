@@ -27,7 +27,7 @@ import net.dpml.composition.builder.PartReferenceBuilder;
 import net.dpml.composition.controller.CompositionController;
 import net.dpml.composition.info.Type;
 
-import net.dpml.component.control.ControllerContext;
+import net.dpml.safe.control.ControllerContext;
 
 import net.dpml.part.DelegationException;
 import net.dpml.part.PartNotFoundException;

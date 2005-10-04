@@ -34,14 +34,14 @@ import net.dpml.logging.Logger;
 import net.dpml.part.Part;
 import net.dpml.part.Control;
 
-import net.dpml.component.control.Controller;
-import net.dpml.component.control.ControllerContext;
-import net.dpml.component.Component;
-import net.dpml.component.ClassLoadingContext;
-import net.dpml.component.ComponentException;
-import net.dpml.component.ComponentRuntimeException;
-import net.dpml.component.Service;
-import net.dpml.component.AvailabilityException;
+import net.dpml.safe.control.Controller;
+import net.dpml.safe.control.ControllerContext;
+import net.dpml.component.runtime.Component;
+import net.dpml.component.runtime.ClassLoadingContext;
+import net.dpml.component.runtime.ComponentException;
+import net.dpml.component.runtime.ComponentRuntimeException;
+import net.dpml.component.runtime.Service;
+import net.dpml.component.runtime.AvailabilityException;
 
 import net.dpml.state.State;
 import net.dpml.composition.info.ActivationPolicy;

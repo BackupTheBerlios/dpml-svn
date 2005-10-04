@@ -41,9 +41,9 @@ import net.dpml.part.PartNotFoundException;
 import net.dpml.part.PartHandlerNotFoundException;
 import net.dpml.part.DelegationException;
 
-import net.dpml.component.control.Controller;
-import net.dpml.component.control.ControllerContext;
-import net.dpml.component.control.ControllerException;
+import net.dpml.safe.control.Controller;
+import net.dpml.safe.control.ControllerContext;
+import net.dpml.safe.control.ControllerException;
 
 import net.dpml.composition.info.Type;
 

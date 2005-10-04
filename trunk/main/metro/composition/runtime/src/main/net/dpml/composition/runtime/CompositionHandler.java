@@ -40,16 +40,16 @@ import net.dpml.part.DelegationException;
 import net.dpml.part.PartHandlerNotFoundException;
 import net.dpml.part.PartNotFoundException;
 
-import net.dpml.component.Available;
-import net.dpml.component.Component;
-import net.dpml.component.Consumer;
-import net.dpml.component.ComponentException;
-import net.dpml.component.ComponentNotFoundException;
-import net.dpml.component.Container;
-import net.dpml.component.Service;
-import net.dpml.component.ServiceContext;
-import net.dpml.component.ServiceException;
-import net.dpml.component.ServiceNotFoundException;
+import net.dpml.component.runtime.Available;
+import net.dpml.component.runtime.Component;
+import net.dpml.component.runtime.Consumer;
+import net.dpml.component.runtime.ComponentException;
+import net.dpml.component.runtime.ComponentNotFoundException;
+import net.dpml.component.runtime.Container;
+import net.dpml.component.runtime.Service;
+import net.dpml.component.runtime.ServiceContext;
+import net.dpml.component.runtime.ServiceException;
+import net.dpml.component.runtime.ServiceNotFoundException;
 
 import net.dpml.state.State;
 

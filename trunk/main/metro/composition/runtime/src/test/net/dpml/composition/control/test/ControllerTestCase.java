@@ -33,10 +33,10 @@ import net.dpml.composition.data.ComponentDirective;
 import net.dpml.composition.data.DeploymentDirective;
 
 import net.dpml.part.PartContentHandlerFactory;
-import net.dpml.component.control.Controller;
-import net.dpml.component.Component;
-import net.dpml.component.Container;
-import net.dpml.component.DuplicateKeyException;
+import net.dpml.safe.control.Controller;
+import net.dpml.component.runtime.Component;
+import net.dpml.component.runtime.Container;
+import net.dpml.component.runtime.DuplicateKeyException;
 
 import net.dpml.transit.model.ContentModel;
 import net.dpml.transit.monitor.LoggingAdapter;

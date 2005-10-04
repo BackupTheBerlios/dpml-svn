@@ -66,10 +66,10 @@ import net.dpml.part.Part;
 import net.dpml.part.PartHolder;
 import net.dpml.part.Control;
 
-import net.dpml.component.control.ControllerContext;
-import net.dpml.component.Component;
-import net.dpml.component.Container;
-import net.dpml.component.Service;
+import net.dpml.safe.control.ControllerContext;
+import net.dpml.component.runtime.Component;
+import net.dpml.component.runtime.Container;
+import net.dpml.component.runtime.Service;
 
 import net.dpml.composition.info.ActivationPolicy;
 

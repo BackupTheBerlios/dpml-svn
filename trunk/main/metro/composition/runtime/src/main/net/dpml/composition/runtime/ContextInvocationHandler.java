@@ -23,7 +23,7 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 import java.util.Observer;
 
-import net.dpml.component.AvailabilityListener;
+import net.dpml.component.runtime.AvailabilityListener;
 
 import net.dpml.state.StateListener;
 

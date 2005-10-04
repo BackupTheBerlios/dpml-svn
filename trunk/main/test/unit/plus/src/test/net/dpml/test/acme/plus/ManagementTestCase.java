@@ -30,8 +30,8 @@ import junit.framework.TestCase;
 
 import net.dpml.part.PartContentHandlerFactory;
 
-import net.dpml.component.Component;
-import net.dpml.component.Manager;
+import net.dpml.component.runtime.Component;
+import net.dpml.component.runtime.Manager;
 
 import net.dpml.state.State;
 import net.dpml.state.Transition;
@@ -51,7 +51,7 @@ public class ManagementTestCase extends TestCase
 
     /**
      * Test the construction of the example component and the invocation of 
-     * the provided controller via </code>the net.dpml.component.state.StateManager</code> interface
+     * the provided controller via </code>the net.dpml.component.runtime.state.StateManager</code> interface
      */
     public void testManagedComponent() throws Exception
     {

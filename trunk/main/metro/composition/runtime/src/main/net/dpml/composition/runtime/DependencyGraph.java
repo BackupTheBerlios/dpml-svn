@@ -22,9 +22,9 @@ package net.dpml.composition.runtime;
 import java.util.ArrayList;
 import java.rmi.RemoteException;
 
-import net.dpml.component.Consumer;
-import net.dpml.component.Component;
-import net.dpml.component.ComponentRuntimeException;
+import net.dpml.component.runtime.Consumer;
+import net.dpml.component.runtime.Component;
+import net.dpml.component.runtime.ComponentRuntimeException;
 
 /**
  * <p>Utility class to aquire an ordered graph of

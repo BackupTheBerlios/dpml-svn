@@ -23,8 +23,8 @@ import java.util.logging.Logger;
 
 import net.dpml.activity.Startable;
 
-import net.dpml.component.Component;
-import net.dpml.component.Manager;
+import net.dpml.component.runtime.Component;
+import net.dpml.component.runtime.Manager;
 
 import net.dpml.state.State;
 
