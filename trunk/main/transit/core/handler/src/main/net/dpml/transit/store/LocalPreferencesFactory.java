@@ -42,8 +42,8 @@ public class LocalPreferencesFactory implements PreferencesFactory
     // static
     // ------------------------------------------------------------------------
 
-    private static final Preferences SYSTEM = new LocalPreferences( null, "" );
-    private static final Preferences USER = new LocalPreferences( null, "" );
+    private static final Preferences SYSTEM = new LocalPreferences( null, "", true );
+    private static final Preferences USER = new LocalPreferences( null, "", false );
 
     // ------------------------------------------------------------------------
     // PreferencesFactory

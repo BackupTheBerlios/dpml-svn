@@ -25,7 +25,10 @@ primitive arguments in plugin constructors (such as int, boolean, etc.).
 Upgrade of plugin model to include support for system level jar files 
 (e.g. protocol handlers or L&F implementations that need to exist in the 
 system classloader).  Added Enum and ValuedEnum to util package. Extended
-the Construct class to alow references to static member variables.
+the Construct class to alow references to static member variables. Add
+a prefs task to Transit tools supporting the generation of XML based 
+preferences info in preparation for replacement of configuration and 
+parameters.
 
 Release Notes: Version 20050809
 -------------------------------

@@ -30,25 +30,43 @@ public class LocalPreferences extends AbstractPreferences
 {
     private final Properties m_properties;
     private Hashtable m_table = new Hashtable();
+    private final boolean m_system;
 
     // ------------------------------------------------------------------------
     // constructor
     // ------------------------------------------------------------------------
 
    /**
-    * Constructs a new local prefeences object.
+    * Constructs a new local user preferences object.
     * @param parent the parent node
     * @param name the preferences node name
     */
     public LocalPreferences( LocalPreferences parent, String name )
     {
+        this( parent, name, false );
+    }
+
+   /**
+    * Constructs a new local preferences object.
+    * @param parent the parent node
+    * @param name the preferences node name
+    * @param system TRUE if this is a system preference tree
+    */
+    public LocalPreferences( LocalPreferences parent, String name, boolean system )
+    {
         super( parent, name );
         m_properties = new Properties();
+        m_system = system;
     }
 
     // ------------------------------------------------------------------------
     // LocalPreferences
     // ------------------------------------------------------------------------
+
+    public boolean isUserNode()
+    {
+        return !m_system;
+    }
 
    /**
     * Set an attribute value.
@@ -128,7 +146,7 @@ public class LocalPreferences extends AbstractPreferences
             }
             else
             {
-                LocalPreferences p = new LocalPreferences( this, name );
+                LocalPreferences p = new LocalPreferences( this, name, m_system );
                 m_table.put( name, p );
                 return p;
             }
