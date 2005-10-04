@@ -78,7 +78,7 @@
     </dependencies>
   </project>
 
-  <!-- Component -->
+  <!-- Component Model API -->
 
   <project basedir="component/model">
     <info>
@@ -97,6 +97,23 @@
       <include key="dpml-state-impl" runtime="false"/>
       <include key="dpml-parameters-impl" runtime="false"/>
       <include key="dpml-configuration-impl" runtime="false"/>
+    </dependencies>
+  </project>
+
+  <!-- Composition Control API -->
+
+  <project basedir="component/control">
+    <info>
+      <group>dpml/metro</group>
+      <name>dpml-component-control</name>
+      <types>
+        <type name="jar"/>
+      </types>
+    </info>
+    <dependencies>
+      <include key="dpml-state-api"/>
+      <include key="dpml-part-api"/>
+      <include key="dpml-component-model"/>
     </dependencies>
   </project>
 
@@ -134,7 +151,6 @@
     </info>
     <dependencies>
       <include key="dpml-configuration-api"/>
-      <!--<include key="xercesImpl" runtime="true" build="true" />-->
     </dependencies>
   </project>
 
@@ -164,24 +180,7 @@
     </dependencies>
   </project>
 
-  <!-- Composition Model -->
-
-  <project basedir="composition/api">
-    <info>
-      <group>dpml/metro</group>
-      <name>dpml-composition-api</name>
-      <types>
-        <type name="jar"/>
-      </types>
-    </info>
-    <dependencies>
-      <include key="dpml-state-api"/>
-      <include key="dpml-part-api"/>
-      <include key="dpml-component-model"/>
-    </dependencies>
-  </project>
-
-  <!-- Composition Management -->
+  <!-- Composition -->
 
   <project basedir="composition/editor">
     <info>
@@ -193,7 +192,7 @@
       </types>
     </info>
     <dependencies>
-      <include key="dpml-composition-api"/>
+      <include key="dpml-component-control"/>
       <include key="dpml-component-model"/>
       <include key="forms"/>
     </dependencies>
@@ -211,7 +210,7 @@
       </types>
     </info>
     <dependencies>
-      <include key="dpml-composition-api" tag="api"/>
+      <include key="dpml-component-control" tag="api"/>
       <include key="dpml-transit-main" tag="api"/>
       <include key="dpml-logging-api" tag="spi"/>
       <include key="dpml-activity-api" tag="spi"/>
@@ -267,7 +266,7 @@
       </types>
     </info>
     <dependencies>
-      <include key="dpml-composition-api"/>
+      <include key="dpml-component-control"/>
     </dependencies>
   </project>
 
