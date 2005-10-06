@@ -27,6 +27,8 @@ import net.dpml.part.DelegationException;
 import net.dpml.part.Part;
 import net.dpml.part.PartHandlerNotFoundException;
 import net.dpml.part.PartNotFoundException;
+import net.dpml.part.PartException;
+
 import net.dpml.component.runtime.Service;
 
 /**
@@ -46,8 +48,7 @@ public interface Container extends Component
     * @return the component
     */
     Component addComponent( String key, URI part ) 
-      throws IOException, ComponentException, PartNotFoundException, 
-      PartHandlerNotFoundException, DelegationException, RemoteException;
+      throws IOException, PartException, RemoteException;
 
    /**
     * Add a component to the collection of components managed by the container.
@@ -57,7 +58,7 @@ public interface Container extends Component
     * @return the component
     */
     Component addComponent( String key, Part part ) 
-      throws ComponentException, PartHandlerNotFoundException, DelegationException, RemoteException;
+      throws PartException, RemoteException;
 
    /**
     * Retrieve a component using a supplied key.

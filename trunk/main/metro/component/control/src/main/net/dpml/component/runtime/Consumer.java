@@ -22,8 +22,7 @@ import java.rmi.Remote;
 import java.rmi.RemoteException;
 
 import net.dpml.part.Part;
-import net.dpml.part.PartHandlerNotFoundException;
-import net.dpml.part.DelegationException;
+import net.dpml.part.PartException;
 
 
 /**
@@ -57,5 +56,5 @@ public interface Consumer extends Remote
     * @exception DelegationException if the handler raised an exception
     */
     void setProvider( String key, Part part )
-      throws ComponentException, PartHandlerNotFoundException, DelegationException, RemoteException;
+      throws PartException, RemoteException;
 }

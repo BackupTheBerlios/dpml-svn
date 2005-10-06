@@ -18,37 +18,27 @@
 
 package net.dpml.part;
 
-import java.net.URI;
-
 /**
- * Exception thrown when an attempt is made to reference an unknown handler.
+ * Unexpected runtime exception indicating an internal part handler error.
  *
  * @author <a href="mailto:dev-dpml@lists.ibiblio.org">The Digital Product Meta Library</a>
  * @version $Revision: 1.2 $ $Date: 2004/03/17 10:30:09 $
  */
-public class PartHandlerNotFoundException extends PartException 
+public class PartRuntimeException extends RuntimeException 
 {
    /**
     * Serial version identifier.
     */
     static final long serialVersionUID = 1L;
 
-    private URI m_uri;
-
-    public PartHandlerNotFoundException( URI uri )
+    public PartRuntimeException( String message )
     {
-        this( uri, null );
+        super( message );
     }
 
-    public PartHandlerNotFoundException( URI uri, Throwable cause )
+    public PartRuntimeException( String message, Throwable cause )
     {
-        super( uri.toString(), cause );
-        m_uri = uri;
-    }
-
-    public URI getURI()
-    {
-        return m_uri;
+        super( message, cause );
     }
 
 }

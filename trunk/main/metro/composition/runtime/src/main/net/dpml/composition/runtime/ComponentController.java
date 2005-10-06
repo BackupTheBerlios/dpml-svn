@@ -41,7 +41,7 @@ import javax.swing.event.ChangeEvent;
 
 import net.dpml.logging.Logger;
 
-import net.dpml.composition.control.CompositionController;
+import net.dpml.component.model.ComponentModel;
 
 import net.dpml.component.runtime.Service;
 import net.dpml.component.runtime.Available;
@@ -53,6 +53,8 @@ import net.dpml.component.runtime.Manager;
 import net.dpml.component.control.ControllerException;
 import net.dpml.component.control.ControllerRuntimeException;
 import net.dpml.component.control.Disposable;
+
+import net.dpml.composition.control.CompositionController;
 
 import net.dpml.state.Operation;
 import net.dpml.state.State;
@@ -70,12 +72,20 @@ import net.dpml.state.StateListener;
  */
 public class ComponentController extends LoggingHandler
 {
+    //--------------------------------------------------------------------------
+    // state
+    //--------------------------------------------------------------------------
+
     private final Map m_handlers = new Hashtable();
     private final LifecycleHandler m_lifecycleHandler;
 
     private final URI m_uri;
     private final CompositionController m_controller;
     private final Logger m_logger;
+
+    //--------------------------------------------------------------------------
+    // contructor
+    //--------------------------------------------------------------------------
 
     public ComponentController( Logger logger, CompositionController controller )
     {
@@ -85,6 +95,10 @@ public class ComponentController extends LoggingHandler
         m_lifecycleHandler = new LifecycleHandler( logger, controller );
         m_uri = controller.getURI();
     }
+
+    //--------------------------------------------------------------------------
+    // implementation
+    //--------------------------------------------------------------------------
 
     public URI getURI()
     {
@@ -184,42 +198,12 @@ public class ComponentController extends LoggingHandler
     * initialize operations until a non-initializing state is established 
     * as the current state.
     *
-    * @exception IllegalStateException if an error occurs during validation 
-    * @exception Exception if an error is raised by a handler assigned to 
-    *  and invoked initialization transition
-    */
-    public void initialize( ComponentHandler component ) throws Exception
-    {
-        if( component instanceof ComponentHandler )
-        {
-            ComponentHandler entry = (ComponentHandler) component;
-            initializeComponent( entry );
-        }
-        else
-        {
-            final String error = 
-              "Unsupported component implementation class."
-              + "\nComponent: " + component.getLocalURI()
-              + "\nClass: " + component.getClass().getName()
-              + "\nMethod: initialize/1";
-            throw new IllegalArgumentException( error );
-        }
-    }
-
-   /**
-    * Initialization of the manager by a controller.
-    * If the root state is not terminal the implementation will invoke a 
-    * transiton named "initalize".  If the transition results in a modified 
-    * state, the implementation will continue to recursivly invoke 
-    * initialize operations until a non-initializing state is established 
-    * as the current state.
-    *
     * @param component the component handler
     * @exception IllegalStateException if an error occurs during validation 
     * @exception Exception if an error is raised by a handler assigned to 
     *  and invoked initialization transition
     */
-    private synchronized void initializeComponent( ComponentHandler component ) throws Exception
+    public synchronized void initialize( ComponentHandler component ) throws Exception
     {
         if( component.isInitialized() )
         {

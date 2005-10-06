@@ -30,6 +30,7 @@ import net.dpml.profile.ApplicationProfile;
 import net.dpml.part.Part;
 import net.dpml.part.PartHandler;
 import net.dpml.part.PartContentHandler;
+import net.dpml.part.Context;
 
 import net.dpml.transit.Transit;
 import net.dpml.transit.Logger;
@@ -51,7 +52,7 @@ public class DefaultApplication extends EventProducer implements Application
     private PID m_pid;
     private String m_error;
     
-    private final Object m_context;
+    private final Context m_context;
 
     public DefaultApplication( 
       Logger logger, ApplicationProfile profile, String path ) throws Exception
@@ -64,7 +65,7 @@ public class DefaultApplication extends EventProducer implements Application
         PartHandler handler = PartContentHandler.newPartHandler( logger );
         URI uri = profile.getCodeBaseURI();
         Part part = handler.loadPart( uri );
-        m_context = handler.newManagementContext( part );
+        m_context = handler.createContext( part );
     }
 
     public void addApplicationListener( ApplicationListener listener )
@@ -77,12 +78,12 @@ public class DefaultApplication extends EventProducer implements Application
         super.removeListener( listener );
     }
 
-    public Object getManagementContext() throws RemoteException
+    public Context getContext()
     {
         return m_context;
     }
 
-    public ApplicationProfile getProfile() throws RemoteException
+    public ApplicationProfile getProfile()
     {
         return m_profile;
     }
@@ -111,12 +112,12 @@ public class DefaultApplication extends EventProducer implements Application
         }
     }
 
-    public PID getPID() throws RemoteException
+    public PID getPID()
     {
         return m_pid;
     }
 
-    public void handleCallback( PID pid ) throws RemoteException
+    public void handleCallback( PID pid )
     {
         getLogger().info( "incomming callback from process " + pid );
         setState( Application.RUNNING, pid );

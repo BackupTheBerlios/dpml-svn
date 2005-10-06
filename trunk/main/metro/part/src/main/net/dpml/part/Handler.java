@@ -18,38 +18,38 @@
 
 package net.dpml.part;
 
+import java.rmi.Remote;
+import java.rmi.RemoteException;
 import java.net.URI;
 
+import net.dpml.state.State;
+import net.dpml.state.StateEvent;
+import net.dpml.state.StateListener;
+
 /**
- * Exception thrown when an attempt is made to reference an unknown handler.
+ * The Handler represents a remote interface to a single runtime instance.
  *
  * @author <a href="mailto:dev-dpml@lists.ibiblio.org">The Digital Product Meta Library</a>
  * @version $Revision: 1.2 $ $Date: 2004/03/17 10:30:09 $
  */
-public class PartHandlerNotFoundException extends PartException 
+public interface Handler extends Remote
 {
    /**
-    * Serial version identifier.
+    * Returns the current state of the control.
+    * @return the current runtime state
     */
-    static final long serialVersionUID = 1L;
+    State getState() throws RemoteException;
+    
+   /**
+    * Add a state listener to the control.
+    * @param listener the state listener
+    */
+    void addStateListener( StateListener listener ) throws RemoteException;
 
-    private URI m_uri;
-
-    public PartHandlerNotFoundException( URI uri )
-    {
-        this( uri, null );
-    }
-
-    public PartHandlerNotFoundException( URI uri, Throwable cause )
-    {
-        super( uri.toString(), cause );
-        m_uri = uri;
-    }
-
-    public URI getURI()
-    {
-        return m_uri;
-    }
-
+   /**
+    * Remove a state listener from the control.
+    * @param listener the state listener
+    */
+    void removeStateListener( StateListener listener ) throws RemoteException;
 }
 

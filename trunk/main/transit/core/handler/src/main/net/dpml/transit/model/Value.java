@@ -77,6 +77,15 @@ public interface Value
     Object resolve( Map map ) throws Exception;
 
    /**
+    * Resolve an instance from the value using a supplied isolvation policy. 
+    *
+    * @param policy the isolvation policy
+    * @return the resolved instance
+    * @exception Exception if error occurs during instance resolution
+    */
+    Object resolve( boolean isolate ) throws Exception;
+
+   /**
     * Resolve an instance from the value using a supplied context map. If any 
     * target expressions in immediate or nested values contain a symbolic
     * expression the value will be resolved using the supplied map.

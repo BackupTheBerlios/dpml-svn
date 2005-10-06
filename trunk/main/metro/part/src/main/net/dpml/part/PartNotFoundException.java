@@ -26,7 +26,7 @@ import java.net.URI;
  * @author <a href="mailto:dev-dpml@lists.ibiblio.org">The Digital Product Meta Library</a>
  * @version $Revision: 1.2 $ $Date: 2004/03/17 10:30:09 $
  */
-public class PartNotFoundException extends Exception 
+public class PartNotFoundException extends PartException 
 {
    /**
     * Serial version identifier.

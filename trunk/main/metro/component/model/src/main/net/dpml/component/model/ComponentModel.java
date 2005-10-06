@@ -23,13 +23,15 @@ import java.rmi.RemoteException;
 
 import net.dpml.component.info.LifestylePolicy;
 import net.dpml.component.info.CollectionPolicy;
+import net.dpml.part.ActivationPolicy;
 
 import net.dpml.configuration.Configuration;
 
 import net.dpml.parameters.Parameters;
 
+import net.dpml.part.Context;
+
 import net.dpml.state.State;
-import net.dpml.component.info.ActivationPolicy;
 
 import net.dpml.transit.model.UnknownKeyException;
 
@@ -40,7 +42,7 @@ import net.dpml.transit.model.UnknownKeyException;
  * @author <a href="mailto:dev-dpml@lists.ibiblio.org">The Digital Product Meta Library</a>
  * @version $Id: ComponentDirective.java 2991 2005-07-07 00:00:04Z mcconnell@dpml.net $
  */
-public interface ComponentModel extends Remote
+public interface ComponentModel extends Context, Remote
 {
    /**
     * Return the component implementation class name.
@@ -55,12 +57,6 @@ public interface ComponentModel extends Remote
     */
     State getStateGraph() throws RemoteException;
     
-   /**
-    * Return the activation policy for the component.
-    * @return the activation policy value
-    */
-    ActivationPolicy getActivationPolicy() throws RemoteException;
-
    /**
     * Set the component activation policy to the supplied value.
     * @return the new activation policy

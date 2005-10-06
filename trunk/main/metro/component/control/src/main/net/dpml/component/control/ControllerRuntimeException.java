@@ -20,7 +20,7 @@ package net.dpml.component.control;
 
 import java.net.URI;
 
-import net.dpml.part.PartHandlerRuntimeException;
+import net.dpml.part.PartRuntimeException;
 
 /**
  * Exception indicating an unexpected controller related runtime error.  A controller 
@@ -30,7 +30,7 @@ import net.dpml.part.PartHandlerRuntimeException;
  * @author <a href="mailto:dev-dpml@lists.ibiblio.org">The Digital Product Meta Library</a>
  * @version $Revision: 1.2 $ $Date: 2004/03/17 10:30:09 $
  */
-public class ControllerRuntimeException extends PartHandlerRuntimeException 
+public class ControllerRuntimeException extends PartRuntimeException 
 {
    /**
     * Serial version identifier.

@@ -7,6 +7,8 @@ import java.io.Serializable;
 
 import net.dpml.transit.PID;
 
+import net.dpml.part.Context;
+
 import net.dpml.profile.ApplicationProfile;
 
 public interface Application extends Remote
@@ -16,7 +18,7 @@ public interface Application extends Remote
     State RUNNING = new State( 2, "running", "Running" );
     State STOPPING = new State( 3, "stopping", "Stopping" );
     
-    Object getManagementContext() throws RemoteException;
+    Context getContext() throws RemoteException;
 
     ApplicationProfile getProfile() throws RemoteException;
 

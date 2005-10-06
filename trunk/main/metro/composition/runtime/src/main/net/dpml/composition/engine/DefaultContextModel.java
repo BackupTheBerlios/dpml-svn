@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package net.dpml.composition.control;
+package net.dpml.composition.engine;
 
 import java.net.URI;
 import java.net.URL;
@@ -45,7 +45,7 @@ import net.dpml.composition.event.EventProducer;
 import net.dpml.logging.Logger;
 
 import net.dpml.part.Part;
-import net.dpml.part.ControlException;
+import net.dpml.part.PartException;
 
 import net.dpml.transit.model.Value;
 import net.dpml.transit.model.UnknownKeyException;
@@ -71,7 +71,7 @@ public class DefaultContextModel extends EventProducer implements ContextModel
     // ------------------------------------------------------------------------
 
     public DefaultContextModel( ClassLoader classloader, Logger logger, Type type, ContextDirective directive )
-      throws ControlException, RemoteException
+      throws PartException, RemoteException
     {
         super();
         
@@ -92,7 +92,7 @@ public class DefaultContextModel extends EventProducer implements ContextModel
             {
                 final String error = 
                   "Component directive does not declare a directive for the key [" + key + "].";
-                throw new ControlException( error, e );
+                throw new PartException( error, e );
             }
         }
     }

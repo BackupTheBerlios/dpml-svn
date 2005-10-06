@@ -65,14 +65,14 @@ import net.dpml.parameters.impl.DefaultParameters;
 
 import net.dpml.part.Part;
 import net.dpml.part.PartHolder;
-import net.dpml.part.Control;
 
 import net.dpml.component.control.ControllerContext;
 import net.dpml.component.runtime.Component;
 import net.dpml.component.runtime.Container;
 import net.dpml.component.runtime.Service;
+import net.dpml.component.runtime.Control;
 
-import net.dpml.component.info.ActivationPolicy;
+import net.dpml.part.ActivationPolicy;
 
 import net.dpml.transit.tools.AntAdapter;
 import net.dpml.transit.Logger;

@@ -28,7 +28,7 @@ import net.dpml.part.Part;
 import net.dpml.part.PartHandler;
 
 import net.dpml.state.State;
-import net.dpml.component.info.ActivationPolicy;
+import net.dpml.part.ActivationPolicy;
 
 import net.dpml.component.data.ValueDirective;
 import net.dpml.component.data.Directive;
@@ -58,7 +58,7 @@ public class ComponentModelTestCase extends TestCase
         final URL url = new File( test, path ).toURL();
         final PartHandler handler = Part.DEFAULT_HANDLER;
         m_part = handler.loadPart( url );
-        m_model = (ComponentModel) handler.newManagementContext( m_part );
+        m_model = (ComponentModel) handler.createContext( m_part );
     }
     
     public void testImplementationClassName() throws Exception

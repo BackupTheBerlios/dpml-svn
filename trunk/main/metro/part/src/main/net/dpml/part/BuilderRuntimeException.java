@@ -24,13 +24,18 @@ package net.dpml.part;
  * @author <a href="mailto:dev-dpml@lists.ibiblio.org">The Digital Product Meta Library</a>
  * @version $Revision: 1.2 $ $Date: 2004/03/17 10:30:09 $
  */
-public class BuilderRuntimeException extends RuntimeException
+public class BuilderRuntimeException extends PartRuntimeException
 {
    /**
     * Serial version identifier.
     */
     static final long serialVersionUID = 1L;
 
+    public BuilderRuntimeException( String message )
+    {
+        super( message );
+    }
+    
     public BuilderRuntimeException( String message, Throwable cause )
     {
         super( message, cause );

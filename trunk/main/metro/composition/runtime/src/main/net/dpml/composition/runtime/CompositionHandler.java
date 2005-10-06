@@ -35,6 +35,7 @@ import java.lang.reflect.InvocationHandler;
 import net.dpml.composition.control.CompositionController;
 import net.dpml.component.data.ComponentDirective;
 import net.dpml.component.info.ServiceDescriptor;
+import net.dpml.component.model.ComponentModel;
 
 import net.dpml.part.DelegationException;
 import net.dpml.part.PartHandlerNotFoundException;
@@ -54,6 +55,7 @@ import net.dpml.component.runtime.ServiceNotFoundException;
 import net.dpml.state.State;
 
 import net.dpml.part.Part;
+import net.dpml.part.PartException;
 
 import net.dpml.logging.Logger;
 
@@ -69,7 +71,7 @@ public class CompositionHandler extends ComponentHandler implements Container, S
     public CompositionHandler(
       Logger logger, CompositionController controller, ClassLoader classloader, URI uri, 
       ComponentDirective profile, Component parent ) 
-      throws ComponentException, PartHandlerNotFoundException, DelegationException, RemoteException
+      throws PartException, RemoteException
     {
         super( logger, controller, classloader, uri, profile, parent );
     }

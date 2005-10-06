@@ -25,11 +25,14 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.ArrayList;
 
-import net.dpml.part.Control;
 import net.dpml.part.DelegationException;
-import net.dpml.part.PartHandlerNotFoundException;
 import net.dpml.part.Part;
+import net.dpml.part.PartException;
+import net.dpml.part.PartHandlerNotFoundException;
 
+import net.dpml.component.data.FeatureDirective;
+import net.dpml.component.data.ReferenceDirective;
+import net.dpml.component.data.ValueDirective;
 import net.dpml.component.runtime.Container;
 import net.dpml.component.runtime.Component;
 import net.dpml.component.runtime.ComponentException;
@@ -40,12 +43,11 @@ import net.dpml.component.runtime.Service;
 import net.dpml.component.runtime.ServiceContext;
 import net.dpml.component.runtime.ServiceException;
 import net.dpml.component.runtime.ServiceNotFoundException;
+import net.dpml.component.runtime.Control;
 import net.dpml.component.control.Controller;
 
 import net.dpml.composition.control.CompositionController;
-import net.dpml.component.data.FeatureDirective;
-import net.dpml.component.data.ReferenceDirective;
-import net.dpml.component.data.ValueDirective;
+
 
 /**
  * The context map is a utility class that handles the set of components that 
@@ -78,7 +80,7 @@ public class ContextMap extends Hashtable
     }
 
     public void addEntry( String key, Part part ) 
-      throws ComponentException, PartHandlerNotFoundException, DelegationException, RemoteException
+      throws PartException, RemoteException
     {
         if( containsKey( key ) )
         {
@@ -91,7 +93,7 @@ public class ContextMap extends Hashtable
     }
 
     public void setProvider( String key, Part part )
-      throws ComponentException, PartHandlerNotFoundException, DelegationException, RemoteException
+      throws PartException, RemoteException
     {
         if( null == key )
         {

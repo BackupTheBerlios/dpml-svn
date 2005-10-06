@@ -37,6 +37,8 @@ import net.dpml.depot.GeneralException;
 import net.dpml.part.Part;
 import net.dpml.part.Control;
 import net.dpml.part.PartHandler;
+import net.dpml.part.Context;
+import net.dpml.part.Handler;
 
 import net.dpml.station.Station;
 import net.dpml.station.Application;
@@ -89,6 +91,27 @@ public class ApplicationHandler
       Logger logger, ShutdownHandler handler, TransitModel model, 
       Preferences prefs, String[] args ) throws Exception
     {
+        if( null == logger )
+        {
+            throw new NullPointerException( "logger" );
+        }
+        if( null == handler )
+        {
+            throw new NullPointerException( "handler" );
+        }
+        if( null == model )
+        {
+            throw new NullPointerException( "model" );
+        }
+        if( null == prefs )
+        {
+            throw new NullPointerException( "prefs" );
+        }
+        if( null == args )
+        {
+            throw new NullPointerException( "args" );
+        }
+
         m_logger = logger;
         m_handler = handler;
         m_args = args;
@@ -152,20 +175,20 @@ public class ApplicationHandler
             {
                 Properties properties = profile.getSystemProperties();
                 applySystemProperties( properties );
-            }   
+            }
             
             Station station = getStation();
             getLogger().info( "located station - requesting application" );
             Application application = station.getApplication( key );
  
+
             // light the fires and spin the tyres
 
             try
             {
-                object = 
-                  resolveTargetObject( 
+                resolveTargetObject( 
                     m_model, codebase, m_args, m_logger, application, profile );
-                getLogger().info( "target [" + object.getClass().getName() + "] established" );
+                getLogger().info( "target established" );
             }
             catch( Throwable e )
             {
@@ -276,6 +299,7 @@ public class ApplicationHandler
         // perform normal logging of the error condition
         //
 
+        System.out.println( "E2" );
         if( ( null != cause ) && !( cause instanceof GeneralException ) )
         {
             getLogger().error( error, cause );
@@ -380,7 +404,7 @@ public class ApplicationHandler
         }
     }
 
-    private Object resolveTargetObject( 
+    private void resolveTargetObject( 
       TransitModel model, URI uri, String[] args, Logger logger, Application application, ApplicationProfile profile ) 
       throws Exception
     {
@@ -422,7 +446,6 @@ public class ApplicationHandler
                 Object[] parameters = Construct.getArgs( map, params, new Object[]{logger, args} );
                 Object object = loader.instantiate( pluginClass, parameters );
                 application.handleCallback( PROCESS_ID );
-                return object;
             }
             else
             {
@@ -436,26 +459,27 @@ public class ApplicationHandler
                 getLogger().info( message );
                 
                 //
-                // locate the station and retrieve the application reference
-                // and management context
-                //
-                
-                Object context = application.getManagementContext();
-                
-                //
-                // instantiate the application
+                // locate the station and retrieve the application reference, the
+                // management context, and the runtime hander
                 //
                 
                 Object[] parameters = Construct.getArgs( map, params, new Object[]{logger, args} );
-                PartHandler handler = (PartHandler) loader.instantiate( pluginClass, parameters );
-                //Control control = handler.loadControl( context ); // <----------------------------  BIG TODO:
-                Control control = handler.loadControl( uri ); 
+                PartHandler partHandler = (PartHandler) loader.instantiate( pluginClass, parameters );
+                
+                //
+                // activate an object using a runtime handler
+                //
+                
+                /*
+                Context context = application.getContext();
+                Handler handler = partHandler.getHandler( context );
+                handler.activate( context );
+                */
+                
+                Value value = partHandler.resolve( uri );
+                
+                value.resolve( false );
                 application.handleCallback( PROCESS_ID );
-                return control.resolve( false );
-                
-                //Control control = handler.loadControl( uri );
-                //register( key, control );
-                
             }
         }
         finally

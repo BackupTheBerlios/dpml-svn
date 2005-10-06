@@ -19,24 +19,24 @@
 package net.dpml.part;
 
 /**
- * Unexpected runtime exception indicating an internal part handler error.
+ * General exception thrown by a runtime handler.
  *
  * @author <a href="mailto:dev-dpml@lists.ibiblio.org">The Digital Product Meta Library</a>
  * @version $Revision: 1.2 $ $Date: 2004/03/17 10:30:09 $
  */
-public class PartHandlerRuntimeException extends RuntimeException 
+public class HandlerException extends Exception 
 {
    /**
     * Serial version identifier.
     */
     static final long serialVersionUID = 1L;
 
-    public PartHandlerRuntimeException( String message )
+    public HandlerException( String message )
     {
         super( message );
     }
 
-    public PartHandlerRuntimeException( String message, Throwable cause )
+    public HandlerException( String message, Throwable cause )
     {
         super( message, cause );
     }

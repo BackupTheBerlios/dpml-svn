@@ -28,11 +28,7 @@ import java.util.Hashtable;
 import net.dpml.composition.control.CompositionController;
 import net.dpml.component.data.ValueDirective;
 import net.dpml.component.info.ServiceDescriptor;
-
-import net.dpml.logging.Logger;
-
-import net.dpml.part.Part;
-import net.dpml.part.Control;
+import net.dpml.part.ActivationPolicy;
 
 import net.dpml.component.control.Controller;
 import net.dpml.component.control.ControllerContext;
@@ -42,9 +38,13 @@ import net.dpml.component.runtime.ComponentException;
 import net.dpml.component.runtime.ComponentRuntimeException;
 import net.dpml.component.runtime.Service;
 import net.dpml.component.runtime.AvailabilityException;
+import net.dpml.component.runtime.Control;
+
+import net.dpml.logging.Logger;
+
+import net.dpml.part.Part;
 
 import net.dpml.state.State;
-import net.dpml.component.info.ActivationPolicy;
 
 import net.dpml.transit.util.PropertyResolver;
 
@@ -209,6 +209,16 @@ public class ValueHandler extends UnicastRemoteObject implements Component, Clas
         return getValue();
     }
 
+    public Object resolve( Map map ) throws Exception
+    {
+        return resolve( map, false );
+    }
+    
+    public Object resolve( Map map, boolean policy ) throws Exception
+    {
+        return getValue();
+    }
+    
    /**
     * Release a reference to an object managed by the instance.
     * 

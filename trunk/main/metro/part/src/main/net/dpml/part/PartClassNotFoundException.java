@@ -25,7 +25,7 @@ package net.dpml.part;
  * @author <a href="mailto:dev-dpml@lists.ibiblio.org">The Digital Product Meta Library</a>
  * @version $Revision: 1.2 $ $Date: 2004/03/17 10:30:09 $
  */
-public class PartClassNotFoundException extends RuntimeException 
+public class PartClassNotFoundException extends PartRuntimeException 
 {
    /**
     * Serial version identifier.

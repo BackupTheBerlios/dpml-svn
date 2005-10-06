@@ -25,6 +25,8 @@ import java.net.URLConnection;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 
+import net.dpml.transit.model.Value;
+
 /**
  * The PartHandler interface defines the a contract for an object that provides generalized
  * part loading.
@@ -40,16 +42,20 @@ public interface PartHandler
     * @param part the part data structure
     * @return the management context instance
     */
-    Object newManagementContext( Part part )
-      throws ControlException, PartHandlerNotFoundException, 
-      DelegationException, RemoteException;
+    Context createContext( Part part ) throws PartException;
+
+   /**
+    * Return the controller for the supplied context.
+    * @return the context handler
+    */
+    Control getController( Context context ) throws Exception;
 
    /**
     * Load a part editor.
     * @param part the part 
     * @return the editor
     */
-    PartEditor loadPartEditor( Part part ) throws PartHandlerNotFoundException;
+    PartEditor loadPartEditor( Part part ) throws PartException;
 
    /**
     * Load a part from serialized form.  The uri is assumed to be a uri that 
@@ -60,7 +66,7 @@ public interface PartHandler
     *
     * @return the part instance
     */
-    Part loadPart( URI uri ) throws DelegationException, PartNotFoundException, IOException;
+    Part loadPart( URI uri ) throws PartException, IOException;
     
    /**
     * Load a part from serialized form.  The url identifies a part holder 
@@ -69,7 +75,7 @@ public interface PartHandler
     *
     * @return the part instance
     */
-    Part loadPart( URL url ) throws DelegationException, PartNotFoundException, IOException;
+    Part loadPart( URL url ) throws PartException, IOException;
     
    /**
     * Load a part from a serialized object byte array. 
@@ -79,4 +85,6 @@ public interface PartHandler
     Part loadPart( byte[] bytes ) throws IOException;
 
     Object getContent( URLConnection connection, Class[] classes ) throws IOException;
+    
+    Value resolve( URI uri ) throws Exception;
 }

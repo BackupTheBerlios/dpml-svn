@@ -40,8 +40,17 @@ import java.util.Vector;
 import net.dpml.activity.Executable;
 import net.dpml.activity.Startable;
 
-import net.dpml.component.runtime.ResourceUnavailableException;
+import net.dpml.component.data.ComponentDirective;
+import net.dpml.component.data.ContextDirective;
+import net.dpml.component.info.ServiceDescriptor;
+import net.dpml.component.info.Type;
+import net.dpml.component.info.LifestylePolicy;
+import net.dpml.component.info.PartReference;
+import net.dpml.component.info.EntryDescriptor;
+import net.dpml.component.model.ComponentModel;
+
 import net.dpml.component.control.LifecycleException;
+import net.dpml.component.runtime.ResourceUnavailableException;
 import net.dpml.component.runtime.Consumer;
 import net.dpml.component.runtime.Component;
 import net.dpml.component.runtime.Container;
@@ -57,17 +66,9 @@ import net.dpml.component.runtime.Service;
 import net.dpml.component.runtime.Available;
 import net.dpml.component.runtime.AvailabilityException;
 import net.dpml.component.runtime.Manager;
+import net.dpml.component.runtime.Control;
 
 import net.dpml.composition.control.CompositionController;
-
-import net.dpml.component.data.ComponentDirective;
-import net.dpml.component.data.ContextDirective;
-import net.dpml.component.info.ServiceDescriptor;
-import net.dpml.component.info.Type;
-import net.dpml.component.info.LifestylePolicy;
-import net.dpml.component.info.PartReference;
-import net.dpml.component.info.EntryDescriptor;
-
 import net.dpml.composition.event.EventProducer;
 import net.dpml.composition.event.WeakEventProducer;
 
@@ -81,11 +82,13 @@ import net.dpml.parameters.Parameters;
 import net.dpml.parameters.Parameterizable;
 import net.dpml.parameters.impl.DefaultParameters;
 
-import net.dpml.part.Control;
 import net.dpml.part.DelegationException;
 import net.dpml.part.Part;
+import net.dpml.part.PartException;
 import net.dpml.part.PartNotFoundException;
 import net.dpml.part.PartHandlerNotFoundException;
+import net.dpml.part.ActivationPolicy;
+import net.dpml.part.Handler;
 
 import net.dpml.state.State;
 import net.dpml.state.StateMachine;
@@ -93,7 +96,7 @@ import net.dpml.state.impl.DefaultState;
 import net.dpml.state.impl.DefaultStateMachine;
 import net.dpml.state.StateEvent;
 import net.dpml.state.StateListener;
-import net.dpml.component.info.ActivationPolicy;
+
 
 /**
  *
@@ -103,23 +106,31 @@ public abstract class ComponentHandler extends WeakEventProducer
   implements Container, Available, Manager, Consumer, 
   ClassLoadingContext, Configurable, Parameterizable
 {
+    //--------------------------------------------------------------------------
+    // state
+    //--------------------------------------------------------------------------
+
+    private final Logger m_logger;
+    private final ComponentController m_control;
+    private final StateMachine m_machine;
+    
+    //--------------------------------------------------------------------------
+    // state (old)
+    //--------------------------------------------------------------------------
+
     private final Map m_proxies = new WeakHashMap();
     private final DependencyGraph m_dependencies = new DependencyGraph();
 
-    private final Logger m_logger;
     private final Component m_parent;
     private final ComponentDirective m_profile;
     private final CompositionController m_controller;
     private final ClassLoader m_classloader;
     private final URI m_uri;
-    private final ComponentController m_componentController;
     private final ContextMap m_context;
     private final State m_graph;
-    private final StateMachine m_machine;
     private final PartsTable m_parts;
     private final LifestylePolicy m_lifestyle;
 
-    private State m_state;
     private boolean m_initialized = false;
     private Configuration m_configuration;
     private Parameters m_parameters;
@@ -134,10 +145,10 @@ public abstract class ComponentHandler extends WeakEventProducer
     public ComponentHandler( 
       Logger logger, CompositionController controller, ClassLoader classloader, 
       URI uri, ComponentDirective profile, Component parent ) 
-      throws ComponentException, PartHandlerNotFoundException, DelegationException, RemoteException
+      throws PartException, RemoteException
     {
         super();
-
+        
         m_logger = logger;
         m_controller = controller;
         m_classloader = classloader;
@@ -145,7 +156,7 @@ public abstract class ComponentHandler extends WeakEventProducer
         m_uri = uri;
 
         m_parent = parent;
-        m_componentController = controller.getComponentController();
+        m_control = controller.getComponentController();
         m_class = loadComponentClass( classloader, profile );
         
         ClassLoader current = Thread.currentThread().getContextClassLoader();
@@ -243,8 +254,7 @@ public abstract class ComponentHandler extends WeakEventProducer
     * @return the component
     */
     public Component addComponent( String key, URI uri ) 
-      throws IOException, ComponentException, PartNotFoundException, 
-      DelegationException, PartHandlerNotFoundException
+      throws IOException, PartException
     {
         Part part = getController().loadPart( uri );
         return addComponent( key, part );
@@ -258,7 +268,7 @@ public abstract class ComponentHandler extends WeakEventProducer
     * @return the component
     */
     public Component addComponent( String key, Part part ) 
-      throws ComponentException, DelegationException, PartHandlerNotFoundException, RemoteException
+      throws PartException, RemoteException
     {
         Component component = getPartsTable().addComponent( key, part );
         m_dependencies.add( component );
@@ -351,7 +361,7 @@ public abstract class ComponentHandler extends WeakEventProducer
     }
 
     public void setProvider( String key, Part part )
-      throws ComponentException, PartHandlerNotFoundException, DelegationException, RemoteException
+      throws PartException, RemoteException
     {
         m_context.setProvider( key, part );
     }
@@ -527,7 +537,7 @@ public abstract class ComponentHandler extends WeakEventProducer
 
     public ComponentController getComponentController()
     {
-        return m_componentController;
+        return m_control;
     }
 
    /**
@@ -550,15 +560,25 @@ public abstract class ComponentHandler extends WeakEventProducer
     */
     public Object resolve( boolean policy ) throws Exception
     {
-        return getComponentController().resolve( this, policy );
+        return resolve( null, policy );
     }
 
+    public Object resolve( Map map ) throws Exception
+    {
+        return resolve( map, false );
+    }
+    
+    public Object resolve( Map map, boolean policy ) throws Exception
+    {
+        return getComponentController().resolve( this, policy );
+    }
+    
    /**
     * Initialize the component.  
     */
     public void initialize() throws Exception
     {
-        m_componentController.initialize( this );
+        m_control.initialize( this );
     }
 
    /**
@@ -570,7 +590,7 @@ public abstract class ComponentHandler extends WeakEventProducer
     */
     public State apply( String key ) throws Exception
     {
-        return m_componentController.apply( this, key );
+        return m_control.apply( this, key );
     }
 
    /**
@@ -581,7 +601,7 @@ public abstract class ComponentHandler extends WeakEventProducer
     */
     public void execute( String key ) throws Exception
     {
-        m_componentController.execute( this, key );
+        m_control.execute( this, key );
     }
 
    /**
@@ -590,7 +610,7 @@ public abstract class ComponentHandler extends WeakEventProducer
     public void terminate()
     {
         getLogger().debug( "terminating" );
-        m_componentController.terminate( this );
+        m_control.terminate( this );
     }
 
     public boolean isInitialized()
@@ -718,7 +738,7 @@ public abstract class ComponentHandler extends WeakEventProducer
         try
         {
             //Object instance = getLocalInstance();
-            m_componentController.terminate( this );
+            m_control.terminate( this );
         }
         catch( IllegalStateException e )
         {
@@ -734,14 +754,14 @@ public abstract class ComponentHandler extends WeakEventProducer
         //    for( int i=0; i<proxies.length; i++ )
         //    {
         //        Object proxy = proxies[i];
-        //        m_componentController.release( proxy );
+        //        m_control.release( proxy );
         //    }
         //    m_proxies.clear();
         //    getCompositionModel().getComponentTable().remove( this );
         //    try
         //    {
         //        Object instance = getLocalInstance();
-        //        m_componentController.release( instance );
+        //        m_control.release( instance );
         //    }
         //    catch( IllegalStateException e )
         //    {

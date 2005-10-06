@@ -20,7 +20,7 @@ package net.dpml.component.control;
 
 import java.net.URI;
 
-import net.dpml.part.ControlException;
+import net.dpml.part.PartException;
 
 /**
  * Exception indicating an controller related error.  A controller exception
@@ -29,7 +29,7 @@ import net.dpml.part.ControlException;
  * @author <a href="mailto:dev-dpml@lists.ibiblio.org">The Digital Product Meta Library</a>
  * @version $Revision: 1.2 $ $Date: 2004/03/17 10:30:09 $
  */
-public class ControllerException extends ControlException
+public class ControllerException extends PartException
 {
    /**
     * Serial version identifier.

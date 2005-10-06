@@ -18,53 +18,38 @@
 
 package net.dpml.part;
 
-import java.beans.Expression;
-import java.beans.BeanDescriptor;
-import java.beans.PersistenceDelegate;
-import java.beans.DefaultPersistenceDelegate;
-import java.beans.SimpleBeanInfo;
-import java.beans.Encoder;
-import java.io.IOException;
-import java.io.Serializable;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 
-import net.dpml.transit.model.Value;
-import net.dpml.transit.util.Enum;
-
 /**
- * The Resolvable interface is implemented by components capable of exposing
- * runtime objects.
+ * A Control is an object that is responsible for the activatation and 
+ * deactivation of handlers. Objects gaining a reference to a control have 
+ * ultimate discression concerning activiation and deactivation of the 
+ * control.
  *
- * @author <a href="mailto:dev-dpml@lists.ibiblio.org">The Digital Product Meta Library</a>
- * @version $Revision: 1.2 $ $Date: 2004/03/17 10:30:09 $
+ * @see PartHandler#createHandler(Context)
+ * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
  */
 public interface Control extends Remote
 {
    /**
-    * Resolve an instance from the value.
-    * @return the resolved instance
-    * @exception Exception if error occurs during instance resolution
+    * Create a new runtime handler using a supplied context.
+    * @param context the managed context
+    * @return the runtime handler
     */
-    Object resolve() throws Exception;
+    Handler createHandler( Context context ) throws RemoteException;
 
    /**
-    * Return an initialized instance of the component using a supplied isolation policy.
-    * If the isolation policy is TRUE an implementation shall make best efforts to isolate
-    * implementation concerns under the object that is returned.  Typically isolation 
-    * involves the creation of a proxy of a component implementation instance that 
-    * exposes a component's service interfaces to a client.  If the isolation policy if
-    * FALSE the implementation shall return the component implementation instance.
-    * 
-    * @param isolation the isolation policy
-    * @return the resolved instance
+    * Initiate activation of a runtime handler.
+    * @param handler the runtime handler
+    * @exception Exception if an activation error occurs
     */
-    Object resolve( boolean isolation ) throws Exception;
-
+    public void activate( Handler handler ) throws ControlException, RemoteException;
+    
    /**
-    * Release a reference to an object managed by the instance.
-    * 
-    * @param instance the instance to release
+    * Initiate deactivation of a supplied handler.
+    * @exception Exception if an activation error occurs
     */
-    void release( Object instance ) throws RemoteException;
+    public void deactivate( Handler handler ) throws RemoteException;
+
 }

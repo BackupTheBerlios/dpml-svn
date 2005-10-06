@@ -25,6 +25,7 @@ import java.util.Hashtable;
 
 import net.dpml.part.DelegationException;
 import net.dpml.part.PartHandlerNotFoundException;
+import net.dpml.part.PartException;
 import net.dpml.part.Part;
 
 import net.dpml.component.runtime.DuplicateKeyException;
@@ -59,7 +60,7 @@ public class PartsTable
     }
 
     public Component addComponent( String key, Part part ) 
-      throws ComponentException, DelegationException, PartHandlerNotFoundException, RemoteException
+      throws PartException, RemoteException
     {
         if( null == part )
         {

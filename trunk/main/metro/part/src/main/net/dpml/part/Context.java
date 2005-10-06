@@ -16,36 +16,26 @@
  * limitations under the License.
  */
 
-package net.dpml.component.runtime;
+package net.dpml.part;
 
 import java.net.URI;
-import java.rmi.Remote;
 import java.rmi.RemoteException;
-
-import net.dpml.part.Part;
-
-import net.dpml.component.runtime.Service;
-import net.dpml.component.runtime.Identifiable;
 
 import net.dpml.part.ActivationPolicy;
 
 /**
- * The Component interface is implemented by objects that handle the runtime
- * state of a component instance.
+ * The Context interfaces is used mark a object as manageable context that 
+ * may be used as an argumement in the creation of a runtime handler.
  *
- * @author <a href="mailto:dev-dpml@lists.ibiblio.org">The Digital Product Meta Library</a>
- * @version $Revision: 1.2 $ $Date: 2004/03/17 10:30:09 $
+ * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
  */
-public interface Component extends Service, Identifiable, Control
+public interface Context
 {
    /**
-    * Return the short name of this component.
-    * @return the component name
-    */
-    String getName() throws RemoteException;
-
-   /**
-    * Get the activation policy for the control.
+    * Get the activation policy.  If the activation policy is STARTUP, an implementation
+    * a handler shall immidiately activation a runtime instance.  If the policy is on DEMAND
+    * an implementation shall defer activiation until an explicit request is received.  If 
+    * the policy if SYSTEM activation may occur at the discretion of an implementation.
     *
     * @return the activation policy
     * @see ActivationPolicy#SYSTEM
@@ -53,13 +43,5 @@ public interface Component extends Service, Identifiable, Control
     * @see ActivationPolicy#DEMAND
     */
     ActivationPolicy getActivationPolicy() throws RemoteException;
-
-   /**
-    * Return the part that defines this component.
-    * @return the component part definition
-    */
-    Part getDefinition() throws RemoteException;
-
-
 }
 

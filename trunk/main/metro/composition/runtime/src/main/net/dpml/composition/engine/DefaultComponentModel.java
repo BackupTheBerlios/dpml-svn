@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package net.dpml.composition.control;
+package net.dpml.composition.engine;
 
 import java.io.InputStream;
 import java.net.URI;
@@ -43,11 +43,10 @@ import net.dpml.component.info.CollectionPolicy;
 import net.dpml.component.info.Type;
 import net.dpml.component.info.EntryDescriptor;
 import net.dpml.component.info.PartReference;
-
-import net.dpml.composition.event.EventProducer;
-
 import net.dpml.component.model.ComponentModel;
 import net.dpml.component.model.ContextModel;
+
+import net.dpml.composition.event.EventProducer;
 
 import net.dpml.configuration.Configuration;
 
@@ -56,16 +55,16 @@ import net.dpml.logging.Logger;
 import net.dpml.parameters.Parameters;
 
 import net.dpml.part.Part;
-import net.dpml.part.ControlException;
+import net.dpml.part.PartException;
+import net.dpml.part.ActivationPolicy;
 
 import net.dpml.state.State;
-import net.dpml.component.info.ActivationPolicy;
 import net.dpml.state.impl.DefaultState;
 import net.dpml.state.impl.DefaultStateMachine;
 
+import net.dpml.transit.Plugin.Category;
 import net.dpml.transit.model.Value;
 import net.dpml.transit.model.UnknownKeyException;
-import net.dpml.transit.Plugin.Category;
 
 /**
  *
@@ -98,13 +97,13 @@ public class DefaultComponentModel extends EventProducer implements ComponentMod
     // ------------------------------------------------------------------------
 
     public DefaultComponentModel( Logger logger, ComponentDirective directive )
-      throws ControlException, RemoteException
+      throws PartException, RemoteException
     {
          this( Thread.currentThread().getContextClassLoader(), logger, directive );
     }
 
     public DefaultComponentModel( ClassLoader anchor, Logger logger, ComponentDirective directive ) 
-      throws ControlException, RemoteException
+      throws PartException, RemoteException
     {
         super();
         
@@ -360,7 +359,7 @@ public class DefaultComponentModel extends EventProducer implements ComponentMod
         return keys;
     }
     
-    private Class loadComponentClass( ClassLoader classloader, ComponentDirective directive ) throws ControlException
+    private Class loadComponentClass( ClassLoader classloader, ComponentDirective directive ) throws PartException
     {
         String classname = directive.getClassname();
         try
@@ -371,11 +370,11 @@ public class DefaultComponentModel extends EventProducer implements ComponentMod
         {
             final String error =
               "Cannot load component class: " + classname;
-            throw new ControlException( error, e );
+            throw new PartException( error, e );
         }
     }
     
-    private Type loadType( Class subject ) throws ControlException
+    private Type loadType( Class subject ) throws PartException
     {
         try
         {
@@ -385,11 +384,11 @@ public class DefaultComponentModel extends EventProducer implements ComponentMod
         {
             final String error =
               "Cannot load component type defintion: " + subject.getName();
-            throw new ControlException( error, e );
+            throw new PartException( error, e );
         }
     }
 
-    private State loadStateGraph( Class subject ) throws ControlException
+    private State loadStateGraph( Class subject ) throws PartException
     {
         if( Executable.class.isAssignableFrom( subject ) )
         {
@@ -405,7 +404,7 @@ public class DefaultComponentModel extends EventProducer implements ComponentMod
         }
     }
     
-    State loadState( Class subject ) throws ControlException
+    State loadState( Class subject ) throws PartException
     {
         String resource = subject.getName().replace( '.', '/' ) + ".xgraph";
         try
@@ -427,7 +426,7 @@ public class DefaultComponentModel extends EventProducer implements ComponentMod
               "Internal error while attempting to load component state graph resource [" 
               + resource 
               + "].";
-            throw new ControlException( error, e );
+            throw new PartException( error, e );
         }
     }
 }

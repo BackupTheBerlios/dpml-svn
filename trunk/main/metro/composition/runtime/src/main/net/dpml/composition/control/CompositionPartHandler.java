@@ -36,7 +36,8 @@ import net.dpml.part.PartHolder;
 import net.dpml.part.PartEditor;
 import net.dpml.part.PartHandler;
 import net.dpml.part.PartEditorFactory;
-import net.dpml.part.PartHandlerRuntimeException;
+import net.dpml.part.PartException;
+import net.dpml.part.PartRuntimeException;
 import net.dpml.part.PartNotFoundException;
 import net.dpml.part.PartHandlerNotFoundException;
 import net.dpml.part.DelegationException;
@@ -104,8 +105,7 @@ public abstract class CompositionPartHandler implements Controller
     * @param uri the part uri
     * @return the part estracted from the part referenced by the uri
     */
-    public Part loadPart( URI uri )
-        throws PartNotFoundException, IOException, DelegationException
+    public Part loadPart( URI uri ) throws PartException, IOException
     {
         return loadSerializedPart( uri );
     }
@@ -116,8 +116,7 @@ public abstract class CompositionPartHandler implements Controller
     * @param url the part url
     * @return the part estracted from the part referenced by the url
     */
-    public Part loadPart( URL url )
-        throws PartNotFoundException, IOException, DelegationException
+    public Part loadPart( URL url ) throws PartException, IOException
     {
         return loadSerializedPart( url );
     }
@@ -138,7 +137,7 @@ public abstract class CompositionPartHandler implements Controller
         {
             final String error = 
              "Unexpected error while attempting to load a part from a byte array.";
-            throw new PartHandlerRuntimeException( error, e );
+            throw new PartRuntimeException( error, e );
         }
     }
     
@@ -147,7 +146,7 @@ public abstract class CompositionPartHandler implements Controller
     * @param part the part 
     * @return the editor
     */
-    public PartEditor loadPartEditor( Part part ) throws PartHandlerNotFoundException //, RemoteException
+    public PartEditor loadPartEditor( Part part ) throws PartException
     {
         URI uri = part.getPartHandlerURI();
         if( !getURI().equals( uri ) )
@@ -185,7 +184,7 @@ public abstract class CompositionPartHandler implements Controller
         {
             final String error =
               "Internal error while attempting to establish the composition part editor factory.";
-            throw new RuntimeException( error, e );
+            throw new PartRuntimeException( error, e );
         }
     }
 
@@ -300,7 +299,7 @@ public abstract class CompositionPartHandler implements Controller
              "Error loading part ["
               + url
               + "].";
-            throw new PartHandlerRuntimeException( error, e );
+            throw new PartRuntimeException( error, e );
         }
     }
 

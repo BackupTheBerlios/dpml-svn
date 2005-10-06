@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package net.dpml.component.info;
+package net.dpml.part;
 
 import java.beans.Expression;
 import java.beans.BeanDescriptor;

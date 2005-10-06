@@ -59,7 +59,7 @@ public class PartContentHandler extends ContentHandler
         {
             final String error =
               "Internal error while attempting to establish the default part handler.";
-            throw new RuntimeException( error, e );
+            throw new PartRuntimeException( error, e );
         }
     }
     
@@ -103,11 +103,15 @@ public class PartContentHandler extends ContentHandler
         
             return (Part) getPartHandler().loadPart( uri );
         }
+        catch( PartRuntimeException e )
+        {
+            throw e;
+        }
         catch( Throwable e )
         {
             final String error = 
               "Error occured while attempting to load part: " + url;
-            throw new PartHandlerRuntimeException( error, e );
+            throw new PartRuntimeException( error, e );
         }
     }
     

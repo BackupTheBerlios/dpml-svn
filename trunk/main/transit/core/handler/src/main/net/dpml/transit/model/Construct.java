@@ -230,6 +230,16 @@ public class Construct implements Value, Serializable
     }
     
    /**
+    * Resolve an instance from the value using a supplied isolation policy.
+    * @param policy the isolation policy
+    * @return the resolved instance
+    */
+    public Object resolve( boolean policy ) throws Exception
+    {
+        return resolve( null, policy );
+    }
+    
+   /**
     * Resolve an instance from the value using a supplied context map. If any 
     * target expressions in immediate or nested values contain a symbolic
     * expression the value will be resolved using the supplied map.

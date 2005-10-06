@@ -41,6 +41,7 @@ import net.dpml.component.data.ValueDirective;
 import net.dpml.component.data.Directive;
 import net.dpml.component.info.InfoDescriptor;
 import net.dpml.component.info.Type;
+import net.dpml.component.model.ComponentModel;
 
 import net.dpml.composition.runtime.ComponentHandler;
 import net.dpml.composition.runtime.ValueHandler;
@@ -48,13 +49,6 @@ import net.dpml.composition.runtime.ValueController;
 import net.dpml.composition.runtime.ComponentController;
 import net.dpml.composition.runtime.CompositionHandler;
 import net.dpml.composition.runtime.DefaultLogger;
-
-import net.dpml.part.Control;
-import net.dpml.part.ControlException;
-import net.dpml.part.DelegationException;
-import net.dpml.part.Part;
-import net.dpml.part.PartHandlerNotFoundException;
-import net.dpml.part.PartNotFoundException;
 
 import net.dpml.component.control.ClassLoaderManager;
 import net.dpml.component.control.ControllerContext;
@@ -70,9 +64,18 @@ import net.dpml.component.runtime.ComponentException;
 import net.dpml.component.runtime.Container;
 import net.dpml.component.runtime.Service;
 
-import net.dpml.transit.model.ContentModel;
+import net.dpml.part.DelegationException;
+import net.dpml.part.Part;
+import net.dpml.part.PartException;
+import net.dpml.part.PartHandlerNotFoundException;
+import net.dpml.part.PartNotFoundException;
+import net.dpml.part.Control;
+import net.dpml.part.Context;
+
 import net.dpml.transit.Plugin;
 import net.dpml.transit.Plugin.Category;
+import net.dpml.transit.model.ContentModel;
+import net.dpml.transit.model.Value;
 
 /**
  * The composition controller is the controller used to establish remotely accessible
@@ -93,6 +96,8 @@ public class CompositionController extends CompositionPartHandler implements Con
     // state
     //--------------------------------------------------------------------
 
+    private final net.dpml.composition.engine.ComponentController m_controller;
+    
     private final Logger m_logger;
     private final ValueController m_valueController;
     private final ComponentController m_componentController;
@@ -122,7 +127,89 @@ public class CompositionController extends CompositionPartHandler implements Con
         m_componentController = new ComponentController( m_logger, this );
         //m_lifestyleHandler = new LifestyleHandler( m_logger, m_componentController );
         m_logger.debug( "controller: " + CONTROLLER_URI );
+        
+        try
+        {
+            m_controller = new net.dpml.composition.engine.ComponentController( m_logger, this );
+        }
+        catch( RemoteException e )
+        {
+            final String error = 
+              "Unable to establish the component controller due to a remote exception.";
+            throw new ControllerException( getURI(), error, e );
+        }
     }
+    
+    //--------------------------------------------------------------------
+    // PartHandler
+    //--------------------------------------------------------------------
+    
+   /**
+    * Create and return a new management context using the supplied part
+    * as the inital management state.
+    *
+    * @param part the part data structure
+    * @return the management context instance
+    */
+    public Context createContext( Part part ) throws PartException
+    {
+        if( part instanceof ComponentDirective )
+        {
+            ComponentDirective directive = (ComponentDirective) part;
+            try
+            {
+                return new net.dpml.composition.engine.DefaultComponentModel( m_logger, directive );
+            }
+            catch( RemoteException e )
+            {
+                final String error = 
+                  "Unable to construct a context from the supplied part ["
+                  + part.getClass().getName()
+                  + "] due to a remote exception.";
+                throw new PartException( error, e );
+            }
+        }
+        else
+        {
+            //
+            // TODO delegate to foreign controller
+            //
+            
+            final String error =
+              "Construction of a managment context for the part class ["
+              + part.getClass().getName() 
+              + "] is not supported.";
+            throw new PartException( error );
+        }
+    }
+    
+   /**
+    * Return the controller for the supplied context.
+    * @return the context handler
+    */
+    public Control getController( Context context ) throws Exception
+    {
+        if( context instanceof ComponentModel )
+        {
+            return m_controller;
+        }
+        else
+        {
+            //
+            // TODO delegate to foreign controller
+            //
+            
+            final String error =
+              "Construction of a control for the context class ["
+              + context.getClass().getName() 
+              + "] is not supported.";
+            throw new PartException( error );
+        }
+    }
+    
+    //--------------------------------------------------------------------
+    // stuff
+    //--------------------------------------------------------------------
 
    /**
     * Return the controllers runtime context. The runtime context holds infromation 
@@ -175,7 +262,7 @@ public class CompositionController extends CompositionPartHandler implements Con
                 for( int i=0; i<classes.length; i++ )
                 {
                     Class c = classes[i];
-                    if( Control.class.isAssignableFrom( c ) )
+                    if( Component.class.isAssignableFrom( c ) )
                     {
                         URI uri = new URI( url.toString() );
                         return newComponent( uri );
@@ -230,40 +317,12 @@ public class CompositionController extends CompositionPartHandler implements Con
     //-------------------------------------------------------------------------------
     
    /**
-    * Create and return a new context object using a supplied part.
-    * @param part the part
-    * @return the context instance
-    */
-    public Object newManagementContext( Part part ) 
-      throws ControlException, PartHandlerNotFoundException, DelegationException, RemoteException 
-    {
-        if( part instanceof ComponentDirective )
-        {
-            ComponentDirective directive = (ComponentDirective) part;
-            return new DefaultComponentModel( m_logger, directive );
-        }
-        else
-        {
-            //
-            // TODO delegate to foreign controller
-            //
-            
-            final String error =
-              "Construction of a managment context for the part class ["
-              + part.getClass().getName() 
-              + "] is not supported.";
-            throw new ControlException( error );
-        }
-    }
-
-   /**
     * Returns an control object using the supplied part as the construction template.
     * @param uri the part construction template
     * @return the control instance
     */
-    public Control loadControl( URI uri ) 
-      throws IOException, ControlException, PartNotFoundException, 
-      PartHandlerNotFoundException, DelegationException 
+    public Value resolve( URI uri ) 
+      throws Exception
     {
         return newComponent( uri );
     }
@@ -280,8 +339,7 @@ public class CompositionController extends CompositionPartHandler implements Con
     * @exception DelegationException if an error occurs following handover of control to a foreign controller
     */
     public Component newComponent( URI uri )
-      throws IOException, ComponentException, PartNotFoundException, 
-      PartHandlerNotFoundException, DelegationException, RemoteException
+      throws IOException, PartException, RemoteException
     {
         getLogger().debug( "loading part " + uri );
         Part part = loadPart( uri );
@@ -308,7 +366,7 @@ public class CompositionController extends CompositionPartHandler implements Con
     * @exception UnsupportedPartTypeException if the component type is recognized but not supported
     */
     public Component newComponent( Container container, Part part, String name )
-      throws ComponentException, PartHandlerNotFoundException, DelegationException, RemoteException
+      throws PartException, RemoteException
     {
         URI partition = getPartition( container );
         if( isRecognizedPart( part ) )
@@ -340,7 +398,7 @@ public class CompositionController extends CompositionPartHandler implements Con
     * @exception UnsupportedPartTypeException if the component type is recognized but not supported
     */
     public Component newComponent( Container container, ClassLoader classloader, Part part, String name )
-      throws ComponentException, PartHandlerNotFoundException, DelegationException, RemoteException
+      throws PartException, RemoteException
     {
         if( null == name )
         {
@@ -403,7 +461,7 @@ public class CompositionController extends CompositionPartHandler implements Con
     * @exception UnsupportedPartTypeException if the component type is recognized but not supported
     */
     public Container newContainer( ClassLoader classloader, Part part )
-      throws ComponentException, PartHandlerNotFoundException, DelegationException, RemoteException
+      throws PartException, RemoteException
     {
         URI partition = getPartition();
         if( isRecognizedPart( part ) )

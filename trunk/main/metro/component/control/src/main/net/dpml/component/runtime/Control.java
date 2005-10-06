@@ -16,40 +16,35 @@
  * limitations under the License.
  */
 
-package net.dpml.part;
+package net.dpml.component.runtime;
 
-import java.net.URI;
+import java.beans.Expression;
+import java.beans.BeanDescriptor;
+import java.beans.PersistenceDelegate;
+import java.beans.DefaultPersistenceDelegate;
+import java.beans.SimpleBeanInfo;
+import java.beans.Encoder;
+import java.io.IOException;
+import java.io.Serializable;
+import java.rmi.Remote;
+import java.rmi.RemoteException;
+
+import net.dpml.transit.model.Value;
+import net.dpml.transit.util.Enum;
 
 /**
- * Exception thrown when an attempt is made to reference an unknown handler.
+ * The Resolvable interface is implemented by components capable of exposing
+ * runtime objects.
  *
  * @author <a href="mailto:dev-dpml@lists.ibiblio.org">The Digital Product Meta Library</a>
  * @version $Revision: 1.2 $ $Date: 2004/03/17 10:30:09 $
  */
-public class PartHandlerNotFoundException extends PartException 
+public interface Control extends Remote, Value
 {
    /**
-    * Serial version identifier.
+    * Release a reference to an object managed by the instance.
+    * 
+    * @param instance the instance to release
     */
-    static final long serialVersionUID = 1L;
-
-    private URI m_uri;
-
-    public PartHandlerNotFoundException( URI uri )
-    {
-        this( uri, null );
-    }
-
-    public PartHandlerNotFoundException( URI uri, Throwable cause )
-    {
-        super( uri.toString(), cause );
-        m_uri = uri;
-    }
-
-    public URI getURI()
-    {
-        return m_uri;
-    }
-
+    void release( Object instance ) throws RemoteException;
 }
-
