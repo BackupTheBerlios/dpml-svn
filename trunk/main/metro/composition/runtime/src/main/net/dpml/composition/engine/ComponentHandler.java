@@ -18,7 +18,10 @@
 
 package net.dpml.composition.engine;
 
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeEvent;
 import java.util.EventObject;
+import java.util.EventListener;
 import java.rmi.RemoteException;
 
 import net.dpml.component.model.ComponentModel;
@@ -31,6 +34,7 @@ import net.dpml.part.Handler;
 
 import net.dpml.state.State;
 import net.dpml.state.StateMachine;
+import net.dpml.state.StateEvent;
 import net.dpml.state.StateListener;
 import net.dpml.state.impl.DefaultStateMachine;
 
@@ -64,14 +68,15 @@ public class ComponentHandler extends EventProducer implements Handler
         
         State graph = model.getStateGraph();
         m_machine = new DefaultStateMachine( graph );
+        m_machine.addPropertyChangeListener( new StateEventPropergator( this ) );
     }
-
+    
     //--------------------------------------------------------------------------
     // Handler
     //--------------------------------------------------------------------------
     
    /**
-    * Returns the current state of the control.
+    * Returns the current state of the handler.
     * @return the current runtime state
     */
     public State getState()
@@ -80,7 +85,7 @@ public class ComponentHandler extends EventProducer implements Handler
     }
     
    /**
-    * Add a state listener to the control.
+    * Add a state listener to the handler.
     * @param listener the state listener
     */
     public void addStateListener( StateListener listener )
@@ -89,12 +94,21 @@ public class ComponentHandler extends EventProducer implements Handler
     }
 
    /**
-    * Remove a state listener from the control.
-    * @param listener the state listener
+    * Remove a state listener from the handler.
+    * @param listener the state listener to be removed
     */
     public void removeStateListener( StateListener listener )
     {
         super.removeListener( listener );
+    }
+
+   /**
+    * Returns the active status of the handler.
+    * @return TRUE if the handler has been activated otherwise FALSE
+    */
+    public boolean isActive()
+    {
+        return m_machine.isActive();
     }
 
     //--------------------------------------------------------------------------
@@ -103,6 +117,60 @@ public class ComponentHandler extends EventProducer implements Handler
 
     protected void processEvent( EventObject event )
     {
+        if( event instanceof StateEvent )
+        {
+            StateEvent e = (StateEvent) event;
+            EventListener[] listeners = listeners();
+            for( int i=0; i<listeners.length; i++ )
+            {
+                EventListener listener = listeners[i];
+                if( listener instanceof StateListener )
+                {
+                    StateListener stateListener = (StateListener) listener;
+                    try
+                    {
+                        stateListener.stateChanged( e );
+                    }
+                    catch( Throwable throwable )
+                    {
+                        final String error =
+                          "Ignoring exception raised by a listener in response to a state change notification.";
+                        getLogger().warn( error, throwable );
+                    }
+                }
+            }
+        }
+        else
+        {
+            final String error =
+              "Event type not supported."
+              + "\nEvent Class: " + event.getClass().getName();
+            m_logger.warn( error );
+        }
+    }
+    
+    //--------------------------------------------------------------------------
+    // ComponentHandler
+    //--------------------------------------------------------------------------
+    
+    ComponentModel getComponentModel()
+    {
+        return m_model;
+    }
+    
+    StateMachine getStateMachine()
+    {
+        return m_machine;
+    }
+    
+    Object getInstance()
+    {
+        return null;
+    }
+    
+    Handler getParentHandler()
+    {
+        return null;
     }
     
     //--------------------------------------------------------------------------
@@ -112,5 +180,39 @@ public class ComponentHandler extends EventProducer implements Handler
     private Logger getLogger()
     {
         return m_logger;
+    }
+    
+    private class StateEventPropergator implements PropertyChangeListener
+    {
+        private final ComponentHandler m_handler;
+        
+        private StateEventPropergator( ComponentHandler handler )
+        {
+            m_handler = handler;
+        }
+        
+        public void propertyChange( PropertyChangeEvent event )
+        {
+            State oldState = (State) event.getOldValue();
+            State newState = (State) event.getNewValue();
+            StateEvent stateEvent = new StateEvent( m_handler, oldState, newState );
+            m_handler.enqueueEvent( stateEvent );
+        }
+    }
+    
+    //--------------------------------------------------------------------------
+    // Object
+    //--------------------------------------------------------------------------
+
+    public String toString()
+    {
+        try
+        {
+            return "component:" + m_model.getImplementationClassName();
+        }
+        catch( RemoteException e )
+        {
+            return "handler:" + getClass().getName();
+        }
     }
 }

@@ -18,6 +18,7 @@
 
 package net.dpml.state;
 
+import java.beans.PropertyChangeListener;
 import java.io.InputStream;
 import java.net.URI;
 import java.lang.reflect.InvocationTargetException;
@@ -55,6 +56,10 @@ import java.lang.reflect.InvocationTargetException;
  */
 public interface StateMachine
 {
+    void addPropertyChangeListener( final PropertyChangeListener listener );
+    
+    void removePropertyChangeListener( final PropertyChangeListener listener );
+
    /**
     * Return the current state.
     * @return the current state
@@ -104,4 +109,11 @@ public interface StateMachine
     * @return the state established as a side-effect of the termination
     */
     State terminate( Object object );
+
+   /**
+    * Returns the active status of the state machine.
+    * @return TRUE if the state machine has invoked initialization and 
+    * termination has not been performed otherwise FALSE
+    */
+    boolean isActive();
 }

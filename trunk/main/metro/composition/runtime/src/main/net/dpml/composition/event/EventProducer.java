@@ -190,7 +190,9 @@ public abstract class EventProducer extends UnicastRemoteObject
                 else
                 {
                     final String error = 
-                      "Event source is not an instance of " + EventProducer.class.getName();
+                      "Event source [" 
+                      + source.getClass().getName()
+                      + "] is not an instance of " + EventProducer.class.getName();
                     throw new IllegalStateException( error );
                 }
             }

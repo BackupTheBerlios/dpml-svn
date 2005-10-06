@@ -41,6 +41,12 @@ public interface Handler extends Remote
     State getState() throws RemoteException;
     
    /**
+    * Returns the active status of the handler.
+    * @return TRUE if the handler has been activated otherwise FALSE
+    */
+    boolean isActive() throws RemoteException;
+    
+   /**
     * Add a state listener to the control.
     * @param listener the state listener
     */

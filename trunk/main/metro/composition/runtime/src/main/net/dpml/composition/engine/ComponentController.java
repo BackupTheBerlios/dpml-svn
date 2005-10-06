@@ -18,6 +18,7 @@
 
 package net.dpml.composition.engine;
 
+import java.lang.reflect.InvocationTargetException;
 import java.rmi.RemoteException;
 import java.util.EventObject;
 
@@ -33,6 +34,8 @@ import net.dpml.part.Control;
 import net.dpml.part.ControlException;
 import net.dpml.part.Handler;
 import net.dpml.part.HandlerException;
+
+import net.dpml.state.StateMachine;
 
 /**
  * The ComponentController class is a controller of a component instance.
@@ -139,6 +142,15 @@ public class ComponentController extends EventProducer implements Control
     }
 
     //--------------------------------------------------------------------------
+    // ComponentController
+    //--------------------------------------------------------------------------
+    
+    public Object instantiate( ComponentHandler handler )
+    {
+        return null;
+    }
+    
+    //--------------------------------------------------------------------------
     // EventProducer
     //--------------------------------------------------------------------------
 
@@ -153,26 +165,68 @@ public class ComponentController extends EventProducer implements Control
     
     private void processActivation( ComponentHandler handler ) throws ControlException
     {
-        getLogger().info( "activating component: " + handler );
+        getLogger().info( "activating: [" + handler + "]" );
         synchronized( handler )
         {
             // check with the handler for its activation status
-            // build constructor arguments
-            // instantiate the instance
+            
+            if( handler.isActive() )
+            {
+                return;
+            }
+            else
+            {
+                // build constructor arguments
+                // instantiate the instance
+            
+                StateMachine machine = handler.getStateMachine();
+                Object instance = handler.getInstance();
+                boolean ok = true;
+                try
+                {
+                    machine.initialize( instance );
+                }
+                catch( InvocationTargetException e )
+                {
+                    ok = false;
+                    final String error = 
+                      "Exception raised by invocation target.";
+                    throw new ControlException( error, e );
+                }
+                finally
+                {
+                    if( !ok )
+                    {
+                        processDeactivation( handler );
+                    }
+                }
+            }
         }
     }
 
     private void processDeactivation( ComponentHandler handler )
     {
-        getLogger().info( "deactivating component: " + handler );
+        getLogger().info( "deactivating: [" + handler + "]" );
         synchronized( handler )
         {
-            // check with the handler for its activation status
-            // get dependent handlers and notify them of non-availability
-            // decommission the instance
+            if( !handler.isActive() )
+            {
+                return;
+            }
+            else
+            {
+                // 1. get dependent handlers and notify them of non-availability
+                // 2. terminate the handler
+                
+                StateMachine machine = handler.getStateMachine();
+                Object instance = handler.getInstance();
+                machine.terminate( instance );
+                
+                // 3. decommission the instance
+            }
         }
     }
-
+    
     private Logger getLogger()
     {
         return m_logger;

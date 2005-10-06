@@ -70,7 +70,7 @@ public class ComponentModelTestCase extends TestCase
     public void testStateGraph() throws Exception
     {
         State state = m_model.getStateGraph();
-        assertEquals( "substates", 0, state.getStates().length );
+        assertEquals( "substates", 2, state.getStates().length );
     }
     
     public void testActivationPolicy() throws Exception

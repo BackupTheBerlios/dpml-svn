@@ -39,13 +39,13 @@ public class StateEvent extends EventObject
    /**
     * Construct a new <code>StateEvent</code>.
     *
-    * @param model the source compoent model
+    * @param source the source compoent model
     * @param from the originating state
     * @param to the new current state
     */
-    public StateEvent( final Object model, State from, State to )
+    public StateEvent( final Object source, State from, State to )
     {
-        super( model );
+        super( source );
         m_from = from;
         m_to = to;
     }

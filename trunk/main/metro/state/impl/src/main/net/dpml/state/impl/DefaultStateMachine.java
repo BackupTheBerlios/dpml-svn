@@ -19,6 +19,9 @@
 package net.dpml.state.impl;
 
 import java.beans.Statement;
+import java.beans.PropertyChangeSupport;
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeEvent;
 import java.io.Serializable;
 import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
@@ -52,6 +55,8 @@ import net.dpml.state.IntegrityRuntimeException;
  */
 public class DefaultStateMachine implements StateMachine
 {
+    public static final String PROPERTY_NAME = "state";
+    
     private static DefaultConfigurationBuilder BUILDER = new DefaultConfigurationBuilder();
     
     public static State load( InputStream input ) throws StateBuilderRuntimeException
@@ -79,7 +84,10 @@ public class DefaultStateMachine implements StateMachine
     // state
     //-------------------------------------------------------------------------------
 
+    private final PropertyChangeSupport m_support;
+    
     private State m_state;
+    private boolean m_active = false;
 
     //-------------------------------------------------------------------------------
     // constructor
@@ -93,11 +101,22 @@ public class DefaultStateMachine implements StateMachine
     public DefaultStateMachine( State state )
     {
         m_state = state;
+        m_support = new PropertyChangeSupport( this );
     }
 
     //-------------------------------------------------------------------------------
     // StateMachine
     //-------------------------------------------------------------------------------
+
+    public void addPropertyChangeListener( final PropertyChangeListener listener )
+    {
+        m_support.addPropertyChangeListener( listener );
+    }
+    
+    public void removePropertyChangeListener( final PropertyChangeListener listener )
+    {
+        m_support.removePropertyChangeListener( listener );
+    }
 
    /**
     * Return the current state.
@@ -169,7 +188,9 @@ public class DefaultStateMachine implements StateMachine
         ArrayList visited = new ArrayList();
         try
         {
-            return initialize( visited, object );
+            State result = initialize( visited, object );
+            m_active = true;
+            return result;
         }
         catch( UnknownTransitionException e )
         {
@@ -284,7 +305,9 @@ public class DefaultStateMachine implements StateMachine
         ArrayList visited = new ArrayList();
         try
         {
-            return terminate( visited, object );
+            State result = terminate( visited, object );
+            m_active = false;
+            return result;
         }
         catch( Throwable e )
         {
@@ -293,6 +316,16 @@ public class DefaultStateMachine implements StateMachine
         }
     }
     
+   /**
+    * Returns the active status of the state machine.
+    * @return TRUE if the state machine has invoked initialization and 
+    * termination has not been performed otherwise FALSE
+    */
+    public boolean isActive()
+    {
+        return m_active;
+    }
+
     //-------------------------------------------------------------------------------
     // implementation
     //-------------------------------------------------------------------------------
@@ -440,11 +473,19 @@ public class DefaultStateMachine implements StateMachine
         }
     }
     
-    private void setState( State state )
+    private void setState( final State state )
     {
         synchronized( m_state )
         {
-            m_state = state;
+            if( m_state != state )
+            {
+                final State oldState = m_state;
+                m_state = state;
+                final PropertyChangeEvent event = 
+                  new PropertyChangeEvent( 
+                    this, PROPERTY_NAME, oldState, state );
+                m_support.firePropertyChange( event );
+            }
         }
     }
     
