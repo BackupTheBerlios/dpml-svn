@@ -240,10 +240,8 @@ public class Type implements Serializable
     *   and context entry key and value classnames
     * @param services a set of service descriptors that detail the service that
     *   this component type is capable of supplying
-    * @param defaults the static configuration defaults
     * @param parts an array of part descriptors
-    * @exception NullPointerException if the info descriptor, loggers, context, services
-    *   or part argument are null
+    * @exception NullPointerException if the info, loggers, or context is null
     */
     public Type( final InfoDescriptor info,
                  final CategoryDescriptor[] loggers,

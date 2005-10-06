@@ -34,15 +34,6 @@ import java.rmi.RemoteException;
 public interface PartHandler
 {
    /**
-    * Returns an control object using the supplied part uri as the construction template.
-    * @param uri a uri referencing a part template
-    * @return the control instance
-    */
-    Control loadControl( URI uri )
-      throws IOException, ControlException, PartNotFoundException, 
-      PartHandlerNotFoundException, DelegationException;
-
-   /**
     * Create and return a new management context using the supplied part
     * as the inital management state.
     *
@@ -52,6 +43,13 @@ public interface PartHandler
     Object newManagementContext( Part part )
       throws ControlException, PartHandlerNotFoundException, 
       DelegationException, RemoteException;
+
+   /**
+    * Load a part editor.
+    * @param part the part 
+    * @return the editor
+    */
+    PartEditor loadPartEditor( Part part ) throws PartHandlerNotFoundException;
 
    /**
     * Load a part from serialized form.  The uri is assumed to be a uri that 
@@ -73,13 +71,6 @@ public interface PartHandler
     */
     Part loadPart( URL url ) throws DelegationException, PartNotFoundException, IOException;
     
-   /**
-    * Load a part editor.
-    * @param part the part 
-    * @return the editor
-    */
-    PartEditor loadPartEditor( Part part ) throws PartHandlerNotFoundException;
-
    /**
     * Load a part from a serialized object byte array. 
     * @param bytes the byte array

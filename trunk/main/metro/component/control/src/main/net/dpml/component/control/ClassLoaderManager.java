@@ -33,7 +33,7 @@ public interface ClassLoaderManager
     * component directive.
     * 
     * @param anchor the anchor classloader
-    * @param profile the component directive
+    * @param part a component part 
     */
     ClassLoader createClassLoader( ClassLoader anchor, Part part );
 }

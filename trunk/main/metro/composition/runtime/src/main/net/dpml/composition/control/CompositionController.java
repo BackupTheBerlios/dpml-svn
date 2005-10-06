@@ -209,7 +209,7 @@ public class CompositionController extends CompositionPartHandler implements Con
     * component directive.
     * 
     * @param anchor the anchor classloader
-    * @param directive a component directive
+    * @param part a component directive
     */
     public ClassLoader createClassLoader( ClassLoader anchor, Part part )
     {
@@ -231,7 +231,7 @@ public class CompositionController extends CompositionPartHandler implements Con
     
    /**
     * Create and return a new context object using a supplied part.
-    * @param uri the part uri
+    * @param part the part
     * @return the context instance
     */
     public Object newManagementContext( Part part ) 
