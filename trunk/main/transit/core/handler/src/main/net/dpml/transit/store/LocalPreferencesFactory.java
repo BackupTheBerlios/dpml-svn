@@ -44,7 +44,7 @@ public class LocalPreferencesFactory implements PreferencesFactory
 
     private static final Preferences SYSTEM = new LocalPreferences( null, "", true );
     private static final Preferences USER = new LocalPreferences( null, "", false );
-
+    
     // ------------------------------------------------------------------------
     // PreferencesFactory
     // ------------------------------------------------------------------------
@@ -65,5 +65,62 @@ public class LocalPreferencesFactory implements PreferencesFactory
     public Preferences userRoot()
     {
         return USER;
+    }
+    
+    // ------------------------------------------------------------------------
+    // special
+    // ------------------------------------------------------------------------
+    
+    public static Preferences parse( String path, Object[] entries, Object[] nodes, boolean system )
+    {
+        Preferences root = getRootPreferences( system );
+        Preferences prefs = root.node( path );
+        applyAttributes( prefs, entries );
+        applyNodes( prefs, nodes );
+        return prefs;
+    }
+    
+    private static Preferences getRootPreferences( boolean system )
+    {
+        if( system == true )
+        {
+            return new LocalPreferences( null, "", true );
+        }
+        else
+        {
+            return new LocalPreferences( null, "", false );
+        }
+    }
+    
+    private static void applyAttributes( Preferences prefs, Object[] entries )
+    {
+        System.out.println( "applying attributes to: " + prefs );
+        for( int i=0; i<entries.length; i++ )
+        {
+            String[] entry = (String[]) entries[i];
+            if( entry.length != 2 )
+            {
+                throw new IllegalArgumentException( 
+                    "Invalid attribute array length - expecting 2 but encountered " + entry.length );
+            }
+            String key = entry[0];
+            String value = entry[1];
+            prefs.put( key, value );
+        }
+    }
+
+    private static void applyNodes( Preferences prefs, Object[] nodes )
+    {
+        System.out.println( "applying nodes to: " + prefs );
+        for( int i=0; i<nodes.length; i++ )
+        {
+            Object[] node = (Object[]) nodes[i];
+            String name = (String) node[0];
+            Preferences p = prefs.node( name );
+            String[][] entries = (String[][]) node[1];
+            applyAttributes( p, entries );
+            Object[] subnodes = (Object[]) node[2];
+            applyNodes( p, subnodes );
+        }
     }
 }

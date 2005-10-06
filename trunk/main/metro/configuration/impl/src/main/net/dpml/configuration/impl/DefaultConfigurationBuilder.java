@@ -158,15 +158,43 @@ public class DefaultConfigurationBuilder
 
         return new SAXConfigurationHandler();
     }
-
+    
     /**
-     * Build a configuration object from a file using a filename.
-     * @param filename name of the file
-     * @return a <code>Configuration</code> object
+     * Build a configuration object from a resource colocated with a class.  The
+     * resource name will be mapped to [classname].xconfig.  If no resource exists
+     * a null value is returned.
+     *
+     * @param subject the reference class
+     * @return a <code>Configuration</code> object if a .xconfig is collocated with the class
      * @throws SAXException if a parsing error occurs
      * @throws IOException if an I/O error occurs
      * @throws ConfigurationException if an error occurs
      */
+    public Configuration buildFromClass( Class subject )
+        throws SAXException, IOException, ConfigurationException
+    {
+        final String classname = subject.getName();
+        final ClassLoader classloader = subject.getClassLoader();
+        final String xdefaults = classname.replace( '.', '/' ) + ".xconfig";
+        final InputStream input = classloader.getResourceAsStream( xdefaults );
+        if( null == input )
+        {
+            return null;
+        }
+        else
+        {
+            return build( input );
+        }
+    }
+
+   /**
+    * Build a configuration object from a file using a filename.
+    * @param filename name of the file
+    * @return a <code>Configuration</code> object
+    * @throws SAXException if a parsing error occurs
+    * @throws IOException if an I/O error occurs
+    * @throws ConfigurationException if an error occurs
+    */
     public Configuration buildFromFile( final String filename )
         throws SAXException, IOException, ConfigurationException
     {

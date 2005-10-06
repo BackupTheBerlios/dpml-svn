@@ -34,17 +34,16 @@ import com.jgoodies.forms.layout.FormLayout;
 
 import net.dpml.part.Part;
 import net.dpml.part.PartEditor;
-import net.dpml.component.info;.PartReference;
-import net.dpml.part.ClassLoaderManager;
+import net.dpml.component.info.PartReference;
 
 import net.dpml.component.control.Controller;
+import net.dpml.component.control.ClassLoaderManager;
 
-import net.dpml.component.info;.Type;
-import net.dpml.component.info;.InfoDescriptor;
-import net.dpml.component.info;.CollectionPolicy;
-import net.dpml.component.info;.LifestylePolicy;
-import net.dpml.component.info;.ContextDescriptor;
-import net.dpml.component.data.DeploymentDirective;
+import net.dpml.component.info.Type;
+import net.dpml.component.info.InfoDescriptor;
+import net.dpml.component.info.CollectionPolicy;
+import net.dpml.component.info.LifestylePolicy;
+import net.dpml.component.info.ContextDescriptor;
 import net.dpml.component.data.ComponentDirective;
 import net.dpml.component.data.ContextDirective;
 import net.dpml.component.data.ClassLoaderDirective;
@@ -93,7 +92,7 @@ public class ComponentDirectiveEditor extends DefaultMutableTreeNode implements 
         
         try
         {
-            m_type = Type.decode( m_class );
+            m_type = Type.decode( getClass().getClassLoader(), m_class );
         }
         catch( Throwable e )
         {

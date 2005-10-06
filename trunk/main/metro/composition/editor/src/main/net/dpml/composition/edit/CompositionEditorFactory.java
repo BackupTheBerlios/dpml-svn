@@ -22,9 +22,8 @@ import net.dpml.part.Part;
 import net.dpml.part.PartEditor;
 import net.dpml.part.PartEditorFactory;
 
-import net.dpml.part.ClassLoaderManager;
-
 import net.dpml.component.data.ComponentDirective;
+import net.dpml.component.control.ClassLoaderManager;
 
 import net.dpml.transit.Logger;
 import net.dpml.transit.Transit;

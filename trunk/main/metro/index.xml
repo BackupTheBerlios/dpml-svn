@@ -73,12 +73,12 @@
       </types>
     </info>
     <dependencies>
-      <include key="dpml-state-api"/>
-      <include key="dpml-configuration-impl"/>
+      <include key="dpml-state-api" tag="api"/>
+      <include key="dpml-configuration-impl" tag="impl"/>
     </dependencies>
   </project>
 
-  <!-- Component Model API -->
+  <!-- Component -->
 
   <project basedir="component/model">
     <info>
@@ -100,8 +100,6 @@
     </dependencies>
   </project>
 
-  <!-- Composition Control API -->
-
   <project basedir="component/control">
     <info>
       <group>dpml/metro</group>
@@ -111,8 +109,6 @@
       </types>
     </info>
     <dependencies>
-      <include key="dpml-state-api"/>
-      <include key="dpml-part-api"/>
       <include key="dpml-component-model"/>
     </dependencies>
   </project>

@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package net.dpml.component.info;;
+package net.dpml.component.info;
 
 import java.beans.SimpleBeanInfo;
 import java.beans.BeanDescriptor;
@@ -40,15 +40,14 @@ public final class InfoDescriptorBeanInfo extends SimpleBeanInfo
         {
             InfoDescriptor info = (InfoDescriptor) old;
             
-            Object[] args = new Object[ 8 ];
+            Object[] args = new Object[ 7 ];
             args[0] = info.getName();
             args[1] = info.getClassname();
             args[2] = info.getVersion();
             args[3] = info.getLifestyle();
             args[4] = info.getCollectionPolicy();
-            args[5] = info.getConfigurationSchema();
-            args[6] = new Boolean( info.isThreadsafe() );
-            args[7] = info.getProperties();
+            args[5] = new Boolean( info.isThreadsafe() );
+            args[6] = info.getProperties();
             return new Expression( old, old.getClass(), "new", args );
         }
     }

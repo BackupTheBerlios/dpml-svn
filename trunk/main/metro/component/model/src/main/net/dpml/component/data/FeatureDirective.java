@@ -26,7 +26,7 @@ import net.dpml.part.Part;
 
 /**
  * A <code>FeatureDirective</code> declares a context entry that is itself a feature
- * of the component such the component uri, name, working directory, or twemporary 
+ * of the component including the component uri, name, working directory, or temporary 
  * directory.
  *
  * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>

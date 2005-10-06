@@ -62,11 +62,11 @@ import net.dpml.composition.control.CompositionController;
 
 import net.dpml.component.data.ComponentDirective;
 import net.dpml.component.data.ContextDirective;
-import net.dpml.component.info;.ServiceDescriptor;
-import net.dpml.component.info;.Type;
-import net.dpml.component.info;.LifestylePolicy;
-import net.dpml.component.info;.PartReference;
-import net.dpml.component.info;.EntryDescriptor;
+import net.dpml.component.info.ServiceDescriptor;
+import net.dpml.component.info.Type;
+import net.dpml.component.info.LifestylePolicy;
+import net.dpml.component.info.PartReference;
+import net.dpml.component.info.EntryDescriptor;
 
 import net.dpml.composition.event.EventProducer;
 import net.dpml.composition.event.WeakEventProducer;
@@ -93,7 +93,7 @@ import net.dpml.state.impl.DefaultState;
 import net.dpml.state.impl.DefaultStateMachine;
 import net.dpml.state.StateEvent;
 import net.dpml.state.StateListener;
-import net.dpml.component.info;.ActivationPolicy;
+import net.dpml.component.info.ActivationPolicy;
 
 /**
  *
@@ -148,9 +148,10 @@ public abstract class ComponentHandler extends WeakEventProducer
         m_componentController = controller.getComponentController();
         m_class = loadComponentClass( classloader, profile );
         
+        ClassLoader current = Thread.currentThread().getContextClassLoader();
         try
         {
-            m_type = Type.decode( m_class );
+            m_type = Type.decode( getClass().getClassLoader(), m_class );
         }
         catch( Throwable e )
         {
@@ -158,7 +159,7 @@ public abstract class ComponentHandler extends WeakEventProducer
               "Unable to load component type: " + m_class.getName();
             throw new ComponentException( error, e );
         }
-
+        
         m_lifestyle = profile.getLifestylePolicy();
         m_interfaces = loadServiceClasses( classloader, m_type );
 

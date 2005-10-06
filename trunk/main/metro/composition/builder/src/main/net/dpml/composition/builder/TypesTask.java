@@ -28,7 +28,7 @@ import java.beans.IntrospectionException;
 
 import net.dpml.magic.model.Policy;
 import net.dpml.magic.tasks.ProjectTask;
-import net.dpml.component.info;.Type;
+import net.dpml.component.info.Type;
 
 import org.apache.tools.ant.AntClassLoader;
 import org.apache.tools.ant.BuildException;
@@ -87,6 +87,7 @@ public class TypesTask extends ProjectTask implements DynamicElementNS
     private void buildTypes( ClassLoader classloader )
     {
         final TypeBuilder[] builders = (TypeBuilder[]) m_builders.toArray( new TypeBuilder[0] );
+        ClassLoader current = Thread.currentThread().getContextClassLoader();
         for( int i=0; i<builders.length; i++ )
         {
             final TypeBuilder builder = builders[i];
@@ -101,16 +102,14 @@ public class TypesTask extends ProjectTask implements DynamicElementNS
                 final BufferedOutputStream buffer = new BufferedOutputStream( output );
                 try
                 {
+                    Thread.currentThread().setContextClassLoader( getClass().getClassLoader() );
                     Type.encode( type, output );
                 }
                 finally
                 {
+                    Thread.currentThread().setContextClassLoader( current );
                     output.close();
                 }
-                //final URI handler = builder.getTypeHandlerURI();
-                //final byte[] bytes = SerializableObjectHelper.writeToByteArray( type );
-                //final TypeHolder holder = new TypeHolder( handler, bytes );
-                //SerializableObjectHelper.write( holder, file );
             }
             catch( IntrospectionException e )
             {

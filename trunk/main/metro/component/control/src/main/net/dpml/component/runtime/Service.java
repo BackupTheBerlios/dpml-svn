@@ -20,7 +20,7 @@ package net.dpml.component.runtime;
 
 import java.rmi.RemoteException;
 
-import net.dpml.component.info;.ServiceDescriptor;
+import net.dpml.component.info.ServiceDescriptor;
 
 /**
  * A Service is a local interface implemented by an object that 

@@ -38,7 +38,7 @@ public final class ClassLoaderDirective implements Serializable
     /**
      * The classpath directives
      */
-    private ClasspathDirective[] m_classpaths;
+    private final ClasspathDirective[] m_classpaths;
 
     /**
      * Create a empty ClasspathDirective.
@@ -127,7 +127,7 @@ public final class ClassLoaderDirective implements Serializable
     */
     public int hashCode()
     {
-        int hash = 0;
+        int hash = 633987582;
         for( int i=0; i<m_classpaths.length; i++ )
         {
             hash ^= m_classpaths[i].hashCode();

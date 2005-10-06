@@ -56,7 +56,7 @@ import net.dpml.transit.model.Construct;
  * @author <a href="mailto:dev-dpml@lists.ibiblio.org">The Digital Product Meta Library</a>
  * @version $Id: Parameter.java 2119 2005-03-23 02:04:46Z mcconnell@dpml.net $
  */
-public class ValueDirective extends Construct implements Directive
+public final class ValueDirective extends Construct implements Directive
 {
     //--------------------------------------------------------------------------
     // static

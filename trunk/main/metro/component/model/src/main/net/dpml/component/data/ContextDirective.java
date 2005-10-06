@@ -21,7 +21,7 @@ package net.dpml.component.data;
 import java.io.Serializable;
 
 import net.dpml.part.Part;
-import net.dpml.component.info;.PartReference;
+import net.dpml.component.info.PartReference;
 
 /**
  * A context descriptor declares the context creation criteria for
@@ -47,45 +47,57 @@ import net.dpml.component.info;.PartReference;
  * @author <a href="mailto:dev-dpml@lists.ibiblio.org">The Digital Product Meta Library</a>
  * @version $Id: ContextDirective.java 2991 2005-07-07 00:00:04Z mcconnell@dpml.net $
  */
-public class ContextDirective implements Serializable
+public final class ContextDirective implements Serializable
 {
+    //--------------------------------------------------------------------------
+    // static
+    //--------------------------------------------------------------------------
+    
    /**
     * Serial version identifier.
     */
     static final long serialVersionUID = 1L;
 
-    /**
-     * The set of entry directives.
-     */
+    //--------------------------------------------------------------------------
+    // state
+    //--------------------------------------------------------------------------
+    
+   /**
+    * The set of entry directives.
+    */
     private final PartReference[] m_entries;
 
-    /**
-     * The constext implementation classname.
-     */
+   /**
+    * The constext implementation classname.
+    */
     private final String m_classname;
 
-    /**
-     * Creation of a context directive.
-     */
+    //--------------------------------------------------------------------------
+    // constructors
+    //--------------------------------------------------------------------------
+    
+   /**
+    * Creation of a context directive.
+    */
     public ContextDirective()
     {
         this( new PartReference[0] );
     }
 
-    /**
-     * Creation of a context directive
-     * @param entries the set of entry descriptors
-     */
+   /**
+    * Creation of a context directive
+    * @param entries the set of entry descriptors
+    */
     public ContextDirective( final PartReference[] entries )
     {
         this( null, entries );
     }
 
-    /**
-     * Creation of a new file target.
-     * @param classname the context implementation class
-     * @param entries the set of entry descriptors
-     */
+   /**
+    * Creation of a new file target.
+    * @param classname the context implementation class
+    * @param entries the set of entry descriptors
+    */
     public ContextDirective( final String classname, final PartReference[] entries )
     {
         m_classname = classname;
@@ -99,30 +111,34 @@ public class ContextDirective implements Serializable
         }
     }
 
-    /**
-     * Return the classname of the context implementation to use.
-     * @return the classname
-     */
+    //--------------------------------------------------------------------------
+    // implementation
+    //--------------------------------------------------------------------------
+    
+   /**
+    * Return the classname of the context implementation to use.
+    * @return the classname
+    */
     public String getClassname()
     {
         return m_classname;
     }
 
-    /**
-     * Return the set of entry directives.
-     * @return the entries
-     */
+   /**
+    * Return the set of entry directives.
+    * @return the entries
+    */
     public PartReference[] getDirectives()
     {
         return m_entries;
     }
 
-    /**
-     * Return part reference defining the value for the requested entry.
-     * @param key the context entry key
-     * @return the part reference corresponding to the supplied key or null if the
-     *   key is unknown
-     */
+   /**
+    * Return part reference defining the value for the requested entry.
+    * @param key the context entry key
+    * @return the part reference corresponding to the supplied key or null if the
+    *   key is unknown
+    */
     public PartReference getPartReference( String key )
     {
         for( int i = 0; i < m_entries.length; i++ )
@@ -136,13 +152,12 @@ public class ContextDirective implements Serializable
         return null;
     }
 
-
-    /**
-     * Return part defining the value for the requested entry.
-     * @param key the context entry key
-     * @return the part defintion corresponding to the supplied key or null if the
-     *   key is unknown
-     */
+   /**
+    * Return part defining the value for the requested entry.
+    * @param key the context entry key
+    * @return the part defintion corresponding to the supplied key or null if the
+    *   key is unknown
+    */
     public Part getPartDirective( String key )
     {
         PartReference ref = getPartReference( key );

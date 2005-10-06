@@ -41,9 +41,9 @@ import net.dpml.component.data.ComponentDirective;
 import net.dpml.component.data.ContextDirective;
 import net.dpml.component.data.ValueDirective;
 import net.dpml.component.data.ReferenceDirective;
-import net.dpml.component.info;.Type;
+import net.dpml.component.info.Type;
 
-import net.dpml.component.info;.EntryDescriptor;
+import net.dpml.component.info.EntryDescriptor;
 
 import net.dpml.part.Part;
 

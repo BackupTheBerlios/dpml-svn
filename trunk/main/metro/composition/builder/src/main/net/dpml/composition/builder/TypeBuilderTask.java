@@ -29,6 +29,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.net.URI;
+import java.net.URL;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
@@ -40,23 +41,22 @@ import net.dpml.activity.Executable;
 
 import net.dpml.composition.builder.datatypes.PartsDataType;
 
-import net.dpml.component.info;.CategoryDescriptor;
-import net.dpml.component.info;.ContextDescriptor;
-import net.dpml.component.info;.InfoDescriptor;
-import net.dpml.component.info;.LifestylePolicy;
-import net.dpml.component.info;.CollectionPolicy;
-import net.dpml.component.info;.Type;
-import net.dpml.component.info;.EncodingException;
-import net.dpml.component.info;.PartReference;
-import net.dpml.component.info;.EntryDescriptor;
-import net.dpml.component.info;.ServiceDescriptor;
+import net.dpml.component.info.CategoryDescriptor;
+import net.dpml.component.info.ContextDescriptor;
+import net.dpml.component.info.InfoDescriptor;
+import net.dpml.component.info.LifestylePolicy;
+import net.dpml.component.info.CollectionPolicy;
+import net.dpml.component.info.Type;
+import net.dpml.component.info.EncodingException;
+import net.dpml.component.info.PartReference;
+import net.dpml.component.info.EntryDescriptor;
+import net.dpml.component.info.ServiceDescriptor;
 
 import net.dpml.configuration.Configuration;
 import net.dpml.configuration.impl.DefaultConfigurationBuilder;
 
 import net.dpml.magic.tasks.ProjectTask;
 import net.dpml.magic.model.Policy;
-
 
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Project;
@@ -177,9 +177,9 @@ public class TypeBuilderTask extends ProjectTask implements TypeBuilder
         CategoryDescriptor[] categories = new CategoryDescriptor[0];
         ContextDescriptor context = createContextDescriptor( subject );
         PartReference[] parts = getPartReferences( subject.getClassLoader() );
-        Configuration config = createDefaultConfiguration( subject );
+        //Configuration config = createDefaultConfiguration( subject );
 
-        Type type = new Type( info, categories, context, services, config, parts );
+        Type type = new Type( info, categories, context, services, parts );
 
         /*
         File target = getContext().getTargetDirectory();
@@ -221,7 +221,7 @@ public class TypeBuilderTask extends ProjectTask implements TypeBuilder
         File classes = getContext().getClassesDirectory();
         path.createPathElement().setLocation( classes );
         ClassLoader classloader = new AntClassLoader( proj, path );
-
+        ClassLoader current = Thread.currentThread().getContextClassLoader();
         try
         {
             final Type type = buildType( classloader );
@@ -231,12 +231,8 @@ public class TypeBuilderTask extends ProjectTask implements TypeBuilder
             file.getParentFile().mkdirs();
             final FileOutputStream output = new FileOutputStream( file );
             final BufferedOutputStream buffer = new BufferedOutputStream( output );
+            Thread.currentThread().setContextClassLoader( getClass().getClassLoader() );
             Type.encode( type, output );
-            
-            //final URI handler = getTypeHandlerURI();
-            //final byte[] bytes = SerializableObjectHelper.writeToByteArray( type );
-            //final TypeHolder holder = new TypeHolder( handler, bytes );
-            //SerializableObjectHelper.write( holder, file );
         }
         catch( IntrospectionException e )
         {
@@ -259,6 +255,10 @@ public class TypeBuilderTask extends ProjectTask implements TypeBuilder
               + "\nCause: " + e.getClass().getName()
               + "\nMessage: " + e.getMessage();
             throw new BuildException( error, e, getLocation() );
+        }
+        finally
+        {
+            Thread.currentThread().setContextClassLoader( current );
         }
     }
 
@@ -305,10 +305,9 @@ public class TypeBuilderTask extends ProjectTask implements TypeBuilder
         String name = getName();
         String classname = subject.getName();
         boolean threadsafe = getThreadSafeCapability( subject );
-        String schema = getConfigurationSchema( subject );
         Properties properties = getTypeProperties( subject );
         return new InfoDescriptor( 
-          name, classname, null, m_lifestyle, m_collection, schema, threadsafe, properties );
+          name, classname, null, m_lifestyle, m_collection, threadsafe, properties );
     }
 
     private boolean getThreadSafeCapability( Class subject ) throws IntrospectionException
@@ -316,68 +315,11 @@ public class TypeBuilderTask extends ProjectTask implements TypeBuilder
         return m_threadsafe;
     }
 
-    private String getConfigurationSchema( Class subject ) throws IntrospectionException
+    private Properties getTypeProperties( Class subject ) throws IntrospectionException
     {
-        // TODO: change this to a namespaced attribute on the configuration
-        try
-        {
-            Field field = subject.getDeclaredField( "TYPE_CONFIGURATION_SCHEMA" );
-            if( Modifier.isStatic( field.getModifiers() ) )
-            {
-                if( String.class.isAssignableFrom( field.getType() ) )
-                {
-                    return (String) field.get( null );
-                }
-                else
-                {
-                    final String error =
-                      "The component type [" 
-                      + subject.getName()
-                      + "] declares an invalid static field TYPE_CONFIGURATION_SCHEMA declaration. "
-                      + "The declared type is not assignable to a string.";
-                    throw new IntrospectionException( error );
-                }
-            }
-            else
-            {
-                return null;
-            }
-        }
-        catch( NoSuchFieldException e )
-        {
-            return null;
-        }
-        catch( IllegalArgumentException e )
-        {
-            final String error =
-              "The component type [" 
-              + subject.getName()
-              + "] declares an invalid static field TYPE_CONFIGURATION_SCHEMA declaration. "
-              + "Could not convert the value to an string.";
-            throw new IntrospectionException( error );
-        }
-        catch( IntrospectionException e )
-        {
-            throw e;
-        }
-        catch( Exception e )
-        {
-            final String error =
-              "An unexpected error occured while resolving the static "
-              + "TYPE_CONFIGURATION_SCHEMA field on the type [" 
-              + subject.getName()
-              + "].";
-            throw new IntrospectionException( error );
-        }
-    }
-
-    private Configuration createDefaultConfiguration( Class subject )
-    {
-        final String classname = subject.getName();
-        final ClassLoader classloader = subject.getClassLoader();
-        final String xdefaults = classname.replace( '.', '/' ) + ".xconfig";
-        final InputStream input = classloader.getResourceAsStream( xdefaults );
-        if( null == input )
+        String path = subject.getClass().getName().replace( '.', '/' ) + ".properties";
+        URL url = subject.getResource( path );
+        if( null == url )
         {
             return null;
         }
@@ -385,72 +327,25 @@ public class TypeBuilderTask extends ProjectTask implements TypeBuilder
         {
             try
             {
-                DefaultConfigurationBuilder builder = new DefaultConfigurationBuilder();
-                return builder.build( input );
-            }
-            catch( Exception e )
-            {
-                final String error =
-                  "An unexpected error occured while resolving the static configuration [" 
-                  + xdefaults 
-                  + "].";
-                throw new BuildException( error, e, getLocation() );
-            }
-        }
-    }
-
-    private Properties getTypeProperties( Class subject ) throws IntrospectionException
-    {
-        // TODO: change this to a .xproperties
-        try
-        {
-            Field field = subject.getDeclaredField( "TYPE_INFO_PROPERTIES" );
-            if( Modifier.isStatic( field.getModifiers() ) )
-            {
-                if( Properties.class.isAssignableFrom( field.getType() ) )
+                Properties properties = new Properties();
+                InputStream input = url.openStream();
+                try
                 {
-                    return (Properties) field.get( null );
+                    properties.load( input );
+                    return properties;
                 }
-                else
+                finally
                 {
-                    final String error =
-                      "The component type [" 
-                      + subject.getName()
-                      + "] declares an invalid static field TYPE_INFO_PROPERTIES declaration. "
-                      + "The declared type is not assignable to a java.util.Properties value.";
-                    throw new IntrospectionException( error );
+                    input.close();
                 }
             }
-            else
+            catch( IOException e )
             {
-                return null;
+                final String error = 
+                  "Unable to load the property file for the path: "
+                  + path;
+                throw new BuildException( error, e );
             }
-        }
-        catch( NoSuchFieldException e )
-        {
-            return null;
-        }
-        catch( IllegalArgumentException e )
-        {
-            final String error =
-              "The component type [" 
-              + subject.getName()
-              + "] declares an invalid static field TYPE_INFO_PROPERTIES declaration. "
-              + "Could not convert the value to an instance of java.util.Properties.";
-            throw new IntrospectionException( error );
-        }
-        catch( IntrospectionException e )
-        {
-            throw e;
-        }
-        catch( Exception e )
-        {
-            final String error =
-              "An unexpected error occured while resolving the static "
-              + "TYPE_INFO_PROPERTIES field on the type [" 
-              + subject.getName()
-              + "].";
-            throw new IntrospectionException( error );
         }
     }
 
@@ -911,8 +806,8 @@ public class TypeBuilderTask extends ProjectTask implements TypeBuilder
         }
     }
 
-    private static URI TYPE_HANDLER_URI = setupURI( "@TYPE-HANDLER-URI@" );
-    private static URI TYPE_BUILDER_URI = setupURI( "@TYPE-BUILDER-URI@" );
+    private static URI TYPE_HANDLER_URI = setupURI( "@PART-HANDLER-URI@" );
+    private static URI TYPE_BUILDER_URI = setupURI( "@PART-BUILDER-URI@" );
 
     protected static URI setupURI( String spec )
     {

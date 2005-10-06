@@ -17,7 +17,7 @@
  * limitations under the License.
  */
 
-package net.dpml.component.info;;
+package net.dpml.component.info;
 
 import java.beans.Expression;
 import java.beans.BeanDescriptor;
@@ -88,11 +88,6 @@ public final class InfoDescriptor extends Descriptor
     private final LifestylePolicy m_lifestyle;
 
     /**
-     * The component configuration schema.
-     */
-    private final String m_schema;
-
-    /**
      * The component garbage collection policy. The value returned is either
      * WEAK, SOFT, HARD or HARD.  A component implementing a WEAK policy
      * will be decommissioned if no references exist.  A component declaring a
@@ -124,7 +119,7 @@ public final class InfoDescriptor extends Descriptor
     public InfoDescriptor( final String name, final String classname )
             throws IllegalArgumentException, NullPointerException
     {
-        this( name, classname, null, null, CollectionPolicy.SYSTEM, null, false, null );
+        this( name, classname, null, null, CollectionPolicy.SYSTEM, false, null );
     }
 
     /**
@@ -137,7 +132,6 @@ public final class InfoDescriptor extends Descriptor
      * @param lifestyle the component lifestyle (singleton, thread, etc.)
      * @param collection the garbage collection policy for the component
      * @param threadsafe if TRUE the type is declaring itself as threadsafe
-     * @param schema the configuration schema
      * @param attributes a set of attributes associated with the component type
      * @exception IllegalArgumentException if the implementation key is not a classname
      * @exception NullArgumentException if the classname argument is null.
@@ -148,7 +142,6 @@ public final class InfoDescriptor extends Descriptor
                            final Version version,
                            final LifestylePolicy lifestyle,
                            final CollectionPolicy collection,
-                           final String schema,
                            final boolean threadsafe,
                            final Properties attributes )
             throws IllegalArgumentException, NullPointerException
@@ -178,8 +171,6 @@ public final class InfoDescriptor extends Descriptor
             m_version = version;
         }
         
-        m_schema = schema;
-
         if( lifestyle == null )
         {
             if( threadsafe )
@@ -195,8 +186,6 @@ public final class InfoDescriptor extends Descriptor
         {
             m_lifestyle = lifestyle;
         }
-
-        //int p = getCollectionPolicyValue( collection );
         
         if( null == collection )
         {
@@ -207,29 +196,6 @@ public final class InfoDescriptor extends Descriptor
             m_collection = collection;
         }
         
-        //if( collection > CollectionPolicy.SYSTEM )
-        //{
-        //    if(( m_lifestyle == TRANSIENT ) && ( collection == HARD_COLLECTION ))
-        //    {
-        //        m_collection = SOFT_COLLECTION;
-        //    }
-        //    else
-        //    {
-        //        m_collection = collection;
-        //    }
-        //}
-        //else
-        //{
-        //    if( m_lifestyle == TRANSIENT )
-        //    {
-        //        m_collection = SOFT_COLLECTION;
-        //    }
-        //    else
-        //    {
-        //        m_collection = HARD_COLLECTION;
-        //    }
-        //}
-
         if ( name != null )
         {
             m_name = name;
@@ -307,16 +273,6 @@ public final class InfoDescriptor extends Descriptor
     public boolean isHard()
     {
         return m_collection.equals( CollectionPolicy.HARD );
-    }
-
-    /**
-     * Return the configuration schema.
-     *
-     * @return the schema declaration (possibly null)
-     */
-    public String getConfigurationSchema()
-    {
-        return m_schema;
     }
 
     /**

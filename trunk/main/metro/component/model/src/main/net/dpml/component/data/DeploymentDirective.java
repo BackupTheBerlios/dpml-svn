@@ -26,7 +26,7 @@ import java.net.URISyntaxException;
 import net.dpml.part.Part;
 import net.dpml.part.Control;
 
-import net.dpml.component.info;.ActivationPolicy;
+import net.dpml.component.info.ActivationPolicy;
 
 /**
  * Abstract base class for the ComponentDirective.
@@ -34,7 +34,7 @@ import net.dpml.component.info;.ActivationPolicy;
  * @author <a href="mailto:dev-dpml@lists.ibiblio.org">The Digital Product Meta Library</a>
  * @version $Id: DeploymentDirective.java 2991 2005-07-07 00:00:04Z mcconnell@dpml.net $
  */
-public abstract class DeploymentDirective extends AbstractDirective implements Comparable
+abstract class DeploymentDirective extends AbstractDirective implements Comparable
 {
     //--------------------------------------------------------------------------
     // static
@@ -55,26 +55,26 @@ public abstract class DeploymentDirective extends AbstractDirective implements C
     // state
     //--------------------------------------------------------------------------
 
-    /**
-     * The name of the component profile. This is an
-     * abstract name used during assembly.
-     */
-    private String m_name;
+   /**
+    * The name of the component profile. This is an
+    * abstract name used during assembly.
+    */
+    private final String m_name;
 
-    /**
-     * The activation policy.
-     */
-    private ActivationPolicy m_activation;
+   /**
+    * The activation policy.
+    */
+    private final ActivationPolicy m_activation;
 
    /**
     * Logging category directives.
     */
-    private CategoriesDirective m_categories;
+    private final CategoriesDirective m_categories;
 
-    /**
-     * The classpath directive.
-     */
-    private ClassLoaderDirective m_classloader;
+   /**
+    * The classpath directive.
+    */
+    private final ClassLoaderDirective m_classloader;
 
     //--------------------------------------------------------------------------
     // constructor
@@ -146,11 +146,6 @@ public abstract class DeploymentDirective extends AbstractDirective implements C
         return m_name;
     }
 
-    public void setName( String name )
-    {
-        m_name = name;
-    }
-
     /**
      * Return the logging categories for the profile.
      *
@@ -159,11 +154,6 @@ public abstract class DeploymentDirective extends AbstractDirective implements C
     public CategoriesDirective getCategoriesDirective()
     {
         return m_categories;
-    }
-
-    public void setCategoriesDirective( CategoriesDirective directive )
-    {
-        m_categories = directive;
     }
 
    /**
@@ -179,11 +169,6 @@ public abstract class DeploymentDirective extends AbstractDirective implements C
         return m_activation;
     }
 
-    public void setActivationPolicy( ActivationPolicy policy )
-    {
-        m_activation = policy;
-    }
-
     /**
      * Return the classloader directive that describes the creation
      * arguments for the classloader required by this profile.
@@ -193,11 +178,6 @@ public abstract class DeploymentDirective extends AbstractDirective implements C
     public ClassLoaderDirective getClassLoaderDirective()
     {
         return m_classloader;
-    }
-
-    public void setClassLoaderDirective( ClassLoaderDirective directive )
-    {
-        m_classloader = directive;
     }
 
     /**

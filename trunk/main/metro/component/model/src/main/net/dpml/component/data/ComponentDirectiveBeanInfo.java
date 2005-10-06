@@ -64,5 +64,4 @@ public final class ComponentDirectiveBeanInfo extends SimpleBeanInfo
             return new Expression( old, old.getClass(), "new", args );
         }
     }
-
 }

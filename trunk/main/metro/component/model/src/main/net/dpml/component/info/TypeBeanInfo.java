@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package net.dpml.component.info;;
+package net.dpml.component.info;
 
 import java.beans.SimpleBeanInfo;
 import java.beans.BeanDescriptor;
@@ -42,7 +42,7 @@ public final class TypeBeanInfo extends SimpleBeanInfo
           new DefaultPersistenceDelegate( 
             new String[]{ 
               "info", "categoryDescriptors", "contextDescriptor",
-              "serviceDescriptors", "configuration", "partReferences" } ) );
+              "serviceDescriptors", "partReferences" } ) );
         return descriptor;
     }
 }

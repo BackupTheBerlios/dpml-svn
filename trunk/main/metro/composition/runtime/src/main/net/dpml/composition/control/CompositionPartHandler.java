@@ -45,7 +45,7 @@ import net.dpml.component.control.Controller;
 import net.dpml.component.control.ControllerContext;
 import net.dpml.component.control.ControllerException;
 
-import net.dpml.component.info;.Type;
+import net.dpml.component.info.Type;
 
 import net.dpml.transit.Transit;
 import net.dpml.transit.Artifact;

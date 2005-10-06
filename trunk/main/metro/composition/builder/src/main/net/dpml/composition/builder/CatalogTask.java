@@ -31,14 +31,14 @@ import java.util.Hashtable;
 import java.util.Map;
 
 import net.dpml.part.Part;
-import net.dpml.component.info;.PartReference;
-import net.dpml.component.info;.EntryDescriptor;
+import net.dpml.component.info.PartReference;
+import net.dpml.component.info.EntryDescriptor;
 
-import net.dpml.component.info;.Type;
-import net.dpml.component.info;.InfoDescriptor;
-import net.dpml.component.info;.LifestylePolicy;
-import net.dpml.component.info;.ContextDescriptor;
-import net.dpml.component.info;.ServiceDescriptor;
+import net.dpml.component.info.Type;
+import net.dpml.component.info.InfoDescriptor;
+import net.dpml.component.info.LifestylePolicy;
+import net.dpml.component.info.ContextDescriptor;
+import net.dpml.component.info.ServiceDescriptor;
 import net.dpml.component.data.ComponentDirective;
 
 import net.dpml.configuration.Configuration;
@@ -560,7 +560,7 @@ public class CatalogTask extends ProjectTask
             writer.write( "\n    </table>" );
 
             //
-            // write out the InfoDescriptor freatures
+            // write out the InfoDescriptor features
             //
 
             writer.write( "\n    <table>" );
@@ -644,6 +644,7 @@ public class CatalogTask extends ProjectTask
             // write out the default configuration
             //
 
+            /*
             Configuration config = type.getConfiguration();
             if( null != config )
             {
@@ -655,6 +656,7 @@ public class CatalogTask extends ProjectTask
                 writer.write( str );
                 writer.write( "\n   </pre>" );
             }
+            */
 
             //
             // write out links to embedded types
@@ -728,7 +730,7 @@ public class CatalogTask extends ProjectTask
         try
         {
             InputStream input = new FileInputStream( source );
-            Type type = Type.decode( input );
+            Type type = Type.decode( getClass().getClassLoader(), input );
             createTypePage( htmls, type );
         }
         catch( Exception e )
@@ -979,5 +981,4 @@ public class CatalogTask extends ProjectTask
             throw new BuildException( error, e, getLocation() );
         }
     }
-
 }

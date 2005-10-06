@@ -23,11 +23,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.beans.IntrospectionException;
 
-import net.dpml.component.info;.PartReference;
+import net.dpml.component.info.PartReference;
 import net.dpml.composition.builder.ComponentBuilderTask;
 import net.dpml.composition.builder.PartReferenceBuilder;
 import net.dpml.component.data.ContextDirective;
-import net.dpml.component.info;.Type;
+import net.dpml.component.info.Type;
 
 import org.apache.tools.ant.Task;
 
@@ -61,32 +61,12 @@ public class ContextDataType
     * Create a new constructed part builder.
     * @return a part builder
     */
-    //public ReferenceDataType createReference()
-    //{
-    //    final ReferenceDataType builder = new ReferenceDataType();
-    //    m_builders.add( builder );
-    //    return builder;
-    //}
-
-   /**
-    * Create a new constructed part builder.
-    * @return a part builder
-    */
     public EntryDataType createEntry()
     {
         final EntryDataType builder = new EntryDataType();
         m_builders.add( builder );
         return builder;
     }
-
-   /**
-    * Create a new constructed part builder.
-    * @return a part builder
-    */
-    //public EntryDataType createEntry()
-    //{
-    //    return createValue();
-    //}
 
     public ComponentBuilderTask createComponent()
     {

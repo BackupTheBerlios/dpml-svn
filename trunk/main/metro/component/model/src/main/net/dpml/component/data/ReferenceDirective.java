@@ -31,7 +31,7 @@ import net.dpml.part.Part;
  * @author <a href="mailto:dev-dpml@lists.ibiblio.org">The Digital Product Meta Library</a>
  * @version $Id: ImportDirective.java 2230 2005-04-06 18:50:19Z mcconnell@dpml.net $
  */
-public class ReferenceDirective extends AbstractDirective
+public final class ReferenceDirective extends AbstractDirective
 {
    /**
     * Serial version identifier.

@@ -119,32 +119,32 @@ dpml.depot.installer.uri = ${metro.plugin.uri}
     <x:javadoc>
       <link href="http://java.sun.com/j2se/1.4/docs/api"/>
       <link href="http://www.dpml.net/api/ant/${dpml.ant.version}"/>
-      <group title="Component API">
+      <group title="Convenience APIs">
         <package name="net.dpml.activity"/>
         <package name="net.dpml.configuration"/>
         <package name="net.dpml.logging"/>
         <package name="net.dpml.parameters"/>
       </group>
-      <group title="Component Management">
+      <group title="Component Model SPI">
         <package name="net.dpml.part"/>
-        <package name="net.dpml.part.builder"/>
+        <package name="net.dpml.state"/>
+        <package name="net.dpml.component.data"/>
+        <package name="net.dpml.component.info"/>
+        <package name="net.dpml.component.model"/>
         <package name="net.dpml.component.control"/>
         <package name="net.dpml.component.runtime"/>
       </group>
-      <group title="Component Model">
-        <package name="net.dpml.component.data"/>
-        <package name="net.dpml.component.info;"/>
-        <package name="net.dpml.component.model;"/>
-      </group>
-      <group title="Metro Implementation">
-        <package name="net.dpml.metro.central"/>
+      <group title="Implementation Packages">
+        <package name="net.dpml.state.impl"/>
         <package name="net.dpml.composition.builder"/>
         <package name="net.dpml.composition.builder.datatypes"/>
         <package name="net.dpml.composition.control"/>
         <package name="net.dpml.composition.event"/>
         <package name="net.dpml.composition.runtime"/>
+        <package name="net.dpml.composition.edit"/>
         <package name="net.dpml.configuration.impl"/>
         <package name="net.dpml.parameters.impl"/>
+        <package name="net.dpml.metro.central"/>
       </group>
     </x:javadoc>
   </target>

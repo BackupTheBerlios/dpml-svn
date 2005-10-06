@@ -31,14 +31,14 @@ import net.dpml.component.data.Directive;
 import net.dpml.component.data.ValueDirective;
 import net.dpml.component.data.ReferenceDirective;
 import net.dpml.component.data.ContextDirective;
-import net.dpml.component.info;.LifestylePolicy;
-import net.dpml.component.info;.CollectionPolicy;
-import net.dpml.component.info;.Type;
-import net.dpml.component.info;.EntryDescriptor;
-import net.dpml.component.info;.PartReference;
-import net.dpml.component.info;.EntryDescriptor;
+import net.dpml.component.info.LifestylePolicy;
+import net.dpml.component.info.CollectionPolicy;
+import net.dpml.component.info.Type;
+import net.dpml.component.info.EntryDescriptor;
+import net.dpml.component.info.PartReference;
+import net.dpml.component.info.EntryDescriptor;
 
-import net.dpml.component.model;.ContextModel;
+import net.dpml.component.model.ContextModel;
 
 import net.dpml.composition.event.EventProducer;
 

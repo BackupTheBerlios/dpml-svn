@@ -76,11 +76,17 @@ public class PreferencesTask extends NodeTask
     {
         m_base = base;
     }
-
-    public void execute()
+    
+    public Preferences buildPreferences()
     {
         Preferences prefs = createPreferences();
         apply( prefs );
+        return prefs;
+    }
+
+    public void execute()
+    {
+        Preferences prefs = buildPreferences();
         try
         {
             if( null == m_destination )

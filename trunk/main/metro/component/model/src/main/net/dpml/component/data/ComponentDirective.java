@@ -20,17 +20,17 @@ package net.dpml.component.data;
 
 import java.net.URI;
 
-import net.dpml.component.info;.PartReference;
+import net.dpml.component.info.PartReference;
 import net.dpml.configuration.Configuration;
-import net.dpml.component.info;.InfoDescriptor;
-import net.dpml.component.info;.LifestylePolicy;
-import net.dpml.component.info;.CollectionPolicy;
+import net.dpml.component.info.InfoDescriptor;
+import net.dpml.component.info.LifestylePolicy;
+import net.dpml.component.info.CollectionPolicy;
 
 import net.dpml.part.Control;
 
 import net.dpml.parameters.Parameters;
 
-import net.dpml.component.info;.ActivationPolicy;
+import net.dpml.component.info.ActivationPolicy;
 
 /**
  * Definition of the criteria for an explicit component profile.  A profile, when
@@ -109,43 +109,51 @@ import net.dpml.component.info;.ActivationPolicy;
  */
 public class ComponentDirective extends DeploymentDirective
 {
+    //--------------------------------------------------------------------------
+    // static
+    //--------------------------------------------------------------------------
+    
    /**
     * Serial version identifier.
     */
     static final long serialVersionUID = 1L;
 
-    /**
-     * The collection policy override.
-     */
-    private CollectionPolicy m_collection;
+    //--------------------------------------------------------------------------
+    // state
+    //--------------------------------------------------------------------------
+    
+   /**
+    * The collection policy override.
+    */
+    private final CollectionPolicy m_collection;
 
-    /**
-     * The component lifestyle policy.
-     */
-    private LifestylePolicy m_lifestyle;
+   /**
+    * The component lifestyle policy.
+    */
+    private final LifestylePolicy m_lifestyle;
 
-    /**
-     * The component classname.
-     */
-    private String m_classname;
+   /**
+    * The component classname.
+    */
+    private final String m_classname;
 
-    /**
-     * The parameters for component (if any).
-     */
-    private Parameters m_parameters;
+   /**
+    * The parameters for component (if any).
+    */
+    private final Parameters m_parameters;
 
-    /**
-     * The configuration for component (if any).
-     */
-    private Configuration m_configuration;
+   /**
+    * The configuration for component (if any).
+    */
+    private final Configuration m_configuration;
 
-    /**
-     * The components context directive.
-     */
-    private ContextDirective m_context;
+   /**
+    * The components context directive.
+    */
+    private final ContextDirective m_context;
 
     //--------------------------------------------------------------------------
-    // constructor
+    // constructors
     //--------------------------------------------------------------------------
 
    /**
@@ -230,102 +238,72 @@ public class ComponentDirective extends DeploymentDirective
     // implementation
     //--------------------------------------------------------------------------
 
-    /**
-     * Return the component type classname.
-     *
-     * @return classname of the component type
-     */
+   /**
+    * Return the component type classname.
+    *
+    * @return classname of the component type
+    */
     public String getClassname()
     {
         return m_classname;
     }
 
-    public void setClassname( String classname )
-    {
-        m_classname = classname;
-    }
-
-    /**
-     * Return the component lifestyle policy.
-     *
-     * @return the lifestyle policy value
-     */
+   /**
+    * Return the component lifestyle policy.
+    *
+    * @return the lifestyle policy value
+    */
     public LifestylePolicy getLifestylePolicy()
     {
         return m_lifestyle;
     }
 
-    public void setLifestylePolicy( LifestylePolicy lifestyle )
-    {
-        m_lifestyle = lifestyle;
-    }
-
-    /**
-     * Return the component collection policy.  If null, the component
-     * type collection policy will apply.
-     *
-     * @return a HARD, WEAK, SOFT or SYSTEM
-     */
+   /**
+    * Return the component collection policy.  If null, the component
+    * type collection policy will apply.
+    *
+    * @return a HARD, WEAK, SOFT or SYSTEM
+    */
     public CollectionPolicy getCollectionPolicy()
     {
         return m_collection;
     }
 
-    public void setCollectionPolicy( CollectionPolicy policy )
-    {
-        m_collection = policy;
-    }
-
-    /**
-     * Return the context directive for the profile.
-     *
-     * @return the ContextDirective for the profile.
-     */
+   /**
+    * Return the context directive for the profile.
+    *
+    * @return the ContextDirective for the profile.
+    */
     public ContextDirective getContextDirective()
     {
         return m_context;
     }
 
-    public void setContextDirective( ContextDirective directive )
-    {
-        m_context = directive;
-    }
-
-    /**
-     * Return the Parameters for the profile.
-     *
-     * @return the Parameters for Component (if any).
-     */
+   /**
+    * Return the Parameters for the profile.
+    *
+    * @return the Parameters for Component (if any).
+    */
     public Parameters getParameters()
     {
         return m_parameters;
     }
 
-    public void setParameters( Parameters params )
-    {
-        m_parameters = params;
-    }
-
-    /**
-     * Return the base Configuration for the profile.  The implementation
-     * garantees that the supplied configuration is not null.
-     *
-     * @return the base Configuration for profile.
-     */
+   /**
+    * Return the base Configuration for the profile.  The implementation
+    * garantees that the supplied configuration is not null.
+    *
+    * @return the base Configuration for profile.
+    */
     public Configuration getConfiguration()
     {
         return m_configuration;
     }
 
-    public void setConfiguration( Configuration config )
-    {
-        m_configuration = config;
-    }
-
-    /**
-     * Returns a string representation of the profile.
-     * @return a string representation
-     */
+   /**
+    * Returns a string representation of the profile.
+    * @return a string representation
+    */
     public String toString()
     {
         return "[" + getName() + "]";

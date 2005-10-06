@@ -16,12 +16,12 @@
  * limitations under the License.
  */
 
-package net.dpml.component.model;;
+package net.dpml.component.model;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 
-import net.dpml.component.info;.EntryDescriptor;
+import net.dpml.component.info.EntryDescriptor;
 import net.dpml.component.data.Directive;
 
 import net.dpml.transit.model.UnknownKeyException;

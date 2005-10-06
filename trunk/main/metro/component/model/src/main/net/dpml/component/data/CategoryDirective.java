@@ -72,7 +72,7 @@ public class CategoryDirective implements Serializable
     /**
      * The logging category name.
      */
-    private String m_name;
+    private final String m_name;
 
     /**
      * The default logging priority.

@@ -17,7 +17,7 @@
  * limitations under the License.
  */
 
-package net.dpml.component.info;;
+package net.dpml.component.info;
 
 import java.beans.Encoder;
 import java.beans.XMLEncoder;
@@ -63,25 +63,22 @@ public class Type implements Serializable
     static final long serialVersionUID = 1L;
 
     private static final Type OBJECT_TYPE = createObjectType();
-        
+    
     public static void encode( Type type, OutputStream output ) throws IOException, EncodingException
     {
-        ClassLoader loader = Thread.currentThread().getContextClassLoader();
         XMLEncoder encoder = new XMLEncoder( output );
         encoder.setExceptionListener( new TypeEncoderListener( type ) );
         encoder.setPersistenceDelegate( URI.class, new URIPersistenceDelegate() );
-        Thread.currentThread().setContextClassLoader( Type.class.getClassLoader() );
         try
         {
             encoder.writeObject( type );
         }
         finally
         {
-            Thread.currentThread().setContextClassLoader( loader );
             encoder.close();
         }
     }
-        
+    
     private static class TypeEncoderListener implements ExceptionListener
     {
         private Type m_type;
@@ -131,12 +128,18 @@ public class Type implements Serializable
     
     public static Type decode( Class clazz ) throws IOException
     {
+        ClassLoader context = Type.class.getClassLoader();
+        return decode( context, clazz );
+    }
+
+    public static Type decode( ClassLoader context, Class clazz ) throws IOException
+    {
         String path = clazz.getName().replace( '.', '/' ) + ".type";
         URL url = clazz.getClassLoader().getResource( path );
         InputStream input = url.openStream();
         try
         {
-            return decode( input );
+            return decode( context, input );
         }
         catch( IOException e )
         {
@@ -152,13 +155,44 @@ public class Type implements Serializable
             throw ioe;
         }
     }
-
+    
     public static Type decode( InputStream input ) throws IOException
     {
+        ClassLoader context = Type.class.getClassLoader();
+        return decode( context, input );
+    }
+    
+    public static Type decode( ClassLoader context, InputStream input ) throws IOException
+    {
         final ClassLoader loader = Thread.currentThread().getContextClassLoader();
+        /*
+        */
         try
         {
-            Thread.currentThread().setContextClassLoader( Type.class.getClassLoader() );
+            Class c = context.loadClass( "net.dpml.configuration.impl.DefaultConfiguration" );
+        }
+        catch( ClassNotFoundException ce )
+        {
+            final String error = 
+              "Context classloader does not include the configuration implementation in the supplied classloader:\n"
+              + context;
+            throw new IllegalStateException( error );
+        }
+        /*
+        try
+        {
+            Class c = loader.loadClass( "net.dpml.component.info.Type" );
+        }
+        catch( ClassNotFoundException ce )
+        {
+            final String error = 
+              "Context classloader does not include net.dpml.component.info.Type.";
+            throw new IllegalStateException( error );
+        }
+        */
+        try
+        {
+            Thread.currentThread().setContextClassLoader( context );
             XMLDecoder decoder = new XMLDecoder( new BufferedInputStream( input ) );
             return (Type) decoder.readObject();
         }
@@ -172,8 +206,8 @@ public class Type implements Serializable
         }
         finally
         {
-            input.close();
             Thread.currentThread().setContextClassLoader( loader );
+            input.close();
         }
     }
 
@@ -192,30 +226,30 @@ public class Type implements Serializable
     private final CategoryDescriptor[] m_categories;
     private final ContextDescriptor m_context;
     private final ServiceDescriptor[] m_services;
-    private final Configuration m_configuration;
+    //private final Configuration m_configuration;
     private final PartReference[] m_parts;
 
-    /**
-     * Creation of a new Type instance using a supplied component descriptor,
-     * logging, context, services, and part references.
-     *
-     * @param info information about the component type
-     * @param loggers a set of logger descriptors the declare the logging channels
-     *   required by the type
-     * @param context a component context descriptor that declares the context type
-     *   and context entry key and value classnames
-     * @param services a set of service descriptors that detail the service that
-     *   this component type is capable of supplying
-     * @param defaults the static configuration defaults
-     * @param parts an array of part descriptors
-     * @exception NullPointerException if the info descriptor, loggers, context, services
-     *   or part argument are null
-     */
+   /**
+    * Creation of a new Type instance using a supplied component descriptor,
+    * logging, context, services, and part references.
+    *
+    * @param info information about the component type
+    * @param loggers a set of logger descriptors the declare the logging channels
+    *   required by the type
+    * @param context a component context descriptor that declares the context type
+    *   and context entry key and value classnames
+    * @param services a set of service descriptors that detail the service that
+    *   this component type is capable of supplying
+    * @param defaults the static configuration defaults
+    * @param parts an array of part descriptors
+    * @exception NullPointerException if the info descriptor, loggers, context, services
+    *   or part argument are null
+    */
     public Type( final InfoDescriptor info,
                  final CategoryDescriptor[] loggers,
                  final ContextDescriptor context,
                  final ServiceDescriptor[] services,
-                 final Configuration defaults,
+                 //final Configuration defaults,
                  final PartReference[] parts )
             throws NullPointerException 
     {
@@ -243,7 +277,7 @@ public class Type implements Serializable
         m_info = info;
         m_categories = loggers;
         m_context = context;
-        m_configuration = defaults;
+        //m_configuration = defaults;
 
         if( null == parts )
         {
@@ -360,10 +394,10 @@ public class Type implements Serializable
      *
      * @return the default configuration or null if no packaged defaults
      */
-    public Configuration getConfiguration()
-    {
-        return m_configuration;
-    }
+    //public Configuration getConfiguration()
+    //{
+    //    return m_configuration;
+    //}
 
     /**
      * Returns the parts declared by this component type.
@@ -422,6 +456,7 @@ public class Type implements Serializable
         {
             return false;
         }
+        /*
         if( null == m_configuration )
         {
             if( !( null == t.m_configuration ) )
@@ -436,6 +471,7 @@ public class Type implements Serializable
                 return false;
             }
         }
+        */
         if( m_parts.length != t.m_parts.length )
         {
             return false;
@@ -479,10 +515,10 @@ public class Type implements Serializable
     {
         int hash = m_info.hashCode();
         hash ^= m_context.hashCode();
-        if( m_configuration != null )
-        {
-            hash ^= m_configuration.hashCode();
-        }
+        //if( m_configuration != null )
+        //{
+        //    hash ^= m_configuration.hashCode();
+        //}
         for( int i = 0; i < m_parts.length; i++ )
         {
             hash ^= m_parts[i].hashCode();
@@ -507,8 +543,8 @@ public class Type implements Serializable
         final CategoryDescriptor[] loggers = new CategoryDescriptor[0];
         final ContextDescriptor context = new ContextDescriptor( new EntryDescriptor[0] );
         final ServiceDescriptor[] services = new ServiceDescriptor[0];
-        final Configuration configuration = null;
+        //final Configuration configuration = null;
         final PartReference[] parts = new PartReference[0];
-        return new Type( info, loggers, context, services, configuration, parts );
+        return new Type( info, loggers, context, services, parts );
     }
 }

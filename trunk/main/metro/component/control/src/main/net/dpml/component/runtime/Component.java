@@ -28,7 +28,7 @@ import net.dpml.part.Control;
 import net.dpml.component.runtime.Service;
 import net.dpml.component.runtime.Identifiable;
 
-import net.dpml.component.info;.ActivationPolicy;
+import net.dpml.component.info.ActivationPolicy;
 
 /**
  * The Component interface is implemented by objects that handle the runtime

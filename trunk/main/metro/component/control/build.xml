@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
-<project name="dpml-composition-api" default="install" basedir="." 
+<project name="dpml-component-control" default="install" basedir="." 
     xmlns:transit="antlib:net.dpml.transit" 
     xmlns:x="plugin:dpml/magic/dpml-magic-core" >
 
@@ -10,7 +10,7 @@
     <x:filter feature="name" token="NAME"/>
     <x:filter feature="version" token="VERSION"/>
     <x:filter feature="group" token="GROUP"/>
-    <x:filter feature="uri" type="plugin" token="COMPOSITION-CONTROLLER-URI" key="dpml-composition-runtime"/>
+    <x:filter token="COMPOSITION-CONTROLLER-URI" key="dpml-composition-runtime" feature="uri" type="plugin"/>
   </target>
 
 </project>

@@ -18,7 +18,9 @@
 
 package net.dpml.composition.builder;
 
+import java.beans.XMLEncoder;
 import java.beans.IntrospectionException;
+import java.beans.ExceptionListener;
 import java.io.FileOutputStream;
 import java.io.BufferedOutputStream;
 import java.io.ByteArrayInputStream;
@@ -42,14 +44,13 @@ import net.dpml.component.data.ClassLoaderDirective;
 import net.dpml.component.data.ClasspathDirective;
 import net.dpml.component.data.ComponentDirective;
 import net.dpml.component.data.ContextDirective;
-import net.dpml.component.data.DeploymentDirective;
 import net.dpml.component.data.CategoriesDirective;
-import net.dpml.component.info;.InfoDescriptor;
-import net.dpml.component.info;.LifestylePolicy;
-import net.dpml.component.info;.CollectionPolicy;
-import net.dpml.component.info;.PartReference;
-import net.dpml.component.info;.Type;
-import net.dpml.component.info;.EntryDescriptor;
+import net.dpml.component.info.InfoDescriptor;
+import net.dpml.component.info.LifestylePolicy;
+import net.dpml.component.info.CollectionPolicy;
+import net.dpml.component.info.PartReference;
+import net.dpml.component.info.Type;
+import net.dpml.component.info.EntryDescriptor;
 
 import net.dpml.configuration.Configuration;
 
@@ -71,7 +72,7 @@ import net.dpml.component.runtime.Component;
 import net.dpml.component.runtime.Container;
 import net.dpml.component.runtime.Service;
 
-import net.dpml.component.info;.ActivationPolicy;
+import net.dpml.component.info.ActivationPolicy;
 
 import net.dpml.transit.tools.AntAdapter;
 import net.dpml.transit.Logger;
@@ -499,7 +500,7 @@ public class ComponentBuilderTask extends ClassLoaderBuilderTask implements Part
         ContextDirective context = getContextDirective( classloader, type );
         Parameters parameters = getParameters();
         Configuration configuration = getConfiguration();
-
+        
         //
         // return the component profile
         //
@@ -522,7 +523,7 @@ public class ComponentBuilderTask extends ClassLoaderBuilderTask implements Part
         try
         {
             Class c = classloader.loadClass( classname );
-            Type type = Type.decode( c );
+            Type type = Type.decode( getClass().getClassLoader(), c );
             if( null != type )
             {
                 return type;
@@ -720,7 +721,7 @@ public class ComponentBuilderTask extends ClassLoaderBuilderTask implements Part
               return m_configuration.getConfiguration();
          }
     }
-
+    
     private static URI PART_HANDLER_URI = setupURI( "@PART-HANDLER-URI@" );
     private static URI PART_BUILDER_URI = setupURI( "@PART-BUILDER-URI@" );
 

@@ -37,10 +37,9 @@ import net.dpml.part.PartEditor;
 
 import net.dpml.component.control.Controller;
 
-import net.dpml.component.info;.Type;
-import net.dpml.component.info;.PartReference;
-import net.dpml.component.info;.InfoDescriptor;
-import net.dpml.component.data.DeploymentDirective;
+import net.dpml.component.info.Type;
+import net.dpml.component.info.PartReference;
+import net.dpml.component.info.InfoDescriptor;
 import net.dpml.component.data.ValueDirective;
 
 import net.dpml.transit.Logger;

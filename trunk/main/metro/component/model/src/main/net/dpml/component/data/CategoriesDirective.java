@@ -38,7 +38,7 @@ public class CategoriesDirective extends CategoryDirective implements Serializab
     /**
      * The root category hierachy.
      */
-    private CategoryDirective[] m_categories;
+    private final CategoryDirective[] m_categories;
 
     /**
      * Create a CategoriesDirective instance.

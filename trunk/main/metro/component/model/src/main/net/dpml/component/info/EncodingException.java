@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package net.dpml.component.info;;
+package net.dpml.component.info;
 
 /**
  * Exception throw if an error occurs during the encoding of a component type.

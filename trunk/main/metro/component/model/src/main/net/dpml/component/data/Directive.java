@@ -21,6 +21,7 @@ package net.dpml.component.data;
 import net.dpml.part.Part;
 
 /**
+ * Interface implemented by top-level directives.
  *
  * @author <a href="mailto:dev-dpml@lists.ibiblio.org">The Digital Product Meta Library</a>
  */

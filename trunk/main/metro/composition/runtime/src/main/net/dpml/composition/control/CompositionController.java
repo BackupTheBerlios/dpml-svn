@@ -38,10 +38,9 @@ import net.dpml.component.data.ClassLoaderDirective;
 import net.dpml.component.data.ClasspathDirective;
 import net.dpml.component.data.ComponentDirective;
 import net.dpml.component.data.ValueDirective;
-import net.dpml.component.data.DeploymentDirective;
 import net.dpml.component.data.Directive;
-import net.dpml.component.info;.InfoDescriptor;
-import net.dpml.component.info;.Type;
+import net.dpml.component.info.InfoDescriptor;
+import net.dpml.component.info.Type;
 
 import net.dpml.composition.runtime.ComponentHandler;
 import net.dpml.composition.runtime.ValueHandler;
@@ -50,7 +49,6 @@ import net.dpml.composition.runtime.ComponentController;
 import net.dpml.composition.runtime.CompositionHandler;
 import net.dpml.composition.runtime.DefaultLogger;
 
-import net.dpml.part.ClassLoaderManager;
 import net.dpml.part.Control;
 import net.dpml.part.ControlException;
 import net.dpml.part.DelegationException;
@@ -58,6 +56,7 @@ import net.dpml.part.Part;
 import net.dpml.part.PartHandlerNotFoundException;
 import net.dpml.part.PartNotFoundException;
 
+import net.dpml.component.control.ClassLoaderManager;
 import net.dpml.component.control.ControllerContext;
 import net.dpml.component.control.ControllerException;
 import net.dpml.component.control.ControllerRuntimeException;
@@ -687,7 +686,7 @@ public class CompositionController extends CompositionPartHandler implements Con
         }
     }
 
-    static final URI CONTROLLER_URI = setupURI( "@PART-CONTROLLER-URI@" );
+    static final URI CONTROLLER_URI = setupURI( "@PART-HANDLER-URI@" );
     static final URI ROOT_URI = setupURI( "metro:/" );
 
     protected static URI setupURI( String spec )

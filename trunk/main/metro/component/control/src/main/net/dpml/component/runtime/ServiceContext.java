@@ -21,7 +21,7 @@ package net.dpml.component.runtime;
 import java.net.URI;
 import java.rmi.RemoteException;
 
-import net.dpml.component.info;.ServiceDescriptor;
+import net.dpml.component.info.ServiceDescriptor;
 
 
 /**

@@ -106,7 +106,7 @@
     <dependencies>
       <include key="dpml-http-impl"/>
       <include key="dpml-http-spi"/>
-      <include key="dpml-component-api" runtime="false"/>
+      <include key="dpml-component-control" runtime="false"/>
     </dependencies>
     <plugins>
       <include key="dpml-composition-builder" runtime="false"/>

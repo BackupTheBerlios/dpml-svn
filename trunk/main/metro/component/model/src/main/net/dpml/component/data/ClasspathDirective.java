@@ -41,12 +41,12 @@ public final class ClasspathDirective implements Serializable
     /**
      * The resource references
      */
-    private URI[] m_uris;
+    private final URI[] m_uris;
 
     /**
      * The resource references
      */
-    private Category m_category;
+    private final Category m_category;
 
     /**
      * Create a ClasspathDirective instance.

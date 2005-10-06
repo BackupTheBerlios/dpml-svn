@@ -23,7 +23,7 @@ import java.io.IOException;
 import java.net.URI;
 import java.beans.IntrospectionException;
 
-import net.dpml.component.info;.Type;
+import net.dpml.component.info.Type;
 
 /**
  * The contract for builders that create component types.

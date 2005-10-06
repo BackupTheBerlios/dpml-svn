@@ -8,16 +8,13 @@
   <transit:import uri="local:template:magic/standard"/>
 
   <target name="build" depends="standard.build">
-
     <c:type class="net.dpml.test.ExampleComponent" name="example"/>
-
     <c:component dest="target/test/example.part" 
         type="net.dpml.test.ExampleComponent" name="example">
       <context>
         <entry key="color" method="RED"/>
       </context>
     </c:component>
-
   </target>
 
 </project>
