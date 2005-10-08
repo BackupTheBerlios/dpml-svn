@@ -70,7 +70,7 @@ public class DefaultContextModel extends EventProducer implements ContextModel
     // constructor
     // ------------------------------------------------------------------------
 
-    public DefaultContextModel( ClassLoader classloader, Logger logger, Type type, ContextDirective directive )
+    public DefaultContextModel( ClassLoader classloader, Type type, ContextDirective directive )
       throws PartException, RemoteException
     {
         super();

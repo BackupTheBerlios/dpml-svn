@@ -48,7 +48,13 @@ public interface PartHandler
     * Return the controller for the supplied context.
     * @return the context handler
     */
-    Control getController( Context context ) throws Exception;
+    //Control getHandler( Context context ) throws Exception;
+
+   /**
+    * Create and return a remote reference to a component handler.
+    * @return the component handler
+    */
+    Handler createHandler( Context context ) throws Exception;
 
    /**
     * Load a part editor.

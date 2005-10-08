@@ -19,24 +19,24 @@
 package net.dpml.part;
 
 /**
- * General exception thrown by a control.
+ * General exception thrown by a runtime handler.
  *
  * @author <a href="mailto:dev-dpml@lists.ibiblio.org">The Digital Product Meta Library</a>
  * @version $Revision: 1.2 $ $Date: 2004/03/17 10:30:09 $
  */
-public class ControlException extends PartException 
+public class HandlerRuntimeException extends RuntimeException 
 {
    /**
     * Serial version identifier.
     */
     static final long serialVersionUID = 1L;
 
-    public ControlException( String message )
+    public HandlerRuntimeException( String message )
     {
         super( message );
     }
 
-    public ControlException( String message, Throwable cause )
+    public HandlerRuntimeException( String message, Throwable cause )
     {
         super( message, cause );
     }

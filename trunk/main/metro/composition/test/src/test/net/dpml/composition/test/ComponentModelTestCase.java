@@ -61,6 +61,18 @@ public class ComponentModelTestCase extends TestCase
         m_model = (ComponentModel) handler.createContext( m_part );
     }
     
+    public void testName() throws Exception
+    {
+        String name = "example"; // from build.xml's component directive 
+        assertEquals( "name", name, m_model.getName() );
+    }
+    
+    public void testContextPath() throws Exception
+    {
+        String path = "/example";
+        assertEquals( "path", path, m_model.getContextPath() );
+    }
+    
     public void testImplementationClassName() throws Exception
     {
         String classname = ExampleComponent.class.getName();

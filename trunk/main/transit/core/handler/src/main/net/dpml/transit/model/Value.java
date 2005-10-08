@@ -29,36 +29,6 @@ import java.util.Map;
 public interface Value
 {
    /**
-    * Return TRUE if the value is a compound else FALSE.
-    * @return TRUE if this ia a compound value construct
-    */
-    //boolean isCompound();
-
-   /**
-    * Return the method name to be applied to the target object.
-    * @return the method name
-    */
-    //String getMethodName();
-
-   /**
-    * Return the set of nested values within this value.
-    * @return the nested values array
-    */
-    //Value[] getValues();
-
-   /**
-    * Return the classname of the resolved value.
-    * @return the classname
-    */
-    //String getBaseValue();
-
-   /**
-    * Return the classname of the resolved value.
-    * @return the classname
-    */
-    //String getTargetExpression();
-
-   /**
     * Resolve an instance from the value using the context classloader.
     * @return the resolved instance
     * @exception Exception if error occurs during instance resolution

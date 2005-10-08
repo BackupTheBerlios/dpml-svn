@@ -20,6 +20,7 @@ package net.dpml.part;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
+import java.lang.reflect.InvocationTargetException;
 import java.net.URI;
 
 import net.dpml.state.State;
@@ -35,27 +36,37 @@ import net.dpml.state.StateListener;
 public interface Handler extends Remote
 {
    /**
-    * Returns the current state of the control.
-    * @return the current runtime state
+    * Initiate activation of a runtime handler.
+    * @param handler the runtime handler
+    * @exception HandlerException if an activation error occurs
+    * @exception InvocationTargetException if the component declares activation on startup
+    *    and a implementation source exception occured
+    * @exception RemoteException if a remote exception occurs
     */
-    State getState() throws RemoteException;
+    void activate() throws HandlerException, InvocationTargetException, RemoteException;
     
    /**
     * Returns the active status of the handler.
     * @return TRUE if the handler has been activated otherwise FALSE
+    * @exception RemoteException if a remote exception occurs
     */
     boolean isActive() throws RemoteException;
     
    /**
-    * Add a state listener to the control.
-    * @param listener the state listener
+    * Deactivate the handler.
+    * @exception RemoteException if a remote exception occurs
     */
-    void addStateListener( StateListener listener ) throws RemoteException;
+    void deactivate() throws RemoteException;
 
    /**
-    * Remove a state listener from the control.
-    * @param listener the state listener
+    * Return a reference to a instance of the component handled by the handler.
+    * @return the instance holder
+    * @exception InvocationTargetException if the component instantiation process 
+    *  is on demand and an target invocation error occurs
+    * @exception HandlerException if the component could not be established due to a handler 
+    *  related error
+    * @exception RemoteException if a remote exception occurs
     */
-    void removeStateListener( StateListener listener ) throws RemoteException;
+    Instance getInstance() throws RemoteException, HandlerException, InvocationTargetException;
 }
 

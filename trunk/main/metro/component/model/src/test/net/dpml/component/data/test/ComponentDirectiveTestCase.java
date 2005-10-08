@@ -89,6 +89,66 @@ public class ComponentDirectiveTestCase extends AbstractEncodingTestCase
         assertEquals( "name", m_name, m_directive.getName() );
     }
     
+    public void testUnsufficientName()
+    {
+        try
+        {
+            new ComponentDirective( 
+              "", m_activation, m_collection, m_lifestyle, m_classname, 
+              m_categories, m_context, m_parameters, m_configuration, m_classloader );
+            fail( "Did not throw an IllegalArgumentException for a '' name." ); 
+        }
+        catch( IllegalArgumentException e )
+        {
+            // ok
+        }
+    }
+    
+    public void testIllegalPeriodInName()
+    {
+        try
+        {
+            new ComponentDirective( 
+              "fred.blogs", m_activation, m_collection, m_lifestyle, m_classname, 
+              m_categories, m_context, m_parameters, m_configuration, m_classloader );
+            fail( "Did not throw an IllegalArgumentException for a name with a period." ); 
+        }
+        catch( IllegalArgumentException e )
+        {
+            // ok
+        }
+    }
+    
+    public void testIllegalCommaInName()
+    {
+        try
+        {
+            new ComponentDirective( 
+              "fred,blogs", m_activation, m_collection, m_lifestyle, m_classname, 
+              m_categories, m_context, m_parameters, m_configuration, m_classloader );
+            fail( "Did not throw an IllegalArgumentException for a name with a comma." ); 
+        }
+        catch( IllegalArgumentException e )
+        {
+            // ok
+        }
+    }
+    
+    public void testIllegalFowardSlashInName()
+    {
+        try
+        {
+            new ComponentDirective( 
+              "fred/blogs", m_activation, m_collection, m_lifestyle, m_classname, 
+              m_categories, m_context, m_parameters, m_configuration, m_classloader );
+            fail( "Did not throw an IllegalArgumentException for a name with a '/'." ); 
+        }
+        catch( IllegalArgumentException e )
+        {
+            // ok
+        }
+    }
+    
     public void testActivationPolicy()
     {
         assertEquals( "activation", m_activation, m_directive.getActivationPolicy() );

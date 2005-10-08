@@ -27,7 +27,7 @@ import net.dpml.logging.Logger;
  * 
  * @author <a href="mailto:dev-dpml@lists.ibiblio.org">The Digital Product Meta Library</a>
  */
-public class ExampleComponent
+public class ExampleComponent implements ColorManager
 {
     //------------------------------------------------------------------
     // concerns

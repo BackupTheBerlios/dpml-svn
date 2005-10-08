@@ -24,13 +24,26 @@ import java.rmi.RemoteException;
 import net.dpml.part.ActivationPolicy;
 
 /**
- * The Context interfaces is used mark a object as manageable context that 
- * may be used as an argumement in the creation of a runtime handler.
+ * The Context interfaces is used mark a object as manageable context used in 
+ * the creation of a runtime handler.
  *
+ * @see PartHandler#createHandler(Context)
  * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
  */
 public interface Context
 {
+    final String PARTITION_SEPARATOR = "/";
+    
+   /**
+    * Return the path identifying the context.  A context path commences with the
+    * PARTITION_SEPARATOR character and is followed by a context name.  If the 
+    * context exposed nested context objects, the path is component of context names
+    * seaprated by the PARTITION_SEPARATOR as in "/main/web/handler".
+    *
+    * @return the context path
+    */
+    String getContextPath() throws RemoteException;
+ 
    /**
     * Get the activation policy.  If the activation policy is STARTUP, an implementation
     * a handler shall immidiately activation a runtime instance.  If the policy is on DEMAND

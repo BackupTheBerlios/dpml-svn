@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2005 Stephen J. McConnell
+ * Copyright 2005 Stephen J. McConnell.
  *
  * Licensed  under the  Apache License,  Version 2.0  (the "License");
  * you may not use  this file  except in  compliance with the License.
@@ -16,30 +16,18 @@
  * limitations under the License.
  */
 
-package net.dpml.part;
+package net.dpml.test;
+
+import java.awt.Color;
+
+import net.dpml.logging.Logger;
 
 /**
- * General exception thrown by a control.
- *
+ * Minimal interface using in testing the component handler.
+ * 
  * @author <a href="mailto:dev-dpml@lists.ibiblio.org">The Digital Product Meta Library</a>
- * @version $Revision: 1.2 $ $Date: 2004/03/17 10:30:09 $
  */
-public class ControlException extends PartException 
-{
-   /**
-    * Serial version identifier.
-    */
-    static final long serialVersionUID = 1L;
-
-    public ControlException( String message )
-    {
-        super( message );
-    }
-
-    public ControlException( String message, Throwable cause )
-    {
-        super( message, cause );
-    }
-
+public interface ColorManager
+{    
+    Color getColor();
 }
-

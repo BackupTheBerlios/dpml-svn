@@ -23,6 +23,7 @@ import java.beans.PropertyChangeListener;
 import java.awt.Color;
 import java.io.File;
 import java.net.URL;
+import java.lang.reflect.Proxy;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 
@@ -31,8 +32,8 @@ import junit.framework.TestCase;
 import net.dpml.part.Part;
 import net.dpml.part.PartHandler;
 import net.dpml.part.Handler;
-import net.dpml.part.Control;
 import net.dpml.part.ActivationPolicy;
+import net.dpml.part.Instance;
 
 import net.dpml.state.State;
 import net.dpml.state.StateListener;
@@ -43,7 +44,9 @@ import net.dpml.component.model.ComponentModel;
 import net.dpml.component.model.ContextModel;
 
 import net.dpml.transit.model.UnknownKeyException;
+import net.dpml.transit.model.Value;
 
+import net.dpml.test.ColorManager;
 import net.dpml.test.ExampleComponent;
 
 /**
@@ -54,7 +57,7 @@ public class ComponentControllerTestCase extends TestCase
 {    
     private Part m_part;
     private ComponentModel m_model;
-    private Control m_control;
+    private PartHandler m_control;
     private State m_state;
     
     public void setUp() throws Exception
@@ -62,35 +65,37 @@ public class ComponentControllerTestCase extends TestCase
         final String path = "example.part";
         final File test = new File( System.getProperty( "project.test.dir" ) );
         final URL url = new File( test, path ).toURL();
-        final PartHandler handler = Part.DEFAULT_HANDLER;
-        m_part = handler.loadPart( url );
-        m_model = (ComponentModel) handler.createContext( m_part );
-        m_control = handler.getController( m_model );
+        m_control = Part.DEFAULT_HANDLER;
+        m_part = m_control.loadPart( url );
+        m_model = (ComponentModel) m_control.createContext( m_part );
     }
     
     public void testHandlerInitialState() throws Exception
     {
         Handler handler = m_control.createHandler( m_model );
         assertNotNull( "handler", handler );
-        State state = handler.getState();
-        State graph = m_model.getStateGraph() ;
-        assertEquals( "graph-equals-state", graph, state );
+        State graph = m_model.getStateGraph();
+        assertNotNull( "graph-not-null", graph );
     }
     
     public void testStateListenerAdditionAndRemoval() throws Exception
     {
         Handler handler = m_control.createHandler( m_model );
+        handler.activate();
+        Instance instance = handler.getInstance();
         StateListener listener = new DefaultStateListener();
-        handler.addStateListener( listener );
-        handler.removeStateListener( listener );
+        instance.addStateListener( listener );
+        instance.removeStateListener( listener );
     }
     
     public void testNullListenerAddition() throws Exception
     {
         Handler handler = m_control.createHandler( m_model );
+        handler.activate();
+        Instance instance = handler.getInstance();
         try
         {
-            handler.addStateListener( null );
+            instance.addStateListener( null );
             fail( "NullPointerException was not thown" );
         }
         catch( NullPointerException npe )
@@ -102,9 +107,11 @@ public class ComponentControllerTestCase extends TestCase
     public void testNullListenerRemoval() throws Exception
     {
         Handler handler = m_control.createHandler( m_model );
+        handler.activate();
+        Instance instance = handler.getInstance();
         try
         {
-            handler.removeStateListener( null );
+            instance.removeStateListener( null );
             fail( "NullPointerException was not thown" );
         }
         catch( NullPointerException npe )
@@ -116,10 +123,12 @@ public class ComponentControllerTestCase extends TestCase
     public void testUnknownListenerRemoval() throws Exception
     {
         Handler handler = m_control.createHandler( m_model );
+        handler.activate();
+        Instance instance = handler.getInstance();
         try
         {
             StateListener listener = new DefaultStateListener();
-            handler.removeStateListener( listener );
+            instance.removeStateListener( listener );
             fail( "IllegalArgumentException was not thown" );
         }
         catch( IllegalArgumentException e )
@@ -139,15 +148,40 @@ public class ComponentControllerTestCase extends TestCase
             {
                 State oldState = (State) event.getOldValue();
                 State state = (State) event.getNewValue();
-                System.out.println( "state change from " + oldState + " to " + state );
-                m_state = state;
+                // TODO: some sort of validation procedure is needed here
             }
           } );
-        handler.addStateListener( listener );
-        m_control.activate( handler );
+        handler.activate();
+        handler.getInstance().addStateListener( listener );
         assertTrue( "is-active", handler.isActive() );
-        m_control.deactivate( handler );
+        handler.getInstance().removeStateListener( listener );
+        handler.deactivate();
         assertFalse( "is-active-following-deactivation", handler.isActive() );
+    }
+
+    public void testInstanceAquisitionInInactiveState() throws Exception
+    {
+        Handler handler = m_control.createHandler( m_model );
+        try
+        {
+            Value value = (Value) handler.getInstance();
+            fail( "Value returned in inactive state - expected IllegalStateException" );
+        }
+        catch( IllegalStateException e )
+        {
+            // success
+        }
+    }
+
+    public void testValueInstantiation() throws Exception
+    {
+        Handler handler = m_control.createHandler( m_model );
+        handler.activate();
+        Value value = (Value) handler.getInstance();
+        Object instance = value.resolve();
+        assertTrue( "isa-proxy", Proxy.isProxyClass( instance.getClass() ) );
+        assertTrue( "isa-color-manager", ( instance instanceof ColorManager ) );
+        assertFalse( "isa-example-component", ( instance instanceof ExampleComponent ) );
     }
 
     static

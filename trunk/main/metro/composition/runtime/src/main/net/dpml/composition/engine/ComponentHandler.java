@@ -20,17 +20,30 @@ package net.dpml.composition.engine;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeSupport;
+import java.io.File;
+import java.lang.reflect.InvocationTargetException;
+import java.net.URI;
+import java.rmi.RemoteException;
 import java.util.EventObject;
 import java.util.EventListener;
-import java.rmi.RemoteException;
+import java.util.Map;
+import java.util.Hashtable;
 
+import net.dpml.component.info.Type;
 import net.dpml.component.model.ComponentModel;
 
 import net.dpml.composition.event.EventProducer;
 
 import net.dpml.logging.Logger;
 
+import net.dpml.part.ActivationPolicy;
 import net.dpml.part.Handler;
+import net.dpml.part.HandlerException;
+import net.dpml.part.HandlerRuntimeException;
+import net.dpml.part.ControlException;
+import net.dpml.part.ControlRuntimeException;
+import net.dpml.part.Instance;
 
 import net.dpml.state.State;
 import net.dpml.state.StateMachine;
@@ -38,8 +51,10 @@ import net.dpml.state.StateEvent;
 import net.dpml.state.StateListener;
 import net.dpml.state.impl.DefaultStateMachine;
 
+import net.dpml.transit.model.Value;
+
 /**
- *
+ * 
  * @author <a href="mailto:dev-dpml@lists.ibiblio.org">The Digital Product Meta Library</a>
  */
 public class ComponentHandler extends EventProducer implements Handler
@@ -49,26 +64,104 @@ public class ComponentHandler extends EventProducer implements Handler
     //--------------------------------------------------------------------------
 
     private final Logger m_logger;
-    private final ComponentController m_control;
+    private final ComponentController m_controller;
     private final ComponentModel m_model;
-    private final StateMachine m_machine;
+    private final State m_graph;
+    private final ClassLoader m_classloader;
+    private final Class m_class;
+    private final Type m_type;
+    private final Class[] m_services;
+    private final String m_path;
+    private final PropertyChangeSupport m_support;
+    private final URI m_uri;
+    private final Map m_map;
+    private boolean m_active = false;
+    
+    //private final StateMachine m_machine;
+    //private Object m_instance;
+    
+    private DefaultInstance m_instance; // TODO: change to a weakhashmap of active instances
     
     //--------------------------------------------------------------------------
     // constructor
     //--------------------------------------------------------------------------
     
-    public ComponentHandler( Logger logger, ComponentController control, ComponentModel model )
+    public ComponentHandler( 
+      ClassLoader classloader, Logger logger, ComponentController control, ComponentModel model )
       throws RemoteException
     {
         super();
         
+        m_classloader = classloader;
         m_logger = logger;
-        m_control = control;
+        m_controller = control;
         m_model = model;
+        m_path = model.getContextPath();
+        m_support = new PropertyChangeSupport( this );
         
-        State graph = model.getStateGraph();
-        m_machine = new DefaultStateMachine( graph );
-        m_machine.addPropertyChangeListener( new StateEventPropergator( this ) );
+        m_graph = model.getStateGraph();
+        
+        try
+        {
+            m_uri = new URI( "component:" + m_path );
+        }
+        catch( Throwable e )
+        {
+            final String error = 
+              "Internal error while attempting to construct the component uri using the path [" 
+              + m_path + "]";
+            throw new ControlRuntimeException( error, e );
+        }
+        
+        m_map = new Hashtable();
+        String name = model.getName();
+        File work = control.getWorkDirectory( this );
+        File temp = control.getTempDirectory( this );
+        
+        m_map.put( "name", name );
+        m_map.put( "path", m_path );
+        m_map.put( "work", work );
+        m_map.put( "temp", temp );
+        m_map.put( "uri", getURI() );
+        
+        String classname = model.getImplementationClassName();
+        try
+        {
+            m_class = control.loadComponentClass( classloader, classname );
+        }
+        catch( ControlException e )
+        {
+            final String error = 
+              "Unable to load component class: "
+              + classname;
+            throw new HandlerRuntimeException( error, e );
+        }
+        
+        try
+        {
+            m_type = control.loadType( m_class );
+        }
+        catch( ControlException e )
+        {
+            final String error = 
+              "Unable to load component type: "
+              + classname;
+            throw new HandlerRuntimeException( error, e );
+        }
+        
+        try
+        {
+            m_services = control.loadServiceClasses( this );
+        }
+        catch( ControlException e )
+        {
+            final String error = 
+              "Unable to load a service class declared in component type: "
+              + classname;
+            throw new HandlerRuntimeException( error, e );
+        }
+        
+        getLogger().debug( "component controller [" + this + "] established" );
     }
     
     //--------------------------------------------------------------------------
@@ -76,96 +169,114 @@ public class ComponentHandler extends EventProducer implements Handler
     //--------------------------------------------------------------------------
     
    /**
-    * Returns the current state of the handler.
-    * @return the current runtime state
-    */
-    public State getState()
-    {
-        return m_machine.getState();
-    }
-    
-   /**
-    * Add a state listener to the handler.
-    * @param listener the state listener
-    */
-    public void addStateListener( StateListener listener )
-    {
-        super.addListener( listener );
-    }
-
-   /**
-    * Remove a state listener from the handler.
-    * @param listener the state listener to be removed
-    */
-    public void removeStateListener( StateListener listener )
-    {
-        super.removeListener( listener );
-    }
-
-   /**
     * Returns the active status of the handler.
     * @return TRUE if the handler has been activated otherwise FALSE
     */
     public boolean isActive()
     {
-        return m_machine.isActive();
+        return m_active;
     }
 
+   /**
+    * Activate the component handler.
+    * @param handler the runtime handler
+    * @exception Exception if an activation error occurs
+    */
+    public void activate() throws HandlerException, InvocationTargetException
+    {
+        if( isActive() )
+        {
+            return;
+        }
+        
+        getLogger().debug( "initiating activation" );
+        try
+        {
+            if( m_model.getActivationPolicy().equals( ActivationPolicy.STARTUP ) )
+            {
+                m_instance = createNewInstance();
+            }
+        }
+        catch( RemoteException e )
+        {
+            final String error = 
+              "Remote exception raised while attempting to access component activation policy.";
+            throw new HandlerException( error, e );
+        }
+        m_active = true;
+    }
+    
+   /**
+    * Deactivate the component.
+    * @exception Exception if an activation error occurs
+    */
+    public void deactivate()
+    {
+        if( !isActive() )
+        {
+            return;
+        }
+        
+        getLogger().debug( "initiating deactivation" );
+        if( null != m_instance )
+        {
+            m_instance.dispose();
+            m_instance = null;
+        }
+        m_active = false;
+    }
+    
+    public Instance getInstance() throws InvocationTargetException, HandlerException
+    {
+        if( isActive() )
+        {
+            // TODO: this assumes singeton semantics
+            if( m_instance == null )
+            {
+                m_instance = createNewInstance();
+            }
+            return m_instance;
+        }
+        else
+        {
+            final String error = 
+              "Component handler ["
+              + this
+              + "] is not active.";
+            throw new IllegalStateException( error );
+        }
+    }
+    
     //--------------------------------------------------------------------------
     // EventProducer
     //--------------------------------------------------------------------------
 
     protected void processEvent( EventObject event )
     {
-        if( event instanceof StateEvent )
-        {
-            StateEvent e = (StateEvent) event;
-            EventListener[] listeners = listeners();
-            for( int i=0; i<listeners.length; i++ )
-            {
-                EventListener listener = listeners[i];
-                if( listener instanceof StateListener )
-                {
-                    StateListener stateListener = (StateListener) listener;
-                    try
-                    {
-                        stateListener.stateChanged( e );
-                    }
-                    catch( Throwable throwable )
-                    {
-                        final String error =
-                          "Ignoring exception raised by a listener in response to a state change notification.";
-                        getLogger().warn( error, throwable );
-                    }
-                }
-            }
-        }
-        else
-        {
-            final String error =
-              "Event type not supported."
-              + "\nEvent Class: " + event.getClass().getName();
-            m_logger.warn( error );
-        }
     }
     
     //--------------------------------------------------------------------------
     // ComponentHandler
     //--------------------------------------------------------------------------
     
-    ComponentModel getComponentModel()
+    Object getContextValue( String key ) throws ControlException
     {
-        return m_model;
+        return m_controller.getContextValue( this, key );
+    }
+
+    State getStateGraph()
+    {
+        return m_graph;
     }
     
-    StateMachine getStateMachine()
+    Class getImplementationClass()
     {
-        return m_machine;
+        return m_class;
     }
     
-    Object getInstance()
+    ClassLoader getClassLoader()
     {
-        return null;
+        return m_classloader;
     }
     
     Handler getParentHandler()
@@ -173,8 +284,42 @@ public class ComponentHandler extends EventProducer implements Handler
         return null;
     }
     
+   /**
+    * Returns the ccomponent type.
+    * @return the type descriptor
+    */
+    Type getType()
+    {
+        return m_type;
+    }
+    
+    Map getContextMap()
+    {
+        return m_map;
+    }
+    
+    URI getURI()
+    {
+        return m_uri;
+    }
+    
+    String getPath()
+    {
+        return m_path;
+    }
+    
+    ComponentModel getComponentModel()
+    {
+        return m_model;
+    }
+    
+    Class[] getServiceClassArray()
+    {
+        return m_services;
+    }
+    
     //--------------------------------------------------------------------------
-    // internals
+    // internal
     //--------------------------------------------------------------------------
     
     private Logger getLogger()
@@ -182,21 +327,29 @@ public class ComponentHandler extends EventProducer implements Handler
         return m_logger;
     }
     
-    private class StateEventPropergator implements PropertyChangeListener
+    private DefaultInstance createNewInstance() throws InvocationTargetException, HandlerException
     {
-        private final ComponentHandler m_handler;
-        
-        private StateEventPropergator( ComponentHandler handler )
+        try
         {
-            m_handler = handler;
+            Object object = m_controller.createInstance( this );
+            Logger logger = getLogger();
+            int id = System.identityHashCode( object );
+            Logger log = logger.getChildLogger( "" + id );
+            DefaultInstance instance = new DefaultInstance( this, log, object );
+            getLogger().info( "new instance: " + System.identityHashCode( instance ) );
+            return instance;
         }
-        
-        public void propertyChange( PropertyChangeEvent event )
+        catch( RemoteException e )
         {
-            State oldState = (State) event.getOldValue();
-            State newState = (State) event.getNewValue();
-            StateEvent stateEvent = new StateEvent( m_handler, oldState, newState );
-            m_handler.enqueueEvent( stateEvent );
+            final String error = 
+              "Cannot activate component due to remote exception.";
+            throw new HandlerException( error, e );
+        }
+        catch( ControlException e )
+        {
+            final String error = 
+              "Cannot activate component due to a controller related error.";
+            throw new HandlerException( error, e );
         }
     }
     
@@ -208,7 +361,7 @@ public class ComponentHandler extends EventProducer implements Handler
     {
         try
         {
-            return "component:" + m_model.getImplementationClassName();
+            return "component:" + m_path + " (" + m_model.getImplementationClassName() + ")";
         }
         catch( RemoteException e )
         {

@@ -28,9 +28,6 @@ import java.util.Hashtable;
 import java.util.HashMap;
 import java.util.EventObject;
 
-import net.dpml.activity.Executable;
-import net.dpml.activity.Startable;
-
 import net.dpml.component.data.ComponentDirective;
 import net.dpml.component.data.ValueDirective;
 import net.dpml.component.data.ReferenceDirective;
@@ -76,17 +73,21 @@ public class DefaultComponentModel extends EventProducer implements ComponentMod
     // state
     // ------------------------------------------------------------------------
 
+    private final ComponentController m_controller;
+    
     private final Type m_type;
     private final ComponentDirective m_directive;
     private final ClassLoader m_classloader;
     private final String[] m_partKeys;
     private final HashMap m_parts = new HashMap();
     private final ContextModel m_context;
+    private final String m_path;
     
     private String m_classname;
     private ActivationPolicy m_activation;
     private LifestylePolicy m_lifestyle;
     private CollectionPolicy m_collection;
+    
     private Parameters m_parameters;  // <------------ remove this (covered by context)
     private Configuration m_configuration; // <----- move to a context entry where the resolved value is a Configuration 
     private Class m_class;
@@ -96,23 +97,23 @@ public class DefaultComponentModel extends EventProducer implements ComponentMod
     // constructor
     // ------------------------------------------------------------------------
 
-    public DefaultComponentModel( Logger logger, ComponentDirective directive )
-      throws PartException, RemoteException
-    {
-         this( Thread.currentThread().getContextClassLoader(), logger, directive );
-    }
-
-    public DefaultComponentModel( ClassLoader anchor, Logger logger, ComponentDirective directive ) 
+    public DefaultComponentModel( 
+      ClassLoader classloader, ComponentController controller, 
+      ComponentDirective directive, String partition ) 
       throws PartException, RemoteException
     {
         super();
         
+        m_controller = controller;
+        m_path = partition + directive.getName();
+
         m_directive = directive;
-        m_classloader = createClassLoader( anchor, directive );
-        m_class = loadComponentClass( m_classloader, directive );
-        m_type = loadType( m_class );
-        m_graph = loadStateGraph( m_class );
+        m_classloader = classloader;
         m_classname = directive.getClassname();
+        m_class = m_controller.loadComponentClass( m_classloader, m_classname );
+        m_type = m_controller.loadType( m_class );
+        m_graph = m_controller.loadStateGraph( m_class );
+        
         m_activation = directive.getActivationPolicy();
         m_lifestyle = directive.getLifestylePolicy();
         m_collection = directive.getCollectionPolicy();
@@ -120,8 +121,9 @@ public class DefaultComponentModel extends EventProducer implements ComponentMod
         m_configuration = directive.getConfiguration();
         
         ContextDirective context = directive.getContextDirective();
-        m_context = new DefaultContextModel( m_classloader, logger, m_type, context );
+        m_context = new DefaultContextModel( m_classloader, m_type, context );
         
+        final String base = m_path + PARTITION_SEPARATOR;
         m_partKeys = getPartKeys( m_type );
         for( int i=0; i < m_partKeys.length; i++ )
         {
@@ -130,7 +132,7 @@ public class DefaultComponentModel extends EventProducer implements ComponentMod
             if( part instanceof ComponentDirective )
             {
                 ComponentDirective component = (ComponentDirective) part;
-                ComponentModel model = new DefaultComponentModel( m_classloader, logger, component );
+                ComponentModel model = m_controller.createComponentModel( m_classloader, base, component );
                 m_parts.put( key, model );
             }
         }
@@ -144,6 +146,28 @@ public class DefaultComponentModel extends EventProducer implements ComponentMod
     // ComponentModel
     // ------------------------------------------------------------------------
 
+   /**
+    * Return the component name.
+    * @return the name
+    */
+    public String getName()
+    {
+        return m_directive.getName();
+    }
+    
+   /**
+    * Return the path identifying the context.  A context path commences with the
+    * PARTITION_SEPARATOR character and is followed by a context name.  If the 
+    * context exposed nested context objects, the path is component of context names
+    * seaprated by the PARTITION_SEPARATOR as in "/main/web/handler".
+    *
+    * @return the context path
+    */
+    public String getContextPath()
+    {
+        return m_path;
+    }
+    
    /**
     * Return the immutable state graph for the component.
     * @return the state graph.
@@ -261,6 +285,11 @@ public class DefaultComponentModel extends EventProducer implements ComponentMod
         }
     }
     
+    public ClassLoaderDirective getClassLoaderDirective()
+    {
+        return m_directive.getClassLoaderDirective();
+    }
+    
     public Configuration getConfiguration()
     {
         return m_configuration;
@@ -272,81 +301,17 @@ public class DefaultComponentModel extends EventProducer implements ComponentMod
     }
 
     // ------------------------------------------------------------------------
+    // DefaultComponentModel
+    // ------------------------------------------------------------------------
+    
+    ClassLoader getClassLoader()
+    {
+        return m_classloader;
+    }
+    
+    // ------------------------------------------------------------------------
     // internals
     // ------------------------------------------------------------------------
-
-    private ClassLoader createClassLoader( ClassLoader anchor, ComponentDirective profile )
-    {
-        ClassLoader parent = anchor;
-        final ClassLoader base = getClass().getClassLoader();
-        final String name = profile.getName();
-        final ClassLoaderDirective cld = profile.getClassLoaderDirective();
-        final ClasspathDirective[] cpds = cld.getClasspathDirectives();
-        for( int i=0; i<cpds.length; i++ )
-        {
-            ClasspathDirective cpd = cpds[i];
-            Category tag = cpd.getCategory();
-            URI[] uris = filter( cpd.getURIs(), parent );
-            if( uris.length > 0 )
-            {
-                parent = new CompositionClassLoader( null, tag, base, uris, parent );
-            }
-        }
-        return parent;
-    }
-
-    private URI[] filter( URI[] uris, ClassLoader classloader )
-    {
-        if( classloader instanceof URLClassLoader )
-        {
-            URLClassLoader loader = (URLClassLoader) classloader;
-            return filterURLClassLoader( uris, loader );
-        }
-        else
-        {
-            return uris;
-        }
-    }
-
-    private URI[] filterURLClassLoader( URI[] uris, URLClassLoader parent )
-    {
-        ArrayList list = new ArrayList();
-        for( int i=(uris.length - 1); i>-1; i-- )
-        {
-            URI uri = uris[i];
-            String path = uri.toString();
-            if( false == exists( uri, parent ) )
-            {
-                list.add( uri );
-            }
-        }
-        return (URI[]) list.toArray( new URI[0] );
-    }
-
-    private boolean exists( URI uri, URLClassLoader classloader )
-    {
-        ClassLoader parent = classloader.getParent();
-        if( parent instanceof URLClassLoader )
-        {
-            URLClassLoader loader = (URLClassLoader) parent;
-            if( exists( uri, loader ) )
-            {
-                return true;
-            }
-        }
-        String ref = uri.toString();
-        URL[] urls = classloader.getURLs();
-        for( int i=0; i<urls.length; i++ )
-        {
-            URL url = urls[i];
-            String spec = url.toString();
-            if( spec.equals( ref ) )
-            {
-                return true;
-            }
-        }
-        return false;
-    }
 
     private String[] getPartKeys( Type type )
     {
@@ -357,77 +322,6 @@ public class DefaultComponentModel extends EventProducer implements ComponentMod
             keys[i] = references[i].getKey();
         }
         return keys;
-    }
-    
-    private Class loadComponentClass( ClassLoader classloader, ComponentDirective directive ) throws PartException
-    {
-        String classname = directive.getClassname();
-        try
-        {
-            return classloader.loadClass( classname );
-        }
-        catch( Throwable e )
-        {
-            final String error =
-              "Cannot load component class: " + classname;
-            throw new PartException( error, e );
-        }
-    }
-    
-    private Type loadType( Class subject ) throws PartException
-    {
-        try
-        {
-            return Type.decode( getClass().getClassLoader(), subject );
-        }
-        catch( Throwable e )
-        {
-            final String error =
-              "Cannot load component type defintion: " + subject.getName();
-            throw new PartException( error, e );
-        }
-    }
-
-    private State loadStateGraph( Class subject ) throws PartException
-    {
-        if( Executable.class.isAssignableFrom( subject ) )
-        {
-            return loadState( Executable.class );
-        }
-        else if( Startable.class.isAssignableFrom( subject ) )
-        {
-            return loadState( Startable.class );
-        }
-        else
-        {
-            return loadState( subject );
-        }
-    }
-    
-    State loadState( Class subject ) throws PartException
-    {
-        String resource = subject.getName().replace( '.', '/' ) + ".xgraph";
-        try
-        {
-            URL url = subject.getClassLoader().getResource( resource );
-            if( null == url )
-            {
-                return new DefaultState( "" );
-            }
-            else
-            {
-                InputStream input = url.openConnection().getInputStream();
-                return DefaultStateMachine.load( input );
-            }
-        }
-        catch( Throwable e )
-        {
-            final String error = 
-              "Internal error while attempting to load component state graph resource [" 
-              + resource 
-              + "].";
-            throw new PartException( error, e );
-        }
     }
 }
 

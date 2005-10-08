@@ -114,6 +114,21 @@ abstract class DeploymentDirective extends AbstractDirective implements Comparab
         {
             m_name = "untitled";
         }
+        else if( name.indexOf( " " ) > 0 || name.indexOf( "." ) > 0 || name.indexOf( "," ) > 0
+          || name.indexOf( "/" ) > 0 )
+        {
+            final String error = 
+              "Directive name ["
+              + name
+              + "] contains an illegal character (' ', ',', or '.')";
+            throw new IllegalArgumentException( error );
+        }
+        else if( name.length() == 0 )
+        {
+            final String error = 
+              "Directive name [] is not sufficiently descriptor.";
+            throw new IllegalArgumentException( error );
+        }
         else
         {
             m_name = name;

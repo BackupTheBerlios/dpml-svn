@@ -35,7 +35,6 @@ import net.dpml.depot.ShutdownHandler;
 import net.dpml.depot.GeneralException;
 
 import net.dpml.part.Part;
-import net.dpml.part.Control;
 import net.dpml.part.PartHandler;
 import net.dpml.part.Context;
 import net.dpml.part.Handler;

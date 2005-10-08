@@ -246,7 +246,7 @@
       <include key="dpml-logging-api"/>
       <include key="ant-junit" runtime="false"/>
       <include key="dpml-component-model" runtime="false"/>
-      <include key="dpml-composition-builder" build="false"/>
+      <include key="dpml-composition-builder" runtime="false"/>
     </dependencies>
     <plugins>
       <include key="dpml-composition-builder"/>

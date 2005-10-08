@@ -50,6 +50,8 @@ import net.dpml.composition.runtime.ComponentController;
 import net.dpml.composition.runtime.CompositionHandler;
 import net.dpml.composition.runtime.DefaultLogger;
 
+import net.dpml.composition.engine.DefaultComponentModel;
+
 import net.dpml.component.control.ClassLoaderManager;
 import net.dpml.component.control.ControllerContext;
 import net.dpml.component.control.ControllerException;
@@ -69,8 +71,8 @@ import net.dpml.part.Part;
 import net.dpml.part.PartException;
 import net.dpml.part.PartHandlerNotFoundException;
 import net.dpml.part.PartNotFoundException;
-import net.dpml.part.Control;
 import net.dpml.part.Context;
+import net.dpml.part.Handler;
 
 import net.dpml.transit.Plugin;
 import net.dpml.transit.Plugin.Category;
@@ -128,16 +130,7 @@ public class CompositionController extends CompositionPartHandler implements Con
         //m_lifestyleHandler = new LifestyleHandler( m_logger, m_componentController );
         m_logger.debug( "controller: " + CONTROLLER_URI );
         
-        try
-        {
-            m_controller = new net.dpml.composition.engine.ComponentController( m_logger, this );
-        }
-        catch( RemoteException e )
-        {
-            final String error = 
-              "Unable to establish the component controller due to a remote exception.";
-            throw new ControllerException( getURI(), error, e );
-        }
+        m_controller = new net.dpml.composition.engine.ComponentController( m_logger, this );
     }
     
     //--------------------------------------------------------------------
@@ -156,18 +149,7 @@ public class CompositionController extends CompositionPartHandler implements Con
         if( part instanceof ComponentDirective )
         {
             ComponentDirective directive = (ComponentDirective) part;
-            try
-            {
-                return new net.dpml.composition.engine.DefaultComponentModel( m_logger, directive );
-            }
-            catch( RemoteException e )
-            {
-                final String error = 
-                  "Unable to construct a context from the supplied part ["
-                  + part.getClass().getName()
-                  + "] due to a remote exception.";
-                throw new PartException( error, e );
-            }
+            return m_controller.createComponentModel( directive );
         }
         else
         {
@@ -184,9 +166,35 @@ public class CompositionController extends CompositionPartHandler implements Con
     }
     
    /**
+    * Create and return a remote reference to a component handler.
+    * @return the component handler
+    */
+    public Handler createHandler( Context context ) throws Exception
+    {
+        if( context instanceof ComponentModel )
+        {
+            ComponentModel model = (ComponentModel) context;
+            return m_controller.createComponentHandler( model );
+        }
+        else
+        {
+            //
+            // TODO delegate to foreign controller
+            //
+            
+            final String error =
+              "Construction of a handler for the context class ["
+              + context.getClass().getName() 
+              + "] is not supported.";
+            throw new PartException( error );
+        }
+    }
+
+   /**
     * Return the controller for the supplied context.
     * @return the context handler
     */
+    /*
     public Control getController( Context context ) throws Exception
     {
         if( context instanceof ComponentModel )
@@ -206,6 +214,7 @@ public class CompositionController extends CompositionPartHandler implements Con
             throw new PartException( error );
         }
     }
+    */
     
     //--------------------------------------------------------------------
     // stuff

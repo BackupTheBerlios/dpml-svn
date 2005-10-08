@@ -23,6 +23,7 @@ import java.rmi.RemoteException;
 
 import net.dpml.component.info.LifestylePolicy;
 import net.dpml.component.info.CollectionPolicy;
+import net.dpml.component.data.ClassLoaderDirective;
 import net.dpml.part.ActivationPolicy;
 
 import net.dpml.configuration.Configuration;
@@ -45,11 +46,24 @@ import net.dpml.transit.model.UnknownKeyException;
 public interface ComponentModel extends Context, Remote
 {
    /**
+    * Return the component name.
+    * @return the name
+    */
+    String getName() throws RemoteException;
+
+   /**
     * Return the component implementation class name.
     *
     * @return the classname of the implementation 
     */
     String getImplementationClassName() throws RemoteException;
+    
+   /**
+    * Return the component classloader directive.
+    *
+    * @return the classloader directive for the component
+    */
+    ClassLoaderDirective getClassLoaderDirective() throws RemoteException;
     
    /**
     * Return the immutable state graph for the component.
@@ -114,8 +128,8 @@ public interface ComponentModel extends Context, Remote
     */
     ComponentModel getComponentModel( String key ) throws UnknownKeyException, RemoteException;
 
-    //Configuration getConfiguration() throws RemoteException;
+    Configuration getConfiguration() throws RemoteException;
 
-    //Parameters getParameters() throws  RemoteException;
+    Parameters getParameters() throws  RemoteException;
 }
 
