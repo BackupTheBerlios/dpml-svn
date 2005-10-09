@@ -37,7 +37,6 @@ public interface Handler extends Remote
 {
    /**
     * Initiate activation of a runtime handler.
-    * @param handler the runtime handler
     * @exception HandlerException if an activation error occurs
     * @exception InvocationTargetException if the component declares activation on startup
     *    and a implementation source exception occured
@@ -53,12 +52,6 @@ public interface Handler extends Remote
     boolean isActive() throws RemoteException;
     
    /**
-    * Deactivate the handler.
-    * @exception RemoteException if a remote exception occurs
-    */
-    void deactivate() throws RemoteException;
-
-   /**
     * Return a reference to a instance of the component handled by the handler.
     * @return the instance holder
     * @exception InvocationTargetException if the component instantiation process 
@@ -68,5 +61,11 @@ public interface Handler extends Remote
     * @exception RemoteException if a remote exception occurs
     */
     Instance getInstance() throws RemoteException, HandlerException, InvocationTargetException;
+    
+   /**
+    * Deactivate the handler.
+    * @exception RemoteException if a remote exception occurs
+    */
+    void deactivate() throws RemoteException;
 }
 
