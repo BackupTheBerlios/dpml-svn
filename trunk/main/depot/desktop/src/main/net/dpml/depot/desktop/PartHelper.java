@@ -45,7 +45,6 @@ import com.jgoodies.forms.layout.FormLayout;
 
 import net.dpml.profile.ApplicationProfile;
 
-import net.dpml.part.Control;
 import net.dpml.part.Part;
 import net.dpml.part.PartContentHandler;
 import net.dpml.part.PartHandler;

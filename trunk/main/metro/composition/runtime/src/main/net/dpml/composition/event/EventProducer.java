@@ -70,7 +70,7 @@ public abstract class EventProducer extends UnicastRemoteObject
             throw new NullPointerException( "listener" );
         }
 
-        synchronized( m_lock ) 
+        synchronized( m_lock )
         {
             Object[] old = m_listeners;
             m_listeners = new EventListener[ old.length + 1 ];

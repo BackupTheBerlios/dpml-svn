@@ -40,6 +40,7 @@ import net.dpml.state.StateListener;
 import net.dpml.state.StateEvent;
 import net.dpml.state.impl.DefaultStateListener;
 
+import net.dpml.component.data.ValueDirective;
 import net.dpml.component.model.ComponentModel;
 import net.dpml.component.model.ContextModel;
 
@@ -152,9 +153,10 @@ public class ComponentControllerTestCase extends TestCase
             }
           } );
         handler.activate();
-        handler.getInstance().addStateListener( listener );
         assertTrue( "is-active", handler.isActive() );
-        handler.getInstance().removeStateListener( listener );
+        Instance instance = handler.getInstance();
+        instance.addStateListener( listener );
+        instance.removeStateListener( listener );
         handler.deactivate();
         assertFalse( "is-active-following-deactivation", handler.isActive() );
     }
@@ -173,7 +175,18 @@ public class ComponentControllerTestCase extends TestCase
         }
     }
 
-    public void testValueInstantiation() throws Exception
+    public void testValueInstantiationWithProxy() throws Exception
+    {
+        Handler handler = m_control.createHandler( m_model );
+        handler.activate();
+        Value value = (Value) handler.getInstance();
+        Object instance = value.resolve( false );
+        assertFalse( "isa-proxy", Proxy.isProxyClass( instance.getClass() ) );
+        assertTrue( "isa-color-manager", ( instance instanceof ColorManager ) );
+        assertTrue( "isa-example-component", ( instance instanceof ExampleComponent ) );
+    }
+
+    public void testValueInstantiationWithoutProxy() throws Exception
     {
         Handler handler = m_control.createHandler( m_model );
         handler.activate();
@@ -182,6 +195,20 @@ public class ComponentControllerTestCase extends TestCase
         assertTrue( "isa-proxy", Proxy.isProxyClass( instance.getClass() ) );
         assertTrue( "isa-color-manager", ( instance instanceof ColorManager ) );
         assertFalse( "isa-example-component", ( instance instanceof ExampleComponent ) );
+    }
+    
+    public void testContextMutation() throws Exception
+    {
+        Handler handler = m_control.createHandler( m_model );
+        handler.activate();
+        Value value = (Value) handler.getInstance();
+        ColorManager manager = (ColorManager) value.resolve();
+        Color color = manager.getColor();
+        assertEquals( "initial-color", Color.RED, color );
+        ValueDirective newDirective = new ValueDirective( Color.class.getName(), "BLUE", (String) null );
+        m_model.getContextModel().setEntryDirective( "color", newDirective );
+        color = manager.getColor();
+        assertEquals( "mutated-color", Color.BLUE, color );
     }
 
     static

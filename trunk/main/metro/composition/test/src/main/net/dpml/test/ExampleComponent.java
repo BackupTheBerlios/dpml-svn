@@ -61,7 +61,7 @@ public class ExampleComponent implements ColorManager
         m_context = context;
         m_logger = logger;
         
-        getLogger().info( "example component created" );
+        getLogger().debug( "example component created" );
     }
 
     //------------------------------------------------------------------

@@ -38,7 +38,7 @@ import net.dpml.state.StateListener;
  *
  * @author <a href="mailto:dev-dpml@lists.ibiblio.org">The Digital Product Meta Library</a>
  */
-public class DefaultStateListener extends UnicastRemoteObject implements StateListener
+public final class DefaultStateListener extends UnicastRemoteObject implements StateListener
 {
     private static final String PROPERTY_NAME = "state";
     
@@ -73,6 +73,28 @@ public class DefaultStateListener extends UnicastRemoteObject implements StateLi
     public void removePropertyChangeListener( final PropertyChangeListener listener )
     {
         m_support.removePropertyChangeListener( listener );
+    }
+    
+    public boolean equals( Object other )
+    {
+        if( null == other )
+        {
+            return false;
+        }
+        else if( getClass().equals( other.getClass() ) )
+        {
+            DefaultStateListener listener = (DefaultStateListener) other;
+            return m_support.equals( listener.m_support );
+        }
+        else
+        {
+            return false;
+        }
+    }
+    
+    public int hashCode()
+    {
+        return m_support.hashCode();
     }
 }
 

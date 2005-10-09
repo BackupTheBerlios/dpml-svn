@@ -197,7 +197,7 @@ public class DefaultInstance extends EventProducer implements Value, Instance //
     * Add a state listener to the handler.
     * @param listener the state listener
     */
-    public void addStateListener( StateListener listener )
+    public synchronized void addStateListener( StateListener listener )
     {
         super.addListener( listener );
     }
@@ -206,7 +206,7 @@ public class DefaultInstance extends EventProducer implements Value, Instance //
     * Remove a state listener from the handler.
     * @param listener the state listener to be removed
     */
-    public void removeStateListener( StateListener listener )
+    public synchronized void removeStateListener( StateListener listener )
     {
         super.removeListener( listener );
     }

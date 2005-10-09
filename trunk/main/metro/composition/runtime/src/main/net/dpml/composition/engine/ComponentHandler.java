@@ -31,6 +31,7 @@ import java.util.Map;
 import java.util.Hashtable;
 
 import net.dpml.component.info.Type;
+import net.dpml.component.info.LifestylePolicy;
 import net.dpml.component.model.ComponentModel;
 
 import net.dpml.composition.event.EventProducer;
@@ -71,6 +72,7 @@ public class ComponentHandler extends EventProducer implements Handler
     private final Class m_class;
     private final Type m_type;
     private final Class[] m_services;
+    private final LifestylePolicy m_lifestyle;
     private final String m_path;
     private final PropertyChangeSupport m_support;
     private final URI m_uri;
@@ -96,6 +98,7 @@ public class ComponentHandler extends EventProducer implements Handler
         m_logger = logger;
         m_controller = control;
         m_model = model;
+        m_lifestyle = model.getLifestylePolicy();
         m_path = model.getContextPath();
         m_support = new PropertyChangeSupport( this );
         
@@ -230,12 +233,31 @@ public class ComponentHandler extends EventProducer implements Handler
     {
         if( isActive() )
         {
-            // TODO: this assumes singeton semantics
-            if( m_instance == null )
+            if( m_lifestyle.equals( LifestylePolicy.SINGLETON ) )
             {
-                m_instance = createNewInstance();
+                if( m_instance == null )
+                {
+                    m_instance = createNewInstance();
+                }
+                return m_instance;
             }
-            return m_instance;
+            else if( m_lifestyle.equals( LifestylePolicy.THREAD ) )
+            {
+                // TODO: add per-thread policy support
+                final String error = 
+                  "Per thread semantics are not supported in this revision.";
+                throw new UnsupportedOperationException( error );
+            }
+            else if( m_lifestyle.equals( LifestylePolicy.TRANSIENT ) )
+            {
+                return createNewInstance();
+            }
+            else
+            {
+                final String error = 
+                  "Unsuppported lifestyle policy: " + m_lifestyle;
+                throw new UnsupportedOperationException( error );
+            }
         }
         else
         {
@@ -336,7 +358,7 @@ public class ComponentHandler extends EventProducer implements Handler
             int id = System.identityHashCode( object );
             Logger log = logger.getChildLogger( "" + id );
             DefaultInstance instance = new DefaultInstance( this, log, object );
-            getLogger().info( "new instance: " + System.identityHashCode( instance ) );
+            getLogger().debug( "new instance: " + System.identityHashCode( instance ) );
             return instance;
         }
         catch( RemoteException e )
