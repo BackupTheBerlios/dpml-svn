@@ -8,13 +8,39 @@
   <transit:import uri="local:template:magic/standard"/>
 
   <target name="build" depends="standard.build">
+
+    <!-- create the test component types -->
+
     <c:type class="net.dpml.test.ExampleComponent" name="example"/>
+    <c:type class="net.dpml.test.SingletonComponent" name="example" threadsafe="true"/>
+
+    <!-- create test components -->
+
     <c:component dest="target/test/example.part" 
         type="net.dpml.test.ExampleComponent" name="example">
       <context>
         <entry key="color" method="RED"/>
       </context>
     </c:component>
+
+    <c:component dest="target/test/example-2.part" 
+        type="net.dpml.test.ExampleComponent" name="example">
+      <context>
+        <entry key="color">
+          <param class="float" value="100"/>
+          <param class="float" value="200"/>
+          <param class="float" value="0"/>
+        </entry>
+      </context>
+    </c:component>
+
+    <c:component dest="target/test/example-3.part" 
+        type="net.dpml.test.SingletonComponent" name="singleton">
+      <context>
+        <entry key="color" method="RED"/>
+      </context>
+    </c:component>
+
   </target>
 
 </project>

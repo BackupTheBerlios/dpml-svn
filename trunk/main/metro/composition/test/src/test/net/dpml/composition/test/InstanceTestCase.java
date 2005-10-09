@@ -51,10 +51,10 @@ import net.dpml.test.ColorManager;
 import net.dpml.test.ExampleComponent;
 
 /**
- * 
+ * Test general behaviour of an Instance without consideration for lifestyle.
  * @author <a href="mailto:dev-dpml@lists.ibiblio.org">The Digital Product Meta Library</a>
  */
-public class ComponentControllerTestCase extends TestCase
+public class InstanceTestCase extends TestCase
 {    
     private Part m_part;
     private ComponentModel m_model;
@@ -71,14 +71,6 @@ public class ComponentControllerTestCase extends TestCase
         m_model = (ComponentModel) m_control.createContext( m_part );
     }
     
-    public void testHandlerInitialState() throws Exception
-    {
-        Handler handler = m_control.createHandler( m_model );
-        assertNotNull( "handler", handler );
-        State graph = m_model.getStateGraph();
-        assertNotNull( "graph-not-null", graph );
-    }
-    
     public void testStateListenerAdditionAndRemoval() throws Exception
     {
         Handler handler = m_control.createHandler( m_model );
@@ -87,6 +79,7 @@ public class ComponentControllerTestCase extends TestCase
         StateListener listener = new DefaultStateListener();
         instance.addStateListener( listener );
         instance.removeStateListener( listener );
+        handler.deactivate();
     }
     
     public void testNullListenerAddition() throws Exception
@@ -102,6 +95,10 @@ public class ComponentControllerTestCase extends TestCase
         catch( NullPointerException npe )
         {
             // success
+        }
+        finally
+        {
+            handler.deactivate();
         }
     }
     
@@ -119,6 +116,10 @@ public class ComponentControllerTestCase extends TestCase
         {
             // success
         }
+        finally
+        {
+            handler.deactivate();
+        }
     }
 
     public void testUnknownListenerRemoval() throws Exception
@@ -135,6 +136,10 @@ public class ComponentControllerTestCase extends TestCase
         catch( IllegalArgumentException e )
         {
             // success
+        }
+        finally
+        {
+            handler.deactivate();
         }
     }
     
@@ -161,54 +166,61 @@ public class ComponentControllerTestCase extends TestCase
         assertFalse( "is-active-following-deactivation", handler.isActive() );
     }
 
-    public void testInstanceAquisitionInInactiveState() throws Exception
-    {
-        Handler handler = m_control.createHandler( m_model );
-        try
-        {
-            Value value = (Value) handler.getInstance();
-            fail( "Value returned in inactive state - expected IllegalStateException" );
-        }
-        catch( IllegalStateException e )
-        {
-            // success
-        }
-    }
-
     public void testValueInstantiationWithProxy() throws Exception
     {
         Handler handler = m_control.createHandler( m_model );
         handler.activate();
-        Value value = (Value) handler.getInstance();
-        Object instance = value.resolve( false );
-        assertFalse( "isa-proxy", Proxy.isProxyClass( instance.getClass() ) );
-        assertTrue( "isa-color-manager", ( instance instanceof ColorManager ) );
-        assertTrue( "isa-example-component", ( instance instanceof ExampleComponent ) );
+        try
+        {
+            Value value = (Value) handler.getInstance();
+            Object instance = value.resolve( false );
+            assertFalse( "isa-proxy", Proxy.isProxyClass( instance.getClass() ) );
+            assertTrue( "isa-color-manager", ( instance instanceof ColorManager ) );
+            assertTrue( "isa-example-component", ( instance instanceof ExampleComponent ) );
+        }
+        finally
+        {
+            handler.deactivate();
+        }
     }
 
     public void testValueInstantiationWithoutProxy() throws Exception
     {
         Handler handler = m_control.createHandler( m_model );
         handler.activate();
-        Value value = (Value) handler.getInstance();
-        Object instance = value.resolve();
-        assertTrue( "isa-proxy", Proxy.isProxyClass( instance.getClass() ) );
-        assertTrue( "isa-color-manager", ( instance instanceof ColorManager ) );
-        assertFalse( "isa-example-component", ( instance instanceof ExampleComponent ) );
+        try
+        {
+            Value value = (Value) handler.getInstance();
+            Object instance = value.resolve();
+            assertTrue( "isa-proxy", Proxy.isProxyClass( instance.getClass() ) );
+            assertTrue( "isa-color-manager", ( instance instanceof ColorManager ) );
+            assertFalse( "isa-example-component", ( instance instanceof ExampleComponent ) );
+        }
+        finally
+        {
+            handler.deactivate();
+        }
     }
     
     public void testContextMutation() throws Exception
     {
         Handler handler = m_control.createHandler( m_model );
         handler.activate();
-        Value value = (Value) handler.getInstance();
-        ColorManager manager = (ColorManager) value.resolve();
-        Color color = manager.getColor();
-        assertEquals( "initial-color", Color.RED, color );
-        ValueDirective newDirective = new ValueDirective( Color.class.getName(), "BLUE", (String) null );
-        m_model.getContextModel().setEntryDirective( "color", newDirective );
-        color = manager.getColor();
-        assertEquals( "mutated-color", Color.BLUE, color );
+        try
+        {
+            Value value = (Value) handler.getInstance();
+            ColorManager manager = (ColorManager) value.resolve();
+            Color color = manager.getColor();
+            assertEquals( "initial-color", Color.RED, color );
+            ValueDirective newDirective = new ValueDirective( Color.class.getName(), "BLUE", (String) null );
+            m_model.getContextModel().setEntryDirective( "color", newDirective );
+            color = manager.getColor();
+            assertEquals( "mutated-color", Color.BLUE, color );
+        }
+        finally
+        {
+            handler.deactivate();
+        }
     }
 
     static
