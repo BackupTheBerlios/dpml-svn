@@ -20,7 +20,9 @@ package net.dpml.component.model;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
+import java.util.Map;
 
+import net.dpml.component.info.PartReference;
 import net.dpml.component.info.EntryDescriptor;
 import net.dpml.component.data.Directive;
 
@@ -35,10 +37,6 @@ import net.dpml.transit.model.UnknownKeyException;
  */
 public interface ContextModel extends Remote
 {
-    //--------------------------------------------------------------------------
-    // implementation
-    //--------------------------------------------------------------------------
-
    /**
     * Return the set of context entries descriptors.
     *
@@ -59,4 +57,20 @@ public interface ContextModel extends Remote
     */
     void setEntryDirective( String key, Directive directive ) throws UnknownKeyException, RemoteException;
 
+   /**
+    * Apply an array of tagged directive as an atomic operation.  Application of 
+    * directives to the context model is atomic such that changes all applied under a 
+    * 'all-or-nothing' policy.
+    *
+    * @param directives an array of part references
+    * @exception UnknownKeyException if a key within the array does not match a key within
+    *   the context model.
+    */
+    void setEntryDirectives( PartReference[] directives ) throws UnknownKeyException, RemoteException;
+
+   /**
+    * Validate the model.
+    * @exception ValidationException if one or more issues exist within the model
+    */
+    void validate() throws ValidationException, RemoteException;
 }

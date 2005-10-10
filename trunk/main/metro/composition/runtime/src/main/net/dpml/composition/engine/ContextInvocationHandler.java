@@ -24,7 +24,9 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 
 /**
- * Invoication handler for the Context inner class.
+ * Invoication handler for the Context inner class.  The invocation handler is 
+ * responsible for the supply of values based on request invocations applied to 
+ * a #Context inner-class.
  *
  * @author <a href="mailto:dev-dpml@lists.ibiblio.org">The Digital Product Meta Library</a>
  * @version $Id: ApplianceInvocationHandler.java 2106 2005-03-21 18:46:10Z mcconnell@dpml.net $
@@ -72,8 +74,6 @@ class ContextInvocationHandler implements InvocationHandler
     * @param args the arguments supplied to method
     * @return the return value of method
     * @throws Throwable if an error occurs
-    * @exception NullPointerException if any one of the proxy or method arguments
-    *            is null, or if the object instance has been destroyed earlier.
     */
     public Object invoke( final Object proxy, final Method method, final Object[] args ) throws Throwable
     {

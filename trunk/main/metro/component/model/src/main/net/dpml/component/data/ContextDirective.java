@@ -68,7 +68,7 @@ public final class ContextDirective implements Serializable
     private final PartReference[] m_entries;
 
    /**
-    * The constext implementation classname.
+    * The context implementation classname.
     */
     private final String m_classname;
 

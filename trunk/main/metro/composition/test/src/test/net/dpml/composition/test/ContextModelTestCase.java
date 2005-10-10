@@ -37,6 +37,8 @@ import net.dpml.component.info.LifestylePolicy;
 import net.dpml.component.info.CollectionPolicy;
 import net.dpml.component.model.ComponentModel;
 import net.dpml.component.model.ContextModel;
+import net.dpml.component.model.ValidationException;
+import net.dpml.component.model.ValidationException.Issue;
 
 import net.dpml.transit.model.UnknownKeyException;
 
@@ -46,10 +48,11 @@ import net.dpml.test.ExampleComponent;
  * Test aspects of the component model implementation.
  * @author <a href="mailto:dev-dpml@lists.ibiblio.org">The Digital Product Meta Library</a>
  */
-public class ComponentModelTestCase extends TestCase
+public class ContextModelTestCase extends TestCase
 {    
     private Part m_part;
     private ComponentModel m_model;
+    private ContextModel m_context;
     
     public void setUp() throws Exception
     {
@@ -61,66 +64,44 @@ public class ComponentModelTestCase extends TestCase
         m_model = (ComponentModel) handler.createContext( m_part );
     }
     
-    public void testName() throws Exception
+    public void testContextModel() throws Exception
     {
-        String name = "example"; // from build.xml's component directive 
-        assertEquals( "name", name, m_model.getName() );
+        ContextModel context = m_model.getContextModel();
+        assertNotNull( "context", context );
+        EntryDescriptor[] entries = context.getEntryDescriptors();
+        assertEquals( "entries", 1, entries.length );
+        EntryDescriptor entry = entries[0];
+        String key = entry.getKey();
+        ValueDirective directive = (ValueDirective) context.getEntryDirective( key );
+        Color color = (Color) directive.resolve();
+        assertEquals( "color", Color.RED, color );
+        ValueDirective newDirective = new ValueDirective( Color.class.getName(), "BLUE", (String) null );
+        context.setEntryDirective( key, newDirective );
+        ValueDirective result = (ValueDirective) context.getEntryDirective( key );
+        assertEquals( "directive", newDirective, result );
+        assertEquals( "color-2", Color.BLUE, result.resolve() );
     }
     
-    public void testContextPath() throws Exception
+    public void testValidationWithoutCause() throws Exception
     {
-        String path = "/example";
-        assertEquals( "path", path, m_model.getContextPath() );
+        ContextModel context = m_model.getContextModel();
+        context.validate();
     }
     
-    public void testImplementationClassName() throws Exception
+    public void testValidationWithCause() throws Exception
     {
-        String classname = ExampleComponent.class.getName();
-        assertEquals( "classname", classname, m_model.getImplementationClassName() );
-    }
-    
-    public void testStateGraph() throws Exception
-    {
-        State state = m_model.getStateGraph();
-        assertEquals( "substates", 2, state.getStates().length );
-    }
-    
-    public void testActivationPolicy() throws Exception
-    {
-        assertEquals( "initial-activation", ActivationPolicy.STARTUP, m_model.getActivationPolicy() );
-        ActivationPolicy policy = ActivationPolicy.DEMAND;
-        m_model.setActivationPolicy( policy );
-        assertEquals( "mutated-activation", policy, m_model.getActivationPolicy() );
-    }
-    
-    public void testLifestylePolicy() throws Exception
-    {
-        assertEquals( "initial-lifestyle", LifestylePolicy.TRANSIENT, m_model.getLifestylePolicy() );
-    }
-    
-    public void testCollectionPolicy() throws Exception
-    {
-        assertEquals( "initial-collection", CollectionPolicy.SYSTEM, m_model.getCollectionPolicy() );
-        CollectionPolicy policy = CollectionPolicy.SOFT;
-        m_model.setCollectionPolicy( policy );
-        assertEquals( "mutated-collection", policy, m_model.getCollectionPolicy() );
-    }
-    
-    public void testPartKeys() throws Exception
-    {
-        String[] keys = m_model.getPartKeys();
-        assertEquals( "parts-length", 0, keys.length );
-    }
-    
-    public void testUnknownPart() throws Exception
-    {
+        ContextModel context = m_model.getContextModel();
+        context.setEntryDirective( "color", null );
         try
         {
-            ComponentModel child = m_model.getComponentModel( "xyz");
+            context.validate();
         }
-        catch( UnknownKeyException e )
+        catch( ValidationException e )
         {
-            // correct
+            Object source = e.getSource();
+            Issue[] issues = e.getIssues();
+            assertEquals( "source", context, source );
+            assertEquals( "issues", 1, issues.length );
         }
     }
     

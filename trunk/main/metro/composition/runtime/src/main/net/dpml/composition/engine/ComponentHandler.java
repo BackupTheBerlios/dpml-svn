@@ -115,8 +115,10 @@ public class ComponentHandler extends UnicastEventSource implements Handler, Dis
     private final Class[] m_services;
     private final String m_path;
     private final URI m_uri;
-    private final Map m_map;
     private final Holder m_holder;
+    
+    private final Map m_map = new Hashtable(); // symbolic value map
+    private final Map m_cache = new Hashtable(); // context entry/value cache
     
     //--------------------------------------------------------------------------
     // mutable state
@@ -191,7 +193,6 @@ public class ComponentHandler extends UnicastEventSource implements Handler, Dis
             throw new ControlRuntimeException( error, e );
         }
         
-        m_map = new Hashtable();
         String name = model.getName();
         File work = control.getWorkDirectory( this );
         File temp = control.getTempDirectory( this );
@@ -264,16 +265,17 @@ public class ComponentHandler extends UnicastEventSource implements Handler, Dis
         }
         
         getLogger().debug( "initiating activation" );
-        m_active = true;
         try
         {
             if( m_model.getActivationPolicy().equals( ActivationPolicy.STARTUP ) )
             {
                 m_holder.getInstance();
+                m_active = true;
             }
         }
         catch( RemoteException e )
         {
+            deactivate();
             final String error = 
               "Remote exception raised while attempting to access component activation policy.";
             throw new HandlerException( error, e );
