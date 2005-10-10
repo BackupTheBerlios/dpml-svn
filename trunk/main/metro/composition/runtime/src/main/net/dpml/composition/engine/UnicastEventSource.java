@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package net.dpml.composition.event;
+package net.dpml.composition.engine;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
@@ -28,12 +28,11 @@ import java.util.LinkedList;
 
 import net.dpml.transit.util.ExceptionHelper;
 
-
 /**
  * A abstract base class that established an event queue and handles event dispatch 
  * operations for listeners declared in a class extending this base class.
  */
-public abstract class EventProducer extends UnicastRemoteObject
+public abstract class UnicastEventSource extends UnicastRemoteObject
 {
    /**
     * Registered event listeners.
@@ -47,7 +46,7 @@ public abstract class EventProducer extends UnicastRemoteObject
     
     private boolean m_disposed = false;
 
-    protected EventProducer() throws RemoteException
+    protected UnicastEventSource() throws RemoteException
     {
         super();
     }
@@ -214,9 +213,9 @@ public abstract class EventProducer extends UnicastRemoteObject
                 }
 
                 Object source = event.getSource();
-                if( source instanceof EventProducer )
+                if( source instanceof UnicastEventSource )
                 {
-                    EventProducer producer = (EventProducer) source;
+                    UnicastEventSource producer = (UnicastEventSource) source;
                     try
                     {
                         producer.processEvent( event );
@@ -236,7 +235,7 @@ public abstract class EventProducer extends UnicastRemoteObject
                     final String error = 
                       "Event source [" 
                       + source.getClass().getName()
-                      + "] is not an instance of " + EventProducer.class.getName();
+                      + "] is not an instance of " + UnicastEventSource.class.getName();
                     throw new IllegalStateException( error );
                 }
             }

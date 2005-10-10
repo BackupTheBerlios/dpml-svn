@@ -88,6 +88,7 @@ public class DefaultStateMachine implements StateMachine
     
     private State m_state;
     private boolean m_active = false;
+    private boolean m_disposed = false;
 
     //-------------------------------------------------------------------------------
     // constructor
@@ -124,6 +125,7 @@ public class DefaultStateMachine implements StateMachine
     */
     public State getState()
     {
+        checkDisposed();
         synchronized( m_state )
         {
             return m_state;
@@ -141,6 +143,7 @@ public class DefaultStateMachine implements StateMachine
     */
     public Action getInitializationAction()
     {
+        checkDisposed();
         try
         {
             return getAction( m_state, Trigger.INITIALIZATION );
@@ -164,6 +167,7 @@ public class DefaultStateMachine implements StateMachine
     */
     public Action getTerminationAction()
     {
+        checkDisposed();
         try
         {
             return getAction( m_state, Trigger.TERMINATION );
@@ -185,6 +189,7 @@ public class DefaultStateMachine implements StateMachine
     */
     public State initialize( Object object ) throws InvocationTargetException
     {
+        checkDisposed();
         ArrayList visited = new ArrayList();
         try
         {
@@ -224,6 +229,7 @@ public class DefaultStateMachine implements StateMachine
     public void execute( String name, Object object ) 
       throws UnknownOperationException, InvocationTargetException
     {
+        checkDisposed();
         Operation operation = getOperation( getState(), name );
         execute( operation, object );
     }
@@ -236,6 +242,7 @@ public class DefaultStateMachine implements StateMachine
     public State apply( String name, Object object ) 
       throws UnknownTransitionException, InvocationTargetException
     {
+        checkDisposed();
         synchronized( m_state )
         {
             Transition transition = getTransition( m_state, name );
@@ -249,6 +256,7 @@ public class DefaultStateMachine implements StateMachine
     */
     public Transition[] getTransitions()
     {
+        checkDisposed();
         Hashtable table = new Hashtable();
         State[] states = m_state.getStatePath();
         for( int i=(states.length-1); i>-1; i-- )
@@ -274,6 +282,7 @@ public class DefaultStateMachine implements StateMachine
     */
     public Operation[] getOperations() 
     {
+        checkDisposed();
         Hashtable table = new Hashtable();
         State[] states = m_state.getStatePath();
         for( int i=(states.length-1); i>-1; i-- )
@@ -302,6 +311,7 @@ public class DefaultStateMachine implements StateMachine
     */
     public State terminate( Object object )
     {
+        checkDisposed();
         ArrayList visited = new ArrayList();
         try
         {
@@ -325,7 +335,19 @@ public class DefaultStateMachine implements StateMachine
     {
         return m_active;
     }
-
+    
+    public void dispose()
+    {
+        m_disposed = true;
+        m_state = null;
+        PropertyChangeListener[] listeners = m_support.getPropertyChangeListeners();
+        for( int i=0; i<listeners.length; i++ )
+        {
+            PropertyChangeListener listener = listeners[i];
+            m_support.removePropertyChangeListener( listener );
+        }
+    }
+    
     //-------------------------------------------------------------------------------
     // implementation
     //-------------------------------------------------------------------------------
@@ -748,6 +770,16 @@ public class DefaultStateMachine implements StateMachine
         }
     }
     
+    private void checkDisposed() throws IllegalStateException
+    {
+        if( m_disposed )
+        {
+            final String error = 
+              "Instance has been disposed.";
+            throw new IllegalStateException( error );
+        }
+    }
+
     //-------------------------------------------------------------------------------
     // static internals used top build a state graph from a supplied configuration
     //-------------------------------------------------------------------------------

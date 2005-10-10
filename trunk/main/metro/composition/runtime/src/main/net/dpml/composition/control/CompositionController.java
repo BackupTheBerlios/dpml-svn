@@ -50,8 +50,6 @@ import net.dpml.composition.runtime.ComponentController;
 import net.dpml.composition.runtime.CompositionHandler;
 import net.dpml.composition.runtime.DefaultLogger;
 
-import net.dpml.composition.engine.DefaultComponentModel;
-
 import net.dpml.component.control.ClassLoaderManager;
 import net.dpml.component.control.ControllerContext;
 import net.dpml.component.control.ControllerException;

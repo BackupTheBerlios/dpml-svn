@@ -24,7 +24,7 @@
     </c:component>
 
     <c:component dest="target/test/example-2.part" 
-        type="net.dpml.test.ExampleComponent" name="example">
+        type="net.dpml.test.ExampleComponent" name="transient" collection="SOFT">
       <context>
         <entry key="color">
           <param class="float" value="100"/>
@@ -35,7 +35,14 @@
     </c:component>
 
     <c:component dest="target/test/example-3.part" 
-        type="net.dpml.test.SingletonComponent" name="singleton">
+        type="net.dpml.test.SingletonComponent" name="singleton" collection="weak">
+      <context>
+        <entry key="color" method="RED"/>
+      </context>
+    </c:component>
+
+    <c:component dest="target/test/example-4.part" 
+        type="net.dpml.test.SingletonComponent" name="singleton" collection="hard">
       <context>
         <entry key="color" method="RED"/>
       </context>

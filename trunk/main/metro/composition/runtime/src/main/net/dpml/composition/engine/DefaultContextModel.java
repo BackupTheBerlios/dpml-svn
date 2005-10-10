@@ -40,8 +40,6 @@ import net.dpml.component.info.EntryDescriptor;
 
 import net.dpml.component.model.ContextModel;
 
-import net.dpml.composition.event.EventProducer;
-
 import net.dpml.logging.Logger;
 
 import net.dpml.part.Part;
@@ -55,7 +53,7 @@ import net.dpml.transit.Plugin.Category;
  *
  * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
  */
-public class DefaultContextModel extends EventProducer implements ContextModel
+class DefaultContextModel extends UnicastEventSource implements ContextModel
 {
     // ------------------------------------------------------------------------
     // state

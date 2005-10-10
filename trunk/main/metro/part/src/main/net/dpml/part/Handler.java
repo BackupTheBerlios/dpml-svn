@@ -52,6 +52,12 @@ public interface Handler extends Remote
     boolean isActive() throws RemoteException;
     
    /**
+    * Return the number of instances currently under management.
+    * @return the instance count.
+    */
+    int size() throws RemoteException;
+    
+   /**
     * Return a reference to a instance of the component handled by the handler.
     * @return the instance holder
     * @exception InvocationTargetException if the component instantiation process 

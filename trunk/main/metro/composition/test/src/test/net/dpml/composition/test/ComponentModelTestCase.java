@@ -43,7 +43,7 @@ import net.dpml.transit.model.UnknownKeyException;
 import net.dpml.test.ExampleComponent;
 
 /**
- * 
+ * Test aspects of the component model implementation.
  * @author <a href="mailto:dev-dpml@lists.ibiblio.org">The Digital Product Meta Library</a>
  */
 public class ComponentModelTestCase extends TestCase
@@ -96,9 +96,6 @@ public class ComponentModelTestCase extends TestCase
     public void testLifestylePolicy() throws Exception
     {
         assertEquals( "initial-lifestyle", LifestylePolicy.TRANSIENT, m_model.getLifestylePolicy() );
-        LifestylePolicy policy = LifestylePolicy.SINGLETON;
-        m_model.setLifestylePolicy( policy );
-        assertEquals( "mutated-lifestyle", policy, m_model.getLifestylePolicy() );
     }
     
     public void testCollectionPolicy() throws Exception

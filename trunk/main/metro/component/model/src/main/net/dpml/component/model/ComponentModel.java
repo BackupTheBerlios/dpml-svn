@@ -78,22 +78,11 @@ public interface ComponentModel extends Context, Remote
     void setActivationPolicy( ActivationPolicy policy ) throws RemoteException;
 
    /**
-    * Return the component lifestyle policy. The value return is a non-null
-    * lifestyle policy established via overriding policy assignments and 
-    * defaulting to the type lifestyle policy if no override is present.
+    * Return the component lifestyle policy.
     *
     * @return the lifestyle policy value
     */
     LifestylePolicy getLifestylePolicy() throws RemoteException;
-
-   /**
-    * Override the default lifestyle policy with the supplied lifestyle.
-    * A null value will result in lifestyle policy selection based on the 
-    * component type's preferred lifestyle policy.
-    *
-    * @param lifestyle the lifestyle policy
-    */
-    void setLifestylePolicy( LifestylePolicy lifestyle ) throws RemoteException;
 
    /**
     * Return the current component collection policy.  If null, the component

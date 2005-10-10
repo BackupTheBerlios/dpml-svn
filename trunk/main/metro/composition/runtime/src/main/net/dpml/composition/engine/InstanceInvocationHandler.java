@@ -34,7 +34,7 @@ final class InstanceInvocationHandler implements InvocationHandler
     // state
     //-------------------------------------------------------------------
 
-    private final Object m_instance;
+    private final DefaultInstance m_instance;
 
     //-------------------------------------------------------------------
     // constructor
@@ -45,7 +45,7 @@ final class InstanceInvocationHandler implements InvocationHandler
     *
     * @param instance the instance
     */
-    public InstanceInvocationHandler( Object instance )
+    public InstanceInvocationHandler( DefaultInstance instance )
     {
         if( null == instance )
         {
@@ -67,11 +67,21 @@ final class InstanceInvocationHandler implements InvocationHandler
     public Object invoke( final Object proxy, final Method method, final Object[] args ) 
       throws InvocationTargetException, IllegalAccessException
     {
-        Object instance = getInstance();
-        return method.invoke( instance, args );
+        DefaultInstance instance = getInstance();
+        if( instance.isAvailable() )
+        {
+            Object target = instance.getValue( false );
+            return method.invoke( target, args );
+        }
+        else
+        {
+            final String error = 
+              "Resource unavailable: " + instance;
+            throw new IllegalStateException( error );
+        }
     }
 
-    protected Object getInstance()
+    protected DefaultInstance getInstance()
     {
         return m_instance;
     }

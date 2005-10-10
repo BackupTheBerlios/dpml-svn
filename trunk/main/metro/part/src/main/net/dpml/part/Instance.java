@@ -55,4 +55,11 @@ public interface Instance extends Remote
     */
     void removeStateListener( StateListener listener ) throws RemoteException;
 
+   /**
+    * Return the runtime value associated with this instance.
+    * @param isolate if TRUE the value returned is a proxy exposing the 
+    *    service interfaces declared by the component type otherwise 
+    *    the instance value is returned.
+    */
+    Object getValue( boolean isolate ) throws RemoteException;
 }

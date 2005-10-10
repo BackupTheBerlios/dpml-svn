@@ -172,11 +172,11 @@ public class InstanceTestCase extends TestCase
         handler.activate();
         try
         {
-            Value value = (Value) handler.getInstance();
-            Object instance = value.resolve( false );
-            assertFalse( "isa-proxy", Proxy.isProxyClass( instance.getClass() ) );
-            assertTrue( "isa-color-manager", ( instance instanceof ColorManager ) );
-            assertTrue( "isa-example-component", ( instance instanceof ExampleComponent ) );
+            Instance instance = handler.getInstance();
+            Object object = instance.getValue( true );
+            assertTrue( "isa-proxy", Proxy.isProxyClass( object.getClass() ) );
+            assertTrue( "isa-color-manager", ( object instanceof ColorManager ) );
+            assertFalse( "isa-example-component", ( object instanceof ExampleComponent ) );
         }
         finally
         {
@@ -190,11 +190,11 @@ public class InstanceTestCase extends TestCase
         handler.activate();
         try
         {
-            Value value = (Value) handler.getInstance();
-            Object instance = value.resolve();
-            assertTrue( "isa-proxy", Proxy.isProxyClass( instance.getClass() ) );
-            assertTrue( "isa-color-manager", ( instance instanceof ColorManager ) );
-            assertFalse( "isa-example-component", ( instance instanceof ExampleComponent ) );
+            Instance instance = handler.getInstance();
+            Object object = instance.getValue( false );
+            assertFalse( "isa-proxy", Proxy.isProxyClass( object.getClass() ) );
+            assertTrue( "isa-color-manager", ( object instanceof ColorManager ) );
+            assertTrue( "isa-example-component", ( object instanceof ExampleComponent ) );
         }
         finally
         {
@@ -208,8 +208,8 @@ public class InstanceTestCase extends TestCase
         handler.activate();
         try
         {
-            Value value = (Value) handler.getInstance();
-            ColorManager manager = (ColorManager) value.resolve();
+            Instance instance = handler.getInstance();
+            ColorManager manager = (ColorManager) instance.getValue( true );
             Color color = manager.getColor();
             assertEquals( "initial-color", Color.RED, color );
             ValueDirective newDirective = new ValueDirective( Color.class.getName(), "BLUE", (String) null );

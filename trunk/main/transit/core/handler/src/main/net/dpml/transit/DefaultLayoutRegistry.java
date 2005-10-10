@@ -32,8 +32,7 @@ import net.dpml.transit.model.LayoutModel;
 import net.dpml.transit.Logger;
 
 /**
- * A registry of descriptions of plugable content handlers.  This implementation
- * maps user defined preferences to instance of ContentHandlerDescriptor.
+ * A registry of descriptions of plugable layout models.
  *
  * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
  */
@@ -175,7 +174,7 @@ class DefaultLayoutRegistry extends UnicastRemoteObject implements LayoutRegistr
     // ------------------------------------------------------------------------
 
    /**
-    * Notify all listeners of the addition of a content model.
+    * Notify all listeners of the addition of a layout model.
     * @param event the registry event
     */
     public void layoutAdded( LayoutRegistryEvent event ) throws RemoteException

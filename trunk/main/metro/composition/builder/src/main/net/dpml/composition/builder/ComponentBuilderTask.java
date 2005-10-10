@@ -154,9 +154,9 @@ public class ComponentBuilderTask extends ClassLoaderBuilderTask implements Part
         m_lifestyle = LifestylePolicy.parse( policy );
     }
 
-    public void setCollection( CollectionPolicy policy )
+    public void setCollection( String policy )
     {
-        m_collection = policy;
+        m_collection = CollectionPolicy.parse( policy );
     }
 
     public void setActivation( boolean policy )

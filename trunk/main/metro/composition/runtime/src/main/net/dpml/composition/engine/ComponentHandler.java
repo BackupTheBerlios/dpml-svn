@@ -22,6 +22,9 @@ import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeSupport;
 import java.io.File;
+import java.lang.ref.Reference;
+import java.lang.ref.SoftReference;
+import java.lang.ref.WeakReference;
 import java.lang.reflect.InvocationTargetException;
 import java.net.URI;
 import java.rmi.RemoteException;
@@ -29,12 +32,13 @@ import java.util.EventObject;
 import java.util.EventListener;
 import java.util.Map;
 import java.util.Hashtable;
+import java.util.WeakHashMap;
 
 import net.dpml.component.info.Type;
 import net.dpml.component.info.LifestylePolicy;
+import net.dpml.component.info.CollectionPolicy;
 import net.dpml.component.model.ComponentModel;
-
-import net.dpml.composition.event.EventProducer;
+import net.dpml.component.control.Disposable;
 
 import net.dpml.logging.Logger;
 
@@ -55,13 +59,50 @@ import net.dpml.state.impl.DefaultStateMachine;
 import net.dpml.transit.model.Value;
 
 /**
+ * <p>Runtime handler for a component.  The component handler maintains an internal 
+ * map of all instances derived from the component model based on the LifestylePolicy
+ * declared by the model.  If the lifestyle policy is <tt>SINGLETON</tt> 
+ * a single instance is shared between all concurrent requests.  If the policy is 
+ * {<tt>TRANSIENT</tt> (the default) a new instance is created per request. 
+ * If the policy is <tt>THREAD</tt> and single instance is created per 
+ * thread. In all cases, the lifetime of a supplied instance is a function of the collection 
+ * policy declared by the component model.  For <tt>SINGLETON</tt> models the collection 
+ * policies of <tt>HARD</tt>, <tt>SOFT</tt> and <tt>WEAK</tt> a rigorously respected.  
+ * For transient lifestyles, the implementation employs a WeakHashMap irrespective of the 
+ * declared collection policy in order to avoid potential memory leaks arrising from 
+ * non-disposal of consumed instances. If a component model declares an activation policy 
+ * of <tt>STARTUP</tt> a new {@link Instance} will be deloyed on activation of the handler 
+ * otherwise the component will be deloyed on <tt>DEMAND</tt> in response to a service 
+ * request.</p>
  * 
+ * <p><image src="doc-files/composition-handler-uml.png" border="0"/></p>
+ *
+ * <p>A component handler is created using a part handler and component model. The 
+ * following example demonstrates the creation of a component model using a part-based
+ * deployment template which in-turn is supplied as an argument when creating a new 
+ * component handler.  Separation of context and handler creation enables the creation 
+ * and management of a component model in a separate JVM from the runtime handler and 
+ * centralization of shared context information across multiple handlers.</p>
+ * <pre>
+   PartHandler controller = Part.DEFAULT_HANDLER;
+   Part part = controller.loadPart( url );
+   Context context = controller.createContext( part );
+   Handler handler = controller.createHandler( context );
+   handler.activate();
+   Instance instance = handler.getInstance();
+ * </pre>
+ *
  * @author <a href="mailto:dev-dpml@lists.ibiblio.org">The Digital Product Meta Library</a>
+ * @see LifestylePolicy
+ * @see CollectionPolicy
+ * @see ActivationPolicy
+ * @see ComponentModel
+ * @see Instance
  */
-public class ComponentHandler extends EventProducer implements Handler
+public class ComponentHandler extends UnicastEventSource implements Handler, Disposable
 {
     //--------------------------------------------------------------------------
-    // state
+    // immutable state
     //--------------------------------------------------------------------------
 
     private final Logger m_logger;
@@ -72,24 +113,24 @@ public class ComponentHandler extends EventProducer implements Handler
     private final Class m_class;
     private final Type m_type;
     private final Class[] m_services;
-    private final LifestylePolicy m_lifestyle;
     private final String m_path;
-    private final PropertyChangeSupport m_support;
     private final URI m_uri;
     private final Map m_map;
+    private final Holder m_holder;
+    
+    //--------------------------------------------------------------------------
+    // mutable state
+    //--------------------------------------------------------------------------
+
     private boolean m_active = false;
-    
-    //private final StateMachine m_machine;
-    //private Object m_instance;
-    
-    private DefaultInstance m_instance; // TODO: change to a weakhashmap of active instances
     
     //--------------------------------------------------------------------------
     // constructor
     //--------------------------------------------------------------------------
     
-    public ComponentHandler( 
-      ClassLoader classloader, Logger logger, ComponentController control, ComponentModel model )
+    ComponentHandler( 
+      final ClassLoader classloader, final Logger logger, 
+      final ComponentController control, final ComponentModel model )
       throws RemoteException
     {
         super();
@@ -98,34 +139,8 @@ public class ComponentHandler extends EventProducer implements Handler
         m_logger = logger;
         m_controller = control;
         m_model = model;
-        m_lifestyle = model.getLifestylePolicy();
         m_path = model.getContextPath();
-        m_support = new PropertyChangeSupport( this );
-        
         m_graph = model.getStateGraph();
-        
-        try
-        {
-            m_uri = new URI( "component:" + m_path );
-        }
-        catch( Throwable e )
-        {
-            final String error = 
-              "Internal error while attempting to construct the component uri using the path [" 
-              + m_path + "]";
-            throw new ControlRuntimeException( error, e );
-        }
-        
-        m_map = new Hashtable();
-        String name = model.getName();
-        File work = control.getWorkDirectory( this );
-        File temp = control.getTempDirectory( this );
-        
-        m_map.put( "name", name );
-        m_map.put( "path", m_path );
-        m_map.put( "work", work );
-        m_map.put( "temp", temp );
-        m_map.put( "uri", getURI() );
         
         String classname = model.getImplementationClassName();
         try
@@ -164,12 +179,67 @@ public class ComponentHandler extends EventProducer implements Handler
             throw new HandlerRuntimeException( error, e );
         }
         
+        try
+        {
+            m_uri = new URI( "component:" + m_path );
+        }
+        catch( Throwable e )
+        {
+            final String error = 
+              "Internal error while attempting to construct the component uri using the path [" 
+              + m_path + "]";
+            throw new ControlRuntimeException( error, e );
+        }
+        
+        m_map = new Hashtable();
+        String name = model.getName();
+        File work = control.getWorkDirectory( this );
+        File temp = control.getTempDirectory( this );
+        m_map.put( "name", name );
+        m_map.put( "path", m_path );
+        m_map.put( "work", work );
+        m_map.put( "temp", temp );
+        m_map.put( "uri", m_uri );
+        
+        LifestylePolicy lifestyle = model.getLifestylePolicy();
+        if( lifestyle.equals( LifestylePolicy.SINGLETON ) )
+        {
+            m_holder = new SingletonHolder();
+        }
+        else if( lifestyle.equals( LifestylePolicy.TRANSIENT ) )
+        {
+            m_holder = new TransientHolder();
+        }
+        else if( lifestyle.equals( LifestylePolicy.THREAD ) )
+        {
+            m_holder = new ThreadHolder();
+        }
+        else
+        {
+            final String error = 
+              "Unsuppported lifestyle policy: " + lifestyle;
+            throw new UnsupportedOperationException( error );
+        }
+        
         getLogger().debug( "component controller [" + this + "] established" );
     }
     
     //--------------------------------------------------------------------------
     // Handler
     //--------------------------------------------------------------------------
+    
+   /**
+    * Return the number of instances currently under management.  If the component
+    * is a singleton the value returned will be between zero and 1 (depending on the 
+    * activated status of the handler.  If the component is transient, the instance
+    * count will reflect the number of instances currently referenced.
+    *
+    * @return the instance count.
+    */
+    public int size()
+    {
+        return m_holder.getInstanceCount();
+    }
     
    /**
     * Returns the active status of the handler.
@@ -181,11 +251,12 @@ public class ComponentHandler extends EventProducer implements Handler
     }
 
    /**
-    * Activate the component handler.
-    * @param handler the runtime handler
+    * Activate the component handler.  If the component declares an activate on 
+    * startup policy then a new instance will be created and activated.
+    *
     * @exception Exception if an activation error occurs
     */
-    public void activate() throws HandlerException, InvocationTargetException
+    public synchronized void activate() throws HandlerException, InvocationTargetException
     {
         if( isActive() )
         {
@@ -193,11 +264,12 @@ public class ComponentHandler extends EventProducer implements Handler
         }
         
         getLogger().debug( "initiating activation" );
+        m_active = true;
         try
         {
             if( m_model.getActivationPolicy().equals( ActivationPolicy.STARTUP ) )
             {
-                m_instance = createNewInstance();
+                m_holder.getInstance();
             }
         }
         catch( RemoteException e )
@@ -206,14 +278,13 @@ public class ComponentHandler extends EventProducer implements Handler
               "Remote exception raised while attempting to access component activation policy.";
             throw new HandlerException( error, e );
         }
-        m_active = true;
     }
     
    /**
     * Deactivate the component.
     * @exception Exception if an activation error occurs
     */
-    public void deactivate()
+    public synchronized void deactivate()
     {
         if( !isActive() )
         {
@@ -221,11 +292,7 @@ public class ComponentHandler extends EventProducer implements Handler
         }
         
         getLogger().debug( "initiating deactivation" );
-        if( null != m_instance )
-        {
-            m_instance.dispose();
-            m_instance = null;
-        }
+        m_holder.deactivate();
         m_active = false;
     }
     
@@ -233,31 +300,7 @@ public class ComponentHandler extends EventProducer implements Handler
     {
         if( isActive() )
         {
-            if( m_lifestyle.equals( LifestylePolicy.SINGLETON ) )
-            {
-                if( m_instance == null )
-                {
-                    m_instance = createNewInstance();
-                }
-                return m_instance;
-            }
-            else if( m_lifestyle.equals( LifestylePolicy.THREAD ) )
-            {
-                // TODO: add per-thread policy support
-                final String error = 
-                  "Per thread semantics are not supported in this revision.";
-                throw new UnsupportedOperationException( error );
-            }
-            else if( m_lifestyle.equals( LifestylePolicy.TRANSIENT ) )
-            {
-                return createNewInstance();
-            }
-            else
-            {
-                final String error = 
-                  "Unsuppported lifestyle policy: " + m_lifestyle;
-                throw new UnsupportedOperationException( error );
-            }
+            return m_holder.getInstance();
         }
         else
         {
@@ -280,6 +323,15 @@ public class ComponentHandler extends EventProducer implements Handler
     //--------------------------------------------------------------------------
     // ComponentHandler
     //--------------------------------------------------------------------------
+    
+    public void dispose()
+    {
+        synchronized( getLock() )
+        {
+            m_holder.dispose();
+            super.dispose();
+        }
+    }
     
     Object getContextValue( String key ) throws ControlException
     {
@@ -307,7 +359,7 @@ public class ComponentHandler extends EventProducer implements Handler
     }
     
    /**
-    * Returns the ccomponent type.
+    * Returns the component type.
     * @return the type descriptor
     */
     Type getType()
@@ -318,11 +370,6 @@ public class ComponentHandler extends EventProducer implements Handler
     Map getContextMap()
     {
         return m_map;
-    }
-    
-    URI getURI()
-    {
-        return m_uri;
     }
     
     String getPath()
@@ -340,6 +387,11 @@ public class ComponentHandler extends EventProducer implements Handler
         return m_services;
     }
     
+    Object createNewObject() throws ControlException, InvocationTargetException
+    {
+        return m_controller.createInstance( this );
+    }
+    
     //--------------------------------------------------------------------------
     // internal
     //--------------------------------------------------------------------------
@@ -347,32 +399,6 @@ public class ComponentHandler extends EventProducer implements Handler
     private Logger getLogger()
     {
         return m_logger;
-    }
-    
-    private DefaultInstance createNewInstance() throws InvocationTargetException, HandlerException
-    {
-        try
-        {
-            Object object = m_controller.createInstance( this );
-            Logger logger = getLogger();
-            int id = System.identityHashCode( object );
-            Logger log = logger.getChildLogger( "" + id );
-            DefaultInstance instance = new DefaultInstance( this, log, object );
-            getLogger().debug( "new instance: " + System.identityHashCode( instance ) );
-            return instance;
-        }
-        catch( RemoteException e )
-        {
-            final String error = 
-              "Cannot activate component due to remote exception.";
-            throw new HandlerException( error, e );
-        }
-        catch( ControlException e )
-        {
-            final String error = 
-              "Cannot activate component due to a controller related error.";
-            throw new HandlerException( error, e );
-        }
     }
     
     //--------------------------------------------------------------------------
@@ -388,6 +414,263 @@ public class ComponentHandler extends EventProducer implements Handler
         catch( RemoteException e )
         {
             return "handler:" + getClass().getName();
+        }
+    }
+    
+    //--------------------------------------------------------------------------
+    // utilities
+    //--------------------------------------------------------------------------
+
+    private DefaultInstance createDefaultInstance() throws InvocationTargetException, HandlerException
+    {
+        try
+        {
+            return new DefaultInstance( this, getLogger() );
+        }
+        catch( RemoteException e )
+        {
+            final String error = 
+              "Unable to create instance holder due to a remote exception.";
+            throw new HandlerException( error, e );
+        }
+    }
+
+    private abstract class Holder
+    {
+        abstract void deactivate();
+        abstract DefaultInstance getInstance() throws HandlerException, InvocationTargetException;
+        abstract int getInstanceCount();
+        abstract void dispose();
+    }
+    
+    private class SingletonHolder extends Holder
+    {
+        private Reference m_reference;
+        
+        SingletonHolder()
+        {
+            m_reference = createReference( null );
+        }
+        
+        DefaultInstance getInstance() throws HandlerException, InvocationTargetException
+        {
+            if( m_reference == null )
+            {
+                throw new IllegalStateException( "disposed" );
+            }
+            
+            DefaultInstance instance = (DefaultInstance) m_reference.get();
+            if( null == instance )
+            {
+                instance = createDefaultInstance();
+                m_reference = createReference( instance );
+                return instance;
+            }
+            else
+            {
+                return instance;
+            }
+        }
+        
+        void deactivate()
+        {
+            DefaultInstance instance = (DefaultInstance) m_reference.get();
+            if( instance != null )
+            {
+                instance.deactivate();
+            }
+        }
+        
+        void dispose()
+        {
+            deactivate();
+            DefaultInstance instance = (DefaultInstance) m_reference.get();
+            if( instance != null )
+            {
+                instance.dispose();
+            }
+            m_reference.clear();
+        }
+        
+        int getInstanceCount()
+        {
+            if( null != m_reference.get() )
+            {
+                return 1;
+            }
+            else
+            {
+                return 0;
+            }
+        }
+    }
+    
+    private class TransientHolder extends Holder
+    {
+        private WeakHashMap m_instances = new WeakHashMap(); // transients
+        
+        DefaultInstance getInstance() throws HandlerException, InvocationTargetException
+        {
+            DefaultInstance instance = createDefaultInstance();
+            m_instances.put( instance, null );
+            return instance;
+        }
+        
+        void deactivate()
+        {
+            DefaultInstance[] instances = getAllInstances();
+            for( int i=0; i<instances.length; i++ )
+            {
+                DefaultInstance instance = instances[i];
+                instance.deactivate();
+            }
+        }
+        
+        void dispose()
+        {
+            deactivate();
+            DefaultInstance[] instances = getAllInstances();
+            for( int i=0; i<instances.length; i++ )
+            {
+                DefaultInstance instance = instances[i];
+                m_instances.remove( instance );
+                instance.dispose();
+            }
+        }
+        
+        int getInstanceCount()
+        {
+            return m_instances.size();
+        }
+        
+        private DefaultInstance[] getAllInstances()
+        {
+            return (DefaultInstance[]) m_instances.keySet().toArray( new DefaultInstance[0] );
+        }
+    }
+
+    private class ThreadHolder extends Holder
+    {
+        private ThreadLocalHolder m_threadLocalHolder = new ThreadLocalHolder();
+        
+        DefaultInstance getInstance() throws HandlerException, InvocationTargetException
+        {
+            return (DefaultInstance) m_threadLocalHolder.get();
+        }
+        
+        void deactivate()
+        {
+            m_threadLocalHolder.deactivate();
+        }
+        
+        void dispose()
+        {
+            m_threadLocalHolder.dispose();
+        }
+        
+        int getInstanceCount()
+        {
+            return m_threadLocalHolder.getInstanceCount();
+        }
+        
+        private DefaultInstance[] getAllInstances()
+        {
+            return m_threadLocalHolder.getAllInstances();
+        }
+    }
+
+    private class ThreadLocalHolder extends ThreadLocal
+    {
+        private WeakHashMap m_instances = new WeakHashMap(); // per thread instances
+        
+        protected Object initialValue()
+        {
+            try
+            {
+                DefaultInstance instance = createDefaultInstance();
+                m_instances.put( instance, null );
+                return instance;
+            }
+            catch( Exception e )
+            {
+                final String error = 
+                  "Per-thread lifestyle policy handler encountered an error while attempting to establish instance.";
+                throw new HandlerRuntimeException( error, e );
+            }
+        }
+        
+        int getInstanceCount()
+        {
+            return m_instances.size();
+        }
+        
+        DefaultInstance[] getAllInstances()
+        {
+            return (DefaultInstance[]) m_instances.keySet().toArray( new DefaultInstance[0] );
+        }
+        
+        void deactivate()
+        {
+            DefaultInstance[] instances = getAllInstances();
+            for( int i=0; i<instances.length; i++ )
+            {
+                DefaultInstance instance = instances[i];
+                instance.deactivate();
+            }
+        }
+        
+        void dispose()
+        {
+            deactivate();
+            DefaultInstance[] instances = getAllInstances();
+            for( int i=0; i<instances.length; i++ )
+            {
+                DefaultInstance instance = instances[i];
+                instance.dispose();
+                m_instances.remove( instance );
+            }
+        }
+    }
+    
+    private Reference createReference( Object object )
+    {
+        try
+        {
+            CollectionPolicy policy = m_model.getCollectionPolicy();
+            if( policy.equals( CollectionPolicy.SYSTEM ) || policy.equals( CollectionPolicy.SOFT ) )
+            {
+                return new SoftReference( object );
+            }
+            else if( policy.equals( CollectionPolicy.WEAK ) )
+            {
+                return new WeakReference( object );
+            }
+            else
+            {
+                return new HardReference( object );
+            }
+        }
+        catch( RemoteException e )
+        {
+            final String error = 
+              "Reference object creating failure due to a remote exception.";
+            throw new HandlerRuntimeException( error, e );
+        }
+    }
+    
+    private static class HardReference extends SoftReference
+    {
+        private Object m_referent;
+        
+        public HardReference( Object referent )
+        {
+            super( referent );
+            m_referent = referent;
+        }
+        
+        public Object get()
+        {
+            return m_referent;
         }
     }
 }

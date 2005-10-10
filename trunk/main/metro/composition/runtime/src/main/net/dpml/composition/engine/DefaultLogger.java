@@ -30,7 +30,7 @@ import net.dpml.transit.util.ExceptionHelper;
  * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
  * @version $Id: LoggingAdapter.java 2684 2005-06-01 00:22:50Z mcconnell@dpml.net $
  */
-public class DefaultLogger implements net.dpml.logging.Logger
+class DefaultLogger implements net.dpml.logging.Logger
 {
     // ------------------------------------------------------------------------
     // state

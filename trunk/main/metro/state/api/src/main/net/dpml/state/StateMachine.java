@@ -116,4 +116,5 @@ public interface StateMachine
     * termination has not been performed otherwise FALSE
     */
     boolean isActive();
+    
 }

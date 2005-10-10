@@ -22,7 +22,7 @@ import java.rmi.RemoteException;
 
 /**
  * A LayoutModel maintains information about the configuration
- * of a location resolver.
+ * of a host or cache layout.
  */
 public interface LayoutModel extends CodeBaseModel, Disposable
 {

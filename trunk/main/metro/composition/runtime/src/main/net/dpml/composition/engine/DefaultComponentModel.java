@@ -43,8 +43,6 @@ import net.dpml.component.info.PartReference;
 import net.dpml.component.model.ComponentModel;
 import net.dpml.component.model.ContextModel;
 
-import net.dpml.composition.event.EventProducer;
-
 import net.dpml.configuration.Configuration;
 
 import net.dpml.logging.Logger;
@@ -54,6 +52,7 @@ import net.dpml.parameters.Parameters;
 import net.dpml.part.Part;
 import net.dpml.part.PartException;
 import net.dpml.part.ActivationPolicy;
+import net.dpml.part.ControlException;
 
 import net.dpml.state.State;
 import net.dpml.state.impl.DefaultState;
@@ -67,7 +66,7 @@ import net.dpml.transit.model.UnknownKeyException;
  *
  * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
  */
-public class DefaultComponentModel extends EventProducer implements ComponentModel
+class DefaultComponentModel extends UnicastEventSource implements ComponentModel
 {
     // ------------------------------------------------------------------------
     // state
@@ -159,7 +158,7 @@ public class DefaultComponentModel extends EventProducer implements ComponentMod
     * Return the path identifying the context.  A context path commences with the
     * PARTITION_SEPARATOR character and is followed by a context name.  If the 
     * context exposed nested context objects, the path is component of context names
-    * seaprated by the PARTITION_SEPARATOR as in "/main/web/handler".
+    * separated by the PARTITION_SEPARATOR as in "/main/web/handler".
     *
     * @return the context path
     */
@@ -206,27 +205,13 @@ public class DefaultComponentModel extends EventProducer implements ComponentMod
     }
 
    /**
-    * Return the component lifestyle policy. The value return is a non-null
-    * lifestyle policy established via overriding policy assignments and 
-    * defaulting to the type lifestyle policy if no override is present.
+    * Return the component lifestyle policy.
     *
     * @return the lifestyle policy value
     */
     public LifestylePolicy getLifestylePolicy()
     {
         return m_lifestyle;
-    }
-
-   /**
-    * Override the default lifestyle policy with the supplied lifestyle.
-    * A null value will result in lifestyle policy selection based on the 
-    * component type's preferred lifestyle policy.
-    *
-    * @param lifestyle the lifestyle policy
-    */
-    public void setLifestylePolicy( LifestylePolicy lifestyle )
-    {
-        m_lifestyle = lifestyle;
     }
 
    /**

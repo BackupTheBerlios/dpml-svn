@@ -155,7 +155,35 @@ public class DefaultStateMachineTestCase extends AbstractEncodingTestCase
         assertEquals( "terminated-state-name", "terminated", m_machine.getState().getName() );
         
     }
-
+    
+    public void testInitializationInDisposed() throws Exception
+    {
+        m_machine.dispose();
+        try
+        {
+            m_machine.initialize( null );
+            fail( "disposed machine allowed initialization" );
+        }
+        catch( IllegalStateException e )
+        {
+            // success
+        }
+    }
+    
+    public void testTerminationInDisposed() throws Exception
+    {
+        m_machine.dispose();
+        try
+        {
+            m_machine.terminate( null );
+            fail( "disposed machine allowed termination" );
+        }
+        catch( IllegalStateException e )
+        {
+            // success
+        }
+    }
+    
     public void testEncoding() throws Exception
     {
         Object state = executeEncodingTest( m_state, "state-encoded.xml" );

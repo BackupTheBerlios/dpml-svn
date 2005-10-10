@@ -49,7 +49,7 @@ public interface Value
    /**
     * Resolve an instance from the value using a supplied isolvation policy. 
     *
-    * @param policy the isolvation policy
+    * @param isolate the isolation policy
     * @return the resolved instance
     * @exception Exception if error occurs during instance resolution
     */
@@ -61,6 +61,7 @@ public interface Value
     * expression the value will be resolved using the supplied map.
     *
     * @param map the context map
+    * @param isolate the isolation policy
     * @return the resolved instance
     * @exception Exception if error occurs during instance resolution
     */

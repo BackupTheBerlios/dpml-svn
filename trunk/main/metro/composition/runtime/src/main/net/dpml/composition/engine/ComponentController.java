@@ -288,7 +288,7 @@ public class ComponentController
     * @param subject the subject class
     * @return a state graph instance
     */
-    State loadStateGraph( Class subject ) throws PartException
+    State loadStateGraph( Class subject ) throws ControlException
     {
         State state = loadStateFromResource( subject );
         if( null == state )
@@ -429,7 +429,7 @@ public class ComponentController
         return false;
     }
     
-    private State loadStateFromResource( Class subject ) throws PartException
+    private State loadStateFromResource( Class subject ) throws ControlException
     {
         String resource = subject.getName().replace( '.', '/' ) + ".xgraph";
         try
