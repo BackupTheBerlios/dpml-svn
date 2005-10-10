@@ -423,6 +423,12 @@ public class ComponentHandler extends UnicastEventSource implements Handler, Dis
     // utilities
     //--------------------------------------------------------------------------
 
+   /**
+    * Apply best efforts to construct a fully validated activated instance holder.
+    * @return the instance holder
+    * @exception HandlerException if the construction of the instance was not successfull
+    * @exception InvocationTargetException if a error was raised by the external implementation
+    */
     private DefaultInstance createDefaultInstance() throws InvocationTargetException, HandlerException
     {
         try

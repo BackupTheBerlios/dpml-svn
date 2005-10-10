@@ -103,7 +103,7 @@ class DefaultInstance extends UnicastEventSource implements Instance
     * @param handler the component handler
     */
     DefaultInstance( ComponentHandler handler, Logger logger ) 
-      throws InvocationTargetException, RemoteException, ControlException
+      throws RemoteException
     {
         super();
         
@@ -128,8 +128,23 @@ class DefaultInstance extends UnicastEventSource implements Instance
         InvocationHandler invocationHandler = new InstanceInvocationHandler( this );
         m_proxy = Proxy.newProxyInstance( classloader, services, invocationHandler );
 
-        Object value = m_handler.createNewObject();
-        activate( value );
+        try
+        {
+            Object value = m_handler.createNewObject();
+            activate( value );
+        }
+        catch( ControlException e )
+        {
+            getLogger().warn( "Instance value establishment control error.", e );
+        }
+        catch( InvocationTargetException e )
+        {
+            getLogger().warn( "Target component instantiation error.", e );
+        }
+        catch( Throwable e )
+        {
+            getLogger().warn( "Unexpected activation failure.", e );
+        }
     }
 
     //-------------------------------------------------------------------
@@ -320,8 +335,6 @@ class DefaultInstance extends UnicastEventSource implements Instance
         m_value = value;
         String tag = "[" + System.identityHashCode( value ) + "               ";
         m_tag = tag.substring( 0, 10 ) + "] ";
-        m_activated = true;
-        getLogger().debug( m_tag + "available" );
     }
 
     private Logger getLogger()
