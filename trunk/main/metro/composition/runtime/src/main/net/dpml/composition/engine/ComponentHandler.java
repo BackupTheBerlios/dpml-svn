@@ -63,17 +63,19 @@ import net.dpml.transit.model.Value;
  * map of all instances derived from the component model based on the LifestylePolicy
  * declared by the model.  If the lifestyle policy is <tt>SINGLETON</tt> 
  * a single instance is shared between all concurrent requests.  If the policy is 
- * {<tt>TRANSIENT</tt> (the default) a new instance is created per request. 
+ * <tt>TRANSIENT</tt> (the default) a new instance is created per request. 
  * If the policy is <tt>THREAD</tt> and single instance is created per 
  * thread. In all cases, the lifetime of a supplied instance is a function of the collection 
  * policy declared by the component model.  For <tt>SINGLETON</tt> models the collection 
- * policies of <tt>HARD</tt>, <tt>SOFT</tt> and <tt>WEAK</tt> a rigorously respected.  
- * For transient lifestyles, the implementation employs a WeakHashMap irrespective of the 
- * declared collection policy in order to avoid potential memory leaks arrising from 
- * non-disposal of consumed instances. If a component model declares an activation policy 
- * of <tt>STARTUP</tt> a new {@link Instance} will be deloyed on activation of the handler 
- * otherwise the component will be deloyed on <tt>DEMAND</tt> in response to a service 
- * request.</p>
+ * policies of <tt>HARD</tt>, <tt>SOFT</tt> and <tt>WEAK</tt> are rigorously respected.  
+ * Components employing a <tt>THREAD</tt> lifestle policy are will be referenced under a 
+ * weak reference to a thread local valiable containing a <tt>HARD</tt>, <tt>SOFT</tt> or 
+ * <tt>WEAK</tt> reference to the component instance. For transient lifestyles, the 
+ * implementation employs a WeakHashMap irrespective of the declared collection policy in 
+ * order to avoid potential memory leaks arrising from non-disposal of consumed instances. 
+ * If a component model declares an activation policy of <tt>STARTUP</tt> a new 
+ * {@link Instance} will be deloyed on activation of the handler otherwise the component 
+ * will be deloyed on <tt>DEMAND</tt> in response to a service request.</p>
  * 
  * <p><image src="doc-files/composition-handler-uml.png" border="0"/></p>
  *
@@ -86,10 +88,11 @@ import net.dpml.transit.model.Value;
  * <pre>
    PartHandler controller = Part.DEFAULT_HANDLER;
    Part part = controller.loadPart( url );
-   Context context = controller.createContext( part );
-   Handler handler = controller.createHandler( context );
+   Context context = controller.createContext( part ); // management info
+   Handler handler = controller.createHandler( context ); // runtime control for the type
    handler.activate();
-   Instance instance = handler.getInstance();
+   Instance instance = handler.getInstance(); // runtime control for the instance
+   Object value = instance.getValue( true );
  * </pre>
  *
  * @author <a href="mailto:dev-dpml@lists.ibiblio.org">The Digital Product Meta Library</a>
@@ -198,9 +201,9 @@ public class ComponentHandler extends UnicastEventSource implements Handler, Dis
         File temp = control.getTempDirectory( this );
         m_map.put( "name", name );
         m_map.put( "path", m_path );
-        m_map.put( "work", work );
-        m_map.put( "temp", temp );
-        m_map.put( "uri", m_uri );
+        m_map.put( "work", work.toString() );
+        m_map.put( "temp", temp.toString() );
+        m_map.put( "uri", m_uri.toASCIIString() );
         
         LifestylePolicy lifestyle = model.getLifestylePolicy();
         if( lifestyle.equals( LifestylePolicy.SINGLETON ) )

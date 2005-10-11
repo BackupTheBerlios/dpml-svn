@@ -611,7 +611,7 @@ public class ComponentController
                     catch( Exception ve )
                     {
                         final String error = 
-                          "unexpect error while attempting to resolve a value from the context directive class ["
+                          "Unexpect error while attempting to resolve a value from the context directive class ["
                           + directive.getClass().getName() 
                           + "] assigned to context key ["
                           + key

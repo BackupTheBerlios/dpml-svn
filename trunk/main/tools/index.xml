@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<index>
+
+  <project basedir="info">
+    <info>
+      <group>dpml-tools</group>
+      <name>dpml-tools-info</name>
+      <types>
+        <type name="jar"/>
+      </types>
+    </info>
+  </project>
+
+</index>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<module name="dpml" basedir=".">
+
+   <module name="runtime">
+     <project name="dpml-transit-main" basedir="transit/core/handler">
+       <production>
+         <type name="jar"/>
+       </production>
+     </project>
+   </module>
+
+   <module name="tools">
+     <dependencies>
+       <include file="apache.xml"/>
+     </dependencies>
+     <projects>
+       <project name="dpml-transit-tools" basedir="transit/core/tools">
+         <production>
+           <type name="jar"/>
+         </production>
+         <dependencies scope="runtime">
+           <include key="dpml/runtime/dpml-transit-main"/>
+           <include ref="apache/ant/ant"/>
+         </dependencies>
+       </project>
+     </projects>
+   </module>
+
+   <module name="management"/>
+
+</module>

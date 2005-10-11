@@ -23,6 +23,8 @@ import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 
+import net.dpml.component.info.EntryDescriptor;
+
 /**
  * Invoication handler for the Context inner class.  The invocation handler is 
  * responsible for the supply of values based on request invocations applied to 
@@ -88,8 +90,22 @@ class ContextInvocationHandler implements InvocationHandler
             String name = method.getName();
             if( name.startsWith( "get" ) )
             {
-                String key = getKeyFromMethod( method );
-                return handler.getContextValue( key );
+                String key = EntryDescriptor.getEntryKey( method );
+                Object value = handler.getContextValue( key );
+                if( null != value )
+                {
+                    return value;
+                }
+                else if( args.length > 0 )
+                {
+                    return args[0];
+                }
+                else
+                {
+                    final String error = 
+                      "Unable to resolve a context entry value for the key [" + key + "].";
+                    throw new IllegalStateException( error );
+                }
             }
             /*
             if( ( null != args ) && ( args.length == 1 ) )
@@ -110,33 +126,5 @@ class ContextInvocationHandler implements InvocationHandler
             */
             throw new NoSuchMethodException( name );
         }
-    }
-
-    private String getKeyFromMethod( Method method )
-    {
-        String name = method.getName();
-        if( name.startsWith( "get" ) )
-        {
-            return formatKey( name.substring( 3 ) );
-        }
-        else
-        {
-            final String error = 
-              "Invalid method accessor ["
-              + name 
-              + "]";
-            throw new IllegalArgumentException( error );
-        }
-    }
-
-    private String formatKey( String key )
-    {
-        if( key.length() < 1 ) 
-        {
-            throw new IllegalArgumentException( "key" );
-        }
-        String first = key.substring( 0, 1 ).toLowerCase();
-        String remainder = key.substring( 1 );
-        return first + remainder;
     }
 }

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<module name="apache">
+
+  <module name="ant" version="1.6.7">
+
+    <dependencies>
+      <include file="junit.xml"/>
+    </dependencies>
+
+    <resources>
+
+      <resource name="ant">
+        <types>
+          <type name="jar"/>
+        </types>
+      </resource>
+
+      <resource name="ant-junit" version="1.6.7">
+        <types>
+          <type name="jar"/>
+        </types>
+        <dependencies>
+          <include key="ant"/>
+          <include ref="junit/junit"/>
+        </dependencies>
+      </resource>
+
+    </resources>
+
+  </module>
+
+</module>

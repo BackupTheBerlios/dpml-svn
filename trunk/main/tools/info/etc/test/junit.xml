@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<module name="junit" version="3.5.1">
+
+  <resources>
+
+    <resource name="junit">
+      <types>
+        <type name="jar"/>
+      </types>
+    </resource>
+
+  </resources>
+
+</module>

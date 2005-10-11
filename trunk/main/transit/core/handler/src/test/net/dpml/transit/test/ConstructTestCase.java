@@ -75,6 +75,9 @@ public class ConstructTestCase extends AbstractEncodingTestCase
     {
         Value a = new Construct( File.class.getName(), "aaa" );
         Value b = new Construct( File.class.getName(), "${java.io.tmpdir}" );
+        java.beans.XMLEncoder encoder = new java.beans.XMLEncoder( System.out );
+        encoder.writeObject( b );
+        encoder.close();
         Value c = new Construct( Context.class.getName(), new Value[]{a, b} );
 
         Object value = c.resolve();

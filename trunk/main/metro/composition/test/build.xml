@@ -13,6 +13,7 @@
 
     <c:type class="net.dpml.test.ExampleComponent" name="example"/>
     <c:type class="net.dpml.test.SingletonComponent" name="example" threadsafe="true"/>
+    <c:type class="net.dpml.test.ContextTestComponent" name="context" threadsafe="true"/>
 
     <!-- create test components -->
 
@@ -45,6 +46,26 @@
         type="net.dpml.test.SingletonComponent" name="singleton" collection="hard">
       <context>
         <entry key="color" method="RED"/>
+      </context>
+    </c:component>
+
+    <c:component dest="target/test/context.part" 
+        type="net.dpml.test.ContextTestComponent" name="context" collection="soft">
+      <context>
+        <entry key="color" method="RED"/>
+        <entry key="integer" value="0"/>
+        <entry key="short" value="0"/>
+        <entry key="long" value="0"/>
+        <entry key="byte" value="0"/>
+        <entry key="double" value="0"/>
+        <entry key="float" value="0.5"/>
+        <entry key="char" value="x"/>
+        <entry key="boolean" value="true"/>
+        <entry key="file" value="$${work}"/>
+        <entry key="tempFile" value="$${temp}"/>
+        <entry key="URI" value="$${uri}"/>
+        <entry key="name" value="$${name}"/>
+        <entry key="path" value="$${path}"/>
       </context>
     </c:component>
 

@@ -17,7 +17,7 @@
       <package name="net.dpml.transit.util"/>
     </packages>
     <home href="http://www.dpml.net/transit"/>
-    <docs href="http://www.dpml.net/transit"/>
+    <docs href="http://www.dpml.net"/>
     <legal>
       <license href="http://www.dpml.net/about/legal/license.html"/>
       <notice href="http://www.dpml.net/about/legal/notice.html"/>

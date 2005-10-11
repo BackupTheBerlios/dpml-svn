@@ -332,12 +332,35 @@ public class Construct implements Value, Serializable
         if( value == null )
         {
             Expression expression = new Expression( target, method, new Object[0] );
-            return expression.getValue();
+            try
+            {
+                return expression.getValue();
+            }
+            catch( Throwable e )
+            {
+                final String error = 
+                  "Internal error while evalue expression using:"
+                  + "\n target: " + m_target + " (" + target + ")"
+                  + "\n method: " + m_method + " (" + method + ")";
+                throw new ValueException( error, e );
+            }
         }
         else
         {
             Expression expression =  new Expression( target, method, new Object[]{ value } );
-            return expression.getValue();
+            try
+            {
+                return expression.getValue();
+            }
+            catch( Throwable e )
+            {
+                final String error = 
+                  "Internal error while evalue expression using:"
+                  + "\n target: " + m_target + " (" + target + ")"
+                  + "\n method: " + m_method + " (" + method + ")"
+                  + "\n value: " + m_value + "(" + value + ")";
+                throw new ValueException( error, e );
+            }
         }
     }
     
@@ -409,15 +432,7 @@ public class Construct implements Value, Serializable
         }
         else
         {
-            Object object = parseSymbolicValue( map, value );
-            if( object instanceof String )
-            {
-                return PropertyResolver.resolve( value );
-            }
-            else
-            {
-                return object;
-            }
+            return parseSymbolicValue( map, value );
         }
     }
     
@@ -425,7 +440,7 @@ public class Construct implements Value, Serializable
     {
         if( null == map )
         {
-            return value;
+            return PropertyResolver.resolve( value );
         }
         if( value.startsWith( "${" ) && value.endsWith( "}" ) )
         {
@@ -435,10 +450,17 @@ public class Construct implements Value, Serializable
             {
                 return map.get( key );
             }
+            else
+            {
+                return PropertyResolver.resolve( value );
+            }
         }
-        return value;
+        else
+        {
+            return PropertyResolver.resolve( value );
+        }
     }
-
+    
     /**
      * Return the instance class using the context classloader.
      * @return the class
@@ -514,10 +536,6 @@ public class Construct implements Value, Serializable
             {
                 return Character.class;
             }
-            else if( classname.equals( "char" ) )
-            {
-                return char.class;
-            }
             else if( classname.equals( "boolean" ) )
             {
                 return Boolean.class;
@@ -550,6 +568,24 @@ public class Construct implements Value, Serializable
             {
                 return loader;
             }
+        }
+    }
+    
+    public String toString()
+    {
+        if( !m_compound )
+        {
+            return "construct "
+              + " target: " + m_target 
+              + " method: " + m_method 
+              + " value: " + m_value;
+        }
+        else
+        {
+            return "construct "
+              + " target: " + m_target 
+              + " method: " + m_method 
+              + " values: " + m_args.length;
         }
     }
     
