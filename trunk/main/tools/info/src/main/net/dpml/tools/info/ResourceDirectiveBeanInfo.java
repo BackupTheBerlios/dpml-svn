@@ -40,7 +40,7 @@ public final class ResourceDirectiveBeanInfo extends SimpleBeanInfo
         descriptor.setValue( 
           "persistenceDelegate", 
           new DefaultPersistenceDelegate( 
-            new String[]{ "name", "version", "typeDirectives", "dependencyDirective" } ) );
+            new String[]{ "name", "version", "typeDirectives", "includeDirectives" } ) );
         return descriptor;
     }
 }

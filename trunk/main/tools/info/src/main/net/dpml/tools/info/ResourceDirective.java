@@ -30,9 +30,9 @@ public final class ResourceDirective extends AbstractDirective
     private final String m_name;
     private final String m_version;
     private final TypeDirective[] m_types;
-    private final DependencyDirective m_dependencies;
+    private final IncludeDirective[] m_dependencies;
     
-    public ResourceDirective( String name, String version, TypeDirective[] types, DependencyDirective dependencies )
+    public ResourceDirective( String name, String version, TypeDirective[] types, IncludeDirective[] dependencies )
     {
         m_name = name;
         m_version = version;
@@ -55,7 +55,7 @@ public final class ResourceDirective extends AbstractDirective
         return m_types;
     }
     
-    public DependencyDirective getDependencyDirective()
+    public IncludeDirective[] getIncludeDirectives()
     {
         return m_dependencies;
     }
@@ -77,7 +77,7 @@ public final class ResourceDirective extends AbstractDirective
             {
                 return false;
             }
-            else if( !equals( m_dependencies, object.m_dependencies ) )
+            else if( !Arrays.equals( m_dependencies, object.m_dependencies ) )
             {
                 return false;
             }
@@ -98,7 +98,7 @@ public final class ResourceDirective extends AbstractDirective
         hash ^= super.hashValue( m_name );
         hash ^= super.hashValue( m_version );
         hash ^= super.hashArray( m_types );
-        hash ^= super.hashValue( m_dependencies );
+        hash ^= super.hashArray( m_dependencies );
         return hash;
     }
 }
