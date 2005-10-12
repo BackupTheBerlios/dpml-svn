@@ -31,7 +31,32 @@ import net.dpml.tools.info.ModuleDirective;
 public interface Library extends Remote
 {
    /**
-    * Return an array of modules registered with the library.
+    * Return a sorted array of all projects within the library.
+    * @return the sorted project array
+    */
+    Project[] getAllProjects() 
+      throws RemoteException, ModuleNotFoundException, ResourceNotFoundException;
+
+   /**
+    * Return a sorted array of projects including the dependent project of the 
+    * suplied target project.
+    * @param project the target project
+    * @return the sorted project array
+    */
+    Project[] getAllProjects( Project project ) 
+      throws RemoteException, ModuleNotFoundException, ResourceNotFoundException;
+
+   /**
+    * Get a named project.
+    * @param path the project address include the module path
+    * @exception ModuleNotFoundException if the address is not resolvable
+    * @exception ProjectNotFoundException if the address is not resolvable
+    */
+    public Project getProject( String path ) 
+      throws RemoteException, ModuleNotFoundException, ProjectNotFoundException;
+
+   /**
+    * Return an array of top-level modules registered with the library.
     * @return the module array
     */
     Module[] getModules() throws RemoteException;

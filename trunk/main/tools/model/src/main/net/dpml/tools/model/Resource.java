@@ -35,4 +35,6 @@ public interface Resource extends Remote
     String[] getTypes() throws RemoteException;
     
     Resource[] getDependencies() throws RemoteException, ModuleNotFoundException, ResourceNotFoundException;
+
+    Project getProject() throws RemoteException;
 }

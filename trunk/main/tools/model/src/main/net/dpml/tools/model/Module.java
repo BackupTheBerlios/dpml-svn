@@ -34,6 +34,8 @@ public interface Module extends Remote
     
     Module getParent() throws RemoteException;
     
+    Module[] getImportedModules() throws RemoteException;
+    
     Module[] getModules() throws RemoteException;
     
     Module getModule( String key ) throws RemoteException, ModuleNotFoundException;

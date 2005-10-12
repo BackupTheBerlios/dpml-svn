@@ -28,8 +28,10 @@ import java.util.ArrayList;
 import net.dpml.tools.info.IncludeDirective;
 import net.dpml.tools.info.ResourceDirective;
 import net.dpml.tools.info.TypeDirective;
+import net.dpml.tools.info.Scope;
 import net.dpml.tools.model.Module;
 import net.dpml.tools.model.Resource;
+import net.dpml.tools.model.Project;
 import net.dpml.tools.model.ResourceNotFoundException;
 import net.dpml.tools.model.ModuleNotFoundException;
 import net.dpml.tools.model.ReferentialException;
@@ -48,23 +50,49 @@ import org.w3c.dom.Element;
  */
 public final class DefaultResource extends UnicastRemoteObject implements Resource
 {
-    private final DefaultLibrary m_library;
-    private final ResourceDirective m_directive;
+    private final String m_name;
+    private final String m_version;
     private final DefaultModule m_parent;
     private final String[] m_types;
     private final String m_path;
+    private final IncludeDirective[] m_includes;
+    private final DefaultLibrary m_library;
+    private final DefaultProject m_project;
     
-    DefaultResource( DefaultLibrary library, DefaultModule parent, ResourceDirective directive ) throws RemoteException
+    DefaultResource( 
+      DefaultLibrary library, DefaultModule parent, DefaultProject project ) throws RemoteException
+    {
+        m_library = library;
+        m_version = null;
+        m_parent = parent;
+        m_name = project.getName();
+        m_types = project.getTypes();
+        m_path = project.getPath();
+        m_project = project;
+        
+        TypeDirective[] typeDirectives = new TypeDirective[ m_types.length ];
+        for( int i=0; i<typeDirectives.length; i++ )
+        {
+            typeDirectives[i] = new TypeDirective( m_types[i] );
+        }
+        m_includes = project.getIncludeDirectives( Scope.RUNTIME );
+    }
+    
+    DefaultResource( 
+      DefaultLibrary library, DefaultModule parent, ResourceDirective directive ) throws RemoteException
     {
         super();
         
-        m_directive = directive;
+        m_project = null;
         m_parent = parent;
         m_library = library;
+        m_name = directive.getName();
+        m_includes = directive.getIncludeDirectives();
+        m_version = directive.getVersion();
         
         if( null == m_parent )
         {
-            m_path = m_directive.getName();
+            m_path = m_name;
         }
         else
         {
@@ -72,7 +100,7 @@ public final class DefaultResource extends UnicastRemoteObject implements Resour
             m_path = path + "/" + getName();
         }
         
-        TypeDirective[] typeDirectives = m_directive.getTypeDirectives();
+        TypeDirective[] typeDirectives = directive.getTypeDirectives();
         m_types = new String[ typeDirectives.length ];
         for( int i=0; i<typeDirectives.length; i++ )
         {
@@ -83,7 +111,7 @@ public final class DefaultResource extends UnicastRemoteObject implements Resour
     
     public String getName()
     {
-        return m_directive.getName();
+        return m_name;
     }
     
     public String getPath()
@@ -93,7 +121,7 @@ public final class DefaultResource extends UnicastRemoteObject implements Resour
     
     public String getVersion()
     {
-        return m_directive.getVersion();
+        return m_version;
     }
     
     public String[] getTypes()
@@ -105,8 +133,7 @@ public final class DefaultResource extends UnicastRemoteObject implements Resour
     {
         try
         {
-            IncludeDirective[] includes = m_directive.getIncludeDirectives();
-            return m_library.resolveResourceDependencies( m_parent, includes );
+            return m_library.resolveResourceDependencies( m_parent, m_includes );
         }
         catch( ModuleNotFoundException e )
         {
@@ -122,5 +149,15 @@ public final class DefaultResource extends UnicastRemoteObject implements Resour
               + getPath();
             throw new ResourceNotFoundException( error, e );
         }
+    }
+    
+    public Project getProject()
+    {
+        return m_project;
+    }
+    
+    DefaultProject getLocalProject()
+    {
+        return m_project;
     }
 }

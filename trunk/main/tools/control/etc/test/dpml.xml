@@ -9,6 +9,23 @@
            <artifact type="jar"/>
          </production>
        </project>
+       <project name="dpml-state-api" basedir="metro/state/api">
+         <production>
+           <artifact type="jar"/>
+         </production>
+         <dependencies scope="runtime">
+           <include ref="dpml/runtime/dpml-transit-main"/>
+         </dependencies>
+       </project>
+       <project name="dpml-state-impl" basedir="metro/state/impl">
+         <production>
+           <artifact type="jar"/>
+           <artifact type="plugin"/>
+         </production>
+         <dependencies scope="runtime">
+           <include key="dpml-state-api"/>
+         </dependencies>
+       </project>
      </projects>
    </module>
 

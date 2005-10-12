@@ -62,6 +62,8 @@ public final class DefaultModule extends UnicastRemoteObject implements Module
     private final Hashtable m_projects = new Hashtable();
     private final String m_path;
     
+    private DefaultModule[] m_imports;
+    
     DefaultModule( DefaultLibrary library, ModuleDirective directive ) throws RemoteException
     {
         this( library, null, directive );
@@ -143,6 +145,7 @@ public final class DefaultModule extends UnicastRemoteObject implements Module
             DefaultModule module = modules[i];
             module.init( library );
         }
+        m_imports = modules;
     }
     
     public String getName()
@@ -165,17 +168,14 @@ public final class DefaultModule extends UnicastRemoteObject implements Module
         return (Module[]) m_modules.values().toArray( new Module[0] );
     }
     
+    public Module[] getImportedModules()
+    {
+        return (Module[]) m_imports;
+    }
+    
     public Module getModule( String key ) throws ModuleNotFoundException
     {
-        Module module = (Module) m_modules.get( key );
-        if( null == module )
-        {
-            throw new ModuleNotFoundException( key );
-        }
-        else
-        {
-            return module;
-        }
+        return getLocalModule( key );
     }
     
     public Resource[] getResources()
@@ -190,7 +190,52 @@ public final class DefaultModule extends UnicastRemoteObject implements Module
     
     public Resource getResource( String key ) throws ResourceNotFoundException
     {
-        Resource resource = (Resource) m_resources.get( key );
+        return getLocalResource( key );
+    }
+    
+    public Project getProject( String key ) throws ProjectNotFoundException
+    {
+        return getLocalProject( key );
+    }
+    
+    public Resource resolveResource( String key ) throws ResourceNotFoundException
+    {
+        return resolveLocalResource( key );
+    }
+    
+    
+    public String toString()
+    {
+        return "module:" + m_path;
+    }
+    
+    
+    DefaultModule[] getLocalModules()
+    {
+        return (DefaultModule[]) m_modules.values().toArray( new DefaultModule[0] );
+    }
+    
+    DefaultProject[] getLocalProjects()
+    {
+        return (DefaultProject[]) m_projects.values().toArray( new DefaultProject[0] );
+    }
+
+    DefaultModule getLocalModule( String key ) throws ModuleNotFoundException
+    {
+        DefaultModule module = (DefaultModule) m_modules.get( key );
+        if( null == module )
+        {
+            throw new ModuleNotFoundException( key );
+        }
+        else
+        {
+            return module;
+        }
+    }
+
+    DefaultResource getLocalResource( String key ) throws ResourceNotFoundException
+    {
+        DefaultResource resource = (DefaultResource) m_resources.get( key );
         if( null == resource )
         {
             throw new ResourceNotFoundException( key );
@@ -201,9 +246,22 @@ public final class DefaultModule extends UnicastRemoteObject implements Module
         }
     }
     
-    public Project getProject( String key ) throws ProjectNotFoundException
+    DefaultResource resolveLocalResource( String key ) throws ResourceNotFoundException
     {
-        Project project = (Project) m_projects.get( key );
+        try
+        {
+            DefaultProject project = getLocalProject( key );
+            return project.toLocalResource();
+        }
+        catch( ProjectNotFoundException e )
+        {
+            return getLocalResource( key );
+        }
+    }
+
+    DefaultProject getLocalProject( String key ) throws ProjectNotFoundException
+    {
+        DefaultProject project = (DefaultProject) m_projects.get( key );
         if( null == project )
         {
             throw new ProjectNotFoundException( key );
@@ -212,29 +270,5 @@ public final class DefaultModule extends UnicastRemoteObject implements Module
         {
             return project;
         }
-    }
-    
-    public Resource resolveResource( String key ) throws ResourceNotFoundException
-    {
-        try
-        {
-            Project project = getProject( key );
-            return project.toResource();
-        }
-        catch( ProjectNotFoundException e )
-        {
-            return getResource( key );
-        }
-        catch( RemoteException e )
-        {
-            final String error = 
-              "Unable to resolve resource due to a remote exception.";
-            throw new ModelRuntimeException( error, e );
-        }
-    }
-    
-    public String toString()
-    {
-        return "module:" + m_path;
     }
 }

@@ -31,6 +31,8 @@ import net.dpml.tools.info.Scope;
 public interface Project extends Remote
 {
     String getName() throws RemoteException;
+    
+    String getPath() throws RemoteException;
 
     String[] getTypes() throws RemoteException;
     

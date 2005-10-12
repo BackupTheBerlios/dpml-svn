@@ -58,7 +58,7 @@ public final class DefaultProject extends UnicastRemoteObject implements Project
     private final DefaultModule m_parent;
     private final String[] m_types;
     private final String m_path;
-    private final Resource m_resource;
+    private final DefaultResource m_resource;
     
     DefaultProject( DefaultLibrary library, DefaultModule parent, ProjectDirective directive ) throws RemoteException
     {
@@ -86,15 +86,7 @@ public final class DefaultProject extends UnicastRemoteObject implements Project
             m_types[i] = artifact.getType();
         }
         
-        String name = directive.getName();
-        TypeDirective[] typeDirectives = new TypeDirective[ m_types.length ];
-        for( int i=0; i<typeDirectives.length; i++ )
-        {
-            typeDirectives[i] = new TypeDirective( m_types[i] );
-        }
-        IncludeDirective[] includes = getIncludeDirectives( Scope.RUNTIME );
-        ResourceDirective resource = new ResourceDirective( name, null, typeDirectives, includes );
-        m_resource = new DefaultResource( library, parent, resource );
+        m_resource = new DefaultResource( library, parent, this );
     }
     
     public String getName()
@@ -102,6 +94,11 @@ public final class DefaultProject extends UnicastRemoteObject implements Project
         return m_directive.getName();
     }
         
+    public String getPath()
+    {
+        return m_path;
+    }
+    
     public String[] getTypes()
     {
         return m_types;
@@ -109,13 +106,12 @@ public final class DefaultProject extends UnicastRemoteObject implements Project
     
     public Resource[] getDependencies( Scope scope ) throws ResourceNotFoundException, ModuleNotFoundException
     {
-        IncludeDirective[] includes = getIncludeDirectives( scope );
-        return m_library.resolveResourceDependencies( m_parent, includes );
+        return getLocalDependencies( scope );
     }
     
     public Resource toResource()
     {
-        return m_resource;
+        return toLocalResource();
     }
     
     public IncludeDirective[] getIncludeDirectives( Scope scope )
@@ -157,4 +153,19 @@ public final class DefaultProject extends UnicastRemoteObject implements Project
         }
     }
 
+    public String toString()
+    {
+        return "project:" + getPath();
+    }
+    
+    DefaultResource[] getLocalDependencies( Scope scope ) throws ResourceNotFoundException, ModuleNotFoundException
+    {
+        IncludeDirective[] includes = getIncludeDirectives( scope );
+        return m_library.resolveResourceDependencies( m_parent, includes );
+    }
+    
+    DefaultResource toLocalResource()
+    {
+        return m_resource;
+    }
 }

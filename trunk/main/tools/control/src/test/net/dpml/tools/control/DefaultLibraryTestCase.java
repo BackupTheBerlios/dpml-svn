@@ -54,6 +54,27 @@ public class DefaultLibraryTestCase extends AbstractTestCase
         }
     }
     
+    public void testAllProjects() throws Exception
+    {
+        Project[] projects = m_library.getAllProjects();
+        System.out.println( "# project count: " + projects.length );
+        for( int i=0; i<projects.length; i++ )
+        {
+            System.out.println( "# " + projects[i].toString() );
+        }
+    }
+    
+    public void testAllProjectsForProject() throws Exception
+    {
+        Project project = m_library.getProject( "dpml/runtime/dpml-state-impl" );
+        Project[] projects = m_library.getAllProjects( project );
+        System.out.println( "# project count / 2: " + projects.length );
+        for( int i=0; i<projects.length; i++ )
+        {
+            System.out.println( "# " + projects[i].toString() );
+        }
+    }
+    
     private void listModule( String pad, Module module ) throws Exception
     {
         System.out.println( pad + "module: " + module.getName() );
