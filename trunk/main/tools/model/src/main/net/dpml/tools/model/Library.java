@@ -21,30 +21,26 @@ package net.dpml.tools.model;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 
+import net.dpml.tools.info.ModuleDirective;
+
 /**
- * The Modele interface defines a node within a module hierachy.
+ * The Library interface is the application root for module management.
  *
  * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
  */
-public interface Module extends Remote
+public interface Library extends Remote
 {
-    String getName() throws RemoteException;
-    
-    String getPath() throws RemoteException;
-    
-    Module getParent() throws RemoteException;
-    
+   /**
+    * Return an array of modules registered with the library.
+    * @return the module array
+    */
     Module[] getModules() throws RemoteException;
     
-    Module getModule( String key ) throws RemoteException, ModuleNotFoundException;
+   /**
+    * Get a named module.
+    * @param path the module address
+    * @exception ModuleNotFoundException if the address is not resolvable
+    */
+    Module getModule( String path ) throws RemoteException, ModuleNotFoundException;
     
-    Resource[] getResources() throws RemoteException;
-    
-    Resource getResource( String key ) throws RemoteException, ResourceNotFoundException;
-    
-    Project[] getProjects() throws RemoteException;
-    
-    Project getProject( String key ) throws RemoteException, ProjectNotFoundException;
-    
-    Resource resolveResource( String key ) throws RemoteException, ResourceNotFoundException;
 }

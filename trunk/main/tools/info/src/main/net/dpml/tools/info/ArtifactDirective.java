@@ -18,54 +18,41 @@
 
 package net.dpml.tools.info;
 
-import java.util.Arrays;
-
 /**
- * The ModuleDirective class describes a module data-structure.
+ * An ArtifactDirective describes the production of a types artifact by a project.
  *
  * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
  */
-public final class DependencyDirective extends AbstractDirective
+public final class ArtifactDirective extends AbstractDirective
 {
-    private final Scope m_scope;
-    private final IncludeDirective[] m_includes;
-    
-    public DependencyDirective( Scope scope, IncludeDirective[] includes )
+    private final String m_type;
+
+    public ArtifactDirective( String type )
     {
-        if( null == scope )
+        if( null == type )
         {
-            throw new NullPointerException( "scope" );
+            throw new NullPointerException( "type" );
         }
-        if( null == includes )
-        {
-            throw new NullPointerException( "includes" );
-        }
-        m_scope = scope;
-        m_includes = includes;
+        m_type = type;
     }
     
-    public Scope getScope()
+    public String getType()
     {
-        return m_scope;
-    }
-    
-    public IncludeDirective[] getIncludeDirectives()
-    {
-        return m_includes;
+        return m_type;
     }
     
     public boolean equals( Object other )
     {
-        if( super.equals( other ) && ( other instanceof DependencyDirective ) )
+        if( super.equals( other ) && ( other instanceof ArtifactDirective ) )
         {
-            DependencyDirective dep = (DependencyDirective) other;
-            if( !equals( m_scope, dep.m_scope ) )
+            ArtifactDirective object = (ArtifactDirective) other;
+            if( !equals( m_type, object.m_type ) )
             {
                 return false;
             }
             else
             {
-                return Arrays.equals( m_includes, dep.m_includes );
+                return true;
             }
         }
         else
@@ -77,7 +64,7 @@ public final class DependencyDirective extends AbstractDirective
     public int hashCode()
     {
         int hash = super.hashCode();
-        hash ^= super.hashArray( m_includes );
+        hash ^= super.hashValue( m_type );
         return hash;
     }
 }

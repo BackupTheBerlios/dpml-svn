@@ -22,29 +22,17 @@ import java.rmi.Remote;
 import java.rmi.RemoteException;
 
 /**
- * The Modele interface defines a node within a module hierachy.
+ * The Resource interface describes infomation about a published resource.
  *
  * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
  */
-public interface Module extends Remote
+public interface Resource extends Remote
 {
     String getName() throws RemoteException;
     
-    String getPath() throws RemoteException;
+    String getVersion() throws RemoteException;
     
-    Module getParent() throws RemoteException;
+    String[] getTypes() throws RemoteException;
     
-    Module[] getModules() throws RemoteException;
-    
-    Module getModule( String key ) throws RemoteException, ModuleNotFoundException;
-    
-    Resource[] getResources() throws RemoteException;
-    
-    Resource getResource( String key ) throws RemoteException, ResourceNotFoundException;
-    
-    Project[] getProjects() throws RemoteException;
-    
-    Project getProject( String key ) throws RemoteException, ProjectNotFoundException;
-    
-    Resource resolveResource( String key ) throws RemoteException, ResourceNotFoundException;
+    Resource[] getDependencies() throws RemoteException, ModuleNotFoundException, ResourceNotFoundException;
 }

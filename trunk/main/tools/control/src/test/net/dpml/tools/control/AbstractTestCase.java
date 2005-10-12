@@ -50,16 +50,7 @@ abstract class AbstractTestCase extends TestCase
         String testPath = System.getProperty( "project.test.dir" );
         File test = new File( testPath );
         File example = new File( test, filename );
-        FileInputStream input = new FileInputStream( example );
-        try
-        {
-            BufferedInputStream buffer = new BufferedInputStream( input );
-            return ModuleDirectiveBuilder.build( buffer );
-        }
-        finally
-        {
-            input.close();
-        }
+        return ModuleDirectiveBuilder.build( example );
     }
 
     public void doSerializationTest( Object object )
@@ -111,4 +102,15 @@ abstract class AbstractTestCase extends TestCase
         return result;
     }
 
+    static
+    {
+        System.setProperty( 
+          "java.util.prefs.PreferencesFactory", 
+          "net.dpml.transit.store.LocalPreferencesFactory" );
+        System.setProperty( 
+          "java.util.logging.config.class", 
+          System.getProperty( 
+            "java.util.logging.config.class", 
+            "net.dpml.transit.util.ConfigurationHandler" ) );
+    }
 }

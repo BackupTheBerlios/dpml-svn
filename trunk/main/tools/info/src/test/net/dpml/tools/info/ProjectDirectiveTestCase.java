@@ -19,7 +19,7 @@
 package net.dpml.tools.info;
 
 /**
- * The ModuleDirective class describes a module data-structure.
+ * Test general integrity of a project directive.
  *
  * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
  */
@@ -30,7 +30,7 @@ public final class ProjectDirectiveTestCase extends AbstractTestCase
         try
         {
             ProjectDirective project = 
-              new ProjectDirective( null, ".", new TypeDirective[0], new DependencyDirective[0] );
+              new ProjectDirective( null, ".", new ArtifactDirective[0], new DependencyDirective[0] );
             fail( "no-NPE" );
         }
         catch( NullPointerException e )
@@ -44,7 +44,7 @@ public final class ProjectDirectiveTestCase extends AbstractTestCase
         try
         {
             ProjectDirective project = 
-              new ProjectDirective( "abc", null, new TypeDirective[0], new DependencyDirective[0] );
+              new ProjectDirective( "abc", null, new ArtifactDirective[0], new DependencyDirective[0] );
         }
         catch( NullPointerException e )
         {
@@ -71,7 +71,7 @@ public final class ProjectDirectiveTestCase extends AbstractTestCase
         try
         {
             ProjectDirective project = 
-              new ProjectDirective( "abc", ".", new TypeDirective[0], null );
+              new ProjectDirective( "abc", ".", new ArtifactDirective[0], null );
             fail( "no-NPE" );
         }
         catch( NullPointerException e )
@@ -80,55 +80,52 @@ public final class ProjectDirectiveTestCase extends AbstractTestCase
         }
     }
     
-    public void testTypeDirectives()
+    public void testArtifactDirectives()
     {
-        TypeDirective[] types = new TypeDirective[3];
-        types[0] = new TypeDirective( "abc" );
-        types[1] = new TypeDirective( "def" );
-        types[0] = new TypeDirective( "ghi" );
+        ArtifactDirective[] artifacts = new ArtifactDirective[3];
+        artifacts[0] = new ArtifactDirective( "abc" );
+        artifacts[1] = new ArtifactDirective( "def" );
+        artifacts[0] = new ArtifactDirective( "ghi" );
         ProjectDirective project = 
-           new ProjectDirective( "abc", ".", types, new DependencyDirective[0] );
-        assertEquals( "type-count", 3, project.getTypeDirectives().length );
+           new ProjectDirective( "abc", ".", artifacts, new DependencyDirective[0] );
+        assertEquals( "artifact-count", 3, project.getArtifactDirectives().length );
     }
     
     public void testDependencyDirectives()
     {
-        DependencyDirective[] deps = new DependencyDirective[3];
-        deps[0] = new DependencyDirective( "build", new IncludeDirective[0] );
-        deps[0] = new DependencyDirective( "test", new IncludeDirective[0] );
-        deps[0] = new DependencyDirective( "runtime", new IncludeDirective[0] );
+        DependencyDirective[] deps = new DependencyDirective[2];
+        deps[0] = new DependencyDirective( Scope.RUNTIME, new IncludeDirective[0] );
+        deps[0] = new DependencyDirective( Scope.TEST, new IncludeDirective[0] );
         ProjectDirective project = 
-           new ProjectDirective( "abc", ".",  new TypeDirective[0], deps );
-        assertEquals( "deps-count", 3, project.getDependencyDirectives().length );
+           new ProjectDirective( "abc", ".",  new ArtifactDirective[0], deps );
+        assertEquals( "deps-count", 2, project.getDependencyDirectives().length );
     }
     
     public void testSerialization() throws Exception
     {
-        TypeDirective[] types = new TypeDirective[3];
-        types[0] = new TypeDirective( "abc" );
-        types[1] = new TypeDirective( "def" );
-        types[0] = new TypeDirective( "ghi" );
-        DependencyDirective[] deps = new DependencyDirective[3];
-        deps[0] = new DependencyDirective( "build", new IncludeDirective[0] );
-        deps[0] = new DependencyDirective( "test", new IncludeDirective[0] );
-        deps[0] = new DependencyDirective( "runtime", new IncludeDirective[0] );
+        ArtifactDirective[] artifacts = new ArtifactDirective[3];
+        artifacts[0] = new ArtifactDirective( "abc" );
+        artifacts[1] = new ArtifactDirective( "def" );
+        artifacts[0] = new ArtifactDirective( "ghi" );
+        DependencyDirective[] deps = new DependencyDirective[2];
+        deps[0] = new DependencyDirective( Scope.RUNTIME, new IncludeDirective[0] );
+        deps[0] = new DependencyDirective( Scope.TEST, new IncludeDirective[0] );
         ProjectDirective project = 
-           new ProjectDirective( "abc", ".", types, deps );
+           new ProjectDirective( "abc", ".", artifacts, deps );
         doSerializationTest( project );
     }
     
     public void testXMLEncoding() throws Exception
     {
-        TypeDirective[] types = new TypeDirective[3];
-        types[0] = new TypeDirective( "abc" );
-        types[1] = new TypeDirective( "def" );
-        types[0] = new TypeDirective( "ghi" );
-        DependencyDirective[] deps = new DependencyDirective[3];
-        deps[0] = new DependencyDirective( "build", new IncludeDirective[0] );
-        deps[0] = new DependencyDirective( "test", new IncludeDirective[0] );
-        deps[0] = new DependencyDirective( "runtime", new IncludeDirective[0] );
+        ArtifactDirective[] artifacts = new ArtifactDirective[3];
+        artifacts[0] = new ArtifactDirective( "abc" );
+        artifacts[1] = new ArtifactDirective( "def" );
+        artifacts[0] = new ArtifactDirective( "ghi" );
+        DependencyDirective[] deps = new DependencyDirective[2];
+        deps[0] = new DependencyDirective( Scope.RUNTIME, new IncludeDirective[0] );
+        deps[0] = new DependencyDirective( Scope.TEST, new IncludeDirective[0] );
         ProjectDirective project = 
-           new ProjectDirective( "abc", ".", types, deps );
+           new ProjectDirective( "abc", ".", artifacts, deps );
         doEncodingTest( project, "project-descriptor-encoded.xml" );
     }
 }

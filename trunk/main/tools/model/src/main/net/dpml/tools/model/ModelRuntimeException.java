@@ -22,29 +22,19 @@ import java.rmi.Remote;
 import java.rmi.RemoteException;
 
 /**
- * The Modele interface defines a node within a module hierachy.
+ * A ModelException is thrown is a general error occurs during model creation.
  *
  * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
  */
-public interface Module extends Remote
+public final class ModelRuntimeException extends RuntimeException
 {
-    String getName() throws RemoteException;
+    public ModelRuntimeException( String message )
+    {
+        this( message, null );
+    }
     
-    String getPath() throws RemoteException;
-    
-    Module getParent() throws RemoteException;
-    
-    Module[] getModules() throws RemoteException;
-    
-    Module getModule( String key ) throws RemoteException, ModuleNotFoundException;
-    
-    Resource[] getResources() throws RemoteException;
-    
-    Resource getResource( String key ) throws RemoteException, ResourceNotFoundException;
-    
-    Project[] getProjects() throws RemoteException;
-    
-    Project getProject( String key ) throws RemoteException, ProjectNotFoundException;
-    
-    Resource resolveResource( String key ) throws RemoteException, ResourceNotFoundException;
+    public ModelRuntimeException( String message, Throwable cause )
+    {
+        super( message, cause );
+    }
 }

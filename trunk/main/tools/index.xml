@@ -12,6 +12,9 @@
         <type name="jar"/>
       </types>
     </info>
+    <dependencies>
+      <include key="dpml-transit-main"/>
+    </dependencies>
   </project>
 
   <project basedir="model">
@@ -22,6 +25,9 @@
         <type name="jar"/>
       </types>
     </info>
+    <dependencies>
+      <include key="dpml-tools-info"/>
+    </dependencies>
   </project>
 
   <project basedir="control">
@@ -33,9 +39,7 @@
       </types>
     </info>
     <dependencies>
-      <include key="dpml-tools-info"/>
       <include key="dpml-tools-model"/>
-      <include key="dpml-transit-main"/>
     </dependencies>
   </project>
 

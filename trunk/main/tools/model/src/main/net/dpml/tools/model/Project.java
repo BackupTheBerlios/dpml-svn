@@ -21,30 +21,20 @@ package net.dpml.tools.model;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 
+import net.dpml.tools.info.Scope;
+
 /**
- * The Modele interface defines a node within a module hierachy.
+ * The Project interface describes infomation about a development project.
  *
  * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
  */
-public interface Module extends Remote
+public interface Project extends Remote
 {
     String getName() throws RemoteException;
+
+    String[] getTypes() throws RemoteException;
     
-    String getPath() throws RemoteException;
+    Resource[] getDependencies( Scope scope ) throws RemoteException, ResourceNotFoundException, ModuleNotFoundException;
     
-    Module getParent() throws RemoteException;
-    
-    Module[] getModules() throws RemoteException;
-    
-    Module getModule( String key ) throws RemoteException, ModuleNotFoundException;
-    
-    Resource[] getResources() throws RemoteException;
-    
-    Resource getResource( String key ) throws RemoteException, ResourceNotFoundException;
-    
-    Project[] getProjects() throws RemoteException;
-    
-    Project getProject( String key ) throws RemoteException, ProjectNotFoundException;
-    
-    Resource resolveResource( String key ) throws RemoteException, ResourceNotFoundException;
+    Resource toResource() throws RemoteException;
 }

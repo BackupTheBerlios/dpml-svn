@@ -3,25 +3,27 @@
 <module name="dpml" basedir=".">
 
    <module name="runtime">
-     <project name="dpml-transit-main" basedir="transit/core/handler">
-       <production>
-         <type name="jar"/>
-       </production>
-     </project>
+     <projects>
+       <project name="dpml-transit-main" basedir="transit/core/handler">
+         <production>
+           <artifact type="jar"/>
+         </production>
+       </project>
+     </projects>
    </module>
 
    <module name="tools">
      <dependencies>
-       <include file="apache.xml"/>
+       <include file="ant.xml"/>
      </dependencies>
      <projects>
        <project name="dpml-transit-tools" basedir="transit/core/tools">
          <production>
-           <type name="jar"/>
+           <artifact type="jar"/>
          </production>
          <dependencies scope="runtime">
-           <include key="dpml/runtime/dpml-transit-main"/>
-           <include ref="apache/ant/ant"/>
+           <include ref="dpml/runtime/dpml-transit-main"/>
+           <include ref="ant/ant"/>
          </dependencies>
        </project>
      </projects>

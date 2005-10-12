@@ -34,6 +34,18 @@ public final class ResourceDirective extends AbstractDirective
     
     public ResourceDirective( String name, String version, TypeDirective[] types, IncludeDirective[] dependencies )
     {
+        if( null == name )
+        {
+            throw new NullPointerException( "name" );
+        }
+        if( null == types )
+        {
+            throw new NullPointerException( "types" );
+        }
+        if( null == dependencies )
+        {
+            throw new NullPointerException( "dependencies" );
+        }
         m_name = name;
         m_version = version;
         m_types = types;

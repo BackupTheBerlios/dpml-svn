@@ -16,38 +16,23 @@
  * limitations under the License.
  */
 
-package net.dpml.tools.control;
-
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.BufferedInputStream;
-
-import junit.framework.TestCase;
-
-import net.dpml.tools.info.ModuleDirective;
-import net.dpml.tools.control.ModuleDirectiveBuilder;
+package net.dpml.tools.model;
 
 /**
- * The ModuleDirective class describes a module data-structure.
+ * A ModuleNotFoundException is thrown when a requested for a named module cannot
+ * be resolved.
  *
  * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
  */
-public class ApacheModuleDirectiveTestCase extends AbstractTestCase
-{   
-    private ModuleDirective m_module;
-    
-    public void setUp() throws Exception
+public final class ModuleNotFoundException extends Exception
+{
+    public ModuleNotFoundException( String message )
     {
-        m_module = load( "apache.xml" );
+        this( message, null );
     }
     
-    public void testEncoding() throws Exception
+    public ModuleNotFoundException( String message, Throwable cause )
     {
-        doEncodingTest( m_module, "apache-module-descritor.xml" );
-    }
-    
-    public void testSerialization() throws Exception
-    {
-        doSerializationTest( m_module );
+        super( message, cause );
     }
 }

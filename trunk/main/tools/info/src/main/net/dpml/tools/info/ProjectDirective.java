@@ -29,18 +29,20 @@ public final class ProjectDirective extends AbstractDirective
 {
     private final String m_name;
     private final String m_basedir;
-    private final TypeDirective[] m_types;
+    private final ArtifactDirective[] m_artifacts;
     private final DependencyDirective[] m_dependencies;
     
-    public ProjectDirective( String name, String basedir, TypeDirective[] types, DependencyDirective[] dependencies )
+    public ProjectDirective( 
+      String name, String basedir, ArtifactDirective[] artifacts, 
+      DependencyDirective[] dependencies )
     {
         if( null == name )
         {
             throw new NullPointerException( "name" );
         }
-        if( null == types )
+        if( null == artifacts )
         {
-            throw new NullPointerException( "types" );
+            throw new NullPointerException( "artifacts" );
         }
         if( null == dependencies )
         {
@@ -48,7 +50,7 @@ public final class ProjectDirective extends AbstractDirective
         }
         m_name = name;
         m_basedir = basedir;
-        m_types = types;
+        m_artifacts = artifacts;
         m_dependencies = dependencies;
     }
     
@@ -62,14 +64,27 @@ public final class ProjectDirective extends AbstractDirective
         return m_basedir;
     }
     
-    public TypeDirective[] getTypeDirectives()
+    public ArtifactDirective[] getArtifactDirectives()
     {
-        return m_types;
+        return m_artifacts;
     }
     
     public DependencyDirective[] getDependencyDirectives()
     {
         return m_dependencies;
+    }
+    
+    public DependencyDirective getDependencyDirective( Scope scope )
+    {
+        for( int i=0; i<m_dependencies.length; i++ )
+        {
+            DependencyDirective directive = m_dependencies[i];
+            if( scope.equals( directive.getScope() ) )
+            {
+                return directive;
+            }
+        }
+        return null;
     }
     
     public boolean equals( Object other )
@@ -85,7 +100,7 @@ public final class ProjectDirective extends AbstractDirective
             {
                 return false;
             }
-            else if( !Arrays.equals( m_types, object.m_types ) )
+            else if( !Arrays.equals( m_artifacts, object.m_artifacts ) )
             {
                 return false;
             }
@@ -109,7 +124,7 @@ public final class ProjectDirective extends AbstractDirective
         int hash = super.hashCode();
         hash ^= super.hashValue( m_name );
         hash ^= super.hashValue( m_basedir );
-        hash ^= super.hashArray( m_types );
+        hash ^= super.hashArray( m_artifacts );
         hash ^= super.hashArray( m_dependencies );
         return hash;
     }

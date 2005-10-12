@@ -42,7 +42,7 @@ public final class DependencyDirectiveTestCase extends AbstractTestCase
     {
         try
         {
-            DependencyDirective dep = new DependencyDirective( "abc", null );
+            DependencyDirective dep = new DependencyDirective( Scope.RUNTIME, null );
             fail( "no-NPE" );
         }
         catch( NullPointerException e )
@@ -51,10 +51,16 @@ public final class DependencyDirectiveTestCase extends AbstractTestCase
         }
     }
     
-    public void testScope()
+    public void testRuntimeScope()
     {
-        DependencyDirective dep = new DependencyDirective( "runtime", new IncludeDirective[0] );
-        assertEquals( "scope", "runtime", dep.getScope() );
+        DependencyDirective dep = new DependencyDirective( Scope.RUNTIME, new IncludeDirective[0] );
+        assertEquals( "scope", Scope.RUNTIME, dep.getScope() );
+    }
+    
+    public void testTestScope()
+    {
+        DependencyDirective dep = new DependencyDirective( Scope.TEST, new IncludeDirective[0] );
+        assertEquals( "scope", Scope.TEST, dep.getScope() );
     }
     
     public void testIncludes()
@@ -63,7 +69,7 @@ public final class DependencyDirectiveTestCase extends AbstractTestCase
         includes[0] = new IncludeDirective( "abc", "xzy" );
         includes[1] = new IncludeDirective( "def", "123" );
         includes[0] = new IncludeDirective( "ghi", "456" );
-        DependencyDirective dep = new DependencyDirective( "runtime", includes );
+        DependencyDirective dep = new DependencyDirective( Scope.RUNTIME, includes );
         assertEquals( "includes-count", 3, dep.getIncludeDirectives().length );
     }
     
@@ -73,7 +79,7 @@ public final class DependencyDirectiveTestCase extends AbstractTestCase
         includes[0] = new IncludeDirective( "abc", "xzy" );
         includes[1] = new IncludeDirective( "def", "123" );
         includes[0] = new IncludeDirective( "ghi", "456" );
-        DependencyDirective dep = new DependencyDirective( "runtime", includes );
+        DependencyDirective dep = new DependencyDirective( Scope.RUNTIME, includes );
         doSerializationTest( dep );
     }
     
@@ -83,7 +89,7 @@ public final class DependencyDirectiveTestCase extends AbstractTestCase
         includes[0] = new IncludeDirective( "abc", "xzy" );
         includes[1] = new IncludeDirective( "def", "123" );
         includes[0] = new IncludeDirective( "ghi", "456" );
-        DependencyDirective dep = new DependencyDirective( "runtime", includes );
+        DependencyDirective dep = new DependencyDirective( Scope.RUNTIME, includes );
         doEncodingTest( dep, "dependency-descriptor-encoded.xml" );
     }
 }
