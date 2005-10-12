@@ -28,7 +28,7 @@ public final class ModuleDirectiveTestCase extends AbstractTestCase
     private final String m_name = "name";
     private final String m_version = "1.1.1";
     private final String m_basedir = ".";
-    private final IncludeDirective[] m_refs = new IncludeDirective[0];
+    private final ModuleIncludeDirective[] m_refs = new ModuleIncludeDirective[0];
     private final ModuleDirective[] m_modules = new ModuleDirective[0];
     private final ProjectDirective[] m_projects = new ProjectDirective[0];
     private final ResourceDirective[] m_resources = new ResourceDirective[0];

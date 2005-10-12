@@ -60,7 +60,7 @@ public final class ResourceDirectiveTestCase extends AbstractTestCase
           new ResourceDirective( 
             "name", "1.1.1", 
             new TypeDirective[0], 
-            new IncludeDirective[0] );            
+            new ResourceIncludeDirective[0] );            
         doEncodingTest( resource, "resource-descriptor-encoded.xml" );
     }
 

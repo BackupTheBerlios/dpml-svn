@@ -30,9 +30,10 @@ public final class ResourceDirective extends AbstractDirective
     private final String m_name;
     private final String m_version;
     private final TypeDirective[] m_types;
-    private final IncludeDirective[] m_dependencies;
+    private final ResourceIncludeDirective[] m_dependencies;
     
-    public ResourceDirective( String name, String version, TypeDirective[] types, IncludeDirective[] dependencies )
+    public ResourceDirective( 
+      String name, String version, TypeDirective[] types, ResourceIncludeDirective[] dependencies )
     {
         if( null == name )
         {
@@ -67,7 +68,7 @@ public final class ResourceDirective extends AbstractDirective
         return m_types;
     }
     
-    public IncludeDirective[] getIncludeDirectives()
+    public ResourceIncludeDirective[] getIncludeDirectives()
     {
         return m_dependencies;
     }

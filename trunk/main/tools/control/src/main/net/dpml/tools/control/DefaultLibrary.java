@@ -22,6 +22,7 @@ import java.io.File;
 import java.io.InputStream;
 import java.io.IOException;
 import java.net.URI;
+import java.net.URL;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.Hashtable;
@@ -41,6 +42,7 @@ import net.dpml.tools.model.ReferentialException;
 import net.dpml.tools.model.DuplicateNameException;
 import net.dpml.tools.model.Library;
 
+import net.dpml.transit.Artifact;
 import net.dpml.transit.Logger;
 import net.dpml.transit.util.ElementHelper;
 
@@ -72,7 +74,7 @@ public final class DefaultLibrary extends UnicastRemoteObject implements Library
         
         m_logger = logger;
         m_root = source.getParentFile();
-        getLogger().info( "loading root module: " + source );
+        getLogger().debug( "loading root module: " + source );
         ModuleDirective directive= ModuleDirectiveBuilder.build( source );
         DefaultModule module = new DefaultModule( this, directive );
         String path = module.getPath();
@@ -141,6 +143,20 @@ public final class DefaultLibrary extends UnicastRemoteObject implements Library
     public Project getProject( String path ) throws ModuleNotFoundException, ProjectNotFoundException
     {
         return getLocalProject( path );
+    }
+    
+   /**
+    * Return an array of resources referencing jar artifact types that make up
+    * the logical classpath for the target project.
+    * @param project the target project
+    * @param scope the classpath scope
+    * @return the classpath resource array
+    */
+    public Resource[] getClasspath( Project project, Scope scope )
+      throws ModuleNotFoundException, ResourceNotFoundException
+    {
+        DefaultProject p = (DefaultProject) project;
+        return getLocalClasspath( p, scope );
     }
     
     DefaultModule getLocalModule( String path ) throws ModuleNotFoundException
@@ -240,16 +256,26 @@ public final class DefaultLibrary extends UnicastRemoteObject implements Library
     
     void installModule( URI uri ) throws Exception
     {
-        throw new UnsupportedOperationException( "installModule/1" );
+        if( Artifact.isRecognized( uri ) )
+        {
+            URL url = Artifact.createArtifact( uri ).toURL();
+            InputStream input = url.openStream();
+            ModuleDirective directive = ModuleDirectiveBuilder.build( input );
+            install( directive );
+        }
     }
     
     void installLocalModule( String path ) throws Exception
     {
         File file = new File( m_root, path );
-        getLogger().info( "loading local module: " + file );
+        getLogger().debug( "loading local module: " + file );
         ModuleDirective directive= ModuleDirectiveBuilder.build( file );
+        install( directive );
+    }
+    
+    void install( ModuleDirective directive ) throws Exception
+    {
         String name = directive.getName();
-        
         DefaultModule module = new DefaultModule( this, null, directive );
         if( !m_modules.containsKey( name ) )
         {
@@ -257,7 +283,7 @@ public final class DefaultLibrary extends UnicastRemoteObject implements Library
             module.init( this );
         }
     }
-    
+
     private Logger getLogger()
     {
         return m_logger;
@@ -326,4 +352,43 @@ public final class DefaultLibrary extends UnicastRemoteObject implements Library
             aggregateProjects( list, modules[i] );
         }
     }
+    
+    private DefaultResource[] getLocalClasspath( DefaultProject project, Scope scope )
+      throws ModuleNotFoundException, ResourceNotFoundException
+    {
+        ArrayList stack = new ArrayList();
+        ArrayList visited = new ArrayList();
+        DefaultResource[] resources = project.getLocalDependencies( scope, "jar" );
+        for( int i=0; i<resources.length; i++ )
+        {
+            DefaultResource resource = resources[i];
+            processClasspath( visited, stack, resource );
+        }
+        if( scope.equals( Scope.TEST ) )
+        {
+            stack.add( project.toLocalResource() );
+        }
+        return (DefaultResource[]) stack.toArray( new DefaultResource[0] );
+    }
+    
+    private void processClasspath( ArrayList visited, ArrayList stack, DefaultResource resource )
+      throws ModuleNotFoundException, ResourceNotFoundException
+    {
+        if( visited.contains( resource ) )
+        {
+            return;
+        }
+        else
+        {
+            visited.add( resource );
+        }
+        DefaultResource[] resources = resource.getLocalDependencies( "jar" );
+        for( int i=0; i<resources.length; i++ )
+        {
+            DefaultResource r = resources[i];
+            processClasspath( visited, stack, r );
+        }
+        stack.add( resource );
+    }
+    
 }

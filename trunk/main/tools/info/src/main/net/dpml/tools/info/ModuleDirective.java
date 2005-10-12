@@ -30,13 +30,13 @@ public final class ModuleDirective extends AbstractDirective
     private final String m_name;
     private final String m_version;
     private final String m_basedir;
-    private final IncludeDirective[] m_refs;
+    private final ModuleIncludeDirective[] m_refs;
     private final ModuleDirective[] m_modules;
     private final ProjectDirective[] m_projects;
     private final ResourceDirective[] m_resources;
     
     public ModuleDirective(
-      String name, String version, String basedir, IncludeDirective[] refs, 
+      String name, String version, String basedir, ModuleIncludeDirective[] refs, 
       ModuleDirective[] modules, ProjectDirective[] projects, 
       ResourceDirective[] resources )
     {
@@ -84,7 +84,7 @@ public final class ModuleDirective extends AbstractDirective
         return m_version;
     }
     
-    public IncludeDirective[] getIncludeDirectives()
+    public ModuleIncludeDirective[] getIncludeDirectives()
     {
         return m_refs;
     }

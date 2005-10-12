@@ -23,7 +23,7 @@ package net.dpml.tools.info;
  *
  * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
  */
-public final class IncludeDirective extends AbstractDirective
+public abstract class IncludeDirective extends AbstractDirective
 {
     private final String m_type;
     private final String m_value;

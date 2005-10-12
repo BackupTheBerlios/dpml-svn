@@ -22,6 +22,7 @@ import java.rmi.Remote;
 import java.rmi.RemoteException;
 
 import net.dpml.tools.info.ModuleDirective;
+import net.dpml.tools.info.Scope;
 
 /**
  * The Library interface is the application root for module management.
@@ -68,4 +69,13 @@ public interface Library extends Remote
     */
     Module getModule( String path ) throws RemoteException, ModuleNotFoundException;
     
+   /**
+    * Return an array of resources referencing jar artifact types that make up
+    * the logical classpath for the target project.
+    * @param project the target project
+    * @param scope the classpath scope
+    * @return the classpath resource array
+    */
+    Resource[] getClasspath( Project project, Scope scope )
+      throws RemoteException, ModuleNotFoundException, ResourceNotFoundException;    
 }

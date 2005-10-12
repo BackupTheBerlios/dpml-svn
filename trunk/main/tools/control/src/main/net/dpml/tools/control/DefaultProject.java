@@ -164,6 +164,22 @@ public final class DefaultProject extends UnicastRemoteObject implements Project
         return m_library.resolveResourceDependencies( m_parent, includes );
     }
     
+    DefaultResource[] getLocalDependencies( Scope scope, String type ) 
+     throws ResourceNotFoundException, ModuleNotFoundException
+    {
+        ArrayList list = new ArrayList();
+        DefaultResource[] resources = getLocalDependencies( scope );
+        for( int i=0; i<resources.length; i++ )
+        {
+            DefaultResource resource = resources[i];
+            if( resource.isa( type ) )
+            {
+                list.add( resource );
+            }
+        }
+        return (DefaultResource[]) list.toArray( new DefaultResource[0] );
+    }
+    
     DefaultResource toLocalResource()
     {
         return m_resource;

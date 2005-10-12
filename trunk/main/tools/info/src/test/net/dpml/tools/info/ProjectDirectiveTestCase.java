@@ -94,8 +94,8 @@ public final class ProjectDirectiveTestCase extends AbstractTestCase
     public void testDependencyDirectives()
     {
         DependencyDirective[] deps = new DependencyDirective[2];
-        deps[0] = new DependencyDirective( Scope.RUNTIME, new IncludeDirective[0] );
-        deps[0] = new DependencyDirective( Scope.TEST, new IncludeDirective[0] );
+        deps[0] = new DependencyDirective( Scope.RUNTIME, new ResourceIncludeDirective[0] );
+        deps[0] = new DependencyDirective( Scope.TEST, new ResourceIncludeDirective[0] );
         ProjectDirective project = 
            new ProjectDirective( "abc", ".",  new ArtifactDirective[0], deps );
         assertEquals( "deps-count", 2, project.getDependencyDirectives().length );
@@ -108,8 +108,8 @@ public final class ProjectDirectiveTestCase extends AbstractTestCase
         artifacts[1] = new ArtifactDirective( "def" );
         artifacts[0] = new ArtifactDirective( "ghi" );
         DependencyDirective[] deps = new DependencyDirective[2];
-        deps[0] = new DependencyDirective( Scope.RUNTIME, new IncludeDirective[0] );
-        deps[0] = new DependencyDirective( Scope.TEST, new IncludeDirective[0] );
+        deps[0] = new DependencyDirective( Scope.RUNTIME, new ResourceIncludeDirective[0] );
+        deps[0] = new DependencyDirective( Scope.TEST, new ResourceIncludeDirective[0] );
         ProjectDirective project = 
            new ProjectDirective( "abc", ".", artifacts, deps );
         doSerializationTest( project );
@@ -122,8 +122,8 @@ public final class ProjectDirectiveTestCase extends AbstractTestCase
         artifacts[1] = new ArtifactDirective( "def" );
         artifacts[0] = new ArtifactDirective( "ghi" );
         DependencyDirective[] deps = new DependencyDirective[2];
-        deps[0] = new DependencyDirective( Scope.RUNTIME, new IncludeDirective[0] );
-        deps[0] = new DependencyDirective( Scope.TEST, new IncludeDirective[0] );
+        deps[0] = new DependencyDirective( Scope.RUNTIME, new ResourceIncludeDirective[0] );
+        deps[0] = new DependencyDirective( Scope.TEST, new ResourceIncludeDirective[0] );
         ProjectDirective project = 
            new ProjectDirective( "abc", ".", artifacts, deps );
         doEncodingTest( project, "project-descriptor-encoded.xml" );

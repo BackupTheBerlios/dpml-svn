@@ -28,9 +28,9 @@ import java.util.Arrays;
 public final class DependencyDirective extends AbstractDirective
 {
     private final Scope m_scope;
-    private final IncludeDirective[] m_includes;
+    private final ResourceIncludeDirective[] m_includes;
     
-    public DependencyDirective( Scope scope, IncludeDirective[] includes )
+    public DependencyDirective( Scope scope, ResourceIncludeDirective[] includes )
     {
         if( null == scope )
         {
@@ -49,7 +49,7 @@ public final class DependencyDirective extends AbstractDirective
         return m_scope;
     }
     
-    public IncludeDirective[] getIncludeDirectives()
+    public ResourceIncludeDirective[] getIncludeDirectives()
     {
         return m_includes;
     }

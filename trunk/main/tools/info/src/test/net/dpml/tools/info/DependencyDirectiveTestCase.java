@@ -29,7 +29,7 @@ public final class DependencyDirectiveTestCase extends AbstractTestCase
     {
         try
         {
-            DependencyDirective dep = new DependencyDirective( null, new IncludeDirective[0] );
+            DependencyDirective dep = new DependencyDirective( null, new ResourceIncludeDirective[0] );
             fail( "no-NPE" );
         }
         catch( NullPointerException e )
@@ -53,42 +53,42 @@ public final class DependencyDirectiveTestCase extends AbstractTestCase
     
     public void testRuntimeScope()
     {
-        DependencyDirective dep = new DependencyDirective( Scope.RUNTIME, new IncludeDirective[0] );
+        DependencyDirective dep = new DependencyDirective( Scope.RUNTIME, new ResourceIncludeDirective[0] );
         assertEquals( "scope", Scope.RUNTIME, dep.getScope() );
     }
     
     public void testTestScope()
     {
-        DependencyDirective dep = new DependencyDirective( Scope.TEST, new IncludeDirective[0] );
+        DependencyDirective dep = new DependencyDirective( Scope.TEST, new ResourceIncludeDirective[0] );
         assertEquals( "scope", Scope.TEST, dep.getScope() );
     }
     
     public void testIncludes()
     {
-        IncludeDirective[] includes = new IncludeDirective[3];
-        includes[0] = new IncludeDirective( "abc", "xzy" );
-        includes[1] = new IncludeDirective( "def", "123" );
-        includes[0] = new IncludeDirective( "ghi", "456" );
+        ResourceIncludeDirective[] includes = new ResourceIncludeDirective[3];
+        includes[0] = new ResourceIncludeDirective( ResourceIncludeDirective.REF, "xzy" );
+        includes[1] = new ResourceIncludeDirective( ResourceIncludeDirective.KEY, "123" );
+        includes[0] = new ResourceIncludeDirective( ResourceIncludeDirective.REF, "456" );
         DependencyDirective dep = new DependencyDirective( Scope.RUNTIME, includes );
         assertEquals( "includes-count", 3, dep.getIncludeDirectives().length );
     }
     
     public void testSerialization() throws Exception
     {
-        IncludeDirective[] includes = new IncludeDirective[3];
-        includes[0] = new IncludeDirective( "abc", "xzy" );
-        includes[1] = new IncludeDirective( "def", "123" );
-        includes[0] = new IncludeDirective( "ghi", "456" );
+        ResourceIncludeDirective[] includes = new ResourceIncludeDirective[3];
+        includes[0] = new ResourceIncludeDirective( ResourceIncludeDirective.REF, "xzy" );
+        includes[1] = new ResourceIncludeDirective( ResourceIncludeDirective.KEY, "123" );
+        includes[0] = new ResourceIncludeDirective( ResourceIncludeDirective.REF, "456" );
         DependencyDirective dep = new DependencyDirective( Scope.RUNTIME, includes );
         doSerializationTest( dep );
     }
     
     public void testXMLEncoding() throws Exception
     {
-        IncludeDirective[] includes = new IncludeDirective[3];
-        includes[0] = new IncludeDirective( "abc", "xzy" );
-        includes[1] = new IncludeDirective( "def", "123" );
-        includes[0] = new IncludeDirective( "ghi", "456" );
+        ResourceIncludeDirective[] includes = new ResourceIncludeDirective[3];
+        includes[0] = new ResourceIncludeDirective( ResourceIncludeDirective.REF, "xzy" );
+        includes[1] = new ResourceIncludeDirective( ResourceIncludeDirective.KEY, "123" );
+        includes[0] = new ResourceIncludeDirective( ResourceIncludeDirective.REF, "456" );
         DependencyDirective dep = new DependencyDirective( Scope.RUNTIME, includes );
         doEncodingTest( dep, "dependency-descriptor-encoded.xml" );
     }

@@ -27,6 +27,8 @@ import java.io.BufferedInputStream;
 import java.util.ArrayList;
 
 import net.dpml.tools.info.IncludeDirective;
+import net.dpml.tools.info.ModuleIncludeDirective;
+import net.dpml.tools.info.ResourceIncludeDirective;
 import net.dpml.tools.info.ModuleDirective;
 import net.dpml.tools.info.ResourceDirective;
 import net.dpml.tools.info.ProjectDirective;
@@ -99,6 +101,27 @@ public final class ModuleDirectiveBuilder
         }
     }
     
+    public static ModuleDirective build( InputStream input ) throws Exception
+    {
+        try
+        {
+            final Element root = ElementHelper.getRootElement( input );
+            return buildModuleDirective( null, root );
+        }
+        catch( Throwable e )
+        {
+            final String error = 
+              "An error occured while attempting to build a module directive from an input stream.";
+            IOException ioe = new IOException( error );
+            ioe.initCause( e );
+            throw ioe;
+        }
+        finally
+        {
+            input.close();
+        }
+    }
+    
    /**
     * Build a module using an XML element.
     * @param element the module element
@@ -128,7 +151,7 @@ public final class ModuleDirectiveBuilder
         final String version = ElementHelper.getAttribute( element, "version", null );
         final String basedir = ElementHelper.getAttribute( element, "basedir", path );
         
-        IncludeDirective[] includes = new IncludeDirective[0];
+        ModuleIncludeDirective[] includes = new ModuleIncludeDirective[0];
         ResourceDirective[] resources = new ResourceDirective[0];
         ProjectDirective[] projects = new ProjectDirective[0];
         ArrayList list = new ArrayList();
@@ -149,7 +172,7 @@ public final class ModuleDirectiveBuilder
             }
             else if( DEPENDENCIES_ELEMENT_NAME.equals( tag ) ) 
             {
-                includes = buildIncludeDirectives( child );
+                includes = buildModuleIncludeDirectives( child );
             }
             else if( PROJECTS_ELEMENT_NAME.equals( tag ) ) 
             {
@@ -183,14 +206,31 @@ public final class ModuleDirectiveBuilder
     * @param element the enclosing element
     * @return the array of includes
     */
-    private static IncludeDirective[] buildIncludeDirectives( Element element )
+    private static ModuleIncludeDirective[] buildModuleIncludeDirectives( Element element )
     {
         Element[] children = ElementHelper.getChildren( element );
-        IncludeDirective[] includes = new IncludeDirective[ children.length ];
+        ModuleIncludeDirective[] includes = new ModuleIncludeDirective[ children.length ];
         for( int i=0; i<children.length; i++ )
         {
             Element child = children[i];
-            includes[i] = buildIncludeDirective( child );
+            includes[i] = buildModuleIncludeDirective( child );
+        }
+        return includes;
+    }
+    
+   /**
+    * Build an array of include directives contained within the supplied enclosing element.
+    * @param element the enclosing element
+    * @return the array of includes
+    */
+    private static ResourceIncludeDirective[] buildResourceIncludeDirectives( Element element )
+    {
+        Element[] children = ElementHelper.getChildren( element );
+        ResourceIncludeDirective[] includes = new ResourceIncludeDirective[ children.length ];
+        for( int i=0; i<children.length; i++ )
+        {
+            Element child = children[i];
+            includes[i] = buildResourceIncludeDirective( child );
         }
         return includes;
     }
@@ -272,7 +312,7 @@ public final class ModuleDirectiveBuilder
         return new ProjectDirective( name, basedir, artifacts, dependencies );
     }
     
-    private static IncludeDirective buildIncludeDirective( Element element )
+    private static ModuleIncludeDirective buildModuleIncludeDirective( Element element )
     {
         final String tag = element.getTagName();
         if( INCLUDE_ELEMENT_NAME.equals( tag ) )
@@ -280,27 +320,49 @@ public final class ModuleDirectiveBuilder
             if( element.hasAttribute( "file" ) )
             {
                 final String value = ElementHelper.getAttribute( element, "file", null );
-                return new IncludeDirective( "file", value );
+                return new ModuleIncludeDirective( ModuleIncludeDirective.FILE, value );
             }
             else if( element.hasAttribute( "uri" ) )
             {
                 final String value = ElementHelper.getAttribute( element, "uri", null );
-                return new IncludeDirective( "uri", value );
-            }
-            else if( element.hasAttribute( "key" ) )
-            {
-                final String value = ElementHelper.getAttribute( element, "key", null );
-                return new IncludeDirective( "key", value );
-            }
-            else if( element.hasAttribute( "ref" ) )
-            {
-                final String value = ElementHelper.getAttribute( element, "ref", null );
-                return new IncludeDirective( "ref", value );
+                return new ModuleIncludeDirective( ModuleIncludeDirective.URI, value );
             }
             else
             {
                 final String error = 
-                  "Include element does not declare a recognized attribute.";
+                  "Module include element does not declare a recognized attribute.";
+                throw new IllegalArgumentException( error );
+            }
+        }
+        else
+        {
+            final String error = 
+              "Invalid include element name [" 
+              + tag 
+              + "].";
+            throw new IllegalArgumentException( error );
+        }
+    }
+    
+    private static ResourceIncludeDirective buildResourceIncludeDirective( Element element )
+    {
+        final String tag = element.getTagName();
+        if( INCLUDE_ELEMENT_NAME.equals( tag ) )
+        {
+            if( element.hasAttribute( "key" ) )
+            {
+                final String value = ElementHelper.getAttribute( element, "key", null );
+                return new ResourceIncludeDirective( ResourceIncludeDirective.KEY, value );
+            }
+            else if( element.hasAttribute( "ref" ) )
+            {
+                final String value = ElementHelper.getAttribute( element, "ref", null );
+                return new ResourceIncludeDirective( ResourceIncludeDirective.REF, value );
+            }
+            else
+            {
+                final String error = 
+                  "Resource include element does not declare a recognized attribute.";
                 throw new IllegalArgumentException( error );
             }
         }
@@ -322,7 +384,7 @@ public final class ModuleDirectiveBuilder
             final String name = ElementHelper.getAttribute( element, "name", null );
             final String version = ElementHelper.getAttribute( element, "version", null );
             TypeDirective[] types = new TypeDirective[0];
-            IncludeDirective[] includes = new IncludeDirective[0];
+            ResourceIncludeDirective[] includes = new ResourceIncludeDirective[0];
             Element[] children = ElementHelper.getChildren( element );
             for( int i=0; i<children.length; i++ )
             {
@@ -334,7 +396,7 @@ public final class ModuleDirectiveBuilder
                 }
                 else if( DEPENDENCIES_ELEMENT_NAME.equals( childTag ) )
                 {
-                    includes = buildIncludeDirectives( child );
+                    includes = buildResourceIncludeDirectives( child );
                 }
                 else
                 {
@@ -394,11 +456,11 @@ public final class ModuleDirectiveBuilder
             final String spec = ElementHelper.getAttribute( element, "scope", "runtime" );
             Scope scope = Scope.parse( spec );
             Element[] children = ElementHelper.getChildren( element );
-            IncludeDirective[] includes = new IncludeDirective[ children.length ];
+            ResourceIncludeDirective[] includes = new ResourceIncludeDirective[ children.length ];
             for( int i=0; i<children.length; i++ )
             {
                 Element child = children[i];
-                includes[i] = buildIncludeDirective( child );
+                includes[i] = buildResourceIncludeDirective( child );
             }
             return new DependencyDirective( scope, includes );
         }

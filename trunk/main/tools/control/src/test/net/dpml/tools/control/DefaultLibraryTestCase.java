@@ -57,7 +57,7 @@ public class DefaultLibraryTestCase extends AbstractTestCase
     public void testAllProjects() throws Exception
     {
         Project[] projects = m_library.getAllProjects();
-        System.out.println( "# project count: " + projects.length );
+        System.out.println( "# all project count: " + projects.length );
         for( int i=0; i<projects.length; i++ )
         {
             System.out.println( "# " + projects[i].toString() );
@@ -68,10 +68,32 @@ public class DefaultLibraryTestCase extends AbstractTestCase
     {
         Project project = m_library.getProject( "dpml/runtime/dpml-state-impl" );
         Project[] projects = m_library.getAllProjects( project );
-        System.out.println( "# project count / 2: " + projects.length );
+        System.out.println( "# project count: " + projects.length );
         for( int i=0; i<projects.length; i++ )
         {
             System.out.println( "# " + projects[i].toString() );
+        }
+    }
+    
+    public void testRuntimeClasspathForProject() throws Exception
+    {
+        Project project = m_library.getProject( "dpml/runtime/dpml-state-impl" );
+        Resource[] resources = m_library.getClasspath( project, Scope.RUNTIME );
+        System.out.println( "# runtime classpath count: " + resources.length );
+        for( int i=0; i<resources.length; i++ )
+        {
+            System.out.println( "# " + resources[i].toString() );
+        }
+    }
+    
+    public void testTestClasspathForProject() throws Exception
+    {
+        Project project = m_library.getProject( "dpml/runtime/dpml-state-impl" );
+        Resource[] resources = m_library.getClasspath( project, Scope.TEST );
+        System.out.println( "# test classpath count: " + resources.length );
+        for( int i=0; i<resources.length; i++ )
+        {
+            System.out.println( "# " + resources[i].toString() );
         }
     }
     

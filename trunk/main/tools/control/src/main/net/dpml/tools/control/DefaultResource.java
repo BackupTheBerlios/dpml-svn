@@ -131,6 +131,16 @@ public final class DefaultResource extends UnicastRemoteObject implements Resour
     
     public Resource[] getDependencies() throws ModuleNotFoundException, ResourceNotFoundException
     {
+        return getLocalDependencies();
+    }
+    
+    public String toString()
+    {
+        return "resource:" + getPath();
+    }
+    
+    DefaultResource[] getLocalDependencies() throws ModuleNotFoundException, ResourceNotFoundException
+    {
         try
         {
             return m_library.resolveResourceDependencies( m_parent, m_includes );
@@ -151,6 +161,22 @@ public final class DefaultResource extends UnicastRemoteObject implements Resour
         }
     }
     
+    DefaultResource[] getLocalDependencies( String type )
+     throws ResourceNotFoundException, ModuleNotFoundException
+    {
+        ArrayList list = new ArrayList();
+        DefaultResource[] resources = getLocalDependencies();
+        for( int i=0; i<resources.length; i++ )
+        {
+            DefaultResource resource = resources[i];
+            if( resource.isa( type ) )
+            {
+                list.add( resource );
+            }
+        }
+        return (DefaultResource[]) list.toArray( new DefaultResource[0] );
+    }
+    
     public Project getProject()
     {
         return m_project;
@@ -159,5 +185,18 @@ public final class DefaultResource extends UnicastRemoteObject implements Resour
     DefaultProject getLocalProject()
     {
         return m_project;
+    }
+    
+    boolean isa( String type )
+    {
+        for( int i=0; i<m_types.length; i++ )
+        {
+            String t = m_types[i];
+            if( type.equals( t ) )
+            {
+                return true;
+            }
+        }
+        return false;
     }
 }

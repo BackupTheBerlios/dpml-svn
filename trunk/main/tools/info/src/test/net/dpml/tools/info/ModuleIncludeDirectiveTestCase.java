@@ -23,13 +23,13 @@ package net.dpml.tools.info;
  *
  * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
  */
-public final class IncludeDirectiveTestCase extends AbstractTestCase
+public final class ModuleIncludeDirectiveTestCase extends AbstractTestCase
 {
     public void testNullName()
     {
         try
         {
-            IncludeDirective include = new IncludeDirective( null, "value" );
+            new ModuleIncludeDirective( null, "value" );
             fail( "no-NPE" );
         }
         catch( NullPointerException e )
@@ -42,7 +42,7 @@ public final class IncludeDirectiveTestCase extends AbstractTestCase
     {
         try
         {
-            IncludeDirective include = new IncludeDirective( "name", null );
+            new ModuleIncludeDirective( ModuleIncludeDirective.FILE, null );
             fail( "no-NPE" );
         }
         catch( NullPointerException e )
@@ -53,25 +53,26 @@ public final class IncludeDirectiveTestCase extends AbstractTestCase
     
     public void testIncludeType()
     {
-        IncludeDirective include = new IncludeDirective( "type", "value" );
-        assertEquals( "name", "type", include.getType() );
+        ModuleIncludeDirective include = new ModuleIncludeDirective( ModuleIncludeDirective.FILE, "value" );
+        assertEquals( "name", "file", include.getType() );
+        assertEquals( "mode", ModuleIncludeDirective.FILE, include.getMode() );
     }
     
     public void testIncludeValue()
     {
-        IncludeDirective include = new IncludeDirective( "type", "value" );
+        IncludeDirective include = new ModuleIncludeDirective( ModuleIncludeDirective.URI, "value" );
         assertEquals( "value", "value", include.getValue() );
     }
     
     public void testSerialization() throws Exception
     {
-        IncludeDirective include = new IncludeDirective( "type", "value" );
+        IncludeDirective include = new ModuleIncludeDirective( ModuleIncludeDirective.URI, "value" );
         doSerializationTest( include );
     }
 
     public void testXMLEncoding() throws Exception
     {
-        IncludeDirective include = new IncludeDirective( "type", "value" );
+        IncludeDirective include = new ModuleIncludeDirective( ModuleIncludeDirective.URI, "value" );
         doEncodingTest( include, "include-encoded.xml" );
     }
 }
