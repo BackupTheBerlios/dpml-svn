@@ -27,8 +27,6 @@ import java.util.Properties;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
-import org.apache.tools.ant.BuildException;
-
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -53,83 +51,48 @@ public final class ElementHelper
     * Return the root element of the supplied file.
     * @param definition the file to load
     * @return the root element
-    * @exception BuildException if the error occurs during root element establishment
+    * @exception Exception if the error occurs during root element establishment
     */
     public static Element getRootElement( final File definition )
-      throws BuildException
+      throws Exception
     {
         if( !definition.exists() )
         {
-            throw new BuildException(
-              new FileNotFoundException( definition.toString() ) );
+            throw new FileNotFoundException( definition.toString() );
         }
 
         if( !definition.isFile() )
         {
             final String error =
               "Source is not a file: " + definition;
-            throw new BuildException(
-              new IllegalArgumentException( error ) );
+            throw new IllegalArgumentException( error );
         }
 
-        try
-        {
-            final DocumentBuilderFactory factory =
-              DocumentBuilderFactory.newInstance();
-            factory.setValidating( false );
-            factory.setNamespaceAware( false );
-            final Document document =
-              factory.newDocumentBuilder().parse( definition );
-            return document.getDocumentElement();
-        }
-        catch( SAXException sxe )
-        {
-            // Error generated during parsing
-            if( sxe.getException() != null )
-            {
-                throw new BuildException( sxe.getException() );
-            }
-            throw new BuildException( sxe );
-        }
-        catch( ParserConfigurationException pce )
-        {
-            // Parser with specified options can't be built
-            throw new BuildException( pce );
-        }
-        catch( Exception ioe )
-        {
-            throw new BuildException( ioe );
-        }
+        final DocumentBuilderFactory factory =
+        DocumentBuilderFactory.newInstance();
+        factory.setValidating( false );
+        factory.setNamespaceAware( false );
+        final Document document =
+          factory.newDocumentBuilder().parse( definition );
+        return document.getDocumentElement();
     }
 
    /**
     * Return the root element of the supplied input stream.
     * @param input the input stream containing a XML definition
     * @return the root element
-    * @exception BuildException if an error occurs
+    * @exception Exception if an error occurs
     */
     public static Element getRootElement( final InputStream input )
-      throws BuildException
+      throws Exception
     {
-        try
-        {
-            final DocumentBuilderFactory factory =
-              DocumentBuilderFactory.newInstance();
-            factory.setValidating( false );
-            factory.setNamespaceAware( false );
-            final Document document =
-              factory.newDocumentBuilder().parse( input );
-            return document.getDocumentElement();
-        }
-        catch( ParserConfigurationException pce )
-        {
-            // Parser with specified options can't be built
-            throw new BuildException( pce );
-        }
-        catch( Exception ioe )
-        {
-            throw new BuildException( ioe );
-        }
+        final DocumentBuilderFactory factory =
+          DocumentBuilderFactory.newInstance();
+        factory.setValidating( false );
+        factory.setNamespaceAware( false );
+        final Document document =
+          factory.newDocumentBuilder().parse( input );
+        return document.getDocumentElement();
     }
 
    /**
@@ -309,7 +272,7 @@ public final class ElementHelper
         }
         final String error =
           "Boolean argument [" + value + "] not recognized.";
-        throw new BuildException( error );
+        throw new IllegalArgumentException( error );
     }
 
    /**

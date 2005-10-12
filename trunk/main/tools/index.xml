@@ -2,6 +2,8 @@
 
 <index>
 
+  <import uri="${dpml.transit.uri}"/>
+
   <project basedir="info">
     <info>
       <group>dpml-tools</group>
@@ -10,6 +12,31 @@
         <type name="jar"/>
       </types>
     </info>
+  </project>
+
+  <project basedir="model">
+    <info>
+      <group>dpml-tools</group>
+      <name>dpml-tools-model</name>
+      <types>
+        <type name="jar"/>
+      </types>
+    </info>
+  </project>
+
+  <project basedir="control">
+    <info>
+      <group>dpml-tools</group>
+      <name>dpml-tools-control</name>
+      <types>
+        <type name="jar"/>
+      </types>
+    </info>
+    <dependencies>
+      <include key="dpml-tools-info"/>
+      <include key="dpml-tools-model"/>
+      <include key="dpml-transit-main"/>
+    </dependencies>
   </project>
 
 </index>
