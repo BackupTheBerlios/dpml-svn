@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<project name="dpml-depot-build" default="install" basedir="."
+    xmlns:transit="antlib:net.dpml.transit" xmlns:x="plugin:dpml/magic/dpml-magic-core" >
+
+  <transit:import uri="local:template:magic/standard"/>
+
+  <target name="init" depends="standard.init">
+    <x:filter feature="uri" type="plugin" token="MAGIC-CLI-PLUGIN-URI"/>
+  </target>
+
+  <target name="package" depends="standard.package">
+    <x:export class="net.dpml.ant.AntPlugin"/>
+  </target>
+
+  <target name="install" depends="standard.install,bin"/>
+
+  <target name="bin" depends="prepare">
+    <copy todir="${basedir}" overwrite="true">
+      <fileset dir="${basedir}/target/bin"/>
+    </copy>
+  </target>
+
+</project>
+

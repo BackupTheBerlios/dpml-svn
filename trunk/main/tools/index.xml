@@ -40,6 +40,7 @@
     </info>
     <dependencies>
       <include key="dpml-tools-model"/>
+      <include key="ant-junit" runtime="false"/>
     </dependencies>
   </project>
 

@@ -41,6 +41,8 @@ public final class DepotClassLoader extends StandardClassLoader
 {
     private boolean m_sealed = false;
 
+    private ClassLoader m_delegate;
+    
    /**
     * Creation of a new Depot classloader.
     *
@@ -50,6 +52,60 @@ public final class DepotClassLoader extends StandardClassLoader
     {
         super( BOOTSTRAP, Plugin.SYSTEM, new URL[0], parent );
     }
+    
+    /*
+    setDelegate( final ClassLoader delegate )
+    {
+        if( null == delegate )
+        {
+            m_delegate = delegate;
+        }
+        else
+        {
+            final String error = 
+              "Illegal attempt to override base classloader.";
+            throw new IllegalStateException( error );
+        }
+    }
+    
+    protected Class loadClass( String name, boolean resolve ) throws ClassNotFoundException 
+    {
+        try
+        {
+            return super.loadClass( name, resolve );
+        }
+        catch( ClassNotFoundException e )
+        {
+            if( != m_delegate )
+            {
+                return m_delegate.loadClass( name );
+            }
+            else
+            {
+                throw e;
+            }
+        }
+    }
+
+    protected Class findClass( String name ) throws ClassNotFoundException 
+    {
+        try
+        {
+            return super.findClass( name );
+        }
+        catch( ClassNotFoundException e )
+        {
+            if( null != m_delegate )
+            {
+                return m_delegate.loadClass( name );
+            }
+            else
+            {
+                throw e;
+            }
+        }
+    }
+    */
 
    /**
     * Set the classpath of the classloader.
@@ -85,7 +141,7 @@ public final class DepotClassLoader extends StandardClassLoader
             return null;
         }
     }
-
+    
     private static URI BOOTSTRAP = createBootstrapLabel();
 }
 
