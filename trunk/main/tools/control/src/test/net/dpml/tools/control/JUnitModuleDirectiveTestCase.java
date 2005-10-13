@@ -25,6 +25,8 @@ import java.io.BufferedInputStream;
 import junit.framework.TestCase;
 
 import net.dpml.tools.info.ModuleDirective;
+import net.dpml.tools.info.ProjectDirective;
+import net.dpml.tools.info.ResourceDirective;
 import net.dpml.tools.control.ModuleDirectiveBuilder;
 
 /**
@@ -41,6 +43,27 @@ public class JUnitModuleDirectiveTestCase extends AbstractTestCase
         m_module = load( "junit.xml" );
     }
     
+    public void testModuleCount() throws Exception
+    {
+        ModuleDirective[] modules = m_module.getModuleDirectives();
+        int size = modules.length;
+        assertEquals( "module-count", 0, size );
+    }
+    
+    public void testProjectCount() throws Exception
+    {
+        ProjectDirective[] projects = m_module.getProjectDirectives();
+        int size = projects.length;
+        assertEquals( "project-count", 0, size );
+    }
+    
+    public void testResourceCount() throws Exception
+    {
+        ResourceDirective[] resources = m_module.getResourceDirectives();
+        int size = resources.length;
+        assertEquals( "resource-count", 1, size );
+    }
+
     public void testEncoding() throws Exception
     {
         doEncodingTest( m_module, "junit-module-descritor.xml" );

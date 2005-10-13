@@ -60,7 +60,7 @@ public class DefaultLibraryTestCase extends AbstractTestCase
         System.out.println( "# all project count: " + projects.length );
         for( int i=0; i<projects.length; i++ )
         {
-            System.out.println( "# " + projects[i].toString() );
+            System.out.println( "#   " + projects[i].toString() );
         }
     }
     
@@ -68,10 +68,10 @@ public class DefaultLibraryTestCase extends AbstractTestCase
     {
         Project project = m_library.getProject( "dpml/runtime/dpml-state-impl" );
         Project[] projects = m_library.getAllProjects( project );
-        System.out.println( "# project count: " + projects.length );
+        System.out.println( "# relative project count: " + projects.length );
         for( int i=0; i<projects.length; i++ )
         {
-            System.out.println( "# " + projects[i].toString() );
+            System.out.println( "#   " + projects[i].toString() );
         }
     }
     
@@ -82,7 +82,7 @@ public class DefaultLibraryTestCase extends AbstractTestCase
         System.out.println( "# runtime classpath count: " + resources.length );
         for( int i=0; i<resources.length; i++ )
         {
-            System.out.println( "# " + resources[i].toString() );
+            System.out.println( "#   " + resources[i].toString() );
         }
     }
     

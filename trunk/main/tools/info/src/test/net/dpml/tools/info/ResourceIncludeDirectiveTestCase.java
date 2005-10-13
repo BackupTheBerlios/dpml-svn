@@ -29,7 +29,7 @@ public final class ResourceIncludeDirectiveTestCase extends AbstractTestCase
     {
         try
         {
-            new ResourceIncludeDirective( null, "value" );
+            new ResourceIncludeDirective( null, "value", PROPERTIES );
             fail( "no-NPE" );
         }
         catch( NullPointerException e )
@@ -42,7 +42,7 @@ public final class ResourceIncludeDirectiveTestCase extends AbstractTestCase
     {
         try
         {
-            new ResourceIncludeDirective( ResourceIncludeDirective.KEY, null );
+            new ResourceIncludeDirective( ResourceIncludeDirective.KEY, null, PROPERTIES );
             fail( "no-NPE" );
         }
         catch( NullPointerException e )
@@ -53,26 +53,30 @@ public final class ResourceIncludeDirectiveTestCase extends AbstractTestCase
     
     public void testIncludeType()
     {
-        ResourceIncludeDirective include = new ResourceIncludeDirective( ResourceIncludeDirective.KEY, "value" );
+        ResourceIncludeDirective include = 
+          new ResourceIncludeDirective( ResourceIncludeDirective.KEY, "value", PROPERTIES );
         assertEquals( "name", "key", include.getType() );
         assertEquals( "mode", ResourceIncludeDirective.KEY, include.getMode() );
     }
     
     public void testIncludeValue()
     {
-        IncludeDirective include = new ResourceIncludeDirective( ResourceIncludeDirective.REF, "value" );
+        ResourceIncludeDirective include = 
+          new ResourceIncludeDirective( ResourceIncludeDirective.KEY, "value", PROPERTIES );
         assertEquals( "value", "value", include.getValue() );
     }
     
     public void testSerialization() throws Exception
     {
-        IncludeDirective include = new ResourceIncludeDirective( ResourceIncludeDirective.REF, "value" );
+        ResourceIncludeDirective include = 
+          new ResourceIncludeDirective( ResourceIncludeDirective.KEY, "value", PROPERTIES );
         doSerializationTest( include );
     }
 
     public void testXMLEncoding() throws Exception
     {
-        IncludeDirective include = new ResourceIncludeDirective( ResourceIncludeDirective.REF, "value" );
+        ResourceIncludeDirective include = 
+          new ResourceIncludeDirective( ResourceIncludeDirective.KEY, "value", PROPERTIES );
         doEncodingTest( include, "include-encoded.xml" );
     }
 }

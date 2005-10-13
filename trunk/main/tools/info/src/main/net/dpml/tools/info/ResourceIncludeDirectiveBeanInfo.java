@@ -39,7 +39,7 @@ public final class ResourceIncludeDirectiveBeanInfo extends SimpleBeanInfo
         BeanDescriptor descriptor = new BeanDescriptor( ResourceIncludeDirective.class );
         descriptor.setValue( 
           "persistenceDelegate", 
-          new DefaultPersistenceDelegate( new String[]{ "mode", "value" } ) );
+          new DefaultPersistenceDelegate( new String[]{ "mode", "value", "properties" } ) );
         return descriptor;
     }
 }

@@ -39,7 +39,7 @@ public final class DependencyDirectiveBeanInfo extends SimpleBeanInfo
         BeanDescriptor descriptor = new BeanDescriptor( DependencyDirective.class );
         descriptor.setValue( 
           "persistenceDelegate", 
-          new DefaultPersistenceDelegate( new String[]{ "scope", "includeDirectives" } ) );
+          new DefaultPersistenceDelegate( new String[]{ "scope", "includeDirectives", "properties" } ) );
         return descriptor;
     }
 }

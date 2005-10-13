@@ -2,6 +2,13 @@
 
 <module name="dpml" basedir=".">
 
+   <properties>
+     <property name="publisher.name" value="Digital Product Meta Library"/>
+     <property name="publisher.url" value="http://www.dpml.net"/>
+     <property name="resource.repository.host" value="http://repository.dpml.net/"/>
+     <property name="javadoc.repository.host" value="http://api.dpml.net/"/>
+   </properties>
+
    <module name="runtime">
      <projects>
        <project name="dpml-transit-main" basedir="transit/core/handler">

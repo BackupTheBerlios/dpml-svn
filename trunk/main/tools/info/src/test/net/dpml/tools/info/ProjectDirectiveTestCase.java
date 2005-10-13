@@ -25,12 +25,35 @@ package net.dpml.tools.info;
  */
 public final class ProjectDirectiveTestCase extends AbstractTestCase
 {
+    static ArtifactDirective[] ARTIFACTS = new ArtifactDirective[3];
+    static
+    {
+        ARTIFACTS[0] = new ArtifactDirective( "abc", PROPERTIES );
+        ARTIFACTS[1] = new ArtifactDirective( "123" ,PROPERTIES );
+        ARTIFACTS[2] = new ArtifactDirective( "456", PROPERTIES );
+    }
+    static DependencyDirective[] DEPENDENCIES = new DependencyDirective[2];
+    static
+    {
+        DEPENDENCIES[0] = new DependencyDirective( Scope.RUNTIME, new ResourceIncludeDirective[0], PROPERTIES );
+        DEPENDENCIES[1] = new DependencyDirective( Scope.TEST, new ResourceIncludeDirective[0], PROPERTIES );
+    }
+    
+    static ProjectDirective[] PROJECTS = new ProjectDirective[3];
+    static
+    {
+        PROJECTS[0] = new ProjectDirective( "abc", ".", ARTIFACTS, DEPENDENCIES, PROPERTIES );
+        PROJECTS[1] = new ProjectDirective( "def", ".", ARTIFACTS, DEPENDENCIES, PROPERTIES );
+        PROJECTS[2] = new ProjectDirective( "ghi", ".", ARTIFACTS, DEPENDENCIES, PROPERTIES );
+    }
+    
     public void testNullName()
     {
         try
         {
             ProjectDirective project = 
-              new ProjectDirective( null, ".", new ArtifactDirective[0], new DependencyDirective[0] );
+              new ProjectDirective( 
+                null, ".", ARTIFACTS, DEPENDENCIES, PROPERTIES );
             fail( "no-NPE" );
         }
         catch( NullPointerException e )
@@ -44,7 +67,8 @@ public final class ProjectDirectiveTestCase extends AbstractTestCase
         try
         {
             ProjectDirective project = 
-              new ProjectDirective( "abc", null, new ArtifactDirective[0], new DependencyDirective[0] );
+              new ProjectDirective( 
+                "abc", null, ARTIFACTS, DEPENDENCIES, PROPERTIES );
         }
         catch( NullPointerException e )
         {
@@ -57,7 +81,7 @@ public final class ProjectDirectiveTestCase extends AbstractTestCase
         try
         {
             ProjectDirective project = 
-              new ProjectDirective( "name", ".", null, new DependencyDirective[0] );
+              new ProjectDirective( "name", ".", null, DEPENDENCIES, PROPERTIES );
             fail( "no-NPE" );
         }
         catch( NullPointerException e )
@@ -71,7 +95,7 @@ public final class ProjectDirectiveTestCase extends AbstractTestCase
         try
         {
             ProjectDirective project = 
-              new ProjectDirective( "abc", ".", new ArtifactDirective[0], null );
+              new ProjectDirective( "abc", ".", ARTIFACTS, null, PROPERTIES );
             fail( "no-NPE" );
         }
         catch( NullPointerException e )
@@ -82,50 +106,29 @@ public final class ProjectDirectiveTestCase extends AbstractTestCase
     
     public void testArtifactDirectives()
     {
-        ArtifactDirective[] artifacts = new ArtifactDirective[3];
-        artifacts[0] = new ArtifactDirective( "abc" );
-        artifacts[1] = new ArtifactDirective( "def" );
-        artifacts[0] = new ArtifactDirective( "ghi" );
         ProjectDirective project = 
-           new ProjectDirective( "abc", ".", artifacts, new DependencyDirective[0] );
+           new ProjectDirective( "abc", ".", ARTIFACTS, DEPENDENCIES, PROPERTIES );
         assertEquals( "artifact-count", 3, project.getArtifactDirectives().length );
     }
     
     public void testDependencyDirectives()
     {
-        DependencyDirective[] deps = new DependencyDirective[2];
-        deps[0] = new DependencyDirective( Scope.RUNTIME, new ResourceIncludeDirective[0] );
-        deps[0] = new DependencyDirective( Scope.TEST, new ResourceIncludeDirective[0] );
         ProjectDirective project = 
-           new ProjectDirective( "abc", ".",  new ArtifactDirective[0], deps );
+           new ProjectDirective( "abc", ".", ARTIFACTS, DEPENDENCIES, PROPERTIES );
         assertEquals( "deps-count", 2, project.getDependencyDirectives().length );
     }
     
     public void testSerialization() throws Exception
     {
-        ArtifactDirective[] artifacts = new ArtifactDirective[3];
-        artifacts[0] = new ArtifactDirective( "abc" );
-        artifacts[1] = new ArtifactDirective( "def" );
-        artifacts[0] = new ArtifactDirective( "ghi" );
-        DependencyDirective[] deps = new DependencyDirective[2];
-        deps[0] = new DependencyDirective( Scope.RUNTIME, new ResourceIncludeDirective[0] );
-        deps[0] = new DependencyDirective( Scope.TEST, new ResourceIncludeDirective[0] );
         ProjectDirective project = 
-           new ProjectDirective( "abc", ".", artifacts, deps );
+           new ProjectDirective( "abc", ".", ARTIFACTS, DEPENDENCIES, PROPERTIES );
         doSerializationTest( project );
     }
     
     public void testXMLEncoding() throws Exception
     {
-        ArtifactDirective[] artifacts = new ArtifactDirective[3];
-        artifacts[0] = new ArtifactDirective( "abc" );
-        artifacts[1] = new ArtifactDirective( "def" );
-        artifacts[0] = new ArtifactDirective( "ghi" );
-        DependencyDirective[] deps = new DependencyDirective[2];
-        deps[0] = new DependencyDirective( Scope.RUNTIME, new ResourceIncludeDirective[0] );
-        deps[0] = new DependencyDirective( Scope.TEST, new ResourceIncludeDirective[0] );
         ProjectDirective project = 
-           new ProjectDirective( "abc", ".", artifacts, deps );
+           new ProjectDirective( "abc", ".", ARTIFACTS, DEPENDENCIES, PROPERTIES );
         doEncodingTest( project, "project-descriptor-encoded.xml" );
     }
 }

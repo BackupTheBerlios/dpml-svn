@@ -18,6 +18,8 @@
 
 package net.dpml.tools.info;
 
+import java.util.Properties;
+
 /**
  * An ArtifactDirective describes the production of a types artifact by a project.
  *
@@ -29,6 +31,13 @@ public final class ArtifactDirective extends AbstractDirective
 
     public ArtifactDirective( String type )
     {
+        this( type, null );
+    }
+    
+    public ArtifactDirective( String type, Properties properties )
+    {
+        super( properties );
+        
         if( null == type )
         {
             throw new NullPointerException( "type" );

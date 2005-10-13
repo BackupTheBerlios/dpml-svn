@@ -39,7 +39,7 @@ public final class ArtifactDirectiveBeanInfo extends SimpleBeanInfo
         BeanDescriptor descriptor = new BeanDescriptor( ArtifactDirective.class );
         descriptor.setValue( 
           "persistenceDelegate", 
-          new DefaultPersistenceDelegate( new String[]{ "type" } ) );
+          new DefaultPersistenceDelegate( new String[]{ "type", "properties" } ) );
         return descriptor;
     }
 }

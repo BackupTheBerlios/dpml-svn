@@ -19,6 +19,7 @@
 package net.dpml.tools.info;
 
 import java.util.Arrays;
+import java.util.Properties;
 
 /**
  * The ModuleDirective class describes a module data-structure.
@@ -30,8 +31,10 @@ public final class DependencyDirective extends AbstractDirective
     private final Scope m_scope;
     private final ResourceIncludeDirective[] m_includes;
     
-    public DependencyDirective( Scope scope, ResourceIncludeDirective[] includes )
+    public DependencyDirective( Scope scope, ResourceIncludeDirective[] includes, Properties properties )
     {
+        super( properties );
+        
         if( null == scope )
         {
             throw new NullPointerException( "scope" );

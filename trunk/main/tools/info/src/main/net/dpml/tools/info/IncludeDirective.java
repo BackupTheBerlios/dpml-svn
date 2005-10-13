@@ -18,6 +18,8 @@
 
 package net.dpml.tools.info;
 
+import java.util.Properties;
+
 /**
  * The IncludeDirective class describes a the inclusion of a typed value.
  *
@@ -28,8 +30,10 @@ public abstract class IncludeDirective extends AbstractDirective
     private final String m_type;
     private final String m_value;
     
-    public IncludeDirective( String type, String value )
+    public IncludeDirective( String type, String value, Properties properties )
     {
+        super( properties );
+        
         if( null == type )
         {
             throw new NullPointerException( "type" );

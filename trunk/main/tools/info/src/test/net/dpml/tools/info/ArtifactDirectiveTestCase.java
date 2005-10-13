@@ -29,7 +29,7 @@ public final class ArtifactDirectiveTestCase extends AbstractTestCase
     {
         try
         {
-            ArtifactDirective type = new ArtifactDirective( null );
+            ArtifactDirective type = new ArtifactDirective( null, PROPERTIES );
             fail( "no-NPE" );
         }
         catch( NullPointerException e )
@@ -40,19 +40,19 @@ public final class ArtifactDirectiveTestCase extends AbstractTestCase
     
     public void testArtifactName()
     {
-        ArtifactDirective artifact = new ArtifactDirective( "abc" );
+        ArtifactDirective artifact = new ArtifactDirective( "abc", PROPERTIES );
         assertEquals( "type", "abc", artifact.getType() );
     }
     
     public void testSerialization() throws Exception
     {
-        ArtifactDirective artifact = new ArtifactDirective( "abc" );
+        ArtifactDirective artifact = new ArtifactDirective( "abc", PROPERTIES );
         doSerializationTest( artifact );
     }
 
     public void testXMLEncoding() throws Exception
     {
-        ArtifactDirective artifact = new ArtifactDirective( "abc" );
+        ArtifactDirective artifact = new ArtifactDirective( "abc", PROPERTIES );
         doEncodingTest( artifact, "artifact-descriptor-encoded.xml" );
     }
 }

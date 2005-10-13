@@ -28,10 +28,10 @@ public final class ModuleDirectiveTestCase extends AbstractTestCase
     private final String m_name = "name";
     private final String m_version = "1.1.1";
     private final String m_basedir = ".";
-    private final ModuleIncludeDirective[] m_refs = new ModuleIncludeDirective[0];
     private final ModuleDirective[] m_modules = new ModuleDirective[0];
-    private final ProjectDirective[] m_projects = new ProjectDirective[0];
-    private final ResourceDirective[] m_resources = new ResourceDirective[0];
+    private final ModuleIncludeDirective[] m_refs = ModuleIncludeDirectiveTestCase.INCLUDES;
+    private final ProjectDirective[] m_projects = ProjectDirectiveTestCase.PROJECTS;
+    private final ResourceDirective[] m_resources = ResourceDirectiveTestCase.RESOURCES;
     
     private ModuleDirective m_module;
     
@@ -39,7 +39,7 @@ public final class ModuleDirectiveTestCase extends AbstractTestCase
     {
         m_module = 
           new ModuleDirective( 
-            m_name, m_version, m_basedir, m_refs, m_modules, m_projects, m_resources );
+            m_name, m_version, m_basedir, m_refs, m_modules, m_projects, m_resources, PROPERTIES );
     }
 
     public void testNullName()
@@ -47,7 +47,7 @@ public final class ModuleDirectiveTestCase extends AbstractTestCase
         try
         {
             new ModuleDirective( 
-              null, m_version, m_basedir, m_refs, m_modules, m_projects, m_resources );
+              null, m_version, m_basedir, m_refs, m_modules, m_projects, m_resources, PROPERTIES );
             fail( "no-NPE" );
         }
         catch( NullPointerException e )
@@ -61,7 +61,7 @@ public final class ModuleDirectiveTestCase extends AbstractTestCase
         try
         {
             new ModuleDirective( 
-              m_name, null, m_basedir, m_refs, m_modules, m_projects, m_resources );
+              m_name, null, m_basedir, m_refs, m_modules, m_projects, m_resources, PROPERTIES );
         }
         catch( NullPointerException e )
         {
@@ -74,7 +74,7 @@ public final class ModuleDirectiveTestCase extends AbstractTestCase
         try
         {
             new ModuleDirective( 
-              m_name, m_version, null, m_refs, m_modules, m_projects, m_resources );
+              m_name, m_version, null, m_refs, m_modules, m_projects, m_resources, PROPERTIES );
         }
         catch( NullPointerException e )
         {
@@ -87,7 +87,7 @@ public final class ModuleDirectiveTestCase extends AbstractTestCase
         try
         {
             new ModuleDirective( 
-              m_name, m_version, m_basedir, null, m_modules, m_projects, m_resources );
+              m_name, m_version, m_basedir, null, m_modules, m_projects, m_resources, PROPERTIES );
             fail( "no-NPE" );
         }
         catch( NullPointerException e )
@@ -101,7 +101,7 @@ public final class ModuleDirectiveTestCase extends AbstractTestCase
         try
         {
             new ModuleDirective( 
-              m_name, m_version, m_basedir, m_refs, null, m_projects, m_resources );
+              m_name, m_version, m_basedir, m_refs, null, m_projects, m_resources, PROPERTIES );
             fail( "no-NPE" );
         }
         catch( NullPointerException e )
@@ -115,7 +115,7 @@ public final class ModuleDirectiveTestCase extends AbstractTestCase
         try
         {
             new ModuleDirective( 
-              m_name, m_version, m_basedir, m_refs, m_modules, null, m_resources );
+              m_name, m_version, m_basedir, m_refs, m_modules, null, m_resources, PROPERTIES );
             fail( "no-NPE" );
         }
         catch( NullPointerException e )
@@ -129,7 +129,7 @@ public final class ModuleDirectiveTestCase extends AbstractTestCase
         try
         {
             new ModuleDirective( 
-              m_name, m_version, m_basedir, m_refs, m_modules, m_projects, null );
+              m_name, m_version, m_basedir, m_refs, m_modules, m_projects, null, PROPERTIES );
             fail( "no-NPE" );
         }
         catch( NullPointerException e )

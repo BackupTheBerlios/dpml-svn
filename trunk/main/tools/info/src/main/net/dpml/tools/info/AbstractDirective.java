@@ -19,6 +19,7 @@
 package net.dpml.tools.info;
 
 import java.io.Serializable;
+import java.util.Properties;
 
 /**
  * The ModuleDirective class describes a module data-structure.
@@ -27,6 +28,18 @@ import java.io.Serializable;
  */
 public abstract class AbstractDirective implements Serializable
 {
+    private Properties m_properties;
+    
+    public AbstractDirective( Properties properties )
+    {
+        m_properties = properties;
+    }
+    
+    public Properties getProperties()
+    {
+        return m_properties;
+    }
+    
     public boolean equals( Object other )
     {
         if( null == other )

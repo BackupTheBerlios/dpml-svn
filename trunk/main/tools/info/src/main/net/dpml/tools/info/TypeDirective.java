@@ -18,6 +18,8 @@
 
 package net.dpml.tools.info;
 
+import java.util.Properties;
+
 /**
  * The ModuleDirective class describes a module data-structure.
  *
@@ -29,6 +31,12 @@ public final class TypeDirective  extends AbstractDirective
 
     public TypeDirective( String name )
     {
+        this( name, null );
+    }
+    
+    public TypeDirective( String name, Properties properties )
+    {
+        super( properties );
         if( null == name )
         {
             throw new NullPointerException( "name" );

@@ -33,6 +33,7 @@ import java.beans.XMLDecoder;
 import java.beans.XMLEncoder;
 import java.beans.ExceptionListener;
 import java.beans.Expression;
+import java.util.Properties;
 
 import junit.framework.TestCase;
 
@@ -43,6 +44,8 @@ import junit.framework.TestCase;
  */
 abstract class AbstractTestCase extends TestCase
 {
+    public static final Properties PROPERTIES = new Properties();
+    
     public void doSerializationTest( Object object )
         throws Exception
     {

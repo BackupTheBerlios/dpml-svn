@@ -24,6 +24,7 @@ import java.beans.PersistenceDelegate;
 import java.beans.DefaultPersistenceDelegate;
 import java.beans.SimpleBeanInfo;
 import java.beans.Encoder;
+import java.util.Properties;
 
 import net.dpml.transit.util.Enum;
 
@@ -38,10 +39,15 @@ public final class ResourceIncludeDirective extends IncludeDirective
     public static final Mode REF = Mode.REF;
     
     private Mode m_mode;
-
+    
     public ResourceIncludeDirective( Mode mode, String value )
     {
-        super( mode.getName(), value );
+        this( mode, value, null );
+    }
+    
+    public ResourceIncludeDirective( Mode mode, String value, Properties properties )
+    {
+        super( mode.getName(), value, properties );
         m_mode = mode;
     }
     

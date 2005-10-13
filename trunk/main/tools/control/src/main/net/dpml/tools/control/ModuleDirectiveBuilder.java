@@ -25,6 +25,7 @@ import java.io.FileNotFoundException;
 import java.io.FileInputStream;
 import java.io.BufferedInputStream;
 import java.util.ArrayList;
+import java.util.Properties;
 
 import net.dpml.tools.info.IncludeDirective;
 import net.dpml.tools.info.ModuleIncludeDirective;
@@ -59,6 +60,7 @@ public final class ModuleDirectiveBuilder
     private static final String PROJECT_ELEMENT_NAME = "project";
     private static final String PRODUCTION_ELEMENT_NAME = "production";
     private static final String ARTIFACT_ELEMENT_NAME = "artifact";
+    private static final String PROPERTIES_ELEMENT_NAME = "properties";
     
     public static ModuleDirective build( File source ) throws IOException
     {
@@ -136,7 +138,7 @@ public final class ModuleDirectiveBuilder
             throw new IllegalArgumentException( error );
         }
         
-        // get name, version and basedir, dependent module links, local projects and 
+        // get name, version and basedir, properties, dependent module links, local projects and 
         // resources, then build the nested modules
         
         final String name = ElementHelper.getAttribute( element, "name", null );
@@ -151,6 +153,7 @@ public final class ModuleDirectiveBuilder
         final String version = ElementHelper.getAttribute( element, "version", null );
         final String basedir = ElementHelper.getAttribute( element, "basedir", path );
         
+        Properties properties = null;
         ModuleIncludeDirective[] includes = new ModuleIncludeDirective[0];
         ResourceDirective[] resources = new ResourceDirective[0];
         ProjectDirective[] projects = new ProjectDirective[0];
@@ -161,7 +164,11 @@ public final class ModuleDirectiveBuilder
         {
             Element child = children[i];
             final String tag = child.getTagName();
-            if( MODULE_ELEMENT_NAME.equals( tag ) )
+            if( PROPERTIES_ELEMENT_NAME.equals( tag ) )
+            {
+                properties = buildProperties( element );
+            }
+            else if( MODULE_ELEMENT_NAME.equals( tag ) )
             {
                 ModuleDirective directive = buildModuleDirective( null, child );
                 list.add( directive );
@@ -186,7 +193,8 @@ public final class ModuleDirectiveBuilder
             }
         }
         ModuleDirective[] modules = (ModuleDirective[]) list.toArray( new ModuleDirective[0] );
-        return new ModuleDirective( name, version, basedir, includes, modules, projects, resources );
+        return new ModuleDirective( 
+          name, version, basedir, includes, modules, projects, resources, properties );
     }
     
     private static String getBaseDir( File file ) throws IOException
@@ -280,6 +288,7 @@ public final class ModuleDirectiveBuilder
               "Project does not declare a name attribute.";
             throw new IllegalArgumentException( error );
         }
+        Properties properties = null;
         final String basedir = ElementHelper.getAttribute( element, "basedir", null );
         Element[] children = ElementHelper.getChildren( element );
         ArrayList list = new ArrayList();
@@ -291,6 +300,10 @@ public final class ModuleDirectiveBuilder
             if( PRODUCTION_ELEMENT_NAME.equals( tag ) )
             {
                 artifacts = buildArtifactDirectives( child );
+            }
+            else if( PROPERTIES_ELEMENT_NAME.equals( tag ) )
+            {
+                properties = buildProperties( element );
             }
             else if( DEPENDENCIES_ELEMENT_NAME.equals( tag ) )
             {
@@ -309,23 +322,24 @@ public final class ModuleDirectiveBuilder
             }
         }
         DependencyDirective[] dependencies = (DependencyDirective[]) list.toArray( new DependencyDirective[0] );
-        return new ProjectDirective( name, basedir, artifacts, dependencies );
+        return new ProjectDirective( name, basedir, artifacts, dependencies, properties );
     }
     
     private static ModuleIncludeDirective buildModuleIncludeDirective( Element element )
     {
         final String tag = element.getTagName();
+        final Properties properties = buildProperties( element );
         if( INCLUDE_ELEMENT_NAME.equals( tag ) )
         {
             if( element.hasAttribute( "file" ) )
             {
                 final String value = ElementHelper.getAttribute( element, "file", null );
-                return new ModuleIncludeDirective( ModuleIncludeDirective.FILE, value );
+                return new ModuleIncludeDirective( ModuleIncludeDirective.FILE, value, properties );
             }
             else if( element.hasAttribute( "uri" ) )
             {
                 final String value = ElementHelper.getAttribute( element, "uri", null );
-                return new ModuleIncludeDirective( ModuleIncludeDirective.URI, value );
+                return new ModuleIncludeDirective( ModuleIncludeDirective.URI, value, properties );
             }
             else
             {
@@ -347,17 +361,18 @@ public final class ModuleDirectiveBuilder
     private static ResourceIncludeDirective buildResourceIncludeDirective( Element element )
     {
         final String tag = element.getTagName();
+        final Properties properties = buildProperties( element );
         if( INCLUDE_ELEMENT_NAME.equals( tag ) )
         {
             if( element.hasAttribute( "key" ) )
             {
                 final String value = ElementHelper.getAttribute( element, "key", null );
-                return new ResourceIncludeDirective( ResourceIncludeDirective.KEY, value );
+                return new ResourceIncludeDirective( ResourceIncludeDirective.KEY, value, properties );
             }
             else if( element.hasAttribute( "ref" ) )
             {
                 final String value = ElementHelper.getAttribute( element, "ref", null );
-                return new ResourceIncludeDirective( ResourceIncludeDirective.REF, value );
+                return new ResourceIncludeDirective( ResourceIncludeDirective.REF, value, properties );
             }
             else
             {
@@ -386,6 +401,7 @@ public final class ModuleDirectiveBuilder
             TypeDirective[] types = new TypeDirective[0];
             ResourceIncludeDirective[] includes = new ResourceIncludeDirective[0];
             Element[] children = ElementHelper.getChildren( element );
+            Properties properties = null;
             for( int i=0; i<children.length; i++ )
             {
                 Element child = children[i];
@@ -398,6 +414,10 @@ public final class ModuleDirectiveBuilder
                 {
                     includes = buildResourceIncludeDirectives( child );
                 }
+                else if( PROPERTIES_ELEMENT_NAME.equals( tag ) )
+                {
+                    properties = buildProperties( element );
+                }
                 else
                 {
                     final String error = 
@@ -406,7 +426,7 @@ public final class ModuleDirectiveBuilder
                     throw new IllegalArgumentException( error );
                 }
             }
-            return new ResourceDirective( name, version, types, includes );
+            return new ResourceDirective( name, version, types, includes, properties );
         }
         else
         {
@@ -436,7 +456,8 @@ public final class ModuleDirectiveBuilder
         if( TYPE_ELEMENT_NAME.equals( tag ) )
         {
             final String name = ElementHelper.getAttribute( element, "name", null );
-            return new TypeDirective( name );
+            final Properties properties = buildProperties( element );
+            return new TypeDirective( name, properties );
         }
         else
         {
@@ -462,7 +483,8 @@ public final class ModuleDirectiveBuilder
                 Element child = children[i];
                 includes[i] = buildResourceIncludeDirective( child );
             }
-            return new DependencyDirective( scope, includes );
+            final Properties properties = buildProperties( element );
+            return new DependencyDirective( scope, includes, properties );
         }
         else
         {
@@ -498,7 +520,8 @@ public final class ModuleDirectiveBuilder
                   "Artifact element does not declare a type.";
                 throw new IllegalArgumentException( error );
             }
-            return new ArtifactDirective( type );
+            final Properties properties = buildProperties( element );
+            return new ArtifactDirective( type, properties );
         }
         else
         {
@@ -507,6 +530,41 @@ public final class ModuleDirectiveBuilder
               + tag
               + "].";
             throw new IllegalArgumentException( error );
+        }
+    }
+    
+    private static Properties buildProperties( Element element )
+    {
+        Element elem = ElementHelper.getChild( element, "properties" );
+        if( null == elem )
+        {
+            return null;
+        }
+        else
+        {
+            Properties properties = new Properties();
+            Element[] children = ElementHelper.getChildren( elem );
+            for( int i=0; i<children.length; i++ )
+            {
+                Element child = children[i];
+                String tag = child.getTagName();
+                if( "property".equals( tag ) )
+                {
+                    String key = ElementHelper.getAttribute( child, "name", null );
+                    if( null == key )
+                    {
+                        final String error =
+                          "Property declaration does not contain a 'name' attribute.";
+                        throw new IllegalArgumentException( error );
+                    }
+                    else
+                    {
+                        String value = ElementHelper.getAttribute( child, "value", null );
+                        properties.setProperty( key, value );
+                    }
+                }
+            }
+            return properties;
         }
     }
 }

@@ -39,7 +39,10 @@ public final class ProjectDirectiveBeanInfo extends SimpleBeanInfo
         BeanDescriptor descriptor = new BeanDescriptor( ProjectDirective.class );
         descriptor.setValue( 
           "persistenceDelegate", 
-          new DefaultPersistenceDelegate( new String[]{ "name", "basedir", "artifactDirectives", "dependencyDirectives" } ) );
+          new DefaultPersistenceDelegate( 
+            new String[]{ 
+              "name", "basedir", "artifactDirectives", "dependencyDirectives",
+              "properties" } ) );
         return descriptor;
     }
 }

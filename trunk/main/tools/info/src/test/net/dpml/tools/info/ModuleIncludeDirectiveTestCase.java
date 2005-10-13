@@ -25,11 +25,19 @@ package net.dpml.tools.info;
  */
 public final class ModuleIncludeDirectiveTestCase extends AbstractTestCase
 {
+    static ModuleIncludeDirective[] INCLUDES = new ModuleIncludeDirective[3];
+    static
+    {
+        INCLUDES[0] = new ModuleIncludeDirective( ModuleIncludeDirective.URI, "something", PROPERTIES );
+        INCLUDES[1] = new ModuleIncludeDirective( ModuleIncludeDirective.FILE, "bingo", PROPERTIES );
+        INCLUDES[2] = new ModuleIncludeDirective( ModuleIncludeDirective.URI, "acme", PROPERTIES );
+    }
+
     public void testNullName()
     {
         try
         {
-            new ModuleIncludeDirective( null, "value" );
+            new ModuleIncludeDirective( null, "value", PROPERTIES );
             fail( "no-NPE" );
         }
         catch( NullPointerException e )
@@ -42,7 +50,7 @@ public final class ModuleIncludeDirectiveTestCase extends AbstractTestCase
     {
         try
         {
-            new ModuleIncludeDirective( ModuleIncludeDirective.FILE, null );
+            new ModuleIncludeDirective( ModuleIncludeDirective.FILE, null, PROPERTIES );
             fail( "no-NPE" );
         }
         catch( NullPointerException e )
@@ -53,26 +61,30 @@ public final class ModuleIncludeDirectiveTestCase extends AbstractTestCase
     
     public void testIncludeType()
     {
-        ModuleIncludeDirective include = new ModuleIncludeDirective( ModuleIncludeDirective.FILE, "value" );
+        ModuleIncludeDirective include = 
+          new ModuleIncludeDirective( ModuleIncludeDirective.FILE, "value", PROPERTIES );
         assertEquals( "name", "file", include.getType() );
         assertEquals( "mode", ModuleIncludeDirective.FILE, include.getMode() );
     }
     
     public void testIncludeValue()
     {
-        IncludeDirective include = new ModuleIncludeDirective( ModuleIncludeDirective.URI, "value" );
+        IncludeDirective include = 
+          new ModuleIncludeDirective( ModuleIncludeDirective.URI, "value", PROPERTIES );
         assertEquals( "value", "value", include.getValue() );
     }
     
     public void testSerialization() throws Exception
     {
-        IncludeDirective include = new ModuleIncludeDirective( ModuleIncludeDirective.URI, "value" );
+        IncludeDirective include = 
+          new ModuleIncludeDirective( ModuleIncludeDirective.URI, "value", PROPERTIES );
         doSerializationTest( include );
     }
 
     public void testXMLEncoding() throws Exception
     {
-        IncludeDirective include = new ModuleIncludeDirective( ModuleIncludeDirective.URI, "value" );
+        IncludeDirective include = 
+          new ModuleIncludeDirective( ModuleIncludeDirective.URI, "value", PROPERTIES );
         doEncodingTest( include, "include-encoded.xml" );
     }
 }
