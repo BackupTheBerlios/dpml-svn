@@ -213,8 +213,8 @@ public abstract class ValuedEnum extends Enum implements Comparable
     {
         if( other instanceof ValuedEnum )
         {
-            ValuedEnum enum = (ValuedEnum) other;
-            int value = enum.m_value;
+            ValuedEnum enummeration = (ValuedEnum) other;
+            int value = enummeration.m_value;
             if( m_value > value )
             {
                 return 1;
