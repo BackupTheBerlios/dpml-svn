@@ -122,8 +122,8 @@ public class AntPlugin
             project.setCoreLoader( getClass().getClassLoader() );
             project.addBuildListener( createLogger() );
 
-            System.setIn(new DemuxInputStream(project));
-            project.setProjectReference(new DefaultInputHandler());
+            System.setIn( new DemuxInputStream(project) );
+            project.setProjectReference( new DefaultInputHandler() );
             project.fireBuildStarted();
             project.setUserProperty( "ant.file", m_file.getAbsolutePath() );
             project.init();
