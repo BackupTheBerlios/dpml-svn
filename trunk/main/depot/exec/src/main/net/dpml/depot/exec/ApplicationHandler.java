@@ -18,17 +18,18 @@
 
 package net.dpml.depot.exec;
 
+import java.io.IOException;
+import java.lang.reflect.Constructor;
 import java.net.URI;
 import java.net.URL;
-import java.lang.reflect.Constructor;
+import java.rmi.Remote;
+import java.rmi.registry.Registry;
+import java.rmi.registry.LocateRegistry;
 import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.Map;
 import java.util.Properties;
 import java.util.prefs.Preferences;
-import java.rmi.Remote;
-import java.rmi.registry.Registry;
-import java.rmi.registry.LocateRegistry;
 
 import net.dpml.depot.Main;
 import net.dpml.depot.ShutdownHandler;
@@ -123,21 +124,6 @@ public class ApplicationHandler
             handleError( handler, error );
         }
 
-        try
-        {
-            Repository repository = Transit.getInstance().getRepository();
-            ClassLoader classloader = getClass().getClassLoader();
-            URI uri = new URI( DEPOT_PROFILE_URI );
-            m_depot = (ApplicationRegistry) repository.getPlugin( 
-               classloader, uri, new Object[]{prefs, logger} );
-        }
-        catch( Throwable e )
-        {
-            final String error = 
-              "Unexpected failure while attempting to establish the depot profile.";
-            handleError( handler, error, e );
-        }
-
         m_spec = args[0];
         m_args = Main.consolidate( args, m_spec );
 
@@ -158,6 +144,17 @@ public class ApplicationHandler
         // forth is to stop a started profile.  A last option is to stop and 
         // retract a profile.
         //
+        
+        try
+        {
+            setupApplicationRegistry( prefs, logger );
+        }
+        catch( Throwable e )
+        {
+            final String error = 
+              "Unexpected failure while attempting to establish the depot profile.";
+            handleError( handler, error, e );
+        }
 
         boolean applySysProperties = !m_spec.startsWith( "registry:" );
 
@@ -170,23 +167,27 @@ public class ApplicationHandler
             URI codebase = profile.getCodeBaseURI();
             getLogger().info( "profile codebase: " + codebase );
 
-            if( applySysProperties ) 
+            if( applySysProperties )
             {
                 Properties properties = profile.getSystemProperties();
                 applySystemProperties( properties );
             }
             
-            Station station = getStation();
-            getLogger().info( "located station - requesting application" );
-            Application application = station.getApplication( key );
- 
-
             // light the fires and spin the tyres
 
             try
             {
+                Station station = getStation();
+                getLogger().info( "located station - requesting application" );
+                Application application = station.getApplication( key );
                 resolveTargetObject( 
                     m_model, codebase, m_args, m_logger, application, profile );
+                getLogger().info( "target established" );
+            }
+            catch( IOException e )
+            {
+                resolveTargetObject( 
+                    m_model, codebase, m_args, m_logger, null, profile );
                 getLogger().info( "target established" );
             }
             catch( Throwable e )
@@ -345,7 +346,7 @@ public class ApplicationHandler
         if( id.startsWith( "artifact:" ) || id.startsWith( "link:" ) )
         {
             URI uri = new URI( id );
-            return m_depot.createAnonymousApplicationProfile( uri );
+            return getApplicationRegistry().createAnonymousApplicationProfile( uri );
         }
         else if( id.startsWith( "registry:" ) )
         {
@@ -364,7 +365,7 @@ public class ApplicationHandler
         {
             try
             {
-                return m_depot.getApplicationProfile( id );
+                return getApplicationRegistry().getApplicationProfile( id );
             }
             catch( UnknownKeyException e )
             {
@@ -373,6 +374,20 @@ public class ApplicationHandler
                 throw new GeneralException( error );
             }
         }
+    }
+    
+    private ApplicationRegistry getApplicationRegistry()
+    {
+        return m_depot;
+    }
+
+    private void setupApplicationRegistry( Preferences prefs, Logger logger ) throws Exception
+    {
+        Repository repository = Transit.getInstance().getRepository();
+        ClassLoader classloader = getClass().getClassLoader();
+        URI uri = new URI( DEPOT_PROFILE_URI );
+        m_depot = (ApplicationRegistry) repository.getPlugin( 
+           classloader, uri, new Object[]{prefs, logger} );
     }
 
     private Logger getLogger()
@@ -442,9 +457,12 @@ public class ApplicationHandler
             Thread.currentThread().setContextClassLoader( pluginClassLoader );
             if( "plugin".equals( type ) )
             {
-                Object[] parameters = Construct.getArgs( map, params, new Object[]{logger, args} );
+                Object[] parameters = Construct.getArgs( map, params, new Object[]{logger, args, m_model} );
                 Object object = loader.instantiate( pluginClass, parameters );
-                application.handleCallback( PROCESS_ID );
+                if( application != null )
+                {
+                    application.handleCallback( PROCESS_ID );
+                }
             }
             else
             {
@@ -462,7 +480,7 @@ public class ApplicationHandler
                 // management context, and the runtime hander
                 //
                 
-                Object[] parameters = Construct.getArgs( map, params, new Object[]{logger, args} );
+                Object[] parameters = Construct.getArgs( map, params, new Object[]{logger, args, m_model} );
                 PartHandler partHandler = (PartHandler) loader.instantiate( pluginClass, parameters );
                 
                 //
@@ -473,10 +491,10 @@ public class ApplicationHandler
                 Context context = application.getContext();
                 Handler handler = partHandler.getHandler( context );
                 handler.activate( context );
+                handler.getInstance().getValue( false );
                 */
                 
                 Value value = partHandler.resolve( uri );
-                
                 value.resolve( false );
                 application.handleCallback( PROCESS_ID );
             }
