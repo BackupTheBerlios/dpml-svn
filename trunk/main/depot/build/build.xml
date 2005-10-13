@@ -13,13 +13,5 @@
     <x:export class="net.dpml.ant.AntPlugin"/>
   </target>
 
-  <target name="install" depends="standard.install,bin"/>
-
-  <target name="bin" depends="prepare">
-    <copy todir="${basedir}" overwrite="true">
-      <fileset dir="${basedir}/target/bin"/>
-    </copy>
-  </target>
-
 </project>
 
