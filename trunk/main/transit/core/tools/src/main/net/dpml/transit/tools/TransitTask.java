@@ -120,9 +120,9 @@ abstract class TransitTask extends Task
                 }
                 catch( TransitAlreadyInitializedException e )
                 {
-                    final String error =
-                      "Detected condition where Transit has already been initialized.";
-                    throw new BuildException( error, e );
+                    //final String error =
+                    //  "Detected condition where Transit has already been initialized.";
+                    //throw new BuildException( error, e );
                 }
                 catch( Throwable e )
                 {

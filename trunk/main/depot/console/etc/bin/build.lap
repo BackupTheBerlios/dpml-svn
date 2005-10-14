@@ -7,7 +7,7 @@
 -Djava.rmi.server.randomIDs=true
 janel.main.class=net.dpml.depot.Main
 janel.min.java.version=1.4
-janel.max.java.version=1.5
+janel.max.java.version=1.4
 janel.classpath.jars.dir=${env.DPML_HOME}\Data\lib
 janel.debug.file=${env.DPML_HOME}\Data\logs\build.log
 janel.sysprop.process.id=true

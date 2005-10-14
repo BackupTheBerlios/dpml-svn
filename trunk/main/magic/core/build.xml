@@ -44,10 +44,20 @@
   <target name="setup-path" depends="bootstrap.setup-path">
     <transit:get property="checkstyle.path" uri="${checkstyle.uri}"/>
     <path id="project.main.path">
+      <pathelement location="${ENV.ANT_HOME}/lib/ant.jar"/>
+      <pathelement location="${ENV.ANT_HOME}/lib/ant-junit.jar"/>
       <pathelement location="${dpml.local.cache}/dpml/transit/jars/dpml-transit-main-${dpml.transit.version}.jar"/>
       <pathelement location="${dpml.local.cache}/dpml/transit/jars/dpml-transit-tools-${dpml.transit.version}.jar"/>
       <pathelement location="${checkstyle.path}"/>
       <pathelement location="${basedir}/target/classes"/>
+    </path>
+    <path id="project.test.path">
+      <pathelement location="${ENV.ANT_HOME}/lib/ant.jar"/>
+      <pathelement location="${ENV.ANT_HOME}/lib/ant-junit.jar"/>
+      <pathelement location="${dpml.local.cache}/junit/jars/${junit.filename}"/>
+      <pathelement location="${dpml.local.cache}/dpml/transit/jars/dpml-transit-main-${dpml.transit.version}.jar"/>
+      <pathelement location="${dpml.local.cache}/dpml/transit/jars/dpml-transit-tools-${dpml.transit.version}.jar"/>
+      <pathelement location="${target.deliverables.jars.dir}/${project.filename}"/>
     </path>
   </target>
 

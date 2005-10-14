@@ -340,12 +340,18 @@ public class PluginTask extends TransitTask
             helper.addTaskDefinition( name, c );
             log( "installed taskdef: " + name, Project.MSG_VERBOSE );
         }
+        catch( BuildException e )
+        {
+            throw e;
+        }
         catch( Throwable e )
         {
              final String error =
-               "Unable to load task [" + name + "] from class [" + classname
-               + "] due to the following error: "
-               + e.toString();
+               "Unable to load task [" 
+               + name 
+               + "] from class [" 
+               + classname
+               + "].";
              throw new BuildException( error, e, getLocation() );
         }
     }
@@ -372,12 +378,17 @@ public class PluginTask extends TransitTask
             helper.addDataTypeDefinition( name, c );
             log( "installed typedef: " + name, Project.MSG_VERBOSE );
         }
+        catch( BuildException e )
+        {
+            throw e;
+        }
         catch( Throwable e )
         {
              final String error =
-               "Unable to load type [" + name + "] from class [" + classname
-               + "] due to the following error: "
-               + e.toString();
+               "Unable to load type [" 
+               + name + "] from class [" 
+               + classname
+               + "].";
              throw new BuildException( error, e, getLocation() );
         }
     }

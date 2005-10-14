@@ -34,6 +34,10 @@
     <ant dir="magic"/>
   </target>
 
+  <target name="tools" description="Build Util (requires Magic).">
+    <ant dir="tools"/>
+  </target>
+
   <target name="util" description="Build Util (requires Magic).">
     <ant dir="util"/>
   </target>

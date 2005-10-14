@@ -29,6 +29,7 @@ import net.dpml.depot.Main;
 import net.dpml.transit.Logger;
 import net.dpml.transit.Transit;
 import net.dpml.transit.model.TransitModel;
+import net.dpml.transit.Environment;
 
 import net.dpml.transit.tools.TransitComponentHelper;
 import net.dpml.transit.tools.MainTask;
@@ -84,7 +85,7 @@ public class AntPlugin
     * AntPlugin establishment.
     *
     * @param args supplimentary command line arguments
-    * @exception Exception if something goes pear-shaped
+    * @exception Exception if the build fails
     */
     public AntPlugin( TransitModel model, Logger logger, String[] args )
         throws Exception
@@ -92,27 +93,35 @@ public class AntPlugin
         m_targets = args;
         m_model = model;
         m_logger = logger;
-
+        
         if( Main.isOptionPresent( args, "-file" ) )
         {
             String path = Main.getOption( args, "-file" );
             m_file = new File( path );
             m_targets = Main.consolidate( m_targets, "-file", 1 );
         }
-
         if( Main.isOptionPresent( args, "-verbose" ) )
         {
             m_verbose = true;
             m_targets = Main.consolidate( m_targets, "-verbose" );
         }
-
+        if( Main.isOptionPresent( args, "-v" ))
+        {
+            m_verbose = true;
+            m_targets = Main.consolidate( m_targets, "-v" );
+        }
         execute();
     }
 
     public void execute()
     {
         Throwable error = null;
+        
+        Thread.currentThread().setContextClassLoader( getClass().getClassLoader() );
 
+        String antHome = Environment.getEnvVariable( "ANT_HOME" );
+        System.setProperty( "ant.home", antHome );
+        
         Project project = new Project();
         project.setDefaultInputStream( System.in );
         setupTransitComponentHelper( project );
@@ -129,13 +138,18 @@ public class AntPlugin
             project.init();
 
             ProjectHelper helper = ProjectHelper.getProjectHelper();
-            ProjectHelper.configureProject( project, m_file );
+            project.addReference( "ant.projectHelper", helper );
+            //ProjectHelper.configureProject( project, m_file );
             helper.parse( project, m_file );
 
             Vector targets = new Vector();
             for( int i=0; i < m_targets.length; i++ )
             {
-                targets.add( m_targets[i] );
+                String target = m_targets[i];
+                if( !targets.contains( target ) && !"".equals( target ) )
+                {
+                    targets.add( target );
+                }
             }
 
             if( targets.size() == 0 ) 
@@ -155,14 +169,19 @@ public class AntPlugin
         {
             if( null != error )
             {
-                m_logger.error( "Build error.", error );
-                //System.out.println( "---------------------------------------" );
-                //error.printStackTrace();
+                if( error instanceof BuildException )
+                {
+                    Throwable cause = error.getCause();
+                    m_logger.error( "Build failure.", cause );
+                }
+                else
+                {
+                    m_logger.error( "Build failure.", error );
+                }
             }
             else
             {
                 m_logger.info( "done" );
-                //System.out.println( "done" );
             }
             project.fireBuildFinished( error );
         }
@@ -176,6 +195,10 @@ public class AntPlugin
             task.setProject( project );
             task.init();
             task.execute();
+        }
+        catch( BuildException e )
+        {
+            throw e;
         }
         catch( Exception e )
         {

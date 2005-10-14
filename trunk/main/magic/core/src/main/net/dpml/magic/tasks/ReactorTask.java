@@ -135,11 +135,19 @@ public class ReactorTask extends Sequential
             {
                 executeTarget( def, target );
             }
+            catch( BuildException e )
+            {
+                throw e;
+            }
             catch( Throwable e )
             {
-
-                throw new BuildException( e );
-
+                final String error = 
+                  "Unexpected error occured while handling reactive build with target [" 
+                  + target
+                  + "] in project ["
+                  + def
+                  + "].";
+                throw new BuildException( error, e );
             }
         }
     }

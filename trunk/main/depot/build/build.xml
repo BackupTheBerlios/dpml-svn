@@ -5,10 +5,6 @@
 
   <transit:import uri="local:template:magic/standard"/>
 
-  <target name="init" depends="standard.init">
-    <x:filter feature="uri" type="plugin" token="MAGIC-CLI-PLUGIN-URI"/>
-  </target>
-
   <target name="package" depends="standard.package">
     <x:export class="net.dpml.ant.AntPlugin"/>
   </target>

@@ -283,6 +283,10 @@ public class DocTask extends ProjectTask
             copyThemeResources( themeDir, docs );
             copySrcResources( resources, docs );
         }
+        catch( BuildException e )
+        {
+            throw e;
+        }
         catch( Throwable e )
         {
             log( "XSLT execution failed: " + e.getMessage() );
@@ -318,9 +322,22 @@ public class DocTask extends ProjectTask
             return;  // Theme may not use navigation.
         }
         log( "Transforming navigation." );
-        transformTrax(
-          source, dest, xslFile,
-          "^.*/navigation.xml$", "", ".xml" );
+        try
+        {
+            transformTrax(
+                source, dest, xslFile,
+                "^.*/navigation.xml$", "", ".xml" );
+        }
+        catch( BuildException e )
+        {
+            throw e;
+        }
+        catch( Throwable e )
+        {
+            final String error = 
+              "Transformation failure: " + source;
+            throw new BuildException( error, e );
+        }
     }
 
     private void copySources( final File source, final File dest )
@@ -380,21 +397,11 @@ public class DocTask extends ProjectTask
         FileInputStream fis = null;
         try
         {
-/* Attempt to parse the XSL file separately failed. No idea why?
-            fis = new FileInputStream( xslFile );
-            BufferedInputStream stream = new BufferedInputStream( fis );
-            InputSource in = new InputSource( stream );
-            final SAXParserFactory pfactory = SAXParserFactory.newInstance();
-            final SAXParser parser = pfactory.newSAXParser();
-            XMLReader xmlReader = parser.getXMLReader();
-            SAXSource source = new SAXSource( xmlReader, in );
-*/
             ClassLoader cl = getClass().getClassLoader();
             Thread.currentThread().setContextClassLoader( cl );
             StreamSource source = new StreamSource( xslFile );
             final TransformerFactory tfactory = TransformerFactory.newInstance();
             final Transformer transformer = tfactory.newTransformer( source );
-
             final RegexpFilter filter = new RegexpFilter( includes, excludes );
 
             m_baseToDir = toDir;
@@ -410,7 +417,11 @@ public class DocTask extends ProjectTask
                 transformFile(
                   transformer, fileToConvert, m_baseSrcDir, entrypoint, extension, m_baseToDir );
             }
-        } 
+        }
+        catch( BuildException e )
+        {
+            throw e;
+        }
         catch( Exception e )
         {
             throw new BuildException( e.getMessage(), e );
@@ -456,6 +467,7 @@ public class DocTask extends ProjectTask
     private void transformFile( Transformer transformer, File content, File srcDir,
                                 String base, String extension, File toDir )
     {
+        String userDir = System.getProperty( "user.dir" );
         System.setProperty( "user.dir", toDir.getAbsolutePath() );
         final String year = getYear();
         final String org = getOrganization();
@@ -481,12 +493,10 @@ public class DocTask extends ProjectTask
         final StreamResult out = new StreamResult( newDest );
 
         transformer.clearParameters();
-
         transformer.setParameter( "directory", getRelToPath( toDir ) );
         transformer.setParameter( "fullpath", getRelToPath( newDest ) );
         transformer.setParameter( "file", base );
         transformer.setParameter( "svn-location", svnSource );
-
         transformer.setParameter( "copyright", copyright );
         transformer.setParameter(
             "logoright_file",
@@ -509,17 +519,26 @@ public class DocTask extends ProjectTask
         transformer.setParameter(
             "brand_name",
             getProject().getProperty( DOC_BRAND_NAME_KEY ).trim() );
-
         transformer.setParameter( "generated_date", getNow() );
         setOtherProperties( transformer );
         try
         {
             transformer.transform( xml, out );
         }
-        catch( Exception e )
+        catch( BuildException e )
         {
-            log( "ERROR: " + getRelToPath( newDest ) + " : " + e.getMessage() );
-            throw new BuildException( "Unable to transform document." );
+            throw e;
+        }
+        catch( Throwable e )
+        {
+            final String error = 
+              "An error occured while attempting to transform document: "
+              + getRelToPath( newDest );
+            throw new BuildException( error, e, getLocation() );
+        }
+        finally
+        {
+            System.setProperty( "user.dir", userDir );
         }
     }
 

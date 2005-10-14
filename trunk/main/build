@@ -11,11 +11,11 @@
 #  all      builds transit, util, magic, depot, metro
 #  transit  build transit and util
 #  magic    build magic
+#  tools    build tools
 #  util     build util
 #  depot    build depot
 #  metro    build metro
 #  test     build test
-#  ci       builds luntbuild-clean, transit, magic, depot, metro, test
 
 build()
 {
@@ -58,6 +58,13 @@ util()
     cd -
 }
 
+util()
+{
+    cd tools
+    build clean install
+    cd -
+}
+
 depot()
 {
     cd depot
@@ -79,11 +86,6 @@ test()
     cd -
 }
 
-luntbuildclean()
-{
-    build luntbuild-clean
-}
-
 ID=$2
 TARGET=$1
 
@@ -93,12 +95,12 @@ if [ "$TARGET" == "help" ] ; then
     echo "    [product] product name"
     echo "      transit   -- build the transit distribution"
     echo "      magic     -- build the magic distribution"
+    echo "      tools     -- build the tools distribution"
     echo "      util      -- build the util distribution"
     echo "      depot     -- build the depot distribution"
     echo "      metro     -- build the metro distribution"
     echo "      test      -- build the integration tests"
-    echo "      all       -- builds transit, magic, metro distributions and integration tests"
-    echo "      ci        -- build intended for contineous integration"
+    echo "      all       -- builds transit, magic, tools, metro distributions and integration tests"
     echo "    [revision] optional build revision identified used when"
     echo "               building number releases."
     exit 1
@@ -120,12 +122,16 @@ if [ "$TARGET" == "util" ] ; then
     util
 fi
 
-if [ "$TARGET" == "depot" ] ; then
-    depot
+if [ "$TARGET" == "tools" ] ; then
+    tools
 fi
 
 if [ "$TARGET" == "metro" ] ; then
     metro
+fi
+
+if [ "$TARGET" == "depot" ] ; then
+    depot
 fi
 
 if [ "$TARGET" == "test" ] ; then
@@ -139,19 +145,9 @@ fi
 if [ "$TARGET" == "all" ] ; then
     transit
     magic
+    tools
     util
     metro
     depot
     test
-fi
-
-if [ "$TARGET" == "ci" ] ; then
-	luntbuildclean
-	transit
-	magic
-	util
-	metro
-	depot
-	test
-	exit 0
 fi

@@ -94,5 +94,19 @@ public class ImportArtifactTask extends ImportTask
             throw new BuildException( error, e );
         }
     }
+    
+    public void execute() 
+    {
+        try
+        {
+            super.execute();
+        }
+        catch( Throwable e )
+        {
+            final String error = 
+              "Input (super).execute() failed.";
+            throw new BuildException( error, e );
+        }
+    }
 }
 

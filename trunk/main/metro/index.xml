@@ -148,6 +148,7 @@
     </info>
     <dependencies>
       <include key="dpml-configuration-api"/>
+      <include key="ant-junit" runtime="false"/>
     </dependencies>
   </project>
 

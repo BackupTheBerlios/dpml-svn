@@ -27,6 +27,8 @@
 
   <target name="setup-path" depends="init">
     <path id="project.test.path">
+      <pathelement location="${ENV.ANT_HOME}/lib/ant.jar"/>
+      <pathelement location="${ENV.ANT_HOME}/lib/ant-junit.jar"/>
       <pathelement location="${target.deliverables.jars.dir}/${project.filename}"/>
       <pathelement location="${dpml.local.cache}/junit/jars/${junit.filename}"/>
     </path>

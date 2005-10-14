@@ -90,10 +90,10 @@ public final class ClassLoaderBuilder
         TreeNode node = (TreeNode) parent.getLastPathComponent();
         if( node.getChildCount() >= 0 )
         {
-            Enumeration enum = node.children();
-            while( enum.hasMoreElements() )
+            Enumeration enummeration = node.children();
+            while( enummeration.hasMoreElements() )
             {
-                TreeNode n = (TreeNode) enum.nextElement();
+                TreeNode n = (TreeNode) enummeration.nextElement();
                 TreePath path = parent.pathByAddingChild( n );
                 expand( tree, path, expand );
             }

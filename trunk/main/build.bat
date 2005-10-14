@@ -14,6 +14,7 @@ REM
 REM  all      builds transit, util, magic, metro, depot and test
 REM  transit  build transit and util
 REM  magic    build magic
+REM  tools    build tools
 REM  depot    build depot
 REM  metro    build metro
 REM  test     build test
@@ -27,6 +28,7 @@ IF "%TARGET%" == "" set TARGET=all
 IF "%TARGET%" == "transit" CALL :transit
 IF "%TARGET%" == "util" CALL :util
 IF "%TARGET%" == "magic" CALL :magic
+IF "%TARGET%" == "tools" CALL :tools
 IF "%TARGET%" == "depot" CALL :depot
 IF "%TARGET%" == "metro" CALL :metro
 IF "%TARGET%" == "test" CALL :test
@@ -38,6 +40,8 @@ goto end
 CALL :transit
 IF ERRORLEVEL 1 goto fail
 CALL :magic
+IF ERRORLEVEL 1 goto fail
+CALL :tools
 IF ERRORLEVEL 1 goto fail
 CALL :util
 IF ERRORLEVEL 1 goto fail
@@ -81,6 +85,12 @@ CALL :build clean install
 POPD
 GOTO :EOF
 
+:tools
+PUSHD tools
+CALL :build clean install
+POPD
+GOTO :EOF
+
 :depot
 PUSHD depot
 CALL :build clean install
@@ -116,11 +126,12 @@ echo   build [product] [revision]
 echo     [product] product name
 echo       transit   -- build the transit distribution
 echo       magic     -- build the magic distribution
+echo       tools     -- build the tools distribution
 echo       util      -- build the util distribution
 echo       metro     -- build the metro distribution
 echo       depot     -- build the depot distribution
 echo       test      -- build and execute integration tests
-echo       all       -- builds transit, magic, util, depot, and metro distributions and executes integration tests
+echo       all       -- builds transit, magic, tools, util, depot, and metro distributions and executes integration tests
 echo     [revision] optional build revision identified used when
 echo                building number releases.
 goto :EOF

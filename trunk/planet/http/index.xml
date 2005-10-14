@@ -88,7 +88,6 @@
       <include key="jsp-api" runtime="true" build="false"/>
       <include key="jasper-runtime" runtime="true" build="false" />
       <include key="jasper-compiler" runtime="true" build="false" />
-      <!--<include key="xercesImpl" runtime="true" build="false" />-->
     </dependencies>
     <plugins>
       <include key="dpml-composition-builder" runtime="false"/>
@@ -107,6 +106,7 @@
       <include key="dpml-http-impl"/>
       <include key="dpml-http-spi"/>
       <include key="dpml-component-control" runtime="false"/>
+      <include key="ant-junit" runtime="false"/>
     </dependencies>
     <plugins>
       <include key="dpml-composition-builder" runtime="false"/>

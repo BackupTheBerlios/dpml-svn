@@ -65,6 +65,7 @@
     </info>
     <dependencies>
       <include key="dpml-transit-main"/>
+      <include key="ant-junit" runtime="false"/>
     </dependencies>
   </project>
 
@@ -132,12 +133,21 @@
     </info>
     <dependencies>
       <include key="dpml-transit-main"/>
-      <include key="dpml-transit-tools"/>
       <include key="dpml-depot-console"/>
+      <include key="dpml-transit-tools"/>
+
       <include key="ant" tag="system"/>
       <include key="ant-launcher" tag="system"/>
       <include key="ant-junit" tag="system"/>
       <include key="junit" tag="system"/>
+      <!--
+      -->
+      <!--
+      <include key="ant"/>
+      <include key="ant-launcher"/>
+      <include key="ant-junit"/>
+      <include key="junit"/>
+      -->
     </dependencies>
   </project>
 

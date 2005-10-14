@@ -26,6 +26,9 @@
         <type name="jar"/>
       </types>
     </info>
+    <dependencies>
+      <include key="ant-junit" runtime="false"/>
+    </dependencies>
   </project>
 
 </index>
