@@ -20,7 +20,7 @@
 
   <project basedir="info">
     <info>
-      <group>dpml-tools</group>
+      <group>dpml/tools</group>
       <name>dpml-tools-info</name>
       <types>
         <type name="jar"/>
@@ -34,7 +34,7 @@
 
   <project basedir="model">
     <info>
-      <group>dpml-tools</group>
+      <group>dpml/tools</group>
       <name>dpml-tools-model</name>
       <types>
         <type name="jar"/>
@@ -47,7 +47,7 @@
 
   <project basedir="control">
     <info>
-      <group>dpml-tools</group>
+      <group>dpml/tools</group>
       <name>dpml-tools-control</name>
       <types>
         <type name="jar"/>

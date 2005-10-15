@@ -22,7 +22,7 @@
     <x:filter token="DEPOT-DESKTOP-URI" key="dpml-depot-desktop" feature="uri" type="plugin"/>
     <x:filter token="DEPOT-INSTALL-URI" key="dpml-depot-install" feature="uri" type="plugin"/>
     <x:filter token="DEPOT-EXEC-URI" key="dpml-depot-exec" feature="uri" type="plugin"/>
-    <x:filter token="DEPOT-BUILD-URI" key="dpml-tools-build" feature="uri" type="plugin"/>
+    <x:filter token="DEPOT-BUILD-URI" key="dpml-tools-control" feature="uri" type="plugin"/>
     <x:filter token="DEPOT-AUDIT-URI" key="dpml-depot-audit" feature="uri" type="plugin"/>
     <x:filter token="DEPOT-STATION-URI" key="dpml-station-impl" feature="uri" type="plugin"/>
     <x:filter token="PROFILE-PLUGIN-URI" key="dpml-profile-impl" feature="uri" type="plugin"/>
