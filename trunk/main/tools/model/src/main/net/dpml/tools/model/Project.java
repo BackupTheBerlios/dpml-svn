@@ -18,13 +18,14 @@
 
 package net.dpml.tools.model;
 
+import java.io.File;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 
 import net.dpml.tools.info.Scope;
 
 /**
- * The Project interface describes infomation about a development project.
+ * The Project interface describes information about a development project.
  *
  * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
  */
@@ -36,7 +37,25 @@ public interface Project extends Remote
 
     String[] getTypes() throws RemoteException;
     
-    Resource[] getDependencies( Scope scope ) throws RemoteException, ResourceNotFoundException, ModuleNotFoundException;
+    File getBase() throws RemoteException;
+        
+    Resource[] getProviders( Scope scope ) 
+      throws RemoteException, ResourceNotFoundException, ModuleNotFoundException;
     
+    Resource[] getResourceClassPath( Scope scope )
+      throws RemoteException, ModuleNotFoundException, ResourceNotFoundException;
+    
+    Project[] getConsumers() 
+      throws RemoteException, ResourceNotFoundException, ModuleNotFoundException;
+
+   /**
+    * Return the set projects that are consumers of this project.
+    * @param depth the search depth
+    * @return the sorted array of consumer projects
+    */
+    public Project[] getAllConsumers() 
+      throws RemoteException, ResourceNotFoundException, ModuleNotFoundException;
+
     Resource toResource() throws RemoteException;
+    
 }

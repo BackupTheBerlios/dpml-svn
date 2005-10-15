@@ -18,6 +18,7 @@
 
 package net.dpml.tools.model;
 
+import java.io.File;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 
@@ -31,6 +32,8 @@ public interface Module extends Remote
     String getName() throws RemoteException;
     
     String getPath() throws RemoteException;
+    
+    File getBase() throws RemoteException;
     
     Module getParent() throws RemoteException;
     
@@ -49,4 +52,12 @@ public interface Module extends Remote
     Project getProject( String key ) throws RemoteException, ProjectNotFoundException;
     
     Resource resolveResource( String key ) throws RemoteException, ResourceNotFoundException;
+    
+   /**
+    * Return an array of all projects within this module group.
+    * @param module the target module
+    * @return the sorted project array
+    */
+    public Project[] getSubsidiaryProjects()
+      throws RemoteException, ResourceNotFoundException, ModuleNotFoundException;
 }

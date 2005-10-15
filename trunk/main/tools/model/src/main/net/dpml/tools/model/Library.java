@@ -39,12 +39,12 @@ public interface Library extends Remote
       throws RemoteException, ModuleNotFoundException, ResourceNotFoundException;
 
    /**
-    * Return a sorted array of projects including the dependent project of the 
-    * suplied target project.
+    * Return a sorted array of projects containing all ancestors or all decendents.
     * @param project the target project
+    * @param ancestors if TRUE return the ancestor chain else the descendent chain
     * @return the sorted project array
     */
-    Project[] getAllProjects( Project project ) 
+    Project[] getProjectChain( Project project, boolean ancestors ) 
       throws RemoteException, ModuleNotFoundException, ResourceNotFoundException;
 
    /**
@@ -76,6 +76,6 @@ public interface Library extends Remote
     * @param scope the classpath scope
     * @return the classpath resource array
     */
-    Resource[] getClasspath( Project project, Scope scope )
-      throws RemoteException, ModuleNotFoundException, ResourceNotFoundException;    
+    //Resource[] getClasspath( Project project, Scope scope )
+    //  throws RemoteException, ModuleNotFoundException, ResourceNotFoundException;    
 }

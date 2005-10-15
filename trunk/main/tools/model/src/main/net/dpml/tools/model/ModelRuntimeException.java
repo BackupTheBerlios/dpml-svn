@@ -26,7 +26,7 @@ import java.rmi.RemoteException;
  *
  * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
  */
-public final class ModelRuntimeException extends RuntimeException
+public class ModelRuntimeException extends RuntimeException
 {
     public ModelRuntimeException( String message )
     {

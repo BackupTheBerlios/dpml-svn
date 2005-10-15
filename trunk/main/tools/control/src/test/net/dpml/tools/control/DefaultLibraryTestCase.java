@@ -23,6 +23,7 @@ import java.io.File;
 import net.dpml.tools.model.Module;
 import net.dpml.tools.model.Resource;
 import net.dpml.tools.model.Project;
+import net.dpml.tools.model.Library;
 import net.dpml.tools.info.Scope;
 
 import net.dpml.transit.monitor.LoggingAdapter;
@@ -34,7 +35,7 @@ import net.dpml.transit.monitor.LoggingAdapter;
  */
 public class DefaultLibraryTestCase extends AbstractTestCase
 {   
-    private DefaultLibrary m_library;
+    private Library m_library;
     
     public void setUp() throws Exception
     {
@@ -42,7 +43,7 @@ public class DefaultLibraryTestCase extends AbstractTestCase
         File test = new File( testPath );
         File example = new File( test, "dpml.xml" );
         LoggingAdapter logger = new LoggingAdapter( "library" );
-        m_library = new DefaultLibrary( logger, example );
+        m_library = DefaultLibrary.load( logger, example );
     }
     
     public void testRootModules() throws Exception
@@ -64,10 +65,10 @@ public class DefaultLibraryTestCase extends AbstractTestCase
         }
     }
     
-    public void testAllProjectsForProject() throws Exception
+    public void testAncestorChain() throws Exception
     {
         Project project = m_library.getProject( "dpml/runtime/dpml-state-impl" );
-        Project[] projects = m_library.getAllProjects( project );
+        Project[] projects = m_library.getProjectChain( project, true );
         System.out.println( "# relative project count: " + projects.length );
         for( int i=0; i<projects.length; i++ )
         {
@@ -78,7 +79,7 @@ public class DefaultLibraryTestCase extends AbstractTestCase
     public void testRuntimeClasspathForProject() throws Exception
     {
         Project project = m_library.getProject( "dpml/runtime/dpml-state-impl" );
-        Resource[] resources = m_library.getClasspath( project, Scope.RUNTIME );
+        Resource[] resources = project.getResourceClassPath( Scope.RUNTIME );
         System.out.println( "# runtime classpath count: " + resources.length );
         for( int i=0; i<resources.length; i++ )
         {
@@ -89,7 +90,7 @@ public class DefaultLibraryTestCase extends AbstractTestCase
     public void testTestClasspathForProject() throws Exception
     {
         Project project = m_library.getProject( "dpml/runtime/dpml-state-impl" );
-        Resource[] resources = m_library.getClasspath( project, Scope.TEST );
+        Resource[] resources = project.getResourceClassPath( Scope.TEST );
         System.out.println( "# test classpath count: " + resources.length );
         for( int i=0; i<resources.length; i++ )
         {
@@ -122,7 +123,7 @@ public class DefaultLibraryTestCase extends AbstractTestCase
     {
         System.out.println( pad + tag + resource.getName() );
         String p = pad + "  ";
-        Resource[] resources = resource.getDependencies();
+        Resource[] resources = resource.getProviders();
         for( int i=0; i<resources.length; i++ )
         {
             listResource( p, resources[i], "dependency: " );
@@ -133,7 +134,7 @@ public class DefaultLibraryTestCase extends AbstractTestCase
     {
         System.out.println( pad + project.getName() );
         String p = pad + "  ";
-        Resource[] resources = project.getDependencies( Scope.TEST );
+        Resource[] resources = project.getProviders( Scope.TEST );
         for( int i=0; i<resources.length; i++ )
         {
             listResource( p, resources[i], "dependency: " );

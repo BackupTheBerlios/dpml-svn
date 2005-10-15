@@ -18,23 +18,21 @@
 
 package net.dpml.tools.model;
 
-import java.rmi.Remote;
-import java.rmi.RemoteException;
-
 /**
- * The Resource interface describes infomation about a published resource.
+ * A IllegalAddressRuntimeException is thrown when a resource or project 
+ * address is badly formed.
  *
  * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
  */
-public interface Resource extends Remote
+public final class IllegalAddressRuntimeException extends ModelRuntimeException
 {
-    String getName() throws RemoteException;
+    public IllegalAddressRuntimeException( String message )
+    {
+        this( message, null );
+    }
     
-    String getVersion() throws RemoteException;
-    
-    String[] getTypes() throws RemoteException;
-    
-    Resource[] getProviders() throws RemoteException, ModuleNotFoundException, ResourceNotFoundException;
-
-    Project getProject() throws RemoteException;
+    public IllegalAddressRuntimeException( String message, Throwable cause )
+    {
+        super( message, cause );
+    }
 }

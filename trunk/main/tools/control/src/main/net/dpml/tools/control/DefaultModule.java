@@ -25,6 +25,7 @@ import java.net.URI;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Hashtable;
 
 import net.dpml.tools.info.ModuleDirective;
@@ -56,11 +57,13 @@ public final class DefaultModule extends UnicastRemoteObject implements Module
 {
     private final DefaultModule m_parent;
     private final ModuleDirective m_directive;
+    private final DefaultLibrary m_library;
     
     private final Hashtable m_modules = new Hashtable();
     private final Hashtable m_resources = new Hashtable();
     private final Hashtable m_projects = new Hashtable();
     private final String m_path;
+    private final File m_base;
     
     private DefaultModule[] m_imports;
     
@@ -75,15 +78,34 @@ public final class DefaultModule extends UnicastRemoteObject implements Module
         
         m_directive = directive;
         m_parent = parent;
+        m_library = library;
         
         if( null == m_parent )
         {
             m_path = m_directive.getName();
+            String base = directive.getBasedir();
+            if( null == base )
+            {
+                m_base = library.getRootDirectory();
+            }
+            else
+            {
+                m_base = new File( library.getRootDirectory(), base );
+            }
         }
         else
         {
             String path = m_parent.getPath();
             m_path = path + "/" + getName();
+            String base = directive.getBasedir();
+            if( null == base )
+            {
+                m_base = parent.getBase();
+            }
+            else
+            {
+                m_base = new File( parent.getBase(), base );
+            }
         }
         
         ModuleDirective[] moduleDirectives = directive.getModuleDirectives();
@@ -117,6 +139,7 @@ public final class DefaultModule extends UnicastRemoteObject implements Module
     void init( DefaultLibrary library ) throws Exception
     {
         IncludeDirective[] includes = m_directive.getIncludeDirectives();
+        DefaultModule[] modules = new DefaultModule[ includes.length ];
         for( int i=0; i<includes.length; i++ )
         {
             IncludeDirective include = includes[i];
@@ -124,13 +147,13 @@ public final class DefaultModule extends UnicastRemoteObject implements Module
             if( "file".equals( includeType ) )
             {
                 String path = include.getValue();
-                library.installLocalModule( path );
+                modules[i] = library.installLocalModule( path );
             }
             else if( "uri".equals( includeType ) )
             {
                 String path = include.getValue();
                 URI uri = new URI( path );
-                library.installModule( uri );
+                modules[i] = library.installModule( uri );
             }
             else
             {
@@ -139,13 +162,13 @@ public final class DefaultModule extends UnicastRemoteObject implements Module
                 throw new IllegalArgumentException( error );
             }
         }
-        DefaultModule[] modules = (DefaultModule[]) m_modules.values().toArray( new DefaultModule[0] );
-        for( int i=0; i<modules.length; i++ )
-        {
-            DefaultModule module = modules[i];
-            module.init( library );
-        }
         m_imports = modules;
+        DefaultModule[] local = getLocalModules();
+        for( int i=0; i<local.length; i++ )
+        {
+            DefaultModule m = local[i];
+            m.init( library );
+        }
     }
     
     public String getName()
@@ -156,6 +179,11 @@ public final class DefaultModule extends UnicastRemoteObject implements Module
     public String getPath()
     {
         return m_path;
+    }
+    
+    public File getBase()
+    {
+        return m_base;
     }
     
     public Module getParent()
@@ -203,6 +231,19 @@ public final class DefaultModule extends UnicastRemoteObject implements Module
         return resolveLocalResource( key );
     }
     
+   /**
+    * Return an array of all projects within this module group.
+    * @param module the target module
+    * @return the sorted project array
+    */
+    public Project[] getSubsidiaryProjects()
+      throws ResourceNotFoundException, ModuleNotFoundException
+    {
+        ArrayList list = new ArrayList();
+        aggregateProjects( list );
+        DefaultProject[] projects = (DefaultProject[]) list.toArray( new DefaultProject[0] );
+        return m_library.sortProjects( projects, true );
+    }
     
     public String toString()
     {
@@ -264,11 +305,26 @@ public final class DefaultModule extends UnicastRemoteObject implements Module
         DefaultProject project = (DefaultProject) m_projects.get( key );
         if( null == project )
         {
-            throw new ProjectNotFoundException( key );
+            throw new ProjectNotFoundException( this, key );
         }
         else
         {
             return project;
+        }
+    }
+
+    void aggregateProjects( List list )
+    {
+        DefaultProject[] projects = getLocalProjects();
+        for( int i=0; i<projects.length; i++ )
+        {
+            list.add( projects[i] );
+        }
+        DefaultModule[] modules = getLocalModules();
+        for( int i=0; i<modules.length; i++ )
+        {
+            DefaultModule module = modules[i];
+            module.aggregateProjects( list );
         }
     }
 }

@@ -19,6 +19,7 @@
 package net.dpml.tools.control;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.io.IOException;
 import java.net.URI;
@@ -34,6 +35,7 @@ import net.dpml.tools.info.Scope;
 import net.dpml.tools.model.Module;
 import net.dpml.tools.model.Project;
 import net.dpml.tools.model.Resource;
+import net.dpml.tools.model.IllegalAddressRuntimeException;
 import net.dpml.tools.model.ModelRuntimeException;
 import net.dpml.tools.model.ModuleNotFoundException;
 import net.dpml.tools.model.ProjectNotFoundException;
@@ -59,7 +61,17 @@ public final class DefaultLibrary extends UnicastRemoteObject implements Library
     private final File m_root;
     private final Logger m_logger;
     
-    public DefaultLibrary( Logger logger, File source ) throws RemoteException, Exception
+    public static Library load( final Logger logger, final File source ) throws RemoteException, Exception
+    {
+        return new DefaultLibrary( logger, source );
+    }
+        
+    public DefaultLibrary( Logger logger ) throws RemoteException, Exception
+    {
+        this( logger, resolveLibrarySource() );
+    }
+    
+    DefaultLibrary( Logger logger, File source ) throws RemoteException, Exception
     {
         super();
         
@@ -76,10 +88,7 @@ public final class DefaultLibrary extends UnicastRemoteObject implements Library
         m_root = source.getParentFile();
         getLogger().debug( "loading root module: " + source );
         ModuleDirective directive= ModuleDirectiveBuilder.build( source );
-        DefaultModule module = new DefaultModule( this, directive );
-        String path = module.getPath();
-        m_modules.put( path, module );
-        module.init( this );
+        install( directive );
     }
     
    /**
@@ -89,17 +98,7 @@ public final class DefaultLibrary extends UnicastRemoteObject implements Library
     public Project[] getAllProjects()
       throws ResourceNotFoundException, ModuleNotFoundException
     {
-        ArrayList list = new ArrayList();
-        DefaultModule[] modules = getLocalModules();
-        for( int i=0; i<modules.length; i++ )
-        {
-            aggregateProjects( list, modules[i] );
-        }
-        
-        // TODO: sort projects
-        
-        DefaultProject[] projects = (DefaultProject[]) list.toArray( new DefaultProject[0] );
-        return sortProjects( projects );
+        return getAllRegisteredProjects( true );
     }
     
    /**
@@ -108,15 +107,15 @@ public final class DefaultLibrary extends UnicastRemoteObject implements Library
     * @param project the target project
     * @return the sorted project array
     */
-    public Project[] getAllProjects( Project project )
+    public Project[] getProjectChain( Project project, boolean ancestors )
       throws ResourceNotFoundException, ModuleNotFoundException
     {
         DefaultProject p = (DefaultProject) project;
-        return sortProjects( new DefaultProject[]{ p } );
+        return sortProjects( new DefaultProject[]{ p }, ancestors );
     }
     
    /**
-    * Return an array of modules registered with the library.
+    * Return an array of top-level modules registered with the library.
     * @return the module array
     */
     public Module[] getModules()
@@ -143,20 +142,6 @@ public final class DefaultLibrary extends UnicastRemoteObject implements Library
     public Project getProject( String path ) throws ModuleNotFoundException, ProjectNotFoundException
     {
         return getLocalProject( path );
-    }
-    
-   /**
-    * Return an array of resources referencing jar artifact types that make up
-    * the logical classpath for the target project.
-    * @param project the target project
-    * @param scope the classpath scope
-    * @return the classpath resource array
-    */
-    public Resource[] getClasspath( Project project, Scope scope )
-      throws ModuleNotFoundException, ResourceNotFoundException
-    {
-        DefaultProject p = (DefaultProject) project;
-        return getLocalClasspath( p, scope );
     }
     
     DefaultModule getLocalModule( String path ) throws ModuleNotFoundException
@@ -194,7 +179,7 @@ public final class DefaultLibrary extends UnicastRemoteObject implements Library
         {
             final String error =
               "Project address does not include a module name [" + path + "].";
-            throw new IllegalArgumentException( error );
+            throw new IllegalAddressRuntimeException( error );
         }
     }
     
@@ -254,55 +239,73 @@ public final class DefaultLibrary extends UnicastRemoteObject implements Library
         }
     }
     
-    void installModule( URI uri ) throws Exception
+    DefaultModule installModule( URI uri ) throws Exception
     {
         if( Artifact.isRecognized( uri ) )
         {
             URL url = Artifact.createArtifact( uri ).toURL();
             InputStream input = url.openStream();
             ModuleDirective directive = ModuleDirectiveBuilder.build( input );
-            install( directive );
+            return install( directive );
+        }
+        else
+        {
+            final String error = 
+              "URI type not supported: " + uri;
+            throw new UnsupportedOperationException( error );
         }
     }
     
-    void installLocalModule( String path ) throws Exception
+    DefaultModule installLocalModule( String path ) throws Exception
     {
         File file = new File( m_root, path );
         getLogger().debug( "loading local module: " + file );
         ModuleDirective directive= ModuleDirectiveBuilder.build( file );
-        install( directive );
+        return install( directive );
     }
     
-    void install( ModuleDirective directive ) throws Exception
+    DefaultModule install( ModuleDirective directive ) throws Exception
     {
         String name = directive.getName();
-        DefaultModule module = new DefaultModule( this, null, directive );
         if( !m_modules.containsKey( name ) )
         {
+            DefaultModule module = new DefaultModule( this, null, directive );
             m_modules.put( name, module );
             module.init( this );
+            return module;
+        }
+        else
+        {
+            return getLocalModule( name );
         }
     }
-
+    
+    File getRootDirectory()
+    {
+        return m_root;
+    }
+    
     private Logger getLogger()
     {
         return m_logger;
     }
 
-    private Project[] sortProjects( DefaultProject[] projects )
+    DefaultProject[] sortProjects( DefaultProject[] projects, boolean ancestors )
       throws ResourceNotFoundException, ModuleNotFoundException
     {
+        DefaultProject[] collection = getAllRegisteredProjects( false );
         ArrayList stack = new ArrayList();
         ArrayList visited = new ArrayList();
         for( int i=0; i<projects.length; i++ )
         {
             DefaultProject project = projects[i];
-            processProject( visited, stack, project );
+            processProject( visited, stack, project, ancestors, collection );
         }
         return (DefaultProject[]) stack.toArray( new DefaultProject[0] );
     }
     
-    private void processProject( ArrayList visited, ArrayList stack, DefaultProject project ) 
+    private void processProject( 
+      ArrayList visited, ArrayList stack, DefaultProject project, boolean ancestors, DefaultProject[] collection ) 
       throws ResourceNotFoundException, ModuleNotFoundException
     {
         if( visited.contains( project ) )
@@ -313,20 +316,33 @@ public final class DefaultLibrary extends UnicastRemoteObject implements Library
         {
             visited.add( project );
         }
-        DefaultProject[] projects = getDependentProjects( project );
-        for( int i=0; i<projects.length; i++ )
+        if( ancestors )
         {
-            DefaultProject p = projects[i];
-            processProject( visited, stack, p );
+            DefaultProject[] projects = getAncestorProjects( project );
+            for( int i=0; i<projects.length; i++ )
+            {
+                DefaultProject p = projects[i];
+                processProject( visited, stack, p, ancestors, collection );
+            }
+            stack.add( project );
         }
-        stack.add( project );
+        else
+        {
+            stack.add( project );
+            DefaultProject[] projects = project.getConsumerProjects( collection );
+            for( int i=0; i<projects.length; i++ )
+            {
+                DefaultProject p = projects[i];
+                processProject( visited, stack, p, ancestors, collection );
+            }
+        }
     }
     
-    private DefaultProject[] getDependentProjects( DefaultProject project ) 
+    private DefaultProject[] getAncestorProjects( DefaultProject project ) 
       throws ResourceNotFoundException, ModuleNotFoundException
     {
         ArrayList list = new ArrayList();
-        DefaultResource[] resources = project.getLocalDependencies( Scope.TEST );
+        DefaultResource[] resources = project.getProviderResources( Scope.TEST );
         for( int i=0; i<resources.length; i++ )
         {
             DefaultResource resource = resources[i];
@@ -334,6 +350,30 @@ public final class DefaultLibrary extends UnicastRemoteObject implements Library
             if( null != p )
             {
                 list.add( p );
+            }
+        }
+        return (DefaultProject[]) list.toArray( new DefaultProject[0] );
+    }
+    
+    DefaultProject[] getDecendentProjects( DefaultProject project, DefaultProject[] collection ) 
+      throws ResourceNotFoundException, ModuleNotFoundException
+    {
+        DefaultResource resource = project.toLocalResource();
+        ArrayList list = new ArrayList();
+        for( int i=0; i<collection.length; i++ )
+        {
+            DefaultProject p = collection[i];
+            DefaultResource[] resources = p.getProviderResources( Scope.TEST );
+            for( int j=0; j<resources.length; j++ )
+            {
+                DefaultResource r = resources[j];
+                if( resource.equals( r ) )
+                {
+                    if( !list.contains( p ) )
+                    {
+                        list.add( p );
+                    }
+                }
             }
         }
         return (DefaultProject[]) list.toArray( new DefaultProject[0] );
@@ -353,42 +393,63 @@ public final class DefaultLibrary extends UnicastRemoteObject implements Library
         }
     }
     
-    private DefaultResource[] getLocalClasspath( DefaultProject project, Scope scope )
-      throws ModuleNotFoundException, ResourceNotFoundException
+   /**
+    * Return a sorted array of all projects within the library.
+    * @return the sorted project array
+    */
+    DefaultProject[] getAllRegisteredProjects( boolean sorted )
+      throws ResourceNotFoundException, ModuleNotFoundException
     {
-        ArrayList stack = new ArrayList();
-        ArrayList visited = new ArrayList();
-        DefaultResource[] resources = project.getLocalDependencies( scope, "jar" );
-        for( int i=0; i<resources.length; i++ )
+        ArrayList list = new ArrayList();
+        DefaultModule[] modules = getLocalModules();
+        for( int i=0; i<modules.length; i++ )
         {
-            DefaultResource resource = resources[i];
-            processClasspath( visited, stack, resource );
+            aggregateProjects( list, modules[i] );
         }
-        if( scope.equals( Scope.TEST ) )
+        DefaultProject[] projects = (DefaultProject[]) list.toArray( new DefaultProject[0] );
+        if( sorted )
         {
-            stack.add( project.toLocalResource() );
-        }
-        return (DefaultResource[]) stack.toArray( new DefaultResource[0] );
-    }
-    
-    private void processClasspath( ArrayList visited, ArrayList stack, DefaultResource resource )
-      throws ModuleNotFoundException, ResourceNotFoundException
-    {
-        if( visited.contains( resource ) )
-        {
-            return;
+            return sortProjects( projects, true );
         }
         else
         {
-            visited.add( resource );
+            return projects;
         }
-        DefaultResource[] resources = resource.getLocalDependencies( "jar" );
-        for( int i=0; i<resources.length; i++ )
-        {
-            DefaultResource r = resources[i];
-            processClasspath( visited, stack, r );
-        }
-        stack.add( resource );
+    }
+
+    //----------------------------------------------------------------------------
+    // static utilities
+    //----------------------------------------------------------------------------
+    
+    private static File resolveLibrarySource() throws FileNotFoundException
+    {
+        String path = System.getProperty( "user.dir" );
+        File dir = new File( path );
+        return resolveLibrarySource( dir );
     }
     
+    private static File resolveLibrarySource( File dir ) throws FileNotFoundException
+    {
+        if( dir.isFile() )
+        {
+            throw new IllegalArgumentException( "not-a-directory" );
+        }
+        else
+        {
+            File file = new File( dir, "library.xml" );
+            if( file.isFile() && file.exists() )
+            {
+                return file;
+            }
+            else
+            {
+                File parent = dir.getParentFile();
+                if( parent != null )
+                {
+                    return resolveLibrarySource( parent );
+                }
+            }
+        }
+        throw new FileNotFoundException( "library.xml" );
+    }
 }

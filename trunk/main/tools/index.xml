@@ -1,8 +1,22 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 
-<index>
+<index key="dpml-tools">
 
   <import uri="${dpml.transit.uri}"/>
+  <import uri="${dpml.magic.uri}"/>
+
+  <project file="module.xml">
+    <info>
+      <group>dpml/tools</group>
+      <name>dpml-tools</name>
+      <types>
+        <type name="module" alias=""/>
+      </types>
+    </info>
+    <dependencies>
+      <include key="dpml-transit"/>
+    </dependencies>
+  </project>
 
   <project basedir="info">
     <info>
@@ -42,6 +56,26 @@
     <dependencies>
       <include key="dpml-tools-model"/>
       <include key="ant-junit" runtime="false"/>
+    </dependencies>
+  </project>
+
+  <project basedir="build">
+    <info>
+      <group>dpml/tools</group>
+      <name>dpml-tools-build</name>
+      <types>
+        <type name="jar"/>
+        <type name="plugin"/>
+      </types>
+    </info>
+    <dependencies>
+      <include key="dpml-transit-main"/>
+      <include key="dpml-transit-tools"/>
+      <include key="ant" tag="system"/>
+      <include key="ant-launcher" tag="system"/>
+      <include key="ant-junit" tag="system"/>
+      <include key="junit" tag="system"/>
+      <include key="dpml-tools-control"/>
     </dependencies>
   </project>
 

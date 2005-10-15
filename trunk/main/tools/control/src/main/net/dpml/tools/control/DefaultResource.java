@@ -129,9 +129,9 @@ public final class DefaultResource extends UnicastRemoteObject implements Resour
         return m_types;
     }
     
-    public Resource[] getDependencies() throws ModuleNotFoundException, ResourceNotFoundException
+    public Resource[] getProviders() throws ModuleNotFoundException, ResourceNotFoundException
     {
-        return getLocalDependencies();
+        return getProviderResources();
     }
     
     public String toString()
@@ -139,7 +139,7 @@ public final class DefaultResource extends UnicastRemoteObject implements Resour
         return "resource:" + getPath();
     }
     
-    DefaultResource[] getLocalDependencies() throws ModuleNotFoundException, ResourceNotFoundException
+    DefaultResource[] getProviderResources() throws ModuleNotFoundException, ResourceNotFoundException
     {
         try
         {
@@ -161,11 +161,11 @@ public final class DefaultResource extends UnicastRemoteObject implements Resour
         }
     }
     
-    DefaultResource[] getLocalDependencies( String type )
+    DefaultResource[] getProviderResources( String type )
      throws ResourceNotFoundException, ModuleNotFoundException
     {
         ArrayList list = new ArrayList();
-        DefaultResource[] resources = getLocalDependencies();
+        DefaultResource[] resources = getProviderResources();
         for( int i=0; i<resources.length; i++ )
         {
             DefaultResource resource = resources[i];

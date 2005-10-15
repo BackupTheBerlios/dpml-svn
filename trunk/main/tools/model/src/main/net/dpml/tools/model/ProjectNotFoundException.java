@@ -26,13 +26,16 @@ package net.dpml.tools.model;
  */
 public final class ProjectNotFoundException extends Exception
 {
-    public ProjectNotFoundException( String message )
+    private Module m_module;
+    
+    public ProjectNotFoundException( Module module, String message )
     {
-        this( message, null );
+        super( message, null );
+        m_module = module;
     }
     
-    public ProjectNotFoundException( String message, Throwable cause )
+    public Module getModule()
     {
-        super( message, cause );
+        return m_module;
     }
 }

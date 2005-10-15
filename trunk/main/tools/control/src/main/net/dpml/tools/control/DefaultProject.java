@@ -59,6 +59,7 @@ public final class DefaultProject extends UnicastRemoteObject implements Project
     private final String[] m_types;
     private final String m_path;
     private final DefaultResource m_resource;
+    private final File m_base;
     
     DefaultProject( DefaultLibrary library, DefaultModule parent, ProjectDirective directive ) throws RemoteException
     {
@@ -71,11 +72,29 @@ public final class DefaultProject extends UnicastRemoteObject implements Project
         if( null == m_parent )
         {
             m_path = m_directive.getName();
+            String base = directive.getBasedir();
+            if( null == base )
+            {
+                m_base = library.getRootDirectory();
+            }
+            else
+            {
+                m_base = new File( library.getRootDirectory(), base );
+            }
         }
         else
         {
             String path = m_parent.getPath();
             m_path = path + "/" + getName();
+            String base = directive.getBasedir();
+            if( null == base )
+            {
+                m_base = parent.getBase();
+            }
+            else
+            {
+                m_base = new File( parent.getBase(), base );
+            }
         }
         
         ArtifactDirective[] artifacts = m_directive.getArtifactDirectives();
@@ -94,6 +113,11 @@ public final class DefaultProject extends UnicastRemoteObject implements Project
         return m_directive.getName();
     }
         
+    public File getBase()
+    {
+        return m_base;
+    }
+    
     public String getPath()
     {
         return m_path;
@@ -104,9 +128,9 @@ public final class DefaultProject extends UnicastRemoteObject implements Project
         return m_types;
     }
     
-    public Resource[] getDependencies( Scope scope ) throws ResourceNotFoundException, ModuleNotFoundException
+    public Resource[] getProviders( Scope scope ) throws ResourceNotFoundException, ModuleNotFoundException
     {
-        return getLocalDependencies( scope );
+        return getProviderResources( scope );
     }
     
     public Resource toResource()
@@ -114,7 +138,108 @@ public final class DefaultProject extends UnicastRemoteObject implements Project
         return toLocalResource();
     }
     
-    public IncludeDirective[] getIncludeDirectives( Scope scope )
+    public Resource[] getResourceClassPath( Scope scope )
+      throws ModuleNotFoundException, ResourceNotFoundException
+    {
+        return getLocalClasspath( scope );
+    }
+    
+   /**
+    * Return the set projects that are direct consumers of this project.
+    * @return the sorted array of consumer projects
+    */
+    public Project[] getConsumers() 
+      throws ResourceNotFoundException, ModuleNotFoundException
+    {
+        return getConsumerProjects();
+    }
+    
+   /**
+    * Return the set projects that are consumers of this project.
+    * @param depth the search depth
+    * @return the sorted array of consumer projects
+    */
+    public Project[] getAllConsumers() 
+      throws ResourceNotFoundException, ModuleNotFoundException
+    {
+        return getAllConsumerProjects();
+    }
+    
+   /**
+    * Return the set of immediate consumers of this project.
+    * @param collection an unsorted collection of all registered projects
+    */
+    DefaultProject[] getConsumerProjects() 
+      throws ResourceNotFoundException, ModuleNotFoundException
+    {
+        DefaultProject[] collection = m_library.getAllRegisteredProjects( false );
+        return getConsumerProjects( collection );
+    }
+    
+    DefaultProject[] getAllConsumerProjects() 
+      throws ResourceNotFoundException, ModuleNotFoundException
+    {
+        ArrayList list = new ArrayList();
+        ArrayList visited = new ArrayList();
+        DefaultProject[] projects = m_library.getAllRegisteredProjects( false );
+        DefaultProject[] consumers = getConsumerProjects( projects );
+        for( int i=0; i<consumers.length; i++ )
+        {
+            DefaultProject consumer = consumers[i];
+            processConsumerProject( list, visited, consumer, projects );
+        }
+        return (DefaultProject[]) list.toArray( new DefaultProject[0] );
+    }
+    
+    void processConsumerProject( ArrayList list, ArrayList visited, DefaultProject project, DefaultProject[] collection ) 
+      throws ResourceNotFoundException, ModuleNotFoundException
+    {
+        if( visited.contains( project ) )
+        {
+            return;
+        }
+        else
+        {
+            list.add( project );
+            visited.add( project );
+            DefaultProject[] consumers = project.getConsumerProjects( collection );
+            for( int i=0; i<consumers.length; i++ )
+            {
+                DefaultProject consumer = consumers[i];
+                processConsumerProject( list, visited, consumer, collection );
+            }
+        }
+    }
+    
+   /**
+    * Return the set of immediate consumers of this project.
+    * @param collection an unsorted collection of all registered projects
+    */
+    DefaultProject[] getConsumerProjects( DefaultProject[] collection ) 
+      throws ResourceNotFoundException, ModuleNotFoundException
+    {
+        DefaultResource resource = toLocalResource();
+        ArrayList list = new ArrayList();
+        for( int i=0; i<collection.length; i++ )
+        {
+            DefaultProject p = collection[i];
+            DefaultResource[] resources = p.getProviderResources( Scope.TEST );
+            for( int j=0; j<resources.length; j++ )
+            {
+                DefaultResource r = resources[j];
+                if( resource.equals( r ) )
+                {
+                    if( !list.contains( p ) )
+                    {
+                        list.add( p );
+                    }
+                }
+            }
+        }
+        return (DefaultProject[]) list.toArray( new DefaultProject[0] );
+    }
+    
+    IncludeDirective[] getIncludeDirectives( Scope scope )
     {
         if( scope == Scope.RUNTIME )
         {
@@ -158,17 +283,17 @@ public final class DefaultProject extends UnicastRemoteObject implements Project
         return "project:" + getPath();
     }
     
-    DefaultResource[] getLocalDependencies( Scope scope ) throws ResourceNotFoundException, ModuleNotFoundException
+    DefaultResource[] getProviderResources( Scope scope ) throws ResourceNotFoundException, ModuleNotFoundException
     {
         IncludeDirective[] includes = getIncludeDirectives( scope );
         return m_library.resolveResourceDependencies( m_parent, includes );
     }
     
-    DefaultResource[] getLocalDependencies( Scope scope, String type ) 
+    DefaultResource[] getProviderResources( Scope scope, String type ) 
      throws ResourceNotFoundException, ModuleNotFoundException
     {
         ArrayList list = new ArrayList();
-        DefaultResource[] resources = getLocalDependencies( scope );
+        DefaultResource[] resources = getProviderResources( scope );
         for( int i=0; i<resources.length; i++ )
         {
             DefaultResource resource = resources[i];
@@ -184,4 +309,43 @@ public final class DefaultProject extends UnicastRemoteObject implements Project
     {
         return m_resource;
     }
+
+    private DefaultResource[] getLocalClasspath( Scope scope )
+      throws ModuleNotFoundException, ResourceNotFoundException
+    {
+        ArrayList stack = new ArrayList();
+        ArrayList visited = new ArrayList();
+        DefaultResource[] resources = getProviderResources( scope, "jar" );
+        for( int i=0; i<resources.length; i++ )
+        {
+            DefaultResource resource = resources[i];
+            processClasspath( visited, stack, resource );
+        }
+        if( scope.equals( Scope.TEST ) )
+        {
+            stack.add( toLocalResource() );
+        }
+        return (DefaultResource[]) stack.toArray( new DefaultResource[0] );
+    }
+    
+    private void processClasspath( ArrayList visited, ArrayList stack, DefaultResource resource )
+      throws ModuleNotFoundException, ResourceNotFoundException
+    {
+        if( visited.contains( resource ) )
+        {
+            return;
+        }
+        else
+        {
+            visited.add( resource );
+        }
+        DefaultResource[] resources = resource.getProviderResources( "jar" );
+        for( int i=0; i<resources.length; i++ )
+        {
+            DefaultResource r = resources[i];
+            processClasspath( visited, stack, r );
+        }
+        stack.add( resource );
+    }
+
 }
