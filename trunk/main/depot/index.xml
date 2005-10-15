@@ -5,6 +5,7 @@
   <import uri="${dpml.transit.uri}"/>
   <import uri="${dpml.magic.uri}"/>
   <import uri="${dpml.metro.uri}"/>
+  <import uri="${dpml.tools.uri}"/>
 
   <!--
   Depot Modules
@@ -122,35 +123,6 @@
     </dependencies>
   </project>
 
-  <project basedir="build">
-    <info>
-      <group>dpml/depot</group>
-      <name>dpml-depot-build</name>
-      <types>
-        <type name="jar"/>
-        <type name="plugin"/>
-      </types>
-    </info>
-    <dependencies>
-      <include key="dpml-transit-main"/>
-      <include key="dpml-depot-console"/>
-      <include key="dpml-transit-tools"/>
-
-      <include key="ant" tag="system"/>
-      <include key="ant-launcher" tag="system"/>
-      <include key="ant-junit" tag="system"/>
-      <include key="junit" tag="system"/>
-      <!--
-      -->
-      <!--
-      <include key="ant"/>
-      <include key="ant-launcher"/>
-      <include key="ant-junit"/>
-      <include key="junit"/>
-      -->
-    </dependencies>
-  </project>
-
   <project basedir="station/api">
     <info>
       <group>dpml/depot</group>
@@ -218,13 +190,5 @@
       <include key="dpml-station-api" tag="spi"/>
     </dependencies>
   </project>
-
-  <resource>
-    <info>
-      <group>ant</group>
-      <name>ant-launcher</name>
-      <version>1.6.5</version>
-    </info>
-  </resource>
 
 </index>

@@ -15,4 +15,8 @@
     </rmic>
   </target>
 
+  <target name="package" depends="standard.package">
+    <x:export class="net.dpml.tools.control.BuildPlugin"/>
+  </target>
+
 </project>

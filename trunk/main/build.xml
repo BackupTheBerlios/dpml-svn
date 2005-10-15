@@ -69,7 +69,7 @@
       <fileset dir=".">
         <include name="**/target/test-reports/TEST-*.xml"/>
       </fileset>
-    <report format="frames" todir="${junitHtmlReportDir}"/>
+      <report format="frames" todir="${junitHtmlReportDir}" styledir="magic/core/etc/xsls"/>
     </junitreport>
   </target>
 

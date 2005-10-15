@@ -48,7 +48,7 @@
       <fileset dir=".">
         <include name="**/target/test-reports/TEST-*.xml"/>
       </fileset>
-      <report format="frames" todir="target/reports/junit"/>
+      <report format="frames" todir="target/reports/junit" styledir="${dpml.prefs}/magic/xsls"/>
     </junitreport>
   </target>
 

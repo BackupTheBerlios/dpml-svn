@@ -93,6 +93,20 @@
       </dependencies>
     </resource>
 
+    <resource>
+      <info>
+        <group>ant</group>
+        <name>ant-launcher</name>
+        <version>@COMMON-ANT-VERSION@</version>
+        <types>
+          <type name="jar"/>
+        </types>
+      </info>
+      <dependencies>
+        <include key="ant" />
+      </dependencies>
+    </resource>
+
   </resources>
 
 </module>

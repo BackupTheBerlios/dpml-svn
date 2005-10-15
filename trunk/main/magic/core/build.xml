@@ -80,6 +80,11 @@
     <copy toDir="${templates}">
       <fileset dir="target/templates"/>
     </copy>
+    <property name="xsls" value="${dpml.prefs}/magic/xsls"/>
+    <mkdir dir="${xsls}"/>
+    <copy toDir="${xsls}">
+      <fileset dir="target/xsls"/>
+    </copy>
   </target>
 
 </project>

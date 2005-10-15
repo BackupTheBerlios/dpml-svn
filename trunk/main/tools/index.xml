@@ -51,6 +51,7 @@
       <name>dpml-tools-control</name>
       <types>
         <type name="jar"/>
+        <type name="plugin"/>
       </types>
     </info>
     <dependencies>
@@ -59,10 +60,10 @@
     </dependencies>
   </project>
 
-  <project basedir="build">
+  <project basedir="ant">
     <info>
       <group>dpml/tools</group>
-      <name>dpml-tools-build</name>
+      <name>dpml-tools-ant</name>
       <types>
         <type name="jar"/>
         <type name="plugin"/>
