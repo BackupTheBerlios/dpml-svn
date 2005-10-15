@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package net.dpml.ant;
+package net.dpml.tools.ant;
 
 import java.io.File;
 import java.io.InputStream;
@@ -24,12 +24,12 @@ import java.io.PrintStream;
 import java.net.URI;
 import java.util.Vector;
 
-import net.dpml.depot.Main;
-
 import net.dpml.transit.Logger;
 import net.dpml.transit.Transit;
-import net.dpml.transit.model.TransitModel;
 import net.dpml.transit.Environment;
+import net.dpml.transit.model.TransitModel;
+import net.dpml.transit.util.ExceptionHelper;
+import net.dpml.transit.util.CLIHelper;
 
 import net.dpml.transit.tools.TransitComponentHelper;
 import net.dpml.transit.tools.MainTask;
@@ -94,21 +94,21 @@ public class AntPlugin
         m_model = model;
         m_logger = logger;
         
-        if( Main.isOptionPresent( args, "-file" ) )
+        if( CLIHelper.isOptionPresent( args, "-file" ) )
         {
-            String path = Main.getOption( args, "-file" );
+            String path = CLIHelper.getOption( args, "-file" );
             m_file = new File( path );
-            m_targets = Main.consolidate( m_targets, "-file", 1 );
+            m_targets = CLIHelper.consolidate( m_targets, "-file", 1 );
         }
-        if( Main.isOptionPresent( args, "-verbose" ) )
+        if( CLIHelper.isOptionPresent( args, "-verbose" ) )
         {
             m_verbose = true;
-            m_targets = Main.consolidate( m_targets, "-verbose" );
+            m_targets = CLIHelper.consolidate( m_targets, "-verbose" );
         }
-        if( Main.isOptionPresent( args, "-v" ))
+        if( CLIHelper.isOptionPresent( args, "-v" ))
         {
             m_verbose = true;
-            m_targets = Main.consolidate( m_targets, "-v" );
+            m_targets = CLIHelper.consolidate( m_targets, "-v" );
         }
         execute();
     }
@@ -171,17 +171,16 @@ public class AntPlugin
             {
                 if( error instanceof BuildException )
                 {
-                    Throwable cause = error.getCause();
-                    m_logger.error( "Build failure.", cause );
+                    if( m_logger.isDebugEnabled() )
+                    {
+                        Throwable cause = error.getCause();
+                        m_logger.error( "Build failure.", cause );
+                    }
                 }
                 else
                 {
                     m_logger.error( "Build failure.", error );
                 }
-            }
-            else
-            {
-                m_logger.info( "done" );
             }
             project.fireBuildFinished( error );
         }

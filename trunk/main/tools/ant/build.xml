@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
-<project name="dpml-depot-build" default="install" basedir="."
+<project name="dpml-tools-build" default="install" basedir="."
     xmlns:transit="antlib:net.dpml.transit" xmlns:x="plugin:dpml/magic/dpml-magic-core" >
 
   <transit:import uri="local:template:magic/standard"/>
 
   <target name="package" depends="standard.package">
-    <x:export class="net.dpml.ant.AntPlugin"/>
+    <x:export class="net.dpml.tools.ant.AntPlugin"/>
   </target>
 
 </project>
