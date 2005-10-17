@@ -302,7 +302,16 @@ public final class Transit
     {
         return getTransitContext().getLinkManager();
     }
-
+    
+   /**
+    * Return the cache layout.
+    * @return the layout
+    */
+    public Layout getCacheLayout()
+    {
+        return getTransitContext().getCacheLayout();
+    }
+    
    /**
     * Return the Transit repository service.
     * @return the repository service

@@ -199,15 +199,9 @@ public class Handler extends URLStreamHandler
             if( path == null )
             {
                 path = specPath;
-                if( !path.endsWith( "/" ) )
+                if( !path.endsWith( "/" ) && ( path.indexOf( "!" ) < 0 ) )
                 {
-                    // SJM
-                    // only add a "/" if we don't have an internal address
-
-                    if( path.indexOf( "!" ) < 0 )
-                    {
-                        path = path + "/";
-                    }
+                    path = path + "/";
                 }
             }
             else

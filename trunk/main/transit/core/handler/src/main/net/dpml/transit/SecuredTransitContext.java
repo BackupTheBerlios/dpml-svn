@@ -206,6 +206,15 @@ public final class SecuredTransitContext
     //------------------------------------------------------------------
 
    /**
+    * Return the cache layout.
+    * @return the layout
+    */
+    public Layout getCacheLayout()
+    {
+        return getCacheHandler().getLayout();
+    }
+    
+   /**
     * Return the Transit repository service.
     * @return the repository service
     */

@@ -367,7 +367,7 @@ class DefaultCacheHandler extends UnicastRemoteObject implements CacheHandler, C
     {
         return m_cacheDir;
     }
-
+    
     // ------------------------------------------------------------------------
     // CacheHandler
     // ------------------------------------------------------------------------
@@ -480,6 +480,24 @@ class DefaultCacheHandler extends UnicastRemoteObject implements CacheHandler, C
             parentDir.mkdirs();
         }
         return new FileOutputStream( destination );
+    }
+    
+   /**
+    * Return the layout used by the cache.
+    * @return the cache layout
+    */
+    public Layout getLayout()
+    {
+        return m_resolver;
+    }
+
+   /**
+    * Return the layout registry.
+    * @return the layout registry.
+    */
+    public LayoutRegistry getLayoutRegistry()
+    {
+        return m_registry;
     }
 
     // ------------------------------------------------------------------------

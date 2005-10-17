@@ -106,4 +106,15 @@ public interface CacheHandler
     OutputStream createOutputStream( Artifact artifact )
         throws NullArgumentException, ArtifactAlreadyExistsException, IOException;
 
+   /**
+    * Return the layout used by the cache.
+    * @return the cache layout
+    */
+    Layout getLayout();
+
+   /**
+    * Return the layout registry.
+    * @return the layout registry.
+    */
+    LayoutRegistry getLayoutRegistry();
 }
