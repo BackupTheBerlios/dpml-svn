@@ -6,4 +6,4 @@
 This product is developed by the members of the Digial Product Meta 
 Library (DPML) http://www.dpml.net.  Resources developed by the DPML 
 includes products and resources developed by the Apache Software 
-Foundation (http://www.apache.org).
+Foundation (http://www.apache.org). 
