@@ -21,20 +21,20 @@ package net.dpml.tools.info;
 import java.util.Properties;
 
 /**
- * An ArtifactDirective describes the production of a types artifact by a project.
+ * An ProductionDirective describes the production of a types artifact by a project.
  *
  * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
  */
-public final class ArtifactDirective extends AbstractDirective
+public final class ProductionDirective extends AbstractDirective
 {
     private final String m_type;
 
-    public ArtifactDirective( String type )
+    public ProductionDirective( String type )
     {
         this( type, null );
     }
     
-    public ArtifactDirective( String type, Properties properties )
+    public ProductionDirective( String type, Properties properties )
     {
         super( properties );
         
@@ -52,9 +52,9 @@ public final class ArtifactDirective extends AbstractDirective
     
     public boolean equals( Object other )
     {
-        if( super.equals( other ) && ( other instanceof ArtifactDirective ) )
+        if( super.equals( other ) && ( other instanceof ProductionDirective ) )
         {
-            ArtifactDirective object = (ArtifactDirective) other;
+            ProductionDirective object = (ProductionDirective) other;
             if( !equals( m_type, object.m_type ) )
             {
                 return false;

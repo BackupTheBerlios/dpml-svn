@@ -55,7 +55,6 @@ public interface Module extends Remote
     
    /**
     * Return an array of all projects within this module group.
-    * @param module the target module
     * @return the sorted project array
     */
     public Project[] getSubsidiaryProjects()

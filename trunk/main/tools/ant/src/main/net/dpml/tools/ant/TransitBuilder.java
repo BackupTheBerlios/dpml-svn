@@ -51,12 +51,14 @@ import org.apache.tools.ant.Target;
 import org.apache.tools.ant.Task;
 
 /**
- * Ant plugin running under Transit.
+ * The TransitBuilder is a plugin established by the Tools build controller
+ * used for the building of a project based on the Ant build system in conjunction
+ * with Transit plugin management services.
  *
  * @author <a href="mailto:dev@dpmlnet">Stephen J. McConnell</a>
  * @version $Id: Metro.java 916 2004-11-25 12:15:17Z niclas@apache.org $
  */
-public class AntBuilder implements Builder 
+public class TransitBuilder implements Builder 
 {
     // ------------------------------------------------------------------------
     // state
@@ -74,11 +76,12 @@ public class AntBuilder implements Builder
    /**
     * AntPlugin establishment.
     *
-    * @param args supplimentary command line arguments
-    * @exception Exception if the build fails
+    * @param logger assigned logging channel
+    * @param model the transit model
+    * @param template an ant template file
+    * @param verbose verbose execution flag
     */
-    public AntBuilder( Logger logger, TransitModel model, File template, boolean verbose )
-        throws Exception
+    public TransitBuilder( Logger logger, TransitModel model, File template, boolean verbose )
     {
         m_logger = logger;
         m_template = template;
@@ -90,11 +93,19 @@ public class AntBuilder implements Builder
         System.setProperty( "ant.home", antHome );
     }
 
+    // ------------------------------------------------------------------------
+    // Builder
+    // ------------------------------------------------------------------------
+
     public void build( net.dpml.tools.model.Project project ) throws Exception
     {
         Definition definition = new Definition( project );
         build( definition );
     }
+    
+    // ------------------------------------------------------------------------
+    // implementation
+    // ------------------------------------------------------------------------
     
     public void build( Definition definition ) throws Exception
     {

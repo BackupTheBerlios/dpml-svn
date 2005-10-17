@@ -25,7 +25,7 @@ import java.beans.DefaultPersistenceDelegate;
  *
  * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
  */
-public final class ArtifactDirectiveBeanInfo extends SimpleBeanInfo
+public final class ProductionDirectiveBeanInfo extends SimpleBeanInfo
 {
     private static final BeanDescriptor BEAN_DESCRIPTOR = setupBeanDescriptor();
     
@@ -36,7 +36,7 @@ public final class ArtifactDirectiveBeanInfo extends SimpleBeanInfo
     
     private static BeanDescriptor setupBeanDescriptor()
     {
-        BeanDescriptor descriptor = new BeanDescriptor( ArtifactDirective.class );
+        BeanDescriptor descriptor = new BeanDescriptor( ProductionDirective.class );
         descriptor.setValue( 
           "persistenceDelegate", 
           new DefaultPersistenceDelegate( new String[]{ "type", "properties" } ) );

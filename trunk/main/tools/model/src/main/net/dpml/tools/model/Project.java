@@ -56,7 +56,6 @@ public interface Project extends Remote
 
    /**
     * Return the set projects that are consumers of this project.
-    * @param depth the search depth
     * @return the sorted array of consumer projects
     */
     Project[] getAllConsumers() 

@@ -6,7 +6,7 @@
   <transit:import uri="local:template:magic/standard"/>
 
   <target name="package" depends="standard.package">
-    <x:export class="net.dpml.tools.ant.AntBuilder"/>
+    <x:export class="net.dpml.tools.ant.TransitBuilder"/>
   </target>
 
 </project>

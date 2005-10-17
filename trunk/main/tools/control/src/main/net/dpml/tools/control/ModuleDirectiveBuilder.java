@@ -34,7 +34,7 @@ import net.dpml.tools.info.ModuleDirective;
 import net.dpml.tools.info.ResourceDirective;
 import net.dpml.tools.info.ProjectDirective;
 import net.dpml.tools.info.TypeDirective;
-import net.dpml.tools.info.ArtifactDirective;
+import net.dpml.tools.info.ProductionDirective;
 import net.dpml.tools.info.DependencyDirective;
 import net.dpml.tools.info.Scope;
 
@@ -292,14 +292,14 @@ public final class ModuleDirectiveBuilder
         final String basedir = ElementHelper.getAttribute( element, "basedir", null );
         Element[] children = ElementHelper.getChildren( element );
         ArrayList list = new ArrayList();
-        ArtifactDirective[] artifacts = new ArtifactDirective[0];
+        ProductionDirective[] artifacts = new ProductionDirective[0];
         for( int i=0; i<children.length; i++ )
         {
             Element child = children[i];
             final String tag = child.getTagName();
             if( PRODUCTION_ELEMENT_NAME.equals( tag ) )
             {
-                artifacts = buildArtifactDirectives( child );
+                artifacts = buildProductionDirectives( child );
             }
             else if( PROPERTIES_ELEMENT_NAME.equals( tag ) )
             {
@@ -497,19 +497,19 @@ public final class ModuleDirectiveBuilder
         }
     }
 
-    private static ArtifactDirective[] buildArtifactDirectives( Element element )
+    private static ProductionDirective[] buildProductionDirectives( Element element )
     {
         Element[] children = ElementHelper.getChildren( element );
-        ArtifactDirective[] artifacts = new ArtifactDirective[ children.length ];
+        ProductionDirective[] artifacts = new ProductionDirective[ children.length ];
         for( int i=0; i<children.length; i++ )
         {
             Element child = children[i];
-            artifacts[i] = buildArtifactDirective( child );
+            artifacts[i] = buildProductionDirective( child );
         }
         return artifacts;
     }
     
-    private static ArtifactDirective buildArtifactDirective( Element element )
+    private static ProductionDirective buildProductionDirective( Element element )
     {
         final String tag = element.getTagName();
         if( ARTIFACT_ELEMENT_NAME.equals( tag ) )
@@ -522,7 +522,7 @@ public final class ModuleDirectiveBuilder
                 throw new IllegalArgumentException( error );
             }
             final Properties properties = buildProperties( element );
-            return new ArtifactDirective( type, properties );
+            return new ProductionDirective( type, properties );
         }
         else
         {

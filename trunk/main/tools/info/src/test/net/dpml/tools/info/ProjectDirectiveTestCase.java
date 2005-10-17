@@ -25,12 +25,12 @@ package net.dpml.tools.info;
  */
 public final class ProjectDirectiveTestCase extends AbstractTestCase
 {
-    static ArtifactDirective[] ARTIFACTS = new ArtifactDirective[3];
+    static ProductionDirective[] ARTIFACTS = new ProductionDirective[3];
     static
     {
-        ARTIFACTS[0] = new ArtifactDirective( "abc", PROPERTIES );
-        ARTIFACTS[1] = new ArtifactDirective( "123" ,PROPERTIES );
-        ARTIFACTS[2] = new ArtifactDirective( "456", PROPERTIES );
+        ARTIFACTS[0] = new ProductionDirective( "abc", PROPERTIES );
+        ARTIFACTS[1] = new ProductionDirective( "123" ,PROPERTIES );
+        ARTIFACTS[2] = new ProductionDirective( "456", PROPERTIES );
     }
     static DependencyDirective[] DEPENDENCIES = new DependencyDirective[2];
     static
@@ -104,11 +104,11 @@ public final class ProjectDirectiveTestCase extends AbstractTestCase
         }
     }
     
-    public void testArtifactDirectives()
+    public void testProductionDirectives()
     {
         ProjectDirective project = 
            new ProjectDirective( "abc", ".", ARTIFACTS, DEPENDENCIES, PROPERTIES );
-        assertEquals( "artifact-count", 3, project.getArtifactDirectives().length );
+        assertEquals( "artifact-count", 3, project.getProductionDirectives().length );
     }
     
     public void testDependencyDirectives()

@@ -41,7 +41,7 @@ public final class ProjectDirectiveBeanInfo extends SimpleBeanInfo
           "persistenceDelegate", 
           new DefaultPersistenceDelegate( 
             new String[]{ 
-              "name", "basedir", "artifactDirectives", "dependencyDirectives",
+              "name", "basedir", "productionDirectives", "dependencyDirectives",
               "properties" } ) );
         return descriptor;
     }

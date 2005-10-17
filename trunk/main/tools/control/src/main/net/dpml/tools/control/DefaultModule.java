@@ -228,8 +228,7 @@ public final class DefaultModule extends UnicastRemoteObject implements Module
     }
     
    /**
-    * Return an array of all projects within this module group.
-    * @param module the target module
+    * Return a sorted array of all projects within this module group.
     * @return the sorted project array
     */
     public Project[] getSubsidiaryProjects()

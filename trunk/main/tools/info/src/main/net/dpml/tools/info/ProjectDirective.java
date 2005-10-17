@@ -30,11 +30,11 @@ public final class ProjectDirective extends AbstractDirective
 {
     private final String m_name;
     private final String m_basedir;
-    private final ArtifactDirective[] m_artifacts;
+    private final ProductionDirective[] m_production;
     private final DependencyDirective[] m_dependencies;
     
     public ProjectDirective( 
-      String name, String basedir, ArtifactDirective[] artifacts, 
+      String name, String basedir, ProductionDirective[] production, 
       DependencyDirective[] dependencies, Properties properties )
     {
         super( properties );
@@ -43,9 +43,9 @@ public final class ProjectDirective extends AbstractDirective
         {
             throw new NullPointerException( "name" );
         }
-        if( null == artifacts )
+        if( null == production )
         {
-            throw new NullPointerException( "artifacts" );
+            throw new NullPointerException( "production" );
         }
         if( null == dependencies )
         {
@@ -53,7 +53,7 @@ public final class ProjectDirective extends AbstractDirective
         }
         m_name = name;
         m_basedir = basedir;
-        m_artifacts = artifacts;
+        m_production = production;
         m_dependencies = dependencies;
     }
     
@@ -67,9 +67,9 @@ public final class ProjectDirective extends AbstractDirective
         return m_basedir;
     }
     
-    public ArtifactDirective[] getArtifactDirectives()
+    public ProductionDirective[] getProductionDirectives()
     {
-        return m_artifacts;
+        return m_production;
     }
     
     public DependencyDirective[] getDependencyDirectives()
@@ -103,7 +103,7 @@ public final class ProjectDirective extends AbstractDirective
             {
                 return false;
             }
-            else if( !Arrays.equals( m_artifacts, object.m_artifacts ) )
+            else if( !Arrays.equals( m_production, object.m_production ) )
             {
                 return false;
             }
@@ -127,7 +127,7 @@ public final class ProjectDirective extends AbstractDirective
         int hash = super.hashCode();
         hash ^= super.hashValue( m_name );
         hash ^= super.hashValue( m_basedir );
-        hash ^= super.hashArray( m_artifacts );
+        hash ^= super.hashArray( m_production );
         hash ^= super.hashArray( m_dependencies );
         return hash;
     }

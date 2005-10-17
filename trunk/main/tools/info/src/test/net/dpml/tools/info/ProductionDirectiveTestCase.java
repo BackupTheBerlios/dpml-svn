@@ -23,13 +23,13 @@ package net.dpml.tools.info;
  *
  * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
  */
-public final class ArtifactDirectiveTestCase extends AbstractTestCase
+public final class ProductionDirectiveTestCase extends AbstractTestCase
 {
     public void testNullName()
     {
         try
         {
-            ArtifactDirective type = new ArtifactDirective( null, PROPERTIES );
+            ProductionDirective type = new ProductionDirective( null, PROPERTIES );
             fail( "no-NPE" );
         }
         catch( NullPointerException e )
@@ -40,19 +40,19 @@ public final class ArtifactDirectiveTestCase extends AbstractTestCase
     
     public void testArtifactName()
     {
-        ArtifactDirective artifact = new ArtifactDirective( "abc", PROPERTIES );
+        ProductionDirective artifact = new ProductionDirective( "abc", PROPERTIES );
         assertEquals( "type", "abc", artifact.getType() );
     }
     
     public void testSerialization() throws Exception
     {
-        ArtifactDirective artifact = new ArtifactDirective( "abc", PROPERTIES );
+        ProductionDirective artifact = new ProductionDirective( "abc", PROPERTIES );
         doSerializationTest( artifact );
     }
 
     public void testXMLEncoding() throws Exception
     {
-        ArtifactDirective artifact = new ArtifactDirective( "abc", PROPERTIES );
+        ProductionDirective artifact = new ProductionDirective( "abc", PROPERTIES );
         doEncodingTest( artifact, "artifact-descriptor-encoded.xml" );
     }
 }

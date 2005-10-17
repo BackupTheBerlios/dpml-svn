@@ -26,7 +26,7 @@ import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 import java.util.List;
 
-import net.dpml.tools.info.ArtifactDirective;
+import net.dpml.tools.info.ProductionDirective;
 import net.dpml.tools.info.DependencyDirective;
 import net.dpml.tools.info.ProjectDirective;
 import net.dpml.tools.info.ResourceDirective;
@@ -100,11 +100,11 @@ public final class DefaultProject extends UnicastRemoteObject implements Project
             }
         }
         
-        ArtifactDirective[] artifacts = m_directive.getArtifactDirectives();
+        ProductionDirective[] artifacts = m_directive.getProductionDirectives();
         m_types = new String[ artifacts.length ];
         for( int i=0; i<m_types.length; i++ )
         {
-            ArtifactDirective artifact = artifacts[i];
+            ProductionDirective artifact = artifacts[i];
             m_types[i] = artifact.getType();
         }
         
@@ -169,7 +169,6 @@ public final class DefaultProject extends UnicastRemoteObject implements Project
     
    /**
     * Return the set projects that are consumers of this project.
-    * @param depth the search depth
     * @return the sorted array of consumer projects
     */
     public Project[] getAllConsumers() 
