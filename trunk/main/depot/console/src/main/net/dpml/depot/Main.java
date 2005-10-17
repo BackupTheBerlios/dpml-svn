@@ -41,6 +41,7 @@ import net.dpml.transit.RepositoryException;
 import net.dpml.transit.PID;
 import net.dpml.transit.Plugin;
 import net.dpml.transit.Environment;
+import net.dpml.transit.util.CLIHelper;
 
 /**
  * CLI hander for the depot package.
@@ -83,107 +84,6 @@ public final class Main implements ShutdownHandler
         {
             System.exit( 0 );
         }
-    }
-
-   /**
-    * Utility operation to consolidate a supplied array of command line arguments 
-    * by removal of the supplied argument.
-    * 
-    * @param args the command line arguments to consolidate
-    * @param argument the argument to remove
-    * @return the consolidated argument array
-    */
-    public static String[] consolidate( String [] args, String argument )
-    {
-        return consolidate( args, argument, 0 );
-    }
-
-   /**
-    * Utility operation to consolidate a supplied array of command line arguments 
-    * by removal of the supplied argument and the subsequent parameter values. 
-    * 
-    * @param args the command line arguments to consolidate
-    * @param argument the argument to remove
-    * @return the consolidated argument array
-    */
-    public static String[] consolidate( String [] args, String argument, int n )
-    {
-        boolean flag = false;
-        ArrayList list = new ArrayList();
-        for( int i=0; i < args.length; i++ )
-        {
-            String arg = args[i];
-            if( flag )
-            {
-                list.add( arg );
-            }
-            else
-            {
-                if( arg.equals( argument ) )
-                {
-                    flag = true;
-                    i = i+n;
-                }
-                else
-                {
-                    list.add( arg );
-                }
-            }
-        }
-        return (String[]) list.toArray( new String[0] );
-    }
-
-   /**
-    * Test is the supplied option is present in the set of supplied command line 
-    * arguments.
-    *
-    * @param args the set of command line arguments to test against
-    * @param flag the command line option to test for
-    * @return TRUE if one of the command line options matching the supplied falg argument
-    */
-    public static boolean isOptionPresent( String[] args, String flag )
-    {
-        for( int i=0; i < args.length; i++ )
-        {
-            String arg = args[i];
-            if( arg.equals( flag ) )
-            {
-                return true;
-            }
-        }
-        return false;
-    }
-
-   /**
-    * Return a command line argument immediately following an option.
-    * @param args an array of command line arguments
-    * @param option the command line option used as the key to locate the option value
-    * @return the option argument value
-    */
-    public static String getOption( String[] args, String option )
-    {
-        for( int i=0; i < args.length; i++ )
-        {
-            String arg = args[i];
-            if( arg.equals( option ) )
-            {
-                try
-                {
-                    return args[i+1];
-                }
-                catch( IndexOutOfBoundsException e )
-                {
-                    final String error = 
-                      "Requestion option ["
-                      + option
-                      + "] is not followed by an argument value.";
-                    throw new IllegalArgumentException( error );
-                }
-            }
-        }
-        final String error = 
-          "Option does not exist within the supplied commandline.";
-        throw new IllegalArgumentException( error );
     }
 
    /**
@@ -287,9 +187,9 @@ public final class Main implements ShutdownHandler
         boolean debug = false;
         boolean tools = false;
         
-        if( isOptionPresent( args, "-debug" ) )
+        if( CLIHelper.isOptionPresent( args, "-debug" ) )
         {
-            args = consolidate( args, "-debug" );
+            args = CLIHelper.consolidate( args, "-debug" );
             System.setProperty( "dpml.logging.level", 
               System.getProperty( "dpml.logging.level", "FINE" ) );
             debug = true;
@@ -300,20 +200,15 @@ public final class Main implements ShutdownHandler
             System.getProperties().list( System.out );
         }
 
-        if( isOptionPresent( args, "-tools" ) )
+        if( CLIHelper.isOptionPresent( args, "-tools" ) )
         {
-            args = consolidate( args, "-tools" );
+            args = CLIHelper.consolidate( args, "-tools" );
             tools = true;
         }
         
         String option = getSwitch( args );
 
-        if( "-help".equals( option ) )
-        {
-            handleHelp();
-            exit();
-        }
-        else if( "-reset".equals( option ) )
+        if( "-reset".equals( option ) )
         {
             int result = handleReset();
             exit( result );
@@ -358,42 +253,42 @@ public final class Main implements ShutdownHandler
         }
         else if( "-setup".equals( option ) )
         {
-            args = consolidate( args, "-setup" );
+            args = CLIHelper.consolidate( args, "-setup" );
             handleSetup( args );
         }
         else if( "-prefs".equals( option ) )
         {
-            args = consolidate( args, "-prefs" );
+            args = CLIHelper.consolidate( args, "-prefs" );
             handlePrefs( args );
         }
         else if( "-desktop".equals( option ) )
         {
-            args = consolidate( args, "-desktop" );
+            args = CLIHelper.consolidate( args, "-desktop" );
             handleDesktop( args );
         }
         else if( "-exec".equals( option ) )
         {
-            args = consolidate( args, "-exec" );
+            args = CLIHelper.consolidate( args, "-exec" );
             handleExec( args );
         }
         else if( "-run".equals( option ) )
         {
-            args = consolidate( args, "-run" );
+            args = CLIHelper.consolidate( args, "-run" );
             handleRun( args, tools );
         }
         else if( "-build".equals( option ) )
         {
-            args = consolidate( args, "-build" );
+            args = CLIHelper.consolidate( args, "-build" );
             handleBuild( args );
         }
         else if( "-station".equals( option ) )
         {
-            args = consolidate( args, "-station" );
+            args = CLIHelper.consolidate( args, "-station" );
             handleStation( args );
         }
         else if( "-audit".equals( option ) )
         {
-            args = consolidate( args, "-audit" );
+            args = CLIHelper.consolidate( args, "-audit" );
             handleAudit( args );
         }
         else
@@ -476,7 +371,7 @@ public final class Main implements ShutdownHandler
         }
         String name = "run";
         String spec = args[0];
-        args = consolidate( args, spec );
+        args = CLIHelper.consolidate( args, spec );
         handlePlugin( name, spec, args, false, tools );
     }
 
@@ -650,8 +545,8 @@ public final class Main implements ShutdownHandler
 
 
    /*
-        boolean install = isOptionPresent( args, "-install" );
-        boolean remove = isOptionPresent( args, "-remove" );
+        boolean install = CLIHelper.isOptionPresent( args, "-install" );
+        boolean remove = CLIHelper.isOptionPresent( args, "-remove" );
         if( install || remove )
         {
             System.setProperty( "java.util.logging.ConsoleHandler.level", "SEVERE" );
@@ -680,35 +575,35 @@ public final class Main implements ShutdownHandler
                 String arg = args[i];
                 if( arg.equals( "-prefs" ) )
                 {
-                    args = consolidate( args, "-prefs" );
+                    args = CLIHelper.consolidate( args, "-prefs" );
                     model = loadTransitModel( args, logger, true );
                     profile = createPrefsProfile( logger );
                     break;
                 }
                 else if( arg.equals( "-station" ) )
                 {
-                    args = consolidate( args, "-station" );
+                    args = CLIHelper.consolidate( args, "-station" );
                     model = loadTransitModel( args, logger, false );
                     profile = createStationProfile( logger );
                     break;
                 }
                 else if( arg.equals( "-install" ) )
                 {
-                    args = consolidate( args, "-install" );
+                    args = CLIHelper.consolidate( args, "-install" );
                     model = loadTransitModel( args, logger, false );
                     profile = createInstallProfile( logger, true );
                     break;
                 }
                 else if( arg.equals( "-remove" ) )
                 {
-                    args = consolidate( args, "-remove" );
+                    args = CLIHelper.consolidate( args, "-remove" );
                     model = loadTransitModel( args, logger, false );
                     profile = createInstallProfile( logger, false );
                     break;
                 }
                 else if( arg.equals( "-profile" ) )
                 {
-                    //args = consolidate( args, "-profile" );
+                    //args = CLIHelper.consolidate( args, "-profile" );
                     model = loadTransitModel( args, logger, true );
                     String target = getTargetProfile( args );
                     if( null != target )
@@ -1045,9 +940,9 @@ public final class Main implements ShutdownHandler
                 String arg = args[i];
                 if( arg.startsWith( "-" ) && ( arg.length() > 1 ) )
                 {
-                    if( "-help".equals( arg ) || "-run".equals( arg ) || "-build".equals( arg )
+                    if( "-run".equals( arg ) || "-build".equals( arg )
                       || "-exec".equals( arg ) || "-station".equals( arg ) || "-setup".equals( arg )
-                      || "-prefs".equals( arg ) )
+                      || "-prefs".equals( arg ) || "-help".equals( arg ) )
                     {
                         return arg;
                     }

@@ -25,7 +25,6 @@ import java.net.URI;
 import java.util.prefs.Preferences;
 import java.net.URISyntaxException;
 
-import net.dpml.depot.Main;
 import net.dpml.depot.ShutdownHandler;
 
 import net.dpml.profile.ApplicationRegistry;
@@ -42,6 +41,7 @@ import net.dpml.transit.model.TransitRegistryModel;
 import net.dpml.transit.model.DefaultTransitRegistryModel;
 import net.dpml.transit.Logger;
 import net.dpml.transit.store.TransitStorageHome;
+import net.dpml.transit.util.CLIHelper;
 
 /**
  * The DepotInstaller is responsible for the establishment and integrity of 
@@ -103,15 +103,15 @@ public class PackageInstaller implements Runnable
     */
     public void run()
     {
-        boolean help = Main.isOptionPresent( m_args, "-help" );
+        boolean help = CLIHelper.isOptionPresent( m_args, "-help" );
         if( help )
         {
             handleHelp();
             m_handler.exit();
         }
 
-        boolean reset = Main.isOptionPresent( m_args, "-reload" );
-        m_args = Main.consolidate( m_args, "-reload" );
+        boolean reset = CLIHelper.isOptionPresent( m_args, "-reload" );
+        m_args = CLIHelper.consolidate( m_args, "-reload" );
 
         try
         {
@@ -324,28 +324,28 @@ public class PackageInstaller implements Runnable
 
     private String getProfileName()
     {
-        if( !Main.isOptionPresent( m_args, PROFILE_OPT ) )
+        if( !CLIHelper.isOptionPresent( m_args, PROFILE_OPT ) )
         {
             return STANDARD_PROFILE;
         }
         else
         {
-            String profile = Main.getOption( m_args, PROFILE_OPT );
-            m_args = Main.consolidate( m_args, PROFILE_OPT, 1 );
+            String profile = CLIHelper.getOption( m_args, PROFILE_OPT );
+            m_args = CLIHelper.consolidate( m_args, PROFILE_OPT, 1 );
             return profile;
         }
     }
 
     private String getSetupVersion()
     {
-        if( !Main.isOptionPresent( m_args, VERSION_OPT ) )
+        if( !CLIHelper.isOptionPresent( m_args, VERSION_OPT ) )
         {
             return VERSION;
         }
         else
         {
-            String version = Main.getOption( m_args, VERSION_OPT );
-            m_args = Main.consolidate( m_args, VERSION_OPT, 1 );
+            String version = CLIHelper.getOption( m_args, VERSION_OPT );
+            m_args = CLIHelper.consolidate( m_args, VERSION_OPT, 1 );
             return version;
         }
     }

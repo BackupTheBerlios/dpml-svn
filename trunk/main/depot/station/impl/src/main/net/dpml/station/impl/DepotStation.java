@@ -33,13 +33,13 @@ import net.dpml.transit.model.TransitModel;
 import net.dpml.transit.model.UnknownKeyException;
 import net.dpml.transit.model.DuplicateKeyException;
 import net.dpml.transit.model.Connection;
+import net.dpml.transit.util.CLIHelper;
 
 import net.dpml.profile.ApplicationProfile;
 import net.dpml.profile.ApplicationProfile.StartupPolicy;
 import net.dpml.profile.ApplicationRegistry;
 import net.dpml.profile.ProfileException;
 
-import net.dpml.depot.Main;
 import net.dpml.depot.GeneralException;
 import net.dpml.depot.Handler;
 import net.dpml.depot.LoggingService;
@@ -174,10 +174,10 @@ public class DepotStation extends UnicastRemoteObject implements Station, Handle
 
     private int getStationPort() throws GeneralException
     {
-        if( Main.isOptionPresent( m_args, "-port" ) )
+        if( CLIHelper.isOptionPresent( m_args, "-port" ) )
         {
-            String value = Main.getOption( m_args, "-port" );
-            m_args = Main.consolidate( m_args, "-port", 1 );
+            String value = CLIHelper.getOption( m_args, "-port" );
+            m_args = CLIHelper.consolidate( m_args, "-port", 1 );
             try
             {
                 return Integer.parseInt( value );

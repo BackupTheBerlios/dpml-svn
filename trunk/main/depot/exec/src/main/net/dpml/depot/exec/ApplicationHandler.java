@@ -55,6 +55,7 @@ import net.dpml.transit.model.Value;
 import net.dpml.transit.model.Construct;
 import net.dpml.transit.model.TransitModel;
 import net.dpml.transit.model.UnknownKeyException;
+import net.dpml.transit.util.CLIHelper;
 
 /**
  * Depot application deployment plugin.  This plugin handles the deployment of 
@@ -125,16 +126,16 @@ public class ApplicationHandler
         }
 
         m_spec = args[0];
-        m_args = Main.consolidate( args, m_spec );
+        m_args = CLIHelper.consolidate( args, m_spec );
 
         getLogger().info( "target profile: " + m_spec );
        
         Object object = null;
         ApplicationProfile profile = null;
-        boolean flag = Main.isOptionPresent( m_args, "-command" );
+        boolean flag = CLIHelper.isOptionPresent( m_args, "-command" );
         if( flag )
         {
-            m_args = Main.consolidate( args, "-command" );
+            m_args = CLIHelper.consolidate( args, "-command" );
         }
 
         //
