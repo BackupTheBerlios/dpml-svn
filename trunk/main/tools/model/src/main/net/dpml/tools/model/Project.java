@@ -31,6 +31,12 @@ import net.dpml.tools.info.Scope;
  */
 public interface Project extends Remote
 {
+    Module getModule() throws RemoteException;
+
+    String getProperty( String key ) throws RemoteException;
+    
+    String getProperty( String key, String value ) throws RemoteException;
+    
     String getName() throws RemoteException;
     
     String getPath() throws RemoteException;
@@ -42,7 +48,7 @@ public interface Project extends Remote
     Resource[] getProviders( Scope scope ) 
       throws RemoteException, ResourceNotFoundException, ModuleNotFoundException;
     
-    Resource[] getResourceClassPath( Scope scope )
+    Resource[] getClassPath( Scope scope )
       throws RemoteException, ModuleNotFoundException, ResourceNotFoundException;
     
     Project[] getConsumers() 
@@ -53,9 +59,8 @@ public interface Project extends Remote
     * @param depth the search depth
     * @return the sorted array of consumer projects
     */
-    public Project[] getAllConsumers() 
+    Project[] getAllConsumers() 
       throws RemoteException, ResourceNotFoundException, ModuleNotFoundException;
 
     Resource toResource() throws RemoteException;
-    
 }

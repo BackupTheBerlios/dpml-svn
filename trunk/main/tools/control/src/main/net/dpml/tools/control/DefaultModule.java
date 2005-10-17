@@ -45,6 +45,7 @@ import net.dpml.tools.model.Library;
 import net.dpml.tools.model.ModelRuntimeException;
 
 import net.dpml.transit.util.ElementHelper;
+import net.dpml.transit.util.PropertyResolver;
 
 import org.w3c.dom.Element;
 
@@ -163,7 +164,7 @@ public final class DefaultModule extends UnicastRemoteObject implements Module
             }
         }
         m_imports = modules;
-        DefaultModule[] local = getLocalModules();
+        DefaultModule[] local = getDefaultModules();
         for( int i=0; i<local.length; i++ )
         {
             DefaultModule m = local[i];
@@ -203,7 +204,7 @@ public final class DefaultModule extends UnicastRemoteObject implements Module
     
     public Module getModule( String key ) throws ModuleNotFoundException
     {
-        return getLocalModule( key );
+        return getDefaultModule( key );
     }
     
     public Resource[] getResources()
@@ -218,17 +219,12 @@ public final class DefaultModule extends UnicastRemoteObject implements Module
     
     public Resource getResource( String key ) throws ResourceNotFoundException
     {
-        return getLocalResource( key );
+        return getDefaultResource( key );
     }
     
     public Project getProject( String key ) throws ProjectNotFoundException
     {
-        return getLocalProject( key );
-    }
-    
-    public Resource resolveResource( String key ) throws ResourceNotFoundException
-    {
-        return resolveLocalResource( key );
+        return getDefaultProject( key );
     }
     
    /**
@@ -244,24 +240,46 @@ public final class DefaultModule extends UnicastRemoteObject implements Module
         DefaultProject[] projects = (DefaultProject[]) list.toArray( new DefaultProject[0] );
         return m_library.sortProjects( projects, true );
     }
+
+    public String getProperty( String key )
+    {
+        return getProperty( key, null );
+    }
+    
+    public String getProperty( String key, String value )
+    {
+        String result = m_directive.getProperty( key );
+        if( ( null == result ) && ( m_parent != null ) )
+        {
+            return m_parent.getProperty( key, value );
+        }
+        else
+        {
+            return PropertyResolver.resolve( result );
+        }
+    }
+    
+    public Resource resolveResource( String key ) throws ResourceNotFoundException
+    {
+        return resolveDefaultResource( key );
+    }
     
     public String toString()
     {
         return "module:" + m_path;
     }
     
-    
-    DefaultModule[] getLocalModules()
+    DefaultModule[] getDefaultModules()
     {
         return (DefaultModule[]) m_modules.values().toArray( new DefaultModule[0] );
     }
     
-    DefaultProject[] getLocalProjects()
+    DefaultProject[] getDefaultProjects()
     {
         return (DefaultProject[]) m_projects.values().toArray( new DefaultProject[0] );
     }
 
-    DefaultModule getLocalModule( String key ) throws ModuleNotFoundException
+    DefaultModule getDefaultModule( String key ) throws ModuleNotFoundException
     {
         DefaultModule module = (DefaultModule) m_modules.get( key );
         if( null == module )
@@ -274,7 +292,7 @@ public final class DefaultModule extends UnicastRemoteObject implements Module
         }
     }
 
-    DefaultResource getLocalResource( String key ) throws ResourceNotFoundException
+    DefaultResource getDefaultResource( String key ) throws ResourceNotFoundException
     {
         DefaultResource resource = (DefaultResource) m_resources.get( key );
         if( null == resource )
@@ -287,20 +305,20 @@ public final class DefaultModule extends UnicastRemoteObject implements Module
         }
     }
     
-    DefaultResource resolveLocalResource( String key ) throws ResourceNotFoundException
+    DefaultResource resolveDefaultResource( String key ) throws ResourceNotFoundException
     {
         try
         {
-            DefaultProject project = getLocalProject( key );
+            DefaultProject project = getDefaultProject( key );
             return project.toLocalResource();
         }
         catch( ProjectNotFoundException e )
         {
-            return getLocalResource( key );
+            return getDefaultResource( key );
         }
     }
 
-    DefaultProject getLocalProject( String key ) throws ProjectNotFoundException
+    DefaultProject getDefaultProject( String key ) throws ProjectNotFoundException
     {
         DefaultProject project = (DefaultProject) m_projects.get( key );
         if( null == project )
@@ -315,12 +333,12 @@ public final class DefaultModule extends UnicastRemoteObject implements Module
 
     void aggregateProjects( List list )
     {
-        DefaultProject[] projects = getLocalProjects();
+        DefaultProject[] projects = getDefaultProjects();
         for( int i=0; i<projects.length; i++ )
         {
             list.add( projects[i] );
         }
-        DefaultModule[] modules = getLocalModules();
+        DefaultModule[] modules = getDefaultModules();
         for( int i=0; i<modules.length; i++ )
         {
             DefaultModule module = modules[i];

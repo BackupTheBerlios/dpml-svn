@@ -29,9 +29,15 @@ import java.util.Properties;
 public final class DependencyDirective extends AbstractDirective
 {
     private final Scope m_scope;
+    private final String m_anchor;
     private final ResourceIncludeDirective[] m_includes;
     
     public DependencyDirective( Scope scope, ResourceIncludeDirective[] includes, Properties properties )
+    {
+        this( scope, includes, null, properties );
+    }
+    
+    public DependencyDirective( Scope scope, ResourceIncludeDirective[] includes, String anchor, Properties properties )
     {
         super( properties );
         
@@ -45,6 +51,7 @@ public final class DependencyDirective extends AbstractDirective
         }
         m_scope = scope;
         m_includes = includes;
+        m_anchor = anchor;
     }
     
     public Scope getScope()
@@ -57,12 +64,21 @@ public final class DependencyDirective extends AbstractDirective
         return m_includes;
     }
     
+    public String getAnchorClassname()
+    {
+        return m_anchor;
+    }
+    
     public boolean equals( Object other )
     {
         if( super.equals( other ) && ( other instanceof DependencyDirective ) )
         {
             DependencyDirective dep = (DependencyDirective) other;
             if( !equals( m_scope, dep.m_scope ) )
+            {
+                return false;
+            }
+            if( !equals( m_anchor, dep.m_anchor ) )
             {
                 return false;
             }

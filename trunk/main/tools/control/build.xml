@@ -5,6 +5,10 @@
 
   <transit:import uri="local:template:magic/standard"/>
 
+  <target name="init" depends="standard.init">
+    <x:filter feature="uri" type="plugin" token="ANT-BUILDER-URI" key="dpml-tools-ant"/>
+  </target>
+
   <target name="build" depends="standard.build">
     <x:path id="build.path"/>
     <rmic base="${basedir}/target/classes" classpathref="build.path">

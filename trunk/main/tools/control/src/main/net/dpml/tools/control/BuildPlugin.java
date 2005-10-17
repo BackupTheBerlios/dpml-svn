@@ -18,7 +18,11 @@
 
 package net.dpml.tools.control;
 
+import java.io.File;
+import java.net.URI;
+
 import net.dpml.transit.Logger;
+import net.dpml.transit.Transit;
 import net.dpml.transit.model.TransitModel;
 import net.dpml.transit.util.ExceptionHelper;
 import net.dpml.transit.util.CLIHelper;
@@ -28,6 +32,7 @@ import net.dpml.tools.model.Library;
 import net.dpml.tools.model.Module;
 import net.dpml.tools.model.Project;
 import net.dpml.tools.model.Resource;
+import net.dpml.tools.model.Builder;
 import net.dpml.tools.model.ProjectNotFoundException;
 import net.dpml.tools.model.ModuleNotFoundException;
 import net.dpml.tools.model.ModelRuntimeException;
@@ -35,7 +40,7 @@ import net.dpml.tools.control.DefaultLibrary;
 
 
 /**
- * Plugin that handles multi-project builds.
+ * Plugin that handles multi-project builds based on supplied commandline arguments.
  *
  * @author <a href="mailto:dev@dpmlnet">Stephen J. McConnell</a>
  * @version $Id: Metro.java 916 2004-11-25 12:15:17Z niclas@apache.org $
@@ -46,10 +51,14 @@ public class BuildPlugin
     // state
     // ------------------------------------------------------------------------
 
-    private Logger m_logger;
-    private Library m_library;
+    private final Logger m_logger;
+    private final TransitModel m_model;
+    private final Class m_builderClass;
+    private final Library m_library;
+    private final boolean m_verbose;
+    
     private String[] m_args;
-
+    
     // ------------------------------------------------------------------------
     // constructors
     // ------------------------------------------------------------------------
@@ -66,6 +75,20 @@ public class BuildPlugin
         m_logger = logger;
         m_library = new DefaultLibrary( logger );
         m_args = args;
+        m_model = model;
+        
+        if( CLIHelper.isOptionPresent( args, "-v" ) )
+        {
+            m_args = CLIHelper.consolidate( args, "-v", 1 );
+            m_verbose = true;
+        }
+        else
+        {
+            m_verbose = false;
+        }
+        
+        ClassLoader classloader = Builder.class.getClassLoader();
+        m_builderClass = Transit.getInstance().getRepository().getPluginClass( classloader, ANT_BUILDER_URI );
         
         String target = getTarget( args );
         if( isaProject( target ) )
@@ -78,7 +101,7 @@ public class BuildPlugin
             }
             else
             {
-                listProject( project );
+                processProject( project, args );
             }
         }
         else if( isaModule( target ) )
@@ -87,6 +110,33 @@ public class BuildPlugin
             listModule( module );
         }
     }
+    
+    private void processProject( Project project, String[] args ) throws Exception
+    {
+        boolean build = CLIHelper.isOptionPresent( args, "-build" );
+        if( build )
+        {
+            String template = project.getProperty( "build.template" );
+            if( null != template )
+            {
+                File file = new File( template );
+                Object[] params = new Object[]{ m_logger, m_model, file, new Boolean( m_verbose ) };
+                Builder builder = (Builder) Transit.getInstance().getRepository().instantiate( m_builderClass, params );
+                builder.build( project );
+            }
+            else
+            {
+                final String error = 
+                  "Project [" + project.getPath() + "] does not declare a template.";
+                throw new Exception( error );
+            }
+        }
+        else
+        {
+            listProject( project );
+        }
+    }
+    
     private String getTarget( String[] args )
     {
         if( CLIHelper.isOptionPresent( args, "-project" ) )
@@ -205,7 +255,6 @@ public class BuildPlugin
         for( int i=0; i<consumers.length; i++ )
         {
             Project consumer = consumers[i];
-            buffer.append( "\nproject: " + consumer.getPath() + "\n" );
             listProject( buffer, "  ", consumer );
             buffer.append( "\n" );
         }
@@ -214,6 +263,7 @@ public class BuildPlugin
     
     private void listProject( StringBuffer buffer, String pad, Project project ) throws Exception
     {
+        buffer.append( "\nproject: " + project.getPath() + "\n" );
         line( buffer, pad + "basedir: " + project.getBase() );
         String p = pad + "  ";
         Resource[] resources = project.getProviders( Scope.TEST );
@@ -225,10 +275,28 @@ public class BuildPlugin
                 line( buffer, p + resources[i].getName() );
             }
         }
-        resources = project.getResourceClassPath( Scope.TEST );
+        resources = project.getClassPath( Scope.BUILD );
         if( resources.length > 0 )
         {
-            line( buffer, pad + "classpath: (" + resources.length + ")" );
+            line( buffer, pad + "build classpath: (" + resources.length + ")" );
+            for( int i=0; i<resources.length; i++ )
+            {
+                line( buffer, p + resources[i].getName() );
+            }
+        }
+        resources = project.getClassPath( Scope.RUNTIME );
+        if( resources.length > 0 )
+        {
+            line( buffer, pad + "runtime classpath: (" + resources.length + ")" );
+            for( int i=0; i<resources.length; i++ )
+            {
+                line( buffer, p + resources[i].getName() );
+            }
+        }
+        resources = project.getClassPath( Scope.TEST );
+        if( resources.length > 0 )
+        {
+            line( buffer, pad + "test classpath: (" + resources.length + ")" );
             for( int i=0; i<resources.length; i++ )
             {
                 line( buffer, p + resources[i].getName() );
@@ -258,6 +326,20 @@ public class BuildPlugin
     private Logger getLogger()
     {
         return m_logger;
+    }
+    
+    private static final URI ANT_BUILDER_URI;
+    
+    static
+    {
+        try
+        {
+            ANT_BUILDER_URI = new URI( "@ANT-BUILDER-URI@" );
+        }
+        catch( Exception e )
+        {
+            throw new RuntimeException( "will not happen", e );
+        }
     }
 }
 

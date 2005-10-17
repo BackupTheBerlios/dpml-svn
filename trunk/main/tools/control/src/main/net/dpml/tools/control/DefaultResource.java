@@ -179,10 +179,10 @@ public final class DefaultResource extends UnicastRemoteObject implements Resour
     
     public Project getProject()
     {
-        return m_project;
+        return getDefaultProject();
     }
     
-    DefaultProject getLocalProject()
+    DefaultProject getDefaultProject()
     {
         return m_project;
     }

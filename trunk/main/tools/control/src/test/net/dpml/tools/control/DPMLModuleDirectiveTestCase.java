@@ -44,13 +44,6 @@ public class DPMLModuleDirectiveTestCase extends AbstractTestCase
         m_module = load( "dpml.xml" );
     }
     
-    public void testPropertyCount() throws Exception
-    {
-        Properties properties = m_module.getProperties();
-        int size = properties.size();
-        assertEquals( "property-count", 4, size );
-    }
-    
     public void testModuleCount() throws Exception
     {
         ModuleDirective[] modules = m_module.getModuleDirectives();

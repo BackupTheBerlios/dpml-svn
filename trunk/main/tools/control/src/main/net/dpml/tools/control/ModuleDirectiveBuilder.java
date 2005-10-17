@@ -476,6 +476,7 @@ public final class ModuleDirectiveBuilder
         {
             final String spec = ElementHelper.getAttribute( element, "scope", "runtime" );
             Scope scope = Scope.parse( spec );
+            final String anchor = ElementHelper.getAttribute( element, "anchor", null );
             Element[] children = ElementHelper.getChildren( element );
             ResourceIncludeDirective[] includes = new ResourceIncludeDirective[ children.length ];
             for( int i=0; i<children.length; i++ )
@@ -484,7 +485,7 @@ public final class ModuleDirectiveBuilder
                 includes[i] = buildResourceIncludeDirective( child );
             }
             final Properties properties = buildProperties( element );
-            return new DependencyDirective( scope, includes, properties );
+            return new DependencyDirective( scope, includes, anchor, properties );
         }
         else
         {

@@ -57,6 +57,11 @@
     <dependencies>
       <include key="dpml-tools-model"/>
       <include key="ant-junit" runtime="false"/>
+      <!-- issue with system -->
+      <include key="ant" tag="system"/>
+      <include key="ant-launcher" tag="system"/>
+      <include key="ant-junit" tag="system"/>
+      <include key="junit" tag="system"/>
     </dependencies>
   </project>
 

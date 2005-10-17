@@ -24,6 +24,7 @@ import java.io.IOException;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
+import java.util.List;
 
 import net.dpml.tools.info.ArtifactDirective;
 import net.dpml.tools.info.DependencyDirective;
@@ -37,12 +38,14 @@ import net.dpml.tools.model.Resource;
 import net.dpml.tools.model.Module;
 import net.dpml.tools.model.ModuleNotFoundException;
 import net.dpml.tools.model.ResourceNotFoundException;
+import net.dpml.tools.model.ProjectNotFoundException;
 import net.dpml.tools.model.ReferentialException;
 import net.dpml.tools.model.DuplicateNameException;
 import net.dpml.tools.model.Library;
 import net.dpml.tools.model.ModelRuntimeException;
 
 import net.dpml.transit.util.ElementHelper;
+import net.dpml.transit.util.PropertyResolver;
 
 import org.w3c.dom.Element;
 
@@ -112,6 +115,11 @@ public final class DefaultProject extends UnicastRemoteObject implements Project
     {
         return m_directive.getName();
     }
+    
+    public Module getModule()
+    {
+        return m_parent;
+    }
         
     public File getBase()
     {
@@ -128,6 +136,11 @@ public final class DefaultProject extends UnicastRemoteObject implements Project
         return m_types;
     }
     
+    public Resource[] getProviders() throws ResourceNotFoundException, ModuleNotFoundException
+    {
+        return getProviderResources();
+    }
+    
     public Resource[] getProviders( Scope scope ) throws ResourceNotFoundException, ModuleNotFoundException
     {
         return getProviderResources( scope );
@@ -138,10 +151,10 @@ public final class DefaultProject extends UnicastRemoteObject implements Project
         return toLocalResource();
     }
     
-    public Resource[] getResourceClassPath( Scope scope )
+    public Resource[] getClassPath( Scope scope )
       throws ModuleNotFoundException, ResourceNotFoundException
     {
-        return getLocalClasspath( scope );
+        return getResourceClasspath( scope );
     }
     
    /**
@@ -163,6 +176,24 @@ public final class DefaultProject extends UnicastRemoteObject implements Project
       throws ResourceNotFoundException, ModuleNotFoundException
     {
         return getAllConsumerProjects();
+    }
+    
+    public String getProperty( String key )
+    {
+        return getProperty( key, null );
+    }
+    
+    public String getProperty( String key, String value )
+    {
+        String result = m_directive.getProperty( key );
+        if( ( null == result ) && ( m_parent != null ) )
+        {
+            return m_parent.getProperty( key, value );
+        }
+        else
+        {
+            return PropertyResolver.resolve( result );
+        }
     }
     
    /**
@@ -223,7 +254,7 @@ public final class DefaultProject extends UnicastRemoteObject implements Project
         for( int i=0; i<collection.length; i++ )
         {
             DefaultProject p = collection[i];
-            DefaultResource[] resources = p.getProviderResources( Scope.TEST );
+            DefaultResource[] resources = p.getProviderResources();
             for( int j=0; j<resources.length; j++ )
             {
                 DefaultResource r = resources[j];
@@ -241,46 +272,30 @@ public final class DefaultProject extends UnicastRemoteObject implements Project
     
     IncludeDirective[] getIncludeDirectives( Scope scope )
     {
-        if( scope == Scope.RUNTIME )
+        DependencyDirective directive = m_directive.getDependencyDirective( scope );
+        if( null != directive )
         {
-            DependencyDirective runtime = m_directive.getDependencyDirective( Scope.RUNTIME );
-            if( null != runtime )
-            {
-                return runtime.getIncludeDirectives();
-            }
-            else
-            {
-                return new IncludeDirective[0];
-            }
-        }
-        else if( scope == Scope.TEST )
-        {
-            IncludeDirective[] runtime = getIncludeDirectives( Scope.RUNTIME );
-            DependencyDirective testDependencies = m_directive.getDependencyDirective( Scope.TEST );
-            if( null == testDependencies )
-            {
-                return runtime;
-            }
-            else
-            {
-                IncludeDirective[] test = testDependencies.getIncludeDirectives();
-                IncludeDirective[] includes = new IncludeDirective[ runtime.length + test.length ];
-                System.arraycopy( runtime, 0, includes, 0, runtime.length );
-                System.arraycopy( test, 0, includes, runtime.length+1, test.length );
-                return includes;
-            }
+            return directive.getIncludeDirectives();
         }
         else
         {
-            final String error = 
-              "Unrecognized scope: " + scope;
-            throw new ModelRuntimeException( error );
+            return new IncludeDirective[0];
         }
     }
 
     public String toString()
     {
         return "project:" + getPath();
+    }
+    
+    DefaultResource[] getProviderResources() throws ResourceNotFoundException, ModuleNotFoundException
+    {
+        ArrayList list = new ArrayList();
+        addIncludesToList( list, Scope.BUILD );
+        addIncludesToList( list, Scope.RUNTIME );
+        addIncludesToList( list, Scope.TEST );
+        IncludeDirective[] includes = (IncludeDirective[]) list.toArray( new IncludeDirective[0] ); 
+        return m_library.resolveResourceDependencies( m_parent, includes );
     }
     
     DefaultResource[] getProviderResources( Scope scope ) throws ResourceNotFoundException, ModuleNotFoundException
@@ -310,7 +325,7 @@ public final class DefaultProject extends UnicastRemoteObject implements Project
         return m_resource;
     }
 
-    private DefaultResource[] getLocalClasspath( Scope scope )
+    private DefaultResource[] getResourceClasspath( Scope scope )
       throws ModuleNotFoundException, ResourceNotFoundException
     {
         ArrayList stack = new ArrayList();
@@ -320,10 +335,6 @@ public final class DefaultProject extends UnicastRemoteObject implements Project
         {
             DefaultResource resource = resources[i];
             processClasspath( visited, stack, resource );
-        }
-        if( scope.equals( Scope.TEST ) )
-        {
-            stack.add( toLocalResource() );
         }
         return (DefaultResource[]) stack.toArray( new DefaultResource[0] );
     }
@@ -348,4 +359,12 @@ public final class DefaultProject extends UnicastRemoteObject implements Project
         stack.add( resource );
     }
 
+    private void addIncludesToList( List list, Scope scope )
+    {
+        IncludeDirective[] includes = getIncludeDirectives( scope );
+        for( int i=0; i<includes.length; i++ )
+        {
+            list.add( includes[i] );
+        }
+    }
 }

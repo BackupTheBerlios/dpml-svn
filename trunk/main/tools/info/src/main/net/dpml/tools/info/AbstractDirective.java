@@ -35,6 +35,18 @@ public abstract class AbstractDirective implements Serializable
         m_properties = properties;
     }
     
+    public String getProperty( String key )
+    {
+        if( null == m_properties )
+        {
+            return null;
+        }
+        else
+        {
+            return m_properties.getProperty( key );
+        }
+    }
+    
     public Properties getProperties()
     {
         return m_properties;
