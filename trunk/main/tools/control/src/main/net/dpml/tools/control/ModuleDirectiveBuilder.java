@@ -58,8 +58,7 @@ public final class ModuleDirectiveBuilder
     private static final String TYPES_ELEMENT_NAME = "types";
     private static final String TYPE_ELEMENT_NAME = "type";
     private static final String PROJECT_ELEMENT_NAME = "project";
-    private static final String PRODUCTION_ELEMENT_NAME = "production";
-    private static final String ARTIFACT_ELEMENT_NAME = "artifact";
+    private static final String PRODUCES_ELEMENT_NAME = "production";
     private static final String PROPERTIES_ELEMENT_NAME = "properties";
     
     public static ModuleDirective build( File source ) throws IOException
@@ -297,7 +296,7 @@ public final class ModuleDirectiveBuilder
         {
             Element child = children[i];
             final String tag = child.getTagName();
-            if( PRODUCTION_ELEMENT_NAME.equals( tag ) )
+            if( PRODUCES_ELEMENT_NAME.equals( tag ) )
             {
                 artifacts = buildProductionDirectives( child );
             }
@@ -455,7 +454,7 @@ public final class ModuleDirectiveBuilder
         final String tag = element.getTagName();
         if( TYPE_ELEMENT_NAME.equals( tag ) )
         {
-            final String name = ElementHelper.getAttribute( element, "name", null );
+            final String name = ElementHelper.getAttribute( element, "id", null );
             final Properties properties = buildProperties( element );
             return new TypeDirective( name, properties );
         }
@@ -512,9 +511,9 @@ public final class ModuleDirectiveBuilder
     private static ProductionDirective buildProductionDirective( Element element )
     {
         final String tag = element.getTagName();
-        if( ARTIFACT_ELEMENT_NAME.equals( tag ) )
+        if( TYPE_ELEMENT_NAME.equals( tag ) )
         {
-            final String type = ElementHelper.getAttribute( element, "type", null );
+            final String type = ElementHelper.getAttribute( element, "id", null );
             if( null == type )
             {
                 final String error =

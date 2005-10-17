@@ -6,7 +6,7 @@
 
     <resource name="junit">
       <types>
-        <type name="jar"/>
+        <type id="jar"/>
       </types>
     </resource>
 

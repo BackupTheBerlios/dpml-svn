@@ -14,12 +14,12 @@
      <projects>
        <project name="dpml-transit-main" basedir="transit/core/handler">
          <production>
-           <artifact type="jar"/>
+           <type id="jar"/>
          </production>
        </project>
        <project name="dpml-state-api" basedir="metro/state/api">
          <production>
-           <artifact type="jar"/>
+           <type id="jar"/>
          </production>
          <dependencies scope="runtime">
            <include ref="dpml/runtime/dpml-transit-main"/>
@@ -27,8 +27,8 @@
        </project>
        <project name="dpml-state-impl" basedir="metro/state/impl">
          <production>
-           <artifact type="jar"/>
-           <artifact type="plugin"/>
+           <type id="jar"/>
+           <type id="plugin"/>
          </production>
          <dependencies scope="runtime">
            <include key="dpml-state-api"/>
@@ -44,7 +44,7 @@
      <projects>
        <project name="dpml-transit-tools" basedir="transit/core/tools">
          <production>
-           <artifact type="jar"/>
+           <type id="jar"/>
          </production>
          <dependencies scope="runtime">
            <include ref="dpml/runtime/dpml-transit-main"/>
