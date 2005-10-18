@@ -354,23 +354,23 @@ class PropertiesPlugin
     */
     public URI[] getDependencies( Category key )
     {
-        if( key == ANY )
-        {
-            return getDependencies();
-        }
-        else if( key == SYSTEM )
+        //if( key == Category.ANY )
+        //{
+        //    return getDependencies();
+        //}
+        if( key == Category.SYSTEM )
         {
             return m_sys;
         }
-        else if( key == API )
+        else if( key == Category.API )
         {
             return m_api;
         }
-        else if( key == SPI )
+        else if( key == Category.SPI )
         {
             return m_spi;
         }
-        else if( key == IMPL )
+        else if( key == Category.IMPL )
         {
             return m_imp;
         }

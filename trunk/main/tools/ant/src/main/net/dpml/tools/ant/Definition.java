@@ -22,20 +22,24 @@ import java.io.File;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
-
-import net.dpml.tools.model.Project;
+import java.util.Properties;
 
 import net.dpml.tools.ant.process.JarTask;
 import net.dpml.tools.ant.process.PluginTask;
-
-import org.apache.tools.ant.Task;
-import org.apache.tools.ant.Target;
+import net.dpml.tools.ant.Process;
+import net.dpml.tools.info.Scope;
+import net.dpml.tools.model.Resource;
 
 import net.dpml.transit.Transit;
 import net.dpml.transit.Layout;
 import net.dpml.transit.Artifact;
 import net.dpml.transit.Logger;
+import net.dpml.transit.model.TransitModel;
 
+import org.apache.tools.ant.Task;
+import org.apache.tools.ant.Target;
+import org.apache.tools.ant.Project;
+import org.apache.tools.ant.types.Path;
 
 /**
  * Project definition that adapts the DPML tools Project model to a model
@@ -45,13 +49,76 @@ import net.dpml.transit.Logger;
  */
 public class Definition
 {
-    Project m_project;
-    Target[] m_targets;
-    Layout m_layout;
+    private final net.dpml.tools.model.Project m_model;
+    private final TransitModel m_transit;
     
-    public Definition( Project project )
+    public Definition( TransitModel transit, net.dpml.tools.model.Project model )
     {
-        m_project = project;
+        m_model = model;
+        m_transit = transit;
+    }
+    
+    public long getLastModified()
+    {
+        try
+        {
+            return m_model.getLastModified();
+        }
+        catch( RemoteException e )
+        {
+            throw new RuntimeException( "remote-exception", e );
+        }
+    }
+    
+    public Path getPath( Project project, Scope scope )
+    {
+        final Path path = new Path( project );
+        try
+        {
+            Resource[] resources = m_model.getClassPath( scope );
+            for( int i=0; i<resources.length; i++ )
+            {
+                Resource resource = resources[i];
+                String group = resource.getModule().getPath();
+                String name = resource.getName();
+                String version = getResourceVersion( resource );
+                Artifact artifact = Artifact.createArtifact( group, name, version, "jar" );
+                String location = Transit.getInstance().getCacheLayout().resolvePath( artifact );
+                File file = new File( getCacheDirectory(), location );
+                path.createPathElement().setLocation( file );
+            }
+            return path;
+        }
+        catch( Exception e )
+        {
+            final String error = 
+              "Unexpected error while constructing path instance for the scope: " + scope;
+            throw new RuntimeException( error, e );
+        }
+    }
+    
+    private File getCacheDirectory() throws Exception
+    {
+        return m_transit.getCacheModel().getCacheDirectory();
+    }
+    
+    private String getResourceVersion( Resource resource )
+    {
+        try
+        {
+            if( null != resource.getProject() )
+            {
+                return getVersion();
+            }
+            else
+            {
+                return resource.getVersion();
+            }
+        }
+        catch( RemoteException e )
+        {
+            throw new RuntimeException( "remote-exception", e );
+        }
     }
     
     public String getLayoutPath( String type )
@@ -64,8 +131,8 @@ public class Definition
     {
         try
         {
-            String group = m_project.getModule().getPath();
-            String name = m_project.getName();
+            String group = m_model.getModule().getPath();
+            String name = m_model.getName();
             String version = getVersion();
             return Artifact.createArtifact( group, name, version, type );
         }
@@ -80,11 +147,11 @@ public class Definition
         return "SNAPSHOT";
     }
     
-    public String getProperty( String key, String value )
+    public String[] getPropertyNames()
     {
         try
         {
-            return m_project.getProperty( key, value );
+            return m_model.getPropertyNames();
         }
         catch( RemoteException e )
         {
@@ -92,6 +159,35 @@ public class Definition
         }
     }
     
+    public String getProperty( String key )
+    {
+        return getProperty( key, null );
+    }
+    
+    public String getProperty( String key, String value )
+    {
+        try
+        {
+            return m_model.getProperty( key, value );
+        }
+        catch( RemoteException e )
+        {
+            throw new RuntimeException( "remote-exeption", e );
+        }
+    }
+    
+    public String getProductionProperty( String type, String key, String value )
+    {
+        try
+        {
+            return m_model.getProductionProperty( type, key, value );
+        }
+        catch( RemoteException e )
+        {
+            throw new RuntimeException( "remote-exeption", e );
+        }
+    }
+
     public File getSrcDirectory()
     {
         return createFile( "src" );
@@ -122,16 +218,55 @@ public class Definition
         return new File( getTargetDirectory(), path );
     }
     
+    public File getTargetBuildDirectory()
+    {
+        return new File( getTargetDirectory(), "build" );
+    }
+    
+    public File getTargetClassesDirectory()
+    {
+        return new File( getTargetDirectory(), "classes" );
+    }
+    
+    public File getTargetDeliverablesDirectory()
+    {
+        return new File( getTargetDirectory(), "deliverables" );
+    }
+    
     public File createFile( String path )
     {
         return new File( getBase(), path );
+    }
+    
+    public String getName()
+    {
+        try
+        {
+            return m_model.getName();
+        }
+        catch( RemoteException e )
+        {
+            throw new RuntimeException( "remote-exeption", e );
+        }
+    }
+    
+    public String getGroup()
+    {
+        try
+        {
+            return m_model.getModule().getPath();
+        }
+        catch( RemoteException e )
+        {
+            throw new RuntimeException( "remote-exeption", e );
+        }
     }
     
     public File getBase()
     {
         try
         {
-            return m_project.getBase();
+            return m_model.getBase();
         }
         catch( RemoteException e )
         {
@@ -143,7 +278,7 @@ public class Definition
     {
         try
         {
-            return m_project.getTypes();
+            return m_model.getTypes();
         }
         catch( RemoteException e )
         {
@@ -151,11 +286,11 @@ public class Definition
         }
     }
     
-    public String getPath()
+    public String getProjectPath()
     {
         try
         {
-            return m_project.getPath();
+            return m_model.getPath();
         }
         catch( RemoteException e )
         {
@@ -164,10 +299,8 @@ public class Definition
     }
     
     // TODO replace this with something constructed from process definitions
-    public Target[] getPluginTargets( Phase phase, org.apache.tools.ant.Project project )
+    public Process[] getPluginTargets( org.apache.tools.ant.Project project )
     {
-        if( Phase.PACKAGE.equals( phase ) )
-        {
             ArrayList list = new ArrayList();
             String[] types = getTypes();
             for( int i=0; i<types.length; i++ )
@@ -182,39 +315,23 @@ public class Definition
                     list.add( createPluginTarget( project ) );
                 }
             }
-            return (Target[]) list.toArray( new Target[0] );
-        }
-        else
-        {
-            return new Target[0];
-        }
+            return (Process[]) list.toArray( new Process[0] );
     }
 
-    private static Target createJarTarget( org.apache.tools.ant.Project ant )
+    private static Process createJarTarget( org.apache.tools.ant.Project ant )
     {
-        Target target = new Target();
         JarTask task = new JarTask();
         task.setProject( ant );
-        task.setOwningTarget( target );
         task.setTaskName( "jar" );
-        target.addTask( task );
-        target.setName( "jar" );
-        target.setProject( ant );
-        return target;
+        return task;
     }
     
-    private static Target createPluginTarget( org.apache.tools.ant.Project ant )
+    private static Process createPluginTarget( org.apache.tools.ant.Project ant )
     {
-        Target target = new Target();
         PluginTask task = new PluginTask();
         task.setProject( ant );
-        task.setOwningTarget( target );
         task.setTaskName( "plugin" );
-        target.addTask( task );
-        target.setName( "plugin" );
-        target.setProject( ant );
-        target.addDependency( "jar" );
-        return target;
+        return task;
     }
     
 }

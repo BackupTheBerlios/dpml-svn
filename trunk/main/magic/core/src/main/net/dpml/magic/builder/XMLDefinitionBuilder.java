@@ -28,7 +28,7 @@ import net.dpml.magic.model.ResourceRef;
 import net.dpml.magic.model.Type;
 
 import net.dpml.transit.Plugin;
-import net.dpml.transit.Plugin.Category;
+import net.dpml.transit.Category;
 import net.dpml.transit.util.ElementHelper;
 
 import org.apache.tools.ant.BuildException;
@@ -375,7 +375,7 @@ public final class XMLDefinitionBuilder
     {
         if( ( null == category ) )
         {
-            return Plugin.IMPL;
+            return Category.IMPL;
         }
         else
         {

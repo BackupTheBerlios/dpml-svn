@@ -30,9 +30,10 @@ import net.dpml.transit.Environment;
 import net.dpml.transit.model.TransitModel;
 import net.dpml.transit.util.ExceptionHelper;
 import net.dpml.transit.util.CLIHelper;
-
 import net.dpml.transit.tools.TransitComponentHelper;
 import net.dpml.transit.tools.MainTask;
+
+import net.dpml.tools.model.Builder;
 
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.ProjectHelper;
@@ -46,36 +47,27 @@ import org.apache.tools.ant.AntTypeDefinition;
 import org.apache.tools.ant.DemuxInputStream;
 import org.apache.tools.ant.DemuxOutputStream;
 import org.apache.tools.ant.ProjectHelper;
+import org.apache.tools.ant.Target;
+import org.apache.tools.ant.Task;
 
 /**
- * Ant plugin running under Transit.
+ * The StandardBuilder is a plugin established by the Tools build controller
+ * used for the building of a project based on the Ant build system in conjunction
+ * with Transit plugin management services.
  *
  * @author <a href="mailto:dev@dpmlnet">Stephen J. McConnell</a>
  * @version $Id: Metro.java 916 2004-11-25 12:15:17Z niclas@apache.org $
  */
-public class AntPlugin 
+public class StandardBuilder implements Builder 
 {
     // ------------------------------------------------------------------------
     // state
     // ------------------------------------------------------------------------
 
-   /**
-    * The commandline args.
-    */
-    private String[] m_targets;
-
-   /**
-    * The target buildfile.
-    */
-    private File m_file = new File( "build.xml" );
-
-   /**
-    * Verbose mode.
-    */
-    private boolean m_verbose = false;
-
-    private TransitModel m_model;
     private Logger m_logger;
+    private TransitModel m_model;
+    private File m_template;
+    private boolean m_verbose;
 
     // ------------------------------------------------------------------------
     // constructors
@@ -84,82 +76,86 @@ public class AntPlugin
    /**
     * AntPlugin establishment.
     *
-    * @param args supplimentary command line arguments
-    * @exception Exception if the build fails
+    * @param logger assigned logging channel
+    * @param model the transit model
+    * @param template an ant template file
+    * @param verbose verbose execution flag
     */
-    public AntPlugin( TransitModel model, Logger logger, String[] args )
-        throws Exception
+    public StandardBuilder( Logger logger, TransitModel model, File template, boolean verbose )
     {
-        m_targets = args;
-        m_model = model;
         m_logger = logger;
+        m_template = template;
+        m_model = model;
+        m_verbose = verbose;
         
-        if( CLIHelper.isOptionPresent( args, "-file" ) )
-        {
-            String path = CLIHelper.getOption( args, "-file" );
-            m_file = new File( path );
-            m_targets = CLIHelper.consolidate( m_targets, "-file", 1 );
-        }
-        if( CLIHelper.isOptionPresent( args, "-verbose" ) )
-        {
-            m_verbose = true;
-            m_targets = CLIHelper.consolidate( m_targets, "-verbose" );
-        }
-        if( CLIHelper.isOptionPresent( args, "-v" ))
-        {
-            m_verbose = true;
-            m_targets = CLIHelper.consolidate( m_targets, "-v" );
-        }
-        execute();
+        Thread.currentThread().setContextClassLoader( getClass().getClassLoader() );
+        String antHome = Environment.getEnvVariable( "ANT_HOME" );
+        System.setProperty( "ant.home", antHome );
     }
 
-    public void execute()
+    // ------------------------------------------------------------------------
+    // Builder
+    // ------------------------------------------------------------------------
+
+    public void build( net.dpml.tools.model.Project project ) throws Exception
+    {
+        Definition definition = new Definition( m_model, project );
+        build( definition );
+    }
+    
+    // ------------------------------------------------------------------------
+    // implementation
+    // ------------------------------------------------------------------------
+    
+    public Project createProject( Definition definition, Phase phase ) throws Exception
+    {
+        Project project = new Project();
+        project.setBaseDir( definition.getBase() );
+        project.setDefaultInputStream( System.in );
+        setupTransitComponentHelper( project );
+        project.setCoreLoader( getClass().getClassLoader() );
+        project.addBuildListener( createLogger() );
+        Context context = new Context( definition, phase, project );
+        project.addReference( "project.context", context );
+        System.setIn( new DemuxInputStream( project ) );
+        project.setProjectReference( new DefaultInputHandler() );
+        ProjectHelper helper = ProjectHelper.getProjectHelper();
+        project.addReference( "ant.projectHelper", helper );
+        return project;
+    }
+    
+    public void build( Definition definition ) throws Exception
     {
         Throwable error = null;
         
-        Thread.currentThread().setContextClassLoader( getClass().getClassLoader() );
-
-        String antHome = Environment.getEnvVariable( "ANT_HOME" );
-        System.setProperty( "ant.home", antHome );
+        Project project = createProject( definition, Phase.PREPARE );
         
-        Project project = new Project();
-        project.setDefaultInputStream( System.in );
-        setupTransitComponentHelper( project );
-
         try
         {
-            project.setCoreLoader( getClass().getClassLoader() );
-            project.addBuildListener( createLogger() );
-
-            System.setIn( new DemuxInputStream(project) );
-            project.setProjectReference( new DefaultInputHandler() );
-            project.fireBuildStarted();
-            project.setUserProperty( "ant.file", m_file.getAbsolutePath() );
-            project.init();
-
-            ProjectHelper helper = ProjectHelper.getProjectHelper();
-            project.addReference( "ant.projectHelper", helper );
-            //ProjectHelper.configureProject( project, m_file );
-            helper.parse( project, m_file );
-
+            ProjectHelper helper = (ProjectHelper) project.getReference( "ant.projectHelper" );
+            helper.parse( project, m_template );
+            
+            //targets.add( "install" );
+            
             Vector targets = new Vector();
-            for( int i=0; i < m_targets.length; i++ )
+            
+            // TODO: add targets from commandline
+            if( targets.size() == 0 )
             {
-                String target = m_targets[i];
-                if( !targets.contains( target ) && !"".equals( target ) )
-                {
-                    targets.add( target );
-                }
-            }
-
-            if( targets.size() == 0 ) 
-            {
-                if( null != project.getDefaultTarget() ) 
+                if( null != project.getDefaultTarget() )
                 {
                     targets.addElement( project.getDefaultTarget() );
                 }
             }
-            project.executeTargets(targets);
+            
+            if( targets.size() == 0 )
+            {
+                final String errorMessage =
+                  "No targets requested and no default target declared.";
+                throw new BuildException( errorMessage );
+            }
+            
+            project.executeTargets( targets );
         }
         catch( Throwable e )
         {
@@ -206,7 +202,7 @@ public class AntPlugin
             throw new BuildException( error, e );
         }
     }
-
+    
     private BuildLogger createLogger()
     {
         BuildLogger logger = new DefaultLogger();
@@ -218,8 +214,8 @@ public class AntPlugin
         {
             logger.setMessageOutputLevel( Project.MSG_INFO );
         }
-        logger.setOutputPrintStream(System.out);
-        logger.setErrorPrintStream(System.err);
+        logger.setOutputPrintStream( System.out );
+        logger.setErrorPrintStream( System.err );
         return logger;
     }
 }

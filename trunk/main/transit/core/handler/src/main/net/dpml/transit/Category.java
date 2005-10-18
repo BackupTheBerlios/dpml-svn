@@ -1,6 +1,5 @@
 /*
- * Copyright 2004 Stephen J. McConnell.
- * Copyright 1999-2004 The Apache Software Foundation
+ * Copyright 2005 Stephen J. McConnell.
  *
  * Licensed  under the  Apache License,  Version 2.0  (the "License");
  * you may not use  this file  except in  compliance with the License.
@@ -17,7 +16,7 @@
  * limitations under the License.
  */
 
-package net.dpml.tools.info;
+package net.dpml.transit;
 
 import java.beans.Expression;
 import java.beans.BeanDescriptor;
@@ -29,44 +28,48 @@ import java.beans.Encoder;
 import net.dpml.transit.util.Enum;
 
 /**
- * Lifestyle policy enumeration.
+ * Classoader category enumeration.
  * @author <a href="mailto:dev-dpml@lists.ibiblio.org">The Digital Product Meta Library</a>
- * @version $Id: InfoDescriptor.java 2522 2005-05-12 11:23:50Z mcconnell@dpml.net $
  */
-public final class Scope extends Enum
+public final class Category extends Enum
 {
     static final long serialVersionUID = 1L;
 
    /**
-    * System scope.
+    * System category.
     */
-    //public static final Scope SYSTEM = new Scope( "system" );
+    public static final Category SYSTEM = new Category( "system" );
 
    /**
-    * Build scope.
+    * API category.
     */
-    public static final Scope BUILD = new Scope( "build" );
+    public static final Category API = new Category( "api" );
 
    /**
-    * Test scope.
+    * SPI category.
     */
-    public static final Scope TEST = new Scope( "test" );
+    public static final Category SPI = new Category( "spi" );
 
    /**
-    * Runtime scope.
+    * Implementation category.
     */
-    public static final Scope RUNTIME = new Scope( "runtime" );
+    public static final Category IMPL = new Category( "impl" );
+
+   /**
+    * Category used for filtering against any category type.
+    */
+    public static final Category ANY = new Category( "any" );
 
    /**
     * Array of scope enumeration values.
     */
-    private static final Scope[] ENUM_VALUES = new Scope[]{ BUILD, RUNTIME, TEST };
+    private static final Category[] ENUM_VALUES = new Category[]{ SYSTEM, API, SPI, IMPL, ANY };
 
    /**
     * Returns an array of activation enum values.
     * @return the activation policies array
     */
-    public static Scope[] values()
+    public static Category[] values()
     {
         return ENUM_VALUES;
     }
@@ -77,29 +80,33 @@ public final class Scope extends Enum
     * @param index the enumeration index.
     * @param map the set of constructed enumerations.
     */
-    private Scope( String label )
+    private Category( String label )
     {
         super( label );
     }
     
-    public static Scope parse( String value )
+    public static Category parse( String value )
     {
-        if( value.equalsIgnoreCase( "build" ) )
+        if( value.equalsIgnoreCase( "system" ) )
         {
-            return BUILD;
+            return SYSTEM;
         }
-        else if( value.equalsIgnoreCase( "runtime" ) )
+        else if( value.equalsIgnoreCase( "api" ) )
         {
-            return RUNTIME;
+            return API;
         }
-        else if( value.equalsIgnoreCase( "test" ))
+        else if( value.equalsIgnoreCase( "spi" ))
         {
-            return TEST;
+            return SPI;
+        }
+        else if( value.equalsIgnoreCase( "impl" ))
+        {
+            return IMPL;
         }
         else
         {
             final String error =
-              "Unrecognized scope argument [" + value + "]";
+              "Unrecognized category argument [" + value + "]";
             throw new IllegalArgumentException( error );
         }
     }

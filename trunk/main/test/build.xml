@@ -17,7 +17,7 @@
   limitations under the License.
 -->
 
-<project name="reactor" default="install" basedir="." 
+<project name="dpml-test" default="install" basedir="." 
     xmlns:transit="antlib:net.dpml.transit" >
 
   <transit:import uri="local:template:magic/reactor"/>

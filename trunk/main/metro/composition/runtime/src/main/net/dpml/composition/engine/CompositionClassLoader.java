@@ -32,7 +32,7 @@ import net.dpml.part.ControlRuntimeException;
 import net.dpml.transit.Artifact;
 import net.dpml.transit.UnsupportedSchemeException;
 import net.dpml.transit.StandardClassLoader;
-import net.dpml.transit.Plugin.Category;
+import net.dpml.transit.Category;
 
 /**
  * A named classloader.

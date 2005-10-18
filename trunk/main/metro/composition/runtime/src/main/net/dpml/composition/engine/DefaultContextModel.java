@@ -52,7 +52,7 @@ import net.dpml.part.ContextException;
 
 import net.dpml.transit.model.Value;
 import net.dpml.transit.model.UnknownKeyException;
-import net.dpml.transit.Plugin.Category;
+import net.dpml.transit.Category;
 
 /**
  *

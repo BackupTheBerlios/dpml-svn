@@ -29,7 +29,7 @@ import net.dpml.magic.UnknownResourceException;
 import net.dpml.transit.Artifact;
 import net.dpml.transit.NullArgumentException;
 import net.dpml.transit.Plugin;
-import net.dpml.transit.Plugin.Category;
+import net.dpml.transit.Category;
 
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Project;
@@ -315,7 +315,7 @@ public class Resource
                     if( flag )
                     {
                         final Resource def = getResource( project, ref );
-                        def.getResourceRefs( project, list, mode, Plugin.ANY, flag );
+                        def.getResourceRefs( project, list, mode, Category.ANY, flag );
                     }
                 }
             }
@@ -378,7 +378,7 @@ public class Resource
             addResourceToPath( project, this, path, filter, false );
         }
 
-        final ResourceRef[] refs = getResourceRefs( project, mode, Plugin.ANY, true );
+        final ResourceRef[] refs = getResourceRefs( project, mode, Category.ANY, true );
         for( int i=0; i < refs.length; i++ )
         {
             final ResourceRef ref = refs[i];

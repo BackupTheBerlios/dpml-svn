@@ -40,6 +40,7 @@ import net.dpml.transit.Repository;
 import net.dpml.transit.RepositoryException;
 import net.dpml.transit.PID;
 import net.dpml.transit.Plugin;
+import net.dpml.transit.Category;
 import net.dpml.transit.Environment;
 import net.dpml.transit.util.CLIHelper;
 
@@ -438,7 +439,7 @@ public final class Main implements ShutdownHandler
             //
 
             Plugin descriptor = repository.getPluginDescriptor( uri );
-            URI[] bootstrap = descriptor.getDependencies( Plugin.SYSTEM );
+            URI[] bootstrap = descriptor.getDependencies( Category.SYSTEM );
             if( bootstrap.length > 0 )
             {
                 logger.debug( "supplimenting system classpath" );

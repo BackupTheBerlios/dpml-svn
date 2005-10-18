@@ -58,7 +58,7 @@ import net.dpml.state.State;
 import net.dpml.state.impl.DefaultState;
 import net.dpml.state.impl.DefaultStateMachine;
 
-import net.dpml.transit.Plugin.Category;
+import net.dpml.transit.Category;
 import net.dpml.transit.model.Value;
 import net.dpml.transit.model.UnknownKeyException;
 

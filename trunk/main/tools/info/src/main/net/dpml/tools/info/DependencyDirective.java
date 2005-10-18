@@ -30,14 +30,14 @@ public final class DependencyDirective extends AbstractDirective
 {
     private final Scope m_scope;
     private final String m_anchor;
-    private final ResourceIncludeDirective[] m_includes;
+    private final TaggedIncludeDirective[] m_includes;
     
-    public DependencyDirective( Scope scope, ResourceIncludeDirective[] includes, Properties properties )
+    public DependencyDirective( Scope scope, TaggedIncludeDirective[] includes, Properties properties )
     {
         this( scope, includes, null, properties );
     }
     
-    public DependencyDirective( Scope scope, ResourceIncludeDirective[] includes, String anchor, Properties properties )
+    public DependencyDirective( Scope scope, TaggedIncludeDirective[] includes, String anchor, Properties properties )
     {
         super( properties );
         
@@ -59,7 +59,7 @@ public final class DependencyDirective extends AbstractDirective
         return m_scope;
     }
     
-    public ResourceIncludeDirective[] getIncludeDirectives()
+    public TaggedIncludeDirective[] getIncludeDirectives()
     {
         return m_includes;
     }
@@ -97,6 +97,8 @@ public final class DependencyDirective extends AbstractDirective
     {
         int hash = super.hashCode();
         hash ^= super.hashArray( m_includes );
+        hash ^= super.hashValue( m_anchor );
+        hash ^= super.hashValue( m_scope );
         return hash;
     }
 }

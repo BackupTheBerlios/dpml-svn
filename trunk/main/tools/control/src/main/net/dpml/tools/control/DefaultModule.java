@@ -27,6 +27,8 @@ import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Hashtable;
+import java.util.Enumeration;
+import java.util.Properties;
 
 import net.dpml.tools.info.ModuleDirective;
 import net.dpml.tools.info.ResourceDirective;
@@ -65,6 +67,7 @@ public final class DefaultModule extends UnicastRemoteObject implements Module
     private final Hashtable m_projects = new Hashtable();
     private final String m_path;
     private final File m_base;
+    private final Properties m_properties;
     
     private DefaultModule[] m_imports;
     
@@ -108,6 +111,8 @@ public final class DefaultModule extends UnicastRemoteObject implements Module
                 m_base = new File( parent.getBase(), base );
             }
         }
+
+        m_properties = setupProperties();
         
         ModuleDirective[] moduleDirectives = directive.getModuleDirectives();
         for( int i=0; i<moduleDirectives.length; i++ )
@@ -247,17 +252,26 @@ public final class DefaultModule extends UnicastRemoteObject implements Module
     
     public String getProperty( String key, String value )
     {
-        String result = m_directive.getProperty( key );
-        if( ( null == result ) && ( m_parent != null ) )
-        {
-            return m_parent.getProperty( key, value );
-        }
-        else
-        {
-            return PropertyResolver.resolve( result );
-        }
+        String result = getProperties().getProperty( key );
+        return PropertyResolver.resolve( m_properties, result );
+    }
+
+    Properties getProperties()
+    {
+        return m_properties;
     }
     
+    public String[] getPropertyNames()
+    {
+        ArrayList list = new ArrayList();
+        Enumeration names = getProperties().propertyNames();
+        while( names.hasMoreElements() )
+        {
+            list.add( (String) names.nextElement() );
+        }
+        return (String[]) list.toArray( new String[0] );
+    }
+
     public Resource resolveResource( String key ) throws ResourceNotFoundException
     {
         return resolveDefaultResource( key );
@@ -342,6 +356,48 @@ public final class DefaultModule extends UnicastRemoteObject implements Module
         {
             DefaultModule module = modules[i];
             module.aggregateProjects( list );
+        }
+    }
+
+    private Properties setupProperties()
+    {
+        Properties properties = createProperties();
+        Properties local = m_directive.getProperties();
+        if( null != local )
+        {
+            Enumeration names = local.propertyNames();
+            while( names.hasMoreElements() )
+            {
+                String name = (String) names.nextElement();
+                String value = local.getProperty( name );
+                properties.setProperty( name, value );
+            }
+        }
+        File basedir = getBase();
+        try
+        {
+            properties.setProperty( "basedir", basedir.getCanonicalPath() );
+            return properties;
+        }
+        catch( IOException e )
+        {
+            final String error = 
+              "Unable to resolve canonical path from file: " + basedir;  
+            throw new RuntimeException( error, e );
+        }
+    }
+    
+    private Properties createProperties()
+    {
+        if( null == m_parent )
+        {
+            return new Properties();
+        }
+        else
+        {
+            Properties defaults = m_parent.getProperties();
+            Properties properties = new Properties( defaults );
+            return properties;
         }
     }
 }

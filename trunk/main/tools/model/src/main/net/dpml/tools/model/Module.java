@@ -60,6 +60,8 @@ public interface Module extends Remote
     public Project[] getSubsidiaryProjects()
       throws RemoteException, ResourceNotFoundException, ModuleNotFoundException;
 
+    String[] getPropertyNames() throws RemoteException;
+
     String getProperty( String key ) throws RemoteException;
     
     String getProperty( String key, String value ) throws RemoteException;

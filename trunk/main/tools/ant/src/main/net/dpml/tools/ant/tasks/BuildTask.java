@@ -16,28 +16,22 @@
  * limitations under the License.
  */
 
-package net.dpml.tools.model;
+package net.dpml.tools.ant.tasks;
 
-import java.rmi.Remote;
-import java.rmi.RemoteException;
+import net.dpml.tools.ant.Phase;
 
 /**
- * The Resource interface describes infomation about a published resource.
+ * Execute the build phase.
  *
  * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
  */
-public interface Resource extends Remote
+public class BuildTask extends AbstractProcess
 {
-    String getName() throws RemoteException;
-    
-    String getVersion() throws RemoteException;
-    
-    String[] getTypes() throws RemoteException;
-    
-    Module getModule() throws RemoteException;
-
-    Resource[] getProviders() throws RemoteException, ModuleNotFoundException, ResourceNotFoundException;
-
-    Project getProject() throws RemoteException;
-    
+   /**
+    * Task initiaization for the build phase.
+    */
+    public void init()
+    {
+        getContext().setPhase( Phase.BUILD );
+    }
 }

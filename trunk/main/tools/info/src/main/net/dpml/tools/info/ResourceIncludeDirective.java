@@ -33,7 +33,7 @@ import net.dpml.transit.util.Enum;
  *
  * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
  */
-public final class ResourceIncludeDirective extends IncludeDirective
+public class ResourceIncludeDirective extends IncludeDirective
 {
     public static final Mode KEY = Mode.KEY;
     public static final Mode REF = Mode.REF;

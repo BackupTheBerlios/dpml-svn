@@ -31,12 +31,10 @@ import net.dpml.tools.info.Scope;
  */
 public interface Project extends Remote
 {
+    long getLastModified() throws RemoteException;
+
     Module getModule() throws RemoteException;
 
-    String getProperty( String key ) throws RemoteException;
-    
-    String getProperty( String key, String value ) throws RemoteException;
-    
     String getName() throws RemoteException;
     
     String getPath() throws RemoteException;
@@ -62,4 +60,13 @@ public interface Project extends Remote
       throws RemoteException, ResourceNotFoundException, ModuleNotFoundException;
 
     Resource toResource() throws RemoteException;
+    
+    String[] getPropertyNames() throws RemoteException;
+    
+    String getProperty( String key ) throws RemoteException;
+    
+    String getProperty( String key, String value ) throws RemoteException;
+    
+    String getProductionProperty( String type, String key, String value ) throws RemoteException;
+    
 }

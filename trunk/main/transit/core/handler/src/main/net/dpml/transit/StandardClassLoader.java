@@ -22,7 +22,7 @@ import java.net.URL;
 import java.net.URI;
 import java.net.URLClassLoader;
 
-import net.dpml.transit.Plugin.Category;
+import net.dpml.transit.Category;
 
 /**
  * A named classloader.

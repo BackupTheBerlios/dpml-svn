@@ -55,7 +55,7 @@ public final class Phase extends Enum
    /**
     * Runtime scope.
     */
-    public static final Phase TEST = new Phase( "test" );
+    public static final Phase VALIDATE = new Phase( "validate" );
 
    /**
     * Runtime scope.
@@ -65,7 +65,7 @@ public final class Phase extends Enum
    /**
     * Array of scope enumeration values.
     */
-    private static final Phase[] ENUM_VALUES = new Phase[]{ PREPARE, BUILD, PACKAGE, TEST, INSTALL };
+    private static final Phase[] ENUM_VALUES = new Phase[]{ PREPARE, BUILD, PACKAGE, VALIDATE, INSTALL };
 
    /**
     * Returns an array of activation enum values.
@@ -101,9 +101,9 @@ public final class Phase extends Enum
         {
             return PACKAGE;
         }
-        else if( value.equalsIgnoreCase( "test" ))
+        else if( value.equalsIgnoreCase( "validate" ))
         {
-            return TEST;
+            return VALIDATE;
         }
         else if( value.equalsIgnoreCase( "install" ))
         {

@@ -35,7 +35,7 @@ import java.util.prefs.Preferences;
 import net.dpml.transit.artifact.ArtifactNotFoundException;
 import net.dpml.transit.artifact.Handler;
 import net.dpml.transit.monitor.RepositoryMonitorRouter;
-import net.dpml.transit.Plugin.Category;
+import net.dpml.transit.Category;
 
 /**
  * Utility class supporting downloading of resources based on
@@ -555,17 +555,17 @@ class StandardLoader implements Repository
 
         URI plugin = descriptor.getURI();
 
-        URI[] apiArtifacts = descriptor.getDependencies( Plugin.API );
+        URI[] apiArtifacts = descriptor.getDependencies( Category.API );
         URL[] apis = getURLs( apiArtifacts  );
-        ClassLoader api = buildClassLoader( plugin, Plugin.API, base, apis );
+        ClassLoader api = buildClassLoader( plugin, Category.API, base, apis );
 
-        URI[] spiArtifacts = descriptor.getDependencies( Plugin.SPI );
+        URI[] spiArtifacts = descriptor.getDependencies( Category.SPI );
         URL[] spis = getURLs( spiArtifacts );
-        ClassLoader spi = buildClassLoader( plugin, Plugin.SPI, api, spis );
+        ClassLoader spi = buildClassLoader( plugin, Category.SPI, api, spis );
 
-        URI[] impArtifacts = descriptor.getDependencies( Plugin.IMPL );
+        URI[] impArtifacts = descriptor.getDependencies( Category.IMPL );
         URL[] imps = getURLs( impArtifacts );
-        ClassLoader classloader = buildClassLoader( plugin, Plugin.IMPL, spi, imps );
+        ClassLoader classloader = buildClassLoader( plugin, Category.IMPL, spi, imps );
 
         return classloader;
     }

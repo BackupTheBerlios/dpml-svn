@@ -60,8 +60,8 @@ import net.dpml.parameters.impl.DefaultParameters;
 
 import net.dpml.part.Part;
 import net.dpml.part.PartHolder;
-import net.dpml.component.info.PartReference;
 import net.dpml.part.PartContentHandlerFactory;
+import net.dpml.component.info.PartReference;
 import net.dpml.component.control.ControllerContext;
 import net.dpml.component.runtime.Component;
 import net.dpml.component.runtime.Container;
@@ -71,7 +71,7 @@ import net.dpml.transit.tools.AntAdapter;
 import net.dpml.transit.Logger;
 import net.dpml.transit.model.ContentModel;
 import net.dpml.transit.Plugin;
-import net.dpml.transit.Plugin.Category;
+import net.dpml.transit.Category;
 
 import org.apache.tools.ant.AntClassLoader;
 import org.apache.tools.ant.BuildException;
@@ -115,20 +115,20 @@ public abstract class ClassLoaderBuilderTask extends ProjectTask
     {
         ArrayList list = new ArrayList();
         ArrayList visited = new ArrayList();
-        URI[] uris = createURISequence( Plugin.API, visited );
+        URI[] uris = createURISequence( Category.API, visited );
         if( uris.length > 0 )
         {
-            list.add( new ClasspathDirective( Plugin.API, uris ) );
+            list.add( new ClasspathDirective( Category.API, uris ) );
         }
-        uris = createURISequence( Plugin.SPI, visited );
+        uris = createURISequence( Category.SPI, visited );
         if( uris.length > 0 )
         {
-            list.add( new ClasspathDirective( Plugin.SPI, uris ) );
+            list.add( new ClasspathDirective( Category.SPI, uris ) );
         }
-        uris = createURISequence( Plugin.IMPL, visited, true );
+        uris = createURISequence( Category.IMPL, visited, true );
         if( uris.length > 0 )
         {
-            list.add( new ClasspathDirective( Plugin.IMPL, uris ) );
+            list.add( new ClasspathDirective( Category.IMPL, uris ) );
         }
         ClasspathDirective[] cps = (ClasspathDirective[]) list.toArray( new ClasspathDirective[0] );
         return new ClassLoaderDirective( cps );

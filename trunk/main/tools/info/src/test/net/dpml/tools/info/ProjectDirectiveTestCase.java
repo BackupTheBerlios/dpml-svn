@@ -35,8 +35,8 @@ public final class ProjectDirectiveTestCase extends AbstractTestCase
     static DependencyDirective[] DEPENDENCIES = new DependencyDirective[2];
     static
     {
-        DEPENDENCIES[0] = new DependencyDirective( Scope.RUNTIME, new ResourceIncludeDirective[0], PROPERTIES );
-        DEPENDENCIES[1] = new DependencyDirective( Scope.TEST, new ResourceIncludeDirective[0], PROPERTIES );
+        DEPENDENCIES[0] = new DependencyDirective( Scope.RUNTIME, new TaggedIncludeDirective[0], PROPERTIES );
+        DEPENDENCIES[1] = new DependencyDirective( Scope.TEST, new TaggedIncludeDirective[0], PROPERTIES );
     }
     
     static ProjectDirective[] PROJECTS = new ProjectDirective[3];

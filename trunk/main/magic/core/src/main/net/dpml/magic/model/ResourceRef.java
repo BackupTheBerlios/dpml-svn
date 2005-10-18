@@ -18,7 +18,7 @@
 package net.dpml.magic.model;
 
 import net.dpml.transit.Plugin;
-import net.dpml.transit.Plugin.Category;
+import net.dpml.transit.Category;
 
 /**
  * Delcaration of a repository resource reference.
@@ -41,23 +41,23 @@ public final class ResourceRef
     {
         if( "sys".equals( category ) )
         {
-            return Plugin.ANY;
+            return Category.ANY;
         }
         else if( "system".equals( category ) )
         {
-            return Plugin.SYSTEM;
+            return Category.SYSTEM;
         }
         else if( "api".equals( category ) )
         {
-            return Plugin.API;
+            return Category.API;
         }
         else if( "spi".equals( category ) )
         {
-            return Plugin.SPI;
+            return Category.SPI;
         }
         else if( "impl".equals( category ) )
         {
-            return Plugin.IMPL;
+            return Category.IMPL;
         }
         else
         {
@@ -74,23 +74,23 @@ public final class ResourceRef
     */
     public static String getCategoryName( final Category category )
     {
-        if( category == Plugin.ANY )
+        if( category == Category.ANY )
         {
             return "any";
         }
-        if( category == Plugin.SYSTEM )
+        if( category == Category.SYSTEM )
         {
             return "system";
         }
-        if( category == Plugin.API )
+        if( category == Category.API )
         {
             return "api";
         }
-        else if( category == Plugin.SPI )
+        else if( category == Category.SPI )
         {
             return "spi";
         }
-        else if( category == Plugin.IMPL )
+        else if( category == Category.IMPL )
         {
             return "impl";
         }
@@ -108,7 +108,7 @@ public final class ResourceRef
     */
     public ResourceRef( final String key )
     {
-        this( key, new Policy(), Plugin.ANY );
+        this( key, new Policy(), Category.ANY );
     }
 
    /**
@@ -158,7 +158,7 @@ public final class ResourceRef
     */
     public boolean matches( final Category category )
     {
-        if( ( Plugin.ANY == category ) || ( Plugin.ANY == m_tag ) )
+        if( ( Category.ANY == category ) || ( Category.ANY == m_tag ) )
         {
             return true;
         }

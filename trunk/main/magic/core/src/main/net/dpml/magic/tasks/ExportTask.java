@@ -35,6 +35,7 @@ import net.dpml.magic.project.Context;
 import net.dpml.magic.project.DeliverableHelper;
 
 import net.dpml.transit.Plugin;
+import net.dpml.transit.Category;
 import net.dpml.transit.tools.PluginTask;
 
 import org.apache.tools.ant.BuildException;
@@ -300,7 +301,7 @@ public class ExportTask extends ProjectTask
         throws IOException
     {
         final ArrayList visited = new ArrayList();
-        final ResourceRef[] sys = def.getQualifiedRefs( getProject(), visited, Plugin.SYSTEM );
+        final ResourceRef[] sys = def.getQualifiedRefs( getProject(), visited, Category.SYSTEM );
         if( sys.length > 0 )
         {
             writer.write( "\n" );
@@ -310,7 +311,7 @@ public class ExportTask extends ProjectTask
             final String lead = ARTIFACT_SYSTEM;
             writeRefs( writer, sys, lead );
         }
-        final ResourceRef[] apis = def.getQualifiedRefs( getProject(), visited, Plugin.API );
+        final ResourceRef[] apis = def.getQualifiedRefs( getProject(), visited, Category.API );
         if( apis.length > 0 )
         {
             writer.write( "\n" );
@@ -320,7 +321,7 @@ public class ExportTask extends ProjectTask
             final String lead = ARTIFACT_PUBLIC;
             writeRefs( writer, apis, lead );
         }
-        final ResourceRef[] spis = def.getQualifiedRefs( getProject(), visited, Plugin.SPI );
+        final ResourceRef[] spis = def.getQualifiedRefs( getProject(), visited, Category.SPI );
         if( spis.length > 0 )
         {
             writer.write( "\n" );
@@ -330,7 +331,7 @@ public class ExportTask extends ProjectTask
             final String lead = ARTIFACT_PROTECTED;
             writeRefs( writer, spis, lead );
         }
-        final ResourceRef[] impl = def.getQualifiedRefs( getProject(), visited, Plugin.IMPL );
+        final ResourceRef[] impl = def.getQualifiedRefs( getProject(), visited, Category.IMPL );
         boolean isaJar = def.getInfo().isa( "jar" );
         if( ( impl.length > 0 ) || isaJar )
         {

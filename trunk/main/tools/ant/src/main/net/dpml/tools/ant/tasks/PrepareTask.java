@@ -30,6 +30,7 @@ import org.apache.tools.ant.taskdefs.Mkdir;
 import org.apache.tools.ant.taskdefs.Copy;
 
 import net.dpml.tools.ant.Definition;
+import net.dpml.tools.ant.Phase;
 
 /**
  * Prepare the target build directory based on content presented under the
@@ -37,7 +38,7 @@ import net.dpml.tools.ant.Definition;
  *
  * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
  */
-public class PrepareTask extends Task
+public class PrepareTask extends AbstractProcess
 {
     private static final String SRC_FILTERED_INCLUDES_KEY =
       "project.prepare.src.filtered.includes";
@@ -69,7 +70,7 @@ public class PrepareTask extends Task
     {
         if( !m_init )
         {
-            super.init();
+            getContext().setPhase( Phase.PREPARE );
             final Project project = getProject();
             project.setProperty(
               SRC_FILTERED_INCLUDES_KEY, SRC_FILTERED_INCLUDES_VALUE );
@@ -80,21 +81,25 @@ public class PrepareTask extends Task
             m_init = true;
         }
     }
-
+    
    /**
     * Replicates the content of the src and etc directory to the target directory applying
     * a set of fixed rules - see prepare task documentation for details.
     */
     public void execute()
     {
+        executePreparation();
+        super.execute();
+    }
+    
+   /**
+    * Replicates the content of the src and etc directory to the target directory applying
+    * a set of fixed rules - see prepare task documentation for details.
+    */
+    public void executePreparation()
+    {
         final Project project = getProject();
-        Definition definition = (Definition) project.getReference( "project.definition" );
-        if( null == definition )
-        {
-            final String error = 
-              "Missing project definition reference.";
-            throw new BuildException( error, getLocation() );
-        }
+        Definition definition = getDefinition();
         
         //
         // setup the file system
@@ -163,37 +168,5 @@ public class PrepareTask extends Task
             copy( etc, target, true, includes, standard + excludes );
             copy( etc, target, false, excludes, standard );
         }
-    }
-    
-   /**
-    * Utility operation to create a new directory if it does not exist.
-    * @param dir the directory to create
-    */
-    public void mkDir( final File dir )
-    {
-        final Mkdir mkdir = (Mkdir) getProject().createTask( "mkdir" );
-        mkdir.setTaskName( getTaskName() );
-        mkdir.setDir( dir );
-        mkdir.init();
-        mkdir.execute();
-    }
-    
-    private void copy(
-       final File src, final File destination, final boolean filtering, final String includes, final String excludes )
-    {
-        mkDir( destination );
-        final Copy copy = (Copy) getProject().createTask( "copy" );
-        copy.setTaskName( getTaskName() );
-        copy.setTodir( destination );
-        copy.setFiltering( filtering );
-        copy.setOverwrite( false );
-        copy.setPreserveLastModified( true );
-        final FileSet fileset = new FileSet();
-        fileset.setDir( src );
-        fileset.setIncludes( includes );
-        fileset.setExcludes( excludes );
-        copy.addFileset( fileset );
-        copy.init();
-        copy.execute();
     }
 }

@@ -18,26 +18,21 @@
 
 package net.dpml.tools.model;
 
-import java.rmi.Remote;
-import java.rmi.RemoteException;
-
 /**
- * The Resource interface describes infomation about a published resource.
+ * A TypeNotFoundException is thrown when a requested for a named type cannot
+ * be resolved relative to the enclosing object.
  *
  * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
  */
-public interface Resource extends Remote
+public final class TypeNotFoundException extends Exception
 {
-    String getName() throws RemoteException;
+    public TypeNotFoundException( String message )
+    {
+        this( message, null );
+    }
     
-    String getVersion() throws RemoteException;
-    
-    String[] getTypes() throws RemoteException;
-    
-    Module getModule() throws RemoteException;
-
-    Resource[] getProviders() throws RemoteException, ModuleNotFoundException, ResourceNotFoundException;
-
-    Project getProject() throws RemoteException;
-    
+    public TypeNotFoundException( String message, Throwable cause )
+    {
+        super( message, cause );
+    }
 }

@@ -82,7 +82,7 @@ public class PropertiesPluginTestCase extends TestCase
     public void testApiDependencies()
         throws Exception
     {
-        URI[] facts = m_plugin.getDependencies( Plugin.API );
+        URI[] facts = m_plugin.getDependencies( Category.API );
         assertEquals( "API deps", 4, facts.length );
 
         URI uri = URI.create( "artifact:jar:dpml/logging/dpml-logging-api#123" );
@@ -98,7 +98,7 @@ public class PropertiesPluginTestCase extends TestCase
     public void testSpiDependencies()
         throws Exception
     {
-        URI[] facts = m_plugin.getDependencies( Plugin.SPI );
+        URI[] facts = m_plugin.getDependencies( Category.SPI );
         assertEquals( "SPI deps", 2, facts.length );
 
         URI uri = URI.create( "artifact:jar:dpml/transit/dpml-transit-spi#123" );
@@ -110,7 +110,7 @@ public class PropertiesPluginTestCase extends TestCase
     public void testImplDependencies()
         throws Exception
     {
-        URI[] facts = m_plugin.getDependencies( Plugin.IMPL );
+        URI[] facts = m_plugin.getDependencies( Category.IMPL );
         assertEquals( "Impl deps", 5, facts.length );
 
         URI uri = URI.create( "artifact:jar:dpml/util/dpml-util-i18n#123" );

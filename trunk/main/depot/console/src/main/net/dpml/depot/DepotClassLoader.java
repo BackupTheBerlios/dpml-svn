@@ -27,7 +27,7 @@ import java.util.Properties;
 
 import net.dpml.transit.StandardClassLoader;
 import net.dpml.transit.util.PropertyResolver;
-import net.dpml.transit.Plugin;
+import net.dpml.transit.Category;
 
 /**
  * The DepotClassLoader is a URLClassLoader that supports late binding of 
@@ -50,7 +50,7 @@ public final class DepotClassLoader extends StandardClassLoader
     */
     public DepotClassLoader( ClassLoader parent )
     {
-        super( BOOTSTRAP, Plugin.SYSTEM, new URL[0], parent );
+        super( BOOTSTRAP, Category.SYSTEM, new URL[0], parent );
     }
     
     /*

@@ -36,7 +36,7 @@ public class InitializeTask extends GenericTask
     {
         final Project project = getProject();
         final Definition definition = getDefinition();
-        final String path = definition.getPath();
+        final String path = definition.getProjectPath();
         project.log( "---------------------------------------------------------------------------" );
         project.log( "Project: " + path );
         project.log( "---------------------------------------------------------------------------" );

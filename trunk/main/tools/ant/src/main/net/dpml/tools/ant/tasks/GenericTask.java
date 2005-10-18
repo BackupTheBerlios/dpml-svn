@@ -30,8 +30,12 @@ import org.apache.tools.ant.taskdefs.Mkdir;
 import org.apache.tools.ant.taskdefs.Copy;
 import org.apache.tools.ant.taskdefs.Delete;
 import org.apache.tools.ant.taskdefs.Sequential;
+import org.apache.tools.ant.taskdefs.Checksum;
+import org.apache.tools.ant.taskdefs.ExecTask;
 
 import net.dpml.tools.ant.Definition;
+import net.dpml.tools.ant.Phase;
+import net.dpml.tools.ant.Context;
 
 /**
  * Prepare the target build directory based on content presented under the
@@ -40,47 +44,74 @@ import net.dpml.tools.ant.Definition;
  * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
  */
 public abstract class GenericTask extends Task
-{
-    private boolean m_init = false;
-    private Definition m_definition;
-    
+{   
    /**
-    * Task initiaization
+    * Constant key for the GPG exe name.
     */
+    public static final String GPG_EXE_KEY = "project.gpg.exe";
+
+   /**
+    * MD5 file type.
+    */
+    public static final String MD5_EXT = "md5";
+
+   /**
+    * ASC file type.
+    */
+    public static final String ASC_EXT = "asc";
+
+    private boolean m_init = false;
+    
     public void init()
     {
-        if( m_init )
+        if( !m_init )
         {
-            return;
+            super.init();
+            m_init = true;
         }
-        super.init();
-        m_definition = (Definition) getProject().getReference( "project.definition" );
-        if( null == m_definition )
-        {
-            final String error = 
-              "Missing project definition reference.";
-            throw new IllegalStateException( error );
-        }
-        m_init = true;
+    }
+    
+    protected boolean isInitialized()
+    {
+        return m_init;
     }
     
    /**
     * Get the project definition.
     */
-    public Definition getDefinition()
+    protected Definition getDefinition()
     {
-        if( !m_init )
+        return getContext().getDefinition();
+    }
+    
+   /**
+    * Get the project definition.
+    */
+    protected Phase getPhase()
+    {
+        return getContext().getPhase();
+    }
+    
+   /**
+    * Get the project definition.
+    */
+    protected Context getContext()
+    {
+        Context context = (Context) getProject().getReference( "project.context" );
+        if( null == context )
         {
-            init();
+            final String error = 
+              "Missing project context reference.";
+            throw new IllegalStateException( error );
         }
-        return m_definition;
+        return context;
     }
     
    /**
     * Utility operation to create a new directory if it does not exist.
     * @param dir the directory to create
     */
-    public void mkDir( final File dir )
+    protected void mkDir( final File dir )
     {
         final Mkdir mkdir = (Mkdir) getProject().createTask( "mkdir" );
         mkdir.setTaskName( getTaskName() );
@@ -89,7 +120,7 @@ public abstract class GenericTask extends Task
         mkdir.execute();
     }
     
-    private void copy(
+    protected void copy(
        final File src, final File destination, final boolean filtering, final String includes, final String excludes )
     {
         mkDir( destination );
@@ -112,7 +143,7 @@ public abstract class GenericTask extends Task
     * Utility operation to delete a directory .
     * @param dir the directory to delete
     */
-    public void deleteDir( final File dir )
+    protected void deleteDir( final File dir )
     {
         final Delete task = (Delete) getProject().createTask( "delete" );
         task.setTaskName( getTaskName() );
@@ -120,4 +151,70 @@ public abstract class GenericTask extends Task
         task.init();
         task.execute();
     }
+    
+   /**
+    * Create an MD5 checksum file relative to the supplied file.
+    * If an [filename].md5 file exists it will be deleted and a new
+    * MD5 created.
+    *
+    * @param file the file from which a checksum signature will be generated
+    */
+    public void checksum( final File file )
+    {
+        log( "Creating md5 checksum" );
+
+        final File md5 = new File( file.toString() + "." + MD5_EXT );
+        if( md5.exists() )
+        {
+            md5.delete();
+        }
+
+        final Checksum checksum = (Checksum) getProject().createTask( "checksum" );
+        checksum.setTaskName( getTaskName() );
+        checksum.setFile( file );
+        checksum.setFileext( "." + MD5_EXT );
+        checksum.init();
+        checksum.execute();
+    }
+
+   /**
+    * Creation of an ASC signature relative to a supplied file.  If a [filename].asc
+    * exists it will be deleted and recreated relative to the supplied file content.
+    *
+    * @param file the file to sign
+    */
+    public void asc( final File file )
+    {
+        final String path = Project.translatePath( file.toString() );
+        final File asc = new File( file.toString() + "." + ASC_EXT );
+        if( asc.exists() )
+        {
+            asc.delete();
+        }
+
+        String gpg = getProject().getProperty( GPG_EXE_KEY );
+        if( ( null != gpg ) && !"".equals( gpg ) )
+        {
+            log( "Creating asc signature using '" + gpg + "'." );
+            final ExecTask execute = (ExecTask) getProject().createTask( "exec" );
+
+            execute.setExecutable( gpg );
+
+            execute.createArg().setValue( "-a" );
+            execute.createArg().setValue( "-b" );
+            execute.createArg().setValue( "-o" );
+            execute.createArg().setValue( path + "." + ASC_EXT );
+            execute.createArg().setValue( path );
+
+            execute.setDir( getProject().getBaseDir() );
+            execute.setSpawn( false );
+            execute.setAppend( false );
+            execute.setTimeout( new Integer( TIMEOUT ) );
+            execute.execute();
+        }
+    }
+
+    private static final int TIMEOUT = 10000;
+
+
 }

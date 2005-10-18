@@ -1,5 +1,5 @@
 /*
- * Copyright 2004 Stephen J. McConnell.
+ * Copyright 2005 Stephen J. McConnell.
  *
  * Licensed  under the  Apache License,  Version 2.0  (the "License");
  * you may not use  this file  except in  compliance with the License.
@@ -43,10 +43,10 @@ import net.dpml.tools.control.DefaultLibrary;
  * Plugin that handles multi-project builds based on supplied commandline arguments.
  *
  * @author <a href="mailto:dev@dpmlnet">Stephen J. McConnell</a>
- * @version $Id: Metro.java 916 2004-11-25 12:15:17Z niclas@apache.org $
  */
 public class BuildPlugin 
 {
+
     // ------------------------------------------------------------------------
     // state
     // ------------------------------------------------------------------------
@@ -116,7 +116,7 @@ public class BuildPlugin
         boolean build = CLIHelper.isOptionPresent( args, "-build" );
         if( build )
         {
-            String template = project.getProperty( "build.template" );
+            String template = project.getProperty( "project.template" );
             if( null != template )
             {
                 File file = new File( template );

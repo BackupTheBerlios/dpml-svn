@@ -21,7 +21,7 @@ package net.dpml.component.data;
 import java.io.Serializable;
 import java.net.URI;
 
-import net.dpml.transit.Plugin.Category;
+import net.dpml.transit.Category;
 
 /**
  * Description of classpath.

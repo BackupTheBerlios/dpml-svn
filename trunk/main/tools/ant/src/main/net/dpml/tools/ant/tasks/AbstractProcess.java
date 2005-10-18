@@ -22,13 +22,16 @@ import java.io.File;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.Hashtable;
+import java.util.ArrayList;
 import java.util.Vector;
 
 import org.apache.tools.ant.Target;
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.Task;
+import org.apache.tools.ant.TaskContainer;
 
 import net.dpml.tools.ant.Definition;
+import net.dpml.tools.ant.Process;
 import net.dpml.tools.ant.Phase;
 
 /**
@@ -36,20 +39,29 @@ import net.dpml.tools.ant.Phase;
  *
  * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
  */
-public class ProcessTask extends GenericTask
+public abstract class AbstractProcess extends GenericTask
 {
-    private Phase m_phase;
-    
-    public void setPhase( String phase )
-    {
-        m_phase = Phase.parse( phase );
-    }
-    
     public void execute()
     {
         Project project = getProject();
         Definition definition = getDefinition();
-        Target[] targets = definition.getPluginTargets( m_phase, project );
+        Phase phase = getPhase();
+        Process[] processes = definition.getPluginTargets( project );
+        for( int i=0; i<processes.length; i++ )
+        {
+            Process process = (Process) processes[i];
+            if( process.supports( phase ) )
+            {
+                process.setProject( project );
+                process.setOwningTarget( getOwningTarget() );
+                process.setLocation( getLocation() );
+                process.init();
+                process.execute();
+            }
+        }
+        
+        /*
+        
         String[] names = new String[ targets.length ];
         Hashtable table = new Hashtable();
         for( int i=0; i<targets.length; i++ )
@@ -59,11 +71,16 @@ public class ProcessTask extends GenericTask
             table.put( name, target );
             names[i] = name;
         }
+        Phase phase = getPhase();
         Vector v = getProject().topoSort( names, table, true );
         for( int i=0; i<v.size(); i++ )
         {
-            Target t = (Target) v.get( i );
-            t.performTasks();
+            Process process = (Process) v.get( i );
+            if( process.supports( phase ) )
+            {
+                process.performTasks();
+            }
         }
+        */
     }
 }

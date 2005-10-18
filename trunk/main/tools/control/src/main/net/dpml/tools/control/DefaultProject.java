@@ -24,7 +24,10 @@ import java.io.IOException;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
+import java.util.Enumeration;
 import java.util.List;
+import java.util.Properties;
+import java.util.Date;
 
 import net.dpml.tools.info.ProductionDirective;
 import net.dpml.tools.info.DependencyDirective;
@@ -63,6 +66,7 @@ public final class DefaultProject extends UnicastRemoteObject implements Project
     private final String m_path;
     private final DefaultResource m_resource;
     private final File m_base;
+    private final Properties m_properties;
     
     DefaultProject( DefaultLibrary library, DefaultModule parent, ProjectDirective directive ) throws RemoteException
     {
@@ -109,7 +113,14 @@ public final class DefaultProject extends UnicastRemoteObject implements Project
         }
         
         m_resource = new DefaultResource( library, parent, this );
+        m_properties = setupProperties();
     }
+    
+    public long getLastModified()
+    {
+        return m_library.getLastModified();
+    }
+
     
     public String getName()
     {
@@ -184,16 +195,37 @@ public final class DefaultProject extends UnicastRemoteObject implements Project
     
     public String getProperty( String key, String value )
     {
-        String result = m_directive.getProperty( key );
-        if( ( null == result ) && ( m_parent != null ) )
-        {
-            return m_parent.getProperty( key, value );
-        }
-        else
-        {
-            return PropertyResolver.resolve( result );
-        }
+        String result = m_properties.getProperty( key );
+        return PropertyResolver.resolve( m_properties, result );
     }
+    
+    public String[] getPropertyNames()
+    {
+        ArrayList list = new ArrayList();
+        Enumeration names = getProperties().propertyNames();
+        while( names.hasMoreElements() )
+        {
+            list.add( (String) names.nextElement() );
+        }
+        return (String[]) list.toArray( new String[0] );
+    }
+
+    Properties getProperties()
+    {
+        return m_properties;
+    }
+    
+    public String getProductionProperty( String type, String key, String value )
+    {
+        ProductionDirective production = m_directive.getProductionDirective( type );
+        Properties properties = production.getProperties();
+        if( null != properties )
+        {
+            return properties.getProperty( key, value );
+        }
+        return value;
+    }
+
     
    /**
     * Return the set of immediate consumers of this project.
@@ -364,6 +396,35 @@ public final class DefaultProject extends UnicastRemoteObject implements Project
         for( int i=0; i<includes.length; i++ )
         {
             list.add( includes[i] );
+        }
+    }
+
+    private Properties setupProperties()
+    {
+        Properties defaults = m_parent.getProperties();
+        Properties properties = new Properties( defaults );
+        Properties local = m_directive.getProperties();
+        if( null != local )
+        {
+            Enumeration names = local.propertyNames();
+            while( names.hasMoreElements() )
+            {
+                String name = (String) names.nextElement();
+                String value = local.getProperty( name );
+                properties.setProperty( name, value );
+            }
+        }
+        File basedir = getBase();
+        try
+        {
+            properties.setProperty( "basedir", basedir.getCanonicalPath() );
+            return properties;
+        }
+        catch( IOException e )
+        {
+            final String error = 
+              "Unable to resolve canonical path from file: " + basedir;  
+            throw new RuntimeException( error, e );
         }
     }
 }

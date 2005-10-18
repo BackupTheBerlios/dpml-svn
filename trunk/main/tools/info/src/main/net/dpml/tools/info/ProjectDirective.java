@@ -72,6 +72,20 @@ public final class ProjectDirective extends AbstractDirective
         return m_production;
     }
     
+    public ProductionDirective getProductionDirective( String key )
+    {
+        ProductionDirective[] directives = getProductionDirectives();
+        for( int i=0; i<directives.length; i++ )
+        {
+            ProductionDirective directive = directives[i];
+            if( key.equals( directive.getType() ) )
+            {
+                return directive;
+            }
+        }
+        throw new IllegalArgumentException( key );
+    }
+    
     public DependencyDirective[] getDependencyDirectives()
     {
         return m_dependencies;

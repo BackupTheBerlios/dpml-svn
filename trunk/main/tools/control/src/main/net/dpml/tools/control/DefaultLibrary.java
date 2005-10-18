@@ -28,6 +28,7 @@ import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.Hashtable;
 import java.util.ArrayList;
+import java.util.Date;
 
 import net.dpml.tools.info.IncludeDirective;
 import net.dpml.tools.info.ModuleDirective;
@@ -59,6 +60,7 @@ public final class DefaultLibrary extends UnicastRemoteObject implements Library
 {
     private final Hashtable m_modules = new Hashtable();
     private final File m_root;
+    private final File m_source;
     private final Logger m_logger;
     
     public static Library load( final Logger logger, final File source ) throws RemoteException, Exception
@@ -85,11 +87,17 @@ public final class DefaultLibrary extends UnicastRemoteObject implements Library
         }
         
         m_logger = logger;
+        m_source = source;
         m_root = source.getParentFile().getCanonicalFile();
         getLogger().debug( "loading root module: " + m_root );
         System.setProperty( "dpml.library.basedir", m_root.toString() );
         ModuleDirective directive= ModuleDirectiveBuilder.build( source );
         install( directive );
+    }
+    
+    public long getLastModified()
+    {
+        return m_source.lastModified();
     }
     
    /**

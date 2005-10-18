@@ -73,7 +73,7 @@ import net.dpml.part.Context;
 import net.dpml.part.Handler;
 
 import net.dpml.transit.Plugin;
-import net.dpml.transit.Plugin.Category;
+import net.dpml.transit.Category;
 import net.dpml.transit.model.ContentModel;
 import net.dpml.transit.model.Value;
 
@@ -522,7 +522,7 @@ public class CompositionController extends CompositionPartHandler implements Con
                 {
                     URI partition = getPartition( container );
                     return new CompositionClassLoader( 
-                      partition, Plugin.ANY, getClass().getClassLoader(), new URI[0], classloader );
+                      partition, Category.ANY, getClass().getClassLoader(), new URI[0], classloader );
                 }
             }
         }

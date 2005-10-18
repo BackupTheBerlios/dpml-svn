@@ -31,6 +31,7 @@ import net.dpml.magic.model.Resource;
 import net.dpml.magic.model.ResourceRef;
 
 import net.dpml.transit.Plugin;
+import net.dpml.transit.Category;
 import net.dpml.transit.util.ElementHelper;
 import net.dpml.transit.artifact.Handler;
 
@@ -327,7 +328,7 @@ public class JavadocTask extends ProjectTask
     private Resource[] getReferencedModules( Definition definition )
     {
         ResourceRef[] refs =
-          definition.getResourceRefs( getProject(), Policy.ANY, Plugin.ANY, true );
+          definition.getResourceRefs( getProject(), Policy.ANY, Category.ANY, true );
         ArrayList list = new ArrayList();
         for( int i=0; i < refs.length; i++ )
         {

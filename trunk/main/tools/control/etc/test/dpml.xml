@@ -21,7 +21,7 @@
          <production>
            <type id="jar"/>
          </production>
-         <dependencies scope="runtime">
+         <dependencies>
            <include ref="dpml/runtime/dpml-transit-main"/>
          </dependencies>
        </project>
@@ -30,7 +30,7 @@
            <type id="jar"/>
            <type id="plugin"/>
          </production>
-         <dependencies scope="runtime">
+         <dependencies>
            <include key="dpml-state-api"/>
          </dependencies>
        </project>
@@ -46,7 +46,7 @@
          <production>
            <type id="jar"/>
          </production>
-         <dependencies scope="runtime">
+         <dependencies>
            <include ref="dpml/runtime/dpml-transit-main"/>
            <include ref="ant/ant"/>
          </dependencies>
