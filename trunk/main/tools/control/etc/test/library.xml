@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<library>
+
+  <properties>
+    <property name="publisher.name" value="Digital Product Meta Library"/>
+    <property name="publisher.url" value="http://www.dpml.net"/>
+    <property name="resource.repository.host" value="http://repository.dpml.net/"/>
+    <property name="javadoc.repository.host" value="http://api.dpml.net/"/>
+    <property name="build.template" value="${dpml.library.basedir}/standard.template"/>
+  </properties>
+
+  <types>
+    <type name="jar" uri="artifact:plugin:dpml/tools/dpml-tools-jar#SNAPSHOT"/>
+    <type name="plugin" uri="artifact:plugin:dpml/tools/dpml-tools-plugin#SNAPSHOT"/>
+  </types>
+
+  <module name="dpml">
+
+   <module name="runtime">
+     <projects>
+       <project name="dpml-transit-main" basedir="transit/core/handler">
+         <production>
+           <type id="jar"/>
+         </production>
+       </project>
+       <project name="dpml-state-api" basedir="metro/state/api">
+         <production>
+           <type id="jar"/>
+         </production>
+         <dependencies>
+           <include ref="dpml/runtime/dpml-transit-main"/>
+         </dependencies>
+       </project>
+       <project name="dpml-state-impl" basedir="metro/state/impl">
+         <production>
+           <type id="jar"/>
+           <type id="plugin"/>
+         </production>
+         <dependencies>
+           <include key="dpml-state-api"/>
+         </dependencies>
+       </project>
+     </projects>
+   </module>
+
+   <module name="tools">
+     <dependencies>
+       <include file="ant.xml"/>
+     </dependencies>
+     <projects>
+       <project name="dpml-transit-tools" basedir="transit/core/tools">
+         <production>
+           <type id="jar"/>
+         </production>
+         <dependencies>
+           <include ref="dpml/runtime/dpml-transit-main"/>
+           <include ref="ant/ant"/>
+         </dependencies>
+       </project>
+     </projects>
+   </module>
+
+   <module name="management"/>
+
+  </module>
+
+</library>

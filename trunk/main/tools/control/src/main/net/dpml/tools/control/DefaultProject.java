@@ -36,6 +36,8 @@ import net.dpml.tools.info.ResourceDirective;
 import net.dpml.tools.info.TypeDirective;
 import net.dpml.tools.info.IncludeDirective;
 import net.dpml.tools.info.Scope;
+import net.dpml.tools.info.TypeDescriptor;
+import net.dpml.tools.model.TypeNotFoundException;
 import net.dpml.tools.model.Project;
 import net.dpml.tools.model.Resource;
 import net.dpml.tools.model.Module;
@@ -121,6 +123,10 @@ public final class DefaultProject extends UnicastRemoteObject implements Project
         return m_library.getLastModified();
     }
 
+    public TypeDescriptor getTypeDescriptor( String type ) throws TypeNotFoundException
+    {
+        return m_library.getTypeDescriptor( type );
+    }
     
     public String getName()
     {

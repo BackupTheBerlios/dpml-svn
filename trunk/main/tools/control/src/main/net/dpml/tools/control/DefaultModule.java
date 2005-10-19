@@ -391,13 +391,13 @@ public final class DefaultModule extends UnicastRemoteObject implements Module
     {
         if( null == m_parent )
         {
-            return new Properties();
+            Properties defaults = m_library.getProperties();
+            return new Properties( defaults );
         }
         else
         {
             Properties defaults = m_parent.getProperties();
-            Properties properties = new Properties( defaults );
-            return properties;
+            return new Properties( defaults );
         }
     }
 }

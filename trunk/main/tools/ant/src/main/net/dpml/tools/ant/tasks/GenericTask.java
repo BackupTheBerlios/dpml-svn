@@ -43,7 +43,7 @@ import net.dpml.tools.ant.Context;
  *
  * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
  */
-public abstract class GenericTask extends Task
+public class GenericTask extends Task
 {   
    /**
     * Constant key for the GPG exe name.

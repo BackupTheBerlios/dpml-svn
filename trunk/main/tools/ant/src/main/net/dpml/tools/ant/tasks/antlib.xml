@@ -1,13 +1,16 @@
 <?xml version="1.0"?>
 <antlib>
-
-  <taskdef name="clean"        classname="net.dpml.tools.ant.tasks.CleanTask"/>
-  <taskdef name="init"         classname="net.dpml.tools.ant.tasks.InitializeTask"/>
+  <taskdef name="init"         classname="net.dpml.tools.ant.tasks.InitializationTask"/>
   <taskdef name="prepare"      classname="net.dpml.tools.ant.tasks.PrepareTask"/>
   <taskdef name="build"        classname="net.dpml.tools.ant.tasks.BuildTask"/>
   <taskdef name="package"      classname="net.dpml.tools.ant.tasks.PackageTask"/>
   <taskdef name="validate"     classname="net.dpml.tools.ant.tasks.ValidateTask"/>
   <taskdef name="install"      classname="net.dpml.tools.ant.tasks.InstallTask"/>
   <taskdef name="javac"        classname="net.dpml.tools.ant.tasks.JavacTask"/>
+  <taskdef name="jar"          classname="net.dpml.tools.ant.tasks.JarTask"/>
+  <taskdef name="plugin"       classname="net.dpml.tools.ant.tasks.PluginTask"/>
+
+  <taskdef name="phase"        classname="net.dpml.tools.ant.tasks.PhaseTask"/>
+  <typedef name="produces"     classname="net.dpml.tools.ant.tasks.ProducesCondition"/>
 
 </antlib>

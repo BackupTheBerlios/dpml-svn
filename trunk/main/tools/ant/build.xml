@@ -9,5 +9,15 @@
     <x:export class="net.dpml.tools.ant.StandardBuilder"/>
   </target>
 
+  <target name="install" depends="standard.install">
+    <property name="tools.prefs" location="${dpml.prefs}/tools"/>
+    <mkdir dir="${tools.prefs}"/>
+    <copy toDir="${tools.prefs}">
+      <fileset dir="${basedir}/target">
+        <include name="templates/**"/>
+      </fileset>
+    </copy>
+  </target>
+
 </project>
 

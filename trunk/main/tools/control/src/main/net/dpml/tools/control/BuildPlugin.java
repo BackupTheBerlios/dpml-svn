@@ -20,8 +20,10 @@ package net.dpml.tools.control;
 
 import java.io.File;
 import java.net.URI;
+import java.net.URL;
 
 import net.dpml.transit.Logger;
+import net.dpml.transit.Artifact;
 import net.dpml.transit.Transit;
 import net.dpml.transit.model.TransitModel;
 import net.dpml.transit.util.ExceptionHelper;
@@ -119,7 +121,7 @@ public class BuildPlugin
             String template = project.getProperty( "project.template" );
             if( null != template )
             {
-                File file = new File( template );
+                File file = getTemplateFile( template );
                 Object[] params = new Object[]{ m_logger, m_model, file, new Boolean( m_verbose ) };
                 Builder builder = (Builder) Transit.getInstance().getRepository().instantiate( m_builderClass, params );
                 builder.build( project );
@@ -135,6 +137,23 @@ public class BuildPlugin
         {
             listProject( project );
         }
+    }
+    
+    private File getTemplateFile( String spec )
+    {
+        try
+        {
+            URI uri = new URI( spec );
+            if( Artifact.isRecognized( uri ) )
+            {
+                URL url = uri.toURL();
+                return (File) url.getContent( new Class[]{ File.class } );
+            }
+        }
+        catch( Throwable e )
+        {
+        }
+        return new File( spec );
     }
     
     private String getTarget( String[] args )

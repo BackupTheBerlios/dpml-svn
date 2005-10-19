@@ -28,7 +28,10 @@ import net.dpml.tools.ant.process.JarTask;
 import net.dpml.tools.ant.process.PluginTask;
 import net.dpml.tools.ant.Process;
 import net.dpml.tools.info.Scope;
+import net.dpml.tools.info.TypeDescriptor;
+import net.dpml.tools.info.DependencyDirective;
 import net.dpml.tools.model.Resource;
+import net.dpml.tools.model.TypeNotFoundException;
 
 import net.dpml.transit.Transit;
 import net.dpml.transit.Layout;
@@ -63,6 +66,18 @@ public class Definition
         try
         {
             return m_model.getLastModified();
+        }
+        catch( RemoteException e )
+        {
+            throw new RuntimeException( "remote-exception", e );
+        }
+    }
+    
+    public TypeDescriptor getTypeDescriptor( String type ) throws TypeNotFoundException
+    {
+        try
+        {
+            return m_model.getTypeDescriptor( type );
         }
         catch( RemoteException e )
         {
@@ -223,9 +238,19 @@ public class Definition
         return new File( getTargetDirectory(), "build" );
     }
     
+    public File getTargetBuildMainDirectory()
+    {
+        return new File( getTargetBuildDirectory(), "main" );
+    }
+    
     public File getTargetClassesDirectory()
     {
         return new File( getTargetDirectory(), "classes" );
+    }
+    
+    public File getTargetTestClassesDirectory()
+    {
+        return new File( getTargetDirectory(), "test-classes" );
     }
     
     public File getTargetDeliverablesDirectory()
@@ -297,7 +322,7 @@ public class Definition
             throw new RuntimeException( "remote-exeption", e );
         }
     }
-    
+        
     // TODO replace this with something constructed from process definitions
     public Process[] getPluginTargets( org.apache.tools.ant.Project project )
     {

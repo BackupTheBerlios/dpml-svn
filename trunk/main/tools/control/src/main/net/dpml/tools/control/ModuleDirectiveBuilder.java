@@ -24,9 +24,13 @@ import java.io.IOException;
 import java.io.FileNotFoundException;
 import java.io.FileInputStream;
 import java.io.BufferedInputStream;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Properties;
 
+import net.dpml.tools.info.TypeDescriptor;
+import net.dpml.tools.info.LibraryDirective;
 import net.dpml.tools.info.IncludeDirective;
 import net.dpml.tools.info.ModuleIncludeDirective;
 import net.dpml.tools.info.ResourceIncludeDirective;
@@ -51,6 +55,7 @@ import org.w3c.dom.Element;
  */
 public final class ModuleDirectiveBuilder
 {
+    private static final String LIBRARY_ELEMENT_NAME = "library";
     private static final String MODULE_ELEMENT_NAME = "module";
     private static final String RESOURCES_ELEMENT_NAME = "resources";
     private static final String DEPENDENCIES_ELEMENT_NAME = "dependencies";
@@ -63,7 +68,156 @@ public final class ModuleDirectiveBuilder
     private static final String PRODUCES_ELEMENT_NAME = "production";
     private static final String PROPERTIES_ELEMENT_NAME = "properties";
     
-    public static ModuleDirective build( File source ) throws IOException
+    public static LibraryDirective build( File source ) throws IOException
+    {
+        if( null == source )
+        {
+            throw new NullPointerException( "source" );
+        }
+        if( !source.exists() )
+        {
+            throw new FileNotFoundException( source.toString() );
+        }
+        if( source.isDirectory() )
+        {
+            final String error = 
+              "File ["
+              + source 
+              + "] references a directory.";
+            throw new IllegalArgumentException( error );
+        }
+        FileInputStream input = new FileInputStream( source );
+        BufferedInputStream buffer = new BufferedInputStream( input );
+        try
+        {
+            final Element root = ElementHelper.getRootElement( input );
+            File base = source.getParentFile();
+            return buildLibraryDirective( base, root );
+        }
+        catch( Throwable e )
+        {
+            final String error = 
+              "An error occured while attempting to build a library directive from the source: "
+              + source;
+            IOException ioe = new IOException( error );
+            ioe.initCause( e );
+            throw ioe;
+        }
+        finally
+        {
+            input.close();
+        }
+    }
+    
+   /**
+    * Build a module using an XML element.
+    * @param element the module element
+    */
+    private static LibraryDirective buildLibraryDirective( File base, Element element ) throws IOException
+    {
+        final String elementName = element.getTagName();
+        if( !LIBRARY_ELEMENT_NAME.equals( elementName ) )
+        {
+            final String error =
+              "Element is not a library.";
+            throw new IllegalArgumentException( error );
+        }
+        
+        // get type descriptors, modules and properties
+        
+        Properties properties = null;
+        ArrayList list = new ArrayList();
+        TypeDescriptor[] types = new TypeDescriptor[0];
+        
+        Element[] children = ElementHelper.getChildren( element );
+        for( int i=0; i<children.length; i++ )
+        {
+            Element child = children[i];
+            final String tag = child.getTagName();
+            if( PROPERTIES_ELEMENT_NAME.equals( tag ) )
+            {
+                properties = buildProperties( element );
+            }
+            else if( MODULE_ELEMENT_NAME.equals( tag ) )
+            {
+                ModuleDirective directive = buildModuleDirective( null, child );
+                list.add( directive );
+            }
+            else if( TYPES_ELEMENT_NAME.equals( tag ) ) 
+            {
+                types = buildTypeDescriptors( child );
+            }
+            else
+            {
+                final String error = 
+                  "Illegal element name [" + tag + "] within 'library' element.";
+                throw new IllegalArgumentException( error );
+            }
+        }
+        ModuleDirective[] modules = (ModuleDirective[]) list.toArray( new ModuleDirective[0] );
+        return new LibraryDirective( 
+          types, modules, properties );
+    }
+    
+    private static TypeDescriptor[] buildTypeDescriptors( Element element )
+    {
+        Element[] children = ElementHelper.getChildren( element );
+        TypeDescriptor[] types = new TypeDescriptor[ children.length ];
+        for( int i=0; i<children.length; i++ )
+        {
+            Element child = children[i];
+            types[i] = buildTypeDescriptor( child );
+        }
+        return types;
+    }
+    
+    private static TypeDescriptor buildTypeDescriptor( Element element )
+    {
+        final String tag = element.getTagName();
+        if( TYPE_ELEMENT_NAME.equals( tag ) )
+        {
+            final String name = ElementHelper.getAttribute( element, "name", null );
+            final String spec = ElementHelper.getAttribute( element, "uri", null );
+            final String deps = ElementHelper.getAttribute( element, "depends", null );
+            final String[] depends = buildTypeDependenciesArray( deps );
+            final Properties properties = buildPropertiesFromElement( element );
+            try
+            {
+                URI uri = new URI( spec );
+                return new TypeDescriptor( name, uri, depends, properties );
+            }
+            catch( URISyntaxException e )
+            {
+                final String error = 
+                  "Type descrioptor uri ["
+                  + spec 
+                  + "] could not be converted to a URI value.";
+                throw new IllegalArgumentException( error );
+            }
+        }
+        else
+        {
+            final String error = 
+              "Invalid resource element name [" 
+              + tag
+              + "].";
+            throw new IllegalArgumentException( error );
+        }
+    }
+    
+    private static String[] buildTypeDependenciesArray( String value )
+    {
+        if( null == value )
+        {
+            return new String[0];
+        }
+        else
+        {
+            return value.split( "," );
+        }
+    }
+
+    public static ModuleDirective buildModuleDirective( File source ) throws IOException
     {
         if( null == source )
         {
@@ -103,8 +257,8 @@ public final class ModuleDirectiveBuilder
             input.close();
         }
     }
-    
-    public static ModuleDirective build( InputStream input ) throws Exception
+        
+    public static ModuleDirective buildModuleDirective( InputStream input ) throws Exception
     {
         try
         {

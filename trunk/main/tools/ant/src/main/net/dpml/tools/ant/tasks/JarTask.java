@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package net.dpml.tools.ant.process;
+package net.dpml.tools.ant.tasks;
 
 import java.io.File;
 import java.rmi.RemoteException;
@@ -43,7 +43,7 @@ import org.apache.tools.ant.taskdefs.ManifestException;
  *
  * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
  */
-public class JarTask extends Process
+public class JarTask extends GenericTask
 {
    /**
     * Constant key for the manifest main class value.
@@ -54,37 +54,93 @@ public class JarTask extends Process
     * Constant key for the manifest classpath value.
     */
     public static final String JAR_CLASSPATH_KEY = "project.jar.classpath";
-
-    public boolean supports( Phase phase )
+    
+    private File m_source;
+    private File m_destination;
+    
+    public void setSrc( File source )
     {
-        if( Phase.PACKAGE.equals( phase ) )
+        if( source.isDirectory() )
         {
-            return true;
+            m_source = source;
         }
         else
         {
-            return false;
+            final String error = 
+              "Jar task src must be a directory.";
+            throw new BuildException( error, getLocation() );
         }
     }
-
+    
+    public void setDest( File destination )
+    {
+        if( destination.exists() && !destination.isDirectory() )
+        {
+            final String error = 
+              "Jar task dest must be a directory (jar naming is determined by the cache layout policy).";
+            throw new BuildException( error, getLocation() );
+        }
+        else
+        {
+            m_destination = destination;
+        }
+    }
+    
+    private File getSource()
+    {
+        if( null == m_source )
+        {
+            final String error = 
+              "Missing 'src' attribute in jar task.";
+            throw new BuildException( error, getLocation() );
+        }
+        else
+        {
+            return m_source;
+        }
+    }
+    
+    private File getDestination()
+    {
+        if( null == m_destination )
+        {
+            final String error = 
+              "Missing 'dest' attribute in jar task.";
+            throw new BuildException( error, getLocation() );
+        }
+        else
+        {
+            return m_destination;
+        }
+    }
+    
     public void execute()
     {
-        Project project = getProject();
-        Phase phase = (Phase) getPhase();
-        Definition definition = getDefinition();
-        File classes = definition.getTargetClassesDirectory();
-        if( Phase.PACKAGE.equals( phase ) && classes.exists() )
+        File source = getSource();
+        if( !source.exists() )
         {
-            String path = definition.getLayoutPath( "jar" );
-            File deliverables = definition.getTargetDeliverablesDirectory();
-            File jars = new File( deliverables, "jars" );
-            File jar = new File( jars, path );
-            boolean modified = createJarFile( classes, jar );
-            if( modified )
-            {
-                checksum( jar );
-                asc( jar );
-            }
+            return;
+        }
+        Project project = getProject();
+        //Phase phase = (Phase) getPhase();
+        Definition definition = getDefinition();
+        //File classes = definition.getTargetClassesDirectory();
+        //if( Phase.PACKAGE.equals( phase ) && classes.exists() )
+        //{
+        
+            //String path = definition.getLayoutPath( "jar" );
+            //File deliverables = definition.getTargetDeliverablesDirectory();
+            //File jars = new File( deliverables, "jars" );
+            //File jar = new File( jars, path );
+            
+        File destination = getDestination();
+        String path = definition.getLayoutPath( "jar" );
+        File jar = new File( destination, path );
+        boolean modified = createJarFile( source, jar );
+        if( modified )
+        {
+            checksum( jar );
+            asc( jar );
         }
     }
     

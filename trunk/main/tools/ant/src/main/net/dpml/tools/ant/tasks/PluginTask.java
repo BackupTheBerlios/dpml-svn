@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package net.dpml.tools.ant.process;
+package net.dpml.tools.ant.tasks;
 
 import java.io.File;
 import java.io.OutputStream;
@@ -32,9 +32,7 @@ import java.util.TimeZone;
 import net.dpml.transit.Category;
 import net.dpml.transit.Plugin;
 
-import net.dpml.tools.ant.tasks.GenericTask;
 import net.dpml.tools.ant.Definition;
-import net.dpml.tools.ant.Process;
 import net.dpml.tools.ant.Phase;
 
 import org.apache.tools.ant.Project;
@@ -45,7 +43,7 @@ import org.apache.tools.ant.BuildException;
  *
  * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
  */
-public class PluginTask extends Process
+public class PluginTask extends GenericTask
 {
     // ------------------------------------------------------------------------
     // static
@@ -130,22 +128,6 @@ public class PluginTask extends Process
     private Antlib m_antlib;
 
     // ------------------------------------------------------------------------
-    // Process
-    // ------------------------------------------------------------------------
-    
-    public boolean supports( Phase phase )
-    {
-        if( Phase.PACKAGE.equals( phase ) )
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
-    }
-
-    // ------------------------------------------------------------------------
     // implementation
     // ------------------------------------------------------------------------
 
@@ -181,22 +163,19 @@ public class PluginTask extends Process
     {
         Project project = getProject();
         Phase phase = getPhase();
-        if( Phase.PACKAGE.equals( phase ) )
+        if( ( null == getClassname() ) && ( null == m_antlib ) )
         {
-            if( ( null == getClassname() ) && ( null == m_antlib ) )
-            {
-                final String error =
-                  "Either the class attribute or nested antlib element must be declared.";
-                throw new BuildException( error );
-            }
-            
-            final Definition definition = getDefinition();
-            final String path = definition.getLayoutPath( "plugin" );
-            final File deliverables = getDefinition().getTargetDeliverablesDirectory();
-            final File plugins = new File( deliverables, "plugins" );
-            final File plugin = new File( plugins, path );
-            writePluginFile( plugin );
+            final String error =
+              "Either the class attribute or nested antlib element must be declared.";
+            throw new BuildException( error );
         }
+            
+        final Definition definition = getDefinition();
+        final String path = definition.getLayoutPath( "plugin" );
+        final File deliverables = getDefinition().getTargetDeliverablesDirectory();
+        final File plugins = new File( deliverables, "plugins" );
+        final File plugin = new File( plugins, path );
+        writePluginFile( plugin );
     }
 
     private String getClassname()

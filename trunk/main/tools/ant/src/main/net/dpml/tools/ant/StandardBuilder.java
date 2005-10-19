@@ -22,6 +22,7 @@ import java.io.File;
 import java.io.InputStream;
 import java.io.PrintStream;
 import java.net.URI;
+import java.net.URL;
 import java.util.Vector;
 
 import net.dpml.transit.Logger;
@@ -33,6 +34,7 @@ import net.dpml.transit.util.CLIHelper;
 import net.dpml.transit.tools.TransitComponentHelper;
 import net.dpml.transit.tools.MainTask;
 
+import net.dpml.tools.info.TypeDescriptor;
 import net.dpml.tools.model.Builder;
 
 import org.apache.tools.ant.Project;
@@ -74,7 +76,7 @@ public class StandardBuilder implements Builder
     // ------------------------------------------------------------------------
 
    /**
-    * AntPlugin establishment.
+    * Creation of a new standard builder.
     *
     * @param logger assigned logging channel
     * @param model the transit model
@@ -107,23 +109,6 @@ public class StandardBuilder implements Builder
     // implementation
     // ------------------------------------------------------------------------
     
-    public Project createProject( Definition definition, Phase phase ) throws Exception
-    {
-        Project project = new Project();
-        project.setBaseDir( definition.getBase() );
-        project.setDefaultInputStream( System.in );
-        setupTransitComponentHelper( project );
-        project.setCoreLoader( getClass().getClassLoader() );
-        project.addBuildListener( createLogger() );
-        Context context = new Context( definition, phase, project );
-        project.addReference( "project.context", context );
-        System.setIn( new DemuxInputStream( project ) );
-        project.setProjectReference( new DefaultInputHandler() );
-        ProjectHelper helper = ProjectHelper.getProjectHelper();
-        project.addReference( "ant.projectHelper", helper );
-        return project;
-    }
-    
     public void build( Definition definition ) throws Exception
     {
         Throwable error = null;
@@ -134,9 +119,6 @@ public class StandardBuilder implements Builder
         {
             ProjectHelper helper = (ProjectHelper) project.getReference( "ant.projectHelper" );
             helper.parse( project, m_template );
-            
-            //targets.add( "install" );
-            
             Vector targets = new Vector();
             
             // TODO: add targets from commandline
@@ -182,6 +164,51 @@ public class StandardBuilder implements Builder
         }
     }
 
+    public Project createProject( Definition definition, Phase phase ) throws Exception
+    {
+        Project project = new Project();
+        project.setBaseDir( definition.getBase() );
+        project.setDefaultInputStream( System.in );
+        setupTransitComponentHelper( project );
+        project.setCoreLoader( getClass().getClassLoader() );
+        project.addBuildListener( createLogger() );
+        Context context = new Context( definition, phase, project );
+        project.addReference( "project.context", context );
+        System.setIn( new DemuxInputStream( project ) );
+        project.setProjectReference( new DefaultInputHandler() );
+        ProjectHelper helper = ProjectHelper.getProjectHelper();
+        project.addReference( "ant.projectHelper", helper );
+        return project;
+    }
+    
+    public void build( Definition definition, String type ) throws Exception
+    {
+        String templatePropertyName = "project.template." + type;
+        String templateValue = definition.getProperty( templatePropertyName, null );
+        if( null != templateValue )
+        {
+            URI uri = new URI( templateValue );
+            URL url = uri.toURL();
+            File file = (File) url.getContent( new Class[]{ File.class } );
+            Project project = createProject( definition, Phase.PREPARE );
+            ProjectHelper helper = (ProjectHelper) project.getReference( "ant.projectHelper" );
+            helper.parse( project, file );
+            Vector targets = new Vector();
+            targets.add( project.getDefaultTarget() );
+            
+            String message = 
+              "\nBuilding [" 
+              + type 
+              + "] using: " 
+              + uri 
+              + "#"
+              + project.getDefaultTarget();
+
+            project.log( message );
+            project.executeTargets( targets );
+        }
+    }
+    
     private void setupTransitComponentHelper( Project project ) 
     {
         try

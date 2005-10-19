@@ -28,6 +28,9 @@ import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.taskdefs.Copy;
 import org.apache.tools.ant.taskdefs.Javac;
+import org.apache.tools.ant.taskdefs.Mkdir;
+import org.apache.tools.ant.taskdefs.MatchingTask;
+import org.apache.tools.ant.types.Reference;
 import org.apache.tools.ant.types.FileSet;
 import org.apache.tools.ant.types.Path;
 
@@ -43,7 +46,7 @@ import org.apache.tools.ant.types.Path;
  * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
  * @version $Revision: 1.2 $ $Date: 2004/03/17 10:30:09 $
  */
-public class JavacTask extends GenericTask
+public class JavacTask extends MatchingTask
 {
    /**
     * Constant debug key.
@@ -74,47 +77,130 @@ public class JavacTask extends GenericTask
     private static final boolean FORK_VALUE = false;
     private static final boolean DEPRECATION_VALUE = true;
 
+    private String m_classPathRef;
+    private Definition m_definition;
+    private File m_destination;
+    private File m_source;
+    private boolean m_init = false;
+    
    /**
     * Task initialization.
     * @exception BuildException if a initialization failure occurs
     */
     public void init() throws BuildException
     {
-        if( !isInitialized() )
+        if( !m_init )
         {
             super.init();
             final Project project = getProject();
             project.setProperty( DEBUG_KEY, "" + DEBUG_VALUE );
             project.setProperty( FORK_KEY, "" + FORK_VALUE );
+            m_init = true;
         }
     }
-
+    
+   /**
+    * Set the id of the compilation classpath.
+    * @param id the classpath reference
+    */
+    public void setClasspathRef( String id ) 
+    {
+        m_classPathRef = id;
+    }
+    
+    public void setDest( File destination )
+    {
+        m_destination = destination;
+    }
+    
+    public void setSrc( File source )
+    {
+        m_source = source;
+    }
+    
    /**
     * Task execution.
     */
     public void execute()
     {
-        final Project project = getProject();
-        final Definition definition = getDefinition();
+        if( null == m_classPathRef )
+        {
+            final String error = 
+              "Missing 'classpathRef' attribute.";
+            throw new BuildException( error, getLocation() );
+        }
+        if( null == m_destination )
+        {
+            final String error = 
+              "Missing 'dest' attribute.";
+            throw new BuildException( error, getLocation() );
+        }
+        if( null == m_source )
+        {
+            final String error = 
+              "Missing 'src' attribute.";
+            throw new BuildException( error, getLocation() );
+        }
         
-        final File build = definition.getTargetBuildDirectory();
-        final File main = new File( build, "main" );
-        final File classes = definition.getTargetClassesDirectory();
+        if( !m_source.exists() )
+        {
+            return;
+        }
+        
+        final Project project = getProject();
+        //final Definition definition = getDefinition();
+        
+        //final File main = definition.getTargetBuildMainDirectory();
+        //final File classes = definition.getTargetClassesDirectory();
 
-        if( main.exists() )
+        //if( main.exists() )
+        //{
+            //mkDir( m_destination );
+            //final Path classpath = (Path) project.getReference( "project.compile.path" );
+            //log( "compile path:\n" + classpath, Project.MSG_VERBOSE );
+            //compile( main, classes, classpath );
+            //copy( main, classes, false, "**/*.*", "**/*.java" );
+        //}
+        //else
+        //{
+        //    log( "no src main", Project.MSG_VERBOSE );
+        //}
+        
+        mkDir( m_destination );
+        final Javac javac = (Javac) getProject().createTask( "javac" );
+        javac.setTaskName( getTaskName() );
+        javac.setIncludeantruntime( false );
+        String lint = getProject().getProperty( "project.javac.lint" );
+        if( null != lint )
         {
-            mkDir( classes );
-            final Path classpath = (Path) project.getReference( "project.compile.path" );
-            log( "compile path:\n" + classpath, Project.MSG_VERBOSE );
-            compile( main, classes, classpath );
-            copy( main, classes, false, "**/*.*", "**/*.java" );
+            javac.createCompilerArg().setValue( "-Xlint:" + lint );
         }
-        else
-        {
-            log( "no src main", Project.MSG_VERBOSE );
-        }
+        
+        final Path srcDirPath = new Path( project );
+        srcDirPath.createPathElement().setLocation( m_source );
+        javac.setSrcdir( srcDirPath );
+        
+        final Path srcPath = new Path( project );
+        FileSet fileset = super.getImplicitFileSet();
+        fileset.setDir( m_source );
+        javac.setSourcepath( srcPath );
+        
+        javac.setDestdir( m_destination );
+        javac.setDeprecation( getDeprecationProperty() );
+        javac.setDebug( getDebugProperty() );
+        javac.setFork( getForkProperty() );
+        javac.setSource( getSourceProperty() );
+        javac.setTarget( getTargetProperty() );
+        final Path classpath = (Path) project.getReference( m_classPathRef );
+        javac.setClasspath( classpath );
+        javac.init();
+        javac.execute();
+        
+        copy( m_source, m_destination, false, "**/*.*", "**/*.java" );
+
     }
-
+    
+    /*
     private void compile( final File sources, final File classes, final Path classpath )
     {
         final Javac javac = (Javac) getProject().createTask( "javac" );
@@ -138,6 +224,7 @@ public class JavacTask extends GenericTask
         javac.init();
         javac.execute();
     }
+    */
 
     private boolean getDebugProperty()
     {
@@ -176,4 +263,33 @@ public class JavacTask extends GenericTask
             return Project.toBoolean( value );
         }
     }
+
+    protected void mkDir( final File dir )
+    {
+        final Mkdir mkdir = (Mkdir) getProject().createTask( "mkdir" );
+        mkdir.setTaskName( getTaskName() );
+        mkdir.setDir( dir );
+        mkdir.init();
+        mkdir.execute();
+    }
+
+    protected void copy(
+       final File src, final File destination, final boolean filtering, final String includes, final String excludes )
+    {
+        mkDir( destination );
+        final Copy copy = (Copy) getProject().createTask( "copy" );
+        copy.setTaskName( getTaskName() );
+        copy.setTodir( destination );
+        copy.setFiltering( filtering );
+        copy.setOverwrite( false );
+        copy.setPreserveLastModified( true );
+        final FileSet fileset = new FileSet();
+        fileset.setDir( src );
+        fileset.setIncludes( includes );
+        fileset.setExcludes( excludes );
+        copy.addFileset( fileset );
+        copy.init();
+        copy.execute();
+    }
+
 }

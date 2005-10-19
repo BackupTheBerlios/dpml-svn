@@ -19,6 +19,7 @@
 
 package net.dpml.tools.ant;
 
+import java.io.File;
 import java.beans.Expression;
 import java.beans.BeanDescriptor;
 import java.beans.PersistenceDelegate;
@@ -60,9 +61,40 @@ public final class Context
         final Path compilePath = definition.getPath( project, Scope.BUILD );
         compilePath.add( definition.getPath( project, Scope.RUNTIME ) );
         project.addReference( "project.compile.path", compilePath );
+        
+        final Path compileSrcPath = new Path( project );
+        File srcMain = definition.getTargetBuildMainDirectory();
+        compileSrcPath.createPathElement().setLocation( srcMain );
+        project.addReference( "project.build.src.path", compileSrcPath );
+        
+        final File testClasses = definition.getTargetTestClassesDirectory();
+        final Path testPath = definition.getPath( project, Scope.TEST );
+        testPath.add( compilePath );
+        testPath.createPathElement().setLocation( testClasses );
+        project.addReference( "project.test.path", testPath );
+        
         project.setNewProperty( "project.name", definition.getName() );
         project.setNewProperty( "project.version", definition.getVersion() );
         project.setNewProperty( "project.group", definition.getGroup() );
+        project.setNewProperty( "project.nl", "\n" );
+        project.setNewProperty( 
+          "project.line", 
+          "---------------------------------------------------------------------------\n" );
+        project.setNewProperty( 
+          "project.info", 
+          "---------------------------------------------------------------------------\n"
+          + definition.getProjectPath()
+          + "\n---------------------------------------------------------------------------" );
+        
+        project.setNewProperty( "project.src.dir", definition.getSrcDirectory().toString() );
+        project.setNewProperty( "project.src.main.dir", definition.getSrcMainDirectory().toString() );
+        project.setNewProperty( "project.src.test.dir", definition.getSrcTestDirectory().toString() );
+        project.setNewProperty( "project.etc.dir", definition.getEtcDirectory().toString() );
+        
+        project.setNewProperty( "project.target.dir", definition.getTargetDirectory().toString() );
+        project.setNewProperty( "project.target.classes.dir", definition.getTargetClassesDirectory().toString() );
+        project.setNewProperty( "project.target.deliverables.dir", definition.getTargetDeliverablesDirectory().toString() );
+        project.setNewProperty( "project.target.build.main.dir", definition.getTargetBuildMainDirectory().toString() );
     }
     
     public Definition getDefinition()

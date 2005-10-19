@@ -50,7 +50,7 @@ abstract class AbstractTestCase extends TestCase
         String testPath = System.getProperty( "project.test.dir" );
         File test = new File( testPath );
         File example = new File( test, filename );
-        return ModuleDirectiveBuilder.build( example );
+        return ModuleDirectiveBuilder.buildModuleDirective( example );
     }
 
     public void doSerializationTest( Object object )

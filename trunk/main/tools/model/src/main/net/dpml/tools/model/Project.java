@@ -23,6 +23,7 @@ import java.rmi.Remote;
 import java.rmi.RemoteException;
 
 import net.dpml.tools.info.Scope;
+import net.dpml.tools.info.TypeDescriptor;
 
 /**
  * The Project interface describes information about a development project.
@@ -31,6 +32,8 @@ import net.dpml.tools.info.Scope;
  */
 public interface Project extends Remote
 {
+    TypeDescriptor getTypeDescriptor( String type ) throws RemoteException, TypeNotFoundException;
+
     long getLastModified() throws RemoteException;
 
     Module getModule() throws RemoteException;

@@ -41,7 +41,7 @@ public class DefaultLibraryTestCase extends AbstractTestCase
     {
         String testPath = System.getProperty( "project.test.dir" );
         File test = new File( testPath );
-        File example = new File( test, "dpml.xml" );
+        File example = new File( test, "library.xml" );
         LoggingAdapter logger = new LoggingAdapter( "library" );
         m_library = DefaultLibrary.load( logger, example );
     }

@@ -105,7 +105,6 @@ public class PrepareTask extends AbstractProcess
         // setup the file system
         //
         
-        log( "Basedir: " + definition.getBase() );
         String filters = definition.getProperty( SRC_FILTERED_INCLUDES_KEY, SRC_FILTERED_INCLUDES_VALUE );
         mkDir( definition.getTargetDirectory() );
         if( definition.getSrcMainDirectory().exists() )

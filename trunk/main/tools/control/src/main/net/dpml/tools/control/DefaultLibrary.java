@@ -28,11 +28,15 @@ import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.Hashtable;
 import java.util.ArrayList;
+import java.util.Properties;
 import java.util.Date;
 
 import net.dpml.tools.info.IncludeDirective;
+import net.dpml.tools.info.LibraryDirective;
 import net.dpml.tools.info.ModuleDirective;
 import net.dpml.tools.info.Scope;
+import net.dpml.tools.info.TypeDescriptor;
+import net.dpml.tools.model.TypeNotFoundException;
 import net.dpml.tools.model.Module;
 import net.dpml.tools.model.Project;
 import net.dpml.tools.model.Resource;
@@ -58,6 +62,7 @@ import org.w3c.dom.Element;
  */
 public final class DefaultLibrary extends UnicastRemoteObject implements Library
 {
+    private final LibraryDirective m_directive;
     private final Hashtable m_modules = new Hashtable();
     private final File m_root;
     private final File m_source;
@@ -67,7 +72,7 @@ public final class DefaultLibrary extends UnicastRemoteObject implements Library
     {
         return new DefaultLibrary( logger, source );
     }
-        
+    
     public DefaultLibrary( Logger logger ) throws RemoteException, Exception
     {
         this( logger, resolveLibrarySource() );
@@ -91,10 +96,34 @@ public final class DefaultLibrary extends UnicastRemoteObject implements Library
         m_root = source.getParentFile().getCanonicalFile();
         getLogger().debug( "loading root module: " + m_root );
         System.setProperty( "dpml.library.basedir", m_root.toString() );
-        ModuleDirective directive= ModuleDirectiveBuilder.build( source );
-        install( directive );
+        m_directive = ModuleDirectiveBuilder.build( source );
+        ModuleDirective[] modules = m_directive.getModuleDirectives();
+        for( int i=0; i<modules.length; i++ )
+        {
+            ModuleDirective module = modules[i];
+            install( module );
+        }
     }
     
+    public TypeDescriptor[] getTypeDescriptors()
+    {
+        return m_directive.getTypeDescriptors();
+    }
+    
+    public TypeDescriptor getTypeDescriptor( String type ) throws TypeNotFoundException
+    {
+        TypeDescriptor[] types = getTypeDescriptors();
+        for( int i=0; i<types.length; i++ )
+        {
+            TypeDescriptor descriptor = types[i];
+            if( type.equals( descriptor.getName() ) )
+            {
+                return descriptor;
+            }
+        }
+        throw new TypeNotFoundException( type );
+    }
+
     public long getLastModified()
     {
         return m_source.lastModified();
@@ -254,7 +283,7 @@ public final class DefaultLibrary extends UnicastRemoteObject implements Library
         {
             URL url = Artifact.createArtifact( uri ).toURL();
             InputStream input = url.openStream();
-            ModuleDirective directive = ModuleDirectiveBuilder.build( input );
+            ModuleDirective directive = ModuleDirectiveBuilder.buildModuleDirective( input );
             return install( directive );
         }
         else
@@ -269,7 +298,7 @@ public final class DefaultLibrary extends UnicastRemoteObject implements Library
     {
         File file = new File( m_root, path );
         getLogger().debug( "loading local module: " + file );
-        ModuleDirective directive= ModuleDirectiveBuilder.build( file );
+        ModuleDirective directive= ModuleDirectiveBuilder.buildModuleDirective( file );
         return install( directive );
     }
     
@@ -294,11 +323,6 @@ public final class DefaultLibrary extends UnicastRemoteObject implements Library
         return m_root;
     }
     
-    private Logger getLogger()
-    {
-        return m_logger;
-    }
-
     DefaultProject[] sortProjects( DefaultProject[] projects, boolean ancestors )
       throws ResourceNotFoundException, ModuleNotFoundException
     {
@@ -311,6 +335,90 @@ public final class DefaultLibrary extends UnicastRemoteObject implements Library
             processProject( visited, stack, project, ancestors, collection );
         }
         return (DefaultProject[]) stack.toArray( new DefaultProject[0] );
+    }
+    
+    DefaultProject[] getDecendentProjects( DefaultProject project, DefaultProject[] collection ) 
+      throws ResourceNotFoundException, ModuleNotFoundException
+    {
+        DefaultResource resource = project.toLocalResource();
+        ArrayList list = new ArrayList();
+        for( int i=0; i<collection.length; i++ )
+        {
+            DefaultProject p = collection[i];
+            DefaultResource[] resources = p.getProviderResources( Scope.TEST );
+            for( int j=0; j<resources.length; j++ )
+            {
+                DefaultResource r = resources[j];
+                if( resource.equals( r ) )
+                {
+                    if( !list.contains( p ) )
+                    {
+                        list.add( p );
+                    }
+                }
+            }
+        }
+        return (DefaultProject[]) list.toArray( new DefaultProject[0] );
+    }
+    
+    Properties getProperties()
+    {
+        return m_directive.getProperties();
+    }
+    
+   /**
+    * Return a sorted array of all projects within the library.
+    * @return the sorted project array
+    */
+    DefaultProject[] getAllRegisteredProjects( boolean sorted )
+      throws ResourceNotFoundException, ModuleNotFoundException
+    {
+        ArrayList list = new ArrayList();
+        DefaultModule[] modules = getDefaultModules();
+        for( int i=0; i<modules.length; i++ )
+        {
+            aggregateProjects( list, modules[i] );
+        }
+        DefaultProject[] projects = (DefaultProject[]) list.toArray( new DefaultProject[0] );
+        if( sorted )
+        {
+            return sortProjects( projects, true );
+        }
+        else
+        {
+            return projects;
+        }
+    }
+
+    private void aggregateProjects( ArrayList list, DefaultModule module )
+    {
+        DefaultProject[] projects = module.getDefaultProjects();
+        for( int i=0; i<projects.length; i++ )
+        {
+            list.add( projects[i] );
+        }
+        DefaultModule[] modules = module.getDefaultModules();
+        for( int i=0; i<modules.length; i++ )
+        {
+            aggregateProjects( list, modules[i] );
+        }
+    }
+    
+    private DefaultProject[] getAncestorProjects( DefaultProject project ) 
+      throws ResourceNotFoundException, ModuleNotFoundException
+    {
+        ArrayList list = new ArrayList();
+        DefaultResource[] resources = project.getProviderResources();
+        for( int i=0; i<resources.length; i++ )
+        {
+            DefaultResource resource = resources[i];
+            DefaultProject p = resource.getDefaultProject();
+            if( null != p )
+            {
+                list.add( p );
+            }
+        }
+        return (DefaultProject[]) list.toArray( new DefaultProject[0] );
     }
     
     private void processProject( 
@@ -347,83 +455,9 @@ public final class DefaultLibrary extends UnicastRemoteObject implements Library
         }
     }
     
-    private DefaultProject[] getAncestorProjects( DefaultProject project ) 
-      throws ResourceNotFoundException, ModuleNotFoundException
+    private Logger getLogger()
     {
-        ArrayList list = new ArrayList();
-        DefaultResource[] resources = project.getProviderResources();
-        for( int i=0; i<resources.length; i++ )
-        {
-            DefaultResource resource = resources[i];
-            DefaultProject p = resource.getDefaultProject();
-            if( null != p )
-            {
-                list.add( p );
-            }
-        }
-        return (DefaultProject[]) list.toArray( new DefaultProject[0] );
-    }
-    
-    DefaultProject[] getDecendentProjects( DefaultProject project, DefaultProject[] collection ) 
-      throws ResourceNotFoundException, ModuleNotFoundException
-    {
-        DefaultResource resource = project.toLocalResource();
-        ArrayList list = new ArrayList();
-        for( int i=0; i<collection.length; i++ )
-        {
-            DefaultProject p = collection[i];
-            DefaultResource[] resources = p.getProviderResources( Scope.TEST );
-            for( int j=0; j<resources.length; j++ )
-            {
-                DefaultResource r = resources[j];
-                if( resource.equals( r ) )
-                {
-                    if( !list.contains( p ) )
-                    {
-                        list.add( p );
-                    }
-                }
-            }
-        }
-        return (DefaultProject[]) list.toArray( new DefaultProject[0] );
-    }
-    
-    private void aggregateProjects( ArrayList list, DefaultModule module )
-    {
-        DefaultProject[] projects = module.getDefaultProjects();
-        for( int i=0; i<projects.length; i++ )
-        {
-            list.add( projects[i] );
-        }
-        DefaultModule[] modules = module.getDefaultModules();
-        for( int i=0; i<modules.length; i++ )
-        {
-            aggregateProjects( list, modules[i] );
-        }
-    }
-    
-   /**
-    * Return a sorted array of all projects within the library.
-    * @return the sorted project array
-    */
-    DefaultProject[] getAllRegisteredProjects( boolean sorted )
-      throws ResourceNotFoundException, ModuleNotFoundException
-    {
-        ArrayList list = new ArrayList();
-        DefaultModule[] modules = getDefaultModules();
-        for( int i=0; i<modules.length; i++ )
-        {
-            aggregateProjects( list, modules[i] );
-        }
-        DefaultProject[] projects = (DefaultProject[]) list.toArray( new DefaultProject[0] );
-        if( sorted )
-        {
-            return sortProjects( projects, true );
-        }
-        else
-        {
-            return projects;
-        }
+        return m_logger;
     }
 
     //----------------------------------------------------------------------------

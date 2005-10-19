@@ -21,6 +21,7 @@ package net.dpml.tools.model;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 
+import net.dpml.tools.info.TypeDescriptor;
 import net.dpml.tools.info.ModuleDirective;
 import net.dpml.tools.info.Scope;
 
@@ -31,6 +32,10 @@ import net.dpml.tools.info.Scope;
  */
 public interface Library extends Remote
 {
+    TypeDescriptor[] getTypeDescriptors() throws RemoteException;
+    
+    TypeDescriptor getTypeDescriptor( String type ) throws RemoteException, TypeNotFoundException;
+    
    /**
     * Return a sorted array of all projects within the library.
     * @return the sorted project array
