@@ -22,7 +22,7 @@
     xmlns:jar="dpml:tools:jar">
 
   <transit:plugin uri="artifact:plugin:dpml/tools/dpml-tools-ant#SNAPSHOT">
-    <antlib urn="dpml:tools" resource="net/dpml/tools/ant/tasks/antlib.xml"/>
+    <antlib urn="dpml:tools" resource="net/dpml/tools/tasks/antlib.xml"/>
   </transit:plugin>
   
   <target name="info">

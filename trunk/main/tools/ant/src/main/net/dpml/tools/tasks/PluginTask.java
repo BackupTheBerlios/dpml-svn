@@ -33,7 +33,6 @@ import net.dpml.transit.Category;
 import net.dpml.transit.Plugin;
 
 import net.dpml.tools.ant.Definition;
-import net.dpml.tools.ant.Phase;
 
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.BuildException;
@@ -162,7 +161,6 @@ public class PluginTask extends GenericTask
     public void execute()
     {
         Project project = getProject();
-        Phase phase = getPhase();
         if( ( null == getClassname() ) && ( null == m_antlib ) )
         {
             final String error =

@@ -27,7 +27,6 @@ import net.dpml.tools.tasks.JarTask;
 import net.dpml.tools.tasks.JUnitTestTask;
 
 import net.dpml.tools.ant.Definition;
-import net.dpml.tools.ant.Phase;
 import net.dpml.tools.ant.Context;
 
 import org.apache.tools.ant.BuildException;

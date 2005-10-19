@@ -34,8 +34,8 @@ import org.apache.tools.ant.taskdefs.Checksum;
 import org.apache.tools.ant.taskdefs.ExecTask;
 
 import net.dpml.tools.ant.Definition;
-import net.dpml.tools.ant.Phase;
 import net.dpml.tools.ant.Context;
+import net.dpml.tools.model.Library;
 
 /**
  * Prepare the target build directory based on content presented under the
@@ -85,11 +85,11 @@ public class GenericTask extends Task
     }
     
    /**
-    * Get the project definition.
+    * Get the library.
     */
-    protected Phase getPhase()
+    protected Library getLibrary()
     {
-        return getContext().getPhase();
+        return getContext().getLibrary();
     }
     
    /**

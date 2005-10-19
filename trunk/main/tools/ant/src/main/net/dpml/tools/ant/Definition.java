@@ -24,7 +24,6 @@ import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.Properties;
 
-import net.dpml.tools.ant.Process;
 import net.dpml.tools.info.Scope;
 import net.dpml.tools.info.TypeDescriptor;
 import net.dpml.tools.info.DependencyDirective;

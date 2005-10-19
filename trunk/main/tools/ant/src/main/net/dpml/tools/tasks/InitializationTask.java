@@ -21,13 +21,12 @@ package net.dpml.tools.tasks;
 import java.net.URI;
 import java.util.ArrayList;
 
-import net.dpml.tools.ant.StandardBuilder;
 import net.dpml.tools.ant.Definition;
+import net.dpml.tools.ant.StandardBuilder;
 import net.dpml.tools.info.TypeDescriptor;
+import net.dpml.tools.model.TypeNotFoundException;
 import net.dpml.tools.process.JarProcess;
 import net.dpml.tools.process.PluginProcess;
-import net.dpml.tools.model.TypeNotFoundException;
-import net.dpml.tools.info.TypeDescriptor;
 
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.BuildListener;

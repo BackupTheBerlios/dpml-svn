@@ -122,7 +122,7 @@ public class BuildPlugin
             if( null != template )
             {
                 File file = getTemplateFile( template );
-                Object[] params = new Object[]{ m_logger, m_model, file, new Boolean( m_verbose ) };
+                Object[] params = new Object[]{ m_logger, m_model, m_library, file, new Boolean( m_verbose ) };
                 Builder builder = (Builder) Transit.getInstance().getRepository().instantiate( m_builderClass, params );
                 builder.build( project );
             }

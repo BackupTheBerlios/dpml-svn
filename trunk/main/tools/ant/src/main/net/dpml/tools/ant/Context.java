@@ -28,8 +28,8 @@ import java.beans.SimpleBeanInfo;
 import java.beans.Encoder;
 
 import net.dpml.tools.ant.Definition;
-import net.dpml.tools.ant.Phase;
 import net.dpml.tools.info.Scope;
+import net.dpml.tools.model.Library;
 
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.types.Path;
@@ -42,13 +42,12 @@ import org.apache.tools.ant.types.Path;
 public final class Context
 {
     private final Definition m_definition;
-    
-    private Phase m_phase = Phase.PREPARE;
+    private final Library m_library;
         
-    Context( Definition definition, Phase phase, Project project )
+    Context( Definition definition, Library library, Project project )
     {
         m_definition = definition;
-        m_phase = phase;
+        m_library = library;
         
         String[] names = definition.getPropertyNames();
         for( int i=0; i<names.length; i++ )
@@ -105,14 +104,9 @@ public final class Context
         return m_definition;
     }
     
-    public Phase getPhase()
+    public Library getLibrary()
     {
-        return m_phase;
-    }
-    
-    public void setPhase( Phase phase )
-    {
-        m_phase = phase;
+        return m_library;
     }
 }
 

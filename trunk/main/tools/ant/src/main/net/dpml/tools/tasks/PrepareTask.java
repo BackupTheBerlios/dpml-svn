@@ -30,7 +30,6 @@ import org.apache.tools.ant.taskdefs.Mkdir;
 import org.apache.tools.ant.taskdefs.Copy;
 
 import net.dpml.tools.ant.Definition;
-import net.dpml.tools.ant.Phase;
 
 /**
  * Prepare the target build directory based on content presented under the

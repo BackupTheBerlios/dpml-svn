@@ -23,9 +23,6 @@ import java.rmi.RemoteException;
 
 import net.dpml.tools.tasks.GenericTask;
 import net.dpml.tools.ant.Definition;
-import net.dpml.tools.ant.Process;
-import net.dpml.tools.ant.Phase;
-import net.dpml.tools.ant.Process;
 
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Project;

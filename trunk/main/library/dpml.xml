@@ -101,9 +101,6 @@
    <module name="test">
   
      <projects>
-
-       <project name="dpml-test-null" basedir="test/null"/>
-
      </projects>
 
    </module>

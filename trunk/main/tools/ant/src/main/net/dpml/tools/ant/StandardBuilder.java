@@ -36,6 +36,7 @@ import net.dpml.transit.tools.MainTask;
 
 import net.dpml.tools.info.TypeDescriptor;
 import net.dpml.tools.model.Builder;
+import net.dpml.tools.model.Library;
 
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.ProjectHelper;
@@ -68,6 +69,7 @@ public class StandardBuilder implements Builder
 
     private Logger m_logger;
     private TransitModel m_model;
+    private Library m_library;
     private File m_template;
     private boolean m_verbose;
 
@@ -83,12 +85,13 @@ public class StandardBuilder implements Builder
     * @param template an ant template file
     * @param verbose verbose execution flag
     */
-    public StandardBuilder( Logger logger, TransitModel model, File template, boolean verbose )
+    public StandardBuilder( Logger logger, TransitModel model, Library library, File template, boolean verbose )
     {
         m_logger = logger;
         m_template = template;
         m_model = model;
         m_verbose = verbose;
+        m_library = library;
         
         Thread.currentThread().setContextClassLoader( getClass().getClassLoader() );
         String antHome = Environment.getEnvVariable( "ANT_HOME" );
@@ -113,7 +116,7 @@ public class StandardBuilder implements Builder
     {
         Throwable error = null;
         
-        Project project = createProject( definition, Phase.PREPARE );
+        Project project = createProject( definition );
         
         try
         {
@@ -164,7 +167,7 @@ public class StandardBuilder implements Builder
         }
     }
 
-    public Project createProject( Definition definition, Phase phase ) throws Exception
+    public Project createProject( Definition definition ) throws Exception
     {
         Project project = new Project();
         project.setBaseDir( definition.getBase() );
@@ -172,7 +175,7 @@ public class StandardBuilder implements Builder
         setupTransitComponentHelper( project );
         project.setCoreLoader( getClass().getClassLoader() );
         project.addBuildListener( createLogger() );
-        Context context = new Context( definition, phase, project );
+        Context context = new Context( definition, m_library, project );
         project.addReference( "project.context", context );
         System.setIn( new DemuxInputStream( project ) );
         project.setProjectReference( new DefaultInputHandler() );
@@ -181,6 +184,7 @@ public class StandardBuilder implements Builder
         return project;
     }
     
+    /*
     public void build( Definition definition, String type ) throws Exception
     {
         String templatePropertyName = "project.template." + type;
@@ -208,6 +212,7 @@ public class StandardBuilder implements Builder
             project.executeTargets( targets );
         }
     }
+    */
     
     private void setupTransitComponentHelper( Project project ) 
     {

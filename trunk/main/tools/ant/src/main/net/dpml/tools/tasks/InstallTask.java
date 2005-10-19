@@ -18,8 +18,6 @@
 
 package net.dpml.tools.tasks;
 
-import net.dpml.tools.ant.Phase;
-
 /**
  * Execute the install phase.
  *
