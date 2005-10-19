@@ -182,6 +182,26 @@ public final class DefaultModule extends UnicastRemoteObject implements Module
         return m_directive.getName();
     }
     
+    public String getVersion()
+    {
+        String version = m_directive.getVersion();
+        if( null == version )
+        {
+            if( null != m_parent )
+            {
+                return m_parent.getVersion();
+            }
+            else
+            {
+                return null;
+            }
+        }
+        else
+        {
+            return version;
+        }
+    }
+    
     public String getPath()
     {
         return m_path;

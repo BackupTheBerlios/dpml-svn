@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+  Copyright 2004 Apache Software Foundation
+  Licensed  under the  Apache License,  Version 2.0  (the "License");
+  you may not use  this file  except in  compliance with the License.
+  You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed  under the  License is distributed on an "AS IS" BASIS,
+  WITHOUT  WARRANTIES OR CONDITIONS  OF ANY KIND, either  express  or
+  implied.
+
+  See the License for the specific language governing permissions and
+  limitations under the License.
+-->
+
+<project name="jar" default="install"
+    xmlns:transit="antlib:net.dpml.transit" 
+    xmlns:x="dpml:tools" 
+    xmlns:jar="dpml:tools:jar">
+
+  <transit:plugin uri="artifact:plugin:dpml/tools/dpml-tools-ant#SNAPSHOT">
+    <antlib urn="dpml:tools" resource="net/dpml/tools/ant/tasks/antlib.xml"/>
+  </transit:plugin>
+  
+  <target name="prepare">
+    <x:prepare/>
+  </target>
+
+  <target name="build" depends="prepare">
+    <x:javac 
+        src="${project.target.build.main.dir}" 
+        dest="${project.target.classes.dir}"
+        classpathref="project.compile.path" >
+      <include name="**/*.java"/>
+    </x:javac>
+  </target>
+
+  <target name="package" depends="build">
+    <x:jar src="${project.target.classes.dir}" dest="${project.target.deliverables.dir}/jars"/>
+  </target>
+
+  <target name="validate" depends="package">
+  </target>
+
+  <target name="install" depends="validate">
+  </target>
+
+</project>
+

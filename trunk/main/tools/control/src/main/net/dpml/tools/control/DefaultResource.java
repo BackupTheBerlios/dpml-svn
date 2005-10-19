@@ -121,7 +121,14 @@ public final class DefaultResource extends UnicastRemoteObject implements Resour
     
     public String getVersion()
     {
-        return m_version;
+        if( null == m_version )
+        {
+            return m_parent.getVersion();
+        }
+        else
+        {
+            return m_version;
+        }
     }
     
     public String[] getTypes()

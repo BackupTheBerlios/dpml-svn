@@ -74,16 +74,7 @@ public class JarTask extends GenericTask
     
     public void setDest( File destination )
     {
-        if( destination.exists() && !destination.isDirectory() )
-        {
-            final String error = 
-              "Jar task dest must be a directory (jar naming is determined by the cache layout policy).";
-            throw new BuildException( error, getLocation() );
-        }
-        else
-        {
-            m_destination = destination;
-        }
+        m_destination = destination;
     }
     
     private File getSource()
@@ -122,20 +113,8 @@ public class JarTask extends GenericTask
             return;
         }
         Project project = getProject();
-        //Phase phase = (Phase) getPhase();
         Definition definition = getDefinition();
-        //File classes = definition.getTargetClassesDirectory();
-        //if( Phase.PACKAGE.equals( phase ) && classes.exists() )
-        //{
-        
-            //String path = definition.getLayoutPath( "jar" );
-            //File deliverables = definition.getTargetDeliverablesDirectory();
-            //File jars = new File( deliverables, "jars" );
-            //File jar = new File( jars, path );
-            
-        File destination = getDestination();
-        String path = definition.getLayoutPath( "jar" );
-        File jar = new File( destination, path );
+        File jar = getDestination();
         boolean modified = createJarFile( source, jar );
         if( modified )
         {

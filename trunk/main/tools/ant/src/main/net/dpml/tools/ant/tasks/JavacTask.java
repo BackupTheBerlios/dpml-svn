@@ -78,6 +78,7 @@ public class JavacTask extends MatchingTask
     private static final boolean DEPRECATION_VALUE = true;
 
     private String m_classPathRef;
+    private Path m_classPath;
     private Definition m_definition;
     private File m_destination;
     private File m_source;
@@ -97,6 +98,15 @@ public class JavacTask extends MatchingTask
             project.setProperty( FORK_KEY, "" + FORK_VALUE );
             m_init = true;
         }
+    }
+    
+   /**
+    * Set the id of the compilation classpath.
+    * @param id the classpath reference
+    */
+    public void setClasspath( Path path ) 
+    {
+        m_classPath = path;
     }
     
    /**
@@ -123,12 +133,6 @@ public class JavacTask extends MatchingTask
     */
     public void execute()
     {
-        if( null == m_classPathRef )
-        {
-            final String error = 
-              "Missing 'classpathRef' attribute.";
-            throw new BuildException( error, getLocation() );
-        }
         if( null == m_destination )
         {
             final String error = 
@@ -147,25 +151,8 @@ public class JavacTask extends MatchingTask
             return;
         }
         
+        final Path classpath = getClasspath();
         final Project project = getProject();
-        //final Definition definition = getDefinition();
-        
-        //final File main = definition.getTargetBuildMainDirectory();
-        //final File classes = definition.getTargetClassesDirectory();
-
-        //if( main.exists() )
-        //{
-            //mkDir( m_destination );
-            //final Path classpath = (Path) project.getReference( "project.compile.path" );
-            //log( "compile path:\n" + classpath, Project.MSG_VERBOSE );
-            //compile( main, classes, classpath );
-            //copy( main, classes, false, "**/*.*", "**/*.java" );
-        //}
-        //else
-        //{
-        //    log( "no src main", Project.MSG_VERBOSE );
-        //}
-        
         mkDir( m_destination );
         final Javac javac = (Javac) getProject().createTask( "javac" );
         javac.setTaskName( getTaskName() );
@@ -191,13 +178,30 @@ public class JavacTask extends MatchingTask
         javac.setFork( getForkProperty() );
         javac.setSource( getSourceProperty() );
         javac.setTarget( getTargetProperty() );
-        final Path classpath = (Path) project.getReference( m_classPathRef );
         javac.setClasspath( classpath );
         javac.init();
         javac.execute();
         
         copy( m_source, m_destination, false, "**/*.*", "**/*.java" );
 
+    }
+    
+    private Path getClasspath()
+    {
+        if( null != m_classPath )
+        {
+            return m_classPath;
+        }
+        else if( null != m_classPathRef )
+        {
+            return (Path) getProject().getReference( m_classPathRef );
+        }
+        else
+        {
+            final String error = 
+              "Missing 'classpathRef' or 'classpath' attribute.";
+            throw new BuildException( error, getLocation() );
+        }
     }
     
     /*

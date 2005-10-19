@@ -67,7 +67,7 @@ public final class Context
         compileSrcPath.createPathElement().setLocation( srcMain );
         project.addReference( "project.build.src.path", compileSrcPath );
         
-        final File testClasses = definition.getTargetTestClassesDirectory();
+        final File testClasses = definition.getTargetClassesTestDirectory();
         final Path testPath = definition.getPath( project, Scope.TEST );
         testPath.add( compilePath );
         testPath.createPathElement().setLocation( testClasses );
@@ -92,9 +92,12 @@ public final class Context
         project.setNewProperty( "project.etc.dir", definition.getEtcDirectory().toString() );
         
         project.setNewProperty( "project.target.dir", definition.getTargetDirectory().toString() );
-        project.setNewProperty( "project.target.classes.dir", definition.getTargetClassesDirectory().toString() );
-        project.setNewProperty( "project.target.deliverables.dir", definition.getTargetDeliverablesDirectory().toString() );
         project.setNewProperty( "project.target.build.main.dir", definition.getTargetBuildMainDirectory().toString() );
+        project.setNewProperty( "project.target.build.test.dir", definition.getTargetBuildTestDirectory().toString() );
+        project.setNewProperty( "project.target.classes.main.dir", definition.getTargetClassesMainDirectory().toString() );
+        project.setNewProperty( "project.target.classes.test.dir", definition.getTargetClassesTestDirectory().toString() );
+        project.setNewProperty( "project.target.deliverables.dir", definition.getTargetDeliverablesDirectory().toString() );
+        project.setNewProperty( "project.target.test.dir", definition.getTargetTestDirectory().toString() );
     }
     
     public Definition getDefinition()

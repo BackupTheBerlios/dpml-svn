@@ -25,13 +25,6 @@ import net.dpml.tools.ant.Phase;
  *
  * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
  */
-public class InstallTask extends AbstractProcess
+public class InstallTask extends GenericTask
 {    
-   /**
-    * Initialize the install phase.
-    */
-    public void init()
-    {
-       getContext().setPhase( Phase.INSTALL );
-    }
 }

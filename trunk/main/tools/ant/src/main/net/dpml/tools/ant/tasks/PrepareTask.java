@@ -38,7 +38,7 @@ import net.dpml.tools.ant.Phase;
  *
  * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
  */
-public class PrepareTask extends AbstractProcess
+public class PrepareTask extends GenericTask
 {
     private static final String SRC_FILTERED_INCLUDES_KEY =
       "project.prepare.src.filtered.includes";
@@ -70,7 +70,6 @@ public class PrepareTask extends AbstractProcess
     {
         if( !m_init )
         {
-            getContext().setPhase( Phase.PREPARE );
             final Project project = getProject();
             project.setProperty(
               SRC_FILTERED_INCLUDES_KEY, SRC_FILTERED_INCLUDES_VALUE );
@@ -87,16 +86,6 @@ public class PrepareTask extends AbstractProcess
     * a set of fixed rules - see prepare task documentation for details.
     */
     public void execute()
-    {
-        executePreparation();
-        super.execute();
-    }
-    
-   /**
-    * Replicates the content of the src and etc directory to the target directory applying
-    * a set of fixed rules - see prepare task documentation for details.
-    */
-    public void executePreparation()
     {
         final Project project = getProject();
         Definition definition = getDefinition();

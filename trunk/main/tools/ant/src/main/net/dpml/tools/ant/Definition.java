@@ -24,8 +24,6 @@ import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.Properties;
 
-import net.dpml.tools.ant.process.JarTask;
-import net.dpml.tools.ant.process.PluginTask;
 import net.dpml.tools.ant.Process;
 import net.dpml.tools.info.Scope;
 import net.dpml.tools.info.TypeDescriptor;
@@ -112,9 +110,16 @@ public class Definition
         }
     }
     
-    private File getCacheDirectory() throws Exception
+    public File getCacheDirectory()
     {
-        return m_transit.getCacheModel().getCacheDirectory();
+        try
+        {
+            return m_transit.getCacheModel().getCacheDirectory();
+        }
+        catch( RemoteException e )
+        {
+            throw new RuntimeException( "remote-exception", e );
+        }
     }
     
     private String getResourceVersion( Resource resource )
@@ -243,14 +248,44 @@ public class Definition
         return new File( getTargetBuildDirectory(), "main" );
     }
     
+    public File getTargetBuildTestDirectory()
+    {
+        return new File( getTargetBuildDirectory(), "test" );
+    }
+    
     public File getTargetClassesDirectory()
     {
         return new File( getTargetDirectory(), "classes" );
     }
     
-    public File getTargetTestClassesDirectory()
+    public File getTargetClassesMainDirectory()
     {
-        return new File( getTargetDirectory(), "test-classes" );
+        return new File( getTargetClassesDirectory(), "main" );
+    }
+    
+    public File getTargetClassesTestDirectory()
+    {
+        return new File( getTargetClassesDirectory(), "test" );
+    }
+    
+    public File getTargetReportsDirectory()
+    {
+        return new File( getTargetDirectory(), "reports" );
+    }
+    
+    public File getTargetReportsTestDirectory()
+    {
+        return new File( getTargetReportsDirectory(), "tests" );
+    }
+    
+    public File getTargetReportsMainDirectory()
+    {
+        return new File( getTargetReportsDirectory(), "main" );
+    }
+    
+    public File getTargetTestDirectory()
+    {
+        return new File( getTargetDirectory(), "test" );
     }
     
     public File getTargetDeliverablesDirectory()
@@ -322,41 +357,4 @@ public class Definition
             throw new RuntimeException( "remote-exeption", e );
         }
     }
-        
-    // TODO replace this with something constructed from process definitions
-    public Process[] getPluginTargets( org.apache.tools.ant.Project project )
-    {
-            ArrayList list = new ArrayList();
-            String[] types = getTypes();
-            for( int i=0; i<types.length; i++ )
-            {
-                String type = types[i];
-                if( "jar".equals( type ) )
-                {
-                    list.add( createJarTarget( project ) );
-                }
-                else if( "plugin".equals( type ) )
-                {
-                    list.add( createPluginTarget( project ) );
-                }
-            }
-            return (Process[]) list.toArray( new Process[0] );
-    }
-
-    private static Process createJarTarget( org.apache.tools.ant.Project ant )
-    {
-        JarTask task = new JarTask();
-        task.setProject( ant );
-        task.setTaskName( "jar" );
-        return task;
-    }
-    
-    private static Process createPluginTarget( org.apache.tools.ant.Project ant )
-    {
-        PluginTask task = new PluginTask();
-        task.setProject( ant );
-        task.setTaskName( "plugin" );
-        return task;
-    }
-    
 }
