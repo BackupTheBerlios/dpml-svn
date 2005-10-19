@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<antlib>
+  <taskdef name="init"         classname="net.dpml.tools.tasks.InitializationTask"/>
+  <taskdef name="prepare"      classname="net.dpml.tools.tasks.PrepareTask"/>
+  <taskdef name="install"      classname="net.dpml.tools.tasks.InstallTask"/>
+  <taskdef name="javac"        classname="net.dpml.tools.tasks.JavacTask"/>
+  <taskdef name="jar"          classname="net.dpml.tools.tasks.JarTask"/>
+  <taskdef name="plugin"       classname="net.dpml.tools.tasks.PluginTask"/>
+  <taskdef name="junit"        classname="net.dpml.tools.tasks.JUnitTestTask"/>
+</antlib>
