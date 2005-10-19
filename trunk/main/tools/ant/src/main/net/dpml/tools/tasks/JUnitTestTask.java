@@ -150,7 +150,7 @@ public class JUnitTestTask extends GenericTask
 
    /**
     * Set the classpath.
-    * @param id the classpath
+    * @param path the classpath
     */
     public void setClasspath( Path path ) 
     {

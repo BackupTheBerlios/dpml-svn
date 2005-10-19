@@ -101,8 +101,8 @@ public class JavacTask extends MatchingTask
     }
     
    /**
-    * Set the id of the compilation classpath.
-    * @param id the classpath reference
+    * Set the compilation classpath.
+    * @param path the classpath
     */
     public void setClasspath( Path path ) 
     {

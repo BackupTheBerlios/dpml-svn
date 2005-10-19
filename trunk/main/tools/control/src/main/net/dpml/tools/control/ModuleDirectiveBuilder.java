@@ -178,19 +178,8 @@ public final class ModuleDirectiveBuilder
             final String deps = ElementHelper.getAttribute( element, "depends", null );
             final String[] depends = buildTypeDependenciesArray( deps );
             final Properties properties = buildPropertiesFromElement( element );
-            try
-            {
-                URI uri = new URI( spec );
-                return new TypeDescriptor( name, uri, depends, properties );
-            }
-            catch( URISyntaxException e )
-            {
-                final String error = 
-                  "Type descrioptor uri ["
-                  + spec 
-                  + "] could not be converted to a URI value.";
-                throw new IllegalArgumentException( error );
-            }
+            final URI uri = getURIFromSpec( spec );
+            return new TypeDescriptor( name, uri, depends, properties );
         }
         else
         {
@@ -748,4 +737,26 @@ public final class ModuleDirectiveBuilder
         return properties;
     }
 
+    private static URI getURIFromSpec( String spec ) 
+    {
+        if( null == spec )
+        {
+            return null;
+        }
+        else
+        {
+            try
+            {
+                return new URI( spec );
+            }
+            catch( URISyntaxException e )
+            {
+                final String error = 
+                  "Type descriptor uri ["
+                  + spec 
+                  + "] could not be converted to a URI value.";
+                throw new IllegalArgumentException( error );
+            }
+        }
+    }
 }

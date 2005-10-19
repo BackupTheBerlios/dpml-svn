@@ -79,6 +79,14 @@ public class InitializationTask extends GenericTask
                     ClassLoader classloader = getClass().getClassLoader();
                     Project project = getProject();
                     URI uri = type.getURI();
+                    if( null == uri )
+                    {
+                        final String error = 
+                          "Type process [" 
+                          + type.getName()
+                          + "] does not declare a plugin uri.";
+                        throw new IllegalStateException( error );
+                    }
                     Object[] params = new Object[]{project};
                     Object object = 
                       Transit.getInstance().getRepository().getPlugin( 

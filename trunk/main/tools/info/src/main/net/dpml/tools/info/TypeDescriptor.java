@@ -39,10 +39,6 @@ public final class TypeDescriptor  extends AbstractDirective
         {
             throw new NullPointerException( "name" );
         }
-        if( null == uri )
-        {
-            throw new NullPointerException( "uri" );
-        }
         if( null == dependencies )
         {
             throw new NullPointerException( "dependencies" );
