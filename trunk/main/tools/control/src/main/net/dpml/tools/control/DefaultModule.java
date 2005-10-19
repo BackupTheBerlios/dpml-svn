@@ -66,17 +66,18 @@ public final class DefaultModule extends UnicastRemoteObject implements Module
     private final Hashtable m_resources = new Hashtable();
     private final Hashtable m_projects = new Hashtable();
     private final String m_path;
-    private final File m_base;
-    private final Properties m_properties;
+    
+    private Properties m_properties;
+    private File m_base;
     
     private DefaultModule[] m_imports;
     
-    DefaultModule( DefaultLibrary library, ModuleDirective directive ) throws RemoteException
+    DefaultModule( DefaultLibrary library, ModuleDirective directive, File anchor ) throws RemoteException
     {
-        this( library, null, directive );
+        this( library, null, directive, anchor );
     }
     
-    DefaultModule( DefaultLibrary library, DefaultModule parent, ModuleDirective directive ) throws RemoteException
+    DefaultModule( DefaultLibrary library, DefaultModule parent, ModuleDirective directive, File anchor ) throws RemoteException
     {
         super();
         
@@ -87,38 +88,29 @@ public final class DefaultModule extends UnicastRemoteObject implements Module
         if( null == m_parent )
         {
             m_path = m_directive.getName();
-            String base = directive.getBasedir();
-            if( null == base )
-            {
-                m_base = library.getRootDirectory();
-            }
-            else
-            {
-                m_base = new File( library.getRootDirectory(), base );
-            }
         }
         else
         {
             String path = m_parent.getPath();
             m_path = path + "/" + getName();
-            String base = directive.getBasedir();
-            if( null == base )
-            {
-                m_base = parent.getBase();
-            }
-            else
-            {
-                m_base = new File( parent.getBase(), base );
-            }
         }
-
-        m_properties = setupProperties();
         
+        String base = m_directive.getBasedir();
+        if( null == base )
+        {
+            m_base = anchor;
+        }
+        else
+        {
+            m_base = new File( anchor, base );
+        }
+        
+        m_properties = setupProperties();
         ModuleDirective[] moduleDirectives = directive.getModuleDirectives();
         for( int i=0; i<moduleDirectives.length; i++ )
         {
             ModuleDirective moduleDirective = moduleDirectives[i];
-            DefaultModule module = new DefaultModule( library, this, moduleDirective );
+            DefaultModule module = new DefaultModule( library, this, moduleDirective, m_base );
             String key = module.getName();
             m_modules.put( key, module );
         }
@@ -142,7 +134,7 @@ public final class DefaultModule extends UnicastRemoteObject implements Module
         }
     }
     
-    void init( DefaultLibrary library ) throws Exception
+    void init( DefaultLibrary library, File anchor ) throws Exception
     {
         IncludeDirective[] includes = m_directive.getIncludeDirectives();
         DefaultModule[] modules = new DefaultModule[ includes.length ];
@@ -153,7 +145,7 @@ public final class DefaultModule extends UnicastRemoteObject implements Module
             if( "file".equals( includeType ) )
             {
                 String path = include.getValue();
-                modules[i] = library.installLocalModule( path );
+                modules[i] = library.installLocalModule( anchor, path );
             }
             else if( "uri".equals( includeType ) )
             {
@@ -173,7 +165,7 @@ public final class DefaultModule extends UnicastRemoteObject implements Module
         for( int i=0; i<local.length; i++ )
         {
             DefaultModule m = local[i];
-            m.init( library );
+            m.init( library, anchor );
         }
     }
     
@@ -393,18 +385,7 @@ public final class DefaultModule extends UnicastRemoteObject implements Module
                 properties.setProperty( name, value );
             }
         }
-        File basedir = getBase();
-        try
-        {
-            properties.setProperty( "basedir", basedir.getCanonicalPath() );
-            return properties;
-        }
-        catch( IOException e )
-        {
-            final String error = 
-              "Unable to resolve canonical path from file: " + basedir;  
-            throw new RuntimeException( error, e );
-        }
+        return properties;
     }
     
     private Properties createProperties()

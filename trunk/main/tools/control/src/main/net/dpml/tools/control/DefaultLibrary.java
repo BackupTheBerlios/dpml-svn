@@ -34,6 +34,7 @@ import java.util.Date;
 import net.dpml.tools.info.IncludeDirective;
 import net.dpml.tools.info.LibraryDirective;
 import net.dpml.tools.info.ModuleDirective;
+import net.dpml.tools.info.ModuleIncludeDirective;
 import net.dpml.tools.info.Scope;
 import net.dpml.tools.info.TypeDescriptor;
 import net.dpml.tools.model.TypeNotFoundException;
@@ -97,11 +98,28 @@ public final class DefaultLibrary extends UnicastRemoteObject implements Library
         getLogger().debug( "loading root module: " + m_root );
         System.setProperty( "dpml.library.basedir", m_root.toString() );
         m_directive = ModuleDirectiveBuilder.build( source );
-        ModuleDirective[] modules = m_directive.getModuleDirectives();
+        ModuleIncludeDirective[] modules = m_directive.getModuleIncludeDirectives();
         for( int i=0; i<modules.length; i++ )
         {
-            ModuleDirective module = modules[i];
-            install( module );
+            ModuleIncludeDirective include = modules[i];
+            String includeType = include.getType();
+            if( "file".equals( includeType ) )
+            {
+                String path = include.getValue();
+                installLocalModule( m_root, path );
+            }
+            else if( "uri".equals( includeType ) )
+            {
+                String path = include.getValue();
+                URI uri = new URI( path );
+                installModule( uri );
+            }
+            else
+            {
+                final String error = 
+                  "Unsupport include function [" + includeType + "]";
+                throw new IllegalArgumentException( error );
+            }
         }
     }
     
@@ -284,7 +302,7 @@ public final class DefaultLibrary extends UnicastRemoteObject implements Library
             URL url = Artifact.createArtifact( uri ).toURL();
             InputStream input = url.openStream();
             ModuleDirective directive = ModuleDirectiveBuilder.buildModuleDirective( input );
-            return install( directive );
+            return install( m_root, directive );
         }
         else
         {
@@ -294,22 +312,23 @@ public final class DefaultLibrary extends UnicastRemoteObject implements Library
         }
     }
     
-    DefaultModule installLocalModule( String path ) throws Exception
+    DefaultModule installLocalModule( File anchor, String path ) throws Exception
     {
-        File file = new File( m_root, path );
+        File file = new File( anchor, path );
         getLogger().debug( "loading local module: " + file );
         ModuleDirective directive= ModuleDirectiveBuilder.buildModuleDirective( file );
-        return install( directive );
+        File parent = file.getParentFile();
+        return install( parent, directive );
     }
     
-    DefaultModule install( ModuleDirective directive ) throws Exception
+    DefaultModule install( File anchor, ModuleDirective directive ) throws Exception
     {
         String name = directive.getName();
         if( !m_modules.containsKey( name ) )
         {
-            DefaultModule module = new DefaultModule( this, null, directive );
+            DefaultModule module = new DefaultModule( this, null, directive, anchor );
             m_modules.put( name, module );
-            module.init( this );
+            module.init( this, anchor );
             return module;
         }
         else

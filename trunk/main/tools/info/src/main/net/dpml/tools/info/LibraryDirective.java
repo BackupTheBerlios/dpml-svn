@@ -30,10 +30,10 @@ import java.util.Properties;
 public final class LibraryDirective extends AbstractDirective
 {
     private final TypeDescriptor[] m_types;
-    private final ModuleDirective[] m_modules;
+    private final ModuleIncludeDirective[] m_modules;
     
     public LibraryDirective(
-      TypeDescriptor[] types, ModuleDirective[] modules, Properties properties )
+      TypeDescriptor[] types, ModuleIncludeDirective[] modules, Properties properties )
     {
         super( properties );
         
@@ -50,7 +50,7 @@ public final class LibraryDirective extends AbstractDirective
         m_modules = modules;
     }
     
-    public ModuleDirective[] getModuleDirectives()
+    public ModuleIncludeDirective[] getModuleIncludeDirectives()
     {
         return m_modules;
     }

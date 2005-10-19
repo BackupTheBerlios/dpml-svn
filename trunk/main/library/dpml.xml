@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<module name="dpml" basedir="..">
+
+   <properties>
+     <property name="project.publisher.name" value="Digital Product Meta Library"/>
+     <property name="project.specification.vendor" value="${project.publisher.name}"/>
+     <property name="project.implementation.vendor" value="${project.publisher.name}"/>
+     <property name="project.implementation.vendor-id" value="net.dpml"/>
+     <property name="project.publisher.url" value="http://www.dpml.net"/>
+     <property name="project.resource.host" value="http://repository.dpml.net/"/>
+     <property name="project.api.host" value="http://api.dpml.net/"/>
+   </properties>
+
+   <module name="transit">
+
+     <dependencies>
+       <include file="ant.xml"/>
+     </dependencies>
+
+     <projects>
+
+       <project name="dpml-transit-main" basedir="transit/core/handler">
+         <production>
+           <type id="jar"/>
+         </production>
+       </project>
+
+       <project name="dpml-transit-tools" basedir="transit/core/tools">
+         <dependencies scope="BUILD">
+           <include key="dpml-transit-main"/>
+         </dependencies>
+         <dependencies scope="RUNTIME" anchor="net.dpml.transit.Transit">
+           <include ref="ant/ant"/>
+         </dependencies>
+         <dependencies scope="TEST">
+           <include ref="ant/ant-junit"/>
+         </dependencies>
+         <production>
+           <type id="jar"/>
+         </production>
+       </project>
+
+     </projects>
+
+   </module>
+
+   <module name="metro">
+
+     <projects>
+
+       <project name="dpml-configuration-api" basedir="metro/configuration/api">
+         <production>
+           <type id="jar"/>
+         </production>
+       </project>
+
+       <project name="dpml-configuration-impl" basedir="metro/configuration/impl">
+         <dependencies>
+           <include key="dpml-configuration-api"/>
+         </dependencies>
+         <production>
+           <type id="jar"/>
+         </production>
+       </project>
+
+       <project name="dpml-state-api" basedir="metro/state/api">
+         <dependencies>
+           <include ref="dpml/transit/dpml-transit-main"/>
+         </dependencies>
+         <production>
+           <type id="jar"/>
+         </production>
+       </project>
+
+       <project name="dpml-state-impl" basedir="metro/state/impl">
+         <properties>
+           <property name="project.template" value="${basedir}/builder.xml"/>
+         </properties>
+         <production>
+           <type id="plugin">
+             <property name="project.plugin.class" 
+                value="net.dpml.state.impl.DefaultStateMachine"/>
+           </type>
+           <type id="jar"/>
+         </production>
+         <dependencies>
+           <include key="dpml-state-api"/>
+           <include key="dpml-configuration-impl"/>
+         </dependencies>
+         <dependencies scope="test">
+           <include ref="ant/ant-junit"/>
+           <include ref="junit/junit"/>
+         </dependencies>
+       </project>
+
+     </projects>
+
+   </module>
+
+   <module name="test">
+  
+     <projects>
+
+       <project name="dpml-test-null" basedir="test/null"/>
+
+     </projects>
+
+   </module>
+
+</module>

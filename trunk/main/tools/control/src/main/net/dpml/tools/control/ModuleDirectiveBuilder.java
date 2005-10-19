@@ -57,6 +57,7 @@ public final class ModuleDirectiveBuilder
 {
     private static final String LIBRARY_ELEMENT_NAME = "library";
     private static final String MODULE_ELEMENT_NAME = "module";
+    private static final String MODULES_ELEMENT_NAME = "modules";
     private static final String RESOURCES_ELEMENT_NAME = "resources";
     private static final String DEPENDENCIES_ELEMENT_NAME = "dependencies";
     private static final String PROJECTS_ELEMENT_NAME = "projects";
@@ -126,9 +127,8 @@ public final class ModuleDirectiveBuilder
         // get type descriptors, modules and properties
         
         Properties properties = null;
-        ArrayList list = new ArrayList();
         TypeDescriptor[] types = new TypeDescriptor[0];
-        
+        ModuleIncludeDirective[] includes = new ModuleIncludeDirective[0];
         Element[] children = ElementHelper.getChildren( element );
         for( int i=0; i<children.length; i++ )
         {
@@ -138,10 +138,9 @@ public final class ModuleDirectiveBuilder
             {
                 properties = buildProperties( element );
             }
-            else if( MODULE_ELEMENT_NAME.equals( tag ) )
+            else if( MODULES_ELEMENT_NAME.equals( tag ) )
             {
-                ModuleDirective directive = buildModuleDirective( null, child );
-                list.add( directive );
+                includes = buildModuleIncludeDirectives( child );
             }
             else if( TYPES_ELEMENT_NAME.equals( tag ) ) 
             {
@@ -154,9 +153,7 @@ public final class ModuleDirectiveBuilder
                 throw new IllegalArgumentException( error );
             }
         }
-        ModuleDirective[] modules = (ModuleDirective[]) list.toArray( new ModuleDirective[0] );
-        return new LibraryDirective( 
-          types, modules, properties );
+        return new LibraryDirective( types, includes, properties );
     }
     
     private static TypeDescriptor[] buildTypeDescriptors( Element element )

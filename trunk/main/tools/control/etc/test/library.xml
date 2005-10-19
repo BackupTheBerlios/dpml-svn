@@ -15,54 +15,10 @@
     <type name="plugin" uri="artifact:plugin:dpml/tools/dpml-tools-plugin#SNAPSHOT"/>
   </types>
 
-  <module name="dpml">
-
-   <module name="runtime">
-     <projects>
-       <project name="dpml-transit-main" basedir="transit/core/handler">
-         <production>
-           <type id="jar"/>
-         </production>
-       </project>
-       <project name="dpml-state-api" basedir="metro/state/api">
-         <production>
-           <type id="jar"/>
-         </production>
-         <dependencies>
-           <include ref="dpml/runtime/dpml-transit-main"/>
-         </dependencies>
-       </project>
-       <project name="dpml-state-impl" basedir="metro/state/impl">
-         <production>
-           <type id="jar"/>
-           <type id="plugin"/>
-         </production>
-         <dependencies>
-           <include key="dpml-state-api"/>
-         </dependencies>
-       </project>
-     </projects>
-   </module>
-
-   <module name="tools">
-     <dependencies>
-       <include file="ant.xml"/>
-     </dependencies>
-     <projects>
-       <project name="dpml-transit-tools" basedir="transit/core/tools">
-         <production>
-           <type id="jar"/>
-         </production>
-         <dependencies>
-           <include ref="dpml/runtime/dpml-transit-main"/>
-           <include ref="ant/ant"/>
-         </dependencies>
-       </project>
-     </projects>
-   </module>
-
-   <module name="management"/>
-
-  </module>
+  <modules>
+    <include file="junit.xml"/>
+    <include file="ant.xml"/>
+    <include file="dpml.xml"/>
+  </modules>
 
 </library>

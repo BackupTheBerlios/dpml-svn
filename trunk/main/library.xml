@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<library>
+
+  <properties>
+    <property name="project.standard.template" value="local:template:tools/standard"/>
+    <property name="project.template" value="${project.standard.template}"/>
+  </properties>
+
+  <types>
+    <type name="jar" uri="artifact:plugin:dpml/tools/dpml-tools-jar#SNAPSHOT"/>
+    <type name="plugin" uri="artifact:plugin:dpml/tools/dpml-tools-plugin#SNAPSHOT" depends="jar"/>
+  </types>
+
+  <modules>
+    <include file="library/junit.xml"/>
+    <include file="library/ant.xml"/>
+    <include file="library/dpml.xml"/>
+  </modules>
+
+</library>

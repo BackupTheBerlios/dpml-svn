@@ -193,6 +193,7 @@ public class DefaultStateMachineTestCase extends AbstractEncodingTestCase
     {
         ArrayList list = new ArrayList();
         audit( list, state, "" );
+        System.out.println( "" + "# -------------------" );
     }
     
     private void audit( List visited, State state, String pad  )
