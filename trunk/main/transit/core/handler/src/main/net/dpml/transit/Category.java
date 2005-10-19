@@ -43,17 +43,17 @@ public final class Category extends Enum
    /**
     * API category.
     */
-    public static final Category API = new Category( "api" );
+    public static final Category PUBLIC = new Category( "public" );
 
    /**
     * SPI category.
     */
-    public static final Category SPI = new Category( "spi" );
+    public static final Category PROTECTED = new Category( "protected" );
 
    /**
     * Implementation category.
     */
-    public static final Category IMPL = new Category( "impl" );
+    public static final Category PRIVATE = new Category( "private" );
 
    /**
     * Category used for filtering against any category type.
@@ -63,7 +63,7 @@ public final class Category extends Enum
    /**
     * Array of scope enumeration values.
     */
-    private static final Category[] ENUM_VALUES = new Category[]{ SYSTEM, API, SPI, IMPL, ANY };
+    private static final Category[] ENUM_VALUES = new Category[]{ SYSTEM, PUBLIC, PROTECTED, PRIVATE, ANY };
 
    /**
     * Returns an array of activation enum values.
@@ -91,17 +91,17 @@ public final class Category extends Enum
         {
             return SYSTEM;
         }
-        else if( value.equalsIgnoreCase( "api" ) )
+        else if( value.equalsIgnoreCase( "public" ) )
         {
-            return API;
+            return PUBLIC;
         }
-        else if( value.equalsIgnoreCase( "spi" ))
+        else if( value.equalsIgnoreCase( "protected" ))
         {
-            return SPI;
+            return PROTECTED;
         }
-        else if( value.equalsIgnoreCase( "impl" ))
+        else if( value.equalsIgnoreCase( "private" ))
         {
-            return IMPL;
+            return PRIVATE;
         }
         else
         {

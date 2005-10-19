@@ -32,6 +32,8 @@ public interface Resource extends Remote
     
     String getVersion() throws RemoteException;
     
+    String getPath() throws RemoteException;
+    
     String[] getTypes() throws RemoteException;
     
     Module getModule() throws RemoteException;

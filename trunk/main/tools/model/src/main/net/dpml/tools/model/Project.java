@@ -25,6 +25,8 @@ import java.rmi.RemoteException;
 import net.dpml.tools.info.Scope;
 import net.dpml.tools.info.TypeDescriptor;
 
+import net.dpml.transit.Category;
+
 /**
  * The Project interface describes information about a development project.
  *
@@ -52,6 +54,9 @@ public interface Project extends Remote
     Resource[] getClassPath( Scope scope )
       throws RemoteException, ModuleNotFoundException, ResourceNotFoundException;
     
+    Resource[] getClassPath( Category category )
+      throws RemoteException, ModuleNotFoundException, ResourceNotFoundException;
+      
     Project[] getConsumers() 
       throws RemoteException, ResourceNotFoundException, ModuleNotFoundException;
 

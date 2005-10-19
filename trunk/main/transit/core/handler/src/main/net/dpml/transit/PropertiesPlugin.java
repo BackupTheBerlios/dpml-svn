@@ -362,15 +362,15 @@ class PropertiesPlugin
         {
             return m_sys;
         }
-        else if( key == Category.API )
+        else if( key == Category.PUBLIC )
         {
             return m_api;
         }
-        else if( key == Category.SPI )
+        else if( key == Category.PROTECTED )
         {
             return m_spi;
         }
-        else if( key == Category.IMPL )
+        else if( key == Category.PRIVATE )
         {
             return m_imp;
         }

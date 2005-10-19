@@ -375,7 +375,7 @@ public final class XMLDefinitionBuilder
     {
         if( ( null == category ) )
         {
-            return Category.IMPL;
+            return Category.PRIVATE;
         }
         else
         {

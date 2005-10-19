@@ -30,6 +30,7 @@ import net.dpml.tools.info.DependencyDirective;
 import net.dpml.tools.model.Resource;
 import net.dpml.tools.model.TypeNotFoundException;
 
+import net.dpml.transit.Category;
 import net.dpml.transit.Transit;
 import net.dpml.transit.Layout;
 import net.dpml.transit.Artifact;
@@ -163,7 +164,7 @@ public class Definition
     
     public String getVersion()
     {
-        return "SNAPSHOT";
+        return "SNAPSHOT"; // TODO - add runtime version asignment
     }
     
     public String[] getPropertyNames()
@@ -350,6 +351,29 @@ public class Definition
         try
         {
             return m_model.getPath();
+        }
+        catch( RemoteException e )
+        {
+            throw new RuntimeException( "remote-exeption", e );
+        }
+    }
+    
+    public Resource[] getClassPath( Category category ) throws Exception
+    {
+        try
+        {
+            return m_model.getClassPath( category );
+        }
+        catch( RemoteException e )
+        {
+            throw new RuntimeException( "remote-exeption", e );
+        }
+    }
+    public Resource toResource()
+    {
+        try
+        {
+            return m_model.toResource();
         }
         catch( RemoteException e )
         {

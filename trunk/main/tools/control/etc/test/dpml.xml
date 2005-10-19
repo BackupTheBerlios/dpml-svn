@@ -31,7 +31,7 @@
            <type id="plugin"/>
          </production>
          <dependencies>
-           <include key="dpml-state-api"/>
+           <include key="dpml-state-api" tag="public"/>
          </dependencies>
        </project>
      </projects>

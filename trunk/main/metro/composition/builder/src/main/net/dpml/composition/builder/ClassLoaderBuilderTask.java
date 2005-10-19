@@ -115,20 +115,20 @@ public abstract class ClassLoaderBuilderTask extends ProjectTask
     {
         ArrayList list = new ArrayList();
         ArrayList visited = new ArrayList();
-        URI[] uris = createURISequence( Category.API, visited );
+        URI[] uris = createURISequence( Category.PUBLIC, visited );
         if( uris.length > 0 )
         {
-            list.add( new ClasspathDirective( Category.API, uris ) );
+            list.add( new ClasspathDirective( Category.PUBLIC, uris ) );
         }
-        uris = createURISequence( Category.SPI, visited );
+        uris = createURISequence( Category.PROTECTED, visited );
         if( uris.length > 0 )
         {
-            list.add( new ClasspathDirective( Category.SPI, uris ) );
+            list.add( new ClasspathDirective( Category.PROTECTED, uris ) );
         }
-        uris = createURISequence( Category.IMPL, visited, true );
+        uris = createURISequence( Category.PRIVATE, visited, true );
         if( uris.length > 0 )
         {
-            list.add( new ClasspathDirective( Category.IMPL, uris ) );
+            list.add( new ClasspathDirective( Category.PRIVATE, uris ) );
         }
         ClasspathDirective[] cps = (ClasspathDirective[]) list.toArray( new ClasspathDirective[0] );
         return new ClassLoaderDirective( cps );

@@ -35,6 +35,7 @@ import net.dpml.tools.info.ProjectDirective;
 import net.dpml.tools.info.ResourceDirective;
 import net.dpml.tools.info.TypeDirective;
 import net.dpml.tools.info.IncludeDirective;
+import net.dpml.tools.info.TaggedIncludeDirective;
 import net.dpml.tools.info.Scope;
 import net.dpml.tools.info.TypeDescriptor;
 import net.dpml.tools.model.TypeNotFoundException;
@@ -49,6 +50,7 @@ import net.dpml.tools.model.DuplicateNameException;
 import net.dpml.tools.model.Library;
 import net.dpml.tools.model.ModelRuntimeException;
 
+import net.dpml.transit.Category;
 import net.dpml.transit.util.ElementHelper;
 import net.dpml.transit.util.PropertyResolver;
 
@@ -172,6 +174,12 @@ public final class DefaultProject extends UnicastRemoteObject implements Project
       throws ModuleNotFoundException, ResourceNotFoundException
     {
         return getResourceClasspath( scope );
+    }
+    
+    public Resource[] getClassPath( Category category )
+      throws ModuleNotFoundException, ResourceNotFoundException
+    {
+        return getRuntimeClasspath( category );
     }
     
    /**
@@ -346,9 +354,16 @@ public final class DefaultProject extends UnicastRemoteObject implements Project
     {
         ArrayList list = new ArrayList();
         DefaultResource[] resources = getProviderResources( scope );
-        for( int i=0; i<resources.length; i++ )
+        return getFilteredResources( resources, type );
+    }
+    
+    DefaultResource[] getFilteredResources( DefaultResource[] candidates, String type ) 
+     throws ResourceNotFoundException, ModuleNotFoundException
+    {
+        ArrayList list = new ArrayList();
+        for( int i=0; i<candidates.length; i++ )
         {
-            DefaultResource resource = resources[i];
+            DefaultResource resource = candidates[i];
             if( resource.isa( type ) )
             {
                 list.add( resource );
@@ -361,7 +376,32 @@ public final class DefaultProject extends UnicastRemoteObject implements Project
     {
         return m_resource;
     }
-
+    
+    private DefaultResource[] getRuntimeClasspath( Category category )
+      throws ModuleNotFoundException, ResourceNotFoundException
+    {
+        ArrayList stack = new ArrayList();
+        ArrayList visited = new ArrayList();
+        IncludeDirective[] includes = getIncludeDirectives( Scope.RUNTIME );
+        ArrayList list = new ArrayList();
+        for( int i=0; i<includes.length; i++ )
+        {
+            TaggedIncludeDirective include = (TaggedIncludeDirective) includes[i];
+            if( category.equals( include.getCategory() ) )
+            {
+                list.add( include );
+            }
+        }
+        IncludeDirective[] candidates = (IncludeDirective[]) list.toArray( new IncludeDirective[0] );
+        DefaultResource[] resources = m_library.resolveResourceDependencies( m_parent, candidates );
+        for( int i=0; i<resources.length; i++ )
+        {
+            DefaultResource resource = resources[i];
+            processClasspath( visited, stack, resource );
+        }
+        return (DefaultResource[]) stack.toArray( new DefaultResource[0] );
+    }
+    
     private DefaultResource[] getResourceClasspath( Scope scope )
       throws ModuleNotFoundException, ResourceNotFoundException
     {

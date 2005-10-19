@@ -525,7 +525,7 @@ public final class ModuleDirectiveBuilder
         final Properties properties = buildProperties( element );
         if( INCLUDE_ELEMENT_NAME.equals( tag ) )
         {
-            final String tagValue = ElementHelper.getAttribute( element, "tag", "impl" );
+            final String tagValue = ElementHelper.getAttribute( element, "tag", "private" );
             Category category = Category.parse( tagValue );
             if( element.hasAttribute( "key" ) )
             {

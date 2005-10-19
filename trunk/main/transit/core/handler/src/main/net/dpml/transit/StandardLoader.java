@@ -555,17 +555,17 @@ class StandardLoader implements Repository
 
         URI plugin = descriptor.getURI();
 
-        URI[] apiArtifacts = descriptor.getDependencies( Category.API );
+        URI[] apiArtifacts = descriptor.getDependencies( Category.PUBLIC );
         URL[] apis = getURLs( apiArtifacts  );
-        ClassLoader api = buildClassLoader( plugin, Category.API, base, apis );
+        ClassLoader api = buildClassLoader( plugin, Category.PUBLIC, base, apis );
 
-        URI[] spiArtifacts = descriptor.getDependencies( Category.SPI );
+        URI[] spiArtifacts = descriptor.getDependencies( Category.PROTECTED );
         URL[] spis = getURLs( spiArtifacts );
-        ClassLoader spi = buildClassLoader( plugin, Category.SPI, api, spis );
+        ClassLoader spi = buildClassLoader( plugin, Category.PROTECTED, api, spis );
 
-        URI[] impArtifacts = descriptor.getDependencies( Category.IMPL );
+        URI[] impArtifacts = descriptor.getDependencies( Category.PRIVATE );
         URL[] imps = getURLs( impArtifacts );
-        ClassLoader classloader = buildClassLoader( plugin, Category.IMPL, spi, imps );
+        ClassLoader classloader = buildClassLoader( plugin, Category.PRIVATE, spi, imps );
 
         return classloader;
     }

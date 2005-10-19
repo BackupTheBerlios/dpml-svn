@@ -33,6 +33,7 @@ import net.dpml.transit.Category;
 import net.dpml.transit.Plugin;
 
 import net.dpml.tools.ant.Definition;
+import net.dpml.tools.model.Resource;
 
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.BuildException;
@@ -227,7 +228,7 @@ public class PluginTask extends GenericTask
     }
 
     private void writePluginDescriptor( final OutputStream output, final File file )
-        throws IOException
+        throws Exception
     {
         final Writer writer = new OutputStreamWriter( output );
         writeHeader( writer );
@@ -287,73 +288,62 @@ public class PluginTask extends GenericTask
     }
 
     private void writeClasspath( final Writer writer )
-        throws IOException
+        throws Exception
     {
-        /*
-        final ArrayList visited = new ArrayList();
-        final ResourceRef[] sys = def.getQualifiedRefs( getProject(), visited, Category.SYSTEM );
-        if( sys.length > 0 )
+        Resource[] systemResources = getDefinition().getClassPath( Category.SYSTEM );
+        if( systemResources.length > 0 )
         {
-            writer.write( "\n" );
-            writer.write( "\n#" );
-            writer.write( "\n# System dependencies." );
-            writer.write( "\n#" );
+            final String label = "System dependencies.";
             final String lead = ARTIFACT_SYSTEM;
-            writeRefs( writer, sys, lead );
+            writeRefs( writer, systemResources, lead, label );
         }
-        final ResourceRef[] apis = def.getQualifiedRefs( getProject(), visited, Category.API );
-        if( apis.length > 0 )
+        
+        Resource[] apiResources = getDefinition().getClassPath( Category.PUBLIC );
+        if( apiResources.length > 0 )
         {
-            writer.write( "\n" );
-            writer.write( "\n#" );
-            writer.write( "\n# API dependencies." );
-            writer.write( "\n#" );
+            final String label = "Public.";
             final String lead = ARTIFACT_PUBLIC;
-            writeRefs( writer, apis, lead );
+            writeRefs( writer, apiResources, lead, label );
         }
-        final ResourceRef[] spis = def.getQualifiedRefs( getProject(), visited, Category.SPI );
-        if( spis.length > 0 )
+        
+        Resource[] spiResources = getDefinition().getClassPath( Category.PROTECTED );
+        if( spiResources.length > 0 )
         {
-            writer.write( "\n" );
-            writer.write( "\n#" );
-            writer.write( "\n# SPI dependencies." );
-            writer.write( "\n#" );
+            final String label = "Protected.";
             final String lead = ARTIFACT_PROTECTED;
-            writeRefs( writer, spis, lead );
+            writeRefs( writer, spiResources, lead, label );
         }
-        final ResourceRef[] impl = def.getQualifiedRefs( getProject(), visited, Category.IMPL );
-        boolean isaJar = def.getInfo().isa( "jar" );
-        if( ( impl.length > 0 ) || isaJar )
+        
+        Resource[] implResources = getDefinition().getClassPath( Category.PRIVATE );
+        Resource[] resources = new Resource[ implResources.length + 1 ];
+        for( int i=0; i<implResources.length; i++ )
         {
-            final String lead = ARTIFACT_PRIVATE;
-            writer.write( "\n" );
-            writer.write( "\n#" );
-            writer.write( "\n# Implementation dependencies." );
-            writer.write( "\n#" );
-            int n = writeRefs( writer, impl, lead );
-            if( isaJar )
-            {
-                writeReference( writer, def, lead, n );
-            }
+            resources[i] = implResources[i];
         }
-        */
+        Resource resource = getDefinition().toResource();
+        resources[ implResources.length ] = resource;
+        final String label = "Private.";
+        final String lead = ARTIFACT_PRIVATE;
+        writeRefs( writer, resources, lead, label );
     }
-
-    /*
+    
     private int writeRefs(
-      final Writer writer, final ResourceRef[] refs, final String lead )
+      final Writer writer, final Resource[] refs, final String lead, String label )
       throws IOException
     {
+        writer.write( "\n" );
+        writer.write( "\n#" );
+        writer.write( "\n# " + label );
+        writer.write( "\n#" );
         for( int i=0; i < refs.length; i++ )
         {
-            final ResourceRef ref = refs[i];
-            final Resource resource = getIndex().getResource( ref );
-            writeReference( writer, resource, lead, i );
+            final Resource resource = refs[i];
+            writeResource( writer, resource, lead, i );
         }
         return refs.length;
     }
 
-    private void writeReference(
+    private void writeResource(
       final Writer writer, final Resource resource, final String lead, int i )
       throws IOException
     {
@@ -361,10 +351,41 @@ public class PluginTask extends GenericTask
         writer.write( lead );
         writer.write( "." + i );
         writer.write( " = " );
-        writer.write( resource.getInfo().getURI( "jar" ) );
+        try
+        {
+            String path = resource.getPath();
+            String version = getResourceVersion( resource );
+            if( null == version )
+            {
+                writer.write( "artifact:jar:" + path );
+            }
+            else
+            {
+                writer.write( "artifact:jar:" + path + "#" + version );
+            }
+        }
+        catch( Exception e )
+        {
+            final String error = 
+              "Unexpected error while attempting to write resource.";
+            IOException ioe = new IOException( error );
+            ioe.initCause( e );
+            throw ioe;
+        }
     }
-    */
 
+    private String getResourceVersion( Resource resource ) throws Exception
+    {
+        if( null != resource.getProject() )
+        {
+            return getDefinition().getVersion();
+        }
+        else
+        {
+            return resource.getVersion();
+        }
+    }
+    
    /**
     * Write the factory class.
     * @param writer the writer

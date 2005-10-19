@@ -30,9 +30,9 @@ public final class DependencyDirectiveTestCase extends AbstractTestCase
     static TaggedIncludeDirective[] INCLUDES = new TaggedIncludeDirective[3];
     static
     {
-        INCLUDES[0] = new TaggedIncludeDirective( TaggedIncludeDirective.REF, Category.API, "xzy", PROPERTIES );
-        INCLUDES[1] = new TaggedIncludeDirective( TaggedIncludeDirective.KEY, Category.SPI, "123" ,PROPERTIES );
-        INCLUDES[2] = new TaggedIncludeDirective( TaggedIncludeDirective.REF, Category.IMPL, "456", PROPERTIES );
+        INCLUDES[0] = new TaggedIncludeDirective( TaggedIncludeDirective.REF, Category.PUBLIC, "xzy", PROPERTIES );
+        INCLUDES[1] = new TaggedIncludeDirective( TaggedIncludeDirective.KEY, Category.PROTECTED, "123" ,PROPERTIES );
+        INCLUDES[2] = new TaggedIncludeDirective( TaggedIncludeDirective.REF, Category.PRIVATE, "456", PROPERTIES );
     }
       
     public void testNullScope()

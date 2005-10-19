@@ -49,15 +49,15 @@ public final class ResourceRef
         }
         else if( "api".equals( category ) )
         {
-            return Category.API;
+            return Category.PUBLIC;
         }
         else if( "spi".equals( category ) )
         {
-            return Category.SPI;
+            return Category.PROTECTED;
         }
         else if( "impl".equals( category ) )
         {
-            return Category.IMPL;
+            return Category.PRIVATE;
         }
         else
         {
@@ -82,15 +82,15 @@ public final class ResourceRef
         {
             return "system";
         }
-        if( category == Category.API )
+        if( category == Category.PUBLIC )
         {
             return "api";
         }
-        else if( category == Category.SPI )
+        else if( category == Category.PROTECTED )
         {
             return "spi";
         }
-        else if( category == Category.IMPL )
+        else if( category == Category.PRIVATE )
         {
             return "impl";
         }
