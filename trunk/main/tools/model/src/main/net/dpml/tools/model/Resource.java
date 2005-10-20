@@ -20,6 +20,7 @@ package net.dpml.tools.model;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
+import java.net.URI;
 
 /**
  * The Resource interface describes infomation about a published resource.

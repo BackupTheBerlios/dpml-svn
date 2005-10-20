@@ -1,5 +1,6 @@
 /*
- * Copyright 2004 Apache Software Foundation
+ * Copyright 2005 Stephen J. McConnell
+ *
  * Licensed  under the  Apache License,  Version 2.0  (the "License");
  * you may not use  this file  except in  compliance with the License.
  * You may obtain a copy of the License at
@@ -17,11 +18,17 @@
 
 package net.dpml.tools.tasks;
 
+import java.io.File;
+import java.rmi.RemoteException;
+
+import net.dpml.tools.model.ResourceNotFoundException;
+import net.dpml.tools.model.ProjectNotFoundException;
+import net.dpml.tools.model.ModuleNotFoundException;
+import net.dpml.tools.model.Resource;
+
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.types.Path;
-
-import java.io.File;
 
 /**
  * Locate a named feature of the a project or resource.
@@ -32,6 +39,7 @@ import java.io.File;
 public abstract class FeatureTask extends GenericTask
 {
     private String m_key;
+    private String m_ref;
     private String m_feature;
     private String m_prefix;
     private boolean m_windows = true;
@@ -47,6 +55,17 @@ public abstract class FeatureTask extends GenericTask
     public void setKey( final String key )
     {
         m_key = key;
+    }
+
+   /**
+    * Set the ref of the target project or resource description from which features will be 
+    * resolved from.
+    *
+    * @param ref the resource reference
+    */
+    public void setRef( final String ref )
+    {
+        m_ref = ref;
     }
 
    /**
@@ -118,113 +137,224 @@ public abstract class FeatureTask extends GenericTask
             log( "Processing feature: " + m_feature, Project.MSG_VERBOSE );
         }
         
-        return getDefinition().getProperty( m_feature );
+        String ref = getRef();
+        Resource resource = getResource( ref );
 
-        //if( null == m_key )
-        //{
-        //    m_key = getContext().getKey();
-        //}
-
-        //final ResourceRef ref = new ResourceRef( m_key );
-        //final Resource resource = getIndex().getResource( ref );
-
-        /*
-        if( m_feature.equals( "name" ) )
+        try
         {
-            return resource.getInfo().getName();
-        }
-        else if( m_feature.equals( "group" ) )
-        {
-            return resource.getInfo().getGroup();
-        }
-        else if( m_feature.equals( "version" ) )
-        {
-            final String version = resource.getInfo().getVersion();
-            if( null == version )
+            if( m_feature.equals( "name" ) )
             {
-                return "";
+                return resource.getName();
             }
+            else if( m_feature.equals( "group" ) )
+            {
+                return resource.getModule().getPath();
+            }
+            else if( m_feature.equals( "version" ) )
+            {
+                if( null == resource.getProject() )
+                {
+                    String version = resource.getVersion();
+                    if( null == version )
+                    {
+                        return "";
+                    }
+                    else
+                    {
+                        return version;
+                    }
+                }
+                else
+                {
+                    return getDefinition().getVersion();
+                }
+            }
+            else if( m_feature.equals( "uri" ) )
+            {
+                if( null == m_type )
+                {
+                    final String error = 
+                      "Type attribute must be supplied in conjuction with the uri attribute.";
+                    throw new BuildException( error, getLocation() );
+                }
+                else
+                {
+                    String path = resource.getPath();
+                    if( null == resource.getProject() )
+                    {
+                        String version = resource.getVersion();
+                        if( null == version )
+                        {
+                            return "artifact:" + m_type + ":" + path + "#" + version;
+                        }
+                        else
+                        {
+                            return "artifact:" + m_type + ":" + path + "#" + version;
+                        }
+                    }
+                    else
+                    {
+                        return "artifact:" + m_type + ":" + path + "#" + getDefinition().getVersion();
+                    }
+                }
+            }
+            //else if( m_feature.equals( "alias" ) )
+            //{
+            //    if( null == m_type )
+            //    {
+            //        final String error = 
+            //        "Type attribute must be supplied in conjuction with the alias attribute.";
+            //        throw new BuildException( error, getLocation() );
+            //    }
+            //    else
+            //    {
+            //        return resource.getInfo().getType( m_type ).getAlias();
+            //    }
+            //}
+            else if( m_feature.equals( "spec" ) )
+            {
+                String path = resource.getPath();
+                if( null == resource.getProject() )
+                {
+                    String version = resource.getVersion();
+                    if( null == version )
+                    {
+                        return path;
+                    }
+                    else
+                    {
+                        return path + "#" + version;
+                    }
+                }
+                else
+                {
+                    return path + "#" + getDefinition().getVersion();
+                }
+            }
+            //else if( m_feature.equals( "path" ) )
+            //{
+            //    if( null == m_type )
+            //    {
+            //        final String error = 
+            //          "Type attribute must be supplied in conjuction with the path attribute.";
+            //        throw new BuildException( error, getLocation() );
+            //    }
+            //    else
+            //    {
+            //        return convertString( resource.getInfo().getPath( m_type ) );
+            //    }
+            //}
+            //else if( m_feature.equals( "docs" ) )
+            //{
+            //    return convertString( resource.getInfo().getDocPath() );
+            //}
+            //else if( m_feature.equals( "classpath" ) )
+            //{
+            //    return getPath( resource );
+            //}
+            //else if( m_feature.equals( "filename" ) )
+            //{
+            //    if( null == m_type )
+            //    {
+            //        final String error = 
+            //          "Type attribute must be supplied in conjuction with the filename attribute.";
+            //        throw new BuildException( error, getLocation() );
+            //    }
+            //    else
+            //    {
+            //        return resource.getInfo().getFilename( m_type );
+            //    }
+            //}
+            //else if( m_feature.equals( "short-filename" ) )
+            //{
+            //    return resource.getInfo().getShortFilename();
+            //}
+            //else if( m_feature.equals( "api" ) )
+            //{
+            //   return convertString( resource.getInfo().getJavadocPath() );
+            //}
             else
-            {
-                return version;
-            }
-        }
-        else if( m_feature.equals( "uri" ) )
-        {
-            if( null == m_type )
             {
                 final String error = 
-                  "Type attribute must be supplied in conjuction with the uri attribute.";
+                  "Unsupported feature ["
+                  + m_feature 
+                  + "].";
                 throw new BuildException( error, getLocation() );
             }
-            else
-            {
-                return resource.getInfo().getURI( m_type );
-            }
         }
-        else if( m_feature.equals( "alias" ) )
+        catch( RemoteException e )
         {
-            if( null == m_type )
-            {
-                final String error = 
-                  "Type attribute must be supplied in conjuction with the alias attribute.";
-                throw new BuildException( error, getLocation() );
-            }
-            else
-            {
-                return resource.getInfo().getType( m_type ).getAlias();
-            }
+            throw new RuntimeException( "remote-exception", e );
         }
-        else if( m_feature.equals( "spec" ) )
+    }
+    
+    private String getRef()
+    {
+        if( null != m_ref )
         {
-            return resource.getInfo().getSpec();
+            return m_ref;
         }
-        else if( m_feature.equals( "path" ) )
+        else if( null != m_key )
         {
-            if( null == m_type )
-            {
-                final String error = 
-                  "Type attribute must be supplied in conjuction with the path attribute.";
-                throw new BuildException( error, getLocation() );
-            }
-            else
-            {
-                return convertString( resource.getInfo().getPath( m_type ) );
-            }
+            return getDefinition().getGroup() + "/" + m_key;
         }
-        else if( m_feature.equals( "docs" ) )
+        else
         {
-            return convertString( resource.getInfo().getDocPath() );
+            return getDefinition().getProjectPath();
         }
-        else if( m_feature.equals( "classpath" ) )
-        {
-            return getPath( resource );
-        }
-        else if( m_feature.equals( "filename" ) )
-        {
-            if( null == m_type )
-            {
-                final String error = 
-                  "Type attribute must be supplied in conjuction with the filename attribute.";
-                throw new BuildException( error, getLocation() );
-            }
-            else
-            {
-                return resource.getInfo().getFilename( m_type );
-            }
-        }
-        else if( m_feature.equals( "short-filename" ) )
-        {
-            return resource.getInfo().getShortFilename();
-        }
-        else if( m_feature.equals( "api" ) )
-        {
-            return convertString( resource.getInfo().getJavadocPath() );
-        }
-        return null;
-        */
     }
 
+    private Resource getResource( String ref )
+    {
+        try
+        {
+            return getContext().getLibrary().getResource( ref );
+        }
+        catch( ResourceNotFoundException e )
+        {
+            try
+            {
+                return getContext().getLibrary().getProject( ref ).toResource();
+            }
+            catch( ProjectNotFoundException pnfe )
+            {
+                final String error = 
+                  "Unable to locate a project or resource with the address ["
+                  + ref
+                  + "].";
+                throw new BuildException( error, e );
+            }
+            catch( RemoteException re )
+            {
+                throw new RuntimeException( "remote-exception", re );
+            }
+            catch( ModuleNotFoundException mnfe )
+            {
+                final String error = 
+                  "Resource address in [" 
+                  + ref
+                  + "] contains an unknown module references ["
+                  + e.getMessage()
+                  + "].";
+                throw new BuildException( error, mnfe );
+            }
+        }
+        catch( ModuleNotFoundException e )
+        {
+            final String error = 
+              "Resource address in [" 
+              + ref
+              + "] contains an unknown module references ["
+              + e.getMessage()
+              + "].";
+            throw new BuildException( error, e );
+        }
+        catch( RemoteException e )
+        {
+            throw new RuntimeException( "remote-exception", e );
+        }
+    }
+    
     /*
     private String getPath( final Resource def )
     {

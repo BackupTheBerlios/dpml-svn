@@ -49,6 +49,21 @@
 
      <projects>
 
+       <project name="dpml-activity-api" basedir="metro/activity">
+         <production>
+           <type id="jar"/>
+         </production>
+       </project>
+
+       <project name="dpml-logging-api" basedir="metro/logging">
+         <production>
+           <type id="jar"/>
+         </production>
+         <dependencies>
+           <include ref="dpml/transit/dpml-transit-main"/>
+         </dependencies>
+       </project>
+
        <project name="dpml-configuration-api" basedir="metro/configuration/api">
          <production>
            <type id="jar"/>
@@ -56,21 +71,43 @@
        </project>
 
        <project name="dpml-configuration-impl" basedir="metro/configuration/impl">
+         <production>
+           <type id="jar"/>
+         </production>
          <dependencies>
            <include key="dpml-configuration-api"/>
          </dependencies>
+         <dependencies scope="test">
+           <include ref="ant/ant-junit"/>
+         </dependencies>
+       </project>
+
+       <project name="dpml-parameters-api" basedir="metro/parameters/api">
          <production>
            <type id="jar"/>
          </production>
        </project>
 
-       <project name="dpml-state-api" basedir="metro/state/api">
-         <dependencies>
-           <include ref="dpml/transit/dpml-transit-main"/>
-         </dependencies>
+       <project name="dpml-parameters-impl" basedir="metro/parameters/impl">
          <production>
            <type id="jar"/>
          </production>
+         <dependencies>
+           <include key="dpml-parameters-api"/>
+           <include key="dpml-configuration-api"/>
+         </dependencies>
+         <dependencies scope="test">
+           <include ref="ant/ant-junit"/>
+         </dependencies>
+       </project>
+
+       <project name="dpml-state-api" basedir="metro/state/api">
+         <production>
+           <type id="jar"/>
+         </production>
+         <dependencies>
+           <include ref="dpml/transit/dpml-transit-main"/>
+         </dependencies>
        </project>
 
        <project name="dpml-state-impl" basedir="metro/state/impl">
@@ -78,10 +115,6 @@
            <property name="project.template" value="${basedir}/builder.xml"/>
          </properties>
          <production>
-           <type id="plugin">
-             <property name="project.plugin.class" 
-                value="net.dpml.state.impl.DefaultStateMachine"/>
-           </type>
            <type id="jar"/>
          </production>
          <dependencies>
@@ -90,7 +123,136 @@
          </dependencies>
          <dependencies scope="test">
            <include ref="ant/ant-junit"/>
-           <include ref="junit/junit"/>
+         </dependencies>
+       </project>
+
+       <project name="dpml-part-api" basedir="metro/part">
+         <properties>
+           <property name="project.template" value="${basedir}/builder.xml"/>
+         </properties>
+         <production>
+           <type id="plugin">
+             <property name="project.plugin.class" 
+                value="net.dpml.part.PartContentHandler"/>
+           </type>
+           <type id="jar"/>
+         </production>
+         <dependencies>
+           <include key="dpml-state-api" tag="public"/>
+           <include ref="dpml/transit/dpml-transit-main"/>
+         </dependencies>
+         <dependencies scope="test">
+           <include ref="ant/ant-junit"/>
+         </dependencies>
+       </project>
+
+
+       <project name="dpml-component-model" basedir="metro/component/model">
+         <properties>
+           <property name="project.template" value="${basedir}/builder.xml"/>
+         </properties>
+         <production>
+           <type id="jar"/>
+         </production>
+         <dependencies>
+           <include key="dpml-state-api" tag="public"/>
+           <include key="dpml-parameters-api" tag="public"/>
+           <include key="dpml-configuration-api" tag="public"/>
+           <include key="dpml-part-api" tag="public"/>
+         </dependencies>
+         <dependencies scope="test">
+           <include ref="ant/ant-junit"/>
+           <include key="dpml-state-impl"/>
+           <include key="dpml-parameters-impl"/>
+           <include key="dpml-configuration-impl"/>
+         </dependencies>
+       </project>
+
+       <project name="dpml-component-control" basedir="metro/component/control">
+         <properties>
+           <property name="project.template" value="${basedir}/builder.xml"/>
+         </properties>
+         <production>
+           <type id="jar"/>
+         </production>
+         <dependencies>
+           <include key="dpml-component-model" tag="public"/>
+         </dependencies>
+         <dependencies scope="test">
+           <include ref="ant/ant-junit"/>
+         </dependencies>
+       </project>
+
+       <project name="dpml-composition-editor" basedir="metro/composition/editor">
+         <properties>
+           <property name="project.template" value="${basedir}/builder.xml"/>
+         </properties>
+         <production>
+           <type id="jar"/>
+           <type id="plugin">
+             <property name="project.plugin.class" 
+                value="net.dpml.composition.edit.CompositionEditorFactory"/>
+           </type>
+         </production>
+         <dependencies>
+           <include key="dpml-component-control" tag="public"/>
+           <include ref="jgoodies/forms"/>
+         </dependencies>
+       </project>
+
+       <project name="dpml-composition-runtime" basedir="metro/composition/runtime">
+         <properties>
+           <property name="project.template" value="${basedir}/builder.xml"/>
+         </properties>
+         <production>
+           <type id="jar"/>
+           <type id="plugin">
+             <property name="project.plugin.class" 
+                value="net.dpml.composition.control.CompositionController"/>
+           </type>
+         </production>
+         <dependencies>
+           <include key="dpml-activity-api" tag="public"/>
+           <include key="dpml-component-control" tag="public"/>
+           <include key="dpml-logging-api" tag="public"/>
+           <include key="dpml-parameters-impl"/>
+           <include key="dpml-configuration-impl"/>
+           <include key="dpml-state-impl"/>
+         </dependencies>
+       </project>
+
+       <project name="dpml-composition-builder" basedir="metro/composition/builder">
+         <properties>
+           <property name="project.template" value="${basedir}/builder.xml"/>
+         </properties>
+         <production>
+           <type id="jar"/>
+           <type id="plugin">
+             <property name="project.plugin.resource" 
+                value="net/dpml/composition/builder/antlib.xml"/>
+             <property name="project.plugin.urn" 
+                value="plugin:dpml/composition/dpml-composition-builder"/>
+           </type>
+         </production>
+         <dependencies>
+           <include ref="ant/ant"/>
+           <include key="dpml-composition-runtime"/>
+           <include ref="xstream/xstream"/>
+         </dependencies>
+       </project>
+
+       <project name="dpml-composition-test" basedir="metro/composition/test">
+         <properties>
+           <property name="project.template" value="${basedir}/builder.xml"/>
+         </properties>
+         <production>
+           <type id="jar"/>
+         </production>
+         <dependencies>
+           <include key="dpml-logging-api"/>
+         </dependencies>
+         <dependencies scope="test">
+           <include key="dpml-composition-builder"/>
          </dependencies>
        </project>
 

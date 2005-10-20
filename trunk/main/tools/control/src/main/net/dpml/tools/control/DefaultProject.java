@@ -80,32 +80,41 @@ public final class DefaultProject extends UnicastRemoteObject implements Project
         m_parent = parent;
         m_library = library;
         
-        if( null == m_parent )
+        try
         {
-            m_path = m_directive.getName();
-            String base = directive.getBasedir();
-            if( null == base )
+            if( null == m_parent )
             {
-                m_base = library.getRootDirectory();
+                m_path = m_directive.getName();
+                String base = directive.getBasedir();
+                if( null == base )
+                {
+                    m_base = library.getRootDirectory().getCanonicalFile();
+                }
+                else
+                {
+                    m_base = new File( library.getRootDirectory(), base ).getCanonicalFile();
+                }
             }
             else
             {
-                m_base = new File( library.getRootDirectory(), base );
+                String path = m_parent.getPath();
+                m_path = path + "/" + getName();
+                String base = directive.getBasedir();
+                if( null == base )
+                {
+                    m_base = parent.getBase().getCanonicalFile();
+                }
+                else
+                {
+                    m_base = new File( parent.getBase(), base ).getCanonicalFile();
+                }
             }
         }
-        else
+        catch( IOException e )
         {
-            String path = m_parent.getPath();
-            m_path = path + "/" + getName();
-            String base = directive.getBasedir();
-            if( null == base )
-            {
-                m_base = parent.getBase();
-            }
-            else
-            {
-                m_base = new File( parent.getBase(), base );
-            }
+            final String error = 
+               "Internal error while attempting to construct a canonical file.";
+            throw new RuntimeException( error, e );
         }
         
         ProductionDirective[] artifacts = m_directive.getProductionDirectives();

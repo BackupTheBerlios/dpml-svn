@@ -109,6 +109,24 @@ public class BuildPlugin
         else if( isaModule( target ) )
         {
             Module module = m_library.getModule( target );
+            processModule( module, args );
+        }
+    }
+    
+    private void processModule( Module module, String[] args ) throws Exception
+    {
+        boolean build = CLIHelper.isOptionPresent( args, "-build" );
+        if( build )
+        {
+            Project[] projects = module.getSubsidiaryProjects();
+            for( int i=0; i<projects.length; i++ )
+            {
+                Project project = projects[i];
+                processProject( project, args );
+            }
+        }
+        else
+        {
             listModule( module );
         }
     }
@@ -217,6 +235,13 @@ public class BuildPlugin
         StringBuffer buffer = new StringBuffer( "Listing module: " + module.getPath() );
         listModule( buffer, "  ", module );
         getLogger().info( buffer.toString() + "\n" );
+        
+        Project[] projects = module.getSubsidiaryProjects();
+        for( int i=0; i<projects.length; i++ )
+        {
+            Project project = projects[i];
+            listProject( project );
+        }
     }
     
     private void listModule( StringBuffer buffer, String pad, Module module ) throws Exception
@@ -285,7 +310,7 @@ public class BuildPlugin
         buffer.append( "\nproject: " + project.getPath() + "\n" );
         line( buffer, pad + "basedir: " + project.getBase() );
         String p = pad + "  ";
-        Resource[] resources = project.getProviders( Scope.TEST );
+        Resource[] resources = project.getProviders();
         if( resources.length > 0 )
         {
             line( buffer, pad + "providers: (" + resources.length + ")" );

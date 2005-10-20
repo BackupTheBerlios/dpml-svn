@@ -161,13 +161,14 @@ public final class DefaultLibrary extends UnicastRemoteObject implements Library
     * Return a sorted array of projects including the dependent project of the 
     * suplied target project.
     * @param project the target project
+    * @param providers if TRUE sort in provider first order else consumer first
     * @return the sorted project array
     */
-    public Project[] getProjectChain( Project project, boolean ancestors )
+    public Project[] getProjectChain( Project project, boolean providers )
       throws ResourceNotFoundException, ModuleNotFoundException
     {
         DefaultProject p = (DefaultProject) project;
-        return sortProjects( new DefaultProject[]{ p }, ancestors );
+        return sortProjects( new DefaultProject[]{ p }, providers );
     }
     
    /**
@@ -198,6 +199,17 @@ public final class DefaultLibrary extends UnicastRemoteObject implements Library
     public Project getProject( String path ) throws ModuleNotFoundException, ProjectNotFoundException
     {
         return getDefaultProject( path );
+    }
+    
+   /**
+    * Get a named resource.
+    * @param path the resource address
+    * @exception ModuleNotFoundException if the address is not resolvable
+    * @exception ResourceNotFoundException if the address is not resolvable
+    */
+    public Resource getResource( String path ) throws ModuleNotFoundException, ResourceNotFoundException
+    {
+        return getDefaultResource( path );
     }
     
     DefaultModule getDefaultModule( String path ) throws ModuleNotFoundException
@@ -233,8 +245,24 @@ public final class DefaultLibrary extends UnicastRemoteObject implements Library
         }
         else
         {
+            throw new ProjectNotFoundException( null, path );
+        }
+    }
+    
+    DefaultResource getDefaultResource( String path ) throws ModuleNotFoundException, ResourceNotFoundException
+    {
+        int n = path.lastIndexOf( "/" );
+        if( n > 0 )
+        {
+            String pre = path.substring( 0, n );
+            String post = path.substring( n+1 );
+            DefaultModule module = getDefaultModule( pre );
+            return module.getDefaultResource( post );
+        }
+        else
+        {
             final String error =
-              "Project address does not include a module name [" + path + "].";
+              "Resource address does not include a module name [" + path + "].";
             throw new IllegalAddressRuntimeException( error );
         }
     }
@@ -342,16 +370,15 @@ public final class DefaultLibrary extends UnicastRemoteObject implements Library
         return m_root;
     }
     
-    DefaultProject[] sortProjects( DefaultProject[] projects, boolean ancestors )
+    DefaultProject[] sortProjects( DefaultProject[] projects, boolean policy )
       throws ResourceNotFoundException, ModuleNotFoundException
     {
-        DefaultProject[] collection = getAllRegisteredProjects( false );
         ArrayList stack = new ArrayList();
         ArrayList visited = new ArrayList();
         for( int i=0; i<projects.length; i++ )
         {
             DefaultProject project = projects[i];
-            processProject( visited, stack, project, ancestors, collection );
+            processProject( visited, stack, project, policy, projects );
         }
         return (DefaultProject[]) stack.toArray( new DefaultProject[0] );
     }
@@ -423,7 +450,7 @@ public final class DefaultLibrary extends UnicastRemoteObject implements Library
         }
     }
     
-    private DefaultProject[] getAncestorProjects( DefaultProject project ) 
+    private DefaultProject[] getProviderProjects( DefaultProject project ) 
       throws ResourceNotFoundException, ModuleNotFoundException
     {
         ArrayList list = new ArrayList();
@@ -441,7 +468,7 @@ public final class DefaultLibrary extends UnicastRemoteObject implements Library
     }
     
     private void processProject( 
-      ArrayList visited, ArrayList stack, DefaultProject project, boolean ancestors, DefaultProject[] collection ) 
+      ArrayList visited, ArrayList stack, DefaultProject project, boolean policy, DefaultProject[] collection ) 
       throws ResourceNotFoundException, ModuleNotFoundException
     {
         if( visited.contains( project ) )
@@ -452,13 +479,16 @@ public final class DefaultLibrary extends UnicastRemoteObject implements Library
         {
             visited.add( project );
         }
-        if( ancestors )
+        if( policy )
         {
-            DefaultProject[] projects = getAncestorProjects( project );
+            DefaultProject[] projects = getProviderProjects( project );
             for( int i=0; i<projects.length; i++ )
             {
                 DefaultProject p = projects[i];
-                processProject( visited, stack, p, ancestors, collection );
+                if( isaMember( collection, p ) )
+                {
+                    processProject( visited, stack, p, policy, collection );
+                }
             }
             stack.add( project );
         }
@@ -469,9 +499,25 @@ public final class DefaultLibrary extends UnicastRemoteObject implements Library
             for( int i=0; i<projects.length; i++ )
             {
                 DefaultProject p = projects[i];
-                processProject( visited, stack, p, ancestors, collection );
+                if( isaMember( collection, p ) )
+                {
+                    processProject( visited, stack, p, policy, collection );
+                }
             }
         }
+    }
+    
+    private boolean isaMember( DefaultProject[] projects, DefaultProject project )
+    {
+        for( int i=0; i<projects.length; i++ )
+        {
+            DefaultProject p = projects[i];
+            if( project.equals( p ) )
+            {
+                return true;
+            }
+        }
+        return false;
     }
     
     private Logger getLogger()

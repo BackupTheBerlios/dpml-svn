@@ -54,12 +54,6 @@ import net.dpml.component.info.EntryDescriptor;
 
 import net.dpml.configuration.Configuration;
 
-import net.dpml.magic.model.Definition;
-import net.dpml.magic.model.Policy;
-import net.dpml.magic.model.Resource;
-import net.dpml.magic.model.ResourceRef;
-import net.dpml.magic.tasks.ProjectTask;
-
 import net.dpml.parameters.Parameters;
 import net.dpml.parameters.impl.DefaultParameters;
 
@@ -74,14 +68,12 @@ import net.dpml.component.runtime.Control;
 
 import net.dpml.part.ActivationPolicy;
 
-import net.dpml.transit.tools.AntAdapter;
 import net.dpml.transit.Logger;
 import net.dpml.transit.model.ContentModel;
+import net.dpml.transit.tools.AntAdapter;
 
-import org.apache.tools.ant.AntClassLoader;
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Project;
-import org.apache.tools.ant.types.Path;
 
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.DomDriver;

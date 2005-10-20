@@ -16,6 +16,8 @@
   <modules>
     <include file="library/junit.xml"/>
     <include file="library/ant.xml"/>
+    <include file="library/jgoodies.xml"/>
+    <include file="library/xstream.xml"/>
     <include file="library/dpml.xml"/>
   </modules>
 

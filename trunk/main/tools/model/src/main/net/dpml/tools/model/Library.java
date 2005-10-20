@@ -53,15 +53,6 @@ public interface Library extends Remote
       throws RemoteException, ModuleNotFoundException, ResourceNotFoundException;
 
    /**
-    * Get a named project.
-    * @param path the project address include the module path
-    * @exception ModuleNotFoundException if the address is not resolvable
-    * @exception ProjectNotFoundException if the address is not resolvable
-    */
-    public Project getProject( String path ) 
-      throws RemoteException, ModuleNotFoundException, ProjectNotFoundException;
-
-   /**
     * Return an array of top-level modules registered with the library.
     * @return the module array
     */
@@ -75,12 +66,21 @@ public interface Library extends Remote
     Module getModule( String path ) throws RemoteException, ModuleNotFoundException;
     
    /**
-    * Return an array of resources referencing jar artifact types that make up
-    * the logical classpath for the target project.
-    * @param project the target project
-    * @param scope the classpath scope
-    * @return the classpath resource array
+    * Get a named project.
+    * @param path the project address include the module path
+    * @exception ModuleNotFoundException if the address is not resolvable
+    * @exception ProjectNotFoundException if the address is not resolvable
     */
-    //Resource[] getClasspath( Project project, Scope scope )
-    //  throws RemoteException, ModuleNotFoundException, ResourceNotFoundException;    
+    public Project getProject( String path ) 
+      throws RemoteException, ModuleNotFoundException, ProjectNotFoundException;
+
+   /**
+    * Get a named resource.
+    * @param path the resource address
+    * @exception ModuleNotFoundException if the address is not resolvable
+    * @exception ResourceNotFoundException if the address is not resolvable
+    */
+    public Resource getResource( String path ) 
+      throws RemoteException, ModuleNotFoundException, ResourceNotFoundException;
+
 }

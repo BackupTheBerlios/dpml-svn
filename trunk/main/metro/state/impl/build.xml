@@ -12,8 +12,4 @@
     </rmic>
   </target>
 
-  <target name="package" depends="standard.package">
-    <x:export class="net.dpml.state.impl.DefaultStateMachine"/>
-  </target>
-
 </project>

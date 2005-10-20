@@ -47,26 +47,29 @@ public interface Project extends Remote
     String[] getTypes() throws RemoteException;
     
     File getBase() throws RemoteException;
-        
-    Resource[] getProviders( Scope scope ) 
+    
+    Resource[] getProviders() 
       throws RemoteException, ResourceNotFoundException, ModuleNotFoundException;
     
+    Resource[] getProviders( Scope scope ) 
+      throws RemoteException, ResourceNotFoundException, ModuleNotFoundException;
+      
     Resource[] getClassPath( Scope scope )
       throws RemoteException, ModuleNotFoundException, ResourceNotFoundException;
     
     Resource[] getClassPath( Category category )
       throws RemoteException, ModuleNotFoundException, ResourceNotFoundException;
-      
+    
     Project[] getConsumers() 
       throws RemoteException, ResourceNotFoundException, ModuleNotFoundException;
-
+    
    /**
     * Return the set projects that are consumers of this project.
     * @return the sorted array of consumer projects
     */
     Project[] getAllConsumers() 
       throws RemoteException, ResourceNotFoundException, ModuleNotFoundException;
-
+    
     Resource toResource() throws RemoteException;
     
     String[] getPropertyNames() throws RemoteException;
@@ -76,5 +79,4 @@ public interface Project extends Remote
     String getProperty( String key, String value ) throws RemoteException;
     
     String getProductionProperty( String type, String key, String value ) throws RemoteException;
-    
 }

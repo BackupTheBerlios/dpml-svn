@@ -28,15 +28,15 @@ import net.dpml.composition.control.CompositionController;
 import net.dpml.component.info.Type;
 
 import net.dpml.component.control.ControllerContext;
+import net.dpml.component.info.PartReference;
 
+import net.dpml.part.Part;
 import net.dpml.part.DelegationException;
 import net.dpml.part.PartNotFoundException;
-import net.dpml.part.Part;
-import net.dpml.component.info.PartReference;
 import net.dpml.part.PartContentHandlerFactory;
 
-import net.dpml.transit.tools.AntAdapter;
 import net.dpml.transit.Logger;
+import net.dpml.transit.tools.AntAdapter;
 import net.dpml.transit.model.ContentModel;
 
 import org.apache.tools.ant.Task;

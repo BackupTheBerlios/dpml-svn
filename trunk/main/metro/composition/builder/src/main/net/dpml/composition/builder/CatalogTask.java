@@ -44,10 +44,11 @@ import net.dpml.component.data.ComponentDirective;
 import net.dpml.configuration.Configuration;
 import net.dpml.configuration.impl.ConfigurationUtil;
 
-import net.dpml.magic.tasks.ProjectTask;
+//import net.dpml.magic.tasks.ProjectTask;
 
 import net.dpml.transit.Transit;
 
+import org.apache.tools.ant.Task;
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.DirectoryScanner;
@@ -66,7 +67,8 @@ import com.thoughtworks.xstream.io.xml.DomDriver;
  * @author <a href="mailto:dev-dpml@lists.ibiblio.org">The Digital Product Meta Library</a>
  * @version $Revision: 1.2 $ $Date: 2004/03/17 10:30:09 $
  */
-public class CatalogTask extends ProjectTask
+//public class CatalogTask extends ProjectTask
+public class CatalogTask extends Task
 {
     private File m_work;
     private File m_destination;

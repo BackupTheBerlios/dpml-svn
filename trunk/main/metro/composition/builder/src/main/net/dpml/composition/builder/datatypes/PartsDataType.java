@@ -23,11 +23,11 @@ import java.util.LinkedList;
 import java.util.List;
 import java.beans.IntrospectionException;
 
+import net.dpml.component.info.Type;
 import net.dpml.component.info.PartReference;
 import net.dpml.composition.builder.ComponentBuilderTask;
 import net.dpml.composition.builder.PartReferenceBuilder;
 import net.dpml.composition.builder.ClassLoaderBuilderTask;
-import net.dpml.component.info.Type;
 
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.DynamicElementNS;

@@ -7,4 +7,6 @@
   <taskdef name="jar"          classname="net.dpml.tools.tasks.JarTask"/>
   <taskdef name="plugin"       classname="net.dpml.tools.tasks.PluginTask"/>
   <taskdef name="junit"        classname="net.dpml.tools.tasks.JUnitTestTask"/>
+  <taskdef name="property"     classname="net.dpml.tools.tasks.PropertyTask"/>
+  <taskdef name="filter"       classname="net.dpml.tools.tasks.FilterTask"/>
 </antlib>
