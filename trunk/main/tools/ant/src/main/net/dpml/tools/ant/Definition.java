@@ -29,6 +29,9 @@ import net.dpml.tools.info.TypeDescriptor;
 import net.dpml.tools.info.DependencyDirective;
 import net.dpml.tools.model.Resource;
 import net.dpml.tools.model.TypeNotFoundException;
+import net.dpml.tools.model.ProjectNotFoundException;
+import net.dpml.tools.model.ModuleNotFoundException;
+import net.dpml.tools.model.ResourceNotFoundException;
 
 import net.dpml.transit.Category;
 import net.dpml.transit.Transit;
@@ -40,6 +43,7 @@ import net.dpml.transit.model.TransitModel;
 import org.apache.tools.ant.Task;
 import org.apache.tools.ant.Target;
 import org.apache.tools.ant.Project;
+import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.types.Path;
 
 /**
@@ -100,6 +104,26 @@ public class Definition
                 path.createPathElement().setLocation( file );
             }
             return path;
+        }
+        catch( ModuleNotFoundException e )
+        {
+            final String error =
+              "Project definition [" 
+              + getProjectPath()
+              + "] references an unknown module ["
+              + e.getMessage() 
+              + "].";
+            throw new BuildException( error, e );
+        }
+        catch( ResourceNotFoundException e )
+        {
+            final String error =
+              "Project definition [" 
+              + getProjectPath()
+              + "] references an unknown resource ["
+              + e.getMessage() 
+              + "].";
+            throw new BuildException( error, e );
         }
         catch( Exception e )
         {

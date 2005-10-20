@@ -38,11 +38,6 @@ public final class Scope extends Enum
     static final long serialVersionUID = 1L;
 
    /**
-    * System scope.
-    */
-    //public static final Scope SYSTEM = new Scope( "system" );
-
-   /**
     * Build scope.
     */
     public static final Scope BUILD = new Scope( "build" );

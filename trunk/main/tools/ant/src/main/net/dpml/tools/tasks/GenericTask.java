@@ -38,6 +38,7 @@ import net.dpml.tools.ant.Definition;
 import net.dpml.tools.ant.Context;
 import net.dpml.tools.model.Library;
 import net.dpml.tools.model.ProjectNotFoundException;
+import net.dpml.tools.model.ModuleNotFoundException;
 import net.dpml.tools.control.DefaultLibrary;
 
 import net.dpml.transit.monitor.LoggingAdapter;
@@ -109,26 +110,28 @@ public class GenericTask extends Task
             // We are running under Ant based invocation.
             // Create the library, locate this project, create and set the context.
             //
-            
+            File basedir = getProject().getBaseDir();
             try
             {
                 DefaultLibrary library = new DefaultLibrary( new LoggingAdapter() );
-                File basedir = getProject().getBaseDir().getCanonicalFile();
-                try
-                {
-                    net.dpml.tools.model.Project p = library.lookup( basedir );
-                    Definition definition = new Definition( p );
-                    context = new Context( definition, library, getProject() );
-                    getProject().addReference( "project.context", context );
-                    return context;
-                }
-                catch( Exception e )
-                {
-                    final String error = 
-                      "Unable to locate a project defintion matching the basedir: " 
-                      + basedir;
-                    throw new BuildException( error );
-                }
+                net.dpml.tools.model.Project p = library.lookup( basedir.getCanonicalFile() );
+                Definition definition = new Definition( p );
+                context = new Context( definition, library, getProject() );
+                getProject().addReference( "project.context", context );
+                return context;
+            }
+            catch( BuildException e )
+            {
+                throw e;
+            }
+            catch( ModuleNotFoundException e )
+            {
+                final String error = 
+                  "Unable to establish a project defintion relative to the base dir: ["
+                  + basedir
+                  + "] due to a bad module reference ["
+                  + e.getMessage()
+                  + "].";
             }
             catch( Exception ioe )
             {

@@ -85,7 +85,7 @@ public class ImportArtifactTask extends ImportTask
             File local = (File) url.getContent( new Class[]{File.class} );
             super.setFile( local.getAbsolutePath() );
         }
-        catch( Throwable e )
+        catch( Exception e )
         {
             final String error =
               "Could not import the resource from the uri ["
@@ -100,6 +100,10 @@ public class ImportArtifactTask extends ImportTask
         try
         {
             super.execute();
+        }
+        catch( BuildException e )
+        {
+            throw e;
         }
         catch( Throwable e )
         {

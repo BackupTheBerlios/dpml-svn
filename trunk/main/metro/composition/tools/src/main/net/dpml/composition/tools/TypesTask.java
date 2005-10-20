@@ -29,6 +29,8 @@ import java.beans.IntrospectionException;
 //import net.dpml.magic.model.Policy;
 //import net.dpml.magic.tasks.ProjectTask;
 
+import net.dpml.tools.tasks.GenericTask;
+
 import net.dpml.component.info.Type;
 
 import org.apache.tools.ant.AntClassLoader;
@@ -44,7 +46,7 @@ import org.apache.tools.ant.types.Path;
  * @author <a href="mailto:dev-dpml@lists.ibiblio.org">The Digital Product Meta Library</a>
  * @version $Revision: 1.2 $ $Date: 2004/03/17 10:30:09 $
  */
-public class TypesTask extends Task implements DynamicElementNS
+public class TypesTask extends GenericTask implements DynamicElementNS
 {
     private List m_builders = new LinkedList();
 
@@ -77,8 +79,8 @@ public class TypesTask extends Task implements DynamicElementNS
     public void execute()
     {
         Project proj = getProject();
-        Path path = getDefinition().getPath( proj, Policy.RUNTIME );
-        File classes = getContext().getClassesDirectory();
+        Path path = getDefinition().getPath( proj, Scope.BUILD );
+        File classes = getDefinition().getTargetClassesMainDirectory();
         path.createPathElement().setLocation( classes );
         ClassLoader classloader = new AntClassLoader( proj, path );
         buildTypes( classloader );
@@ -140,7 +142,7 @@ public class TypesTask extends Task implements DynamicElementNS
 
     private File getEmbeddedOutputFile( String filename )
     {
-        File classes = getContext().getClassesDirectory();
+        File classes = getDefinition().getTargetClassesMainDirectory();
         File destination = new File( classes, filename );
         return destination;
     }

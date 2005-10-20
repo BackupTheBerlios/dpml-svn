@@ -309,7 +309,7 @@ public final class DefaultModule extends UnicastRemoteObject implements Module
         DefaultModule module = (DefaultModule) m_modules.get( key );
         if( null == module )
         {
-            throw new ModuleNotFoundException( key );
+            throw new ModuleNotFoundException( m_path + "/" + key );
         }
         else
         {
