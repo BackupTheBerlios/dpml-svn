@@ -23,7 +23,7 @@ import java.io.FileWriter;
 
 import junit.framework.TestCase;
 
-import net.dpml.composition.builder.SerializableObjectHelper;
+import net.dpml.composition.tools.SerializableObjectHelper;
 
 import net.dpml.component.data.ComponentDirective;
 

@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package net.dpml.composition.builder;
+package net.dpml.composition.tools;
 
 import java.beans.XMLEncoder;
 import java.beans.IntrospectionException;
@@ -35,11 +35,12 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Properties;
 
-import net.dpml.composition.builder.datatypes.CategoriesDataType;
-import net.dpml.composition.builder.datatypes.ConfigurationDataType;
-import net.dpml.composition.builder.datatypes.ContextDataType;
-import net.dpml.composition.builder.datatypes.ParametersDataType;
-import net.dpml.composition.builder.datatypes.PartsDataType;
+import net.dpml.composition.tools.datatypes.CategoriesDataType;
+import net.dpml.composition.tools.datatypes.ConfigurationDataType;
+import net.dpml.composition.tools.datatypes.ContextDataType;
+import net.dpml.composition.tools.datatypes.ParametersDataType;
+import net.dpml.composition.tools.datatypes.PartsDataType;
+
 import net.dpml.component.data.ClassLoaderDirective;
 import net.dpml.component.data.ClasspathDirective;
 import net.dpml.component.data.ComponentDirective;
@@ -51,6 +52,11 @@ import net.dpml.component.info.CollectionPolicy;
 import net.dpml.component.info.PartReference;
 import net.dpml.component.info.Type;
 import net.dpml.component.info.EntryDescriptor;
+import net.dpml.component.control.ControllerContext;
+import net.dpml.component.runtime.Component;
+import net.dpml.component.runtime.Container;
+import net.dpml.component.runtime.Service;
+import net.dpml.component.runtime.Control;
 
 import net.dpml.configuration.Configuration;
 
@@ -59,13 +65,6 @@ import net.dpml.parameters.impl.DefaultParameters;
 
 import net.dpml.part.Part;
 import net.dpml.part.PartHolder;
-
-import net.dpml.component.control.ControllerContext;
-import net.dpml.component.runtime.Component;
-import net.dpml.component.runtime.Container;
-import net.dpml.component.runtime.Service;
-import net.dpml.component.runtime.Control;
-
 import net.dpml.part.ActivationPolicy;
 
 import net.dpml.transit.Logger;

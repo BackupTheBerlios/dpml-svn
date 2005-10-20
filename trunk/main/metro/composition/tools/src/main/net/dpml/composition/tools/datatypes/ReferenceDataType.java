@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package net.dpml.composition.builder.datatypes;
+package net.dpml.composition.tools.datatypes;
 
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -24,8 +24,9 @@ import java.net.URISyntaxException;
 import net.dpml.component.info.Type;
 import net.dpml.component.info.PartReference;
 import net.dpml.component.data.ReferenceDirective;
-import net.dpml.composition.builder.ConstructionException;
-import net.dpml.composition.builder.PartReferenceBuilder;
+
+import net.dpml.composition.tools.ConstructionException;
+import net.dpml.composition.tools.PartReferenceBuilder;
 
 import net.dpml.part.Part;
 

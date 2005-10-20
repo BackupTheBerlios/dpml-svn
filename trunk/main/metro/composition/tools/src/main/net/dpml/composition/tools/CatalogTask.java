@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package net.dpml.composition.builder;
+package net.dpml.composition.tools;
 
 import java.io.File;
 import java.io.FileFilter;
@@ -31,9 +31,9 @@ import java.util.Hashtable;
 import java.util.Map;
 
 import net.dpml.part.Part;
+
 import net.dpml.component.info.PartReference;
 import net.dpml.component.info.EntryDescriptor;
-
 import net.dpml.component.info.Type;
 import net.dpml.component.info.InfoDescriptor;
 import net.dpml.component.info.LifestylePolicy;
@@ -43,8 +43,6 @@ import net.dpml.component.data.ComponentDirective;
 
 import net.dpml.configuration.Configuration;
 import net.dpml.configuration.impl.ConfigurationUtil;
-
-//import net.dpml.magic.tasks.ProjectTask;
 
 import net.dpml.transit.Transit;
 

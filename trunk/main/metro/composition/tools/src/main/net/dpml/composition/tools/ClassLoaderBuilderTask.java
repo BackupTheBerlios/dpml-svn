@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package net.dpml.composition.builder;
+package net.dpml.composition.tools;
 
 import java.beans.IntrospectionException;
 import java.io.ByteArrayInputStream;
@@ -31,13 +31,14 @@ import java.net.URL;
 import java.util.List;
 import java.util.ArrayList;
 
-import net.dpml.composition.builder.datatypes.CategoriesDataType;
-import net.dpml.composition.builder.datatypes.ConfigurationDataType;
-import net.dpml.composition.builder.datatypes.ContextDataType;
-import net.dpml.composition.builder.datatypes.ParametersDataType;
-import net.dpml.composition.builder.datatypes.PartsDataType;
+import net.dpml.composition.tools.datatypes.CategoriesDataType;
+import net.dpml.composition.tools.datatypes.ConfigurationDataType;
+import net.dpml.composition.tools.datatypes.ContextDataType;
+import net.dpml.composition.tools.datatypes.ParametersDataType;
+import net.dpml.composition.tools.datatypes.PartsDataType;
 import net.dpml.composition.control.CompositionController;
 import net.dpml.composition.control.CompositionContext;
+
 import net.dpml.component.data.ClassLoaderDirective;
 import net.dpml.component.data.ClasspathDirective;
 import net.dpml.component.data.ComponentDirective;
@@ -46,14 +47,19 @@ import net.dpml.component.data.CategoriesDirective;
 import net.dpml.component.info.EntryDescriptor;
 import net.dpml.component.info.InfoDescriptor;
 import net.dpml.component.info.Type;
+import net.dpml.component.info.PartReference;
+import net.dpml.component.control.ControllerContext;
+import net.dpml.component.runtime.Component;
+import net.dpml.component.runtime.Container;
+import net.dpml.component.runtime.Service;
 
 import net.dpml.configuration.Configuration;
 
-import net.dpml.magic.model.Definition;
-import net.dpml.magic.model.Policy;
-import net.dpml.magic.model.Resource;
-import net.dpml.magic.model.ResourceRef;
-import net.dpml.magic.tasks.ProjectTask;
+//import net.dpml.magic.model.Definition;
+//import net.dpml.magic.model.Policy;
+//import net.dpml.magic.model.Resource;
+//import net.dpml.magic.model.ResourceRef;
+//import net.dpml.magic.tasks.ProjectTask;
 
 import net.dpml.parameters.Parameters;
 import net.dpml.parameters.impl.DefaultParameters;
@@ -61,11 +67,6 @@ import net.dpml.parameters.impl.DefaultParameters;
 import net.dpml.part.Part;
 import net.dpml.part.PartHolder;
 import net.dpml.part.PartContentHandlerFactory;
-import net.dpml.component.info.PartReference;
-import net.dpml.component.control.ControllerContext;
-import net.dpml.component.runtime.Component;
-import net.dpml.component.runtime.Container;
-import net.dpml.component.runtime.Service;
 
 import net.dpml.transit.tools.AntAdapter;
 import net.dpml.transit.Logger;

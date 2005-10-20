@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package net.dpml.composition.builder;
+package net.dpml.composition.tools;
 
 import java.beans.IntrospectionException;
 import java.io.IOException;

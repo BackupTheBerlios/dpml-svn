@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package net.dpml.composition.builder.datatypes;
+package net.dpml.composition.tools.datatypes;
 
 import java.util.ArrayList;
 import java.util.List;

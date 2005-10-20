@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package net.dpml.composition.builder.datatypes;
+package net.dpml.composition.tools.datatypes;
 
 import java.io.IOException;
 import java.util.LinkedList;
@@ -25,9 +25,10 @@ import java.beans.IntrospectionException;
 
 import net.dpml.component.info.Type;
 import net.dpml.component.info.PartReference;
-import net.dpml.composition.builder.ComponentBuilderTask;
-import net.dpml.composition.builder.PartReferenceBuilder;
-import net.dpml.composition.builder.ClassLoaderBuilderTask;
+
+import net.dpml.composition.tools.ComponentBuilderTask;
+import net.dpml.composition.tools.PartReferenceBuilder;
+import net.dpml.composition.tools.ClassLoaderBuilderTask;
 
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.DynamicElementNS;

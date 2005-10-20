@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package net.dpml.composition.builder;
+package net.dpml.composition.tools;
 
 /**
  * Exception thrown when an attempt is made to reference an unknown catalog entry.

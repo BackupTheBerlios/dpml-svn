@@ -17,7 +17,7 @@
   limitations under the License.
 -->
 
-<project name="dpml-composition-builder"
+<project name="dpml-composition-tools"
     xmlns:transit="antlib:net.dpml.transit" 
     xmlns:x="dpml:tools" 
     default="install">

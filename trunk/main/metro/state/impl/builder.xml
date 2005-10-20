@@ -19,7 +19,6 @@
 
 <project name="dpml-state-impl" 
     xmlns:transit="antlib:net.dpml.transit" 
-    xmlns:x="dpml:tools" 
     default="install">
 
   <transit:import uri="${project.standard.template}"/>
