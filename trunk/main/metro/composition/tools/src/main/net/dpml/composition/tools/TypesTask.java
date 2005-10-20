@@ -26,9 +26,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.beans.IntrospectionException;
 
-//import net.dpml.magic.model.Policy;
-//import net.dpml.magic.tasks.ProjectTask;
-
 import net.dpml.tools.tasks.GenericTask;
 import net.dpml.tools.info.Scope;
 

@@ -19,6 +19,8 @@
 package net.dpml.tools.ant;
 
 import java.io.File;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
@@ -149,6 +151,20 @@ public class Definition
         catch( RemoteException e )
         {
             throw new RuntimeException( "remote-exception", e );
+        }
+    }
+    
+    public URI getArtifactURI( String type ) throws URISyntaxException
+    {
+        String path = getProjectPath();
+        String version = getVersion();
+        if( null == version )
+        {
+            return new URI( "artifact:" + type + ":" + path );
+        }
+        else
+        {
+            return new URI( "artifact:" + type + ":" + path + "#" + version );
         }
     }
     

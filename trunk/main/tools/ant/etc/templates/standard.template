@@ -41,7 +41,9 @@
 
   <target name="test" depends="package"/>
 
-  <target name="install" depends="test"/>
+  <target name="install" depends="test">
+    <x:install/>
+  </target>
 
   <target name="clean" depends="init">
     <delete dir="${project.target.dir}"/>

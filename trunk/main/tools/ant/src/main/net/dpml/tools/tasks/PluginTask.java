@@ -162,10 +162,11 @@ public class PluginTask extends GenericTask
     public void execute()
     {
         Project project = getProject();
-        if( ( null == getClassname() ) && ( null == m_antlib ) )
+        if( ( null == getClassname() ) && ( null == getAntlib() ) )
         {
             final String error =
               "Either the class attribute or nested antlib element must be declared.";
+            log( "Plugin creation failure. " );
             throw new BuildException( error );
         }
             
@@ -186,6 +187,30 @@ public class PluginTask extends GenericTask
         else
         {
             return getDefinition().getProductionProperty( "plugin", "project.plugin.class", null );
+        }
+    }
+    
+    private Antlib getAntlib()
+    {
+        if( null != m_antlib )
+        {
+            return m_antlib;
+        }
+        else
+        {
+            String res = getDefinition().getProductionProperty( "plugin", "project.plugin.resource", null );
+            String urn = getDefinition().getProductionProperty( "plugin", "project.plugin.urn", null );
+            if( ( null != res ) && ( null != urn ) )
+            {
+                Antlib antlib = new Antlib();
+                antlib.setResource( res );
+                antlib.setUrn( urn );
+                return antlib;
+            }
+            else
+            {
+                return null;
+            }
         }
     }
 

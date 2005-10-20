@@ -55,18 +55,17 @@ import net.dpml.component.runtime.Service;
 
 import net.dpml.configuration.Configuration;
 
-//import net.dpml.magic.model.Definition;
-//import net.dpml.magic.model.Policy;
-//import net.dpml.magic.model.Resource;
-//import net.dpml.magic.model.ResourceRef;
-//import net.dpml.magic.tasks.ProjectTask;
-
 import net.dpml.parameters.Parameters;
 import net.dpml.parameters.impl.DefaultParameters;
 
 import net.dpml.part.Part;
 import net.dpml.part.PartHolder;
 import net.dpml.part.PartContentHandlerFactory;
+
+import net.dpml.tools.ant.Definition;
+import net.dpml.tools.tasks.GenericTask;
+import net.dpml.tools.info.Scope;
+import net.dpml.tools.model.Resource;
 
 import net.dpml.transit.tools.AntAdapter;
 import net.dpml.transit.Logger;
@@ -86,7 +85,7 @@ import org.apache.tools.ant.types.Path;
  * @author <a href="mailto:dev-dpml@lists.ibiblio.org">The Digital Product Meta Library</a>
  * @version $Revision: 1.2 $ $Date: 2004/03/17 10:30:09 $
  */
-public abstract class ClassLoaderBuilderTask extends Task
+public abstract class ClassLoaderBuilderTask extends GenericTask
 {
     protected CompositionController getController()
     {
@@ -106,8 +105,8 @@ public abstract class ClassLoaderBuilderTask extends Task
     protected ClassLoader createClassLoader()
     {
         Project project = getProject();
-        Path path = getDefinition().getPath( project, Policy.RUNTIME );
-        File classes = getContext().getClassesDirectory();
+        Path path = getDefinition().getPath( project, Scope.BUILD );
+        File classes = getDefinition().getTargetClassesMainDirectory();
         path.createPathElement().setLocation( classes );
         ClassLoader parentClassLoader = ClassLoaderBuilderTask.class.getClassLoader();
         return new AntClassLoader( parentClassLoader, project, path, true );
@@ -115,71 +114,89 @@ public abstract class ClassLoaderBuilderTask extends Task
 
     protected ClassLoaderDirective constructClassLoaderDirective()
     {
-        ArrayList list = new ArrayList();
-        ArrayList visited = new ArrayList();
-        URI[] uris = createURISequence( Category.PUBLIC, visited );
-        if( uris.length > 0 )
-        {
-            list.add( new ClasspathDirective( Category.PUBLIC, uris ) );
-        }
-        uris = createURISequence( Category.PROTECTED, visited );
-        if( uris.length > 0 )
-        {
-            list.add( new ClasspathDirective( Category.PROTECTED, uris ) );
-        }
-        uris = createURISequence( Category.PRIVATE, visited, true );
-        if( uris.length > 0 )
-        {
-            list.add( new ClasspathDirective( Category.PRIVATE, uris ) );
-        }
-        ClasspathDirective[] cps = (ClasspathDirective[]) list.toArray( new ClasspathDirective[0] );
+        ClasspathDirective sys = createClasspathDirective( Category.SYSTEM );
+        ClasspathDirective pub = createClasspathDirective( Category.PUBLIC );
+        ClasspathDirective pro = createClasspathDirective( Category.PROTECTED );
+        ClasspathDirective pri = createClasspathDirective( Category.PRIVATE );
+        ClasspathDirective[] cps = new ClasspathDirective[]{ sys, pub, pro, pri };
         return new ClassLoaderDirective( cps );
     }
 
-    private URI[] createURISequence( Category category, List visited )
+    private ClasspathDirective createClasspathDirective( Category category )
     {
-        return createURISequence( category, visited, false );
-    }
-
-    private URI[] createURISequence( Category category, List visited, boolean flag )
-    {
-        Definition def = getDefinition();
-        ArrayList list = new ArrayList();
-        final ResourceRef[] resources =
-          def.getResourceRefs( getProject(), Policy.RUNTIME, category, true );
-        for( int i=0; i<resources.length; i++ )
+        try
         {
-            final ResourceRef ref = resources[i];
-            final Policy policy = ref.getPolicy();
-            if( policy.isRuntimeEnabled() )
+            Resource[] resources = getDefinition().getClassPath( category );
+            if( category.equals( category.PRIVATE ) && isaJar( getDefinition() ) )
             {
-                final Resource resource = getIndex().getResource( ref );
-                if( resource.getInfo().isa( "jar" ) )
+                Resource[] res = new Resource[ resources.length + 1 ];
+                for( int i=0; i<resources.length; i++ )
                 {
-                    URI uri = resource.getArtifactURI( "jar" );
-                    if( false == visited.contains( uri ) )
-                    {
-                        list.add( uri );
-                        visited.add( uri );
-                    }
+                    res[i] = resources[i];
                 }
+                Resource resource = getDefinition().toResource();
+                res[ resources.length ] = resource;
+                resources = res;
             }
-        }
-        if( flag )
-        {
-            if( def.getInfo().isa( "jar" ) )
+            URI[] uris = new URI[ resources.length ];
+            for( int i=0; i<uris.length; i++ )
             {
-                URI local = def.getArtifactURI( "jar" );
-                list.add( local );
+                uris[i] = toURI( resources[i] );
+            }
+            return new ClasspathDirective( category, uris );
+        }
+        catch( Exception e )
+        {
+            final String error = 
+              "Unexpected error occured while building a classpath directive.";
+            throw new RuntimeException( error, e  );
+        }
+    }
+    
+    private boolean isaJar( Definition definition )
+    {
+        String[] types = definition.getTypes();
+        for( int i=0; i<types.length; i++ )
+        {
+            if( "jar".equals( types[i] ) )
+            {
+                return true;
             }
         }
-        return (URI[]) list.toArray( new URI[0] );
+        return false;
+    }
+    
+    private URI toURI( Resource resource ) throws Exception
+    {
+        String path = resource.getPath();
+        String version = getResourceVersion( resource );
+        if( null == version )
+        {
+            return new URI( "artifact:jar:" + path );
+        }
+        else
+        {
+            return new URI( "artifact:jar:" + path + "#" + version );
+        }
+    }
+    
+    private String getResourceVersion( Resource resource ) throws Exception
+    {
+        if( null != resource.getProject() )
+        {
+            return getDefinition().getVersion();
+        }
+        else
+        {
+            return resource.getVersion();
+        }
     }
 
     protected File getPartOutputFile()
     {
-        File dir = getContext().getDeliverablesDirectory( Part.ARTIFACT_TYPE );
-        String filename = getDefinition().getFilename( Part.ARTIFACT_TYPE );
+        File deliverables = getDefinition().getTargetDeliverablesDirectory();
+        File dir = new File( deliverables, Part.ARTIFACT_TYPE + "s" );
+        String filename = getDefinition().getLayoutPath( Part.ARTIFACT_TYPE );
         return new File( dir, filename );
     }
 

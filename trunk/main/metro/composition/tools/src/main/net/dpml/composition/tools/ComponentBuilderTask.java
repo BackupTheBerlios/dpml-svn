@@ -246,8 +246,8 @@ public class ComponentBuilderTask extends ClassLoaderBuilderTask implements Part
 
         ComponentDirective profile = createComponent( classloader, cld, file );
 
-        File target = getContext().getTargetDirectory();
-        File reports = new File( target, "reports/parts" );
+        File targetReports = getDefinition().getTargetReportsDirectory();
+        File reports = new File( targetReports, "parts" );
         reports.mkdirs();
         if( m_embedded )
         {
@@ -364,7 +364,7 @@ public class ComponentBuilderTask extends ClassLoaderBuilderTask implements Part
 
     public File getEmbeddedOutputFile( String filename )
     {
-        File classes = getContext().getClassesDirectory();
+        File classes = getDefinition().getTargetClassesMainDirectory();
         File destination = new File( classes, filename );
         return destination;
     }
