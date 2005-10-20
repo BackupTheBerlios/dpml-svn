@@ -22,12 +22,14 @@ import net.dpml.magic.AntFileIndex;
 import net.dpml.magic.UnknownResourceException;
 import net.dpml.magic.builder.AntFileIndexBuilder;
 import net.dpml.magic.model.Definition;
+import net.dpml.magic.model.Policy;
 
 import net.dpml.transit.NullArgumentException;
 
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.taskdefs.Property;
+import org.apache.tools.ant.types.Path;
 
 import java.io.File;
 import java.io.IOException;
@@ -183,11 +185,17 @@ public class Context
         updateFileProperty( project, "project.target", m_target );
         updateFileProperty( project, "project.test.dir", m_test );
         updateFileProperty( project, "project.deliverables.dir", m_deliverables );
-
+        
         updateFileProperty( project, "project.target.dir", m_target );
+        updateFileProperty( project, "project.target.classes.main.dir", m_classes );
+        updateFileProperty( project, "project.target.classes.test.dir", m_testClasses );
+        updateFileProperty( project, "project.target.deliverables.dir", m_deliverables );
+        updateFileProperty( project, "project.target.test.dir", m_test );
+        
         updateFileProperty( project, "project.deliverables", m_deliverables );
         updateFileProperty( project, "project.build", m_build );
         updateFileProperty( project, "project.test", m_test );
+        updateFileProperty( project, "project.test.dir", m_test );
     }
 
     //-------------------------------------------------------------

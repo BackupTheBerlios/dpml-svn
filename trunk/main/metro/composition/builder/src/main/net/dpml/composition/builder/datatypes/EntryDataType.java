@@ -22,6 +22,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 
 import net.dpml.part.Part;
+
 import net.dpml.component.info.PartReference;
 import net.dpml.composition.builder.ConstructionException;
 import net.dpml.composition.builder.PartReferenceBuilder;

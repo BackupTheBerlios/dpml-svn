@@ -121,7 +121,8 @@ public class CatalogTask extends Task
     */
     public void init()
     {
-        File target = getContext().getTargetDirectory();
+        String targetDirPath = getProject().getProperty( "project.target.dir" );
+        File target = new File( targetDirPath );
         File reports = new File( target, "reports" );
         File types = new File( reports, "types" );
         m_work = types;
@@ -891,7 +892,8 @@ public class CatalogTask extends Task
     {
         if( m_filesets.size() == 0 )
         {         
-            File classes = getContext().getClassesDirectory();
+            String classesDirPath = getProject().getProperty( "project.target.classes.main.dir" );
+            File classes = new File( classesDirPath );
             return getTypes( classes );
         }
         else
