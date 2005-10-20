@@ -26,8 +26,9 @@ import java.util.LinkedList;
 import java.util.List;
 import java.beans.IntrospectionException;
 
-import net.dpml.magic.model.Policy;
-import net.dpml.magic.tasks.ProjectTask;
+//import net.dpml.magic.model.Policy;
+//import net.dpml.magic.tasks.ProjectTask;
+
 import net.dpml.component.info.Type;
 
 import org.apache.tools.ant.AntClassLoader;
@@ -43,7 +44,7 @@ import org.apache.tools.ant.types.Path;
  * @author <a href="mailto:dev-dpml@lists.ibiblio.org">The Digital Product Meta Library</a>
  * @version $Revision: 1.2 $ $Date: 2004/03/17 10:30:09 $
  */
-public class TypesTask extends ProjectTask implements DynamicElementNS
+public class TypesTask extends Task implements DynamicElementNS
 {
     private List m_builders = new LinkedList();
 

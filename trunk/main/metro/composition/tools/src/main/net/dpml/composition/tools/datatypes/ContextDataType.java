@@ -24,10 +24,11 @@ import java.util.List;
 import java.beans.IntrospectionException;
 
 import net.dpml.component.info.PartReference;
-import net.dpml.composition.builder.ComponentBuilderTask;
-import net.dpml.composition.builder.PartReferenceBuilder;
 import net.dpml.component.data.ContextDirective;
 import net.dpml.component.info.Type;
+
+import net.dpml.composition.tools.ComponentBuilderTask;
+import net.dpml.composition.tools.PartReferenceBuilder;
 
 import org.apache.tools.ant.Task;
 

@@ -39,7 +39,7 @@ import java.util.Properties;
 import net.dpml.activity.Startable;
 import net.dpml.activity.Executable;
 
-import net.dpml.composition.builder.datatypes.PartsDataType;
+import net.dpml.composition.tools.datatypes.PartsDataType;
 
 import net.dpml.component.info.CategoryDescriptor;
 import net.dpml.component.info.ContextDescriptor;
@@ -55,10 +55,11 @@ import net.dpml.component.info.ServiceDescriptor;
 import net.dpml.configuration.Configuration;
 import net.dpml.configuration.impl.DefaultConfigurationBuilder;
 
-import net.dpml.magic.tasks.ProjectTask;
-import net.dpml.magic.model.Policy;
+//import net.dpml.magic.tasks.ProjectTask;
+//import net.dpml.magic.model.Policy;
 
 import org.apache.tools.ant.BuildException;
+import org.apache.tools.ant.Task;
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.AntClassLoader;
 import org.apache.tools.ant.types.Path;
@@ -73,7 +74,7 @@ import com.thoughtworks.xstream.io.xml.DomDriver;
  * @author <a href="mailto:dev-dpml@lists.ibiblio.org">The Digital Product Meta Library</a>
  * @version $Revision: 1.2 $ $Date: 2004/03/17 10:30:09 $
  */
-public class TypeBuilderTask extends ProjectTask implements TypeBuilder
+public class TypeBuilderTask extends Task implements TypeBuilder
 {
     //---------------------------------------------------------------
     // state

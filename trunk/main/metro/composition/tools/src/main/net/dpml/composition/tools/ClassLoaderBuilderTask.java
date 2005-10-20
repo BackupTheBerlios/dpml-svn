@@ -74,6 +74,7 @@ import net.dpml.transit.model.ContentModel;
 import net.dpml.transit.Plugin;
 import net.dpml.transit.Category;
 
+import org.apache.tools.ant.Task;
 import org.apache.tools.ant.AntClassLoader;
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Project;
@@ -85,7 +86,7 @@ import org.apache.tools.ant.types.Path;
  * @author <a href="mailto:dev-dpml@lists.ibiblio.org">The Digital Product Meta Library</a>
  * @version $Revision: 1.2 $ $Date: 2004/03/17 10:30:09 $
  */
-public abstract class ClassLoaderBuilderTask extends ProjectTask
+public abstract class ClassLoaderBuilderTask extends Task
 {
     protected CompositionController getController()
     {

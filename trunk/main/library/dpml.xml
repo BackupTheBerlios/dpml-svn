@@ -235,7 +235,7 @@
            </type>
          </production>
          <dependencies>
-           <include ref="ant/ant"/>
+           <include ref="dpml/transit/dpml-transit-tools"/>
            <include key="dpml-composition-runtime"/>
            <include ref="xstream/xstream"/>
          </dependencies>
