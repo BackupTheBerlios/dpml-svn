@@ -49,7 +49,7 @@ public class PartContentHandler extends ContentHandler
         try
         {
             ClassLoader classloader = Part.class.getClassLoader();
-            URI uri = new URI( "@COMPOSITION-CONTROLLER-URI@" );
+            URI uri = new URI( "@PART-HANDLER-URI@" );
             Repository repository = Transit.getInstance().getRepository();
             Class c = repository.getPluginClass( classloader, uri );
             Constructor constructor = c.getConstructor( new Class[]{Logger.class} );

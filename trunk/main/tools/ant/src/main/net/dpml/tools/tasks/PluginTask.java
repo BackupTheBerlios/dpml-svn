@@ -205,6 +205,7 @@ public class PluginTask extends GenericTask
                 Antlib antlib = new Antlib();
                 antlib.setResource( res );
                 antlib.setUrn( urn );
+                m_antlib = antlib;
                 return antlib;
             }
             else

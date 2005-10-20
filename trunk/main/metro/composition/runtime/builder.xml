@@ -25,7 +25,7 @@
   <transit:import uri="${project.standard.template}"/>
 
   <target name="init" depends="standard.init">
-    <x:filter key="dpml-composition-builder" type="plugin" feature="uri" token="PART-BUILDER-URI" />
+    <x:filter key="dpml-composition-tools" type="plugin" feature="uri" token="PART-BUILDER-URI" />
     <x:filter type="plugin" feature="uri" token="PART-HANDLER-URI" />
     <x:filter key="dpml-composition-editor" type="plugin" feature="uri" token="PART-EDITOR-FACTORY-URI" />
   </target>

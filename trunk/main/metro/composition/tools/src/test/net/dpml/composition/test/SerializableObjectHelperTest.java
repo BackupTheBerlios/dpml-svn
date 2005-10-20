@@ -53,7 +53,7 @@ public class SerializableObjectHelperTest extends TestCase
     }
     public void setUp()
     {
-        partFile = new File( System.getProperty("project.dir"), "Test.part" );
+        partFile = new File( System.getProperty("project.test.dir"), "Test.part" );
         System.out.println(partFile.getAbsolutePath());
     }
 
