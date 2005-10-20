@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<project name="dpml-composition-builder" default="install" basedir="."
+    xmlns:transit="antlib:net.dpml.transit" xmlns:x="plugin:dpml/magic/dpml-magic-core" >
+
+  <transit:import uri="local:template:magic/standard"/>
+
+  <target name="init" depends="standard.init">
+    <x:filter token="PART-BUILDER-URI" feature="uri" type="plugin"/>
+    <x:filter token="PART-HANDLER-URI" key="dpml-composition-runtime" feature="uri" type="plugin"/>
+  </target>
+
+  <target name="package" depends="standard.package">
+    <x:export>
+      <antlib resource="net/dpml/composition/builder/antlib.xml" 
+        urn="plugin:dpml/composition/dpml-composition-builder"/>
+    </x:export>
+  </target>
+
+  <target name="install" depends="standard.install">
+    <property name="metro.prefs" location="${dpml.prefs}/metro"/>
+    <mkdir dir="${metro.prefs}"/>
+    <copy toDir="${metro.prefs}">
+      <fileset dir="${basedir}/target">
+        <include name="style/**"/>
+      </fileset>
+    </copy>
+  </target>
+
+</project>
