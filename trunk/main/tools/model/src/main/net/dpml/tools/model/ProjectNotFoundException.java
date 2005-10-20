@@ -26,7 +26,7 @@ package net.dpml.tools.model;
  */
 public final class ProjectNotFoundException extends Exception
 {
-    private Module m_module;
+    private final Module m_module;
     
     public ProjectNotFoundException( Module module, String message )
     {

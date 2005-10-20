@@ -123,6 +123,21 @@ public final class DefaultLibrary extends UnicastRemoteObject implements Library
         }
     }
     
+    public Project lookup( File file ) throws ProjectNotFoundException, ResourceNotFoundException, ModuleNotFoundException
+    {
+        DefaultProject[] projects = getAllRegisteredProjects( false );
+        for( int i=0; i<projects.length; i++ )
+        {
+            DefaultProject project = projects[i];
+            File base = project.getBase();
+            if( file.equals( base ) )
+            {
+                return project;
+            }
+        }
+        throw new ProjectNotFoundException( null, file.toString() );
+    }
+    
     public TypeDescriptor[] getTypeDescriptors()
     {
         return m_directive.getTypeDescriptors();

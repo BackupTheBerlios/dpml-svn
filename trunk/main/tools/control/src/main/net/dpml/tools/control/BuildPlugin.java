@@ -54,7 +54,6 @@ public class BuildPlugin
     // ------------------------------------------------------------------------
 
     private final Logger m_logger;
-    private final TransitModel m_model;
     private final Class m_builderClass;
     private final Library m_library;
     private final boolean m_verbose;
@@ -71,13 +70,12 @@ public class BuildPlugin
     * @param args supplimentary command line arguments
     * @exception Exception if the build fails
     */
-    public BuildPlugin( TransitModel model, Logger logger, String[] args )
+    public BuildPlugin( Logger logger, String[] args )
         throws Exception
     {
         m_logger = logger;
         m_library = new DefaultLibrary( logger );
         m_args = args;
-        m_model = model;
         
         if( CLIHelper.isOptionPresent( args, "-v" ) )
         {
@@ -136,42 +134,14 @@ public class BuildPlugin
         boolean build = CLIHelper.isOptionPresent( args, "-build" );
         if( build )
         {
-            String template = project.getProperty( "project.template" );
-            if( null != template )
-            {
-                File file = getTemplateFile( template );
-                Object[] params = new Object[]{ m_logger, m_model, m_library, file, new Boolean( m_verbose ) };
-                Builder builder = (Builder) Transit.getInstance().getRepository().instantiate( m_builderClass, params );
-                builder.build( project );
-            }
-            else
-            {
-                final String error = 
-                  "Project [" + project.getPath() + "] does not declare a template.";
-                throw new Exception( error );
-            }
+            Object[] params = new Object[]{ m_logger, m_library, new Boolean( m_verbose ) };
+            Builder builder = (Builder) Transit.getInstance().getRepository().instantiate( m_builderClass, params );
+            builder.build( project );
         }
         else
         {
             listProject( project );
         }
-    }
-    
-    private File getTemplateFile( String spec )
-    {
-        try
-        {
-            URI uri = new URI( spec );
-            if( Artifact.isRecognized( uri ) )
-            {
-                URL url = uri.toURL();
-                return (File) url.getContent( new Class[]{ File.class } );
-            }
-        }
-        catch( Throwable e )
-        {
-        }
-        return new File( spec );
     }
     
     private String getTarget( String[] args )

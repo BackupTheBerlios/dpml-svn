@@ -44,7 +44,7 @@ public final class Context
     private final Definition m_definition;
     private final Library m_library;
         
-    Context( Definition definition, Library library, Project project )
+    public Context( Definition definition, Library library, Project project )
     {
         m_definition = definition;
         m_library = library;

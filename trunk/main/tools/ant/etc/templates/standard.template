@@ -25,13 +25,13 @@
     <antlib urn="dpml:tools" resource="net/dpml/tools/tasks/antlib.xml"/>
   </transit:plugin>
   
+  <x:init/>
+
   <target name="info">
     <echo>${project.info}</echo>
   </target>
 
-  <target name="init" depends="info">
-    <x:init/>
-  </target>
+  <target name="init" depends="info"/>
 
   <target name="prepare" depends="init"/>
 
@@ -42,6 +42,10 @@
   <target name="test" depends="package"/>
 
   <target name="install" depends="test"/>
+
+  <target name="clean" depends="init">
+    <delete dir="${project.target.dir}"/>
+  </target>
 
 </project>
 

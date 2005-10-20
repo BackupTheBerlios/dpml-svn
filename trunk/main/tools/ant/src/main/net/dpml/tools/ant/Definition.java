@@ -50,20 +50,18 @@ import org.apache.tools.ant.types.Path;
  */
 public class Definition
 {
-    private final net.dpml.tools.model.Project m_model;
-    private final TransitModel m_transit;
+    private final net.dpml.tools.model.Project m_project;
     
-    public Definition( TransitModel transit, net.dpml.tools.model.Project model )
+    public Definition( net.dpml.tools.model.Project project )
     {
-        m_model = model;
-        m_transit = transit;
+        m_project = project;
     }
     
     public long getLastModified()
     {
         try
         {
-            return m_model.getLastModified();
+            return m_project.getLastModified();
         }
         catch( RemoteException e )
         {
@@ -75,7 +73,7 @@ public class Definition
     {
         try
         {
-            return m_model.getTypeDescriptor( type );
+            return m_project.getTypeDescriptor( type );
         }
         catch( RemoteException e )
         {
@@ -88,7 +86,7 @@ public class Definition
         final Path path = new Path( project );
         try
         {
-            Resource[] resources = m_model.getClassPath( scope );
+            Resource[] resources = m_project.getClassPath( scope );
             for( int i=0; i<resources.length; i++ )
             {
                 Resource resource = resources[i];
@@ -97,7 +95,8 @@ public class Definition
                 String version = getResourceVersion( resource );
                 Artifact artifact = Artifact.createArtifact( group, name, version, "jar" );
                 String location = Transit.getInstance().getCacheLayout().resolvePath( artifact );
-                File file = new File( getCacheDirectory(), location );
+                File cache = (File) project.getReference( "dpml.cache" );
+                File file = new File( cache, location );
                 path.createPathElement().setLocation( file );
             }
             return path;
@@ -107,18 +106,6 @@ public class Definition
             final String error = 
               "Unexpected error while constructing path instance for the scope: " + scope;
             throw new RuntimeException( error, e );
-        }
-    }
-    
-    public File getCacheDirectory()
-    {
-        try
-        {
-            return m_transit.getCacheModel().getCacheDirectory();
-        }
-        catch( RemoteException e )
-        {
-            throw new RuntimeException( "remote-exception", e );
         }
     }
     
@@ -151,8 +138,8 @@ public class Definition
     {
         try
         {
-            String group = m_model.getModule().getPath();
-            String name = m_model.getName();
+            String group = m_project.getModule().getPath();
+            String name = m_project.getName();
             String version = getVersion();
             return Artifact.createArtifact( group, name, version, type );
         }
@@ -171,7 +158,7 @@ public class Definition
     {
         try
         {
-            return m_model.getPropertyNames();
+            return m_project.getPropertyNames();
         }
         catch( RemoteException e )
         {
@@ -188,7 +175,7 @@ public class Definition
     {
         try
         {
-            return m_model.getProperty( key, value );
+            return m_project.getProperty( key, value );
         }
         catch( RemoteException e )
         {
@@ -200,7 +187,7 @@ public class Definition
     {
         try
         {
-            return m_model.getProductionProperty( type, key, value );
+            return m_project.getProductionProperty( type, key, value );
         }
         catch( RemoteException e )
         {
@@ -302,7 +289,7 @@ public class Definition
     {
         try
         {
-            return m_model.getName();
+            return m_project.getName();
         }
         catch( RemoteException e )
         {
@@ -314,7 +301,7 @@ public class Definition
     {
         try
         {
-            return m_model.getModule().getPath();
+            return m_project.getModule().getPath();
         }
         catch( RemoteException e )
         {
@@ -326,7 +313,7 @@ public class Definition
     {
         try
         {
-            return m_model.getBase();
+            return m_project.getBase();
         }
         catch( RemoteException e )
         {
@@ -338,7 +325,7 @@ public class Definition
     {
         try
         {
-            return m_model.getTypes();
+            return m_project.getTypes();
         }
         catch( RemoteException e )
         {
@@ -350,7 +337,7 @@ public class Definition
     {
         try
         {
-            return m_model.getPath();
+            return m_project.getPath();
         }
         catch( RemoteException e )
         {
@@ -362,7 +349,7 @@ public class Definition
     {
         try
         {
-            return m_model.getClassPath( category );
+            return m_project.getClassPath( category );
         }
         catch( RemoteException e )
         {
@@ -373,7 +360,7 @@ public class Definition
     {
         try
         {
-            return m_model.toResource();
+            return m_project.toResource();
         }
         catch( RemoteException e )
         {

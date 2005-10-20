@@ -392,7 +392,8 @@ public class JUnitTestTask extends GenericTask
         }
         else
         {
-            return getDefinition().getCacheDirectory().toString();
+            File cache = (File) getProject().getReference( "dpml.cache" );
+            return cache.toString();
         }
     }
 

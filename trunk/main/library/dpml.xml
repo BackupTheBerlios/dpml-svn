@@ -221,7 +221,7 @@
          </dependencies>
        </project>
 
-       <project name="dpml-composition-builder" basedir="metro/composition/builder">
+       <project name="dpml-composition-tools" basedir="metro/composition/tools">
          <properties>
            <property name="project.template" value="${basedir}/builder.xml"/>
          </properties>
@@ -229,9 +229,9 @@
            <type id="jar"/>
            <type id="plugin">
              <property name="project.plugin.resource" 
-                value="net/dpml/composition/builder/antlib.xml"/>
+                value="net/dpml/composition/tools/antlib.xml"/>
              <property name="project.plugin.urn" 
-                value="plugin:dpml/composition/dpml-composition-builder"/>
+                value="plugin:dpml/composition/dpml-composition-tools"/>
            </type>
          </production>
          <dependencies>
@@ -240,7 +240,8 @@
            <include ref="xstream/xstream"/>
          </dependencies>
        </project>
-
+ 
+       <!--
        <project name="dpml-composition-test" basedir="metro/composition/test">
          <properties>
            <property name="project.template" value="${basedir}/builder.xml"/>
@@ -255,6 +256,7 @@
            <include key="dpml-composition-builder"/>
          </dependencies>
        </project>
+       -->
 
      </projects>
 

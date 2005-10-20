@@ -168,6 +168,18 @@ abstract class TransitTask extends Task
         updateProperty( project, "dpml.logs", dist.getAbsolutePath() );
         updateProperty( project, "dpml.prefs", prefs.getAbsolutePath() );
 
+        if( null == project.getReference( "dpml.cache" ) )
+        {
+            try
+            {
+                project.addReference( "dpml.cache", m_MODEL.getCacheModel().getCacheDirectory() );
+            }
+            catch( Throwable e )
+            {
+                throw new BuildException( e );
+            }
+        }
+        
         try
         {
             String cache = m_MODEL.getCacheModel().getCacheDirectory().getAbsolutePath();

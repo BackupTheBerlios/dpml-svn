@@ -19,6 +19,7 @@
 package net.dpml.tools.tasks;
 
 import java.io.File;
+import java.io.IOException;
 import java.rmi.RemoteException;
 
 import org.apache.tools.ant.BuildException;
@@ -36,6 +37,10 @@ import org.apache.tools.ant.taskdefs.ExecTask;
 import net.dpml.tools.ant.Definition;
 import net.dpml.tools.ant.Context;
 import net.dpml.tools.model.Library;
+import net.dpml.tools.model.ProjectNotFoundException;
+import net.dpml.tools.control.DefaultLibrary;
+
+import net.dpml.transit.monitor.LoggingAdapter;
 
 /**
  * Prepare the target build directory based on content presented under the
@@ -99,10 +104,38 @@ public class GenericTask extends Task
     {
         Context context = (Context) getProject().getReference( "project.context" );
         if( null == context )
-        {
-            final String error = 
-              "Missing project context reference.";
-            throw new IllegalStateException( error );
+        {   
+            //
+            // We are running under Ant based invocation.
+            // Create the library, locate this project, create and set the context.
+            //
+            
+            try
+            {
+                DefaultLibrary library = new DefaultLibrary( new LoggingAdapter() );
+                File basedir = getProject().getBaseDir().getCanonicalFile();
+                try
+                {
+                    net.dpml.tools.model.Project p = library.lookup( basedir );
+                    Definition definition = new Definition( p );
+                    context = new Context( definition, library, getProject() );
+                    getProject().addReference( "project.context", context );
+                    return context;
+                }
+                catch( Exception e )
+                {
+                    final String error = 
+                      "Unable to locate a project defintion matching the basedir: " 
+                      + basedir;
+                    throw new BuildException( error );
+                }
+            }
+            catch( Exception ioe )
+            {
+                final String error = 
+                  "Unexpected error while attempting to bootstrap project.";
+                throw new RuntimeException( error, ioe );
+            }
         }
         return context;
     }

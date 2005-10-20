@@ -38,6 +38,8 @@ import net.dpml.tools.info.TypeDescriptor;
 import net.dpml.tools.model.Builder;
 import net.dpml.tools.model.Library;
 
+import net.dpml.transit.Artifact;
+
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.ProjectHelper;
 import org.apache.tools.ant.BuildException;
@@ -70,7 +72,6 @@ public class StandardBuilder implements Builder
     private Logger m_logger;
     private TransitModel m_model;
     private Library m_library;
-    private File m_template;
     private boolean m_verbose;
 
     // ------------------------------------------------------------------------
@@ -85,11 +86,9 @@ public class StandardBuilder implements Builder
     * @param template an ant template file
     * @param verbose verbose execution flag
     */
-    public StandardBuilder( Logger logger, TransitModel model, Library library, File template, boolean verbose )
+    public StandardBuilder( Logger logger, Library library, boolean verbose )
     {
         m_logger = logger;
-        m_template = template;
-        m_model = model;
         m_verbose = verbose;
         m_library = library;
         
@@ -104,7 +103,7 @@ public class StandardBuilder implements Builder
 
     public void build( net.dpml.tools.model.Project project ) throws Exception
     {
-        Definition definition = new Definition( m_model, project );
+        Definition definition = new Definition( project );
         build( definition );
     }
     
@@ -120,8 +119,10 @@ public class StandardBuilder implements Builder
         
         try
         {
+            String templateSpec = definition.getProperty( "project.template" );
+            File template = getTemplateFile( templateSpec );
             ProjectHelper helper = (ProjectHelper) project.getReference( "ant.projectHelper" );
-            helper.parse( project, m_template );
+            helper.parse( project, template );
             Vector targets = new Vector();
             
             // TODO: add targets from commandline
@@ -167,6 +168,23 @@ public class StandardBuilder implements Builder
         }
     }
 
+    private File getTemplateFile( String spec )
+    {
+        try
+        {
+            URI uri = new URI( spec );
+            if( Artifact.isRecognized( uri ) )
+            {
+                URL url = uri.toURL();
+                return (File) url.getContent( new Class[]{ File.class } );
+            }
+        }
+        catch( Throwable e )
+        {
+        }
+        return new File( spec );
+    }
+    
     public Project createProject( Definition definition ) throws Exception
     {
         Project project = new Project();
