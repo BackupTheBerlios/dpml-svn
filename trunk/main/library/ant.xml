@@ -24,6 +24,15 @@
       </dependencies>
     </resource>
 
+    <resource name="ant-launcher">
+      <types>
+        <type id="jar"/>
+      </types>
+      <dependencies>
+        <include key="ant"/>
+      </dependencies>
+    </resource>
+
   </resources>
 
 </module>

@@ -30,6 +30,7 @@ import java.beans.IntrospectionException;
 //import net.dpml.magic.tasks.ProjectTask;
 
 import net.dpml.tools.tasks.GenericTask;
+import net.dpml.tools.info.Scope;
 
 import net.dpml.component.info.Type;
 

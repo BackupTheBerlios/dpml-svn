@@ -241,7 +241,9 @@
            <include ref="xstream/xstream"/>
          </dependencies>
        </project>
- 
+       <!--
+       -->
+
        <!--
        <project name="dpml-composition-test" basedir="metro/composition/test">
          <properties>
@@ -263,9 +265,68 @@
 
    </module>
 
-   <module name="test">
+   <module name="tools" basedir="tools">
   
      <projects>
+
+       <project name="dpml-tools-info" basedir="info">
+         <properties>
+           <property name="project.template" value="${basedir}/build.xml"/>
+         </properties>
+         <production>
+           <type id="jar"/>
+         </production>
+         <dependencies>
+           <include ref="dpml/transit/dpml-transit-main"/>
+         </dependencies>
+         <dependencies scope="test">
+           <include ref="ant/ant-junit"/>
+         </dependencies>
+       </project>
+
+       <project name="dpml-tools-model" basedir="model">
+         <properties>
+           <property name="project.template" value="${basedir}/build.xml"/>
+         </properties>
+         <production>
+           <type id="jar"/>
+         </production>
+         <dependencies>
+           <include key="dpml-tools-info"/>
+         </dependencies>
+       </project>
+
+       <project name="dpml-tools-control" basedir="control">
+         <properties>
+           <property name="project.template" value="${basedir}/build.xml"/>
+         </properties>
+         <production>
+           <type id="jar"/>
+           <type id="plugin" class="net.dpml.tools.control.BuildPlugin"/>
+         </production>
+         <dependencies>
+           <include key="dpml-tools-model"/>
+         </dependencies>
+         <dependencies scope="test">
+           <include ref="ant/ant-junit"/>
+         </dependencies>
+       </project>
+
+       <project name="dpml-tools-ant" basedir="ant">
+         <properties>
+           <property name="project.template" value="${basedir}/build.xml"/>
+         </properties>
+         <production>
+           <type id="jar"/>
+           <type id="plugin" class="net.dpml.tools.ant.StandardBuilder"/>
+         </production>
+         <dependencies>
+           <include key="dpml-tools-control"/>
+           <include ref="ant/ant-junit" tag="system"/>
+           <include ref="ant/ant-launcher" tag="system"/>
+         </dependencies>
+       </project>
+
      </projects>
 
    </module>

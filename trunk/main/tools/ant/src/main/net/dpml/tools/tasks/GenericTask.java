@@ -124,15 +124,6 @@ public class GenericTask extends Task
             {
                 throw e;
             }
-            catch( ModuleNotFoundException e )
-            {
-                final String error = 
-                  "Unable to establish a project defintion relative to the base dir: ["
-                  + basedir
-                  + "] due to a bad module reference ["
-                  + e.getMessage()
-                  + "].";
-            }
             catch( Exception ioe )
             {
                 final String error = 

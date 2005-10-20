@@ -58,6 +58,9 @@ import net.dpml.configuration.impl.DefaultConfigurationBuilder;
 //import net.dpml.magic.tasks.ProjectTask;
 //import net.dpml.magic.model.Policy;
 
+import net.dpml.tools.tasks.GenericTask;
+import net.dpml.tools.info.Scope;
+
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Task;
 import org.apache.tools.ant.Project;
@@ -74,7 +77,7 @@ import com.thoughtworks.xstream.io.xml.DomDriver;
  * @author <a href="mailto:dev-dpml@lists.ibiblio.org">The Digital Product Meta Library</a>
  * @version $Revision: 1.2 $ $Date: 2004/03/17 10:30:09 $
  */
-public class TypeBuilderTask extends Task implements TypeBuilder
+public class TypeBuilderTask extends GenericTask implements TypeBuilder
 {
     //---------------------------------------------------------------
     // state
@@ -218,8 +221,8 @@ public class TypeBuilderTask extends Task implements TypeBuilder
     public void execute()
     {
         Project proj = getProject();
-        Path path = getDefinition().getPath( proj, Policy.RUNTIME );
-        File classes = getContext().getClassesDirectory();
+        Path path = getDefinition().getPath( proj, Scope.BUILD );
+        File classes = getDefinition().getTargetClassesMainDirectory();
         path.createPathElement().setLocation( classes );
         ClassLoader classloader = new AntClassLoader( proj, path );
         ClassLoader current = Thread.currentThread().getContextClassLoader();
@@ -272,7 +275,7 @@ public class TypeBuilderTask extends Task implements TypeBuilder
 
     private File getEmbeddedOutputFile( String filename )
     {
-        File classes = getContext().getClassesDirectory();
+        File classes = getDefinition().getTargetClassesMainDirectory();
         File destination = new File( classes, filename );
         return destination;
     }
