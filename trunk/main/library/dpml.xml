@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 
-<module name="dpml" basedir="..">
+<module name="dpml" basedir=".." version="${build.signature}">
 
    <properties>
      <property name="project.publisher.name" value="Digital Product Meta Library"/>
@@ -11,6 +11,23 @@
      <property name="project.resource.host" value="http://repository.dpml.net/"/>
      <property name="project.api.host" value="http://api.dpml.net/"/>
    </properties>
+
+   <module name="util" basedir="util">
+
+     <projects>
+
+       <project name="dpml-i18n" basedir="i18n">
+         <production>
+           <type id="jar"/>
+         </production>
+         <dependencies scope="test">
+           <include ref="ant/ant-junit"/>
+         </dependencies>
+       </project>
+
+     </projects>
+
+   </module>
 
    <module name="transit">
 
@@ -37,35 +54,38 @@
        </project>
 
        <project name="dpml-transit-tools" basedir="transit/core/tools">
+         <properties>
+           <property name="project.template" value="${basedir}/build.xml"/>
+         </properties>
+         <production>
+           <type id="jar"/>
+         </production>
          <dependencies scope="BUILD">
            <include key="dpml-transit-main"/>
          </dependencies>
-         <dependencies scope="RUNTIME" anchor="net.dpml.transit.Transit">
+         <dependencies scope="RUNTIME">
            <include ref="ant/ant"/>
          </dependencies>
          <dependencies scope="TEST">
            <include ref="ant/ant-junit"/>
          </dependencies>
-         <production>
-           <type id="jar"/>
-         </production>
        </project>
 
      </projects>
 
    </module>
 
-   <module name="metro">
+   <module name="metro" basedir="metro">
 
      <projects>
 
-       <project name="dpml-activity-api" basedir="metro/activity">
+       <project name="dpml-activity-api" basedir="activity">
          <production>
            <type id="jar"/>
          </production>
        </project>
 
-       <project name="dpml-logging-api" basedir="metro/logging">
+       <project name="dpml-logging-api" basedir="logging">
          <production>
            <type id="jar"/>
          </production>
@@ -74,13 +94,13 @@
          </dependencies>
        </project>
 
-       <project name="dpml-configuration-api" basedir="metro/configuration/api">
+       <project name="dpml-configuration-api" basedir="configuration/api">
          <production>
            <type id="jar"/>
          </production>
        </project>
 
-       <project name="dpml-configuration-impl" basedir="metro/configuration/impl">
+       <project name="dpml-configuration-impl" basedir="configuration/impl">
          <production>
            <type id="jar"/>
          </production>
@@ -92,13 +112,13 @@
          </dependencies>
        </project>
 
-       <project name="dpml-parameters-api" basedir="metro/parameters/api">
+       <project name="dpml-parameters-api" basedir="parameters/api">
          <production>
            <type id="jar"/>
          </production>
        </project>
 
-       <project name="dpml-parameters-impl" basedir="metro/parameters/impl">
+       <project name="dpml-parameters-impl" basedir="parameters/impl">
          <production>
            <type id="jar"/>
          </production>
@@ -111,7 +131,7 @@
          </dependencies>
        </project>
 
-       <project name="dpml-state-api" basedir="metro/state/api">
+       <project name="dpml-state-api" basedir="state/api">
          <production>
            <type id="jar"/>
          </production>
@@ -120,7 +140,7 @@
          </dependencies>
        </project>
 
-       <project name="dpml-state-impl" basedir="metro/state/impl">
+       <project name="dpml-state-impl" basedir="state/impl">
          <properties>
            <property name="project.template" value="${basedir}/builder.xml"/>
          </properties>
@@ -136,12 +156,12 @@
          </dependencies>
        </project>
 
-       <project name="dpml-part-api" basedir="metro/part">
+       <project name="dpml-part-api" basedir="part">
          <properties>
            <property name="project.template" value="${basedir}/builder.xml"/>
          </properties>
          <production>
-           <type id="plugin">
+           <type id="plugin" alias="true">
              <property name="project.plugin.class" 
                 value="net.dpml.part.PartContentHandler"/>
            </type>
@@ -157,7 +177,7 @@
        </project>
 
 
-       <project name="dpml-component-model" basedir="metro/component/model">
+       <project name="dpml-component-model" basedir="component/model">
          <properties>
            <property name="project.template" value="${basedir}/builder.xml"/>
          </properties>
@@ -178,7 +198,7 @@
          </dependencies>
        </project>
 
-       <project name="dpml-component-control" basedir="metro/component/control">
+       <project name="dpml-component-control" basedir="component/control">
          <properties>
            <property name="project.template" value="${basedir}/builder.xml"/>
          </properties>
@@ -193,7 +213,7 @@
          </dependencies>
        </project>
 
-       <project name="dpml-composition-editor" basedir="metro/composition/editor">
+       <project name="dpml-composition-editor" basedir="composition/editor">
          <properties>
            <property name="project.template" value="${basedir}/builder.xml"/>
          </properties>
@@ -210,7 +230,7 @@
          </dependencies>
        </project>
 
-       <project name="dpml-composition-runtime" basedir="metro/composition/runtime">
+       <project name="dpml-composition-runtime" basedir="composition/runtime">
          <properties>
            <property name="project.template" value="${basedir}/builder.xml"/>
          </properties>
@@ -231,7 +251,7 @@
          </dependencies>
        </project>
 
-       <project name="dpml-composition-tools" basedir="metro/composition/tools">
+       <project name="dpml-composition-tools" basedir="composition/tools">
          <properties>
            <property name="project.template" value="${basedir}/build.xml"/>
          </properties>
@@ -252,7 +272,7 @@
          </dependencies>
        </project>
 
-       <project name="dpml-composition-test" basedir="metro/composition/test">
+       <project name="dpml-composition-test" basedir="composition/test">
          <properties>
            <property name="project.template" value="${basedir}/builder.xml"/>
          </properties>
@@ -308,7 +328,10 @@
          </properties>
          <production>
            <type id="jar"/>
-           <type id="plugin" class="net.dpml.tools.control.BuildPlugin"/>
+           <type id="plugin" alias="true">
+             <property name="project.plugin.class" 
+                value="net.dpml.tools.control.BuildPlugin"/>
+           </type>
          </production>
          <dependencies>
            <include key="dpml-tools-model"/>
@@ -325,7 +348,10 @@
          </properties>
          <production>
            <type id="jar"/>
-           <type id="plugin" class="net.dpml.tools.ant.StandardBuilder"/>
+           <type id="plugin" alias="true">
+             <property name="project.plugin.class" 
+                value="net.dpml.tools.ant.StandardBuilder"/>
+           </type>
          </production>
          <dependencies>
            <include key="dpml-tools-control"/>

@@ -20,6 +20,7 @@ package net.dpml.tools.tasks;
 
 import java.net.URI;
 import java.util.ArrayList;
+import java.util.Date;
 
 import net.dpml.tools.ant.Definition;
 import net.dpml.tools.ant.StandardBuilder;
@@ -42,12 +43,17 @@ import net.dpml.transit.Transit;
 public class InitializationTask extends GenericTask
 {
     private ArrayList m_list = new ArrayList();
-        
+    
    /**
     * Initialize type to processor mapping.
     */
     public void execute()
     {
+        if( null != getProject().getReference( "project.timestamp" ) )
+        {
+            return;
+        }
+        getProject().addReference( "project.timestamp", new Date() );
         Definition definition = getDefinition();
         String info = getProject().getProperty( "project.info" );
         getProject().log( info );
@@ -58,14 +64,6 @@ public class InitializationTask extends GenericTask
             String name = type.getName();
             try
             {
-                //log( "type: " + type.getName() );
-                //log( "uri: " + type.getURI() );
-                //String[] deps = type.getDependencies();
-                //for( int j=0; j<deps.length; j++ )
-                //{
-                //    log( "depends: " + deps[j] );
-                //}
-                
                 if( type.getName().equals( "jar" ) )
                 {
                     JarProcess process = new JarProcess();
@@ -123,7 +121,7 @@ public class InitializationTask extends GenericTask
     private TypeDescriptor[] getSequencedTypes( Definition definition )
     {
         ArrayList list = new ArrayList();
-        String[] types = definition.getTypes();
+        String[] types = definition.getTypeNames();
         try
         {
             expand( list, definition, types );

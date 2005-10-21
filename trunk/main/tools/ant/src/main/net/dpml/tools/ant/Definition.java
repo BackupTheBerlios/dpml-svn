@@ -29,6 +29,7 @@ import java.util.Properties;
 import net.dpml.tools.info.Scope;
 import net.dpml.tools.info.TypeDescriptor;
 import net.dpml.tools.info.DependencyDirective;
+import net.dpml.tools.info.ProductionDirective;
 import net.dpml.tools.model.Resource;
 import net.dpml.tools.model.TypeNotFoundException;
 import net.dpml.tools.model.ProjectNotFoundException;
@@ -139,32 +140,11 @@ public class Definition
     {
         try
         {
-            if( null != resource.getProject() )
-            {
-                return getVersion();
-            }
-            else
-            {
-                return resource.getVersion();
-            }
+            return resource.getVersion();
         }
         catch( RemoteException e )
         {
             throw new RuntimeException( "remote-exception", e );
-        }
-    }
-    
-    public URI getArtifactURI( String type ) throws URISyntaxException
-    {
-        String path = getProjectPath();
-        String version = getVersion();
-        if( null == version )
-        {
-            return new URI( "artifact:" + type + ":" + path );
-        }
-        else
-        {
-            return new URI( "artifact:" + type + ":" + path + "#" + version );
         }
     }
     
@@ -189,9 +169,33 @@ public class Definition
         }
     }
     
+    public URI getArtifactURI( String type ) throws URISyntaxException
+    {
+        return getArtifact( type ).toURI();
+    }
+    
     public String getVersion()
     {
-        return "SNAPSHOT"; // TODO - add runtime version asignment
+        try
+        {
+            return m_project.getVersion();
+        }
+        catch( RemoteException e )
+        {
+            throw new RuntimeException( "remote-exeption", e );
+        }
+    }
+    
+    public ProductionDirective[] getProductionDirectives()
+    {
+        try
+        {
+            return m_project.getProductionDirectives();
+        }
+        catch( RemoteException e )
+        {
+            throw new RuntimeException( "remote-exeption", e );
+        }
     }
     
     public String[] getPropertyNames()
@@ -361,11 +365,11 @@ public class Definition
         }
     }
     
-    public String[] getTypes()
+    public String[] getTypeNames()
     {
         try
         {
-            return m_project.getTypes();
+            return m_project.getTypeNames();
         }
         catch( RemoteException e )
         {

@@ -133,7 +133,7 @@ public final class DefaultProject extends UnicastRemoteObject implements Project
     {
         return m_library.getLastModified();
     }
-
+    
     public TypeDescriptor getTypeDescriptor( String type ) throws TypeNotFoundException
     {
         return m_library.getTypeDescriptor( type );
@@ -144,6 +144,24 @@ public final class DefaultProject extends UnicastRemoteObject implements Project
         return m_directive.getName();
     }
     
+    public String getVersion()
+    {
+        String version = m_directive.getVersion();
+        if( ( null == version ) && ( null != m_parent ) )
+        {
+            return m_parent.getVersion();
+        }
+        else
+        {
+            return version;
+        }
+    }
+
+    public ProductionDirective[] getProductionDirectives()
+    {
+        return m_directive.getProductionDirectives();
+    }
+
     public Module getModule()
     {
         return m_parent;
@@ -159,7 +177,7 @@ public final class DefaultProject extends UnicastRemoteObject implements Project
         return m_path;
     }
     
-    public String[] getTypes()
+    public String[] getTypeNames()
     {
         return m_types;
     }

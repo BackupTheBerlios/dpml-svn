@@ -29,9 +29,9 @@ import java.rmi.Remote;
 public interface Builder extends Remote
 {
    /**
-    * Build a target project.
+    * Build a project.
     * @param project the project to build
-    * @param target build target names
+    * @param targets build target names
     * @return the success status of the build
     */
     public boolean build( Project project, String[] targets ) throws Exception;

@@ -28,9 +28,9 @@ public final class ProjectDirectiveTestCase extends AbstractTestCase
     static ProductionDirective[] ARTIFACTS = new ProductionDirective[3];
     static
     {
-        ARTIFACTS[0] = new ProductionDirective( "abc", PROPERTIES );
-        ARTIFACTS[1] = new ProductionDirective( "123" ,PROPERTIES );
-        ARTIFACTS[2] = new ProductionDirective( "456", PROPERTIES );
+        ARTIFACTS[0] = new ProductionDirective( "abc", true, PROPERTIES );
+        ARTIFACTS[1] = new ProductionDirective( "123", false, PROPERTIES );
+        ARTIFACTS[2] = new ProductionDirective( "456", true, PROPERTIES );
     }
     static DependencyDirective[] DEPENDENCIES = new DependencyDirective[2];
     static
@@ -42,9 +42,9 @@ public final class ProjectDirectiveTestCase extends AbstractTestCase
     static ProjectDirective[] PROJECTS = new ProjectDirective[3];
     static
     {
-        PROJECTS[0] = new ProjectDirective( "abc", ".", ARTIFACTS, DEPENDENCIES, PROPERTIES );
-        PROJECTS[1] = new ProjectDirective( "def", ".", ARTIFACTS, DEPENDENCIES, PROPERTIES );
-        PROJECTS[2] = new ProjectDirective( "ghi", ".", ARTIFACTS, DEPENDENCIES, PROPERTIES );
+        PROJECTS[0] = new ProjectDirective( "abc", null, ".", ARTIFACTS, DEPENDENCIES, PROPERTIES );
+        PROJECTS[1] = new ProjectDirective( "def", "1.0", ".", ARTIFACTS, DEPENDENCIES, PROPERTIES );
+        PROJECTS[2] = new ProjectDirective( "ghi", "2.3.4", ".", ARTIFACTS, DEPENDENCIES, PROPERTIES );
     }
     
     public void testNullName()
@@ -53,7 +53,7 @@ public final class ProjectDirectiveTestCase extends AbstractTestCase
         {
             ProjectDirective project = 
               new ProjectDirective( 
-                null, ".", ARTIFACTS, DEPENDENCIES, PROPERTIES );
+                null, "1.0", ".", ARTIFACTS, DEPENDENCIES, PROPERTIES );
             fail( "no-NPE" );
         }
         catch( NullPointerException e )
@@ -68,7 +68,21 @@ public final class ProjectDirectiveTestCase extends AbstractTestCase
         {
             ProjectDirective project = 
               new ProjectDirective( 
-                "abc", null, ARTIFACTS, DEPENDENCIES, PROPERTIES );
+                "abc", "1.0", null, ARTIFACTS, DEPENDENCIES, PROPERTIES );
+        }
+        catch( NullPointerException e )
+        {
+            fail( "NPE should not be thrown" );
+        }
+    }
+    
+    public void testNullVersion()
+    {
+        try
+        {
+            ProjectDirective project = 
+              new ProjectDirective( 
+                "abc", null, "dir", ARTIFACTS, DEPENDENCIES, PROPERTIES );
         }
         catch( NullPointerException e )
         {
@@ -81,7 +95,7 @@ public final class ProjectDirectiveTestCase extends AbstractTestCase
         try
         {
             ProjectDirective project = 
-              new ProjectDirective( "name", ".", null, DEPENDENCIES, PROPERTIES );
+              new ProjectDirective( "name", "1.0", ".", null, DEPENDENCIES, PROPERTIES );
             fail( "no-NPE" );
         }
         catch( NullPointerException e )
@@ -95,7 +109,7 @@ public final class ProjectDirectiveTestCase extends AbstractTestCase
         try
         {
             ProjectDirective project = 
-              new ProjectDirective( "abc", ".", ARTIFACTS, null, PROPERTIES );
+              new ProjectDirective( "abc", "1.0", ".", ARTIFACTS, null, PROPERTIES );
             fail( "no-NPE" );
         }
         catch( NullPointerException e )
@@ -107,28 +121,28 @@ public final class ProjectDirectiveTestCase extends AbstractTestCase
     public void testProductionDirectives()
     {
         ProjectDirective project = 
-           new ProjectDirective( "abc", ".", ARTIFACTS, DEPENDENCIES, PROPERTIES );
+           new ProjectDirective( "abc", "1.0", ".", ARTIFACTS, DEPENDENCIES, PROPERTIES );
         assertEquals( "artifact-count", 3, project.getProductionDirectives().length );
     }
     
     public void testDependencyDirectives()
     {
         ProjectDirective project = 
-           new ProjectDirective( "abc", ".", ARTIFACTS, DEPENDENCIES, PROPERTIES );
+           new ProjectDirective( "abc", "1.0", ".", ARTIFACTS, DEPENDENCIES, PROPERTIES );
         assertEquals( "deps-count", 2, project.getDependencyDirectives().length );
     }
     
     public void testSerialization() throws Exception
     {
         ProjectDirective project = 
-           new ProjectDirective( "abc", ".", ARTIFACTS, DEPENDENCIES, PROPERTIES );
+           new ProjectDirective( "abc", "1.0", ".", ARTIFACTS, DEPENDENCIES, PROPERTIES );
         doSerializationTest( project );
     }
     
     public void testXMLEncoding() throws Exception
     {
         ProjectDirective project = 
-           new ProjectDirective( "abc", ".", ARTIFACTS, DEPENDENCIES, PROPERTIES );
+           new ProjectDirective( "abc", "1.0", ".", ARTIFACTS, DEPENDENCIES, PROPERTIES );
         doEncodingTest( project, "project-descriptor-encoded.xml" );
     }
 }

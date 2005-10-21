@@ -29,12 +29,9 @@ import java.net.URI;
  */
 public interface Resource extends Model
 {
-    String getVersion() throws RemoteException;
-    
-    String[] getTypes() throws RemoteException;
+    String[] getTypeNames() throws RemoteException;
     
     Resource[] getProviders() throws RemoteException, ModuleNotFoundException, ResourceNotFoundException;
 
     Project getProject() throws RemoteException;
-    
 }

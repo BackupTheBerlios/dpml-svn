@@ -24,6 +24,7 @@ import java.rmi.RemoteException;
 
 import net.dpml.tools.info.Scope;
 import net.dpml.tools.info.TypeDescriptor;
+import net.dpml.tools.info.ProductionDirective;
 
 import net.dpml.transit.Category;
 
@@ -38,9 +39,11 @@ public interface Project extends Model
 
     TypeDescriptor getTypeDescriptor( String type ) throws RemoteException, TypeNotFoundException;
 
-    String[] getTypes() throws RemoteException;
+    String[] getTypeNames() throws RemoteException;
     
     File getBase() throws RemoteException;
+    
+    ProductionDirective[] getProductionDirectives() throws RemoteException;
     
     Resource[] getProviders() 
       throws RemoteException, ResourceNotFoundException, ModuleNotFoundException;

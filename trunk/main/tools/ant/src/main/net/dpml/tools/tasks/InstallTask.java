@@ -19,8 +19,14 @@
 package net.dpml.tools.tasks;
 
 import java.io.File;
+import java.io.OutputStream;
+import java.io.FileOutputStream;
+import java.io.OutputStreamWriter;
+import java.io.IOException;
+import java.io.Writer;
 
 import net.dpml.tools.ant.Definition;
+import net.dpml.tools.info.ProductionDirective;
 
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Project;
@@ -47,15 +53,18 @@ public class InstallTask extends GenericTask
     private void installDeliverables( final Definition definition )
     {
         final File deliverables = definition.getTargetDeliverablesDirectory();
-        String[] types = definition.getTypes();
+        
+        ProductionDirective[] types = definition.getProductionDirectives();
         for( int i=0; i < types.length; i++ )
         {
+            ProductionDirective type = types[i];
+            
             //
             // Check that the project has actually built the resource
             // type that it declares
             //
 
-            String name = types[i];
+            String name = type.getType();
             String filename = definition.getLayoutPath( name );
             File group = new File( deliverables, name + "s" );
             File target = new File( group, filename );
@@ -76,42 +85,39 @@ public class InstallTask extends GenericTask
             // install process.
             //
 
-            /*
-            String alias = type.getAlias();
-            if( null != alias )
+            boolean alias = type.getAlias();
+            if( alias )
             {
-                String uri = def.getInfo().getURI( name );
-                String link = def.getInfo().getLinkFilename( type );
-
-                final String message = 
-                   "Creating link ["
-                   + link
-                   + "] with uri ["
-                   + uri
-                   + "]";
-                log( message );
-
-                File out = new File( group, link );
                 try
                 {
+                    String uri = definition.getArtifactURI( name ).toASCIIString();
+                    String link = definition.getName() + "." + name + ".link";
+                    final String message = 
+                      "Creating alias ["
+                      + link
+                      + "] with uri ["
+                      + uri
+                      + "]";
+                    log( message );
+                    File out = new File( group, link );
                     out.createNewFile();
                     final OutputStream output = new FileOutputStream( out );
                     final Writer writer = new OutputStreamWriter( output );
                     writer.write( uri );
                     writer.close();
                     output.close();
-               }
-               catch( IOException e )
-               {
-                   final String error = 
-                     "Internal error while attempting to create a link for the resource type ["
-                     + name 
-                     + "] for the project "
-                     + def;
-                   throw new BuildException( error, e, getLocation() );
-               }
+                }
+                catch( Exception e )
+                {
+                    final String error = 
+                      "Internal error while attempting to create a link for the resource type ["
+                      + name 
+                      + "] in project ["
+                      + definition
+                      + "].";
+                    throw new BuildException( error, e, getLocation() );
+                }
             }
-            */
         }
 
         if( deliverables.exists() )

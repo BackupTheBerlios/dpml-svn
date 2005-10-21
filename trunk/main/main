@@ -22,7 +22,7 @@ build()
     STATUS=99
     while [ "$STATUS" -eq 99 ] ; do
       if [ -n "$ID" ] ; then
-        BUILD_ID="-Ddpml.release.signature=$ID"
+        BUILD_ID="-Dbuild.signature=$ID"
       else
         BUILD_ID=""
       fi

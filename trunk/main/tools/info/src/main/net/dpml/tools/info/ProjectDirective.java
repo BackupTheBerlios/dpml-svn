@@ -29,12 +29,13 @@ import java.util.Properties;
 public final class ProjectDirective extends AbstractDirective
 {
     private final String m_name;
+    private final String m_version;
     private final String m_basedir;
     private final ProductionDirective[] m_production;
     private final DependencyDirective[] m_dependencies;
     
     public ProjectDirective( 
-      String name, String basedir, ProductionDirective[] production, 
+      String name, String version, String basedir, ProductionDirective[] production, 
       DependencyDirective[] dependencies, Properties properties )
     {
         super( properties );
@@ -52,6 +53,7 @@ public final class ProjectDirective extends AbstractDirective
             throw new NullPointerException( "dependencies" );
         }
         m_name = name;
+        m_version = version;
         m_basedir = basedir;
         m_production = production;
         m_dependencies = dependencies;
@@ -60,6 +62,11 @@ public final class ProjectDirective extends AbstractDirective
     public String getName()
     {
         return m_name;
+    }
+    
+    public String getVersion()
+    {
+        return m_version;
     }
     
     public String getBasedir()
@@ -113,6 +120,10 @@ public final class ProjectDirective extends AbstractDirective
             {
                 return false;
             }
+            else if( !equals( m_version, object.m_version ) )
+            {
+                return false;
+            }
             else if( !equals( m_basedir, object.m_basedir ) )
             {
                 return false;
@@ -141,6 +152,7 @@ public final class ProjectDirective extends AbstractDirective
         int hash = super.hashCode();
         hash ^= super.hashValue( m_name );
         hash ^= super.hashValue( m_basedir );
+        hash ^= super.hashValue( m_version );
         hash ^= super.hashArray( m_production );
         hash ^= super.hashArray( m_dependencies );
         return hash;

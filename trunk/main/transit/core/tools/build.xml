@@ -27,6 +27,9 @@
     <path id="project.main.path">
       <pathelement location="${dpml.local.cache}/dpml/transit/jars/${dpml-transit-handler.filename}"/>
       <pathelement location="${target.classes.dir}"/>
+      <pathelement location="${ENV.ANT_HOME}/lib/ant.jar"/>
+      <pathelement location="${ENV.ANT_HOME}/lib/ant-junit.jar"/>
+      <pathelement location="${dpml.local.cache}/junit/jars/${junit.filename}"/>
     </path>
   </target>
 

@@ -539,10 +539,7 @@ public final class DefaultLibrary extends UnicastRemoteObject implements Library
         {
             return;
         }
-        else
-        {
-            visited.add( project );
-        }
+        visited.add( project );
         if( policy )
         {
             DefaultProject[] projects = getProviderProjects( project );

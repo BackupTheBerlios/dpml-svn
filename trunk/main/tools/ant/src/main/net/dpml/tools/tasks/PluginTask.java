@@ -380,7 +380,7 @@ public class PluginTask extends GenericTask
         try
         {
             String path = resource.getPath();
-            String version = getResourceVersion( resource );
+            String version = resource.getVersion();
             if( null == version )
             {
                 writer.write( "artifact:jar:" + path );
@@ -400,18 +400,6 @@ public class PluginTask extends GenericTask
         }
     }
 
-    private String getResourceVersion( Resource resource ) throws Exception
-    {
-        if( null != resource.getProject() )
-        {
-            return getDefinition().getVersion();
-        }
-        else
-        {
-            return resource.getVersion();
-        }
-    }
-    
    /**
     * Write the factory class.
     * @param writer the writer

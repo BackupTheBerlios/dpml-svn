@@ -6,7 +6,7 @@
   <transit:import uri="local:template:magic/standard"/>
 
   <target name="init" depends="standard.init">
-    <x:filter feature="uri" type="plugin" token="ANT-BUILDER-URI" key="dpml-tools-ant"/>
+    <x:filter feature="uri" type="plugin" key="dpml-tools-ant" token="ANT-BUILDER-URI"/>
   </target>
 
   <target name="build" depends="standard.build">

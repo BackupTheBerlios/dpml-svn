@@ -417,6 +417,7 @@ public final class ModuleDirectiveBuilder
             throw new IllegalArgumentException( error );
         }
         Properties properties = null;
+        final String version = ElementHelper.getAttribute( element, "version", null );
         final String basedir = ElementHelper.getAttribute( element, "basedir", null );
         Element[] children = ElementHelper.getChildren( element );
         ArrayList list = new ArrayList();
@@ -450,7 +451,7 @@ public final class ModuleDirectiveBuilder
             }
         }
         DependencyDirective[] dependencies = (DependencyDirective[]) list.toArray( new DependencyDirective[0] );
-        return new ProjectDirective( name, basedir, artifacts, dependencies, properties );
+        return new ProjectDirective( name, version, basedir, artifacts, dependencies, properties );
     }
     
     private static ModuleIncludeDirective buildModuleIncludeDirective( Element element )
@@ -619,8 +620,9 @@ public final class ModuleDirectiveBuilder
         if( TYPE_ELEMENT_NAME.equals( tag ) )
         {
             final String name = ElementHelper.getAttribute( element, "id", null );
+            final boolean alias = ElementHelper.getBooleanAttribute( element, "alias", false );
             final Properties properties = buildPropertiesFromElement( element );
-            return new TypeDirective( name, properties );
+            return new TypeDirective( name, alias, properties );
         }
         else
         {
@@ -684,8 +686,9 @@ public final class ModuleDirectiveBuilder
                   "Artifact element does not declare a type.";
                 throw new IllegalArgumentException( error );
             }
+            final boolean alias = ElementHelper.getBooleanAttribute( element, "alias", false );
             final Properties properties = buildPropertiesFromElement( element );
-            return new ProductionDirective( type, properties );
+            return new ProductionDirective( type, alias, properties );
         }
         else
         {

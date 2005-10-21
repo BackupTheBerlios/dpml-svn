@@ -43,4 +43,9 @@ public interface Model extends Remote
     * Return the enclosing module.
     */
     Module getModule() throws RemoteException;
+
+   /**
+    * Return the version.
+    */
+    String getVersion() throws RemoteException;
 }

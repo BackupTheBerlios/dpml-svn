@@ -28,9 +28,9 @@ public final class ResourceDirectiveTestCase extends AbstractTestCase
     static TypeDirective[] TYPES = new TypeDirective[3];
     static
     {
-        TYPES[0] = new TypeDirective( "jar", PROPERTIES );
-        TYPES[1] = new TypeDirective( "plugin" ,PROPERTIES );
-        TYPES[2] = new TypeDirective( "widget", PROPERTIES );
+        TYPES[0] = new TypeDirective( "jar", false, PROPERTIES );
+        TYPES[1] = new TypeDirective( "plugin", true ,PROPERTIES );
+        TYPES[2] = new TypeDirective( "widget", false, PROPERTIES );
     }
     
     static ResourceDirective[] RESOURCES = new ResourceDirective[3];

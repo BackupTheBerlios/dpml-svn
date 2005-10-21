@@ -21,7 +21,6 @@
     xmlns:transit="antlib:net.dpml.transit" 
     default="install">
 
-  <!--<transit:import uri="${project.standard.template}"/>-->
   <transit:import uri="local:template:tools/standard"/>
 
   <target name="build" depends="standard.build">

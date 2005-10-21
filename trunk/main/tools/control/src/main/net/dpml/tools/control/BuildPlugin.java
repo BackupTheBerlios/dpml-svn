@@ -82,7 +82,6 @@ public class BuildPlugin
         throws Exception
     {
         m_logger = logger;
-        m_library = new DefaultLibrary( logger );
         
         Options options = buildActionCommandLineOptions();
         //HelpFormatter formatter = new HelpFormatter();
@@ -93,7 +92,50 @@ public class BuildPlugin
         CommandLine line = parser.parse( options, args, false );
         String[] remainder = line.getArgs();
         
-        if( !line.hasOption( "list" ) )
+        if( line.hasOption( "version" ) )
+        {
+            String version = line.getOptionValue( "version" );
+            System.setProperty( "build.signature", version );
+        }
+        else
+        {
+            System.setProperty( "build.signature", "SNAPSHOT" );
+        }
+        m_library = new DefaultLibrary( logger );
+        
+        if( line.hasOption( "list" ) )
+        {
+            m_verbose = false;
+            if( line.hasOption( "module" ) )
+            {
+                String spec = line.getOptionValue( "module" );
+                Module module = m_library.getModule( spec );
+                listModule( module );
+            }
+            else if( line.hasOption( "project" ) )
+            {
+                String spec = line.getOptionValue( "project" );
+                Project project = m_library.getProject( spec );
+                boolean flag = line.hasOption( "consumers" );
+                listProject( project, flag );
+            }
+            else
+            {
+                String work = System.getProperty( "user.dir" );
+                File file = new File( work ).getCanonicalFile();
+                Model model = m_library.lookup( file );
+                if( model instanceof Module )
+                {
+                    listModule( (Module) model );
+                }
+                else if( model instanceof Project )
+                {
+                    boolean flag = line.hasOption( "consumers" );
+                    listProject( (Project) model, flag );
+                }
+            }
+        }
+        else
         {
             if( line.hasOption( "verbose" ) || line.hasOption( "v" ) )
             {
@@ -109,6 +151,19 @@ public class BuildPlugin
                 String spec = line.getOptionValue( "module" );
                 Module module = m_library.getModule( spec );
                 Project[] projects = module.getSubsidiaryProjects();
+                
+                StringBuffer buffer = new StringBuffer();
+                buffer.append( 
+                  "building all project in [" 
+                  + module.getPath() 
+                  + "]\n" );
+                for( int i=0; i<projects.length; i++ )
+                {
+                    int n = i+1;
+                    Project project = projects[i];
+                    buffer.append( "\n" + n + "\t" + project.getPath() );
+                }
+                getLogger().info( buffer.toString() );
                 for( int i=0; i<projects.length; i++ )
                 {
                     Project project = projects[i];
@@ -144,38 +199,6 @@ public class BuildPlugin
                 }
             }
         }
-        else
-        {
-            m_verbose = false;
-            if( line.hasOption( "module" ) )
-            {
-                String spec = line.getOptionValue( "module" );
-                Module module = m_library.getModule( spec );
-                listModule( module );
-            }
-            else if( line.hasOption( "project" ) )
-            {
-                String spec = line.getOptionValue( "project" );
-                Project project = m_library.getProject( spec );
-                boolean flag = line.hasOption( "consumers" );
-                listProject( project, flag );
-            }
-            else
-            {
-                String work = System.getProperty( "user.dir" );
-                File file = new File( work ).getCanonicalFile();
-                Model model = m_library.lookup( file );
-                if( model instanceof Module )
-                {
-                    listModule( (Module) model );
-                }
-                else if( model instanceof Project )
-                {
-                    boolean flag = line.hasOption( "consumers" );
-                    listProject( (Project) model, flag );
-                }
-            }
-        }
         return;
     }
     
@@ -187,11 +210,21 @@ public class BuildPlugin
         ClassLoader classloader = Builder.class.getClassLoader();
         Class builderClass = Transit.getInstance().getRepository().getPluginClass( classloader, ANT_BUILDER_URI );
         Builder builder = (Builder) Transit.getInstance().getRepository().instantiate( builderClass, params );
-        
-        boolean ok = builder.build( project, targets );
-        if( ok && flag )
+        if( flag )
         {
             Project[] consumers = project.getAllConsumers();
+            StringBuffer buffer = new StringBuffer();
+            buffer.append( 
+              "building consumers of project [" 
+              + project.getPath() 
+              + "]\n" );
+            for( int i=0; i<consumers.length; i++ )
+            {
+                int n = i+1;
+                Project consumer = consumers[i];
+                buffer.append( "\n" + n + "\t" + consumer.getPath() );
+            }
+            getLogger().info( buffer.toString() );
             for( int i=0; i<consumers.length; i++ )
             {
                 Project consumer = consumers[i];
@@ -201,6 +234,10 @@ public class BuildPlugin
                     break;
                 }
             }
+        }
+        else
+        {
+            builder.build( project, targets );
         }
     }
     
@@ -243,6 +280,7 @@ public class BuildPlugin
     private void listModule( StringBuffer buffer, String pad, Module module ) throws Exception
     {
         String p = pad + "  ";
+        line( buffer, pad + "version: " + module.getVersion() );
         Module[] imports = module.getImportedModules();
         if( imports.length > 0 )
         {
@@ -284,6 +322,7 @@ public class BuildPlugin
     private void listProject( StringBuffer buffer, String pad, Project project ) throws Exception
     {
         buffer.append( "\nproject: " + project.getPath() + "\n" );
+        line( buffer, pad + "version: " + project.getVersion() );
         line( buffer, pad + "basedir: " + project.getBase() );
         String p = pad + "  ";
         Resource[] resources = project.getProviders();
@@ -427,16 +466,13 @@ public class BuildPlugin
         // consumer switch
         //
 
-        options.addOption( new Option( "consumers", false, "include all downstream consumer projects" ) );
+        Option consumers = new Option( "consumers", false, "select downstream consumer projects" );
+        options.addOption( consumers );
         
-        return options;
-    }
-    
-    private Options buildBuildCommandLineOptions()
-    {
-        Options options = new Options();
-        options.addOption( new Option( "v", false, "-verbose option" ) );
-        options.addOption( new Option( "verbose", false, "enable verbose mode" ) );
+        Option version = new Option( "version", true, "build using an explicit version" );
+        module.setArgName( "major.minor.micro" );
+        options.addOption( version );
+        
         return options;
     }
     

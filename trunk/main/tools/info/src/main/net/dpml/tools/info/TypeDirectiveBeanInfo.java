@@ -39,7 +39,7 @@ public final class TypeDirectiveBeanInfo extends SimpleBeanInfo
         BeanDescriptor descriptor = new BeanDescriptor( TypeDirective.class );
         descriptor.setValue( 
           "persistenceDelegate", 
-          new DefaultPersistenceDelegate( new String[]{ "name", "properties" } ) );
+          new DefaultPersistenceDelegate( new String[]{ "name", "alias", "properties" } ) );
         return descriptor;
     }
 }

@@ -29,7 +29,7 @@ public final class TypeDirectiveTestCase extends AbstractTestCase
     {
         try
         {
-            TypeDirective type = new TypeDirective( null, PROPERTIES );
+            TypeDirective type = new TypeDirective( null, true, PROPERTIES );
             fail( "no-NPE" );
         }
         catch( NullPointerException e )
@@ -40,19 +40,27 @@ public final class TypeDirectiveTestCase extends AbstractTestCase
     
     public void testTypeName()
     {
-        TypeDirective type = new TypeDirective( "abc", PROPERTIES );
+        TypeDirective type = new TypeDirective( "abc", true, PROPERTIES );
         assertEquals( "type", "abc", type.getName() );
+    }
+    
+    public void testTypeAlias()
+    {
+        TypeDirective type = new TypeDirective( "abc", true, PROPERTIES );
+        assertTrue( "alias", type.getAlias() );
+        type = new TypeDirective( "abc", false, PROPERTIES );
+        assertFalse( "alias", type.getAlias() );
     }
     
     public void testSerialization() throws Exception
     {
-        TypeDirective type = new TypeDirective( "abc", PROPERTIES );
+        TypeDirective type = new TypeDirective( "abc", true, PROPERTIES );
         doSerializationTest( type );
     }
 
     public void testXMLEncoding() throws Exception
     {
-        TypeDirective type = new TypeDirective( "abc", PROPERTIES );
+        TypeDirective type = new TypeDirective( "abc", true, PROPERTIES );
         doEncodingTest( type, "type-descriptor-encoded.xml" );
     }
 }

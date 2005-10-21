@@ -83,8 +83,7 @@ public class StandardBuilder implements Builder
     * Creation of a new standard builder.
     *
     * @param logger assigned logging channel
-    * @param model the transit model
-    * @param template an ant template file
+    * @param library the library
     * @param verbose verbose execution flag
     */
     public StandardBuilder( Logger logger, Library library, boolean verbose )

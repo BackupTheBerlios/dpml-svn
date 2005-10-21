@@ -29,7 +29,7 @@ public final class ProductionDirectiveTestCase extends AbstractTestCase
     {
         try
         {
-            ProductionDirective type = new ProductionDirective( null, PROPERTIES );
+            ProductionDirective type = new ProductionDirective( null, true, PROPERTIES );
             fail( "no-NPE" );
         }
         catch( NullPointerException e )
@@ -40,19 +40,27 @@ public final class ProductionDirectiveTestCase extends AbstractTestCase
     
     public void testArtifactName()
     {
-        ProductionDirective artifact = new ProductionDirective( "abc", PROPERTIES );
+        ProductionDirective artifact = new ProductionDirective( "abc", true, PROPERTIES );
         assertEquals( "type", "abc", artifact.getType() );
+    }
+    
+    public void testAlias()
+    {
+        ProductionDirective type = new ProductionDirective( "abc", true, PROPERTIES );
+        assertTrue( "alias", type.getAlias() );
+        type = new ProductionDirective( "abc", false, PROPERTIES );
+        assertFalse( "alias", type.getAlias() );
     }
     
     public void testSerialization() throws Exception
     {
-        ProductionDirective artifact = new ProductionDirective( "abc", PROPERTIES );
+        ProductionDirective artifact = new ProductionDirective( "abc", true, PROPERTIES );
         doSerializationTest( artifact );
     }
 
     public void testXMLEncoding() throws Exception
     {
-        ProductionDirective artifact = new ProductionDirective( "abc", PROPERTIES );
+        ProductionDirective artifact = new ProductionDirective( "abc", false, PROPERTIES );
         doEncodingTest( artifact, "artifact-descriptor-encoded.xml" );
     }
 }

@@ -152,21 +152,14 @@ public abstract class FeatureTask extends GenericTask
             }
             else if( m_feature.equals( "version" ) )
             {
-                if( null == resource.getProject() )
+                String version = resource.getVersion();
+                if( null == version )
                 {
-                    String version = resource.getVersion();
-                    if( null == version )
-                    {
-                        return "";
-                    }
-                    else
-                    {
-                        return version;
-                    }
+                    return "";
                 }
                 else
                 {
-                    return getDefinition().getVersion();
+                    return version;
                 }
             }
             else if( m_feature.equals( "uri" ) )
@@ -180,21 +173,14 @@ public abstract class FeatureTask extends GenericTask
                 else
                 {
                     String path = resource.getPath();
-                    if( null == resource.getProject() )
+                    String version = resource.getVersion();
+                    if( null == version )
                     {
-                        String version = resource.getVersion();
-                        if( null == version )
-                        {
-                            return "artifact:" + m_type + ":" + path + "#" + version;
-                        }
-                        else
-                        {
-                            return "artifact:" + m_type + ":" + path + "#" + version;
-                        }
+                        return "artifact:" + m_type + ":" + path;
                     }
                     else
                     {
-                        return "artifact:" + m_type + ":" + path + "#" + getDefinition().getVersion();
+                        return "artifact:" + m_type + ":" + path + "#" + version;
                     }
                 }
             }
@@ -214,21 +200,14 @@ public abstract class FeatureTask extends GenericTask
             else if( m_feature.equals( "spec" ) )
             {
                 String path = resource.getPath();
-                if( null == resource.getProject() )
+                String version = resource.getVersion();
+                if( null == version )
                 {
-                    String version = resource.getVersion();
-                    if( null == version )
-                    {
-                        return path;
-                    }
-                    else
-                    {
-                        return path + "#" + version;
-                    }
+                    return path;
                 }
                 else
                 {
-                    return path + "#" + getDefinition().getVersion();
+                    return path + "#" + version;
                 }
             }
             //else if( m_feature.equals( "path" ) )

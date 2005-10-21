@@ -39,7 +39,7 @@ public final class ProductionDirectiveBeanInfo extends SimpleBeanInfo
         BeanDescriptor descriptor = new BeanDescriptor( ProductionDirective.class );
         descriptor.setValue( 
           "persistenceDelegate", 
-          new DefaultPersistenceDelegate( new String[]{ "type", "properties" } ) );
+          new DefaultPersistenceDelegate( new String[]{ "type", "alias", "properties" } ) );
         return descriptor;
     }
 }

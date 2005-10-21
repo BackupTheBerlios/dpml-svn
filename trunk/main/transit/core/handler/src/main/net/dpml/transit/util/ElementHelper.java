@@ -262,11 +262,11 @@ public final class ElementHelper
         {
             return def;
         }
-        if( value.equals( "true" ) )
+        if( value.equalsIgnoreCase( "true" ) )
         {
             return true;
         }
-        if( value.equals( "false" ) )
+        if( value.equalsIgnoreCase( "false" ) )
         {
             return false;
         }

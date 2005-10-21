@@ -63,17 +63,17 @@ public final class DefaultResource extends UnicastRemoteObject implements Resour
       DefaultLibrary library, DefaultModule parent, DefaultProject project ) throws RemoteException
     {
         m_library = library;
-        m_version = null;
+        m_version = project.getVersion();
         m_parent = parent;
         m_name = project.getName();
-        m_types = project.getTypes();
+        m_types = project.getTypeNames();
         m_path = project.getPath();
         m_project = project;
         
         TypeDirective[] typeDirectives = new TypeDirective[ m_types.length ];
         for( int i=0; i<typeDirectives.length; i++ )
         {
-            typeDirectives[i] = new TypeDirective( m_types[i] );
+            typeDirectives[i] = new TypeDirective( m_types[i], false );
         }
         m_includes = project.getIncludeDirectives( Scope.RUNTIME );
     }
@@ -131,7 +131,7 @@ public final class DefaultResource extends UnicastRemoteObject implements Resour
         }
     }
     
-    public String[] getTypes()
+    public String[] getTypeNames()
     {
         return m_types;
     }

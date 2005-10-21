@@ -28,13 +28,14 @@ import java.util.Properties;
 public final class TypeDirective  extends AbstractDirective
 {
     private final String m_name;
+    private final boolean m_alias;
 
-    public TypeDirective( String name )
+    public TypeDirective( String name, boolean alias )
     {
-        this( name, null );
+        this( name, alias, null );
     }
     
-    public TypeDirective( String name, Properties properties )
+    public TypeDirective( String name, boolean alias, Properties properties )
     {
         super( properties );
         if( null == name )
@@ -42,11 +43,17 @@ public final class TypeDirective  extends AbstractDirective
             throw new NullPointerException( "name" );
         }
         m_name = name;
+        m_alias = alias;
     }
     
     public String getName()
     {
         return m_name;
+    }
+    
+    public boolean getAlias()
+    {
+        return m_alias;
     }
     
     public boolean equals( Object other )
@@ -55,6 +62,10 @@ public final class TypeDirective  extends AbstractDirective
         {
             TypeDirective object = (TypeDirective) other;
             if( !equals( m_name, object.m_name ) )
+            {
+                return false;
+            }
+            else if( m_alias != object.m_alias )
             {
                 return false;
             }
@@ -72,6 +83,10 @@ public final class TypeDirective  extends AbstractDirective
     public int hashCode()
     {
         int hash = super.hashCode();
+        if( m_alias )
+        {
+            hash ^= 1298657;
+        }
         hash ^= super.hashValue( m_name );
         return hash;
     }

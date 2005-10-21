@@ -111,6 +111,10 @@ public class GenericTask extends Task
             // Create the library, locate this project, create and set the context.
             //
             File basedir = getProject().getBaseDir();
+            if( null == System.getProperty( "build.version" ) )
+            {
+                System.getProperty( "build.version", "SNAPSHOT" );
+            }
             try
             {
                 DefaultLibrary library = new DefaultLibrary( new LoggingAdapter() );

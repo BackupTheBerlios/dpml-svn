@@ -114,7 +114,7 @@ CALL :build junit-report
 GOTO :EOF
 
 :build
-IF not "%ID%" == "" set BUILD_ID=-Ddpml.release.signature=%ID%
+IF not "%ID%" == "" set BUILD_ID=-Dbuild.signature=%ID%
 ECHO building project with release ID [%ID%]
 CALL ant %BUILD_ID% %*
 set BUILD_ID=""

@@ -162,7 +162,7 @@
   <property name="project.dir" location="${basedir}/target/test"/>
 
   <condition property="signature.declared" value="true">
-    <isset property="dpml.release.signature"/>
+    <isset property="build.signature"/>
   </condition>
 
   <property name="src" value="src"/>
@@ -192,13 +192,12 @@
   <property name="target.deliverables.jars.dir" value="${target.deliverables.dir}/jars"/>
 
   <target name="setupReleaseFilename" if="signature.declared">
-    <property name="project.version" value="${dpml.release.signature}"/>
-    <property name="dpml.build.signature" value="${dpml.release.signature}"/>
+    <property name="project.version" value="${build.signature}"/>
   </target>
 
   <target name="init" depends="setup,setupReleaseFilename">
     <property name="project.version" value="SNAPSHOT"/>
-    <property name="dpml.build.signature" value="SNAPSHOT"/>
+    <property name="build.signature" value="SNAPSHOT"/>
     <property name="project.filename" value="${project.name}-${project.version}.${project.type}"/>
     <property name="dpml-transit-handler.filename" value="dpml-transit-main-${project.version}.jar"/>
     <echo>
@@ -454,7 +453,7 @@
            showoutput="true"
            haltonfailure="yes" failureproperty="junit.failure"
            haltonerror="yes" errorproperty="junit.error">
-      <sysproperty key="dpml.build.signature" value="${dpml.build.signature}"/>
+      <sysproperty key="build.signature" value="${build.signature}"/>
       <classpath>
         <path refid="project.test.path"/>
         <pathelement location="${target.test-classes.dir}"/>

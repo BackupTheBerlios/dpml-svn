@@ -46,8 +46,8 @@ GOTO :EOF
 :main
 PUSHD main
 set ORIGINAL_ID=%ID%
-IF not "%ID%" == "" CALL build all %ID%
-IF "%ID%" == "" CALL build all
+IF not "%ID%" == "" CALL main all %ID%
+IF "%ID%" == "" CALL main all
 set ID=%ORIGINAL_ID%
 POPD
 GOTO :EOF
@@ -66,7 +66,7 @@ GOTO :EOF
 
 :build
 set BUILD_ID=""
-IF not "%ID%" == "" set BUILD_ID=-Ddpml.release.signature=%ID%
+IF not "%ID%" == "" set BUILD_ID=-Dbuild.signature=%ID%
 ECHO building project with release ID [%ID%]
 CALL ant %BUILD_ID% %*
 set BUILD_ID=""

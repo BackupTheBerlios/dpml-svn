@@ -155,7 +155,7 @@ public abstract class ClassLoaderBuilderTask extends GenericTask
     
     private boolean isaJar( Definition definition )
     {
-        String[] types = definition.getTypes();
+        String[] types = definition.getTypeNames();
         for( int i=0; i<types.length; i++ )
         {
             if( "jar".equals( types[i] ) )
@@ -169,7 +169,7 @@ public abstract class ClassLoaderBuilderTask extends GenericTask
     private URI toURI( Resource resource ) throws Exception
     {
         String path = resource.getPath();
-        String version = getResourceVersion( resource );
+        String version = resource.getVersion();
         if( null == version )
         {
             return new URI( "artifact:jar:" + path );
@@ -180,18 +180,6 @@ public abstract class ClassLoaderBuilderTask extends GenericTask
         }
     }
     
-    private String getResourceVersion( Resource resource ) throws Exception
-    {
-        if( null != resource.getProject() )
-        {
-            return getDefinition().getVersion();
-        }
-        else
-        {
-            return resource.getVersion();
-        }
-    }
-
     protected File getPartOutputFile()
     {
         File deliverables = getDefinition().getTargetDeliverablesDirectory();

@@ -28,13 +28,14 @@ import java.util.Properties;
 public final class ProductionDirective extends AbstractDirective
 {
     private final String m_type;
+    private final boolean m_alias;
 
-    public ProductionDirective( String type )
+    public ProductionDirective( String type, boolean alias )
     {
-        this( type, null );
+        this( type, alias, null );
     }
     
-    public ProductionDirective( String type, Properties properties )
+    public ProductionDirective( String type, boolean alias, Properties properties )
     {
         super( properties );
         
@@ -43,11 +44,17 @@ public final class ProductionDirective extends AbstractDirective
             throw new NullPointerException( "type" );
         }
         m_type = type;
+        m_alias = alias;
     }
     
     public String getType()
     {
         return m_type;
+    }
+    
+    public boolean getAlias()
+    {
+        return m_alias;
     }
     
     public boolean equals( Object other )
@@ -56,6 +63,10 @@ public final class ProductionDirective extends AbstractDirective
         {
             ProductionDirective object = (ProductionDirective) other;
             if( !equals( m_type, object.m_type ) )
+            {
+                return false;
+            }
+            if( m_alias != object.m_alias )
             {
                 return false;
             }
@@ -73,6 +84,10 @@ public final class ProductionDirective extends AbstractDirective
     public int hashCode()
     {
         int hash = super.hashCode();
+        if( m_alias )
+        {
+            hash ^= 1298657;
+        }
         hash ^= super.hashValue( m_type );
         return hash;
     }

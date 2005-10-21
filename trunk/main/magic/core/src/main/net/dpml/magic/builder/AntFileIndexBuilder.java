@@ -48,12 +48,12 @@ public class AntFileIndexBuilder extends DataType
    /**
     * Immutable key to the signature identifier used.
     */
-    private static final String RELEASE_SIGNATURE_KEY = "dpml.release.signature";
+    private static final String RELEASE_SIGNATURE_KEY = "build.signature";
 
    /**
     * Immutable key to the build identifier.
     */
-    private static final String BUILD_SIGNATURE_KEY = "dpml.build.signature";
+    private static final String BUILD_SIGNATURE_KEY = "build.signature";
 
    /**
     * Immutable key to the magic docs cache directory.
