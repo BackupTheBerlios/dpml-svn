@@ -32,17 +32,11 @@ import net.dpml.transit.Category;
  *
  * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
  */
-public interface Project extends Remote
+public interface Project extends Model
 {
-    TypeDescriptor getTypeDescriptor( String type ) throws RemoteException, TypeNotFoundException;
-
     long getLastModified() throws RemoteException;
 
-    Module getModule() throws RemoteException;
-
-    String getName() throws RemoteException;
-    
-    String getPath() throws RemoteException;
+    TypeDescriptor getTypeDescriptor( String type ) throws RemoteException, TypeNotFoundException;
 
     String[] getTypes() throws RemoteException;
     

@@ -38,6 +38,7 @@ import net.dpml.tools.info.IncludeDirective;
 import net.dpml.tools.model.Module;
 import net.dpml.tools.model.Resource;
 import net.dpml.tools.model.Project;
+import net.dpml.tools.model.ModelNotFoundException;
 import net.dpml.tools.model.ModuleNotFoundException;
 import net.dpml.tools.model.ResourceNotFoundException;
 import net.dpml.tools.model.ProjectNotFoundException;
@@ -95,14 +96,23 @@ public final class DefaultModule extends UnicastRemoteObject implements Module
             m_path = path + "/" + getName();
         }
         
-        String base = m_directive.getBasedir();
-        if( null == base )
+        try
         {
-            m_base = anchor;
+            String base = m_directive.getBasedir();
+            if( null == base )
+            {
+                m_base = anchor.getCanonicalFile();
+            }
+            else
+            {
+                m_base = new File( anchor, base ).getCanonicalFile();
+            }
         }
-        else
+        catch( IOException e )
         {
-            m_base = new File( anchor, base );
+            final String error = 
+               "Internal error while attempting to construct a canonical file.";
+            throw new RuntimeException( error, e );
         }
         
         m_properties = setupProperties();
@@ -204,7 +214,7 @@ public final class DefaultModule extends UnicastRemoteObject implements Module
         return m_base;
     }
     
-    public Module getParent()
+    public Module getModule()
     {
         return m_parent;
     }

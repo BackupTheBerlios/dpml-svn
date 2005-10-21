@@ -312,6 +312,7 @@
          </production>
          <dependencies>
            <include key="dpml-tools-model"/>
+           <include ref="commons-cli/commons-cli"/>
          </dependencies>
          <dependencies scope="test">
            <include ref="ant/ant-junit"/>

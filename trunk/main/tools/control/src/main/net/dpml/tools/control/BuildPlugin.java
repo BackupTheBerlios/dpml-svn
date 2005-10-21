@@ -35,11 +35,22 @@ import net.dpml.tools.model.Module;
 import net.dpml.tools.model.Project;
 import net.dpml.tools.model.Resource;
 import net.dpml.tools.model.Builder;
+import net.dpml.tools.model.Model;
 import net.dpml.tools.model.ProjectNotFoundException;
 import net.dpml.tools.model.ModuleNotFoundException;
 import net.dpml.tools.model.ModelRuntimeException;
 import net.dpml.tools.control.DefaultLibrary;
 
+import org.apache.commons.cli.Option;
+import org.apache.commons.cli.OptionBuilder;
+import org.apache.commons.cli.OptionGroup;
+import org.apache.commons.cli.Options;
+import org.apache.commons.cli.CommandLine;
+import org.apache.commons.cli.CommandLineParser;
+import org.apache.commons.cli.GnuParser;
+import org.apache.commons.cli.BasicParser;
+import org.apache.commons.cli.PosixParser;
+import org.apache.commons.cli.HelpFormatter;
 
 /**
  * Plugin that handles multi-project builds based on supplied commandline arguments.
@@ -54,11 +65,8 @@ public class BuildPlugin
     // ------------------------------------------------------------------------
 
     private final Logger m_logger;
-    private final Class m_builderClass;
-    private final Library m_library;
+    private final DefaultLibrary m_library;
     private final boolean m_verbose;
-    
-    private String[] m_args;
     
     // ------------------------------------------------------------------------
     // constructors
@@ -75,128 +83,124 @@ public class BuildPlugin
     {
         m_logger = logger;
         m_library = new DefaultLibrary( logger );
-        m_args = args;
         
-        if( CLIHelper.isOptionPresent( args, "-v" ) )
+        Options options = buildActionCommandLineOptions();
+        //HelpFormatter formatter = new HelpFormatter();
+        //formatter.printHelp( "build ", options, true );
+        
+        //CommandLineParser parser = new GnuParser();
+        CommandLineParser parser = new BasicParser();
+        CommandLine line = parser.parse( options, args, false );
+        String[] remainder = line.getArgs();
+        
+        if( !line.hasOption( "list" ) )
         {
-            m_args = CLIHelper.consolidate( args, "-v", 1 );
-            m_verbose = true;
+            if( line.hasOption( "verbose" ) || line.hasOption( "v" ) )
+            {
+                m_verbose = true;
+            }
+            else
+            {
+                m_verbose = false;
+            }
+            String[] targets = line.getArgs();
+            if( line.hasOption( "module" ) )
+            {
+                String spec = line.getOptionValue( "module" );
+                Module module = m_library.getModule( spec );
+                Project[] projects = module.getSubsidiaryProjects();
+                for( int i=0; i<projects.length; i++ )
+                {
+                    Project project = projects[i];
+                    buildProject( project, targets, false );
+                }
+            }
+            else if( line.hasOption( "project" ) )
+            {
+                String spec = line.getOptionValue( "project" );
+                Project project = m_library.getProject( spec );
+                boolean flag = line.hasOption( "consumers" );
+                buildProject( project, targets, flag );
+            }
+            else
+            {
+                String work = System.getProperty( "user.dir" );
+                File file = new File( work ).getCanonicalFile();
+                Model model = m_library.lookup( file );
+                if( model instanceof Module )
+                {
+                    Module module = (Module) model;
+                    Project[] projects = module.getSubsidiaryProjects();
+                    for( int i=0; i<projects.length; i++ )
+                    {
+                        Project project = projects[i];
+                        buildProject( project, targets, false );
+                    }
+                }
+                else if( model instanceof Project )
+                {
+                    boolean flag = line.hasOption( "consumers" );
+                    buildProject( (Project) model, targets, flag );
+                }
+            }
         }
         else
         {
             m_verbose = false;
-        }
-        
-        ClassLoader classloader = Builder.class.getClassLoader();
-        m_builderClass = Transit.getInstance().getRepository().getPluginClass( classloader, ANT_BUILDER_URI );
-        
-        String target = getTarget( args );
-        if( isaProject( target ) )
-        {
-            Project project = m_library.getProject( target );
-            boolean consumers = CLIHelper.isOptionPresent( args, "-consumers" );
-            if( consumers )
+            if( line.hasOption( "module" ) )
             {
-                listProjectConsumers( project );
+                String spec = line.getOptionValue( "module" );
+                Module module = m_library.getModule( spec );
+                listModule( module );
+            }
+            else if( line.hasOption( "project" ) )
+            {
+                String spec = line.getOptionValue( "project" );
+                Project project = m_library.getProject( spec );
+                boolean flag = line.hasOption( "consumers" );
+                listProject( project, flag );
             }
             else
             {
-                processProject( project, args );
-            }
-        }
-        else if( isaModule( target ) )
-        {
-            Module module = m_library.getModule( target );
-            processModule( module, args );
-        }
-    }
-    
-    private void processModule( Module module, String[] args ) throws Exception
-    {
-        boolean build = CLIHelper.isOptionPresent( args, "-build" );
-        if( build )
-        {
-            Project[] projects = module.getSubsidiaryProjects();
-            for( int i=0; i<projects.length; i++ )
-            {
-                Project project = projects[i];
-                processProject( project, args );
-            }
-        }
-        else
-        {
-            listModule( module );
-        }
-    }
-    
-    private void processProject( Project project, String[] args ) throws Exception
-    {
-        boolean build = CLIHelper.isOptionPresent( args, "-build" );
-        if( build )
-        {
-            Object[] params = new Object[]{ m_logger, m_library, new Boolean( m_verbose ) };
-            Builder builder = (Builder) Transit.getInstance().getRepository().instantiate( m_builderClass, params );
-            builder.build( project );
-        }
-        else
-        {
-            listProject( project );
-        }
-    }
-    
-    private String getTarget( String[] args )
-    {
-        if( CLIHelper.isOptionPresent( args, "-project" ) )
-        {
-            String spec = CLIHelper.getOption( args, "-project" );
-            m_args = CLIHelper.consolidate( args, "-project", 1 );
-            return spec;
-        }
-        else if( CLIHelper.isOptionPresent( args, "-module" ) )
-        {
-            String spec = CLIHelper.getOption( args, "-module" );
-            m_args = CLIHelper.consolidate( args, "-module", 1 );
-            return spec;
-        }
-        else
-        {
-            for( int i=0; i<args.length; i++ )
-            {
-                String arg = args[i];
-                if( !arg.startsWith( "-" ) )
+                String work = System.getProperty( "user.dir" );
+                File file = new File( work ).getCanonicalFile();
+                Model model = m_library.lookup( file );
+                if( model instanceof Module )
                 {
-                    m_args = CLIHelper.consolidate( args, arg );
-                    return arg;
+                    listModule( (Module) model );
+                }
+                else if( model instanceof Project )
+                {
+                    boolean flag = line.hasOption( "consumers" );
+                    listProject( (Project) model, flag );
                 }
             }
         }
-        m_args = args;
-        return null;
+        return;
     }
     
-    private boolean isaModule( String spec ) throws Exception
+    private void buildProject( Project project, String[] targets, boolean flag ) throws Exception
     {
-        try
+        // TODO update the following to select the builder from a property declared on the project
+        
+        Object[] params = new Object[]{ m_logger, m_library, new Boolean( m_verbose ) };
+        ClassLoader classloader = Builder.class.getClassLoader();
+        Class builderClass = Transit.getInstance().getRepository().getPluginClass( classloader, ANT_BUILDER_URI );
+        Builder builder = (Builder) Transit.getInstance().getRepository().instantiate( builderClass, params );
+        
+        boolean ok = builder.build( project, targets );
+        if( ok && flag )
         {
-            m_library.getModule( spec );
-            return true;
-        }
-        catch( ModuleNotFoundException pnfe )
-        {
-            return false;
-        }
-    }
-    
-    private boolean isaProject( String spec ) throws Exception
-    {
-        try
-        {
-            m_library.getProject( spec );
-            return true;
-        }
-        catch( ProjectNotFoundException pnfe )
-        {
-            return false;
+            Project[] consumers = project.getAllConsumers();
+            for( int i=0; i<consumers.length; i++ )
+            {
+                Project consumer = consumers[i];
+                boolean status = builder.build( consumer, targets );
+                if( !status )
+                {
+                    break;
+                }
+            }
         }
     }
     
@@ -210,7 +214,29 @@ public class BuildPlugin
         for( int i=0; i<projects.length; i++ )
         {
             Project project = projects[i];
-            listProject( project );
+            listProject( project, false );
+        }
+    }
+    
+    private void listProject( Project project, boolean flag ) throws Exception
+    {
+        if( flag )
+        {
+            StringBuffer buffer = new StringBuffer( "Listing consumers of project: " + project.getPath() + "\n" );
+            Project[] consumers = project.getAllConsumers();
+            for( int i=0; i<consumers.length; i++ )
+            {
+                Project consumer = consumers[i];
+                listProject( buffer, "  ", consumer );
+                buffer.append( "\n" );
+            }
+            getLogger().info( buffer.toString() );
+        }
+        else
+        {
+            StringBuffer buffer = new StringBuffer( "Listing project: " + project.getPath() );
+            listProject( buffer, "  ", project );
+            getLogger().info( buffer.toString() + "\n" );
         }
     }
     
@@ -253,26 +279,6 @@ public class BuildPlugin
                 line( buffer, p + modules[i].getName() );
             }
         }
-    }
-    
-    private void listProject( Project project ) throws Exception
-    {
-        StringBuffer buffer = new StringBuffer( "Listing project: " + project.getPath() );
-        listProject( buffer, "  ", project );
-        getLogger().info( buffer.toString() + "\n" );
-    }
-    
-    private void listProjectConsumers( Project project ) throws Exception
-    {
-        StringBuffer buffer = new StringBuffer( "Listing consumers of project: " + project.getPath() + "\n" );
-        Project[] consumers = project.getAllConsumers();
-        for( int i=0; i<consumers.length; i++ )
-        {
-            Project consumer = consumers[i];
-            listProject( buffer, "  ", consumer );
-            buffer.append( "\n" );
-        }
-        getLogger().info( buffer.toString() );
     }
     
     private void listProject( StringBuffer buffer, String pad, Project project ) throws Exception
@@ -340,6 +346,98 @@ public class BuildPlugin
     private Logger getLogger()
     {
         return m_logger;
+    }
+    
+    /*
+    private Options buildCommandLineOptions()
+    {
+        Options options = new Options();
+        
+        //
+        // project or module selection
+        //
+        
+        Option project = new Option( "project", true, "select the named project" );
+        project.setArgName( "group/name" );
+        
+        Option module = new Option( "module", true, "select the named module" );
+        module.setArgName( "group" );
+        
+        Option select = new Option( "select", true, "select the named module or project" );
+        module.setArgName( "group[/name]" );
+        
+        OptionGroup selection = new OptionGroup();
+        selection.addOption( select );
+        selection.addOption( project );
+        selection.addOption( module );
+        options.addOptionGroup( selection );
+        
+        //
+        // list switch
+        //
+
+        options.addOption( new Option( "list", false, "list the selection" ) );
+        
+        //
+        // list switch
+        //
+
+        options.addOption( new Option( "v", false, "-verbose option" ) );
+        options.addOption( new Option( "verbose", false, "enable verbose mode" ) );
+        
+        //
+        // consumer switch
+        //
+
+        options.addOption( new Option( "consumers", false, "include all downstream consumer projects" ) );
+        
+        return options;
+    }
+    */
+    
+    private Options buildActionCommandLineOptions()
+    {
+        Option list = new Option( "list", false, "list the selection" );
+        Options options = new Options();
+        options.addOption( list );
+
+        //
+        // project or module selection
+        //
+        
+        Option project = new Option( "project", true, "select the named project" );
+        project.setArgName( "group/name" );
+        
+        Option module = new Option( "module", true, "select the named module" );
+        module.setArgName( "group" );
+        
+        Option select = new Option( "select", true, "select the named module or project" );
+        select.setArgName( "group[/name]" );
+        
+        OptionGroup selection = new OptionGroup();
+        selection.addOption( select );
+        selection.addOption( project );
+        selection.addOption( module );
+        options.addOptionGroup( selection );
+        
+        options.addOption( new Option( "v", false, "-verbose option" ) );
+        options.addOption( new Option( "verbose", false, "enable verbose mode" ) );
+        
+        //
+        // consumer switch
+        //
+
+        options.addOption( new Option( "consumers", false, "include all downstream consumer projects" ) );
+        
+        return options;
+    }
+    
+    private Options buildBuildCommandLineOptions()
+    {
+        Options options = new Options();
+        options.addOption( new Option( "v", false, "-verbose option" ) );
+        options.addOption( new Option( "verbose", false, "enable verbose mode" ) );
+        return options;
     }
     
     private static final URI ANT_BUILDER_URI;

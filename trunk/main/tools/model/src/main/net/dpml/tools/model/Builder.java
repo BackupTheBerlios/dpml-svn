@@ -31,7 +31,9 @@ public interface Builder extends Remote
    /**
     * Build a target project.
     * @param project the project to build
+    * @param target build target names
+    * @return the success status of the build
     */
-    public void build( Project project ) throws Exception;
+    public boolean build( Project project, String[] targets ) throws Exception;
 
 }

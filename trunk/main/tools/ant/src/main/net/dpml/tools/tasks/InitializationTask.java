@@ -49,6 +49,8 @@ public class InitializationTask extends GenericTask
     public void execute()
     {
         Definition definition = getDefinition();
+        String info = getProject().getProperty( "project.info" );
+        getProject().log( info );
         TypeDescriptor[] types = getSequencedTypes( definition );
         for( int i=0; i<types.length; i++ )
         {

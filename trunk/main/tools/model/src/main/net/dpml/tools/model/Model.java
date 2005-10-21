@@ -18,23 +18,29 @@
 
 package net.dpml.tools.model;
 
+import java.io.File;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
-import java.net.URI;
 
 /**
- * The Resource interface describes infomation about a published resource.
+ * The Modele interface defines a node within a module hierachy.
  *
  * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
  */
-public interface Resource extends Model
+public interface Model extends Remote
 {
-    String getVersion() throws RemoteException;
+   /**
+    * Return the name of the model.
+    */
+    String getName() throws RemoteException;
     
-    String[] getTypes() throws RemoteException;
+   /**
+    * Return the fully qualified name of the model.
+    */
+    String getPath() throws RemoteException;
     
-    Resource[] getProviders() throws RemoteException, ModuleNotFoundException, ResourceNotFoundException;
-
-    Project getProject() throws RemoteException;
-    
+   /**
+    * Return the enclosing module.
+    */
+    Module getModule() throws RemoteException;
 }

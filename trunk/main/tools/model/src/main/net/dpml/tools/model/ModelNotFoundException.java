@@ -18,23 +18,27 @@
 
 package net.dpml.tools.model;
 
-import java.rmi.Remote;
-import java.rmi.RemoteException;
-import java.net.URI;
+import java.io.File;
 
 /**
- * The Resource interface describes infomation about a published resource.
+ * A ModelNotFoundException is thrown when a request for the lookup of 
+ * a project or module relative to a base dir cannot be resolved to a
+ * value.
  *
  * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
  */
-public interface Resource extends Model
+public final class ModelNotFoundException extends Exception
 {
-    String getVersion() throws RemoteException;
+    final File m_base;
     
-    String[] getTypes() throws RemoteException;
+    public ModelNotFoundException( File base )
+    {
+        super( base.toString() );
+        m_base = base;
+    }
     
-    Resource[] getProviders() throws RemoteException, ModuleNotFoundException, ResourceNotFoundException;
-
-    Project getProject() throws RemoteException;
-    
+    public File getBase()
+    {
+        return m_base;
+    }
 }

@@ -27,15 +27,9 @@ import java.rmi.RemoteException;
  *
  * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
  */
-public interface Module extends Remote
+public interface Module extends Model
 {
-    String getName() throws RemoteException;
-    
-    String getPath() throws RemoteException;
-    
     File getBase() throws RemoteException;
-    
-    Module getParent() throws RemoteException;
     
     Module[] getImportedModules() throws RemoteException;
     

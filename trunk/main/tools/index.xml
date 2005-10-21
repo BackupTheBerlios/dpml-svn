@@ -55,6 +55,7 @@
       </types>
     </info>
     <dependencies>
+      <include key="commons-cli"/>
       <include key="dpml-tools-model"/>
       <include key="ant-junit" runtime="false"/>
       <!-- issue with system -->
@@ -84,5 +85,16 @@
       <include key="dpml-tools-control"/>
     </dependencies>
   </project>
+
+  <resource>
+    <info>
+      <group>commons-cli</group>
+      <name>commons-cli</name>
+      <version>1.0</version>
+      <types>
+        <type name="jar"/>
+      </types>
+    </info>
+  </resource>
 
 </index>

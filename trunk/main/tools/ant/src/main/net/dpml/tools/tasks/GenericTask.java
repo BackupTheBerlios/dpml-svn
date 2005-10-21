@@ -114,11 +114,20 @@ public class GenericTask extends Task
             try
             {
                 DefaultLibrary library = new DefaultLibrary( new LoggingAdapter() );
-                net.dpml.tools.model.Project p = library.lookup( basedir.getCanonicalFile() );
-                Definition definition = new Definition( p );
-                context = new Context( definition, library, getProject() );
-                getProject().addReference( "project.context", context );
-                return context;
+                net.dpml.tools.model.Model model = library.lookup( basedir.getCanonicalFile() );
+                if( model instanceof net.dpml.tools.model.Project )
+                {
+                    Definition definition = new Definition( (net.dpml.tools.model.Project) model );
+                    context = new Context( definition, library, getProject() );
+                    getProject().addReference( "project.context", context );
+                    return context;
+                }
+                else
+                {
+                    final String error = 
+                      "Reactive build not implemented yet.";
+                    throw new BuildException( error );
+                }
             }
             catch( BuildException e )
             {

@@ -38,11 +38,13 @@ import net.dpml.tools.info.ModuleIncludeDirective;
 import net.dpml.tools.info.Scope;
 import net.dpml.tools.info.TypeDescriptor;
 import net.dpml.tools.model.TypeNotFoundException;
+import net.dpml.tools.model.Model;
 import net.dpml.tools.model.Module;
 import net.dpml.tools.model.Project;
 import net.dpml.tools.model.Resource;
 import net.dpml.tools.model.IllegalAddressRuntimeException;
 import net.dpml.tools.model.ModelRuntimeException;
+import net.dpml.tools.model.ModelNotFoundException;
 import net.dpml.tools.model.ModuleNotFoundException;
 import net.dpml.tools.model.ProjectNotFoundException;
 import net.dpml.tools.model.ResourceNotFoundException;
@@ -123,7 +125,8 @@ public final class DefaultLibrary extends UnicastRemoteObject implements Library
         }
     }
     
-    public Project lookup( File file ) throws ProjectNotFoundException, ResourceNotFoundException, ModuleNotFoundException
+    public Model lookup( File file ) 
+      throws ProjectNotFoundException, ResourceNotFoundException, ModuleNotFoundException, ModelNotFoundException
     {
         DefaultProject[] projects = getAllRegisteredProjects( false );
         for( int i=0; i<projects.length; i++ )
@@ -135,7 +138,17 @@ public final class DefaultLibrary extends UnicastRemoteObject implements Library
                 return project;
             }
         }
-        throw new ProjectNotFoundException( null, file.toString() );
+        DefaultModule[] modules = getAllRegisteredModules();
+        for( int i=0; i<modules.length; i++ )
+        {
+            DefaultModule module = modules[i];
+            File base = module.getBase();
+            if( file.equals( base ) )
+            {
+                return module;
+            }
+        }
+        throw new ModelNotFoundException( file );
     }
     
     public TypeDescriptor[] getTypeDescriptors()
@@ -170,6 +183,16 @@ public final class DefaultLibrary extends UnicastRemoteObject implements Library
       throws ResourceNotFoundException, ModuleNotFoundException
     {
         return getAllRegisteredProjects( true );
+    }
+    
+   /**
+    * Return an array of all module within the library.
+    * @return the module array
+    */
+    public Module[] getAllModules()
+      throws ResourceNotFoundException, ModuleNotFoundException
+    {
+        return getAllRegisteredModules();
     }
     
    /**
@@ -451,6 +474,32 @@ public final class DefaultLibrary extends UnicastRemoteObject implements Library
         }
     }
 
+   /**
+    * Return an array of all modules within the library.
+    * @return the module array
+    */
+    DefaultModule[] getAllRegisteredModules()
+      throws ResourceNotFoundException, ModuleNotFoundException
+    {
+        ArrayList list = new ArrayList();
+        DefaultModule[] modules = getDefaultModules();
+        for( int i=0; i<modules.length; i++ )
+        {
+            aggregateModules( list, modules[i] );
+        }
+        return (DefaultModule[]) list.toArray( new DefaultModule[0] );
+    }
+    
+    private void aggregateModules( ArrayList list, DefaultModule module )
+    {
+        list.add( module );
+        DefaultModule[] modules = module.getDefaultModules();
+        for( int i=0; i<modules.length; i++ )
+        {
+            aggregateModules( list, modules[i] );
+        }
+    }
+    
     private void aggregateProjects( ArrayList list, DefaultModule module )
     {
         DefaultProject[] projects = module.getDefaultProjects();

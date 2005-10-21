@@ -73,6 +73,7 @@ public class StandardBuilder implements Builder
     private TransitModel m_model;
     private Library m_library;
     private boolean m_verbose;
+    private Throwable m_result;
 
     // ------------------------------------------------------------------------
     // constructors
@@ -101,20 +102,18 @@ public class StandardBuilder implements Builder
     // Builder
     // ------------------------------------------------------------------------
 
-    public void build( net.dpml.tools.model.Project project ) throws Exception
+    public boolean build( net.dpml.tools.model.Project project, String[] targets ) throws Exception
     {
         Definition definition = new Definition( project );
-        build( definition );
+        return build( definition, targets );
     }
     
     // ------------------------------------------------------------------------
     // implementation
     // ------------------------------------------------------------------------
     
-    public void build( Definition definition ) throws Exception
+    public boolean build( Definition definition, String[] targets ) throws Exception
     {
-        Throwable error = null;
-        
         Project project = createProject( definition );
         
         try
@@ -123,48 +122,60 @@ public class StandardBuilder implements Builder
             File template = getTemplateFile( templateSpec );
             ProjectHelper helper = (ProjectHelper) project.getReference( "ant.projectHelper" );
             helper.parse( project, template );
-            Vector targets = new Vector();
+            Vector vector = new Vector();
             
-            // TODO: add targets from commandline
-            if( targets.size() == 0 )
+            if( targets.length == 0 )
             {
                 if( null != project.getDefaultTarget() )
                 {
-                    targets.addElement( project.getDefaultTarget() );
+                    vector.addElement( project.getDefaultTarget() );
+                }
+            }
+            else
+            {
+                for( int i=0; i<targets.length; i++ )
+                {
+                    String target = targets[i];
+                    vector.addElement( target );
                 }
             }
             
-            if( targets.size() == 0 )
+            if( vector.size() == 0 )
             {
                 final String errorMessage =
                   "No targets requested and no default target declared.";
                 throw new BuildException( errorMessage );
             }
             
-            project.executeTargets( targets );
+            project.executeTargets( vector );
+            return true;
+        }
+        catch( BuildException e )
+        {
+            if( m_logger.isDebugEnabled() )
+            {
+                Throwable cause = e.getCause();
+                m_logger.error( "Build failure.", cause );
+            }
+            else
+            {
+                m_logger.error( "Build failure.", e );
+            }
+            return false;
         }
         catch( Throwable e )
         {
-            error = e;
+            m_result = e;
+            final String error = 
+              "Unexpected error while atrempting to build project [" 
+              + definition.getProjectPath()
+              + "].";
+            m_logger.error( error, e );
+            return false;
         }
         finally
         {
-            if( null != error )
-            {
-                if( error instanceof BuildException )
-                {
-                    if( m_logger.isDebugEnabled() )
-                    {
-                        Throwable cause = error.getCause();
-                        m_logger.error( "Build failure.", cause );
-                    }
-                }
-                else
-                {
-                    m_logger.error( "Build failure.", error );
-                }
-            }
-            project.fireBuildFinished( error );
+            project.fireBuildFinished( m_result );
         }
     }
 
@@ -188,6 +199,7 @@ public class StandardBuilder implements Builder
     public Project createProject( Definition definition ) throws Exception
     {
         Project project = new Project();
+        project.setSystemProperties();
         project.setBaseDir( definition.getBase() );
         project.setDefaultInputStream( System.in );
         setupTransitComponentHelper( project );

@@ -24,14 +24,10 @@
   <transit:plugin uri="artifact:plugin:dpml/tools/dpml-tools-ant#SNAPSHOT">
     <antlib urn="dpml:tools" resource="net/dpml/tools/tasks/antlib.xml"/>
   </transit:plugin>
-  
-  <x:init/>
 
-  <target name="info">
-    <echo>${project.info}</echo>
+  <target name="init">
+    <x:init/>
   </target>
-
-  <target name="init" depends="info"/>
 
   <target name="prepare" depends="init"/>
 
