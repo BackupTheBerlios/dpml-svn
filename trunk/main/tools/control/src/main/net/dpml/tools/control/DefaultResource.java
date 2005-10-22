@@ -138,7 +138,7 @@ public final class DefaultResource extends UnicastRemoteObject implements Resour
     
     public Module getModule()
     {
-        return m_parent;
+        return getDefaultModule();
     }
 
     public Resource[] getProviders() throws ModuleNotFoundException, ResourceNotFoundException
@@ -151,6 +151,11 @@ public final class DefaultResource extends UnicastRemoteObject implements Resour
         return "resource:" + getPath();
     }
     
+    DefaultModule getDefaultModule()
+    {
+        return m_parent;
+    }
+
     DefaultResource[] getProviderResources() throws ModuleNotFoundException, ResourceNotFoundException
     {
         try

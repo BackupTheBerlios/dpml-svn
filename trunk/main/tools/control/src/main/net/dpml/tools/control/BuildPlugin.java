@@ -86,12 +86,10 @@ public class BuildPlugin
         Options options = buildActionCommandLineOptions();
         //HelpFormatter formatter = new HelpFormatter();
         //formatter.printHelp( "build ", options, true );
-        
         //CommandLineParser parser = new GnuParser();
         CommandLineParser parser = new BasicParser();
         CommandLine line = parser.parse( options, args, false );
-        String[] remainder = line.getArgs();
-        
+        m_verbose = ( line.hasOption( "verbose" ) || line.hasOption( "v" ) );
         if( line.hasOption( "version" ) )
         {
             String version = line.getOptionValue( "version" );
@@ -101,109 +99,134 @@ public class BuildPlugin
         {
             System.setProperty( "build.signature", "SNAPSHOT" );
         }
+        getLogger().debug( "building library" );
         m_library = new DefaultLibrary( logger );
-        
-        if( line.hasOption( "list" ) )
+        String selection = getSelectionArgument( line );
+        if( null != selection )
         {
-            m_verbose = false;
-            if( line.hasOption( "module" ) )
+            getLogger().debug( "parsing selection: " + selection );
+            Model[] models = m_library.select( selection );
+            process( models, line );
+        }
+        else
+        {
+            String work = System.getProperty( "user.dir" );
+            getLogger().debug( "resolving selection in: " + work );
+            File file = new File( work ).getCanonicalFile();
+            Model model = m_library.lookup( file );
+            process( model, line );
+        }
+    }
+    
+    private String getSelectionArgument( CommandLine line )
+    {
+        if( line.hasOption( "select" ) )
+        {
+            return line.getOptionValue( "select" );
+        }
+        else if( line.hasOption( "s" ) )
+        {
+            return line.getOptionValue( "s" );
+        }
+        else
+        {
+            return null;
+        }
+    }
+    
+    private void process( Model[] models, CommandLine line ) throws Exception
+    {
+        if( models.length == 0 )
+        {
+            return;
+        }
+        else if( models.length == 1 )
+        {
+            Model model = models[0];
+            process( model, line );
+        }
+        else
+        {
+            StringBuffer buffer = new StringBuffer( "Selection: " + models.length + "\n" );
+            for( int i=0; i<models.length; i++ )
             {
-                String spec = line.getOptionValue( "module" );
-                Module module = m_library.getModule( spec );
-                listModule( module );
+                String span = "" + ( i+1 );
+                if( span.length() < 5 )
+                {
+                    String lead = "     ".substring( 0, 5 - span.length() );
+                    buffer.append( "\n" + lead + span + ": " + models[i].getPath() );
+                }
+                else
+                {
+                    buffer.append( "\n " + span + ":\t" + models[i].getPath() );
+                }
             }
-            else if( line.hasOption( "project" ) )
+            getLogger().info( buffer.toString() );
+        }
+    }
+
+    private void process( Model model, CommandLine line ) throws Exception
+    {
+        getLogger().debug( "processing: " + model );
+        if( getListArgument( line ) || ( model instanceof Resource ) )
+        {
+            String[] remainder = line.getArgs();
+            if( remainder.length > 0 )
             {
-                String spec = line.getOptionValue( "project" );
-                Project project = m_library.getProject( spec );
-                boolean flag = line.hasOption( "consumers" );
-                listProject( project, flag );
+                StringBuffer buffer = new StringBuffer( "Ignoring (" + remainder.length + ") unrecognized arguments: " );
+                for( int i=0; i<remainder.length; i++ )
+                {
+                    buffer.append( "[" + remainder[i] + "]" );
+                    if( i < (remainder.length-1) )
+                    {
+                        buffer.append( ", " );
+                    }
+                }
+                getLogger().warn( buffer.toString() );
+            }
+            if( model instanceof Module )
+            {
+                listModule( (Module) model, line );
+            }
+            else if( model instanceof Project )
+            {
+                listProject( (Project) model, line );
             }
             else
             {
-                String work = System.getProperty( "user.dir" );
-                File file = new File( work ).getCanonicalFile();
-                Model model = m_library.lookup( file );
-                if( model instanceof Module )
-                {
-                    listModule( (Module) model );
-                }
-                else if( model instanceof Project )
-                {
-                    boolean flag = line.hasOption( "consumers" );
-                    listProject( (Project) model, flag );
-                }
+                // TODO: resource listing
             }
         }
         else
         {
-            if( line.hasOption( "verbose" ) || line.hasOption( "v" ) )
-            {
-                m_verbose = true;
-            }
-            else
-            {
-                m_verbose = false;
-            }
             String[] targets = line.getArgs();
-            if( line.hasOption( "module" ) )
+            if( model instanceof Module )
             {
-                String spec = line.getOptionValue( "module" );
-                Module module = m_library.getModule( spec );
-                Project[] projects = module.getSubsidiaryProjects();
-                
-                StringBuffer buffer = new StringBuffer();
-                buffer.append( 
-                  "building all project in [" 
-                  + module.getPath() 
-                  + "]\n" );
-                for( int i=0; i<projects.length; i++ )
-                {
-                    int n = i+1;
-                    Project project = projects[i];
-                    buffer.append( "\n" + n + "\t" + project.getPath() );
-                }
-                getLogger().info( buffer.toString() );
-                for( int i=0; i<projects.length; i++ )
-                {
-                    Project project = projects[i];
-                    buildProject( project, targets, false );
-                }
+                System.out.println( "MODULE BUILD NOT IMPLEMENTED" );
             }
-            else if( line.hasOption( "project" ) )
+            else if( model instanceof Project )
             {
-                String spec = line.getOptionValue( "project" );
-                Project project = m_library.getProject( spec );
                 boolean flag = line.hasOption( "consumers" );
-                buildProject( project, targets, flag );
-            }
-            else
-            {
-                String work = System.getProperty( "user.dir" );
-                File file = new File( work ).getCanonicalFile();
-                Model model = m_library.lookup( file );
-                if( model instanceof Module )
-                {
-                    Module module = (Module) model;
-                    Project[] projects = module.getSubsidiaryProjects();
-                    for( int i=0; i<projects.length; i++ )
-                    {
-                        Project project = projects[i];
-                        buildProject( project, targets, false );
-                    }
-                }
-                else if( model instanceof Project )
-                {
-                    boolean flag = line.hasOption( "consumers" );
-                    buildProject( (Project) model, targets, flag );
-                }
+                buildProject( (Project) model, line );
             }
         }
-        return;
     }
     
-    private void buildProject( Project project, String[] targets, boolean flag ) throws Exception
+    private boolean getListArgument( CommandLine line )
     {
+        return ( line.hasOption( "list" ) || line.hasOption( "l" ) );
+    }
+    
+    private boolean getConsumersArgument( CommandLine line )
+    {
+        return ( line.hasOption( "consumers" ) || line.hasOption( "c" ) );
+    }
+    
+    private void buildProject( Project project, CommandLine line ) throws Exception
+    {
+        boolean flag = getConsumersArgument( line );
+        String[] targets = line.getArgs();
+        
         // TODO update the following to select the builder from a property declared on the project
         
         Object[] params = new Object[]{ m_logger, m_library, new Boolean( m_verbose ) };
@@ -241,25 +264,26 @@ public class BuildPlugin
         }
     }
     
-    private void listModule( Module module ) throws Exception
+    private void listModule( Module module, CommandLine line ) throws Exception
     {
-        StringBuffer buffer = new StringBuffer( "Listing module: " + module.getPath() );
-        listModule( buffer, "  ", module );
+        StringBuffer buffer = new StringBuffer( "Listing module [" + module.getPath() + "]\n" );
+        listModule( buffer, "", module );
         getLogger().info( buffer.toString() + "\n" );
-        
-        Project[] projects = module.getSubsidiaryProjects();
-        for( int i=0; i<projects.length; i++ )
-        {
-            Project project = projects[i];
-            listProject( project, false );
-        }
+        //Project[] projects = module.getSubsidiaryProjects();
+        //for( int i=0; i<projects.length; i++ )
+        //{
+        //    Project project = projects[i];
+        //    listProject( project, line );
+        //}
     }
     
-    private void listProject( Project project, boolean flag ) throws Exception
+    private void listProject( Project project, CommandLine line ) throws Exception
     {
+        boolean flag = line.hasOption( "consumers" );
+        StringBuffer buffer = new StringBuffer();
         if( flag )
         {
-            StringBuffer buffer = new StringBuffer( "Listing consumers of project: " + project.getPath() + "\n" );
+            buffer.append( "Listing consumers of project: " + project.getPath() + "\n" );
             Project[] consumers = project.getAllConsumers();
             for( int i=0; i<consumers.length; i++ )
             {
@@ -267,27 +291,47 @@ public class BuildPlugin
                 listProject( buffer, "  ", consumer );
                 buffer.append( "\n" );
             }
-            getLogger().info( buffer.toString() );
         }
         else
         {
-            StringBuffer buffer = new StringBuffer( "Listing project: " + project.getPath() );
+            buffer.append( "Listing project: " + project.getPath() + "\n" );
             listProject( buffer, "  ", project );
-            getLogger().info( buffer.toString() + "\n" );
+            buffer.append( "\n" );
         }
+        getLogger().info( buffer.toString() );
     }
     
-    private void listModule( StringBuffer buffer, String pad, Module module ) throws Exception
+    private void listModule( StringBuffer buffer, String indent, Module module ) throws Exception
     {
+        String pad = indent + "  ";
         String p = pad + "  ";
+        buffer.append( "\n" + indent + "module: " +  module.getPath() + "\n" );
         line( buffer, pad + "version: " + module.getVersion() );
-        Module[] imports = module.getImportedModules();
-        if( imports.length > 0 )
+        //Module[] imports = module.getImportedModules();
+        //if( imports.length > 0 )
+        //{
+        //    line( buffer, pad + "imports: (" + imports.length + ")" );
+        //    for( int i=0; i<imports.length; i++ )
+        //    {
+        //        line( buffer, p + imports[i].getName() );
+        //    }
+        //}
+        Module[] providers = module.getProviderModules( true );
+        if( providers.length > 0 )
         {
-            line( buffer, pad + "imports: (" + imports.length + ")" );
-            for( int i=0; i<imports.length; i++ )
+            line( buffer, pad + "imports: (" + providers.length + ")" );
+            for( int i=0; i<providers.length; i++ )
             {
-                line( buffer, p + imports[i].getName() );
+                line( buffer, p + providers[i].getPath() );
+            }
+        }
+        Module[] modules = module.getModules();
+        if( modules.length > 0 )
+        {
+            line( buffer, pad + "modules: (" + modules.length + ")" );
+            for( int i=0; i<modules.length; i++ )
+            {
+                line( buffer, p + modules[i].getName() );
             }
         }
         Resource[] resources = module.getResources();
@@ -308,15 +352,6 @@ public class BuildPlugin
                 line( buffer, p + projects[i].getName() );
             }
         }
-        Module[] modules = module.getModules();
-        if( modules.length > 0 )
-        {
-            line( buffer, pad + "modules: (" + modules.length + ")" );
-            for( int i=0; i<modules.length; i++ )
-            {
-                line( buffer, p + modules[i].getName() );
-            }
-        }
     }
     
     private void listProject( StringBuffer buffer, String pad, Project project ) throws Exception
@@ -325,6 +360,16 @@ public class BuildPlugin
         line( buffer, pad + "version: " + project.getVersion() );
         line( buffer, pad + "basedir: " + project.getBase() );
         String p = pad + "  ";
+        Module[] imports = project.getProviderModules( true );
+        if( imports.length > 0  )
+        {
+            line( buffer, pad + "imported modules: (" + imports.length + ")" );
+            for( int i=0; i<imports.length; i++ )
+            {
+                Module module = imports[i];
+                line( buffer, p + module.getPath() );
+            }
+        }
         Resource[] resources = project.getProviders();
         if( resources.length > 0 )
         {
@@ -436,42 +481,62 @@ public class BuildPlugin
     
     private Options buildActionCommandLineOptions()
     {
-        Option list = new Option( "list", false, "list the selection" );
         Options options = new Options();
-        options.addOption( list );
-
+        
         //
         // project or module selection
         //
         
-        Option project = new Option( "project", true, "select the named project" );
-        project.setArgName( "group/name" );
-        
-        Option module = new Option( "module", true, "select the named module" );
-        module.setArgName( "group" );
-        
+        OptionGroup selection = new OptionGroup();
+        Option s = new Option( "s", true, "-select" );
         Option select = new Option( "select", true, "select the named module or project" );
         select.setArgName( "group[/name]" );
-        
-        OptionGroup selection = new OptionGroup();
+        s.setArgName( "group[/name]" );
+        selection.addOption( s );
         selection.addOption( select );
-        selection.addOption( project );
-        selection.addOption( module );
         options.addOptionGroup( selection );
         
-        options.addOption( new Option( "v", false, "-verbose option" ) );
-        options.addOption( new Option( "verbose", false, "enable verbose mode" ) );
+        OptionGroup verbose = new OptionGroup();
+        verbose.addOption( new Option( "v", false, "-verbose" ) );
+        verbose.addOption( new Option( "verbose", false, "enable verbose mode" ) );
+        options.addOptionGroup( verbose );
+        
+        //
+        // list switch
+        //
+
+        OptionGroup listing = new OptionGroup();
+        Option l = new Option( "l", false, "-list" );
+        Option list = new Option( "list", false, "list the selection" );
+        listing.addOption( l );
+        listing.addOption( list );
+        options.addOptionGroup( listing );
         
         //
         // consumer switch
         //
 
+        OptionGroup consumption = new OptionGroup();
+        Option c = new Option( "c", false, "-consumers" );
         Option consumers = new Option( "consumers", false, "select downstream consumer projects" );
-        options.addOption( consumers );
+        consumption.addOption( c );
+        consumption.addOption( consumers );
+        options.addOptionGroup( consumption );
         
+        //
+        // version modifier
+        //
+
         Option version = new Option( "version", true, "build using an explicit version" );
-        module.setArgName( "major.minor.micro" );
+        version.setArgName( "major.minor.micro" );
         options.addOption( version );
+        
+        //
+        // test
+        //
+
+        Option test = new Option( "test", false, "internal testing" );
+        options.addOption( test );
         
         return options;
     }

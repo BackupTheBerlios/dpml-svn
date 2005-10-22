@@ -54,6 +54,15 @@ public interface Module extends Model
     public Project[] getSubsidiaryProjects()
       throws RemoteException, ResourceNotFoundException, ModuleNotFoundException;
 
+   /**
+    * Return an array of modules that this module references.
+    * @param test if TRUE include test scoped dependencies in module
+    *  evaluation otherwise evaluation shall be limited to 
+    *  the transitive runtime dependencies
+    * @return the array of modules that the project is dependent upon
+    */
+    Module[] getProviderModules( boolean test ) throws RemoteException;
+
     String[] getPropertyNames() throws RemoteException;
 
     String getProperty( String key ) throws RemoteException;

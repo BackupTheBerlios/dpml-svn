@@ -13,9 +13,7 @@
    </properties>
 
    <module name="util" basedir="util">
-
      <projects>
-
        <project name="dpml-i18n" basedir="i18n">
          <production>
            <type id="jar"/>
@@ -24,9 +22,7 @@
            <include ref="ant/ant-junit"/>
          </dependencies>
        </project>
-
      </projects>
-
    </module>
 
    <module name="transit">
@@ -356,7 +352,7 @@
          <dependencies>
            <include key="dpml-tools-control"/>
            <include ref="ant/ant-junit" tag="system"/>
-           <include ref="ant/ant-launcher" tag="system"/>
+           <include ref="ant/ant" tag="system"/>
          </dependencies>
        </project>
 

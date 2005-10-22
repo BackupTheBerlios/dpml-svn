@@ -29,12 +29,15 @@ import java.util.List;
 import java.util.Hashtable;
 import java.util.Enumeration;
 import java.util.Properties;
+import java.util.regex.Pattern;
+import java.util.regex.Matcher;
 
 import net.dpml.tools.info.ModuleDirective;
 import net.dpml.tools.info.ResourceDirective;
 import net.dpml.tools.info.ProjectDirective;
 import net.dpml.tools.info.IncludeDirective;
 
+import net.dpml.tools.model.Model;
 import net.dpml.tools.model.Module;
 import net.dpml.tools.model.Resource;
 import net.dpml.tools.model.Project;
@@ -46,6 +49,8 @@ import net.dpml.tools.model.ReferentialException;
 import net.dpml.tools.model.DuplicateNameException;
 import net.dpml.tools.model.Library;
 import net.dpml.tools.model.ModelRuntimeException;
+
+import net.dpml.tools.control.DefaultLibrary.Criteria;
 
 import net.dpml.transit.util.ElementHelper;
 import net.dpml.transit.util.PropertyResolver;
@@ -183,7 +188,7 @@ public final class DefaultModule extends UnicastRemoteObject implements Module
     {
         return m_directive.getName();
     }
-   
+    
     public String getVersion()
     {
         String version = m_directive.getVersion();
@@ -196,7 +201,7 @@ public final class DefaultModule extends UnicastRemoteObject implements Module
             return version;
         }
     }
-
+    
     public String getPath()
     {
         return m_path;
@@ -214,7 +219,7 @@ public final class DefaultModule extends UnicastRemoteObject implements Module
     
     public Module[] getModules()
     {
-        return (Module[]) m_modules.values().toArray( new Module[0] );
+        return getDefaultModules();
     }
     
     public Module[] getImportedModules()
@@ -229,7 +234,7 @@ public final class DefaultModule extends UnicastRemoteObject implements Module
     
     public Resource[] getResources()
     {
-        return (Resource[]) m_resources.values().toArray( new Resource[0] );
+        return getDefaultResources();
     }
     
     public Project[] getProjects()
@@ -260,6 +265,18 @@ public final class DefaultModule extends UnicastRemoteObject implements Module
         return m_library.sortProjects( projects, true );
     }
 
+   /**
+    * Return an array of modules that this module references.
+    * @param test if TRUE include test scoped dependencies in module
+    *  dependency evaluation otherwise evaluation is limited to the 
+    *  transitive runtime dependencies
+    * @return the supplied modules
+    */
+    public Module[] getProviderModules( boolean test )
+    {
+        return getProviderDefaultModules( test );
+    }
+    
     public String getProperty( String key )
     {
         return getProperty( key, null );
@@ -271,11 +288,6 @@ public final class DefaultModule extends UnicastRemoteObject implements Module
         return PropertyResolver.resolve( m_properties, result );
     }
 
-    Properties getProperties()
-    {
-        return m_properties;
-    }
-    
     public String[] getPropertyNames()
     {
         ArrayList list = new ArrayList();
@@ -297,9 +309,42 @@ public final class DefaultModule extends UnicastRemoteObject implements Module
         return "module:" + m_path;
     }
     
+    DefaultResource[] getDefaultResources()
+    {
+        return (DefaultResource[]) m_resources.values().toArray( new DefaultResource[0] );
+    }
+
+    Properties getProperties()
+    {
+        return m_properties;
+    }
+    
     DefaultModule[] getDefaultModules()
     {
         return (DefaultModule[]) m_modules.values().toArray( new DefaultModule[0] );
+    }
+    
+    DefaultModule[] getAllDefaultModules()
+    {
+        ArrayList list = new ArrayList();
+        DefaultModule[] modules = getDefaultModules();
+        for( int i=0; i<modules.length; i++ )
+        {
+            DefaultModule module = modules[i];
+            aggregateModules( list, module );
+        }
+        return (DefaultModule[]) m_modules.values().toArray( new DefaultModule[0] );
+    }
+    
+    private void aggregateModules( List list, DefaultModule module )
+    {
+        list.add( module );
+        DefaultModule[] modules = module.getDefaultModules();
+        for( int i=0; i<modules.length; i++ )
+        {
+            DefaultModule m = modules[i];
+            aggregateModules( list, m );
+        }
     }
     
     DefaultProject[] getDefaultProjects()
@@ -359,6 +404,58 @@ public final class DefaultModule extends UnicastRemoteObject implements Module
         }
     }
 
+   /**
+    * Return an array of modules that this project references.
+    * @param test if TRUE include test scoped dependencies in module
+    *  dependency evaluation otherwise evaluation is limited to the 
+    *  transitive runtime dependencies
+    * @return the provider modules
+    */
+    DefaultModule[] getProviderDefaultModules( boolean test )
+    {
+        try
+        {
+            ArrayList list = new ArrayList();
+            DefaultProject[] projects = getDefaultProjects();
+            for( int i=0; i<projects.length; i++ )
+            {
+                DefaultProject project = projects[i];
+                DefaultModule[] modules = project.getProviderDefaultModules( test );
+                for( int j=0; j<modules.length; j++ )
+                {
+                    DefaultModule module = modules[j];
+                    if( !list.contains( module ) )
+                    {
+                        list.add( module );
+                    }
+                }
+            }
+            DefaultModule[] modules = getDefaultModules();
+            for( int i=0; i<modules.length; i++ )
+            {
+                DefaultModule module = modules[i];
+                DefaultModule[] submodules = module.getProviderDefaultModules( test );
+                for( int j=0; j<submodules.length; j++ )
+                {
+                    DefaultModule m = submodules[j];
+                    if( !list.contains( m ) && !m.getPath().startsWith( getPath() ) )
+                    {
+                        list.add( m );
+                    }
+                }
+            }
+            return (DefaultModule[]) list.toArray( new DefaultModule[0] );
+        }
+        catch( Exception e )
+        {
+            final String error = 
+              "Internal error while attempting to resolve the module dependencies of the module ["
+              + m_path
+              + "].";
+            throw new ModelRuntimeException( error, e );
+        }
+    }
+    
     void aggregateProjects( List list )
     {
         DefaultProject[] projects = getDefaultProjects();
@@ -371,6 +468,99 @@ public final class DefaultModule extends UnicastRemoteObject implements Module
         {
             DefaultModule module = modules[i];
             module.aggregateProjects( list );
+        }
+    }
+    
+    Model[] select( Criteria[] criteria )
+    {
+        if( criteria.length == 0 )
+        {
+            return new Model[0];
+        }
+        else
+        {
+            Criteria c = criteria[0];
+            //System.out.println( "# select in: " + m_path + ", " + criteria.length + ", " + c.isRecursive() );
+            ArrayList list = new ArrayList();
+            if( c.isRecursive() )
+            {
+                if( criteria.length == 2 )
+                {
+                    list.add( this );
+                }
+                DefaultModule[] modules = getAllDefaultModules();
+                for( int i=0; i<modules.length; i++ )
+                {
+                    list.add( modules[i] );
+                }
+            }
+            else
+            {
+                DefaultModule[] modules = getDefaultModules();
+                Pattern pattern = c.getPattern();
+                for( int i=0; i<modules.length; i++ )
+                {
+                    String name = modules[i].getName();
+                    Matcher matcher = pattern.matcher( name );
+                    boolean matches = matcher.matches();
+                    //System.out.println( "# mod eval: " + name + ", " + matches );
+                    if( matches )
+                    {
+                        //System.out.println( "# found: " + name );
+                        list.add( modules[i] );
+                    }
+                }
+            }
+            DefaultModule[] selection = (DefaultModule[]) list.toArray( new DefaultModule[0] );
+            if( ( criteria.length == 1 ) )
+            {
+                DefaultResource[] resources = getDefaultResources();
+                DefaultProject[] projects = getDefaultProjects();
+                if( !c.isRecursive() )
+                {
+                    //System.out.println( "# project eval in: " + m_path );
+                    Pattern pattern = c.getPattern();
+                    for( int i=0; i<projects.length; i++ )
+                    {
+                        String name = projects[i].getName();
+                        Matcher matcher = pattern.matcher( name );
+                        boolean matches = matcher.matches();
+                        //System.out.println( "# project eval: " + name + ", " + matches );
+                        if( matches )
+                        {
+                            list.add( projects[i] );
+                        }
+                    }
+                    for( int i=0; i<resources.length; i++ )
+                    {
+                        String name = resources[i].getName();
+                        Matcher matcher = pattern.matcher( name );
+                        boolean matches = matcher.matches();
+                        //System.out.println( "# resource eval: " + name + ", " + matches );
+                        if( matches )
+                        {
+                            list.add( resources[i] );
+                        }
+                    }
+                }
+                return (Model[]) list.toArray( new Model[0] );
+            }
+            else
+            {
+                Criteria[] set = new Criteria[ criteria.length -1 ];
+                System.arraycopy( criteria, 1, set, 0, ( criteria.length -1 ) );
+                ArrayList collection = new ArrayList();
+                for( int i=0; i<selection.length; i++ )
+                {
+                    DefaultModule module = selection[i];
+                    Model[] models = module.select( set );
+                    for( int j=0; j<models.length; j++ )
+                    {
+                        collection.add( models[j] );
+                    }
+                }
+                return (Model[]) collection.toArray( new Model[0] );
+            }
         }
     }
 

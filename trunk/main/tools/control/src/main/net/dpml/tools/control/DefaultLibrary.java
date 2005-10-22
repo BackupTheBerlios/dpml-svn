@@ -30,6 +30,8 @@ import java.util.Hashtable;
 import java.util.ArrayList;
 import java.util.Properties;
 import java.util.Date;
+import java.util.regex.Pattern;
+import java.util.regex.Matcher;
 
 import net.dpml.tools.info.IncludeDirective;
 import net.dpml.tools.info.LibraryDirective;
@@ -125,6 +127,135 @@ public final class DefaultLibrary extends UnicastRemoteObject implements Library
         }
     }
     
+    public Model[] select( String spec )
+    {
+        String[] tokens = spec.split( "/" );
+        //System.out.println( "# TOKENS: " + tokens.length );
+        Criteria[] criteria = new Criteria[ tokens.length ];
+        for( int i=0; i<tokens.length; i++ )
+        {
+            String token = tokens[i];
+            if( token.equals( "**" ) )
+            {
+                criteria[i] = new Criteria( true, null );
+            }
+            else
+            {
+                //System.out.println( "# token: [" + i + "]\t" + token );
+                StringBuffer buffer = new StringBuffer();
+                boolean wildcard = ( token.indexOf( "*" ) > -1 );
+                if( wildcard )
+                {
+                    String[] blocks = token.split( "\\*", -1 );
+                    buffer.append( "(" );
+                    for( int j=0; j<blocks.length; j++ )
+                    {
+                        //System.out.println( "\t# block: [" + j + "]\t'" + blocks[j] + "'" );
+                        buffer.append( "\\Q" );
+                        buffer.append( blocks[j] );
+                        buffer.append( "\\E" );
+                        if( j < (blocks.length-1) )
+                        {
+                            buffer.append( ".*" );
+                        }
+                    }
+                    buffer.append( ")" );
+                }
+                else
+                {
+                    //System.out.println( "\t# block [s]\t'" + token + "'"  );
+                    buffer.append( "(" );
+                    buffer.append( "\\Q" );
+                    buffer.append( token );
+                    buffer.append( "\\E" );
+                    buffer.append( ")" );
+                }
+                String expression = buffer.toString();
+                Pattern pattern = Pattern.compile( expression );
+                criteria[i] = new Criteria( false, pattern );
+            }
+        }
+        if( criteria.length > 0 )
+        {
+            //
+            // matching against a top-level module name
+            //
+            
+            Criteria c = criteria[0];
+            ArrayList list = new ArrayList();
+            if( c.isRecursive() )
+            {
+                DefaultModule[] modules = getAllDefaultModules();
+                for( int i=0; i<modules.length; i++ )
+                {
+                    //System.out.println( "# library recursive add: " + modules[i] );
+                    list.add( modules[i] );
+                }
+            }
+            else
+            {
+                DefaultModule[] modules = getDefaultModules();
+                Pattern pattern = c.getPattern();
+                for( int i=0; i<modules.length; i++ )
+                {
+                    String name = modules[i].getName();
+                    Matcher matcher = pattern.matcher( name );
+                    boolean matches = matcher.matches();
+                    //System.out.println( "# eval: " + name + ", " + matches );
+                    if( matches )
+                    {
+                        //System.out.println( "# found: " + name );
+                        list.add( modules[i] );
+                    }
+                }
+            }
+            DefaultModule[] selection = (DefaultModule[]) list.toArray( new DefaultModule[0] );
+            if( criteria.length == 1 )
+            {
+                return selection;
+            }
+            else
+            {
+                Criteria[] set = new Criteria[ criteria.length -1 ];
+                System.arraycopy( criteria, 1, set, 0, ( criteria.length -1 ) );
+                ArrayList collection = new ArrayList();
+                for( int i=0; i<selection.length; i++ )
+                {
+                    DefaultModule module = selection[i];
+                    Model[] models = module.select( set );
+                    for( int j=0; j<models.length; j++ )
+                    {
+                        collection.add( models[j] );
+                    }
+                }
+                return (Model[]) collection.toArray( new Model[0] );
+            }
+        }
+        else
+        {
+            return new Model[0];
+        }
+    }
+    
+    static class Criteria
+    {
+        boolean m_recursive;
+        Pattern m_pattern;
+        public Criteria( boolean recursive, Pattern pattern )
+        {
+            m_recursive = recursive;
+            m_pattern = pattern;
+        }
+        public boolean isRecursive()
+        {
+            return m_recursive;
+        }
+        public Pattern getPattern()
+        {
+            return m_pattern;
+        }
+    }
+    
     public Model lookup( File file ) 
       throws ProjectNotFoundException, ResourceNotFoundException, ModuleNotFoundException, ModelNotFoundException
     {
@@ -138,7 +269,7 @@ public final class DefaultLibrary extends UnicastRemoteObject implements Library
                 return project;
             }
         }
-        DefaultModule[] modules = getAllRegisteredModules();
+        DefaultModule[] modules = getAllDefaultModules();
         for( int i=0; i<modules.length; i++ )
         {
             DefaultModule module = modules[i];
@@ -192,7 +323,7 @@ public final class DefaultLibrary extends UnicastRemoteObject implements Library
     public Module[] getAllModules()
       throws ResourceNotFoundException, ModuleNotFoundException
     {
-        return getAllRegisteredModules();
+        return getAllDefaultModules();
     }
     
    /**
@@ -215,7 +346,7 @@ public final class DefaultLibrary extends UnicastRemoteObject implements Library
     */
     public Module[] getModules()
     {
-        return (Module[]) m_modules.values().toArray( new Module[0] );
+        return getDefaultModules();
     }
     
    /**
@@ -478,16 +609,24 @@ public final class DefaultLibrary extends UnicastRemoteObject implements Library
     * Return an array of all modules within the library.
     * @return the module array
     */
-    DefaultModule[] getAllRegisteredModules()
-      throws ResourceNotFoundException, ModuleNotFoundException
+    DefaultModule[] getAllDefaultModules()
     {
-        ArrayList list = new ArrayList();
-        DefaultModule[] modules = getDefaultModules();
-        for( int i=0; i<modules.length; i++ )
+        try
         {
-            aggregateModules( list, modules[i] );
+            ArrayList list = new ArrayList();
+            DefaultModule[] modules = getDefaultModules();
+            for( int i=0; i<modules.length; i++ )
+            {
+                aggregateModules( list, modules[i] );
+            }
+            return (DefaultModule[]) list.toArray( new DefaultModule[0] );
         }
-        return (DefaultModule[]) list.toArray( new DefaultModule[0] );
+        catch( Exception e )
+        {
+            final String error = 
+              "Unexpected error while attempting to build module list.";
+            throw new ModelRuntimeException( error );
+        }
     }
     
     private void aggregateModules( ArrayList list, DefaultModule module )

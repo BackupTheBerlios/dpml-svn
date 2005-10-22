@@ -12,6 +12,9 @@
       <types>
         <type id="jar"/>
       </types>
+      <dependencies>
+        <include key="ant-launcher"/>
+      </dependencies>
     </resource>
 
     <resource name="ant-junit">
@@ -28,9 +31,6 @@
       <types>
         <type id="jar"/>
       </types>
-      <dependencies>
-        <include key="ant"/>
-      </dependencies>
     </resource>
 
   </resources>

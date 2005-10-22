@@ -3,7 +3,7 @@
 <library>
 
   <properties>
-    <property name="project.builder.uri" value="artifact:plugin:dpml/tools/dpml-tools-ant#SNAPSHOT"/>
+    <property name="project.builder.uri" value="link:plugin:dpml/tools/dpml-tools-ant"/>
     <property name="project.standard.template" value="local:template:tools/standard"/>
     <property name="project.template" value="${project.standard.template}"/>
   </properties>
@@ -11,6 +11,7 @@
   <types>
     <type name="jar"/>
     <type name="plugin" depends="jar"/>
+    <type name="part" uri="link:plugin:dpml/metro/dpml-composition-tools"/>
   </types>
 
   <modules>

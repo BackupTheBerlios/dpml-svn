@@ -51,7 +51,7 @@
       <name>dpml-tools-control</name>
       <types>
         <type name="jar"/>
-        <type name="plugin"/>
+        <type name="plugin" alias=""/>
       </types>
     </info>
     <dependencies>
@@ -72,7 +72,7 @@
       <name>dpml-tools-ant</name>
       <types>
         <type name="jar"/>
-        <type name="plugin"/>
+        <type name="plugin" alias=""/>
       </types>
     </info>
     <dependencies>

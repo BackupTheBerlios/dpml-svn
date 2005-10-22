@@ -220,13 +220,25 @@ public final class DefaultProject extends UnicastRemoteObject implements Project
     }
     
    /**
-    * Return the set projects that are consumers of this project.
+    * Return all projects that are consumers of this project.
     * @return the sorted array of consumer projects
     */
     public Project[] getAllConsumers() 
       throws ResourceNotFoundException, ModuleNotFoundException
     {
         return getAllConsumerProjects();
+    }
+    
+   /**
+    * Return an array of modules that this project references.
+    * @param test if TRUE include test scoped dependencies in module
+    *  dependency evaluation otherwise evaluation is limited to the 
+    *  transitive runtime dependencies
+    * @return the supplied modules
+    */
+    public Module[] getProviderModules( boolean test )
+    {
+        return getProviderDefaultModules( test );
     }
     
     public String getProperty( String key )
@@ -251,11 +263,6 @@ public final class DefaultProject extends UnicastRemoteObject implements Project
         return (String[]) list.toArray( new String[0] );
     }
 
-    Properties getProperties()
-    {
-        return m_properties;
-    }
-    
     public String getProductionProperty( String type, String key, String value )
     {
         ProductionDirective production = m_directive.getProductionDirective( type );
@@ -267,6 +274,44 @@ public final class DefaultProject extends UnicastRemoteObject implements Project
         return value;
     }
 
+    Properties getProperties()
+    {
+        return m_properties;
+    }
+    
+   /**
+    * Return an array of modules that this project references.
+    * @param test if TRUE include test scoped dependencies in module
+    *  dependency evaluation otherwise evaluation is limited to the 
+    *  transitive runtime dependencies
+    * @return the provider modules
+    */
+    DefaultModule[] getProviderDefaultModules( boolean test )
+    {
+        try
+        {
+            ArrayList list = new ArrayList();
+            DefaultResource[] providers = getProviderResources( test );
+            for( int i=0; i<providers.length; i++ )
+            {
+                DefaultResource provider = providers[i];
+                DefaultModule module = provider.getDefaultModule();
+                if( !module.equals( m_parent ) && !list.contains( module ) )
+                {
+                    list.add( module );
+                }
+            }
+            return (DefaultModule[]) list.toArray( new DefaultModule[0] );
+        }
+        catch( Exception e )
+        {
+            final String error = 
+              "Internal error while attempting to resolve the module dependencies of projct ["
+              + m_path
+              + "].";
+            throw new ModelRuntimeException( error, e );
+        }
+    }
     
    /**
     * Return the set of immediate consumers of this project.
@@ -362,10 +407,18 @@ public final class DefaultProject extends UnicastRemoteObject implements Project
     
     DefaultResource[] getProviderResources() throws ResourceNotFoundException, ModuleNotFoundException
     {
+        return getProviderResources( true );
+    }
+    
+    DefaultResource[] getProviderResources( boolean test ) throws ResourceNotFoundException, ModuleNotFoundException
+    {
         ArrayList list = new ArrayList();
         addIncludesToList( list, Scope.BUILD );
         addIncludesToList( list, Scope.RUNTIME );
-        addIncludesToList( list, Scope.TEST );
+        if( test )
+        {
+            addIncludesToList( list, Scope.TEST );
+        }
         IncludeDirective[] includes = (IncludeDirective[]) list.toArray( new IncludeDirective[0] ); 
         return m_library.resolveResourceDependencies( m_parent, includes );
     }

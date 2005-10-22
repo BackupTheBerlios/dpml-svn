@@ -61,6 +61,15 @@ public interface Project extends Model
       throws RemoteException, ResourceNotFoundException, ModuleNotFoundException;
     
    /**
+    * Return an array of modules that this project references.
+    * @param test if TRUE include test scoped dependencies in module
+    *  evaluation otherwise evaluation shall be limited to 
+    *  the transitive runtime dependencies
+    * @return the array of modules that the project is dependent upon
+    */
+    Module[] getProviderModules( boolean test ) throws RemoteException;
+    
+   /**
     * Return the set projects that are consumers of this project.
     * @return the sorted array of consumer projects
     */
