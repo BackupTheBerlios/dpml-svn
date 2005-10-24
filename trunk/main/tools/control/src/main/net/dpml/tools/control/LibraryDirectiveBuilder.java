@@ -53,7 +53,7 @@ import org.w3c.dom.Element;
  *
  * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
  */
-public final class ModuleDirectiveBuilder
+public final class LibraryDirectiveBuilder
 {
     private static final String LIBRARY_ELEMENT_NAME = "library";
     private static final String MODULE_ELEMENT_NAME = "module";

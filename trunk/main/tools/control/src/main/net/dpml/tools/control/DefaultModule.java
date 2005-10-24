@@ -336,17 +336,6 @@ public final class DefaultModule extends UnicastRemoteObject implements Module
         return (DefaultModule[]) m_modules.values().toArray( new DefaultModule[0] );
     }
     
-    private void aggregateModules( List list, DefaultModule module )
-    {
-        list.add( module );
-        DefaultModule[] modules = module.getDefaultModules();
-        for( int i=0; i<modules.length; i++ )
-        {
-            DefaultModule m = modules[i];
-            aggregateModules( list, m );
-        }
-    }
-    
     DefaultProject[] getDefaultProjects()
     {
         return (DefaultProject[]) m_projects.values().toArray( new DefaultProject[0] );
@@ -453,6 +442,17 @@ public final class DefaultModule extends UnicastRemoteObject implements Module
               + m_path
               + "].";
             throw new ModelRuntimeException( error, e );
+        }
+    }
+    
+    private void aggregateModules( List list, DefaultModule module )
+    {
+        list.add( module );
+        DefaultModule[] modules = module.getDefaultModules();
+        for( int i=0; i<modules.length; i++ )
+        {
+            DefaultModule m = modules[i];
+            aggregateModules( list, m );
         }
     }
     

@@ -27,7 +27,6 @@ import junit.framework.TestCase;
 import net.dpml.tools.info.ModuleDirective;
 import net.dpml.tools.info.ProjectDirective;
 import net.dpml.tools.info.ResourceDirective;
-import net.dpml.tools.control.ModuleDirectiveBuilder;
 
 /**
  * The ModuleDirective class describes a module data-structure.

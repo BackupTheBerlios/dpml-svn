@@ -168,7 +168,7 @@ public class BuildPlugin
     private void process( Model model, CommandLine line ) throws Exception
     {
         getLogger().debug( "processing: " + model );
-        if( getListArgument( line ) || ( model instanceof Resource ) )
+        if( getListArgument( line ) || ( model instanceof Resource ) || ( model instanceof Module ) )
         {
             String[] remainder = line.getArgs();
             if( remainder.length > 0 )
@@ -199,16 +199,7 @@ public class BuildPlugin
         }
         else
         {
-            String[] targets = line.getArgs();
-            if( model instanceof Module )
-            {
-                System.out.println( "MODULE BUILD NOT IMPLEMENTED" );
-            }
-            else if( model instanceof Project )
-            {
-                boolean flag = line.hasOption( "consumers" );
-                buildProject( (Project) model, line );
-            }
+            buildProject( (Project) model, line );
         }
     }
     
@@ -221,18 +212,12 @@ public class BuildPlugin
     {
         return ( line.hasOption( "consumers" ) || line.hasOption( "c" ) );
     }
-    
-    private void buildProject( Project project, CommandLine line ) throws Exception
+        
+    private boolean buildProject( Project project, CommandLine line ) throws Exception
     {
-        boolean flag = getConsumersArgument( line );
         String[] targets = line.getArgs();
-        
-        // TODO update the following to select the builder from a property declared on the project
-        
-        Object[] params = new Object[]{ m_logger, m_library, new Boolean( m_verbose ) };
-        ClassLoader classloader = Builder.class.getClassLoader();
-        Class builderClass = Transit.getInstance().getRepository().getPluginClass( classloader, ANT_BUILDER_URI );
-        Builder builder = (Builder) Transit.getInstance().getRepository().instantiate( builderClass, params );
+        Builder builder = createBuilder();
+        boolean flag = getConsumersArgument( line );
         if( flag )
         {
             Project[] consumers = project.getAllConsumers();
@@ -254,13 +239,14 @@ public class BuildPlugin
                 boolean status = builder.build( consumer, targets );
                 if( !status )
                 {
-                    break;
+                    return false;
                 }
             }
+            return true;
         }
         else
         {
-            builder.build( project, targets );
+            return builder.build( project, targets );
         }
     }
     
@@ -539,6 +525,21 @@ public class BuildPlugin
         options.addOption( test );
         
         return options;
+    }
+    
+    private Builder createBuilder() throws Exception
+    {
+        URI uri = getBuilderURI();
+        Object[] params = new Object[]{ m_logger, m_library, new Boolean( m_verbose ) };
+        ClassLoader classloader = Builder.class.getClassLoader();
+        Class builderClass = Transit.getInstance().getRepository().getPluginClass( classloader, uri );
+        return (Builder) Transit.getInstance().getRepository().instantiate( builderClass, params );
+    }
+    
+    private URI getBuilderURI()
+    {
+        // TODO update the following to select the builder from a property declared on the project
+        return ANT_BUILDER_URI;
     }
     
     private static final URI ANT_BUILDER_URI;

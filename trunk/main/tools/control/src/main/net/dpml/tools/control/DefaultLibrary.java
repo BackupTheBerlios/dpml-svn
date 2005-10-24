@@ -101,7 +101,7 @@ public final class DefaultLibrary extends UnicastRemoteObject implements Library
         m_root = source.getParentFile().getCanonicalFile();
         getLogger().debug( "loading root module: " + m_root );
         System.setProperty( "dpml.library.basedir", m_root.toString() );
-        m_directive = ModuleDirectiveBuilder.build( source );
+        m_directive = LibraryDirectiveBuilder.build( source );
         ModuleIncludeDirective[] modules = m_directive.getModuleIncludeDirectives();
         for( int i=0; i<modules.length; i++ )
         {
@@ -498,7 +498,7 @@ public final class DefaultLibrary extends UnicastRemoteObject implements Library
         {
             URL url = Artifact.createArtifact( uri ).toURL();
             InputStream input = url.openStream();
-            ModuleDirective directive = ModuleDirectiveBuilder.buildModuleDirective( input );
+            ModuleDirective directive = LibraryDirectiveBuilder.buildModuleDirective( input );
             return install( m_root, directive );
         }
         else
@@ -513,7 +513,7 @@ public final class DefaultLibrary extends UnicastRemoteObject implements Library
     {
         File file = new File( anchor, path );
         getLogger().debug( "loading local module: " + file );
-        ModuleDirective directive= ModuleDirectiveBuilder.buildModuleDirective( file );
+        ModuleDirective directive= LibraryDirectiveBuilder.buildModuleDirective( file );
         File parent = file.getParentFile();
         return install( parent, directive );
     }

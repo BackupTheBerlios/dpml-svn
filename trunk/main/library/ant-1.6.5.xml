@@ -2,10 +2,6 @@
 
 <module name="ant" version="1.6.5">
 
-  <dependencies>
-    <include file="junit.xml"/>
-  </dependencies>
-
   <resources>
 
     <resource name="ant">

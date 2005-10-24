@@ -72,6 +72,13 @@ public final class DefaultProject extends UnicastRemoteObject implements Project
     private final File m_base;
     private final Properties m_properties;
     
+   /**
+    * Creation of a new project.
+    * @param library the library
+    * @param parent the enclosing module
+    * @param directive the description of the project
+    * @exception RemoteException if a remote exception occurs
+    */
     DefaultProject( DefaultLibrary library, DefaultModule parent, ProjectDirective directive ) throws RemoteException
     {
         super();
@@ -405,11 +412,23 @@ public final class DefaultProject extends UnicastRemoteObject implements Project
         return "project:" + getPath();
     }
     
+   /**
+    * Return the array of resources that are immediate providers to this project  
+    * covering BUILD, RUNTIME and TEST scopes.
+    * @return the array of immediate resource providers
+    */
     DefaultResource[] getProviderResources() throws ResourceNotFoundException, ModuleNotFoundException
     {
         return getProviderResources( true );
     }
     
+   /**
+    * Return the array of resources that are immediate providers to this project,  If the
+    * test parameter is TRUE then test scoped resource dependencies will be included along  
+    * with the build and runtime resources.
+    * @param test if TRUE include resource references as test scope dependencies
+    * @return the array of immediate resource providers
+    */
     DefaultResource[] getProviderResources( boolean test ) throws ResourceNotFoundException, ModuleNotFoundException
     {
         ArrayList list = new ArrayList();

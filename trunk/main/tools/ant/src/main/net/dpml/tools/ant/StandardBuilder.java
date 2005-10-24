@@ -37,6 +37,7 @@ import net.dpml.transit.tools.MainTask;
 import net.dpml.tools.info.TypeDescriptor;
 import net.dpml.tools.model.Builder;
 import net.dpml.tools.model.Library;
+import net.dpml.tools.model.Module;
 
 import net.dpml.transit.Artifact;
 
@@ -107,18 +108,35 @@ public class StandardBuilder implements Builder
         return build( definition, targets );
     }
     
+    public boolean build( Definition definition, String[] targets ) throws Exception
+    {
+        Project project = createProject( definition );
+        String templateSpec = definition.getProperty( "project.template" );
+        File template = getTemplateFile( templateSpec );
+        try
+        {
+            return build( project, template, targets );
+        }
+        catch( Throwable e )
+        {
+            m_result = e;
+            final String error = 
+              "Unexpected error while attempting to build project [" 
+              + definition.getProjectPath()
+              + "].";
+            m_logger.error( error, e );
+            return false;
+        }
+    }
+    
     // ------------------------------------------------------------------------
     // implementation
     // ------------------------------------------------------------------------
     
-    public boolean build( Definition definition, String[] targets ) throws Exception
+    public boolean build( Project project, File template, String[] targets ) throws Exception
     {
-        Project project = createProject( definition );
-        
         try
         {
-            String templateSpec = definition.getProperty( "project.template" );
-            File template = getTemplateFile( templateSpec );
             ProjectHelper helper = (ProjectHelper) project.getReference( "ant.projectHelper" );
             helper.parse( project, template );
             Vector vector = new Vector();
@@ -162,16 +180,6 @@ public class StandardBuilder implements Builder
             }
             return false;
         }
-        catch( Throwable e )
-        {
-            m_result = e;
-            final String error = 
-              "Unexpected error while atrempting to build project [" 
-              + definition.getProjectPath()
-              + "].";
-            m_logger.error( error, e );
-            return false;
-        }
         finally
         {
             project.fireBuildFinished( m_result );
@@ -197,51 +205,27 @@ public class StandardBuilder implements Builder
     
     public Project createProject( Definition definition ) throws Exception
     {
+        Project project = createProject();
+        project.setBaseDir( definition.getBase() );
+        Context context = new Context( definition, m_library, project );
+        project.addReference( "project.context", context );
+        return project;
+    }
+    
+    public Project createProject() throws Exception
+    {
         Project project = new Project();
         project.setSystemProperties();
-        project.setBaseDir( definition.getBase() );
         project.setDefaultInputStream( System.in );
         setupTransitComponentHelper( project );
         project.setCoreLoader( getClass().getClassLoader() );
         project.addBuildListener( createLogger() );
-        Context context = new Context( definition, m_library, project );
-        project.addReference( "project.context", context );
         System.setIn( new DemuxInputStream( project ) );
         project.setProjectReference( new DefaultInputHandler() );
         ProjectHelper helper = ProjectHelper.getProjectHelper();
         project.addReference( "ant.projectHelper", helper );
         return project;
     }
-    
-    /*
-    public void build( Definition definition, String type ) throws Exception
-    {
-        String templatePropertyName = "project.template." + type;
-        String templateValue = definition.getProperty( templatePropertyName, null );
-        if( null != templateValue )
-        {
-            URI uri = new URI( templateValue );
-            URL url = uri.toURL();
-            File file = (File) url.getContent( new Class[]{ File.class } );
-            Project project = createProject( definition, Phase.PREPARE );
-            ProjectHelper helper = (ProjectHelper) project.getReference( "ant.projectHelper" );
-            helper.parse( project, file );
-            Vector targets = new Vector();
-            targets.add( project.getDefaultTarget() );
-            
-            String message = 
-              "\nBuilding [" 
-              + type 
-              + "] using: " 
-              + uri 
-              + "#"
-              + project.getDefaultTarget();
-
-            project.log( message );
-            project.executeTargets( targets );
-        }
-    }
-    */
     
     private void setupTransitComponentHelper( Project project ) 
     {

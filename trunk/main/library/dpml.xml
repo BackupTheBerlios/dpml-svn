@@ -31,10 +31,6 @@
        <property name="project.test.fork" value="true"/>
      </properties>
 
-     <dependencies>
-       <include file="ant.xml"/>
-     </dependencies>
-
      <projects>
 
        <project name="dpml-transit-main" basedir="transit/core/handler">

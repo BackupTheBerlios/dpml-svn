@@ -15,11 +15,11 @@
   </types>
 
   <modules>
-    <include file="library/junit.xml"/>
-    <include file="library/commons-cli.xml"/>
-    <include file="library/ant.xml"/>
+    <include file="library/junit-3.8.1.xml"/>
+    <include file="library/commons-cli-1.0.xml"/>
+    <include file="library/xstream-1.1.xml"/>
     <include file="library/jgoodies.xml"/>
-    <include file="library/xstream.xml"/>
+    <include file="library/ant-1.6.5.xml"/>
     <include file="library/dpml.xml"/>
   </modules>
 
