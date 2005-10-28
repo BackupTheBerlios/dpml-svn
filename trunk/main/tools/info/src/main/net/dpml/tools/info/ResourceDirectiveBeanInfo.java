@@ -41,8 +41,8 @@ public final class ResourceDirectiveBeanInfo extends SimpleBeanInfo
           "persistenceDelegate", 
           new DefaultPersistenceDelegate( 
             new String[]{ 
-              "name", "version", "typeDirectives", 
-              "includeDirectives", "properties" } ) );
+              "name", "version", "classifier", "basedir", "typeDirectives", 
+              "dependencyDirectives", "properties" } ) );
         return descriptor;
     }
 }

@@ -29,11 +29,13 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.TimeZone;
 
+import net.dpml.transit.Artifact;
 import net.dpml.transit.Category;
 import net.dpml.transit.Plugin;
 
-import net.dpml.tools.ant.Definition;
+import net.dpml.tools.ant.Context;
 import net.dpml.tools.model.Resource;
+import net.dpml.tools.model.Type;
 
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.BuildException;
@@ -170,9 +172,9 @@ public class PluginTask extends GenericTask
             throw new BuildException( error );
         }
             
-        final Definition definition = getDefinition();
-        final String path = definition.getLayoutPath( "plugin" );
-        final File deliverables = getDefinition().getTargetDeliverablesDirectory();
+        final Context context = getContext();
+        final String path = context.getLayoutPath( "plugin" );
+        final File deliverables = context.getTargetDeliverablesDirectory();
         final File plugins = new File( deliverables, "plugins" );
         final File plugin = new File( plugins, path );
         writePluginFile( plugin );
@@ -186,7 +188,7 @@ public class PluginTask extends GenericTask
         }
         else
         {
-            return getDefinition().getProductionProperty( "plugin", "project.plugin.class", null );
+            return getResource().getType( "plugin" ).getProperty( "project.plugin.class", null );
         }
     }
     
@@ -198,8 +200,8 @@ public class PluginTask extends GenericTask
         }
         else
         {
-            String res = getDefinition().getProductionProperty( "plugin", "project.plugin.resource", null );
-            String urn = getDefinition().getProductionProperty( "plugin", "project.plugin.urn", null );
+            String res = getResource().getType( "plugin" ).getProperty( "project.plugin.resource", null );
+            String urn = getResource().getType( "plugin" ).getProperty( "project.plugin.urn", null );
             if( ( null != res ) && ( null != urn ) )
             {
                 Antlib antlib = new Antlib();
@@ -217,12 +219,13 @@ public class PluginTask extends GenericTask
 
     private void writePluginFile( final File file )
     {
-        if( file.exists() && ( getDefinition().getLastModified() < file.lastModified() ) )
-        {
-            log( "Plugin directive is up-to-date.", Project.MSG_VERBOSE );
-            return;
-        }
-        else if( !file.exists() )
+        //if( file.exists() && ( getDefinition().getLastModified() < file.lastModified() ) )
+        //{
+        //    log( "Plugin directive is up-to-date.", Project.MSG_VERBOSE );
+        //    return;
+        //}
+        //else
+        if( !file.exists() )
         {
             log( "Creating plugin directive" );
         }
@@ -293,9 +296,9 @@ public class PluginTask extends GenericTask
         writer.write( "\n#" );
         writer.write( "\n# Artifact descriptor." );
         writer.write( "\n#" );
-        writer.write( "\n" + ARTIFACT_GROUP + " = " + getDefinition().getGroup() );
-        writer.write( "\n" + ARTIFACT_NAME + " = " +  getDefinition().getName() );
-        writer.write( "\n" + ARTIFACT_VERSION + " = " + getDefinition().getVersion() );
+        writer.write( "\n" + ARTIFACT_GROUP + " = " + getResource().getParent().getResourcePath() );
+        writer.write( "\n" + ARTIFACT_NAME + " = " +  getResource().getName() );
+        writer.write( "\n" + ARTIFACT_VERSION + " = " + getResource().getVersion() );
         writer.write( "\n" + ARTIFACT_SIGNATURE + " = " + getSignature( file ) );
     }
 
@@ -316,7 +319,7 @@ public class PluginTask extends GenericTask
     private void writeClasspath( final Writer writer )
         throws Exception
     {
-        Resource[] systemResources = getDefinition().getClassPath( Category.SYSTEM );
+        Resource[] systemResources = getResource().getClasspathProviders( Category.SYSTEM );
         if( systemResources.length > 0 )
         {
             final String label = "System dependencies.";
@@ -324,7 +327,7 @@ public class PluginTask extends GenericTask
             writeRefs( writer, systemResources, lead, label );
         }
         
-        Resource[] apiResources = getDefinition().getClassPath( Category.PUBLIC );
+        Resource[] apiResources = getResource().getClasspathProviders( Category.PUBLIC );
         if( apiResources.length > 0 )
         {
             final String label = "Public.";
@@ -332,7 +335,7 @@ public class PluginTask extends GenericTask
             writeRefs( writer, apiResources, lead, label );
         }
         
-        Resource[] spiResources = getDefinition().getClassPath( Category.PROTECTED );
+        Resource[] spiResources = getResource().getClasspathProviders( Category.PROTECTED );
         if( spiResources.length > 0 )
         {
             final String label = "Protected.";
@@ -340,14 +343,13 @@ public class PluginTask extends GenericTask
             writeRefs( writer, spiResources, lead, label );
         }
         
-        Resource[] implResources = getDefinition().getClassPath( Category.PRIVATE );
+        Resource[] implResources = getResource().getClasspathProviders( Category.PRIVATE );
         Resource[] resources = new Resource[ implResources.length + 1 ];
         for( int i=0; i<implResources.length; i++ )
         {
             resources[i] = implResources[i];
         }
-        Resource resource = getDefinition().toResource();
-        resources[ implResources.length ] = resource;
+        resources[ implResources.length ] = getResource();
         final String label = "Private.";
         final String lead = ARTIFACT_PRIVATE;
         writeRefs( writer, resources, lead, label );
@@ -379,16 +381,9 @@ public class PluginTask extends GenericTask
         writer.write( " = " );
         try
         {
-            String path = resource.getPath();
-            String version = resource.getVersion();
-            if( null == version )
-            {
-                writer.write( "artifact:jar:" + path );
-            }
-            else
-            {
-                writer.write( "artifact:jar:" + path + "#" + version );
-            }
+            Artifact artifact = resource.getArtifact( "jar" );
+            String uri = artifact.toURI().toString();
+            writer.write( uri );
         }
         catch( Exception e )
         {

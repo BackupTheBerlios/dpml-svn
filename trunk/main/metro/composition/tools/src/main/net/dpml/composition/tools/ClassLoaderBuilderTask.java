@@ -62,7 +62,7 @@ import net.dpml.part.Part;
 import net.dpml.part.PartHolder;
 import net.dpml.part.PartContentHandlerFactory;
 
-import net.dpml.tools.ant.Definition;
+import net.dpml.tools.ant.Context;
 import net.dpml.tools.tasks.GenericTask;
 import net.dpml.tools.info.Scope;
 import net.dpml.tools.model.Resource;
@@ -105,8 +105,8 @@ public abstract class ClassLoaderBuilderTask extends GenericTask
     protected ClassLoader createClassLoader()
     {
         Project project = getProject();
-        Path path = getDefinition().getPath( project, Scope.BUILD );
-        File classes = getDefinition().getTargetClassesMainDirectory();
+        Path path = getContext().getPath( Scope.RUNTIME );
+        File classes = getContext().getTargetClassesMainDirectory();
         path.createPathElement().setLocation( classes );
         ClassLoader parentClassLoader = ClassLoaderBuilderTask.class.getClassLoader();
         return new AntClassLoader( parentClassLoader, project, path, true );
@@ -126,15 +126,15 @@ public abstract class ClassLoaderBuilderTask extends GenericTask
     {
         try
         {
-            Resource[] resources = getDefinition().getClassPath( category );
-            if( category.equals( category.PRIVATE ) && isaJar( getDefinition() ) )
+            Resource resource = getResource();
+            Resource[] resources = resource.getClasspathProviders( category );
+            if( category.equals( category.PRIVATE ) && resource.isa( "jar" ) )
             {
                 Resource[] res = new Resource[ resources.length + 1 ];
                 for( int i=0; i<resources.length; i++ )
                 {
                     res[i] = resources[i];
                 }
-                Resource resource = getDefinition().toResource();
                 res[ resources.length ] = resource;
                 resources = res;
             }
@@ -152,39 +152,17 @@ public abstract class ClassLoaderBuilderTask extends GenericTask
             throw new RuntimeException( error, e  );
         }
     }
-    
-    private boolean isaJar( Definition definition )
-    {
-        String[] types = definition.getTypeNames();
-        for( int i=0; i<types.length; i++ )
-        {
-            if( "jar".equals( types[i] ) )
-            {
-                return true;
-            }
-        }
-        return false;
-    }
-    
+        
     private URI toURI( Resource resource ) throws Exception
     {
-        String path = resource.getPath();
-        String version = resource.getVersion();
-        if( null == version )
-        {
-            return new URI( "artifact:jar:" + path );
-        }
-        else
-        {
-            return new URI( "artifact:jar:" + path + "#" + version );
-        }
+        return resource.getArtifact( "jar" ).toURI();
     }
     
     protected File getPartOutputFile()
     {
-        File deliverables = getDefinition().getTargetDeliverablesDirectory();
+        File deliverables = getContext().getTargetDeliverablesDirectory();
         File dir = new File( deliverables, Part.ARTIFACT_TYPE + "s" );
-        String filename = getDefinition().getLayoutPath( Part.ARTIFACT_TYPE );
+        String filename = getContext().getLayoutPath( Part.ARTIFACT_TYPE );
         return new File( dir, filename );
     }
 

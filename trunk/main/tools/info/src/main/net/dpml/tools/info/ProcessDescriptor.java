@@ -18,21 +18,36 @@
 
 package net.dpml.tools.info;
 
-import java.net.URI;
 import java.util.Properties;
+import java.util.Arrays;
 
 /**
- * The ModuleDirective class describes a module data-structure.
+ * The ProcessDescriptor class describes a datatype creation processor.
  *
  * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
  */
-public final class TypeDescriptor  extends AbstractDirective
+public final class ProcessDescriptor  extends AbstractDirective
 {
     private final String m_name;
     private final String[] m_dependencies;
-    private final URI m_uri;
+    private final String m_urn;
 
-    public TypeDescriptor( String name, URI uri, String[] dependencies, Properties properties )
+    public ProcessDescriptor( String name )
+    {
+        this( name, null );
+    }
+    
+    public ProcessDescriptor( String name, String urn )
+    {
+        this( name, urn, new String[0] );
+    }
+    
+    public ProcessDescriptor( String name, String urn, String[] dependencies )
+    {
+        this( name, urn, dependencies, null );
+    }
+    
+    public ProcessDescriptor( String name, String urn, String[] dependencies, Properties properties )
     {
         super( properties );
         if( null == name )
@@ -45,7 +60,7 @@ public final class TypeDescriptor  extends AbstractDirective
         }
         m_dependencies = dependencies;
         m_name = name;
-        m_uri = uri;
+        m_urn = urn;
     }
     
     public String getName()
@@ -53,9 +68,9 @@ public final class TypeDescriptor  extends AbstractDirective
         return m_name;
     }
     
-    public URI getURI()
+    public String getURN()
     {
-        return m_uri;
+        return m_urn;
     }
     
     public String[] getDependencies()
@@ -65,18 +80,18 @@ public final class TypeDescriptor  extends AbstractDirective
     
     public boolean equals( Object other )
     {
-        if( super.equals( other ) && ( other instanceof TypeDescriptor ) )
+        if( super.equals( other ) && ( other instanceof ProcessDescriptor ) )
         {
-            TypeDescriptor object = (TypeDescriptor) other;
+            ProcessDescriptor object = (ProcessDescriptor) other;
             if( !equals( m_name, object.m_name ) )
             {
                 return false;
             }
-            else if( !equals( m_uri, object.m_uri ) )
+            else if( !equals( m_urn, object.m_urn ) )
             {
                 return false;
             }
-            else if( !equals( m_dependencies, object.m_dependencies ) )
+            else if( !Arrays.equals( m_dependencies, object.m_dependencies ) )
             {
                 return false;
             }
@@ -96,7 +111,7 @@ public final class TypeDescriptor  extends AbstractDirective
         int hash = super.hashCode();
         hash ^= super.hashValue( m_name );
         hash ^= super.hashArray( m_dependencies );
-        hash ^= super.hashValue( m_uri );
+        hash ^= super.hashValue( m_urn );
         return hash;
     }
 }

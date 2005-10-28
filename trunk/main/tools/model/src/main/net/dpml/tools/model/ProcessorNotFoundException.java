@@ -18,22 +18,21 @@
 
 package net.dpml.tools.model;
 
-import java.rmi.Remote;
-
 /**
- * A Builder is implementated by a plugin that handles the building of
- * a project.
+ * A ProcessorNotFoundException is thrown when a requested for a named process cannot
+ * be resolved.
  *
  * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
  */
-public interface Builder
+public final class ProcessorNotFoundException extends Exception
 {
-   /**
-    * Build a resource.
-    * @param resource the resource to build
-    * @param targets build target names
-    * @return the success status of the build
-    */
-    public boolean build( Resource resource, String[] targets );
-
+    public ProcessorNotFoundException( String message )
+    {
+        this( message, null );
+    }
+    
+    public ProcessorNotFoundException( String message, Throwable cause )
+    {
+        super( message, cause );
+    }
 }

@@ -246,7 +246,7 @@ public class ComponentBuilderTask extends ClassLoaderBuilderTask implements Part
 
         ComponentDirective profile = createComponent( classloader, cld, file );
 
-        File targetReports = getDefinition().getTargetReportsDirectory();
+        File targetReports = getContext().getTargetReportsDirectory();
         File reports = new File( targetReports, "parts" );
         reports.mkdirs();
         if( m_embedded )
@@ -283,7 +283,7 @@ public class ComponentBuilderTask extends ClassLoaderBuilderTask implements Part
         try
         {
             ComponentDirective profile = buildComponentDirective( classloader, cld );
-            URI uri = getDefinition().getArtifactURI( Part.ARTIFACT_TYPE );
+            URI uri = getResource().getArtifact( Part.ARTIFACT_TYPE ).toURI();
             if( null == m_output )
             {
                 log( "saving part to: " + uri );
@@ -364,7 +364,7 @@ public class ComponentBuilderTask extends ClassLoaderBuilderTask implements Part
 
     public File getEmbeddedOutputFile( String filename )
     {
-        File classes = getDefinition().getTargetClassesMainDirectory();
+        File classes = getContext().getTargetClassesMainDirectory();
         File destination = new File( classes, filename );
         return destination;
     }

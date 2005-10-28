@@ -25,8 +25,9 @@ import java.io.OutputStreamWriter;
 import java.io.IOException;
 import java.io.Writer;
 
-import net.dpml.tools.ant.Definition;
-import net.dpml.tools.info.ProductionDirective;
+import net.dpml.tools.model.Resource;
+import net.dpml.tools.model.Type;
+import net.dpml.transit.Artifact;
 
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Project;
@@ -46,33 +47,34 @@ public class InstallTask extends GenericTask
     */
     public void execute() throws BuildException
     {
-        final Definition definition = getDefinition();
-        installDeliverables( definition );
+        installDeliverables();
     }
 
-    private void installDeliverables( final Definition definition )
+    private void installDeliverables()
     {
-        final File deliverables = definition.getTargetDeliverablesDirectory();
+        Resource resource = getResource();
+        final File deliverables = getContext().getTargetDeliverablesDirectory();
         
-        ProductionDirective[] types = definition.getProductionDirectives();
+        Type[] types = resource.getTypes();
+        
         for( int i=0; i < types.length; i++ )
         {
-            ProductionDirective type = types[i];
+            Type type = types[i];
             
             //
             // Check that the project has actually built the resource
             // type that it declares
             //
 
-            String name = type.getType();
-            String filename = definition.getLayoutPath( name );
+            String name = type.getName();
+            String filename = getContext().getLayoutPath( name );
             File group = new File( deliverables, name + "s" );
             File target = new File( group, filename );
             if( !target.exists() && !name.equalsIgnoreCase( "null" ) )
             {
                 final String error = 
                   "Project [" 
-                  + definition 
+                  + resource 
                   + "] declares that it produces the resource type ["
                   + name 
                   + "] however no artifacts of that type are present in the target deliverables directory.";
@@ -90,8 +92,9 @@ public class InstallTask extends GenericTask
             {
                 try
                 {
-                    String uri = definition.getArtifactURI( name ).toASCIIString();
-                    String link = definition.getName() + "." + name + ".link";
+                    Artifact artifact = resource.getArtifact( type.getName() );
+                    String uri = artifact.toURI().toASCIIString();
+                    String link = resource.getName() + "." + name + ".link";
                     final String message = 
                       "Creating alias ["
                       + link
@@ -113,7 +116,7 @@ public class InstallTask extends GenericTask
                       "Internal error while attempting to create a link for the resource type ["
                       + name 
                       + "] in project ["
-                      + definition
+                      + resource
                       + "].";
                     throw new BuildException( error, e, getLocation() );
                 }
@@ -131,7 +134,7 @@ public class InstallTask extends GenericTask
                 fileset.setProject( getProject() );
                 fileset.setDir( deliverables );
                 fileset.createInclude().setName( "**/*" );
-                final String group = definition.getGroup();
+                final String group = resource.getParent().getResourcePath();
                 final File destination = new File( cache, group );
                 copy( destination, fileset, true );
             }

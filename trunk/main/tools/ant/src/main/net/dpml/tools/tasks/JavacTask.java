@@ -20,10 +20,6 @@ package net.dpml.tools.tasks;
 
 import java.io.File;
 
-import net.dpml.tools.ant.Definition;
-
-import net.dpml.tools.info.Scope;
-
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.taskdefs.Copy;
@@ -79,7 +75,6 @@ public class JavacTask extends MatchingTask
 
     private String m_classPathRef;
     private Path m_classPath;
-    private Definition m_definition;
     private File m_destination;
     private File m_source;
     private boolean m_init = false;

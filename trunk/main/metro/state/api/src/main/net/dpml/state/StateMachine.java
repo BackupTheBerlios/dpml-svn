@@ -20,8 +20,8 @@ package net.dpml.state;
 
 import java.beans.PropertyChangeListener;
 import java.io.InputStream;
-import java.net.URI;
 import java.lang.reflect.InvocationTargetException;
+import java.net.URI;
 
 /**
  * <p>Defintion of the state machine.  The state machine handles the maintenance 

@@ -16,29 +16,23 @@
  * limitations under the License.
  */
 
-package net.dpml.tools.model;
-
-import java.io.File;
+package net.dpml.tools.info;
 
 /**
- * A ModelNotFoundException is thrown when a request for the lookup of 
- * a project or module relative to a base dir cannot be resolved to a
- * value.
+ * A TypeUnknownException is raised in response to a request for a type
+ * that does not exist.
  *
  * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
  */
-public final class ModelNotFoundException extends Exception
+public final class TypeUnknownException extends Exception
 {
-    final File m_base;
-    
-    public ModelNotFoundException( File base )
+    public TypeUnknownException( String message )
     {
-        super( base.toString() );
-        m_base = base;
+        this( message, null );
     }
     
-    public File getBase()
+    public TypeUnknownException( String message, Throwable cause )
     {
-        return m_base;
+        super( message, cause );
     }
 }

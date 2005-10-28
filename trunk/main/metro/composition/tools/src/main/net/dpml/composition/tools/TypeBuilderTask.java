@@ -55,9 +55,6 @@ import net.dpml.component.info.ServiceDescriptor;
 import net.dpml.configuration.Configuration;
 import net.dpml.configuration.impl.DefaultConfigurationBuilder;
 
-//import net.dpml.magic.tasks.ProjectTask;
-//import net.dpml.magic.model.Policy;
-
 import net.dpml.tools.tasks.GenericTask;
 import net.dpml.tools.info.Scope;
 
@@ -221,8 +218,8 @@ public class TypeBuilderTask extends GenericTask implements TypeBuilder
     public void execute()
     {
         Project proj = getProject();
-        Path path = getDefinition().getPath( proj, Scope.BUILD );
-        File classes = getDefinition().getTargetClassesMainDirectory();
+        Path path = getContext().getPath( Scope.RUNTIME );
+        File classes = getContext().getTargetClassesMainDirectory();
         path.createPathElement().setLocation( classes );
         ClassLoader classloader = new AntClassLoader( proj, path );
         ClassLoader current = Thread.currentThread().getContextClassLoader();
@@ -275,7 +272,7 @@ public class TypeBuilderTask extends GenericTask implements TypeBuilder
 
     private File getEmbeddedOutputFile( String filename )
     {
-        File classes = getDefinition().getTargetClassesMainDirectory();
+        File classes = getContext().getTargetClassesMainDirectory();
         File destination = new File( classes, filename );
         return destination;
     }

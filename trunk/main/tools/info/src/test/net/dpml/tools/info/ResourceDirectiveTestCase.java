@@ -18,6 +18,9 @@
 
 package net.dpml.tools.info;
 
+import net.dpml.tools.info.ResourceDirective.Classifier;
+
+
 /**
  * The ModuleDirective class describes a module data-structure.
  *
@@ -25,20 +28,16 @@ package net.dpml.tools.info;
  */
 public final class ResourceDirectiveTestCase extends AbstractTestCase
 {
-    static TypeDirective[] TYPES = new TypeDirective[3];
-    static
-    {
-        TYPES[0] = new TypeDirective( "jar", false, PROPERTIES );
-        TYPES[1] = new TypeDirective( "plugin", true ,PROPERTIES );
-        TYPES[2] = new TypeDirective( "widget", false, PROPERTIES );
-    }
+    static Classifier CLASSIFIER = ResourceDirective.LOCAL;
+    static DependencyDirective[] DEPENDENCIES = DependencyDirectiveTestCase.DEPENDENCIES;
+    static TypeDirective[] TYPES = TypeDirectiveTestCase.TYPES;
     
     static ResourceDirective[] RESOURCES = new ResourceDirective[3];
     static
     {
-        RESOURCES[0] = new ResourceDirective( "fred", null, TYPES, DependencyDirectiveTestCase.INCLUDES, PROPERTIES );
-        RESOURCES[1] = new ResourceDirective( "george", "1.3.0", TYPES, DependencyDirectiveTestCase.INCLUDES, PROPERTIES );
-        RESOURCES[2] = new ResourceDirective( "mary", "2.7", TYPES, DependencyDirectiveTestCase.INCLUDES, PROPERTIES );
+        RESOURCES[0] = new ResourceDirective( "fred", null, CLASSIFIER, "example/fred", TYPES, DEPENDENCIES, PROPERTIES );
+        RESOURCES[1] = new ResourceDirective( "george", "1.3.0", CLASSIFIER, "example/george", TYPES, DEPENDENCIES, PROPERTIES );
+        RESOURCES[2] = new ResourceDirective( "mary", "2.7", CLASSIFIER, "example/mary", TYPES, DEPENDENCIES, PROPERTIES );
     }
 
     public void testNullName()
@@ -46,7 +45,7 @@ public final class ResourceDirectiveTestCase extends AbstractTestCase
         try
         {
             ResourceDirective resource = 
-              new ResourceDirective( null, "1.0", TYPES, DependencyDirectiveTestCase.INCLUDES, PROPERTIES );
+              new ResourceDirective( null, "1.0", CLASSIFIER, "test", TYPES, DEPENDENCIES, PROPERTIES );
             fail( "no-NPE" );
         }
         catch( NullPointerException e )
@@ -55,27 +54,83 @@ public final class ResourceDirectiveTestCase extends AbstractTestCase
         }
     }
     
-    /*
-    public void testTypeName()
+    public void testNullTypes()
     {
-        TypeDirective type = new TypeDirective( "abc" );
-        assertEquals( "type", "abc", type.getName() );
+        try
+        {
+            ResourceDirective resource = 
+              new ResourceDirective( "fred", "1.0", CLASSIFIER, "test", null, DEPENDENCIES, PROPERTIES );
+            fail( "no-NPE" );
+        }
+        catch( NullPointerException e )
+        {
+            // success
+        }
+    }
+    
+    public void testNullDependencies()
+    {
+        try
+        {
+            ResourceDirective resource = 
+              new ResourceDirective( "fred", "1.0", CLASSIFIER, "test", TYPES, null, PROPERTIES );
+            fail( "no-NPE" );
+        }
+        catch( NullPointerException e )
+        {
+            // success
+        }
+    }
+    
+    public void testResourceName()
+    {
+        ResourceDirective resource = new ResourceDirective( "resource", "2.7", CLASSIFIER, "test", TYPES, DEPENDENCIES, PROPERTIES );
+        assertEquals( "name", "resource", resource.getName() );
+    }
+    
+    public void testResourceVersion()
+    {
+        ResourceDirective resource = new ResourceDirective( "resource", "2.7", CLASSIFIER, "test", TYPES, DEPENDENCIES, PROPERTIES );
+        assertEquals( "version", "2.7", resource.getVersion() );
+    }
+    
+    public void testResourceBasedir()
+    {
+        ResourceDirective resource = new ResourceDirective( "resource", "2.7", CLASSIFIER, "test", TYPES, DEPENDENCIES, PROPERTIES );
+        assertEquals( "basedir", "test", resource.getBasedir() );
+    }
+    
+    public void testResourceTypes()
+    {
+        ResourceDirective resource = new ResourceDirective( "resource", "2.7", CLASSIFIER, "test", TYPES, DEPENDENCIES, PROPERTIES );
+        assertEquals( "types", 3, resource.getTypeDirectives().length );
+    }
+    
+    public void testDependencyDirectives()
+    {
+        ResourceDirective resource = new ResourceDirective( "resource", "2.7", CLASSIFIER, "test", TYPES, DEPENDENCIES, PROPERTIES );
+        assertEquals( "dependencies", 3, resource.getDependencyDirectives().length );
+    }
+    
+    public void testResourceProperties()
+    {
+        ResourceDirective resource = new ResourceDirective( "resource", "2.7", CLASSIFIER, "test", TYPES, DEPENDENCIES, PROPERTIES );
+        assertEquals( "properties", PROPERTIES, resource.getProperties() );
     }
     
     public void testSerialization() throws Exception
     {
-        TypeDirective type = new TypeDirective( "abc" );
-        doSerializationTest( type );
+        ResourceDirective resource = new ResourceDirective( "resource", "2.7", CLASSIFIER, "test", TYPES, DEPENDENCIES, PROPERTIES );
+        doSerializationTest( resource );
     }
-    */
     
     public void testXMLEncoding() throws Exception
     {
         ResourceDirective resource = 
           new ResourceDirective( 
-            "name", "1.1.1", 
+            "name", "1.1.1", CLASSIFIER, "test", 
             TYPES, 
-            DependencyDirectiveTestCase.INCLUDES,
+            DEPENDENCIES,
             PROPERTIES );
         doEncodingTest( resource, "resource-descriptor-encoded.xml" );
     }

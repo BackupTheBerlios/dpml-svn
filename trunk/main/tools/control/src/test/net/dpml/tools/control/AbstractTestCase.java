@@ -36,7 +36,12 @@ import java.beans.Expression;
 
 import junit.framework.TestCase;
 
+import net.dpml.tools.model.Resource;
 import net.dpml.tools.info.ModuleDirective;
+import net.dpml.tools.info.Scope;
+
+import net.dpml.transit.Logger;
+import net.dpml.transit.monitor.LoggingAdapter;
 
 /**
  * The ModuleDirective class describes a module data-structure.
@@ -45,12 +50,15 @@ import net.dpml.tools.info.ModuleDirective;
  */
 abstract class AbstractTestCase extends TestCase
 {
-    public ModuleDirective load( String filename ) throws Exception
+    Logger m_logger = new LoggingAdapter( "test" );
+    DefaultLibrary m_library;
+    
+    public void setUp() throws Exception
     {
         String testPath = System.getProperty( "project.test.dir" );
         File test = new File( testPath );
-        File example = new File( test, filename );
-        return LibraryDirectiveBuilder.buildModuleDirective( example );
+        File example = new File( test, "library.xml" );
+        m_library = new DefaultLibrary( m_logger, example );
     }
 
     public void doSerializationTest( Object object )
@@ -100,6 +108,121 @@ abstract class AbstractTestCase extends TestCase
         assertEquals( "encoding", object, result );
         assertEquals( object.hashCode(), result.hashCode() );
         return result;
+    }
+
+    void doProviderTest( 
+      String path, boolean expand, int build, int runtime, int test )
+      throws Exception
+    {
+        doProviderTest( path, expand, false, build, runtime, test, true );
+        doProviderTest( path, expand, true, build, runtime, test, true );
+    }
+    
+    void doProviderTest( 
+      String path, boolean expand, boolean sort, int build, int runtime, int test )
+      throws Exception
+    {
+        doProviderTest( path, expand, sort, build, runtime, test, true );
+    }
+    
+    void doProviderTest( 
+      String path, boolean expand )
+      throws Exception
+    {
+        doProviderTest( path, expand, true, 0, 0, 0, false );
+    }
+    
+    void doProviderTest( 
+      String path, boolean expand, boolean sort, int build, int runtime, int test, boolean check )
+      throws Exception
+    {
+        Resource resource = m_library.getResource( path );
+        Resource[] buildProviders = resource.getProviders( Scope.BUILD, expand, sort );
+        Resource[] runtimeProviders = resource.getProviders( Scope.RUNTIME, expand, sort  );
+        Resource[] testProviders = resource.getProviders( Scope.TEST, expand, sort );
+        if( check )
+        {
+            assertEquals( 
+              path + " build-deps (sorted:" + sort + ") (expanded:" + expand + ")", 
+              build, 
+              buildProviders.length );
+            assertEquals( 
+              path + " runtime-deps (sorted:" + sort + ") (expanded:" + expand + ")", 
+              runtime, 
+              runtimeProviders.length );
+            assertEquals( 
+              path + " test-deps (sorted:" + sort + ") (expanded:" + expand + ")", 
+              test, 
+              testProviders.length );
+        }
+        else
+        {
+            System.out.println( "PATH: " + path + " " + expand + ", " + sort 
+              + "(" 
+              + buildProviders.length + ", " 
+              + runtimeProviders.length 
+              + ", " + testProviders.length 
+              + ")"
+            );
+        }
+    }
+    
+    void doAggregatedProviderTest( 
+      String path, boolean expand, int build, int runtime, int test )
+      throws Exception
+    {
+        doAggregatedProviderTest( path, expand, false, build, runtime, test, true );
+        doAggregatedProviderTest( path, expand, true, build, runtime, test, true );
+    }
+    
+    void doAggregatedProviderTest( 
+      String path, boolean expand, boolean sort, int build, int runtime, int test )
+      throws Exception
+    {
+        doAggregatedProviderTest( path, expand, sort, build, runtime, test, true );
+    }
+    
+    void doAggregatedProviderTest( 
+      String path, boolean expand )
+      throws Exception
+    {
+        doAggregatedProviderTest( path, expand, true, 0, 0, 0, false );
+    }
+    
+    void doAggregatedProviderTest( 
+      String path, boolean expand, boolean sort, int build, int runtime, int test, boolean check )
+      throws Exception
+    {
+        Resource resource = m_library.getResource( path );
+        Resource[] buildProviders = resource.getAggregatedProviders( Scope.BUILD, expand, sort );
+        Resource[] runtimeProviders = resource.getAggregatedProviders( Scope.RUNTIME, expand, sort  );
+        Resource[] testProviders = resource.getAggregatedProviders( Scope.TEST, expand, sort );
+        
+        if( check )
+        {
+            assertEquals( 
+              path + " build-deps (sorted:" + sort + ") (expanded:" + expand + ") ", 
+              build, 
+              buildProviders.length );
+            assertEquals( 
+              path + " runtime-deps (sorted:" + sort + ") (expanded:" + expand + ") ", 
+              runtime, 
+              runtimeProviders.length );
+            assertEquals( 
+              path + " test-deps (sorted:" + sort + ") (expanded:" + expand + ") ", 
+              test, 
+              testProviders.length );
+        }
+        else
+        {
+            System.out.println( "CHECK: " + path + " " + expand + ", " + sort 
+              + "(" 
+              + buildProviders.length + ", " 
+              + runtimeProviders.length + ", " 
+              + testProviders.length 
+              + ")"
+            );
+        }
     }
 
     static

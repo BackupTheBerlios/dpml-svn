@@ -19,7 +19,9 @@
 package net.dpml.tools.tasks;
 
 import java.io.File;
-import java.rmi.RemoteException;
+
+import net.dpml.tools.ant.Context;
+import net.dpml.tools.model.Resource;
 
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Project;
@@ -29,7 +31,6 @@ import org.apache.tools.ant.types.FileSet;
 import org.apache.tools.ant.taskdefs.Mkdir;
 import org.apache.tools.ant.taskdefs.Copy;
 
-import net.dpml.tools.ant.Definition;
 
 /**
  * Prepare the target build directory based on content presented under the
@@ -87,48 +88,49 @@ public class PrepareTask extends GenericTask
     public void execute()
     {
         final Project project = getProject();
-        Definition definition = getDefinition();
+        Resource resource = getResource();
+        Context context = getContext();
         
         //
         // setup the file system
         //
         
-        String filters = definition.getProperty( SRC_FILTERED_INCLUDES_KEY, SRC_FILTERED_INCLUDES_VALUE );
-        mkDir( definition.getTargetDirectory() );
-        if( definition.getSrcMainDirectory().exists() )
+        String filters = resource.getProperty( SRC_FILTERED_INCLUDES_KEY, SRC_FILTERED_INCLUDES_VALUE );
+        mkDir( context.getTargetDirectory() );
+        if( context.getSrcMainDirectory().exists() )
         {
-            File src = definition.getSrcMainDirectory();
-            File dest = definition.getTargetDirectory( "build/main" );
+            File src = context.getSrcMainDirectory();
+            File dest = context.getTargetDirectory( "build/main" );
             mkDir( dest );
             copy( src, dest, true, filters, "" );
             copy( src, dest, false, "**/.*", filters );
         }
-        if( definition.getSrcTestDirectory().exists() )
+        if( context.getSrcTestDirectory().exists() )
         {
-            File src = definition.getSrcTestDirectory();
-            File dest = definition.getTargetDirectory( "build/test" );
+            File src = context.getSrcTestDirectory();
+            File dest = context.getTargetDirectory( "build/test" );
             mkDir( dest );
             copy( src, dest, true, filters, "" );
             copy( src, dest, false, "**/*.*", filters );
-            File test = definition.getTargetDirectory( "test" );
+            File test = context.getTargetDirectory( "test" );
             mkDir( test );
         }
-        if( definition.getEtcDirectory().exists() )
+        if( context.getEtcDirectory().exists() )
         {
             final String includes = 
-              definition.getProperty( ETC_FILTERED_INCLUDES_KEY, ETC_FILTERED_INCLUDES_VALUE );
+              resource.getProperty( ETC_FILTERED_INCLUDES_KEY, ETC_FILTERED_INCLUDES_VALUE );
             final String excludes = 
-              definition.getProperty( ETC_FILTERED_EXCLUDES_KEY, ETC_FILTERED_EXCLUDES_VALUE );
+              resource.getProperty( ETC_FILTERED_EXCLUDES_KEY, ETC_FILTERED_EXCLUDES_VALUE );
             
             //
             // copy ${etc}/test content to ${target}/build/test
             //
             
-            File etc = definition.getEtcDirectory();
+            File etc = context.getEtcDirectory();
             final File etcTest = new File( etc, "test" );
             if( etcTest.exists() )
             {
-                final File test = definition.getTargetDirectory( "test" );
+                final File test = context.getTargetDirectory( "test" );
                 copy( etcTest, test, true, includes, excludes );
                 copy( etcTest, test, false, excludes, "" );
             }
@@ -140,7 +142,7 @@ public class PrepareTask extends GenericTask
             final File etcMain = new File( etc, "main" );
             if( etcMain.exists() )
             {
-                final File buildMainDir = definition.getTargetDirectory( "build/main" );
+                final File buildMainDir = context.getTargetDirectory( "build/main" );
                 copy( etcMain, buildMainDir, true, includes, excludes );
                 copy( etcMain, buildMainDir, false, excludes, "" );
             }
@@ -150,7 +152,7 @@ public class PrepareTask extends GenericTask
             // directly to the target directory
             //
 
-            File target = definition.getTargetDirectory();
+            File target = context.getTargetDirectory();
             final String standard = "main/**,test/**,";
             copy( etc, target, true, includes, standard + excludes );
             copy( etc, target, false, excludes, standard );

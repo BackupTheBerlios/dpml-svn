@@ -2,7 +2,6 @@
 
 <module name="ant" version="1.6.5">
 
-  <resources>
 
     <resource name="ant">
       <types>
@@ -29,6 +28,5 @@
       </types>
     </resource>
 
-  </resources>
 
 </module>

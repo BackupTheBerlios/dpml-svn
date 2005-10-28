@@ -21,7 +21,7 @@ package net.dpml.tools.tasks;
 import java.io.File;
 import java.util.StringTokenizer;
 
-import net.dpml.tools.ant.Definition;
+import net.dpml.tools.ant.Context;
 import net.dpml.tools.info.Scope;
 
 import org.apache.tools.ant.BuildException;
@@ -195,11 +195,11 @@ public class JUnitTestTask extends GenericTask
         {
             return;
         }
-        Definition definition = getDefinition();
-        final File src = definition.getTargetBuildTestDirectory();
+        Context context = getContext();
+        final File src = context.getTargetBuildTestDirectory();
         if( src.exists() )
         {
-            final File working = definition.getTargetTestDirectory();
+            final File working = context.getTargetTestDirectory();
             final Path classpath = getClasspath();
             executeUnitTests( src, classpath, working );
         }
@@ -256,7 +256,7 @@ public class JUnitTestTask extends GenericTask
           getBooleanProperty(
             HALT_ON_FAILURE_KEY, HALT_ON_FAILURE_VALUE ) );
 
-        final File reports = getDefinition().getTargetReportsTestDirectory();
+        final File reports = getContext().getTargetReportsTestDirectory();
         mkDir( reports );
 
         final BatchTest batch = junit.createBatchTest();

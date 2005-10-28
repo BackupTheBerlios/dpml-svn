@@ -32,19 +32,19 @@ public abstract class AbstractDirective implements Serializable
     
     public AbstractDirective( Properties properties )
     {
-        m_properties = properties;
+        if( null == properties )
+        {
+            m_properties = new Properties();
+        }
+        else
+        {
+            m_properties = properties;
+        }
     }
     
     public String getProperty( String key )
     {
-        if( null == m_properties )
-        {
-            return null;
-        }
-        else
-        {
-            return m_properties.getProperty( key );
-        }
+        return m_properties.getProperty( key );
     }
     
     public Properties getProperties()

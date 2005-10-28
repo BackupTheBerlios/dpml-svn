@@ -3,22 +3,24 @@
 <library>
 
   <properties>
-    <property name="publisher.name" value="Digital Product Meta Library"/>
-    <property name="publisher.url" value="http://www.dpml.net"/>
-    <property name="resource.repository.host" value="http://repository.dpml.net/"/>
-    <property name="javadoc.repository.host" value="http://api.dpml.net/"/>
-    <property name="build.template" value="${dpml.library.basedir}/standard.template"/>
+    <property name="project.builder.uri" value="link:plugin:dpml/tools/dpml-tools-ant"/>
+    <property name="project.standard.template" value="local:template:tools/standard"/>
+    <property name="project.template" value="${project.standard.template}"/>
   </properties>
 
   <types>
-    <type name="jar" uri="artifact:plugin:dpml/tools/dpml-tools-jar#SNAPSHOT"/>
-    <type name="plugin" uri="artifact:plugin:dpml/tools/dpml-tools-plugin#SNAPSHOT"/>
+    <type name="jar"/>
+    <type name="plugin" depends="jar"/>
+    <type name="part" uri="link:plugin:dpml/metro/dpml-composition-tools"/>
   </types>
 
-  <modules>
-    <include file="junit.xml"/>
-    <include file="ant.xml"/>
-    <include file="dpml.xml"/>
-  </modules>
+  <imports>
+    <import file="library/junit-3.8.1.xml"/>
+    <import file="library/commons-cli-1.0.xml"/>
+    <import file="library/xstream-1.1.xml"/>
+    <import file="library/jgoodies.xml"/>
+    <import file="library/dpml.xml"/>
+    <import file="library/ant-1.6.5.xml"/>
+  </imports>
 
 </library>

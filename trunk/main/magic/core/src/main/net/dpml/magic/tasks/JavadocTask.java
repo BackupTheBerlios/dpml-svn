@@ -328,7 +328,7 @@ public class JavadocTask extends ProjectTask
     private Resource[] getReferencedModules( Definition definition )
     {
         ResourceRef[] refs =
-          definition.getResourceRefs( getProject(), Policy.ANY, Category.ANY, true );
+          definition.getResourceRefs( getProject(), Policy.ANY, null, true );
         ArrayList list = new ArrayList();
         for( int i=0; i < refs.length; i++ )
         {

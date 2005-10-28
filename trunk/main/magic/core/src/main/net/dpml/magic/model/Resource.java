@@ -309,13 +309,16 @@ public class Resource
             if( !list.contains( ref ) )
             {
                 final Policy policy = ref.getPolicy();
-                if( policy.matches( mode ) && ref.matches( tag ) )
+                if( policy.matches( mode ) )
                 {
-                    list.add( ref );
-                    if( flag )
+                    if( ref.matches( tag ) )
                     {
-                        final Resource def = getResource( project, ref );
-                        def.getResourceRefs( project, list, mode, Category.ANY, flag );
+                        list.add( ref );
+                        if( flag )
+                        {
+                            final Resource def = getResource( project, ref );
+                            def.getResourceRefs( project, list, mode, null, flag );
+                        }
                     }
                 }
             }
@@ -353,9 +356,9 @@ public class Resource
 
    /**
     * Returns a path of artifact filenames relative to the supplied scope.
-    * The mode may be one of ANY, BUILD, TEST or RUNTIME.
+    * The mode may be one of BUILD, TEST or RUNTIME or null.
     * @param project the current project
-    * @param mode one of Policy.ANY, Policy.BUILD, Policy.TEST or Policy.RUNTIME
+    * @param mode the dependency mode
     * @param filter a value of "*" for any or a type identifier such as "jar"
     * @param moduleFilter module filter flag
     * @param self TRUE if the path should include it's own resources
@@ -378,7 +381,7 @@ public class Resource
             addResourceToPath( project, this, path, filter, false );
         }
 
-        final ResourceRef[] refs = getResourceRefs( project, mode, Category.ANY, true );
+        final ResourceRef[] refs = getResourceRefs( project, mode, null, true );
         for( int i=0; i < refs.length; i++ )
         {
             final ResourceRef ref = refs[i];

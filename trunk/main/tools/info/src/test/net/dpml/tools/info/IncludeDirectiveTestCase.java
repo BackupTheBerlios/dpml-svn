@@ -18,26 +18,28 @@
 
 package net.dpml.tools.info;
 
+import net.dpml.transit.Category;
+
 /**
  * The IncludeDirective class describes a the inclusion of a typed value.
  *
  * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
  */
-public final class ModuleIncludeDirectiveTestCase extends AbstractTestCase
+public final class IncludeDirectiveTestCase extends AbstractTestCase
 {
-    static ModuleIncludeDirective[] INCLUDES = new ModuleIncludeDirective[3];
+    static IncludeDirective[] INCLUDES = new IncludeDirective[3];
     static
     {
-        INCLUDES[0] = new ModuleIncludeDirective( ModuleIncludeDirective.URI, "something", PROPERTIES );
-        INCLUDES[1] = new ModuleIncludeDirective( ModuleIncludeDirective.FILE, "bingo", PROPERTIES );
-        INCLUDES[2] = new ModuleIncludeDirective( ModuleIncludeDirective.URI, "acme", PROPERTIES );
+        INCLUDES[0] = new IncludeDirective( IncludeDirective.REF, null, "value", PROPERTIES );
+        INCLUDES[1] = new IncludeDirective( IncludeDirective.KEY, null, "value", PROPERTIES );
+        INCLUDES[2] = new IncludeDirective( IncludeDirective.REF, Category.PUBLIC, "value", PROPERTIES );
     }
 
-    public void testNullName()
+    public void testNullMode()
     {
         try
         {
-            new ModuleIncludeDirective( null, "value", PROPERTIES );
+            new IncludeDirective( null, null, "value", PROPERTIES );
             fail( "no-NPE" );
         }
         catch( NullPointerException e )
@@ -50,7 +52,7 @@ public final class ModuleIncludeDirectiveTestCase extends AbstractTestCase
     {
         try
         {
-            new ModuleIncludeDirective( ModuleIncludeDirective.FILE, null, PROPERTIES );
+            new IncludeDirective( IncludeDirective.REF, null, null, PROPERTIES );
             fail( "no-NPE" );
         }
         catch( NullPointerException e )
@@ -59,32 +61,38 @@ public final class ModuleIncludeDirectiveTestCase extends AbstractTestCase
         }
     }
     
-    public void testIncludeType()
+    public void testIncludeMode()
     {
-        ModuleIncludeDirective include = 
-          new ModuleIncludeDirective( ModuleIncludeDirective.FILE, "value", PROPERTIES );
-        assertEquals( "name", "file", include.getType() );
-        assertEquals( "mode", ModuleIncludeDirective.FILE, include.getMode() );
+        IncludeDirective include = 
+          new IncludeDirective( IncludeDirective.REF, null, "value", PROPERTIES );
+        assertEquals( "mode", IncludeDirective.REF, include.getMode() );
     }
     
     public void testIncludeValue()
     {
         IncludeDirective include = 
-          new ModuleIncludeDirective( ModuleIncludeDirective.URI, "value", PROPERTIES );
+          new IncludeDirective( IncludeDirective.REF, null, "value", PROPERTIES );
         assertEquals( "value", "value", include.getValue() );
+    }
+    
+    public void testIncludeCategory()
+    {
+        IncludeDirective include = 
+          new IncludeDirective( IncludeDirective.REF, Category.PROTECTED, "value", PROPERTIES );
+        assertEquals( "category", Category.PROTECTED, include.getCategory() );
     }
     
     public void testSerialization() throws Exception
     {
         IncludeDirective include = 
-          new ModuleIncludeDirective( ModuleIncludeDirective.URI, "value", PROPERTIES );
+          new IncludeDirective( IncludeDirective.REF, Category.PROTECTED, "value", PROPERTIES );
         doSerializationTest( include );
     }
 
     public void testXMLEncoding() throws Exception
     {
         IncludeDirective include = 
-          new ModuleIncludeDirective( ModuleIncludeDirective.URI, "value", PROPERTIES );
+          new IncludeDirective( IncludeDirective.REF, Category.PROTECTED, "value", PROPERTIES );
         doEncodingTest( include, "include-encoded.xml" );
     }
 }

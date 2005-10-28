@@ -29,17 +29,15 @@ import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Properties;
 
-import net.dpml.tools.info.TypeDescriptor;
+import net.dpml.tools.info.ProcessDescriptor;
 import net.dpml.tools.info.LibraryDirective;
 import net.dpml.tools.info.IncludeDirective;
-import net.dpml.tools.info.ModuleIncludeDirective;
-import net.dpml.tools.info.ResourceIncludeDirective;
-import net.dpml.tools.info.TaggedIncludeDirective;
+import net.dpml.tools.info.ImportDirective;
+import net.dpml.tools.info.IncludeDirective;
 import net.dpml.tools.info.ModuleDirective;
 import net.dpml.tools.info.ResourceDirective;
-import net.dpml.tools.info.ProjectDirective;
+import net.dpml.tools.info.ResourceDirective.Classifier;
 import net.dpml.tools.info.TypeDirective;
-import net.dpml.tools.info.ProductionDirective;
 import net.dpml.tools.info.DependencyDirective;
 import net.dpml.tools.info.Scope;
 
@@ -56,6 +54,8 @@ import org.w3c.dom.Element;
 public final class LibraryDirectiveBuilder
 {
     private static final String LIBRARY_ELEMENT_NAME = "library";
+    private static final String IMPORTS_ELEMENT_NAME = "imports";
+    private static final String IMPORT_ELEMENT_NAME = "import";
     private static final String MODULE_ELEMENT_NAME = "module";
     private static final String MODULES_ELEMENT_NAME = "modules";
     private static final String RESOURCES_ELEMENT_NAME = "resources";
@@ -127,8 +127,8 @@ public final class LibraryDirectiveBuilder
         // get type descriptors, modules and properties
         
         Properties properties = null;
-        TypeDescriptor[] types = new TypeDescriptor[0];
-        ModuleIncludeDirective[] includes = new ModuleIncludeDirective[0];
+        ProcessDescriptor[] types = new ProcessDescriptor[0];
+        ImportDirective[] imports = new ImportDirective[0];
         Element[] children = ElementHelper.getChildren( element );
         for( int i=0; i<children.length; i++ )
         {
@@ -136,15 +136,15 @@ public final class LibraryDirectiveBuilder
             final String tag = child.getTagName();
             if( PROPERTIES_ELEMENT_NAME.equals( tag ) )
             {
-                properties = buildProperties( element );
+                properties = buildProperties( child );
             }
-            else if( MODULES_ELEMENT_NAME.equals( tag ) )
+            else if( IMPORTS_ELEMENT_NAME.equals( tag ) )
             {
-                includes = buildModuleIncludeDirectives( child );
+                imports = buildImportDirectives( child );
             }
             else if( TYPES_ELEMENT_NAME.equals( tag ) ) 
             {
-                types = buildTypeDescriptors( child );
+                types = buildProcessDescriptors( child );
             }
             else
             {
@@ -153,33 +153,32 @@ public final class LibraryDirectiveBuilder
                 throw new IllegalArgumentException( error );
             }
         }
-        return new LibraryDirective( types, includes, properties );
+        return new LibraryDirective( types, imports, properties );
     }
     
-    private static TypeDescriptor[] buildTypeDescriptors( Element element )
+    private static ProcessDescriptor[] buildProcessDescriptors( Element element )
     {
         Element[] children = ElementHelper.getChildren( element );
-        TypeDescriptor[] types = new TypeDescriptor[ children.length ];
+        ProcessDescriptor[] types = new ProcessDescriptor[ children.length ];
         for( int i=0; i<children.length; i++ )
         {
             Element child = children[i];
-            types[i] = buildTypeDescriptor( child );
+            types[i] = buildProcessDescriptor( child );
         }
         return types;
     }
     
-    private static TypeDescriptor buildTypeDescriptor( Element element )
+    private static ProcessDescriptor buildProcessDescriptor( Element element )
     {
         final String tag = element.getTagName();
         if( TYPE_ELEMENT_NAME.equals( tag ) )
         {
             final String name = ElementHelper.getAttribute( element, "name", null );
-            final String spec = ElementHelper.getAttribute( element, "uri", null );
+            final String urn = ElementHelper.getAttribute( element, "uri", null );
             final String deps = ElementHelper.getAttribute( element, "depends", null );
-            final String[] depends = buildTypeDependenciesArray( deps );
-            final Properties properties = buildPropertiesFromElement( element );
-            final URI uri = getURIFromSpec( spec );
-            return new TypeDescriptor( name, uri, depends, properties );
+            final String[] depends = buildProcessDependenciesArray( deps );
+            final Properties properties = buildProperties( element );
+            return new ProcessDescriptor( name, urn, depends, properties );
         }
         else
         {
@@ -191,7 +190,7 @@ public final class LibraryDirectiveBuilder
         }
     }
     
-    private static String[] buildTypeDependenciesArray( String value )
+    private static String[] buildProcessDependenciesArray( String value )
     {
         if( null == value )
         {
@@ -202,6 +201,10 @@ public final class LibraryDirectiveBuilder
             return value.split( "," );
         }
     }
+    
+    //
+    //
+    //
 
     public static ModuleDirective buildModuleDirective( File source ) throws IOException
     {
@@ -279,26 +282,8 @@ public final class LibraryDirectiveBuilder
             throw new IllegalArgumentException( error );
         }
         
-        // get name, version and basedir, properties, dependent module links, local projects and 
-        // resources, then build the nested modules
-        
-        final String name = ElementHelper.getAttribute( element, "name", null );
-        if( null == name )
-        {
-            final String error = 
-              "Module does not declare a name attribute.";
-            throw new IllegalArgumentException( error );
-        }
-        
-        final String version = ElementHelper.getAttribute( element, "version", null );
-        final String basedir = ElementHelper.getAttribute( element, "basedir", null );
-        
-        Properties properties = null;
-        ModuleIncludeDirective[] includes = new ModuleIncludeDirective[0];
-        ResourceDirective[] resources = new ResourceDirective[0];
-        ProjectDirective[] projects = new ProjectDirective[0];
+        ResourceDirective resource = buildResourceDirective( element );
         ArrayList list = new ArrayList();
-        
         Element[] children = ElementHelper.getChildren( element );
         for( int i=0; i<children.length; i++ )
         {
@@ -306,24 +291,28 @@ public final class LibraryDirectiveBuilder
             final String tag = child.getTagName();
             if( PROPERTIES_ELEMENT_NAME.equals( tag ) )
             {
-                properties = buildProperties( element );
+                // already processed
+            }
+            else if( DEPENDENCIES_ELEMENT_NAME.equals( tag ) ) 
+            {
+                // already processed
             }
             else if( MODULE_ELEMENT_NAME.equals( tag ) )
             {
                 ModuleDirective directive = buildModuleDirective( null, child );
                 list.add( directive );
             }
-            else if( RESOURCES_ELEMENT_NAME.equals( tag ) ) 
+            else if( PROJECT_ELEMENT_NAME.equals( tag ) ) 
             {
-                resources = buildResourceDirectives( child );
+                ResourceDirective directive = 
+                  buildResourceDirective( child );
+                list.add( directive );
             }
-            else if( DEPENDENCIES_ELEMENT_NAME.equals( tag ) ) 
+            else if( RESOURCE_ELEMENT_NAME.equals( tag ) ) 
             {
-                includes = buildModuleIncludeDirectives( child );
-            }
-            else if( PROJECTS_ELEMENT_NAME.equals( tag ) ) 
-            {
-                projects = buildProjectDirectives( child );
+                ResourceDirective directive = 
+                  buildResourceDirective( child );
+                list.add( directive );
             }
             else
             {
@@ -332,9 +321,8 @@ public final class LibraryDirectiveBuilder
                 throw new IllegalArgumentException( error );
             }
         }
-        ModuleDirective[] modules = (ModuleDirective[]) list.toArray( new ModuleDirective[0] );
-        return new ModuleDirective( 
-          name, version, basedir, includes, modules, projects, resources, properties );
+        ResourceDirective[] resources = (ResourceDirective[]) list.toArray( new ResourceDirective[0] );
+        return new ModuleDirective( resource, resources );
     }
     
    /**
@@ -342,14 +330,14 @@ public final class LibraryDirectiveBuilder
     * @param element the enclosing element
     * @return the array of includes
     */
-    private static ModuleIncludeDirective[] buildModuleIncludeDirectives( Element element )
+    private static ImportDirective[] buildImportDirectives( Element element )
     {
         Element[] children = ElementHelper.getChildren( element );
-        ModuleIncludeDirective[] includes = new ModuleIncludeDirective[ children.length ];
+        ImportDirective[] includes = new ImportDirective[ children.length ];
         for( int i=0; i<children.length; i++ )
         {
             Element child = children[i];
-            includes[i] = buildModuleIncludeDirective( child );
+            includes[i] = buildImportDirective( child );
         }
         return includes;
     }
@@ -359,121 +347,39 @@ public final class LibraryDirectiveBuilder
     * @param element the enclosing element
     * @return the array of includes
     */
-    private static ResourceIncludeDirective[] buildResourceIncludeDirectives( Element element )
+    private static IncludeDirective[] buildIncludeDirectives( Element element )
     {
         Element[] children = ElementHelper.getChildren( element );
-        ResourceIncludeDirective[] includes = new ResourceIncludeDirective[ children.length ];
+        IncludeDirective[] includes = new IncludeDirective[ children.length ];
         for( int i=0; i<children.length; i++ )
         {
             Element child = children[i];
-            includes[i] = buildResourceIncludeDirective( child );
+            includes[i] = buildIncludeDirective( child );
         }
         return includes;
     }
     
-    private static ResourceDirective[] buildResourceDirectives( Element element )
-    {
-        Element[] children = ElementHelper.getChildren( element );
-        ResourceDirective[] resources = new ResourceDirective[ children.length ];
-        for( int i=0; i<children.length; i++ )
-        {
-            Element child = children[i];
-            resources[i] = buildResourceDirective( child );
-        }
-        return resources;
-    }
-    
-    private static ProjectDirective[] buildProjectDirectives( Element element )
-    {
-        Element[] children = ElementHelper.getChildren( element );
-        ProjectDirective[] projects = new ProjectDirective[ children.length ];
-        for( int i=0; i<children.length; i++ )
-        {
-            Element child = children[i];
-            projects[i] = buildProjectDirective( child );
-        }
-        return projects;
-    }
-    
-    private static ProjectDirective buildProjectDirective( Element element )
-    {
-        final String elementName = element.getTagName();
-        if( !PROJECT_ELEMENT_NAME.equals( elementName ) )
-        {
-            final String error =
-              "Element ["
-              + elementName
-              + "] is not a project.";
-            throw new IllegalArgumentException( error );
-        }
-        
-        // get name and basedir, dependent resources, and artifact production directives
-        
-        final String name = ElementHelper.getAttribute( element, "name", null );
-        if( null == name )
-        {
-            final String error = 
-              "Project does not declare a name attribute.";
-            throw new IllegalArgumentException( error );
-        }
-        Properties properties = null;
-        final String version = ElementHelper.getAttribute( element, "version", null );
-        final String basedir = ElementHelper.getAttribute( element, "basedir", null );
-        Element[] children = ElementHelper.getChildren( element );
-        ArrayList list = new ArrayList();
-        ProductionDirective[] artifacts = new ProductionDirective[0];
-        for( int i=0; i<children.length; i++ )
-        {
-            Element child = children[i];
-            final String tag = child.getTagName();
-            if( PRODUCES_ELEMENT_NAME.equals( tag ) )
-            {
-                artifacts = buildProductionDirectives( child );
-            }
-            else if( PROPERTIES_ELEMENT_NAME.equals( tag ) )
-            {
-                properties = buildProperties( element );
-            }
-            else if( DEPENDENCIES_ELEMENT_NAME.equals( tag ) )
-            {
-                DependencyDirective dependency = buildDependencyDirective( child );
-                list.add( dependency );
-            }
-            else
-            {
-                final String error = 
-                  "Illegal element name [" 
-                  + tag 
-                  + "] within ["
-                  + elementName 
-                  + "]";
-                throw new IllegalArgumentException( error );
-            }
-        }
-        DependencyDirective[] dependencies = (DependencyDirective[]) list.toArray( new DependencyDirective[0] );
-        return new ProjectDirective( name, version, basedir, artifacts, dependencies, properties );
-    }
-    
-    private static ModuleIncludeDirective buildModuleIncludeDirective( Element element )
+    private static ImportDirective buildImportDirective( Element element )
     {
         final String tag = element.getTagName();
         final Properties properties = buildProperties( element );
-        if( INCLUDE_ELEMENT_NAME.equals( tag ) )
+        if( IMPORT_ELEMENT_NAME.equals( tag ) )
         {
             if( element.hasAttribute( "file" ) )
             {
                 final String value = ElementHelper.getAttribute( element, "file", null );
-                return new ModuleIncludeDirective( ModuleIncludeDirective.FILE, value, properties );
+                return new ImportDirective( ImportDirective.FILE, value, properties );
             }
             else if( element.hasAttribute( "uri" ) )
             {
                 final String value = ElementHelper.getAttribute( element, "uri", null );
-                return new ModuleIncludeDirective( ModuleIncludeDirective.URI, value, properties );
+                return new ImportDirective( ImportDirective.URI, value, properties );
             }
             else
             {
                 final String error = 
-                  "Module include element does not declare a recognized attribute.";
+                  "Import element does not declare a 'file' or 'uri' attribute.\n"
+                  + element.toString();
                 throw new IllegalArgumentException( error );
             }
         }
@@ -486,62 +392,57 @@ public final class LibraryDirectiveBuilder
             throw new IllegalArgumentException( error );
         }
     }
-    
-    private static ResourceIncludeDirective buildResourceIncludeDirective( Element element )
+
+    private static DependencyDirective buildDependencyDirective( Element element )
     {
         final String tag = element.getTagName();
-        final Properties properties = buildProperties( element );
-        if( INCLUDE_ELEMENT_NAME.equals( tag ) )
+        if( DEPENDENCIES_ELEMENT_NAME.equals( tag ) )
         {
-            if( element.hasAttribute( "key" ) )
+            final String spec = ElementHelper.getAttribute( element, "scope", "runtime" );
+            Scope scope = Scope.parse( spec );
+            Element[] children = ElementHelper.getChildren( element );
+            IncludeDirective[] includes = new IncludeDirective[ children.length ];
+            for( int i=0; i<children.length; i++ )
             {
-                final String value = ElementHelper.getAttribute( element, "key", null );
-                return new ResourceIncludeDirective( ResourceIncludeDirective.KEY, value, properties );
+                Element child = children[i];
+                includes[i] = buildIncludeDirective( child );
             }
-            else if( element.hasAttribute( "ref" ) )
-            {
-                final String value = ElementHelper.getAttribute( element, "ref", null );
-                return new ResourceIncludeDirective( ResourceIncludeDirective.REF, value, properties );
-            }
-            else
-            {
-                final String error = 
-                  "Resource include element does not declare a recognized attribute.";
-                throw new IllegalArgumentException( error );
-            }
+            return new DependencyDirective( scope, includes );
         }
         else
         {
             final String error = 
-              "Invalid include element name [" 
-              + tag 
+              "Invalid dependency element name [" 
+              + tag
               + "].";
             throw new IllegalArgumentException( error );
         }
     }
     
-    private static TaggedIncludeDirective buildTaggedIncludeDirective( Element element )
+    private static IncludeDirective buildIncludeDirective( Element element )
     {
         final String tag = element.getTagName();
         final Properties properties = buildProperties( element );
         if( INCLUDE_ELEMENT_NAME.equals( tag ) )
         {
+        
             final String tagValue = ElementHelper.getAttribute( element, "tag", "private" );
             Category category = Category.parse( tagValue );
             if( element.hasAttribute( "key" ) )
             {
                 final String value = ElementHelper.getAttribute( element, "key", null );
-                return new TaggedIncludeDirective( TaggedIncludeDirective.KEY, category, value, properties );
+                return new IncludeDirective( IncludeDirective.KEY, category, value, properties );
             }
             else if( element.hasAttribute( "ref" ) )
             {
                 final String value = ElementHelper.getAttribute( element, "ref", null );
-                return new TaggedIncludeDirective( TaggedIncludeDirective.REF, category, value, properties );
+                return new IncludeDirective( IncludeDirective.REF, category, value, properties );
             }
             else
             {
                 final String error = 
-                  "Resource include element does not declare eith a 'ref' or 'key' attribute.";
+                  "Include directive does not declare a 'key' or 'ref' attribute.\n"
+                  + element.toString();
                 throw new IllegalArgumentException( error );
             }
         }
@@ -557,13 +458,45 @@ public final class LibraryDirectiveBuilder
     
     private static ResourceDirective buildResourceDirective( Element element )
     {
+        Classifier classifier = null;
         final String tag = element.getTagName();
-        if( RESOURCE_ELEMENT_NAME.equals( tag ) )
+        if( RESOURCE_ELEMENT_NAME.equals( tag ) || PROJECT_ELEMENT_NAME.equals( tag ) 
+          || MODULE_ELEMENT_NAME.equals( tag ) )
         {
             final String name = ElementHelper.getAttribute( element, "name", null );
             final String version = ElementHelper.getAttribute( element, "version", null );
+            final String basedir = ElementHelper.getAttribute( element, "basedir", null );
+            
+            if( PROJECT_ELEMENT_NAME.equals( tag ) )
+            {
+                classifier = Classifier.LOCAL;
+                if( null == basedir )
+                {
+                    final String error = 
+                      "Missing basedir attribute on project [" 
+                      + name
+                      + "].";
+                    throw new IllegalArgumentException( error );
+                }
+            }
+            else if( MODULE_ELEMENT_NAME.equals( tag ) )
+            {
+                if( null != basedir )
+                {
+                    classifier = Classifier.LOCAL;
+                }
+                else
+                {
+                    classifier = Classifier.EXTERNAL;
+                }
+            }
+            else
+            {
+                classifier = Classifier.EXTERNAL;
+            }
+            
+            ArrayList dependencies = new ArrayList();
             TypeDirective[] types = new TypeDirective[0];
-            ResourceIncludeDirective[] includes = new ResourceIncludeDirective[0];
             Element[] children = ElementHelper.getChildren( element );
             Properties properties = null;
             for( int i=0; i<children.length; i++ )
@@ -576,26 +509,21 @@ public final class LibraryDirectiveBuilder
                 }
                 else if( DEPENDENCIES_ELEMENT_NAME.equals( childTag ) )
                 {
-                    includes = buildResourceIncludeDirectives( child );
+                    DependencyDirective dependency = buildDependencyDirective( child );
+                    dependencies.add( dependency );
                 }
-                else if( PROPERTIES_ELEMENT_NAME.equals( tag ) )
+                else if( PROPERTIES_ELEMENT_NAME.equals( childTag ) )
                 {
-                    properties = buildProperties( element );
-                }
-                else
-                {
-                    final String error = 
-                      "Illegal element [" + childTag + "] within ["
-                      + tag + "]";
-                    throw new IllegalArgumentException( error );
+                    properties = buildProperties( child );
                 }
             }
-            return new ResourceDirective( name, version, types, includes, properties );
+            DependencyDirective[] deps = (DependencyDirective[]) dependencies.toArray( new DependencyDirective[0] );
+            return new ResourceDirective( name, version, classifier, basedir, types, deps, properties );
         }
         else
         {
             final String error = 
-              "Invalid resource element name [" 
+              "Invalid element name [" 
               + tag
               + "].";
             throw new IllegalArgumentException( error );
@@ -621,7 +549,7 @@ public final class LibraryDirectiveBuilder
         {
             final String name = ElementHelper.getAttribute( element, "id", null );
             final boolean alias = ElementHelper.getBooleanAttribute( element, "alias", false );
-            final Properties properties = buildPropertiesFromElement( element );
+            final Properties properties = buildProperties( element );
             return new TypeDirective( name, alias, properties );
         }
         else
@@ -634,89 +562,10 @@ public final class LibraryDirectiveBuilder
         }
     }
     
-    private static DependencyDirective buildDependencyDirective( Element element )
-    {
-        final String tag = element.getTagName();
-        if( DEPENDENCIES_ELEMENT_NAME.equals( tag ) )
-        {
-            final String spec = ElementHelper.getAttribute( element, "scope", "runtime" );
-            Scope scope = Scope.parse( spec );
-            final String anchor = ElementHelper.getAttribute( element, "anchor", null );
-            Element[] children = ElementHelper.getChildren( element );
-            TaggedIncludeDirective[] includes = new TaggedIncludeDirective[ children.length ];
-            for( int i=0; i<children.length; i++ )
-            {
-                Element child = children[i];
-                includes[i] = buildTaggedIncludeDirective( child );
-            }
-            final Properties properties = buildProperties( element );
-            return new DependencyDirective( scope, includes, anchor, properties );
-        }
-        else
-        {
-            final String error = 
-              "Invalid dependency element name [" 
-              + tag
-              + "].";
-            throw new IllegalArgumentException( error );
-        }
-    }
-
-    private static ProductionDirective[] buildProductionDirectives( Element element )
-    {
-        Element[] children = ElementHelper.getChildren( element );
-        ProductionDirective[] artifacts = new ProductionDirective[ children.length ];
-        for( int i=0; i<children.length; i++ )
-        {
-            Element child = children[i];
-            artifacts[i] = buildProductionDirective( child );
-        }
-        return artifacts;
-    }
-    
-    private static ProductionDirective buildProductionDirective( Element element )
-    {
-        final String tag = element.getTagName();
-        if( TYPE_ELEMENT_NAME.equals( tag ) )
-        {
-            final String type = ElementHelper.getAttribute( element, "id", null );
-            if( null == type )
-            {
-                final String error =
-                  "Artifact element does not declare a type.";
-                throw new IllegalArgumentException( error );
-            }
-            final boolean alias = ElementHelper.getBooleanAttribute( element, "alias", false );
-            final Properties properties = buildPropertiesFromElement( element );
-            return new ProductionDirective( type, alias, properties );
-        }
-        else
-        {
-            final String error = 
-              "Invalid artifact element name [" 
-              + tag
-              + "].";
-            throw new IllegalArgumentException( error );
-        }
-    }
-    
     private static Properties buildProperties( Element element )
     {
-        Element elem = ElementHelper.getChild( element, "properties" );
-        if( null == elem )
-        {
-            return null;
-        }
-        else
-        {
-            return buildPropertiesFromElement( elem );
-        }
-    }
-    
-    private static Properties buildPropertiesFromElement( Element elem )
-    {
         Properties properties = new Properties();
-        Element[] children = ElementHelper.getChildren( elem );
+        Element[] children = ElementHelper.getChildren( element );
         for( int i=0; i<children.length; i++ )
         {
             Element child = children[i];

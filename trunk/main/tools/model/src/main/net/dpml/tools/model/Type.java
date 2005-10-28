@@ -18,34 +18,26 @@
 
 package net.dpml.tools.model;
 
-import java.io.File;
-import java.rmi.Remote;
-import java.rmi.RemoteException;
+import java.net.URI;
 
 /**
- * The Modele interface defines a node within a module hierachy.
+ * The Process interface defines a process model.
  *
  * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
  */
-public interface Model extends Remote
+public interface Type extends Dictionary
 {
-   /**
-    * Return the name of the model.
-    */
-    String getName() throws RemoteException;
+    static final String JAR = "jar";
+    static final String PLUGIN = "plugin";
+    static final String MODULE = "module";
     
    /**
-    * Return the fully qualified name of the model.
+    * Return the name of the type.
     */
-    String getPath() throws RemoteException;
+    String getName();
     
    /**
-    * Return the enclosing module.
+    * Return the alias association policy.
     */
-    Module getModule() throws RemoteException;
-
-   /**
-    * Return the version.
-    */
-    String getVersion() throws RemoteException;
+    boolean getAlias();
 }

@@ -1,15 +1,11 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 
-<module name="junit" version="3.5.1">
+<module name="commons-cli" version="1.0">
 
-  <resources>
-
-    <resource name="junit">
+    <resource name="commons-cli">
       <types>
         <type id="jar"/>
       </types>
     </resource>
-
-  </resources>
 
 </module>

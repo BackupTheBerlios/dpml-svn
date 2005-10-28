@@ -1,0 +1,17 @@
+Testsuite: net.dpml.tools.control.DefaultModuleTestCase
+Tests run: 9, Failures: 1, Errors: 0, Time elapsed: 0.375 sec
+
+Testcase: testModuleGetResources took 0.156 sec
+Testcase: testGetResourceLevelOne took 0.031 sec
+Testcase: testGetResourceLevelTwo took 0.047 sec
+Testcase: testGetModule took 0.031 sec
+Testcase: testGetModules took 0.016 sec
+Testcase: testGetAllModules took 0.031 sec
+	FAILED
+nested-expanded-module-count expected:<9> but was:<4>
+junit.framework.AssertionFailedError: nested-expanded-module-count expected:<9> but was:<4>
+	at net.dpml.tools.control.DefaultModuleTestCase.testGetAllModules(DefaultModuleTestCase.java:126)
+
+Testcase: testGetProviders took 0.016 sec
+Testcase: testSortedGetProviders took 0.015 sec
+Testcase: testSortedAggregatedGetProviders took 0.016 sec

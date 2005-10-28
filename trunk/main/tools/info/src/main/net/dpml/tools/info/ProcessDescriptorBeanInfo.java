@@ -25,7 +25,7 @@ import java.beans.DefaultPersistenceDelegate;
  *
  * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
  */
-public final class ModuleIncludeDirectiveBeanInfo extends SimpleBeanInfo
+public final class ProcessDescriptorBeanInfo extends SimpleBeanInfo
 {
     private static final BeanDescriptor BEAN_DESCRIPTOR = setupBeanDescriptor();
     
@@ -36,10 +36,10 @@ public final class ModuleIncludeDirectiveBeanInfo extends SimpleBeanInfo
     
     private static BeanDescriptor setupBeanDescriptor()
     {
-        BeanDescriptor descriptor = new BeanDescriptor( ModuleIncludeDirective.class );
+        BeanDescriptor descriptor = new BeanDescriptor( ProcessDescriptor.class );
         descriptor.setValue( 
           "persistenceDelegate", 
-          new DefaultPersistenceDelegate( new String[]{ "mode", "value", "properties" } ) );
+          new DefaultPersistenceDelegate( new String[]{ "name", "URN", "dependencies", "properties" } ) );
         return descriptor;
     }
 }

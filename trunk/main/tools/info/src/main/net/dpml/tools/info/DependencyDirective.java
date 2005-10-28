@@ -20,6 +20,9 @@ package net.dpml.tools.info;
 
 import java.util.Arrays;
 import java.util.Properties;
+import java.util.ArrayList;
+
+import net.dpml.transit.Category;
 
 /**
  * The ModuleDirective class describes a module data-structure.
@@ -28,16 +31,19 @@ import java.util.Properties;
  */
 public final class DependencyDirective extends AbstractDirective
 {
+    public static final Scope BUILD = Scope.BUILD;
+    public static final Scope RUNTIME = Scope.RUNTIME;
+    public static final Scope TEST = Scope.TEST;
+
     private final Scope m_scope;
-    private final String m_anchor;
-    private final TaggedIncludeDirective[] m_includes;
+    private final IncludeDirective[] m_includes;
     
-    public DependencyDirective( Scope scope, TaggedIncludeDirective[] includes, Properties properties )
+    public DependencyDirective( Scope scope, IncludeDirective[] includes )
     {
-        this( scope, includes, null, properties );
+        this( scope, includes, null );
     }
     
-    public DependencyDirective( Scope scope, TaggedIncludeDirective[] includes, String anchor, Properties properties )
+    public DependencyDirective( Scope scope, IncludeDirective[] includes, Properties properties )
     {
         super( properties );
         
@@ -51,7 +57,6 @@ public final class DependencyDirective extends AbstractDirective
         }
         m_scope = scope;
         m_includes = includes;
-        m_anchor = anchor;
     }
     
     public Scope getScope()
@@ -59,14 +64,27 @@ public final class DependencyDirective extends AbstractDirective
         return m_scope;
     }
     
-    public TaggedIncludeDirective[] getIncludeDirectives()
+    public IncludeDirective[] getIncludeDirectives()
     {
         return m_includes;
     }
     
-    public String getAnchorClassname()
+    public IncludeDirective[] getIncludeDirectives( Category category )
     {
-        return m_anchor;
+        if( null == category )
+        {
+            return m_includes;
+        }
+        ArrayList list = new ArrayList();
+        for( int i=0; i<m_includes.length; i++ )
+        {
+            IncludeDirective include = m_includes[i];
+            if( category.equals( include.getCategory() ) )
+            {
+                list.add( include );
+            }
+        }
+        return (IncludeDirective[]) list.toArray( new IncludeDirective[0] );
     }
     
     public boolean equals( Object other )
@@ -75,10 +93,6 @@ public final class DependencyDirective extends AbstractDirective
         {
             DependencyDirective dep = (DependencyDirective) other;
             if( !equals( m_scope, dep.m_scope ) )
-            {
-                return false;
-            }
-            if( !equals( m_anchor, dep.m_anchor ) )
             {
                 return false;
             }
@@ -97,7 +111,6 @@ public final class DependencyDirective extends AbstractDirective
     {
         int hash = super.hashCode();
         hash ^= super.hashArray( m_includes );
-        hash ^= super.hashValue( m_anchor );
         hash ^= super.hashValue( m_scope );
         return hash;
     }

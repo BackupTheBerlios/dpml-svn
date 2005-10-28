@@ -27,9 +27,13 @@ import java.beans.DefaultPersistenceDelegate;
 import java.beans.SimpleBeanInfo;
 import java.beans.Encoder;
 
-import net.dpml.tools.ant.Definition;
 import net.dpml.tools.info.Scope;
 import net.dpml.tools.model.Library;
+import net.dpml.tools.model.Resource;
+import net.dpml.tools.model.Type;
+
+import net.dpml.transit.Artifact;
+import net.dpml.transit.Transit;
 
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.types.Path;
@@ -41,40 +45,47 @@ import org.apache.tools.ant.types.Path;
  */
 public final class Context
 {
-    private final Definition m_definition;
+    private final Resource m_resource;
     private final Library m_library;
+    private final Path m_runtime;
+    private final Path m_test;
         
-    public Context( Definition definition, Library library, Project project )
+    public Context( Resource resource, Library library, Project project )
     {
-        m_definition = definition;
+        m_resource = resource;
         m_library = library;
         
-        String[] names = definition.getPropertyNames();
+        String[] names = resource.getPropertyNames();
         for( int i=0; i<names.length; i++ )
         {
             String name = names[i];
-            String value = definition.getProperty( name );
+            String value = resource.getProperty( name );
             project.setNewProperty( name, value );
         }
         
-        final Path compilePath = definition.getPath( project, Scope.BUILD );
-        compilePath.add( definition.getPath( project, Scope.RUNTIME ) );
-        project.addReference( "project.compile.path", compilePath );
-        
         final Path compileSrcPath = new Path( project );
-        File srcMain = definition.getTargetBuildMainDirectory();
+        File srcMain = getTargetBuildMainDirectory();
         compileSrcPath.createPathElement().setLocation( srcMain );
         project.addReference( "project.build.src.path", compileSrcPath );
         
-        final File testClasses = definition.getTargetClassesTestDirectory();
-        final Path testPath = definition.getPath( project, Scope.TEST );
-        testPath.add( compilePath );
-        testPath.createPathElement().setLocation( testClasses );
-        project.addReference( "project.test.path", testPath );
+        m_runtime = createPath( project, Scope.RUNTIME );
+        project.addReference( "project.compile.path", m_runtime );
+        m_test = createPath( project, Scope.TEST );
+        if( resource.isa( "jar" ) )
+        {
+            File deliverables = getTargetDeliverablesDirectory();
+            File jars = new File( deliverables, "jars" );
+            String filename = getLayoutPath( "jar" );
+            File jar = new File( jars, filename );
+            m_test.createPathElement().setLocation( jar );
+        }
+        final File testClasses = getTargetClassesTestDirectory();
+        m_test.createPathElement().setLocation( testClasses );
         
-        project.setNewProperty( "project.name", definition.getName() );
-        project.setNewProperty( "project.version", definition.getVersion() );
-        project.setNewProperty( "project.group", definition.getGroup() );
+        project.addReference( "project.test.path", m_test );
+        project.setNewProperty( "project.name", m_resource.getName() );
+        project.setNewProperty( "project.version", m_resource.getVersion() );
+        project.setNewProperty( "project.group", m_resource.getParent().getResourcePath() );
         project.setNewProperty( "project.nl", "\n" );
         project.setNewProperty( 
           "project.line", 
@@ -82,31 +93,165 @@ public final class Context
         project.setNewProperty( 
           "project.info", 
           "---------------------------------------------------------------------------\n"
-          + definition.getProjectPath()
+          + resource.getResourcePath()
           + "\n---------------------------------------------------------------------------" );
         
-        project.setNewProperty( "project.src.dir", definition.getSrcDirectory().toString() );
-        project.setNewProperty( "project.src.main.dir", definition.getSrcMainDirectory().toString() );
-        project.setNewProperty( "project.src.test.dir", definition.getSrcTestDirectory().toString() );
-        project.setNewProperty( "project.etc.dir", definition.getEtcDirectory().toString() );
+        project.setNewProperty( "project.src.dir", getSrcDirectory().toString() );
+        project.setNewProperty( "project.src.main.dir", getSrcMainDirectory().toString() );
+        project.setNewProperty( "project.src.test.dir", getSrcTestDirectory().toString() );
+        project.setNewProperty( "project.etc.dir", getEtcDirectory().toString() );
         
-        project.setNewProperty( "project.target.dir", definition.getTargetDirectory().toString() );
-        project.setNewProperty( "project.target.build.main.dir", definition.getTargetBuildMainDirectory().toString() );
-        project.setNewProperty( "project.target.build.test.dir", definition.getTargetBuildTestDirectory().toString() );
-        project.setNewProperty( "project.target.classes.main.dir", definition.getTargetClassesMainDirectory().toString() );
-        project.setNewProperty( "project.target.classes.test.dir", definition.getTargetClassesTestDirectory().toString() );
-        project.setNewProperty( "project.target.deliverables.dir", definition.getTargetDeliverablesDirectory().toString() );
-        project.setNewProperty( "project.target.test.dir", definition.getTargetTestDirectory().toString() );
+        project.setNewProperty( "project.target.dir", getTargetDirectory().toString() );
+        project.setNewProperty( "project.target.build.main.dir", getTargetBuildMainDirectory().toString() );
+        project.setNewProperty( "project.target.build.test.dir", getTargetBuildTestDirectory().toString() );
+        project.setNewProperty( "project.target.classes.main.dir", getTargetClassesMainDirectory().toString() );
+        project.setNewProperty( "project.target.classes.test.dir", getTargetClassesTestDirectory().toString() );
+        project.setNewProperty( "project.target.deliverables.dir", getTargetDeliverablesDirectory().toString() );
+        project.setNewProperty( "project.target.test.dir", getTargetTestDirectory().toString() );
     }
     
-    public Definition getDefinition()
+    public Path getPath( Scope scope )
     {
-        return m_definition;
+        if( scope.isLessThan( Scope.TEST ) )
+        {
+            return m_runtime;
+        }
+        else
+        {
+            return m_test;
+        }
+    }
+        
+    public Resource getResource()
+    {
+        return m_resource;
     }
     
     public Library getLibrary()
     {
         return m_library;
+    }
+    
+    public File getSrcDirectory()
+    {
+        return createFile( "src" );
+    }
+    
+    public File getSrcMainDirectory()
+    {
+        return new File( getSrcDirectory(), "main" );
+    }
+    
+    public File getSrcTestDirectory()
+    {
+        return new File( getSrcDirectory(), "test" );
+    }
+    
+    public File getEtcDirectory()
+    {
+        return createFile( "etc" );
+    }
+
+    public File getTargetDirectory()
+    {
+        return createFile( "target" );
+    }
+    
+    public File getTargetDirectory( String path )
+    {
+        return new File( getTargetDirectory(), path );
+    }
+    
+    public File getTargetBuildDirectory()
+    {
+        return new File( getTargetDirectory(), "build" );
+    }
+    
+    public File getTargetBuildMainDirectory()
+    {
+        return new File( getTargetBuildDirectory(), "main" );
+    }
+    
+    public File getTargetBuildTestDirectory()
+    {
+        return new File( getTargetBuildDirectory(), "test" );
+    }
+    
+    public File getTargetClassesDirectory()
+    {
+        return new File( getTargetDirectory(), "classes" );
+    }
+    
+    public File getTargetClassesMainDirectory()
+    {
+        return new File( getTargetClassesDirectory(), "main" );
+    }
+    
+    public File getTargetClassesTestDirectory()
+    {
+        return new File( getTargetClassesDirectory(), "test" );
+    }
+    
+    public File getTargetReportsDirectory()
+    {
+        return new File( getTargetDirectory(), "reports" );
+    }
+    
+    public File getTargetReportsTestDirectory()
+    {
+        return new File( getTargetReportsDirectory(), "tests" );
+    }
+    
+    public File getTargetReportsMainDirectory()
+    {
+        return new File( getTargetReportsDirectory(), "main" );
+    }
+    
+    public File getTargetTestDirectory()
+    {
+        return new File( getTargetDirectory(), "test" );
+    }
+    
+    public File getTargetDeliverablesDirectory()
+    {
+        return new File( getTargetDirectory(), "deliverables" );
+    }
+    
+    public File createFile( String path )
+    {
+        File basedir = m_resource.getBaseDir();
+        return new File( basedir, path );
+    }
+    
+    public String getLayoutPath( String id )
+    {
+        Artifact artifact = m_resource.getArtifact( id );
+        return Transit.getInstance().getCacheLayout().resolveFilename( artifact );
+    }
+    
+    public Path createPath( Project project, Scope scope )
+    {
+        final Path path = new Path( project );
+        try
+        {
+            File cache = (File) project.getReference( "dpml.cache" );
+            Resource[] resources = m_resource.getClasspathProviders( scope );
+            for( int i=0; i<resources.length; i++ )
+            {
+                Resource resource = resources[i];
+                Artifact artifact = resource.getArtifact( "jar" );
+                String location = Transit.getInstance().getCacheLayout().resolvePath( artifact );
+                File file = new File( cache, location );
+                path.createPathElement().setLocation( file );
+            }
+            return path;
+        }
+        catch( Exception e )
+        {
+            final String error = 
+              "Unexpected error while constructing path instance for the scope: " + scope;
+            throw new RuntimeException( error, e );
+        }
     }
 }
 

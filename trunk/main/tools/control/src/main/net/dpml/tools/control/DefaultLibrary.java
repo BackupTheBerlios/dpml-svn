@@ -23,6 +23,7 @@ import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.io.IOException;
 import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
@@ -30,29 +31,26 @@ import java.util.Hashtable;
 import java.util.ArrayList;
 import java.util.Properties;
 import java.util.Date;
+import java.util.List;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
 
 import net.dpml.tools.info.IncludeDirective;
 import net.dpml.tools.info.LibraryDirective;
 import net.dpml.tools.info.ModuleDirective;
-import net.dpml.tools.info.ModuleIncludeDirective;
+import net.dpml.tools.info.ImportDirective;
 import net.dpml.tools.info.Scope;
-import net.dpml.tools.info.TypeDescriptor;
-import net.dpml.tools.model.TypeNotFoundException;
-import net.dpml.tools.model.Model;
+import net.dpml.tools.info.ProcessDescriptor;
+import net.dpml.tools.model.ProcessorNotFoundException;
 import net.dpml.tools.model.Module;
-import net.dpml.tools.model.Project;
 import net.dpml.tools.model.Resource;
-import net.dpml.tools.model.IllegalAddressRuntimeException;
-import net.dpml.tools.model.ModelRuntimeException;
-import net.dpml.tools.model.ModelNotFoundException;
+import net.dpml.tools.model.Processor;
+import net.dpml.tools.model.Library;
+import net.dpml.tools.model.Type;
 import net.dpml.tools.model.ModuleNotFoundException;
-import net.dpml.tools.model.ProjectNotFoundException;
 import net.dpml.tools.model.ResourceNotFoundException;
 import net.dpml.tools.model.ReferentialException;
 import net.dpml.tools.model.DuplicateNameException;
-import net.dpml.tools.model.Library;
 
 import net.dpml.transit.Artifact;
 import net.dpml.transit.Logger;
@@ -65,27 +63,27 @@ import org.w3c.dom.Element;
  *
  * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
  */
-public final class DefaultLibrary extends UnicastRemoteObject implements Library
+public final class DefaultLibrary extends DefaultDictionary implements Library
 {
     private final LibraryDirective m_directive;
-    private final Hashtable m_modules = new Hashtable();
+    private final DefaultProcessor[] m_processes;
+    private final DefaultModule m_module;
     private final File m_root;
-    private final File m_source;
     private final Logger m_logger;
     
-    public static Library load( final Logger logger, final File source ) throws RemoteException, Exception
+    public static Library load( final Logger logger, final File source ) throws Exception
     {
         return new DefaultLibrary( logger, source );
     }
     
-    public DefaultLibrary( Logger logger ) throws RemoteException, Exception
+    public DefaultLibrary( Logger logger ) throws Exception
     {
         this( logger, resolveLibrarySource() );
     }
     
-    DefaultLibrary( Logger logger, File source ) throws RemoteException, Exception
+    DefaultLibrary( Logger logger, File source ) throws Exception
     {
-        super();
+        super( LibraryDirectiveBuilder.build( source ) );
         
         if( null == logger )
         {
@@ -97,628 +95,342 @@ public final class DefaultLibrary extends UnicastRemoteObject implements Library
         }
         
         m_logger = logger;
-        m_source = source;
+        m_directive = (LibraryDirective) super.getAbstractDirective();
         m_root = source.getParentFile().getCanonicalFile();
-        getLogger().debug( "loading root module: " + m_root );
-        System.setProperty( "dpml.library.basedir", m_root.toString() );
-        m_directive = LibraryDirectiveBuilder.build( source );
-        ModuleIncludeDirective[] modules = m_directive.getModuleIncludeDirectives();
-        for( int i=0; i<modules.length; i++ )
+        
+        // setup the processors
+        
+        ProcessDescriptor[] processDescriptors = m_directive.getProcessDescriptors();
+        m_processes = new DefaultProcessor[ processDescriptors.length ];
+        for( int i=0; i<processDescriptors.length; i++ )
         {
-            ModuleIncludeDirective include = modules[i];
-            String includeType = include.getType();
-            if( "file".equals( includeType ) )
+            ProcessDescriptor processDescriptor = processDescriptors[i];
+            m_processes[i] = new DefaultProcessor( processDescriptor );
+        }
+        
+        // handle expansion of import directives 
+        
+        getLogger().debug( "loaded root module: " + m_root );
+        System.setProperty( "dpml.library.basedir", m_root.toString() );
+        ImportDirective[] imports = m_directive.getImportDirectives();
+        ModuleDirective[] moduleDirectives = new ModuleDirective[ imports.length ];
+        for( int i=0; i<imports.length; i++ )
+        {
+            ImportDirective include = imports[i];
+            ImportDirective.Mode mode = include.getMode();
+            if( ImportDirective.Mode.FILE.equals( mode ) )
             {
                 String path = include.getValue();
-                installLocalModule( m_root, path );
+                File file = new File( m_root, path );
+                getLogger().debug( "loading local module: " + file );
+                moduleDirectives[i] = LibraryDirectiveBuilder.buildModuleDirective( file );
             }
-            else if( "uri".equals( includeType ) )
+            else
             {
                 String path = include.getValue();
                 URI uri = new URI( path );
-                installModule( uri );
+                URL url = Artifact.createArtifact( uri ).toURL();
+                InputStream input = url.openStream();
+                moduleDirectives[i] = LibraryDirectiveBuilder.buildModuleDirective( input );
             }
-            else
-            {
-                final String error = 
-                  "Unsupport include function [" + includeType + "]";
-                throw new IllegalArgumentException( error );
-            }
+        }
+        
+        // create the top-level modules
+        
+        DefaultModule[] modules = new DefaultModule[ moduleDirectives.length ];
+        m_module = new DefaultModule( this, m_directive, modules );
+        for( int i=0; i<moduleDirectives.length; i++ )
+        {
+            ModuleDirective moduleDirective = moduleDirectives[i];
+            modules[i] = new DefaultModule( this, m_module, moduleDirective );
         }
     }
     
-    public Model[] select( String spec )
+    //----------------------------------------------------------------------------
+    // Library
+    //----------------------------------------------------------------------------
+    
+   /**
+    * Return an array of all registered processes.
+    * @return the processor array
+    */
+    public Processor[] getProcessors()
     {
-        String[] tokens = spec.split( "/" );
-        //System.out.println( "# TOKENS: " + tokens.length );
-        Criteria[] criteria = new Criteria[ tokens.length ];
-        for( int i=0; i<tokens.length; i++ )
-        {
-            String token = tokens[i];
-            if( token.equals( "**" ) )
-            {
-                criteria[i] = new Criteria( true, null );
-            }
-            else
-            {
-                //System.out.println( "# token: [" + i + "]\t" + token );
-                StringBuffer buffer = new StringBuffer();
-                boolean wildcard = ( token.indexOf( "*" ) > -1 );
-                if( wildcard )
-                {
-                    String[] blocks = token.split( "\\*", -1 );
-                    buffer.append( "(" );
-                    for( int j=0; j<blocks.length; j++ )
-                    {
-                        //System.out.println( "\t# block: [" + j + "]\t'" + blocks[j] + "'" );
-                        buffer.append( "\\Q" );
-                        buffer.append( blocks[j] );
-                        buffer.append( "\\E" );
-                        if( j < (blocks.length-1) )
-                        {
-                            buffer.append( ".*" );
-                        }
-                    }
-                    buffer.append( ")" );
-                }
-                else
-                {
-                    //System.out.println( "\t# block [s]\t'" + token + "'"  );
-                    buffer.append( "(" );
-                    buffer.append( "\\Q" );
-                    buffer.append( token );
-                    buffer.append( "\\E" );
-                    buffer.append( ")" );
-                }
-                String expression = buffer.toString();
-                Pattern pattern = Pattern.compile( expression );
-                criteria[i] = new Criteria( false, pattern );
-            }
-        }
-        if( criteria.length > 0 )
-        {
-            //
-            // matching against a top-level module name
-            //
-            
-            Criteria c = criteria[0];
-            ArrayList list = new ArrayList();
-            if( c.isRecursive() )
-            {
-                DefaultModule[] modules = getAllDefaultModules();
-                for( int i=0; i<modules.length; i++ )
-                {
-                    //System.out.println( "# library recursive add: " + modules[i] );
-                    list.add( modules[i] );
-                }
-            }
-            else
-            {
-                DefaultModule[] modules = getDefaultModules();
-                Pattern pattern = c.getPattern();
-                for( int i=0; i<modules.length; i++ )
-                {
-                    String name = modules[i].getName();
-                    Matcher matcher = pattern.matcher( name );
-                    boolean matches = matcher.matches();
-                    //System.out.println( "# eval: " + name + ", " + matches );
-                    if( matches )
-                    {
-                        //System.out.println( "# found: " + name );
-                        list.add( modules[i] );
-                    }
-                }
-            }
-            DefaultModule[] selection = (DefaultModule[]) list.toArray( new DefaultModule[0] );
-            if( criteria.length == 1 )
-            {
-                return selection;
-            }
-            else
-            {
-                Criteria[] set = new Criteria[ criteria.length -1 ];
-                System.arraycopy( criteria, 1, set, 0, ( criteria.length -1 ) );
-                ArrayList collection = new ArrayList();
-                for( int i=0; i<selection.length; i++ )
-                {
-                    DefaultModule module = selection[i];
-                    Model[] models = module.select( set );
-                    for( int j=0; j<models.length; j++ )
-                    {
-                        collection.add( models[j] );
-                    }
-                }
-                return (Model[]) collection.toArray( new Model[0] );
-            }
-        }
-        else
-        {
-            return new Model[0];
-        }
+        return m_processes;
     }
     
-    static class Criteria
+   /**
+    * Return the sequence of process defintions supporting production of a 
+    * supplied resource.  The implementation constructs a sequence of process
+    * instances based on the types declared by the resource combined with 
+    * dependencies declared by respective process defintions. Clients may
+    * safely invoke processes sequentially relative to the returned process
+    * sequence.
+    * 
+    * @param the resource to be produced
+    * @return a sorted array of processor definitions supporting resource production
+    */
+    public Processor[] getProcessorSequence( Resource resource ) throws ProcessorNotFoundException
     {
-        boolean m_recursive;
-        Pattern m_pattern;
-        public Criteria( boolean recursive, Pattern pattern )
+        Type[] types = resource.getTypes();
+        try
         {
-            m_recursive = recursive;
-            m_pattern = pattern;
+            return getDefaultProcessorSequence( types );
         }
-        public boolean isRecursive()
+        catch( InvalidProcessorNameException e )
         {
-            return m_recursive;
+            final String error = 
+              "Internal error due to an invalid processor name ["
+              + e.getMessage()
+              + "] in the resource ["
+              + resource 
+              + "].";
+            throw new IllegalStateException( e.getMessage() );
         }
-        public Pattern getPattern()
-        {
-            return m_pattern;
-        }
-    }
-    
-    public Model lookup( File file ) 
-      throws ProjectNotFoundException, ResourceNotFoundException, ModuleNotFoundException, ModelNotFoundException
-    {
-        DefaultProject[] projects = getAllRegisteredProjects( false );
-        for( int i=0; i<projects.length; i++ )
-        {
-            DefaultProject project = projects[i];
-            File base = project.getBase();
-            if( file.equals( base ) )
-            {
-                return project;
-            }
-        }
-        DefaultModule[] modules = getAllDefaultModules();
-        for( int i=0; i<modules.length; i++ )
-        {
-            DefaultModule module = modules[i];
-            File base = module.getBase();
-            if( file.equals( base ) )
-            {
-                return module;
-            }
-        }
-        throw new ModelNotFoundException( file );
-    }
-    
-    public TypeDescriptor[] getTypeDescriptors()
-    {
-        return m_directive.getTypeDescriptors();
-    }
-    
-    public TypeDescriptor getTypeDescriptor( String type ) throws TypeNotFoundException
-    {
-        TypeDescriptor[] types = getTypeDescriptors();
-        for( int i=0; i<types.length; i++ )
-        {
-            TypeDescriptor descriptor = types[i];
-            if( type.equals( descriptor.getName() ) )
-            {
-                return descriptor;
-            }
-        }
-        throw new TypeNotFoundException( type );
     }
 
-    public long getLastModified()
-    {
-        return m_source.lastModified();
-    }
-    
    /**
-    * Return a sorted array of all projects within the library.
-    * @return the sorted project array
+    * Return the processor defintions matching a supplied type.  
+    * 
+    * @param type the type declaration
+    * @return the processor definition
+    * @exception ProcessorNotFoundException if no processor is registered 
+    *   for the supplied type
     */
-    public Project[] getAllProjects()
-      throws ResourceNotFoundException, ModuleNotFoundException
+    public Processor getProcessor( Type type ) throws ProcessorNotFoundException
     {
-        return getAllRegisteredProjects( true );
+        try
+        {
+            return getDefaultProcessor( type );
+        }
+        catch( InvalidProcessorNameException e )
+        {
+            final String message = e.getMessage();
+            throw new ProcessorNotFoundException( message );
+        }
     }
     
    /**
-    * Return an array of all module within the library.
-    * @return the module array
-    */
-    public Module[] getAllModules()
-      throws ResourceNotFoundException, ModuleNotFoundException
-    {
-        return getAllDefaultModules();
-    }
-    
-   /**
-    * Return a sorted array of projects including the dependent project of the 
-    * suplied target project.
-    * @param project the target project
-    * @param providers if TRUE sort in provider first order else consumer first
-    * @return the sorted project array
-    */
-    public Project[] getProjectChain( Project project, boolean providers )
-      throws ResourceNotFoundException, ModuleNotFoundException
-    {
-        DefaultProject p = (DefaultProject) project;
-        return sortProjects( new DefaultProject[]{ p }, providers );
-    }
-    
-   /**
-    * Return an array of top-level modules registered with the library.
-    * @return the module array
+    * Return a array of the top-level modules within the library.
+    * @return module array
     */
     public Module[] getModules()
     {
-        return getDefaultModules();
+        return m_module.getModules();
     }
     
    /**
-    * Get a named module.
-    * @param path the module address
-    * @exception ModuleNotFoundException if the address is not resolvable
+    * Return a array of all modules in the library.
+    * @return module array
     */
-    public Module getModule( String path ) throws ModuleNotFoundException
+    public Module[] getAllModules()
     {
-        return getDefaultModule( path );
+        return m_module.getAllModules();
     }
     
    /**
-    * Get a named project.
-    * @param path the project address
-    * @exception ModuleNotFoundException if the address is not resolvable
-    * @exception ProjectNotFoundException if the address is not resolvable
+    * Return a named module.
+    * @param ref the fully qualified module name
+    * @return the module
+    * @exception ModuleNotFoundException if the module cannot be found
     */
-    public Project getProject( String path ) throws ModuleNotFoundException, ProjectNotFoundException
+    public Module getModule( String ref ) throws ModuleNotFoundException
     {
-        return getDefaultProject( path );
-    }
-    
-   /**
-    * Get a named resource.
-    * @param path the resource address
-    * @exception ModuleNotFoundException if the address is not resolvable
-    * @exception ResourceNotFoundException if the address is not resolvable
-    */
-    public Resource getResource( String path ) throws ModuleNotFoundException, ResourceNotFoundException
-    {
-        return getDefaultResource( path );
-    }
-    
-    DefaultModule getDefaultModule( String path ) throws ModuleNotFoundException
-    {
-        int n = path.indexOf( "/" );
-        if( n > 0 )
-        {
-            String pre = path.substring( 0, n );
-            String post = path.substring( n+1 );
-            DefaultModule module = getDefaultModule( pre );
-            return module.getDefaultModule( post );
-        }
-        DefaultModule module = (DefaultModule) m_modules.get( path );
-        if( null == module )
-        {
-            throw new ModuleNotFoundException( path );
-        }
-        else
-        {
-            return module;
-        }
+        return m_module.getModule( ref );
     }
 
-    DefaultProject getDefaultProject( String path ) throws ModuleNotFoundException, ProjectNotFoundException
+   /**
+    * Recursively lookup a resource using a fully qualified reference.
+    * @param ref the fully qualified resource name
+    * @return the resource instance
+    * @exception ResourceNotFoundException if the resource cannot be found
+    */
+    public Resource getResource( String ref ) throws ResourceNotFoundException
     {
-        int n = path.lastIndexOf( "/" );
-        if( n > 0 )
-        {
-            String pre = path.substring( 0, n );
-            String post = path.substring( n+1 );
-            DefaultModule module = getDefaultModule( pre );
-            return module.getDefaultProject( post );
-        }
-        else
-        {
-            throw new ProjectNotFoundException( null, path );
-        }
+        return m_module.getResource( ref );
     }
     
-    DefaultResource getDefaultResource( String path ) throws ModuleNotFoundException, ResourceNotFoundException
+   /**
+    * <p>Select a set of resource matching a supplied a resource selection 
+    * constraint.  The constraint may contain the wildcards '**' and '*'.
+    * @param criteria the selection criteria
+    * @param sort if true the returned array will be sorted relative to dependencies
+    *   otherwise the array will be sorted alphanumerically with respect to the resource
+    *   path
+    * @return an array of resources matching the selction criteria
+    */
+    public Resource[] select( String spec, boolean sort )
     {
-        int n = path.lastIndexOf( "/" );
-        if( n > 0 )
-        {
-            String pre = path.substring( 0, n );
-            String post = path.substring( n+1 );
-            DefaultModule module = getDefaultModule( pre );
-            return module.getDefaultResource( post );
-        }
-        else
-        {
-            final String error =
-              "Resource address does not include a module name [" + path + "].";
-            throw new IllegalAddressRuntimeException( error );
-        }
+        return m_module.select( spec, sort );
     }
     
-    DefaultResource[] resolveResourceDependencies( DefaultModule module, IncludeDirective[] includes ) 
-      throws ResourceNotFoundException, ModuleNotFoundException
+   /**
+    * Locate a resource relative to a base directory.
+    * @param base the base directory
+    * @return a resource with a matching basedir
+    * @exception ResourceNotFoundException if resource match  relative to the supplied base
+    */
+    public Resource locate( File file ) throws ResourceNotFoundException
     {
-        DefaultResource[] resources = new DefaultResource[ includes.length ];
-        for( int i=0; i<includes.length; i++ )
-        {
-            IncludeDirective include = includes[i];
-            String type = include.getType();
-            String value = include.getValue();
-            if( "key".equals( type ) )
-            {
-                resources[i] = module.resolveDefaultResource( value );
-            }
-            else if( "ref".equals( type ) )
-            {
-                resources[i] = resolveResourceRef( value );
-            }
-            else
-            {
-                final String error = 
-                  "Resource dependency include directive "
-                  + include
-                  + "] contains an unsupported include keyword ["
-                  + type
-                  + "].";
-                throw new ModelRuntimeException( error );
-            }
-        }
-        return resources;
+        return m_module.locate( file );
     }
     
-    DefaultModule[] getDefaultModules()
-    {
-        return (DefaultModule[]) m_modules.values().toArray( new DefaultModule[0] );
-    }
-    
-    DefaultResource resolveResourceRef( String value ) throws ModuleNotFoundException, ResourceNotFoundException
-    {
-        int n = value.lastIndexOf( "/" );
-        if( n < 1 )
-        {
-            final String error = 
-             "Absolute resource reference [" 
-              + value
-              + "] does not include a module identifier.";
-            throw new ModelRuntimeException( error );
-        }
-        else
-        {
-            String moduleName = value.substring( 0, n );
-            DefaultModule module = getDefaultModule( moduleName );
-            String key = value.substring( n+1 );
-            return module.resolveDefaultResource( key );
-        }
-    }
-    
-    DefaultModule installModule( URI uri ) throws Exception
-    {
-        if( Artifact.isRecognized( uri ) )
-        {
-            URL url = Artifact.createArtifact( uri ).toURL();
-            InputStream input = url.openStream();
-            ModuleDirective directive = LibraryDirectiveBuilder.buildModuleDirective( input );
-            return install( m_root, directive );
-        }
-        else
-        {
-            final String error = 
-              "URI type not supported: " + uri;
-            throw new UnsupportedOperationException( error );
-        }
-    }
-    
-    DefaultModule installLocalModule( File anchor, String path ) throws Exception
-    {
-        File file = new File( anchor, path );
-        getLogger().debug( "loading local module: " + file );
-        ModuleDirective directive= LibraryDirectiveBuilder.buildModuleDirective( file );
-        File parent = file.getParentFile();
-        return install( parent, directive );
-    }
-    
-    DefaultModule install( File anchor, ModuleDirective directive ) throws Exception
-    {
-        String name = directive.getName();
-        if( !m_modules.containsKey( name ) )
-        {
-            DefaultModule module = new DefaultModule( this, null, directive, anchor );
-            m_modules.put( name, module );
-            module.init( this, anchor );
-            return module;
-        }
-        else
-        {
-            return getDefaultModule( name );
-        }
-    }
+    //----------------------------------------------------------------------------
+    // internals
+    //----------------------------------------------------------------------------
     
     File getRootDirectory()
     {
         return m_root;
     }
     
-    DefaultProject[] sortProjects( DefaultProject[] projects, boolean policy )
-      throws ResourceNotFoundException, ModuleNotFoundException
+    DefaultProcessor getDefaultProcessor( Type type ) throws InvalidProcessorNameException
     {
-        ArrayList stack = new ArrayList();
+        String id = type.getName();
+        for( int i=0; i<m_processes.length; i++ )
+        {
+            DefaultProcessor processor = m_processes[i];
+            String name = processor.getName();
+            if( name.equals( id ) )
+            {
+                return processor;
+            }
+        }
+        throw new InvalidProcessorNameException( id );
+    }
+    
+    DefaultProcessor[] getDefaultProcessorSequence( Type[] types )
+    {
+        DefaultProcessor[] processors = new DefaultProcessor[ types.length ];
+        for( int i=0; i<types.length; i++ )
+        {
+            Type type = types[i];
+            processors[i] = getDefaultProcessor( type );
+        }
+        return processors;
+    }
+    
+    String[] expandTypeNames( String[] types )
+    {
+        ProcessDescriptor[] descriptors = getProcessDescriptors( types );
+        ProcessDescriptor[] sorted = sortProcessDescriptors( descriptors );
+        String[] names = new String[ sorted.length ];
+        for( int i=0; i<sorted.length; i++ )
+        {
+            ProcessDescriptor descriptor = sorted[i];
+            names[i] = descriptor.getName();
+        }
+        return names;
+    }
+    
+   /**
+    * Return the array of top-level modules.
+    * @return the top-level module array
+    */
+    DefaultModule[] getDefaultModules()
+    {
+        return m_module.getDefaultModules();
+    }
+    
+   /**
+    * Recursively lookup a resource using a fully qualified reference.
+    * @param ref the fully qualified resource name
+    * @return the resource instance
+    */
+    DefaultResource getDefaultResource( String ref )
+    {
+        return m_module.getDefaultResource( ref );
+    }
+    
+   /**
+    * Return a named module.
+    * @param ref the fully qualified resource name
+    * @return the module
+    */
+    DefaultModule getDefaultModule( String ref )
+    {
+        return m_module.getDefaultModule( ref );
+    }
+    
+    //----------------------------------------------------------------------------
+    // selection
+    //----------------------------------------------------------------------------
+    
+    DefaultResource[] selectDefaultResources( String spec )
+    {
+        return m_module.selectDefaultResources( spec );
+    }
+    
+    //----------------------------------------------------------------------------
+    // internal ProcessDescriptor sorting
+    //----------------------------------------------------------------------------
+    
+    private ProcessDescriptor[] getProcessDescriptors( String[] names )
+      throws InvalidProcessorNameException
+    {
+        ProcessDescriptor[] result = new ProcessDescriptor[ names.length ];
+        for( int i=0; i<names.length; i++ )
+        {
+            String name = names[i];
+            result[i] = getProcessDescriptor( name );
+        }
+        return result;
+    }
+    
+    private ProcessDescriptor getProcessDescriptor( String name ) throws InvalidProcessorNameException
+    {
+        ProcessDescriptor[] processes = m_directive.getProcessDescriptors();
+        for( int i=0; i<processes.length; i++ )
+        {
+            ProcessDescriptor process = processes[i];
+            if( process.getName().equals( name ) )
+            {
+                return process;
+            }
+        }
+        throw new InvalidProcessorNameException( name );
+    }
+    
+    private ProcessDescriptor[] getProcessDescriptors()
+    {
+        return m_directive.getProcessDescriptors();
+    }
+    
+    private ProcessDescriptor[] sortProcessDescriptors( ProcessDescriptor[] descriptors )
+    {
         ArrayList visited = new ArrayList();
-        for( int i=0; i<projects.length; i++ )
+        ArrayList stack = new ArrayList();
+        for( int i=0; i<descriptors.length; i++ )
         {
-            DefaultProject project = projects[i];
-            processProject( visited, stack, project, policy, projects );
+            ProcessDescriptor descriptor = descriptors[i];
+            processProcessDescriptor( visited, stack, descriptor );
         }
-        return (DefaultProject[]) stack.toArray( new DefaultProject[0] );
+        return (ProcessDescriptor[]) stack.toArray( new ProcessDescriptor[0] );
     }
     
-    DefaultProject[] getDecendentProjects( DefaultProject project, DefaultProject[] collection ) 
-      throws ResourceNotFoundException, ModuleNotFoundException
+    private void processProcessDescriptor( 
+      List visited, List stack, ProcessDescriptor descriptor )
     {
-        DefaultResource resource = project.toLocalResource();
-        ArrayList list = new ArrayList();
-        for( int i=0; i<collection.length; i++ )
-        {
-            DefaultProject p = collection[i];
-            DefaultResource[] resources = p.getProviderResources( Scope.TEST );
-            for( int j=0; j<resources.length; j++ )
-            {
-                DefaultResource r = resources[j];
-                if( resource.equals( r ) )
-                {
-                    if( !list.contains( p ) )
-                    {
-                        list.add( p );
-                    }
-                }
-            }
-        }
-        return (DefaultProject[]) list.toArray( new DefaultProject[0] );
-    }
-    
-    Properties getProperties()
-    {
-        return m_directive.getProperties();
-    }
-    
-   /**
-    * Return a sorted array of all projects within the library.
-    * @return the sorted project array
-    */
-    DefaultProject[] getAllRegisteredProjects( boolean sorted )
-      throws ResourceNotFoundException, ModuleNotFoundException
-    {
-        ArrayList list = new ArrayList();
-        DefaultModule[] modules = getDefaultModules();
-        for( int i=0; i<modules.length; i++ )
-        {
-            aggregateProjects( list, modules[i] );
-        }
-        DefaultProject[] projects = (DefaultProject[]) list.toArray( new DefaultProject[0] );
-        if( sorted )
-        {
-            return sortProjects( projects, true );
-        }
-        else
-        {
-            return projects;
-        }
-    }
-
-   /**
-    * Return an array of all modules within the library.
-    * @return the module array
-    */
-    DefaultModule[] getAllDefaultModules()
-    {
-        try
-        {
-            ArrayList list = new ArrayList();
-            DefaultModule[] modules = getDefaultModules();
-            for( int i=0; i<modules.length; i++ )
-            {
-                aggregateModules( list, modules[i] );
-            }
-            return (DefaultModule[]) list.toArray( new DefaultModule[0] );
-        }
-        catch( Exception e )
-        {
-            final String error = 
-              "Unexpected error while attempting to build module list.";
-            throw new ModelRuntimeException( error );
-        }
-    }
-    
-    private void aggregateModules( ArrayList list, DefaultModule module )
-    {
-        list.add( module );
-        DefaultModule[] modules = module.getDefaultModules();
-        for( int i=0; i<modules.length; i++ )
-        {
-            aggregateModules( list, modules[i] );
-        }
-    }
-    
-    private void aggregateProjects( ArrayList list, DefaultModule module )
-    {
-        DefaultProject[] projects = module.getDefaultProjects();
-        for( int i=0; i<projects.length; i++ )
-        {
-            list.add( projects[i] );
-        }
-        DefaultModule[] modules = module.getDefaultModules();
-        for( int i=0; i<modules.length; i++ )
-        {
-            aggregateProjects( list, modules[i] );
-        }
-    }
-    
-    private DefaultProject[] getProviderProjects( DefaultProject project ) 
-      throws ResourceNotFoundException, ModuleNotFoundException
-    {
-        ArrayList list = new ArrayList();
-        DefaultResource[] resources = project.getProviderResources();
-        for( int i=0; i<resources.length; i++ )
-        {
-            DefaultResource resource = resources[i];
-            DefaultProject p = resource.getDefaultProject();
-            if( null != p )
-            {
-                list.add( p );
-            }
-        }
-        return (DefaultProject[]) list.toArray( new DefaultProject[0] );
-    }
-    
-    private void processProject( 
-      ArrayList visited, ArrayList stack, DefaultProject project, boolean policy, DefaultProject[] collection ) 
-      throws ResourceNotFoundException, ModuleNotFoundException
-    {
-        if( visited.contains( project ) )
+        if( visited.contains( descriptor ) )
         {
             return;
         }
-        visited.add( project );
-        if( policy )
-        {
-            DefaultProject[] projects = getProviderProjects( project );
-            for( int i=0; i<projects.length; i++ )
-            {
-                DefaultProject p = projects[i];
-                if( isaMember( collection, p ) )
-                {
-                    processProject( visited, stack, p, policy, collection );
-                }
-            }
-            stack.add( project );
-        }
         else
         {
-            stack.add( project );
-            DefaultProject[] projects = project.getConsumerProjects( collection );
-            for( int i=0; i<projects.length; i++ )
+            visited.add( descriptor );
+            String[] deps = descriptor.getDependencies();
+            ProcessDescriptor[] providers = getProcessDescriptors( deps );
+            for( int i=0; i<providers.length; i++ )
             {
-                DefaultProject p = projects[i];
-                if( isaMember( collection, p ) )
-                {
-                    processProject( visited, stack, p, policy, collection );
-                }
+                processProcessDescriptor( visited, stack, providers[i] );
             }
+            stack.add( descriptor );
         }
     }
     
-    private boolean isaMember( DefaultProject[] projects, DefaultProject project )
-    {
-        for( int i=0; i<projects.length; i++ )
-        {
-            DefaultProject p = projects[i];
-            if( project.equals( p ) )
-            {
-                return true;
-            }
-        }
-        return false;
-    }
+    //----------------------------------------------------------------------------
+    // other internals
+    //----------------------------------------------------------------------------
     
     private Logger getLogger()
     {

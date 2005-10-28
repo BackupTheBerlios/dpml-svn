@@ -373,13 +373,13 @@ public final class XMLDefinitionBuilder
 
     private static Category resolveCategory( String category )
     {
-        if( ( null == category ) )
+        if( null == category )
         {
             return Category.PRIVATE;
         }
         else
         {
-            return ResourceRef.getCategory( category );
+            return Category.parse( category );
         }
     }
 

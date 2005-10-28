@@ -18,23 +18,19 @@
 
 package net.dpml.tools.model;
 
-import java.rmi.Remote;
-import java.rmi.RemoteException;
+import java.net.URI;
 
 /**
- * A ModelException is thrown is a general error occurs during model creation.
+ * The Dictonary interface exposes operations dealing with named properties.
  *
  * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
  */
-public class ModelRuntimeException extends RuntimeException
+public interface Dictionary
 {
-    public ModelRuntimeException( String message )
-    {
-        this( message, null );
-    }
+    String[] getPropertyNames();
     
-    public ModelRuntimeException( String message, Throwable cause )
-    {
-        super( message, cause );
-    }
+    String getProperty( String key );
+    
+    String getProperty( String key, String value );
+    
 }

@@ -22,9 +22,11 @@ import java.io.File;
 import java.rmi.RemoteException;
 
 import net.dpml.tools.model.ResourceNotFoundException;
-import net.dpml.tools.model.ProjectNotFoundException;
 import net.dpml.tools.model.ModuleNotFoundException;
 import net.dpml.tools.model.Resource;
+import net.dpml.tools.model.Type;
+
+import net.dpml.transit.Artifact;
 
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Project;
@@ -140,50 +142,40 @@ public abstract class FeatureTask extends GenericTask
         String ref = getRef();
         Resource resource = getResource( ref );
 
-        try
+        if( m_feature.equals( "name" ) )
         {
-            if( m_feature.equals( "name" ) )
+            return resource.getName();
+        }
+        else if( m_feature.equals( "group" ) )
+        {
+            return resource.getParent().getResourcePath();
+        }
+        else if( m_feature.equals( "version" ) )
+        {
+            String version = resource.getVersion();
+            if( null == version )
             {
-                return resource.getName();
+                return "";
             }
-            else if( m_feature.equals( "group" ) )
+            else
             {
-                return resource.getModule().getPath();
+                return version;
             }
-            else if( m_feature.equals( "version" ) )
+        }
+        else if( m_feature.equals( "uri" ) )
+        {
+            if( null == m_type )
             {
-                String version = resource.getVersion();
-                if( null == version )
-                {
-                    return "";
-                }
-                else
-                {
-                    return version;
-                }
+                final String error = 
+                  "Type attribute must be supplied in conjuction with the uri attribute.";
+                throw new BuildException( error, getLocation() );
             }
-            else if( m_feature.equals( "uri" ) )
+            else
             {
-                if( null == m_type )
-                {
-                    final String error = 
-                      "Type attribute must be supplied in conjuction with the uri attribute.";
-                    throw new BuildException( error, getLocation() );
-                }
-                else
-                {
-                    String path = resource.getPath();
-                    String version = resource.getVersion();
-                    if( null == version )
-                    {
-                        return "artifact:" + m_type + ":" + path;
-                    }
-                    else
-                    {
-                        return "artifact:" + m_type + ":" + path + "#" + version;
-                    }
-                }
+                Artifact artifact = resource.getArtifact( m_type );
+                return artifact.toURI().toString();
             }
+        }
             //else if( m_feature.equals( "alias" ) )
             //{
             //    if( null == m_type )
@@ -197,19 +189,19 @@ public abstract class FeatureTask extends GenericTask
             //        return resource.getInfo().getType( m_type ).getAlias();
             //    }
             //}
-            else if( m_feature.equals( "spec" ) )
+        else if( m_feature.equals( "spec" ) )
+        {
+            String path = resource.getResourcePath();
+            String version = resource.getVersion();
+            if( null == version )
             {
-                String path = resource.getPath();
-                String version = resource.getVersion();
-                if( null == version )
-                {
-                    return path;
-                }
-                else
-                {
-                    return path + "#" + version;
-                }
+                return path;
             }
+            else
+            {
+                return path + "#" + version;
+            }
+        }
             //else if( m_feature.equals( "path" ) )
             //{
             //    if( null == m_type )
@@ -252,18 +244,13 @@ public abstract class FeatureTask extends GenericTask
             //{
             //   return convertString( resource.getInfo().getJavadocPath() );
             //}
-            else
-            {
-                final String error = 
-                  "Unsupported feature ["
-                  + m_feature 
-                  + "].";
-                throw new BuildException( error, getLocation() );
-            }
-        }
-        catch( RemoteException e )
+        else
         {
-            throw new RuntimeException( "remote-exception", e );
+            final String error = 
+              "Unsupported feature ["
+              + m_feature 
+              + "].";
+            throw new BuildException( error, getLocation() );
         }
     }
     
@@ -275,11 +262,11 @@ public abstract class FeatureTask extends GenericTask
         }
         else if( null != m_key )
         {
-            return getDefinition().getGroup() + "/" + m_key;
+            return getResource().getParent().getResourcePath() + "/" + m_key;
         }
         else
         {
-            return getDefinition().getProjectPath();
+            return getResource().getResourcePath();
         }
     }
 
@@ -291,46 +278,13 @@ public abstract class FeatureTask extends GenericTask
         }
         catch( ResourceNotFoundException e )
         {
-            try
-            {
-                return getContext().getLibrary().getProject( ref ).toResource();
-            }
-            catch( ProjectNotFoundException pnfe )
-            {
-                final String error = 
-                  "Unable to locate a project or resource with the address ["
-                  + ref
-                  + "].";
-                throw new BuildException( error, e );
-            }
-            catch( RemoteException re )
-            {
-                throw new RuntimeException( "remote-exception", re );
-            }
-            catch( ModuleNotFoundException mnfe )
-            {
-                final String error = 
-                  "Resource address in [" 
-                  + ref
-                  + "] contains an unknown module references ["
-                  + e.getMessage()
-                  + "].";
-                throw new BuildException( error, mnfe );
-            }
-        }
-        catch( ModuleNotFoundException e )
-        {
             final String error = 
               "Resource address in [" 
               + ref
-              + "] contains an unknown module references ["
+              + "] contains an unknown resource references ["
               + e.getMessage()
               + "].";
             throw new BuildException( error, e );
-        }
-        catch( RemoteException e )
-        {
-            throw new RuntimeException( "remote-exception", e );
         }
     }
     

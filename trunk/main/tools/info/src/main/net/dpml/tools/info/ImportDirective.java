@@ -29,26 +29,38 @@ import java.util.Properties;
 import net.dpml.transit.util.Enum;
 
 /**
- * The ResourceIncludeDirective class describes a the inclusion of a typed value.
+ * The ImportDirective class describes a the import of resource via a file or uri reference.
  *
  * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
  */
-public class ResourceIncludeDirective extends IncludeDirective
+public final class ImportDirective extends AbstractDirective
 {
-    public static final Mode KEY = Mode.KEY;
-    public static final Mode REF = Mode.REF;
+    public static final Mode URI = Mode.URI;
+    public static final Mode FILE = Mode.FILE;
     
     private Mode m_mode;
+    private final String m_value;
     
-    public ResourceIncludeDirective( Mode mode, String value )
+    public ImportDirective( Mode mode, String value )
     {
         this( mode, value, null );
     }
     
-    public ResourceIncludeDirective( Mode mode, String value, Properties properties )
+    public ImportDirective( Mode mode, String value, Properties properties )
     {
-        super( mode.getName(), value, properties );
+        super( properties );
+        
+        if( null == mode )
+        {
+            throw new NullPointerException( "mode" );
+        }
+        if( null == value )
+        {
+            throw new NullPointerException( "value" );
+        }
+
         m_mode = mode;
+        m_value = value;
     }
     
     public Mode getMode()
@@ -56,6 +68,39 @@ public class ResourceIncludeDirective extends IncludeDirective
         return m_mode;
     }
     
+    public String getValue()
+    {
+        return m_value;
+    }
+
+    public boolean equals( Object other )
+    {
+        if( super.equals( other ) && ( other instanceof ImportDirective ) )
+        {
+            ImportDirective object = (ImportDirective) other;
+            if( !equals( m_mode, object.m_mode ) )
+            {
+                return false;
+            }
+            else
+            {
+                return equals( m_value, object.m_value );
+            }
+        }
+        else
+        {
+            return false;
+        }
+    }
+    
+    public int hashCode()
+    {
+        int hash = super.hashCode();
+        hash ^= super.hashValue( m_mode );
+        hash ^= super.hashValue( m_value );
+        return hash;
+    }
+
    /**
     * Mode of inclusion.
     * @author <a href="mailto:dev-dpml@lists.ibiblio.org">The Digital Product Meta Library</a>
@@ -65,14 +110,14 @@ public class ResourceIncludeDirective extends IncludeDirective
         static final long serialVersionUID = 1L;
 
         /**
-        * Include by reference to a local key.
+        * Include File.
         */
-        public static final Mode KEY = new Mode( "key" );
+        public static final Mode FILE = new Mode( "file" );
 
         /**
-        * Include by reference to an absolute resource address.
+        * Soft collection policy.
         */
-        public static final Mode REF = new Mode( "ref" );
+        public static final Mode URI = new Mode( "uri" );
     
         /**
          * Internal constructor.
@@ -87,18 +132,18 @@ public class ResourceIncludeDirective extends IncludeDirective
     
         public static Mode parse( String value )
         {
-            if( value.equalsIgnoreCase( "key" ) )
+            if( value.equalsIgnoreCase( "file" ) )
             {
-                return KEY;
+                return FILE;
             }
-            else if( value.equalsIgnoreCase( "ref" ))
+            else if( value.equalsIgnoreCase( "uri" ))
             {
-                return REF;
+                return URI;
             }
             else
             {
                 final String error =
-                  "Unrecognized resource mode argument [" + value + "]";
+                  "Unrecognized module mode argument [" + value + "]";
                 throw new IllegalArgumentException( error );
             }
         }

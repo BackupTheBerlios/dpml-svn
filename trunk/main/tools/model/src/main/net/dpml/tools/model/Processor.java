@@ -18,21 +18,29 @@
 
 package net.dpml.tools.model;
 
+import java.net.URI;
+
 /**
- * A IllegalAddressRuntimeException is thrown when a resource or project 
- * address is badly formed.
+ * The Processor interface defines a process model.
  *
  * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
  */
-public final class IllegalAddressRuntimeException extends ModelRuntimeException
+public interface Processor
 {
-    public IllegalAddressRuntimeException( String message )
-    {
-        this( message, null );
-    }
+   /**
+    * Return the name of the process.
+    */
+    String getName();
     
-    public IllegalAddressRuntimeException( String message, Throwable cause )
-    {
-        super( message, cause );
-    }
+   /**
+    * Return the processor codebase uri.
+    */
+    URI getCodeBaseURI();
+    
+   /**
+    * Return an array of dependent process names declared by the process type.
+    * @return the process names that this process is depends on
+    */
+    String[] getDepends();
+
 }

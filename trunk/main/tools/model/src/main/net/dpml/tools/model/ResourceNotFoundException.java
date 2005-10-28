@@ -24,7 +24,7 @@ package net.dpml.tools.model;
  *
  * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
  */
-public final class ResourceNotFoundException extends Exception
+public class ResourceNotFoundException extends Exception
 {
     public ResourceNotFoundException( String message )
     {

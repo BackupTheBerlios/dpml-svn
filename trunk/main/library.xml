@@ -14,13 +14,13 @@
     <type name="part" uri="link:plugin:dpml/metro/dpml-composition-tools"/>
   </types>
 
-  <modules>
-    <include file="library/junit-3.8.1.xml"/>
-    <include file="library/commons-cli-1.0.xml"/>
-    <include file="library/xstream-1.1.xml"/>
-    <include file="library/jgoodies.xml"/>
-    <include file="library/ant-1.6.5.xml"/>
-    <include file="library/dpml.xml"/>
-  </modules>
+  <imports>
+    <import file="library/junit-3.8.1.xml"/>
+    <import file="library/commons-cli-1.0.xml"/>
+    <import file="library/xstream-1.1.xml"/>
+    <import file="library/jgoodies.xml"/>
+    <import file="library/dpml.xml"/>
+    <import file="library/ant-1.6.5.xml"/>
+  </imports>
 
 </library>

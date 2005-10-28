@@ -19,579 +19,651 @@
 package net.dpml.tools.control;
 
 import java.io.File;
-import java.io.InputStream;
-import java.io.IOException;
 import java.net.URI;
-import java.rmi.RemoteException;
-import java.rmi.server.UnicastRemoteObject;
+import java.util.Arrays;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Hashtable;
-import java.util.Enumeration;
-import java.util.Properties;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
 
-import net.dpml.tools.info.ModuleDirective;
-import net.dpml.tools.info.ResourceDirective;
-import net.dpml.tools.info.ProjectDirective;
-import net.dpml.tools.info.IncludeDirective;
-
-import net.dpml.tools.model.Model;
+import net.dpml.tools.info.Scope;
 import net.dpml.tools.model.Module;
 import net.dpml.tools.model.Resource;
-import net.dpml.tools.model.Project;
-import net.dpml.tools.model.ModelNotFoundException;
-import net.dpml.tools.model.ModuleNotFoundException;
 import net.dpml.tools.model.ResourceNotFoundException;
-import net.dpml.tools.model.ProjectNotFoundException;
-import net.dpml.tools.model.ReferentialException;
-import net.dpml.tools.model.DuplicateNameException;
-import net.dpml.tools.model.Library;
-import net.dpml.tools.model.ModelRuntimeException;
+import net.dpml.tools.model.ModuleNotFoundException;
+import net.dpml.tools.info.ModuleDirective;
+import net.dpml.tools.info.ResourceDirective;
+import net.dpml.tools.info.LibraryDirective;
 
-import net.dpml.tools.control.DefaultLibrary.Criteria;
+import net.dpml.transit.Category;
 
-import net.dpml.transit.util.ElementHelper;
-import net.dpml.transit.util.PropertyResolver;
-
-import org.w3c.dom.Element;
 
 /**
- * Utility class used for construction of a module model from an XML source.
+ * A Module is a collection of resources.  It serves to establish a 
+ * namespace and a framework for sharing properties and characteristics 
+ * defined within within the module with resources contained within the
+ * module.
  *
  * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
  */
-public final class DefaultModule extends UnicastRemoteObject implements Module
+public final class DefaultModule extends DefaultResource implements Module
 {
-    private final DefaultModule m_parent;
-    private final ModuleDirective m_directive;
-    private final DefaultLibrary m_library;
+    private final boolean m_root;
+    private final DefaultResource[] m_resources;
     
-    private final Hashtable m_modules = new Hashtable();
-    private final Hashtable m_resources = new Hashtable();
-    private final Hashtable m_projects = new Hashtable();
-    private final String m_path;
-    
-    private Properties m_properties;
-    private File m_base;
-    
-    private DefaultModule[] m_imports;
-    
-    DefaultModule( DefaultLibrary library, ModuleDirective directive, File anchor ) throws RemoteException
+    DefaultModule( DefaultLibrary library, LibraryDirective directive, DefaultResource[] resources ) 
+      throws Exception
     {
-        this( library, null, directive, anchor );
+        super( library, directive );
+        m_resources = resources;
+        m_root = true;
     }
     
-    DefaultModule( DefaultLibrary library, DefaultModule parent, ModuleDirective directive, File anchor ) throws RemoteException
+    DefaultModule( DefaultLibrary library, ModuleDirective directive ) throws Exception
     {
-        super();
+        this( library, null, directive );
+    }
+    
+    DefaultModule( DefaultLibrary library, DefaultModule module, ModuleDirective directive ) throws Exception
+    {
+        super( library, module, directive );
         
-        m_directive = directive;
-        m_parent = parent;
-        m_library = library;
-        
-        if( null == m_parent )
+        m_root = false;
+        ResourceDirective[] directives = directive.getResourceDirectives();
+        DefaultResource[] resources = new DefaultResource[ directives.length ];
+        for( int i=0; i<directives.length; i++ )
         {
-            m_path = m_directive.getName();
+            ResourceDirective res = directives[i];
+            if( res instanceof ModuleDirective )
+            {
+                ModuleDirective d = (ModuleDirective) res;
+                resources[i] = new DefaultModule( library, this, d );
+            }
+            else
+            {
+                resources[i] = new DefaultResource( library, this, res );
+            }
         }
-        else
-        {
-            String path = m_parent.getPath();
-            m_path = path + "/" + getName();
-        }
-        
+        m_resources = resources;
+    }
+    
+    //----------------------------------------------------------------------------
+    // Module
+    //----------------------------------------------------------------------------
+    
+   /**
+    * Return an array of immediate resources contained within the
+    * module.
+    * @return the resource array
+    */
+    public Resource[] getResources() throws ResourceNotFoundException
+    {
         try
         {
-            String base = m_directive.getBasedir();
-            if( null == base )
-            {
-                m_base = anchor.getCanonicalFile();
-            }
-            else
-            {
-                m_base = new File( anchor, base ).getCanonicalFile();
-            }
+            return getDefaultResources();
         }
-        catch( IOException e )
+        catch( InvalidNameException e )
         {
-            final String error = 
-               "Internal error while attempting to construct a canonical file.";
-            throw new RuntimeException( error, e );
-        }
-        
-        m_properties = setupProperties();
-        ModuleDirective[] moduleDirectives = directive.getModuleDirectives();
-        for( int i=0; i<moduleDirectives.length; i++ )
-        {
-            ModuleDirective moduleDirective = moduleDirectives[i];
-            DefaultModule module = new DefaultModule( library, this, moduleDirective, m_base );
-            String key = module.getName();
-            m_modules.put( key, module );
-        }
-
-        ResourceDirective[] resourceDirectives = directive.getResourceDirectives();
-        for( int i=0; i<resourceDirectives.length; i++ )
-        {
-            ResourceDirective resourceDirective = resourceDirectives[i];
-            DefaultResource resource = new DefaultResource( library, this, resourceDirective );
-            String key = resource.getName();
-            m_resources.put( key, resource );
-        }
-        
-        ProjectDirective[] projectDirectives = directive.getProjectDirectives();
-        for( int i=0; i<projectDirectives.length; i++ )
-        {
-            ProjectDirective projectDirective = projectDirectives[i];
-            DefaultProject project = new DefaultProject( library, this, projectDirective );
-            String key = project.getName();
-            m_projects.put( key, project );
+            final String message = e.getMessage();
+            throw new ResourceNotFoundException( message );
         }
     }
     
-    void init( DefaultLibrary library, File anchor ) throws Exception
+   /**
+    * Return a resource using a supplied name.
+    * @param ref a path relative to the module
+    * @return the resource array
+    */
+    public Resource getResource( String ref ) throws ResourceNotFoundException
     {
-        IncludeDirective[] includes = m_directive.getIncludeDirectives();
-        DefaultModule[] modules = new DefaultModule[ includes.length ];
-        for( int i=0; i<includes.length; i++ )
+        try
         {
-            IncludeDirective include = includes[i];
-            String includeType = include.getType();
-            if( "file".equals( includeType ) )
-            {
-                String path = include.getValue();
-                modules[i] = library.installLocalModule( anchor, path );
-            }
-            else if( "uri".equals( includeType ) )
-            {
-                String path = include.getValue();
-                URI uri = new URI( path );
-                modules[i] = library.installModule( uri );
-            }
-            else
-            {
-                final String error = 
-                  "Unsupport include function [" + includeType + "]";
-                throw new IllegalArgumentException( error );
-            }
+            return getDefaultResource( ref );
         }
-        m_imports = modules;
-        DefaultModule[] local = getDefaultModules();
-        for( int i=0; i<local.length; i++ )
+        catch( InvalidNameException e )
         {
-            DefaultModule m = local[i];
-            m.init( library, anchor );
+            final String message = e.getMessage();
+            throw new ResourceNotFoundException( message );
         }
     }
     
-    public String getName()
-    {
-        return m_directive.getName();
-    }
-    
-    public String getVersion()
-    {
-        String version = m_directive.getVersion();
-        if( ( null == version ) && ( null != m_parent ) )
-        {
-            return m_parent.getVersion();
-        }
-        else
-        {
-            return version;
-        }
-    }
-    
-    public String getPath()
-    {
-        return m_path;
-    }
-    
-    public File getBase()
-    {
-        return m_base;
-    }
-    
-    public Module getModule()
-    {
-        return m_parent;
-    }
-    
+   /**
+    * Return the array of modules that are direct children of this module.
+    * @return the child modules
+    */
     public Module[] getModules()
     {
         return getDefaultModules();
     }
     
-    public Module[] getImportedModules()
-    {
-        return (Module[]) m_imports;
-    }
-    
-    public Module getModule( String key ) throws ModuleNotFoundException
-    {
-        return getDefaultModule( key );
-    }
-    
-    public Resource[] getResources()
-    {
-        return getDefaultResources();
-    }
-    
-    public Project[] getProjects()
-    {
-        return (Project[]) m_projects.values().toArray( new Project[0] );
-    }
-    
-    public Resource getResource( String key ) throws ResourceNotFoundException
-    {
-        return getDefaultResource( key );
-    }
-    
-    public Project getProject( String key ) throws ProjectNotFoundException
-    {
-        return getDefaultProject( key );
-    }
-    
    /**
-    * Return a sorted array of all projects within this module group.
-    * @return the sorted project array
+    * Return a module using a supplied reference.
+    * @param ref a path relative to the module
+    * @return the module array
     */
-    public Project[] getSubsidiaryProjects()
-      throws ResourceNotFoundException, ModuleNotFoundException
+    public Module getModule( String ref ) throws ModuleNotFoundException
     {
-        ArrayList list = new ArrayList();
-        aggregateProjects( list );
-        DefaultProject[] projects = (DefaultProject[]) list.toArray( new DefaultProject[0] );
-        return m_library.sortProjects( projects, true );
-    }
-
-   /**
-    * Return an array of modules that this module references.
-    * @param test if TRUE include test scoped dependencies in module
-    *  dependency evaluation otherwise evaluation is limited to the 
-    *  transitive runtime dependencies
-    * @return the supplied modules
-    */
-    public Module[] getProviderModules( boolean test )
-    {
-        return getProviderDefaultModules( test );
-    }
-    
-    public String getProperty( String key )
-    {
-        return getProperty( key, null );
-    }
-    
-    public String getProperty( String key, String value )
-    {
-        String result = getProperties().getProperty( key );
-        return PropertyResolver.resolve( m_properties, result );
-    }
-
-    public String[] getPropertyNames()
-    {
-        ArrayList list = new ArrayList();
-        Enumeration names = getProperties().propertyNames();
-        while( names.hasMoreElements() )
+        try
         {
-            list.add( (String) names.nextElement() );
+            return getDefaultModule( ref );
         }
-        return (String[]) list.toArray( new String[0] );
+        catch( InvalidNameException e )
+        {
+            final String message = e.getMessage();
+            throw new ModuleNotFoundException( message );
+        }
     }
-
-    public Resource resolveResource( String key ) throws ResourceNotFoundException
+    
+   /**
+    * Return the array of modules that are descendants of this module.
+    * @return the descendants module array
+    */
+    public Module[] getAllModules()
     {
-        return resolveDefaultResource( key );
+        return getAllDefaultModules();
     }
+    
+   /**
+    * <p>Select a set of resource matching a supplied a resource selection 
+    * constraint.  The constraint may contain the wildcards '**' and '*'.
+    * @param criteria the selection criteria
+    * @param sort if true the returned array will be sorted relative to dependencies
+    *   otherwise the array will be sorted alphanumerically with respect to the resource
+    *   path
+    * @return an array of resources matching the selction criteria
+    */
+    public Resource[] select( String spec, boolean sort )
+    {
+        DefaultResource[] resources = selectDefaultResources( spec );
+        if( sort )
+        {
+            return sortDefaultResources( resources, Scope.TEST );
+        }
+        else
+        {
+            Arrays.sort( resources );
+            return resources;
+        }
+    }
+    
+   /**
+    * Locate a resource relative to a base directory.
+    * @param base the base directory
+    * @return a resource with a matching basedir
+    * @exception ResourceNotFoundException if resource match  relative to the supplied base
+    */
+    public Resource locate( File file ) throws ResourceNotFoundException
+    {
+        DefaultResource[] resources = selectDefaultResources( "**/*" );
+        for( int i=0; i<resources.length; i++ )
+        {
+            DefaultResource resource = resources[i];
+            File base = resource.getBaseDir();
+            if( ( null != base ) && file.equals( base ) )
+            {
+                return resource;
+            }
+        }
+        throw new ResourceNotFoundException( file.toString() );
+    }
+    
+    //----------------------------------------------------------------------------
+    // Object
+    //----------------------------------------------------------------------------
     
     public String toString()
     {
-        return "module:" + m_path;
+        return "module:" + getResourcePath();
     }
+    
+    //----------------------------------------------------------------------------
+    // DefaultResource (overriding)
+    //----------------------------------------------------------------------------
+    
+    DefaultResource[] getLocalDefaultProviders( Scope scope, Category category )
+    {
+        if( Scope.BUILD.equals( scope ) )
+        {
+            ArrayList stack = new ArrayList();
+            DefaultResource[] local = super.getLocalDefaultProviders( scope, category );
+            for( int i=0; i<local.length; i++ )
+            {
+                DefaultResource resource = local[i];
+                stack.add( resource );
+            }
+            return getLocalDefaultProviders( stack, true );
+        }
+        else
+        {
+            return super.getLocalDefaultProviders( scope, category );
+        }
+    }
+    
+    DefaultResource[] getLocalDefaultProviders( List stack, boolean flag )
+    {
+        DefaultResource[] resources = getDefaultResources();
+        if( flag )
+        {
+            for( int i=0; i<resources.length; i++ )
+            {
+                DefaultResource resource = resources[i];
+                stack.add( resource );
+            }
+        }
+        for( int i=0; i<resources.length; i++ )
+        {
+            DefaultResource resource = resources[i];
+            if( resource instanceof DefaultModule )
+            {
+                DefaultModule module = (DefaultModule) resource;
+                DefaultResource[] providers = module.getLocalDefaultProviders( stack, false );
+                for( int j=0; j<providers.length; j++ )
+                {
+                    DefaultResource r = providers[j];
+                    if( !stack.contains( r ) )
+                    {
+                        stack.add( r );
+                    }
+                }
+            }
+            else
+            {
+                DefaultResource[] providers = 
+                  resource.getAggregatedDefaultProviders( Scope.TEST, true, false );
+                getParentModules( stack, providers );
+            }
+        }
+        return (DefaultResource[]) stack.toArray( new DefaultResource[0] );
+    }
+    
+    private void getParentModules( List stack, DefaultResource[] resources )
+    {
+        for( int i=0; i<resources.length; i++ )
+        {
+            DefaultResource resource = resources[i];
+            DefaultModule parent = resource.getDefaultParent();
+            if( !stack.contains( parent ) && !this.equals( parent ) )
+            {
+                stack.add( parent );
+            }
+        }
+    }
+    
+    void sortDefaultResource( 
+      List visited, List stack, Scope scope, DefaultResource[] resources )
+    {
+        if( visited.contains( this ) )
+        {
+            return;
+        }
+        visited.add( this );
+        DefaultModule[] providers = getProviderModules( scope );
+        for( int i=0; i<providers.length; i++ )
+        {
+            DefaultResource provider = providers[i];
+            if( isaMember( resources, provider ) )
+            {
+                provider.sortDefaultResource( visited, stack, scope, resources );
+            }
+        }
+        DefaultResource[] children = getDefaultResources();
+        for( int i=0; i<children.length; i++ )
+        {
+            DefaultResource child = children[i];
+            if( isaMember( resources, child ) )
+            {
+                child.sortDefaultResource( visited, stack, scope, resources );
+            }
+        }
+        stack.add( this );
+    }
+    
+    //----------------------------------------------------------------------------
+    // root semantics
+    //----------------------------------------------------------------------------
+    
+    boolean isRoot()
+    {
+        return m_root;
+    }
+    
+    //----------------------------------------------------------------------------
+    // resource and module lookup
+    //----------------------------------------------------------------------------
     
     DefaultResource[] getDefaultResources()
     {
-        return (DefaultResource[]) m_resources.values().toArray( new DefaultResource[0] );
+        return m_resources;
     }
-
-    Properties getProperties()
+    
+    DefaultResource getDefaultResource( String ref )
     {
-        return m_properties;
+        if( null == ref )
+        {
+            throw new NullPointerException( "ref" );
+        }
+        int n = ref.indexOf( "/" );
+        if( n > 0 )
+        {
+            String pre = ref.substring( 0, n );
+            String post = ref.substring( n+1 );
+            DefaultResource resource = getDefaultResource( pre );
+            if( resource instanceof DefaultModule )
+            {
+                DefaultModule module = (DefaultModule) resource;
+                return module.getDefaultResource( post );
+            }
+            else
+            {
+                final String error = 
+                  "Illegal attempt to reference a module using a ref ["
+                  + getResourcePath() + "/" + ref 
+                  + "] that references a simple resource.";
+                throw new InvalidNameException( error );
+            }
+        }
+        else
+        {
+            DefaultResource[] resources = getDefaultResources();
+            for( int i=0; i<resources.length; i++ )
+            {
+                DefaultResource resource = resources[i];
+                if( ref.equals( resource.getName() ) )
+                {
+                    return resource;
+                }
+            }
+            String path = getResourcePath() + "/" + ref;
+            throw new InvalidNameException( path );
+        }
+    }
+    
+    DefaultModule getDefaultModule( String ref )
+    {
+        DefaultResource resource = getDefaultResource( ref );
+        if( resource instanceof DefaultModule )
+        {
+            return (DefaultModule) resource;
+        }
+        else
+        {
+            String path = getResourcePath() + "/" + ref;
+            throw new InvalidNameException( path );
+        }
     }
     
     DefaultModule[] getDefaultModules()
     {
-        return (DefaultModule[]) m_modules.values().toArray( new DefaultModule[0] );
+        ArrayList stack = new ArrayList();
+        DefaultResource[] resources = getDefaultResources();
+        for( int i=0; i<resources.length; i++ )
+        {
+            DefaultResource resource = resources[i];
+            if( resource instanceof DefaultModule )
+            {
+                stack.add( resource );
+            }
+        }
+        return (DefaultModule[]) stack.toArray( new DefaultModule[0] );
     }
     
     DefaultModule[] getAllDefaultModules()
     {
-        ArrayList list = new ArrayList();
-        DefaultModule[] modules = getDefaultModules();
-        for( int i=0; i<modules.length; i++ )
-        {
-            DefaultModule module = modules[i];
-            aggregateModules( list, module );
-        }
-        return (DefaultModule[]) m_modules.values().toArray( new DefaultModule[0] );
+        return getAllDefaultModules( true, false );
     }
     
-    DefaultProject[] getDefaultProjects()
+    DefaultModule[] getAllDefaultModules( boolean sort, boolean self )
     {
-        return (DefaultProject[]) m_projects.values().toArray( new DefaultProject[0] );
-    }
-
-    DefaultModule getDefaultModule( String key ) throws ModuleNotFoundException
-    {
-        DefaultModule module = (DefaultModule) m_modules.get( key );
-        if( null == module )
+        if( sort )
         {
-            throw new ModuleNotFoundException( m_path + "/" + key );
+            DefaultModule[] modules = getAllDefaultModules( false, self );
+            return sortDefaultModules( modules );
         }
         else
         {
-            return module;
-        }
-    }
-
-    DefaultResource getDefaultResource( String key ) throws ResourceNotFoundException
-    {
-        DefaultResource resource = (DefaultResource) m_resources.get( key );
-        if( null == resource )
-        {
-            throw new ResourceNotFoundException( key );
-        }
-        else
-        {
-            return resource;
-        }
-    }
-    
-    DefaultResource resolveDefaultResource( String key ) throws ResourceNotFoundException
-    {
-        try
-        {
-            DefaultProject project = getDefaultProject( key );
-            return project.toLocalResource();
-        }
-        catch( ProjectNotFoundException e )
-        {
-            return getDefaultResource( key );
-        }
-    }
-
-    DefaultProject getDefaultProject( String key ) throws ProjectNotFoundException
-    {
-        DefaultProject project = (DefaultProject) m_projects.get( key );
-        if( null == project )
-        {
-            throw new ProjectNotFoundException( this, key );
-        }
-        else
-        {
-            return project;
-        }
-    }
-
-   /**
-    * Return an array of modules that this project references.
-    * @param test if TRUE include test scoped dependencies in module
-    *  dependency evaluation otherwise evaluation is limited to the 
-    *  transitive runtime dependencies
-    * @return the provider modules
-    */
-    DefaultModule[] getProviderDefaultModules( boolean test )
-    {
-        try
-        {
-            ArrayList list = new ArrayList();
-            DefaultProject[] projects = getDefaultProjects();
-            for( int i=0; i<projects.length; i++ )
-            {
-                DefaultProject project = projects[i];
-                DefaultModule[] modules = project.getProviderDefaultModules( test );
-                for( int j=0; j<modules.length; j++ )
-                {
-                    DefaultModule module = modules[j];
-                    if( !list.contains( module ) )
-                    {
-                        list.add( module );
-                    }
-                }
-            }
             DefaultModule[] modules = getDefaultModules();
+            ArrayList visited = new ArrayList();
+            ArrayList stack = new ArrayList();
             for( int i=0; i<modules.length; i++ )
             {
                 DefaultModule module = modules[i];
-                DefaultModule[] submodules = module.getProviderDefaultModules( test );
-                for( int j=0; j<submodules.length; j++ )
-                {
-                    DefaultModule m = submodules[j];
-                    if( !list.contains( m ) && !m.getPath().startsWith( getPath() ) )
-                    {
-                        list.add( m );
-                    }
-                }
+                collectChildModules( visited, stack, module );
             }
-            return (DefaultModule[]) list.toArray( new DefaultModule[0] );
-        }
-        catch( Exception e )
-        {
-            final String error = 
-              "Internal error while attempting to resolve the module dependencies of the module ["
-              + m_path
-              + "].";
-            throw new ModelRuntimeException( error, e );
-        }
-    }
-    
-    private void aggregateModules( List list, DefaultModule module )
-    {
-        list.add( module );
-        DefaultModule[] modules = module.getDefaultModules();
-        for( int i=0; i<modules.length; i++ )
-        {
-            DefaultModule m = modules[i];
-            aggregateModules( list, m );
-        }
-    }
-    
-    void aggregateProjects( List list )
-    {
-        DefaultProject[] projects = getDefaultProjects();
-        for( int i=0; i<projects.length; i++ )
-        {
-            list.add( projects[i] );
-        }
-        DefaultModule[] modules = getDefaultModules();
-        for( int i=0; i<modules.length; i++ )
-        {
-            DefaultModule module = modules[i];
-            module.aggregateProjects( list );
-        }
-    }
-    
-    Model[] select( Criteria[] criteria )
-    {
-        if( criteria.length == 0 )
-        {
-            return new Model[0];
-        }
-        else
-        {
-            Criteria c = criteria[0];
-            //System.out.println( "# select in: " + m_path + ", " + criteria.length + ", " + c.isRecursive() );
-            ArrayList list = new ArrayList();
-            if( c.isRecursive() )
+            if( self )
             {
-                if( criteria.length == 2 )
-                {
-                    list.add( this );
-                }
-                DefaultModule[] modules = getAllDefaultModules();
-                for( int i=0; i<modules.length; i++ )
-                {
-                    list.add( modules[i] );
-                }
+                stack.add( this );
             }
-            else
-            {
-                DefaultModule[] modules = getDefaultModules();
-                Pattern pattern = c.getPattern();
-                for( int i=0; i<modules.length; i++ )
-                {
-                    String name = modules[i].getName();
-                    Matcher matcher = pattern.matcher( name );
-                    boolean matches = matcher.matches();
-                    //System.out.println( "# mod eval: " + name + ", " + matches );
-                    if( matches )
-                    {
-                        //System.out.println( "# found: " + name );
-                        list.add( modules[i] );
-                    }
-                }
-            }
-            DefaultModule[] selection = (DefaultModule[]) list.toArray( new DefaultModule[0] );
-            if( ( criteria.length == 1 ) )
-            {
-                DefaultResource[] resources = getDefaultResources();
-                DefaultProject[] projects = getDefaultProjects();
-                if( !c.isRecursive() )
-                {
-                    //System.out.println( "# project eval in: " + m_path );
-                    Pattern pattern = c.getPattern();
-                    for( int i=0; i<projects.length; i++ )
-                    {
-                        String name = projects[i].getName();
-                        Matcher matcher = pattern.matcher( name );
-                        boolean matches = matcher.matches();
-                        //System.out.println( "# project eval: " + name + ", " + matches );
-                        if( matches )
-                        {
-                            list.add( projects[i] );
-                        }
-                    }
-                    for( int i=0; i<resources.length; i++ )
-                    {
-                        String name = resources[i].getName();
-                        Matcher matcher = pattern.matcher( name );
-                        boolean matches = matcher.matches();
-                        //System.out.println( "# resource eval: " + name + ", " + matches );
-                        if( matches )
-                        {
-                            list.add( resources[i] );
-                        }
-                    }
-                }
-                return (Model[]) list.toArray( new Model[0] );
-            }
-            else
-            {
-                Criteria[] set = new Criteria[ criteria.length -1 ];
-                System.arraycopy( criteria, 1, set, 0, ( criteria.length -1 ) );
-                ArrayList collection = new ArrayList();
-                for( int i=0; i<selection.length; i++ )
-                {
-                    DefaultModule module = selection[i];
-                    Model[] models = module.select( set );
-                    for( int j=0; j<models.length; j++ )
-                    {
-                        collection.add( models[j] );
-                    }
-                }
-                return (Model[]) collection.toArray( new Model[0] );
-            }
+            return (DefaultModule[]) stack.toArray( new DefaultModule[0] );
         }
     }
 
-    private Properties setupProperties()
+
+
+    private void collectChildModules( 
+      List visited, List stack, DefaultModule module )
     {
-        Properties properties = createProperties();
-        Properties local = m_directive.getProperties();
-        if( null != local )
+        if( visited.contains( module ) )
         {
-            Enumeration names = local.propertyNames();
-            while( names.hasMoreElements() )
-            {
-                String name = (String) names.nextElement();
-                String value = local.getProperty( name );
-                properties.setProperty( name, value );
-            }
+            return;
         }
-        return properties;
+        visited.add( module );
+        DefaultModule[] children = module.getDefaultModules();
+        for( int i=0; i<children.length; i++ )
+        {
+            collectChildModules( visited, stack, children[i] );
+        }
+        stack.add( module );
     }
     
-    private Properties createProperties()
+    //----------------------------------------------------------------------------
+    // Selection logic
+    //----------------------------------------------------------------------------
+
+    DefaultResource[] selectDefaultResources( String spec )
     {
-        if( null == m_parent )
+        String[] tokens = spec.split( "/" );
+        if( tokens.length == 0 )
         {
-            Properties defaults = m_library.getProperties();
-            return new Properties( defaults );
+            return new DefaultResource[0];
+        }
+        else if( tokens.length == 1 )
+        {
+            String token = tokens[0];
+            if( "**".equals( token ) )
+            {
+                return getAllDefaultModules( true, !m_root );
+            }
+            else if( "*".equals( token ) )
+            {
+                return getDefaultResources();
+            }
+            else
+            {
+                boolean wildcard = ( token.indexOf( "*" ) > -1 );
+                Pattern pattern = createSelectionPattern( token );
+                DefaultResource[] resources = getDefaultResources();
+                DefaultResource[] selection = selectUsingPattern( resources, pattern );
+                return selection;
+            }
         }
         else
         {
-            Properties defaults = m_parent.getProperties();
-            return new Properties( defaults );
+            String token = tokens[0];
+            boolean wildcard = ( token.indexOf( "*" ) > -1 );
+            String remainder = getRemainderOfSelection( spec, "/", token );
+            DefaultModule[] modules = selectDefaultModules( token );
+            ArrayList list = new ArrayList();
+            for( int i=0; i<modules.length; i++ )
+            {
+                DefaultModule module = modules[i];
+                DefaultResource[] selection = module.selectDefaultResources( remainder );
+                aggregate( list, selection );
+            }
+            return (DefaultResource[]) list.toArray( new DefaultResource[0] );
+        }
+    }
+
+    DefaultModule[] selectDefaultModules( String token )
+    {
+        if( "**".equals( token ) )
+        {
+            return getAllDefaultModules( true, !m_root );
+        }
+        else if( "*".equals( token ) )
+        {
+            return getDefaultModules();
+        }
+        else
+        {
+            Pattern pattern = createSelectionPattern( token );
+            DefaultModule[] modules = getDefaultModules();
+            DefaultResource[] selection = selectUsingPattern( modules, pattern );
+            DefaultModule[] result = new DefaultModule[ selection.length ];
+            for( int i=0; i<selection.length; i++ )
+            {
+                result[i] = (DefaultModule) selection[i];
+            }
+            return result;
+        }
+    }
+    
+    private DefaultResource[] selectUsingPattern( DefaultResource[] resources, Pattern pattern )
+    {
+        ArrayList list = new ArrayList();
+        for( int i=0; i<resources.length; i++ )
+        {
+            Resource resource = resources[i];
+            String name = resource.getName();
+            Matcher matcher = pattern.matcher( name );
+            boolean matches = matcher.matches();
+            //System.out.println( "# eval: " + name + ", " + matches );
+            if( matches )
+            {
+                //System.out.println( "# found: " + name );
+                list.add( resource );
+            }
+        }
+        return (DefaultResource[]) list.toArray( new DefaultResource[0] );
+    }
+    
+    private String getRemainderOfSelection( String spec, String delimiter, String token )
+    {
+        int n = token.length() + delimiter.length();
+        return spec.substring( n );
+    }
+    
+    private void aggregate( List list, DefaultResource[] resources )
+    {
+        for( int i=0; i<resources.length; i++ )
+        {
+            list.add( resources[i] );
+        }
+    }
+    
+    private Pattern createSelectionPattern( String token )
+    {
+        StringBuffer buffer = new StringBuffer();
+        boolean wildcard = ( token.indexOf( "*" ) > -1 );
+        if( wildcard )
+        {
+            String[] blocks = token.split( "\\*", -1 );
+            buffer.append( "(" );
+            for( int j=0; j<blocks.length; j++ )
+            {
+                //System.out.println( "\t# block: [" + j + "]\t'" + blocks[j] + "'" );
+                buffer.append( "\\Q" );
+                buffer.append( blocks[j] );
+                buffer.append( "\\E" );
+                if( j < (blocks.length-1) )
+                {
+                    buffer.append( ".*" );
+                }
+            }
+            buffer.append( ")" );
+        }
+        else
+        {
+            //System.out.println( "\t# block [s]\t'" + token + "'"  );
+            buffer.append( "(\\Q" );
+            buffer.append( token );
+            buffer.append( "\\E)" );
+        }
+        String expression = buffer.toString();
+        return Pattern.compile( expression );
+    }
+    
+    //----------------------------------------------------------------------------
+    // Module sorting
+    //----------------------------------------------------------------------------
+
+    private DefaultModule[] sortDefaultModules( DefaultModule[] modules )
+    {
+        Scope scope = Scope.TEST;
+        ArrayList visited = new ArrayList();
+        ArrayList stack = new ArrayList();
+        for( int i=0; i<modules.length; i++ )
+        {
+            DefaultModule module = modules[i];
+            //processDefaultModule( visited, stack, module, modules );
+            module.sortDefaultResource( visited, stack, scope, modules );
+        }
+        return (DefaultModule[]) stack.toArray( new DefaultModule[0] );
+    }
+    
+   /**
+    * Returns a sorted array of the provider modules this this module depends on.  
+    * The notion of dependency is ressolved via (a) direct depedencies declared
+    * by the module, (b) subsidiary module which are considered as sippliers to 
+    * this module, and (c) module referenced by any resources contained within 
+    * this or any subsidiary module.
+    */
+    private DefaultModule[] getProviderModules( Scope scope )
+    {
+        ArrayList visited = new ArrayList();
+        ArrayList stack = new ArrayList();
+        processModuleDependencies( visited, stack, scope, this );
+        return (DefaultModule[]) stack.toArray( new DefaultModule[0] );
+    }
+    
+    private void processModuleDependencies( List visited, List stack, Scope scope, DefaultResource resource ) 
+    {
+        if( visited.contains( resource ) )
+        {
+            return;
+        }
+        visited.add( resource );
+        final boolean expansion = true;
+        final boolean filtering = false;
+        
+        if( resource instanceof DefaultModule )
+        {
+            DefaultModule module = (DefaultModule) resource;
+            DefaultResource[] providers = module.getAggregatedDefaultProviders( scope, expansion, filtering );
+            for( int i=0; i<providers.length; i++ )
+            {
+                processModuleDependencies( visited, stack, scope, providers[i] );
+            }
+            DefaultResource[] children = module.getDefaultModules();
+            for( int i=0; i<children.length; i++ )
+            {
+                processModuleDependencies( visited, stack, scope, children[i] );
+            }
+            if( !resource.equals( this ) )
+            {
+                //System.out.println( "   add module provider: " + module + " to " + this );
+                stack.add( module );
+            }
+        }
+        else
+        {
+            DefaultResource[] resources = 
+              resource.getAggregatedDefaultProviders( scope, expansion, filtering );
+            for( int i=0; i<resources.length; i++ )
+            {
+                DefaultModule m = resources[i].getDefaultParent();
+                //System.out.println( "   add resource parent: " + m );
+                processModuleDependencies( visited, stack, scope, m );
+            }
         }
     }
 }

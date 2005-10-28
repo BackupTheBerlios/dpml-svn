@@ -39,31 +39,13 @@ public final class ResourceRef
     */
     public static Category getCategory( final String category )
     {
-        if( "sys".equals( category ) )
+        if( null == category )
         {
-            return Category.ANY;
-        }
-        else if( "system".equals( category ) )
-        {
-            return Category.SYSTEM;
-        }
-        else if( "api".equals( category ) )
-        {
-            return Category.PUBLIC;
-        }
-        else if( "spi".equals( category ) )
-        {
-            return Category.PROTECTED;
-        }
-        else if( "impl".equals( category ) )
-        {
-            return Category.PRIVATE;
+            return null;
         }
         else
         {
-            final String error = 
-              "Unrecognized category [" + category + "].";
-            throw new IllegalArgumentException( error );
+            return Category.parse( category );
         }
     }
 
@@ -74,31 +56,13 @@ public final class ResourceRef
     */
     public static String getCategoryName( final Category category )
     {
-        if( category == Category.ANY )
+        if( null == category )
         {
-            return "any";
-        }
-        if( category == Category.SYSTEM )
-        {
-            return "system";
-        }
-        if( category == Category.PUBLIC )
-        {
-            return "api";
-        }
-        else if( category == Category.PROTECTED )
-        {
-            return "spi";
-        }
-        else if( category == Category.PRIVATE )
-        {
-            return "impl";
+            return null;
         }
         else
         {
-            final String error = 
-              "Unrecognized category [" + category + "].";
-            throw new IllegalArgumentException( error );
+            return category.getName();
         }
     }
 
@@ -108,7 +72,7 @@ public final class ResourceRef
     */
     public ResourceRef( final String key )
     {
-        this( key, new Policy(), Category.ANY );
+        this( key, new Policy(), null );
     }
 
    /**
@@ -158,13 +122,17 @@ public final class ResourceRef
     */
     public boolean matches( final Category category )
     {
-        if( ( Category.ANY == category ) || ( Category.ANY == m_tag ) )
+        if( null == m_tag )
+        {
+            return true;
+        }
+        else if( category == null )
         {
             return true;
         }
         else
         {
-            return ( m_tag == category );
+            return ( m_tag.equals( category ) );
         }
     }
 
@@ -188,9 +156,19 @@ public final class ResourceRef
         {
             return false;
         }
-        if( m_tag != ref.m_tag )
+        if( null == m_tag )
         {
-            return false;
+            if( ref.m_tag != null )
+            {
+                return false;
+            }
+        }
+        else
+        {
+            if( !m_tag.equals( ref.m_tag ) )
+            {   
+                return false;
+            }
         }
         return true;
     }
@@ -204,7 +182,10 @@ public final class ResourceRef
         int hash = MAGIC_A;
         hash = hash ^ m_key.hashCode();
         hash = hash ^ m_policy.hashCode();
-        hash = hash ^ ( MAGIC_B >> m_tag.hashCode() );
+        if( null != m_tag )
+        {
+            hash = hash ^ ( MAGIC_B >> m_tag.hashCode() );
+        }
         return hash;
     }
 

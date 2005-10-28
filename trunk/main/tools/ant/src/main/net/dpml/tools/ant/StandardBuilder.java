@@ -34,10 +34,9 @@ import net.dpml.transit.util.CLIHelper;
 import net.dpml.transit.tools.TransitComponentHelper;
 import net.dpml.transit.tools.MainTask;
 
-import net.dpml.tools.info.TypeDescriptor;
 import net.dpml.tools.model.Builder;
 import net.dpml.tools.model.Library;
-import net.dpml.tools.model.Module;
+import net.dpml.tools.model.Resource;
 
 import net.dpml.transit.Artifact;
 
@@ -102,19 +101,20 @@ public class StandardBuilder implements Builder
     // Builder
     // ------------------------------------------------------------------------
 
-    public boolean build( net.dpml.tools.model.Project project, String[] targets ) throws Exception
+    public boolean build( Resource resource, String[] targets )
     {
-        Definition definition = new Definition( project );
-        return build( definition, targets );
-    }
-    
-    public boolean build( Definition definition, String[] targets ) throws Exception
-    {
-        Project project = createProject( definition );
-        String templateSpec = definition.getProperty( "project.template" );
-        File template = getTemplateFile( templateSpec );
         try
         {
+            Project project = createProject( resource );
+            String templateSpec = resource.getProperty( "project.template" );
+            if( null == templateSpec )
+            {
+                final String error = 
+                  "Resource template property 'project.template' is undefined.";
+                m_logger.error( error );
+                return false;
+            }
+            File template = getTemplateFile( templateSpec );
             return build( project, template, targets );
         }
         catch( Throwable e )
@@ -122,7 +122,7 @@ public class StandardBuilder implements Builder
             m_result = e;
             final String error = 
               "Unexpected error while attempting to build project [" 
-              + definition.getProjectPath()
+              + resource.getResourcePath()
               + "].";
             m_logger.error( error, e );
             return false;
@@ -169,14 +169,11 @@ public class StandardBuilder implements Builder
         }
         catch( BuildException e )
         {
+            m_result = e;
             if( m_logger.isDebugEnabled() )
             {
                 Throwable cause = e.getCause();
                 m_logger.error( "Build failure.", cause );
-            }
-            else
-            {
-                m_logger.error( "Build failure.", e );
             }
             return false;
         }
@@ -203,11 +200,11 @@ public class StandardBuilder implements Builder
         return new File( spec );
     }
     
-    public Project createProject( Definition definition ) throws Exception
+    public Project createProject( Resource resource ) throws Exception
     {
         Project project = createProject();
-        project.setBaseDir( definition.getBase() );
-        Context context = new Context( definition, m_library, project );
+        project.setBaseDir( resource.getBaseDir() );
+        Context context = new Context( resource, m_library, project );
         project.addReference( "project.context", context );
         return project;
     }

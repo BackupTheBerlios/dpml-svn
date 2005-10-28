@@ -77,8 +77,8 @@ public class TypesTask extends GenericTask implements DynamicElementNS
     public void execute()
     {
         Project proj = getProject();
-        Path path = getDefinition().getPath( proj, Scope.BUILD );
-        File classes = getDefinition().getTargetClassesMainDirectory();
+        Path path = getContext().getPath( Scope.RUNTIME );
+        File classes = getContext().getTargetClassesMainDirectory();
         path.createPathElement().setLocation( classes );
         ClassLoader classloader = new AntClassLoader( proj, path );
         buildTypes( classloader );
@@ -140,7 +140,7 @@ public class TypesTask extends GenericTask implements DynamicElementNS
 
     private File getEmbeddedOutputFile( String filename )
     {
-        File classes = getDefinition().getTargetClassesMainDirectory();
+        File classes = getContext().getTargetClassesMainDirectory();
         File destination = new File( classes, filename );
         return destination;
     }

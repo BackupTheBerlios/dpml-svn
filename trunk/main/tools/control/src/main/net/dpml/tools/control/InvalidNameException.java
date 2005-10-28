@@ -16,24 +16,17 @@
  * limitations under the License.
  */
 
-package net.dpml.tools.model;
-
-import java.rmi.Remote;
+package net.dpml.tools.control;
 
 /**
- * A Builder is implementated by a plugin that handles the building of
- * a project.
+ * Internal exception throw to indicate a bad name reference.
  *
  * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
  */
-public interface Builder
+class InvalidNameException extends IllegalArgumentException
 {
-   /**
-    * Build a resource.
-    * @param resource the resource to build
-    * @param targets build target names
-    * @return the success status of the build
-    */
-    public boolean build( Resource resource, String[] targets );
-
+    public InvalidNameException( String message )
+    {
+        super( message );
+    }
 }

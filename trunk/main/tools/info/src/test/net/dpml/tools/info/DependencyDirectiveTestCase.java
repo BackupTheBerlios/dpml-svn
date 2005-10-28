@@ -27,12 +27,13 @@ import net.dpml.transit.Category;
  */
 public final class DependencyDirectiveTestCase extends AbstractTestCase
 {
-    static TaggedIncludeDirective[] INCLUDES = new TaggedIncludeDirective[3];
+    static IncludeDirective[] INCLUDES = IncludeDirectiveTestCase.INCLUDES;
+    static DependencyDirective[] DEPENDENCIES = new DependencyDirective[3];
     static
     {
-        INCLUDES[0] = new TaggedIncludeDirective( TaggedIncludeDirective.REF, Category.PUBLIC, "xzy", PROPERTIES );
-        INCLUDES[1] = new TaggedIncludeDirective( TaggedIncludeDirective.KEY, Category.PROTECTED, "123" ,PROPERTIES );
-        INCLUDES[2] = new TaggedIncludeDirective( TaggedIncludeDirective.REF, Category.PRIVATE, "456", PROPERTIES );
+        DEPENDENCIES[0] = new DependencyDirective( Scope.BUILD, INCLUDES, PROPERTIES );
+        DEPENDENCIES[1] = new DependencyDirective( Scope.RUNTIME, INCLUDES, PROPERTIES );
+        DEPENDENCIES[2] = new DependencyDirective( Scope.TEST, INCLUDES, PROPERTIES );
     }
       
     public void testNullScope()
@@ -40,7 +41,7 @@ public final class DependencyDirectiveTestCase extends AbstractTestCase
         try
         {
             DependencyDirective dep = 
-              new DependencyDirective( null, new TaggedIncludeDirective[0], PROPERTIES );
+              new DependencyDirective( null, INCLUDES, PROPERTIES );
             fail( "no-NPE" );
         }
         catch( NullPointerException e )
@@ -53,7 +54,8 @@ public final class DependencyDirectiveTestCase extends AbstractTestCase
     {
         try
         {
-            DependencyDirective dep = new DependencyDirective( Scope.RUNTIME, null, PROPERTIES );
+            DependencyDirective dep = 
+              new DependencyDirective( Scope.RUNTIME, null, PROPERTIES );
             fail( "no-NPE" );
         }
         catch( NullPointerException e )
@@ -62,24 +64,24 @@ public final class DependencyDirectiveTestCase extends AbstractTestCase
         }
     }
     
-    public void testRuntimeScope()
+    public void testScopeRuntime()
     {
         DependencyDirective dep = 
-          new DependencyDirective( Scope.RUNTIME, new TaggedIncludeDirective[0], PROPERTIES );
+          new DependencyDirective( Scope.RUNTIME, INCLUDES, PROPERTIES );
         assertEquals( "scope", Scope.RUNTIME, dep.getScope() );
     }
     
-    public void testTestScope()
+    public void testScopeTest()
     {
         DependencyDirective dep = 
-          new DependencyDirective( Scope.TEST, new TaggedIncludeDirective[0], PROPERTIES );
+          new DependencyDirective( Scope.TEST, INCLUDES, PROPERTIES );
         assertEquals( "scope", Scope.TEST, dep.getScope() );
     }
     
     public void testIncludes()
     {
         DependencyDirective dep = new DependencyDirective( Scope.RUNTIME, INCLUDES, PROPERTIES );
-        assertEquals( "includes-count", 3, dep.getIncludeDirectives().length );
+        assertEquals( "includes", 3, dep.getIncludeDirectives().length );
     }
     
     public void testSerialization() throws Exception

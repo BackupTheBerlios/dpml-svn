@@ -20,12 +20,12 @@ import java.beans.BeanDescriptor;
 import java.beans.DefaultPersistenceDelegate;
 
 /**
- * BeanInfo for the CategoryDirective class that declares a persistence
+ * BeanInfo for the ImportDirective class that declares a persistence
  * delegate.
  *
  * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
  */
-public final class TaggedIncludeDirectiveBeanInfo extends SimpleBeanInfo
+public final class ImportDirectiveBeanInfo extends SimpleBeanInfo
 {
     private static final BeanDescriptor BEAN_DESCRIPTOR = setupBeanDescriptor();
     
@@ -36,10 +36,10 @@ public final class TaggedIncludeDirectiveBeanInfo extends SimpleBeanInfo
     
     private static BeanDescriptor setupBeanDescriptor()
     {
-        BeanDescriptor descriptor = new BeanDescriptor( TaggedIncludeDirective.class );
+        BeanDescriptor descriptor = new BeanDescriptor( ImportDirective.class );
         descriptor.setValue( 
           "persistenceDelegate", 
-          new DefaultPersistenceDelegate( new String[]{ "mode", "category", "value", "properties" } ) );
+          new DefaultPersistenceDelegate( new String[]{ "mode", "value", "properties" } ) );
         return descriptor;
     }
 }

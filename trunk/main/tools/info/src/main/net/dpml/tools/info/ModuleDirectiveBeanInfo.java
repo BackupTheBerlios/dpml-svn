@@ -41,8 +41,8 @@ public final class ModuleDirectiveBeanInfo extends SimpleBeanInfo
           "persistenceDelegate", 
           new DefaultPersistenceDelegate( 
             new String[]{ 
-              "name", "version", "basedir", "includeDirectives", 
-              "moduleDirectives", "projectDirectives", "resourceDirectives", "properties" } ) );
+              "name", "version", "classifier", "basedir", "typeDirectives", "dependencyDirectives", 
+              "resourceDirectives", "properties" } ) );
         return descriptor;
     }
 }

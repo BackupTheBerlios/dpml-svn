@@ -29,35 +29,35 @@ import java.util.Properties;
  */
 public final class LibraryDirective extends AbstractDirective
 {
-    private final TypeDescriptor[] m_types;
-    private final ModuleIncludeDirective[] m_modules;
+    private final ProcessDescriptor[] m_processes;
+    private final ImportDirective[] m_imports;
     
     public LibraryDirective(
-      TypeDescriptor[] types, ModuleIncludeDirective[] modules, Properties properties )
+      ProcessDescriptor[] processes, ImportDirective[] imports, Properties properties )
     {
         super( properties );
         
-        if( null == types )
+        if( null == processes )
         {
-            throw new NullPointerException( "types" );
+            throw new NullPointerException( "processes" );
         }
-        if( null == modules )
+        if( null == imports )
         {
-            throw new NullPointerException( "modules" );
+            throw new NullPointerException( "imports" );
         }
 
-        m_types = types;
-        m_modules = modules;
+        m_processes = processes;
+        m_imports = imports;
     }
     
-    public ModuleIncludeDirective[] getModuleIncludeDirectives()
+    public ImportDirective[] getImportDirectives()
     {
-        return m_modules;
+        return m_imports;
     }
     
-    public TypeDescriptor[] getTypeDescriptors()
+    public ProcessDescriptor[] getProcessDescriptors()
     {
-        return m_types;
+        return m_processes;
     }
     
     public boolean equals( Object other )
@@ -65,11 +65,11 @@ public final class LibraryDirective extends AbstractDirective
         if( super.equals( other ) && ( other instanceof LibraryDirective ) )
         {
             LibraryDirective object = (LibraryDirective) other;
-            if( !Arrays.equals( m_types, object.m_types ) )
+            if( !Arrays.equals( m_processes, object.m_processes ) )
             {
                 return false;
             }
-            else if( !Arrays.equals( m_modules, object.m_modules ) )
+            else if( !Arrays.equals( m_imports, object.m_imports ) )
             {
                 return false;
             }
@@ -87,8 +87,8 @@ public final class LibraryDirective extends AbstractDirective
     public int hashCode()
     {
         int hash = super.hashCode();
-        hash ^= super.hashArray( m_types );
-        hash ^= super.hashArray( m_modules );
+        hash ^= super.hashArray( m_processes );
+        hash ^= super.hashArray( m_imports );
         return hash;
     }
 }

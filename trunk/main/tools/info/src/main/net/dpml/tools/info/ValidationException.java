@@ -16,26 +16,17 @@
  * limitations under the License.
  */
 
-package net.dpml.tools.model;
+package net.dpml.tools.info;
 
 /**
- * A ProjectNotFoundException is thrown when a requested for a named project cannot
- * be resolved.
+ * Internal exception throw to indicate an invalid structure..
  *
  * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
  */
-public final class ProjectNotFoundException extends Exception
+public class ValidationException extends Exception
 {
-    private final Module m_module;
-    
-    public ProjectNotFoundException( Module module, String message )
+    public ValidationException( String message )
     {
-        super( message, null );
-        m_module = module;
-    }
-    
-    public Module getModule()
-    {
-        return m_module;
+        super( message );
     }
 }

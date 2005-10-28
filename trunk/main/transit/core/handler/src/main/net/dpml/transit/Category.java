@@ -25,45 +25,40 @@ import java.beans.DefaultPersistenceDelegate;
 import java.beans.SimpleBeanInfo;
 import java.beans.Encoder;
 
-import net.dpml.transit.util.Enum;
+import net.dpml.transit.util.ValuedEnum;
 
 /**
  * Classoader category enumeration.
  * @author <a href="mailto:dev-dpml@lists.ibiblio.org">The Digital Product Meta Library</a>
  */
-public final class Category extends Enum
+public final class Category extends ValuedEnum
 {
     static final long serialVersionUID = 1L;
 
    /**
     * System category.
     */
-    public static final Category SYSTEM = new Category( "system" );
+    public static final Category SYSTEM = new Category( "system", 0 );
 
    /**
     * API category.
     */
-    public static final Category PUBLIC = new Category( "public" );
+    public static final Category PUBLIC = new Category( "public", 1 );
 
    /**
     * SPI category.
     */
-    public static final Category PROTECTED = new Category( "protected" );
+    public static final Category PROTECTED = new Category( "protected", 2 );
 
    /**
     * Implementation category.
     */
-    public static final Category PRIVATE = new Category( "private" );
-
-   /**
-    * Category used for filtering against any category type.
-    */
-    public static final Category ANY = new Category( "any" );
+    public static final Category PRIVATE = new Category( "private", 3 );
 
    /**
     * Array of scope enumeration values.
     */
-    private static final Category[] ENUM_VALUES = new Category[]{ SYSTEM, PUBLIC, PROTECTED, PRIVATE, ANY };
+    private static final Category[] ENUM_VALUES = new Category[]{ SYSTEM, PUBLIC, PROTECTED, PRIVATE };
 
    /**
     * Returns an array of activation enum values.
@@ -80,9 +75,14 @@ public final class Category extends Enum
     * @param index the enumeration index.
     * @param map the set of constructed enumerations.
     */
-    private Category( String label )
+    private Category( String label, int index )
     {
-        super( label );
+        super( label, index );
+    }
+    
+    public String toString()
+    {
+        return getName().toUpperCase();
     }
     
     public static Category parse( String value )

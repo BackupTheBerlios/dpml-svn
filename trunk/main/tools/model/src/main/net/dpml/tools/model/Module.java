@@ -27,46 +27,57 @@ import java.rmi.RemoteException;
  *
  * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
  */
-public interface Module extends Model
+public interface Module extends Resource
 {
-    File getBase() throws RemoteException;
-    
-    Module[] getImportedModules() throws RemoteException;
-    
-    Module[] getModules() throws RemoteException;
-    
-    Module getModule( String key ) throws RemoteException, ModuleNotFoundException;
-    
-    Resource[] getResources() throws RemoteException;
-    
-    Resource getResource( String key ) throws RemoteException, ResourceNotFoundException;
-    
-    Project[] getProjects() throws RemoteException;
-    
-    Project getProject( String key ) throws RemoteException, ProjectNotFoundException;
-    
-    Resource resolveResource( String key ) throws RemoteException, ResourceNotFoundException;
+   /**
+    * Return an array of immediate resources contained within the
+    * module.
+    * @return the resource array
+    */
+    Resource[] getResources() throws ResourceNotFoundException;
     
    /**
-    * Return an array of all projects within this module group.
-    * @return the sorted project array
+    * Return a resource using a supplied name.
+    * @param ref a path relative to the module
+    * @return the resource array
     */
-    public Project[] getSubsidiaryProjects()
-      throws RemoteException, ResourceNotFoundException, ModuleNotFoundException;
-
+    Resource getResource( String ref ) throws ResourceNotFoundException;
+    
    /**
-    * Return an array of modules that this module references.
-    * @param test if TRUE include test scoped dependencies in module
-    *  evaluation otherwise evaluation shall be limited to 
-    *  the transitive runtime dependencies
-    * @return the array of modules that the project is dependent upon
+    * Return the array of modules that are direct children of this module.
+    * @return the child modules
     */
-    Module[] getProviderModules( boolean test ) throws RemoteException;
-
-    String[] getPropertyNames() throws RemoteException;
-
-    String getProperty( String key ) throws RemoteException;
+    Module[] getModules();
     
-    String getProperty( String key, String value ) throws RemoteException;
+   /**
+    * Return the array of modules that are descendants of this module.
+    * @return the descendants module array
+    */
+    Module[] getAllModules();
     
+   /**
+    * Return a module using a supplied reference.
+    * @param ref a path relative to the module
+    * @return the module array
+    */
+    Module getModule( String ref ) throws ModuleNotFoundException;
+    
+   /**
+    * <p>Select a set of resource matching a supplied a resource selection 
+    * constraint.  The constraint may contain the wildcards '**' and '*'.
+    * @param criteria the selection criteria
+    * @param sort if true the returned array will be sorted relative to dependencies
+    *   otherwise the array will be sorted alphanumerically with respect to the resource
+    *   path
+    * @return an array of resources matching the selction criteria
+    */
+    Resource[] select( String criteria, boolean sort );
+    
+   /**
+    * Locate a resource relative to a base directory.
+    * @param base the base directory
+    * @return a resource with a matching basedir
+    * @exception ResourceNotFoundException if resource match  relative to the supplied base
+    */
+    Resource locate( File base ) throws ResourceNotFoundException;
 }

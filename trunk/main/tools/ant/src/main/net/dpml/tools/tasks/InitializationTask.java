@@ -22,10 +22,12 @@ import java.net.URI;
 import java.util.ArrayList;
 import java.util.Date;
 
-import net.dpml.tools.ant.Definition;
+import net.dpml.tools.model.Type;
+import net.dpml.tools.model.Library;
+import net.dpml.tools.model.Resource;
+import net.dpml.tools.model.Processor;
+
 import net.dpml.tools.ant.StandardBuilder;
-import net.dpml.tools.info.TypeDescriptor;
-import net.dpml.tools.model.TypeNotFoundException;
 import net.dpml.tools.process.JarProcess;
 import net.dpml.tools.process.PluginProcess;
 
@@ -54,22 +56,22 @@ public class InitializationTask extends GenericTask
             return;
         }
         getProject().addReference( "project.timestamp", new Date() );
-        Definition definition = getDefinition();
+        Resource resource = getResource();
         String info = getProject().getProperty( "project.info" );
         getProject().log( info );
-        TypeDescriptor[] types = getSequencedTypes( definition );
+        Type[] types = resource.getTypes();
         for( int i=0; i<types.length; i++ )
         {
-            TypeDescriptor type = types[i];
+            Type type = types[i];
             String name = type.getName();
             try
             {
-                if( type.getName().equals( "jar" ) )
+                if( name.equals( "jar" ) )
                 {
                     JarProcess process = new JarProcess();
                     getProject().addBuildListener( process );
                 }
-                else if( type.getName().equals( "plugin" ) )
+                else if( name.equals( "plugin" ) )
                 {
                     PluginProcess process = new PluginProcess();
                     getProject().addBuildListener( process );
@@ -78,7 +80,9 @@ public class InitializationTask extends GenericTask
                 {
                     ClassLoader classloader = getClass().getClassLoader();
                     Project project = getProject();
-                    URI uri = type.getURI();
+                    Library library = getLibrary();
+                    Processor processor = library.getProcessor( type );
+                    URI uri = processor.getCodeBaseURI();
                     if( null == uri )
                     {
                         final String error = 
@@ -116,81 +120,5 @@ public class InitializationTask extends GenericTask
                 throw new BuildException( error, getLocation() );
             }
         }
-    }
-    
-    private TypeDescriptor[] getSequencedTypes( Definition definition )
-    {
-        ArrayList list = new ArrayList();
-        String[] types = definition.getTypeNames();
-        try
-        {
-            expand( list, definition, types );
-            TypeDescriptor[] targets = (TypeDescriptor[]) list.toArray( new TypeDescriptor[0] );
-            ArrayList sorted = new ArrayList();
-            for( int i=0; i<targets.length; i++ )
-            {
-                TypeDescriptor type = targets[i];
-                sort( sorted, type, targets );
-            }
-            return (TypeDescriptor[]) sorted.toArray( new TypeDescriptor[0] );
-        }
-        catch( TypeNotFoundException e )
-        {
-            final String error = 
-              "Type reference unresolvable "
-              + e.getMessage();
-            throw new BuildException( error, e );
-        }
-    }
-    
-    private void expand( ArrayList list, Definition definition, String[] targets ) throws TypeNotFoundException
-    {
-        for( int i=0; i<targets.length; i++ )
-        {
-            String name = targets[i];
-            TypeDescriptor type = definition.getTypeDescriptor( name );
-            if( !list.contains( type ) )
-            {
-                list.add( type );
-                String[] deps = type.getDependencies();
-                expand( list, definition, deps );
-            }
-        }
-    }
-    
-    private void sort( ArrayList sorted, TypeDescriptor type, TypeDescriptor[] targets ) throws TypeNotFoundException
-    {
-        if( sorted.contains( type ) )
-        {
-            return;
-        }
-        String[] deps = type.getDependencies();
-        if( deps.length == 0 )
-        {
-            sorted.add( type );
-        }
-        else
-        {
-            for( int i=0; i<deps.length; i++ )
-            {
-                String dep = deps[i];
-                TypeDescriptor t = select( dep, targets );
-                sort( sorted, t, targets );
-            }
-            sorted.add( type );
-        }
-    }
-    
-    private TypeDescriptor select( String name, TypeDescriptor[] targets ) throws TypeNotFoundException
-    {
-        for( int i=0; i<targets.length; i++ )
-        {
-            TypeDescriptor target = targets[i];
-            if( name.equals( target.getName() ) )
-            {
-                return target;
-            }
-        }
-        throw new TypeNotFoundException( name );
     }
 }

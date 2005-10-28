@@ -30,6 +30,11 @@ public final class TypeDirective  extends AbstractDirective
     private final String m_name;
     private final boolean m_alias;
 
+    public TypeDirective( String name )
+    {
+        this( name, false, null );
+    }
+    
     public TypeDirective( String name, boolean alias )
     {
         this( name, alias, null );
@@ -89,5 +94,10 @@ public final class TypeDirective  extends AbstractDirective
         }
         hash ^= super.hashValue( m_name );
         return hash;
+    }
+    
+    public String toString()
+    {
+        return "type-desc:" + m_name;
     }
 }

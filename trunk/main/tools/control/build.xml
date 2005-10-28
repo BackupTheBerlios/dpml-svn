@@ -7,8 +7,10 @@
 
   <target name="init" depends="standard.init">
     <x:filter feature="uri" type="plugin" key="dpml-tools-ant" token="ANT-BUILDER-URI"/>
+    <x:filter feature="version" key="junit" token="JUNIT_VERSION"/>
   </target>
 
+  <!--
   <target name="build" depends="standard.build">
     <x:path id="build.path"/>
     <rmic base="${basedir}/target/classes" classpathref="build.path">
@@ -18,6 +20,7 @@
       <include name="**/DefaultResource.class"/>
     </rmic>
   </target>
+  -->
 
   <target name="package" depends="standard.package">
     <x:export class="net.dpml.tools.control.BuildPlugin"/>

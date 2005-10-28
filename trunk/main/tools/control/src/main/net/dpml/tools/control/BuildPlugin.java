@@ -21,6 +21,9 @@ package net.dpml.tools.control;
 import java.io.File;
 import java.net.URI;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import net.dpml.transit.Logger;
 import net.dpml.transit.Artifact;
@@ -32,13 +35,10 @@ import net.dpml.transit.util.CLIHelper;
 import net.dpml.tools.info.Scope;
 import net.dpml.tools.model.Library;
 import net.dpml.tools.model.Module;
-import net.dpml.tools.model.Project;
 import net.dpml.tools.model.Resource;
 import net.dpml.tools.model.Builder;
-import net.dpml.tools.model.Model;
-import net.dpml.tools.model.ProjectNotFoundException;
+import net.dpml.tools.model.ResourceNotFoundException;
 import net.dpml.tools.model.ModuleNotFoundException;
-import net.dpml.tools.model.ModelRuntimeException;
 import net.dpml.tools.control.DefaultLibrary;
 
 import org.apache.commons.cli.Option;
@@ -59,7 +59,6 @@ import org.apache.commons.cli.HelpFormatter;
  */
 public class BuildPlugin 
 {
-
     // ------------------------------------------------------------------------
     // state
     // ------------------------------------------------------------------------
@@ -95,26 +94,22 @@ public class BuildPlugin
             String version = line.getOptionValue( "version" );
             System.setProperty( "build.signature", version );
         }
-        else
-        {
-            System.setProperty( "build.signature", "SNAPSHOT" );
-        }
         getLogger().debug( "building library" );
         m_library = new DefaultLibrary( logger );
         String selection = getSelectionArgument( line );
         if( null != selection )
         {
             getLogger().debug( "parsing selection: " + selection );
-            Model[] models = m_library.select( selection );
-            process( models, line );
+            Resource[] resources = m_library.select( selection, true );
+            process( resources, line );
         }
         else
         {
             String work = System.getProperty( "user.dir" );
             getLogger().debug( "resolving selection in: " + work );
             File file = new File( work ).getCanonicalFile();
-            Model model = m_library.lookup( file );
-            process( model, line );
+            Resource resource = m_library.locate( file );
+            process( resource, line );
         }
     }
     
@@ -134,46 +129,36 @@ public class BuildPlugin
         }
     }
     
-    private void process( Model[] models, CommandLine line ) throws Exception
+    private void process( Resource[] resources, CommandLine line ) throws Exception
     {
-        if( models.length == 0 )
+        if( resources.length == 0 )
         {
             return;
         }
-        else if( models.length == 1 )
+        else if( resources.length == 1 )
         {
-            Model model = models[0];
-            process( model, line );
+            Resource resource = resources[0];
+            process( resource, line );
         }
         else
         {
-            StringBuffer buffer = new StringBuffer( "Selection: " + models.length + "\n" );
-            for( int i=0; i<models.length; i++ )
-            {
-                String span = "" + ( i+1 );
-                if( span.length() < 5 )
-                {
-                    String lead = "     ".substring( 0, 5 - span.length() );
-                    buffer.append( "\n" + lead + span + ": " + models[i].getPath() );
-                }
-                else
-                {
-                    buffer.append( "\n " + span + ":\t" + models[i].getPath() );
-                }
-            }
-            getLogger().info( buffer.toString() );
+            listResources( resources, line );
         }
     }
 
-    private void process( Model model, CommandLine line ) throws Exception
+    private void process( Resource resource, CommandLine line ) throws Exception
     {
-        getLogger().debug( "processing: " + model );
-        if( getListArgument( line ) || ( model instanceof Resource ) || ( model instanceof Module ) )
+        getLogger().debug( "processing: " + resource );
+        if( getListArgument( line ) )
         {
             String[] remainder = line.getArgs();
             if( remainder.length > 0 )
             {
-                StringBuffer buffer = new StringBuffer( "Ignoring (" + remainder.length + ") unrecognized arguments: " );
+                StringBuffer buffer = 
+                  new StringBuffer( 
+                    "Ignoring (" 
+                    + remainder.length 
+                    + ") unrecognized arguments: " );
                 for( int i=0; i<remainder.length; i++ )
                 {
                     buffer.append( "[" + remainder[i] + "]" );
@@ -184,22 +169,19 @@ public class BuildPlugin
                 }
                 getLogger().warn( buffer.toString() );
             }
-            if( model instanceof Module )
+            if( resource instanceof Module )
             {
-                listModule( (Module) model, line );
-            }
-            else if( model instanceof Project )
-            {
-                listProject( (Project) model, line );
+                listModule( (Module) resource, line );
             }
             else
             {
-                // TODO: resource listing
+                listResource( resource, line );
             }
         }
         else
         {
-            buildProject( (Project) model, line );
+            // TODO: check if LOCAL
+            buildProject( resource, line );
         }
     }
     
@@ -213,29 +195,29 @@ public class BuildPlugin
         return ( line.hasOption( "consumers" ) || line.hasOption( "c" ) );
     }
         
-    private boolean buildProject( Project project, CommandLine line ) throws Exception
+    private boolean buildProject( Resource project, CommandLine line ) throws Exception
     {
         String[] targets = line.getArgs();
         Builder builder = createBuilder();
         boolean flag = getConsumersArgument( line );
         if( flag )
         {
-            Project[] consumers = project.getAllConsumers();
+            Resource[] consumers = project.getConsumers( true, true );
             StringBuffer buffer = new StringBuffer();
             buffer.append( 
               "building consumers of project [" 
-              + project.getPath() 
+              + project.getResourcePath() 
               + "]\n" );
             for( int i=0; i<consumers.length; i++ )
             {
                 int n = i+1;
-                Project consumer = consumers[i];
-                buffer.append( "\n" + n + "\t" + consumer.getPath() );
+                Resource consumer = consumers[i];
+                buffer.append( "\n" + n + "\t" + consumer.getResourcePath() );
             }
             getLogger().info( buffer.toString() );
             for( int i=0; i<consumers.length; i++ )
             {
-                Project consumer = consumers[i];
+                Resource consumer = consumers[i];
                 boolean status = builder.build( consumer, targets );
                 if( !status )
                 {
@@ -252,75 +234,93 @@ public class BuildPlugin
     
     private void listModule( Module module, CommandLine line ) throws Exception
     {
-        StringBuffer buffer = new StringBuffer( "Listing module [" + module.getPath() + "]\n" );
-        listModule( buffer, "", module );
+        StringBuffer buffer = new StringBuffer( "Listing module [" + module.getResourcePath() + "]\n" );
+        listModule( buffer, "  ", module, 0 );
         getLogger().info( buffer.toString() + "\n" );
-        //Project[] projects = module.getSubsidiaryProjects();
-        //for( int i=0; i<projects.length; i++ )
-        //{
-        //    Project project = projects[i];
-        //    listProject( project, line );
-        //}
     }
     
-    private void listProject( Project project, CommandLine line ) throws Exception
+    private void listResource( Resource project, CommandLine line ) throws Exception
     {
-        boolean flag = line.hasOption( "consumers" );
+        boolean flag = getConsumersArgument( line );
         StringBuffer buffer = new StringBuffer();
         if( flag )
         {
-            buffer.append( "Listing consumers of project: " + project.getPath() + "\n" );
-            Project[] consumers = project.getAllConsumers();
+            buffer.append( "Listing consumers of project: " + project.getResourcePath() + "\n" );
+            Resource[] consumers = project.getConsumers( true, true );
             for( int i=0; i<consumers.length; i++ )
             {
-                Project consumer = consumers[i];
-                listProject( buffer, "  ", consumer );
-                buffer.append( "\n" );
+                if( i>0 )
+                {
+                    buffer.append( "\n" );
+                }
+                Resource consumer = consumers[i];
+                if( consumer instanceof Module )
+                {
+                    listModule( buffer, "  ", (Module) consumer, (i+1) );
+                }
+                else
+                {
+                    listResource( buffer, "  ", consumer, (i+1) );
+                }
             }
         }
         else
         {
-            buffer.append( "Listing project: " + project.getPath() + "\n" );
-            listProject( buffer, "  ", project );
+            buffer.append( "Listing project: " + project.getResourcePath() + "\n" );
+            listResource( buffer, "  ", project, 0 );
             buffer.append( "\n" );
         }
         getLogger().info( buffer.toString() );
     }
     
-    private void listModule( StringBuffer buffer, String indent, Module module ) throws Exception
+    private void listResources( Resource[] resources, CommandLine line ) throws Exception
     {
-        String pad = indent + "  ";
+        StringBuffer buffer = new StringBuffer( "Selection: " + resources.length + "\n" );
+        for( int i=0; i<resources.length; i++ )
+        {
+            if( i>0 )
+            {
+                buffer.append( "\n" );
+            }
+            Resource resource = resources[i];
+            if( resource instanceof Module )
+            {
+                listModule( buffer, "  ", (Module) resource, (i+1) );
+            }
+            else
+            {
+                listResource( buffer, "  ", resource, (i+1) );
+            }
+        }
+        getLogger().info( buffer.toString() );
+    }
+    
+    private void listModule( StringBuffer buffer, String pad, Module module, int n ) throws Exception
+    {
+        listResource( buffer, pad, module, n );
+        
         String p = pad + "  ";
-        buffer.append( "\n" + indent + "module: " +  module.getPath() + "\n" );
-        line( buffer, pad + "version: " + module.getVersion() );
-        //Module[] imports = module.getImportedModules();
-        //if( imports.length > 0 )
-        //{
-        //    line( buffer, pad + "imports: (" + imports.length + ")" );
-        //    for( int i=0; i<imports.length; i++ )
-        //    {
-        //        line( buffer, p + imports[i].getName() );
-        //    }
-        //}
-        Module[] providers = module.getProviderModules( true );
+        Resource[] providers = module.getAggregatedProviders( Scope.TEST, false, true );
+        Resource[] resources = module.getResources();
+        List list = Arrays.asList( resources );
+        ArrayList stack = new ArrayList();
+        for( int i=0; i<providers.length; i++ )
+        {
+            Resource provider = providers[i];
+            if( !list.contains( provider ) )
+            {
+                stack.add( provider );
+            }
+        }
+        providers = (Resource[]) stack.toArray( new Resource[0] );
         if( providers.length > 0 )
         {
             line( buffer, pad + "imports: (" + providers.length + ")" );
             for( int i=0; i<providers.length; i++ )
             {
-                line( buffer, p + providers[i].getPath() );
+                line( buffer, p + providers[i].getResourcePath() );
             }
         }
-        Module[] modules = module.getModules();
-        if( modules.length > 0 )
-        {
-            line( buffer, pad + "modules: (" + modules.length + ")" );
-            for( int i=0; i<modules.length; i++ )
-            {
-                line( buffer, p + modules[i].getName() );
-            }
-        }
-        Resource[] resources = module.getResources();
         if( resources.length > 0 )
         {
             line( buffer, pad + "resources: (" + resources.length + ")" );
@@ -329,85 +329,60 @@ public class BuildPlugin
                 line( buffer, p + resources[i].getName() );
             }
         }
-        Project[] projects = module.getProjects();
-        if( projects.length > 0 )
-        {
-            line( buffer, pad + "projects: (" + projects.length + ")" );
-            for( int i=0; i<projects.length; i++ )
-            {
-                line( buffer, p + projects[i].getName() );
-            }
-        }
     }
     
-    private void listProject( StringBuffer buffer, String pad, Project project ) throws Exception
+    private void listResource( StringBuffer buffer, String pad, Resource resource, int n ) throws Exception
     {
-        buffer.append( "\nproject: " + project.getPath() + "\n" );
-        line( buffer, pad + "version: " + project.getVersion() );
-        line( buffer, pad + "basedir: " + project.getBase() );
+        if( n > 0 )
+        {
+            buffer.append( "\n[" + n + "] " );
+        }
+        else
+        {
+            buffer.append( "\n " );
+        }
+        buffer.append( resource + "\n" );
+        line( buffer, pad + "version: " + resource.getVersion() );
+        line( buffer, pad + "basedir: " + resource.getBaseDir() );
         String p = pad + "  ";
-        Module[] imports = project.getProviderModules( true );
-        if( imports.length > 0  )
-        {
-            line( buffer, pad + "imported modules: (" + imports.length + ")" );
-            for( int i=0; i<imports.length; i++ )
-            {
-                Module module = imports[i];
-                line( buffer, p + module.getPath() );
-            }
-        }
-        Resource[] resources = project.getProviders();
+        Resource[] resources = resource.getProviders( Scope.BUILD, true, true );
         if( resources.length > 0 )
         {
-            line( buffer, pad + "providers: (" + resources.length + ")" );
+            line( buffer, pad + "build phase providers: (" + resources.length + ")" );
             for( int i=0; i<resources.length; i++ )
             {
                 line( buffer, p + resources[i].getName() );
             }
         }
-        resources = project.getClassPath( Scope.BUILD );
+        resources = resource.getProviders( Scope.RUNTIME, true, true );
         if( resources.length > 0 )
         {
-            line( buffer, pad + "build classpath: (" + resources.length + ")" );
+            line( buffer, pad + "runtime providers: (" + resources.length + ")" );
             for( int i=0; i<resources.length; i++ )
             {
                 line( buffer, p + resources[i].getName() );
             }
         }
-        resources = project.getClassPath( Scope.RUNTIME );
+        resources = resource.getProviders( Scope.TEST, true, true );
         if( resources.length > 0 )
         {
-            line( buffer, pad + "runtime classpath: (" + resources.length + ")" );
+            line( buffer, pad + "test providers: (" + resources.length + ")" );
             for( int i=0; i<resources.length; i++ )
             {
                 line( buffer, p + resources[i].getName() );
             }
         }
-        resources = project.getClassPath( Scope.TEST );
+        resources = resource.getConsumers( true, true );
         if( resources.length > 0 )
         {
-            line( buffer, pad + "test classpath: (" + resources.length + ")" );
+            line( buffer, pad + "consumers: (" + resources.length + ")" );
             for( int i=0; i<resources.length; i++ )
             {
                 line( buffer, p + resources[i].getName() );
-            }
-        }
-        Project[] consumers = project.getConsumers();
-        if( consumers.length > 0 )
-        {
-            line( buffer, pad + "consumers: (" + consumers.length + ")" );
-            for( int i=0; i<consumers.length; i++ )
-            {
-                line( buffer, p + consumers[i].getName() );
             }
         }
     }
     
-    private void listResource( StringBuffer buffer, String pad, Resource resource, String tag ) throws Exception
-    {
-        line( buffer, pad + tag + resource.getName() );
-    }
-
     private void line( StringBuffer buffer, String message )
     {
         buffer.append( "\n" + message );
@@ -417,53 +392,6 @@ public class BuildPlugin
     {
         return m_logger;
     }
-    
-    /*
-    private Options buildCommandLineOptions()
-    {
-        Options options = new Options();
-        
-        //
-        // project or module selection
-        //
-        
-        Option project = new Option( "project", true, "select the named project" );
-        project.setArgName( "group/name" );
-        
-        Option module = new Option( "module", true, "select the named module" );
-        module.setArgName( "group" );
-        
-        Option select = new Option( "select", true, "select the named module or project" );
-        module.setArgName( "group[/name]" );
-        
-        OptionGroup selection = new OptionGroup();
-        selection.addOption( select );
-        selection.addOption( project );
-        selection.addOption( module );
-        options.addOptionGroup( selection );
-        
-        //
-        // list switch
-        //
-
-        options.addOption( new Option( "list", false, "list the selection" ) );
-        
-        //
-        // list switch
-        //
-
-        options.addOption( new Option( "v", false, "-verbose option" ) );
-        options.addOption( new Option( "verbose", false, "enable verbose mode" ) );
-        
-        //
-        // consumer switch
-        //
-
-        options.addOption( new Option( "consumers", false, "include all downstream consumer projects" ) );
-        
-        return options;
-    }
-    */
     
     private Options buildActionCommandLineOptions()
     {

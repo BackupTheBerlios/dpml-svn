@@ -1,20 +1,18 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 
-<module name="ant" version="1.6.7">
+<module name="ant" version="1.6.5">
 
-  <dependencies>
-    <include file="junit.xml"/>
-  </dependencies>
-
-  <resources>
 
     <resource name="ant">
       <types>
         <type id="jar"/>
       </types>
+      <dependencies>
+        <include key="ant-launcher"/>
+      </dependencies>
     </resource>
 
-    <resource name="ant-junit" version="1.6.7">
+    <resource name="ant-junit">
       <types>
         <type id="jar"/>
       </types>
@@ -24,6 +22,11 @@
       </dependencies>
     </resource>
 
-  </resources>
+    <resource name="ant-launcher">
+      <types>
+        <type id="jar"/>
+      </types>
+    </resource>
+
 
 </module>

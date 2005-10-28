@@ -19,17 +19,25 @@
 package net.dpml.tools.info;
 
 /**
- * The IncludeDirective class describes a the inclusion of a typed value.
+ * The ImportDirective class describes a the inclusion of a typed value.
  *
  * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
  */
-public final class ResourceIncludeDirectiveTestCase extends AbstractTestCase
+public final class ImportDirectiveTestCase extends AbstractTestCase
 {
+    static ImportDirective[] IMPORTS = new ImportDirective[3];
+    static
+    {
+        IMPORTS[0] = new ImportDirective( ImportDirective.URI, "something", PROPERTIES );
+        IMPORTS[1] = new ImportDirective( ImportDirective.FILE, "bingo", PROPERTIES );
+        IMPORTS[2] = new ImportDirective( ImportDirective.URI, "acme", PROPERTIES );
+    }
+
     public void testNullName()
     {
         try
         {
-            new ResourceIncludeDirective( null, "value", PROPERTIES );
+            new ImportDirective( null, "value", PROPERTIES );
             fail( "no-NPE" );
         }
         catch( NullPointerException e )
@@ -42,7 +50,7 @@ public final class ResourceIncludeDirectiveTestCase extends AbstractTestCase
     {
         try
         {
-            new ResourceIncludeDirective( ResourceIncludeDirective.KEY, null, PROPERTIES );
+            new ImportDirective( ImportDirective.FILE, null, PROPERTIES );
             fail( "no-NPE" );
         }
         catch( NullPointerException e )
@@ -51,32 +59,31 @@ public final class ResourceIncludeDirectiveTestCase extends AbstractTestCase
         }
     }
     
-    public void testIncludeType()
+    public void testImportMode()
     {
-        ResourceIncludeDirective include = 
-          new ResourceIncludeDirective( ResourceIncludeDirective.KEY, "value", PROPERTIES );
-        assertEquals( "name", "key", include.getType() );
-        assertEquals( "mode", ResourceIncludeDirective.KEY, include.getMode() );
+        ImportDirective include = 
+          new ImportDirective( ImportDirective.FILE, "value", PROPERTIES );
+        assertEquals( "mode", ImportDirective.FILE, include.getMode() );
     }
     
-    public void testIncludeValue()
+    public void testImportValue()
     {
-        ResourceIncludeDirective include = 
-          new ResourceIncludeDirective( ResourceIncludeDirective.KEY, "value", PROPERTIES );
+        ImportDirective include = 
+          new ImportDirective( ImportDirective.URI, "value", PROPERTIES );
         assertEquals( "value", "value", include.getValue() );
     }
     
     public void testSerialization() throws Exception
     {
-        ResourceIncludeDirective include = 
-          new ResourceIncludeDirective( ResourceIncludeDirective.KEY, "value", PROPERTIES );
+        ImportDirective include = 
+          new ImportDirective( ImportDirective.URI, "value", PROPERTIES );
         doSerializationTest( include );
     }
 
     public void testXMLEncoding() throws Exception
     {
-        ResourceIncludeDirective include = 
-          new ResourceIncludeDirective( ResourceIncludeDirective.KEY, "value", PROPERTIES );
+        ImportDirective include = 
+          new ImportDirective( ImportDirective.URI, "value", PROPERTIES );
         doEncodingTest( include, "include-encoded.xml" );
     }
 }

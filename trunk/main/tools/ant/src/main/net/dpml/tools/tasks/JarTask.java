@@ -22,7 +22,8 @@ import java.io.File;
 import java.rmi.RemoteException;
 
 import net.dpml.tools.tasks.GenericTask;
-import net.dpml.tools.ant.Definition;
+import net.dpml.tools.model.Resource;
+import net.dpml.tools.model.Type;
 
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Project;
@@ -109,8 +110,6 @@ public class JarTask extends GenericTask
         {
             return;
         }
-        Project project = getProject();
-        Definition definition = getDefinition();
         File jar = getDestination();
         boolean modified = createJarFile( source, jar );
         if( modified )
@@ -168,7 +167,7 @@ public class JarTask extends GenericTask
                 addAttribute( main, "Main-Class", mainClass );
             }
 
-            addAttribute( main, "Extension-Name", getDefinition().getProjectPath() );
+            addAttribute( main, "Extension-Name", getResource().getResourcePath() );
             String specificationVendor = getProject().getProperty( "project.specification.vendor" );
             if( null != specificationVendor )
             {
@@ -193,7 +192,7 @@ public class JarTask extends GenericTask
                 addAttribute( main, "Implementation-Vendor-Id", implementationVendorID );
             }
 
-            final String implementationVersion = getDefinition().getVersion();
+            final String implementationVersion = getResource().getVersion();
             addAttribute( main, "Implementation-Version", implementationVersion );
 
             jar.addConfiguredManifest( manifest );

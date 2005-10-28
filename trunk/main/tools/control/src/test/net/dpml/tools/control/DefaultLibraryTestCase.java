@@ -19,137 +19,206 @@
 package net.dpml.tools.control;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.BufferedInputStream;
+import java.util.Properties;
+
+import junit.framework.TestCase;
 
 import net.dpml.tools.model.Module;
-import net.dpml.tools.model.Resource;
-import net.dpml.tools.model.Project;
 import net.dpml.tools.model.Library;
-import net.dpml.tools.info.Scope;
+import net.dpml.tools.model.Processor;
+import net.dpml.tools.model.Resource;
+import net.dpml.tools.model.Type;
+import net.dpml.tools.model.ProcessorNotFoundException;
+import net.dpml.tools.info.LibraryDirective;
+import net.dpml.tools.info.ResourceDirective;
 
+import net.dpml.transit.Logger;
 import net.dpml.transit.monitor.LoggingAdapter;
 
 /**
- * Test the DefaultLibrary implementation.
+ * Test DefaultLibrary implementation.
  *
  * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
  */
 public class DefaultLibraryTestCase extends AbstractTestCase
 {   
-    private Library m_library;
-    
-    public void setUp() throws Exception
+   /**
+    * Test request for all processors.
+    */
+    public void testProcessors()
     {
-        String testPath = System.getProperty( "project.test.dir" );
-        File test = new File( testPath );
-        File example = new File( test, "library.xml" );
-        LoggingAdapter logger = new LoggingAdapter( "library" );
-        m_library = DefaultLibrary.load( logger, example );
+        Processor[] processors = m_library.getProcessors();
+        assertEquals( "processor-count", 3, processors.length );
     }
     
-    public void testRootModules() throws Exception
+   /**
+    * Test library properties.
+    */
+    public void testProperties()
+    {
+        String[] names = m_library.getPropertyNames();
+        assertEquals( "property-count", 3, names.length );
+        //for( int i=0; i<names.length; i++ )
+        //{
+        //    System.out.println( "# " + names[i] );
+        //}
+    }
+    
+   /**
+    * Test request for a named processor.
+    */
+    public void testGetProcessors() throws Exception
+    {
+        Type type = new MockType( "jar", false );
+        Processor processor = m_library.getProcessor( type );
+        assertEquals( "processor-name", "jar", processor.getName() );
+    }
+    
+   /**
+    * Make sure the ProcessorNotFoundException is thrown for a bad type name.
+    */
+    public void testGetBadProcessors() throws Exception
+    {
+        Type rabbit = new MockType( "rabbit", false );
+        try
+        {
+            Processor processor = m_library.getProcessor( rabbit );
+            fail( "ProcessorNotFoundException was not thrown" );
+        }
+        catch( ProcessorNotFoundException e )
+        {
+            // success
+        }
+    }
+    
+   /**
+    * Testing inclusion of processors based on declared processor 
+    * dependencies.  In this testcase the resource declares a dependency 
+    * on a plugin and this implies a dependency on a jar processor - hense 
+    * two resource type and two processors irrespective of the fact that 
+    * the XML defintion contains a single plugin type reference.
+    */
+    public void testGetProcessorSequence() throws Exception
+    {
+        Resource resource = m_library.getResource( "dpml/tools/dpml-tools-ant" );
+        Type[] types = resource.getTypes();
+        assertEquals( "resource-type-count", 2, types.length );
+        Processor[] processors = m_library.getProcessorSequence( resource );
+        assertEquals( "processor-sequence-count", 2, processors.length );
+    }
+    
+   /**
+    * Test correct resolution of top-level modules from the library.
+    */
+    public void testRootModuleCount()
     {
         Module[] modules = m_library.getModules();
-        for( int i=0; i<modules.length; i++ )
-        {
-            listModule( "# ", modules[i] );
-        }
+        assertEquals( "top-module-count", 6, modules.length );
     }
     
-    public void testAllProjects() throws Exception
+   /**
+    * Test expanded module request and validate that the 'dpml' module
+    * is on the end of the stack.
+    */
+    public void testExpandedModuleCount() throws Exception
     {
-        Project[] projects = m_library.getAllProjects();
-        System.out.println( "# all project count: " + projects.length );
-        for( int i=0; i<projects.length; i++ )
-        {
-            System.out.println( "#   " + projects[i].toString() );
-        }
+        Module[] modules = m_library.getAllModules();
+        assertEquals( "expanded-module-count", 10, modules.length );
+        Module dpml = m_library.getModule( "dpml" );
+        assertEquals( "last-module", dpml, modules[ modules.length - 1 ] );
     }
     
-    public void testAncestorChain() throws Exception
+   /**
+    * Test aquisition of a named resource.
+    */
+    public void testGetResourceLevelOne() throws Exception
     {
-        Project project = m_library.getProject( "dpml/runtime/dpml-state-impl" );
-        Project[] projects = m_library.getProjectChain( project, true );
-        System.out.println( "# relative project count: " + projects.length );
-        for( int i=0; i<projects.length; i++ )
-        {
-            System.out.println( "#   " + projects[i].toString() );
-        }
+        String spec = "ant";
+        Resource resource = m_library.getResource( spec );
+        String path = resource.getResourcePath();
+        assertEquals( "spec-to-path", spec, path );
     }
     
-    public void testBuildClasspathForProject() throws Exception
+   /**
+    * Test aquisition of a named resource.
+    */
+    public void testGetResourceLevelTwo() throws Exception
     {
-        Project project = m_library.getProject( "dpml/runtime/dpml-state-impl" );
-        Resource[] resources = project.getClassPath( Scope.BUILD );
-        System.out.println( "# build classpath count: " + resources.length );
-        for( int i=0; i<resources.length; i++ )
-        {
-            System.out.println( "#   " + resources[i].toString() );
-        }
+        String spec = "ant/ant-junit";
+        Resource resource = m_library.getResource( spec );
+        String path = resource.getResourcePath();
+        assertEquals( "spec-to-path", spec, path );
     }
     
-    public void testRuntimeClasspathForProject() throws Exception
+   /**
+    * Test aquisition of a named resource.
+    */
+    public void testGetResourceLevelThree() throws Exception
     {
-        Project project = m_library.getProject( "dpml/runtime/dpml-state-impl" );
-        Resource[] resources = project.getClassPath( Scope.RUNTIME );
-        System.out.println( "# runtime classpath count: " + resources.length );
-        for( int i=0; i<resources.length; i++ )
-        {
-            System.out.println( "#   " + resources[i].toString() );
-        }
+        String spec = "dpml/metro/dpml-composition-runtime";
+        Resource resource = m_library.getResource( spec );
+        String path = resource.getResourcePath();
+        assertEquals( "spec-to-path", spec, path );
     }
     
-    public void testTestClasspathForProject() throws Exception
+   /**
+    * Test aquisition of a named module.
+    */
+    public void testGetModuleLevelOne() throws Exception
     {
-        Project project = m_library.getProject( "dpml/runtime/dpml-state-impl" );
-        Resource[] resources = project.getClassPath( Scope.TEST );
-        System.out.println( "# test classpath count: " + resources.length );
-        for( int i=0; i<resources.length; i++ )
-        {
-            System.out.println( "# " + resources[i].toString() );
-        }
+        String spec = "dpml";
+        Module module = m_library.getModule( spec );
+        String path = module.getResourcePath();
+        assertEquals( "spec-to-path", spec, path );
     }
     
-    private void listModule( String pad, Module module ) throws Exception
+   /**
+    * Test aquisition of a named module.
+    */
+    public void testGetModuleLevelTwo() throws Exception
     {
-        System.out.println( pad + "module: " + module.getName() );
-        String p = pad + "  ";
-        Resource[] resources = module.getResources();
-        for( int i=0; i<resources.length; i++ )
-        {
-            listResource( p, resources[i], "resource: " );
-        }
-        Project[] projects = module.getProjects();
-        for( int i=0; i<projects.length; i++ )
-        {
-            listProject( p, projects[i] );
-        }
-        Module[] modules = module.getModules();
-        for( int i=0; i<modules.length; i++ )
-        {
-            listModule( p, modules[i] );
-        }
+        String spec = "dpml/metro";
+        Module module = m_library.getModule( spec );
+        String path = module.getResourcePath();
+        assertEquals( "spec-to-path", spec, path );
     }
     
-    private void listResource( String pad, Resource resource, String tag ) throws Exception
+    private static class MockType implements Type
     {
-        System.out.println( pad + tag + resource.getName() );
-        String p = pad + "  ";
-        Resource[] resources = resource.getProviders();
-        for( int i=0; i<resources.length; i++ )
+        private String m_name;
+        private boolean m_alias;
+        
+        public MockType( String name, boolean alias )
         {
-            listResource( p, resources[i], "dependency: " );
+            m_name = name;
+            m_alias = alias;
+        }
+        
+        public String getName()
+        {
+            return m_name;
+        }
+    
+        public boolean getAlias()
+        {
+            return m_alias;
+        }
+    
+        public String[] getPropertyNames()
+        {
+            return new String[0];
+        }
+    
+        public String getProperty( String key )
+        {
+            return null;
+        }
+    
+        public String getProperty( String key, String value )
+        {
+            return value;
         }
     }
-
-    private void listProject( String pad, Project project ) throws Exception
-    {
-        System.out.println( pad + project.getName() );
-        String p = pad + "  ";
-        Resource[] resources = project.getProviders( Scope.TEST );
-        for( int i=0; i<resources.length; i++ )
-        {
-            listResource( p, resources[i], "dependency: " );
-        }
-    }
-
 }

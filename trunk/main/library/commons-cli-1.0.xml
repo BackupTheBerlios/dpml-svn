@@ -2,14 +2,10 @@
 
 <module name="commons-cli" version="1.0">
 
-  <resources>
-
     <resource name="commons-cli">
       <types>
         <type id="jar"/>
       </types>
     </resource>
-
-  </resources>
 
 </module>

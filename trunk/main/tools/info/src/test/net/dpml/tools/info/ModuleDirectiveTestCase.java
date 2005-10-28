@@ -18,6 +18,8 @@
 
 package net.dpml.tools.info;
 
+import net.dpml.tools.info.ResourceDirective.Classifier;
+
 /**
  * The ModuleDirective class describes a module data-structure.
  *
@@ -25,12 +27,12 @@ package net.dpml.tools.info;
  */
 public final class ModuleDirectiveTestCase extends AbstractTestCase
 {
+    private final Classifier m_classifier = ResourceDirective.LOCAL;
     private final String m_name = "name";
     private final String m_version = "1.1.1";
     private final String m_basedir = ".";
-    private final ModuleDirective[] m_modules = new ModuleDirective[0];
-    private final ModuleIncludeDirective[] m_refs = ModuleIncludeDirectiveTestCase.INCLUDES;
-    private final ProjectDirective[] m_projects = ProjectDirectiveTestCase.PROJECTS;
+    private final TypeDirective[] m_types = TypeDirectiveTestCase.TYPES;
+    private final DependencyDirective[] m_dependencies = DependencyDirectiveTestCase.DEPENDENCIES;
     private final ResourceDirective[] m_resources = ResourceDirectiveTestCase.RESOURCES;
     
     private ModuleDirective m_module;
@@ -39,7 +41,7 @@ public final class ModuleDirectiveTestCase extends AbstractTestCase
     {
         m_module = 
           new ModuleDirective( 
-            m_name, m_version, m_basedir, m_refs, m_modules, m_projects, m_resources, PROPERTIES );
+            m_name, m_version, m_classifier, "test", m_types, m_dependencies, m_resources, PROPERTIES );
     }
 
     public void testNullName()
@@ -47,7 +49,7 @@ public final class ModuleDirectiveTestCase extends AbstractTestCase
         try
         {
             new ModuleDirective( 
-              null, m_version, m_basedir, m_refs, m_modules, m_projects, m_resources, PROPERTIES );
+              null, m_version, m_classifier, "test", m_types, m_dependencies, m_resources, PROPERTIES );
             fail( "no-NPE" );
         }
         catch( NullPointerException e )
@@ -61,7 +63,7 @@ public final class ModuleDirectiveTestCase extends AbstractTestCase
         try
         {
             new ModuleDirective( 
-              m_name, null, m_basedir, m_refs, m_modules, m_projects, m_resources, PROPERTIES );
+              m_name, null, m_classifier, "test", m_types, m_dependencies, m_resources, PROPERTIES );
         }
         catch( NullPointerException e )
         {
@@ -69,53 +71,12 @@ public final class ModuleDirectiveTestCase extends AbstractTestCase
         }
     }
     
-    public void testNullBasedir()
+    public void testNullDependencies()
     {
         try
         {
             new ModuleDirective( 
-              m_name, m_version, null, m_refs, m_modules, m_projects, m_resources, PROPERTIES );
-        }
-        catch( NullPointerException e )
-        {
-            fail( "NPE" );
-        }
-    }
-    
-    public void testNullRefs()
-    {
-        try
-        {
-            new ModuleDirective( 
-              m_name, m_version, m_basedir, null, m_modules, m_projects, m_resources, PROPERTIES );
-            fail( "no-NPE" );
-        }
-        catch( NullPointerException e )
-        {
-            // success
-        }
-    }
-    
-    public void testNullModules()
-    {
-        try
-        {
-            new ModuleDirective( 
-              m_name, m_version, m_basedir, m_refs, null, m_projects, m_resources, PROPERTIES );
-            fail( "no-NPE" );
-        }
-        catch( NullPointerException e )
-        {
-            // success
-        }
-    }
-    
-    public void testNullProjects()
-    {
-        try
-        {
-            new ModuleDirective( 
-              m_name, m_version, m_basedir, m_refs, m_modules, null, m_resources, PROPERTIES );
+              m_name, m_version, m_classifier, "test", m_types, null, m_resources, PROPERTIES );
             fail( "no-NPE" );
         }
         catch( NullPointerException e )
@@ -129,7 +90,7 @@ public final class ModuleDirectiveTestCase extends AbstractTestCase
         try
         {
             new ModuleDirective( 
-              m_name, m_version, m_basedir, m_refs, m_modules, m_projects, null, PROPERTIES );
+              m_name, m_version, m_classifier, "test", m_types, m_dependencies, null, PROPERTIES );
             fail( "no-NPE" );
         }
         catch( NullPointerException e )
@@ -143,29 +104,19 @@ public final class ModuleDirectiveTestCase extends AbstractTestCase
         assertEquals( "name", m_name, m_module.getName() );
     }
     
+    public void testClassifier()
+    {
+        assertEquals( "classifier", m_classifier, m_module.getClassifier() );
+    }
+    
     public void testVersion()
     {
         assertEquals( "version", m_version, m_module.getVersion() );
     }
     
-    public void testBasedir()
+    public void testDependencyDirectives()
     {
-        assertEquals( "basedir", m_basedir, m_module.getBasedir() );
-    }
-    
-    public void testIncludeDirectives()
-    {
-        assertEquals( "includes", m_refs, m_module.getIncludeDirectives() );
-    }
-    
-    public void testModuleDirectives()
-    {
-        assertEquals( "modules", m_modules, m_module.getModuleDirectives() );
-    }
-    
-    public void testProjectDirectives()
-    {
-        assertEquals( "projects", m_projects, m_module.getProjectDirectives() );
+        assertEquals( "dependencies", m_dependencies, m_module.getDependencyDirectives() );
     }
     
     public void testResourceDirectives()

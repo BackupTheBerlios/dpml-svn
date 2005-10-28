@@ -22,6 +22,15 @@ import java.io.File;
 import java.io.IOException;
 import java.rmi.RemoteException;
 
+import net.dpml.tools.ant.Context;
+import net.dpml.tools.model.Library;
+import net.dpml.tools.model.Resource;
+import net.dpml.tools.model.ResourceNotFoundException;
+import net.dpml.tools.model.ModuleNotFoundException;
+import net.dpml.tools.control.DefaultLibrary;
+
+import net.dpml.transit.monitor.LoggingAdapter;
+
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.taskdefs.Copy;
@@ -34,14 +43,6 @@ import org.apache.tools.ant.taskdefs.Sequential;
 import org.apache.tools.ant.taskdefs.Checksum;
 import org.apache.tools.ant.taskdefs.ExecTask;
 
-import net.dpml.tools.ant.Definition;
-import net.dpml.tools.ant.Context;
-import net.dpml.tools.model.Library;
-import net.dpml.tools.model.ProjectNotFoundException;
-import net.dpml.tools.model.ModuleNotFoundException;
-import net.dpml.tools.control.DefaultLibrary;
-
-import net.dpml.transit.monitor.LoggingAdapter;
 
 /**
  * Prepare the target build directory based on content presented under the
@@ -85,9 +86,9 @@ public class GenericTask extends Task
    /**
     * Get the project definition.
     */
-    protected Definition getDefinition()
+    protected Resource getResource()
     {
-        return getContext().getDefinition();
+        return getContext().getResource();
     }
     
    /**
@@ -110,6 +111,7 @@ public class GenericTask extends Task
             // We are running under Ant based invocation.
             // Create the library, locate this project, create and set the context.
             //
+            
             File basedir = getProject().getBaseDir();
             if( null == System.getProperty( "build.version" ) )
             {
@@ -118,20 +120,10 @@ public class GenericTask extends Task
             try
             {
                 DefaultLibrary library = new DefaultLibrary( new LoggingAdapter() );
-                net.dpml.tools.model.Model model = library.lookup( basedir.getCanonicalFile() );
-                if( model instanceof net.dpml.tools.model.Project )
-                {
-                    Definition definition = new Definition( (net.dpml.tools.model.Project) model );
-                    context = new Context( definition, library, getProject() );
-                    getProject().addReference( "project.context", context );
-                    return context;
-                }
-                else
-                {
-                    final String error = 
-                      "Reactive build not implemented yet.";
-                    throw new BuildException( error );
-                }
+                Resource resource = library.locate( basedir.getCanonicalFile() );
+                context = new Context( resource, library, getProject() );
+                getProject().addReference( "project.context", context );
+                return context;
             }
             catch( BuildException e )
             {
@@ -255,6 +247,4 @@ public class GenericTask extends Task
     }
 
     private static final int TIMEOUT = 10000;
-
-
 }

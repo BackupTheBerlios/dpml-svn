@@ -26,7 +26,6 @@ import net.dpml.tools.tasks.PrepareTask;
 import net.dpml.tools.tasks.JarTask;
 import net.dpml.tools.tasks.JUnitTestTask;
 
-import net.dpml.tools.ant.Definition;
 import net.dpml.tools.ant.Context;
 
 import org.apache.tools.ant.BuildException;
@@ -133,19 +132,11 @@ public class JarProcess extends AbstractBuildListener
     
     private File getJarFile( Project project )
     {
-        Definition definition = getDefinition( project );
+        Context context = getContext( project );
         File deliverables = new File( project.getProperty( "project.target.deliverables.dir" ) );
         File jars = new File( deliverables, "jars" );
-        String filename = definition.getLayoutPath( "jar" );
+        String filename = context.getLayoutPath( "jar" );
         return new File( jars, filename );
-    }
-
-   /**
-    * Get the project definition.
-    */
-    protected Definition getDefinition( Project project )
-    {
-        return getContext( project ).getDefinition();
     }
     
    /**

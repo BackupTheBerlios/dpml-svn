@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 
-<module name="dpml" basedir=".">
+<module name="dpml" basedir="..">
 
    <properties>
      <property name="project.publisher.name" value="Digital Product Meta Library"/>

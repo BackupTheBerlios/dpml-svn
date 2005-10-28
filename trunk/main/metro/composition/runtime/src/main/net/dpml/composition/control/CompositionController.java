@@ -522,7 +522,7 @@ public class CompositionController extends CompositionPartHandler implements Con
                 {
                     URI partition = getPartition( container );
                     return new CompositionClassLoader( 
-                      partition, Category.ANY, getClass().getClassLoader(), new URI[0], classloader );
+                      partition, Category.PROTECTED, getClass().getClassLoader(), new URI[0], classloader );
                 }
             }
         }

@@ -26,31 +26,31 @@ import java.beans.DefaultPersistenceDelegate;
 import java.beans.SimpleBeanInfo;
 import java.beans.Encoder;
 
-import net.dpml.transit.util.Enum;
+import net.dpml.transit.util.ValuedEnum;
 
 /**
  * Lifestyle policy enumeration.
  * @author <a href="mailto:dev-dpml@lists.ibiblio.org">The Digital Product Meta Library</a>
  * @version $Id: InfoDescriptor.java 2522 2005-05-12 11:23:50Z mcconnell@dpml.net $
  */
-public final class Scope extends Enum
+public final class Scope extends ValuedEnum implements Comparable
 {
     static final long serialVersionUID = 1L;
 
    /**
     * Build scope.
     */
-    public static final Scope BUILD = new Scope( "build" );
-
-   /**
-    * Test scope.
-    */
-    public static final Scope TEST = new Scope( "test" );
+    public static final Scope BUILD = new Scope( "build", 0 );
 
    /**
     * Runtime scope.
     */
-    public static final Scope RUNTIME = new Scope( "runtime" );
+    public static final Scope RUNTIME = new Scope( "runtime", 1 );
+
+   /**
+    * Test scope.
+    */
+    public static final Scope TEST = new Scope( "test", 2 );
 
    /**
     * Array of scope enumeration values.
@@ -72,9 +72,9 @@ public final class Scope extends Enum
     * @param index the enumeration index.
     * @param map the set of constructed enumerations.
     */
-    private Scope( String label )
+    private Scope( String label, int index )
     {
-        super( label );
+        super( label, index );
     }
     
     public static Scope parse( String value )

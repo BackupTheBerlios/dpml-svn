@@ -18,69 +18,88 @@
 
 package net.dpml.tools.model;
 
-import java.rmi.Remote;
-import java.rmi.RemoteException;
-
-import net.dpml.tools.info.TypeDescriptor;
-import net.dpml.tools.info.ModuleDirective;
-import net.dpml.tools.info.Scope;
+import java.io.File;
 
 /**
  * The Library interface is the application root for module management.
  *
  * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
  */
-public interface Library extends Remote
+public interface Library
 {
-    TypeDescriptor[] getTypeDescriptors() throws RemoteException;
-    
-    TypeDescriptor getTypeDescriptor( String type ) throws RemoteException, TypeNotFoundException;
-    
    /**
-    * Return a sorted array of all projects within the library.
-    * @return the sorted project array
+    * Return an array of all registered processors models.
+    * @return the processor array
     */
-    Project[] getAllProjects() 
-      throws RemoteException, ModuleNotFoundException, ResourceNotFoundException;
-
+    Processor[] getProcessors();
+    
    /**
-    * Return a sorted array of projects containing all ancestors or all decendents.
-    * @param project the target project
-    * @param ancestors if TRUE return the ancestor chain else the descendent chain
-    * @return the sorted project array
+    * Return the sequence of processor definitions supporting production of a 
+    * supplied resource.  The implementation constructs a sequence of process
+    * instances based on the types declared by the resource combined with 
+    * dependencies declared by respective process defintions. Clients may
+    * safely invoke processes sequentially relative to the returned process
+    * sequence.
+    * 
+    * @param resource the resource to be produced
+    * @return a sorted array of processor definitions supporting resource production
     */
-    Project[] getProjectChain( Project project, boolean ancestors ) 
-      throws RemoteException, ModuleNotFoundException, ResourceNotFoundException;
-
+    Processor[] getProcessorSequence( Resource resource ) throws ProcessorNotFoundException;
+    
    /**
-    * Return an array of top-level modules registered with the library.
+    * Return the processor defintions matching a supplied type.  
+    * 
+    * @param type the type declaration
+    * @return the processor definition
+    * @exception ProcessorNotFoundException if no processor is registered 
+    *   for the supplied type
+    */
+    Processor getProcessor( Type type ) throws ProcessorNotFoundException;
+    
+   /**
+    * Return a array of the top-level modules within the library.
     * @return the module array
     */
-    Module[] getModules() throws RemoteException;
+    Module[] getModules();
     
    /**
-    * Get a named module.
-    * @param path the module address
-    * @exception ModuleNotFoundException if the address is not resolvable
+    * Return a array of all modules in the library.
+    * @return module array
     */
-    Module getModule( String path ) throws RemoteException, ModuleNotFoundException;
+    Module[] getAllModules();
     
    /**
-    * Get a named project.
-    * @param path the project address include the module path
-    * @exception ModuleNotFoundException if the address is not resolvable
-    * @exception ProjectNotFoundException if the address is not resolvable
+    * Return a named module.
+    * @param ref the fully qualified module name
+    * @return the module
+    * @exception ModuleNotFoundException if the module cannot be found
     */
-    public Project getProject( String path ) 
-      throws RemoteException, ModuleNotFoundException, ProjectNotFoundException;
-
+    Module getModule( String ref ) throws ModuleNotFoundException;
+    
    /**
-    * Get a named resource.
-    * @param path the resource address
-    * @exception ModuleNotFoundException if the address is not resolvable
-    * @exception ResourceNotFoundException if the address is not resolvable
+    * Recursively lookup a resource using a fully qualified reference.
+    * @param ref the fully qualified resource name
+    * @return the resource instance
+    * @exception ResourceNotFoundException if the resource cannot be found
     */
-    public Resource getResource( String path ) 
-      throws RemoteException, ModuleNotFoundException, ResourceNotFoundException;
-
+    Resource getResource( String ref ) throws ResourceNotFoundException;
+    
+   /**
+    * <p>Select a set of resource matching a supplied a resource selection 
+    * constraint.  The constraint may contain the wildcards '**' and '*'.
+    * @param criteria the selection criteria
+    * @param sort if true the returned array will be sorted relative to dependencies
+    *   otherwise the array will be sorted alphanumerically with respect to the resource
+    *   path
+    * @return an array of resources matching the selction criteria
+    */
+    Resource[] select( String criteria, boolean sort );
+    
+   /**
+    * Locate a resource relative to a base directory.
+    * @param base the base directory
+    * @return a resource with a matching basedir
+    * @exception ResourceNotFoundException if resource match  relative to the supplied base
+    */
+    Resource locate( File base ) throws ResourceNotFoundException;
 }

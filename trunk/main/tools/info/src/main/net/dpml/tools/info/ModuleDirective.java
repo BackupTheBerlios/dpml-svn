@@ -26,80 +26,28 @@ import java.util.Properties;
  *
  * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
  */
-public final class ModuleDirective extends AbstractDirective
+public final class ModuleDirective extends ResourceDirective
 {
-    private final String m_name;
-    private final String m_version;
-    private final String m_basedir;
-    private final ModuleIncludeDirective[] m_refs;
-    private final ModuleDirective[] m_modules;
-    private final ProjectDirective[] m_projects;
     private final ResourceDirective[] m_resources;
     
     public ModuleDirective(
-      String name, String version, String basedir, ModuleIncludeDirective[] refs, 
-      ModuleDirective[] modules, ProjectDirective[] projects, 
-      ResourceDirective[] resources, Properties properties )
+      ResourceDirective resource, ResourceDirective[] resources )
     {
-        super( properties );
-        
-        if( null == name )
-        {
-            throw new NullPointerException( "name" );
-        }
-        if( null == refs )
-        {
-            throw new NullPointerException( "refs" );
-        }
-        if( null == modules )
-        {
-            throw new NullPointerException( "modules" );
-        }
-        if( null == projects )
-        {
-            throw new NullPointerException( "projects" );
-        }
+        this( 
+          resource.getName(), resource.getVersion(), resource.getClassifier(), resource.getBasedir(), 
+          resource.getTypeDirectives(), resource.getDependencyDirectives(), resources, resource.getProperties() );
+    }
+    
+    public ModuleDirective(
+      String name, String version, Classifier classifier, String basedir, TypeDirective[] types,
+      DependencyDirective[] dependencies, ResourceDirective[] resources, Properties properties )
+    {
+        super( name, version, classifier, basedir, types, dependencies, properties );
         if( null == resources )
         {
             throw new NullPointerException( "resources" );
         }
-        m_name = name;
-        m_version = version;
-        m_basedir = basedir;
-        m_refs = refs;
-        m_modules = modules;
-        m_projects = projects;
         m_resources = resources;
-    }
-    
-    public String getName()
-    {
-        return m_name;
-    }
-    
-    public String getBasedir()
-    {
-        return m_basedir;
-    }
-    
-    public String getVersion()
-    {
-        return m_version;
-    }
-    
-    public ModuleIncludeDirective[] getIncludeDirectives()
-    {
-        return m_refs;
-    }
-    
-    public ModuleDirective[] getModuleDirectives()
-    {
-        return m_modules;
-    }
-    
-    public ProjectDirective[] getProjectDirectives()
-    {
-        return m_projects;
     }
     
     public ResourceDirective[] getResourceDirectives()
@@ -112,31 +60,7 @@ public final class ModuleDirective extends AbstractDirective
         if( super.equals( other ) && ( other instanceof ModuleDirective ) )
         {
             ModuleDirective object = (ModuleDirective) other;
-            if( !equals( m_name, object.m_name ) )
-            {
-                return false;
-            }
-            else if( !equals( m_version, object.m_version ) )
-            {
-                return false;
-            }
-            else if( !equals( m_basedir, object.m_basedir ) )
-            {
-                return false;
-            }
-            else if( !Arrays.equals( m_refs, object.m_refs ) )
-            {
-                return false;
-            }
-            else if( !Arrays.equals( m_modules, object.m_modules ) )
-            {
-                return false;
-            }
-            else if( !Arrays.equals( m_projects, object.m_projects ) )
-            {
-                return false;
-            }
-            else if( !Arrays.equals( m_resources, object.m_resources ) )
+            if( !Arrays.equals( m_resources, object.m_resources ) )
             {
                 return false;
             }
@@ -154,12 +78,6 @@ public final class ModuleDirective extends AbstractDirective
     public int hashCode()
     {
         int hash = super.hashCode();
-        hash ^= super.hashValue( m_name );
-        hash ^= super.hashValue( m_version );
-        hash ^= super.hashValue( m_basedir );
-        hash ^= super.hashArray( m_refs );
-        hash ^= super.hashArray( m_modules );
-        hash ^= super.hashArray( m_projects );
         hash ^= super.hashArray( m_resources );
         return hash;
     }

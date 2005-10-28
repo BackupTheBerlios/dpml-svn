@@ -23,21 +23,24 @@ package net.dpml.tools.info;
  *
  * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
  */
-public final class TypeDirectiveTestCase extends AbstractTestCase
+public final class LibraryDirectiveTestCase extends AbstractTestCase
 {
-    static TypeDirective[] TYPES = new TypeDirective[3];
-    static
-    {
-        TYPES[0] = new TypeDirective( "jar", false, PROPERTIES );
-        TYPES[1] = new TypeDirective( "plugin", true ,PROPERTIES );
-        TYPES[2] = new TypeDirective( "widget", false, PROPERTIES );
-    }
+    static ProcessDescriptor[] PROCESSES = ProcessDescriptorTestCase.PROCESSES;
+    static ImportDirective[] IMPORTS = ImportDirectiveTestCase.IMPORTS;
     
-    public void testNullName()
+    private LibraryDirective m_library;
+    
+    public void setUp() throws Exception
+    {
+        m_library = 
+          new LibraryDirective( PROCESSES, IMPORTS, PROPERTIES );
+    }
+
+    public void testNullProcessors()
     {
         try
         {
-            TypeDirective type = new TypeDirective( null, true, PROPERTIES );
+            new LibraryDirective( null, IMPORTS, PROPERTIES );
             fail( "no-NPE" );
         }
         catch( NullPointerException e )
@@ -46,29 +49,36 @@ public final class TypeDirectiveTestCase extends AbstractTestCase
         }
     }
     
-    public void testTypeName()
+    public void testNullImports()
     {
-        TypeDirective type = new TypeDirective( "abc", true, PROPERTIES );
-        assertEquals( "type", "abc", type.getName() );
+        try
+        {
+            new LibraryDirective( PROCESSES, null, PROPERTIES );
+            fail( "no-NPE" );
+        }
+        catch( NullPointerException e )
+        {
+            // success
+        }
     }
     
-    public void testTypeAlias()
+    public void testProcessDescriptors()
     {
-        TypeDirective type = new TypeDirective( "abc", true, PROPERTIES );
-        assertTrue( "alias", type.getAlias() );
-        type = new TypeDirective( "abc", false, PROPERTIES );
-        assertFalse( "alias", type.getAlias() );
+        assertEquals( "process", PROCESSES, m_library.getProcessDescriptors() );
+    }
+    
+    public void testImportDirectives()
+    {
+        assertEquals( "imports", IMPORTS, m_library.getImportDirectives() );
     }
     
     public void testSerialization() throws Exception
     {
-        TypeDirective type = new TypeDirective( "abc", true, PROPERTIES );
-        doSerializationTest( type );
+        doSerializationTest( m_library );
     }
-
+    
     public void testXMLEncoding() throws Exception
     {
-        TypeDirective type = new TypeDirective( "abc", true, PROPERTIES );
-        doEncodingTest( type, "type-descriptor-encoded.xml" );
+        doEncodingTest( m_library, "library-encoded.xml" );
     }
 }
