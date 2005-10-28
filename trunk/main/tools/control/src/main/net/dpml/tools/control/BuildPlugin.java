@@ -100,7 +100,8 @@ public class BuildPlugin
         if( null != selection )
         {
             getLogger().debug( "parsing selection: " + selection );
-            Resource[] resources = m_library.select( selection, true );
+            boolean build = !getListArgument( line );
+            Resource[] resources = m_library.select( selection, build, true );
             process( resources, line );
         }
         else

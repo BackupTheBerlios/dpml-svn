@@ -172,9 +172,9 @@ public final class DefaultModule extends DefaultResource implements Module
     *   path
     * @return an array of resources matching the selction criteria
     */
-    public Resource[] select( String spec, boolean sort )
+    public Resource[] select( String criteria, boolean local, boolean sort )
     {
-        DefaultResource[] resources = selectDefaultResources( spec );
+        DefaultResource[] resources = selectDefaultResources( local, criteria );
         if( sort )
         {
             return sortDefaultResources( resources, Scope.TEST );
@@ -192,19 +192,19 @@ public final class DefaultModule extends DefaultResource implements Module
     * @return a resource with a matching basedir
     * @exception ResourceNotFoundException if resource match  relative to the supplied base
     */
-    public Resource locate( File file ) throws ResourceNotFoundException
+    public Resource locate( File base ) throws ResourceNotFoundException
     {
-        DefaultResource[] resources = selectDefaultResources( "**/*" );
+        DefaultResource[] resources = selectDefaultResources( true, "**/*" );
         for( int i=0; i<resources.length; i++ )
         {
             DefaultResource resource = resources[i];
-            File base = resource.getBaseDir();
-            if( ( null != base ) && file.equals( base ) )
+            File basedir = resource.getBaseDir();
+            if( ( null != basedir ) && base.equals( basedir ) )
             {
                 return resource;
             }
         }
-        throw new ResourceNotFoundException( file.toString() );
+        throw new ResourceNotFoundException( base.toString() );
     }
     
     //----------------------------------------------------------------------------
@@ -458,7 +458,19 @@ public final class DefaultModule extends DefaultResource implements Module
     //----------------------------------------------------------------------------
     // Selection logic
     //----------------------------------------------------------------------------
-
+        
+    DefaultResource[] selectDefaultResources( boolean local, String spec )
+    {
+        DefaultResource[] resources = selectDefaultResources( spec );
+        if( local )
+        {
+            return filterProjects( resources );
+        }
+        else
+        {
+            return resources;
+        }
+    }
     DefaultResource[] selectDefaultResources( String spec )
     {
         String[] tokens = spec.split( "/" );
@@ -665,5 +677,19 @@ public final class DefaultModule extends DefaultResource implements Module
                 processModuleDependencies( visited, stack, scope, m );
             }
         }
+    }
+
+    private DefaultResource[] filterProjects( DefaultResource[] resources )
+    {
+        ArrayList list = new ArrayList();
+        for( int i=0; i<resources.length; i++ )
+        {
+            DefaultResource resource = resources[i];
+            if( resource.isLocal() )
+            {
+                list.add( resource );
+            }
+        }
+        return (DefaultResource[]) list.toArray( new DefaultResource[0] );
     }
 }

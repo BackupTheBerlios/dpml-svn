@@ -96,6 +96,18 @@ public interface Library
     Resource[] select( String criteria, boolean sort );
     
    /**
+    * <p>Select a set of resource matching a supplied a resource selection 
+    * constraint.  The constraint may contain the wildcards '**' and '*'.
+    * @param local if true limit the selection to local projects
+    * @param criteria the selection criteria
+    * @param sort if true the returned array will be sorted relative to dependencies
+    *   otherwise the array will be sorted alphanumerically with respect to the resource
+    *   path
+    * @return an array of resources matching the selction criteria
+    */
+    Resource[] select( String criteria, boolean local, boolean sort );
+    
+   /**
     * Locate a resource relative to a base directory.
     * @param base the base directory
     * @return a resource with a matching basedir

@@ -199,42 +199,6 @@ public class DefaultResourceTestCase extends AbstractTestCase
     }
 
    /**
-    * Checking
-    */
-    public void testAggregatedTestDefaultProviders() throws Exception
-    {
-        Resource resource = m_library.getResource( "dpml/metro/dpml-state-impl" );
-        Resource[] providers = resource.getAggregatedProviders( Scope.TEST, true, true );
-        System.out.println( "# TEST" );
-        for( int i=0; i<providers.length; i++ )
-        {
-            System.out.println( "# " + (i+1) + " " + providers[i] );
-        }
-        DefaultResource r = (DefaultResource) resource;
-        DefaultResource[] rb = r.getDefaultProviders( Scope.TEST, false, null );
-        System.out.println( "# NON-EXPANDED TEST" );
-        for( int i=0; i<rb.length; i++ )
-        {
-            System.out.println( "# " + (i+1) + " " + rb[i] );
-        }
-        DefaultResource[] re = r.getDefaultProviders( Scope.TEST, true, null );
-        System.out.println( "# EXPANDED TEST" );
-        for( int i=0; i<re.length; i++ )
-        {
-            System.out.println( "# " + (i+1) + " " + re[i] );
-        }
-        
-        DefaultResource antJunit = (DefaultResource) m_library.getResource( "ant/ant-junit" );
-        DefaultResource[] antJunitProviders = antJunit.getDefaultProviders( Scope.TEST, false, null );
-        System.out.println( "# JUNIT PROVIDERS" );
-        for( int i=0; i<antJunitProviders.length; i++ )
-        {
-            System.out.println( "# " + (i+1) + " " + antJunitProviders[i] );
-        }
-        
-    }
-
-   /**
     * Test scoped non-transitive providers.
     */
     public void testProviders() throws Exception

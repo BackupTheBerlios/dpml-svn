@@ -273,7 +273,7 @@ public class DefaultResource extends DefaultDictionary implements Resource, Comp
     
    /**
     * Construct an artifact for the supplied type.
-    * @param type the resource type
+    * @param id the resource type identifier
     * @return the artifact
     */
     public Artifact getArtifact( String id )
@@ -424,6 +424,15 @@ public class DefaultResource extends DefaultDictionary implements Resource, Comp
     //----------------------------------------------------------------------------
     // internals
     //----------------------------------------------------------------------------
+    
+    boolean isLocal()
+    {
+        if( null != m_directive )
+        {
+            return m_directive.isLocal();
+        }
+        return false;
+    }
     
     DefaultModule getDefaultParent()
     {
@@ -829,7 +838,6 @@ public class DefaultResource extends DefaultDictionary implements Resource, Comp
 
    /**
     * Return the UTC YYMMDD.HHMMSSS signature of a date.
-    * @param date the date
     * @return the UTC date-stamp signature
     */
     public static String getTimestamp()

@@ -167,7 +167,7 @@ public final class DefaultLibrary extends DefaultDictionary implements Library
     * safely invoke processes sequentially relative to the returned process
     * sequence.
     * 
-    * @param the resource to be produced
+    * @param resource the resource to be produced
     * @return a sorted array of processor definitions supporting resource production
     */
     public Processor[] getProcessorSequence( Resource resource ) throws ProcessorNotFoundException
@@ -259,9 +259,24 @@ public final class DefaultLibrary extends DefaultDictionary implements Library
     *   path
     * @return an array of resources matching the selction criteria
     */
-    public Resource[] select( String spec, boolean sort )
+    public Resource[] select( String criteria, boolean sort )
     {
-        return m_module.select( spec, sort );
+        return m_module.select( criteria, false, sort );
+    }
+    
+   /**
+    * <p>Select a set of resource matching a supplied a resource selection 
+    * constraint.  The constraint may contain the wildcards '**' and '*'.
+    * @param criteria the selection criteria
+    * @param local if true restrict selection to local projects
+    * @param sort if true the returned array will be sorted relative to dependencies
+    *   otherwise the array will be sorted alphanumerically with respect to the resource
+    *   path
+    * @return an array of resources matching the selction criteria
+    */
+    public Resource[] select( String criteria, boolean local, boolean sort )
+    {
+        return m_module.select( criteria, local, sort );
     }
     
    /**
@@ -270,9 +285,9 @@ public final class DefaultLibrary extends DefaultDictionary implements Library
     * @return a resource with a matching basedir
     * @exception ResourceNotFoundException if resource match  relative to the supplied base
     */
-    public Resource locate( File file ) throws ResourceNotFoundException
+    public Resource locate( File base ) throws ResourceNotFoundException
     {
-        return m_module.locate( file );
+        return m_module.locate( base );
     }
     
     //----------------------------------------------------------------------------
