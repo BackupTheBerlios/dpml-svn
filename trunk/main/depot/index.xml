@@ -49,8 +49,8 @@
       </types>
     </info>
     <dependencies>
-      <include key="dpml-profile-api" tag="api"/>
-      <include key="dpml-station-api" tag="api"/>
+      <include key="dpml-profile-api" tag="public"/>
+      <include key="dpml-station-api" tag="public"/>
     </dependencies>
   </project>
 
@@ -99,7 +99,7 @@
       <include key="dpml-transit-main" tag="system"/>
       <include key="dpml-depot-console" tag="system"/>
       <include key="dpml-part-api" tag="system"/>
-      <include key="dpml-profile-api" tag="spi"/>
+      <include key="dpml-profile-api" tag="protected"/>
       <include key="dpml-station-impl"/>
       <include key="forms"/>
     </dependencies>
@@ -118,8 +118,8 @@
       <include key="dpml-transit-main" tag="system"/>
       <include key="dpml-depot-console" tag="system"/>
       <include key="dpml-part-api" tag="system"/>
-      <include key="dpml-profile-api" tag="spi" />
-      <include key="dpml-station-api" tag="spi"/>
+      <include key="dpml-profile-api" tag="protected" />
+      <include key="dpml-station-api" tag="protected"/>
     </dependencies>
   </project>
 
@@ -151,8 +151,8 @@
       <include key="dpml-depot-console" tag="system"/>
       <include key="dpml-transit-main" tag="system"/>
       <include key="dpml-part-api" tag="system"/>
-      <include key="dpml-profile-api" tag="spi"/>
-      <include key="dpml-station-api" tag="spi"/>
+      <include key="dpml-profile-api" tag="protected"/>
+      <include key="dpml-station-api" tag="protected"/>
     </dependencies>
   </project>
 
@@ -168,8 +168,8 @@
     <dependencies>
       <include key="dpml-transit-main" tag="system"/>
       <include key="dpml-depot-console" tag="system"/>
-      <include key="dpml-station-api" tag="spi"/>
-      <include key="dpml-profile-api" tag="spi"/>
+      <include key="dpml-station-api" tag="protected"/>
+      <include key="dpml-profile-api" tag="protected"/>
       <include key="dpml-profile-impl"/>
     </dependencies>
   </project>
@@ -186,8 +186,8 @@
     <dependencies>
       <include key="dpml-transit-main" tag="system"/>
       <include key="dpml-depot-console" tag="system"/>
-      <include key="dpml-profile-api" tag="spi"/>
-      <include key="dpml-station-api" tag="spi"/>
+      <include key="dpml-profile-api" tag="protected"/>
+      <include key="dpml-station-api" tag="protected"/>
     </dependencies>
   </project>
 

@@ -33,7 +33,7 @@ public final class DefaultType extends DefaultDictionary implements Type
 {
     private final TypeDirective m_directive;
     
-    public DefaultType( DefaultDictionary parent, TypeDirective directive )
+    DefaultType( DefaultDictionary parent, TypeDirective directive )
     {
         super( parent, directive );
         m_directive = directive;

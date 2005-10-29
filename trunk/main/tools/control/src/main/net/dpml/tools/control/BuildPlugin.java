@@ -55,7 +55,7 @@ import org.apache.commons.cli.HelpFormatter;
 /**
  * Plugin that handles multi-project builds based on supplied commandline arguments.
  *
- * @author <a href="mailto:dev@dpmlnet">Stephen J. McConnell</a>
+ * @author <a href="http://www.dpml.net">Digital Product Meta Library</a>
  */
 public class BuildPlugin 
 {

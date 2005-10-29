@@ -26,7 +26,7 @@ package net.dpml.tools.control;
  */
 final class InvalidProcessorNameException extends InvalidNameException
 {
-    public InvalidProcessorNameException( String message )
+    InvalidProcessorNameException( String message )
     {
         super( message );
     }

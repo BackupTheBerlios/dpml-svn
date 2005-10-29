@@ -40,12 +40,12 @@ public class DefaultDictionary implements Dictionary
     private final Properties m_properties;
     //private final String[] m_names;
     
-    public DefaultDictionary( AbstractDirective directive )
+    DefaultDictionary( AbstractDirective directive )
     {
         this( null, directive );
     }
     
-    public DefaultDictionary( DefaultDictionary parent, AbstractDirective directive )
+    DefaultDictionary( DefaultDictionary parent, AbstractDirective directive )
     {
         m_parent = parent;
         m_directive = directive;

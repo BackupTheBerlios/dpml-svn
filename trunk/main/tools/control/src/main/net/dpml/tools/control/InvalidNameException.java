@@ -25,7 +25,7 @@ package net.dpml.tools.control;
  */
 class InvalidNameException extends IllegalArgumentException
 {
-    public InvalidNameException( String message )
+    InvalidNameException( String message )
     {
         super( message );
     }

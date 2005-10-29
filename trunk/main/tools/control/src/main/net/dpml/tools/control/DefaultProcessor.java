@@ -30,7 +30,7 @@ import net.dpml.tools.info.ProcessDescriptor;
  *
  * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
  */
-public final class DefaultProcessor implements Processor
+final class DefaultProcessor implements Processor
 {
     private final ProcessDescriptor m_descriptor;
     private final URI m_uri;

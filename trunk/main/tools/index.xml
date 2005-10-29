@@ -18,20 +18,6 @@
     </dependencies>
   </project>
 
-  <project basedir="info">
-    <info>
-      <group>dpml/tools</group>
-      <name>dpml-tools-info</name>
-      <types>
-        <type name="jar"/>
-      </types>
-    </info>
-    <dependencies>
-      <include key="dpml-transit-main"/>
-      <include key="ant-junit" runtime="false"/>
-    </dependencies>
-  </project>
-
   <project basedir="model">
     <info>
       <group>dpml/tools</group>
@@ -41,7 +27,8 @@
       </types>
     </info>
     <dependencies>
-      <include key="dpml-tools-info"/>
+      <include key="dpml-transit-main"/>
+      <include key="ant-junit" runtime="false"/>
     </dependencies>
   </project>
 

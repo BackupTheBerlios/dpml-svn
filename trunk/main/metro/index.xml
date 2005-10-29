@@ -45,7 +45,7 @@
       </types>
     </info>
     <dependencies>
-      <include key="dpml-state-api" tag="api"/>
+      <include key="dpml-state-api" tag="public"/>
       <include key="dpml-transit-main"/>
     </dependencies>
   </project>
@@ -74,8 +74,8 @@
       </types>
     </info>
     <dependencies>
-      <include key="dpml-state-api" tag="api"/>
-      <include key="dpml-configuration-impl" tag="impl"/>
+      <include key="dpml-state-api" tag="public"/>
+      <include key="dpml-configuration-impl" tag="private"/>
     </dependencies>
   </project>
 
@@ -208,12 +208,12 @@
       </types>
     </info>
     <dependencies>
-      <include key="dpml-component-control" tag="api"/>
-      <include key="dpml-transit-main" tag="api"/>
-      <include key="dpml-logging-api" tag="spi"/>
-      <include key="dpml-activity-api" tag="spi"/>
-      <include key="dpml-parameters-api" tag="spi"/>
-      <include key="dpml-configuration-api" tag="spi"/>
+      <include key="dpml-component-control" tag="public"/>
+      <include key="dpml-transit-main" tag="public"/>
+      <include key="dpml-logging-api" tag="protected"/>
+      <include key="dpml-activity-api" tag="protected"/>
+      <include key="dpml-parameters-api" tag="protected"/>
+      <include key="dpml-configuration-api" tag="protected"/>
       <include key="dpml-component-model"/>
       <include key="dpml-parameters-impl"/>
       <include key="dpml-configuration-impl"/>
