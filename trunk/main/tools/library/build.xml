@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<project name="dpml-tools-library" default="install" basedir="."
+    xmlns:transit="antlib:net.dpml.transit" xmlns:x="plugin:dpml/magic/dpml-magic-core" >
+
+  <transit:import uri="local:template:magic/standard"/>
+
+  <target name="init" depends="standard.init">
+    <x:filter feature="uri" type="plugin" key="dpml-tools-ant" token="ANT-BUILDER-URI"/>
+    <x:filter feature="version" key="junit" token="JUNIT_VERSION"/>
+  </target>
+
+  <target name="package" depends="standard.package">
+    <x:export class="net.dpml.tools.control.BuildPlugin"/>
+  </target>
+
+</project>
