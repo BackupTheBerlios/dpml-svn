@@ -53,10 +53,13 @@ public class InstallTask extends GenericTask
     private void installDeliverables()
     {
         Resource resource = getResource();
-        final File deliverables = getContext().getTargetDeliverablesDirectory();
-        
         Type[] types = resource.getTypes();
+        if( types.length == 0 )
+        {
+            return;
+        }
         
+        final File deliverables = getContext().getTargetDeliverablesDirectory();
         for( int i=0; i < types.length; i++ )
         {
             Type type = types[i];

@@ -278,7 +278,7 @@
 
    <module name="tools" basedir="tools">
   
-     <project name="dpml-tools-info" basedir="info">
+     <project name="dpml-tools-model" basedir="model">
        <properties>
          <property name="project.template" value="${basedir}/build.xml"/>
        </properties>
@@ -290,18 +290,6 @@
        </dependencies>
        <dependencies scope="test">
          <include ref="ant/ant-junit"/>
-       </dependencies>
-     </project>
-
-     <project name="dpml-tools-model" basedir="model">
-       <properties>
-         <property name="project.template" value="${basedir}/build.xml"/>
-       </properties>
-       <types>
-         <type id="jar"/>
-       </types>
-       <dependencies>
-         <include key="dpml-tools-info"/>
        </dependencies>
      </project>
 

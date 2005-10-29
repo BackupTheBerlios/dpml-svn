@@ -48,12 +48,16 @@ public class PartContentHandler extends ContentHandler
         }
         try
         {
+            long now = new Date().getTime();
             ClassLoader classloader = Part.class.getClassLoader();
             URI uri = new URI( "@PART-HANDLER-URI@" );
+            //System.out.println( "# LOADING: " + uri );
             Repository repository = Transit.getInstance().getRepository();
             Class c = repository.getPluginClass( classloader, uri );
             Constructor constructor = c.getConstructor( new Class[]{Logger.class} );
-            return (PartHandler) constructor.newInstance( new Object[]{logger} );
+            PartHandler handler = (PartHandler) constructor.newInstance( new Object[]{logger} );
+            //System.out.println( "# LOADED: " + ( new Date().getTime() - now ) ); 
+            return handler;
         }
         catch( Throwable e )
         {

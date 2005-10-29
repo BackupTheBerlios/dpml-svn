@@ -85,7 +85,14 @@ public final class Context
         project.addReference( "project.test.path", m_test );
         project.setNewProperty( "project.name", m_resource.getName() );
         project.setNewProperty( "project.version", m_resource.getVersion() );
-        project.setNewProperty( "project.group", m_resource.getParent().getResourcePath() );
+        if( null == m_resource.getParent() )
+        {
+            project.setNewProperty( "project.group", "" );
+        }
+        else
+        {
+            project.setNewProperty( "project.group", m_resource.getParent().getResourcePath() );
+        }
         project.setNewProperty( "project.nl", "\n" );
         project.setNewProperty( 
           "project.line", 

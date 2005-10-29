@@ -16,23 +16,18 @@
  * limitations under the License.
  */
 
-package net.dpml.tools.info;
+package net.dpml.tools.control;
 
 /**
- * A TypeUnknownException is raised in response to a request for a type
- * that does not exist.
+ * Internal exception throw when an attempt is made to reference a type
+ * that has not been declared by a component.
  *
  * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
  */
-public final class TypeUnknownException extends Exception
+final class InvalidTypeNameException extends InvalidNameException
 {
-    public TypeUnknownException( String message )
+    public InvalidTypeNameException( String message )
     {
-        this( message, null );
-    }
-    
-    public TypeUnknownException( String message, Throwable cause )
-    {
-        super( message, cause );
+        super( message );
     }
 }

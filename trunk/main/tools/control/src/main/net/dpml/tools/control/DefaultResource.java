@@ -268,7 +268,7 @@ public class DefaultResource extends DefaultDictionary implements Resource, Comp
                 return type;
             }
         }
-        throw new IllegalArgumentException( id );
+        throw new InvalidTypeNameException( id );
     }
     
    /**
@@ -294,12 +294,10 @@ public class DefaultResource extends DefaultDictionary implements Resource, Comp
               "Artifact protocol does not support null groups.";
             throw new UnsupportedOperationException( error );
         }
-        Type type = getType( id );
         String group = getParent().getResourcePath();
         String name = getName();
         String version = getVersion();
-        String typeName = type.getName();
-        return Artifact.createArtifact( group, name, version, typeName );
+        return Artifact.createArtifact( group, name, version, id );
     }
     
    /**

@@ -143,11 +143,26 @@ public class BuildPlugin
         }
         else
         {
-            listResources( resources, line );
+            if( getListArgument( line ) )
+            {
+                listResources( resources, line );
+            }
+            else
+            {
+                for( int i=0; i<resources.length; i++ )
+                {
+                    Resource resource = resources[i];
+                    boolean status = process( resource, line );
+                    if( !status )
+                    {
+                        return;
+                    }
+                }
+            }
         }
     }
 
-    private void process( Resource resource, CommandLine line ) throws Exception
+    private boolean process( Resource resource, CommandLine line ) throws Exception
     {
         getLogger().debug( "processing: " + resource );
         if( getListArgument( line ) )
@@ -178,11 +193,11 @@ public class BuildPlugin
             {
                 listResource( resource, line );
             }
+            return true;
         }
         else
         {
-            // TODO: check if LOCAL
-            buildProject( resource, line );
+            return buildProject( resource, line );
         }
     }
     

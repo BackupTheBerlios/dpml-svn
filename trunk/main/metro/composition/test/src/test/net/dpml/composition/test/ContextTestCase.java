@@ -24,6 +24,7 @@ import java.awt.Color;
 import java.io.File;
 import java.net.URL;
 import java.net.URI;
+import java.util.Date;
 import java.lang.reflect.Proxy;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
@@ -64,17 +65,23 @@ public class ContextTestCase extends TestCase
     
     public void setUp() throws Exception
     {
+        long now = new Date().getTime();
+        //System.out.println( "1" ); 
         final String path = "context.part";
         final File test = new File( System.getProperty( "project.test.dir" ) );
         final URL url = new File( test, path ).toURL();
         PartHandler control = Part.DEFAULT_HANDLER;
+        //System.out.println( "2: " + ( new Date().getTime() - now ) ); 
         Part part = control.loadPart( url );
+        //System.out.println( "3: " + ( new Date().getTime() - now ) ); 
         ComponentModel model = (ComponentModel) control.createContext( part );
         Handler handler = control.createHandler( model );
+        //System.out.println( "4: " + ( new Date().getTime() - now ) ); 
         handler.activate();
         Instance instance = handler.getInstance();
         m_value = (ContextTestComponent) instance.getValue( false );
         m_context = m_value.getContext();
+        //System.out.println( "5: " + ( new Date().getTime() - now ) ); 
     }
     
     public void testColor() throws Exception
