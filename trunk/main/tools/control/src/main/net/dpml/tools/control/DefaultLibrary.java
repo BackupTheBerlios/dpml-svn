@@ -71,11 +71,6 @@ public final class DefaultLibrary extends DefaultDictionary implements Library
     private final File m_root;
     private final Logger m_logger;
     
-    //public static Library load( final Logger logger, final File source ) throws Exception
-    //{
-    //    return new DefaultLibrary( logger, source );
-    //}
-    
     public DefaultLibrary( Logger logger ) throws Exception
     {
         this( logger, resolveLibrarySource() );
