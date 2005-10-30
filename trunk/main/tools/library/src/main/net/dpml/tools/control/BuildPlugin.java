@@ -334,7 +334,7 @@ public class BuildPlugin
             line( buffer, pad + "imports: (" + providers.length + ")" );
             for( int i=0; i<providers.length; i++ )
             {
-                line( buffer, p + providers[i].getResourcePath() );
+                line( buffer, p + providers[i] );
             }
         }
         if( resources.length > 0 )
@@ -342,7 +342,7 @@ public class BuildPlugin
             line( buffer, pad + "resources: (" + resources.length + ")" );
             for( int i=0; i<resources.length; i++ )
             {
-                line( buffer, p + resources[i].getName() );
+                line( buffer, p + resources[i] );
             }
         }
     }
@@ -367,7 +367,7 @@ public class BuildPlugin
             line( buffer, pad + "build phase providers: (" + resources.length + ")" );
             for( int i=0; i<resources.length; i++ )
             {
-                line( buffer, p + resources[i].getName() );
+                line( buffer, p + resources[i] );
             }
         }
         resources = resource.getProviders( Scope.RUNTIME, true, true );
@@ -376,7 +376,7 @@ public class BuildPlugin
             line( buffer, pad + "runtime providers: (" + resources.length + ")" );
             for( int i=0; i<resources.length; i++ )
             {
-                line( buffer, p + resources[i].getName() );
+                line( buffer, p + resources[i] );
             }
         }
         resources = resource.getProviders( Scope.TEST, true, true );
@@ -385,7 +385,7 @@ public class BuildPlugin
             line( buffer, pad + "test providers: (" + resources.length + ")" );
             for( int i=0; i<resources.length; i++ )
             {
-                line( buffer, p + resources[i].getName() );
+                line( buffer, p + resources[i] );
             }
         }
         resources = resource.getConsumers( true, true );
@@ -394,7 +394,7 @@ public class BuildPlugin
             line( buffer, pad + "consumers: (" + resources.length + ")" );
             for( int i=0; i<resources.length; i++ )
             {
-                line( buffer, p + resources[i].getName() );
+                line( buffer, p + resources[i] );
             }
         }
     }

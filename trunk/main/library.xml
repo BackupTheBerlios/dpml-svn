@@ -11,6 +11,7 @@
   <types>
     <type name="jar"/>
     <type name="plugin" depends="jar"/>
+    <type name="module"/>
     <type name="part" uri="link:plugin:dpml/metro/dpml-composition-tools"/>
   </types>
 

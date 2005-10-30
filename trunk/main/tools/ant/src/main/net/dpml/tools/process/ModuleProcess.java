@@ -18,7 +18,7 @@
 
 package net.dpml.tools.process;
 
-import net.dpml.tools.tasks.PluginExportTask;
+import net.dpml.tools.tasks.ModuleTask;
 
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.Target;
@@ -29,7 +29,7 @@ import org.apache.tools.ant.BuildEvent;
  *
  * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
  */
-public class PluginProcess extends AbstractBuildListener
+public class ModuleProcess extends AbstractBuildListener
 {
     /**
      * Signals that a target is starting.
@@ -46,9 +46,9 @@ public class PluginProcess extends AbstractBuildListener
         if( "build".equals( name ) )
         {
             Project project = event.getProject();
-            final PluginExportTask task = new PluginExportTask();
+            final ModuleTask task = new ModuleTask();
             task.setProject( project );
-            task.setTaskName( "export" );
+            task.setTaskName( "module" );
             task.init();
             task.execute();
         }

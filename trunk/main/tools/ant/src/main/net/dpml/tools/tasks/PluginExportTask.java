@@ -45,7 +45,7 @@ import org.apache.tools.ant.BuildException;
  *
  * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
  */
-public class PluginTask extends GenericTask
+public class PluginExportTask extends GenericTask
 {
     // ------------------------------------------------------------------------
     // static

@@ -432,6 +432,8 @@ public final class Main implements ShutdownHandler
             Transit transit = Transit.getInstance( model );
             setupMonitors( transit, (Adapter) getLogger() );
             Repository repository = transit.getRepository();
+            
+            /*
             DepotClassLoader classloader = getSystemClassLoader();
 
             //
@@ -449,7 +451,8 @@ public final class Main implements ShutdownHandler
                     logger.debug( "system entry: (" + (i+1) + ") " + entry );
                 }
             }
-
+            */
+            /*
             if( tools )
             {
                 //String javaHome = Environment.getEnvVariable( "JAVA_HOME" );
@@ -479,10 +482,12 @@ public final class Main implements ShutdownHandler
             {
                 classloader.setClasspath( bootstrap );
             }
+            */
 
             m_plugin = 
               repository.getPlugin( 
-                classloader, uri, new Object[]{model, args, logger, shutdown, prefs} );
+                ClassLoader.getSystemClassLoader(), 
+                uri, new Object[]{model, args, logger, shutdown, prefs} );
         }
         catch( RepositoryException e )
         {
@@ -776,10 +781,12 @@ public final class Main implements ShutdownHandler
     }
     */
 
+    /*
     private static DepotClassLoader getSystemClassLoader()
     {
         return (DepotClassLoader) ClassLoader.getSystemClassLoader();
     }
+    */
 
     private static void clearPreferences( Preferences prefs ) throws Exception
     {

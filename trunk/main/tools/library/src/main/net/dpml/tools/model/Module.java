@@ -19,8 +19,8 @@
 package net.dpml.tools.model;
 
 import java.io.File;
-import java.rmi.Remote;
-import java.rmi.RemoteException;
+
+import net.dpml.tools.info.ModuleDirective;
 
 /**
  * The Modele interface defines a node within a module hierachy.
@@ -73,4 +73,11 @@ public interface Module extends Resource
     * @return an array of resources matching the selction criteria
     */
     Resource[] select( String criteria, boolean local, boolean sort );
+
+   /**
+    * Return a directive suitable for publication as an external
+    * module description.
+    * @return the module directive
+    */
+    public ModuleDirective export();
 }

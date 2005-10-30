@@ -50,6 +50,7 @@ public final class DefaultModule extends DefaultResource implements Module
 {
     private final boolean m_root;
     private final DefaultResource[] m_resources;
+    private final ModuleDirective m_directive;
     
     DefaultModule( DefaultLibrary library, LibraryDirective directive, DefaultResource[] resources ) 
       throws Exception
@@ -57,6 +58,7 @@ public final class DefaultModule extends DefaultResource implements Module
         super( library, directive );
         m_resources = resources;
         m_root = true;
+        m_directive = null;
     }
     
     DefaultModule( DefaultLibrary library, ModuleDirective directive ) throws Exception
@@ -69,6 +71,7 @@ public final class DefaultModule extends DefaultResource implements Module
         super( library, module, directive );
         
         m_root = false;
+        m_directive = directive;
         ResourceDirective[] directives = directive.getResourceDirectives();
         DefaultResource[] resources = new DefaultResource[ directives.length ];
         for( int i=0; i<directives.length; i++ )
@@ -205,6 +208,26 @@ public final class DefaultModule extends DefaultResource implements Module
             }
         }
         throw new ResourceNotFoundException( base.toString() );
+    }
+    
+   /**
+    * Return a directive suitable for publication as an external
+    * module description.
+    * @return the module directive
+    */
+    public ModuleDirective export()
+    {
+        if( null == m_directive )
+        {
+            final String error = 
+              "Cannot export from the root module.";
+            throw new UnsupportedOperationException( error );
+        }
+        else
+        {
+            String version = getVersion();
+            return (ModuleDirective) m_directive.export( version );
+        }
     }
     
     //----------------------------------------------------------------------------

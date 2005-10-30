@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<project name="dpml-tools-ant" default="install" basedir="."
+    xmlns:transit="antlib:net.dpml.transit">
+
+  <property file="${basedir}/bootstrap.properties"/>
+  <transit:import file="${dpml.prefs}/transit/templates/bootstrap.template"/>
+
+  <target name="init" depends="bootstrap.init">
+    <filter value="artifact:plugin:dpml/tools/${project.name}#${project.version}" token="PROJECT-URI"/>
+  </target>
+
+  <target name="setup-path" depends="bootstrap.setup-path">
+    <transit:get property="junit.path" uri="${junit.uri}"/>
+    <transit:get property="tools.library.path" uri="artifact:jar:dpml/tools/dpml-tools-library#${project.version}"/>
+    <transit:get property="transit.path" uri="artifact:jar:dpml/transit/dpml-transit-main#${project.version}"/>
+    <path id="project.main.path">
+      <pathelement location="${dpml.local.cache}/dpml/transit/jars/dpml-transit-main-${dpml.transit.version}.jar"/>
+      <pathelement location="${tools.library.path}"/>
+      <pathelement location="${basedir}/target/classes"/>
+    </path>
+    <path id="project.test.path">
+      <pathelement location="${tools.library.path}"/>
+      <pathelement location="${junit.path}"/>
+      <pathelement location="${transit.path}"/>
+      <pathelement location="${target.deliverables.jars.dir}/${project.filename}"/>
+    </path>
+  </target>
+
+  <target name="build" depends="bootstrap.build">
+    <taskdef name="export" classname="net.dpml.tools.tasks.PluginTask">
+      <classpath refid="project.main.path"/>
+    </taskdef>
+    <export class="net.dpml.tools.ant.StandardBuilder"/>
+    <property name="link" location="${basedir}/target/deliverables/plugins/${project.name}.plugin.link"/>
+    <echo file="${link}">artifact:plugin:dpml/tools/${project.name}#${project.version}</echo>
+  </target>
+
+  <target name="install" depends="bootstrap.install">
+    <property name="tools.prefs" location="${dpml.prefs}/tools"/>
+    <mkdir dir="${tools.prefs}"/>
+    <copy toDir="${tools.prefs}">
+      <fileset dir="${basedir}/target">
+        <include name="templates/**"/>
+      </fileset>
+    </copy>
+  </target>
+
+</project>

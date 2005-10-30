@@ -30,6 +30,7 @@ import net.dpml.tools.model.Processor;
 import net.dpml.tools.ant.StandardBuilder;
 import net.dpml.tools.process.JarProcess;
 import net.dpml.tools.process.PluginProcess;
+import net.dpml.tools.process.ModuleProcess;
 
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.BuildListener;
@@ -55,6 +56,7 @@ public class InitializationTask extends GenericTask
         {
             return;
         }
+        Thread.currentThread().setContextClassLoader( getClass().getClassLoader() );
         getProject().addReference( "project.timestamp", new Date() );
         Resource resource = getResource();
         String info = getProject().getProperty( "project.info" );
@@ -74,6 +76,11 @@ public class InitializationTask extends GenericTask
                 else if( name.equals( "plugin" ) )
                 {
                     PluginProcess process = new PluginProcess();
+                    getProject().addBuildListener( process );
+                }
+                else if( name.equals( "module" ) )
+                {
+                    ModuleProcess process = new ModuleProcess();
                     getProject().addBuildListener( process );
                 }
                 else

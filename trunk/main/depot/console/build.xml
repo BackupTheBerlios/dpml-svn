@@ -2,11 +2,11 @@
 
 <project name="dpml-depot-console" default="install" basedir="." 
     xmlns:transit="antlib:net.dpml.transit" 
-    xmlns:x="plugin:dpml/magic/dpml-magic-core" >
+    xmlns:x="dpml:tools" >
 
-  <available property="depot.exe.available" file="${dpml.system}/bin/dpml/depot.exe"/>
+  <available property="build.exe.available" file="${dpml.system}/bin/build.exe"/>
 
-  <transit:import uri="local:template:magic/standard"/>
+  <transit:import uri="local:template:tools/standard"/>
 
   <target name="init" depends="standard.init">
     <property name="depot.short.filename" value="${project.name}.jar"/>
@@ -15,14 +15,14 @@
     <filter token="DEPOT-PATH" value="${depot.short.filename}"/>
     <filter token="TRANSIT-PATH" value="${transit.short.filename}"/>
     <filter token="DEPOT-MAIN-CLASS" value="net.dpml.depot.Main" />
-    <filter token="DEPOT-CLASSLOADER-CLASS" value="net.dpml.depot.DepotClassLoader" />
-    <x:filter token="TRANSIT-CORE-URI" key="dpml-transit-main" feature="uri" type="jar"/>
+    <filter token="DEPOT-CLASSLOADER-CLASS" value="net.dpml.transit.SystemClassLoader" />
+    <x:filter token="TRANSIT-CORE-URI" ref="dpml/transit/dpml-transit-main" feature="uri" type="jar"/>
     <x:filter token="DEPOT-CONSOLE-URI" feature="uri" type="jar"/>
     <x:filter token="DEPOT-PREFS-URI" key="dpml-depot-prefs" feature="uri" type="plugin"/>
     <x:filter token="DEPOT-DESKTOP-URI" key="dpml-depot-desktop" feature="uri" type="plugin"/>
     <x:filter token="DEPOT-INSTALL-URI" key="dpml-depot-install" feature="uri" type="plugin"/>
     <x:filter token="DEPOT-EXEC-URI" key="dpml-depot-exec" feature="uri" type="plugin"/>
-    <x:filter token="DEPOT-BUILD-URI" key="dpml-tools-library" feature="uri" type="plugin"/>
+    <x:filter token="DEPOT-BUILD-URI" ref="dpml/tools/dpml-tools-library" feature="uri" type="plugin"/>
     <x:filter token="DEPOT-AUDIT-URI" key="dpml-depot-audit" feature="uri" type="plugin"/>
     <x:filter token="DEPOT-STATION-URI" key="dpml-station-impl" feature="uri" type="plugin"/>
     <x:filter token="PROFILE-PLUGIN-URI" key="dpml-profile-impl" feature="uri" type="plugin"/>
@@ -54,7 +54,7 @@
     <copy todir="${dpml.system}" preservelastmodified="true" overwrite="true">
       <fileset dir="target">
         <include name="bin/**"/>
-        <exclude name="bin/dpml/**"/>
+        <exclude name="bin/build.exe"/>
       </fileset>
     </copy>
     <chmod perm="755">
@@ -65,10 +65,10 @@
     </chmod>
   </target>
 
-  <target name="win32-exe-install" depends="standard.install" unless="depot.exe.available">
+  <target name="win32-exe-install" depends="standard.install" unless="build.exe.available">
     <copy todir="${dpml.system}" preservelastmodified="true">
       <fileset dir="target">
-        <include name="bin/dpml/**"/>
+        <include name="bin/build.exe"/>
       </fileset>
     </copy>
   </target>

@@ -50,6 +50,17 @@ public final class ModuleDirective extends ResourceDirective
         m_resources = resources;
     }
     
+    public ResourceDirective export( String version )
+    {
+        ResourceDirective resource = super.export( version );
+        ResourceDirective[] resources = new ResourceDirective[ m_resources.length ];
+        for( int i=0; i<m_resources.length; i++ )
+        {
+            resources[i] = m_resources[i].export( version );
+        }
+        return new ModuleDirective( resource, resources );
+    }
+    
     public ResourceDirective[] getResourceDirectives()
     {
         return m_resources;

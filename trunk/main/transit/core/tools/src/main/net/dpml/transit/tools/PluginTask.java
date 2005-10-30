@@ -168,7 +168,8 @@ public class PluginTask extends TransitTask
         }
 
         final Project project = getProject();
-        ClassLoader classloader = this.getClass().getClassLoader();
+        //ClassLoader classloader = this.getClass().getClassLoader();
+        ClassLoader classloader = Thread.currentThread().getContextClassLoader();
         final ComponentHelper helper =
           ComponentHelper.getComponentHelper( project );
 

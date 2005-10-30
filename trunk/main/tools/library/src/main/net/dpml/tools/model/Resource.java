@@ -21,6 +21,7 @@ package net.dpml.tools.model;
 import java.io.File;
 
 import net.dpml.tools.info.Scope;
+
 import net.dpml.transit.Artifact;
 import net.dpml.transit.Category;
 
@@ -149,4 +150,5 @@ public interface Resource extends Dictionary
     * @return the array of consumer projects
     */
     Resource[] getConsumers( boolean expand, boolean sort );
+    
 }

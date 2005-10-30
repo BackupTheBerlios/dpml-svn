@@ -69,7 +69,7 @@ public class JavacTask extends MatchingTask
     */ 
     public static final String TARGET_KEY = "project.javac.target";
 
-    private static final boolean DEBUG_VALUE = false;
+    private static final boolean DEBUG_VALUE = true;
     private static final boolean FORK_VALUE = false;
     private static final boolean DEPRECATION_VALUE = true;
 

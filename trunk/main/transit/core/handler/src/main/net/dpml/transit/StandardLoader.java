@@ -555,6 +555,10 @@ class StandardLoader implements Repository
 
         URI plugin = descriptor.getURI();
 
+        URI[] systemArtifacts = descriptor.getDependencies( Category.SYSTEM );
+        URL[] sysUrls = getURLs( systemArtifacts );
+        updateSystemClassLoader( sysUrls );
+
         URI[] apiArtifacts = descriptor.getDependencies( Category.PUBLIC );
         URL[] apis = getURLs( apiArtifacts  );
         ClassLoader api = buildClassLoader( plugin, Category.PUBLIC, base, apis );
@@ -568,6 +572,23 @@ class StandardLoader implements Repository
         ClassLoader classloader = buildClassLoader( plugin, Category.PRIVATE, spi, imps );
 
         return classloader;
+    }
+
+    private void updateSystemClassLoader( URL[] urls ) throws TransitException
+    {
+        ClassLoader parent = ClassLoader.getSystemClassLoader();
+        if( parent instanceof SystemClassLoader )
+        {
+            SystemClassLoader loader = (SystemClassLoader) parent;
+            loader.addDelegates( urls );
+        }
+        else
+        {
+            final String message =
+              "Cannot load system artifacts into a foreign classloader.";
+            getMonitor().sequenceInfo( message );
+            //throw new TransitException( error );
+        }
     }
 
    /**

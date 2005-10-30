@@ -279,11 +279,11 @@ public abstract class FeatureTask extends GenericTask
         catch( ResourceNotFoundException e )
         {
             final String error = 
-              "Resource address in [" 
+              "Feature reference ["
               + ref
-              + "] contains an unknown resource references ["
-              + e.getMessage()
-              + "].";
+              + "] in the project [" 
+              + getResource()
+              + "] is unknown.";
             throw new BuildException( error, e );
         }
     }

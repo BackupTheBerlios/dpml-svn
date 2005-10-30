@@ -5,8 +5,10 @@
   <taskdef name="install"      classname="net.dpml.tools.tasks.InstallTask"/>
   <taskdef name="javac"        classname="net.dpml.tools.tasks.JavacTask"/>
   <taskdef name="jar"          classname="net.dpml.tools.tasks.JarTask"/>
-  <taskdef name="plugin"       classname="net.dpml.tools.tasks.PluginTask"/>
+  <taskdef name="export"       classname="net.dpml.tools.tasks.PluginExportTask"/>
   <taskdef name="junit"        classname="net.dpml.tools.tasks.JUnitTestTask"/>
   <taskdef name="property"     classname="net.dpml.tools.tasks.PropertyTask"/>
   <taskdef name="filter"       classname="net.dpml.tools.tasks.FilterTask"/>
+  <taskdef name="module"       classname="net.dpml.tools.tasks.ModuleTask"/>
+  <taskdef name="reactor"      classname="net.dpml.tools.tasks.ReactorTask"/>
 </antlib>

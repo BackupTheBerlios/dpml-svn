@@ -108,10 +108,19 @@ public interface Library
     Resource[] select( String criteria, boolean local, boolean sort );
     
    /**
+    * Select all local projects with a basedir equal to or depper than the supplied 
+    * directory.
+    * @param base the reference basedir
+    * @return an array of projects within or lower than the supplied basedir
+    */
+    Resource[] select( File base );
+    
+   /**
     * Locate a resource relative to a base directory.
     * @param base the base directory
     * @return a resource with a matching basedir
     * @exception ResourceNotFoundException if resource match  relative to the supplied base
     */
     Resource locate( File base ) throws ResourceNotFoundException;
+    
 }

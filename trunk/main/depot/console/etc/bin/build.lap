@@ -2,7 +2,8 @@
 # This file contains the runtime configuration of the Janel java launcher application.
 #
 
--Djava.system.class.loader=net.dpml.depot.DepotClassLoader
+-Ddpml.transit.include.tools=true
+-Djava.system.class.loader=net.dpml.transit.SystemClassLoader
 -Djava.security.policy=${env.DPML_HOME}\Shared\bin\security.policy
 -Djava.rmi.server.randomIDs=true
 janel.main.class=net.dpml.depot.Main

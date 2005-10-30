@@ -23,12 +23,14 @@ import java.io.IOException;
 import java.rmi.RemoteException;
 
 import net.dpml.tools.ant.Context;
+import net.dpml.tools.ant.StandardBuilder;
 import net.dpml.tools.model.Library;
 import net.dpml.tools.model.Resource;
 import net.dpml.tools.model.ResourceNotFoundException;
 import net.dpml.tools.model.ModuleNotFoundException;
 import net.dpml.tools.control.DefaultLibrary;
 
+import net.dpml.transit.Logger;
 import net.dpml.transit.monitor.LoggingAdapter;
 
 import org.apache.tools.ant.BuildException;
@@ -104,7 +106,9 @@ public class GenericTask extends Task
     */
     protected Context getContext()
     {
+    System.out.println( "1" );
         Context context = (Context) getProject().getReference( "project.context" );
+    System.out.println( "2" );
         if( null == context )
         {   
             //
@@ -113,16 +117,24 @@ public class GenericTask extends Task
             //
             
             File basedir = getProject().getBaseDir();
+    System.out.println( "3" );
             if( null == System.getProperty( "build.version" ) )
             {
                 System.getProperty( "build.version", "SNAPSHOT" );
             }
             try
             {
-                DefaultLibrary library = new DefaultLibrary( new LoggingAdapter() );
+    System.out.println( "3" );
+                Logger logger = new LoggingAdapter() ;
+    System.out.println( "4" );
+                DefaultLibrary library = new DefaultLibrary( logger );
+    System.out.println( "5" );
                 Resource resource = library.locate( basedir.getCanonicalFile() );
+    System.out.println( "6" );
                 context = new Context( resource, library, getProject() );
+    System.out.println( "7" );
                 getProject().addReference( "project.context", context );
+    System.out.println( "8" );
                 return context;
             }
             catch( BuildException e )

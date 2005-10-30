@@ -22,7 +22,7 @@
     xmlns:x="dpml:tools" 
     default="install">
 
-  <transit:import uri="${project.standard.template}"/>
+  <transit:import uri="local:template:tools/standard"/>
 
   <target name="init" depends="standard.init">
     <x:filter feature="name" token="NAME"/>

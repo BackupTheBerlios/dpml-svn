@@ -57,7 +57,7 @@ public class StandardClassLoader extends URLClassLoader
     }
 
     //--------------------------------------------------------------------
-    // CompositionClassLoader
+    // StandardClassLoader
     //--------------------------------------------------------------------
 
    /**
@@ -99,6 +99,10 @@ public class StandardClassLoader extends URLClassLoader
             }
         }
         return buffer.toString().trim();
+    }
+    
+    void supplimentSystemStack( ClassLoader classloader )
+    {
     }
 
     private String getURLClassLoaderAnnotations( URLClassLoader classloader )

@@ -202,10 +202,6 @@ public final class LibraryDirectiveBuilder
         }
     }
     
-    //
-    //
-    //
-
     public static ModuleDirective buildModuleDirective( File source ) throws IOException
     {
         if( null == source )
@@ -294,6 +290,10 @@ public final class LibraryDirectiveBuilder
                 // already processed
             }
             else if( DEPENDENCIES_ELEMENT_NAME.equals( tag ) ) 
+            {
+                // already processed
+            }
+            else if( TYPES_ELEMENT_NAME.equals( tag ) ) 
             {
                 // already processed
             }

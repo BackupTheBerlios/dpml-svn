@@ -600,15 +600,12 @@ public class DefaultResource extends DefaultDictionary implements Resource, Comp
     
     boolean isaConsumer( DefaultResource resource )
     {
-        //System.out.println( "  ## checking " + this );
         DefaultResource[] resources = getAggregatedDefaultProviders( Scope.TEST, false, false );
         for( int i=0; i<resources.length; i++ )
         {
             DefaultResource provider = resources[i];
-            //System.out.println( "     ## provider == " + provider );
             if( resource.equals( provider ) )
             {
-                //System.out.println( "     ## <---------------------- " + this );
                 return true;
             }
         }
@@ -637,10 +634,8 @@ public class DefaultResource extends DefaultDictionary implements Resource, Comp
             for( int i=0; i<resources.length; i++ )
             {
                 DefaultResource resource = resources[i];
-                //System.out.println( "# eval: " + resource );
                 if( !list.contains( resource ) && resource.isaConsumer( this ) )
                 {
-                    //System.out.println( "#   --> is a consumer: " + resource );
                     list.add( resource );
                 }
             }
@@ -718,6 +713,11 @@ public class DefaultResource extends DefaultDictionary implements Resource, Comp
     //----------------------------------------------------------------------------
     // sorting relative to dependencies
     //----------------------------------------------------------------------------
+    
+    DefaultResource[] sortDefaultResources( DefaultResource[] resources )
+    {
+        return sortDefaultResources( resources, Scope.TEST );
+    }
     
     DefaultResource[] sortDefaultResources( DefaultResource[] resources, Scope scope )
     {

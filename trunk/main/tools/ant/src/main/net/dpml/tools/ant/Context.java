@@ -30,6 +30,7 @@ import java.beans.Encoder;
 import net.dpml.tools.info.Scope;
 import net.dpml.tools.model.Library;
 import net.dpml.tools.model.Resource;
+import net.dpml.tools.model.Builder;
 import net.dpml.tools.model.Type;
 
 import net.dpml.transit.Artifact;

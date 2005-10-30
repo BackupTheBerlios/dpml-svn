@@ -20,6 +20,6 @@
 <project name="dpml-station" default="default" basedir="." 
     xmlns:transit="antlib:net.dpml.transit">
 
-  <transit:import uri="local:template:magic/reactor"/>
+  <transit:import uri="local:template:tools/reactor"/>
 
 </project>

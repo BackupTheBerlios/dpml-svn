@@ -275,6 +275,42 @@ public final class DefaultLibrary extends DefaultDictionary implements Library
     }
     
    /**
+    * Select all local projects with a basedir equal to or depper than the supplied 
+    * directory.
+    * @param base the reference basedir
+    * @return an array of projects within or lower than the supplied basedir
+    */
+    public Resource[] select( File base )
+    {
+        String root = base.toString();
+        ArrayList list = new ArrayList();
+        DefaultResource[] resources = m_module.selectDefaultResources( true, "**/*" );
+        for( int i=0; i<resources.length; i++ )
+        {
+            DefaultResource resource = resources[i];
+            File basedir = resource.getBaseDir();
+            if( null != basedir )
+            {
+                String path = basedir.toString();
+                if( path.startsWith( root ) )
+                {
+                    list.add( resource );
+                }
+            }
+            else
+            {
+                final String error = 
+                  "Local project list returned a resource with a null basedir ["
+                  + resource.getResourcePath() 
+                  + "].";
+                throw new IllegalStateException( error );
+            }
+        }
+        DefaultResource[] selection = (DefaultResource[]) list.toArray( new DefaultResource[0] );
+        return m_module.sortDefaultResources( selection );
+    }
+    
+   /**
     * Locate a resource relative to a base directory.
     * @param base the base directory
     * @return a resource with a matching basedir

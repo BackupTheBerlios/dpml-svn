@@ -2,8 +2,8 @@
 
 <project name="dpml-profile-api" default="install" basedir="." 
     xmlns:transit="antlib:net.dpml.transit" 
-    xmlns:x="plugin:dpml/magic/dpml-magic-core" >
+    xmlns:x="dpml:tools" >
 
-  <transit:import uri="local:template:magic/standard"/>
+  <transit:import uri="local:template:tools/standard"/>
 
 </project>

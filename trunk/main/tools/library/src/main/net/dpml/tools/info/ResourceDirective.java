@@ -77,6 +77,19 @@ public class ResourceDirective extends AbstractDirective
         m_classifier = classifier;
     }
     
+    public ResourceDirective export( String version )
+    {
+        return new ResourceDirective( 
+          m_name, 
+          version,
+          EXTERNAL,
+          m_basedir,
+          m_types,
+          m_dependencies, 
+          getProperties()
+        );
+    }
+    
     public String getName()
     {
         return m_name;
