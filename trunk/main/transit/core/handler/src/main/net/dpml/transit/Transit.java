@@ -157,7 +157,7 @@ public final class Transit
             }
         }
     }
-
+    
    /**
     * Returns the singleton instance of the transit system.  If this method
     * has already been invoked the server and monitor argument will be ignored.
@@ -292,6 +292,15 @@ public final class Transit
             final String error = "Unable to construct transit instance.";
             throw new TransitException( error, e );
         }
+    }
+
+   /**
+    * Return the current cache directory.
+    * @return the cache directory.
+    */
+    public File getCacheDirectory()
+    {
+        return getTransitContext().getCacheHandler().getCacheDirectory();
     }
 
    /**

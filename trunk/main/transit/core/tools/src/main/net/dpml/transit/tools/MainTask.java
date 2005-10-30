@@ -84,10 +84,10 @@ public class MainTask extends TransitTask
     * @param logger the assigned logging channel
     * @exception Exception if an error occurs
     */
-    public MainTask( TransitModel model, Logger logger ) throws Exception
-    {
-        super( model, logger );
-    }
+    //public MainTask( TransitModel model, Logger logger ) throws Exception
+    //{
+    //    super( model, logger );
+    //}
 
     // ------------------------------------------------------------------------
     // Task

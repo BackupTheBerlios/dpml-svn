@@ -228,7 +228,8 @@ public class StandardBuilder implements Builder
     {
         try
         {
-            MainTask task = new MainTask( m_model, m_logger );
+            //MainTask task = new MainTask( m_model, m_logger );
+            MainTask task = new MainTask();
             task.setProject( project );
             task.init();
             task.execute();

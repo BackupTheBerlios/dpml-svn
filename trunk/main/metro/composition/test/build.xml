@@ -17,15 +17,14 @@
   limitations under the License.
 -->
 
-<project name="dpml-composition-test"
+<project name="dpml-composition-test" default="install"
     xmlns:transit="antlib:net.dpml.transit" 
     xmlns:x="dpml:tools" 
-    xmlns:c="dpml:composition" 
-    default="install">
+    xmlns:c="dpml:composition">
 
   <transit:import uri="local:template:tools/standard"/>
 
-  <transit:plugin uri="artifact:plugin:dpml/metro/dpml-composition-tools#SNAPSHOT"/>
+  <x:plugin uri="artifact:plugin:dpml/metro/dpml-composition-tools#SNAPSHOT"/>
 
   <target name="build" depends="standard.build">
 

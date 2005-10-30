@@ -168,10 +168,11 @@ public class RepositoryMonitorAdapter extends AbstractAdapter
     {
         if( getAdapter().isDebugEnabled() )
         {
+            int id = System.identityHashCode( classloader );
             StringBuffer buffer = new StringBuffer();
             buffer.append( "created " );
             buffer.append( type );
-            buffer.append( " classloader" );
+            buffer.append( " classloader: " + id );
             if( classloader instanceof URLClassLoader )
             {
                 URLClassLoader loader = (URLClassLoader) classloader;

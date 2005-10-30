@@ -106,9 +106,7 @@ public class GenericTask extends Task
     */
     protected Context getContext()
     {
-    System.out.println( "1" );
         Context context = (Context) getProject().getReference( "project.context" );
-    System.out.println( "2" );
         if( null == context )
         {   
             //
@@ -117,24 +115,17 @@ public class GenericTask extends Task
             //
             
             File basedir = getProject().getBaseDir();
-    System.out.println( "3" );
             if( null == System.getProperty( "build.version" ) )
             {
                 System.getProperty( "build.version", "SNAPSHOT" );
             }
             try
             {
-    System.out.println( "3" );
                 Logger logger = new LoggingAdapter() ;
-    System.out.println( "4" );
                 DefaultLibrary library = new DefaultLibrary( logger );
-    System.out.println( "5" );
                 Resource resource = library.locate( basedir.getCanonicalFile() );
-    System.out.println( "6" );
                 context = new Context( resource, library, getProject() );
-    System.out.println( "7" );
                 getProject().addReference( "project.context", context );
-    System.out.println( "8" );
                 return context;
             }
             catch( BuildException e )
@@ -165,7 +156,8 @@ public class GenericTask extends Task
     }
     
     protected void copy(
-       final File src, final File destination, final boolean filtering, final String includes, final String excludes )
+       final File src, final File destination, final boolean filtering, 
+       final String includes, final String excludes )
     {
         mkDir( destination );
         final Copy copy = (Copy) getProject().createTask( "copy" );

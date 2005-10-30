@@ -28,7 +28,7 @@
   </target>
 
   <target name="build" depends="bootstrap.build">
-    <taskdef name="export" classname="net.dpml.tools.tasks.PluginTask">
+    <taskdef name="export" classname="net.dpml.tools.tasks.PluginExportTask">
       <classpath refid="project.main.path"/>
     </taskdef>
     <export class="net.dpml.tools.ant.StandardBuilder"/>

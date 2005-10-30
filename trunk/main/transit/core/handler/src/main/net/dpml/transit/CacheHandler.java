@@ -117,4 +117,10 @@ public interface CacheHandler
     * @return the layout registry.
     */
     LayoutRegistry getLayoutRegistry();
+    
+   /**
+    * Return the current cache directory.
+    * @return the cache directory.
+    */
+    File getCacheDirectory();
 }

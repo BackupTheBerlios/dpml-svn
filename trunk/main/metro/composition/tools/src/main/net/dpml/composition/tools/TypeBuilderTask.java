@@ -218,6 +218,7 @@ public class TypeBuilderTask extends GenericTask implements TypeBuilder
     public void execute()
     {
         Project proj = getProject();
+        
         Path path = getContext().getPath( Scope.RUNTIME );
         File classes = getContext().getTargetClassesMainDirectory();
         path.createPathElement().setLocation( classes );
@@ -301,7 +302,8 @@ public class TypeBuilderTask extends GenericTask implements TypeBuilder
         return m_classname;
     }
 
-    private InfoDescriptor createInfoDescriptor( Class subject ) throws IntrospectionException
+    private InfoDescriptor createInfoDescriptor( Class subject ) 
+      throws IntrospectionException
     {
         String name = getName();
         String classname = subject.getName();
@@ -311,12 +313,14 @@ public class TypeBuilderTask extends GenericTask implements TypeBuilder
           name, classname, null, m_lifestyle, m_collection, threadsafe, properties );
     }
 
-    private boolean getThreadSafeCapability( Class subject ) throws IntrospectionException
+    private boolean getThreadSafeCapability( Class subject ) 
+      throws IntrospectionException
     {
         return m_threadsafe;
     }
 
-    private Properties getTypeProperties( Class subject ) throws IntrospectionException
+    private Properties getTypeProperties( Class subject ) 
+      throws IntrospectionException
     {
         String path = subject.getClass().getName().replace( '.', '/' ) + ".properties";
         URL url = subject.getResource( path );
@@ -426,7 +430,8 @@ public class TypeBuilderTask extends GenericTask implements TypeBuilder
         }
     }
 
-    private ContextDescriptor createContextDescriptor( Class subject ) throws IntrospectionException
+    private ContextDescriptor createContextDescriptor( Class subject ) 
+      throws IntrospectionException
     {
         EntryDescriptor[] entries = createEntryDescriptors( subject );
         return new ContextDescriptor( entries );
@@ -513,7 +518,7 @@ public class TypeBuilderTask extends GenericTask implements TypeBuilder
         else
         {
             final String error =
-              "Unable to establish a required or optional context entry method pattern on the method ["
+              "Unable to establish a required or optional context entry method pattern on ["
               + method.getName()
               + "]";
             throw new IntrospectionException( error );

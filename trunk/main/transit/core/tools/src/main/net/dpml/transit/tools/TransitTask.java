@@ -47,7 +47,7 @@ abstract class TransitTask extends Task
         if( Transit.DPML_DATA != null )
         {
             // now we know that transit statics have been initialized
-            boolean lifeIsGood = true;
+            boolean ok = true;
         }
 
         System.setProperty( "java.protocol.handler.pkgs", 
@@ -55,7 +55,7 @@ abstract class TransitTask extends Task
     }
 
     private static boolean m_INIT = false;
-    private static TransitModel m_MODEL;
+    //private static TransitModel m_MODEL;
 
    /**
     * Creation of a new TransitTask.
@@ -70,6 +70,7 @@ abstract class TransitTask extends Task
     * @param logger the assinged logging channel
     * @exception if an error occurs
     */
+    /*
     public TransitTask( TransitModel model, Logger logger ) throws Exception
     {
         if( null == m_MODEL )
@@ -88,6 +89,7 @@ abstract class TransitTask extends Task
             }
         }
     }
+    */
 
    /**
     * Set the project.
@@ -109,20 +111,19 @@ abstract class TransitTask extends Task
         synchronized( TransitTask.class )
         {
             Project project = task.getProject();
-            if( null == m_MODEL )
-            {
+            if( !m_INIT )
+            //if( null == m_MODEL )
+            //{
                 try
                 {
                     Adapter logger = new AntAdapter( task );
-                    m_MODEL = new DefaultTransitModel( logger );
-                    Transit transit = Transit.getInstance( m_MODEL );
+                    DefaultTransitModel model = new DefaultTransitModel( logger );
+                    Transit transit = Transit.getInstance( model );
                     setupMonitors( transit, logger );
                 }
                 catch( TransitAlreadyInitializedException e )
                 {
-                    //final String error =
-                    //  "Detected condition where Transit has already been initialized.";
-                    //throw new BuildException( error, e );
+                    // move on
                 }
                 catch( Throwable e )
                 {
@@ -130,7 +131,7 @@ abstract class TransitTask extends Task
                       "Internal error while initializing Transit";
                     throw new BuildException( error, e );
                 }
-            }
+            //}
             checkProperties( project );
         }
     }
@@ -168,11 +169,12 @@ abstract class TransitTask extends Task
         updateProperty( project, "dpml.logs", dist.getAbsolutePath() );
         updateProperty( project, "dpml.prefs", prefs.getAbsolutePath() );
 
+        File cache = Transit.getInstance().getCacheDirectory();
         if( null == project.getReference( "dpml.cache" ) )
         {
             try
             {
-                project.addReference( "dpml.cache", m_MODEL.getCacheModel().getCacheDirectory() );
+                project.addReference( "dpml.cache", cache );
             }
             catch( Throwable e )
             {
@@ -182,8 +184,7 @@ abstract class TransitTask extends Task
         
         try
         {
-            String cache = m_MODEL.getCacheModel().getCacheDirectory().getAbsolutePath();
-            updateProperty( project, "dpml.cache", cache );
+            updateProperty( project, "dpml.cache", cache.getAbsolutePath() );
         }
         catch( Throwable e )
         {
@@ -193,8 +194,11 @@ abstract class TransitTask extends Task
         String auth = project.getProperty( "dpml.transit.authority" );
         if( null != auth )
         {
-            System.setProperty( "dpml.transit.authority", 
-              System.getProperty( "dpml.transit.authority", auth ) );
+            System.setProperty( 
+              "dpml.transit.authority", 
+              System.getProperty( 
+                "dpml.transit.authority", auth ) 
+            );
         }
     }
 

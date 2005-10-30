@@ -372,6 +372,15 @@ class DefaultCacheHandler extends UnicastRemoteObject implements CacheHandler, C
     // CacheHandler
     // ------------------------------------------------------------------------
 
+   /**
+    * Return the current cache directory.
+    * @return the cache directory.
+    */
+    public File getCacheDirectory()
+    {
+        return getLocalCacheDirectory();
+    }
+
     /**
      * Attempts to download and cache a remote artifact using a set of remote
      * repositories.  The operation is not fail fast and so it keeps trying if

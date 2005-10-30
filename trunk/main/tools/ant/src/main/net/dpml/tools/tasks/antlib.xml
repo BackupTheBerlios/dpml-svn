@@ -11,4 +11,5 @@
   <taskdef name="filter"       classname="net.dpml.tools.tasks.FilterTask"/>
   <taskdef name="module"       classname="net.dpml.tools.tasks.ModuleTask"/>
   <taskdef name="reactor"      classname="net.dpml.tools.tasks.ReactorTask"/>
+  <taskdef name="plugin"       classname="net.dpml.tools.tasks.PluginTask"/>
 </antlib>

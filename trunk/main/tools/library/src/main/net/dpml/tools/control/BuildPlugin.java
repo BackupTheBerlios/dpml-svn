@@ -149,6 +149,14 @@ public class BuildPlugin
             }
             else
             {
+                StringBuffer buffer = new StringBuffer( "Initiating build sequence: (" + resources.length + ")\n" );
+                for( int i=0; i<resources.length; i++ )
+                {
+                    Resource resource = resources[i];
+                    buffer.append( "\n  (" + (i+1) + ")\t" + resource.getResourcePath() );
+                }
+                buffer.append( "\n" );
+                getLogger().info( buffer.toString() );
                 for( int i=0; i<resources.length; i++ )
                 {
                     Resource resource = resources[i];
