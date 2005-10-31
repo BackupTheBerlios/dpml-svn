@@ -28,7 +28,8 @@ import net.dpml.tools.info.ProcessDescriptor;
 /**
  * Utility class used for construction of a module model from an XML source.
  *
- * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 final class DefaultProcessor implements Processor
 {

@@ -1,5 +1,6 @@
 /*
  * Copyright 2004 Niclas Hedhman, DPML
+ * Copyright 2005 Stephen J. McConnell.
  *
  * Licensed  under the  Apache License,  Version 2.0  (the "License");
  * you may not use  this file  except in  compliance with the License.
@@ -29,6 +30,8 @@ import net.dpml.transit.model.RequestIdentifier;
 
 /**
  * Internal class used to handle delegated authentication.
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 final class DelegatingAuthenticator extends Authenticator
 {

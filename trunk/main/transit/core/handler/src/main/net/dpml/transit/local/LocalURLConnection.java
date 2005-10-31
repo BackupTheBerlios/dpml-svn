@@ -1,5 +1,4 @@
 /*
- * Copyright 2005 Niclas Hedhman
  * Copyright 2005 Stephen J. McConnell.
  *
  * Licensed  under the  Apache License,  Version 2.0  (the "License");
@@ -37,6 +36,8 @@ import net.dpml.transit.Artifact;
 
 /**
  * The local URL protocol connection implementation.
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public class LocalURLConnection extends URLConnection
 {

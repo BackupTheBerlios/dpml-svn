@@ -29,7 +29,8 @@ import java.util.Arrays;
  * URLs.  This class may be configured as the system classloader when loading plugins
  * that declare system category plugin entries.
  *
- * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public final class SystemClassLoader extends StandardClassLoader 
 {

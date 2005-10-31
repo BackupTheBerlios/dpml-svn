@@ -35,8 +35,8 @@ import org.apache.tools.ant.types.Path;
 /**
  * Locate a named feature of the a project or resource.
  *
- * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
- * @version $Revision: 1.2 $ $Date: 2004/03/17 10:30:09 $
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public abstract class FeatureTask extends GenericTask
 {
@@ -202,8 +202,8 @@ public abstract class FeatureTask extends GenericTask
                 return path + "#" + version;
             }
         }
-            //else if( m_feature.equals( "path" ) )
-            //{
+        //else if( m_feature.equals( "path" ) )
+        //{
             //    if( null == m_type )
             //    {
             //        final String error = 
@@ -243,14 +243,22 @@ public abstract class FeatureTask extends GenericTask
             //else if( m_feature.equals( "api" ) )
             //{
             //   return convertString( resource.getInfo().getJavadocPath() );
-            //}
+        //}
         else
         {
-            final String error = 
-              "Unsupported feature ["
-              + m_feature 
-              + "].";
-            throw new BuildException( error, getLocation() );
+            String value = resource.getProperty( m_feature );
+            if( null != value )
+            {
+                return value;
+            }
+            else
+            {
+                final String error = 
+                  "Unsupported feature ["
+                  + m_feature 
+                  + "].";
+                throw new BuildException( error, getLocation() );
+            }
         }
     }
     

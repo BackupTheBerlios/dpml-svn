@@ -23,7 +23,8 @@ import java.beans.DefaultPersistenceDelegate;
  * BeanInfo for the CategoryDirective class that declares a persistence
  * delegate.
  *
- * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public final class ResourceDirectiveBeanInfo extends SimpleBeanInfo
 {

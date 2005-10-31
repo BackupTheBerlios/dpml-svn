@@ -36,14 +36,15 @@ import org.apache.tools.ant.taskdefs.Copy;
  * Prepare the target build directory based on content presented under the
  * ${basedir}/src and ${basedir}/etc directories.
  *
- * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public class PrepareTask extends GenericTask
 {
     private static final String SRC_FILTERED_INCLUDES_KEY =
       "project.prepare.src.filtered.includes";
     private static final String SRC_FILTERED_INCLUDES_VALUE =
-      "**/*.java,**/*.x*,**/*.properties";
+      "**/*.java,**/*.x*,**/*.properties,**/*.html";
 
     private static final String ETC_FILTERED_INCLUDES_KEY =
       "project.prepare.etc.filtered.includes";

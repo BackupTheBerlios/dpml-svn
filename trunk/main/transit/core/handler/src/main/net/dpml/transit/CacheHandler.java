@@ -34,7 +34,8 @@ import net.dpml.transit.artifact.ArtifactAlreadyExistsException;
  * Selection of a cache manager is defined under the transit cache configuration
  * properties.
  *
- * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public interface CacheHandler
 {

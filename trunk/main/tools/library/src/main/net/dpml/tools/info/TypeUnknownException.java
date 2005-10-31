@@ -22,7 +22,8 @@ package net.dpml.tools.info;
  * A TypeUnknownException is raised in response to a request for a type
  * that does not exist.
  *
- * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public final class TypeUnknownException extends Exception
 {

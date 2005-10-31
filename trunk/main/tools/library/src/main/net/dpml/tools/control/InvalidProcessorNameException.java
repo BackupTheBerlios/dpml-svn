@@ -22,7 +22,8 @@ package net.dpml.tools.control;
  * Internal exception throw when an attempt is made to reference a processor
  * that has not been declared.
  *
- * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 final class InvalidProcessorNameException extends InvalidNameException
 {

@@ -31,7 +31,8 @@ import net.dpml.transit.util.Enum;
 /**
  * The ImportDirective class describes a the import of resource via a file or uri reference.
  *
- * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public final class ImportDirective extends AbstractDirective
 {

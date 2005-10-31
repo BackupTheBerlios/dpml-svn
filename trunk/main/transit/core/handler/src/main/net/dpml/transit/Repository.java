@@ -1,5 +1,5 @@
 /*
- * Copyright 2004 Stephen J. McConnell.
+ * Copyright 2004-2005 Stephen J. McConnell.
  * Copyright 2004 Niclas Hedhman.
  *
  * Licensed  under the  Apache License,  Version 2.0  (the "License");
@@ -26,8 +26,8 @@ import java.net.URI;
 /**
  * A service that provides support for the establishment of classloaders and plugin
  * instances based on plugin descriptor describing a classloader chain.
- * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
- * @version $Id: Repository.java 2741 2005-06-07 06:41:36Z mcconnell@dpml.net $
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public interface Repository
 {

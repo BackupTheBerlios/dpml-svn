@@ -30,8 +30,8 @@ import org.apache.tools.ant.Project;
 /**
  * A ant montor for download messages.
  *
- * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
- * @version $Id: AntMonitor.java 183 2004-10-23 16:53:31Z niclas $
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public class AntAdapter implements Adapter
 {

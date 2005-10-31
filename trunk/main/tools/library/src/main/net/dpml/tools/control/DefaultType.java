@@ -27,7 +27,8 @@ import net.dpml.tools.info.TypeDirective;
 /**
  * Utility class used for construction of a module model from an XML source.
  *
- * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public final class DefaultType extends DefaultDictionary implements Type
 {

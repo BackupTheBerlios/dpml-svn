@@ -31,8 +31,8 @@ import org.apache.tools.ant.Task;
 /**
  * Task supports the creation of preference as readable xml files.
  *
- * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
- * @version $Revision: 1.2 $ $Date: 2004/03/17 10:30:09 $
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public class NodeTask extends Task
 {

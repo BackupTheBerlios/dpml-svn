@@ -25,7 +25,8 @@ import net.dpml.tools.info.ModuleDirective;
 /**
  * The Modele interface defines a node within a module hierachy.
  *
- * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public interface Module extends Resource
 {

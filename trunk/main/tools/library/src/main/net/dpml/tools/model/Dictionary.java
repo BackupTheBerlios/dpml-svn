@@ -23,7 +23,8 @@ import java.net.URI;
 /**
  * The Dictonary interface exposes operations dealing with named properties.
  *
- * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public interface Dictionary
 {

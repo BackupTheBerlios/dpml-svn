@@ -1,5 +1,5 @@
 /*
- * Copyright 2004 Stephen McConnell
+ * Copyright 2004-2005 Stephen McConnell
  *
  * Licensed  under the  Apache License,  Version 2.0  (the "License");
  * you may not use  this file  except in  compliance with the License.
@@ -39,8 +39,8 @@ import org.apache.tools.ant.types.Path;
 /**
  * Load a goal.
  *
- * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
- * @version $Revision: 1.2 $ $Date: 2004/03/17 10:30:09 $
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public class JUnitTestTask extends GenericTask
 {

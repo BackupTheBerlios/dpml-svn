@@ -23,7 +23,8 @@ import java.io.File;
 /**
  * The Library interface is the application root for module management.
  *
- * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public interface Library
 {

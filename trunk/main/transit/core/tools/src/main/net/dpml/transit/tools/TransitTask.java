@@ -38,7 +38,8 @@ import net.dpml.transit.monitor.NetworkMonitorAdapter;
  * Ant task that provides support for the import of build file templates
  * via an artifact url.
  *
- * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 abstract class TransitTask extends Task
 {

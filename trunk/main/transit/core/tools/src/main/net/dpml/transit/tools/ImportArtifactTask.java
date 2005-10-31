@@ -33,7 +33,8 @@ import net.dpml.transit.util.PropertyResolver;
  * Ant task that provides support for the import of build file templates
  * via an artifact url.
  *
- * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public class ImportArtifactTask extends ImportTask
 {

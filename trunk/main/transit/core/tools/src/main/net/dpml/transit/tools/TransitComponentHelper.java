@@ -41,8 +41,8 @@ import org.w3c.dom.Element;
  * ant plugin based on namespace declarations in the project file.  This is similar
  * to the 'antlib:' convention except we use the 'plugin:' convention.
  *
- * @author <a href="mailto:dev@dpmlnet">Stephen J. McConnell</a>
- * @version $Id: Metro.java 916 2004-11-25 12:15:17Z niclas@apache.org $
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public class TransitComponentHelper extends ComponentHelper
     implements SubBuildListener

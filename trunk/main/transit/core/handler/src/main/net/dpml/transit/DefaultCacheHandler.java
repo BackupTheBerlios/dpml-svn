@@ -53,7 +53,8 @@ import net.dpml.transit.monitor.CacheMonitorRouter;
 /**
  * Default cache handler that maintains a file based cache.  
  *
- * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 class DefaultCacheHandler extends UnicastRemoteObject implements CacheHandler, CacheListener, Service
 {

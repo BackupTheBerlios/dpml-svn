@@ -37,6 +37,8 @@ import net.dpml.transit.util.MimeTypeHandler;
 
 /**
  * link: URL protocol connection processor.
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public class LinkURLConnection extends URLConnection
 {

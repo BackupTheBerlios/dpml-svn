@@ -1,5 +1,5 @@
 /*
- * Copyright 2004 Stephen J. McConnell.
+ * Copyright 2004-2005 Stephen J. McConnell.
  * Copyright 1999-2004 The Apache Software Foundation
  *
  * Licensed  under the  Apache License,  Version 2.0  (the "License");
@@ -33,7 +33,8 @@ import java.util.ResourceBundle;
  *
  * Reworked to mirror behaviour of StringManager from Tomcat (format() to getString()).
  *
- * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public class Resources
 {

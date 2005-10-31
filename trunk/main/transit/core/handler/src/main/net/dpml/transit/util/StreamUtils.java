@@ -32,6 +32,8 @@ import net.dpml.transit.monitor.NetworkMonitor;
 
 /**
  * Utility class that provides support for stream copy operations.
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public final class StreamUtils
 {

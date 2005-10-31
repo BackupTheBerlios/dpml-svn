@@ -28,7 +28,8 @@ package net.dpml.transit;
  * Example; <code>artifact:jar:eclipse/plugins/eclipse-osgi-runtime/core#3.1.0</code>
  * would return the path <code>eclipse/plugins/eclipse-osgi-runtime-3.1.0/core.jar</code>.
  *
- * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public class EclipseLayout extends AbstractLayout
     implements Layout

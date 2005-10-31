@@ -34,7 +34,8 @@ import net.dpml.transit.Logger;
 /**
  * A registry of descriptions of plugable layout models.
  *
- * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 class DefaultLayoutRegistry extends UnicastRemoteObject implements LayoutRegistry, LayoutRegistryListener
 {

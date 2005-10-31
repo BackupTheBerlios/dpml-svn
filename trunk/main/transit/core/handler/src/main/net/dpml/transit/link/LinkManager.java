@@ -1,5 +1,6 @@
 /*
  * Copyright 2005 Niclas Hedhman
+ * Copyright 2005 Stephen McConnell
  * Licensed  under the  Apache License,  Version 2.0  (the "License");
  * you may not use  this file  except in  compliance with the License.
  * You may obtain a copy of the License at
@@ -24,6 +25,8 @@ import java.net.URI;
 /** 
  * The LinkManager is responsible for storing the mapping between a Link
  * instance and a URI.
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public interface LinkManager
 {

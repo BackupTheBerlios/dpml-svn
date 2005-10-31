@@ -1,5 +1,5 @@
 /*
- * Copyright 2004 Stephen J. McConnell.
+ * Copyright 2005 Stephen J. McConnell.
  *
  * Licensed  under the  Apache License,  Version 2.0  (the "License");
  * you may not use  this file  except in  compliance with the License.
@@ -60,8 +60,8 @@ import org.apache.tools.ant.Task;
  * used for the building of a project based on the Ant build system in conjunction
  * with Transit plugin management services.
  *
- * @author <a href="mailto:dev@dpmlnet">Stephen J. McConnell</a>
- * @version $Id: Metro.java 916 2004-11-25 12:15:17Z niclas@apache.org $
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public class StandardBuilder implements Builder 
 {

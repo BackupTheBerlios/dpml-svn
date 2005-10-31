@@ -22,7 +22,8 @@ package net.dpml.transit;
  * Exception to indicate that the scheme of a supplied uri is not recognized
  * as a member of the artifact family.
  *
- * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public class UnsupportedSchemeException extends IllegalArgumentException
 {

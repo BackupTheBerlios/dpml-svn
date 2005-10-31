@@ -23,7 +23,8 @@ import java.net.URI;
 /**
  * Utility class that declares a map between a urn and a plugin uri.
  *
- * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public class MapDataType
 {

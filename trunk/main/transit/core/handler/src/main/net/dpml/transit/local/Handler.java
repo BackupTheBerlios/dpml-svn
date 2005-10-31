@@ -27,6 +27,8 @@ import java.net.URLStreamHandler;
  * The <code>local</code> protocol references a local resource 
  * under ${dpml.prefs}. Local resources are located using the artifact 
  * protocol uri structure with a direct mapping to ${dpml.prefs}/[group]/[type]s/[name].[type].
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public class Handler extends URLStreamHandler
 {

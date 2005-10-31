@@ -62,7 +62,8 @@ import java.util.Map;
  * As with <code>Enum</code>, the {@link #ValuedEnum(String, int, Map)} constructor can be used to
  * populate a <code>Map</code>, from which further functionality can be derived.
  *
- * @author <a href="http://www.dpml.net">DPML</a>
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public abstract class ValuedEnum extends Enum implements Comparable
 {

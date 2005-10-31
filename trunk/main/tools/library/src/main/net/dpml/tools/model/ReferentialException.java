@@ -23,7 +23,8 @@ package net.dpml.tools.model;
  * in the creation of a referential integrity issue within a model (such 
  * as the removal of a resource referenced by another resource).
  *
- * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public final class ReferentialException extends Exception
 {

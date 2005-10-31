@@ -39,7 +39,8 @@ import org.apache.tools.ant.taskdefs.ManifestException;
 /**
  * Execute all plugins relative to the current build phase.
  *
- * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public class JarTask extends GenericTask
 {

@@ -1,5 +1,5 @@
 /*
- * Copyright 2004 Stephen J. McConnell.
+ * Copyright 2004-2005 Stephen J. McConnell.
  * Copyright 2004 Niclas Hedhman.
  *
  * Licensed  under the  Apache License,  Version 2.0  (the "License");
@@ -30,8 +30,8 @@ import net.dpml.transit.util.ValuedEnum;
  * A Plugin class contains immutable data about a plugin based on a descriptor resolved
  * from a 'plugin' artifact.
  *
- * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
- * @version $Id: Plugin.java 2445 2005-04-28 23:44:22Z niclas@hedhman.org $
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public interface Plugin
 {

@@ -22,7 +22,8 @@ package net.dpml.tools.model;
  * A TypeNotFoundException is thrown when a requested for a named type cannot
  * be resolved relative to the enclosing object.
  *
- * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public final class TypeNotFoundException extends Exception
 {

@@ -37,7 +37,8 @@ import net.dpml.transit.model.TransitModel;
  * together with a service supporting the deployment of a application plugin and
  * access to transit monitor routers.
  *
- * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public final class Transit
 {

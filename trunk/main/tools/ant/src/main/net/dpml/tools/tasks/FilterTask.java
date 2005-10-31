@@ -24,12 +24,13 @@ import org.apache.tools.ant.taskdefs.Filter;
 /**
  * Construct a pattern filter using a supplied feature and token.
  *
- * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
- * @version $Revision: 1.2 $ $Date: 2004/03/17 10:30:09 $
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public class FilterTask extends FeatureTask
 {
     private String m_token;
+    private String m_default;
 
    /**
     * Set the filter token value.
@@ -38,6 +39,15 @@ public class FilterTask extends FeatureTask
     public void setToken( final String token )
     {
         m_token = token;
+    }
+
+   /**
+    * Set a default filter value.
+    * @param value the default value
+    */
+    public void setDefault( final String value )
+    {
+        m_default = value;
     }
 
    /**
@@ -53,7 +63,7 @@ public class FilterTask extends FeatureTask
             throw new BuildException( error );
         }
 
-        final String value = super.resolve();
+        final String value = resolveValue();
         if( null != value )
         {
             final Filter filter = (Filter) getProject().createTask( "filter" );
@@ -70,6 +80,19 @@ public class FilterTask extends FeatureTask
               + getFeature()
               + "].";
             throw new BuildException( error );
+        }
+    }
+    
+    private String resolveValue()
+    {
+        String value = super.resolve();
+        if( null == value )
+        {
+            return m_default;
+        }
+        else
+        {
+            return value;
         }
     }
 }

@@ -22,7 +22,8 @@ package net.dpml.tools.model;
  * A ModuleNotFoundException is thrown when a requested for a named module cannot
  * be resolved.
  *
- * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public final class ModuleNotFoundException extends ResourceNotFoundException
 {

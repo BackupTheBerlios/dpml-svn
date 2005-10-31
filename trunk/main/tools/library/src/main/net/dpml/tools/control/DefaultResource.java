@@ -48,8 +48,9 @@ import net.dpml.transit.Artifact;
 import net.dpml.transit.Category;
 
 /**
- *
- * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
+ * Implementation of a resource.
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public class DefaultResource extends DefaultDictionary implements Resource, Comparable
 {
@@ -98,7 +99,6 @@ public class DefaultResource extends DefaultDictionary implements Resource, Comp
         {
             m_path = module.getResourcePath() + "/" + directive.getName();
         }
-        
         try
         {
             m_types = resolveTypes( directive );
@@ -152,6 +152,17 @@ public class DefaultResource extends DefaultDictionary implements Resource, Comp
                   + "].";
                 throw new ValidationException( error );
             }
+        }
+        
+        setProperty( "name", getName() );
+        if( null != m_parent )
+        {
+            setProperty( "group", m_parent.getResourcePath() );
+        }
+        String version = getVersion();
+        if( null != version )
+        {
+            setProperty( "version", getVersion() );
         }
     }
     
@@ -291,13 +302,21 @@ public class DefaultResource extends DefaultDictionary implements Resource, Comp
         if( null == m_parent )
         {
             final String error = 
-              "Artifact protocol does not support null groups.";
+              "Operation not supported on the root module.";
             throw new UnsupportedOperationException( error );
         }
-        String group = getParent().getResourcePath();
+        
+        String group = getGroupName();
         String name = getName();
         String version = getVersion();
-        return Artifact.createArtifact( group, name, version, id );
+        try
+        {
+            return Artifact.createArtifact( group, name, version, id );
+        }
+        catch( Throwable e )
+        {
+            throw new RuntimeException( "???", e );
+        }
     }
     
    /**
@@ -888,4 +907,15 @@ public class DefaultResource extends DefaultDictionary implements Resource, Comp
         }
     }
     
+    private String getGroupName()
+    {
+        if( m_parent.isRoot() )
+        {
+            return getName();
+        }
+        else
+        {
+            return m_parent.getResourcePath();
+        }
+    }
 }

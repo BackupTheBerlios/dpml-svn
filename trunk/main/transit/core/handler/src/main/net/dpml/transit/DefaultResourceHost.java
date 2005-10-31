@@ -63,7 +63,8 @@ import net.dpml.transit.util.Util;
  *   realm/domain authentication. It may be introduced in the future.
  * </p>
  *
- * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 class DefaultResourceHost extends UnicastRemoteObject 
   implements ResourceHost, HostListener, Service

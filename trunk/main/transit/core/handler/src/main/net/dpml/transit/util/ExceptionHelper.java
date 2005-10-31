@@ -27,7 +27,8 @@ import java.rmi.activation.ActivationGroupID;
 
 /**
  * General utilities supporting the packaging of exception messages.
- * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public final class ExceptionHelper
 {

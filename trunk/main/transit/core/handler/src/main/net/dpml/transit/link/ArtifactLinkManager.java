@@ -44,6 +44,8 @@ import net.dpml.transit.util.PropertyResolver;
  * Applications should not call the methods for the LinkManager directly,
  * and it is likely that the LinkManager remains outside the reachability of
  * applications.
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public class ArtifactLinkManager
     implements LinkManager

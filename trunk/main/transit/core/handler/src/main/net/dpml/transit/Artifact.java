@@ -31,7 +31,8 @@ import java.net.URL;
  * A utility class the handles validation of <code>artifact</code> style uri
  * strings.
  *
- * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public final class Artifact implements Serializable, Comparable
 {

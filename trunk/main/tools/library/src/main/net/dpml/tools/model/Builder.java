@@ -24,7 +24,8 @@ import java.rmi.Remote;
  * A Builder is implementated by a plugin that handles the building of
  * a project.
  *
- * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public interface Builder
 {

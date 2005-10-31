@@ -21,7 +21,8 @@ package net.dpml.transit;
 /**
  * The Service interface is implemented by a disposable sub-system within Transit.
  *
- * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public interface Service
 {

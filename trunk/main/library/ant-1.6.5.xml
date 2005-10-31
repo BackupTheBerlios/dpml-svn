@@ -2,8 +2,20 @@
 
 <module name="ant" version="1.6.5">
 
+    <properties>
+      <property name="project.publisher.name" value="Apache Software Foundation"/>
+      <property name="project.specification.vendor" value="${project.publisher.name}"/>
+      <property name="project.implementation.vendor" value="${project.publisher.name}"/>
+      <property name="project.implementation.vendor-id" value="org.apache"/>
+       <property name="project.publisher.url" value="http://www.apache.org"/>
+      <property name="project.resource.host" value="http://repository.dpml.net/"/>
+      <property name="project.api.host" value="http://api.dpml.net"/>
+    </properties>
 
     <resource name="ant">
+      <properties>
+        <property name="project.api.root" value="${project.api.host}/${group}/${version}"/>
+      </properties>
       <types>
         <type id="jar"/>
       </types>

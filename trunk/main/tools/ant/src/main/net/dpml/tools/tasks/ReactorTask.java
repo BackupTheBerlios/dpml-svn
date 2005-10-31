@@ -40,7 +40,8 @@ import org.apache.tools.ant.types.Reference;
  * Resolves a sorted sequence of projects with a basedir equal to or 
  * derived from the current ${basedir}.
  *
- * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public class ReactorTask extends GenericTask
 {

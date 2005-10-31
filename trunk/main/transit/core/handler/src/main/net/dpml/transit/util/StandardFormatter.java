@@ -25,6 +25,8 @@ import java.util.logging.LogRecord;
 
 /**
  * Logging message formatter that includes the category in the logging statement.
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public class StandardFormatter extends Formatter 
 {

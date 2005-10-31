@@ -32,7 +32,8 @@ import net.dpml.transit.util.Enum;
 /**
  * The IncludeDirective class describes a dependency on a named resource.
  *
- * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public class IncludeDirective extends AbstractDirective
 {

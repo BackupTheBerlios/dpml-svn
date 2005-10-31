@@ -26,7 +26,8 @@ import java.net.PasswordAuthentication;
  * Default authenticator that provides support for username password
  * based authentication in conjunction with the repository proxy settings.
  *
- * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 final class TransitAuthenticatorImpl
     implements TransitAuthenticator

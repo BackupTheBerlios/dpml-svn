@@ -29,7 +29,8 @@ import net.dpml.transit.util.ValuedEnum;
 
 /**
  * Classoader category enumeration.
- * @author <a href="mailto:dev-dpml@lists.ibiblio.org">The Digital Product Meta Library</a>
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public final class Category extends ValuedEnum
 {

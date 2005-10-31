@@ -23,7 +23,8 @@ import java.net.URI;
 /**
  * The Process interface defines a process model.
  *
- * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public interface Type extends Dictionary
 {

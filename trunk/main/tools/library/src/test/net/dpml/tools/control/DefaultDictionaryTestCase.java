@@ -51,26 +51,26 @@ public class DefaultDictionaryTestCase extends AbstractTestCase
    /**
     * Property names exposed by a top-level module such as 'dpml' should
     * include the 7 properties definined in the module plus 3 properties
-    * defined in the library, and 1 dynamic basedir property (resulting 
-    * in a total of 11 property names).
+    * defined in the library, and 4 dynamic basedir property (resulting 
+    * in a total of 14 property names).
     */
     public void testModuleProperties() throws Exception
     {
         Resource resource = m_library.getResource( "dpml" );
         String[] names = resource.getPropertyNames();
-        assertEquals( "property-count", 11, names.length );
+        assertEquals( "property-count", 14, names.length );
     }
     
    /**
     * Properties in a reosurce reflect an aggregation of the properties
     * of all parent modules and the library.  In the case of the dpml-transit-main
-    * resource there are 3 library properties, 7 module properties, 1 dynamic 
-    * property, and 1 resource property - resulting in a total of 12 properties.
+    * resource there are 3 library properties, 7 module properties, 4 dynamic 
+    * property, and 1 resource property - resulting in a total of 15 properties.
     */
     public void testResourceProperties() throws Exception
     {
         Resource resource = m_library.getResource( "dpml/transit/dpml-transit-main" );
         String[] names = resource.getPropertyNames();
-        assertEquals( "property-count", 12, names.length );
+        assertEquals( "property-count", 15, names.length );
     }
 }

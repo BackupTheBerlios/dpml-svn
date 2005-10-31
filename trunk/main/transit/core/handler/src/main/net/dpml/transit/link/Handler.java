@@ -29,7 +29,9 @@ import java.net.URLStreamHandler;
  * The <strong>link:</strong> protocol is similar to the symlink concept
  * in Linux/Unix, where something that looks like a file points to another
  * file. In this case, the link URL points to another URL. The resolution
- * of the link translation is picked up from managed Transit server(s)
+ * of the link translation is picked up from managed Transit server(s).
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public class Handler extends URLStreamHandler
 {

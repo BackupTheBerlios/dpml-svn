@@ -1,6 +1,5 @@
 /*
- * Copyright 2004 Stephen J. McConnell.
- * Copyright 1999-2004 The Apache Software Foundation
+ * Copyright 2005 Stephen J. McConnell.
  *
  * Licensed  under the  Apache License,  Version 2.0  (the "License");
  * you may not use  this file  except in  compliance with the License.
@@ -44,8 +43,9 @@ import org.apache.tools.ant.types.Path;
 
 /**
  * Project context.
- * @author <a href="mailto:dev-dpml@lists.ibiblio.org">The Digital Product Meta Library</a>
- * @version $Id: InfoDescriptor.java 2522 2005-05-12 11:23:50Z mcconnell@dpml.net $
+ *
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public final class Context
 {
@@ -220,6 +220,11 @@ public final class Context
         return new File( getTargetReportsDirectory(), "main" );
     }
     
+    public File getTargetReportsJavadocDirectory()
+    {
+        return new File( getTargetReportsDirectory(), "api" );
+    }
+    
     public File getTargetTestDirectory()
     {
         return new File( getTargetDirectory(), "test" );
@@ -269,7 +274,7 @@ public final class Context
         for( int i=0; i<resources.length; i++ )
         {
             Resource resource = resources[i];
-            if( filter )
+            if( filter && resource.isa( "jar" ) )
             {
                 Artifact artifact = resource.getArtifact( "jar" );
                 addToPath( cache, path, artifact, resolve );

@@ -22,7 +22,8 @@ package net.dpml.transit;
  * Exception to indicate that the group component of an artifact uri 
  * specification was not found.
  *
- * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public class MissingGroupException extends IllegalArgumentException
 {

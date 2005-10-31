@@ -24,8 +24,8 @@ import net.dpml.transit.Artifact;
  * Exception to indicate that the Artifact already exists in the cache and
  * can therefor not be written to.
  *
- * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
- * @version $Id: ArtifactAlreadyExistsException.java 2445 2005-04-28 23:44:22Z niclas@hedhman.org $
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public class ArtifactAlreadyExistsException extends ArtifactException
 {

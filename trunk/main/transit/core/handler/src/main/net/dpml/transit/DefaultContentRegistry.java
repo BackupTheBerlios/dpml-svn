@@ -39,7 +39,8 @@ import net.dpml.transit.model.Construct;
 /**
  * A registry of descriptions of plugable content handlers. 
  *
- * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 class DefaultContentRegistry extends UnicastRemoteObject implements Service, ContentRegistry, ContentRegistryListener
 {

@@ -22,7 +22,8 @@ package net.dpml.tools.model;
  * A ProcessorNotFoundException is thrown when a requested for a named process cannot
  * be resolved.
  *
- * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public final class ProcessorNotFoundException extends Exception
 {

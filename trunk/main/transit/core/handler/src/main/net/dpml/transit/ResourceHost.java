@@ -1,5 +1,6 @@
 /*
  * Copyright 2004 Niclas Hedhman.
+ * Copyright 2005 Stephen McConnell
  *
  * Licensed  under the  Apache License,  Version 2.0  (the "License");
  * you may not use  this file  except in  compliance with the License.
@@ -30,7 +31,8 @@ import java.util.Date;
  * An interface that represents locations where the artifacts can be
  * downloaded.
  *
- * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public interface ResourceHost
 {

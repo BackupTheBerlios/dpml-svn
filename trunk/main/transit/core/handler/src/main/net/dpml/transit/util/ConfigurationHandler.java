@@ -27,6 +27,8 @@ import java.util.logging.LogManager;
  * Utility class used to establish the logging configuration.  The contents of 
  * this class are subject to radical change but that's largely academic because 
  * this class does not expose any operations.
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public class ConfigurationHandler
 {

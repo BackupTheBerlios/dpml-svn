@@ -1,5 +1,5 @@
 /*
- * Copyright 2004 Stephen J. McConnell.
+ * Copyright 2004-2005 Stephen J. McConnell.
  * Copyright 2004 Apache Software Foundation
  *
  * Licensed  under the  Apache License,  Version 2.0  (the "License");
@@ -32,7 +32,8 @@ import java.util.Enumeration;
  * Encapsulates operating system and shell specific access to environment
  * variables.
  *
- * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public class Environment extends Properties
 {

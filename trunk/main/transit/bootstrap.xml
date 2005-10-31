@@ -205,6 +205,9 @@
 # ${project.group}/${project.name}#${project.version}
 #----------------------------------------------------------------------------------
     </echo>
+    <filter value="${project.version}" token="PROJECT-VERSION"/>
+    <filter value="http://www.dpml.net" token="PUBLISHER-URL"/>
+    <filter value="The Digital Product Meta Library" token="PUBLISHER-NAME"/>
   </target>
 
   <target name="setup-path" depends="init">

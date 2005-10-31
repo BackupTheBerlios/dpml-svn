@@ -1,5 +1,7 @@
 /*
  * Copyright 2004 Niclas Hedhman
+ * Copyright 2004-2005 Stephen J. McConnell
+ *
  * Licensed  under the  Apache License,  Version 2.0  (the "License");
  * you may not use  this file  except in  compliance with the License.
  * You may obtain a copy of the License at
@@ -39,6 +41,8 @@ import net.dpml.transit.util.MimeTypeHandler;
 
 /**
  * The connection handler for URLs based on the "artifact" protocol family.
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public class ArtifactURLConnection extends URLConnection
 {

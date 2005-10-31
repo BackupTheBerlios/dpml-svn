@@ -32,6 +32,8 @@ import java.io.BufferedReader;
 
 /**
  * Utility class supporting operations related to property retrival.
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public final class Util
 {

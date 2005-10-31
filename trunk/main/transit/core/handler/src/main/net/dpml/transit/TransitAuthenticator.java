@@ -1,5 +1,5 @@
 /* 
- * Copyright 2004 Stephen McConnell, DPML
+ * Copyright 2004-2005 Stephen McConnell, DPML
  *
  * Licensed  under the  Apache License,  Version 2.0  (the "License");
  * you may not use  this file  except in  compliance with the License.
@@ -24,7 +24,8 @@ import java.net.PasswordAuthentication;
 /**
  * Transit authenticator contract.
  *
- * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public interface TransitAuthenticator
 {

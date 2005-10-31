@@ -23,7 +23,8 @@ package net.dpml.tools.tasks;
  * The plugin task handles the establishment of ant tasks, listeners, and antlibs derived
  * from a classloader established by the tools sub-system.
  *
- * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public class PluginTask extends net.dpml.transit.tools.PluginTask
 {

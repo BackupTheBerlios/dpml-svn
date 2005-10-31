@@ -46,6 +46,8 @@ import net.dpml.transit.NullArgumentException;
  *      URI newUri = new URI( "artifact:jar:abc/def/hoopla#3.1.2" );
  *      link.setTargetURI( newUri );
  *  </code></pre>
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public class Link
 {

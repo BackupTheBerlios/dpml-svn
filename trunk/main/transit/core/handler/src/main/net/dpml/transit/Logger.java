@@ -1,5 +1,5 @@
 /*
- * Copyright 2004 Stephen J. McConnell.
+ * Copyright 2004-2005 Stephen J. McConnell.
  *
  * Licensed  under the  Apache License,  Version 2.0  (the "License");
  * you may not use  this file  except in  compliance with the License.
@@ -23,8 +23,8 @@ package net.dpml.transit;
  * can be provided.  Typical examples of logging implementations include 
  * java.util.logging.Logger or Ant's Project.log() function.  
  *
- * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
- * @version $Id: Adapter.java 2445 2005-04-28 23:44:22Z niclas@hedhman.org $
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public interface Logger
 {

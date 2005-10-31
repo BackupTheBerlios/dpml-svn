@@ -26,6 +26,8 @@ import java.rmi.registry.Registry;
 /** 
  * The <code>registry</code> protocol references an remote resource
  * published under an RMI Registry.
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public class Handler extends URLStreamHandler
 {

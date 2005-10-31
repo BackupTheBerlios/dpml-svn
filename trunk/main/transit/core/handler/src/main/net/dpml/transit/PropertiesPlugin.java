@@ -1,5 +1,5 @@
 /*
- * Copyright 2004 Stephen J. McConnell.
+ * Copyright 2004-2005 Stephen J. McConnell.
  * Copyright 2004 Niclas Hedhman.
  *
  * Licensed  under the  Apache License,  Version 2.0  (the "License");
@@ -30,7 +30,8 @@ import java.util.Properties;
  * An implementation of a plugin descriptor based the original properties
  * external format.
  *
- * @author <a href="mailto:mcconnell@dpml.net">Stephen McConnell</a>
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 class PropertiesPlugin
     implements Plugin, Serializable

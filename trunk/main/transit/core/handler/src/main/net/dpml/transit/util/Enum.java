@@ -63,7 +63,8 @@ import java.io.Serializable;
  * }
  * </pre>
  *
- * @author <a href="http://www.dpml.net">DPML</a>
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public abstract class Enum implements Serializable
 {

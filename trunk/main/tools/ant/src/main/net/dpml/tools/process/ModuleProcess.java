@@ -27,7 +27,8 @@ import org.apache.tools.ant.BuildEvent;
 /**
  * Execute all plugins relative to the current build phase.
  *
- * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public class ModuleProcess extends AbstractBuildListener
 {

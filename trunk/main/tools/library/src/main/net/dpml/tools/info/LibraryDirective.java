@@ -25,7 +25,8 @@ import java.util.Properties;
  * The LibraryDirective class describes a collection of modules together
  * with information about type defintions.
  *
- * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public final class LibraryDirective extends AbstractDirective
 {

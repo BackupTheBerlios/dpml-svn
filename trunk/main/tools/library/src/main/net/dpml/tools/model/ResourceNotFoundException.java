@@ -22,7 +22,8 @@ package net.dpml.tools.model;
  * A ResourceNotFoundException is thrown when a requested for a named resource cannot
  * be resolved.
  *
- * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public class ResourceNotFoundException extends Exception
 {

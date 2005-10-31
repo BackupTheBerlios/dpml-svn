@@ -53,7 +53,8 @@ import org.apache.tools.ant.Project;
      [echo] Docs: C:\system\dpml\dist
  * </pre>
  *
- * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public class MainTask extends TransitTask
 {

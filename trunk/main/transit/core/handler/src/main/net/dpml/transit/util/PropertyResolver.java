@@ -26,6 +26,8 @@ import net.dpml.transit.Transit;
 /**
  * Utility class that handles substitution of property names in the string
  * for ${value} relative to a supplied set of properties.
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public final class PropertyResolver
 {

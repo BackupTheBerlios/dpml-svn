@@ -28,7 +28,8 @@ package net.dpml.transit;
  * Example; <code>artifact:jar:metro/cache/dpml-cache-main#1.0.0</code>
  * would return the path <code>metro/cache/jars/dpml-cache-main-1.0.0.jar</code>.
  *
- * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public class ClassicLayout
     implements Layout
