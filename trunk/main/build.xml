@@ -25,6 +25,27 @@
 
   <target name="build" depends="standard.build, javadoc, junit-report"/>
 
+  <target name="install" depends="standard.install">
+    <property name="bundle" location="${project.target.dir}/bundle"/>
+    <property name="share" location="${bundle}/share"/>
+    <property name="share.local" location="${share}/local"/>
+    <x:replicate self="true" verbose="false" toDir="${share.local}"/>
+    <copy todir="${bundle}" filtering="true">
+      <fileset dir="${basedir}">
+        <include name="LICENSE.TXT"/>
+        <include name="NOTICE.TXT"/>
+        <include name="README.TXT"/>
+      </fileset>
+    </copy>
+    <property name="share.docs" location="${share}/docs"/>
+    <property name="share.docs.api" location="${share.docs}/api"/>
+    <copy todir="${share.docs.api}" filtering="true">
+      <fileset dir="${project.target.reports.dir}">
+        <include name="api"/>
+      </fileset>
+    </copy>
+  </target>
+
   <target name="javadoc" depends="standard.build">
     <x:javadoc title="DPML Component Management Platform">
       <link href="http://java.sun.com/j2se/1.4/docs/api"/>
