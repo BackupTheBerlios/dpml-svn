@@ -25,7 +25,9 @@
 
   <target name="build" depends="standard.build, javadoc, junit-report"/>
 
-  <target name="install" depends="standard.install">
+  <target name="install" depends="standard.install, bundle"/>
+
+  <target name="bundle" depends="standard.install">
     <property name="bundle" location="${project.target.dir}/bundle"/>
     <property name="share" location="${bundle}/share"/>
     <property name="share.local" location="${share}/local"/>
@@ -38,10 +40,41 @@
       </fileset>
     </copy>
     <property name="share.docs" location="${share}/docs"/>
-    <property name="share.docs.api" location="${share.docs}/api"/>
-    <copy todir="${share.docs.api}" filtering="true">
-      <fileset dir="${project.target.reports.dir}">
-        <include name="api"/>
+    <property name="share.docs.api.dpml" location="${share.docs}/api/dpml"/>
+    <mkdir dir="${share.docs.api.dpml}"/>
+    <copy todir="${share.docs.api.dpml}" filtering="true">
+      <fileset dir="${project.target.reports.dir}/api">
+        <include name="**/*"/>
+      </fileset>
+    </copy>
+    <property name="share.bin" location="${share}/bin"/>
+    <mkdir dir="${share.bin}"/>
+    <copy todir="${share.bin}" filtering="false">
+      <fileset dir="${basedir}/depot/console/target/bin">  <!-- YUK!! -->
+        <include name="**/*"/>
+      </fileset>
+    </copy>
+    <property name="prefs" location="${bundle}/prefs"/>
+    <property name="prefs.transit" location="${prefs}/transit"/>
+    <mkdir dir="${prefs.transit}"/>
+    <copy todir="${prefs.transit}" filtering="false">
+      <fileset dir="${basedir}/transit/core/handler/target/prefs">  <!-- YUK!! -->
+        <include name="**/*"/>
+      </fileset>
+    </copy>
+    <property name="prefs.transit.templates" location="${prefs.transit}/templates"/>
+    <mkdir dir="${prefs.transit.templates}"/>
+    <copy todir="${prefs.transit.templates}" filtering="false">
+      <fileset dir="${basedir}/transit">  <!-- YUK!! -->
+        <include name="bootstrap.xml"/>
+      </fileset>
+    </copy>
+    <property name="prefs.tools" location="${prefs}/tools"/>
+    <mkdir dir="${prefs.tools}"/>
+    <copy todir="${prefs.tools}" filtering="false">
+      <fileset dir="${basedir}/tools/ant/target">  <!-- YUK!! -->
+        <include name="templates/**/*"/>
+        <include name="xsls/**/*"/>
       </fileset>
     </copy>
   </target>
