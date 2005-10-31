@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!-- 
   Copyright 2004 Stephen J McConnell
-  Copyright 2004 Niclas Hedhman
   
   Licensed  under the  Apache License,  Version 2.0  (the "License");
   you may not use  this file  except in  compliance with the License.
@@ -18,7 +17,7 @@
   limitations under the License.
 -->
 
-<project name="dpml-runtime" default="install" basedir="." 
+<project name="dpml-metro" default="install" basedir="." 
     xmlns:transit="antlib:net.dpml.transit">
 
   <transit:import uri="local:template:tools/reactor"/>
