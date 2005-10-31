@@ -1,25 +1,29 @@
 
-The DPML platform has the following major product groups:
+To build the DPML suite - please following the following procedure:
 
-  transit     .. a resource management system
-  magic       .. an intelligent build system
-  metro       .. an advanced IoC container
-  depot       .. an application managment system
- 
-To build respective products a main.bat and main.sh script are provided.
+  a) build the bootstrap resources
+  b) build the main DPML system
+  c) build the DPML installation
 
-  $ main all   .. builds all of the DPML core products
-  
-You can also build a selected product:
+Bootstrap build
+---------------
 
-  $ main transit
-  $ main magic
-  $ main metro
-  $ main depot
+Create a directory to hold the svn codebase (e.g. c:\dev\dpml), checkout the 
+sources, cd to the main directory and invoke the bootstrap build procedure.
 
-Finally, the main script also enables the creation of distributions using a release identifier.  The following example build the distributiing using the build identifier 1234.
+  $ cd dev\dpml
+  $ svn checkout svn://svn.berlios.de/dpml/trunk/main main
+  $ cd main
+  $ bootstrap
 
-  $ main all 1234
+System Build
+------------
 
-Any issues concerning building of the platform should be directed to the DPML dev mailing list.
+  $ build
+
+Installation Build
+------------------
+
+  (in progress)
+
 
