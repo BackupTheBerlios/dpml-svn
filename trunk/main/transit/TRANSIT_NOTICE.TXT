@@ -1,9 +1,0 @@
-=========================================================================
-==  NOTICE file corresponding to the section 4 d of                    ==
-==  the Apache License, Version 2.0,                                   ==
-=========================================================================
-
-This product is developed by the members of the Digial Product Meta 
-Library (DPML) http://www.dpml.net.  Resources developed by the DPML 
-includes products and resources developed by the Apache Software 
-Foundation (http://www.apache.org). 
