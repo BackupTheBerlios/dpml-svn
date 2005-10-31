@@ -4,8 +4,6 @@
 
   <properties>
     <property name="project.builder.uri" value="link:plugin:dpml/tools/dpml-tools-ant"/>
-    <property name="project.standard.template" value="local:template:tools/standard"/>
-    <property name="project.template" value="${project.standard.template}"/>
   </properties>
 
   <types>

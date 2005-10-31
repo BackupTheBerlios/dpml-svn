@@ -121,6 +121,7 @@ public final class Context
         project.setNewProperty( "project.target.classes.test.dir", getTargetClassesTestDirectory().toString() );
         project.setNewProperty( "project.target.deliverables.dir", getTargetDeliverablesDirectory().toString() );
         project.setNewProperty( "project.target.test.dir", getTargetTestDirectory().toString() );
+        project.setNewProperty( "project.target.reports.dir", getTargetReportsDirectory().toString() );
     }
     
     public Path getPath( Scope scope )
@@ -212,7 +213,7 @@ public final class Context
     
     public File getTargetReportsTestDirectory()
     {
-        return new File( getTargetReportsDirectory(), "tests" );
+        return new File( getTargetReportsDirectory(), "test" );
     }
     
     public File getTargetReportsMainDirectory()

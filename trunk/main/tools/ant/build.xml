@@ -19,7 +19,7 @@
     <path id="project.main.path">
       <pathelement location="${dpml.local.cache}/dpml/transit/jars/dpml-transit-main-${dpml.transit.version}.jar"/>
       <pathelement location="${tools.library.path}"/>
-      <pathelement location="${basedir}/target/classes"/>
+      <pathelement location="${target.classes.dir}"/>
     </path>
     <path id="project.test.path">
       <pathelement location="${tools.library.path}"/>
@@ -30,8 +30,8 @@
   </target>
 
   <target name="package" depends="bootstrap.package">
-    <move file="target/deliverables/plugins/${project.name}.plugin"
-      toFile="target/deliverables/plugins/${project.name}-${project.version}.plugin"/>
+    <move file="${target.deliverables.dir}/plugins/${project.name}.plugin"
+      toFile="${target.deliverables.dir}/plugins/${project.name}-${project.version}.plugin"/>
   </target>
 
   <target name="install" depends="bootstrap.install">
@@ -40,6 +40,7 @@
     <copy toDir="${tools.prefs}">
       <fileset dir="${basedir}/target">
         <include name="templates/**"/>
+        <include name="xsls/**"/>
       </fileset>
     </copy>
   </target>

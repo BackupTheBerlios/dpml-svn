@@ -20,8 +20,10 @@
 
 <project name="dpml-transit-main" default="install" basedir=".">
 
-  <property file="${basedir}/build.properties"/>
+  <property name="project.group" value="dpml/transit"/>
   <property name="project.name" value="dpml-transit-main"/>
+
+  <property file="${basedir}/build.properties"/>
 
   <import file="${home}/bootstrap.xml"/>
 
@@ -44,14 +46,14 @@
   </target>
 
   <target name="prepare" depends="bootstrap.prepare">
-    <mkdir dir="${basedir}/target/classes/transit"/>
-    <copy todir="${basedir}/target/classes/transit" filtering="true">
-      <fileset dir="${basedir}/target/setup"/>
+    <mkdir dir="${target.classes.dir}/transit"/>
+    <copy todir="${target.classes.dir}/transit" filtering="true">
+      <fileset dir="${target.dir}/prefs"/>
     </copy>
   </target>
 
   <target name="build" depends="bootstrap.build">
-    <rmic base="${basedir}/target/classes">
+    <rmic base="${target.classes.dir}">
       <include name="**/DefaultHostModel.class"/>
       <include name="**/DefaultContentModel.class"/>
       <include name="**/DefaultLayoutModel.class"/>
@@ -63,7 +65,7 @@
       <include name="**/DefaultProxyModel.class"/>
       <include name="**/DefaultTransitRegistryModel.class"/>
     </rmic>
-    <rmic base="${basedir}/target/classes">
+    <rmic base="${target.classes.dir}">
       <include name="**/DefaultCacheHandler.class"/>
       <include name="**/DefaultContentRegistry.class"/>
       <include name="**/DefaultLayoutRegistry.class"/>
@@ -83,7 +85,6 @@
     <checksum fileext=".md5" file="${target.deliverables.jars.dir}/${project.filename}"/>
     <delete file="${target.deliverables.jars.dir}/${project.filename}.asc"/>
     <antcall target="execute.jar.asc"/>
-    <mkdir dir="target/dist"/>
   </target>
 
   <target name="install" depends="bootstrap.install">
@@ -98,7 +99,7 @@
     </echo>
     <delete verbose="true" failonerror="false">
       <fileset dir="${lib}">
-        <include name="dpml-transit-main-*.*"/>
+        <include name="${project.name}-*.*"/>
         <exclude name="${short.filename}"/>
       </fileset>
     </delete>
@@ -112,6 +113,18 @@
     <copy preservelastmodified="true" overwrite="true"
       tofile="${user.home}/.ant/lib/${short.filename}" 
       file="${target.deliverables.jars.dir}/${long.filename}"/>
+    <echo>
+#----------------------------------------------------------------------------------
+# Updating Transit Prefs. ${dpml.prefs}/transit
+#----------------------------------------------------------------------------------
+    </echo>
+    <property name="prefs" location="${dpml.prefs}/transit"/>
+    <mkdir dir="${prefs}"/>
+    <copy toDir="${prefs}">
+      <fileset dir="${target.dir}/prefs">
+        <include name="**/*"/>
+      </fileset>
+    </copy>
   </target>
 
 </project>

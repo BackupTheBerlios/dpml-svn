@@ -183,9 +183,9 @@
   <property name="target.build.test.dir" location="${target.build.dir}/test"/>
   <property name="target.build.main.dir" location="${target.build.dir}/main"/>
 
-  <property name="target.classes.dir" location="${target.dir}/classes"/>
-  <property name="target.test-classes.dir" location="${target.dir}/test-classes"/>
-  <property name="target.test-reports.dir" location="${target.dir}/test-reports"/>
+  <property name="target.classes.dir" location="${target.dir}/classes/main"/>
+  <property name="target.test-classes.dir" location="${target.dir}/classes/test"/>
+  <property name="target.test-reports.dir" location="${target.dir}/reports/test"/>
   <property name="target.test.dir" location="${target.dir}/test"/>
 
   <property name="target.deliverables.dir" location="${target.dir}/deliverables"/>

@@ -106,16 +106,66 @@ public class StandardBuilder implements Builder
         try
         {
             Project project = createProject( resource );
-            String templateSpec = resource.getProperty( "project.template" );
-            if( null == templateSpec )
+            
+            // if a build file exists in the current project then use it
+            
+            File basedir = resource.getBaseDir();
+            String buildfile = resource.getProperty( "project.buildfile" );
+            String defaultBuildfile = resource.getProperty( "project.standard.buildfile", "build.xml" );
+            if( null != buildfile )
+            {
+                // there is an explicit 'project.buildfile' declaration in which case
+                // we check for existance and fail if it does not exist
+                
+                File file = new File( basedir, buildfile );
+                if( file.exists() )
+                {
+                    getLogger().debug( "Assigning explicit buildfile: " + file );
+                    return build( project, file, targets );
+                }
+                else
+                {
+                    final String error = 
+                      "Resource buildfile ["
+                      + file
+                      + "] does not exist.";
+                    m_logger.error( error );
+                    return false;
+                }
+            }
+            else if( null != defaultBuildfile )
+            {
+                // check if a buildfile of the default name exists in the project's 
+                // basedir - and if so - use it to build the project
+                
+                File file = new File( basedir, defaultBuildfile );
+                if( file.exists() )
+                {
+                    getLogger().debug( "Assigning project buildfile: " + file );
+                    return build( project, file, targets );
+                }
+            }
+
+            // otherwise we build using either an explicit or default template
+            // resolved via a uri (typically a template stored in prefs)
+                
+            String defaultTemplateSpec = 
+              resource.getProperty( "project.standard.template", "local:template:tools/standard" );
+            String templateSpec = resource.getProperty( "project.template", defaultTemplateSpec );
+                
+            if( null != templateSpec )
+            {
+                getLogger().debug( "Assigning project template: " + templateSpec );
+                File template = getTemplateFile( templateSpec );
+                return build( project, template, targets );
+            }
+            else
             {
                 final String error = 
                   "Resource template property 'project.template' is undefined.";
                 m_logger.error( error );
                 return false;
             }
-            File template = getTemplateFile( templateSpec );
-            return build( project, template, targets );
         }
         catch( Throwable e )
         {
@@ -260,6 +310,11 @@ public class StandardBuilder implements Builder
         logger.setOutputPrintStream( System.out );
         logger.setErrorPrintStream( System.err );
         return logger;
+    }
+    
+    private Logger getLogger()
+    {
+        return m_logger;
     }
 }
 

@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!--
-  Copyright 2004 Stephen J McConnell
-  Copyright 2004 Niclas Hedhman
+  Copyright 2005 Stephen J McConnell
 
   Licensed  under the  Apache License,  Version 2.0  (the "License");
   you may not use  this file  except in  compliance with the License.
@@ -18,60 +17,47 @@
   limitations under the License.
 -->
 
+<project name="dpml" default="install" basedir="."
+    xmlns:transit="antlib:net.dpml.transit"
+    xmlns:x="dpml:tools">
 
-<project name="dpml-main" default="transit" basedir=".">
+  <transit:import uri="local:template:tools/reactor"/>
 
-  <property file="${basedir}/user.properties"/>
-  <property file="${basedir}/build.properties"/>
-  <property name="junitHtmlReportDir" value="target/reports/junit"/>
+  <target name="build" depends="standard.build, javadoc, junit-report"/>
 
-  <target name="transit"
-     description="Build the Transit distribution and update the local installation">
-    <ant dir="transit"/>
+  <target name="javadoc" depends="standard.build">
+    <x:javadoc title="DPML Component Management Platform">
+      <link href="http://java.sun.com/j2se/1.4/docs/api"/>
+      <group title="Transit">
+        <package name="net.dpml.transit"/>
+        <package name="net.dpml.transit.*"/>
+      </group>
+      <group title="Depot">
+        <package name="net.dpml.depot"/>
+        <package name="net.dpml.depot.*"/>
+        <package name="net.dpml.profile"/>
+        <package name="net.dpml.profile.*"/>
+        <package name="net.dpml.station"/>
+        <package name="net.dpml.station.*"/>
+        <package name="net.dpml.tools"/>
+        <package name="net.dpml.tools.*"/>
+      </group>
+      <group title="Metro">
+        <package name="net.dpml.*"/>
+      </group>
+    </x:javadoc>
   </target>
 
-  <target name="magic" description="Build magic (requires Transit).">
-    <ant dir="magic"/>
-  </target>
-
-  <target name="tools" description="Build Util (requires Magic).">
-    <ant dir="tools"/>
-  </target>
-
-  <target name="util" description="Build Util (requires Magic).">
-    <ant dir="util"/>
-  </target>
-
-  <target name="depot" description="Build Depot (requires Magic).">
-    <ant dir="depot"/>
-  </target>
-
-  <target name="metro" description="Build Metro (requires Magic).">
-    <ant dir="metro"/>
-  </target>
-
-  <target name="test" description="Build Integration Tests (requires Metro).">
-    <ant dir="test"/>
-  </target>
-
-  <target name="clean" description="Clean all subprojects.">
-    <delete includeemptydirs="true">
+  <target name="junit-report" depends="standard.build">
+    <property name="junit.html" location="${project.target.reports.dir}/junit"/>
+    <mkdir dir="${junit.html}"/>
+    <junitreport todir="${junit.html}">
       <fileset dir=".">
-        <include name="**/target/**/**"/>
+        <include name="**/target/reports/test/TEST-*.xml"/>
       </fileset>
-    </delete>
-  </target>
-
-  <target name="junit-report">
-    <echo>${junitHtmlReportDir}</echo>
-    <mkdir dir="${junitHtmlReportDir}"/>
-    <junitreport todir="${junitHtmlReportDir}">
-      <fileset dir=".">
-        <include name="**/target/test-reports/TEST-*.xml"/>
-        <include name="**/target/reports/tests/TEST-*.xml"/>
-      </fileset>
-      <report format="frames" todir="${junitHtmlReportDir}" styledir="magic/core/etc/xsls"/>
+      <report format="frames" todir="${junit.html}" styledir="${dpml.prefs}/tools/xsls"/>
     </junitreport>
   </target>
 
 </project>
+

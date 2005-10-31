@@ -53,7 +53,6 @@
     <mkdir dir="${junitHtmlReportDir}"/>
     <junitreport todir="${junitHtmlReportDir}">
       <fileset dir=".">
-        <include name="**/target/test-reports/TEST-*.xml"/>
         <include name="**/target/reports/tests/TEST-*.xml"/>
       </fileset>
       <report format="frames" todir="${junitHtmlReportDir}" styledir="magic/core/etc/xsls"/>
