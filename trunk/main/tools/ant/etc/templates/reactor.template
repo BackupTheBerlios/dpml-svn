@@ -21,15 +21,13 @@
     xmlns:x="dpml:tools" 
     xmlns:jar="dpml:tools:jar">
 
-  <transit:plugin uri="@PROJECT-URI@">
-    <antlib urn="dpml:tools" resource="net/dpml/tools/tasks/antlib.xml"/>
-  </transit:plugin>
+  <transit:import uri="local:template:tools/standard"/>
 
-  <target name="install">
+  <target name="all">
     <x:reactor target="install"/>
   </target>
 
-  <target name="clean">
+  <target name="clean-all">
     <x:reactor target="clean"/>
   </target>
 

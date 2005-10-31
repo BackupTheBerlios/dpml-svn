@@ -8,8 +8,9 @@
      <property name="project.implementation.vendor" value="${project.publisher.name}"/>
      <property name="project.implementation.vendor-id" value="net.dpml"/>
      <property name="project.publisher.url" value="http://www.dpml.net"/>
-     <property name="project.resource.host" value="http://repository.dpml.net/"/>
-     <property name="project.api.host" value="http://api.dpml.net/"/>
+     <property name="project.resource.host" value="http://repository.dpml.net"/>
+     <property name="project.api.host" value="http://api.dpml.net"/>
+     <property name="project.svn.host" value="svn://svn.berlios.de/dpml/trunk/main"/>
    </properties>
 
    <module name="util" basedir="util">

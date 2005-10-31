@@ -17,22 +17,10 @@
   limitations under the License.
 -->
 
-<project name="dpml-tools-reactor" default="install" basedir="." 
-    xmlns:transit="antlib:net.dpml.transit" >
+<project name="dpml-tools" default="install" basedir="." 
+    xmlns:transit="antlib:net.dpml.transit">
 
   <transit:import uri="local:template:tools/reactor"/>
 
-  <target name="patch">
-    <replace token="net.dpml.tools.tasks" 
-        value="net.dpml.tools.tasks" dir=".">
-      <include name="**/*.java"/>
-      <include name="**/*.xml"/>
-    </replace>
-    <replace token="net.dpml.tools.process" 
-        value="net.dpml.tools.process" dir=".">
-      <include name="**/*.java"/>
-      <include name="**/*.xml"/>
-    </replace>
-  </target>
-
 </project>
+

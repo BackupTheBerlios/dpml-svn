@@ -23,7 +23,9 @@
 
   <transit:import uri="local:template:tools/standard"/>
 
-  <target name="build" depends="standard.build">
+  <target name="build" depends="standard.build, javadoc, junit-report">
+
+  <target name="javadoc" depends="standard.build">
     <x:javadoc title="DPML Component Management Platform">
       <link href="http://java.sun.com/j2se/1.4/docs/api"/>
       <group title="Transit">
@@ -44,6 +46,18 @@
         <package name="net.dpml.*"/>
       </group>
     </x:javadoc>
+  </target>
+
+  <target name="junit-report" depends="standard.build">
+    <echo>${junitHtmlReportDir}</echo>
+    <mkdir dir="${junitHtmlReportDir}"/>
+    <junitreport todir="${junitHtmlReportDir}">
+      <fileset dir=".">
+        <include name="**/target/test-reports/TEST-*.xml"/>
+        <include name="**/target/reports/tests/TEST-*.xml"/>
+      </fileset>
+      <report format="frames" todir="${junitHtmlReportDir}" styledir="magic/core/etc/xsls"/>
+    </junitreport>
   </target>
 
 </project>

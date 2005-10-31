@@ -17,8 +17,9 @@
   limitations under the License.
 -->
 
-<project name="dpml-test" default="install" basedir="." 
-    xmlns:transit="antlib:net.dpml.transit" >
+<project name="dpml-transit" default="install" basedir="." 
+    xmlns:transit="antlib:net.dpml.transit"
+    xmlns:x="dpml:tools" >
 
   <transit:import uri="local:template:tools/reactor"/>
 
