@@ -43,7 +43,7 @@
        <property name="project.test.fork" value="true"/>
      </properties>
 
-     <project name="dpml-transit-main" basedir="core/handler">
+     <resource name="dpml-transit-main" basedir="core/handler">
        <types>
          <type id="jar"/>
        </types>
@@ -53,9 +53,9 @@
        <dependencies scope="TEST">
          <include ref="ant/ant-junit"/>
        </dependencies>
-     </project>
+     </resource>
 
-     <project name="dpml-transit-tools" basedir="core/tools">
+     <resource name="dpml-transit-tools" basedir="core/tools">
        <properties>
          <property name="project.template" value="${basedir}/build.xml"/>
        </properties>
@@ -69,7 +69,7 @@
        <dependencies scope="TEST">
          <include ref="ant/ant-junit"/>
        </dependencies>
-     </project>
+     </resource>
 
    </module>
 
@@ -294,10 +294,7 @@
        <type id="module" alias="true"/>
      </types>
  
-     <project name="dpml-tools-library" basedir="library">
-       <properties>
-         <property name="project.template" value="${basedir}/build.xml"/>
-       </properties>
+     <resource name="dpml-tools-library" basedir="library">
        <types>
          <type id="jar"/>
          <type id="plugin" alias="true">
@@ -312,12 +309,9 @@
        <dependencies scope="test">
          <include ref="ant/ant-junit"/>
        </dependencies>
-     </project>
+     </resource>
 
-     <project name="dpml-tools-ant" basedir="ant">
-       <properties>
-         <property name="project.template" value="${basedir}/build.xml"/>
-       </properties>
+     <resource name="dpml-tools-ant" basedir="ant">
        <types>
          <!--<type id="jar"/>-->
          <type id="plugin" alias="true">
@@ -331,7 +325,7 @@
          <include ref="ant/ant-junit" tag="system"/>
          <include ref="ant/ant" tag="system"/>
        </dependencies>
-     </project>
+     </resource>
 
    </module>
 

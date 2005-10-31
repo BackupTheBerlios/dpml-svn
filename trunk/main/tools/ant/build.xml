@@ -1,11 +1,40 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
 <project name="dpml-tools-ant" default="install" basedir="."
-    xmlns:transit="antlib:net.dpml.transit" xmlns:x="dpml:tools" >
+    xmlns:transit="antlib:net.dpml.transit">
 
-  <transit:import uri="local:template:tools/standard"/>
+  <property file="${basedir}/build.properties"/>
+  <transit:import file="${dpml.prefs}/transit/templates/bootstrap.template"/>
 
-  <target name="install" depends="standard.install">
+  <target name="init" depends="bootstrap.init">
+    <filter value="artifact:plugin:dpml/tools/${project.name}#${project.version}" token="PROJECT-URI"/>
+    <filter value="${commons.cli.uri}" token="COMMONS-CLI-URI"/>
+    <filter value="${project.version}" token="PROJECT-VERSION"/>
+  </target>
+
+  <target name="setup-path" depends="bootstrap.setup-path">
+    <transit:get property="junit.path" uri="${junit.uri}"/>
+    <transit:get property="tools.library.path" uri="artifact:jar:dpml/tools/dpml-tools-library#${project.version}"/>
+    <transit:get property="transit.path" uri="artifact:jar:dpml/transit/dpml-transit-main#${project.version}"/>
+    <path id="project.main.path">
+      <pathelement location="${dpml.local.cache}/dpml/transit/jars/dpml-transit-main-${dpml.transit.version}.jar"/>
+      <pathelement location="${tools.library.path}"/>
+      <pathelement location="${basedir}/target/classes"/>
+    </path>
+    <path id="project.test.path">
+      <pathelement location="${tools.library.path}"/>
+      <pathelement location="${junit.path}"/>
+      <pathelement location="${transit.path}"/>
+      <pathelement location="${target.deliverables.jars.dir}/${project.filename}"/>
+    </path>
+  </target>
+
+  <target name="package" depends="bootstrap.package">
+    <move file="target/deliverables/plugins/${project.name}.plugin"
+      toFile="target/deliverables/plugins/${project.name}-${project.version}.plugin"/>
+  </target>
+
+  <target name="install" depends="bootstrap.install">
     <property name="tools.prefs" location="${dpml.prefs}/tools"/>
     <mkdir dir="${tools.prefs}"/>
     <copy toDir="${tools.prefs}">

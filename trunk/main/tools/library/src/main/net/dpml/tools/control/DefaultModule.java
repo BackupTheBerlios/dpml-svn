@@ -170,10 +170,10 @@ public final class DefaultModule extends DefaultResource implements Module
     * <p>Select a set of resource matching a supplied a resource selection 
     * constraint.  The constraint may contain the wildcards '**' and '*'.
     * @param criteria the selection criteria
+    * @param local if true limit the selection to local projects
     * @param sort if true the returned array will be sorted relative to dependencies
-    *   otherwise the array will be sorted alphanumerically with respect to the resource
-    *   path
-    * @return an array of resources matching the selction criteria
+    *   otherwise the array will be sorted alphanumerically
+    * @return an array of resources matching the selection criteria
     */
     public Resource[] select( String criteria, boolean local, boolean sort )
     {
@@ -482,9 +482,14 @@ public final class DefaultModule extends DefaultResource implements Module
     // Selection logic
     //----------------------------------------------------------------------------
         
+    DefaultResource[] selectDefaultResources( String spec )
+    {
+        return selectDefaultResources( false, spec );
+    }
+    
     DefaultResource[] selectDefaultResources( boolean local, String spec )
     {
-        DefaultResource[] resources = selectDefaultResources( spec );
+        DefaultResource[] resources = doSelectDefaultResources( false, spec );
         if( local )
         {
             return filterProjects( resources );
@@ -494,7 +499,8 @@ public final class DefaultModule extends DefaultResource implements Module
             return resources;
         }
     }
-    DefaultResource[] selectDefaultResources( String spec )
+    
+    DefaultResource[] doSelectDefaultResources( boolean wild, String spec )
     {
         String[] tokens = spec.split( "/" );
         if( tokens.length == 0 )
@@ -510,11 +516,21 @@ public final class DefaultModule extends DefaultResource implements Module
             }
             else if( "*".equals( token ) )
             {
-                return getDefaultResources();
+                if( wild )
+                {
+                    DefaultResource[] resources = getDefaultResources();
+                    DefaultResource[] result = new DefaultResource[ resources.length + 1 ];
+                    System.arraycopy( resources, 0, result, 0, resources.length );
+                    result[ resources.length ] = this;
+                    return result;
+                }
+                else
+                {
+                    return getDefaultResources();
+                }
             }
             else
             {
-                boolean wildcard = ( token.indexOf( "*" ) > -1 );
                 Pattern pattern = createSelectionPattern( token );
                 DefaultResource[] resources = getDefaultResources();
                 DefaultResource[] selection = selectUsingPattern( resources, pattern );
@@ -524,14 +540,14 @@ public final class DefaultModule extends DefaultResource implements Module
         else
         {
             String token = tokens[0];
-            boolean wildcard = ( token.indexOf( "*" ) > -1 );
+            boolean wildcard = ( token.indexOf( "**" ) > -1 );
             String remainder = getRemainderOfSelection( spec, "/", token );
             DefaultModule[] modules = selectDefaultModules( token );
             ArrayList list = new ArrayList();
             for( int i=0; i<modules.length; i++ )
             {
                 DefaultModule module = modules[i];
-                DefaultResource[] selection = module.selectDefaultResources( remainder );
+                DefaultResource[] selection = module.doSelectDefaultResources( wildcard, remainder );
                 aggregate( list, selection );
             }
             return (DefaultResource[]) list.toArray( new DefaultResource[0] );

@@ -232,11 +232,11 @@ public class DefaultModuleTestCase extends AbstractTestCase
     public void testSelectAll() throws Exception
     {
         Resource[] resources = m_library.select( "**/*", false );
-        assertEquals( "'**/*'-selection", 34, resources.length );
         //for( int i=0; i<resources.length; i++ )
         //{
         //    System.out.println( " (" + (i+1) + ")\t" + resources[i].getResourcePath() );
         //}
+        assertEquals( "'**/*'-selection", 44, resources.length );
     }
     
     public void testSelectAllWithPattern() throws Exception

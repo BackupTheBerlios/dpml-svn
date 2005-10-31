@@ -103,12 +103,6 @@
       <fileset dir="${basedir}/core/target/api"/>
     </copy>
 
-    <!-- add the bootstrap.xml template to transit prefs -->
-    <property name="templates" value="${prefs}/transit/templates"/>
-    <echo>Adding build template to ${templates}</echo>
-    <mkdir dir="${templates}"/>
-    <copy file="${basedir}/bootstrap.xml" tofile="${templates}/bootstrap.template" />
-
     <!-- zip up a copy of the platform independent bundle for use by depot -->
 
     <property name="zip.filename" 

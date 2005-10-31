@@ -20,6 +20,8 @@
 package net.dpml.tools.ant;
 
 import java.io.File;
+import java.io.IOException;
+import java.net.URL;
 import java.beans.Expression;
 import java.beans.BeanDescriptor;
 import java.beans.PersistenceDelegate;
@@ -37,6 +39,7 @@ import net.dpml.transit.Artifact;
 import net.dpml.transit.Transit;
 
 import org.apache.tools.ant.Project;
+import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.types.Path;
 
 /**
@@ -46,6 +49,7 @@ import org.apache.tools.ant.types.Path;
  */
 public final class Context
 {
+    private final Project m_project;
     private final Resource m_resource;
     private final Library m_library;
     private final Path m_runtime;
@@ -53,6 +57,7 @@ public final class Context
         
     public Context( Resource resource, Library library, Project project )
     {
+        m_project = project;
         m_resource = resource;
         m_library = library;
         
@@ -69,9 +74,9 @@ public final class Context
         compileSrcPath.createPathElement().setLocation( srcMain );
         project.addReference( "project.build.src.path", compileSrcPath );
         
-        m_runtime = createPath( project, Scope.RUNTIME );
+        m_runtime = createPath( Scope.RUNTIME );
         project.addReference( "project.compile.path", m_runtime );
-        m_test = createPath( project, Scope.TEST );
+        m_test = createPath( Scope.TEST );
         if( resource.isa( "jar" ) )
         {
             File deliverables = getTargetDeliverablesDirectory();
@@ -237,28 +242,76 @@ public final class Context
         return Transit.getInstance().getCacheLayout().resolveFilename( artifact );
     }
     
-    public Path createPath( Project project, Scope scope )
+    public Path createPath( Scope scope )
     {
-        final Path path = new Path( project );
         try
         {
-            File cache = (File) project.getReference( "dpml.cache" );
             Resource[] resources = m_resource.getClasspathProviders( scope );
-            for( int i=0; i<resources.length; i++ )
-            {
-                Resource resource = resources[i];
-                Artifact artifact = resource.getArtifact( "jar" );
-                String location = Transit.getInstance().getCacheLayout().resolvePath( artifact );
-                File file = new File( cache, location );
-                path.createPathElement().setLocation( file );
-            }
-            return path;
+            return createPath( resources, true, true );
         }
         catch( Exception e )
         {
             final String error = 
               "Unexpected error while constructing path instance for the scope: " + scope;
             throw new RuntimeException( error, e );
+        }
+    }
+    
+    public Path createPath( Resource[] resources )
+    {
+        return createPath( resources, true, false );
+    }
+    
+    public Path createPath( Resource[] resources, boolean resolve, boolean filter )
+    {
+        final Path path = new Path( m_project );
+        File cache = (File) m_project.getReference( "dpml.cache" );
+        for( int i=0; i<resources.length; i++ )
+        {
+            Resource resource = resources[i];
+            if( filter )
+            {
+                Artifact artifact = resource.getArtifact( "jar" );
+                addToPath( cache, path, artifact, resolve );
+            }
+            else
+            {
+                Type[] types = resource.getTypes();
+                for( int j=0; j<types.length; j++ )
+                {
+                    Artifact artifact = resource.getArtifact( types[j].getName() );
+                    addToPath( cache, path, artifact, resolve );
+                }
+            }
+        }
+        return path;
+    }
+
+    private void addToPath( File cache, Path path, Artifact artifact, boolean resolve )
+    {
+        String location = Transit.getInstance().getCacheLayout().resolvePath( artifact );
+        File file = new File( cache, location );
+        path.createPathElement().setLocation( file );
+        if( resolve )
+        {
+            resolveArtifact( artifact );
+        }
+    }
+    
+    private void resolveArtifact( Artifact artifact )
+    {
+        try
+        {
+            URL url = artifact.toURL();
+            url.openStream();
+        }
+        catch( IOException e )
+        {
+            final String error = 
+              "Unable to resolve artifact [" 
+              + artifact
+              + "].";
+            throw new BuildException( error, e );
         }
     }
 }

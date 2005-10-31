@@ -340,7 +340,7 @@ public class DefaultResourceTestCase extends AbstractTestCase
         String path = "dpml/transit/dpml-transit-main";
         Resource resource = m_library.getResource( path );
         Resource[] consumers = resource.getConsumers( true, true );
-        assertEquals( "consumer-count", 19, consumers.length );
+        assertEquals( "consumer-count", 20, consumers.length );
     }
     
     //-------------------------------------------------------------------------------

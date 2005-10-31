@@ -66,6 +66,7 @@ public class BuildPlugin
     private final Logger m_logger;
     private final DefaultLibrary m_library;
     private final boolean m_verbose;
+    private final Builder m_builder;
     
     // ------------------------------------------------------------------------
     // constructors
@@ -88,14 +89,17 @@ public class BuildPlugin
         //CommandLineParser parser = new GnuParser();
         CommandLineParser parser = new BasicParser();
         CommandLine line = parser.parse( options, args, false );
+        
         m_verbose = ( line.hasOption( "verbose" ) || line.hasOption( "v" ) );
+        m_library = new DefaultLibrary( logger );
+        m_builder = createStandardBuilder();
+        
         if( line.hasOption( "version" ) )
         {
             String version = line.getOptionValue( "version" );
             System.setProperty( "build.signature", version );
         }
         getLogger().debug( "building library" );
-        m_library = new DefaultLibrary( logger );
         String selection = getSelectionArgument( line );
         if( null != selection )
         {
@@ -109,8 +113,8 @@ public class BuildPlugin
             String work = System.getProperty( "user.dir" );
             getLogger().debug( "resolving selection in: " + work );
             File file = new File( work ).getCanonicalFile();
-            Resource resource = m_library.locate( file );
-            process( resource, line );
+            Resource[] resources = m_library.select( file );
+            process( resources, line );
         }
     }
     
@@ -222,7 +226,7 @@ public class BuildPlugin
     private boolean buildProject( Resource project, CommandLine line ) throws Exception
     {
         String[] targets = line.getArgs();
-        Builder builder = createBuilder();
+        Builder builder = createBuilder( project );
         boolean flag = getConsumersArgument( line );
         if( flag )
         {
@@ -475,23 +479,27 @@ public class BuildPlugin
 
         Option test = new Option( "test", false, "internal testing" );
         options.addOption( test );
-        
         return options;
     }
     
-    private Builder createBuilder() throws Exception
+    private Builder createStandardBuilder() throws Exception
     {
-        URI uri = getBuilderURI();
+        return createBuilder( ANT_BUILDER_URI );
+    }
+    
+    private Builder createBuilder( Resource resource ) throws Exception
+    {
+        return m_builder;
+        //URI uri = getBuilderURI( resource );
+        //return createBuilder( uri );
+    }
+    
+    private Builder createBuilder( URI uri ) throws Exception
+    {
         Object[] params = new Object[]{ m_logger, m_library, new Boolean( m_verbose ) };
         ClassLoader classloader = Builder.class.getClassLoader();
         Class builderClass = Transit.getInstance().getRepository().getPluginClass( classloader, uri );
         return (Builder) Transit.getInstance().getRepository().instantiate( builderClass, params );
-    }
-    
-    private URI getBuilderURI()
-    {
-        // TODO update the following to select the builder from a property declared on the project
-        return ANT_BUILDER_URI;
     }
     
     private static final URI ANT_BUILDER_URI;

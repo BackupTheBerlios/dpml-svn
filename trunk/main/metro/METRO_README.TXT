@@ -15,7 +15,7 @@ descriptors and directivies compliant with JSR-57. Added definition and
 implemetnation of a remote component model and context model suitable 
 for deployment independently of a component runtime (i.e. management 
 occurs on machine 'a' and deployment occurs on machine 'b'). Moved all
-enumberations for formally typed enumerations (e.g. CollectionPolicy, 
+enumerations to formally typed enumerations (e.g. CollectionPolicy, 
 LifestylePolicy, etc.).
 
 Release Notes: Version 20050809

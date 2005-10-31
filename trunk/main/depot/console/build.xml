@@ -4,8 +4,6 @@
     xmlns:transit="antlib:net.dpml.transit" 
     xmlns:x="dpml:tools" >
 
-  <available property="build.exe.available" file="${dpml.system}/bin/build.exe"/>
-
   <transit:import uri="local:template:tools/standard"/>
 
   <target name="init" depends="standard.init">
@@ -29,7 +27,27 @@
     <filter token="METRO-CENTRAL-URI" value="link:plugin:dpml/metro/dpml-metro-central#LATEST"/>
   </target>
 
-  <target name="install" depends="standard.install,win32-exe-install">
+  <!--
+  BOOTSTRAP TARGETS
+  The following targets are used to handle the setup of the ${dpml.home} environment 
+  with the installation of Depot files in preparation for the deployment of the 
+  main build phase.  The target is called called from boostrap.bat file following
+  the build of transit and tools.
+  -->
+
+  <available property="build.exe.available" file="${dpml.system}/bin/build.exe"/>
+
+  <target name="bootstrap-install" depends="install,win32-exe-install">
+    <echo>
+#----------------------------------------------------------------------------------
+# Replicating to DPML SYSTEM ${dpml.system}/local (could take a while)
+#----------------------------------------------------------------------------------
+    </echo>
+    <property name="local" location="${dpml.system}/local"/>
+    <x:replicate self="true" todir="${local}" verbose="false">
+      <include ref="dpml/tools/dpml-tools-ant"/>
+      <include ref="dpml/tools/dpml-tools-library"/>
+    </x:replicate>
     <echo>
 #----------------------------------------------------------------------------------
 # Updating DPML DATA ${dpml.data}/lib
@@ -65,7 +83,7 @@
     </chmod>
   </target>
 
-  <target name="win32-exe-install" depends="standard.install" unless="build.exe.available">
+  <target name="win32-exe-install" depends="init" unless="build.exe.available">
     <copy todir="${dpml.system}" preservelastmodified="true">
       <fileset dir="target">
         <include name="bin/build.exe"/>

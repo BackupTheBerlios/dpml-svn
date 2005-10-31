@@ -36,11 +36,20 @@
   <target name="install" depends="bootstrap.install">
     <echo>
 #----------------------------------------------------------------------------------
-# Updating Ant. ${user.dir}/.ant/lib
+# Updating Ant. ${user.home}/.ant/lib
 #----------------------------------------------------------------------------------
     </echo>
     <copy tofile="${user.home}/.ant/lib/dpml-transit-tools.jar"
       file="target/deliverables/jars/dpml-transit-tools-${project.version}.jar"/>
+    <echo>
+#----------------------------------------------------------------------------------
+# Updating Prefs. ${dpml.prefs}
+#----------------------------------------------------------------------------------
+    </echo>
+    <property name="templates" value="${dpml.prefs}/transit/templates"/>
+    <echo>Adding build template to ${templates}</echo>
+    <mkdir dir="${templates}"/>
+    <copy file="${home}/bootstrap.xml" tofile="${templates}/bootstrap.template" />
   </target>
 
 </project>

@@ -28,6 +28,13 @@ import java.io.File;
 public interface Library
 {
    /**
+    * Utility operation to sort a collection of resources.
+    * @param resources the resources to sort
+    * @return the sorted resource array
+    */
+    Resource[] sort( Resource[] resources );
+    
+   /**
     * Return an array of all registered processors models.
     * @return the processor array
     */

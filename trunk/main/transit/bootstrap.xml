@@ -177,19 +177,19 @@
   <property name="etc.test" value="${etc}/test"/>
 
   <property name="target" value="target"/>
-  <property name="target.dir" value="${target}"/>
+  <property name="target.dir" location="${basedir}/${target}"/>
 
-  <property name="target.build.dir" value="${target.dir}/build"/>
-  <property name="target.build.test.dir" value="${target.build.dir}/test"/>
-  <property name="target.build.main.dir" value="${target.build.dir}/main"/>
+  <property name="target.build.dir" location="${target.dir}/build"/>
+  <property name="target.build.test.dir" location="${target.build.dir}/test"/>
+  <property name="target.build.main.dir" location="${target.build.dir}/main"/>
 
-  <property name="target.classes.dir" value="${target.dir}/classes"/>
-  <property name="target.test-classes.dir" value="${target.dir}/test-classes"/>
-  <property name="target.test-reports.dir" value="${target.dir}/test-reports"/>
-  <property name="target.test.dir" value="${target.dir}/test"/>
+  <property name="target.classes.dir" location="${target.dir}/classes"/>
+  <property name="target.test-classes.dir" location="${target.dir}/test-classes"/>
+  <property name="target.test-reports.dir" location="${target.dir}/test-reports"/>
+  <property name="target.test.dir" location="${target.dir}/test"/>
 
-  <property name="target.deliverables.dir" value="${target.dir}/deliverables"/>
-  <property name="target.deliverables.jars.dir" value="${target.deliverables.dir}/jars"/>
+  <property name="target.deliverables.dir" location="${target.dir}/deliverables"/>
+  <property name="target.deliverables.jars.dir" location="${target.deliverables.dir}/jars"/>
 
   <target name="setupReleaseFilename" if="signature.declared">
     <property name="project.version" value="${build.signature}"/>

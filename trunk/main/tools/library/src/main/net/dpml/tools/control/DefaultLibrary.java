@@ -146,6 +146,21 @@ public final class DefaultLibrary extends DefaultDictionary implements Library
     //----------------------------------------------------------------------------
     
    /**
+    * Utility operation to sort a collection of resources.
+    * @param resources the resources to sort
+    * @return the sorted resource array
+    */
+    public Resource[] sort( Resource[] resources )
+    {
+        DefaultResource[] array = new DefaultResource[ resources.length ];
+        for( int i=0; i<resources.length; i++ )
+        {
+            array[i] = (DefaultResource) resources[i];
+        }
+        return m_module.sortDefaultResources( array, Scope.TEST );
+    }
+    
+   /**
     * Return an array of all registered processes.
     * @return the processor array
     */
@@ -275,7 +290,7 @@ public final class DefaultLibrary extends DefaultDictionary implements Library
     }
     
    /**
-    * Select all local projects with a basedir equal to or depper than the supplied 
+    * Select all local projects with a basedir equal to or deeper than the supplied 
     * directory.
     * @param base the reference basedir
     * @return an array of projects within or lower than the supplied basedir

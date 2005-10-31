@@ -12,4 +12,5 @@
   <taskdef name="module"       classname="net.dpml.tools.tasks.ModuleTask"/>
   <taskdef name="reactor"      classname="net.dpml.tools.tasks.ReactorTask"/>
   <taskdef name="plugin"       classname="net.dpml.tools.tasks.PluginTask"/>
+  <taskdef name="replicate"    classname="net.dpml.tools.tasks.ReplicateTask"/>
 </antlib>

@@ -106,15 +106,9 @@
       file="${target.deliverables.jars.dir}/${long.filename}"/>
     <echo>
 #----------------------------------------------------------------------------------
-# Updating Ant. ${user.dir}/.ant/lib
+# Updating Ant. ${user.home}/.ant/lib
 #----------------------------------------------------------------------------------
     </echo>
-    <delete verbose="true" failonerror="false">
-      <fileset dir="${user.home}/.ant/lib">
-        <include name="dpml-*.*"/>
-        <exclude name="${short.filename}"/>
-      </fileset>
-    </delete>
     <copy preservelastmodified="true" overwrite="true"
       tofile="${user.home}/.ant/lib/${short.filename}" 
       file="${target.deliverables.jars.dir}/${long.filename}"/>
