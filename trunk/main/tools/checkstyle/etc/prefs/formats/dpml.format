@@ -35,7 +35,7 @@
         <module name="com.puppycrawl.tools.checkstyle.checks.blocks.EmptyBlockCheck">
             <property name="option" value="stmt"/>
             <property name="severity" value="warning"/>
-            <property name="tokens" value="LITERAL_CATCH, LITERAL_DO, LITERAL_ELSE, LITERAL_FINALLY, LITERAL_IF, LITERAL_FOR, LITERAL_TRY, LITERAL_WHILE, STATIC_INIT"/>
+            <property name="tokens" value="LITERAL_DO, LITERAL_ELSE, LITERAL_FINALLY, LITERAL_IF, LITERAL_FOR, LITERAL_TRY, LITERAL_WHILE, STATIC_INIT"/>  <!--LITERAL_CATCH, -->
         </module>
         <module name="com.puppycrawl.tools.checkstyle.checks.blocks.LeftCurlyCheck">
             <property name="maxLineLength" value="80"/>
