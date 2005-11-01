@@ -29,9 +29,6 @@ import java.util.Collections;
 import java.util.IdentityHashMap;
 import java.util.Map;
 
-import net.dpml.transit.Logger;
-import net.dpml.transit.monitor.LoggingAdapter;
-import net.dpml.transit.Plugin;
 import net.dpml.transit.StandardClassLoader;
 
 /**
@@ -40,18 +37,16 @@ import net.dpml.transit.StandardClassLoader;
  */
 public class DepotRMIClassLoaderSpi extends RMIClassLoaderSpi
 {
-    private RMIClassLoaderSpi m_delegate = RMIClassLoader.getDefaultProviderInstance();
+    private static final Map LOADERS = Collections.synchronizedMap( new IdentityHashMap( 5 ) );
 
-    private static final Map m_loaders = Collections.synchronizedMap( new IdentityHashMap( 5 ) );
+    private RMIClassLoaderSpi m_delegate = RMIClassLoader.getDefaultProviderInstance();
 
     static
     {
-        for( 
-          ClassLoader classloader = ClassLoader.getSystemClassLoader(); 
-          classloader != null; 
-          classloader = classloader.getParent() )
+        for( ClassLoader classloader = ClassLoader.getSystemClassLoader(); 
+          classloader != null; classloader = classloader.getParent() )
         {
-            m_loaders.put( classloader, null );
+            LOADERS.put( classloader, null );
         }
     }
 
@@ -205,18 +200,20 @@ public class DepotRMIClassLoaderSpi extends RMIClassLoaderSpi
     {
         String classname = cl.getName();
         int i = classname.length();
-        if( i > 0 && classname.charAt( 0 ) == '[' )
+        if( ( i > 0 ) && classname.charAt( 0 ) == '[' )
         {
             int j;
-            for( j=1; i > j && classname.charAt( j ) == '['; j++ );
-            if( i > j && classname.charAt(j) != 'L' )
+            for( j=1; i > j && classname.charAt( j ) == '['; j++ )
             {
-                return null;
+                if( ( i > j ) && classname.charAt( j ) != 'L' )
+                {
+                    return null;
+                }
             }
         }
 
         ClassLoader classloader = cl.getClassLoader();
-        if( classloader == null || m_loaders.containsKey( classloader ) )
+        if( classloader == null || LOADERS.containsKey( classloader ) )
         {
             return System.getProperty( "java.rmi.server.codebase" );
         }
@@ -224,7 +221,7 @@ public class DepotRMIClassLoaderSpi extends RMIClassLoaderSpi
         String annotations = null;
         if( classloader instanceof StandardClassLoader )
         {
-            annotations = ((StandardClassLoader)classloader).getAnnotations();
+            annotations = ( (StandardClassLoader) classloader ).getAnnotations();
         }
         else if( classloader instanceof URLClassLoader )
         {
@@ -269,7 +266,7 @@ public class DepotRMIClassLoaderSpi extends RMIClassLoaderSpi
 
         try
         {
-            URL urls[] = classloader.getURLs();
+            URL[] urls = classloader.getURLs();
             if( null != urls )
             {
                 SecurityManager manager = System.getSecurityManager();
@@ -289,15 +286,15 @@ public class DepotRMIClassLoaderSpi extends RMIClassLoaderSpi
         }
         catch( SecurityException e ) 
         {
-            // ignore
+            boolean ignore = true; // ignore
         }
         catch( IOException e )
         {
-            // ignore
+            boolean ignore = true; // ignore
         }
     }
 
-    private static String urlsToPath( URL urls[] )
+    private static String urlsToPath( URL[] urls )
     {
         if( urls.length == 0 )
         {
@@ -321,7 +318,7 @@ public class DepotRMIClassLoaderSpi extends RMIClassLoaderSpi
             final String path = urls[i].toExternalForm();
             if( !path.startsWith( "file:" ) )
             {
-                buffer.append(' ');
+                buffer.append( ' ' );
                 buffer.append( path );
             }
 

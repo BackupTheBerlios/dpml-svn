@@ -29,8 +29,17 @@ import net.dpml.transit.PID;
  */
 public interface LoggingService extends Remote
 {
+   /**
+    * Logging service key.
+    */
     String LOGGING_KEY = "/dpml/logging";
 
+   /**
+    * Register a log record with the log service.
+    * @param process the process identifier
+    * @param record the log record
+    * @exception RemoteException if a remote exception occurs
+    */
     void log( PID process, LogRecord record ) throws RemoteException;
 }
 

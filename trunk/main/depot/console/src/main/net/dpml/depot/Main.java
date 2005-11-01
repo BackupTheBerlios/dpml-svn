@@ -25,7 +25,6 @@ import java.rmi.RemoteException;
 import java.rmi.RMISecurityManager;
 import java.util.ArrayList;
 import java.util.prefs.Preferences;
-import java.util.Random;
 
 import net.dpml.transit.Transit;
 import net.dpml.transit.Logger;
@@ -39,9 +38,6 @@ import net.dpml.transit.monitor.NetworkMonitorAdapter;
 import net.dpml.transit.Repository;
 import net.dpml.transit.RepositoryException;
 import net.dpml.transit.PID;
-import net.dpml.transit.Plugin;
-import net.dpml.transit.Category;
-import net.dpml.transit.Environment;
 import net.dpml.transit.util.CLIHelper;
 
 /**
@@ -318,11 +314,18 @@ public final class Main implements ShutdownHandler
         }
     }
 
+   /**
+    * Exit.
+    */
     public void exit()
     {
         exit( 0 );
     }
 
+   /**
+    * Exit.
+    * @param flag result status
+    */
     public void exit( int flag )
     {
         System.exit( flag );
@@ -861,8 +864,6 @@ public final class Main implements ShutdownHandler
             System.getProperties().list( System.out );
         }
     }
-
-    // TODO: add support for transit configuration profile selection
 
     /*
     private static TransitModel loadTransitModel( String[] args, Logger logger, boolean resolve )

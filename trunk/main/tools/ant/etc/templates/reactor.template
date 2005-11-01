@@ -23,6 +23,8 @@
 
   <transit:import uri="local:template:tools/standard"/>
 
+  <target name="package" depends="standard.package,checkstyle"/>
+
   <target name="all">
     <x:reactor target="install"/>
   </target>

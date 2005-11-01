@@ -23,9 +23,9 @@
 
   <transit:import uri="local:template:tools/reactor"/>
 
-  <target name="build" depends="standard.build, javadoc, junit-report, checkstyle"/>
+  <target name="build" depends="standard.build,javadoc,junit-report"/>
 
-  <target name="install" depends="standard.install, bundle"/>
+  <target name="install" depends="standard.install,bundle"/>
 
   <target name="bundle" depends="standard.install">
     <property name="bundle" location="${project.target.dir}/bundle"/>
@@ -111,22 +111,6 @@
       </fileset>
       <report format="frames" todir="${junit.html}" styledir="${dpml.prefs}/tools/xsls"/>
     </junitreport>
-  </target>
-
-  <target name="checkstyle" depends="init">
-    <property name="checkstyle.dir" location="${project.target.reports.dir}/checkstyle"/>
-    <property name="checkstyle.data" location="${checkstyle.dir}/checkstyle.xml"/>
-    <property name="project.checkstyle.data" location="${project.target.reports.dir}/checkstyle"/>
-    <x:plugin ref="dpml/tools/dpml-tools-checkstyle">
-      <task class="net.dpml.tools.checkstyle.CheckstyleTask" name="checkstyle"/>
-    </x:plugin>
-    <mkdir dir="${checkstyle.dir}"/>
-    <checkstyle>
-      <formatter type="xml" toFile="${checkstyle.data}"/>
-    </checkstyle>
-    <xslt style="${dpml.prefs}/tools/xsls/checkstyle-frames.xsl"
-        in="${checkstyle.data}"
-        out="${checkstyle.dir}/checkstyle_report.html" />
   </target>
 
 </project>

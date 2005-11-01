@@ -24,6 +24,10 @@ import java.rmi.ServerException;
  */
 public class GeneralException extends ServerException
 {
+   /**
+    * Creation of a new general exception instance.
+    * @param message the exception message.
+    */
     public GeneralException( final String message )
     {
         super( message );

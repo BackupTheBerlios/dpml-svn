@@ -18,27 +18,8 @@
 -->
 
 <project name="dpml-depot-reactor" default="install" basedir="." 
-    xmlns:transit="antlib:net.dpml.transit"
-    xmlns:x="dpml:tools" >
+    xmlns:transit="antlib:net.dpml.transit" >
 
   <transit:import uri="local:template:tools/reactor"/>
-
-  <target name="package" depends="standard.package, checkstyle"/>
-
-  <target name="checkstyle" depends="init">
-    <property name="checkstyle.dir" location="${project.target.reports.dir}/checkstyle"/>
-    <property name="checkstyle.data" location="${checkstyle.dir}/checkstyle.xml"/>
-    <property name="project.checkstyle.data" location="${project.target.reports.dir}/checkstyle"/>
-    <x:plugin ref="dpml/tools/dpml-tools-checkstyle">
-      <task class="net.dpml.tools.checkstyle.CheckstyleTask" name="checkstyle"/>
-    </x:plugin>
-    <mkdir dir="${checkstyle.dir}"/>
-    <checkstyle>
-      <formatter type="xml" toFile="${checkstyle.data}"/>
-    </checkstyle>
-    <xslt style="${dpml.prefs}/tools/xsls/checkstyle-frames.xsl"
-        in="${checkstyle.data}"
-        out="${checkstyle.dir}/checkstyle_report.html" />
-  </target>
 
 </project>
