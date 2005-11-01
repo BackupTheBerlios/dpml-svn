@@ -18,7 +18,6 @@
 
 package net.dpml.transit.model;
 
-import java.io.Serializable;
 import java.util.Map;
 
 /**

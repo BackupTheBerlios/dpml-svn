@@ -51,6 +51,7 @@ public class DefaultContentModel extends DisposableCodeBaseModel implements Cont
    /**
     * Construction of a new content model.
     * @param logger the assigned logging channel
+    * @param id the model id
     * @param uri the codebase uri
     * @param parameters codebase constructor parameters
     * @param type the content type key
@@ -89,9 +90,8 @@ public class DefaultContentModel extends DisposableCodeBaseModel implements Cont
    /**
     * Return the immutable content type identifier.
     * @return the content type
-    * @exception RemoteException if a remote exception occurs
     */
-    public String getContentType() throws RemoteException
+    public String getContentType()
     {
         return m_type;
     }
@@ -99,9 +99,8 @@ public class DefaultContentModel extends DisposableCodeBaseModel implements Cont
    /**
     * Returns the human readable name of the content model.
     * @return the content type human readable name
-    * @exception RemoteException if a remote exception occurs
     */
-    public String getTitle() throws RemoteException
+    public String getTitle()
     {
         return m_title;
     }
@@ -109,9 +108,8 @@ public class DefaultContentModel extends DisposableCodeBaseModel implements Cont
    /**
     * Set the content model title to the supplied value.
     * @param title the content type title
-    * @exception RemoteException if a remote exception occurs
     */
-    public void setTitle( String title ) throws RemoteException
+    public void setTitle( String title )
     {
         synchronized( getLock() )
         {
@@ -130,9 +128,8 @@ public class DefaultContentModel extends DisposableCodeBaseModel implements Cont
    /**
     * Add a content listener to the director.
     * @param listener the listener to add
-    * @exception RemoteException if a remote exception occurs
     */
-    public void addContentListener( ContentListener listener ) throws RemoteException
+    public void addContentListener( ContentListener listener )
     {
         super.addListener( listener );
     }
@@ -140,9 +137,8 @@ public class DefaultContentModel extends DisposableCodeBaseModel implements Cont
    /**
     * Remove a content listener from the director.
     * @param listener the listener to remove
-    * @exception RemoteException if a remote exception occurs
     */
-    public void removeContentListener( ContentListener listener ) throws RemoteException
+    public void removeContentListener( ContentListener listener )
     {
         super.removeListener( listener );
     }
@@ -153,9 +149,8 @@ public class DefaultContentModel extends DisposableCodeBaseModel implements Cont
 
    /**
     * Dispose of the content model.
-    * @exception RemoteException if a remote exception occurs
     */
-    public void dispose() throws RemoteException
+    public void dispose()
     {
         super.dispose();
         if( null != m_home && ( m_home instanceof Removable ) )

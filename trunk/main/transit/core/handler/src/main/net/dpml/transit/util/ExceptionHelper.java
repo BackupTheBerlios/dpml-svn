@@ -22,8 +22,6 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.lang.reflect.Method;
 import java.util.StringTokenizer;
-import java.rmi.activation.ActivationGroup;
-import java.rmi.activation.ActivationGroupID;
 
 /**
  * General utilities supporting the packaging of exception messages.

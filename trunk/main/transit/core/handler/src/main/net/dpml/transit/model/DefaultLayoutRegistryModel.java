@@ -79,9 +79,8 @@ class DefaultLayoutRegistryModel extends DisposableCodeBaseModel
    /**
     * Add a layout registry change listener.
     * @param listener the registry change listener to add
-    * @exception RemoteException if a remote exception occurs
     */
-    public void addLayoutRegistryListener( LayoutRegistryListener listener ) throws RemoteException
+    public void addLayoutRegistryListener( LayoutRegistryListener listener )
     {
         super.addListener( listener );
     }
@@ -91,7 +90,7 @@ class DefaultLayoutRegistryModel extends DisposableCodeBaseModel
     * @param listener the registry change listener to remove
     * @exception RemoteException if a remote exception occurs
     */
-    public void removeLayoutRegistryListener( LayoutRegistryListener listener ) throws RemoteException
+    public void removeLayoutRegistryListener( LayoutRegistryListener listener )
     {
         super.removeListener( listener );
     }
@@ -100,9 +99,8 @@ class DefaultLayoutRegistryModel extends DisposableCodeBaseModel
     * Add a new layout model to the registry.
     * @param id the layout model identity
     * @exception DuplicateKeyException if a layout model of the same id already exists
-    * @exception RemoteException if a remote exception occurs
     */
-    public void addLayoutModel( String id ) throws DuplicateKeyException, RemoteException
+    public void addLayoutModel( String id ) throws DuplicateKeyException
     {
         LayoutStorage store = m_home.getLayoutStorage( id );
         addLayoutModel( store, true );
@@ -112,9 +110,8 @@ class DefaultLayoutRegistryModel extends DisposableCodeBaseModel
     * Add a new layout model to the registry.
     * @param model the layout model
     * @exception DuplicateKeyException if a layout model of the same id already exists
-    * @exception RemoteException if a remote exception occurs
     */
-    public void addLayoutModel( LayoutModel model ) throws DuplicateKeyException, RemoteException
+    public void addLayoutModel( LayoutModel model ) throws DuplicateKeyException
     {
         addLayoutModel( model, true );
     }
@@ -124,7 +121,7 @@ class DefaultLayoutRegistryModel extends DisposableCodeBaseModel
     * @return the content manager array
     * @exception RemoteException if a remote exception occurs
     */
-    public LayoutModel[] getLayoutModels() throws RemoteException
+    public LayoutModel[] getLayoutModels()
     {
         synchronized( getLock() )
         {
@@ -137,9 +134,8 @@ class DefaultLayoutRegistryModel extends DisposableCodeBaseModel
     * an implementation shall return a null value.
     *
     * @return the layout model
-    * @exception RemoteException if a remote exception occurs
     */
-    public LayoutModel getLayoutModel( String id ) throws UnknownKeyException, RemoteException
+    public LayoutModel getLayoutModel( String id ) throws UnknownKeyException
     {
         synchronized( getLock() )
         {
@@ -151,9 +147,16 @@ class DefaultLayoutRegistryModel extends DisposableCodeBaseModel
             for( int i=0; i < managers.length; i++ )
             {
                 LayoutModel manager = managers[i];
-                if( id.equals( manager.getID() ) )
+                try
                 {
-                    return manager;
+                    if( id.equals( manager.getID() ) )
+                    {
+                        return manager;
+                    }
+                }
+                catch( RemoteException e )
+                {
+                    throw new ModelRuntimeException( "remote-exception", e );
                 }
             }
             throw new UnknownKeyException( id );
@@ -164,15 +167,21 @@ class DefaultLayoutRegistryModel extends DisposableCodeBaseModel
     * Remove a layout model from the registry.
     * @param model the layout model to be removed
     * @exception ModelReferenceException if the layout is in use
-    * @exception RemoteException if a remote exception occurs
     */
-    public void removeLayoutModel( LayoutModel model ) throws ModelReferenceException, RemoteException
+    public void removeLayoutModel( LayoutModel model ) throws ModelReferenceException
     {
         synchronized( getLock() )
         {
             try
             {
-                model.dispose();
+                try
+                {
+                    model.dispose();
+                }
+                catch( RemoteException remote )
+                {
+                    boolean ignoreit = true;
+                }
                 m_list.remove( model );
                 LayoutRemovedEvent event = new LayoutRemovedEvent( this, model );
                 enqueueEvent( event );
@@ -181,6 +190,7 @@ class DefaultLayoutRegistryModel extends DisposableCodeBaseModel
             {
                 throw new ModelReferenceException( this, model );
             }
+            
         }
     }
 
@@ -189,22 +199,29 @@ class DefaultLayoutRegistryModel extends DisposableCodeBaseModel
     // ------------------------------------------------------------------------
 
     private void addLayoutModel( LayoutStorage store, boolean notify ) 
-      throws DuplicateKeyException, RemoteException
+      throws DuplicateKeyException
     {
         String id = store.getID();
         Logger logger = getLogger().getChildLogger( id );
-        LayoutModel model = new DefaultLayoutModel( logger, store );
-        addLayoutModel( model, notify );
+        try
+        {
+            LayoutModel model = new DefaultLayoutModel( logger, store );
+            addLayoutModel( model, notify );
+        }
+        catch( RemoteException e )
+        {
+            throw new ModelRuntimeException( "remote-exception", e );
+        }
     }
 
     private void addLayoutModel( LayoutModel manager, boolean notify ) 
-      throws DuplicateKeyException, RemoteException
+      throws DuplicateKeyException
     {
         synchronized( getLock() )
         {
-            String id = manager.getID();
             try
             {
+                String id = manager.getID();
                 LayoutModel m = getLayoutModel( id );
                 throw new DuplicateKeyException( id );
             }
@@ -216,6 +233,10 @@ class DefaultLayoutRegistryModel extends DisposableCodeBaseModel
                     LayoutAddedEvent event = new LayoutAddedEvent( this, manager );
                     enqueueEvent( event );
                 }
+            }
+            catch( RemoteException e )
+            {
+                throw new ModelRuntimeException( "remote-exception", e );
             }
         }
     }

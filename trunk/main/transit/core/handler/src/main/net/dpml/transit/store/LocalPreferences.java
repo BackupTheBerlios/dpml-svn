@@ -63,6 +63,10 @@ public class LocalPreferences extends AbstractPreferences
     // LocalPreferences
     // ------------------------------------------------------------------------
 
+   /**
+    * Return true if this is a user node else false.
+    * @return the user node status
+    */
     public boolean isUserNode()
     {
         return !m_system;

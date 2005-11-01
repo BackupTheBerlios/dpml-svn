@@ -172,11 +172,11 @@ public abstract class ValuedEnum extends Enum implements Comparable
     public boolean equals( Object o )
     {
         boolean prelim = super.equals( o );
-        if( ! prelim )
+        if( !prelim )
         {
             return false;
         }
-        if( !(o instanceof ValuedEnum) )
+        if( !( o instanceof ValuedEnum ) )
         {
             return false;
         }
@@ -184,11 +184,15 @@ public abstract class ValuedEnum extends Enum implements Comparable
         return m_value == enumerated.m_value;
     }
     
+   /**
+    * Compute the hashcode value.
+    * @return the hashcode value
+    */
     public int hashCode()
     {
         int hash = super.hashCode();
         hash ^= m_value;
-        hash >>>= (m_value & 31 );
+        hash >>>= ( m_value & 31 );
         return hash;
     }
     

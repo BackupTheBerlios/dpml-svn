@@ -18,13 +18,6 @@
 
 package net.dpml.transit;
 
-import java.beans.Expression;
-import java.beans.BeanDescriptor;
-import java.beans.PersistenceDelegate;
-import java.beans.DefaultPersistenceDelegate;
-import java.beans.SimpleBeanInfo;
-import java.beans.Encoder;
-
 import net.dpml.transit.util.ValuedEnum;
 
 /**
@@ -59,7 +52,7 @@ public final class Category extends ValuedEnum
    /**
     * Array of scope enumeration values.
     */
-    private static final Category[] ENUM_VALUES = new Category[]{ SYSTEM, PUBLIC, PROTECTED, PRIVATE };
+    private static final Category[] ENUM_VALUES = new Category[]{SYSTEM, PUBLIC, PROTECTED, PRIVATE};
 
    /**
     * Returns an array of activation enum values.
@@ -81,12 +74,22 @@ public final class Category extends ValuedEnum
         super( label, index );
     }
     
+   /**
+    * Return a string representation of the category.
+    * @return the category name in uppercase
+    */
     public String toString()
     {
         return getName().toUpperCase();
     }
     
-    public static Category parse( String value )
+   /**
+    * Create a category by parsing the supplied name.
+    * @param value the category name
+    * @return the corresponding category
+    * @exception IllegalArgumentException if the value is not recognized
+    */
+    public static Category parse( String value ) throws IllegalArgumentException
     {
         if( value.equalsIgnoreCase( "system" ) )
         {
@@ -96,11 +99,11 @@ public final class Category extends ValuedEnum
         {
             return PUBLIC;
         }
-        else if( value.equalsIgnoreCase( "protected" ))
+        else if( value.equalsIgnoreCase( "protected" ) )
         {
             return PROTECTED;
         }
-        else if( value.equalsIgnoreCase( "private" ))
+        else if( value.equalsIgnoreCase( "private" ) )
         {
             return PRIVATE;
         }

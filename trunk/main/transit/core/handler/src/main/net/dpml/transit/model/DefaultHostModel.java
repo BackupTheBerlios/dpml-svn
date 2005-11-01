@@ -177,12 +177,18 @@ class DefaultHostModel extends DisposableCodeBaseModel
 
    /**
     * Dispose of the model.
-    * @exception RemoteException if a remote exception occurs
     */
-    public void dispose() throws RemoteException
+    public void dispose()
     {
         super.dispose();
-        m_layout.removeDisposalListener( this );
+        try
+        {
+            m_layout.removeDisposalListener( this );
+        }
+        catch( RemoteException e )
+        {
+            boolean ignoreit = true;
+        }
         if( ( null != m_home ) && ( m_home instanceof Removable ) )
         {
             Removable store = (Removable) m_home;
@@ -200,9 +206,8 @@ class DefaultHostModel extends DisposableCodeBaseModel
     * of the layout model.
     * @param event the disposal warning event
     * @exception VetoDisposalException always thrown to veto layout removal
-    * @exception RemoteException if a remote exception occurs
     */
-    public void disposing( DisposalEvent event ) throws VetoDisposalException, RemoteException
+    public void disposing( DisposalEvent event ) throws VetoDisposalException
     {
         final String id = getID();
         final String message = "Layout currently assigned to host: " + id;
@@ -213,9 +218,8 @@ class DefaultHostModel extends DisposableCodeBaseModel
     * Notify the listener of the disposal of the layout. 
     * This method should never be invoked and will result in the logging 
     * of an error.
-    * @exception RemoteException if a remote exception occurs
     */
-    public void disposed( DisposalEvent event ) throws RemoteException // should never happen
+    public void disposed( DisposalEvent event )
     {
         setEnabled( false );
         final String error = 
@@ -223,7 +227,7 @@ class DefaultHostModel extends DisposableCodeBaseModel
           + "\nUnexpected notification of disposal of an assigned layout."
           + "\nHost set to disabled state."
           + "\nHost: " + getID()
-          + "\nLayout: " + m_layout.getID();
+          + "\nLayout: " + m_layout;
         getLogger().error( error );
     }
 
@@ -246,46 +250,52 @@ class DefaultHostModel extends DisposableCodeBaseModel
     * @exception MalformedURLException if the host base url path is malformed
     * @exception BootstrapException if the host is a bootstrap host and a 
     *   non-bootstrap layout is assigned
-    * @exception RemoteException if a remote exception occurs
     */
     public void update( 
       String base, String index, boolean enabled, boolean trusted, String layout, 
       PasswordAuthentication auth, String scheme, String prompt ) 
-      throws BootstrapException, UnknownKeyException, RemoteException, MalformedURLException
+      throws BootstrapException, UnknownKeyException, MalformedURLException
     {
         synchronized( getLock() )
         {
-            LayoutModel layoutModel = m_registry.getLayoutModel( layout );
-            setLayoutModel( layoutModel );
-
-            m_base = resolveBaseValue( base );
-            m_index = index;
-            m_baseURL = resolveBaseURL( getID(), m_base );
-            m_indexURL = resolveIndexURL( getID(), m_baseURL, m_index );
-
-            m_enabled = enabled;
-            m_trusted = trusted;
-            m_authentication = auth;
-            m_identifier = getRequestIdentifier( m_baseURL, scheme, prompt );
-            
-            if( null != m_home )
+            try
             {
-                m_home.setHostSettings( base, index, enabled, trusted, layout, auth, scheme, prompt );
+                LayoutModel layoutModel = m_registry.getLayoutModel( layout );
+                setLayoutModel( layoutModel );
+
+                m_base = resolveBaseValue( base );
+                m_index = index;
+                m_baseURL = resolveBaseURL( getID(), m_base );
+                m_indexURL = resolveIndexURL( getID(), m_baseURL, m_index );
+
+                m_enabled = enabled;
+                m_trusted = trusted;
+                m_authentication = auth;
+                m_identifier = getRequestIdentifier( m_baseURL, scheme, prompt );
+            
+                if( null != m_home )
+                {
+                    m_home.setHostSettings( base, index, enabled, trusted, layout, auth, scheme, prompt );
+                }
+
+                HostChangeEvent e = 
+                  new HostChangeEvent( 
+                    this, m_baseURL, m_indexURL, m_identifier, auth, enabled, trusted );
+                enqueueEvent( e );
+            }
+            catch( RemoteException e )
+            {
+                throw new ModelRuntimeException( "remote-exception", e );
             }
 
-            HostChangeEvent e = 
-              new HostChangeEvent( 
-                this, m_baseURL, m_indexURL, m_identifier, auth, enabled, trusted );
-            enqueueEvent( e );
         }
     }
 
    /**
     * Set the human readable name of the host to the supplied value.
     * @param name the human readable name
-    * @exception RemoteException if a remote exception occurs
     */
-    public void setName( String name ) throws RemoteException
+    public void setName( String name )
     {
         synchronized( getLock() )
         {
@@ -304,9 +314,8 @@ class DefaultHostModel extends DisposableCodeBaseModel
    /**
     * Set the host priority to the supplied value.
     * @param priority the host priority
-    * @exception RemoteException if a remote exception occurs
     */
-    public void setPriority( int priority ) throws RemoteException
+    public void setPriority( int priority )
     {
         synchronized( getLock() )
         {
@@ -330,25 +339,31 @@ class DefaultHostModel extends DisposableCodeBaseModel
     * @param layout the layout model to assign
     * @exception BootstrapException if the host model is a bootstrap host and 
     *   the assigned layout model is not a bootstrap layout model
-    * @exception RemoteException if a remote exception occurs
     */
-    public void setLayoutModel( LayoutModel layout ) throws BootstrapException, RemoteException
+    public void setLayoutModel( LayoutModel layout ) throws BootstrapException
     {
         synchronized( getLock() )
         {
-            checkLayout( layout );
-            m_layout.removeDisposalListener( this );
-            layout.addDisposalListener( this );
-            m_layout = layout;
-
-            if( null != m_home )
+            try
             {
-                String id = layout.getID();
-                m_home.setLayoutModelKey( id );
-            }
+                checkLayout( layout );
+                m_layout.removeDisposalListener( this );
+                layout.addDisposalListener( this );
+                m_layout = layout;
 
-            HostLayoutEvent e = new HostLayoutEvent( this, m_layout );
-            enqueueEvent( e );
+                if( null != m_home )
+                {
+                    String id = layout.getID();
+                    m_home.setLayoutModelKey( id );
+                }
+
+                HostLayoutEvent e = new HostLayoutEvent( this, m_layout );
+                enqueueEvent( e );
+            }
+            catch( RemoteException e )
+            {
+                throw new ModelRuntimeException( "remote-exception", e );
+            }
         }
     }
 
@@ -356,9 +371,8 @@ class DefaultHostModel extends DisposableCodeBaseModel
     * Return TRUE if this is a bootstrap host. Bootstrap hosts shall be 
     * provided such that they independent of the Transit respository 
     * service.
-    * @exception RemoteException if a remote exception occurs
     */
-    public boolean isBootstrap() throws RemoteException
+    public boolean isBootstrap()
     {
         return m_bootstrap;
     }
@@ -366,9 +380,8 @@ class DefaultHostModel extends DisposableCodeBaseModel
    /**
     * Return the host priority.
     * @return the host priority setting
-    * @exception RemoteException if a remote exception occurs
     */
-    public int getPriority() throws RemoteException
+    public int getPriority()
     {
         synchronized( getLock() )
         {
@@ -379,9 +392,8 @@ class DefaultHostModel extends DisposableCodeBaseModel
    /**
     * Return the name of the resource host.  The value returned may be used to uniquely 
     * identify the host within the set of managed hosts. 
-    * @exception RemoteException if a remote exception occurs
     */
-    public String getHostName() throws RemoteException
+    public String getHostName()
     {
         synchronized( getLock() )
         {
@@ -392,9 +404,8 @@ class DefaultHostModel extends DisposableCodeBaseModel
    /**
     * Return the host base url path.
     * @return the base url path
-    * @exception RemoteException if a remote exception occurs
     */
-    public String getBasePath() throws RemoteException
+    public String getBasePath() 
     {
         synchronized( getLock() )
         {
@@ -405,9 +416,8 @@ class DefaultHostModel extends DisposableCodeBaseModel
    /**
     * Return the host base url.
     * @return the base url
-    * @exception RemoteException if a remote exception occurs
     */
-    public URL getBaseURL() throws RemoteException
+    public URL getBaseURL()
     {
         synchronized( getLock() )
         {
@@ -418,9 +428,8 @@ class DefaultHostModel extends DisposableCodeBaseModel
    /**
     * Return index url path.
     * @return the index url path
-    * @exception RemoteException if a remote exception occurs
     */
-    public String getIndexPath() throws RemoteException
+    public String getIndexPath()
     {
         synchronized( getLock() )
         {
@@ -431,9 +440,8 @@ class DefaultHostModel extends DisposableCodeBaseModel
    /**
     * Return index url.
     * @return the index url
-    * @exception RemoteException if a remote exception occurs
     */
-    public URL getIndexURL() throws RemoteException
+    public URL getIndexURL()
     {
         synchronized( getLock() )
         {
@@ -444,9 +452,8 @@ class DefaultHostModel extends DisposableCodeBaseModel
    /**
     * Return the enabled status of the host.
     * @return TRUE if enabled 
-    * @exception RemoteException if a remote exception occurs
     */
-    public boolean getEnabled() throws RemoteException
+    public boolean getEnabled()
     {
         synchronized( getLock() )
         {
@@ -457,9 +464,8 @@ class DefaultHostModel extends DisposableCodeBaseModel
    /**
     * Return the trusted status.
     * @return TRUE if trusted 
-    * @exception RemoteException if a remote exception occurs
     */
-    public boolean getTrusted() throws RemoteException
+    public boolean getTrusted()
     {
         synchronized( getLock() )
         {
@@ -470,9 +476,8 @@ class DefaultHostModel extends DisposableCodeBaseModel
    /**
     * Return the host password authentication credentials.
     * @return the password authentication credentials
-    * @exception RemoteException if a remote exception occurs
     */
-    public PasswordAuthentication getAuthentication() throws RemoteException
+    public PasswordAuthentication getAuthentication()
     {
         synchronized( getLock() )
         {
@@ -483,9 +488,8 @@ class DefaultHostModel extends DisposableCodeBaseModel
    /**
     * Return the host request identifier.
     * @return the identifier
-    * @exception RemoteException if a remote exception occurs
     */
-    public RequestIdentifier getRequestIdentifier() throws RemoteException
+    public RequestIdentifier getRequestIdentifier()
     {
         synchronized( getLock() )
         {
@@ -496,9 +500,8 @@ class DefaultHostModel extends DisposableCodeBaseModel
    /**
     * Return the layout strategy model.
     * @return the layout model
-    * @exception RemoteException if a remote exception occurs
     */
-    public LayoutModel getLayoutModel() throws RemoteException
+    public LayoutModel getLayoutModel()
     {
         synchronized( getLock() )
         {
@@ -509,9 +512,8 @@ class DefaultHostModel extends DisposableCodeBaseModel
    /**
     * Add a host change listener to the model.
     * @param listener the host change listener to add
-    * @exception RemoteException if a remote exception occurs
     */
-    public void addHostListener( HostListener listener ) throws RemoteException
+    public void addHostListener( HostListener listener )
     {
         super.addListener( listener );
     }
@@ -519,9 +521,8 @@ class DefaultHostModel extends DisposableCodeBaseModel
    /**
     * Remove a host change listener from the model.
     * @param listener the host change listener to remove
-    * @exception RemoteException if a remote exception occurs
     */
-    public void removeHostListener( HostListener listener ) throws RemoteException
+    public void removeHostListener( HostListener listener )
     {
         super.removeListener( listener );
     }
@@ -567,17 +568,24 @@ class DefaultHostModel extends DisposableCodeBaseModel
     // internal
     //----------------------------------------------------------------------
 
-    private void checkLayout( LayoutModel layout ) throws BootstrapException, RemoteException
+    private void checkLayout( LayoutModel layout ) throws BootstrapException
     {
         if( isBootstrap() )
         {
-            if( null != layout.getCodeBaseURI() )
+            try
             {
-                final String error = 
-                  "Illegal attempt to assign a plugin based layout to a bootstrap host."
-                  + "\nHost ID: " + getID()
-                  + "\nLayout ID: " + layout.getID();
-                throw new BootstrapException( error );
+                if( null != layout.getCodeBaseURI() )
+                {
+                    final String error = 
+                      "Illegal attempt to assign a plugin based layout to a bootstrap host."
+                      + "\nHost ID: " + getID()
+                      + "\nLayout ID: " + layout.getID();
+                    throw new BootstrapException( error );
+                }
+            }
+            catch( RemoteException e )
+            {
+                throw new ModelRuntimeException( "remote-exception", e );
             }
         }
     }

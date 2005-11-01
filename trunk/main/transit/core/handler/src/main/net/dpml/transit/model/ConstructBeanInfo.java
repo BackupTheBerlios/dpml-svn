@@ -31,6 +31,10 @@ public final class ConstructBeanInfo extends SimpleBeanInfo
 {
     private static final BeanDescriptor BEAN_DESCRIPTOR = setupBeanDescriptor();
     
+   /**
+    * Creation of a bean descriptor.
+    * @return the bean descriptor
+    */
     public BeanDescriptor getBeanDescriptor()
     {
         return BEAN_DESCRIPTOR;
@@ -45,8 +49,14 @@ public final class ConstructBeanInfo extends SimpleBeanInfo
         return descriptor;
     }
     
-    public static class ConstructPersistenceDelegate extends DefaultPersistenceDelegate
+    private static class ConstructPersistenceDelegate extends DefaultPersistenceDelegate
     {
+       /**
+        * Instantiate an expression.
+        * @param old the old value
+        * @param encoder the encoder
+        * @return the expression
+        */
         public Expression instantiate( Object old, Encoder encoder )
         {
             Construct construct = (Construct) old;

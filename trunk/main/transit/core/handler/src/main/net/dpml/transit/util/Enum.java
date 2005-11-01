@@ -111,26 +111,43 @@ public abstract class Enum implements Serializable
         {
             return true;
         }
-        if( !(o instanceof Enum) )
+        if( !( o instanceof Enum ) )
         {
             return false;
         }
-        final Enum enumerated = (Enum)o;
+        final Enum enumerated = (Enum) o;
         if( !getClass().equals( enumerated.getClass() ) )
         {
             return false;
         }
-        if( m_name != null ? !m_name.equals( enumerated.m_name ) : enumerated.m_name != null )
+        if( m_name != null ) 
         {
-            return false;
+            if( !m_name.equals( enumerated.m_name ) )
+            {
+                return false;
+            }
+        }
+        else
+        {
+            if( enumerated.m_name != null  )
+            {
+                return false;
+            }
         }
         return true;
     }
 
+   /** 
+    * Compute the hashcode.
+    * @return the hashcode value
+    */
     public int hashCode()
     {
-        int result;
-        result = (m_name != null ? m_name.hashCode() : 0);
+        int result = 0;
+        if( m_name != null )
+        {
+            result = m_name.hashCode();
+        }
         result = 29 * result + getClass().hashCode();
         return result;
     }
@@ -147,6 +164,7 @@ public abstract class Enum implements Serializable
     /**
      * Human readable description of this Enum item in the form <code>type:name</code>, eg.:
      * <code>Color:Red</code>.
+     * @return the string representation
      */
     public String toString()
     {

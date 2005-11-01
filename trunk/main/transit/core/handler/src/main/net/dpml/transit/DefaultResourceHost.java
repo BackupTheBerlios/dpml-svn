@@ -51,7 +51,6 @@ import net.dpml.transit.model.HostNameEvent;
 import net.dpml.transit.model.HostChangeEvent;
 import net.dpml.transit.model.HostPriorityEvent;
 import net.dpml.transit.model.HostLayoutEvent;
-import net.dpml.transit.Logger;
 
 import net.dpml.transit.util.Util;
 

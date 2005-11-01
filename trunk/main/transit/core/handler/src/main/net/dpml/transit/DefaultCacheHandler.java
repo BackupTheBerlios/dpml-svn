@@ -42,7 +42,6 @@ import net.dpml.transit.artifact.ArtifactNotFoundException;
 import net.dpml.transit.artifact.ArtifactAlreadyExistsException;
 import net.dpml.transit.model.CacheModel;
 import net.dpml.transit.model.CacheListener;
-import net.dpml.transit.Logger;
 import net.dpml.transit.model.CacheDirectoryChangeEvent;
 import net.dpml.transit.model.HostModel;
 import net.dpml.transit.model.CacheEvent;

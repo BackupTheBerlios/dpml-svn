@@ -52,6 +52,7 @@ public final class CLIHelper
     * 
     * @param args the command line arguments to consolidate
     * @param argument the argument to remove
+    * @param n the number of parameters to consolidate
     * @return the consolidated argument array
     */
     public static String[] consolidate( String [] args, String argument, int n )

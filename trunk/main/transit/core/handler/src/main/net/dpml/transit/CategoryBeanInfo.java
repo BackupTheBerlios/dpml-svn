@@ -20,12 +20,9 @@ package net.dpml.transit;
 
 import java.beans.Expression;
 import java.beans.BeanDescriptor;
-import java.beans.PersistenceDelegate;
 import java.beans.DefaultPersistenceDelegate;
 import java.beans.SimpleBeanInfo;
 import java.beans.Encoder;
-
-import net.dpml.transit.util.Enum;
 
 /**
  * Bean info for state encoding of the Lifestyle policy enumeration.
@@ -36,6 +33,10 @@ public final class CategoryBeanInfo extends SimpleBeanInfo
 {
     private static final BeanDescriptor BEAN_DESCRIPTOR = setupBeanDescriptor();
 
+   /**
+    * Creation of a bean descriptor.
+    * @return the bean descriptor
+    */
     public BeanDescriptor getBeanDescriptor()
     {
         return BEAN_DESCRIPTOR;
@@ -52,10 +53,16 @@ public final class CategoryBeanInfo extends SimpleBeanInfo
     
     private static class ScopePersistenceDelegate extends DefaultPersistenceDelegate
     {
+       /**
+        * Instantiate an expression.
+        * @param old the old value
+        * @param encoder the encoder
+        * @return the expression
+        */
         public Expression instantiate( Object old, Encoder encoder )
         {
             Category category = (Category) old;
-            return new Expression( Category.class, "parse", new Object[]{ category.getName() } );
+            return new Expression( Category.class, "parse", new Object[]{category.getName()} );
         }
     }
 }

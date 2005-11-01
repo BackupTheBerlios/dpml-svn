@@ -93,6 +93,6 @@ public final class SystemClassLoader extends StandardClassLoader
         }
     }
     
-    private static URI SYSTEM_URI = createSystemLabel();
+    private static final URI SYSTEM_URI = createSystemLabel();
 }
 

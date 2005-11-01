@@ -56,7 +56,6 @@ public interface CodeBaseStorage
     * Return the array of codebase parameter values.
     *
     * @return the parameter value array
-    * @exception RemoteException if a remote exception occurs
     */
     Value[] getParameters();
 
@@ -65,7 +64,6 @@ public interface CodeBaseStorage
     * as plugin constructor parameter arguments.
     *
     * @param values the array of values
-    * @exception RemoteException if a remote exception occurs
     */
     void setParameters( Value[] values );
 

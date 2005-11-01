@@ -124,9 +124,8 @@ class DefaultLayoutModel extends DisposableCodeBaseModel implements LayoutModel
    /**
     * Set the title of the layout model.
     * @param title the new title
-    * @exception RemoteException if a remote exception occurs
     */
-    public void setTitle( String title ) throws RemoteException
+    public void setTitle( String title )
     {
         synchronized( getLock() )
         {
@@ -146,9 +145,8 @@ class DefaultLayoutModel extends DisposableCodeBaseModel implements LayoutModel
     * Return true if this is a bootstrap resolver.
     *
     * @return the bootstrap status of the resolver.
-    * @exception RemoteException if a remote exception occurs
     */
-    public boolean isBootstrap() throws RemoteException
+    public boolean isBootstrap() 
     {
         return m_bootstrap;
     }
@@ -158,9 +156,8 @@ class DefaultLayoutModel extends DisposableCodeBaseModel implements LayoutModel
     * manager represents a bootstrap resolver.
     *
     * @return the resolver classname
-    * @exception RemoteException if a remote exception occurs
     */
-    public String getClassname() throws RemoteException
+    public String getClassname()
     {
         return m_classname;
     }
@@ -168,9 +165,8 @@ class DefaultLayoutModel extends DisposableCodeBaseModel implements LayoutModel
    /**
     * Returns the human readable name of the resolver.
     * @return the resolver human readable name
-    * @exception RemoteException if a remote exception occurs
     */
-    public String getTitle() throws RemoteException
+    public String getTitle()
     {
         synchronized( getLock() )
         {
@@ -181,9 +177,8 @@ class DefaultLayoutModel extends DisposableCodeBaseModel implements LayoutModel
    /**
     * Add a layout listener to the model.
     * @param listener the listener to add
-    * @exception RemoteException if a remote exception occurs
     */
-    public void addLayoutListener( LayoutListener listener ) throws RemoteException
+    public void addLayoutListener( LayoutListener listener )
     {
         super.addListener( listener );
     }
@@ -191,9 +186,8 @@ class DefaultLayoutModel extends DisposableCodeBaseModel implements LayoutModel
    /**
     * Remove a layout listener from the director.
     * @param listener the listener to remove
-    * @exception RemoteException if a remote exception occurs
     */
-    public void removeLayoutListener( LayoutListener listener ) throws RemoteException
+    public void removeLayoutListener( LayoutListener listener )
     {
         super.removeListener( listener );
     }
@@ -204,9 +198,8 @@ class DefaultLayoutModel extends DisposableCodeBaseModel implements LayoutModel
 
    /**
     * Dispose of the layout model.
-    * @exception RemoteException if a remote exception occurs
     */
-    public void dispose() throws RemoteException
+    public void dispose()
     {
         super.dispose();
         if( !isBootstrap() && ( null != m_home ) && ( m_home instanceof Removable ) )

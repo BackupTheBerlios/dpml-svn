@@ -40,6 +40,7 @@ public abstract class DisposableCodeBaseModel extends DefaultCodeBaseModel imple
    /**
     * Creation of a new disposable codebase model.
     * @param logger the assigned logging channel
+    * @param id the model id
     * @param uri the codebase uri
     * @param params the constructor parameters
     * @exception RemoteException if a remote exception occurs
@@ -69,9 +70,8 @@ public abstract class DisposableCodeBaseModel extends DefaultCodeBaseModel imple
    /**
     * Add a disposal listener to the model.
     * @param listener the listener to add
-    * @exception RemoteException if a remote exception occurs
     */
-    public void addDisposalListener( DisposalListener listener ) throws RemoteException
+    public void addDisposalListener( DisposalListener listener )
     {
         super.addListener( listener );
     }
@@ -79,18 +79,16 @@ public abstract class DisposableCodeBaseModel extends DefaultCodeBaseModel imple
    /**
     * Remove a disposal listener from the model.
     * @param listener the listener to remove
-    * @exception RemoteException if a remote exception occurs
     */
-    public void removeDisposalListener( DisposalListener listener ) throws RemoteException
+    public void removeDisposalListener( DisposalListener listener )
     {
         super.removeListener( listener );
     }
 
    /**
     * Dispose of the disposable codebase model
-    * @exception RemoteException if a remote exception occurs
     */
-    public void dispose() throws RemoteException
+    public void dispose()
     {
         VetoableDisposalEvent veto = new VetoableDisposalEvent( this );
         enqueueEvent( veto, false  );

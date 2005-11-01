@@ -26,8 +26,6 @@ import org.apache.tools.ant.Task;
 
 import net.dpml.transit.Transit;
 import net.dpml.transit.TransitAlreadyInitializedException;
-import net.dpml.transit.model.TransitModel;
-import net.dpml.transit.Logger;
 import net.dpml.transit.model.DefaultTransitModel;
 import net.dpml.transit.monitor.Adapter;
 import net.dpml.transit.monitor.RepositoryMonitorAdapter;
@@ -113,8 +111,7 @@ abstract class TransitTask extends Task
         {
             Project project = task.getProject();
             if( !m_INIT )
-            //if( null == m_MODEL )
-            //{
+            {
                 try
                 {
                     Adapter logger = new AntAdapter( task );
@@ -132,7 +129,7 @@ abstract class TransitTask extends Task
                       "Internal error while initializing Transit";
                     throw new BuildException( error, e );
                 }
-            //}
+            }
             checkProperties( project );
         }
     }

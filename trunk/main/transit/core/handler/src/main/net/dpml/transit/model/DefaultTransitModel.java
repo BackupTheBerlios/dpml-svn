@@ -176,9 +176,8 @@ public class DefaultTransitModel extends DefaultModel implements TransitModel
    /**
     * Add a disposal listener to the model.
     * @param listener the listener to add
-    * @exception RemoteException if a remote exception occurs
     */
-    public void addDisposalListener( DisposalListener listener ) throws RemoteException
+    public void addDisposalListener( DisposalListener listener )
     {
         super.addListener( listener );
     }
@@ -186,18 +185,16 @@ public class DefaultTransitModel extends DefaultModel implements TransitModel
    /**
     * Remove a disposal listener from the model.
     * @param listener the listener to remove
-    * @exception RemoteException if a remote exception occurs
     */
-    public void removeDisposalListener( DisposalListener listener ) throws RemoteException
+    public void removeDisposalListener( DisposalListener listener )
     {
         super.removeListener( listener );
     }
 
    /**
     * Trigger disposal of the transit model.
-    * @exception RemoteException if a remote exception occurs
     */
-    public void dispose() throws RemoteException
+    public void dispose()
     {
         VetoableDisposalEvent veto = new VetoableDisposalEvent( this );
         enqueueEvent( veto, false );

@@ -18,14 +18,10 @@
 
 package net.dpml.transit.tools;
 
-import java.io.File;
-import java.net.URI;
-import java.net.URL;
 import java.util.LinkedList;
 import java.util.prefs.Preferences;
 
 import org.apache.tools.ant.BuildException;
-import org.apache.tools.ant.Project;
 import org.apache.tools.ant.Task;
 
 /**
@@ -40,22 +36,19 @@ public class NodeTask extends Task
     private LinkedList m_nodes = new LinkedList();
     private LinkedList m_entries = new LinkedList();
         
+   /**
+    * Set the preference node name.
+    * @param name the node name
+    */
     public void setName( String name )
     {
         m_name = name;
     }
     
-    private String getNodeName()
-    {
-        if( null == m_name )
-        {
-            final String error = 
-              "Missing name attribute.";
-            throw new BuildException( error, getLocation() );
-        }
-        return m_name;
-    }
-    
+   /**
+    * Create and return a new nested node.
+    * @return the new node
+    */
     public NodeTask createNode()
     {
         NodeTask node = new NodeTask();
@@ -63,6 +56,10 @@ public class NodeTask extends Task
         return node;
     }
 
+   /**
+    * Create and return a new attribute entry.
+    * @return the new attribute
+    */
     public EntryTask createEntry()
     {
         EntryTask entry = new EntryTask();
@@ -70,7 +67,7 @@ public class NodeTask extends Task
         return entry;
     }
     
-    public void apply( Preferences prefs )
+    void apply( Preferences prefs )
     {
         EntryTask[] entries = (EntryTask[]) m_entries.toArray( new EntryTask[0] );
         for( int i=0; i<entries.length; i++ )
@@ -88,6 +85,20 @@ public class NodeTask extends Task
         }
     }
 
+    private String getNodeName()
+    {
+        if( null == m_name )
+        {
+            final String error = 
+              "Missing name attribute.";
+            throw new BuildException( error, getLocation() );
+        }
+        return m_name;
+    }
+    
+   /**
+    * An attribute entry.
+    */
     public class EntryTask extends Task
     {
         private String m_key;
@@ -95,35 +106,59 @@ public class NodeTask extends Task
         private Preferences m_prefs;
         private Class m_type;
 
+       /**
+        * Set the attribute key.
+        * @param key the attribute name
+        */
         public void setKey( String key )
         {
             m_key = key;
         }
         
+       /**
+        * Set the attribute string value.
+        * @param value the string value
+        */
         public void setValue( String value )
         {
             checkValue();
             m_value = value;
         }
         
+       /**
+        * Set the attribute as a boolean value.
+        * @param value the boolean value
+        */
         public void setBoolean( boolean value )
         {
             checkValue();
             m_value = new Boolean( value );
         }
         
+       /**
+        * Set the attribute as a int value.
+        * @param value the int value
+        */
         public void setInt( int value )
         {
             checkValue();
             m_value = new Integer( value );
         }
         
+       /**
+        * Set the attribute as a double value.
+        * @param value the double value
+        */
         public void setDouble( double value )
         {
             checkValue();
             m_value = new Double( value );
         }
         
+       /**
+        * Set the attribute as a float value.
+        * @param value the float value
+        */
         public void setFloat( float value )
         {
             checkValue();
@@ -142,7 +177,7 @@ public class NodeTask extends Task
             }
         }
         
-        public void apply( Preferences prefs )
+        void apply( Preferences prefs )
         {
             if( null == m_key )
             {
@@ -163,19 +198,19 @@ public class NodeTask extends Task
             }
             else if( c == Boolean.class )
             {
-                prefs.putBoolean( m_key, ((Boolean)m_value).booleanValue() );
+                prefs.putBoolean( m_key, ( (Boolean) m_value ).booleanValue() );
             }
             else if( c == Integer.class )
             {
-                prefs.putInt( m_key, ((Integer)m_value).intValue() );
+                prefs.putInt( m_key, ( (Integer) m_value ).intValue() );
             }
             else if( c == Double.class )
             {
-                prefs.putDouble( m_key, ((Double)m_value).doubleValue() );
+                prefs.putDouble( m_key, ( (Double) m_value ).doubleValue() );
             }
             else if( c == Float.class )
             {
-                prefs.putFloat( m_key, ((Float)m_value).floatValue() );
+                prefs.putFloat( m_key, ( (Float) m_value ).floatValue() );
             }
         }
     }

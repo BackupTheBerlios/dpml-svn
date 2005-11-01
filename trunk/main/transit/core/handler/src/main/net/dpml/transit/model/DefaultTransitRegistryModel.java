@@ -91,9 +91,8 @@ public class DefaultTransitRegistryModel extends DefaultModel implements Transit
    /**
     * Add a regstry change listener.
     * @param listener the registry change listener to add
-    * @exception RemoteException if a remote exception occurs
     */
-    public void addTransitRegistryListener( TransitRegistryListener listener ) throws RemoteException
+    public void addTransitRegistryListener( TransitRegistryListener listener )
     {
         super.addListener( listener );
     }
@@ -101,9 +100,8 @@ public class DefaultTransitRegistryModel extends DefaultModel implements Transit
    /**
     * Remove a regstry change listener.
     * @param listener the registry change listener to remove
-    * @exception RemoteException if a remote exception occurs
     */
-    public void removeTransitRegistryListener( TransitRegistryListener listener ) throws RemoteException
+    public void removeTransitRegistryListener( TransitRegistryListener listener )
     {
         super.removeListener( listener );
     }
@@ -112,9 +110,8 @@ public class DefaultTransitRegistryModel extends DefaultModel implements Transit
     * Add a new Transit profile to the registry.
     * @param id the identifier of the new profile
     * @exception DuplicateKeyException if a profile with the same id is already registered
-    * @exception RemoteException if a remote exception occurs
     */
-    public void addTransitModel( String id ) throws DuplicateKeyException, RemoteException
+    public void addTransitModel( String id ) throws DuplicateKeyException
     {
         TransitStorage store = m_home.getTransitStorage( id );
         addTransitModel( store, true );
@@ -125,9 +122,8 @@ public class DefaultTransitRegistryModel extends DefaultModel implements Transit
     * @param model the profile to add
     * @exception DuplicateKeyException if a profile with the same id as the 
     *    id declared by the supplied model is already registered
-    * @exception RemoteException if a remote exception occurs
     */
-    public void addTransitModel( TransitModel model ) throws DuplicateKeyException, RemoteException
+    public void addTransitModel( TransitModel model ) throws DuplicateKeyException
     {
         addTransitModel( model, true );
     }
@@ -138,15 +134,21 @@ public class DefaultTransitRegistryModel extends DefaultModel implements Transit
     * @param notify TRUE if a notification event should be raised
     * @exception DuplicateKeyException if a profile with the same id as the 
     *    id declared by the supplied store is already registered
-    * @exception RemoteException if a remote exception occurs
     */
     private void addTransitModel( TransitStorage store, boolean notify ) 
-      throws DuplicateKeyException, RemoteException
+      throws DuplicateKeyException
     {
         String id = store.getID();
         Logger logger = getLogger().getChildLogger( id );
-        TransitModel model = new DefaultTransitModel( logger, store );
-        addTransitModel( model, notify );
+        try
+        {
+            TransitModel model = new DefaultTransitModel( logger, store );
+            addTransitModel( model, notify );
+        }
+        catch( RemoteException e )
+        {
+            throw new ModelRuntimeException( "remote-exception", e );
+        }
     }
 
    /**
@@ -155,16 +157,15 @@ public class DefaultTransitRegistryModel extends DefaultModel implements Transit
     * @param notify TRUE if a notification event should be raised
     * @exception DuplicateKeyException if a profile with the same id as the 
     *    id declared by the supplied model is already registered
-    * @exception RemoteException if a remote exception occurs
     */
     private void addTransitModel( TransitModel model, boolean notify ) 
-      throws DuplicateKeyException, RemoteException
+      throws DuplicateKeyException
     {
         synchronized( getLock() )
         {
-            String id = model.getID();
             try
             {
+                String id = model.getID();
                 TransitModel m = getTransitModel( id );
                 throw new DuplicateKeyException( id );
             }
@@ -177,15 +178,18 @@ public class DefaultTransitRegistryModel extends DefaultModel implements Transit
                     enqueueEvent( event );
                 }
             }
+            catch( RemoteException e )
+            {
+                throw new ModelRuntimeException( "remote-exception", e );
+            }
         }
     }
 
    /**
     * Return the set of transit models in the registry.
     * @return the model array
-    * @exception RemoteException if a remote exception occurs
     */
-    public TransitModel[] getTransitModels() throws RemoteException
+    public TransitModel[] getTransitModels()
     {
         synchronized( getLock() )
         {
@@ -198,9 +202,8 @@ public class DefaultTransitRegistryModel extends DefaultModel implements Transit
     * @param id the model identifier
     * @return the transit model
     * @exception UnknownKeyException if the key is not recognized
-    * @exception RemoteException if a remote exception occurs
     */
-    public TransitModel getTransitModel( String id ) throws UnknownKeyException, RemoteException
+    public TransitModel getTransitModel( String id ) throws UnknownKeyException
     {
         synchronized( getLock() )
         {
@@ -212,9 +215,16 @@ public class DefaultTransitRegistryModel extends DefaultModel implements Transit
             for( int i=0; i < models.length; i++ )
             {
                 TransitModel model = models[i];
-                if( id.equals( model.getID() ) )
+                try
                 {
-                    return model;
+                    if( id.equals( model.getID() ) )
+                    {
+                        return model;
+                    }
+                }
+                catch( RemoteException e )
+                {
+                    throw new ModelRuntimeException( "remote-exception", e );
                 }
             }
             throw new UnknownKeyException( id );
@@ -225,15 +235,21 @@ public class DefaultTransitRegistryModel extends DefaultModel implements Transit
     * Remove a transit model from the registry.
     * @param model the model to remove
     * @exception ModelReferenceException if the model is in use
-    * @exception RemoteException if a remote exception occurs
     */
-    public void removeTransitModel( TransitModel model ) throws ModelReferenceException, RemoteException
+    public void removeTransitModel( TransitModel model ) throws ModelReferenceException
     {
         synchronized( getLock() )
         {
             try
             {
-                model.dispose();
+                try
+                {
+                    model.dispose();
+                }
+                catch( RemoteException e )
+                {
+                    // ignore
+                }
                 m_list.remove( model );
                 ModelRemovedEvent event = new ModelRemovedEvent( this, model );
                 enqueueEvent( event );

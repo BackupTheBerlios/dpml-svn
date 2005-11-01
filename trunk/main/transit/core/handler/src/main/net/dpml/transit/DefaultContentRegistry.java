@@ -32,7 +32,6 @@ import net.dpml.transit.model.ContentRegistryListener;
 import net.dpml.transit.model.ContentRegistryEvent;
 import net.dpml.transit.model.ContentModel;
 import net.dpml.transit.model.UnknownKeyException;
-import net.dpml.transit.Logger;
 import net.dpml.transit.model.Value;
 import net.dpml.transit.model.Construct;
 

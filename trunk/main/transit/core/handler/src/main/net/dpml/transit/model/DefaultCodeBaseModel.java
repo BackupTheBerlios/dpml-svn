@@ -53,6 +53,7 @@ public abstract class DefaultCodeBaseModel extends DefaultModel implements CodeB
    /**
     * Construction of a new codebase model.
     * @param logger the assigned logging channel
+    * @param id the model id
     * @param uri the codebase uri
     * @param values the codebase parameters
     * @exception RemoteException if a remote exception occurs
@@ -103,9 +104,8 @@ public abstract class DefaultCodeBaseModel extends DefaultModel implements CodeB
    /**
     * Return the immutable resolver identifier.
     * @return the resolver identifier
-    * @exception RemoteException if a remote exception occurs
     */
-    public String getID() throws RemoteException
+    public String getID()
     {
         return m_id;
     }

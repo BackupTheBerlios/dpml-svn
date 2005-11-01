@@ -21,13 +21,10 @@ package net.dpml.transit.tools;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.BufferedOutputStream;
-import java.net.URI;
-import java.net.URL;
 import java.util.prefs.Preferences;
 
 import net.dpml.transit.store.LocalPreferences;
 
-import org.apache.tools.ant.DynamicConfiguratorNS;
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Project;
 
@@ -43,17 +40,29 @@ public class PreferencesTask extends NodeTask
     private boolean m_system = false;
     private String m_base;
     
+   /**
+    * Set the project.
+    * @param project the project
+    */
     public void setProject( Project project )
     {
         setTaskName( "prefs" );
         super.setProject( project );
     }
     
+   /**
+    * Set the destination output file.
+    * @param dest the destination file
+    */
     public void setDest( File dest )
     {
         m_destination = dest;
     }
     
+   /**
+    * Set the scope.
+    * @param value - either 'user' or 'system' scope
+    */
     public void setScope( String value )
     {
         if( "user".equals( value ) )
@@ -72,18 +81,25 @@ public class PreferencesTask extends NodeTask
         }
     }
     
+   /**
+    * Set the base node address.
+    * @param base the base address
+    */
     public void setBase( String base )
     {
         m_base = base;
     }
     
-    public Preferences buildPreferences()
+    Preferences buildPreferences()
     {
         Preferences prefs = createPreferences();
         apply( prefs );
         return prefs;
     }
 
+   /**
+    * Execute the task.
+    */
     public void execute()
     {
         Preferences prefs = buildPreferences();

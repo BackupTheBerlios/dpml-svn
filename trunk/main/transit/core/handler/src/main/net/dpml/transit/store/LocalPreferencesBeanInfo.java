@@ -34,11 +34,19 @@ public final class LocalPreferencesBeanInfo extends SimpleBeanInfo
 {
     private static final BeanDescriptor BEAN_DESCRIPTOR = setupBeanDescriptor();
     
+   /**
+    * Creation of a bean descriptor.
+    * @return the bean descriptor
+    */
     public BeanDescriptor getBeanDescriptor()
     {
         return BEAN_DESCRIPTOR;
     }
     
+   /**
+    * Return the property descriptors.
+    * @return the property descriptors
+    */
     public PropertyDescriptor[] getPropertyDescriptors()
     {
         return new PropertyDescriptor[0];
@@ -53,8 +61,14 @@ public final class LocalPreferencesBeanInfo extends SimpleBeanInfo
         return descriptor;
     }
     
-    public static class LocalPreferencesPersistenceDelegate extends DefaultPersistenceDelegate
+    private static class LocalPreferencesPersistenceDelegate extends DefaultPersistenceDelegate
     {
+       /**
+        * Instantiate an expression.
+        * @param old the old value
+        * @param encoder the encoder
+        * @return the expression
+        */
         public Expression instantiate( Object old, Encoder encoder )
         {
             if( null == old )

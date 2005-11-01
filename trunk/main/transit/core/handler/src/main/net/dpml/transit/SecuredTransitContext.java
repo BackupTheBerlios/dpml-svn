@@ -29,7 +29,6 @@ import java.util.Properties;
 
 import net.dpml.transit.link.ArtifactLinkManager;
 import net.dpml.transit.link.LinkManager;
-import net.dpml.transit.Logger;
 import net.dpml.transit.model.CacheModel;
 import net.dpml.transit.model.TransitModel;
 import net.dpml.transit.model.ContentRegistryModel;

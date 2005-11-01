@@ -30,12 +30,10 @@ import java.net.URLClassLoader;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Properties;
-import java.util.prefs.Preferences;
 
 import net.dpml.transit.artifact.ArtifactNotFoundException;
 import net.dpml.transit.artifact.Handler;
 import net.dpml.transit.monitor.RepositoryMonitorRouter;
-import net.dpml.transit.Category;
 
 /**
  * Utility class supporting downloading of resources based on

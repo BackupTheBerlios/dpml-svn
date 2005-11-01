@@ -84,9 +84,8 @@ class DefaultContentRegistryModel extends DisposableCodeBaseModel
    /**
     * Return an array of content models currently assigned to the registry.
     * @return the content model array
-    * @exception RemoteException if a remote exception occurs
     */
-    public ContentModel[] getContentModels() throws RemoteException
+    public ContentModel[] getContentModels()
     {
         synchronized( getLock() )
         {
@@ -100,9 +99,8 @@ class DefaultContentRegistryModel extends DisposableCodeBaseModel
     * @param type the content model type
     * @return the content model
     * @exception UnknownKeyException if the content model type is unknown
-    * @exception RemoteException if a remote exception occurs
     */
-    public ContentModel getContentModel( String type ) throws UnknownKeyException, RemoteException
+    public ContentModel getContentModel( String type ) throws UnknownKeyException
     {
         synchronized( getLock() )
         {
@@ -110,9 +108,16 @@ class DefaultContentRegistryModel extends DisposableCodeBaseModel
             for( int i=0; i < managers.length; i++ )
             {
                 ContentModel manager = managers[i];
-                if( type.equals( manager.getContentType() ) )
+                try
                 {
-                    return manager;
+                    if( type.equals( manager.getContentType() ) )
+                    {
+                        return manager;
+                    }
+                }
+                catch( RemoteException e )
+                {
+                    throw new ModelRuntimeException( e.getMessage(), e );
                 }
             }
             throw new UnknownKeyException( type );
@@ -123,14 +128,20 @@ class DefaultContentRegistryModel extends DisposableCodeBaseModel
     * Create a new content model for the supplied type.
     * @param type the content model type
     * @exception DuplicateKeyException if a content model already exists for the supplied type
-    * @exception RemoteException if a remote exception occurs
     */
-    public void addContentModel( String type ) throws DuplicateKeyException, RemoteException
+    public void addContentModel( String type ) throws DuplicateKeyException
     {
-        ContentStorage store = m_home.createContentStorage( type );
-        Logger logger = getLogger().getChildLogger( type );
-        DefaultContentModel model = new DefaultContentModel( logger, store );
-        addContentModel( model );
+        try
+        {
+            ContentStorage store = m_home.createContentStorage( type );
+            Logger logger = getLogger().getChildLogger( type );
+            DefaultContentModel model = new DefaultContentModel( logger, store );
+            addContentModel( model );
+        }
+        catch( RemoteException e )
+        {
+            throw new ModelRuntimeException( e.getMessage(), e );
+        }
     }
 
    /**
@@ -139,15 +150,21 @@ class DefaultContentRegistryModel extends DisposableCodeBaseModel
     * @param title the content model title
     * @param uri the content model codebase uri
     * @exception DuplicateKeyException if a content model already exists for the supplied type
-    * @exception RemoteException if a remote exception occurs
     */
     public void addContentModel( String type, String title, URI uri ) 
-      throws DuplicateKeyException, RemoteException
+      throws DuplicateKeyException
     {
-        ContentStorage store = m_home.createContentStorage( type, title, uri );
-        Logger logger = getLogger().getChildLogger( type );
-        DefaultContentModel model = new DefaultContentModel( logger, store );
-        addContentModel( model );
+        try
+        {
+            ContentStorage store = m_home.createContentStorage( type, title, uri );
+            Logger logger = getLogger().getChildLogger( type );
+            DefaultContentModel model = new DefaultContentModel( logger, store );
+            addContentModel( model );
+        }
+        catch( RemoteException e )
+        {
+            throw new ModelRuntimeException( e.getMessage(), e );
+        }
     }
 
    /**
@@ -155,10 +172,9 @@ class DefaultContentRegistryModel extends DisposableCodeBaseModel
     * @param model the content model to add
     * @exception DuplicateKeyException if a content model already exists for the type
     *   declared by the supplied model
-    * @exception RemoteException if a remote exception occurs
     */
     public void addContentModel( ContentModel model ) 
-      throws DuplicateKeyException, RemoteException
+      throws DuplicateKeyException
     {
         addContentModel( model, true );
     }
@@ -166,25 +182,30 @@ class DefaultContentRegistryModel extends DisposableCodeBaseModel
    /**
     * Remove a content model from the registry.
     * @param model the model to remove
-    * @exception RemoteException if a remote exception occurs
     */
-    public void removeContentModel( ContentModel model ) throws RemoteException
+    public void removeContentModel( ContentModel model )
     {
         synchronized( getLock() )
         {
-            model.dispose();
-            m_list.remove( model );
-            ContentRemovedEvent event = new ContentRemovedEvent( this, model );
-            super.enqueueEvent( event );
+            try
+            {
+                model.dispose();
+                m_list.remove( model );
+                ContentRemovedEvent event = new ContentRemovedEvent( this, model );
+                super.enqueueEvent( event );
+            }
+            catch( RemoteException e )
+            {
+                throw new ModelRuntimeException( e.getMessage(), e );
+            }
         }
     }
 
    /**
     * Add a regsitry change listener.
     * @param listener the registry change listener to add
-    * @exception RemoteException if a remote exception occurs
     */
-    public void addRegistryListener( ContentRegistryListener listener ) throws RemoteException
+    public void addRegistryListener( ContentRegistryListener listener )
     {
         super.addListener( listener );
     }
@@ -192,9 +213,8 @@ class DefaultContentRegistryModel extends DisposableCodeBaseModel
    /**
     * Remove a registry change listener.
     * @param listener the registry change listener to remove
-    * @exception RemoteException if a remote exception occurs
     */
-    public void removeRegistryListener( ContentRegistryListener listener ) throws RemoteException
+    public void removeRegistryListener( ContentRegistryListener listener )
     {
         super.removeListener( listener );
     }
@@ -204,13 +224,13 @@ class DefaultContentRegistryModel extends DisposableCodeBaseModel
     // ------------------------------------------------------------------------
 
     private void addContentModel( ContentModel manager, boolean notify ) 
-      throws DuplicateKeyException, RemoteException
+      throws DuplicateKeyException
     {
         synchronized( getLock() )
         {
-            String id = manager.getContentType();
             try
             {
+                String id = manager.getContentType();
                 ContentModel m = getContentModel( id );
                 throw new DuplicateKeyException( id );
             }
@@ -222,6 +242,10 @@ class DefaultContentRegistryModel extends DisposableCodeBaseModel
                     ContentAddedEvent event = new ContentAddedEvent ( this, manager );
                     enqueueEvent( event );
                 }
+            }
+            catch( RemoteException e )
+            {
+                throw new ModelRuntimeException( e.getMessage(), e );
             }
         }
     }

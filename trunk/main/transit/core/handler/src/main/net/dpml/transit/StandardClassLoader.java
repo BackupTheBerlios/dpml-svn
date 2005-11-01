@@ -22,8 +22,6 @@ import java.net.URL;
 import java.net.URI;
 import java.net.URLClassLoader;
 
-import net.dpml.transit.Category;
-
 /**
  * A named classloader.
  *
@@ -45,6 +43,7 @@ public class StandardClassLoader extends URLClassLoader
 
    /**
     * Creation of a new classloader.
+    * @param plugin uri identifying the plugin
     * @param category the classloader category identifier
     * @param urls an array of urls to add to the classloader
     * @param parent the parent classloader
@@ -78,6 +77,10 @@ public class StandardClassLoader extends URLClassLoader
         return m_plugin;
     }
 
+   /**
+    * Return a string representation of the classloader.
+    * @return the string value
+    */
     public String getAnnotations()
     {
         StringBuffer buffer = new StringBuffer();
@@ -89,7 +92,7 @@ public class StandardClassLoader extends URLClassLoader
         }
         buffer.append( " " );
         URL[] urls = getURLs();
-        for( int i=0; i<urls.length;i++ )
+        for( int i=0; i<urls.length; i++ )
         {
             String path = urls[i].toString();
             if( !path.startsWith( "file:" ) )
@@ -101,10 +104,6 @@ public class StandardClassLoader extends URLClassLoader
         return buffer.toString().trim();
     }
     
-    void supplimentSystemStack( ClassLoader classloader )
-    {
-    }
-
     private String getURLClassLoaderAnnotations( URLClassLoader classloader )
     {
         StringBuffer buffer = new StringBuffer();
@@ -120,7 +119,7 @@ public class StandardClassLoader extends URLClassLoader
         }
         buffer.append( " " );
         URL[] urls = classloader.getURLs();
-        for( int i=0; i<urls.length;i++ )
+        for( int i=0; i<urls.length; i++ )
         {
             String path = urls[i].toString();
             if( !path.startsWith( "file:" ) )

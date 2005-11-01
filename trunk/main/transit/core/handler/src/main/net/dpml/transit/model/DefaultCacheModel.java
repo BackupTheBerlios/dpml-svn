@@ -118,9 +118,8 @@ class DefaultCacheModel extends DisposableCodeBaseModel
     * is using and will raise a VetoDisposalException automatically.
     * @param event the layout predisposal disposal event
     * @exception VetoDisposalException it veto the disposal
-    * @exception RemoteException if a remote exception occurs
     */
-    public void disposing( DisposalEvent event ) throws VetoDisposalException, RemoteException
+    public void disposing( DisposalEvent event ) throws VetoDisposalException
     {
         final String message = "Layout currently assigned to cache.";
         throw new VetoDisposalException( this, message );
@@ -131,9 +130,8 @@ class DefaultCacheModel extends DisposableCodeBaseModel
     * receives this event a TransitError will be raised as this signals the 
     * unexpected condition that disposal event veto was not respected (which should 
     * not happen).
-    * @exception RemoteException if a remote exception occurs
     */
-    public void disposed( DisposalEvent event )  throws RemoteException // should never happen
+    public void disposed( DisposalEvent event )
     {
         final String error = 
           "Unexpected notification of disposal of an assigned cache layout.";
@@ -149,7 +147,7 @@ class DefaultCacheModel extends DisposableCodeBaseModel
     * @return the layout model
     * @exception RemoteException if a remote exception occurs
     */
-    public LayoutModel getLayoutModel() throws RemoteException
+    public LayoutModel getLayoutModel()
     {
         return m_layout;
     }
@@ -160,7 +158,7 @@ class DefaultCacheModel extends DisposableCodeBaseModel
     * @param path the cache directory path
     * @exception RemoteException if a remote exception occurs
     */
-    public void setCacheDirectoryPath( final String path ) throws RemoteException
+    public void setCacheDirectoryPath( final String path )
     {
         setCacheDirectoryPath( path, true );
     }
@@ -172,7 +170,7 @@ class DefaultCacheModel extends DisposableCodeBaseModel
     * @param notify if true then notify listeners
     * @exception RemoteException if a remote exception occurs
     */
-    protected void setCacheDirectoryPath( final String path, boolean notify ) throws RemoteException
+    protected void setCacheDirectoryPath( final String path, boolean notify )
     {
         synchronized( getLock() )
         {
@@ -212,7 +210,7 @@ class DefaultCacheModel extends DisposableCodeBaseModel
     * @return the registry of layout models
     * @exception RemoteException if a remote exception occurs
     */
-    public LayoutRegistryModel getLayoutRegistryModel() throws RemoteException
+    public LayoutRegistryModel getLayoutRegistryModel()
     {
         return m_registry;
     }
@@ -222,7 +220,7 @@ class DefaultCacheModel extends DisposableCodeBaseModel
     * @return the host model array
     * @exception RemoteException if a remote exception occurs
     */
-    public HostModel[] getHostModels() throws RemoteException
+    public HostModel[] getHostModels()
     {
         synchronized( getLock() )
         {
@@ -235,9 +233,8 @@ class DefaultCacheModel extends DisposableCodeBaseModel
     * @param id the host model id
     * @return the host model
     * @exception UnknownKeyException the host model id is not recognized
-    * @exception RemoteException if a remote exception occurs
     */
-    public HostModel getHostModel( String id ) throws UnknownKeyException, RemoteException
+    public HostModel getHostModel( String id ) throws UnknownKeyException
     {
         synchronized( getLock() )
         {
@@ -245,9 +242,16 @@ class DefaultCacheModel extends DisposableCodeBaseModel
             for( int i=0; i < managers.length; i++ )
             {
                 HostModel manager = managers[i];
-                if( id.equals( manager.getID() ) )
+                try
                 {
-                    return manager;
+                    if( id.equals( manager.getID() ) )
+                    {
+                        return manager;
+                    }
+                }
+                catch( RemoteException e )
+                {
+                    throw new ModelRuntimeException( e.getMessage(), e );
                 }
             }
             throw new UnknownKeyException( id );
@@ -263,7 +267,7 @@ class DefaultCacheModel extends DisposableCodeBaseModel
     * @exception RemoteException if a remote exception occurs
     */
     public void addHostModel( String id ) 
-       throws DuplicateKeyException, UnknownKeyException, RemoteException, MalformedURLException
+       throws DuplicateKeyException, UnknownKeyException, MalformedURLException
     {
         HostStorage store = m_home.getHostStorage( id );
         addHostModel( store, true );
@@ -275,7 +279,7 @@ class DefaultCacheModel extends DisposableCodeBaseModel
     * @exception DuplicateKeyException a host model with a matching id already exists
     * @exception RemoteException if a remote exception occurs
     */
-    public void addHostModel( HostModel model ) throws DuplicateKeyException, RemoteException
+    public void addHostModel( HostModel model ) throws DuplicateKeyException
     {
         addHostModel( model, true );
     }
@@ -285,15 +289,22 @@ class DefaultCacheModel extends DisposableCodeBaseModel
     * @param model the host model to remove
     * @exception RemoteException if a remote exception occurs
     */
-    public void removeHostModel( HostModel model ) throws RemoteException
+    public void removeHostModel( HostModel model )
     {
         synchronized( getLock() )
         {
-            model.dispose();
-            m_list.remove( model );
-            m_sortedHosts = sortHosts();
-            HostRemovedEvent event = new HostRemovedEvent( this, model );
-            enqueueEvent( event );
+            try
+            {
+                model.dispose();
+                m_list.remove( model );
+                m_sortedHosts = sortHosts();
+                HostRemovedEvent event = new HostRemovedEvent( this, model );
+                enqueueEvent( event );
+            }
+            catch( RemoteException e )
+            {
+                throw new ModelRuntimeException( e.getMessage(), e );
+            }
         }
     }
 
@@ -302,7 +313,7 @@ class DefaultCacheModel extends DisposableCodeBaseModel
     * @return the cache path.
     * @exception RemoteException if a remote exception occurs
     */
-    public String getCacheDirectoryPath() throws RemoteException
+    public String getCacheDirectoryPath()
     {
         return m_home.getCacheDirectoryPath();
     }
@@ -312,7 +323,7 @@ class DefaultCacheModel extends DisposableCodeBaseModel
     * @return the cache directory.
     * @exception RemoteException if a remote exception occurs
     */
-    public File getCacheDirectory() throws RemoteException
+    public File getCacheDirectory()
     {
         return m_cache;
     }
@@ -322,7 +333,7 @@ class DefaultCacheModel extends DisposableCodeBaseModel
     * @param listener the listener to add
     * @exception RemoteException if a remote exception occurs
     */
-    public void addCacheListener( CacheListener listener ) throws RemoteException
+    public void addCacheListener( CacheListener listener )
     {
         super.addListener( listener );
     }
@@ -332,7 +343,7 @@ class DefaultCacheModel extends DisposableCodeBaseModel
     * @param listener the listener to remove
     * @exception RemoteException if a remote exception occurs
     */
-    public void removeCacheListener( CacheListener listener ) throws RemoteException
+    public void removeCacheListener( CacheListener listener )
     {
         super.removeListener( listener );
     }
@@ -345,10 +356,17 @@ class DefaultCacheModel extends DisposableCodeBaseModel
     * Disposal of the cache model.
     * @exception RemoteException if a remote exception occurs
     */
-    public void dispose() throws RemoteException
+    public void dispose()
     {
         super.dispose();
-        m_layout.removeDisposalListener( this );
+        try
+        {
+            m_layout.removeDisposalListener( this );
+        }
+        catch( RemoteException e )
+        {
+            throw new ModelRuntimeException( e.getMessage(), e );
+        }
     }
 
     // ------------------------------------------------------------------------
@@ -361,13 +379,13 @@ class DefaultCacheModel extends DisposableCodeBaseModel
     * @exception DuplicateKeyException a host model with a matching id already exists
     * @exception RemoteException if a remote exception occurs
     */
-    void addHostModel( HostModel manager, boolean notify ) throws DuplicateKeyException, RemoteException
+    void addHostModel( HostModel manager, boolean notify ) throws DuplicateKeyException
     {
         synchronized( getLock() )
         {
-            String id = manager.getID();
             try
             {
+                String id = manager.getID();
                 HostModel m = getHostModel( id );
                 throw new DuplicateKeyException( id );
             }
@@ -380,6 +398,10 @@ class DefaultCacheModel extends DisposableCodeBaseModel
                     HostAddedEvent event = new HostAddedEvent( this, manager );
                     enqueueEvent( event );
                 }
+            }
+            catch( RemoteException e )
+            {
+                throw new ModelRuntimeException( e.getMessage(), e );
             }
         }
     }
@@ -394,13 +416,20 @@ class DefaultCacheModel extends DisposableCodeBaseModel
     * @exception RemoteException if a remote exception occurs
     */
     void addHostModel( HostStorage store, boolean notify ) 
-      throws DuplicateKeyException, UnknownKeyException, RemoteException, MalformedURLException
+      throws DuplicateKeyException, UnknownKeyException, MalformedURLException
     {
-        String id = store.getID();
-        Logger logger = getLogger().getChildLogger( id );
-        LayoutRegistryModel registry = getLayoutRegistryModel();
-        HostModel model = new DefaultHostModel( logger, store, registry );
-        addHostModel( model, notify );
+        try
+        {
+            String id = store.getID();
+            Logger logger = getLogger().getChildLogger( id );
+            LayoutRegistryModel registry = getLayoutRegistryModel();
+            HostModel model = new DefaultHostModel( logger, store, registry );
+            addHostModel( model, notify );
+        }
+        catch( RemoteException e )
+        {
+            throw new ModelRuntimeException( e.getMessage(), e );
+        }
     }
 
    /**
@@ -485,7 +514,7 @@ class DefaultCacheModel extends DisposableCodeBaseModel
         }
     }
 
-    private HostModel[] sortHosts() throws RemoteException
+    private HostModel[] sortHosts()
     {
         synchronized( getLock() )
         {

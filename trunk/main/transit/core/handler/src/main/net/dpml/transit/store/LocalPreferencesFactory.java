@@ -71,6 +71,13 @@ public class LocalPreferencesFactory implements PreferencesFactory
     // special
     // ------------------------------------------------------------------------
     
+   /**
+    * Return a preferences instance using the supplied arguments.
+    * @param path the preference node path
+    * @param entries the preference attribute node array
+    * @param system true if declaring the node as system scope
+    * @return the new prefernces instance
+    */
     public static Preferences parse( String path, Object[] entries, Object[] nodes, boolean system )
     {
         Preferences root = getRootPreferences( system );
@@ -82,7 +89,7 @@ public class LocalPreferencesFactory implements PreferencesFactory
     
     private static Preferences getRootPreferences( boolean system )
     {
-        if( system == true )
+        if( system )
         {
             return new LocalPreferences( null, "", true );
         }
@@ -94,7 +101,7 @@ public class LocalPreferencesFactory implements PreferencesFactory
     
     private static void applyAttributes( Preferences prefs, Object[] entries )
     {
-        System.out.println( "applying attributes to: " + prefs );
+        //System.out.println( "applying attributes to: " + prefs );
         for( int i=0; i<entries.length; i++ )
         {
             String[] entry = (String[]) entries[i];
@@ -111,7 +118,7 @@ public class LocalPreferencesFactory implements PreferencesFactory
 
     private static void applyNodes( Preferences prefs, Object[] nodes )
     {
-        System.out.println( "applying nodes to: " + prefs );
+        //System.out.println( "applying nodes to: " + prefs );
         for( int i=0; i<nodes.length; i++ )
         {
             Object[] node = (Object[]) nodes[i];

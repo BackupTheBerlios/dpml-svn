@@ -20,7 +20,6 @@ package net.dpml.transit.model;
 
 import java.beans.Expression;
 import java.io.Serializable;
-import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -48,6 +47,7 @@ public class Construct implements Value, Serializable
     * @param params the value array
     * @param args supplimentary arguments
     * @return the consolidated argument array
+    * @exception Exception if an error occurs in argument resolution
     */
     public static Object[] getArgs( Map map, Value[] params, Object[] args ) throws Exception
     {
@@ -213,6 +213,7 @@ public class Construct implements Value, Serializable
    /**
     * Resolve an instance from the value using the context classloader.
     * @return the resolved instance
+    * @exception Exception if an error occurs during value resolution
     */
     public Object resolve() throws Exception
     {
@@ -223,6 +224,7 @@ public class Construct implements Value, Serializable
     * Resolve an instance from the value using a supplied map.
     * @param map the context map
     * @return the resolved instance
+    * @exception Exception if an error occurs during value resolution
     */
     public Object resolve( Map map ) throws Exception
     {
@@ -231,12 +233,13 @@ public class Construct implements Value, Serializable
     
    /**
     * Resolve an instance from the value using a supplied isolation policy.
-    * @param policy the isolation policy
+    * @param isolate the isolation policy
     * @return the resolved instance
+    * @exception Exception if an error occurs during value resolution
     */
-    public Object resolve( boolean policy ) throws Exception
+    public Object resolve( boolean isolate ) throws Exception
     {
-        return resolve( null, policy );
+        return resolve( null, isolate );
     }
     
    /**
@@ -245,6 +248,7 @@ public class Construct implements Value, Serializable
     * expression the value will be resolved using the supplied map.
     *
     * @param map the context map
+    * @param isolate the isolation policy
     * @return the resolved instance
     * @exception Exception if error occurs during instance resolution
     */
@@ -255,7 +259,11 @@ public class Construct implements Value, Serializable
 
    /**
     * Resolve an instance from the value.
+    * @param map the context map
+    * @param classloader the classloader to use
+    * @param isolate the isolation policy
     * @return the resolved instance
+    * @exception Exception if an error occurs during value resolution
     */
     public Object resolve( Map map, ClassLoader classloader, boolean isolate ) throws Exception
     {
@@ -347,7 +355,7 @@ public class Construct implements Value, Serializable
         }
         else
         {
-            Expression expression =  new Expression( target, method, new Object[]{ value } );
+            Expression expression =  new Expression( target, method, new Object[]{value} );
             try
             {
                 return expression.getValue();
@@ -571,6 +579,10 @@ public class Construct implements Value, Serializable
         }
     }
     
+   /**
+    * Return a string representation of the construct.
+    * @return the string value
+    */
     public String toString()
     {
         if( !m_compound )
@@ -589,6 +601,11 @@ public class Construct implements Value, Serializable
         }
     }
     
+   /**
+    * Compare this instance with a supplied object for equality.
+    * @param other the other object
+    * @return true if the supplied instance is equal to this instance
+    */
     public boolean equals( Object other )
     {
         if( null == other )
@@ -625,6 +642,10 @@ public class Construct implements Value, Serializable
         }
     }
     
+   /**
+    * Compute the instance hashcode value.
+    * @return the hashcode
+    */
     public int hashCode()
     {
         int hash = 0;

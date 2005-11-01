@@ -83,6 +83,7 @@ public abstract class CodeBaseStorageUnit extends AbstractStorageUnit implements
     *
     * @param prefs the preferences node
     * @return the property set
+    * @exception StorageRuntimeException if a storage implementation failure occurs
     */
     protected Properties getProperties( Preferences prefs ) throws StorageRuntimeException
     {
@@ -115,13 +116,14 @@ public abstract class CodeBaseStorageUnit extends AbstractStorageUnit implements
     *
     * @param prefs the preferences node
     * @param properties the property set to stre into the preferences node
+    * @exception StorageRuntimeException if a storage implementation failure occurs
     */
     protected void setProperties( Preferences prefs, Properties properties ) throws StorageRuntimeException
     {
         try
         {
             prefs.clear();
-            String[] keys = (String[])properties.keySet().toArray();
+            String[] keys = (String[]) properties.keySet().toArray();
             for( int i=0; i < keys.length; i++ )
             {
                 String key = keys[i];
@@ -166,7 +168,6 @@ public abstract class CodeBaseStorageUnit extends AbstractStorageUnit implements
     * Return the array of codebase parameter values.
     *
     * @return the parameter value array
-    * @exception RemoteException if a remote exception occurs
     */
     public Value[] getParameters()
     {
@@ -187,7 +188,6 @@ public abstract class CodeBaseStorageUnit extends AbstractStorageUnit implements
     * as plugin constructor parameter arguments.
     *
     * @param values the array of values
-    * @exception RemoteException if a remote exception occurs
     */
     public void setParameters( Value[] values )
     {
