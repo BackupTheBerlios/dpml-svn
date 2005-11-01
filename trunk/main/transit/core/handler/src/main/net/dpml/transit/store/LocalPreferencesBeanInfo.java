@@ -61,6 +61,9 @@ public final class LocalPreferencesBeanInfo extends SimpleBeanInfo
         return descriptor;
     }
     
+   /**
+    * Persistence delegate.
+    */
     private static class LocalPreferencesPersistenceDelegate extends DefaultPersistenceDelegate
     {
        /**

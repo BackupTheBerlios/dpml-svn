@@ -21,17 +21,10 @@ package net.dpml.tools.ant;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-import java.beans.Expression;
-import java.beans.BeanDescriptor;
-import java.beans.PersistenceDelegate;
-import java.beans.DefaultPersistenceDelegate;
-import java.beans.SimpleBeanInfo;
-import java.beans.Encoder;
 
 import net.dpml.tools.info.Scope;
 import net.dpml.tools.model.Library;
 import net.dpml.tools.model.Resource;
-import net.dpml.tools.model.Builder;
 import net.dpml.tools.model.Type;
 
 import net.dpml.transit.Artifact;
@@ -55,6 +48,12 @@ public final class Context
     private final Path m_runtime;
     private final Path m_test;
         
+   /**
+    * Creation of a new project build context.
+    * @param resource the resource definition
+    * @param library the resource library
+    * @param project the Ant project
+    */
     public Context( Resource resource, Library library, Project project )
     {
         m_project = project;
@@ -124,6 +123,13 @@ public final class Context
         project.setNewProperty( "project.target.reports.dir", getTargetReportsDirectory().toString() );
     }
     
+   /**
+    * Return an Ant path suitable for comile or runtime usage. If the supplied scope is 
+    * less than Scope.RUNTIME a runtime path is returned otherwise the test path is 
+    * returned.
+    * @param scope the build scope
+    * @return the path object
+    */
     public Path getPath( Scope scope )
     {
         if( scope.isLessThan( Scope.TEST ) )
@@ -135,119 +141,215 @@ public final class Context
             return m_test;
         }
     }
-        
+    
+   /**
+    * Return the active resource.
+    * @return the resource definition
+    */
     public Resource getResource()
     {
         return m_resource;
     }
     
+   /**
+    * Return the resource library.
+    * @return the library
+    */
     public Library getLibrary()
     {
         return m_library;
     }
     
+   /**
+    * Return the project source directory.
+    * @return the directory
+    */
     public File getSrcDirectory()
     {
         return createFile( "src" );
     }
     
+   /**
+    * Return the project source main directory.
+    * @return the directory
+    */
     public File getSrcMainDirectory()
     {
         return new File( getSrcDirectory(), "main" );
     }
     
+   /**
+    * Return the project source test directory.
+    * @return the directory
+    */
     public File getSrcTestDirectory()
     {
         return new File( getSrcDirectory(), "test" );
     }
     
+   /**
+    * Return the project etc directory.
+    * @return the directory
+    */
     public File getEtcDirectory()
     {
         return createFile( "etc" );
     }
 
+   /**
+    * Return the project target directory.
+    * @return the directory
+    */
     public File getTargetDirectory()
     {
         return createFile( "target" );
     }
     
+   /**
+    * Return a directory within the target directory.
+    * @param path the path
+    * @return the directory
+    */
     public File getTargetDirectory( String path )
     {
         return new File( getTargetDirectory(), path );
     }
     
+   /**
+    * Return the project target build directory.
+    * @return the directory
+    */
     public File getTargetBuildDirectory()
     {
         return new File( getTargetDirectory(), "build" );
     }
     
+   /**
+    * Return the project target build main directory.
+    * @return the directory
+    */
     public File getTargetBuildMainDirectory()
     {
         return new File( getTargetBuildDirectory(), "main" );
     }
     
+   /**
+    * Return the project target build test directory.
+    * @return the directory
+    */
     public File getTargetBuildTestDirectory()
     {
         return new File( getTargetBuildDirectory(), "test" );
     }
     
+   /**
+    * Return the project target root classes directory.
+    * @return the directory
+    */
     public File getTargetClassesDirectory()
     {
         return new File( getTargetDirectory(), "classes" );
     }
     
+   /**
+    * Return the project target main classes directory.
+    * @return the directory
+    */
     public File getTargetClassesMainDirectory()
     {
         return new File( getTargetClassesDirectory(), "main" );
     }
     
+   /**
+    * Return the project target test classes directory.
+    * @return the directory
+    */
     public File getTargetClassesTestDirectory()
     {
         return new File( getTargetClassesDirectory(), "test" );
     }
     
+   /**
+    * Return the project target reports directory.
+    * @return the directory
+    */
     public File getTargetReportsDirectory()
     {
         return new File( getTargetDirectory(), "reports" );
     }
     
+   /**
+    * Return the project target test reports directory.
+    * @return the directory
+    */
     public File getTargetReportsTestDirectory()
     {
         return new File( getTargetReportsDirectory(), "test" );
     }
     
+   /**
+    * Return the project target main reports directory.
+    * @return the directory
+    */
     public File getTargetReportsMainDirectory()
     {
         return new File( getTargetReportsDirectory(), "main" );
     }
     
+   /**
+    * Return the project target javadoc reports directory.
+    * @return the directory
+    */
     public File getTargetReportsJavadocDirectory()
     {
         return new File( getTargetReportsDirectory(), "api" );
     }
     
+   /**
+    * Return the project target test directory.
+    * @return the directory
+    */
     public File getTargetTestDirectory()
     {
         return new File( getTargetDirectory(), "test" );
     }
     
+   /**
+    * Return the project target deliverables directory.
+    * @return the directory
+    */
     public File getTargetDeliverablesDirectory()
     {
         return new File( getTargetDirectory(), "deliverables" );
     }
     
+   /**
+    * Create a file relative to the resource basedir.
+    * @param path the relative path
+    * @return the directory
+    */
     public File createFile( String path )
     {
         File basedir = m_resource.getBaseDir();
         return new File( basedir, path );
     }
     
+   /**
+    * Return a filename using the layout strategy emplioyed by the cache.
+    * @param id the artifact type
+    * @return the filename
+    */
     public String getLayoutPath( String id )
     {
         Artifact artifact = m_resource.getArtifact( id );
         return Transit.getInstance().getCacheLayout().resolveFilename( artifact );
     }
-    
+   
+   /**
+    * Utility operation to construct a new classpath path instance.
+    * @param scope the build scope
+    * @return the path
+    */
     public Path createPath( Scope scope )
     {
         try
@@ -263,11 +365,23 @@ public final class Context
         }
     }
     
+   /**
+    * Utility operation to construct a new path using a supplied array of resources.
+    * @param resources the resource to use in path construction
+    * @return the path
+    */
     public Path createPath( Resource[] resources )
     {
         return createPath( resources, true, false );
     }
     
+   /**
+    * Utility operation to construct a new path using a supplied array of resources.
+    * @param resources the resources to use in path construction
+    * @param resolve if true force local caching of the artifact 
+    * @param filter if true restrict path entries to resources that produce jars
+    * @return the path
+    */
     public Path createPath( Resource[] resources, boolean resolve, boolean filter )
     {
         final Path path = new Path( m_project );

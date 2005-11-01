@@ -18,8 +18,6 @@
 
 package net.dpml.tools.model;
 
-import java.rmi.Remote;
-
 /**
  * A Builder is implementated by a plugin that handles the building of
  * a project.

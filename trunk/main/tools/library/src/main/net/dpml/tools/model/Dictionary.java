@@ -18,8 +18,6 @@
 
 package net.dpml.tools.model;
 
-import java.net.URI;
-
 /**
  * The Dictonary interface exposes operations dealing with named properties.
  *
@@ -28,10 +26,25 @@ import java.net.URI;
  */
 public interface Dictionary
 {
+   /**
+    * Return the property names associated with the dictionary.
+    * @return the array of property names
+    */
     String[] getPropertyNames();
     
+   /**
+    * Return a property value.
+    * @param key the property key
+    * @return the property value
+    */
     String getProperty( String key );
     
+   /**
+    * Return a property value.
+    * @param key the property key
+    * @param value the default value
+    * @return the property value
+    */
     String getProperty( String key, String value );
     
 }

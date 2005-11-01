@@ -21,21 +21,11 @@ package net.dpml.tools.control;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
-import java.io.IOException;
 import java.net.URI;
-import java.net.URISyntaxException;
 import java.net.URL;
-import java.rmi.RemoteException;
-import java.rmi.server.UnicastRemoteObject;
-import java.util.Hashtable;
 import java.util.ArrayList;
-import java.util.Properties;
-import java.util.Date;
 import java.util.List;
-import java.util.regex.Pattern;
-import java.util.regex.Matcher;
 
-import net.dpml.tools.info.IncludeDirective;
 import net.dpml.tools.info.LibraryDirective;
 import net.dpml.tools.info.ModuleDirective;
 import net.dpml.tools.info.ImportDirective;
@@ -49,14 +39,10 @@ import net.dpml.tools.model.Library;
 import net.dpml.tools.model.Type;
 import net.dpml.tools.model.ModuleNotFoundException;
 import net.dpml.tools.model.ResourceNotFoundException;
-import net.dpml.tools.model.ReferentialException;
-import net.dpml.tools.model.DuplicateNameException;
 
 import net.dpml.transit.Artifact;
 import net.dpml.transit.Logger;
-import net.dpml.transit.util.ElementHelper;
 
-import org.w3c.dom.Element;
 
 /**
  * Utility class used for construction of a module model from an XML source.
@@ -72,11 +58,23 @@ public final class DefaultLibrary extends DefaultDictionary implements Library
     private final File m_root;
     private final Logger m_logger;
     
+   /**
+    * Creation of a new library.  The definition of the library will 
+    * be resolved by search up the file system for a file named library.xml.
+    * @param logger the assigned logging channel
+    * @exception Exception if an error occurs during defintion loading
+    */
     public DefaultLibrary( Logger logger ) throws Exception
     {
         this( logger, resolveLibrarySource() );
     }
     
+   /**
+    * Creation of a new library.
+    * @param logger the assigned logging channel
+    * @param source the library source defintion
+    * @exception Exception if an error occurs during defintion loading
+    */
     public DefaultLibrary( Logger logger, File source ) throws Exception
     {
         super( LibraryDirectiveBuilder.build( source ) );
@@ -180,6 +178,7 @@ public final class DefaultLibrary extends DefaultDictionary implements Library
     * 
     * @param resource the resource to be produced
     * @return a sorted array of processor definitions supporting resource production
+    * @exception ProcessorNotFoundException if the resource references an unknown processor
     */
     public Processor[] getProcessorSequence( Resource resource ) throws ProcessorNotFoundException
     {

@@ -19,7 +19,6 @@
 package net.dpml.tools.process;
 
 import java.io.File;
-import java.rmi.RemoteException;
 
 import net.dpml.tools.tasks.JavacTask;
 import net.dpml.tools.tasks.PrepareTask;
@@ -142,6 +141,8 @@ public class JarProcess extends AbstractBuildListener
     
    /**
     * Get the project definition.
+    * @param project the project
+    * @return the build context
     */
     protected Context getContext( Project project )
     {

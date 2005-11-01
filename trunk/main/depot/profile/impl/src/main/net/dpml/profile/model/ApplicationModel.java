@@ -105,7 +105,7 @@ public class ApplicationModel extends DefaultContentModel implements Application
     * Add a change listener.
     * @param listener the application profile change listener to add
     */
-    public void addApplicationProfileListener( ApplicationProfileListener listener ) throws RemoteException
+    public void addApplicationProfileListener( ApplicationProfileListener listener )
     {
         super.addListener( listener );
     }
@@ -114,7 +114,7 @@ public class ApplicationModel extends DefaultContentModel implements Application
     * Remove a depot content change listener.
     * @param listener the registry change listener to remove
     */
-    public void removeApplicationProfileListener(  ApplicationProfileListener listener ) throws RemoteException
+    public void removeApplicationProfileListener(  ApplicationProfileListener listener )
     {
         super.removeListener( listener );
     }
@@ -123,9 +123,8 @@ public class ApplicationModel extends DefaultContentModel implements Application
     * Return the system wide unique application identifier.
     *
     * @return the application identifier
-    * @exception RemoteException if a transport error occurs
     */
-    public String getID() throws RemoteException
+    public String getID()
     {
         return super.getID();
     }
@@ -135,7 +134,6 @@ public class ApplicationModel extends DefaultContentModel implements Application
     * of the application before considering deployment as a timeout failure.
     * 
     * @return the startup timeout value
-    * @exception RemoteException if a transport error occurs
     */    
     public int getStartupTimeout()
     {
@@ -147,7 +145,6 @@ public class ApplicationModel extends DefaultContentModel implements Application
     * of the application before considering deployment as a timeout failure.
     * 
     * @param timeout the startup timeout value
-    * @exception RemoteException if a transport error occurs
     */
     public void setStartupTimeout( int timeout )
     {
@@ -168,7 +165,6 @@ public class ApplicationModel extends DefaultContentModel implements Application
     * of the application before considering the process as non-responsive.
     * 
     * @return the shutdown timeout value
-    * @exception RemoteException if a transport error occurs
     */
     public int getShutdownTimeout()
     {
@@ -180,7 +176,6 @@ public class ApplicationModel extends DefaultContentModel implements Application
     * of the application before considering the application as non-responsive.
     * 
     * @param timeout the shutdown timeout value
-    * @exception RemoteException if a transport error occurs
     */
     public void setShutdownTimeout( int timeout )
     {
@@ -202,9 +197,8 @@ public class ApplicationModel extends DefaultContentModel implements Application
     * 'name' corresponds to a system property name.
     * 
     * @return the working directory path
-    * @exception RemoteException if a transport error occurs
     */
-    public String getWorkingDirectoryPath() throws RemoteException
+    public String getWorkingDirectoryPath()
     {
         return m_path;
     }
@@ -215,9 +209,8 @@ public class ApplicationModel extends DefaultContentModel implements Application
     * 'name' corresponds to a system property name.
     * 
     * @param path the working directory path
-    * @exception RemoteException if a transport error occurs
     */
-    public void setWorkingDirectoryPath( String path ) throws RemoteException
+    public void setWorkingDirectoryPath( String path )
     {
         synchronized( getLock() )
         {
@@ -236,9 +229,8 @@ public class ApplicationModel extends DefaultContentModel implements Application
     * on application deployment.
     * 
     * @return the system properties set
-    * @exception RemoteException if a transport error occurs
     */
-    public Properties getSystemProperties() throws RemoteException
+    public Properties getSystemProperties()
     {
         return m_properties;
     }
@@ -248,9 +240,8 @@ public class ApplicationModel extends DefaultContentModel implements Application
     * on application deployment.
     * 
     * @param properties the system properties set
-    * @exception RemoteException if a transport error occurs
     */
-    public void setSystemProperties( Properties properties ) throws RemoteException
+    public void setSystemProperties( Properties properties )
     {
         synchronized( getLock() )
         {
@@ -269,9 +260,8 @@ public class ApplicationModel extends DefaultContentModel implements Application
     * 
     * @param key the system property key
     * @param value the property value
-    * @exception RemoteException if a transport error occurs
     */
-    public void setSystemProperty( String key, String value ) throws RemoteException
+    public void setSystemProperty( String key, String value )
     {
         synchronized( getLock() )
         {
@@ -292,9 +282,8 @@ public class ApplicationModel extends DefaultContentModel implements Application
     * AUTOMATIC then startup will be handled by the Station.
     *
     * @return the startup policy
-    * @exception RemoteException if a remote exception occurs
     */
-    public StartupPolicy getStartupPolicy() throws RemoteException
+    public StartupPolicy getStartupPolicy()
     {
         return m_policy;
     }
@@ -302,9 +291,8 @@ public class ApplicationModel extends DefaultContentModel implements Application
    /**
     * Set the the startup policy to one of DISABLED, MANUAL or AUTOMATIC.
     * @param policy the startup policy
-    * @exception RemoteException if a remote exception occurs
     */
-    public void setStartupPolicy( StartupPolicy policy ) throws RemoteException
+    public void setStartupPolicy( StartupPolicy policy )
     {
         synchronized( getLock() )
         {
@@ -318,6 +306,10 @@ public class ApplicationModel extends DefaultContentModel implements Application
         }
     }
 
+   /**
+    * Return the string representation of the application model.
+    * @return the string value
+    */
     public String toString()
     {
         try

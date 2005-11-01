@@ -20,37 +20,25 @@ package net.dpml.tools.control;
 
 import java.io.File;
 import java.net.URI;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 import net.dpml.transit.Logger;
-import net.dpml.transit.Artifact;
 import net.dpml.transit.Transit;
-import net.dpml.transit.model.TransitModel;
-import net.dpml.transit.util.ExceptionHelper;
-import net.dpml.transit.util.CLIHelper;
 
 import net.dpml.tools.info.Scope;
-import net.dpml.tools.model.Library;
 import net.dpml.tools.model.Module;
 import net.dpml.tools.model.Resource;
 import net.dpml.tools.model.Builder;
-import net.dpml.tools.model.ResourceNotFoundException;
-import net.dpml.tools.model.ModuleNotFoundException;
-import net.dpml.tools.control.DefaultLibrary;
 
 import org.apache.commons.cli.Option;
-import org.apache.commons.cli.OptionBuilder;
 import org.apache.commons.cli.OptionGroup;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
-import org.apache.commons.cli.GnuParser;
 import org.apache.commons.cli.BasicParser;
-import org.apache.commons.cli.PosixParser;
-import org.apache.commons.cli.HelpFormatter;
+//import org.apache.commons.cli.HelpFormatter;
 
 /**
  * Plugin that handles multi-project builds based on supplied commandline arguments.
@@ -76,6 +64,7 @@ public class BuildPlugin
    /**
     * AntPlugin establishment.
     *
+    * @param logger the assigned logging channel
     * @param args supplimentary command line arguments
     * @exception Exception if the build fails
     */
@@ -160,7 +149,7 @@ public class BuildPlugin
                 for( int i=0; i<resources.length; i++ )
                 {
                     Resource resource = resources[i];
-                    buffer.append( "\n  (" + (i+1) + ")\t" + resource.getResourcePath() );
+                    buffer.append( "\n  (" + ( i+1 ) + ")\t" + resource.getResourcePath() );
                 }
                 buffer.append( "\n" );
                 getLogger().info( buffer.toString() );
@@ -193,7 +182,7 @@ public class BuildPlugin
                 for( int i=0; i<remainder.length; i++ )
                 {
                     buffer.append( "[" + remainder[i] + "]" );
-                    if( i < (remainder.length-1) )
+                    if( i < ( remainder.length-1 ) )
                     {
                         buffer.append( ", " );
                     }
@@ -287,11 +276,11 @@ public class BuildPlugin
                 Resource consumer = consumers[i];
                 if( consumer instanceof Module )
                 {
-                    listModule( buffer, "  ", (Module) consumer, (i+1) );
+                    listModule( buffer, "  ", (Module) consumer, ( i+1 ) );
                 }
                 else
                 {
-                    listResource( buffer, "  ", consumer, (i+1) );
+                    listResource( buffer, "  ", consumer, ( i+1 ) );
                 }
             }
         }
@@ -316,11 +305,11 @@ public class BuildPlugin
             Resource resource = resources[i];
             if( resource instanceof Module )
             {
-                listModule( buffer, "  ", (Module) resource, (i+1) );
+                listModule( buffer, "  ", (Module) resource, ( i+1 ) );
             }
             else
             {
-                listResource( buffer, "  ", resource, (i+1) );
+                listResource( buffer, "  ", resource, ( i+1 ) );
             }
         }
         getLogger().info( buffer.toString() );
@@ -499,7 +488,7 @@ public class BuildPlugin
     
     private Builder createBuilder( URI uri ) throws Exception
     {
-        Object[] params = new Object[]{ m_logger, m_library, new Boolean( m_verbose ) };
+        Object[] params = new Object[]{m_logger, m_library, new Boolean( m_verbose )};
         ClassLoader classloader = Builder.class.getClassLoader();
         Class builderClass = Transit.getInstance().getRepository().getPluginClass( classloader, uri );
         return (Builder) Transit.getInstance().getRepository().instantiate( builderClass, params );

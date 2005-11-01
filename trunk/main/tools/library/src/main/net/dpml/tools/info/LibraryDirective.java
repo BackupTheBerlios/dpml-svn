@@ -33,6 +33,12 @@ public final class LibraryDirective extends AbstractDirective
     private final ProcessDescriptor[] m_processes;
     private final ImportDirective[] m_imports;
     
+   /**
+    * Creation of a new library directive.
+    * @param processes an array of processor directives
+    * @param imports module imports
+    * @param properties library properties
+    */
     public LibraryDirective(
       ProcessDescriptor[] processes, ImportDirective[] imports, Properties properties )
     {
@@ -51,16 +57,29 @@ public final class LibraryDirective extends AbstractDirective
         m_imports = imports;
     }
     
+   /**
+    * Return the set of module imports.
+    * @return the module import array
+    */
     public ImportDirective[] getImportDirectives()
     {
         return m_imports;
     }
     
+   /**
+    * Return the set of processor declarations.
+    * @return the processor descriptor array
+    */
     public ProcessDescriptor[] getProcessDescriptors()
     {
         return m_processes;
     }
     
+   /**
+    * Compare this object with another for equality.
+    * @param other the other object
+    * @return true if equal
+    */
     public boolean equals( Object other )
     {
         if( super.equals( other ) && ( other instanceof LibraryDirective ) )
@@ -70,13 +89,9 @@ public final class LibraryDirective extends AbstractDirective
             {
                 return false;
             }
-            else if( !Arrays.equals( m_imports, object.m_imports ) )
-            {
-                return false;
-            }
             else
             {
-                return true;
+                return Arrays.equals( m_imports, object.m_imports );
             }
         }
         else
@@ -85,6 +100,10 @@ public final class LibraryDirective extends AbstractDirective
         }
     }
     
+   /**
+    * Compute the hash value.
+    * @return the hascode value
+    */
     public int hashCode()
     {
         int hash = super.hashCode();

@@ -19,15 +19,10 @@
 package net.dpml.tools.tasks;
 
 import java.io.File;
-import java.io.IOException;
-import java.rmi.RemoteException;
 
 import net.dpml.tools.ant.Context;
-import net.dpml.tools.ant.StandardBuilder;
 import net.dpml.tools.model.Library;
 import net.dpml.tools.model.Resource;
-import net.dpml.tools.model.ResourceNotFoundException;
-import net.dpml.tools.model.ModuleNotFoundException;
 import net.dpml.tools.control.DefaultLibrary;
 
 import net.dpml.transit.Logger;
@@ -35,13 +30,11 @@ import net.dpml.transit.monitor.LoggingAdapter;
 
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Project;
-import org.apache.tools.ant.taskdefs.Copy;
 import org.apache.tools.ant.Task;
 import org.apache.tools.ant.types.FileSet;
 import org.apache.tools.ant.taskdefs.Mkdir;
 import org.apache.tools.ant.taskdefs.Copy;
 import org.apache.tools.ant.taskdefs.Delete;
-import org.apache.tools.ant.taskdefs.Sequential;
 import org.apache.tools.ant.taskdefs.Checksum;
 import org.apache.tools.ant.taskdefs.ExecTask;
 
@@ -72,6 +65,9 @@ public class GenericTask extends Task
 
     private boolean m_init = false;
     
+   /**
+    * Initialize the task.
+    */
     public void init()
     {
         if( !m_init )
@@ -81,6 +77,10 @@ public class GenericTask extends Task
         }
     }
     
+   /**
+    * Return the initialized state of the task.
+    * @return true if initialized
+    */
     protected boolean isInitialized()
     {
         return m_init;
@@ -88,6 +88,7 @@ public class GenericTask extends Task
     
    /**
     * Get the project definition.
+    * @return the resource
     */
     protected Resource getResource()
     {
@@ -96,6 +97,7 @@ public class GenericTask extends Task
     
    /**
     * Get the library.
+    * @return the library
     */
     protected Library getLibrary()
     {
@@ -103,7 +105,8 @@ public class GenericTask extends Task
     }
     
    /**
-    * Get the project definition.
+    * Get the project context.
+    * @return the project context
     */
     protected Context getContext()
     {
@@ -122,7 +125,7 @@ public class GenericTask extends Task
             }
             try
             {
-                Logger logger = new LoggingAdapter() ;
+                Logger logger = new LoggingAdapter();
                 DefaultLibrary library = new DefaultLibrary( logger );
                 Resource resource = library.locate( basedir.getCanonicalFile() );
                 context = new Context( resource, library, getProject() );
@@ -156,6 +159,14 @@ public class GenericTask extends Task
         mkdir.execute();
     }
     
+   /**
+    * Utility operation to copy a file from a source to a destination.
+    * @param src the src file
+    * @param destination the destination file
+    * @param filtering if true apply filtering during the copy
+    * @param includes the includes specification
+    * @param excludes the excludes specification
+    */
     protected void copy(
        final File src, final File destination, final boolean filtering, 
        final String includes, final String excludes )

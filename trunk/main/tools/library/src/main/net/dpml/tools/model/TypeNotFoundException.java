@@ -27,11 +27,20 @@ package net.dpml.tools.model;
  */
 public final class TypeNotFoundException extends Exception
 {
+   /**
+    * Creation of a new TypeNotFoundException.
+    * @param message the exception message
+    */
     public TypeNotFoundException( String message )
     {
         this( message, null );
     }
     
+   /**
+    * Creation of a new TypeNotFoundException.
+    * @param message the exception message
+    * @param cause the causal excetion
+    */
     public TypeNotFoundException( String message, Throwable cause )
     {
         super( message, cause );

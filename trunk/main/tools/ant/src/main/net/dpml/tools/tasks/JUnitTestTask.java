@@ -22,13 +22,10 @@ import java.io.File;
 import java.util.StringTokenizer;
 
 import net.dpml.tools.ant.Context;
-import net.dpml.tools.info.Scope;
 
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Project;
-import org.apache.tools.ant.taskdefs.Copy;
 import org.apache.tools.ant.taskdefs.Exit;
-import org.apache.tools.ant.taskdefs.Javac;
 import org.apache.tools.ant.taskdefs.optional.junit.BatchTest;
 import org.apache.tools.ant.taskdefs.optional.junit.FormatterElement;
 import org.apache.tools.ant.taskdefs.optional.junit.JUnitTask;
@@ -159,6 +156,7 @@ public class JUnitTestTask extends GenericTask
 
    /**
     * Set the directory containing the unit test source files.
+    * @param source the test source directory
     */
     public void setSrc( File source )
     {

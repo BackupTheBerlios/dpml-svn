@@ -30,6 +30,10 @@ public final class DependencyDirectiveBeanInfo extends SimpleBeanInfo
 {
     private static final BeanDescriptor BEAN_DESCRIPTOR = setupBeanDescriptor();
     
+   /**
+    * Creation of a bean descriptor.
+    * @return the bean descriptor
+    */
     public BeanDescriptor getBeanDescriptor()
     {
         return BEAN_DESCRIPTOR;
@@ -40,7 +44,7 @@ public final class DependencyDirectiveBeanInfo extends SimpleBeanInfo
         BeanDescriptor descriptor = new BeanDescriptor( DependencyDirective.class );
         descriptor.setValue( 
           "persistenceDelegate", 
-          new DefaultPersistenceDelegate( new String[]{ "scope", "includeDirectives", "properties" } ) );
+          new DefaultPersistenceDelegate( new String[]{"scope", "includeDirectives", "properties"} ) );
         return descriptor;
     }
 }

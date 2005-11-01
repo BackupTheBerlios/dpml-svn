@@ -26,7 +26,6 @@ import org.apache.tools.ant.taskdefs.Copy;
 import org.apache.tools.ant.taskdefs.Javac;
 import org.apache.tools.ant.taskdefs.Mkdir;
 import org.apache.tools.ant.taskdefs.MatchingTask;
-import org.apache.tools.ant.types.Reference;
 import org.apache.tools.ant.types.FileSet;
 import org.apache.tools.ant.types.Path;
 
@@ -113,11 +112,19 @@ public class JavacTask extends MatchingTask
         m_classPathRef = id;
     }
     
+   /**
+    * Set the destination directory.
+    * @param destination the destination directory
+    */
     public void setDest( File destination )
     {
         m_destination = destination;
     }
     
+   /**
+    * Set the src directory.
+    * @param source the src directory
+    */
     public void setSrc( File source )
     {
         m_source = source;
@@ -263,7 +270,7 @@ public class JavacTask extends MatchingTask
         }
     }
 
-    protected void mkDir( final File dir )
+    void mkDir( final File dir )
     {
         final Mkdir mkdir = (Mkdir) getProject().createTask( "mkdir" );
         mkdir.setTaskName( getTaskName() );
@@ -272,7 +279,7 @@ public class JavacTask extends MatchingTask
         mkdir.execute();
     }
 
-    protected void copy(
+    void copy(
        final File src, final File destination, final boolean filtering, final String includes, final String excludes )
     {
         mkDir( destination );

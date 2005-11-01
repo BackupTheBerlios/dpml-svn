@@ -19,24 +19,17 @@
 package net.dpml.tools.tasks;
 
 import java.io.File;
-import java.io.InputStream;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
 import net.dpml.tools.info.Scope;
-import net.dpml.tools.model.Library;
 import net.dpml.tools.model.Resource;
-
-import net.dpml.transit.Plugin;
-import net.dpml.transit.Category;
 
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.taskdefs.Javadoc;
 import org.apache.tools.ant.types.DirSet;
 import org.apache.tools.ant.types.Path;
-import org.apache.tools.ant.types.FileSet;
 
 /**
  * Build the javadoc for a project.

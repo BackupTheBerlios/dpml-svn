@@ -20,7 +20,6 @@ package net.dpml.tools.control;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.URI;
 import java.util.Arrays;
 import java.util.ArrayList;
 import java.util.List;
@@ -31,8 +30,6 @@ import java.util.TimeZone;
 import net.dpml.tools.model.Resource;
 import net.dpml.tools.model.Type;
 import net.dpml.tools.model.Module;
-import net.dpml.tools.model.TypeNotFoundException;
-import net.dpml.tools.model.ResourceNotFoundException;
 import net.dpml.tools.model.ProcessorNotFoundException;
 import net.dpml.tools.info.TypeDirective;
 import net.dpml.tools.info.TypeUnknownException;
@@ -54,7 +51,14 @@ import net.dpml.transit.Category;
  */
 public class DefaultResource extends DefaultDictionary implements Resource, Comparable
 {
+   /**
+    * Timestamp.
+    */
     public static final String TIMESTAMP = getTimestamp();
+    
+   /**
+    * Constant SNAPSHOT symbol.
+    */
     public static final String SNAPSHOT = "SNAPSHOT";
     
     private final DefaultLibrary m_library;
@@ -269,7 +273,7 @@ public class DefaultResource extends DefaultDictionary implements Resource, Comp
     * @exception IllegalArgumentException if the id value does not match
     * a type produced by the resource.
     */
-    public Type getType( String id )
+    public Type getType( String id ) throws IllegalArgumentException
     {
         for( int i=0; i<m_types.length; i++ )
         {
@@ -425,6 +429,11 @@ public class DefaultResource extends DefaultDictionary implements Resource, Comp
         return "resource:" + getResourcePath();
     }
     
+   /**
+    * Compare this object with another.
+    * @param other the other object
+    * @return the comparitive index
+    */
     public int compareTo( Object other )
     {
         if( other instanceof DefaultResource )

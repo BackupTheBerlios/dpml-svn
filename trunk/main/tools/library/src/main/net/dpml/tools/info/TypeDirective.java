@@ -31,16 +31,31 @@ public final class TypeDirective  extends AbstractDirective
     private final String m_name;
     private final boolean m_alias;
 
+   /**
+    * Creation of a new type directive.
+    * @param name the name
+    */
     public TypeDirective( String name )
     {
         this( name, false, null );
     }
     
+   /**
+    * Creation of a new type directive.
+    * @param name the name
+    * @param alias alias production policy
+    */
     public TypeDirective( String name, boolean alias )
     {
         this( name, alias, null );
     }
     
+   /**
+    * Creation of a new type directive.
+    * @param name the name
+    * @param alias alias production policy
+    * @param properties supplimentary properties
+    */
     public TypeDirective( String name, boolean alias, Properties properties )
     {
         super( properties );
@@ -52,16 +67,29 @@ public final class TypeDirective  extends AbstractDirective
         m_alias = alias;
     }
     
+   /**
+    * Return the type name.
+    * @return the name
+    */
     public String getName()
     {
         return m_name;
     }
     
+   /**
+    * Return the alias production policy.
+    * @return true if this type is associated with an alias
+    */
     public boolean getAlias()
     {
         return m_alias;
     }
     
+   /**
+    * Compare this object with another for equality.
+    * @param other the other object
+    * @return true if equal
+    */
     public boolean equals( Object other )
     {
         if( super.equals( other ) && ( other instanceof TypeDirective ) )
@@ -71,13 +99,9 @@ public final class TypeDirective  extends AbstractDirective
             {
                 return false;
             }
-            else if( m_alias != object.m_alias )
-            {
-                return false;
-            }
             else
             {
-                return true;
+                return ( m_alias == object.m_alias );
             }
         }
         else
@@ -86,6 +110,10 @@ public final class TypeDirective  extends AbstractDirective
         }
     }
     
+   /**
+    * Compute the hash value.
+    * @return the hascode value
+    */
     public int hashCode()
     {
         int hash = super.hashCode();
@@ -97,6 +125,10 @@ public final class TypeDirective  extends AbstractDirective
         return hash;
     }
     
+   /**
+    * Return a string representation of the type.
+    * @return the string value
+    */
     public String toString()
     {
         return "type-desc:" + m_name;

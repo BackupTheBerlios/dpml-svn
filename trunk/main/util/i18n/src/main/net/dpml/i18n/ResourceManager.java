@@ -59,8 +59,8 @@ public final class ResourceManager
      * @param classLoader the classLoader to load resources from
      * @return the Resources
      */
-    public static final synchronized Resources getBaseResources( final String baseName,
-                                                                 final ClassLoader classLoader )
+    public static final synchronized Resources getBaseResources( 
+      final String baseName, final ClassLoader classLoader )
     {
         Resources resources = getCachedResource( baseName );
         if( null == resources )
@@ -76,12 +76,12 @@ public final class ResourceManager
      * Retrieve resource with specified basename.
      *
      * @param baseName the basename
+     * @param locale the locale
      * @param classLoader the classLoader to load resources from
      * @return the Resources
      */
-    public static final synchronized Resources getBaseResources( final String baseName,
-                                                                 final Locale locale,
-                                                                 final ClassLoader classLoader )
+    public static final synchronized Resources getBaseResources( 
+      final String baseName, final Locale locale, final ClassLoader classLoader )
     {
         Resources resources = getCachedResource( baseName + "_" + locale.hashCode() );
         if( null == resources )
@@ -124,11 +124,10 @@ public final class ResourceManager
      * @param baseName the resource key
      * @param resources the resources object
      */
-    private static final synchronized void putCachedResource( final String baseName,
-                                                              final Resources resources )
+    private static final synchronized void putCachedResource( 
+      final String baseName, final Resources resources )
     {
-        RESOURCES.put( baseName,
-                         new WeakReference( resources ) );
+        RESOURCES.put( baseName, new WeakReference( resources ) );
     }
 
     /**
@@ -182,6 +181,7 @@ public final class ResourceManager
      * postfixed with ".Resources".
      *
      * @param clazz the Class
+     * @param locale the locale
      * @return the Resources
      */
     public static final Resources getPackageResources( final Class clazz, Locale locale )

@@ -26,6 +26,10 @@ package net.dpml.tools.info;
  */
 public class ValidationException extends Exception
 {
+   /**
+    * Creation of a new validation exception.
+    * @param message the message
+    */
     public ValidationException( String message )
     {
         super( message );

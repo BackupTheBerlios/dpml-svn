@@ -30,6 +30,10 @@ public final class ResourceDirectiveBeanInfo extends SimpleBeanInfo
 {
     private static final BeanDescriptor BEAN_DESCRIPTOR = setupBeanDescriptor();
     
+   /**
+    * Creation of a bean descriptor.
+    * @return the bean descriptor
+    */
     public BeanDescriptor getBeanDescriptor()
     {
         return BEAN_DESCRIPTOR;
@@ -41,9 +45,9 @@ public final class ResourceDirectiveBeanInfo extends SimpleBeanInfo
         descriptor.setValue( 
           "persistenceDelegate", 
           new DefaultPersistenceDelegate( 
-            new String[]{ 
+            new String[]{
               "name", "version", "classifier", "basedir", "typeDirectives", 
-              "dependencyDirectives", "properties" } ) );
+              "dependencyDirectives", "properties"} ) );
         return descriptor;
     }
 }

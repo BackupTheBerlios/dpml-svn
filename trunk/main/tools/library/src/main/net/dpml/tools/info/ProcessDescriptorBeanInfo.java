@@ -30,6 +30,10 @@ public final class ProcessDescriptorBeanInfo extends SimpleBeanInfo
 {
     private static final BeanDescriptor BEAN_DESCRIPTOR = setupBeanDescriptor();
     
+   /**
+    * Creation of a bean descriptor.
+    * @return the bean descriptor
+    */
     public BeanDescriptor getBeanDescriptor()
     {
         return BEAN_DESCRIPTOR;
@@ -40,7 +44,8 @@ public final class ProcessDescriptorBeanInfo extends SimpleBeanInfo
         BeanDescriptor descriptor = new BeanDescriptor( ProcessDescriptor.class );
         descriptor.setValue( 
           "persistenceDelegate", 
-          new DefaultPersistenceDelegate( new String[]{ "name", "URN", "dependencies", "properties" } ) );
+          new DefaultPersistenceDelegate( 
+            new String[]{"name", "URN", "dependencies", "properties"} ) );
         return descriptor;
     }
 }

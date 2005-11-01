@@ -33,21 +33,43 @@ public final class ProcessDescriptor  extends AbstractDirective
     private final String[] m_dependencies;
     private final String m_urn;
 
+   /**
+    * Creation of a new processor descriptor.
+    * @param name the processor name
+    */
     public ProcessDescriptor( String name )
     {
         this( name, null );
     }
     
+   /**
+    * Creation of a new processor descriptor.
+    * @param name the processor name
+    * @param urn the processor codebase
+    */
     public ProcessDescriptor( String name, String urn )
     {
         this( name, urn, new String[0] );
     }
     
+   /**
+    * Creation of a new processor descriptor.
+    * @param name the processor name
+    * @param urn the processor codebase
+    * @param dependencies array of processor names that this processor depends upon
+    */
     public ProcessDescriptor( String name, String urn, String[] dependencies )
     {
         this( name, urn, dependencies, null );
     }
     
+   /**
+    * Creation of a new processor descriptor.
+    * @param name the processor name
+    * @param urn the processor codebase
+    * @param dependencies array of processor names that this processor depends upon
+    * @param properties supplimentary properties
+    */
     public ProcessDescriptor( String name, String urn, String[] dependencies, Properties properties )
     {
         super( properties );
@@ -64,21 +86,38 @@ public final class ProcessDescriptor  extends AbstractDirective
         m_urn = urn;
     }
     
+   /**
+    * Return the processor type name.
+    * @return the name
+    */
     public String getName()
     {
         return m_name;
     }
     
+   /**
+    * Return the processor codebase urn.
+    * @return the urn
+    */
     public String getURN()
     {
         return m_urn;
     }
     
+   /**
+    * Return the processor dependencies.
+    * @return the array of dependency names
+    */
     public String[] getDependencies()
     {
         return m_dependencies;
     }
     
+   /**
+    * Compare this object with another for equality.
+    * @param other the other object
+    * @return true if equal
+    */
     public boolean equals( Object other )
     {
         if( super.equals( other ) && ( other instanceof ProcessDescriptor ) )
@@ -92,13 +131,9 @@ public final class ProcessDescriptor  extends AbstractDirective
             {
                 return false;
             }
-            else if( !Arrays.equals( m_dependencies, object.m_dependencies ) )
-            {
-                return false;
-            }
             else
             {
-                return true;
+                return Arrays.equals( m_dependencies, object.m_dependencies );
             }
         }
         else
@@ -107,6 +142,10 @@ public final class ProcessDescriptor  extends AbstractDirective
         }
     }
     
+   /**
+    * Compute the hash value.
+    * @return the hashcode value
+    */
     public int hashCode()
     {
         int hash = super.hashCode();

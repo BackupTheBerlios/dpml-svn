@@ -49,6 +49,9 @@ public final class ConstructBeanInfo extends SimpleBeanInfo
         return descriptor;
     }
     
+   /**
+    * Persistence delegate.
+    */
     private static class ConstructPersistenceDelegate extends DefaultPersistenceDelegate
     {
        /**

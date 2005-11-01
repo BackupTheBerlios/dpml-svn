@@ -23,13 +23,7 @@ import java.io.File;
 import net.dpml.tools.ant.Context;
 import net.dpml.tools.model.Resource;
 
-import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Project;
-import org.apache.tools.ant.taskdefs.Copy;
-import org.apache.tools.ant.Task;
-import org.apache.tools.ant.types.FileSet;
-import org.apache.tools.ant.taskdefs.Mkdir;
-import org.apache.tools.ant.taskdefs.Copy;
 
 
 /**
@@ -58,16 +52,10 @@ public class PrepareTask extends GenericTask
     
     private boolean m_init = false;
     
-    public PrepareTask()
-    {
-        super();
-    }
-    
    /**
     * Task initiaization during which filter include valies are established.
-    * @exception BuildException if an error occurs
     */
-    public void init() throws BuildException
+    public void init()
     {
         if( !m_init )
         {

@@ -27,7 +27,6 @@ import net.dpml.tools.model.Library;
 import net.dpml.tools.model.Resource;
 import net.dpml.tools.model.Processor;
 
-import net.dpml.tools.ant.StandardBuilder;
 import net.dpml.tools.process.JarProcess;
 import net.dpml.tools.process.PluginProcess;
 import net.dpml.tools.process.ModuleProcess;

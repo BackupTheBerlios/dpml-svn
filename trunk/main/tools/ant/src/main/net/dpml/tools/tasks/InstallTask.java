@@ -22,7 +22,6 @@ import java.io.File;
 import java.io.OutputStream;
 import java.io.FileOutputStream;
 import java.io.OutputStreamWriter;
-import java.io.IOException;
 import java.io.Writer;
 
 import net.dpml.tools.model.Resource;

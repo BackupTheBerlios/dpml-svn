@@ -27,11 +27,20 @@ package net.dpml.tools.model;
  */
 public final class ProcessorNotFoundException extends Exception
 {
+   /**
+    * Creation of a new ProcessorNotFoundException.
+    * @param message the exception message
+    */
     public ProcessorNotFoundException( String message )
     {
         this( message, null );
     }
     
+   /**
+    * Creation of a new ProcessorNotFoundException.
+    * @param message the exception message
+    * @param cause the causal excetion
+    */
     public ProcessorNotFoundException( String message, Throwable cause )
     {
         super( message, cause );

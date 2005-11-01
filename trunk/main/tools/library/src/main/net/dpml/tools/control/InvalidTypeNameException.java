@@ -27,6 +27,10 @@ package net.dpml.tools.control;
  */
 final class InvalidTypeNameException extends InvalidNameException
 {
+   /**
+    * Creation of a new InvalidTypeNameException.
+    * @param message the exception message
+    */
     InvalidTypeNameException( String message )
     {
         super( message );

@@ -18,8 +18,6 @@
 
 package net.dpml.tools.control;
 
-import java.net.URI;
-
 import net.dpml.tools.model.Type;
 import net.dpml.tools.info.TypeDirective;
 
@@ -46,6 +44,7 @@ public final class DefaultType extends DefaultDictionary implements Type
     
    /**
     * Return the name of the type.
+    * @return the name of the type
     */
     public String getName()
     {
@@ -54,6 +53,7 @@ public final class DefaultType extends DefaultDictionary implements Type
     
    /**
     * Return the alias association policy.
+    * @return true if alias production is required
     */
     public boolean getAlias()
     {

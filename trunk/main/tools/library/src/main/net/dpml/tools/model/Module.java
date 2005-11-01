@@ -18,8 +18,6 @@
 
 package net.dpml.tools.model;
 
-import java.io.File;
-
 import net.dpml.tools.info.ModuleDirective;
 
 /**
@@ -41,6 +39,7 @@ public interface Module extends Resource
     * Return a resource using a supplied name.
     * @param ref a path relative to the module
     * @return the resource array
+    * @exception ResourceNotFoundException if the ref value is not recognized
     */
     Resource getResource( String ref ) throws ResourceNotFoundException;
     
@@ -60,6 +59,7 @@ public interface Module extends Resource
     * Return a module using a supplied reference.
     * @param ref a path relative to the module
     * @return the module array
+    * @exception ModuleNotFoundException if the ref value is not recognized
     */
     Module getModule( String ref ) throws ModuleNotFoundException;
     

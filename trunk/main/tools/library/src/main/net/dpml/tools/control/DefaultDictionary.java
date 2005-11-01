@@ -18,7 +18,6 @@
 
 package net.dpml.tools.control;
 
-import java.net.URI;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.Properties;
@@ -41,11 +40,20 @@ public class DefaultDictionary implements Dictionary
     private final Properties m_properties;
     //private final String[] m_names;
     
+   /**
+    * Creation of a new dictionary.
+    * @param directive an abstract directive
+    */
     DefaultDictionary( AbstractDirective directive )
     {
         this( null, directive );
     }
     
+   /**
+    * Creation of a new dictionary.
+    * @param parent the parent dictionary
+    * @param directive an abstract directive
+    */
     DefaultDictionary( DefaultDictionary parent, AbstractDirective directive )
     {
         m_parent = parent;
@@ -68,17 +76,32 @@ public class DefaultDictionary implements Dictionary
     // Dictionary
     //----------------------------------------------------------------------------
     
+   /**
+    * Return the property names associated with the dictionary.
+    * @return the array of property names
+    */
     public String[] getPropertyNames()
     {
         return getLocalPropertyNames( m_properties );
         //return m_names;
     }
     
+   /**
+    * Return a property value.
+    * @param key the property key
+    * @return the property value
+    */
     public String getProperty( String key )
     {
         return getProperty( key, null );
     }
     
+   /**
+    * Return a property value.
+    * @param key the property key
+    * @param value the default value
+    * @return the property value
+    */
     public String getProperty( String key, String value )
     {
         String result = m_properties.getProperty( key, value );

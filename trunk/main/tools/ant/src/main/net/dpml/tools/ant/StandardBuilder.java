@@ -19,19 +19,13 @@
 package net.dpml.tools.ant;
 
 import java.io.File;
-import java.io.InputStream;
-import java.io.PrintStream;
 import java.net.URI;
 import java.net.URL;
 import java.util.Vector;
 
 import net.dpml.transit.Logger;
-import net.dpml.transit.Transit;
 import net.dpml.transit.Environment;
 import net.dpml.transit.model.TransitModel;
-import net.dpml.transit.util.ExceptionHelper;
-import net.dpml.transit.util.CLIHelper;
-import net.dpml.transit.tools.TransitComponentHelper;
 import net.dpml.transit.tools.MainTask;
 
 import net.dpml.tools.model.Builder;
@@ -43,17 +37,10 @@ import net.dpml.transit.Artifact;
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.ProjectHelper;
 import org.apache.tools.ant.BuildException;
-import org.apache.tools.ant.helper.ProjectHelper2;
 import org.apache.tools.ant.BuildLogger;
 import org.apache.tools.ant.DefaultLogger;
 import org.apache.tools.ant.input.DefaultInputHandler;
-import org.apache.tools.ant.ComponentHelper;
-import org.apache.tools.ant.AntTypeDefinition;
 import org.apache.tools.ant.DemuxInputStream;
-import org.apache.tools.ant.DemuxOutputStream;
-import org.apache.tools.ant.ProjectHelper;
-import org.apache.tools.ant.Target;
-import org.apache.tools.ant.Task;
 
 /**
  * The StandardBuilder is a plugin established by the Tools build controller
@@ -101,6 +88,12 @@ public class StandardBuilder implements Builder
     // Builder
     // ------------------------------------------------------------------------
 
+   /**
+    * Build the project defined by the supplied resource.
+    * @param resource the project definition
+    * @param targets an array of build target names
+    * @return the build success status
+    */
     public boolean build( Resource resource, String[] targets )
     {
         try
@@ -183,7 +176,7 @@ public class StandardBuilder implements Builder
     // implementation
     // ------------------------------------------------------------------------
     
-    public boolean build( Project project, File template, String[] targets ) throws Exception
+    boolean build( Project project, File template, String[] targets ) throws Exception
     {
         try
         {
@@ -241,7 +234,7 @@ public class StandardBuilder implements Builder
             if( Artifact.isRecognized( uri ) )
             {
                 URL url = uri.toURL();
-                return (File) url.getContent( new Class[]{ File.class } );
+                return (File) url.getContent( new Class[]{File.class} );
             }
         }
         catch( Throwable e )
@@ -250,7 +243,7 @@ public class StandardBuilder implements Builder
         return new File( spec );
     }
     
-    public Project createProject( Resource resource ) throws Exception
+    Project createProject( Resource resource ) throws Exception
     {
         Project project = createProject();
         project.setBaseDir( resource.getBaseDir() );
@@ -259,7 +252,7 @@ public class StandardBuilder implements Builder
         return project;
     }
     
-    public Project createProject() throws Exception
+    Project createProject() throws Exception
     {
         Project project = new Project();
         project.setSystemProperties();

@@ -30,11 +30,13 @@ public interface Processor
 {
    /**
     * Return the name of the process.
+    * @return the processor name
     */
     String getName();
     
    /**
     * Return the processor codebase uri.
+    * @return the processor codebase uri
     */
     URI getCodeBaseURI();
     

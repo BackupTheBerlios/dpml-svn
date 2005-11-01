@@ -51,7 +51,8 @@ public interface Library
     * 
     * @param resource the resource to be produced
     * @return a sorted array of processor definitions supporting resource production
-    */
+    * @exception ProcessorNotFoundException if processor cannot be found
+    */ 
     Processor[] getProcessorSequence( Resource resource ) throws ProcessorNotFoundException;
     
    /**

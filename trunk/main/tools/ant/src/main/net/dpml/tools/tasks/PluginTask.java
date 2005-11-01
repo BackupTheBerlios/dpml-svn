@@ -37,18 +37,25 @@ public class PluginTask extends net.dpml.transit.tools.PluginTask
     
    /**
     * Set the ref address of a plugin resource.
+    * @param ref a resource ref
     */
     public void setRef( String ref )
     {
         m_ref = ref;
     }
     
+   /**
+    * Task initialization.
+    */
     public void init()
     {
         super.init();
         Thread.currentThread().setContextClassLoader( getClass().getClassLoader() );
     }
     
+   /**
+    * Task execution.
+    */
     public void execute()
     {
         if( null != m_ref )

@@ -24,18 +24,15 @@ import java.io.IOException;
 import java.io.Writer;
 import java.io.FileOutputStream;
 import java.io.OutputStreamWriter;
-import java.rmi.RemoteException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.TimeZone;
 
 import net.dpml.transit.Artifact;
 import net.dpml.transit.Category;
-import net.dpml.transit.Plugin;
 
 import net.dpml.tools.ant.Context;
 import net.dpml.tools.model.Resource;
-import net.dpml.tools.model.Type;
 
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.BuildException;
@@ -162,6 +159,9 @@ public class PluginExportTask extends GenericTask
         }
     }
     
+   /**
+   * Task execution.
+   */
     public void execute()
     {
         Project project = getProject();

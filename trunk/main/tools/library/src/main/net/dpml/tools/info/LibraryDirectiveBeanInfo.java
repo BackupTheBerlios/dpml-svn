@@ -30,6 +30,10 @@ public final class LibraryDirectiveBeanInfo extends SimpleBeanInfo
 {
     private static final BeanDescriptor BEAN_DESCRIPTOR = setupBeanDescriptor();
     
+   /**
+    * Creation of a bean descriptor.
+    * @return the bean descriptor
+    */
     public BeanDescriptor getBeanDescriptor()
     {
         return BEAN_DESCRIPTOR;
@@ -41,8 +45,7 @@ public final class LibraryDirectiveBeanInfo extends SimpleBeanInfo
         descriptor.setValue( 
           "persistenceDelegate", 
           new DefaultPersistenceDelegate( 
-            new String[]{ 
-              "processDescriptors", "importDirectives", "properties" } ) );
+            new String[]{"processDescriptors", "importDirectives", "properties"} ) );
         return descriptor;
     }
 }

@@ -18,19 +18,13 @@
 
 package net.dpml.tools.tasks;
 
-import java.io.File;
-import java.rmi.RemoteException;
-
 import net.dpml.tools.model.ResourceNotFoundException;
-import net.dpml.tools.model.ModuleNotFoundException;
 import net.dpml.tools.model.Resource;
-import net.dpml.tools.model.Type;
 
 import net.dpml.transit.Artifact;
 
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Project;
-import org.apache.tools.ant.types.Path;
 
 /**
  * Locate a named feature of the a project or resource.

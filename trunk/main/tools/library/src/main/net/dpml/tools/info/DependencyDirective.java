@@ -32,18 +32,40 @@ import net.dpml.transit.Category;
  */
 public final class DependencyDirective extends AbstractDirective
 {
+   /**
+    * BUILD scope.
+    */
     public static final Scope BUILD = Scope.BUILD;
+
+   /**
+    * RUNTIME scope.
+    */
     public static final Scope RUNTIME = Scope.RUNTIME;
+
+   /**
+    * TEST scope.
+    */
     public static final Scope TEST = Scope.TEST;
 
     private final Scope m_scope;
     private final IncludeDirective[] m_includes;
     
+   /**
+    * Creation of a new dependency directive.
+    * @param scope the scope
+    * @param includes an array of resource includes 
+    */
     public DependencyDirective( Scope scope, IncludeDirective[] includes )
     {
         this( scope, includes, null );
     }
     
+   /**
+    * Creation of a new dependency directive.
+    * @param scope the scope
+    * @param includes an array of resource includes 
+    * @param properties supplimentary properties 
+    */
     public DependencyDirective( Scope scope, IncludeDirective[] includes, Properties properties )
     {
         super( properties );
@@ -60,16 +82,30 @@ public final class DependencyDirective extends AbstractDirective
         m_includes = includes;
     }
     
+   /**
+    * Return the dependency scope.
+    * @return the scope
+    */
     public Scope getScope()
     {
         return m_scope;
     }
     
+   /**
+    * Return the array of resource includes associated with the dependency group.
+    * @return the includes array
+    */
     public IncludeDirective[] getIncludeDirectives()
     {
         return m_includes;
     }
     
+   /**
+    * Return the array of resource includes associated with the dependency group
+    * filtered relative to a supplied category.
+    * @param category a runtime category argument (SYSTEM, PUBLIC, PROTECTED or PRIVATE)
+    * @return the filtered includes array
+    */
     public IncludeDirective[] getIncludeDirectives( Category category )
     {
         if( null == category )
@@ -88,6 +124,11 @@ public final class DependencyDirective extends AbstractDirective
         return (IncludeDirective[]) list.toArray( new IncludeDirective[0] );
     }
     
+   /**
+    * Compare this object with another for equality.
+    * @param other the other object
+    * @return true if equal
+    */
     public boolean equals( Object other )
     {
         if( super.equals( other ) && ( other instanceof DependencyDirective ) )
@@ -107,7 +148,11 @@ public final class DependencyDirective extends AbstractDirective
             return false;
         }
     }
-    
+   
+   /**
+    * Compute the hash value.
+    * @return the hascode value
+    */
     public int hashCode()
     {
         int hash = super.hashCode();

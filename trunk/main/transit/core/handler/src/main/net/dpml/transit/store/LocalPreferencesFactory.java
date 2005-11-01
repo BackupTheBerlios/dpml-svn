@@ -75,6 +75,7 @@ public class LocalPreferencesFactory implements PreferencesFactory
     * Return a preferences instance using the supplied arguments.
     * @param path the preference node path
     * @param entries the preference attribute node array
+    * @param nodes subsidary nodes
     * @param system true if declaring the node as system scope
     * @return the new prefernces instance
     */

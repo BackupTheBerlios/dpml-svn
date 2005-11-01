@@ -51,6 +51,9 @@ public final class CategoryBeanInfo extends SimpleBeanInfo
         return descriptor;
     }
     
+   /**
+    * Persistence delegate.
+    */
     private static class ScopePersistenceDelegate extends DefaultPersistenceDelegate
     {
        /**

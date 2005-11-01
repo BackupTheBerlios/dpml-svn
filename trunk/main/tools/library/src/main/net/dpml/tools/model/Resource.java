@@ -76,8 +76,6 @@ public interface Resource extends Dictionary
     * Return a resource type relative to a supplied type id.
     * @param id the type name to retrieve
     * @return the type instance
-    * @exception IllegalArgumentException if the id value does not match
-    * a type produced by the resource.
     */
     Type getType( String id );
     

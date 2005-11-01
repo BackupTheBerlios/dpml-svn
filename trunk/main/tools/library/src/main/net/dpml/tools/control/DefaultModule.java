@@ -19,7 +19,6 @@
 package net.dpml.tools.control;
 
 import java.io.File;
-import java.net.URI;
 import java.util.Arrays;
 import java.util.ArrayList;
 import java.util.List;
@@ -67,7 +66,8 @@ public final class DefaultModule extends DefaultResource implements Module
         this( library, null, directive );
     }
     
-    DefaultModule( DefaultLibrary library, DefaultModule module, ModuleDirective directive ) throws Exception
+    DefaultModule( DefaultLibrary library, DefaultModule module, ModuleDirective directive ) 
+      throws Exception
     {
         super( library, module, directive );
         
@@ -109,6 +109,7 @@ public final class DefaultModule extends DefaultResource implements Module
     * Return a resource using a supplied name.
     * @param ref a path relative to the module
     * @return the resource array
+    * @exception ResourceNotFoundException if the resource does not exist
     */
     public Resource getResource( String ref ) throws ResourceNotFoundException
     {
@@ -136,6 +137,7 @@ public final class DefaultModule extends DefaultResource implements Module
     * Return a module using a supplied reference.
     * @param ref a path relative to the module
     * @return the module array
+    * @exception ModuleNotFoundException if the module does not exist
     */
     public Module getModule( String ref ) throws ModuleNotFoundException
     {
@@ -227,6 +229,10 @@ public final class DefaultModule extends DefaultResource implements Module
     // Object
     //----------------------------------------------------------------------------
     
+   /**
+   * Return the string representation of the module.
+   * @return the string value
+   */
     public String toString()
     {
         return "module:" + getResourcePath();
@@ -618,7 +624,7 @@ public final class DefaultModule extends DefaultResource implements Module
                 buffer.append( "\\Q" );
                 buffer.append( blocks[j] );
                 buffer.append( "\\E" );
-                if( j < (blocks.length-1) )
+                if( j < ( blocks.length-1 ) )
                 {
                     buffer.append( ".*" );
                 }

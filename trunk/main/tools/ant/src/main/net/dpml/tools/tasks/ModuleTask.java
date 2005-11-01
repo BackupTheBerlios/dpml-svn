@@ -18,20 +18,15 @@
 
 package net.dpml.tools.tasks;
 
-import java.beans.Encoder;
 import java.beans.XMLEncoder;
 import java.beans.ExceptionListener;
 import java.io.File;
-import java.io.OutputStream;
-import java.io.IOException;
 import java.io.FileOutputStream;
 import java.io.BufferedOutputStream;
-import java.io.OutputStreamWriter;
 
 import net.dpml.tools.ant.Context;
 import net.dpml.tools.model.Resource;
 import net.dpml.tools.model.Module;
-import net.dpml.tools.model.Type;
 import net.dpml.tools.info.ModuleDirective;
 
 import org.apache.tools.ant.Project;
@@ -45,6 +40,9 @@ import org.apache.tools.ant.BuildException;
  */
 public class ModuleTask extends GenericTask
 {
+   /**
+    * Execute the task.
+    */
     public void execute()
     {
         Project project = getProject();
@@ -118,9 +116,16 @@ public class ModuleTask extends GenericTask
             }
         }
     }
-    
+   
+   /**
+    * Encoding listener.
+    */
     private class ModuleEncoderListener implements ExceptionListener
     {
+       /**
+        * Monitor a thrown exception.
+        * @param e the exception
+        */
         public void exceptionThrown( Exception e )
         {
             Throwable cause = e.getCause();
@@ -151,8 +156,16 @@ public class ModuleTask extends GenericTask
         }
     }
     
+   /**
+    * Encoding runtime exception.
+    */
     private static class EncodingRuntimeException extends RuntimeException
     {
+       /**
+        * Create a new encoding runtime exception.
+        * @param message the message
+        * @param cause the causal exception
+        */
         public EncodingRuntimeException( String message, Throwable cause )
         {
             super( message, cause );

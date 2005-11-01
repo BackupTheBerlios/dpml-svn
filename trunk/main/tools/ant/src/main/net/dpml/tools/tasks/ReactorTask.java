@@ -24,17 +24,12 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 
-import net.dpml.tools.ant.Context;
-import net.dpml.tools.model.Builder;
 import net.dpml.tools.model.Library;
 import net.dpml.tools.model.Resource;
 import net.dpml.transit.Artifact;
 
-import org.apache.tools.ant.Project;
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.taskdefs.Ant;
-import org.apache.tools.ant.taskdefs.Property;
-import org.apache.tools.ant.types.Reference;
 
 /**
  * Resolves a sorted sequence of projects with a basedir equal to or 
@@ -47,6 +42,10 @@ public class ReactorTask extends GenericTask
 {
     private String m_target;
     
+   /**
+    * Set the target task name.
+    * @param target the target task
+    */
     public void setTarget( String target )
     {
         m_target = target;
@@ -56,7 +55,7 @@ public class ReactorTask extends GenericTask
     {
         if( null != m_target )
         {
-            return new String[]{ m_target };
+            return new String[]{m_target};
         }
         else
         {
@@ -64,6 +63,9 @@ public class ReactorTask extends GenericTask
         }
     }
     
+   /**
+    * Execute the task.
+    */
     public void execute()
     {
         try
@@ -128,7 +130,7 @@ public class ReactorTask extends GenericTask
             if( Artifact.isRecognized( uri ) )
             {
                 URL url = Artifact.createArtifact( uri ).toURL();
-                return (File) url.getContent( new Class[]{ File.class } );
+                return (File) url.getContent( new Class[]{File.class} );
             }
             else
             {

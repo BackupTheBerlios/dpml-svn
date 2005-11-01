@@ -27,11 +27,20 @@ package net.dpml.tools.model;
  */
 public final class DuplicateNameException extends Exception
 {
+   /**
+    * Creation of a new DuplicateNameException.
+    * @param message the exception message
+    */
     public DuplicateNameException( String message )
     {
         this( message, null );
     }
     
+   /**
+    * Creation of a new DuplicateNameException.
+    * @param message the exception message
+    * @param cause the causal excetion
+    */
     public DuplicateNameException( String message, Throwable cause )
     {
         super( message, cause );

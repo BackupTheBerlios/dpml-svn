@@ -20,7 +20,6 @@ package net.dpml.tools.info;
 
 import java.beans.Expression;
 import java.beans.BeanDescriptor;
-import java.beans.PersistenceDelegate;
 import java.beans.DefaultPersistenceDelegate;
 import java.beans.SimpleBeanInfo;
 import java.beans.Encoder;
@@ -37,13 +36,27 @@ import net.dpml.transit.util.Enum;
  */
 public class IncludeDirective extends AbstractDirective
 {
+   /**
+    * Current module scoped key mode constant.
+    */
     public static final Mode KEY = Mode.KEY;
+    
+   /**
+    * Absolute resource reference mode constant.
+    */
     public static final Mode REF = Mode.REF;
     
     private final Mode m_mode;
     private final String m_value;
     private final Category m_category;
     
+   /**
+    * Creation of a new include directive.
+    * @param mode the include mode
+    * @param category the runtime category
+    * @param value the value (key or reference address depending on mode)
+    * @param properties supplimentary properties
+    */
     public IncludeDirective( Mode mode, Category category, String value, Properties properties )
     {
         super( properties );
@@ -68,21 +81,38 @@ public class IncludeDirective extends AbstractDirective
         m_value = value;
     }
     
+   /**
+    * Return the include mode.
+    * @return the mode
+    */
     public Mode getMode()
     {
         return m_mode;
     }
     
+   /**
+    * Return the category associated with the include.
+    * @return the category
+    */
     public Category getCategory()
     {
         return m_category;
     }
 
+   /**
+    * Return the include value.
+    * @return the value
+    */
     public String getValue()
     {
         return m_value;
     }
 
+   /**
+    * Compare this object with another for equality.
+    * @param other the other object
+    * @return true if equal
+    */
     public boolean equals( Object other )
     {
         if( super.equals( other ) && ( other instanceof IncludeDirective ) )
@@ -107,6 +137,10 @@ public class IncludeDirective extends AbstractDirective
         }
     }
     
+   /**
+    * Compute the hash value.
+    * @return the hascode value
+    */
     public int hashCode()
     {
         int hash = super.hashCode();
@@ -115,7 +149,11 @@ public class IncludeDirective extends AbstractDirective
         hash ^= super.hashValue( m_value );
         return hash;
     }
-    
+   
+   /**
+    * Return a string representation of the include.
+    * @return the string value
+    */
     public String toString()
     {
         return "include:" + m_mode + ":" + m_category + ":" + m_value;
@@ -123,7 +161,6 @@ public class IncludeDirective extends AbstractDirective
     
    /**
     * Mode of inclusion.
-    * @author <a href="mailto:dev-dpml@lists.ibiblio.org">The Digital Product Meta Library</a>
     */
     public static final class Mode extends Enum
     {
@@ -150,13 +187,18 @@ public class IncludeDirective extends AbstractDirective
             super( label );
         }
                 
+       /**
+        * Create a now mode using a supplied mode name.
+        * @param value the mode name
+        * @return the mode
+        */
         public static Mode parse( String value )
         {
             if( value.equalsIgnoreCase( "key" ) )
             {
                 return KEY;
             }
-            else if( value.equalsIgnoreCase( "ref" ))
+            else if( value.equalsIgnoreCase( "ref" ) )
             {
                 return REF;
             }
@@ -169,15 +211,22 @@ public class IncludeDirective extends AbstractDirective
         }
     }
 
+   /**
+    * Mode bean info.
+    */
     public static final class ModeBeanInfo extends SimpleBeanInfo
     {
         private static final BeanDescriptor BEAN_DESCRIPTOR = setupBeanDescriptor();
-
+        
+       /**
+        * Return the bean descriptor.
+        * @return the descriptor
+        */
         public BeanDescriptor getBeanDescriptor()
         {
             return BEAN_DESCRIPTOR;
         }
-    
+        
         private static BeanDescriptor setupBeanDescriptor()
         {
             BeanDescriptor descriptor = new BeanDescriptor( Mode.class );
@@ -186,13 +235,22 @@ public class IncludeDirective extends AbstractDirective
             new ModePersistenceDelegate() );
             return descriptor;
         }
-    
+        
+       /**
+        * Persistence delegate.
+        */
         private static class ModePersistenceDelegate extends DefaultPersistenceDelegate
         {
+           /**
+            * Return an expression.
+            * @param old the old value
+            * @param encoder the encoder
+            * @return an expression
+            */
             public Expression instantiate( Object old, Encoder encoder )
             {
                 Mode mode = (Mode) old;
-                return new Expression( Mode.class, "parse", new Object[]{ mode.getName() } );
+                return new Expression( Mode.class, "parse", new Object[]{mode.getName()} );
             }
         }
     }

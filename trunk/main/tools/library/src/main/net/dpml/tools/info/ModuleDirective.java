@@ -31,6 +31,11 @@ public final class ModuleDirective extends ResourceDirective
 {
     private final ResourceDirective[] m_resources;
     
+   /**
+    * Creation of a new module directive.
+    * @param resource the abstract resource defintion
+    * @param resources resource contained within the module
+    */
     public ModuleDirective(
       ResourceDirective resource, ResourceDirective[] resources )
     {
@@ -39,6 +44,17 @@ public final class ModuleDirective extends ResourceDirective
           resource.getTypeDirectives(), resource.getDependencyDirectives(), resources, resource.getProperties() );
     }
     
+   /**
+    * Creation of a new module directive.
+    * @param name the resource name
+    * @param version the resource version
+    * @param classifier LOCAL or EXTERNAL classifier
+    * @param basedir the project basedir
+    * @param types types produced by the resource
+    * @param dependencies resource dependencies
+    * @param resources resource included within the module
+    * @param properties suppliementary properties
+    */
     public ModuleDirective(
       String name, String version, Classifier classifier, String basedir, TypeDirective[] types,
       DependencyDirective[] dependencies, ResourceDirective[] resources, Properties properties )
@@ -51,6 +67,11 @@ public final class ModuleDirective extends ResourceDirective
         m_resources = resources;
     }
     
+   /**
+    * Construct a module directive suitable for export. 
+    * @param version the version to associate with the exported directive
+    * @return the exportable directive
+    */
     public ResourceDirective export( String version )
     {
         ResourceDirective resource = super.export( version );
@@ -62,24 +83,27 @@ public final class ModuleDirective extends ResourceDirective
         return new ModuleDirective( resource, resources );
     }
     
+   /**
+    * Return an array of resource directives representing the resources within 
+    * the module.
+    * @return the nested resource directives
+    */
     public ResourceDirective[] getResourceDirectives()
     {
         return m_resources;
     }
     
+   /**
+    * Compare this object with another for equality.
+    * @param other the other object
+    * @return true if equal
+    */
     public boolean equals( Object other )
     {
         if( super.equals( other ) && ( other instanceof ModuleDirective ) )
         {
             ModuleDirective object = (ModuleDirective) other;
-            if( !Arrays.equals( m_resources, object.m_resources ) )
-            {
-                return false;
-            }
-            else
-            {
-                return true;
-            }
+            return Arrays.equals( m_resources, object.m_resources );
         }
         else
         {
@@ -87,6 +111,10 @@ public final class ModuleDirective extends ResourceDirective
         }
     }
     
+   /**
+    * Compute the hash value.
+    * @return the hashcode value
+    */
     public int hashCode()
     {
         int hash = super.hashCode();

@@ -19,18 +19,7 @@
 package net.dpml.tools.tasks;
 
 import java.io.File;
-import java.rmi.RemoteException;
 
-import net.dpml.tools.tasks.GenericTask;
-import net.dpml.tools.model.Resource;
-import net.dpml.tools.model.Type;
-
-import org.apache.tools.ant.BuildException;
-import org.apache.tools.ant.Project;
-import org.apache.tools.ant.Task;
-import org.apache.tools.ant.types.FileSet;
-import org.apache.tools.ant.taskdefs.Mkdir;
-import org.apache.tools.ant.taskdefs.Copy;
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.taskdefs.Jar;
 import org.apache.tools.ant.taskdefs.Manifest;
@@ -57,6 +46,10 @@ public class JarTask extends GenericTask
     private File m_source;
     private File m_destination;
     
+   /**
+    * Set the src directory.
+    * @param source the source directory
+    */
     public void setSrc( File source )
     {
         if( source.isDirectory() )
@@ -71,6 +64,10 @@ public class JarTask extends GenericTask
         }
     }
     
+   /**
+    * Set the destination file.
+    * @param destination the destination file
+    */
     public void setDest( File destination )
     {
         m_destination = destination;
@@ -104,6 +101,9 @@ public class JarTask extends GenericTask
         }
     }
     
+   /**
+    * Execute the task.
+    */
     public void execute()
     {
         File source = getSource();

@@ -27,11 +27,20 @@ package net.dpml.tools.model;
  */
 public class ResourceNotFoundException extends Exception
 {
+   /**
+    * Creation of a new ResourceNotFoundException.
+    * @param message the exception message
+    */
     public ResourceNotFoundException( String message )
     {
         this( message, null );
     }
     
+   /**
+    * Creation of a new ResourceNotFoundException.
+    * @param message the exception message
+    * @param cause the causal excetion
+    */
     public ResourceNotFoundException( String message, Throwable cause )
     {
         super( message, cause );

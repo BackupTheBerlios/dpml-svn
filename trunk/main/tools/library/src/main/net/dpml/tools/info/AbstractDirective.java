@@ -31,6 +31,10 @@ public abstract class AbstractDirective implements Serializable
 {
     private Properties m_properties;
     
+   /**
+    * Creation of a new abstract directive.
+    * @param properties the properties associated with the directive
+    */
     public AbstractDirective( Properties properties )
     {
         if( null == properties )
@@ -43,16 +47,30 @@ public abstract class AbstractDirective implements Serializable
         }
     }
     
+   /**
+    * Return a property value.
+    * @param key the property key
+    * @return the property value
+    */
     public String getProperty( String key )
     {
         return m_properties.getProperty( key );
     }
     
+   /**
+    * Return a property set.
+    * @return the properties
+    */
     public Properties getProperties()
     {
         return m_properties;
     }
     
+   /**
+    * Compare this object to the supplied object for equality.
+    * @param other the other object
+    * @return true if equal
+    */
     public boolean equals( Object other )
     {
         if( null == other )
@@ -65,11 +83,20 @@ public abstract class AbstractDirective implements Serializable
         }
     }
     
+   /**
+    * Calculate the hashcode.
+    * @return the hashcode value
+    */
     public int hashCode()
     {
         return getClass().hashCode();
     }
     
+   /**
+    * Utility to hash an array.
+    * @param array the array
+    * @return the hash value
+    */
     protected int hashArray( Object[] array )
     {
         if( null == array )
@@ -85,6 +112,11 @@ public abstract class AbstractDirective implements Serializable
         return hash;
     }
     
+   /**
+    * Utility to hash an object.
+    * @param value the object
+    * @return the hash value
+    */
     protected int hashValue( Object value )
     {
         if( null == value )
@@ -101,6 +133,12 @@ public abstract class AbstractDirective implements Serializable
         }
     }
     
+   /**
+    * Utility to compare two object for equality.
+    * @param a the first object
+    * @param b the second object
+    * @return true if the objects are equal
+    */
     protected boolean equals( Object a, Object b )
     {
         if( null == a )

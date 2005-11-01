@@ -20,7 +20,6 @@ package net.dpml.tools.info;
 
 import java.beans.Expression;
 import java.beans.BeanDescriptor;
-import java.beans.PersistenceDelegate;
 import java.beans.DefaultPersistenceDelegate;
 import java.beans.SimpleBeanInfo;
 import java.beans.Encoder;
@@ -36,17 +35,35 @@ import net.dpml.transit.util.Enum;
  */
 public final class ImportDirective extends AbstractDirective
 {
+   /**
+    * URI strategy constant.
+    */
     public static final Mode URI = Mode.URI;
+    
+   /**
+    * File strategy constant.
+    */
     public static final Mode FILE = Mode.FILE;
     
     private Mode m_mode;
     private final String m_value;
     
+   /**
+    * Creation of a new import directive.
+    * @param mode the import mode
+    * @param value the value (file or uri depending on mode)
+    */
     public ImportDirective( Mode mode, String value )
     {
         this( mode, value, null );
     }
     
+   /**
+    * Creation of a new import directive.
+    * @param mode the import mode
+    * @param value the value (file or uri depending on mode)
+    * @param properties supplimentary properties
+    */
     public ImportDirective( Mode mode, String value, Properties properties )
     {
         super( properties );
@@ -64,16 +81,29 @@ public final class ImportDirective extends AbstractDirective
         m_value = value;
     }
     
+   /**
+    * Return the import mode.
+    * @return the mode
+    */
     public Mode getMode()
     {
         return m_mode;
     }
     
+   /**
+    * Return the import value.
+    * @return the value
+    */
     public String getValue()
     {
         return m_value;
     }
 
+   /**
+    * Compare this object with another for equality.
+    * @param other the other object
+    * @return true if equal
+    */
     public boolean equals( Object other )
     {
         if( super.equals( other ) && ( other instanceof ImportDirective ) )
@@ -94,6 +124,10 @@ public final class ImportDirective extends AbstractDirective
         }
     }
     
+   /**
+    * Compute the hash value.
+    * @return the hascode value
+    */
     public int hashCode()
     {
         int hash = super.hashCode();
@@ -104,24 +138,23 @@ public final class ImportDirective extends AbstractDirective
 
    /**
     * Mode of inclusion.
-    * @author <a href="mailto:dev-dpml@lists.ibiblio.org">The Digital Product Meta Library</a>
     */
     public static final class Mode extends Enum
     {
         static final long serialVersionUID = 1L;
 
-        /**
-        * Include File.
+       /**
+        * File include stratgy constant.
         */
         public static final Mode FILE = new Mode( "file" );
 
-        /**
-        * Soft collection policy.
+       /**
+        * URI include stratgy constant.
         */
         public static final Mode URI = new Mode( "uri" );
     
-        /**
-         * Internal constructor.
+       /**
+        * Internal constructor.
         * @param label the enumeration label.
         * @param index the enumeration index.
         * @param map the set of constructed enumerations.
@@ -131,13 +164,18 @@ public final class ImportDirective extends AbstractDirective
             super( label );
         }
     
+       /**
+        * Create a now mode using a supplied mode name.
+        * @param value the mode name
+        * @return the mode
+        */
         public static Mode parse( String value )
         {
             if( value.equalsIgnoreCase( "file" ) )
             {
                 return FILE;
             }
-            else if( value.equalsIgnoreCase( "uri" ))
+            else if( value.equalsIgnoreCase( "uri" ) )
             {
                 return URI;
             }
@@ -150,10 +188,17 @@ public final class ImportDirective extends AbstractDirective
         }
     }
 
+   /**
+    * Mode bean info.
+    */
     public static final class ModeBeanInfo extends SimpleBeanInfo
     {
         private static final BeanDescriptor BEAN_DESCRIPTOR = setupBeanDescriptor();
 
+       /**
+        * Return the bean descriptor.
+        * @return the descriptor
+        */
         public BeanDescriptor getBeanDescriptor()
         {
             return BEAN_DESCRIPTOR;
@@ -164,16 +209,25 @@ public final class ImportDirective extends AbstractDirective
             BeanDescriptor descriptor = new BeanDescriptor( Mode.class );
             descriptor.setValue( 
               "persistenceDelegate", 
-            new ModePersistenceDelegate() );
+              new ModePersistenceDelegate() );
             return descriptor;
         }
     
+       /**
+        * Persistence delegate.
+        */
         private static class ModePersistenceDelegate extends DefaultPersistenceDelegate
         {
+           /**
+            * Return an expression.
+            * @param old the old value
+            * @param encoder the encoder
+            * @return an expression
+            */
             public Expression instantiate( Object old, Encoder encoder )
             {
                 Mode mode = (Mode) old;
-                return new Expression( Mode.class, "parse", new Object[]{ mode.getName() } );
+                return new Expression( Mode.class, "parse", new Object[]{mode.getName()} );
             }
         }
     }

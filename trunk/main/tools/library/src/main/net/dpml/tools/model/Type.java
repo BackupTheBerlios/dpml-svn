@@ -18,8 +18,6 @@
 
 package net.dpml.tools.model;
 
-import java.net.URI;
-
 /**
  * The Process interface defines a process model.
  *
@@ -28,17 +26,30 @@ import java.net.URI;
  */
 public interface Type extends Dictionary
 {
+   /**
+    * JAR type name constant.
+    */
     static final String JAR = "jar";
+    
+   /**
+    * Plugin type name constant.
+    */
     static final String PLUGIN = "plugin";
+    
+   /**
+    * Module type name constant.
+    */
     static final String MODULE = "module";
     
    /**
     * Return the name of the type.
+    * @return the type name
     */
     String getName();
     
    /**
     * Return the alias association policy.
+    * @return true if alias production assumed
     */
     boolean getAlias();
 }

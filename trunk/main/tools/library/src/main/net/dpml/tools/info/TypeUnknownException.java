@@ -27,11 +27,20 @@ package net.dpml.tools.info;
  */
 public final class TypeUnknownException extends Exception
 {
+   /**
+    * Creation of a new TypeUnknownException.
+    * @param message the exception message
+    */
     public TypeUnknownException( String message )
     {
         this( message, null );
     }
     
+   /**
+    * Creation of a new TypeUnknownException.
+    * @param message the exception message
+    * @param cause the causal excetion
+    */
     public TypeUnknownException( String message, Throwable cause )
     {
         super( message, cause );

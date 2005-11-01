@@ -18,7 +18,6 @@
 
 package net.dpml.tools.process;
 
-import org.apache.tools.ant.Task;
 import org.apache.tools.ant.BuildListener;
 import org.apache.tools.ant.BuildEvent;
 

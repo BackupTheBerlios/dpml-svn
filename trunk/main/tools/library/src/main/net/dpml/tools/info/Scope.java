@@ -18,13 +18,6 @@
 
 package net.dpml.tools.info;
 
-import java.beans.Expression;
-import java.beans.BeanDescriptor;
-import java.beans.PersistenceDelegate;
-import java.beans.DefaultPersistenceDelegate;
-import java.beans.SimpleBeanInfo;
-import java.beans.Encoder;
-
 import net.dpml.transit.util.ValuedEnum;
 
 /**
@@ -54,7 +47,7 @@ public final class Scope extends ValuedEnum implements Comparable
    /**
     * Array of scope enumeration values.
     */
-    private static final Scope[] ENUM_VALUES = new Scope[]{ BUILD, RUNTIME, TEST };
+    private static final Scope[] ENUM_VALUES = new Scope[]{BUILD, RUNTIME, TEST};
 
    /**
     * Returns an array of activation enum values.
@@ -76,7 +69,13 @@ public final class Scope extends ValuedEnum implements Comparable
         super( label, index );
     }
     
-    public static Scope parse( String value )
+   /**
+    * Return a scope value matching the supplied value.
+    * @param value the scope name
+    * @return the scope
+    * @exception IllegalArgumentException if the name if not recognized
+    */
+    public static Scope parse( String value ) throws IllegalArgumentException
     {
         if( value.equalsIgnoreCase( "build" ) )
         {
@@ -86,7 +85,7 @@ public final class Scope extends ValuedEnum implements Comparable
         {
             return RUNTIME;
         }
-        else if( value.equalsIgnoreCase( "test" ))
+        else if( value.equalsIgnoreCase( "test" ) )
         {
             return TEST;
         }

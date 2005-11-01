@@ -22,7 +22,6 @@ import java.util.Arrays;
 import java.util.ArrayList;
 import java.beans.Expression;
 import java.beans.BeanDescriptor;
-import java.beans.PersistenceDelegate;
 import java.beans.DefaultPersistenceDelegate;
 import java.beans.SimpleBeanInfo;
 import java.beans.Encoder;
@@ -38,7 +37,14 @@ import net.dpml.transit.util.Enum;
  */
 public class ResourceDirective extends AbstractDirective
 {
+   /**
+    * External resource constant identifier.
+    */
     public static final Classifier EXTERNAL = Classifier.EXTERNAL;
+    
+   /**
+    * Local resource constant identifier.
+    */
     public static final Classifier LOCAL = Classifier.LOCAL;
      
     private final String m_name;
@@ -48,6 +54,16 @@ public class ResourceDirective extends AbstractDirective
     private final DependencyDirective[] m_dependencies;
     private final Classifier m_classifier;
     
+   /**
+    * Creation of a new resource directive.
+    * @param name the resource name
+    * @param version the resource version
+    * @param classifier LOCAL or EXTERNAL classifier
+    * @param basedir the project basedir
+    * @param types types produced by the resource
+    * @param dependencies resource dependencies
+    * @param properties suppliementary properties
+    */
     public ResourceDirective( 
       String name, String version, Classifier classifier, String basedir, TypeDirective[] types, 
       DependencyDirective[] dependencies, Properties properties )
@@ -78,6 +94,11 @@ public class ResourceDirective extends AbstractDirective
         m_classifier = classifier;
     }
     
+   /**
+    * Construct a resource directive suitable for export. 
+    * @param version the version to associate with the exported directive
+    * @return the exportable directive
+    */
     public ResourceDirective export( String version )
     {
         return new ResourceDirective( 
@@ -91,36 +112,68 @@ public class ResourceDirective extends AbstractDirective
         );
     }
     
+   /**
+    * Return the resource name.
+    * @return the name
+    */
     public String getName()
     {
         return m_name;
     }
     
+   /**
+    * Return the resource version.
+    * @return the version
+    */
     public String getVersion()
     {
         return m_version;
     }
     
+   /**
+    * Return the resource basedir.
+    * @return the basedir
+    */
     public String getBasedir()
     {
         return m_basedir;
     }
     
+   /**
+    * Return the resource classifier.
+    * @return the classifier (LOCAL or EXTERNAL)
+    */
     public Classifier getClassifier()
     {
         return m_classifier;
     }
     
+   /**
+    * Return true if this represents a local project.
+    * @return true if local
+    */
     public boolean isLocal()
     {
         return LOCAL.equals( m_classifier );
     }
     
+   /**
+    * Return an array of type directives representing artifacts associated
+    * with the resource.
+    * @return the type directives
+    */
     public TypeDirective[] getTypeDirectives()
     {
         return m_types;
     }
         
+   /**
+    * Return an named type.
+    * @param name the type name
+    * @return the type directives
+    * @exception TypeUnknownException if the type name if not recornized within
+    *   the scope of the resource
+    */
     public TypeDirective getTypeDirective( String name ) throws TypeUnknownException
     {
         for( int i=0; i<m_types.length; i++ )
@@ -134,11 +187,20 @@ public class ResourceDirective extends AbstractDirective
         throw new TypeUnknownException( name );
     }
         
+   /**
+    * Return an array of dependency directives.
+    * @return the dependency directive array
+    */
     public DependencyDirective[] getDependencyDirectives()
     {
         return m_dependencies;
     }
     
+   /**
+    * Return an dependency directive matching a supplied scope.
+    * @param scope the scope
+    * @return the dependency directive matching the supplied scope
+    */
     public DependencyDirective getDependencyDirective( Scope scope )
     {
         ArrayList list = new ArrayList();
@@ -153,6 +215,11 @@ public class ResourceDirective extends AbstractDirective
         return new DependencyDirective( scope, new IncludeDirective[0] );
     }
     
+   /**
+    * Compare this object with another for equality.
+    * @param other the other object
+    * @return true if equal
+    */
     public boolean equals( Object other )
     {
         if( super.equals( other ) && ( other instanceof ResourceDirective ) )
@@ -174,13 +241,9 @@ public class ResourceDirective extends AbstractDirective
             {
                 return false;
             }
-            else if( !Arrays.equals( m_dependencies, object.m_dependencies ) )
-            {
-                return false;
-            }
             else
             {
-                return true;
+                return Arrays.equals( m_dependencies, object.m_dependencies );
             }
         }
         else
@@ -189,6 +252,10 @@ public class ResourceDirective extends AbstractDirective
         }
     }
     
+   /**
+    * Compute the hash value.
+    * @return the hashcode value
+    */
     public int hashCode()
     {
         int hash = super.hashCode();
@@ -218,8 +285,8 @@ public class ResourceDirective extends AbstractDirective
         */
         public static final Classifier LOCAL = new Classifier( "local" );
     
-        /**
-         * Internal constructor.
+       /**
+        * Internal constructor.
         * @param label the enumeration label.
         */
         private Classifier( String label )
@@ -227,13 +294,19 @@ public class ResourceDirective extends AbstractDirective
             super( label );
         }
     
-        public static Classifier parse( String value )
+       /**
+        * Create a classified matching the supplied name.
+        * @param value the classifier name
+        * @return the classifier
+        * @exception IllegalArgumentException if the supplied value is not recognized
+        */
+        public static Classifier parse( String value ) throws IllegalArgumentException
         {
             if( value.equalsIgnoreCase( "external" ) )
             {
                 return EXTERNAL;
             }
-            else if( value.equalsIgnoreCase( "local" ))
+            else if( value.equalsIgnoreCase( "local" ) )
             {
                 return LOCAL;
             }
@@ -246,10 +319,17 @@ public class ResourceDirective extends AbstractDirective
         }
     }
 
+   /**
+    * Classifier bean info.
+    */
     public static final class ClassifierBeanInfo extends SimpleBeanInfo
     {
         private static final BeanDescriptor BEAN_DESCRIPTOR = setupBeanDescriptor();
 
+       /**
+        * Bean descriptor.
+        * @return the descriptor
+        */
         public BeanDescriptor getBeanDescriptor()
         {
             return BEAN_DESCRIPTOR;
@@ -264,12 +344,21 @@ public class ResourceDirective extends AbstractDirective
             return descriptor;
         }
     
+       /**
+        * Persistence delegate.
+        */
         private static class ClassifierPersistenceDelegate extends DefaultPersistenceDelegate
         {
+           /**
+            * Create an expression.
+            * @param old the old instance
+            * @param encoder the encoder
+            * @return the expression
+            */
             public Expression instantiate( Object old, Encoder encoder )
             {
                 Classifier classifier = (Classifier) old;
-                return new Expression( Classifier.class, "parse", new Object[]{ classifier.getName() } );
+                return new Expression( Classifier.class, "parse", new Object[]{classifier.getName()} );
             }
         }
     }

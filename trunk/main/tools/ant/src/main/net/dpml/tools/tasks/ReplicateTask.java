@@ -98,6 +98,10 @@ public class ReplicateTask extends GenericTask
         m_self = flag;
     }
     
+   /**
+    * Create and add a new include.
+    * @return the include
+    */
     public Include createInclude()
     {
         Include include = new Include();
@@ -404,6 +408,9 @@ public class ReplicateTask extends GenericTask
     }
     */
 
+   /**
+    * Declaration of an include.
+    */
     public class Include
     {
         private String m_includekey;

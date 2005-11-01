@@ -31,7 +31,6 @@ import java.util.Properties;
 
 import net.dpml.tools.info.ProcessDescriptor;
 import net.dpml.tools.info.LibraryDirective;
-import net.dpml.tools.info.IncludeDirective;
 import net.dpml.tools.info.ImportDirective;
 import net.dpml.tools.info.IncludeDirective;
 import net.dpml.tools.info.ModuleDirective;
@@ -70,6 +69,16 @@ public final class LibraryDirectiveBuilder
     private static final String PRODUCES_ELEMENT_NAME = "production";
     private static final String PROPERTIES_ELEMENT_NAME = "properties";
     
+    private LibraryDirectiveBuilder()
+    {
+    }
+    
+   /**
+    * Construct a library directive from XML source.
+    * @param source the XML source file
+    * @return the library directive
+    * @exception IOException if an IO exception occurs
+    */
     public static LibraryDirective build( File source ) throws IOException
     {
         if( null == source )
@@ -113,7 +122,10 @@ public final class LibraryDirectiveBuilder
     
    /**
     * Build a module using an XML element.
+    * @param base the base directory
     * @param element the module element
+    * @return the library directive
+    * @exception IOException if an IO exception occurs
     */
     private static LibraryDirective buildLibraryDirective( File base, Element element ) throws IOException
     {
@@ -203,6 +215,12 @@ public final class LibraryDirectiveBuilder
         }
     }
     
+   /**
+    * Build a module directive an XML file.
+    * @param source the XML source
+    * @return the module directive
+    * @exception IOException if an IO exception occurs
+    */
     public static ModuleDirective buildModuleDirective( File source ) throws IOException
     {
         if( null == source )
@@ -244,6 +262,12 @@ public final class LibraryDirectiveBuilder
         }
     }
         
+   /**
+    * Build a module directive from an input stream.
+    * @param input the input stream
+    * @return the module directive
+    * @exception Exception if an exception occurs
+    */
     public static ModuleDirective buildModuleDirective( InputStream input ) throws Exception
     {
         try
@@ -288,15 +312,15 @@ public final class LibraryDirectiveBuilder
             final String tag = child.getTagName();
             if( PROPERTIES_ELEMENT_NAME.equals( tag ) )
             {
-                // already processed
+                boolean ok = true; // already processed
             }
             else if( DEPENDENCIES_ELEMENT_NAME.equals( tag ) ) 
             {
-                // already processed
+                boolean ok = true; // already processed
             }
             else if( TYPES_ELEMENT_NAME.equals( tag ) ) 
             {
-                // already processed
+                boolean ok = true; // already processed
             }
             else if( MODULE_ELEMENT_NAME.equals( tag ) )
             {
