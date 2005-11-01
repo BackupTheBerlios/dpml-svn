@@ -30,11 +30,19 @@ public class ApplicationProfileEvent extends EventObject
     */
     static final long serialVersionUID = 1L;
 
+   /**
+    * Creation of a new application profile event instance.
+    * @param profile the application profile raising the event
+    */
     public ApplicationProfileEvent( ApplicationProfile profile )
     {
         super( profile );
     }
 
+   /**
+    * Return the source application profile.
+    * @return the application profile raising the event
+    */
     public ApplicationProfile getApplicationProfile()
     {
         return (ApplicationProfile) super.getSource();

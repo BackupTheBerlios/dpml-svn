@@ -19,10 +19,8 @@
 package net.dpml.profile;
 
 import java.io.Serializable;
-import java.net.URI;
 import java.rmi.RemoteException;
 import java.util.Properties;
-import java.util.Date;
 
 import net.dpml.transit.model.CodeBaseModel;
 import net.dpml.transit.model.Disposable;
@@ -34,8 +32,19 @@ import net.dpml.transit.model.Disposable;
  */
 public interface ApplicationProfile extends CodeBaseModel, Disposable
 {
+   /**
+    * Disabled policy.
+    */
     StartupPolicy DISABLED = new StartupPolicy( -1, "disabled", "Disabled" );
+    
+   /**
+    * Manual startup policy.
+    */
     StartupPolicy MANUAL = new StartupPolicy( 0, "manual", "Manual" );
+    
+   /**
+    * Automatic startup policy.
+    */
     StartupPolicy AUTOMATIC = new StartupPolicy( 1, "automatic", "Automatic" );
 
    /**
@@ -51,12 +60,14 @@ public interface ApplicationProfile extends CodeBaseModel, Disposable
    /**
     * Add a change listener.
     * @param listener the application profile change listener to add
+    * @exception RemoteException if a transport error occurs
     */
     void addApplicationProfileListener( ApplicationProfileListener listener ) throws RemoteException;
 
    /**
     * Remove a depot content change listener.
     * @param listener the registry change listener to remove
+    * @exception RemoteException if a transport error occurs
     */
     void removeApplicationProfileListener(  ApplicationProfileListener listener ) throws RemoteException;
 

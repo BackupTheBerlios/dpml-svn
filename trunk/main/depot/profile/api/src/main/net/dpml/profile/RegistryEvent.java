@@ -30,19 +30,32 @@ public class RegistryEvent extends EventObject
     */
     static final long serialVersionUID = 1L;
 
-    ApplicationProfile m_profile;
+    private final ApplicationProfile m_profile;
 
+   /**
+    * Creation of a new registry event.
+    * @param registry the source registry
+    * @param profile the application profile related to the event
+    */
     public RegistryEvent( ApplicationRegistry registry, ApplicationProfile profile )
     {
         super( registry );
         m_profile = profile;
     }
 
+   /**
+    * Return the source application registry.
+    * @return the application registry
+    */
     public ApplicationRegistry getApplicationRegistry()
     {
         return (ApplicationRegistry) super.getSource();
     }
 
+   /**
+    * Return the subject profile.
+    * @return the application profile
+    */
     public ApplicationProfile getApplicationProfile()
     {
         return m_profile;

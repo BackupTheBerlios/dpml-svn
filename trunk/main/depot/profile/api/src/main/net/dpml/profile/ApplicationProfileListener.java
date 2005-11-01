@@ -32,36 +32,42 @@ public interface ApplicationProfileListener extends EventListener, Remote
    /**
     * Notify the listener of a change to the application title.
     * @param event the application profile event
+    * @exception RemoteException if a transport error occurs
     */
     void titleChange( ApplicationProfileEvent event ) throws RemoteException;
 
    /**
     * Notify a listener of changes to the working directory.
     * @param event the application profile event
+    * @exception RemoteException if a transport error occurs
     */
     void workingDirectoryPathChanged( ApplicationProfileEvent event ) throws RemoteException;
 
    /**
     * Notify a listener of changes to the system property settings.
     * @param event the application profile event
+    * @exception RemoteException if a transport error occurs
     */
     void systemPropertiesChanged( ApplicationProfileEvent event ) throws RemoteException;
 
    /**
     * Notify a listener of changes to the startup timeout settings.
     * @param event the application profile event
+    * @exception RemoteException if a transport error occurs
     */
     void startupTimeoutChanged( ApplicationProfileEvent event ) throws RemoteException;
 
    /**
     * Notify a listener of changes to the shutdown timeout settings.
     * @param event the application profile event
+    * @exception RemoteException if a transport error occurs
     */
     void shutdownTimeoutChanged( ApplicationProfileEvent event ) throws RemoteException;
 
    /**
     * Notify a listener of changes to the startup policy settings.
     * @param event the application profile event
+    * @exception RemoteException if a transport error occurs
     */
     void startupPolicyChanged( ApplicationProfileEvent event ) throws RemoteException;
 }

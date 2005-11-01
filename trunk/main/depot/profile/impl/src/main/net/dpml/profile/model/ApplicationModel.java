@@ -21,18 +21,11 @@ package net.dpml.profile.model;
 import java.net.URI;
 import java.rmi.RemoteException;
 import java.util.Properties;
-import java.util.Date;
 import java.util.EventObject;
 import java.util.EventListener;
 
 import net.dpml.transit.Logger;
-import net.dpml.transit.store.CodeBaseStorage;
-import net.dpml.transit.model.CodeBaseModel;
 import net.dpml.transit.model.DefaultContentModel;
-import net.dpml.transit.model.DisposalListener;
-import net.dpml.transit.model.DisposalEvent;
-import net.dpml.transit.model.CodeBaseListener;
-import net.dpml.transit.model.CodeBaseEvent;
 import net.dpml.transit.model.Value;
 
 import net.dpml.profile.ApplicationProfile;
@@ -55,6 +48,20 @@ public class ApplicationModel extends DefaultContentModel implements Application
     private int m_startup;
     private int m_shutdown;
 
+   /**
+    * Creation of a new application model.
+    * @param logger the logging channel
+    * @param id the model id
+    * @param title the model title
+    * @param properties application properties
+    * @param working the application working directory
+    * @param uri the application codebase uri
+    * @param policy the startup policy
+    * @param startup the startup timeout value
+    * @param shutdown the shutdown timeout value
+    * @param params application instantiation parameters
+    * @exception RemoteException if a transport error occurs
+    */
     public ApplicationModel( 
       Logger logger, String id, String title, 
       Properties properties, String working, URI uri, 
@@ -71,6 +78,12 @@ public class ApplicationModel extends DefaultContentModel implements Application
         m_shutdown = shutdown;
     }
 
+   /**
+    * Creation of a new application model.
+    * @param logger the logging channel
+    * @param store the storage unit
+    * @exception RemoteException if a transport error occurs
+    */
     public ApplicationModel( Logger logger, ApplicationStorage store )
       throws RemoteException
     {

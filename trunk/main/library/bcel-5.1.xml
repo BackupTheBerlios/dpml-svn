@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<module name="bcel" version="5.1">
+
+    <resource name="bcel">
+      <types>
+        <type id="jar"/>
+      </types>
+    </resource>
+
+</module>

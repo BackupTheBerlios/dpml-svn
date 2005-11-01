@@ -21,11 +21,7 @@ import java.net.URI;
 import net.dpml.transit.Logger;
 
 import net.dpml.station.Station;
-import net.dpml.profile.ApplicationRegistry;
 import net.dpml.profile.ApplicationProfile;
-
-import net.dpml.transit.model.Construct;
-import net.dpml.transit.model.Value;
 
 import net.dpml.profile.model.ApplicationStorageUnit;
 
@@ -42,11 +38,15 @@ public class DepotInstaller
     * Depot package installer constructor.
     * @param logger the assigned logging channel
     */
-    public DepotInstaller( Logger logger ) throws Exception
+    public DepotInstaller( Logger logger )
     {
         m_logger = logger;
     }
 
+   /**
+    * Install Depot resources.
+    * @exception Exception if an install etrror occurs
+    */
     public void install() throws Exception
     {
         m_logger.info( "executing bootstrap setup" );

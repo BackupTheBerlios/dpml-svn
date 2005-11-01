@@ -32,12 +32,14 @@ public interface RegistryListener extends EventListener, Remote
    /**
     * Notify the listener of the addition of a new application profile.
     * @param event the registry event
+    * @exception RemoteException if a transport error occurs
     */
     void profileAdded( RegistryEvent event ) throws RemoteException;
 
    /**
     * Notify a listener of the removal of an application profile.
     * @param event the registry event
+    * @exception RemoteException if a transport error occurs
     */
     void profileRemoved( RegistryEvent event ) throws RemoteException;
 

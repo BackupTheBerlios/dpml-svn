@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<module name="commons-logging" version="1.0.4">
+
+    <resource name="commons-logging">
+      <types>
+        <type id="jar"/>
+      </types>
+    </resource>
+
+</module>
