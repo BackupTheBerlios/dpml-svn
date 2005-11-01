@@ -9,8 +9,8 @@
   <types>
     <type name="jar"/>
     <type name="plugin" depends="jar"/>
-    <type name="module"/>
     <type name="part" uri="link:plugin:dpml/metro/dpml-composition-tools"/>
+    <type name="module"/>
   </types>
 
   <imports>
@@ -18,8 +18,15 @@
     <import file="library/commons-cli-1.0.xml"/>
     <import file="library/xstream-1.1.xml"/>
     <import file="library/jgoodies.xml"/>
-    <import file="library/dpml.xml"/>
     <import file="library/ant-1.6.5.xml"/>
+    <import file="library/antlr-2.7.2.xml"/>
+    <import file="library/bcel-5.1.xml"/>
+    <import file="library/commons-beanutils-1.7.0.xml"/>
+    <import file="library/commons-collections-3.1.xml"/>
+    <import file="library/commons-logging-1.0.4.xml"/>
+    <import file="library/regexp-1.3.xml"/>
+    <import file="library/checkstyle-3.5.xml"/>
+    <import file="library/dpml.xml"/>
   </imports>
 
 </library>

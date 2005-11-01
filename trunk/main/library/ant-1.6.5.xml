@@ -21,6 +21,8 @@
       </types>
       <dependencies>
         <include key="ant-launcher"/>
+        <include key="ant-trax"/>
+        <include key="ant-xslp"/>
       </dependencies>
     </resource>
 
@@ -31,6 +33,24 @@
       <dependencies>
         <include key="ant"/>
         <include ref="junit/junit"/>
+      </dependencies>
+    </resource>
+
+    <resource name="ant-xslp">
+      <types>
+        <type id="jar"/>
+      </types>
+      <dependencies>
+        <include key="ant"/>
+      </dependencies>
+    </resource>
+
+    <resource name="ant-trax">
+      <types>
+        <type id="jar"/>
+      </types>
+      <dependencies>
+        <include key="ant"/>
       </dependencies>
     </resource>
 

@@ -107,6 +107,7 @@ public class BuildPlugin
             getLogger().debug( "parsing selection: " + selection );
             boolean build = !getListArgument( line );
             Resource[] resources = m_library.select( selection, build, true );
+            getLogger().debug( "selection: " + resources.length );
             process( resources, line );
         }
         else
@@ -139,6 +140,7 @@ public class BuildPlugin
     {
         if( resources.length == 0 )
         {
+            getLogger().info( "Empty selection." );
             return;
         }
         else if( resources.length == 1 )

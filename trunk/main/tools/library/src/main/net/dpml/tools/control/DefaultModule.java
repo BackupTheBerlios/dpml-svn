@@ -100,17 +100,9 @@ public final class DefaultModule extends DefaultResource implements Module
     * module.
     * @return the resource array
     */
-    public Resource[] getResources() throws ResourceNotFoundException
+    public Resource[] getResources()
     {
-        try
-        {
-            return getDefaultResources();
-        }
-        catch( InvalidNameException e )
-        {
-            final String message = e.getMessage();
-            throw new ResourceNotFoundException( message );
-        }
+        return getDefaultResources();
     }
     
    /**

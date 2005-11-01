@@ -18,6 +18,11 @@
 
 package net.dpml.tools.tasks;
 
+import net.dpml.tools.ant.Context;
+import net.dpml.tools.model.Library;
+import net.dpml.tools.model.Resource;
+
+import org.apache.tools.ant.BuildException;
 
 /**
  * The plugin task handles the establishment of ant tasks, listeners, and antlibs derived
@@ -28,9 +33,48 @@ package net.dpml.tools.tasks;
  */
 public class PluginTask extends net.dpml.transit.tools.PluginTask
 {
+    private String m_ref;
+    
+   /**
+    * Set the ref address of a plugin resource.
+    */
+    public void setRef( String ref )
+    {
+        m_ref = ref;
+    }
+    
     public void init()
     {
         super.init();
         Thread.currentThread().setContextClassLoader( getClass().getClassLoader() );
+    }
+    
+    public void execute()
+    {
+        if( null != m_ref )
+        {
+            Context context = (Context) getProject().getReference( "project.context" );
+            if( null == context )
+            {
+                final String error = 
+                  "Missing 'project.context' reference.";
+                throw new IllegalStateException( error );
+            }
+            Library library = context.getLibrary();
+            try
+            {
+                Resource resource = library.getResource( m_ref );
+                String uri = resource.getArtifact( "plugin" ).toURI().toString();
+                setUri( uri );
+            }
+            catch( Exception e )
+            {
+                final String error = 
+                  "Unexpected error while attempting to initiaze plugin task uri.";
+                throw new BuildException( error );
+            }
+        }
+        
+        super.execute();
     }
 }

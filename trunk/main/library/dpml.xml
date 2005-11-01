@@ -278,7 +278,7 @@
 
      <resource name="dpml-tools-ant" basedir="ant">
        <types>
-         <!--<type id="jar"/>-->
+         <type id="jar"/>
          <type id="plugin" alias="true">
            <property name="project.plugin.class" 
               value="net.dpml.tools.ant.StandardBuilder"/>
@@ -289,8 +289,26 @@
          <include ref="dpml/transit/dpml-transit-tools"/>
          <include ref="ant/ant-junit" tag="system"/>
          <include ref="ant/ant" tag="system"/>
+         <include ref="ant/ant-xslp" tag="system"/>
+         <include ref="ant/ant-trax" tag="system"/>
        </dependencies>
      </resource>
+
+     <project name="dpml-tools-checkstyle" basedir="checkstyle">
+       <types>
+         <type id="jar"/>
+         <type id="plugin">
+           <property name="project.plugin.resource" 
+              value="net/dpml/tools/checkstyle/antlib.xml"/>
+           <property name="project.plugin.urn" 
+              value="dpml:checkstyle"/>
+         </type>
+       </types>
+       <dependencies>
+         <include ref="dpml/tools/dpml-tools-ant"/>
+         <include ref="checkstyle/checkstyle"/>
+       </dependencies>
+     </project>
 
    </module>
 

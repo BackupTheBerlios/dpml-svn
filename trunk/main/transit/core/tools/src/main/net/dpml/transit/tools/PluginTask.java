@@ -546,7 +546,7 @@ public class PluginTask extends TransitTask
        /**
         * Return the antlib resource path.
         * @return the path (possibly null in which case the resource reference
-        *   must exist in the polugin descriptor)
+        *   must exist in the plugin descriptor)
         */
         public String getPath()
         {

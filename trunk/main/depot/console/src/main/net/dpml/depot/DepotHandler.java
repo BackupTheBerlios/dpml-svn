@@ -31,12 +31,47 @@ import net.dpml.transit.PID;
  */
 public class DepotHandler extends Handler
 {
+    private static final PID ID = new PID();
+    
     private final LoggingService m_system;
-    private final PID ID = new PID();
 
+   /**
+    * Creation of a new handler instance.
+    * @exception Exception if an error occurs during resolution of the logging service
+    */
     public DepotHandler() throws Exception
     {
         m_system = getLoggingService();
+    }
+
+   /**
+    * Flush the handler.
+    */
+    public void flush()
+    {
+    }
+
+   /**
+    * Close the log record handler.
+    */
+    public void close()
+    {
+    }
+
+   /**
+    * Publish a log record.
+    * @param record the log record
+    */
+    public void publish( LogRecord record )
+    {
+        try
+        {
+            m_system.log( ID, record );
+        }
+        catch( RemoteException e )
+        {
+            System.err.println( e.toString() );
+        }
     }
 
     private LoggingService getLoggingService() throws Exception
@@ -56,24 +91,5 @@ public class DepotHandler extends Handler
         }
     }
 
-    public void flush()
-    {
-    }
-
-    public void close()
-    {
-    }
-
-    public void publish( LogRecord record )
-    {
-        try
-        {
-            m_system.log( ID, record );
-        }
-        catch( RemoteException e )
-        {
-            System.err.println( e.toString() );
-        }
-    }
 }
 

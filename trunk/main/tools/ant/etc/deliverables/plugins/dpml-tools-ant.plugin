@@ -25,6 +25,8 @@ dpml.artifact.dependency.sys.0 = artifact:jar:ant/ant-launcher#1.6.5
 dpml.artifact.dependency.sys.1 = artifact:jar:ant/ant#1.6.5
 dpml.artifact.dependency.sys.2 = artifact:jar:junit/junit#3.8.1
 dpml.artifact.dependency.sys.3 = artifact:jar:ant/ant-junit#1.6.5
+dpml.artifact.dependency.sys.4 = artifact:jar:ant/ant-xslp#1.6.5
+dpml.artifact.dependency.sys.5 = artifact:jar:ant/ant-trax#1.6.5
 
 #
 # Private.

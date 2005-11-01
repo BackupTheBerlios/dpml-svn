@@ -35,7 +35,7 @@ public interface Module extends Resource
     * module.
     * @return the resource array
     */
-    Resource[] getResources() throws ResourceNotFoundException;
+    Resource[] getResources();
     
    /**
     * Return a resource using a supplied name.

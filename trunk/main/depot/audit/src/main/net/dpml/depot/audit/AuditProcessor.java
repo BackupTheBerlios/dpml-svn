@@ -23,8 +23,6 @@ import java.rmi.registry.LocateRegistry;
 
 import net.dpml.depot.ShutdownHandler;
 
-import net.dpml.profile.ApplicationRegistry;
-
 import net.dpml.transit.Transit;
 import net.dpml.transit.Repository;
 import net.dpml.transit.model.TransitRegistryModel;
@@ -91,7 +89,7 @@ public class AuditProcessor
             logger.info( "registry entries: " + names.length );
             for( int i=0; i<names.length; i++ )
             {
-                String message = "entry (" + (i+1) + "): " + names[i];
+                String message = "entry (" + ( i+1 ) + "): " + names[i];
                 try
                 {
                     Object obj = registry.lookup( names[i] );
