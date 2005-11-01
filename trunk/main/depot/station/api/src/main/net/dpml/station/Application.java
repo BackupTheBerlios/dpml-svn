@@ -13,6 +13,7 @@ import net.dpml.profile.ApplicationProfile;
 
 public interface Application extends Remote
 {
+
     State READY = new State( 0, "ready", "Ready" );
     State STARTING = new State( 1, "starting", "Starting" );
     State RUNNING = new State( 2, "running", "Running" );

@@ -46,7 +46,6 @@ public interface ApplicationStorage extends ContentStorage, Removable
     * of the application before considering deployment as a timeout failure.
     * 
     * @return the startup timeout value
-    * @exception RemoteException if a transport error occurs
     */    
     int getStartupTimeout();
 
@@ -55,7 +54,6 @@ public interface ApplicationStorage extends ContentStorage, Removable
     * of the application before considering deployment as a timeout failure.
     * 
     * @param timeout the startup timeout value
-    * @exception RemoteException if a transport error occurs
     */
     void setStartupTimeout( int timeout );
 

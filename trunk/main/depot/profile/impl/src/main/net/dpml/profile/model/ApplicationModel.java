@@ -322,6 +322,10 @@ public class ApplicationModel extends DefaultContentModel implements Application
         }
     }
 
+   /**
+    * Process the supplied event.
+    * @param event the event
+    */
     protected void processEvent( EventObject event )
     {
         if( event instanceof ApplicationProfileEvent )
@@ -381,49 +385,91 @@ public class ApplicationModel extends DefaultContentModel implements Application
             }
         }
     }
-
-    static class TitleChangedEvent extends ApplicationProfileEvent
+    
+   /**
+    * Title change event.
+    */
+    private static class TitleChangedEvent extends ApplicationProfileEvent
     {
+       /**
+        * Creation of a new title change event.
+        * @param profile the application profile
+        */
         public TitleChangedEvent( ApplicationProfile profile )
         {
             super( profile );
         }
     }
 
+   /**
+    * Working directory change event.
+    */
     static class WorkingDirectoryChangedEvent extends ApplicationProfileEvent
     {
+       /**
+        * Creation of a new working directory change event.
+        * @param profile the application profile
+        */
         public WorkingDirectoryChangedEvent( ApplicationProfile profile )
         {
             super( profile );
         }
     }
 
+   /**
+    * System property change event.
+    */
     static class SystemPropertiesChangedEvent extends ApplicationProfileEvent
     {
+       /**
+        * Creation of a new system properties change event.
+        * @param profile the application profile
+        */
         public SystemPropertiesChangedEvent( ApplicationProfile profile )
         {
             super( profile );
         }
     }
 
+   /**
+    * Startup timeout change event.
+    */
     static class StartupTimeoutChangedEvent extends ApplicationProfileEvent
     {
+       /**
+        * Creation of a new startup timeout change event.
+        * @param profile the application profile
+        */
         public StartupTimeoutChangedEvent( ApplicationProfile profile )
         {
             super( profile );
         }
     }
 
+   /**
+    * Shutdown timeout change event.
+    */
     static class ShutdownTimeoutChangedEvent extends ApplicationProfileEvent
     {
+       /**
+        * Creation of a new shutdown timeout change event.
+        * @param profile the application profile
+        */
         public ShutdownTimeoutChangedEvent( ApplicationProfile profile )
         {
             super( profile );
         }
     }
 
+   /**
+    * Startup policy change event.
+    */
     static class StartupPolicyChangedEvent extends ApplicationProfileEvent
     {
+       /**
+        * Creation of a new startup policy change event.
+        * @param profile the application profile
+        */
         public StartupPolicyChangedEvent( ApplicationProfile profile )
         {
             super( profile );

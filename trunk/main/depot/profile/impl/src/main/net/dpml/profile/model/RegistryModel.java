@@ -21,7 +21,6 @@ package net.dpml.profile.model;
 import java.net.URI;
 import java.rmi.RemoteException;
 import java.util.Properties;
-import java.util.Date;
 import java.util.List;
 import java.util.LinkedList;
 import java.util.Collections;
@@ -34,7 +33,6 @@ import net.dpml.transit.Logger;
 import net.dpml.transit.model.UnknownKeyException;
 import net.dpml.transit.model.Value;
 
-import net.dpml.profile.*;
 import net.dpml.profile.ApplicationRegistry;
 import net.dpml.profile.RegistryEvent;
 import net.dpml.profile.RegistryListener;
@@ -51,6 +49,14 @@ public class RegistryModel extends DefaultModel implements ApplicationRegistry
 
     private final List m_list = Collections.synchronizedList( new LinkedList() );
 
+   /**
+    * Creation of a new application registry model.
+    * @param logger the assigned logging channel
+    * @param store the storage unit
+    * @exception NullPointerException if the supplied logging channel is null
+    * @exception DuplicateKeyException if the store contains duplicate key defintions
+    * @exception RemoteException if a remote error occurs
+    */
     public RegistryModel( Logger logger, RegistryStorage store ) 
       throws NullPointerException, DuplicateKeyException, RemoteException
     {
@@ -66,17 +72,32 @@ public class RegistryModel extends DefaultModel implements ApplicationRegistry
          }
     }
 
-    public int getApplicationProfileCount() throws RemoteException
+   /**
+    * Return the number of application profiles in the registry.
+    * @return the application profile count
+    */
+    public int getApplicationProfileCount()
     {
         return m_list.size();
     }
 
+   /**
+    * Add an application profile to the registry.
+    * @param profile the application profile to add to the registry
+    * @exception DuplicateKeyException if the profile key is already assigned
+    * @exception RemoteException if a remote error occurs
+    */
     public void addApplicationProfile( ApplicationProfile profile ) 
       throws DuplicateKeyException, RemoteException
     {
         addApplicationProfile( profile, true );
     }
 
+   /**
+    * Remove an application profile from the registry.
+    * @param profile the application profile to remove 
+    * @exception RemoteException if a remote error occurs
+    */
     public void removeApplicationProfile( ApplicationProfile profile ) throws RemoteException
     {
         synchronized( getLock() )
@@ -88,7 +109,11 @@ public class RegistryModel extends DefaultModel implements ApplicationRegistry
         }
     }
 
-    public ApplicationProfile[] getApplicationProfiles() throws RemoteException
+   /**
+    * Return an array of all profiles in the registry.
+    * @return the application profiles
+    */
+    public ApplicationProfile[] getApplicationProfiles()
     {
         synchronized( getLock() )
         {
@@ -96,6 +121,12 @@ public class RegistryModel extends DefaultModel implements ApplicationRegistry
         }
     }
 
+   /**
+    * Create an return a new unnamed application profile.
+    * @param codebase the application codebase uri
+    * @return the application profile
+    * @exception RemoteException if a transport error occurs
+    */
     public ApplicationProfile createAnonymousApplicationProfile( URI codebase ) throws RemoteException
     {
         Logger logger = getLogger();
@@ -112,7 +143,15 @@ public class RegistryModel extends DefaultModel implements ApplicationRegistry
           params );
     }
 
-    public ApplicationProfile getApplicationProfile( String key ) throws UnknownKeyException, RemoteException
+   /**
+    * Retrieve an application profile.
+    * @param key the application profile key
+    * @return the application profile
+    * @exception UnknownKeyException if the key is unknown
+    * @exception RemoteException if a transport error occurs
+    */
+    public ApplicationProfile getApplicationProfile( String key ) 
+      throws UnknownKeyException, RemoteException
     {
         ApplicationProfile[] profiles = getApplicationProfiles();
         for( int i=0; i<profiles.length; i++ )
@@ -130,20 +169,24 @@ public class RegistryModel extends DefaultModel implements ApplicationRegistry
     * Add a depot content change listener.
     * @param listener the registry change listener to add
     */
-    public void addRegistryListener( RegistryListener listener ) throws RemoteException
+    public void addRegistryListener( RegistryListener listener )
     {
         super.addListener( listener );
     }
 
    /**
-    * Remove a depot content change listener.
-    * @param listener the registry change listener to remove
+    * Add a registry change listener.
+    * @param listener the registry change listener to add
     */
-    public void removeRegistryListener( RegistryListener listener ) throws RemoteException
+    public void removeRegistryListener( RegistryListener listener )
     {
         super.removeListener( listener );
     }
 
+   /**
+    * Proces a registry event.
+    * @param event the event top process
+    */
     protected void processEvent( EventObject event )
     {
         if( event instanceof RegistryEvent )
@@ -158,6 +201,10 @@ public class RegistryModel extends DefaultModel implements ApplicationRegistry
         }
     }
 
+   /**
+    * Return a string representation of the registy model.
+    * @return the string value
+    */
     public String toString()
     {
         return "[registry]";
@@ -234,16 +281,32 @@ public class RegistryModel extends DefaultModel implements ApplicationRegistry
         }
     }
 
+   /**
+    * ProfileAddedEvent.
+    */
     static class ProfileAddedEvent extends RegistryEvent
     {
+       /**
+        * Creation of a new ProfileAddedEvent.
+        * @param source the source registry
+        * @param profile the profile that was added
+        */
         public ProfileAddedEvent( ApplicationRegistry source, ApplicationProfile profile )
         {
             super( source, profile );
         }
     }
 
+   /**
+    * ProfileRemovedEvent.
+    */
     static class ProfileRemovedEvent extends RegistryEvent
     {
+       /**
+        * Creation of a new ProfileRemovedEvent.
+        * @param source the source registry
+        * @param profile the profile that was removed
+        */
         public ProfileRemovedEvent( ApplicationRegistry source, ApplicationProfile profile )
         {
             super( source, profile );

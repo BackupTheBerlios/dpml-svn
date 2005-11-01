@@ -18,16 +18,10 @@
 
 package net.dpml.profile.model;
 
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.rmi.RemoteException;
-import java.util.Date;
 import java.util.Properties;
 import java.util.prefs.BackingStoreException;
 import java.util.prefs.Preferences;
 
-import net.dpml.transit.Logger;
-import net.dpml.transit.model.Connection;
 import net.dpml.transit.store.StorageRuntimeException;
 import net.dpml.transit.store.LocalPreferences;
 import net.dpml.transit.store.ContentStorageUnit;
@@ -45,11 +39,18 @@ public class ApplicationStorageUnit extends ContentStorageUnit implements Applic
     // constructor
     // ------------------------------------------------------------------------
 
+   /**
+    * Creation of a new application storage unit.
+    */
     public ApplicationStorageUnit()
     {
         super( new LocalPreferences( null, "" ) );
     }
 
+   /**
+    * Creation of a new application storage unit.
+    * @param prefs the preferences backing store
+    */
     public ApplicationStorageUnit( Preferences prefs )
     {
         super( prefs );
@@ -64,7 +65,6 @@ public class ApplicationStorageUnit extends ContentStorageUnit implements Applic
     * of the application before considering deployment as a timeout failure.
     * 
     * @return the startup timeout value
-    * @exception RemoteException if a transport error occurs
     */    
     public int getStartupTimeout()
     {
@@ -77,7 +77,6 @@ public class ApplicationStorageUnit extends ContentStorageUnit implements Applic
     * of the application before considering deployment as a timeout failure.
     * 
     * @param timeout the startup timeout value
-    * @exception RemoteException if a transport error occurs
     */
     public void setStartupTimeout( int timeout )
     {
@@ -90,7 +89,6 @@ public class ApplicationStorageUnit extends ContentStorageUnit implements Applic
     * of the application before considering the process as non-responsive.
     * 
     * @return the shutdown timeout value
-    * @exception RemoteException if a transport error occurs
     */
     public int getShutdownTimeout()
     {
@@ -103,7 +101,6 @@ public class ApplicationStorageUnit extends ContentStorageUnit implements Applic
     * of the application before considering the application as non-responsive.
     * 
     * @param timeout the shutdown timeout value
-    * @exception RemoteException if a transport error occurs
     */
     public void setShutdownTimeout( int timeout )
     {
@@ -111,6 +108,12 @@ public class ApplicationStorageUnit extends ContentStorageUnit implements Applic
         prefs.putInt( "shutdown-timeout", timeout );
     }
 
+   /**
+    * Return the system properties to be assigned to a target virtual machine
+    * on application deployment.
+    * 
+    * @return the system properties
+    */
     public Properties getSystemProperties()
     {
         Preferences prefs = getPreferences().node( "system" );
@@ -122,7 +125,6 @@ public class ApplicationStorageUnit extends ContentStorageUnit implements Applic
     * on application deployment.
     * 
     * @param properties the system properties set
-    * @exception RemoteException if a transport error occurs
     */
     public void setSystemProperties( Properties properties )
     {
@@ -142,12 +144,22 @@ public class ApplicationStorageUnit extends ContentStorageUnit implements Applic
         setProperty( prefs, key, value );
     }
 
+   /**
+    * Return the working directory path.
+    * 
+    * @return the path
+    */
     public String getWorkingDirectoryPath()
     {
         Preferences prefs = getPreferences();
         return prefs.get( "working", "${user.dir}" );
     }
 
+   /**
+    * Set the working directory for the application.
+    * 
+    * @param path the working directory path
+    */
     public void setWorkingDirectoryPath( String path )
     {
         Preferences prefs = getPreferences();
@@ -161,7 +173,6 @@ public class ApplicationStorageUnit extends ContentStorageUnit implements Applic
     * AUTOMATIC then startup will be handled by the Station.
     *
     * @return the startup policy
-    * @exception RemoteException if a remote exception occurs
     */
     public StartupPolicy getStartupPolicy()
     {
@@ -194,7 +205,6 @@ public class ApplicationStorageUnit extends ContentStorageUnit implements Applic
    /**
     * Set the the startup policy to one of DISABLED, MANUAL or AUTOMATIC.
     * @param policy the startup policy
-    * @exception RemoteException if a remote exception occurs
     */
     public void setStartupPolicy( StartupPolicy policy )
     {
@@ -221,6 +231,9 @@ public class ApplicationStorageUnit extends ContentStorageUnit implements Applic
         }
     }
 
+   /**
+    * Remove the storage unit.
+    */
     public void remove()
     {
         try

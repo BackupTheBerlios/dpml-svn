@@ -18,15 +18,9 @@
 
 package net.dpml.profile.model;
 
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.rmi.RemoteException;
-import java.util.Date;
-import java.util.Properties;
 import java.util.prefs.BackingStoreException;
 import java.util.prefs.Preferences;
 
-import net.dpml.transit.Logger;
 import net.dpml.transit.store.AbstractStorageUnit;
 import net.dpml.transit.store.StorageRuntimeException;
 
@@ -44,6 +38,9 @@ public class RegistryStorageUnit extends AbstractStorageUnit implements Registry
     // constructor
     // ------------------------------------------------------------------------
 
+   /**
+    * Creation of a new registry storage unit.
+    */
     public RegistryStorageUnit() 
     {
         super( STATION_PREFS );
@@ -53,6 +50,10 @@ public class RegistryStorageUnit extends AbstractStorageUnit implements Registry
     // DepotStorage
     // ------------------------------------------------------------------------
 
+   /**
+    * Return the inital array of application storage instances within the store.
+    * @return the inital storage unit array
+    */
     public ApplicationStorage[] getInitialApplicationStorageArray()
     {
         try
@@ -77,11 +78,20 @@ public class RegistryStorageUnit extends AbstractStorageUnit implements Registry
         }
     }
 
+   /**
+    * Return the backing store.
+    * @return the preference node
+    */
     public Preferences getProfilesNode() 
     {
         return getPreferences().node( "profiles" );
     }
 
+   /**
+    * Get an identified storage unit.
+    * @param id the storage unit id
+    * @return the storage unit
+    */
     public ApplicationStorage getApplicationStorage( String id ) 
     {
         Preferences prefs = getProfilesNode().node( id );

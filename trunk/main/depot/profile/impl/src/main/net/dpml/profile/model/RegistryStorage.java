@@ -23,7 +23,16 @@ package net.dpml.profile.model;
  */
 public interface RegistryStorage
 {
+   /**
+    * Return the inital array of application storage instances within the store.
+    * @return the inital storage unit array
+    */
     ApplicationStorage[] getInitialApplicationStorageArray();
 
+   /**
+    * Get an identified storage unit.
+    * @param id the storage unit id
+    * @return the storage unit
+    */
     ApplicationStorage getApplicationStorage( String id );
 }

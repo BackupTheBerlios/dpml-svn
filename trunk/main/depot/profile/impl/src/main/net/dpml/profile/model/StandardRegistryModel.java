@@ -19,11 +19,9 @@
 package net.dpml.profile.model;
 
 import java.rmi.RemoteException;
-import java.util.prefs.Preferences;
 
 import net.dpml.transit.model.DuplicateKeyException;
 import net.dpml.transit.Logger;
-import net.dpml.transit.model.UnknownKeyException;
 
 import net.dpml.profile.ApplicationRegistry;
 
@@ -36,6 +34,9 @@ public class StandardRegistryModel extends RegistryModel implements ApplicationR
     * Plugin class used to handle the establishment of the DepotProfile.  
     * 
     * @param logger the assigned logging channel
+    * @exception NullPointerException if the logging channel is null
+    * @exception DuplicateKeyException if the registry store contains a duplicate key
+    * @exception RemoteException if a remote exception occurs
     */
     public StandardRegistryModel( Logger logger ) 
       throws NullPointerException, DuplicateKeyException, RemoteException
