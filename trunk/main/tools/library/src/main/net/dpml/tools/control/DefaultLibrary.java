@@ -27,6 +27,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
+import java.util.Hashtable;
 
 import net.dpml.tools.info.LibraryDirective;
 import net.dpml.tools.info.ModuleDirective;
@@ -61,6 +62,7 @@ public final class DefaultLibrary extends DefaultDictionary implements Library
     private final DefaultModule m_module;
     private final File m_root;
     private final Logger m_logger;
+    private final Hashtable m_anonymous = new Hashtable();
     
    /**
     * Creation of a new library.  The definition of the library will 
@@ -362,35 +364,49 @@ public final class DefaultLibrary extends DefaultDictionary implements Library
         }
         
         String urn = include.getValue();
-        Properties properties = include.getProperties();
+        if( m_anonymous.containsKey( urn ) )
+        {
+            return (DefaultResource) m_anonymous.get( urn );
+        }
         
+        Properties properties = include.getProperties();
         Artifact artifact = Artifact.createArtifact( urn );
         String group = artifact.getGroup();
         String name = artifact.getName();
         String version = artifact.getVersion();
         String type = artifact.getType();
         
-        DefaultModule module = m_module.getDefaultModule( group, true );
+        ResourceDirective resourceDirective = 
+          new ResourceDirective( name, version, type, properties );
+        ModuleDirective enclosing = null;
+        String[] elements = group.split( "/", -1 );
+        for( int i=(elements.length-1); i>-1; i-- )
+        {
+            String elem = elements[i];
+            if( i==(elements.length-1) )
+            {
+                enclosing = new ModuleDirective( elem, resourceDirective );
+            }
+            else
+            {
+                enclosing = new ModuleDirective( elem, enclosing );
+            }
+        }
         try
         {
-            return module.getDefaultResource( name );
+            DefaultModule module = new DefaultModule( this, m_module, enclosing );
+            DefaultModule root = new DefaultModule( this, m_directive, new DefaultModule[]{ module } );
+            DefaultResource resource =  root.getDefaultResource( group + "/" + name );
+            m_anonymous.put( urn, resource );
+            return resource;
         }
-        catch( InvalidNameException e )
+        catch( Exception pnfe )
         {
-            try
-            {
-                ResourceDirective directive = 
-                  new ResourceDirective( name, version, type, properties );
-                return new DefaultResource( this, module, directive );
-            }
-            catch( ProcessorNotFoundException pnfe )
-            {
-                // should not haoppen
-                final String error = 
-                  "Internal error."
-                  + "Encountered a ProcessorNotFoundException for an EXTERNAL resource.";
-                throw new RuntimeException( error, pnfe );
-            }
+            final String error = 
+              "Internal error while creating an ANONYMOUS resource: "
+              + urn
+              + "].";
+            throw new RuntimeException( error, pnfe );
         }
     }
     

@@ -46,6 +46,17 @@ import net.dpml.transit.monitor.LoggingAdapter;
  */
 public class DefaultModuleTestCase extends AbstractTestCase
 {   
+    public void testExpandedAnonymousModuleProviders() throws Exception
+    {
+        Module module = (Module) m_library.getResource( "dpml/transit" );
+        Resource[] providers = module.getAggregatedProviders( Scope.RUNTIME, true, false );
+        System.out.println( "# AGGREGATED MODULE PROVIDERS " + providers.length );
+        for( int i=0; i<providers.length; i++ )
+        {
+            System.out.println( "# " + providers[i] );
+        }
+    }
+    
    /**
     * Test expanded module request on the dpml module.
     */
@@ -126,7 +137,7 @@ public class DefaultModuleTestCase extends AbstractTestCase
         {
             String path = "dpml";
             doProviderTest( path, false, 9, 0, 0 ); 
-            doProviderTest( path, true, 39, 0, 0 );
+            doProviderTest( path, true, 39, 39, 39 );
         }
         catch( Exception e )
         {
@@ -136,17 +147,17 @@ public class DefaultModuleTestCase extends AbstractTestCase
         {
             String path = "dpml/transit";
             doProviderTest( path, false, 4, 0, 0 );
-            doProviderTest( path, true, 8, 0, 0 );
+            doProviderTest( path, true, 8, 4, 6 );
         }
         catch( Exception e )
         {
             throw e;
         }
-        try
+        /*try
         {
             String path = "dpml/metro";
             doProviderTest( path, false, 22, 0, 0 );
-            doProviderTest( path, true, 36, 0, 0 );
+            doProviderTest( path, true, 36, 36, 36 );
         }
         catch( Exception e )
         {
@@ -161,7 +172,7 @@ public class DefaultModuleTestCase extends AbstractTestCase
         catch( Exception e )
         {
             throw e;
-        }
+        }*/
     }
     
    /**
@@ -169,6 +180,7 @@ public class DefaultModuleTestCase extends AbstractTestCase
     */
     public void testAggregatedProviders() throws Exception
     {
+    /*
         try
         {
             String path = "dpml";
@@ -209,6 +221,7 @@ public class DefaultModuleTestCase extends AbstractTestCase
         {
             throw e;
         }
+        */
     }
     
     public void testSelectChildren() throws Exception

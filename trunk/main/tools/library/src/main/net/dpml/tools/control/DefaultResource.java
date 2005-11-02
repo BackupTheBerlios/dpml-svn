@@ -145,7 +145,7 @@ public class DefaultResource extends DefaultDictionary implements Resource, Comp
         }
         else
         {
-            if( m_directive.getClassifier().equals( Classifier.EXTERNAL ) )
+            if( !m_directive.getClassifier().equals( Classifier.LOCAL ) )
             {
                 m_basedir = null;
             }
@@ -452,9 +452,23 @@ public class DefaultResource extends DefaultDictionary implements Resource, Comp
     // internals
     //----------------------------------------------------------------------------
     
+    Classifier getClassifier()
+    {
+        return m_directive.getClassifier();
+    }
+    
     DefaultLibrary getDefaultLibrary()
     {
         return m_library;
+    }
+    
+    boolean isAnonymous()
+    {
+        if( null != m_directive )
+        {
+            return m_directive.isAnonymous();
+        }
+        return false;
     }
     
     boolean isLocal()
@@ -496,22 +510,53 @@ public class DefaultResource extends DefaultDictionary implements Resource, Comp
     
     DefaultResource[] getAggregatedDefaultProviders( Scope scope, boolean expanded, boolean filtered )
     {
+        //System.out.println( "$ getAggregatedDefaultProviders: " + this + ", " + scope + ", " + expanded );
         ArrayList list = new ArrayList();
         if( !filtered )
         {
+            //System.out.println( "$ AGG BUILD " + this );
             aggregateProviders( list, Scope.BUILD, expanded, filtered );
         }
         if( scope.isGreaterThan( Scope.BUILD ) )
         {
+            //System.out.println( "$ AGG RUNTIME " + this );
             aggregateProviders( list, Scope.RUNTIME, expanded, filtered );
         }
         if( scope.isGreaterThan( Scope.RUNTIME ) )
         {
+            //System.out.println( "$ AGG TEST " + this );
             aggregateProviders( list, Scope.TEST, expanded, filtered );
         }
+        //System.out.println( "$ DONE: " + this + ", " + list.size() );
         return (DefaultResource[]) list.toArray( new DefaultResource[0] ); 
     }
 
+    private void aggregateProviders( List list, Scope scope, boolean expanded, boolean filter )
+    {
+        DefaultResource[] resources = getDefaultProviders( scope, expanded, null );
+        for( int i=0; i<resources.length; i++ )
+        {
+            DefaultResource resource = resources[i];
+            //if( resource instanceof DefaultModule )
+            //{
+            //    if( resource.isAnonymous() )
+            //    {
+            //        return;
+            //    }
+            //}
+            if( !filter )
+            {
+                //System.out.println( "$     add: " + resource );
+                list.add( resource );
+            }
+            else if( resource.isa( Type.JAR ) )
+            {
+                //System.out.println( "$     add: " + resource );
+                list.add( resource );
+            }
+        }
+    }
+    
     DefaultResource[] getDefaultProviders( Scope scope, boolean expanded, boolean sort ) 
     {
         DefaultResource[] resources = getDefaultProviders( scope, expanded, null );
@@ -528,22 +573,34 @@ public class DefaultResource extends DefaultDictionary implements Resource, Comp
     
     DefaultResource[] getDefaultProviders( Scope scope, boolean expand, Category category )
     {
-        DefaultResource[] resources = getLocalDefaultProviders( scope, category );
-        if( expand )
+        ArrayList visited = new ArrayList();
+        ArrayList stack = new ArrayList();
+        //System.out.println( "  --> getDefaultProviders: " + this + ", " + scope + ", " + expand );
+        DefaultResource[] providers = getLocalDefaultProviders( scope, category );
+        for( int i=0; i<providers.length; i++ )
         {
-            ArrayList visited = new ArrayList();
-            ArrayList stack = new ArrayList();
-            for( int i=0; i<resources.length; i++ )
+            DefaultResource provider = providers[i];
+            if( expand )
             {
-                DefaultResource resource = resources[i];
-                processDefaultResource( visited, stack, scope, resource );
+                processDefaultResource( visited, stack, scope, false, provider );
             }
-            return (DefaultResource[]) stack.toArray( new DefaultResource[0] );
+            else
+            {
+                stack.add( provider );
+            }
         }
-        else
+        if( expand && ( this instanceof DefaultModule ) )
         {
-            return resources;
+            DefaultModule module = (DefaultModule) this;
+            DefaultResource[] children = module.getDefaultResources();
+            for( int i=0; i<children.length; i++ )
+            {
+                DefaultResource child = children[i];
+                processDefaultResource( visited, stack, scope, false, child );
+            }
         }
+        //System.out.println( "  <-- getDefaultProviders: " + this + ", " + stack.size() );
+        return (DefaultResource[]) stack.toArray( new DefaultResource[0] );
     }
     
     DefaultResource[] getLocalDefaultProviders( Scope scope, Category category ) 
@@ -600,7 +657,7 @@ public class DefaultResource extends DefaultDictionary implements Resource, Comp
     }
     
     private void processDefaultResource( 
-      List visited, List stack, Scope scope, DefaultResource resource )
+      List visited, List stack, Scope scope, boolean expand, DefaultResource resource )
     {
         if( visited.contains( resource ) )
         {
@@ -608,34 +665,25 @@ public class DefaultResource extends DefaultDictionary implements Resource, Comp
         }
         else
         {
+            //System.out.println( "  processing: " + resource + ", " + expand );
             visited.add( resource );
-            //DefaultResource[] providers = resource.getDefaultProviders( scope, false, null );
-            DefaultResource[] providers = resource.getAggregatedDefaultProviders( scope, false, false );
+            DefaultResource[] providers = resource.getAggregatedDefaultProviders( scope, expand, false );
             for( int i=0; i<providers.length; i++ )
             {
-                processDefaultResource( visited, stack, scope, providers[i] );
+                processDefaultResource( visited, stack, scope, expand, providers[i] );
             }
             stack.add( resource );
+            //System.out.println( "  added: " + resource + " (" + stack.size() + ")" );
+            
+            //DefaultResource[] providers = resource.getAggregatedDefaultProviders( scope, false, false );
+            //for( int i=0; i<providers.length; i++ )
+            //{
+            //    processDefaultResource( visited, stack, scope, providers[i] );
+            //}
+            //stack.add( resource );
         }
     }
-    
-    private void aggregateProviders( List list, Scope scope, boolean expanded, boolean filter )
-    {
-        DefaultResource[] resources = getDefaultProviders( scope, expanded, null );
-        for( int i=0; i<resources.length; i++ )
-        {
-            DefaultResource resource = resources[i];
-            if( !filter )
-            {
-                list.add( resource );
-            }
-            else if( resource.isa( Type.JAR ) )
-            {
-                list.add( resource );
-            }
-        }
-    }
-    
+        
     private String getIncludeReference( IncludeDirective directive )
     {
         if( IncludeDirective.REF.equals( directive.getMode() ) || ( null == m_parent ) )

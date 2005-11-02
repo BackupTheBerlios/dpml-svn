@@ -70,6 +70,15 @@ public final class Scope extends ValuedEnum implements Comparable
     }
     
    /**
+    * Return a string representation of the scope.
+    * @return the string value
+    */
+    public String toString()
+    {
+        return getName().toUpperCase();
+    }
+    
+   /**
     * Return a scope value matching the supplied value.
     * @param value the scope name
     * @return the scope

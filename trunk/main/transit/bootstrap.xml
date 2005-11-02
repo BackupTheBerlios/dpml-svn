@@ -98,6 +98,7 @@
     <mkdir dir="${dpml.docs}"/>
     <mkdir dir="${dpml.dist}"/>
     <mkdir dir="${dpml.logs}"/>
+    <available property="junit.cache.available" file="${dpml.local.cache}/junit/jars/${junit.filename}"/>
   </target>
 
   <target name="dpml-prefs-unix" depends="dpml-home" unless="isWindows">
@@ -129,9 +130,12 @@
     <mkdir dir="${dpml.system}"/>
   </target>
 
-  <target name="junit-test" depends="dpml-data">
+  <target name="junit-download" depends="dpml-data" unless="junit.cache.available">
     <mkdir dir="${dpml.local.cache}/junit/jars"/>
     <get src="${junit.url}" usetimestamp="true" dest="${dpml.local.cache}/junit/jars/${junit.filename}"/>
+  </target>
+
+  <target name="junit-test" depends="junit-download">
     <available property="junit.available" file="${user.home}/.ant/lib/junit.jar"/>
   </target>
 

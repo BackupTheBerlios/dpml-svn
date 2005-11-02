@@ -55,12 +55,17 @@ abstract class AbstractTestCase extends TestCase
     
     public void setUp() throws Exception
     {
-        String testPath = System.getProperty( "project.test.dir" );
-        File test = new File( testPath );
-        File example = new File( test, "library.xml" );
-        m_library = new DefaultLibrary( m_logger, example );
+        setUp( "library.xml" );
     }
 
+    public void setUp( String path ) throws Exception
+    {
+        String testPath = System.getProperty( "project.test.dir" );
+        File test = new File( testPath );
+        File example = new File( test, path );
+        m_library = new DefaultLibrary( m_logger, example );
+    }
+    
     public void doSerializationTest( Object object )
         throws Exception
     {

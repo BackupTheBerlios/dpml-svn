@@ -47,6 +47,11 @@ public class ResourceDirective extends AbstractDirective
     */
     public static final Classifier LOCAL = Classifier.LOCAL;
      
+   /**
+    * Anonymous resource constant identifier.
+    */
+    public static final Classifier ANONYMOUS = Classifier.ANONYMOUS;
+    
     private final String m_name;
     private final String m_version;
     private final String m_basedir;
@@ -55,7 +60,7 @@ public class ResourceDirective extends AbstractDirective
     private final Classifier m_classifier;
     
    /**
-    * Creation of a new resource directive.
+    * Creation of a new anonymous resource directive.
     * @param name the resource name
     * @param version the resource version
     */
@@ -63,7 +68,7 @@ public class ResourceDirective extends AbstractDirective
       String name, String version, String type, Properties properties )
     {
         this( 
-          name, version, Classifier.EXTERNAL, null, 
+          name, version, Classifier.ANONYMOUS, null, 
           new TypeDirective[]{ new TypeDirective( type ) } , 
           new DependencyDirective[0],
           properties );
@@ -156,7 +161,7 @@ public class ResourceDirective extends AbstractDirective
     
    /**
     * Return the resource classifier.
-    * @return the classifier (LOCAL or EXTERNAL)
+    * @return the classifier (LOCAL, EXTERNAL or ANONYMOUS)
     */
     public Classifier getClassifier()
     {
@@ -170,6 +175,15 @@ public class ResourceDirective extends AbstractDirective
     public boolean isLocal()
     {
         return LOCAL.equals( m_classifier );
+    }
+    
+   /**
+    * Return true if this represents a anonymous resource.
+    * @return true if anonymous
+    */
+    public boolean isAnonymous()
+    {
+        return ANONYMOUS.equals( m_classifier );
     }
     
    /**
@@ -291,6 +305,11 @@ public class ResourceDirective extends AbstractDirective
         static final long serialVersionUID = 1L;
 
         /**
+        * Anonymous resources.
+        */
+        public static final Classifier ANONYMOUS = new Classifier( "anonymous" );
+        
+        /**
         * External resource.
         */
         public static final Classifier EXTERNAL = new Classifier( "external" );
@@ -324,6 +343,10 @@ public class ResourceDirective extends AbstractDirective
             else if( value.equalsIgnoreCase( "local" ) )
             {
                 return LOCAL;
+            }
+            else if( value.equalsIgnoreCase( "anonymous" ) )
+            {
+                return ANONYMOUS;
             }
             else
             {

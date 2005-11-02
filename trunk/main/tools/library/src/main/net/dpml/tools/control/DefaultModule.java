@@ -26,14 +26,16 @@ import java.util.regex.Pattern;
 import java.util.regex.Matcher;
 
 import net.dpml.tools.info.Scope;
+import net.dpml.tools.info.AbstractDirective;
+import net.dpml.tools.info.ModuleDirective;
+import net.dpml.tools.info.ResourceDirective;
+import net.dpml.tools.info.ResourceDirective.Classifier;
+import net.dpml.tools.info.LibraryDirective;
 import net.dpml.tools.model.Module;
 import net.dpml.tools.model.Resource;
 import net.dpml.tools.model.ResourceNotFoundException;
 import net.dpml.tools.model.ModuleNotFoundException;
 import net.dpml.tools.model.DuplicateNameException;
-import net.dpml.tools.info.ModuleDirective;
-import net.dpml.tools.info.ResourceDirective;
-import net.dpml.tools.info.LibraryDirective;
 
 import net.dpml.transit.Category;
 
@@ -53,18 +55,20 @@ public final class DefaultModule extends DefaultResource implements Module
     private final DefaultResource[] m_resources;
     private final ModuleDirective m_directive;
     
-    DefaultModule( DefaultLibrary library, LibraryDirective directive, DefaultResource[] resources ) 
+   /**
+    * Constructor used by the library to create a virtual root module os shared 
+    * resource references.
+    * @param library the library
+    * @param directive the library directive from which common properties are established
+    * @param resources the array of top-level modules
+    */
+    DefaultModule( DefaultLibrary library, AbstractDirective directive, DefaultResource[] resources ) 
       throws Exception
     {
         super( library, directive );
         m_resources = resources;
         m_root = true;
         m_directive = null;
-    }
-    
-    DefaultModule( DefaultLibrary library, ModuleDirective directive ) throws Exception
-    {
-        this( library, null, directive );
     }
     
     DefaultModule( DefaultLibrary library, DefaultModule module, ModuleDirective directive ) 
@@ -242,7 +246,7 @@ public final class DefaultModule extends DefaultResource implements Module
     //----------------------------------------------------------------------------
     // DefaultResource (overriding)
     //----------------------------------------------------------------------------
-    
+
     DefaultResource[] getLocalDefaultProviders( Scope scope, Category category )
     {
         if( Scope.BUILD.equals( scope ) )
@@ -270,7 +274,10 @@ public final class DefaultModule extends DefaultResource implements Module
             for( int i=0; i<resources.length; i++ )
             {
                 DefaultResource resource = resources[i];
-                stack.add( resource );
+                if( !stack.contains( resource ) )
+                {
+                    stack.add( resource );
+                }
             }
         }
         for( int i=0; i<resources.length; i++ )
@@ -291,9 +298,11 @@ public final class DefaultModule extends DefaultResource implements Module
             }
             else
             {
+                //System.out.println( "$      START GET PARENTS: " + this );
                 DefaultResource[] providers = 
                   resource.getAggregatedDefaultProviders( Scope.TEST, true, false );
                 getParentModules( stack, providers );
+                //System.out.println( "$      END GET PARENTS: " + this );
             }
         }
         return (DefaultResource[]) stack.toArray( new DefaultResource[0] );
@@ -304,10 +313,13 @@ public final class DefaultModule extends DefaultResource implements Module
         for( int i=0; i<resources.length; i++ )
         {
             DefaultResource resource = resources[i];
-            DefaultModule parent = resource.getDefaultParent();
-            if( !stack.contains( parent ) && !this.equals( parent ) )
+            if( !resource.isAnonymous() )
             {
-                stack.add( parent );
+                DefaultModule parent = resource.getDefaultParent();
+                if( !stack.contains( parent ) && !this.equals( parent ) )
+                {
+                    stack.add( parent );
+                }
             }
         }
     }
@@ -391,11 +403,6 @@ public final class DefaultModule extends DefaultResource implements Module
     
     DefaultModule getDefaultModule( String ref )
     {
-        return getDefaultModule( ref, false );
-    }
-    
-    DefaultModule getDefaultModule( String ref, boolean create )
-    {
         if( null == ref )
         {
             throw new NullPointerException( "ref" );
@@ -405,65 +412,26 @@ public final class DefaultModule extends DefaultResource implements Module
         {
             String pre = ref.substring( 0, n );
             String post = ref.substring( n+1 );
-            DefaultModule module = getDefaultModule( pre, create );
-            return module.getDefaultModule( post, create );
+            DefaultModule module = getDefaultModule( pre );
+            return module.getDefaultModule( post );
         }
         else
         {
-            try
+            DefaultResource resource = getDefaultResource( ref );
+            if( resource instanceof DefaultModule )
             {
-                DefaultResource resource = getDefaultResource( ref );
-                if( resource instanceof DefaultModule )
-                {
-                    return (DefaultModule) resource;
-                }
-                else
-                {
-                    String path = getResourcePath() + "/" + ref;
-                    final String error = 
-                      "Illegal attempt to override an existing resource: " + path;
-                    throw new IllegalStateException( error );
-                }
+                return (DefaultModule) resource;
             }
-            catch( InvalidNameException e )
+            else
             {
-                if( create )
-                {
-                    ModuleDirective directive = new ModuleDirective( ref );
-                    DefaultLibrary library = getDefaultLibrary();
-                    try
-                    {
-                        return new DefaultModule( library, this, directive );
-                    }
-                    catch( Exception ee )
-                    {
-                        final String error = 
-                          "Dynamic module creation failure.";
-                        throw new RuntimeException( error, ee );
-                    }
-                }
-                else
-                {
-                    throw e;
-                }
+                String path = getResourcePath() + "/" + ref;
+                final String error = 
+                  "Resource [" 
+                  + path 
+                  + "] is not a module.";
+                throw new IllegalArgumentException( error );
             }
         }
-    
-        /*
-        DefaultResource resource = getDefaultResource( ref );
-        if( resource instanceof DefaultModule )
-        {
-            return (DefaultModule) resource;
-        }
-        else
-        {
-            final String error = 
-              "Resource [" 
-              + resource.getResourcePath() 
-              + "] is not a module.";
-            throw new InvalidNameException( error );
-        }
-        */
     }
     
     DefaultModule[] getDefaultModules()
@@ -736,6 +704,12 @@ public final class DefaultModule extends DefaultResource implements Module
         visited.add( resource );
         final boolean expansion = true;
         final boolean filtering = false;
+        
+        Classifier classifier = resource.getClassifier();
+        if( classifier.equals( Classifier.ANONYMOUS ) )
+        {
+            return;
+        }
         
         if( resource instanceof DefaultModule )
         {

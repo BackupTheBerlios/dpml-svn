@@ -56,6 +56,10 @@ public class DefaultDictionary implements Dictionary
     */
     DefaultDictionary( DefaultDictionary parent, AbstractDirective directive )
     {
+        if( null == directive )
+        {
+            throw new NullPointerException( "directive" );
+        }
         m_parent = parent;
         m_directive = directive;
         
@@ -69,7 +73,6 @@ public class DefaultDictionary implements Dictionary
             String value = local.getProperty( key );
             m_properties.setProperty( key, value );
         }
-        // m_names = getLocalPropertyNames( m_properties );
     }
     
     //----------------------------------------------------------------------------
