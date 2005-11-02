@@ -38,7 +38,6 @@ public class DefaultDictionary implements Dictionary
     private final DefaultDictionary m_parent;
     private final AbstractDirective m_directive;
     private final Properties m_properties;
-    //private final String[] m_names;
     
    /**
     * Creation of a new dictionary.
@@ -86,7 +85,6 @@ public class DefaultDictionary implements Dictionary
     public String[] getPropertyNames()
     {
         return getLocalPropertyNames( m_properties );
-        //return m_names;
     }
     
    /**

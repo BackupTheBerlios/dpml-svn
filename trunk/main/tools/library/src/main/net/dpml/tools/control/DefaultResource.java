@@ -534,11 +534,17 @@ public class DefaultResource extends DefaultDictionary implements Resource, Comp
             DefaultResource resource = resources[i];
             if( !filter )
             {
-                list.add( resource );
+                if( !list.contains( resource ) )
+                {
+                    list.add( resource );
+                }
             }
             else if( resource.isa( Type.JAR ) )
             {
-                list.add( resource );
+                if( !list.contains( resource ) )
+                {
+                    list.add( resource );
+                }
             }
         }
     }

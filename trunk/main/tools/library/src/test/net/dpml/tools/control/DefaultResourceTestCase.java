@@ -279,7 +279,7 @@ public class DefaultResourceTestCase extends AbstractTestCase
         Resource[] test = resource.getAggregatedProviders( Scope.TEST, true, false );
         assertEquals( "build", 0, build.length );
         assertEquals( "runtime", 3, runtime.length );
-        assertEquals( "test", 7, test.length );
+        assertEquals( "test", 5, test.length );
     }
     
     public void testAggregatedProvidersCase3() throws Exception
@@ -301,7 +301,7 @@ public class DefaultResourceTestCase extends AbstractTestCase
         Resource[] test = resource.getAggregatedProviders( Scope.TEST, true, false );
         assertEquals( "build", 0, build.length );
         assertEquals( "runtime", 5, runtime.length );
-        assertEquals( "test", 16, test.length );
+        assertEquals( "test", 12, test.length );
     }
     
     public void testRuntimeClasspathProviders() throws Exception
