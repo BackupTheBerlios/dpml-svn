@@ -298,11 +298,9 @@ public final class DefaultModule extends DefaultResource implements Module
             }
             else
             {
-                //System.out.println( "$      START GET PARENTS: " + this );
                 DefaultResource[] providers = 
                   resource.getAggregatedDefaultProviders( Scope.TEST, true, false );
                 getParentModules( stack, providers );
-                //System.out.println( "$      END GET PARENTS: " + this );
             }
         }
         return (DefaultResource[]) stack.toArray( new DefaultResource[0] );
@@ -606,10 +604,8 @@ public final class DefaultModule extends DefaultResource implements Module
             String name = resource.getName();
             Matcher matcher = pattern.matcher( name );
             boolean matches = matcher.matches();
-            //System.out.println( "# eval: " + name + ", " + matches );
             if( matches )
             {
-                //System.out.println( "# found: " + name );
                 list.add( resource );
             }
         }
@@ -640,7 +636,6 @@ public final class DefaultModule extends DefaultResource implements Module
             buffer.append( "(" );
             for( int j=0; j<blocks.length; j++ )
             {
-                //System.out.println( "\t# block: [" + j + "]\t'" + blocks[j] + "'" );
                 buffer.append( "\\Q" );
                 buffer.append( blocks[j] );
                 buffer.append( "\\E" );
@@ -653,7 +648,6 @@ public final class DefaultModule extends DefaultResource implements Module
         }
         else
         {
-            //System.out.println( "\t# block [s]\t'" + token + "'"  );
             buffer.append( "(\\Q" );
             buffer.append( token );
             buffer.append( "\\E)" );
@@ -726,7 +720,6 @@ public final class DefaultModule extends DefaultResource implements Module
             }
             if( !resource.equals( this ) )
             {
-                //System.out.println( "   add module provider: " + module + " to " + this );
                 stack.add( module );
             }
         }
@@ -737,7 +730,6 @@ public final class DefaultModule extends DefaultResource implements Module
             for( int i=0; i<resources.length; i++ )
             {
                 DefaultModule m = resources[i].getDefaultParent();
-                //System.out.println( "   add resource parent: " + m );
                 processModuleDependencies( visited, stack, scope, m );
             }
         }

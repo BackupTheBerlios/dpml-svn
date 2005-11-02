@@ -510,24 +510,19 @@ public class DefaultResource extends DefaultDictionary implements Resource, Comp
     
     DefaultResource[] getAggregatedDefaultProviders( Scope scope, boolean expanded, boolean filtered )
     {
-        //System.out.println( "$ getAggregatedDefaultProviders: " + this + ", " + scope + ", " + expanded );
         ArrayList list = new ArrayList();
         if( !filtered )
         {
-            //System.out.println( "$ AGG BUILD " + this );
             aggregateProviders( list, Scope.BUILD, expanded, filtered );
         }
         if( scope.isGreaterThan( Scope.BUILD ) )
         {
-            //System.out.println( "$ AGG RUNTIME " + this );
             aggregateProviders( list, Scope.RUNTIME, expanded, filtered );
         }
         if( scope.isGreaterThan( Scope.RUNTIME ) )
         {
-            //System.out.println( "$ AGG TEST " + this );
             aggregateProviders( list, Scope.TEST, expanded, filtered );
         }
-        //System.out.println( "$ DONE: " + this + ", " + list.size() );
         return (DefaultResource[]) list.toArray( new DefaultResource[0] ); 
     }
 
@@ -537,21 +532,12 @@ public class DefaultResource extends DefaultDictionary implements Resource, Comp
         for( int i=0; i<resources.length; i++ )
         {
             DefaultResource resource = resources[i];
-            //if( resource instanceof DefaultModule )
-            //{
-            //    if( resource.isAnonymous() )
-            //    {
-            //        return;
-            //    }
-            //}
             if( !filter )
             {
-                //System.out.println( "$     add: " + resource );
                 list.add( resource );
             }
             else if( resource.isa( Type.JAR ) )
             {
-                //System.out.println( "$     add: " + resource );
                 list.add( resource );
             }
         }
@@ -575,7 +561,6 @@ public class DefaultResource extends DefaultDictionary implements Resource, Comp
     {
         ArrayList visited = new ArrayList();
         ArrayList stack = new ArrayList();
-        //System.out.println( "  --> getDefaultProviders: " + this + ", " + scope + ", " + expand );
         DefaultResource[] providers = getLocalDefaultProviders( scope, category );
         for( int i=0; i<providers.length; i++ )
         {
@@ -599,7 +584,6 @@ public class DefaultResource extends DefaultDictionary implements Resource, Comp
                 processDefaultResource( visited, stack, scope, false, child );
             }
         }
-        //System.out.println( "  <-- getDefaultProviders: " + this + ", " + stack.size() );
         return (DefaultResource[]) stack.toArray( new DefaultResource[0] );
     }
     
@@ -665,7 +649,6 @@ public class DefaultResource extends DefaultDictionary implements Resource, Comp
         }
         else
         {
-            //System.out.println( "  processing: " + resource + ", " + expand );
             visited.add( resource );
             DefaultResource[] providers = resource.getAggregatedDefaultProviders( scope, expand, false );
             for( int i=0; i<providers.length; i++ )
@@ -673,7 +656,6 @@ public class DefaultResource extends DefaultDictionary implements Resource, Comp
                 processDefaultResource( visited, stack, scope, expand, providers[i] );
             }
             stack.add( resource );
-            //System.out.println( "  added: " + resource + " (" + stack.size() + ")" );
             
             //DefaultResource[] providers = resource.getAggregatedDefaultProviders( scope, false, false );
             //for( int i=0; i<providers.length; i++ )
