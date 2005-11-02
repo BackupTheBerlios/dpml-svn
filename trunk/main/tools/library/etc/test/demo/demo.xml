@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<module name="demo">
+
+  <resource name="demo">
+    <types>
+      <type id="jar"/>
+    </types>
+    <dependencies>
+      <include urn="artifact:jar:commons-collections/commons-collections#3.0"/>
+    </dependencies>
+  </resource>
+
+</module>

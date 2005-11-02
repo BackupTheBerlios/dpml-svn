@@ -235,7 +235,7 @@
          <include ref="dpml/tools/dpml-tools-ant"/>
          <include ref="dpml/transit/dpml-transit-tools"/>
          <include key="dpml-composition-runtime"/>
-         <include ref="xstream/xstream"/>
+         <include urn="artifact:jar:xstream/xstream#1.1"/>
        </dependencies>
      </project>
 
@@ -306,7 +306,15 @@
        </types>
        <dependencies>
          <include ref="dpml/tools/dpml-tools-ant"/>
-         <include ref="checkstyle/checkstyle"/>
+         <include urn="artifact:jar:checkstyle/checkstyle#3.5">
+           <property name="project.api.root" value="${project.api.host}/${group}/${version}"/>
+         </include>
+         <include urn="artifact:jar:regexp/regexp#1.3" />
+         <include urn="artifact:jar:commons-logging/commons-logging#1.0.4" />
+         <include urn="artifact:jar:commons-collections/commons-collections#3.1" />
+         <include urn="artifact:jar:commons-beanutils/commons-beanutils-core#1.7.0" />
+         <include urn="artifact:jar:bcel/bcel#5.1" />
+         <include urn="artifact:jar:antlr/antlr#2.7.2" />
        </dependencies>
      </project>
 

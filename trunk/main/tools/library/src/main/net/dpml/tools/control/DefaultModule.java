@@ -30,6 +30,7 @@ import net.dpml.tools.model.Module;
 import net.dpml.tools.model.Resource;
 import net.dpml.tools.model.ResourceNotFoundException;
 import net.dpml.tools.model.ModuleNotFoundException;
+import net.dpml.tools.model.DuplicateNameException;
 import net.dpml.tools.info.ModuleDirective;
 import net.dpml.tools.info.ResourceDirective;
 import net.dpml.tools.info.LibraryDirective;
@@ -369,20 +370,8 @@ public final class DefaultModule extends DefaultResource implements Module
         {
             String pre = ref.substring( 0, n );
             String post = ref.substring( n+1 );
-            DefaultResource resource = getDefaultResource( pre );
-            if( resource instanceof DefaultModule )
-            {
-                DefaultModule module = (DefaultModule) resource;
-                return module.getDefaultResource( post );
-            }
-            else
-            {
-                final String error = 
-                  "Illegal attempt to reference a module using a ref ["
-                  + getResourcePath() + "/" + ref 
-                  + "] that references a simple resource.";
-                throw new InvalidNameException( error );
-            }
+            DefaultModule module = getDefaultModule( pre );
+            return module.getDefaultResource( post );
         }
         else
         {
@@ -402,6 +391,65 @@ public final class DefaultModule extends DefaultResource implements Module
     
     DefaultModule getDefaultModule( String ref )
     {
+        return getDefaultModule( ref, false );
+    }
+    
+    DefaultModule getDefaultModule( String ref, boolean create )
+    {
+        if( null == ref )
+        {
+            throw new NullPointerException( "ref" );
+        }
+        int n = ref.indexOf( "/" );
+        if( n > 0 )
+        {
+            String pre = ref.substring( 0, n );
+            String post = ref.substring( n+1 );
+            DefaultModule module = getDefaultModule( pre, create );
+            return module.getDefaultModule( post, create );
+        }
+        else
+        {
+            try
+            {
+                DefaultResource resource = getDefaultResource( ref );
+                if( resource instanceof DefaultModule )
+                {
+                    return (DefaultModule) resource;
+                }
+                else
+                {
+                    String path = getResourcePath() + "/" + ref;
+                    final String error = 
+                      "Illegal attempt to override an existing resource: " + path;
+                    throw new IllegalStateException( error );
+                }
+            }
+            catch( InvalidNameException e )
+            {
+                if( create )
+                {
+                    ModuleDirective directive = new ModuleDirective( ref );
+                    DefaultLibrary library = getDefaultLibrary();
+                    try
+                    {
+                        return new DefaultModule( library, this, directive );
+                    }
+                    catch( Exception ee )
+                    {
+                        final String error = 
+                          "Dynamic module creation failure.";
+                        throw new RuntimeException( error, ee );
+                    }
+                }
+                else
+                {
+                    throw e;
+                }
+            }
+        }
+    
+        /*
         DefaultResource resource = getDefaultResource( ref );
         if( resource instanceof DefaultModule )
         {
@@ -409,9 +457,13 @@ public final class DefaultModule extends DefaultResource implements Module
         }
         else
         {
-            String path = getResourcePath() + "/" + ref;
-            throw new InvalidNameException( path );
+            final String error = 
+              "Resource [" 
+              + resource.getResourcePath() 
+              + "] is not a module.";
+            throw new InvalidNameException( error );
         }
+        */
     }
     
     DefaultModule[] getDefaultModules()

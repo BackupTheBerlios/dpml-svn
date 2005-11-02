@@ -36,12 +36,31 @@ public final class ModuleDirective extends ResourceDirective
     * @param resource the abstract resource defintion
     * @param resources resource contained within the module
     */
+    public ModuleDirective( String name )
+    {
+        this(
+          name, null, Classifier.EXTERNAL, null,
+          new TypeDirective[0], new DependencyDirective[0],
+          new ResourceDirective[0], null );
+    }
+
+   /**
+    * Creation of a new module directive.
+    * @param resource the abstract resource defintion
+    * @param resources resource contained within the module
+    */
     public ModuleDirective(
       ResourceDirective resource, ResourceDirective[] resources )
     {
         this( 
-          resource.getName(), resource.getVersion(), resource.getClassifier(), resource.getBasedir(), 
-          resource.getTypeDirectives(), resource.getDependencyDirectives(), resources, resource.getProperties() );
+          resource.getName(), 
+          resource.getVersion(), 
+          resource.getClassifier(), 
+          resource.getBasedir(), 
+          resource.getTypeDirectives(), 
+          resource.getDependencyDirectives(), 
+          resources, 
+          resource.getProperties() );
     }
     
    /**

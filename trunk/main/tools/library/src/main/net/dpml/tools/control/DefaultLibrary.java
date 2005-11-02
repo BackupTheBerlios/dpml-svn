@@ -22,15 +22,19 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 
 import net.dpml.tools.info.LibraryDirective;
 import net.dpml.tools.info.ModuleDirective;
 import net.dpml.tools.info.ImportDirective;
 import net.dpml.tools.info.Scope;
+import net.dpml.tools.info.IncludeDirective;
 import net.dpml.tools.info.ProcessDescriptor;
+import net.dpml.tools.info.ResourceDirective;
 import net.dpml.tools.model.ProcessorNotFoundException;
 import net.dpml.tools.model.Module;
 import net.dpml.tools.model.Resource;
@@ -221,7 +225,7 @@ public final class DefaultLibrary extends DefaultDictionary implements Library
     }
     
    /**
-    * Return a array of the top-level modules within the library.
+    * Return an array of the top-level modules within the library.
     * @return module array
     */
     public Module[] getModules()
@@ -339,6 +343,56 @@ public final class DefaultLibrary extends DefaultDictionary implements Library
     //----------------------------------------------------------------------------
     // internals
     //----------------------------------------------------------------------------
+    
+   /**
+    * Construct a new locally referenced anonymouse resource.
+    * @param include the dependency include
+    * @return the resource
+    * @exception IllegalArgumentException if the include mode is not URN mode
+    * @exception URISyntaxException if the include urn is invaid
+    */
+    DefaultResource getAnonymousResource( IncludeDirective include ) 
+    throws URISyntaxException
+    {
+        if( !include.getMode().equals( IncludeDirective.URN ) )
+        {
+            throw new IllegalArgumentException( 
+              "Invalid include mode: " 
+              + include.getMode() );
+        }
+        
+        String urn = include.getValue();
+        Properties properties = include.getProperties();
+        
+        Artifact artifact = Artifact.createArtifact( urn );
+        String group = artifact.getGroup();
+        String name = artifact.getName();
+        String version = artifact.getVersion();
+        String type = artifact.getType();
+        
+        DefaultModule module = m_module.getDefaultModule( group, true );
+        try
+        {
+            return module.getDefaultResource( name );
+        }
+        catch( InvalidNameException e )
+        {
+            try
+            {
+                ResourceDirective directive = 
+                  new ResourceDirective( name, version, type, properties );
+                return new DefaultResource( this, module, directive );
+            }
+            catch( ProcessorNotFoundException pnfe )
+            {
+                // should not haoppen
+                final String error = 
+                  "Internal error."
+                  + "Encountered a ProcessorNotFoundException for an EXTERNAL resource.";
+                throw new RuntimeException( error, pnfe );
+            }
+        }
+    }
     
     File getRootDirectory()
     {

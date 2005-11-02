@@ -367,23 +367,6 @@ public final class LibraryDirectiveBuilder
         return includes;
     }
     
-   /**
-    * Build an array of include directives contained within the supplied enclosing element.
-    * @param element the enclosing element
-    * @return the array of includes
-    */
-    private static IncludeDirective[] buildIncludeDirectives( Element element )
-    {
-        Element[] children = ElementHelper.getChildren( element );
-        IncludeDirective[] includes = new IncludeDirective[ children.length ];
-        for( int i=0; i<children.length; i++ )
-        {
-            Element child = children[i];
-            includes[i] = buildIncludeDirective( child );
-        }
-        return includes;
-    }
-    
     private static ImportDirective buildImportDirective( Element element )
     {
         final String tag = element.getTagName();
@@ -444,6 +427,23 @@ public final class LibraryDirectiveBuilder
         }
     }
     
+   /**
+    * Build an array of include directives contained within the supplied enclosing element.
+    * @param element the enclosing element
+    * @return the array of includes
+    */
+    private static IncludeDirective[] buildIncludeDirectives( Element element )
+    {
+        Element[] children = ElementHelper.getChildren( element );
+        IncludeDirective[] includes = new IncludeDirective[ children.length ];
+        for( int i=0; i<children.length; i++ )
+        {
+            Element child = children[i];
+            includes[i] = buildIncludeDirective( child );
+        }
+        return includes;
+    }
+    
     private static IncludeDirective buildIncludeDirective( Element element )
     {
         final String tag = element.getTagName();
@@ -462,6 +462,11 @@ public final class LibraryDirectiveBuilder
             {
                 final String value = ElementHelper.getAttribute( element, "ref", null );
                 return new IncludeDirective( IncludeDirective.REF, category, value, properties );
+            }
+            else if( element.hasAttribute( "urn" ) )
+            {
+                final String value = ElementHelper.getAttribute( element, "urn", null );
+                return new IncludeDirective( IncludeDirective.URN, category, value, properties );
             }
             else
             {

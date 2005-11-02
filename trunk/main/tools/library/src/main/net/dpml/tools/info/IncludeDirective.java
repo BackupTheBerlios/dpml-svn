@@ -46,6 +46,11 @@ public class IncludeDirective extends AbstractDirective
     */
     public static final Mode REF = Mode.REF;
     
+   /**
+    * URN resource reference mode constant.
+    */
+    public static final Mode URN = Mode.URN;
+    
     private final Mode m_mode;
     private final String m_value;
     private final Category m_category;
@@ -177,6 +182,11 @@ public class IncludeDirective extends AbstractDirective
         public static final Mode REF = new Mode( "ref" );
     
        /**
+        * Include by urn definition.
+        */
+        public static final Mode URN = new Mode( "urn" );
+    
+       /**
         * Internal constructor.
         * @param label the enumeration label.
         * @param index the enumeration index.
@@ -201,6 +211,10 @@ public class IncludeDirective extends AbstractDirective
             else if( value.equalsIgnoreCase( "ref" ) )
             {
                 return REF;
+            }
+            else if( value.equalsIgnoreCase( "urn" ) )
+            {
+                return URN;
             }
             else
             {

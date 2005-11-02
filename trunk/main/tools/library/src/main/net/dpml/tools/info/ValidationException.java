@@ -19,12 +19,12 @@
 package net.dpml.tools.info;
 
 /**
- * Internal exception throw to indicate an invalid structure..
+ * Internal exception throw to indicate an invalid structure.
  *
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-public class ValidationException extends Exception
+public class ValidationException extends RuntimeException
 {
    /**
     * Creation of a new validation exception.

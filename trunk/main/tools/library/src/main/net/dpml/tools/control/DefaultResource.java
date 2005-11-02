@@ -20,6 +20,7 @@ package net.dpml.tools.control;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.Arrays;
 import java.util.ArrayList;
 import java.util.List;
@@ -83,7 +84,7 @@ public class DefaultResource extends DefaultDictionary implements Resource, Comp
     }
     
     DefaultResource( DefaultLibrary library, DefaultModule module, ResourceDirective directive ) 
-      throws ProcessorNotFoundException, ValidationException
+      throws ProcessorNotFoundException
     {
         super( module, directive );
         if( null == directive )
@@ -451,6 +452,11 @@ public class DefaultResource extends DefaultDictionary implements Resource, Comp
     // internals
     //----------------------------------------------------------------------------
     
+    DefaultLibrary getDefaultLibrary()
+    {
+        return m_library;
+    }
+    
     boolean isLocal()
     {
         if( null != m_directive )
@@ -551,9 +557,31 @@ public class DefaultResource extends DefaultDictionary implements Resource, Comp
         for( int i=0; i<includes.length; i++ )
         {
             IncludeDirective include = includes[i];
-            String ref = getIncludeReference( include );
-            DefaultResource resource = m_library.getDefaultResource( ref );
-            resources[i] = resource;
+            if( include.getMode().equals( IncludeDirective.URN ) )
+            {
+                try
+                {
+                    resources[i] = m_library.getAnonymousResource( include );
+                }
+                catch( URISyntaxException e )
+                {
+                    final String error = 
+                      "Invalid urn value: " + include.getValue();
+                    throw new RuntimeException( error, e );
+                }
+                catch( Exception e )
+                {
+                    final String error = 
+                      "Unexpected error during dynamic resource creation.";
+                    throw new RuntimeException( error, e );
+                }
+            }
+            else
+            {
+                String ref = getIncludeReference( include );
+                DefaultResource resource = m_library.getDefaultResource( ref );
+                resources[i] = resource;
+            }
         }
         return resources;
     }

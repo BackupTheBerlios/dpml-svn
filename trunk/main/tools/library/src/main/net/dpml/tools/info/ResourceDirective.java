@@ -58,6 +58,21 @@ public class ResourceDirective extends AbstractDirective
     * Creation of a new resource directive.
     * @param name the resource name
     * @param version the resource version
+    */
+    public ResourceDirective( 
+      String name, String version, String type, Properties properties )
+    {
+        this( 
+          name, version, Classifier.EXTERNAL, null, 
+          new TypeDirective[]{ new TypeDirective( type ) } , 
+          new DependencyDirective[0],
+          properties );
+    }
+    
+   /**
+    * Creation of a new resource directive.
+    * @param name the resource name
+    * @param version the resource version
     * @param classifier LOCAL or EXTERNAL classifier
     * @param basedir the project basedir
     * @param types types produced by the resource

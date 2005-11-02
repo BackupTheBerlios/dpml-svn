@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<library>
+
+  <types>
+    <type name="jar"/>
+  </types>
+
+  <imports>
+    <import file="demo/demo.xml"/>
+  </imports>
+
+</library>

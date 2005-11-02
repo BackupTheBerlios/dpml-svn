@@ -80,5 +80,5 @@ public interface Module extends Resource
     * module description.
     * @return the module directive
     */
-    public ModuleDirective export();
+    ModuleDirective export();
 }
