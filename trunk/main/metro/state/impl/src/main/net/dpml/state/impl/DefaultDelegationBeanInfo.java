@@ -23,23 +23,32 @@ import java.beans.DefaultPersistenceDelegate;
 /**
  * BeanInfo for the DefaltTermination class that declares a persistence delegate.
  *
- * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public final class DefaultDelegationBeanInfo extends SimpleBeanInfo
 {
     private static final BeanDescriptor BEAN_DESCRIPTOR = setupBeanDescriptor();
     
+   /**
+    * Return the bean descriptor.
+    * @return the descriptor
+    */
     public BeanDescriptor getBeanDescriptor()
     {
         return BEAN_DESCRIPTOR;
     }
-    
+   
+   /**
+    * Internal persistence delagate.
+    * @return the bean descriptor
+    */
     private static BeanDescriptor setupBeanDescriptor()
     {
         BeanDescriptor descriptor = new BeanDescriptor( DefaultDelegation.class );
         descriptor.setValue( 
           "persistenceDelegate", 
-          new DefaultPersistenceDelegate( new String[]{ "URI" } ) );
+          new DefaultPersistenceDelegate( new String[]{"URI"} ) );
         return descriptor;
     }
 }

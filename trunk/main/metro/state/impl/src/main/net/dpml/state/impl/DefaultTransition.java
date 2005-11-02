@@ -27,7 +27,8 @@ import net.dpml.state.Transition;
 /**
  * Default implemention of a state transition descriptor.
  * 
- * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public class DefaultTransition implements Transition, Serializable
 {
@@ -37,11 +38,22 @@ public class DefaultTransition implements Transition, Serializable
     
     private transient State m_state;
     
+   /**
+    * Creation of a new transition.
+    * @param name the transition name
+    * @param target the transit target state name
+    */
     public DefaultTransition( final String name, final String target )
     {
         this( name, target, null );
     }
     
+   /**
+    * Creation of a new transition.
+    * @param name the transition name
+    * @param target the transit target state name
+    * @param handler a uri of a handler to associate with the transition
+    */
     public DefaultTransition( final String name, final String target, final URI handler )
     {
         if( null == name )
@@ -57,6 +69,10 @@ public class DefaultTransition implements Transition, Serializable
         m_handler = handler;
     }
     
+   /**
+    * Set the state that this transition is a part of.
+    * @param state the owning state
+    */
     public void setState( State state )
     {
         if( null == state )
@@ -73,6 +89,10 @@ public class DefaultTransition implements Transition, Serializable
         }
     }
     
+   /**
+    * Return the state that this transition is a part of.
+    * @return the owning state
+    */
     public State getState()
     {
         if( null != m_state )
@@ -85,21 +105,38 @@ public class DefaultTransition implements Transition, Serializable
         }
     }
     
+   /**
+    * Return the transition name
+    * @return the name
+    */
     public String getName()
     {
         return m_name;
     }
     
+   /**
+    * Return the transition target state name
+    * @return the target state name
+    */
     public String getTargetName()
     {
         return m_target;
     }
     
+   /**
+    * Return the handler uri associated with this state transition.
+    * @return the handler uri
+    */
     public URI getHandlerURI()
     {
         return m_handler;
     }
     
+   /**
+    * Compare this object to another for equality.
+    * @param other the other object
+    * @return true if the object is equal to this object
+    */
     public boolean equals( Object other )
     {
         if( null == other )
@@ -117,13 +154,9 @@ public class DefaultTransition implements Transition, Serializable
             {
                 return false;
             }
-            else if( !equals( m_handler, transition.getHandlerURI() ) )
+            else 
             {
-                return false;
-            }
-            else
-            {
-                return true;
+                return equals( m_handler, transition.getHandlerURI() );
             }
         }
         else
@@ -132,6 +165,10 @@ public class DefaultTransition implements Transition, Serializable
         }
     }
     
+   /**
+    * Compute the hashcode for this instance.
+    * @return the hashcode value
+    */
     public int hashCode()
     {
         int hash = m_name.hashCode();
@@ -155,9 +192,12 @@ public class DefaultTransition implements Transition, Serializable
         }
     }
     
+   /**
+    * Return a string representation of the instance.
+    * @return the string value
+    */
     public String toString()
     {
         return "transition:" + m_target;
     }
-    
 }

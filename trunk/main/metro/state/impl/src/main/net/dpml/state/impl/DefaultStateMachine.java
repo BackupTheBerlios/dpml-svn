@@ -22,7 +22,6 @@ import java.beans.Statement;
 import java.beans.PropertyChangeSupport;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeEvent;
-import java.io.Serializable;
 import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.net.URI;
@@ -31,7 +30,6 @@ import java.util.Hashtable;
 import java.util.List;
 
 import net.dpml.configuration.Configuration;
-import net.dpml.configuration.ConfigurationException;
 import net.dpml.configuration.impl.DefaultConfigurationBuilder;
 import net.dpml.configuration.impl.ConfigurationUtil;
 
@@ -51,14 +49,24 @@ import net.dpml.state.IntegrityRuntimeException;
 /**
  * Default state-machine implementation.
  * 
- * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public class DefaultStateMachine implements StateMachine
 {
+   /**
+    * Constant name used to reference a state change in a property event.
+    */
     public static final String PROPERTY_NAME = "state";
     
-    private static DefaultConfigurationBuilder BUILDER = new DefaultConfigurationBuilder();
+    private static final DefaultConfigurationBuilder BUILDER = new DefaultConfigurationBuilder();
     
+   /**
+    * Load a state descriptor from an input stream.
+    * @param input the input stream
+    * @return the state graph
+    * @exception StateBuilderRuntimeException if an error occurs during loading
+    */
     public static State load( InputStream input ) throws StateBuilderRuntimeException
     {
         State graph = null;
@@ -74,7 +82,11 @@ public class DefaultStateMachine implements StateMachine
             throw new StateBuilderRuntimeException( error, e );
         }
     }
-    
+   
+   /**
+    * Validate the state integrity.
+    * @param state the state to validate
+    */
     public static void validate( State state )
     {
         validateState( state );
@@ -94,11 +106,20 @@ public class DefaultStateMachine implements StateMachine
     // constructor
     //-------------------------------------------------------------------------------
 
+   /**
+    * Creation of a new state machine using a supplied input stream of 
+    * the source for the state graph.
+    * @param input the input stream to a state graph
+    */
     public DefaultStateMachine( InputStream input )
     {
         this( load( input ) );
     }
     
+   /**
+    * Creation of a new state machine using a state graph.
+    * @param state the state graph
+    */
     public DefaultStateMachine( State state )
     {
         m_state = state;
@@ -109,11 +130,19 @@ public class DefaultStateMachine implements StateMachine
     // StateMachine
     //-------------------------------------------------------------------------------
 
+   /**
+    * Add a property change listener to the state machine.
+    * @param listener the property change listener
+    */
     public void addPropertyChangeListener( final PropertyChangeListener listener )
     {
         m_support.addPropertyChangeListener( listener );
     }
     
+   /**
+    * Remove a property change listener from the state machine.
+    * @param listener the property change listener
+    */
     public void removePropertyChangeListener( final PropertyChangeListener listener )
     {
         m_support.removePropertyChangeListener( listener );
@@ -186,6 +215,8 @@ public class DefaultStateMachine implements StateMachine
     * 
     * @param object the object to initialize
     * @return the state established as a sidee effect of the initialization
+    * @exception InvocationTargetException if an invocation error occurs as a 
+    *   result of initialization
     */
     public State initialize( Object object ) throws InvocationTargetException
     {
@@ -225,6 +256,9 @@ public class DefaultStateMachine implements StateMachine
     * Execute a named operation on the supplied object.
     * @param name an operation name
     * @param object the target object
+    * @exception UnknownOperationException if the operation is unknown
+    * @exception InvocationTargetException if an invocation error occurs as a 
+    *   result of operation execution
     */
     public void execute( String name, Object object ) 
       throws UnknownOperationException, InvocationTargetException
@@ -238,6 +272,10 @@ public class DefaultStateMachine implements StateMachine
     * Apply a named transition to the target object.
     * @param name the transition name
     * @param object the object against which any transition handler action are to be applied
+    * @return the state established by the application of the transition
+    * @exception UnknownTransitionException if the transition is unknown
+    * @exception InvocationTargetException if an invocation error occurs as a 
+    *   result of transition invocation
     */
     public State apply( String name, Object object ) 
       throws UnknownTransitionException, InvocationTargetException
@@ -259,7 +297,7 @@ public class DefaultStateMachine implements StateMachine
         checkDisposed();
         Hashtable table = new Hashtable();
         State[] states = m_state.getStatePath();
-        for( int i=(states.length-1); i>-1; i-- )
+        for( int i=( states.length-1 ); i>-1; i-- )
         {
             State state = states[i];
             Transition[] transitions = state.getTransitions();
@@ -285,7 +323,7 @@ public class DefaultStateMachine implements StateMachine
         checkDisposed();
         Hashtable table = new Hashtable();
         State[] states = m_state.getStatePath();
-        for( int i=(states.length-1); i>-1; i-- )
+        for( int i=( states.length-1 ); i>-1; i-- )
         {
             State state = states[i];
             Operation[] operations = state.getOperations();
@@ -321,7 +359,7 @@ public class DefaultStateMachine implements StateMachine
         }
         catch( Throwable e )
         {
-            e.printStackTrace(); // TODO: add logger
+            e.printStackTrace(); // TODO: throw exception ?
             return getState();
         }
     }
@@ -336,6 +374,9 @@ public class DefaultStateMachine implements StateMachine
         return m_active;
     }
     
+   /**
+    * Dispose of the state machine.
+    */
     public void dispose()
     {
         m_disposed = true;
@@ -523,7 +564,7 @@ public class DefaultStateMachine implements StateMachine
                 Action action = trigger.getAction();
                 if( action instanceof Delegation )
                 {
-                    URI uri = ((Delegation)action).getURI();
+                    URI uri = ( (Delegation) action ).getURI();
                     String scheme = uri.getScheme();
                     String spec = uri.getSchemeSpecificPart();
                     if( "transition".equals( scheme ) )

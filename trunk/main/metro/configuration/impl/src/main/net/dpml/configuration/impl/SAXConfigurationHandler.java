@@ -31,8 +31,8 @@ import org.xml.sax.helpers.DefaultHandler;
 /**
  * A SAXConfigurationHandler helps build Configurations out of sax events.
  *
- * @author <a href="mailto:dev-dpml@lists.ibiblio.org">The Digital Product Meta Library</a>
- * @version $Id: SAXConfigurationHandler.java 793 2004-11-18 20:20:51Z niclas@apache.org $
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public class SAXConfigurationHandler
     extends DefaultHandler
@@ -99,7 +99,7 @@ public class SAXConfigurationHandler
         // of memory, but it's really not important enough to justify
         // resulting code complexity
         final int depth = m_values.size() - 1;
-        final StringBuffer valueBuffer = (StringBuffer)m_values.get( depth );
+        final StringBuffer valueBuffer = (StringBuffer) m_values.get( depth );
         valueBuffer.append( ch, start, end );
     }
 
@@ -118,9 +118,9 @@ public class SAXConfigurationHandler
     {
         final int depth = m_elements.size() - 1;
         final DefaultConfiguration finishedConfiguration =
-            (DefaultConfiguration)m_elements.remove( depth );
+            (DefaultConfiguration) m_elements.remove( depth );
         final String accumulatedValue =
-            ( (StringBuffer)m_values.remove( depth ) ).toString();
+            ( (StringBuffer) m_values.remove( depth ) ).toString();
 
         if( finishedConfiguration.getChildren().length == 0 )
         {
@@ -196,7 +196,7 @@ public class SAXConfigurationHandler
         if( depth > 0 )
         {
             final DefaultConfiguration parent =
-                (DefaultConfiguration)m_elements.get( depth - 1 );
+                (DefaultConfiguration) m_elements.get( depth - 1 );
             parent.addChild( configuration );
             // inherits parent's space preservation policy
             preserveSpace = m_preserveSpace.get( depth - 1 );
@@ -254,22 +254,22 @@ public class SAXConfigurationHandler
         throw exception;
     }
 
-    /**
-     * This just throws an exception on a parse error.
-     * @param exception the parse error
-     * @throws SAXException if an error occurs
-     */
+   /**
+    * This just throws an exception on a parse error.
+    * @param exception the parse error
+    * @throws SAXException if an error occurs
+    */
     public void fatalError( final SAXParseException exception )
         throws SAXException
     {
         throw exception;
     }
 
-    /**
-     * Returns a string showing the current system ID, line number and column number.
-     *
-     * @return a <code>String</code> value
-     */
+   /**
+    * Returns a string showing the current system ID, line number and column number.
+    *
+    * @return a <code>String</code> value
+    */
     protected String getLocationString()
     {
         if( null == m_locator )
@@ -279,10 +279,21 @@ public class SAXConfigurationHandler
         else
         {
             final int columnNumber = m_locator.getColumnNumber();
-            return
-                m_locator.getSystemId() + ":"
-                + m_locator.getLineNumber()
-                + ( columnNumber >= 0 ? ( ":" + columnNumber ) : "" );
+            if( columnNumber >=0 )
+            {
+                return m_locator.getSystemId() 
+                  + ":"
+                  + m_locator.getLineNumber()
+                  + ":" 
+                  + columnNumber;
+            }
+            else
+            {
+                return m_locator.getSystemId() 
+                  + ":"
+                  + m_locator.getLineNumber();
+            }
         }
     }
+
 }

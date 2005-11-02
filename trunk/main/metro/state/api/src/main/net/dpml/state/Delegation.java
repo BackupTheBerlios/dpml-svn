@@ -24,9 +24,14 @@ import java.net.URI;
  * Interface describing an action that is invoked by resolution of a 
  * reference to another action.
  * 
- * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public interface Delegation extends Action
 {
+   /**
+    * Return a uri declararing the delegation target.
+    * @return the delegation uri
+    */
     URI getURI();
 }

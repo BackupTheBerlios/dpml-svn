@@ -26,8 +26,8 @@ import net.dpml.configuration.ConfigurationException;
 /**
  * An immutable implementation of the <code>Configuration</code> interface.
  *
- * @author <a href="mailto:dev-dpml@lists.ibiblio.org">The Digital Product Meta Library</a>
- * @version $Id: DefaultImmutableConfiguration.java 1556 2005-01-22 12:43:42Z niclas $
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public class DefaultImmutableConfiguration
     extends AbstractConfiguration
@@ -62,7 +62,7 @@ public class DefaultImmutableConfiguration
         m_name = config.getName();
         m_location = config.getLocation();
         m_namespace = config.getNamespace();
-        m_prefix = (config instanceof AbstractConfiguration) ? ((AbstractConfiguration)config).getPrefix() : "";
+        m_prefix = resolvePrefix( config );
 
         m_value = config.getValue( null );
 
@@ -209,53 +209,55 @@ public class DefaultImmutableConfiguration
         }
         else
         {
-            return (String[])m_attributes.keySet().toArray( new String[ 0 ] );
+            return (String[]) m_attributes.keySet().toArray( new String[0] );
         }
     }
 
-    /**
-     * Return an array of <code>Configuration</code>
-     * elements containing all node children.
-     *
-     * @return The child nodes with name
-     */
+   /**
+    * Return an array of <code>Configuration</code>
+    * elements containing all node children.
+    *
+    * @return The child nodes with name
+    */
     public Configuration[] getChildren()
     {
         if( null == m_children )
         {
-            return new Configuration[ 0 ];
+            return new Configuration[0];
         }
         else
         {
-            return (Configuration[])m_children.toArray( new Configuration[ 0 ] );
+            return (Configuration[]) m_children.toArray( new Configuration[0] );
         }
     }
 
-    /**
-     * Returns the value of the attribute specified by its name as a
-     * <code>String</code>.
-     *
-     * @param name a <code>String</code> value
-     * @return a <code>String</code> value
-     * @throws ConfigurationException If the attribute is not present.
-     */
+   /**
+    * Returns the value of the attribute specified by its name as a
+    * <code>String</code>.
+    *
+    * @param name a <code>String</code> value
+    * @return a <code>String</code> value
+    * @throws ConfigurationException If the attribute is not present.
+    */
     public String getAttribute( final String name )
         throws ConfigurationException
     {
-        final String value =
-            ( null != m_attributes ) ? (String)m_attributes.get( name ) : null;
-
-        if( null != value )
+        if( null != m_attributes )
         {
-            return value;
+            final String value = (String) m_attributes.get( name );
+            if( null != value )
+            {
+                return value;
+            }
         }
-        else
-        {
-            throw new ConfigurationException(
-                "No attribute named \"" + name + "\" is "
-                + "associated with the configuration element \""
-                + getName() + "\" at " + getLocation() );
-        }
+        throw new ConfigurationException(
+            "No attribute named \"" 
+            + name 
+            + "\" is "
+            + "associated with the configuration element \""
+            + getName() 
+            + "\" at " 
+            + getLocation() );
     }
 
     /**
@@ -272,7 +274,7 @@ public class DefaultImmutableConfiguration
             final int size = m_children.size();
             for( int i = 0; i < size; i++ )
             {
-                final Configuration configuration = (Configuration)m_children.get( i );
+                final Configuration configuration = (Configuration) m_children.get( i );
                 if( name.equals( configuration.getName() ) )
                 {
                     return configuration;
@@ -282,7 +284,8 @@ public class DefaultImmutableConfiguration
 
         if( createNew )
         {
-            return new DefaultConfiguration( name, "<generated>" + getLocation(), m_namespace, m_prefix );
+            return new DefaultConfiguration( 
+              name, "<generated>" + getLocation(), m_namespace, m_prefix );
         }
         else
         {
@@ -303,23 +306,22 @@ public class DefaultImmutableConfiguration
     {
         if( null == m_children )
         {
-            return new Configuration[ 0 ];
+            return new Configuration[0];
         }
         else
         {
             final ArrayList children = new ArrayList();
             final int size = m_children.size();
-
             for( int i = 0; i < size; i++ )
             {
-                final Configuration configuration = (Configuration)m_children.get( i );
+                final Configuration configuration = (Configuration) m_children.get( i );
                 if( name.equals( configuration.getName() ) )
                 {
                     children.add( configuration );
                 }
             }
 
-            return (Configuration[])children.toArray( new Configuration[ 0 ] );
+            return (Configuration[]) children.toArray( new Configuration[0] );
         }
     }
 
@@ -333,7 +335,6 @@ public class DefaultImmutableConfiguration
         {
             return 0;
         }
-
         return m_children.size();
     }
 
@@ -345,8 +346,14 @@ public class DefaultImmutableConfiguration
      */
     public boolean equals( Object other )
     {
-        if( other == null ) return false;
-        if( !( other instanceof Configuration ) ) return false;
+        if( other == null )
+        {
+            return false;
+        }
+        if( !( other instanceof Configuration ) ) 
+        {
+            return false;
+        }
         return ConfigurationUtil.equals( this, (Configuration) other );
     }
 
@@ -383,5 +390,18 @@ public class DefaultImmutableConfiguration
             hash ^= m_value.hashCode();
         }
         return hash;
+    }
+    
+    private static String resolvePrefix( Configuration config ) throws ConfigurationException
+    {
+        if( config instanceof AbstractConfiguration )
+        {
+            AbstractConfiguration conf = (AbstractConfiguration) config;
+            return conf.getPrefix();
+        }
+        else
+        {
+            return "";
+        }
     }
 }

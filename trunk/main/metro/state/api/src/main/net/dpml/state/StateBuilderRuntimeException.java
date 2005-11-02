@@ -18,20 +18,30 @@
 
 package net.dpml.state;
 
-import java.net.URI;
-
 /**
  * Exception thrown when an error occurs during state graph construction.
  * 
- * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public class StateBuilderRuntimeException extends RuntimeException
 {
+   /**
+    * Construct a new <code>StateBuilderRuntimeException</code> instance.
+    *
+    * @param message the exception message
+    */
     public StateBuilderRuntimeException( String message )
     {
         this( message, null );
     }
     
+   /**
+    * Construct a new <code>StateBuilderRuntimeException</code> instance.
+    *
+    * @param message the exception message
+    * @param cause the causal exception
+    */
     public StateBuilderRuntimeException( String message, Throwable cause )
     {
         super( message, cause );

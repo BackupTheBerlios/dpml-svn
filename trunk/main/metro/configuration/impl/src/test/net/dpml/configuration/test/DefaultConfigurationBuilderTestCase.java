@@ -289,7 +289,7 @@ public final class DefaultConfigurationBuilderTestCase
 
     private File getWorkDir()
     {
-        String path = System.getProperty( "project.dir" );
+        String path = System.getProperty( "project.test.dir" );
         if( null != path )
         {
             return new File( path );
@@ -298,7 +298,7 @@ public final class DefaultConfigurationBuilderTestCase
         {
             path = System.getProperty( "basedir" );
             File root = new File( path );
-            return new File( root, "target/test-classes" );
+            return new File( root, "target/test" );
         }
     }
 

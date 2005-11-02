@@ -34,6 +34,11 @@ public class ApplicationEvent extends EventObject
 
     private final State m_state;
 
+   /**
+    * Creation of a new application event.
+    * @param application event source
+    * @param state the state established by the application
+    */
     public ApplicationEvent( Application application, State state )
     {
         super( application );
@@ -41,11 +46,19 @@ public class ApplicationEvent extends EventObject
         m_state = state;
     }
 
+   /**
+    * Return the application that initiated the event.
+    * @return application event source
+    */
     public Application getApplication()
     {
         return (Application) super.getSource();
     }
 
+   /**
+    * Return the state associated with the event.
+    * @return the application state
+    */
     public State getState()
     {
         return m_state;

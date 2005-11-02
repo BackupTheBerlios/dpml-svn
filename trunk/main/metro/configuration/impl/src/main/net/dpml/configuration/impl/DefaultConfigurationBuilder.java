@@ -67,8 +67,8 @@ import net.dpml.configuration.ConfigurationException;
  * in that case the whitespace is left intact.
  * </p>
  *
- * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
- * @version $Id: DefaultConfigurationBuilder.java 1940 2005-03-04 05:31:13Z niclas $
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public class DefaultConfigurationBuilder
 {

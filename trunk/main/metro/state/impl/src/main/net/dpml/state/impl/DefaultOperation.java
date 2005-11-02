@@ -24,7 +24,7 @@ import java.net.URI;
 import net.dpml.state.Operation;
 
 /**
- * Default implementation of an operation descriptor.
+ * Default implementation of an operation.
  * 
  * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
  */
@@ -33,6 +33,11 @@ public class DefaultOperation implements Operation, Serializable
     private final String m_name;
     private final URI m_handler;
     
+   /**
+    * Creation of a new operation.
+    * @param name the operation name
+    * @param handler the uri identifying the handler
+    */
     public DefaultOperation( final String name, URI handler )
     {
         if( null == name )
@@ -47,16 +52,44 @@ public class DefaultOperation implements Operation, Serializable
         m_handler = handler;
     }
     
+   /**
+    * Return the action name.
+    * @return the name
+    */
     public String getName()
     {
         return m_name;
     }
-        
+    
+   /**
+    * <p>Return the uri describing the execution criteria.  Recognized uri 
+    * schemes include:</p>
+    * 
+    * <ol>
+    *  <li>method:[method-name]
+    * </ol>
+    *
+    * @return the handler uri
+    */
     public URI getHandlerURI()
     {
         return m_handler;
     }
     
+   /**
+    * Return a string representation of the instance.
+    * @return the string value
+    */
+    public String toString()
+    {
+        return "operation:" + m_name;
+    }
+    
+   /**
+    * Compare this object to another for equality.
+    * @param other the other object
+    * @return true if the object is equal to this object
+    */
     public boolean equals( Object other )
     {
         if( null == other )
@@ -70,13 +103,9 @@ public class DefaultOperation implements Operation, Serializable
             {
                 return false;
             }
-            else if( !equals( m_handler, operation.getHandlerURI() ) )
-            {
-                return false;
-            }
             else
             {
-                return true;
+                return equals( m_handler, operation.getHandlerURI() );
             }
         }
         else
@@ -85,6 +114,10 @@ public class DefaultOperation implements Operation, Serializable
         }
     }
     
+   /**
+    * Compute the hashcode for this instance.
+    * @return the hashcode value
+    */
     public int hashCode()
     {
         int hash = getClass().hashCode();
@@ -108,8 +141,4 @@ public class DefaultOperation implements Operation, Serializable
         }
     }
 
-    public String toString()
-    {
-        return "operation:" + m_name;
-    }
 }

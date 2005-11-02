@@ -22,9 +22,8 @@ import net.dpml.configuration.ConfigurationException;
 /**
  * A read/write extension of the Configuration interface.
  *
- * @author <a href="mailto:dev-dpml@lists.ibiblio.org">The Digital Product Meta Library</a>
- * @version $Id: MutableConfiguration.java 259 2004-10-30 07:24:40Z mcconnell $
- * @since 4.1.6
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public interface MutableConfiguration extends Configuration
 {
@@ -142,6 +141,9 @@ public interface MutableConfiguration extends Configuration
     
     /**
      * Equivalent to <code>getMutableChild( name, true )</code>
+     * @param name the child name
+     * @return the mutable configration
+     * @throws ConfigurationException if an error occurrs.
      */
     public MutableConfiguration getMutableChild( final String name ) throws ConfigurationException;
     
@@ -156,10 +158,10 @@ public interface MutableConfiguration extends Configuration
      * is <code>true</code>, a new mutable child is created and added to 
      * this configuration before being returned.
      *
-     * @return the child MutableConfiguration, or <code>null</code> if <code>autoCreate</code>
-     *          was false and no child by the given name existed.
      * @param name the name of the child.
      * @param autoCreate set to true to create the child node if it doesn't exist.
+     * @return the child MutableConfiguration, or <code>null</code> if <code>autoCreate</code>
+     *          was false and no child by the given name existed.
      * @throws ConfigurationException if an error occurrs.
      */
     public MutableConfiguration getMutableChild( final String name, boolean autoCreate ) throws ConfigurationException;
@@ -167,6 +169,7 @@ public interface MutableConfiguration extends Configuration
     /**
      * Returns an array of mutable children. Immutable children
      * are converted just as for <code>getMutableChild</code>.
+     * @return the mutable configration array
      * @throws ConfigurationException if an error occurrs.
      */
     public MutableConfiguration[] getMutableChildren() throws ConfigurationException;
@@ -174,6 +177,8 @@ public interface MutableConfiguration extends Configuration
     /**
      * Returns an array of mutable children with the given name. Immutable children
      * are converted just as for <code>getMutableChild</code>.
+     * @param name the child name for selection
+     * @return the mutable configration array
      * @throws ConfigurationException if an error occurrs.
      */
     public MutableConfiguration[] getMutableChildren( final String name ) throws ConfigurationException;

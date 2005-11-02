@@ -1,5 +1,5 @@
 /*
- * Copyright 2004 Stephen J. McConnell.
+ * Copyright 2004-2005 Stephen J. McConnell.
  * Copyright 2004 Apache Software Foundation
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -40,8 +40,8 @@ import net.dpml.configuration.ConfigurationException;
 /**
  * A ConfigurationSerializer serializes configurations via SAX2 compliant parser.
  *
- * @author <a href="mailto:dev-dpml@lists.ibiblio.org">The Digital Product Meta Library</a>
- * @version $Id: DefaultConfigurationSerializer.java 259 2004-10-30 07:24:40Z mcconnell $
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public class DefaultConfigurationSerializer
 {
@@ -97,9 +97,8 @@ public class DefaultConfigurationSerializer
     {
         if( m_tfactory == null )
         {
-            m_tfactory = (SAXTransformerFactory)TransformerFactory.newInstance();
+            m_tfactory = (SAXTransformerFactory) TransformerFactory.newInstance();
         }
-
         return m_tfactory;
     }
 
@@ -154,7 +153,7 @@ public class DefaultConfigurationSerializer
 
         if( element instanceof AbstractConfiguration )
         {
-            nsPrefix = ( (AbstractConfiguration)element ).getPrefix();
+            nsPrefix = ( (AbstractConfiguration) element ).getPrefix();
         }
         // nsPrefix is guaranteed to be non-null at this point.
 
@@ -169,7 +168,7 @@ public class DefaultConfigurationSerializer
             nsWasDeclared = true;
             if( nsPrefix.equals( "" ) && nsURI.equals( "" ) )
             {
-                // implicit mapping; don't need to declare
+                boolean ok = true; // implicit mapping; don't need to declare
             }
             else if( nsPrefix.equals( "" ) )
             {

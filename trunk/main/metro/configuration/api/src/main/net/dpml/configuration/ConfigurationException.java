@@ -30,75 +30,76 @@ public class ConfigurationException
     */
     static final long serialVersionUID = 1L;
 
-    private final Throwable m_cause;
     private final Configuration m_config;
 
-
-    /**
-     * Construct a new <code>ConfigurationException</code> instance.
-     *
-     * @param message The detail message for this exception.
-     */
+   /**
+    * Construct a new <code>ConfigurationException</code> instance.
+    *
+    * @param message The detail message for this exception.
+    */
     public ConfigurationException( final String message )
     {
         this( message, (Configuration) null );
     }
 
-    /**
-     * Construct a new <code>ConfigurationException</code> instance.
-     *
-     * @param message The detail message for this exception.
-     * @param config  The configuration object
-     */
+   /**
+    * Construct a new <code>ConfigurationException</code> instance.
+    *
+    * @param message The detail message for this exception.
+    * @param config  The configuration object
+    */
     public ConfigurationException( final String message, final Configuration config )
     {
         this( message, config, null );
     }
 
-    /**
-     * Construct a new <code>ConfigurationException</code> instance.
-     *
-     * @param message The detail message for this exception.
-     * @param throwable the root cause of the exception
-     */
+   /**
+    * Construct a new <code>ConfigurationException</code> instance.
+    *
+    * @param message The detail message for this exception.
+    * @param throwable the root cause of the exception
+    */
     public ConfigurationException( final String message, final Throwable throwable )
     {
         this( message, null, throwable );
     }
 
-    /**
-     * Construct a new <code>ConfigurationException</code> instance.
-     *
-     * @param message The detail message for this exception.
-     * @param throwable the root cause of the exception
-     */
-    public ConfigurationException( final String message, final Configuration config, final Throwable throwable )
+   /**
+    * Construct a new <code>ConfigurationException</code> instance.
+    *
+    * @param message The detail message for this exception.
+    * @param config The source configuration
+    * @param throwable the root cause of the exception
+    */
+    public ConfigurationException( 
+      final String message, final Configuration config, final Throwable throwable )
     {
-        super( message );
+        super( message, throwable );
         m_config = config;
-        m_cause = throwable;
     }
 
+   /**
+    * Return the configuration instance.
+    * @return the configuration
+    */
     public Configuration getConfiguration()
     {
         return m_config;
     }
 
-    public Throwable getCause()
-    {
-        return m_cause;
-    }
-
+   /**
+    * Return the configuration error message.
+    * @return the message
+    */
     public String getMessage()
     {
-        StringBuffer message = new StringBuffer(super.getMessage());
+        StringBuffer message = new StringBuffer( super.getMessage() );
 
-        if (null != m_config)
+        if( null != m_config )
         {
-            message.append("@");
-            message.append(m_config.getLocation());
+            message.append( "@" );
+            message.append( m_config.getLocation() );
         }
-
         return message.toString();
     }
 }

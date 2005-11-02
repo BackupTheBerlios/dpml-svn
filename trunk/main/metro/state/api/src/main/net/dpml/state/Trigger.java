@@ -20,7 +20,6 @@ package net.dpml.state;
 
 import java.beans.Expression;
 import java.beans.BeanDescriptor;
-import java.beans.PersistenceDelegate;
 import java.beans.DefaultPersistenceDelegate;
 import java.beans.SimpleBeanInfo;
 import java.beans.Encoder;
@@ -30,7 +29,8 @@ import net.dpml.transit.util.Enum;
 /**
  * Interface describing a condition within which an action may be invoked.
  * 
- * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public interface Trigger
 {
@@ -66,7 +66,7 @@ public interface Trigger
        /**
         * Array of static trigger event enumeration values.
         */
-        private static final TriggerEvent[] ENUM_VALUES = new TriggerEvent[]{ INITIALIZATION, TERMINATION };
+        private static final TriggerEvent[] ENUM_VALUES = new TriggerEvent[]{INITIALIZATION, TERMINATION};
 
        /**
         * Returns an array of trigger event enum values.
@@ -77,13 +77,19 @@ public interface Trigger
             return ENUM_VALUES;
         }
         
+       /**
+        * Parse the supplied value and return the corresponding 
+        * trigger event class.
+        * @param value the event name
+        * @return the trgger constant
+        */ 
         public static TriggerEvent parse( String value )
         {
             if( value.equalsIgnoreCase( "initialization" ) )
             {
                 return INITIALIZATION;
             }
-            else if( value.equalsIgnoreCase( "termination" ))
+            else if( value.equalsIgnoreCase( "termination" ) )
             {
                 return TERMINATION;
             }
@@ -114,6 +120,10 @@ public interface Trigger
     {
         private static final BeanDescriptor BEAN_DESCRIPTOR = setupBeanDescriptor();
     
+       /**
+        * Return the bean descriptor.
+        * @return the descriptor
+        */
         public BeanDescriptor getBeanDescriptor()
         {
             return BEAN_DESCRIPTOR;
@@ -128,12 +138,21 @@ public interface Trigger
             return descriptor;
         }
         
+       /**
+        * Persistence delegate.
+        */
         private static class TriggerEventPersistenceDelegate extends DefaultPersistenceDelegate
         {
+           /**
+            * Create an expression.
+            * @paran old the old instance
+            * @param encoder the encoder
+            * @return the expression
+            */
             public Expression instantiate( Object old, Encoder encoder )
             {
                 TriggerEvent event = (TriggerEvent) old;
-                return new Expression( TriggerEvent.class, "parse", new Object[]{ event.getName() } );
+                return new Expression( TriggerEvent.class, "parse", new Object[]{event.getName()} );
             }
         }
     }

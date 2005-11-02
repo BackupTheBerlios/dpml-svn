@@ -42,7 +42,7 @@ import org.w3c.dom.Text;
  * @version $Id: ConfigurationUtil.java 795 2004-11-19 07:29:52Z niclas@apache.org $
  * @since 4.1.4
  */
-public class ConfigurationUtil
+public final class ConfigurationUtil
 {
     /**
      * Private constructor to block instantiation.
@@ -80,12 +80,12 @@ public class ConfigurationUtil
             final Node node = nodes.item( i );
             if( node instanceof Element )
             {
-                final Configuration child = toConfiguration( (Element)node );
+                final Configuration child = toConfiguration( (Element) node );
                 configuration.addChild( child );
             }
             else if( node instanceof CharacterData )
             {
-                final CharacterData data = (CharacterData)node;
+                final CharacterData data = (CharacterData) node;
                 content += data.getData();
                 flag = true;
             }
@@ -157,8 +157,10 @@ public class ConfigurationUtil
      */
     public static boolean equals( final Configuration c1, final Configuration c2 )
     {
-        return c1.getName().equals( c2.getName() ) && areValuesEqual( c1, c2 ) &&
-            areAttributesEqual( c1, c2 ) && areChildrenEqual( c1, c2 );
+        return c1.getName().equals( c2.getName() ) 
+          && areValuesEqual( c1, c2 ) 
+          && areAttributesEqual( c1, c2 ) 
+          && areChildrenEqual( c1, c2 );
     }
 
     /**
@@ -168,8 +170,8 @@ public class ConfigurationUtil
      * @param c2 configuration2
      * @return true if the children of both configurations are equal.
      */
-    private static boolean areChildrenEqual( final Configuration c1,
-                                             final Configuration c2 )
+    private static boolean areChildrenEqual( 
+      final Configuration c1, final Configuration c2 )
     {
         final Configuration[] kids1 = c1.getChildren();
         final ArrayList kids2 = new ArrayList( Arrays.asList( c2.getChildren() ) );
@@ -177,7 +179,6 @@ public class ConfigurationUtil
         {
             return false;
         }
-
         for( int i = 0; i < kids1.length; i++ )
         {
             if( !findMatchingChild( kids1[ i ], kids2 ) )
@@ -185,8 +186,7 @@ public class ConfigurationUtil
                 return false;
             }
         }
-
-        return kids2.isEmpty() ? true : false;
+        return kids2.isEmpty();
     }
 
     /**
@@ -196,13 +196,13 @@ public class ConfigurationUtil
      * @param matchAgainst the list of items to match against
      * @return true if the found.
      */
-    private static boolean findMatchingChild( final Configuration c,
-                                              final ArrayList matchAgainst )
+    private static boolean findMatchingChild( 
+      final Configuration c, final ArrayList matchAgainst )
     {
         final Iterator i = matchAgainst.iterator();
         while( i.hasNext() )
         {
-            if( equals( c, (Configuration)i.next() ) )
+            if( equals( c, (Configuration) i.next() ) )
             {
                 i.remove();
                 return true;
@@ -255,8 +255,8 @@ public class ConfigurationUtil
     {
         final String value1 = c1.getValue( null );
         final String value2 = c2.getValue( null );
-        return ( value1 == null && value2 == null ) ||
-            ( value1 != null && value1.equals( value2 ) );
+        return ( value1 == null && value2 == null ) 
+          || ( value1 != null && value1.equals( value2 ) );
     }
 
     /**
@@ -411,7 +411,7 @@ public class ConfigurationUtil
             }
         }
 
-        return (Configuration[])list.toArray( new Configuration[ list.size() ] );
+        return (Configuration[]) list.toArray( new Configuration[ list.size() ] );
     }
 
     /**
@@ -457,7 +457,14 @@ public class ConfigurationUtil
             }
         }
 
-        return create ? new DefaultConfiguration( element, null ) : null;
+        if( create )
+        {
+            return new DefaultConfiguration( element, null );
+        }
+        else
+        {
+            return null;
+        }
     }
 
 }

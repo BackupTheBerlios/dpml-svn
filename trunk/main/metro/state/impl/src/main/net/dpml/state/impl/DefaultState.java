@@ -30,7 +30,8 @@ import net.dpml.state.Action;
 /**
  * Default implementation of an application state descriptor.
  * 
- * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public class DefaultState implements State, Serializable
 {
@@ -43,11 +44,23 @@ public class DefaultState implements State, Serializable
     
     private transient State m_parent;
 
+   /**
+    * Creation of a new state.
+    * @param name the state name
+    */
     public DefaultState( final String name )
     {
         this( name, new Trigger[0], new Transition[0], new Operation[0], new State[0], true );
     }
     
+   /**
+    * Creation of a new non-terminal state.
+    * @param name the state name
+    * @param triggers an array of triggers
+    * @param transitions an array of state transitions
+    * @param operations an array of operations
+    * @param states an array of substates
+    */
     public DefaultState( 
       final String name, final Trigger[] triggers, final Transition[] transitions, 
       final Operation[] operations, final State[] states )
@@ -55,6 +68,15 @@ public class DefaultState implements State, Serializable
         this( name, triggers, transitions, operations, states, false );
     }
     
+   /**
+    * Creation of a new state.
+    * @param name the state name
+    * @param triggers an array of triggers
+    * @param transitions an array of state transitions
+    * @param operations an array of operations
+    * @param states an array of substates
+    * @param terminal the terminal flag
+    */
     public DefaultState( 
       final String name, final Trigger[] triggers, final Transition[] transitions, 
       final Operation[] operations, final State[] states, boolean terminal )
@@ -116,11 +138,20 @@ public class DefaultState implements State, Serializable
         }
     }
     
+   /**
+    * Return the parent state to this state or null if this is the root of a 
+    * state graph.
+    * @return the parent state
+    */
     public State getParent()
     {
         return m_parent;
     }
 
+   /**
+    * Set the parent state. 
+    * @param state the parent state
+    */
     public void setParent( State state )
     {
         if( null == m_parent )
@@ -135,21 +166,34 @@ public class DefaultState implements State, Serializable
         }
     }
     
+   /**
+    * Return the name of the state.
+    * @return the state name
+    */
     public String getName()
     {
         return m_name;
     }
     
+   /**
+    * Return the array of triggers associated with the state.
+    * @return the trigger array
+    */
     public Trigger[] getTriggers()
     {
         return m_triggers;
     }
     
+   /**
+    * Return the state path.  The path is composed of a sequence of states
+    * from the root to this state.
+    * @return the state path
+    */
     public State[] getStatePath()
     {
         if( null == m_parent )
         {
-            return new State[]{ this };
+            return new State[]{this};
         }
         else
         {
@@ -161,36 +205,65 @@ public class DefaultState implements State, Serializable
         }
     }
     
+   /**
+    * Return the substates within this state.
+    * @return the substate array
+    */
     public State[] getStates()
     {
         return m_states;
     }
     
+   /**
+    * Return the array of transtions associated with the state.
+    * @return the transition array
+    */
     public Transition[] getTransitions()
     {
         return m_transitions;
     }
     
+   /**
+    * Return the array of operations associated with the state.
+    * @return the operation array
+    */
     public Operation[] getOperations()
     {
         return m_operations;
     }
     
+   /**
+    * Return the terminal flag.
+    * @return true if terminal
+    */
     public boolean getTerminal()
     {
         return isTerminal();
     }
     
+   /**
+    * Test is the state is a terminal state.
+    * @return true if terminal
+    */
     public boolean isTerminal()
     {
         return m_terminal;
     }
     
+   /**
+    * Return a string representation of the instance.
+    * @return the string value
+    */
     public String toString()
     {
         return "[" + m_name + "]";
     }
     
+   /**
+    * Compare this object to another for equality.
+    * @param other the other object
+    * @return true if the object is equal to this object
+    */
     public boolean equals( Object other )
     {
         if( null == other )
@@ -220,13 +293,9 @@ public class DefaultState implements State, Serializable
             {
                 return false;
             }
-            else if( !Arrays.equals( m_states, state.getStates() ) )
-            {
-                return false;
-            }
             else
             {
-                return true;
+                return Arrays.equals( m_states, state.getStates() );
             }
         }
         else
@@ -235,6 +304,10 @@ public class DefaultState implements State, Serializable
         }
     }
     
+   /**
+    * Compute the hashcode for this instance.
+    * @return the hashcode value
+    */
     public int hashCode()
     {
         if( null == m_parent )

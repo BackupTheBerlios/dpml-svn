@@ -33,8 +33,8 @@ import org.xml.sax.helpers.NamespaceSupport;
  * A SAXConfigurationHandler helps build Configurations out of sax events,
  * including namespace information.
  *
- * @author <a href="mailto:dev-dpml@lists.ibiblio.org">The Digital Product Meta Library</a>
- * @version $Id: NamespacedSAXConfigurationHandler.java 793 2004-11-18 20:20:51Z niclas@apache.org $
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public class NamespacedSAXConfigurationHandler
     extends SAXConfigurationHandler
@@ -75,7 +75,7 @@ public class NamespacedSAXConfigurationHandler
         Iterator i = m_prefixes.iterator();
         while( i.hasNext() )
         {
-            ( (ArrayList)i.next() ).clear();
+            ( (ArrayList) i.next() ).clear();
         }
         m_prefixes.clear();
         m_values.clear();
@@ -132,7 +132,7 @@ public class NamespacedSAXConfigurationHandler
         // of memory, but it's really not important enough to justify
         // resulting code complexity
         final int depth = m_values.size() - 1;
-        final StringBuffer valueBuffer = (StringBuffer)m_values.get( depth );
+        final StringBuffer valueBuffer = (StringBuffer) m_values.get( depth );
         valueBuffer.append( ch, start, end );
     }
 
@@ -151,15 +151,15 @@ public class NamespacedSAXConfigurationHandler
     {
         final int depth = m_elements.size() - 1;
         final DefaultConfiguration finishedConfiguration =
-            (DefaultConfiguration)m_elements.remove( depth );
+            (DefaultConfiguration) m_elements.remove( depth );
         final String accumulatedValue =
-            ( (StringBuffer)m_values.remove( depth ) ).toString();
-        final ArrayList prefixes = (ArrayList)m_prefixes.remove( depth );
+            ( (StringBuffer) m_values.remove( depth ) ).toString();
+        final ArrayList prefixes = (ArrayList) m_prefixes.remove( depth );
 
         final Iterator i = prefixes.iterator();
         while( i.hasNext() )
         {
-            endPrefixMapping( (String)i.next() );
+            endPrefixMapping( (String) i.next() );
         }
         prefixes.clear();
 
@@ -247,7 +247,7 @@ public class NamespacedSAXConfigurationHandler
         if( depth > 0 )
         {
             final DefaultConfiguration parent =
-                (DefaultConfiguration)m_elements.get( depth - 1 );
+                (DefaultConfiguration) m_elements.get( depth - 1 );
             parent.addChild( configuration );
             // inherits parent's space preservation policy
             preserveSpace = m_preserveSpace.get( depth - 1 );
@@ -349,10 +349,20 @@ public class NamespacedSAXConfigurationHandler
         else
         {
             final int columnNumber = m_locator.getColumnNumber();
-            return
-                m_locator.getSystemId() + ":"
-                + m_locator.getLineNumber()
-                + ( columnNumber >= 0 ? ( ":" + columnNumber ) : "" );
+            if( columnNumber >=0 )
+            {
+                return m_locator.getSystemId() 
+                  + ":"
+                  + m_locator.getLineNumber()
+                  + ":" 
+                  + columnNumber;
+            }
+            else
+            {
+                return m_locator.getSystemId() 
+                  + ":"
+                  + m_locator.getLineNumber();
+            }
         }
     }
 

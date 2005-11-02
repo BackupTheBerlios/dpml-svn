@@ -25,15 +25,17 @@ import java.util.EventListener;
 /**
  * Interface implementated by remote listeners to state change events.
  *
- * @author <a href="mailto:dev-dpml@lists.ibiblio.org">The Digital Product Meta Library</a>
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public interface StateListener extends EventListener, Remote
 {
-    /**
-     * Notify the listener of a state change.
-     *
-     * @param event the state change event
-     */
+   /**
+    * Notify the listener of a state change.
+    *
+    * @param event the state change event
+    * @exception RemoteException if a remote transport error occurs
+    */
     void stateChanged( final StateEvent event ) throws RemoteException;
 }
 

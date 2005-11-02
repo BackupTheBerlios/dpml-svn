@@ -24,15 +24,32 @@ import java.net.URI;
  * Interface describing a transition that may be performed under an activate 
  * state.
  * 
- * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public interface Transition extends Action
-{    
+{  
+   /**
+    * Set the state that this transition is a part of.
+    * @param state the owning state
+    */
     void setState( State state );
     
+   /**
+    * Return the state that this transition is a part of.
+    * @return the owning state
+    */
     State getState();
     
+   /**
+    * Return the transition target state name
+    * @return the target state name
+    */
     String getTargetName();
     
+   /**
+    * Return the handler uri associated with this state transition.
+    * @return the handler uri
+    */
     URI getHandlerURI();
 }

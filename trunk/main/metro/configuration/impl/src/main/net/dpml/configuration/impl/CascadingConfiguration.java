@@ -30,7 +30,8 @@ import net.dpml.configuration.ConfigurationException;
  * configuration.  As a parent may also be a CascadingConfiguration, the evaluation
  * will be applied until a value is resolved against a class parent Configuration.
  *
- * @author <a href="mailto:dev-dpml@lists.ibiblio.org">The Digital Product Meta Library</a>
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public class CascadingConfiguration implements Configuration
 {
@@ -224,7 +225,7 @@ public class CascadingConfiguration implements Configuration
                 vector.add( names2[ i ] );
             }
         }
-        return (String[])vector.toArray( new String[ 0 ] );
+        return (String[]) vector.toArray( new String[0] );
     }
 
     /**

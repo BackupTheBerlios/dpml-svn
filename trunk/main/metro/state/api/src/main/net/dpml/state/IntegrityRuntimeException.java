@@ -21,7 +21,8 @@ package net.dpml.state;
 /**
  * Runtime exception thrown when an inconsitent state is encounted within a state-machine.
  *
- * @author <a href="mailto:dev-dpml@lists.ibiblio.org">The Digital Product Meta Library</a>
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public class IntegrityRuntimeException extends RuntimeException
 {

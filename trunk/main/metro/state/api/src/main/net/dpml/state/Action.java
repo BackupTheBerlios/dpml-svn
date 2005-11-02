@@ -18,14 +18,17 @@
 
 package net.dpml.state;
 
-import java.net.URI;
-
 /**
  * Interface marking a a direct or implict actionable instance.
  * 
- * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public interface Action
 {
+   /**
+    * Return the action name.
+    * @return the name
+    */
     String getName();
 }

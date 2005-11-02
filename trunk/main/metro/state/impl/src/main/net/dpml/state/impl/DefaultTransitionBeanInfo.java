@@ -24,28 +24,41 @@ import java.beans.PropertyDescriptor;
 /**
  * BeanInfo for the DefaltTransition class that declares a persistence delegate.
  *
- * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public final class DefaultTransitionBeanInfo extends SimpleBeanInfo
 {
     private static final BeanDescriptor BEAN_DESCRIPTOR = setupBeanDescriptor();
     
+   /**
+    * Return the bean descriptor.
+    * @return the descriptor
+    */
     public BeanDescriptor getBeanDescriptor()
     {
         return BEAN_DESCRIPTOR;
     }
     
+   /**
+    * Return the property descriptors.
+    * @return the descriptors
+    */
     public PropertyDescriptor[] getPropertyDescriptors()
     {
         return new PropertyDescriptor[0];
     }
     
+   /**
+    * Internal persistence delagate.
+    * @return the bean descriptor
+    */
     private static BeanDescriptor setupBeanDescriptor()
     {
         BeanDescriptor descriptor = new BeanDescriptor( DefaultTransition.class );
         descriptor.setValue( 
           "persistenceDelegate", 
-          new DefaultPersistenceDelegate( new String[]{ "name", "targetName", "handlerURI" } ) );
+          new DefaultPersistenceDelegate( new String[]{"name", "targetName", "handlerURI"} ) );
         return descriptor;
     }
 }

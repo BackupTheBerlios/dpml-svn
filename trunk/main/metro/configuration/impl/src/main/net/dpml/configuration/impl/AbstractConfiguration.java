@@ -1,5 +1,5 @@
 /*
- * Copyright 2004 Stephen J. McConnell.
+ * Copyright 2004-2005 Stephen J. McConnell.
  * Copyright 2004 Apache Software Foundation
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -23,8 +23,8 @@ import net.dpml.configuration.ConfigurationException;
  * This is an abstract <code>Configuration</code> implementation that deals
  * with methods that can be abstracted away from underlying implementations.
  *
- * @author <a href="mailto:dev-dpml@lists.ibiblio.org">The Digital Product Meta Library</a>
- * @version $Id: AbstractConfiguration.java 259 2004-10-30 07:24:40Z mcconnell $
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public abstract class AbstractConfiguration
     implements Configuration
@@ -591,6 +591,6 @@ public abstract class AbstractConfiguration
      */
     public String toString()
     {
-        return getName() + "::" + getValue("<no value>") + ":@" + getLocation();
+        return getName() + "::" + getValue( "<no value>" ) + ":@" + getLocation();
     }
 }

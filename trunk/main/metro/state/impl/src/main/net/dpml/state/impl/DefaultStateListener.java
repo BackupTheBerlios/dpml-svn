@@ -21,10 +21,8 @@ package net.dpml.state.impl;
 import java.beans.PropertyChangeSupport;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeEvent;
-import java.rmi.Remote;
 import java.rmi.server.UnicastRemoteObject;
 import java.rmi.RemoteException;
-import java.util.EventListener;
 
 import net.dpml.state.State;
 import net.dpml.state.StateEvent;
@@ -44,6 +42,10 @@ public final class DefaultStateListener extends UnicastRemoteObject implements S
     
     private final PropertyChangeSupport m_support;
     
+   /**
+    * Creation of a new state listener.
+    * @exception RemoteException if a remote error occurs
+    */
     public DefaultStateListener() throws RemoteException
     {
         super();
@@ -65,16 +67,29 @@ public final class DefaultStateListener extends UnicastRemoteObject implements S
         m_support.firePropertyChange( e );
     }
     
+   /**
+    * Add a local property change listener to this remote listener.
+    * @param listener the property change listener to add
+    */
     public void addPropertyChangeListener( final PropertyChangeListener listener )
     {
         m_support.addPropertyChangeListener( listener );
     }
     
+   /**
+    * Remove a local property change listener from this remote listener.
+    * @param listener the property change listener to remove
+    */
     public void removePropertyChangeListener( final PropertyChangeListener listener )
     {
         m_support.removePropertyChangeListener( listener );
     }
     
+   /**
+    * Compare this object to another for equality.
+    * @param other the other object
+    * @return true if the object is equal to this object
+    */
     public boolean equals( Object other )
     {
         if( null == other )
@@ -92,6 +107,10 @@ public final class DefaultStateListener extends UnicastRemoteObject implements S
         }
     }
     
+   /**
+    * Compute the hashcode for this instance.
+    * @return the hashcode value
+    */
     public int hashCode()
     {
         return m_support.hashCode();

@@ -1,5 +1,5 @@
 /*
- * Copyright 2004 Stephen J. McConnell.
+ * Copyright 2004-2005 Stephen J. McConnell.
  * Copyright 1999-2004 The Apache Software Foundation
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -20,7 +20,6 @@ import java.io.Serializable;
 
 import java.util.Enumeration;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 import java.util.Properties;
 
@@ -55,8 +54,8 @@ import net.dpml.parameters.ParameterException;
  * prevent potential data corruption.
  * </p>
  *
- * @author <a href="mailto:dev-dpml@lists.ibiblio.org">The Digital Product Meta Library</a>
- * @version $Id: DefaultParameters.java 2854 2005-06-14 05:44:50Z mcconnell@dpml.net $
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public class DefaultParameters implements Parameters, Serializable
 {
@@ -85,27 +84,50 @@ public class DefaultParameters implements Parameters, Serializable
 
     private boolean m_readOnly;
 
+   /**
+    * Creation of a new parameters instance.
+    */
     public DefaultParameters()
     {
          this( new HashMap(), false );
     }
 
+   /**
+    * Creation of a new parameters instance.
+    * @param map the backing store for parameter key value pairs
+    */
     public DefaultParameters( Map map )
     {
          this( map, false );
     }
 
+   /**
+    * Creation of a new parameters instance.
+    * @param map the backing store for parameter key value pairs
+    * @param sealed if true the instance will be immutable
+    */
     public DefaultParameters( Map map, boolean sealed )
     {
          m_parameters = map;
          m_readOnly = sealed;
     }
 
+   /**
+    * Creation of a new parameters instance using a properties instance
+    * as the definition.
+    * @param properties the source for parameter key value pairs
+    */
     public DefaultParameters( Properties properties )
     {
          this( properties, false );
     }
 
+   /**
+    * Creation of a new parameters instance using a properties instance
+    * as the definition.
+    * @param properties the source for parameter key value pairs
+    * @param sealed if true the instance will be immutable
+    */
     public DefaultParameters( Properties properties, boolean sealed )
     {
          m_parameters = mapFromProperties( properties );
@@ -134,31 +156,19 @@ public class DefaultParameters implements Parameters, Serializable
 
         if( null == value )
         {
-            return (String)m_parameters.remove( name );
+            return (String) m_parameters.remove( name );
         }
 
-        return (String)m_parameters.put( name, value );
+        return (String) m_parameters.put( name, value );
     }
 
     /**
      * Remove a parameter from the parameters object
      * @param name a <code>String</code> value
-     * @since 4.1
      */
     public void removeParameter( final String name )
     {
         setParameter( name, null );
-    }
-
-    /**
-     * Return an <code>Iterator</code> view of all parameter names.
-     *
-     * @return a iterator of parameter names
-     * @deprecated Use getNames() instead
-     */
-    public Iterator getParameterNames()
-    {
-        return m_parameters.keySet().iterator();
     }
 
     /**
@@ -168,7 +178,7 @@ public class DefaultParameters implements Parameters, Serializable
      */
     public String[] getNames()
     {
-        return (String[])m_parameters.keySet().toArray( new String[ 0 ] );
+        return (String[]) m_parameters.keySet().toArray( new String[0] );
     }
 
     /**
@@ -184,7 +194,6 @@ public class DefaultParameters implements Parameters, Serializable
 
     /**
      * Retrieve the <code>String</code> value of the specified parameter.
-     * <p />
      * If the specified parameter cannot be found, an exception is thrown.
      *
      * @param name the name of parameter
@@ -199,12 +208,15 @@ public class DefaultParameters implements Parameters, Serializable
             throw new ParameterException( "You cannot lookup a null parameter" );
         }
 
-        final String test = (String)m_parameters.get( name );
+        final String test = (String) m_parameters.get( name );
 
         if( null == test )
         {
-            throw new ParameterException( "The parameter '" + name
-                                          + "' does not contain a value" );
+            final String error = 
+              "The parameter '" 
+              + name
+              + "' does not contain a value";
+            throw new ParameterException( error );
         }
         else
         {
@@ -230,7 +242,7 @@ public class DefaultParameters implements Parameters, Serializable
             return defaultValue;
         }
 
-        final String test = (String)m_parameters.get( name );
+        final String test = (String) m_parameters.get( name );
 
         if( test == null )
         {
@@ -273,19 +285,18 @@ public class DefaultParameters implements Parameters, Serializable
         }
     }
 
-    /**
-     * Retrieve the <code>int</code> value of the specified parameter.
-     * <p />
-     * If the specified parameter cannot be found, an exception is thrown.
-     *
-     * Hexadecimal numbers begin with 0x, Octal numbers begin with 0o and binary
-     * numbers begin with 0b, all other values are assumed to be decimal.
-     *
-     * @param name the name of parameter
-     * @return the integer parameter type
-     * @throws ParameterException if the specified parameter cannot be found
-     *         or is not an Integer value
-     */
+   /**
+    * Retrieve the <code>int</code> value of the specified parameter.
+    * If the specified parameter cannot be found, an exception is thrown.
+    *
+    * Hexadecimal numbers begin with 0x, Octal numbers begin with 0o and binary
+    * numbers begin with 0b, all other values are assumed to be decimal.
+    *
+    * @param name the name of parameter
+    * @return the integer parameter type
+    * @throws ParameterException if the specified parameter cannot be found
+    *         or is not an Integer value
+    */
     public int getParameterAsInteger( final String name )
         throws ParameterException
     {
@@ -299,19 +310,19 @@ public class DefaultParameters implements Parameters, Serializable
         }
     }
 
-    /**
-     * Retrieve the <code>int</code> value of the specified parameter.
-     * <p />
-     * If the specified parameter cannot be found, <code>defaultValue</code>
-     * is returned.
-     *
-     * Hexadecimal numbers begin with 0x, Octal numbers begin with 0o and binary
-     * numbers begin with 0b, all other values are assumed to be decimal.
-     *
-     * @param name the name of parameter
-     * @param defaultValue value returned if parameter does not exist or is of wrong type
-     * @return the integer parameter type
-     */
+   /**
+    * Retrieve the <code>int</code> value of the specified parameter.
+    * <p />
+    * If the specified parameter cannot be found, <code>defaultValue</code>
+    * is returned.
+    *
+    * Hexadecimal numbers begin with 0x, Octal numbers begin with 0o and binary
+    * numbers begin with 0b, all other values are assumed to be decimal.
+    *
+    * @param name the name of parameter
+    * @param defaultValue value returned if parameter does not exist or is of wrong type
+    * @return the integer parameter type
+    */
     public int getParameterAsInteger( final String name, final int defaultValue )
     {
         try
@@ -321,7 +332,6 @@ public class DefaultParameters implements Parameters, Serializable
             {
                 return defaultValue;
             }
-
             return parseInt( value );
         }
         catch( final NumberFormatException e )
@@ -330,16 +340,16 @@ public class DefaultParameters implements Parameters, Serializable
         }
     }
 
-    /**
-     * Parses string represenation of the <code>long</code> value.
-     * <p />
-     * Hexadecimal numbers begin with 0x, Octal numbers begin with 0o and binary
-     * numbers begin with 0b, all other values are assumed to be decimal.
-     *
-     * @param value the value to parse
-     * @return the long value
-     * @throws NumberFormatException if the specified value can not be parsed
-     */
+   /**
+    * Parses string represenation of the <code>long</code> value.
+    * <p />
+    * Hexadecimal numbers begin with 0x, Octal numbers begin with 0o and binary
+    * numbers begin with 0b, all other values are assumed to be decimal.
+    *
+    * @param value the value to parse
+    * @return the long value
+    * @throws NumberFormatException if the specified value can not be parsed
+    */
     private long parseLong( final String value )
         throws NumberFormatException
     {
@@ -361,19 +371,19 @@ public class DefaultParameters implements Parameters, Serializable
         }
     }
 
-    /**
-     * Retrieve the <code>long</code> value of the specified parameter.
-     * <p />
-     * If the specified parameter cannot be found, an exception is thrown.
-     *
-     * Hexadecimal numbers begin with 0x, Octal numbers begin with 0o and binary
-     * numbers begin with 0b, all other values are assumed to be decimal.
-     *
-     * @param name the name of parameter
-     * @return the long parameter type
-     * @throws ParameterException  if the specified parameter cannot be found
-     *         or is not a Long value.
-     */
+   /**
+    * Retrieve the <code>long</code> value of the specified parameter.
+    * <p />
+    * If the specified parameter cannot be found, an exception is thrown.
+    *
+    * Hexadecimal numbers begin with 0x, Octal numbers begin with 0o and binary
+    * numbers begin with 0b, all other values are assumed to be decimal.
+    *
+    * @param name the name of parameter
+    * @return the long parameter type
+    * @throws ParameterException  if the specified parameter cannot be found
+    *         or is not a Long value.
+    */
     public long getParameterAsLong( final String name )
         throws ParameterException
     {
@@ -387,19 +397,19 @@ public class DefaultParameters implements Parameters, Serializable
         }
     }
 
-    /**
-     * Retrieve the <code>long</code> value of the specified parameter.
-     * <p />
-     * If the specified parameter cannot be found, <code>defaultValue</code>
-     * is returned.
-     *
-     * Hexadecimal numbers begin with 0x, Octal numbers begin with 0o and binary
-     * numbers begin with 0b, all other values are assumed to be decimal.
-     *
-     * @param name the name of parameter
-     * @param defaultValue value returned if parameter does not exist or is of wrong type
-     * @return the long parameter type
-     */
+   /**
+    * Retrieve the <code>long</code> value of the specified parameter.
+    * <p />
+    * If the specified parameter cannot be found, <code>defaultValue</code>
+    * is returned.
+    *
+    * Hexadecimal numbers begin with 0x, Octal numbers begin with 0o and binary
+    * numbers begin with 0b, all other values are assumed to be decimal.
+    *
+    * @param name the name of parameter
+    * @param defaultValue value returned if parameter does not exist or is of wrong type
+    * @return the long parameter type
+    */
     public long getParameterAsLong( final String name, final long defaultValue )
     {
         try
@@ -418,16 +428,15 @@ public class DefaultParameters implements Parameters, Serializable
         }
     }
 
-    /**
-     * Retrieve the <code>float</code> value of the specified parameter.
-     * <p />
-     * If the specified parameter cannot be found,  an exception is thrown.
-     *
-     * @param name the parameter name
-     * @return the value
-     * @throws ParameterException if the specified parameter cannot be found
-     *         or is not a Float value
-     */
+   /**
+    * Retrieve the <code>float</code> value of the specified parameter.
+    * If the specified parameter cannot be found,  an exception is thrown.
+    *
+    * @param name the parameter name
+    * @return the value
+    * @throws ParameterException if the specified parameter cannot be found
+    *         or is not a Float value
+    */
     public float getParameterAsFloat( final String name )
         throws ParameterException
     {
@@ -441,16 +450,16 @@ public class DefaultParameters implements Parameters, Serializable
         }
     }
 
-    /**
-     * Retrieve the <code>float</code> value of the specified parameter.
-     * <p />
-     * If the specified parameter cannot be found, <code>defaultValue</code>
-     * is returned.
-     *
-     * @param name the parameter name
-     * @param defaultValue the default value if parameter does not exist or is of wrong type
-     * @return the value
-     */
+   /**
+    * Retrieve the <code>float</code> value of the specified parameter.
+    * <p />
+    * If the specified parameter cannot be found, <code>defaultValue</code>
+    * is returned.
+    *
+    * @param name the parameter name
+    * @param defaultValue the default value if parameter does not exist or is of wrong type
+    * @return the value
+    */
     public float getParameterAsFloat( final String name, final float defaultValue )
     {
         try
@@ -460,7 +469,6 @@ public class DefaultParameters implements Parameters, Serializable
             {
                 return defaultValue;
             }
-
             return Float.parseFloat( value );
         }
         catch( final NumberFormatException pe )
@@ -469,21 +477,20 @@ public class DefaultParameters implements Parameters, Serializable
         }
     }
 
-    /**
-     * Retrieve the <code>boolean</code> value of the specified parameter.
-     * <p />
-     * If the specified parameter cannot be found, an exception is thrown.
-     *
-     * @param name the parameter name
-     * @return the value
-     * @throws ParameterException if an error occurs
-     * @throws ParameterException
-     */
+   /**
+    * Retrieve the <code>boolean</code> value of the specified parameter.
+    * <p />
+    * If the specified parameter cannot be found, an exception is thrown.
+    *
+    * @param name the parameter name
+    * @return the value
+    * @throws ParameterException if an error occurs
+    * @throws ParameterException
+    */
     public boolean getParameterAsBoolean( final String name )
         throws ParameterException
     {
         final String value = getParameter( name );
-
         if( value.equalsIgnoreCase( "true" ) )
         {
             return true;
@@ -498,16 +505,15 @@ public class DefaultParameters implements Parameters, Serializable
         }
     }
 
-    /**
-     * Retrieve the <code>boolean</code> value of the specified parameter.
-     * <p />
-     * If the specified parameter cannot be found, <code>defaultValue</code>
-     * is returned.
-     *
-     * @param name the parameter name
-     * @param defaultValue the default value if parameter does not exist or is of wrong type
-     * @return the value
-     */
+   /**
+    * Retrieve the <code>boolean</code> value of the specified parameter.
+    * If the specified parameter cannot be found, <code>defaultValue</code>
+    * is returned.
+    *
+    * @param name the parameter name
+    * @param defaultValue the default value if parameter does not exist or is of wrong type
+    * @return the value
+    */
     public boolean getParameterAsBoolean( final String name, final boolean defaultValue )
     {
         final String value = getParameter( name, null );
@@ -530,13 +536,13 @@ public class DefaultParameters implements Parameters, Serializable
         }
     }
 
-    /**
-     * Merge parameters from another <code>Parameters</code> instance
-     * into this.
-     *
-     * @param other the other Parameters
-     * @return This <code>Parameters</code> instance.
-     */
+   /**
+    * Merge parameters from another <code>Parameters</code> instance
+    * into this.
+    *
+    * @param other the other Parameters
+    * @return This <code>Parameters</code> instance.
+    */
     public Parameters merge( final Parameters other )
     {
         checkWriteable();
@@ -555,25 +561,20 @@ public class DefaultParameters implements Parameters, Serializable
             {
                 value = null;
             }
-
             setParameter( name, value );
         }
-
         return this;
     }
 
-    /** Converts the Parameters instance to a java.util.Properties instance.
-     * <p>
-     *   NOTE: Changes made to the returned Properties instance will not
-     *   affect the Parameters instance.
-     * </p>
-     * <p>
-     *   The Properties instance is created by cloning the underlying Map of
-     *   this Parameters instance.
-     * </p>
-     * @return a java.util.Properties instance that contains the same keys
-     *         and values as this Parameters instance.
-     */
+   /** 
+    * Converts the Parameters instance to a java.util.Properties instance.
+    * NOTE: Changes made to the returned Properties instance will not
+    * affect the Parameters instance.
+    * The Properties instance is created by cloning the underlying Map of
+    *   this Parameters instance.
+    * @return a java.util.Properties instance that contains the same keys
+    *   and values as this Parameters instance.
+    */
     public Properties toProperties()
     {
         Properties p = new Properties();
@@ -601,39 +602,43 @@ public class DefaultParameters implements Parameters, Serializable
     *
     * @param other the object to compare this parameters instance with
     *
-    * @since 4.3
-    *
     * @return true if this parameters instance is equal to the supplied object
     */
     public boolean equals( Object other )
     {
         if( null == other )
+        {
             return false;
-
+        }
         if( !( other instanceof Parameters ) )
+        {
             return false;
-
+        }
         Parameters p = (Parameters) other;
-
         String[] names = p.getNames();
         if( getNames().length != names.length )
+        {
            return false;
-
+        }
         String[] local = getNames();
         for( int i=0; i<local.length; i++ )
         {
-             String name = local[i];
-             if( !p.isParameter( name ) )
+            String name = local[i];
+            if( !p.isParameter( name ) )
+            {
                 return false;
-             try
-             {
-                  if( !getParameter( name ).equals( p.getParameter( name ) ) )
+            }
+            try
+            {
+                if( !getParameter( name ).equals( p.getParameter( name ) ) )
+                {
                     return false;
-             }
-             catch( ParameterException pe )
-             {
-                  return false;
-             }
+                }
+            }
+            catch( ParameterException pe )
+            {
+                return false;
+            }
         }
         return true;
     }
@@ -643,8 +648,6 @@ public class DefaultParameters implements Parameters, Serializable
     *
     * This method returns a semi-unique value for all instances, yet an
     * identical value for instances where equals() returns true.
-    *
-    * @since 4.3
     *
     * @return a hashed value of the instance
     */
@@ -662,22 +665,29 @@ public class DefaultParameters implements Parameters, Serializable
         return hash;
     }
 
+   /**
+    * Return a string representation of the parameters instance.
+    * @return the string value
+    */
     public String toString()
     {
         String s;
         if( m_readOnly )
+        {
             s = "Parameters[r/o]:";
+        }
         else
+        {
             s = "Parameters[r/w]:";
-
+        }
         return s + m_parameters;
     }
 
-    /**
-     * Checks is this <code>Parameters</code> object is writeable.
-     *
-     * @throws IllegalStateException if this <code>Parameters</code> object is read-only
-     */
+   /**
+    * Checks is this <code>Parameters</code> object is writeable.
+    *
+    * @throws IllegalStateException if this <code>Parameters</code> object is read-only
+    */
     protected final void checkWriteable()
         throws IllegalStateException
     {
@@ -687,43 +697,41 @@ public class DefaultParameters implements Parameters, Serializable
         }
     }
 
-    /**
-     * Create a <code>Parameters</code> object from a <code>Configuration</code>
-     * object.  This acts exactly like the following method call:
-     * <pre>
-     *     Parameters.fromConfiguration(configuration, "parameter");
-     * </pre>
-     *
-     * @param configuration the Configuration
-     * @return This <code>Parameters</code> instance.
-     * @throws ConfigurationException if an error occurs
-     */
+   /**
+    * Create a <code>Parameters</code> object from a <code>Configuration</code>
+    * object.  This acts exactly like the following method call:
+    * <pre>
+    *     Parameters.fromConfiguration(configuration, "parameter");
+    * </pre>
+    *
+    * @param configuration the Configuration
+    * @return This <code>Parameters</code> instance.
+    * @throws ParameterException if an error occurs
+    */
     public static Parameters fromConfiguration( final Configuration configuration )
         throws ParameterException
     {
         return fromConfiguration( configuration, "parameter" );
     }
 
-    /**
-     * Create a <code>Parameters</code> object from a <code>Configuration</code>
-     * object using the supplied element name.
-     *
-     * @param configuration the Configuration
-     * @param elementName   the element name for the parameters
-     * @return This <code>Parameters</code> instance.
-     * @throws ConfigurationException if an error occurs
-     * @throws NullPointerException if the configuration argument is null.
-     * @since 4.1
-     */
-    public static Parameters fromConfiguration( final Configuration configuration,
-                                                final String elementName )
+   /**
+    * Create a <code>Parameters</code> object from a <code>Configuration</code>
+    * object using the supplied element name.
+    *
+    * @param configuration the Configuration
+    * @param elementName   the element name for the parameters
+    * @return This <code>Parameters</code> instance.
+    * @throws ParameterException if an error occurs
+    * @throws NullPointerException if the configuration argument is null.
+    */
+    public static Parameters fromConfiguration( 
+      final Configuration configuration, final String elementName )
         throws ParameterException, NullPointerException 
     {
         if( null == configuration )
         {
             throw new NullPointerException( "configuration" );
         }
-
         final Configuration[] parameters = configuration.getChildren( elementName );
         final Map params = new HashMap();
         for( int i = 0; i < parameters.length; i++ )
@@ -739,30 +747,29 @@ public class DefaultParameters implements Parameters, Serializable
                 throw new ParameterException( "Cannot process Configurable",  e );
             }
         }
-
         return new DefaultParameters( params, true );
     }
 
-    /**
-     * Create a <code>Parameters</code> object from a <code>Properties</code>
-     * object.
-     *
-     * @param properties the Properties
-     * @return This <code>Parameters</code> instance.
-     */
+   /**
+    * Create a <code>Parameters</code> object from a <code>Properties</code>
+    * object.
+    *
+    * @param properties the Properties
+    * @return This <code>Parameters</code> instance.
+    */
     public static Parameters fromProperties( final Properties properties )
     {
         final Map parameters = mapFromProperties( properties );
         return new DefaultParameters( parameters, true );
     }
 
-    /**
-     * Create a <code>Parameters</code> object from a <code>Properties</code>
-     * object.
-     *
-     * @param properties the Properties
-     * @return This <code>Parameters</code> instance.
-     */
+   /**
+    * Create a <code>Parameters</code> object from a <code>Properties</code>
+    * object.
+    *
+    * @param properties the Properties
+    * @return This <code>Parameters</code> instance.
+    */
     private static Map mapFromProperties( final Properties properties )
     {
         final Map parameters = new HashMap();
@@ -776,13 +783,13 @@ public class DefaultParameters implements Parameters, Serializable
         return parameters;
     }
 
-    /**
-     * Creates a <code>java.util.Properties</code> object from an Avalon
-     * Parameters object.
-     *
-     * @param params a <code>Parameters</code> instance
-     * @return a <code>Properties</code> instance
-     */
+   /**
+    * Creates a <code>java.util.Properties</code> object from an Avalon
+    *Parameters object.
+    *
+    * @param params a <code>Parameters</code> instance
+    * @return a <code>Properties</code> instance
+    */
     public static Properties toProperties( final Parameters params )
     {
         final Properties properties = new Properties();
@@ -793,7 +800,6 @@ public class DefaultParameters implements Parameters, Serializable
             // "" is the default value, since getNames() proves it will exist
             properties.setProperty( names[ i ], params.getParameter( names[ i ], "" ) );
         }
-
         return properties;
     }
 }

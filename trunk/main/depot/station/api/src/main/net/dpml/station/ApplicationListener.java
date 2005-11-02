@@ -29,8 +29,9 @@ import java.util.EventListener;
 public interface ApplicationListener extends EventListener, Remote
 {
    /**
-    * Notify the listener of the addition of a new application profile.
-    * @param event the registry event
+    * Notify the listener of an application state change.
+    * @param event the application event
+    * @exception RemoteException if a remote exception occurs
     */
     void applicationStateChanged( ApplicationEvent event ) throws RemoteException;
 

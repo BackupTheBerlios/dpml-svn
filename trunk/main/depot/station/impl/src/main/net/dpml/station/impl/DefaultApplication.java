@@ -7,13 +7,9 @@ import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URI;
-import java.net.URL;
-import java.rmi.Remote;
 import java.rmi.ConnectException;
 import java.rmi.RemoteException;
 import java.rmi.ServerException;
-import java.rmi.server.ObjID;
-import java.rmi.server.UnicastRemoteObject;
 import java.util.Enumeration;
 import java.util.ArrayList;
 import java.util.Properties;
@@ -34,13 +30,11 @@ import net.dpml.part.Context;
 
 import net.dpml.transit.Transit;
 import net.dpml.transit.Logger;
-import net.dpml.transit.model.Connection;
-import net.dpml.transit.model.DefaultModel;
 import net.dpml.transit.Environment;
 import net.dpml.transit.PID;
 
 /**
- * Default implementation of a remote controlled application.
+ * Default implementation of a remote application controller.
  */
 public class DefaultApplication extends EventProducer implements Application
 {
@@ -54,6 +48,13 @@ public class DefaultApplication extends EventProducer implements Application
     
     private final Context m_context;
 
+   /**
+    * Creation of a new default applicationn instance.
+    * @param logger the assigned logging channel
+    * @param profile the application profile
+    * @param path the application path argument (need more details here)
+    * @exception Exception if an error occurs in model establishment
+    */
     public DefaultApplication( 
       Logger logger, ApplicationProfile profile, String path ) throws Exception
     {
@@ -68,61 +69,69 @@ public class DefaultApplication extends EventProducer implements Application
         m_context = handler.createContext( part );
     }
 
+   /**
+    * Add an application listener.
+    * @param listener the listener to add
+    */
     public void addApplicationListener( ApplicationListener listener )
     {
         super.addListener( listener );
     }
  
+    /**
+    * Remove an application listener.
+    * @param listener the listener to remove
+    */
     public void removeApplicationListener( ApplicationListener listener )
     {
         super.removeListener( listener );
     }
 
+   /**
+    * Return the application context. 
+    * (useage needs to be checked)
+    * @return the application context
+    */
     public Context getContext()
     {
         return m_context;
     }
 
+   /**
+    * Return the profile associated with this application 
+    * (useage needs to be checked - is this really neeeded)
+    * @return the application context
+    */
     public ApplicationProfile getProfile()
     {
         return m_profile;
     }
 
-    private long getStartupTimeout()
-    {
-        try
-        {
-            return m_profile.getStartupTimeout() * 1000000;
-        }
-        catch( RemoteException e )
-        {
-            return ApplicationProfile.DEFAULT_STARTUP_TIMEOUT * 1000000;
-        }
-    }
-
-    private long getShutdownTimeout()
-    {
-        try
-        {
-            return m_profile.getShutdownTimeout() * 1000000;
-        }
-        catch( RemoteException e )
-        {
-            return ApplicationProfile.DEFAULT_SHUTDOWN_TIMEOUT * 1000000;
-        }
-    }
-
+   /**
+    * Return the process identifier of the process within which the 
+    * application is running.
+    * @return the pid
+    */
     public PID getPID()
     {
         return m_pid;
     }
 
+   /**
+    * Method invoked by a process following establishment signalling
+    * the process id.
+    * @param pid the process identifier
+    */
     public void handleCallback( PID pid )
     {
         getLogger().info( "incomming callback from process " + pid );
         setState( Application.RUNNING, pid );
     }
 
+   /**
+    * Start the application.
+    * @exception RemoteException if a remote error occurs
+    */
     public synchronized void start() throws RemoteException
     {
         if( m_profile.getStartupPolicy() == ApplicationProfile.DISABLED ) 
@@ -213,33 +222,44 @@ public class DefaultApplication extends EventProducer implements Application
         }
     }
 
-    // TODO: change this to an elegent shutdown request and only 
-    // use Process.destroy as a result of a request timeout
-
+   /**
+    * Stop the application.
+    */
     public synchronized void stop()
     {
         handleStop( true );
     }
 
-    private void handleStop( boolean external )
-    {
-        setState( Application.STOPPING );
-        if( null != m_process )
-        {
-            m_process.destroy();
-        }
-        setState( Application.READY );
-    }
-
+   /**
+    * Restart the application.
+    * @exception RemoteException if a rmote error occurs
+    */
     public synchronized void restart() throws RemoteException
     {
         handleStop( true );
         start();
     }
 
+   /**
+    * Return the cuirrent deployment state of the process.
+    * @return the current process state
+    */
     public State getState()
     {
         return m_state;
+    }
+
+    private void handleStop( boolean external )
+    {
+        // TODO: change this to an elegent shutdown request and only 
+        // use Process.destroy as a result of a request timeout
+        
+        setState( Application.STOPPING );
+        if( null != m_process )
+        {
+            m_process.destroy();
+        }
+        setState( Application.READY );
     }
 
     // TODO: add state listeners
@@ -316,7 +336,7 @@ public class DefaultApplication extends EventProducer implements Application
             list.add( "-Djava.security.policy=" + policy );
             list.add( "net.dpml.depot.Main" );
             list.add( "-exec" );
-            list.add( "-m_path" );
+            list.add( m_path );
         }
 
         Properties properties = m_profile.getSystemProperties();
@@ -385,6 +405,30 @@ public class DefaultApplication extends EventProducer implements Application
                     getLogger().error( error, e );
                 }
             }
+        }
+    }
+
+    private long getStartupTimeout()
+    {
+        try
+        {
+            return m_profile.getStartupTimeout() * 1000000;
+        }
+        catch( RemoteException e )
+        {
+            return ApplicationProfile.DEFAULT_STARTUP_TIMEOUT * 1000000;
+        }
+    }
+
+    private long getShutdownTimeout()
+    {
+        try
+        {
+            return m_profile.getShutdownTimeout() * 1000000;
+        }
+        catch( RemoteException e )
+        {
+            return ApplicationProfile.DEFAULT_SHUTDOWN_TIMEOUT * 1000000;
         }
     }
 

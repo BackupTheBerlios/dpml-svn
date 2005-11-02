@@ -24,7 +24,8 @@ import java.net.URI;
  * Interface describing a potential operation invocation exposed by 
  * an active state.
  * 
- * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public interface Operation extends Action
 {  
@@ -35,6 +36,8 @@ public interface Operation extends Action
     * <ol>
     *  <li>method:[method-name]
     * </ol>
+    *
+    * @return the handler uri
     */
     URI getHandlerURI();
 }

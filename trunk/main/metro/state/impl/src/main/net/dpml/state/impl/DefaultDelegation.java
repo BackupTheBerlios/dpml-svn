@@ -26,12 +26,17 @@ import net.dpml.state.Delegation;
 /**
  * Default implementation of delegating action.
  * 
- * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public class DefaultDelegation implements Delegation, Serializable
 {
     private final URI m_id;
     
+   /**
+    * Creation of a new delegation action.
+    * @param uri the delegation target
+    */
     public DefaultDelegation( final URI uri )
     {
         if( null == uri )
@@ -41,16 +46,29 @@ public class DefaultDelegation implements Delegation, Serializable
         m_id = uri;
     }
     
+   /**
+    * Return the action name.
+    * @return the name
+    */
     public String getName()
     {
         return "delegate:"+ m_id;
     }
     
+   /**
+    * Return a uri declararing the delegation target.
+    * @return the delegation uri
+    */
     public URI getURI()
     {
         return m_id;
     }
     
+   /**
+    * Compare this object to another for equality.
+    * @param other the other object
+    * @return true if the object is equal to this object
+    */
     public boolean equals( Object other )
     {
         if( null == other )
@@ -60,14 +78,7 @@ public class DefaultDelegation implements Delegation, Serializable
         else if( other instanceof DefaultDelegation )
         {
             DefaultDelegation action = (DefaultDelegation) other;
-            if( !m_id.equals( action.getURI() ) )
-            {
-                return false;
-            }
-            else
-            {
-                return true;
-            }
+            return m_id.equals( action.getURI() );
         }
         else
         {
@@ -75,11 +86,19 @@ public class DefaultDelegation implements Delegation, Serializable
         }
     }
     
+   /**
+    * Compute the hashcode for this instance.
+    * @return the hashcode value
+    */
     public int hashCode()
     {
         return m_id.hashCode();
     }
 
+   /**
+    * Return a string representation of the instance.
+    * @return the string value
+    */
     public String toString()
     {
         return "action:" + m_id;

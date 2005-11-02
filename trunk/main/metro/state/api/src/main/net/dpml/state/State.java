@@ -18,30 +18,67 @@
 
 package net.dpml.state;
 
-import java.net.URI;
-
 /**
  * Interface describing an application state.
  * 
- * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public interface State
-{    
+{   
+   /**
+    * Return the name of the state.
+    * @return the state name
+    */
     String getName();
     
+   /**
+    * Set the parent state. 
+    * @param state the parent state
+    */
     void setParent( State state );
 
+   /**
+    * Return the parent state to this state or null if this is 
+    * the root of a state graph.
+    * @return the parent state
+    */
     State getParent();
     
+   /**
+    * Return the state path.  The path is composed of a sequence of 
+    * states from the root to this state.
+    * @return the state path
+    */
     State[] getStatePath();
     
+   /**
+    * Return the substates within this state.
+    * @return the substate array
+    */
     State[] getStates();
     
+   /**
+    * Return the array of triggers associated with the state.
+    * @return the trigger array
+    */
     Trigger[] getTriggers();
     
+   /**
+    * Return the array of transtions associated with the state.
+    * @return the transition array
+    */
     Transition[] getTransitions();
     
+   /**
+    * Return the array of operations associated with the state.
+    * @return the operation array
+    */
     Operation[] getOperations();
     
+   /**
+    * Test is the state is a terminal state.
+    * @return true if terminal
+    */
     boolean isTerminal();
 }

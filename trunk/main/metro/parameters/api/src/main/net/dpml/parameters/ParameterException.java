@@ -20,8 +20,8 @@ package net.dpml.parameters;
  * Thrown when a <code>Parameterizable</code> component cannot be parameterized
  * properly, or if a value cannot be retrieved properly.
  *
- * @author <a href="mailto:dev-dpml@lists.ibiblio.org">The Digital Product Meta Library</a>
- * @version $Id: ParameterException.java 259 2004-10-30 07:24:40Z mcconnell $
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public final class ParameterException
     extends Exception
@@ -30,8 +30,6 @@ public final class ParameterException
     * Serial version identifier.
     */
     static final long serialVersionUID = 1L;
-
-    private final Throwable m_cause;
 
     /**
      * Construct a new <code>ParameterException</code> instance.
@@ -51,12 +49,7 @@ public final class ParameterException
      */
     public ParameterException( final String message, final Throwable throwable )
     {
-        super( message );
-        m_cause = throwable;
+        super( message, throwable );
     }
 
-    public Throwable getCause()
-    {
-        return m_cause;
-    }
 }

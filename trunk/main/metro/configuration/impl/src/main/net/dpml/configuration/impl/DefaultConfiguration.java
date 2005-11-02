@@ -29,8 +29,8 @@ import net.dpml.configuration.ConfigurationException;
 /**
  * This is the default <code>Configuration</code> implementation.
  *
- * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
- * @version $Id: DefaultConfiguration.java 1940 2005-03-04 05:31:13Z niclas $
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public class DefaultConfiguration
     extends AbstractConfiguration
@@ -41,10 +41,10 @@ public class DefaultConfiguration
     */
     static final long serialVersionUID = 1L;
 
-    /**
-     * An empty (length zero) array of configuration objects.
-     */
-    protected static final Configuration[] EMPTY_ARRAY = new Configuration[ 0 ];
+   /**
+    * An empty (length zero) array of configuration objects.
+    */
+    protected static final Configuration[] EMPTY_ARRAY = new Configuration[0];
 
     private final String m_name;
     private final String m_location;
@@ -55,21 +55,24 @@ public class DefaultConfiguration
     private String m_value;
     private boolean m_readOnly;
 
-    /**
-     * Shallow copy constructor, suitable for creating a writable clone of
-     * a read-only configuration. To modify children, use <code>getChild()</code>,
-     * <code>removeChild()</code> and <code>addChild()</code>.
-     *
-     * @param config the <code>Configuration</code> to copy
-     * @throws ConfigurationException if an error occurs when copying
-     */
+   /**
+    * Shallow copy constructor, suitable for creating a writable clone of
+    * a read-only configuration. To modify children, use <code>getChild()</code>,
+    * <code>removeChild()</code> and <code>addChild()</code>.
+    *
+    * @param config the <code>Configuration</code> to copy
+    * @throws ConfigurationException if an error occurs when copying
+    */
     public DefaultConfiguration( Configuration config ) throws ConfigurationException
     {
-        this( config.getName(), config.getLocation(), config.getNamespace(),
-            ( (config instanceof AbstractConfiguration) ? ((AbstractConfiguration)config).getPrefix() : "") );
+        this( 
+          config.getName(), 
+          config.getLocation(), 
+          config.getNamespace(),
+          resolvePrefix( config ) );
         addAll( config );
     }
-
+    
     /**
      * Create a new <code>DefaultConfiguration</code> instance.
      * @param name a <code>String</code> value
@@ -98,7 +101,6 @@ public class DefaultConfiguration
      * @param prefix A short string prefixed to element names, associating
      * elements with a longer namespace string. Should not be null; use "" if no
      * namespace.
-     * @since 4.1
      */
     public DefaultConfiguration( final String name,
         final String location,
@@ -120,7 +122,11 @@ public class DefaultConfiguration
      * @param prefix A short string prefixed to element names, associating
      * elements with a longer namespace string. Should not be null; use "" if no
      * namespace.
-     * @since 4.1
+     * @param value configuration value
+     * @param attributes configuration attributes 
+     * @param children subsidiary configuration instances array
+     * @param readonly if true the configuration will be immutable
+     * @exception ConfigurationException if an error occurs in configuration instance construction
      */
     public DefaultConfiguration( 
         final String name,
@@ -143,7 +149,7 @@ public class DefaultConfiguration
         {
             String property = (String) names.nextElement();
             String v = attributes.getProperty( property );
-            addAttribute( property, v );
+            setAttribute( property, v );
         }
         for( int i=0; i <children.length; i++ )
         {
@@ -266,11 +272,11 @@ public class DefaultConfiguration
     {
         if( null == m_attributes )
         {
-            return new String[ 0 ];
+            return new String[0];
         }
         else
         {
-            return (String[])m_attributes.keySet().toArray( new String[ 0 ] );
+            return (String[]) m_attributes.keySet().toArray( new String[0] );
         }
     }
 
@@ -308,11 +314,11 @@ public class DefaultConfiguration
     {
         if( null == m_children )
         {
-            return new Configuration[ 0 ];
+            return new Configuration[0];
         }
         else
         {
-            return (Configuration[])m_children.toArray( new Configuration[ 0 ] );
+            return (Configuration[]) m_children.toArray( new Configuration[0] );
         }
     }
 
@@ -327,20 +333,18 @@ public class DefaultConfiguration
     public String getAttribute( final String name )
         throws ConfigurationException
     {
-        final String value =
-            ( null != m_attributes ) ? (String)m_attributes.get( name ) : null;
-
-        if( null != value )
+        if( null != m_attributes )
         {
-            return value;
+            final String value = (String) m_attributes.get( name );
+            if( null != value )
+            {
+                return value;
+            }
         }
-        else
-        {
-            throw new ConfigurationException(
-                "No attribute named \"" + name + "\" is "
-                + "associated with the configuration element \""
-                + getName() + "\" at " + getLocation() );
-        }
+        throw new ConfigurationException(
+          "No attribute named \"" + name + "\" is "
+          + "associated with the configuration element \""
+          + getName() + "\" at " + getLocation() );
     }
 
     /**
@@ -357,7 +361,7 @@ public class DefaultConfiguration
             final int size = m_children.size();
             for( int i = 0; i < size; i++ )
             {
-                final Configuration configuration = (Configuration)m_children.get( i );
+                final Configuration configuration = (Configuration) m_children.get( i );
                 if( name.equals( configuration.getName() ) )
                 {
                     return configuration;
@@ -367,7 +371,8 @@ public class DefaultConfiguration
 
         if( createNew )
         {
-            return new DefaultConfiguration( name, "<generated>" + getLocation(), m_namespace, m_prefix );
+            return new DefaultConfiguration( 
+              name, "<generated>" + getLocation(), m_namespace, m_prefix );
         }
         else
         {
@@ -388,7 +393,7 @@ public class DefaultConfiguration
     {
         if( null == m_children )
         {
-            return new Configuration[ 0 ];
+            return new Configuration[0];
         }
         else
         {
@@ -397,14 +402,14 @@ public class DefaultConfiguration
 
             for( int i = 0; i < size; i++ )
             {
-                final Configuration configuration = (Configuration)m_children.get( i );
+                final Configuration configuration = (Configuration) m_children.get( i );
                 if( name.equals( configuration.getName() ) )
                 {
                     children.add( configuration );
                 }
             }
 
-            return (Configuration[])children.toArray( new Configuration[ 0 ] );
+            return (Configuration[]) children.toArray( new Configuration[0] );
         }
     }
 
@@ -552,39 +557,16 @@ public class DefaultConfiguration
     }
 
     /**
-     * Add an attribute to this configuration element, returning its old
-     * value or <b>null</b>.
-     *
-     * @param name a <code>String</code> value
-     * @param value a <code>String</code> value
-     * @return a <code>String</code> value
-     * @deprecated Use setAttribute() instead
-     */
-    public String addAttribute( final String name, String value )
-    {
-        checkWriteable();
-
-        if( null == m_attributes )
-        {
-            m_attributes = new HashMap();
-        }
-
-        return (String)m_attributes.put( name, value );
-    }
-
-    /**
      * Add a child <code>Configuration</code> to this configuration element.
      * @param configuration a <code>Configuration</code> value
      */
     public void addChild( final Configuration configuration )
     {
         checkWriteable();
-
         if( null == m_children )
         {
             m_children = new ArrayList();
         }
-
         m_children.add( configuration );
     }
 
@@ -598,7 +580,6 @@ public class DefaultConfiguration
     public void addAll( final Configuration other )
     {
         checkWriteable();
-
         setValue( other.getValue( null ) );
         addAllAttributes( other );
         addAllChildren( other );
@@ -613,7 +594,6 @@ public class DefaultConfiguration
     public void addAllAttributes( final Configuration other )
     {
         checkWriteable();
-
         final String[] attributes = other.getAttributeNames();
         for( int i = 0; i < attributes.length; i++ )
         {
@@ -632,7 +612,6 @@ public class DefaultConfiguration
     public void addAllChildren( final Configuration other )
     {
         checkWriteable();
-
         final Configuration[] children = other.getChildren();
         for( int i = 0; i < children.length; i++ )
         {
@@ -647,7 +626,6 @@ public class DefaultConfiguration
     public void removeChild( final Configuration configuration )
     {
         checkWriteable();
-
         if( null == m_children )
         {
             return;
@@ -665,13 +643,11 @@ public class DefaultConfiguration
         {
             return 0;
         }
-
         return m_children.size();
     }
 
     /**
      * Make this configuration read-only.
-     *
      */
     public void makeReadOnly()
     {
@@ -679,9 +655,9 @@ public class DefaultConfiguration
     }
 
     /**
-     * heck if this configuration is writeable.
+     * Check if this configuration is writeable.
      *
-     * @throws IllegalStateException if this configuration s read-only
+     * @throws IllegalStateException if this configuration is read-only
      */
     protected final void checkWriteable()
         throws IllegalStateException
@@ -694,7 +670,8 @@ public class DefaultConfiguration
     }
 
     /**
-     * Returns true iff this DefaultConfiguration has been made read-only.
+     * Returns true if this DefaultConfiguration has been made read-only.
+     * @return the readonly state of the configuration
      */
     protected final boolean isReadOnly()
     {
@@ -707,47 +684,60 @@ public class DefaultConfiguration
      * (which isn't really mutable), the child is cast to MutableConfiguration and returned.
      * If not, the child is replaced in the m_children array with a new writable DefaultConfiguration
      * that is a shallow copy of the child, and the new child is returned.
+     * @param child the configuration
+     * @return the mutable configuration
+    * @exception ConfigurationException if a configuration error occurs
      */
     private MutableConfiguration toMutable( Configuration child ) throws ConfigurationException
     {
-        if (child instanceof MutableConfiguration &&
-            !( child instanceof DefaultConfiguration && ((DefaultConfiguration) child).isReadOnly() ))
+        if(
+          child instanceof MutableConfiguration 
+          && !( child instanceof DefaultConfiguration && ( (DefaultConfiguration) child ).isReadOnly() ) )
         {
             // Child is already mutable - return it.
             return (MutableConfiguration) child;
         }
-
         // Child isn't mutable. (This is a mutating operation, so let's check
         // if we're writable.)
         checkWriteable();
-
         DefaultConfiguration config = new DefaultConfiguration( child );
-
         // Replace the old child.
-        for( int i = 0; i < m_children.size(); i++)
+        for( int i=0; i<m_children.size(); i++ )
         {
-            if( m_children.get(i) == child )
+            if( m_children.get( i ) == child )
             {
                 m_children.set( i, config );
                 break;
             }
         }
-
         return config;
     }
 
+   /**
+    * Return a mutable configuration.
+    * @param name the child configuration element name
+    * @return the configuration child as a mutable instance
+    * @exception ConfigurationException if a configuration error occurs
+    */
     public MutableConfiguration getMutableChild( final String name ) throws ConfigurationException
     {
         return getMutableChild( name, true );
     }
 
-    public MutableConfiguration getMutableChild( final String name, boolean autoCreate ) throws ConfigurationException
+   /**
+    * Return a mutable configuration.
+    * @param name the child configuration element name
+    * @param autoCreate if true automatically create the instance
+    * @return the configuration child as a mutable instance
+    * @exception ConfigurationException if a configuration error occurs
+    */
+    public MutableConfiguration getMutableChild( final String name, boolean autoCreate ) 
+      throws ConfigurationException
     {
         Configuration child = getChild( name, false );
         if( child == null )
         {
             // No child. Create?
-
             if( autoCreate )
             {
                 DefaultConfiguration config = new DefaultConfiguration( name, "-" );
@@ -759,53 +749,60 @@ public class DefaultConfiguration
                 return null;
             }
         }
-
         // Child exists
         return toMutable( child );
     }
 
+   /**
+    * Return the children as a mutable configuration instances.
+    * @return the configuration childen as mutable instances
+    * @exception ConfigurationException if a configuration error occurs
+    */
     public MutableConfiguration[] getMutableChildren() throws ConfigurationException
     {
         if( null == m_children )
         {
-            return new MutableConfiguration[ 0 ];
+            return new MutableConfiguration[0];
         }
         else
         {
             final ArrayList children = new ArrayList();
             final int size = m_children.size();
-
-            for( int i = 0; i < size; i++ )
+            for( int i = 0; i<size; i++ )
             {
-                final Configuration configuration = (Configuration)m_children.get( i );
+                final Configuration configuration = (Configuration) m_children.get( i );
                 children.add( toMutable( configuration ) );
             }
-
-            return (MutableConfiguration[])children.toArray( new MutableConfiguration[ 0 ] );
+            return (MutableConfiguration[]) children.toArray( new MutableConfiguration[0] );
         }
     }
 
+   /**
+    * Return a mutable configuration array.
+    * @param name the child configuration name to match
+    * @return the matching configuration children as a mutable instances
+    * @exception ConfigurationException if a configuration error occurs
+    */
     public MutableConfiguration[] getMutableChildren( final String name ) throws ConfigurationException
     {
         if( null == m_children )
         {
-            return new MutableConfiguration[ 0 ];
+            return new MutableConfiguration[0];
         }
         else
         {
             final ArrayList children = new ArrayList();
             final int size = m_children.size();
 
-            for( int i = 0; i < size; i++ )
+            for( int i = 0; i<size; i++ )
             {
-                final Configuration configuration = (Configuration)m_children.get( i );
+                final Configuration configuration = (Configuration) m_children.get( i );
                 if( name.equals( configuration.getName() ) )
                 {
                     children.add( toMutable( configuration ) );
                 }
             }
-
-            return (MutableConfiguration[])children.toArray( new MutableConfiguration[ 0 ] );
+            return (MutableConfiguration[]) children.toArray( new MutableConfiguration[0] );
         }
     }
 
@@ -818,45 +815,56 @@ public class DefaultConfiguration
     public boolean equals( Object other )
     {
         if( other == null )
-            return false;
-        if( !( other instanceof DefaultConfiguration ) )
         {
-            // Niclas: It is not possible to validate equality against any
-            //         Configuration implementation, as it would be
-            //         impossible to get the hashCode() method return the
-            //         same value for two instances evaluating equal().
-            //         I.e. If we were to do equality at API level, we would be
-            //         breaking the equals()/hashCode() semantic contract.
             return false;
         }
-
+        if( !( other instanceof DefaultConfiguration ) )
+        {
+            return false;
+        }
         DefaultConfiguration c = (DefaultConfiguration) other;
-
         if( m_readOnly ^ c.m_readOnly )
+        {
             return false;
-
+        }
         if( check( m_name, c.m_name ) )
+        {
             return false;
+        }
         if( check( m_location, c.m_location ) )
+        {
             return false;
+        }
         if( check( m_namespace, c.m_namespace ) )
+        {
             return false;
+        }
         if( check( m_prefix, c.m_prefix ) )
+        {
             return false;
+        }
         if( check( m_value, c.m_value ) )
+        {
             return false;
+        }
         if( check( m_attributes, c.m_attributes ) )
+        {
             return false;
+        }
         if( check( m_children, c.m_children ) )
+        {
             return false;
+        }
         return true;
     }
 
     private boolean check( Object one, Object two )
     {
         if( one == null )
+        {
             return two != null;
-        return ! one.equals( two );
+        }
+        return !one.equals( two );
     }
 
     /**
@@ -868,26 +876,56 @@ public class DefaultConfiguration
     {
         int hash = m_prefix.hashCode();
         if( m_name != null )
+        {
             hash ^= m_name.hashCode();
+        }
         hash = hash + 232342127;
         if( m_location != null )
+        {
             hash ^= m_location.hashCode();
+        }
         hash = hash - 887563456;
         if( m_namespace != null )
+        {
             hash ^= m_namespace.hashCode();
+        }
         hash = hash + 643245223;
         if( m_attributes != null )
+        {
             hash ^= m_attributes.hashCode();
+        }
         hash = hash - 783784737;
         if( m_children != null )
+        {
             hash ^= m_children.hashCode();
+        }
         hash = hash + 873198727;
         if( m_value != null )
+        {
             hash ^= m_value.hashCode();
+        }
         if( m_readOnly )
+        {
             hash = hash - 212134347;
+        }
         else
+        {
             hash = hash + 134123432;
+        }
         return hash;
     }
+
+    private static String resolvePrefix( Configuration config ) throws ConfigurationException
+    {
+        if( config instanceof AbstractConfiguration )
+        {
+            AbstractConfiguration conf = (AbstractConfiguration) config;
+            return conf.getPrefix();
+        }
+        else
+        {
+            return "";
+        }
+    }
+
 }

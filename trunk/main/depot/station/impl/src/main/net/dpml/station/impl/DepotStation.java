@@ -2,34 +2,17 @@
 package net.dpml.station.impl; 
 
 import java.net.URI;
-import java.net.URL;
-import java.rmi.Remote;
-import java.rmi.Naming;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.rmi.ServerException;
-import java.rmi.MarshalledObject;
-import java.rmi.NotBoundException;
-import java.rmi.AccessException;
 import java.rmi.AlreadyBoundException;
-import java.rmi.activation.ActivationSystem;
-import java.rmi.activation.ActivationDesc;
-import java.rmi.activation.ActivationGroup;
-import java.rmi.activation.ActivationGroupDesc;
-import java.rmi.activation.ActivationGroupDesc.CommandEnvironment;
-import java.rmi.activation.ActivationGroupID;
-import java.rmi.activation.Activatable;
 import java.rmi.registry.Registry;
 import java.rmi.registry.LocateRegistry;
 import java.util.Hashtable;
-import java.util.LinkedList;
-import java.util.Properties;
 
 import net.dpml.transit.Transit;
 import net.dpml.transit.Repository;
-import net.dpml.transit.PID;
 import net.dpml.transit.Logger;
-import net.dpml.transit.model.TransitModel;
 import net.dpml.transit.model.UnknownKeyException;
 import net.dpml.transit.model.DuplicateKeyException;
 import net.dpml.transit.model.Connection;
@@ -38,7 +21,6 @@ import net.dpml.transit.util.CLIHelper;
 import net.dpml.profile.ApplicationProfile;
 import net.dpml.profile.ApplicationProfile.StartupPolicy;
 import net.dpml.profile.ApplicationRegistry;
-import net.dpml.profile.ProfileException;
 
 import net.dpml.depot.GeneralException;
 import net.dpml.depot.Handler;
@@ -65,7 +47,7 @@ public class DepotStation extends UnicastRemoteObject implements Station, Handle
     *
     * @param logger the assigned logging channel
     * @param args supplimentary command line arguments
-    * @exception RemoteException if a remote exception occurs during establishment
+    * @exception Exception if a exception occurs during establishment
     */
     public DepotStation( Logger logger, String[] args ) throws Exception
     {
@@ -80,7 +62,8 @@ public class DepotStation extends UnicastRemoteObject implements Station, Handle
             ClassLoader classloader = DepotStation.class.getClassLoader();
             Thread.currentThread().setContextClassLoader( classloader );
             URI uri = new URI( DEPOT_PROFILE_URI );
-            m_model = (ApplicationRegistry) repository.getPlugin( classloader, uri, new Object[]{ logger } );
+            m_model = (ApplicationRegistry) repository.getPlugin( 
+              classloader, uri, new Object[]{logger} );
 
             //
             // startup the general registry
@@ -197,6 +180,9 @@ public class DepotStation extends UnicastRemoteObject implements Station, Handle
         }
     }
 
+   /**
+    * Terminate the station.
+    */
     public void destroy()
     {
         String[] keys = (String[]) m_table.keySet().toArray( new String[0] );
@@ -215,22 +201,44 @@ public class DepotStation extends UnicastRemoteObject implements Station, Handle
         }
     }
 
+   /**
+    * Return the application registry.
+    * @return the registry
+    */
     public ApplicationRegistry getApplicationRegistry()  
     {
         return m_model;
     }
 
+   /**
+    * Add an application to the station.
+    * @param profile the application profile
+    * @return the application
+    * @exception DuplicateKeyException if an application is already assigned to the key
+    * @exception RemoteException if a remote error occurs
+    */
     public Application addApplication( ApplicationProfile profile )
       throws DuplicateKeyException, RemoteException
     {
         throw new UnsupportedOperationException( "addApplication/1" );
     }
 
+   /**
+    * Remove an application from the station.
+    * @param key the application key
+    * @exception UnknownKeyException if the key is unknown
+    * @exception RemoteException if a remote error occurs
+    */
     public void removeApplication( String key ) throws UnknownKeyException, RemoteException
     {
         throw new UnsupportedOperationException( "removeApplication/1" );
     }
 
+   /**
+    * Return an array of application names managed by the station.
+    * @return the application names
+    * @exception RemoteException if a remote error occurs
+    */
     public String[] getApplicationKeys() throws RemoteException
     {
         try
@@ -253,11 +261,25 @@ public class DepotStation extends UnicastRemoteObject implements Station, Handle
         }
     }
 
+   /**
+    * Return the application profile.
+    * @param key the profile key
+    * @return the named profile
+    * @exception UnknownKeyException if the key is unknown
+    * @exception RemoteException if a remote error occurs
+    */
     public ApplicationProfile getApplicationProfile( String key ) throws UnknownKeyException, RemoteException
     {
         return m_model.getApplicationProfile( key );
     }
 
+   /**
+    * Return a named application.
+    * @param key the application key
+    * @return the named aplication
+    * @exception UnknownKeyException if the key is unknown
+    * @exception RemoteException if a remote error occurs
+    */
     public Application getApplication( String key ) throws UnknownKeyException, RemoteException
     {
         Application application = (Application) m_table.get( key );
@@ -276,7 +298,7 @@ public class DepotStation extends UnicastRemoteObject implements Station, Handle
         return m_logger;
     }
 
-    public Registry getRegistry( Connection connection ) throws RemoteException 
+    Registry getRegistry( Connection connection ) throws RemoteException 
     {
         if( null == connection )
         {

@@ -25,19 +25,28 @@ import java.beans.PropertyDescriptor;
 import net.dpml.configuration.ConfigurationException;
 
 /**
- * BeanInfo for the Partreference class that declares a persistence delegate.
+ * BeanInfo that declares a persistence delegate.
  *
- * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public final class DefaultConfigurationBeanInfo extends SimpleBeanInfo
 {
     private static final BeanDescriptor BEAN_DESCRIPTOR = setupBeanDescriptor();
     
+   /**
+    * Return the bean descriptor.
+    * @return the bean descriptor
+    */
     public BeanDescriptor getBeanDescriptor()
     {
         return BEAN_DESCRIPTOR;
     }
     
+   /**
+    * Return the property descriptor array.
+    * @return the property descriptors
+    */
     public PropertyDescriptor[] getPropertyDescriptors()
     {
         return new PropertyDescriptor[0];
@@ -52,8 +61,17 @@ public final class DefaultConfigurationBeanInfo extends SimpleBeanInfo
         return descriptor;
     }
     
+   /**
+    * Persistence delegate.
+    */
     public static class DefaultConfigurationPersistenceDelegate extends DefaultPersistenceDelegate
     {
+       /**
+        * Create the expression.
+        * @param old the old value
+        * @param encoder the encoder
+        * @return the expression
+        */
         public Expression instantiate( Object old, Encoder encoder )
         {
             if( null == old )

@@ -24,7 +24,8 @@ import java.util.EventObject;
 /**
  * Event triggered as a result of a state change.
  *
- * @author <a href="mailto:dev-dpml@lists.ibiblio.org">The Digital Product Meta Library</a>
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public class StateEvent extends EventObject
 {
@@ -50,11 +51,19 @@ public class StateEvent extends EventObject
         m_to = to;
     }
 
+   /**
+    * Return the state that existed prior to the transition.
+    * @return the original state
+    */
     public State getFromState()
     {
         return m_from;
     }
 
+   /**
+    * Return the state that was established by a transition.
+    * @return the new current state
+    */
     public State getToState()
     {
         return m_to;

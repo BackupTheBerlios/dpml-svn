@@ -27,13 +27,19 @@ import net.dpml.state.Action;
 /**
  * Default implementation of trigger.
  * 
- * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public class DefaultTrigger implements Trigger, Serializable
 {
     private final TriggerEvent m_event;
     private final Action m_action;
     
+   /**
+    * Creation of a new trigger.
+    * @param event the trigger event constant
+    * @param action the action fired by the trigger
+    */
     public DefaultTrigger( final TriggerEvent event, final Action action )
     {
         if( null == event )
@@ -48,16 +54,29 @@ public class DefaultTrigger implements Trigger, Serializable
         m_action = action;
     }
     
+   /**
+    * Return the event enumneration that this trigger is associated with.
+    * @return the triggering event class
+    */
     public TriggerEvent getEvent()
     {
         return m_event;
     }
     
+   /**
+    * Return the actions  that this trigger initiates.
+    * @return the triggered action
+    */
     public Action getAction()
     {
         return m_action;
     }
     
+   /**
+    * Compare this object to another for equality.
+    * @param other the other object
+    * @return true if the object is equal to this object
+    */
     public boolean equals( Object other )
     {
         if( null == other )
@@ -71,13 +90,9 @@ public class DefaultTrigger implements Trigger, Serializable
             {
                 return false;
             }
-            else if( !m_action.equals( trigger.getAction() ) )
-            {
-                return false;
-            }
             else
             {
-                return true;
+                return m_action.equals( trigger.getAction() );
             }
         }
         else
@@ -86,6 +101,10 @@ public class DefaultTrigger implements Trigger, Serializable
         }
     }
     
+   /**
+    * Compute the hashcode for this instance.
+    * @return the hashcode value
+    */
     public int hashCode()
     {
         int hash = m_event.hashCode();
@@ -93,6 +112,10 @@ public class DefaultTrigger implements Trigger, Serializable
         return hash;
     }
 
+   /**
+    * Return a string representation of the instance.
+    * @return the string value
+    */
     public String toString()
     {
         return "trigger:" + m_event.getName();

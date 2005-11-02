@@ -19,9 +19,7 @@
 package net.dpml.state;
 
 import java.beans.PropertyChangeListener;
-import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
-import java.net.URI;
 
 /**
  * <p>Defintion of the state machine.  The state machine handles the maintenance 
@@ -52,12 +50,21 @@ import java.net.URI;
  * new current state path.  The process of recursive evaluation of triggers will continue
  * until a state is reached where no further trigger invocation is possible.</p>
  *
- * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public interface StateMachine
 {
+   /**
+    * Add a property change listener to the state machine.
+    * @param listener the property change listener
+    */
     void addPropertyChangeListener( final PropertyChangeListener listener );
     
+   /**
+    * Remove a property change listener from the state machine.
+    * @param listener the property change listener
+    */
     void removePropertyChangeListener( final PropertyChangeListener listener );
 
    /**
@@ -72,6 +79,8 @@ public interface StateMachine
     * 
     * @param object the object to initialize
     * @return the state established as a side-effect of initialization
+    * @exception InvocationTargetException if an invocation error occurs as a 
+    *   result of initialization
     */
     State initialize( Object object ) throws InvocationTargetException;
     
@@ -79,15 +88,24 @@ public interface StateMachine
     * Invoke execution of a named operation on the supplied object.
     * @param name an operation name
     * @param object the target object
+    * @exception UnknownOperationException if the operation is unknown
+    * @exception InvocationTargetException if an invocation error occurs as a 
+    *   result of operation execution
     */
-    void execute( String name, Object object ) throws UnknownOperationException, InvocationTargetException;
+    void execute( String name, Object object ) 
+      throws UnknownOperationException, InvocationTargetException;
     
    /**
     * Apply a named state transition.
     * @param name the transition name
     * @param object the object against which any transition handler action are to be applied
+    * @return the state established by the application of the transition
+    * @exception UnknownTransitionException if the transition is unknown
+    * @exception InvocationTargetException if an invocation error occurs as a 
+    *   result of transition invocation
     */
-    State apply( String name, Object object ) throws UnknownTransitionException, InvocationTargetException;
+    State apply( String name, Object object ) 
+      throws UnknownTransitionException, InvocationTargetException;
     
    /**
     * Return all of the available transitions relative to the current state.

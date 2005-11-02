@@ -45,8 +45,13 @@ public abstract class EventProducer extends UnicastRemoteObject
    /**
     * Internal synchronization lock.
     */
-    protected final Object m_lock = new Object();
+    private final Object m_lock = new Object();
 
+   /**
+    * Creation of a new event producer.
+    * @param logger the logging channel
+    * @exception RemoteException if a remote exception occurs
+    */
     public EventProducer( Logger logger ) throws RemoteException
     {
         super();
@@ -54,6 +59,10 @@ public abstract class EventProducer extends UnicastRemoteObject
         m_logger = logger;
     }
 
+   /**
+    * Return the assigned logging channel.
+    * @return the logging channel
+    */
     protected Logger getLogger()
     {
         return m_logger;
@@ -130,20 +139,20 @@ public abstract class EventProducer extends UnicastRemoteObject
         }
     }
 
-    /**
-     * Queue of pending notification events.  When an event for which 
-     * there are one or more listeners occurs, it is placed on this queue 
-     * and the queue is notified.  A background thread waits on this queue 
-     * and delivers the events.  This decouples event delivery from 
-     * the application concern, greatly simplifying locking and reducing 
-     * opportunity for deadlock.
-     */
+   /**
+    * Queue of pending notification events.  When an event for which 
+    * there are one or more listeners occurs, it is placed on this queue 
+    * and the queue is notified.  A background thread waits on this queue 
+    * and delivers the events.  This decouples event delivery from 
+    * the application concern, greatly simplifying locking and reducing 
+    * opportunity for deadlock.
+    */
     private static final List EVENT_QUEUE = new LinkedList();
 
-    /**
-     * A single background thread ("the event notification thread") monitors
-     * the event queue and delivers events that are placed on the queue.
-     */
+   /**
+    * A single background thread ("the event notification thread") monitors
+    * the event queue and delivers events that are placed on the queue.
+    */
     private static class EventDispatchThread extends Thread 
     {
         public void run() 
@@ -152,7 +161,7 @@ public abstract class EventProducer extends UnicastRemoteObject
             {
                 // Wait on EVENT_QUEUE till an event is present
                 EventObject event = null;
-                synchronized( EVENT_QUEUE ) 
+                synchronized( EVENT_QUEUE )
                 {
                     try 
                     {
@@ -160,7 +169,7 @@ public abstract class EventProducer extends UnicastRemoteObject
                         { 
                             EVENT_QUEUE.wait();
                         }
-                        Object object = EVENT_QUEUE.remove(0);
+                        Object object = EVENT_QUEUE.remove( 0 );
                         try
                         {
                             event = (EventObject) object;
@@ -173,7 +182,7 @@ public abstract class EventProducer extends UnicastRemoteObject
                             throw new IllegalStateException( error );
                         }
                     }
-                    catch (InterruptedException e)
+                    catch( InterruptedException e )
                     {
                         return;
                     }
@@ -207,29 +216,30 @@ public abstract class EventProducer extends UnicastRemoteObject
         }
     }
 
-    private static Thread EVENT_DISPATCH_THREAD = null;
+    private static Thread m_EVENT_DISPATCH_THREAD = null;
 
-    /**
-     * This method starts the event dispatch thread the first time it
-     * is called.  The event dispatch thread will be started only
-     * if someone registers a listener.
-     */
+   /**
+    * This method starts the event dispatch thread the first time it
+    * is called.  The event dispatch thread will be started only
+    * if someone registers a listener.
+    */
     private static synchronized void startEventDispatchThread() 
     {
-        if( EVENT_DISPATCH_THREAD == null ) 
+        if( m_EVENT_DISPATCH_THREAD == null ) 
         {
-            EVENT_DISPATCH_THREAD = new EventDispatchThread();
-            EVENT_DISPATCH_THREAD.setDaemon( true );
-            EVENT_DISPATCH_THREAD.start();
+            m_EVENT_DISPATCH_THREAD = new EventDispatchThread();
+            m_EVENT_DISPATCH_THREAD.setDaemon( true );
+            m_EVENT_DISPATCH_THREAD.start();
         }
     }
 
-    /**
-     * Return this node's preference/node change listeners.  Even though
-     * we're using a copy-on-write lists, we use synchronized accessors to
-     * ensure information transmission from the writing thread to the
-     * reading thread.
-     */
+   /**
+    * Return this node's preference/node change listeners.  Even though
+    * we're using a copy-on-write lists, we use synchronized accessors to
+    * ensure information transmission from the writing thread to the
+    * reading thread.
+    * @return the event listener array
+    */
     protected EventListener[] listeners() 
     {
         synchronized( m_lock ) 
@@ -238,11 +248,12 @@ public abstract class EventProducer extends UnicastRemoteObject
         }
     }
 
-    /**
-     * Enqueue an event for delivery to registered
-     * listeners unless there are no registered
-     * listeners.
-     */
+   /**
+    * Enqueue an event for delivery to registered
+    * listeners unless there are no registered
+    * listeners.
+    * @param event the event to enqueue
+    */
     protected void enqueueEvent( EventObject event )
     {
         if( m_listeners.length != 0 ) 
