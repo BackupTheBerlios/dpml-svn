@@ -63,14 +63,4 @@ CALL ant %BUILD_ID% %*
 set BUILD_ID=""
 goto :EOF
 
-:install
-IF "%ID%" == "" set ID=SNAPSHOT
-set BUILD_ID=-Dbuild.signature=%ID%
-ECHO installing project with release ID [%BUILD_ID%]
-PUSHD depot\console
-CALL ant -f install.xml %BUILD_ID% %*
-POPD
-set BUILD_ID=""
-GOTO :EOF
-
 

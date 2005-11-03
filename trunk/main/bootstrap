@@ -1,0 +1,80 @@
+#!/bin/sh
+#
+# Utility script that executes the bootstrap build.
+#
+# The following command will bootstrap using the SNAPSHOT version identifier.
+#
+# $ bootstrap
+#
+# Versioned builds can be invoked using the following command (where '123' is the version to build):
+# 
+# $ bootstrap 123
+#
+
+build()
+{
+    STATUS=99
+    while [ "$STATUS" -eq 99 ] ; do
+      if [ -n "$ID" ] ; then
+        BUILD_ID="-Dbuild.signature=$ID"
+      else
+        BUILD_ID=""
+      fi
+      echo "building project with release ID [$ID]"
+      ant $BUILD_ID "$@"
+      STATUS="$?"
+    done
+    if [ "$STATUS" == 0 ] ; then
+        echo ""
+    else
+        exit 1
+    fi
+}
+
+antlibCleanup()
+{
+    # need something in here to delete dpml content in .ant/lib
+}
+
+transitMain()
+{
+    cd transit/core/handler
+    build clean install
+    cd ../../..
+}
+
+transitTools()
+{
+    cd transit/core/tools
+    build clean install
+    cd ../../..
+}
+
+toolsLibrary()
+{
+    cd tools/library
+    build clean install
+    cd ../..
+}
+
+toolsAnt()
+{
+    cd tools/ant
+    build clean install
+    cd ../..
+}
+
+depotConsole()
+{
+    cd depot/console
+    build clean bootstrap-install
+    cd ../..
+}
+
+ID=$1
+antlibCleanup
+transitMain
+transitTools
+toolsLibrary
+toolsAnt
+depotConsole

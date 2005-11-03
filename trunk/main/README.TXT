@@ -19,11 +19,16 @@ sources, cd to the main directory and invoke the bootstrap build procedure.
 System Build
 ------------
 
+Following the bootstrap build you can invoke the complete system build using the following command.
+
   $ build
 
 Installation Build
 ------------------
 
-  (in progress)
+Creation of the installation is in progress.  For the moment the main/target/bundle 
+directory contains the generated installation files.  Packaging of the installation 
+in zip and tar archives is not yet complete.
+
 
 
