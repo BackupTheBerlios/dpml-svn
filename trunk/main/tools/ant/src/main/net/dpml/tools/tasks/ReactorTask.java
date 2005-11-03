@@ -80,12 +80,15 @@ public class ReactorTask extends Task
             DefaultLibrary library = new DefaultLibrary( logger );
             StandardBuilder builder = new StandardBuilder( logger, library, false );
             File basedir = getProject().getBaseDir().getCanonicalFile();
-            Resource[] resources = library.select( basedir );
+            Resource[] resources = library.select( basedir, false );
             log( "Reactive selection: " + resources.length );
             for( int i=0; i<resources.length; i++ )
             {
                 Resource resource = resources[i];
-                executeTarget( builder, resource );
+                if( !resource.getBaseDir().equals( basedir ) )
+                {
+                    executeTarget( builder, resource );
+                }
             }
         }
         catch( BuildException e )

@@ -301,6 +301,18 @@ public final class DefaultLibrary implements Library
     */
     public Resource[] select( File base )
     {
+        return select( base, true );
+    }
+
+   /**
+    * Select all local projects relative to the supplied basedir.
+    * @param base the reference basedir
+    * @param self if true and the basedir resolves to a project then include the project
+    *   otherwise the project will be expluded from selection
+    * @return an array of projects relative to the basedir
+    */
+    public Resource[] select( final File base, boolean self )
+    {
         String root = base.toString();
         ArrayList list = new ArrayList();
         DefaultResource[] resources = m_module.selectDefaultResources( true, "**/*" );
@@ -313,7 +325,17 @@ public final class DefaultLibrary implements Library
                 String path = basedir.toString();
                 if( path.startsWith( root ) )
                 {
-                    list.add( resource );
+                    if( path.equals( root ) )
+                    {
+                        if( self )
+                        {
+                            list.add( resource );
+                        }
+                    }
+                    else
+                    {
+                        list.add( resource );
+                    }
                 }
             }
             else

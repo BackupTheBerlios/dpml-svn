@@ -125,6 +125,15 @@ public interface Library
     Resource[] select( File base );
     
    /**
+    * Select all local projects relative to the supplied basedir.
+    * @param base the reference basedir
+    * @param self if true and the basedir resolves to a project then include the project
+    *   otherwise the project will be expluded from selection
+    * @return an array of projects relative to the basedir
+    */
+    Resource[] select( File base, boolean self );
+    
+   /**
     * Locate a resource relative to a base directory.
     * @param base the base directory
     * @return a resource with a matching basedir
