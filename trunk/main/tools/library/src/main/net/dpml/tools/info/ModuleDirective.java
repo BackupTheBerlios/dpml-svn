@@ -35,7 +35,7 @@ public final class ModuleDirective extends ResourceDirective
     * Creation of a new module directive supporting the establishment
     * of an anonymous reesource.
     *
-    * @param resource the abstract resource defintion
+    * @param name the module name
     * @param resource resource contained within the module
     */
     public ModuleDirective( String name, ResourceDirective resource )
