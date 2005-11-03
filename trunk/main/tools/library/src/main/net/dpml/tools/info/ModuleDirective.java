@@ -43,7 +43,7 @@ public final class ModuleDirective extends ResourceDirective
         this(
           name, null, Classifier.ANONYMOUS, null,
           new TypeDirective[0], new DependencyDirective[0],
-          new ResourceDirective[]{ resource }, null );
+          new ResourceDirective[]{resource}, null );
     }
     
    /**

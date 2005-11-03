@@ -411,10 +411,10 @@ public final class DefaultLibrary implements Library
           new ResourceDirective( name, version, type, properties );
         ModuleDirective enclosing = null;
         String[] elements = group.split( "/", -1 );
-        for( int i=(elements.length-1); i>-1; i-- )
+        for( int i = ( elements.length-1 ); i>-1; i-- )
         {
             String elem = elements[i];
-            if( i==(elements.length-1) )
+            if( i == ( elements.length-1 ) )
             {
                 enclosing = new ModuleDirective( elem, resourceDirective );
             }
@@ -426,7 +426,7 @@ public final class DefaultLibrary implements Library
         try
         {
             DefaultModule module = new DefaultModule( this, m_module, enclosing );
-            DefaultModule root = new DefaultModule( this, m_directive, new DefaultModule[]{ module } );
+            DefaultModule root = new DefaultModule( this, m_directive, new DefaultModule[]{module} );
             DefaultResource resource =  root.getDefaultResource( group + "/" + name );
             m_anonymous.put( urn, resource );
             return resource;

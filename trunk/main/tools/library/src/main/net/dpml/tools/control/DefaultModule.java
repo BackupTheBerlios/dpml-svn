@@ -30,12 +30,10 @@ import net.dpml.tools.info.AbstractDirective;
 import net.dpml.tools.info.ModuleDirective;
 import net.dpml.tools.info.ResourceDirective;
 import net.dpml.tools.info.ResourceDirective.Classifier;
-import net.dpml.tools.info.LibraryDirective;
 import net.dpml.tools.model.Module;
 import net.dpml.tools.model.Resource;
 import net.dpml.tools.model.ResourceNotFoundException;
 import net.dpml.tools.model.ModuleNotFoundException;
-import net.dpml.tools.model.DuplicateNameException;
 
 import net.dpml.transit.Category;
 

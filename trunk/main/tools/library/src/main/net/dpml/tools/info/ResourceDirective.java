@@ -63,13 +63,15 @@ public class ResourceDirective extends AbstractDirective
     * Creation of a new anonymous resource directive.
     * @param name the resource name
     * @param version the resource version
+    * @param type the resource type
+    * @param properties suppliementary properties
     */
     public ResourceDirective( 
       String name, String version, String type, Properties properties )
     {
         this( 
           name, version, Classifier.ANONYMOUS, null, 
-          new TypeDirective[]{ new TypeDirective( type ) } , 
+          new TypeDirective[]{new TypeDirective( type )}, 
           new DependencyDirective[0],
           properties );
     }
