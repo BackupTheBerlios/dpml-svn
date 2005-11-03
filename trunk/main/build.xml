@@ -21,7 +21,7 @@
     xmlns:transit="antlib:net.dpml.transit"
     xmlns:x="dpml:tools">
 
-  <transit:import uri="local:template:tools/reactor"/>
+  <transit:import uri="local:template:tools/standard"/>
 
   <target name="build" depends="standard.build,javadoc,junit-report"/>
 
