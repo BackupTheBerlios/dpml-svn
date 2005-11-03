@@ -212,7 +212,7 @@ public final class DefaultModule extends DefaultResource implements Module
     * Return a directive suitable for publication as an external description.
     * @return the resource directive
     */
-    public ResourceDirective export()
+    public ModuleDirective export()
     {
         if( null == m_directive )
         {
@@ -220,14 +220,24 @@ public final class DefaultModule extends DefaultResource implements Module
               "Cannot export from the virtual root.";
             throw new UnsupportedOperationException( error );
         }
+        return (ModuleDirective) exportResource( this );
+    }
+    
+   /**
+    * Return a directive suitable for publication as an external description.
+    * @param module the enclosing module
+    * @return the resource directive
+    */
+    ResourceDirective exportResource( DefaultModule module )
+    {
         DefaultResource[] resources = getDefaultResources();
         ResourceDirective[] directives = new ResourceDirective[ resources.length ];
         for( int i=0; i<directives.length; i++ )
         {
             DefaultResource resource = resources[i];
-            directives[i] = resource.export();
+            directives[i] = resource.exportResource( module );
         }
-        ResourceDirective directive = super.export();
+        ResourceDirective directive = super.exportResource( module );
         return new ModuleDirective( directive, directives );
     }
     

@@ -151,9 +151,4 @@ public interface Resource extends Dictionary
     */
     Resource[] getConsumers( boolean expand, boolean sort );
     
-   /**
-    * Return a directive suitable for publication as an external description.
-    * @return the resource directive
-    */
-    ResourceDirective export();
 }

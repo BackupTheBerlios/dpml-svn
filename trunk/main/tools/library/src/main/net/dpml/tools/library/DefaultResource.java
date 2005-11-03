@@ -417,9 +417,10 @@ public class DefaultResource extends DefaultDictionary implements Resource, Comp
     
    /**
     * Return a directive suitable for publication as an external description.
+    * @param module the enclosing module
     * @return the resource directive
     */
-    public ResourceDirective export()
+    ResourceDirective exportResource( DefaultModule module )
     {
         if( null == m_directive )
         {
@@ -433,10 +434,11 @@ public class DefaultResource extends DefaultDictionary implements Resource, Comp
         String basedir = null;
         TypeDirective[] types = m_directive.getTypeDirectives();
         ArrayList list = new ArrayList();
-        createIncludeDirectives( list, Category.SYSTEM );
-        createIncludeDirectives( list, Category.PUBLIC );
-        createIncludeDirectives( list, Category.PROTECTED );
-        createIncludeDirectives( list, Category.PRIVATE );
+        createIncludeDirectives( module, list, Category.SYSTEM );
+        createIncludeDirectives( module, list, Category.SYSTEM );
+        createIncludeDirectives( module, list, Category.PUBLIC );
+        createIncludeDirectives( module, list, Category.PROTECTED );
+        createIncludeDirectives( module, list, Category.PRIVATE );
         IncludeDirective[] includes = 
          (IncludeDirective[]) list.toArray( new IncludeDirective[0] );
         DependencyDirective runtime = 
@@ -447,28 +449,68 @@ public class DefaultResource extends DefaultDictionary implements Resource, Comp
           name, version, Classifier.EXTERNAL, basedir,
           types, dependencies, properties );
     }
+    
+    boolean isaDescendant( DefaultModule module )
+    {
+        if( module == this )
+        {
+            return true;
+        }
+        if( m_parent == null )
+        {
+            return false;
+        }
+        else
+        {
+            if( m_parent == module )
+            {
+                return true;
+            }
+            else
+            {
+                return m_parent.isaDescendant( module );
+            }
+        }
+    }
 
-    private void createIncludeDirectives( List list, Category category )
+    private void createIncludeDirectives( DefaultModule module, List list, Category category )
     {
         DefaultResource[] providers = 
           getDefaultProviders( Scope.RUNTIME, true, category );
         for( int i=0; i<providers.length; i++ )
         {
             DefaultResource provider = providers[i];
-            Type[] types = provider.getTypes();
-            for( int j=0; j<types.length; j++ )
+            if( provider.isaDescendant( module ) )
             {
-                Type type = types[j];
-                String label = type.getName();
-                Artifact artifact = provider.getArtifact( label );
-                String urn = artifact.toString();
+                // create a ref
+                String path = provider.getResourcePath();
                 IncludeDirective include = 
                   new IncludeDirective( 
-                    IncludeDirective.URN,
+                    IncludeDirective.REF,
                     category,
-                    urn,
+                    path,
                     null );
                 list.add( include );
+            }
+            else
+            {
+                // create a urn
+                
+                Type[] types = provider.getTypes();
+                for( int j=0; j<types.length; j++ )
+                {
+                    Type type = types[j];
+                    String label = type.getName();
+                    Artifact artifact = provider.getArtifact( label );
+                    String urn = artifact.toString();
+                    IncludeDirective include = 
+                      new IncludeDirective( 
+                        IncludeDirective.URN,
+                        category,
+                        urn,
+                        null );
+                    list.add( include );
+                }
             }
         }
     }
