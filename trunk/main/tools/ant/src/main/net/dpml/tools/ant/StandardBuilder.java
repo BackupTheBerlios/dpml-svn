@@ -53,9 +53,15 @@ import org.apache.tools.ant.DemuxInputStream;
 public class StandardBuilder implements Builder 
 {
     // ------------------------------------------------------------------------
-    // state
+    // static
     // ------------------------------------------------------------------------
 
+    public static final String DEFAULT_TEMPLATE_URN = "local:template:tools/standard";
+
+    // ------------------------------------------------------------------------
+    // state
+    // ------------------------------------------------------------------------
+    
     private Logger m_logger;
     private TransitModel m_model;
     private Library m_library;
@@ -96,12 +102,20 @@ public class StandardBuilder implements Builder
     */
     public boolean build( Resource resource, String[] targets )
     {
+        Project project = createProject( resource );
+        File template = getTemplateFile( resource );
+        return build( project, template, targets );
+    }
+    
+   /**
+    * Return the template for the resource.
+    * @param resource the project definition
+    * @return the template
+    */
+    public File getTemplateFile( Resource resource )
+    {
         try
         {
-            Project project = createProject( resource );
-            
-            // if a build file exists in the current project then use it
-            
             File basedir = resource.getBaseDir();
             String buildfile = resource.getProperty( "project.buildfile" );
             String defaultBuildfile = resource.getProperty( "project.standard.buildfile", "build.xml" );
@@ -114,7 +128,7 @@ public class StandardBuilder implements Builder
                 if( file.exists() )
                 {
                     getLogger().debug( "Assigning explicit buildfile: " + file );
-                    return build( project, file, targets );
+                    return file;
                 }
                 else
                 {
@@ -122,8 +136,7 @@ public class StandardBuilder implements Builder
                       "Resource buildfile ["
                       + file
                       + "] does not exist.";
-                    m_logger.error( error );
-                    return false;
+                    throw new BuildException( error );
                 }
             }
             else if( null != defaultBuildfile )
@@ -135,7 +148,7 @@ public class StandardBuilder implements Builder
                 if( file.exists() )
                 {
                     getLogger().debug( "Assigning project buildfile: " + file );
-                    return build( project, file, targets );
+                    return file;
                 }
             }
 
@@ -143,22 +156,25 @@ public class StandardBuilder implements Builder
             // resolved via a uri (typically a template stored in prefs)
                 
             String defaultTemplateSpec = 
-              resource.getProperty( "project.standard.template", "local:template:tools/standard" );
+              resource.getProperty( "project.standard.template", DEFAULT_TEMPLATE_URN );
             String templateSpec = resource.getProperty( "project.template", defaultTemplateSpec );
                 
             if( null != templateSpec )
             {
                 getLogger().debug( "Assigning project template: " + templateSpec );
                 File template = getTemplateFile( templateSpec );
-                return build( project, template, targets );
+                return template;
             }
             else
             {
                 final String error = 
                   "Resource template property 'project.template' is undefined.";
-                m_logger.error( error );
-                return false;
+                throw new BuildException( error );
             }
+        }
+        catch( BuildException e )
+        {
+            throw e;
         }
         catch( Throwable e )
         {
@@ -167,8 +183,7 @@ public class StandardBuilder implements Builder
               "Unexpected error while attempting to build project [" 
               + resource.getResourcePath()
               + "].";
-            m_logger.error( error, e );
-            return false;
+            throw new BuildException( error );
         }
     }
     
@@ -176,7 +191,7 @@ public class StandardBuilder implements Builder
     // implementation
     // ------------------------------------------------------------------------
     
-    boolean build( Project project, File template, String[] targets ) throws Exception
+    boolean build( Project project, File template, String[] targets )
     {
         try
         {
@@ -243,7 +258,7 @@ public class StandardBuilder implements Builder
         return new File( spec );
     }
     
-    Project createProject( Resource resource ) throws Exception
+    Project createProject( Resource resource )
     {
         Project project = createProject();
         project.setBaseDir( resource.getBaseDir() );
@@ -252,7 +267,7 @@ public class StandardBuilder implements Builder
         return project;
     }
     
-    Project createProject() throws Exception
+    Project createProject() 
     {
         Project project = new Project();
         project.setSystemProperties();

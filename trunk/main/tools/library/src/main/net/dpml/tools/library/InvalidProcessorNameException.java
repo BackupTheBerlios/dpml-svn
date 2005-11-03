@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package net.dpml.tools.control;
+package net.dpml.tools.library;
 
 /**
  * Internal exception throw when an attempt is made to reference a processor

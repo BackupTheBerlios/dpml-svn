@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package net.dpml.tools.control;
+package net.dpml.tools.library;
 
 import net.dpml.tools.model.Type;
 import net.dpml.tools.info.TypeDirective;

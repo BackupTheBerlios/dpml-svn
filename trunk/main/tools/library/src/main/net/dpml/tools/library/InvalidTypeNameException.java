@@ -16,17 +16,22 @@
  * limitations under the License.
  */
 
-package net.dpml.tools.control;
+package net.dpml.tools.library;
 
 /**
- * Internal exception throw to indicate a bad name reference.
+ * Internal exception throw when an attempt is made to reference a type
+ * that has not been declared by a component.
  *
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-class InvalidNameException extends IllegalArgumentException
+final class InvalidTypeNameException extends InvalidNameException
 {
-    InvalidNameException( String message )
+   /**
+    * Creation of a new InvalidTypeNameException.
+    * @param message the exception message
+    */
+    InvalidTypeNameException( String message )
     {
         super( message );
     }

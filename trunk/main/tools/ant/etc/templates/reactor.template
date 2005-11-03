@@ -16,20 +16,23 @@
   limitations under the License.
 -->
 
-<project name="reactor" default="install"
+<project name="reactor" default="default"
     xmlns:transit="antlib:net.dpml.transit" 
-    xmlns:x="dpml:tools" 
-    xmlns:jar="dpml:tools:jar">
+    xmlns:x="dpml:tools" >
 
-  <transit:import uri="local:template:tools/standard"/>
+  <transit:plugin uri="@PROJECT-URI@">
+    <antlib urn="dpml:tools" resource="net/dpml/tools/tasks/antlib.xml"/>
+  </transit:plugin>
 
-  <target name="package" depends="standard.package"/>
+  <target name="default">
+    <x:reactor target="default"/>
+  </target>
 
-  <target name="all">
+  <target name="install">
     <x:reactor target="install"/>
   </target>
 
-  <target name="clean-all">
+  <target name="clean">
     <x:reactor target="clean"/>
   </target>
 

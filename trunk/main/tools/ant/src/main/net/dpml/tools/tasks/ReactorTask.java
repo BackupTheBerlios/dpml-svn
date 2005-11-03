@@ -26,9 +26,15 @@ import java.net.URL;
 
 import net.dpml.tools.model.Library;
 import net.dpml.tools.model.Resource;
+import net.dpml.tools.library.DefaultLibrary;
+import net.dpml.tools.ant.StandardBuilder;
+
+import net.dpml.transit.Logger;
+import net.dpml.transit.monitor.LoggingAdapter;
 import net.dpml.transit.Artifact;
 
 import org.apache.tools.ant.BuildException;
+import org.apache.tools.ant.Task;
 import org.apache.tools.ant.taskdefs.Ant;
 
 /**
@@ -38,7 +44,7 @@ import org.apache.tools.ant.taskdefs.Ant;
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-public class ReactorTask extends GenericTask
+public class ReactorTask extends Task
 {
     private String m_target;
     
@@ -70,14 +76,16 @@ public class ReactorTask extends GenericTask
     {
         try
         {
-            Library library = getContext().getLibrary();
+            Logger logger = new LoggingAdapter();
+            DefaultLibrary library = new DefaultLibrary( logger );
+            StandardBuilder builder = new StandardBuilder( logger, library, false );
             File basedir = getProject().getBaseDir().getCanonicalFile();
             Resource[] resources = library.select( basedir );
             log( "Reactive selection: " + resources.length );
             for( int i=0; i<resources.length; i++ )
             {
                 Resource resource = resources[i];
-                executeTarget( resource );
+                executeTarget( builder, resource );
             }
         }
         catch( BuildException e )
@@ -92,15 +100,15 @@ public class ReactorTask extends GenericTask
         }
     }
     
-    private void executeTarget( final Resource resource ) throws BuildException
+    private void executeTarget( StandardBuilder builder, final Resource resource ) throws BuildException
     {
+        log( "Executing reactive build: " + resource );
         final Ant ant = (Ant) getProject().createTask( "ant" );
         ant.setDir( resource.getBaseDir() );
         ant.setInheritRefs( false );
         ant.setInheritAll( false );
 
-        String templateSpec = resource.getProperty( "project.template" );
-        File template = getTemplateFile( templateSpec );
+        File template = builder.getTemplateFile( resource );
         ant.setAntfile( template.toString() );
         if( null != m_target )
         {
@@ -120,34 +128,5 @@ public class ReactorTask extends GenericTask
         }
         ant.init();
         ant.execute();
-    }
-
-    private File getTemplateFile( String spec )
-    {
-        try
-        {
-            URI uri = new URI( spec );
-            if( Artifact.isRecognized( uri ) )
-            {
-                URL url = Artifact.createArtifact( uri ).toURL();
-                return (File) url.getContent( new Class[]{File.class} );
-            }
-            else
-            {
-                final String error = 
-                  "Unrecognized template uri [" + spec + "].";
-                throw new BuildException( error, getLocation() );
-            }
-        }
-        catch( IOException e )
-        {
-            final String error = 
-              "Unexpected IO error while attempting to load template [" + spec + "].";
-            throw new BuildException( error, getLocation() );
-        }
-        catch( URISyntaxException e )
-        {
-            return new File( spec );
-        }
     }
 }

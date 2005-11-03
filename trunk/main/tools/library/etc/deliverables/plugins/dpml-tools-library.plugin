@@ -16,7 +16,7 @@ dpml.artifact.signature = 00000000.000000
 #
 # Type.
 #
-dpml.plugin.class = net.dpml.tools.control.BuildPlugin
+dpml.plugin.class = net.dpml.tools.library.BuildPlugin
 
 #
 # Private.

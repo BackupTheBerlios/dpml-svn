@@ -264,12 +264,12 @@
          <type id="jar"/>
          <type id="plugin" alias="true">
            <property name="project.plugin.class" 
-              value="net.dpml.tools.control.BuildPlugin"/>
+              value="net.dpml.tools.library.BuildPlugin"/>
          </type>
        </types>
        <dependencies>
          <include ref="dpml/transit/dpml-transit-main"/>
-         <include urn="artifact:jar:commons-cli/commons-cli-1.0"/>
+         <include urn="artifact:jar:commons-cli/commons-cli#1.0"/>
        </dependencies>
        <dependencies scope="test">
          <include ref="ant/ant-junit"/>

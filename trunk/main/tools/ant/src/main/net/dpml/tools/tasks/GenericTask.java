@@ -23,7 +23,7 @@ import java.io.File;
 import net.dpml.tools.ant.Context;
 import net.dpml.tools.model.Library;
 import net.dpml.tools.model.Resource;
-import net.dpml.tools.control.DefaultLibrary;
+import net.dpml.tools.library.DefaultLibrary;
 
 import net.dpml.transit.Logger;
 import net.dpml.transit.monitor.LoggingAdapter;

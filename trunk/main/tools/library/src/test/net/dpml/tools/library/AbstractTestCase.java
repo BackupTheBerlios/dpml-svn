@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package net.dpml.tools.control;
+package net.dpml.tools.library;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
