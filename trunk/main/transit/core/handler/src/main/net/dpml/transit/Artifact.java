@@ -155,10 +155,10 @@ public final class Artifact implements Serializable, Comparable
     public static Artifact createArtifact( String group, String name, String version, String type )
         throws NullArgumentException
     {
-        if( group == null )
-        {
-            throw new NullArgumentException( "group" );
-        }
+        //if( group == null )
+        //{
+        //    throw new NullArgumentException( "group" );
+        //}
         if( name == null )
         {
             throw new NullArgumentException( "name" );
@@ -171,7 +171,7 @@ public final class Artifact implements Serializable, Comparable
         {
             version = "";
         }
-        String composite = "artifact:" + type + ":" + group + "/" + name + "#" + version;
+        String composite = buildComposite( group, name, version, type );
         try
         {
             URI uri = new URI( composite );
@@ -186,7 +186,33 @@ public final class Artifact implements Serializable, Comparable
             throw new TransitRuntimeException( error );
         }
     }
-
+    
+    private static String buildComposite( String group, String name, String version, String type )
+    {
+        if( null == group )
+        {
+            if( null == version )
+            {
+                return "artifact:" + type + ":" + name;
+            }
+            else
+            {
+                return "artifact:" + type + ":" + name + "#" + version;
+            }
+        }
+        else
+        {
+            if( null == version )
+            {
+                return "artifact:" + type + ":" + group + "/" + name;
+            }
+            else
+            {
+                return "artifact:" + type + ":" + group + "/" + name + "#" + version;
+            }
+        }
+    }
+    
    /**
     * Construct a new URL form a given URI.  If the URI is a Transit URI the 
     * returned URL will be associated with the appropriate handler.
@@ -279,32 +305,13 @@ public final class Artifact implements Serializable, Comparable
               + uri + "].";
             throw new IllegalArgumentException( error );
         }
-
-        int lastSeparatorIndex = ssp.lastIndexOf( "/" );
-        if( lastSeparatorIndex > -1 )
-        {
-            m_name = ssp.substring( lastSeparatorIndex + 1 );
-            ssp = ssp.substring( 0, lastSeparatorIndex );
-        }
-        else
-        {
-            final String error =
-              "Artifact specification ["
-              + uri + "] does not contain a group.";
-            throw new MissingGroupException( error );
-        }
-
-        //
-        // the remainder now contains the type and the group
-        //
-
+        
         int typeIndex = ssp.indexOf( ':' );
         if( typeIndex > -1 )
         {
             String type = ssp.substring( 0, typeIndex );
-            String group = ssp.substring( typeIndex + 1 );
-            m_group = group;
             m_type = type;
+            ssp = ssp.substring( typeIndex + 1 );
         }
         else
         {
@@ -312,7 +319,22 @@ public final class Artifact implements Serializable, Comparable
               + uri + "] does not contain a type.";
             throw new IllegalArgumentException( error );
         }
-
+        
+        // ssp now contains group, name and version
+        
+        int groupIndex = ssp.lastIndexOf( '/' );
+        if( groupIndex > -1 )
+        {
+            String group = ssp.substring( 0, groupIndex );
+            m_group = group;
+            m_name = ssp.substring( groupIndex + 1 );
+        }
+        else
+        {
+            m_group = null;
+            m_name = ssp;
+        }
+        
         String ver = uri.getFragment();
         if( ver != null )
         {
@@ -533,23 +555,23 @@ public final class Artifact implements Serializable, Comparable
      */
     public boolean equals( Object other )
     {
-         if( null == other )
-         {
-              return false;
-         }
-         else if( this == other )
-         {
-              return true;
-         }
-         else if( other instanceof Artifact )
-         {
-              Artifact art = (Artifact) other;
-              return m_uri.equals( art.m_uri );
-         }
-         else
-         {
-             return false;
-         }
+        if( null == other )
+        {
+            return false;
+        }
+        else if( this == other )
+        {
+            return true;
+        }
+        else if( other instanceof Artifact )
+        {
+            Artifact art = (Artifact) other;
+            return m_uri.equals( art.m_uri );
+        }
+        else
+        {
+            return false;
+        }
     }
 
    /**

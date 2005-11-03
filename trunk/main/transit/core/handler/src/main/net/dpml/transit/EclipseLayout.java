@@ -47,7 +47,14 @@ public class EclipseLayout extends AbstractLayout
      */
     public final String resolveBase( Artifact artifact )
     {
-        return artifact.getGroup() + "-" + artifact.getVersion();
+        if( null == artifact.getGroup() )
+        {
+            return artifact.getVersion();
+        }
+        else
+        {
+            return artifact.getGroup() + "-" + artifact.getVersion();
+        }
     }
 
     /**

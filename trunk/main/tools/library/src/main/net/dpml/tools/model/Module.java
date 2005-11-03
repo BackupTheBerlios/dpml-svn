@@ -75,10 +75,4 @@ public interface Module extends Resource
     */
     Resource[] select( String criteria, boolean local, boolean sort );
 
-   /**
-    * Return a directive suitable for publication as an external
-    * module description.
-    * @return the module directive
-    */
-    ModuleDirective export();
 }

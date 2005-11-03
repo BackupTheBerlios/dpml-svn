@@ -47,7 +47,14 @@ public class ClassicLayout
      */
     public final String resolveBase( Artifact artifact )
     {
-        return artifact.getGroup() + "/" + artifact.getType() + "s";        
+        if( null == artifact.getGroup() )
+        {
+            return artifact.getType() + "s";
+        }
+        else
+        {
+            return artifact.getGroup() + "/" + artifact.getType() + "s";
+        }
     }
 
     /**

@@ -193,9 +193,7 @@ public class Handler extends URLStreamHandler
     {
         try
         {
-            // Niclas: Improve the parsing algorithm and have some more checks.
             final String protocol = dest.getProtocol();
-
             String specPath = spec.substring( start, limit );
             String path = dest.getPath();
 
@@ -214,7 +212,6 @@ public class Handler extends URLStreamHandler
                 {
                     path = path.substring( 0, lastPos );
                 }
-
                 if( specPath.charAt( 0 ) == '/' )
                 {
                     path = path + "!" + specPath;
@@ -224,7 +221,6 @@ public class Handler extends URLStreamHandler
                     path = path + "!/" + specPath;
                 }
             }
-
             String version = dest.getUserInfo();
             if( version == null )
             {
@@ -233,7 +229,6 @@ public class Handler extends URLStreamHandler
                     version = spec.substring( limit + 1 );
                 }
             }
-
             final String user = version;
             final String authority = null;
             final int port = -1;
@@ -241,7 +236,6 @@ public class Handler extends URLStreamHandler
             final String query = null;
             final String ref = null;
             final String finalPath = path;
-            
             AccessController.doPrivileged( 
               new PrivilegedAction()
               {

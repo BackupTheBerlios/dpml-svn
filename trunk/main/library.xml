@@ -15,7 +15,6 @@
 
   <imports>
     <import file="library/junit-3.8.1.xml"/>
-    <import file="library/commons-cli-1.0.xml"/>
     <import file="library/jgoodies.xml"/>
     <import file="library/ant-1.6.5.xml"/>
     <import file="library/dpml.xml"/>

@@ -27,6 +27,7 @@ import java.util.List;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.TimeZone;
+import java.util.Properties;
 
 import net.dpml.tools.model.Resource;
 import net.dpml.tools.model.Type;
@@ -304,12 +305,12 @@ public class DefaultResource extends DefaultDictionary implements Resource, Comp
         {
             throw new NullPointerException( "id" );
         }
-        if( null == m_parent )
-        {
-            final String error = 
-              "Operation not supported on the root module.";
-            throw new UnsupportedOperationException( error );
-        }
+        //if( null == m_parent )
+        //{
+        //    final String error = 
+        //      "Operation not supported on the root module.";
+        //    throw new UnsupportedOperationException( error );
+        //}
         
         String group = getGroupName();
         String name = getName();
@@ -320,7 +321,11 @@ public class DefaultResource extends DefaultDictionary implements Resource, Comp
         }
         catch( Throwable e )
         {
-            throw new RuntimeException( "???", e );
+            final String error = 
+              "Failed to construct artifact for resource ["
+              + getResourcePath()
+              + "].";
+            throw new RuntimeException( error, e );
         }
     }
     
@@ -408,6 +413,71 @@ public class DefaultResource extends DefaultDictionary implements Resource, Comp
     public Resource[] getConsumers( boolean expand, boolean sort )
     {
         return getDefaultConsumers( expand, sort );
+    }
+    
+   /**
+    * Return a directive suitable for publication as an external description.
+    * @return the resource directive
+    */
+    public ResourceDirective export()
+    {
+        if( null == m_directive )
+        {
+            final String error = 
+              "Cannot export from the root module.";
+            throw new UnsupportedOperationException( error );
+        }
+        String name = getName();
+        String version = getVersion();
+        Classifier classifier = Classifier.EXTERNAL;
+        String basedir = null;
+        TypeDirective[] types = m_directive.getTypeDirectives();
+        ArrayList list = new ArrayList();
+        createIncludeDirectives( list, Category.SYSTEM );
+        createIncludeDirectives( list, Category.PUBLIC );
+        createIncludeDirectives( list, Category.PROTECTED );
+        createIncludeDirectives( list, Category.PRIVATE );
+        IncludeDirective[] includes = 
+         (IncludeDirective[]) list.toArray( new IncludeDirective[0] );
+        DependencyDirective runtime = 
+          new DependencyDirective( Scope.RUNTIME, includes );
+        DependencyDirective[] dependencies = new DependencyDirective[]{runtime};
+        Properties properties = getExportProperties();
+        return new ResourceDirective( 
+          name, version, Classifier.EXTERNAL, basedir,
+          types, dependencies, properties );
+    }
+
+    private void createIncludeDirectives( List list, Category category )
+    {
+        DefaultResource[] providers = 
+          getDefaultProviders( Scope.RUNTIME, true, category );
+        for( int i=0; i<providers.length; i++ )
+        {
+            DefaultResource provider = providers[i];
+            Type[] types = provider.getTypes();
+            for( int j=0; j<types.length; j++ )
+            {
+                Type type = types[j];
+                String label = type.getName();
+                Artifact artifact = provider.getArtifact( label );
+                String urn = artifact.toString();
+                IncludeDirective include = 
+                  new IncludeDirective( 
+                    IncludeDirective.URN,
+                    category,
+                    urn,
+                    null );
+                list.add( include );
+            }
+        }
+    }
+    
+    private Properties getExportProperties()
+    {
+        // this needs to be implemented following the addition of 
+        // export declarations on properties
+        return new Properties(); 
     }
     
     //----------------------------------------------------------------------------
@@ -984,7 +1054,7 @@ public class DefaultResource extends DefaultDictionary implements Resource, Comp
     {
         if( m_parent.isRoot() )
         {
-            return getName();
+            return null;
         }
         else
         {

@@ -23,7 +23,7 @@
 
   <transit:import uri="local:template:tools/standard"/>
 
-  <target name="build" depends="standard.build,javadoc,junit-report"/>
+  <target name="package" depends="standard.package,javadoc,junit-report"/>
 
   <target name="install" depends="standard.install,bundle"/>
 
@@ -79,7 +79,7 @@
     </copy>
   </target>
 
-  <target name="javadoc" depends="standard.build">
+  <target name="javadoc" depends="build">
     <x:javadoc title="DPML Component Management Platform">
       <link href="http://java.sun.com/j2se/1.4/docs/api"/>
       <group title="Transit">
@@ -102,7 +102,7 @@
     </x:javadoc>
   </target>
 
-  <target name="junit-report" depends="standard.build">
+  <target name="junit-report" depends="build">
     <property name="junit.html" location="${project.target.reports.dir}/junit"/>
     <mkdir dir="${junit.html}"/>
     <junitreport todir="${junit.html}">

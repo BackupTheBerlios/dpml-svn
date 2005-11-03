@@ -60,7 +60,7 @@ public class ModuleTask extends GenericTask
         if( resource instanceof Module )
         {
             Module module = (Module) resource;
-            ModuleDirective directive = module.export();
+            ModuleDirective directive = (ModuleDirective) module.export();
             writeModuleDirective( directive, file );
         }
         else

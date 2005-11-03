@@ -2,6 +2,10 @@
 
 <module name="dpml" basedir=".">
 
+   <types>
+     <type id="module" alias="true"/>
+   </types>
+
    <properties>
      <property name="project.publisher.name" value="Digital Product Meta Library"/>
      <property name="project.specification.vendor" value="${project.publisher.name}"/>

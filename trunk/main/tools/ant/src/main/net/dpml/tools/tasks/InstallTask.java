@@ -24,6 +24,7 @@ import java.io.FileOutputStream;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
 
+import net.dpml.tools.model.Module;
 import net.dpml.tools.model.Resource;
 import net.dpml.tools.model.Type;
 import net.dpml.transit.Artifact;
@@ -137,9 +138,17 @@ public class InstallTask extends GenericTask
                 fileset.setProject( getProject() );
                 fileset.setDir( deliverables );
                 fileset.createInclude().setName( "**/*" );
-                final String group = resource.getParent().getResourcePath();
-                final File destination = new File( cache, group );
-                copy( destination, fileset, true );
+                Module parent = resource.getParent();
+                if( null == parent )
+                {
+                    copy( cache, fileset, true );
+                }
+                else
+                {
+                    final String group = parent.getResourcePath();
+                    final File destination = new File( cache, group );
+                    copy( destination, fileset, true );
+                }
             }
             catch( Throwable e )
             {

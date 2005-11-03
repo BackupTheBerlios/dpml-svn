@@ -21,6 +21,7 @@ package net.dpml.tools.model;
 import java.io.File;
 
 import net.dpml.tools.info.Scope;
+import net.dpml.tools.info.ResourceDirective;
 
 import net.dpml.transit.Artifact;
 import net.dpml.transit.Category;
@@ -150,4 +151,9 @@ public interface Resource extends Dictionary
     */
     Resource[] getConsumers( boolean expand, boolean sort );
     
+   /**
+    * Return a directive suitable for publication as an external description.
+    * @return the resource directive
+    */
+    ResourceDirective export();
 }
