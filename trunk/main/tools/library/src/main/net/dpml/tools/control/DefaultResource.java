@@ -72,7 +72,7 @@ public class DefaultResource extends DefaultDictionary implements Resource, Comp
     
     DefaultResource( DefaultLibrary library, AbstractDirective directive )
     {
-        super( library, directive );
+        super( null, directive );
         
         m_library = library;
         m_directive = null;

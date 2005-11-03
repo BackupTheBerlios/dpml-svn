@@ -32,9 +32,11 @@ public final class ModuleDirective extends ResourceDirective
     private final ResourceDirective[] m_resources;
     
    /**
-    * Creation of a new module directive.
+    * Creation of a new module directive supporting the establishment
+    * of an anonymous reesource.
+    *
     * @param resource the abstract resource defintion
-    * @param resources resource contained within the module
+    * @param resource resource contained within the module
     */
     public ModuleDirective( String name, ResourceDirective resource )
     {

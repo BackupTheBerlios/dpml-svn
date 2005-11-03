@@ -55,7 +55,7 @@ import net.dpml.transit.Logger;
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-public final class DefaultLibrary extends DefaultDictionary implements Library
+public final class DefaultLibrary implements Library
 {
     private final LibraryDirective m_directive;
     private final DefaultProcessor[] m_processes;
@@ -82,9 +82,7 @@ public final class DefaultLibrary extends DefaultDictionary implements Library
     * @exception Exception if an error occurs during defintion loading
     */
     public DefaultLibrary( Logger logger, File source ) throws Exception
-    {
-        super( LibraryDirectiveBuilder.build( source ) );
-        
+    {        
         if( null == logger )
         {
             throw new NullPointerException( "logger" );
@@ -95,7 +93,7 @@ public final class DefaultLibrary extends DefaultDictionary implements Library
         }
         
         m_logger = logger;
-        m_directive = (LibraryDirective) super.getAbstractDirective();
+        m_directive = LibraryDirectiveBuilder.build( source );
         m_root = source.getParentFile().getCanonicalFile();
         
         // setup the processors
@@ -342,6 +340,39 @@ public final class DefaultLibrary extends DefaultDictionary implements Library
         return m_module.locate( base );
     }
     
+    //----------------------------------------------------------------------------
+    // Dictionary
+    //----------------------------------------------------------------------------
+    
+   /**
+    * Return the property names associated with the dictionary.
+    * @return the array of property names
+    */
+    public String[] getPropertyNames()
+    {
+        return m_module.getPropertyNames();
+    }
+    
+   /**
+    * Return a property value.
+    * @param key the property key
+    * @return the property value
+    */
+    public String getProperty( String key )
+    {
+        return m_module.getProperty( key );
+    }
+    
+   /**
+    * Return a property value.
+    * @param key the property key
+    * @param value the default value
+    * @return the property value
+    */
+    public String getProperty( String key, String value )
+    {
+        return m_module.getProperty( key, value );
+    }
     //----------------------------------------------------------------------------
     // internals
     //----------------------------------------------------------------------------

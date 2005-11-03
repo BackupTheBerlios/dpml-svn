@@ -307,6 +307,7 @@
        <dependencies>
          <include ref="dpml/tools/dpml-tools-ant"/>
          <include urn="artifact:jar:checkstyle/checkstyle#3.5">
+           <property name="project.api.host" value="http://api.dpml.net"/>
            <property name="project.api.root" value="${project.api.host}/${group}/${version}"/>
          </include>
          <include urn="artifact:jar:regexp/regexp#1.3" />

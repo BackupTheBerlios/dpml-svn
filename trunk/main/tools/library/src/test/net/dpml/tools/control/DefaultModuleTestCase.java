@@ -50,11 +50,11 @@ public class DefaultModuleTestCase extends AbstractTestCase
     {
         Module module = (Module) m_library.getResource( "dpml/transit" );
         Resource[] providers = module.getAggregatedProviders( Scope.RUNTIME, true, false );
-        System.out.println( "# AGGREGATED MODULE PROVIDERS " + providers.length );
-        for( int i=0; i<providers.length; i++ )
-        {
-            System.out.println( "# " + providers[i] );
-        }
+        //System.out.println( "# AGGREGATED MODULE PROVIDERS " + providers.length );
+        //for( int i=0; i<providers.length; i++ )
+        //{
+        //    System.out.println( "# " + providers[i] );
+        //}
     }
     
    /**

@@ -40,18 +40,15 @@ public class DefaultDictionary implements Dictionary
     private final Properties m_properties;
     
    /**
-    * Creation of a new dictionary.
-    * @param directive an abstract directive
-    */
-    DefaultDictionary( AbstractDirective directive )
-    {
-        this( null, directive );
-    }
-    
-   /**
-    * Creation of a new dictionary.
-    * @param parent the parent dictionary
-    * @param directive an abstract directive
+    * Creation of a new dictionary.  The dictionary provides support
+    * for property inheritance within the hierachy of of modules based
+    * an a single root virtual module.  When handling a propety request
+    * the dictionary will attempt to resolve the property value using 
+    * local property values.  If the value is unresolved, the implemenetation
+    * will attempt to delegate the request to a parent dictionary if available.
+    *
+    * @param parent the parent dictionary (possibly null)
+    * @param directive an abstract directive containing local properties
     */
     DefaultDictionary( DefaultDictionary parent, AbstractDirective directive )
     {
