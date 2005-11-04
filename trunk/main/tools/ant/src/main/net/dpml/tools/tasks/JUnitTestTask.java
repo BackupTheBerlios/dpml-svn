@@ -111,7 +111,6 @@ public class JUnitTestTask extends GenericTask
     */
     public static final String TEST_EXCLUDES_VALUE = "**/Abstract*.java, **/AllTest*.java";
 
-    private boolean m_init = false;
     private File m_source;
     private String m_classPathRef;
     private Path m_classPath;
@@ -122,7 +121,7 @@ public class JUnitTestTask extends GenericTask
     */
     public void init() throws BuildException
     {
-        if( !m_init )
+        if( !isInitialized() )
         {
             super.init();
             final Project project = getProject();
@@ -132,7 +131,7 @@ public class JUnitTestTask extends GenericTask
             project.setNewProperty( TEST_ENV_KEY, "" + TEST_ENV_VALUE );
             project.setNewProperty( HALT_ON_ERROR_KEY, "" + HALT_ON_ERROR_VALUE );
             project.setNewProperty( HALT_ON_FAILURE_KEY, "" + HALT_ON_FAILURE_VALUE );
-            m_init = true;
+            getContext().init();
         }
     }
 

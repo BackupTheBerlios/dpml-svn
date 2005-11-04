@@ -55,8 +55,20 @@ public class JavadocTask extends GenericTask
     private File m_overview;
 
     //-----------------------------------------------------------------------
-    // ModuleDocTask
+    // JavadocTask
     //-----------------------------------------------------------------------
+
+   /**
+    * Task initialization.
+    */
+    public void init()
+    {
+        if( !isInitialized() )
+        {
+            super.init();
+            getContext().init();
+        }
+    }
 
    /**
     * Set the javadoc title.

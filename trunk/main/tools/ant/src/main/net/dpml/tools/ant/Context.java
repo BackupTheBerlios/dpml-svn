@@ -45,8 +45,9 @@ public final class Context
     private final Project m_project;
     private final Resource m_resource;
     private final Library m_library;
-    private final Path m_runtime;
-    private final Path m_test;
+    
+    private Path m_runtime;
+    private Path m_test;
         
    /**
     * Creation of a new project build context.
@@ -68,26 +69,6 @@ public final class Context
             project.setNewProperty( name, value );
         }
         
-        final Path compileSrcPath = new Path( project );
-        File srcMain = getTargetBuildMainDirectory();
-        compileSrcPath.createPathElement().setLocation( srcMain );
-        project.addReference( "project.build.src.path", compileSrcPath );
-        
-        m_runtime = createPath( Scope.RUNTIME );
-        project.addReference( "project.compile.path", m_runtime );
-        m_test = createPath( Scope.TEST );
-        if( resource.isa( "jar" ) )
-        {
-            File deliverables = getTargetDeliverablesDirectory();
-            File jars = new File( deliverables, "jars" );
-            String filename = getLayoutPath( "jar" );
-            File jar = new File( jars, filename );
-            m_test.createPathElement().setLocation( jar );
-        }
-        final File testClasses = getTargetClassesTestDirectory();
-        m_test.createPathElement().setLocation( testClasses );
-        
-        project.addReference( "project.test.path", m_test );
         project.setNewProperty( "project.name", m_resource.getName() );
         project.setNewProperty( "project.version", m_resource.getVersion() );
         if( null == m_resource.getParent() )
@@ -124,6 +105,36 @@ public final class Context
     }
     
    /**
+    * Initialize the contex during which runtime anbd test path objects are 
+    * established as project references.
+    */
+    public void init()
+    {
+        if( m_runtime != null )
+        {
+            return;
+        }
+        final Path compileSrcPath = new Path( m_project );
+        File srcMain = getTargetBuildMainDirectory();
+        compileSrcPath.createPathElement().setLocation( srcMain );
+        m_project.addReference( "project.build.src.path", compileSrcPath );
+        m_runtime = createPath( Scope.RUNTIME );
+        m_project.addReference( "project.compile.path", m_runtime );
+        m_test = createPath( Scope.TEST );
+        if( m_resource.isa( "jar" ) )
+        {
+            File deliverables = getTargetDeliverablesDirectory();
+            File jars = new File( deliverables, "jars" );
+            String filename = getLayoutPath( "jar" );
+            File jar = new File( jars, filename );
+            m_test.createPathElement().setLocation( jar );
+        }
+        final File testClasses = getTargetClassesTestDirectory();
+        m_test.createPathElement().setLocation( testClasses );
+        m_project.addReference( "project.test.path", m_test );
+    }
+    
+   /**
     * Return an Ant path suitable for comile or runtime usage. If the supplied scope is 
     * less than Scope.RUNTIME a runtime path is returned otherwise the test path is 
     * returned.
@@ -132,6 +143,10 @@ public final class Context
     */
     public Path getPath( Scope scope )
     {
+        if( m_runtime == null )
+        {
+            init();
+        }
         if( scope.isLessThan( Scope.TEST ) )
         {
             return m_runtime;

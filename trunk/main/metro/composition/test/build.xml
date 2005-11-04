@@ -24,9 +24,9 @@
 
   <transit:import uri="local:template:tools/standard"/>
 
-  <x:plugin uri="artifact:plugin:dpml/metro/dpml-composition-tools#SNAPSHOT"/>
-
   <target name="build" depends="standard.build">
+
+    <x:plugin uri="artifact:plugin:dpml/metro/dpml-composition-tools#SNAPSHOT"/>
 
     <!-- create the test component types -->
 

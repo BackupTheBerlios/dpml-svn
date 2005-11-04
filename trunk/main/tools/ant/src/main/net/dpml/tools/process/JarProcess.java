@@ -65,6 +65,8 @@ public class JarProcess extends AbstractBuildListener
         else if( "build".equals( name ) )
         {
             Project project = event.getProject();
+            Context context = getContext( project );
+            context.init();
             final JavacTask task = new JavacTask();
             task.setProject( project );
             task.setTaskName( "javac" );
@@ -89,6 +91,8 @@ public class JarProcess extends AbstractBuildListener
         else if( "test".equals( name ) )
         {
             Project project = event.getProject();
+            Context context = getContext( project );
+            context.init();
             File src = new File( project.getProperty( "project.target.build.test.dir" ) );
             if( src.exists() )
             {

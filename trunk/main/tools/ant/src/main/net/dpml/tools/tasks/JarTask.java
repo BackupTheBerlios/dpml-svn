@@ -47,6 +47,18 @@ public class JarTask extends GenericTask
     private File m_destination;
     
    /**
+    * Task initialization.
+    */
+    public void init()
+    {
+        if( !isInitialized() )
+        {
+            super.init();
+            getContext().init();
+        }
+    }
+    
+   /**
     * Set the src directory.
     * @param source the source directory
     */

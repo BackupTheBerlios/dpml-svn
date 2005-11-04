@@ -41,6 +41,19 @@ import org.apache.tools.ant.BuildException;
 public class ModuleTask extends GenericTask
 {
    /**
+    * Task initialization.
+    * @exception BuildException if a build error occurs.
+    */
+    public void init() throws BuildException
+    {
+        if( !isInitialized() )
+        {
+            super.init();
+            getContext().init();
+        }
+    }
+    
+   /**
     * Execute the task.
     */
     public void execute()

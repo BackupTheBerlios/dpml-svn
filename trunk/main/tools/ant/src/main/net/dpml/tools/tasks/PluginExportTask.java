@@ -132,6 +132,18 @@ public class PluginExportTask extends GenericTask
     // ------------------------------------------------------------------------
 
    /**
+    * Task initialization.
+    */
+    public void init()
+    {
+        if( !isInitialized() )
+        {
+            super.init();
+            getContext().init();
+        }
+    }
+
+   /**
     * Set the plugin classname.
     * @param type the classname
     */
