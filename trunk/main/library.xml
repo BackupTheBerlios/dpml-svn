@@ -38,11 +38,11 @@
         <property name="project.svn.host" value="svn://svn.berlios.de/dpml/trunk/main"/>
       </properties>
 
-      <module file="transit/module.xml"/>
-      <module file="tools/module.xml"/>
-      <module file="metro/module.xml"/>
-      <module file="depot/module.xml"/>
-      <module file="util/module.xml"/>
+      <module base="transit"/>
+      <module base="tools"/>
+      <module base="metro"/>
+      <module base="depot"/>
+      <module base="util"/>
    
     </module>
 

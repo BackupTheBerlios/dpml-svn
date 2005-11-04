@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 
-<module name="tools" basedir="tools">
+<module name="tools">
    
   <types>
     <type id="module" alias="true"/>

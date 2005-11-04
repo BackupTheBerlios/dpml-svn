@@ -14,24 +14,13 @@
     <processor name="part" uri="link:plugin:dpml/metro/dpml-composition-tools"/>
   </processors>
 
-  <!--
-  <imports>
-    <import file="library/junit-3.8.1.xml"/>
-    <import file="library/commons-cli-1.0.xml"/>
-    <import file="library/xstream-1.1.xml"/>
-    <import file="library/jgoodies.xml"/>
-    <import file="library/dpml.xml"/>
-    <import file="library/ant-1.6.5.xml"/>
-  </imports>
-  -->
-
   <modules>
-    <module file="library/junit-3.8.1.xml"/>
-    <module file="library/commons-cli-1.0.xml"/>
-    <module file="library/xstream-1.1.xml"/>
-    <module file="library/jgoodies.xml"/>
-    <module file="library/dpml.xml"/>
-    <module file="library/ant-1.6.5.xml"/>
+    <module base="junit"/>
+    <module base="commons-cli"/>
+    <module base="xstream"/>
+    <module base="jgoodies"/>
+    <module base="dpml"/>
+    <module base="ant"/>
   </modules>
 
 </library>

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 
-<module name="transit" basedir="transit">
+<module name="transit">
    
   <types>
     <type id="module" alias="true"/>

@@ -122,7 +122,7 @@ public final class DefaultLibrary implements Library
                 String path = include.getValue();
                 File file = new File( m_root, path );
                 getLogger().debug( "loading local import: " + file );
-                importModuleDirectives[i] = LibraryDirectiveBuilder.buildModuleDirective( file );
+                importModuleDirectives[i] = LibraryDirectiveBuilder.buildModuleDirective( m_root, path );
             }
             else
             {

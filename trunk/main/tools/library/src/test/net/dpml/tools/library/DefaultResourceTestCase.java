@@ -124,7 +124,7 @@ public class DefaultResourceTestCase extends AbstractTestCase
     */
     public void testNullBaseDir() throws Exception
     {
-        String path = "ant";
+        String path = "ant/ant";
         Resource resource = m_library.getResource( path );
         File basedir = resource.getBaseDir();
         assertNull( "basedir", basedir );

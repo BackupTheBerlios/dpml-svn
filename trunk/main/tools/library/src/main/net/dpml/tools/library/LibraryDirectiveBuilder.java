@@ -158,7 +158,7 @@ public final class LibraryDirectiveBuilder
             }
             else if( MODULES_ELEMENT_NAME.equals( tag ) )
             {
-                modules = buildModuleDirectives( base, child );
+                modules = buildModuleDirectivesFromElement( base, child );
             }
             else if( PROCESSORS_ELEMENT_NAME.equals( tag ) ) 
             {
@@ -174,14 +174,15 @@ public final class LibraryDirectiveBuilder
         return new LibraryDirective( types, imports, modules, properties );
     }
     
-    private static ModuleDirective[] buildModuleDirectives( File base, Element element ) throws IOException
+    private static ModuleDirective[] buildModuleDirectivesFromElement( 
+      File base, Element element ) throws IOException
     {
         Element[] children = ElementHelper.getChildren( element );
         ModuleDirective[] modules = new ModuleDirective[ children.length ];
         for( int i=0; i<children.length; i++ )
         {
             Element child = children[i];
-            modules[i] = buildModuleDirective( base, child );
+            modules[i] = buildModuleDirectiveFromElement( base, child, null );
         }
         return modules;
     }
@@ -239,7 +240,7 @@ public final class LibraryDirectiveBuilder
     * @return the module directive
     * @exception IOException if an IO exception occurs
     */
-    public static ModuleDirective buildModuleDirective( File source ) throws IOException
+    public static ModuleDirective buildModuleDirective( File source, String path ) throws IOException
     {
         if( null == source )
         {
@@ -262,8 +263,11 @@ public final class LibraryDirectiveBuilder
         try
         {
             final Element root = ElementHelper.getRootElement( input );
-            final File base = source.getParentFile();
-            return buildModuleDirective( base, root );
+            final File parent = source.getParentFile();
+            //String baseSpec = base.getCanonicalPath();
+            //String parentSpec = parent.getCanonicalPath();
+            ///String fragment = parentSpec.substring( baseSpec.length() + 1 );
+            return buildModuleDirectiveFromElement( parent, root, path );
         }
         catch( Throwable e )
         {
@@ -315,7 +319,8 @@ public final class LibraryDirectiveBuilder
     * Build a module using an XML element.
     * @param element the module element
     */
-    private static ModuleDirective buildModuleDirective( File base, Element element ) throws IOException
+    private static ModuleDirective buildModuleDirectiveFromElement( 
+      File base, Element element, String path ) throws IOException
     {
         final String elementName = element.getTagName();
         if( !MODULE_ELEMENT_NAME.equals( elementName ) )
@@ -327,14 +332,34 @@ public final class LibraryDirectiveBuilder
             throw new IllegalArgumentException( error );
         }
         
-        String path = ElementHelper.getAttribute( element, "file", null );
-        if( null != path )
+        String spec = ElementHelper.getAttribute( element, "base", null );
+        if( null != spec )
         {
-            File target = new File( base, path );
-            return buildModuleDirective( target );
+            File dir = new File( base, spec );
+            if( !dir.exists() )
+            {
+                final String error = 
+                  "Cannot include module.xml from the dir ["
+                  + dir
+                  + "] because the directory does not exist.";
+                throw new FileNotFoundException( error ); 
+            }
+            File source = new File( dir, "module.xml" );
+            if( !source.exists() )
+            {
+                final String error = 
+                  "Cannot include module ["
+                  + source
+                  + "] because the file does not exist.";
+                throw new FileNotFoundException( error ); 
+            }
+            else
+            {
+                return buildModuleDirective( source, spec );
+            }
         }
         
-        ResourceDirective resource = buildResourceDirective( element );
+        ResourceDirective resource = buildResourceDirective( element, path );
         ArrayList list = new ArrayList();
         Element[] children = ElementHelper.getChildren( element );
         for( int i=0; i<children.length; i++ )
@@ -355,7 +380,8 @@ public final class LibraryDirectiveBuilder
             }
             else if( MODULE_ELEMENT_NAME.equals( tag ) )
             {
-                ModuleDirective directive = buildModuleDirective( base, child );
+                ModuleDirective directive = 
+                  buildModuleDirectiveFromElement( base, child, null );
                 list.add( directive );
             }
             else if( PROJECT_ELEMENT_NAME.equals( tag ) ) 
@@ -519,6 +545,11 @@ public final class LibraryDirectiveBuilder
     
     private static ResourceDirective buildResourceDirective( Element element )
     {
+        return buildResourceDirective( element, null );
+    }
+    
+    private static ResourceDirective buildResourceDirective( Element element, String path )
+    {
         Classifier classifier = null;
         final String tag = element.getTagName();
         if( RESOURCE_ELEMENT_NAME.equals( tag ) || PROJECT_ELEMENT_NAME.equals( tag ) 
@@ -526,7 +557,7 @@ public final class LibraryDirectiveBuilder
         {
             final String name = ElementHelper.getAttribute( element, "name", null );
             final String version = ElementHelper.getAttribute( element, "version", null );
-            final String basedir = ElementHelper.getAttribute( element, "basedir", null );
+            final String basedir = ElementHelper.getAttribute( element, "basedir", path );
             
             if( PROJECT_ELEMENT_NAME.equals( tag ) )
             {

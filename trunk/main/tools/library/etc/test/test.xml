@@ -7,7 +7,7 @@
   </processors>
 
   <modules>
-    <module file="demo/demo.xml"/>
+    <module base="demo"/>
   </modules>
 
 </library>
