@@ -161,6 +161,7 @@ public class BuildPlugin
                     {
                         return;
                     }
+                    System.gc();
                 }
             }
         }

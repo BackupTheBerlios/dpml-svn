@@ -16,6 +16,7 @@ CALL :transit-main
 CALL :transit-tools
 CALL :tools-library
 CALL :tools-ant
+CALL :external-modules
 CALL :depot-console
 GOTO :EOF
 
@@ -45,6 +46,12 @@ GOTO :EOF
 
 :tools-ant
 PUSHD tools\ant
+CALL :build clean install
+POPD
+GOTO :EOF
+
+:external-modules
+PUSHD tools\external
 CALL :build clean install
 POPD
 GOTO :EOF

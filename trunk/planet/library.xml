@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<library>
+
+  <properties>
+    <property name="project.builder.uri" value="link:plugin:dpml/tools/dpml-tools-ant"/>
+  </properties>
+
+  <processors>
+    <processor name="jar"/>
+    <processor name="plugin" depends="jar"/>
+    <processor name="part" uri="link:plugin:dpml/metro/dpml-composition-tools"/>
+    <processor name="module"/>
+  </processors>
+
+  <imports>
+    <import uri="link:module:dpml"/>
+    <import uri="link:module:junit"/>
+    <import uri="link:module:ant"/>
+  </imports>
+
+  <modules>
+
+    <module name="dpml">
+      <properties>
+        <property name="project.publisher.name" value="Digital Product Meta Library"/>
+        <property name="project.specification.vendor" value="${project.publisher.name}"/>
+        <property name="project.implementation.vendor" value="${project.publisher.name}"/>
+        <property name="project.implementation.vendor-id" value="net.dpml"/>
+        <property name="project.publisher.url" value="http://www.dpml.net"/>
+        <property name="project.resource.host" value="http://repository.dpml.net"/>
+        <property name="project.api.host" value="http://api.dpml.net"/>
+        <property name="project.svn.host" value="svn://svn.berlios.de/dpml/trunk/main"/>
+        <property name="project.test.fork" value="true"/>
+      </properties>
+
+      <module name="planet" basedir = ".">
+
+        <module name="http" basedir="http">
+
+          <types>
+            <type id="module" alias="true"/>
+          </types>
+
+          <project name="dpml-http-api" basedir="api">
+            <types>
+              <type id="jar"/>
+            </types>
+            <dependencies>
+              <include urn="artifact:jar:jetty/org.mortbay.jetty#5.1.1"/>
+            </dependencies>
+          </project>
+
+          <project name="dpml-http-spi" basedir="spi">
+            <types>
+              <type id="jar"/>
+            </types>
+            <dependencies>
+              <include key="dpml-http-api"/>
+            </dependencies>
+          </project>
+
+          <project name="dpml-http-util" basedir="util">
+            <types>
+              <type id="jar"/>
+            </types>
+            <dependencies>
+              <include key="dpml-http-api"/>
+            </dependencies>
+          </project>
+
+          <project name="dpml-http-impl" basedir="impl">
+            <types>
+              <type id="jar"/>
+            </types>
+            <dependencies>
+              <include key="dpml-http-api" tag="public"/>
+              <include urn="artifact:jar:servletapi/servletapi#2.3" tag="public"/>
+              <include key="dpml-http-spi" tag="protected"/>
+              <include ref="dpml/metro/dpml-activity-api" tag="protected"/>
+              <include ref="dpml/metro/dpml-logging-api" tag="protected"/>
+              <include ref="dpml/metro/dpml-configuration-api" tag="protected"/>
+              <include ref="dpml/metro/dpml-parameters-api" tag="protected"/>
+              <include urn="artifact:jar:jetty/org.mortbay.jetty#5.1.1"/>
+              <include urn="artifact:jar:jetty/org.mortbay.jaas#5.1.1"/>
+              <include urn="artifact:jar:tomcat/jsp-api#5.0.18"/>
+              <include urn="artifact:jar:tomcat/jasper-compiler#5.0.25"/>
+              <include urn="artifact:jar:tomcat/jasper-runtime#5.0.25"/>
+              <include urn="artifact:jar:commons-logging/commons-logging#1.0.4"/>
+            </dependencies>
+          </project>
+
+          <project name="dpml-http-demo" basedir="demo">
+            <types>
+              <type id="jar"/>
+            </types>
+            <dependencies>
+              <include urn="artifact:jar:servletapi/servletapi#2.3" tag="public"/>
+              <include key="dpml-http-api" tag="public"/>
+              <include key="dpml-http-impl"/>
+            </dependencies>
+            <dependencies scope="test">
+              <include ref="dpml/metro/dpml-component-control"/>
+              <include ref="ant/ant-junit"/>
+            </dependencies>
+          </project>
+
+        </module>
+
+      </module>
+
+    </module>
+
+  </modules>
+
+</library>

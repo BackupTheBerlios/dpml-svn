@@ -64,6 +64,13 @@ toolsAnt()
     cd ../..
 }
 
+toolsExternal()
+{
+    cd tools/external
+    build clean install
+    cd ../..
+}
+
 depotConsole()
 {
     cd depot/console
@@ -77,4 +84,5 @@ transitMain
 transitTools
 toolsLibrary
 toolsAnt
+toolsExternal
 depotConsole
