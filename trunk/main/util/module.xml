@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<module name="util" basedir="util">
+
+  <types>
+    <type id="module" alias="true"/>
+  </types>
+
+  <dependencies scope="build">
+    <include key="transit"/>
+  </dependencies>
+
+  <project name="dpml-i18n" basedir="i18n">
+    <types>
+      <type id="jar"/>
+    </types>
+    <dependencies scope="test">
+      <include ref="ant/ant-junit"/>
+    </dependencies>
+  </project>
+   
+</module>

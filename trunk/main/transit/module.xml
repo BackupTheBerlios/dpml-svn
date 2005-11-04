@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<module name="transit" basedir="transit">
+   
+  <types>
+    <type id="module" alias="true"/>
+  </types>
+   
+  <properties>
+    <property name="project.test.fork" value="true"/>
+  </properties>
+  
+  <resource name="dpml-transit-main" basedir="core/handler">
+    <types>
+      <type id="jar"/>
+    </types>
+  </resource>
+   
+  <resource name="dpml-transit-tools" basedir="core/tools">
+    <types>
+      <type id="jar"/>
+    </types>
+    <dependencies scope="RUNTIME">
+      <include key="dpml-transit-main"/>
+      <include ref="ant/ant"/>
+    </dependencies>
+  </resource>
+
+</module>
