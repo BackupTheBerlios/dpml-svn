@@ -48,7 +48,6 @@ import net.dpml.tools.model.ResourceNotFoundException;
 import net.dpml.transit.Artifact;
 import net.dpml.transit.Logger;
 
-
 /**
  * Utility class used for construction of a module model from an XML source.
  *
@@ -60,6 +59,7 @@ public final class DefaultLibrary implements Library
     private final LibraryDirective m_directive;
     private final DefaultProcessor[] m_processes;
     private final DefaultModule m_module;
+    private final DefaultModule m_imports;
     private final File m_root;
     private final Logger m_logger;
     private final Hashtable m_anonymous = new Hashtable();
@@ -106,12 +106,13 @@ public final class DefaultLibrary implements Library
             m_processes[i] = new DefaultProcessor( processDescriptor );
         }
         
-        // handle expansion of import directives 
-        
         getLogger().debug( "loaded root module: " + m_root );
         System.setProperty( "dpml.library.basedir", m_root.toString() );
+        
+        // handle expansion of import directives 
+        
         ImportDirective[] imports = m_directive.getImportDirectives();
-        ModuleDirective[] moduleDirectives = new ModuleDirective[ imports.length ];
+        ModuleDirective[] importModuleDirectives = new ModuleDirective[ imports.length ];
         for( int i=0; i<imports.length; i++ )
         {
             ImportDirective include = imports[i];
@@ -120,21 +121,30 @@ public final class DefaultLibrary implements Library
             {
                 String path = include.getValue();
                 File file = new File( m_root, path );
-                getLogger().debug( "loading local module: " + file );
-                moduleDirectives[i] = LibraryDirectiveBuilder.buildModuleDirective( file );
+                getLogger().debug( "loading local import: " + file );
+                importModuleDirectives[i] = LibraryDirectiveBuilder.buildModuleDirective( file );
             }
             else
             {
                 String path = include.getValue();
                 URI uri = new URI( path );
+                getLogger().debug( "loading external import: " + uri );
                 URL url = Artifact.createArtifact( uri ).toURL();
                 InputStream input = url.openStream();
-                moduleDirectives[i] = LibraryDirectiveBuilder.buildModuleDirective( input );
+                importModuleDirectives[i] = LibraryDirectiveBuilder.buildModuleDirective( input );
             }
+        }
+        DefaultModule[] importModules = new DefaultModule[ importModuleDirectives.length ];
+        m_imports = new DefaultModule( this, m_directive, importModules );
+        for( int i=0; i<importModuleDirectives.length; i++ )
+        {
+            ModuleDirective importModuleDirective = importModuleDirectives[i];
+            importModules[i] = new DefaultModule( this, m_imports, importModuleDirective );
         }
         
         // create the top-level modules
         
+        ModuleDirective[] moduleDirectives = m_directive.getModuleDirectives();
         DefaultModule[] modules = new DefaultModule[ moduleDirectives.length ];
         m_module = new DefaultModule( this, m_directive, modules );
         for( int i=0; i<moduleDirectives.length; i++ )
@@ -250,7 +260,14 @@ public final class DefaultLibrary implements Library
     */
     public Module getModule( String ref ) throws ModuleNotFoundException
     {
-        return m_module.getModule( ref );
+        try
+        {
+            return m_module.getModule( ref );
+        }
+        catch( ModuleNotFoundException e )
+        {
+            return m_imports.getModule( ref );
+        }
     }
 
    /**
@@ -261,7 +278,14 @@ public final class DefaultLibrary implements Library
     */
     public Resource getResource( String ref ) throws ResourceNotFoundException
     {
-        return m_module.getResource( ref );
+        try
+        {
+            return m_module.getResource( ref );
+        }
+        catch( ResourceNotFoundException e )
+        {
+            return m_imports.getResource( ref );
+        }
     }
     
    /**
@@ -523,7 +547,14 @@ public final class DefaultLibrary implements Library
     */
     DefaultResource getDefaultResource( String ref )
     {
-        return m_module.getDefaultResource( ref );
+        try
+        {
+            return m_module.getDefaultResource( ref );
+        }
+        catch( InvalidNameException e )
+        {
+            return m_imports.getDefaultResource( ref );
+        }
     }
     
    /**
@@ -533,7 +564,14 @@ public final class DefaultLibrary implements Library
     */
     DefaultModule getDefaultModule( String ref )
     {
-        return m_module.getDefaultModule( ref );
+        try
+        {
+            return m_module.getDefaultModule( ref );
+        }
+        catch( InvalidNameException e )
+        {
+            return m_imports.getDefaultModule( ref );
+        }
     }
     
     //----------------------------------------------------------------------------

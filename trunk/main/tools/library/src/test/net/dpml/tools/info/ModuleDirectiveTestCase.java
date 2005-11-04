@@ -27,6 +27,24 @@ import net.dpml.tools.info.ResourceDirective.Classifier;
  */
 public final class ModuleDirectiveTestCase extends AbstractTestCase
 {
+    static ModuleDirective[] MODULES = new ModuleDirective[3];
+    static
+    {
+        TypeDirective[] types = TypeDirectiveTestCase.TYPES;
+        DependencyDirective[] dependencies = DependencyDirectiveTestCase.DEPENDENCIES;
+        ResourceDirective[] resources = ResourceDirectiveTestCase.RESOURCES;
+        
+        MODULES[0] = new ModuleDirective( 
+          "aaa", "1.1", ResourceDirective.LOCAL, ".", types, 
+          dependencies, resources, PROPERTIES );
+        MODULES[1] = new ModuleDirective( 
+          "bbb", "1.1", ResourceDirective.LOCAL, ".", types, 
+          dependencies, resources, PROPERTIES );
+        MODULES[2] = new ModuleDirective( 
+          "ccc", "1.1", ResourceDirective.LOCAL, ".", types, 
+          dependencies, resources, PROPERTIES );
+    }
+
     private final Classifier m_classifier = ResourceDirective.LOCAL;
     private final String m_name = "name";
     private final String m_version = "1.1.1";

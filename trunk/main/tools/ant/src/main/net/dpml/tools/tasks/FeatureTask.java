@@ -170,19 +170,6 @@ public abstract class FeatureTask extends GenericTask
                 return artifact.toURI().toString();
             }
         }
-            //else if( m_feature.equals( "alias" ) )
-            //{
-            //    if( null == m_type )
-            //    {
-            //        final String error = 
-            //        "Type attribute must be supplied in conjuction with the alias attribute.";
-            //        throw new BuildException( error, getLocation() );
-            //    }
-            //    else
-            //    {
-            //        return resource.getInfo().getType( m_type ).getAlias();
-            //    }
-            //}
         else if( m_feature.equals( "spec" ) )
         {
             String path = resource.getResourcePath();
@@ -196,6 +183,45 @@ public abstract class FeatureTask extends GenericTask
                 return path + "#" + version;
             }
         }
+        else if( m_feature.equals( "filename" ) )
+        {
+            if( null == m_type )
+            {
+                final String error = 
+                  "Type attribute must be supplied in conjuction with the filename attribute.";
+                throw new BuildException( error, getLocation() );
+            }
+            return getContext().getLayoutPath( m_type );
+        }
+        else
+        {
+            String value = resource.getProperty( m_feature );
+            if( null != value )
+            {
+                return value;
+            }
+            else
+            {
+                final String error = 
+                  "Unsupported feature ["
+                  + m_feature 
+                  + "].";
+                throw new BuildException( error, getLocation() );
+            }
+        }
+            //else if( m_feature.equals( "alias" ) )
+            //{
+            //    if( null == m_type )
+            //    {
+            //        final String error = 
+            //        "Type attribute must be supplied in conjuction with the alias attribute.";
+            //        throw new BuildException( error, getLocation() );
+            //    }
+            //    else
+            //    {
+            //        return resource.getInfo().getType( m_type ).getAlias();
+            //    }
+            //}
         //else if( m_feature.equals( "path" ) )
         //{
             //    if( null == m_type )
@@ -217,18 +243,6 @@ public abstract class FeatureTask extends GenericTask
             //{
             //    return getPath( resource );
             //}
-            //else if( m_feature.equals( "filename" ) )
-            //{
-            //    if( null == m_type )
-            //    {
-            //        final String error = 
-            //          "Type attribute must be supplied in conjuction with the filename attribute.";
-            //        throw new BuildException( error, getLocation() );
-            //    }
-            //    else
-            //    {
-            //        return resource.getInfo().getFilename( m_type );
-            //    }
             //}
             //else if( m_feature.equals( "short-filename" ) )
             //{
@@ -238,22 +252,6 @@ public abstract class FeatureTask extends GenericTask
             //{
             //   return convertString( resource.getInfo().getJavadocPath() );
         //}
-        else
-        {
-            String value = resource.getProperty( m_feature );
-            if( null != value )
-            {
-                return value;
-            }
-            else
-            {
-                final String error = 
-                  "Unsupported feature ["
-                  + m_feature 
-                  + "].";
-                throw new BuildException( error, getLocation() );
-            }
-        }
     }
     
     private String getRef()

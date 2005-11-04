@@ -117,24 +117,6 @@ public class ResourceDirective extends AbstractDirective
     }
     
    /**
-    * Construct a resource directive suitable for export. 
-    * @param version the version to associate with the exported directive
-    * @return the exportable directive
-    */
-    public ResourceDirective export( String version )
-    {
-        return new ResourceDirective( 
-          m_name, 
-          version,
-          EXTERNAL,
-          m_basedir,
-          m_types,
-          m_dependencies, 
-          getProperties()
-        );
-    }
-    
-   /**
     * Return the resource name.
     * @return the name
     */

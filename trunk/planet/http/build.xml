@@ -17,10 +17,23 @@
   limitations under the License.
 -->
 
-<project name="dpml-http-package" default="install" basedir="." 
-    xmlns:transit="antlib:net.dpml.transit"
-    xmlns:x="plugin:dpml/magic/dpml-magic-core">
+<project name="dpml-http" default="install" basedir="." 
+    xmlns:transit="antlib:net.dpml.transit" 
+    xmlns:x="dpml:tools"
+    xmlns:c="dpml:composition">
 
-  <transit:import uri="local:template:magic/reactor"/>
+  <transit:import uri="local:template:tools/standard"/>
+
+  <target name="build" depends="standard.build">
+
+    <x:plugin uri="link:plugin:dpml/metro/dpml-composition-tools"/>
+
+    <c:catalog>
+      <fileset dir="${basedir}">
+        <include name="**/target/classes/main/**/*.type"/>
+      </fileset>
+    </c:catalog>
+
+  </target>
 
 </project>

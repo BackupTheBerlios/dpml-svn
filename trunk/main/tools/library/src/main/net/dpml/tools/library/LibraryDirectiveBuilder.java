@@ -28,6 +28,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Properties;
+import java.beans.XMLDecoder;
 
 import net.dpml.tools.info.ProcessDescriptor;
 import net.dpml.tools.info.LibraryDirective;
@@ -58,16 +59,15 @@ public final class LibraryDirectiveBuilder
     private static final String IMPORT_ELEMENT_NAME = "import";
     private static final String MODULE_ELEMENT_NAME = "module";
     private static final String MODULES_ELEMENT_NAME = "modules";
-    private static final String RESOURCES_ELEMENT_NAME = "resources";
     private static final String DEPENDENCIES_ELEMENT_NAME = "dependencies";
-    private static final String PROJECTS_ELEMENT_NAME = "projects";
     private static final String INCLUDE_ELEMENT_NAME = "include";
     private static final String RESOURCE_ELEMENT_NAME = "resource";
     private static final String TYPES_ELEMENT_NAME = "types";
     private static final String TYPE_ELEMENT_NAME = "type";
     private static final String PROJECT_ELEMENT_NAME = "project";
-    private static final String PRODUCES_ELEMENT_NAME = "production";
     private static final String PROPERTIES_ELEMENT_NAME = "properties";
+    private static final String PROCESSORS_ELEMENT_NAME = "processors";
+    private static final String PROCESSOR_ELEMENT_NAME = "processor";
     
     private LibraryDirectiveBuilder()
     {
@@ -142,6 +142,7 @@ public final class LibraryDirectiveBuilder
         Properties properties = null;
         ProcessDescriptor[] types = new ProcessDescriptor[0];
         ImportDirective[] imports = new ImportDirective[0];
+        ModuleDirective[] modules = new ModuleDirective[0];
         Element[] children = ElementHelper.getChildren( element );
         for( int i=0; i<children.length; i++ )
         {
@@ -155,7 +156,11 @@ public final class LibraryDirectiveBuilder
             {
                 imports = buildImportDirectives( child );
             }
-            else if( TYPES_ELEMENT_NAME.equals( tag ) ) 
+            else if( MODULES_ELEMENT_NAME.equals( tag ) )
+            {
+                modules = buildModuleDirectives( base, child );
+            }
+            else if( PROCESSORS_ELEMENT_NAME.equals( tag ) ) 
             {
                 types = buildProcessDescriptors( child );
             }
@@ -166,8 +171,21 @@ public final class LibraryDirectiveBuilder
                 throw new IllegalArgumentException( error );
             }
         }
-        return new LibraryDirective( types, imports, properties );
+        return new LibraryDirective( types, imports, modules, properties );
     }
+    
+    private static ModuleDirective[] buildModuleDirectives( File base, Element element ) throws IOException
+    {
+        Element[] children = ElementHelper.getChildren( element );
+        ModuleDirective[] modules = new ModuleDirective[ children.length ];
+        for( int i=0; i<children.length; i++ )
+        {
+            Element child = children[i];
+            modules[i] = buildModuleDirective( base, child );
+        }
+        return modules;
+    }
+    
     
     private static ProcessDescriptor[] buildProcessDescriptors( Element element )
     {
@@ -184,7 +202,7 @@ public final class LibraryDirectiveBuilder
     private static ProcessDescriptor buildProcessDescriptor( Element element )
     {
         final String tag = element.getTagName();
-        if( TYPE_ELEMENT_NAME.equals( tag ) )
+        if( PROCESSOR_ELEMENT_NAME.equals( tag ) )
         {
             final String name = ElementHelper.getAttribute( element, "name", null );
             final String urn = ElementHelper.getAttribute( element, "uri", null );
@@ -244,7 +262,7 @@ public final class LibraryDirectiveBuilder
         try
         {
             final Element root = ElementHelper.getRootElement( input );
-            File base = source.getParentFile();
+            final File base = source.getParentFile();
             return buildModuleDirective( base, root );
         }
         catch( Throwable e )
@@ -270,10 +288,13 @@ public final class LibraryDirectiveBuilder
     */
     public static ModuleDirective buildModuleDirective( InputStream input ) throws Exception
     {
+        final ClassLoader loader = Thread.currentThread().getContextClassLoader();
         try
         {
-            final Element root = ElementHelper.getRootElement( input );
-            return buildModuleDirective( null, root );
+            ClassLoader context = ModuleDirective.class.getClassLoader();
+            Thread.currentThread().setContextClassLoader( context );
+            XMLDecoder decoder = new XMLDecoder( new BufferedInputStream( input ) );
+            return (ModuleDirective) decoder.readObject();
         }
         catch( Throwable e )
         {
@@ -285,6 +306,7 @@ public final class LibraryDirectiveBuilder
         }
         finally
         {
+            Thread.currentThread().setContextClassLoader( loader );
             input.close();
         }
     }
@@ -299,8 +321,17 @@ public final class LibraryDirectiveBuilder
         if( !MODULE_ELEMENT_NAME.equals( elementName ) )
         {
             final String error =
-              "Element is not a module.";
+              "Element ["
+              + elementName 
+              + "] is not a module.";
             throw new IllegalArgumentException( error );
+        }
+        
+        String path = ElementHelper.getAttribute( element, "file", null );
+        if( null != path )
+        {
+            File target = new File( base, path );
+            return buildModuleDirective( target );
         }
         
         ResourceDirective resource = buildResourceDirective( element );
@@ -324,7 +355,7 @@ public final class LibraryDirectiveBuilder
             }
             else if( MODULE_ELEMENT_NAME.equals( tag ) )
             {
-                ModuleDirective directive = buildModuleDirective( null, child );
+                ModuleDirective directive = buildModuleDirective( base, child );
                 list.add( directive );
             }
             else if( PROJECT_ELEMENT_NAME.equals( tag ) ) 

@@ -228,7 +228,7 @@
      <project name="dpml-composition-tools" basedir="composition/tools">
        <types>
          <type id="jar"/>
-         <type id="plugin">
+         <type id="plugin" alias="true">
            <property name="project.plugin.resource" 
               value="net/dpml/composition/tools/antlib.xml"/>
            <property name="project.plugin.urn" 
@@ -301,7 +301,7 @@
      <project name="dpml-tools-checkstyle" basedir="checkstyle">
        <types>
          <type id="jar"/>
-         <type id="plugin">
+         <type id="plugin" alias="true">
            <property name="project.plugin.resource" 
               value="net/dpml/tools/checkstyle/antlib.xml"/>
            <property name="project.plugin.urn" 

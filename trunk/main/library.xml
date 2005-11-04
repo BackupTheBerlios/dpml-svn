@@ -6,18 +6,18 @@
     <property name="project.builder.uri" value="link:plugin:dpml/tools/dpml-tools-ant"/>
   </properties>
 
-  <types>
-    <type name="jar"/>
-    <type name="plugin" depends="jar"/>
-    <type name="part" uri="link:plugin:dpml/metro/dpml-composition-tools"/>
-    <type name="module"/>
-  </types>
+  <processors>
+    <processor name="jar"/>
+    <processor name="plugin" depends="jar"/>
+    <processor name="part" uri="link:plugin:dpml/metro/dpml-composition-tools"/>
+    <processor name="module"/>
+  </processors>
 
-  <imports>
-    <import file="library/junit-3.8.1.xml"/>
-    <import file="library/jgoodies.xml"/>
-    <import file="library/ant-1.6.5.xml"/>
-    <import file="library/dpml.xml"/>
-  </imports>
+  <modules>
+    <module file="library/junit-3.8.1.xml"/>
+    <module file="library/jgoodies.xml"/>
+    <module file="library/ant-1.6.5.xml"/>
+    <module file="library/dpml.xml"/>
+  </modules>
 
 </library>

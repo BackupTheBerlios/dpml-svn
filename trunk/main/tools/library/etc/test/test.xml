@@ -2,12 +2,12 @@
 
 <library>
 
-  <types>
-    <type name="jar"/>
-  </types>
+  <processors>
+    <processor name="jar"/>
+  </processors>
 
-  <imports>
-    <import file="demo/demo.xml"/>
-  </imports>
+  <modules>
+    <module file="demo/demo.xml"/>
+  </modules>
 
 </library>

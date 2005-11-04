@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!--
- * Copyright 2004 Stephen J. McConnell.
+ * Copyright 2004-2005 Stephen J. McConnell.
  * Copyright 2004 Niclas Hedman.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -19,7 +19,7 @@
 <project name="dpml-http-spi" default="install" basedir="." 
     xmlns:transit="antlib:net.dpml.transit" >
 
-  <transit:import uri="local:template:magic/standard"/>
+  <transit:import uri="local:template:tools/standard"/>
 
 </project>
 

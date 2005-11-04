@@ -27,20 +27,21 @@ public final class LibraryDirectiveTestCase extends AbstractTestCase
 {
     static ProcessDescriptor[] PROCESSES = ProcessDescriptorTestCase.PROCESSES;
     static ImportDirective[] IMPORTS = ImportDirectiveTestCase.IMPORTS;
+    static ModuleDirective[] MODULES = ModuleDirectiveTestCase.MODULES;
     
     private LibraryDirective m_library;
     
     public void setUp() throws Exception
     {
         m_library = 
-          new LibraryDirective( PROCESSES, IMPORTS, PROPERTIES );
+          new LibraryDirective( PROCESSES, IMPORTS, MODULES, PROPERTIES );
     }
 
     public void testNullProcessors()
     {
         try
         {
-            new LibraryDirective( null, IMPORTS, PROPERTIES );
+            new LibraryDirective( null, IMPORTS, MODULES, PROPERTIES );
             fail( "no-NPE" );
         }
         catch( NullPointerException e )
@@ -53,7 +54,7 @@ public final class LibraryDirectiveTestCase extends AbstractTestCase
     {
         try
         {
-            new LibraryDirective( PROCESSES, null, PROPERTIES );
+            new LibraryDirective( PROCESSES, null, MODULES, PROPERTIES );
             fail( "no-NPE" );
         }
         catch( NullPointerException e )

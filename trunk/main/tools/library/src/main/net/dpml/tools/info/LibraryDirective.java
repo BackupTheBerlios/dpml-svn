@@ -32,6 +32,7 @@ public final class LibraryDirective extends AbstractDirective
 {
     private final ProcessDescriptor[] m_processes;
     private final ImportDirective[] m_imports;
+    private final ModuleDirective[] m_modules;
     
    /**
     * Creation of a new library directive.
@@ -40,7 +41,8 @@ public final class LibraryDirective extends AbstractDirective
     * @param properties library properties
     */
     public LibraryDirective(
-      ProcessDescriptor[] processes, ImportDirective[] imports, Properties properties )
+      ProcessDescriptor[] processes, ImportDirective[] imports, 
+      ModuleDirective[] modules, Properties properties )
     {
         super( properties );
         
@@ -52,7 +54,12 @@ public final class LibraryDirective extends AbstractDirective
         {
             throw new NullPointerException( "imports" );
         }
+        if( null == modules )
+        {
+            throw new NullPointerException( "modules" );
+        }
 
+        m_modules = modules;
         m_processes = processes;
         m_imports = imports;
     }
@@ -64,6 +71,15 @@ public final class LibraryDirective extends AbstractDirective
     public ImportDirective[] getImportDirectives()
     {
         return m_imports;
+    }
+    
+   /**
+    * Return the set of module directives.
+    * @return the module directive array
+    */
+    public ModuleDirective[] getModuleDirectives()
+    {
+        return m_modules;
     }
     
    /**

@@ -430,7 +430,6 @@ public class DefaultResource extends DefaultDictionary implements Resource, Comp
         }
         String name = getName();
         String version = getVersion();
-        Classifier classifier = Classifier.EXTERNAL;
         String basedir = null;
         TypeDirective[] types = m_directive.getTypeDirectives();
         ArrayList list = new ArrayList();

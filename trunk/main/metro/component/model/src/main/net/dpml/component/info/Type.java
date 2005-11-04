@@ -165,8 +165,6 @@ public class Type implements Serializable
     public static Type decode( ClassLoader context, InputStream input ) throws IOException
     {
         final ClassLoader loader = Thread.currentThread().getContextClassLoader();
-        /*
-        */
         try
         {
             Class c = context.loadClass( "net.dpml.configuration.impl.DefaultConfiguration" );
@@ -178,18 +176,6 @@ public class Type implements Serializable
               + context;
             throw new IllegalStateException( error );
         }
-        /*
-        try
-        {
-            Class c = loader.loadClass( "net.dpml.component.info.Type" );
-        }
-        catch( ClassNotFoundException ce )
-        {
-            final String error = 
-              "Context classloader does not include net.dpml.component.info.Type.";
-            throw new IllegalStateException( error );
-        }
-        */
         try
         {
             Thread.currentThread().setContextClassLoader( context );

@@ -89,22 +89,6 @@ public final class ModuleDirective extends ResourceDirective
     }
     
    /**
-    * Construct a module directive suitable for export. 
-    * @param version the version to associate with the exported directive
-    * @return the exportable directive
-    */
-    public ResourceDirective export( String version )
-    {
-        ResourceDirective resource = super.export( version );
-        ResourceDirective[] resources = new ResourceDirective[ m_resources.length ];
-        for( int i=0; i<m_resources.length; i++ )
-        {
-            resources[i] = m_resources[i].export( version );
-        }
-        return new ModuleDirective( resource, resources );
-    }
-    
-   /**
     * Return an array of resource directives representing the resources within 
     * the module.
     * @return the nested resource directives

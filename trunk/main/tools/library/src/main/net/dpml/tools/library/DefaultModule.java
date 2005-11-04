@@ -29,7 +29,9 @@ import net.dpml.tools.info.Scope;
 import net.dpml.tools.info.AbstractDirective;
 import net.dpml.tools.info.ModuleDirective;
 import net.dpml.tools.info.ResourceDirective;
+import net.dpml.tools.info.DependencyDirective;
 import net.dpml.tools.info.ResourceDirective.Classifier;
+import net.dpml.tools.info.TypeDirective;
 import net.dpml.tools.model.Module;
 import net.dpml.tools.model.Resource;
 import net.dpml.tools.model.ResourceNotFoundException;
@@ -237,8 +239,13 @@ public final class DefaultModule extends DefaultResource implements Module
             DefaultResource resource = resources[i];
             directives[i] = resource.exportResource( module );
         }
-        ResourceDirective directive = super.exportResource( module );
-        return new ModuleDirective( directive, directives );
+        String name = getName();
+        String version = getVersion();
+        String basedir = null;
+        TypeDirective[] types = m_directive.getTypeDirectives();
+        return new ModuleDirective( 
+          name, version, Classifier.EXTERNAL, basedir,
+          types, new DependencyDirective[0], directives, null );
     }
     
     //----------------------------------------------------------------------------
