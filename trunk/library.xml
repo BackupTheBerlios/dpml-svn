@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<library>
+
+  <properties>
+    <property name="project.builder.uri" value="link:plugin:dpml/tools/dpml-tools-ant"/>
+  </properties>
+
+  <processors>
+    <processor name="jar"/>
+    <processor name="plugin" depends="jar"/>
+    <processor name="part" uri="link:plugin:dpml/metro/dpml-composition-tools"/>
+    <processor name="module"/>
+  </processors>
+
+  <imports>
+    <import uri="link:module:junit"/>
+    <import uri="link:module:ant"/>
+    <import uri="link:module:jgoodies"/>
+  </imports>
+
+  <modules>
+
+    <module name="dpml" basedir=".">
+
+      <types>
+        <type id="module" alias="true"/>
+      </types>
+
+      <properties>
+        <property name="project.publisher.name" value="Digital Product Meta Library"/>
+        <property name="project.specification.vendor" value="${project.publisher.name}"/>
+        <property name="project.implementation.vendor" value="${project.publisher.name}"/>
+        <property name="project.implementation.vendor-id" value="net.dpml"/>
+        <property name="project.publisher.url" value="http://www.dpml.net"/>
+        <property name="project.resource.host" value="http://repository.dpml.net"/>
+        <property name="project.api.host" value="http://api.dpml.net"/>
+        <property name="project.svn.host" value="svn://svn.berlios.de/dpml/trunk/main"/>
+      </properties>
+
+      <module base="main/transit"/>
+      <module base="main/tools"/>
+      <module base="main/metro"/>
+      <module base="main/depot"/>
+      <module base="main/util"/>
+
+      <project name="central" basedir="central/site"/>
+   
+    </module>
+
+  </modules>
+
+</library>
