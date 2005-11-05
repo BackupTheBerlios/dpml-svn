@@ -1,6 +1,6 @@
 /*
  * Copyright 2004 Niclas Hedhman
- * Copyright 2004 Stephen McConnell
+ * Copyright 2004-2005 Stephen McConnell
  *
  * Licensed  under the  Apache License,  Version 2.0  (the "License");
  * you may not use  this file  except in  compliance with the License.
@@ -53,7 +53,7 @@ public class DocTask extends GenericTask
     private static final String DOC_TEMP_VALUE = "docs";
     private static final String DOC_SRC_VALUE = "docs";
     private static final String DOC_RESOURCES_VALUE = "resources";
-    private static final String DOC_THEME_VALUE = "modern";
+    private static final String DOC_THEME_VALUE = "formal";
     private static final String DOC_FORMAT_VALUE = "html";
     private static final String DOC_DATE_FORMAT_VALUE = "yyyy-MMM-dd";
     private static final String DOC_STYLE_VALUE = "standard";
@@ -198,7 +198,6 @@ public class DocTask extends GenericTask
             project.setNewProperty( ORG_NAME_KEY, ORG_NAME_VALUE );
             project.setNewProperty( DOC_SRC_KEY, DOC_SRC_VALUE );
             project.setNewProperty( DOC_RESOURCES_KEY, DOC_RESOURCES_VALUE );
-            project.setNewProperty( DOC_THEME_KEY, DOC_THEME_VALUE );
             project.setNewProperty( DOC_FORMAT_KEY, DOC_FORMAT_VALUE );
             project.setNewProperty( DOC_DATE_FORMAT_KEY, DOC_DATE_FORMAT_VALUE );
             project.setNewProperty( DOC_STYLE_KEY, DOC_STYLE_VALUE );

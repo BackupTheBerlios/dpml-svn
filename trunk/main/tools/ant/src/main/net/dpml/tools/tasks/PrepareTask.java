@@ -48,7 +48,7 @@ public class PrepareTask extends GenericTask
     private static final String ETC_FILTERED_EXCLUDES_KEY =
       "project.prepare.etc.filtered.excludes";
     private static final String ETC_FILTERED_EXCLUDES_VALUE =
-      "**/*.exe,**/*.jar*,**/*.dll,**/*.gif,**/*.jpeg,**/*.jpg,**/*.ico";
+      "**/*.exe,**/*.jar*,**/*.dll,**/*.gif,**/*.jpeg,**/*.jpg,**/*.ico,**/*.png";
     
     private boolean m_init = false;
     
