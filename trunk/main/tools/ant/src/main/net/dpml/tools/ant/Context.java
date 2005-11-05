@@ -203,6 +203,15 @@ public final class Context
     }
     
    /**
+    * Return the project source docs directory.
+    * @return the directory
+    */
+    public File getSrcDocsDirectory()
+    {
+        return new File( getSrcDirectory(), "docs" );
+    }
+    
+   /**
     * Return the project etc directory.
     * @return the directory
     */
@@ -231,6 +240,15 @@ public final class Context
     }
     
    /**
+    * Return the project target temp directory.
+    * @return the directory
+    */
+    public File getTargetTempDirectory()
+    {
+        return new File( getTargetDirectory(), "temp" );
+    }
+    
+   /**
     * Return the project target build directory.
     * @return the directory
     */
@@ -255,6 +273,15 @@ public final class Context
     public File getTargetBuildTestDirectory()
     {
         return new File( getTargetBuildDirectory(), "test" );
+    }
+    
+   /**
+    * Return the project target build docs directory.
+    * @return the directory
+    */
+    public File getTargetBuildDocsDirectory()
+    {
+        return new File( getTargetBuildDirectory(), "docs" );
     }
     
    /**
@@ -318,6 +345,15 @@ public final class Context
     public File getTargetReportsJavadocDirectory()
     {
         return new File( getTargetReportsDirectory(), "api" );
+    }
+    
+   /**
+    * Return the project target reports docs directory.
+    * @return the directory
+    */
+    public File getTargetReportsDocsDirectory()
+    {
+        return new File( getTargetReportsDirectory(), "docs" );
     }
     
    /**

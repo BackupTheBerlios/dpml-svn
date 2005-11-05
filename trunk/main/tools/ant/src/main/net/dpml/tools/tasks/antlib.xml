@@ -14,4 +14,5 @@
   <taskdef name="plugin"       classname="net.dpml.tools.tasks.PluginTask"/>
   <taskdef name="replicate"    classname="net.dpml.tools.tasks.ReplicateTask"/>
   <taskdef name="javadoc"      classname="net.dpml.tools.tasks.JavadocTask"/>
+  <taskdef name="docs"         classname="net.dpml.tools.tasks.DocTask"/>
 </antlib>

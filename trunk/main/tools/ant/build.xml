@@ -14,8 +14,10 @@
 
   <target name="setup-path" depends="bootstrap.setup-path">
     <transit:get property="junit.path" uri="${junit.uri}"/>
-    <transit:get property="tools.library.path" uri="artifact:jar:dpml/tools/dpml-tools-library#${project.version}"/>
-    <transit:get property="transit.path" uri="artifact:jar:dpml/transit/dpml-transit-main#${project.version}"/>
+    <transit:get property="tools.library.path" 
+      uri="artifact:jar:dpml/tools/dpml-tools-library#${project.version}"/>
+    <transit:get property="transit.path" 
+      uri="artifact:jar:dpml/transit/dpml-transit-main#${project.version}"/>
     <path id="project.main.path">
       <pathelement location="${dpml.local.cache}/dpml/transit/jars/dpml-transit-main-${dpml.transit.version}.jar"/>
       <pathelement location="${tools.library.path}"/>
@@ -38,9 +40,8 @@
     <property name="tools.prefs" location="${dpml.prefs}/tools"/>
     <mkdir dir="${tools.prefs}"/>
     <copy toDir="${tools.prefs}">
-      <fileset dir="${basedir}/target">
-        <include name="templates/**"/>
-        <include name="xsls/**"/>
+      <fileset dir="${target.dir}/prefs">
+        <include name="**/*"/>
       </fileset>
     </copy>
   </target>
