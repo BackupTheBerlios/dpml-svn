@@ -44,6 +44,10 @@
       <module base="main/depot"/>
       <module base="main/util"/>
 
+      <module name="planet" basedir="planet">
+        <module base="http"/>
+      </module>
+
       <project name="central" basedir="central/site"/>
    
     </module>

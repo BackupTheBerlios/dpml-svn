@@ -773,16 +773,9 @@ public class DefaultResource extends DefaultDictionary implements Resource, Comp
                 processDefaultResource( visited, stack, scope, expand, providers[i] );
             }
             stack.add( resource );
-            
-            //DefaultResource[] providers = resource.getAggregatedDefaultProviders( scope, false, false );
-            //for( int i=0; i<providers.length; i++ )
-            //{
-            //    processDefaultResource( visited, stack, scope, providers[i] );
-            //}
-            //stack.add( resource );
         }
     }
-        
+    
     private String getIncludeReference( IncludeDirective directive )
     {
         if( IncludeDirective.REF.equals( directive.getMode() ) || ( null == m_parent ) )

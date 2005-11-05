@@ -351,9 +351,9 @@ public final class Context
     * Return the project target reports docs directory.
     * @return the directory
     */
-    public File getTargetReportsDocsDirectory()
+    public File getTargetDocsDirectory()
     {
-        return new File( getTargetReportsDirectory(), "docs" );
+        return new File( getTargetDirectory(), "docs" );
     }
     
    /**

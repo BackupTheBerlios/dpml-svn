@@ -239,7 +239,7 @@ public class DocTask extends GenericTask
         // get the theme, output formats, etc.
         //
 
-        final File docs = getContext().getTargetReportsDocsDirectory();
+        final File docs = getContext().getTargetDocsDirectory();
         log( "Destination: " + docs.getAbsolutePath() );
         mkDir( docs );
 

@@ -380,9 +380,20 @@ public final class LibraryDirectiveBuilder
             }
             else if( MODULE_ELEMENT_NAME.equals( tag ) )
             {
-                ModuleDirective directive = 
-                  buildModuleDirectiveFromElement( base, child, null );
-                list.add( directive );
+                String newBasePath = resource.getBasedir();
+                if( null != newBasePath )
+                {
+                    File newBase = new File( base, newBasePath );
+                    ModuleDirective directive = 
+                      buildModuleDirectiveFromElement( newBase, child, null );
+                    list.add( directive );
+                }
+                else
+                {
+                    ModuleDirective directive = 
+                      buildModuleDirectiveFromElement( base, child, null );
+                    list.add( directive );
+                }
             }
             else if( PROJECT_ELEMENT_NAME.equals( tag ) ) 
             {
