@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
-<project name="dpml-central-site" default="install" basedir="."
-    xmlns:transit="antlib:net.dpml.transit" 
+<project name="dpml-central" default="install" basedir="." 
+    xmlns:transit="antlib:net.dpml.transit"
     xmlns:x="dpml:tools" >
 
   <transit:import uri="local:template:tools/standard"/>
@@ -26,7 +26,11 @@
     <x:filter ref="dpml/depot" feature="version" token="DEPOT-BUILD-ID"/>
   </target>
 
-  <target name="install" depends="docs">
+  <target name="build" depends="standard.build">
+    <x:docs/>
+  </target>
+
+  <target name="install" depends="standard.install">
     <echo>
 #----------------------------------------------------------------------------------
 # Updating ${dpml.docs}
@@ -37,10 +41,6 @@
       <fileset dir="${basedir}/target/docs"/>
     </copy>
     -->
-  </target>
-
-  <target name="docs" depends="prepare">
-    <x:docs/>
   </target>
 
 </project>
