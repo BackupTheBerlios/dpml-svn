@@ -165,7 +165,15 @@ public class DocTask extends GenericTask
         {
             return m_theme;
         }
-        return getResource().getProperty( DOC_THEME_KEY );
+        String theme = getProject().getProperty( DOC_THEME_KEY );
+        if( null != theme )
+        {
+            return theme;
+        }
+        else
+        {
+            return getResource().getProperty( DOC_THEME_KEY, "formal" );
+        }
     }
 
    /**

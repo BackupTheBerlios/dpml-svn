@@ -31,7 +31,9 @@
     <x:filter feature="project.publisher.url" token="PUBLISHER-URL" default="http://www.dpml.net"/>
   </target>
 
-  <target name="prepare" depends="init"/>
+  <target name="prepare" depends="init">
+    <x:prepare/>
+  </target>
 
   <target name="build" depends="prepare"/>
 

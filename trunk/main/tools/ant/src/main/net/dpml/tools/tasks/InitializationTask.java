@@ -61,6 +61,7 @@ public class InitializationTask extends GenericTask
         Resource resource = getResource();
         String info = getProject().getProperty( "project.info" );
         getProject().log( info );
+        log( resource.toString(), Project.MSG_VERBOSE );
         Type[] types = resource.getTypes();
         for( int i=0; i<types.length; i++ )
         {

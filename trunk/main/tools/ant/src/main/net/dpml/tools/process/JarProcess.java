@@ -55,12 +55,14 @@ public class JarProcess extends AbstractBuildListener
         String name = target.getName();
         if( "prepare".equals( name ) )
         {
+            /*
             Project project = event.getProject();
             final PrepareTask task = new PrepareTask();
             task.setProject( project );
             task.setTaskName( "prepare" );
             task.init();
             task.execute();
+            */
         }
         else if( "build".equals( name ) )
         {

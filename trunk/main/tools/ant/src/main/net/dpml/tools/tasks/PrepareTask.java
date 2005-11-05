@@ -53,12 +53,14 @@ public class PrepareTask extends GenericTask
     private boolean m_init = false;
     
    /**
-    * Task initiaization during which filter include valies are established.
+    * Task initiaization during which filter values are established.
     */
     public void init()
     {
         if( !m_init )
         {
+            log( "Prepare initialization for: " 
+              + getResource(), Project.MSG_VERBOSE );
             final Project project = getProject();
             project.setProperty(
               SRC_FILTERED_INCLUDES_KEY, SRC_FILTERED_INCLUDES_VALUE );
@@ -79,6 +81,7 @@ public class PrepareTask extends GenericTask
         final Project project = getProject();
         Resource resource = getResource();
         Context context = getContext();
+        log( "basedir: " + getResource().getBaseDir(), Project.MSG_VERBOSE );
         
         //
         // setup the file system
@@ -88,14 +91,33 @@ public class PrepareTask extends GenericTask
         mkDir( context.getTargetDirectory() );
         if( context.getSrcMainDirectory().exists() )
         {
+            log( "preparing 'main' src.", Project.MSG_VERBOSE );
             File src = context.getSrcMainDirectory();
             File dest = context.getTargetDirectory( "build/main" );
             mkDir( dest );
             copy( src, dest, true, filters, "" );
             copy( src, dest, false, "**/.*", filters );
         }
+        else
+        {
+            log( "project does not contain 'main' src.", Project.MSG_VERBOSE );
+        }
+        if( context.getSrcDocsDirectory().exists() )
+        {
+            log( "preparing 'docs' src.", Project.MSG_VERBOSE );
+            File src = context.getSrcDocsDirectory();
+            File dest = context.getTargetBuildDocsDirectory();
+            mkDir( dest );
+            copy( src, dest, true, filters, "" );
+            copy( src, dest, false, "**/*.*", filters );
+        }
+        else
+        {
+            log( "project does not contain 'doc' src.", Project.MSG_VERBOSE );
+        }
         if( context.getSrcTestDirectory().exists() )
         {
+            log( "preparing 'test' src.", Project.MSG_VERBOSE );
             File src = context.getSrcTestDirectory();
             File dest = context.getTargetDirectory( "build/test" );
             mkDir( dest );
@@ -103,6 +125,10 @@ public class PrepareTask extends GenericTask
             copy( src, dest, false, "**/*.*", filters );
             File test = context.getTargetDirectory( "test" );
             mkDir( test );
+        }
+        else
+        {
+            log( "project does not contain 'test' src.", Project.MSG_VERBOSE );
         }
         if( context.getEtcDirectory().exists() )
         {
