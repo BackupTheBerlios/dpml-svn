@@ -77,6 +77,11 @@ public class TransitComponentHelper extends ComponentHelper
     public static final String TRANSIT_GET_URN = TRANSIT_ANTLIB_URN + ":get";
 
    /**
+    * The constant Transit ANTLIB get task namespace.
+    */
+    public static final String TRANSIT_PREFS_URN = TRANSIT_ANTLIB_URN + ":prefs";
+
+   /**
     * The constant artifact plugin header.
     */
     public static final String PLUGIN_ARTIFACT_HEADER = "artifact:plugin:";
@@ -204,6 +209,7 @@ public class TransitComponentHelper extends ComponentHelper
             addTaskDefinition( TRANSIT_PLUGIN_URN, PluginTask.class );
             addTaskDefinition( TRANSIT_IMPORT_URN, ImportArtifactTask.class );
             addTaskDefinition( TRANSIT_GET_URN, GetTask.class );
+            addTaskDefinition( TRANSIT_PREFS_URN, PreferencesTask.class );
         }
     }
 
