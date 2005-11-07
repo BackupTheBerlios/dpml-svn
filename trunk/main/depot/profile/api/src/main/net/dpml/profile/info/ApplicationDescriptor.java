@@ -42,6 +42,9 @@ public class ApplicationDescriptor extends CodeBaseDescriptor
     * @param codebase the codebase uri 
     * @param parameters an array of plugin parameter descriptors
     * @param base working directory path
+    * @param policy the application startup policy
+    * @param startupTimeout startup timeout value
+    * @param shutdownTimeout shutdown timeout value
     */
     public ApplicationDescriptor( 
       String id, String codebase, ValueDescriptor[] parameters, String base, 

@@ -46,8 +46,6 @@ public class DefaultApplication extends EventProducer implements Application
     private PID m_pid;
     private String m_error;
     
-    private final Context m_context;
-
    /**
     * Creation of a new default applicationn instance.
     * @param logger the assigned logging channel
@@ -66,7 +64,6 @@ public class DefaultApplication extends EventProducer implements Application
         PartHandler handler = PartContentHandler.newPartHandler( logger );
         URI uri = profile.getCodeBaseURI();
         Part part = handler.loadPart( uri );
-        m_context = handler.createContext( part );
     }
 
    /**
@@ -85,16 +82,6 @@ public class DefaultApplication extends EventProducer implements Application
     public void removeApplicationListener( ApplicationListener listener )
     {
         super.removeListener( listener );
-    }
-
-   /**
-    * Return the application context. 
-    * (useage needs to be checked)
-    * @return the application context
-    */
-    public Context getContext()
-    {
-        return m_context;
     }
 
    /**

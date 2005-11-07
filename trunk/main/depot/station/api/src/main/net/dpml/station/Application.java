@@ -56,14 +56,6 @@ public interface Application extends Remote
     State STOPPING = new State( 3, "stopping", "Stopping" );
     
    /**
-    * Return the application context. 
-    * (useage needs to be checked)
-    * @return the application context
-    * @exception RemoteException if a rmote error occurs
-    */
-    Context getContext() throws RemoteException;
-
-   /**
     * Return the profile associated with this application 
     * (useage needs to be checked - is this really neeeded)
     * @return the application context

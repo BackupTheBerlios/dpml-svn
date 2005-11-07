@@ -29,8 +29,11 @@
     <dependencies>
       <include ref="dpml/transit/dpml-transit-main"/>
     </dependencies>
+    <dependencies scope="test">
+      <include ref="junit/junit"/>
+    </dependencies>
   </project>
-   
+  
   <project name="dpml-profile-impl" basedir="profile/impl">
     <types>
       <type id="jar"/>
