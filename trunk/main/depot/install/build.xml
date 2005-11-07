@@ -10,10 +10,21 @@
     <x:filter token="DEPOT-MODULE-GROUP" feature="group" ref="dpml/depot"/>
     <x:filter token="DEPOT-MODULE-NAME" feature="name" ref="dpml/depot"/>
     <x:filter token="VERSION" feature="version" />
-    <!--<x:filter token="MAGIC_BUNDLE_URI" key="dpml-magic" feature="uri" type="zip"/>-->
     <x:filter token="METRO_BUNDLE_URI" ref="dpml/metro" feature="uri" type="zip"/>
     <x:filter token="DEPOT_BUNDLE_URI" ref="dpml/depot" feature="uri" type="zip"/>
     <x:filter token="DEPOT-PROFILE-PLUGIN-URI" key="dpml-profile-impl" feature="uri" type="plugin"/>
+  </target>
+
+  <target name="build" depends="standard.build">
+    <transit:prefs dest="target/demo.prefs" base="/dpml/planet/http/demo">
+      <entry key="startup" value="manual"/> 
+      <entry key="title" value="DPML Test Profile"/> 
+      <entry key="uri" value="link:part:dpml/planet/http/dpml-http-demo"/> 
+      <node name="system">
+        <entry key="xyz" value="querty"/> 
+        <entry key="test" value="${xyz}"/> 
+      </node>
+    </transit:prefs>
   </target>
 
 </project>

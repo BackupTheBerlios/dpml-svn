@@ -20,6 +20,7 @@ package net.dpml.profile.model;
 
 import java.util.Properties;
 
+import net.dpml.transit.store.CodeBaseStorage;
 import net.dpml.transit.store.ContentStorage;
 import net.dpml.transit.store.Removable;
 
@@ -28,7 +29,7 @@ import net.dpml.profile.ApplicationProfile.StartupPolicy;
 /**
  *
  */
-public interface ApplicationStorage extends ContentStorage, Removable
+public interface ApplicationStorage extends CodeBaseStorage, Removable
 {
    /**
     * The preferences attribute name for the startup policy.
@@ -40,6 +41,18 @@ public interface ApplicationStorage extends ContentStorage, Removable
     * @return the identifier
     */
     String getID();
+
+   /**
+    * Returns the application title.
+    * @return the title
+    */
+    String getTitle();
+
+   /**
+    * Update the application title.
+    * @param the title
+    */
+    void setTitle( String title );
 
    /**
     * Get the duration in mseconds to wait for startup

@@ -25,6 +25,7 @@ import java.util.EventObject;
 import java.util.EventListener;
 
 import net.dpml.transit.Logger;
+import net.dpml.transit.model.DisposableCodeBaseModel;
 import net.dpml.transit.model.DefaultContentModel;
 import net.dpml.transit.model.Value;
 
@@ -37,7 +38,7 @@ import net.dpml.profile.ApplicationProfile.StartupPolicy;
  * A DefaultApplicationProfile maintains information about the configuration
  * of an application profile.
  */
-public class ApplicationModel extends DefaultContentModel implements ApplicationProfile
+public class ApplicationModel extends DisposableCodeBaseModel implements ApplicationProfile
 {
     private final ApplicationStorage m_store;
 
@@ -47,6 +48,7 @@ public class ApplicationModel extends DefaultContentModel implements Application
     private String m_path;
     private int m_startup;
     private int m_shutdown;
+    private String m_title;
 
    /**
     * Creation of a new application model.
@@ -68,7 +70,7 @@ public class ApplicationModel extends DefaultContentModel implements Application
       StartupPolicy policy, int startup, int shutdown, Value[] params ) 
       throws RemoteException
     {
-        super( logger, id, uri, params, "app", title );
+        super( logger, id, uri, params );
 
         m_store = null;
         m_properties = properties;
@@ -76,6 +78,7 @@ public class ApplicationModel extends DefaultContentModel implements Application
         m_path = working;
         m_startup = startup;
         m_shutdown = shutdown;
+        m_title = title;
     }
 
    /**
@@ -95,6 +98,7 @@ public class ApplicationModel extends DefaultContentModel implements Application
         m_path = store.getWorkingDirectoryPath();
         m_startup = store.getStartupTimeout();
         m_shutdown = store.getShutdownTimeout();
+        m_title = store.getTitle();
     }
 
     //----------------------------------------------------------------------
@@ -220,6 +224,35 @@ public class ApplicationModel extends DefaultContentModel implements Application
                 m_store.setWorkingDirectoryPath( path );
             }
             WorkingDirectoryChangedEvent event = new WorkingDirectoryChangedEvent( this );
+            super.enqueueEvent( event );
+        }
+    }
+
+   /**
+    * Return the application title.
+    * 
+    * @return the title
+    */
+    public String getTitle()
+    {
+        return m_title;
+    }
+
+   /**
+    * Set the application title.
+    * 
+    * @param the title
+    */
+    public void setTitle( String title )
+    {
+        synchronized( getLock() )
+        {
+            m_title = title;
+            if( null != m_store )
+            {
+                m_store.setTitle( title );
+            }
+            TitleChangedEvent event = new TitleChangedEvent( this );
             super.enqueueEvent( event );
         }
     }

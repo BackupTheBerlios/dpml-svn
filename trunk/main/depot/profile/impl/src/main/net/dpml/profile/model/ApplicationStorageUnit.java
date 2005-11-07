@@ -25,6 +25,7 @@ import java.util.prefs.Preferences;
 import net.dpml.transit.store.StorageRuntimeException;
 import net.dpml.transit.store.LocalPreferences;
 import net.dpml.transit.store.ContentStorageUnit;
+import net.dpml.transit.store.CodeBaseStorageUnit;
 
 import net.dpml.profile.ApplicationProfile;
 import net.dpml.profile.ApplicationProfile.StartupPolicy;
@@ -33,7 +34,7 @@ import net.dpml.profile.ApplicationProfile.StartupPolicy;
  * An ApplicationStorageUnit maintains persistent information 
  * about an application profile.
  */
-public class ApplicationStorageUnit extends ContentStorageUnit implements ApplicationStorage 
+public class ApplicationStorageUnit extends CodeBaseStorageUnit implements ApplicationStorage 
 {
     // ------------------------------------------------------------------------
     // constructor
