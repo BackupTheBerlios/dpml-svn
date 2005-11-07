@@ -43,11 +43,6 @@
       <module base="metro"/>
       <module base="depot"/>
       <module base="util"/>
-      <module name="planet" basedir="planet">
-        <module base="http"/>
-      </module>
-
-      <project name="central" basedir="central"/>
    
     </module>
 

@@ -14,19 +14,14 @@
   </processors>
 
   <imports>
+    <import uri="link:module:dpml"/>
     <import uri="link:module:junit"/>
     <import uri="link:module:ant"/>
-    <import uri="link:module:jgoodies"/>
   </imports>
 
   <modules>
 
-    <module name="dpml" basedir=".">
-
-      <types>
-        <type id="module" alias="true"/>
-      </types>
-
+    <module name="dpml">
       <properties>
         <property name="project.publisher.name" value="Digital Product Meta Library"/>
         <property name="project.specification.vendor" value="${project.publisher.name}"/>
@@ -36,19 +31,12 @@
         <property name="project.resource.host" value="http://repository.dpml.net"/>
         <property name="project.api.host" value="http://api.dpml.net"/>
         <property name="project.svn.host" value="svn://svn.berlios.de/dpml/trunk/main"/>
+        <property name="project.test.fork" value="true"/>
       </properties>
 
-      <module base="main/transit"/>
-      <module base="main/tools"/>
-      <module base="main/metro"/>
-      <module base="main/depot"/>
-      <module base="main/util"/>
-
-      <module name="planet" basedir="planet">
+      <module name="planet" basedir=".">
         <module base="http"/>
       </module>
-
-      <project name="central" basedir="main/central"/>
 
     </module>
 
