@@ -11,6 +11,10 @@
 
     <section name="Component Types">
 
+      <p>
+Metro uses the notion of a component "type" to describe changacteristics of a class that collectively make up the notion of a component.  These characteristics include service dependencies, service production, thread safe capability, lifestyle characteristics, garbage collection policy, logging channel assumptions, and so forth.  This information is captured though class introspection using an Ant task.
+      </p>
+
     </section>
 
   </body>
