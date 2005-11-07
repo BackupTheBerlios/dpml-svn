@@ -48,8 +48,6 @@
         <module base="http"/>
       </module>
 
-      <project name="central" basedir="central/site"/>
-   
     </module>
 
   </modules>
