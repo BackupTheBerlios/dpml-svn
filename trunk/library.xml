@@ -48,7 +48,7 @@
         <module base="http"/>
       </module>
 
-      <project name="central" basedir="central"/>
+      <project name="central" basedir="main/central"/>
 
     </module>
 
