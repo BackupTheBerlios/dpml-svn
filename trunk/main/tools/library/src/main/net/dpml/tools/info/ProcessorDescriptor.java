@@ -32,6 +32,7 @@ public final class ProcessorDescriptor  extends AbstractDirective
     private final String m_name;
     private final String[] m_dependencies;
     private final String m_urn;
+    private final String m_classname;
 
    /**
     * Creation of a new processor descriptor.
@@ -72,6 +73,20 @@ public final class ProcessorDescriptor  extends AbstractDirective
     */
     public ProcessorDescriptor( String name, String urn, String[] dependencies, Properties properties )
     {
+        this( name, urn, null, dependencies, properties );
+    }
+    
+   /**
+    * Creation of a new processor descriptor.
+    * @param name the processor name
+    * @param urn the processor codebase
+    * @param dependencies array of processor names that this processor depends upon
+    * @param properties supplimentary properties
+    * @param classname optional classname of the instantiation target
+    */
+    public ProcessorDescriptor( String name, String urn, String classname, 
+      String[] dependencies, Properties properties )
+    {
         super( properties );
         if( null == name )
         {
@@ -84,6 +99,7 @@ public final class ProcessorDescriptor  extends AbstractDirective
         m_dependencies = dependencies;
         m_name = name;
         m_urn = urn;
+        m_classname = classname;
     }
     
    /**
@@ -102,6 +118,15 @@ public final class ProcessorDescriptor  extends AbstractDirective
     public String getURN()
     {
         return m_urn;
+    }
+    
+   /**
+    * Return the processor classname to load.
+    * @return the classname
+    */
+    public String getClassname()
+    {
+        return m_classname;
     }
     
    /**

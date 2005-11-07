@@ -26,6 +26,7 @@ import net.dpml.tools.tasks.JarTask;
 import net.dpml.tools.tasks.JUnitTestTask;
 
 import net.dpml.tools.ant.Context;
+import net.dpml.tools.model.Processor;
 
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Project;
@@ -41,6 +42,13 @@ import org.apache.tools.ant.types.Path;
  */
 public class JarProcess extends AbstractBuildListener
 {
+    private Processor m_processor;
+    
+    public JarProcess( Processor processor )
+    {
+        m_processor = processor;
+    }
+    
     /**
      * Signals that a target is starting.
      *
@@ -57,7 +65,7 @@ public class JarProcess extends AbstractBuildListener
             Project project = event.getProject();
             Context context = getContext( project );
             context.init();
-            final JavacTask task = new JavacTask( context );
+            final JavacTask task = new JavacTask( context, m_processor );
             task.init();
             task.execute();
         }
@@ -87,7 +95,7 @@ public class JarProcess extends AbstractBuildListener
                 final File dest = new File( project.getProperty( "project.target.classes.test.dir" ) );
                 try
                 {
-                    final JavacTask task = new JavacTask( context );
+                    final JavacTask task = new JavacTask( context, m_processor );
                     task.setProject( project );
                     task.setTaskName( "javac" );
                     task.setSrc( src );

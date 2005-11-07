@@ -85,7 +85,7 @@ public class JavacTask extends MatchingTask
     private File m_destination;
     private File m_source;
     
-    public JavacTask( Context context )
+    public JavacTask( Context context, Processor processor )
     {
         super();
         m_context = context;
@@ -93,8 +93,7 @@ public class JavacTask extends MatchingTask
         {
             Resource resource = context.getResource();
             setProject( context.getProject() );
-            Type type = resource.getType( "jar" );
-            m_processor = context.getLibrary().getProcessor( type );
+            m_processor = processor;
             setTaskName( "javac" );
             setSrc( context.getTargetBuildMainDirectory() );
             setDest( context.getTargetClassesMainDirectory() );

@@ -45,7 +45,7 @@ public final class ProcessorDescriptorBeanInfo extends SimpleBeanInfo
         descriptor.setValue( 
           "persistenceDelegate", 
           new DefaultPersistenceDelegate( 
-            new String[]{"name", "URN", "dependencies", "properties"} ) );
+            new String[]{"name", "URN", "classname", "dependencies", "properties"} ) );
         return descriptor;
     }
 }

@@ -190,48 +190,13 @@ public final class DefaultLibrary extends DefaultDictionary implements Library
     * 
     * @param resource the resource to be produced
     * @return a sorted array of processor definitions supporting resource production
-    * @exception ProcessorNotFoundException if the resource references an unknown processor
     */
-    public Processor[] getProcessorSequence( Resource resource ) throws ProcessorNotFoundException
+    public Processor[] getProcessorSequence( Resource resource )
     {
         Type[] types = resource.getTypes();
-        try
-        {
-            return getDefaultProcessorSequence( types );
-        }
-        catch( InvalidProcessorNameException e )
-        {
-            final String error = 
-              "Internal error due to an invalid processor name ["
-              + e.getMessage()
-              + "] in the resource ["
-              + resource 
-              + "].";
-            throw new IllegalStateException( e.getMessage() );
-        }
+        return getDefaultProcessorSequence( types );
     }
 
-   /**
-    * Return the processor defintions matching a supplied type.  
-    * 
-    * @param type the type declaration
-    * @return the processor definition
-    * @exception ProcessorNotFoundException if no processor is registered 
-    *   for the supplied type
-    */
-    public Processor getProcessor( Type type ) throws ProcessorNotFoundException
-    {
-        try
-        {
-            return getDefaultProcessor( type );
-        }
-        catch( InvalidProcessorNameException e )
-        {
-            final String message = e.getMessage();
-            throw new ProcessorNotFoundException( message );
-        }
-    }
-    
    /**
     * Return an array of the top-level modules within the library.
     * @return module array
@@ -490,9 +455,8 @@ public final class DefaultLibrary extends DefaultDictionary implements Library
         return m_root;
     }
     
-    DefaultProcessor getDefaultProcessor( Type type ) throws InvalidProcessorNameException
+    DefaultProcessor getDefaultProcessor( String id ) throws InvalidProcessorNameException
     {
-        String id = type.getName();
         for( int i=0; i<m_processes.length; i++ )
         {
             DefaultProcessor processor = m_processes[i];
@@ -507,24 +471,37 @@ public final class DefaultLibrary extends DefaultDictionary implements Library
     
     DefaultProcessor[] getDefaultProcessorSequence( Type[] types )
     {
-        DefaultProcessor[] processors = new DefaultProcessor[ types.length ];
-        for( int i=0; i<types.length; i++ )
+        String[] names = getProcessorNames( types );
+        DefaultProcessor[] processors = new DefaultProcessor[ names.length ];
+        for( int i=0; i<names.length; i++ )
         {
-            Type type = types[i];
-            processors[i] = getDefaultProcessor( type );
+            String name = names[i];
+            processors[i] = getDefaultProcessor( name );
         }
         return processors;
     }
     
-    String[] expandTypeNames( String[] types )
+    String[] getProcessorNames( Type[] types )
     {
-        ProcessorDescriptor[] descriptors = getProcessorDescriptors( types );
+        String[] names = getTypeNames( types );
+        ProcessorDescriptor[] descriptors = getProcessorDescriptors( names );
         ProcessorDescriptor[] sorted = sortProcessorDescriptors( descriptors );
-        String[] names = new String[ sorted.length ];
+        String[] processors = new String[ sorted.length ];
         for( int i=0; i<sorted.length; i++ )
         {
             ProcessorDescriptor descriptor = sorted[i];
-            names[i] = descriptor.getName();
+            processors[i] = descriptor.getName();
+        }
+        return processors;
+    }
+    
+    String[] getTypeNames( Type[] types )
+    {
+        String[] names = new String[ types.length ];
+        for( int i=0; i<types.length; i++ )
+        {
+            Type type = types[i];
+            names[i] = type.getName();
         }
         return names;
     }
@@ -586,15 +563,21 @@ public final class DefaultLibrary extends DefaultDictionary implements Library
     //----------------------------------------------------------------------------
     
     private ProcessorDescriptor[] getProcessorDescriptors( String[] names )
-      throws InvalidProcessorNameException
     {
-        ProcessorDescriptor[] result = new ProcessorDescriptor[ names.length ];
+        ArrayList list = new ArrayList();
         for( int i=0; i<names.length; i++ )
         {
             String name = names[i];
-            result[i] = getProcessorDescriptor( name );
+            try
+            {
+                ProcessorDescriptor descriptor = getProcessorDescriptor( name );
+                list.add( descriptor );
+            }
+            catch( InvalidProcessorNameException e )
+            {
+            }
         }
-        return result;
+        return (ProcessorDescriptor[]) list.toArray( new ProcessorDescriptor[0] );
     }
     
     private ProcessorDescriptor getProcessorDescriptor( String name ) throws InvalidProcessorNameException

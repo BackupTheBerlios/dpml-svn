@@ -57,6 +57,7 @@
   <project name="dpml-http-demo" basedir="demo">
     <types>
       <type id="jar"/>
+      <type id="part" alias="true"/>
     </types>
     <dependencies>
       <include urn="artifact:jar:servletapi/servletapi#2.3" tag="public"/>

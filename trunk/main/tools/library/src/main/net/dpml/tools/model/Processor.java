@@ -39,6 +39,12 @@ public interface Processor extends Dictionary
     * @return the processor codebase uri
     */
     URI getCodeBaseURI();
+
+   /**
+    * Return the processor classname.
+    * @return a possibly null classname
+    */
+    String getClassname();
     
    /**
     * Return an array of dependent process names declared by the process type.

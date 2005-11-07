@@ -67,33 +67,6 @@ public class DefaultLibraryTestCase extends AbstractTestCase
     }
     
    /**
-    * Test request for a named processor.
-    */
-    public void testGetProcessors() throws Exception
-    {
-        Type type = new MockType( "jar", false );
-        Processor processor = m_library.getProcessor( type );
-        assertEquals( "processor-name", "jar", processor.getName() );
-    }
-    
-   /**
-    * Make sure the ProcessorNotFoundException is thrown for a bad type name.
-    */
-    public void testGetBadProcessors() throws Exception
-    {
-        Type rabbit = new MockType( "rabbit", false );
-        try
-        {
-            Processor processor = m_library.getProcessor( rabbit );
-            fail( "ProcessorNotFoundException was not thrown" );
-        }
-        catch( ProcessorNotFoundException e )
-        {
-            // success
-        }
-    }
-    
-   /**
     * Testing inclusion of processors based on declared processor 
     * dependencies.  In this testcase the resource declares a dependency 
     * on a plugin and this implies a dependency on a jar processor - hense 
@@ -103,8 +76,8 @@ public class DefaultLibraryTestCase extends AbstractTestCase
     public void testGetProcessorSequence() throws Exception
     {
         Resource resource = m_library.getResource( "dpml/tools/dpml-tools-ant" );
-        Type[] types = resource.getTypes();
-        assertEquals( "resource-type-count", 2, types.length );
+        //Type[] types = resource.getTypes();
+        //assertEquals( "resource-type-count", 2, types.length );
         Processor[] processors = m_library.getProcessorSequence( resource );
         assertEquals( "processor-sequence-count", 2, processors.length );
     }

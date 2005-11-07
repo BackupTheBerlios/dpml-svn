@@ -74,6 +74,15 @@ final class DefaultProcessor extends DefaultDictionary implements Processor
     }
     
    /**
+    * Return the processor classname.
+    * @return a possibly null classname
+    */
+    public String getClassname()
+    {
+        return m_descriptor.getClassname();
+    }
+    
+   /**
     * Return an array of dependent process names declared by the process type.
     * @return the process names that this process is depends on
     */

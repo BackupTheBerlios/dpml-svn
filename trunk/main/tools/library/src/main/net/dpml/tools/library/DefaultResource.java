@@ -968,6 +968,18 @@ public class DefaultResource extends DefaultDictionary implements Resource, Comp
     // type utilities
     //----------------------------------------------------------------------------
     
+    private DefaultType[] resolveTypes( ResourceDirective directive )
+    {
+        TypeDirective[] directives = directive.getTypeDirectives();
+        DefaultType[] types = new DefaultType[ directives.length ];
+        for( int i=0; i<directives.length; i++ )
+        {
+            TypeDirective type = directives[i];
+            types[i] = new DefaultType( this, type );
+        }
+        return types;
+    }
+    
    /**
     * Internal utility that resolves an array of types based on a supplied resource
     * directive.  The implementation expands type names based on processor declared 
@@ -976,6 +988,7 @@ public class DefaultResource extends DefaultDictionary implements Resource, Comp
     * otherwise the type instance is based on the declared type and any associated
     * properties.
     */
+    /*
     private DefaultType[] resolveTypes( ResourceDirective directive )
     {
         String[] names = resolveTypeNames( directive );
@@ -996,10 +1009,12 @@ public class DefaultResource extends DefaultDictionary implements Resource, Comp
         }
         return types;
     }
+    */
     
    /**
     * Utility operation to resolved the expanded set of type names.
     */
+    /*
     private String[] resolveTypeNames( ResourceDirective directive )
     {
         TypeDirective[] types = directive.getTypeDirectives();
@@ -1011,6 +1026,7 @@ public class DefaultResource extends DefaultDictionary implements Resource, Comp
         }
         return m_library.expandTypeNames( names );
     }
+    */
     
     //----------------------------------------------------------------------------
     // version utilities

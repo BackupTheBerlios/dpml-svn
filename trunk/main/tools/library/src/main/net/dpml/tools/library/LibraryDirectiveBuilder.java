@@ -207,10 +207,11 @@ public final class LibraryDirectiveBuilder
         {
             final String name = ElementHelper.getAttribute( element, "name", null );
             final String urn = ElementHelper.getAttribute( element, "uri", null );
+            final String classname = ElementHelper.getAttribute( element, "classname", null );
             final String deps = ElementHelper.getAttribute( element, "depends", null );
             final String[] depends = buildProcessDependenciesArray( deps );
             final Properties properties = buildProperties( element );
-            return new ProcessorDescriptor( name, urn, depends, properties );
+            return new ProcessorDescriptor( name, urn, classname, depends, properties );
         }
         else
         {

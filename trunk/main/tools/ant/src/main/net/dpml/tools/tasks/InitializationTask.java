@@ -62,16 +62,17 @@ public class InitializationTask extends GenericTask
         String info = getProject().getProperty( "project.info" );
         getProject().log( info );
         log( resource.toString(), Project.MSG_VERBOSE );
-        Type[] types = resource.getTypes();
-        for( int i=0; i<types.length; i++ )
+        Processor[] processors = getLibrary().getProcessorSequence( resource );
+        for( int i=0; i<processors.length; i++ )
         {
-            Type type = types[i];
-            String name = type.getName();
+            Processor processor = processors[i];
+            String name = processor.getName();
+            
             try
             {
                 if( name.equals( "jar" ) )
                 {
-                    JarProcess process = new JarProcess();
+                    JarProcess process = new JarProcess( processor );
                     getProject().addBuildListener( process );
                 }
                 else if( name.equals( "plugin" ) )
@@ -88,21 +89,33 @@ public class InitializationTask extends GenericTask
                 {
                     ClassLoader classloader = getClass().getClassLoader();
                     Project project = getProject();
-                    Library library = getLibrary();
-                    Processor processor = library.getProcessor( type );
                     URI uri = processor.getCodeBaseURI();
                     if( null == uri )
                     {
                         final String error = 
-                          "Type process [" 
-                          + type.getName()
+                          "Processor [" 
+                          + name
                           + "] does not declare a plugin uri.";
                         throw new IllegalStateException( error );
                     }
-                    Object[] params = new Object[]{project};
-                    Object object = 
-                      Transit.getInstance().getRepository().getPlugin( 
-                        classloader, uri, params );
+                    String classname = processor.getClassname();
+                    
+                    Object object = null;
+                    Object[] params = new Object[]{project, resource, processor};
+                    if( null == classname )
+                    {
+                        object = 
+                          Transit.getInstance().getRepository().getPlugin( 
+                          classloader, uri, params );
+                    }
+                    else
+                    {
+                        ClassLoader loader = 
+                          Transit.getInstance().getRepository().getPluginClassLoader( 
+                            classloader, uri );
+                        Class c = loader.loadClass( classname );
+                        object = Transit.getInstance().getRepository().instantiate( c, params ); 
+                    }
                     if( object instanceof BuildListener )
                     {
                         BuildListener listener = (BuildListener) object;
@@ -112,9 +125,9 @@ public class InitializationTask extends GenericTask
                     else
                     {
                         final String error = 
-                          "Build processor required for the type ["
-                          + type
-                          + "] with the uri ["
+                          "Build processor [" +
+                          name
+                          + "] from uri ["
                           + uri
                           + "] is not a build listener.";
                         throw new BuildException( error, getLocation() );

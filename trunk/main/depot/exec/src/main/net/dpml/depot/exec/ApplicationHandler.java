@@ -430,7 +430,8 @@ public class ApplicationHandler
         else if( "part".equals( type ) )
         {
             URI controllerUri = new URI( "@COMPOSITION-CONTROLLER-URI@" );
-            pluginClass = loader.getPluginClass( system, controllerUri );
+            //pluginClass = loader.getPluginClass( system, controllerUri );
+            pluginClass = loader.getPluginClass( PartHandler.class.getClassLoader(), controllerUri );
         }
         else
         {
@@ -474,22 +475,41 @@ public class ApplicationHandler
                 //
                 
                 Object[] parameters = Construct.getArgs( map, params, new Object[]{logger, args, m_model} );
-                PartHandler partHandler = (PartHandler) loader.instantiate( pluginClass, parameters );
+                Object object = loader.instantiate( pluginClass, parameters );
+                if( object instanceof PartHandler )
+                {
+                    PartHandler partHandler = (PartHandler) object;
                 
-                //
-                // activate an object using a runtime handler
-                //
+                    //
+                    // activate an object using a runtime handler
+                    //
                 
-                /*
-                Context context = application.getContext();
-                Handler handler = partHandler.getHandler( context );
-                handler.activate( context );
-                handler.getInstance().getValue( false );
-                */
+                    /*
+                    Context context = application.getContext();
+                    Handler handler = partHandler.getHandler( context );
+                    handler.activate( context );
+                    handler.getInstance().getValue( false );
+                    */
                 
-                Value value = partHandler.resolve( uri );
-                value.resolve( false );
-                application.handleCallback( PROCESS_ID );
+                    Value value = partHandler.resolve( uri );
+                    value.resolve( false );
+                    
+                    if( null != application )
+                    {
+                        application.handleCallback( PROCESS_ID );
+                    }
+                }
+                else
+                {
+                    Class c = object.getClass();
+                    final String error = 
+                      "Resolved class ["
+                      + object.getClass().getName()
+                      + "] is not an instance of a part handler."
+                      + ")"
+                      + "\n" + pluginClassLoader.toString();
+                    throw new IllegalArgumentException( error );
+                }
             }
         }
         finally

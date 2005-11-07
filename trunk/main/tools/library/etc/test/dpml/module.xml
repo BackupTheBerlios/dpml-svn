@@ -330,7 +330,7 @@
          <property name="project.template" value="${basedir}/build.xml"/>
        </properties>
        <types>
-         <!--<type id="jar"/>-->
+         <type id="jar"/>
          <type id="plugin" alias="true">
            <property name="project.plugin.class" 
               value="net.dpml.tools.ant.StandardBuilder"/>

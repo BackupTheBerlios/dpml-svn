@@ -51,9 +51,8 @@ public interface Library
     * 
     * @param resource the resource to be produced
     * @return a sorted array of processor definitions supporting resource production
-    * @exception ProcessorNotFoundException if processor cannot be found
     */ 
-    Processor[] getProcessorSequence( Resource resource ) throws ProcessorNotFoundException;
+    Processor[] getProcessorSequence( Resource resource );
     
    /**
     * Return the processor defintions matching a supplied type.  
@@ -63,7 +62,7 @@ public interface Library
     * @exception ProcessorNotFoundException if no processor is registered 
     *   for the supplied type
     */
-    Processor getProcessor( Type type ) throws ProcessorNotFoundException;
+    //Processor getProcessor( Type type ) throws ProcessorNotFoundException;
     
    /**
     * Return a array of the top-level modules within the library.

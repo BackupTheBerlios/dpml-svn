@@ -9,7 +9,6 @@
   <processors>
     <processor name="jar"/>
     <processor name="plugin" depends="jar"/>
-    <processor name="part" uri="link:plugin:dpml/metro/dpml-composition-tools"/>
     <processor name="module"/>
   </processors>
 
