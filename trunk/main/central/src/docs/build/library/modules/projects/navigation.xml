@@ -25,8 +25,8 @@
  <body>
 
     <menu>
-      <item name="Projects" href="projects/index.html"/>
-      <item name="Resources" href="resources/index.html"/>
+      <item name="Types" href="types/index.html"/>
+      <item name="Dependencies" href="dependencies/index.html"/>
     </menu>
 
  </body>

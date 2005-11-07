@@ -42,6 +42,8 @@
       <module base="metro"/>
       <module base="depot"/>
       <module base="util"/>
+
+      <project name="central" basedir="central"/>
    
     </module>
 

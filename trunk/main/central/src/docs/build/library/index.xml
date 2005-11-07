@@ -46,7 +46,7 @@
   </properties>
   
   <processors>
-    <processor name="type" uri="[codebase-uri]"/>
+    <processor name="[type]" uri="[codebase-uri]"/>
     ...
   </processors>
   
