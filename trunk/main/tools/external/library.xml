@@ -13,10 +13,6 @@
     <processor name="module"/>
   </processors>
 
-  <imports>
-    <import uri="link:module:dpml"/>
-  </imports>
-
   <modules>
 
     <module name="junit" version="3.8.1" basedir="junit">
