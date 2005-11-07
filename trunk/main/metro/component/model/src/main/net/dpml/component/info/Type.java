@@ -212,7 +212,6 @@ public class Type implements Serializable
     private final CategoryDescriptor[] m_categories;
     private final ContextDescriptor m_context;
     private final ServiceDescriptor[] m_services;
-    //private final Configuration m_configuration;
     private final PartReference[] m_parts;
 
    /**
@@ -233,7 +232,6 @@ public class Type implements Serializable
                  final CategoryDescriptor[] loggers,
                  final ContextDescriptor context,
                  final ServiceDescriptor[] services,
-                 //final Configuration defaults,
                  final PartReference[] parts )
             throws NullPointerException 
     {
