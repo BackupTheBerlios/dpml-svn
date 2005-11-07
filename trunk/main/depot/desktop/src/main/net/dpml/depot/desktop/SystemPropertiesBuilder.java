@@ -34,8 +34,8 @@ import javax.swing.table.DefaultTableColumnModel;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableModel;
 
-import net.dpml.profile.ApplicationRegistry;
-import net.dpml.profile.ApplicationProfile;
+import net.dpml.profile.model.ApplicationRegistry;
+import net.dpml.profile.model.ApplicationProfile;
 
 /**
  * Application profile tree node. 

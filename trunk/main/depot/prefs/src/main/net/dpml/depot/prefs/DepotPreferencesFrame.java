@@ -44,7 +44,7 @@ import com.jgoodies.looks.FontSizeHints;
 import com.jgoodies.looks.LookUtils;
 import com.jgoodies.looks.Options;
 
-import net.dpml.profile.ApplicationRegistry;
+import net.dpml.profile.model.ApplicationRegistry;
 
 import net.dpml.transit.Transit;
 import net.dpml.transit.Repository;

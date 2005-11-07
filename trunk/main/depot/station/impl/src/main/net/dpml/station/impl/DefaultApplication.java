@@ -21,7 +21,7 @@ import net.dpml.station.Application.State;
 import net.dpml.station.ApplicationListener;
 import net.dpml.station.ApplicationEvent;
 
-import net.dpml.profile.ApplicationProfile;
+import net.dpml.profile.model.ApplicationProfile;
 
 import net.dpml.part.Part;
 import net.dpml.part.PartHandler;

@@ -52,7 +52,7 @@ import net.dpml.transit.model.ProxyModel;
 import net.dpml.transit.monitor.LoggingAdapter;
 import net.dpml.transit.store.TransitStorageHome;
 
-import net.dpml.profile.ApplicationRegistry;
+import net.dpml.profile.model.ApplicationRegistry;
 
 /**
  * Panel that presents the default preferences for DPML applications including

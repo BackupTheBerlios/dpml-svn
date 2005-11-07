@@ -26,7 +26,7 @@ import net.dpml.transit.PID;
 
 import net.dpml.part.Context;
 
-import net.dpml.profile.ApplicationProfile;
+import net.dpml.profile.model.ApplicationProfile;
 
 /**
  * Management model of an application.

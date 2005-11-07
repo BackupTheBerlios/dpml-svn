@@ -27,7 +27,7 @@ import java.net.URISyntaxException;
 
 import net.dpml.depot.ShutdownHandler;
 
-import net.dpml.profile.ApplicationRegistry;
+import net.dpml.profile.model.ApplicationRegistry;
 
 import net.dpml.transit.Transit;
 import net.dpml.transit.Artifact;

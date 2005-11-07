@@ -76,8 +76,8 @@ import net.dpml.part.PartEditor;
 import net.dpml.part.PartHandler;
 import net.dpml.part.PartContentHandler;
 
-import net.dpml.profile.ApplicationRegistry;
-import net.dpml.profile.ApplicationProfile;
+import net.dpml.profile.model.ApplicationRegistry;
+import net.dpml.profile.model.ApplicationProfile;
 
 import net.dpml.transit.Transit;
 import net.dpml.transit.Repository;

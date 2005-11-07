@@ -43,7 +43,7 @@ import com.jgoodies.forms.builder.PanelBuilder;
 import com.jgoodies.forms.builder.DefaultFormBuilder;
 import com.jgoodies.forms.layout.FormLayout;
 
-import net.dpml.profile.ApplicationProfile;
+import net.dpml.profile.model.ApplicationProfile;
 
 import net.dpml.part.Part;
 import net.dpml.part.PartContentHandler;

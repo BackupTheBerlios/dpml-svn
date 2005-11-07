@@ -4,8 +4,8 @@ package net.dpml.station;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 
-import net.dpml.profile.ApplicationProfile;
-import net.dpml.profile.ApplicationRegistry;
+import net.dpml.profile.model.ApplicationProfile;
+import net.dpml.profile.model.ApplicationRegistry;
 
 import net.dpml.transit.model.UnknownKeyException;
 

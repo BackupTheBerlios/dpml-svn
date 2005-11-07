@@ -18,9 +18,9 @@ import net.dpml.transit.model.DuplicateKeyException;
 import net.dpml.transit.model.Connection;
 import net.dpml.transit.util.CLIHelper;
 
-import net.dpml.profile.ApplicationProfile;
-import net.dpml.profile.ApplicationProfile.StartupPolicy;
-import net.dpml.profile.ApplicationRegistry;
+import net.dpml.profile.model.ApplicationProfile;
+import net.dpml.profile.model.ApplicationProfile.StartupPolicy;
+import net.dpml.profile.model.ApplicationRegistry;
 
 import net.dpml.depot.GeneralException;
 import net.dpml.depot.Handler;

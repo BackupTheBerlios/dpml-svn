@@ -35,8 +35,8 @@ import net.dpml.part.PartHandler;
 import net.dpml.station.Station;
 import net.dpml.station.Application;
 
-import net.dpml.profile.ApplicationRegistry;
-import net.dpml.profile.ApplicationProfile;
+import net.dpml.profile.model.ApplicationRegistry;
+import net.dpml.profile.model.ApplicationProfile;
 
 import net.dpml.transit.Transit;
 import net.dpml.transit.Artifact;
