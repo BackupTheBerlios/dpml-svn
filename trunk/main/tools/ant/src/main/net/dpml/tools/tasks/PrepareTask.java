@@ -93,10 +93,10 @@ public class PrepareTask extends GenericTask
         {
             log( "preparing 'main' src.", Project.MSG_VERBOSE );
             File src = context.getSrcMainDirectory();
-            File dest = context.getTargetDirectory( "build/main" );
+            File dest = context.getTargetBuildMainDirectory();
             mkDir( dest );
             copy( src, dest, true, filters, "" );
-            copy( src, dest, false, "**/.*", filters );
+            copy( src, dest, false, "**/*.*", filters );
         }
         else
         {

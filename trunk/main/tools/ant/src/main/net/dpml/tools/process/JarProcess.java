@@ -44,8 +44,7 @@ public class JarProcess extends AbstractBuildListener
     /**
      * Signals that a target is starting.
      *
-     * @param event An event with any relevant extra information.
-     *              Must not be <code>null</code>.
+     * @param event the build event.
      *
      * @see BuildEvent#getTarget()
      */
@@ -53,28 +52,12 @@ public class JarProcess extends AbstractBuildListener
     {
         Target target = event.getTarget();
         String name = target.getName();
-        if( "prepare".equals( name ) )
-        {
-            /*
-            Project project = event.getProject();
-            final PrepareTask task = new PrepareTask();
-            task.setProject( project );
-            task.setTaskName( "prepare" );
-            task.init();
-            task.execute();
-            */
-        }
-        else if( "build".equals( name ) )
+        if( "build".equals( name ) )
         {
             Project project = event.getProject();
             Context context = getContext( project );
             context.init();
-            final JavacTask task = new JavacTask();
-            task.setProject( project );
-            task.setTaskName( "javac" );
-            task.setSrc( new File( project.getProperty( "project.target.build.main.dir" ) ) );
-            task.setDest( new File( project.getProperty( "project.target.classes.main.dir" ) ) );
-            task.setClasspathRef( "project.compile.path" );
+            final JavacTask task = new JavacTask( context );
             task.init();
             task.execute();
         }
@@ -104,7 +87,7 @@ public class JarProcess extends AbstractBuildListener
                 final File dest = new File( project.getProperty( "project.target.classes.test.dir" ) );
                 try
                 {
-                    final JavacTask task = new JavacTask();
+                    final JavacTask task = new JavacTask( context );
                     task.setProject( project );
                     task.setTaskName( "javac" );
                     task.setSrc( src );

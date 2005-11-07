@@ -20,6 +20,11 @@ package net.dpml.tools.tasks;
 
 import java.io.File;
 
+import net.dpml.tools.ant.Context;
+import net.dpml.tools.model.Resource;
+import net.dpml.tools.model.Processor;
+import net.dpml.tools.model.Type;
+
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.taskdefs.Copy;
@@ -72,25 +77,32 @@ public class JavacTask extends MatchingTask
     private static final boolean FORK_VALUE = false;
     private static final boolean DEPRECATION_VALUE = true;
 
+    private final Context m_context;
+    private final Processor m_processor;
+        
     private String m_classPathRef;
     private Path m_classPath;
     private File m_destination;
     private File m_source;
-    private boolean m_init = false;
     
-   /**
-    * Task initialization.
-    * @exception BuildException if a initialization failure occurs
-    */
-    public void init() throws BuildException
+    public JavacTask( Context context )
     {
-        if( !m_init )
+        super();
+        m_context = context;
+        try
         {
-            super.init();
-            final Project project = getProject();
-            project.setProperty( DEBUG_KEY, "" + DEBUG_VALUE );
-            project.setProperty( FORK_KEY, "" + FORK_VALUE );
-            m_init = true;
+            Resource resource = context.getResource();
+            setProject( context.getProject() );
+            Type type = resource.getType( "jar" );
+            m_processor = context.getLibrary().getProcessor( type );
+            setTaskName( "javac" );
+            setSrc( context.getTargetBuildMainDirectory() );
+            setDest( context.getTargetClassesMainDirectory() );
+            setClasspathRef( "project.compile.path" );
+        }
+        catch( Exception e )
+        {
+            throw new BuildException( e );
         }
     }
     
@@ -159,7 +171,7 @@ public class JavacTask extends MatchingTask
         final Javac javac = (Javac) getProject().createTask( "javac" );
         javac.setTaskName( getTaskName() );
         javac.setIncludeantruntime( false );
-        String lint = getProject().getProperty( "project.javac.lint" );
+        String lint = getProperty( "project.javac.lint", null );
         if( null != lint )
         {
             javac.createCompilerArg().setValue( "-Xlint:" + lint );
@@ -206,32 +218,6 @@ public class JavacTask extends MatchingTask
         }
     }
     
-    /*
-    private void compile( final File sources, final File classes, final Path classpath )
-    {
-        final Javac javac = (Javac) getProject().createTask( "javac" );
-        javac.setTaskName( getTaskName() );
-        javac.setIncludeantruntime( false );
-        String lint = getProject().getProperty( "project.javac.lint" );
-        if( null != lint )
-        {
-            javac.createCompilerArg().setValue( "-Xlint:" + lint );
-        }
-        final Path src = javac.createSrc();
-        final Path.PathElement element = src.createPathElement();
-        element.setLocation( sources );
-        javac.setDestdir( classes );
-        javac.setDeprecation( getDeprecationProperty() );
-        javac.setDebug( getDebugProperty() );
-        javac.setFork( getForkProperty() );
-        javac.setSource( getSourceProperty() );
-        javac.setTarget( getTargetProperty() );
-        javac.setClasspath( classpath );
-        javac.init();
-        javac.execute();
-    }
-    */
-
     private boolean getDebugProperty()
     {
         return getBooleanProperty( DEBUG_KEY, DEBUG_VALUE );
@@ -249,17 +235,21 @@ public class JavacTask extends MatchingTask
 
     private String getSourceProperty()
     {
-        return getProject().getProperty( SOURCE_KEY );
+        return getProperty( SOURCE_KEY, null );
     }
 
     private String getTargetProperty()
     {
-        return getProject().getProperty( TARGET_KEY );
+        return getProperty( TARGET_KEY, null );
     }
 
     private boolean getBooleanProperty( final String key, final boolean fallback )
     {
-        final String value = getProject().getProperty( key );
+        String value = getContext().getProperty( key );
+        if( null == value )
+        {
+            value = m_processor.getProperty( key );
+        }
         if( null == value )
         {
             return fallback;
@@ -267,6 +257,23 @@ public class JavacTask extends MatchingTask
         else
         {
             return Project.toBoolean( value );
+        }
+    }
+    
+    private String getProperty( final String key, final String fallback )
+    {
+        String value = getContext().getProperty( key );
+        if( null == value )
+        {
+            value = m_processor.getProperty( key );
+        }
+        if( null == value )
+        {
+            return fallback;
+        }
+        else
+        {
+            return value;
         }
     }
 
@@ -296,6 +303,23 @@ public class JavacTask extends MatchingTask
         copy.addFileset( fileset );
         copy.init();
         copy.execute();
+    }
+
+   /**
+    * Get the project definition.
+    * @param project the project
+    * @return the build context
+    */
+    protected Context getContext()
+    {
+        Context context = (Context) getProject().getReference( "project.context" );
+        if( null == context )
+        {
+            final String error = 
+              "Missing project context reference.";
+            throw new BuildException( error );
+        }
+        return context;
     }
 
 }

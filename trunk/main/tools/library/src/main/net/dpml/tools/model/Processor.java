@@ -26,7 +26,7 @@ import java.net.URI;
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-public interface Processor
+public interface Processor extends Dictionary
 {
    /**
     * Return the name of the process.

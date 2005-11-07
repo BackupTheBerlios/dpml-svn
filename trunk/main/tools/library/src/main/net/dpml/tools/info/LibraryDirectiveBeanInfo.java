@@ -46,7 +46,7 @@ public final class LibraryDirectiveBeanInfo extends SimpleBeanInfo
           "persistenceDelegate", 
           new DefaultPersistenceDelegate( 
             new String[]{
-              "processDescriptors", "importDirectives", 
+              "processorDescriptors", "importDirectives", 
               "moduleDirectives", "properties"} ) );
         return descriptor;
     }

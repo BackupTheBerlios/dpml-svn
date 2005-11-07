@@ -30,7 +30,7 @@ import java.util.Properties;
  */
 public final class LibraryDirective extends AbstractDirective
 {
-    private final ProcessDescriptor[] m_processes;
+    private final ProcessorDescriptor[] m_processes;
     private final ImportDirective[] m_imports;
     private final ModuleDirective[] m_modules;
     
@@ -41,7 +41,7 @@ public final class LibraryDirective extends AbstractDirective
     * @param properties library properties
     */
     public LibraryDirective(
-      ProcessDescriptor[] processes, ImportDirective[] imports, 
+      ProcessorDescriptor[] processes, ImportDirective[] imports, 
       ModuleDirective[] modules, Properties properties )
     {
         super( properties );
@@ -86,7 +86,7 @@ public final class LibraryDirective extends AbstractDirective
     * Return the set of processor declarations.
     * @return the processor descriptor array
     */
-    public ProcessDescriptor[] getProcessDescriptors()
+    public ProcessorDescriptor[] getProcessorDescriptors()
     {
         return m_processes;
     }

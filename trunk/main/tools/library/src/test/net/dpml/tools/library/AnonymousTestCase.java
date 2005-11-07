@@ -56,7 +56,7 @@ public class AnonymousTestCase extends AbstractTestCase
 
     public void testAnonymousResourceProviders() throws Exception
     {
-        Resource resource = m_library.getResource( "demo/demo" );
+        Resource resource = m_library.getResource( "demo/example" );
         Resource[] providers = resource.getAggregatedProviders( Scope.RUNTIME, false, false );
         assertEquals( "direct-providers", 1, providers.length );
     }

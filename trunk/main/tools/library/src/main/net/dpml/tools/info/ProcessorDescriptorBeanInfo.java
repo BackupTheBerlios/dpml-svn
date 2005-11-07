@@ -26,7 +26,7 @@ import java.beans.DefaultPersistenceDelegate;
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-public final class ProcessDescriptorBeanInfo extends SimpleBeanInfo
+public final class ProcessorDescriptorBeanInfo extends SimpleBeanInfo
 {
     private static final BeanDescriptor BEAN_DESCRIPTOR = setupBeanDescriptor();
     
@@ -41,7 +41,7 @@ public final class ProcessDescriptorBeanInfo extends SimpleBeanInfo
     
     private static BeanDescriptor setupBeanDescriptor()
     {
-        BeanDescriptor descriptor = new BeanDescriptor( ProcessDescriptor.class );
+        BeanDescriptor descriptor = new BeanDescriptor( ProcessorDescriptor.class );
         descriptor.setValue( 
           "persistenceDelegate", 
           new DefaultPersistenceDelegate( 

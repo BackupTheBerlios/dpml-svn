@@ -3,7 +3,7 @@
   <taskdef name="init"         classname="net.dpml.tools.tasks.InitializationTask"/>
   <taskdef name="prepare"      classname="net.dpml.tools.tasks.PrepareTask"/>
   <taskdef name="install"      classname="net.dpml.tools.tasks.InstallTask"/>
-  <taskdef name="javac"        classname="net.dpml.tools.tasks.JavacTask"/>
+  <!--<taskdef name="javac"        classname="net.dpml.tools.tasks.JavacTask"/>-->
   <taskdef name="jar"          classname="net.dpml.tools.tasks.JarTask"/>
   <taskdef name="export"       classname="net.dpml.tools.tasks.PluginExportTask"/>
   <taskdef name="junit"        classname="net.dpml.tools.tasks.JUnitTestTask"/>

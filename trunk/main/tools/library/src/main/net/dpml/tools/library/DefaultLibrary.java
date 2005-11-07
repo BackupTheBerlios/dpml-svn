@@ -34,7 +34,7 @@ import net.dpml.tools.info.ModuleDirective;
 import net.dpml.tools.info.ImportDirective;
 import net.dpml.tools.info.Scope;
 import net.dpml.tools.info.IncludeDirective;
-import net.dpml.tools.info.ProcessDescriptor;
+import net.dpml.tools.info.ProcessorDescriptor;
 import net.dpml.tools.info.ResourceDirective;
 import net.dpml.tools.model.ProcessorNotFoundException;
 import net.dpml.tools.model.Module;
@@ -54,7 +54,7 @@ import net.dpml.transit.Logger;
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-public final class DefaultLibrary implements Library
+public final class DefaultLibrary extends DefaultDictionary implements Library
 {
     private final LibraryDirective m_directive;
     private final DefaultProcessor[] m_processes;
@@ -82,28 +82,26 @@ public final class DefaultLibrary implements Library
     * @exception Exception if an error occurs during defintion loading
     */
     public DefaultLibrary( Logger logger, File source ) throws Exception
-    {        
+    {   
+        super( null, LibraryDirectiveBuilder.build( source ) );
+        
         if( null == logger )
         {
             throw new NullPointerException( "logger" );
         }
-        if( null == source )
-        {
-            throw new NullPointerException( "source" );
-        }
         
         m_logger = logger;
-        m_directive = LibraryDirectiveBuilder.build( source );
+        m_directive = (LibraryDirective) super.getAbstractDirective();
         m_root = source.getParentFile().getCanonicalFile();
         
         // setup the processors
         
-        ProcessDescriptor[] processDescriptors = m_directive.getProcessDescriptors();
+        ProcessorDescriptor[] processDescriptors = m_directive.getProcessorDescriptors();
         m_processes = new DefaultProcessor[ processDescriptors.length ];
         for( int i=0; i<processDescriptors.length; i++ )
         {
-            ProcessDescriptor processDescriptor = processDescriptors[i];
-            m_processes[i] = new DefaultProcessor( processDescriptor );
+            ProcessorDescriptor processDescriptor = processDescriptors[i];
+            m_processes[i] = new DefaultProcessor( this, processDescriptor );
         }
         
         getLogger().debug( "loaded root module: " + m_root );
@@ -520,12 +518,12 @@ public final class DefaultLibrary implements Library
     
     String[] expandTypeNames( String[] types )
     {
-        ProcessDescriptor[] descriptors = getProcessDescriptors( types );
-        ProcessDescriptor[] sorted = sortProcessDescriptors( descriptors );
+        ProcessorDescriptor[] descriptors = getProcessorDescriptors( types );
+        ProcessorDescriptor[] sorted = sortProcessorDescriptors( descriptors );
         String[] names = new String[ sorted.length ];
         for( int i=0; i<sorted.length; i++ )
         {
-            ProcessDescriptor descriptor = sorted[i];
+            ProcessorDescriptor descriptor = sorted[i];
             names[i] = descriptor.getName();
         }
         return names;
@@ -584,27 +582,27 @@ public final class DefaultLibrary implements Library
     }
     
     //----------------------------------------------------------------------------
-    // internal ProcessDescriptor sorting
+    // internal ProcessorDescriptor sorting
     //----------------------------------------------------------------------------
     
-    private ProcessDescriptor[] getProcessDescriptors( String[] names )
+    private ProcessorDescriptor[] getProcessorDescriptors( String[] names )
       throws InvalidProcessorNameException
     {
-        ProcessDescriptor[] result = new ProcessDescriptor[ names.length ];
+        ProcessorDescriptor[] result = new ProcessorDescriptor[ names.length ];
         for( int i=0; i<names.length; i++ )
         {
             String name = names[i];
-            result[i] = getProcessDescriptor( name );
+            result[i] = getProcessorDescriptor( name );
         }
         return result;
     }
     
-    private ProcessDescriptor getProcessDescriptor( String name ) throws InvalidProcessorNameException
+    private ProcessorDescriptor getProcessorDescriptor( String name ) throws InvalidProcessorNameException
     {
-        ProcessDescriptor[] processes = m_directive.getProcessDescriptors();
+        ProcessorDescriptor[] processes = m_directive.getProcessorDescriptors();
         for( int i=0; i<processes.length; i++ )
         {
-            ProcessDescriptor process = processes[i];
+            ProcessorDescriptor process = processes[i];
             if( process.getName().equals( name ) )
             {
                 return process;
@@ -613,25 +611,25 @@ public final class DefaultLibrary implements Library
         throw new InvalidProcessorNameException( name );
     }
     
-    private ProcessDescriptor[] getProcessDescriptors()
+    private ProcessorDescriptor[] getProcessorDescriptors()
     {
-        return m_directive.getProcessDescriptors();
+        return m_directive.getProcessorDescriptors();
     }
     
-    private ProcessDescriptor[] sortProcessDescriptors( ProcessDescriptor[] descriptors )
+    private ProcessorDescriptor[] sortProcessorDescriptors( ProcessorDescriptor[] descriptors )
     {
         ArrayList visited = new ArrayList();
         ArrayList stack = new ArrayList();
         for( int i=0; i<descriptors.length; i++ )
         {
-            ProcessDescriptor descriptor = descriptors[i];
-            processProcessDescriptor( visited, stack, descriptor );
+            ProcessorDescriptor descriptor = descriptors[i];
+            processProcessorDescriptor( visited, stack, descriptor );
         }
-        return (ProcessDescriptor[]) stack.toArray( new ProcessDescriptor[0] );
+        return (ProcessorDescriptor[]) stack.toArray( new ProcessorDescriptor[0] );
     }
     
-    private void processProcessDescriptor( 
-      List visited, List stack, ProcessDescriptor descriptor )
+    private void processProcessorDescriptor( 
+      List visited, List stack, ProcessorDescriptor descriptor )
     {
         if( visited.contains( descriptor ) )
         {
@@ -641,10 +639,10 @@ public final class DefaultLibrary implements Library
         {
             visited.add( descriptor );
             String[] deps = descriptor.getDependencies();
-            ProcessDescriptor[] providers = getProcessDescriptors( deps );
+            ProcessorDescriptor[] providers = getProcessorDescriptors( deps );
             for( int i=0; i<providers.length; i++ )
             {
-                processProcessDescriptor( visited, stack, providers[i] );
+                processProcessorDescriptor( visited, stack, providers[i] );
             }
             stack.add( descriptor );
         }

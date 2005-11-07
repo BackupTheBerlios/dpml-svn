@@ -23,21 +23,21 @@ package net.dpml.tools.info;
  *
  * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
  */
-public final class ProcessDescriptorTestCase extends AbstractTestCase
+public final class ProcessorDescriptorTestCase extends AbstractTestCase
 {
-    static ProcessDescriptor[] PROCESSES = new ProcessDescriptor[3];
+    static ProcessorDescriptor[] PROCESSORS = new ProcessorDescriptor[3];
     static
     {
-        PROCESSES[0] = new ProcessDescriptor( "jar" );
-        PROCESSES[1] = new ProcessDescriptor( "acme", "actifact:plugin:acme/whatever", new String[0] );
-        PROCESSES[2] = new ProcessDescriptor( "widget", null, new String[]{ "acme" }, PROPERTIES );
+        PROCESSORS[0] = new ProcessorDescriptor( "jar" );
+        PROCESSORS[1] = new ProcessorDescriptor( "acme", "actifact:plugin:acme/whatever", new String[0] );
+        PROCESSORS[2] = new ProcessorDescriptor( "widget", null, new String[]{ "acme" }, PROPERTIES );
     }
     
     public void testNullName()
     {
         try
         {
-            ProcessDescriptor process = new ProcessDescriptor( null );
+            ProcessorDescriptor process = new ProcessorDescriptor( null );
             fail( "no-NPE" );
         }
         catch( NullPointerException e )
@@ -50,7 +50,7 @@ public final class ProcessDescriptorTestCase extends AbstractTestCase
     {
         try
         {
-            ProcessDescriptor process = new ProcessDescriptor( "test", "plugin:whatever", null );
+            ProcessorDescriptor process = new ProcessorDescriptor( "test", "plugin:whatever", null );
             fail( "no-NPE" );
         }
         catch( NullPointerException e )
@@ -61,13 +61,13 @@ public final class ProcessDescriptorTestCase extends AbstractTestCase
     
     public void testProcessName()
     {
-        ProcessDescriptor process = new ProcessDescriptor( "test", "plugin:xxx", new String[0], PROPERTIES );
+        ProcessorDescriptor process = new ProcessorDescriptor( "test", "plugin:xxx", new String[0], PROPERTIES );
         assertEquals( "name", "test", process.getName() );
     }
     
     public void testProcessURN()
     {
-        ProcessDescriptor process = new ProcessDescriptor( "test", "plugin:xxx", new String[0], PROPERTIES );
+        ProcessorDescriptor process = new ProcessorDescriptor( "test", "plugin:xxx", new String[0], PROPERTIES );
         assertEquals( "urn", "plugin:xxx", process.getURN() );
     }
     
@@ -76,7 +76,7 @@ public final class ProcessDescriptorTestCase extends AbstractTestCase
         String dep1 = "abc";
         String dep2 = "def";
         String[] deps = new String[]{ dep1, dep2 };
-        ProcessDescriptor process = new ProcessDescriptor( "test", "plugin:xxx", deps, PROPERTIES );
+        ProcessorDescriptor process = new ProcessorDescriptor( "test", "plugin:xxx", deps, PROPERTIES );
         assertEquals( "deps", deps, process.getDependencies() );
     }
     
@@ -85,7 +85,7 @@ public final class ProcessDescriptorTestCase extends AbstractTestCase
         String dep1 = "abc";
         String dep2 = "def";
         String[] deps = new String[]{ dep1, dep2 };
-        ProcessDescriptor process = new ProcessDescriptor( "test", "plugin:xxx", deps, PROPERTIES );
+        ProcessorDescriptor process = new ProcessorDescriptor( "test", "plugin:xxx", deps, PROPERTIES );
         doSerializationTest( process );
     }
 
@@ -94,7 +94,7 @@ public final class ProcessDescriptorTestCase extends AbstractTestCase
         String dep1 = "abc";
         String dep2 = "def";
         String[] deps = new String[]{ dep1, dep2 };
-        ProcessDescriptor process = new ProcessDescriptor( "test", "plugin:xxx", deps, PROPERTIES );
+        ProcessorDescriptor process = new ProcessorDescriptor( "test", "plugin:xxx", deps, PROPERTIES );
         doEncodingTest( process, "process-descriptor-encoded.xml" );
     }
 }

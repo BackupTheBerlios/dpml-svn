@@ -31,6 +31,7 @@ import net.dpml.tools.info.Scope;
 import net.dpml.tools.model.Module;
 import net.dpml.tools.model.Resource;
 import net.dpml.tools.model.Builder;
+import net.dpml.tools.model.Type;
 
 import org.apache.commons.cli.Option;
 import org.apache.commons.cli.OptionGroup;
@@ -255,70 +256,75 @@ public class BuildPlugin
     
     private void listModule( Module module, CommandLine line ) throws Exception
     {
-        StringBuffer buffer = new StringBuffer( "Listing module [" + module.getResourcePath() + "]\n" );
-        listModule( buffer, "  ", module, 0 );
-        getLogger().info( buffer.toString() + "\n" );
+        boolean flag = getConsumersArgument( line );
+        if( flag )
+        {
+            print( "Listing module consumers: " + module.getResourcePath() + "\n" );
+            Resource[] consumers = module.getConsumers( true, true );
+            for( int i=0; i<consumers.length; i++ )
+            {
+                Resource consumer = consumers[i];
+                String label = getLabel( i+1 );
+                print( label + consumer );
+            }
+        }
+        else
+        {
+            print( "Listing module [" + module.getResourcePath() + "]\n"  );
+            listModule( "  ", module, 0 );
+            print( "" );
+        }
     }
     
     private void listResource( Resource project, CommandLine line ) throws Exception
     {
         boolean flag = getConsumersArgument( line );
-        StringBuffer buffer = new StringBuffer();
         if( flag )
         {
-            buffer.append( "Listing consumers of project: " + project.getResourcePath() + "\n" );
+            print( "Listing consumers of project: " + project.getResourcePath() + "\n" );
             Resource[] consumers = project.getConsumers( true, true );
             for( int i=0; i<consumers.length; i++ )
             {
-                if( i>0 )
-                {
-                    buffer.append( "\n" );
-                }
                 Resource consumer = consumers[i];
-                if( consumer instanceof Module )
-                {
-                    listModule( buffer, "  ", (Module) consumer, ( i+1 ) );
-                }
-                else
-                {
-                    listResource( buffer, "  ", consumer, ( i+1 ) );
-                }
+                String label = getLabel( i+1 );
+                print( label + consumer );
             }
         }
         else
         {
-            buffer.append( "Listing project: " + project.getResourcePath() + "\n" );
-            listResource( buffer, "  ", project, 0 );
-            buffer.append( "\n" );
+            print( "Listing project: " + project.getResourcePath() + "\n"  );
+            listResource( "  ", project, 0 );
+            print( "\n" );
         }
-        getLogger().info( buffer.toString() );
+        print( "" );
     }
     
     private void listResources( Resource[] resources, CommandLine line ) throws Exception
     {
-        StringBuffer buffer = new StringBuffer( "Selection: " + resources.length + "\n" );
+        print( "Selection: [" + resources.length + "]\n"  );
         for( int i=0; i<resources.length; i++ )
         {
-            if( i>0 )
-            {
-                buffer.append( "\n" );
-            }
             Resource resource = resources[i];
-            if( resource instanceof Module )
-            {
-                listModule( buffer, "  ", (Module) resource, ( i+1 ) );
-            }
-            else
-            {
-                listResource( buffer, "  ", resource, ( i+1 ) );
-            }
+            String label = getLabel( i+1 );
+            print( label + resource );
         }
-        getLogger().info( buffer.toString() );
+        print( "" );
     }
     
-    private void listModule( StringBuffer buffer, String pad, Module module, int n ) throws Exception
+    private void listModule( String pad, Module module, int n ) throws Exception
     {
-        listResource( buffer, pad, module, n );
+        if( n > 0 )
+        {
+            String label = getLabel( n );
+            print( "\n" + label + module );
+        }
+        else
+        {
+            print( "\n" + module );
+        }
+        print( "" );
+        print( pad + "version: " + module.getVersion() );
+        print( pad + "basedir: " + module.getBaseDir() );
         
         String p = pad + "  ";
         Resource[] providers = module.getAggregatedProviders( Scope.TEST, false, true );
@@ -336,77 +342,81 @@ public class BuildPlugin
         providers = (Resource[]) stack.toArray( new Resource[0] );
         if( providers.length > 0 )
         {
-            line( buffer, pad + "imports: (" + providers.length + ")" );
+            print( pad + "imports: (" + providers.length + ")"  );
             for( int i=0; i<providers.length; i++ )
             {
-                line( buffer, p + providers[i] );
+                print( p + providers[i] );
             }
         }
         if( resources.length > 0 )
         {
-            line( buffer, pad + "resources: (" + resources.length + ")" );
+            print( pad + "resources: (" + resources.length + ")" );
             for( int i=0; i<resources.length; i++ )
             {
-                line( buffer, p + resources[i] );
+                print( p + resources[i] );
             }
         }
     }
     
-    private void listResource( StringBuffer buffer, String pad, Resource resource, int n ) throws Exception
+    private void listResource( String pad, Resource resource, int n ) throws Exception
     {
         if( n > 0 )
         {
-            buffer.append( "\n[" + n + "] " );
+            print( "\n[" + n + "] " + resource );
         }
         else
         {
-            buffer.append( "\n " );
+            print( "\n" + resource );
         }
-        buffer.append( resource + "\n" );
-        line( buffer, pad + "version: " + resource.getVersion() );
-        line( buffer, pad + "basedir: " + resource.getBaseDir() );
+        print( "" );
+        print( pad + "version: " + resource.getVersion() );
+        print( pad + "basedir: " + resource.getBaseDir() );
         String p = pad + "  ";
+        Type[] types = resource.getTypes();
+        if( types.length > 0 )
+        {
+            print( pad + "types: (" + types.length + ")" );
+            for( int i=0; i<types.length; i++ )
+            {
+                print( p + types[i].getName() );
+            }
+        }
         Resource[] resources = resource.getProviders( Scope.BUILD, true, true );
         if( resources.length > 0 )
         {
-            line( buffer, pad + "build phase providers: (" + resources.length + ")" );
+            print( pad + "build phase providers: (" + resources.length + ")" );
             for( int i=0; i<resources.length; i++ )
             {
-                line( buffer, p + resources[i] );
+                print( p + resources[i] );
             }
         }
         resources = resource.getProviders( Scope.RUNTIME, true, true );
         if( resources.length > 0 )
         {
-            line( buffer, pad + "runtime providers: (" + resources.length + ")" );
+            print( pad + "runtime providers: (" + resources.length + ")" );
             for( int i=0; i<resources.length; i++ )
             {
-                line( buffer, p + resources[i] );
+                print( p + resources[i] );
             }
         }
         resources = resource.getProviders( Scope.TEST, true, true );
         if( resources.length > 0 )
         {
-            line( buffer, pad + "test providers: (" + resources.length + ")" );
+            print( pad + "test providers: (" + resources.length + ")" );
             for( int i=0; i<resources.length; i++ )
             {
-                line( buffer, p + resources[i] );
+                print( p + resources[i] );
             }
         }
-        resources = resource.getConsumers( true, true );
-        if( resources.length > 0 )
-        {
-            line( buffer, pad + "consumers: (" + resources.length + ")" );
-            for( int i=0; i<resources.length; i++ )
-            {
-                line( buffer, p + resources[i] );
-            }
-        }
-    }
-    
-    private void line( StringBuffer buffer, String message )
-    {
-        buffer.append( "\n" + message );
+        //resources = resource.getConsumers( true, true );
+        //if( resources.length > 0 )
+        //{
+        //    print( pad + "consumers: (" + resources.length + ")" );
+        //    for( int i=0; i<resources.length; i++ )
+        //    {
+        //        print( p + resources[i] );
+        //    }
+        //}
     }
     
     private Logger getLogger()
@@ -508,5 +518,21 @@ public class BuildPlugin
             throw new RuntimeException( "will not happen", e );
         }
     }
+    
+    static void print( String message )
+    {
+        System.out.println( message );
+    }
+    
+    private static String getLabel( int n )
+    {
+        StringBuffer buffer = new StringBuffer();
+        buffer.append( "  [" + n );
+        buffer.append( "]" );
+        buffer.append( "        " );
+        String tag = buffer.toString();
+        return tag.substring( 0, 7 ) + " ";
+    }
+
 }
 

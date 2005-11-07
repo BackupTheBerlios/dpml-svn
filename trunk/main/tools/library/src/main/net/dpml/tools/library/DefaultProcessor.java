@@ -22,7 +22,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 
 import net.dpml.tools.model.Processor;
-import net.dpml.tools.info.ProcessDescriptor;
+import net.dpml.tools.info.ProcessorDescriptor;
 
 
 /**
@@ -31,17 +31,14 @@ import net.dpml.tools.info.ProcessDescriptor;
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-final class DefaultProcessor implements Processor
+final class DefaultProcessor extends DefaultDictionary implements Processor
 {
-    private final ProcessDescriptor m_descriptor;
+    private final ProcessorDescriptor m_descriptor;
     private final URI m_uri;
     
-    public DefaultProcessor( ProcessDescriptor descriptor ) throws URISyntaxException
+    public DefaultProcessor( DefaultDictionary parent, ProcessorDescriptor descriptor ) throws URISyntaxException
     {
-        if( null == descriptor )
-        {
-            throw new NullPointerException( "descriptor" );
-        }
+        super( parent, descriptor );
         
         m_descriptor = descriptor;
         String urn = descriptor.getURN();

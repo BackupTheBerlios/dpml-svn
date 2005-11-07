@@ -25,7 +25,7 @@ package net.dpml.tools.info;
  */
 public final class LibraryDirectiveTestCase extends AbstractTestCase
 {
-    static ProcessDescriptor[] PROCESSES = ProcessDescriptorTestCase.PROCESSES;
+    static ProcessorDescriptor[] PROCESSORS = ProcessorDescriptorTestCase.PROCESSORS;
     static ImportDirective[] IMPORTS = ImportDirectiveTestCase.IMPORTS;
     static ModuleDirective[] MODULES = ModuleDirectiveTestCase.MODULES;
     
@@ -34,7 +34,7 @@ public final class LibraryDirectiveTestCase extends AbstractTestCase
     public void setUp() throws Exception
     {
         m_library = 
-          new LibraryDirective( PROCESSES, IMPORTS, MODULES, PROPERTIES );
+          new LibraryDirective( PROCESSORS, IMPORTS, MODULES, PROPERTIES );
     }
 
     public void testNullProcessors()
@@ -54,7 +54,7 @@ public final class LibraryDirectiveTestCase extends AbstractTestCase
     {
         try
         {
-            new LibraryDirective( PROCESSES, null, MODULES, PROPERTIES );
+            new LibraryDirective( PROCESSORS, null, MODULES, PROPERTIES );
             fail( "no-NPE" );
         }
         catch( NullPointerException e )
@@ -63,9 +63,9 @@ public final class LibraryDirectiveTestCase extends AbstractTestCase
         }
     }
     
-    public void testProcessDescriptors()
+    public void testProcessorDescriptors()
     {
-        assertEquals( "process", PROCESSES, m_library.getProcessDescriptors() );
+        assertEquals( "process", PROCESSORS, m_library.getProcessorDescriptors() );
     }
     
     public void testImportDirectives()

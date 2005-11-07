@@ -27,7 +27,7 @@ import java.util.Arrays;
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-public final class ProcessDescriptor  extends AbstractDirective
+public final class ProcessorDescriptor  extends AbstractDirective
 {
     private final String m_name;
     private final String[] m_dependencies;
@@ -37,7 +37,7 @@ public final class ProcessDescriptor  extends AbstractDirective
     * Creation of a new processor descriptor.
     * @param name the processor name
     */
-    public ProcessDescriptor( String name )
+    public ProcessorDescriptor( String name )
     {
         this( name, null );
     }
@@ -47,7 +47,7 @@ public final class ProcessDescriptor  extends AbstractDirective
     * @param name the processor name
     * @param urn the processor codebase
     */
-    public ProcessDescriptor( String name, String urn )
+    public ProcessorDescriptor( String name, String urn )
     {
         this( name, urn, new String[0] );
     }
@@ -58,7 +58,7 @@ public final class ProcessDescriptor  extends AbstractDirective
     * @param urn the processor codebase
     * @param dependencies array of processor names that this processor depends upon
     */
-    public ProcessDescriptor( String name, String urn, String[] dependencies )
+    public ProcessorDescriptor( String name, String urn, String[] dependencies )
     {
         this( name, urn, dependencies, null );
     }
@@ -70,7 +70,7 @@ public final class ProcessDescriptor  extends AbstractDirective
     * @param dependencies array of processor names that this processor depends upon
     * @param properties supplimentary properties
     */
-    public ProcessDescriptor( String name, String urn, String[] dependencies, Properties properties )
+    public ProcessorDescriptor( String name, String urn, String[] dependencies, Properties properties )
     {
         super( properties );
         if( null == name )
@@ -120,9 +120,9 @@ public final class ProcessDescriptor  extends AbstractDirective
     */
     public boolean equals( Object other )
     {
-        if( super.equals( other ) && ( other instanceof ProcessDescriptor ) )
+        if( super.equals( other ) && ( other instanceof ProcessorDescriptor ) )
         {
-            ProcessDescriptor object = (ProcessDescriptor) other;
+            ProcessorDescriptor object = (ProcessorDescriptor) other;
             if( !equals( m_name, object.m_name ) )
             {
                 return false;

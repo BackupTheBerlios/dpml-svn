@@ -30,7 +30,7 @@ import java.util.ArrayList;
 import java.util.Properties;
 import java.beans.XMLDecoder;
 
-import net.dpml.tools.info.ProcessDescriptor;
+import net.dpml.tools.info.ProcessorDescriptor;
 import net.dpml.tools.info.LibraryDirective;
 import net.dpml.tools.info.ImportDirective;
 import net.dpml.tools.info.IncludeDirective;
@@ -140,7 +140,7 @@ public final class LibraryDirectiveBuilder
         // get type descriptors, modules and properties
         
         Properties properties = null;
-        ProcessDescriptor[] types = new ProcessDescriptor[0];
+        ProcessorDescriptor[] types = new ProcessorDescriptor[0];
         ImportDirective[] imports = new ImportDirective[0];
         ModuleDirective[] modules = new ModuleDirective[0];
         Element[] children = ElementHelper.getChildren( element );
@@ -162,7 +162,7 @@ public final class LibraryDirectiveBuilder
             }
             else if( PROCESSORS_ELEMENT_NAME.equals( tag ) ) 
             {
-                types = buildProcessDescriptors( child );
+                types = buildProcessorDescriptors( child );
             }
             else
             {
@@ -188,19 +188,19 @@ public final class LibraryDirectiveBuilder
     }
     
     
-    private static ProcessDescriptor[] buildProcessDescriptors( Element element )
+    private static ProcessorDescriptor[] buildProcessorDescriptors( Element element )
     {
         Element[] children = ElementHelper.getChildren( element );
-        ProcessDescriptor[] types = new ProcessDescriptor[ children.length ];
+        ProcessorDescriptor[] types = new ProcessorDescriptor[ children.length ];
         for( int i=0; i<children.length; i++ )
         {
             Element child = children[i];
-            types[i] = buildProcessDescriptor( child );
+            types[i] = buildProcessorDescriptor( child );
         }
         return types;
     }
     
-    private static ProcessDescriptor buildProcessDescriptor( Element element )
+    private static ProcessorDescriptor buildProcessorDescriptor( Element element )
     {
         final String tag = element.getTagName();
         if( PROCESSOR_ELEMENT_NAME.equals( tag ) )
@@ -210,7 +210,7 @@ public final class LibraryDirectiveBuilder
             final String deps = ElementHelper.getAttribute( element, "depends", null );
             final String[] depends = buildProcessDependenciesArray( deps );
             final Properties properties = buildProperties( element );
-            return new ProcessDescriptor( name, urn, depends, properties );
+            return new ProcessorDescriptor( name, urn, depends, properties );
         }
         else
         {
