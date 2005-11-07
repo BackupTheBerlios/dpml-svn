@@ -17,7 +17,7 @@
  * limitations under the License.
  */
 
-package net.dpml.profile;
+package net.dpml.profile.model;
 
 /**
  * Exception to indicate that there was a profile related error.

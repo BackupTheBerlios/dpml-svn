@@ -33,8 +33,8 @@ public class ApplicationDescriptor extends CodeBaseDescriptor
 {
     private final String m_base;
     private final StartupPolicy m_policy;
-    private final int m_startupTimeout;
-    private final int m_shutdownTimeout;
+    private final int m_startup;
+    private final int m_shutdown;
     
    /**
     * Creation of a new codebase descriptor.
@@ -51,8 +51,8 @@ public class ApplicationDescriptor extends CodeBaseDescriptor
         
         m_base = base;
         m_policy = policy;
-        m_startupTimeout = startupTimeout;
-        m_shutdownTimeout = shutdownTimeout;
+        m_startup = startupTimeout;
+        m_shutdown = shutdownTimeout;
     }
     
    /**

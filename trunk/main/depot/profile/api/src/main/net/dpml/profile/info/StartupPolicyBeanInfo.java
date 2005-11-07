@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package net.dpml.tools.info;
+package net.dpml.profile.info;
 
 import java.beans.Expression;
 import java.beans.BeanDescriptor;
@@ -65,7 +65,7 @@ public final class StartupPolicyBeanInfo extends SimpleBeanInfo
         public Expression instantiate( Object old, Encoder encoder )
         {
             StartupPolicy policy = (StartupPolicy) old;
-            return new Expression( Scope.class, "parse", new Object[]{policy.getName()} );
+            return new Expression( StartupPolicy.class, "parse", new Object[]{policy.getName()} );
         }
     }
 }

@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package net.dpml.tools.info;
+package net.dpml.profile.info;
 
 import net.dpml.transit.util.Enum;
 
