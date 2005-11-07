@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document>
+
+  <properties>
+    <author email="mcconnell@dpml.net">Stephen McConnell</author>
+    <title>DPML Transit</title>
+  </properties> 
+
+  <body>
+    <section name="Import Task">
+
+      <p>
+      The import task imports an ant template file from a supplied 
+      artifact uri or file.  
+      </p>
+
+      <p><i>Example of a import request using a uri.</i></p>
+       
+<source><![CDATA[
+  <transit:import uri="local:template:tools/standard"/>
+]]></source>
+
+      <p><i>Example of a import request using a file.</i></p>
+       
+<source><![CDATA[
+  <transit:import file="${dpml.prefs}/tools/standard.template"/>
+]]></source>
+
+      <subsection name="Attributes">
+      
+        <p>
+        Task attributes are described in the following table. Usage of 
+        the uri and file attribute are mutually exclusive.
+        </p>
+
+        <table>
+          <tr><th>Attribute</th><th>Description</th></tr>
+          <tr>
+            <td>uri</td>
+            <td>A URI resolvable to a template resource.</td>
+          </tr>
+          <tr>
+            <td>file</td>
+            <td>A path resolvable to a template resource. Symbolic
+              references to ${dpml.home}, ${dpml.data}, ${dpml.prefs}, and ${dpml.system}
+              will be resolved.</td>
+          </tr>
+        </table>
+
+      </subsection>
+
+    </section>
+
+  </body>
+
+</document>
+

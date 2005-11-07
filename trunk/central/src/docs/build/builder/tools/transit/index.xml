@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<document>
+  <properties>
+    <author email="mcconnell@dpml.net">Stephen McConnell</author>
+    <title>DPML Transit</title>
+  </properties> 
+
+  <body>
+
+    <section name="Transit Antlib">
+
+      <pre>@TRANSIT-TOOLS-URI@</pre>
+
+      <subsection name="Description">
+ 
+        <p>
+        The Transit antlib provides a set of low-level tasks that deliver the bootstrap 
+        functionality needed to load dynamic extensions.  The Transit antlib includes an 
+        import, get, and plugin tasks. The plugin task is used to load antlibs, 
+        taskdefs, typedefs and build listeners using classloaders established relative 
+        from Transit plugin descriptors.  The import task provides support for the inclusion 
+        of local or remote build templates.  The get task provides support for the retrieval 
+        of remote resources using artifact references and the mapping of cached files to 
+        project properties.
+        </p>
+
+      </subsection>
+
+      <subsection name="Antlib Namespace"><source>antlib:net.dpml.transit</source></subsection>
+
+    </section>
+  </body>
+</document>
+

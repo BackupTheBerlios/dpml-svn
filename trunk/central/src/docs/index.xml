@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<document>
+  <properties>
+    <author email="mcconnell@dpml.net">Stephen McConnell</author>
+    <contributor email="dleangen@dpml.net">David Leangen</contributor>
+    <title>DPML Central</title>
+  </properties> 
+
+  <body>
+
+    <section name="DPML Opensource Products for Component-Based Development in Java">
+
+      <p>
+        <a href="build/index.html">DPML Build Tools</a> provide the infrastructure for 
+        the management and automation of complex project builds.
+      </p>
+
+      <p>
+        The <a href="runtime/index.html">DPML Runtime</a> platform combines the Metro
+        IOC container, Transit resource managment, and the Depot toolkit to provide
+        a complete framework for application deployment.
+      </p>
+
+      <p>
+        The <a href="management/index.html">DPML Management</a> platform provides the 
+        framework for fine-grain management of components and services.
+      </p>
+
+    </section>
+
+  </body>
+</document>
+

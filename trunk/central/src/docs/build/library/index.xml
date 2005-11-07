@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<document>
+
+  <properties>
+    <author email="mcconnell@dpml.net">Stephen McConnell</author>
+    <title>DPML Build System</title>
+  </properties> 
+
+  <body>
+
+    <section name="Project Library">
+
+      <p>
+      The DPML build system maintains information about projects, 
+      resources, and modules in a central library.  The library
+      is described using XML and is used to automate the determination
+      of project BUILD, TEST and RUNTIME dependencies. Using this 
+      information build systems supporting large numbers of independent 
+      projects can be massively automated.
+      </p>
+
+      <subsection name="library.xml">
+
+        <p>
+        The library file is maintained in a file named <tt>library.xml</tt>. 
+        The file is located by searching up the directory hierachy until the
+        library source is located.  
+        </p>
+
+        <p>
+        A library source file contains the declaration of project modules. 
+        In turn, modules contain declarations of available resources (such
+        as dependent jar files), projects, and subsidiary modules.
+        </p>
+        
+      </subsection>
+        
+      <subsection name="XML Element">
+<source><![CDATA[
+<library>
+
+  <properties>
+    <property name="[name]" value="[value]"/>
+    ..
+  </properties>
+  
+  <processors>
+    <processor name="type" uri="[codebase-uri]"/>
+    ...
+  </processors>
+  
+  <imports>
+    <import uri="[external-module-uri]"/>
+    ...
+  </imports>
+  
+  <modules>
+    <module name="[module-name]" basedir="[basedir]">
+      <!-- projects and resources -->
+    </module>
+    <module base="[a-basedir-containg-a-module.xml-file]">
+      <!-- projects and resources -->
+    </module>
+    ...
+  </modules>
+  
+</library>
+]]></source>
+      </subsection>
+      
+      <subsection name="XML Nested elements">
+      
+         <table>
+           <tr>
+             <td>properties</td>
+             <td>0..1</td>
+             <td>An set of global <a href="properties/index.html">property</a> declarations.</td>
+           </tr>
+           <tr>
+             <td>imports</td>
+             <td>0..1</td>
+             <td>An set of <a href="imports/index.html">imported</a> module defintions.</td>
+           </tr>
+           <tr>
+             <td>processors</td>
+             <td>0..1</td>
+             <td>An set of <a href="processors/index.html">processor</a> declarations.</td>
+           </tr>
+           <tr>
+             <td>modules</td>
+             <td>0..1</td>
+             <td>An set of top-level <a href="modules/index.html">module</a> declarations.</td>
+           </tr> 
+         </table>
+
+      </subsection>
+
+    </section>
+
+    <section name="Example">
+
+<source><![CDATA[
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<library>
+
+  <properties>
+    <property name="project.builder.uri" value="link:plugin:dpml/tools/dpml-tools-ant"/>
+    <property name="project.template" value="local:template:tools/standard"/>
+  </properties>
+
+  <processors>
+    <processor name="jar">
+      <property name="project.javac.debug" value="false"/>
+    </processor>
+  </processors>
+
+  <imports>
+    <import uri="link:module:junit"/>
+    <import uri="link:module:ant"/>
+    <import uri="link:module:jgoodies"/>
+  </imports>
+
+  <modules>
+
+    <module name="demo" basedir=".">
+
+      <project name="example" basedir="example">
+        <types>
+          <type id="jar"/>
+        </types>
+        <dependencies scope="runtime">
+          <include urn="artifact:jar:commons-collections/commons-collections#3.0"/>
+        </dependencies>
+        <dependencies scope="test">
+          <include ref="ant/ant-junit"/>
+        </dependencies>
+      </project>
+
+    </module>
+
+  </modules>
+
+</library>
+]]></source>
+
+        <p>
+        The above library directive contains a collection of global properties, the
+        declaration of a set of procesors, and the declaration of a collection of 
+        top-level modules.  Collectively this information is sufficient to execute a 
+        complete preparation, compilation, packaging, testing, and installation.  This
+        level of automation is achived through (a) support from the library for 
+        project relationship information, dependencies, properties and produced type
+        declarations, combined with (b) a build system implementation identified by 
+        the plugin uri referenced under the <tt>project.builder.uri</tt> property.
+        </p>
+        
+    </section>
+    
+  </body>
+
+</document>
+

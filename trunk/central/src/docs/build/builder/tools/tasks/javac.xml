@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document>
+
+  <properties>
+    <author email="mcconnell@dpml.net">Stephen McConnell</author>
+    <title>DPML Build System</title>
+  </properties> 
+
+  <body>
+    <section name="Javac Task">
+      <p>
+      Compiles source in ${basedir}/target/build/main to classes
+      under the ${basedir}/target/classes directory. Any files 
+      in build/main excluding java sources and package.html files 
+      are copied to the classes directory along with all files
+      from the target/build/etc/main directory.
+      </p>
+      <p>
+      The classpath used for compilation will be constructed 
+      automatically based on build dependencies (and dependent 
+      project transitive dependencies) derived from the project
+      model.
+      </p>
+<source><![CDATA[
+<x:javac/>
+]]></source>
+
+<pre>
+build:
+    [javac] Compiling 5 source files to F:\dev\avalon\planet\tutorials\dynamics\target\classes
+     [copy] Copying 1 file to F:\dev\avalon\planet\tutorials\dynamics\target\classes
+</pre>
+
+    <subsection name="Properties">
+      
+      <p>
+      The following properties may be used to customize the 
+      input paths for source content.
+      </p>
+
+      <table>
+        <tr><th>Property</th><th>Description</th></tr>
+        <tr>
+          <td>${java.compile.debug}</td>
+          <td>Sets the debug compilation mode to 'true' or 'false'.
+           Default is false.</td>
+        </tr>
+        <tr>
+          <td>${java.compile.fork}</td>
+          <td>Sets the javac fork option to 'true' or 'false'.
+           Default is false.</td>
+        </tr>
+      </table>
+
+    </subsection>
+
+
+    </section>
+  </body>
+
+</document>
+

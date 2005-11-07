@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<document>
+  <properties>
+    <author email="mcconnell@dpml.net">Stephen McConnell</author>
+    <author email="niclas@hedhman.org">Niclas Hedhman</author>
+    <title>News at DPML</title>
+  </properties>
+
+  <body>
+
+    <section name="News &amp; Events">
+
+      <subsection name="26 August 2005 - Crystal XP Icons" >
+
+        <table>
+          <tr>
+            <td>
+              <a href="http://forum.crystalxp.net/index.php?showuser=194">
+                <img src="../../images/sponsorship/overlord.jpg" alt="OVERLORD59"/></a>
+            </td>
+          </tr>
+        </table>
+
+        <p>
+          Permission to use icons and graphics from the Crystal XP 
+          Alien collection and redistribution under ASL 2.0 as part of 
+          the Depot product has been granted by the author 
+          <a href="http://forum.crystalxp.net/index.php?showuser=194">Overlord59</a>.
+          Crystal XP is entirely devoted to the customisation of Windows XP 
+          under the Crystal style created by everaldo. The 
+          <a href="http://www.crystalxp.net">Crystal XP</a> site provides 
+          Tux, Icons, Penguins, Wallpapers, Visual Styles, PNG Icons, BricoPack, 
+          Everaldo icons, Software, Skins, a big forum... and more.
+        </p>
+
+        <table>
+          <tr>
+            <td>
+              <img src="../../images/sponsorship/desktop.png" alt="ALIEN"/>
+            </td>
+            <td>
+              <img src="../../images/sponsorship/AlienAquaRun.png" alt="ALIEN"/>
+            </td>
+          </tr>
+        </table>
+      </subsection>
+
+      <subsection name="23 August 2005 - Janel Project License." >
+        <p>
+        <a href="http://janel.sourceforge.net/janel">
+        Janel</a> is an open-source Java Launcher for Windows developed by Tim Kil.  The 
+        launcher provides excellent integration between the Windows OS environment 
+        and Java applications and is used within the DPML Depot application.  Tim Kil
+        announced today that the DPML may redistribute Janel under ASL 2.0 thereby 
+        maintaining our single license coverage.  
+        </p>
+      </subsection>
+   
+      <subsection name="26 July 2005 - Milestone Release." >
+        <p>
+        A milestone release 20050726 has been prepared with final version of 
+        Transit and Magic and development versions of Depot and Metro. A 
+        <a href="http://www.osm.net/download/index.html">binary
+        distribution</a> of of Depot is available (which includes Transit)
+        and built-in support for Magic and Metro installs.
+        </p>
+      </subsection>
+
+      <subsection name="22 July 2005 - Ibiblio extends support for the DPML." >
+        <p>
+        <a href="http://www.ibiblio.org">Ibiblio</a> extends it ongoing support 
+        for the DPML infrastructure with the addition of virtual hosting for the 
+        <a href="http://www.osm.net">OSM</a> training content and related resources.
+        </p>
+      </subsection>
+
+      <subsection name="8 July 2005 - Niclas and Peter head off to launch OPS4J." >
+        <p>
+        With a focus on the development of the "Open Participation Model"
+        Niclas and Peter launch an independent initiative - OPS4J (OPS4J stands 
+        for Open Participation Software for Java).  The DPML wish to thank Peter
+        for his contribution to the infrastructure and Niclas for his work on 
+        the development of the Transit product.
+        </p>
+      </subsection>
+
+      <subsection name="26 June 2005 - Claude Bernard Diesse joins the DPML Team." >
+        <p>
+        While studying existing containers solutions and their
+        related development framework, looking for technical characteristics
+        such as IOC, SOA, JMX, service, remoting etc.,
+        capabilities. Avalon Merlin container seems to present on the paper, the
+        most potential. Following, Merlin become Metro and the present development
+        (codename Freight Train) is presenting itself as the platform of choice.
+        </p>
+        <p> 
+        Claude joins DPML community to work on what will be the supporting
+        environment of his dream's project.
+        </p>
+      </subsection>
+
+      <subsection name="21 June 2005 - Berlios Sponsors DPML." >
+        <p>
+        The <a href="https://developer.berlios.de/">Berlios</a> project aggress to 
+        provide essential infrastructure services to the DPML as part of their 
+        ongoing commitment to world-wide open-source initiatives.
+        </p>
+      </subsection>
+
+      <subsection name="15-20 March 2005 - Fishing for new ideas at DPML." >
+        <p>
+            Stephen, Niclas and Peter met up in Kuala Lumpur/ Malaysia to discuss several issues
+            regarding Metro and SCAN COIN's ISO8583 Metro wrapping.
+            Beside work, there is as always the issue of leisure:
+            <br/>
+            <img src="../../images/news/fishing1.png"
+                width="300" height="300" border="0" alt="DPML fishing"/>
+        </p>
+      </subsection>
+      <subsection name="8 March 2005 - JetBrains donates an IDEA license." >
+        <p>
+          Today <a href="http://www.jetbrains.com">JetBrains s.r.o.</a>,
+          with HQ in Czech Republic, approved to donate a license of their
+          integrated development environment <strong>IDEA</strong> for DPML
+          development use. The license will be limited to the development of
+          DPML projects only. This initiative will allow us further choice
+          for the individual developer as well as an opportunity for
+          integration of Transit and Magic into the IDEA platform.
+          More info
+          can be found on the <a href="/about/sponsorship/index.html">Sponsors
+          page</a>.
+        </p>
+      </subsection>
+      <subsection name="7 March 2004 - Atlassian donates a JIRA license." >
+        <p>
+          Today <a href="http://www.atlassian.com">Atlassian Software Systems
+          Pty Ltd</a>, Australia, donated a license of their Issuetracking
+          tool <strong>JIRA</strong> for public DPML issuetracking use.
+          We would like to thank Atlassian for this offer, and we hope that
+          the issuetracking on http://issues.dpml.net/dpml will become
+          a widely used tool for our every day operations.
+          The JIRA installation is not yet completed and more info on that
+          will follow in due time. More info
+          can be found on the <a href="/about/sponsorship/index.html">Sponsors
+          page</a>.
+        </p>
+      </subsection>
+      <subsection name="30 Nov 2004 - Cenqua donates a Clover license." >
+        <p>
+          Today <a href="http://www.cenqua.com">Cenqua Pty Ltd</a>, Australia,
+          donated a license of their Test Coverage tool <strong>Clover</strong>
+          for DPML development use.
+          The license is not limited in time, and covers all developers while
+          working on DPML published codebases. We wish to thank Cenqua very
+          much for this gesture, and you can find a small banner on the web
+          site promoting Clover as a token of our appreciation. More info
+          can be found on our new <a href="/about/sponsorship/index.html">Sponsors
+          page</a>. Please note that for non-DPML projects, DPML developers
+          will need to get another license, which means purchase if the project
+          is commercial.
+        </p>
+      </subsection>
+      <subsection name="15 Oct 2004 - Founders announce the formation of DPML." >
+        <p>
+          Today the the founding members of the DPML announced its existence,
+          first and foremost to the other users of Avalon. Announcement can be
+          found <a href="http://marc.theaimsgroup.com/?l=avalon-users&amp;m=109782104930454&amp;w=2">here</a>.
+        </p>
+      </subsection>
+      <subsection name="13 Oct 2004 - More People join DPML." >
+        <p>
+          Many people is showing their dedication and becomes part of the
+          original founder team. The team is now consisting of (in no particular
+          order);
+        </p>
+        <ul>
+          <li>Niclas Hedhman</li>
+          <li>Stephen McConnell</li>
+          <li>Peter Neubauer</li>
+          <li>Timothy Bennett</li>
+          <li>Andreas Oberhack</li>
+          <li>Cameron Fieber</li>
+          <li>David Leangen</li>
+          <li>Marten Osterberg</li>
+          <li>Alexis Agahi</li>
+          <li>Raffael Herzog</li>
+        </ul>
+      </subsection>
+      <subsection name="30 Sep 2004 - Peter Neubauer joins DPML core team." >
+        <p>
+          Today Peter Neubauer from ScanCoin AB, Sweden joined the founder
+          team of the Digitial Product Meta Library. Peter was instrumental
+          in the initial discussion with Niclas Hedhman of the formation of
+          the Open Participation Software concept, now present in DPML.
+        </p>
+      </subsection>
+      <subsection name="28 Sep 2004 - Digital Product Meta Library." >
+        <p>
+          Niclas Hedhman and Stephen McConnell establish the Digital Product Meta Library,
+          with the flagship products of;
+        </p>
+        <ul>
+          <li>
+            Magic - Ant extension, that brings model driven build systems to
+            a new level.
+          </li>
+          <li>
+            Transit - Central Repository and Jar Management system.
+          </li>
+          <li>
+            Metro - Advanced Service/Component oriented runtime platform.
+          </li>
+        </ul>
+      </subsection>
+    </section>
+  </body>
+</document>
+

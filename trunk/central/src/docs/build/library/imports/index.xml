@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<document>
+
+  <properties>
+    <author email="mcconnell@dpml.net">Stephen McConnell</author>
+    <title>DPML Build System</title>
+  </properties> 
+
+  <body>
+
+    <section name="Imports">
+
+      <p>
+      An <tt>&lt;import&gt;</tt> directive instructs the library to include an 
+      external module definition into the library.  Importing a module enables 
+      projects and resources declared within modules to reference resources as
+      <tt>&lt;dependencies&gt;</tt> via <tt>&lt;include&gt;</tt> elements.
+      </p>
+
+      <subsection name="XML Element">
+<source><![CDATA[
+<include uri="[module-uri]"/>
+]]></source>
+      </subsection>
+
+      <subsection name="XML Attributes">
+      
+         <table>
+           <tr>
+             <td>uri</td>
+             <td>The required module artifact uri.</td>
+           </tr>
+         </table>
+
+      </subsection>
+
+    </section>
+
+    <section name="Example">
+
+      <p><i>Example imports declaration.</i></p>
+
+<source><![CDATA[
+<imports>
+  <import uri="link:module:junit"/>
+  <import uri="link:module:ant"/>
+  <import uri="link:module:jgoodies"/>
+</imports>
+]]></source>
+
+      <p>
+      The above example includes module defintions for the JUnit, Ant and JGoodies 
+      projects into a library.  Link URIs may may include the 'link' or 'artifact' 
+      protocol.
+      </p>
+        
+    </section>
+
+  </body>
+
+</document>
+

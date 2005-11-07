@@ -1,0 +1,331 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<document>
+
+  <properties>
+    <author email="mcconnell@dpml.net">Stephen McConnell</author>
+    <title>DPML Build System</title>
+  </properties> 
+
+  <body>
+
+    <section name="CLI Options">
+
+      <p>
+      The <tt>build</tt> tool provides support for:</p>
+
+      <ul>
+        <li>listing library content</li>
+        <li>invocation of builds on one or more selected projects</li>
+      </ul>
+
+      <subsection name="Listing a project">
+
+        <p>
+        The following command request a brief listing of the project 
+        within the <tt>dpml/main/metro/state/impl</tt> directory. The 
+        list summarises the project version, basedir, together with 
+        information about provider projects and resources.
+        </p>
+
+<pre>
+$ cd dpml/main/metro/state/impl
+$ build -list
+Listing project: dpml/metro/dpml-state-impl
+
+project:dpml/metro/dpml-state-impl
+
+  version: SNAPSHOT
+  basedir: C:\dev\dpml\main\metro\state\impl
+  types: (1)
+    jar
+  runtime providers: (4)
+    resource:dpml/transit/dpml-transit-main
+    project:dpml/metro/dpml-state-api
+    project:dpml/metro/dpml-configuration-api
+    project:dpml/metro/dpml-configuration-impl
+  test providers: (6)
+    resource:ant/ant-launcher
+    resource:ant/ant-trax
+    resource:ant/ant-xslp
+    resource:ant/ant
+    resource:junit/junit
+    resource:ant/ant-junit
+</pre>
+
+       <p>
+       The above information is sufficient to construct classloaders for 
+       code compilation and testcase execution, and the declaration of 
+       of produced types provides the hooks needed for a build system 
+       to handle the automation of aspects such as resource naming, jar 
+       creation, manifest population, and publication.
+       </p>
+
+      </subsection>
+
+      <subsection name="Building a project">
+
+        <p>
+        The default behaviour of the build tool is to establish a project
+        selection based on the current working directory.  The following 
+        example demonstrates a request for the build of all projects with 
+        a basedir deeper or equal to the current directory.
+        </p>
+
+        <p>
+        In this example the current working directory is used to 
+        establish the project selection (in this case a single project). 
+        Following the selection of the project definition - the build tool
+        locates the definition of a builder plugin to execute the build.  
+        Control is passed to the builder - in this case the DPML Tools Builder 
+        which locates a project template to be used for the build.  The
+        builder creates and configures an Ant project, assigns the project 
+        template, and executes the build.
+        </p>
+
+<pre>
+$ cd dpml/main/metro/state/impl
+$ build
+
+init:
+---------------------------------------------------------------------------
+dpml/metro/dpml-state-impl
+---------------------------------------------------------------------------
+
+prepare:
+[x:prepare] Created dir: C:\dev\dpml\main\metro\state\impl\target
+[x:prepare] Created dir: C:\dev\dpml\main\metro\state\impl\target\build\main
+[x:prepare] Copying 13 files to C:\dev\dpml\main\metro\state\impl\target\build\main
+[x:prepare] Created dir: C:\dev\dpml\main\metro\state\impl\target\build\test
+[x:prepare] Copying 6 files to C:\dev\dpml\main\metro\state\impl\target\build\test
+[x:prepare] Created dir: C:\dev\dpml\main\metro\state\impl\target\test
+[x:prepare] Copying 1 file to C:\dev\dpml\main\metro\state\impl\target\test
+
+standard.build:
+
+build:
+    [javac] Created dir: C:\dev\dpml\main\metro\state\impl\target\classes\main
+    [javac] Compiling 12 source files to C:\dev\dpml\main\metro\state\impl\target\classes\main
+    [javac] Copying 1 file to C:\dev\dpml\main\metro\state\impl\target\classes\main
+     [rmic] RMI Compiling 1 class to C:\dev\dpml\main\metro\state\impl\target\classes\main
+
+package:
+      [jar] Created dir: C:\dev\dpml\main\metro\state\impl\target\deliverables\jars
+      [jar] Building jar: C:\dev\dpml\main\metro\state\impl\target\deliverables\jars\dpml-state-impl-SNAPSHOT.jar
+      [jar] Creating md5 checksum
+
+test:
+    [javac] Created dir: C:\dev\dpml\main\metro\state\impl\target\classes\test
+    [javac] Compiling 6 source files to C:\dev\dpml\main\metro\state\impl\target\classes\test
+    [junit] Created dir: C:\dev\dpml\main\metro\state\impl\target\reports\test
+    [junit] executing in local jvm
+    [junit] Running net.dpml.state.test.DefaultOperationTestCase
+    [junit] Tests run: 3, Failures: 0, Errors: 0, Time elapsed: 0.11 sec
+    [junit] Running net.dpml.state.test.DefaultStateMachineTestCase
+    [junit] Tests run: 6, Failures: 0, Errors: 0, Time elapsed: 0.125 sec
+    [junit] Running net.dpml.state.test.DefaultStateTestCase
+    [junit] Tests run: 7, Failures: 0, Errors: 0, Time elapsed: 0.047 sec
+    [junit] Running net.dpml.state.test.DefaultTransitionTestCase
+    [junit] Tests run: 5, Failures: 0, Errors: 0, Time elapsed: 0.016 sec
+    [junit] Running net.dpml.state.test.DefaultTriggerTestCase
+    [junit] Tests run: 4, Failures: 0, Errors: 0, Time elapsed: 0.032 sec
+
+install:
+[x:install] Copying 2 files to C:\osm\Data\cache\dpml\metro
+
+BUILD SUCCESSFUL
+Total time: 5 seconds</pre>
+
+        <p>
+        In the above example the builder automatically associated a number of 
+        build listeners to the project based on the <tt>type</tt> production 
+        declarations within the <tt>project</tt> definition.  The build listeners
+        (referred to as processors) are doing the heavy lifting (compilation, 
+        jar file creation, unit test execution.  A small number of tasks are 
+        included in the build template to handle actions such as codebase 
+        preparation and the installation of produced artifacts into a common
+        repository.
+        </p>
+
+      </subsection>
+
+      <subsection name="Supplying supplimentary arguments">
+
+        <p>
+        Command line arguments not handled by the <tt>build</tt> tool are 
+        passed to the builder plugin.  In the case of the default builder
+        these arguments are treated as Ant Project targets.  For example, the following
+        command requests the execution of the <tt>checkstyle</tt> target (included
+        in the default template) on the project selection.
+        </p>
+
+<pre>$ build checkstyle
+
+init:
+---------------------------------------------------------------------------
+dpml/metro/dpml-state-impl
+---------------------------------------------------------------------------
+
+prepare:
+
+checkstyle:
+    [mkdir] Created dir: target\reports\checkstyle
+     [xslt] Processing target\reports\checkstyle\checkstyle.xml to target\reports\checkstyle\checkstyle_report.html
+     [xslt] Loading stylesheet C:\osm\Preferences\tools\xsls\checkstyle-frames.xsl
+
+BUILD SUCCESSFUL
+Total time: 4 seconds</pre>
+
+      </subsection>
+
+      <subsection name="Multi-project listing">
+
+        <p>
+        The following example demonstrates usage of the <tt>-list</tt> option to 
+        request for a sorted list of all projects below the users current directory.
+        In this example the directory is the root of several projects used in the 
+        DPML system.  The result list is sorted relative to build dependencies.
+        </p>
+
+<pre>
+$ cd dpml/main
+$ build -list
+Selection: [33]
+
+  [1]   module:dpml/transit
+  [2]   project:dpml/tools/dpml-tools-checkstyle
+  [3]   module:dpml/tools
+  [4]   project:dpml/metro/dpml-activity-api
+  [5]   project:dpml/metro/dpml-logging-api
+  [6]   project:dpml/metro/dpml-configuration-api
+  [7]   project:dpml/metro/dpml-configuration-impl
+  [8]   project:dpml/metro/dpml-parameters-api
+  [9]   project:dpml/metro/dpml-parameters-impl
+  [10]  project:dpml/metro/dpml-state-api
+  [11]  project:dpml/metro/dpml-state-impl
+  [12]  project:dpml/metro/dpml-part-api
+  [13]  project:dpml/metro/dpml-component-model
+  [14]  project:dpml/metro/dpml-component-control
+  [15]  project:dpml/metro/dpml-composition-editor
+  [16]  project:dpml/metro/dpml-composition-runtime
+  [17]  project:dpml/metro/dpml-composition-tools
+  [18]  project:dpml/metro/dpml-composition-test
+  [19]  module:dpml/metro
+  [20]  project:dpml/depot/dpml-depot-console
+  [21]  project:dpml/depot/dpml-profile-api
+  [22]  project:dpml/depot/dpml-station-api
+  [23]  project:dpml/depot/dpml-profile-impl
+  [24]  project:dpml/depot/dpml-depot-prefs
+  [25]  project:dpml/depot/dpml-station-impl
+  [26]  project:dpml/depot/dpml-depot-desktop
+  [27]  project:dpml/depot/dpml-depot-exec
+  [28]  project:dpml/depot/dpml-depot-install
+  [29]  project:dpml/depot/dpml-depot-audit
+  [30]  module:dpml/depot
+  [31]  project:dpml/util/dpml-i18n
+  [32]  module:dpml/util
+  [33]  project:dpml/central
+</pre>
+
+        <p>
+        Note: the <tt>-list</tt> option may be substituted with <tt>-l</tt>.
+        For example:
+        </p>
+
+      </subsection>
+
+      <subsection name="Multi-project builds">
+
+        <p>
+        Build multiple projects can be achived in exactly the same fashion as above.
+        </p>
+
+<pre>
+$ build
+[2028 ] [INFO   ] (depot.build): Initiating build sequence: (33)
+....
+</pre>
+
+      </subsection>
+
+      <subsection name="Overriding project selection">
+
+        <p>
+        You can override the project selection by supplying a 
+        reference to a project or module, or wildcard based selection.
+        For example:
+        </p>
+
+        <p><i>Build all projects matching the selection.</i></p>
+
+        <pre>$ build -select dpml/planet/**/*</pre>
+
+        <p><i>List library information for all projects.</i></p>
+
+        <pre>$ build -list -select **/*</pre>
+
+        <p><i>List library information for a single project.</i></p>
+
+        <pre>$ build -list -select dpml/transit/dpml-transit-main</pre>
+
+        <p>
+        NOTE: the <tt>-select</tt> option may be abbreviated to <tt>-s</tt>.
+        </p>
+
+      </subsection>
+
+      <subsection name="Consumer switch">
+
+        <p>
+        If the project selection is a single project and user supplies the 
+        <tt>-consumers</tt> commandline option (or <tt>-c</tt>), the selection 
+        established will be the sorted sequence of all projects that are 
+        consumers of the selection.
+        </p>
+
+<pre>
+$ build -list -select dpml/metro/dpml-state-impl -consumers
+Listing consumers of project: dpml/metro/dpml-state-impl
+
+  [1]   project:dpml/metro/dpml-component-model
+  [2]   project:dpml/metro/dpml-component-control
+  [3]   project:dpml/metro/dpml-composition-editor
+  [4]   project:dpml/metro/dpml-composition-runtime
+  [5]   project:dpml/metro/dpml-composition-tools
+  [6]   project:dpml/metro/dpml-composition-test
+  [7]   module:dpml/metro
+  [8]   module:dpml/depot
+  [9]   project:dpml/planet/http/dpml-http-demo
+  [10]  module:dpml/planet/http
+  [11]  module:dpml/planet
+  [12]  module:dpml
+</pre>
+
+        <p>
+        The <tt>-consumers</tt> switch may be used to control project slection
+        for both build and list operations.
+        </p>
+
+      </subsection>
+
+      <subsection name="Setting the build version">
+
+        <p>
+        The default build version is the SNAPSHOT identifier.  This can be 
+        overridden using the <tt>-version</tt> command line option.  The 
+        following command line demonstrates the build of a versioned 
+        release.
+        </p>
+
+<pre>
+$ build -version 1.1.3
+</pre>
+
+      </subsection>
+
+    </section>
+
+  </body>
+
+</document>
+

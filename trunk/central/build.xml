@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<project name="dpml-central" default="install" basedir="." 
+    xmlns:transit="antlib:net.dpml.transit"
+    xmlns:x="dpml:tools" >
+
+  <transit:import uri="local:template:tools/standard"/>
+
+  <target name="init" depends="standard.init">
+    <x:filter token="ANT-JAR-URI" ref="ant/ant" feature="uri" type="jar" />
+    <x:filter token="TRANSIT-TOOLS-URI" ref="dpml/transit/dpml-transit-tools" feature="uri" type="plugin" />
+    <x:filter token="TRANSIT-MODULE-VERSION" ref="dpml/transit" feature="version"/>
+    <x:filter token="TRANSIT-HANDLER-URI" ref="dpml/transit/dpml-transit-main" feature="uri" type="jar" />
+    <x:filter token="DEPOT-MODULE-VERSION" feature="version" ref="dpml/depot" />
+    <x:filter token="DEPOT-TOOLS-URI" feature="uri" type="plugin" ref="dpml/tools/dpml-tools-ant" />
+    <x:filter token="DEPOT-CONSOLE-URI" feature="uri" type="jar" ref="dpml/depot/dpml-depot-console" />
+  </target>
+
+  <target name="build" depends="standard.build">
+    <x:docs/>
+  </target>
+
+  <target name="install" depends="standard.install">
+    <echo>
+#----------------------------------------------------------------------------------
+# Updating ${dpml.docs}
+#----------------------------------------------------------------------------------
+    </echo>
+    <!--
+    <copy todir="${dpml.docs}">
+      <fileset dir="${basedir}/target/docs"/>
+    </copy>
+    -->
+  </target>
+
+</project>
+

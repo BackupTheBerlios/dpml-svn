@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document> 
+  <properties>
+    <author email="mcconnell@dpml.net">Stephen McConnell</author>
+    <title>DPML Central</title>
+  </properties>
+  <body> 
+    <section name="Stephen McConnell">
+      <subsection name="Projects">
+<p>
+Lead several international projects related to service management and distribution (from advanced research through to practical application trials and commercial product management).  The most relevant of these projects are listed in the following table.
+</p>
+  <table>
+    <tr><th>Subject</th><th>Description</th></tr>
+     <tr><td>Digital Product Meta Library</td>
+        <td>Originator and lead developer of the <a href="http://www.dpml.net">DPML</a> component management platform - an advanced solution dealing with auto-assembly, premptive deployment strategies, based on a full model-driven component architecture. Founding Member of the Avalon PMC and <a href="http://incubator.apache.org/directory/index.html">Apache Directory PMC"</a>.  Founding member of the <a href="http://openorb.sourceforge.net/">Community OpenORB Project</a>.</td>
+    </tr>
+    <tr><td>Interactive Environments for Distributed Process Management</td>
+        <td>The development of an interactive environment for business-to-business service management. Project coordinated by OSM SARL.  Research aspects undertaken by Imperial College London.  Project involved development of architectural approaches to service policy declaration and the establishment of formal standards in the community and collaboration areas under the <a href="http://www.omg.org">OMG</a>.
+         </td>
+    </tr>
+    <tr><td>Cross-Enterprise Digital Product Management</td>
+         <td>A Developer Platform capable of auto-generating complex business systems; an Enterprise Platform capable of executing generated business processes. The project involved approximately 50 participants across 13 partner organisations spanning Europe and the United States.  Responsibilities included consortium establishment, administration, management and technical lead.</td>
+     </tr>
+     <tr><td>The Open Software Architecture Forum</td>
+        <td>Resolution of a common methodology and architectures for embedded systems dealing with distributed internet based services. The project established a reference architecture for the European Commission OMI Project and completed several demonstrations and proof of concept solutions validating the integration of distributed service management into intelligent devices. Responsibilities covered project direction and technical lead.</td>
+      </tr>
+     </table>
+    </subsection>
+    </section>
+  </body>
+</document>
+

@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document>
+
+  <properties>
+    <author email="mcconnell@dpml.net">Stephen McConnell</author>
+    <title>DPML Build System</title>
+  </properties> 
+
+  <body>
+    <section name="Prepare Task">
+      <p>
+      The prepare task converts source input typically under directories 
+      such as ${basedir}/src and ${basedir}/etc into a immutable magic
+      target build structure.  The target build structure is ALWAYS the 
+      same, enabling other projects to access build artifacts is a completely
+      consistent manner without having to parse any local properties.  This
+      has a direct impact on the simplification of tasks and plugins that 
+      work on content in the ${basedir}/target directory.
+      </p>
+
+<source><![CDATA[
+<x:prepare/>
+]]></source>
+
+<pre>
+prepare:
+[x:prepare] creating target directory
+    [mkdir] Created dir: F:\dev\avalon\planet\tutorials\hello\target
+    [mkdir] Created dir: F:\dev\avalon\planet\tutorials\hello\target\build\main
+     [copy] Copying 1 file to F:\dev\avalon\planet\tutorials\hello\target\build\main
+    [mkdir] Created dir: F:\dev\avalon\planet\tutorials\hello\target\build\etc
+     [copy] Copying 2 files to F:\dev\avalon\planet\tutorials\hello\target\build\etc
+    [mkdir] Created dir: F:\dev\avalon\planet\tutorials\hello\target\deliverables
+     [copy] Copying 1 file to F:\dev\avalon\planet\tutorials\hello\target\deliverables
+</pre>
+
+      <p><i>Directory structure inputs.</i></p> 
+<source>
+${basedir}
+  /${project.src}
+    /${project.src.main} -- the main java sources copied to target/build/main
+    /${project.src.test} -- unit test sources copied to target/build/test
+    /${project.src.conf} -- configuration data copied to target/build/conf
+  /${project.etc}
+    /main                -- resource to be copied to target/build/main
+    /test                -- resource to be copied to target/build/test
+    /conf                -- resource to be copied to target/build/conf
+    /deliverables        -- copied to target/deliverables
+
+</source>
+
+      <p><i>Fixed output directory structure.</i></p> 
+<source>
+${basedir}
+  /target                -- created by prepare
+    /build               -- filtered content from ${project.src}
+      /main              -- filter content 
+      /test              -- filter sources with etc/test
+      /conf              -- filtered configuration data
+      /etc               -- filtered content from ${project.etc}
+    /deliverables        -- output artifacts initially populated with
+                            the content from /target/etc/deliverables
+                            if present
+</source>
+
+
+    <subsection name="Properties">
+      
+      <p>
+      The following properties may be used to customize the 
+      input paths for source content.
+      </p>
+
+      <table>
+        <tr><th>Property</th><th>Description</th></tr>
+        <tr>
+          <td>${project.src}</td>
+          <td>The name of the directory containing the project sources.
+          The default value is "src".</td>
+        </tr>
+        <tr>
+          <td>${project.src.main}</td>
+          <td>The name of the sub-directory with ${project.src} containing
+              the java source hierachy. Default value is "main".</td>
+        </tr>
+        <tr>
+          <td>${project.src.test}</td>
+          <td>The name of the sub-directory with ${project.src} containing
+              the java unit test source hierachy. Default value is "test".</td>
+        </tr>
+        <tr>
+          <td>${project.src.conf}</td>
+          <td>The name of the sub-directory with ${project.src} containing
+              the configuration data. Default value is "conf".</td>
+        </tr>
+        <tr>
+          <td>${project.etc}</td>
+          <td>The name of the directory containing supplimentary resources.
+          The default value is "etc".</td>
+        </tr>
+      </table>
+
+    </subsection>
+
+    </section>
+  </body>
+
+</document>
+

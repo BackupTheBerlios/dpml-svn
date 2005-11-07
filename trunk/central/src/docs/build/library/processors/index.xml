@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<document>
+
+  <properties>
+    <author email="mcconnell@dpml.net">Stephen McConnell</author>
+    <title>DPML Build System</title>
+  </properties> 
+
+  <body>
+
+    <section name="Processors">
+
+      <p>
+      A <tt>&lt;processor&gt;</tt> definition allows the association of a 
+      collection of properties, a codebase uri, and inter-processor dependencies, 
+      with a named type.  The <tt>type</tt>
+      represents an artifact produced as a result of applying a process to 
+      a project.  Build system implementations can use infromation exposed
+      by a processor to automate the application of build actions based on 
+      one or more <tt>type</tt> production declarations within a <tt>project</tt>.  
+      For example, the default DPML build implementation maps <tt>processor</tt> 
+      directives to Ant build listeners resulting in the automatic invocation
+      of build tasks.
+      </p>
+      
+      <p>
+      The <tt>&lt;processor&gt;</tt> elements may be declared within a library 
+      &lt;processors&gt; element.
+      </p>
+
+      <subsection name="XML Element">
+<source><![CDATA[
+<processor name="[type]" uri="[plugin-uri]">
+  <property name="[name]" value="[value]"/>
+  ..
+</processor>
+]]></source>
+      </subsection>
+      
+      <subsection name="XML Attributes">
+      
+         <table>
+           <tr>
+             <td>name</td>
+             <td>The name of the type produced by the processor (e.g. 'jar' or 'part').
+                The value is required.</td>
+           </tr>
+           <tr>
+             <td>uri</td>
+             <td>A plugin codebase uri.  The value is interprited by a build system 
+                 implementation. The value is required.</td>
+           </tr>
+           <tr>
+             <td>depends</td>
+             <td>A optional series of processor names (comma separated) that this processor 
+               is dependent upon. A build system implementation must ensure that processsor 
+               implementations are synchronized with respect to dependency ordering.</td>
+           </tr>
+         </table>
+
+      </subsection>
+      
+      <subsection name="XML Nested elements">
+      
+         <table>
+           <tr>
+             <td>property</td>
+             <td>0..n</td>
+             <td>A <a href="../properties/index.html">property</a> associating a property <tt>name</tt> and <tt>value</tt> with 
+             the processor definition.</td>
+           </tr>
+         </table>
+
+      </subsection>
+
+    </section>
+
+    <section name="Example">
+
+      <p><i>Example processor declaration.</i></p>
+
+<source><![CDATA[
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<library>
+
+  <processors>
+    <processor name="part" uri="link:plugin:dpml/metro/dpml-composition-tools"/>
+  </processors>
+
+  ...
+
+</library>
+]]></source>
+
+        <p>
+        The above example associates the codebase uri 
+        <tt>link:plugin:dpml/metro/dpml-composition-tools</tt> with the type 
+        name <tt>part</tt>.  If a project declares that it produces a type 
+        'part' it is the reponsibility of a build system implementation to 
+        handle the production of an artifact of that type.  The default build
+        implementation will load a plugin build listener using the supplied uri 
+        value.
+        </p>
+        
+    </section>
+
+  </body>
+
+</document>
+

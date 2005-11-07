@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<document>
+
+  <properties>
+    <author email="mcconnell@dpml.net">Stephen McConnell</author>
+    <title>DPML Build System</title>
+  </properties> 
+
+  <body>
+
+    <section name="Core Tasks">
+
+      <subsection name="Description">
+
+        <p>
+        The core Tools Antlib provides a collection of tasks and processors
+        that leverage information form a project definition.  Generally 
+        speaking you will not neeed to reference tasks directly - instead, 
+        projects declare produced types and from this information build
+        listeners (processors) are automatically assigned to the project 
+        to produce the deliverable artifact (such as jar files, plugin 
+        metadata, etc.).
+        </p>
+
+        <p>
+        Core tasks provide support for build preperation, parameterized 
+        filters, compilation, unit testing, plugin meta-data generation, 
+        multi-project builds, and loading of 'library' aware plugins.
+        </p>
+
+        <p><i>Example build file:</i></p>
+
+<pre><![CDATA[
+<project name="demo" default="install" basedir="." 
+    xmlns:transit="antlib:net.dpml.transit"
+    xmlns:x="dpml:tools" >
+
+  <transit:import uri="local:template:tools/standard"/>
+  ....
+
+</project>
+]]></pre>
+ 
+      </subsection>
+
+    </section>
+
+  </body>
+
+</document>
+

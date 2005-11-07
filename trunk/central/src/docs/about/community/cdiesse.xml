@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document> 
+  <properties>
+    <author email="mcconnell@dpml.net">Stephen McConnell</author>
+    <title>DPML Central</title>
+  </properties>
+  <body> 
+    <section name="Claude Bernard Diesse">
+      <table>
+        <tr>
+          <td>Email</td>
+          <td><a href="mailto:cdiesse@hotmail.com">cdiesse@hotmail.com</a></td>
+        </tr>
+      </table>
+    
+      <p>
+      Claude Bernard Diesse is a newcomer in the DMPL Community (2005),
+      but was interrested by the Avalon framework technologies since 2003.
+      </p>
+      <p>
+      Born in Cameroon, were he studied in applied maths for computer
+      science at university of Yaounde, he left in 1983 for France. After an
+      engineering graduate of the "Institut d'Informatique d'Entreprise"
+      (1986), and a post doctoral university degree at Paris VI (1986), he
+      started a PhD research on IC/VLSI (integrated Circuits/Very
+      Large Scale Integration) design and tests processes, in MASI laboratory
+      of micro-electronics &amp; micro-computers Department of Paris VI. But
+      quit one year later, in favor of enterprise business oriented projects.
+      </p>
+      <p>
+      From 1988 to 1999, he worked for the systems and applications
+      developement of prestigious companies and banks like La General des
+      eaux (Vivendi) and Le Groupe des Banques CIC, where he discovered
+      and appreciated the business world of financials
+      institutions. In that period and through varied projects, he gain
+      more skills in OO applications development in enterprise's
+      business context. He found that despite all huge investments,
+      financials institutions systems were not well adapted to to the 
+      needs of process change. Also main sub-systems in
+      use were technologicaly outdated, and survived only by daily patches
+      and scripts supports of last veterans developers.
+      </p>
+      <p>
+      So he decided to design a new smart Banking system for small community
+      banks, running on low cost and reliable hardware, and using secure
+      internet protocoles to expand their business around the world.
+      The hosting environment must delivers high level component based
+      development framework, very high reuse and runtime
+      flexibility.
+      </p>
+      <p>
+      To make his smart banking system (aka Kasor Banking) project viable,
+      he decided to migrate in Canada in 1999. He could then use Internet
+      technology access at low cost, and learn more on the international
+      banking processes by adding american mangement approach to the european
+      way, and so yielding a better process-aware and process-driven banking
+      system. Installed in Montreal area as a J2ee application architect and
+      Senior Java/C++ developer, he took a MBA degree in financial
+      Institutions Management ( Institut of Canadian bankers &amp; Quebec
+      University - ICB-ESG-UQAM) from his consultant spare time from since
+      2000. He gain more expertise in financials management through diferent
+      types of banking and goverment projects.
+      </p>
+      <p>
+      Meanwhile, he was studying existing containers solutions and their
+      related development framework, looking for technical characteristics
+      such as IOC, SOA, JMX, service, remoting etc.,
+      capabilities. Avalon Merlin container seems to give on the paper, the
+      most awaited answers. Following, Melin become Metro and now
+      propose a new metro/FT version more suitable to his quest.
+      </p>
+      <p>
+      He joins dpml community to work on what will be the supporting
+      environment of his dream's project.
+      </p>
+      <p>
+      When not designing or coding systems, he play or coach young guys for
+      soccer. He also play volleyball and is auto learning piano now.
+      </p>
+      <p>
+      He have 2 sons who want to be professional soccer players in Europe.
+      </p>
+      <p>
+        <i>His friends call him ... BigDiess.</i>
+      </p>
+    </section>
+  </body>
+</document>

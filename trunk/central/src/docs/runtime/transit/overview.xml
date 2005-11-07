@@ -1,0 +1,352 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<!--
+ Copyright 2005 David Leangen
+ Copyright 2004-2005 Stephen McConnell
+ Copyright 2004 Niclas Hedhman
+
+ Licensed  under the  Apache License,  Version 2.0  (the "License");
+ you may not use  this file  except in  compliance with the License.
+ You may obtain a copy of the License at
+
+   http://www.dpml.net/central/about/legal/
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed  under the  License is distributed on an "AS IS" BASIS,
+ WITHOUT  WARRANTIES OR CONDITIONS  OF ANY KIND, either  express  or
+ implied.
+
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+
+<document>
+  <properties>
+    <author email="mcconnell@dpml.net">Stephen McConnell</author>
+    <author email="niclas@hedhman.org">Niclas Hedhman</author>
+    <author email="david.leangen@konova.com">David Leangen</author>
+    <title>DPML Runtime</title>
+  </properties>
+
+  <body verified="true">
+
+    <section name="Product Overview">
+
+      <p>
+        One of the more difficult tasks when building Java applications
+        is managing classloaders. Often, when combining
+        various projects together into an enterprise application, the
+        application is not able to load the right classes at the right time,
+        causing the application to fail in mysterious and sometimes subtle
+        ways. Although a fundamental issue, classloading has remained
+        a rather obscure topic. Not surprisingly, many Java projects fail
+        to manage classloaders effectively.
+
+        Transit provides a solution to this problem.
+      </p>
+
+      <p>
+        At the core of Transit is a URL protocol handler, a classloader meta
+        information descriptor and plugin loader.
+        Based on these, Transit is able to manage classloaders, not only
+        effectively and nearly invisible to the casual user, but in a location
+        independent way. That means, applications don't need to be concerned over
+        where the jars and other resources are located, whether on the local file
+        system, on LAN servers or somewhere on the Internet.
+        This allows an application to provide extendability, hot-redeployment
+        and more advanced services.
+      </p>
+
+      <subsection name="Tutorials">
+
+        <table>
+          <tr>
+            <td><img src="/images/info.gif"/></td>
+            <td><i>The <a href="http://www.osm.net/training/resources/">
+               OSM Resource Management Tutorial</a> covers artifact 
+               creation, plugin management, content handlers and 
+               repository creation.</i>
+            </td>
+          </tr>
+        </table>
+
+      </subsection>
+
+    </section>
+
+    <section name="Key Concepts">
+
+      <p>
+        An <strong>artifact</strong> is a URI used to identify a resource.  An 
+        artifact can be any type of file: JAR, image, text... Based on 
+        content of an artifact uri Transit is able to deliver dynamic retrieval 
+        of the resource.
+      </p>
+
+      <subsection name="Artifact URI">
+
+        <p>
+          Each artifact has a unique identifier conforming to the Transit
+          <a href="../technical/artifact.html">artifact</a> protocol specification.
+          Using a standard extension to the java.net.URL class in the Java API, 
+          Transit accesses an artifact through an artifact URI.
+          The artifact URI logically identifies a resource and the Transit
+          system provides the means for resource retrieval.
+       </p>
+
+        <p>
+          The artifact URI describes the:
+          <ul>
+            <li>type of resource (JAR, meta, template...)</li>
+            <li>group to which the artifact belongs</li>
+            <li>name of the artifact</li>
+            <li>version</li>
+          </ul>
+        </p>
+
+        <p>
+          The purpose of the group is to avoid naming conflicts in the artifact
+          name space. The top level group should be a distinguishable and well
+          accepted name of the organization, and any sub groups to be decided
+          by the organization itself to further avoid name clashes.
+          It is recommended that the bottom level group is the release level, i.e.
+          all resources within the 'release' shares the same version and are
+          meant to be working in a group within that version, and not mixed
+          between versions.
+        </p>
+
+        <p>
+          Transit promotes strong version management. The underlying problem is
+          that many parts of the system are dependent on particular versions of
+          another part or resource, and can not be freely mixed. To ensure
+          that all dependencies are resolved against the proper versions, it is
+          paramount that a version management system is in place, and policies
+          are established. From Transit's point of view, the version is an
+          opaque identifier without any in-built semantic meaning.
+        </p>
+
+        <p>
+          These identifiers disassociate the definition of an application
+          from the source of the resources needed to build and deploy the
+          application. Meaning, it is only in the interest of the user of
+          the resources, be it built tools or running applications, that the
+          <strong>correct</strong> resources are provided, and not from which
+          server these were downloaded. The task of resolving the location
+          is transferred from each application to Transit itself, which is
+          configured to know about which servers are available in its running
+          environment.
+        </p>
+
+        <table>
+          <tr>
+            <td><img src="/images/info.gif"/></td>
+            <td><i>See also <a href="http://www.osm.net/training/resources/artifacts.html/">
+               OSM Tutorial on Transit Artifacts</a>.</i>
+            </td>
+          </tr>
+        </table>
+
+      </subsection>
+
+      <subsection name="Classloader Construction">
+
+        <p>
+        Layered above the Transit artifact protocol handler is a system that
+        provides support for the creation of classloaders.  Classloaders are
+        described under a 'plugin' file which is basically a list of dependent
+        artifact uris and their location in the classloader hierarchy.  The
+        plugin file is itself normally referenced as an artifact which means
+        that the list is itself versioned, named, associated with a group, and
+        dynamically resolvable.
+        </p>
+
+        <p><i>Example classloader descriptor artifact uri:</i></p>
+
+        <code>@MAGIC-PLUGIN-URI@</code>
+
+        <p>
+        The plugin file declares api, spi and implementation jar files in
+        the form of artifact uris.  Transit uses this information to
+        construct a classloader chain.
+        </p>
+
+        <img src="/images/transit/chain.png"/>
+
+        <p>
+        Plugin files use a simple property file format to declare features of
+        of the classloader, including information used when resolving plugins.
+        This information is normally created automatically using the
+        <a href="/magic/latest/tasks/export.html">Export Task</a> from the
+        <a href="/magic/latest/index.html">Magic</a> build system.
+        </p>
+
+        <p>
+        The following code fragment demonstrates the relatively simple process of
+        creating a new classloader using Transit.
+        </p>
+
+<source>
+Repository repository = Transit.getInstance().getRepository();
+ClassLoader parent = getClass().getClassLoader();
+URI uri = new URI( "artifact:plugin:dpml/examples/hello/hello-world#1.0.0" );
+ClassLoader classloader = repository.getClassloader( parent, uri );
+</source>
+
+      </subsection>
+
+      <subsection name="Plugin Management">
+
+        <p>
+        In addition to the structural classloader information - the plugin file
+        may contain the declaration of a main class or an internal resource and
+        namespace. The resource path information is a special case used within the
+        Magic build system to support dynamic task loading.  The main class
+        declaration is the entry point for classic plugin class loading relative
+        to an established classloader.
+        </p>
+
+        <p>
+        The Transit repository service provides support for class creation and
+        object instantiation.  Class creation is typically used by applications
+        that handle a particular semantics concerning a plugin model whereas
+        the Transit object instantiation provides a simple but flexible model
+        suitable for control over selectable sub-system strategies (e.g. the
+        loading of a logging system or application runtime).
+        </p>
+
+        <p>
+        The following code fragments demonstrates the creation of a plugin instance
+        using Transit's standard plugin loader.
+        </p>
+
+        <p>
+          We create a API project called hello-api, which contains the following
+          interface.
+        </p>
+<source>
+/**
+ * API of the Hello service.
+ */
+public interface Hello
+{
+    void announce();
+}
+</source>
+        <p>
+          And then we need an implementation of the API, and we call that
+          hello-impl.
+        </p>
+<source>
+/**
+ * Implementation of the Hello API.
+ */
+public class HelloImpl
+    implements Hello
+{
+    private String m_message;
+
+    public Hello( String message )
+    {
+        m_message = message;
+    }
+
+    public void announce()
+    {
+        System.out.println( m_message );
+    }
+}
+</source>
+
+   <p>
+    so we need to do the following from the class that loads the plugin;
+   </p>
+
+<source>
+  Repository repository = Transit.getInstance().getRepository();
+  ClassLoader parent = getClass().getClassLoader();
+  URI uri = new URI( "artifact:plugin:mycompany/thisproject/hello-impl#1.4.1" );
+  Object[] args = new Object[] { "Hello, World!" };
+  Object plugin = repository.getPlugin( parent, uri, args );
+  if( plugin instanceof Hello )
+  {
+      m_hello = (Hello) plugin;
+  }
+  else
+  {
+      throw Exception( "Loaded plugin is not of the right type." );
+  }
+  :
+  :
+  :
+  m_hello.announce();
+</source>
+        <p>
+          For this to work, you will also need to create the plugin meta
+          descriptor. The easiest way is to use the DPML Magic build system,
+          but it can also be done manually or with other tools. The above
+          would need a simple descriptor like this;
+        </p>
+<source>
+
+#
+# Specification classifier.
+#
+dpml.plugin.meta.namespace = net.dpml
+dpml.plugin.meta.version = 1.0
+
+#
+# Artifact descriptor.
+#
+dpml.artifact.group = mycompany/thisproject
+dpml.artifact.name = hello-impl
+dpml.artifact.version = 1.4.1
+dpml.artifact.signature = 20050116.140842
+
+#
+# Type.
+#
+dpml.plugin.class = com.mycompany.thisproject.HelloImpl
+
+#
+# API dependency.
+#
+dpml.artifact.dependency.api.0 = artifact:jar:mycompany/thisproject/hello-api#1.4.1
+
+#
+# SPI dependencies.
+#
+# No SPI dependencies
+# dpml.artifact.dependency.spi.0 =
+
+#
+# Implementation dependencies.
+#
+# No impl dependencies
+# dpml.artifact.dependency.0 =
+</source>
+        <p>
+          Now, the beauty of Transit is that IF the hello-api artifact is present
+          in the parent classloader (or higher), the API classloader will NOT
+          receive an additional instance of the Jar. This means that, if
+          the plugin user have the hello-api already loaded it is not added to the
+          API classloader, and the correct classloader management is ensured.
+          Furthermore, if any of the Classloaders in the chain
+          becomes empty, i.e. no new URLs not present in the parent structure,
+          then the Classloader in question is not created.
+        </p>
+
+        <table>
+          <tr>
+            <td><img src="/images/info.gif"/></td>
+            <td><i>See also <a href="http://www.osm.net/training/resources/plugins.html">
+               OSM Tutorial on Plugin Management</a>.</i>
+            </td>
+          </tr>
+        </table>
+
+      </subsection>
+
+    </section>
+
+  </body>
+</document>

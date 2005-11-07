@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<!-- 
+ Copyright 2005 David Leangen
+ Copyright 2004-2005 Stephen McConnell
+ Copyright 2004 Niclas Hedhman
+
+ Licensed  under the  Apache License,  Version 2.0  (the "License");
+ you may not use  this file  except in  compliance with the License.
+ You may obtain a copy of the License at 
+ 
+   http://www.dpml.net/central/about/legal/ 
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed  under the  License is distributed on an "AS IS" BASIS,
+ WITHOUT  WARRANTIES OR CONDITIONS  OF ANY KIND, either  express  or
+ implied.
+ 
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+
+<document>
+  <properties>
+    <author email="mcconnell@dpml.net">Stephen McConnell</author>
+    <author email="niclas@hedhman.org">Niclas Hedhman</author>
+    <author email="david.leangen@konova.com">David Leangen</author>
+    <title>DPML Runtime</title>
+  </properties> 
+
+  <body>
+    <section name="Transit Services">
+
+        <p>
+        Two additional services are provided, one dealing with Transit monitors
+        and the other dealing with Plugin services.  Transit <a href="monitors.html">
+        monitor support</a> is primarily of interest to developers that wish to 
+        integrate transit events into a foreign environment.  
+        The Transit <a href="plugins.html">Plugin services</a> is a more general
+        service that deals with classloader construction, plugin creation, and 
+        object instantion support.
+        </p>
+
+    </section>
+  </body>
+</document>

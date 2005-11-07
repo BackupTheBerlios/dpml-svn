@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document>
+
+  <properties>
+    <author email="mcconnell@dpml.net">Stephen McConnell</author>
+    <title>DPML Transit</title>
+  </properties>
+
+  <body>
+    <section name="Plugin Task">
+
+      <p>
+      The plugin task locates plugin meta-data, and from that data, creates
+      a classloader, loads the plugin from the repository, and declares to ant
+      any tasks, taskdefs, and/or listeners that the user declares.
+      </p>
+
+      <p><i>Example of a request to load an antlib.</i></p>
+
+<source><![CDATA[
+  <transit:plugin uri="@DEPOT-TOOLS-URI@"/>
+]]></source>
+
+      <p><i>Example of a request to load and register a single task definition.</i></p>
+
+<source><![CDATA[
+    <transit:plugin uri="${spec}">
+      <task class="net.dpml.tools.DocTask" name="docs"/>
+    </transit:plugin>
+    <docs/>
+]]></source>
+
+    </section>
+  </body>
+
+</document>
+

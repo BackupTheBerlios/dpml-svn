@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document> 
+  <properties>
+    <author email="mcconnell@dpml.net">Stephen McConnell</author>
+    <title>DPML Central</title>
+  </properties>
+  <body> 
+    <section name="Stephen McConnell">
+
+      <table>
+        <tr>
+          <td>Email</td>
+          <td><a href="mailto:mcconnell@dpml.net">mcconnell@dpml.net</a></td>
+        </tr>
+        <tr>
+          <td>Phone No</td>
+          <td>+61 8 8277 2776</td>
+        </tr>
+        <tr>
+          <td>DOB</td>
+          <td>09-OCT-1959</td>
+        </tr>
+        <tr>
+          <td>Civil Status</td>
+          <td>Married with one son.</td>
+        </tr>
+        <tr>
+          <td>Profile</td>
+          <td>Founding member of the Digital Product Meta Library. Lead 
+      architect of the Metro component management platform and Transit 
+      resource management framework, and co-author of the Magic
+      build system.</td>
+        </tr>
+      </table>
+
+      <p><img src="/images/people/mcconnell.jpg"/></p>
+
+    </section>
+  </body>
+</document>
+

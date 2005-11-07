@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!--
+ Copyright 2005 Stephen McConnell
+ Copyright 2004 Niclas Hedhman
+
+ Licensed  under the  Apache License,  Version 2.0  (the "License");
+ you may not use  this file  except in  compliance with the License.
+ You may obtain a copy of the License at
+
+   http://www.dpml.net/central/about/legal/
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed  under the  License is distributed on an "AS IS" BASIS,
+ WITHOUT  WARRANTIES OR CONDITIONS  OF ANY KIND, either  express  or
+ implied.
+
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+
+<document>
+  <properties>
+    <author email="mcconnell@dpml.net">Stephen McConnell</author>
+    <title>DPML Runtime</title>
+  </properties>
+
+  <body>
+    <section name="Link Protocol">
+
+      <p>
+        The <code>link</code> protocol handler provides support for artifact style 
+        references to a resource which contains a reference to another uri.
+      </p>
+
+      <subsection name="Specification">
+        <p>
+          The specification of the link protocol is as follows;
+        </p>
+<source> link:[type]:[group]/[name]#[version] </source>
+        <p>
+        Type, group and name are required fields. The version field is optional.
+        </p>
+      </subsection>
+
+      <table>
+        <tr>
+          <td>
+            type
+          </td>
+          <td>
+            The type of the artifact - e.g. "module". 
+          </td>
+        </tr>
+        <tr>
+          <td>
+            group
+          </td>
+          <td>
+            The group to which the artifact belong, so that naming conflicts
+            can be avoided.
+            It is recommended that the group is multi-leveled and slash
+            separated, where the top level denotes the distinguishable name of
+            the organization.
+          </td>
+        </tr>
+        <tr>
+          <td>
+            name
+          </td>
+          <td>
+            The name of the resource.
+          </td>
+        </tr>
+        <tr>
+          <td>
+            version
+          </td>
+          <td>
+            Optional opaque identifier.
+          </td>
+        </tr>
+      </table>
+
+      <subsection name="Using an link URL" >
+        <p>
+          Using link URLs are no different from any http or ftp URLs. You
+          create them by instantiating the <code>java.net.URL</code> class,
+          and setting the protocol to "link" (no quotes).
+        </p>
+        <p>
+          The following example link URI identifies a resource named
+          "dpml-metro" associated with the "dpml/metro" group, using a 
+          resource type called "module".
+        </p>
+
+        <source>link:module:dpml/metro/dpml-metro</source>
+
+        <p>
+          The above uri refers to a special artifact datatype with same name
+          as a normal artifact plus the ".link" suffix.  The contents of this 
+          data object is a text file continaing a redirection uri.  Resolving 
+          the content of a link will result is the delgation of the request 
+          to the uri declared by the link.
+        </p>
+
+      </subsection>
+
+    </section>
+  </body>
+</document>
+
+
+

@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<document>
+
+  <properties>
+    <author email="mcconnell@dpml.net">Stephen McConnell</author>
+    <title>DPML Build System</title>
+  </properties> 
+
+  <body>
+
+    <section name="Properties">
+
+      <p>
+      Properties may be defined within a <tt>&lt;library&gt;</tt>, 
+      <tt>&lt;processor&gt;</tt>, <tt>&lt;module&gt;</tt>, <tt>&lt;project&gt;</tt>, or 
+      <tt>&lt;resource&gt;</tt> withing an enclosing <tt>&lt;properties&gt;</tt> element.
+      Library properties serve as the most generic and are inherited by processor
+      and module definitions.  Modules, projects and resources inherit property setting 
+      from their enclosing module.
+      </p>
+
+      <p> 
+      The <tt>&lt;type&gt;</tt> and <tt>&lt;include&gt;</tt> elements may also contain 
+      <tt>&lt;property&gt;</tt> declarations.
+      </p>
+
+      <subsection name="XML Element">
+
+<source><![CDATA[
+  <property name="[name]" value="[value]"/>
+]]></source>
+
+      </subsection>
+
+      <subsection name="XML Attributes">
+      
+         <table>
+           <tr>
+             <td>name</td>
+             <td>The property name.</td>
+           </tr>
+           <tr>
+             <td>value</td>
+             <td>The property value.  Values may contain references to system properties
+              and properties defined within the property set (locally or inherited) using
+              the form ${[property-name]} - e.g. ${user.name}.</td>
+           </tr>
+         </table>
+
+      </subsection>
+
+    </section>
+
+    <section name="Example">
+
+      <p><i>Example property definition from the DPML root module.</i></p>
+
+<source><![CDATA[
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<properties>
+  <property name="project.publisher.name" value="Digital Product Meta Library"/>
+  <property name="project.specification.vendor" value="${project.publisher.name}"/>
+  <property name="project.implementation.vendor" value="${project.publisher.name}"/>
+  <property name="project.implementation.vendor-id" value="net.dpml"/>
+  <property name="project.publisher.url" value="http://www.dpml.net"/>
+  <property name="project.resource.host" value="http://repository.dpml.net"/>
+  <property name="project.api.host" value="http://api.dpml.net"/>
+  <property name="project.svn.host" value="svn://svn.berlios.de/dpml/trunk/main"/>
+</properties>
+]]></source>
+
+      <p><i>Example property definition within a project type directive.</i></p>
+
+<source><![CDATA[
+<project name="dpml-composition-editor" basedir="composition/editor">
+  <types>
+    <type id="jar"/>
+    <type id="plugin">
+      <property name="project.plugin.class" 
+        value="net.dpml.composition.edit.CompositionEditorFactory"/>
+    </type>
+  </types>
+  <dependencies>
+    <include key="dpml-component-control" tag="public"/>
+    <include ref="jgoodies/forms" tag="private"/>
+  </dependencies>
+</project>
+]]></source>
+      
+    </section>
+
+  </body>
+
+</document>
+
