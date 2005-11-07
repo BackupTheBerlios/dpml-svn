@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package net.dpml.profile.model;
+package net.dpml.profile.impl;
 
 import java.net.URI;
 import java.rmi.RemoteException;

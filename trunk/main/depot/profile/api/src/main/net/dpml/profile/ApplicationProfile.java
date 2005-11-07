@@ -22,6 +22,8 @@ import java.io.Serializable;
 import java.rmi.RemoteException;
 import java.util.Properties;
 
+import net.dpml.profile.info.StartupPolicy;
+
 import net.dpml.transit.model.CodeBaseModel;
 import net.dpml.transit.model.Disposable;
 
@@ -35,17 +37,17 @@ public interface ApplicationProfile extends CodeBaseModel, Disposable
    /**
     * Disabled policy.
     */
-    StartupPolicy DISABLED = new StartupPolicy( -1, "disabled", "Disabled" );
+    StartupPolicy DISABLED = StartupPolicy.DISABLED;
     
    /**
     * Manual startup policy.
     */
-    StartupPolicy MANUAL = new StartupPolicy( 0, "manual", "Manual" );
+    StartupPolicy MANUAL = StartupPolicy.MANUAL;
     
    /**
     * Automatic startup policy.
     */
-    StartupPolicy AUTOMATIC = new StartupPolicy( 1, "automatic", "Automatic" );
+    StartupPolicy AUTOMATIC = StartupPolicy.AUTOMATIC;
 
    /**
     * The default startup timeout in seconds.
@@ -195,77 +197,6 @@ public interface ApplicationProfile extends CodeBaseModel, Disposable
     * @exception RemoteException if a remote exception occurs
     */
     void setStartupPolicy( StartupPolicy policy ) throws RemoteException;
-
-   /**
-    * Startup policy enumeration.
-    */
-    public static final class StartupPolicy implements Serializable
-    {
-        private final int m_index;
-        private final String m_label;
-        private final String m_key;
-
-       /**
-        * Internal constructor.
-        * @param index the enumeration index.
-        */
-        private StartupPolicy( int index, final String key, final String label )
-        {
-            m_index = index;
-            m_label = label;
-            m_key = key;
-        }
-
-       /**
-        * Return the key used to identify this policy instance.
-        * @return the key
-        */
-        public String key()
-        {
-            return m_key;
-        }
-
-       /**
-        * Test this policy for equality with the supplied instance.
-        * @param other the object to test against
-        * @return true if the instances are equivalent
-        */
-        public boolean equals( Object other )
-        {
-            if( null == other ) 
-            {
-                return false;
-            }
-            else if( other.getClass() == StartupPolicy.class )
-            {
-                StartupPolicy policy = (StartupPolicy) other;
-                return policy.m_index == m_index;
-            }
-            else
-            {
-                return false;
-            }
-        }
-
-       /**
-        * Return the hascode for this instance.
-        * @return the instance hashcode
-        */
-        public int hashCode()
-        {
-            return m_index;
-        }
-
-       /**
-        * Return the string representation of this instance.
-        * @return the string
-        */
-        public String toString()
-        {
-            return m_label;
-        }
-    }
-
 }
 
 

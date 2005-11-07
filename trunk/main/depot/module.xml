@@ -36,7 +36,7 @@
       <type id="jar"/>
       <type id="plugin" alias="true">
   <property name="project.plugin.class" 
-     value="net.dpml.profile.model.StandardRegistryModel"/>
+     value="net.dpml.profile.impl.StandardRegistryModel"/>
       </type>
     </types>
     <dependencies>

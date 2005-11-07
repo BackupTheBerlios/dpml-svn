@@ -23,7 +23,7 @@ import net.dpml.transit.Logger;
 import net.dpml.station.Station;
 import net.dpml.profile.ApplicationProfile;
 
-import net.dpml.profile.model.ApplicationStorageUnit;
+import net.dpml.profile.impl.ApplicationStorageUnit;
 
 import java.util.prefs.Preferences;
 
