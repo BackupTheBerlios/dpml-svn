@@ -27,8 +27,8 @@ import net.dpml.transit.store.LocalPreferences;
 import net.dpml.transit.store.ContentStorageUnit;
 import net.dpml.transit.store.CodeBaseStorageUnit;
 
-import net.dpml.profile.ApplicationProfile;
-import net.dpml.profile.ApplicationProfile.StartupPolicy;
+import net.dpml.profile.model.ApplicationProfile;
+import net.dpml.profile.info.StartupPolicy;
 
 /**
  * An ApplicationStorageUnit maintains persistent information 
@@ -60,6 +60,26 @@ public class ApplicationStorageUnit extends CodeBaseStorageUnit implements Appli
     // ------------------------------------------------------------------------
     // ApplicationStorage
     // ------------------------------------------------------------------------
+
+   /**
+    * Returns the application title.
+    * @return the title
+    */
+    public String getTitle()
+    {
+        Preferences prefs = getPreferences();
+        return prefs.get( "title", prefs.name() );
+    }
+
+   /**
+    * Update the application title.
+    * @param the title
+    */
+    public void setTitle( String title )
+    {
+        Preferences prefs = getPreferences();
+        prefs.put( "title", title );
+    }
 
    /**
     * Get the duration in seconds to wait for startup
@@ -178,29 +198,8 @@ public class ApplicationStorageUnit extends CodeBaseStorageUnit implements Appli
     public StartupPolicy getStartupPolicy()
     {
         Preferences prefs = getPreferences();
-        String policy = prefs.get( STARTUP_POLICY_KEY, ApplicationProfile.DISABLED.key() );
-        if( ApplicationProfile.DISABLED.key().equals( policy ) )
-        {
-            return ApplicationProfile.DISABLED;
-        }
-        else if( ApplicationProfile.MANUAL.key().equals( policy ) )
-        {
-            return ApplicationProfile.MANUAL;
-        }
-        else if( ApplicationProfile.AUTOMATIC.key().equals( policy ) )
-        {
-            return ApplicationProfile.AUTOMATIC;
-        }
-        else
-        {
-            final String error = 
-              "Corrupt or invalid startup policy value ["
-              + policy 
-              + "] in preferences node ["
-              + prefs
-              + "].";
-            throw new IllegalStateException( error );
-        }
+        String policy = prefs.get( STARTUP_POLICY_KEY, StartupPolicy.DISABLED.getName() );
+        return StartupPolicy.parse( policy );
     }
 
    /**
@@ -210,26 +209,7 @@ public class ApplicationStorageUnit extends CodeBaseStorageUnit implements Appli
     public void setStartupPolicy( StartupPolicy policy )
     {
         Preferences prefs = getPreferences();
-        if( ApplicationProfile.DISABLED.equals( policy ) )
-        {
-            prefs.put( STARTUP_POLICY_KEY, ApplicationProfile.DISABLED.key() );
-        }
-        else if( ApplicationProfile.MANUAL.equals( policy ) )
-        {
-            prefs.put( STARTUP_POLICY_KEY, ApplicationProfile.MANUAL.key() );
-        }
-        else if( ApplicationProfile.AUTOMATIC.equals( policy ) )
-        {
-            prefs.put( STARTUP_POLICY_KEY, ApplicationProfile.AUTOMATIC.key() );
-        }
-        else
-        {
-            final String error = 
-              "Startup policy value ["
-              + policy 
-              + "] not recognized.";
-            throw new IllegalArgumentException( error );
-        }
+        prefs.put( STARTUP_POLICY_KEY, policy.getName() );
     }
 
    /**

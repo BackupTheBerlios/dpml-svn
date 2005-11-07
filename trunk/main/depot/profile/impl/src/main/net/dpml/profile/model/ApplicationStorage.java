@@ -24,7 +24,7 @@ import net.dpml.transit.store.CodeBaseStorage;
 import net.dpml.transit.store.ContentStorage;
 import net.dpml.transit.store.Removable;
 
-import net.dpml.profile.ApplicationProfile.StartupPolicy;
+import net.dpml.profile.info.StartupPolicy;
 
 /**
  *

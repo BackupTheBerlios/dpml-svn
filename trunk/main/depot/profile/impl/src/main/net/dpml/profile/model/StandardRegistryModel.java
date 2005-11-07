@@ -23,7 +23,7 @@ import java.rmi.RemoteException;
 import net.dpml.transit.model.DuplicateKeyException;
 import net.dpml.transit.Logger;
 
-import net.dpml.profile.ApplicationRegistry;
+import net.dpml.profile.model.ApplicationRegistry;
 
 /**
  * Plugin implements of the DepotModel.

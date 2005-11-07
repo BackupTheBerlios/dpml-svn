@@ -33,11 +33,11 @@ import net.dpml.transit.Logger;
 import net.dpml.transit.model.UnknownKeyException;
 import net.dpml.transit.model.Value;
 
-import net.dpml.profile.ApplicationRegistry;
-import net.dpml.profile.RegistryEvent;
-import net.dpml.profile.RegistryListener;
-import net.dpml.profile.ApplicationProfile;
-import net.dpml.profile.ApplicationProfile.StartupPolicy;
+import net.dpml.profile.model.ApplicationRegistry;
+import net.dpml.profile.model.RegistryEvent;
+import net.dpml.profile.model.RegistryListener;
+import net.dpml.profile.model.ApplicationProfile;
+import net.dpml.profile.info.StartupPolicy;
 
 /**
  * Implements of the application registry within which a set of application profiles 

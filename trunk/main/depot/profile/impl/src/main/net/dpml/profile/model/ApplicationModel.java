@@ -29,10 +29,10 @@ import net.dpml.transit.model.DisposableCodeBaseModel;
 import net.dpml.transit.model.DefaultContentModel;
 import net.dpml.transit.model.Value;
 
-import net.dpml.profile.ApplicationProfile;
-import net.dpml.profile.ApplicationProfileEvent;
-import net.dpml.profile.ApplicationProfileListener;
-import net.dpml.profile.ApplicationProfile.StartupPolicy;
+import net.dpml.profile.model.ApplicationProfile;
+import net.dpml.profile.model.ApplicationProfileEvent;
+import net.dpml.profile.model.ApplicationProfileListener;
+import net.dpml.profile.info.StartupPolicy;
 
 /**
  * A DefaultApplicationProfile maintains information about the configuration
