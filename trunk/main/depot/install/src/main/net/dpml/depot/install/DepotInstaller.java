@@ -63,7 +63,7 @@ public class DepotInstaller
         Preferences prefs = getProfilePreferences( id );
         prefs.put( "uri", "link:part:dpml/planet/http/dpml-http-demo" );
         prefs.put( "title", "DPML HTTP Demo" );
-        prefs.put( "startup", ApplicationProfile.MANUAL.key() );
+        prefs.put( "startup", ApplicationProfile.MANUAL.getName() );
     }
 
     private void setupAlternateProfile()
@@ -85,7 +85,7 @@ public class DepotInstaller
         Preferences tempdir = params.node( "temp" );
         tempdir.put( "value", "${user.dir}" );
         tempdir.put( "classname", "java.io.File" );
-        prefs.put( "startup", ApplicationProfile.DISABLED.key() );
+        prefs.put( "startup", ApplicationProfile.DISABLED.getName() );
     }
 
     private void setupTestProfile() throws Exception

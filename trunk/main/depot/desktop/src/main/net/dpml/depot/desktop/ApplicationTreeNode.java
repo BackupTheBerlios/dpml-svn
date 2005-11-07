@@ -63,9 +63,9 @@ import net.dpml.station.Application.State;
 
 import net.dpml.part.PartHandler;
 
+import net.dpml.profile.info.StartupPolicy;
 import net.dpml.profile.model.ApplicationRegistry;
 import net.dpml.profile.model.ApplicationProfile;
-import net.dpml.profile.model.ApplicationProfile.StartupPolicy;
 
 import net.dpml.transit.Logger;
 import net.dpml.transit.Artifact;
