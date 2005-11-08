@@ -540,7 +540,7 @@ public final class LibraryDirectiveBuilder
             else
             {
                 final String error = 
-                  "Include directive does not declare a 'key' or 'ref' attribute.\n"
+                  "Include directive does not declare a 'urn', 'key' or 'ref' attribute.\n"
                   + element.toString();
                 throw new IllegalArgumentException( error );
             }
