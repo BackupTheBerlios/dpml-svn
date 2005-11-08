@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package net.dpml.transit.info;
+package net.dpml.profile.info;
 
 import java.beans.SimpleBeanInfo;
 import java.beans.BeanDescriptor;

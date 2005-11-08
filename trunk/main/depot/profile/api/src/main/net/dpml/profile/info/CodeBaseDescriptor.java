@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package net.dpml.transit.info;
+package net.dpml.profile.info;
 
 import java.net.URI;
 

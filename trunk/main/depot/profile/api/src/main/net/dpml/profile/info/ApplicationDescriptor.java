@@ -20,9 +20,6 @@ package net.dpml.profile.info;
 
 import java.net.URI;
 
-import net.dpml.transit.info.CodeBaseDescriptor;
-import net.dpml.transit.info.ValueDescriptor;
-
 /**
  * The ApplicationDescriptor is immutable datastructure used to 
  * describe an application.

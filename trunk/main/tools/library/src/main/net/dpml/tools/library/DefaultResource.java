@@ -239,6 +239,22 @@ public class DefaultResource extends DefaultDictionary implements Resource, Comp
     }
 
    /**
+    * Return the resource classifier.
+    * @return the classifier (LOCAL, EXTERNAL or ANONYMOUS)
+    */
+    public Classifier getClassifier()
+    {
+        if( null != m_directive )
+        {
+            return m_directive.getClassifier();
+        }
+        else
+        {
+            return ResourceDirective.ANONYMOUS;
+        }
+    }
+    
+   /**
     * Return the expanded array of types associated with the resource.
     * The returned array is a function of the types declared by a resource
     * expanded relative to any types implied by processor dependencies.
@@ -305,12 +321,6 @@ public class DefaultResource extends DefaultDictionary implements Resource, Comp
         {
             throw new NullPointerException( "id" );
         }
-        //if( null == m_parent )
-        //{
-        //    final String error = 
-        //      "Operation not supported on the root module.";
-        //    throw new UnsupportedOperationException( error );
-        //}
         
         String group = getGroupName();
         String name = getName();
@@ -562,11 +572,6 @@ public class DefaultResource extends DefaultDictionary implements Resource, Comp
     //----------------------------------------------------------------------------
     // internals
     //----------------------------------------------------------------------------
-    
-    Classifier getClassifier()
-    {
-        return m_directive.getClassifier();
-    }
     
     DefaultLibrary getDefaultLibrary()
     {

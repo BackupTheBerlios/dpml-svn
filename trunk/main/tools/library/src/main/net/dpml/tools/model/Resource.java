@@ -22,6 +22,7 @@ import java.io.File;
 
 import net.dpml.tools.info.Scope;
 import net.dpml.tools.info.ResourceDirective;
+import net.dpml.tools.info.ResourceDirective.Classifier;
 
 import net.dpml.transit.Artifact;
 import net.dpml.transit.Category;
@@ -57,6 +58,12 @@ public interface Resource extends Dictionary
     * @return the base directory (possibly null)
     */
     File getBaseDir();
+
+   /**
+    * Return the resource classifier.
+    * @return the classifier (LOCAL, EXTERNAL or ANONYMOUS)
+    */
+    Classifier getClassifier();
     
    /**
     * Return the expanded array of types associated with the resource.

@@ -18,8 +18,6 @@
 
 package net.dpml.profile.info;
 
-import net.dpml.transit.info.ValueDescriptor;
-
 /**
  * The ModuleDirective class describes a module data-structure.
  *
