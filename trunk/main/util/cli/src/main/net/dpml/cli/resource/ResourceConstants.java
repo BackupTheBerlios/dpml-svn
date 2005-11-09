@@ -21,6 +21,7 @@ public abstract class ResourceConstants {
     public static final String CLASSVALIDATOR_CLASS_ACCESS = "ClassValidator.class.access";
     public static final String CLASSVALIDATOR_CLASS_CREATE = "ClassValidator.class.create";
     public static final String DATEVALIDATOR_DATE_OUTOFRANGE = "DateValidator.date.OutOfRange";
+    public static final String URIVALIDATOR_MALFORMED_URI = "URIValidator.malformed.URI";
     public static final String URLVALIDATOR_MALFORMED_URL = "URLValidator.malformed.URL";
     public static final String NUMBERVALIDATOR_NUMBER_OUTOFRANGE =
         "NumberValidator.number.OutOfRange";

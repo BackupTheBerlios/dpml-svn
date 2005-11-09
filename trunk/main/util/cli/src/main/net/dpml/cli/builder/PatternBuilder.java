@@ -22,7 +22,7 @@ import java.util.Set;
 import net.dpml.cli.Argument;
 import net.dpml.cli.Option;
 import net.dpml.cli.validation.ClassValidator;
-import net.dpml.cli.validation.DateValidator;
+//import net.dpml.cli.validation.DateValidator;
 import net.dpml.cli.validation.FileValidator;
 import net.dpml.cli.validation.NumberValidator;
 import net.dpml.cli.validation.UrlValidator;
@@ -182,8 +182,8 @@ public class PatternBuilder {
                 //case ':':// no validator needed for a string
             case '%' :
                 return NumberValidator.getNumberInstance();
-            case '#' :
-                return DateValidator.getDateInstance();
+            //case '#' :
+            //    return DateValidator.getDateInstance();
             case '<' :
                 final FileValidator existingv = new FileValidator();
                 existingv.setExisting(true);

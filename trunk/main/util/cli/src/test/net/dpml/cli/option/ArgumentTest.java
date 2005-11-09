@@ -37,8 +37,8 @@ import net.dpml.cli.builder.GroupBuilder;
 import net.dpml.cli.commandline.WriteableCommandLineImpl;
 import net.dpml.cli.resource.ResourceConstants;
 import net.dpml.cli.resource.ResourceHelper;
-import net.dpml.cli.validation.DateValidator;
-import net.dpml.cli.validation.DateValidatorTest;
+//import net.dpml.cli.validation.DateValidator;
+//import net.dpml.cli.validation.DateValidatorTest;
 
 /**
  * @author Rob Oxspring
@@ -61,10 +61,10 @@ public class ArgumentTest
                                 ';', null, ArgumentImpl.DEFAULT_CONSUME_REMAINING, null, 0);
     }
 
-    public static Argument buildDateLimitArgument() {
-        return new ArgumentImpl("limit", "the last acceptable date", 0, 1, '=', '\0',
-                                new DateValidator(DateValidatorTest.YYYY_MM_YY), null, null, 0);
-    }
+    //public static Argument buildDateLimitArgument() {
+    //    return new ArgumentImpl("limit", "the last acceptable date", 0, 1, '=', '\0',
+    //                            new DateValidator(DateValidatorTest.YYYY_MM_YY), null, null, 0);
+    //}
 
     public static Argument buildTargetsArgument() {
         return new ArgumentImpl("target", "The targets ant should build", 0, Integer.MAX_VALUE,
@@ -89,41 +89,41 @@ public class ArgumentTest
     }
 
     public void testNew() {
-        try {
-            new ArgumentImpl("limit", "the last acceptable date", 10, 5, '=', '\0',
-                             new DateValidator(DateValidatorTest.YYYY_MM_YY), null, null, 0);
-        } catch (IllegalArgumentException e) {
-            assertEquals(resources.getMessage("Argument.minimum.exceeds.maximum"), e.getMessage());
-        }
+        //try {
+        //    new ArgumentImpl("limit", "the last acceptable date", 10, 5, '=', '\0',
+        //                     new DateValidator(DateValidatorTest.YYYY_MM_YY), null, null, 0);
+        //} catch (IllegalArgumentException e) {
+        //    assertEquals(resources.getMessage("Argument.minimum.exceeds.maximum"), e.getMessage());
+        //}
 
-        {
-            ArgumentImpl arg =
-                new ArgumentImpl(null, "the last acceptable date", 5, 5, '=', '\0',
-                                 new DateValidator(DateValidatorTest.YYYY_MM_YY), null, null, 0);
-            assertEquals("wrong arg name", "arg", arg.getPreferredName());
-        }
+        //{
+        //    ArgumentImpl arg =
+        //        new ArgumentImpl(null, "the last acceptable date", 5, 5, '=', '\0',
+        //                         new DateValidator(DateValidatorTest.YYYY_MM_YY), null, null, 0);
+        //    assertEquals("wrong arg name", "arg", arg.getPreferredName());
+        //}
 
-        {
-            List defaults = new ArrayList();
+        //{
+        //    List defaults = new ArrayList();
+        //
+        //    try {
+        //        new ArgumentImpl(null, "the last acceptable date", 1, 1, '=', '\0',
+        //                         new DateValidator(DateValidatorTest.YYYY_MM_YY), null, defaults, 0);
+        //    } catch (IllegalArgumentException exp) {
+        //        assertEquals(resources.getMessage("Argument.too.few.defaults"), exp.getMessage());
+        //   }
+        //}
 
-            try {
-                new ArgumentImpl(null, "the last acceptable date", 1, 1, '=', '\0',
-                                 new DateValidator(DateValidatorTest.YYYY_MM_YY), null, defaults, 0);
-            } catch (IllegalArgumentException exp) {
-                assertEquals(resources.getMessage("Argument.too.few.defaults"), exp.getMessage());
-            }
-        }
-
-        try {
-            List defaults = new ArrayList();
-            defaults.add("1");
-            defaults.add("2");
-
-            new ArgumentImpl(null, "the last acceptable date", 1, 1, '=', '\0',
-                             new DateValidator(DateValidatorTest.YYYY_MM_YY), null, defaults, 0);
-        } catch (IllegalArgumentException exp) {
-            assertEquals(resources.getMessage("Argument.too.many.defaults"), exp.getMessage());
-        }
+        //try {
+        //    List defaults = new ArrayList();
+        //    defaults.add("1");
+        //    defaults.add("2");
+        //
+        //    new ArgumentImpl(null, "the last acceptable date", 1, 1, '=', '\0',
+        //                     new DateValidator(DateValidatorTest.YYYY_MM_YY), null, defaults, 0);
+        //} catch (IllegalArgumentException exp) {
+        //    assertEquals(resources.getMessage("Argument.too.many.defaults"), exp.getMessage());
+        //}
     }
 
     /*
@@ -358,6 +358,7 @@ public class ArgumentTest
         }
     }
 
+   /*
     public void testValidate_Validator()
         throws OptionException, ParseException {
         final Argument option = buildDateLimitArgument();
@@ -370,7 +371,9 @@ public class ArgumentTest
                                               DateValidatorTest.YYYY_MM_YY.parse("2004-01-01")
                                           }), commandLine.getValues(option));
     }
+    */
 
+   /*
     public void testValidate_ValidatorInvalidDate()
         throws OptionException, ParseException {
         final Argument option = buildDateLimitArgument();
@@ -387,6 +390,7 @@ public class ArgumentTest
             assertEquals("wrong exception message", e.getMessage(), exp.getMessage());
         }
     }
+    */
 
     /*
      * (non-Javadoc)

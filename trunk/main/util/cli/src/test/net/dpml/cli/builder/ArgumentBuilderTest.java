@@ -23,7 +23,7 @@ import junit.framework.TestCase;
 import net.dpml.cli.option.ArgumentImpl;
 import net.dpml.cli.resource.ResourceConstants;
 import net.dpml.cli.resource.ResourceHelper;
-import net.dpml.cli.validation.DateValidator;
+//import net.dpml.cli.validation.DateValidator;
 import net.dpml.cli.validation.Validator;
 
 public class ArgumentBuilderTest
@@ -228,15 +228,15 @@ public class ArgumentBuilderTest
         assertEquals("incorrect subsequent separator", ':', arg.getSubsequentSeparator());
     }
 
-    public void testValidator() {
-        Validator validator = DateValidator.getDateInstance();
-        this.argumentBuilder.withValidator(validator);
-        this.argumentBuilder.withName("arg");
-
-        ArgumentImpl arg = (ArgumentImpl) this.argumentBuilder.create();
-
-        assertEquals("incorrect validator", validator, arg.getValidator());
-    }
+    //public void testValidator() {
+    //    Validator validator = DateValidator.getDateInstance();
+    //    this.argumentBuilder.withValidator(validator);
+    //    this.argumentBuilder.withName("arg");
+    //
+    //    ArgumentImpl arg = (ArgumentImpl) this.argumentBuilder.create();
+    //
+    //    assertEquals("incorrect validator", validator, arg.getValidator());
+    //}
 
     public void testNullValidator() {
         try {
