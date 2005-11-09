@@ -253,7 +253,9 @@ public class ParentTest
         settings.remove(DisplaySetting.DISPLAY_GROUP_OUTER);
         option.appendUsage(buffer, settings, null);
 
-        assertEquals("[login (l,lo) <username> [login-opts (--basic (-b)|--digest (-d)|--ssl (-s))]]",
+        //assertEquals("[login (l,lo) <username> [login-opts (--basic (-b)|--digest (-d)|--ssl (-s))]]",
+        //             buffer.toString());
+        assertEquals("[login (l,lo) <username> [login-opts (--basic (-b) --digest (-d) --ssl (-s))]]",
                      buffer.toString());
     }
 
@@ -265,7 +267,9 @@ public class ParentTest
         settings.remove(DisplaySetting.DISPLAY_GROUP_OUTER);
         option.appendUsage(buffer, settings, null);
 
-        assertEquals("[login (l,lo) [login-opts (--basic (-b)|--digest (-d)|--ssl (-s))]]",
+        //assertEquals("[login (l,lo) [login-opts (--basic (-b)|--digest (-d)|--ssl (-s))]]",
+        //             buffer.toString());
+        assertEquals("[login (l,lo) [login-opts (--basic (-b) --digest (-d) --ssl (-s))]]",
                      buffer.toString());
     }
 

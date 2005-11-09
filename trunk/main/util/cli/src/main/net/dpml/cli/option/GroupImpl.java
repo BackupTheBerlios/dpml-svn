@@ -294,7 +294,14 @@ public class GroupImpl
     public void appendUsage(
       final StringBuffer buffer, final Set helpSettings, final Comparator comp ) 
     {
-        appendUsage(buffer, helpSettings, comp, "|" );
+        if( getMaximum() == 1 )
+        {
+            appendUsage(buffer, helpSettings, comp, "|" );
+        }
+        else
+        {
+            appendUsage(buffer, helpSettings, comp, " " );
+        }
     }
 
     public void appendUsage(final StringBuffer buffer,
@@ -332,7 +339,7 @@ public class GroupImpl
         if (both) {
             buffer.append(" (");
         }
-//System.out.println( "# expanded: " + expanded + ", " + name );
+
         if (expanded) {
             final Set childSettings;
 
@@ -354,7 +361,6 @@ public class GroupImpl
                 list = new ArrayList(options);
                 Collections.sort(list, comp);
             }
-//System.out.println( "# list: " + list.size() + ", " + name );
 
             // for each option.
             for (final Iterator i = list.iterator(); i.hasNext();) {
@@ -363,7 +369,6 @@ public class GroupImpl
                 // append usage information
                 option.appendUsage(buffer, childSettings, comp);
 
-//System.out.println( "# next: " + i.hasNext() + " [" +  separator + "]" );
                 // add separators as needed
                 if (i.hasNext()) {
                     buffer.append(separator);

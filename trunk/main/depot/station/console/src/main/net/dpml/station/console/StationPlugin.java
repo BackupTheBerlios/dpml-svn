@@ -86,16 +86,15 @@ public class StationPlugin
           + "will locate (and establish if necessary) an rmi registry "
           + "using the supplied url or port (defaulting to localhost:1099). "
           + "During startup any registered applications with a AUTOMATIC "
-          + "startup policy will be deployed.";
+          + "startup policy will be deployed otherwise the default MANUAL "
+          + "startup policy will be assigned to the application.";
         
         final String addMessage = 
-          "Add a new application to the station.  The add command application key "
-          + "argument estlishes a new application key.  If the key is already assigned "
+          "Add a new application to the station.  If a application key is already assigned "
           + "an error will be raised.  The add command requires the -urn <codebase> option "
-          + "identifying the application codebase that this application will use during "
-          + "deployment.  The codebase uri may be a plugin or a part uri. If the add command "
-          + "includes the -policy option the policy will be applied following successfull "
-          + "addition of application profile.";
+          + "identifying the deployment codebase.  The codebase uri may be a plugin or a part "
+          + "uri. If the add command includes the -policy option AUTOMATIC the application "
+          + "will be deployed following registration.";
           
         Option policy = 
           oBuilder

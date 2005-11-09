@@ -62,7 +62,8 @@ public class ParserTest extends TestCase {
         }
         catch(OptionException e) {
             assertEquals(options,e.getOption());
-            assertEquals("Unexpected --unexpected while processing --help|--verbose",e.getMessage());
+            //assertEquals("Unexpected --unexpected while processing --help|--verbose",e.getMessage());
+            assertEquals("Unexpected --unexpected while processing --help --verbose",e.getMessage());
         }
     }
 
@@ -97,7 +98,8 @@ public class ParserTest extends TestCase {
         assertNull(parser.parseAndHelp(new String[]{"--unexpected"}));
         
         inReader();
-        assertInReaderLine("Unexpected --unexpected while processing --help|--verbose");
+        //assertInReaderLine("Unexpected --unexpected while processing --help|--verbose");
+        assertInReaderLine("Unexpected --unexpected while processing --help --verbose");
         assertInReaderUsage();
         assertInReaderEOF();
     }
@@ -105,7 +107,8 @@ public class ParserTest extends TestCase {
     private void assertInReaderUsage() throws IOException {
         assertInReaderLine("Usage:");
         assertInReaderLine("[--help --verbose]");
-        assertInReaderLine("--help|--verbose");
+        //assertInReaderLine("--help|--verbose");
+        assertInReaderLine("--help --verbose");
         assertInReaderLine("--help (-h)");
         assertInReaderLine("--verbose (-v)");
     }
