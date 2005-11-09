@@ -30,33 +30,20 @@ import net.dpml.transit.model.Value;
  */
 public class CodeBaseDescriptor extends AbstractDescriptor
 {
-    private final String m_id;
     private final String m_codebase;
     private final ValueDescriptor[] m_parameters;
     
    /**
     * Creation of a new codebase descriptor.
-    * @param id the descriptor identifier
     * @param codebase the codebase uri 
     * @param parameters an array of plugin parameter descriptors
     */
-    public CodeBaseDescriptor( String id, String codebase, ValueDescriptor[] parameters )
+    public CodeBaseDescriptor( String codebase, ValueDescriptor[] parameters )
     {
-        m_id = id;
         m_codebase = codebase;
         m_parameters = parameters;
     }
     
-   /**
-    * Returns a name identifying the codebase.
-    * 
-    * @return the immutable host model identifier
-    */
-    public String getID()
-    {
-        return m_id;
-    }
-
    /**
     * Return the codebase URI.
     *

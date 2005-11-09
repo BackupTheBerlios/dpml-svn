@@ -45,7 +45,7 @@ public final class CodeBaseDescriptorBeanInfo extends SimpleBeanInfo
         descriptor.setValue( 
           "persistenceDelegate", 
           new DefaultPersistenceDelegate( 
-            new String[]{"id", "codeBaseURI", "valueDescriptors"} ) );
+            new String[]{"codeBaseURI", "valueDescriptors"} ) );
         return descriptor;
     }
 }

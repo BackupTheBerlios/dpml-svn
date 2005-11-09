@@ -35,7 +35,6 @@ public class ApplicationDescriptor extends CodeBaseDescriptor
     
    /**
     * Creation of a new codebase descriptor.
-    * @param id the descriptor identifier
     * @param codebase the codebase uri 
     * @param parameters an array of plugin parameter descriptors
     * @param base working directory path
@@ -44,10 +43,10 @@ public class ApplicationDescriptor extends CodeBaseDescriptor
     * @param shutdownTimeout shutdown timeout value
     */
     public ApplicationDescriptor( 
-      String id, String codebase, ValueDescriptor[] parameters, String base, 
+      String codebase, ValueDescriptor[] parameters, String base, 
       StartupPolicy policy, int startupTimeout, int shutdownTimeout )
     {
-        super( id, codebase, parameters );
+        super( codebase, parameters );
         
         m_base = base;
         m_policy = policy;

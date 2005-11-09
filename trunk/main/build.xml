@@ -97,7 +97,28 @@
         <package name="net.dpml.tools.*"/>
       </group>
       <group title="Metro">
-        <package name="net.dpml.*"/>
+        <package name="net.dpml.component"/>
+        <package name="net.dpml.component.*"/>
+        <package name="net.dpml.composition"/>
+        <package name="net.dpml.composition.*"/>
+        <package name="net.dpml.part"/>
+        <package name="net.dpml.part.*"/>
+        <package name="net.dpml.state"/>
+        <package name="net.dpml.state.*"/>
+      </group>
+      <group title="Utilities">
+        <package name="net.dpml.cli"/>
+        <package name="net.dpml.cli.*"/>
+        <package name="net.dpml.i18n"/>
+        <package name="net.dpml.i18n.*"/>
+        <package name="net.dpml.activity"/>
+        <package name="net.dpml.activity.*"/>
+        <package name="net.dpml.configuration"/>
+        <package name="net.dpml.configuration.*"/>
+        <package name="net.dpml.parameters"/>
+        <package name="net.dpml.parameters.*"/>
+        <package name="net.dpml.logging"/>
+        <package name="net.dpml.logging.*"/>
       </group>
     </x:javadoc>
   </target>

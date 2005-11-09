@@ -34,7 +34,6 @@ public final class ApplicationDescriptorTestCase extends AbstractTestCase
     
     public void testSerialization() throws Exception
     {
-        final String id = "test";
         final String codebase = "link:plugin:acme/wdget";
         final String basedir = ".";
         final StartupPolicy policy = StartupPolicy.AUTOMATIC;
@@ -42,13 +41,12 @@ public final class ApplicationDescriptorTestCase extends AbstractTestCase
         final int shutdown = 20;
         
         ApplicationDescriptor descriptor = 
-           new ApplicationDescriptor( id, codebase, VALUES, basedir, policy, startup, shutdown );
+           new ApplicationDescriptor( codebase, VALUES, basedir, policy, startup, shutdown );
         doSerializationTest( descriptor );
     }
     
     public void testXMLEncoding() throws Exception
     {
-        final String id = "test";
         final String codebase = "link:plugin:acme/wdget";
         final String basedir = ".";
         final StartupPolicy policy = StartupPolicy.AUTOMATIC;
@@ -56,7 +54,7 @@ public final class ApplicationDescriptorTestCase extends AbstractTestCase
         final int shutdown = 20;
         
         ApplicationDescriptor descriptor = 
-           new ApplicationDescriptor( id, codebase, VALUES, basedir, policy, startup, shutdown );
+           new ApplicationDescriptor( codebase, VALUES, basedir, policy, startup, shutdown );
         doEncodingTest( descriptor, "application-directive.xml" );
     }
 }

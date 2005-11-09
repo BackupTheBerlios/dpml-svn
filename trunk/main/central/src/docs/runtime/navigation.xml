@@ -27,6 +27,7 @@
     <menu>
       <item name="Metro" href="metro/index.html"/>
       <item name="Transit" href="transit/index.html"/>
+      <item name="Util" href="util/index.html"/>
     </menu>
 
  </body>

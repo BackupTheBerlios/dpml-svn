@@ -114,6 +114,20 @@
     </dependencies>
   </project>
    
+  <project name="dpml-station-console" basedir="station/console">
+    <types>
+      <type id="jar"/>
+      <type id="plugin" alias="true">
+        <property name="project.plugin.class" 
+           value="net.dpml.station.console.StationPlugin"/>
+      </type>
+    </types>
+    <dependencies>
+      <include key="dpml-profile-api"/>
+      <include ref="dpml/util/dpml-util-cli"/>
+    </dependencies>
+  </project>
+   
   <project name="dpml-station-impl" basedir="station/impl">
     <types>
       <type id="jar"/>

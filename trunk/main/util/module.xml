@@ -10,10 +10,24 @@
     <include key="transit"/>
   </dependencies>
 
-  <project name="dpml-i18n" basedir="i18n">
+  <project name="dpml-util-i18n" basedir="i18n">
     <types>
       <type id="jar"/>
     </types>
+    <dependencies scope="test">
+      <include ref="ant/ant-junit"/>
+    </dependencies>
+  </project>
+   
+  <project name="dpml-util-cli" basedir="cli">
+    <types>
+      <type id="jar"/>
+    </types>
+    <properties>
+      <property name="project.test.fork" value="true"/>
+      <property name="project.test.halt-on-error" value="true"/>
+      <property name="project.test.halt-on-failure" value="true"/>
+    </properties>
     <dependencies scope="test">
       <include ref="ant/ant-junit"/>
     </dependencies>

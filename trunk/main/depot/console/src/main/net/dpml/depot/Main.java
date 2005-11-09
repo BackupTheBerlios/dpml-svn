@@ -179,7 +179,8 @@ public final class Main implements ShutdownHandler
 
     private Main( String[] arguments )
     {
-        String[] args = processSystemProperties( arguments );
+        //String[] args = processSystemProperties( arguments );
+        String[] args = arguments;
 
         boolean debug = false;
         boolean tools = false;
