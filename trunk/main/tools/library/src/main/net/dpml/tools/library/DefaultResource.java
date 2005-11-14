@@ -301,7 +301,13 @@ public class DefaultResource extends DefaultDictionary implements Resource, Comp
                 return type;
             }
         }
-        throw new InvalidTypeNameException( id );
+        final String error = 
+          "Type name ["
+          + id
+          + "] not recognized with the scope of resource ["
+          + getResourcePath()
+          + "].";
+        throw new InvalidTypeNameException( error );
     }
     
    /**
@@ -732,6 +738,16 @@ public class DefaultResource extends DefaultDictionary implements Resource, Comp
                       "Invalid urn value: " + include.getValue();
                     throw new RuntimeException( error, e );
                 }
+                catch( InvalidNameException e )
+                {
+                    final String error = 
+                      "An anonomous dependency include reference to ["
+                      + include
+                      + "] within the resource ["
+                      + getResourcePath()
+                      + "] could not be resolved.";
+                    throw new InvalidNameException( error, e );
+                }
                 catch( Exception e )
                 {
                     final String error = 
@@ -742,8 +758,21 @@ public class DefaultResource extends DefaultDictionary implements Resource, Comp
             else
             {
                 String ref = getIncludeReference( include );
-                DefaultResource resource = m_library.getDefaultResource( ref );
-                resources[i] = resource;
+                try
+                {
+                    DefaultResource resource = m_library.getDefaultResource( ref );
+                    resources[i] = resource;
+                }
+                catch( InvalidNameException e )
+                {
+                    final String error = 
+                      "A dependency include reference to ["
+                      + ref
+                      + "] within the resource ["
+                      + getResourcePath()
+                      + "] could not be resolved.";
+                    throw new InvalidNameException( error, e );
+                }
             }
         }
         return resources;

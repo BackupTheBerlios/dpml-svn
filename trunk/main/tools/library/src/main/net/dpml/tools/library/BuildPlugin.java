@@ -84,7 +84,7 @@ public class BuildPlugin
         CommandLine line = parser.parse( options, args, false );
         
         m_verbose = ( line.hasOption( "verbose" ) || line.hasOption( "v" ) );
-        m_library = new DefaultLibrary( logger );
+        m_library = new DefaultLibrary( logger );        
         m_builder = createStandardBuilder();
         
         if( line.hasOption( "version" ) )
@@ -96,32 +96,41 @@ public class BuildPlugin
         m_list = getListArgument( line );
         
         getLogger().debug( "building selection" );
-        Resource[] resources = getSelection( line );
-        
-        if( resources.length == 0 )
+        try
         {
-            getLogger().info( "Empty selection." );
-            return;
-        }
+            Resource[] resources = getSelection( line );
         
-        if( getConsumersArgument( line ) )
-        {
-            if( resources.length != 1 )
+            if( resources.length == 0 )
             {
-                final String error = 
-                  "Consumer resolution against a multi-element selection is not supported.";
-                throw new UnsupportedOperationException( error );
+                getLogger().info( "Empty selection." );
+                return;
+            }
+        
+            if( getConsumersArgument( line ) )
+            {
+                if( resources.length != 1 )
+                {
+                    final String error = 
+                      "Consumer resolution against a multi-element selection is not supported.";
+                    throw new UnsupportedOperationException( error );
+                }
+                else
+                {
+                    Resource resource = resources[0];
+                    Resource[] consumers = resource.getConsumers( true, true );
+                    process( consumers, line );
+                }
             }
             else
             {
-                Resource resource = resources[0];
-                Resource[] consumers = resource.getConsumers( true, true );
-                process( consumers, line );
+                process( resources, line );
             }
         }
-        else
+        catch( InvalidNameException e )
         {
-            process( resources, line );
+            final String error = 
+              "Unable to construct the library due to an invalid name.";
+            throw new Exception( error, e );
         }
     }
     

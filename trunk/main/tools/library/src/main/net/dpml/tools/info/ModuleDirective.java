@@ -85,6 +85,13 @@ public final class ModuleDirective extends ResourceDirective
         {
             throw new NullPointerException( "resources" );
         }
+        for( int i=0; i<resources.length; i++ )
+        {
+            if( null == resources[i] )
+            {
+                throw new NullPointerException( "resource [" + i + "]" );
+            }
+        }
         m_resources = resources;
     }
     

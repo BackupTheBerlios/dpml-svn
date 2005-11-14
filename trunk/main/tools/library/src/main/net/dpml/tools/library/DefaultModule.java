@@ -69,6 +69,7 @@ public final class DefaultModule extends DefaultResource implements Module
         m_resources = resources;
         m_root = true;
         m_directive = null;
+        
     }
     
     DefaultModule( DefaultLibrary library, DefaultModule module, ModuleDirective directive ) 
@@ -79,10 +80,21 @@ public final class DefaultModule extends DefaultResource implements Module
         m_root = false;
         m_directive = directive;
         ResourceDirective[] directives = directive.getResourceDirectives();
+        for( int i=0; i<directives.length; i++ )
+        {
+            if( null == directives[i] )
+            {
+                throw new NullPointerException( "directive" );
+            }
+        }
         DefaultResource[] resources = new DefaultResource[ directives.length ];
         for( int i=0; i<directives.length; i++ )
         {
             ResourceDirective res = directives[i];
+            if( null == res )
+            {
+                throw new NullPointerException( "resource" );
+            }
             if( res instanceof ModuleDirective )
             {
                 ModuleDirective d = (ModuleDirective) res;
@@ -152,8 +164,13 @@ public final class DefaultModule extends DefaultResource implements Module
         }
         catch( InvalidNameException e )
         {
-            final String message = e.getMessage();
-            throw new ModuleNotFoundException( message );
+            final String error = 
+              "Cannot locate module [" 
+              + ref
+              + "] within module ["
+              + getResourcePath()
+              + "]";
+            throw new ModuleNotFoundException( error, e );
         }
     }
     
@@ -187,6 +204,7 @@ public final class DefaultModule extends DefaultResource implements Module
             Arrays.sort( resources );
             return resources;
         }
+        
     }
     
    /**
@@ -412,8 +430,13 @@ public final class DefaultModule extends DefaultResource implements Module
                     return resource;
                 }
             }
-            String path = getResourcePath() + "/" + ref;
-            throw new InvalidNameException( path );
+            final String error = 
+              "An  reference to ["
+                + ref
+                + "] within the module ["
+                + getResourcePath()
+                + "] could not be resolved.";
+            throw new InvalidNameException( error );
         }
     }
     
@@ -424,7 +447,12 @@ public final class DefaultModule extends DefaultResource implements Module
             throw new NullPointerException( "ref" );
         }
         int n = ref.indexOf( "/" );
-        if( n > 0 )
+        if( n == 0 )
+        {
+            String newRef = ref.substring( 1 );
+            return getDefaultModule( newRef );
+        }
+        else if( n > 0 )
         {
             String pre = ref.substring( 0, n );
             String post = ref.substring( n+1 );
@@ -433,19 +461,34 @@ public final class DefaultModule extends DefaultResource implements Module
         }
         else
         {
-            DefaultResource resource = getDefaultResource( ref );
+            DefaultResource resource = null;
+            try
+            {
+                resource = getDefaultResource( ref );
+            }
+            catch( InvalidNameException e )
+            {
+                final String error = 
+                  "The reference to module ["
+                    + ref
+                    + "] within the module ["
+                    + getResourcePath()
+                    + "] does not exist.";
+                throw new InvalidNameException( error, e );
+            }
             if( resource instanceof DefaultModule )
             {
                 return (DefaultModule) resource;
             }
             else
             {
-                String path = getResourcePath() + "/" + ref;
                 final String error = 
-                  "Resource [" 
-                  + path 
-                  + "] is not a module.";
-                throw new IllegalArgumentException( error );
+                  "A reference to module ["
+                  + ref
+                  + "] within the module ["
+                  + getResourcePath()
+                  + "] returned a reference to a non-module resource.";
+                throw new InvalidNameException( error );
             }
         }
     }
@@ -494,9 +537,7 @@ public final class DefaultModule extends DefaultResource implements Module
             return (DefaultModule[]) stack.toArray( new DefaultModule[0] );
         }
     }
-
-
-
+    
     private void collectChildModules( 
       List visited, List stack, DefaultModule module )
     {

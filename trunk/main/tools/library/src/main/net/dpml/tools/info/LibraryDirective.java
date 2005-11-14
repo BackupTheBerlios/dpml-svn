@@ -50,13 +50,34 @@ public final class LibraryDirective extends AbstractDirective
         {
             throw new NullPointerException( "processes" );
         }
+        for( int i=0; i<processes.length; i++ )
+        {
+            if( null == processes[i] )
+            {
+                throw new NullPointerException( "process" );
+            } 
+        }
         if( null == imports )
         {
             throw new NullPointerException( "imports" );
         }
+        for( int i=0; i<imports.length; i++ )
+        {
+            if( null == imports[i] )
+            {
+                throw new NullPointerException( "import" );
+            } 
+        }
         if( null == modules )
         {
             throw new NullPointerException( "modules" );
+        }
+        for( int i=0; i<modules.length; i++ )
+        {
+            if( null == modules[i] )
+            {
+                throw new NullPointerException( "module" );
+            } 
         }
 
         m_modules = modules;

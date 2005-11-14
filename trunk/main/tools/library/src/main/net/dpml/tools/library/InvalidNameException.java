@@ -18,16 +18,24 @@
 
 package net.dpml.tools.library;
 
+import java.rmi.RemoteException;
+
+import net.dpml.tools.model.Resource;
+
 /**
  * Internal exception throw to indicate a bad name reference.
  *
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-class InvalidNameException extends IllegalArgumentException
+class InvalidNameException extends RuntimeException
 {
     InvalidNameException( String message )
     {
-        super( message );
+        this( message, null );
+    }
+    InvalidNameException( String message, Throwable cause )
+    {
+        super( message, cause );
     }
 }
