@@ -116,22 +116,27 @@ public class FileValidator implements Validator {
      * 
      * @see net.dpml.cli.validation.Validator#validate(java.util.List)
      */
-    public void validate(final List values) throws InvalidArgumentException {
-        for (final ListIterator i = values.listIterator(); i.hasNext();) {
-            final String name = (String)i.next();
-            final File f = new File(name);
-
-            if ((existing && !f.exists())
-                || (file && !f.isFile())
-                || (directory && !f.isDirectory())
-                //|| (hidden && !f.isHidden())
-                || (readable && !f.canRead())
-                || (writable && !f.canWrite())) {
-
-                throw new InvalidArgumentException(name);
+    public void validate(final List values) throws InvalidArgumentException 
+    {
+        for( final ListIterator i = values.listIterator(); i.hasNext(); ) 
+        {
+            final Object next = i.next();
+            if( next instanceof File )
+            {
+                return;
             }
-            
-            i.set(f);
+            final String name = (String) next;
+            final File f = new File(name);
+            if ((existing && !f.exists() )
+                || ( file && !f.isFile() )
+                || ( directory && !f.isDirectory() )
+                //|| ( hidden && !f.isHidden() )
+                || ( readable && !f.canRead() )
+                || ( writable && !f.canWrite() ) ) 
+            {
+                throw new InvalidArgumentException( name );
+            }
+            i.set( f );
         }
     }
 

@@ -34,7 +34,7 @@ public class PropertyOption
     extends OptionImpl {
     public static final String DEFAULT_OPTION_STRING = "-D";
     public static final String DEFAULT_DESCRIPTION =
-        "Passes properties and values to the application";
+        "Set property values.";
 
     /**
      * A default PropertyOption instance

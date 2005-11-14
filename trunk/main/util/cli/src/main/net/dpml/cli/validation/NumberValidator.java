@@ -119,27 +119,33 @@ public class NumberValidator implements Validator {
      *
      * @see net.dpml.cli.validation.Validator#validate(java.util.List)
      */
-    public void validate(final List values)
-        throws InvalidArgumentException {
-        for (final ListIterator i = values.listIterator(); i.hasNext();) {
-            final String value = (String) i.next();
-
-            final ParsePosition pp = new ParsePosition(0);
-            final Number number = format.parse(value, pp);
-
-            if (pp.getIndex() < value.length()) {
-                throw new InvalidArgumentException(value);
+    public void validate( final List values ) throws InvalidArgumentException 
+    {
+        for( final ListIterator i = values.listIterator(); i.hasNext(); ) 
+        {
+            final Object next = i.next();
+            if( next instanceof Number )
+            {
+                return;
             }
-
-            if (((minimum != null) && (number.doubleValue() < minimum.doubleValue())) ||
-                    ((maximum != null) && (number.doubleValue() > maximum.doubleValue()))) {
-                throw new InvalidArgumentException(ResourceHelper.getResourceHelper().getMessage(ResourceConstants.NUMBERVALIDATOR_NUMBER_OUTOFRANGE,
-                                                                                                 new Object[] {
-                                                                                                     value
-                                                                                                 }));
+            final String value = (String) next;
+            final ParsePosition pp = new ParsePosition( 0 );
+            final Number number = format.parse( value, pp );
+            if( pp.getIndex() < value.length() )
+            {
+                throw new InvalidArgumentException( value );
             }
-
-            i.set(number);
+            if( 
+              ( ( minimum != null ) && ( number.doubleValue() < minimum.doubleValue() ) ) 
+              || ( ( maximum != null ) && ( number.doubleValue() > maximum.doubleValue() ) )
+            ) 
+            {
+                throw new InvalidArgumentException(
+                  ResourceHelper.getResourceHelper().getMessage(
+                    ResourceConstants.NUMBERVALIDATOR_NUMBER_OUTOFRANGE,
+                    new Object[]{value} ) );
+            }
+            i.set( number );
         }
     }
 

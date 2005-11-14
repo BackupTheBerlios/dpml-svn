@@ -194,7 +194,7 @@ public class PropertyOptionTest extends AbstractOptionTestCase {
     public void testGetDescription() {
         final Option option = new PropertyOption();
         assertEquals(
-            "Passes properties and values to the application",
+            PropertyOption.DEFAULT_DESCRIPTION,
             option.getDescription());
     }
 

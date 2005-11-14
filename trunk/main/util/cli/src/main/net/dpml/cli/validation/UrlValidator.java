@@ -74,22 +74,29 @@ public class UrlValidator implements Validator {
      */
     public void validate(final List values)
         throws InvalidArgumentException {
-        for (final ListIterator i = values.listIterator(); i.hasNext();) {
-            final String name = (String) i.next();
-
-            try {
-                final URL url = new URL(name);
-
-                if ((protocol != null) && !protocol.equals(url.getProtocol())) {
+        for (final ListIterator i = values.listIterator(); i.hasNext();) 
+        {
+            final Object next = i.next();
+            if( next instanceof URL )
+            {
+                return;
+            }
+            final String name = (String) next;
+            try
+            {
+                final URL url = new URL( name );
+                if( (protocol != null) && !protocol.equals( url.getProtocol() ) ) 
+                {
                     throw new InvalidArgumentException(name);
                 }
-
-                i.set(url);
-            } catch (final MalformedURLException mue) {
-                throw new InvalidArgumentException(ResourceHelper.getResourceHelper().getMessage(ResourceConstants.URLVALIDATOR_MALFORMED_URL,
-                                                                                                 new Object[] {
-                                                                                                     name
-                                                                                                 }));
+                i.set( url );
+            }
+            catch (final MalformedURLException mue) 
+            {
+                throw new InvalidArgumentException(
+                  ResourceHelper.getResourceHelper().getMessage(
+                    ResourceConstants.URLVALIDATOR_MALFORMED_URL,
+                    new Object[]{name} ) );
             }
         }
     }

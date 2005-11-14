@@ -58,31 +58,30 @@ public class DateValidatorTest
     }
 
     public void testDefaultDateFormatValidate()
-        throws InvalidArgumentException {
-        
+        throws InvalidArgumentException 
+    {
         Date now = new Date();
         String date = DateFormat.getDateInstance().format( now );
-        String formatted = YYYY_MM_YY.format( now );
+        final DateFormat df = new SimpleDateFormat("yyyy/M/dd");
+        String formatted = df.format( now );
         
-        final Object[] array = new Object[] { date };        
+        final Object[] array = new Object[] { date };
         final List list = Arrays.asList(array);
         final Validator validator = DateValidator.getDateInstance();
 
         validator.validate(list);
 
         final Iterator i = list.iterator();
-        assertEquals( formatted, YYYY_MM_YY.format((Date) i.next()));
+        assertEquals( formatted, df.format((Date) i.next()));
         assertFalse(i.hasNext());
     }
-
+    
     public void testDefaultTimeFormatValidate()
         throws InvalidArgumentException {
         final Object[] array = new Object[] { "18:00:00" };
         final List list = Arrays.asList(array);
         final Validator validator = DateValidator.getTimeInstance();
-
         validator.validate(list);
-
         final Iterator i = list.iterator();
         final DateFormat df = new SimpleDateFormat("HH:mm:ss");
         assertEquals("18:00:00", df.format((Date) i.next()));

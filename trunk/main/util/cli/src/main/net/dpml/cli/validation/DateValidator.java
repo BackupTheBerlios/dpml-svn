@@ -146,8 +146,15 @@ public class DateValidator implements Validator {
     public void validate(final List values)
         throws InvalidArgumentException {
         // for each value
-        for (final ListIterator i = values.listIterator(); i.hasNext();) {
-            final String value = (String) i.next();
+        for (final ListIterator i = values.listIterator(); i.hasNext();) 
+        {
+            final Object next = i.next();
+            if( next instanceof Date )
+            {
+                return;
+            }
+        
+            final String value = (String) next;
 
             Date date = null;
 
