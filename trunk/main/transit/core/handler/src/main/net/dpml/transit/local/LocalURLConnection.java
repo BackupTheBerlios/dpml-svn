@@ -156,6 +156,15 @@ public class LocalURLConnection extends URLConnection
         }
         else
         {
+            if( !m_target.exists() )
+            {
+                File parent = m_target.getParentFile();
+                if( null != parent )
+                {
+                    parent.mkdirs();
+                }
+                m_target.createNewFile();
+            }
             return new FileOutputStream( m_target );
         }
     }
