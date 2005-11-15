@@ -21,9 +21,6 @@ import java.net.URI;
 import java.util.List;
 import java.util.ListIterator;
 
-import net.dpml.cli.resource.ResourceConstants;
-import net.dpml.cli.resource.ResourceHelper;
-
 /**
  * The <code>UriValidator</code> validates the string argument
  * values are valid URIs.  If the value is a URI, the string value in
@@ -43,31 +40,40 @@ import net.dpml.cli.resource.ResourceHelper;
  * Argument plugin =
  *   builder
  *     .withName("plugin");
- *     .withValidator( new URIValidator( "artifact" ) );
+ *     .withValidator( new URIValidator( "artifact", "link" ) );
  * </pre>
  *
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-public class UriValidator implements Validator 
+public class URIValidator implements Validator 
 {
-    private String m_scheme = null;
+    private final String[] m_schemes;
 
    /**
     * Creates a UriValidator.
     */
-    public UriValidator() 
+    public URIValidator() 
     {
+        m_schemes = new String[0];
     }
 
    /**
     * Creates a UriValidator for the specified scheme.
     */
-    public UriValidator( final String scheme ) 
+    public URIValidator( final String scheme ) 
     {
-        setScheme( scheme );
+        m_schemes = new String[]{ scheme };
     }
-
+    
+   /**
+    * Creates a UriValidator for the specified schemes.
+    */
+    public URIValidator( final String[] schemes ) 
+    {
+        m_schemes = schemes;
+    }
+    
    /**
     * Validate the list of values against the list of permitted values.
     * If a value is valid, replace the string in the <code>values</code>
@@ -80,43 +86,50 @@ public class UriValidator implements Validator
     {
         for( final ListIterator i = values.listIterator(); i.hasNext(); ) 
         {
-            final String name = (String) i.next();
+            final Object object = i.next();
+            if( object instanceof URI )
+            {
+                break;
+            }
+            final String name = (String) object;
             try 
             {
                 final URI uri = new URI( name );
-                if( ( m_scheme != null ) && !m_scheme.equals( uri.getScheme() ) ) 
+                if( m_schemes.length == 0 )
                 {
-                    throw new InvalidArgumentException( name );
+                    i.set( uri );
                 }
-                i.set( uri );
+                else 
+                {
+                    if( match( uri ) )
+                    {
+                        i.set( uri );
+                    }
+                    else
+                    {
+                        throw new InvalidArgumentException( name );
+                    }
+                }
             } 
             catch (final URISyntaxException e )
             {
-                throw new InvalidArgumentException(
-                  ResourceHelper.getResourceHelper().getMessage(
-                    ResourceConstants.URIVALIDATOR_MALFORMED_URI,
-                      new Object[]{name} ) );
+                final String error =
+                  "Bad uri syntax in value [" + name + "].";
+                throw new InvalidArgumentException( error );
             }
         }
     }
-
-   /**
-    * Returns the scheme that must be used by a valid URI.
-    *
-    * @return the scheme that must be used by a valid URI.
-    */
-    public String getScheme() 
+    
+    private boolean match( URI uri )
     {
-        return m_scheme;
-    }
-
-   /**
-    * Specifies the scheme that a URI must have to be valid.
-    *
-    * @param scheme the scheme that a URI must have to be valid.
-    */
-    public void setScheme( String scheme )
-    {
-        m_scheme = scheme;
+        String scheme = uri.getScheme();
+        for( int i=0; i<m_schemes.length; i++ )
+        {
+            if( scheme.startsWith( m_schemes[i] ) )
+            {
+                return true;
+            }
+        }
+        return false;
     }
 }
