@@ -367,11 +367,12 @@ public class HelpFormatter {
     protected static List wrap(final String text,
                                final int width) {
         // check for valid width
-        if (width < 1) {
-            throw new IllegalArgumentException(ResourceHelper.getResourceHelper().getMessage(ResourceConstants.HELPFORMATTER_WIDTH_TOO_NARROW,
-                                                                                             new Object[] {
-                                                                                                 new Integer(width)
-                                                                                             }));
+        if (width < 1) 
+        {
+            throw new IllegalArgumentException(
+              ResourceHelper.getResourceHelper().getMessage(
+                ResourceConstants.HELPFORMATTER_WIDTH_TOO_NARROW,
+                new Object[]{new Integer(width)} ) );
         }
 
         // handle degenerate case
