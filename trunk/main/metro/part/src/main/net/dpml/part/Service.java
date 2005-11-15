@@ -16,31 +16,31 @@
  * limitations under the License.
  */
 
-package net.dpml.component.runtime;
+package net.dpml.part;
+
+import java.rmi.Remote;
+import java.rmi.RemoteException;
 
 /**
- * Exception thrown in response to a request (direct or indirect) for service   
- * availability when the service is not available or cannot be brought to an
- * available state.
+ * The Component interface is implemented by objects that handle the runtime
+ * state of a component instance.
  *
  * @author <a href="mailto:dev-dpml@lists.ibiblio.org">The Digital Product Meta Library</a>
  * @version $Revision: 1.2 $ $Date: 2004/03/17 10:30:09 $
  */
-public class AvailabilityException extends ServiceException 
+public interface Service extends Remote
 {
    /**
-    * Serial version identifier.
+    * Return the service class.
+    * @param the class
     */
-    static final long serialVersionUID = 1L;
-
-    public AvailabilityException( String message )
-    {
-        super( message );
-    }
-
-    public AvailabilityException( String message, Throwable cause )
-    {
-        super( message, cause );
-    }
+    Class getServiceClass() throws RemoteException;
+    
+   /**
+    * Return the service version.
+    * @return the version
+    */
+    Version getVersion() throws RemoteException;
+    
 }
 

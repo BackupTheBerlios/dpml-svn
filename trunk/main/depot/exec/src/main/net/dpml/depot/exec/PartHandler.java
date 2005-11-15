@@ -33,6 +33,7 @@ import net.dpml.part.HandlerException;
 import net.dpml.part.Instance;
 import net.dpml.part.Context;
 import net.dpml.part.Part;
+import net.dpml.part.Service;
 
 import net.dpml.transit.Logger;
 import net.dpml.transit.Repository;
@@ -136,5 +137,10 @@ public class PartHandler extends AbstractHandler
     public void deactivate() throws RemoteException
     {
         m_handler.deactivate();
+    }
+    
+    public boolean isaCandidate( Service service ) throws RemoteException
+    {
+        return m_handler.isaCandidate( service );
     }
 }

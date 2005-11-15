@@ -25,7 +25,8 @@ import java.rmi.RemoteException;
 import net.dpml.component.info.ServiceDescriptor;
 
 import net.dpml.part.Handler;
-//import net.dpml.part.Part;
+import net.dpml.part.Service;
+import net.dpml.part.ServiceNotFoundException;
 
 /**
  * The Component interface is implemented by objects that handle the runtime
@@ -37,23 +38,29 @@ import net.dpml.part.Handler;
 public interface Component extends Handler
 {
    /**
-    * Return the short name of this component.
-    * @return the component name
+    * Return a handler capable of supporting the requested service.
+    * @param descriptor the service descriptor
     */
-    String getName() throws RemoteException;
-
+    Handler lookup( Service service ) throws ServiceNotFoundException, RemoteException;
+    
    /**
     * Return an array of service descriptors corresponding to 
     * the service contracts that the component publishes.
     * @return the service descriptor array
     */
-    ServiceDescriptor[] getDescriptors() throws RemoteException;
+    //ServiceDescriptor[] getDescriptors() throws RemoteException;
 
    /**
     * Return the part that defines this component.
     * @return the component part definition
     */
     //Part getDefinition() throws RemoteException;
+
+   /**
+    * Return the short name of this component.
+    * @return the component name
+    */
+    //String getName() throws RemoteException;
 
 }
 

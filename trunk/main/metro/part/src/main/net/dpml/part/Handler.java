@@ -28,13 +28,27 @@ import net.dpml.state.StateEvent;
 import net.dpml.state.StateListener;
 
 /**
- * The Handler represents a remote interface to a single runtime instance.
+ * The Handler represents a remote interface to a runtime component type.
  *
  * @author <a href="mailto:dev-dpml@lists.ibiblio.org">The Digital Product Meta Library</a>
  * @version $Revision: 1.2 $ $Date: 2004/03/17 10:30:09 $
  */
 public interface Handler extends Remote
 {
+   /**
+    * Return the array of services provider by the handler.
+    * @return the service array
+    * @exception RemoteException if a remote exception occurs
+    */
+    //Service[] getServices() throws RemoteException;
+    
+   /**
+    * Return true if this handler is a candidate for the supplied service definition.
+    * @return true if this is a candidate
+    * @exception RemoteException if a remote exception occurs
+    */
+    boolean isaCandidate( Service service ) throws RemoteException;
+    
    /**
     * Initiate activation of a runtime handler.
     * @exception HandlerException if an activation error occurs

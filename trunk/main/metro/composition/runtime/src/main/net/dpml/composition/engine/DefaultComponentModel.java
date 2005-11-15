@@ -44,6 +44,7 @@ import net.dpml.component.model.ComponentModel;
 import net.dpml.component.model.ContextModel;
 
 import net.dpml.configuration.Configuration;
+import net.dpml.configuration.impl.DefaultConfiguration;
 
 import net.dpml.logging.Logger;
 
@@ -258,7 +259,7 @@ class DefaultComponentModel extends UnicastEventSource implements ComponentModel
     {
         return m_partKeys;
     }
-
+    
    /**
     * Return the component model of an internal part referenced by the supplied key.
     * @return the internal part component model 
@@ -283,7 +284,14 @@ class DefaultComponentModel extends UnicastEventSource implements ComponentModel
     
     public Configuration getConfiguration()
     {
-        return m_configuration;
+        if( null == m_configuration )
+        {
+            return new DefaultConfiguration( "configuration", null );
+        }
+        else
+        {
+            return m_configuration;
+        }
     }
 
     public Parameters getParameters()
@@ -295,6 +303,15 @@ class DefaultComponentModel extends UnicastEventSource implements ComponentModel
     // DefaultComponentModel
     // ------------------------------------------------------------------------
     
+   /**
+    * Return the internal component models.
+    * @return the internal component model array
+    */
+    ComponentModel[] getComponentModels()
+    {
+        return (ComponentModel[]) m_parts.values().toArray( new ComponentModel[0] );
+    }
+
     ClassLoader getClassLoader()
     {
         return m_classloader;

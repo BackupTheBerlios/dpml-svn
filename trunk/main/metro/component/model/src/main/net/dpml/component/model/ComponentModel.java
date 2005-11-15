@@ -112,6 +112,12 @@ public interface ComponentModel extends Context, Remote
     String[] getPartKeys() throws RemoteException;
 
    /**
+    * Return the internal component models.
+    * @return the internal component model array
+    */
+    //ComponentModel[] getComponentModels() throws RemoteException;
+
+   /**
     * Return the component model of an internal part referenced by the supplied key.
     * @return the internal part component model 
     */

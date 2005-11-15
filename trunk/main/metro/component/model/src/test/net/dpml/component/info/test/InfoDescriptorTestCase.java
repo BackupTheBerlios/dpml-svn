@@ -35,7 +35,8 @@ import net.dpml.component.info.Descriptor;
 import net.dpml.component.info.InfoDescriptor;
 import net.dpml.component.info.CollectionPolicy;
 import net.dpml.component.info.LifestylePolicy;
-import net.dpml.component.info.Version;
+
+import net.dpml.part.Version;
 
 /**
  * InfoDescriptorTestCase does XYZ

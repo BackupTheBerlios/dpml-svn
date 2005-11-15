@@ -62,8 +62,14 @@ public class HttpTestCase extends TestCase
 
     static
     {
-        //System.setProperty( "dpml.logging.level", "FINE" );
-        //URLConnection.setContentHandlerFactory( new PartContentHandlerFactory() );
+        System.setProperty( 
+          "java.util.prefs.PreferencesFactory", 
+          "net.dpml.transit.store.LocalPreferencesFactory" );
+        System.setProperty( 
+          "java.util.logging.config.class", 
+          System.getProperty( 
+            "java.util.logging.config.class", 
+            "net.dpml.transit.util.ConfigurationHandler" ) );
     }
 
 }

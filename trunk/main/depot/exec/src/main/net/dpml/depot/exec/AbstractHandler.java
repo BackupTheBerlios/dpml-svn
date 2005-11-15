@@ -25,6 +25,7 @@ import java.lang.reflect.InvocationTargetException;
 import net.dpml.part.Handler;
 import net.dpml.part.HandlerException;
 import net.dpml.part.Instance;
+import net.dpml.part.Service;
 
 import net.dpml.transit.Logger;
 
@@ -118,6 +119,11 @@ public class AbstractHandler extends UnicastRemoteObject implements Handler
         }
         getLogger().info( "deactivation" );
         m_activated = false;
+    }
+    
+    public boolean isaCandidate( Service service ) throws RemoteException
+    {
+        return false;
     }
     
     //------------------------------------------------------------------------------

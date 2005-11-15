@@ -16,26 +16,24 @@
  * limitations under the License.
  */
 
-package net.dpml.component.runtime;
+package net.dpml.part;
 
 /**
- * Interfact implemented by local components through which a classloader 
- * may be exposed to the managing controller.  Typically a composite component
- * implementation will implement this interface and expose it's classloader 
- * to a controller enabling the controller to build new classloaders relative 
- * the exposed classloader.  A component implementing this interface may choose
- * to restrict the exposure of internals by returning an appropriate API 
- * classloader.
+ * Exception thrown by a handler in response to a request for an unknown service.
  *
  * @author <a href="mailto:dev-dpml@lists.ibiblio.org">The Digital Product Meta Library</a>
  * @version $Revision: 1.2 $ $Date: 2004/03/17 10:30:09 $
  */
-public interface ClassLoadingContext
+public class ServiceNotFoundException extends PartException 
 {
    /**
-    * Return the classloader that is to be used for construction of 
-    * subsidiary classloaders.
-    * @return the anchor classloader
+    * Serial version identifier.
     */
-    ClassLoader getClassLoader();
+    static final long serialVersionUID = 1L;
+
+    public ServiceNotFoundException( String classname )
+    {
+        super( classname );
+    }
 }
+

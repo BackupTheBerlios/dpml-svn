@@ -20,6 +20,8 @@ package net.dpml.component.info;
 
 import java.io.Serializable;
 
+import net.dpml.part.Version;
+
 /**
  * This ServiceDescriptor defines the interface and service version
  * published by a service instance.

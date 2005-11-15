@@ -58,7 +58,6 @@ import net.dpml.parameters.impl.DefaultParameters;
 
 import net.dpml.part.Part;
 import net.dpml.part.PartHolder;
-import net.dpml.part.PartContentHandlerFactory;
 
 import net.dpml.tools.ant.Context;
 import net.dpml.tools.tasks.GenericTask;

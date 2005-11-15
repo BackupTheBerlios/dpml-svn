@@ -28,6 +28,8 @@ import java.beans.Encoder;
 
 import java.util.Properties;
 
+import net.dpml.part.Version;
+
 import net.dpml.transit.util.Enum;
 
 /**

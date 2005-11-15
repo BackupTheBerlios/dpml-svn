@@ -36,7 +36,7 @@ import net.dpml.transit.Repository;
 
 /**
  */
-public class PartContentHandler extends ContentHandler
+public class PartContentHandler // extends ContentHandler
 {
     public static final PartHandler STANDARD = newPartHandler( new LoggingAdapter( "" ) );
     
@@ -76,6 +76,7 @@ public class PartContentHandler extends ContentHandler
         m_handler = newPartHandler( logger );
     }
 
+   /*
     public Object getContent( URLConnection connection ) throws IOException
     {
         return getContent( connection, new Class[0] );
@@ -118,6 +119,7 @@ public class PartContentHandler extends ContentHandler
             throw new PartRuntimeException( error, e );
         }
     }
+    */
     
     public PartEditor getPartEditor( Part part ) throws Exception
     {

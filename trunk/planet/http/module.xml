@@ -60,6 +60,11 @@
       <type id="jar"/>
       <type id="part" alias="true"/>
     </types>
+    <properties>
+      <property name="project.test.fork" value="true"/>
+      <property name="project.test.halt-on-error" value="true"/>
+      <property name="project.test.halt-on-failure" value="true"/>
+    </properties>
     <dependencies>
       <include urn="artifact:jar:servletapi/servletapi#2.3" tag="public"/>
       <include key="dpml-http-impl"/>

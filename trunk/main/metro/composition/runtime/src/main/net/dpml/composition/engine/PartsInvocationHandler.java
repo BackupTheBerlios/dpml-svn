@@ -104,7 +104,18 @@ class PartsInvocationHandler implements InvocationHandler
             {
                 if( null == args || args.length == 0 )
                 {
-                    return handler.getInstance().getValue( true );
+                    try
+                    {
+                        return handler.getInstance().getValue( false );
+                    }
+                    catch( ClassCastException e )
+                    {
+                        final String error = 
+                          "Component handler ["
+                          + handler
+                          + "] could not be case to an approriate service class.";
+                        throw new IllegalStateException( error );
+                    }
                 }
                 else if( args.length == 1 )
                 {

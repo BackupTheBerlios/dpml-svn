@@ -48,6 +48,7 @@ import net.dpml.component.data.ClassLoaderDirective;
 import net.dpml.component.data.ComponentDirective;
 import net.dpml.component.model.ComponentModel;
 import net.dpml.component.model.ContextModel;
+import net.dpml.component.runtime.Component;
 
 import net.dpml.configuration.Configuration;
 
@@ -61,6 +62,9 @@ import net.dpml.part.ControlRuntimeException;
 import net.dpml.part.Handler;
 import net.dpml.part.HandlerException;
 import net.dpml.part.PartException;
+import net.dpml.part.Service;
+import net.dpml.part.ServiceNotFoundException;
+import net.dpml.part.Version;
 
 import net.dpml.state.State;
 import net.dpml.state.impl.DefaultState;
@@ -157,12 +161,25 @@ public class ComponentController
     }
 
    /**
-    * Create a new runtime handler using a supplied anchor classloader and context.
+    * Create a new top-level runtime handler using a supplied anchor classloader and context.
     * @param anchor the anchor classloader
     * @param context the managed context
     * @return the runtime handler
     */
     ComponentHandler createComponentHandler( ClassLoader anchor, ComponentModel context )
+    {
+        return createComponentHandler( null, anchor, context );
+    }
+    
+   /**
+    * Create a new runtime handler using a supplied parent, anchor and context.
+    * @param parent the parent handler
+    * @param anchor the anchor classloader
+    * @param context the managed context
+    * @return the runtime handler
+    */
+    ComponentHandler createComponentHandler( 
+      Component parent, ClassLoader anchor, ComponentModel context )
     {
         try
         {
@@ -171,7 +188,7 @@ public class ComponentController
             Logger logger = new DefaultLogger( path.substring( 1 ).replace( '/', '.' ) );
             final ClassLoaderDirective directive = context.getClassLoaderDirective();
             ClassLoader classloader = createClassLoader( anchor, directive, name );
-            return new ComponentHandler( classloader, logger, this, context );
+            return new ComponentHandler( parent, classloader, logger, this, context );
         }
         catch( RemoteException e )
         {
@@ -357,11 +374,11 @@ public class ComponentController
     * @exception ControlException if an error occurs while attempting to load a 
     *   declared service class
     */
-    Class[] loadServiceClasses( ComponentHandler handler ) throws ControlException
+    DefaultService[] loadServices( ComponentHandler handler ) throws ControlException
     {
         Type type = handler.getType();
         ClassLoader classloader = handler.getClassLoader();
-        return loadServiceClasses( type, classloader );
+        return loadServices( type, classloader );
     }
     
     private ClassLoader createClassLoader( ClassLoader anchor, ClassLoaderDirective directive, String name )
@@ -658,7 +675,23 @@ public class ComponentController
                     {
                         String spec = uri.getSchemeSpecificPart();
                         ServiceDescriptor request = new ServiceDescriptor( spec );
-                        return lookup( handler, request );
+                        DefaultService service = loadService( handler, request );
+                        try
+                        {
+                            return executeLookup( handler, service );
+                        }
+                        catch( Exception ee )
+                        {
+                            final String error = 
+                              "Unable to resolve a service provider for the class ["
+                              + request.getClassname()
+                              + "] requested in component ["
+                              + handler.getPath()
+                              + "] under the context key ["
+                              + key
+                              + "].";
+                            throw new ControlException( error, ee );
+                        }
                     }
                     else
                     {
@@ -691,22 +724,47 @@ public class ComponentController
         }
     }
     
-    private Object lookup( ComponentHandler handler, ServiceDescriptor service )
+    private Object executeLookup( ComponentHandler handler, DefaultService service ) 
+      throws Exception
     {
-        getLogger().info( "# lookup: " + service );
-        throw new UnsupportedOperationException( "lookup/" + service );
+        Handler parent = handler.getParentHandler();
+        if( ( null != parent ) && ( parent instanceof Component ) )
+        {
+            Component component = (Component) parent;
+            try
+            {
+                Handler h = component.lookup( service );
+                h.activate();
+                return h.getInstance().getValue( false );
+            }
+            catch( RemoteException e )
+            {
+                final String error = 
+                "Resolution of the service lookup for [" 
+                  + service.getServiceClass().getName()
+                  + "] failed due to a remote exception.";
+                throw new ControlException( error, e );
+            }
+        }
+        else
+        {
+            String classname = service.getServiceClass().getName();
+            throw new ServiceNotFoundException( classname );
+        }
     }
     
-    private Class[] loadServiceClasses( Type type, ClassLoader classloader ) throws ControlException
+    private DefaultService[] loadServices( Type type, ClassLoader classloader ) throws ControlException
     {
-        ServiceDescriptor[] services = type.getServiceDescriptors();
-        Class[] interfaces = new Class[ services.length ];
-        for( int i=0; i<interfaces.length; i++ )
+        ServiceDescriptor[] descriptors = type.getServiceDescriptors();
+        DefaultService[] services = new DefaultService[ descriptors.length ];
+        for( int i=0; i<descriptors.length; i++ )
         {
-            ServiceDescriptor service = services[i];
-            interfaces[i] = loadServiceClass( type, classloader, service );
+            ServiceDescriptor descriptor = descriptors[i];
+            Class clazz = loadServiceClass( type, classloader, descriptor );
+            Version version = descriptor.getVersion();
+            services[i] = new DefaultService( clazz, version );
         }
-        return interfaces;
+        return services;
     }
 
     private Class loadServiceClass( 
@@ -724,6 +782,29 @@ public class ComponentController
               + classname
               + "] declared by the component class ["
               + type.getInfo().getClassname()
+              + "] not found.";
+            throw new ControlException( error, e );
+        }
+    }
+    
+    private DefaultService loadService( 
+      ComponentHandler handler, ServiceDescriptor service ) throws ControlException
+    {
+        ClassLoader classloader = handler.getClassLoader();
+        final String classname = service.getClassname();
+        try
+        {
+            Class c = classloader.loadClass( classname );
+            Version version = service.getVersion();
+            return new DefaultService( c, version );
+        }
+        catch( ClassNotFoundException e )
+        {
+            final String error = 
+              "Service class ["
+              + classname
+              + "] declared as a dependency the component ["
+              + handler.getPath()
               + "] not found.";
             throw new ControlException( error, e );
         }

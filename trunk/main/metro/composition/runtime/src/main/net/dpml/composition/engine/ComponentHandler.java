@@ -40,6 +40,7 @@ import net.dpml.component.info.CollectionPolicy;
 import net.dpml.component.info.ServiceDescriptor;
 import net.dpml.component.model.ComponentModel;
 import net.dpml.component.control.Disposable;
+import net.dpml.component.runtime.Component;
 
 import net.dpml.logging.Logger;
 
@@ -50,6 +51,9 @@ import net.dpml.part.HandlerRuntimeException;
 import net.dpml.part.ControlException;
 import net.dpml.part.ControlRuntimeException;
 import net.dpml.part.Instance;
+import net.dpml.part.Service;
+import net.dpml.part.ServiceNotFoundException;
+import net.dpml.part.Version;
 
 import net.dpml.state.State;
 import net.dpml.state.StateMachine;
@@ -104,7 +108,7 @@ import net.dpml.transit.model.UnknownKeyException;
  * @see ComponentModel
  * @see Instance
  */
-public class ComponentHandler extends UnicastEventSource implements Handler, Disposable
+public class ComponentHandler extends UnicastEventSource implements Component, Disposable
 {
     //--------------------------------------------------------------------------
     // immutable state
@@ -117,10 +121,11 @@ public class ComponentHandler extends UnicastEventSource implements Handler, Dis
     private final ClassLoader m_classloader;
     private final Class m_class;
     private final Type m_type;
-    private final Class[] m_services;
+    private final DefaultService[] m_services;
     private final String m_path;
     private final URI m_uri;
     private final Holder m_holder;
+    private final Handler m_parent;
     
     private final Map m_map = new Hashtable(); // symbolic value map
     private final Map m_cache = new Hashtable(); // context entry/value cache
@@ -137,12 +142,13 @@ public class ComponentHandler extends UnicastEventSource implements Handler, Dis
     //--------------------------------------------------------------------------
     
     ComponentHandler( 
-      final ClassLoader classloader, final Logger logger, 
+      final Handler parent, final ClassLoader classloader, final Logger logger, 
       final ComponentController control, final ComponentModel model )
       throws RemoteException
     {
         super();
         
+        m_parent = parent;
         m_classloader = classloader;
         m_logger = logger;
         m_controller = control;
@@ -177,7 +183,7 @@ public class ComponentHandler extends UnicastEventSource implements Handler, Dis
         
         try
         {
-            m_services = control.loadServiceClasses( this );
+            m_services = control.loadServices( this );
         }
         catch( ControlException e )
         {
@@ -228,19 +234,22 @@ public class ComponentHandler extends UnicastEventSource implements Handler, Dis
             throw new UnsupportedOperationException( error );
         }
         
-        // TODO: setup the classloader to be the PROTECTED loader
+        // At this point the component handler is fully established with respect to 
+        // its own logic as a simple component. Before completing initialization we 
+        // need to establish all of the component parts that are children of this 
+        // component.
         
-        String[] keys = model.getPartKeys();
+        String[] keys = m_model.getPartKeys();
         for( int i=0; i<keys.length; i++ )
         {
             String key = keys[i];
             try
             {
-                ComponentModel partModel = model.getComponentModel( key );
-                Handler handler = control.createComponentHandler( classloader, partModel );
+                ComponentModel context = model.getComponentModel( key );
+                Handler handler = control.createComponentHandler( this, classloader, context );
                 m_handlers.put( key, handler );
             }
-            catch( Throwable e )
+            catch( UnknownKeyException e )
             {
                 final String error = 
                   "Invalid part key ["
@@ -250,9 +259,60 @@ public class ComponentHandler extends UnicastEventSource implements Handler, Dis
                   + "]";
                 throw new ControlRuntimeException( error, e );
             }
+            catch( Exception e )
+            {
+                final String error = 
+                  "Internal error while atrempting to create a subsidiary part ["
+                  + key
+                  + "] in component ["
+                  + m_path
+                  + "]";
+                throw new ControlRuntimeException( error, e );
+            }
         }
         
         getLogger().debug( "component controller [" + this + "] established" );
+    }
+    
+    //--------------------------------------------------------------------------
+    // Component
+    //--------------------------------------------------------------------------
+    
+   /**
+    * Return a handler capable of supporting the requested service.
+    * @param service the service definition
+    * @exception ServiceNotFoundException if a service provider cannot be resolved.
+    */
+    public Handler lookup( Service service ) throws ServiceNotFoundException, RemoteException
+    {
+        if( getLogger().isDebugEnabled() )
+        {
+            getLogger().debug( 
+              "lookup  in [" 
+              + this 
+              + "] for [" 
+              + service.getServiceClass().getName() 
+              + "]." );
+        }
+        Handler[] handlers = (Handler[]) m_handlers.values().toArray( new Handler[0] );
+        for( int i=0; i<handlers.length; i++ )
+        {
+            Handler handler = handlers[i];
+            if( handler.isaCandidate( service ) )
+            {
+                return handler;
+            }
+        }
+        if( ( m_parent != null ) && ( m_parent instanceof Component ) )
+        {
+            Component component = (Component) m_parent;
+            return component.lookup( service );
+        }
+        else
+        {
+            String classname = service.getServiceClass().getName();
+            throw new ServiceNotFoundException( classname );
+        }
     }
     
     //--------------------------------------------------------------------------
@@ -295,6 +355,7 @@ public class ComponentHandler extends UnicastEventSource implements Handler, Dis
         }
         
         getLogger().debug( "initiating activation" );
+        
         try
         {
             if( m_model.getActivationPolicy().equals( ActivationPolicy.STARTUP ) )
@@ -344,6 +405,38 @@ public class ComponentHandler extends UnicastEventSource implements Handler, Dis
         }
     }
     
+   /**
+    * Return the array of services provider by the handler.
+    * @return the service array
+    */
+    public Service[] getServices()
+    {
+        return m_services;
+    }
+
+   /**
+    * Return true if this handler is a candidate for the supplied service definition.
+    * @return true if this is a candidate
+    * @exception RemoteException if a remote exception occurs
+    */
+    public boolean isaCandidate( Service service ) throws RemoteException
+    {
+        Class clazz = service.getServiceClass();
+        Version version = service.getVersion();
+        DefaultService[] services = m_services;
+        for( int i=0; i<services.length; i++ )
+        {
+            DefaultService s = services[i];
+            Version v = s.getVersion();
+            Class c = s.getServiceClass();
+            if( v.complies( version ) && clazz.isAssignableFrom( c ) )
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+    
     //--------------------------------------------------------------------------
     // EventProducer
     //--------------------------------------------------------------------------
@@ -378,18 +471,6 @@ public class ComponentHandler extends UnicastEventSource implements Handler, Dis
         }
     }
     
-    // this will be needed as soon as we sort parent child relationships
-    
-    //Handler getPartHandler( ServiceDescriptor service )
-    //{
-    //Handler[] handlers = (Handler[]) m_handlers.values().toArray( new Handler[0] );
-    //for( int i=0; i<handlers.length; i++ )
-    //{
-    //    Handler handler = handlers[i];
-    //    // need an interface here
-    //}
-    //}
-    
     Object getContextValue( String key ) throws ControlException
     {
         return m_controller.getContextValue( this, key );
@@ -412,7 +493,7 @@ public class ComponentHandler extends UnicastEventSource implements Handler, Dis
     
     Handler getParentHandler()
     {
-        return null;
+        return m_parent;
     }
     
    /**
@@ -439,14 +520,19 @@ public class ComponentHandler extends UnicastEventSource implements Handler, Dis
         return m_model;
     }
     
-    Class[] getServiceClassArray()
-    {
-        return m_services;
-    }
-    
     Object createNewObject() throws ControlException, InvocationTargetException
     {
         return m_controller.createInstance( this );
+    }
+    
+    Class[] getServiceClassArray()
+    {
+        Class[] classes = new Class[ m_services.length ];
+        for( int i=0; i<classes.length; i++ )
+        {
+            classes[i] = m_services[i].getServiceClass();
+        }
+        return classes;
     }
     
     //--------------------------------------------------------------------------
