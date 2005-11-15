@@ -90,7 +90,21 @@ public class RemoteApplication extends EventChannel implements Callback, Applica
         {
             m_pid = pid;
             m_handler = handler;
-            setProcessState( ProcessState.STARTED );
+            try
+            {
+                handler.activate();
+                setProcessState( ProcessState.STARTED );
+            }
+            catch( Exception e )
+            {
+                try
+                {
+                    handler.deactivate();
+                }
+                catch( Exception ee )
+                {
+                }
+            }
         }
     }
     

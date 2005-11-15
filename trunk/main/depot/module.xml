@@ -100,9 +100,13 @@
            value="net.dpml.depot.exec.ApplicationHandler"/>
       </type>
     </types>
+    <dependencies scope="build">
+      <include ref="dpml/metro/dpml-composition-runtime"/>
+    </dependencies>
     <dependencies>
       <include ref="dpml/util/dpml-util-cli"/>
       <include ref="dpml/transit/dpml-transit-main"/>
+      <include ref="dpml/metro/dpml-component-control"/>
       <include ref="dpml/metro/dpml-part-api"/>
       <include key="dpml-profile-api"/>
       <include key="dpml-station-api"/>

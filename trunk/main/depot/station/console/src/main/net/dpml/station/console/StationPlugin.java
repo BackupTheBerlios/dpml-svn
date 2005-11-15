@@ -171,9 +171,7 @@ public class StationPlugin
             }
             else if( line.hasOption( INFO_COMMAND ) )
             {
-                ApplicationRegistry registry = getApplicationRegistry( line );
-                String value = (String) line.getValue( INFO_COMMAND, null );
-                processInfoCommand( registry, value );
+                processInfoCommand( line );
             }
             else if( line.hasOption( START_COMMAND ) )
             {
@@ -481,12 +479,22 @@ public class StationPlugin
     
    /**
     * List application registry information.
-    * @param local TRUE if the registry is local
-    * @param key the application key (possibly null)
-    * @param uri the registry uri
+    * @param line the commandline
     */
-    private void processInfoCommand( ApplicationRegistry registry, String key ) throws IOException
+    private void processInfoCommand( CommandLine line ) throws Exception
     {
+        Manager manager = null;
+        try
+        {
+            manager = getManager( line );
+        }
+        catch( Exception e )
+        {
+            // ignore
+        }
+        ApplicationRegistry registry = getApplicationRegistry( line );
+        String key = (String) line.getValue( INFO_COMMAND, null );
+        
         if( null == key )
         {
             StringBuffer buffer = new StringBuffer( "\n" );
@@ -504,9 +512,17 @@ public class StationPlugin
                       + (i+1) 
                       + ") " 
                       + k
-                      + "\t"
-                      + profile.getCodeBaseURI() 
                     );
+                    if( null != manager )
+                    {
+                        Application application = manager.getApplication( k );
+                        buffer.append( "\t" + application.getState() );
+                    }
+                    else
+                    {
+                        buffer.append( "\t" );
+                    }
+                    buffer.append( "\t" + profile.getCodeBaseURI() );
                 }
                 buffer.append( "\n" );
                 System.out.println( buffer.toString() );

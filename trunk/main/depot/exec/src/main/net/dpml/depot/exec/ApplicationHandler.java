@@ -34,7 +34,6 @@ import java.lang.reflect.InvocationTargetException;
 //import net.dpml.depot.ShutdownHandler;
 //import net.dpml.depot.GeneralException;
 
-import net.dpml.part.PartHandler;
 import net.dpml.part.Handler;
 import net.dpml.part.HandlerException;
 import net.dpml.part.Instance;
@@ -42,6 +41,7 @@ import net.dpml.part.Instance;
 import net.dpml.station.Station;
 import net.dpml.station.Application;
 import net.dpml.station.Callback;
+import net.dpml.station.ApplicationException;
 
 import net.dpml.transit.Transit;
 import net.dpml.transit.Artifact;
@@ -77,14 +77,6 @@ public class ApplicationHandler
 
     private final Logger m_logger;
     private final Callback m_callback;
-    
-    
-    //private final TransitModel m_model;
-    //private final ShutdownHandler m_handler;
-
-    //private ApplicationRegistry m_depot;
-    //private String m_spec;
-    //private String[] m_args;
     
    /**
     * Plugin class used to handle the deployment of a target application.  The 
@@ -144,11 +136,27 @@ public class ApplicationHandler
             m_callback = new LocalCallback();
         }
         
-            
-        // TODO: add handlers for 'jar', 'plugin' and 'part'
-            
-        Handler handler = new AbstractHandler( logger );
-        m_callback.started( PROCESS_ID, handler );
+        if( Artifact.isRecognized( uri ) )
+        {
+            Artifact artifact = Artifact.createArtifact( uri );
+            String type = artifact.getType();
+            if( type.equals( "part" ) )
+            {
+                Handler handler = new PartHandler( logger, uri );
+                m_callback.started( PROCESS_ID, handler );
+            }
+            else
+            {
+                Handler handler = new AbstractHandler( logger );
+                m_callback.started( PROCESS_ID, handler );
+            }
+        }
+        else
+        {
+            final String error = 
+              "URI not supported [" + uri + "].";
+            throw new ApplicationException( error );
+        }
     }
     
     //------------------------------------------------------------------------------

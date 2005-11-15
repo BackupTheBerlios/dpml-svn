@@ -42,6 +42,7 @@ import net.dpml.composition.event.EventProducer;
 import net.dpml.component.info.Type;
 import net.dpml.component.info.ServiceDescriptor;
 import net.dpml.component.data.Directive;
+import net.dpml.component.data.ReferenceDirective;
 import net.dpml.component.data.ClasspathDirective;
 import net.dpml.component.data.ClassLoaderDirective;
 import net.dpml.component.data.ComponentDirective;
@@ -132,7 +133,8 @@ public class ComponentController
     * @param directive the component definition
     * @return the managable component model
     */
-    ComponentModel createComponentModel( ClassLoader anchor, String partition, ComponentDirective directive ) throws PartException
+    ComponentModel createComponentModel( 
+      ClassLoader anchor, String partition, ComponentDirective directive ) throws PartException
     {
         try
         {
@@ -216,6 +218,10 @@ public class ComponentController
             else if( ( null != contextInnerClass ) && contextInnerClass.isAssignableFrom( c ) )
             {
                 args[i] = createContextInvocationHandler( handler, contextInnerClass );
+            }
+            else if( ( null != parts ) && parts.isAssignableFrom( c ) )
+            {
+                args[i] = createPartsInvocationHandler( handler, parts );
             }
             else
             {
@@ -547,7 +553,8 @@ public class ComponentController
         }
     }
     
-    private Object createContextInvocationHandler( ComponentHandler handler, Class clazz ) throws ControlException
+    private Object createContextInvocationHandler( ComponentHandler handler, Class clazz ) 
+      throws ControlException
     {
         try
         {
@@ -559,6 +566,23 @@ public class ComponentController
         {
             final String error =
               "Unexpected error while attempting to construct the context invocation handler.";
+            throw new ControlException( error, e );
+        }
+    }
+
+    private Object createPartsInvocationHandler( ComponentHandler handler, Class clazz ) 
+      throws ControlException
+    {
+        try
+        {
+            InvocationHandler invocationHandler = new PartsInvocationHandler( handler );
+            ClassLoader classloader = clazz.getClassLoader();
+            return Proxy.newProxyInstance( classloader, new Class[]{ clazz }, invocationHandler );
+        }
+        catch( Throwable e )
+        {
+            final String error =
+              "Unexpected error while attempting to construct the parts invocation handler.";
             throw new ControlException( error, e );
         }
     }
@@ -625,6 +649,24 @@ public class ComponentController
                         Thread.currentThread().setContextClassLoader( loader );
                     }
                 }
+                else if( directive instanceof ReferenceDirective )
+                {
+                    ReferenceDirective ref = (ReferenceDirective) directive;
+                    URI uri = ref.getURI();
+                    String scheme = uri.getScheme();
+                    if( "service".equals( scheme ) )
+                    {
+                        String spec = uri.getSchemeSpecificPart();
+                        ServiceDescriptor request = new ServiceDescriptor( spec );
+                        return lookup( handler, request );
+                    }
+                    else
+                    {
+                        final String error = 
+                        "Service lookup scheme [" + scheme + "] not recognized.";
+                        throw new ControlException( error );
+                    }
+                }
                 else
                 {
                     final String error =
@@ -647,6 +689,12 @@ public class ComponentController
               + "] failed due to a remote exception.";
             throw new ControlException( error, e );
         }
+    }
+    
+    private Object lookup( ComponentHandler handler, ServiceDescriptor service )
+    {
+        getLogger().info( "# lookup: " + service );
+        throw new UnsupportedOperationException( "lookup/" + service );
     }
     
     private Class[] loadServiceClasses( Type type, ClassLoader classloader ) throws ControlException

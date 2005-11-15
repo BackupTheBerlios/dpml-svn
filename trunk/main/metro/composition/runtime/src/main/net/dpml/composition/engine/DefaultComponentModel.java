@@ -134,6 +134,12 @@ class DefaultComponentModel extends UnicastEventSource implements ComponentModel
                 ComponentModel model = m_controller.createComponentModel( m_classloader, base, component );
                 m_parts.put( key, model );
             }
+            else
+            {
+                final String error = 
+                  "Support for foreign parts not supported at this time.";
+                throw new UnsupportedOperationException( error );
+            }
         }
     }
 

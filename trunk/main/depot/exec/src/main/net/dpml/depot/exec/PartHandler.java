@@ -18,38 +18,76 @@
 
 package net.dpml.depot.exec;
 
+import java.net.URI;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
+import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
+
+import net.dpml.component.control.Controller;
+
+import net.dpml.station.ApplicationException;
 
 import net.dpml.part.Handler;
 import net.dpml.part.HandlerException;
 import net.dpml.part.Instance;
+import net.dpml.part.Context;
+import net.dpml.part.Part;
 
 import net.dpml.transit.Logger;
+import net.dpml.transit.Repository;
+import net.dpml.transit.Transit;
 
 /**
- * The Metro plugin handles the establishment of a part and optional 
- * invocatio of a callback to a central station.
+ * The PartHandler provides support for the establishment of a part
+ * controller and delegation of handler requests to the part handler
+ * resolved from its associated controller.
  */
-public class AbstractHandler extends UnicastRemoteObject implements Handler
+public class PartHandler extends AbstractHandler
 {
+    //------------------------------------------------------------------------------
+    // immutable state
+    //------------------------------------------------------------------------------
+    
+    private final URI m_codebase;
+    
+    private final Controller m_controller;
+    
     //------------------------------------------------------------------------------
     // state
     //------------------------------------------------------------------------------
     
-    private final Logger m_logger;
-    
-    private boolean m_activated = false;
+    private Handler m_handler;
     
     //------------------------------------------------------------------------------
     // constructor
     //------------------------------------------------------------------------------
     
-    public AbstractHandler( Logger logger ) throws RemoteException
+    public PartHandler( Logger logger, URI codebase ) throws Exception
     {
-        super();
-        m_logger = logger;
+        super( logger );
+        
+        m_codebase = codebase;
+        
+        try
+        {
+            ClassLoader classloader = Part.class.getClassLoader();
+            URI uri = new URI( "@COMPOSITION-CONTROLLER-URI@" );
+            Repository repository = Transit.getInstance().getRepository();
+            Class c = repository.getPluginClass( classloader, uri );
+            Constructor constructor = c.getConstructor( new Class[]{Logger.class} );
+            m_controller = (Controller) constructor.newInstance( new Object[]{logger} );
+        }
+        catch( Exception e )
+        {
+            final String error =
+              "Internal error while attempting to establish the standard part controller.";
+            throw new ApplicationException( error, e );
+        }
+        
+        Part part = m_controller.loadPart( codebase );
+        Context context = m_controller.createContext( part );
+        m_handler = m_controller.createHandler( context );
     }
     
     //------------------------------------------------------------------------------
@@ -65,22 +103,7 @@ public class AbstractHandler extends UnicastRemoteObject implements Handler
     */
     public void activate() throws HandlerException, InvocationTargetException, RemoteException
     {
-        if( m_activated )
-        {
-            return;
-        }
-        getLogger().info( "activation" );
-        m_activated = true;
-    }
-    
-   /**
-    * Returns the active status of the handler.
-    * @return TRUE if the handler has been activated otherwise FALSE
-    * @exception RemoteException if a remote exception occurs
-    */
-    public boolean isActive() throws RemoteException
-    {
-        return m_activated;
+        m_handler.activate();
     }
     
    /**
@@ -89,7 +112,7 @@ public class AbstractHandler extends UnicastRemoteObject implements Handler
     */
     public int size() throws RemoteException
     {
-        return 0;
+        return m_handler.size();
     }
     
    /**
@@ -103,7 +126,7 @@ public class AbstractHandler extends UnicastRemoteObject implements Handler
     */
     public Instance getInstance() throws HandlerException, InvocationTargetException, RemoteException
     {
-        throw new UnsupportedOperationException( "getInstance/0" );
+        return m_handler.getInstance();
     }
     
    /**
@@ -112,20 +135,6 @@ public class AbstractHandler extends UnicastRemoteObject implements Handler
     */
     public void deactivate() throws RemoteException
     {
-        if( !m_activated )
-        {
-            return;
-        }
-        getLogger().info( "deactivation" );
-        m_activated = false;
-    }
-    
-    //------------------------------------------------------------------------------
-    // internals
-    //------------------------------------------------------------------------------
-    
-    protected Logger getLogger()
-    {
-        return m_logger;
+        m_handler.deactivate();
     }
 }

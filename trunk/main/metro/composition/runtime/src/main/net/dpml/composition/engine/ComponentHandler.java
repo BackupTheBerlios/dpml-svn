@@ -37,6 +37,7 @@ import java.util.WeakHashMap;
 import net.dpml.component.info.Type;
 import net.dpml.component.info.LifestylePolicy;
 import net.dpml.component.info.CollectionPolicy;
+import net.dpml.component.info.ServiceDescriptor;
 import net.dpml.component.model.ComponentModel;
 import net.dpml.component.control.Disposable;
 
@@ -57,6 +58,7 @@ import net.dpml.state.StateListener;
 import net.dpml.state.impl.DefaultStateMachine;
 
 import net.dpml.transit.model.Value;
+import net.dpml.transit.model.UnknownKeyException;
 
 /**
  * <p>Runtime handler for a component.  The component handler maintains an internal 
@@ -122,6 +124,7 @@ public class ComponentHandler extends UnicastEventSource implements Handler, Dis
     
     private final Map m_map = new Hashtable(); // symbolic value map
     private final Map m_cache = new Hashtable(); // context entry/value cache
+    private final Map m_handlers = new Hashtable(); // part handlers
     
     //--------------------------------------------------------------------------
     // mutable state
@@ -223,6 +226,30 @@ public class ComponentHandler extends UnicastEventSource implements Handler, Dis
             final String error = 
               "Unsuppported lifestyle policy: " + lifestyle;
             throw new UnsupportedOperationException( error );
+        }
+        
+        // TODO: setup the classloader to be the PROTECTED loader
+        
+        String[] keys = model.getPartKeys();
+        for( int i=0; i<keys.length; i++ )
+        {
+            String key = keys[i];
+            try
+            {
+                ComponentModel partModel = model.getComponentModel( key );
+                Handler handler = control.createComponentHandler( classloader, partModel );
+                m_handlers.put( key, handler );
+            }
+            catch( Throwable e )
+            {
+                final String error = 
+                  "Invalid part key ["
+                  + key
+                  + "] in component ["
+                  + m_path
+                  + "]";
+                throw new ControlRuntimeException( error, e );
+            }
         }
         
         getLogger().debug( "component controller [" + this + "] established" );
@@ -337,6 +364,31 @@ public class ComponentHandler extends UnicastEventSource implements Handler, Dis
             super.dispose();
         }
     }
+    
+    Handler getPartHandler( String key ) throws UnknownKeyException
+    {
+        Handler handler = (Handler) m_handlers.get( key );
+        if( null == handler )
+        {
+            throw new UnknownKeyException( key );
+        }
+        else
+        {
+            return handler;
+        }
+    }
+    
+    // this will be needed as soon as we sort parent child relationships
+    
+    //Handler getPartHandler( ServiceDescriptor service )
+    //{
+    //Handler[] handlers = (Handler[]) m_handlers.values().toArray( new Handler[0] );
+    //for( int i=0; i<handlers.length; i++ )
+    //{
+    //    Handler handler = handlers[i];
+    //    // need an interface here
+    //}
+    //}
     
     Object getContextValue( String key ) throws ControlException
     {

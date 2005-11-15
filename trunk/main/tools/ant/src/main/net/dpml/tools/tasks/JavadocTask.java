@@ -28,6 +28,7 @@ import net.dpml.tools.model.Resource;
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.taskdefs.Javadoc;
+import org.apache.tools.ant.taskdefs.Javadoc.AccessType;
 import org.apache.tools.ant.types.DirSet;
 import org.apache.tools.ant.types.Path;
 
@@ -44,6 +45,8 @@ public class JavadocTask extends GenericTask
     //-----------------------------------------------------------------------
 
     private static final String JAVADOC_TASK_NAME = "javadoc";
+    
+    public static final String JAVADOC_ACCESS_KEY = "project.javadoc.access";
 
     //-----------------------------------------------------------------------
     // state
@@ -53,6 +56,7 @@ public class JavadocTask extends GenericTask
     private List m_links = new ArrayList();
     private List m_groups = new ArrayList();
     private File m_overview;
+    private AccessType m_access;
 
     //-----------------------------------------------------------------------
     // JavadocTask
@@ -109,7 +113,12 @@ public class JavadocTask extends GenericTask
         m_groups.add( group );
         return group;
     }
-
+    
+    public void setAccess( AccessType access )
+    {
+        m_access = access;
+    }
+    
     //-----------------------------------------------------------------------
     // Task
     //-----------------------------------------------------------------------
@@ -160,6 +169,20 @@ public class JavadocTask extends GenericTask
         
         final Path source = javadoc.createSourcepath();
         addSourcePath( resource, javadoc, source );
+        
+        // TODO: add some checking on the returned access property value
+        
+        if( null == m_access )
+        {
+            String access = getContext().getProperty( JAVADOC_ACCESS_KEY, "protected" );
+            AccessType type = new AccessType();
+            type.setValue( access );
+            javadoc.setAccess( type );
+        }
+        else
+        {
+            javadoc.setAccess( m_access );
+        }
         
         aggregateLinks( javadoc, resource );
         Link[] links = (Link[]) m_links.toArray( new Link[0] );

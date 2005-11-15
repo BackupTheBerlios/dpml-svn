@@ -450,7 +450,6 @@ public class DefaultResource extends DefaultDictionary implements Resource, Comp
         TypeDirective[] types = m_directive.getTypeDirectives();
         ArrayList list = new ArrayList();
         createIncludeDirectives( module, list, Category.SYSTEM );
-        createIncludeDirectives( module, list, Category.SYSTEM );
         createIncludeDirectives( module, list, Category.PUBLIC );
         createIncludeDirectives( module, list, Category.PROTECTED );
         createIncludeDirectives( module, list, Category.PRIVATE );
@@ -766,12 +765,12 @@ public class DefaultResource extends DefaultDictionary implements Resource, Comp
                 catch( InvalidNameException e )
                 {
                     final String error = 
-                      "A dependency include reference to ["
+                      "A dependency include referencing ["
                       + ref
-                      + "] within the resource ["
-                      + getResourcePath()
+                      + "] declared within ["
+                      + this
                       + "] could not be resolved.";
-                    throw new InvalidNameException( error, e );
+                    throw new InvalidNameException( error );
                 }
             }
         }
