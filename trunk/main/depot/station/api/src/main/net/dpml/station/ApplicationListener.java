@@ -33,6 +33,6 @@ public interface ApplicationListener extends EventListener, Remote
     * @param event the application event
     * @exception RemoteException if a remote exception occurs
     */
-    void applicationStateChanged( ApplicationEvent event ) throws RemoteException;
+    void stateChanged( ApplicationEvent event ) throws RemoteException;
 
 }

@@ -20,13 +20,13 @@ import java.beans.BeanDescriptor;
 import java.beans.DefaultPersistenceDelegate;
 
 /**
- * BeanInfo for the CodeBaseDescriptor class that declares a persistence
+ * BeanInfo for the RegistryDescriptor class that declares a persistence
  * delegate.
  *
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-public final class ApplicationDescriptorBeanInfo extends SimpleBeanInfo
+public final class RegistryDescriptorBeanInfo extends SimpleBeanInfo
 {
     private static final BeanDescriptor BEAN_DESCRIPTOR = setupBeanDescriptor();
     
@@ -41,18 +41,11 @@ public final class ApplicationDescriptorBeanInfo extends SimpleBeanInfo
     
     private static BeanDescriptor setupBeanDescriptor()
     {
-        BeanDescriptor descriptor = new BeanDescriptor( ApplicationDescriptor.class );
+        BeanDescriptor descriptor = new BeanDescriptor( RegistryDescriptor.class );
         descriptor.setValue( 
           "persistenceDelegate", 
           new DefaultPersistenceDelegate( 
-            new String[]
-            {
-              "codeBaseURISpec", "title", "valueDescriptors", "basePath", "startupPolicy", 
-              "startupTimeout", "ShutdownTimeout", "systemProperties", 
-              "configurationURISpec"
-            }
-          ) 
-        );
+            new String[]{"entries"} ) );
         return descriptor;
     }
 }

@@ -20,6 +20,12 @@ package net.dpml.profile.model;
 
 import java.net.URI;
 import java.rmi.RemoteException;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.InputStream;
+
+import net.dpml.profile.info.ApplicationDescriptor;
+import net.dpml.profile.info.RegistryDescriptor;
 
 import net.dpml.transit.model.Model;
 import net.dpml.transit.model.DuplicateKeyException;
@@ -30,52 +36,65 @@ import net.dpml.transit.model.UnknownKeyException;
  */
 public interface ApplicationRegistry extends Model
 {
+    static final URI DEFAULT_STORAGE_URI = RegistryDescriptor.DEFAULT_STORAGE_URI;
+    
    /**
-    * Return the number of application profiles in the registry.
-    * @return the application profile count
+    * Return the array of application keys.
+    * @return the application key array
     * @exception RemoteException if a transport error occurs
     */
-    int getApplicationProfileCount() throws RemoteException;
+    String[] getKeys() throws RemoteException;
 
+   /**
+    * Return the number of application descriptors in the registry.
+    * @return the application descriptor count
+    * @exception RemoteException if a transport error occurs
+    */
+    int getApplicationDescriptorCount() throws RemoteException;
+    
    /**
     * Return an array of all profiles in the registry.
     * @return the application profiles
     * @exception RemoteException if a transport error occurs
     */
-    ApplicationProfile[] getApplicationProfiles() throws RemoteException;
+    ApplicationDescriptor[] getApplicationDescriptors() throws RemoteException;
 
    /**
-    * Create an return a new unnamed application profile.
-    * @param codebase the application codebase uri
-    * @return the application profile
+    * Add an application descriptor to the registry.
+    * @param key the application key
+    * @param descriptor the application descriptor
+    * @exception DuplicateKeyException if the key is already assigned
     * @exception RemoteException if a transport error occurs
     */
-    ApplicationProfile createAnonymousApplicationProfile( URI codebase ) throws RemoteException;
-
+    void addApplicationDescriptor( String key, ApplicationDescriptor descriptor ) 
+      throws DuplicateKeyException, RemoteException;
+    
    /**
-    * Retrieve an application profile.
-    * @param key the application profile key
-    * @return the application profile
+    * Get an application descriptor matching the supplied key.
+    * @param key the application key
+    * @return the application descriptor
     * @exception UnknownKeyException if the key is unknown
     * @exception RemoteException if a transport error occurs
     */
-    ApplicationProfile getApplicationProfile( String key ) throws UnknownKeyException, RemoteException;
-
+    ApplicationDescriptor getApplicationDescriptor( String key ) 
+      throws UnknownKeyException, RemoteException;
+    
    /**
-    * Add an application profile to the registry.
-    * @param profile the application profile to add to the registry
-    * @exception DuplicateKeyException if the profile key is already assigned
+    * Replace an application descriptor within the registry with a supplied descriptor.
+    * @param key the application key
+    * @param descriptor the updated application descriptor
     * @exception RemoteException if a transport error occurs
     */
-    void addApplicationProfile( ApplicationProfile profile ) 
-      throws DuplicateKeyException, RemoteException;
-
+    void updateApplicationDescriptor( String key, ApplicationDescriptor descriptor ) 
+      throws UnknownKeyException, RemoteException;
+    
    /**
-    * Remove an application profile from the registry.
-    * @param profile the application profile to remove 
+    * Remove an application descriptor from the registry.
+    * @param key the application key
     * @exception RemoteException if a transport error occurs
     */
-    void removeApplicationProfile( ApplicationProfile profile ) throws RemoteException;
+    void removeApplicationDescriptor( String key ) 
+      throws UnknownKeyException, RemoteException;
 
    /**
     * Add a registry change listener.
@@ -90,6 +109,70 @@ public interface ApplicationRegistry extends Model
     * @exception RemoteException if a transport error occurs
     */
     void removeRegistryListener( RegistryListener listener ) throws RemoteException;
+    
+   /**
+    * Request externalization of the registry state. 
+    * @exception IOException if an I/O error occurs
+    * @exception RemoteException if a transport error occurs
+    */
+    void flush() throws IOException, RemoteException;
+    
+   /**
+    * Add a application descriptor to the registry.
+    * @param key the application key
+    * @param descriptor the application descriptor
+    * @exception DuplicateKeyException if the key is already assigned
+    * @exception RemoteException if a transport error occurs
+    */
+    //void addApplicationDescriptor( String key, ApplicationDescriptor descriptor ) 
+    //  throws DuplicateKeyException, RemoteException;
+    
+   /**
+    * Return the number of application profiles in the registry.
+    * @return the application profile count
+    * @exception RemoteException if a transport error occurs
+    */
+    //int getApplicationProfileCount() throws RemoteException;
+
+   /**
+    * Return an array of all profiles in the registry.
+    * @return the application profiles
+    * @exception RemoteException if a transport error occurs
+    */
+    //ApplicationProfile[] getApplicationProfiles() throws RemoteException;
+
+   /**
+    * Create an return a new unnamed application profile.
+    * @param codebase the application codebase uri
+    * @return the application profile
+    * @exception RemoteException if a transport error occurs
+    */
+    //ApplicationProfile createAnonymousApplicationProfile( URI codebase ) throws RemoteException;
+
+   /**
+    * Retrieve an application profile.
+    * @param key the application profile key
+    * @return the application profile
+    * @exception UnknownKeyException if the key is unknown
+    * @exception RemoteException if a transport error occurs
+    */
+    //ApplicationProfile getApplicationProfile( String key ) throws UnknownKeyException, RemoteException;
+
+   /**
+    * Add an application profile to the registry.
+    * @param profile the application profile to add to the registry
+    * @exception DuplicateKeyException if the profile key is already assigned
+    * @exception RemoteException if a transport error occurs
+    */
+    //void addApplicationProfile( ApplicationProfile profile ) 
+    //  throws DuplicateKeyException, RemoteException;
+
+   /**
+    * Remove an application profile from the registry.
+    * @param profile the application profile to remove 
+    * @exception RemoteException if a transport error occurs
+    */
+    //void removeApplicationProfile( ApplicationProfile profile ) throws RemoteException;
 
 }
 

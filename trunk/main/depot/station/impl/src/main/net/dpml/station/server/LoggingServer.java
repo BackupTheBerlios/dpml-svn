@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package net.dpml.station.impl;
+package net.dpml.station.server;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;

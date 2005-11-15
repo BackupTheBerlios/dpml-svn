@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package net.dpml.station.impl;
+package net.dpml.station.server;
 
 import java.util.EventObject;
 import java.util.EventListener;
@@ -33,7 +33,7 @@ import net.dpml.transit.util.ExceptionHelper;
  * A abstract base class that established an event queue and handles event dispatch 
  * operations for listeners declared in a class extending this base class.
  */
-public abstract class EventProducer extends UnicastRemoteObject
+public abstract class EventChannel extends UnicastRemoteObject
 {
    /**
     * Registered event listeners.
@@ -52,7 +52,7 @@ public abstract class EventProducer extends UnicastRemoteObject
     * @param logger the logging channel
     * @exception RemoteException if a remote exception occurs
     */
-    public EventProducer( Logger logger ) throws RemoteException
+    public EventChannel( Logger logger ) throws RemoteException
     {
         super();
 
@@ -189,9 +189,9 @@ public abstract class EventProducer extends UnicastRemoteObject
                 }
 
                 Object source = event.getSource();
-                if( source instanceof EventProducer )
+                if( source instanceof EventChannel )
                 {
-                    EventProducer producer = (EventProducer) source;
+                    EventChannel producer = (EventChannel) source;
                     try
                     {
                         producer.processEvent( event );
@@ -209,7 +209,7 @@ public abstract class EventProducer extends UnicastRemoteObject
                 else
                 {
                     final String error = 
-                      "Event source is not an instance of " + EventProducer.class.getName();
+                      "Event source is not an instance of " + EventChannel.class.getName();
                     throw new IllegalStateException( error );
                 }
             }

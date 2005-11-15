@@ -41,17 +41,20 @@
     <types>
       <type id="jar"/>
       <type id="plugin" alias="true">
-  <property name="project.plugin.class" 
-     value="net.dpml.profile.impl.StandardRegistryModel"/>
+        <property name="project.plugin.class" 
+          value="net.dpml.profile.impl.RemoteApplicationRegistry"/>
       </type>
     </types>
     <dependencies>
       <include ref="dpml/transit/dpml-transit-main"/>
       <include key="dpml-profile-api"/>
-      <include key="dpml-station-api"/>
+    </dependencies>
+    <dependencies scope="test">
+      <include ref="junit/junit"/>
     </dependencies>
   </project>
-   
+
+  <!--
   <project name="dpml-depot-prefs" basedir="prefs">
     <types>
       <type id="jar"/>
@@ -66,7 +69,9 @@
       <include ref="jgoodies/looks" tag="system"/>
     </dependencies>
   </project>
+  -->
 
+  <!--
   <project name="dpml-depot-desktop" basedir="desktop">
     <types>
       <type id="jar"/>
@@ -85,6 +90,7 @@
       <include key="dpml-station-impl"/>
     </dependencies>
   </project>
+  -->
    
   <project name="dpml-depot-exec" basedir="exec">
     <types>
@@ -95,8 +101,8 @@
       </type>
     </types>
     <dependencies>
+      <include ref="dpml/util/dpml-util-cli"/>
       <include ref="dpml/transit/dpml-transit-main"/>
-      <include key="dpml-depot-console"/>
       <include ref="dpml/metro/dpml-part-api"/>
       <include key="dpml-profile-api"/>
       <include key="dpml-station-api"/>
@@ -108,12 +114,30 @@
       <type id="jar"/>
     </types>
     <dependencies>
-      <include key="dpml-depot-console"/>
       <include ref="dpml/metro/dpml-part-api"/>
+      <include key="dpml-depot-console"/>
       <include key="dpml-profile-api"/>
     </dependencies>
   </project>
    
+  <project name="dpml-station-impl" basedir="station/impl">
+    <types>
+      <type id="jar"/>
+      <type id="plugin">
+        <property name="project.plugin.class" 
+           value="net.dpml.station.server.StationServerPlugin"/>
+      </type>
+    </types>
+    <dependencies>
+      <include ref="dpml/util/dpml-util-cli"/>
+      <include ref="dpml/transit/dpml-transit-main"/>
+      <include ref="dpml/metro/dpml-part-api"/>
+      <include key="dpml-profile-api"/>
+      <include key="dpml-profile-impl"/>
+      <include key="dpml-station-api"/>
+    </dependencies>
+  </project>
+
   <project name="dpml-station-console" basedir="station/console">
     <types>
       <type id="jar"/>
@@ -123,28 +147,13 @@
       </type>
     </types>
     <dependencies>
-      <include key="dpml-profile-api"/>
       <include ref="dpml/util/dpml-util-cli"/>
+      <include key="dpml-station-api"/>
+      <include key="dpml-station-impl"/>
+      <include key="dpml-profile-api"/>
     </dependencies>
   </project>
    
-  <project name="dpml-station-impl" basedir="station/impl">
-    <types>
-      <type id="jar"/>
-      <type id="plugin">
-        <property name="project.plugin.class" 
-           value="net.dpml.station.impl.DepotStation"/>
-      </type>
-    </types>
-    <dependencies>
-      <include key="dpml-depot-console"/>
-      <include ref="dpml/transit/dpml-transit-main"/>
-      <include ref="dpml/metro/dpml-part-api"/>
-      <include key="dpml-profile-api"/>
-      <include key="dpml-station-api"/>
-    </dependencies>
-  </project>
-
   <project name="dpml-depot-install" basedir="install">
     <types>
       <type id="jar"/>
@@ -157,7 +166,7 @@
       <include key="dpml-depot-console"/>
       <include ref="dpml/transit/dpml-transit-main"/>
       <include key="dpml-profile-api"/>
-      <include key="dpml-profile-impl"/>
+      <include key="dpml-station-impl"/>
       <include key="dpml-station-api"/>
     </dependencies>
   </project>

@@ -3,36 +3,37 @@ package net.dpml.station;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
+import java.io.IOException;
 
-import net.dpml.profile.info.ApplicationDescriptor;
+import net.dpml.profile.model.ApplicationRegistry;
 
 import net.dpml.transit.model.UnknownKeyException;
 
 /**
  * Application management center.
  */
-public interface Manager
+public interface Manager extends Remote
 {
    /**
-    * Return the runtime station.
-    * @return the station
-    */
-    Station getStation();
-    
-   /**
-    * Set the application descriptor assigned to the supplied key.  If the 
-    * key matches an existing application key, the current descriptor will be 
-    * updated to the new value.  If no key is present a new key will be created 
-    * and the supplied descriptor will be assigned as the application profile.
-    * Modification to key/descript bindings will take effect following application
-    * startup or redeployment.
-    *
-    * @param key the application key
-    * @param descriptor the application descriptor
+    * Return the application registry.
+    * @return the registry
     * @exception RemoteException if a remote error occurs
     */
-    void setApplicationDescriptor( String key, ApplicationDescriptor descriptor ) 
-      throws RemoteException;
+    ApplicationRegistry getApplicationRegistry() throws RemoteException;
+
+   /**
+    * Return an application reference for the supplied key.
+    * @param key the application key
+    * @return the application
+    * @exception UnknownKeyException if the key is unknown
+    * @exception RemoteException if a remote error occurs
+    */
+    Application getApplication( String key ) throws UnknownKeyException, RemoteException;
+    
+   /**
+    * Shutdown the station.
+    */
+    void shutdown() throws RemoteException;
 
 }
 

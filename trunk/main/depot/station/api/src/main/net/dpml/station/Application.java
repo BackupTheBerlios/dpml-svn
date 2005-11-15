@@ -26,63 +26,24 @@ import net.dpml.transit.PID;
 
 import net.dpml.part.Context;
 
-import net.dpml.profile.model.ApplicationProfile;
+import net.dpml.profile.info.ApplicationDescriptor;
 
 /**
- * Management model of an application.
+ * Application process controller.
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
 public interface Application extends Remote
 {
    /**
-    * Constant enumerator of a READY state.
+    * The default startup timeout in seconds.
     */
-    State READY = new State( 0, "ready", "Ready" );
-    
-   /**
-    * Constant enumerator of a STARTING state.
-    */
-    State STARTING = new State( 1, "starting", "Starting" );
-    
-   /**
-    * Constant enumerator of a RUNNING state.
-    */
-    State RUNNING = new State( 2, "running", "Running" );
-    
-   /**
-    * Constant enumerator of a STOPPING state.
-    */
-    State STOPPING = new State( 3, "stopping", "Stopping" );
-    
-   /**
-    * Return the profile associated with this application 
-    * (useage needs to be checked - is this really neeeded)
-    * @return the application context
-    * @exception RemoteException if a rmote error occurs
-    */
-    ApplicationProfile getProfile() throws RemoteException;
+    public int DEFAULT_STARTUP_TIMEOUT = 6;
 
    /**
-    * Return the cuirrent deployment state of the process.
-    * @return the current process state
-    * @exception RemoteException if a rmote error occurs
+    * The default shutdown timeout in seconds.
     */
-    State getState() throws RemoteException;
-
-   /**
-    * Start the application.
-    * @exception RemoteException if a remote error occurs
-    */
-    void start() throws RemoteException;
-
-   /**
-    * Method invoked by a process following establishment signalling
-    * the process id.
-    * @param pid the process identifier
-    * @exception RemoteException if a rmote error occurs
-    */
-    void handleCallback( PID pid ) throws RemoteException;
+    public int DEFAULT_SHUTDOWN_TIMEOUT = 6;
 
    /**
     * Return the process identifier of the process within which the 
@@ -91,6 +52,26 @@ public interface Application extends Remote
     * @exception RemoteException if a rmote error occurs
     */
     PID getPID() throws RemoteException;
+
+   /**
+    * Return the profile associated with this application 
+    * @return the application profile
+    * @exception RemoteException if a remote error occurs
+    */
+    ApplicationDescriptor getApplicationDescriptor() throws RemoteException;
+
+   /**
+    * Return the current deployment state of the process.
+    * @return the current process state
+    * @exception RemoteException if a remote error occurs
+    */
+    ProcessState getState() throws RemoteException;
+
+   /**
+    * Start the application.
+    * @exception RemoteException if a remote error occurs
+    */
+    void start() throws RemoteException;
 
    /**
     * Stop the application.
@@ -117,75 +98,5 @@ public interface Application extends Remote
     * @exception RemoteException if a rmote error occurs
     */
     void removeApplicationListener( ApplicationListener listener ) throws RemoteException;
-
-   /**
-    * Process state enumeration.
-    */
-    public static final class State implements Serializable
-    {
-        private final int m_index;
-        private final String m_label;
-        private final String m_key;
-
-       /**
-        * Internal constructor.
-        * @param index the enumeration index.
-        */
-        private State( int index, final String key, final String label )
-        {
-            m_index = index;
-            m_label = label;
-            m_key = key;
-        }
-
-       /**
-        * Return the key used to identify this state instance.
-        * @return the key
-        */
-        public String key()
-        {
-            return m_key;
-        }
-
-       /**
-        * Test this policy for equality with the supplied instance.
-        * @param other the object to test against
-        * @return true if the instances are equivalent
-        */
-        public boolean equals( Object other )
-        {
-            if( null == other ) 
-            {
-                return false;
-            }
-            else if( other.getClass() == State.class )
-            {
-                State state = (State) other;
-                return state.m_index == m_index;
-            }
-            else
-            {
-                return false;
-            }
-        }
-
-       /**
-        * Return the hascode for this instance.
-        * @return the instance hashcode
-        */
-        public int hashCode()
-        {
-            return m_index;
-        }
-
-       /**
-        * Return the string representation of this instance.
-        * @return the string
-        */
-        public String toString()
-        {
-            return m_label;
-        }
-    }
 }
 

@@ -20,7 +20,7 @@ package net.dpml.station;
 
 import java.util.EventObject;
 
-import net.dpml.station.Application.State;
+import net.dpml.station.ProcessState;
 
 /**
  * An application registry event.
@@ -32,14 +32,14 @@ public class ApplicationEvent extends EventObject
     */
     static final long serialVersionUID = 1L;
 
-    private final State m_state;
+    private final ProcessState m_state;
 
    /**
     * Creation of a new application event.
     * @param application event source
     * @param state the state established by the application
     */
-    public ApplicationEvent( Application application, State state )
+    public ApplicationEvent( Application application, ProcessState state )
     {
         super( application );
 
@@ -59,7 +59,7 @@ public class ApplicationEvent extends EventObject
     * Return the state associated with the event.
     * @return the application state
     */
-    public State getState()
+    public ProcessState getState()
     {
         return m_state;
     }

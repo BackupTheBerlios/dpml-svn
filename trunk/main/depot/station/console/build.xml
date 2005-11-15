@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<project name="dpml-station-console" default="install" basedir="." 
+    xmlns:transit="antlib:net.dpml.transit" 
+    xmlns:x="dpml:tools" >
+
+  <transit:import uri="local:template:tools/standard"/>
+
+  <target name="init" depends="standard.init">
+    <x:filter token="DEPOT-PROFILE-PLUGIN-URI" key="dpml-profile-impl" feature="uri" type="plugin"/>
+  </target>
+
+</project>

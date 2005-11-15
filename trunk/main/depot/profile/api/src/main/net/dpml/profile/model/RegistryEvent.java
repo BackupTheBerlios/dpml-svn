@@ -20,6 +20,8 @@ package net.dpml.profile.model;
 
 import java.util.EventObject;
 
+import net.dpml.profile.info.ApplicationDescriptor;
+
 /**
  * An application registry event.
  */
@@ -30,14 +32,14 @@ public class RegistryEvent extends EventObject
     */
     static final long serialVersionUID = 1L;
 
-    private final ApplicationProfile m_profile;
+    private final ApplicationDescriptor m_profile;
 
    /**
     * Creation of a new registry event.
     * @param registry the source registry
     * @param profile the application profile related to the event
     */
-    public RegistryEvent( ApplicationRegistry registry, ApplicationProfile profile )
+    public RegistryEvent( ApplicationRegistry registry, ApplicationDescriptor profile )
     {
         super( registry );
         m_profile = profile;
@@ -56,7 +58,7 @@ public class RegistryEvent extends EventObject
     * Return the subject profile.
     * @return the application profile
     */
-    public ApplicationProfile getApplicationProfile()
+    public ApplicationDescriptor getApplicationDescriptor()
     {
         return m_profile;
     }

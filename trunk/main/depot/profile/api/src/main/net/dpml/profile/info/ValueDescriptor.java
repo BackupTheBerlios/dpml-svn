@@ -23,7 +23,8 @@ import java.util.Arrays;
 /**
  * A object resolvable from primitive arguments.
  * 
- * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public class ValueDescriptor extends AbstractDescriptor
 {

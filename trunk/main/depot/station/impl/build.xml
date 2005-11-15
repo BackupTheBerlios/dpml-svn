@@ -6,14 +6,10 @@
 
   <transit:import uri="local:template:tools/standard"/>
 
-  <target name="init" depends="standard.init">
-    <x:filter token="DEPOT-PROFILE-PLUGIN-URI" key="dpml-profile-impl" feature="uri" type="plugin"/>
-  </target>
-
   <target name="build" depends="standard.build">
     <rmic base="${project.target.classes.main.dir}" classpathref="project.compile.path">
-      <include name="**/DepotStation.class"/>
-      <include name="**/DefaultApplication.class"/>
+      <include name="**/RemoteApplication.class"/>
+      <include name="**/RemoteStation.class"/>
       <include name="**/LoggingServer.class"/>
     </rmic>
   </target>

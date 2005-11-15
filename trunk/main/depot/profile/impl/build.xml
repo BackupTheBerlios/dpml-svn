@@ -8,9 +8,12 @@
 
   <target name="build" depends="standard.build">
     <rmic base="${project.target.classes.main.dir}" classpathref="project.compile.path">
+      <!--
       <include name="**/ApplicationModel.class"/>
       <include name="**/RegistryModel.class"/>
       <include name="**/StandardRegistryModel.class"/>
+      -->
+      <include name="**/RemoteApplicationRegistry.class"/>
     </rmic>
   </target>
 

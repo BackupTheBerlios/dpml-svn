@@ -157,7 +157,7 @@ public final class Main implements ShutdownHandler
     *   <li>-setup</li>
     *   <li>-prefs</li>
     *   <li>-station</li>
-    *   <li>-exec</li>
+    *   <li>-metro</li>
     * </ul>
     * @param args the command line argument array
     * @exception Exception if a error occurs
@@ -198,12 +198,11 @@ public final class Main implements ShutdownHandler
             System.getProperties().list( System.out );
         }
 
-        if( CLIHelper.isOptionPresent( args, "-tools" ) )
+        if( "true".equals( System.getProperty( "dpml.depot.add-tools-jar", "false" ) ) )
         {
-            args = CLIHelper.consolidate( args, "-tools" );
             tools = true;
         }
-        
+
         String option = getSwitch( args );
 
         if( "-reset".equals( option ) )
@@ -264,11 +263,6 @@ public final class Main implements ShutdownHandler
             args = CLIHelper.consolidate( args, "-desktop" );
             handleDesktop( args );
         }
-        else if( "-exec".equals( option ) )
-        {
-            args = CLIHelper.consolidate( args, "-exec" );
-            handleExec( args );
-        }
         else if( "-run".equals( option ) )
         {
             args = CLIHelper.consolidate( args, "-run" );
@@ -279,15 +273,14 @@ public final class Main implements ShutdownHandler
             args = CLIHelper.consolidate( args, "-build" );
             handleBuild( args );
         }
+        else if( "-metro".equals( option ) )
+        {
+            handleMetro( args );
+        }
         else if( "-station".equals( option ) )
         {
             args = CLIHelper.consolidate( args, "-station" );
             handleStation( args );
-        }
-        else if( "-audit".equals( option ) )
-        {
-            args = CLIHelper.consolidate( args, "-audit" );
-            handleAudit( args );
         }
         else
         {
@@ -353,13 +346,6 @@ public final class Main implements ShutdownHandler
         handlePlugin( name, spec, args );
     }
 
-    private void handleExec( String[] args )
-    {
-        String name = "exec";
-        String spec = "@DEPOT-EXEC-URI@";
-        handlePlugin( name, spec, args );
-    }
-
     private void handleBuild( String[] args )
     {
         String name = "build";
@@ -380,18 +366,29 @@ public final class Main implements ShutdownHandler
         handlePlugin( name, spec, args, false, tools );
     }
 
-    private void handleStation( String[] args )
+    private void handleMetro( String[] arguments )
     {
-        String name = "station";
-        String spec = "@DEPOT-STATION-URI@";
+        String[] args = processSystemProperties( arguments );
+        String name = "metro";
+        String spec = "@DEPOT-EXEC-URI@";
         handlePlugin( name, spec, args );
     }
 
-    private void handleAudit( String[] args )
+    private void handleStation( String[] arguments )
     {
-        String name = "audit";
-        String spec = "@DEPOT-AUDIT-URI@";
-        handlePlugin( name, spec, args, false );
+        String name = "station";
+        if( CLIHelper.isOptionPresent( arguments, "-server" ) )
+        {
+            String[] args = CLIHelper.consolidate( arguments, "-server" );
+            args = processSystemProperties( args );
+            String spec = "@DEPOT-STATION-SERVER-URI@";
+            handlePlugin( name, spec, args );
+        }
+        else
+        {
+            String spec = "@DEPOT-STATION-URI@";
+            handlePlugin( name, spec, arguments, false );
+        }
     }
 
     private void handlePlugin( String name, String spec, String[] args )
@@ -401,7 +398,7 @@ public final class Main implements ShutdownHandler
 
     private void handlePlugin( String name, String spec, String[] args, boolean wait )
     {
-        handlePlugin( name, spec, args, true, false );
+        handlePlugin( name, spec, args, wait, false );
     }
     
     private void handlePlugin( String name, String spec, String[] args, boolean wait, boolean tools )
@@ -436,58 +433,6 @@ public final class Main implements ShutdownHandler
             Transit transit = Transit.getInstance( model );
             setupMonitors( transit, (Adapter) getLogger() );
             Repository repository = transit.getRepository();
-            
-            /*
-            DepotClassLoader classloader = getSystemClassLoader();
-
-            //
-            // get the plugin descriptor and check for system classloader entries
-            //
-
-            Plugin descriptor = repository.getPluginDescriptor( uri );
-            URI[] bootstrap = descriptor.getDependencies( Category.SYSTEM );
-            if( bootstrap.length > 0 )
-            {
-                logger.debug( "supplimenting system classpath" );
-                for( int i=0; i < bootstrap.length; i++ )
-                {
-                    URI entry = bootstrap[i];
-                    logger.debug( "system entry: (" + (i+1) + ") " + entry );
-                }
-            }
-            */
-            /*
-            if( tools )
-            {
-                //String javaHome = Environment.getEnvVariable( "JAVA_HOME" );
-                String jrePath = System.getProperty( "java.home" );
-                try
-                {
-                    File jre = new File( jrePath );
-                    File jdk = jre.getParentFile();
-                    File lib = new File( jdk, "lib" );
-                    File jar = new File( lib, "tools.jar" );
-                    URL url = jar.toURL();
-                    URI[] stack = new URI[ bootstrap.length + 1 ];
-                    System.arraycopy( bootstrap, 0, stack, 0, bootstrap.length );
-                    stack[bootstrap.length] = new URI( url.toString() );
-                    classloader.setClasspath( stack );
-                }
-                catch( Throwable e )
-                {
-                    final String error = 
-                      "Internal error while attempting to establish tools.jar in the system classloader: "
-                      + e.toString();
-                    System.err.println( error );
-                    System.exit( -1 );
-                }
-            }
-            else
-            {
-                classloader.setClasspath( bootstrap );
-            }
-            */
-
             m_plugin = 
               repository.getPlugin( 
                 ClassLoader.getSystemClassLoader(), 
@@ -939,6 +884,30 @@ public final class Main implements ShutdownHandler
 
     private String getSwitch( String[] args )
     {
+        String app = System.getProperty( "dpml.depot.application", null );
+        if( null != app )
+        {
+            if( "dpml.metro".equals( app ) )
+            {
+                return "-metro";
+            }
+            if( "dpml.station".equals( app ) )
+            {
+                return "-station";
+            }
+            if( "dpml.tools.build".equals( app ) )
+            {
+                return "-build";
+            }
+            else
+            {
+                final String error = 
+                  "Application property value not recognized: ["
+                    + app
+                    + "].";
+                throw new IllegalArgumentException( error );
+            }
+        }
         if( args.length == 0 ) 
         {
             return "-help";
@@ -951,7 +920,7 @@ public final class Main implements ShutdownHandler
                 if( arg.startsWith( "-" ) && ( arg.length() > 1 ) )
                 {
                     if( "-run".equals( arg ) || "-build".equals( arg )
-                      || "-exec".equals( arg ) || "-station".equals( arg ) || "-setup".equals( arg )
+                      || "-metro".equals( arg ) || "-station".equals( arg ) || "-setup".equals( arg )
                       || "-prefs".equals( arg ) || "-help".equals( arg ) )
                     {
                         return arg;

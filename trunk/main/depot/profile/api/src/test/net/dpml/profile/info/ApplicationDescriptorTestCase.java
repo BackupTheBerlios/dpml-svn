@@ -18,6 +18,9 @@
 
 package net.dpml.profile.info;
 
+import java.net.URI;
+import java.util.Properties;
+
 /**
  * The ModuleDirective class describes a module data-structure.
  *
@@ -34,27 +37,35 @@ public final class ApplicationDescriptorTestCase extends AbstractTestCase
     
     public void testSerialization() throws Exception
     {
-        final String codebase = "link:plugin:acme/wdget";
+        final String codebase = "link:plugin:acme/widget";
+        final String title = "widget";
         final String basedir = ".";
         final StartupPolicy policy = StartupPolicy.AUTOMATIC;
         final int startup = 10;
         final int shutdown = 20;
+        final Properties properties = new Properties();
+        final String config = null;
         
         ApplicationDescriptor descriptor = 
-           new ApplicationDescriptor( codebase, VALUES, basedir, policy, startup, shutdown );
+           new ApplicationDescriptor( 
+             codebase, title, VALUES, basedir, policy, startup, shutdown, properties, config );
         doSerializationTest( descriptor );
     }
     
     public void testXMLEncoding() throws Exception
     {
-        final String codebase = "link:plugin:acme/wdget";
+        final String codebase = "link:plugin:acme/widget";
+        final String title = "widget";
         final String basedir = ".";
         final StartupPolicy policy = StartupPolicy.AUTOMATIC;
         final int startup = 10;
         final int shutdown = 20;
+        final Properties properties = new Properties();
+        final String config = null;
         
         ApplicationDescriptor descriptor = 
-           new ApplicationDescriptor( codebase, VALUES, basedir, policy, startup, shutdown );
+           new ApplicationDescriptor( 
+             codebase, title, VALUES, basedir, policy, startup,  shutdown, properties, config );
         doEncodingTest( descriptor, "application-directive.xml" );
     }
 }

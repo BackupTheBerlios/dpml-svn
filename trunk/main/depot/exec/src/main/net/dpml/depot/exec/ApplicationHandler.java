@@ -21,22 +21,27 @@ package net.dpml.depot.exec;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URL;
+import java.rmi.server.UnicastRemoteObject;
+import java.rmi.registry.Registry;
+import java.rmi.registry.LocateRegistry;
 import java.util.Hashtable;
 import java.util.Map;
 import java.util.Properties;
 import java.util.prefs.Preferences;
+import java.lang.reflect.InvocationTargetException;
 
-import net.dpml.depot.Main;
-import net.dpml.depot.ShutdownHandler;
-import net.dpml.depot.GeneralException;
+//import net.dpml.depot.Main;
+//import net.dpml.depot.ShutdownHandler;
+//import net.dpml.depot.GeneralException;
 
 import net.dpml.part.PartHandler;
+import net.dpml.part.Handler;
+import net.dpml.part.HandlerException;
+import net.dpml.part.Instance;
 
 import net.dpml.station.Station;
 import net.dpml.station.Application;
-
-import net.dpml.profile.model.ApplicationRegistry;
-import net.dpml.profile.model.ApplicationProfile;
+import net.dpml.station.Callback;
 
 import net.dpml.transit.Transit;
 import net.dpml.transit.Artifact;
@@ -47,26 +52,40 @@ import net.dpml.transit.model.Value;
 import net.dpml.transit.model.Construct;
 import net.dpml.transit.model.TransitModel;
 import net.dpml.transit.model.UnknownKeyException;
-import net.dpml.transit.util.CLIHelper;
+
+import net.dpml.cli.Option;
+import net.dpml.cli.Group;
+import net.dpml.cli.CommandLine;
+import net.dpml.cli.commandline.Parser;
+import net.dpml.cli.util.HelpFormatter;
+import net.dpml.cli.OptionException;
+import net.dpml.cli.DisplaySetting;
+import net.dpml.cli.builder.ArgumentBuilder;
+import net.dpml.cli.builder.GroupBuilder;
+import net.dpml.cli.builder.DefaultOptionBuilder;
+import net.dpml.cli.option.PropertyOption;
+import net.dpml.cli.validation.URIValidator;
+import net.dpml.cli.validation.NumberValidator;
 
 /**
- * Depot application deployment plugin.  This plugin handles the deployment of 
- * a target application based on commandline arguments supplied by the Depot 
- * Console.  It uses the Application Profile sub-system to retireve information 
- * about registered applications and criteria for JVM setup.
+ * The Metro plugin handles the establishment of a part and optional 
+ * invocatio of a callback to a central station.
  */
-public class ApplicationHandler 
+public class ApplicationHandler
 {
     private static final PID PROCESS_ID = new PID();
 
     private final Logger m_logger;
-    private final TransitModel m_model;
-    private final ShutdownHandler m_handler;
+    private final Callback m_callback;
+    
+    
+    //private final TransitModel m_model;
+    //private final ShutdownHandler m_handler;
 
-    private ApplicationRegistry m_depot;
-    private String m_spec;
-    private String[] m_args;
-
+    //private ApplicationRegistry m_depot;
+    //private String m_spec;
+    //private String[] m_args;
+    
    /**
     * Plugin class used to handle the deployment of a target application.  The 
     * plugin assumes that the first argument of the supplied args parameter is
@@ -81,6 +100,83 @@ public class ApplicationHandler
     * @exception Exception if an error occurs
     */
     public ApplicationHandler( 
+      Logger logger, String[] args ) throws Exception
+    {
+        super();
+        m_logger = logger;
+        
+        Thread.currentThread().setContextClassLoader( getClass().getClassLoader() );
+        
+        if( logger.isDebugEnabled() )
+        {
+            for( int i=0; i<args.length; i++ )
+            {
+                logger.debug( "arg: " + ( i + 1 ) + ": " + args[i] );
+            }
+        }
+        
+        Parser parser = new Parser();
+        parser.setGroup( COMMAND_GROUP );
+        CommandLine line = parser.parse( args );
+        
+        URI uri = (URI) line.getValue( URI_OPTION, null );
+        if( null == uri )
+        {
+            throw new NullPointerException( "uri" ); // will not happen
+        }
+        
+        String key = (String) line.getValue( KEY_OPTION, null );
+        if( null != key )
+        {
+            int port = Registry.REGISTRY_PORT;
+            if( line.hasOption( PORT_OPTION ) )
+            {
+                Number number = 
+                  (Number) line.getValue( PORT_OPTION, null );
+                port = number.intValue();
+            }
+            
+            Station station = getStation( port );
+            m_callback = station.getCallback( key );
+        }
+        else
+        {
+            m_callback = new LocalCallback();
+        }
+        
+            
+        // TODO: add handlers for 'jar', 'plugin' and 'part'
+            
+        Handler handler = new AbstractHandler( logger );
+        m_callback.started( PROCESS_ID, handler );
+    }
+    
+    //------------------------------------------------------------------------------
+    // internals
+    //------------------------------------------------------------------------------
+    
+    private Station getStation( int port ) throws Exception
+    {
+        Registry registry = LocateRegistry.getRegistry( port );
+        return (Station) registry.lookup( Station.STATION_KEY );
+    }
+    
+    
+   /**
+    * Plugin class used to handle the deployment of a target application.  The 
+    * plugin assumes that the first argument of the supplied args parameter is
+    * the specification of the deployment unit.  This may be (a) a uri to a Transit 
+    * plugin, (b) a part uri, or (c) the name of a stored application profile.
+    * 
+    * @param logger the assigned logging channel
+    * @param handler the shutdown handler
+    * @param model the current transit model
+    * @param prefs the depot root preferences
+    * @param args command line arguments
+    * @exception Exception if an error occurs
+    */
+    /*
+    ApplicationHandler( 
       Logger logger, ShutdownHandler handler, TransitModel model, 
       Preferences prefs, String[] args ) throws Exception
     {
@@ -224,6 +320,7 @@ public class ApplicationHandler
 
         handleStartupNotification();
     }
+    */
 
    /**
     * If the application handler is running as a Station subprocess the parent
@@ -232,6 +329,7 @@ public class ApplicationHandler
     * that declares the startup message - we simply return this message 
     * together with our process id separted by the colon character
     */
+    /*
     private void handleStartupNotification()
     {
         String startupMessage = System.getProperty( "dpml.station.notify.startup" );
@@ -240,6 +338,7 @@ public class ApplicationHandler
             System.out.println( startupMessage + ":" + PROCESS_ID );
         }
     }
+    */
 
    /**
     * If the application handler is running as a Station subprocess the parent
@@ -248,6 +347,7 @@ public class ApplicationHandler
     * that declares the shutdown message - we return this message 
     * together with our process id separted by the colon character
     */
+    /*
     private void handleShutdown()
     {
         String shutdownMessage = System.getProperty( "dpml.station.notify.shutdown" );
@@ -257,6 +357,7 @@ public class ApplicationHandler
         }
         m_handler.exit();
     }
+    */
 
    /**
     * If the application handler is running as a Station subprocess the parent
@@ -269,10 +370,12 @@ public class ApplicationHandler
     * @param handler the shutdown handler
     * @param error the error message
     */
+    /*
     private void handleError( ShutdownHandler handler, String error )
     {
         handleError( handler, error, null );
     }
+    */
 
    /**
     * If the application handler is running as a Station subprocess the parent
@@ -286,6 +389,7 @@ public class ApplicationHandler
     * @param error the error message
     * @param cause the causal exception
     */
+    /*
     private void handleError( ShutdownHandler handler, String error, Throwable cause )
     {
         //
@@ -321,6 +425,7 @@ public class ApplicationHandler
 
         handler.exit( -1 );
     }
+    */
     
    /**
     * Return an application profile matching the supplied id.  If the id 
@@ -333,7 +438,8 @@ public class ApplicationHandler
     * @param id the profile id
     * @return the application profile
     * @exception Exception if an error occurs
-    */ 
+    */
+    /*
     private ApplicationProfile getApplicationProfile( String id ) throws Exception
     {
         if( id.startsWith( "artifact:" ) || id.startsWith( "link:" ) )
@@ -368,12 +474,14 @@ public class ApplicationHandler
             }
         }
     }
-    
+    */
+    /*
     private ApplicationRegistry getApplicationRegistry()
     {
         return m_depot;
     }
-
+    */
+    /*
     private void setupApplicationRegistry( Preferences prefs, Logger logger ) throws Exception
     {
         Repository repository = Transit.getInstance().getRepository();
@@ -382,6 +490,7 @@ public class ApplicationHandler
         m_depot = (ApplicationRegistry) repository.getPlugin( 
            classloader, uri, new Object[]{prefs, logger} );
     }
+    */
 
     private Logger getLogger()
     {
@@ -392,6 +501,7 @@ public class ApplicationHandler
     * Setup the system properties for the target profile.
     * @param properties system properties asserted by a profile
     */
+    /*
     private void applySystemProperties( Properties properties )
     {
         if( null == properties )
@@ -410,7 +520,8 @@ public class ApplicationHandler
             }
         }
     }
-
+    */
+    /*
     private void resolveTargetObject( 
       TransitModel model, URI uri, String[] args, Logger logger, Application application, ApplicationProfile profile ) 
       throws Exception
@@ -484,12 +595,10 @@ public class ApplicationHandler
                     // activate an object using a runtime handler
                     //
                 
-                    /*
-                    Context context = application.getContext();
-                    Handler handler = partHandler.getHandler( context );
-                    handler.activate( context );
-                    handler.getInstance().getValue( false );
-                    */
+                    //Context context = application.getContext();
+                    //Handler handler = partHandler.getHandler( context );
+                    //handler.activate( context );
+                    //handler.getInstance().getValue( false );
                 
                     Value value = partHandler.resolve( uri );
                     value.resolve( false );
@@ -517,7 +626,8 @@ public class ApplicationHandler
             Thread.currentThread().setContextClassLoader( current );
         }
     }
-
+    */
+    /*
     private Station getStation() throws Exception
     {
         ClassLoader classloader = Thread.currentThread().getContextClassLoader();
@@ -531,7 +641,169 @@ public class ApplicationHandler
             Thread.currentThread().setContextClassLoader( classloader );
         }
     }
+    */
 
-    private static final String DEPOT_PROFILE_URI = "@DEPOT-PROFILE-PLUGIN-URI@";
+    //private static final String DEPOT_PROFILE_URI = "@DEPOT-PROFILE-PLUGIN-URI@";
 
+    //-----------------------------------------------------------------------------
+    // CLI
+    //-----------------------------------------------------------------------------
+
+    private static final DefaultOptionBuilder OPTION_BUILDER = new DefaultOptionBuilder();
+    private static final ArgumentBuilder ARGUMENT_BUILDER = new ArgumentBuilder();
+    private static final GroupBuilder GROUP_BUILDER = new GroupBuilder();
+
+    private static final PropertyOption PROPERTY_OPTION = new PropertyOption();
+    private static NumberValidator portValidator = NumberValidator.getIntegerInstance();
+      
+    private static final Option PORT_OPTION = 
+        OPTION_BUILDER
+          .withShortName( "port" )
+          .withShortName( "p" )
+          .withDescription( "RMI Registry port." )
+          .withRequired( false )
+          .withArgument(
+            ARGUMENT_BUILDER 
+              .withDescription( "Port." )
+              .withName( "port" )
+              .withMinimum( 1 )
+              .withMaximum( 1 )
+              .withValidator( portValidator )
+              .create() )
+          .create();
+
+    private static final Option KEY_OPTION = 
+        OPTION_BUILDER
+          .withShortName( "key" )
+          .withShortName( "k" )
+          .withDescription( "Callback key." )
+          .withRequired( false )
+          .withArgument(
+            ARGUMENT_BUILDER 
+              .withDescription( "Key." )
+              .withName( "key" )
+              .withMinimum( 1 )
+              .withMaximum( 1 )
+              .create() )
+          .create();
+        
+    private static final Option URI_OPTION = 
+        OPTION_BUILDER
+          .withShortName( "uri" )
+          .withDescription( "Codebase." )
+          .withRequired( true )
+          .withArgument(
+            ARGUMENT_BUILDER 
+              .withDescription( "Codebase uri." )
+              .withName( "uri" )
+              .withMinimum( 1 )
+              .withMaximum( 1 )
+              .withValidator( new URIValidator() )
+              .create() )
+          .create();
+    
+    private static final Group COMMAND_GROUP =
+      GROUP_BUILDER
+        .withName( "options" )
+        .withOption( URI_OPTION )
+        .withOption( KEY_OPTION )
+        .withOption( PORT_OPTION )
+        .create();
+
+   /**
+    * Internal class supporting callback semantics used in cases where the application
+    * handler has to assume management of a target.
+    */
+    private class LocalCallback implements Callback
+    {
+        private PID m_pid;
+        private Handler m_handler;
+        
+       /**
+        * Method invoked by a process to signal that the process has started.
+        *
+        * @param pid the process identifier
+        * @param handler optional handler reference
+        * @exception RemoteException if a remote error occurs
+        */
+        public void started( PID pid, Handler handler )
+        {
+            m_pid = pid;
+            m_handler = handler;
+            try
+            {
+                handler.activate();
+            }
+            catch( Exception e )
+            {
+                try
+                {
+                    handler.deactivate();
+                }
+                catch( Exception ee )
+                {
+                    // ignore
+                }
+            }
+        }
+    
+        /**
+        * Method invoked by a process to signal that the process has 
+        * encounter an error condition.
+        *
+        * @param throwable the error condition
+        * @param fatal if true the process is requesting termination
+        * @exception RemoteException if a remote error occurs
+        */
+        public void error( Throwable throwable, boolean fatal )
+        {
+            final String error = "Application error.";
+            if( fatal )
+            {
+                getLogger().error( error, throwable );
+                try
+                {
+                    m_handler.deactivate();
+                }
+                catch( Throwable e )
+                {
+                }
+            }
+            else
+            {
+                getLogger().warn( error, throwable );
+            }
+        }
+    
+        /**
+        * Method invoked by a process to send a arbitary message to the 
+        * the callback handler.
+        *
+        * @param message the message
+        * @exception RemoteException if a remote error occurs
+        */
+        public void info( String message )
+        {
+            getLogger().info( message );
+        }
+    
+        /**
+        * Method invoked by a process to signal its imminent termination.
+        *
+        * @exception RemoteException if a remote error occurs
+        */
+        public void stopped()
+        {
+            Thread thread = new Thread(
+              new Runnable()
+              {
+                  public void run()
+                  {
+                    System.exit( 0 );
+                  }
+              }
+            );
+            thread.start();
+        }
+    }
 }

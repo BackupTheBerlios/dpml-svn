@@ -19,6 +19,7 @@
 package net.dpml.profile.info;
 
 import java.net.URI;
+import java.net.URISyntaxException;
 
 import net.dpml.transit.model.Value;
 
@@ -26,11 +27,12 @@ import net.dpml.transit.model.Value;
  * The CodeBaseDescriptor is immutable datastructure used to 
  * describe a codebase.
  *
- * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public class CodeBaseDescriptor extends AbstractDescriptor
 {
-    private final String m_codebase;
+    private final URI m_codebase;
     private final ValueDescriptor[] m_parameters;
     
    /**
@@ -38,9 +40,9 @@ public class CodeBaseDescriptor extends AbstractDescriptor
     * @param codebase the codebase uri 
     * @param parameters an array of plugin parameter descriptors
     */
-    public CodeBaseDescriptor( String codebase, ValueDescriptor[] parameters )
+    public CodeBaseDescriptor( String codebase, ValueDescriptor[] parameters ) throws URISyntaxException
     {
-        m_codebase = codebase;
+        m_codebase = new URI( codebase );
         m_parameters = parameters;
     }
     
@@ -49,9 +51,19 @@ public class CodeBaseDescriptor extends AbstractDescriptor
     *
     * @return the codebase uri
     */
-    public String getCodeBaseURI()
+    public URI getCodeBaseURI()
     {
         return m_codebase;
+    }
+    
+   /**
+    * Return the codebase URI as a string.
+    *
+    * @return the codebase uri specification
+    */
+    public String getCodeBaseURISpec()
+    {
+        return m_codebase.toASCIIString();
     }
     
    /**

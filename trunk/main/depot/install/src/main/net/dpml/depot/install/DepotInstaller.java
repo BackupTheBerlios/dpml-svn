@@ -21,9 +21,6 @@ import java.net.URI;
 import net.dpml.transit.Logger;
 
 import net.dpml.station.Station;
-import net.dpml.profile.model.ApplicationProfile;
-
-import net.dpml.profile.impl.ApplicationStorageUnit;
 
 import java.util.prefs.Preferences;
 
@@ -51,11 +48,9 @@ public class DepotInstaller
     {
         m_logger.info( "executing bootstrap setup" );
         m_logger.info( "adding http profile" );
-        setupHttpProfile();
-        setupAlternateProfile();
-        setupTestProfile();
     }
 
+    /*
     private void setupHttpProfile()
     {
         String id = "/test/http";
@@ -65,7 +60,9 @@ public class DepotInstaller
         prefs.put( "title", "DPML HTTP Demo" );
         prefs.put( "startup", ApplicationProfile.MANUAL.getName() );
     }
+    */
 
+    /*
     private void setupAlternateProfile()
     {
         String id = "/test/demo";
@@ -87,7 +84,9 @@ public class DepotInstaller
         tempdir.put( "classname", "java.io.File" );
         prefs.put( "startup", ApplicationProfile.DISABLED.getName() );
     }
+    */
 
+    /*
     private void setupTestProfile() throws Exception
     {
         String id = "/dpml/planet/http/demo";
@@ -102,6 +101,7 @@ public class DepotInstaller
         store.setSystemProperty( "test", "${xyz}" );
         store.setStartupPolicy( ApplicationProfile.MANUAL );
     }
+    */
 
     private Preferences getPreferences()
     {

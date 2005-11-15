@@ -12,4 +12,10 @@
       ref="dpml/metro/dpml-composition-runtime"/>
   </target>
 
+  <target name="build" depends="standard.build">
+    <rmic base="${project.target.classes.main.dir}" classpathref="project.compile.path">
+      <include name="**/AbstractHandler.class"/>
+    </rmic>
+  </target>
+
 </project>
