@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<module name="metro">
+
+  <types>
+    <type id="module" alias="true"/>
+  </types>
+      
+  <project name="dpml-part-api" basedir="part">
+    <types>
+      <type id="plugin" alias="true">
+        <property name="project.plugin.class" 
+          value="net.dpml.part.PartContentHandler"/>
+      </type>
+      <type id="jar"/>
+    </types>
+    <dependencies>
+      <include ref="dpml/util/dpml-state-api" tag="public"/>
+      <include ref="dpml/transit/dpml-transit-main" tag="private"/>
+    </dependencies>
+    <dependencies scope="test">
+      <include ref="ant/ant-junit"/>
+    </dependencies>
+  </project>
+   
+  <project name="dpml-component-model" basedir="component/model">
+    <types>
+      <type id="jar"/>
+    </types>
+    <dependencies>
+      <include ref="dpml/util/dpml-state-api" tag="public"/>
+      <include ref="dpml/util/dpml-parameters-api" tag="public"/>
+      <include ref="dpml/util/dpml-configuration-api" tag="public"/>
+      <include key="dpml-part-api" tag="public"/>
+    </dependencies>
+    <dependencies scope="test">
+      <include ref="ant/ant-junit"/>
+      <include ref="dpml/util/dpml-state-impl"/>
+      <include ref="dpml/util/dpml-parameters-impl"/>
+      <include ref="dpml/util/dpml-configuration-impl"/>
+    </dependencies>
+  </project>
+   
+  <project name="dpml-component-control" basedir="component/control">
+    <types>
+      <type id="jar"/>
+    </types>
+    <dependencies>
+      <include key="dpml-component-model" tag="public"/>
+    </dependencies>
+    <dependencies scope="test">
+      <include ref="ant/ant-junit"/>
+    </dependencies>
+  </project>
+         
+  <project name="dpml-composition-editor" basedir="composition/editor">
+    <types>
+      <type id="jar"/>
+      <type id="plugin">
+        <property name="project.plugin.class" 
+          value="net.dpml.composition.edit.CompositionEditorFactory"/>
+      </type>
+    </types>
+    <dependencies>
+      <include key="dpml-component-control" tag="public"/>
+      <include ref="jgoodies/forms" tag="private"/>
+    </dependencies>
+  </project>
+   
+  <project name="dpml-composition-runtime" basedir="composition/runtime">
+    <types>
+      <type id="jar"/>
+      <type id="plugin">
+        <property name="project.plugin.class" 
+           value="net.dpml.composition.control.CompositionController"/>
+      </type>
+    </types>
+    <dependencies>
+      <include ref="dpml/util/dpml-logging-api" tag="public"/>
+      <include ref="dpml/util/dpml-activity-api" tag="public"/>
+      <include key="dpml-component-control" tag="protected"/>
+      <include ref="dpml/util/dpml-parameters-impl"/>
+      <include ref="dpml/util/dpml-configuration-impl"/>
+      <include ref="dpml/util/dpml-state-impl"/>
+    </dependencies>
+  </project>
+   
+  <project name="dpml-composition-tools" basedir="composition/tools">
+    <types>
+      <type id="jar"/>
+      <type id="plugin" alias="true">
+        <property name="project.plugin.resource" 
+          value="net/dpml/composition/tools/antlib.xml"/>
+        <property name="project.plugin.urn" 
+          value="dpml:composition"/>
+      </type>
+    </types>
+    <dependencies>
+      <include ref="dpml/tools/dpml-tools-ant"/>
+      <include ref="dpml/transit/dpml-transit-tools"/>
+      <include key="dpml-composition-runtime"/>
+      <include urn="artifact:jar:xstream/xstream#1.1"/>
+    </dependencies>
+  </project>
+
+  <project name="dpml-composition-test" basedir="composition/test">
+    <types>
+      <type id="jar"/>
+    </types>
+    <dependencies>
+      <include ref="dpml/util/dpml-logging-api"/>
+    </dependencies>
+    <dependencies scope="test">
+      <include key="dpml-composition-tools"/>
+    </dependencies>
+  </project>
+   
+</module>

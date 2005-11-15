@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+  Copyright 2004 Stephen J McConnell
+
+  Licensed  under the  Apache License,  Version 2.0  (the "License");
+  you may not use  this file  except in  compliance with the License.
+  You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed  under the  License is distributed on an "AS IS" BASIS,
+  WITHOUT  WARRANTIES OR CONDITIONS  OF ANY KIND, either  express  or
+  implied.
+
+  See the License for the specific language governing permissions and
+  limitations under the License.
+-->
+
+<project name="dpml-metro" default="install" basedir="."
+    xmlns:transit="antlib:net.dpml.transit"
+    xmlns:x="plugin:dpml/magic/dpml-magic-core">
+
+  <transit:import uri="local:template:magic/standard"/>
+
+  <target name="init" depends="standard.init">
+    <filter token="PROJECT-NAME" value="${project.name}"/>
+    <filter token="PROJECT-VERSION" value="${project.version}"/>
+    <property name="bundle" value="${basedir}/target/bundle"/>
+  </target>
+
+  <target name="build" depends="standard.build">
+    <x:module index="index.xml">
+      <header>
+        <svn href="http://scm.dpml.net/repos/dpml/development/main/metro"/>
+        <home href="http://www.dpml.net/central/products/metro/"/>
+      </header>
+    </x:module>
+  </target>
+
+  <target name="package" depends="standard.package">
+    <property name="share" value="${bundle}/share"/>
+    <property name="prefs" value="${bundle}/prefs"/>
+    <property name="data" value="${bundle}/data"/>
+    <!-- create the README and LICENSE files-->
+    <copy todir="${bundle}" filtering="true">
+      <fileset dir="${basedir}">
+        <include name="METRO_LICENSE.TXT"/>
+        <include name="METRO_NOTICE.TXT"/>
+        <include name="METRO_README.TXT"/>
+      </fileset>
+    </copy>
+    <copy toDir="${prefs}/metro">
+      <fileset dir="${basedir}/composition/builder/target">
+        <include name="style/**"/>
+      </fileset>
+    </copy>
+
+    <property name="local" value="${share}/local"/>
+    <x:replicate toDir="${local}" verbose="true"/>
+
+    <!-- add the javadoc -->
+
+    <property name="docs.src" location="${basedir}/target/api"/>
+    <property name="docs.dest" location="${share}/docs/api/${project.group}/${project.version}"/>
+    <mkdir dir="${docs.dest}"/>
+    <copy todir="${docs.dest}">
+      <fileset dir="${docs.src}"/>
+    </copy>
+
+    <!-- zip up a copy of the platform independent bundle for use by depot -->
+
+    <x:property name="metro.plugin.uri" key="dpml-metro-central" feature="uri" type="plugin"/>
+    <echo file="${bundle}/BUNDLE">
+dpml.depot.installer.class = net.dpml.metro.central.MetroInstaller
+dpml.depot.installer.uri = ${metro.plugin.uri}
+    </echo>
+
+    <property name="zip.filename" 
+      value="${basedir}/target/deliverables/zips/${project.name}-${project.version}.zip"/>
+    <mkdir dir="target/deliverables/zips"/>
+    <zip destfile="${zip.filename}" whenempty="create">
+      <zipfileset dir="${bundle}">
+        <include name="**/*"/>
+      </zipfileset>
+    </zip>
+
+  </target>
+
+  <target name="install" depends="docs,standard.install">
+
+    <echo>
+#----------------------------------------------------------------------------------
+# Updating DPML PREFS ${dpml.prefs}
+#----------------------------------------------------------------------------------
+    </echo>
+    <copy todir="${dpml.prefs}">
+      <fileset dir="${prefs}">
+        <include name="metro/**"/>
+      </fileset>
+    </copy>
+    <echo>
+#----------------------------------------------------------------------------------
+# Updating DPML DATA ${dpml.data}
+#----------------------------------------------------------------------------------
+    </echo>
+    <mkdir dir="${dpml.data}"/>
+    <copy todir="${dpml.data}" preservelastmodified="true">
+      <fileset dir="${share}">
+        <include name="docs/**"/>
+      </fileset>
+    </copy>
+
+  </target>
+
+  <target name="docs" depends="javadocs,junit-report"/>
+
+  <target name="javadocs" depends="build">
+    <x:javadoc>
+      <link href="http://java.sun.com/j2se/1.4/docs/api"/>
+      <link href="http://www.dpml.net/api/ant/${dpml.ant.version}"/>
+      <group title="Convenience APIs">
+        <package name="net.dpml.activity"/>
+        <package name="net.dpml.configuration"/>
+        <package name="net.dpml.logging"/>
+        <package name="net.dpml.parameters"/>
+      </group>
+      <group title="Component Model SPI">
+        <package name="net.dpml.part"/>
+        <package name="net.dpml.state"/>
+        <package name="net.dpml.component.data"/>
+        <package name="net.dpml.component.info"/>
+        <package name="net.dpml.component.model"/>
+        <package name="net.dpml.component.control"/>
+        <package name="net.dpml.component.runtime"/>
+      </group>
+      <group title="Implementation Packages">
+        <package name="net.dpml.state.impl"/>
+        <package name="net.dpml.composition.builder"/>
+        <package name="net.dpml.composition.builder.datatypes"/>
+        <package name="net.dpml.composition.control"/>
+        <package name="net.dpml.composition.event"/>
+        <package name="net.dpml.composition.runtime"/>
+        <package name="net.dpml.composition.edit"/>
+        <package name="net.dpml.configuration.impl"/>
+        <package name="net.dpml.parameters.impl"/>
+        <package name="net.dpml.metro.central"/>
+      </group>
+    </x:javadoc>
+  </target>
+
+  <target name="junit-report" depends="test">
+    <mkdir dir="target/reports/junit"/>
+    <junitreport todir="target/reports/junit">
+      <fileset dir=".">
+        <include name="**/target/test-reports/TEST-*.xml"/>
+      </fileset>
+      <report format="frames" todir="target/reports/junit" styledir="${dpml.prefs}/magic/xsls"/>
+    </junitreport>
+  </target>
+
+  <target name="checkstyle" depends="prepare" unless="project.checkstyle.disable">
+    <x:property name="spec" feature="uri" type="plugin" key="dpml-magic-checkstyle"/>
+    <transit:plugin uri="${spec}">
+      <task class="net.dpml.magic.checkstyle.CheckstyleTask" name="checkstyle"/>
+    </transit:plugin>
+    <checkstyle>
+      <formatter type="xml" toFile="target/checkstyle.xml"/>
+    </checkstyle>
+    <property name="project.checkstyle.reports" value="target/reports/checkstyle"/>
+    <mkdir dir="${project.checkstyle.reports}"/>
+    <style style="${dpml.prefs}/magic/xsls/checkstyle-frames.xsl"
+        in="target/checkstyle.xml"
+        out="${project.checkstyle.reports}/checkstyle_report.html" />
+  </target>
+
+</project>

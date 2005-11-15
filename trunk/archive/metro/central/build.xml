@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<project name="dpml-metro-central" default="install" basedir="." 
+    xmlns:transit="antlib:net.dpml.transit" xmlns:x="plugin:dpml/magic/dpml-magic-core" >
+
+  <transit:import uri="local:template:magic/standard"/>
+
+  <target name="init" depends="standard.init">
+    <x:property name="part.name" feature="name" key="dpml-part-api"/>
+    <x:property name="part.version" feature="version" key="dpml-part-api"/>
+    <x:property name="part.group" feature="group" key="dpml-part-api"/>
+    <x:property name="part.uri" feature="uri" type="plugin" key="dpml-part-api"/>
+    <filter token="PRODUCTION_URI" value="${part.uri}"/>
+  </target>
+
+  <target name="package" depends="standard.package">
+    <x:export class="net.dpml.metro.central.MetroInstaller"/>
+  </target>
+
+</project>
