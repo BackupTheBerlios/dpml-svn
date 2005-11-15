@@ -32,5 +32,73 @@
       <include ref="ant/ant-junit"/>
     </dependencies>
   </project>
+
+  <project name="dpml-activity-api" basedir="activity">
+    <types>
+      <type id="jar"/>
+    </types>
+  </project>
+  
+  <project name="dpml-logging-api" basedir="logging">
+    <types>
+      <type id="jar"/>
+    </types>
+  </project>
+   
+  <project name="dpml-configuration-api" basedir="configuration/api">
+    <types>
+      <type id="jar"/>
+    </types>
+  </project>
+   
+  <project name="dpml-configuration-impl" basedir="configuration/impl">
+    <types>
+      <type id="jar"/>
+    </types>
+    <dependencies>
+      <include key="dpml-configuration-api"/>
+    </dependencies>
+    <dependencies scope="test">
+      <include ref="ant/ant-junit"/>
+    </dependencies>
+  </project>
+   
+  <project name="dpml-parameters-api" basedir="parameters/api">
+    <types>
+      <type id="jar"/>
+    </types>
+  </project>
+   
+  <project name="dpml-parameters-impl" basedir="parameters/impl">
+    <types>
+      <type id="jar"/>
+    </types>
+    <dependencies>
+      <include key="dpml-parameters-api"/>
+      <include key="dpml-configuration-api" tag="private"/>
+    </dependencies>
+    <dependencies scope="test">
+      <include ref="ant/ant-junit"/>
+    </dependencies>
+  </project>
+   
+  <project name="dpml-state-api" basedir="state/api">
+    <types>
+      <type id="jar"/>
+    </types>
+  </project>
+   
+  <project name="dpml-state-impl" basedir="state/impl">
+    <types>
+      <type id="jar"/>
+    </types>
+    <dependencies>
+      <include key="dpml-state-api" tag="public"/>
+      <include key="dpml-configuration-impl"/>
+    </dependencies>
+    <dependencies scope="test">
+      <include ref="ant/ant-junit"/>
+    </dependencies>
+  </project>
    
 </module>

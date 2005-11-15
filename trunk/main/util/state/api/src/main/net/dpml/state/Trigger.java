@@ -24,8 +24,6 @@ import java.beans.DefaultPersistenceDelegate;
 import java.beans.SimpleBeanInfo;
 import java.beans.Encoder;
 
-import net.dpml.transit.util.Enum;
-
 /**
  * Interface describing a condition within which an action may be invoked.
  * 
