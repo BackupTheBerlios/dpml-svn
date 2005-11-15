@@ -28,10 +28,10 @@ import net.dpml.part.Part;
 import net.dpml.part.PartHandler;
 import net.dpml.part.PartException;
 
-import net.dpml.component.runtime.Service;
-import net.dpml.component.runtime.Component;
-import net.dpml.component.runtime.Container;
-import net.dpml.component.runtime.ComponentException;
+//import net.dpml.component.runtime.Service;
+//import net.dpml.component.runtime.Component;
+//import net.dpml.component.runtime.Container;
+//import net.dpml.component.runtime.ComponentException;
 
 /**
  * The Controller interface defines the a contract for an object that provides general
@@ -40,7 +40,7 @@ import net.dpml.component.runtime.ComponentException;
  * @author <a href="mailto:dev-dpml@lists.ibiblio.org">The Digital Product Meta Library</a>
  * @version $Revision: 1.2 $ $Date: 2004/03/17 10:30:09 $
  */
-public interface Controller extends PartHandler
+public interface Controller extends PartHandler, ClassLoaderManager
 {
    /**
     * Returns the identity of the object implementing this interface.
@@ -57,8 +57,8 @@ public interface Controller extends PartHandler
     * @exception IOException if an error occurs while attempting to resolve the component part uri
     * @exception RemoteException if a remote exception occurs
     */
-    Component newComponent( URI uri )
-      throws PartException, IOException, RemoteException;
+    //Component newComponent( URI uri )
+    //  throws PartException, IOException, RemoteException;
 
    /**
     * Construct a new component using the supplied part as the defintion of the 
@@ -71,7 +71,7 @@ public interface Controller extends PartHandler
     * @exception PartException is an error occurs during component establishment
     * @exception RemoteException if a remote exception occurs
     */
-    Component newComponent( Container parent, Part part, String name )
-      throws PartException, RemoteException;
+    //Component newComponent( Container parent, Part part, String name )
+    //  throws PartException, RemoteException;
 
 }

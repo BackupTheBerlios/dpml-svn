@@ -19,6 +19,7 @@ package net.dpml.composition.edit;
 import java.net.URI;
 
 import net.dpml.part.Part;
+import net.dpml.part.PartException;
 import net.dpml.part.PartEditor;
 import net.dpml.part.PartEditorFactory;
 
@@ -47,8 +48,17 @@ public final class CompositionEditorFactory implements PartEditorFactory
     {
         if( part instanceof ComponentDirective )
         {
-            ComponentDirective directive = (ComponentDirective) part;
-            return new ComponentDirectiveEditor( m_logger, m_manager, directive );
+            try
+            {
+                ComponentDirective directive = (ComponentDirective) part;
+                return new ComponentDirectiveEditor( m_logger, m_manager, directive );
+            }
+            catch( PartException e )
+            {
+                final String error = 
+                  "Unable to create component directive editor for: " + part;
+                    throw new RuntimeException( error, e );
+            }
         }
         else
         {

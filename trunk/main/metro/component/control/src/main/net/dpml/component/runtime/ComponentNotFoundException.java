@@ -24,7 +24,7 @@ package net.dpml.component.runtime;
  * @author <a href="mailto:dev-dpml@lists.ibiblio.org">The Digital Product Meta Library</a>
  * @version $Revision: 1.2 $ $Date: 2004/03/17 10:30:09 $
  */
-public class ComponentNotFoundException extends ContainmentException 
+public class ComponentNotFoundException extends ComponentException 
 {
    /**
     * Serial version identifier.

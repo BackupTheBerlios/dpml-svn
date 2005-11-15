@@ -84,7 +84,7 @@ public interface PartHandler
     */
     Part loadPart( byte[] bytes ) throws IOException;
 
-    Object getContent( URLConnection connection, Class[] classes ) throws IOException;
+    //Object getContent( URLConnection connection, Class[] classes ) throws IOException;
     
-    Value resolve( URI uri ) throws Exception;
+    //Value resolve( URI uri ) throws Exception;
 }

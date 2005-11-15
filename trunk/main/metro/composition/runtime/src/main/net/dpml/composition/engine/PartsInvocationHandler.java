@@ -27,7 +27,6 @@ import java.lang.reflect.Proxy;
 import net.dpml.component.info.EntryDescriptor;
 
 import net.dpml.component.runtime.Component;
-import net.dpml.component.runtime.Control;
 
 import net.dpml.part.Handler;
 
@@ -164,10 +163,8 @@ class PartsInvocationHandler implements InvocationHandler
         {
             if( args.length == 1 )
             {
-                if( handler instanceof Control )
-                {
-                    ((Control)handler).release( args[0] );
-                }
+                Object instance = args[0];
+                // Release processing not implemented.
                 return null;
             }
             else

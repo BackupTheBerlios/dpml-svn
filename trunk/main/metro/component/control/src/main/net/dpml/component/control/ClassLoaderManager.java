@@ -19,6 +19,7 @@
 package net.dpml.component.control;
 
 import net.dpml.part.Part;
+import net.dpml.part.PartException;
 
 /**
  * Local interface exposing classloader mangement operations.
@@ -35,5 +36,5 @@ public interface ClassLoaderManager
     * @param anchor the anchor classloader
     * @param part a component part 
     */
-    ClassLoader createClassLoader( ClassLoader anchor, Part part );
+    ClassLoader createClassLoader( ClassLoader anchor, Part part ) throws PartException;
 }

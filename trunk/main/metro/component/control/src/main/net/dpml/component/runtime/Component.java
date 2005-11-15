@@ -22,12 +22,10 @@ import java.net.URI;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 
-import net.dpml.part.Part;
+import net.dpml.component.info.ServiceDescriptor;
 
-import net.dpml.component.runtime.Service;
-import net.dpml.component.runtime.Identifiable;
-
-import net.dpml.part.ActivationPolicy;
+import net.dpml.part.Handler;
+//import net.dpml.part.Part;
 
 /**
  * The Component interface is implemented by objects that handle the runtime
@@ -36,7 +34,7 @@ import net.dpml.part.ActivationPolicy;
  * @author <a href="mailto:dev-dpml@lists.ibiblio.org">The Digital Product Meta Library</a>
  * @version $Revision: 1.2 $ $Date: 2004/03/17 10:30:09 $
  */
-public interface Component extends Service, Identifiable, Control
+public interface Component extends Handler
 {
    /**
     * Return the short name of this component.
@@ -45,21 +43,17 @@ public interface Component extends Service, Identifiable, Control
     String getName() throws RemoteException;
 
    /**
-    * Get the activation policy for the control.
-    *
-    * @return the activation policy
-    * @see ActivationPolicy#SYSTEM
-    * @see ActivationPolicy#STARTUP
-    * @see ActivationPolicy#DEMAND
+    * Return an array of service descriptors corresponding to 
+    * the service contracts that the component publishes.
+    * @return the service descriptor array
     */
-    ActivationPolicy getActivationPolicy() throws RemoteException;
+    ServiceDescriptor[] getDescriptors() throws RemoteException;
 
    /**
     * Return the part that defines this component.
     * @return the component part definition
     */
-    Part getDefinition() throws RemoteException;
-
+    //Part getDefinition() throws RemoteException;
 
 }
 

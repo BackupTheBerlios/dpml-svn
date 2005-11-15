@@ -54,9 +54,6 @@ import net.dpml.component.info.Type;
 import net.dpml.component.info.EntryDescriptor;
 import net.dpml.component.control.ControllerContext;
 import net.dpml.component.runtime.Component;
-import net.dpml.component.runtime.Container;
-import net.dpml.component.runtime.Service;
-import net.dpml.component.runtime.Control;
 
 import net.dpml.configuration.Configuration;
 

@@ -122,6 +122,13 @@ public class ComponentController
         return createComponentHandler( anchor, context );
     }
     
+    public ClassLoader createClassLoader( ClassLoader anchor, ComponentDirective profile )
+    {
+        final String name = profile.getName();
+        final ClassLoaderDirective directive = profile.getClassLoaderDirective();
+        return createClassLoader( anchor, directive, name );
+    }
+    
     //--------------------------------------------------------------------------
     // ComponentController
     //--------------------------------------------------------------------------
@@ -355,13 +362,6 @@ public class ComponentController
         Type type = handler.getType();
         ClassLoader classloader = handler.getClassLoader();
         return loadServiceClasses( type, classloader );
-    }
-    
-    private ClassLoader createClassLoader( ClassLoader anchor, ComponentDirective profile )
-    {
-        final String name = profile.getName();
-        final ClassLoaderDirective directive = profile.getClassLoaderDirective();
-        return createClassLoader( anchor, directive, name );
     }
     
     private ClassLoader createClassLoader( ClassLoader anchor, ClassLoaderDirective directive, String name )

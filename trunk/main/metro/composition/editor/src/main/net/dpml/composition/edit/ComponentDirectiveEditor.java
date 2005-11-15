@@ -33,7 +33,9 @@ import com.jgoodies.forms.builder.DefaultFormBuilder;
 import com.jgoodies.forms.layout.FormLayout;
 
 import net.dpml.part.Part;
+import net.dpml.part.PartException;
 import net.dpml.part.PartEditor;
+
 import net.dpml.component.info.PartReference;
 
 import net.dpml.component.control.Controller;
@@ -66,18 +68,21 @@ public class ComponentDirectiveEditor extends DefaultMutableTreeNode implements 
     private DefaultMutableTreeNode[] m_nodes;
 
     ComponentDirectiveEditor( Logger logger, ClassLoaderManager manager, ComponentDirective directive )
+      throws PartException
     {
         this( ComponentDirectiveEditor.class.getClassLoader(), logger, manager, directive );
     }
 
-    ComponentDirectiveEditor( ClassLoader anchor, Logger logger, ClassLoaderManager manager, ComponentDirective directive )
+    ComponentDirectiveEditor( 
+      ClassLoader anchor, Logger logger, ClassLoaderManager manager, ComponentDirective directive )
+      throws PartException
     {
         m_directive = directive;
         m_manager = manager;
         m_logger = logger;
         
-        ClassLoader classloader = m_manager.createClassLoader( anchor, directive );
         String classname = directive.getClassname();
+        ClassLoader classloader = m_manager.createClassLoader( anchor, directive );
         
         try
         {
@@ -181,9 +186,18 @@ public class ComponentDirectiveEditor extends DefaultMutableTreeNode implements 
             if( part instanceof ComponentDirective )
             {
                 ComponentDirective directive = (ComponentDirective) part;
-                ComponentDirectiveAdapter adapter = 
-                  new ComponentDirectiveAdapter( classloader, m_logger, m_manager, directive, key );
-                list.add( adapter );
+                try
+                {
+                    ComponentDirectiveAdapter adapter = 
+                      new ComponentDirectiveAdapter( classloader, m_logger, m_manager, directive, key );
+                    list.add( adapter );
+                }
+                catch( PartException e )
+                {
+                    final String error = 
+                      "Unable to load part editor for: " + directive;
+                    throw new RuntimeException( error, e );
+                }
             }
             else if( part instanceof ValueDirective )
             {

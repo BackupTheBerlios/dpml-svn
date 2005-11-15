@@ -160,7 +160,7 @@ public class CompositionContext extends LocalWeakEventProducer implements Contro
     *
     * @param listener the controller context listener to add
     */
-    public void addControllerContextlistener( ControllerContextListener listener ) 
+    public void addControllerContextListener( ControllerContextListener listener ) 
     {
         addListener( listener );
     }
@@ -170,7 +170,7 @@ public class CompositionContext extends LocalWeakEventProducer implements Contro
     *
     * @param listener the controller context listener to remove
     */
-    public void removeControllerContextlistener( ControllerContextListener listener )
+    public void removeControllerContextListener( ControllerContextListener listener )
     {
         removeListener( listener );
     }

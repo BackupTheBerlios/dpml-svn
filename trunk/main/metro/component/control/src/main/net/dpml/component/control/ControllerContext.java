@@ -61,13 +61,13 @@ public interface ControllerContext
     *
     * @param listener the controller context listener to add
     */
-    void addControllerContextlistener( ControllerContextListener listener );
+    void addControllerContextListener( ControllerContextListener listener );
 
    /**
     * Remove the supplied controller context listener from the controller context.
     *
     * @param listener the controller context listener to remove
     */
-    void removeControllerContextlistener( ControllerContextListener listener );
+    void removeControllerContextListener( ControllerContextListener listener );
 
 }
