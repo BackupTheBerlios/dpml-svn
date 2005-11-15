@@ -51,6 +51,7 @@
       <include urn="artifact:jar:tomcat/jasper-compiler#5.0.25"/>
       <include urn="artifact:jar:tomcat/jasper-runtime#5.0.25"/>
       <include urn="artifact:jar:commons-logging/commons-logging#1.0.4"/>
+      <include ref="dpml/transit/dpml-transit-main"/>
     </dependencies>
   </project>
 

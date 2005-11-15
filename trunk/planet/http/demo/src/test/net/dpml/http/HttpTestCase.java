@@ -25,8 +25,11 @@ import java.net.URLConnection;
 
 import junit.framework.TestCase;
 
-import net.dpml.component.runtime.Component;
-import net.dpml.part.PartContentHandlerFactory;
+import net.dpml.part.Part;
+import net.dpml.part.PartContentHandler;
+import net.dpml.part.PartHandler;
+import net.dpml.part.Context;
+import net.dpml.part.Handler;
 
 /**
  * Test a simple component case.
@@ -47,15 +50,20 @@ public class HttpTestCase extends TestCase
     {
         File test = new File( System.getProperty( TEST_DIR_KEY ) );
         URL url = new File( test, PATH ).toURL();
-        Component component = (Component) url.getContent( new Class[]{ Component.class } );
-        Demo demo = (Demo) component.resolve( false );
-        component.release( demo );
+        
+        PartHandler control = PartContentHandler.STANDARD;
+        Part part = control.loadPart( url );
+        Context context = control.createContext( part );
+        Handler handler = control.createHandler( context );
+        handler.activate();
+        Demo demo = (Demo) handler.getInstance().getValue( false );
+        handler.deactivate();
     }
 
     static
     {
         //System.setProperty( "dpml.logging.level", "FINE" );
-        URLConnection.setContentHandlerFactory( new PartContentHandlerFactory() );
+        //URLConnection.setContentHandlerFactory( new PartContentHandlerFactory() );
     }
 
 }

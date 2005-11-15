@@ -103,8 +103,6 @@
         <package name="net.dpml.composition.*"/>
         <package name="net.dpml.part"/>
         <package name="net.dpml.part.*"/>
-        <package name="net.dpml.state"/>
-        <package name="net.dpml.state.*"/>
       </group>
       <group title="Utilities">
         <package name="net.dpml.cli"/>
@@ -119,6 +117,8 @@
         <package name="net.dpml.parameters.*"/>
         <package name="net.dpml.logging"/>
         <package name="net.dpml.logging.*"/>
+        <package name="net.dpml.state"/>
+        <package name="net.dpml.state.*"/>
       </group>
     </x:javadoc>
   </target>
