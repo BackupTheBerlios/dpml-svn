@@ -98,68 +98,70 @@ public class PropertyOption
             property = arg.substring(propertyStart, equalsIndex);
             value = arg.substring(equalsIndex + 1);
         }
-
         commandLine.addProperty(property, value);
     }
 
-    public Set getTriggers() {
-        return Collections.singleton(optionString);
+    public Set getTriggers()
+    {
+        return Collections.singleton( optionString );
     }
 
-    public void validate(WriteableCommandLine commandLine) {
+    public void validate( WriteableCommandLine commandLine )
+    {
         // PropertyOption needs no validation
     }
 
-    public void appendUsage(final StringBuffer buffer,
-                            final Set helpSettings,
-                            final Comparator comp) {
-        final boolean display = helpSettings.contains(DisplaySetting.DISPLAY_PROPERTY_OPTION);
+    public void appendUsage(
+      final StringBuffer buffer, final Set helpSettings, final Comparator comp ) 
+    {
+        final boolean display = helpSettings.contains( DisplaySetting.DISPLAY_PROPERTY_OPTION );
+        final boolean bracketed = helpSettings.contains( DisplaySetting.DISPLAY_ARGUMENT_BRACKETED );
 
-        final boolean bracketed = helpSettings.contains(DisplaySetting.DISPLAY_ARGUMENT_BRACKETED);
-
-        if (display) {
+        if( display )
+        {
             buffer.append(optionString);
-
-            if (bracketed) {
-                buffer.append('<');
+            if( bracketed ) 
+            {
+                buffer.append( '<' );
             }
-
-            buffer.append("property");
-
-            if (bracketed) {
-                buffer.append('>');
+            buffer.append( "property" );
+            if (bracketed) 
+            {
+                buffer.append( '>' );
             }
-
-            buffer.append("=");
-
-            if (bracketed) {
-                buffer.append('<');
+            buffer.append( "=" );
+            if( bracketed )
+            {
+                buffer.append( '<' );
             }
-
-            buffer.append("value");
-
-            if (bracketed) {
-                buffer.append('>');
+            buffer.append( "value" );
+            if( bracketed )
+            {
+                buffer.append( '>' );
             }
         }
     }
 
-    public String getPreferredName() {
+    public String getPreferredName() 
+    {
         return optionString;
     }
 
-    public String getDescription() {
+    public String getDescription()
+    {
         return description;
     }
 
-    public List helpLines(final int depth,
-                          final Set helpSettings,
-                          final Comparator comp) {
-        if (helpSettings.contains(DisplaySetting.DISPLAY_PROPERTY_OPTION)) {
+    public List helpLines(
+      final int depth, final Set helpSettings, final Comparator comp )
+    {
+        if( helpSettings.contains( DisplaySetting.DISPLAY_PROPERTY_OPTION ) ) 
+        {
             final HelpLine helpLine = new HelpLineImpl(this, depth);
-
             return Collections.singletonList(helpLine);
-        } else {
+        } 
+        else
+        {
             return Collections.EMPTY_LIST;
         }
     }
