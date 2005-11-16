@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package net.dpml.composition.test;
+package net.dpml.metro.runtime.test;
 
 import junit.framework.TestCase;
 

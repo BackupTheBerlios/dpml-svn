@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package net.dpml.composition.test;
+package net.dpml.metro.runtime.test;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -40,9 +40,9 @@ import net.dpml.state.StateListener;
 import net.dpml.state.StateEvent;
 import net.dpml.state.impl.DefaultStateListener;
 
-import net.dpml.component.data.ValueDirective;
-import net.dpml.component.model.ComponentModel;
-import net.dpml.component.model.ContextModel;
+import net.dpml.metro.data.ValueDirective;
+import net.dpml.metro.model.ComponentModel;
+import net.dpml.metro.model.ContextModel;
 
 import net.dpml.transit.model.UnknownKeyException;
 import net.dpml.transit.model.Value;
@@ -51,10 +51,10 @@ import net.dpml.test.ColorManager;
 import net.dpml.test.ExampleComponent;
 
 /**
- * Test HARD collection policy semantics.
+ * Test transient semantics.
  * @author <a href="mailto:dev-dpml@lists.ibiblio.org">The Digital Product Meta Library</a>
  */
-public class HardCollectionPolicyTestCase extends TestCase
+public class TransientInstanceTestCase extends TestCase
 {    
     private Part m_part;
     private ComponentModel m_model;
@@ -62,7 +62,7 @@ public class HardCollectionPolicyTestCase extends TestCase
     
     public void setUp() throws Exception
     {
-        final String path = "example-4.part";
+        final String path = "example-2.part";
         final File test = new File( System.getProperty( "project.test.dir" ) );
         final URL url = new File( test, path ).toURL();
         m_control = Part.CONTROLLER;
@@ -70,36 +70,17 @@ public class HardCollectionPolicyTestCase extends TestCase
         m_model = (ComponentModel) m_control.createContext( part );
     }
     
-    public void testCollection() throws Exception
+    public void testTransientInstanceSemantics() throws Exception
     {
         Component component = m_control.createComponent( m_model );
         component.activate();
         assertTrue( "is-active", component.isActive() );
-        Instance one = component.getInstance();
-        Instance two = component.getInstance();
-        int count = component.size();
-        
-        //
-        // this is a singleton component and we have a reference to the instance 
-        // so the count should be 1
-        //
-        
-        assertEquals( "count", 1, count );
-        
-        //
-        // after nulling out the references and invoking a GC the count should be zero
-        //
-        
-        one = null;
-        two = null;
-        System.gc();
-        count = component.size();
-        
-        //
-        // tthe count should still be 1 becuase the HARD collection policy is in place
-        //
-        
-        assertEquals( "count", 1, count );
+        Instance firstInstance = component.getInstance();
+        Instance secondInstance = component.getInstance();
+        if( firstInstance.equals( secondInstance ) )
+        {
+            fail( "Transient identity must be unique" );
+        }
         component.deactivate();
     }
     

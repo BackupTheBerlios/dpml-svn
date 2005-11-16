@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package net.dpml.composition.test;
+package net.dpml.metro.runtime.test;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -29,9 +29,9 @@ import java.rmi.server.UnicastRemoteObject;
 
 import junit.framework.TestCase;
 
-import net.dpml.component.data.ValueDirective;
-import net.dpml.component.model.ComponentModel;
-import net.dpml.component.model.ContextModel;
+import net.dpml.metro.data.ValueDirective;
+import net.dpml.metro.model.ComponentModel;
+import net.dpml.metro.model.ContextModel;
 
 import net.dpml.part.Part;
 import net.dpml.part.Controller;

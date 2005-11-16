@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package net.dpml.composition.test;
+package net.dpml.metro.runtime.test;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -40,9 +40,9 @@ import net.dpml.state.StateListener;
 import net.dpml.state.StateEvent;
 import net.dpml.state.impl.DefaultStateListener;
 
-import net.dpml.component.data.ValueDirective;
-import net.dpml.component.model.ComponentModel;
-import net.dpml.component.model.ContextModel;
+import net.dpml.metro.data.ValueDirective;
+import net.dpml.metro.model.ComponentModel;
+import net.dpml.metro.model.ContextModel;
 
 import net.dpml.transit.model.UnknownKeyException;
 import net.dpml.transit.model.Value;

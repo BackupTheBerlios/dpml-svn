@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package net.dpml.composition.test;
+package net.dpml.metro.runtime.test;
 
 import java.awt.Color;
 import java.io.File;
@@ -30,13 +30,13 @@ import net.dpml.part.Controller;
 import net.dpml.state.State;
 import net.dpml.part.ActivationPolicy;
 
-import net.dpml.component.data.ValueDirective;
-import net.dpml.component.data.Directive;
-import net.dpml.component.info.EntryDescriptor;
-import net.dpml.component.info.LifestylePolicy;
-import net.dpml.component.info.CollectionPolicy;
-import net.dpml.component.model.ComponentModel;
-import net.dpml.component.model.ContextModel;
+import net.dpml.metro.data.ValueDirective;
+import net.dpml.metro.data.Directive;
+import net.dpml.metro.info.EntryDescriptor;
+import net.dpml.metro.info.LifestylePolicy;
+import net.dpml.metro.info.CollectionPolicy;
+import net.dpml.metro.model.ComponentModel;
+import net.dpml.metro.model.ContextModel;
 
 import net.dpml.transit.model.UnknownKeyException;
 
