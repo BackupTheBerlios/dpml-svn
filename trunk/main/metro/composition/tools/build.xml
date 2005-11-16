@@ -26,7 +26,7 @@
 
   <target name="init" depends="standard.init">
     <x:filter feature="uri" type="plugin" token="PART-BUILDER-URI" />
-    <x:filter key="dpml-composition-runtime" feature="uri" type="plugin" token="PART-HANDLER-URI" />
+    <x:filter key="dpml-metro-runtime" feature="uri" type="plugin" token="PART-HANDLER-URI" />
   </target>
 
   <target name="install" depends="standard.install">
