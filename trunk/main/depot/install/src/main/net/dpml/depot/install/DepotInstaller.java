@@ -75,7 +75,7 @@ public class DepotInstaller
         system.put( "abc", "def" );
         system.put( "xyz", "qwerty" );
         Preferences params = prefs.node( "parameters" );
-        params.put( "classname", "net.dpml.composition.impl.CompositionContext" );
+        params.put( "classname", "net.dpml.metro.runtime.impl.CompositionContext" );
         Preferences basedir = params.node( "base" );
         basedir.put( "value", "${java.temp.dir}" );
         basedir.put( "classname", "java.io.File" );
