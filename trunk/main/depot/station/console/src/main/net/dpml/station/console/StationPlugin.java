@@ -402,16 +402,24 @@ public class StationPlugin
           HelpFormatter.DEFAULT_GUTTER_LEFT, 
           HelpFormatter.DEFAULT_GUTTER_CENTER, 
           HelpFormatter.DEFAULT_GUTTER_RIGHT, 
-          120 );
-
+          100 );
+        
+        formatter.getDisplaySettings().add( DisplaySetting.DISPLAY_GROUP_OUTER );
+        formatter.getDisplaySettings().add( DisplaySetting.DISPLAY_PROPERTY_OPTION );
+        formatter.getDisplaySettings().add( DisplaySetting.DISPLAY_ARGUMENT_BRACKETED );
+        
+        formatter.getFullUsageSettings().add( DisplaySetting.DISPLAY_OPTIONAL );
+        formatter.getFullUsageSettings().add( DisplaySetting.DISPLAY_GROUP_OUTER );
         formatter.getFullUsageSettings().add( DisplaySetting.DISPLAY_PROPERTY_OPTION );
-        formatter.getFullUsageSettings().add( DisplaySetting.DISPLAY_GROUP_ARGUMENT );
-        formatter.getFullUsageSettings().remove( DisplaySetting.DISPLAY_GROUP_EXPANDED );
+        formatter.getFullUsageSettings().add( DisplaySetting.DISPLAY_OPTIONAL );
+        formatter.getFullUsageSettings().add( DisplaySetting.DISPLAY_ARGUMENT_BRACKETED );
+        formatter.getFullUsageSettings().remove( DisplaySetting.DISPLAY_PARENT_CHILDREN );
+        
         formatter.getLineUsageSettings().add( DisplaySetting.DISPLAY_PROPERTY_OPTION );
         formatter.getLineUsageSettings().add( DisplaySetting.DISPLAY_ARGUMENT_BRACKETED );
-        formatter.getLineUsageSettings().add( DisplaySetting.DISPLAY_OPTIONAL );
-        formatter.getLineUsageSettings().remove( DisplaySetting.DISPLAY_GROUP_ARGUMENT );
+        formatter.getLineUsageSettings().remove( DisplaySetting.DISPLAY_PARENT_CHILDREN );
         formatter.getLineUsageSettings().remove( DisplaySetting.DISPLAY_GROUP_EXPANDED );
+        
         formatter.setGroup( COMMAND_GROUP );
         formatter.setShellCommand( "metro" );
         formatter.print();
@@ -1007,13 +1015,6 @@ public class StationPlugin
         .withOption( REGISTRY_URI_OPTION )
         .withOption( PROPERTY_OPTION )
         .create();
-    
-    private static final String STARTUP_HELP = 
-      "Startup the Station as a background process. The station "
-      + "will locate (and establish if necessary) an rmi registry "
-      + "using the supplied url or port (defaulting to localhost:1099). "
-      + "During startup any registered applications with a AUTOMATIC "
-      + "startup policy will be deployed.";
     
     private static final Option STARTUP_COMMAND =
       COMMAND_BUILDER
