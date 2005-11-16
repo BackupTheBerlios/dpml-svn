@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package net.dpml.composition.engine;
+package net.dpml.composition;
 
 import java.io.InputStream;
 import java.net.URI;
@@ -27,7 +27,7 @@ import java.util.ArrayList;
 
 import net.dpml.logging.Logger;
 
-import net.dpml.part.ControlRuntimeException;
+import net.dpml.component.control.ControllerRuntimeException;
 
 import net.dpml.transit.Artifact;
 import net.dpml.transit.UnsupportedSchemeException;
@@ -119,7 +119,7 @@ class CompositionClassLoader extends StandardClassLoader
               "Internal error occured while attempting to transform the uri ["
               + uri 
               + "] to a url."; 
-            throw new ControlRuntimeException( error, e );
+            throw new ControllerRuntimeException( CompositionController.CONTROLLER_URI, error, e );
         }
     }
 

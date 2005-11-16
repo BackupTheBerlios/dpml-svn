@@ -32,13 +32,13 @@
 
   <target name="build" depends="standard.build">
     <rmic base="${project.target.classes.main.dir}" classpathref="project.compile.path">
-      <include name="**/engine/DefaultComponentModel.class"/>
-      <include name="**/engine/DefaultContextModel.class"/>
-      <include name="**/engine/ComponentHandler.class"/>
-      <include name="**/engine/DefaultInstance.class"/>
-      <include name="**/runtime/ComponentHandler.class"/>
-      <include name="**/runtime/CompositionHandler.class"/>
-      <include name="**/runtime/ValueHandler.class"/>
+      <include name="**/DefaultComponentModel.class"/>
+      <include name="**/DefaultContextModel.class"/>
+      <include name="**/ComponentHandler.class"/>
+      <include name="**/DefaultInstance.class"/>
+      <include name="**/ComponentHandler.class"/>
+      <include name="**/CompositionHandler.class"/>
+      <include name="**/ValueHandler.class"/>
     </rmic>
   </target>
 

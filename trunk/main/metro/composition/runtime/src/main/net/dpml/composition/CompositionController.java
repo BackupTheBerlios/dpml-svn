@@ -16,74 +16,150 @@
  * limitations under the License.
  */
 
-package net.dpml.composition.control;
+package net.dpml.composition;
 
-import java.io.InputStream;
+import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.ByteArrayInputStream;
 import java.io.ObjectInputStream;
+import java.lang.reflect.InvocationHandler;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Proxy;
 import java.net.URI;
 import java.net.URL;
 import java.net.URLConnection;
+import java.net.URLClassLoader;
+import java.net.URISyntaxException;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
-import java.rmi.server.UnicastRemoteObject;
+import java.util.ArrayList;
 import java.util.Properties;
 import java.util.WeakHashMap;
 
+import net.dpml.logging.Logger;
+
+import net.dpml.component.data.ClassLoaderDirective;
+import net.dpml.component.data.ClasspathDirective;
+import net.dpml.component.data.ComponentDirective;
+import net.dpml.component.data.ValueDirective;
+import net.dpml.component.data.Directive;
+import net.dpml.component.info.InfoDescriptor;
+import net.dpml.component.info.Type;
+import net.dpml.component.model.ComponentModel;
+
+import net.dpml.component.control.ClassLoaderManager;
 import net.dpml.component.control.ControllerContext;
 import net.dpml.component.control.ControllerException;
+import net.dpml.component.control.ControllerRuntimeException;
+import net.dpml.component.control.Disposable;
+import net.dpml.component.control.LifecycleException;
+import net.dpml.component.control.UnsupportedPartTypeException;
 
-import net.dpml.component.info.Type;
+import net.dpml.composition.ComponentController;
 
+import net.dpml.part.Context;
+import net.dpml.part.Component;
+import net.dpml.part.ComponentException;
+import net.dpml.part.Controller;
+import net.dpml.part.DelegationException;
 import net.dpml.part.Part;
+import net.dpml.part.PartException;
+import net.dpml.part.PartHandlerNotFoundException;
+import net.dpml.part.PartNotFoundException;
 import net.dpml.part.PartHolder;
 import net.dpml.part.PartEditor;
 import net.dpml.part.PartEditorFactory;
-import net.dpml.part.PartException;
 import net.dpml.part.PartRuntimeException;
-import net.dpml.part.PartNotFoundException;
-import net.dpml.part.PartHandlerNotFoundException;
 import net.dpml.part.DelegationException;
-import net.dpml.part.Controller;
 
-import net.dpml.transit.Transit;
 import net.dpml.transit.Artifact;
+import net.dpml.transit.Category;
 import net.dpml.transit.Repository;
+import net.dpml.transit.Transit;
+import net.dpml.transit.Plugin;
 import net.dpml.transit.model.ContentModel;
-import net.dpml.transit.Logger;
+import net.dpml.transit.model.Value;
 
 /**
- * Composition part handler.
+ * The composition controller is the controller used to establish remotely accessible
+ * component controls.
  *
  * @author <a href="mailto:dev-dpml@lists.ibiblio.org">The Digital Product Meta Library</a>
  * @version $Revision: 1.2 $ $Date: 2004/03/17 10:30:09 $
  */
-public abstract class CompositionPartHandler implements Controller
+public class CompositionController implements ClassLoaderManager, Controller
 {
-   /**
-    * Map containing the foreign part handlers.
-    */
-    private final WeakHashMap m_handlers = new WeakHashMap();
+    //--------------------------------------------------------------------
+    // state
+    //--------------------------------------------------------------------
 
-   /**
-    * Transit repository handler used for resolving foreign handlers.
-    */
-    private final Repository m_loader;
-
+    private final Logger m_logger;
     private final ControllerContext m_context;
+    private final ComponentController m_controller;
+    private final WeakHashMap m_handlers = new WeakHashMap(); // foreign controllers
+    private final Repository m_loader;
     
     private PartEditorFactory m_editorFactory;
 
-    public CompositionPartHandler( ControllerContext context ) 
-       throws ControllerException //, RemoteException
-    {
-        //super();
+    //--------------------------------------------------------------------
+    // constructor
+    //--------------------------------------------------------------------
 
-        m_context = context;
-        m_loader = Transit.getInstance().getRepository();
+    public CompositionController( net.dpml.transit.Logger logger )
+       throws ControllerException
+    {
+        this( new CompositionContext( logger, null, null ) );
     }
 
+    protected CompositionController( ControllerContext context )
+       throws ControllerException
+    {
+        super();
+
+        m_context = context;
+        m_logger = new StandardLogger( context.getLogger() );
+        m_loader = Transit.getInstance().getRepository();
+        m_logger.debug( "controller: " + CONTROLLER_URI );
+        m_controller = new ComponentController( m_logger, this );
+    }
+    
+    //--------------------------------------------------------------------
+    // ClassLoaderManager
+    //--------------------------------------------------------------------
+    
+   /**
+    * Create a classloader using the supplied anchor classloader and 
+    * component directive.
+    * 
+    * @param anchor the anchor classloader
+    * @param part a component part 
+    */
+    public ClassLoader createClassLoader( ClassLoader anchor, Part part ) throws PartException
+    {
+        if( part instanceof ComponentDirective )
+        {
+            ComponentDirective directive = (ComponentDirective) part;
+            return m_controller.createClassLoader( anchor, directive );
+        }
+        else
+        {
+            //
+            // TODO delegate to foreign controller
+            //
+            
+            final String error =
+              "Construction of a classloader from the part class ["
+              + part.getClass().getName() 
+              + "] is not supported.";
+            throw new ControllerException( CONTROLLER_URI, error );
+        }
+    }
+    
+    //--------------------------------------------------------------------
+    // Controller
+    //--------------------------------------------------------------------
+    
    /**
     * Returns the uri of this handler.
     * @return the handler uri
@@ -91,6 +167,76 @@ public abstract class CompositionPartHandler implements Controller
     public URI getURI()
     {
         return PART_HANDLER_URI;
+    }
+    
+   /**
+    * Create and return a new management context using the supplied part
+    * as the inital management state.
+    *
+    * @param part the part data structure
+    * @return the management context instance
+    */
+    public Context createContext( Part part ) throws PartException
+    {
+        if( part instanceof ComponentDirective )
+        {
+            ComponentDirective directive = (ComponentDirective) part;
+            return m_controller.createComponentModel( directive );
+        }
+        else
+        {
+            //
+            // TODO delegate to foreign controller
+            //
+            
+            final String error =
+              "Construction of a managment context for the part class ["
+              + part.getClass().getName() 
+              + "] is not supported.";
+            throw new PartException( error );
+        }
+    }
+    
+   /**
+    * Create and return a remote reference to a component handler.
+    * @return the component handler
+    */
+    public Component createComponent( Context context ) throws Exception
+    {
+        if( context instanceof ComponentModel )
+        {
+            ComponentModel model = (ComponentModel) context;
+            return m_controller.createComponentHandler( model );
+        }
+        else
+        {
+            //
+            // TODO delegate to foreign controller
+            //
+            
+            final String error =
+              "Construction of a handler for the context class ["
+              + context.getClass().getName() 
+              + "] is not supported.";
+            throw new PartException( error );
+        }
+    }
+    
+   /**
+    * Return the controllers runtime context. The runtime context holds infromation 
+    * about the working and temporary directories and a uri identifying the execution 
+    * domain.
+    * 
+    * @return the runtime context
+    */
+    public ControllerContext getControllerContext()
+    {
+        return m_context;
+    }
+
+    Logger getLogger()
+    {
+        return m_logger;
     }
 
    /**
@@ -175,8 +321,7 @@ public abstract class CompositionPartHandler implements Controller
             ClassLoader classloader = getClass().getClassLoader();
             URI uri = new URI( "@PART-EDITOR-FACTORY-URI@" );
             Repository repository = Transit.getInstance().getRepository();
-            Logger logger = m_context.getLogger();
-            return (PartEditorFactory) repository.getPlugin( classloader, uri, new Object[]{logger} );
+            return (PartEditorFactory) repository.getPlugin( classloader, uri, new Object[]{m_logger} );
         }
         catch( Throwable e )
         {
@@ -328,10 +473,11 @@ public abstract class CompositionPartHandler implements Controller
     private Controller loadHandler( URI uri ) throws PartHandlerNotFoundException
     {
         ClassLoader classloader = Part.class.getClassLoader();
-        Logger logger = m_context.getLogger();
         try
         {
-            return (Controller) m_loader.getPlugin( classloader, uri, new Object[]{logger, m_context} );
+            return (Controller) m_loader.getPlugin( 
+              classloader, uri, 
+              new Object[]{m_logger, m_context, m_context.getLogger()} );
         }
         catch( IOException e )
         {
@@ -339,6 +485,8 @@ public abstract class CompositionPartHandler implements Controller
         }
     }
 
+    static final URI CONTROLLER_URI = createStaticURI( "@PART-HANDLER-URI@" );
+    static final URI ROOT_URI = createStaticURI( "metro:/" );
     private static final URI PART_HANDLER_URI = createStaticURI( "@PART-HANDLER-URI@" );
 
     private static URI createStaticURI( String path )

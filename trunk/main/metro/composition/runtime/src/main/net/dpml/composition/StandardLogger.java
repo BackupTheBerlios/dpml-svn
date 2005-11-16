@@ -16,13 +16,12 @@
  * limitations under the License.
  */
 
-package net.dpml.composition.engine;
+package net.dpml.composition;
 
 import java.net.URL;
-import java.util.logging.Logger;
-import java.util.logging.Level;
 
-import net.dpml.transit.util.ExceptionHelper;
+import net.dpml.transit.Logger;
+import net.dpml.transit.monitor.LoggingAdapter;
 
 /**
  * Default logging adapter.
@@ -30,7 +29,7 @@ import net.dpml.transit.util.ExceptionHelper;
  * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
  * @version $Id: LoggingAdapter.java 2684 2005-06-01 00:22:50Z mcconnell@dpml.net $
  */
-class DefaultLogger implements net.dpml.logging.Logger
+final class StandardLogger implements net.dpml.logging.Logger
 {
     // ------------------------------------------------------------------------
     // state
@@ -46,9 +45,18 @@ class DefaultLogger implements net.dpml.logging.Logger
     * Creation of a new console adapter that is used to redirect transit events
     * the system output stream.
     */
-    public DefaultLogger( String category )
+    public StandardLogger( Logger logger )
     {
-         m_logger = Logger.getLogger( category );
+         m_logger = logger;
+    }
+
+   /**
+    * Creation of a new console adapter that is used to redirect transit events
+    * the system output stream.
+    */
+    public StandardLogger( String path )
+    {
+         m_logger = new LoggingAdapter( path );
     }
 
     // ------------------------------------------------------------------------
@@ -61,7 +69,7 @@ class DefaultLogger implements net.dpml.logging.Logger
     */
     public boolean isDebugEnabled()
     {
-        return m_logger.isLoggable( Level.FINE );
+        return m_logger.isDebugEnabled();
     }
 
    /**
@@ -70,7 +78,7 @@ class DefaultLogger implements net.dpml.logging.Logger
     */
     public boolean isInfoEnabled()
     {
-        return m_logger.isLoggable( Level.INFO );
+        return m_logger.isInfoEnabled();
     }
 
    /**
@@ -79,7 +87,7 @@ class DefaultLogger implements net.dpml.logging.Logger
     */
     public boolean isWarnEnabled()
     {
-        return m_logger.isLoggable( Level.WARNING );
+        return m_logger.isWarnEnabled();
     }
 
    /**
@@ -88,7 +96,7 @@ class DefaultLogger implements net.dpml.logging.Logger
     */
     public boolean isErrorEnabled()
     {
-        return m_logger.isLoggable( Level.SEVERE );
+        return m_logger.isErrorEnabled();
     }
 
    /**
@@ -97,10 +105,7 @@ class DefaultLogger implements net.dpml.logging.Logger
     */
     public void debug( String message )
     {
-        if( isDebugEnabled() )
-        {
-            m_logger.fine( message );
-        }
+        m_logger.debug( message );
     }
 
    /**
@@ -109,10 +114,7 @@ class DefaultLogger implements net.dpml.logging.Logger
     */
     public void info( String message )
     {
-        if( isInfoEnabled() )
-        {
-            m_logger.info( message );
-        }
+        m_logger.info( message );
     }
 
    /**
@@ -121,10 +123,7 @@ class DefaultLogger implements net.dpml.logging.Logger
     */
     public void warn( String message )
     {
-        if( isWarnEnabled() )
-        {
-            m_logger.warning( message );
-        }
+        m_logger.warn( message );
     }
 
    /**
@@ -133,10 +132,7 @@ class DefaultLogger implements net.dpml.logging.Logger
     */
     public void warn( String message, Throwable cause )
     {
-        if( isWarnEnabled() )
-        {
-            m_logger.log( Level.WARNING, message, cause );
-        }
+        m_logger.warn( message, cause );
     }
 
    /**
@@ -145,47 +141,29 @@ class DefaultLogger implements net.dpml.logging.Logger
     */
     public void error( String message )
     {
-        if( isErrorEnabled() )
-        {
-            m_logger.log( Level.SEVERE, message );
-        }
+        m_logger.error( message );
     }
 
    /**
     * Log a error message.
     * @param message the message to log
-    * @param e the causal exception
+    * @param cause the causal exception
     */
-    public void error( String message, Throwable e )
+    public void error( String message, Throwable cause )
     {        
-        if( isErrorEnabled() )
-        {
-            m_logger.log( Level.SEVERE, message, e );
-        }
+        m_logger.error( message, cause );
     }
 
     public net.dpml.logging.Logger getChildLogger( String category )
     {
-        String path = m_logger.getName();
-        if( "" != path )
+        if( ( null == category ) || ( "".equals( category ) ) )
         {
-             path = path + "." + category;
+            return this;
         }
         else
         {
-             path = category;
+            return new StandardLogger( m_logger.getChildLogger( category ) );
         }
-
-        if( path.endsWith( "/" ) )
-        {
-            path = path.substring( 0, path.length() - 1 );
-        }
-        path = path.replace( '/', '.' );
-        if( path.startsWith( "." ) )
-        {
-            path = path.substring( 1 );
-        }
-        return new DefaultLogger( path );
     }
 }
 

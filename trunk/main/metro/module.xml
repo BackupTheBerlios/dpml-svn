@@ -72,7 +72,7 @@
       <type id="jar"/>
       <type id="plugin">
         <property name="project.plugin.class" 
-           value="net.dpml.composition.control.CompositionController"/>
+           value="net.dpml.composition.CompositionController"/>
       </type>
     </types>
     <dependencies>

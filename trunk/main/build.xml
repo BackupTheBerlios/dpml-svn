@@ -82,10 +82,6 @@
   <target name="javadoc" depends="build">
     <x:javadoc title="DPML Component Management Platform" >
       <link href="http://java.sun.com/j2se/1.4/docs/api"/>
-      <group title="Transit">
-        <package name="net.dpml.transit"/>
-        <package name="net.dpml.transit.*"/>
-      </group>
       <group title="Metro">
         <package name="net.dpml.component"/>
         <package name="net.dpml.component.*"/>
@@ -103,6 +99,10 @@
         <package name="net.dpml.station.*"/>
         <package name="net.dpml.tools"/>
         <package name="net.dpml.tools.*"/>
+      </group>
+      <group title="Transit">
+        <package name="net.dpml.transit"/>
+        <package name="net.dpml.transit.*"/>
       </group>
       <group title="Util">
         <package name="net.dpml.cli"/>

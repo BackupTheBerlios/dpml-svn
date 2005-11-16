@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package net.dpml.composition.control;
+package net.dpml.composition;
 
 import java.io.File;
 import java.net.URI;
@@ -27,8 +27,6 @@ import java.util.EventObject;
 import java.util.EventListener;
 import java.util.WeakHashMap;
 import java.util.Properties;
-
-import net.dpml.composition.event.LocalWeakEventProducer;
 
 import net.dpml.component.control.ControllerContext;
 import net.dpml.component.control.ControllerContextListener;

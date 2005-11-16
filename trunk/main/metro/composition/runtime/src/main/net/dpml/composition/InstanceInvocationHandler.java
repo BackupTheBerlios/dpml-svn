@@ -16,13 +16,11 @@
  * limitations under the License.
  */
 
-package net.dpml.composition.engine;
+package net.dpml.composition;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-
-import net.dpml.configuration.Configuration;
 
 /**
  * Utility class that supports instance isolation.
@@ -30,13 +28,13 @@ import net.dpml.configuration.Configuration;
  * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
  * @version $Id: ApplianceInvocationHandler.java 2106 2005-03-21 18:46:10Z mcconnell@dpml.net $
  */
-final class ConfigurationInvocationHandler implements InvocationHandler
+final class InstanceInvocationHandler implements InvocationHandler
 {
     //-------------------------------------------------------------------
     // state
     //-------------------------------------------------------------------
 
-    private final Configuration m_config;
+    private final DefaultInstance m_instance;
 
     //-------------------------------------------------------------------
     // constructor
@@ -47,13 +45,13 @@ final class ConfigurationInvocationHandler implements InvocationHandler
     *
     * @param instance the instance
     */
-    public ConfigurationInvocationHandler( Configuration config )
+    public InstanceInvocationHandler( DefaultInstance instance )
     {
-        if( null == config )
+        if( null == instance )
         {
-            throw new NullPointerException( "config" );
+            throw new NullPointerException( "instance" );
         }
-        m_config = config;
+        m_instance = instance;
     }
     
    /**
@@ -69,12 +67,22 @@ final class ConfigurationInvocationHandler implements InvocationHandler
     public Object invoke( final Object proxy, final Method method, final Object[] args ) 
       throws InvocationTargetException, IllegalAccessException
     {
-        Object instance = getInstance();
-        return method.invoke( instance, args );
+        DefaultInstance instance = getInstance();
+        if( instance.isAvailable() )
+        {
+            Object target = instance.getValue( false );
+            return method.invoke( target, args );
+        }
+        else
+        {
+            final String error = 
+              "Resource unavailable: " + instance;
+            throw new IllegalStateException( error );
+        }
     }
 
-    protected Object getInstance()
+    protected DefaultInstance getInstance()
     {
-        return m_config;
+        return m_instance;
     }
 }

@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package net.dpml.composition.engine;
+package net.dpml.composition;
 
 import net.dpml.part.Service;
 import net.dpml.part.Version;

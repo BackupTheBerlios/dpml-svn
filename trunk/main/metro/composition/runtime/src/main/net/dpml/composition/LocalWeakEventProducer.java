@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package net.dpml.composition.event;
+package net.dpml.composition;
 
 import java.rmi.RemoteException;
 import java.util.EventObject;
@@ -32,7 +32,7 @@ import net.dpml.transit.util.ExceptionHelper;
  * A abstract base class that established an event queue and handles event dispatch 
  * operations for listeners declared in a class extending this base class.
  */
-public abstract class LocalWeakEventProducer 
+abstract class LocalWeakEventProducer 
 {
     private Map m_listeners = new WeakHashMap();
 

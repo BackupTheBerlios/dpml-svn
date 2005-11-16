@@ -16,16 +16,15 @@
  * limitations under the License.
  */
 
-package net.dpml.composition.event;
+package net.dpml.composition;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
+import java.rmi.NoSuchObjectException;
 import java.util.EventObject;
 import java.util.EventListener;
 import java.util.List;
 import java.util.LinkedList;
-import java.util.Map;
-import java.util.WeakHashMap;
 
 import net.dpml.transit.util.ExceptionHelper;
 
@@ -33,20 +32,25 @@ import net.dpml.transit.util.ExceptionHelper;
  * A abstract base class that established an event queue and handles event dispatch 
  * operations for listeners declared in a class extending this base class.
  */
-public abstract class WeakEventProducer extends UnicastRemoteObject
+public abstract class UnicastEventSource extends UnicastRemoteObject
 {
-    private Map m_listeners = new WeakHashMap();
+   /**
+    * Registered event listeners.
+    */
+    private EventListener[] m_listeners = new EventListener[0];
 
    /**
     * Internal synchronization lock.
     */
-    protected final Object m_lock = new Object();
+    private final Object m_lock = new Object();
+    
+    private boolean m_disposed = false;
 
-    public WeakEventProducer() throws RemoteException
+    protected UnicastEventSource() throws RemoteException
     {
         super();
     }
-
+    
    /**
     * Abstract operation to be implemented by classes extending this base class.
     * An implementation is reposible for the posting of the event to associated 
@@ -55,13 +59,7 @@ public abstract class WeakEventProducer extends UnicastRemoteObject
     *
     * @param event the event to process
     */
-    protected void processEvent( EventObject event )
-    {
-        final String error = 
-          "Event class not recognized: " + event.getClass().getName();
-        throw new IllegalArgumentException( error );
-    }
-
+    protected abstract void processEvent( EventObject event );
 
    /**
     * Add a listener to the set of listeners handled by this producer.
@@ -69,13 +67,22 @@ public abstract class WeakEventProducer extends UnicastRemoteObject
     */
     protected void addListener( EventListener listener ) 
     {
+        if( m_disposed )
+        {
+            throw new IllegalStateException( "disposed" );
+        }
+        
         if( null == listener )
         {
             throw new NullPointerException( "listener" );
         }
-        synchronized( m_lock ) 
+
+        synchronized( m_lock )
         {
-            m_listeners.put( listener, null );
+            Object[] old = m_listeners;
+            m_listeners = new EventListener[ old.length + 1 ];
+            System.arraycopy( old, 0, m_listeners, 0, old.length );
+            m_listeners[old.length] = listener;
         }
         startEventDispatchThread();
     }
@@ -91,12 +98,71 @@ public abstract class WeakEventProducer extends UnicastRemoteObject
             throw new NullPointerException( "listener" );
         }
 
-        synchronized( m_lock )
+        if( m_disposed )
         {
-            m_listeners.remove( listener );
+            throw new IllegalStateException( "disposed" );
+        }
+        
+        synchronized( m_lock ) 
+        {
+            if( m_listeners.length == 0 )
+            {
+                throw new IllegalArgumentException( "Listener not registered." );
+            }
+            // create the copy
+            EventListener[] replacement = new EventListener[ m_listeners.length - 1 ];
+            // copy listeners from 0 up to the listener being removed
+            int i=0;
+            while( i < replacement.length && m_listeners[i] != listener )
+            {
+                replacement[i] = m_listeners[i++];
+            }
+            // check that the listener has been located
+            if( i == replacement.length &&  m_listeners[i] != listener )
+            {
+                throw new IllegalArgumentException( "Listener not registered." );
+            }
+            // complete the copy operation
+            while( i < replacement.length )
+            {
+                replacement[i] = m_listeners[++i];
+            }
+            // commit the copy
+            m_listeners = replacement;
         }
     }
-
+    
+    protected Object getLock()
+    {
+        return m_lock;
+    }
+    
+    protected boolean isDisposed()
+    {
+        return m_disposed;
+    }
+    
+    protected void dispose()
+    {
+        if( m_disposed )
+        {
+            return;
+        }
+        
+        synchronized( m_lock )
+        {
+            try
+            {
+                unexportObject( this, false );
+            }
+            catch( NoSuchObjectException e )
+            {
+            }
+            m_listeners = new EventListener[0];
+            m_disposed = true;
+        }
+    }
+    
     /**
      * Queue of pending notification events.  When an event for which 
      * there are one or more listeners occurs, it is placed on this queue 
@@ -147,9 +213,9 @@ public abstract class WeakEventProducer extends UnicastRemoteObject
                 }
 
                 Object source = event.getSource();
-                if( source instanceof WeakEventProducer )
+                if( source instanceof UnicastEventSource )
                 {
-                    WeakEventProducer producer = (WeakEventProducer) source;
+                    UnicastEventSource producer = (UnicastEventSource) source;
                     try
                     {
                         producer.processEvent( event );
@@ -159,7 +225,7 @@ public abstract class WeakEventProducer extends UnicastRemoteObject
                         final String error = 
                           "Unexpected error while processing event."
                           + "\nEvent: " + event
-                          + "\nSource: " + this;
+                          + "\nSource: " + source;
                         String msg = ExceptionHelper.packException( error, e, true );
                         System.err.println( msg );
                     }
@@ -167,7 +233,9 @@ public abstract class WeakEventProducer extends UnicastRemoteObject
                 else
                 {
                     final String error = 
-                      "Event source is not an instance of " + WeakEventProducer.class.getName();
+                      "Event source [" 
+                      + source.getClass().getName()
+                      + "] is not an instance of " + UnicastEventSource.class.getName();
                     throw new IllegalStateException( error );
                 }
             }
@@ -199,9 +267,9 @@ public abstract class WeakEventProducer extends UnicastRemoteObject
      */
     protected EventListener[] listeners() 
     {
-        synchronized( m_lock )
+        synchronized( m_lock ) 
         {
-            return (EventListener[])m_listeners.keySet().toArray( new EventListener[0] );
+            return m_listeners;
         }
     }
 
@@ -212,29 +280,12 @@ public abstract class WeakEventProducer extends UnicastRemoteObject
      */
     protected void enqueueEvent( EventObject event )
     {
-        enqueueEvent( event, true );
-    }
-
-    /**
-     * Enqueue an event for delivery to registered
-     * listeners unless there are no registered
-     * listeners.
-     */
-    protected void enqueueEvent( EventObject event, boolean asynchronouse )
-    {
-        if( m_listeners.size() != 0 )
+        if( m_listeners.length != 0 ) 
         {
-            if( asynchronouse )
-            {    
-                synchronized( EVENT_QUEUE ) 
-                {
-                    EVENT_QUEUE.add( event );
-                    EVENT_QUEUE.notify();
-                }
-            }
-            else
+            synchronized( EVENT_QUEUE ) 
             {
-                processEvent( event );
+                EVENT_QUEUE.add( event );
+                EVENT_QUEUE.notify();
             }
         }
     }

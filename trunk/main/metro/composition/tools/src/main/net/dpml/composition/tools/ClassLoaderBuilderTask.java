@@ -36,8 +36,8 @@ import net.dpml.composition.tools.datatypes.ConfigurationDataType;
 import net.dpml.composition.tools.datatypes.ContextDataType;
 import net.dpml.composition.tools.datatypes.ParametersDataType;
 import net.dpml.composition.tools.datatypes.PartsDataType;
-import net.dpml.composition.control.CompositionController;
-import net.dpml.composition.control.CompositionContext;
+import net.dpml.composition.CompositionController;
+import net.dpml.composition.CompositionContext;
 
 import net.dpml.component.data.ClassLoaderDirective;
 import net.dpml.component.data.ClasspathDirective;

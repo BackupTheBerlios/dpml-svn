@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package net.dpml.composition.engine;
+package net.dpml.composition;
 
 import java.io.File;
 import java.io.InputStream;
@@ -36,8 +36,7 @@ import java.util.EventObject;
 import net.dpml.activity.Executable;
 import net.dpml.activity.Startable;
 
-import net.dpml.composition.control.CompositionController;
-import net.dpml.composition.event.EventProducer;
+import net.dpml.composition.CompositionController;
 
 import net.dpml.component.info.Type;
 import net.dpml.component.info.ServiceDescriptor;
@@ -51,6 +50,8 @@ import net.dpml.component.model.ContextModel;
 
 import net.dpml.configuration.Configuration;
 
+import net.dpml.logging.Logger;
+import net.dpml.logging.Logger;
 import net.dpml.logging.Logger;
 
 import net.dpml.parameters.Parameters;
@@ -80,7 +81,7 @@ import net.dpml.transit.model.Value;
  *
  * @author <a href="mailto:dev-dpml@lists.ibiblio.org">The Digital Product Meta Library</a>
  */
-public class ComponentController
+class ComponentController
 {
     //--------------------------------------------------------------------------
     // state
@@ -185,7 +186,7 @@ public class ComponentController
         {
             final String name = context.getName();
             final String path = context.getContextPath();
-            Logger logger = new DefaultLogger( path.substring( 1 ).replace( '/', '.' ) );
+            Logger logger = new StandardLogger( path.substring( 1 ).replace( '/', '.' ) );
             final ClassLoaderDirective directive = context.getClassLoaderDirective();
             ClassLoader classloader = createClassLoader( anchor, directive, name );
             return new ComponentHandler( parent, classloader, logger, this, context );
@@ -229,7 +230,7 @@ public class ComponentController
             else if( Logger.class.isAssignableFrom( c ) )
             {
                 String spec = getPathForLogger( handler );
-                args[i] = new DefaultLogger( spec );
+                args[i] = new StandardLogger( spec );
             }
             else if( Parameters.class.isAssignableFrom( c ) )
             {
