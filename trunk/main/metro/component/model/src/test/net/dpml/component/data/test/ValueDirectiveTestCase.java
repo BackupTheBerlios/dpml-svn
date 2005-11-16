@@ -16,10 +16,10 @@
  * limitations under the License.
  */
 
-package net.dpml.component.data.test;
+package net.dpml.metro.data.test;
 
-import net.dpml.composition.AbstractEncodingTestCase;
-import net.dpml.component.data.ValueDirective;
+import net.dpml.metro.runtime.AbstractEncodingTestCase;
+import net.dpml.metro.data.ValueDirective;
 
 import junit.framework.TestCase;
 

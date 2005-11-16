@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package net.dpml.composition;
+package net.dpml.metro.runtime;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -38,9 +38,9 @@ import java.net.URI;
 import junit.framework.TestCase;
 
 import net.dpml.part.Part;
-import net.dpml.component.info.PartReference;
+import net.dpml.metro.info.PartReference;
 
-import net.dpml.component.data.ValueDirective;
+import net.dpml.metro.data.ValueDirective;
 
 /**
  * EntryDescriptorTestCase does XYZ

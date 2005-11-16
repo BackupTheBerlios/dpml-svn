@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package net.dpml.component.info.test;
+package net.dpml.metro.info.test;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -29,18 +29,18 @@ import java.util.Properties;
 
 import junit.framework.TestCase;
 
-import net.dpml.component.info.CategoryDescriptor;
-import net.dpml.component.info.ContextDescriptor;
-import net.dpml.component.info.EntryDescriptor;
-import net.dpml.component.info.InfoDescriptor;
-import net.dpml.component.info.CollectionPolicy;
-import net.dpml.component.info.Type;
-import net.dpml.component.info.PartReference;
-import net.dpml.component.info.ServiceDescriptor;
+import net.dpml.metro.info.CategoryDescriptor;
+import net.dpml.metro.info.ContextDescriptor;
+import net.dpml.metro.info.EntryDescriptor;
+import net.dpml.metro.info.InfoDescriptor;
+import net.dpml.metro.info.CollectionPolicy;
+import net.dpml.metro.info.Type;
+import net.dpml.metro.info.PartReference;
+import net.dpml.metro.info.ServiceDescriptor;
 
 //import net.dpml.configuration.Configuration;
 
-import net.dpml.composition.AbstractEncodingTestCase;
+import net.dpml.metro.runtime.AbstractEncodingTestCase;
 
 /**
  * TypeTestCase does XYZ

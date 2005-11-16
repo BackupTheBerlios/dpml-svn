@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package net.dpml.component.info.test;
+package net.dpml.metro.info.test;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -26,8 +26,8 @@ import java.util.Properties;
 
 import junit.framework.TestCase;
 
-import net.dpml.composition.AbstractEncodingTestCase;
-import net.dpml.component.info.Descriptor;
+import net.dpml.metro.runtime.AbstractEncodingTestCase;
+import net.dpml.metro.info.Descriptor;
 
 /**
  * AbstractDescriptorTestCase does XYZ

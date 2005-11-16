@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package net.dpml.component.info.test;
+package net.dpml.metro.info.test;
 
 import java.beans.Encoder;
 import java.beans.XMLDecoder;
@@ -31,8 +31,8 @@ import java.io.BufferedOutputStream;
 import java.io.BufferedInputStream;
 import java.io.File;
 
-import net.dpml.component.info.Descriptor;
-import net.dpml.component.info.CategoryDescriptor;
+import net.dpml.metro.info.Descriptor;
+import net.dpml.metro.info.CategoryDescriptor;
 
 
 /**

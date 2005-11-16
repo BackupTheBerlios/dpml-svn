@@ -16,17 +16,17 @@
  * limitations under the License.
  */
 
-package net.dpml.component.data.test;
+package net.dpml.metro.data.test;
 
-import net.dpml.composition.AbstractEncodingTestCase;
-import net.dpml.component.data.ComponentDirective;
-import net.dpml.component.data.CategoriesDirective;
-import net.dpml.component.data.CategoryDirective;
-import net.dpml.component.data.ContextDirective;
-import net.dpml.component.data.ClassLoaderDirective;
-import net.dpml.component.info.CollectionPolicy;
-import net.dpml.component.info.LifestylePolicy;
-import net.dpml.component.info.PartReference;
+import net.dpml.metro.runtime.AbstractEncodingTestCase;
+import net.dpml.metro.data.ComponentDirective;
+import net.dpml.metro.data.CategoriesDirective;
+import net.dpml.metro.data.CategoryDirective;
+import net.dpml.metro.data.ContextDirective;
+import net.dpml.metro.data.ClassLoaderDirective;
+import net.dpml.metro.info.CollectionPolicy;
+import net.dpml.metro.info.LifestylePolicy;
+import net.dpml.metro.info.PartReference;
 
 import net.dpml.configuration.Configuration;
 import net.dpml.configuration.impl.DefaultConfiguration;

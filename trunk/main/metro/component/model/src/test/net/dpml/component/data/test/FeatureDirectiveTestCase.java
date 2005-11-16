@@ -16,10 +16,10 @@
  * limitations under the License.
  */
 
-package net.dpml.component.data.test;
+package net.dpml.metro.data.test;
 
-import net.dpml.composition.AbstractEncodingTestCase;
-import net.dpml.component.data.FeatureDirective;
+import net.dpml.metro.runtime.AbstractEncodingTestCase;
+import net.dpml.metro.data.FeatureDirective;
 
 /**
  * Test encoding of the reference directive.
