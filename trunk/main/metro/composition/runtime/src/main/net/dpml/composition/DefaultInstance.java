@@ -42,9 +42,15 @@ import net.dpml.state.StateListener;
 import net.dpml.state.impl.DefaultStateMachine;
 
 /**
- * Instance holder.
- *
- * TODO: add disposal semantics (including disposal listeners)
+ * The DefaultInstance class maintains the state of a client instance.  On creation
+ * of a new DefaultInstance the implementation constrcuts a proxy based on the 
+ * service clesses declared within the component type, establishes the instance, and
+ * applies and statre initialization based on the state graph associated with the 
+ * object.  If a request is made by the container for the disposal of an instance of 
+ * this class, the implementation will execute a formal termination sequence on the 
+ * client instance using the state graph declarations.  Finally, if the client instance 
+ * implements the Disposable insterface - the implementation will invoke the dispose 
+ * operation on the client instance.
  *
  * @author <a href="mailto:dev-dpml@lists.ibiblio.org">The Digital Product Meta Library</a>
  */
@@ -98,12 +104,12 @@ class DefaultInstance extends UnicastEventSource implements Instance
     //-------------------------------------------------------------------
 
    /**
-    * Create a context invocation handler.
+    * Create a new instance handler.
     *
     * @param handler the component handler
     */
     DefaultInstance( ComponentHandler handler, Logger logger ) 
-      throws RemoteException
+      throws RemoteException, ControlException, InvocationTargetException
     {
         super();
         
@@ -127,24 +133,11 @@ class DefaultInstance extends UnicastEventSource implements Instance
         Class[] services = m_handler.getServiceClassArray();
         InvocationHandler invocationHandler = new InstanceInvocationHandler( this );
         m_proxy = Proxy.newProxyInstance( classloader, services, invocationHandler );
-
-        try
-        {
-            Object value = m_handler.createNewObject();
-            activate( value );
-        }
-        catch( ControlException e )
-        {
-            getLogger().warn( "Instance value establishment control error.", e );
-        }
-        catch( InvocationTargetException e )
-        {
-            getLogger().warn( "Target component instantiation error.", e );
-        }
-        catch( Throwable e )
-        {
-            getLogger().warn( "Unexpected activation failure.", e );
-        }
+        m_value = m_handler.createNewObject();
+        m_tag = createTag( m_value );
+        getLogger().debug( m_tag + "activating instance" );
+        m_machine.initialize( m_value );
+        m_activated = true;
     }
 
     //-------------------------------------------------------------------
@@ -266,28 +259,18 @@ class DefaultInstance extends UnicastEventSource implements Instance
         return m_activated;
     }
 
-    void activate( Object value ) throws InvocationTargetException, ControlException
+    void dispose()
     {
-        if( null == value )
-        {
-            throw new NullPointerException( "value" );
-        }
-        
-        if( m_activated )
-        {
-            deactivate();
-        }
+        getLogger().debug( m_tag + "instance disposal" );
         synchronized( getLock() )
         {
-            setValue( value );
-            getLogger().debug( m_tag + "activating" );
-            m_machine.initialize( m_value );
-            m_activated = true;
-            getLogger().debug( m_tag + "activated" );
+            deactivate();
+            m_machine.dispose();
+            super.dispose();
         }
     }
-
-    void deactivate()
+    
+    private void deactivate()
     {
         if( !m_activated )
         {
@@ -296,22 +279,11 @@ class DefaultInstance extends UnicastEventSource implements Instance
         
         synchronized( getLock() )
         {
-            getLogger().debug( m_tag + "deactivating" );
+            getLogger().debug( m_tag + "deactivating instance" );
             m_machine.terminate( m_value );
-            getLogger().debug( m_tag + "deactivated" );
             m_tag = null;
             m_value = null;
             m_activated = false;
-        }
-    }
-    
-    protected void dispose()
-    {
-        synchronized( getLock() )
-        {
-            deactivate();
-            m_machine.dispose();
-            super.dispose();
         }
     }
     
@@ -330,16 +302,18 @@ class DefaultInstance extends UnicastEventSource implements Instance
         m_machine.removePropertyChangeListener( listener );
     }
     
-    private void setValue( Object value )
-    {
-        m_value = value;
-        String tag = "[" + System.identityHashCode( value ) + "               ";
-        m_tag = tag.substring( 0, 10 ) + "] ";
-    }
-
     private Logger getLogger()
     {
         return m_logger;
+    }
+    
+    private String createTag( Object instance )
+    {
+        String tag = 
+          "[" 
+          + System.identityHashCode( instance ) 
+          + "               ";
+        return tag.substring( 0, 10 ) + "] ";
     }
 
     private class StateEventPropergator implements PropertyChangeListener

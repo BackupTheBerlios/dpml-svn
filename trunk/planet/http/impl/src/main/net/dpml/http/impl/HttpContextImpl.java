@@ -133,7 +133,9 @@ public class HttpContextImpl extends HttpContext
     {
         Configuration[] children = conf.getChildren( "attribute" );
         for( int i = 0 ; i < children.length ; i++ )
+        {
             configureAttribute( children[i] );
+        }
     }
 
     private void configureAttribute( Configuration conf )
@@ -184,7 +186,9 @@ public class HttpContextImpl extends HttpContext
         throws Exception
     {
         if( m_logger.isDebugEnabled() )
+        {
             m_logger.debug( "Starting context: " + this );
+        }
         m_HttpServer.addContext( this );
         super.doStart();
     }
@@ -193,7 +197,9 @@ public class HttpContextImpl extends HttpContext
         throws Exception
     {
         if( m_logger.isDebugEnabled() )
+        {
             m_logger.debug( "Stopping context: " + this );
+        }
         super.doStop();
         m_HttpServer.removeContext( this );
     }
@@ -201,7 +207,9 @@ public class HttpContextImpl extends HttpContext
     public void dispose()
     {
         if( m_logger.isDebugEnabled() )
+        {
             m_logger.debug( "Disposing context: " + this );
+        }
         destroy();
         m_HttpServer = null;
     }

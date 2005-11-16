@@ -142,7 +142,7 @@ public abstract class UnicastEventSource extends UnicastRemoteObject
         return m_disposed;
     }
     
-    protected void dispose()
+    void dispose()
     {
         if( m_disposed )
         {

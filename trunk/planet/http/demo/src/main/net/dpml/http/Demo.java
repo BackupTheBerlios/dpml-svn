@@ -33,7 +33,7 @@ public class Demo implements Startable
         FileResourceHandler getHttpHandler();
         SocketListenerService getSocketListener();
     }
-
+    
     private final Logger m_logger;
 
     private final Parts m_parts;
@@ -47,12 +47,12 @@ public class Demo implements Startable
     public void start() throws Exception
     {
         m_logger.info( "Starting" );
-        FileResourceHandler handler = m_parts.getHttpHandler();
     }
 
     public void stop() throws Exception
     {
         m_logger.info( "Stopping" );
     }
+    
 }
 

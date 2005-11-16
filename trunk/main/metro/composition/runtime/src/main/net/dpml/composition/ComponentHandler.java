@@ -292,19 +292,18 @@ public class ComponentHandler extends UnicastEventSource implements Component, D
               + service.getServiceClass().getName() 
               + "]." );
         }
-        Component[] handlers = (Component[]) m_handlers.values().toArray( new Component[0] );
-        for( int i=0; i<handlers.length; i++ )
+        Component[] components = (Component[]) m_handlers.values().toArray( new Component[0] );
+        for( int i=0; i<components.length; i++ )
         {
-            Component handler = handlers[i];
-            if( handler.isaCandidate( service ) )
+            Component component = components[i];
+            if( component.isaCandidate( service ) )
             {
-                return handler;
+                return component;
             }
         }
-        if( ( m_parent != null ) && ( m_parent instanceof Component ) )
+        if( m_parent != null )
         {
-            Component component = (Component) m_parent;
-            return component.lookup( service );
+            return m_parent.lookup( service );
         }
         else
         {
@@ -348,15 +347,26 @@ public class ComponentHandler extends UnicastEventSource implements Component, D
             return;
         }
         
-        getLogger().debug( "initiating activation" );
-        
         try
         {
             if( m_model.getActivationPolicy().equals( ActivationPolicy.STARTUP ) )
             {
+                getLogger().info( "activating" );
                 m_holder.getInstance();
-                m_active = true;
             }
+            
+            //
+            // activate the children
+            //
+            
+            Component[] components = (Component[]) m_handlers.values().toArray( new Component[0] );
+            for( int i=0; i<components.length; i++ )
+            {
+                Component component = components[i];
+                component.activate();
+            }
+            
+            m_active = true;
         }
         catch( RemoteException e )
         {
@@ -364,6 +374,14 @@ public class ComponentHandler extends UnicastEventSource implements Component, D
             final String error = 
               "Remote exception raised while attempting to access component activation policy.";
             throw new HandlerException( error, e );
+        }
+        finally
+        {
+            if( !m_active )
+            {
+                getLogger().info( "activation failed" );
+                deactivate();
+            }
         }
     }
     
@@ -378,9 +396,40 @@ public class ComponentHandler extends UnicastEventSource implements Component, D
             return;
         }
         
-        getLogger().debug( "initiating deactivation" );
-        m_holder.deactivate();
-        m_active = false;
+        getLogger().debug( "deactivating" );
+        
+        //
+        // dispose of all of the instances managed by this component
+        //
+        
+        m_holder.dispose();
+        
+        //
+        // deactivate all of the subsidiary components
+        //
+        
+        try
+        {
+            Component[] components = (Component[]) m_handlers.values().toArray( new Component[0] );
+            for( int i=0; i<components.length; i++ )
+            {
+                Component component = components[i];
+                try
+                {
+                    component.deactivate();
+                }
+                catch( RemoteException e )
+                {
+                    final String message = 
+                      "Ignoring remote exception raised during deactivation.";
+                    getLogger().warn( message, e );
+                }
+            }
+        }
+        finally
+        {
+            m_active = false;
+        }
     }
     
     public Instance getInstance() throws InvocationTargetException, HandlerException
@@ -550,7 +599,7 @@ public class ComponentHandler extends UnicastEventSource implements Component, D
         }
         catch( RemoteException e )
         {
-            return "handler:" + getClass().getName();
+            return "component:" + getClass().getName();
         }
     }
     
@@ -580,10 +629,28 @@ public class ComponentHandler extends UnicastEventSource implements Component, D
 
     private abstract class Holder
     {
-        abstract void deactivate();
+        private boolean m_disposed = false;
+        
         abstract DefaultInstance getInstance() throws HandlerException, InvocationTargetException;
+        
         abstract int getInstanceCount();
-        abstract void dispose();
+        
+        void dispose()
+        {
+            if( isDisposed() )
+            {
+                return;
+            }
+            else
+            {
+                m_disposed = true;
+            }
+        }
+        
+        boolean isDisposed()
+        {
+            return m_disposed;
+        }
     }
     
     private class SingletonHolder extends Holder
@@ -615,24 +682,18 @@ public class ComponentHandler extends UnicastEventSource implements Component, D
             }
         }
         
-        void deactivate()
-        {
-            DefaultInstance instance = (DefaultInstance) m_reference.get();
-            if( instance != null )
-            {
-                instance.deactivate();
-            }
-        }
-        
         void dispose()
         {
-            deactivate();
-            DefaultInstance instance = (DefaultInstance) m_reference.get();
-            if( instance != null )
+            if( !isDisposed() )
             {
-                instance.dispose();
+                DefaultInstance instance = (DefaultInstance) m_reference.get();
+                if( instance != null )
+                {
+                    instance.dispose();
+                }
+                m_reference.clear();
+                super.dispose();
             }
-            m_reference.clear();
         }
         
         int getInstanceCount()
@@ -659,25 +720,18 @@ public class ComponentHandler extends UnicastEventSource implements Component, D
             return instance;
         }
         
-        void deactivate()
-        {
-            DefaultInstance[] instances = getAllInstances();
-            for( int i=0; i<instances.length; i++ )
-            {
-                DefaultInstance instance = instances[i];
-                instance.deactivate();
-            }
-        }
-        
         void dispose()
         {
-            deactivate();
-            DefaultInstance[] instances = getAllInstances();
-            for( int i=0; i<instances.length; i++ )
+            if( !isDisposed() )
             {
-                DefaultInstance instance = instances[i];
-                m_instances.remove( instance );
-                instance.dispose();
+                DefaultInstance[] instances = getAllInstances();
+                for( int i=0; i<instances.length; i++ )
+                {
+                    DefaultInstance instance = instances[i];
+                    m_instances.remove( instance );
+                    instance.dispose();
+                }
+                super.dispose();
             }
         }
         
@@ -701,14 +755,13 @@ public class ComponentHandler extends UnicastEventSource implements Component, D
             return (DefaultInstance) m_threadLocalHolder.get();
         }
         
-        void deactivate()
-        {
-            m_threadLocalHolder.deactivate();
-        }
-        
         void dispose()
         {
-            m_threadLocalHolder.dispose();
+            if( !isDisposed() )
+            {
+                m_threadLocalHolder.dispose();
+                super.dispose();
+            }
         }
         
         int getInstanceCount()
@@ -752,19 +805,8 @@ public class ComponentHandler extends UnicastEventSource implements Component, D
             return (DefaultInstance[]) m_instances.keySet().toArray( new DefaultInstance[0] );
         }
         
-        void deactivate()
-        {
-            DefaultInstance[] instances = getAllInstances();
-            for( int i=0; i<instances.length; i++ )
-            {
-                DefaultInstance instance = instances[i];
-                instance.deactivate();
-            }
-        }
-        
         void dispose()
         {
-            deactivate();
             DefaultInstance[] instances = getAllInstances();
             for( int i=0; i<instances.length; i++ )
             {
@@ -777,9 +819,26 @@ public class ComponentHandler extends UnicastEventSource implements Component, D
     
     private Reference createReference( Object object )
     {
+        //
+        // if this is a top-level component then set the collection policy
+        // to hard otherwise we'll loose the instance because nothing is 
+        // referencing it directly
+        //
+        
+        if( null == m_parent )
+        {
+            return new HardReference( object );
+        }
+        
         try
         {
             CollectionPolicy policy = m_model.getCollectionPolicy();
+            
+            //
+            // if an explicit collection policy is defined then apply it now
+            // otherwise use SOFT collection as the SYSTEM default
+            //
+            
             if( policy.equals( CollectionPolicy.SYSTEM ) || policy.equals( CollectionPolicy.SOFT ) )
             {
                 return new SoftReference( object );

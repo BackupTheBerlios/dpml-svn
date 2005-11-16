@@ -21,6 +21,7 @@ import net.dpml.profile.info.StartupPolicy;
 import net.dpml.profile.info.ApplicationDescriptor;
 
 import net.dpml.part.Component;
+import net.dpml.part.Instance;
 
 import net.dpml.station.Station;
 import net.dpml.station.Callback;
@@ -338,11 +339,13 @@ public class RemoteApplication extends EventChannel implements Callback, Applica
     */
     public void stop() throws RemoteException
     {
+        getLogger().info( "stop" );
         handleStop( true );
     }
     
     void shutdown() throws IOException
     {
+        getLogger().info( "shutdown requested" );
         try
         {
             handleStop( false );
@@ -361,6 +364,7 @@ public class RemoteApplication extends EventChannel implements Callback, Applica
     
     private void handleStop( boolean check ) throws ApplicationException
     {
+        getLogger().info( "stop requested" );
         synchronized( m_state )
         {
             if( m_state.equals( ProcessState.IDLE ) )
