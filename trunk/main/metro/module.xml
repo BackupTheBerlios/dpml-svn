@@ -23,7 +23,7 @@
     </dependencies>
   </project>
    
-  <project name="dpml-metro-model" basedir="component/model">
+  <project name="dpml-metro-model" basedir="model">
     <types>
       <type id="jar"/>
     </types>
@@ -57,7 +57,7 @@
   </project>
   -->
 
-  <project name="dpml-metro-runtime" basedir="composition/runtime">
+  <project name="dpml-metro-runtime" basedir="runtime">
     <types>
       <type id="jar"/>
       <type id="plugin">
@@ -76,7 +76,7 @@
     </dependencies>
   </project>
    
-  <project name="dpml-metro-tools" basedir="composition/tools">
+  <project name="dpml-metro-tools" basedir="tools">
     <types>
       <type id="jar"/>
       <type id="plugin" alias="true">
@@ -94,7 +94,7 @@
     </dependencies>
   </project>
 
-  <project name="dpml-metro-test" basedir="composition/test">
+  <project name="dpml-metro-test" basedir="test">
     <types>
       <type id="jar"/>
     </types>
