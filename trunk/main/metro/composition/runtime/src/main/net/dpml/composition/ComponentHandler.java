@@ -351,7 +351,7 @@ public class ComponentHandler extends UnicastEventSource implements Component, D
         {
             if( m_model.getActivationPolicy().equals( ActivationPolicy.STARTUP ) )
             {
-                getLogger().info( "activating" );
+                getLogger().debug( "activating" );
                 m_holder.getInstance();
             }
             
@@ -379,7 +379,7 @@ public class ComponentHandler extends UnicastEventSource implements Component, D
         {
             if( !m_active )
             {
-                getLogger().info( "activation failed" );
+                getLogger().warn( "activation failed" );
                 deactivate();
             }
         }
@@ -825,11 +825,6 @@ public class ComponentHandler extends UnicastEventSource implements Component, D
         // referencing it directly
         //
         
-        if( null == m_parent )
-        {
-            return new HardReference( object );
-        }
-        
         try
         {
             CollectionPolicy policy = m_model.getCollectionPolicy();
@@ -839,7 +834,18 @@ public class ComponentHandler extends UnicastEventSource implements Component, D
             // otherwise use SOFT collection as the SYSTEM default
             //
             
-            if( policy.equals( CollectionPolicy.SYSTEM ) || policy.equals( CollectionPolicy.SOFT ) )
+            if( policy.equals( CollectionPolicy.SYSTEM ) )
+            {
+                if( null == m_parent ) 
+                {
+                    return new HardReference( object );
+                }
+                else
+                {
+                    return new SoftReference( object );
+                }
+            }
+            else if( policy.equals( CollectionPolicy.SOFT ) )
             {
                 return new SoftReference( object );
             }

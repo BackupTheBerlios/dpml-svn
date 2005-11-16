@@ -93,16 +93,6 @@ public class ComponentHandler extends AbstractHandler
         m_component = m_controller.createComponent( context );
     }
 
-    //--------------------------------------------------------------------------
-    // Object
-    //--------------------------------------------------------------------------
-    
-    public void finalize() throws Throwable 
-    {
-        getLogger().info( "### FINALIZATION IN EXEC HANDLER: " + this );
-    }
-    
-    
     //------------------------------------------------------------------------------
     // Component
     //------------------------------------------------------------------------------
@@ -125,11 +115,9 @@ public class ComponentHandler extends AbstractHandler
     */
     public void activate() throws HandlerException, InvocationTargetException, RemoteException
     {
-        getLogger().info( "## activating" );
         m_component.activate();
         m_instance = m_component.getInstance();
         m_object = m_component.getInstance().getValue( false );
-        getLogger().info( "## activated: " + m_object );
 }
     
    /**
@@ -161,7 +149,6 @@ public class ComponentHandler extends AbstractHandler
     */
     public void deactivate() throws RemoteException
     {
-        getLogger().info( "## deactivate requested" );
         m_component.deactivate();
     }
     
