@@ -121,11 +121,6 @@ public class PartContentHandler // extends ContentHandler
     }
     */
     
-    public PartEditor getPartEditor( Part part ) throws Exception
-    {
-        return getController().loadPartEditor( part );
-    }
-
    /**
     * Return the working part handler.
     * @return the part handler

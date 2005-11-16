@@ -48,28 +48,25 @@ import net.dpml.component.info.InfoDescriptor;
 import net.dpml.component.info.Type;
 import net.dpml.component.model.ComponentModel;
 
-import net.dpml.component.control.ClassLoaderManager;
 import net.dpml.component.control.ControllerContext;
 import net.dpml.component.control.ControllerException;
 import net.dpml.component.control.ControllerRuntimeException;
-import net.dpml.component.control.Disposable;
-import net.dpml.component.control.LifecycleException;
-import net.dpml.component.control.UnsupportedPartTypeException;
 
 import net.dpml.composition.ComponentController;
 
+import net.dpml.part.LifecycleException;
+import net.dpml.part.UnsupportedPartTypeException;
 import net.dpml.part.Context;
 import net.dpml.part.Component;
 import net.dpml.part.ComponentException;
 import net.dpml.part.Controller;
+import net.dpml.part.Disposable;
 import net.dpml.part.DelegationException;
 import net.dpml.part.Part;
 import net.dpml.part.PartException;
 import net.dpml.part.PartHandlerNotFoundException;
 import net.dpml.part.PartNotFoundException;
 import net.dpml.part.PartHolder;
-import net.dpml.part.PartEditor;
-import net.dpml.part.PartEditorFactory;
 import net.dpml.part.PartRuntimeException;
 import net.dpml.part.DelegationException;
 
@@ -88,7 +85,7 @@ import net.dpml.transit.model.Value;
  * @author <a href="mailto:dev-dpml@lists.ibiblio.org">The Digital Product Meta Library</a>
  * @version $Revision: 1.2 $ $Date: 2004/03/17 10:30:09 $
  */
-public class CompositionController implements ClassLoaderManager, Controller
+public class CompositionController implements Controller
 {
     //--------------------------------------------------------------------
     // state
@@ -100,8 +97,6 @@ public class CompositionController implements ClassLoaderManager, Controller
     private final WeakHashMap m_handlers = new WeakHashMap(); // foreign controllers
     private final Repository m_loader;
     
-    private PartEditorFactory m_editorFactory;
-
     //--------------------------------------------------------------------
     // constructor
     //--------------------------------------------------------------------
@@ -125,7 +120,7 @@ public class CompositionController implements ClassLoaderManager, Controller
     }
     
     //--------------------------------------------------------------------
-    // ClassLoaderManager
+    // Controller
     //--------------------------------------------------------------------
     
    /**
@@ -135,11 +130,11 @@ public class CompositionController implements ClassLoaderManager, Controller
     * @param anchor the anchor classloader
     * @param part a component part 
     */
-    public ClassLoader createClassLoader( ClassLoader anchor, Part part ) throws PartException
+    public ClassLoader createClassLoader( ClassLoader anchor, Context context ) throws PartException
     {
-        if( part instanceof ComponentDirective )
+        if( context instanceof ComponentDirective )
         {
-            ComponentDirective directive = (ComponentDirective) part;
+            ComponentDirective directive = (ComponentDirective) context;
             return m_controller.createClassLoader( anchor, directive );
         }
         else
@@ -149,16 +144,12 @@ public class CompositionController implements ClassLoaderManager, Controller
             //
             
             final String error =
-              "Construction of a classloader from the part class ["
-              + part.getClass().getName() 
+              "Construction of a classloader from the context class ["
+              + context.getClass().getName() 
               + "] is not supported.";
             throw new ControllerException( CONTROLLER_URI, error );
         }
     }
-    
-    //--------------------------------------------------------------------
-    // Controller
-    //--------------------------------------------------------------------
     
    /**
     * Returns the uri of this handler.
@@ -166,7 +157,7 @@ public class CompositionController implements ClassLoaderManager, Controller
     */
     public URI getURI()
     {
-        return PART_HANDLER_URI;
+        return CONTROLLER_URI;
     }
     
    /**
@@ -285,52 +276,6 @@ public class CompositionController implements ClassLoaderManager, Controller
         }
     }
     
-   /**
-    * Load a part editor.
-    * @param part the part 
-    * @return the editor
-    */
-    public PartEditor loadPartEditor( Part part ) throws PartException
-    {
-        URI uri = part.getPartHandlerURI();
-        if( !getURI().equals( uri ) )
-        {
-            Controller handler = resolveController( uri );
-            return handler.loadPartEditor( part );
-        }
-        else
-        {
-            PartEditorFactory factory = getPartEditorFactory();
-            return factory.getPartEditor( part );
-        }
-    }
-    
-    private PartEditorFactory getPartEditorFactory()
-    {
-        if( null == m_editorFactory )
-        {
-            m_editorFactory = buildPartEditorFactory();
-        }
-        return m_editorFactory;
-    }
-    
-    private PartEditorFactory buildPartEditorFactory()
-    {
-        try
-        {
-            ClassLoader classloader = getClass().getClassLoader();
-            URI uri = new URI( "@PART-EDITOR-FACTORY-URI@" );
-            Repository repository = Transit.getInstance().getRepository();
-            return (PartEditorFactory) repository.getPlugin( classloader, uri, new Object[]{m_logger} );
-        }
-        catch( Throwable e )
-        {
-            final String error =
-              "Internal error while attempting to establish the composition part editor factory.";
-            throw new PartRuntimeException( error, e );
-        }
-    }
-
    /**
     * Load a part handler given a handler uri.
     * @return the part handler
@@ -487,7 +432,6 @@ public class CompositionController implements ClassLoaderManager, Controller
 
     static final URI CONTROLLER_URI = createStaticURI( "@PART-HANDLER-URI@" );
     static final URI ROOT_URI = createStaticURI( "metro:/" );
-    private static final URI PART_HANDLER_URI = createStaticURI( "@PART-HANDLER-URI@" );
 
     private static URI createStaticURI( String path )
     {

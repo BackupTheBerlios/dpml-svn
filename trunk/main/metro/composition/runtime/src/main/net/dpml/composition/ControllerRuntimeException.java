@@ -16,11 +16,12 @@
  * limitations under the License.
  */
 
-package net.dpml.component.control;
+package net.dpml.composition;
 
 import java.net.URI;
+import java.net.URISyntaxException;
 
-import net.dpml.part.PartRuntimeException;
+import net.dpml.part.ControlRuntimeException;
 
 /**
  * Exception indicating an unexpected controller related runtime error.  A controller 
@@ -30,24 +31,12 @@ import net.dpml.part.PartRuntimeException;
  * @author <a href="mailto:dev-dpml@lists.ibiblio.org">The Digital Product Meta Library</a>
  * @version $Revision: 1.2 $ $Date: 2004/03/17 10:30:09 $
  */
-public class ControllerRuntimeException extends PartRuntimeException 
+public class ControllerRuntimeException extends ControlRuntimeException 
 {
    /**
     * Serial version identifier.
     */
     static final long serialVersionUID = 1L;
-
-    private final URI m_uri;
-
-   /**
-    * Creation of a new ControllerRuntimeException.
-    *
-    * @param controller the uri identifying the controller iniating the exception
-    */
-    public ControllerRuntimeException( URI controller )
-    {
-        this( controller, null );
-    }
 
    /**
     * Creation of a new ControllerRuntimeException.
@@ -55,9 +44,9 @@ public class ControllerRuntimeException extends PartRuntimeException
     * @param controller the uri identifying the controller iniating the exception
     * @param message the description of the exception 
     */
-    public ControllerRuntimeException( URI controller, String message )
+    public ControllerRuntimeException( String message )
     {
-        this( controller, message, null );
+        this( message, null );
     }
 
    /**
@@ -67,19 +56,24 @@ public class ControllerRuntimeException extends PartRuntimeException
     * @param message the description of the exception 
     * @param cause the causal exception
     */
-    public ControllerRuntimeException( URI controller, String message, Throwable cause )
+    public ControllerRuntimeException( String message, Throwable cause )
     {
-        super( message, cause );
-        m_uri = controller;
+        super( CONTROLLER_URI, message, cause );
     }
 
-   /**
-    * Return the uri of the controller initiating this exception.
-    * @return the controller uri
-    */
-    public URI getControlURI()
+    private static final URI CONTROLLER_URI = createControllerURI();
+    
+    private static URI createControllerURI()
     {
-        return m_uri;
+        try
+        {
+            return new URI( "@PART-HANDLER-URI@" );
+        }
+        catch( URISyntaxException e )
+        {
+            return null;
+        }
     }
+    
 }
 

@@ -29,21 +29,21 @@ import java.rmi.server.UnicastRemoteObject;
 
 import junit.framework.TestCase;
 
+import net.dpml.component.data.ValueDirective;
+import net.dpml.component.model.ComponentModel;
+import net.dpml.component.model.ContextModel;
+
 import net.dpml.part.Part;
 import net.dpml.part.Controller;
 import net.dpml.part.Component;
 import net.dpml.part.ActivationPolicy;
 import net.dpml.part.Instance;
+import net.dpml.part.Disposable;
 
 import net.dpml.state.State;
 import net.dpml.state.StateListener;
 import net.dpml.state.StateEvent;
 import net.dpml.state.impl.DefaultStateListener;
-
-import net.dpml.component.data.ValueDirective;
-import net.dpml.component.model.ComponentModel;
-import net.dpml.component.model.ContextModel;
-import net.dpml.component.control.Disposable;
 
 import net.dpml.transit.model.UnknownKeyException;
 import net.dpml.transit.model.Value;

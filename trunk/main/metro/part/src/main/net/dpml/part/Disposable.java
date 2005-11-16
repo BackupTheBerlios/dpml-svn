@@ -16,8 +16,7 @@
  * limitations under the License.
  */
 
-package net.dpml.component.control;
-
+package net.dpml.part;
 
 /**
  * Common interface implemented by disposable objects.

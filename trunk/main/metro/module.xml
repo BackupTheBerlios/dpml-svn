@@ -53,6 +53,7 @@
     </dependencies>
   </project>
          
+  <!--
   <project name="dpml-composition-editor" basedir="composition/editor">
     <types>
       <type id="jar"/>
@@ -66,7 +67,8 @@
       <include ref="jgoodies/forms" tag="private"/>
     </dependencies>
   </project>
-   
+  -->
+
   <project name="dpml-composition-runtime" basedir="composition/runtime">
     <types>
       <type id="jar"/>

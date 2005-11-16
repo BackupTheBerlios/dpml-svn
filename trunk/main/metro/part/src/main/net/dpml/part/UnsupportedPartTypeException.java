@@ -18,14 +18,34 @@
 
 package net.dpml.part;
 
+import java.net.URI;
+
 /**
- * Interface for part editor factories.  A edit factory is responsible for 
- * the construction of a part editor for a supplied part instance.
+ * Exception thrown when an strategy handler attempts to handle an 
+ * incompatible type.
  *
  * @author <a href="mailto:dev-dpml@lists.ibiblio.org">The Digital Product Meta Library</a>
  * @version $Revision: 1.2 $ $Date: 2004/03/17 10:30:09 $
  */
-public interface PartEditorFactory
+public class UnsupportedPartTypeException extends ControlRuntimeException 
 {
-    PartEditor getPartEditor( Part part );
+   /**
+    * Serial version identifier.
+    */
+    static final long serialVersionUID = 1L;
+
+    private String m_type;
+
+    public UnsupportedPartTypeException( URI uri, String classname, String message )
+    {
+        super( uri, message );
+        m_type = classname;
+    }
+
+    public String getPartTypeClassname()
+    {
+        return m_type;
+    }
 }
+
+

@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package net.dpml.component.control;
+package net.dpml.part;
 
 /**
  * Exception to indicate that there was a lifecycle related error.
@@ -24,7 +24,7 @@ package net.dpml.component.control;
  * @author <a href="mailto:dev-dpml@lists.ibiblio.org">The Digital Product Meta Library</a>
  * @version $Id: LifecycleException.java 259 2004-10-30 07:24:40Z mcconnell $
  */
-public class LifecycleException extends Exception
+public class LifecycleException extends ComponentException
 {
    /**
     * Serial version identifier.

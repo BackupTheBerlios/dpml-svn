@@ -59,7 +59,6 @@ import net.dpml.parameters.Parameters;
 import net.dpml.part.Component;
 import net.dpml.part.Context;
 import net.dpml.part.ControlException;
-import net.dpml.part.ControlRuntimeException;
 import net.dpml.part.Component;
 import net.dpml.part.HandlerException;
 import net.dpml.part.PartException;
@@ -157,7 +156,7 @@ class ComponentController
         {
             final String error = 
               "Creation of a new component model failed due to an remote exception.";
-            throw new ControlRuntimeException( error, e );
+            throw new ControllerRuntimeException( error, e );
         }
     }
 
@@ -195,7 +194,7 @@ class ComponentController
         {
             final String error = 
               "Creation of a new component handler failed due to an remote exception.";
-            throw new ControlRuntimeException( error, e );
+            throw new ControllerRuntimeException( error, e );
         }
     }
     

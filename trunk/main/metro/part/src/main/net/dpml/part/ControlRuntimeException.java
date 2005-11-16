@@ -18,6 +18,8 @@
 
 package net.dpml.part;
 
+import java.net.URI;
+
 /**
  * Runtime exception thrown by a control.
  *
@@ -30,15 +32,23 @@ public class ControlRuntimeException extends RuntimeException
     * Serial version identifier.
     */
     static final long serialVersionUID = 1L;
+    
+    private final URI m_uri;
 
-    public ControlRuntimeException( String message )
+    public ControlRuntimeException( URI uri, String message )
     {
-        super( message );
+        this( uri, message, null );
     }
 
-    public ControlRuntimeException( String message, Throwable cause )
+    public ControlRuntimeException( URI uri, String message, Throwable cause )
     {
         super( message, cause );
+        m_uri = uri;
+    }
+    
+    public URI getControllerURI()
+    {
+        return m_uri;
     }
 
 }

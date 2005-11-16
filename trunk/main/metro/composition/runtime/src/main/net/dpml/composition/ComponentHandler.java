@@ -39,14 +39,13 @@ import net.dpml.component.info.LifestylePolicy;
 import net.dpml.component.info.CollectionPolicy;
 import net.dpml.component.info.ServiceDescriptor;
 import net.dpml.component.model.ComponentModel;
-import net.dpml.component.control.Disposable;
 
 import net.dpml.logging.Logger;
 
 import net.dpml.part.ActivationPolicy;
 import net.dpml.part.Component;
 import net.dpml.part.ControlException;
-import net.dpml.part.ControlRuntimeException;
+import net.dpml.part.Disposable;
 import net.dpml.part.HandlerException;
 import net.dpml.part.HandlerRuntimeException;
 import net.dpml.part.Instance;
@@ -201,7 +200,7 @@ public class ComponentHandler extends UnicastEventSource implements Component, D
             final String error = 
               "Internal error while attempting to construct the component uri using the path [" 
               + m_path + "]";
-            throw new ControlRuntimeException( error, e );
+            throw new ControllerRuntimeException( error, e );
         }
         
         String name = model.getName();
@@ -256,7 +255,7 @@ public class ComponentHandler extends UnicastEventSource implements Component, D
                   + "] in component ["
                   + m_path
                   + "]";
-                throw new ControlRuntimeException( error, e );
+                throw new ControllerRuntimeException( error, e );
             }
             catch( Exception e )
             {
@@ -266,7 +265,7 @@ public class ComponentHandler extends UnicastEventSource implements Component, D
                   + "] in component ["
                   + m_path
                   + "]";
-                throw new ControlRuntimeException( error, e );
+                throw new ControllerRuntimeException( error, e );
             }
         }
         

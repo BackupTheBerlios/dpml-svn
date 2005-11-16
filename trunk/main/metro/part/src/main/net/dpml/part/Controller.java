@@ -51,17 +51,19 @@ public interface Controller
     Context createContext( Part part ) throws PartException;
 
    /**
+    * Create a classloader using the supplied anchor classloader and 
+    * component directive.
+    * 
+    * @param anchor the anchor classloader
+    * @param part a component part 
+    */
+    ClassLoader createClassLoader( ClassLoader anchor, Context part ) throws PartException;
+
+   /**
     * Create and return a remote reference to a component handler.
     * @return the component handler
     */
     Component createComponent( Context context ) throws Exception;
-
-   /**
-    * Load a part editor.
-    * @param part the part 
-    * @return the editor
-    */
-    PartEditor loadPartEditor( Part part ) throws PartException;
 
    /**
     * Load a part from serialized form.  The uri is assumed to be a uri that 
@@ -90,7 +92,4 @@ public interface Controller
     */
     Part loadPart( byte[] bytes ) throws IOException;
 
-    //Object getContent( URLConnection connection, Class[] classes ) throws IOException;
-    
-    //Value resolve( URI uri ) throws Exception;
 }
