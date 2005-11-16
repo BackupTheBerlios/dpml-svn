@@ -70,7 +70,7 @@
       <include key="dpml-http-impl"/>
     </dependencies>
     <dependencies scope="test">
-      <include ref="dpml/metro/dpml-component-control"/>
+      <include ref="dpml/metro/dpml-part-api"/>
       <include ref="ant/ant-junit"/>
     </dependencies>
   </project>

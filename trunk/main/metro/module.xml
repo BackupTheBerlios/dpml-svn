@@ -14,6 +14,9 @@
       </type>
       <type id="jar"/>
     </types>
+    <dependencies scope="build">
+      <include ref="dpml/metro/dpml-metro-runtime"/>
+    </dependencies>
     <dependencies>
       <include ref="dpml/util/dpml-state-api" tag="public"/>
       <include ref="dpml/transit/dpml-transit-main" tag="private"/>
@@ -82,10 +85,10 @@
     <dependencies>
       <include ref="dpml/util/dpml-logging-api" tag="public"/>
       <include ref="dpml/util/dpml-activity-api" tag="public"/>
-      <include key="dpml-part-api" tag="protected"/>
       <include ref="dpml/util/dpml-parameters-impl"/>
       <include ref="dpml/util/dpml-configuration-impl"/>
       <include ref="dpml/util/dpml-state-impl"/>
+      <include key="dpml-part-api" tag="protected"/>
     </dependencies>
   </project>
    

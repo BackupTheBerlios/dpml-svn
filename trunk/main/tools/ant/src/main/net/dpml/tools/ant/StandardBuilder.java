@@ -102,6 +102,8 @@ public class StandardBuilder implements Builder
     */
     public boolean build( Resource resource, String[] targets )
     {
+        String path = resource.getResourcePath();
+        getLogger().info( "building: " + path );
         Project project = createProject( resource );
         File template = getTemplateFile( resource );
         return build( project, template, targets );
@@ -127,7 +129,7 @@ public class StandardBuilder implements Builder
                 File file = new File( basedir, buildfile );
                 if( file.exists() )
                 {
-                    getLogger().debug( "Assigning explicit buildfile: " + file );
+                    getLogger().info( "Assigning buildfile: " + file );
                     return file;
                 }
                 else
@@ -147,7 +149,7 @@ public class StandardBuilder implements Builder
                 File file = new File( basedir, defaultBuildfile );
                 if( file.exists() )
                 {
-                    getLogger().debug( "Assigning project buildfile: " + file );
+                    getLogger().info( "Assigning project buildfile: " + file );
                     return file;
                 }
             }
@@ -161,7 +163,7 @@ public class StandardBuilder implements Builder
                 
             if( null != templateSpec )
             {
-                getLogger().debug( "Assigning project template: " + templateSpec );
+                getLogger().info( "Assigning project template: " + templateSpec );
                 File template = getTemplateFile( templateSpec );
                 return template;
             }
