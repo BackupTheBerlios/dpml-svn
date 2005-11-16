@@ -17,7 +17,7 @@
   limitations under the License.
 -->
 
-<project name="dpml-composition-test" default="install"
+<project name="dpml-metro-test" default="install"
     xmlns:transit="antlib:net.dpml.transit" 
     xmlns:x="dpml:tools" 
     xmlns:c="dpml:composition" >
@@ -26,7 +26,7 @@
 
   <target name="build" depends="standard.build">
 
-    <x:plugin uri="link:plugin:dpml/metro/dpml-composition-tools"/>
+    <x:plugin uri="link:plugin:dpml/metro/dpml-metro-tools"/>
 
     <!-- create the test component types -->
 

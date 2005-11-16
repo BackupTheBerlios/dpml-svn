@@ -208,7 +208,7 @@ Selection: [33]
   [14]  project:dpml/metro/dpml-component-control
   [15]  project:dpml/metro/dpml-composition-editor
   [16]  project:dpml/metro/dpml-composition-runtime
-  [17]  project:dpml/metro/dpml-composition-tools
+  [17]  project:dpml/metro/dpml-metro-tools
   [18]  project:dpml/metro/dpml-composition-test
   [19]  module:dpml/metro
   [20]  project:dpml/depot/dpml-depot-console
@@ -291,7 +291,7 @@ Listing consumers of project: dpml/metro/dpml-state-impl
   [2]   project:dpml/metro/dpml-component-control
   [3]   project:dpml/metro/dpml-composition-editor
   [4]   project:dpml/metro/dpml-composition-runtime
-  [5]   project:dpml/metro/dpml-composition-tools
+  [5]   project:dpml/metro/dpml-metro-tools
   [6]   project:dpml/metro/dpml-composition-test
   [7]   module:dpml/metro
   [8]   module:dpml/depot

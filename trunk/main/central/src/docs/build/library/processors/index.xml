@@ -86,7 +86,7 @@
 <library>
 
   <processors>
-    <processor name="part" uri="link:plugin:dpml/metro/dpml-composition-tools"/>
+    <processor name="part" uri="link:plugin:dpml/metro/dpml-metro-tools"/>
   </processors>
 
   ...
@@ -96,7 +96,7 @@
 
         <p>
         The above example associates the codebase uri 
-        <tt>link:plugin:dpml/metro/dpml-composition-tools</tt> with the type 
+        <tt>link:plugin:dpml/metro/dpml-metro-tools</tt> with the type 
         name <tt>part</tt>.  If a project declares that it produces a type 
         'part' it is the reponsibility of a build system implementation to 
         handle the production of an artifact of that type.  The default build

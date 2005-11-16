@@ -238,7 +238,7 @@
        </dependencies>
      </project>
 
-     <project name="dpml-composition-tools" basedir="composition/tools">
+     <project name="dpml-metro-tools" basedir="composition/tools">
        <properties>
          <property name="project.template" value="${basedir}/build.xml"/>
        </properties>
@@ -270,7 +270,7 @@
          <include key="dpml-logging-api"/>
        </dependencies>
        <dependencies scope="test">
-         <include key="dpml-composition-tools"/>
+         <include key="dpml-metro-tools"/>
        </dependencies>
      </project>
 
