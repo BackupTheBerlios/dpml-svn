@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package net.dpml.composition.tools;
+package net.dpml.metro.runtime.tools;
 
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Location;

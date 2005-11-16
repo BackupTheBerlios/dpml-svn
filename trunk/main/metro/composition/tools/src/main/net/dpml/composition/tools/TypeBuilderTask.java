@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package net.dpml.composition.tools;
+package net.dpml.metro.runtime.tools;
 
 import java.beans.IntrospectionException;
 import java.io.IOException;
@@ -39,18 +39,18 @@ import java.util.Properties;
 import net.dpml.activity.Startable;
 import net.dpml.activity.Executable;
 
-import net.dpml.composition.tools.datatypes.PartsDataType;
+import net.dpml.metro.runtime.tools.datatypes.PartsDataType;
 
-import net.dpml.component.info.CategoryDescriptor;
-import net.dpml.component.info.ContextDescriptor;
-import net.dpml.component.info.InfoDescriptor;
-import net.dpml.component.info.LifestylePolicy;
-import net.dpml.component.info.CollectionPolicy;
-import net.dpml.component.info.Type;
-import net.dpml.component.info.EncodingException;
-import net.dpml.component.info.PartReference;
-import net.dpml.component.info.EntryDescriptor;
-import net.dpml.component.info.ServiceDescriptor;
+import net.dpml.metro.info.CategoryDescriptor;
+import net.dpml.metro.info.ContextDescriptor;
+import net.dpml.metro.info.InfoDescriptor;
+import net.dpml.metro.info.LifestylePolicy;
+import net.dpml.metro.info.CollectionPolicy;
+import net.dpml.metro.info.Type;
+import net.dpml.metro.info.EncodingException;
+import net.dpml.metro.info.PartReference;
+import net.dpml.metro.info.EntryDescriptor;
+import net.dpml.metro.info.ServiceDescriptor;
 
 import net.dpml.configuration.Configuration;
 import net.dpml.configuration.impl.DefaultConfigurationBuilder;

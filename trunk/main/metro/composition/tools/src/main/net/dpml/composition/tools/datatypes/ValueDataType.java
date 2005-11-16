@@ -16,12 +16,12 @@
  * limitations under the License.
  */
 
-package net.dpml.composition.tools.datatypes;
+package net.dpml.metro.runtime.tools.datatypes;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import net.dpml.component.data.ValueDirective;
+import net.dpml.metro.data.ValueDirective;
 
 import net.dpml.transit.model.Construct;
 

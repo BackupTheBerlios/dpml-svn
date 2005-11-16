@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package net.dpml.composition.tools;
+package net.dpml.metro.runtime.tools;
 
 import java.beans.IntrospectionException;
 import java.io.ByteArrayInputStream;
@@ -31,24 +31,24 @@ import java.net.URL;
 import java.util.List;
 import java.util.ArrayList;
 
-import net.dpml.composition.tools.datatypes.CategoriesDataType;
-import net.dpml.composition.tools.datatypes.ConfigurationDataType;
-import net.dpml.composition.tools.datatypes.ContextDataType;
-import net.dpml.composition.tools.datatypes.ParametersDataType;
-import net.dpml.composition.tools.datatypes.PartsDataType;
-import net.dpml.composition.CompositionController;
-import net.dpml.composition.CompositionContext;
+import net.dpml.metro.runtime.tools.datatypes.CategoriesDataType;
+import net.dpml.metro.runtime.tools.datatypes.ConfigurationDataType;
+import net.dpml.metro.runtime.tools.datatypes.ContextDataType;
+import net.dpml.metro.runtime.tools.datatypes.ParametersDataType;
+import net.dpml.metro.runtime.tools.datatypes.PartsDataType;
+import net.dpml.metro.runtime.CompositionController;
+import net.dpml.metro.runtime.CompositionContext;
 
-import net.dpml.component.data.ClassLoaderDirective;
-import net.dpml.component.data.ClasspathDirective;
-import net.dpml.component.data.ComponentDirective;
-import net.dpml.component.data.ContextDirective;
-import net.dpml.component.data.CategoriesDirective;
-import net.dpml.component.info.EntryDescriptor;
-import net.dpml.component.info.InfoDescriptor;
-import net.dpml.component.info.Type;
-import net.dpml.component.info.PartReference;
-import net.dpml.component.control.ControllerContext;
+import net.dpml.metro.data.ClassLoaderDirective;
+import net.dpml.metro.data.ClasspathDirective;
+import net.dpml.metro.data.ComponentDirective;
+import net.dpml.metro.data.ContextDirective;
+import net.dpml.metro.data.CategoriesDirective;
+import net.dpml.metro.info.EntryDescriptor;
+import net.dpml.metro.info.InfoDescriptor;
+import net.dpml.metro.info.Type;
+import net.dpml.metro.info.PartReference;
+import net.dpml.part.ControllerContext;
 
 import net.dpml.configuration.Configuration;
 

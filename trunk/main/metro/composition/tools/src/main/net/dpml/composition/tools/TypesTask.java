@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package net.dpml.composition.tools;
+package net.dpml.metro.runtime.tools;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -29,7 +29,7 @@ import java.beans.IntrospectionException;
 import net.dpml.tools.tasks.GenericTask;
 import net.dpml.tools.info.Scope;
 
-import net.dpml.component.info.Type;
+import net.dpml.metro.info.Type;
 
 import org.apache.tools.ant.AntClassLoader;
 import org.apache.tools.ant.BuildException;

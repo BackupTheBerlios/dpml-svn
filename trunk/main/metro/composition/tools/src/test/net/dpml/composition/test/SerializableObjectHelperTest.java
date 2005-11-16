@@ -15,7 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package net.dpml.composition.test;
+package net.dpml.metro.runtime.test;
 
 import java.io.File;
 import java.io.FileReader;
@@ -23,9 +23,9 @@ import java.io.FileWriter;
 
 import junit.framework.TestCase;
 
-import net.dpml.composition.tools.SerializableObjectHelper;
+import net.dpml.metro.runtime.tools.SerializableObjectHelper;
 
-import net.dpml.component.data.ComponentDirective;
+import net.dpml.metro.data.ComponentDirective;
 
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.DomDriver;

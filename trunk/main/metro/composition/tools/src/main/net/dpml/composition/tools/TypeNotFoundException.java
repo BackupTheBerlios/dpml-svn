@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package net.dpml.composition.tools;
+package net.dpml.metro.runtime.tools;
 
 /**
  * Exception thrown when an attempt is made to reference an unknown catalog entry.

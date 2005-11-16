@@ -16,13 +16,13 @@
  * limitations under the License.
  */
 
-package net.dpml.composition.tools.datatypes;
+package net.dpml.metro.runtime.tools.datatypes;
 
 import java.util.List;
 import java.util.LinkedList;
 
-import net.dpml.component.data.CategoryDirective;
-import net.dpml.component.data.CategoriesDirective;
+import net.dpml.metro.data.CategoryDirective;
+import net.dpml.metro.data.CategoriesDirective;
 
 /**
  * Build datatype used to construct a categories descriptor.

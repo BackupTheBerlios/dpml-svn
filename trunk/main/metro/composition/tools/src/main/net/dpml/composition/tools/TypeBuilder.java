@@ -17,13 +17,13 @@
  * limitations under the License.
  */
 
-package net.dpml.composition.tools;
+package net.dpml.metro.runtime.tools;
 
 import java.io.IOException;
 import java.net.URI;
 import java.beans.IntrospectionException;
 
-import net.dpml.component.info.Type;
+import net.dpml.metro.info.Type;
 
 /**
  * The contract for builders that create component types.
