@@ -19,7 +19,7 @@
 
 <source><![CDATA[
   <target name="package" depends="standard.package">
-    <x:export class="net.dpml.composition.CompositionController"/>
+    <x:export class="net.dpml.metro.runtime.CompositionController"/>
   </target>
 ]]></source>
 <pre>package:
@@ -48,7 +48,7 @@ dpml.artifact.signature = 20050721.141035
 #
 # Type.
 #
-dpml.plugin.class = net.dpml.composition.CompositionController
+dpml.plugin.class = net.dpml.metro.runtime.CompositionController
 
 #
 # API dependencies.

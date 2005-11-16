@@ -208,7 +208,7 @@
          <type id="jar"/>
          <type id="plugin">
          <property name="project.plugin.class" 
-            value="net.dpml.composition.edit.CompositionEditorFactory"/>
+            value="net.dpml.metro.runtime.edit.CompositionEditorFactory"/>
          </type>
        </types>
        <dependencies>
@@ -225,7 +225,7 @@
          <type id="jar"/>
          <type id="plugin">
            <property name="project.plugin.class" 
-              value="net.dpml.composition.CompositionController"/>
+              value="net.dpml.metro.runtime.CompositionController"/>
          </type>
        </types>
        <dependencies>

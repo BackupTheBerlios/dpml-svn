@@ -23,7 +23,7 @@
     </dependencies>
   </project>
    
-  <project name="dpml-component-model" basedir="component/model">
+  <project name="dpml-metro-model" basedir="component/model">
     <types>
       <type id="jar"/>
     </types>
@@ -41,6 +41,7 @@
     </dependencies>
   </project>
    
+  <!--
   <project name="dpml-component-control" basedir="component/control">
     <types>
       <type id="jar"/>
@@ -52,14 +53,15 @@
       <include ref="ant/ant-junit"/>
     </dependencies>
   </project>
-         
+  -->
+   
   <!--
   <project name="dpml-composition-editor" basedir="composition/editor">
     <types>
       <type id="jar"/>
       <type id="plugin">
         <property name="project.plugin.class" 
-          value="net.dpml.composition.edit.CompositionEditorFactory"/>
+          value="net.dpml.metro.runtime.edit.CompositionEditorFactory"/>
       </type>
     </types>
     <dependencies>
@@ -69,30 +71,30 @@
   </project>
   -->
 
-  <project name="dpml-composition-runtime" basedir="composition/runtime">
+  <project name="dpml-metro-runtime" basedir="composition/runtime">
     <types>
       <type id="jar"/>
       <type id="plugin">
         <property name="project.plugin.class" 
-           value="net.dpml.composition.CompositionController"/>
+           value="net.dpml.metro.runtime.CompositionController"/>
       </type>
     </types>
     <dependencies>
       <include ref="dpml/util/dpml-logging-api" tag="public"/>
       <include ref="dpml/util/dpml-activity-api" tag="public"/>
-      <include key="dpml-component-control" tag="protected"/>
+      <include key="dpml-part-api" tag="protected"/>
       <include ref="dpml/util/dpml-parameters-impl"/>
       <include ref="dpml/util/dpml-configuration-impl"/>
       <include ref="dpml/util/dpml-state-impl"/>
     </dependencies>
   </project>
    
-  <project name="dpml-composition-tools" basedir="composition/tools">
+  <project name="dpml-metro-tools" basedir="composition/tools">
     <types>
       <type id="jar"/>
       <type id="plugin" alias="true">
         <property name="project.plugin.resource" 
-          value="net/dpml/composition/tools/antlib.xml"/>
+          value="net/dpml/metro/tools/antlib.xml"/>
         <property name="project.plugin.urn" 
           value="dpml:composition"/>
       </type>
@@ -100,12 +102,12 @@
     <dependencies>
       <include ref="dpml/tools/dpml-tools-ant"/>
       <include ref="dpml/transit/dpml-transit-tools"/>
-      <include key="dpml-composition-runtime"/>
+      <include key="dpml-metro-runtime"/>
       <include urn="artifact:jar:xstream/xstream#1.1"/>
     </dependencies>
   </project>
 
-  <project name="dpml-composition-test" basedir="composition/test">
+  <project name="dpml-metro-test" basedir="composition/test">
     <types>
       <type id="jar"/>
     </types>
@@ -113,7 +115,7 @@
       <include ref="dpml/util/dpml-logging-api"/>
     </dependencies>
     <dependencies scope="test">
-      <include key="dpml-composition-tools"/>
+      <include key="dpml-metro-tools"/>
     </dependencies>
   </project>
    
