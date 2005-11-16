@@ -48,7 +48,6 @@ import net.dpml.component.data.ClassLoaderDirective;
 import net.dpml.component.data.ComponentDirective;
 import net.dpml.component.model.ComponentModel;
 import net.dpml.component.model.ContextModel;
-import net.dpml.component.runtime.Component;
 
 import net.dpml.configuration.Configuration;
 
@@ -56,10 +55,11 @@ import net.dpml.logging.Logger;
 
 import net.dpml.parameters.Parameters;
 
+import net.dpml.part.Component;
 import net.dpml.part.Context;
 import net.dpml.part.ControlException;
 import net.dpml.part.ControlRuntimeException;
-import net.dpml.part.Handler;
+import net.dpml.part.Component;
 import net.dpml.part.HandlerException;
 import net.dpml.part.PartException;
 import net.dpml.part.Service;
@@ -727,15 +727,14 @@ public class ComponentController
     private Object executeLookup( ComponentHandler handler, DefaultService service ) 
       throws Exception
     {
-        Handler parent = handler.getParentHandler();
-        if( ( null != parent ) && ( parent instanceof Component ) )
+        Component parent = handler.getParentHandler();
+        if( null != parent )
         {
-            Component component = (Component) parent;
             try
             {
-                Handler h = component.lookup( service );
-                h.activate();
-                return h.getInstance().getValue( false );
+                Component component = parent.lookup( service );
+                component.activate();
+                return component.getInstance().getValue( false );
             }
             catch( RemoteException e )
             {

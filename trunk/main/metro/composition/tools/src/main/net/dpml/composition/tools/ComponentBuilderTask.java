@@ -53,7 +53,6 @@ import net.dpml.component.info.PartReference;
 import net.dpml.component.info.Type;
 import net.dpml.component.info.EntryDescriptor;
 import net.dpml.component.control.ControllerContext;
-import net.dpml.component.runtime.Component;
 
 import net.dpml.configuration.Configuration;
 
@@ -63,6 +62,7 @@ import net.dpml.parameters.impl.DefaultParameters;
 import net.dpml.part.Part;
 import net.dpml.part.PartHolder;
 import net.dpml.part.ActivationPolicy;
+import net.dpml.part.Component;
 
 import net.dpml.transit.Logger;
 import net.dpml.transit.model.ContentModel;

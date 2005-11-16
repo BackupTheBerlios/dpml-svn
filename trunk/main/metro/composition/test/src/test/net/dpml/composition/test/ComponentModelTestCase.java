@@ -25,7 +25,7 @@ import java.net.URL;
 import junit.framework.TestCase;
 
 import net.dpml.part.Part;
-import net.dpml.part.PartHandler;
+import net.dpml.part.Controller;
 
 import net.dpml.state.State;
 import net.dpml.part.ActivationPolicy;
@@ -56,9 +56,9 @@ public class ComponentModelTestCase extends TestCase
         final String path = "example.part";
         final File test = new File( System.getProperty( "project.test.dir" ) );
         final URL url = new File( test, path ).toURL();
-        final PartHandler handler = Part.DEFAULT_HANDLER;
-        m_part = handler.loadPart( url );
-        m_model = (ComponentModel) handler.createContext( m_part );
+        final Controller controller = Part.CONTROLLER;
+        m_part = controller.loadPart( url );
+        m_model = (ComponentModel) controller.createContext( m_part );
     }
     
     public void testName() throws Exception

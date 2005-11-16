@@ -24,16 +24,16 @@ import java.rmi.server.UnicastRemoteObject;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 
-import net.dpml.component.control.Controller;
-
 import net.dpml.station.ApplicationException;
 
-import net.dpml.part.Handler;
+import net.dpml.part.Controller;
+import net.dpml.part.Component;
 import net.dpml.part.HandlerException;
 import net.dpml.part.Instance;
 import net.dpml.part.Context;
 import net.dpml.part.Part;
 import net.dpml.part.Service;
+import net.dpml.part.ServiceNotFoundException;
 
 import net.dpml.transit.Logger;
 import net.dpml.transit.Repository;
@@ -44,7 +44,7 @@ import net.dpml.transit.Transit;
  * controller and delegation of handler requests to the part handler
  * resolved from its associated controller.
  */
-public class PartHandler extends AbstractHandler
+public class ComponentHandler extends AbstractHandler
 {
     //------------------------------------------------------------------------------
     // immutable state
@@ -58,13 +58,13 @@ public class PartHandler extends AbstractHandler
     // state
     //------------------------------------------------------------------------------
     
-    private Handler m_handler;
+    private Component m_component;
     
     //------------------------------------------------------------------------------
     // constructor
     //------------------------------------------------------------------------------
     
-    public PartHandler( Logger logger, URI codebase ) throws Exception
+    public ComponentHandler( Logger logger, URI codebase ) throws Exception
     {
         super( logger );
         
@@ -88,12 +88,21 @@ public class PartHandler extends AbstractHandler
         
         Part part = m_controller.loadPart( codebase );
         Context context = m_controller.createContext( part );
-        m_handler = m_controller.createHandler( context );
+        m_component = m_controller.createComponent( context );
     }
     
     //------------------------------------------------------------------------------
-    // Handler
+    // Component
     //------------------------------------------------------------------------------
+    
+   /**
+    * Return a handler capable of supporting the requested service.
+    * @param descriptor the service descriptor
+    */
+    public Component lookup( Service service ) throws ServiceNotFoundException, RemoteException
+    {
+        return m_component.lookup( service );
+    }
     
    /**
     * Initiate activation of a runtime handler.
@@ -104,7 +113,7 @@ public class PartHandler extends AbstractHandler
     */
     public void activate() throws HandlerException, InvocationTargetException, RemoteException
     {
-        m_handler.activate();
+        m_component.activate();
     }
     
    /**
@@ -113,7 +122,7 @@ public class PartHandler extends AbstractHandler
     */
     public int size() throws RemoteException
     {
-        return m_handler.size();
+        return m_component.size();
     }
     
    /**
@@ -127,7 +136,7 @@ public class PartHandler extends AbstractHandler
     */
     public Instance getInstance() throws HandlerException, InvocationTargetException, RemoteException
     {
-        return m_handler.getInstance();
+        return m_component.getInstance();
     }
     
    /**
@@ -136,11 +145,11 @@ public class PartHandler extends AbstractHandler
     */
     public void deactivate() throws RemoteException
     {
-        m_handler.deactivate();
+        m_component.deactivate();
     }
     
     public boolean isaCandidate( Service service ) throws RemoteException
     {
-        return m_handler.isaCandidate( service );
+        return m_component.isaCandidate( service );
     }
 }

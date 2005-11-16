@@ -30,8 +30,8 @@ import java.rmi.server.UnicastRemoteObject;
 import junit.framework.TestCase;
 
 import net.dpml.part.Part;
-import net.dpml.part.PartHandler;
-import net.dpml.part.Handler;
+import net.dpml.part.Controller;
+import net.dpml.part.Component;
 import net.dpml.part.ActivationPolicy;
 import net.dpml.part.Instance;
 
@@ -58,7 +58,7 @@ public class InstanceTestCase extends TestCase
 {    
     private Part m_part;
     private ComponentModel m_model;
-    private PartHandler m_control;
+    private Controller m_control;
     private State m_state;
     
     public void setUp() throws Exception
@@ -66,27 +66,27 @@ public class InstanceTestCase extends TestCase
         final String path = "example.part";
         final File test = new File( System.getProperty( "project.test.dir" ) );
         final URL url = new File( test, path ).toURL();
-        m_control = Part.DEFAULT_HANDLER;
+        m_control = Part.CONTROLLER;
         m_part = m_control.loadPart( url );
         m_model = (ComponentModel) m_control.createContext( m_part );
     }
     
     public void testStateListenerAdditionAndRemoval() throws Exception
     {
-        Handler handler = m_control.createHandler( m_model );
-        handler.activate();
-        Instance instance = handler.getInstance();
+        Component component = m_control.createComponent( m_model );
+        component.activate();
+        Instance instance = component.getInstance();
         StateListener listener = new DefaultStateListener();
         instance.addStateListener( listener );
         instance.removeStateListener( listener );
-        handler.deactivate();
+        component.deactivate();
     }
     
     public void testNullListenerAddition() throws Exception
     {
-        Handler handler = m_control.createHandler( m_model );
-        handler.activate();
-        Instance instance = handler.getInstance();
+        Component component = m_control.createComponent( m_model );
+        component.activate();
+        Instance instance = component.getInstance();
         try
         {
             instance.addStateListener( null );
@@ -98,15 +98,15 @@ public class InstanceTestCase extends TestCase
         }
         finally
         {
-            handler.deactivate();
+            component.deactivate();
         }
     }
     
     public void testNullListenerRemoval() throws Exception
     {
-        Handler handler = m_control.createHandler( m_model );
-        handler.activate();
-        Instance instance = handler.getInstance();
+        Component component = m_control.createComponent( m_model );
+        component.activate();
+        Instance instance = component.getInstance();
         try
         {
             instance.removeStateListener( null );
@@ -118,15 +118,15 @@ public class InstanceTestCase extends TestCase
         }
         finally
         {
-            handler.deactivate();
+            component.deactivate();
         }
     }
 
     public void testUnknownListenerRemoval() throws Exception
     {
-        Handler handler = m_control.createHandler( m_model );
-        handler.activate();
-        Instance instance = handler.getInstance();
+        Component component = m_control.createComponent( m_model );
+        component.activate();
+        Instance instance = component.getInstance();
         try
         {
             StateListener listener = new DefaultStateListener();
@@ -139,13 +139,13 @@ public class InstanceTestCase extends TestCase
         }
         finally
         {
-            handler.deactivate();
+            component.deactivate();
         }
     }
     
     public void testActivationDeactivationCycle() throws Exception
     {
-        Handler handler = m_control.createHandler( m_model );
+        Component component = m_control.createComponent( m_model );
         DefaultStateListener listener = new DefaultStateListener();
         listener.addPropertyChangeListener( 
           new PropertyChangeListener()
@@ -157,22 +157,22 @@ public class InstanceTestCase extends TestCase
                 // TODO: some sort of validation procedure is needed here
             }
           } );
-        handler.activate();
-        assertTrue( "is-active", handler.isActive() );
-        Instance instance = handler.getInstance();
+        component.activate();
+        assertTrue( "is-active", component.isActive() );
+        Instance instance = component.getInstance();
         instance.addStateListener( listener );
         instance.removeStateListener( listener );
-        handler.deactivate();
-        assertFalse( "is-active-following-deactivation", handler.isActive() );
+        component.deactivate();
+        assertFalse( "is-active-following-deactivation", component.isActive() );
     }
 
     public void testValueInstantiationWithProxy() throws Exception
     {
-        Handler handler = m_control.createHandler( m_model );
-        handler.activate();
+        Component component = m_control.createComponent( m_model );
+        component.activate();
         try
         {
-            Instance instance = handler.getInstance();
+            Instance instance = component.getInstance();
             Object object = instance.getValue( true );
             assertTrue( "isa-proxy", Proxy.isProxyClass( object.getClass() ) );
             assertTrue( "isa-color-manager", ( object instanceof ColorManager ) );
@@ -180,17 +180,17 @@ public class InstanceTestCase extends TestCase
         }
         finally
         {
-            handler.deactivate();
+            component.deactivate();
         }
     }
 
     public void testValueInstantiationWithoutProxy() throws Exception
     {
-        Handler handler = m_control.createHandler( m_model );
-        handler.activate();
+        Component component = m_control.createComponent( m_model );
+        component.activate();
         try
         {
-            Instance instance = handler.getInstance();
+            Instance instance = component.getInstance();
             Object object = instance.getValue( false );
             assertFalse( "isa-proxy", Proxy.isProxyClass( object.getClass() ) );
             assertTrue( "isa-color-manager", ( object instanceof ColorManager ) );
@@ -198,17 +198,17 @@ public class InstanceTestCase extends TestCase
         }
         finally
         {
-            handler.deactivate();
+            component.deactivate();
         }
     }
     
     public void testContextMutation() throws Exception
     {
-        Handler handler = m_control.createHandler( m_model );
-        handler.activate();
+        Component component = m_control.createComponent( m_model );
+        component.activate();
         try
         {
-            Instance instance = handler.getInstance();
+            Instance instance = component.getInstance();
             ColorManager manager = (ColorManager) instance.getValue( true );
             Color color = manager.getColor();
             assertEquals( "initial-color", Color.RED, color );
@@ -219,7 +219,7 @@ public class InstanceTestCase extends TestCase
         }
         finally
         {
-            handler.deactivate();
+            component.deactivate();
         }
     }
 

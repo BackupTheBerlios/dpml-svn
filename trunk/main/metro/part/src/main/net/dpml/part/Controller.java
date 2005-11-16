@@ -33,8 +33,14 @@ import net.dpml.transit.model.Value;
  *
  * @author <a href="mailto:dev-dpml@lists.ibiblio.org">The Digital Product Meta Library</a>
  */
-public interface PartHandler
+public interface Controller
 {
+   /**
+    * Returns the identity of the object implementing this interface.
+    * @return a uri identifying the object
+    */
+    URI getURI(); //throws RemoteException;
+
    /**
     * Create and return a new management context using the supplied part
     * as the inital management state.
@@ -48,7 +54,7 @@ public interface PartHandler
     * Create and return a remote reference to a component handler.
     * @return the component handler
     */
-    Handler createHandler( Context context ) throws Exception;
+    Component createComponent( Context context ) throws Exception;
 
    /**
     * Load a part editor.

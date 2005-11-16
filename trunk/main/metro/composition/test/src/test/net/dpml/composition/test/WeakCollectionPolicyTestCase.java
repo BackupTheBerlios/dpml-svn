@@ -30,8 +30,8 @@ import java.rmi.server.UnicastRemoteObject;
 import junit.framework.TestCase;
 
 import net.dpml.part.Part;
-import net.dpml.part.PartHandler;
-import net.dpml.part.Handler;
+import net.dpml.part.Controller;
+import net.dpml.part.Component;
 import net.dpml.part.ActivationPolicy;
 import net.dpml.part.Instance;
 
@@ -58,26 +58,26 @@ public class WeakCollectionPolicyTestCase extends TestCase
 {    
     private Part m_part;
     private ComponentModel m_model;
-    private PartHandler m_control;
+    private Controller m_control;
     
     public void setUp() throws Exception
     {
         final String path = "example-3.part";
         final File test = new File( System.getProperty( "project.test.dir" ) );
         final URL url = new File( test, path ).toURL();
-        m_control = Part.DEFAULT_HANDLER;
+        m_control = Part.CONTROLLER;
         Part part = m_control.loadPart( url );
         m_model = (ComponentModel) m_control.createContext( part );
     }
     
     public void testCollection() throws Exception
     {
-        Handler handler = m_control.createHandler( m_model );
-        handler.activate();
-        assertTrue( "is-active", handler.isActive() );
-        Instance one = handler.getInstance();
-        Instance two = handler.getInstance();
-        int count = handler.size();
+        Component component = m_control.createComponent( m_model );
+        component.activate();
+        assertTrue( "is-active", component.isActive() );
+        Instance one = component.getInstance();
+        Instance two = component.getInstance();
+        int count = component.size();
         
         //
         // this is a singleton component and we have a reference to the instance 
@@ -93,14 +93,14 @@ public class WeakCollectionPolicyTestCase extends TestCase
         one = null;
         two = null;
         System.gc();
-        count = handler.size();
+        count = component.size();
         
         //
         // the following assertion may fail as GC behaviour is not gauranteed
         //
         
         assertEquals( "count", 0, count );
-        handler.deactivate();
+        component.deactivate();
     }
     
     static

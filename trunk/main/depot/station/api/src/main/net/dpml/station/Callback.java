@@ -21,7 +21,7 @@ package net.dpml.station;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 
-import net.dpml.part.Handler;
+import net.dpml.part.Component;
 
 import net.dpml.transit.PID;
 
@@ -41,7 +41,7 @@ public interface Callback extends Remote
     * @param handler optional handler reference
     * @exception RemoteException if a remote error occurs
     */
-    void started( PID pid, Handler handler ) throws RemoteException;
+    void started( PID pid, Component handler ) throws RemoteException;
     
    /**
     * Method invoked by a process to signal that the process has 

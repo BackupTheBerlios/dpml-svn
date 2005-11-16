@@ -26,9 +26,7 @@ import java.lang.reflect.Proxy;
 
 import net.dpml.component.info.EntryDescriptor;
 
-import net.dpml.component.runtime.Component;
-
-import net.dpml.part.Handler;
+import net.dpml.part.Component;
 
 
 /**
@@ -95,7 +93,7 @@ class PartsInvocationHandler implements InvocationHandler
         String postfix = getPartPostfix( method );
         String key = getPartKey( method, semantic );
         
-        Handler handler = getComponentHandler().getPartHandler( key );
+        Component handler = getComponentHandler().getPartHandler( key );
         handler.activate();
         
         if( GET == semantic )

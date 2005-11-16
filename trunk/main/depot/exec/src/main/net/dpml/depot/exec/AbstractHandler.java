@@ -22,10 +22,11 @@ import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.lang.reflect.InvocationTargetException;
 
-import net.dpml.part.Handler;
+import net.dpml.part.Component;
 import net.dpml.part.HandlerException;
 import net.dpml.part.Instance;
 import net.dpml.part.Service;
+import net.dpml.part.ServiceNotFoundException;
 
 import net.dpml.transit.Logger;
 
@@ -33,7 +34,7 @@ import net.dpml.transit.Logger;
  * The Metro plugin handles the establishment of a part and optional 
  * invocatio of a callback to a central station.
  */
-public class AbstractHandler extends UnicastRemoteObject implements Handler
+public class AbstractHandler extends UnicastRemoteObject implements Component
 {
     //------------------------------------------------------------------------------
     // state
@@ -54,8 +55,18 @@ public class AbstractHandler extends UnicastRemoteObject implements Handler
     }
     
     //------------------------------------------------------------------------------
-    // Handler
+    // Component
     //------------------------------------------------------------------------------
+    
+   /**
+    * Return a handler capable of supporting the requested service.
+    * @param descriptor the service descriptor
+    */
+    public Component lookup( Service service ) throws ServiceNotFoundException, RemoteException
+    {
+        String classname = service.getServiceClass().getName();
+        throw new ServiceNotFoundException( classname );
+    }
     
    /**
     * Initiate activation of a runtime handler.

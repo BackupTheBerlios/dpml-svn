@@ -16,29 +16,30 @@
  * limitations under the License.
  */
 
-package net.dpml.component.runtime;
+package net.dpml.part;
 
 /**
- * Exception thrown in response to a request for an unknown component.
+ * Exception raised by a component.
  *
  * @author <a href="mailto:dev-dpml@lists.ibiblio.org">The Digital Product Meta Library</a>
  * @version $Revision: 1.2 $ $Date: 2004/03/17 10:30:09 $
  */
-public class ComponentNotFoundException extends ComponentException 
+public class ComponentException extends PartException
 {
    /**
     * Serial version identifier.
     */
     static final long serialVersionUID = 1L;
 
-    public ComponentNotFoundException( String key )
+    public ComponentException( String message )
     {
-        super( key );
+        this( message, null );
     }
 
-    public String getKey()
+    public ComponentException( String message, Throwable cause )
     {
-        return getMessage();
+        super( message, cause );
     }
+
 }
 

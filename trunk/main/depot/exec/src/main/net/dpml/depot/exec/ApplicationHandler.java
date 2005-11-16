@@ -30,11 +30,7 @@ import java.util.Properties;
 import java.util.prefs.Preferences;
 import java.lang.reflect.InvocationTargetException;
 
-//import net.dpml.depot.Main;
-//import net.dpml.depot.ShutdownHandler;
-//import net.dpml.depot.GeneralException;
-
-import net.dpml.part.Handler;
+import net.dpml.part.Component;
 import net.dpml.part.HandlerException;
 import net.dpml.part.Instance;
 
@@ -142,12 +138,12 @@ public class ApplicationHandler
             String type = artifact.getType();
             if( type.equals( "part" ) )
             {
-                Handler handler = new PartHandler( logger, uri );
+                Component handler = new ComponentHandler( logger, uri );
                 m_callback.started( PROCESS_ID, handler );
             }
             else
             {
-                Handler handler = new AbstractHandler( logger );
+                Component handler = new AbstractHandler( logger );
                 m_callback.started( PROCESS_ID, handler );
             }
         }
@@ -604,7 +600,7 @@ public class ApplicationHandler
                     //
                 
                     //Context context = application.getContext();
-                    //Handler handler = partHandler.getHandler( context );
+                    //Component handler = partHandler.getHandler( context );
                     //handler.activate( context );
                     //handler.getInstance().getValue( false );
                 
@@ -725,7 +721,7 @@ public class ApplicationHandler
     private class LocalCallback implements Callback
     {
         private PID m_pid;
-        private Handler m_handler;
+        private Component m_handler;
         
        /**
         * Method invoked by a process to signal that the process has started.
@@ -734,7 +730,7 @@ public class ApplicationHandler
         * @param handler optional handler reference
         * @exception RemoteException if a remote error occurs
         */
-        public void started( PID pid, Handler handler )
+        public void started( PID pid, Component handler )
         {
             m_pid = pid;
             m_handler = handler;

@@ -43,37 +43,25 @@ import net.dpml.component.info.InfoDescriptor;
 import net.dpml.component.info.Type;
 import net.dpml.component.model.ComponentModel;
 
-//import net.dpml.composition.runtime.ComponentHandler;
-//import net.dpml.composition.runtime.ValueHandler;
-//import net.dpml.composition.runtime.ValueController;
-//import net.dpml.composition.runtime.ComponentController;
-//import net.dpml.composition.runtime.CompositionHandler;
-//import net.dpml.composition.runtime.DefaultLogger;
-
 import net.dpml.component.control.ClassLoaderManager;
 import net.dpml.component.control.ControllerContext;
 import net.dpml.component.control.ControllerException;
 import net.dpml.component.control.ControllerRuntimeException;
-import net.dpml.component.control.Controller;
 import net.dpml.component.control.Disposable;
 import net.dpml.component.control.LifecycleException;
 import net.dpml.component.control.UnsupportedPartTypeException;
-import net.dpml.component.runtime.Component;
-import net.dpml.component.runtime.ComponentException;
 
 import net.dpml.composition.engine.ComponentController;
 
-//import net.dpml.component.runtime.ClassLoadingContext;
-//import net.dpml.component.runtime.Container;
-//import net.dpml.component.runtime.Service;
-
+import net.dpml.part.Component;
+import net.dpml.part.ComponentException;
+import net.dpml.part.Controller;
 import net.dpml.part.DelegationException;
 import net.dpml.part.Part;
 import net.dpml.part.PartException;
 import net.dpml.part.PartHandlerNotFoundException;
 import net.dpml.part.PartNotFoundException;
 import net.dpml.part.Context;
-import net.dpml.part.Handler;
 
 import net.dpml.transit.Plugin;
 import net.dpml.transit.Category;
@@ -87,8 +75,7 @@ import net.dpml.transit.model.Value;
  * @author <a href="mailto:dev-dpml@lists.ibiblio.org">The Digital Product Meta Library</a>
  * @version $Revision: 1.2 $ $Date: 2004/03/17 10:30:09 $
  */
-public class CompositionController extends CompositionPartHandler 
-  implements Controller, ClassLoaderManager
+public class CompositionController extends CompositionPartHandler implements ClassLoaderManager
 {
     //--------------------------------------------------------------------
     // static
@@ -194,7 +181,7 @@ public class CompositionController extends CompositionPartHandler
     * Create and return a remote reference to a component handler.
     * @return the component handler
     */
-    public Handler createHandler( Context context ) throws Exception
+    public Component createComponent( Context context ) throws Exception
     {
         if( context instanceof ComponentModel )
         {

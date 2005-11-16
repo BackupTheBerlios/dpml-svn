@@ -32,13 +32,13 @@ import com.jgoodies.forms.builder.PanelBuilder;
 import com.jgoodies.forms.builder.DefaultFormBuilder;
 import com.jgoodies.forms.layout.FormLayout;
 
+import net.dpml.part.Controller;
 import net.dpml.part.Part;
 import net.dpml.part.PartException;
 import net.dpml.part.PartEditor;
 
 import net.dpml.component.info.PartReference;
 
-import net.dpml.component.control.Controller;
 import net.dpml.component.control.ClassLoaderManager;
 
 import net.dpml.component.info.Type;

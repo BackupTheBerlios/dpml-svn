@@ -40,16 +40,15 @@ import net.dpml.component.info.CollectionPolicy;
 import net.dpml.component.info.ServiceDescriptor;
 import net.dpml.component.model.ComponentModel;
 import net.dpml.component.control.Disposable;
-import net.dpml.component.runtime.Component;
 
 import net.dpml.logging.Logger;
 
 import net.dpml.part.ActivationPolicy;
-import net.dpml.part.Handler;
-import net.dpml.part.HandlerException;
-import net.dpml.part.HandlerRuntimeException;
+import net.dpml.part.Component;
 import net.dpml.part.ControlException;
 import net.dpml.part.ControlRuntimeException;
+import net.dpml.part.HandlerException;
+import net.dpml.part.HandlerRuntimeException;
 import net.dpml.part.Instance;
 import net.dpml.part.Service;
 import net.dpml.part.ServiceNotFoundException;
@@ -95,7 +94,7 @@ import net.dpml.transit.model.UnknownKeyException;
    PartHandler controller = Part.DEFAULT_HANDLER;
    Part part = controller.loadPart( url );
    Context context = controller.createContext( part ); // management info
-   Handler handler = controller.createHandler( context ); // runtime control for the type
+   Component handler = controller.createHandler( context ); // runtime control for the type
    handler.activate();
    Instance instance = handler.getInstance(); // runtime control for the instance
    Object value = instance.getValue( true );
@@ -125,7 +124,7 @@ public class ComponentHandler extends UnicastEventSource implements Component, D
     private final String m_path;
     private final URI m_uri;
     private final Holder m_holder;
-    private final Handler m_parent;
+    private final Component m_parent;
     
     private final Map m_map = new Hashtable(); // symbolic value map
     private final Map m_cache = new Hashtable(); // context entry/value cache
@@ -142,7 +141,7 @@ public class ComponentHandler extends UnicastEventSource implements Component, D
     //--------------------------------------------------------------------------
     
     ComponentHandler( 
-      final Handler parent, final ClassLoader classloader, final Logger logger, 
+      final Component parent, final ClassLoader classloader, final Logger logger, 
       final ComponentController control, final ComponentModel model )
       throws RemoteException
     {
@@ -246,7 +245,7 @@ public class ComponentHandler extends UnicastEventSource implements Component, D
             try
             {
                 ComponentModel context = model.getComponentModel( key );
-                Handler handler = control.createComponentHandler( this, classloader, context );
+                Component handler = control.createComponentHandler( this, classloader, context );
                 m_handlers.put( key, handler );
             }
             catch( UnknownKeyException e )
@@ -283,7 +282,7 @@ public class ComponentHandler extends UnicastEventSource implements Component, D
     * @param service the service definition
     * @exception ServiceNotFoundException if a service provider cannot be resolved.
     */
-    public Handler lookup( Service service ) throws ServiceNotFoundException, RemoteException
+    public Component lookup( Service service ) throws ServiceNotFoundException, RemoteException
     {
         if( getLogger().isDebugEnabled() )
         {
@@ -294,10 +293,10 @@ public class ComponentHandler extends UnicastEventSource implements Component, D
               + service.getServiceClass().getName() 
               + "]." );
         }
-        Handler[] handlers = (Handler[]) m_handlers.values().toArray( new Handler[0] );
+        Component[] handlers = (Component[]) m_handlers.values().toArray( new Component[0] );
         for( int i=0; i<handlers.length; i++ )
         {
-            Handler handler = handlers[i];
+            Component handler = handlers[i];
             if( handler.isaCandidate( service ) )
             {
                 return handler;
@@ -314,10 +313,6 @@ public class ComponentHandler extends UnicastEventSource implements Component, D
             throw new ServiceNotFoundException( classname );
         }
     }
-    
-    //--------------------------------------------------------------------------
-    // Handler
-    //--------------------------------------------------------------------------
     
    /**
     * Return the number of instances currently under management.  If the component
@@ -458,9 +453,9 @@ public class ComponentHandler extends UnicastEventSource implements Component, D
         }
     }
     
-    Handler getPartHandler( String key ) throws UnknownKeyException
+    Component getPartHandler( String key ) throws UnknownKeyException
     {
-        Handler handler = (Handler) m_handlers.get( key );
+        Component handler = (Component) m_handlers.get( key );
         if( null == handler )
         {
             throw new UnknownKeyException( key );
@@ -491,7 +486,7 @@ public class ComponentHandler extends UnicastEventSource implements Component, D
         return m_classloader;
     }
     
-    Handler getParentHandler()
+    Component getParentHandler()
     {
         return m_parent;
     }

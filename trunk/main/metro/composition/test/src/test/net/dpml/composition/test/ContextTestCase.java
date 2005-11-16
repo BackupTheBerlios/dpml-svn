@@ -32,8 +32,8 @@ import java.rmi.server.UnicastRemoteObject;
 import junit.framework.TestCase;
 
 import net.dpml.part.Part;
-import net.dpml.part.PartHandler;
-import net.dpml.part.Handler;
+import net.dpml.part.Controller;
+import net.dpml.part.Component;
 import net.dpml.part.ActivationPolicy;
 import net.dpml.part.Instance;
 
@@ -70,15 +70,15 @@ public class ContextTestCase extends TestCase
         final String path = "context.part";
         final File test = new File( System.getProperty( "project.test.dir" ) );
         final URL url = new File( test, path ).toURL();
-        PartHandler control = Part.DEFAULT_HANDLER;
+        Controller control = Part.CONTROLLER;
         //System.out.println( "2: " + ( new Date().getTime() - now ) ); 
         Part part = control.loadPart( url );
         //System.out.println( "3: " + ( new Date().getTime() - now ) ); 
         ComponentModel model = (ComponentModel) control.createContext( part );
-        Handler handler = control.createHandler( model );
+        Component component = control.createComponent( model );
         //System.out.println( "4: " + ( new Date().getTime() - now ) ); 
-        handler.activate();
-        Instance instance = handler.getInstance();
+        component.activate();
+        Instance instance = component.getInstance();
         m_value = (ContextTestComponent) instance.getValue( false );
         m_context = m_value.getContext();
         //System.out.println( "5: " + ( new Date().getTime() - now ) ); 

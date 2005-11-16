@@ -21,7 +21,7 @@ package net.dpml.composition.test;
 import junit.framework.TestCase;
 
 import net.dpml.part.Part;
-import net.dpml.part.PartHandler;
+import net.dpml.part.Controller;
 
 /**
  * Testing load launch time.
@@ -31,7 +31,7 @@ public class NullTestCase extends TestCase
 {    
     public void testColor() throws Exception
     {
-        PartHandler control = Part.DEFAULT_HANDLER;
+        Controller control = Part.CONTROLLER;
         assertNotNull( "control", control );
     }
     

@@ -31,7 +31,7 @@ public interface Part extends Serializable
 {
     static final String ARTIFACT_TYPE = "part";
 
-    static final PartHandler DEFAULT_HANDLER = PartContentHandler.STANDARD;
+    static final Controller CONTROLLER = PartContentHandler.CONTROLLER;
     
    /**
     * Return the part handler uri.

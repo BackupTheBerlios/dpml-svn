@@ -16,29 +16,27 @@
  * limitations under the License.
  */
 
-package net.dpml.component.runtime;
-
-import net.dpml.part.PartException;
+package net.dpml.part;
 
 /**
- * Exception raised by a component.
+ * Runtime exception raised by a component.
  *
  * @author <a href="mailto:dev-dpml@lists.ibiblio.org">The Digital Product Meta Library</a>
  * @version $Revision: 1.2 $ $Date: 2004/03/17 10:30:09 $
  */
-public class ComponentException extends PartException
+public class ComponentRuntimeException extends PartRuntimeException 
 {
    /**
     * Serial version identifier.
     */
     static final long serialVersionUID = 1L;
 
-    public ComponentException( String message )
+    public ComponentRuntimeException( String message )
     {
         this( message, null );
     }
 
-    public ComponentException( String message, Throwable cause )
+    public ComponentRuntimeException( String message, Throwable cause )
     {
         super( message, cause );
     }

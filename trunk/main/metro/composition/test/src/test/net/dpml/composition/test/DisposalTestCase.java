@@ -30,8 +30,8 @@ import java.rmi.server.UnicastRemoteObject;
 import junit.framework.TestCase;
 
 import net.dpml.part.Part;
-import net.dpml.part.PartHandler;
-import net.dpml.part.Handler;
+import net.dpml.part.Controller;
+import net.dpml.part.Component;
 import net.dpml.part.ActivationPolicy;
 import net.dpml.part.Instance;
 
@@ -59,28 +59,28 @@ public class DisposalTestCase extends TestCase
 {    
     private Part m_part;
     private ComponentModel m_model;
-    private PartHandler m_control;
+    private Controller m_control;
     
     public void setUp() throws Exception
     {
         final String path = "example.part";
         final File test = new File( System.getProperty( "project.test.dir" ) );
         final URL url = new File( test, path ).toURL();
-        m_control = Part.DEFAULT_HANDLER;
+        m_control = Part.CONTROLLER;
         Part part = m_control.loadPart( url );
         m_model = (ComponentModel) m_control.createContext( part );
     }
     
     public void testHandlerDisposal() throws Exception
     {
-        Handler handler = m_control.createHandler( m_model );
-        handler.activate();
+        Component component = m_control.createComponent( m_model );
+        component.activate();
         for( int i=0; i<1000; i++ )
         {
-            handler.getInstance();
+            component.getInstance();
         }
-        ((Disposable)handler).dispose();
-        assertEquals( "count", 0, handler.size() );
+        ((Disposable)component).dispose();
+        assertEquals( "count", 0, component.size() );
     }
     
     static

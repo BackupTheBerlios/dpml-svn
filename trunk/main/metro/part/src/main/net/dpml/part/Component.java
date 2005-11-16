@@ -28,19 +28,18 @@ import net.dpml.state.StateEvent;
 import net.dpml.state.StateListener;
 
 /**
- * The Handler represents a remote interface to a runtime component type.
+ * The Component represents a remote interface to a runtime component type.
  *
  * @author <a href="mailto:dev-dpml@lists.ibiblio.org">The Digital Product Meta Library</a>
  * @version $Revision: 1.2 $ $Date: 2004/03/17 10:30:09 $
  */
-public interface Handler extends Remote
+public interface Component extends Remote
 {
    /**
-    * Return the array of services provider by the handler.
-    * @return the service array
-    * @exception RemoteException if a remote exception occurs
+    * Return a handler capable of supporting the requested service.
+    * @param descriptor the service descriptor
     */
-    //Service[] getServices() throws RemoteException;
+    Component lookup( Service service ) throws ServiceNotFoundException, RemoteException;
     
    /**
     * Return true if this handler is a candidate for the supplied service definition.

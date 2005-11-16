@@ -31,22 +31,21 @@ import java.rmi.server.UnicastRemoteObject;
 import java.util.Properties;
 import java.util.WeakHashMap;
 
+import net.dpml.component.control.ControllerContext;
+import net.dpml.component.control.ControllerException;
+
+import net.dpml.component.info.Type;
+
 import net.dpml.part.Part;
 import net.dpml.part.PartHolder;
 import net.dpml.part.PartEditor;
-import net.dpml.part.PartHandler;
 import net.dpml.part.PartEditorFactory;
 import net.dpml.part.PartException;
 import net.dpml.part.PartRuntimeException;
 import net.dpml.part.PartNotFoundException;
 import net.dpml.part.PartHandlerNotFoundException;
 import net.dpml.part.DelegationException;
-
-import net.dpml.component.control.Controller;
-import net.dpml.component.control.ControllerContext;
-import net.dpml.component.control.ControllerException;
-
-import net.dpml.component.info.Type;
+import net.dpml.part.Controller;
 
 import net.dpml.transit.Transit;
 import net.dpml.transit.Artifact;
@@ -60,7 +59,6 @@ import net.dpml.transit.Logger;
  * @author <a href="mailto:dev-dpml@lists.ibiblio.org">The Digital Product Meta Library</a>
  * @version $Revision: 1.2 $ $Date: 2004/03/17 10:30:09 $
  */
-//public abstract class CompositionPartHandler extends UnicastRemoteObject implements Controller
 public abstract class CompositionPartHandler implements Controller
 {
    /**
@@ -151,7 +149,7 @@ public abstract class CompositionPartHandler implements Controller
         URI uri = part.getPartHandlerURI();
         if( !getURI().equals( uri ) )
         {
-            PartHandler handler = resolvePartHandler( uri );
+            Controller handler = resolveController( uri );
             return handler.loadPartEditor( part );
         }
         else
@@ -197,11 +195,11 @@ public abstract class CompositionPartHandler implements Controller
     {
         if( false == getURI().equals( uri ) )
         {
-            return (Controller) resolvePartHandler( uri );
+            return resolveController( uri );
         }
         else
         {
-            return (Controller) this;
+            return this;
         }
     }
 
@@ -266,7 +264,7 @@ public abstract class CompositionPartHandler implements Controller
             {
                 try
                 {
-                    Controller handler = resolvePartHandler( foreign );
+                    Controller handler = resolveController( foreign );
                     return handler.loadPart( holder.getByteArray() );
                 }
                 catch( Throwable e )
@@ -303,7 +301,7 @@ public abstract class CompositionPartHandler implements Controller
         }
     }
 
-    protected Controller resolvePartHandler( URI uri ) throws PartHandlerNotFoundException
+    protected Controller resolveController( URI uri ) throws PartHandlerNotFoundException
     {
         if( getURI().equals( uri ) )
         {
@@ -316,19 +314,10 @@ public abstract class CompositionPartHandler implements Controller
             for( int i=0; i<handlers.length; i++ )
             {
                 Controller handler = handlers[i];
-                //try
-                //{
-                    if( handler.getURI().equals( uri ) )
-                    {
-                        return handler;
-                    }
-                //}
-                //catch( RemoteException e )
-                //{
-                //    final String error = 
-                //      "Unexpected remote exception while resolving remote controller.";
-                //    throw new RuntimeException( error, e );
-                //}
+                if( handler.getURI().equals( uri ) )
+                {
+                    return handler;
+                }
             }
             Controller handler = loadHandler( uri );
             m_handlers.put( handler, null );

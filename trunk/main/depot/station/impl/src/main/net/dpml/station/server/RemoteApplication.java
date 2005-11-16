@@ -20,7 +20,7 @@ import java.util.EventListener;
 import net.dpml.profile.info.StartupPolicy;
 import net.dpml.profile.info.ApplicationDescriptor;
 
-import net.dpml.part.Handler;
+import net.dpml.part.Component;
 
 import net.dpml.station.Station;
 import net.dpml.station.Callback;
@@ -47,7 +47,7 @@ public class RemoteApplication extends EventChannel implements Callback, Applica
     
     private ProcessState m_state = ProcessState.IDLE;
     private PID m_pid = null;
-    private Handler m_handler = null;
+    private Component m_handler = null;
     private Process m_process = null;
     private Exception m_error = null;
 
@@ -78,7 +78,7 @@ public class RemoteApplication extends EventChannel implements Callback, Applica
     *
     * @param pid the process identifier
     */
-    public void started( PID pid, Handler handler ) throws ApplicationException
+    public void started( PID pid, Component handler ) throws ApplicationException
     {
         if( null != m_pid ) 
         {
@@ -383,7 +383,7 @@ public class RemoteApplication extends EventChannel implements Callback, Applica
                     catch( Throwable e )
                     {
                         final String error = 
-                          "Handler deactivation error reported.";
+                          "Component deactivation error reported.";
                         getLogger().warn( error, e );
                     }
                 }

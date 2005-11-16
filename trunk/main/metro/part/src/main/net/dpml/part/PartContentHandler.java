@@ -38,9 +38,9 @@ import net.dpml.transit.Repository;
  */
 public class PartContentHandler // extends ContentHandler
 {
-    public static final PartHandler STANDARD = newPartHandler( new LoggingAdapter( "" ) );
+    public static final Controller CONTROLLER = newController( new LoggingAdapter( "" ) );
     
-    public static PartHandler newPartHandler( final Logger logger )
+    public static Controller newController( final Logger logger )
     {
         if( null == logger )
         {
@@ -55,7 +55,7 @@ public class PartContentHandler // extends ContentHandler
             Repository repository = Transit.getInstance().getRepository();
             Class c = repository.getPluginClass( classloader, uri );
             Constructor constructor = c.getConstructor( new Class[]{Logger.class} );
-            PartHandler handler = (PartHandler) constructor.newInstance( new Object[]{logger} );
+            Controller handler = (Controller) constructor.newInstance( new Object[]{logger} );
             //System.out.println( "# LOADED: " + ( new Date().getTime() - now ) ); 
             return handler;
         }
@@ -68,12 +68,12 @@ public class PartContentHandler // extends ContentHandler
     }
     
     private final Logger m_logger;
-    private final PartHandler m_handler;
+    private final Controller m_handler;
 
     public PartContentHandler( Logger logger )
     {
         m_logger = logger;
-        m_handler = newPartHandler( logger );
+        m_handler = newController( logger );
     }
 
    /*
@@ -123,14 +123,14 @@ public class PartContentHandler // extends ContentHandler
     
     public PartEditor getPartEditor( Part part ) throws Exception
     {
-        return getPartHandler().loadPartEditor( part );
+        return getController().loadPartEditor( part );
     }
 
    /**
     * Return the working part handler.
     * @return the part handler
     */
-    public PartHandler getPartHandler()
+    public Controller getController()
     {
         return m_handler;
     }
