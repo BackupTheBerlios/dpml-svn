@@ -175,20 +175,4 @@
     </dependencies>
   </project>
    
-  <project name="dpml-depot-audit" basedir="audit">
-    <types>
-      <type id="jar"/>
-      <type id="plugin">
-        <property name="project.plugin.class" 
-           value="net.dpml.depot.audit.AuditProcessor"/>
-      </type>
-    </types>
-    <dependencies>
-      <include key="dpml-depot-console"/>
-      <include ref="dpml/transit/dpml-transit-main"/>
-      <include key="dpml-profile-api"/>
-      <include key="dpml-station-api"/>
-    </dependencies>
-  </project>
-   
 </module>

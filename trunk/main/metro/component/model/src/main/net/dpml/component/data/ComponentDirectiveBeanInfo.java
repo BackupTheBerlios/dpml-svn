@@ -45,7 +45,7 @@ public final class ComponentDirectiveBeanInfo extends SimpleBeanInfo
         return descriptor;
     }
     
-    public static class ComponentDirectivePersistenceDelegate extends DefaultPersistenceDelegate
+    private static class ComponentDirectivePersistenceDelegate extends DefaultPersistenceDelegate
     {
         public Expression instantiate( Object old, Encoder encoder )
         {

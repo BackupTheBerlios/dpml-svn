@@ -46,7 +46,7 @@ public final class ValueDirectiveBeanInfo extends SimpleBeanInfo
         return descriptor;
     }
     
-    public static class ValueDirectivePersistenceDelegate extends DefaultPersistenceDelegate
+    private static class ValueDirectivePersistenceDelegate extends DefaultPersistenceDelegate
     {
         public Expression instantiate( Object old, Encoder encoder )
         {

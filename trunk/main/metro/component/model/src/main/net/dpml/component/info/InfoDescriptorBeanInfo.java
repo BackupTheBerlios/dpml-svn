@@ -34,7 +34,14 @@ public final class InfoDescriptorBeanInfo extends SimpleBeanInfo
         return BEAN_DESCRIPTOR;
     }
     
-    public static class InfoDescriptorPersistenceDelegate extends DefaultPersistenceDelegate
+    private static BeanDescriptor setupBeanDescriptor()
+    {
+        BeanDescriptor descriptor = new BeanDescriptor( InfoDescriptor.class );
+        descriptor.setValue( "persistenceDelegate", new InfoDescriptorPersistenceDelegate() );
+        return descriptor;
+    }
+    
+    private static class InfoDescriptorPersistenceDelegate extends DefaultPersistenceDelegate
     {
         public Expression instantiate( Object old, Encoder encoder )
         {
@@ -52,10 +59,4 @@ public final class InfoDescriptorBeanInfo extends SimpleBeanInfo
         }
     }
 
-    private static BeanDescriptor setupBeanDescriptor()
-    {
-        BeanDescriptor descriptor = new BeanDescriptor( InfoDescriptor.class );
-        descriptor.setValue( "persistenceDelegate", new InfoDescriptorPersistenceDelegate() );
-        return descriptor;
-    }
 }

@@ -22,7 +22,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 
 /**
- * 
+ * Abstract base class for directives.
  * @author <a href="mailto:dev-dpml@lists.ibiblio.org">The Digital Product Meta Library</a>
  */
 public abstract class AbstractDirective implements Directive
