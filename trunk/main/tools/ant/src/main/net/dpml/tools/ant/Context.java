@@ -477,18 +477,21 @@ public final class Context
         for( int i=0; i<resources.length; i++ )
         {
             Resource resource = resources[i];
-            if( filter && resource.isa( "jar" ) )
+            if( !resource.equals( getResource() ) )
             {
-                Artifact artifact = resource.getArtifact( "jar" );
-                addToPath( cache, path, artifact, resolve );
-            }
-            else
-            {
-                Type[] types = resource.getTypes();
-                for( int j=0; j<types.length; j++ )
+                if( filter && resource.isa( "jar" ) )
                 {
-                    Artifact artifact = resource.getArtifact( types[j].getName() );
+                    Artifact artifact = resource.getArtifact( "jar" );
                     addToPath( cache, path, artifact, resolve );
+                }
+                else
+                {
+                    Type[] types = resource.getTypes();
+                    for( int j=0; j<types.length; j++ )
+                    {
+                        Artifact artifact = resource.getArtifact( types[j].getName() );
+                        addToPath( cache, path, artifact, resolve );
+                    }
                 }
             }
         }

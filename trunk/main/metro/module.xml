@@ -14,9 +14,6 @@
       </type>
       <type id="jar"/>
     </types>
-    <dependencies scope="build">
-      <include ref="dpml/metro/dpml-metro-runtime"/>
-    </dependencies>
     <dependencies>
       <include ref="dpml/util/dpml-state-api" tag="public"/>
       <include ref="dpml/transit/dpml-transit-main" tag="private"/>
@@ -43,20 +40,6 @@
       <include ref="dpml/util/dpml-configuration-impl"/>
     </dependencies>
   </project>
-   
-  <!--
-  <project name="dpml-component-control" basedir="component/control">
-    <types>
-      <type id="jar"/>
-    </types>
-    <dependencies>
-      <include key="dpml-component-model" tag="public"/>
-    </dependencies>
-    <dependencies scope="test">
-      <include ref="ant/ant-junit"/>
-    </dependencies>
-  </project>
-  -->
    
   <!--
   <project name="dpml-composition-editor" basedir="composition/editor">
@@ -89,6 +72,7 @@
       <include ref="dpml/util/dpml-configuration-impl"/>
       <include ref="dpml/util/dpml-state-impl"/>
       <include key="dpml-part-api" tag="protected"/>
+      <include key="dpml-metro-model" tag="protected"/>
     </dependencies>
   </project>
    

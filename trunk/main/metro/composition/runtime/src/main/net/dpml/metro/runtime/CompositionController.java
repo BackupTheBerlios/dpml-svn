@@ -48,10 +48,9 @@ import net.dpml.metro.info.InfoDescriptor;
 import net.dpml.metro.info.Type;
 import net.dpml.metro.model.ComponentModel;
 
-import net.dpml.part.ControllerContext;
-
 import net.dpml.metro.runtime.ComponentController;
 
+import net.dpml.part.ControllerContext;
 import net.dpml.part.LifecycleException;
 import net.dpml.part.UnsupportedPartTypeException;
 import net.dpml.part.Context;
