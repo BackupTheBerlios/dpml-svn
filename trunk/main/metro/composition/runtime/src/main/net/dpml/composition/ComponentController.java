@@ -256,7 +256,7 @@ class ComponentController
                   + " for the component ["
                   + handler.getPath()
                   + "].";
-                throw new ControlException( error );
+                throw new ControllerException( error );
             }
         }
 
@@ -270,7 +270,7 @@ class ComponentController
               "Instantiation failure within the component ["
               + handler
               + "].";
-            throw new ControlException( error, e );
+            throw new ControllerException( error, e );
         }
         catch( IllegalAccessException e )
         {
@@ -278,7 +278,7 @@ class ComponentController
               "Cannot access component constructor in ["
               + handler
               + "].";
-            throw new ControlException( error, e );
+            throw new ControllerException( error, e );
         }
     }
     
@@ -300,7 +300,7 @@ class ComponentController
         {
             final String error =
               "Cannot load component type defintion: " + subject.getName();
-            throw new ControlException( error, e );
+            throw new ControllerException( error, e );
         }
         finally
         {
@@ -352,7 +352,7 @@ class ComponentController
         {
             final String error =
               "Cannot load component class: " + classname;
-            throw new ControlException( error, e );
+            throw new ControllerException( error, e );
         }
     }
     
@@ -474,7 +474,7 @@ class ComponentController
               "Internal error while attempting to load component state graph resource [" 
               + resource 
               + "].";
-            throw new ControlException( error, e );
+            throw new ControllerException( error, e );
         }
     }
 
@@ -498,7 +498,7 @@ class ComponentController
               "The component class ["
               + subject.getName()
               + "] does not declare a public constructor.";
-            throw new ControlException( error );
+            throw new ControllerException( error );
         }
         else if( constructors.length > 1 )
         {
@@ -506,7 +506,7 @@ class ComponentController
               "The component class ["
               + subject.getName()
               + "] declares more than one public constructor.";
-            throw new ControlException( error );
+            throw new ControllerException( error );
         }
         else
         {
@@ -548,7 +548,7 @@ class ComponentController
         {
             final String error = 
               "Unable to construct the Parameters invocation handler due to a remote exception.";
-            throw new ControlException( error, e );
+            throw new ControllerException( error, e );
         }
     }
 
@@ -566,7 +566,7 @@ class ComponentController
         {
             final String error = 
               "Unable to construct the Configuration invocation handler due to a remote exception.";
-            throw new ControlException( error, e );
+            throw new ControllerException( error, e );
         }
     }
     
@@ -583,7 +583,7 @@ class ComponentController
         {
             final String error =
               "Unexpected error while attempting to construct the context invocation handler.";
-            throw new ControlException( error, e );
+            throw new ControllerException( error, e );
         }
     }
 
@@ -600,7 +600,7 @@ class ComponentController
         {
             final String error =
               "Unexpected error while attempting to construct the parts invocation handler.";
-            throw new ControlException( error, e );
+            throw new ControllerException( error, e );
         }
     }
 
@@ -629,7 +629,7 @@ class ComponentController
                       "No solution defined for the context entry [" 
                       + key
                       + "].";
-                    throw new ControlException( error );
+                    throw new ControllerException( error );
                 }
             }
             else
@@ -659,7 +659,7 @@ class ComponentController
                           + "] in the component ["
                           + handler.getPath()
                           + "].";
-                        throw new ControlException( error, ve );
+                        throw new ControllerException( error, ve );
                     }
                     finally
                     {
@@ -690,21 +690,21 @@ class ComponentController
                               + "] under the context key ["
                               + key
                               + "].";
-                            throw new ControlException( error, ee );
+                            throw new ControllerException( error, ee );
                         }
                     }
                     else
                     {
                         final String error = 
                         "Service lookup scheme [" + scheme + "] not recognized.";
-                        throw new ControlException( error );
+                        throw new ControllerException( error );
                     }
                 }
                 else
                 {
                     final String error =
                       "Unsuppored context directive argument class: " + directive;
-                    throw new ControlException( error );
+                    throw new ControllerException( error );
                 }
             }
         }
@@ -712,7 +712,7 @@ class ComponentController
         {
             final String error = 
               "Internal error in controller due to a reference to an unknown context key.";
-            throw new ControlException( error, e );
+            throw new ControllerException( error, e );
         }
         catch( RemoteException e )
         {
@@ -720,7 +720,7 @@ class ComponentController
               "Resolution of the context entry [" 
               + key
               + "] failed due to a remote exception.";
-            throw new ControlException( error, e );
+            throw new ControllerException( error, e );
         }
     }
     
@@ -742,7 +742,7 @@ class ComponentController
                 "Resolution of the service lookup for [" 
                   + service.getServiceClass().getName()
                   + "] failed due to a remote exception.";
-                throw new ControlException( error, e );
+                throw new ControllerException( error, e );
             }
         }
         else
@@ -782,7 +782,7 @@ class ComponentController
               + "] declared by the component class ["
               + type.getInfo().getClassname()
               + "] not found.";
-            throw new ControlException( error, e );
+            throw new ControllerException( error, e );
         }
     }
     
@@ -805,7 +805,7 @@ class ComponentController
               + "] declared as a dependency the component ["
               + handler.getPath()
               + "] not found.";
-            throw new ControlException( error, e );
+            throw new ControllerException( error, e );
         }
     }
 }

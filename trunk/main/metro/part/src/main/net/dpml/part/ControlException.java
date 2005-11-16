@@ -18,6 +18,8 @@
 
 package net.dpml.part;
 
+import java.net.URI;
+
 /**
  * General exception thrown by a control.
  *
@@ -31,15 +33,22 @@ public class ControlException extends HandlerException
     */
     static final long serialVersionUID = 1L;
 
-    public ControlException( String message )
+    private final URI m_uri;
+    
+    public ControlException( URI uri, String message )
     {
-        super( message );
+        this( uri, message, null );
     }
 
-    public ControlException( String message, Throwable cause )
+    public ControlException( URI uri, String message, Throwable cause )
     {
         super( message, cause );
+        m_uri = uri;
     }
 
+    public URI getControllerURI()
+    {
+        return m_uri;
+    }
 }
 

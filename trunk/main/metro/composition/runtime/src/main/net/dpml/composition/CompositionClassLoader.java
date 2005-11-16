@@ -27,8 +27,6 @@ import java.util.ArrayList;
 
 import net.dpml.logging.Logger;
 
-import net.dpml.component.control.ControllerRuntimeException;
-
 import net.dpml.transit.Artifact;
 import net.dpml.transit.UnsupportedSchemeException;
 import net.dpml.transit.StandardClassLoader;
@@ -119,7 +117,7 @@ class CompositionClassLoader extends StandardClassLoader
               "Internal error occured while attempting to transform the uri ["
               + uri 
               + "] to a url."; 
-            throw new ControllerRuntimeException( CompositionController.CONTROLLER_URI, error, e );
+            throw new ControllerRuntimeException( error, e );
         }
     }
 

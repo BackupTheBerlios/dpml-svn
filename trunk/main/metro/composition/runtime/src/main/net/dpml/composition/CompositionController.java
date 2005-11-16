@@ -49,8 +49,6 @@ import net.dpml.component.info.Type;
 import net.dpml.component.model.ComponentModel;
 
 import net.dpml.component.control.ControllerContext;
-import net.dpml.component.control.ControllerException;
-import net.dpml.component.control.ControllerRuntimeException;
 
 import net.dpml.composition.ComponentController;
 
@@ -147,7 +145,7 @@ public class CompositionController implements Controller
               "Construction of a classloader from the context class ["
               + context.getClass().getName() 
               + "] is not supported.";
-            throw new ControllerException( CONTROLLER_URI, error );
+            throw new ControllerException( error );
         }
     }
     
