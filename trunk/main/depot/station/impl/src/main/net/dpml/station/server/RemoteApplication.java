@@ -315,10 +315,10 @@ public class RemoteApplication extends EventChannel implements Callback, Applica
         }
         
         //
-        // add the deployment target
+        // add the exec command and codebase parameter
         //
         
-        list.add( "-uri" );
+        list.add( "exec" );
         list.add( path );
         
         //

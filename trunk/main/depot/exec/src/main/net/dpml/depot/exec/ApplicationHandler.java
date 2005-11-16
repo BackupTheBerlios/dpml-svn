@@ -59,6 +59,7 @@ import net.dpml.cli.DisplaySetting;
 import net.dpml.cli.builder.ArgumentBuilder;
 import net.dpml.cli.builder.GroupBuilder;
 import net.dpml.cli.builder.DefaultOptionBuilder;
+import net.dpml.cli.builder.CommandBuilder;
 import net.dpml.cli.option.PropertyOption;
 import net.dpml.cli.validation.URIValidator;
 import net.dpml.cli.validation.NumberValidator;
@@ -75,15 +76,43 @@ public class ApplicationHandler
     private final Callback m_callback;
     
    /**
-    * Plugin class used to handle the deployment of a target application.  The 
-    * plugin assumes that the first argument of the supplied args parameter is
-    * the specification of the deployment unit.  This may be (a) a uri to a Transit 
-    * plugin, (b) a part uri, or (c) the name of a stored application profile.
+    * The application handler class is a generic component handler that delegates
+    * application deployment processes to dedicated handlers based on the codebase 
+    * type of the target application.  Normally this plugin is activated as a 
+    * consequence of invoking the <tt>metro</tt> commandline handler (which is 
+    * the default haviour of the <tt>station</tt> when deployment local processes).
+    * The following command list help about the <tt>metro</tt> commandline handler:
+    * <pre>$ metro help
+Usage:
+metro [exec <uri> help]
+options
+  exec <uri>               Execute deployment of an application codebase.
+    -key -port
+      -key (-k) <key>      Station callback application key.
+      -port (-p) <port>    Override default RMI registry port selection.
+  help                     Print command help.
+    * </pre>
+    * A typical example of a commandline and resulting log of an application launch 
+    * using <tt>metro</tt> is show below:
+    * <pre>
+$ metro exec link:part:dpml/planet/http/dpml-http-demo
+[2236 ] [INFO   ] (demo): Starting
+[2236 ] [INFO   ] (org.mortbay.http.HttpServer): Version Jetty/5.1.x
+[2236 ] [INFO   ] (org.mortbay.util.Container): Started net.dpml.http.impl.HttpServerImpl@6355dc
+[2236 ] [INFO   ] (org.mortbay.util.Credential): Checking Resource aliases
+[2236 ] [INFO   ] (org.mortbay.util.Container): Started HttpContext[/,/]
+[2236 ] [INFO   ] (org.mortbay.http.SocketListener): Started SocketListener on 0.0.0.0:8080
+    * </pre>
+    *
+    * When invoked in conjuction with the <tt>station</tt> two optional parameters may be 
+    * supplied by the station.  These include <tt>-port</tt> option which directs the implementation 
+    * to locate the system wide <tt>station</tt> from an RMI registry on the selected port.  
+    * The second option is the <tt>-key</tt> argument that the handler uses to to resolve a 
+    * station callback through which the implementation notifies the station of the process 
+    * identity and startup status.  The callback process effectivly hands control over 
+    * management of the JVM process lietime and root component to to the station.
     * 
     * @param logger the assigned logging channel
-    * @param handler the shutdown handler
-    * @param model the current transit model
-    * @param prefs the depot root preferences
     * @param args command line arguments
     * @exception Exception if an error occurs
     */
@@ -107,7 +136,13 @@ public class ApplicationHandler
         parser.setGroup( COMMAND_GROUP );
         CommandLine line = parser.parse( args );
         
-        URI uri = (URI) line.getValue( URI_OPTION, null );
+        if( line.hasOption( HELP_COMMAND ) || !line.hasOption( EXECUTE_COMMAND ) )
+        {
+            processHelp();
+            System.exit( 0 );
+        }
+        
+        URI uri = (URI) line.getValue( EXECUTE_COMMAND, null );
         if( null == uri )
         {
             throw new NullPointerException( "uri" ); // will not happen
@@ -648,7 +683,40 @@ public class ApplicationHandler
     */
 
     //private static final String DEPOT_PROFILE_URI = "@DEPOT-PROFILE-PLUGIN-URI@";
-
+    
+   /**
+    * List general command help to the console.
+    * @exception IOException if an I/O error occurs
+    */
+    private void processHelp() throws IOException
+    {
+        HelpFormatter formatter = new HelpFormatter( 
+          HelpFormatter.DEFAULT_GUTTER_LEFT, 
+          HelpFormatter.DEFAULT_GUTTER_CENTER, 
+          HelpFormatter.DEFAULT_GUTTER_RIGHT, 
+          100 );
+        
+        formatter.getDisplaySettings().add( DisplaySetting.DISPLAY_GROUP_OUTER );
+        formatter.getDisplaySettings().add( DisplaySetting.DISPLAY_PROPERTY_OPTION );
+        formatter.getDisplaySettings().add( DisplaySetting.DISPLAY_ARGUMENT_BRACKETED );
+        
+        formatter.getFullUsageSettings().add( DisplaySetting.DISPLAY_OPTIONAL );
+        formatter.getFullUsageSettings().add( DisplaySetting.DISPLAY_GROUP_OUTER );
+        formatter.getFullUsageSettings().add( DisplaySetting.DISPLAY_PROPERTY_OPTION );
+        formatter.getFullUsageSettings().add( DisplaySetting.DISPLAY_OPTIONAL );
+        formatter.getFullUsageSettings().add( DisplaySetting.DISPLAY_ARGUMENT_BRACKETED );
+        formatter.getFullUsageSettings().remove( DisplaySetting.DISPLAY_PARENT_CHILDREN );
+        
+        formatter.getLineUsageSettings().add( DisplaySetting.DISPLAY_PROPERTY_OPTION );
+        formatter.getLineUsageSettings().add( DisplaySetting.DISPLAY_ARGUMENT_BRACKETED );
+        formatter.getLineUsageSettings().remove( DisplaySetting.DISPLAY_PARENT_CHILDREN );
+        formatter.getLineUsageSettings().remove( DisplaySetting.DISPLAY_GROUP_EXPANDED );
+        
+        formatter.setGroup( COMMAND_GROUP );
+        formatter.setShellCommand( "metro" );
+        formatter.print();
+    }
+    
     //-----------------------------------------------------------------------------
     // CLI
     //-----------------------------------------------------------------------------
@@ -656,6 +724,7 @@ public class ApplicationHandler
     private static final DefaultOptionBuilder OPTION_BUILDER = new DefaultOptionBuilder();
     private static final ArgumentBuilder ARGUMENT_BUILDER = new ArgumentBuilder();
     private static final GroupBuilder GROUP_BUILDER = new GroupBuilder();
+    private static final CommandBuilder COMMAND_BUILDER = new CommandBuilder();
 
     private static final PropertyOption PROPERTY_OPTION = new PropertyOption();
     private static NumberValidator portValidator = NumberValidator.getIntegerInstance();
@@ -664,7 +733,7 @@ public class ApplicationHandler
         OPTION_BUILDER
           .withShortName( "port" )
           .withShortName( "p" )
-          .withDescription( "RMI Registry port." )
+          .withDescription( "Override default RMI registry port selection." )
           .withRequired( false )
           .withArgument(
             ARGUMENT_BUILDER 
@@ -680,7 +749,7 @@ public class ApplicationHandler
         OPTION_BUILDER
           .withShortName( "key" )
           .withShortName( "k" )
-          .withDescription( "Callback key." )
+          .withDescription( "Station callback application key." )
           .withRequired( false )
           .withArgument(
             ARGUMENT_BUILDER 
@@ -691,27 +760,53 @@ public class ApplicationHandler
               .create() )
           .create();
         
-    private static final Option URI_OPTION = 
-        OPTION_BUILDER
-          .withShortName( "uri" )
-          .withDescription( "Codebase." )
-          .withRequired( true )
-          .withArgument(
-            ARGUMENT_BUILDER 
-              .withDescription( "Codebase uri." )
-              .withName( "uri" )
-              .withMinimum( 1 )
-              .withMaximum( 1 )
-              .withValidator( new URIValidator() )
-              .create() )
-          .create();
+    //private static final Option URI_OPTION = 
+    //    OPTION_BUILDER
+    //      .withShortName( "uri" )
+    //      .withDescription( "Application codebase uri." )
+    //      .withRequired( false )
+    //      .withArgument(
+    //        ARGUMENT_BUILDER 
+    //          .withDescription( "Codebase uri." )
+    //          .withName( "uri" )
+    //          .withMinimum( 1 )
+    //          .withMaximum( 1 )
+    //          .withValidator( new URIValidator() )
+    //          .create() )
+    //      .create();
+    
+    private static final Option HELP_COMMAND =
+      COMMAND_BUILDER
+        .withName( "help" )
+        .withDescription( "Print command help." )
+        .create();
+
+    private static final Group EXECUTE_GROUP =
+      GROUP_BUILDER
+        .withOption( KEY_OPTION )
+        .withOption( PORT_OPTION )
+        .create();
+    
+    private static final Option EXECUTE_COMMAND =
+      COMMAND_BUILDER
+        .withName( "exec" )
+        .withDescription( "Execute deployment of an application codebase." )
+        .withChildren( EXECUTE_GROUP )
+        .withArgument(
+          ARGUMENT_BUILDER 
+            .withDescription( "Application codebase uri." )
+            .withName( "uri" )
+            .withMinimum( 1 )
+            .withMaximum( 1 )
+            .withValidator( new URIValidator() )
+            .create() )
+        .create();
     
     private static final Group COMMAND_GROUP =
       GROUP_BUILDER
         .withName( "options" )
-        .withOption( URI_OPTION )
-        .withOption( KEY_OPTION )
-        .withOption( PORT_OPTION )
+        .withOption( EXECUTE_COMMAND )
+        .withOption( HELP_COMMAND )
         .create();
 
    /**

@@ -90,13 +90,13 @@ import net.dpml.transit.model.UnknownKeyException;
  * and management of a component model in a separate JVM from the runtime handler and 
  * centralization of shared context information across multiple handlers.</p>
  * <pre>
-   PartHandler controller = Part.DEFAULT_HANDLER;
+   Controller controller = Part.CONTROLLER; // system controller
    Part part = controller.loadPart( url );
    Context context = controller.createContext( part ); // management info
-   Component handler = controller.createHandler( context ); // runtime control for the type
+   Component handler = controller.createComponent( context ); // runtime controller
    handler.activate();
-   Instance instance = handler.getInstance(); // runtime control for the instance
-   Object value = instance.getValue( true );
+   Instance instance = handler.getInstance(); // instance controller
+   Object value = instance.getValue( true ); // service instance
  * </pre>
  *
  * @author <a href="mailto:dev-dpml@lists.ibiblio.org">The Digital Product Meta Library</a>

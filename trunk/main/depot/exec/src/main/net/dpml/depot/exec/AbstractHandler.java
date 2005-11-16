@@ -48,6 +48,11 @@ public class AbstractHandler extends UnicastRemoteObject implements Component
     // constructor
     //------------------------------------------------------------------------------
     
+   /**
+    * Creation of a new abstract handler.
+    * @param logger the assigned logging channel
+    * @exception RemoteException if a remote exception occurs
+    */
     public AbstractHandler( Logger logger ) throws RemoteException
     {
         super();
@@ -60,7 +65,9 @@ public class AbstractHandler extends UnicastRemoteObject implements Component
     
    /**
     * Return a handler capable of supporting the requested service.
-    * @param descriptor the service descriptor
+    * @param service the service descriptor
+    * @exception ServiceNotFoundException if the request service cannot be resolved
+    * @exception RemoteException if a remote exception occurs
     */
     public Component lookup( Service service ) throws ServiceNotFoundException, RemoteException
     {
@@ -69,10 +76,10 @@ public class AbstractHandler extends UnicastRemoteObject implements Component
     }
     
    /**
-    * Initiate activation of a runtime handler.
+    * Initiate activation of the runtime handler.
     * @exception HandlerException if an activation error occurs
     * @exception InvocationTargetException if the component declares activation on startup
-    *    and a implementation source exception occured
+    *    and a implementation instantiation exception occurs
     * @exception RemoteException if a remote exception occurs
     */
     public void activate() throws HandlerException, InvocationTargetException, RemoteException
@@ -106,7 +113,7 @@ public class AbstractHandler extends UnicastRemoteObject implements Component
     
    /**
     * Return a reference to a instance of the component handled by the handler.
-    * @return the instance holder
+    * @return the instance manager
     * @exception InvocationTargetException if the component instantiation process 
     *  is on demand and an target invocation error occurs
     * @exception HandlerException if the component could not be established due to a handler 
@@ -132,6 +139,11 @@ public class AbstractHandler extends UnicastRemoteObject implements Component
         m_activated = false;
     }
     
+   /**
+    * Test is this component can provide the requested service.
+    * @param service the service defintion
+    * @exception RemoteException if a remote exception occurs
+    */
     public boolean isaCandidate( Service service ) throws RemoteException
     {
         return false;
