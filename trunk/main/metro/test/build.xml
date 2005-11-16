@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+  Copyright 2005 Stephen J. McConnell
+
+  Licensed  under the  Apache License,  Version 2.0  (the "License");
+  you may not use  this file  except in  compliance with the License.
+  You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed  under the  License is distributed on an "AS IS" BASIS,
+  WITHOUT  WARRANTIES OR CONDITIONS  OF ANY KIND, either  express  or
+  implied.
+
+  See the License for the specific language governing permissions and
+  limitations under the License.
+-->
+
+<project name="dpml-metro-test" default="install"
+    xmlns:transit="antlib:net.dpml.transit" 
+    xmlns:x="dpml:tools" 
+    xmlns:c="dpml:composition" >
+
+  <transit:import uri="local:template:tools/standard"/>
+
+  <target name="build" depends="standard.build">
+
+    <x:plugin uri="link:plugin:dpml/metro/dpml-metro-tools"/>
+
+    <!-- create the test component types -->
+
+    <c:type class="net.dpml.test.ExampleComponent" name="example"/>
+    <c:type class="net.dpml.test.SingletonComponent" name="example" threadsafe="true"/>
+    <c:type class="net.dpml.test.ContextTestComponent" name="context" threadsafe="true"/>
+
+    <!-- create test components -->
+
+    <c:component dest="target/test/example.part" 
+        type="net.dpml.test.ExampleComponent" name="example">
+      <context>
+        <entry key="color" method="RED"/>
+      </context>
+    </c:component>
+
+    <c:component dest="target/test/example-2.part" 
+        type="net.dpml.test.ExampleComponent" name="transient" collection="SOFT">
+      <context>
+        <entry key="color">
+          <param class="float" value="100"/>
+          <param class="float" value="200"/>
+          <param class="float" value="0"/>
+        </entry>
+      </context>
+    </c:component>
+
+    <c:component dest="target/test/example-3.part" 
+        type="net.dpml.test.SingletonComponent" name="singleton" collection="weak">
+      <context>
+        <entry key="color" method="RED"/>
+      </context>
+    </c:component>
+
+    <c:component dest="target/test/example-4.part" 
+        type="net.dpml.test.SingletonComponent" name="singleton" collection="hard">
+      <context>
+        <entry key="color" method="RED"/>
+      </context>
+    </c:component>
+
+    <c:component dest="target/test/context.part" 
+        type="net.dpml.test.ContextTestComponent" name="context" collection="soft">
+      <context>
+        <entry key="color" method="RED"/>
+        <entry key="integer" value="0"/>
+        <entry key="short" value="0"/>
+        <entry key="long" value="0"/>
+        <entry key="byte" value="0"/>
+        <entry key="double" value="0"/>
+        <entry key="float" value="0.5"/>
+        <entry key="char" value="x"/>
+        <entry key="boolean" value="true"/>
+        <entry key="file" value="$${work}"/>
+        <entry key="tempFile" value="$${temp}"/>
+        <entry key="URI" value="$${uri}"/>
+        <entry key="name" value="$${name}"/>
+        <entry key="path" value="$${path}"/>
+      </context>
+    </c:component>
+
+  </target>
+
+</project>
+
+

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<state>
+  <trigger event="initialization">
+    <transition name="init" target="available"/>
+  </trigger>
+  <state name="available">
+    <trigger event="termination">
+      <transition name="terminate" target="../terminated"/>
+    </trigger>
+  </state>
+  <state name="terminated" terminal="true"/>
+</state>
