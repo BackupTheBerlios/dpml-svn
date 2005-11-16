@@ -83,10 +83,8 @@
     <x:javadoc title="DPML Component Management Platform" >
       <link href="http://java.sun.com/j2se/1.4/docs/api"/>
       <group title="Metro">
-        <package name="net.dpml.component"/>
-        <package name="net.dpml.component.*"/>
-        <package name="net.dpml.metro.runtime"/>
-        <package name="net.dpml.metro.runtime.*"/>
+        <package name="net.dpml.metro"/>
+        <package name="net.dpml.metro.*"/>
         <package name="net.dpml.part"/>
         <package name="net.dpml.part.*"/>
       </group>

@@ -82,23 +82,4 @@
     </dependencies>
   </project>
    
-  <project name="dpml-state-api" basedir="state/api">
-    <types>
-      <type id="jar"/>
-    </types>
-  </project>
-   
-  <project name="dpml-state-impl" basedir="state/impl">
-    <types>
-      <type id="jar"/>
-    </types>
-    <dependencies>
-      <include key="dpml-state-api" tag="public"/>
-      <include key="dpml-configuration-impl"/>
-    </dependencies>
-    <dependencies scope="test">
-      <include ref="ant/ant-junit"/>
-    </dependencies>
-  </project>
-   
 </module>

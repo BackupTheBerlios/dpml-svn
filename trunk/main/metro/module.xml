@@ -5,7 +5,26 @@
   <types>
     <type id="module" alias="true"/>
   </types>
-      
+
+  <project name="dpml-state-api" basedir="state/api">
+    <types>
+      <type id="jar"/>
+    </types>
+  </project>
+   
+  <project name="dpml-state-impl" basedir="state/impl">
+    <types>
+      <type id="jar"/>
+    </types>
+    <dependencies>
+      <include key="dpml-state-api" tag="public"/>
+      <include ref="dpml/util/dpml-configuration-impl"/>
+    </dependencies>
+    <dependencies scope="test">
+      <include ref="ant/ant-junit"/>
+    </dependencies>
+  </project>      
+
   <project name="dpml-part-api" basedir="part">
     <types>
       <type id="plugin" alias="true">
@@ -15,7 +34,7 @@
       <type id="jar"/>
     </types>
     <dependencies>
-      <include ref="dpml/util/dpml-state-api" tag="public"/>
+      <include key="dpml-state-api" tag="public"/>
       <include ref="dpml/transit/dpml-transit-main" tag="private"/>
     </dependencies>
     <dependencies scope="test">
@@ -28,14 +47,14 @@
       <type id="jar"/>
     </types>
     <dependencies>
-      <include ref="dpml/util/dpml-state-api" tag="public"/>
+      <include key="dpml-state-api" tag="public"/>
       <include ref="dpml/util/dpml-parameters-api" tag="public"/>
       <include ref="dpml/util/dpml-configuration-api" tag="public"/>
       <include key="dpml-part-api" tag="public"/>
     </dependencies>
     <dependencies scope="test">
       <include ref="ant/ant-junit"/>
-      <include ref="dpml/util/dpml-state-impl"/>
+      <include key="dpml-state-impl"/>
       <include ref="dpml/util/dpml-parameters-impl"/>
       <include ref="dpml/util/dpml-configuration-impl"/>
     </dependencies>
@@ -70,7 +89,7 @@
       <include ref="dpml/util/dpml-activity-api" tag="public"/>
       <include ref="dpml/util/dpml-parameters-impl"/>
       <include ref="dpml/util/dpml-configuration-impl"/>
-      <include ref="dpml/util/dpml-state-impl"/>
+      <include key="dpml-state-impl"/>
       <include key="dpml-part-api" tag="protected"/>
       <include key="dpml-metro-model" tag="protected"/>
     </dependencies>
