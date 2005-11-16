@@ -1,8 +1,0 @@
-<?xml version="1.0"?>
-
-<antlib>
-  <taskdef name="type" classname="net.dpml.metro.tools.TypeBuilderTask"/>
-  <taskdef name="types" classname="net.dpml.metro.tools.TypesTask"/>
-  <taskdef name="component" classname="net.dpml.metro.tools.ComponentBuilderTask"/>
-  <taskdef name="catalog" classname="net.dpml.metro.tools.CatalogTask"/>
-</antlib>
