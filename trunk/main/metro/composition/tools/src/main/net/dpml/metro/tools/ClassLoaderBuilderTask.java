@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package net.dpml.metro.runtime.tools;
+package net.dpml.metro.tools;
 
 import java.beans.IntrospectionException;
 import java.io.ByteArrayInputStream;
@@ -31,11 +31,12 @@ import java.net.URL;
 import java.util.List;
 import java.util.ArrayList;
 
-import net.dpml.metro.runtime.tools.datatypes.CategoriesDataType;
-import net.dpml.metro.runtime.tools.datatypes.ConfigurationDataType;
-import net.dpml.metro.runtime.tools.datatypes.ContextDataType;
-import net.dpml.metro.runtime.tools.datatypes.ParametersDataType;
-import net.dpml.metro.runtime.tools.datatypes.PartsDataType;
+import net.dpml.metro.tools.datatypes.CategoriesDataType;
+import net.dpml.metro.tools.datatypes.ConfigurationDataType;
+import net.dpml.metro.tools.datatypes.ContextDataType;
+import net.dpml.metro.tools.datatypes.ParametersDataType;
+import net.dpml.metro.tools.datatypes.PartsDataType;
+
 import net.dpml.metro.runtime.CompositionController;
 import net.dpml.metro.runtime.CompositionContext;
 
@@ -48,13 +49,13 @@ import net.dpml.metro.info.EntryDescriptor;
 import net.dpml.metro.info.InfoDescriptor;
 import net.dpml.metro.info.Type;
 import net.dpml.metro.info.PartReference;
-import net.dpml.part.ControllerContext;
 
 import net.dpml.configuration.Configuration;
 
 import net.dpml.parameters.Parameters;
 import net.dpml.parameters.impl.DefaultParameters;
 
+import net.dpml.part.ControllerContext;
 import net.dpml.part.Part;
 import net.dpml.part.Component;
 import net.dpml.part.PartHolder;

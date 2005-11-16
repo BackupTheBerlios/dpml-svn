@@ -39,8 +39,8 @@
     </types>
     <dependencies>
       <include key="dpml-http-api" tag="public"/>
-      <include urn="artifact:jar:servletapi/servletapi#2.3" tag="public"/>
       <include key="dpml-http-spi" tag="protected"/>
+      <include ref="dpml/transit/dpml-transit-main"/>
       <include ref="dpml/util/dpml-activity-api" tag="protected"/>
       <include ref="dpml/util/dpml-logging-api" tag="protected"/>
       <include ref="dpml/util/dpml-configuration-api" tag="protected"/>
@@ -51,7 +51,7 @@
       <include urn="artifact:jar:tomcat/jasper-compiler#5.0.25"/>
       <include urn="artifact:jar:tomcat/jasper-runtime#5.0.25"/>
       <include urn="artifact:jar:commons-logging/commons-logging#1.0.4"/>
-      <include ref="dpml/transit/dpml-transit-main"/>
+      <include urn="artifact:jar:servletapi/servletapi#2.3" tag="public"/>
     </dependencies>
   </project>
 

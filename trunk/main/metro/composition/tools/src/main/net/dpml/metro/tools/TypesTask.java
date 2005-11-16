@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package net.dpml.metro.runtime.tools;
+package net.dpml.metro.tools;
 
 import java.io.File;
 import java.io.FileOutputStream;

@@ -15,7 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package net.dpml.metro.runtime.test;
+package net.dpml.metro.tools.test;
 
 import java.io.File;
 import java.io.FileReader;
@@ -23,7 +23,7 @@ import java.io.FileWriter;
 
 import junit.framework.TestCase;
 
-import net.dpml.metro.runtime.tools.SerializableObjectHelper;
+import net.dpml.metro.tools.SerializableObjectHelper;
 
 import net.dpml.metro.data.ComponentDirective;
 

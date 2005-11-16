@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package net.dpml.metro.runtime.tools.datatypes;
+package net.dpml.metro.tools.datatypes;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -24,7 +24,7 @@
 
   <target name="build" depends="standard.build">
 
-    <x:plugin uri="link:plugin:dpml/metro/dpml-composition-tools"/>
+    <x:plugin uri="link:plugin:dpml/metro/dpml-metro-tools"/>
 
     <c:type class="net.dpml.http.Demo" threadsafe="true" name="demo">
       <parts>

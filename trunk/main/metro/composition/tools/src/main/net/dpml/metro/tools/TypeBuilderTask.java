@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package net.dpml.metro.runtime.tools;
+package net.dpml.metro.tools;
 
 import java.beans.IntrospectionException;
 import java.io.IOException;
@@ -39,7 +39,7 @@ import java.util.Properties;
 import net.dpml.activity.Startable;
 import net.dpml.activity.Executable;
 
-import net.dpml.metro.runtime.tools.datatypes.PartsDataType;
+import net.dpml.metro.tools.datatypes.PartsDataType;
 
 import net.dpml.metro.info.CategoryDescriptor;
 import net.dpml.metro.info.ContextDescriptor;

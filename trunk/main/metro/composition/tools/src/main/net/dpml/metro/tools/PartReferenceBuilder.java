@@ -1,5 +1,4 @@
 /*
-/*
  * Copyright (c) 2005 Stephen J. McConnell
  *
  * Licensed  under the  Apache License,  Version 2.0  (the "License");
@@ -17,28 +16,33 @@
  * limitations under the License.
  */
 
-package net.dpml.metro.runtime.tools;
+package net.dpml.metro.tools;
 
 import java.io.IOException;
-import java.net.URI;
 import java.beans.IntrospectionException;
 
+import net.dpml.metro.info.PartReference;
 import net.dpml.metro.info.Type;
 
 /**
- * The contract for builders that create component types.
+ * The contract for builders that create component part.
  *
  * @author <a href="mailto:dev-dpml@lists.ibiblio.org">The Digital Product Meta Library</a>
  * @version $Revision: 1.2 $ $Date: 2004/03/17 10:30:09 $
  */
-public interface TypeBuilder
+public interface PartReferenceBuilder
 {
    /**
-    * Build a part type.
-    * @return the serializable part type.
-    * @exception IntrospectionException if a introspection occurs during type construction
+    * Return the key identifying the part that this builder is building.
     */
-    Type buildType( ClassLoader classloader ) 
-       throws IntrospectionException, IOException;
+    String getKey();
 
+   /**
+    * Build the part.
+    * @param classloader the classloader to use if type creation is required
+    * @return the serializable part
+    * @exception Exception if a construction error occurs
+    */
+    PartReference buildPartReference( ClassLoader classloader, Type type ) 
+       throws IntrospectionException, IOException, ClassNotFoundException;
 }

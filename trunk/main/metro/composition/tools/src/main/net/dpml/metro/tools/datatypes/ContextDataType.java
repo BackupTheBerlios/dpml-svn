@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package net.dpml.metro.runtime.tools.datatypes;
+package net.dpml.metro.tools.datatypes;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -27,8 +27,8 @@ import net.dpml.metro.info.PartReference;
 import net.dpml.metro.data.ContextDirective;
 import net.dpml.metro.info.Type;
 
-import net.dpml.metro.runtime.tools.ComponentBuilderTask;
-import net.dpml.metro.runtime.tools.PartReferenceBuilder;
+import net.dpml.metro.tools.ComponentBuilderTask;
+import net.dpml.metro.tools.PartReferenceBuilder;
 
 import org.apache.tools.ant.Task;
 

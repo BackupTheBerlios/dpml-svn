@@ -16,20 +16,19 @@
  * limitations under the License.
  */
 
-package net.dpml.metro.runtime.tools.datatypes;
+package net.dpml.metro.tools.datatypes;
 
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Properties;
 
-import net.dpml.metro.runtime.tools.PartReferenceBuilder;
+import net.dpml.metro.tools.PartReferenceBuilder;
 import net.dpml.metro.runtime.CompositionController;
-
-import net.dpml.metro.info.Type;
-import net.dpml.part.ControllerContext;
 import net.dpml.metro.info.PartReference;
+import net.dpml.metro.info.Type;
 
+import net.dpml.part.ControllerContext;
 import net.dpml.part.Part;
 import net.dpml.part.DelegationException;
 import net.dpml.part.PartNotFoundException;
