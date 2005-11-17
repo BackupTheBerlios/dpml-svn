@@ -20,7 +20,7 @@ package net.dpml.metro.data.test;
 
 import junit.framework.TestCase;
 
-import net.dpml.part.Part;
+import net.dpml.metro.part.Part;
 import net.dpml.metro.info.PartReference;
 
 import net.dpml.metro.data.ValueDirective;

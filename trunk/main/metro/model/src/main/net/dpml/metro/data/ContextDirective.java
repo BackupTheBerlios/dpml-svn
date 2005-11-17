@@ -20,7 +20,7 @@ package net.dpml.metro.data;
 
 import java.io.Serializable;
 
-import net.dpml.part.Part;
+import net.dpml.metro.part.Part;
 import net.dpml.metro.info.PartReference;
 
 /**

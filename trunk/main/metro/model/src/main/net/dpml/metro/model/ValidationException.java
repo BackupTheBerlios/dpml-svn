@@ -27,7 +27,7 @@ import net.dpml.metro.info.PartReference;
 import net.dpml.metro.info.EntryDescriptor;
 import net.dpml.metro.data.Directive;
 
-import net.dpml.part.ContextException;
+import net.dpml.metro.part.ContextException;
 
 import net.dpml.transit.model.UnknownKeyException;
 

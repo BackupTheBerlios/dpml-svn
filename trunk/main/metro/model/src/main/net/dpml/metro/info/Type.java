@@ -39,7 +39,7 @@ import java.util.ArrayList;
 
 import net.dpml.configuration.Configuration;
 
-import net.dpml.part.Part;
+import net.dpml.metro.part.Part;
 
 /**
  * This class contains the meta information about a particular

@@ -23,7 +23,7 @@ import java.lang.Comparable;
 import java.net.URI;
 import java.net.URISyntaxException;
 
-import net.dpml.part.ActivationPolicy;
+import net.dpml.metro.part.ActivationPolicy;
 
 /**
  * Abstract base class for the ComponentDirective.

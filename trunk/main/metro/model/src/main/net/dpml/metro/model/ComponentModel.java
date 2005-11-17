@@ -24,15 +24,15 @@ import java.rmi.RemoteException;
 import net.dpml.metro.info.LifestylePolicy;
 import net.dpml.metro.info.CollectionPolicy;
 import net.dpml.metro.data.ClassLoaderDirective;
-import net.dpml.part.ActivationPolicy;
+import net.dpml.metro.part.ActivationPolicy;
 
 import net.dpml.configuration.Configuration;
 
 import net.dpml.parameters.Parameters;
 
-import net.dpml.part.Context;
+import net.dpml.metro.part.Context;
 
-import net.dpml.state.State;
+import net.dpml.metro.state.State;
 
 import net.dpml.transit.model.UnknownKeyException;
 

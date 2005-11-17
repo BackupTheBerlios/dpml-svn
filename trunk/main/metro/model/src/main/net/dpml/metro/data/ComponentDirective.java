@@ -24,7 +24,7 @@ import net.dpml.metro.info.PartReference;
 import net.dpml.metro.info.InfoDescriptor;
 import net.dpml.metro.info.LifestylePolicy;
 import net.dpml.metro.info.CollectionPolicy;
-import net.dpml.part.ActivationPolicy;
+import net.dpml.metro.part.ActivationPolicy;
 
 import net.dpml.configuration.Configuration;
 

@@ -18,7 +18,7 @@
 
 package net.dpml.metro.data;
 
-import net.dpml.part.Part;
+import net.dpml.metro.part.Part;
 
 /**
  * Interface implemented by top-level directives.

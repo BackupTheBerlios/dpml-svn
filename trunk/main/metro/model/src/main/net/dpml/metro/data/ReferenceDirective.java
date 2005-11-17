@@ -22,7 +22,7 @@ import java.io.Serializable;
 import java.net.URI;
 import java.net.URISyntaxException;
 
-import net.dpml.part.Part;
+import net.dpml.metro.part.Part;
 
 /**
  * A reference directive is a reference to a part within the enclosing part's
