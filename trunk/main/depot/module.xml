@@ -99,7 +99,7 @@
       <type id="jar"/>
       <type id="plugin">
         <property name="project.plugin.class" 
-           value="net.dpml.depot.exec.ApplicationHandler"/>
+           value="net.dpml.metro.exec.ApplicationHandler"/>
       </type>
     </types>
     <dependencies scope="build">

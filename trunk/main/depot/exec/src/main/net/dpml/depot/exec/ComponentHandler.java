@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package net.dpml.depot.exec;
+package net.dpml.metro.exec;
 
 import java.net.URI;
 import java.rmi.RemoteException;

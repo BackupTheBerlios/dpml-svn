@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package net.dpml.depot.exec;
+package net.dpml.metro.exec;
 
 /**
  * A null exception thrown following the complete handing of the error condition
