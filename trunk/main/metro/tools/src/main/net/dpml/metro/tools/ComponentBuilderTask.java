@@ -58,11 +58,11 @@ import net.dpml.configuration.Configuration;
 import net.dpml.parameters.Parameters;
 import net.dpml.parameters.impl.DefaultParameters;
 
-import net.dpml.part.ControllerContext;
-import net.dpml.part.Part;
-import net.dpml.part.PartHolder;
-import net.dpml.part.ActivationPolicy;
-import net.dpml.part.Component;
+import net.dpml.metro.part.ControllerContext;
+import net.dpml.metro.part.Part;
+import net.dpml.metro.part.PartHolder;
+import net.dpml.metro.part.ActivationPolicy;
+import net.dpml.metro.part.Component;
 
 import net.dpml.transit.Logger;
 import net.dpml.transit.model.ContentModel;

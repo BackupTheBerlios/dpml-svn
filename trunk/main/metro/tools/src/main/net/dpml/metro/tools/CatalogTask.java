@@ -30,7 +30,7 @@ import java.util.LinkedList;
 import java.util.Hashtable;
 import java.util.Map;
 
-import net.dpml.part.Part;
+import net.dpml.metro.part.Part;
 
 import net.dpml.metro.info.PartReference;
 import net.dpml.metro.info.EntryDescriptor;

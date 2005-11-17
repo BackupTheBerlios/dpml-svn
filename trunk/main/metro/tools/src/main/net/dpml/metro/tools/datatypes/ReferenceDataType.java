@@ -28,7 +28,7 @@ import net.dpml.metro.data.ReferenceDirective;
 import net.dpml.metro.tools.ConstructionException;
 import net.dpml.metro.tools.PartReferenceBuilder;
 
-import net.dpml.part.Part;
+import net.dpml.metro.part.Part;
 
 /**
  * A simple part datatype.

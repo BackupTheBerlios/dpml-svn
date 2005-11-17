@@ -31,7 +31,7 @@ import net.dpml.metro.data.FeatureDirective;
 import net.dpml.metro.info.EntryDescriptor;
 import net.dpml.metro.info.Type;
 
-import net.dpml.part.Part;
+import net.dpml.metro.part.Part;
 
 import net.dpml.transit.model.Construct;
 
