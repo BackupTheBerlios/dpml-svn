@@ -20,8 +20,8 @@ import java.util.EventListener;
 import net.dpml.profile.info.StartupPolicy;
 import net.dpml.profile.info.ApplicationDescriptor;
 
-import net.dpml.part.Component;
-import net.dpml.part.Instance;
+import net.dpml.metro.part.Component;
+import net.dpml.metro.part.Instance;
 
 import net.dpml.station.Station;
 import net.dpml.station.Callback;

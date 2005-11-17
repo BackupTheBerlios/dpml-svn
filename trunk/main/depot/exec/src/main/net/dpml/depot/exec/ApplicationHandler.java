@@ -30,9 +30,9 @@ import java.util.Properties;
 import java.util.prefs.Preferences;
 import java.lang.reflect.InvocationTargetException;
 
-import net.dpml.part.Component;
-import net.dpml.part.HandlerException;
-import net.dpml.part.Instance;
+import net.dpml.metro.part.Component;
+import net.dpml.metro.part.HandlerException;
+import net.dpml.metro.part.Instance;
 
 import net.dpml.station.Station;
 import net.dpml.station.Application;

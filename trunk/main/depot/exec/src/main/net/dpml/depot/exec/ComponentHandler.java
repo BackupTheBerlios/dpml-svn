@@ -26,14 +26,14 @@ import java.lang.reflect.InvocationTargetException;
 
 import net.dpml.station.ApplicationException;
 
-import net.dpml.part.Controller;
-import net.dpml.part.Component;
-import net.dpml.part.HandlerException;
-import net.dpml.part.Instance;
-import net.dpml.part.Context;
-import net.dpml.part.Part;
-import net.dpml.part.Service;
-import net.dpml.part.ServiceNotFoundException;
+import net.dpml.metro.part.Controller;
+import net.dpml.metro.part.Component;
+import net.dpml.metro.part.HandlerException;
+import net.dpml.metro.part.Instance;
+import net.dpml.metro.part.Context;
+import net.dpml.metro.part.Part;
+import net.dpml.metro.part.Service;
+import net.dpml.metro.part.ServiceNotFoundException;
 
 import net.dpml.transit.Logger;
 import net.dpml.transit.Repository;

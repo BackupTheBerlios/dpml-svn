@@ -21,7 +21,7 @@ package net.dpml.station;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 
-import net.dpml.part.Component;
+import net.dpml.metro.part.Component;
 
 import net.dpml.transit.PID;
 

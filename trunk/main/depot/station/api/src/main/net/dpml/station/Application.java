@@ -24,7 +24,7 @@ import java.io.Serializable;
 
 import net.dpml.transit.PID;
 
-import net.dpml.part.Context;
+import net.dpml.metro.part.Context;
 
 import net.dpml.profile.info.ApplicationDescriptor;
 
