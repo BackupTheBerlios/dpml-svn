@@ -26,7 +26,7 @@ import net.dpml.transit.PID;
 
 import net.dpml.metro.part.Context;
 
-import net.dpml.profile.info.ApplicationDescriptor;
+import net.dpml.station.info.ApplicationDescriptor;
 
 /**
  * Application process controller.

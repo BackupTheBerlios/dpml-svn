@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package net.dpml.profile.model;
+package net.dpml.station;
 
 import java.net.URI;
 import java.rmi.RemoteException;
@@ -24,8 +24,8 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.InputStream;
 
-import net.dpml.profile.info.ApplicationDescriptor;
-import net.dpml.profile.info.RegistryDescriptor;
+import net.dpml.station.info.ApplicationDescriptor;
+import net.dpml.station.info.RegistryDescriptor;
 
 import net.dpml.transit.model.Model;
 import net.dpml.transit.model.DuplicateKeyException;

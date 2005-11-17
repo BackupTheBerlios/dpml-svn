@@ -17,8 +17,8 @@ import java.util.Properties;
 import java.util.EventObject;
 import java.util.EventListener;
 
-import net.dpml.profile.info.StartupPolicy;
-import net.dpml.profile.info.ApplicationDescriptor;
+import net.dpml.station.info.StartupPolicy;
+import net.dpml.station.info.ApplicationDescriptor;
 
 import net.dpml.metro.part.Component;
 import net.dpml.metro.part.Instance;

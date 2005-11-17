@@ -42,7 +42,7 @@
       <type id="jar"/>
       <type id="plugin" alias="true">
         <property name="project.plugin.class" 
-          value="net.dpml.profile.impl.RemoteApplicationRegistry"/>
+          value="net.dpml.station.server.RemoteApplicationRegistry"/>
       </type>
     </types>
     <dependencies>

@@ -23,10 +23,10 @@ import net.dpml.station.Manager;
 import net.dpml.station.Station;
 import net.dpml.station.StationException;
 
-import net.dpml.profile.info.ApplicationDescriptor;
-import net.dpml.profile.info.StartupPolicy;
-import net.dpml.profile.model.ApplicationRegistry;
-import net.dpml.profile.impl.RemoteApplicationRegistry;
+import net.dpml.station.info.ApplicationDescriptor;
+import net.dpml.station.info.StartupPolicy;
+import net.dpml.station.ApplicationRegistry;
+import net.dpml.station.server.RemoteApplicationRegistry;
 
 import net.dpml.transit.Logger;
 import net.dpml.transit.PID;

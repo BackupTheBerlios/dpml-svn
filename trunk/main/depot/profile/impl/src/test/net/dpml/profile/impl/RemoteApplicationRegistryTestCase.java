@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package net.dpml.profile.impl;
+package net.dpml.station.server;
 
 import java.net.URL;
 import java.io.File;
@@ -24,11 +24,11 @@ import java.util.Properties;
 
 import junit.framework.TestCase;
 
-import net.dpml.profile.info.ApplicationDescriptor;
-import net.dpml.profile.info.StartupPolicy;
-import net.dpml.profile.info.ValueDescriptor;
-import net.dpml.profile.model.RegistryListener;
-import net.dpml.profile.model.RegistryEvent;
+import net.dpml.station.info.ApplicationDescriptor;
+import net.dpml.station.info.StartupPolicy;
+import net.dpml.station.info.ValueDescriptor;
+import net.dpml.station.RegistryListener;
+import net.dpml.station.RegistryEvent;
 
 import net.dpml.transit.Artifact;
 import net.dpml.transit.Logger;

@@ -21,7 +21,7 @@ import net.dpml.cli.validation.URIValidator;
 import net.dpml.cli.validation.NumberValidator;
 
 import net.dpml.station.Station;
-import net.dpml.profile.model.ApplicationRegistry;
+import net.dpml.station.ApplicationRegistry;
 
 import net.dpml.transit.Artifact;
 import net.dpml.transit.Logger;

@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package net.dpml.profile.impl;
+package net.dpml.station.server;
 
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -35,13 +35,13 @@ import java.io.FileNotFoundException;
 import java.beans.XMLDecoder;
 import java.beans.XMLEncoder;
 
-import net.dpml.profile.info.ApplicationDescriptor;
-import net.dpml.profile.info.RegistryDescriptor;
-import net.dpml.profile.info.RegistryDescriptor.Entry;
-import net.dpml.profile.info.ApplicationRegistryRuntimeException;
-import net.dpml.profile.model.ApplicationRegistry;
-import net.dpml.profile.model.RegistryEvent;
-import net.dpml.profile.model.RegistryListener;
+import net.dpml.station.info.ApplicationDescriptor;
+import net.dpml.station.info.RegistryDescriptor;
+import net.dpml.station.info.RegistryDescriptor.Entry;
+import net.dpml.station.info.ApplicationRegistryRuntimeException;
+import net.dpml.station.ApplicationRegistry;
+import net.dpml.station.RegistryEvent;
+import net.dpml.station.RegistryListener;
 
 import net.dpml.transit.Artifact;
 import net.dpml.transit.Logger;

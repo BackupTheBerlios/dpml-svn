@@ -5,7 +5,7 @@ import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.io.IOException;
 
-import net.dpml.profile.model.ApplicationRegistry;
+import net.dpml.station.ApplicationRegistry;
 
 import net.dpml.transit.model.UnknownKeyException;
 

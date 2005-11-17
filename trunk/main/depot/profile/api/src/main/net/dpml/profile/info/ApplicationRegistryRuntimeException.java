@@ -17,7 +17,7 @@
  * limitations under the License.
  */
 
-package net.dpml.profile.info;
+package net.dpml.station.info;
 
 /**
  * Exception indicating that an internal error occured while loading the 

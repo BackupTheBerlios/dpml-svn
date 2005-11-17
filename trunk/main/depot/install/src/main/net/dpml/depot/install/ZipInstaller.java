@@ -30,7 +30,7 @@ import java.util.Enumeration;
 import java.util.Properties;
 import java.util.Date;
 
-import net.dpml.profile.model.ApplicationRegistry;
+import net.dpml.station.ApplicationRegistry;
 
 import net.dpml.transit.Transit;
 import net.dpml.transit.Repository;

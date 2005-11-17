@@ -16,11 +16,11 @@
  * limitations under the License.
  */
 
-package net.dpml.profile.model;
+package net.dpml.station;
 
 import java.util.EventObject;
 
-import net.dpml.profile.info.ApplicationDescriptor;
+import net.dpml.station.info.ApplicationDescriptor;
 
 /**
  * An application registry event.

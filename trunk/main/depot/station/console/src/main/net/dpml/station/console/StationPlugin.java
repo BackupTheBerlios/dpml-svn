@@ -38,10 +38,10 @@ import java.util.Properties;
 
 import net.dpml.station.Station;
 
-import net.dpml.profile.info.StartupPolicy;
-import net.dpml.profile.model.ApplicationRegistry;
-import net.dpml.profile.info.ApplicationDescriptor;
-import net.dpml.profile.info.ValueDescriptor;
+import net.dpml.station.info.StartupPolicy;
+import net.dpml.station.ApplicationRegistry;
+import net.dpml.station.info.ApplicationDescriptor;
+import net.dpml.station.info.ValueDescriptor;
 
 import net.dpml.station.Application;
 import net.dpml.station.Manager;
