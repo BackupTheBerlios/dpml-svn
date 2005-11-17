@@ -119,15 +119,15 @@ test:
     [javac] Compiling 6 source files to C:\dev\dpml\main\metro\state\impl\target\classes\test
     [junit] Created dir: C:\dev\dpml\main\metro\state\impl\target\reports\test
     [junit] executing in local jvm
-    [junit] Running net.dpml.state.test.DefaultOperationTestCase
+    [junit] Running net.dpml.metro.state.test.DefaultOperationTestCase
     [junit] Tests run: 3, Failures: 0, Errors: 0, Time elapsed: 0.11 sec
-    [junit] Running net.dpml.state.test.DefaultStateMachineTestCase
+    [junit] Running net.dpml.metro.state.test.DefaultStateMachineTestCase
     [junit] Tests run: 6, Failures: 0, Errors: 0, Time elapsed: 0.125 sec
-    [junit] Running net.dpml.state.test.DefaultStateTestCase
+    [junit] Running net.dpml.metro.state.test.DefaultStateTestCase
     [junit] Tests run: 7, Failures: 0, Errors: 0, Time elapsed: 0.047 sec
-    [junit] Running net.dpml.state.test.DefaultTransitionTestCase
+    [junit] Running net.dpml.metro.state.test.DefaultTransitionTestCase
     [junit] Tests run: 5, Failures: 0, Errors: 0, Time elapsed: 0.016 sec
-    [junit] Running net.dpml.state.test.DefaultTriggerTestCase
+    [junit] Running net.dpml.metro.state.test.DefaultTriggerTestCase
     [junit] Tests run: 4, Failures: 0, Errors: 0, Time elapsed: 0.032 sec
 
 install:
