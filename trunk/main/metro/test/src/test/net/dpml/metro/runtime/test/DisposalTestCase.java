@@ -33,17 +33,17 @@ import net.dpml.metro.data.ValueDirective;
 import net.dpml.metro.model.ComponentModel;
 import net.dpml.metro.model.ContextModel;
 
-import net.dpml.part.Part;
-import net.dpml.part.Controller;
-import net.dpml.part.Component;
-import net.dpml.part.ActivationPolicy;
-import net.dpml.part.Instance;
-import net.dpml.part.Disposable;
+import net.dpml.metro.part.Part;
+import net.dpml.metro.part.Controller;
+import net.dpml.metro.part.Component;
+import net.dpml.metro.part.ActivationPolicy;
+import net.dpml.metro.part.Instance;
+import net.dpml.metro.part.Disposable;
 
-import net.dpml.state.State;
-import net.dpml.state.StateListener;
-import net.dpml.state.StateEvent;
-import net.dpml.state.impl.DefaultStateListener;
+import net.dpml.metro.state.State;
+import net.dpml.metro.state.StateListener;
+import net.dpml.metro.state.StateEvent;
+import net.dpml.metro.state.impl.DefaultStateListener;
 
 import net.dpml.transit.model.UnknownKeyException;
 import net.dpml.transit.model.Value;

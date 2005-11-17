@@ -20,8 +20,8 @@ package net.dpml.metro.runtime.test;
 
 import junit.framework.TestCase;
 
-import net.dpml.part.Part;
-import net.dpml.part.Controller;
+import net.dpml.metro.part.Part;
+import net.dpml.metro.part.Controller;
 
 /**
  * Testing load launch time.
