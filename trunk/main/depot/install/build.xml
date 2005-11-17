@@ -12,7 +12,7 @@
     <x:filter token="VERSION" feature="version" />
     <x:filter token="METRO_BUNDLE_URI" ref="dpml/metro" feature="uri" type="zip"/>
     <x:filter token="DEPOT_BUNDLE_URI" ref="dpml/depot" feature="uri" type="zip"/>
-    <x:filter token="DEPOT-PROFILE-PLUGIN-URI" key="dpml-profile-impl" feature="uri" type="plugin"/>
+    <x:filter token="DEPOT-STATION-PLUGIN-URI" key="dpml-station-impl" feature="uri" type="plugin"/>
   </target>
 
   <target name="build" depends="standard.build">

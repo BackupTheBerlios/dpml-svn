@@ -8,6 +8,7 @@
 
   <target name="build" depends="standard.build">
     <rmic base="${project.target.classes.main.dir}" classpathref="project.compile.path">
+      <include name="**/RemoteApplicationRegistry.class"/>
       <include name="**/RemoteApplication.class"/>
       <include name="**/RemoteStation.class"/>
       <include name="**/LoggingServer.class"/>

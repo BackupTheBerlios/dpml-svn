@@ -7,7 +7,6 @@
   <transit:import uri="local:template:tools/standard"/>
 
   <target name="init" depends="standard.init">
-    <x:filter token="DEPOT-PROFILE-PLUGIN-URI" key="dpml-profile-impl" feature="uri" type="plugin"/>
     <x:filter feature="uri" type="plugin" token="COMPOSITION-CONTROLLER-URI" 
       ref="dpml/metro/dpml-metro-runtime"/>
   </target>

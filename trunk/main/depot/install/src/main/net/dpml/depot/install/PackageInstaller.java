@@ -91,7 +91,7 @@ public class PackageInstaller implements Runnable
 
         Repository repository = Transit.getInstance().getRepository();
         ClassLoader classloader = PackageInstaller.class.getClassLoader();
-        URI uri = new URI( DEPOT_PROFILE_URI );
+        URI uri = new URI( DEPOT_STATION_URI );
         m_depot = (ApplicationRegistry) repository.getPlugin( classloader, uri, new Object[]{prefs, logger} );
 
         TransitStorageHome home = new TransitStorageHome();
@@ -437,5 +437,5 @@ public class PackageInstaller implements Runnable
     private static final String MAGIC_PROFILE = "magic";
     private static final String METRO_PROFILE = "metro";
     private static final String VERSION = "@VERSION@";
-    private static final String DEPOT_PROFILE_URI = "@DEPOT-PROFILE-PLUGIN-URI@";
+    private static final String DEPOT_STATION_URI = "@DEPOT-STATION-PLUGIN-URI@";
 }

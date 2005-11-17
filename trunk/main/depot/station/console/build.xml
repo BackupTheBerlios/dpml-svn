@@ -7,7 +7,7 @@
   <transit:import uri="local:template:tools/standard"/>
 
   <target name="init" depends="standard.init">
-    <x:filter token="DEPOT-PROFILE-PLUGIN-URI" key="dpml-profile-impl" feature="uri" type="plugin"/>
+    <x:filter token="DEPOT-STATION-PLUGIN-URI" key="dpml-station-impl" feature="uri" type="plugin"/>
   </target>
 
 </project>

@@ -118,9 +118,12 @@
       <type id="jar"/>
     </types>
     <dependencies>
+      <include ref="dpml/transit/dpml-transit-main"/>
       <include ref="dpml/metro/dpml-part-api"/>
       <include key="dpml-depot-console"/>
-      <include key="dpml-profile-api"/>
+    </dependencies>
+    <dependencies scope="test">
+      <include ref="junit/junit"/>
     </dependencies>
   </project>
    
@@ -136,9 +139,10 @@
       <include ref="dpml/util/dpml-util-cli"/>
       <include ref="dpml/transit/dpml-transit-main"/>
       <include ref="dpml/metro/dpml-part-api"/>
-      <include key="dpml-profile-api"/>
-      <include key="dpml-profile-impl"/>
       <include key="dpml-station-api"/>
+    </dependencies>
+    <dependencies scope="test">
+      <include ref="junit/junit"/>
     </dependencies>
   </project>
 
@@ -152,8 +156,8 @@
     </types>
     <dependencies>
       <include ref="dpml/util/dpml-util-cli"/>
+      <include key="dpml-station-api"/>
       <include key="dpml-station-impl"/>
-      <include key="dpml-profile-api"/>
     </dependencies>
   </project>
    
