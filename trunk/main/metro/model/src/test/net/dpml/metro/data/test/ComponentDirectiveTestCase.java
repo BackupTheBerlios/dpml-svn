@@ -18,7 +18,6 @@
 
 package net.dpml.metro.data.test;
 
-import net.dpml.metro.runtime.AbstractEncodingTestCase;
 import net.dpml.metro.data.ComponentDirective;
 import net.dpml.metro.data.CategoriesDirective;
 import net.dpml.metro.data.CategoryDirective;

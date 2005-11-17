@@ -26,7 +26,6 @@ import java.util.Properties;
 
 import junit.framework.TestCase;
 
-import net.dpml.metro.runtime.AbstractEncodingTestCase;
 import net.dpml.metro.info.Descriptor;
 
 /**

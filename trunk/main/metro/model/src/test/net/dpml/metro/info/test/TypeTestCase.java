@@ -38,10 +38,6 @@ import net.dpml.metro.info.Type;
 import net.dpml.metro.info.PartReference;
 import net.dpml.metro.info.ServiceDescriptor;
 
-//import net.dpml.configuration.Configuration;
-
-import net.dpml.metro.runtime.AbstractEncodingTestCase;
-
 /**
  * TypeTestCase does XYZ
  *

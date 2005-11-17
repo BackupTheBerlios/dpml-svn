@@ -23,7 +23,6 @@ import junit.framework.TestCase;
 import net.dpml.part.Part;
 import net.dpml.metro.info.PartReference;
 
-import net.dpml.metro.runtime.AbstractEncodingTestCase;
 import net.dpml.metro.data.ValueDirective;
 
 import net.dpml.transit.model.Construct;

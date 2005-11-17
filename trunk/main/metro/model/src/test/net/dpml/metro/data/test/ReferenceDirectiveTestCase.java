@@ -20,7 +20,6 @@ package net.dpml.metro.data.test;
 
 import java.net.URI;
 
-import net.dpml.metro.runtime.AbstractEncodingTestCase;
 import net.dpml.metro.data.ReferenceDirective;
 
 /**

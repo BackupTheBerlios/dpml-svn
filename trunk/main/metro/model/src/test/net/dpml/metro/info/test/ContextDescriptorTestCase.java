@@ -34,7 +34,6 @@ import java.io.File;
 import net.dpml.metro.info.Descriptor;
 import net.dpml.metro.info.ContextDescriptor;
 
-import net.dpml.metro.runtime.AbstractEncodingTestCase;
 import net.dpml.metro.info.EntryDescriptor;
 
 import junit.framework.TestCase;

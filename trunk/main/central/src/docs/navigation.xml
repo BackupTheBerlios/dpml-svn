@@ -27,9 +27,9 @@
 
     <links>
 
-      <item name="Management" href="management/desktop/index.html"/>
-      <item name="Runtime" href="runtime/metro/index.html"/>
-      <item name="Build" href="build/builder/index.html"/>
+      <item name="Depot" href="depot/index.html"/>
+      <item name="Transit" href="transit/index.html"/>
+      <item name="Metro" href="metro/index.html"/>
 
     </links>
 
