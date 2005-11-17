@@ -19,7 +19,7 @@
     <!--<x:filter token="DEPOT-PREFS-URI" key="dpml-depot-prefs" feature="uri" type="plugin"/>-->
     <!--<x:filter token="DEPOT-DESKTOP-URI" key="dpml-depot-desktop" feature="uri" type="plugin"/>-->
     <x:filter token="DEPOT-INSTALL-URI" key="dpml-depot-install" feature="uri" type="plugin"/>
-    <x:filter token="DEPOT-EXEC-URI" key="dpml-depot-exec" feature="uri" type="plugin"/>
+    <x:filter token="DEPOT-EXEC-URI" ref="dpml/metro/dpml-metro-exec" feature="uri" type="plugin"/>
     <x:filter token="DEPOT-BUILD-URI" ref="dpml/tools/dpml-tools-library" feature="uri" type="plugin"/>
     <!--<x:filter token="DEPOT-AUDIT-URI" key="dpml-depot-audit" feature="uri" type="plugin"/>-->
     <x:filter token="DEPOT-STATION-URI" key="dpml-station-console" feature="uri" type="plugin"/>

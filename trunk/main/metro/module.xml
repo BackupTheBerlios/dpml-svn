@@ -60,22 +60,6 @@
     </dependencies>
   </project>
    
-  <!--
-  <project name="dpml-composition-editor" basedir="composition/editor">
-    <types>
-      <type id="jar"/>
-      <type id="plugin">
-        <property name="project.plugin.class" 
-          value="net.dpml.metro.runtime.edit.CompositionEditorFactory"/>
-      </type>
-    </types>
-    <dependencies>
-      <include key="dpml-component-control" tag="public"/>
-      <include ref="jgoodies/forms" tag="private"/>
-    </dependencies>
-  </project>
-  -->
-
   <project name="dpml-metro-runtime" basedir="runtime">
     <types>
       <type id="jar"/>
@@ -125,7 +109,7 @@
     </dependencies>
   </project>
    
-   <project name="dpml-depot-exec" basedir="exec">
+   <project name="dpml-metro-exec" basedir="exec">
     <types>
       <type id="jar"/>
       <type id="plugin">
