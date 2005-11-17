@@ -25,10 +25,10 @@ import java.net.URLConnection;
 
 import junit.framework.TestCase;
 
-import net.dpml.part.Part;
-import net.dpml.part.Controller;
-import net.dpml.part.Context;
-import net.dpml.part.Component;
+import net.dpml.metro.part.Part;
+import net.dpml.metro.part.Controller;
+import net.dpml.metro.part.Context;
+import net.dpml.metro.part.Component;
 
 /**
  * Test a simple component case.
