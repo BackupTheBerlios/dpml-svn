@@ -56,7 +56,9 @@ public class RemoteApplication extends EventChannel implements Callback, Applica
     * Creation of an application instance.
     *
     * @param logger the assigned logging channel
-    * @param args supplimentary command line arguments
+    * @param descriptor the application descriptor
+    * @param id the application key
+    * @param port the rmi registry port on which the station is registered
     * @exception Exception if a exception occurs during establishment
     */
     public RemoteApplication( Logger logger, ApplicationDescriptor descriptor, String id, int port ) throws RemoteException

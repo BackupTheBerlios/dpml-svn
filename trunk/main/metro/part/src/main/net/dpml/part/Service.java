@@ -32,7 +32,6 @@ public interface Service extends Remote
 {
    /**
     * Return the service class.
-    * @param the class
     */
     Class getServiceClass() throws RemoteException;
     

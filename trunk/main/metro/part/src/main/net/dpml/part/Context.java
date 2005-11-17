@@ -27,7 +27,7 @@ import net.dpml.part.ActivationPolicy;
  * The Context interfaces is used mark a object as manageable context used in 
  * the creation of a runtime handler.
  *
- * @see PartHandler#createHandler(Context)
+ * @see Controller#createComponent(Context)
  * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
  */
 public interface Context

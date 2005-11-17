@@ -42,7 +42,7 @@ public class RegistryDescriptor extends AbstractDescriptor
     
    /**
     * Creation of a new registry descriptor.
-    * @param descriptors an array of application descriptors
+    * @param entries an array of application entries
     */
     public RegistryDescriptor( Entry[] entries )
     {   
@@ -52,7 +52,7 @@ public class RegistryDescriptor extends AbstractDescriptor
    /**
     * Returns the array of application descriptors.
     * 
-    * @return the application descriptor array
+    * @return the application entry array
     */
     public Entry[] getEntries()
     {

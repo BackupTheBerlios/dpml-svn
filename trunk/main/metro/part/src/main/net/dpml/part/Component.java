@@ -37,7 +37,7 @@ public interface Component extends Remote
 {
    /**
     * Return a handler capable of supporting the requested service.
-    * @param descriptor the service descriptor
+    * @param service the service descriptor
     */
     Component lookup( Service service ) throws ServiceNotFoundException, RemoteException;
     

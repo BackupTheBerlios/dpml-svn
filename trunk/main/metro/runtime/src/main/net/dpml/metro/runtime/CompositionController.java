@@ -125,7 +125,7 @@ public class CompositionController implements Controller
     * component directive.
     * 
     * @param anchor the anchor classloader
-    * @param part a component part 
+    * @param context a component context 
     */
     public ClassLoader createClassLoader( ClassLoader anchor, Context context ) throws PartException
     {

@@ -40,7 +40,6 @@ public class ControllerException extends ControlException
    /**
     * Creation of a new ControllerRuntimeException.
     *
-    * @param controller the uri identifying the controller iniating the exception
     * @param message the description of the exception 
     */
     public ControllerException( String message )

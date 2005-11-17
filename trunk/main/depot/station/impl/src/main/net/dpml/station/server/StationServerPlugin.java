@@ -105,7 +105,7 @@ public class StationServerPlugin
 
    /**
     * Create a shutdown hook that will trigger shutdown of the station.
-    * @param thread the application thread
+    * @param station the station
     */
     public static void setShutdownHook( final RemoteStation station )
     {

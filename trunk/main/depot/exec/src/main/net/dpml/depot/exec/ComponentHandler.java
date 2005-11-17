@@ -99,7 +99,7 @@ public class ComponentHandler extends AbstractHandler
     
    /**
     * Return a handler capable of supporting the requested service.
-    * @param descriptor the service descriptor
+    * @param service the service descriptor
     */
     public Component lookup( Service service ) throws ServiceNotFoundException, RemoteException
     {

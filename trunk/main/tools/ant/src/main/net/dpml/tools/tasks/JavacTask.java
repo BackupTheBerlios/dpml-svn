@@ -306,7 +306,6 @@ public class JavacTask extends MatchingTask
 
    /**
     * Get the project definition.
-    * @param project the project
     * @return the build context
     */
     protected Context getContext()

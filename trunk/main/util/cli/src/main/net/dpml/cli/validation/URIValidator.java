@@ -22,14 +22,10 @@ import java.util.List;
 import java.util.ListIterator;
 
 /**
- * The <code>UriValidator</code> validates the string argument
+ * The <code>URIValidator</code> validates the string argument
  * values are valid URIs.  If the value is a URI, the string value in
  * the {@link java.util.List} of values is replaced with the
  * {@link java.net.URI} instance.
- *
- * URIs can also be validated based on their scheme by using
- * the {@link #setScheme setScheme} method, or by using the specified
- * {@link #UriValidator( java.lang.String ) constructor}.
  *
  * The following example shows how to limit the valid values
  * for the site argument to 'artifact' URIs.

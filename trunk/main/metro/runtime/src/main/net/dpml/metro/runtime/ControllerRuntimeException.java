@@ -41,7 +41,6 @@ public class ControllerRuntimeException extends ControlRuntimeException
    /**
     * Creation of a new ControllerRuntimeException.
     *
-    * @param controller the uri identifying the controller iniating the exception
     * @param message the description of the exception 
     */
     public ControllerRuntimeException( String message )
@@ -52,7 +51,6 @@ public class ControllerRuntimeException extends ControlRuntimeException
    /**
     * Creation of a new ControllerRuntimeException.
     *
-    * @param controller the uri identifying the controller iniating the exception
     * @param message the description of the exception 
     * @param cause the causal exception
     */

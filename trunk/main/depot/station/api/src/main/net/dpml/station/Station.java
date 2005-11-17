@@ -15,7 +15,7 @@ public interface Station extends Remote
     
    /**
     * Return an application reference for the supplied callback id.
-    * @param key the callback id
+    * @param id the callback id
     * @return the application
     * @exception UnknownKeyException if the id is unknown
     * @exception RemoteException if a remote error occurs
