@@ -18,8 +18,8 @@
 
 package net.dpml.metro.runtime;
 
-import net.dpml.part.Service;
-import net.dpml.part.Version;
+import net.dpml.metro.part.Service;
+import net.dpml.metro.part.Version;
 
 /**
  * Default service implementation.

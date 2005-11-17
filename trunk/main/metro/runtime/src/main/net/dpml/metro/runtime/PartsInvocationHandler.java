@@ -26,7 +26,7 @@ import java.lang.reflect.Proxy;
 
 import net.dpml.metro.info.EntryDescriptor;
 
-import net.dpml.part.Component;
+import net.dpml.metro.part.Component;
 
 
 /**

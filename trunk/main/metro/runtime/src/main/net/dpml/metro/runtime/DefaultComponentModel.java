@@ -50,14 +50,14 @@ import net.dpml.logging.Logger;
 
 import net.dpml.parameters.Parameters;
 
-import net.dpml.part.Part;
-import net.dpml.part.PartException;
-import net.dpml.part.ActivationPolicy;
-import net.dpml.part.ControlException;
+import net.dpml.metro.part.Part;
+import net.dpml.metro.part.PartException;
+import net.dpml.metro.part.ActivationPolicy;
+import net.dpml.metro.part.ControlException;
 
-import net.dpml.state.State;
-import net.dpml.state.impl.DefaultState;
-import net.dpml.state.impl.DefaultStateMachine;
+import net.dpml.metro.state.State;
+import net.dpml.metro.state.impl.DefaultState;
+import net.dpml.metro.state.impl.DefaultStateMachine;
 
 import net.dpml.transit.Category;
 import net.dpml.transit.model.Value;

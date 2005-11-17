@@ -46,9 +46,9 @@ import net.dpml.metro.model.ValidationException.Issue;
 
 import net.dpml.logging.Logger;
 
-import net.dpml.part.Part;
-import net.dpml.part.PartException;
-import net.dpml.part.ContextException;
+import net.dpml.metro.part.Part;
+import net.dpml.metro.part.PartException;
+import net.dpml.metro.part.ContextException;
 
 import net.dpml.transit.model.Value;
 import net.dpml.transit.model.UnknownKeyException;

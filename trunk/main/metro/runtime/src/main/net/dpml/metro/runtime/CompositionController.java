@@ -50,22 +50,22 @@ import net.dpml.metro.model.ComponentModel;
 
 import net.dpml.metro.runtime.ComponentController;
 
-import net.dpml.part.ControllerContext;
-import net.dpml.part.LifecycleException;
-import net.dpml.part.UnsupportedPartTypeException;
-import net.dpml.part.Context;
-import net.dpml.part.Component;
-import net.dpml.part.ComponentException;
-import net.dpml.part.Controller;
-import net.dpml.part.Disposable;
-import net.dpml.part.DelegationException;
-import net.dpml.part.Part;
-import net.dpml.part.PartException;
-import net.dpml.part.PartHandlerNotFoundException;
-import net.dpml.part.PartNotFoundException;
-import net.dpml.part.PartHolder;
-import net.dpml.part.PartRuntimeException;
-import net.dpml.part.DelegationException;
+import net.dpml.metro.part.ControllerContext;
+import net.dpml.metro.part.LifecycleException;
+import net.dpml.metro.part.UnsupportedPartTypeException;
+import net.dpml.metro.part.Context;
+import net.dpml.metro.part.Component;
+import net.dpml.metro.part.ComponentException;
+import net.dpml.metro.part.Controller;
+import net.dpml.metro.part.Disposable;
+import net.dpml.metro.part.DelegationException;
+import net.dpml.metro.part.Part;
+import net.dpml.metro.part.PartException;
+import net.dpml.metro.part.PartHandlerNotFoundException;
+import net.dpml.metro.part.PartNotFoundException;
+import net.dpml.metro.part.PartHolder;
+import net.dpml.metro.part.PartRuntimeException;
+import net.dpml.metro.part.DelegationException;
 
 import net.dpml.transit.Artifact;
 import net.dpml.transit.Category;

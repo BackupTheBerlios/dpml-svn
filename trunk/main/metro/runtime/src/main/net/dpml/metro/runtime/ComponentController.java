@@ -56,20 +56,20 @@ import net.dpml.logging.Logger;
 
 import net.dpml.parameters.Parameters;
 
-import net.dpml.part.Component;
-import net.dpml.part.Context;
-import net.dpml.part.ControlException;
-import net.dpml.part.Component;
-import net.dpml.part.HandlerException;
-import net.dpml.part.PartException;
-import net.dpml.part.Service;
-import net.dpml.part.ServiceNotFoundException;
-import net.dpml.part.Version;
+import net.dpml.metro.part.Component;
+import net.dpml.metro.part.Context;
+import net.dpml.metro.part.ControlException;
+import net.dpml.metro.part.Component;
+import net.dpml.metro.part.HandlerException;
+import net.dpml.metro.part.PartException;
+import net.dpml.metro.part.Service;
+import net.dpml.metro.part.ServiceNotFoundException;
+import net.dpml.metro.part.Version;
 
-import net.dpml.state.State;
-import net.dpml.state.impl.DefaultState;
-import net.dpml.state.StateMachine;
-import net.dpml.state.impl.DefaultStateMachine;
+import net.dpml.metro.state.State;
+import net.dpml.metro.state.impl.DefaultState;
+import net.dpml.metro.state.StateMachine;
+import net.dpml.metro.state.impl.DefaultStateMachine;
 
 import net.dpml.transit.Category;
 import net.dpml.transit.model.UnknownKeyException;
