@@ -125,4 +125,23 @@
     </dependencies>
   </project>
    
+   <project name="dpml-depot-exec" basedir="exec">
+    <types>
+      <type id="jar"/>
+      <type id="plugin">
+        <property name="project.plugin.class" 
+           value="net.dpml.metro.exec.ApplicationHandler"/>
+      </type>
+    </types>
+    <dependencies scope="build">
+      <include ref="dpml/metro/dpml-metro-runtime"/>
+    </dependencies>
+    <dependencies>
+      <include ref="dpml/util/dpml-util-cli"/>
+      <include ref="dpml/transit/dpml-transit-main"/>
+      <include ref="dpml/metro/dpml-part-api"/>
+      <include ref="dpml/depot/dpml-station-api"/>
+    </dependencies>
+  </project>
+   
 </module>
