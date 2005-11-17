@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package net.dpml.part;
+package net.dpml.metro.part;
 
 /**
  * Common interface implemented by disposable objects.

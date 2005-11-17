@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package net.dpml.part;
+package net.dpml.metro.part;
 
 /**
  * Exception to indicate that there was a lifecycle related error.

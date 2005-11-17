@@ -16,13 +16,13 @@
  * limitations under the License.
  */
 
-package net.dpml.part;
+package net.dpml.metro.part;
 
 import java.io.IOException;
 import java.net.URI;
 import java.beans.IntrospectionException;
 
-import net.dpml.part.Part;
+import net.dpml.metro.part.Part;
 
 /**
  * The contract for builders that create component parts.

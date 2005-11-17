@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package net.dpml.part;
+package net.dpml.metro.part;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;

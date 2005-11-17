@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package net.dpml.part;
+package net.dpml.metro.part;
 
 import java.beans.Expression;
 import java.beans.BeanDescriptor;

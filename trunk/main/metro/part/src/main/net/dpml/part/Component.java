@@ -16,16 +16,16 @@
  * limitations under the License.
  */
 
-package net.dpml.part;
+package net.dpml.metro.part;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.lang.reflect.InvocationTargetException;
 import java.net.URI;
 
-import net.dpml.state.State;
-import net.dpml.state.StateEvent;
-import net.dpml.state.StateListener;
+import net.dpml.metro.state.State;
+import net.dpml.metro.state.StateEvent;
+import net.dpml.metro.state.StateListener;
 
 /**
  * The Component represents a remote interface to a runtime component type.

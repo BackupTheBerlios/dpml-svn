@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package net.dpml.part;
+package net.dpml.metro.part;
 
 /**
  * Exception thrown by a handler in response to a request for an unknown service.

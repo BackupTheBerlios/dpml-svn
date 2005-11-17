@@ -16,13 +16,13 @@
  * limitations under the License.
  */
 
-package net.dpml.part;
+package net.dpml.metro.part;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 
-import net.dpml.state.State;
-import net.dpml.state.StateListener;
+import net.dpml.metro.state.State;
+import net.dpml.metro.state.StateListener;
 
 import net.dpml.transit.model.Value;
 

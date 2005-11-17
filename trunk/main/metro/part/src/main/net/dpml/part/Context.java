@@ -16,12 +16,12 @@
  * limitations under the License.
  */
 
-package net.dpml.part;
+package net.dpml.metro.part;
 
 import java.net.URI;
 import java.rmi.RemoteException;
 
-import net.dpml.part.ActivationPolicy;
+import net.dpml.metro.part.ActivationPolicy;
 
 /**
  * The Context interfaces is used mark a object as manageable context used in 
