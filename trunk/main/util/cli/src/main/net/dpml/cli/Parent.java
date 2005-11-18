@@ -1,5 +1,6 @@
 /**
  * Copyright 2003-2004 The Apache Software Foundation
+ * Copyright 2005 Stephen McConnell
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,8 +21,12 @@ import java.util.ListIterator;
 /**
  * An Option that can have an argument and/or group of child Options in the form 
  * "-f &lt;arg&gt; [-a|-b|-c]".
+ *
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
-public interface Parent extends Option {
+public interface Parent extends Option
+{
 
     /**
      * Processes the parent part of the Option.  The combination of parent,
@@ -34,7 +39,6 @@ public interface Parent extends Option {
      * @throws OptionException if an error occurs while processing
      */
     void processParent(
-        final WriteableCommandLine commandLine,
-        final ListIterator args)
-        throws OptionException;
+      WriteableCommandLine commandLine, ListIterator args )
+      throws OptionException;
 }

@@ -1,5 +1,6 @@
 /**
  * Copyright 2003-2004 The Apache Software Foundation
+ * Copyright 2005 Stephen McConnell
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,45 +21,44 @@ import java.util.ListIterator;
 /**
  * An Option that can process values passed on the command line in the form
  * "--file README".
+ *
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
-public interface Argument extends Option {
-
-    /**
-     * Returns the initial separator character or
-     * '\0' if no character has been set.
-     * 
-     * @return char the initial separator character
-     */
+public interface Argument extends Option
+{
+   /**
+    * Returns the initial separator character or
+    * '\0' if no character has been set.
+    * 
+    * @return char the initial separator character
+    */
     char getInitialSeparator();
     
-    /**
-     * Processes the "README" style element of the argument.
-     *
-     * Values identified should be added to the CommandLine object in
-     * association with this Argument.
-     *
-     * @see WriteableCommandLine#addValue(Option,Object)
-     *
-     * @param commandLine The CommandLine object to store results in.
-     * @param args The arguments to process.
-     * @param option The option to register value against.
-     * @throws OptionException if any problems occur.
-     */
-    void processValues(
-        final WriteableCommandLine commandLine,
-        final ListIterator args,
-        final Option option)
-            throws OptionException;
+   /**
+    * Processes the "README" style element of the argument.
+    *
+    * Values identified should be added to the CommandLine object in
+    * association with this Argument.
+    *
+    * @see WriteableCommandLine#addValue(Option,Object)
+    *
+    * @param commandLine The CommandLine object to store results in.
+    * @param args The arguments to process.
+    * @param option The option to register value against.
+    * @throws OptionException if any problems occur.
+    */
+    void processValues( 
+      WriteableCommandLine commandLine, ListIterator args, Option option )
+      throws OptionException;
     
     /**
      * Adds defaults to a CommandLine.
      * 
-     * @param commandLine
-     *            The CommandLine object to store defaults in.
-     * @param option
-     *            The Option to store the defaults against.
+     * @param commandLine the CommandLine object to store defaults in.
+     * @param option the Option to store the defaults against.
      */
-    void defaultValues(final WriteableCommandLine commandLine, final Option option);
+    void defaultValues( WriteableCommandLine commandLine, Option option );
 
     /**
      * Performs any necessary validation on the values added to the
@@ -76,7 +76,7 @@ public interface Argument extends Option {
      * @param option The option to lookup values with.
      * @throws OptionException if any problems occur.
      */
-    void validate(final WriteableCommandLine commandLine, final Option option)
+    void validate( WriteableCommandLine commandLine, Option option )
         throws OptionException;
 
     /**

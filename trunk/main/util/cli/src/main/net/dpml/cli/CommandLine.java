@@ -1,5 +1,6 @@
 /**
  * Copyright 2003-2004 The Apache Software Foundation
+ * Copyright 2005 Stephen McConnell
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,9 +22,13 @@ import java.util.Set;
 /**
  * Instances of CommandLine represent a command line that has been processed
  * according to the definition supplied to the parser.
+ *
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
-public interface CommandLine {
-	
+public interface CommandLine 
+{
+    
     /**
      * Detects the presence of an option with the specified trigger in this 
      * CommandLine.
@@ -31,7 +36,7 @@ public interface CommandLine {
      * @param trigger the trigger to search for
      * @return true iff an option with this trigger is present
      */
-    boolean hasOption(final String trigger);
+    boolean hasOption( String trigger );
     
     /**
      * Detects the presence of an option in this CommandLine.
@@ -39,7 +44,7 @@ public interface CommandLine {
      * @param option the Option to search for
      * @return true iff the option is present
      */
-    boolean hasOption(final Option option);
+    boolean hasOption( Option option );
     
     /**
      * Finds the Option with the specified trigger
@@ -47,7 +52,7 @@ public interface CommandLine {
      * @param trigger the name of the option to retrieve
      * @return the Option matching the trigger or null if none exists
      */
-    Option getOption(final String trigger);
+    Option getOption( String trigger );
     
     /**
      * Retrieves the Argument values associated with the specified Option
@@ -55,7 +60,7 @@ public interface CommandLine {
      * @param trigger a trigger used to lookup the Option
      * @return a list of values or an empty List if none are found
      */
-    List getValues(final String trigger);
+    List getValues( String trigger );
     
     /**
      * Retrieves the Argument values associated with the specified Option
@@ -64,7 +69,7 @@ public interface CommandLine {
      * @param defaultValues the result to return if no values are found
      * @return a list of values or defaultValues if none are found
      */
-    List getValues(final String trigger, final List defaultValues);
+    List getValues( String trigger, List defaultValues );
     
     /**
      * Retrieves the Argument values associated with the specified Option
@@ -72,7 +77,7 @@ public interface CommandLine {
      * @param option the Option associated with the values
      * @return a list of values or an empty List if none are found
      */
-    List getValues(final Option option);
+    List getValues( Option option );
     
     /**
      * Retrieves the Argument values associated with the specified Option
@@ -81,7 +86,7 @@ public interface CommandLine {
      * @param defaultValues the result to return if no values are found
      * @return a list of values or defaultValues if none are found
      */
-    List getValues(final Option option, final List defaultValues);
+    List getValues( Option option, List defaultValues );
     
     /**
      * Retrieves the single Argument value associated with the specified Option
@@ -90,7 +95,7 @@ public interface CommandLine {
      * @return the matching value or null if none exists
      * @throws IllegalStateException if more than one values are found
      */
-    Object getValue(final String trigger) throws IllegalStateException;
+    Object getValue( String trigger ) throws IllegalStateException;
     
     /**
      * Retrieves the single Argument value associated with the specified Option
@@ -100,7 +105,7 @@ public interface CommandLine {
      * @return the matching value or defaultValue if none exists
      * @throws IllegalStateException if more than one values are found
      */
-    Object getValue(final String trigger, final Object defaultValue) throws IllegalStateException;
+    Object getValue( String trigger, Object defaultValue ) throws IllegalStateException;
     
     /**
      * Retrieves the single Argument value associated with the specified Option
@@ -109,7 +114,7 @@ public interface CommandLine {
      * @return the matching value or null if none exists
      * @throws IllegalStateException if more than one values are found
      */
-    Object getValue(final Option option) throws IllegalStateException;
+    Object getValue( Option option ) throws IllegalStateException;
     
     /**
      * Retrieves the single Argument value associated with the specified Option
@@ -119,7 +124,7 @@ public interface CommandLine {
      * @return the matching value or defaultValue if none exists
      * @throws IllegalStateException if more than one values are found
      */
-    Object getValue(final Option option, final Object defaultValue) throws IllegalStateException;
+    Object getValue( Option option, Object defaultValue ) throws IllegalStateException;
     
     /**
      * Retrieves the Boolean value associated with the specified Switch
@@ -127,7 +132,7 @@ public interface CommandLine {
      * @param trigger a trigger used to lookup the Option
      * @return the Boolean associated with trigger or null if none exists
      */
-    Boolean getSwitch(final String trigger);
+    Boolean getSwitch( String trigger );
     
     /**
      * Retrieves the Boolean value associated with the specified Switch
@@ -136,7 +141,7 @@ public interface CommandLine {
      * @param defaultValue the Boolean to use if none match
      * @return the Boolean associated with trigger or defaultValue if none exists
      */
-    Boolean getSwitch(final String trigger, final Boolean defaultValue);
+    Boolean getSwitch( String trigger, Boolean defaultValue );
     
     /**
      * Retrieves the Boolean value associated with the specified Switch
@@ -144,7 +149,7 @@ public interface CommandLine {
      * @param option the Option associated with the value
      * @return the Boolean associated with option or null if none exists
      */
-    Boolean getSwitch(final Option option);
+    Boolean getSwitch( Option option );
     
     /**
      * Retrieves the Boolean value associated with the specified Switch
@@ -153,7 +158,7 @@ public interface CommandLine {
      * @param defaultValue the Boolean to use if none match
      * @return the Boolean associated with option or defaultValue if none exists
      */
-    Boolean getSwitch(final Option option, final Boolean defaultValue);
+    Boolean getSwitch( Option option, Boolean defaultValue );
     
     
     /**
@@ -162,7 +167,7 @@ public interface CommandLine {
      * @param property the property name to lookup
      * @return the value of the property or null
      */
-    String getProperty(final String property);
+    String getProperty( String property );
     
     /**
      * Retrieves the value associated with the specified property 
@@ -171,7 +176,7 @@ public interface CommandLine {
      * @param defaultValue the value to use if no other is found
      * @return the value of the property or defaultValue
      */
-    String getProperty(final String property, final String defaultValue);
+    String getProperty( String property, String defaultValue );
     
     /**
      * Retrieves the set of all property names associated with this CommandLine
@@ -187,7 +192,7 @@ public interface CommandLine {
      * @param trigger a trigger used to lookup the Option
      * @return the number of occurrences of the option
      */
-    int getOptionCount(final String trigger);
+    int getOptionCount( String trigger );
     
     /**
      * Retrieves the number of times the specified Option appeared in this 
@@ -196,7 +201,7 @@ public interface CommandLine {
      * @param option the Option associated to check
      * @return the number of occurrences of the option
      */
-    int getOptionCount(final Option option);
+    int getOptionCount( Option option );
     
     /**
      * Retrieves a list of all Options found in this CommandLine

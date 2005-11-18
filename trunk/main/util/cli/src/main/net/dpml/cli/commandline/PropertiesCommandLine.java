@@ -1,5 +1,6 @@
 /**
  * Copyright 2004 The Apache Software Foundation
+ * Copyright 2005 Stephen McConnell
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -37,17 +38,20 @@ import net.dpml.cli.Option;
  * simple value of <code>true</code> or <code>false</code>; obviously this means
  * that Switches with Arguments are not supported by this implementation.
  *
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  * @see java.util.Properties
  * @see net.dpml.cli.commandline.DefaultingCommandLine
  * @see net.dpml.cli.Option#getPreferredName() 
  */
-public class PropertiesCommandLine extends CommandLineImpl {
-	
-	private static final char NUL = '\0';
-	private final Properties properties;
-	private final Option root;
-	private final char separator;
-	
+public class PropertiesCommandLine extends CommandLineImpl
+{
+    
+    private static final char NUL = '\0';
+    private final Properties m_properties;
+    private final Option m_root;
+    private final char m_separator;
+    
     /**
      * Creates a new PropertiesCommandLine using the specified root Option,
      * Properties instance.  The character 0 is used as the value separator.
@@ -55,10 +59,11 @@ public class PropertiesCommandLine extends CommandLineImpl {
      * @param root the CommandLine's root Option
      * @param properties the Properties instance to get values from
      */
-	public PropertiesCommandLine(final Option root, final Properties properties){
-		this(root,properties,NUL);
-	}
-	
+    public PropertiesCommandLine( final Option root, final Properties properties )
+    {
+        this( root, properties, NUL );
+    }
+    
     /**
      * Creates a new PropertiesCommandLine using the specified root Option,
      * Properties instance and value separator.
@@ -67,88 +72,107 @@ public class PropertiesCommandLine extends CommandLineImpl {
      * @param properties the Properties instance to get values from
      * @param separator the character to split argument values
      */
-	public PropertiesCommandLine(final Option root, final Properties properties, final char separator){
-		this.root = root;
-		this.properties = properties;
-		this.separator = separator;
-	}
-	
+    public PropertiesCommandLine( final Option root, final Properties properties, final char separator )
+    {
+        m_root = root;
+        m_properties = properties;
+        m_separator = separator;
+    }
+    
+    public boolean hasOption( Option option )
+    {
+        if( option==null )
+        {
+            return false;
+        }
+        else
+        {
+            return m_properties.containsKey( option.getPreferredName() );
+        }
+    }
 
-	public boolean hasOption(Option option) {
-		if(option==null){
-			return false;
-		}
-		else{
-			return properties.containsKey(option.getPreferredName());
-		}
-	}
+    public Option getOption( String trigger )
+    {
+        return m_root.findOption( trigger );
+    }
 
-	public Option getOption(String trigger) {
-		return root.findOption(trigger);
-	}
+    public List getValues( final Option option, final List defaultValues )
+    {
+        final String value = m_properties.getProperty( option.getPreferredName() );
+        
+        if( value==null )
+        {
+            return defaultValues;
+        }
+        else if( m_separator > NUL )
+        {
+            final List values = new ArrayList();
+            final StringTokenizer tokens = new StringTokenizer( value, String.valueOf( m_separator ) );
+            
+            while( tokens.hasMoreTokens() )
+            {
+                values.add( tokens.nextToken() );
+            }
+            return values;
+        }
+        else
+        {
+            return Collections.singletonList( value );
+        }
+    }
 
-	public List getValues(final Option option, final List defaultValues) {
-		final String value = properties.getProperty(option.getPreferredName());
-		
-		if(value==null){
-			return defaultValues;
-		}
-		else if(separator>NUL){
-			final List values = new ArrayList();
-			final StringTokenizer tokens = new StringTokenizer(value,String.valueOf(separator));
-			
-			while(tokens.hasMoreTokens()){
-				values.add(tokens.nextToken());
-			}
-			
-			return values;
-		}
-		else{
-			return Collections.singletonList(value);
-		}
-	}
+    public Boolean getSwitch( final Option option, final Boolean defaultValue ) 
+    {
+        final String value = m_properties.getProperty( option.getPreferredName() );
+        if( "true".equals( value ) )
+        {
+            return Boolean.TRUE;
+        }
+        else if( "false".equals( value ) )
+        {
+            return Boolean.FALSE;
+        }
+        else
+        {
+            return defaultValue;
+        }
+    }
+    
+    public String getProperty( final String property, final String defaultValue )
+    {
+        return m_properties.getProperty( property, defaultValue );
+    }
 
-	public Boolean getSwitch(final Option option, final Boolean defaultValue) {
-		final String value = properties.getProperty(option.getPreferredName());
-		if("true".equals(value)){
-			return Boolean.TRUE;
-		}
-		else if("false".equals(value)){
-			return Boolean.FALSE;
-		}
-		else{
-			return defaultValue;
-		}
-	}
-	
-	public String getProperty(final String property, final String defaultValue) {
-		return properties.getProperty(property,defaultValue);
-	}
+    public Set getProperties()
+    {
+        return m_properties.keySet();
+    }
 
-	public Set getProperties() {
-		return properties.keySet();
-	}
+    public List getOptions()
+    {
+        final List options = new ArrayList();
+        final Iterator keys = m_properties.keySet().iterator();
+        while( keys.hasNext() )
+        {
+            final String trigger = (String) keys.next();
+            final Option option = m_root.findOption( trigger );
+            if( option!=null )
+            {
+                options.add( option );
+            }
+        }
+        return Collections.unmodifiableList( options );
+    }
 
-	public List getOptions() {
-		final List options = new ArrayList();
-		final Iterator keys = properties.keySet().iterator();
-		while(keys.hasNext()){
-			final String trigger = (String)keys.next();
-			final Option option = root.findOption(trigger);
-			if(option!=null){
-				options.add(option);
-			}
-		}
-		return Collections.unmodifiableList(options);
-	}
-
-	public Set getOptionTriggers() {
-		final Set triggers = new HashSet();
-		final Iterator options = getOptions().iterator();
-		while(options.hasNext()){
-			final Option option = (Option)options.next();
-			triggers.addAll(option.getTriggers());
-		}
-		return Collections.unmodifiableSet(triggers);
-	}
+    public Set getOptionTriggers()
+    {
+        final Set triggers = new HashSet();
+        final Iterator options = getOptions().iterator();
+        while( options.hasNext() ) 
+        {
+            final Option option = (Option) options.next();
+            triggers.addAll( option.getTriggers() );
+        }
+        return Collections.unmodifiableSet( triggers );
+    }
 }

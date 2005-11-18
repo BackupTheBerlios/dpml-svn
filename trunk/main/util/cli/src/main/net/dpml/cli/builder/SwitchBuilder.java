@@ -26,26 +26,31 @@ import net.dpml.cli.resource.ResourceHelper;
 
 /**
  * Builds Switch instance.
+ *
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
-public class SwitchBuilder {
-    private final String enabledPrefix;
-    private final String disabledPrefix;
-    private String description;
-    private String preferredName;
-    private Set aliases;
-    private boolean required;
-    private Argument argument;
-    private Group children;
-    private int id;
-    private Boolean switchDefault;
+public class SwitchBuilder
+{
+    private final String m_enabledPrefix;
+    private final String m_disabledPrefix;
+    private String m_description;
+    private String m_preferredName;
+    private Set m_aliases;
+    private boolean m_required;
+    private Argument m_argument;
+    private Group m_children;
+    private int m_id;
+    private Boolean m_switchDefault;
 
     /**
      * Creates a new SwitchBuilder using defaults.
      * @see Switch#DEFAULT_ENABLED_PREFIX
      * @see Switch#DEFAULT_DISABLED_PREFIX
      */
-    public SwitchBuilder() {
-        this(Switch.DEFAULT_ENABLED_PREFIX, Switch.DEFAULT_DISABLED_PREFIX);
+    public SwitchBuilder()
+    {
+        this( Switch.DEFAULT_ENABLED_PREFIX, Switch.DEFAULT_DISABLED_PREFIX );
     }
 
     /**
@@ -55,23 +60,32 @@ public class SwitchBuilder {
      * @throws IllegalArgumentException if either prefix is less than 1
      *                                  character long or the prefixes match
      */
-    public SwitchBuilder(final String enabledPrefix,
-                         final String disabledPrefix)
-        throws IllegalArgumentException {
-        if ((enabledPrefix == null) || (enabledPrefix.length() < 1)) {
-            throw new IllegalArgumentException(ResourceHelper.getResourceHelper().getMessage(ResourceConstants.SWITCH_ILLEGAL_ENABLED_PREFIX));
+    public SwitchBuilder( final String enabledPrefix, final String disabledPrefix )
+      throws IllegalArgumentException
+    {
+        if( ( enabledPrefix == null ) || ( enabledPrefix.length() < 1 ) ) 
+        {
+            throw new IllegalArgumentException(
+              ResourceHelper.getResourceHelper().getMessage(
+                ResourceConstants.SWITCH_ILLEGAL_ENABLED_PREFIX ) );
         }
 
-        if ((disabledPrefix == null) || (disabledPrefix.length() < 1)) {
-            throw new IllegalArgumentException(ResourceHelper.getResourceHelper().getMessage(ResourceConstants.SWITCH_ILLEGAL_DISABLED_PREFIX));
+        if( ( disabledPrefix == null ) || ( disabledPrefix.length() < 1 ) )
+        {
+            throw new IllegalArgumentException(
+              ResourceHelper.getResourceHelper().getMessage(
+                ResourceConstants.SWITCH_ILLEGAL_DISABLED_PREFIX ) );
         }
 
-        if (enabledPrefix.equals(disabledPrefix)) {
-            throw new IllegalArgumentException(ResourceHelper.getResourceHelper().getMessage(ResourceConstants.SWITCH_IDENTICAL_PREFIXES));
+        if( enabledPrefix.equals( disabledPrefix ) )
+        {
+            throw new IllegalArgumentException(
+              ResourceHelper.getResourceHelper().getMessage(
+                ResourceConstants.SWITCH_IDENTICAL_PREFIXES ) );
         }
 
-        this.enabledPrefix = enabledPrefix;
-        this.disabledPrefix = disabledPrefix;
+        m_enabledPrefix = enabledPrefix;
+        m_disabledPrefix = disabledPrefix;
         reset();
     }
 
@@ -79,29 +93,37 @@ public class SwitchBuilder {
      * Creates a new Switch instance
      * @return a new Switch instance
      */
-    public Switch create() {
+    public Switch create()
+    {
         final Switch option =
-            new Switch(enabledPrefix, disabledPrefix, preferredName, aliases, description,
-                       required, argument, children, id, switchDefault);
-
+            new Switch(
+              m_enabledPrefix, 
+              m_disabledPrefix, 
+              m_preferredName, 
+              m_aliases, 
+              m_description,
+              m_required, 
+              m_argument, 
+              m_children, 
+              m_id, 
+              m_switchDefault );
         reset();
-
         return option;
     }
 
     /**
      * Resets the builder
      */
-    public SwitchBuilder reset() {
-        description = null;
-        preferredName = null;
-        required = false;
-        aliases = new HashSet();
-        argument = null;
-        children = null;
-        id = 0;
-        switchDefault = null;
-
+    public SwitchBuilder reset() 
+    {
+        m_description = null;
+        m_preferredName = null;
+        m_required = false;
+        m_aliases = new HashSet();
+        m_argument = null;
+        m_children = null;
+        m_id = 0;
+        m_switchDefault = null;
         return this;
     }
 
@@ -110,9 +132,9 @@ public class SwitchBuilder {
      * @param newDescription the description to use
      * @return this builder
      */
-    public SwitchBuilder withDescription(final String newDescription) {
-        this.description = newDescription;
-
+    public SwitchBuilder withDescription( final String newDescription ) 
+    {
+        m_description = newDescription;
         return this;
     }
 
@@ -123,13 +145,16 @@ public class SwitchBuilder {
      * @param name the name to use
      * @return this builder
      */
-    public SwitchBuilder withName(final String name) {
-        if (preferredName == null) {
-            preferredName = name;
-        } else {
-            aliases.add(name);
+    public SwitchBuilder withName( final String name )
+    {
+        if( m_preferredName == null )
+        {
+            m_preferredName = name;
+        } 
+        else
+        {
+            m_aliases.add( name );
         }
-
         return this;
     }
 
@@ -138,9 +163,9 @@ public class SwitchBuilder {
      * @param newRequired true iff the Option is required
      * @return this builder
      */
-    public SwitchBuilder withRequired(final boolean newRequired) {
-        this.required = newRequired;
-
+    public SwitchBuilder withRequired( final boolean newRequired )
+    {
+        m_required = newRequired;
         return this;
     }
 
@@ -149,9 +174,9 @@ public class SwitchBuilder {
      * @param newArgument the argument to use
      * @return this builder
      */
-    public SwitchBuilder withArgument(final Argument newArgument) {
-        this.argument = newArgument;
-
+    public SwitchBuilder withArgument( final Argument newArgument )
+    {
+        m_argument = newArgument;
         return this;
     }
 
@@ -160,22 +185,21 @@ public class SwitchBuilder {
      * @param newChildren the child Group to use
      * @return this builder
      */
-    public SwitchBuilder withChildren(final Group newChildren) {
-        this.children = newChildren;
-
+    public SwitchBuilder withChildren( final Group newChildren )
+    {
+        m_children = newChildren;
         return this;
     }
 
     /**
      * Sets the id
      *
-     * @param newId
-     *            the id of the Switch
+     * @param newId the id of the Switch
      * @return this SwitchBuilder
      */
-    public final SwitchBuilder withId(final int newId) {
-        this.id = newId;
-
+    public final SwitchBuilder withId( final int newId )
+    {
+        m_id = newId;
         return this;
     }
 
@@ -185,9 +209,9 @@ public class SwitchBuilder {
      * @param newSwitchDefault the default state
      * @return this SwitchBuilder
      */
-    public final SwitchBuilder withSwitchDefault(final Boolean newSwitchDefault) {
-        this.switchDefault = newSwitchDefault;
-
+    public final SwitchBuilder withSwitchDefault( final Boolean newSwitchDefault )
+    {
+        m_switchDefault = newSwitchDefault;
         return this;
     }
 }

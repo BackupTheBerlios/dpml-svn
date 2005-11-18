@@ -1,5 +1,6 @@
 /**
  * Copyright 2003-2004 The Apache Software Foundation
+ * Copyright 2005 Stephen McConnell
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,7 +23,7 @@ import java.util.Set;
 import net.dpml.cli.Argument;
 import net.dpml.cli.Option;
 import net.dpml.cli.validation.ClassValidator;
-//import net.dpml.cli.validation.DateValidator;
+import net.dpml.cli.validation.DateValidator;
 import net.dpml.cli.validation.FileValidator;
 import net.dpml.cli.validation.NumberValidator;
 import net.dpml.cli.validation.UrlValidator;
@@ -30,22 +31,26 @@ import net.dpml.cli.validation.Validator;
 
 /**
  * Builds Options using a String pattern
+ *
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
-//TODO Document and link to the acceptable patterns
-public class PatternBuilder {
-
-    private final GroupBuilder gbuilder;
-    private final DefaultOptionBuilder obuilder;
-    private final ArgumentBuilder abuilder;
+public class PatternBuilder 
+{
+    private final GroupBuilder m_gbuilder;
+    private final DefaultOptionBuilder m_obuilder;
+    private final ArgumentBuilder m_abuilder;
+    private final Set m_options = new HashSet();
 
     /**
      * Creates a new PatternBuilder
      */
-    public PatternBuilder() {
+    public PatternBuilder()
+    {
         this(
             new GroupBuilder(),
             new DefaultOptionBuilder(),
-            new ArgumentBuilder());
+            new ArgumentBuilder() );
     }
 
     /**
@@ -57,89 +62,92 @@ public class PatternBuilder {
     public PatternBuilder(
         final GroupBuilder gbuilder,
         final DefaultOptionBuilder obuilder,
-        final ArgumentBuilder abuilder) {
-        this.gbuilder = gbuilder;
-        this.obuilder = obuilder;
-        this.abuilder = abuilder;
+        final ArgumentBuilder abuilder )
+    {
+        m_gbuilder = gbuilder;
+        m_obuilder = obuilder;
+        m_abuilder = abuilder;
     }
-
-    private final Set options = new HashSet();
 
     /**
      * Creates a new Option instance.
      * @return a new Option instance
      */
-    public Option create() {
+    public Option create()
+    {
         final Option option;
-
-        if (options.size() == 1) {
-            option = (Option)options.iterator().next();
+        if( m_options.size() == 1 )
+        {
+            option = (Option) m_options.iterator().next();
         }
-        else {
-            gbuilder.reset();
-            for (final Iterator i = options.iterator(); i.hasNext();) {
-                gbuilder.withOption((Option)i.next());
+        else
+        {
+            m_gbuilder.reset();
+            for( final Iterator i = m_options.iterator(); i.hasNext(); )
+            {
+                m_gbuilder.withOption( (Option) i.next() );
             }
-            option = gbuilder.create();
+            option = m_gbuilder.create();
         }
-
         reset();
-
         return option;
     }
 
     /**
      * Resets this builder
      */
-    public PatternBuilder reset() {
-        options.clear();
+    public PatternBuilder reset()
+    {
+        m_options.clear();
         return this;
     }
 
-    private void createOption(
-        final char type,
-        final boolean required,
-        final char opt) {
+    private void createOption( final char type, final boolean required, final char opt ) 
+    {
         final Argument argument;
-        if (type != ' ') {
-            abuilder.reset();
-            abuilder.withValidator(validator(type));
-            if (required) {
-                abuilder.withMinimum(1);
+        if( type != ' ')
+        {
+            m_abuilder.reset();
+            m_abuilder.withValidator( validator( type ) );
+            if( required )
+            {
+                m_abuilder.withMinimum( 1 );
             }
-            if (type != '*') {
-                abuilder.withMaximum(1);
+            if( type != '*' )
+            {
+                m_abuilder.withMaximum(1);
             }
-            argument = abuilder.create();
+            argument = m_abuilder.create();
         }
-        else {
+        else
+        {
             argument = null;
         }
 
-        obuilder.reset();
-        obuilder.withArgument(argument);
-        obuilder.withShortName(String.valueOf(opt));
-        obuilder.withRequired(required);
-
-        options.add(obuilder.create());
+        m_obuilder.reset();
+        m_obuilder.withArgument( argument );
+        m_obuilder.withShortName( String.valueOf( opt ) );
+        m_obuilder.withRequired( required );
+        m_options.add( m_obuilder.create() );
     }
 
     /**
      * Builds an Option using a pattern string.
      * @param pattern the pattern to build from
      */
-    public void withPattern(final String pattern) {
+    public void withPattern( final String pattern )
+    {
         int sz = pattern.length();
-
         char opt = ' ';
         char ch = ' ';
         char type = ' ';
         boolean required = false;
 
-        for (int i = 0; i < sz; i++) {
+        for( int i = 0; i < sz; i++ )
+        {
             ch = pattern.charAt(i);
-
-            switch (ch) {
+            switch (ch) 
+            {
                 case '!' :
                     required = true;
                     break;
@@ -155,26 +163,28 @@ public class PatternBuilder {
                     type = ch;
                     break;
                 default :
-                    if (opt != ' ') {
-                        createOption(type, required, opt);
+                    if( opt != ' ' )
+                    {
+                        createOption( type, required, opt );
                         required = false;
                         type = ' ';
                     }
-
                     opt = ch;
             }
         }
-
-        if (opt != ' ') {
-            createOption(type, required, opt);
+        if( opt != ' ' )
+        {
+            createOption( type, required, opt );
         }
     }
 
-    private static Validator validator(final char c) {
-        switch (c) {
+    private static Validator validator( final char c )
+    {
+        switch( c )
+        {
             case '@' :
                 final ClassValidator classv = new ClassValidator();
-                classv.setInstance(true);
+                classv.setInstance( true );
                 return classv;
             case '+' :
                 final ClassValidator instancev = new ClassValidator();
@@ -182,12 +192,12 @@ public class PatternBuilder {
                 //case ':':// no validator needed for a string
             case '%' :
                 return NumberValidator.getNumberInstance();
-            //case '#' :
-            //    return DateValidator.getDateInstance();
+            case '#' :
+                return DateValidator.getDateInstance();
             case '<' :
                 final FileValidator existingv = new FileValidator();
-                existingv.setExisting(true);
-                existingv.setFile(true);
+                existingv.setExisting( true );
+                existingv.setFile( true );
                 return existingv;
             case '>' :
             case '*' :

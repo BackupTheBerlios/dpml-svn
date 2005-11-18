@@ -1,5 +1,6 @@
 /**
  * Copyright 2004 The Apache Software Foundation
+ * Copyright 2005 Stephen McConnell
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -33,15 +34,17 @@ import net.dpml.cli.Option;
  * CommandLine instances can either be added to the back of the queue or can be
  * pushed in at a specific position.
  * 
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  * @see #appendCommandLine(CommandLine)
  * @see #insertCommandLine(int, CommandLine)
  */
-public class DefaultingCommandLine extends CommandLineImpl {
-
+public class DefaultingCommandLine extends CommandLineImpl
+{
     /**
      * The list of default CommandLine instances
      */
-    private final List commandLines = new ArrayList();
+    private final List m_commandLines = new ArrayList();
 
     /**
      * Adds a CommandLine instance to the back of the queue. The supplied
@@ -51,8 +54,9 @@ public class DefaultingCommandLine extends CommandLineImpl {
      * @param commandLine
      *            the default values to use if all CommandLines
      */
-    public void appendCommandLine(final CommandLine commandLine) {
-        commandLines.add(commandLine);
+    public void appendCommandLine( final CommandLine commandLine )
+    {
+        m_commandLines.add( commandLine );
     }
     
     /**
@@ -63,8 +67,9 @@ public class DefaultingCommandLine extends CommandLineImpl {
      */
     public void insertCommandLine(
         final int index,
-        final CommandLine commandLine) {
-        commandLines.add(index, commandLine);
+        final CommandLine commandLine )
+    {
+        m_commandLines.add( index, commandLine );
     }
     
     /**
@@ -72,99 +77,120 @@ public class DefaultingCommandLine extends CommandLineImpl {
      * 
      * @return an unmodifiable iterator
      */
-    public Iterator commandLines(){
-    	return Collections.unmodifiableList(commandLines).iterator();
+    public Iterator commandLines()
+    {
+        return Collections.unmodifiableList( m_commandLines ).iterator();
     }
 
-    public Option getOption(String trigger) {
-        for (final Iterator i = commandLines.iterator(); i.hasNext();) {
-            final CommandLine commandLine = (CommandLine)i.next();
-            final Option actual = commandLine.getOption(trigger);
-            if (actual != null) {
+    public Option getOption( String trigger )
+    {
+        for( final Iterator i = m_commandLines.iterator(); i.hasNext(); )
+        {
+            final CommandLine commandLine = (CommandLine) i.next();
+            final Option actual = commandLine.getOption( trigger );
+            if( actual != null )
+            {
                 return actual;
             }
         }
         return null;
     }
 
-    public List getOptions() {
+    public List getOptions()
+    {
         final List options = new ArrayList();
-
         final List temp = new ArrayList();
-        for (final Iterator i = commandLines.iterator(); i.hasNext();) {
+        for( final Iterator i = m_commandLines.iterator(); i.hasNext(); )
+        {
             final CommandLine commandLine = (CommandLine)i.next();
             temp.clear();
-            temp.addAll(commandLine.getOptions());
-            temp.removeAll(options);
-            options.addAll(temp);
+            temp.addAll( commandLine.getOptions() );
+            temp.removeAll( options );
+            options.addAll( temp );
         }
-
-        return Collections.unmodifiableList(options);
+        return Collections.unmodifiableList( options );
     }
 
-    public Set getOptionTriggers() {
+    public Set getOptionTriggers()
+    {
         final Set all = new HashSet();
-        for (final Iterator i = commandLines.iterator(); i.hasNext();) {
-            final CommandLine commandLine = (CommandLine)i.next();
-            all.addAll(commandLine.getOptionTriggers());
+        for( final Iterator i = m_commandLines.iterator(); i.hasNext(); )
+        {
+            final CommandLine commandLine = (CommandLine) i.next();
+            all.addAll( commandLine.getOptionTriggers() );
         }
-
-        return Collections.unmodifiableSet(all);
+        return Collections.unmodifiableSet( all );
     }
 
-    public boolean hasOption(Option option) {
-        for (final Iterator i = commandLines.iterator(); i.hasNext();) {
+    public boolean hasOption( Option option )
+    {
+        for( final Iterator i = m_commandLines.iterator(); i.hasNext(); )
+        {
             final CommandLine commandLine = (CommandLine)i.next();
-            if (commandLine.hasOption(option)) {
+            if( commandLine.hasOption( option ) )
+            {
                 return true;
             }
         }
         return false;
     }
 
-    public List getValues(Option option, List defaultValues) {
-        for (final Iterator i = commandLines.iterator(); i.hasNext();) {
+    public List getValues( Option option, List defaultValues )
+    {
+        for( final Iterator i = m_commandLines.iterator(); i.hasNext(); )
+        {
             final CommandLine commandLine = (CommandLine)i.next();
-            final List actual = commandLine.getValues(option);
-            if (actual != null && !actual.isEmpty()) {
+            final List actual = commandLine.getValues( option );
+            if( actual != null && !actual.isEmpty() )
+            {
                 return actual;
             }
         }
-        if(defaultValues==null){
-        	return Collections.EMPTY_LIST;
+        if( defaultValues == null )
+        {
+            return Collections.EMPTY_LIST;
         }
-        else{
-        	return defaultValues;
+        else
+        {
+            return defaultValues;
         }
     }
 
-    public Boolean getSwitch(Option option, Boolean defaultValue) {
-        for (final Iterator i = commandLines.iterator(); i.hasNext();) {
+    public Boolean getSwitch( Option option, Boolean defaultValue )
+    {
+        for( final Iterator i = m_commandLines.iterator(); i.hasNext(); )
+        {
             final CommandLine commandLine = (CommandLine)i.next();
             final Boolean actual = commandLine.getSwitch(option);
-            if (actual != null) {
+            if( actual != null )
+            {
                 return actual;
             }
         }
         return defaultValue;
     }
 
-    public String getProperty(String property, String defaultValue) {
-        for (final Iterator i = commandLines.iterator(); i.hasNext();) {
+    public String getProperty( String property, String defaultValue )
+    {
+        for( final Iterator i = m_commandLines.iterator(); i.hasNext(); )
+        {
             final CommandLine commandLine = (CommandLine)i.next();
-            final String actual = commandLine.getProperty(property);
-            if (actual != null) {
+            final String actual = commandLine.getProperty( property );
+            if( actual != null )
+            {
                 return actual;
             }
         }
         return defaultValue;
     }
 
-    public Set getProperties() {
+    public Set getProperties() 
+    {
         final Set all = new HashSet();
-        for (final Iterator i = commandLines.iterator(); i.hasNext();) {
+        for( final Iterator i = m_commandLines.iterator(); i.hasNext(); )
+        {
             final CommandLine commandLine = (CommandLine)i.next();
-            all.addAll(commandLine.getProperties());
+            all.addAll( commandLine.getProperties() );
         }
         return Collections.unmodifiableSet(all);
     }

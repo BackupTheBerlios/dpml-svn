@@ -20,27 +20,27 @@ import java.util.List;
 /**
  * A CommandLine that detected values and options can be written to.
  */
-public interface WriteableCommandLine extends CommandLine {
-    
+public interface WriteableCommandLine extends CommandLine
+{
     /**
      * Adds an Option to the CommandLine
      * @param option the Option to add
      */
-    void addOption(final Option option);
+    void addOption( Option option );
     
     /**
      * Adds a value to an Option in the CommandLine.
      * @param option the Option to add to
      * @param value the value to add
      */
-    void addValue(final Option option, final Object value);
+    void addValue( Option option, Object value );
 
     /**
      * Sets the default values for an Option in the CommandLine
      * @param option the Option to add to
      * @param defaultValues the defaults for the option
      */
-    void setDefaultValues(final Option option, final List defaultValues);
+    void setDefaultValues( Option option, List defaultValues );
     
     /**
      * Adds a switch value to an Option in the CommandLine.
@@ -48,14 +48,14 @@ public interface WriteableCommandLine extends CommandLine {
      * @param value the switch value to add
      * @throws IllegalStateException if the switch has already been added
      */
-    void addSwitch(final Option option, final boolean value) throws IllegalStateException;
+    void addSwitch( Option option, boolean value ) throws IllegalStateException;
     
     /**
      * Sets the default state for a Switch in the CommandLine.
      * @param option the Option to add to
      * @param defaultSwitch the defaults state for ths switch
      */
-    void setDefaultSwitch(final Option option, final Boolean defaultSwitch);
+    void setDefaultSwitch( Option option, Boolean defaultSwitch );
     
     /**
      * Adds a property value to a name in the CommandLine.
@@ -64,12 +64,12 @@ public interface WriteableCommandLine extends CommandLine {
      * @param property the name of the property
      * @param value the value of the property
      */
-    void addProperty(final String property, final String value);
+    void addProperty( String property, String value );
     
     /**
      * Detects whether the argument looks like an Option trigger 
      * @param argument the argument to test
      * @return true if the argument looks like an Option trigger
      */
-    boolean looksLikeOption(final String argument);
+    boolean looksLikeOption( String argument );
 }

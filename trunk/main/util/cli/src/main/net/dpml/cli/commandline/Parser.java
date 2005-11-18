@@ -1,5 +1,6 @@
 /*
  * Copyright 2003-2005 The Apache Software Foundation
+ * Copyright 2005 Stephen McConnell
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -34,77 +35,81 @@ import net.dpml.cli.util.HelpFormatter;
  * String array according to the {@link Group}specified and return a
  * {@link CommandLine}.
  *
- * @author John Keyes (john at integralsource.com)
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
-public class Parser {
-    private HelpFormatter helpFormatter = new HelpFormatter();
-    private Option helpOption = null;
-    private String helpTrigger = null;
-    private Group group = null;
+public class Parser
+{
+    private HelpFormatter m_helpFormatter = new HelpFormatter();
+    private Option m_helpOption = null;
+    private String m_helpTrigger = null;
+    private Group m_group = null;
 
     /**
      * Parse the arguments according to the specified options and properties.
      *
-     * @param arguments
-     *            the command line arguments
-     *
+     * @param arguments the command line arguments
      * @return the list of atomic option and value tokens
-     * @throws OptionException
-     *             if there are any problems encountered while parsing the
-     *             command line tokens.
+     * @throws OptionException if there are any problems encountered while parsing the
+     *   command line tokens.
      */
-    public CommandLine parse(final String[] arguments)
-        throws OptionException {
+    public CommandLine parse( final String[] arguments ) throws OptionException
+    {
         // build a mutable list for the arguments
         final List argumentList = new LinkedList();
 
         // copy the arguments into the new list
-        for (int i = 0; i < arguments.length; i++) {
+        for( int i = 0; i < arguments.length; i++ )
+        {
             final String argument = arguments[i];
 
             // ensure non intern'd strings are used 
             // so that == comparisons work as expected
-            argumentList.add(new String(argument));
+            argumentList.add( new String( argument ) );
         }
 
         // wet up a command line for this group
-        final WriteableCommandLine commandLine = new WriteableCommandLineImpl(group, argumentList);
+        final WriteableCommandLine commandLine = 
+          new WriteableCommandLineImpl( m_group, argumentList );
 
         // pick up any defaults from the model
-        group.defaults(commandLine);
+        m_group.defaults( commandLine );
 
         // process the options as far as possible
         final ListIterator iterator = argumentList.listIterator();
         Object previous = null;
-
-        while (group.canProcess(commandLine, iterator)) {
+        
+        while( m_group.canProcess( commandLine, iterator ) )
+        {
             // peek at the next item and backtrack
             final Object next = iterator.next();
             iterator.previous();
-
             // if we have just tried to process this instance
-            if (next == previous) {
+            if( next == previous )
+            {
                 // abort
                 break;
             }
-
             // remember previous
             previous = next;
-
-            group.process(commandLine, iterator);
+            m_group.process( commandLine, iterator );
         }
-
+        
         // if there are more arguments we have a problem
-        if (iterator.hasNext()) {
+        if( iterator.hasNext() )
+        {
             final String arg = (String) iterator.next();
-            throw new OptionException(group, ResourceConstants.UNEXPECTED_TOKEN, arg);
+            throw new OptionException(
+              m_group, 
+              ResourceConstants.UNEXPECTED_TOKEN, 
+              arg );
         }
-
+        
         // no need to validate if the help option is present
-        if (!commandLine.hasOption(helpOption) && !commandLine.hasOption(helpTrigger)) {
-            group.validate(commandLine);
+        if( !commandLine.hasOption( m_helpOption ) && !commandLine.hasOption( m_helpTrigger ) )
+        {
+            m_group.validate( commandLine );
         }
-
         return commandLine;
     }
 
@@ -117,25 +122,27 @@ public class Parser {
      * @return a valid CommandLine or null if the parse was unsuccessful
      * @throws IOException if an error occurs while formatting help
      */
-    public CommandLine parseAndHelp(final String[] arguments)
-        throws IOException {
-        helpFormatter.setGroup(group);
+    public CommandLine parseAndHelp( final String[] arguments ) throws IOException
+    {
+        m_helpFormatter.setGroup( m_group );
 
-        try {
+        try
+        {
             // attempt to parse the command line
-            final CommandLine commandLine = parse(arguments);
-
-            if (!commandLine.hasOption(helpOption) && !commandLine.hasOption(helpTrigger)) {
+            final CommandLine commandLine = parse( arguments );
+            if( !commandLine.hasOption( m_helpOption ) && !commandLine.hasOption( m_helpTrigger ) )
+            {
                 return commandLine;
             }
-        } catch (final OptionException oe) {
+        } 
+        catch( final OptionException oe )
+        {
             // display help regarding the exception
-            helpFormatter.setException(oe);
+            m_helpFormatter.setException( oe );
         }
 
         // print help
-        helpFormatter.print();
-
+        m_helpFormatter.print();
         return null;
     }
 
@@ -143,8 +150,9 @@ public class Parser {
      * Sets the Group of options to parse against
      * @param group the group of options to parse against
      */
-    public void setGroup(final Group group) {
-        this.group = group;
+    public void setGroup( final Group group )
+    {
+        m_group = group;
     }
 
     /**
@@ -152,8 +160,9 @@ public class Parser {
      * @see #parseAndHelp(String[])
      * @param helpFormatter the HelpFormatter to use with the simplified parsing
      */
-    public void setHelpFormatter(final HelpFormatter helpFormatter) {
-        this.helpFormatter = helpFormatter;
+    public void setHelpFormatter( final HelpFormatter helpFormatter )
+    {
+        m_helpFormatter = helpFormatter;
     }
 
     /**
@@ -162,8 +171,9 @@ public class Parser {
      * @see #parseAndHelp(String[])
      * @param helpOption the help Option
      */
-    public void setHelpOption(final Option helpOption) {
-        this.helpOption = helpOption;
+    public void setHelpOption( final Option helpOption )
+    {
+        m_helpOption = helpOption;
     }
 
     /**
@@ -172,7 +182,8 @@ public class Parser {
      * @see #parseAndHelp(String[])
      * @param helpTrigger the trigger of the help Option
      */
-    public void setHelpTrigger(final String helpTrigger) {
-        this.helpTrigger = helpTrigger;
+    public void setHelpTrigger( final String helpTrigger )
+    {
+        m_helpTrigger = helpTrigger;
     }
 }

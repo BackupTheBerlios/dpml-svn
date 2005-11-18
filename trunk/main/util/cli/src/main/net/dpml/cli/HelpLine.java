@@ -1,5 +1,6 @@
 /**
  * Copyright 2003-2004 The Apache Software Foundation
+ * Copyright 2005 Stephen McConnell
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,9 +21,12 @@ import java.util.Set;
 
 /**
  * Represents a line of help for a particular Option.
+ *
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
-public interface HelpLine {
-
+public interface HelpLine
+{
     /**
      * @return The description of the option
      */
@@ -48,5 +52,5 @@ public interface HelpLine {
      *            a comparator to sort options when applicable
      * @return the usage string
      */
-    String usage(final Set helpSettings, final Comparator comparator);
+    String usage( Set helpSettings, Comparator comparator );
 }

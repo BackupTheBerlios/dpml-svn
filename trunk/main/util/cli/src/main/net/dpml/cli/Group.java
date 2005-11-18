@@ -21,8 +21,8 @@ import java.util.Set;
 /**
  * An Option representing a choice or group of Options in the form "-a|-b|-c".
  */
-public interface Group extends Option {
-
+public interface Group extends Option 
+{
     /**
      * Appends usage information to the specified StringBuffer
      * 
@@ -35,7 +35,7 @@ public interface Group extends Option {
         final StringBuffer buffer,
         final Set helpSettings,
         final Comparator comp,
-        final String separator);
+        final String separator );
 
     /**
      * Indicates whether group members must be present for the CommandLine to be

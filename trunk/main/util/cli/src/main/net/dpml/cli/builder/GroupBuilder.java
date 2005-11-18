@@ -1,5 +1,6 @@
 /**
  * Copyright 2003-2004 The Apache Software Foundation
+ * Copyright 2005 Stephen McConnell
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,20 +24,24 @@ import net.dpml.cli.Option;
 import net.dpml.cli.option.GroupImpl;
 
 /**
- * Builds Group instances
+ * Builds Group instances.
+ *
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
-public class GroupBuilder {
-
-    private String name;
-    private String description;
-    private List options;
-    private int minimum;
-    private int maximum;
+public class GroupBuilder
+{
+    private String m_name;
+    private String m_description;
+    private List m_options;
+    private int m_minimum;
+    private int m_maximum;
 
     /**
      * Creates a new GroupBuilder
      */
-    public GroupBuilder() {
+    public GroupBuilder()
+    {
         reset();
     }
 
@@ -44,24 +49,29 @@ public class GroupBuilder {
      * Creates a new Group instance
      * @return the new Group instance
      */
-    public Group create() {
+    public Group create()
+    {
         final GroupImpl group =
-            new GroupImpl(options, name, description, minimum, maximum);
-
+          new GroupImpl(
+            m_options, 
+            m_name, 
+            m_description, 
+            m_minimum, 
+            m_maximum);
         reset();
-
         return group;
     }
 
     /**
      * Resets the builder
      */
-    public GroupBuilder reset() {
-        name = null;
-        description = null;
-        options = new ArrayList();
-        minimum = 0;
-        maximum = Integer.MAX_VALUE;
+    public GroupBuilder reset()
+    {
+        m_name = null;
+        m_description = null;
+        m_options = new ArrayList();
+        m_minimum = 0;
+        m_maximum = Integer.MAX_VALUE;
         return this;
     }
 
@@ -70,8 +80,9 @@ public class GroupBuilder {
      * @param newDescription the description to use
      * @return this builder
      */
-    public GroupBuilder withDescription(final String newDescription) {
-        this.description = newDescription;
+    public GroupBuilder withDescription( final String newDescription )
+    {
+        m_description = newDescription;
         return this;
     }
 
@@ -80,8 +91,9 @@ public class GroupBuilder {
      * @param newName the name to use
      * @return this builder
      */
-    public GroupBuilder withName(final String newName) {
-        this.name = newName;
+    public GroupBuilder withName( final String newName )
+    {
+        m_name = newName;
         return this;
     }
 
@@ -90,8 +102,9 @@ public class GroupBuilder {
      * @param newMinimum the minimum Options required
      * @return this builder
      */
-    public GroupBuilder withMinimum(final int newMinimum) {
-        this.minimum = newMinimum;
+    public GroupBuilder withMinimum( final int newMinimum )
+    {
+        m_minimum = newMinimum;
         return this;
     }
 
@@ -100,8 +113,9 @@ public class GroupBuilder {
      * @param newMaximum the maximum Options allowed
      * @return this builder
      */
-    public GroupBuilder withMaximum(final int newMaximum) {
-        this.maximum = newMaximum;
+    public GroupBuilder withMaximum( final int newMaximum )
+    {
+        m_maximum = newMaximum;
         return this;
     }
 
@@ -110,8 +124,9 @@ public class GroupBuilder {
      * @param option the Option to add
      * @return this builder
      */
-    public GroupBuilder withOption(final Option option) {
-        this.options.add(option);
+    public GroupBuilder withOption( final Option option )
+    {
+        m_options.add( option );
         return this;
     }
 }

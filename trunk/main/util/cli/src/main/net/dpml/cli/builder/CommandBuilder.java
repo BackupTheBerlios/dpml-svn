@@ -1,5 +1,6 @@
 /*
  * Copyright 2003-2005 The Apache Software Foundation
+ * Copyright 2005 Stephen McConnell
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,33 +27,38 @@ import net.dpml.cli.resource.ResourceHelper;
 
 /**
  * Builds Command instances
+ *
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
-public class CommandBuilder {
+public class CommandBuilder
+{
     /** the preferred name of the command */
-    private String preferredName;
+    private String m_preferredName;
 
     /** the description of the command */
-    private String description;
+    private String m_description;
 
     /** the aliases of the command */
-    private Set aliases;
+    private Set m_aliases;
 
     /** whether the command is required or not */
-    private boolean required;
+    private boolean m_required;
 
     /** the argument of the command */
-    private Argument argument;
+    private Argument m_argument;
 
     /** the children of the command */
-    private Group children;
+    private Group m_children;
 
     /** the id of the command */
-    private int id;
+    private int m_id;
 
     /**
      * Creates a new <code>CommandBuilder</code> instance.
      */
-    public CommandBuilder() {
+    public CommandBuilder()
+    {
         reset();
     }
 
@@ -62,19 +68,23 @@ public class CommandBuilder {
      *
      * @return the new Command instance
      */
-    public Command create() {
+    public Command create()
+    {
         // check we have a valid name
-        if (preferredName == null) {
-            throw new IllegalStateException(ResourceHelper.getResourceHelper().getMessage(ResourceConstants.OPTION_NO_NAME));
+        if( m_preferredName == null )
+        {
+            throw new IllegalStateException(
+              ResourceHelper.getResourceHelper().getMessage(
+                ResourceConstants.OPTION_NO_NAME ) );
         }
 
         // build the command
         final Command option =
-            new Command(preferredName, description, aliases, required, argument, children, id);
+          new Command( 
+            m_preferredName, m_description, m_aliases, m_required, m_argument, m_children, m_id );
 
         // reset the builder
         reset();
-
         return option;
     }
 
@@ -84,15 +94,15 @@ public class CommandBuilder {
      * This method is called automatically at the end of the
      * {@link #create() create} method.
      */
-    public CommandBuilder reset() {
-        preferredName = null;
-        description = null;
-        aliases = new HashSet();
-        required = false;
-        argument = null;
-        children = null;
-        id = 0;
-
+    public CommandBuilder reset()
+    {
+        m_preferredName = null;
+        m_description = null;
+        m_aliases = new HashSet();
+        m_required = false;
+        m_argument = null;
+        m_children = null;
+        m_id = 0;
         return this;
     }
 
@@ -106,13 +116,16 @@ public class CommandBuilder {
      * that is created.
      * @return this <code>CommandBuilder</code>.
      */
-    public CommandBuilder withName(final String name) {
-        if (preferredName == null) {
-            preferredName = name;
-        } else {
-            aliases.add(name);
+    public CommandBuilder withName( final String name )
+    {
+        if( m_preferredName == null )
+        {
+            m_preferredName = name;
         }
-
+        else
+        {
+            m_aliases.add( name );
+        }
         return this;
     }
 
@@ -125,9 +138,9 @@ public class CommandBuilder {
      * <code>Command</code> that is created.
      * @return this <code>CommandBuilder</code>.
      */
-    public CommandBuilder withDescription(final String newDescription) {
-        this.description = newDescription;
-
+    public CommandBuilder withDescription( final String newDescription )
+    {
+        m_description = newDescription;
         return this;
     }
 
@@ -138,9 +151,9 @@ public class CommandBuilder {
      * required or not.
      * @return this <code>CommandBuilder</code>.
      */
-    public CommandBuilder withRequired(final boolean newRequired) {
-        this.required = newRequired;
-
+    public CommandBuilder withRequired( final boolean newRequired )
+    {
+        m_required = newRequired;
         return this;
     }
 
@@ -152,9 +165,9 @@ public class CommandBuilder {
      * that is created.
      * @return this <code>CommandBuilder</code>.
      */
-    public CommandBuilder withChildren(final Group newChildren) {
-        this.children = newChildren;
-
+    public CommandBuilder withChildren( final Group newChildren )
+    {
+        m_children = newChildren;
         return this;
     }
 
@@ -166,9 +179,9 @@ public class CommandBuilder {
      * that is created.
      * @return this <code>CommandBuilder</code>.
      */
-    public CommandBuilder withArgument(final Argument newArgument) {
-        this.argument = newArgument;
-
+    public CommandBuilder withArgument( final Argument newArgument )
+    {
+        m_argument = newArgument;
         return this;
     }
 
@@ -178,9 +191,9 @@ public class CommandBuilder {
      * @param newId the id for the next <code>Command</code> that is created.
      * @return this <code>CommandBuilder</code>.
      */
-    public final CommandBuilder withId(final int newId) {
-        this.id = newId;
-
+    public final CommandBuilder withId( final int newId )
+    {
+        m_id = newId;
         return this;
     }
 }

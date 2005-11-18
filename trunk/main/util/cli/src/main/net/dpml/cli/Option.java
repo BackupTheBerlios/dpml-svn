@@ -1,5 +1,6 @@
 /*
  * Copyright 2003-2005 The Apache Software Foundation
+ * Copyright 2005 Stephen McConnell
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,9 +24,12 @@ import java.util.Set;
 /**
  * The super type of all options representing a particular element of the
  * command line interface.
+ *
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
-public interface Option {
-
+public interface Option
+{
     /**
      * Processes String arguments into a CommandLine.
      * 
@@ -43,7 +47,7 @@ public interface Option {
      */
     void process(
         final WriteableCommandLine commandLine,
-        final ListIterator args)
+        final ListIterator args )
         throws OptionException;
     
     /**
@@ -55,17 +59,16 @@ public interface Option {
      * @param commandLine
      *            The CommandLine object to store defaults in
      */
-    void defaults(final WriteableCommandLine commandLine);
+    void defaults( WriteableCommandLine commandLine );
 
     /**
      * Indicates whether this Option will be able to process the particular
      * argument.
      * 
-     * @param argument
-     *            The argument to be tested
+     * @param argument the argument to be tested
      * @return true if the argument can be processed by this Option
      */
-    boolean canProcess(final WriteableCommandLine commandLine, final String argument);
+    boolean canProcess( WriteableCommandLine commandLine, String argument );
 
     /**
      * Indicates whether this Option will be able to process the particular
@@ -73,11 +76,10 @@ public interface Option {
      * returning the boolean.
      * 
      * @see #canProcess(WriteableCommandLine,String)
-     * @param arguments
-     *            the ListIterator over String arguments
+     * @param arguments the ListIterator over String arguments
      * @return true if the argument can be processed by this Option
      */
-    boolean canProcess(final WriteableCommandLine commandLine, final ListIterator arguments);
+    boolean canProcess( WriteableCommandLine commandLine, final ListIterator arguments );
 
     /**
      * Identifies the argument prefixes that should trigger this option. This
@@ -106,31 +108,25 @@ public interface Option {
      * Checks that the supplied CommandLine is valid with respect to this
      * option.
      * 
-     * @param commandLine
-     *            The CommandLine to check.
-     * @throws OptionException
-     *             if the CommandLine is not valid.
+     * @param commandLine the CommandLine to check.
+     * @throws OptionException if the CommandLine is not valid.
      */
-    void validate(final WriteableCommandLine commandLine)
-        throws OptionException;
+    void validate( WriteableCommandLine commandLine ) throws OptionException;
 
     /**
      * Builds up a list of HelpLineImpl instances to be presented by HelpFormatter.
      * 
      * @see HelpLine
      * @see net.dpml.cli.util.HelpFormatter
-     * @param depth
-     *            the initial indent depth
-     * @param helpSettings
-     *            the HelpSettings that should be applied
-     * @param comp
-     *            a comparator used to sort options when applicable.
+     * @param depth the initial indent depth
+     * @param helpSettings the HelpSettings that should be applied
+     * @param comp a comparator used to sort options when applicable.
      * @return a List of HelpLineImpl objects
      */
     List helpLines(
-        final int depth,
-        final Set helpSettings,
-        final Comparator comp);
+        int depth,
+        Set helpSettings,
+        Comparator comp);
 
     /**
      * Appends usage information to the specified StringBuffer
@@ -140,9 +136,9 @@ public interface Option {
      * @param comp a comparator used to sort the Options
      */
     void appendUsage(
-        final StringBuffer buffer,
-        final Set helpSettings,
-        final Comparator comp);
+        StringBuffer buffer,
+        Set helpSettings,
+        Comparator comp);
 
     /**
      * The preferred name of an option is used for generating help and usage
@@ -180,17 +176,17 @@ public interface Option {
      */
     int getId();
 
-	/**
-	 * Recursively searches for an option with the supplied trigger.
-	 *
-	 * @param trigger the trigger to search for.
-	 * @return the matching option or null.
-	 */
-	Option findOption(final String trigger);
+   /**
+    * Recursively searches for an option with the supplied trigger.
+    *
+    * @param trigger the trigger to search for.
+    * @return the matching option or null.
+    */
+    Option findOption( String trigger );
 
     /**
      * Indicates whether this option is required to be present.
-     * @return true iff the CommandLine will be invalid without this Option
+     * @return true if the CommandLine will be invalid without this Option
      */
     boolean isRequired();
 }
