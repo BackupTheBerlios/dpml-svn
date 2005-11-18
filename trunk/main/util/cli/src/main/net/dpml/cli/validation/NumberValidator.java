@@ -127,7 +127,7 @@ public class NumberValidator implements Validator
      */
     public void validate( final List values ) throws InvalidArgumentException 
     {
-        for( final ListIterator i = values.listIterator(); i.hasNext(); ) 
+        for( final ListIterator i = values.listIterator(); i.hasNext();) 
         {
             final Object next = i.next();
             if( next instanceof Number )

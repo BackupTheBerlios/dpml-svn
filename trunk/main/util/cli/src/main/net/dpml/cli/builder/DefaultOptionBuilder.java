@@ -122,7 +122,8 @@ public class DefaultOptionBuilder
     }
 
     /**
-     * Resets the builder
+     * Resets the builder.
+     * @return this <code>DefaultOptionBuilder</code>.
      */
     public DefaultOptionBuilder reset()
     {

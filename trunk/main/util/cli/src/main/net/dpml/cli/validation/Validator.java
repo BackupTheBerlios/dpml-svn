@@ -28,8 +28,8 @@ import java.util.List;
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-public interface Validator {
-
+public interface Validator
+{
     /**
      * Validate the specified values (List of Strings).
      * 

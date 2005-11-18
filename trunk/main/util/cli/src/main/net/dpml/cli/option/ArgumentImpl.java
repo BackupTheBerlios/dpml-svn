@@ -16,10 +16,8 @@
  */
 package net.dpml.cli.option;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Set;
@@ -139,11 +137,30 @@ public class ArgumentImpl extends OptionImpl implements Argument
         }
     }
 
+    /**
+     * The preferred name of an option is used for generating help and usage
+     * information.
+     * 
+     * @return The preferred name of the option
+     */
     public String getPreferredName()
     {
         return m_name;
     }
-
+    
+   /**
+    * Processes the "README" style element of the argument.
+    *
+    * Values identified should be added to the CommandLine object in
+    * association with this Argument.
+    *
+    * @see WriteableCommandLine#addValue(Option,Object)
+    *
+    * @param commandLine The CommandLine object to store results in.
+    * @param arguments The arguments to process.
+    * @param option The option to register value against.
+    * @throws OptionException if any problems occur.
+    */
     public void processValues(
       final WriteableCommandLine commandLine, final ListIterator arguments, final Option option )
       throws OptionException
@@ -170,7 +187,7 @@ public class ArgumentImpl extends OptionImpl implements Argument
                 break;
             }
             // should we split the string up?
-            else if( m_subsequentSplit)
+            else if( m_subsequentSplit )
             {
                 final StringTokenizer values =
                   new StringTokenizer( allValues, String.valueOf( m_subsequentSeparator ) );
@@ -201,57 +218,150 @@ public class ArgumentImpl extends OptionImpl implements Argument
         }
     }
 
-    public boolean canProcess( final WriteableCommandLine commandLine, final String arg )
+    /**
+     * Indicates whether this Option will be able to process the particular
+     * argument.
+     * 
+     * @param commandLine the CommandLine object to store defaults in
+     * @param argument the argument to be tested
+     * @return true if the argument can be processed by this Option
+     */
+    public boolean canProcess( final WriteableCommandLine commandLine, final String argument )
     {
         return true;
     }
 
+    /**
+     * Identifies the argument prefixes that should be considered options. This
+     * is used to identify whether a given string looks like an option or an
+     * argument value. Typically an option would return the set [--,-] while
+     * switches might offer [-,+].
+     * 
+     * The returned Set must not be null.
+     * 
+     * @return The set of prefixes for this Option
+     */
     public Set getPrefixes()
     {
         return Collections.EMPTY_SET;
     }
 
+    /**
+     * Processes String arguments into a CommandLine.
+     * 
+     * The iterator will initially point at the first argument to be processed
+     * and at the end of the method should point to the first argument not
+     * processed. This method MUST process at least one argument from the
+     * ListIterator.
+     * 
+     * @param commandLine the CommandLine object to store results in
+     * @param args the arguments to process
+     * @throws OptionException if any problems occur
+     */
     public void process( WriteableCommandLine commandLine, ListIterator args )
       throws OptionException
     {
         processValues( commandLine, args, this );
     }
 
+   /**
+    * Returns the initial separator character or
+    * '\0' if no character has been set.
+    * 
+    * @return char the initial separator character
+    */
     public char getInitialSeparator()
     {
         return m_initialSeparator;
     }
 
+   /**
+    * Returns the subsequent separator character.
+    * 
+    * @return the subsequent separator character
+    */
     public char getSubsequentSeparator()
     {
         return m_subsequentSeparator;
     }
 
+    /**
+     * Identifies the argument prefixes that should trigger this option. This
+     * is used to decide which of many Options should be tried when processing
+     * a given argument string.
+     * 
+     * The returned Set must not be null.
+     * 
+     * @return The set of triggers for this Option
+     */
     public Set getTriggers()
     {
         return Collections.EMPTY_SET;
     }
 
+   /**
+    * Return the consume remaining flag.
+    * @return the consume remaining flag
+    */
     public String getConsumeRemaining()
     {
         return m_consumeRemaining;
     }
     
+   /**
+    * Return the list of default values.
+    * @return the default values
+    */
     public List getDefaultValues() 
     {
         return m_defaultValues;
     }
     
+   /**
+    * Return the argument validator.
+    * @return the validator
+    */
     public Validator getValidator()
     {
         return m_validator;
     }
     
+    /**
+     * Performs any necessary validation on the values added to the
+     * CommandLine.
+     *
+     * Validation will typically involve using the
+     * CommandLine.getValues(option) method to retrieve the values
+     * and then either checking each value.  Optionally the String
+     * value can be replaced by another Object such as a Number
+     * instance or a File instance.
+     *
+     * @see CommandLine#getValues(Option)
+     *
+     * @param commandLine The CommandLine object to query.
+     * @throws OptionException if any problems occur.
+     */
     public void validate( final WriteableCommandLine commandLine ) throws OptionException 
     {
         validate( commandLine, this );
     }
 
+    /**
+     * Performs any necessary validation on the values added to the
+     * CommandLine.
+     *
+     * Validation will typically involve using the
+     * CommandLine.getValues(option) method to retrieve the values
+     * and then either checking each value.  Optionally the String
+     * value can be replaced by another Object such as a Number
+     * instance or a File instance.
+     *
+     * @see CommandLine#getValues(Option)
+     *
+     * @param commandLine The CommandLine object to query.
+     * @param option The option to lookup values with.
+     * @throws OptionException if any problems occur.
+     */
     public void validate(
       final WriteableCommandLine commandLine, final Option option )
       throws OptionException 
@@ -288,6 +398,13 @@ public class ArgumentImpl extends OptionImpl implements Argument
         }
     }
 
+    /**
+     * Appends usage information to the specified StringBuffer
+     * 
+     * @param buffer the buffer to append to
+     * @param helpSettings a set of display settings @see DisplaySetting
+     * @param comp a comparator used to sort the Options
+     */
     public void appendUsage(
       final StringBuffer buffer, final Set helpSettings, final Comparator comp )
     {
@@ -302,8 +419,8 @@ public class ArgumentImpl extends OptionImpl implements Argument
         final boolean bracketed = helpSettings.contains( DisplaySetting.DISPLAY_ARGUMENT_BRACKETED );
 
         // if infinite args are allowed then crop the list
-        final int max = ( m_maximum == Integer.MAX_VALUE ) ? 2 : m_maximum;
-
+        final int max = getMaxValue();
+        
         int i = 0;
 
         // for each argument
@@ -360,23 +477,50 @@ public class ArgumentImpl extends OptionImpl implements Argument
             }
         }
     }
-
+    
+    /**
+     * Returns a description of the option. This string is used to build help
+     * messages as in the HelpFormatter.
+     * 
+     * @see net.dpml.cli.util.HelpFormatter
+     * @return a description of the option.
+     */
     public String getDescription()
     {
         return m_description;
     }
 
+    /**
+     * Builds up a list of HelpLineImpl instances to be presented by HelpFormatter.
+     * 
+     * @see HelpLine
+     * @see net.dpml.cli.util.HelpFormatter
+     * @param depth the initial indent depth
+     * @param helpSettings the HelpSettings that should be applied
+     * @param comp a comparator used to sort options when applicable.
+     * @return a List of HelpLineImpl objects
+     */
     public List helpLines( final int depth, final Set helpSettings, final Comparator comp )
     {
         final HelpLine helpLine = new HelpLineImpl( this, depth );
         return Collections.singletonList( helpLine );
     }
 
+    /**
+     * Retrieves the maximum number of values acceptable for a valid Argument
+     *
+     * @return the maximum number of values
+     */
     public int getMaximum()
     {
         return m_maximum;
     }
 
+    /**
+     * Retrieves the minimum number of values required for a valid Argument
+     *
+     * @return the minimum number of values
+     */
     public int getMinimum()
     {
         return m_minimum;
@@ -399,19 +543,52 @@ public class ArgumentImpl extends OptionImpl implements Argument
         return token;
     }
 
+    /**
+     * Indicates whether argument values must be present for the CommandLine to
+     * be valid.
+     *
+     * @see #getMinimum()
+     * @see #getMaximum()
+     * @return true iff the CommandLine will be invalid without at least one 
+     *         value
+     */
     public boolean isRequired()
     {
         return getMinimum() > 0;
     }
 
+    /**
+     * Adds defaults to a CommandLine.
+     * 
+     * @param commandLine the CommandLine object to store defaults in.
+     */
     public void defaults( final WriteableCommandLine commandLine )
     {
         super.defaults( commandLine );
         defaultValues( commandLine, this );
     }
 
+    /**
+     * Adds defaults to a CommandLine.
+     * 
+     * @param commandLine the CommandLine object to store defaults in.
+     * @param option the Option to store the defaults against.
+     */
     public void defaultValues( final WriteableCommandLine commandLine, final Option option )
     {
         commandLine.setDefaultValues( option, m_defaultValues );
     }
+
+    private int getMaxValue()
+    {
+        if( m_maximum == Integer.MAX_VALUE )
+        {
+            return 2;
+        }
+        else
+        {
+            return m_maximum;
+        }
+    }
+
 }

@@ -48,6 +48,16 @@ public abstract class OptionImpl implements Option
         m_required = required;
     }
 
+    /**
+     * Indicates whether this Option will be able to process the particular
+     * argument. The ListIterator must be restored to the initial state before
+     * returning the boolean.
+     * 
+     * @see #canProcess(WriteableCommandLine,String)
+     * @param commandLine the CommandLine object to store defaults in
+     * @param arguments the ListIterator over String arguments
+     * @return true if the argument can be processed by this Option
+     */
     public boolean canProcess( 
       final WriteableCommandLine commandLine, final ListIterator arguments )
     {
@@ -63,6 +73,10 @@ public abstract class OptionImpl implements Option
         }
     }
 
+   /**
+    * Returns a string representation of the option.
+    * @return the string value
+    */
     public String toString() 
     {
         final StringBuffer buffer = new StringBuffer();
@@ -70,11 +84,33 @@ public abstract class OptionImpl implements Option
         return buffer.toString();
     }
 
+    /**
+     * Returns the id of the option.  This can be used in a loop and switch 
+     * construct:
+     * 
+     * <code>
+     * for(Option o : cmd.getOptions()){
+     *     switch(o.getId()){
+     *         case POTENTIAL_OPTION:
+     *             ...
+     *     }
+     * }
+     * </code> 
+     * 
+     * The returned value is not guarenteed to be unique.
+     * 
+     * @return the id of the option.
+     */
     public int getId() 
     {
         return m_id;
     }
 
+   /**
+    * Evaluate this instance against the supplied instance for equality.
+    * @param thatObj the other object
+    * @return true if the supplied instance is equal to this instance
+    */
     public boolean equals( final Object thatObj )
     {
         if( thatObj instanceof OptionImpl )
@@ -108,6 +144,10 @@ public abstract class OptionImpl implements Option
         }
     }
 
+   /**
+    * Return the hashcode value for this instance.
+    * @return the hash value
+    */
     public int hashCode()
     {
         int hashCode = getId();
@@ -121,6 +161,12 @@ public abstract class OptionImpl implements Option
         return hashCode;
     }
 
+   /**
+    * Recursively searches for an option with the supplied trigger.
+    *
+    * @param trigger the trigger to search for.
+    * @return the matching option or null.
+    */
     public Option findOption( String trigger )
     {
         if( getTriggers().contains( trigger ) )
@@ -133,16 +179,32 @@ public abstract class OptionImpl implements Option
         }
     }
 
+    /**
+     * Indicates whether this option is required to be present.
+     * @return true if the CommandLine will be invalid without this Option
+     */
     public boolean isRequired() 
     {
         return m_required;
     }
 
+    /**
+     * Adds defaults to a CommandLine.
+     * 
+     * Any defaults for this option are applied as well as the defaults for 
+     * any contained options
+     * 
+     * @param commandLine the CommandLine object to store defaults in
+     */
     public void defaults( final WriteableCommandLine commandLine ) 
     {
         // nothing to do normally
     }
 
+   /**
+    * Check prefixes.
+    * @param prefixes the prefixes set
+    */
     protected void checkPrefixes( final Set prefixes ) 
     {
         // nothing to do if empty prefix list
@@ -157,18 +219,23 @@ public abstract class OptionImpl implements Option
         // check triggers
         getTriggers();
 
-        for( final Iterator i = getTriggers().iterator(); i.hasNext(); )
+        for( final Iterator i = getTriggers().iterator(); i.hasNext();)
         {
             checkPrefix( prefixes, (String) i.next() );
         }
     }
 
+   /**
+    * Check prefixes.
+    * @param prefixes the prefixes set
+    * @param trigger the trigger
+    */
     private void checkPrefix( final Set prefixes, final String trigger )
     {
-        for( final Iterator i = prefixes.iterator(); i.hasNext(); ) 
+        for( final Iterator i = prefixes.iterator(); i.hasNext();) 
         {
             String prefix = (String) i.next();
-            if (trigger.startsWith(prefix)) 
+            if( trigger.startsWith( prefix ) ) 
             {
                 return;
             }
@@ -177,7 +244,9 @@ public abstract class OptionImpl implements Option
         final ResourceHelper helper = ResourceHelper.getResourceHelper();
         final String message =
           helper.getMessage( 
-            ResourceConstants.OPTION_TRIGGER_NEEDS_PREFIX, trigger, prefixes.toString() );
+            ResourceConstants.OPTION_TRIGGER_NEEDS_PREFIX, 
+            trigger, 
+            prefixes.toString() );
         throw new IllegalArgumentException( message );
     }
 }

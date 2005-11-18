@@ -51,8 +51,7 @@ public class DefaultingCommandLine extends CommandLineImpl
      * CommandLine will be used as defaults when all other CommandLines produce
      * no result
      * 
-     * @param commandLine
-     *            the default values to use if all CommandLines
+     * @param commandLine the default values to use if all CommandLines
      */
     public void appendCommandLine( final CommandLine commandLine )
     {
@@ -82,9 +81,15 @@ public class DefaultingCommandLine extends CommandLineImpl
         return Collections.unmodifiableList( m_commandLines ).iterator();
     }
 
+    /**
+     * Finds the Option with the specified trigger
+     * 
+     * @param trigger the name of the option to retrieve
+     * @return the Option matching the trigger or null if none exists
+     */
     public Option getOption( String trigger )
     {
-        for( final Iterator i = m_commandLines.iterator(); i.hasNext(); )
+        for( final Iterator i = m_commandLines.iterator(); i.hasNext();)
         {
             final CommandLine commandLine = (CommandLine) i.next();
             final Option actual = commandLine.getOption( trigger );
@@ -96,13 +101,18 @@ public class DefaultingCommandLine extends CommandLineImpl
         return null;
     }
 
+    /**
+     * Retrieves a list of all Options found in this CommandLine
+     * 
+     * @return a none null list of Options
+     */
     public List getOptions()
     {
         final List options = new ArrayList();
         final List temp = new ArrayList();
-        for( final Iterator i = m_commandLines.iterator(); i.hasNext(); )
+        for( final Iterator i = m_commandLines.iterator(); i.hasNext();)
         {
-            final CommandLine commandLine = (CommandLine)i.next();
+            final CommandLine commandLine = (CommandLine) i.next();
             temp.clear();
             temp.addAll( commandLine.getOptions() );
             temp.removeAll( options );
@@ -111,10 +121,15 @@ public class DefaultingCommandLine extends CommandLineImpl
         return Collections.unmodifiableList( options );
     }
 
+    /**
+     * Retrieves a list of all Option triggers found in this CommandLine
+     * 
+     * @return a none null list of Option triggers
+     */
     public Set getOptionTriggers()
     {
         final Set all = new HashSet();
-        for( final Iterator i = m_commandLines.iterator(); i.hasNext(); )
+        for( final Iterator i = m_commandLines.iterator(); i.hasNext();)
         {
             final CommandLine commandLine = (CommandLine) i.next();
             all.addAll( commandLine.getOptionTriggers() );
@@ -122,11 +137,17 @@ public class DefaultingCommandLine extends CommandLineImpl
         return Collections.unmodifiableSet( all );
     }
 
+    /**
+     * Detects the presence of an option in this CommandLine.
+     * 
+     * @param option the Option to search for
+     * @return true iff the option is present
+     */
     public boolean hasOption( Option option )
     {
-        for( final Iterator i = m_commandLines.iterator(); i.hasNext(); )
+        for( final Iterator i = m_commandLines.iterator(); i.hasNext();)
         {
-            final CommandLine commandLine = (CommandLine)i.next();
+            final CommandLine commandLine = (CommandLine) i.next();
             if( commandLine.hasOption( option ) )
             {
                 return true;
@@ -135,11 +156,18 @@ public class DefaultingCommandLine extends CommandLineImpl
         return false;
     }
 
+    /**
+     * Retrieves the Argument values associated with the specified Option
+     * 
+     * @param option the Option associated with the values
+     * @param defaultValues the result to return if no values are found
+     * @return a list of values or defaultValues if none are found
+     */
     public List getValues( Option option, List defaultValues )
     {
-        for( final Iterator i = m_commandLines.iterator(); i.hasNext(); )
+        for( final Iterator i = m_commandLines.iterator(); i.hasNext();)
         {
-            final CommandLine commandLine = (CommandLine)i.next();
+            final CommandLine commandLine = (CommandLine) i.next();
             final List actual = commandLine.getValues( option );
             if( actual != null && !actual.isEmpty() )
             {
@@ -156,12 +184,19 @@ public class DefaultingCommandLine extends CommandLineImpl
         }
     }
 
+    /**
+     * Retrieves the Boolean value associated with the specified Switch
+     * 
+     * @param option the Option associated with the value
+     * @param defaultValue the Boolean to use if none match
+     * @return the Boolean associated with option or defaultValue if none exists
+     */
     public Boolean getSwitch( Option option, Boolean defaultValue )
     {
-        for( final Iterator i = m_commandLines.iterator(); i.hasNext(); )
+        for( final Iterator i = m_commandLines.iterator(); i.hasNext();)
         {
-            final CommandLine commandLine = (CommandLine)i.next();
-            final Boolean actual = commandLine.getSwitch(option);
+            final CommandLine commandLine = (CommandLine) i.next();
+            final Boolean actual = commandLine.getSwitch( option );
             if( actual != null )
             {
                 return actual;
@@ -170,11 +205,18 @@ public class DefaultingCommandLine extends CommandLineImpl
         return defaultValue;
     }
 
+    /**
+     * Retrieves the value associated with the specified property 
+     * 
+     * @param property the property name to lookup
+     * @param defaultValue the value to use if no other is found
+     * @return the value of the property or defaultValue
+     */
     public String getProperty( String property, String defaultValue )
     {
-        for( final Iterator i = m_commandLines.iterator(); i.hasNext(); )
+        for( final Iterator i = m_commandLines.iterator(); i.hasNext();)
         {
-            final CommandLine commandLine = (CommandLine)i.next();
+            final CommandLine commandLine = (CommandLine) i.next();
             final String actual = commandLine.getProperty( property );
             if( actual != null )
             {
@@ -184,14 +226,19 @@ public class DefaultingCommandLine extends CommandLineImpl
         return defaultValue;
     }
 
+    /**
+     * Retrieves the set of all property names associated with this CommandLine
+     * 
+     * @return a none null set of property names 
+     */
     public Set getProperties() 
     {
         final Set all = new HashSet();
-        for( final Iterator i = m_commandLines.iterator(); i.hasNext(); )
+        for( final Iterator i = m_commandLines.iterator(); i.hasNext();)
         {
-            final CommandLine commandLine = (CommandLine)i.next();
+            final CommandLine commandLine = (CommandLine) i.next();
             all.addAll( commandLine.getProperties() );
         }
-        return Collections.unmodifiableSet(all);
+        return Collections.unmodifiableSet( all );
     }
 }

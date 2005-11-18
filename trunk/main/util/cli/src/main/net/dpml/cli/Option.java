@@ -38,12 +38,9 @@ public interface Option
      * processed. This method MUST process at least one argument from the
      * ListIterator.
      * 
-     * @param commandLine
-     *            The CommandLine object to store results in
-     * @param args
-     *            The arguments to process
-     * @throws OptionException
-     *             if any problems occur
+     * @param commandLine the CommandLine object to store results in
+     * @param args the arguments to process
+     * @throws OptionException if any problems occur
      */
     void process(
         final WriteableCommandLine commandLine,
@@ -56,8 +53,7 @@ public interface Option
      * Any defaults for this option are applied as well as the defaults for 
      * any contained options
      * 
-     * @param commandLine
-     *            The CommandLine object to store defaults in
+     * @param commandLine the CommandLine object to store defaults in
      */
     void defaults( WriteableCommandLine commandLine );
 
@@ -65,6 +61,7 @@ public interface Option
      * Indicates whether this Option will be able to process the particular
      * argument.
      * 
+     * @param commandLine the CommandLine object to store defaults in
      * @param argument the argument to be tested
      * @return true if the argument can be processed by this Option
      */
@@ -76,6 +73,7 @@ public interface Option
      * returning the boolean.
      * 
      * @see #canProcess(WriteableCommandLine,String)
+     * @param commandLine the CommandLine object to store defaults in
      * @param arguments the ListIterator over String arguments
      * @return true if the argument can be processed by this Option
      */
@@ -123,10 +121,7 @@ public interface Option
      * @param comp a comparator used to sort options when applicable.
      * @return a List of HelpLineImpl objects
      */
-    List helpLines(
-        int depth,
-        Set helpSettings,
-        Comparator comp);
+    List helpLines( int depth, Set helpSettings, Comparator comp );
 
     /**
      * Appends usage information to the specified StringBuffer
@@ -135,10 +130,7 @@ public interface Option
      * @param helpSettings a set of display settings @see DisplaySetting
      * @param comp a comparator used to sort the Options
      */
-    void appendUsage(
-        StringBuffer buffer,
-        Set helpSettings,
-        Comparator comp);
+    void appendUsage( StringBuffer buffer, Set helpSettings, Comparator comp );
 
     /**
      * The preferred name of an option is used for generating help and usage

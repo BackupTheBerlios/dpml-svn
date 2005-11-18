@@ -83,7 +83,7 @@ public class PatternBuilder
         else
         {
             m_gbuilder.reset();
-            for( final Iterator i = m_options.iterator(); i.hasNext(); )
+            for( final Iterator i = m_options.iterator(); i.hasNext();)
             {
                 m_gbuilder.withOption( (Option) i.next() );
             }
@@ -95,6 +95,7 @@ public class PatternBuilder
 
     /**
      * Resets this builder
+     * @return the builder
      */
     public PatternBuilder reset()
     {
@@ -105,7 +106,7 @@ public class PatternBuilder
     private void createOption( final char type, final boolean required, final char opt ) 
     {
         final Argument argument;
-        if( type != ' ')
+        if( type != ' ' )
         {
             m_abuilder.reset();
             m_abuilder.withValidator( validator( type ) );
@@ -115,7 +116,7 @@ public class PatternBuilder
             }
             if( type != '*' )
             {
-                m_abuilder.withMaximum(1);
+                m_abuilder.withMaximum( 1 );
             }
             argument = m_abuilder.create();
         }
@@ -143,10 +144,10 @@ public class PatternBuilder
         char type = ' ';
         boolean required = false;
 
-        for( int i = 0; i < sz; i++ )
+        for( int i=0; i < sz; i++ )
         {
-            ch = pattern.charAt(i);
-            switch (ch) 
+            ch = pattern.charAt( i );
+            switch( ch ) 
             {
                 case '!' :
                     required = true;

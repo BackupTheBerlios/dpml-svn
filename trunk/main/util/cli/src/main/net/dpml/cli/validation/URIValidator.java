@@ -56,14 +56,16 @@ public class URIValidator implements Validator
 
    /**
     * Creates a UriValidator for the specified scheme.
+    * @param scheme the uri scheme
     */
     public URIValidator( final String scheme ) 
     {
-        m_schemes = new String[]{ scheme };
+        m_schemes = new String[]{scheme};
     }
     
    /**
     * Creates a UriValidator for the specified schemes.
+    * @param schemes an array of schemes
     */
     public URIValidator( final String[] schemes ) 
     {
@@ -80,7 +82,7 @@ public class URIValidator implements Validator
     public void validate( final List values )
         throws InvalidArgumentException 
     {
-        for( final ListIterator i = values.listIterator(); i.hasNext(); ) 
+        for( final ListIterator i = values.listIterator(); i.hasNext();) 
         {
             final Object object = i.next();
             if( object instanceof URI )
@@ -107,7 +109,7 @@ public class URIValidator implements Validator
                     }
                 }
             } 
-            catch (final URISyntaxException e )
+            catch( final URISyntaxException e )
             {
                 final String error =
                   "Bad uri syntax in value [" + name + "].";

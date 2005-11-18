@@ -67,7 +67,7 @@ public class EnumValidator implements Validator
      */
     public void validate( final List values ) throws InvalidArgumentException
     {
-        for( final Iterator iter = values.iterator(); iter.hasNext(); ) 
+        for( final Iterator iter = values.iterator(); iter.hasNext();) 
         {
             final String value = (String) iter.next();
             if( !m_validValues.contains( value ) )
@@ -89,9 +89,9 @@ public class EnumValidator implements Validator
     {
         final StringBuffer buff = new StringBuffer();
         buff.append( "[" );
-        for( final Iterator iter = m_validValues.iterator(); iter.hasNext(); )
+        for( final Iterator iter = m_validValues.iterator(); iter.hasNext();)
         {
-            buff.append( "'" ).append( iter.next()).append( "'" );
+            buff.append( "'" ).append( iter.next() ).append( "'" );
             if( iter.hasNext() )
             {
                 buff.append( ", " );

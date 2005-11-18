@@ -99,6 +99,12 @@ public class Command extends ParentImpl
         m_triggers = Collections.unmodifiableSet( newTriggers );
     }
 
+   /**
+    * Process the parent.
+    * @param commandLine the commandline
+    * @param arguments an iterator of arguments
+    * @exception OptionException if an error occurs
+    */
     public void processParent(
       final WriteableCommandLine commandLine, final ListIterator arguments )
       throws OptionException
@@ -124,11 +130,27 @@ public class Command extends ParentImpl
         }
     }
 
+    /**
+     * Identifies the argument prefixes that should trigger this option. This
+     * is used to decide which of many Options should be tried when processing
+     * a given argument string.
+     * 
+     * The returned Set must not be null.
+     * 
+     * @return The set of triggers for this Option
+     */
     public Set getTriggers()
     {
         return m_triggers;
     }
 
+    /**
+     * Checks that the supplied CommandLine is valid with respect to this
+     * option.
+     * 
+     * @param commandLine the CommandLine to check.
+     * @throws OptionException if the CommandLine is not valid.
+     */
     public void validate( WriteableCommandLine commandLine ) throws OptionException
     {
         if( isRequired() && !commandLine.hasOption( this ) )
@@ -141,6 +163,13 @@ public class Command extends ParentImpl
         super.validate( commandLine );
     }
 
+    /**
+     * Appends usage information to the specified StringBuffer
+     * 
+     * @param buffer the buffer to append to
+     * @param helpSettings a set of display settings @see DisplaySetting
+     * @param comp a comparator used to sort the Options
+     */
     public void appendUsage(
       final StringBuffer buffer, final Set helpSettings, final Comparator comp )
       {
@@ -148,7 +177,7 @@ public class Command extends ParentImpl
         final boolean optional =
           !isRequired() && helpSettings.contains( DisplaySetting.DISPLAY_OPTIONAL );
         final boolean displayAliases = 
-          helpSettings.contains(DisplaySetting.DISPLAY_ALIASES);
+          helpSettings.contains( DisplaySetting.DISPLAY_ALIASES );
 
         if( optional )
         {
@@ -162,13 +191,13 @@ public class Command extends ParentImpl
             buffer.append( " (" );
             final List list = new ArrayList( m_aliases );
             Collections.sort( list );
-            for( final Iterator i = list.iterator(); i.hasNext(); )
+            for( final Iterator i = list.iterator(); i.hasNext();)
             {
                 final String alias = (String) i.next();
                 buffer.append( alias );
                 if( i.hasNext() )
                 {
-                    buffer.append(',');
+                    buffer.append( ',' );
                 }
             }
             buffer.append( ')' );
@@ -181,6 +210,12 @@ public class Command extends ParentImpl
         }
     }
 
+    /**
+     * The preferred name of an option is used for generating help and usage
+     * information.
+     * 
+     * @return The preferred name of the option
+     */
     public String getPreferredName()
     {
         return m_preferredName;

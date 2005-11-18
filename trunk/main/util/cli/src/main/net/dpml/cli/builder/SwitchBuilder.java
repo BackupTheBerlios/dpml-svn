@@ -112,7 +112,8 @@ public class SwitchBuilder
     }
 
     /**
-     * Resets the builder
+     * Resets the builder.
+     * @return the builder
      */
     public SwitchBuilder reset() 
     {

@@ -30,9 +30,8 @@ import net.dpml.cli.option.Switch;
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-public class Comparators 
+public final class Comparators 
 {
-
     private Comparators()
     {
         // static
@@ -48,7 +47,7 @@ public class Comparators
      */
     public static Comparator chain( final Comparator c0, final Comparator c1 )
     {
-        return chain(new Comparator[] { c0, c1 });
+        return chain( new Comparator[]{c0, c1} );
     }
 
     /**
@@ -78,7 +77,7 @@ public class Comparators
     public static Comparator chain( 
       final Comparator c0, final Comparator c1, final Comparator c2, final Comparator c3 )
     {
-        return chain( new Comparator[]{ c0, c1, c2, c3 } );
+        return chain( new Comparator[]{c0, c1, c2, c3} );
     }
 
     /**
@@ -109,7 +108,7 @@ public class Comparators
     public static Comparator chain( final List comparators )
     {
         return new Chain(
-          (Comparator[])comparators.toArray(
+          (Comparator[]) comparators.toArray(
             new Comparator[ comparators.size() ] ) );
     }
 
@@ -131,7 +130,7 @@ public class Comparators
      */
     private static class Chain implements Comparator
     {
-        final Comparator[] m_chain;
+        private final Comparator[] m_chain;
 
         /**
          * Creates a Comparator chain using the specified array of Comparators
@@ -140,9 +139,15 @@ public class Comparators
         public Chain( final Comparator[] chain )
         {
             m_chain = new Comparator[ chain.length ];
-            System.arraycopy( chain, 0, m_chain, 0, chain.length);
+            System.arraycopy( chain, 0, m_chain, 0, chain.length );
         }
-
+        
+       /**
+        * Compare two values.
+        * @param left the first value
+        * @param right the second value
+        * @return the result
+        */
         public int compare( final Object left, final Object right )
         {
             int result = 0;
@@ -166,6 +171,9 @@ public class Comparators
         return new Reverse( wrapped );
     }
 
+   /**
+    * A reverse comparator.
+    */
     private static class Reverse implements Comparator 
     {
         private final Comparator m_wrapped;
@@ -179,6 +187,12 @@ public class Comparators
             m_wrapped = wrapped;
         }
 
+       /**
+        * Compare two values.
+        * @param left the first value
+        * @param right the second value
+        * @return the result
+        */
         public int compare( final Object left, final Object right )
         {
             return -m_wrapped.compare( left, right );
@@ -207,8 +221,17 @@ public class Comparators
         return reverse( groupFirst() );
     }
 
+   /**
+    * A group first comparator.
+    */
     private static class GroupFirst implements Comparator 
     {
+       /**
+        * Compare two values.
+        * @param left the first value
+        * @param right the second value
+        * @return the result
+        */
         public int compare( final Object left, final Object right )
         {
             final boolean l = left instanceof Group;
@@ -248,8 +271,17 @@ public class Comparators
         return reverse( switchFirst() );
     }
 
+   /**
+    * A switch first comparator.
+    */
     private static class SwitchFirst implements Comparator 
     {
+       /**
+        * Compare two values.
+        * @param left the first value
+        * @param right the second value
+        * @return the result
+        */
         public int compare( final Object left, final Object right )
         {
             final boolean l = left instanceof Switch;
@@ -286,11 +318,20 @@ public class Comparators
      */
     public static Comparator commandLast()
     {
-        return reverse(commandFirst());
+        return reverse( commandFirst() );
     }
 
+   /**
+    * A command first comparator.
+    */
     private static class CommandFirst implements Comparator
     {
+       /**
+        * Compare two values.
+        * @param left the first value
+        * @param right the second value
+        * @return the result
+        */
         public int compare( final Object left, final Object right )
         {
             final boolean l = left instanceof Command;
@@ -330,8 +371,17 @@ public class Comparators
         return reverse( defaultOptionFirst() );
     }
 
+   /**
+    * An option first comparator.
+    */
     private static class DefaultOptionFirst implements Comparator 
     {
+       /**
+        * Compare two values.
+        * @param left the first value
+        * @param right the second value
+        * @return the result
+        */
         public int compare( final Object left, final Object right )
         {
             final boolean l = left instanceof DefaultOption;
@@ -377,6 +427,9 @@ public class Comparators
         return reverse( new Named( name ) );
     }
 
+   /**
+    * A named comparator.
+    */
     private static class Named implements Comparator 
     {
         private final String m_name;
@@ -390,10 +443,16 @@ public class Comparators
             m_name = name;
         }
         
+       /**
+        * Compare two values.
+        * @param left the first value
+        * @param right the second value
+        * @return the result
+        */
         public int compare( final Object oleft, final Object oright )
         {
-            final Option left = (Option)oleft;
-            final Option right = (Option)oright;
+            final Option left = (Option) oleft;
+            final Option right = (Option) oright;
 
             final boolean l = left.getTriggers().contains( m_name );
             final boolean r = right.getTriggers().contains( m_name );
@@ -432,12 +491,21 @@ public class Comparators
         return reverse( preferredNameFirst() );
     }
 
+   /**
+    * A preferred name comparator.
+    */
     private static class PreferredName implements Comparator
     {
+       /**
+        * Compare two values.
+        * @param left the first value
+        * @param right the second value
+        * @return the result
+        */
         public int compare( final Object oleft, final Object oright )
         {
-            final Option left = (Option)oleft;
-            final Option right = (Option)oright;
+            final Option left = (Option) oleft;
+            final Option right = (Option) oright;
             return left.getPreferredName().compareTo( right.getPreferredName() );
         }
     }
@@ -464,12 +532,21 @@ public class Comparators
         return reverse( requiredFirst() );
     }
     
+   /**
+    * A required comparator.
+    */
     private static class Required implements Comparator
     {
+       /**
+        * Compare two values.
+        * @param left the first value
+        * @param right the second value
+        * @return the result
+        */
         public int compare( final Object oleft, final Object oright )
         {
-            final Option left = (Option)oleft;
-            final Option right = (Option)oright;
+            final Option left = (Option) oleft;
+            final Option right = (Option) oright;
             
             final boolean l = left.isRequired();
             final boolean r = right.isRequired();

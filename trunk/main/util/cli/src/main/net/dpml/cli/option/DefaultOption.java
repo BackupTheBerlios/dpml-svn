@@ -86,7 +86,8 @@ public class DefaultOption extends ParentImpl
       final String shortPrefix, final String longPrefix, final boolean burstEnabled,
       final String preferredName, final String description, final Set aliases,
       final Set burstAliases, final boolean required, final Argument argument,
-      final Group children, final int id )
+      final Group children, final int id ) 
+      throws IllegalArgumentException
     {
         super( argument, children, description, id, required );
 
@@ -121,12 +122,20 @@ public class DefaultOption extends ParentImpl
 
         final Set newPrefixes = new HashSet( super.getPrefixes() );
         newPrefixes.add( m_shortPrefix );
-        newPrefixes.add( longPrefix);
+        newPrefixes.add( longPrefix );
         m_prefixes = Collections.unmodifiableSet( newPrefixes );
 
         checkPrefixes( newPrefixes );
     }
 
+    /**
+     * Indicates whether this Option will be able to process the particular
+     * argument.
+     * 
+     * @param commandLine the CommandLine object to store defaults in
+     * @param argument the argument to be tested
+     * @return true if the argument can be processed by this Option
+     */
     public boolean canProcess(
       final WriteableCommandLine commandLine, final String argument )
     {
@@ -142,6 +151,12 @@ public class DefaultOption extends ParentImpl
           );
     }
 
+    /**
+     * Process the parent.
+     * @param commandLine the CommandLine object to store defaults in
+     * @param arguments the ListIterator over String arguments
+     * @exception OptionException if an error occurs
+     */
     public void processParent( WriteableCommandLine commandLine, ListIterator arguments )
       throws OptionException 
     {
@@ -186,16 +201,42 @@ public class DefaultOption extends ParentImpl
         }
     }
 
+    /**
+     * Identifies the argument prefixes that should trigger this option. This
+     * is used to decide which of many Options should be tried when processing
+     * a given argument string.
+     * 
+     * The returned Set must not be null.
+     * 
+     * @return The set of triggers for this Option
+     */
     public Set getTriggers()
     {
         return m_triggers;
     }
 
+    /**
+     * Identifies the argument prefixes that should be considered options. This
+     * is used to identify whether a given string looks like an option or an
+     * argument value. Typically an option would return the set [--,-] while
+     * switches might offer [-,+].
+     * 
+     * The returned Set must not be null.
+     * 
+     * @return The set of prefixes for this Option
+     */
     public Set getPrefixes() 
     {
         return m_prefixes;
     }
 
+    /**
+     * Checks that the supplied CommandLine is valid with respect to this
+     * option.
+     * 
+     * @param commandLine the CommandLine to check.
+     * @throws OptionException if the CommandLine is not valid.
+     */
     public void validate( WriteableCommandLine commandLine )
       throws OptionException
     {
@@ -209,6 +250,13 @@ public class DefaultOption extends ParentImpl
         super.validate( commandLine );
     }
 
+    /**
+     * Appends usage information to the specified StringBuffer
+     * 
+     * @param buffer the buffer to append to
+     * @param helpSettings a set of display settings @see DisplaySetting
+     * @param comp a comparator used to sort the Options
+     */
     public void appendUsage(
       final StringBuffer buffer, final Set helpSettings, final Comparator comp )
     {
@@ -227,13 +275,13 @@ public class DefaultOption extends ParentImpl
 
         buffer.append( m_preferredName );
 
-        if( displayAliases && !m_aliases.isEmpty()) 
+        if( displayAliases && !m_aliases.isEmpty() ) 
         {
             buffer.append( " (" );
 
             final List list = new ArrayList( m_aliases );
             Collections.sort( list );
-            for( final Iterator i = list.iterator(); i.hasNext(); )
+            for( final Iterator i = list.iterator(); i.hasNext();)
             {
                 final String alias = (String) i.next();
                 buffer.append( alias );
@@ -253,6 +301,12 @@ public class DefaultOption extends ParentImpl
         }
     }
 
+    /**
+     * The preferred name of an option is used for generating help and usage
+     * information.
+     * 
+     * @return The preferred name of the option
+     */
     public String getPreferredName()
     {
         return m_preferredName;

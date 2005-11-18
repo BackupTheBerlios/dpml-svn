@@ -132,9 +132,9 @@ public class HelpFormatter
 
     /**
      * Creates a new HelpFormatter using the specified parameters
-     * @param m_gutterLeft the string marking left of screen
-     * @param m_gutterCenter the string marking center of screen
-     * @param m_gutterRight the string marking right of screen
+     * @param gutterLeft the string marking left of screen
+     * @param gutterCenter the string marking center of screen
+     * @param gutterRight the string marking right of screen
      * @param fullWidth the width of the screen
      */
     public HelpFormatter(
@@ -232,7 +232,7 @@ public class HelpFormatter
         // calculate the maximum width of the usage strings
         int usageWidth = 0;
 
-        for( final Iterator i = helpLines.iterator(); i.hasNext(); )
+        for( final Iterator i = helpLines.iterator(); i.hasNext();)
         {
             final HelpLine helpLine = (HelpLine) i.next();
             final String usage = helpLine.usage( m_lineUsageSettings, m_comparator );
@@ -252,7 +252,7 @@ public class HelpFormatter
           Math.max( 1, m_pageWidth - m_gutterCenter.length() - usageWidth );
 
         // display each HelpLine
-        for( final Iterator i = helpLines.iterator(); i.hasNext(); )
+        for( final Iterator i = helpLines.iterator(); i.hasNext();)
         {
             // grab the HelpLine
             final HelpLine helpLine = (HelpLine) i.next();
@@ -263,7 +263,7 @@ public class HelpFormatter
 
             // display usage + first line of description
             printGutterLeft();
-            pad(helpLine.usage( m_lineUsageSettings, m_comparator), usageWidth, m_out );
+            pad( helpLine.usage( m_lineUsageSettings, m_comparator ), usageWidth, m_out );
             m_out.print( m_gutterCenter );
             pad( (String) descriptionIterator.next(), descriptionWidth, m_out );
             printGutterRight();
@@ -344,7 +344,7 @@ public class HelpFormatter
      */
     protected void printWrapped( final String text ) throws IOException
     {
-        for( final Iterator i = wrap(text, m_pageWidth).iterator(); i.hasNext(); )
+        for( final Iterator i = wrap( text, m_pageWidth ).iterator(); i.hasNext();)
         {
             printGutterLeft();
             pad( (String) i.next(), m_pageWidth, m_out );
@@ -386,6 +386,13 @@ public class HelpFormatter
         }
     }
 
+   /**
+    * Pad the supplied string.
+    * @param text the text to pad
+    * @param width the padding width
+    * @param writer the writer
+    * @exception IOException if an I/O error occurs
+    */
     protected static void pad(
       final String text, final int width, final Writer writer )
       throws IOException
@@ -410,6 +417,13 @@ public class HelpFormatter
         }
     }
 
+   /**
+    * Return a list of strings resulting from the wrapping of a supplied
+    * target string.
+    * @param text the target string to wrap
+    * @param width the wrappping width
+    * @return the list of wrapped fragments
+    */
     protected static List wrap( final String text, final int width ) 
     {
         // check for valid width
@@ -441,13 +455,13 @@ public class HelpFormatter
             while( 
               ( right < chars.length ) 
               && ( chars[right] != '\n' ) 
-              && (right < ( left + width + 1 ) ) ) 
+              && ( right < ( left + width + 1 ) ) ) 
             {
                 right++;
             }
 
             // if a newline was found
-            if( ( right < chars.length ) && ( chars[right] == '\n') )
+            if( ( right < chars.length ) && ( chars[right] == '\n' ) )
             {
                 // record the substring
                 final String line = new String( chars, left, right - left );
@@ -613,7 +627,7 @@ public class HelpFormatter
 
     /**
      * Sets the command string used to invoke the application
-     * @param m_shellCommand the invokation command
+     * @param shellCommand the invocation command
      */
     public void setShellCommand( String shellCommand )
     {
@@ -621,6 +635,7 @@ public class HelpFormatter
     }
 
     /**
+    * Return the comparator.
      * @return the Comparator used to sort the Group
      */
     public Comparator getComparator() 
@@ -629,6 +644,7 @@ public class HelpFormatter
     }
 
     /**
+     * Return the display settings.
      * @return the DisplaySettings used to select HelpLines
      */
     public Set getDisplaySettings() 
@@ -637,6 +653,7 @@ public class HelpFormatter
     }
 
     /**
+     * Return the divider.
      * @return the String used as a horizontal section m_divider
      */
     public String getDivider() 
@@ -645,22 +662,25 @@ public class HelpFormatter
     }
 
     /**
-     * @return the Exception being documented by this HelpFormatter
-     */
+    * Return the option exception
+    * @return the Exception being documented by this HelpFormatter
+    */
     public OptionException getException() 
     {
         return m_exception;
     }
 
-    /**
-     * @return the help screen m_footer text
-     */
+   /**
+    * Return the footer text.
+    * @return the help screen footer text
+    */
     public String getFooter() 
     {
         return m_footer;
     }
 
     /**
+     * Return the full usage display settings.
      * @return the DisplaySettings used in the full usage string
      */
     public Set getFullUsageSettings() 
@@ -668,79 +688,91 @@ public class HelpFormatter
         return m_fullUsageSettings;
     }
 
-    /**
-     * @return the m_group documented by this HelpFormatter
-     */
+   /**
+    * Return the group.
+    * @return the group documented by this HelpFormatter
+    */
     public Group getGroup()
     {
         return m_group;
     }
 
-    /**
-     * @return the String used as the central gutter
-     */
+   /**
+    * Return the gutter center string.
+    * @return the String used as the central gutter
+    */
     public String getGutterCenter() 
     {
         return m_gutterCenter;
     }
 
-    /**
-     * @return the String used as the left gutter
-     */
-    public String getGutterLeft() {
+   /**
+    * Return the gutter left string.
+    * @return the String used as the left gutter
+    */
+    public String getGutterLeft()
+    {
         return m_gutterLeft;
     }
 
-    /**
-     * @return the String used as the right gutter
-     */
+   /**
+    * Return the gutter right string.
+    * @return the String used as the right gutter
+    */
     public String getGutterRight() 
     {
         return m_gutterRight;
     }
 
-    /**
-     * @return the help screen m_header text
-     */
-    public String getHeader() {
+   /**
+    * Return the header string.
+    * @return the help screen header text
+    */
+    public String getHeader()
+    {
         return m_header;
     }
 
-    /**
-     * @return the DisplaySettings used in the per help line usage strings
-     */
+   /**
+    * Return the line usage settings.
+    * @return the DisplaySettings used in the per help line usage strings
+    */
     public Set getLineUsageSettings() 
     {
         return m_lineUsageSettings;
     }
 
-    /**
-     * @return the width of the screen in characters
-     */
+   /**
+    * Return the page width.
+    * @return the width of the screen in characters
+    */
     public int getPageWidth()
     {
         return m_pageWidth;
     }
 
-    /**
-     * @return the command used to execute the application
-     */
+   /**
+    * Return the shell command.
+    * @return the command used to execute the application
+    */
     public String getShellCommand() 
     {
         return m_shellCommand;
     }
 
-    /**
-     * @param m_out the PrintWriter to write to
-     */
-    public void setPrintWriter(PrintWriter out ) 
+   /**
+    * Set the print writer.
+    * @param out the PrintWriter to write to
+    */
+    public void setPrintWriter( PrintWriter out ) 
     {
         m_out = out;
     }
 
-    /**
-     * @return the PrintWriter that will be written to
-     */
+   /**
+    * Return the print writer.
+    * @return the PrintWriter that will be written to
+    */
     public PrintWriter getPrintWriter() 
     {
         return m_out;

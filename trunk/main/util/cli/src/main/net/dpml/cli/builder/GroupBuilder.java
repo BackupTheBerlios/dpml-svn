@@ -57,13 +57,14 @@ public class GroupBuilder
             m_name, 
             m_description, 
             m_minimum, 
-            m_maximum);
+            m_maximum );
         reset();
         return group;
     }
 
     /**
      * Resets the builder
+     * @return this builder
      */
     public GroupBuilder reset()
     {

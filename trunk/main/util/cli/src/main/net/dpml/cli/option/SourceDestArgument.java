@@ -96,6 +96,13 @@ public class SourceDestArgument extends ArgumentImpl
         return Math.max( a, Math.max( b, a + b ) );
     }
 
+    /**
+     * Appends usage information to the specified StringBuffer
+     * 
+     * @param buffer the buffer to append to
+     * @param helpSettings a set of display settings @see DisplaySetting
+     * @param comp a comparator used to sort the Options
+     */
     public void appendUsage(
       final StringBuffer buffer, final Set helpSettings, final Comparator comp )
     {
@@ -105,12 +112,22 @@ public class SourceDestArgument extends ArgumentImpl
 
         if( buffer.length() != length )
         {
-            buffer.append(' ');
+            buffer.append( ' ' );
         }
 
         m_dest.appendUsage( buffer, helpSettings, comp );
     }
 
+    /**
+     * Builds up a list of HelpLineImpl instances to be presented by HelpFormatter.
+     * 
+     * @see HelpLine
+     * @see net.dpml.cli.util.HelpFormatter
+     * @param depth the initial indent depth
+     * @param helpSettings the HelpSettings that should be applied
+     * @param comp a comparator used to sort options when applicable.
+     * @return a List of HelpLineImpl objects
+     */
     public List helpLines(
       int depth, Set helpSettings, Comparator comp )
     {
@@ -120,6 +137,14 @@ public class SourceDestArgument extends ArgumentImpl
         return helpLines;
     }
 
+    /**
+     * Checks that the supplied CommandLine is valid with respect to the
+     * suppled option.
+     * 
+     * @param commandLine the CommandLine to check.
+     * @param option the option to evaluate
+     * @throws OptionException if the CommandLine is not valid.
+     */
     public void validate( WriteableCommandLine commandLine, Option option )
       throws OptionException
     {
@@ -144,6 +169,14 @@ public class SourceDestArgument extends ArgumentImpl
         m_dest.validate( commandLine, m_dest );
     }
 
+    /**
+     * Indicates whether this Option will be able to process the particular
+     * argument.
+     * 
+     * @param commandLine the CommandLine object to store defaults in
+     * @param arg the argument to be tested
+     * @return true if the argument can be processed by this Option
+     */
     public boolean canProcess(
       final WriteableCommandLine commandLine, final String arg )
     {

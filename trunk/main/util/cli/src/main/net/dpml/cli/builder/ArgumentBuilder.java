@@ -31,10 +31,10 @@ import net.dpml.cli.validation.Validator;
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-public class ArgumentBuilder {
-
+public class ArgumentBuilder
+{
     /** i18n */
-    private final static ResourceHelper RESOURCES = ResourceHelper.getResourceHelper();
+    private static final ResourceHelper RESOURCES = ResourceHelper.getResourceHelper();
     
     /** name of the argument. Used for display and lookups in CommandLine */
     private String m_name;
@@ -102,6 +102,7 @@ public class ArgumentBuilder {
     /**
      * Resets the ArgumentBuilder to the defaults for a new Argument. The
      * method is called automatically at the end of a create() call.
+     * @return the argument builder
      */
     public final ArgumentBuilder reset()
     {
@@ -289,7 +290,7 @@ public class ArgumentBuilder {
         
         if( m_defaultValues == null )
         {
-            m_defaultValues = new ArrayList(1);
+            m_defaultValues = new ArrayList( 1 );
         }
         m_defaultValues.add( defaultValue );
         return this;

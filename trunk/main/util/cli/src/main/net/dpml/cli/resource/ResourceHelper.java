@@ -28,7 +28,7 @@ import java.util.ResourceBundle;
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-public class ResourceHelper
+public final class ResourceHelper
 {
     /** system property */
     private static final String PROP_LOCALE = "net.dpml.cli.resource.bundle";
@@ -83,6 +83,10 @@ public class ResourceHelper
         }
     }
 
+   /**
+    * Return the resource bundle name.
+    * @return the name
+    */
     public String getBundleName()
     {
         return m_prop;
@@ -136,7 +140,7 @@ public class ResourceHelper
     public String getMessage(
       final String key, final Object value1, final Object value2 )
     {
-        return getMessage( key, new Object[]{value1,value2} );
+        return getMessage( key, new Object[]{value1, value2} );
     }
 
     /**

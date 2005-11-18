@@ -29,7 +29,7 @@ import java.util.Set;
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-public class DisplaySetting 
+public final class DisplaySetting 
 {
     private static final Set ALL_SETTINGS = new HashSet();
 
@@ -101,7 +101,7 @@ public class DisplaySetting
      * Indicates that arguments should be included numbered
      */
     public static final DisplaySetting DISPLAY_ARGUMENT_NUMBERED =
-        new DisplaySetting("DISPLAY_ARGUMENT_NUMBERED");
+        new DisplaySetting( "DISPLAY_ARGUMENT_NUMBERED" );
     
     /**
      * Indicates that arguments should be included bracketed
@@ -113,7 +113,7 @@ public class DisplaySetting
      * Indicates that arguments of Parents should be included
      */
     public static final DisplaySetting DISPLAY_PARENT_ARGUMENT =
-        new DisplaySetting("DISPLAY_PARENT_ARGUMENT");
+        new DisplaySetting( "DISPLAY_PARENT_ARGUMENT" );
     
     /**
      * Indicates that children of Parents should be included
@@ -142,11 +142,20 @@ public class DisplaySetting
         ALL_SETTINGS.add( this );
     }
 
+   /**
+    * Return the instance hashcode value.
+    * @return the hash value
+    */
     public int hashCode() 
     {
         return m_hashCode;
     }
 
+   /**
+    * Test this object for equality with the supplied object.
+    * @param that the other object
+    * @return true if the objects are equal
+    */
     public boolean equals( final Object that ) 
     {
         if( that instanceof DisplaySetting )
@@ -156,7 +165,12 @@ public class DisplaySetting
         return false;
     }
 
-    public String toString() {
+   /**
+    * Return a string representation of the instance.
+    * @return the string
+    */
+    public String toString()
+    {
         return m_name;
     }
 }

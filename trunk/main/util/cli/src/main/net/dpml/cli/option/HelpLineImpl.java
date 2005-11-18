@@ -93,7 +93,7 @@ public class HelpLineImpl implements HelpLine
     {
         if( m_cachedUsage == null
             || m_cachedHelpSettings != helpSettings
-            || m_cachedComparator != comparator) 
+            || m_cachedComparator != comparator ) 
         {
             
             // cache the arguments to avoid redoing work
@@ -104,7 +104,7 @@ public class HelpLineImpl implements HelpLine
             final StringBuffer buffer = new StringBuffer();
             for( int i = 0; i < m_indent; ++i )
             {
-                buffer.append("  ");
+                buffer.append( "  " );
             }
             m_option.appendUsage( buffer, helpSettings, comparator );
             

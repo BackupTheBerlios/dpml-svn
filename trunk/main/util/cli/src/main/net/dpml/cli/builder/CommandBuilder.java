@@ -93,6 +93,7 @@ public class CommandBuilder
      *
      * This method is called automatically at the end of the
      * {@link #create() create} method.
+     * @return this <code>CommandBuilder</code>.
      */
     public CommandBuilder reset()
     {

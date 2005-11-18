@@ -79,6 +79,12 @@ public class PropertiesCommandLine extends CommandLineImpl
         m_separator = separator;
     }
     
+    /**
+     * Detects the presence of an option in this CommandLine.
+     * 
+     * @param option the Option to search for
+     * @return true iff the option is present
+     */
     public boolean hasOption( Option option )
     {
         if( option==null )
@@ -91,11 +97,24 @@ public class PropertiesCommandLine extends CommandLineImpl
         }
     }
 
+    /**
+     * Finds the Option with the specified trigger
+     * 
+     * @param trigger the name of the option to retrieve
+     * @return the Option matching the trigger or null if none exists
+     */
     public Option getOption( String trigger )
     {
         return m_root.findOption( trigger );
     }
 
+    /**
+     * Retrieves the Argument values associated with the specified Option
+     * 
+     * @param option the Option associated with the values
+     * @param defaultValues the result to return if no values are found
+     * @return a list of values or defaultValues if none are found
+     */
     public List getValues( final Option option, final List defaultValues )
     {
         final String value = m_properties.getProperty( option.getPreferredName() );
@@ -121,6 +140,13 @@ public class PropertiesCommandLine extends CommandLineImpl
         }
     }
 
+    /**
+     * Retrieves the Boolean value associated with the specified Switch
+     * 
+     * @param option the Option associated with the value
+     * @param defaultValue the Boolean to use if none match
+     * @return the Boolean associated with option or defaultValue if none exists
+     */
     public Boolean getSwitch( final Option option, final Boolean defaultValue ) 
     {
         final String value = m_properties.getProperty( option.getPreferredName() );
@@ -138,16 +164,33 @@ public class PropertiesCommandLine extends CommandLineImpl
         }
     }
     
+    /**
+     * Retrieves the value associated with the specified property 
+     * 
+     * @param property the property name to lookup
+     * @param defaultValue the value to use if no other is found
+     * @return the value of the property or defaultValue
+     */
     public String getProperty( final String property, final String defaultValue )
     {
         return m_properties.getProperty( property, defaultValue );
     }
 
+    /**
+     * Retrieves the set of all property names associated with this CommandLine
+     * 
+     * @return a none null set of property names 
+     */
     public Set getProperties()
     {
         return m_properties.keySet();
     }
 
+    /**
+     * Retrieves a list of all Options found in this CommandLine
+     * 
+     * @return a none null list of Options
+     */
     public List getOptions()
     {
         final List options = new ArrayList();
@@ -164,6 +207,11 @@ public class PropertiesCommandLine extends CommandLineImpl
         return Collections.unmodifiableList( options );
     }
 
+    /**
+     * Retrieves a list of all Option triggers found in this CommandLine
+     * 
+     * @return a none null list of Option triggers
+     */
     public Set getOptionTriggers()
     {
         final Set triggers = new HashSet();

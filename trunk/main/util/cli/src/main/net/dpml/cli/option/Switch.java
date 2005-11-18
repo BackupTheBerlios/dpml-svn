@@ -42,7 +42,7 @@ import net.dpml.cli.resource.ResourceHelper;
 public class Switch extends ParentImpl
 {
     /** i18n */
-    public static final ResourceHelper resources = 
+    public static final ResourceHelper RESOURCES = 
       ResourceHelper.getResourceHelper();
 
     /**
@@ -74,6 +74,7 @@ public class Switch extends ParentImpl
      * @param argument the Argument belonging to this Parent, or null
      * @param children the Group children belonging to this Parent, ot null
      * @param id the unique identifier for this Option
+     * @param switchDefault the switch default value
      * @throws IllegalArgumentException if the preferredName or an alias isn't
      *     prefixed with enabledPrefix or disabledPrefix
      */
@@ -82,34 +83,35 @@ public class Switch extends ParentImpl
       final Set aliases, final String description, final boolean required,
       final Argument argument, final Group children, final int id, 
       final Boolean switchDefault )
+      throws IllegalArgumentException
     {
         super( argument, children, description, id, required );
 
         if( enabledPrefix == null )
         {
             throw new IllegalArgumentException(
-              resources.getMessage( 
+              RESOURCES.getMessage( 
                 ResourceConstants.SWITCH_NO_ENABLED_PREFIX ) );
         }
 
         if( disabledPrefix == null )
         {
             throw new IllegalArgumentException(
-              resources.getMessage( 
+              RESOURCES.getMessage( 
                 ResourceConstants.SWITCH_NO_DISABLED_PREFIX ) );
         }
 
-        if( enabledPrefix.startsWith(disabledPrefix ) )
+        if( enabledPrefix.startsWith( disabledPrefix ) )
         {
             throw new IllegalArgumentException(
-              resources.getMessage( 
+              RESOURCES.getMessage( 
                 ResourceConstants.SWITCH_ENABLED_STARTS_WITH_DISABLED ) );
         }
 
         if( disabledPrefix.startsWith( enabledPrefix ) )
         {
             throw new IllegalArgumentException(
-              resources.getMessage( 
+              RESOURCES.getMessage( 
                 ResourceConstants.SWITCH_DISABLED_STARTWS_WITH_ENABLED ) );
         }
 
@@ -117,10 +119,10 @@ public class Switch extends ParentImpl
         m_disabledPrefix = disabledPrefix;
         m_preferredName = preferredName;
 
-        if( ( preferredName == null) || ( preferredName.length() < 1 ) )
+        if( ( preferredName == null ) || ( preferredName.length() < 1 ) )
         {
             throw new IllegalArgumentException(
-              resources.getMessage(
+              RESOURCES.getMessage(
                 ResourceConstants.SWITCH_PREFERRED_NAME_TOO_SHORT ) );
         }
 
@@ -137,7 +139,7 @@ public class Switch extends ParentImpl
         {
             m_aliases = Collections.unmodifiableSet( new HashSet( aliases ) );
 
-            for( final Iterator i = aliases.iterator(); i.hasNext(); )
+            for( final Iterator i = aliases.iterator(); i.hasNext();)
             {
                 final String alias = (String) i.next();
                 newTriggers.add( enabledPrefix + alias );
@@ -153,6 +155,16 @@ public class Switch extends ParentImpl
         checkPrefixes( newPrefixes );
     }
 
+    /**
+     * Processes the parent part of the Option.  The combination of parent,
+     * argument and children is handled by the process method.
+     * @see Option#process(WriteableCommandLine, ListIterator)
+     * 
+     * @param commandLine the CommandLine to write results to
+     * @param arguments a ListIterator over argument strings positioned at the next
+     *             argument to process
+     * @throws OptionException if an error occurs while processing
+     */
     public void processParent(
       final WriteableCommandLine commandLine, final ListIterator arguments )
       throws OptionException
@@ -181,16 +193,42 @@ public class Switch extends ParentImpl
         }
     }
 
+    /**
+     * Identifies the argument prefixes that should trigger this option. This
+     * is used to decide which of many Options should be tried when processing
+     * a given argument string.
+     * 
+     * The returned Set must not be null.
+     * 
+     * @return The set of triggers for this Option
+     */
     public Set getTriggers() 
     {
         return m_triggers;
     }
 
+    /**
+     * Identifies the argument prefixes that should be considered options. This
+     * is used to identify whether a given string looks like an option or an
+     * argument value. Typically an option would return the set [--,-] while
+     * switches might offer [-,+].
+     * 
+     * The returned Set must not be null.
+     * 
+     * @return The set of prefixes for this Option
+     */
     public Set getPrefixes() 
     {
         return m_prefixes;
     }
 
+    /**
+     * Checks that the supplied CommandLine is valid with respect to this
+     * option.
+     * 
+     * @param commandLine the CommandLine to check.
+     * @throws OptionException if the CommandLine is not valid.
+     */
     public void validate( WriteableCommandLine commandLine )
       throws OptionException
     {
@@ -204,6 +242,13 @@ public class Switch extends ParentImpl
         super.validate( commandLine );
     }
 
+    /**
+     * Appends usage information to the specified StringBuffer
+     * 
+     * @param buffer the buffer to append to
+     * @param helpSettings a set of display settings @see DisplaySetting
+     * @param comp a comparator used to sort the Options
+     */
     public void appendUsage(
       final StringBuffer buffer, final Set helpSettings, final Comparator comp )
     {
@@ -242,11 +287,11 @@ public class Switch extends ParentImpl
 
         if( displayAliases && !m_aliases.isEmpty() )
         {
-            buffer.append(" (");
+            buffer.append( " (" );
 
             final List list = new ArrayList( m_aliases );
             Collections.sort( list );
-            for( final Iterator i = list.iterator(); i.hasNext(); )
+            for( final Iterator i = list.iterator(); i.hasNext();)
             {
                 final String alias = (String) i.next();
 
@@ -282,11 +327,25 @@ public class Switch extends ParentImpl
         }
     }
 
+    /**
+     * The preferred name of an option is used for generating help and usage
+     * information.
+     * 
+     * @return The preferred name of the option
+     */
     public String getPreferredName()
     {
         return m_enabledPrefix + m_preferredName;
     }
 
+    /**
+     * Adds defaults to a CommandLine.
+     * 
+     * Any defaults for this option are applied as well as the defaults for 
+     * any contained options
+     * 
+     * @param commandLine the CommandLine object to store defaults in
+     */
     public void defaults( final WriteableCommandLine commandLine )
     {
         commandLine.setDefaultSwitch( this, m_defaultSwitch );

@@ -160,7 +160,6 @@ public interface CommandLine
      */
     Boolean getSwitch( Option option, Boolean defaultValue );
     
-    
     /**
      * Retrieves the value associated with the specified property 
      * 

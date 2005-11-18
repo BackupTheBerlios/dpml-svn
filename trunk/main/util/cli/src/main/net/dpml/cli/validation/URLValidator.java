@@ -63,6 +63,7 @@ public class URLValidator implements Validator
 
     /**
      * Creates a URLValidator for the specified protocol.
+     * @param protocol the url protocol
      */
     public URLValidator( final String protocol ) 
     {
@@ -78,7 +79,7 @@ public class URLValidator implements Validator
      */
     public void validate( final List values ) throws InvalidArgumentException
     {
-        for( final ListIterator i = values.listIterator(); i.hasNext(); ) 
+        for( final ListIterator i = values.listIterator(); i.hasNext();) 
         {
             final Object next = i.next();
             if( next instanceof URL )

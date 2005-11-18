@@ -69,15 +69,16 @@ public class ClassValidator implements Validator
      */
     public void validate( final List values ) throws InvalidArgumentException 
     {
-        for( final ListIterator i = values.listIterator(); i.hasNext(); )
+        for( final ListIterator i = values.listIterator(); i.hasNext();)
         {
             final String name = (String) i.next();
 
             if( !isPotentialClassName( name ) )
             {
                 throw new InvalidArgumentException(
-                  RESOURCES.getMessage(ResourceConstants.CLASSVALIDATOR_BAD_CLASSNAME,
-                  name ) );
+                  RESOURCES.getMessage(
+                    ResourceConstants.CLASSVALIDATOR_BAD_CLASSNAME,
+                    name ) );
             }
 
             if( m_loadable || m_instance )
@@ -99,21 +100,24 @@ public class ClassValidator implements Validator
                 catch( final ClassNotFoundException exp )
                 {
                     throw new InvalidArgumentException(
-                      RESOURCES.getMessage(ResourceConstants.CLASSVALIDATOR_CLASS_NOTFOUND,
-                      name ) );
+                      RESOURCES.getMessage(
+                        ResourceConstants.CLASSVALIDATOR_CLASS_NOTFOUND,
+                        name ) );
                 } 
                 catch( final IllegalAccessException exp )
                 {
                     throw new InvalidArgumentException(
-                      RESOURCES.getMessage(ResourceConstants.CLASSVALIDATOR_CLASS_ACCESS,
-                      name, 
-                      exp.getMessage() ) );
+                      RESOURCES.getMessage(
+                        ResourceConstants.CLASSVALIDATOR_CLASS_ACCESS,
+                        name, 
+                        exp.getMessage() ) );
                 } 
                 catch( final InstantiationException exp )  
                 {
                     throw new InvalidArgumentException(
-                      RESOURCES.getMessage(ResourceConstants.CLASSVALIDATOR_CLASS_CREATE,
-                      name ) );
+                      RESOURCES.getMessage(
+                        ResourceConstants.CLASSVALIDATOR_CLASS_CREATE,
+                        name ) );
                 }
             }
         }
@@ -198,6 +202,8 @@ public class ClassValidator implements Validator
     /**
      * Returns whether the specified name is allowed as
      * a Java class name.
+     * @param name the potential classname
+     * @return true if the name is a potential classname
      */
     protected boolean isPotentialClassName( final String name ) 
     {

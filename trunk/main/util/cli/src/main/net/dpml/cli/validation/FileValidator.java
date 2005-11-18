@@ -65,7 +65,7 @@ public class FileValidator implements Validator
     public static FileValidator getExistingInstance() 
     {
         final FileValidator validator = new FileValidator();
-        validator.setExisting(true);
+        validator.setExisting( true );
         return validator;
     }
 
@@ -122,7 +122,7 @@ public class FileValidator implements Validator
      */
     public void validate( final List values ) throws InvalidArgumentException 
     {
-        for( final ListIterator i = values.listIterator(); i.hasNext(); ) 
+        for( final ListIterator i = values.listIterator(); i.hasNext();) 
         {
             final Object next = i.next();
             if( next instanceof File )
@@ -130,7 +130,7 @@ public class FileValidator implements Validator
                 return;
             }
             final String name = (String) next;
-            final File f = new File(name);
+            final File f = new File( name );
             if ( ( m_existing && !f.exists() )
                 || ( m_file && !f.isFile() )
                 || ( m_directory && !f.isDirectory() )

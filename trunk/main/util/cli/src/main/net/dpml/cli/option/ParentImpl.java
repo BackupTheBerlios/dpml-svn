@@ -44,6 +44,14 @@ public abstract class ParentImpl extends OptionImpl implements Parent
     private final Argument m_argument;
     private final String m_description;
 
+   /**
+    * Creation of a new ParaentImpl.
+    * @param argument an argument
+    * @param children the children
+    * @param description the description
+    * @param id the id
+    * @param required the required flag
+    */
     protected ParentImpl(
       final Argument argument, final Group children, final String description,
       final int id, final boolean required )
@@ -55,11 +63,17 @@ public abstract class ParentImpl extends OptionImpl implements Parent
         m_description = description;
     }
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see net.dpml.cli.Option#process(net.dpml.cli.CommandLine,
-     *      java.util.ListIterator)
+    /**
+     * Processes String arguments into a CommandLine.
+     * 
+     * The iterator will initially point at the first argument to be processed
+     * and at the end of the method should point to the first argument not
+     * processed. This method MUST process at least one argument from the
+     * ListIterator.
+     * 
+     * @param commandLine the CommandLine object to store results in
+     * @param arguments the arguments to process
+     * @throws OptionException if any problems occur
      */
     public void process( final WriteableCommandLine commandLine, final ListIterator arguments )
         throws OptionException
@@ -82,10 +96,13 @@ public abstract class ParentImpl extends OptionImpl implements Parent
         }
     }
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see net.dpml.cli.Option#canProcess(java.lang.String)
+    /**
+     * Indicates whether this Option will be able to process the particular
+     * argument.
+     * 
+     * @param commandLine the CommandLine object to store defaults in
+     * @param arg the argument to be tested
+     * @return true if the argument can be processed by this Option
      */
     public boolean canProcess(
       final WriteableCommandLine commandLine, final String arg )
@@ -102,7 +119,7 @@ public abstract class ParentImpl extends OptionImpl implements Parent
                 // if there is a separator present
                 if( initialIndex > 0 )
                 {
-                    return triggers.contains( arg.substring(0, initialIndex ) );
+                    return triggers.contains( arg.substring( 0, initialIndex ) );
                 }
             }
         }
@@ -110,10 +127,15 @@ public abstract class ParentImpl extends OptionImpl implements Parent
         return triggers.contains( arg );
     }
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see net.dpml.cli.Option#prefixes()
+    /**
+     * Identifies the argument prefixes that should be considered options. This
+     * is used to identify whether a given string looks like an option or an
+     * argument value. Typically an option would return the set [--,-] while
+     * switches might offer [-,+].
+     * 
+     * The returned Set must not be null.
+     * 
+     * @return The set of prefixes for this Option
      */
     public Set getPrefixes()
     {
@@ -127,10 +149,12 @@ public abstract class ParentImpl extends OptionImpl implements Parent
         }
     }
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see net.dpml.cli.Option#validate(net.dpml.cli.CommandLine)
+    /**
+     * Checks that the supplied CommandLine is valid with respect to this
+     * option.
+     * 
+     * @param commandLine the CommandLine to check.
+     * @throws OptionException if the CommandLine is not valid.
      */
     public void validate( WriteableCommandLine commandLine ) throws OptionException
     {
@@ -148,21 +172,22 @@ public abstract class ParentImpl extends OptionImpl implements Parent
         }
     }
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see net.dpml.cli.Option#appendUsage(java.lang.StringBuffer,
-     *      java.util.Set, java.util.Comparator)
+    /**
+     * Appends usage information to the specified StringBuffer
+     * 
+     * @param buffer the buffer to append to
+     * @param helpSettings a set of display settings @see DisplaySetting
+     * @param comp a comparator used to sort the Options
      */
     public void appendUsage(
       final StringBuffer buffer, final Set helpSettings, final Comparator comp )
     {
         final boolean displayArgument =
-            ( m_argument != null ) &&
-            helpSettings.contains( DisplaySetting.DISPLAY_PARENT_ARGUMENT );
+          ( m_argument != null ) 
+          && helpSettings.contains( DisplaySetting.DISPLAY_PARENT_ARGUMENT );
         final boolean displayChildren =
-            ( m_children != null ) &&
-            helpSettings.contains( DisplaySetting.DISPLAY_PARENT_CHILDREN );
+          ( m_children != null ) 
+          && helpSettings.contains( DisplaySetting.DISPLAY_PARENT_CHILDREN );
 
         if( displayArgument )
         {
@@ -178,18 +203,26 @@ public abstract class ParentImpl extends OptionImpl implements Parent
     }
 
     /**
-     * @return a description of this parent option
+     * Returns a description of the option. This string is used to build help
+     * messages as in the HelpFormatter.
+     * 
+     * @see net.dpml.cli.util.HelpFormatter
+     * @return a description of the option.
      */
     public String getDescription()
     {
         return m_description;
     }
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see net.dpml.cli.Option#helpLines(int, java.util.Set,
-     *      java.util.Comparator)
+    /**
+     * Builds up a list of HelpLineImpl instances to be presented by HelpFormatter.
+     * 
+     * @see HelpLine
+     * @see net.dpml.cli.util.HelpFormatter
+     * @param depth the initial indent depth
+     * @param helpSettings the HelpSettings that should be applied
+     * @param comp a comparator used to sort options when applicable.
+     * @return a List of HelpLineImpl objects
      */
     public List helpLines(
       final int depth, final Set helpSettings, final Comparator comp )
@@ -210,15 +243,17 @@ public abstract class ParentImpl extends OptionImpl implements Parent
         return helpLines;
     }
 
-    /**
-     * @return Returns the m_argument.
-     */
+   /**
+    * Return the argument value if any. 
+    * @return Returns the argument.
+    */
     public Argument getArgument()
     {
         return m_argument;
     }
 
     /**
+     * Return any children.
      * @return Returns the children.
      */
     public Group getChildren()
@@ -243,16 +278,19 @@ public abstract class ParentImpl extends OptionImpl implements Parent
         if( initialIndex > 0 )
         {
             arguments.remove();
-            arguments.add(newArgument.substring( 0, initialIndex ) );
-            arguments.add(newArgument.substring( initialIndex + 1 ) );
+            arguments.add( newArgument.substring( 0, initialIndex ) );
+            arguments.add( newArgument.substring( initialIndex + 1 ) );
             arguments.previous();
         }
         arguments.previous();
     }
-
-    /*
-     * @see net.dpml.cli.Option#findOption(java.lang.String)
-     */
+    
+   /**
+    * Recursively searches for an option with the supplied trigger.
+    *
+    * @param trigger the trigger to search for.
+    * @return the matching option or null.
+    */
     public Option findOption( final String trigger )
     {
         final Option found = super.findOption( trigger );
@@ -266,6 +304,14 @@ public abstract class ParentImpl extends OptionImpl implements Parent
         }
     }
 
+    /**
+     * Adds defaults to a CommandLine.
+     * 
+     * Any defaults for this option are applied as well as the defaults for 
+     * any contained options
+     * 
+     * @param commandLine the CommandLine object to store defaults in
+     */
     public void defaults( final WriteableCommandLine commandLine )
     {
         super.defaults( commandLine );

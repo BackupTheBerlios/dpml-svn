@@ -38,8 +38,8 @@ public class OptionException extends Exception
         Collections.unmodifiableSet( 
           Collections.singleton( DisplaySetting.DISPLAY_PROPERTY_OPTION ) );
 
-    /** resource helper instance */
-    private static final ResourceHelper helper = ResourceHelper.getResourceHelper();
+    /** resource HELPER instance */
+    private static final ResourceHelper HELPER = ResourceHelper.getResourceHelper();
 
     /** The Option the exception relates to */
     private final Option m_option;
@@ -83,11 +83,11 @@ public class OptionException extends Exception
             final StringBuffer buffer = new StringBuffer();
             if( value != null )
             {
-                buffer.append( helper.getMessage( messageKey, value ) );
+                buffer.append( HELPER.getMessage( messageKey, value ) );
             }
             else
             {
-                buffer.append( helper.getMessage( messageKey ) );
+                buffer.append( HELPER.getMessage( messageKey ) );
             }
             buffer.append( " " );
             m_option.appendUsage( buffer, HELP_SETTINGS, null );
@@ -109,6 +109,10 @@ public class OptionException extends Exception
         return m_option;
     }
 
+   /**
+    * Return the exception message.
+    * @return the exception message
+    */
     public String getMessage()
     {
         return m_message;

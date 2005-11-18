@@ -93,7 +93,7 @@ public class DateValidator implements Validator
      * @param format
      *            a DateFormat which dates must conform to
      */
-    public DateValidator(final DateFormat format)
+    public DateValidator( final DateFormat format )
     {
         setFormat( format );
     }
@@ -105,7 +105,7 @@ public class DateValidator implements Validator
      */
     public DateValidator( final List formats )
     {
-        for( Iterator iter = formats.iterator(); iter.hasNext(); )
+        for( Iterator iter = formats.iterator(); iter.hasNext();)
         {
             DateFormat format = (DateFormat) iter.next();
         }
@@ -154,7 +154,7 @@ public class DateValidator implements Validator
     public void validate( final List values ) throws InvalidArgumentException
     {
         // for each value
-        for( final ListIterator i = values.listIterator(); i.hasNext(); ) 
+        for( final ListIterator i = values.listIterator(); i.hasNext();) 
         {
             final Object next = i.next();
             if( next instanceof Date )
@@ -170,7 +170,7 @@ public class DateValidator implements Validator
             final ParsePosition pp = new ParsePosition( 0 );
 
             // for each permitted DateFormat
-            for( int f = 0; (f < m_formats.length) && (date == null); ++f )
+            for( int f=0; ( f<m_formats.length ) && ( date == null ); ++f )
             {
                 // reset the parse position
                 pp.setIndex( 0 );
@@ -203,16 +203,23 @@ public class DateValidator implements Validator
         }
     }
 
+   /**
+    * Set the leaniant flag.
+    * @param lenient true if leniant
+    */
     public void setLeniant( final boolean lenient )
     {
-        for( int i = 0; i < m_formats.length; i++ )
+        for( int i=0; i<m_formats.length; i++ )
         {
             m_formats[i].setLenient( lenient );
         }
-
         m_isLenient = lenient;
     }
 
+   /**
+    * Return the leaniant flag.
+    * @return true if leniant
+    */
     public boolean isLeniant() 
     {
         return m_isLenient;
@@ -273,7 +280,7 @@ public class DateValidator implements Validator
      */
     private boolean isDateLater( Date date )
     {
-        return ( m_maximum != null) && ( date.getTime() > m_maximum.getTime() );
+        return ( m_maximum != null ) && ( date.getTime() > m_maximum.getTime() );
     }
 
     /**

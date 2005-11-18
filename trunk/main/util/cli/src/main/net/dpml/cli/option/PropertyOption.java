@@ -35,7 +35,14 @@ import net.dpml.cli.resource.ResourceConstants;
  */
 public class PropertyOption extends OptionImpl
 {
+   /** 
+    * The default property option name.
+    */
     public static final String DEFAULT_OPTION_STRING = "-D";
+    
+   /** 
+    * The default property option description.
+    */
     public static final String DEFAULT_DESCRIPTION = "Set property values.";
 
     /**
@@ -71,6 +78,14 @@ public class PropertyOption extends OptionImpl
         m_prefixes = Collections.singleton( optionString );
     }
 
+    /**
+     * Indicates whether this Option will be able to process the particular
+     * argument.
+     * 
+     * @param commandLine the CommandLine object to store defaults in
+     * @param argument the argument to be tested
+     * @return true if the argument can be processed by this Option
+     */
     public boolean canProcess(
       final WriteableCommandLine commandLine, final String argument )
     {
@@ -79,11 +94,33 @@ public class PropertyOption extends OptionImpl
           && ( argument.length() > m_optionString.length() );
     }
 
+    /**
+     * Identifies the argument prefixes that should be considered options. This
+     * is used to identify whether a given string looks like an option or an
+     * argument value. Typically an option would return the set [--,-] while
+     * switches might offer [-,+].
+     * 
+     * The returned Set must not be null.
+     * 
+     * @return The set of prefixes for this Option
+     */
     public Set getPrefixes() 
     {
         return m_prefixes;
     }
 
+    /**
+     * Processes String arguments into a CommandLine.
+     * 
+     * The iterator will initially point at the first argument to be processed
+     * and at the end of the method should point to the first argument not
+     * processed. This method MUST process at least one argument from the
+     * ListIterator.
+     * 
+     * @param commandLine the CommandLine object to store results in
+     * @param arguments the arguments to process
+     * @throws OptionException if any problems occur
+     */
     public void process(
       final WriteableCommandLine commandLine, final ListIterator arguments )
       throws OptionException 
@@ -116,16 +153,39 @@ public class PropertyOption extends OptionImpl
         commandLine.addProperty( property, value );
     }
 
+    /**
+     * Identifies the argument prefixes that should trigger this option. This
+     * is used to decide which of many Options should be tried when processing
+     * a given argument string.
+     * 
+     * The returned Set must not be null.
+     * 
+     * @return The set of triggers for this Option
+     */
     public Set getTriggers()
     {
         return Collections.singleton( m_optionString );
     }
 
-    public void validate( WriteableCommandLine commandLine )
+    /**
+     * Checks that the supplied CommandLine is valid with respect to this
+     * option.
+     * 
+     * @param commandLine the CommandLine to check.
+     * @throws OptionException if the CommandLine is not valid.
+     */
+    public void validate( WriteableCommandLine commandLine ) throws OptionException
     {
         // PropertyOption needs no validation
     }
 
+    /**
+     * Appends usage information to the specified StringBuffer
+     * 
+     * @param buffer the buffer to append to
+     * @param helpSettings a set of display settings @see DisplaySetting
+     * @param comp a comparator used to sort the Options
+     */
     public void appendUsage(
       final StringBuffer buffer, final Set helpSettings, final Comparator comp ) 
     {
@@ -140,7 +200,7 @@ public class PropertyOption extends OptionImpl
                 buffer.append( '<' );
             }
             buffer.append( "property" );
-            if (bracketed) 
+            if( bracketed ) 
             {
                 buffer.append( '>' );
             }
@@ -157,16 +217,39 @@ public class PropertyOption extends OptionImpl
         }
     }
 
+    /**
+     * The preferred name of an option is used for generating help and usage
+     * information.
+     * 
+     * @return The preferred name of the option
+     */
     public String getPreferredName() 
     {
         return m_optionString;
     }
 
+    /**
+     * Returns a description of the option. This string is used to build help
+     * messages as in the HelpFormatter.
+     * 
+     * @see net.dpml.cli.util.HelpFormatter
+     * @return a description of the option.
+     */
     public String getDescription()
     {
         return m_description;
     }
 
+    /**
+     * Builds up a list of HelpLineImpl instances to be presented by HelpFormatter.
+     * 
+     * @see HelpLine
+     * @see net.dpml.cli.util.HelpFormatter
+     * @param depth the initial indent depth
+     * @param helpSettings the HelpSettings that should be applied
+     * @param comp a comparator used to sort options when applicable.
+     * @return a List of HelpLineImpl objects
+     */
     public List helpLines(
       final int depth, final Set helpSettings, final Comparator comp )
     {
