@@ -21,8 +21,6 @@ package net.dpml.station.info;
 import java.net.URI;
 import java.net.URISyntaxException;
 
-import net.dpml.transit.model.Value;
-
 /**
  * The CodeBaseDescriptor is immutable datastructure used to 
  * describe a codebase.
@@ -39,6 +37,7 @@ public class CodeBaseDescriptor extends AbstractDescriptor
     * Creation of a new codebase descriptor.
     * @param codebase the codebase uri 
     * @param parameters an array of plugin parameter descriptors
+    * @exception URISyntaxException if the codebase URI is invalid
     */
     public CodeBaseDescriptor( String codebase, ValueDescriptor[] parameters ) throws URISyntaxException
     {

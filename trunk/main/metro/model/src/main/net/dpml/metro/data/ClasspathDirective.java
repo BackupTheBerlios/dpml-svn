@@ -51,7 +51,7 @@ public final class ClasspathDirective implements Serializable
 
     /**
      * Create a ClasspathDirective instance.
-     *
+     * @param category the classpath category
      * @param uris the set of artifact uris
      */
     public ClasspathDirective( final Category category, final URI[] uris )
@@ -79,6 +79,7 @@ public final class ClasspathDirective implements Serializable
    /**
     * Return the default status of this directive.  If TRUE
     * the enclosed repository and fileset directives are empty.
+    * @return true if the classpath directive is empty
     */
     public boolean isEmpty()
     {
@@ -96,6 +97,11 @@ public final class ClasspathDirective implements Serializable
         return m_uris;
     }
 
+   /**
+    * Test this object for equality with the supplied object.
+    * @param other the other object
+    * @return true if the objects are equal
+    */
     public boolean equals( Object other )
     {
         if( null == other )
@@ -123,7 +129,7 @@ public final class ClasspathDirective implements Serializable
                     {
                         URI m = myUris [i];
                         URI n = yourURIs[i];
-                        if( false == m.equals( n ) )
+                        if( !m.equals( n ) )
                         {
                             return false;
                         }

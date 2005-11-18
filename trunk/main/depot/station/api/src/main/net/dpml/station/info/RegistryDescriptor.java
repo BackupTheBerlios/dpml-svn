@@ -19,8 +19,6 @@
 package net.dpml.station.info;
 
 import java.net.URI;
-import java.util.Map;
-import java.util.Hashtable;
 import java.beans.SimpleBeanInfo;
 import java.beans.BeanDescriptor;
 import java.beans.DefaultPersistenceDelegate;
@@ -34,8 +32,14 @@ import java.beans.DefaultPersistenceDelegate;
  */
 public class RegistryDescriptor extends AbstractDescriptor
 {
+   /**
+    * The default storage path.
+    */
     public static final String DEFAULT_STORAGE_PATH = "local:xml:dpml/metro/registry";
     
+   /**
+    * The default storage uri.
+    */
     public static final URI DEFAULT_STORAGE_URI = createDefaultStorageURI();
     
     private final Entry[] m_entries;
@@ -71,22 +75,38 @@ public class RegistryDescriptor extends AbstractDescriptor
         }
     }
     
+   /**
+    * Binding of key to descriptor.
+    */
     public static final class Entry
     {
-        final String m_key;
-        final ApplicationDescriptor m_descriptor;
-        
+        private final String m_key;
+        private final ApplicationDescriptor m_descriptor;
+      
+       /**
+        * Creation of a new entry.
+        * @param key the profile key
+        * @param descriptor the application descriptor
+        */
         public Entry( String key, ApplicationDescriptor descriptor )
         {
             m_key = key;
             m_descriptor = descriptor;
         }
         
+       /**
+        * Return the entry key.
+        * @return the key
+        */
         public String getKey()
         {
             return m_key;
         }
         
+       /**
+        * Return the application descriptor.
+        * @return the application descriptor
+        */
         public ApplicationDescriptor getApplicationDescriptor()
         {
             return m_descriptor;

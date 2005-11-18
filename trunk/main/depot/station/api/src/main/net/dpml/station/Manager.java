@@ -3,9 +3,6 @@ package net.dpml.station;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
-import java.io.IOException;
-
-import net.dpml.station.ApplicationRegistry;
 
 import net.dpml.transit.model.UnknownKeyException;
 
@@ -32,6 +29,7 @@ public interface Manager extends Remote
     
    /**
     * Shutdown the station.
+    * @exception RemoteException if a remote error occurs
     */
     void shutdown() throws RemoteException;
 

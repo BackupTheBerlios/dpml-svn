@@ -28,26 +28,30 @@
 
       <p>
         The CLI library provides an API for processing command line interfaces.
+        The implementation is based on the Jakarta Commons CLI2 library written 
+        by John Keyes and Rob Oxspring.
       </p>
       <p>
-        The implementation is based on the Jakarta Commons CLI2 library.
         CLI1 was formed by the merger of ideas and code from three different
         libraries and allows most simple interfaces to be modelled.  CLI1
         became increasingly difficult to maintain and develop further and so
         CLI2 was developed with the goals of clearer responsibilities and
         being more flexible.  The intention was that CLI2 would be able to
         model a far greater selection of interfaces and do so more completely,
-        validating as much as possible. CLI2 development with Jakarta Commons
-        appears to have stopped sometime in 2002.  The DPML codebase was 
-        established in late 2005 based on the CL2 content.
+        validating as much as possible. 
       </p>
       <p>
+        The DPML codebase was established in late 2005 based on a fork of the 
+        Jarkata Commons CL2 content as CLI2 development with Jakarta Commons
+        appears to have stopped around April 2005.
         Modification to the codebase applyied during incorporation under DPML 
         include removal of CLI1 content, resolution of a number of testcase
         failures, removal of file validation hidden feature (due to platform 
         inconsitencies at the JVM level), removal of Maven dependencies in the 
-        build and test procedures, resolution of some issues in the Help 
-        formatter, package renaming, and documentation enhancements.
+        build and test procedures, resolution of issues in the Help 
+        formatter, package renaming, documentation enhancements, upgrading of 
+        the codebase to be compliant with DPML style guidelines, and addition
+        of a URI validator.
       </p>
     </section>
 

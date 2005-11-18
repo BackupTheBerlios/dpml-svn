@@ -210,7 +210,7 @@ public final class ContextDirective implements Serializable
                     {
                         PartReference p = mine[i];
                         PartReference q = yours[i];
-                        if( false == p.equals( q ) )
+                        if( !p.equals( q ) )
                         {
                             return false;
                         }

@@ -122,22 +122,27 @@ public class CategoriesDirective extends CategoryDirective implements Serializab
 
    /**
     * Test this object for equality with the suppplied object.
-    *
+    * @param other the other object
     * @return TRUE if this object equals the supplied object
     *   else FALSE
     */
     public boolean equals( Object other )
     {
         boolean isEqual = other instanceof CategoriesDirective;
-        if ( isEqual ) isEqual = super.equals( other );
-
-        if ( isEqual )
+        if( isEqual )
+        {
+            isEqual = super.equals( other );
+        }
+        if( isEqual )
         {
             CategoriesDirective cat = (CategoriesDirective) other;
-            if ( isEqual ) isEqual = m_categories.length == cat.m_categories.length;
-            if ( isEqual )
+            if( isEqual )
             {
-                for ( int i = 0; i < m_categories.length && isEqual; i++ )
+                isEqual = m_categories.length == cat.m_categories.length;
+            }
+            if( isEqual )
+            {
+                for( int i=0; i<m_categories.length && isEqual; i++ )
                 {
                     isEqual = m_categories[i].equals( cat.m_categories[i] );
                 }
@@ -148,7 +153,7 @@ public class CategoriesDirective extends CategoryDirective implements Serializab
 
    /**
     * Return the hashcode for the object.
-    * @return the cashcode
+    * @return the hashcode
     */
     public int hashCode()
     {

@@ -18,8 +18,6 @@
 
 package net.dpml.metro.runtime;
 
-import java.net.URL;
-
 import net.dpml.transit.Logger;
 import net.dpml.transit.monitor.LoggingAdapter;
 

@@ -20,8 +20,6 @@ package net.dpml.station;
 
 import java.util.EventObject;
 
-import net.dpml.station.ProcessState;
-
 /**
  * An application registry event.
  */

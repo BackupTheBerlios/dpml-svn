@@ -18,8 +18,6 @@ package net.dpml.metro.data;
 import java.beans.SimpleBeanInfo;
 import java.beans.BeanDescriptor;
 import java.beans.DefaultPersistenceDelegate;
-import java.beans.Encoder;
-import java.beans.Expression;
 
 /**
  * BeanInfo for the ContextDescriptor class that declares a persistence
@@ -32,6 +30,10 @@ public final class ReferenceDirectiveBeanInfo extends SimpleBeanInfo
 {
     private static final BeanDescriptor BEAN_DESCRIPTOR = setupBeanDescriptor();
     
+   /**
+    * Return the bean descriptor.
+    * @return the descriptor
+    */
     public BeanDescriptor getBeanDescriptor()
     {
         return BEAN_DESCRIPTOR;
@@ -42,7 +44,7 @@ public final class ReferenceDirectiveBeanInfo extends SimpleBeanInfo
         BeanDescriptor descriptor = new BeanDescriptor( ReferenceDirective.class );
         descriptor.setValue( 
           "persistenceDelegate", 
-          new DefaultPersistenceDelegate( new String[]{ "URI" } ) );
+          new DefaultPersistenceDelegate( new String[]{"URI"} ) );
         return descriptor;
     }
 }

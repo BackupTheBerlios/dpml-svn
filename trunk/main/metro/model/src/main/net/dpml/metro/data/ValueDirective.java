@@ -18,12 +18,8 @@
 
 package net.dpml.metro.data;
 
-import java.io.Serializable;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.Map;
-
-import net.dpml.metro.part.Part;
 
 import net.dpml.transit.model.Value;
 import net.dpml.transit.model.Construct;
@@ -147,6 +143,11 @@ public final class ValueDirective extends Construct implements Directive
     // ValueDirective
     //--------------------------------------------------------------------------
 
+   /**
+    * Test if the supplied object is equal to this object.
+    * @param other the object to compare with this instance
+    * @return TRUE if the supplied object is equal to this object
+    */
     public boolean equals( Object other )
     {
         boolean equals = super.equals( other );
@@ -154,7 +155,7 @@ public final class ValueDirective extends Construct implements Directive
         {
             return false;
         }
-        if( ! ( other instanceof ValueDirective ) )
+        if( !( other instanceof ValueDirective ) )
         {
             return false;
         }
@@ -169,6 +170,10 @@ public final class ValueDirective extends Construct implements Directive
         }
     }
     
+   /**
+    * Return the hashcode for the instance.
+    * @return the instance hashcode
+    */
     public int hashCode()
     {
         int hash = super.hashCode();
@@ -189,8 +194,13 @@ public final class ValueDirective extends Construct implements Directive
         return PART_HANDLER_URI;
     }
 
-    private static URI PART_HANDLER_URI = setupURI( "@PART-HANDLER-URI@" );
+    private static final URI PART_HANDLER_URI = setupURI( "@PART-HANDLER-URI@" );
 
+   /**
+    * Internal utility to create a static uri.
+    * @param spec the uri spec
+    * @return the uri
+    */
     protected static URI setupURI( String spec )
     {
         try

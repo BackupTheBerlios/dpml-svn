@@ -32,6 +32,10 @@ public final class ValueDirectiveBeanInfo extends SimpleBeanInfo
 {
     private static final BeanDescriptor BEAN_DESCRIPTOR = setupBeanDescriptor();
     
+   /**
+    * Return the bean descriptor.
+    * @return the descriptor
+    */
     public BeanDescriptor getBeanDescriptor()
     {
         return BEAN_DESCRIPTOR;
@@ -47,8 +51,17 @@ public final class ValueDirectiveBeanInfo extends SimpleBeanInfo
         return descriptor;
     }
     
+   /**
+    * Persistence delegate implementation.
+    */
     private static class ValueDirectivePersistenceDelegate extends DefaultPersistenceDelegate
     {
+       /**
+        * Return the expression value.
+        * @param old the old instance
+        * @param encoder the encoder
+        * @return the expression
+        */
         public Expression instantiate( Object old, Encoder encoder )
         {
             ValueDirective construct = (ValueDirective) old;

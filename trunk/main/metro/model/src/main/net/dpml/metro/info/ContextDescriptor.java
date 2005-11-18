@@ -23,7 +23,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Properties;
 
 /**
  * A descriptor describing the context that a component
@@ -90,7 +89,7 @@ public class ContextDescriptor implements Serializable
      *
      * @param key the context entry key
      * @return the entry matching the key of null if no matching entry
-     * @exception NullArgumentException if the key argument is null.
+     * @exception NullPointerException if the key argument is null.
      */
     public EntryDescriptor getEntryDescriptor( final String key )
         throws NullPointerException
@@ -152,6 +151,7 @@ public class ContextDescriptor implements Serializable
 
    /**
     * Test is the supplied object is equal to this object.
+    * @param other the other object
     * @return true if the object are equivalent
     */
     public boolean equals( Object other )

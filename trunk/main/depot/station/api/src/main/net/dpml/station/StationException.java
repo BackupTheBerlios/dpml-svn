@@ -26,7 +26,7 @@ public class StationException extends ServerException
 {
    /**
     * Creation of a new station exception instance.
-    * @param message the exception message.
+    * @param message the exception message
     */
     public StationException( final String message )
     {
@@ -35,7 +35,8 @@ public class StationException extends ServerException
     
    /**
     * Creation of a new station exception instance.
-    * @param message the exception message.
+    * @param message the exception message
+    * @param cause the causal exception
     */
     public StationException( final String message, Exception cause )
     {

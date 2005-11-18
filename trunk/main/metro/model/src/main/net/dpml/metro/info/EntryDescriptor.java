@@ -42,8 +42,18 @@ public final class EntryDescriptor implements Serializable
     */
     static final long serialVersionUID = 1L;
 
+   /**
+    * Constant prefix for get operations.
+    */
     public static final String GET = "get";
 
+   /**
+    * Utility function that covers a supplied method to a 
+    * entry name.
+    * @see Introspector.decapitalize(String)
+    * @param method the method
+    * @return the key
+    */
     public static String getEntryKey( Method method )
     {
         String name = method.getName();
@@ -62,7 +72,14 @@ public final class EntryDescriptor implements Serializable
         }
     }
 
+   /**
+    * Optional constant.
+    */
     public static final boolean OPTIONAL = true;
+
+   /**
+    * Required constant.
+    */
     public static final boolean REQUIRED = false;
 
     /**
@@ -221,7 +238,7 @@ public final class EntryDescriptor implements Serializable
             return false;
         }
 
-        if( ! ( other instanceof EntryDescriptor ) )
+        if( !( other instanceof EntryDescriptor ) )
         {
             return false;
         }

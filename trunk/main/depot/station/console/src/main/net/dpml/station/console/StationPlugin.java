@@ -20,34 +20,26 @@ package net.dpml.station.console;
 
 import java.io.IOException;
 import java.net.URI;
-import java.net.URISyntaxException;
 import java.net.URL;
-import java.rmi.Remote;
 import java.rmi.RemoteException;
-import java.rmi.NoSuchObjectException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
-import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Iterator;
 import java.util.Set;
 import java.util.HashSet;
 import java.util.Properties;
 
+import net.dpml.station.Application;
+import net.dpml.station.Manager;
 import net.dpml.station.Station;
+import net.dpml.station.StationException;
 
 import net.dpml.station.info.StartupPolicy;
 import net.dpml.station.ApplicationRegistry;
 import net.dpml.station.info.ApplicationDescriptor;
 import net.dpml.station.info.ValueDescriptor;
-
-import net.dpml.station.Application;
-import net.dpml.station.Manager;
-import net.dpml.station.Station;
-import net.dpml.station.StationException;
-import net.dpml.station.server.RemoteStation;
 
 import net.dpml.transit.Artifact;
 import net.dpml.transit.Logger;
@@ -98,6 +90,7 @@ public class StationPlugin
     *
     * @param logger the assigned logging channel
     * @param args command line arguments
+    * @exception Exception if an error occurs duirng plugin establishment
     */
     public StationPlugin( Logger logger, String[] args ) throws Exception
     {
@@ -107,10 +100,18 @@ public class StationPlugin
         
         if( m_logger.isDebugEnabled() )
         {
-            StringBuffer buffer = new StringBuffer( "Processing [" + args.length + "] args." );
+            StringBuffer buffer = 
+              new StringBuffer( 
+                "Processing [" 
+                + args.length 
+                + "] args." );
             for( int i=0; i<args.length; i++ )
             {
-                buffer.append( "\n  " + (i+1) + " " + args[i] );
+                buffer.append( 
+                  "\n  " 
+                  + ( i+1 ) 
+                  + " " 
+                  + args[i] );
             }
             String message = buffer.toString();
             m_logger.debug( message );
@@ -204,7 +205,12 @@ public class StationPlugin
                 while( iterator.hasNext() )
                 {
                     Option option = (Option) iterator.next();
-                    System.out.println( "# UNPROCESSED OPTION: " + option + " [" + option.getId() + "]" );
+                    System.out.println( 
+                      "# UNPROCESSED OPTION: " 
+                      + option 
+                      + " [" 
+                      + option.getId() 
+                      + "]" );
                 }
             }
         }
@@ -517,7 +523,7 @@ public class StationPlugin
                       registry.getApplicationDescriptor( k );
                     buffer.append( 
                       "\n (" 
-                      + (i+1) 
+                      + ( i+1 ) 
                       + ") " 
                       + k
                     );
@@ -831,6 +837,12 @@ public class StationPlugin
         }
     }
 
+   /**
+    * Return the storage uri as a url.
+    * @param uri the uri
+    * @return the url
+    * @exception Exception if the uri could not be converted to a url
+    */
     public URL getStorageURL( URI uri ) throws Exception
     {
         if( Artifact.isRecognized( uri ) )
@@ -922,7 +934,7 @@ public class StationPlugin
     private static final PropertyOption PROPERTY_OPTION = new PropertyOption();
     private static final Option REQUIRED_URI_OPTION = buildURIOption( true );
     private static final Option OPTIONAL_URI_OPTION = buildURIOption( false );
-    private static NumberValidator integerValidator = NumberValidator.getIntegerInstance();
+    private static final NumberValidator INTERGER_VALIDATOR = NumberValidator.getIntegerInstance();
     
     private static final Option REGISTRY_URI_OPTION = 
         OPTION_BUILDER
@@ -965,7 +977,7 @@ public class StationPlugin
             .withName( "port" )
             .withMinimum( 0 )
             .withMaximum( 1 )
-            .withValidator( integerValidator )
+            .withValidator( INTERGER_VALIDATOR )
             .create() )
         .create();
     
@@ -980,7 +992,7 @@ public class StationPlugin
             .withName( "seconds" )
             .withMinimum( 1 )
             .withMaximum( 1 )
-            .withValidator( integerValidator )
+            .withValidator( INTERGER_VALIDATOR )
             .create() )
         .create();
     
@@ -995,7 +1007,7 @@ public class StationPlugin
             .withName( "seconds" )
             .withMinimum( 1 )
             .withMaximum( 1 )
-            .withValidator( integerValidator )
+            .withValidator( INTERGER_VALIDATOR )
             .create() )
         .create();
     

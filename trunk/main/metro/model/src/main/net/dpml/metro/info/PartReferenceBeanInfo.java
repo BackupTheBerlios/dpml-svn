@@ -29,6 +29,10 @@ public final class PartReferenceBeanInfo extends SimpleBeanInfo
 {
     private static final BeanDescriptor BEAN_DESCRIPTOR = setupBeanDescriptor();
     
+   /**
+    * Return the bean descriptor.
+    * @return the descriptor
+    */
     public BeanDescriptor getBeanDescriptor()
     {
         return BEAN_DESCRIPTOR;
@@ -39,7 +43,7 @@ public final class PartReferenceBeanInfo extends SimpleBeanInfo
         BeanDescriptor descriptor = new BeanDescriptor( PartReference.class );
         descriptor.setValue( 
           "persistenceDelegate", 
-          new DefaultPersistenceDelegate( new String[]{ "key", "part" } ) );
+          new DefaultPersistenceDelegate( new String[]{"key", "part"} ) );
         return descriptor;
     }
 }

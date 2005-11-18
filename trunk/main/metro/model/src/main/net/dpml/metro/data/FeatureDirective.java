@@ -18,11 +18,7 @@
 
 package net.dpml.metro.data;
 
-import java.io.Serializable;
 import java.net.URI;
-import java.net.URISyntaxException;
-
-import net.dpml.metro.part.Part;
 
 /**
  * A <code>FeatureDirective</code> declares a context entry that is itself a feature
@@ -39,11 +35,31 @@ public class FeatureDirective extends AbstractDirective
     */
     static final long serialVersionUID = 1L;
 
-    public static int NAME = 0;
-    public static int URI = 1;
-    public static int WORK = 2;
-    public static int TEMP = 3;
+   /**
+    * Constant identifier for the component name feature.
+    */
+    public static final int NAME = 0;
 
+   /**
+    * Constant identifier for the component uri feature.
+    */
+    public static final int URI = 1;
+
+   /**
+    * Constant identifier for the component working directory feature.
+    */
+    public static final int WORK = 2;
+
+   /**
+    * Constant identifier for the component temporary directory feature.
+    */
+    public static final int TEMP = 3;
+
+   /**
+    * Return the feature id givcen a supplied name.
+    * @param value the feature name
+    * @return the feature id
+    */
     public static int getFeatureForName( String value )
     { 
         if( "name".equals( value ) )
@@ -81,6 +97,11 @@ public class FeatureDirective extends AbstractDirective
     // constructors
     //--------------------------------------------------------------------------
 
+   /**
+    * Create a new feature directive.
+    * @param key the feature name
+    * @param feature the feasture id
+    */
     public FeatureDirective( String key, int feature )
     {
         if( null == key )
@@ -95,16 +116,29 @@ public class FeatureDirective extends AbstractDirective
     // FeatureDirective
     //--------------------------------------------------------------------------
 
+   /**
+    * Return the feature key.
+    * @return the feature key
+    */
     public String getKey()
     {
         return m_key;
     }
 
+   /**
+    * Return the feature id.
+    * @return the feature id
+    */
     public int getFeature()
     {
         return m_feature;
     }
 
+   /**
+    * Test if the supplied object is equal to this object.
+    * @param other the object to compare with this instance
+    * @return TRUE if the supplied object is equal to this object
+    */
     public boolean equals( Object other )
     {
         if( null == other )
@@ -125,6 +159,10 @@ public class FeatureDirective extends AbstractDirective
         }
     }
 
+   /**
+    * Return the hashcode for the instance.
+    * @return the instance hashcode
+    */
     public int hashCode()
     {
         int hash = m_key.hashCode();

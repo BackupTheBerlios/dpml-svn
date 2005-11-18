@@ -30,6 +30,10 @@ public final class TypeBeanInfo extends SimpleBeanInfo
 {
     private static final BeanDescriptor BEAN_DESCRIPTOR = setupBeanDescriptor();
     
+   /**
+    * Return the bean descriptor.
+    * @return the descriptor
+    */
     public BeanDescriptor getBeanDescriptor()
     {
         return BEAN_DESCRIPTOR;
@@ -43,7 +47,7 @@ public final class TypeBeanInfo extends SimpleBeanInfo
           new DefaultPersistenceDelegate( 
             new String[]{ 
               "info", "categoryDescriptors", "contextDescriptor",
-              "serviceDescriptors", "partReferences" } ) );
+              "serviceDescriptors", "partReferences"} ) );
         return descriptor;
     }
 }

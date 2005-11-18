@@ -51,8 +51,11 @@ public abstract class AbstractDirective implements Directive
         return PART_HANDLER_URI;
     }
 
-    private static URI PART_HANDLER_URI = setupURI( "@PART-HANDLER-URI@" );
-
+   /**
+    * Static utility to create the part handler uri.
+    * @param spec the part handler uri string
+    * @return the constant part handler uri
+    */
     protected static URI setupURI( String spec )
     {
         try
@@ -64,4 +67,7 @@ public abstract class AbstractDirective implements Directive
             return null;
         }
     }
+    
+    private static final URI PART_HANDLER_URI = setupURI( "@PART-HANDLER-URI@" );
+
 }

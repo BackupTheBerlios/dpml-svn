@@ -20,7 +20,6 @@ package net.dpml.metro.model;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
-import java.util.Map;
 
 import net.dpml.metro.info.PartReference;
 import net.dpml.metro.info.EntryDescriptor;
@@ -41,6 +40,7 @@ public interface ContextModel extends Remote
     * Return the set of context entries descriptors.
     *
     * @return context entry descriptor array
+    * @exception RemoteException if a remote exception occurs
     */
     EntryDescriptor[] getEntryDescriptors() throws RemoteException;
     
@@ -48,12 +48,17 @@ public interface ContextModel extends Remote
     * Return the current directive assigned to a context entry.
     * @param key the context entry key
     * @return the directive
+    * @exception UnknownKeyException if the key is unknown
+    * @exception RemoteException if a remote exception occurs
     */
     Directive getEntryDirective( String key ) throws UnknownKeyException, RemoteException;
 
    /**
     * Set a context entry directive value.
+    * @param key the context entry key
     * @param directive the context entry directive
+    * @exception UnknownKeyException if the key is unknown
+    * @exception RemoteException if a remote exception occurs
     */
     void setEntryDirective( String key, Directive directive ) throws UnknownKeyException, RemoteException;
 
@@ -65,12 +70,14 @@ public interface ContextModel extends Remote
     * @param directives an array of part references
     * @exception UnknownKeyException if a key within the array does not match a key within
     *   the context model.
+    * @exception RemoteException if a remote exception occurs
     */
     void setEntryDirectives( PartReference[] directives ) throws UnknownKeyException, RemoteException;
 
    /**
     * Validate the model.
     * @exception ValidationException if one or more issues exist within the model
+    * @exception RemoteException if a remote exception occurs
     */
     void validate() throws ValidationException, RemoteException;
 }

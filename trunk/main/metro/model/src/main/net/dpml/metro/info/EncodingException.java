@@ -25,6 +25,11 @@ public final class EncodingException extends Exception
 {
     private final Exception[] m_errors;
     
+   /**
+    * Creation of a new encoding exception.
+    * @param message the exception message
+    * @param errors an array of errors
+    */
     public EncodingException( String message, Exception[] errors )
     {
         super( message );
@@ -32,6 +37,10 @@ public final class EncodingException extends Exception
         m_errors = errors;
     }
     
+   /**
+    * Return the array of errors.
+    * @return the error array
+    */
     public Exception[] getExceptions()
     {
         return m_errors;

@@ -20,7 +20,6 @@ package net.dpml.metro.exec;
 
 import java.net.URI;
 import java.rmi.RemoteException;
-import java.rmi.server.UnicastRemoteObject;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 
@@ -69,6 +68,12 @@ public class ComponentHandler extends AbstractHandler
     // constructor
     //------------------------------------------------------------------------------
     
+   /**
+    * Creation of a new component handler.
+    * @param logger the assigned logging channel
+    * @param codebase the codebase uri
+    * @exception Exception if an error occurs
+    */
     public ComponentHandler( Logger logger, URI codebase ) throws Exception
     {
         super( logger );
@@ -103,6 +108,9 @@ public class ComponentHandler extends AbstractHandler
    /**
     * Return a handler capable of supporting the requested service.
     * @param service the service descriptor
+    * @return a component matchi9ng the requested service
+    * @exception ServiceNotFoundException if the service could not be resolved
+    * @exception RemoteException if a remote exception occurs
     */
     public Component lookup( Service service ) throws ServiceNotFoundException, RemoteException
     {
@@ -126,6 +134,7 @@ public class ComponentHandler extends AbstractHandler
    /**
     * Return the number of instances currently under management.
     * @return the instance count.
+    * @exception RemoteException if a remote exception occurs
     */
     public int size() throws RemoteException
     {
@@ -155,6 +164,12 @@ public class ComponentHandler extends AbstractHandler
         m_component.deactivate();
     }
     
+   /**
+    * Return true if this handler is a candidate for the supplied service defintion.
+    * @param service the service definition
+    * @return true if this is a candidate
+    * @exception RemoteException if a remote exception occurs
+    */
     public boolean isaCandidate( Service service ) throws RemoteException
     {
         return m_component.isaCandidate( service );

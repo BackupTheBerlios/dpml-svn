@@ -65,13 +65,11 @@ public final class ServiceDescriptor implements Serializable
      * @param classname the name of the service
      * @param version the version of service
      * @exception NullPointerException if the classname or version is null
-     * @exception IllegalArgumentException if the classname string is invalid
      */
-    public ServiceDescriptor( final String classname,
-                                final Version version )
-        throws NullPointerException
+    public ServiceDescriptor( final String classname, final Version version )
+      throws NullPointerException
     {
-        if ( null == classname )
+        if( null == classname )
         {
             throw new NullPointerException( "classname" );
         }
@@ -82,7 +80,7 @@ public final class ServiceDescriptor implements Serializable
 
         m_classname = classname;
 
-        if ( null == version )
+        if( null == version )
         {
             m_version = Version.getVersion( "" );
         }
@@ -121,9 +119,14 @@ public final class ServiceDescriptor implements Serializable
      */
     public boolean matches( final ServiceDescriptor other )
     {
-        if( !m_classname.equals( other.m_classname ) ) return false;
-        if( other.getVersion().complies( getVersion() ) ) return true;
-        return false;
+        if( !m_classname.equals( other.m_classname ) )
+        {
+            return false;
+        }
+        else
+        {
+            return other.getVersion().complies( getVersion() );
+        }
     }
 
     /**
@@ -144,23 +147,19 @@ public final class ServiceDescriptor implements Serializable
      */
     public boolean equals( Object other )
     {
-        if( false == other instanceof ServiceDescriptor )
+        if( !( other instanceof ServiceDescriptor ) )
         {
             return false;
         }
-
+        
         ServiceDescriptor service = (ServiceDescriptor) other;
-        if( false == getClassname().equals( service.getClassname() ) )
-        {
-            return false;
-        }
-        else if( false == getVersion().equals( service.getVersion() ) )
+        if( !getClassname().equals( service.getClassname() ) )
         {
             return false;
         }
         else
         {
-            return true;
+            return getVersion().equals( service.getVersion() );
         }
     }
 

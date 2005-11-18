@@ -18,11 +18,6 @@
 
 package net.dpml.metro.data;
 
-import java.io.Serializable;
-import java.lang.Comparable;
-import java.net.URI;
-import java.net.URISyntaxException;
-
 import net.dpml.metro.part.ActivationPolicy;
 
 /**
@@ -94,6 +89,7 @@ public abstract class DeploymentDirective extends AbstractDirective implements C
     * @param name the profile name
     * @param activation the activation policy
     * @param categories logging category directives
+    * @param classloader the classloader directive
     */
     public DeploymentDirective( 
       final String name, ActivationPolicy activation, CategoriesDirective categories, 
@@ -201,6 +197,11 @@ public abstract class DeploymentDirective extends AbstractDirective implements C
         return "[" + getName() + "]";
     }
 
+   /**
+    * Compare this object with the supplied object.
+    * @param object the obvject to compare with
+    * @return the result
+    */
     public int compareTo( Object object )
     {
         String name = this.toString();
@@ -224,23 +225,22 @@ public abstract class DeploymentDirective extends AbstractDirective implements C
             if( other instanceof DeploymentDirective )
             {
                 DeploymentDirective profile = (DeploymentDirective) other;
-                if( false == m_name.equals( profile.getName() ) )
+                if( !m_name.equals( profile.getName() ) )
                 {
                     return false;
                 }
-                if( false == m_activation.equals( profile.getActivationPolicy() ) )
+                else if( !m_activation.equals( profile.getActivationPolicy() ) )
                 {
                     return false;
                 }
-                if( false == m_categories.equals( profile.getCategoriesDirective() ) )
+                else if( !m_categories.equals( profile.getCategoriesDirective() ) )
                 {
                     return false;
                 }
-                if( false == m_classloader.equals( profile.getClassLoaderDirective() ) )
+                else
                 {
-                    return false;
+                    return m_classloader.equals( profile.getClassLoaderDirective() );
                 }
-                return true;
             }
             else
             {

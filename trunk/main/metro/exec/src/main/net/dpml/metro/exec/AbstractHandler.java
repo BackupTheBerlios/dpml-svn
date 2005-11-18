@@ -69,6 +69,7 @@ public class AbstractHandler extends UnicastRemoteObject implements Component
    /**
     * Return a handler capable of supporting the requested service.
     * @param service the service descriptor
+    * @return a component matching the requested service
     * @exception ServiceNotFoundException if the request service cannot be resolved
     * @exception RemoteException if a remote exception occurs
     */
@@ -108,6 +109,7 @@ public class AbstractHandler extends UnicastRemoteObject implements Component
    /**
     * Return the number of instances currently under management.
     * @return the instance count.
+    * @exception RemoteException if a remote exception occurs
     */
     public int size() throws RemoteException
     {
@@ -145,6 +147,7 @@ public class AbstractHandler extends UnicastRemoteObject implements Component
    /**
     * Test is this component can provide the requested service.
     * @param service the service defintion
+    * @return true if the handler supports the requested service
     * @exception RemoteException if a remote exception occurs
     */
     public boolean isaCandidate( Service service ) throws RemoteException
@@ -156,6 +159,10 @@ public class AbstractHandler extends UnicastRemoteObject implements Component
     // internals
     //------------------------------------------------------------------------------
     
+   /**
+    * Return the assigned logging channel.
+    * @return the logging channel
+    */
     protected Logger getLogger()
     {
         return m_logger;

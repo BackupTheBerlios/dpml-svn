@@ -19,13 +19,6 @@
 
 package net.dpml.metro.info;
 
-import java.beans.Expression;
-import java.beans.BeanDescriptor;
-import java.beans.PersistenceDelegate;
-import java.beans.DefaultPersistenceDelegate;
-import java.beans.SimpleBeanInfo;
-import java.beans.Encoder;
-
 import net.dpml.transit.util.Enum;
 
 /**
@@ -56,7 +49,8 @@ public final class LifestylePolicy extends Enum
    /**
     * Array of static activation policy enumeration values.
     */
-    private static final LifestylePolicy[] ENUM_VALUES = new LifestylePolicy[]{ TRANSIENT, THREAD, SINGLETON };
+    private static final LifestylePolicy[] ENUM_VALUES = 
+      new LifestylePolicy[]{TRANSIENT, THREAD, SINGLETON};
 
    /**
     * Returns an array of activation enum values.
@@ -78,17 +72,24 @@ public final class LifestylePolicy extends Enum
         super( label );
     }
     
-    public static LifestylePolicy parse( String value )
+   /**
+    * Parse the supplied value into a lifestyle policy.
+    * @param value the value to parse
+    * @return the lifestyle policy
+    * @exception IllegalArgumentException if the value cannot be mapped
+    *   to a lifestyle policy enumeration name
+    */
+    public static LifestylePolicy parse( String value ) throws IllegalArgumentException
     {
         if( value.equalsIgnoreCase( "transient" ) )
         {
             return TRANSIENT;
         }
-        else if( value.equalsIgnoreCase( "thread" ))
+        else if( value.equalsIgnoreCase( "thread" ) )
         {
             return THREAD;
         }
-        else if( value.equalsIgnoreCase( "singleton" ))
+        else if( value.equalsIgnoreCase( "singleton" ) )
         {
             return SINGLETON;
         }

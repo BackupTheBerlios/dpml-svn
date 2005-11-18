@@ -26,7 +26,7 @@ public class ApplicationException extends ServerException
 {
    /**
     * Creation of a new application exception instance.
-    * @param message the exception message.
+    * @param message the exception message
     */
     public ApplicationException( final String message )
     {
@@ -35,7 +35,8 @@ public class ApplicationException extends ServerException
     
    /**
     * Creation of a new application exception instance.
-    * @param message the exception message.
+    * @param message the exception message
+    * @param cause the causal exception
     */
     public ApplicationException( final String message, Exception cause )
     {

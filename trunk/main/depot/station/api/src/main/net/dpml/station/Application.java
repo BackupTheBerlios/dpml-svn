@@ -20,11 +20,8 @@ package net.dpml.station;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
-import java.io.Serializable;
 
 import net.dpml.transit.PID;
-
-import net.dpml.metro.part.Context;
 
 import net.dpml.station.info.ApplicationDescriptor;
 

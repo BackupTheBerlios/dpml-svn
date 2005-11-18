@@ -25,14 +25,12 @@ import net.dpml.metro.info.LifestylePolicy;
 import net.dpml.metro.info.CollectionPolicy;
 import net.dpml.metro.data.ClassLoaderDirective;
 import net.dpml.metro.part.ActivationPolicy;
+import net.dpml.metro.part.Context;
+import net.dpml.metro.state.State;
 
 import net.dpml.configuration.Configuration;
 
 import net.dpml.parameters.Parameters;
-
-import net.dpml.metro.part.Context;
-
-import net.dpml.metro.state.State;
 
 import net.dpml.transit.model.UnknownKeyException;
 
@@ -48,6 +46,7 @@ public interface ComponentModel extends Context, Remote
    /**
     * Return the component name.
     * @return the name
+    * @exception RemoteException if a remote exception occurs
     */
     String getName() throws RemoteException;
 
@@ -55,6 +54,7 @@ public interface ComponentModel extends Context, Remote
     * Return the component implementation class name.
     *
     * @return the classname of the implementation 
+    * @exception RemoteException if a remote exception occurs
     */
     String getImplementationClassName() throws RemoteException;
     
@@ -62,18 +62,21 @@ public interface ComponentModel extends Context, Remote
     * Return the component classloader directive.
     *
     * @return the classloader directive for the component
+    * @exception RemoteException if a remote exception occurs
     */
     ClassLoaderDirective getClassLoaderDirective() throws RemoteException;
     
    /**
     * Return the immutable state graph for the component.
     * @return the state graph.
+    * @exception RemoteException if a remote exception occurs
     */
     State getStateGraph() throws RemoteException;
     
    /**
     * Set the component activation policy to the supplied value.
-    * @return the new activation policy
+    * @param policy the new activation policy
+    * @exception RemoteException if a remote exception occurs
     */
     void setActivationPolicy( ActivationPolicy policy ) throws RemoteException;
 
@@ -81,6 +84,7 @@ public interface ComponentModel extends Context, Remote
     * Return the component lifestyle policy.
     *
     * @return the lifestyle policy value
+    * @exception RemoteException if a remote exception occurs
     */
     LifestylePolicy getLifestylePolicy() throws RemoteException;
 
@@ -89,12 +93,14 @@ public interface ComponentModel extends Context, Remote
     * type collection policy will be returned.
     *
     * @return a HARD, WEAK, SOFT or SYSTEM
+    * @exception RemoteException if a remote exception occurs
     */
     CollectionPolicy getCollectionPolicy() throws RemoteException;
 
    /**
     * Override the assigned collection policy.
     * @param policy the collection policy value
+    * @exception RemoteException if a remote exception occurs
     */
     void setCollectionPolicy( CollectionPolicy policy ) throws RemoteException;
 
@@ -102,29 +108,38 @@ public interface ComponentModel extends Context, Remote
     * Return the current context model.
     *
     * @return the context model
+    * @exception RemoteException if a remote exception occurs
     */
     ContextModel getContextModel() throws RemoteException;
     
    /**
     * Return the set of component model keys.
     * @return the component part keys
+    * @exception RemoteException if a remote exception occurs
     */
     String[] getPartKeys() throws RemoteException;
 
    /**
-    * Return the internal component models.
-    * @return the internal component model array
-    */
-    //ComponentModel[] getComponentModels() throws RemoteException;
-
-   /**
     * Return the component model of an internal part referenced by the supplied key.
+    * @param key the part key
     * @return the internal part component model 
+    * @exception UnknownKeyException if the key is unknown
+    * @exception RemoteException if a remote exception occurs
     */
     ComponentModel getComponentModel( String key ) throws UnknownKeyException, RemoteException;
 
+   /**
+    * Return the component configuration.
+    * @return the configuration
+    * @exception RemoteException if a remote exception occurs
+    */
     Configuration getConfiguration() throws RemoteException;
 
+   /**
+    * Return the component parameters.
+    * @return the parameters
+    * @exception RemoteException if a remote exception occurs
+    */
     Parameters getParameters() throws  RemoteException;
 }
 

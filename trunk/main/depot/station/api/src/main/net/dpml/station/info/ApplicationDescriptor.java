@@ -34,12 +34,12 @@ public class ApplicationDescriptor extends CodeBaseDescriptor
    /**
     * The default startup timeout in seconds.
     */
-    public static int DEFAULT_STARTUP_TIMEOUT = 6;
+    public static final int DEFAULT_STARTUP_TIMEOUT = 6;
 
    /**
     * The default shutdown timeout in seconds.
     */
-    public static int DEFAULT_SHUTDOWN_TIMEOUT = 6;
+    public static final int DEFAULT_SHUTDOWN_TIMEOUT = 6;
 
     private final String m_base;
     private final StartupPolicy m_policy;
@@ -52,6 +52,7 @@ public class ApplicationDescriptor extends CodeBaseDescriptor
    /**
     * Creation of a new codebase descriptor.
     * @param codebase the codebase uri 
+    * @param title the profile title
     * @param parameters an array of plugin parameter descriptors
     * @param base working directory path
     * @param policy the application startup policy
@@ -59,6 +60,7 @@ public class ApplicationDescriptor extends CodeBaseDescriptor
     * @param shutdownTimeout shutdown timeout value
     * @param properties system properties
     * @param config uri to a part configuration
+    * @exception URISyntaxException if the codebase URI is invalid
     */
     public ApplicationDescriptor( 
       String codebase, String title, ValueDescriptor[] parameters, String base, 
@@ -152,6 +154,7 @@ public class ApplicationDescriptor extends CodeBaseDescriptor
     * Get the configuration uri.
     * 
     * @return the configuration uri
+    * @exception URISyntaxException if the configuration URI is invalid
     */
     public URI getConfigurationURI() throws URISyntaxException
     {

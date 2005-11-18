@@ -21,12 +21,9 @@ package net.dpml.metro.info;
 
 import java.beans.Expression;
 import java.beans.BeanDescriptor;
-import java.beans.PersistenceDelegate;
 import java.beans.DefaultPersistenceDelegate;
 import java.beans.SimpleBeanInfo;
 import java.beans.Encoder;
-
-import net.dpml.transit.util.Enum;
 
 /**
  * Bean info for state encoding of the Lifestyle policy enumeration.
@@ -38,6 +35,10 @@ public final class LifestylePolicyBeanInfo extends SimpleBeanInfo
 {
     private static final BeanDescriptor BEAN_DESCRIPTOR = setupBeanDescriptor();
 
+   /**
+    * Return the bean descriptor.
+    * @return the descriptor
+    */
     public BeanDescriptor getBeanDescriptor()
     {
         return BEAN_DESCRIPTOR;
@@ -52,12 +53,21 @@ public final class LifestylePolicyBeanInfo extends SimpleBeanInfo
         return descriptor;
     }
     
+   /**
+    * Persistence delegate implementation.
+    */
     private static class LifestylePolicyPersistenceDelegate extends DefaultPersistenceDelegate
     {
+       /**
+        * Return the expression value.
+        * @param old the old instance
+        * @param encoder the encoder
+        * @return the expression
+        */
         public Expression instantiate( Object old, Encoder encoder )
         {
             LifestylePolicy policy = (LifestylePolicy) old;
-            return new Expression( LifestylePolicy.class, "parse", new Object[]{ policy.getName() } );
+            return new Expression( LifestylePolicy.class, "parse", new Object[]{policy.getName()} );
         }
     }
 }

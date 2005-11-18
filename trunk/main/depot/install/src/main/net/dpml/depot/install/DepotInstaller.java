@@ -16,8 +16,6 @@
 
 package net.dpml.depot.install;
 
-import java.net.URI;
-
 import net.dpml.transit.Logger;
 
 import net.dpml.station.Station;

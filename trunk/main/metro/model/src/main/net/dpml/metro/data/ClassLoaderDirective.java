@@ -84,6 +84,11 @@ public final class ClassLoaderDirective implements Serializable
         return m_classpaths;
     }
 
+   /**
+    * Test this object for equality with the supplied object.
+    * @param other the other object
+    * @return true if the objects are equal
+    */
     public boolean equals( Object other )
     {
         if( null == other )
@@ -107,13 +112,13 @@ public final class ClassLoaderDirective implements Serializable
                     {
                         ClasspathDirective m = mine[i];
                         ClasspathDirective n = yours[i];
-                        if( false == m.equals( n ) )
+                        if( !m.equals( n ) )
                         {
                             return false;
                         }
                     }
+                    return true;
                 }
-                return true;
             }
             else
             {

@@ -18,10 +18,7 @@
 
 package net.dpml.metro.data;
 
-import java.net.URI;
-
 import net.dpml.metro.info.PartReference;
-import net.dpml.metro.info.InfoDescriptor;
 import net.dpml.metro.info.LifestylePolicy;
 import net.dpml.metro.info.CollectionPolicy;
 import net.dpml.metro.part.ActivationPolicy;
@@ -161,7 +158,6 @@ public class ComponentDirective extends DeploymentDirective
     * @param classname the classname of the component type
     */
     public ComponentDirective( final String name, final String classname )
-        throws NullPointerException
     {
         this(
           name, 
@@ -178,7 +174,6 @@ public class ComponentDirective extends DeploymentDirective
     * @param template the template deployment profile
     */
     public ComponentDirective( String name, ComponentDirective template )
-        throws NullPointerException
     {
         this(
           name,
@@ -193,6 +188,19 @@ public class ComponentDirective extends DeploymentDirective
           template.getClassLoaderDirective() );
     }
 
+   /**
+    * Creation of a new deployment profile.
+    * @param name the name to assign to the created profile
+    * @param activation the component activation policy
+    * @param collection the component garbage collection policy
+    * @param lifestyle the component lifestyle policy
+    * @param classname the component classname
+    * @param categories logging categories
+    * @param context context directive
+    * @param parameters the default parameters
+    * @param config the default configuration
+    * @param classloader the component classloader directive
+    */
     public ComponentDirective(
            final String name,
            final ActivationPolicy activation,
@@ -204,7 +212,6 @@ public class ComponentDirective extends DeploymentDirective
            final Parameters parameters,
            final Configuration config,
            final ClassLoaderDirective classloader )
-        throws NullPointerException
     {
         super( name, activation, categories, classloader );
 
@@ -383,11 +390,11 @@ public class ComponentDirective extends DeploymentDirective
         {
             hash ^= m_lifestyle.hashCode();
         }
-        if( false == ( null == m_parameters ) )
+        if( !( null == m_parameters ) )
         {
             hash ^= m_parameters.hashCode();
         }
-        if( false == ( null == m_configuration ) )
+        if( !( null == m_configuration ) )
         {
             hash ^= m_configuration.hashCode();
         }

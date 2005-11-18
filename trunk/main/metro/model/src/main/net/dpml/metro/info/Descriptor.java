@@ -78,8 +78,7 @@ public abstract class Descriptor
      * @param defaultValue the default value to use if the value is not defined
      * @return the attribute for specified key.
      */
-    public String getAttribute( final String key,
-                                final String defaultValue )
+    public String getAttribute( final String key, final String defaultValue )
     {
         if ( null == m_attributes )
         {
@@ -118,10 +117,14 @@ public abstract class Descriptor
         if ( other instanceof Descriptor )
         {
             Descriptor descriptor = (Descriptor) other;
-            if ( null == m_attributes )
+            if( null == m_attributes )
+            {
                 return null == descriptor.m_attributes;
-
-            return m_attributes.equals( descriptor.m_attributes );
+            }
+            else
+            {
+                return m_attributes.equals( descriptor.m_attributes );
+            }
         }
         return false;
     }

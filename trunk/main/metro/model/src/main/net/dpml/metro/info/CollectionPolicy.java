@@ -19,13 +19,6 @@
 
 package net.dpml.metro.info;
 
-import java.beans.Expression;
-import java.beans.BeanDescriptor;
-import java.beans.PersistenceDelegate;
-import java.beans.DefaultPersistenceDelegate;
-import java.beans.SimpleBeanInfo;
-import java.beans.Encoder;
-
 import net.dpml.transit.util.Enum;
 
 /**
@@ -67,7 +60,8 @@ public final class CollectionPolicy extends Enum
    /**
     * Array of static activation policy enumeration values.
     */
-    private static final CollectionPolicy[] ENUM_VALUES = new CollectionPolicy[]{ WEAK, SOFT, HARD, SYSTEM };
+    private static final CollectionPolicy[] ENUM_VALUES = 
+      new CollectionPolicy[]{WEAK, SOFT, HARD, SYSTEM};
 
    /**
     * Returns an array of activation enum values.
@@ -88,22 +82,27 @@ public final class CollectionPolicy extends Enum
     {
         super( label );
     }
-        
+   
+   /**
+    * Parse the supplied name.
+    * @param value the value to parse
+    * @return the collection policy
+    */
     public static CollectionPolicy parse( String value )
     {
         if( value.equalsIgnoreCase( "hard" ) )
         {
             return HARD;
         }
-        else if( value.equalsIgnoreCase( "soft" ))
+        else if( value.equalsIgnoreCase( "soft" ) )
         {
             return SOFT;
         }
-        else if( value.equalsIgnoreCase( "weak" ))
+        else if( value.equalsIgnoreCase( "weak" ) )
         {
             return WEAK;
         }
-        else if( value.equalsIgnoreCase( "system" ))
+        else if( value.equalsIgnoreCase( "system" ) )
         {
             return SYSTEM;
         }

@@ -36,6 +36,9 @@ public class CategoryDescriptor
     */
     static final long serialVersionUID = 1L;
 
+   /**
+    * Constant category separator.
+    */
     public static final String SEPERATOR = ".";
 
     private final String m_name;
@@ -72,6 +75,7 @@ public class CategoryDescriptor
 
    /**
     * Test is the supplied object is equal to this object.
+    * @param other the other object
     * @return true if the object are equivalent
     */
     public boolean equals( Object other )
@@ -79,7 +83,7 @@ public class CategoryDescriptor
         boolean isEqual = other instanceof CategoryDescriptor;
         if ( isEqual )
         {
-            isEqual = isEqual && m_name.equals( ((CategoryDescriptor)other).m_name );
+            isEqual = isEqual && m_name.equals( ( (CategoryDescriptor) other ).m_name );
         }
         return isEqual;
     }

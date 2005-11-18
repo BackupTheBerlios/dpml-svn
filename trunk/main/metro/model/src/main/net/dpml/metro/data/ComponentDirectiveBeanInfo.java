@@ -32,6 +32,10 @@ public final class ComponentDirectiveBeanInfo extends SimpleBeanInfo
 {
     private static final BeanDescriptor BEAN_DESCRIPTOR = setupBeanDescriptor();
     
+   /**
+    * Creation of a new bean descriptor.
+    * @return the bean descriptor
+    */
     public BeanDescriptor getBeanDescriptor()
     {
         return BEAN_DESCRIPTOR;
@@ -46,8 +50,17 @@ public final class ComponentDirectiveBeanInfo extends SimpleBeanInfo
         return descriptor;
     }
     
+   /**
+    * The persistence delegate.
+    */
     private static class ComponentDirectivePersistenceDelegate extends DefaultPersistenceDelegate
     {
+       /**
+        * Return the expression.
+        * @param old the old instance
+        * @param encoder the XML encoder
+        * @return the expression
+        */
         public Expression instantiate( Object old, Encoder encoder )
         {
             ComponentDirective directive = (ComponentDirective) old;

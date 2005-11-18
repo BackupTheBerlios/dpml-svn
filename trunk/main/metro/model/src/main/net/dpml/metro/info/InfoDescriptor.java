@@ -19,18 +19,9 @@
 
 package net.dpml.metro.info;
 
-import java.beans.Expression;
-import java.beans.BeanDescriptor;
-import java.beans.PersistenceDelegate;
-import java.beans.DefaultPersistenceDelegate;
-import java.beans.SimpleBeanInfo;
-import java.beans.Encoder;
-
 import java.util.Properties;
 
 import net.dpml.metro.part.Version;
-
-import net.dpml.transit.util.Enum;
 
 /**
  * This class is used to provide explicit information to assembler
@@ -117,6 +108,8 @@ public final class InfoDescriptor extends Descriptor
      *
      * @param name the default component name
      * @param classname the implemetation classname
+     * @exception IllegalArgumentException if the classname is invalid
+     * @exception NullPointerException if the classname is null
      */
     public InfoDescriptor( final String name, final String classname )
             throws IllegalArgumentException, NullPointerException
@@ -135,9 +128,8 @@ public final class InfoDescriptor extends Descriptor
      * @param collection the garbage collection policy for the component
      * @param threadsafe if TRUE the type is declaring itself as threadsafe
      * @param attributes a set of attributes associated with the component type
-     * @exception IllegalArgumentException if the implementation key is not a classname
-     * @exception NullArgumentException if the classname argument is null.
-     * @since 1.2
+     * @exception IllegalArgumentException if the implementation classname is invalid
+     * @exception NullPointerException if the classname argument is null.
      */
     public InfoDescriptor( final String name,
                            final String classname,
@@ -152,12 +144,12 @@ public final class InfoDescriptor extends Descriptor
 
         m_threadsafe = threadsafe;
 
-        if ( null == classname )
+        if( null == classname )
         {
             throw new NullPointerException( "classname" );
         }
 
-        if ( classname.indexOf( "/" ) > -1 )
+        if( classname.indexOf( "/" ) > -1 )
         {
             throw new IllegalArgumentException( "classname: " + classname );
         }
@@ -198,7 +190,7 @@ public final class InfoDescriptor extends Descriptor
             m_collection = collection;
         }
         
-        if ( name != null )
+        if( name != null )
         {
             m_name = name;
         }
@@ -217,7 +209,7 @@ public final class InfoDescriptor extends Descriptor
     private String getClassName( String classname )
     {
         int i = classname.lastIndexOf( "." );
-        if ( i == -1 )
+        if( i == -1 )
         {
             return classname.toLowerCase();
         }
@@ -328,26 +320,27 @@ public final class InfoDescriptor extends Descriptor
 
    /**
     * Test is the supplied object is equal to this object.
+    * @param other the other object
     * @return true if the object are equivalent
     */
     public boolean equals( Object other )
     {
-        boolean isEqual = super.equals(other) && other instanceof InfoDescriptor;
-        if (isEqual)
+        boolean isEqual = super.equals( other ) && other instanceof InfoDescriptor;
+        if( isEqual )
         {
-            InfoDescriptor info = (InfoDescriptor)other;
+            InfoDescriptor info = (InfoDescriptor) other;
             isEqual = isEqual && m_threadsafe == info.m_threadsafe;
             isEqual = isEqual && m_classname.equals( info.m_classname );
             isEqual = isEqual && m_collection.equals( info.m_collection );
             isEqual = isEqual && m_name.equals( info.m_name );
             isEqual = isEqual && m_lifestyle.equals( info.m_lifestyle );
-            if ( null == m_version )
+            if( null == m_version )
             {
                 isEqual = isEqual && null == info.m_version;
             }
             else
             {
-                isEqual = isEqual && m_version.equals(info.m_version);
+                isEqual = isEqual && m_version.equals( info.m_version );
             }
         }
         return isEqual;

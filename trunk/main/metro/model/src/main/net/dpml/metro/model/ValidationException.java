@@ -19,17 +19,8 @@
 package net.dpml.metro.model;
 
 import java.io.Serializable;
-import java.rmi.Remote;
-import java.rmi.RemoteException;
-import java.util.Map;
-
-import net.dpml.metro.info.PartReference;
-import net.dpml.metro.info.EntryDescriptor;
-import net.dpml.metro.data.Directive;
 
 import net.dpml.metro.part.ContextException;
-
-import net.dpml.transit.model.UnknownKeyException;
 
 /**
  * Exception that describes a series of validation issues.
@@ -59,6 +50,11 @@ public final class ValidationException extends ContextException
     // constructor
     //--------------------------------------------------------------------------
     
+   /**
+    * Creation of a new <tt>ValidationException</tt>.
+    * @param source the source object
+    * @param issues the array of iossues
+    */
     public ValidationException( Object source, Issue[] issues )
     {
         super( createMessage( source, issues ) );
@@ -74,11 +70,19 @@ public final class ValidationException extends ContextException
         m_issues = issues;
     }
     
+   /**
+    * Return the source object.
+    * @return the source of the validation errors
+    */
     public Object getSource()
     {
         return m_source;
     }
     
+   /**
+    * Return the array iof issues.
+    * @return the issues array
+    */
     public Issue[] getIssues()
     {
         return m_issues;
@@ -109,11 +113,19 @@ public final class ValidationException extends ContextException
         return message;
     }
     
+   /**
+    * Issue implementation.
+    */
     public static final class Issue implements Serializable
     {
-        private final String m_key;
-        private final String m_message;
+        private final String m_issueKey;
+        private final String m_issueMessage;
     
+       /**
+        * Creation of a new issue.
+        * @param key the key
+        * @param message the message
+        */
         public Issue( String key, String message )
         {
             if( null == key )
@@ -124,20 +136,33 @@ public final class ValidationException extends ContextException
             {
                 throw new NullPointerException( "message" );
             }
-            m_key = key;
-            m_message = message;
+            m_issueKey = key;
+            m_issueMessage = message;
         }
         
+       /**
+        * Return the issue key.
+        * @return the key
+        */
         public String getKey()
         {
-            return m_key;
+            return m_issueKey;
         }
         
+       /**
+        * Return the issue message.
+        * @return the message
+        */
         public String getMessage()
         {
-            return m_message;
+            return m_issueMessage;
         }
         
+       /**
+        * Test is the supplied object is equal to this object.
+        * @param other the other object
+        * @return true if the object are equivalent
+        */
         public boolean equals( Object other )
         {
             if( null == other )
@@ -147,18 +172,11 @@ public final class ValidationException extends ContextException
             else if( other instanceof Issue )
             {
                 Issue issue = (Issue) other;
-                if( !m_key.equals( issue.m_key ) )
+                if( !m_issueKey.equals( issue.m_issueKey ) )
                 {
                     return false;
                 }
-                if( !m_message.equals( issue.m_message ) )
-                {
-                    return false;
-                }
-                else
-                {
-                    return true;
-                }
+                return m_issueMessage.equals( issue.m_issueMessage );
             }
             else
             {
@@ -166,16 +184,22 @@ public final class ValidationException extends ContextException
             }
         }
         
+       /**
+        * Return the hashcode for the object.
+        * @return the hashcode value
+        */
         public int hashCode()
         {
-            int hash = m_key.hashCode();
-            hash = hash ^= m_message.hashCode();
-            return hash;
+            return m_issueKey.hashCode() + m_issueMessage.hashCode();
         }
         
+       /**
+        * Return a string representation of the type.
+        * @return the stringified type
+        */
         public String toString()
         {
-            return "issue:[" + m_key + "] " + m_message;
+            return "issue:[" + m_issueKey + "] " + m_issueMessage;
         }
     }
 }

@@ -21,12 +21,9 @@ package net.dpml.metro.info;
 
 import java.beans.Expression;
 import java.beans.BeanDescriptor;
-import java.beans.PersistenceDelegate;
 import java.beans.DefaultPersistenceDelegate;
 import java.beans.SimpleBeanInfo;
 import java.beans.Encoder;
-
-import net.dpml.transit.util.Enum;
 
 /**
  * BeanInfo that declares a specialized persistence delegate for the collection policy class.
@@ -38,6 +35,10 @@ public final class CollectionPolicyBeanInfo extends SimpleBeanInfo
 {
     private static final BeanDescriptor BEAN_DESCRIPTOR = setupBeanDescriptor();
     
+   /**
+    * Return the bean descriptor.
+    * @return the descriptor
+    */
     public BeanDescriptor getBeanDescriptor()
     {
         return BEAN_DESCRIPTOR;
@@ -51,13 +52,22 @@ public final class CollectionPolicyBeanInfo extends SimpleBeanInfo
             new CollectionPolicyPersistenceDelegate() );
         return descriptor;
     }
-        
+    
+   /**
+    * Persistence delegate implementation.
+    */
     private static class CollectionPolicyPersistenceDelegate extends DefaultPersistenceDelegate
     {
+       /**
+        * Return the expression value.
+        * @param old the old instance
+        * @param encoder the encoder
+        * @return the expression
+        */
         public Expression instantiate( Object old, Encoder encoder )
         {
             CollectionPolicy policy = (CollectionPolicy) old;
-            return new Expression( CollectionPolicy.class, "parse", new Object[]{ policy.getName() } );
+            return new Expression( CollectionPolicy.class, "parse", new Object[]{policy.getName()} );
         }
     }
 }

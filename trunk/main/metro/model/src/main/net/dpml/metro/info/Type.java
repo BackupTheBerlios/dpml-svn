@@ -24,20 +24,14 @@ import java.beans.XMLEncoder;
 import java.beans.XMLDecoder;
 import java.beans.ExceptionListener;
 import java.beans.Expression;
-import java.beans.PersistenceDelegate;
 import java.beans.DefaultPersistenceDelegate;
 import java.io.Serializable;
 import java.io.InputStream;
-import java.io.ObjectInputStream;
 import java.io.OutputStream;
-import java.io.ByteArrayInputStream;
 import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URL;
-import java.util.ArrayList;
-
-import net.dpml.configuration.Configuration;
 
 import net.dpml.metro.part.Part;
 
@@ -65,7 +59,15 @@ public class Type implements Serializable
 
     private static final Type OBJECT_TYPE = createObjectType();
     
-    public static void encode( Type type, OutputStream output ) throws IOException, EncodingException
+   /**
+    * Encode a type to an output stream.
+    * @param type the type instance
+    * @param output the output stream
+    * @exception IOException if an I/O error occurs
+    * @exception EncodingException if an encododing error occurs
+    */
+    public static void encode( final Type type, final OutputStream output ) 
+      throws IOException, EncodingException
     {
         XMLEncoder encoder = new XMLEncoder( output );
         encoder.setExceptionListener( new TypeEncoderListener( type ) );
@@ -79,16 +81,27 @@ public class Type implements Serializable
             encoder.close();
         }
     }
-    
-    private static class TypeEncoderListener implements ExceptionListener
+   
+   /**
+    * Encoding exception listener.
+    */
+    private static final class TypeEncoderListener implements ExceptionListener
     {
         private Type m_type;
         
+       /**
+        * Creation of a new encoding listener.
+        * @param type the type instance that is being encoded
+        */
         private TypeEncoderListener( Type type )
         {
             m_type = type;
         }
         
+       /**
+        * Catch an encoding exception.
+        * @param e the encoding exception
+        */
         public void exceptionThrown( Exception e )
         {
             Throwable cause = e.getCause();
@@ -118,21 +131,42 @@ public class Type implements Serializable
             }
         }
     }
-    
+   
+   /**
+    * EncodingRuntimeException.
+    */
     private static class EncodingRuntimeException extends RuntimeException
     {
+       /**
+        * Creation of a new <tt>EncodingRuntimeException</tt>.
+        * @param message the exception message
+        * @param cause the causal exception 
+        */
         public EncodingRuntimeException( String message, Throwable cause )
         {
             super( message, cause );
         }
     }
     
+   /**
+    * Decode a type corresponding to the supplied class.
+    * @param clazz the class from which to load the type definition
+    * @return the decoded type
+    * @exception IOException if an I/O error occurs
+    */
     public static Type decode( Class clazz ) throws IOException
     {
         ClassLoader context = Type.class.getClassLoader();
         return decode( context, clazz );
     }
 
+   /**
+    * Decode a type.
+    * @param context the context classloader
+    * @param clazz the class
+    * @return the decoded type
+    * @exception IOException if an I/O error occurs
+    */
     public static Type decode( ClassLoader context, Class clazz ) throws IOException
     {
         String path = clazz.getName().replace( '.', '/' ) + ".type";
@@ -156,13 +190,26 @@ public class Type implements Serializable
             throw ioe;
         }
     }
-    
+   
+   /**
+    * Decode a type from an input stream.
+    * @param input the input stream
+    * @return the decoded type
+    * @exception IOException if an I/O error occurs
+    */
     public static Type decode( InputStream input ) throws IOException
     {
         ClassLoader context = Type.class.getClassLoader();
         return decode( context, input );
     }
     
+   /**
+    * Decode a type from an input stream.
+    * @param context the context classloader
+    * @param input the input stream
+    * @return the decoded type
+    * @exception IOException if an I/O error occurs
+    */
     public static Type decode( ClassLoader context, InputStream input ) throws IOException
     {
         final ClassLoader loader = Thread.currentThread().getContextClassLoader();
@@ -198,13 +245,22 @@ public class Type implements Serializable
         }
     }
 
+   /**
+    * Persistence delegate for a URI.
+    */
     private static class URIPersistenceDelegate extends DefaultPersistenceDelegate
     {
+       /**
+        * Return the expression value.
+        * @param old the old instance
+        * @param encoder the encoder
+        * @return the expression
+        */
         public Expression instantiate( Object old, Encoder encoder )
         {
             URI uri = (URI) old;
             String spec = uri.toString();
-            Object[] args = new Object[]{ spec };
+            Object[] args = new Object[]{spec};
             return new Expression( old, old.getClass(), "new", args );
         }
     }
@@ -229,22 +285,21 @@ public class Type implements Serializable
     * @param parts an array of part descriptors
     * @exception NullPointerException if the info, loggers, or context is null
     */
-    public Type( final InfoDescriptor info,
-                 final CategoryDescriptor[] loggers,
-                 final ContextDescriptor context,
-                 final ServiceDescriptor[] services,
-                 final PartReference[] parts )
-            throws NullPointerException 
+    public Type( 
+      final InfoDescriptor info, final CategoryDescriptor[] loggers,
+      final ContextDescriptor context, final ServiceDescriptor[] services,
+      final PartReference[] parts )
+      throws NullPointerException 
     {
-        if ( null == info )
+        if( null == info )
         {
             throw new NullPointerException( "info" );
         }
-        if ( null == loggers )
+        if( null == loggers )
         {
             throw new NullPointerException( "loggers" );
         }
-        if ( null == context )
+        if( null == context )
         {
             throw new NullPointerException( "context" );
         }
@@ -260,7 +315,6 @@ public class Type implements Serializable
         m_info = info;
         m_categories = loggers;
         m_context = context;
-        //m_configuration = defaults;
 
         if( null == parts )
         {
@@ -422,9 +476,10 @@ public class Type implements Serializable
 
    /**
     * Test is the supplied object is equal to this object.
+    * @param other the other object
     * @return true if the object are equivalent
     */
-    public boolean equals(Object other)
+    public boolean equals( Object other )
     {
         if( null == other )
         {
@@ -439,22 +494,6 @@ public class Type implements Serializable
         {
             return false;
         }
-        /*
-        if( null == m_configuration )
-        {
-            if( !( null == t.m_configuration ) )
-            {
-                return false;
-            }
-        }
-        else
-        {
-            if( !m_configuration.equals( t.m_configuration ) )
-            {
-                return false;
-            }
-        }
-        */
         if( m_parts.length != t.m_parts.length )
         {
             return false;
@@ -463,26 +502,26 @@ public class Type implements Serializable
         {
             for( int i=0; i<m_parts.length; i++ )
             {
-                if( ! m_parts[i].equals( t.m_parts[i] ) )
+                if( !m_parts[i].equals( t.m_parts[i] ) )
                 {
                     return false;
                 }
             }
         }
-        if( ! m_context.equals( t.m_context ) )
+        if( !m_context.equals( t.m_context ) )
         {
             return false;
         }
         for( int i=0; i<m_categories.length; i++ )
         {
-            if( ! m_categories[i].equals( t.m_categories[i] ) )
+            if( !m_categories[i].equals( t.m_categories[i] ) )
             {
                 return false;
             }
         }
         for( int i=0; i<m_services.length; i++ )
         {
-            if( ! m_services[i].equals( t.m_services[i] ) )
+            if( !m_services[i].equals( t.m_services[i] ) )
             {
                 return false;
             }
@@ -498,10 +537,6 @@ public class Type implements Serializable
     {
         int hash = m_info.hashCode();
         hash ^= m_context.hashCode();
-        //if( m_configuration != null )
-        //{
-        //    hash ^= m_configuration.hashCode();
-        //}
         for( int i = 0; i < m_parts.length; i++ )
         {
             hash ^= m_parts[i].hashCode();
@@ -526,7 +561,6 @@ public class Type implements Serializable
         final CategoryDescriptor[] loggers = new CategoryDescriptor[0];
         final ContextDescriptor context = new ContextDescriptor( new EntryDescriptor[0] );
         final ServiceDescriptor[] services = new ServiceDescriptor[0];
-        //final Configuration configuration = null;
         final PartReference[] parts = new PartReference[0];
         return new Type( info, loggers, context, services, parts );
     }

@@ -31,6 +31,10 @@ public final class InfoDescriptorBeanInfo extends SimpleBeanInfo
 {
     private static final BeanDescriptor BEAN_DESCRIPTOR = setupBeanDescriptor();
     
+   /**
+    * Return the bean descriptor.
+    * @return the descriptor
+    */
     public BeanDescriptor getBeanDescriptor()
     {
         return BEAN_DESCRIPTOR;
@@ -43,8 +47,17 @@ public final class InfoDescriptorBeanInfo extends SimpleBeanInfo
         return descriptor;
     }
     
+   /**
+    * Persistence delegate implementation.
+    */
     private static class InfoDescriptorPersistenceDelegate extends DefaultPersistenceDelegate
     {
+       /**
+        * Return the expression value.
+        * @param old the old instance
+        * @param encoder the encoder
+        * @return the expression
+        */
         public Expression instantiate( Object old, Encoder encoder )
         {
             InfoDescriptor info = (InfoDescriptor) old;

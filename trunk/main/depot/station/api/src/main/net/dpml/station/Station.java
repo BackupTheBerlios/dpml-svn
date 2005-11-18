@@ -11,6 +11,10 @@ import net.dpml.transit.model.UnknownKeyException;
  */
 public interface Station extends Remote
 {
+   /**
+    * The name under which the station will be published in 
+    * an RMI registry.
+    */
     static final String STATION_KEY = "dpml/station";
     
    /**

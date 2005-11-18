@@ -160,14 +160,19 @@ public class CategoryDirective implements Serializable
         return m_target;
     }
 
-    public boolean equals(Object other)
+   /**
+    * Test this object for equality with the supplied object.
+    * @param other the other object
+    * @return true if the objects are equal
+    */
+    public boolean equals( Object other )
     {
         if( null == other )
         {
             return false;
         }
 
-        if( ! ( other instanceof CategoryDirective ) )
+        if( !( other instanceof CategoryDirective ) )
         {
             return false;
         }
@@ -214,6 +219,10 @@ public class CategoryDirective implements Serializable
         }
     }
 
+   /**
+    * Return the instance hash code value.
+    * @return the hash value
+    */
     public int hashCode()
     {
         int hash = m_name.hashCode();

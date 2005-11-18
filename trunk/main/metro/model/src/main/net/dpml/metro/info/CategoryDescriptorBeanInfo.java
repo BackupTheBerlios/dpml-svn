@@ -30,6 +30,10 @@ public final class CategoryDescriptorBeanInfo extends SimpleBeanInfo
 {
     private static final BeanDescriptor BEAN_DESCRIPTOR = setupBeanDescriptor();
     
+   /**
+    * Return the bean descriptor.
+    * @return the descriptor
+    */
     public BeanDescriptor getBeanDescriptor()
     {
         return BEAN_DESCRIPTOR;
@@ -40,7 +44,7 @@ public final class CategoryDescriptorBeanInfo extends SimpleBeanInfo
         BeanDescriptor descriptor = new BeanDescriptor( CategoryDescriptor.class );
         descriptor.setValue( 
           "persistenceDelegate", 
-          new DefaultPersistenceDelegate( new String[]{ "name", "properties" } ) );
+          new DefaultPersistenceDelegate( new String[]{"name", "properties"} ) );
         return descriptor;
     }
 }

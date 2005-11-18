@@ -19,7 +19,6 @@
 package net.dpml.station.info;
 
 import java.io.Serializable;
-import java.util.Properties;
 
 /**
  * The AbstractDescriptor class is an abstract base class for descriptors.

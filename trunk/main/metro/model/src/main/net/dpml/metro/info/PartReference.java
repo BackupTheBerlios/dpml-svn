@@ -78,6 +78,7 @@ public class PartReference implements Serializable
 
     /**
      * Return the part.
+     * @return the part
      */
     public Part getPart()
     {
@@ -127,6 +128,10 @@ public class PartReference implements Serializable
         return hash;
     }
     
+   /**
+    * Return a string representation of the instance.
+    * @return the string representation
+    */
     public String toString()
     {
         return "[reference: key=" + m_key + "part=" + m_part + "]";
