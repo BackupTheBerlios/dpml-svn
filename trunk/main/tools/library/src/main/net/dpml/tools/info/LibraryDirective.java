@@ -38,6 +38,7 @@ public final class LibraryDirective extends AbstractDirective
     * Creation of a new library directive.
     * @param processes an array of processor directives
     * @param imports module imports
+    * @param modules the set of declared modules
     * @param properties library properties
     */
     public LibraryDirective(

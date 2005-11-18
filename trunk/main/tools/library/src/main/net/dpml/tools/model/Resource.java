@@ -21,7 +21,6 @@ package net.dpml.tools.model;
 import java.io.File;
 
 import net.dpml.tools.info.Scope;
-import net.dpml.tools.info.ResourceDirective;
 import net.dpml.tools.info.ResourceDirective.Classifier;
 
 import net.dpml.transit.Artifact;

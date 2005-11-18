@@ -21,7 +21,6 @@ package net.dpml.tools.process;
 import java.io.File;
 
 import net.dpml.tools.tasks.JavacTask;
-import net.dpml.tools.tasks.PrepareTask;
 import net.dpml.tools.tasks.JarTask;
 import net.dpml.tools.tasks.JUnitTestTask;
 
@@ -44,6 +43,11 @@ public class JarProcess extends AbstractBuildListener
 {
     private Processor m_processor;
     
+   /**
+    * Creation of a new jar process using the supplied 
+    * processor as the source for property overrived.
+    * @param processor the processor definition
+    */
     public JarProcess( Processor processor )
     {
         m_processor = processor;

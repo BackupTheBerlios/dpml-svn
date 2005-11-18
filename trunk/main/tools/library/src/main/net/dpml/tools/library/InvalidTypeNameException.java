@@ -18,8 +18,6 @@
 
 package net.dpml.tools.library;
 
-import net.dpml.tools.model.Resource;
-
 /**
  * Internal exception throw when an attempt is made to reference a type
  * that has not been declared by a component.
@@ -31,7 +29,6 @@ final class InvalidTypeNameException extends InvalidNameException
 {
    /**
     * Creation of a new InvalidTypeNameException.
-    * @param source the source object raising the exception
     * @param name the exception message
     */
     InvalidTypeNameException( String message )
@@ -41,8 +38,8 @@ final class InvalidTypeNameException extends InvalidNameException
     
    /**
     * Creation of a new InvalidTypeNameException.
-    * @param source the source object raising the exception
     * @param name the exception message
+    * @param cause the causal exception
     */
     InvalidTypeNameException( String message, Throwable cause )
     {

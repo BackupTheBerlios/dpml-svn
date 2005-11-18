@@ -46,6 +46,9 @@ public class JavadocTask extends GenericTask
 
     private static final String JAVADOC_TASK_NAME = "javadoc";
     
+   /**
+    * Property key for declaration of an overriding access level.
+    */
     public static final String JAVADOC_ACCESS_KEY = "project.javadoc.access";
 
     //-----------------------------------------------------------------------
@@ -114,6 +117,10 @@ public class JavadocTask extends GenericTask
         return group;
     }
     
+   /**
+    * Set the documentation access level.
+    * @param access the access level
+    */
     public void setAccess( AccessType access )
     {
         m_access = access;

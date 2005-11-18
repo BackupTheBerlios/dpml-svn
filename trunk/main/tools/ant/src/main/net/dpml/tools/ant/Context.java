@@ -134,6 +134,10 @@ public final class Context
         m_project.addReference( "project.test.path", m_test );
     }
     
+   /**
+    * Return the associated project.
+    * @return the ant project
+    */
     public Project getProject()
     {
         return m_project;

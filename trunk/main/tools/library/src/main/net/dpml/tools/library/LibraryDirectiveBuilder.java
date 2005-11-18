@@ -238,6 +238,7 @@ public final class LibraryDirectiveBuilder
    /**
     * Build a module directive an XML file.
     * @param source the XML source
+    * @param path the relative path
     * @return the module directive
     * @exception IOException if an IO exception occurs
     */

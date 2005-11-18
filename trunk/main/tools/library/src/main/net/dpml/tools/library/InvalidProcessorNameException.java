@@ -18,8 +18,6 @@
 
 package net.dpml.tools.library;
 
-import net.dpml.tools.model.Resource;
-
 /**
  * Internal exception throw when an attempt is made to reference a processor
  * that has not been declared.
@@ -29,11 +27,20 @@ import net.dpml.tools.model.Resource;
  */
 final class InvalidProcessorNameException extends InvalidNameException
 {
+   /**
+    * Creation of a new InvalidProcessorNameException.
+    * @param message the exception message
+    */
     InvalidProcessorNameException( String message )
     {
         this( message, null );
     }
     
+   /**
+    * Creation of a new InvalidProcessorNameException.
+    * @param message the exception message
+    * @param cause the causal exception
+    */
     InvalidProcessorNameException( String message, Throwable cause )
     {
         super( message, cause );

@@ -34,7 +34,6 @@ import net.dpml.tools.model.Type;
 import net.dpml.tools.model.Module;
 import net.dpml.tools.model.ProcessorNotFoundException;
 import net.dpml.tools.info.TypeDirective;
-import net.dpml.tools.info.TypeUnknownException;
 import net.dpml.tools.info.ResourceDirective;
 import net.dpml.tools.info.ResourceDirective.Classifier;
 import net.dpml.tools.info.IncludeDirective;

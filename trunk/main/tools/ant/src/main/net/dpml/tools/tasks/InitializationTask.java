@@ -22,8 +22,6 @@ import java.net.URI;
 import java.util.ArrayList;
 import java.util.Date;
 
-import net.dpml.tools.model.Type;
-import net.dpml.tools.model.Library;
 import net.dpml.tools.model.Resource;
 import net.dpml.tools.model.Processor;
 
@@ -125,8 +123,8 @@ public class InitializationTask extends GenericTask
                     else
                     {
                         final String error = 
-                          "Build processor [" +
-                          name
+                          "Build processor [" 
+                          + name
                           + "] from uri ["
                           + uri
                           + "] is not a build listener.";

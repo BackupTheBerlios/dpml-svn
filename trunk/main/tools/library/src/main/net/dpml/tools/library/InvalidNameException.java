@@ -18,10 +18,6 @@
 
 package net.dpml.tools.library;
 
-import java.rmi.RemoteException;
-
-import net.dpml.tools.model.Resource;
-
 /**
  * Internal exception throw to indicate a bad name reference.
  *
@@ -30,10 +26,20 @@ import net.dpml.tools.model.Resource;
  */
 class InvalidNameException extends RuntimeException
 {
+   /**
+    * Creation of a new InvalidNameException.
+    * @param message the exception message
+    */
     InvalidNameException( String message )
     {
         this( message, null );
     }
+
+   /**
+    * Creation of a new InvalidNameException.
+    * @param message the exception message
+    * @param cause the causal exception
+    */
     InvalidNameException( String message, Throwable cause )
     {
         super( message, cause );

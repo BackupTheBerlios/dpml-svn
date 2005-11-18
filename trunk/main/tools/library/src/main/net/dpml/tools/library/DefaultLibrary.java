@@ -36,7 +36,6 @@ import net.dpml.tools.info.Scope;
 import net.dpml.tools.info.IncludeDirective;
 import net.dpml.tools.info.ProcessorDescriptor;
 import net.dpml.tools.info.ResourceDirective;
-import net.dpml.tools.model.ProcessorNotFoundException;
 import net.dpml.tools.model.Module;
 import net.dpml.tools.model.Resource;
 import net.dpml.tools.model.Processor;

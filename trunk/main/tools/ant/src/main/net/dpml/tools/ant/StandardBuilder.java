@@ -56,6 +56,9 @@ public class StandardBuilder implements Builder
     // static
     // ------------------------------------------------------------------------
 
+   /**
+    * The default template uri path.
+    */
     public static final String DEFAULT_TEMPLATE_URN = "local:template:tools/standard";
 
     // ------------------------------------------------------------------------

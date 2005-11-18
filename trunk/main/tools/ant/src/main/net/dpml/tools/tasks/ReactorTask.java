@@ -19,19 +19,13 @@
 package net.dpml.tools.tasks;
 
 import java.io.File;
-import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.net.URL;
 
-import net.dpml.tools.model.Library;
 import net.dpml.tools.model.Resource;
 import net.dpml.tools.library.DefaultLibrary;
 import net.dpml.tools.ant.StandardBuilder;
 
 import net.dpml.transit.Logger;
 import net.dpml.transit.monitor.LoggingAdapter;
-import net.dpml.transit.Artifact;
 
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Task;

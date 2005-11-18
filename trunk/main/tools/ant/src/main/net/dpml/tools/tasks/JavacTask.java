@@ -23,7 +23,6 @@ import java.io.File;
 import net.dpml.tools.ant.Context;
 import net.dpml.tools.model.Resource;
 import net.dpml.tools.model.Processor;
-import net.dpml.tools.model.Type;
 
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Project;
@@ -84,7 +83,12 @@ public class JavacTask extends MatchingTask
     private Path m_classPath;
     private File m_destination;
     private File m_source;
-    
+   
+   /**
+    * Creation of a new JavacTask.
+    * @param context the project context
+    * @param processor the associated processor
+    */
     public JavacTask( Context context, Processor processor )
     {
         super();
