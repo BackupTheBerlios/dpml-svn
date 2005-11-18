@@ -89,7 +89,7 @@ public class URLValidator implements Validator
             try
             {
                 final URL url = new URL( name );
-                if( ( protocol != null ) && !protocol.equals( url.getProtocol() ) ) 
+                if( ( m_protocol != null ) && !m_protocol.equals( url.getProtocol() ) ) 
                 {
                     throw new InvalidArgumentException( name );
                 }
@@ -99,7 +99,7 @@ public class URLValidator implements Validator
             {
                 throw new InvalidArgumentException(
                   ResourceHelper.getResourceHelper().getMessage(
-                    ResourceConstants.URLValidator_MALFORMED_URL,
+                    ResourceConstants.URLVALIDATOR_MALFORMED_URL,
                     new Object[]{name} ) );
             }
         }

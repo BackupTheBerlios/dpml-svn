@@ -26,7 +26,7 @@ import net.dpml.cli.validation.ClassValidator;
 import net.dpml.cli.validation.DateValidator;
 import net.dpml.cli.validation.FileValidator;
 import net.dpml.cli.validation.NumberValidator;
-import net.dpml.cli.validation.UrlValidator;
+import net.dpml.cli.validation.URLValidator;
 import net.dpml.cli.validation.Validator;
 
 /**
@@ -203,7 +203,7 @@ public class PatternBuilder
             case '*' :
                 return new FileValidator();
             case '/' :
-                return new UrlValidator();
+                return new URLValidator();
             default :
                 return null;
         }

@@ -27,7 +27,7 @@ import junit.framework.TestCase;
 import net.dpml.cli.resource.ResourceConstants;
 import net.dpml.cli.resource.ResourceHelper;
 
-public class UrlValidatorTest
+public class URLValidatorTest
     extends TestCase {
     private static final ResourceHelper resources = ResourceHelper.getResourceHelper();
 
@@ -35,7 +35,7 @@ public class UrlValidatorTest
         throws InvalidArgumentException, MalformedURLException {
         final Object[] array = new Object[] { "http://www.apache.org/", "file:///etc" };
         final List list = Arrays.asList(array);
-        final Validator validator = new UrlValidator();
+        final Validator validator = new URLValidator();
 
         validator.validate(list);
 
@@ -49,7 +49,7 @@ public class UrlValidatorTest
         throws InvalidArgumentException, MalformedURLException {
         final Object[] array = new Object[] { "www.apache.org" };
         final List list = Arrays.asList(array);
-        final Validator validator = new UrlValidator();
+        final Validator validator = new URLValidator();
 
         try {
             validator.validate(list);
@@ -63,7 +63,7 @@ public class UrlValidatorTest
         {
             final Object[] array = new Object[] { "http://www.apache.org/", "file:///etc" };
             final List list = Arrays.asList(array);
-            final UrlValidator validator = new UrlValidator();
+            final URLValidator validator = new URLValidator();
             validator.setProtocol("http");
 
             assertEquals("incorrect protocol", "http", validator.getProtocol());
@@ -79,7 +79,7 @@ public class UrlValidatorTest
         {
             final Object[] array = new Object[] { "http://www.apache.org/", "file:///etc" };
             final List list = Arrays.asList(array);
-            final UrlValidator validator = new UrlValidator("http");
+            final URLValidator validator = new URLValidator("http");
 
             try {
                 validator.validate(list);
