@@ -1,5 +1,6 @@
 /*
  * Copyright 2003-2005 The Apache Software Foundation
+ * Copyright 2005 Stephen McConnell
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -36,139 +37,152 @@ import net.dpml.cli.resource.ResourceHelper;
  * Represents a cvs "update" style command line option.
  *
  * Like all Parents, Commands can have child options and can be part of
- * Arguments
+ * Arguments.
+ *
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
-public class Command
-    extends ParentImpl {
+public class Command extends ParentImpl
+{
     /** The display name for the command */
-    private final String preferredName;
+    private final String m_preferredName;
 
     /** The aliases for this command */
-    private final Set aliases;
+    private final Set m_aliases;
 
     /** All the names for this command */
-    private final Set triggers;
+    private final Set m_triggers;
 
     /**
      * Creates a new Command instance.
      *
-     * @param preferredName
-     *            The name normally used to refer to the Command
-     * @param description
-     *            A description of the Command
-     * @param aliases
-     *            Alternative names for the Command
-     * @param required
-     *            Whether the Command is required
-     * @param argument
-     *            An Argument that the command takes
-     * @param children
-     *            The Group of child options for this Command
-     * @param id
-     *            A unique id for the Command
-     *
+     * @param preferredName the name normally used to refer to the Command
+     * @param description a description of the Command
+     * @param aliases alternative names for the Command
+     * @param required true if the Command is required
+     * @param argument an Argument that the command takes
+     * @param children the Group of child options for this Command
+     * @param id a unique id for the Command
      * @see ParentImpl#ParentImpl(Argument, Group, String, int, boolean)
      */
-    public Command(final String preferredName,
-                   final String description,
-                   final Set aliases,
-                   final boolean required,
-                   final Argument argument,
-                   final Group children,
-                   final int id) {
-        super(argument, children, description, id, required);
+    public Command(
+      final String preferredName, final String description, final Set aliases, 
+      final boolean required, final Argument argument, final Group children, final int id )
+    {
+        super( argument, children, description, id, required );
 
         // check the preferred name is valid
-        if ((preferredName == null) || (preferredName.length() < 1)) {
-            throw new IllegalArgumentException(ResourceHelper.getResourceHelper().getMessage(ResourceConstants.COMMAND_PREFERRED_NAME_TOO_SHORT));
+        if( ( preferredName == null ) || ( preferredName.length() < 1 ) )
+        {
+            throw new IllegalArgumentException(
+              ResourceHelper.getResourceHelper().getMessage(
+                ResourceConstants.COMMAND_PREFERRED_NAME_TOO_SHORT ) );
         }
 
-        this.preferredName = preferredName;
+        m_preferredName = preferredName;
 
         // gracefully and defensively handle aliases
-        this.aliases =
-            (aliases == null) ? Collections.EMPTY_SET
-                              : Collections.unmodifiableSet(new HashSet(aliases));
-
+        
+        if( null == aliases )
+        {
+            m_aliases = Collections.EMPTY_SET;
+        }
+        else
+        {
+            m_aliases = Collections.unmodifiableSet( new HashSet( aliases ) );
+        }
+        
         // populate the triggers Set
         final Set newTriggers = new HashSet();
-        newTriggers.add(preferredName);
-        newTriggers.addAll(this.aliases);
-        this.triggers = Collections.unmodifiableSet(newTriggers);
+        newTriggers.add( preferredName );
+        newTriggers.addAll( m_aliases );
+        m_triggers = Collections.unmodifiableSet( newTriggers );
     }
 
-    public void processParent(final WriteableCommandLine commandLine,
-                              final ListIterator arguments)
-        throws OptionException {
+    public void processParent(
+      final WriteableCommandLine commandLine, final ListIterator arguments )
+      throws OptionException
+    {
         // grab the argument to process
         final String arg = (String) arguments.next();
 
         // if we can process it
-        if (canProcess(commandLine, arg)) {
+        if( canProcess( commandLine, arg ) )
+        {
             // then note the option
-            commandLine.addOption(this);
+            commandLine.addOption( this );
 
             // normalise the argument list
-            arguments.set(preferredName);
-        } else {
-            throw new OptionException(this, ResourceConstants.UNEXPECTED_TOKEN, arg);
+            arguments.set( m_preferredName );
+        }
+        else
+        {
+            throw new OptionException(
+              this,
+              ResourceConstants.UNEXPECTED_TOKEN, 
+              arg );
         }
     }
 
-    public Set getTriggers() {
-        return triggers;
+    public Set getTriggers()
+    {
+        return m_triggers;
     }
 
-    public void validate(WriteableCommandLine commandLine)
-        throws OptionException {
-        if (isRequired() && !commandLine.hasOption(this)) {
-            throw new OptionException(this, ResourceConstants.OPTION_MISSING_REQUIRED,
-                                      getPreferredName());
+    public void validate( WriteableCommandLine commandLine ) throws OptionException
+    {
+        if( isRequired() && !commandLine.hasOption( this ) )
+        {
+            throw new OptionException(
+              this,
+              ResourceConstants.OPTION_MISSING_REQUIRED,
+              getPreferredName() );
         }
-
-        super.validate(commandLine);
+        super.validate( commandLine );
     }
 
-    public void appendUsage(final StringBuffer buffer,
-                            final Set helpSettings,
-                            final Comparator comp) {
+    public void appendUsage(
+      final StringBuffer buffer, final Set helpSettings, final Comparator comp )
+      {
         // do we display optionality
         final boolean optional =
-            !isRequired() && helpSettings.contains(DisplaySetting.DISPLAY_OPTIONAL);
-        final boolean displayAliases = helpSettings.contains(DisplaySetting.DISPLAY_ALIASES);
+          !isRequired() && helpSettings.contains( DisplaySetting.DISPLAY_OPTIONAL );
+        final boolean displayAliases = 
+          helpSettings.contains(DisplaySetting.DISPLAY_ALIASES);
 
-        if (optional) {
-            buffer.append('[');
+        if( optional )
+        {
+            buffer.append( '[' );
         }
 
-        buffer.append(preferredName);
+        buffer.append( m_preferredName );
 
-        if (displayAliases && !aliases.isEmpty()) {
-            buffer.append(" (");
-
-            final List list = new ArrayList(aliases);
-            Collections.sort(list);
-
-            for (final Iterator i = list.iterator(); i.hasNext();) {
+        if( displayAliases && !m_aliases.isEmpty() )
+        {
+            buffer.append( " (" );
+            final List list = new ArrayList( m_aliases );
+            Collections.sort( list );
+            for( final Iterator i = list.iterator(); i.hasNext(); )
+            {
                 final String alias = (String) i.next();
-                buffer.append(alias);
-
-                if (i.hasNext()) {
+                buffer.append( alias );
+                if( i.hasNext() )
+                {
                     buffer.append(',');
                 }
             }
-
-            buffer.append(')');
+            buffer.append( ')' );
         }
 
-        super.appendUsage(buffer, helpSettings, comp);
-
-        if (optional) {
-            buffer.append(']');
+        super.appendUsage( buffer, helpSettings, comp );
+        if( optional )
+        {
+            buffer.append( ']' );
         }
     }
 
-    public String getPreferredName() {
-        return preferredName;
+    public String getPreferredName()
+    {
+        return m_preferredName;
     }
 }

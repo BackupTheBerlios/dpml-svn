@@ -1,5 +1,6 @@
 /*
  * Copyright 2003-2005 The Apache Software Foundation
+ * Copyright 2005 Stephen McConnell
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,16 +19,17 @@ package net.dpml.cli.validation;
 /**
  * An exception indicating validation failure.
  *
- * @author Rob Oxspring
- * @author John Keyes
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
-public class InvalidArgumentException extends Exception {
-
+public class InvalidArgumentException extends Exception 
+{
     /**
      * Creates a new exception
      * @param message the reason for failure
      */
-    public InvalidArgumentException(final String message) {
-        super(message);
+    public InvalidArgumentException( final String message )
+    {
+        super( message );
     }
 }

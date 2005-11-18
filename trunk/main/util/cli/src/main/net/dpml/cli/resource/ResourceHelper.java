@@ -1,5 +1,6 @@
 /*
  * Copyright 2003-2005 The Apache Software Foundation
+ * Copyright 2005 Stephen McConnell
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,69 +25,81 @@ import java.util.ResourceBundle;
 /**
  * A utility class used to provide internationalisation support.
  *
- * @author John Keyes
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
-public class ResourceHelper {
+public class ResourceHelper
+{
     /** system property */
     private static final String PROP_LOCALE = "net.dpml.cli.resource.bundle";
 
     /** default package name */
     private static final String DEFAULT_BUNDLE =
         "net.dpml.cli.resource.CLIMessageBundle_en_US";
-    private static ResourceHelper helper;
+        
+    private static ResourceHelper m_HELPER;
 
     /** resource bundle */
-    private ResourceBundle bundle;
+    private ResourceBundle m_bundle;
 
-    private String prop;
+    private String m_prop;
     
     /**
      * Create a new ResourceHelper for the specified class.
      */
-    private ResourceHelper() {
-        String bundleName = System.getProperty(PROP_LOCALE);
+    private ResourceHelper() 
+    {
+        String bundleName = System.getProperty( PROP_LOCALE );
 
-        if (bundleName == null) {
+        if( bundleName == null )
+        {
             bundleName = DEFAULT_BUNDLE;
         }
 
-        this.prop = bundleName;
+        m_prop = bundleName;
         
-        int firstUnderscore = bundleName.indexOf('_');
-        int secondUnderscore = bundleName.indexOf('_', firstUnderscore + 1);
+        int firstUnderscore = bundleName.indexOf( '_' );
+        int secondUnderscore = bundleName.indexOf( '_', firstUnderscore + 1 );
 
         Locale locale;
-        if (firstUnderscore != -1) { 
-        String language = bundleName.substring(firstUnderscore + 1, secondUnderscore);
-        String country = bundleName.substring(secondUnderscore + 1);
-        	locale = new Locale(language, country);
+        if( firstUnderscore != -1 )
+        { 
+            String language = bundleName.substring( firstUnderscore + 1, secondUnderscore );
+            String country = bundleName.substring( secondUnderscore + 1 );
+            locale = new Locale( language, country );
         }
-        else {
-        	locale = Locale.getDefault();
+        else 
+        {
+            locale = Locale.getDefault();
         }
         // initialize the bundle
-        try {
-            bundle = ResourceBundle.getBundle(bundleName, locale);
-        } catch (MissingResourceException exp) {
-            bundle = ResourceBundle.getBundle(DEFAULT_BUNDLE, locale);
+        try 
+        {
+            m_bundle = ResourceBundle.getBundle( bundleName, locale );
+        } 
+        catch( MissingResourceException exp )
+        {
+            m_bundle = ResourceBundle.getBundle( DEFAULT_BUNDLE, locale );
         }
     }
 
-    public String getBundleName() {
-    	return this.prop;
+    public String getBundleName()
+    {
+        return m_prop;
     }
     
     /**
      * Gets the ResourceHelper appropriate to the specified class.
      * @return a ResourceHelper
      */
-    public static ResourceHelper getResourceHelper() {
-        String bundleName = System.getProperty(PROP_LOCALE);
-        if (helper == null || !helper.getBundleName().equals(bundleName)) {
-            helper = new ResourceHelper();
+    public static ResourceHelper getResourceHelper()
+    {
+        String bundleName = System.getProperty( PROP_LOCALE );
+        if( m_HELPER == null || !m_HELPER.getBundleName().equals( bundleName ) )
+        {
+            m_HELPER = new ResourceHelper();
         }
-
-        return helper;
+        return m_HELPER;
     }
 
     /**
@@ -95,8 +108,9 @@ public class ResourceHelper {
      * @param key the unique identifier of the message
      * @return String the formatted String
      */
-    public String getMessage(final String key) {
-        return getMessage(key, new Object[] {  });
+    public String getMessage( final String key )
+    {
+        return getMessage( key, new Object[0] );
     }
 
     /**
@@ -106,9 +120,9 @@ public class ResourceHelper {
      * @param value the argument value
      * @return String the formatted String
      */
-    public String getMessage(final String key,
-                             final Object value) {
-        return getMessage(key, new Object[] { value });
+    public String getMessage( final String key, final Object value )
+    {
+        return getMessage( key, new Object[]{value} );
     }
 
     /**
@@ -119,10 +133,10 @@ public class ResourceHelper {
      * @param value2 an argument value
      * @return String the formatted String
      */
-    public String getMessage(final String key,
-                             final Object value1,
-                             final Object value2) {
-        return getMessage(key, new Object[] { value1, value2 });
+    public String getMessage(
+      final String key, final Object value1, final Object value2 )
+    {
+        return getMessage( key, new Object[]{value1,value2} );
     }
 
     /**
@@ -135,11 +149,10 @@ public class ResourceHelper {
      *
      * @return String the formatted String
      */
-    public String getMessage(final String key,
-                             final Object value1,
-                             final Object value2,
-                             final Object value3) {
-        return getMessage(key, new Object[] { value1, value2, value3 });
+    public String getMessage(
+      final String key, final Object value1, final Object value2, final Object value3 )
+    {
+        return getMessage( key, new Object[]{value1, value2, value3} );
     }
 
     /**
@@ -149,11 +162,10 @@ public class ResourceHelper {
      * @param values argument values
      * @return String the formatted String
      */
-    public String getMessage(final String key,
-                             final Object[] values) {
-        final String msgFormatStr = bundle.getString(key);
-        final MessageFormat msgFormat = new MessageFormat(msgFormatStr);
-
-        return msgFormat.format(values);
+    public String getMessage( final String key, final Object[] values )
+    {
+        final String msgFormatStr = m_bundle.getString( key );
+        final MessageFormat msgFormat = new MessageFormat( msgFormatStr );
+        return msgFormat.format( values );
     }
 }

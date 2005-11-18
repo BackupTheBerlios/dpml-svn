@@ -1,5 +1,6 @@
 /*
  * Copyright 2003-2005 The Apache Software Foundation
+ * Copyright 2005 Stephen McConnell
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -29,27 +30,30 @@ import net.dpml.cli.resource.ResourceConstants;
 
 /**
  * Handles the java style "-Dprop=value" opions
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
-public class PropertyOption
-    extends OptionImpl {
+public class PropertyOption extends OptionImpl
+{
     public static final String DEFAULT_OPTION_STRING = "-D";
-    public static final String DEFAULT_DESCRIPTION =
-        "Set property values.";
+    public static final String DEFAULT_DESCRIPTION = "Set property values.";
 
     /**
      * A default PropertyOption instance
      */
     public static final PropertyOption INSTANCE = new PropertyOption();
-    private final String optionString;
-    private final String description;
-    private final Set prefixes;
+    
+    private final String m_optionString;
+    private final String m_description;
+    private final Set m_prefixes;
 
     /**
      * Creates a new PropertyOption using the default settings of a "-D" trigger
      * and an id of 'D'
      */
-    public PropertyOption() {
-        this(DEFAULT_OPTION_STRING, DEFAULT_DESCRIPTION, 'D');
+    public PropertyOption() 
+    {
+        this( DEFAULT_OPTION_STRING, DEFAULT_DESCRIPTION, 'D' );
     }
 
     /**
@@ -58,52 +62,63 @@ public class PropertyOption
      * @param description the description of the Option
      * @param id the id of the Option
      */
-    public PropertyOption(final String optionString,
-                          final String description,
-                          final int id) {
-        super(id, false);
-        this.optionString = optionString;
-        this.description = description;
-        this.prefixes = Collections.singleton(optionString);
+    public PropertyOption(
+      final String optionString, final String description, final int id )
+    {
+        super( id, false );
+        m_optionString = optionString;
+        m_description = description;
+        m_prefixes = Collections.singleton( optionString );
     }
 
-    public boolean canProcess(final WriteableCommandLine commandLine,
-                              final String argument) {
-        return (argument != null) && argument.startsWith(optionString) &&
-               (argument.length() > optionString.length());
+    public boolean canProcess(
+      final WriteableCommandLine commandLine, final String argument )
+    {
+        return ( argument != null ) 
+          && argument.startsWith( m_optionString ) 
+          && ( argument.length() > m_optionString.length() );
     }
 
-    public Set getPrefixes() {
-        return prefixes;
+    public Set getPrefixes() 
+    {
+        return m_prefixes;
     }
 
-    public void process(final WriteableCommandLine commandLine,
-                        final ListIterator arguments)
-        throws OptionException {
+    public void process(
+      final WriteableCommandLine commandLine, final ListIterator arguments )
+      throws OptionException 
+    {
         final String arg = (String) arguments.next();
 
-        if (!canProcess(commandLine, arg)) {
-            throw new OptionException(this, ResourceConstants.UNEXPECTED_TOKEN, arg);
+        if( !canProcess( commandLine, arg ) )
+        {
+            throw new OptionException(
+              this,
+              ResourceConstants.UNEXPECTED_TOKEN, 
+              arg );
         }
-
-        final int propertyStart = optionString.length();
-        final int equalsIndex = arg.indexOf('=', propertyStart);
+        
+        final int propertyStart = m_optionString.length();
+        final int equalsIndex = arg.indexOf( '=', propertyStart );
         final String property;
         final String value;
 
-        if (equalsIndex < 0) {
-            property = arg.substring(propertyStart);
+        if( equalsIndex < 0 )
+        {
+            property = arg.substring( propertyStart );
             value = "true";
-        } else {
-            property = arg.substring(propertyStart, equalsIndex);
-            value = arg.substring(equalsIndex + 1);
         }
-        commandLine.addProperty(property, value);
+        else
+        {
+            property = arg.substring( propertyStart, equalsIndex );
+            value = arg.substring( equalsIndex + 1 );
+        }
+        commandLine.addProperty( property, value );
     }
 
     public Set getTriggers()
     {
-        return Collections.singleton( optionString );
+        return Collections.singleton( m_optionString );
     }
 
     public void validate( WriteableCommandLine commandLine )
@@ -119,7 +134,7 @@ public class PropertyOption
 
         if( display )
         {
-            buffer.append(optionString);
+            buffer.append( m_optionString );
             if( bracketed ) 
             {
                 buffer.append( '<' );
@@ -144,12 +159,12 @@ public class PropertyOption
 
     public String getPreferredName() 
     {
-        return optionString;
+        return m_optionString;
     }
 
     public String getDescription()
     {
-        return description;
+        return m_description;
     }
 
     public List helpLines(
@@ -157,8 +172,8 @@ public class PropertyOption
     {
         if( helpSettings.contains( DisplaySetting.DISPLAY_PROPERTY_OPTION ) ) 
         {
-            final HelpLine helpLine = new HelpLineImpl(this, depth);
-            return Collections.singletonList(helpLine);
+            final HelpLine helpLine = new HelpLineImpl( this, depth );
+            return Collections.singletonList( helpLine );
         } 
         else
         {

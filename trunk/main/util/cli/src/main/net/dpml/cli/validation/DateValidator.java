@@ -1,5 +1,6 @@
 /*
  * Copyright 2003-2005 The Apache Software Foundation
+ * Copyright 2005 Stephen McConnell
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -56,31 +57,34 @@ import net.dpml.cli.resource.ResourceHelper;
  *            .withValidator(new DateValidator(timeFormat));
  * </pre>
  *
- * @author John Keyes
- *
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  * @see java.text.DateFormat
  */
-public class DateValidator implements Validator {
+public class DateValidator implements Validator 
+{
     /** i18n */
-    private static final ResourceHelper resources = ResourceHelper.getResourceHelper();
+    private static final ResourceHelper RESOURCES = 
+      ResourceHelper.getResourceHelper();
 
     /** an array of permitted DateFormats */
-    private DateFormat[] formats;
+    private DateFormat[] m_formats;
 
     /** minimum Date allowed i.e: a valid date occurs later than this date */
-    private Date minimum;
+    private Date m_minimum;
 
     /** maximum Date allowed i.e: a valid date occurs earlier than this date */
-    private Date maximum;
+    private Date m_maximum;
 
     /** leniant parsing */
-    private boolean isLenient;
+    private boolean m_isLenient;
 
     /**
      * Creates a Validator for the default date/time format
      */
-    public DateValidator() {
-        this(DateFormat.getInstance());
+    public DateValidator() 
+    {
+        this( DateFormat.getInstance() );
     }
 
     /**
@@ -89,22 +93,23 @@ public class DateValidator implements Validator {
      * @param format
      *            a DateFormat which dates must conform to
      */
-    public DateValidator(final DateFormat format) {
-        setFormat(format);
+    public DateValidator(final DateFormat format)
+    {
+        setFormat( format );
     }
 
     /**
      * Creates a Validator for the List of specified DateFormats.
      *
-     * @param formats
-     *            a List of DateFormats which dates must conform to
+     * @param formats a List of DateFormats which dates must conform to
      */
-    public DateValidator(final List formats) {
-        for (Iterator iter = formats.iterator(); iter.hasNext();) {
+    public DateValidator( final List formats )
+    {
+        for( Iterator iter = formats.iterator(); iter.hasNext(); )
+        {
             DateFormat format = (DateFormat) iter.next();
         }
-
-        setFormats(formats);
+        setFormats( formats );
     }
 
     /**
@@ -112,8 +117,9 @@ public class DateValidator implements Validator {
      *
      * @return DateValidator a Validator for dates
      */
-    public static DateValidator getDateInstance() {
-        return new DateValidator(DateFormat.getDateInstance());
+    public static DateValidator getDateInstance()
+    {
+        return new DateValidator( DateFormat.getDateInstance() );
     }
 
     /**
@@ -121,8 +127,9 @@ public class DateValidator implements Validator {
      *
      * @return DateValidator a Validator for times
      */
-    public static DateValidator getTimeInstance() {
-        return new DateValidator(DateFormat.getTimeInstance());
+    public static DateValidator getTimeInstance()
+    {
+        return new DateValidator( DateFormat.getTimeInstance() );
     }
 
     /**
@@ -130,8 +137,9 @@ public class DateValidator implements Validator {
      *
      * @return DateValidator a Validator for date/times
      */
-    public static DateValidator getDateTimeInstance() {
-        return new DateValidator(DateFormat.getDateTimeInstance());
+    public static DateValidator getDateTimeInstance()
+    {
+        return new DateValidator( DateFormat.getDateTimeInstance() );
     }
 
     /**
@@ -143,10 +151,10 @@ public class DateValidator implements Validator {
      *
      * @see net.dpml.cli.validation.Validator#validate(java.util.List)
      */
-    public void validate(final List values)
-        throws InvalidArgumentException {
+    public void validate( final List values ) throws InvalidArgumentException
+    {
         // for each value
-        for (final ListIterator i = values.listIterator(); i.hasNext();) 
+        for( final ListIterator i = values.listIterator(); i.hasNext(); ) 
         {
             final Object next = i.next();
             if( next instanceof Date )
@@ -159,46 +167,55 @@ public class DateValidator implements Validator {
             Date date = null;
 
             // create a resuable ParsePosition instance
-            final ParsePosition pp = new ParsePosition(0);
+            final ParsePosition pp = new ParsePosition( 0 );
 
             // for each permitted DateFormat
-            for (int f = 0; (f < this.formats.length) && (date == null); ++f) {
+            for( int f = 0; (f < m_formats.length) && (date == null); ++f )
+            {
                 // reset the parse position
-                pp.setIndex(0);
-                date = this.formats[f].parse(value, pp);
+                pp.setIndex( 0 );
+                date = m_formats[f].parse( value, pp );
 
                 // if the wrong number of characters have been parsed
-                if (pp.getIndex() < value.length()) {
+                if( pp.getIndex() < value.length() )
+                {
                     date = null;
                 }
             }
 
             // if date has not been set throw an InvalidArgumentException
-            if (date == null) {
-                throw new InvalidArgumentException(value);
+            if( date == null )
+            {
+                throw new InvalidArgumentException( value );
             }
 
             // if the date is outside the bounds
-            if (isDateEarlier(date) || isDateLater(date)) {
-                throw new InvalidArgumentException(resources.getMessage(ResourceConstants.DATEVALIDATOR_DATE_OUTOFRANGE,
-                                                                        value));
+            if( isDateEarlier( date ) || isDateLater( date ) )
+            {
+                throw new InvalidArgumentException(
+                  RESOURCES.getMessage(
+                    ResourceConstants.DATEVALIDATOR_DATE_OUTOFRANGE,
+                    value ) );
             }
 
             // replace the value in the list with the actual Date
-            i.set(date);
+            i.set( date );
         }
     }
 
-    public void setLeniant(final boolean lenient) {
-        for (int i = 0; i < this.formats.length; i++) {
-            this.formats[i].setLenient(lenient);
+    public void setLeniant( final boolean lenient )
+    {
+        for( int i = 0; i < m_formats.length; i++ )
+        {
+            m_formats[i].setLenient( lenient );
         }
 
-        this.isLenient = lenient;
+        m_isLenient = lenient;
     }
 
-    public boolean isLeniant() {
-        return this.isLenient;
+    public boolean isLeniant() 
+    {
+        return m_isLenient;
     }
 
     /**
@@ -207,8 +224,9 @@ public class DateValidator implements Validator {
      * @return Date the maximum date permitted. If no maximum date has been
      *         specified then return <code>null</code>.
      */
-    public Date getMaximum() {
-        return maximum;
+    public Date getMaximum()
+    {
+        return m_maximum;
     }
 
     /**
@@ -217,8 +235,9 @@ public class DateValidator implements Validator {
      * @param maximum
      *            the maximum Date permitted
      */
-    public void setMaximum(final Date maximum) {
-        this.maximum = maximum;
+    public void setMaximum( final Date maximum )
+    {
+        m_maximum = maximum;
     }
 
     /**
@@ -227,8 +246,9 @@ public class DateValidator implements Validator {
      * @return Date the minimum date permitted. If no minimum date has been
      *         specified then return <code>null</code>.
      */
-    public Date getMinimum() {
-        return minimum;
+    public Date getMinimum()
+    {
+        return m_minimum;
     }
 
     /**
@@ -237,8 +257,9 @@ public class DateValidator implements Validator {
      * @param minimum
      *            the minimum Date permitted
      */
-    public void setMinimum(Date minimum) {
-        this.minimum = minimum;
+    public void setMinimum( Date minimum )
+    {
+        m_minimum = minimum;
     }
 
     /**
@@ -250,21 +271,21 @@ public class DateValidator implements Validator {
      * @return boolean whether <code>date</code> is earlier than the maximum
      *         date
      */
-    private boolean isDateLater(Date date) {
-        return (maximum != null) && (date.getTime() > maximum.getTime());
+    private boolean isDateLater( Date date )
+    {
+        return ( m_maximum != null) && ( date.getTime() > m_maximum.getTime() );
     }
 
     /**
      * Returns whether the specified Date is earlier than the minimum date.
      *
-     * @param date
-     *            the Date to evaluate
-     *
+     * @param date the Date to evaluate
      * @return boolean whether <code>date</code> is earlier than the minimum
      *         date
      */
-    private boolean isDateEarlier(Date date) {
-        return (minimum != null) && (date.getTime() < minimum.getTime());
+    private boolean isDateEarlier( Date date )
+    {
+        return ( m_minimum != null ) && ( date.getTime() < m_minimum.getTime() );
     }
 
     /**
@@ -273,8 +294,9 @@ public class DateValidator implements Validator {
      * @param format
      *              the format to use
      */
-    public void setFormat(final DateFormat format) {
-        setFormats(new DateFormat[] { format });
+    public void setFormat( final DateFormat format )
+    {
+        setFormats( new DateFormat[]{format} );
     }
 
     /**
@@ -283,19 +305,20 @@ public class DateValidator implements Validator {
      * @param formats
      *               the List of DateFormats to use
      */
-    public void setFormats(final List formats) {
-        setFormats((DateFormat[]) formats.toArray(new DateFormat[formats.size()]));
+    public void setFormats( final List formats )
+    {
+        setFormats( (DateFormat[]) formats.toArray( new DateFormat[formats.size()] ) );
     }
 
     /**
      * Sets the date formats permitted.
      *
-     * @param formats
-     *               the array of DateFormats to use
+     * @param formats the array of DateFormats to use
      */
-    public void setFormats(final DateFormat[] formats) {
-        this.formats = formats;
-        setLeniant(this.isLenient);
+    public void setFormats( final DateFormat[] formats )
+    {
+        m_formats = formats;
+        setLeniant( m_isLenient );
     }
 
     /**
@@ -303,7 +326,8 @@ public class DateValidator implements Validator {
      *
      * @return the permitted formats
      */
-    public DateFormat[] getFormats() {
-        return this.formats;
+    public DateFormat[] getFormats()
+    {
+        return m_formats;
     }
 }

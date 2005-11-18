@@ -1,5 +1,6 @@
 /*
  * Copyright 2003-2005 The Apache Software Foundation
+ * Copyright 2005 Stephen McConnell
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,8 +25,8 @@ import java.util.List;
  * specific class instance e.g. the {@link UrlValidator} replaces
  * the string value with a {@link java.net.URL} instance.
  *
- * @author Rob Oxspring
- * @author John Keyes
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public interface Validator {
 
@@ -33,10 +34,9 @@ public interface Validator {
      * Validate the specified values (List of Strings).
      * 
      * @param values The values to validate.
-     * 
      * @throws InvalidArgumentException If any of the 
      * specified values are not valid.
      */
-    void validate(final List values) throws InvalidArgumentException;
+    void validate( List values ) throws InvalidArgumentException;
 
 }

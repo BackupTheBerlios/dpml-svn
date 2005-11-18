@@ -1,5 +1,6 @@
 /*
  * Copyright 2003-2005 The Apache Software Foundation
+ * Copyright 2005 Stephen McConnell
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -33,9 +34,12 @@ import net.dpml.cli.resource.ResourceConstants;
 
 /**
  * A Parent implementation representing normal options.
+ *
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
-public class DefaultOption
-    extends ParentImpl {
+public class DefaultOption extends ParentImpl
+{
     /**
      * The default token used to prefix a short option
      */
@@ -50,14 +54,15 @@ public class DefaultOption
      * The default value for the burstEnabled constructor parameter
      */
     public static final boolean DEFAULT_BURST_ENABLED = true;
-    private final String preferredName;
-    private final Set aliases;
-    private final Set burstAliases;
-    private final Set triggers;
-    private final Set prefixes;
-    private final String shortPrefix;
-    private final boolean burstEnabled;
-    private final int burstLength;
+    
+    private final String m_preferredName;
+    private final Set m_aliases;
+    private final Set m_burstAliases;
+    private final Set m_triggers;
+    private final Set m_prefixes;
+    private final String m_shortPrefix;
+    private final boolean m_burstEnabled;
+    private final int m_burstLength;
 
     /**
      * Creates a new DefaultOption
@@ -65,7 +70,8 @@ public class DefaultOption
      * @param shortPrefix the prefix used for short options
      * @param longPrefix the prefix used for long options
      * @param burstEnabled should option bursting be enabled
-     * @param preferredName the preferred name for this Option, this should begin with either shortPrefix or longPrefix
+     * @param preferredName the preferred name for this Option, this should 
+     *   begin with either shortPrefix or longPrefix
      * @param description a description of this Option
      * @param aliases the alternative names for this Option
      * @param burstAliases the aliases that can be burst
@@ -76,145 +82,179 @@ public class DefaultOption
      * @throws IllegalArgumentException if the preferredName or an alias isn't
      *     prefixed with shortPrefix or longPrefix
      */
-    public DefaultOption(final String shortPrefix,
-                         final String longPrefix,
-                         final boolean burstEnabled,
-                         final String preferredName,
-                         final String description,
-                         final Set aliases,
-                         final Set burstAliases,
-                         final boolean required,
-                         final Argument argument,
-                         final Group children,
-                         final int id) {
-        super(argument, children, description, id, required);
+    public DefaultOption(
+      final String shortPrefix, final String longPrefix, final boolean burstEnabled,
+      final String preferredName, final String description, final Set aliases,
+      final Set burstAliases, final boolean required, final Argument argument,
+      final Group children, final int id )
+    {
+        super( argument, children, description, id, required );
 
-        this.shortPrefix = shortPrefix;
-        this.burstEnabled = burstEnabled;
-
-        this.burstLength = shortPrefix.length() + 1;
-
-        this.preferredName = preferredName;
-        this.aliases =
-            (aliases == null) ? Collections.EMPTY_SET
-                              : Collections.unmodifiableSet(new HashSet(aliases));
-
-        this.burstAliases =
-            (burstAliases == null) ? Collections.EMPTY_SET
-                                   : Collections.unmodifiableSet(new HashSet(burstAliases));
-
+        m_shortPrefix = shortPrefix;
+        m_burstEnabled = burstEnabled;
+        m_burstLength = shortPrefix.length() + 1;
+        m_preferredName = preferredName;
+        
+        if( aliases == null )
+        {
+            m_aliases = Collections.EMPTY_SET;
+        }
+        else
+        {
+            m_aliases = Collections.unmodifiableSet( new HashSet( aliases ) );
+        }
+        
+        if( burstAliases == null )
+        {
+            m_burstAliases = Collections.EMPTY_SET;
+        }
+        else
+        {
+            m_burstAliases = Collections.unmodifiableSet( new HashSet( burstAliases ) );
+        }
+        
         final Set newTriggers = new HashSet();
-        newTriggers.add(preferredName);
-        newTriggers.addAll(this.aliases);
-        newTriggers.addAll(this.burstAliases);
-        this.triggers = Collections.unmodifiableSet(newTriggers);
+        newTriggers.add( m_preferredName );
+        newTriggers.addAll( m_aliases );
+        newTriggers.addAll( m_burstAliases );
+        m_triggers = Collections.unmodifiableSet( newTriggers );
 
-        final Set newPrefixes = new HashSet(super.getPrefixes());
-        newPrefixes.add(shortPrefix);
-        newPrefixes.add(longPrefix);
-        this.prefixes = Collections.unmodifiableSet(newPrefixes);
+        final Set newPrefixes = new HashSet( super.getPrefixes() );
+        newPrefixes.add( m_shortPrefix );
+        newPrefixes.add( longPrefix);
+        m_prefixes = Collections.unmodifiableSet( newPrefixes );
 
-        checkPrefixes(newPrefixes);
+        checkPrefixes( newPrefixes );
     }
 
-    public boolean canProcess(final WriteableCommandLine commandLine,
-                              final String argument) {
-        return (argument != null) &&
-               (super.canProcess(commandLine, argument) ||
-               ((argument.length() >= burstLength) &&
-               burstAliases.contains(argument.substring(0, burstLength))));
+    public boolean canProcess(
+      final WriteableCommandLine commandLine, final String argument )
+    {
+        return 
+          ( argument != null ) 
+          && ( 
+            super.canProcess( commandLine, argument ) 
+            || ( 
+              ( argument.length() >= m_burstLength ) 
+              && m_burstAliases.contains( 
+                argument.substring( 0, m_burstLength ) ) 
+            ) 
+          );
     }
 
-    public void processParent(WriteableCommandLine commandLine,
-                              ListIterator arguments)
-        throws OptionException {
+    public void processParent( WriteableCommandLine commandLine, ListIterator arguments )
+      throws OptionException 
+    {
         final String argument = (String) arguments.next();
 
-        if (triggers.contains(argument)) {
-            commandLine.addOption(this);
-            arguments.set(preferredName);
-        } else if (burstEnabled && (argument.length() >= burstLength)) {
-            final String burst = argument.substring(0, burstLength);
-
-            if (burstAliases.contains(burst)) {
-                commandLine.addOption(this);
-
+        if( m_triggers.contains( argument ) )
+        {
+            commandLine.addOption( this );
+            arguments.set( m_preferredName );
+        } 
+        else if( m_burstEnabled && ( argument.length() >= m_burstLength ) )
+        {
+            final String burst = argument.substring( 0, m_burstLength );
+            if( m_burstAliases.contains( burst ) )
+            {
+                commandLine.addOption( this );
                 //HMM test bursting all vs bursting one by one.
-                arguments.set(preferredName);
+                arguments.set( m_preferredName );
 
-                if (getArgument() == null) {
-                    arguments.add(shortPrefix + argument.substring(burstLength));
-                } else {
-                    arguments.add(argument.substring(burstLength));
+                if( getArgument() == null )
+                {
+                    arguments.add( m_shortPrefix + argument.substring( m_burstLength ) );
                 }
-
+                else
+                {
+                    arguments.add( argument.substring( m_burstLength ) );
+                }
                 arguments.previous();
-            } else {
-                throw new OptionException(this, ResourceConstants.CANNOT_BURST, argument);
+            } 
+            else
+            {
+                throw new OptionException(
+                  this, ResourceConstants.CANNOT_BURST, argument );
             }
-        } else {
-            throw new OptionException(this, ResourceConstants.UNEXPECTED_TOKEN, argument);
+        }
+        else
+        {
+            throw new OptionException(
+              this, 
+              ResourceConstants.UNEXPECTED_TOKEN,
+              argument );
         }
     }
 
-    public Set getTriggers() {
-        return triggers;
+    public Set getTriggers()
+    {
+        return m_triggers;
     }
 
-    public Set getPrefixes() {
-        return prefixes;
+    public Set getPrefixes() 
+    {
+        return m_prefixes;
     }
 
-    public void validate(WriteableCommandLine commandLine)
-        throws OptionException {
-        if (isRequired() && !commandLine.hasOption(this)) {
-            throw new OptionException(this, ResourceConstants.OPTION_MISSING_REQUIRED,
-                                      getPreferredName());
+    public void validate( WriteableCommandLine commandLine )
+      throws OptionException
+    {
+        if( isRequired() && !commandLine.hasOption( this ) )
+        {
+            throw new OptionException(
+              this,
+              ResourceConstants.OPTION_MISSING_REQUIRED,
+              getPreferredName() );
         }
-
-        super.validate(commandLine);
+        super.validate( commandLine );
     }
 
-    public void appendUsage(final StringBuffer buffer,
-                            final Set helpSettings,
-                            final Comparator comp) {
+    public void appendUsage(
+      final StringBuffer buffer, final Set helpSettings, final Comparator comp )
+    {
         // do we display optionality
         final boolean optional =
-            !isRequired() && helpSettings.contains(DisplaySetting.DISPLAY_OPTIONAL);
-        final boolean displayAliases = helpSettings.contains(DisplaySetting.DISPLAY_ALIASES);
+          !isRequired() 
+          && helpSettings.contains( DisplaySetting.DISPLAY_OPTIONAL );
+          
+        final boolean displayAliases = 
+          helpSettings.contains( DisplaySetting.DISPLAY_ALIASES );
 
-        if (optional) {
-            buffer.append('[');
+        if( optional )
+        {
+            buffer.append( '[' );
         }
 
-        buffer.append(preferredName);
+        buffer.append( m_preferredName );
 
-        if (displayAliases && !aliases.isEmpty()) {
-            buffer.append(" (");
+        if( displayAliases && !m_aliases.isEmpty()) 
+        {
+            buffer.append( " (" );
 
-            final List list = new ArrayList(aliases);
-            Collections.sort(list);
-
-            for (final Iterator i = list.iterator(); i.hasNext();) {
+            final List list = new ArrayList( m_aliases );
+            Collections.sort( list );
+            for( final Iterator i = list.iterator(); i.hasNext(); )
+            {
                 final String alias = (String) i.next();
-                buffer.append(alias);
-
-                if (i.hasNext()) {
-                    buffer.append(',');
+                buffer.append( alias );
+                if( i.hasNext() )
+                {
+                    buffer.append( ',' );
                 }
             }
-
-            buffer.append(')');
+            buffer.append( ')' );
         }
 
-        super.appendUsage(buffer, helpSettings, comp);
+        super.appendUsage( buffer, helpSettings, comp );
 
-        if (optional) {
-            buffer.append(']');
+        if( optional )
+        {
+            buffer.append( ']' );
         }
     }
 
-    public String getPreferredName() {
-        return preferredName;
+    public String getPreferredName()
+    {
+        return m_preferredName;
     }
 }

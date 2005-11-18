@@ -1,5 +1,6 @@
 /*
  * Copyright 2003-2005 The Apache Software Foundation
+ * Copyright 2005 Stephen McConnell
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -51,17 +52,18 @@ import java.util.ListIterator;
  *            .withValidator(validator);
  * </pre>
  * 
- * @author Rob Oxspring
- * @author John Keyes
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
-public class FileValidator implements Validator {
-
+public class FileValidator implements Validator
+{
     /**
      * Returns a <code>FileValidator</code> for existing files/directories.
      *
      * @return a <code>FileValidator</code> for existing files/directories.
      */
-    public static FileValidator getExistingInstance() {
+    public static FileValidator getExistingInstance() 
+    {
         final FileValidator validator = new FileValidator();
         validator.setExisting(true);
         return validator;
@@ -72,10 +74,11 @@ public class FileValidator implements Validator {
      *
      * @return a <code>FileValidator</code> for existing files.
      */
-    public static FileValidator getExistingFileInstance() {
+    public static FileValidator getExistingFileInstance()
+    {
         final FileValidator validator = new FileValidator();
-        validator.setExisting(true);
-        validator.setFile(true);
+        validator.setExisting( true );
+        validator.setFile( true );
         return validator;
     }
 
@@ -84,27 +87,28 @@ public class FileValidator implements Validator {
      *
      * @return a <code>FileValidator</code> for existing directories.
      */
-    public static FileValidator getExistingDirectoryInstance() {
+    public static FileValidator getExistingDirectoryInstance()
+    {
         final FileValidator validator = new FileValidator();
-        validator.setExisting(true);
-        validator.setDirectory(true);
+        validator.setExisting( true );
+        validator.setDirectory( true );
         return validator;
     }
 
     /** whether the argument value is readable */
-    private boolean readable = false;
+    private boolean m_readable = false;
     
     /** whether the argument value is writable */
-    private boolean writable = false;
+    private boolean m_writable = false;
     
     /** whether the argument value exists */
-    private boolean existing = false;
+    private boolean m_existing = false;
     
     /** whether the argument value is a directory */
-    private boolean directory = false;
+    private boolean m_directory = false;
     
     /** whether the argument value is a file */
-    private boolean file = false;
+    private boolean m_file = false;
 
     /** whether the argument value is a hidden file or directory */
     //private boolean hidden = false;
@@ -116,7 +120,7 @@ public class FileValidator implements Validator {
      * 
      * @see net.dpml.cli.validation.Validator#validate(java.util.List)
      */
-    public void validate(final List values) throws InvalidArgumentException 
+    public void validate( final List values ) throws InvalidArgumentException 
     {
         for( final ListIterator i = values.listIterator(); i.hasNext(); ) 
         {
@@ -127,12 +131,12 @@ public class FileValidator implements Validator {
             }
             final String name = (String) next;
             final File f = new File(name);
-            if ((existing && !f.exists() )
-                || ( file && !f.isFile() )
-                || ( directory && !f.isDirectory() )
-                //|| ( hidden && !f.isHidden() )
-                || ( readable && !f.canRead() )
-                || ( writable && !f.canWrite() ) ) 
+            if ( ( m_existing && !f.exists() )
+                || ( m_file && !f.isFile() )
+                || ( m_directory && !f.isDirectory() )
+                //|| ( m_hidden && !f.isHidden() )
+                || ( m_readable && !f.canRead() )
+                || ( m_writable && !f.canWrite() ) ) 
             {
                 throw new InvalidArgumentException( name );
             }
@@ -145,8 +149,9 @@ public class FileValidator implements Validator {
      *
      * @return whether the argument values must represent directories.
      */
-    public boolean isDirectory() {
-        return directory;
+    public boolean isDirectory()
+    {
+        return m_directory;
     }
 
     /**
@@ -155,8 +160,9 @@ public class FileValidator implements Validator {
      * @param directory specifies whether the argument values must 
      * represent directories.
      */
-    public void setDirectory(boolean directory) {
-        this.directory = directory;
+    public void setDirectory( boolean directory )
+    {
+        m_directory = directory;
     }
 
     /**
@@ -166,8 +172,9 @@ public class FileValidator implements Validator {
      * @return whether the argument values must represent existing 
      * files/directories.
      */
-    public boolean isExisting() {
-        return existing;
+    public boolean isExisting()
+    {
+        return m_existing;
     }
 
     /**
@@ -177,8 +184,9 @@ public class FileValidator implements Validator {
      * @param existing specifies whether the argument values must 
      * represent existing files/directories.
      */
-    public void setExisting(boolean existing) {
-        this.existing = existing;
+    public void setExisting( boolean existing )
+    {
+        m_existing = existing;
     }
 
     /**
@@ -186,8 +194,9 @@ public class FileValidator implements Validator {
      *
      * @return whether the argument values must represent directories.
      */
-    public boolean isFile() {
-        return file;
+    public boolean isFile()
+    {
+        return m_file;
     }
 
     /**
@@ -196,8 +205,9 @@ public class FileValidator implements Validator {
      * @param file specifies whether the argument values must 
      * represent files.
      */
-    public void setFile(boolean file) {
-        this.file = file;
+    public void setFile( boolean file )
+    {
+        m_file = file;
     }
 
     /**
@@ -208,8 +218,9 @@ public class FileValidator implements Validator {
      * files/directories.
      */
      /*
-    public boolean isHidden() {
-        return hidden;
+    public boolean isHidden() 
+    {
+        return m_hidden;
     }
     */
 
@@ -221,8 +232,9 @@ public class FileValidator implements Validator {
      * represent hidden files/directories.
      */
      /*
-    public void setHidden(boolean hidden) {
-        this.hidden = hidden;
+    public void setHidden( boolean hidden )
+    {
+        m_hidden = hidden;
     }
     */
 
@@ -233,8 +245,9 @@ public class FileValidator implements Validator {
      * @return whether the argument values must represent readable 
      * files/directories.
      */
-    public boolean isReadable() {
-        return readable;
+    public boolean isReadable()
+    {
+        return m_readable;
     }
 
     /**
@@ -244,8 +257,9 @@ public class FileValidator implements Validator {
      * @param readable specifies whether the argument values must 
      * represent readable files/directories.
      */
-    public void setReadable(boolean readable) {
-        this.readable = readable;
+    public void setReadable( boolean readable ) 
+    {
+        m_readable = readable;
     }
 
     /**
@@ -255,8 +269,9 @@ public class FileValidator implements Validator {
      * @return whether the argument values must represent writable 
      * files/directories.
      */
-    public boolean isWritable() {
-        return writable;
+    public boolean isWritable()
+    {
+        return m_writable;
     }
 
     /**
@@ -266,7 +281,8 @@ public class FileValidator implements Validator {
      * @param writable specifies whether the argument values must 
      * represent writable files/directories.
      */
-    public void setWritable(boolean writable) {
-        this.writable = writable;
+    public void setWritable( boolean writable )
+    {
+        m_writable = writable;
     }
 }

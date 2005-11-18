@@ -1,5 +1,6 @@
 /*
  * Copyright 2003-2005 The Apache Software Foundation
+ * Copyright 2005 Stephen McConnell
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -41,37 +42,40 @@ import net.dpml.cli.resource.ResourceHelper;
  *            .withValidator(new EnumValidator(values));
  * </pre>
  *
- * @author John Keyes
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
-public class EnumValidator implements Validator {
+public class EnumValidator implements Validator
+{
     /** List of permitted values */
-    private Set validValues;
+    private Set m_validValues;
 
     /**
      * Creates a new EnumValidator for the specified values.
      *
      * @param values The list of permitted values
      */
-    public EnumValidator(final Set values) {
-        setValidValues(values);
+    public EnumValidator( final Set values )
+    {
+        setValidValues( values );
     }
 
     /**
      * Validate the list of values against the list of permitted values.
      *
-     * @see net.dpml.cli.validation.Validator#validate(java.util.List)
+     * @see net.dpml.cli.validation.Validator#validate( java.util.List )
      */
-    public void validate(final List values)
-        throws InvalidArgumentException {
-        for (final Iterator iter = values.iterator(); iter.hasNext();) {
+    public void validate( final List values ) throws InvalidArgumentException
+    {
+        for( final Iterator iter = values.iterator(); iter.hasNext(); ) 
+        {
             final String value = (String) iter.next();
-
-            if (!this.validValues.contains(value)) {
-                throw new InvalidArgumentException(ResourceHelper.getResourceHelper().getMessage(ResourceConstants.ENUM_ILLEGAL_VALUE,
-                                                                                                 new Object[] {
-                                                                                                     value,
-                                                                                                     getValuesAsString()
-                                                                                                 }));
+            if( !m_validValues.contains( value ) )
+            {
+                throw new InvalidArgumentException(
+                  ResourceHelper.getResourceHelper().getMessage(
+                    ResourceConstants.ENUM_ILLEGAL_VALUE,
+                    new Object[]{value, getValuesAsString()} ) );
             }
         }
     }
@@ -81,21 +85,19 @@ public class EnumValidator implements Validator {
      *
      * @return String formatted list of values
      */
-    String getValuesAsString() {
+    String getValuesAsString()
+    {
         final StringBuffer buff = new StringBuffer();
-
-        buff.append("[");
-
-        for (final Iterator iter = this.validValues.iterator(); iter.hasNext();) {
-            buff.append("'").append(iter.next()).append("'");
-
-            if (iter.hasNext()) {
-                buff.append(", ");
+        buff.append( "[" );
+        for( final Iterator iter = m_validValues.iterator(); iter.hasNext(); )
+        {
+            buff.append( "'" ).append( iter.next()).append( "'" );
+            if( iter.hasNext() )
+            {
+                buff.append( ", " );
             }
         }
-
-        buff.append("]");
-
+        buff.append( "]" );
         return buff.toString();
     }
 
@@ -104,8 +106,9 @@ public class EnumValidator implements Validator {
      *
      * @return Returns the Set of valid argument values.
      */
-    public Set getValidValues() {
-        return validValues;
+    public Set getValidValues()
+    {
+        return m_validValues;
     }
 
     /**
@@ -113,7 +116,8 @@ public class EnumValidator implements Validator {
      *
      * @param validValues The Set of valid argument values.
      */
-    protected void setValidValues(Set validValues) {
-        this.validValues = validValues;
+    protected void setValidValues( Set validValues )
+    {
+        m_validValues = validValues;
     }
 }

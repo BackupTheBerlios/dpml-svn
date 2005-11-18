@@ -1,5 +1,6 @@
 /*
  * Copyright 2003-2005 The Apache Software Foundation
+ * Copyright 2005 Stephen McConnell
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -48,25 +49,27 @@ import net.dpml.cli.resource.ResourceHelper;
  *            .withValidator(validator);
  * </pre>
  *
- * @author Rob Oxspring
- * @author John Keyes
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
-public class NumberValidator implements Validator {
+public class NumberValidator implements Validator
+{
     /** the <code>NumberFormat</code> being used. */
-    private NumberFormat format;
+    private NumberFormat m_format;
 
     /** the lower bound for argument values. */
-    private Number minimum = null;
+    private Number m_minimum = null;
 
     /** the upper bound for argument values */
-    private Number maximum = null;
+    private Number m_maximum = null;
 
     /**
      * Creates a new NumberValidator based on the specified NumberFormat
      * @param format the format of numbers to accept
      */
-    public NumberValidator(final NumberFormat format) {
-        setFormat(format);
+    public NumberValidator( final NumberFormat format ) 
+    {
+        setFormat( format );
     }
 
     /**
@@ -75,8 +78,9 @@ public class NumberValidator implements Validator {
      * @return a <code>NumberValidator</code> for a currency format
      * for the current default locale.
      */
-    public static NumberValidator getCurrencyInstance() {
-        return new NumberValidator(NumberFormat.getCurrencyInstance());
+    public static NumberValidator getCurrencyInstance() 
+    {
+        return new NumberValidator( NumberFormat.getCurrencyInstance() );
     }
 
     /**
@@ -85,11 +89,11 @@ public class NumberValidator implements Validator {
      * @return a <code>NumberValidator</code> for an integer number format
      * for the current default locale.
      */
-    public static NumberValidator getIntegerInstance() {
+    public static NumberValidator getIntegerInstance()
+    {
         final NumberFormat format = NumberFormat.getNumberInstance();
-        format.setParseIntegerOnly(true);
-
-        return new NumberValidator(format);
+        format.setParseIntegerOnly( true );
+        return new NumberValidator( format );
     }
 
     /**
@@ -98,8 +102,9 @@ public class NumberValidator implements Validator {
      * @return a <code>NumberValidator</code> for a percentage format
      * for the current default locale.
      */
-    public static NumberValidator getPercentInstance() {
-        return new NumberValidator(NumberFormat.getPercentInstance());
+    public static NumberValidator getPercentInstance() 
+    {
+        return new NumberValidator( NumberFormat.getPercentInstance() );
     }
 
     /**
@@ -108,8 +113,9 @@ public class NumberValidator implements Validator {
      * @return a <code>NumberValidator</code> for a general-purpose
      * number format for the current default locale.
      */
-    public static NumberValidator getNumberInstance() {
-        return new NumberValidator(NumberFormat.getNumberInstance());
+    public static NumberValidator getNumberInstance()
+    {
+        return new NumberValidator( NumberFormat.getNumberInstance() );
     }
 
     /**
@@ -130,14 +136,14 @@ public class NumberValidator implements Validator {
             }
             final String value = (String) next;
             final ParsePosition pp = new ParsePosition( 0 );
-            final Number number = format.parse( value, pp );
+            final Number number = m_format.parse( value, pp );
             if( pp.getIndex() < value.length() )
             {
                 throw new InvalidArgumentException( value );
             }
-            if( 
-              ( ( minimum != null ) && ( number.doubleValue() < minimum.doubleValue() ) ) 
-              || ( ( maximum != null ) && ( number.doubleValue() > maximum.doubleValue() ) )
+            if(
+              ( ( m_minimum != null ) && ( number.doubleValue() < m_minimum.doubleValue() ) ) 
+              || ( ( m_maximum != null ) && ( number.doubleValue() > m_maximum.doubleValue() ) )
             ) 
             {
                 throw new InvalidArgumentException(
@@ -154,8 +160,9 @@ public class NumberValidator implements Validator {
      *
      * @return the format being used to validate argument values against.
      */
-    public NumberFormat getFormat() {
-        return format;
+    public NumberFormat getFormat() 
+    {
+        return m_format;
     }
 
     /**
@@ -163,8 +170,9 @@ public class NumberValidator implements Validator {
      *
      * @param format the format being used to validate argument values against.
      */
-    protected void setFormat(NumberFormat format) {
-        this.format = format;
+    protected void setFormat( NumberFormat format ) 
+    {
+        m_format = format;
     }
 
     /**
@@ -172,8 +180,9 @@ public class NumberValidator implements Validator {
      *
      * @return the maximum value allowed for an argument value.
      */
-    public Number getMaximum() {
-        return maximum;
+    public Number getMaximum() 
+    {
+        return m_maximum;
     }
 
     /**
@@ -181,8 +190,9 @@ public class NumberValidator implements Validator {
      *
      * @param maximum the maximum value allowed for an argument value.
      */
-    public void setMaximum(Number maximum) {
-        this.maximum = maximum;
+    public void setMaximum( Number maximum )
+    {
+        m_maximum = maximum;
     }
 
     /**
@@ -190,8 +200,9 @@ public class NumberValidator implements Validator {
      *
      * @return the minimum value allowed for an argument value.
      */
-    public Number getMinimum() {
-        return minimum;
+    public Number getMinimum()
+    {
+        return m_minimum;
     }
 
     /**
@@ -199,7 +210,8 @@ public class NumberValidator implements Validator {
      *
      * @param minimum the minimum value allowed for an argument value.
      */
-    public void setMinimum(Number minimum) {
-        this.minimum = minimum;
+    public void setMinimum( Number minimum )
+    {
+        m_minimum = minimum;
     }
 }

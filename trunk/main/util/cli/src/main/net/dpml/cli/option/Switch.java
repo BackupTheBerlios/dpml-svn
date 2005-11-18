@@ -1,5 +1,6 @@
 /*
  * Copyright 2003-2005 The Apache Software Foundation
+ * Copyright 2005 Stephen McConnell
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -35,11 +36,14 @@ import net.dpml.cli.resource.ResourceHelper;
 /**
  * A Parent implementation representing normal switch options.
  * For example: <code>+d|-d</code> or <code>--enable-x|--disable-x</code>.
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
-public class Switch
-    extends ParentImpl {
+public class Switch extends ParentImpl
+{
     /** i18n */
-    public static final ResourceHelper resources = ResourceHelper.getResourceHelper();
+    public static final ResourceHelper resources = 
+      ResourceHelper.getResourceHelper();
 
     /**
      * The default prefix for enabled switches
@@ -50,13 +54,14 @@ public class Switch
      * The default prefix for disabled switches
      */
     public static final String DEFAULT_DISABLED_PREFIX = "-";
-    private final String enabledPrefix;
-    private final String disabledPrefix;
-    private final Set triggers;
-    private final String preferredName;
-    private final Set aliases;
-    private final Set prefixes;
-    private final Boolean defaultSwitch;
+    
+    private final String m_enabledPrefix;
+    private final String m_disabledPrefix;
+    private final Set m_triggers;
+    private final String m_preferredName;
+    private final Set m_aliases;
+    private final Set m_prefixes;
+    private final Boolean m_defaultSwitch;
 
     /**
      * Creates a new Switch with the specified parameters
@@ -72,176 +77,218 @@ public class Switch
      * @throws IllegalArgumentException if the preferredName or an alias isn't
      *     prefixed with enabledPrefix or disabledPrefix
      */
-    public Switch(final String enabledPrefix,
-                  final String disabledPrefix,
-                  final String preferredName,
-                  final Set aliases,
-                  final String description,
-                  final boolean required,
-                  final Argument argument,
-                  final Group children,
-                  final int id,
-                  final Boolean switchDefault) {
-        super(argument, children, description, id, required);
+    public Switch(
+      final String enabledPrefix, final String disabledPrefix, final String preferredName,
+      final Set aliases, final String description, final boolean required,
+      final Argument argument, final Group children, final int id, 
+      final Boolean switchDefault )
+    {
+        super( argument, children, description, id, required );
 
-        if (enabledPrefix == null) {
-            throw new IllegalArgumentException(resources.getMessage(ResourceConstants.SWITCH_NO_ENABLED_PREFIX));
+        if( enabledPrefix == null )
+        {
+            throw new IllegalArgumentException(
+              resources.getMessage( 
+                ResourceConstants.SWITCH_NO_ENABLED_PREFIX ) );
         }
 
-        if (disabledPrefix == null) {
-            throw new IllegalArgumentException(resources.getMessage(ResourceConstants.SWITCH_NO_DISABLED_PREFIX));
+        if( disabledPrefix == null )
+        {
+            throw new IllegalArgumentException(
+              resources.getMessage( 
+                ResourceConstants.SWITCH_NO_DISABLED_PREFIX ) );
         }
 
-        if (enabledPrefix.startsWith(disabledPrefix)) {
-            throw new IllegalArgumentException(resources.getMessage(ResourceConstants.SWITCH_ENABLED_STARTS_WITH_DISABLED));
+        if( enabledPrefix.startsWith(disabledPrefix ) )
+        {
+            throw new IllegalArgumentException(
+              resources.getMessage( 
+                ResourceConstants.SWITCH_ENABLED_STARTS_WITH_DISABLED ) );
         }
 
-        if (disabledPrefix.startsWith(enabledPrefix)) {
-            throw new IllegalArgumentException(resources.getMessage(ResourceConstants.SWITCH_DISABLED_STARTWS_WITH_ENABLED));
+        if( disabledPrefix.startsWith( enabledPrefix ) )
+        {
+            throw new IllegalArgumentException(
+              resources.getMessage( 
+                ResourceConstants.SWITCH_DISABLED_STARTWS_WITH_ENABLED ) );
         }
 
-        this.enabledPrefix = enabledPrefix;
-        this.disabledPrefix = disabledPrefix;
-        this.preferredName = preferredName;
+        m_enabledPrefix = enabledPrefix;
+        m_disabledPrefix = disabledPrefix;
+        m_preferredName = preferredName;
 
-        if ((preferredName == null) || (preferredName.length() < 1)) {
-            throw new IllegalArgumentException(resources.getMessage(ResourceConstants.SWITCH_PREFERRED_NAME_TOO_SHORT));
+        if( ( preferredName == null) || ( preferredName.length() < 1 ) )
+        {
+            throw new IllegalArgumentException(
+              resources.getMessage(
+                ResourceConstants.SWITCH_PREFERRED_NAME_TOO_SHORT ) );
         }
 
         final Set newTriggers = new HashSet();
-        newTriggers.add(enabledPrefix + preferredName);
-        newTriggers.add(disabledPrefix + preferredName);
-        this.triggers = Collections.unmodifiableSet(newTriggers);
+        newTriggers.add( enabledPrefix + preferredName );
+        newTriggers.add( disabledPrefix + preferredName );
+        m_triggers = Collections.unmodifiableSet( newTriggers );
 
-        if (aliases == null) {
-            this.aliases = Collections.EMPTY_SET;
-        } else {
-            this.aliases = Collections.unmodifiableSet(new HashSet(aliases));
+        if( aliases == null )
+        {
+            m_aliases = Collections.EMPTY_SET;
+        } 
+        else
+        {
+            m_aliases = Collections.unmodifiableSet( new HashSet( aliases ) );
 
-            for (final Iterator i = aliases.iterator(); i.hasNext();) {
+            for( final Iterator i = aliases.iterator(); i.hasNext(); )
+            {
                 final String alias = (String) i.next();
-                newTriggers.add(enabledPrefix + alias);
-                newTriggers.add(disabledPrefix + alias);
+                newTriggers.add( enabledPrefix + alias );
+                newTriggers.add( disabledPrefix + alias );
             }
         }
 
-        final Set newPrefixes = new HashSet(super.getPrefixes());
-        newPrefixes.add(enabledPrefix);
-        newPrefixes.add(disabledPrefix);
-        this.prefixes = Collections.unmodifiableSet(newPrefixes);
-
-        this.defaultSwitch = switchDefault;
-
-        checkPrefixes(newPrefixes);
+        final Set newPrefixes = new HashSet( super.getPrefixes() );
+        newPrefixes.add( enabledPrefix );
+        newPrefixes.add( disabledPrefix );
+        m_prefixes = Collections.unmodifiableSet( newPrefixes );
+        m_defaultSwitch = switchDefault;
+        checkPrefixes( newPrefixes );
     }
 
-    public void processParent(final WriteableCommandLine commandLine,
-                              final ListIterator arguments)
-        throws OptionException {
+    public void processParent(
+      final WriteableCommandLine commandLine, final ListIterator arguments )
+      throws OptionException
+    {
         final String arg = (String) arguments.next();
 
-        if (canProcess(commandLine, arg)) {
-            if (arg.startsWith(enabledPrefix)) {
-                commandLine.addSwitch(this, true);
-                arguments.set(enabledPrefix + preferredName);
+        if( canProcess( commandLine, arg ) )
+        {
+            if( arg.startsWith( m_enabledPrefix ) )
+            {
+                commandLine.addSwitch( this, true );
+                arguments.set( m_enabledPrefix + m_preferredName );
             }
-
-            if (arg.startsWith(disabledPrefix)) {
-                commandLine.addSwitch(this, false);
-                arguments.set(disabledPrefix + preferredName);
+            if( arg.startsWith( m_disabledPrefix ) )
+            {
+                commandLine.addSwitch( this, false );
+                arguments.set( m_disabledPrefix + m_preferredName );
             }
-        } else {
-            throw new OptionException(this, ResourceConstants.UNEXPECTED_TOKEN, arg);
+        } 
+        else
+        {
+            throw new OptionException(
+              this, 
+              ResourceConstants.UNEXPECTED_TOKEN, 
+              arg );
         }
     }
 
-    public Set getTriggers() {
-        return triggers;
+    public Set getTriggers() 
+    {
+        return m_triggers;
     }
 
-    public Set getPrefixes() {
-        return prefixes;
+    public Set getPrefixes() 
+    {
+        return m_prefixes;
     }
 
-    public void validate(WriteableCommandLine commandLine)
-        throws OptionException {
-        if (isRequired() && !commandLine.hasOption(this)) {
-            throw new OptionException(this, ResourceConstants.OPTION_MISSING_REQUIRED,
-                                      getPreferredName());
+    public void validate( WriteableCommandLine commandLine )
+      throws OptionException
+    {
+        if( isRequired() && !commandLine.hasOption( this ) )
+        {
+            throw new OptionException(
+              this, 
+              ResourceConstants.OPTION_MISSING_REQUIRED,
+              getPreferredName() );
         }
-
-        super.validate(commandLine);
+        super.validate( commandLine );
     }
 
-    public void appendUsage(final StringBuffer buffer,
-                            final Set helpSettings,
-                            final Comparator comp) {
+    public void appendUsage(
+      final StringBuffer buffer, final Set helpSettings, final Comparator comp )
+    {
         // do we display optionality
         final boolean optional =
-            !isRequired() && helpSettings.contains(DisplaySetting.DISPLAY_OPTIONAL);
-        final boolean displayAliases = helpSettings.contains(DisplaySetting.DISPLAY_ALIASES);
-        final boolean disabled = helpSettings.contains(DisplaySetting.DISPLAY_SWITCH_DISABLED);
+          !isRequired() 
+          && helpSettings.contains( DisplaySetting.DISPLAY_OPTIONAL );
+          
+        final boolean displayAliases = 
+          helpSettings.contains( DisplaySetting.DISPLAY_ALIASES );
+        final boolean disabled = 
+          helpSettings.contains( DisplaySetting.DISPLAY_SWITCH_DISABLED );
         final boolean enabled =
-            !disabled || helpSettings.contains(DisplaySetting.DISPLAY_SWITCH_ENABLED);
+            !disabled || helpSettings.contains( DisplaySetting.DISPLAY_SWITCH_ENABLED );
         final boolean both = disabled && enabled;
 
-        if (optional) {
-            buffer.append('[');
+        if( optional )
+        {
+            buffer.append( '[' );
         }
 
-        if (enabled) {
-            buffer.append(enabledPrefix).append(preferredName);
+        if( enabled )
+        {
+            buffer.append( m_enabledPrefix ).append( m_preferredName );
         }
 
-        if (both) {
-            buffer.append('|');
+        if( both )
+        {
+            buffer.append( '|' );
         }
 
-        if (disabled) {
-            buffer.append(disabledPrefix).append(preferredName);
+        if( disabled )
+        {
+            buffer.append( m_disabledPrefix ).append( m_preferredName );
         }
 
-        if (displayAliases && !aliases.isEmpty()) {
+        if( displayAliases && !m_aliases.isEmpty() )
+        {
             buffer.append(" (");
 
-            final List list = new ArrayList(aliases);
-            Collections.sort(list);
-
-            for (final Iterator i = list.iterator(); i.hasNext();) {
+            final List list = new ArrayList( m_aliases );
+            Collections.sort( list );
+            for( final Iterator i = list.iterator(); i.hasNext(); )
+            {
                 final String alias = (String) i.next();
 
-                if (enabled) {
-                    buffer.append(enabledPrefix).append(alias);
+                if( enabled )
+                {
+                    buffer.append( m_enabledPrefix ).append( alias );
+                }
+                
+                if( both )
+                {
+                    buffer.append( '|' );
                 }
 
-                if (both) {
-                    buffer.append('|');
+                if( disabled )
+                {
+                    buffer.append( m_disabledPrefix ).append( alias );
                 }
 
-                if (disabled) {
-                    buffer.append(disabledPrefix).append(alias);
-                }
-
-                if (i.hasNext()) {
-                    buffer.append(',');
+                if( i.hasNext() )
+                {
+                    buffer.append( ',' );
                 }
             }
-
-            buffer.append(')');
+            
+            buffer.append( ')' );
         }
 
-        super.appendUsage(buffer, helpSettings, comp);
+        super.appendUsage( buffer, helpSettings, comp );
 
-        if (optional) {
-            buffer.append(']');
+        if( optional )
+        {
+            buffer.append( ']' );
         }
     }
 
-    public String getPreferredName() {
-        return enabledPrefix + preferredName;
+    public String getPreferredName()
+    {
+        return m_enabledPrefix + m_preferredName;
     }
 
-    public void defaults(final WriteableCommandLine commandLine) {
-        commandLine.setDefaultSwitch(this, defaultSwitch);
+    public void defaults( final WriteableCommandLine commandLine )
+    {
+        commandLine.setDefaultSwitch( this, m_defaultSwitch );
     }
 }

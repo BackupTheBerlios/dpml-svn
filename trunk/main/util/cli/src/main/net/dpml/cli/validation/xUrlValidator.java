@@ -1,5 +1,6 @@
 /*
  * Copyright 2003-2005 The Apache Software Foundation
+ * Copyright 2005 Stephen McConnell
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -45,24 +46,27 @@ import net.dpml.cli.resource.ResourceHelper;
  *            .withValidator(new URLValidator("https"));
  * </pre>
  *
- * @author Rob Oxspring
- * @author John Keyes
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
-public class UrlValidator implements Validator {
+public class UrlValidator implements Validator 
+{
     /** allowed protocol */
-    private String protocol = null;
+    private String m_protocol = null;
 
     /**
      * Creates a UrlValidator.
      */
-    public UrlValidator() {
+    public UrlValidator() 
+    {
     }
 
     /**
      * Creates a UrlValidator for the specified protocol.
      */
-    public UrlValidator(final String protocol) {
-        setProtocol(protocol);
+    public UrlValidator( final String protocol ) 
+    {
+        setProtocol( protocol );
     }
 
     /**
@@ -72,9 +76,9 @@ public class UrlValidator implements Validator {
      *
      * @see net.dpml.cli.validation.Validator#validate(java.util.List)
      */
-    public void validate(final List values)
-        throws InvalidArgumentException {
-        for (final ListIterator i = values.listIterator(); i.hasNext();) 
+    public void validate( final List values ) throws InvalidArgumentException
+    {
+        for( final ListIterator i = values.listIterator(); i.hasNext(); ) 
         {
             final Object next = i.next();
             if( next instanceof URL )
@@ -85,13 +89,13 @@ public class UrlValidator implements Validator {
             try
             {
                 final URL url = new URL( name );
-                if( (protocol != null) && !protocol.equals( url.getProtocol() ) ) 
+                if( ( protocol != null ) && !protocol.equals( url.getProtocol() ) ) 
                 {
-                    throw new InvalidArgumentException(name);
+                    throw new InvalidArgumentException( name );
                 }
                 i.set( url );
             }
-            catch (final MalformedURLException mue) 
+            catch( final MalformedURLException mue ) 
             {
                 throw new InvalidArgumentException(
                   ResourceHelper.getResourceHelper().getMessage(
@@ -106,8 +110,9 @@ public class UrlValidator implements Validator {
      *
      * @return the protocol that must be used by a valid URL.
      */
-    public String getProtocol() {
-        return protocol;
+    public String getProtocol()
+    {
+        return m_protocol;
     }
 
     /**
@@ -115,7 +120,8 @@ public class UrlValidator implements Validator {
      *
      * @param protocol the protocol that a URL must have to be valid.
      */
-    public void setProtocol(String protocol) {
-        this.protocol = protocol;
+    public void setProtocol( String protocol )
+    {
+        m_protocol = protocol;
     }
 }

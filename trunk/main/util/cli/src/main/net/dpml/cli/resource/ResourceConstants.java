@@ -1,5 +1,6 @@
 /*
  * Copyright 2005 The Apache Software Foundation
+ * Copyright 2005 Stephen McConnell
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,7 +16,13 @@
  */
 package net.dpml.cli.resource;
 
-public abstract class ResourceConstants {
+/**
+ * Common resurce constants.
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
+ */
+public abstract class ResourceConstants
+{
     public static final String CLASSVALIDATOR_BAD_CLASSNAME = "ClassValidator.bad.classname";
     public static final String CLASSVALIDATOR_CLASS_NOTFOUND = "ClassValidator.class.notfound";
     public static final String CLASSVALIDATOR_CLASS_ACCESS = "ClassValidator.class.access";

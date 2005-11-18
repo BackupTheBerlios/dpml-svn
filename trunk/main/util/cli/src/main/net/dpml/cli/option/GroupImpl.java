@@ -1,5 +1,6 @@
 /*
  * Copyright 2003-2005 The Apache Software Foundation
+ * Copyright 2005 Stephen McConnell
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -39,17 +40,19 @@ import net.dpml.cli.resource.ResourceConstants;
 
 /**
  * An implementation of Group
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
-public class GroupImpl
-    extends OptionImpl implements Group {
-    private final String name;
-    private final String description;
-    private final List options;
-    private final int minimum;
-    private final int maximum;
-    private final List anonymous;
-    private final SortedMap optionMap;
-    private final Set prefixes;
+public class GroupImpl extends OptionImpl implements Group 
+{
+    private final String m_name;
+    private final String m_description;
+    private final List m_options;
+    private final int m_minimum;
+    private final int m_maximum;
+    private final List m_anonymous;
+    private final SortedMap m_optionMap;
+    private final Set m_prefixes;
 
     /**
      * Creates a new GroupImpl using the specified parameters.
@@ -60,235 +63,263 @@ public class GroupImpl
      * @param minimum the minimum number of Options for a valid CommandLine
      * @param maximum the maximum number of Options for a valid CommandLine
      */
-    public GroupImpl(final List options,
-                     final String name,
-                     final String description,
-                     final int minimum,
-                     final int maximum) {
-        super(0, false);
+    public GroupImpl(
+      final List options, final String name, final String description,
+      final int minimum, final int maximum )
+    {
+        super( 0, false );
 
-        this.name = name;
-        this.description = description;
-        this.minimum = minimum;
-        this.maximum = maximum;
+        m_name = name;
+        m_description = description;
+        m_minimum = minimum;
+        m_maximum = maximum;
 
         // store a copy of the options to be used by the 
         // help methods
-        this.options = Collections.unmodifiableList(options);
+        m_options = Collections.unmodifiableList( options );
 
-        // anonymous Argument temporary storage
+        // m_anonymous Argument temporary storage
         final List newAnonymous = new ArrayList();
 
         // map (key=trigger & value=Option) temporary storage
-        final SortedMap newOptionMap = new TreeMap(ReverseStringComparator.getInstance());
+        final SortedMap newOptionMap = new TreeMap( ReverseStringComparator.getInstance() );
 
         // prefixes temporary storage
         final Set newPrefixes = new HashSet();
 
         // process the options
-        for (final Iterator i = options.iterator(); i.hasNext();) {
+        for( final Iterator i = options.iterator(); i.hasNext(); )
+        {
             final Option option = (Option) i.next();
-
-            if (option instanceof Argument) {
+            if (option instanceof Argument) 
+            {
                 i.remove();
-                newAnonymous.add(option);
-            } else {
+                newAnonymous.add( option );
+            } 
+            else
+            {
                 final Set triggers = option.getTriggers();
-
-                for (Iterator j = triggers.iterator(); j.hasNext();) {
-                    newOptionMap.put(j.next(), option);
+                for( Iterator j = triggers.iterator(); j.hasNext(); )
+                {
+                    newOptionMap.put( j.next(), option );
                 }
-
                 // store the prefixes
-                newPrefixes.addAll(option.getPrefixes());
+                newPrefixes.addAll( option.getPrefixes() );
             }
         }
 
-        this.anonymous = Collections.unmodifiableList(newAnonymous);
-        this.optionMap = Collections.unmodifiableSortedMap(newOptionMap);
-        this.prefixes = Collections.unmodifiableSet(newPrefixes);
+        m_anonymous = Collections.unmodifiableList( newAnonymous );
+        m_optionMap = Collections.unmodifiableSortedMap( newOptionMap );
+        m_prefixes = Collections.unmodifiableSet( newPrefixes );
     }
 
-    public boolean canProcess(final WriteableCommandLine commandLine,
-                              final String arg) {
-        if (arg == null) {
+    public boolean canProcess(
+      final WriteableCommandLine commandLine, final String arg )
+    {
+        if( arg == null )
+        {
             return false;
         }
 
         // if arg does not require bursting
-        if (optionMap.containsKey(arg)) {
+        if( m_optionMap.containsKey( arg ) )
+        {
             return true;
         }
 
         // filter
-        final Map tailMap = optionMap.tailMap(arg);
+        final Map tailMap = m_optionMap.tailMap( arg );
 
         // check if bursting is required
-        for (final Iterator iter = tailMap.values().iterator(); iter.hasNext();) {
+        for( final Iterator iter = tailMap.values().iterator(); iter.hasNext(); )
+        {
             final Option option = (Option) iter.next();
-
-            if (option.canProcess(commandLine, arg)) {
+            if( option.canProcess( commandLine, arg ) )
+            {
                 return true;
             }
         }
-
-        if (commandLine.looksLikeOption(arg)) {
+        
+        if( commandLine.looksLikeOption( arg ) )
+        {
             return false;
         }
 
-        // anonymous argument(s) means we can process it
-        if (anonymous.size() > 0) {
+        // m_anonymous argument(s) means we can process it
+        if( m_anonymous.size() > 0 )
+        {
             return true;
         }
 
         return false;
     }
 
-    public Set getPrefixes() {
-        return prefixes;
+    public Set getPrefixes()
+    {
+        return m_prefixes;
     }
 
-    public Set getTriggers() {
-        return optionMap.keySet();
+    public Set getTriggers()
+    {
+        return m_optionMap.keySet();
     }
 
-    public void process(final WriteableCommandLine commandLine,
-                        final ListIterator arguments)
-        throws OptionException {
+    public void process(
+      final WriteableCommandLine commandLine, final ListIterator arguments )
+      throws OptionException
+    {
         String previous = null;
 
         // [START process each command line token
-        while (arguments.hasNext()) {
+        while( arguments.hasNext() )
+        {
             // grab the next argument
             final String arg = (String) arguments.next();
 
             // if we have just tried to process this instance
-            if (arg == previous) {
+            if( arg == previous )
+            {
                 // rollback and abort
                 arguments.previous();
-
                 break;
             }
 
             // remember last processed instance
             previous = arg;
 
-            final Option opt = (Option) optionMap.get(arg);
+            final Option opt = (Option) m_optionMap.get( arg );
 
             // option found
-            if (opt != null) {
+            if( opt != null )
+            {
                 arguments.previous();
-                opt.process(commandLine, arguments);
+                opt.process( commandLine, arguments );
             }
             // [START option NOT found
-            else {
-                // it might be an anonymous argument continue search
-                // [START argument may be anonymous
-                if (commandLine.looksLikeOption(arg)) {
+            else
+            {
+                // it might be an m_anonymous argument continue search
+                // [START argument may be m_anonymous
+                if( commandLine.looksLikeOption( arg ) )
+                {
                     // narrow the search
-                    final Collection values = optionMap.tailMap(arg).values();
-
+                    final Collection values = m_optionMap.tailMap( arg ).values();
                     boolean foundMemberOption = false;
-
-                    for (Iterator i = values.iterator(); i.hasNext() && !foundMemberOption;) {
+                    for( Iterator i = values.iterator(); i.hasNext() && !foundMemberOption; )
+                    {
                         final Option option = (Option) i.next();
-
-                        if (option.canProcess(commandLine, arg)) {
+                        if( option.canProcess( commandLine, arg ) )
+                        {
                             foundMemberOption = true;
                             arguments.previous();
-                            option.process(commandLine, arguments);
+                            option.process( commandLine, arguments );
                         }
                     }
 
                     // back track and abort this group if necessary
-                    if (!foundMemberOption) {
+                    if( !foundMemberOption )
+                    {
                         arguments.previous();
-
                         return;
                     }
-                } // [END argument may be anonymous
-
-                // [START argument is NOT anonymous
-                else {
+                    
+                } // [END argument may be m_anonymous
+                // [START argument is NOT m_anonymous
+                else 
+                {
                     // move iterator back, current value not used
                     arguments.previous();
 
-                    // if there are no anonymous arguments then this group can't
+                    // if there are no m_anonymous arguments then this group can't
                     // process the argument
-                    if (anonymous.isEmpty()) {
+                    if( m_anonymous.isEmpty() )
+                    {
                         break;
                     }
 
-                    // TODO: why do we iterate over all anonymous arguments?
+                    // TODO: why do we iterate over all m_anonymous arguments?
                     // canProcess will always return true?
-                    for (final Iterator i = anonymous.iterator(); i.hasNext();) {
+                    for( final Iterator i = m_anonymous.iterator(); i.hasNext(); )
+                    {
                         final Argument argument = (Argument) i.next();
-
-                        if (argument.canProcess(commandLine, arguments)) {
-                            argument.process(commandLine, arguments);
+                        if( argument.canProcess(commandLine, arguments ) )
+                        {
+                            argument.process( commandLine, arguments );
                         }
                     }
-                } // [END argument is NOT anonymous
+                } // [END argument is NOT m_anonymous
             } // [END option NOT found
         } // [END process each command line token
     }
 
-    public void validate(final WriteableCommandLine commandLine)
-        throws OptionException {
+    public void validate( final WriteableCommandLine commandLine ) throws OptionException 
+    {
         // number of options found
         int present = 0;
 
         // reference to first unexpected option
         Option unexpected = null;
 
-        for (final Iterator i = options.iterator(); i.hasNext();) {
+        for( final Iterator i = m_options.iterator(); i.hasNext(); )
+        {
             final Option option = (Option) i.next();
 
             // if the child option is required then validate it
-            if (option.isRequired()) {
-                option.validate(commandLine);
+            if( option.isRequired() )
+            {
+                option.validate( commandLine );
             }
 
-            if (option instanceof Group) {
-                option.validate(commandLine);
+            if( option instanceof Group )
+            {
+                option.validate( commandLine );
             }
 
             // if the child option is present then validate it
-            if (commandLine.hasOption(option)) {
-                if (++present > maximum) {
+            if( commandLine.hasOption( option ) )
+            {
+                if( ++present > m_maximum )
+                {
                     unexpected = option;
-
                     break;
                 }
-
-                option.validate(commandLine);
+                option.validate( commandLine );
             }
         }
 
         // too many options
-        if (unexpected != null) {
-            throw new OptionException(this, ResourceConstants.UNEXPECTED_TOKEN,
-                                      unexpected.getPreferredName());
+        if( unexpected != null )
+        {
+            throw new OptionException(
+              this,
+              ResourceConstants.UNEXPECTED_TOKEN,
+              unexpected.getPreferredName() );
         }
 
         // too few option
-        if (present < minimum) {
-            throw new OptionException(this, ResourceConstants.MISSING_OPTION);
+        if( present < m_minimum )
+        {
+            throw new OptionException(
+              this,
+              ResourceConstants.MISSING_OPTION );
         }
 
-        // validate each anonymous argument
-        for (final Iterator i = anonymous.iterator(); i.hasNext();) {
+        // validate each m_anonymous argument
+        for( final Iterator i = m_anonymous.iterator(); i.hasNext(); )
+        {
             final Option option = (Option) i.next();
-            option.validate(commandLine);
+            option.validate( commandLine );
         }
     }
 
-    public String getPreferredName() {
-        return name;
+    public String getPreferredName()
+    {
+        return m_name;
     }
 
-    public String getDescription() {
-        return description;
+    public String getDescription() 
+    {
+        return m_description;
     }
 
     public void appendUsage(
@@ -304,134 +335,158 @@ public class GroupImpl
         }
     }
 
-    public void appendUsage(final StringBuffer buffer,
-                            final Set helpSettings,
-                            final Comparator comp,
-                            final String separator) {
-        final Set helpSettingsCopy = new HashSet(helpSettings);
+    public void appendUsage(
+      final StringBuffer buffer, final Set helpSettings, final Comparator comp,
+      final String separator )
+    {
+        final Set helpSettingsCopy = new HashSet( helpSettings );
 
         final boolean optional =
-            (minimum == 0) && helpSettingsCopy.contains(DisplaySetting.DISPLAY_OPTIONAL);
+            ( m_minimum == 0) && helpSettingsCopy.contains( DisplaySetting.DISPLAY_OPTIONAL );
 
         final boolean expanded =
-            (name == null) || helpSettingsCopy.contains(DisplaySetting.DISPLAY_GROUP_EXPANDED);
+            ( m_name == null) || helpSettingsCopy.contains( DisplaySetting.DISPLAY_GROUP_EXPANDED );
 
         final boolean named =
             !expanded ||
-            ((name != null) && helpSettingsCopy.contains(DisplaySetting.DISPLAY_GROUP_NAME));
+            ( ( m_name != null ) && helpSettingsCopy.contains( DisplaySetting.DISPLAY_GROUP_NAME ) );
 
-        final boolean arguments = helpSettingsCopy.contains(DisplaySetting.DISPLAY_GROUP_ARGUMENT);
+        final boolean arguments = helpSettingsCopy.contains( DisplaySetting.DISPLAY_GROUP_ARGUMENT );
 
-        final boolean outer = helpSettingsCopy.contains(DisplaySetting.DISPLAY_GROUP_OUTER);
+        final boolean outer = helpSettingsCopy.contains( DisplaySetting.DISPLAY_GROUP_OUTER );
 
-        helpSettingsCopy.remove(DisplaySetting.DISPLAY_GROUP_OUTER);
+        helpSettingsCopy.remove( DisplaySetting.DISPLAY_GROUP_OUTER );
 
         final boolean both = named && expanded;
 
-        if (optional) {
-            buffer.append('[');
+        if( optional )
+        {
+            buffer.append( '[' );
         }
 
-        if (named) {
-            buffer.append(name);
+        if( named )
+        {
+            buffer.append( m_name );
         }
 
-        if (both) {
-            buffer.append(" (");
+        if( both )
+        {
+            buffer.append( " (" );
         }
 
-        if (expanded) {
+        if( expanded )
+        {
             final Set childSettings;
 
-            if (!helpSettingsCopy.contains(DisplaySetting.DISPLAY_GROUP_EXPANDED)) {
+            if( !helpSettingsCopy.contains(DisplaySetting.DISPLAY_GROUP_EXPANDED ) )
+            {
                 childSettings = DisplaySetting.NONE;
-            } else {
-                childSettings = new HashSet(helpSettingsCopy);
-                childSettings.remove(DisplaySetting.DISPLAY_OPTIONAL);
+            }
+            else
+            {
+                childSettings = new HashSet( helpSettingsCopy );
+                childSettings.remove( DisplaySetting.DISPLAY_OPTIONAL );
             }
 
             // grab a list of the group's options.
             final List list;
 
-            if (comp == null) {
+            if( comp == null )
+            {
                 // default to using the initial order
-                list = options;
-            } else {
+                list = m_options;
+            } 
+            else
+            {
                 // sort options if comparator is supplied
-                list = new ArrayList(options);
-                Collections.sort(list, comp);
+                list = new ArrayList( m_options );
+                Collections.sort( list, comp );
             }
 
             // for each option.
-            for (final Iterator i = list.iterator(); i.hasNext();) {
+            for( final Iterator i = list.iterator(); i.hasNext(); )
+            {
                 final Option option = (Option) i.next();
 
                 // append usage information
-                option.appendUsage(buffer, childSettings, comp);
+                option.appendUsage( buffer, childSettings, comp );
 
                 // add separators as needed
-                if (i.hasNext()) {
-                    buffer.append(separator);
+                if( i.hasNext() )
+                {
+                    buffer.append( separator );
                 }
             }
         }
 
-        if (both) {
-            buffer.append(')');
+        if( both ) 
+        {
+            buffer.append( ')' );
         }
 
-        if (optional && outer) {
+        if( optional && outer )
+        {
             buffer.append(']');
         }
 
-        if (arguments) {
-            for (final Iterator i = anonymous.iterator(); i.hasNext();) {
-                buffer.append(' ');
-
+        if( arguments )
+        {
+            for( final Iterator i = m_anonymous.iterator(); i.hasNext(); )
+            {
+                buffer.append( ' ' );
                 final Option option = (Option) i.next();
-                option.appendUsage(buffer, helpSettingsCopy, comp);
+                option.appendUsage( buffer, helpSettingsCopy, comp );
             }
         }
 
-        if (optional && !outer) {
-            buffer.append(']');
+        if( optional && !outer )
+        {
+            buffer.append( ']' );
         }
     }
 
-    public List helpLines(final int depth,
-                          final Set helpSettings,
-                          final Comparator comp) {
+    public List helpLines(
+      final int depth, final Set helpSettings, final Comparator comp )
+    {
         final List helpLines = new ArrayList();
 
-        if (helpSettings.contains(DisplaySetting.DISPLAY_GROUP_NAME)) {
-            final HelpLine helpLine = new HelpLineImpl(this, depth);
-            helpLines.add(helpLine);
+        if( helpSettings.contains( DisplaySetting.DISPLAY_GROUP_NAME ) )
+        {
+            final HelpLine helpLine = new HelpLineImpl( this, depth );
+            helpLines.add( helpLine );
         }
 
-        if (helpSettings.contains(DisplaySetting.DISPLAY_GROUP_EXPANDED)) {
+        if( helpSettings.contains( DisplaySetting.DISPLAY_GROUP_EXPANDED ) )
+        {
             // grab a list of the group's options.
             final List list;
 
-            if (comp == null) {
+            if( comp == null )
+            {
                 // default to using the initial order
-                list = options;
-            } else {
+                list = m_options;
+            } 
+            else
+            {
                 // sort options if comparator is supplied
-                list = new ArrayList(options);
-                Collections.sort(list, comp);
+                list = new ArrayList( m_options );
+                Collections.sort( list, comp );
             }
 
             // for each option
-            for (final Iterator i = list.iterator(); i.hasNext();) {
+            for( final Iterator i = list.iterator(); i.hasNext(); )
+            {
                 final Option option = (Option) i.next();
-                helpLines.addAll(option.helpLines(depth + 1, helpSettings, comp));
+                helpLines.addAll( option.helpLines( depth + 1, helpSettings, comp ) );
             }
         }
 
-        if (helpSettings.contains(DisplaySetting.DISPLAY_GROUP_ARGUMENT)) {
-            for (final Iterator i = anonymous.iterator(); i.hasNext();) {
+        if( helpSettings.contains(DisplaySetting.DISPLAY_GROUP_ARGUMENT ) )
+        {
+            for( final Iterator i = m_anonymous.iterator(); i.hasNext(); )
+            {
                 final Option option = (Option) i.next();
-                helpLines.addAll(option.helpLines(depth + 1, helpSettings, comp));
+                helpLines.addAll( option.helpLines(depth + 1, helpSettings, comp ) );
             }
         }
 
@@ -443,26 +498,30 @@ public class GroupImpl
      * Note this does not include any Arguments
      * @return only the non Argument Options of the Group
      */
-    public List getOptions() {
-        return options;
+    public List getOptions()
+    {
+        return m_options;
     }
 
     /**
-     * Gets the anonymous Arguments of this Group.
+     * Gets the m_anonymous Arguments of this Group.
      * @return the Argument options of this Group
      */
-    public List getAnonymous() {
-        return anonymous;
+    public List getAnonymous() 
+    {
+        return m_anonymous;
     }
 
-    public Option findOption(final String trigger) {
+    public Option findOption(final String trigger) 
+    {
         final Iterator i = getOptions().iterator();
 
-        while (i.hasNext()) {
+        while (i.hasNext()) 
+        {
             final Option option = (Option) i.next();
-            final Option found = option.findOption(trigger);
-
-            if (found != null) {
+            final Option found = option.findOption( trigger );
+            if( found != null )
+            {
                 return found;
             }
         }
@@ -470,54 +529,59 @@ public class GroupImpl
         return null;
     }
 
-    public int getMinimum() {
-        return minimum;
+    public int getMinimum()
+    {
+        return m_minimum;
     }
 
     public int getMaximum() {
-        return maximum;
+        return m_maximum;
     }
 
-    public boolean isRequired() {
+    public boolean isRequired()
+    {
         return getMinimum() > 0;
     }
 
-    public void defaults(final WriteableCommandLine commandLine) {
-        super.defaults(commandLine);
-
-        for (final Iterator i = options.iterator(); i.hasNext();) {
+    public void defaults( final WriteableCommandLine commandLine )
+    {
+        super.defaults( commandLine );
+        for( final Iterator i = m_options.iterator(); i.hasNext(); )
+        {
             final Option option = (Option) i.next();
-            option.defaults(commandLine);
+            option.defaults( commandLine );
         }
 
-        for (final Iterator i = anonymous.iterator(); i.hasNext();) {
+        for( final Iterator i = m_anonymous.iterator(); i.hasNext(); )
+        {
             final Option option = (Option) i.next();
-            option.defaults(commandLine);
+            option.defaults( commandLine );
         }
     }
 }
 
-
-class ReverseStringComparator implements Comparator {
+class ReverseStringComparator implements Comparator 
+{
     private static final Comparator instance = new ReverseStringComparator();
 
-    private ReverseStringComparator() {
-        // just making sure nobody else creates one
+    private ReverseStringComparator() 
+    {
+        // static
     }
 
     /**
      * Gets a singleton instance of a ReverseStringComparator
      * @return the singleton instance
      */
-    public static final Comparator getInstance() {
+    public static final Comparator getInstance() 
+    {
         return instance;
     }
 
-    public int compare(final Object o1,
-                       final Object o2) {
+    public int compare( final Object o1, final Object o2 )
+    {
         final String s1 = (String) o1;
         final String s2 = (String) o2;
-
         return -s1.compareTo(s2);
     }
 }
