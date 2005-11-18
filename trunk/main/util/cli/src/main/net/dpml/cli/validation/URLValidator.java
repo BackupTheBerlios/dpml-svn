@@ -26,14 +26,14 @@ import net.dpml.cli.resource.ResourceConstants;
 import net.dpml.cli.resource.ResourceHelper;
 
 /**
- * The <code>UrlValidator</code> validates the string argument
+ * The <code>URLValidator</code> validates the string argument
  * values are URLs.  If the value is a URL, the string value in
  * the {@link java.util.List} of values is replaced with the
  * {@link java.net.URL} instance.
  *
  * URLs can also be validated based on their scheme by using
  * the {@link #setProtocol setProtocol} method, or by using the specified
- * {@link #UrlValidator(java.lang.String) constructor}.
+ * {@link #URLValidator(java.lang.String) constructor}.
  *
  * The following example shows how to limit the valid values
  * for the site argument to 'https' URLs.
@@ -49,22 +49,22 @@ import net.dpml.cli.resource.ResourceHelper;
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-public class UrlValidator implements Validator 
+public class URLValidator implements Validator 
 {
     /** allowed protocol */
     private String m_protocol = null;
 
     /**
-     * Creates a UrlValidator.
+     * Creates a URLValidator.
      */
-    public UrlValidator() 
+    public URLValidator() 
     {
     }
 
     /**
-     * Creates a UrlValidator for the specified protocol.
+     * Creates a URLValidator for the specified protocol.
      */
-    public UrlValidator( final String protocol ) 
+    public URLValidator( final String protocol ) 
     {
         setProtocol( protocol );
     }
@@ -99,7 +99,7 @@ public class UrlValidator implements Validator
             {
                 throw new InvalidArgumentException(
                   ResourceHelper.getResourceHelper().getMessage(
-                    ResourceConstants.URLVALIDATOR_MALFORMED_URL,
+                    ResourceConstants.URLValidator_MALFORMED_URL,
                     new Object[]{name} ) );
             }
         }
