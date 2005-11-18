@@ -26,6 +26,8 @@ import java.util.prefs.Preferences;
 
 /**
  * Handles the setup of Depot preferences.
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public class DepotInstaller
 {

@@ -32,7 +32,8 @@ import net.dpml.transit.store.CodeBaseStorage;
  * will trigger a CodeBaseEvent which can be monitored by controllers dealing with  
  * pluggable system maintenance.
  *
- * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public abstract class DefaultCodeBaseModel extends DefaultModel implements CodeBaseModel
 {

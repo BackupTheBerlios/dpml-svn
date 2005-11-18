@@ -22,6 +22,7 @@ import net.dpml.transit.util.ValuedEnum;
 
 /**
  * Lifestyle policy enumeration.
+ *
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */

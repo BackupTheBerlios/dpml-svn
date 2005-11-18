@@ -22,6 +22,9 @@ import java.util.EventObject;
 
 /**
  * A event pertaining to content model changes.
+ *
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public class ContentEvent extends EventObject
 {

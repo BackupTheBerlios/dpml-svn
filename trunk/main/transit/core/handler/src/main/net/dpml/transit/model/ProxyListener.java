@@ -25,6 +25,9 @@ import java.rmi.RemoteException;
 /**
  * A ProxyListener is implemented by clients whishing to be notified about changes to 
  * a transit proxy configuration.
+ *
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public interface ProxyListener extends EventListener, Remote
 {

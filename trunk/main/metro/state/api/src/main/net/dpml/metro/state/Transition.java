@@ -23,7 +23,7 @@ import java.net.URI;
 /**
  * Interface describing a transition that may be performed under an activate 
  * state.
- * 
+ *
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */

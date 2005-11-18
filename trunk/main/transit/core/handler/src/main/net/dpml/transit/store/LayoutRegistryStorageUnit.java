@@ -23,6 +23,9 @@ import java.util.prefs.Preferences;
  * The LayoutRegistryStorageUnit maintains persstent storage of 
  * the layout registry.  The persistent strategy employed by the implementation 
  * is based on the java.util.prefs Preferences object model.
+ *
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 class LayoutRegistryStorageUnit extends CodeBaseStorageUnit implements LayoutRegistryHome
 {

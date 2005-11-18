@@ -21,7 +21,8 @@ package net.dpml.transit.store;
 /**
  * Interface implemented by removable storage unit.
  *
- * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public interface Removable
 {

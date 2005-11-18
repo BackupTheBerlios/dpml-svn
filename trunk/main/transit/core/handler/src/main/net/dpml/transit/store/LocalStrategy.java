@@ -22,7 +22,8 @@ package net.dpml.transit.store;
  * The LocalStrategy  class declares the creation criteria for an instance
  * that is locally available withuin the classloader of the invoking client.
  *
- * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public class LocalStrategy extends Strategy
 {

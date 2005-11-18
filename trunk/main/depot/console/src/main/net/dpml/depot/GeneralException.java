@@ -21,6 +21,8 @@ import java.rmi.ServerException;
 /**
  * A general exception that is typically used for scenarios in which a stack dump
  * is not relevant.
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public class GeneralException extends ServerException
 {

@@ -31,8 +31,11 @@ import net.dpml.metro.part.ServiceNotFoundException;
 import net.dpml.transit.Logger;
 
 /**
- * The Metro plugin handles the establishment of a part and optional 
- * invocatio of a callback to a central station.
+ * The AbstractHandler class is a minimalistic implementation of a part 
+ * handler.
+ *
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public class AbstractHandler extends UnicastRemoteObject implements Component
 {

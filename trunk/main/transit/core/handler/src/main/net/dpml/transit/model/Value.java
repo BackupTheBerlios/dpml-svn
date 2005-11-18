@@ -22,8 +22,9 @@ import java.util.Map;
 
 /**
  * A object resolvable from primitive and symbolic arguments.
- * 
- * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
+ *
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public interface Value
 {

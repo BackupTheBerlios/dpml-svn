@@ -25,6 +25,9 @@ import java.util.prefs.BackingStoreException;
  * cache location, a cache layout strategy, and a set of associated host 
  * storage units.  The class also provides support for creation and removal 
  * host storage units.
+ *
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 class CacheStorageUnit extends CodeBaseStorageUnit implements CacheHome, Removable
 {

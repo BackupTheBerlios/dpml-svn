@@ -23,6 +23,9 @@ import java.net.PasswordAuthentication;
 
 /**
  * An event pertaining to the Transit proxy configuration.
+ *
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public class ProxyEvent extends EventObject 
 {

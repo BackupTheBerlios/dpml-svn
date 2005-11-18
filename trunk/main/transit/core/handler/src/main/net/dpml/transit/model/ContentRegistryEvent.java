@@ -23,6 +23,9 @@ import java.util.EventObject;
 /**
  * An event issued by a registry signalling changes tye addition or removal
  * of a content model.
+ *
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public abstract class ContentRegistryEvent extends EventObject
 {

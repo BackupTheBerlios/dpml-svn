@@ -24,6 +24,9 @@ import java.util.prefs.Preferences;
 
 /**
  * Abstract base class providing a framework for preferences based persistance.
+ *
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public abstract class AbstractStorageUnit
 {

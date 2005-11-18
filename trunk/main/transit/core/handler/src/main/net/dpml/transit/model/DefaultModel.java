@@ -33,6 +33,9 @@ import net.dpml.transit.monitor.LoggingAdapter;
 /**
  * A abstract base class that established an event queue and handles event dispatch 
  * operations for listeners declared in classes extending this base class.
+ *
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public abstract class DefaultModel extends UnicastRemoteObject
 {

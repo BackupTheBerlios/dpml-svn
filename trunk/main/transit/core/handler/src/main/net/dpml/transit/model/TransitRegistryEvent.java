@@ -23,6 +23,9 @@ import java.util.EventObject;
 /**
  * An event issued by a Tranist registry signalling addition or removal
  * of Transit profiles from or to a Transit model registry.
+ *
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public abstract class TransitRegistryEvent extends EventObject
 {

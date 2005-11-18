@@ -24,6 +24,9 @@ import java.rmi.RemoteException;
 
 /**
  * A listener for events related to the Transit cache subsystem.
+ *
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public interface CacheListener extends EventListener, Remote
 {

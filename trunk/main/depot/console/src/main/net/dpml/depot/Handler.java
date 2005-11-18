@@ -22,7 +22,8 @@ package net.dpml.depot;
  * Interface implemented by Depot subsystems that support formal 
  * shutdown semantics.
  *
- * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public interface Handler
 {

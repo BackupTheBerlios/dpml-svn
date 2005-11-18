@@ -21,6 +21,7 @@ package net.dpml.metro.state;
 /**
  * Interface marking a a direct or implict actionable instance.
  * 
+ *
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */

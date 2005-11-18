@@ -24,6 +24,9 @@ import java.rmi.RemoteException;
 /**
  * The TransitRegistryModel is an interface implemented by objects that
  * manage a collection of TransitModel instances.
+ *
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public interface TransitRegistryModel extends Model
 {

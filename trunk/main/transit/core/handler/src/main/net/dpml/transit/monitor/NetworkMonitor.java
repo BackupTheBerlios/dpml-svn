@@ -24,7 +24,8 @@ import java.net.URL;
 /**
  * A monitor of a download activity or activities.
  *
- * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  * @see Monitor
  */
 public interface NetworkMonitor extends Monitor

@@ -23,7 +23,8 @@ package net.dpml.transit.store;
  * providing services supporting the management of a collection of 
  * layout configurations.
  *
- * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public interface LayoutRegistryHome extends CodeBaseStorage
 {

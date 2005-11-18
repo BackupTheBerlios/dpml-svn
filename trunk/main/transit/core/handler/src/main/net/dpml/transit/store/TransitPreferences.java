@@ -36,6 +36,9 @@ import net.dpml.transit.model.CacheModel;
 /**
  * The TransitPreferences class is responsible for the setup of initial factory
  * default preference settings.
+ *
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 final class TransitPreferences
 {

@@ -28,6 +28,9 @@ import net.dpml.transit.util.PropertyResolver;
 /**
  * The TransitStorageUnit is responsible for the maintenance of persistent
  * storage units for all Transit subsystems.
+ *
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public class TransitStorageUnit extends AbstractStorageUnit implements TransitStorage
 {

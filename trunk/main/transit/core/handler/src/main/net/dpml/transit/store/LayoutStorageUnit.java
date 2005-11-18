@@ -25,6 +25,9 @@ import net.dpml.transit.ClassicLayout;
 /**
  * The LayoutStorageUnit class maintains persistent information about a 
  * layout model.
+ *
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 class LayoutStorageUnit extends CodeBaseStorageUnit implements LayoutStorage, Removable
 {

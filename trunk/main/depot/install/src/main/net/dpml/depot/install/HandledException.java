@@ -19,6 +19,8 @@ package net.dpml.depot.install;
 /**
  * A null exception thrown following the complete handing of the error condition
  * signalling termination of command processing. 
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 class HandledException extends Exception
 {

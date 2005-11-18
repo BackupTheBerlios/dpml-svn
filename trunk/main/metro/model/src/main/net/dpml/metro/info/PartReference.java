@@ -26,8 +26,8 @@ import net.dpml.metro.part.Part;
  * A <code>PartReference</code> is a serializable object that contains a key and 
  * an associated part.
  *
- * @author <a href="mailto:dev-dpml@lists.ibiblio.org">The Digital Product Meta Library</a>
- * @version $Id: Parameter.java 2119 2005-03-23 02:04:46Z mcconnell@dpml.net $
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public class PartReference implements Serializable
 {

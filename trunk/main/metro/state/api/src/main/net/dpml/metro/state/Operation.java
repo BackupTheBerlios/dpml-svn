@@ -23,7 +23,7 @@ import java.net.URI;
 /**
  * Interface describing a potential operation invocation exposed by 
  * an active state.
- * 
+ *
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */

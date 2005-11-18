@@ -24,7 +24,8 @@ import java.net.PasswordAuthentication;
  * A HostStorage implementation is responsible for the maintainence of 
  * persistent information for an identifiable host model.
  *
- * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public interface HostStorage extends CodeBaseStorage
 {

@@ -25,7 +25,8 @@ import java.net.URL;
  * Contract implemented by objects that provide persistent storage of 
  * Transit proxy settings.
  *
- * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public interface ProxyStorage
 {

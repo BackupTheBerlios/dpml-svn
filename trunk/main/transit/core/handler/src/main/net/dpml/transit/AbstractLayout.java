@@ -24,6 +24,7 @@ import java.io.Serializable;
 
 /** 
  * Abstract base class for layout implementations.
+ *
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */

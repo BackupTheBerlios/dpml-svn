@@ -42,7 +42,8 @@ import net.dpml.transit.util.PropertyResolver;
  * node name.  Features of the host are resolved from preference node attributes
  * and consildated under the HostModel implementation.
  *
- * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 class DefaultHostModel extends DisposableCodeBaseModel 
   implements HostModel, DisposalListener, Comparable

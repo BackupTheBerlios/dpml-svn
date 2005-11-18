@@ -31,7 +31,8 @@ import net.dpml.transit.store.Removable;
  * Default implementation of a content model that maintains an active 
  * configuration of a pluggable content handler.
  *
- * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public class DefaultContentModel extends DisposableCodeBaseModel implements ContentModel
 {

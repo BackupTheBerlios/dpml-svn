@@ -30,6 +30,9 @@ import net.dpml.transit.util.Enum;
 /**
  * Utility class containing a persistence encoding delegate for
  * the ActivationPolicy class.
+ *
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public final class ActivationPolicyBeanInfo extends SimpleBeanInfo
 {

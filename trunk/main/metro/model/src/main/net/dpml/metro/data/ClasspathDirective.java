@@ -26,8 +26,9 @@ import net.dpml.transit.Category;
 /**
  * Description of classpath.
  *
- * @author <a href="mailto:dev-dpml@lists.ibiblio.org">The Digital Product Meta Library</a>
- * @version $Id: ClasspathDirective.java 2480 2005-05-10 04:44:32Z mcconnell@dpml.net $
+ *
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public final class ClasspathDirective implements Serializable
 {

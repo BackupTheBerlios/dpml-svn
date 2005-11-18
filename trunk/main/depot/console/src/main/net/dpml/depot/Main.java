@@ -43,8 +43,8 @@ import net.dpml.transit.util.CLIHelper;
 /**
  * CLI hander for the depot package.
  *
- * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
- * @version $Id: Main.java 2480 2005-05-10 04:44:32Z mcconnell@dpml.net $
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public final class Main implements ShutdownHandler
 {

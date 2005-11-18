@@ -28,10 +28,10 @@ import net.dpml.metro.part.ActivationPolicy;
 /**
  * Abstract base class for the ComponentDirective.
  *
- * @author <a href="mailto:dev-dpml@lists.ibiblio.org">The Digital Product Meta Library</a>
- * @version $Id: DeploymentDirective.java 2991 2005-07-07 00:00:04Z mcconnell@dpml.net $
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
-abstract class DeploymentDirective extends AbstractDirective implements Comparable
+public abstract class DeploymentDirective extends AbstractDirective implements Comparable
 {
     //--------------------------------------------------------------------------
     // static

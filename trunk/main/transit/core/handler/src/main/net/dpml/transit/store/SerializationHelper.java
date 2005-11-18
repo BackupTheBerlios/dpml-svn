@@ -32,7 +32,8 @@ import net.dpml.transit.model.Value;
 /**
  * Helper class used to convert credentials to and from byte arrays.
  *
- * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 final class SerializationHelper
 {

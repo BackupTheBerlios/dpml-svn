@@ -25,7 +25,8 @@ import java.beans.Expression;
  * BeanInfo for the ContextDescriptor class that declares a persistence
  * delegate.
  *
- * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public final class FeatureDirectiveBeanInfo extends SimpleBeanInfo
 {

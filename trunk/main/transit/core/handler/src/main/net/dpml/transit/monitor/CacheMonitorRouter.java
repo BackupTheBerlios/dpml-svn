@@ -27,6 +27,9 @@ import net.dpml.transit.Artifact;
 /**
  * The cache monitor router is responsible for the dispatiching of cache monitor 
  * events to registered monitors.
+ *
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public class CacheMonitorRouter extends AbstractMonitorRouter
     implements CacheMonitor, Router

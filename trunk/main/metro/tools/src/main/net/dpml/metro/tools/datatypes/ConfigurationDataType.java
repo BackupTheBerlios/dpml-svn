@@ -33,6 +33,9 @@ import org.apache.tools.ant.Project;
 
 /**
  * A configuration directive.
+ *
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public class ConfigurationDataType implements DynamicConfiguratorNS
 {

@@ -20,7 +20,7 @@ package net.dpml.metro.state;
 
 /**
  * Exception thrown when an error occurs during state graph construction.
- * 
+ *
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */

@@ -22,7 +22,8 @@ package net.dpml.metro.state;
  * Exception thrown when a request is made for retrival of an operation 
  * via an operation key and the key is unresolvable.
  *
- * @author <a href="mailto:dev-dpml@lists.ibiblio.org">The Digital Product Meta Library</a>
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public class UnknownOperationException extends Exception
 {

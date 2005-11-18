@@ -27,6 +27,9 @@ import java.rmi.RemoteException;
  * implementation.  The interface declares host change notification
  * methods that is invoked by a host model following one or more changes 
  * to the host configuration.
+ *
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public interface HostListener extends EventListener, Remote
 {

@@ -24,7 +24,6 @@ import java.net.URISyntaxException;
 import net.dpml.tools.model.Processor;
 import net.dpml.tools.info.ProcessorDescriptor;
 
-
 /**
  * Utility class used for construction of a module model from an XML source.
  *

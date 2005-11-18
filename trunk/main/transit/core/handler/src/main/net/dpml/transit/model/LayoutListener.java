@@ -25,6 +25,9 @@ import java.rmi.RemoteException;
 /**
  * A LayoutListener is implementated by objects whishing to monitor
  * layout model changes.
+ *
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public interface LayoutListener extends EventListener, Remote
 {

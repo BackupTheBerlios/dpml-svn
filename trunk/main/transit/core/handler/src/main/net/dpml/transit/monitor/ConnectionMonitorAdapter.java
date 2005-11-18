@@ -26,8 +26,9 @@ import java.net.URL;
  * <p>
  *   The NetworkMonitor must be thread safe.
  * </p>
- * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
- * @version $Id: ConnectionMonitorAdapter.java 2445 2005-04-28 23:44:22Z niclas@hedhman.org $
+ *
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  * @see net.dpml.transit.monitor.Monitor
  */
 public class ConnectionMonitorAdapter extends AbstractAdapter

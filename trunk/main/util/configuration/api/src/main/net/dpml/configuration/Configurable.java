@@ -28,8 +28,8 @@ package net.dpml.configuration;
  *
  * Note that this interface is incompatible with Parameterizable.
  *
- * @author <a href="mailto:dev-dpml@lists.ibiblio.org">The Digital Product Meta Library</a>
- * @version $Id: Configurable.java 259 2004-10-30 07:24:40Z mcconnell $
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public interface Configurable
 {

@@ -28,8 +28,8 @@ import net.dpml.transit.Logger;
  * and operation supporting the construction of a messages dedicated to a download
  * action.
  *
- * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
- * @version $Id: Adapter.java 2674 2005-05-30 13:59:27Z mcconnell@dpml.net $
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public interface Adapter extends Logger
 {

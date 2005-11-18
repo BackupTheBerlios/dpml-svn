@@ -44,8 +44,8 @@ import net.dpml.metro.info.PartReference;
  *    &lt;/context&gt;
  * </pre>
  *
- * @author <a href="mailto:dev-dpml@lists.ibiblio.org">The Digital Product Meta Library</a>
- * @version $Id: ContextDirective.java 2991 2005-07-07 00:00:04Z mcconnell@dpml.net $
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public final class ContextDirective implements Serializable
 {

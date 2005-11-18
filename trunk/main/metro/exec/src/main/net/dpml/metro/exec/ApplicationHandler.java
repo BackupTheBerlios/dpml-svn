@@ -65,8 +65,11 @@ import net.dpml.cli.validation.URIValidator;
 import net.dpml.cli.validation.NumberValidator;
 
 /**
- * The Metro plugin handles the establishment of a part and optional 
- * invocatio of a callback to a central station.
+ * Generic application handler that establishes a dedicated handler based 
+ * on the type of resource exposed by a codebase uri.
+ *
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public class ApplicationHandler
 {

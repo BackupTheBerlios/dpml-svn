@@ -24,6 +24,9 @@ import java.util.prefs.BackingStoreException;
 /**
  * The LayoutHelper class is responsible for the setup of initial factory
  * default preference settings.
+ *
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 class ProxyStorageUnit extends AbstractStorageUnit implements ProxyStorage
 {

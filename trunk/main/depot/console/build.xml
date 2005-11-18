@@ -16,15 +16,11 @@
     <filter token="DEPOT-CLASSLOADER-CLASS" value="net.dpml.transit.SystemClassLoader" />
     <x:filter token="TRANSIT-CORE-URI" ref="dpml/transit/dpml-transit-main" feature="uri" type="jar"/>
     <x:filter token="DEPOT-CONSOLE-URI" feature="uri" type="jar"/>
-    <!--<x:filter token="DEPOT-PREFS-URI" key="dpml-depot-prefs" feature="uri" type="plugin"/>-->
-    <!--<x:filter token="DEPOT-DESKTOP-URI" key="dpml-depot-desktop" feature="uri" type="plugin"/>-->
     <x:filter token="DEPOT-INSTALL-URI" key="dpml-depot-install" feature="uri" type="plugin"/>
     <x:filter token="DEPOT-EXEC-URI" ref="dpml/metro/dpml-metro-exec" feature="uri" type="plugin"/>
     <x:filter token="DEPOT-BUILD-URI" ref="dpml/tools/dpml-tools-library" feature="uri" type="plugin"/>
-    <!--<x:filter token="DEPOT-AUDIT-URI" key="dpml-depot-audit" feature="uri" type="plugin"/>-->
     <x:filter token="DEPOT-STATION-URI" key="dpml-station-console" feature="uri" type="plugin"/>
-    <x:filter token="DEPOT-STATION-SERVER-URI" key="dpml-station-impl" feature="uri" type="plugin"/>
-    <filter token="METRO-CENTRAL-URI" value="link:plugin:dpml/metro/dpml-metro-central#LATEST"/>
+    <x:filter token="DEPOT-STATION-SERVER-URI" key="dpml-station-server" feature="uri" type="plugin"/>
   </target>
 
   <!--

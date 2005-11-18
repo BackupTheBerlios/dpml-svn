@@ -23,7 +23,9 @@ import java.beans.Expression;
 import java.beans.Encoder;
 
 /**
- * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
+ * Bean info for the InfoDescriptor class.
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public final class InfoDescriptorBeanInfo extends SimpleBeanInfo
 {

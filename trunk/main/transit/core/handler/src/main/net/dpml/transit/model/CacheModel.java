@@ -26,6 +26,9 @@ import java.rmi.RemoteException;
  * A CacheModel maintains information about the configuration of the Transit
  * cache subsystem.  Instances of CacheModel shall be supplied to cache handler
  * implementations as constructor arguments.
+ *
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public interface CacheModel extends CodeBaseModel, Disposable
 {

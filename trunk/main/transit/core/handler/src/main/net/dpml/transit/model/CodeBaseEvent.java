@@ -23,6 +23,9 @@ import java.util.EventObject;
 /**
  * An event pertaining to a change in a plugin uri assigned to 
  * a codebase model.
+ *
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public abstract class CodeBaseEvent extends EventObject
 {

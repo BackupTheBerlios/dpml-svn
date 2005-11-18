@@ -20,6 +20,9 @@ package net.dpml.transit.model;
 
 /**
  * An event signalling the change in priority of a host.
+ *
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public class HostPriorityEvent extends HostEvent 
 {

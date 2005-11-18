@@ -25,6 +25,9 @@ import java.util.EventListener;
 /**
  * Interface implemented by objects concerning with changes to 
  * a codebase model.
+ *
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public interface CodeBaseListener extends EventListener, Remote
 {

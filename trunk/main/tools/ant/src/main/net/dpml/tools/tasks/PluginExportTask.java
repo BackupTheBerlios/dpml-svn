@@ -38,7 +38,7 @@ import org.apache.tools.ant.Project;
 import org.apache.tools.ant.BuildException;
 
 /**
- * Execute all plugins relative to the current build phase.
+ * Generates an module as an exportable artifact.
  *
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@

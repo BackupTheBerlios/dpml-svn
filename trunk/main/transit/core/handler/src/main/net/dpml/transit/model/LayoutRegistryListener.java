@@ -25,6 +25,9 @@ import java.rmi.RemoteException;
 /**
  * Interface implemented by objects that are interested in changes
  * to a layout registry.
+ *
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public interface LayoutRegistryListener extends EventListener, Remote
 {

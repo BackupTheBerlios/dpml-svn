@@ -23,6 +23,9 @@ import java.net.URL;
 /**
  * A connection monitor implementation that routes connection notification requests
  * to registered listeners.
+ *
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public class ConnectionMonitorRouter extends AbstractMonitorRouter
     implements ConnectionMonitor, Router

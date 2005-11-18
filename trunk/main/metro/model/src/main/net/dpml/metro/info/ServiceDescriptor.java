@@ -26,7 +26,8 @@ import net.dpml.metro.part.Version;
  * This ServiceDescriptor defines the interface and service version
  * published by a service instance.
  *
- * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public final class ServiceDescriptor implements Serializable
 {

@@ -23,6 +23,9 @@ import java.util.EventObject;
 /**
  * An abstract event related to the addition and removal of hosts
  * to and from the cache model.
+ *
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public abstract class CacheEvent extends EventObject
 {

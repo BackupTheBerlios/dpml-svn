@@ -30,6 +30,9 @@ import net.dpml.transit.PID;
 /**
  * The LoggingServer is a remote service that handles the aggregation of 
  * log records from multiple jvm processes.
+ *
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public class LoggingServer extends UnicastRemoteObject implements LoggingService
 {

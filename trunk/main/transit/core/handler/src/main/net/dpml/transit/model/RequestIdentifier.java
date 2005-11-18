@@ -25,6 +25,9 @@ import net.dpml.transit.NullArgumentException;
 
 /**
  * A request identifier.
+ *
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public final class RequestIdentifier implements Serializable
 {

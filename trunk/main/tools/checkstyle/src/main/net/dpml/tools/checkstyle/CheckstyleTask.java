@@ -34,6 +34,9 @@ import org.apache.tools.ant.types.FileSet;
  * The checkstyle task handes the establishment of a classic checkstyle task 
  * with automatic resolution of source directories.  Typical usage is within 
  * a build file that aggregates results for a module.
+ *
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public class CheckstyleTask extends CheckStyleTask
 {

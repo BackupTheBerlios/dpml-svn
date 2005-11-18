@@ -21,7 +21,9 @@ import java.beans.DefaultPersistenceDelegate;
 
 /**
  * Bean info thatdeclares a persistence delegate for the Version class.
- * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
+ *
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public final class VersionBeanInfo extends SimpleBeanInfo
 {

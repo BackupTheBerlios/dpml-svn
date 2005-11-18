@@ -22,7 +22,8 @@ package net.dpml.transit.model;
  * Exception raised when an attempt is made to associate a plugin based model
  * with a bootstrap model.
  *
- * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public class BootstrapException extends ModelException
 {

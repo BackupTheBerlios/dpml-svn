@@ -34,6 +34,8 @@ import net.dpml.transit.StandardClassLoader;
 /**
  * The DepotRMIClassLoaderSpi handles the loading of classes that are based on 
  * plugin artifact types.
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public class DepotRMIClassLoaderSpi extends RMIClassLoaderSpi
 {

@@ -52,7 +52,8 @@ import net.dpml.metro.state.impl.DefaultStateMachine;
  * implements the Disposable insterface - the implementation will invoke the dispose 
  * operation on the client instance.
  *
- * @author <a href="mailto:dev-dpml@lists.ibiblio.org">The Digital Product Meta Library</a>
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 class DefaultInstance extends UnicastEventSource implements Instance
 {

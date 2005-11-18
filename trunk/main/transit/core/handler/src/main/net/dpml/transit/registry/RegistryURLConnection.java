@@ -31,6 +31,7 @@ import java.rmi.registry.LocateRegistry;
 
 /**
  * The registry URL protocol connection implementation.
+ *
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */

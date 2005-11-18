@@ -79,8 +79,8 @@ import net.dpml.transit.model.Value;
  * The composition controller is the controller used to establish remotely accessible
  * component controls.
  *
- * @author <a href="mailto:dev-dpml@lists.ibiblio.org">The Digital Product Meta Library</a>
- * @version $Revision: 1.2 $ $Date: 2004/03/17 10:30:09 $
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public class CompositionController implements Controller
 {

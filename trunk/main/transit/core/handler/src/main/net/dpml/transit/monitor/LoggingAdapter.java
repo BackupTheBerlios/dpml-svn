@@ -27,7 +27,8 @@ import net.dpml.transit.PID;
 /**
  * Generic adapter that redirects monitor events to a logging channel.
  *
- * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public class LoggingAdapter implements Adapter
 {

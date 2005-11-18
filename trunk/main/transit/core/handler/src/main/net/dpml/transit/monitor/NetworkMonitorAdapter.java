@@ -23,7 +23,8 @@ import java.net.URL;
 /**
  * Adapts network events to logging messages.
  *
- * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public class NetworkMonitorAdapter extends AbstractAdapter
     implements NetworkMonitor

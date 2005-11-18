@@ -23,7 +23,9 @@ import java.net.URISyntaxException;
 
 /**
  * Abstract base class for directives.
- * @author <a href="mailto:dev-dpml@lists.ibiblio.org">The Digital Product Meta Library</a>
+ *
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public abstract class AbstractDirective implements Directive
 {

@@ -30,6 +30,9 @@ import java.rmi.RemoteException;
  * to a resource host implmentation. Implementation shall maintain 
  * synchronization via change events raised by implementations of this 
  * interface.
+ *
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public interface HostModel extends CodeBaseModel, Disposable
 {

@@ -23,6 +23,9 @@ import java.rmi.RemoteException;
 /**
  * A LayoutModel maintains information about the configuration
  * of a host or cache layout.
+ *
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public interface LayoutModel extends CodeBaseModel, Disposable
 {

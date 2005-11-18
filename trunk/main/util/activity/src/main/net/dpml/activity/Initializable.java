@@ -20,8 +20,8 @@ package net.dpml.activity;
  * The Initializable interface is used by components that need to
  * allocate resources prior to them becoming active.
  *
- * @author <a href="mailto:dev-dpml@lists.ibiblio.org">The Digital Product Meta Library</a>
- * @version $Id: Initializable.java 2103 2005-03-21 16:44:54Z mcconnell@dpml.net $
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public interface Initializable
 {

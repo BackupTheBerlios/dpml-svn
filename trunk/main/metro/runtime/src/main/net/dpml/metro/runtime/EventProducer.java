@@ -32,6 +32,9 @@ import net.dpml.transit.util.ExceptionHelper;
 /**
  * A abstract base class that established an event queue and handles event dispatch 
  * operations for listeners declared in a class extending this base class.
+ *
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 abstract class EventProducer extends UnicastRemoteObject
 {

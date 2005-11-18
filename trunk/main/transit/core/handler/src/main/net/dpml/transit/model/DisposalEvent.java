@@ -22,6 +22,9 @@ import java.util.EventObject;
 
 /**
  * An event signalling a model disposal.
+ *
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public class DisposalEvent extends EventObject 
 {

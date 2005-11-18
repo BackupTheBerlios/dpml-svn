@@ -24,6 +24,9 @@ import java.rmi.RemoteException;
  * A ContentModel maintains information about the configuration
  * of a content handler.  Instances of ContentModel are used as 
  * constructor arguments to content handler plugins.
+ *
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public interface ContentModel extends CodeBaseModel, Disposable
 {

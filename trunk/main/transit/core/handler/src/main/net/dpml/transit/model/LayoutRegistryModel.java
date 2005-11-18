@@ -22,6 +22,9 @@ import java.rmi.RemoteException;
 
 /**
  * A LayoutRegistryModel maintains a collection of layout models.
+ *
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public interface LayoutRegistryModel extends CodeBaseModel
 {

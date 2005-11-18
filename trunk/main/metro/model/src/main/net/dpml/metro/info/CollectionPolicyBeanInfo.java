@@ -31,8 +31,8 @@ import net.dpml.transit.util.Enum;
 /**
  * BeanInfo that declares a specialized persistence delegate for the collection policy class.
  *
- * @author <a href="mailto:dev-dpml@lists.ibiblio.org">The Digital Product Meta Library</a>
- * @version $Id: InfoDescriptor.java 2522 2005-05-12 11:23:50Z mcconnell@dpml.net $
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public final class CollectionPolicyBeanInfo extends SimpleBeanInfo
 {

@@ -37,7 +37,8 @@ import net.dpml.transit.store.TransitStorageUnit;
  * The DefaultTransitModel class maintains an active configuration of the 
  * Transit system.
  *
- * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public class DefaultTransitModel extends DefaultModel implements TransitModel
 {

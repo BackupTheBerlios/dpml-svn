@@ -52,6 +52,9 @@ import net.dpml.transit.model.UnknownKeyException;
 /**
  * Implements of the application registry within which a set of application profiles 
  * are maintained.
+ *
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public class RemoteApplicationRegistry extends DefaultModel implements ApplicationRegistry
 {

@@ -25,6 +25,9 @@ import java.util.EventListener;
 /**
  * A ContentListener maintains information about the configuration of 
  * content type.
+ *
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public interface ContentListener extends EventListener, Remote
 {

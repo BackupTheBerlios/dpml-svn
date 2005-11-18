@@ -34,7 +34,8 @@ import net.dpml.transit.store.ContentRegistryHome;
  * Default implementation of a content model registry manager that maitains 
  * information about the set of registred content models.
  *
- * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 class DefaultContentRegistryModel extends DisposableCodeBaseModel 
   implements ContentRegistryModel

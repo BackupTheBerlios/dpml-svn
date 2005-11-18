@@ -48,6 +48,7 @@ import net.dpml.transit.Category;
 
 /**
  * Implementation of a resource.
+ *
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */

@@ -26,8 +26,8 @@ import net.dpml.transit.monitor.LoggingAdapter;
 /**
  * Default logging adapter.
  *
- * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
- * @version $Id: LoggingAdapter.java 2684 2005-06-01 00:22:50Z mcconnell@dpml.net $
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 final class StandardLogger implements net.dpml.logging.Logger
 {

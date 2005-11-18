@@ -22,6 +22,9 @@ import java.net.URL;
 
 /**
  * A router that handles multicasr distribution of monitor events to registered monitors.
+ *
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public class NetworkMonitorRouter extends AbstractMonitorRouter
     implements NetworkMonitor, Router

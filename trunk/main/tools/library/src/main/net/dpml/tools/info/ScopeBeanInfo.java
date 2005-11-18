@@ -26,6 +26,7 @@ import java.beans.Encoder;
 
 /**
  * Bean info for state encoding of the Lifestyle policy enumeration.
+ *
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */

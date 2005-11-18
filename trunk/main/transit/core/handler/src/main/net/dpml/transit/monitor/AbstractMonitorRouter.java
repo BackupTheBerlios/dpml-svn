@@ -23,6 +23,9 @@ import java.util.ArrayList;
 /**
  * A repository monitor router handles mutlicast distribution of monitor events to 
  * a set of subscribed monitors.
+ *
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public class AbstractMonitorRouter implements Router
 {

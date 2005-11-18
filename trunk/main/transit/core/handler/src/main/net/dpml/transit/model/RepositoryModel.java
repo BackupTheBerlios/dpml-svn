@@ -21,6 +21,9 @@ package net.dpml.transit.model;
 /**
  * A RepositoryModel maintains information about the configuration of the Transit
  * repository service.
+ *
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public interface RepositoryModel extends CodeBaseModel
 {

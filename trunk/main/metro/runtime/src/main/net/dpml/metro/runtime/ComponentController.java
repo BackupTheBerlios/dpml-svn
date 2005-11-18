@@ -78,7 +78,8 @@ import net.dpml.transit.model.Value;
 /**
  * The ComponentController class is a controller of a component instance.
  *
- * @author <a href="mailto:dev-dpml@lists.ibiblio.org">The Digital Product Meta Library</a>
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 class ComponentController
 {

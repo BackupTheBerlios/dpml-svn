@@ -20,6 +20,9 @@ package net.dpml.transit.monitor;
 
 /**
  * Genric interface marking a class as a monitor.
+ *
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */ 
 public interface Monitor
 {

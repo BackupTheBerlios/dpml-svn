@@ -20,8 +20,8 @@ package net.dpml.activity;
  * The Disposable interface is used when components need to
  * deallocate and dispose resources prior to their destruction.
  *
- * @author <a href="mailto:dev-dpml@lists.ibiblio.org">The Digital Product Meta Library</a>
- * @version $Id: Disposable.java 2103 2005-03-21 16:44:54Z mcconnell@dpml.net $
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public interface Disposable
 {

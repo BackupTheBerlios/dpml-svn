@@ -26,7 +26,8 @@ import net.dpml.transit.store.CodeBaseStorage;
 /**
  * Default implementation of a pluggable repository model.
  *
- * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 class DefaultRepositoryModel extends DisposableCodeBaseModel implements RepositoryModel
 {

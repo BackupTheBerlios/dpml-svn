@@ -26,6 +26,9 @@ import net.dpml.metro.data.CategoriesDirective;
 
 /**
  * Build datatype used to construct a categories descriptor.
+ *
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public class CategoriesDataType
 {

@@ -34,7 +34,8 @@ import net.dpml.metro.state.StateListener;
  * events locally as PropertyChangeEvent instances.   Consumers should register 
  * PropertyChangeListener instances and track 'state' events as required.
  *
- * @author <a href="mailto:dev-dpml@lists.ibiblio.org">The Digital Product Meta Library</a>
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public final class DefaultStateListener extends UnicastRemoteObject implements StateListener
 {

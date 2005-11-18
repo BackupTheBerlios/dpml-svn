@@ -40,9 +40,12 @@ import net.dpml.transit.Repository;
 import net.dpml.transit.Transit;
 
 /**
- * The PartHandler provides support for the establishment of a part
+ * The ComponentHandler provides support for the establishment of a part
  * controller and delegation of handler requests to the part handler
  * resolved from its associated controller.
+ *
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public class ComponentHandler extends AbstractHandler
 {

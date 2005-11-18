@@ -25,7 +25,8 @@ import java.rmi.registry.Registry;
  * The Connection class describes a service access point used during 
  * publication or location of a service.
  *
- * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public class Connection implements Serializable
 {

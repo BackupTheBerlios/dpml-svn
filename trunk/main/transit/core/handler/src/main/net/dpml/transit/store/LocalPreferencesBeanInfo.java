@@ -29,6 +29,9 @@ import java.util.prefs.BackingStoreException;
  * An implementation of Preferences based on java.util.Properties suitable
  * for scenarios where the persistent lifetime is limited to the lifetype 
  * of the JVM.
+ *
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public final class LocalPreferencesBeanInfo extends SimpleBeanInfo
 {

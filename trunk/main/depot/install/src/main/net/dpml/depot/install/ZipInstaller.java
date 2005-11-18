@@ -43,6 +43,8 @@ import net.dpml.transit.util.StreamUtils;
 
 /**
  * Table model that maps table rows to child nodes of a supplied preferences node.
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 class ZipInstaller
 {

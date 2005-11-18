@@ -24,7 +24,8 @@ import java.net.URI;
  * Interface implemented by classes providing content handler configuration
  * storage.
  *
- * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public interface ContentRegistryHome extends CodeBaseStorage
 {

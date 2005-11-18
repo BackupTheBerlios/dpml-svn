@@ -26,6 +26,8 @@ import net.dpml.transit.PID;
 
 /**
  * Interface exposed by a remote logging service to local log aggregation handlers. 
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public interface LoggingService extends Remote
 {

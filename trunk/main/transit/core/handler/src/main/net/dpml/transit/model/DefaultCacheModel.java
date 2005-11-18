@@ -39,7 +39,8 @@ import net.dpml.transit.util.PropertyResolver;
  * Default implementation of the cache model that maintains information 
  * about the current cache directory and the associated hosts.
  *
- * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 class DefaultCacheModel extends DisposableCodeBaseModel 
    implements CacheModel, DisposalListener

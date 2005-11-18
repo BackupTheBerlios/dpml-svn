@@ -22,6 +22,9 @@ import java.util.EventObject;
 
 /**
  * An abstract event pertaining to host feature changes.
+ *
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public abstract class HostEvent extends EventObject
 {

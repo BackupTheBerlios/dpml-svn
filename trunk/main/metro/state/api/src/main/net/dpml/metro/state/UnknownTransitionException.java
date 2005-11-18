@@ -22,7 +22,8 @@ package net.dpml.metro.state;
  * Exception thrown when a request is made to apply a transition that is unknown
  * relative to the target state.
  *
- * @author <a href="mailto:dev-dpml@lists.ibiblio.org">The Digital Product Meta Library</a>
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public class UnknownTransitionException extends Exception
 {

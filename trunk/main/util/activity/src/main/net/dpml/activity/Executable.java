@@ -24,8 +24,8 @@ package net.dpml.activity;
  * <p>The work done may be short lived (ie a simple task) or it could
  * be a long running.</p>
  *
- * @author <a href="mailto:dev-dpml@lists.ibiblio.org">The Digital Product Meta Library</a>
- * @version $Id: Executable.java 2103 2005-03-21 16:44:54Z mcconnell@dpml.net $
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public interface Executable
 {

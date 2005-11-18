@@ -25,8 +25,8 @@ import java.io.Serializable;
  * Description of the configuration of a set of categories.
  *
  * @see CategoryDirective
- * @author <a href="mailto:dev-dpml@lists.ibiblio.org">The Digital Product Meta Library</a>
- * @version $Id: CategoriesDirective.java 259 2004-10-30 07:24:40Z mcconnell $
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public class CategoriesDirective extends CategoryDirective implements Serializable
 {

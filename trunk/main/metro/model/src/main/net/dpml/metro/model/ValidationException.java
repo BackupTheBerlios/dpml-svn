@@ -34,7 +34,8 @@ import net.dpml.transit.model.UnknownKeyException;
 /**
  * Exception that describes a series of validation issues.
  *
- * @author <a href="mailto:dev-dpml@lists.ibiblio.org">The Digital Product Meta Library</a>
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public final class ValidationException extends ContextException
 {

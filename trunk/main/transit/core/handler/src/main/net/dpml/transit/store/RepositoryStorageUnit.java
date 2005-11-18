@@ -21,6 +21,9 @@ import java.util.prefs.Preferences;
 /**
  * The RepositoryStorageUnit maintains the persistent settings for the 
  * plugin repository service.
+ *
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 class RepositoryStorageUnit extends CodeBaseStorageUnit implements CodeBaseStorage
 {

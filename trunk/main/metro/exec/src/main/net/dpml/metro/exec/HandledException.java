@@ -17,7 +17,7 @@
 package net.dpml.metro.exec;
 
 /**
- * A null exception thrown following the complete handing of the error condition
+ * A exception thrown following the complete handing of the error condition
  * signalling termination of command processing. 
  */
 class HandledException extends Exception

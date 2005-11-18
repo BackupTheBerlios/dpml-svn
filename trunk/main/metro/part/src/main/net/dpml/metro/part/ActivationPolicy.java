@@ -23,9 +23,9 @@ import net.dpml.transit.util.Enum;
 /**
  * Policy enummeration for the declaration of activation semantics.
  *
- * @author <a href="mailto:dev-dpml@lists.ibiblio.org">The Digital Product Meta Library</a>
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
-
 public final class ActivationPolicy extends Enum
 {
     static final long serialVersionUID = 1L;

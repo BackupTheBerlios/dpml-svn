@@ -25,6 +25,9 @@ import java.net.URLClassLoader;
 
 /**
  * Adapts repository service monitor events to a logging channel.
+ *
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public class RepositoryMonitorAdapter extends AbstractAdapter
     implements RepositoryMonitor

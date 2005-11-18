@@ -29,6 +29,8 @@ import java.util.logging.LogManager;
  * aggregates logging messages from multiple JVM within a local domain.  This 
  * configuration handler is declared as the default logging configuration for 
  * suprocesses launched by the DPML Station.
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public class DepotLoggingConfiguration
 {

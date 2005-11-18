@@ -25,6 +25,9 @@ import java.rmi.RemoteException;
 /**
  * A RegistryListener is an interface implemented by objects wishing to be 
  * notified of changes to the registry of transit models.
+ *
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public interface TransitRegistryListener extends EventListener, Remote
 {

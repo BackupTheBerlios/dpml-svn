@@ -36,8 +36,8 @@ import net.dpml.transit.store.Strategy;
  * (the classic layout and the ecli8pse layout) and the second dealing with
  * plugin layout strategies.
  *
- * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
- * @version $Id: HostManager.java 2480 2005-05-10 04:44:32Z mcconnell@dpml.net $
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 class DefaultLayoutModel extends DisposableCodeBaseModel implements LayoutModel
 {

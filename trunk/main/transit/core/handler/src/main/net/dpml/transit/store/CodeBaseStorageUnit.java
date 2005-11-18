@@ -22,9 +22,13 @@ import java.util.prefs.Preferences;
 import java.util.prefs.BackingStoreException;
 
 import net.dpml.transit.model.Value;
+
 /**
  * The LayoutHelper class is responsible for the setup of initial factory
  * default preference settings.
+ *
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public abstract class CodeBaseStorageUnit extends AbstractStorageUnit implements CodeBaseStorage
 {

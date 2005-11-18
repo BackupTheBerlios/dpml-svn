@@ -25,6 +25,9 @@ import java.net.URI;
  * A RegistryModel maintains information about the configuration of the Transit
  * content registry subsystem.  Instances of RegistryModel shall be supplied to 
  * registry implementations as constructor arguments.
+ *
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public interface ContentRegistryModel extends CodeBaseModel
 {

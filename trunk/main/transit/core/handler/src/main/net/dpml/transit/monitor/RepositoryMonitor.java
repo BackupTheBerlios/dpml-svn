@@ -24,6 +24,9 @@ import java.lang.reflect.Constructor;
  
 /**
  * Defintion of a repository monitor.
+ *
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public interface RepositoryMonitor extends Monitor
 {

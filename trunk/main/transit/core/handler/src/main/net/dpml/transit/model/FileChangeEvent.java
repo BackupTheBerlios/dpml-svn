@@ -23,6 +23,9 @@ import java.util.EventObject;
 
 /**
  * Event signalling a change to the Transit cache directory.
+ *
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public abstract class FileChangeEvent extends EventObject
 {

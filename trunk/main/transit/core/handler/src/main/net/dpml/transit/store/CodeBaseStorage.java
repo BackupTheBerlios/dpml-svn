@@ -26,7 +26,8 @@ import net.dpml.transit.model.Value;
  * The CodeBaseStorage is an interface implemented by objects maintaining
  * the persistent configuration of a codebase model.
  *
- * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public interface CodeBaseStorage
 {

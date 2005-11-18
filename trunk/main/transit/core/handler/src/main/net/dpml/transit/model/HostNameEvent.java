@@ -20,6 +20,9 @@ package net.dpml.transit.model;
 
 /**
  * An event signalling the change of name of a host.
+ *
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public class HostNameEvent extends HostEvent 
 {

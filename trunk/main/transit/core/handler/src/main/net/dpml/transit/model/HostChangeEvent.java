@@ -24,6 +24,9 @@ import java.net.PasswordAuthentication;
 /**
  * An event pertaining to a modification to a host model base url, 
  * index, request identifier or connection credentials.
+ *
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public class HostChangeEvent extends HostEvent 
 {

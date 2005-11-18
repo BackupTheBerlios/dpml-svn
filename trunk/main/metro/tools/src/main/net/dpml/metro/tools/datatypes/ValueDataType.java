@@ -27,6 +27,9 @@ import net.dpml.transit.model.Construct;
 
 /**
  * Defintion of a context entry parameter directive.
+ *
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public class ValueDataType
 {

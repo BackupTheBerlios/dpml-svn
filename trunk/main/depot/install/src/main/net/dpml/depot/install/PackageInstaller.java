@@ -46,6 +46,8 @@ import net.dpml.transit.util.CLIHelper;
 /**
  * The DepotInstaller is responsible for the establishment and integrity of 
  * the DPML installation and substytem install processes.
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public class PackageInstaller implements Runnable
 {

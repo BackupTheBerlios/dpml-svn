@@ -26,6 +26,9 @@ import java.rmi.RemoteException;
  * A DisposalListener interface provides support for notification of 
  * an imminent disposal and post disposal notification.  Implementations
  * may veto disposal by raising the VetoDisposalException.
+ *
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public interface DisposalListener extends EventListener, Remote
 {

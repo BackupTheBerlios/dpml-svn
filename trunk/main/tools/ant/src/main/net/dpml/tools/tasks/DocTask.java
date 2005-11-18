@@ -46,6 +46,9 @@ import org.apache.tools.ant.types.FileSet;
 
 /**
  * Site generation.
+ *
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public class DocTask extends GenericTask
 {

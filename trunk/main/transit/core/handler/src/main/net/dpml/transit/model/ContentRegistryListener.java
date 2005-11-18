@@ -26,6 +26,9 @@ import java.rmi.RemoteException;
  * A ContentRegistryListener maintains information about the configuration of a Transit
  * content management system. An implementation of this interface would be supplied 
  * a ContentRegistry implementation.
+ *
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public interface ContentRegistryListener extends EventListener, Remote
 {

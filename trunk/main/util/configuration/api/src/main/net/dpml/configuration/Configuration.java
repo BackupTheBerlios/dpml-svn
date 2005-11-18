@@ -132,8 +132,8 @@ package net.dpml.configuration;
  * }
  * </pre>
  *
- * @author <a href="mailto:dev-dpml@lists.ibiblio.org">The Digital Product Meta Library</a>
- * @version $Id: Configuration.java 259 2004-10-30 07:24:40Z mcconnell $
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public interface Configuration
 {

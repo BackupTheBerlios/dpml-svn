@@ -22,6 +22,9 @@ import java.rmi.Remote;
 
 /**
  * The abstract model interface.
+ *
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public interface Model extends Remote
 {

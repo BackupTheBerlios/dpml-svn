@@ -30,8 +30,8 @@ import net.dpml.metro.info.EntryDescriptor;
  * responsible for the supply of values based on request invocations applied to 
  * a #Context inner-class.
  *
- * @author <a href="mailto:dev-dpml@lists.ibiblio.org">The Digital Product Meta Library</a>
- * @version $Id: ApplianceInvocationHandler.java 2106 2005-03-21 18:46:10Z mcconnell@dpml.net $
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 class ContextInvocationHandler implements InvocationHandler
 {

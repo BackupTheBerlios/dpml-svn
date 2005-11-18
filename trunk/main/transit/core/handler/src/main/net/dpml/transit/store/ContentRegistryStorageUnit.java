@@ -23,6 +23,9 @@ import java.util.prefs.Preferences;
 /**
  * The LayoutRegistryHelper class provides support for the crreating of a 
  * ContentRegistryModel based on a supplied preferences node.
+ *
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 class ContentRegistryStorageUnit extends CodeBaseStorageUnit implements ContentRegistryHome
 {

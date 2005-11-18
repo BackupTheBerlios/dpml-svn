@@ -22,6 +22,9 @@ import java.util.EventObject;
 
 /**
  * Event signalling a change to the Tranist cache directory.
+ *
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public class CacheDirectoryChangeEvent extends EventObject
 {

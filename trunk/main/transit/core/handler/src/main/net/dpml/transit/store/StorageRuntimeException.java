@@ -21,7 +21,8 @@ package net.dpml.transit.store;
 /**
  * Exception related to a storage error.
  *
- * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public class StorageRuntimeException extends RuntimeException
 {

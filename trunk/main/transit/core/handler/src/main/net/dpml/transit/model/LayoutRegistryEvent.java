@@ -23,6 +23,9 @@ import java.util.EventObject;
 /**
  * An event issued by a layout registry signalling addition or removal
  * of a layout model.
+ *
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public abstract class LayoutRegistryEvent extends EventObject
 {

@@ -25,6 +25,9 @@ import java.rmi.RemoteException;
 /**
  * The ProxyModel is an interface implemented by objects that
  * manage the configuration of transit proxy settings.
+ *
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public interface ProxyModel extends Model
 {

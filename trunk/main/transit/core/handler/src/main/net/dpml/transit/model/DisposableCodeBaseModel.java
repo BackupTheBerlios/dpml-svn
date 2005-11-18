@@ -29,7 +29,8 @@ import net.dpml.transit.store.CodeBaseStorage;
 /**
  * The DisposableCodeBaseModel is codebase model that is disposable.
  *
- * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public abstract class DisposableCodeBaseModel extends DefaultCodeBaseModel implements Disposable
 {

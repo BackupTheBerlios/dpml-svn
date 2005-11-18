@@ -28,6 +28,9 @@ import net.dpml.transit.model.TransitRegistryModel;
 import net.dpml.transit.model.UnknownKeyException;
 
 /**
+ *
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public class MetroInstaller
 {

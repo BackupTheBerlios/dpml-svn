@@ -28,8 +28,8 @@ import net.dpml.metro.part.Part;
  * A reference directive is a reference to a part within the enclosing part's
  * context or parts.
  *
- * @author <a href="mailto:dev-dpml@lists.ibiblio.org">The Digital Product Meta Library</a>
- * @version $Id: ImportDirective.java 2230 2005-04-06 18:50:19Z mcconnell@dpml.net $
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public final class ReferenceDirective extends AbstractDirective
 {

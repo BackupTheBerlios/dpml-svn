@@ -26,7 +26,7 @@ import java.beans.Encoder;
 
 /**
  * Interface describing a condition within which an action may be invoked.
- * 
+ *
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */

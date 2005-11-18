@@ -35,6 +35,9 @@ import net.dpml.transit.monitor.LoggingAdapter;
 import net.dpml.transit.Repository;
 
 /**
+ * 
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public class PartContentHandler // extends ContentHandler
 {

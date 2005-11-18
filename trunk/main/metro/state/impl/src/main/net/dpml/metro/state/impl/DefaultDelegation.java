@@ -25,7 +25,7 @@ import net.dpml.metro.state.Delegation;
 
 /**
  * Default implementation of delegating action.
- * 
+ *
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */

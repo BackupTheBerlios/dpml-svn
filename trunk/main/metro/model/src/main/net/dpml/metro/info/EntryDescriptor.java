@@ -32,8 +32,8 @@ import java.lang.reflect.Method;
  *   <li>isOptional: true if entry is optional rather than required</li>
  * </ul>
  *
- * @author <a href="mailto:dev-dpml@lists.ibiblio.org">The Digital Product Meta Library</a>
- * @version $Id: EntryDescriptor.java 2387 2005-04-23 19:12:58Z mcconnell@dpml.net $
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public final class EntryDescriptor implements Serializable
 {

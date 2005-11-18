@@ -23,6 +23,9 @@ import java.net.PasswordAuthentication;
 
 /**
  * Default implementation of a persistent host storage using java.util.Preferences.
+ *
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 class HostStorageUnit extends CodeBaseStorageUnit implements HostStorage, Removable
 {

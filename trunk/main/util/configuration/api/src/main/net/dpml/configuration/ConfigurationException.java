@@ -19,8 +19,8 @@ package net.dpml.configuration;
 /**
  * Thrown in response to a missing or invalid configuration fragment.
  *
- * @author <a href="mailto:dev-dpml@lists.ibiblio.org">The Digital Product Meta Library</a>
- * @version $Id: ConfigurationException.java 259 2004-10-30 07:24:40Z mcconnell $
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public class ConfigurationException
     extends Exception

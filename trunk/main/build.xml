@@ -83,20 +83,18 @@
     <x:javadoc title="DPML Component Management Platform" >
       <link href="http://java.sun.com/j2se/1.4/docs/api"/>
       <group title="Metro">
-        <package name="net.dpml.depot"/>
-        <package name="net.dpml.depot.*"/>
         <package name="net.dpml.metro"/>
         <package name="net.dpml.metro.*"/>
         <package name="net.dpml.metro.part"/>
         <package name="net.dpml.metro.part.*"/>
         <package name="net.dpml.metro.state"/>
         <package name="net.dpml.metro.state.*"/>
-        <package name="net.dpml.profile"/>
-        <package name="net.dpml.profile.*"/>
         <package name="net.dpml.station"/>
         <package name="net.dpml.station.*"/>
       </group>
       <group title="Depot">
+        <package name="net.dpml.depot"/>
+        <package name="net.dpml.depot.*"/>
         <package name="net.dpml.tools"/>
         <package name="net.dpml.tools.*"/>
         <package name="net.dpml.transit.tools"/>

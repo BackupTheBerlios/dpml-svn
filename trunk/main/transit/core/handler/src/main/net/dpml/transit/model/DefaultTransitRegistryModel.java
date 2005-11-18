@@ -33,7 +33,8 @@ import net.dpml.transit.store.TransitHome;
  * The DefaultTransitRegistryModel class maintains the set of 
  * registered Transit profiles.
  *
- * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public class DefaultTransitRegistryModel extends DefaultModel implements TransitRegistryModel
 {

@@ -24,8 +24,8 @@ package net.dpml.activity;
  * Note that these methods should start the component but return
  * imediately.
  *
- * @author <a href="mailto:dev-dpml@lists.ibiblio.org">The Digital Product Meta Library</a>
- * @version $Id: Startable.java 2103 2005-03-21 16:44:54Z mcconnell@dpml.net $
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public interface Startable
 {

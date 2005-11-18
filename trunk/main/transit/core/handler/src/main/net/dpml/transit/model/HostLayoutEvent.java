@@ -20,6 +20,9 @@ package net.dpml.transit.model;
 
 /**
  * An event signalling the change to the layout model assigned to a host model.
+ *
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public class HostLayoutEvent extends HostEvent 
 {

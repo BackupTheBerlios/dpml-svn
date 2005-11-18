@@ -25,6 +25,9 @@ import net.dpml.transit.TransitError;
 /**
  * The TransitStorageHome is responsible for the construction of persistent
  * storage units for all Transit subsystems.
+ *
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public class TransitStorageHome extends AbstractStorageUnit implements TransitHome
 {

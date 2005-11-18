@@ -21,6 +21,9 @@ package net.dpml.transit.monitor;
 /**
  * Generic interface implemented by classes that support multicast distribution
  * of monotor events to registered monitors.
+ *
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public interface Router
 {

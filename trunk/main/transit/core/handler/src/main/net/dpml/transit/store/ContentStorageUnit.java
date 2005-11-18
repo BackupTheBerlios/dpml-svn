@@ -23,6 +23,9 @@ import java.util.prefs.BackingStoreException;
 /**
  * The ContentSorageUnit class is responsible for the setup of initial factory
  * default preference settings.
+ *
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public class ContentStorageUnit extends CodeBaseStorageUnit implements ContentStorage, Removable
 {

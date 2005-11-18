@@ -23,7 +23,7 @@ import java.net.URI;
 /**
  * Interface describing an action that is invoked by resolution of a 
  * reference to another action.
- * 
+ *
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */

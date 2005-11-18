@@ -20,7 +20,7 @@ package net.dpml.metro.state;
 
 /**
  * Interface describing an application state.
- * 
+ *
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */

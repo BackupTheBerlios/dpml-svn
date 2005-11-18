@@ -27,8 +27,9 @@ import net.dpml.transit.Artifact;
 /**
  * Adapts cache events to logging messages.
  *
- * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
- * @version $Id: CacheMonitorAdapter.java 2445 2005-04-28 23:44:22Z niclas@hedhman.org $
+ *
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  * @see net.dpml.transit.monitor.Monitor
  */
 public class CacheMonitorAdapter extends AbstractAdapter

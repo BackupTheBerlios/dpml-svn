@@ -32,6 +32,9 @@ import net.dpml.metro.part.Part;
 
 /**
  * A simple part datatype.
+ *
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public class ReferenceDataType implements PartReferenceBuilder
 {

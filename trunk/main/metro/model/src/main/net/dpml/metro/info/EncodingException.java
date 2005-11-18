@@ -18,7 +18,8 @@ package net.dpml.metro.info;
 /**
  * Exception throw if an error occurs during the encoding of a component type.
  *
- * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public final class EncodingException extends Exception
 {

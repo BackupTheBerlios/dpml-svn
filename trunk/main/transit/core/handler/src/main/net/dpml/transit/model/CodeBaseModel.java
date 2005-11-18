@@ -24,6 +24,9 @@ import java.rmi.RemoteException;
 /**
  * A CodeBaseModel maintains information about the configuration of 
  * a pluggable subsystem.
+ *
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public interface CodeBaseModel extends Model
 {
