@@ -28,7 +28,7 @@
     <section name="Common Utilities">
 
       <p>
-      A number of common utilities are provider as a part of the DPML
+      A number of common utility libraries are provided as a part of the DPML
       platform.  These include support for internationalization, commandline
       handling, configuration, parameterization, logging, and common runtime 
       activity interfaces.

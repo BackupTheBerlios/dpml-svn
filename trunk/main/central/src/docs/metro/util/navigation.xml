@@ -27,7 +27,7 @@
 
     <menu>
       <item name="Activity" href="activity/index.html"/>
-      <item name="CLI" href="cli/index.html"/>
+      <item name="CommandLine" href="cli/index.html"/>
       <item name="Configuration" href="configuration/index.html"/>
       <item name="Internationalization" href="i18n/index.html"/>
       <item name="Logging" href="logging/index.html"/>
