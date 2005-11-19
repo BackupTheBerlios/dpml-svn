@@ -26,8 +26,8 @@
 
     <menu>
       <item name="Core" href="core/index.html"/>
-      <item name="Transit" href="transit/index.html"/>
-      <item name="Metro" href="metro/index.html"/>
+      <item name="Transit" href="resources/index.html"/>
+      <item name="Metro" href="components/index.html"/>
     </menu>
 
  </body>
