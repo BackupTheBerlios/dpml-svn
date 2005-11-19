@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
 <!-- 
- Copyright 2004-2005 Stephen McConnell
- Copyright 2004 Niclas Hedhman
- Copyright 2005 David Leangen
+ Copyright 2004 Stephen McConnell
 
  Licensed  under the  Apache License,  Version 2.0  (the "License");
  you may not use  this file  except in  compliance with the License.
@@ -21,17 +20,11 @@
 
 <project>
 
- <title>DPML Runtime</title>
+ <title>DPML Central</title>
 
  <body>
 
     <menu>
-      <item name="Activity" href="activity/index.html"/>
-      <item name="CLI" href="cli/index.html"/>
-      <item name="Configuration" href="configuration/index.html"/>
-      <item name="Internationalization" href="i18n/index.html"/>
-      <item name="Logging" href="logging/index.html"/>
-      <item name="Parameters" href="parameters/index.html"/>
     </menu>
 
  </body>
