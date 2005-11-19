@@ -25,10 +25,9 @@
  <body>
 
     <menu>
-      <item name="Overview" href="overview.html"/>
-      <item name="Templates" href="templates/index.html"/>
-      <item name="Processors" href="processors/index.html"/>
-      <item name="Tasks" href="tasks/index.html"/>
+      <item name="Core" href="core/index.html"/>
+      <item name="Transit" href="transit/index.html"/>
+      <item name="Metro" href="metro/index.html"/>
     </menu>
 
  </body>
