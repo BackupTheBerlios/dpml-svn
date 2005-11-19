@@ -298,6 +298,8 @@ $ metro exec link:part:dpml/planet/http/dpml-http-demo
     private static final Group COMMAND_GROUP =
       GROUP_BUILDER
         .withName( "options" )
+        .withMinimum( 1 )
+        .withMaximum( 1 )
         .withOption( EXECUTE_COMMAND )
         .withOption( HELP_COMMAND )
         .create();
