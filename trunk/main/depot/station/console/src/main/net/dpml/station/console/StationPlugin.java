@@ -427,7 +427,7 @@ public class StationPlugin
         formatter.getLineUsageSettings().remove( DisplaySetting.DISPLAY_GROUP_EXPANDED );
         
         formatter.setGroup( COMMAND_GROUP );
-        formatter.setShellCommand( "metro" );
+        formatter.setShellCommand( "station" );
         formatter.print();
     }
     
