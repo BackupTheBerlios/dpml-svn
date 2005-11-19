@@ -29,7 +29,7 @@
   </properties> 
 
   <body>
-    <section name="Transit Resource Management System - @TRANSIT-MODULE-VERSION@">
+    <section name="Transit Resource Management">
 
       <pre>@TRANSIT-HANDLER-URI@</pre>
 
