@@ -11,6 +11,17 @@
 
     <section name="Metro Command Line">
 
+<pre>$ metro help</pre>
+<source><![CDATA[
+Usage:
+metro exec <uri> | help
+options
+  exec <uri>               Execute deployment of an application codebase.
+    -key -port
+      -key (-k) <key>      Station callback application key.
+      -port (-p) <port>    Override default RMI registry port selection.
+  help                     Print command help.]]></source>
+
     </section>
 
   </body>

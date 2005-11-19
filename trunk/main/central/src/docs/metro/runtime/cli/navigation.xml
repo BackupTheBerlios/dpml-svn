@@ -25,6 +25,7 @@
  <body>
 
     <menu>
+      <item name="Exec" href="exec.html"/>
     </menu>
 
  </body>

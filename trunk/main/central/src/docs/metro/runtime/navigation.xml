@@ -20,15 +20,15 @@
 
 <project>
 
- <title>DPML Central</title>
+ <title>DPML Metro</title>
 
  <body>
 
     <menu>
       <item name="CLI" href="cli/index.html"/>
-      <item name="Concepts" href="concepts/index.html"/>
-      <item name="Components" href="components/index.html"/>
-      <item name="Applications" href="applications/index.html"/>
+      <item name="Types" href="types/index.html"/>
+      <item name="Profiles" href="profiles/index.html"/>
+      <item name="Models" href="model/index.html"/>
     </menu>
 
  </body>
