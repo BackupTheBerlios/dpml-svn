@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<document>
+
+  <properties>
+    <author email="mcconnell@dpml.net">Stephen McConnell</author>
+    <title>DPML Runtime</title>
+  </properties> 
+
+  <body>
+
+    <section name="Startup">
+
+<pre><![CDATA[$ station startup [-port <port>] [-registry <artifact>]]]></pre>
+<source>[5096 ] [INFO   ] (depot.station): Station started on port: 1099</source>
+
+    </section>
+
+  </body>
+
+</document>
+

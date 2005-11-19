@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<document>
+
+  <properties>
+    <author email="mcconnell@dpml.net">Stephen McConnell</author>
+    <title>DPML Runtime</title>
+  </properties> 
+
+  <body>
+
+    <section name="Shutdown">
+
+<pre><![CDATA[$ station shutdown [-port <port>]]]></pre>
+<source>[6084 ] [INFO   ] (depot.station): initiating station shutdown
+[6084 ] [INFO   ] (depot.station): station shutdown complete</source>
+
+    </section>
+
+  </body>
+
+</document>
+

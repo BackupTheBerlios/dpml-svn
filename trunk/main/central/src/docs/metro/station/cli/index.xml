@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<document>
+
+  <properties>
+    <author email="mcconnell@dpml.net">Stephen McConnell</author>
+    <title>DPML Runtime</title>
+  </properties> 
+
+  <body>
+
+    <section name="Metro Command Line">
+
+<pre>$ station help</pre>
+<source><![CDATA[
+Usage:
+station startup | add <key> | set <key> | start <key> | stop <key> | restart <key> | info <key> |
+remove <key> | shutdown | help
+options
+  startup                                                             Startup the station.
+    -port -registry
+      -port <port>                                                    RMI Registry port.
+      -registry <artifact>                                            Application registry store.
+      -D<property>=<value>                                            Set property values.
+  add <key>                                                           Add a profile.
+    -uri -policy  -dir -title -registry -startup -shutdown -config
+      -uri <artifact>                                                 Codebase uri.
+      -policy <policy>                                                Startup policy.
+      -D<property>=<value>                                            Set property values.
+      -dir (-basedir) <path>                                          Base directory.
+      -title <title>                                                  Application title.
+      -registry <artifact>                                            Application registry store.
+      -startup <seconds>                                              Startup timeout.
+      -shutdown <seconds>                                             Shutdown timeout.
+      -config <uri>                                                   Application configuration.
+  set <key>                                                           Set an application feature.
+    -uri -policy  -dir -title -registry -startup -shutdown -config
+      -uri <artifact>                                                 Codebase uri.
+      -policy <policy>                                                Startup policy.
+      -D<property>=<value>                                            Set property values.
+      -dir (-basedir) <path>                                          Base directory.
+      -title <title>                                                  Application title.
+      -registry <artifact>                                            Application registry store.
+      -startup <seconds>                                              Startup timeout.
+      -shutdown <seconds>                                             Shutdown timeout.
+      -config <uri>                                                   Application configuration.
+  start <key>                                                         Start application.
+  stop <key>                                                          Stop application.
+  restart <key>                                                       Restart application.
+  info <key>                                                          Station or profile info.
+    -port|-registry
+      -port <port>                                                    RMI Registry port.
+      -registry <artifact>                                            Application registry store.
+  remove <key>                                                        Remove profile.
+    -port|-registry
+      -port <port>                                                    RMI Registry port.
+      -registry <artifact>                                            Application registry store.
+  shutdown                                                            Shutdown the station.
+  help                                                                Print command help.]]></source>
+
+    </section>
+
+  </body>
+
+</document>
+
