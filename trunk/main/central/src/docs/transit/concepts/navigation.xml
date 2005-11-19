@@ -25,10 +25,9 @@
  <body>
 
     <menu>
-      <item name="Overview" href="concepts/index.html"/>
-      <item name="Protocols" href="technical/index.html"/>
-      <item name="Configuration" href="config/index.html"/>
-      <item name="Services" href="services/index.html"/>
+      <item name="Artifacts" href="artifacts.html"/>
+      <item name="Classloaders" href="classloaders.html"/>
+      <item name="Plugins" href="plugins.html"/>
     </menu>
 
  </body>
