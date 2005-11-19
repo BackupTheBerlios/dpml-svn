@@ -32,12 +32,15 @@ public interface Service extends Remote
 {
    /**
     * Return the service class.
+    * @return the service class
+    * @exception RemoteException if a remoting I/O error occurs
     */
     Class getServiceClass() throws RemoteException;
     
    /**
     * Return the service version.
     * @return the version
+    * @exception RemoteException if a remoting I/O error occurs
     */
     Version getVersion() throws RemoteException;
     

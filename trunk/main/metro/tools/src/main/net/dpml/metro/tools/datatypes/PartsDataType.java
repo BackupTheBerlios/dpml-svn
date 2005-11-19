@@ -34,7 +34,6 @@ import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.DynamicElementNS;
 import org.apache.tools.ant.Location;
 import org.apache.tools.ant.Project;
-import org.apache.tools.ant.ProjectComponent;
 import org.apache.tools.ant.Task;
 
 /**
@@ -48,6 +47,10 @@ public class PartsDataType extends ClassLoaderBuilderTask implements DynamicElem
     private List m_builders = new LinkedList();
     private Task m_owner;
 
+   /**
+    * Creation of a new parts data type.
+    * @param owner the owning task
+    */
     public PartsDataType( Task owner )
     {
         Project proj = owner.getProject();
@@ -55,6 +58,10 @@ public class PartsDataType extends ClassLoaderBuilderTask implements DynamicElem
         m_owner = owner;
     }
 
+   /**
+    * Create a new component builder task.
+    * @return a new component builder task
+    */
     public ComponentBuilderTask createComponent()
     {
         ComponentBuilderTask builder = new ComponentBuilderTask();
@@ -62,6 +69,10 @@ public class PartsDataType extends ClassLoaderBuilderTask implements DynamicElem
         return builder;
     }
 
+   /**
+    * Create a new part datatype.
+    * @return the nwew part datatype
+    */
     public PartDataType createPart()
     {
         PartDataType builder = new PartDataType();
@@ -85,6 +96,7 @@ public class PartsDataType extends ClassLoaderBuilderTask implements DynamicElem
     * @param uri the part handler uri
     * @param name the element name
     * @param qualified the qualified name
+    * @return a dynamic part builder
     */
     public Object createDynamicElement( String uri, String name, String qualified )
     {
@@ -111,7 +123,7 @@ public class PartsDataType extends ClassLoaderBuilderTask implements DynamicElem
             Project proj = getProject();
             builder = proj.createDataType( urn );
             partBuilder  = (PartReferenceBuilder) builder;
-            return partBuilder ;
+            return partBuilder;
         }
         catch( ClassCastException e )
         {
@@ -177,6 +189,9 @@ public class PartsDataType extends ClassLoaderBuilderTask implements DynamicElem
     * @param classloader the runtime classloader
     * @param type the component type that references are relative to
     * @return the contained parts
+    * @exception IntrospectionException if a class introspection error occurs
+    * @exception IOException if an I/O error occurs
+    * @exception ClassNotFoundException if a part class cannot be found
     */
     public PartReference[] getParts( ClassLoader classloader, Type type ) 
       throws IntrospectionException, IOException, ClassNotFoundException

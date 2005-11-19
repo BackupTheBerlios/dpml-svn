@@ -27,21 +27,25 @@ import net.dpml.metro.info.Type;
 /**
  * The contract for builders that create component part.
  *
- * @author <a href="mailto:dev-dpml@lists.ibiblio.org">The Digital Product Meta Library</a>
- * @version $Revision: 1.2 $ $Date: 2004/03/17 10:30:09 $
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public interface PartReferenceBuilder
 {
    /**
     * Return the key identifying the part that this builder is building.
+    * @return the part key
     */
     String getKey();
 
    /**
     * Build the part.
     * @param classloader the classloader to use if type creation is required
-    * @return the serializable part
-    * @exception Exception if a construction error occurs
+    * @param type the underlying part type
+    * @return th part reference
+    * @exception IntrospectionException if a class introspection error occurs
+    * @exception IOException if an I/O error occurs
+    * @exception ClassNotFoundException if a referenced class cannot be found
     */
     PartReference buildPartReference( ClassLoader classloader, Type type ) 
        throws IntrospectionException, IOException, ClassNotFoundException;

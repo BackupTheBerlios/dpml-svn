@@ -22,10 +22,8 @@ import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeEvent;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 import java.rmi.RemoteException;
-import java.util.Map;
 import java.util.EventObject;
 import java.util.EventListener;
 
@@ -33,10 +31,8 @@ import net.dpml.logging.Logger;
 
 import net.dpml.metro.part.Instance;
 import net.dpml.metro.part.ControlException;
-import net.dpml.metro.part.ActivationPolicy;
 
 import net.dpml.metro.state.State;
-import net.dpml.metro.state.StateMachine;
 import net.dpml.metro.state.StateEvent;
 import net.dpml.metro.state.StateListener;
 import net.dpml.metro.state.impl.DefaultStateMachine;
@@ -317,7 +313,10 @@ class DefaultInstance extends UnicastEventSource implements Instance
         return tag.substring( 0, 10 ) + "] ";
     }
 
-    private class StateEventPropergator implements PropertyChangeListener
+   /**
+    * State event propergator implementation.
+    */
+    private final class StateEventPropergator implements PropertyChangeListener
     {
         private final DefaultInstance m_holder;
         
@@ -326,6 +325,10 @@ class DefaultInstance extends UnicastEventSource implements Instance
             m_holder = holder;
         }
         
+       /**
+        * Handle a property change notification.
+        * @param event the property change event
+        */
         public void propertyChange( PropertyChangeEvent event )
         {
             //

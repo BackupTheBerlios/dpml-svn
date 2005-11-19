@@ -19,6 +19,7 @@
 package net.dpml.metro.model;
 
 import java.io.Serializable;
+import java.net.URI;
 
 import net.dpml.metro.part.ContextException;
 
@@ -52,12 +53,13 @@ public final class ValidationException extends ContextException
     
    /**
     * Creation of a new <tt>ValidationException</tt>.
+    * @param uri controller uri
     * @param source the source object
-    * @param issues the array of iossues
+    * @param issues the array of issues
     */
-    public ValidationException( Object source, Issue[] issues )
+    public ValidationException( URI uri, Object source, Issue[] issues )
     {
-        super( createMessage( source, issues ) );
+        super( uri, createMessage( source, issues ) );
         if( null == source )
         {
             throw new NullPointerException( "source" );

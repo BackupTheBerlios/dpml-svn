@@ -23,6 +23,8 @@ import java.net.URI;
 import java.util.Arrays;
 
 /**
+ * The PartHolder class is responsible for the association of a part handler
+ * uri with a part datatype.
  *
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
@@ -32,22 +34,39 @@ public class PartHolder implements Serializable
     private final URI m_handler;
     private final byte[] m_part;
 
+   /**
+    * Creation of a new part holder.
+    * @param handler the controller uri
+    * @param part a byte array representing the part datastructure
+    */
     public PartHolder( URI handler, byte[] part )
     {
         m_handler = handler;
         m_part = part;
     }
 
+   /**
+    * Return the part controller uri.
+    * @return the uri of the controller 
+    */
     public URI getPartHandlerURI()
     {
         return m_handler;
     }
-
+  
+   /**
+    * Return the part datastructure as a byte array.
+    * @return the byte array
+    */
     public byte[] getByteArray()
     {
         return m_part;
     }
 
+   /**
+    * Return the part holder hash code.
+    * @return the hashcode value
+    */
     public int hashCode()
     {
         int hash = super.hashCode();
@@ -59,6 +78,11 @@ public class PartHolder implements Serializable
         return hash;
     }
 
+   /**
+    * Test this object for equality with the supplied object.
+    * @param other the other object
+    * @return true iof the objects are equal
+    */
     public boolean equals( Object other )
     {
         if( null == other )
@@ -68,17 +92,13 @@ public class PartHolder implements Serializable
         else if( other instanceof PartHolder )
         {
             PartHolder holder = (PartHolder) other;
-            if( getPartHandlerURI().equals( holder.getPartHandlerURI() ) == false )
-            {
-                return false;
-            }
-            else if( Arrays.equals( getByteArray(), holder.getByteArray() ) == false )
+            if( !getPartHandlerURI().equals( holder.getPartHandlerURI() ) )
             {
                 return false;
             }
             else
             {
-                return true;
+                return Arrays.equals( getByteArray(), holder.getByteArray() );
             }
         }
         else
@@ -87,6 +107,10 @@ public class PartHolder implements Serializable
         }
     }
 
+   /**
+    * Return a string representation of this part holder.
+    * @return the string value
+    */
     public String toString()
     {
         return "[part-holder handler:" + m_handler + " size:" + m_part.length + "]";

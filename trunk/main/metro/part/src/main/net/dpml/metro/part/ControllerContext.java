@@ -18,7 +18,6 @@
 
 package net.dpml.metro.part;
 
-import java.net.URI;
 import java.io.File;
 
 import net.dpml.transit.Logger;

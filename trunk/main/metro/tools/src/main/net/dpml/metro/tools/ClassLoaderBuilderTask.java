@@ -18,60 +18,25 @@
 
 package net.dpml.metro.tools;
 
-import java.beans.IntrospectionException;
-import java.io.ByteArrayInputStream;
 import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.ObjectInputStream;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.net.URL;
-import java.util.List;
-import java.util.ArrayList;
-
-import net.dpml.metro.tools.datatypes.CategoriesDataType;
-import net.dpml.metro.tools.datatypes.ConfigurationDataType;
-import net.dpml.metro.tools.datatypes.ContextDataType;
-import net.dpml.metro.tools.datatypes.ParametersDataType;
-import net.dpml.metro.tools.datatypes.PartsDataType;
 
 import net.dpml.metro.runtime.CompositionController;
-import net.dpml.metro.runtime.CompositionContext;
 
 import net.dpml.metro.data.ClassLoaderDirective;
 import net.dpml.metro.data.ClasspathDirective;
-import net.dpml.metro.data.ComponentDirective;
-import net.dpml.metro.data.ContextDirective;
-import net.dpml.metro.data.CategoriesDirective;
-import net.dpml.metro.info.EntryDescriptor;
-import net.dpml.metro.info.InfoDescriptor;
-import net.dpml.metro.info.Type;
-import net.dpml.metro.info.PartReference;
 
-import net.dpml.configuration.Configuration;
-
-import net.dpml.parameters.Parameters;
-import net.dpml.parameters.impl.DefaultParameters;
-
-import net.dpml.metro.part.ControllerContext;
 import net.dpml.metro.part.Part;
-import net.dpml.metro.part.Component;
-import net.dpml.metro.part.PartHolder;
 
-import net.dpml.tools.ant.Context;
 import net.dpml.tools.tasks.GenericTask;
 import net.dpml.tools.info.Scope;
 import net.dpml.tools.model.Resource;
 
 import net.dpml.transit.tools.AntAdapter;
 import net.dpml.transit.Logger;
-import net.dpml.transit.model.ContentModel;
-import net.dpml.transit.Plugin;
 import net.dpml.transit.Category;
 
-import org.apache.tools.ant.Task;
 import org.apache.tools.ant.AntClassLoader;
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Project;
@@ -80,11 +45,15 @@ import org.apache.tools.ant.types.Path;
 /**
  * Task that handles the construction of a serialized container part.
  *
- * @author <a href="mailto:dev-dpml@lists.ibiblio.org">The Digital Product Meta Library</a>
- * @version $Revision: 1.2 $ $Date: 2004/03/17 10:30:09 $
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public abstract class ClassLoaderBuilderTask extends GenericTask
 {
+   /**
+    * Get the composition controller.
+    * @return the controller
+    */
     protected CompositionController getController()
     {
         try
@@ -100,6 +69,10 @@ public abstract class ClassLoaderBuilderTask extends GenericTask
         }
     }
 
+   /**
+    * Return the runtime classloader.
+    * @return the classloader
+    */
     protected ClassLoader createClassLoader()
     {
         Project project = getProject();
@@ -110,13 +83,17 @@ public abstract class ClassLoaderBuilderTask extends GenericTask
         return new AntClassLoader( parentClassLoader, project, path, true );
     }
 
+   /**
+    * Create the classloader directive.
+    * @return the classloader directive
+    */
     protected ClassLoaderDirective constructClassLoaderDirective()
     {
         ClasspathDirective sys = createClasspathDirective( Category.SYSTEM );
         ClasspathDirective pub = createClasspathDirective( Category.PUBLIC );
         ClasspathDirective pro = createClasspathDirective( Category.PROTECTED );
         ClasspathDirective pri = createClasspathDirective( Category.PRIVATE );
-        ClasspathDirective[] cps = new ClasspathDirective[]{ sys, pub, pro, pri };
+        ClasspathDirective[] cps = new ClasspathDirective[]{sys, pub, pro, pri};
         return new ClassLoaderDirective( cps );
     }
 
@@ -156,6 +133,10 @@ public abstract class ClassLoaderBuilderTask extends GenericTask
         return resource.getArtifact( "jar" ).toURI();
     }
     
+   /**
+    * Create and return the part output file. 
+    * @return the part output file
+    */
     protected File getPartOutputFile()
     {
         File deliverables = getContext().getTargetDeliverablesDirectory();
@@ -174,8 +155,21 @@ public abstract class ClassLoaderBuilderTask extends GenericTask
         return PART_HANDLER_URI;
     }
 
-    private static URI PART_HANDLER_URI = setupURI( "@PART-HANDLER-URI@" );
+   /**
+    * Constant controller uri.
+    */
+    public static final URI PART_HANDLER_URI = setupURI( "@PART-HANDLER-URI@" );
 
+   /**
+    * Constant builder uri.
+    */
+    public static final URI PART_BUILDER_URI = setupURI( "@PART-BUILDER-URI@" );
+
+   /**
+    * Utility function to create a static uri.
+    * @param spec the uri spec
+    * @return the uri
+    */
     protected static URI setupURI( String spec )
     {
         try
@@ -187,6 +181,4 @@ public abstract class ClassLoaderBuilderTask extends GenericTask
             return null;
         }
     }
-
-
 }

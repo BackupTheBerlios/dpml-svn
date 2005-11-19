@@ -18,22 +18,29 @@
 
 package net.dpml.metro.part;
 
+import java.net.URI;
+
 /**
  * Exception thrown by a handler in response to a request for an unknown service.
  *
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-public class ServiceNotFoundException extends PartException 
+public class ServiceNotFoundException extends ControlException 
 {
    /**
     * Serial version identifier.
     */
     static final long serialVersionUID = 1L;
 
-    public ServiceNotFoundException( String classname )
+   /**
+    * Creation of a new <tt>ServiceNotFoundException</tt>.
+    * @param uri the controller uri
+    * @param classname the service classname
+    */
+    public ServiceNotFoundException( URI uri, String classname )
     {
-        super( classname );
+        super( uri, classname );
     }
 }
 

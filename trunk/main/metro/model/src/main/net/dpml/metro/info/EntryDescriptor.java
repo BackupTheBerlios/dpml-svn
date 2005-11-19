@@ -50,7 +50,7 @@ public final class EntryDescriptor implements Serializable
    /**
     * Utility function that covers a supplied method to a 
     * entry name.
-    * @see Introspector.decapitalize(String)
+    * @see Introspector#decapitalize(String)
     * @param method the method
     * @return the key
     */

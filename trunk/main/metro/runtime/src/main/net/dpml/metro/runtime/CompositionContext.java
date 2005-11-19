@@ -19,22 +19,14 @@
 package net.dpml.metro.runtime;
 
 import java.io.File;
-import java.net.URI;
-import java.rmi.RemoteException;
-import java.util.Date;
-import java.util.Map;
 import java.util.EventObject;
 import java.util.EventListener;
-import java.util.WeakHashMap;
-import java.util.Properties;
 
 import net.dpml.metro.part.ControllerContext;
 import net.dpml.metro.part.ControllerContextListener;
 import net.dpml.metro.part.ControllerContextEvent;
 
 import net.dpml.transit.Logger;
-import net.dpml.transit.model.ContentModel;
-import net.dpml.transit.util.PropertyResolver;
 
 /**
  * The CompositionControllerContext class wraps a ContentModel and supplies convinience
@@ -60,17 +52,30 @@ public class CompositionContext extends LocalWeakEventProducer implements Contro
     */
     private File m_temp;
 
+   /**
+    * The assigned logging channel.
+    */
     private Logger m_logger;
 
     //----------------------------------------------------------------------------
     // constructor
     //----------------------------------------------------------------------------
 
+   /**
+    * Creation of a new <tt>CompositionContext</tt>.
+    * @param logger the assigned logging channel
+    */
     public CompositionContext( Logger logger )
     {
         this( logger, null, null );
     }
 
+   /**
+    * Creation of a new <tt>CompositionContext</tt>.
+    * @param logger the assigned logging channel
+    * @param work the working directory
+    * @param temp the temporary directory
+    */
     public CompositionContext( Logger logger, File work, File temp )
     {
         super();
@@ -107,6 +112,10 @@ public class CompositionContext extends LocalWeakEventProducer implements Contro
     // ControllerContext
     //----------------------------------------------------------------------------
 
+   /**
+    * Return the assigned logging channel
+    * @return the logging channel
+    */
     public Logger getLogger()
     {
         return m_logger;
@@ -119,7 +128,7 @@ public class CompositionContext extends LocalWeakEventProducer implements Contro
     */
     public File getWorkingDirectory()
     {
-        synchronized( m_lock )
+        synchronized( getLock() )
         {
             return m_work;
         }
@@ -132,7 +141,7 @@ public class CompositionContext extends LocalWeakEventProducer implements Contro
     */
     public void setWorkingDirectory( File dir )
     {
-        synchronized( m_lock )
+        synchronized( getLock() )
         {
             m_work = dir;
         }
@@ -145,7 +154,7 @@ public class CompositionContext extends LocalWeakEventProducer implements Contro
     */
     public File getTempDirectory()
     {
-        synchronized( m_lock )
+        synchronized( getLock() )
         {
             return m_temp;
         }
@@ -177,6 +186,10 @@ public class CompositionContext extends LocalWeakEventProducer implements Contro
     // impl
     //----------------------------------------------------------------------------
 
+   /**
+    * Process a context related event.
+    * @param event the event to process
+    */
     protected void processEvent( EventObject event )
     {
         if( event instanceof WorkingDirectoryChangeEvent )
@@ -193,7 +206,7 @@ public class CompositionContext extends LocalWeakEventProducer implements Contro
         }
     }
 
-    public void processWorkingDirectoryChangeEvent( WorkingDirectoryChangeEvent event )
+    private void processWorkingDirectoryChangeEvent( WorkingDirectoryChangeEvent event )
     {
         EventListener[] listeners = super.listeners();
         for( int i=0; i<listeners.length; i++ )
@@ -216,7 +229,7 @@ public class CompositionContext extends LocalWeakEventProducer implements Contro
         }
     }
 
-    public void processTempDirectoryChangeEvent( TempDirectoryChangeEvent event )
+    private void processTempDirectoryChangeEvent( TempDirectoryChangeEvent event )
     {
         EventListener[] listeners = super.listeners();
         for( int i=0; i<listeners.length; i++ )
@@ -243,7 +256,10 @@ public class CompositionContext extends LocalWeakEventProducer implements Contro
     // static (private)
     //----------------------------------------------------------------------------
 
-    static class WorkingDirectoryChangeEvent extends ControllerContextEvent
+   /**
+    * Working directory change event impl.
+    */
+    private static class WorkingDirectoryChangeEvent extends ControllerContextEvent
     {
         public WorkingDirectoryChangeEvent( 
           ControllerContext source, File oldDir, File newDir )
@@ -252,7 +268,10 @@ public class CompositionContext extends LocalWeakEventProducer implements Contro
         }
     }
 
-    static class TempDirectoryChangeEvent extends ControllerContextEvent
+   /**
+    * Temp directory change event impl.
+    */
+    private static class TempDirectoryChangeEvent extends ControllerContextEvent
     {
         public TempDirectoryChangeEvent( 
           ControllerContext source, File oldDir, File newDir )

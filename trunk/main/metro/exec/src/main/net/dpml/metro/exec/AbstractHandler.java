@@ -23,7 +23,7 @@ import java.rmi.server.UnicastRemoteObject;
 import java.lang.reflect.InvocationTargetException;
 
 import net.dpml.metro.part.Component;
-import net.dpml.metro.part.HandlerException;
+import net.dpml.metro.part.ControlException;
 import net.dpml.metro.part.Instance;
 import net.dpml.metro.part.Service;
 import net.dpml.metro.part.ServiceNotFoundException;
@@ -75,24 +75,18 @@ public class AbstractHandler extends UnicastRemoteObject implements Component
     */
     public Component lookup( Service service ) throws ServiceNotFoundException, RemoteException
     {
-        String classname = service.getServiceClass().getName();
-        throw new ServiceNotFoundException( classname );
+        throw new UnsupportedOperationException( "lookup/1" );
     }
     
    /**
     * Initiate activation of the runtime handler.
-    * @exception HandlerException if an activation error occurs
+    * @exception ControlException if an activation error occurs
     * @exception InvocationTargetException if the component declares activation on startup
     *    and a implementation instantiation exception occurs
     * @exception RemoteException if a remote exception occurs
     */
-    public void activate() throws HandlerException, InvocationTargetException, RemoteException
+    public void activate() throws ControlException, InvocationTargetException, RemoteException
     {
-        if( m_activated )
-        {
-            return;
-        }
-        getLogger().info( "activation" );
         m_activated = true;
     }
     
@@ -121,11 +115,11 @@ public class AbstractHandler extends UnicastRemoteObject implements Component
     * @return the instance manager
     * @exception InvocationTargetException if the component instantiation process 
     *  is on demand and an target invocation error occurs
-    * @exception HandlerException if the component could not be established due to a handler 
+    * @exception ControlException if the component could not be established due to a handler 
     *  related error
     * @exception RemoteException if a remote exception occurs
     */
-    public Instance getInstance() throws HandlerException, InvocationTargetException, RemoteException
+    public Instance getInstance() throws ControlException, InvocationTargetException, RemoteException
     {
         throw new UnsupportedOperationException( "getInstance/0" );
     }
@@ -136,11 +130,6 @@ public class AbstractHandler extends UnicastRemoteObject implements Component
     */
     public void deactivate() throws RemoteException
     {
-        if( !m_activated )
-        {
-            return;
-        }
-        getLogger().info( "deactivation" );
         m_activated = false;
     }
     
@@ -152,7 +141,7 @@ public class AbstractHandler extends UnicastRemoteObject implements Component
     */
     public boolean isaCandidate( Service service ) throws RemoteException
     {
-        return false;
+        throw new UnsupportedOperationException( "isaCandidate/1" );
     }
     
     //------------------------------------------------------------------------------

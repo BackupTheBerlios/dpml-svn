@@ -35,17 +35,32 @@ public class ControlRuntimeException extends RuntimeException
     
     private final URI m_uri;
 
+   /**
+    * Creation of a new <tt>ControlRuntimeException</tt>.
+    * @param uri the part controller uri
+    * @param message the exception message
+    */
     public ControlRuntimeException( URI uri, String message )
     {
         this( uri, message, null );
     }
 
+   /**
+    * Creation of a new <tt>ControlRuntimeException</tt>.
+    * @param uri the part controller uri
+    * @param message the exception message
+    * @param cause the causal exception
+    */
     public ControlRuntimeException( URI uri, String message, Throwable cause )
     {
         super( message, cause );
         m_uri = uri;
     }
     
+   /**
+    * Return the controller uri.
+    * @return the uri identifying the controller that raised the exception
+    */
     public URI getControllerURI()
     {
         return m_uri;

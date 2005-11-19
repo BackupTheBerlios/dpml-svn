@@ -21,7 +21,6 @@ package net.dpml.metro.tools;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.BufferedOutputStream;
-import java.net.URI;
 import java.util.LinkedList;
 import java.util.List;
 import java.beans.IntrospectionException;
@@ -35,19 +34,22 @@ import org.apache.tools.ant.AntClassLoader;
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.DynamicElementNS;
 import org.apache.tools.ant.Project;
-import org.apache.tools.ant.Task;
 import org.apache.tools.ant.types.Path;
 
 /**
  * Task that handles the construction of catalog of type entries.
  *
- * @author <a href="mailto:dev-dpml@lists.ibiblio.org">The Digital Product Meta Library</a>
- * @version $Revision: 1.2 $ $Date: 2004/03/17 10:30:09 $
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public class TypesTask extends GenericTask implements DynamicElementNS
 {
     private List m_builders = new LinkedList();
 
+   /**
+    * Create and return a new type builder.
+    * @return the type builder
+    */
     public TypeBuilder createType()
     {
         Project proj = getProject();
@@ -62,6 +64,7 @@ public class TypesTask extends GenericTask implements DynamicElementNS
     * @param uri the part handler uri
     * @param name the element name
     * @param qualified the qualified name
+    * @return a dynamic type builder
     */
     public Object createDynamicElement( String uri, String name, String qualified )
     {
@@ -74,6 +77,9 @@ public class TypesTask extends GenericTask implements DynamicElementNS
         return builder;
     }
 
+   /**
+    * Task executaion.
+    */
     public void execute()
     {
         Project proj = getProject();
@@ -157,7 +163,7 @@ public class TypesTask extends GenericTask implements DynamicElementNS
             Project proj = getProject();
             builder = proj.createDataType( urn );
             typeBuilder  = (TypeBuilder) builder;
-            return typeBuilder ;
+            return typeBuilder;
         }
         catch( ClassCastException e )
         {

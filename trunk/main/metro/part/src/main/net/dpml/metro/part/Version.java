@@ -175,20 +175,18 @@ public final class Version
     public boolean equals( final Version other )
     {
         if( other == null )
+        {
             return false;
-
+        }
         boolean isEqual = ( getMajor() == other.getMajor() );
-
-        if ( isEqual )
+        if( isEqual )
         {
             isEqual = ( getMinor() == other.getMinor() );
         }
-
-        if ( isEqual )
+        if( isEqual )
         {
             isEqual = ( getMicro() == other.getMicro() );
         }
-
         return isEqual;
     }
 
@@ -203,12 +201,10 @@ public final class Version
     public boolean equals( final Object other )
     {
         boolean isEqual = false;
-
         if( other instanceof Version )
         {
-            isEqual = equals( (Version)other );
+            isEqual = equals( (Version) other );
         }
-
         return isEqual;
     }
 
@@ -260,8 +256,9 @@ public final class Version
     public boolean complies( final Version other )
     {
         if( other == null )
+        {
             return false;
-
+        }
         if( other.m_major == -1 )
         {
             return true;
@@ -275,16 +272,11 @@ public final class Version
             //If of major version but lower minor version then incompatible
             return false;
         }
-        else if( m_minor == other.m_minor
-            && m_micro < other.m_micro )
+        else
         {
             //If same major version, same minor version but lower micro level
             //then incompatible
-            return false;
-        }
-        else
-        {
-            return true;
+            return !( m_minor == other.m_minor && m_micro < other.m_micro );
         }
     }
 
@@ -301,7 +293,7 @@ public final class Version
     /**
      * Compare two versions together according to the
      * {@link Comparable} interface.
-     *
+     * @param o the other object
      * @return number indicating relative value (-1, 0, 1)
      * @throws NullPointerException if the argument is null.
      */
@@ -313,7 +305,7 @@ public final class Version
             throw new NullPointerException ( "o" );
         }
 
-        Version other = (Version)o;
+        Version other = (Version) o;
 
         if( getMajor() < other.getMajor() )
         {

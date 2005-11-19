@@ -18,10 +18,7 @@
 
 package net.dpml.station.server;
 
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.net.URL;
-import java.rmi.RemoteException;
 import java.util.Map;
 import java.util.Hashtable;
 import java.util.EventObject;
@@ -43,7 +40,6 @@ import net.dpml.station.ApplicationRegistry;
 import net.dpml.station.RegistryEvent;
 import net.dpml.station.RegistryListener;
 
-import net.dpml.transit.Artifact;
 import net.dpml.transit.Logger;
 import net.dpml.transit.model.DefaultModel;
 import net.dpml.transit.model.DuplicateKeyException;
@@ -65,7 +61,7 @@ public class RemoteApplicationRegistry extends DefaultModel implements Applicati
     * Creation of a new application registry model.
     * @param logger the assigned logging channel
     * @param url storage location
-    * @exception RemoteException if a remote error occurs
+    * @exception IOException if a I/O error occurs
     */
     public RemoteApplicationRegistry( Logger logger, URL url ) throws IOException
     {
@@ -167,6 +163,7 @@ public class RemoteApplicationRegistry extends DefaultModel implements Applicati
    /**
     * Remove an application descriptor from the registry.
     * @param key the application key
+    * @exception UnknownKeyException if the key is not recognized
     */
     public void removeApplicationDescriptor( String key ) 
       throws UnknownKeyException
@@ -189,6 +186,7 @@ public class RemoteApplicationRegistry extends DefaultModel implements Applicati
     * Replace an application descriptor within the registry with a supplied descriptor.
     * @param key the application key
     * @param descriptor the updated application descriptor
+    * @exception UnknownKeyException if the key is not recognized
     */
     public void updateApplicationDescriptor( String key, ApplicationDescriptor descriptor ) 
       throws UnknownKeyException

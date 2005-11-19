@@ -24,8 +24,9 @@ import net.dpml.logging.Logger;
 
 /**
  * Component implementation that demonstrates the use of a context inner-class. 
- * 
- * @author <a href="mailto:dev-dpml@lists.ibiblio.org">The Digital Product Meta Library</a>
+ *
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public class ExampleComponent implements ColorManager
 {
@@ -33,8 +34,15 @@ public class ExampleComponent implements ColorManager
     // concerns
     //------------------------------------------------------------------
 
+   /**
+    * Component driven context criteria specification.
+    */
     public interface Context
     {
+       /**
+        * Return a non-optional color value.
+        * @return the color
+        */
         Color getColor();
     }
 
@@ -56,6 +64,13 @@ public class ExampleComponent implements ColorManager
     // constructor
     //------------------------------------------------------------------
 
+   /**
+    * Creation of a new <tt>ExampleComponent</tt> using a supplied 
+    * logging channel and context.
+    * 
+    * @param logger the assigned logging channel
+    * @param context the assigned context
+    */
     public ExampleComponent( final Logger logger, final Context context )
     {
         m_context = context;
@@ -68,6 +83,10 @@ public class ExampleComponent implements ColorManager
     // Example
     //------------------------------------------------------------------
     
+   /**
+    * Return the color value from the supplied context.
+    * @return the color value
+    */
     public Color getColor()
     {
         return m_context.getColor();
@@ -77,6 +96,10 @@ public class ExampleComponent implements ColorManager
     // internal
     //------------------------------------------------------------------
 
+   /**
+    * Return the assigned logging channel.
+    * @return the logging channel
+    */
     private Logger getLogger()
     {
         return m_logger;

@@ -18,19 +18,12 @@
 
 package net.dpml.metro.part;
 
-import java.io.File;
-import java.io.IOException;
-import java.net.URLConnection;
 import java.net.URI;
-import java.net.URL;
-import java.net.ContentHandler;
 import java.lang.reflect.Constructor;
-import java.util.Properties;
 import java.util.Date;
 
 import net.dpml.transit.Transit;
 import net.dpml.transit.Logger;
-import net.dpml.transit.model.ContentModel;
 import net.dpml.transit.monitor.LoggingAdapter;
 import net.dpml.transit.Repository;
 
@@ -41,8 +34,16 @@ import net.dpml.transit.Repository;
  */
 public class PartContentHandler // extends ContentHandler
 {
+   /**
+    * Static reference to the default controller.
+    */
     public static final Controller CONTROLLER = newController( new LoggingAdapter( "" ) );
     
+   /**
+    * Construct a controller.
+    * @param logger the assigned logging channel
+    * @return the controller
+    */
     public static Controller newController( final Logger logger )
     {
         if( null == logger )
@@ -66,13 +67,17 @@ public class PartContentHandler // extends ContentHandler
         {
             final String error =
               "Internal error while attempting to establish the default part handler.";
-            throw new PartRuntimeException( error, e );
+            throw new RuntimeException( error, e );
         }
     }
     
     private final Logger m_logger;
     private final Controller m_handler;
 
+   /**
+    * Creation of a new <tt>PartContentHandler</tt>.
+    * @param logger the assigned logging channel
+    */
     public PartContentHandler( Logger logger )
     {
         m_logger = logger;
@@ -125,8 +130,8 @@ public class PartContentHandler // extends ContentHandler
     */
     
    /**
-    * Return the working part handler.
-    * @return the part handler
+    * Return the default part controller.
+    * @return the part controller
     */
     public Controller getController()
     {

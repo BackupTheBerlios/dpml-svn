@@ -36,9 +36,7 @@ public abstract class ControllerContextEvent extends EventObject
     static final long serialVersionUID = 1L;
 
     private ControllerContext m_context;
-
     private File m_old;
-
     private File m_new;
 
    /**
@@ -56,16 +54,28 @@ public abstract class ControllerContextEvent extends EventObject
         m_new = newDir;
     }
 
+   /**
+    * Return the controller context that this event is related to.
+    * @return the controller context
+    */
     public ControllerContext getContext()
     {
         return m_context;
     }
 
+   /**
+    * Return the old directory value.
+    * @return the directory
+    */
     public File getOldDirectory()
     {
         return m_old;
     }
 
+   /**
+    * Return the new directory value.
+    * @return the directory
+    */
     public File getNewDirectory()
     {
         return m_new;

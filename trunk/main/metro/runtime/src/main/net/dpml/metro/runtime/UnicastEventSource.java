@@ -49,6 +49,10 @@ public abstract class UnicastEventSource extends UnicastRemoteObject
     
     private boolean m_disposed = false;
 
+   /**
+    * Creation of a new <tt>UnicastEventSource</tt>.
+    * @exception RemoteException if a remote I/O exception occurs
+    */
     protected UnicastEventSource() throws RemoteException
     {
         super();
@@ -135,16 +139,27 @@ public abstract class UnicastEventSource extends UnicastRemoteObject
         }
     }
     
+   /**
+    * Return the internal synchronization lock.
+    * @return the lock object
+    */
     protected Object getLock()
     {
         return m_lock;
     }
     
+   /**
+    * Retun the disposed state of this event source.
+    * @return true if disposed
+    */
     protected boolean isDisposed()
     {
         return m_disposed;
     }
     
+   /**
+    * Dispose of the event source.
+    */
     void dispose()
     {
         if( m_disposed )
@@ -196,7 +211,7 @@ public abstract class UnicastEventSource extends UnicastRemoteObject
                         { 
                             EVENT_QUEUE.wait();
                         }
-                        Object object = EVENT_QUEUE.remove(0);
+                        Object object = EVENT_QUEUE.remove( 0 );
                         try
                         {
                             event = (EventObject) object;
@@ -209,7 +224,7 @@ public abstract class UnicastEventSource extends UnicastRemoteObject
                             throw new IllegalStateException( error );
                         }
                     }
-                    catch (InterruptedException e)
+                    catch( InterruptedException e )
                     {
                         return;
                     }
@@ -245,7 +260,7 @@ public abstract class UnicastEventSource extends UnicastRemoteObject
         }
     }
 
-    private static Thread EVENT_DISPATCH_THREAD = null;
+    private static Thread m_EVENT_DISPATCH_THREAD = null;
 
     /**
      * This method starts the event dispatch thread the first time it
@@ -254,20 +269,21 @@ public abstract class UnicastEventSource extends UnicastRemoteObject
      */
     private static synchronized void startEventDispatchThread() 
     {
-        if( EVENT_DISPATCH_THREAD == null ) 
+        if( m_EVENT_DISPATCH_THREAD == null ) 
         {
-            EVENT_DISPATCH_THREAD = new EventDispatchThread();
-            EVENT_DISPATCH_THREAD.setDaemon( true );
-            EVENT_DISPATCH_THREAD.start();
+            m_EVENT_DISPATCH_THREAD = new EventDispatchThread();
+            m_EVENT_DISPATCH_THREAD.setDaemon( true );
+            m_EVENT_DISPATCH_THREAD.start();
         }
     }
 
-    /**
-     * Return this node's preference/node change listeners.  Even though
-     * we're using a copy-on-write lists, we use synchronized accessors to
-     * ensure information transmission from the writing thread to the
-     * reading thread.
-     */
+   /**
+    * Return this node's preference/node change listeners.  Even though
+    * we're using a copy-on-write lists, we use synchronized accessors to
+    * ensure information transmission from the writing thread to the
+    * reading thread.
+    * @return the event listeners
+    */
     protected EventListener[] listeners() 
     {
         synchronized( m_lock ) 
@@ -276,11 +292,12 @@ public abstract class UnicastEventSource extends UnicastRemoteObject
         }
     }
 
-    /**
-     * Enqueue an event for delivery to registered
-     * listeners unless there are no registered
-     * listeners.
-     */
+   /**
+    * Enqueue an event for delivery to registered
+    * listeners unless there are no registered
+    * listeners.
+    * @param event the event to enqueue
+    */
     protected void enqueueEvent( EventObject event )
     {
         if( m_listeners.length != 0 ) 

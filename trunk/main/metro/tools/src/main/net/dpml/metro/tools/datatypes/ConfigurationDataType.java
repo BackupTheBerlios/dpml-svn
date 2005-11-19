@@ -48,6 +48,7 @@ public class ConfigurationDataType implements DynamicConfiguratorNS
 
    /**
     * Creation of a root configuration directive.
+    * @param project the current project
     */
     public ConfigurationDataType( Project project )
     {
@@ -56,6 +57,7 @@ public class ConfigurationDataType implements DynamicConfiguratorNS
 
    /**
     * Creation of a named configuration element.
+    * @param project the current project
     * @param name the element name
     */
     public ConfigurationDataType( Project project, String name )
@@ -68,7 +70,7 @@ public class ConfigurationDataType implements DynamicConfiguratorNS
     * Add nested text.
     * @param value the test value
     */
-    public void addText(String value )
+    public void addText( String value )
     {
         String s = value.trim();
         if( s.length() > 0 )
@@ -89,26 +91,28 @@ public class ConfigurationDataType implements DynamicConfiguratorNS
     * @throws BuildException when any error occurs
     */
     public void setDynamicAttribute(
-      String uri, String localName, String qName, String value)
+      String uri, String localName, String qName, String value )
     throws BuildException
     {
-         String parsedValue = m_project.replaceProperties( value );
-         m_attributes.put( qName, parsedValue );
+        String parsedValue = m_project.replaceProperties( value );
+        m_attributes.put( qName, parsedValue );
     }
 
    /**
     * Create an element with the given name
     *
-    * @param qName the element nbame
+    * @param uri the element handler uri
+    * @param localName the element local name
+    * @param qName the element qualified name
     * @throws BuildException when any error occurs
     * @return the element created
     */
     public Object createDynamicElement(
-       String uri, String localName, String qName) throws BuildException
+       String uri, String localName, String qName ) throws BuildException
     {
-         ConfigurationDataType conf = new ConfigurationDataType( m_project, qName );
-         m_children.add( conf );
-         return conf;
+        ConfigurationDataType conf = new ConfigurationDataType( m_project, qName );
+        m_children.add( conf );
+        return conf;
     }
 
    /**
@@ -147,27 +151,31 @@ public class ConfigurationDataType implements DynamicConfiguratorNS
         return (ConfigurationDataType[]) m_children.toArray( new ConfigurationDataType[m_children.size()] );
     }
 
+   /**
+    * Return the constructed configuration instance.
+    * @return the configuration
+    */
     public Configuration getConfiguration()
     {
-         String name = getName();
-         DefaultConfiguration config = new DefaultConfiguration( name );
-         config.setValue( getValue() );
-         Map attributes = getAttributes();
-         String[] keys = (String[]) attributes.keySet().toArray( new String[0] );
-         for( int i=0; i<keys.length; i++ )
-         {
-         String key = keys[i];
-         String value = (String) attributes.get( key );
-         config.setAttribute( key, value );
-         }
-         ConfigurationDataType[] nodes = getChildren();
-         Configuration[] children = new Configuration[ nodes.length ];
-         for( int i=0; i<nodes.length; i++ )
-         {
-         ConfigurationDataType data = nodes[i];
-         Configuration conf = data.getConfiguration();
-         config.addChild( conf );
-         }
-         return config;
+        String name = getName();
+        DefaultConfiguration config = new DefaultConfiguration( name );
+        config.setValue( getValue() );
+        Map attributes = getAttributes();
+        String[] keys = (String[]) attributes.keySet().toArray( new String[0] );
+        for( int i=0; i<keys.length; i++ )
+        {
+            String key = keys[i];
+            String value = (String) attributes.get( key );
+            config.setAttribute( key, value );
+        }
+        ConfigurationDataType[] nodes = getChildren();
+        Configuration[] children = new Configuration[ nodes.length ];
+        for( int i=0; i<nodes.length; i++ )
+        {
+            ConfigurationDataType data = nodes[i];
+            Configuration conf = data.getConfiguration();
+            config.addChild( conf );
+        }
+        return config;
     }
 }

@@ -22,12 +22,9 @@ import java.beans.IntrospectionException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.File;
-import java.io.FileWriter;
 import java.io.FileOutputStream;
 import java.io.BufferedOutputStream;
-import java.lang.reflect.Field;
 import java.lang.reflect.Method;
-import java.lang.reflect.Modifier;
 import java.net.URI;
 import java.net.URL;
 import java.net.URISyntaxException;
@@ -35,9 +32,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
-
-import net.dpml.activity.Startable;
-import net.dpml.activity.Executable;
 
 import net.dpml.metro.tools.datatypes.PartsDataType;
 
@@ -52,27 +46,20 @@ import net.dpml.metro.info.PartReference;
 import net.dpml.metro.info.EntryDescriptor;
 import net.dpml.metro.info.ServiceDescriptor;
 
-import net.dpml.configuration.Configuration;
-import net.dpml.configuration.impl.DefaultConfigurationBuilder;
-
 import net.dpml.tools.tasks.GenericTask;
 import net.dpml.tools.info.Scope;
 
 import org.apache.tools.ant.BuildException;
-import org.apache.tools.ant.Task;
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.AntClassLoader;
 import org.apache.tools.ant.types.Path;
-
-import com.thoughtworks.xstream.XStream;
-import com.thoughtworks.xstream.io.xml.DomDriver;
 
 
 /**
  * The TypeTask creates a serialized descriptor of a component type.
  *
- * @author <a href="mailto:dev-dpml@lists.ibiblio.org">The Digital Product Meta Library</a>
- * @version $Revision: 1.2 $ $Date: 2004/03/17 10:30:09 $
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public class TypeBuilderTask extends GenericTask implements TypeBuilder
 {
@@ -92,31 +79,55 @@ public class TypeBuilderTask extends GenericTask implements TypeBuilder
     // setters
     //---------------------------------------------------------------
 
+   /**
+    * Set the name of the type.
+    * @param name the component name
+    */
     public void setName( String name )
     {
         m_name = name;
     }
 
+   /**
+    * Set the classname of the type.
+    * @param classname the component type classname
+    */
     public void setClass( String classname )
     {
         m_classname = classname;
     }
 
+   /**
+    * Set the threadsafe flag.
+    * @param value true if the component type is threadsafe
+    */
     public void setThreadsafe( boolean value )
     {
         m_threadsafe = value;
     }
 
+   /**
+    * Set the type collection policy.
+    * @param value the collection policy value
+    */
     public void setCollection( String value )
     {
         m_collection = CollectionPolicy.parse( value );
     }
 
+   /**
+    * Set the type lifestyle policy.
+    * @param value the lifestyle policy value
+    */
     public void setLifestyle( String value )
     {
         m_lifestyle = LifestylePolicy.parse( value );
     }
 
+   /**
+    * Create a new part datatype.
+    * @return a new part datatype
+    */
     public PartsDataType createParts()
     {
         if( m_parts == null )
@@ -161,6 +172,13 @@ public class TypeBuilderTask extends GenericTask implements TypeBuilder
     // TypeBuilder
     //---------------------------------------------------------------
 
+   /**
+    * Build the type.
+    * @param classloader the classloader to use for type creation
+    * @return the component type
+    * @exception IntrospectionException if a class introspection error occurs
+    * @exception IOException if an I/O error occurs
+    */
     public Type buildType( ClassLoader classloader ) 
        throws IntrospectionException, IOException
     {
@@ -168,6 +186,13 @@ public class TypeBuilderTask extends GenericTask implements TypeBuilder
         return buildType( subject );
     }
 
+   /**
+    * Build the type.
+    * @param subject the implementation class
+    * @return the component type
+    * @exception IntrospectionException if a class introspection error occurs
+    * @exception IOException if an I/O error occurs
+    */
     public Type buildType( Class subject )
        throws IntrospectionException, IOException
     {
@@ -178,29 +203,7 @@ public class TypeBuilderTask extends GenericTask implements TypeBuilder
         CategoryDescriptor[] categories = new CategoryDescriptor[0];
         ContextDescriptor context = createContextDescriptor( subject );
         PartReference[] parts = getPartReferences( subject.getClassLoader() );
-        //Configuration config = createDefaultConfiguration( subject );
-
-        Type type = new Type( info, categories, context, services, parts );
-
-        /*
-        File target = getContext().getTargetDirectory();
-        File reports = new File( target, "reports/types" );
-        reports.mkdirs();
-
-        File report = getReportDestination( reports, type );
-        try
-        {
-            report.getParentFile().mkdirs();
-            XStream XStream = new XStream( new DomDriver() );
-            XStream.alias( "type", Type.class );
-            XStream.toXML( type, new FileWriter( report ) );
-        }
-        catch( Throwable e )
-        {
-            log( "XML reporting failed due to: " + e.toString() );
-        }
-        */
-        return type;
+        return new Type( info, categories, context, services, parts );
     }
 
     private File getReportDestination( File dir, Type type )
@@ -215,6 +218,9 @@ public class TypeBuilderTask extends GenericTask implements TypeBuilder
     // Task
     //---------------------------------------------------------------
 
+   /**
+    * Execute the task.
+    */
     public void execute()
     {
         Project proj = getProject();
@@ -282,6 +288,10 @@ public class TypeBuilderTask extends GenericTask implements TypeBuilder
     // internals
     //---------------------------------------------------------------
 
+   /**
+    * Return the type name.
+    * @return the name
+    */
     protected String getName()
     {
         if( null == m_name )
@@ -291,6 +301,10 @@ public class TypeBuilderTask extends GenericTask implements TypeBuilder
         return m_name;
     }
 
+   /**
+    * Return the type classname.
+    * @return the classname
+    */
     protected String getClassname()
     {
         if( null == m_classname )
@@ -369,7 +383,7 @@ public class TypeBuilderTask extends GenericTask implements TypeBuilder
             ServiceDescriptor descriptor = createServiceDescriptor( subject, service );
             if( null != descriptor )
             {
-                if( false == list.contains( descriptor ) )
+                if( !list.contains( descriptor ) )
                 {
                     list.add( descriptor );
                 }
@@ -386,7 +400,7 @@ public class TypeBuilderTask extends GenericTask implements TypeBuilder
         }
     }
 
-    public ServiceDescriptor createServiceDescriptor( Class type, Class subject )
+    private ServiceDescriptor createServiceDescriptor( Class type, Class subject )
     {
         String classname = subject.getName();
         Class parent = subject.getDeclaringClass();
@@ -590,7 +604,7 @@ public class TypeBuilderTask extends GenericTask implements TypeBuilder
       throws IntrospectionException
     {
         Class c = method.getReturnType();
-        if( false == type.isAssignableFrom( c ) )
+        if( !type.isAssignableFrom( c ) )
         {
             final String error = 
               "Method ["
@@ -635,7 +649,7 @@ public class TypeBuilderTask extends GenericTask implements TypeBuilder
     private void validateNullReturnType( Method method, Class returnType ) 
        throws IntrospectionException
     {
-        if( false == Void.TYPE.equals( returnType ) ) 
+        if( !Void.TYPE.equals( returnType ) ) 
         {
             final String error = 
               "Method ["
@@ -674,7 +688,7 @@ public class TypeBuilderTask extends GenericTask implements TypeBuilder
     private void validateInterfaceReturnType( Method method, Class returnType )
       throws IntrospectionException
     {
-        if( returnType.isInterface() == false )
+        if( !returnType.isInterface() )
         {
             final String error = 
               "Method ["
@@ -689,7 +703,7 @@ public class TypeBuilderTask extends GenericTask implements TypeBuilder
     private void validateMethodName( Method method ) 
       throws IntrospectionException
     {
-        if( method.getName().startsWith( "get" ) == false )
+        if( !method.getName().startsWith( "get" ) )
         {
             final String error = 
               "Method ["
@@ -756,7 +770,6 @@ public class TypeBuilderTask extends GenericTask implements TypeBuilder
         return parameterTypes[0];
     }
 
-
     private void validateNonArrayParameter( Method method, Class type ) 
       throws IntrospectionException
     {
@@ -778,7 +791,7 @@ public class TypeBuilderTask extends GenericTask implements TypeBuilder
         if( n == 1 )
         {
             Class b = parameterTypes[0];
-            if( false == Boolean.TYPE.isAssignableFrom( b ) )
+            if( !Boolean.TYPE.isAssignableFrom( b ) )
             {
                 String name = method.getName();
                 final String error = 
@@ -812,9 +825,14 @@ public class TypeBuilderTask extends GenericTask implements TypeBuilder
         }
     }
 
-    private static URI TYPE_HANDLER_URI = setupURI( "@PART-HANDLER-URI@" );
-    private static URI TYPE_BUILDER_URI = setupURI( "@PART-BUILDER-URI@" );
+    private static final URI TYPE_HANDLER_URI = setupURI( "@PART-HANDLER-URI@" );
+    private static final URI TYPE_BUILDER_URI = setupURI( "@PART-BUILDER-URI@" );
 
+   /**
+    * Internal utility to create a static uri.
+    * @param spec the uri spec
+    * @return the uri
+    */
     protected static URI setupURI( String spec )
     {
         try

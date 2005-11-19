@@ -65,30 +65,46 @@ public class CategoriesDataType
          return new CategoriesDirective( directives );
     }
 
-    /**
-     * Build datatype used to construct a categories descriptor.
-     */
+   /**
+    * Build datatype used to construct a categories descriptor.
+    */
     public class CategoryDataType
     {
         private String m_name;
         private String m_priority;
         private String m_target;
 
+       /**
+        * Set the category name.
+        * @param name the category name
+        */
         public void setName( String name )
         {
             m_name = name;
         }
 
+       /**
+        * Set the category priority.
+        * @param priority the category priority
+        */
         public void setPriority( String priority )
         {
             m_priority = priority;
         }
 
+       /**
+        * Set the category target.
+        * @param target the category target
+        */
         public void setTarget( String target )
         {
             m_target = target;
         }
 
+       /**
+        * Return the category directive.
+        * @return the directive
+        */
         public CategoryDirective getCategoryDirective()
         {
             return new CategoryDirective( m_name, m_priority, m_target );

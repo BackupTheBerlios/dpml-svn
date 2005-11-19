@@ -22,7 +22,7 @@ import java.util.List;
  * The validation interface for validating argument values(s).
  *
  * A validator can replace the argument string value with a
- * specific class instance e.g. the {@link UrlValidator} replaces
+ * specific class instance e.g. the {@link URLValidator} replaces
  * the string value with a {@link java.net.URL} instance.
  *
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>

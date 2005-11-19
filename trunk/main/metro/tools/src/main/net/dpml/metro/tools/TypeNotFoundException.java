@@ -19,21 +19,29 @@
 package net.dpml.metro.tools;
 
 /**
- * Exception thrown when an attempt is made to reference an unknown catalog entry.
+ * Exception thrown when an attempt is made to reference an unknown type.
  *
- * @author <a href="mailto:dev-dpml@lists.ibiblio.org">The Digital Product Meta Library</a>
- * @version $Revision: 1.2 $ $Date: 2004/03/17 10:30:09 $
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public class TypeNotFoundException extends Exception 
 {
     private String m_classname;
 
+   /**
+    * Creation of a new <tt>TypeNotFoundException</tt>.
+    * @param classname the type classname
+    */
     public TypeNotFoundException( String classname )
     {
         super( classname );
         m_classname = classname;
     }
 
+   /**
+    * Return the unresolved type classname.
+    * @return the classname
+    */
     public String getClassname()
     {
         return m_classname;

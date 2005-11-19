@@ -24,8 +24,6 @@ import java.rmi.RemoteException;
 import net.dpml.metro.state.State;
 import net.dpml.metro.state.StateListener;
 
-import net.dpml.transit.model.Value;
-
 /**
  * Instance holder.
  *
@@ -41,18 +39,21 @@ public interface Instance extends Remote
    /**
     * Returns the current state of the control.
     * @return the current runtime state
+    * @exception RemoteException if a remote I/O error occurs
     */
     State getState() throws RemoteException;
     
    /**
     * Add a state listener to the control.
     * @param listener the state listener
+    * @exception RemoteException if a remote I/O error occurs
     */
     void addStateListener( StateListener listener ) throws RemoteException;
 
    /**
     * Remove a state listener from the control.
     * @param listener the state listener
+    * @exception RemoteException if a remote I/O error occurs
     */
     void removeStateListener( StateListener listener ) throws RemoteException;
 
@@ -61,6 +62,8 @@ public interface Instance extends Remote
     * @param isolate if TRUE the value returned is a proxy exposing the 
     *    service interfaces declared by the component type otherwise 
     *    the instance value is returned.
+    * @return the value
+    * @exception RemoteException if a remote I/O error occurs
     */
     Object getValue( boolean isolate ) throws RemoteException;
 }

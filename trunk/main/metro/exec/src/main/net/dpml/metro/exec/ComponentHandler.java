@@ -27,7 +27,7 @@ import net.dpml.station.ApplicationException;
 
 import net.dpml.metro.part.Controller;
 import net.dpml.metro.part.Component;
-import net.dpml.metro.part.HandlerException;
+import net.dpml.metro.part.ControlException;
 import net.dpml.metro.part.Instance;
 import net.dpml.metro.part.Context;
 import net.dpml.metro.part.Part;
@@ -119,12 +119,12 @@ public class ComponentHandler extends AbstractHandler
     
    /**
     * Initiate activation of a runtime handler.
-    * @exception HandlerException if an activation error occurs
+    * @exception ControlException if an activation error occurs
     * @exception InvocationTargetException if the component declares activation on startup
     *    and a implementation source exception occured
     * @exception RemoteException if a remote exception occurs
     */
-    public void activate() throws HandlerException, InvocationTargetException, RemoteException
+    public void activate() throws ControlException, InvocationTargetException, RemoteException
     {
         m_component.activate();
         m_instance = m_component.getInstance();
@@ -146,11 +146,11 @@ public class ComponentHandler extends AbstractHandler
     * @return the instance holder
     * @exception InvocationTargetException if the component instantiation process 
     *  is on demand and an target invocation error occurs
-    * @exception HandlerException if the component could not be established due to a handler 
+    * @exception ControlException if the component could not be established due to a handler 
     *  related error
     * @exception RemoteException if a remote exception occurs
     */
-    public Instance getInstance() throws HandlerException, InvocationTargetException, RemoteException
+    public Instance getInstance() throws ControlException, InvocationTargetException, RemoteException
     {
         return m_component.getInstance();
     }

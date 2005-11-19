@@ -21,21 +21,18 @@ package net.dpml.metro.tools.datatypes;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.Properties;
 
 import net.dpml.metro.tools.PartReferenceBuilder;
 import net.dpml.metro.runtime.CompositionController;
 import net.dpml.metro.info.PartReference;
 import net.dpml.metro.info.Type;
 
-import net.dpml.metro.part.ControllerContext;
 import net.dpml.metro.part.Part;
 import net.dpml.metro.part.DelegationException;
 import net.dpml.metro.part.PartNotFoundException;
 
 import net.dpml.transit.Logger;
 import net.dpml.transit.tools.AntAdapter;
-import net.dpml.transit.model.ContentModel;
 
 import org.apache.tools.ant.Task;
 import org.apache.tools.ant.BuildException;
@@ -51,11 +48,19 @@ public class PartDataType extends Task implements PartReferenceBuilder
     private URI m_uri;
     private String m_key;
 
+   /**
+    * Set the part uri.
+    * @param uri the part uri
+    */
     public void setUri( URI uri )
     {
         m_uri = uri;
     }
 
+   /**
+    * Set the part key.
+    * @param key the key
+    */
     public void setKey( String key )
     {
         m_key = key;
@@ -121,6 +126,12 @@ public class PartDataType extends Task implements PartReferenceBuilder
         return m_uri;
     }
 
+   /**
+    * Build the part reference.
+    * @param classloader the classloader to use
+    * @param type the underlying component type
+    * @return the part reference
+    */
     public PartReference buildPartReference( ClassLoader classloader, Type type )
     {
         String key = getKey();
@@ -177,9 +188,14 @@ public class PartDataType extends Task implements PartReferenceBuilder
         }
     }
 
-    private static URI PART_HANDLER_URI = setupURI( "@PART-HANDLER-URI@" );
-    private static URI PART_BUILDER_URI = setupURI( "@PART-BUILDER-URI@" );
+    private static final URI PART_HANDLER_URI = setupURI( "@PART-HANDLER-URI@" );
+    private static final URI PART_BUILDER_URI = setupURI( "@PART-BUILDER-URI@" );
 
+   /**
+    * Internal utility to create a station uri.
+    * @param spec the uri spec
+    * @return the uri
+    */
     protected static URI setupURI( String spec )
     {
         try

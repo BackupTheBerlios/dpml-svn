@@ -34,6 +34,7 @@ import net.dpml.metro.part.Controller;
 import net.dpml.metro.part.ActivationPolicy;
 import net.dpml.metro.part.Instance;
 import net.dpml.metro.part.Component;
+import net.dpml.metro.part.ControlException;
 
 import net.dpml.metro.state.State;
 import net.dpml.metro.state.StateListener;
@@ -104,9 +105,9 @@ public class ComponentHandlerTestCase extends TestCase
         try
         {
             Instance instance = (Instance) component.getInstance();
-            fail( "Instance returned in inactive state - expected IllegalStateException" );
+            fail( "Instance returned under inactive state - expected ControlException" );
         }
-        catch( IllegalStateException e )
+        catch( ControlException e )
         {
             // success
         }

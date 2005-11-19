@@ -18,26 +18,39 @@
 
 package net.dpml.metro.part;
 
+import java.net.URI;
+
 /**
  * An exception throws if an internal error occurs during builder execution.
  *
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-public class BuilderRuntimeException extends PartRuntimeException
+public class BuilderRuntimeException extends ControlRuntimeException
 {
    /**
     * Serial version identifier.
     */
     static final long serialVersionUID = 1L;
 
-    public BuilderRuntimeException( String message )
+   /**
+    * Creation of a new <tt>BuilderRuntimeException</tt>.
+    * @param uri the part builder uri
+    * @param message the exception message
+    */
+    public BuilderRuntimeException( URI uri, String message )
     {
-        super( message );
+        this( uri, message, null );
     }
     
-    public BuilderRuntimeException( String message, Throwable cause )
+   /**
+    * Creation of a new <tt>BuilderRuntimeException</tt>.
+    * @param uri the part builder uri
+    * @param message the exception message
+    * @param cause the causal exception
+    */
+    public BuilderRuntimeException( URI uri, String message, Throwable cause )
     {
-        super( message, cause );
+        super( uri, message, cause );
     }
 }

@@ -18,16 +18,12 @@
 
 package net.dpml.station.server; 
 
-import java.io.IOException;
-import java.net.URI;
-import java.net.URL;
-import java.rmi.AccessException;
 import java.rmi.AlreadyBoundException;
-import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
+import java.net.URL;
 import java.util.Map;
 import java.util.Hashtable;
 import java.util.logging.LogRecord;
@@ -43,7 +39,6 @@ import net.dpml.station.StationException;
 import net.dpml.station.info.ApplicationDescriptor;
 import net.dpml.station.info.StartupPolicy;
 import net.dpml.station.ApplicationRegistry;
-import net.dpml.station.server.RemoteApplicationRegistry;
 
 import net.dpml.transit.Logger;
 import net.dpml.transit.PID;
@@ -160,7 +155,6 @@ public class RemoteStation extends UnicastRemoteObject implements Station, Manag
     
    /**
     * Shutdown the station.
-    * @exception RemoteException if a remote error occurs
     */
     public void shutdown()
     {
@@ -215,7 +209,6 @@ public class RemoteStation extends UnicastRemoteObject implements Station, Manag
    /**
     * Return the application registry.
     * @return the registry
-    * @exception RemoteException if a remote error occurs
     */
     public ApplicationRegistry getApplicationRegistry()
     {

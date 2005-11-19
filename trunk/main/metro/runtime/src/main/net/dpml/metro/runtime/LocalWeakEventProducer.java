@@ -18,7 +18,6 @@
 
 package net.dpml.metro.runtime;
 
-import java.rmi.RemoteException;
 import java.util.EventObject;
 import java.util.EventListener;
 import java.util.List;
@@ -42,7 +41,12 @@ abstract class LocalWeakEventProducer
    /**
     * Internal synchronization lock.
     */
-    protected final Object m_lock = new Object();
+    private final Object m_lock = new Object();
+    
+    protected Object getLock()
+    {
+        return m_lock;
+    }
 
    /**
     * Abstract operation to be implemented by classes extending this base class.
@@ -58,7 +62,6 @@ abstract class LocalWeakEventProducer
           "Event class not recognized: " + event.getClass().getName();
         throw new IllegalArgumentException( error );
     }
-
 
    /**
     * Add a listener to the set of listeners handled by this producer.
@@ -124,7 +127,7 @@ abstract class LocalWeakEventProducer
                         { 
                             EVENT_QUEUE.wait();
                         }
-                        Object object = EVENT_QUEUE.remove(0);
+                        Object object = EVENT_QUEUE.remove( 0 );
                         try
                         {
                             event = (EventObject) object;
@@ -137,7 +140,7 @@ abstract class LocalWeakEventProducer
                             throw new IllegalStateException( error );
                         }
                     }
-                    catch (InterruptedException e)
+                    catch( InterruptedException e )
                     {
                         return;
                     }
@@ -171,7 +174,7 @@ abstract class LocalWeakEventProducer
         }
     }
 
-    private static Thread EVENT_DISPATCH_THREAD = null;
+    private static Thread m_EVENT_DISPATCH_THREAD = null;
 
     /**
      * This method starts the event dispatch thread the first time it
@@ -180,11 +183,11 @@ abstract class LocalWeakEventProducer
      */
     private static synchronized void startEventDispatchThread() 
     {
-        if( EVENT_DISPATCH_THREAD == null ) 
+        if( m_EVENT_DISPATCH_THREAD == null ) 
         {
-            EVENT_DISPATCH_THREAD = new EventDispatchThread();
-            EVENT_DISPATCH_THREAD.setDaemon( true );
-            EVENT_DISPATCH_THREAD.start();
+            m_EVENT_DISPATCH_THREAD = new EventDispatchThread();
+            m_EVENT_DISPATCH_THREAD.setDaemon( true );
+            m_EVENT_DISPATCH_THREAD.start();
         }
     }
 
@@ -198,7 +201,7 @@ abstract class LocalWeakEventProducer
     {
         synchronized( m_lock )
         {
-            return (EventListener[])m_listeners.keySet().toArray( new EventListener[0] );
+            return (EventListener[]) m_listeners.keySet().toArray( new EventListener[0] );
         }
     }
 

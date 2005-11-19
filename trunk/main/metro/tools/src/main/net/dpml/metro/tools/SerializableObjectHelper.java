@@ -31,16 +31,22 @@ import net.dpml.metro.part.BuilderRuntimeException;
 /**
  * A datatype that enables custom part builders.
  *
- * @author <a href="mailto:dev-dpml@lists.ibiblio.org">The Digital Product Meta Library</a>
- * @version $Revision: 1.2 $ $Date: 2004/03/17 10:30:09 $
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
-public class SerializableObjectHelper
+public final class SerializableObjectHelper
 {
     private SerializableObjectHelper()
     {
-        // static utility class
+        // static
     }
 
+   /**
+    * Write a serialized object to file.
+    * @param object the object to write to file
+    * @param file the destination file
+    * @exception IOException if an I/O exception occurs
+    */
     public static void write( Serializable object, File file ) throws IOException
     {
         ObjectOutputStream output = null;
@@ -63,7 +69,7 @@ public class SerializableObjectHelper
               + "\ndestination: " + file
               + "\nclass: " + object.getClass().getName()
               + "\nreason: " + e.toString();
-            throw new BuilderRuntimeException( error, e );
+            throw new BuilderRuntimeException( ComponentBuilderTask.PART_BUILDER_URI, error, e );
         }
         finally
         {
@@ -71,6 +77,12 @@ public class SerializableObjectHelper
         }
     }
 
+   /**
+    * Write a serializable object to a byte array.
+    * @param object the serializable object
+    * @return the byte array
+    * @exception IOException if an I/O exception occurs
+    */
     public static byte[] writeToByteArray( Serializable object ) throws IOException
     {
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
@@ -91,7 +103,7 @@ public class SerializableObjectHelper
               "Unexpected error while attempting to write object to a byte array."
               + "\nclass: " + object.getClass().getName()
               + "\nreason: " + e.toString();
-            throw new BuilderRuntimeException( error, e );
+            throw new BuilderRuntimeException( ComponentBuilderTask.PART_BUILDER_URI, error, e );
         }
         finally
         {

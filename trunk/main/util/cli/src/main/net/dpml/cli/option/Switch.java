@@ -158,7 +158,7 @@ public class Switch extends ParentImpl
     /**
      * Processes the parent part of the Option.  The combination of parent,
      * argument and children is handled by the process method.
-     * @see Option#process(WriteableCommandLine, ListIterator)
+     * @see net.dpml.cli.Option#process(WriteableCommandLine, ListIterator)
      * 
      * @param commandLine the CommandLine to write results to
      * @param arguments a ListIterator over argument strings positioned at the next

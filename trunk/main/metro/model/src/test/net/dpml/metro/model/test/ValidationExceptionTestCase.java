@@ -18,6 +18,8 @@
 
 package net.dpml.metro.model.test;
 
+import java.net.URI;
+
 import net.dpml.metro.model.ValidationException;
 import net.dpml.metro.model.ValidationException.Issue;
 
@@ -70,7 +72,7 @@ public class ValidationExceptionTestCase extends TestCase
         issues[0] = new Issue( "aaa", "aaa-issue" );
         issues[1] = new Issue( "bbb", "bbb-issue" );
         issues[2] = new Issue( "ccc", "ccc-issue" );
-        ValidationException exception = new ValidationException( this, issues );
+        ValidationException exception = new ValidationException( new URI( "abc:def" ), this, issues );
         assertEquals( "issues-length", 3, exception.getIssues().length );
         assertEquals( "issues-source", this, exception.getSource() );
     }
@@ -79,7 +81,7 @@ public class ValidationExceptionTestCase extends TestCase
     {
         try
         {
-            ValidationException exception = new ValidationException( null, new Issue[0] );
+            ValidationException exception = new ValidationException( new URI( "abc:def" ), null, new Issue[0] );
             fail( "did-not-throw-NPE-on-null-source" );
         }
         catch( NullPointerException e )
@@ -92,7 +94,7 @@ public class ValidationExceptionTestCase extends TestCase
     {
         try
         {
-            ValidationException exception = new ValidationException( this, null );
+            ValidationException exception = new ValidationException( new URI( "abc:def" ), this, null );
             fail( "did-not-throw-NPE-on-null-issues" );
         }
         catch( NullPointerException e )

@@ -20,14 +20,17 @@ package net.dpml.test;
 
 import java.awt.Color;
 
-import net.dpml.logging.Logger;
-
 /**
  * Minimal interface using in testing the component handler.
- * 
- * @author <a href="mailto:dev-dpml@lists.ibiblio.org">The Digital Product Meta Library</a>
+ *
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public interface ColorManager
-{    
+{   
+   /**
+    * Return a color.
+    * @return the color
+    */
     Color getColor();
 }

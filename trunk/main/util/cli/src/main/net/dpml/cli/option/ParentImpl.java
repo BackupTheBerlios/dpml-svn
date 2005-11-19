@@ -217,7 +217,7 @@ public abstract class ParentImpl extends OptionImpl implements Parent
     /**
      * Builds up a list of HelpLineImpl instances to be presented by HelpFormatter.
      * 
-     * @see HelpLine
+     * @see net.dpml.cli.HelpLine
      * @see net.dpml.cli.util.HelpFormatter
      * @param depth the initial indent depth
      * @param helpSettings the HelpSettings that should be applied

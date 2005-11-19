@@ -113,6 +113,10 @@ public class ValueDataType
         return (ValueDataType[]) m_params.toArray( new ValueDataType[0] );
     }
 
+   /**
+    * Construct a value directive.
+    * @return the constructed value directive
+    */
     public ValueDirective constructValue()
     {
         String classname = getClassname();
@@ -135,6 +139,10 @@ public class ValueDataType
         }
     }
     
+   /**
+    * Create a construct for the datatype.
+    * @return the construct
+    */
     public Construct newConstruct()
     {
         String classname = getClassname();

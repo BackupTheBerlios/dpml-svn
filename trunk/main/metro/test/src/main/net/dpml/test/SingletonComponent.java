@@ -25,7 +25,8 @@ import net.dpml.logging.Logger;
 /**
  * Single test component.
  * 
- * @author <a href="mailto:dev-dpml@lists.ibiblio.org">The Digital Product Meta Library</a>
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@ 
  */
 public class SingletonComponent implements ColorManager
 {
@@ -33,8 +34,15 @@ public class SingletonComponent implements ColorManager
     // concerns
     //------------------------------------------------------------------
 
+   /**
+    * The componnet defined construction criteria.
+    */
     public interface Context
     {
+       /**
+        * Return the assigned color.
+        * @return the color value
+        */
         Color getColor();
     }
 
@@ -56,6 +64,11 @@ public class SingletonComponent implements ColorManager
     // constructor
     //------------------------------------------------------------------
 
+   /**
+    * Creation of a new singleton component instance.
+    * @param logger the assinged logging channel
+    * @param context a context implementation fullfil,ling the context criteria
+    */
     public SingletonComponent( final Logger logger, final Context context )
     {
         m_context = context;
@@ -67,7 +80,11 @@ public class SingletonComponent implements ColorManager
     //------------------------------------------------------------------
     // Example
     //------------------------------------------------------------------
-    
+   
+   /**
+    * Return the color value assigned to the component context.
+    * @return the color value
+    */
     public Color getColor()
     {
         return m_context.getColor();
@@ -77,6 +94,10 @@ public class SingletonComponent implements ColorManager
     // internal
     //------------------------------------------------------------------
 
+   /**
+    * Return the assigned logging channel.
+    * @return the logging channel
+    */
     private Logger getLogger()
     {
         return m_logger;

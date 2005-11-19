@@ -19,14 +19,11 @@
 package net.dpml.station.server; 
 
 import java.io.IOException;
-import java.io.File;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.net.URI;
 import java.rmi.ConnectException;
 import java.rmi.RemoteException;
-import java.rmi.ServerException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.Enumeration;
 import java.util.ArrayList;
@@ -38,9 +35,7 @@ import net.dpml.station.info.StartupPolicy;
 import net.dpml.station.info.ApplicationDescriptor;
 
 import net.dpml.metro.part.Component;
-import net.dpml.metro.part.Instance;
 
-import net.dpml.station.Station;
 import net.dpml.station.Callback;
 import net.dpml.station.ProcessState;
 import net.dpml.station.Application;
@@ -48,11 +43,8 @@ import net.dpml.station.ApplicationException;
 import net.dpml.station.ApplicationListener;
 import net.dpml.station.ApplicationEvent;
 
-import net.dpml.transit.Environment;
 import net.dpml.transit.Logger;
-import net.dpml.transit.Transit;
 import net.dpml.transit.PID;
-import net.dpml.transit.model.UnknownKeyException;
 
 /**
  * The RemoteApplication is the default implementation of a remotely 
@@ -81,9 +73,11 @@ public class RemoteApplication extends EventChannel implements Callback, Applica
     * @param descriptor the application descriptor
     * @param id the application key
     * @param port the rmi registry port on which the station is registered
-    * @exception Exception if a exception occurs during establishment
+    * @exception RemoteException if a remote exception occurs
     */
-    public RemoteApplication( Logger logger, ApplicationDescriptor descriptor, String id, int port ) throws RemoteException
+    public RemoteApplication( 
+      Logger logger, ApplicationDescriptor descriptor, String id, int port ) 
+      throws RemoteException
     {
         super( logger );
         
@@ -102,6 +96,8 @@ public class RemoteApplication extends EventChannel implements Callback, Applica
     * commenced startup.
     *
     * @param pid the process identifier
+    * @param handler the component handler
+    * @exception ApplicationException if an application exception occurs
     */
     public void started( PID pid, Component handler ) throws ApplicationException
     {
@@ -165,8 +161,6 @@ public class RemoteApplication extends EventChannel implements Callback, Applica
     
    /**
     * Method invoked by a process to signal its imminent termination.
-    *
-    * @exception RemoteException if a remote error occurs
     */
     public void stopped()
     {
@@ -196,7 +190,6 @@ public class RemoteApplication extends EventChannel implements Callback, Applica
    /**
     * Return the profile associated with this application 
     * @return the application profile
-    * @exception RemoteException if a remote error occurs
     */
     public ApplicationDescriptor getApplicationDescriptor()
     {
@@ -206,7 +199,6 @@ public class RemoteApplication extends EventChannel implements Callback, Applica
    /**
     * Return the current deployment state of the process.
     * @return the current process state
-    * @exception RemoteException if a remote error occurs
     */
     public ProcessState getState()
     {
@@ -218,9 +210,9 @@ public class RemoteApplication extends EventChannel implements Callback, Applica
 
    /**
     * Start the application.
-    * @exception RemoteException if a remote error occurs
+    * @exception ApplicationException if an application error occurs
     */
-    public void start() throws RemoteException
+    public void start() throws ApplicationException
     {
         if( m_descriptor.getStartupPolicy() == StartupPolicy.DISABLED ) 
         {
@@ -310,6 +302,7 @@ public class RemoteApplication extends EventChannel implements Callback, Applica
     }
 
    /**
+    * Construct the process command parameters sequence.
     * @exception IOException if an IO error occurs
     */
     private String[] getProcessCommand() throws IOException
@@ -439,7 +432,6 @@ public class RemoteApplication extends EventChannel implements Callback, Applica
    /**
     * Add an application listener.
     * @param listener the listener to add
-    * @exception RemoteException if a rmote error occurs
     */
     public void addApplicationListener( ApplicationListener listener )
     {
@@ -449,7 +441,6 @@ public class RemoteApplication extends EventChannel implements Callback, Applica
    /**
     * Remove an application listener.
     * @param listener the listener to remove
-    * @exception RemoteException if a rmote error occurs
     */
     public void removeApplicationListener( ApplicationListener listener )
     {
@@ -540,7 +531,8 @@ public class RemoteApplication extends EventChannel implements Callback, Applica
     }
 
    /**
-    * Internal abstract class to handle reading of subprocess output and error streams.
+    * Internal abstract class to handle reading of subprocess output 
+    * and error streams.
     */
     private abstract class StreamReader extends Thread
     {
@@ -555,6 +547,10 @@ public class RemoteApplication extends EventChannel implements Callback, Applica
             m_input = input;
         }
 
+       /**
+        * Return the input stream.
+        * @return the subprocess input stream
+        */
         protected InputStream getInputStream()
         {
             return m_input;

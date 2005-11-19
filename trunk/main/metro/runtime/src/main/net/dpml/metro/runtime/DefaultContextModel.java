@@ -18,44 +18,30 @@
 
 package net.dpml.metro.runtime;
 
-import java.net.URI;
-import java.net.URL;
-import java.net.URLClassLoader;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Hashtable;
 import java.util.HashMap;
 import java.util.EventObject;
 import java.util.Map;
 
-import net.dpml.metro.data.Directive;
-import net.dpml.metro.data.ValueDirective;
-import net.dpml.metro.data.ReferenceDirective;
 import net.dpml.metro.data.ContextDirective;
-import net.dpml.metro.info.LifestylePolicy;
-import net.dpml.metro.info.CollectionPolicy;
-import net.dpml.metro.info.Type;
+import net.dpml.metro.data.Directive;
 import net.dpml.metro.info.EntryDescriptor;
 import net.dpml.metro.info.PartReference;
-import net.dpml.metro.info.EntryDescriptor;
+import net.dpml.metro.info.Type;
 
 import net.dpml.metro.model.ContextModel;
 import net.dpml.metro.model.ValidationException;
 import net.dpml.metro.model.ValidationException.Issue;
 
-import net.dpml.logging.Logger;
-
 import net.dpml.metro.part.Part;
-import net.dpml.metro.part.PartException;
 import net.dpml.metro.part.ContextException;
 
-import net.dpml.transit.model.Value;
 import net.dpml.transit.model.UnknownKeyException;
-import net.dpml.transit.Category;
 
 /**
- *
+ * Default implemetnation of <tt>ContextModel</tt>.
  *
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
@@ -82,6 +68,14 @@ class DefaultContextModel extends UnicastEventSource implements ContextModel
     // constructor
     // ------------------------------------------------------------------------
 
+   /**
+    * Creation of a new <tt>DefaultContextModel</tt>.
+    * @param classloader the classloader
+    * @param type the component type
+    * @param directive the context directive
+    * @exception ContextException if an error occurs in context model construction
+    * @exception RemoteException if a remote I/O error occurs
+    */
     public DefaultContextModel( ClassLoader classloader, Type type, ContextDirective directive )
       throws ContextException, RemoteException
     {
@@ -104,11 +98,15 @@ class DefaultContextModel extends UnicastEventSource implements ContextModel
             {
                 final String error = 
                   "Component directive does not declare a directive for the key [" + key + "].";
-                throw new ContextException( error, e );
+                throw new ContextException( CompositionController.CONTROLLER_URI, error, e );
             }
         }
     }
 
+   /**
+    * Process a context model event.
+    * @param event the event to process
+    */
     protected void processEvent( EventObject event )
     {
     }
@@ -163,7 +161,7 @@ class DefaultContextModel extends UnicastEventSource implements ContextModel
             if( list.size() > 0 )
             {
                 Issue[] issues = (Issue[]) list.toArray( new Issue[0] );
-                throw new ValidationException( this, issues );
+                throw new ValidationException( CompositionController.CONTROLLER_URI, this, issues );
             }
             else
             {
@@ -250,7 +248,7 @@ class DefaultContextModel extends UnicastEventSource implements ContextModel
             String key = ref.getKey();
             m_type.getContextDescriptor().getEntryDescriptor( key );
             Part part = ref.getPart();
-            if( ! ( part instanceof Directive ) )
+            if( !( part instanceof Directive ) )
             {
                 final String error = 
                   "Cannot cast part reference ["

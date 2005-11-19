@@ -22,8 +22,6 @@ import java.io.IOException;
 import java.net.URI;
 import java.beans.IntrospectionException;
 
-import net.dpml.metro.part.Part;
-
 /**
  * The contract for builders that create component parts.
  *
@@ -32,11 +30,10 @@ import net.dpml.metro.part.Part;
  */
 public interface PartBuilder
 {
-
    /**
     * Return a urn identitifying the part handler for this builder.
     *
-    * @return a strategy uri
+    * @return the part handler uri
     */
     URI getPartHandlerURI();
 
@@ -44,7 +41,10 @@ public interface PartBuilder
     * Build the part.
     * @param classloader the classloader to use if type creation is required
     * @return the serializable part
-    * @exception Exception if a construction error occurs
+    * @exception IntrospectionException if an error occurs during the 
+    *  part introspection phase
+    * @exception IOException if a IO error occurs
+    * @exception ClassNotFoundException if the part class could not be found
     */
     Part buildPart( ClassLoader classloader ) 
        throws IntrospectionException, IOException, ClassNotFoundException;

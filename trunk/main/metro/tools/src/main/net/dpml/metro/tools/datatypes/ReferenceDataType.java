@@ -31,7 +31,7 @@ import net.dpml.metro.tools.PartReferenceBuilder;
 import net.dpml.metro.part.Part;
 
 /**
- * A simple part datatype.
+ * part reference datatype.
  *
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
@@ -89,6 +89,7 @@ public class ReferenceDataType implements PartReferenceBuilder
 
    /**
     * Return the key identifying the part that this builder is building.
+    * @return the key
     */
     public String getKey()
     {
@@ -101,6 +102,12 @@ public class ReferenceDataType implements PartReferenceBuilder
         return m_key;
     }
 
+   /**
+    * Build a part reference.
+    * @param classloader the classloader
+    * @param type the underlying component type
+    * @return the part reference
+    */
     public PartReference buildPartReference( ClassLoader classloader, Type type )
     {
         String key = getKey();
@@ -127,9 +134,14 @@ public class ReferenceDataType implements PartReferenceBuilder
     // static utilities
     //---------------------------------------------------------------------
 
-    private static URI PART_HANDLER_URI = setupURI( "@PART-HANDLER-URI@" );
-    private static URI PART_BUILDER_URI = setupURI( "@PART-BUILDER-URI@" );
+    private static final URI PART_HANDLER_URI = setupURI( "@PART-HANDLER-URI@" );
+    private static final URI PART_BUILDER_URI = setupURI( "@PART-BUILDER-URI@" );
 
+   /**
+    * Internal utility to create a static uri.
+    * @param spec the uri spec
+    * @return the uri
+    */
     protected static URI setupURI( String spec )
     {
         try

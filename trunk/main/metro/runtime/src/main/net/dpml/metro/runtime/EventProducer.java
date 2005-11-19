@@ -197,7 +197,7 @@ abstract class EventProducer extends UnicastRemoteObject
                         { 
                             EVENT_QUEUE.wait();
                         }
-                        Object object = EVENT_QUEUE.remove(0);
+                        Object object = EVENT_QUEUE.remove( 0 );
                         try
                         {
                             event = (EventObject) object;
@@ -210,7 +210,7 @@ abstract class EventProducer extends UnicastRemoteObject
                             throw new IllegalStateException( error );
                         }
                     }
-                    catch (InterruptedException e)
+                    catch( InterruptedException e )
                     {
                         return;
                     }
@@ -246,7 +246,7 @@ abstract class EventProducer extends UnicastRemoteObject
         }
     }
 
-    private static Thread EVENT_DISPATCH_THREAD = null;
+    private static Thread m_EVENT_DISPATCH_THREAD = null;
 
     /**
      * This method starts the event dispatch thread the first time it
@@ -255,11 +255,11 @@ abstract class EventProducer extends UnicastRemoteObject
      */
     private static synchronized void startEventDispatchThread() 
     {
-        if( EVENT_DISPATCH_THREAD == null ) 
+        if( m_EVENT_DISPATCH_THREAD == null ) 
         {
-            EVENT_DISPATCH_THREAD = new EventDispatchThread();
-            EVENT_DISPATCH_THREAD.setDaemon( true );
-            EVENT_DISPATCH_THREAD.start();
+            m_EVENT_DISPATCH_THREAD = new EventDispatchThread();
+            m_EVENT_DISPATCH_THREAD.setDaemon( true );
+            m_EVENT_DISPATCH_THREAD.start();
         }
     }
 

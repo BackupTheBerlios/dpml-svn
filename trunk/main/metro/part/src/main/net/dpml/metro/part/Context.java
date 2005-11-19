@@ -18,10 +18,7 @@
 
 package net.dpml.metro.part;
 
-import java.net.URI;
 import java.rmi.RemoteException;
-
-import net.dpml.metro.part.ActivationPolicy;
 
 /**
  * The Context interfaces is used mark a object as manageable context used in 
@@ -32,6 +29,9 @@ import net.dpml.metro.part.ActivationPolicy;
  */
 public interface Context
 {
+   /**
+    * The constant partition separator.
+    */
     final String PARTITION_SEPARATOR = "/";
     
    /**
@@ -41,6 +41,7 @@ public interface Context
     * seaprated by the PARTITION_SEPARATOR as in "/main/web/handler".
     *
     * @return the context path
+    * @exception RemoteException if a remote exception occurs
     */
     String getContextPath() throws RemoteException;
  
@@ -51,6 +52,7 @@ public interface Context
     * the policy if SYSTEM activation may occur at the discretion of an implementation.
     *
     * @return the activation policy
+    * @exception RemoteException if a remote exception occurs
     * @see ActivationPolicy#SYSTEM
     * @see ActivationPolicy#STARTUP
     * @see ActivationPolicy#DEMAND

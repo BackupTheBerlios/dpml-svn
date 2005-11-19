@@ -26,7 +26,7 @@ import java.net.URI;
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-public class PartNotFoundException extends PartException 
+public class PartNotFoundException extends ControlException 
 {
    /**
     * Serial version identifier.
@@ -36,23 +36,42 @@ public class PartNotFoundException extends PartException
     private URI m_target;
     private URI m_parent;
 
-    public PartNotFoundException( URI target )
+   /**
+    * Creation of a new <tt>PartNotFoundException</tt>.
+    * @param uri the controller uri
+    * @param target the target part
+    */
+    public PartNotFoundException( URI uri, URI target )
     {
-        this( target, null );
+        this( uri, target, null );
     }
 
-    public PartNotFoundException( URI parent, URI target )
+   /**
+    * Creation of a new <tt>PartNotFoundException</tt>.
+    * @param uri the controller uri
+    * @param parent the parent part
+    * @param target the target part
+    */
+    public PartNotFoundException( URI uri, URI parent, URI target )
     {
-        super( buildMessage( parent, target ) );
+        super( uri, buildMessage( parent, target ) );
         m_target = target;
         m_parent = parent;
     }
 
+   /**
+    * Return the parent part.
+    * @return the uri of the part in which the sub-part request was raised
+    */
     public URI getParentURI()
     {
         return m_parent;
     }
 
+   /**
+    * Return the target part uri.
+    * @return the uri of the target part
+    */
     public URI getTargetURI()
     {
         return m_target;

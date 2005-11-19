@@ -26,7 +26,7 @@ import java.net.URI;
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-public class ControlException extends HandlerException 
+public class ControlException extends Exception  
 {
    /**
     * Serial version identifier.
@@ -34,18 +34,33 @@ public class ControlException extends HandlerException
     static final long serialVersionUID = 1L;
 
     private final URI m_uri;
-    
+
+   /**
+    * Creation of a new <tt>ControlException</tt>.
+    * @param uri the part controller uri
+    * @param message the exception message
+    */
     public ControlException( URI uri, String message )
     {
         this( uri, message, null );
     }
 
+   /**
+    * Creation of a new <tt>ContextException</tt>.
+    * @param uri the part controller uri
+    * @param message the exception message
+    * @param cause the causal exception
+    */
     public ControlException( URI uri, String message, Throwable cause )
     {
         super( message, cause );
         m_uri = uri;
     }
 
+   /**
+    * Return the controller uri.
+    * @return the uri identifying the controller that raised the exception
+    */
     public URI getControllerURI()
     {
         return m_uri;

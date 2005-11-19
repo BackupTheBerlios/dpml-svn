@@ -29,13 +29,19 @@ import java.net.URI;
  */
 public interface Part extends Serializable
 {
+   /**
+    * The constant part type identifier.
+    */
     static final String ARTIFACT_TYPE = "part";
 
+   /**
+    * Static default controller.
+    */
     static final Controller CONTROLLER = PartContentHandler.CONTROLLER;
     
    /**
     * Return the part handler uri.
-    * @return the uri of the part handler
+    * @return the uri of the part controller
     */
     URI getPartHandlerURI();
     

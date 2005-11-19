@@ -18,14 +18,11 @@
 
 package net.dpml.metro.runtime;
 
-import java.io.InputStream;
 import java.net.URI;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
-
-import net.dpml.logging.Logger;
 
 import net.dpml.transit.Artifact;
 import net.dpml.transit.UnsupportedSchemeException;

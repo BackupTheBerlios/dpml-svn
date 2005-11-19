@@ -36,13 +36,23 @@ public class UnsupportedPartTypeException extends ControlRuntimeException
 
     private String m_type;
 
+   /**
+    * Creation of a new <tt>UnsupportedPartTypeException</tt>.
+    * @param uri the uri identifying the part controller
+    * @param classname the unsupport part classname
+    * @param message the exception message
+    */
     public UnsupportedPartTypeException( URI uri, String classname, String message )
     {
         super( uri, message );
         m_type = classname;
     }
 
-    public String getPartTypeClassname()
+   /**
+    * Return the unsupported part classname.
+    * @return the classname
+    */
+    public String getClassname()
     {
         return m_type;
     }

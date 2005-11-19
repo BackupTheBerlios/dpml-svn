@@ -18,62 +18,33 @@
 
 package net.dpml.metro.runtime;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.ByteArrayInputStream;
 import java.io.ObjectInputStream;
-import java.lang.reflect.InvocationHandler;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Proxy;
 import java.net.URI;
 import java.net.URL;
-import java.net.URLConnection;
-import java.net.URLClassLoader;
-import java.net.URISyntaxException;
-import java.rmi.Remote;
-import java.rmi.RemoteException;
-import java.util.ArrayList;
-import java.util.Properties;
 import java.util.WeakHashMap;
 
 import net.dpml.logging.Logger;
 
-import net.dpml.metro.data.ClassLoaderDirective;
-import net.dpml.metro.data.ClasspathDirective;
 import net.dpml.metro.data.ComponentDirective;
-import net.dpml.metro.data.ValueDirective;
-import net.dpml.metro.data.Directive;
-import net.dpml.metro.info.InfoDescriptor;
-import net.dpml.metro.info.Type;
 import net.dpml.metro.model.ComponentModel;
 
-import net.dpml.metro.runtime.ComponentController;
-
 import net.dpml.metro.part.ControllerContext;
-import net.dpml.metro.part.LifecycleException;
-import net.dpml.metro.part.UnsupportedPartTypeException;
 import net.dpml.metro.part.Context;
 import net.dpml.metro.part.Component;
-import net.dpml.metro.part.ComponentException;
 import net.dpml.metro.part.Controller;
-import net.dpml.metro.part.Disposable;
-import net.dpml.metro.part.DelegationException;
 import net.dpml.metro.part.Part;
-import net.dpml.metro.part.PartException;
-import net.dpml.metro.part.PartHandlerNotFoundException;
+import net.dpml.metro.part.ControlException;
+import net.dpml.metro.part.ControllerNotFoundException;
+import net.dpml.metro.part.DelegationException;
 import net.dpml.metro.part.PartNotFoundException;
 import net.dpml.metro.part.PartHolder;
-import net.dpml.metro.part.PartRuntimeException;
-import net.dpml.metro.part.DelegationException;
 
 import net.dpml.transit.Artifact;
-import net.dpml.transit.Category;
 import net.dpml.transit.Repository;
 import net.dpml.transit.Transit;
-import net.dpml.transit.Plugin;
-import net.dpml.transit.model.ContentModel;
-import net.dpml.transit.model.Value;
 
 /**
  * The composition controller is the controller used to establish remotely accessible
@@ -98,14 +69,24 @@ public class CompositionController implements Controller
     // constructor
     //--------------------------------------------------------------------
 
+   /**
+    * Creation of a new controller.
+    * @param logger the logging chanel
+    * @exception ControlException if an error occurs during controller creation
+    */
     public CompositionController( net.dpml.transit.Logger logger )
-       throws ControllerException
+       throws ControlException
     {
         this( new CompositionContext( logger, null, null ) );
     }
 
-    protected CompositionController( ControllerContext context )
-       throws ControllerException
+   /**
+    * Creation of a new controller.
+    * @param context the control context
+    * @exception ControlException if an error occurs during controller creation
+    */
+    public CompositionController( ControllerContext context )
+       throws ControlException
     {
         super();
 
@@ -126,8 +107,11 @@ public class CompositionController implements Controller
     * 
     * @param anchor the anchor classloader
     * @param context a component context 
+    * @return the new classloader
+    * @exception ControlException if a classloader creation error occurs
     */
-    public ClassLoader createClassLoader( ClassLoader anchor, Context context ) throws PartException
+    public ClassLoader createClassLoader( 
+      ClassLoader anchor, Context context ) throws ControlException
     {
         if( context instanceof ComponentDirective )
         {
@@ -149,8 +133,8 @@ public class CompositionController implements Controller
     }
     
    /**
-    * Returns the uri of this handler.
-    * @return the handler uri
+    * Returns the uri of this controller.
+    * @return the controller uri
     */
     public URI getURI()
     {
@@ -163,8 +147,9 @@ public class CompositionController implements Controller
     *
     * @param part the part data structure
     * @return the management context instance
+    * @exception ControlException if an error occurs during context construction
     */
-    public Context createContext( Part part ) throws PartException
+    public Context createContext( Part part ) throws ControlException
     {
         if( part instanceof ComponentDirective )
         {
@@ -181,13 +166,15 @@ public class CompositionController implements Controller
               "Construction of a managment context for the part class ["
               + part.getClass().getName() 
               + "] is not supported.";
-            throw new PartException( error );
+            throw new ControllerException( error );
         }
     }
     
    /**
     * Create and return a remote reference to a component handler.
+    * @param context the component context
     * @return the component handler
+    * @exception Exception if an error occurs during component creation
     */
     public Component createComponent( Context context ) throws Exception
     {
@@ -206,7 +193,7 @@ public class CompositionController implements Controller
               "Construction of a handler for the context class ["
               + context.getClass().getName() 
               + "] is not supported.";
-            throw new PartException( error );
+            throw new ControllerException( error );
         }
     }
     
@@ -222,6 +209,10 @@ public class CompositionController implements Controller
         return m_context;
     }
 
+   /**
+    * Return the assigned logging channel.
+    * @return the logging channel
+    */
     Logger getLogger()
     {
         return m_logger;
@@ -235,9 +226,11 @@ public class CompositionController implements Controller
     * to the foreign handler.
     *
     * @param uri the part uri
-    * @return the part estracted from the part referenced by the uri
+    * @return the part estracted from the part holder referenced by the uri
+    * @exception ControlException if an error is raised related to part creation
+    * @exception IOException if an I/O error occurs while reading the part
     */
-    public Part loadPart( URI uri ) throws PartException, IOException
+    public Part loadPart( URI uri ) throws ControlException, IOException
     {
         return loadSerializedPart( uri );
     }
@@ -247,12 +240,21 @@ public class CompositionController implements Controller
     *
     * @param url the part url
     * @return the part estracted from the part referenced by the url
+    * @exception ControlException if an error is raised related to part creation
+    * @exception IOException if an I/O error occurs while reading the part
     */
-    public Part loadPart( URL url ) throws PartException, IOException
+    public Part loadPart( URL url ) throws ControlException, IOException
     {
         return loadSerializedPart( url );
     }
 
+   /**
+    * Load a part from a byte array.
+    *
+    * @param bytes the byte array
+    * @return the part datastructure
+    * @exception IOException if an I/O error occurs while reading the part
+    */
     public Part loadPart( byte[] bytes ) throws IOException
     {
         try
@@ -269,18 +271,21 @@ public class CompositionController implements Controller
         {
             final String error = 
              "Unexpected error while attempting to load a part from a byte array.";
-            throw new PartRuntimeException( error, e );
+            throw new ControllerRuntimeException( error, e );
         }
     }
     
    /**
-    * Load a part handler given a handler uri.
-    * @return the part handler
+    * Load a controller given a uri.
+    * @param uri the forign controller uri
+    * @return the part controller
+    * @exception ControllerNotFoundException if the controller could not be found
+    * @exception DelegationException if an error occured in the foreign controller
     */
     public Controller getPrimaryController( URI uri ) 
-       throws PartHandlerNotFoundException, DelegationException
+       throws ControllerNotFoundException, DelegationException
     {
-        if( false == getURI().equals( uri ) )
+        if( !getURI().equals( uri ) )
         {
             return resolveController( uri );
         }
@@ -290,6 +295,7 @@ public class CompositionController implements Controller
         }
     }
 
+   /*
     public Object getContent( URLConnection connection, Class[] classes ) throws IOException
     {
         URL url = connection.getURL();
@@ -326,6 +332,7 @@ public class CompositionController implements Controller
             throw cause;
         }
     }
+    */
 
     private Part loadSerializedPart( URI uri )
         throws IOException, DelegationException, PartNotFoundException
@@ -340,14 +347,14 @@ public class CompositionController implements Controller
         InputStream input = url.openStream();
         if( null == input )
         {
-            throw new PartNotFoundException( getURIFromURL( url ) );
+            throw new PartNotFoundException( CONTROLLER_URI, getURIFromURL( url ) );
         }
         ObjectInputStream stream = new ObjectInputStream( input );
         try
         {
             PartHolder holder = (PartHolder) stream.readObject();
             URI foreign = holder.getPartHandlerURI();
-            if( false == getURI().equals( foreign ) )
+            if( !getURI().equals( foreign ) )
             {
                 try
                 {
@@ -362,7 +369,7 @@ public class CompositionController implements Controller
                       + "] using the external handler ["
                       + foreign 
                       + "].";
-                    throw new DelegationException( foreign, error, e );
+                    throw new DelegationException( CONTROLLER_URI, foreign, error, e );
                 }
             }
             else
@@ -384,11 +391,11 @@ public class CompositionController implements Controller
              "Error loading part ["
               + url
               + "].";
-            throw new PartRuntimeException( error, e );
+            throw new ControllerRuntimeException( error, e );
         }
     }
 
-    protected Controller resolveController( URI uri ) throws PartHandlerNotFoundException
+    private Controller resolveController( URI uri ) throws ControllerNotFoundException
     {
         if( getURI().equals( uri ) )
         {
@@ -412,7 +419,7 @@ public class CompositionController implements Controller
         }
     }
 
-    private Controller loadHandler( URI uri ) throws PartHandlerNotFoundException
+    private Controller loadHandler( URI uri ) throws ControllerNotFoundException
     {
         ClassLoader classloader = Part.class.getClassLoader();
         try
@@ -423,11 +430,15 @@ public class CompositionController implements Controller
         }
         catch( IOException e )
         {
-            throw new PartHandlerNotFoundException( uri, e );
+            throw new ControllerNotFoundException( CONTROLLER_URI, uri, e );
         }
     }
 
-    static final URI CONTROLLER_URI = createStaticURI( "@PART-HANDLER-URI@" );
+   /**
+    * Static URI of this controller.
+    */
+    public static final URI CONTROLLER_URI = createStaticURI( "@PART-HANDLER-URI@" );
+    
     static final URI ROOT_URI = createStaticURI( "metro:/" );
 
     private static URI createStaticURI( String path )

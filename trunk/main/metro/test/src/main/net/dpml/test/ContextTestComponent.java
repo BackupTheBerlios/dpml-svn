@@ -24,8 +24,9 @@ import java.net.URI;
 
 /**
  * Component used for context entry testing. 
- * 
- * @author <a href="mailto:dev-dpml@lists.ibiblio.org">The Digital Product Meta Library</a>
+ *
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public class ContextTestComponent
 {
@@ -33,47 +34,177 @@ public class ContextTestComponent
     // concerns
     //------------------------------------------------------------------
 
+   /**
+    * Component driven context criteria.
+    */
     public interface Context
     {
-        //
-        // constructed value
-        //
+       /**
+        * Return the assigned color.
+        * @return the required color value
+        */
         Color getColor();
+        
+       /**
+        * Return the assigned color.
+        * @param color the default color value
+        * @return the color value 
+        */
         Color getOptionalColor( Color color );
         
-        //
-        // primitive value
-        //
-        
+       /**
+        * Return as assigned non-optional integer value.
+        * @return the integer value
+        */
         int getInteger();
+        
+       /**
+        * Return as resolved optional integer value.
+        * @param value the default value
+        * @return the integer value
+        */
         int getOptionalInteger( int value );
+        
+       /**
+        * Return as assigned non-optional short value.
+        * @return the short value
+        */
         short getShort();
+        
+       /**
+        * Return as resolved optional short value.
+        * @param value the default value
+        * @return the short value
+        */
         short getOptionalShort( short value );
+        
+       /**
+        * Return as assigned non-optional long value.
+        * @return the long value
+        */
         long getLong();
+        
+       /**
+        * Return as resolved optional long value.
+        * @param value the default value
+        * @return the long value
+        */
         long getOptionalLong( long value );
+        
+       /**
+        * Return as assigned non-optional byte value.
+        * @return the byte value
+        */
         byte getByte();
+        
+       /**
+        * Return as resolved optional byte value.
+        * @param value the default value
+        * @return the byte value
+        */
         byte getOptionalByte( byte value );
+        
+       /**
+        * Return as assigned non-optional double value.
+        * @return the double value
+        */
         double getDouble();
+        
+       /**
+        * Return as resolved optional double value.
+        * @param value the default value
+        * @return the double value
+        */
         double getOptionalDouble( double value );
+        
+       /**
+        * Return as assigned non-optional float value.
+        * @return the float value
+        */
         float getFloat();
+        
+       /**
+        * Return as resolved optional float value.
+        * @param value the default value
+        * @return the float value
+        */
         float getOptionalFloat( float value );
+        
+       /**
+        * Return as assigned non-optional char value.
+        * @return the char value
+        */
         char getChar();
+        
+       /**
+        * Return as resolved optional char value.
+        * @param value the default value
+        * @return the char value
+        */
         char getOptionalChar( char value );
+        
+       /**
+        * Return as assigned non-optional boolean value.
+        * @return the boolean value
+        */
         boolean getBoolean();
+        
+       /**
+        * Return as resolved optional boolean value.
+        * @param flag the default value
+        * @return the boolean value
+        */
         boolean getOptionalBoolean( boolean flag );
         
-        //
-        // symbolic values
-        //
-        
+       /**
+        * Return as assigned non-optional file value.
+        * @return the file value
+        */
         File getFile();
+        
+       /**
+        * Return as resolved optional file value.
+        * @param value the default value
+        * @return the file value
+        */
         File getFile( File value );
+        
+       /**
+        * Return as resolved optional file value.
+        * @param value the default value
+        * @return the file value
+        */
         File getOptionalFile( File value );
+        
+       /**
+        * Return a non-optional temporary file value.
+        * @return the temp file value
+        */
         File getTempFile();
         
+       /**
+        * Return as assigned non-optional uri value.
+        * @return the uri value
+        */
         URI getURI();
+        
+       /**
+        * Return a optional uri value.
+        * @param value the default value
+        * @return the uri value
+        */
         URI getOptionalURI( URI value );
+        
+       /**
+        * Return as assigned non-optional name.
+        * @return the name
+        */
         String getName();
+        
+       /**
+        * Return as assigned non-optional path.
+        * @return the path
+        */
         String getPath();
     }
 
@@ -83,14 +214,21 @@ public class ContextTestComponent
     // constructor
     //------------------------------------------------------------------
 
-    public ContextTestComponent( final Context context ) throws Exception
+   /**
+    * Creation of a new context test component.
+    * @param context the component direven context criteria
+    */
+    public ContextTestComponent( final Context context )
     {
         m_context = context;
     }
     
+   /**
+    * Return the container assigned context instance.
+    * @return the assigned context 
+    */
     public Context getContext() // for testcase
     {
         return m_context;
     }
-    
 }

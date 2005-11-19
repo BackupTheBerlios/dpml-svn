@@ -20,12 +20,9 @@ package net.dpml.metro.part;
 
 import java.beans.Expression;
 import java.beans.BeanDescriptor;
-import java.beans.PersistenceDelegate;
 import java.beans.DefaultPersistenceDelegate;
 import java.beans.SimpleBeanInfo;
 import java.beans.Encoder;
-
-import net.dpml.transit.util.Enum;
 
 /**
  * Utility class containing a persistence encoding delegate for
@@ -38,6 +35,10 @@ public final class ActivationPolicyBeanInfo extends SimpleBeanInfo
 {
     private static final BeanDescriptor BEAN_DESCRIPTOR = setupBeanDescriptor();
     
+   /**
+    * Creation of a new bean descriptor.
+    * @return the bean descriptor
+    */
     public BeanDescriptor getBeanDescriptor()
     {
         return BEAN_DESCRIPTOR;
@@ -52,12 +53,21 @@ public final class ActivationPolicyBeanInfo extends SimpleBeanInfo
         return descriptor;
     }
     
+   /**
+    * The persistence delegate.
+    */
     private static class ActivationPolicyPersistenceDelegate extends DefaultPersistenceDelegate
     {
+       /**
+        * Return the expression.
+        * @param old the old instance
+        * @param encoder the XML encoder
+        * @return the expression
+        */
         public Expression instantiate( Object old, Encoder encoder )
         {
             ActivationPolicy policy = (ActivationPolicy) old;
-            return new Expression( ActivationPolicy.class, "parse", new Object[]{ policy.getName() } );
+            return new Expression( ActivationPolicy.class, "parse", new Object[]{policy.getName()} );
         }
     }
 }

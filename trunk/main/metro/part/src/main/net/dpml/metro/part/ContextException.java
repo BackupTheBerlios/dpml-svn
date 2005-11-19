@@ -18,28 +18,40 @@
 
 package net.dpml.metro.part;
 
+import java.net.URI;
+
 /**
  * General exception thrown by a context model.
  *
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-public class ContextException extends PartException 
+public class ContextException extends ControlException 
 {
    /**
     * Serial version identifier.
     */
     static final long serialVersionUID = 1L;
 
-    public ContextException( String message )
+   /**
+    * Creation of a new <tt>ContextException</tt>.
+    * @param uri the controller uri
+    * @param message the exception message
+    */
+    public ContextException( URI uri, String message )
     {
-        super( message );
+        super( uri, message );
     }
 
-    public ContextException( String message, Throwable cause )
+   /**
+    * Creation of a new <tt>ContextException</tt>.
+    * @param uri the controller uri
+    * @param message the exception message
+    * @param cause the causal exception
+    */
+    public ContextException( URI uri, String message, Throwable cause )
     {
-        super( message, cause );
+        super( uri, message, cause );
     }
-
 }
 

@@ -49,7 +49,7 @@ public class ContextDataType
     */
     public void setClass( final String classname )
     {
-        m_class = classname ;
+        m_class = classname;
     }
 
    /**
@@ -72,6 +72,10 @@ public class ContextDataType
         return builder;
     }
 
+   /**
+    * Create a name component builder.
+    * @return a new component builder
+    */
     public ComponentBuilderTask createComponent()
     {
         ComponentBuilderTask builder = new ComponentBuilderTask();
@@ -80,14 +84,23 @@ public class ContextDataType
     }
 
    /**
-    * Return all of the context entries within the context directive.
-    * @return the set of context entries
+    * Return all of the part reference builders.
+    * @return the set of part reference builders
     */
     public PartReferenceBuilder[] getBuilders()
     {
         return (PartReferenceBuilder[]) m_builders.toArray( new PartReferenceBuilder[0] );
     }
 
+   /**
+    * Create a new context directive.
+    * @param classloader the classloader to use
+    * @param type the underlying component type
+    * @return the context directive
+    * @exception IntrospectionException if a class introspection error occurs
+    * @exception IOException if an I/O error occurs
+    * @exception ClassNotFoundException if a context class was not found
+    */
     public ContextDirective getContextDirective( ClassLoader classloader, Type type ) 
       throws IntrospectionException, IOException, ClassNotFoundException
     {
@@ -99,7 +112,8 @@ public class ContextDataType
             PartReferenceBuilder builder = builders[i];
             if( builder instanceof ComponentBuilderTask )
             {
-                ((Task)builder).setTaskName( "component" );
+                Task task = (Task) builder;
+                task.setTaskName( "component" );
             }
             PartReference reference = builder.buildPartReference( classloader, type );
             references[i] = reference;

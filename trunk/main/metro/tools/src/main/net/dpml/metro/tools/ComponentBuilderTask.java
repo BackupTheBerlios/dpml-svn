@@ -18,35 +18,21 @@
 
 package net.dpml.metro.tools;
 
-import java.beans.XMLEncoder;
 import java.beans.IntrospectionException;
-import java.beans.ExceptionListener;
-import java.io.FileOutputStream;
-import java.io.BufferedOutputStream;
-import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.ObjectInputStream;
 import java.net.URI;
-import java.net.URISyntaxException;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.Properties;
 
 import net.dpml.metro.tools.datatypes.CategoriesDataType;
 import net.dpml.metro.tools.datatypes.ConfigurationDataType;
 import net.dpml.metro.tools.datatypes.ContextDataType;
 import net.dpml.metro.tools.datatypes.ParametersDataType;
-import net.dpml.metro.tools.datatypes.PartsDataType;
 
 import net.dpml.metro.data.ClassLoaderDirective;
-import net.dpml.metro.data.ClasspathDirective;
 import net.dpml.metro.data.ComponentDirective;
 import net.dpml.metro.data.ContextDirective;
 import net.dpml.metro.data.CategoriesDirective;
-import net.dpml.metro.info.InfoDescriptor;
 import net.dpml.metro.info.LifestylePolicy;
 import net.dpml.metro.info.CollectionPolicy;
 import net.dpml.metro.info.PartReference;
@@ -56,17 +42,10 @@ import net.dpml.metro.info.EntryDescriptor;
 import net.dpml.configuration.Configuration;
 
 import net.dpml.parameters.Parameters;
-import net.dpml.parameters.impl.DefaultParameters;
 
-import net.dpml.metro.part.ControllerContext;
 import net.dpml.metro.part.Part;
 import net.dpml.metro.part.PartHolder;
 import net.dpml.metro.part.ActivationPolicy;
-import net.dpml.metro.part.Component;
-
-import net.dpml.transit.Logger;
-import net.dpml.transit.model.ContentModel;
-import net.dpml.transit.tools.AntAdapter;
 
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Project;
@@ -77,8 +56,8 @@ import com.thoughtworks.xstream.io.xml.DomDriver;
 /**
  * Task that handles the construction of a serialized container part.
  *
- * @author <a href="mailto:dev-dpml@lists.ibiblio.org">The Digital Product Meta Library</a>
- * @version $Revision: 1.2 $ $Date: 2004/03/17 10:30:09 $
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public class ComponentBuilderTask extends ClassLoaderBuilderTask implements PartReferenceBuilder
 {
@@ -86,7 +65,6 @@ public class ComponentBuilderTask extends ClassLoaderBuilderTask implements Part
     private String m_key;
     private boolean m_embedded = false;
     private URI m_extends;
-
     private String m_name;
     private String m_classname;
     private LifestylePolicy m_lifestyle;
@@ -96,10 +74,8 @@ public class ComponentBuilderTask extends ClassLoaderBuilderTask implements Part
     private ContextDataType m_context;
     private ParametersDataType m_parameters;
     private ConfigurationDataType m_configuration;
-
     private File m_output;
     private Type m_type;
-
     private ComponentDirective m_profile;
 
    /**
@@ -112,46 +88,82 @@ public class ComponentBuilderTask extends ClassLoaderBuilderTask implements Part
         m_output = file;
     }
 
+   /**
+    * Set the part key.
+    * @param key the key
+    */
     public void setKey( String key )
     {
         m_key = key;
     }
 
+   /**
+    * Set the extends uri feature.
+    * @param uri the uri from which the component extends
+    */
     public void setExtends( URI uri )
     {
         m_extends = uri;
     }
 
+   /**
+    * Set the embedded component flag.
+    * @param flag true if embedded
+    */
     public void setEmbedded( boolean flag )
     {
         m_embedded = flag;
     }
 
+   /**
+    * Set the component name.
+    * @param name the component name
+    */
     public void setName( String name )
     {
         m_name = name;
     }
-
+  
+   /**
+    * Set the component classname.
+    * @param classname the component type classname
+    */
     public void setType( String classname )
     {
         m_classname = classname;
     }
 
+   /**
+    * Set the lifestyle policy vlaue.
+    * @param policy the lifestyle policy
+    */
     public void setLifestyle( String policy )
     {
         m_lifestyle = LifestylePolicy.parse( policy );
     }
 
+   /**
+    * Set the gabage collection policy value.
+    * @param policy the collection policy
+    */
     public void setCollection( String policy )
     {
         m_collection = CollectionPolicy.parse( policy );
     }
 
+   /**
+    * Set the activation policy value.
+    * @param policy the activation policy
+    */
     public void setActivation( boolean policy )
     {
         m_activation = policy;
     }
 
+   /**
+    * Create a new categories data type.
+    * @return the categories datatype
+    */
     public CategoriesDataType createCategories()
     {
         if( m_categories == null )
@@ -167,6 +179,10 @@ public class ComponentBuilderTask extends ClassLoaderBuilderTask implements Part
         }
     }
 
+   /**
+    * Create a new context data type.
+    * @return the context datatype
+    */
     public ContextDataType createContext()
     {
         if( null == m_context )
@@ -203,8 +219,8 @@ public class ComponentBuilderTask extends ClassLoaderBuilderTask implements Part
     }
 
    /**
-    * Add a parameters instance to the component.
-    * @return the parameters datatype
+    * Add a configuration instance to the component.
+    * @return the configuration datatype
     */
     public ConfigurationDataType createConfiguration()
     {
@@ -222,6 +238,9 @@ public class ComponentBuilderTask extends ClassLoaderBuilderTask implements Part
         }
     }
 
+   /**
+    * Execute the task.
+    */
     public void execute()
     {
         if( null == m_name )
@@ -256,9 +275,9 @@ public class ComponentBuilderTask extends ClassLoaderBuilderTask implements Part
 
         try
         {
-            XStream XStream = new XStream( new DomDriver() );
-            XStream.alias( "component", ComponentDirective.class );
-            XStream.toXML( profile, new FileWriter( report ) );
+            XStream xStream = new XStream( new DomDriver() );
+            xStream.alias( "component", ComponentDirective.class );
+            xStream.toXML( profile, new FileWriter( report ) );
             log( "Created report in " + report );
         }
         catch( Throwable e )
@@ -267,14 +286,28 @@ public class ComponentBuilderTask extends ClassLoaderBuilderTask implements Part
         }
     }
 
+   /**
+    * Local exception listener implementation.
+    */
     private class LocalExceptionListener implements java.beans.ExceptionListener
     {
+       /**
+        * Catch an encoding exception.
+        * @param e the exception
+        */
         public void exceptionThrown( Exception e )
         {
             e.printStackTrace();
         }
     }
 
+   /**
+    * Create a component directive.
+    * @param classloader the classloader
+    * @param cld the classloader directive
+    * @param file the output file
+    * @return the component directive
+    */
     public ComponentDirective createComponent( ClassLoader classloader, ClassLoaderDirective cld, File file )
     {
         try
@@ -352,6 +385,11 @@ public class ComponentBuilderTask extends ClassLoaderBuilderTask implements Part
         }
     }
 
+   /**
+    * Return the embedded reosurce path.
+    * @param classname the component classname
+    * @return the resource path
+    */
     public String getEmbeddedResourcePath( String classname )
     {
         String path = classname.replace( '.', '/' );
@@ -359,6 +397,11 @@ public class ComponentBuilderTask extends ClassLoaderBuilderTask implements Part
         return filename;
     }
 
+   /**
+    * Return the embedded output file.
+    * @param filename the filename
+    * @return the embedded output file
+    */
     public File getEmbeddedOutputFile( String filename )
     {
         File classes = getContext().getTargetClassesMainDirectory();
@@ -394,6 +437,14 @@ public class ComponentBuilderTask extends ClassLoaderBuilderTask implements Part
         return PART_HANDLER_URI;
     }
 
+   /**
+    * Build the part.
+    * @param classloader the classloader
+    * @return the part
+    * @exception IntrospectionException if an error occurs while introspecting the component class
+    * @exception IOException if an I/O error occurs
+    * @exception ClassNotFoundException if the component class cannot be found
+    */
     public Part buildPart( ClassLoader classloader )
       throws IntrospectionException, IOException, ClassNotFoundException
     {
@@ -423,6 +474,15 @@ public class ComponentBuilderTask extends ClassLoaderBuilderTask implements Part
         return m_key;
     }
 
+   /**
+    * Build a pert reference.
+    * @param classloader the classloader
+    * @param type the component type
+    * @return the part reference
+    * @exception IntrospectionException if an error occurs while introspecting the component class
+    * @exception IOException if an I/O error occurs
+    * @exception ClassNotFoundException if the component class cannot be found
+    */
     public PartReference buildPartReference( ClassLoader classloader, Type type )
       throws IntrospectionException, IOException, ClassNotFoundException
     {
@@ -533,6 +593,10 @@ public class ComponentBuilderTask extends ClassLoaderBuilderTask implements Part
         }
     }
 
+   /**
+    * Return the component name.
+    * @return the name
+    */
     protected String getName()
     {
         if( null == m_name )
@@ -551,6 +615,10 @@ public class ComponentBuilderTask extends ClassLoaderBuilderTask implements Part
         return m_name;
     }
 
+   /**
+    * Return the component classname.
+    * @return the classname
+    */
     protected String getClassname()
     {
         if( null == m_classname )
@@ -575,10 +643,6 @@ public class ComponentBuilderTask extends ClassLoaderBuilderTask implements Part
     * If the supplied policy is 'shared' then the established instance will be 
     * shared across consumers referencing the component.
     *
-    * TODO - delcare in a component implementation class if the implementation
-    * is thread-safe or not.  If not thread-safe then a request for a shared
-    * usage policy should raise an error.
-    *
     * @param type the component type
     * @return the lifestyle policy
     */
@@ -594,6 +658,12 @@ public class ComponentBuilderTask extends ClassLoaderBuilderTask implements Part
         }
     }
 
+   /**
+    * Return the collection policy.
+    * @param type the component type from which the default collection 
+    *   policy can be resolved if needed
+    * @return the collection policy
+    */
     public CollectionPolicy getCollectionPolicy( Type type )
     {
         if( null == m_collection )
@@ -606,6 +676,10 @@ public class ComponentBuilderTask extends ClassLoaderBuilderTask implements Part
         }
     }
 
+   /**
+    * Return the activation policy.
+    * @return the component activation policy
+    */
     public ActivationPolicy getActivationPolicy()
     {
         if( m_activation )
@@ -618,6 +692,15 @@ public class ComponentBuilderTask extends ClassLoaderBuilderTask implements Part
         }
     }
 
+   /**
+    * Return the context directive.
+    * @param classloader the classloader to use
+    * @param type the component type
+    * @return the context directive
+    * @exception IntrospectionException if a class introspection error occurs
+    * @exception IOException if an I/O error occurs
+    * @exception ClassNotFoundException if a component context class cannont be found
+    */
     private ContextDirective getContextDirective( ClassLoader classloader, Type type ) 
       throws IntrospectionException, IOException, ClassNotFoundException
     {
@@ -708,20 +791,5 @@ public class ComponentBuilderTask extends ClassLoaderBuilderTask implements Part
          {
               return m_configuration.getConfiguration();
          }
-    }
-    
-    private static URI PART_HANDLER_URI = setupURI( "@PART-HANDLER-URI@" );
-    private static URI PART_BUILDER_URI = setupURI( "@PART-BUILDER-URI@" );
-
-    protected static URI setupURI( String spec )
-    {
-        try
-        {
-            return new URI( spec );
-        }
-        catch( URISyntaxException ioe )
-        {
-            return null;
-        }
     }
 }

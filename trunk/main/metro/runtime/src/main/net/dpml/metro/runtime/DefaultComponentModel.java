@@ -18,49 +18,29 @@
 
 package net.dpml.metro.runtime;
 
-import java.io.InputStream;
-import java.net.URI;
-import java.net.URL;
-import java.net.URLClassLoader;
 import java.rmi.RemoteException;
-import java.util.ArrayList;
-import java.util.Hashtable;
 import java.util.HashMap;
 import java.util.EventObject;
 
 import net.dpml.metro.data.ComponentDirective;
-import net.dpml.metro.data.ValueDirective;
-import net.dpml.metro.data.ReferenceDirective;
 import net.dpml.metro.data.ClassLoaderDirective;
-import net.dpml.metro.data.ClasspathDirective;
 import net.dpml.metro.data.ContextDirective;
-import net.dpml.metro.data.Directive;
 import net.dpml.metro.info.LifestylePolicy;
 import net.dpml.metro.info.CollectionPolicy;
 import net.dpml.metro.info.Type;
-import net.dpml.metro.info.EntryDescriptor;
 import net.dpml.metro.info.PartReference;
 import net.dpml.metro.model.ComponentModel;
 import net.dpml.metro.model.ContextModel;
+import net.dpml.metro.part.ActivationPolicy;
+import net.dpml.metro.part.ControlException;
+import net.dpml.metro.part.Part;
+import net.dpml.metro.state.State;
 
 import net.dpml.configuration.Configuration;
 import net.dpml.configuration.impl.DefaultConfiguration;
 
-import net.dpml.logging.Logger;
-
 import net.dpml.parameters.Parameters;
 
-import net.dpml.metro.part.Part;
-import net.dpml.metro.part.PartException;
-import net.dpml.metro.part.ActivationPolicy;
-import net.dpml.metro.part.ControlException;
-
-import net.dpml.metro.state.State;
-import net.dpml.metro.state.impl.DefaultState;
-import net.dpml.metro.state.impl.DefaultStateMachine;
-
-import net.dpml.transit.Category;
-import net.dpml.transit.model.Value;
 import net.dpml.transit.model.UnknownKeyException;
 
 /**
@@ -102,7 +82,7 @@ class DefaultComponentModel extends UnicastEventSource implements ComponentModel
     public DefaultComponentModel( 
       ClassLoader classloader, ComponentController controller, 
       ComponentDirective directive, String partition ) 
-      throws PartException, RemoteException
+      throws ControlException, RemoteException
     {
         super();
         

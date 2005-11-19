@@ -21,9 +21,9 @@ package net.dpml.metro.tools;
 import java.io.File;
 import java.io.FileFilter;
 import java.io.FileWriter;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -35,14 +35,9 @@ import net.dpml.metro.part.Part;
 import net.dpml.metro.info.PartReference;
 import net.dpml.metro.info.EntryDescriptor;
 import net.dpml.metro.info.Type;
-import net.dpml.metro.info.InfoDescriptor;
-import net.dpml.metro.info.LifestylePolicy;
 import net.dpml.metro.info.ContextDescriptor;
 import net.dpml.metro.info.ServiceDescriptor;
 import net.dpml.metro.data.ComponentDirective;
-
-import net.dpml.configuration.Configuration;
-import net.dpml.configuration.impl.ConfigurationUtil;
 
 import net.dpml.transit.Transit;
 
@@ -50,22 +45,16 @@ import org.apache.tools.ant.Task;
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.DirectoryScanner;
-import org.apache.tools.ant.taskdefs.XSLTProcess;
-import org.apache.tools.ant.taskdefs.XSLTProcess.Param;
 import org.apache.tools.ant.taskdefs.Copy;
 import org.apache.tools.ant.types.FileSet;
-
-import com.thoughtworks.xstream.XStream;
-import com.thoughtworks.xstream.io.xml.DomDriver;
 
 /**
  * Create a set of html reports about the component types based on serialized
  * types under the user's ${basedir}/target/classes directory.
  *
- * @author <a href="mailto:dev-dpml@lists.ibiblio.org">The Digital Product Meta Library</a>
- * @version $Revision: 1.2 $ $Date: 2004/03/17 10:30:09 $
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
-//public class CatalogTask extends ProjectTask
 public class CatalogTask extends Task
 {
     private File m_work;
@@ -577,33 +566,14 @@ public class CatalogTask extends Task
             // write out the exported services that the component provides
             //
 
-            boolean flag = true;
             ServiceDescriptor[] services = type.getServiceDescriptors();
-            if( services.length > 0 )
-            {
-                writer.write( "\n    <p class=\"category\">Services</p>" );
-                writer.write( "\n    <table width=\"100%\">" );
-                for( int j=0; j < services.length; j++ )
-                {
-                     String service = services[j].getClassname();
-                     if( flag )
-                     {
-                         writer.write( "<tr class=\"even\"><td>" + service + "</td></tr>" );
-                     }
-                     else
-                     {
-                         writer.write( "<tr class=\"odd\"><td>" + service + "</td></tr>" );
-                     }
-                     flag = !flag;
-                }
-                writer.write( "\n    </table>" );
-            }
+            writeServiceDescriptors( writer, services );
 
             //
             // write out the context model
             //
 
-            flag = true;
+            boolean flag = true;
             ContextDescriptor context = type.getContextDescriptor();
             EntryDescriptor[] entries = context.getEntryDescriptors();
             if( entries.length > 0  )
@@ -642,65 +612,11 @@ public class CatalogTask extends Task
             }
 
             //
-            // write out the default configuration
-            //
-
-            /*
-            Configuration config = type.getConfiguration();
-            if( null != config )
-            {
-                writer.write( "\n    <p class=\"category\">Default Configuration</p>" );
-                writer.write( "\n    <pre>" );
-                String str = ConfigurationUtil.list( config );
-                str = str.replaceAll( "<", "&lt;" );
-                str = str.replaceAll( ">", "&gt;" );
-                writer.write( str );
-                writer.write( "\n   </pre>" );
-            }
-            */
-
-            //
             // write out links to embedded types
             //
 
-            flag = true;
             PartReference[] parts = type.getPartReferences();
-            if( parts.length > 0 )
-            {
-                writer.write( "\n    <p class=\"category\">Embedded Components</p>" );
-                writer.write( "\n    <table width=\"100%\">" );
-                for( int j=0; j < parts.length; j++ )
-                {
-                     PartReference ref = parts[j];
-                     String key = ref.getKey();
-                     Part part = type.getPart( key );
-
-                     if( flag )
-                     {
-                         writer.write( "<tr class=\"p-even\">" );
-                     }
-                     else
-                     {
-                         writer.write( "<tr class=\"p-odd\">" );
-                     }
-                     writer.write( "<td>" + key + "</td>" );
-                     String pname = part.getClass().getName();
-                     if( pname.equals( ComponentDirective.class.getName() ) )
-                     {
-                         ComponentDirective directive = (ComponentDirective) part;
-                         String tname = directive.getClassname();
-                         String tpath = tname.replace( '.', '/' ).concat( ".html" );
-                         writer.write( "<td><a href=\"" + offset + "/" + tpath + "\">" + tname + "</a></td>" );
-                     }
-                     else
-                     {
-                         writer.write( "<td>" + part.getClass().getName() + "</td>" );
-                     }
-                     writer.write( "</tr>" );
-                     flag = !flag;
-                }
-                writer.write( "\n    </table>" );
-            }
+            writePartReferences( writer, type, parts, offset );
 
             writer.write( "\n  </body>" );
             writer.write( "\n</html>" );
@@ -713,7 +629,73 @@ public class CatalogTask extends Task
             throw new BuildException( error, e, getLocation() );
         }
     }
+    
+    private void writeServiceDescriptors( FileWriter writer, ServiceDescriptor[] services ) throws IOException
+    {
+        boolean flag = true;
+        if( services.length > 0 )
+        {
+            writer.write( "\n    <p class=\"category\">Services</p>" );
+            writer.write( "\n    <table width=\"100%\">" );
+            for( int j=0; j < services.length; j++ )
+            {
+                String service = services[j].getClassname();
+                if( flag )
+                {
+                    writer.write( "<tr class=\"even\"><td>" + service + "</td></tr>" );
+                }
+                else
+                {
+                    writer.write( "<tr class=\"odd\"><td>" + service + "</td></tr>" );
+                }
+                flag = !flag;
+            }
+            writer.write( "\n    </table>" );
+        }
+    }
 
+    private void writePartReferences( FileWriter writer, Type type, PartReference[] parts, String offset )
+      throws IOException
+    {
+        boolean flag = true;
+        if( parts.length > 0 )
+        {
+            writer.write( "\n    <p class=\"category\">Embedded Components</p>" );
+            writer.write( "\n    <table width=\"100%\">" );
+            for( int j=0; j < parts.length; j++ )
+            {
+                PartReference ref = parts[j];
+                String key = ref.getKey();
+                Part part = type.getPart( key );
+
+                if( flag )
+                {
+                    writer.write( "<tr class=\"p-even\">" );
+                }
+                else
+                {
+                    writer.write( "<tr class=\"p-odd\">" );
+                }
+                writer.write( "<td>" + key + "</td>" );
+                String pname = part.getClass().getName();
+                if( pname.equals( ComponentDirective.class.getName() ) )
+                {
+                    ComponentDirective directive = (ComponentDirective) part;
+                    String tname = directive.getClassname();
+                    String tpath = tname.replace( '.', '/' ).concat( ".html" );
+                    writer.write( "<td><a href=\"" + offset + "/" + tpath + "\">" + tname + "</a></td>" );
+                }
+                else
+                {
+                    writer.write( "<td>" + part.getClass().getName() + "</td>" );
+                }
+                writer.write( "</tr>" );
+                flag = !flag;
+            }
+            writer.write( "\n    </table>" );
+        }
+    }
+    
     private List getPackageList( String name )
     {
         List list = (List) m_packages.get( name );
@@ -738,56 +720,6 @@ public class CatalogTask extends Task
         {
             throw new BuildException( e.getMessage(), e, getLocation() );
         }
-
-        /*
-        File xmls = new File( reports, "xml" );
-        File htmls = new File( reports, "html" );
-
-        int offset = reports.toString().length() + 1;
-        try
-        {
-            InputStream input = new FileInputStream( source );
-            Type type = Type.loadType( input );
-            String packagename = getPackageName( type );
-            List packageList = getPackageList( packagename );
-            packageList.add( type );
-
-            File xml = getReportDestination( xmls, type, "xml" );
-            xml.getParentFile().mkdirs();
-            XStream XStream = new XStream( new DomDriver() );
-            XStream.alias( "type", Type.class );
-            XStream.toXML( type, new FileWriter( xml ) );
-
-            File html = getReportDestination( htmls, type, "html" );
-            html.getParentFile().mkdirs();
-            String basepath = getBasePath( type );
-            String classname = getClassName( type );
-            final XSLTProcess xslt = (XSLTProcess) getProject().createTask( "xslt" );
-            xslt.setProject( getProject() );
-            xslt.init();
-
-            Param param = xslt.createParam();
-            param.setName( "basepath" );
-            param.setExpression( basepath );
-
-            Param packageParam = xslt.createParam();
-            packageParam.setName( "package" );
-            packageParam.setExpression( packagename );
-
-            Param classnameParam = xslt.createParam();
-            classnameParam.setName( "classname" );
-            classnameParam.setExpression( classname );
-
-            xslt.setIn( xml );
-            xslt.setStyle( getStyle() );
-            xslt.setOut( html );
-            xslt.execute();
-        }
-        catch( Exception e )
-        {
-            throw new BuildException( e.getMessage(), e, getLocation() );
-        }
-        */
     }
 
     private File getReportDestination( File dir, Type type, String suffix )
@@ -802,7 +734,7 @@ public class CatalogTask extends Task
     {
         String path = type.getInfo().getClassname();
         int n = path.lastIndexOf( "." );
-        if( n > - 1 )
+        if( n > -1 )
         {
             return path.substring( n + 1 );
         }
@@ -816,7 +748,7 @@ public class CatalogTask extends Task
     {
         String path = type.getInfo().getClassname();
         int n = path.lastIndexOf( "." );
-        if( n > - 1 )
+        if( n > -1 )
         {
             return path.substring( 0, n );
         }
@@ -937,16 +869,32 @@ public class CatalogTask extends Task
         }
     }
 
+   /**
+    * Type file filter impl.
+    */
     private static class TypeFileFilter implements FileFilter
     {
+       /**
+        * Return true if the file is a type.
+        * @param file the file to test
+        * @return true if the file is a type
+        */
         public boolean accept( File file )
         {
             return file.getName().endsWith( ".type" );
         }
     }
 
+   /**
+    * Directory filer impl.
+    */
     private static class DirectoryFilter implements FileFilter
     {
+       /**
+        * Return true if the file is a directory.
+        * @param file the file to test
+        * @return true if the file is a directory
+        */
         public boolean accept( File file )
         {
             return file.isDirectory();

@@ -18,9 +18,6 @@
 
 package net.dpml.metro.runtime;
 
-import java.beans.PropertyChangeListener;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeSupport;
 import java.io.File;
 import java.lang.ref.Reference;
 import java.lang.ref.SoftReference;
@@ -29,7 +26,6 @@ import java.lang.reflect.InvocationTargetException;
 import java.net.URI;
 import java.rmi.RemoteException;
 import java.util.EventObject;
-import java.util.EventListener;
 import java.util.Map;
 import java.util.Hashtable;
 import java.util.WeakHashMap;
@@ -37,7 +33,6 @@ import java.util.WeakHashMap;
 import net.dpml.metro.info.Type;
 import net.dpml.metro.info.LifestylePolicy;
 import net.dpml.metro.info.CollectionPolicy;
-import net.dpml.metro.info.ServiceDescriptor;
 import net.dpml.metro.model.ComponentModel;
 
 import net.dpml.logging.Logger;
@@ -46,20 +41,13 @@ import net.dpml.metro.part.ActivationPolicy;
 import net.dpml.metro.part.Component;
 import net.dpml.metro.part.ControlException;
 import net.dpml.metro.part.Disposable;
-import net.dpml.metro.part.HandlerException;
-import net.dpml.metro.part.HandlerRuntimeException;
 import net.dpml.metro.part.Instance;
 import net.dpml.metro.part.Service;
 import net.dpml.metro.part.ServiceNotFoundException;
 import net.dpml.metro.part.Version;
 
 import net.dpml.metro.state.State;
-import net.dpml.metro.state.StateMachine;
-import net.dpml.metro.state.StateEvent;
-import net.dpml.metro.state.StateListener;
-import net.dpml.metro.state.impl.DefaultStateMachine;
 
-import net.dpml.transit.model.Value;
 import net.dpml.transit.model.UnknownKeyException;
 
 /**
@@ -165,7 +153,7 @@ public class ComponentHandler extends UnicastEventSource implements Component, D
             final String error = 
               "Unable to load component class: "
               + classname;
-            throw new HandlerRuntimeException( error, e );
+            throw new ControllerRuntimeException( error, e );
         }
         
         try
@@ -177,7 +165,7 @@ public class ComponentHandler extends UnicastEventSource implements Component, D
             final String error = 
               "Unable to load component type: "
               + classname;
-            throw new HandlerRuntimeException( error, e );
+            throw new ControllerRuntimeException( error, e );
         }
         
         try
@@ -189,7 +177,7 @@ public class ComponentHandler extends UnicastEventSource implements Component, D
             final String error = 
               "Unable to load a service class declared in component type: "
               + classname;
-            throw new HandlerRuntimeException( error, e );
+            throw new ControllerRuntimeException( error, e );
         }
         
         try
@@ -280,7 +268,9 @@ public class ComponentHandler extends UnicastEventSource implements Component, D
    /**
     * Return a handler capable of supporting the requested service.
     * @param service the service definition
-    * @exception ServiceNotFoundException if a service provider cannot be resolved.
+    * @return a component matching the serivce definiton
+    * @exception ServiceNotFoundException if no component found
+    * @exception RemoteException if a remote exception occurs
     */
     public Component lookup( Service service ) throws ServiceNotFoundException, RemoteException
     {
@@ -309,7 +299,7 @@ public class ComponentHandler extends UnicastEventSource implements Component, D
         else
         {
             String classname = service.getServiceClass().getName();
-            throw new ServiceNotFoundException( classname );
+            throw new ServiceNotFoundException( CompositionController.CONTROLLER_URI, classname );
         }
     }
     
@@ -339,9 +329,10 @@ public class ComponentHandler extends UnicastEventSource implements Component, D
     * Activate the component handler.  If the component declares an activate on 
     * startup policy then a new instance will be created and activated.
     *
-    * @exception Exception if an activation error occurs
+    * @exception ControlException if an activation error occurs
+    * @exception InvocationTargetException if the client component raises an error
     */
-    public synchronized void activate() throws HandlerException, InvocationTargetException
+    public synchronized void activate() throws ControlException, InvocationTargetException
     {
         if( isActive() )
         {
@@ -374,7 +365,7 @@ public class ComponentHandler extends UnicastEventSource implements Component, D
             deactivate();
             final String error = 
               "Remote exception raised while attempting to access component activation policy.";
-            throw new HandlerException( error, e );
+            throw new ControllerException( error, e );
         }
         finally
         {
@@ -388,7 +379,6 @@ public class ComponentHandler extends UnicastEventSource implements Component, D
     
    /**
     * Deactivate the component.
-    * @exception Exception if an activation error occurs
     */
     public synchronized void deactivate()
     {
@@ -433,7 +423,17 @@ public class ComponentHandler extends UnicastEventSource implements Component, D
         }
     }
     
-    public Instance getInstance() throws InvocationTargetException, HandlerException
+   /**
+    * Return an <tt>Instance</tt> holder. The value returned will be a function 
+    * of the lifestyle policy implemented by the component.
+    * 
+    * @return the <tt>Instance</tt> manager
+    * @exception InvocationTargetException if the request triggers the construction
+    *   of a new provider instance and the provider raises an error during creation
+    *   or activation
+    * @exception ControlException if a control related error occurs
+    */
+    public Instance getInstance() throws InvocationTargetException, ControlException
     {
         if( isActive() )
         {
@@ -445,7 +445,7 @@ public class ComponentHandler extends UnicastEventSource implements Component, D
               "Component handler ["
               + this
               + "] is not active.";
-            throw new IllegalStateException( error );
+            throw new ControllerException( error );
         }
     }
     
@@ -460,6 +460,7 @@ public class ComponentHandler extends UnicastEventSource implements Component, D
 
    /**
     * Return true if this handler is a candidate for the supplied service definition.
+    * @param service the service definition
     * @return true if this is a candidate
     * @exception RemoteException if a remote exception occurs
     */
@@ -485,6 +486,10 @@ public class ComponentHandler extends UnicastEventSource implements Component, D
     // EventProducer
     //--------------------------------------------------------------------------
 
+   /**
+    * Process the supplied event.
+    * @param event the event object
+    */
     protected void processEvent( EventObject event )
     {
     }
@@ -493,6 +498,9 @@ public class ComponentHandler extends UnicastEventSource implements Component, D
     // ComponentHandler
     //--------------------------------------------------------------------------
     
+   /**
+    * Dispose of the component handler.  
+    */
     public void dispose()
     {
         synchronized( getLock() )
@@ -502,6 +510,13 @@ public class ComponentHandler extends UnicastEventSource implements Component, D
         }
     }
     
+   /**
+    * Return a subsidiary component.
+    * @param key the subsidiary component key
+    * @return the subsidiary component
+    * @exception UnknownKeyException if the key does not match 
+    *   any of the internal components managed by this component
+    */
     Component getPartHandler( String key ) throws UnknownKeyException
     {
         Component handler = (Component) m_handlers.get( key );
@@ -592,6 +607,10 @@ public class ComponentHandler extends UnicastEventSource implements Component, D
     // Object
     //--------------------------------------------------------------------------
 
+   /**
+    * Return a string representation of this component.
+    * @return the string value
+    */
     public String toString()
     {
         try
@@ -611,10 +630,11 @@ public class ComponentHandler extends UnicastEventSource implements Component, D
    /**
     * Apply best efforts to construct a fully validated activated instance holder.
     * @return the instance holder
-    * @exception HandlerException if the construction of the instance was not successfull
+    * @exception ControlException if the construction of the instance was not successfull
     * @exception InvocationTargetException if a error was raised by the external implementation
     */
-    private DefaultInstance createDefaultInstance() throws InvocationTargetException, HandlerException
+    private DefaultInstance createDefaultInstance() 
+      throws InvocationTargetException, ControlException
     {
         try
         {
@@ -624,18 +644,36 @@ public class ComponentHandler extends UnicastEventSource implements Component, D
         {
             final String error = 
               "Unable to create instance holder due to a remote exception.";
-            throw new HandlerException( error, e );
+            throw new ControllerException( error, e );
         }
     }
 
+   /**
+    * Abstract holder class that serves as the base class for holders dealing
+    * with variouse lifestyle policies.
+    */
     private abstract class Holder
     {
         private boolean m_disposed = false;
         
-        abstract DefaultInstance getInstance() throws HandlerException, InvocationTargetException;
-        
+       /**
+        * Return an <tt>I(nstance</tt> taking into account the component 
+        * lifestyle policy.
+        * @return the <tt>Instance</tt> manager
+        * @exception ControlException of a controller error occurs
+        * @exception InvocationTargetException if a client implementation error occurs
+        */
+        abstract DefaultInstance getInstance() throws ControlException, InvocationTargetException;
+       
+       /**
+        * Return the number of instances handled by the holder.
+        * @return the instance count
+        */
         abstract int getInstanceCount();
         
+       /**
+        * Dispose of the holder and all managed instances.
+        */
         void dispose()
         {
             if( isDisposed() )
@@ -648,22 +686,34 @@ public class ComponentHandler extends UnicastEventSource implements Component, D
             }
         }
         
+       /**
+        * Return the disposed state of the holder.
+        */
         boolean isDisposed()
         {
             return m_disposed;
         }
     }
     
+   /**
+    * Singleton holder class.  The singleton holder mains a single 
+    * <tt>Instance</tt> of a component relative to the component model 
+    * identity within the scope of the controller.  References to the 
+    * singleton instance will be shared across mutliple threads.
+    */
     private class SingletonHolder extends Holder
     {
         private Reference m_reference;
         
+       /**
+        * Creation of a new singleton holder.
+        */
         SingletonHolder()
         {
             m_reference = createReference( null );
         }
         
-        DefaultInstance getInstance() throws HandlerException, InvocationTargetException
+        DefaultInstance getInstance() throws ControlException, InvocationTargetException
         {
             if( m_reference == null )
             {
@@ -710,11 +760,16 @@ public class ComponentHandler extends UnicastEventSource implements Component, D
         }
     }
     
+   /**
+    * Transient holder class.  The transient holder provides support for 
+    * the transient lifestyle ensuing the creation of a new <tt>Instance</tt>
+    * per request.
+    */
     private class TransientHolder extends Holder
     {
         private WeakHashMap m_instances = new WeakHashMap(); // transients
         
-        DefaultInstance getInstance() throws HandlerException, InvocationTargetException
+        DefaultInstance getInstance() throws ControlException, InvocationTargetException
         {
             DefaultInstance instance = createDefaultInstance();
             m_instances.put( instance, null );
@@ -747,11 +802,16 @@ public class ComponentHandler extends UnicastEventSource implements Component, D
         }
     }
 
+   /**
+    * The ThreadHolder class provides support for the per-thread lifestyle
+    * policy within which new <tt>Instance</tt> creation is based on a single
+    * <tt>Instance</tt> per thread.
+    */
     private class ThreadHolder extends Holder
     {
         private ThreadLocalHolder m_threadLocalHolder = new ThreadLocalHolder();
         
-        DefaultInstance getInstance() throws HandlerException, InvocationTargetException
+        DefaultInstance getInstance() throws ControlException, InvocationTargetException
         {
             return (DefaultInstance) m_threadLocalHolder.get();
         }
@@ -776,6 +836,9 @@ public class ComponentHandler extends UnicastEventSource implements Component, D
         }
     }
 
+   /**
+    * Internal thread local holder for the per-thread lifestyle holder.
+    */
     private class ThreadLocalHolder extends ThreadLocal
     {
         private WeakHashMap m_instances = new WeakHashMap(); // per thread instances
@@ -792,7 +855,7 @@ public class ComponentHandler extends UnicastEventSource implements Component, D
             {
                 final String error = 
                   "Per-thread lifestyle policy handler encountered an error while attempting to establish instance.";
-                throw new HandlerRuntimeException( error, e );
+                throw new ControllerRuntimeException( error, e );
             }
         }
         
@@ -818,6 +881,11 @@ public class ComponentHandler extends UnicastEventSource implements Component, D
         }
     }
     
+   /**
+    * Constructs a reference that reflects the component cololection policy.
+    * @param object the initial reference value
+    * @return the reference
+    */
     private Reference createReference( Object object )
     {
         //
@@ -863,20 +931,31 @@ public class ComponentHandler extends UnicastEventSource implements Component, D
         {
             final String error = 
               "Reference object creating failure due to a remote exception.";
-            throw new HandlerRuntimeException( error, e );
+            throw new ControllerRuntimeException( error, e );
         }
     }
     
+   /**
+    * A reference class that implements hard reference semantics.
+    */
     private static class HardReference extends SoftReference
     {
         private Object m_referent;
-        
+       
+       /**
+        * Creation of a new hard reference.
+        * @param referent the referenced object
+        */
         public HardReference( Object referent )
         {
             super( referent );
             m_referent = referent;
         }
         
+       /**
+        * Return the referent.
+        * @return the referent object
+        */
         public Object get()
         {
             return m_referent;

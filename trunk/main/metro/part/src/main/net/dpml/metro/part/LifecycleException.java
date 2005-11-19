@@ -18,13 +18,15 @@
 
 package net.dpml.metro.part;
 
+import java.net.URI;
+
 /**
  * Exception to indicate that there was a lifecycle related error.
  *
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-public class LifecycleException extends ComponentException
+public class LifecycleException extends ControlException
 {
    /**
     * Serial version identifier.
@@ -34,22 +36,25 @@ public class LifecycleException extends ComponentException
    /**
     * Construct a new <code>LifecycleException</code> instance.
     *
+    * @param controller the uri identifying the controller
     * @param message the exception message
     */
-    public LifecycleException( final String message )
+    public LifecycleException( final URI controller, final String message )
     {
-        this( message, null );
+        this( controller, message, null );
     }
 
    /**
     * Construct a new <code>LifecycleException</code> instance.
     *
+    * @param controller the uri identifying the controller
     * @param message the exception message
     * @param throwable the root cause of the exception
     */
-    public LifecycleException( final String message, final Throwable throwable )
+    public LifecycleException( 
+      final URI controller, final String message, final Throwable throwable )
     {
-        super( message, throwable );
+        super( controller, message, throwable );
     }
 }
 

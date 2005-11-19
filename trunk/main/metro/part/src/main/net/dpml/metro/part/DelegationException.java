@@ -27,7 +27,7 @@ import java.net.URI;
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-public class DelegationException extends PartException 
+public class DelegationException extends ControlException 
 {
    /**
     * Serial version identifier.
@@ -38,13 +38,14 @@ public class DelegationException extends PartException
 
    /**
     * Creation of a new delegation exception.
+    * @param uri the uri of the controller initiating the delegation
     * @param target the uri of the target handler that raised the causal exception
     * @param message exception message
     * @param cause the causal exception
     */
-    public DelegationException( URI target, String message, Throwable cause )
+    public DelegationException( URI uri, URI target, String message, Throwable cause )
     {
-        super( message, cause );
+        super( uri, message, cause );
         m_target = target;
     }
 

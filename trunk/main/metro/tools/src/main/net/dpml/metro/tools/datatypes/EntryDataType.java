@@ -111,6 +111,7 @@ public class EntryDataType extends ValueDataType implements PartReferenceBuilder
 
    /**
     * Return the key identifying the part that this builder is building.
+    * @return the key
     */
     public String getKey()
     {
@@ -132,6 +133,12 @@ public class EntryDataType extends ValueDataType implements PartReferenceBuilder
         return m_uri;
     }
 
+   /**
+    * Build a part reference.
+    * @param classloader the classloader to use
+    * @param type the underlying component type
+    * @return the part reference
+    */
     public PartReference buildPartReference( ClassLoader classloader, Type type )
     {
         String key = getKey();
@@ -156,7 +163,7 @@ public class EntryDataType extends ValueDataType implements PartReferenceBuilder
    /**
     * Return a urn identitifying the part handler for this builder.
     *
-    * @return a strategy uri
+    * @return the part handler uri
     */
     public URI getPartHandlerURI()
     {
@@ -167,6 +174,12 @@ public class EntryDataType extends ValueDataType implements PartReferenceBuilder
     // implementation
     //---------------------------------------------------------------------
 
+   /**
+    * Return the value directive.
+    * @param classloader the classloader to use
+    * @param type the underlying component type
+    * @return the value directive
+    */
     public ValueDirective getValueDirective( ClassLoader classloader, Type type )
     {
         String key = getKey();
@@ -223,9 +236,14 @@ public class EntryDataType extends ValueDataType implements PartReferenceBuilder
     // static utilities
     //---------------------------------------------------------------------
 
-    private static URI PART_HANDLER_URI = setupURI( "@PART-HANDLER-URI@" );
-    private static URI PART_BUILDER_URI = setupURI( "@PART-BUILDER-URI@" );
+    private static final URI PART_HANDLER_URI = setupURI( "@PART-HANDLER-URI@" );
+    private static final URI PART_BUILDER_URI = setupURI( "@PART-BUILDER-URI@" );
 
+   /**
+    * Utility function top create a static uri.
+    * @param spec the uri spec
+    * @return the uri value
+    */
     protected static URI setupURI( String spec )
     {
         try

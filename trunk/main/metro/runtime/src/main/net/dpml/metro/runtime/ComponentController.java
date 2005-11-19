@@ -28,15 +28,11 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Proxy;
 import java.rmi.RemoteException;
-import java.rmi.server.RemoteServer;
 import java.util.Map;
 import java.util.ArrayList;
-import java.util.EventObject;
 
 import net.dpml.activity.Executable;
 import net.dpml.activity.Startable;
-
-import net.dpml.metro.runtime.CompositionController;
 
 import net.dpml.metro.info.Type;
 import net.dpml.metro.info.ServiceDescriptor;
@@ -51,24 +47,17 @@ import net.dpml.metro.model.ContextModel;
 import net.dpml.configuration.Configuration;
 
 import net.dpml.logging.Logger;
-import net.dpml.logging.Logger;
-import net.dpml.logging.Logger;
 
 import net.dpml.parameters.Parameters;
 
 import net.dpml.metro.part.Component;
 import net.dpml.metro.part.Context;
 import net.dpml.metro.part.ControlException;
-import net.dpml.metro.part.Component;
-import net.dpml.metro.part.HandlerException;
-import net.dpml.metro.part.PartException;
-import net.dpml.metro.part.Service;
 import net.dpml.metro.part.ServiceNotFoundException;
 import net.dpml.metro.part.Version;
 
 import net.dpml.metro.state.State;
 import net.dpml.metro.state.impl.DefaultState;
-import net.dpml.metro.state.StateMachine;
 import net.dpml.metro.state.impl.DefaultStateMachine;
 
 import net.dpml.transit.Category;
@@ -109,7 +98,7 @@ class ComponentController
     * @param directive the component definition
     * @return the managable component model
     */
-    public ComponentModel createComponentModel( ComponentDirective directive ) throws PartException
+    public ComponentModel createComponentModel( ComponentDirective directive ) throws ControlException
     {
         ClassLoader anchor = Thread.currentThread().getContextClassLoader();
         String partition = Context.PARTITION_SEPARATOR;
@@ -146,7 +135,7 @@ class ComponentController
     * @return the managable component model
     */
     ComponentModel createComponentModel( 
-      ClassLoader anchor, String partition, ComponentDirective directive ) throws PartException
+      ClassLoader anchor, String partition, ComponentDirective directive ) throws ControlException
     {
         try
         {
@@ -157,7 +146,7 @@ class ComponentController
         {
             final String error = 
               "Creation of a new component model failed due to an remote exception.";
-            throw new ControllerRuntimeException( error, e );
+            throw new ControllerException( error, e );
         }
     }
 
@@ -416,11 +405,11 @@ class ComponentController
     private URI[] filterURLClassLoader( URI[] uris, URLClassLoader parent )
     {
         ArrayList list = new ArrayList();
-        for( int i=(uris.length - 1); i>-1; i-- )
+        for( int i = ( uris.length - 1 ); i>-1; i-- )
         {
             URI uri = uris[i];
             String path = uri.toString();
-            if( false == exists( uri, parent ) )
+            if( !exists( uri, parent ) )
             {
                 list.add( uri );
             }
@@ -543,7 +532,7 @@ class ComponentController
             InvocationHandler invocationHandler = new ParametersInvocationHandler( params );
             ClassLoader classloader = params.getClass().getClassLoader();
             return Proxy.newProxyInstance( 
-              classloader, new Class[]{ Parameters.class }, invocationHandler );
+              classloader, new Class[]{Parameters.class}, invocationHandler );
         }
         catch( RemoteException e )
         {
@@ -561,7 +550,7 @@ class ComponentController
             InvocationHandler invocationHandler = new ConfigurationInvocationHandler( config );
             ClassLoader classloader = config.getClass().getClassLoader();
             return Proxy.newProxyInstance( 
-              classloader, new Class[]{ Configuration.class }, invocationHandler );
+              classloader, new Class[]{Configuration.class}, invocationHandler );
         }
         catch( RemoteException e )
         {
@@ -578,7 +567,7 @@ class ComponentController
         {
             InvocationHandler invocationHandler = new ContextInvocationHandler( handler );
             ClassLoader classloader = clazz.getClassLoader();
-            return Proxy.newProxyInstance( classloader, new Class[]{ clazz }, invocationHandler );
+            return Proxy.newProxyInstance( classloader, new Class[]{clazz}, invocationHandler );
         }
         catch( Throwable e )
         {
@@ -595,7 +584,7 @@ class ComponentController
         {
             InvocationHandler invocationHandler = new PartsInvocationHandler( handler );
             ClassLoader classloader = clazz.getClassLoader();
-            return Proxy.newProxyInstance( classloader, new Class[]{ clazz }, invocationHandler );
+            return Proxy.newProxyInstance( classloader, new Class[]{clazz}, invocationHandler );
         }
         catch( Throwable e )
         {
@@ -749,7 +738,8 @@ class ComponentController
         else
         {
             String classname = service.getServiceClass().getName();
-            throw new ServiceNotFoundException( classname );
+            throw new ServiceNotFoundException( 
+              CompositionController.CONTROLLER_URI, classname );
         }
     }
     

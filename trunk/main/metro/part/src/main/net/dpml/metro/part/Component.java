@@ -21,11 +21,6 @@ package net.dpml.metro.part;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.lang.reflect.InvocationTargetException;
-import java.net.URI;
-
-import net.dpml.metro.state.State;
-import net.dpml.metro.state.StateEvent;
-import net.dpml.metro.state.StateListener;
 
 /**
  * The Component represents a remote interface to a runtime component type.
@@ -38,11 +33,15 @@ public interface Component extends Remote
    /**
     * Return a handler capable of supporting the requested service.
     * @param service the service descriptor
+    * @return a component matching the requested service
+    * @exception ServiceNotFoundException if no component could found
+    * @exception RemoteException if a remote I/O occurs
     */
     Component lookup( Service service ) throws ServiceNotFoundException, RemoteException;
     
    /**
     * Return true if this handler is a candidate for the supplied service definition.
+    * @param service the service descriptor
     * @return true if this is a candidate
     * @exception RemoteException if a remote exception occurs
     */
@@ -50,12 +49,12 @@ public interface Component extends Remote
     
    /**
     * Initiate activation of a runtime handler.
-    * @exception HandlerException if an activation error occurs
+    * @exception ControlException if an activation error occurs
     * @exception InvocationTargetException if the component declares activation on startup
     *    and a implementation source exception occured
     * @exception RemoteException if a remote exception occurs
     */
-    void activate() throws HandlerException, InvocationTargetException, RemoteException;
+    void activate() throws ControlException, InvocationTargetException, RemoteException;
     
    /**
     * Returns the active status of the handler.
@@ -67,6 +66,7 @@ public interface Component extends Remote
    /**
     * Return the number of instances currently under management.
     * @return the instance count.
+    * @exception RemoteException if a remote exception occurs
     */
     int size() throws RemoteException;
     
@@ -75,11 +75,11 @@ public interface Component extends Remote
     * @return the instance holder
     * @exception InvocationTargetException if the component instantiation process 
     *  is on demand and an target invocation error occurs
-    * @exception HandlerException if the component could not be established due to a handler 
+    * @exception ControlException if the component could not be established due to a controller 
     *  related error
     * @exception RemoteException if a remote exception occurs
     */
-    Instance getInstance() throws RemoteException, HandlerException, InvocationTargetException;
+    Instance getInstance() throws ControlException, InvocationTargetException, RemoteException;
     
    /**
     * Deactivate the handler.

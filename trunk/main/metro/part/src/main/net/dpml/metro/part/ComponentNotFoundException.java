@@ -18,24 +18,35 @@
 
 package net.dpml.metro.part;
 
+import java.net.URI;
+
 /**
  * Exception thrown in response to a request for an unknown component.
  *
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-public class ComponentNotFoundException extends ComponentException 
+public class ComponentNotFoundException extends ControlException 
 {
    /**
     * Serial version identifier.
     */
     static final long serialVersionUID = 1L;
 
-    public ComponentNotFoundException( String key )
+   /**
+    * Creation of a new <tt>ComponentNotFoundException</tt>.
+    * @param uri the controller uri
+    * @param key the requested component key
+    */
+    public ComponentNotFoundException( URI uri, String key )
     {
-        super( key );
+        super( uri, key );
     }
 
+   /**
+    * Return the requested key.
+    * @return the key
+    */
     public String getKey()
     {
         return getMessage();

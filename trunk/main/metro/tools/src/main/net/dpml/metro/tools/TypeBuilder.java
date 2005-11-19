@@ -20,7 +20,6 @@
 package net.dpml.metro.tools;
 
 import java.io.IOException;
-import java.net.URI;
 import java.beans.IntrospectionException;
 
 import net.dpml.metro.info.Type;
@@ -28,15 +27,17 @@ import net.dpml.metro.info.Type;
 /**
  * The contract for builders that create component types.
  *
- * @author <a href="mailto:dev-dpml@lists.ibiblio.org">The Digital Product Meta Library</a>
- * @version $Revision: 1.2 $ $Date: 2004/03/17 10:30:09 $
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public interface TypeBuilder
 {
    /**
     * Build a part type.
+    * @param classloader the classloader
     * @return the serializable part type.
     * @exception IntrospectionException if a introspection occurs during type construction
+    * @exception IOException if an I/O exception occurs
     */
     Type buildType( ClassLoader classloader ) 
        throws IntrospectionException, IOException;

@@ -38,6 +38,10 @@ public class ParametersDataType
     private final List m_parameters = new ArrayList();
     private final Project m_project;
 
+   /**
+    * Creation of a new <tt>ParametersDataType</tt>.
+    * @param project the current project
+    */
     public ParametersDataType( Project project )
     {
         m_project = project;
@@ -63,6 +67,10 @@ public class ParametersDataType
         return (ParameterDataType[]) m_parameters.toArray( new ParameterDataType[0] );
     }
 
+   /**
+    * Return the contructed parameters instance.
+    * @return the parameters value
+    */
     public Parameters getParameters()
     {
         DefaultParameters parameters = new DefaultParameters();
@@ -83,10 +91,13 @@ public class ParametersDataType
     public static class ParameterDataType
     {
         private final Project m_project;
-
         private String m_name;
         private String m_value;
 
+       /**
+        * Creation of a new parameters datatype.
+        * @param project the current project
+        */
         public ParameterDataType( Project project )
         {
             m_project = project;

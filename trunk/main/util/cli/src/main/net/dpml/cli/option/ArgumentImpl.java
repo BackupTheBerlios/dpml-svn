@@ -336,7 +336,7 @@ public class ArgumentImpl extends OptionImpl implements Argument
      * value can be replaced by another Object such as a Number
      * instance or a File instance.
      *
-     * @see CommandLine#getValues(Option)
+     * @see net.dpml.cli.CommandLine#getValues(Option)
      *
      * @param commandLine The CommandLine object to query.
      * @throws OptionException if any problems occur.
@@ -356,7 +356,7 @@ public class ArgumentImpl extends OptionImpl implements Argument
      * value can be replaced by another Object such as a Number
      * instance or a File instance.
      *
-     * @see CommandLine#getValues(Option)
+     * @see net.dpml.cli.CommandLine#getValues(Option)
      *
      * @param commandLine The CommandLine object to query.
      * @param option The option to lookup values with.

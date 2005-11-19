@@ -29,6 +29,10 @@ public final class VersionBeanInfo extends SimpleBeanInfo
 {
     private static final BeanDescriptor BEAN_DESCRIPTOR = setupBeanDescriptor();
     
+   /**
+    * Return the bean descriptor.
+    * @return the descriptor
+    */
     public BeanDescriptor getBeanDescriptor()
     {
         return BEAN_DESCRIPTOR;
@@ -39,16 +43,7 @@ public final class VersionBeanInfo extends SimpleBeanInfo
         BeanDescriptor descriptor = new BeanDescriptor( Version.class );
         descriptor.setValue( 
           "persistenceDelegate", 
-          new DefaultPersistenceDelegate( new String[]{ "major", "minor", "micro" } ) );
+          new DefaultPersistenceDelegate( new String[]{"major", "minor", "micro"} ) );
         return descriptor;
     }
-    
-    //private static class VersionPersistenceDelegate extends DefaultPersistenceDelegate
-    //{
-    //    public VersionPersistenceDelegate()
-    //    {
-    //        super( new String[]{ "major", "minor", "micro" } );
-    //    }
-    //}
-
 }

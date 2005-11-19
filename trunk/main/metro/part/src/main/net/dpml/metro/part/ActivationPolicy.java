@@ -48,7 +48,8 @@ public final class ActivationPolicy extends Enum
    /**
     * Array of static activation policy enumeration values.
     */
-    private static final ActivationPolicy[] ENUM_VALUES = new ActivationPolicy[]{ SYSTEM, STARTUP, DEMAND };
+    private static final ActivationPolicy[] ENUM_VALUES = 
+      new ActivationPolicy[]{SYSTEM, STARTUP, DEMAND};
 
    /**
     * Returns an array of activation enum values.
@@ -59,28 +60,35 @@ public final class ActivationPolicy extends Enum
         return ENUM_VALUES;
     }
         
+   /**
+    * Parse a string value and return the activation policy.
+    * @param value the activation policy name
+    * @return the activation policy
+    */
     public static ActivationPolicy parse( String value )
     {
         if( value.equalsIgnoreCase( "system" ) )
         {
             return SYSTEM;
         }
-        else if( value.equalsIgnoreCase( "startup" ))
+        else if( value.equalsIgnoreCase( "startup" ) )
         {
             return STARTUP;
         }
-        else if( value.equalsIgnoreCase( "demand" ))
+        else if( value.equalsIgnoreCase( "demand" ) )
         {
             return DEMAND;
         }
         else
         {
             final String error =
-              "Unrecognized activation policy argument [" + value + "]";
+              "Unrecognized activation policy argument [" 
+              + value 
+              + "]";
               throw new IllegalArgumentException( error );
         }
     }
-        
+    
    /**
     * Internal constructor.
     * @param label the enumeration label.

@@ -19,12 +19,8 @@
 package net.dpml.metro.runtime;
 
 import java.beans.Introspector;
-import java.beans.PropertyChangeListener;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
-import java.lang.reflect.Proxy;
-
-import net.dpml.metro.info.EntryDescriptor;
 
 import net.dpml.metro.part.Component;
 

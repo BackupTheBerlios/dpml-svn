@@ -20,19 +20,22 @@ package net.dpml.test;
 
 import java.awt.Color;
 
-import net.dpml.logging.Logger;
-
 /**
- * A compoent that implements the ColorManger interface.
- * 
- * @author <a href="mailto:dev-dpml@lists.ibiblio.org">The Digital Product Meta Library</a>
+ * A sample component that implements the ColorManger interface.
+ *
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public class ColorComponent implements ColorManager
 {
     //------------------------------------------------------------------
     // Example
     //------------------------------------------------------------------
-    
+   
+   /**
+    * Return the assigned color.
+    * @return the color
+    */
     public Color getColor()
     {
         return Color.BLACK;
