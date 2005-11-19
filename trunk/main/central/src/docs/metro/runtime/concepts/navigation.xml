@@ -25,6 +25,9 @@
  <body>
 
     <menu>
+      <item name="IOC" href="ioc.html"/>
+      <item name="Model Driven" href="model.html"/>
+      <item name="Part Based" href="parts.html"/>
     </menu>
 
  </body>

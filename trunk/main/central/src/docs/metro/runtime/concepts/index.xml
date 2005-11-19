@@ -11,6 +11,15 @@
 
     <section name="Metro Concepts">
 
+      <subsection name="Inversion of Control (IOC)">
+      </subsection>
+
+      <subsection name="Model Driven">
+      </subsection>
+
+      <subsection name="Part Based">
+      </subsection>
+
     </section>
 
   </body>
