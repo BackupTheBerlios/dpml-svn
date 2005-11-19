@@ -26,11 +26,9 @@
  <body>
 
     <links>
-
-      <item name="Depot" href="depot/index.html"/>
-      <item name="Transit" href="transit/index.html"/>
       <item name="Metro" href="metro/index.html"/>
-
+      <item name="Transit" href="transit/index.html"/>
+      <item name="Depot" href="depot/index.html"/>
     </links>
 
     <menu>

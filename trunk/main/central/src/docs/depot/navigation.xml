@@ -25,8 +25,9 @@
  <body>
 
     <menu>
-      <item name="Builder" href="builder/index.html"/>
+      <item name="Builder" href="cli/index.html"/>
       <item name="Library" href="library/index.html"/>
+      <item name="Ant Plugin" href="tools/index.html"/>
     </menu>
 
  </body>

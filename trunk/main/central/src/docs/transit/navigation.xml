@@ -25,9 +25,10 @@
  <body>
 
     <menu>
-      <item name="Install" href="install/index.html"/>
-      <item name="Desktop" href="desktop/index.html"/>
-      <item name="Station" href="station/index.html"/>
+      <item name="Overview" href="overview.html"/>
+      <item name="Protocols" href="technical/index.html"/>
+      <item name="Configuration" href="config/index.html"/>
+      <item name="Services" href="services/index.html"/>
     </menu>
 
  </body>

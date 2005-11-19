@@ -25,9 +25,9 @@
  <body>
 
     <menu>
-      <item name="Metro" href="metro/index.html"/>
-      <item name="Transit" href="transit/index.html"/>
-      <item name="Util" href="util/index.html"/>
+      <item name="Metro" href="runtime/index.html"/>
+      <item name="Station" href="station/index.html"/>
+      <item name="Utilities" href="util/index.html"/>
     </menu>
 
  </body>

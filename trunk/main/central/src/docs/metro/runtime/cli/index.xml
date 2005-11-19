@@ -4,12 +4,12 @@
 
   <properties>
     <author email="mcconnell@dpml.net">Stephen McConnell</author>
-    <title>DPML Build System</title>
+    <title>DPML Runtime</title>
   </properties> 
 
   <body>
 
-    <section name="Depot Desktop">
+    <section name="Metro Command Line">
 
     </section>
 

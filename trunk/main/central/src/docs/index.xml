@@ -9,26 +9,32 @@
 
   <body>
 
-    <section name="DPML Opensource Products for Component-Based Development in Java">
+    <section name="Component Management Platform">
 
-      <p>
-        <a href="build/index.html">DPML Build Tools</a> provide the infrastructure for 
-        the management and automation of complex project builds.
-      </p>
+      <subsection name="Products">
 
-      <p>
-        The <a href="runtime/index.html">DPML Runtime</a> platform combines the Metro
-        IOC container, Transit resource managment, and the Depot toolkit to provide
-        a complete framework for application deployment.
-      </p>
+        <ul>
+          <li>
+            <a href="depot/index.html">Depot</a> tools 
+            for automation of complex projects development.
+          </li>
+          <li>
+            <a href="metro/index.html">Metro</a> context-driven IOC runtime container.
+          </li>
+          <li>
+            <a href="transit/index.html">Transit</a> resource management framework.
+          </li>
+        </ul>
 
-      <p>
-        The <a href="management/index.html">DPML Management</a> platform provides the 
-        framework for fine-grain management of components and services.
-      </p>
+      </subsection>
+
+      <subsection name="Opensource">
+
+      </subsection>
 
     </section>
 
   </body>
+
 </document>
 
