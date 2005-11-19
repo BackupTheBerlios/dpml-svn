@@ -25,10 +25,7 @@
  <body>
 
     <menu>
-      <item name="Context" href="context/index.html"/>
-      <item name="Templates" href="templates/index.html"/>
-      <item name="Processors" href="processors/index.html"/>
-      <item name="Tasks" href="tasks/index.html"/>
+      <item name="CLI" href="cli/index.html"/>
     </menu>
 
  </body>

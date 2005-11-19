@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<document>
+
+  <properties>
+    <author email="mcconnell@dpml.net">Stephen McConnell</author>
+    <title>DPML Runtime</title>
+  </properties> 
+
+  <body>
+
+    <section name="Depot Concepts">
+
+      <p>
+      Depot is a the component development workshop.  It provides tools
+      supporting general build functions, centralizes library management, 
+      a framewoork for project modulatation, and a solution that delivers 
+      massive simplification to build configuration and maintenance concerns.
+      </p>
+
+      <img src="../../images/tools/library.png"/>
+
+    </section>
+
+  </body>
+
+</document>
+
