@@ -14,7 +14,7 @@
       <p>
       Properties may be defined within a <tt>&lt;library&gt;</tt>, 
       <tt>&lt;processor&gt;</tt>, <tt>&lt;module&gt;</tt>, <tt>&lt;project&gt;</tt>, or 
-      <tt>&lt;resource&gt;</tt> withing an enclosing <tt>&lt;properties&gt;</tt> element.
+      <tt>&lt;resource&gt;</tt> within an enclosing <tt>&lt;properties&gt;</tt> element.
       Library properties serve as the most generic and are inherited by processor
       and module definitions.  Modules, projects and resources inherit property setting 
       from their enclosing module.
@@ -22,16 +22,8 @@
 
       <p> 
       The <tt>&lt;type&gt;</tt> and <tt>&lt;include&gt;</tt> elements may also contain 
-      <tt>&lt;property&gt;</tt> declarations.
+      <tt>&lt;property&gt;</tt> declarations as direct child elements.
       </p>
-
-      <subsection name="XML Element">
-
-<source><![CDATA[
-  <property name="[name]" value="[value]"/>
-]]></source>
-
-      </subsection>
 
       <subsection name="XML Attributes">
       
@@ -42,11 +34,23 @@
            </tr>
            <tr>
              <td>value</td>
-             <td>The property value.  Values may contain references to system properties
-              and properties defined within the property set (locally or inherited) using
-              the form ${[property-name]} - e.g. ${user.name}.</td>
+             <td>The property value.</td>
            </tr>
          </table>
+
+      </subsection>
+
+      <subsection name="Property value expansion">
+      
+        <p>
+        Property values may contain references to system properties
+        and properties defined within the enclosing property set (locally or 
+        inherited) using the form ${&lt;name&gt;}.
+        </p>
+
+        <p><i>Example:</i></p>
+
+        <pre>&lt;property name="username" value="${user.name}"/&gt;</pre>
 
       </subsection>
 
@@ -57,35 +61,54 @@
       <p><i>Example property definition from the DPML root module.</i></p>
 
 <source><![CDATA[
-<?xml version="1.0" encoding="ISO-8859-1"?>
-<properties>
-  <property name="project.publisher.name" value="Digital Product Meta Library"/>
-  <property name="project.specification.vendor" value="${project.publisher.name}"/>
-  <property name="project.implementation.vendor" value="${project.publisher.name}"/>
-  <property name="project.implementation.vendor-id" value="net.dpml"/>
-  <property name="project.publisher.url" value="http://www.dpml.net"/>
-  <property name="project.resource.host" value="http://repository.dpml.net"/>
-  <property name="project.api.host" value="http://api.dpml.net"/>
-  <property name="project.svn.host" value="svn://svn.berlios.de/dpml/trunk/main"/>
-</properties>
+
+<module name="dpml" basedir="main">
+
+  <properties>
+    <property name="project.publisher.name" value="Digital Product Meta Library"/>
+    <property name="project.specification.vendor" value="${project.publisher.name}"/>
+    <property name="project.implementation.vendor" value="${project.publisher.name}"/>
+    <property name="project.implementation.vendor-id" value="net.dpml"/>
+    <property name="project.publisher.url" value="http://www.dpml.net"/>
+    <property name="project.resource.host" value="http://repository.dpml.net"/>
+    <property name="project.api.host" value="http://api.dpml.net"/>
+    <property name="project.svn.host" value="svn://svn.berlios.de/dpml/trunk/main"/>
+  </properties>
+
+  ...
+
+</module>
 ]]></source>
 
       <p><i>Example property definition within a project type directive.</i></p>
 
 <source><![CDATA[
-<project name="dpml-composition-editor" basedir="composition/editor">
-  <types>
-    <type id="jar"/>
-    <type id="plugin">
-      <property name="project.plugin.class" 
-        value="net.dpml.metro.runtime.edit.CompositionEditorFactory"/>
-    </type>
-  </types>
-  <dependencies>
-    <include key="dpml-component-control" tag="public"/>
-    <include ref="jgoodies/forms" tag="private"/>
-  </dependencies>
-</project>
+<module name="metro">
+
+  ...
+
+  <project name="dpml-metro-runtime" basedir="runtime">
+    <types>
+      <type id="jar"/>
+      <type id="plugin">
+        <property name="project.plugin.class" 
+           value="net.dpml.metro.runtime.CompositionController"/>
+      </type>
+    </types>
+    <dependencies>
+      <include ref="dpml/util/dpml-logging-api" tag="public"/>
+      <include ref="dpml/util/dpml-activity-api" tag="public"/>
+      <include ref="dpml/util/dpml-parameters-impl"/>
+      <include ref="dpml/util/dpml-configuration-impl"/>
+      <include key="dpml-state-impl"/>
+      <include key="dpml-part-api" tag="protected"/>
+      <include key="dpml-metro-model" tag="protected"/>
+    </dependencies>
+  </project>
+
+  ...
+
+</module>
 ]]></source>
       
     </section>

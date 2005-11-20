@@ -55,16 +55,6 @@ public interface Library
     Processor[] getProcessorSequence( Resource resource );
     
    /**
-    * Return the processor defintions matching a supplied type.  
-    * 
-    * @param type the type declaration
-    * @return the processor definition
-    * @exception ProcessorNotFoundException if no processor is registered 
-    *   for the supplied type
-    */
-    //Processor getProcessor( Type type ) throws ProcessorNotFoundException;
-    
-   /**
     * Return a array of the top-level modules within the library.
     * @return the module array
     */

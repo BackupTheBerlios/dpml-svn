@@ -106,8 +106,10 @@ public class StandardBuilder implements Builder
     public boolean build( Resource resource, String[] targets )
     {
         String path = resource.getResourcePath();
-        getLogger().info( "building: " + path );
         Project project = createProject( resource );
+        project.log( "\n-------------------------------------------------------------------------" );
+        project.log( path );
+        project.log( "-------------------------------------------------------------------------" );
         File template = getTemplateFile( resource );
         return build( project, template, targets );
     }
@@ -125,7 +127,6 @@ public class StandardBuilder implements Builder
             String override = resource.getProperty( "project.template", systemOverride );
             if( null != override )
             {
-                getLogger().info( "Assigning template: " + override );
                 File template = getTemplateFile( override );
                 return template;
             }
@@ -141,7 +142,6 @@ public class StandardBuilder implements Builder
                 File file = new File( basedir, buildfile );
                 if( file.exists() )
                 {
-                    getLogger().info( "Assigning buildfile: " + file );
                     return file;
                 }
                 else
@@ -161,7 +161,6 @@ public class StandardBuilder implements Builder
                 File file = new File( basedir, defaultBuildfile );
                 if( file.exists() )
                 {
-                    getLogger().info( "Assigning project buildfile: " + file );
                     return file;
                 }
             }
@@ -175,7 +174,6 @@ public class StandardBuilder implements Builder
                 
             if( null != templateSpec )
             {
-                getLogger().info( "Assigning project template: " + templateSpec );
                 File template = getTemplateFile( templateSpec );
                 return template;
             }

@@ -57,8 +57,8 @@ public class InitializationTask extends GenericTask
         Thread.currentThread().setContextClassLoader( getClass().getClassLoader() );
         getProject().addReference( "project.timestamp", new Date() );
         Resource resource = getResource();
-        String info = getProject().getProperty( "project.info" );
-        getProject().log( info );
+        //String info = getProject().getProperty( "project.info" );
+        //getProject().log( info );
         log( resource.toString(), Project.MSG_VERBOSE );
         Processor[] processors = getLibrary().getProcessorSequence( resource );
         for( int i=0; i<processors.length; i++ )

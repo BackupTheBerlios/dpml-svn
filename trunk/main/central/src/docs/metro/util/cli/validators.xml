@@ -37,6 +37,7 @@
         <li>date</li>
         <li>file path</li>
         <li>number</li>
+        <li>URI</li>
         <li>URL</li>
       </ul>
       
@@ -179,9 +180,18 @@ NumberValidator myValidator = new NumberValidator( myFormat );</source>
         </p>
       </subsection>
       
-      <subsection name="UrlValidator">
+      <subsection name="URIValidator">
         <p>
-          A <code>UrlValidator</code> validates that values are URLs and if you
+          A <code>URIValidator</code> validates that a given URI is parsable
+          and optionally provides support for scheme validation.
+        </p>
+        <source>URIValidator validator = new URIValidator();</source>
+        
+      </subsection>
+
+      <subsection name="URLValidator">
+        <p>
+          A <code>URLValidator</code> validates that values are URLs and if you
           choose it will also validate the protocol is of the type you have
           specified.
         </p>

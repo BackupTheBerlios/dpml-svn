@@ -20,15 +20,14 @@
 
 <project>
 
- <title>DPML Central</title>
-
  <body>
 
     <menu>
-      <item name="Info" href="info.html"/>
-      <item name="Build" href="build.html"/>
-      <item name="Multiproject" href="multiproject.html"/>
+      <item name="Patterns" href="patterns.html"/>
       <item name="Consumers" href="consumers.html"/>
+      <item name="Version" href="version.html"/>
+      <item name="Plugin" href="plugin.html"/>
+      <item name="Properties" href="properties.html"/>
     </menu>
 
  </body>

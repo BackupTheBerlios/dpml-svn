@@ -9,28 +9,39 @@
 
   <body>
 
-    <section name="Depot Command Line">
+    <section name="Depot Builder Command Line">
 
 <pre>$ build help</pre>
 <source><![CDATA[
 Usage:
-build [-list -select <pattern> -consumers | -select <pattern> -consumers -verbose -plugin
-<artifact> -version <version> -D<property>=<value> <target1> [<target2> ...] | -help]
+build [-list <pattern> -consumers | -select <pattern> -consumers -verbose -plugin <artifact>
+-version <version> -D<property>=<value> <target1> [<target2> ...] | -help]
 options
-  -list -select -consumers
-    -list (-l)                                     List project info.
-    -select (-s) <pattern>                         Select target project(s).
-    -consumers (-c)                                Select consumers.
+  -list -consumers
+    -list (-l) <pattern>                           List selected project(s).
+    -consumers (-c)                                Consumer switch.
   -select -consumers -verbose -plugin -version
-    -select (-s) <pattern>                         Select target project(s).
-    -consumers (-c)                                Select consumers.
+    -select (-s) <pattern>                         Build selected project(s).
+    -consumers (-c)                                Consumer switch.
     -verbose (-v)                                  Enable verbose mode.
     -plugin <artifact>                             Default builder plugin uri.
-    -version <version>                             Build output artifact version
+    -version <version>                             Build output artifact version.
     -D<property>=<value>                           Set property values.
     <target> [<target> ...]
   -help (-h)                                       List command help.
 ]]></source>
+
+      <subsection name="Description">
+
+        <p>
+        The Depot build management tool (named <tt>build</tt>) provides support 
+        for listing of library content, listing information about specific projects, 
+        and the execution of single or multi-project builds.  Build execution is 
+        delegated to a build plugin which may be customized at the level of the 
+        build management system, individual project or module.
+        </p>
+
+      </subsection>
 
     </section>
 

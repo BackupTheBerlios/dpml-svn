@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<document>
+
+  <properties>
+    <author email="mcconnell@dpml.net">Stephen McConnell</author>
+    <title>DPML Runtime</title>
+  </properties> 
+
+  <body>
+
+    <section name="Patterns">
+
+      <subsection name="Implicit Selection">
+
+        <p>
+        Unless otherwise specificed the default selection mechanism is 
+        based on the current working directory.  Projects to be included 
+        within a selection are resolved such that any project declaring 
+        a base directory equal to or deeper than the current working 
+        directory will be handled as a selection candidate.
+        </p>
+
+        <p><i>Example of directory-based selection:</i></p>
+
+        <pre>$ cd main/metro
+$ build -l
+
+Selection: [9]
+
+  [1]   project:dpml/metro/dpml-state-api
+  [2]   project:dpml/metro/dpml-state-impl
+  [3]   project:dpml/metro/dpml-part-api
+  [4]   project:dpml/metro/dpml-metro-model
+  [5]   project:dpml/metro/dpml-metro-runtime
+  [6]   project:dpml/metro/dpml-metro-tools
+  [7]   project:dpml/metro/dpml-metro-test
+  [8]   project:dpml/metro/dpml-metro-exec
+  [9]   module:dpml/metro</pre>
+
+      </subsection>
+
+      <subsection name="Selecting a single project">
+
+        <p>
+        Project selection can be overriden by providing the fully-qualified
+        project path in the form &lt;module&gt;[/&lt;module&gt;[..]]/&lt;resource-name&gt;].
+        </p>
+
+        <p><i>Example of a request to build a specific project:</i></p>
+
+<pre>$ build -select dpml/metro/dpml-metro-model</pre>
+
+      </subsection>
+
+      <subsection name="Using patterns">
+
+        <p>
+        The builder provides support for the selection of multiple project
+        for both build and list scenarios.  Wildcards include the <tt>**</tt>
+        and <tt>*</tt> patterns.
+        </p>
+
+        <p><i>Example command to list of all top-level projects:</i></p>
+
+<pre>$ build -list *</pre>
+
+        <p><i>Example command to list all projects:</i></p>
+
+<pre>$ build -list **/*</pre>
+
+        <p><i>Example command to list all projects ending with <tt>-api</tt>:</i></p>
+
+<pre>$ build -list **/*-api</pre>
+
+        <p><i>Example command to select all projects in a module:</i></p>
+
+<pre>$ build -select dpml/util/*</pre>
+
+        <p><i>Example command to select all projects containing the word <tt>tools</tt>:</i></p>
+
+<pre>$ build -select **/*tools*</pre>
+
+      </subsection>
+
+      <subsection name="Listing single versus multiple projects">
+
+        <p>
+        When using the <tt>-list</tt> option the information listed to 
+        console will be expanded if the selection is a single project.
+        If the selection is multi-project the projects will be listed
+        a number sequence in normal build order.
+        </p>
+
+        <p><i>Example of a multi-project listing:</i></p>
+
+<pre>$ build -list **/dpml-metro-*
+
+Selection: [5]
+
+  [1]   project:dpml/metro/dpml-metro-model
+  [2]   project:dpml/metro/dpml-metro-runtime
+  [3]   project:dpml/metro/dpml-metro-tools
+  [4]   project:dpml/metro/dpml-metro-test
+  [5]   project:dpml/metro/dpml-metro-exec</pre>
+
+        <p><i>Example of a single project listing:</i></p>
+
+<pre>$ build -list **/dpml-metro-runtime
+
+Listing project: dpml/metro/dpml-metro-model
+
+project:dpml/metro/dpml-metro-model
+
+  version: SNAPSHOT
+  basedir: C:\dev\dpml\main\metro\model
+  types: (1)
+    jar
+  runtime providers: (5)
+    project:dpml/metro/dpml-state-api
+    project:dpml/util/dpml-parameters-api
+    project:dpml/util/dpml-configuration-api
+    resource:dpml/transit/dpml-transit-main
+    project:dpml/metro/dpml-part-api
+  test providers: (12)
+    resource:ant/ant-launcher
+    resource:ant/ant-trax
+    resource:ant/ant-xslp
+    resource:ant/ant
+    resource:junit/junit
+    resource:ant/ant-junit
+    project:dpml/metro/dpml-state-api
+    project:dpml/util/dpml-configuration-api
+    project:dpml/util/dpml-configuration-impl
+    project:dpml/metro/dpml-state-impl
+    project:dpml/util/dpml-parameters-api
+    project:dpml/util/dpml-parameters-impl</pre>
+
+      </subsection>
+
+    </section>
+
+  </body>
+
+</document>
+

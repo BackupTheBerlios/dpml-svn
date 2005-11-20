@@ -11,9 +11,51 @@
 
     <section name="Consumers">
 
-<pre>$ cd demo
-$ build -consumers</pre>
-<source></source>
+      <subsection name="Description">
+  
+        <p>
+        The <tt>-consumers</tt> switch inverts the selection to be 
+        all projects that are consumers of the selected project. The 
+	  <tt>-consumers</tt> (or <tt>-c</tt>) switch may be applied
+        in both build and list modes.
+        </p>
+
+      </subsection>
+
+      <subsection name="Example">
+
+        <p><i>Example listing of all projects that are consumers
+          of a named project:</i></p>
+        
+<pre>$ build -l dpml/metro/dpml-state-api -c
+Selection: [14]
+
+  [1]   project:dpml/metro/dpml-state-impl
+  [2]   project:dpml/metro/dpml-part-api
+  [3]   project:dpml/metro/dpml-metro-model
+  [4]   project:dpml/metro/dpml-metro-runtime
+  [5]   project:dpml/metro/dpml-metro-tools
+  [6]   project:dpml/metro/dpml-metro-test
+  [7]   project:dpml/depot/dpml-station-api
+  [8]   project:dpml/depot/dpml-station-server
+  [9]   project:dpml/depot/dpml-station-console
+  [10]  project:dpml/depot/dpml-depot-install
+  [11]  module:dpml/depot
+  [12]  project:dpml/metro/dpml-metro-exec
+  [13]  module:dpml/metro
+  [14]  module:dpml</pre>
+
+      </subsection>
+
+      <subsection name="Limitations">
+
+        <p>
+        The implementation does not currently support the 
+        generation of consumers from a multi-project slection.  
+        In other words, the active selection must be a single project.
+        </p>
+ 
+      </subsection>
 
     </section>
 

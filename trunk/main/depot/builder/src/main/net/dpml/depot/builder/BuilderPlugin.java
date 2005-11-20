@@ -275,14 +275,18 @@ public class BuilderPlugin
     */
     private void process( CommandLine line, Resource[] resources )
     {
-        StringBuffer buffer = new StringBuffer( "Initiating build sequence: (" + resources.length + ")\n" );
-        for( int i=0; i<resources.length; i++ )
+        if( resources.length > 1 )
         {
-            Resource resource = resources[i];
-            buffer.append( "\n  (" + ( i+1 ) + ")\t" + resource.getResourcePath() );
+            StringBuffer buffer = 
+              new StringBuffer( "Initiating build sequence: (" + resources.length + ")\n" );
+            for( int i=0; i<resources.length; i++ )
+            {
+                Resource resource = resources[i];
+                buffer.append( "\n  (" + ( i+1 ) + ")\t" + resource.getResourcePath() );
+            }
+            buffer.append( "\n" );
+            getLogger().info( buffer.toString() );
         }
-        buffer.append( "\n" );
-        getLogger().info( buffer.toString() );
         List list = line.getValues( TARGETS );
         String[] targets = (String[]) list.toArray( new String[ list.size() ] );
         for( int i=0; i<resources.length; i++ )
@@ -534,7 +538,7 @@ public class BuilderPlugin
         OPTION_BUILDER
           .withShortName( "select" )
           .withShortName( "s" )
-          .withDescription( "Select target project(s)." )
+          .withDescription( "Build selected project(s)." )
           .withRequired( false )
           .withArgument(
             ARGUMENT_BUILDER 
@@ -557,22 +561,29 @@ public class BuilderPlugin
         OPTION_BUILDER
           .withShortName( "list" )
           .withShortName( "l" )
-          .withDescription( "List project info." )
+          .withDescription( "List selected project(s)." )
           .withRequired( false )
+          .withArgument(
+            ARGUMENT_BUILDER 
+              .withDescription( "Project." )
+              .withName( "pattern" )
+              .withMinimum( 0 )
+              .withMaximum( 1 )
+              .create() )
           .create();
     
     private static final Option CONSUMERS_OPTION = 
         OPTION_BUILDER
           .withShortName( "consumers" )
           .withShortName( "c" )
-          .withDescription( "Select consumers." )
+          .withDescription( "Consumer switch." )
           .withRequired( false )
           .create();
     
     private static final Option VERSION_OPTION = 
         OPTION_BUILDER
           .withShortName( "version" )
-          .withDescription( "Build output artifact version" )
+          .withDescription( "Build output artifact version." )
           .withRequired( false )
           .withArgument(
             ARGUMENT_BUILDER 
@@ -607,7 +618,6 @@ public class BuilderPlugin
       GROUP_BUILDER
         .withMinimum( 0 )
         .withOption( LIST_OPTION )
-        .withOption( SELECT_OPTION )
         .withOption( CONSUMERS_OPTION )
         .create();
     
@@ -620,17 +630,15 @@ public class BuilderPlugin
         .withOption( BUILDER_URI_OPTION )
         .withOption( VERSION_OPTION )
         .withOption( PROPERTY_OPTION )
-        .withOption( TARGETS )
         .create();
     
     private static final Group COMMAND_GROUP =
       GROUP_BUILDER
         .withName( "options" )
-        .withMinimum( 0 )
-        .withMaximum( 1 )
+        .withOption( HELP_OPTION )
         .withOption( LIST_GROUP )
         .withOption( BUILD_GROUP )
-        .withOption( HELP_OPTION )
+        .withOption( TARGETS )
         .create();
 }
 

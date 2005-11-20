@@ -14,6 +14,7 @@
     <x:filter token="DEPOT-MODULE-VERSION" feature="version" ref="dpml/depot" />
     <x:filter token="DEPOT-TOOLS-URI" feature="uri" type="plugin" ref="dpml/tools/dpml-tools-ant" />
     <x:filter token="DEPOT-CONSOLE-URI" feature="uri" type="jar" ref="dpml/depot/dpml-depot-console" />
+    <x:filter token="TOOLS-ANT-PLUGIN-URI" feature="uri" type="plugin" ref="dpml/tools/dpml-tools-ant" />
   </target>
 
   <target name="build" depends="standard.build">

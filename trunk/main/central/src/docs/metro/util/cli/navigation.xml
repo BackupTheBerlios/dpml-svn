@@ -22,6 +22,7 @@
   <body>
 
     <menu>
+      <item name="Overview"          href="overview.html"/>
       <item name="Options"           href="options.html"/>
       <item name="Validators"        href="validators.html"/>
       <item name="Examples"          href="example.html"/>
