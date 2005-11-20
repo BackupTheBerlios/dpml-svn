@@ -91,6 +91,7 @@
     </dependencies>
   </project>
    
+  <!--
   <project name="dpml-depot-install" basedir="install">
     <types>
       <type id="jar"/>
@@ -106,5 +107,6 @@
       <include key="dpml-station-server"/>
     </dependencies>
   </project>
-   
+  -->
+
 </module>

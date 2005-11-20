@@ -16,11 +16,11 @@
  * limitations under the License.
  */
 
-package net.dpml.transit.test;
+package net.dpml.depot;
 
 import junit.framework.TestCase;
 
-import net.dpml.transit.util.CLIHelper;
+import net.dpml.depot.CLIHelper;
 
 /**
  * Test utility functions in the CLIHelper class.

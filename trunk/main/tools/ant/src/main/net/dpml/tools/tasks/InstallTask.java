@@ -99,13 +99,8 @@ public class InstallTask extends GenericTask
                     Artifact artifact = resource.getArtifact( type.getName() );
                     String uri = artifact.toURI().toASCIIString();
                     String link = resource.getName() + "." + name + ".link";
-                    final String message = 
-                      "Creating alias ["
-                      + link
-                      + "] with uri ["
-                      + uri
-                      + "]";
-                    log( message );
+                    log( link.toString() );
+                    log( uri.toString() );
                     File out = new File( group, link );
                     out.createNewFile();
                     final OutputStream output = new FileOutputStream( out );

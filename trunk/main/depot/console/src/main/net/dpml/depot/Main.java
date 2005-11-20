@@ -38,7 +38,6 @@ import net.dpml.transit.monitor.NetworkMonitorAdapter;
 import net.dpml.transit.Repository;
 import net.dpml.transit.RepositoryException;
 import net.dpml.transit.PID;
-import net.dpml.transit.util.CLIHelper;
 
 /**
  * CLI hander for the depot package.

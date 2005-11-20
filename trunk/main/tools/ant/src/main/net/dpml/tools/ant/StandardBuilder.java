@@ -111,7 +111,7 @@ public class StandardBuilder implements Builder
         project.log( path );
         project.log( "-------------------------------------------------------------------------" );
         File template = getTemplateFile( resource );
-        return build( project, template, targets );
+        return build( resource, project, template, targets );
     }
     
    /**
@@ -203,7 +203,7 @@ public class StandardBuilder implements Builder
     // implementation
     // ------------------------------------------------------------------------
     
-    boolean build( Project project, File template, String[] targets )
+    boolean build( Resource resource, Project project, File template, String[] targets )
     {
         try
         {
@@ -242,8 +242,14 @@ public class StandardBuilder implements Builder
             m_result = e;
             if( m_logger.isDebugEnabled() )
             {
+                final String error = 
+                  "Build failure."
+                  + "\nProject: " + resource.getResourcePath()
+                  + "\nBasedir: " + resource.getBaseDir()
+                  + "\nTemplate: " + template 
+                  + "\nLocation: " + e.getLocation();
                 Throwable cause = e.getCause();
-                m_logger.error( "Build failure.", cause );
+                m_logger.error( error, cause );
             }
             return false;
         }

@@ -8,31 +8,22 @@
 
   <target name="init" depends="bootstrap.init">
     <filter value="${junit.version}" token="JUNIT_VERSION"/>
-    <filter value="artifact:plugin:dpml/tools/dpml-tools-ant#${project.version}" token="ANT-BUILDER-URI"/>
-    <filter value="${commons.cli.uri}" token="COMMONS-CLI-URI"/>
     <filter value="${project.version}" token="PROJECT-VERSION"/>
+    <filter value="artifact:plugin:dpml/tools/dpml-tools-ant#${project.version}" token="ANT-BUILDER-URI"/>
   </target>
 
   <target name="setup-path" depends="bootstrap.setup-path">
-    <transit:get property="commons.cli.path" uri="${commons.cli.uri}"/>
     <transit:get property="junit.path" uri="${junit.uri}"/>
     <transit:get property="transit.path" uri="artifact:jar:dpml/transit/dpml-transit-main#${project.version}"/>
     <path id="project.main.path">
       <pathelement location="${dpml.local.cache}/dpml/transit/jars/dpml-transit-main-${dpml.transit.version}.jar"/>
-      <pathelement location="${commons.cli.path}"/>
       <pathelement location="${target.classes.dir}"/>
     </path>
     <path id="project.test.path">
-      <pathelement location="${commons-cli.path}"/>
       <pathelement location="${junit.path}"/>
       <pathelement location="${transit.path}"/>
       <pathelement location="${target.deliverables.jars.dir}/${project.filename}"/>
     </path>
-  </target>
-
-  <target name="package" depends="bootstrap.package">
-    <move file="${target.deliverables.dir}/plugins/${project.name}.plugin"
-      toFile="${target.deliverables.dir}/plugins/${project.name}-${project.version}.plugin"/>
   </target>
 
 </project>

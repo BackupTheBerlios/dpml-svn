@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package net.dpml.transit.util;
+package net.dpml.depot;
 
 import java.util.ArrayList;
 
@@ -26,7 +26,7 @@ import java.util.ArrayList;
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-public final class CLIHelper
+final class CLIHelper
 {
     private CLIHelper()
     {
