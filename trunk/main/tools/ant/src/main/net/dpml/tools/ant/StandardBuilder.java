@@ -121,6 +121,15 @@ public class StandardBuilder implements Builder
     {
         try
         {
+            String systemOverride = System.getProperty( "project.template" );
+            String override = resource.getProperty( "project.template", systemOverride );
+            if( null != override )
+            {
+                getLogger().info( "Assigning template: " + override );
+                File template = getTemplateFile( override );
+                return template;
+            }
+            
             File basedir = resource.getBaseDir();
             String buildfile = resource.getProperty( "project.buildfile" );
             String defaultBuildfile = resource.getProperty( "project.standard.buildfile", "build.xml" );

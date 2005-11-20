@@ -12,7 +12,25 @@
     <section name="Depot Command Line">
 
 <pre>$ build help</pre>
-<source></source>
+<source><![CDATA[
+Usage:
+build [-list -select <pattern> -consumers | -select <pattern> -consumers -verbose -plugin
+<artifact> -version <version> -D<property>=<value> <target1> [<target2> ...] | -help]
+options
+  -list -select -consumers
+    -list (-l)                                     List project info.
+    -select (-s) <pattern>                         Select target project(s).
+    -consumers (-c)                                Select consumers.
+  -select -consumers -verbose -plugin -version
+    -select (-s) <pattern>                         Select target project(s).
+    -consumers (-c)                                Select consumers.
+    -verbose (-v)                                  Enable verbose mode.
+    -plugin <artifact>                             Default builder plugin uri.
+    -version <version>                             Build output artifact version
+    -D<property>=<value>                           Set property values.
+    <target> [<target> ...]
+  -help (-h)                                       List command help.
+]]></source>
 
     </section>
 

@@ -25,6 +25,24 @@
     </dependencies>
   </project>
 
+  <project name="dpml-depot-builder" basedir="builder">
+    <types>
+      <type id="jar"/>
+      <type id="plugin" alias="true">
+        <property name="project.plugin.class" 
+           value="net.dpml.depot.builder.BuilderPlugin"/>
+      </type>
+    </types>
+    <dependencies>
+      <include ref="dpml/util/dpml-util-cli"/>
+      <include ref="dpml/transit/dpml-transit-main"/>
+      <include ref="dpml/tools/dpml-tools-library"/>
+    </dependencies>
+    <dependencies scope="test">
+      <include ref="ant/ant-junit"/>
+    </dependencies>
+  </project>
+
   <project name="dpml-station-api" basedir="station/api">
     <types>
       <type id="jar"/>

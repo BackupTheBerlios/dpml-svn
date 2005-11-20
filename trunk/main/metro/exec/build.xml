@@ -6,6 +6,8 @@
 
   <transit:import uri="local:template:tools/standard"/>
 
+  <available property="metro.exe.available" file="${dpml.system}/bin/metro.exe"/>
+
   <target name="init" depends="standard.init">
     <x:filter feature="uri" type="plugin" token="COMPOSITION-CONTROLLER-URI" 
       ref="dpml/metro/dpml-metro-runtime"/>
@@ -15,6 +17,22 @@
     <rmic base="${project.target.classes.main.dir}" classpathref="project.compile.path">
       <include name="**/AbstractHandler.class"/>
     </rmic>
+  </target>
+
+  <target name="install" depends="bin,standard.install">
+    <copy todir="${dpml.system}" preservelastmodified="true" overwrite="true">
+      <fileset dir="target">
+        <include name="bin/station.lap"/>
+      </fileset>
+    </copy>
+  </target>
+
+  <target name="bin" depends="standard.install" unless="metro.exe.available">
+    <copy todir="${dpml.system}" preservelastmodified="true">
+      <fileset dir="target">
+        <include name="bin/metro.exe"/>
+      </fileset>
+    </copy>
   </target>
 
 </project>

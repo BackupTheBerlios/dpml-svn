@@ -18,7 +18,7 @@
     <x:filter token="DEPOT-CONSOLE-URI" feature="uri" type="jar"/>
     <x:filter token="DEPOT-INSTALL-URI" key="dpml-depot-install" feature="uri" type="plugin"/>
     <x:filter token="DEPOT-EXEC-URI" ref="dpml/metro/dpml-metro-exec" feature="uri" type="plugin"/>
-    <x:filter token="DEPOT-BUILD-URI" ref="dpml/tools/dpml-tools-library" feature="uri" type="plugin"/>
+    <x:filter token="DEPOT-BUILDER-URI" ref="dpml/depot/dpml-depot-builder" feature="uri" type="plugin"/>
     <x:filter token="DEPOT-STATION-URI" key="dpml-station-console" feature="uri" type="plugin"/>
     <x:filter token="DEPOT-STATION-SERVER-URI" key="dpml-station-server" feature="uri" type="plugin"/>
   </target>
@@ -33,7 +33,7 @@
 
   <available property="build.exe.available" file="${dpml.system}/bin/build.exe"/>
 
-  <target name="bootstrap-install" depends="install,win32-exe-install">
+  <target name="bootstrap" depends="install,win32-exe-install">
     <echo>
 #----------------------------------------------------------------------------------
 # Replicating to DPML SYSTEM ${dpml.system}/local (could take a while)

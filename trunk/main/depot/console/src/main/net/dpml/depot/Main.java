@@ -179,7 +179,6 @@ public final class Main implements ShutdownHandler
 
     private Main( String[] arguments )
     {
-        //String[] args = processSystemProperties( arguments );
         String[] args = arguments;
 
         boolean debug = false;
@@ -197,23 +196,13 @@ public final class Main implements ShutdownHandler
             }
             System.getProperties().list( System.out );
         }
-
-        if( "true".equals( System.getProperty( "dpml.depot.add-tools-jar", "false" ) ) )
-        {
-            tools = true;
-        }
-
+        
         String option = getSwitch( args );
-
+        
         if( "-reset".equals( option ) )
         {
             int result = handleReset();
             exit( result );
-        }
-        else if( "-version".equals( option ) )
-        {
-            handleVersion( debug );
-            exit();
         }
         else if( "-get".equals( option ) )    
         {
@@ -252,16 +241,6 @@ public final class Main implements ShutdownHandler
         {
             args = CLIHelper.consolidate( args, "-setup" );
             handleSetup( args );
-        }
-        else if( "-prefs".equals( option ) )
-        {
-            args = CLIHelper.consolidate( args, "-prefs" );
-            handlePrefs( args );
-        }
-        else if( "-desktop".equals( option ) )
-        {
-            args = CLIHelper.consolidate( args, "-desktop" );
-            handleDesktop( args );
         }
         else if( "-run".equals( option ) )
         {
@@ -349,7 +328,7 @@ public final class Main implements ShutdownHandler
     private void handleBuild( String[] args )
     {
         String name = "build";
-        String spec = "@DEPOT-BUILD-URI@";
+        String spec = "@DEPOT-BUILDER-URI@";
         handlePlugin( name, spec, args, false, true );
     }
 
@@ -498,173 +477,6 @@ public final class Main implements ShutdownHandler
         return new DefaultTransitModel( logger );
     }
 
-
-   /*
-        boolean install = CLIHelper.isOptionPresent( args, "-install" );
-        boolean remove = CLIHelper.isOptionPresent( args, "-remove" );
-        if( install || remove )
-        {
-            System.setProperty( "java.util.logging.ConsoleHandler.level", "SEVERE" );
-        }
-
-        try
-        {
-            //
-            // setup the depot managment model, get the name of the requested 
-            // application profile and load the profile from the depot manager
-            //
-    
-            Logger logger = getLogger();
-            Preferences prefs = getRootPreferences();
-            DepotHome store = new DepotStorageUnit( prefs );
-            DepotProfile manager = new DefaultDepotProfile( logger, store );
-
-            //
-            // check for the prefs or station option
-            //
-
-            TransitModel model = null;
-            ApplicationProfile profile = null;
-            for( int i=0; i < args.length; i++ )
-            {
-                String arg = args[i];
-                if( arg.equals( "-prefs" ) )
-                {
-                    args = CLIHelper.consolidate( args, "-prefs" );
-                    model = loadTransitModel( args, logger, true );
-                    profile = createPrefsProfile( logger );
-                    break;
-                }
-                else if( arg.equals( "-station" ) )
-                {
-                    args = CLIHelper.consolidate( args, "-station" );
-                    model = loadTransitModel( args, logger, false );
-                    profile = createStationProfile( logger );
-                    break;
-                }
-                else if( arg.equals( "-install" ) )
-                {
-                    args = CLIHelper.consolidate( args, "-install" );
-                    model = loadTransitModel( args, logger, false );
-                    profile = createInstallProfile( logger, true );
-                    break;
-                }
-                else if( arg.equals( "-remove" ) )
-                {
-                    args = CLIHelper.consolidate( args, "-remove" );
-                    model = loadTransitModel( args, logger, false );
-                    profile = createInstallProfile( logger, false );
-                    break;
-                }
-                else if( arg.equals( "-profile" ) )
-                {
-                    //args = CLIHelper.consolidate( args, "-profile" );
-                    model = loadTransitModel( args, logger, true );
-                    String target = getTargetProfile( args );
-                    if( null != target )
-                    {
-                        profile = getApplicationProfile( manager, target );
-                        break;
-                    }
-                }
-            }
-
-            if( null == profile )
-            {
-                handleHelp();
-                exit();
-            }
-
-            termination = profile.getCommandPolicy();
-            for( int i=0; i < args.length; i++ )
-            {
-                String arg = args[i];
-                if( arg.equals( "-execute" ) )
-                {
-                    termination = true;
-                    break;
-                }
-            }
-
-            Properties properties = profile.getSystemProperties();
-            applySystemProperties( properties );
-            ClassLoader system = getSystemClassLoader();
-            URI uri = profile.getCodeBaseURI();
-            String id = profile.getID();
-            Logger log = logger.getChildLogger( id );
-
-            OBJECT = resolveTargetObject( system, uri, args, manager, model, log, profile );
-
-            Connection connection = profile.getConnection();
-            if( null != connection )
-            {
-                logger.info( "service is requesting a connection" );
-                logger.info( "host: " + connection.getHost() );
-                logger.info( "port: " + connection.getPort() );
-
-                Registry registry = getRegistry( connection, true );
-
-                registry.bind( id, (Remote) OBJECT );
-                if( null == connection.getHost() )
-                {
-                    logger.info( 
-                      "service bound to "
-                      + connection.getPort() 
-                      + "/" 
-                      + id );
-                }
-                else
-                {
-                    logger.info( 
-                       "service bound to " 
-                       + connection.getHost() 
-                       + ":" 
-                       + connection.getPort() 
-                       + "/" + id );
-                }
-            }
-            else if( OBJECT instanceof Runnable )
-            {
-                //
-                // run the plugin
-                //
-    
-                logger.info( "starting " + OBJECT.getClass().getName() );
-                Thread thread = new Thread( (Runnable) OBJECT );
-                thread.start();
-                setShutdownHook( thread );
-            }
-            else
-            {
-                logger.info( "loaded " + OBJECT.getClass().getName() );
-            }
-        }
-        catch( ArtifactNotFoundException e )
-        {
-            getLogger().error( e.getMessage() );
-            System.exit( -1 );
-        }
-        catch( Throwable e )
-        {
-            final String error = 
-              "Deployment failure.";
-            getLogger().error( error, e );
-            System.exit( -1 );
-        }
-
-        long now = new Date().getTime();
-        long diff = ( now - start );
-        java.math.BigInteger r = new java.math.BigInteger ( "" + diff );
-        java.math.BigInteger d = new java.math.BigInteger ( "" + 1000 );
-        java.math.BigInteger[] result = r.divideAndRemainder( d );
-        getLogger().info( "startup completed in " + result[0] + "." + result[1] + " seconds" );
-        if( termination )
-        {
-            exit();
-        }
-    }
-    */
-
     private void handleGet( Logger logger, String[] args, String path ) throws Exception
     {
         try
@@ -682,60 +494,6 @@ public final class Main implements ShutdownHandler
             getLogger().error( error, e );
         }
     }
-
-    /*
-    public static Registry getRegistry( Connection connection, boolean create ) 
-      throws RemoteException, ConnectException
-    {
-        if( null == connection )
-        {
-            return null;
-        }
-        else
-        {
-            String host = connection.getHost();
-            int port = connection.getPort();
-
-            if( ( null == host ) || ( "localhost".equals( host ) ) )
-            {
-                if( false == create )
-                {
-                    return getLocalRegistry( port );
-                }
-                try
-                {
-                    Registry registry = LocateRegistry.createRegistry( port );
-                    getLogger().info( "created local registry on port " + port );
-                    return registry;
-                }
-                catch( RemoteException e )
-                {
-                    return getLocalRegistry( port );
-                }
-            }
-            else
-            {
-                return LocateRegistry.getRegistry( host, port );
-            }
-        }
-    }
-    */
-
-    /*
-    private static Registry getLocalRegistry( int port ) throws RemoteException 
-    {
-        Registry registry = LocateRegistry.getRegistry( port );
-        getLogger().info( "using local registry on port " + port );
-        return registry;
-    }
-    */
-
-    /*
-    private static DepotClassLoader getSystemClassLoader()
-    {
-        return (DepotClassLoader) ClassLoader.getSystemClassLoader();
-    }
-    */
 
     private static void clearPreferences( Preferences prefs ) throws Exception
     {
@@ -811,36 +569,6 @@ public final class Main implements ShutdownHandler
         }
     }
 
-    /*
-    private static TransitModel loadTransitModel( String[] args, Logger logger, boolean resolve )
-      throws Exception
-    {
-        if( false == resolve )
-        {
-            return new DefaultTransitModel( logger );
-        }
-
-        int port = Registry.REGISTRY_PORT;
-        Connection connection = new Connection( null, port, true, true );
-
-        logger.info( "resolving transit model" );
-
-        try
-        {
-            Registry registry = getRegistry( connection, false );
-            return (TransitModel) registry.lookup( "//dpml/transit/default" );
-        }
-        catch( ConnectException e )
-        {
-            return new DefaultTransitModel( logger );
-        }
-        catch( NotBoundException e )
-        {
-            return new DefaultTransitModel( logger );
-        }
-    }
-    */
-
     //--------------------------------------------------------------------------
     // static utilities for setup of logging manager and root prefs
     //--------------------------------------------------------------------------
@@ -891,11 +619,11 @@ public final class Main implements ShutdownHandler
             {
                 return "-metro";
             }
-            if( "dpml.station".equals( app ) )
+            else if( "dpml.station".equals( app ) )
             {
                 return "-station";
             }
-            if( "dpml.tools.build".equals( app ) )
+            else if( "dpml.builder".equals( app ) )
             {
                 return "-build";
             }

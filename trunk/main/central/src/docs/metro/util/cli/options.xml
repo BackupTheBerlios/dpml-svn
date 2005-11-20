@@ -192,7 +192,7 @@
       <subsection name="Parent">
       <source>--parent &lt;arg&gt; --child1|--child2</source>
       <p>
-        Parent options allow an argument to be tied to some othe option, 
+        Parent options allow an argument to be tied to some other option, 
         additionally a group of child options can also be added to the parent.
         The argument and child options are only valid in the presence of the 
         parent option, must appear on the command line with the child options 

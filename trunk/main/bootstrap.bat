@@ -17,6 +17,8 @@ CALL :transit-tools
 CALL :tools-library
 CALL :tools-ant
 CALL :external-modules
+CALL :util-cli
+CALL :depot-builder
 CALL :depot-console
 GOTO :EOF
 
@@ -56,9 +58,21 @@ CALL :build clean install
 POPD
 GOTO :EOF
 
+:util-cli
+PUSHD util\cli
+CALL :build clean install
+POPD
+GOTO :EOF
+
+:depot-builder
+PUSHD depot\builder
+CALL :build clean install
+POPD
+GOTO :EOF
+
 :depot-console
 PUSHD depot\console
-CALL :build clean bootstrap-install
+CALL :build clean bootstrap
 POPD
 GOTO :EOF
 
