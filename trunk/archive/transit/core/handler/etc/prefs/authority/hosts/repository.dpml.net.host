@@ -1,0 +1,8 @@
+dpml.transit.host.id=dpml
+dpml.transit.host.enabled=true
+dpml.transit.host.class=net.dpml.transit.host.ClassicResourceHost
+dpml.transit.host.base=http://repository.dpml.net/classic
+dpml.transit.host.priority=40
+dpml.transit.host.trusted=false
+dpml.transit.host.policy=fast
+

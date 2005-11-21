@@ -1,0 +1,8 @@
+dpml.transit.host.id=apache
+dpml.transit.host.enabled=true
+dpml.transit.host.class=net.dpml.transit.host.ClassicResourceHost
+dpml.transit.host.base=http://www.apache.org/dist/java-repository
+dpml.transit.host.priority=100
+dpml.transit.host.trusted=false
+dpml.transit.host.policy=fast
+
