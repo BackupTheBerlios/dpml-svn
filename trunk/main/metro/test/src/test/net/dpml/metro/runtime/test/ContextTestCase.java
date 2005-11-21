@@ -66,22 +66,17 @@ public class ContextTestCase extends TestCase
     public void setUp() throws Exception
     {
         long now = new Date().getTime();
-        //System.out.println( "1" ); 
         final String path = "context.part";
         final File test = new File( System.getProperty( "project.test.dir" ) );
         final URL url = new File( test, path ).toURL();
         Controller control = Part.CONTROLLER;
-        //System.out.println( "2: " + ( new Date().getTime() - now ) ); 
         Part part = control.loadPart( url );
-        //System.out.println( "3: " + ( new Date().getTime() - now ) ); 
         ComponentModel model = (ComponentModel) control.createContext( part );
         Component component = control.createComponent( model );
-        //System.out.println( "4: " + ( new Date().getTime() - now ) ); 
         component.activate();
         Instance instance = component.getInstance();
         m_value = (ContextTestComponent) instance.getValue( false );
         m_context = m_value.getContext();
-        //System.out.println( "5: " + ( new Date().getTime() - now ) ); 
     }
     
     public void testColor() throws Exception

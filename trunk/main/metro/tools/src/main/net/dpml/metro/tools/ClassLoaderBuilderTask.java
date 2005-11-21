@@ -50,6 +50,21 @@ import org.apache.tools.ant.types.Path;
  */
 public abstract class ClassLoaderBuilderTask extends GenericTask
 {
+    private boolean m_test = false;
+    
+   /**
+    * Set the test build policy.  The default is to include 
+    * the project artifact in the classpath of a created part, however - in a 
+    * test scenario we don't want to do this.  Setting test to true will result
+    * in the association of a local file uri to the project resource.
+    *
+    * @param test true if this is a local test part
+    */
+    public void setTest( boolean test )
+    {
+        m_test = test;
+    }
+
    /**
     * Get the composition controller.
     * @return the controller
@@ -130,7 +145,15 @@ public abstract class ClassLoaderBuilderTask extends GenericTask
         
     private URI toURI( Resource resource ) throws Exception
     {
-        return resource.getArtifact( "jar" ).toURI();
+        if( m_test && resource.equals( getResource() ) )
+        {
+            File deliverable = getContext().getTargetDeliverable( "jar" );
+            return deliverable.toURI();
+        }
+        else
+        {
+            return resource.getArtifact( "jar" ).toURI();
+        }
     }
     
    /**

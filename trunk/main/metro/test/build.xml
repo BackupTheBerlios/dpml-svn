@@ -36,14 +36,14 @@
 
     <!-- create test components -->
 
-    <c:component dest="target/test/example.part" 
+    <c:component dest="target/test/example.part" test="true"
         type="net.dpml.test.ExampleComponent" name="example">
       <context>
         <entry key="color" method="RED"/>
       </context>
     </c:component>
 
-    <c:component dest="target/test/example-2.part" 
+    <c:component dest="target/test/example-2.part" test="true"
         type="net.dpml.test.ExampleComponent" name="transient" collection="SOFT">
       <context>
         <entry key="color">
@@ -54,21 +54,21 @@
       </context>
     </c:component>
 
-    <c:component dest="target/test/example-3.part" 
+    <c:component dest="target/test/example-3.part" test="true"
         type="net.dpml.test.SingletonComponent" name="singleton" collection="weak">
       <context>
         <entry key="color" method="RED"/>
       </context>
     </c:component>
 
-    <c:component dest="target/test/example-4.part" 
+    <c:component dest="target/test/example-4.part" test="true"
         type="net.dpml.test.SingletonComponent" name="singleton" collection="hard">
       <context>
         <entry key="color" method="RED"/>
       </context>
     </c:component>
 
-    <c:component dest="target/test/context.part" 
+    <c:component dest="target/test/context.part" test="true"
         type="net.dpml.test.ContextTestComponent" name="context" collection="soft">
       <context>
         <entry key="color" method="RED"/>

@@ -416,6 +416,19 @@ public final class Context
     }
     
    /**
+    * Return the project target deliverables directory.
+    * @param type the deliverable type
+    * @return the directory
+    */
+    public File getTargetDeliverable( String type )
+    {
+        String path = getLayoutPath( type );
+        String types = type + "s";
+        File root = new File( getTargetDeliverablesDirectory(), types );
+        return new File( root, path );
+    }
+    
+   /**
     * Create a file relative to the resource basedir.
     * @param path the relative path
     * @return the directory
