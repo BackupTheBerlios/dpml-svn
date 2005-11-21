@@ -29,13 +29,13 @@ POPD
 GOTO :EOF
 
 :transit-main
-PUSHD transit\core\handler
+PUSHD transit\core
 CALL :build clean install
 POPD
 GOTO :EOF
 
 :transit-tools
-PUSHD transit\core\tools
+PUSHD transit\tools
 CALL :build clean install
 POPD
 GOTO :EOF

@@ -10,13 +10,13 @@
     <property name="project.test.fork" value="true"/>
   </properties>
   
-  <resource name="dpml-transit-main" basedir="core/handler">
+  <resource name="dpml-transit-main" basedir="core">
     <types>
       <type id="jar"/>
     </types>
   </resource>
    
-  <resource name="dpml-transit-tools" basedir="core/tools">
+  <resource name="dpml-transit-tools" basedir="tools">
     <types>
       <type id="jar"/>
     </types>

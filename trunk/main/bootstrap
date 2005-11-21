@@ -38,14 +38,14 @@ antlibCleanup()
 
 transitMain()
 {
-    cd transit/core/handler
+    cd transit/core
     build clean install
     cd ../../..
 }
 
 transitTools()
 {
-    cd transit/core/tools
+    cd transit/tools
     build clean install
     cd ../../..
 }
@@ -71,10 +71,17 @@ toolsExternal()
     cd ../..
 }
 
+depotBuilder()
+{
+    cd depot/builder
+    build clean install
+    cd ../..
+}
+
 depotConsole()
 {
     cd depot/console
-    build clean bootstrap-install
+    build clean bootstrap
     cd ../..
 }
 
@@ -85,4 +92,5 @@ transitTools
 toolsLibrary
 toolsAnt
 toolsExternal
+depotBuilder
 depotConsole
