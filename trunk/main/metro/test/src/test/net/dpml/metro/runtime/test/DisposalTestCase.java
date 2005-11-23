@@ -32,21 +32,19 @@ import junit.framework.TestCase;
 import net.dpml.metro.data.ValueDirective;
 import net.dpml.metro.model.ComponentModel;
 import net.dpml.metro.model.ContextModel;
-
 import net.dpml.metro.part.Part;
 import net.dpml.metro.part.Controller;
 import net.dpml.metro.part.Component;
 import net.dpml.metro.part.ActivationPolicy;
 import net.dpml.metro.part.Instance;
 import net.dpml.metro.part.Disposable;
-
 import net.dpml.metro.state.State;
 import net.dpml.metro.state.StateListener;
 import net.dpml.metro.state.StateEvent;
 import net.dpml.metro.state.impl.DefaultStateListener;
 
 import net.dpml.transit.model.UnknownKeyException;
-import net.dpml.transit.model.Value;
+import net.dpml.transit.Value;
 
 import net.dpml.test.ColorManager;
 import net.dpml.test.ExampleComponent;

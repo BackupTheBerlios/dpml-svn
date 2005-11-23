@@ -25,7 +25,7 @@ import net.dpml.metro.info.PartReference;
 
 import net.dpml.metro.data.ValueDirective;
 
-import net.dpml.transit.model.Construct;
+import net.dpml.transit.Construct;
 
 /**
  * EntryDescriptorTestCase does XYZ

@@ -27,13 +27,13 @@ import java.util.Hashtable;
 import java.util.Map;
 import java.util.WeakHashMap;
 
+import net.dpml.transit.Construct;
+import net.dpml.transit.Value;
 import net.dpml.transit.model.ContentRegistryModel;
 import net.dpml.transit.model.ContentRegistryListener;
 import net.dpml.transit.model.ContentRegistryEvent;
 import net.dpml.transit.model.ContentModel;
 import net.dpml.transit.model.UnknownKeyException;
-import net.dpml.transit.model.Value;
-import net.dpml.transit.model.Construct;
 
 /**
  * A registry of descriptions of plugable content handlers. 

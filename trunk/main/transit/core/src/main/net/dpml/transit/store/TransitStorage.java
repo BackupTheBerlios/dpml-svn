@@ -60,6 +60,6 @@ public interface TransitStorage
     * Return the repository codebase storage unit.
     * @return the repository system storage
     */
-    CodeBaseStorage getRepositoryStorage();
+    //CodeBaseStorage getRepositoryStorage();
 
 }

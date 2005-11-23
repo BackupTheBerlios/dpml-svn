@@ -62,7 +62,7 @@ import net.dpml.metro.state.impl.DefaultStateMachine;
 
 import net.dpml.transit.Category;
 import net.dpml.transit.model.UnknownKeyException;
-import net.dpml.transit.model.Value;
+import net.dpml.transit.Value;
 
 /**
  * The ComponentController class is a controller of a component instance.

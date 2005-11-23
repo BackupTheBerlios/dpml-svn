@@ -20,7 +20,7 @@ package net.dpml.transit.store;
 
 import java.net.URI;
 
-import net.dpml.transit.model.Value;
+import net.dpml.transit.Value;
 
 /**
  * The CodeBaseStorage is an interface implemented by objects maintaining

@@ -21,8 +21,8 @@ package net.dpml.metro.data;
 import java.net.URI;
 import java.net.URISyntaxException;
 
-import net.dpml.transit.model.Value;
-import net.dpml.transit.model.Construct;
+import net.dpml.transit.Value;
+import net.dpml.transit.Construct;
 
 /**
  * A <code>ValueDirective</code> represents a single constructed argument value. The directive

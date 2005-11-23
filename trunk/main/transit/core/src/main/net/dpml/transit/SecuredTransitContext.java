@@ -144,7 +144,7 @@ public final class SecuredTransitContext
    /**
     * The registry.
     */
-    private ContentRegistry m_registry;
+    //private ContentRegistry m_registry;
 
    /**
     * Logging channel.
@@ -159,7 +159,7 @@ public final class SecuredTransitContext
    /**
     * The transit plugin listener.
     */
-    private CodeBaseListener m_listener;
+    //private CodeBaseListener m_listener;
 
     //------------------------------------------------------------------
     // constructors
@@ -185,13 +185,13 @@ public final class SecuredTransitContext
         CacheModel cacheModel = model.getCacheModel();
         Logger cacheLogger = logger.getChildLogger( "cache" );
         DefaultCacheHandler cache = new DefaultCacheHandler( cacheModel, cacheLogger );
-        ContentRegistryModel registryModel = model.getContentRegistryModel();
-        Logger contentLogger = logger.getChildLogger( "content" );
-        ContentRegistry registry = new DefaultContentRegistry( registryModel, contentLogger );
+        //ContentRegistryModel registryModel = cacheModel.getContentRegistryModel();
+        //Logger contentLogger = logger.getChildLogger( "content" );
+        //ContentRegistry registry = new DefaultContentRegistry( registryModel, contentLogger );
 
         m_cacheHandler = cache;
-        m_registry = registry;
-        m_listener = new TransitListener();
+        //m_registry = registry;
+        //m_listener = new TransitListener();
 
         ProxyModel proxy = m_model.getProxyModel();
         synchronized( proxy )
@@ -246,10 +246,10 @@ public final class SecuredTransitContext
     * Return the registry of pluggable content handlers.
     * @return the content handler registry
     */
-    public ContentRegistry getContentHandlerRegistry()
-    {
-        return m_registry;
-    }
+    //public ContentRegistry getContentHandlerRegistry()
+    //{
+    //    return m_registry;
+    //}
 
     //------------------------------------------------------------------
     // internals 
@@ -301,7 +301,7 @@ public final class SecuredTransitContext
         m_linkManager = new ArtifactLinkManager();
         m_repository = new StandardLoader();
         initializeCache();
-        initializeRegistry();
+        //initializeRegistry();
     }
 
    /**
@@ -309,6 +309,7 @@ public final class SecuredTransitContext
     *
     * @exception IOException if an initialization error occurs
     */
+    /*
     private void initializeRegistry() throws IOException
     {
         synchronized( m_listener )
@@ -333,12 +334,14 @@ public final class SecuredTransitContext
             }
         }
     }
+    */
 
    /**
     * ContentRegistry initialization.
     * @param model the content registry model
     * @exception TransitException if an initialization error occurs
     */
+    /*
     private ContentRegistry loadContentRegistry( ContentRegistryModel model ) throws IOException
     {
         synchronized( m_registry )
@@ -382,6 +385,7 @@ public final class SecuredTransitContext
             }
         }
     }
+    */
 
    /**
     * Cache initialization.
@@ -390,68 +394,8 @@ public final class SecuredTransitContext
     */
     private void initializeCache() throws IOException
     {
-        synchronized( m_listener )
-        {
-            CacheModel model = m_model.getCacheModel();
-            model.addCodeBaseListener( m_listener );
-            URI uri = model.getCodeBaseURI();
-            if( null != uri )
-            {
-                setCacheHandler( model );
-            }
-            getCacheHandler().initialize();
-        }
+        getCacheHandler().initialize();
     }
-
-   /**
-    * Cache initialization.
-    *
-    * @exception IOException if an initialization error occurs
-    */
-    private void setCacheHandler( CacheModel model ) throws IOException
-    {
-        synchronized( m_cacheHandler )
-        {
-            URI uri = model.getCodeBaseURI();
-            if( null != uri )
-            {
-                m_logger.info( "loading custom cache handler" );
-                try
-                {
-                    Logger log = m_logger.getChildLogger( "cache" );
-                    Object[] args = new Object[]{model, log};
-                    ClassLoader classloader = Transit.class.getClassLoader();
-                    CacheHandler handler = 
-                      (CacheHandler) getRepository().getPlugin( classloader, uri, args );
-                    handleDisposal( m_cacheHandler );
-                    m_cacheHandler = handler;
-                }
-                catch( Throwable e )
-                {
-                    final String error = 
-                      "Bypassing custom cache hander assignment due to internal error.";
-                    m_logger.error( error, e );
-                }
-            }
-            else
-            {
-                try
-                {
-                    m_logger.info( "loading standard cache handler" );
-                    handleDisposal( m_cacheHandler );
-                    Logger log = m_logger.getChildLogger( "cache" );
-                    m_cacheHandler = new DefaultCacheHandler( model, log );
-                }
-                catch( Throwable e )
-                {
-                    final String error = 
-                      "Critical error while attempting to establish content management subsystem.";
-                    throw new TransitError( error, e );
-                }
-            }
-        }
-    }
-
 
     private void handleDisposal( Object object ) 
     {
@@ -507,76 +451,77 @@ public final class SecuredTransitContext
     * Internal listener that listens to changes to plugable sub-systems 
     * and is responsible for swapping facilities on the fly.
     */
-    private class TransitListener extends UnicastRemoteObject implements CodeBaseListener
-    {
-       /**
-        * Creation of a new transit listener.
-        * @exception RemoteException if an remote error occurs
-        */
-        public TransitListener() throws RemoteException
-        {
-            super();
-        }
-
-       /**
-        * Notification of the change to a plugin uri assigned to a sub-system.
-        * @param event a plugin change event
-        * @exception RemoteException if an remote error occurs
-        */
-        public void codeBaseChanged( LocationEvent event ) throws RemoteException
-        {
-            CodeBaseModel model = event.getCodeBaseModel();
-            URI uri = event.getCodeBaseURI();
-            if( getLogger().isDebugEnabled() )
-            {
-                final String message = 
-                  "Initiating sub-system change."
-                  + "\nSub-System: " + model
-                  + "\nURI: " + uri;
-                getLogger().debug( message );
-            }
-            reload( model );
-        }
-
-        public void parametersChanged( ParametersEvent event ) throws RemoteException
-        {
-            CodeBaseModel model = event.getCodeBaseModel();
-            if( getLogger().isDebugEnabled() )
-            {
-                final String message = 
-                  "Initiating sub-system parameter change."
-                  + "\nSub-System: " + model;
-                getLogger().debug( message );
-            }
-            reload( model );
-        }
-
-        void reload( CodeBaseModel model )
-        {
-            //
-            // Currently the only switchable sub-system is the content management
-            // system (which is where Metro gets connected).  This needs to be extended to 
-            // include the cache system, the layout registry and the indexing system.
-            //
-
-            if( model instanceof ContentRegistryModel )
-            {
-                ContentRegistryModel crm = (ContentRegistryModel) model;
-                try
-                {
-                    ContentRegistry registry = loadContentRegistry( crm );
-                    handleDisposal( m_registry );
-                    m_registry = registry;
-                }
-                catch( IOException e )
-                {
-                    final String error = 
-                      "Content handler change error (registry remains unchanged)";
-                    m_logger.warn( error, e );
-                }
-            }
-        }
-    }
+    //private class TransitListener extends UnicastRemoteObject implements CodeBaseListener
+    //{
+    //   /**
+    //    * Creation of a new transit listener.
+    //    * @exception RemoteException if an remote error occurs
+    //    */
+    //    public TransitListener() throws RemoteException
+    //    {
+    //        super();
+    //    }
+    //
+    //   /**
+    //    * Notification of the change to a plugin uri assigned to a sub-system.
+    //    * @param event a plugin change event
+    //    * @exception RemoteException if an remote error occurs
+    //    */
+    //    public void codeBaseChanged( LocationEvent event ) throws RemoteException
+     //   {
+    //        CodeBaseModel model = event.getCodeBaseModel();
+    //        URI uri = event.getCodeBaseURI();
+    //        if( getLogger().isDebugEnabled() )
+    //        {
+    //            final String message = 
+    //              "Initiating sub-system change."
+    //              + "\nSub-System: " + model
+    //              + "\nURI: " + uri;
+    //            getLogger().debug( message );
+    //        }
+    //        reload( model );
+    //    }
+    //
+    //    public void parametersChanged( ParametersEvent event ) throws RemoteException
+    //    {
+    //        CodeBaseModel model = event.getCodeBaseModel();
+    //        if( getLogger().isDebugEnabled() )
+    //        {
+    //            final String message = 
+    //              "Initiating sub-system parameter change."
+    //              + "\nSub-System: " + model;
+    //            getLogger().debug( message );
+    //        }
+    //        reload( model );
+    //    }
+    //
+    //    
+    //    void reload( CodeBaseModel model )
+    //    {
+    //        //
+    //        // Currently the only switchable sub-system is the content management
+    //        // system (which is where Metro gets connected).  This needs to be extended to 
+    //        // include the cache system, the layout registry and the indexing system.
+    //        //
+    //
+    //        if( model instanceof ContentRegistryModel )
+    //        {
+    //            ContentRegistryModel crm = (ContentRegistryModel) model;
+    //            try
+    //            {
+    //                ContentRegistry registry = loadContentRegistry( crm );
+    //                handleDisposal( m_registry );
+    //                m_registry = registry;
+    //            }
+    //            catch( IOException e )
+    //            {
+    //                final String error = 
+    //                  "Content handler change error (registry remains unchanged)";
+    //                m_logger.warn( error, e );
+    //            }
+    //        }
+    //    }
+    //}
 
     private Logger getLogger()
     {

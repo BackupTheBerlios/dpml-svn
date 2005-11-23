@@ -232,7 +232,7 @@ public class ArtifactURLConnection extends URLConnection
         // check to see if we have a content handler plugin declared for the artifact type
         //
 
-        ContentRegistry registry = m_context.getContentHandlerRegistry();
+        ContentRegistry registry = m_context.getCacheHandler().getContentRegistry();
         ContentHandler handler = registry.getContentHandler( type );
         if( null != handler )
         {

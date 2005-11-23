@@ -21,7 +21,7 @@ import java.util.Properties;
 import java.util.prefs.Preferences;
 import java.util.prefs.BackingStoreException;
 
-import net.dpml.transit.model.Value;
+import net.dpml.transit.Value;
 
 /**
  * The LayoutHelper class is responsible for the setup of initial factory

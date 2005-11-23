@@ -47,6 +47,7 @@ import net.dpml.transit.model.HostModel;
 import net.dpml.transit.model.CacheEvent;
 import net.dpml.transit.model.LayoutModel;
 import net.dpml.transit.model.LayoutRegistryModel;
+import net.dpml.transit.model.ContentRegistryModel;
 import net.dpml.transit.monitor.CacheMonitorRouter;
 
 /**
@@ -82,6 +83,8 @@ class DefaultCacheHandler extends UnicastRemoteObject implements CacheHandler, C
     private final Map m_plugins = new WeakHashMap();  // plugin uris as keys to plugin classes
 
     private LayoutRegistry m_registry;
+    
+    private ContentRegistry m_content;
 
     // ------------------------------------------------------------------------
     // constructor
@@ -105,6 +108,7 @@ class DefaultCacheHandler extends UnicastRemoteObject implements CacheHandler, C
         LayoutRegistryModel layoutModel = model.getLayoutRegistryModel();
         m_registry = new DefaultLayoutRegistry( layoutModel, logger );
         LayoutModel layout = model.getLayoutModel();
+        
         try
         {
             String key = layout.getID();
@@ -157,6 +161,13 @@ class DefaultCacheHandler extends UnicastRemoteObject implements CacheHandler, C
         {
             getLogger().debug( "bootstrap initialization complete" );
         }
+        
+        //
+        // setup the content registry
+        //
+        
+        ContentRegistryModel contentRegistryModel = model.getContentRegistryModel();
+        m_content = new DefaultContentRegistry( contentRegistryModel, logger );
     }
 
     // ------------------------------------------------------------------------
@@ -371,6 +382,15 @@ class DefaultCacheHandler extends UnicastRemoteObject implements CacheHandler, C
     // ------------------------------------------------------------------------
     // CacheHandler
     // ------------------------------------------------------------------------
+
+   /**
+    * Return the content registry.
+    * @return the contenthandler registry
+    */
+    public ContentRegistry getContentRegistry()
+    {
+        return m_content;
+    }
 
    /**
     * Return the current cache directory.

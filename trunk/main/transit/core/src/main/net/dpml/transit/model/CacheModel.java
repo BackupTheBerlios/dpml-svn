@@ -30,7 +30,7 @@ import java.rmi.RemoteException;
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-public interface CacheModel extends CodeBaseModel, Disposable
+public interface CacheModel extends Model
 {
    /**
     * The property key used to identify the cache location when configuring 
@@ -57,14 +57,6 @@ public interface CacheModel extends CodeBaseModel, Disposable
     * @exception RemoteException if a remote exception occurs
     */
     File getCacheDirectory() throws RemoteException;
-
-   /**
-    * Update the value the local cache directory path.
-    *
-    * @param path the cache directory path
-    * @exception RemoteException if a remote exception occurs
-    */
-    void setCacheDirectoryPath( final String path ) throws RemoteException;
 
    /**
     * Return the array of hosts configured for the cache.
@@ -109,31 +101,14 @@ public interface CacheModel extends CodeBaseModel, Disposable
     * @exception RemoteException if a remote exception occurs
     */
     LayoutRegistryModel getLayoutRegistryModel() throws RemoteException;
-
+    
    /**
-    * Add a new host model to the cache model.
-    * @param id the host identifier
-    * @exception MalformedURLException if the host definition references a bad url spec
-    * @exception DuplicateKeyException if a host of the same identifier already exists
-    * @exception UnknownKeyException if a host references an unknown layout key
+    * Return the model maintaining configuration information about
+    * the content registry.
+    *
+    * @return the content model
     * @exception RemoteException if a remote exception occurs
     */
-    void addHostModel( String id ) 
-     throws DuplicateKeyException, UnknownKeyException, RemoteException, MalformedURLException;
-
-   /**
-    * Add a new host model to the cache model.
-    * @param model the host model to add to the cache model
-    * @exception DuplicateKeyException if a host of the same identifier already exists
-    * @exception RemoteException if a remote exception occurs
-    */
-    void addHostModel( HostModel model ) throws DuplicateKeyException, RemoteException;
-
-   /**
-    * Remove a host from the cache model.
-    * @param model the host model to remove
-    * @exception RemoteException if a remote exception occurs
-    */
-    void removeHostModel( HostModel model ) throws RemoteException;
+    ContentRegistryModel getContentRegistryModel() throws RemoteException;
 
 }

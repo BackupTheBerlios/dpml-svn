@@ -28,7 +28,7 @@ import java.rmi.RemoteException;
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-public interface ContentModel extends CodeBaseModel, Disposable
+public interface ContentModel extends CodeBaseModel
 {
    /**
     * Return the immutable content type identifier.
@@ -43,13 +43,6 @@ public interface ContentModel extends CodeBaseModel, Disposable
     * @exception RemoteException if a remote exception occurs
     */
     public String getTitle() throws RemoteException;
-
-   /**
-    * Set the layout title.
-    * @param title the layout title to assign
-    * @exception RemoteException if a remote exception occurs
-    */
-    void setTitle( String title ) throws RemoteException;
 
    /**
     * Add a content listener to the model.

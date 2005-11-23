@@ -41,7 +41,6 @@ import net.dpml.station.RegistryEvent;
 import net.dpml.station.RegistryListener;
 
 import net.dpml.transit.Logger;
-import net.dpml.transit.model.DefaultModel;
 import net.dpml.transit.model.DuplicateKeyException;
 import net.dpml.transit.model.UnknownKeyException;
 

@@ -28,15 +28,8 @@ import java.rmi.RemoteException;
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-public interface TransitModel extends Model, Disposable
+public interface TransitModel extends Model
 {
-   /**
-    * Return the model identifier.
-    * @return the model id
-    * @exception RemoteException if a remote exception occurs
-    */
-    String getID() throws RemoteException;
-
    /**
     * Return the proxy model.
     * @return the proxy model
@@ -50,23 +43,5 @@ public interface TransitModel extends Model, Disposable
     * @exception RemoteException if a remote exception occurs
     */
     CacheModel getCacheModel() throws RemoteException;
-
-   /**
-    * Return the model maintaining configuration information about
-    * the content registry.
-    *
-    * @return the content model
-    * @exception RemoteException if a remote exception occurs
-    */
-    ContentRegistryModel getContentRegistryModel() throws RemoteException;
-
-   /**
-    * Return the model maintaining configuration information about
-    * the repository service.
-    *
-    * @return the repository model
-    * @exception RemoteException if a remote exception occurs
-    */
-    RepositoryModel getRepositoryModel() throws RemoteException;
 
 }

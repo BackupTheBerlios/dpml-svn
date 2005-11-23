@@ -58,7 +58,7 @@
     <property name="prefs.transit" location="${prefs}/transit"/>
     <mkdir dir="${prefs.transit}"/>
     <copy todir="${prefs.transit}" filtering="false">
-      <fileset dir="${basedir}/transit/core/handler/target/prefs">  <!-- YUK!! -->
+      <fileset dir="${basedir}/transit/core/target/prefs">  <!-- YUK!! -->
         <include name="**/*"/>
       </fileset>
     </copy>
@@ -127,7 +127,7 @@
     <mkdir dir="${junit.html}"/>
     <junitreport todir="${junit.html}">
       <fileset dir=".">
-        <include name="**/target/reports/test/TEST-*.xml"/>
+        <include name="**/target/reports/test/TEST-*.xml"/> <!-- YUK!! -->
       </fileset>
       <report format="frames" todir="${junit.html}" styledir="${dpml.prefs}/tools/xsls"/>
     </junitreport>

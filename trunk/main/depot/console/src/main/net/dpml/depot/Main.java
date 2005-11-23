@@ -28,8 +28,8 @@ import java.util.prefs.Preferences;
 
 import net.dpml.transit.Transit;
 import net.dpml.transit.Logger;
+import net.dpml.transit.DefaultTransitModel;
 import net.dpml.transit.model.TransitModel;
-import net.dpml.transit.model.DefaultTransitModel;
 import net.dpml.transit.monitor.Adapter;
 import net.dpml.transit.monitor.LoggingAdapter;
 import net.dpml.transit.monitor.RepositoryMonitorAdapter;

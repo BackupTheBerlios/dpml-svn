@@ -29,7 +29,6 @@ import net.dpml.transit.link.LinkManager;
 import net.dpml.transit.monitor.RepositoryMonitorRouter;
 import net.dpml.transit.monitor.CacheMonitorRouter;
 import net.dpml.transit.monitor.NetworkMonitorRouter;
-import net.dpml.transit.model.DefaultTransitModel;
 import net.dpml.transit.model.TransitModel;
 
 /**

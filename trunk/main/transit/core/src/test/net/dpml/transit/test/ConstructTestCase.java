@@ -25,8 +25,9 @@ import java.util.Date;
 import java.util.Map;
 import java.util.Hashtable;
 
-import net.dpml.transit.model.Value;
-import net.dpml.transit.model.Construct;
+import net.dpml.transit.Value;
+import net.dpml.transit.Construct;
+import net.dpml.transit.info.ValueDirective;
 
 /**
  * Construct testcase.

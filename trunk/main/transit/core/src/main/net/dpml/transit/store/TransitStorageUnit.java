@@ -42,7 +42,7 @@ public class TransitStorageUnit extends AbstractStorageUnit implements TransitSt
     private final CacheHome m_cache;
     private final LayoutRegistryHome m_layout;
     private final ContentRegistryHome m_content;
-    private final RepositoryStorageUnit m_repository;
+    //private final RepositoryStorageUnit m_repository;
 
     // ------------------------------------------------------------------------
     // constructor
@@ -103,8 +103,8 @@ public class TransitStorageUnit extends AbstractStorageUnit implements TransitSt
             m_layout = new LayoutRegistryStorageUnit( layout );
             Preferences content = getPreferences().node( "content" );
             m_content = new ContentRegistryStorageUnit( content );
-            Preferences repo = getPreferences().node( "repository" );
-            m_repository = new RepositoryStorageUnit( repo );
+            //Preferences repo = getPreferences().node( "repository" );
+            //m_repository = new RepositoryStorageUnit( repo );
         }
         catch( Throwable e )
         {
@@ -168,10 +168,10 @@ public class TransitStorageUnit extends AbstractStorageUnit implements TransitSt
     * Return the repository storage unit.
     * @return the repository storage
     */
-    public CodeBaseStorage getRepositoryStorage()
-    {
-        return m_repository;
-    }
+    //public CodeBaseStorage getRepositoryStorage()
+    //{
+    //    return m_repository;
+    //}
 
     private static Preferences getTransitPreferences( String profile )
     {

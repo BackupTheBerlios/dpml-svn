@@ -18,6 +18,8 @@
 
 package net.dpml.transit.model;
 
+import net.dpml.transit.Value;
+
 /**
  * An event pertaining to a change in a plugin uri assigned to 
  * a codebase model.

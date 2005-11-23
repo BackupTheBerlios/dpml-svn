@@ -21,6 +21,8 @@ package net.dpml.transit.model;
 import java.net.URI;
 import java.rmi.RemoteException;
 
+import net.dpml.transit.Value;
+
 /**
  * A CodeBaseModel maintains information about the configuration of 
  * a pluggable subsystem.
@@ -72,14 +74,5 @@ public interface CodeBaseModel extends Model
     * @exception RemoteException if a remote exception occurs
     */
     Value[] getParameters() throws RemoteException;
-
-   /**
-    * Set the array of values assigned to the codebase model for use
-    * as plugin constructor parameter arguments.
-    *
-    * @param values the array of values
-    * @exception RemoteException if a remote exception occurs
-    */
-    void setParameters( Value[] values ) throws RemoteException;
 
 }

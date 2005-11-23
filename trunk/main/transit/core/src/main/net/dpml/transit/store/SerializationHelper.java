@@ -27,7 +27,7 @@ import java.io.OutputStream;
 import java.io.Serializable;
 import java.net.PasswordAuthentication;
 
-import net.dpml.transit.model.Value;
+import net.dpml.transit.Value;
 
 /**
  * Helper class used to convert credentials to and from byte arrays.

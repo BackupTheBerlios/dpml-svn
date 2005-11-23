@@ -33,7 +33,7 @@ import net.dpml.metro.info.Type;
 
 import net.dpml.metro.part.Part;
 
-import net.dpml.transit.model.Construct;
+import net.dpml.transit.Construct;
 
 import org.apache.tools.ant.BuildException;
 
