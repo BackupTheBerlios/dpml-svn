@@ -56,12 +56,6 @@
     </copy>
     <property name="prefs" location="${bundle}/prefs"/>
     <property name="prefs.transit" location="${prefs}/transit"/>
-    <mkdir dir="${prefs.transit}"/>
-    <copy todir="${prefs.transit}" filtering="false">
-      <fileset dir="${basedir}/transit/core/target/prefs">  <!-- YUK!! -->
-        <include name="**/*"/>
-      </fileset>
-    </copy>
     <property name="prefs.transit.templates" location="${prefs.transit}/templates"/>
     <mkdir dir="${prefs.transit.templates}"/>
     <copy todir="${prefs.transit.templates}" filtering="false">

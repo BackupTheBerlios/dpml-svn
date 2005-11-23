@@ -45,13 +45,6 @@
     <filter token="PROJECT-NAME" value="${project.name}"/>
   </target>
 
-  <target name="prepare" depends="bootstrap.prepare">
-    <mkdir dir="${target.classes.dir}/transit"/>
-    <copy todir="${target.classes.dir}/transit" filtering="true">
-      <fileset dir="${target.dir}/prefs"/>
-    </copy>
-  </target>
-
   <target name="build" depends="bootstrap.build">
     <rmic base="${target.classes.dir}">
       <include name="**/DefaultHostModel.class"/>
