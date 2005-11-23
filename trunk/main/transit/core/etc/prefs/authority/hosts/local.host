@@ -1,8 +1,0 @@
-dpml.transit.host.id=local
-dpml.transit.host.enabled=true
-dpml.transit.host.class=net.dpml.transit.host.ClassicResourceHost
-dpml.transit.host.base=file:${dpml.system}/local
-dpml.transit.host.priority=10
-dpml.transit.host.trusted=true
-dpml.transit.host.policy=timestamp
-dpml.transit.host.bootstrap=true

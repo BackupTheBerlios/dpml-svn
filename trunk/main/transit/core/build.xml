@@ -113,18 +113,6 @@
     <copy preservelastmodified="true" overwrite="true"
       tofile="${user.home}/.ant/lib/${short.filename}" 
       file="${target.deliverables.jars.dir}/${long.filename}"/>
-    <echo>
-#----------------------------------------------------------------------------------
-# Updating Transit Prefs. ${dpml.prefs}/transit
-#----------------------------------------------------------------------------------
-    </echo>
-    <property name="prefs" location="${dpml.prefs}/transit"/>
-    <mkdir dir="${prefs}"/>
-    <copy toDir="${prefs}">
-      <fileset dir="${target.dir}/prefs">
-        <include name="**/*"/>
-      </fileset>
-    </copy>
   </target>
 
 </project>
