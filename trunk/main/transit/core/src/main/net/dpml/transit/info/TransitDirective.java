@@ -43,10 +43,6 @@ public class TransitDirective extends AbstractDirective
     public TransitDirective( ProxyDirective proxy, CacheDirective cache )
       throws NullPointerException
     {
-        if( null == proxy )
-        {
-            throw new NullPointerException( "proxy" );
-        }
         if( null == cache )
         {
             throw new NullPointerException( "cache" );

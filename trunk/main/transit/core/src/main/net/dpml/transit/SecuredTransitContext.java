@@ -194,11 +194,14 @@ public final class SecuredTransitContext
         //m_listener = new TransitListener();
 
         ProxyModel proxy = m_model.getProxyModel();
-        synchronized( proxy )
+        if( null != proxy )
         {
-            setupProxy();
-            ProxyController controller = new ProxyController();
-            proxy.addProxyListener( controller );
+            synchronized( proxy )
+            {
+                setupProxy();
+                ProxyController controller = new ProxyController();
+                proxy.addProxyListener( controller );
+            }
         }
     }
 

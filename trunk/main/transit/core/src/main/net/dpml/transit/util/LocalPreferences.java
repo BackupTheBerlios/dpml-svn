@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package net.dpml.transit.store;
+package net.dpml.transit.util;
 
 import java.util.Hashtable;
 import java.util.Properties;

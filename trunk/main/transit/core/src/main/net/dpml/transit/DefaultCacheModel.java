@@ -31,10 +31,22 @@ import java.util.TreeSet;
 import net.dpml.transit.Logger;
 import net.dpml.transit.Transit;
 import net.dpml.transit.TransitError;
-import net.dpml.transit.store.CacheHome;
+import net.dpml.transit.info.LayoutDirective;
+import net.dpml.transit.info.CacheDirective;
+import net.dpml.transit.info.HostDirective;
+import net.dpml.transit.info.ContentDirective;
 import net.dpml.transit.store.HostStorage;
+import net.dpml.transit.model.CacheModel;
+import net.dpml.transit.model.LayoutModel;
+import net.dpml.transit.model.LayoutRegistryModel;
+import net.dpml.transit.model.ContentRegistryModel;
+import net.dpml.transit.model.HostModel;
+import net.dpml.transit.model.UnknownKeyException;
+import net.dpml.transit.model.DuplicateKeyException;
+import net.dpml.transit.model.CacheListener;
+import net.dpml.transit.model.CacheDirectoryChangeEvent;
+import net.dpml.transit.model.CacheEvent;
 import net.dpml.transit.util.PropertyResolver;
-import net.dpml.transit.model.*;
 
 /**
  * Default implementation of the cache model that maintains information 
@@ -43,107 +55,108 @@ import net.dpml.transit.model.*;
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-class DefaultCacheModel extends DefaultModel //DisposableCodeBaseModel 
-   implements CacheModel, DisposalListener
+class DefaultCacheModel extends DefaultModel implements CacheModel
 {
     // ------------------------------------------------------------------------
     // state
     // ------------------------------------------------------------------------
 
-    private final CacheHome m_home;
-
+    private final String m_path;
+    
     private final Set m_list = Collections.synchronizedSortedSet( new TreeSet() );
 
-    private HostModel[] m_sortedHosts;
+    private final File m_cache;
 
-    private File m_cache;
+    private final LayoutModel m_layout;
 
-    private LayoutModel m_layout;
-
-    private LayoutRegistryModel m_registry;
+    private final LayoutRegistryModel m_registry;
     
-    private ContentRegistryModel m_content;
+    private final ContentRegistryModel m_content;
+
+    private HostModel[] m_sortedHosts;
 
     // ------------------------------------------------------------------------
     // constructor
     // ------------------------------------------------------------------------
 
    /**
-    * Construct a new cache model.  The cache module uses the supplied layout registry
-    * model ads the source for the layout model to use for the cache and as the source when
-    * resolving layout models for assigned hosts.  Data is supplied via a cache home that
-    * is itself responsible for the maintaince of the cache model persistent state.
+    * Construct a new cache model.
     *
     * @param logger the assigned logging channel
-    * @param home the cache storage home
+    * @param directive the cache configuration directive
     * @param registry a registry of layout models
     * @param content a registry of content models
-    * @exception DuplicateKeyException if the storage home references duplicate host identities
-    * @exception UnknownKeyException if the storage home references a host storage unit that references
-    *    an unknown layout model
-    * @exception MalformedURLException if the storage home references a host storage unit containing
-    *    a malfo9rmed base url
     * @exception RemoteException if a remote exception occurs
     */
-    public DefaultCacheModel( 
-      Logger logger, CacheHome home, LayoutRegistryModel registry, ContentRegistryModel content )
-      throws DuplicateKeyException, RemoteException, UnknownKeyException, MalformedURLException
+    public DefaultCacheModel( Logger logger, CacheDirective directive )
+      throws Exception
     {
         super( logger );
-        if( null == registry )
+        
+        if( null == directive )
         {
-            throw new NullPointerException( "registry" );
+            throw new NullPointerException( "directive" );
         }
+        
+        try
+        {
+            Logger log = logger.getChildLogger( "registry" );
+            LayoutDirective[] layouts = directive.getLayoutDirectives();
+            m_registry = new DefaultLayoutRegistryModel( log, layouts );
+            String layout = directive.getLayout();
+            m_layout = m_registry.getLayoutModel( layout );
+        }
+        catch( Exception e )
+        {
+            final String error = 
+              "Unexpected internal error while constructing layout registry model.";
+            throw new ModelRuntimeException( error, e );
+        }
+        
+        try
+        {
+            Logger log = logger.getChildLogger( "content" );
+            ContentDirective[] content = directive.getContentDirectives();
+            m_content = new DefaultContentRegistryModel( log, content );
+        }
+        catch( Exception e )
+        {
+            final String error = 
+              "Unexpected internal error while constructing content handler registry model.";
+            throw new ModelRuntimeException( error, e );
+        }
+        
+        // set the cache directory
+        
+        m_path = directive.getCache();
+        String resolved = PropertyResolver.resolve( m_path );
+        File cache = new File( resolved );
+        if( !cache.isAbsolute() )
+        {
+            File anchor = getAnchorDirectory();
+            cache = new File( anchor, resolved );
+            cache.mkdirs();
+        }
+        logger.debug( "setting cache: " + cache ); 
+        m_cache = cache;
 
-        m_home = home;
-        m_registry = registry;
-        m_content = content;
-
-        String key = home.getLayoutModelKey();
-        m_layout = registry.getLayoutModel( key );
-        m_layout.addDisposalListener( this );
-
-        String path = home.getCacheDirectoryPath();
-        setCacheDirectoryPath( path, false );
-
-        HostStorage[] hosts = home.getInitialHosts();
+        // setup the standard local respository host
+        
         m_sortedHosts = sortHosts();
+        String localPath = directive.getLocal();
+        HostDirective local = createLocalHostDirective( localPath );
+        addHostModel( local, false );
+        
+        // setup the supplimentary hosts
+        
+        HostDirective[] hosts = directive.getHostDirectives();
         for( int i=0; i < hosts.length; i++ )
         {
-            HostStorage host = hosts[i];
+            HostDirective host = hosts[i];
             addHostModel( host, false );
         }
     }
-
-    // ------------------------------------------------------------------------
-    // DisposalListener (listen to modification to the assigned layout)
-    // ------------------------------------------------------------------------
-
-   /**
-    * The cache model listens for fisposal events of the layout model it 
-    * is using and will raise a VetoDisposalException automatically.
-    * @param event the layout predisposal disposal event
-    * @exception VetoDisposalException it veto the disposal
-    */
-    public void disposing( DisposalEvent event ) throws VetoDisposalException
-    {
-        final String message = "Layout currently assigned to cache.";
-        throw new VetoDisposalException( this, message );
-    }
-
-   /**
-    * Notify the listener of the disposal of a manager. If the cache model 
-    * receives this event a TransitError will be raised as this signals the 
-    * unexpected condition that disposal event veto was not respected (which should 
-    * not happen).
-    */
-    public void disposed( DisposalEvent event )
-    {
-        final String error = 
-          "Unexpected notification of disposal of an assigned cache layout.";
-        throw new TransitError( error );
-    }
-
+    
     // ------------------------------------------------------------------------
     // CacheModel
     // ------------------------------------------------------------------------
@@ -168,48 +181,6 @@ class DefaultCacheModel extends DefaultModel //DisposableCodeBaseModel
     public LayoutModel getLayoutModel()
     {
         return m_layout;
-    }
-
-   /**
-    * Update the value the local cache directory path.
-    *
-    * @param path the cache directory path
-    * @param notify if true then notify listeners
-    * @exception RemoteException if a remote exception occurs
-    */
-    protected void setCacheDirectoryPath( final String path, boolean notify )
-    {
-        synchronized( getLock() )
-        {
-            if( null == path )
-            {
-                throw new NullPointerException( "path" );
-            }
-
-            String resolved = PropertyResolver.resolve( path );
-            File cache = new File( resolved );
-            if( !cache.isAbsolute() )
-            {
-                File anchor = getAnchorDirectory();
-                cache = new File( anchor, resolved );
-                cache.mkdirs();
-            }
-            if( null == m_cache )
-            {
-                getLogger().debug( "setting cache: " + cache ); 
-            }
-            else
-            {
-                getLogger().debug( "updating cache: " + cache ); 
-            }
-            m_cache = cache;
-            if( notify )
-            {
-                m_home.setCacheDirectoryPath( path );
-                CacheDirectoryChangeEvent event = new CacheDirectoryChangeEvent( this, path );
-                enqueueEvent( event );
-            }
-        }
     }
 
    /**
@@ -272,7 +243,7 @@ class DefaultCacheModel extends DefaultModel //DisposableCodeBaseModel
     */
     public String getCacheDirectoryPath()
     {
-        return m_home.getCacheDirectoryPath();
+        return m_path;
     }
 
    /**
@@ -313,18 +284,9 @@ class DefaultCacheModel extends DefaultModel //DisposableCodeBaseModel
     * Disposal of the cache model.
     * @exception RemoteException if a remote exception occurs
     */
-    public void dispose()
+    synchronized void dispose()
     {
-        try
-        {
-            m_layout.removeDisposalListener( this );
-        }
-        catch( RemoteException e )
-        {
-            final String message = 
-              "Ignoring disposal error.";
-            getLogger().warn( message, e );
-        }
+        super.dispose();
     }
 
     // ------------------------------------------------------------------------
@@ -332,23 +294,23 @@ class DefaultCacheModel extends DefaultModel //DisposableCodeBaseModel
     // ------------------------------------------------------------------------
 
    /**
-    * Add a new host model to the cache model using a host model store .
-    * @param store the host model storage unit
-    * @param notify if TRUE issue a notification event of host model addition
+    * Add a new host model to the cache model.
+    * @param directive the host model configuration
+    * @param notify if true issue a notification event of host model addition
     * @exception DuplicateKeyException a host model with a matching id already exists
     * @exception UnknownKeyException the host model requests a layout model id that is not recognized
     * @exception MalformedURLException the host model base url is malformed
     * @exception RemoteException if a remote exception occurs
     */
-    void addHostModel( HostStorage store, boolean notify ) 
+    void addHostModel( HostDirective directive, boolean notify ) 
       throws DuplicateKeyException, UnknownKeyException, MalformedURLException
     {
         try
         {
-            String id = store.getID();
+            String id = directive.getID();
             Logger logger = getLogger().getChildLogger( id );
             LayoutRegistryModel registry = getLayoutRegistryModel();
-            HostModel model = new DefaultHostModel( logger, store, registry );
+            HostModel model = new DefaultHostModel( logger, directive, registry );
             addHostModel( model, notify );
         }
         catch( RemoteException e )
@@ -487,7 +449,23 @@ class DefaultCacheModel extends DefaultModel //DisposableCodeBaseModel
     {
         return Transit.DPML_DATA;
     }
-
+    
+    private HostDirective createLocalHostDirective( String path )
+    {
+        return new HostDirective( 
+          "local", 
+          10, 
+          path, 
+          null, 
+          null, 
+          null, 
+          true, 
+          true, 
+          "classic", 
+          null, 
+          null );
+    }
+    
    /**
     * Host addition event.
     */

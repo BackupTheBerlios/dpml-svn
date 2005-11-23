@@ -27,9 +27,13 @@ import java.util.EventObject;
 import java.util.EventListener;
 
 import net.dpml.transit.Logger;
-import net.dpml.transit.store.ContentStorage;
-import net.dpml.transit.store.ContentRegistryHome;
-import net.dpml.transit.model.*;
+import net.dpml.transit.info.ContentDirective;
+import net.dpml.transit.model.ContentModel;
+import net.dpml.transit.model.ContentRegistryModel;
+import net.dpml.transit.model.ContentRegistryListener;
+import net.dpml.transit.model.ContentRegistryEvent;
+import net.dpml.transit.model.DuplicateKeyException;
+import net.dpml.transit.model.UnknownKeyException;
 
 /**
  * Default implementation of a content model registry manager that maitains 
@@ -47,8 +51,6 @@ class DefaultContentRegistryModel extends DefaultModel
 
     private final List m_list = Collections.synchronizedList( new LinkedList() );
 
-    private ContentRegistryHome m_home;
-
     // ------------------------------------------------------------------------
     // constructor
     // ------------------------------------------------------------------------
@@ -61,20 +63,17 @@ class DefaultContentRegistryModel extends DefaultModel
     *   duplicate content model identities
     * @exception RemoteException if a remote exception occurs
     */
-    public DefaultContentRegistryModel( Logger logger, ContentRegistryHome home ) 
+    public DefaultContentRegistryModel( Logger logger, ContentDirective[] handlers ) 
       throws DuplicateKeyException, RemoteException
     {
         super( logger );
 
-        m_home = home;
-
-        ContentStorage[] stores = home.getInitialContentStores();
-        for( int i=0; i < stores.length; i++ )
+        for( int i=0; i < handlers.length; i++ )
         {
-            ContentStorage store = stores[i];
-            String id = store.getType();
+            ContentDirective directive = handlers[i];
+            String id = directive.getID();
             Logger log = logger.getChildLogger( id );
-            ContentModel model = new DefaultContentModel( log, store );
+            ContentModel model = new DefaultContentModel( log, directive );
             addContentModel( model, false );
         }
     }
@@ -112,7 +111,7 @@ class DefaultContentRegistryModel extends DefaultModel
                 ContentModel manager = managers[i];
                 try
                 {
-                    if( type.equals( manager.getContentType() ) )
+                    if( type.equals( manager.getID() ) )
                     {
                         return manager;
                     }
@@ -155,7 +154,7 @@ class DefaultContentRegistryModel extends DefaultModel
         {
             try
             {
-                String id = manager.getContentType();
+                String id = manager.getID();
                 ContentModel m = getContentModel( id );
                 throw new DuplicateKeyException( id );
             }
@@ -164,7 +163,7 @@ class DefaultContentRegistryModel extends DefaultModel
                 m_list.add( manager );
                 if( notify )
                 {
-                    ContentAddedEvent event = new ContentAddedEvent ( this, manager );
+                    ContentAddedEvent event = new ContentAddedEvent( this, manager );
                     enqueueEvent( event );
                 }
             }

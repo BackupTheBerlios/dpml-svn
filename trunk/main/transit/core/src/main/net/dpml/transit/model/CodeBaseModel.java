@@ -33,25 +33,11 @@ import net.dpml.transit.Value;
 public interface CodeBaseModel extends Model
 {
    /**
-    * Return the immutable model identifier.
-    * @return the resolver identifier
-    * @exception RemoteException if a remote exception occurs
-    */
-    String getID() throws RemoteException;
-
-   /**
     * Return the uri of the plugin to be used for the subsystem.
     * @return the codebase plugin uri
     * @exception RemoteException if a remote exception occurs
     */
     URI getCodeBaseURI() throws RemoteException;
-
-   /**
-    * Set the plugin uri value.
-    * @param uri the plugin uri
-    * @exception RemoteException if a remote exception occurs
-    */
-    void setCodeBaseURI( URI uri ) throws RemoteException;
 
    /**
     * Add a codebase listener to the model.

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package net.dpml.transit.store;
+package net.dpml.transit.util;
 
 import java.beans.Encoder;
 import java.beans.Expression;

@@ -21,16 +21,20 @@ package net.dpml.transit;
 import java.rmi.RemoteException;
 import java.util.EventObject;
 import java.util.EventListener;
+import java.net.MalformedURLException; 
 import java.net.PasswordAuthentication; 
 import java.net.URL; 
 
 import net.dpml.transit.Logger;
-import net.dpml.transit.store.ProxyStorage;
-import net.dpml.transit.model.*;
+import net.dpml.transit.info.ProxyDirective;
+import net.dpml.transit.model.ProxyModel;
+import net.dpml.transit.model.ProxyListener;
+import net.dpml.transit.model.ProxyEvent;
+import net.dpml.transit.model.RequestIdentifier;
 
 /**
- * The ProxyManager class maintains an active configuration model of the 
- * Transit proxy settings.
+ * The ProxyModel class maintains an active configuration model of the 
+ * Transit proxy configuration.
  *
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
@@ -40,8 +44,6 @@ class DefaultProxyModel extends DefaultModel implements ProxyModel
     // ------------------------------------------------------------------------
     // state
     // ------------------------------------------------------------------------
-
-    private final ProxyStorage m_home;
 
     private URL m_host;
     private PasswordAuthentication m_authentication;
@@ -54,45 +56,32 @@ class DefaultProxyModel extends DefaultModel implements ProxyModel
    /**
     * Construction of a new proxy model.
     * @param logger the assigned logging channel
-    * @param home the proxy model stroage home
-    * @exception NullPointerException if the logging channel or home are null
+    * @param directive the proxy congfiguration
+    * @exception NullPointerException if the logging channel or directive arguments are null
     * @exception RemoteException if a remote exception occurs
     */
-    public DefaultProxyModel( Logger logger, ProxyStorage home ) 
-      throws NullPointerException, RemoteException
+    public DefaultProxyModel( Logger logger, ProxyDirective directive ) 
+      throws NullPointerException, MalformedURLException, RemoteException
     {
         super( logger );
 
-        if( null == home )
+        if( null == directive )
         {
-            throw new NullPointerException( "home" );
+            throw new NullPointerException( "directive" );
         }
 
-        m_home = home;
-        m_host = home.getHost();
-        m_authentication = home.getAuthentication();
-        m_excludes = home.getExcludes();
-    }
-
-   /**
-    * Construction of a new proxy model.
-    * @param logger the assigned logging channel
-    * @param host the proxy host url
-    * @param auth the proxy authentication settings
-    * @param excludes a set of proxy excludes
-    * @exception NullPointerException if the logging channel is null
-    * @exception RemoteException if a remote exception occurs
-    */
-    public DefaultProxyModel( 
-      Logger logger, URL host, PasswordAuthentication auth, String[] excludes ) 
-      throws NullPointerException, RemoteException
-    {
-        super( logger );
-
-        m_home = null;
-        m_host = host;
-        m_authentication = auth;
-        m_excludes = excludes;
+        m_host = new URL( directive.getHost() );
+        String username = directive.getUsername();
+        if( null != username )
+        {
+            m_authentication = 
+              new PasswordAuthentication( username, directive.getPassword() );
+        }
+        else
+        {
+            m_authentication = NULL_AUTHENTICATION;
+        }
+        m_excludes = directive.getExcludes();
     }
 
     // ------------------------------------------------------------------------

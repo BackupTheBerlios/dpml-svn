@@ -26,7 +26,7 @@ import java.rmi.RemoteException;
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-public interface LayoutRegistryModel extends CodeBaseModel
+public interface LayoutRegistryModel extends Model
 {
    /**
     * Return the set of location resolver models.
@@ -58,30 +58,6 @@ public interface LayoutRegistryModel extends CodeBaseModel
     * @exception RemoteException if a remote exception occurs
     */
     void removeLayoutRegistryListener( LayoutRegistryListener listener ) throws RemoteException;
-
-   /**
-    * Add a new layout model to the registry.
-    * @param id the layout model identity
-    * @exception DuplicateKeyException if a layout model of the same id already exists
-    * @exception RemoteException if a remote exception occurs
-    */
-    void addLayoutModel( String id ) throws DuplicateKeyException, RemoteException;
-
-   /**
-    * Add a new layout model to the registry.
-    * @param model the layout model
-    * @exception DuplicateKeyException if a layout model of the same id already exists
-    * @exception RemoteException if a remote exception occurs
-    */
-    void addLayoutModel( LayoutModel model ) throws DuplicateKeyException, RemoteException;
-
-   /**
-    * Remove a layout model from the registry.
-    * @param model the layout model to be removed
-    * @exception ModelReferenceException if the layout is in use
-    * @exception RemoteException if a remote exception occurs
-    */
-    void removeLayoutModel( LayoutModel model ) throws ModelReferenceException, RemoteException;
 
 }
 

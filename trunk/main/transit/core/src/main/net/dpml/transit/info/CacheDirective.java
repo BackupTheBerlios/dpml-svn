@@ -28,13 +28,27 @@ import java.util.Arrays;
  */
 public class CacheDirective extends AbstractDirective
 {
+    public static final String CACHE_PATH = "${dpml.data}/cache";
+    public static final String LOCAL_PATH = "${dpml.system}/local";
+    public static final String LAYOUT = "classic";
+    
     private final String m_cache;
     private final String m_layout;
     private final String m_local;
     private final LayoutDirective[] m_layouts;
     private final HostDirective[] m_hosts;
     private final ContentDirective[] m_handlers;
-
+    
+   /**
+    * Create a new CacheDirective.
+    */
+    public CacheDirective()
+    {
+        this( 
+          CACHE_PATH, LOCAL_PATH, LAYOUT, new LayoutDirective[0],
+          new HostDirective[0], new ContentDirective[0] );
+    }
+    
    /**
     * Create a new CacheDirective.
     * @param cache the cache directory path

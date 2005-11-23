@@ -25,15 +25,13 @@ import java.util.EventObject;
 import net.dpml.transit.Logger;
 import net.dpml.transit.TransitError;
 import net.dpml.transit.monitor.LoggingAdapter;
-import net.dpml.transit.store.TransitStorage;
-import net.dpml.transit.store.CodeBaseStorage;
-import net.dpml.transit.store.LayoutRegistryHome;
-import net.dpml.transit.store.ContentRegistryHome;
-import net.dpml.transit.store.ProxyStorage;
-import net.dpml.transit.store.CacheHome;
-import net.dpml.transit.store.Removable;
-import net.dpml.transit.store.TransitStorageUnit;
-import net.dpml.transit.model.*;
+import net.dpml.transit.info.CacheDirective;
+import net.dpml.transit.info.ProxyDirective;
+import net.dpml.transit.info.TransitDirective;
+import net.dpml.transit.model.CacheModel;
+import net.dpml.transit.model.ProxyModel;
+import net.dpml.transit.model.TransitModel;
+import net.dpml.transit.monitor.LoggingAdapter;
 
 /**
  * The DefaultTransitModel class maintains an active configuration of the 
@@ -45,12 +43,21 @@ import net.dpml.transit.model.*;
 public class DefaultTransitModel extends DefaultModel implements TransitModel
 {
     // ------------------------------------------------------------------------
-    // state
+    // static
     // ------------------------------------------------------------------------
 
-    private final TransitStorage m_store;
+    static TransitModel getBootstrapModel() throws Exception
+    {
+        Logger logger = new LoggingAdapter( "transit" );
+        TransitDirective directive = new TransitDirective( null, new CacheDirective() );
+        return new DefaultTransitModel( logger, directive );
+    }
+    
+    // ------------------------------------------------------------------------
+    // state
+    // ------------------------------------------------------------------------
+    
     private final DefaultProxyModel m_proxy;
-    private final DefaultLayoutRegistryModel m_layouts;
     private final DefaultCacheModel m_cache;
 
     // ------------------------------------------------------------------------
@@ -58,64 +65,28 @@ public class DefaultTransitModel extends DefaultModel implements TransitModel
     // ------------------------------------------------------------------------
 
    /**
-    * Creation of a new TransitModel using a default logging channel
-    * and preferences based storage solution.
-    * @exception RemoteException if a remote exception occurs
-    */
-    public DefaultTransitModel() throws RemoteException
-    {
-        this( new LoggingAdapter( "transit" ) );
-    }
-
-   /**
-    * Creation of a new TransitModel using preferences based storage.
-    * 
-    * @param logger the assigned loging channel
-    * @exception RemoteException if a remote exception occurs
-    */
-    public DefaultTransitModel( Logger logger ) throws RemoteException
-    {
-        this( logger, new TransitStorageUnit() );
-    }
-
-   /**
-    * Creation of a new TransitModel using a supplied storage unit
-    * and a default logging channel.
-    * 
-    * @param store the storage unit
-    * @exception RemoteException if a remote exception occurs
-    */
-    public DefaultTransitModel( TransitStorage store ) throws RemoteException
-    {
-        this( new LoggingAdapter( "transit" ), store );
-    }
-
-   /**
-    * Creation of a new TransitModel using a supplied storage unit
+    * Creation of a new TransitModel using a supplied configuration
     * and logging channel.  The implementation will construct a proxy
     * model, layout registry model, cache modle, content registry model, 
-    * and repository codebase model using the supplied storage unit.
+    * and repository codebase model using the supplied configuration.
     *
     * @param logger the assigned loging channel
-    * @param store the storage unit 
-    * @exception NullPointerException if the logger or store arguments are null
+    * @param directive the transit configuration
+    * @exception NullPointerException if the logger or directive arguments are null
     * @exception RemoteException if a remote exception occurs
     */
-    public DefaultTransitModel( Logger logger, TransitStorage store ) 
+    public DefaultTransitModel( Logger logger, TransitDirective directive ) 
       throws RemoteException, NullPointerException
     {
         super( logger );
 
-        if( null == store )
+        if( null == directive )
         {
-            throw new NullPointerException( "store" );
+            throw new NullPointerException( "directive" );
         }
-        m_store = store;
 
-        m_proxy = createProxyModel();
-        m_layouts = createLayoutRegistryModel();
-        DefaultContentRegistryModel content = createContentRegistryModel();
-        m_cache = createCacheModel( m_layouts, content );
+        m_proxy = createProxyModel( directive );
+        m_cache = createCacheModel( directive );
     }
 
     // ------------------------------------------------------------------------
@@ -123,8 +94,8 @@ public class DefaultTransitModel extends DefaultModel implements TransitModel
     // ------------------------------------------------------------------------
 
    /**
-    * Return the proxy model.
-    * @return the proxy configuration model.
+    * Return the proxy configuration model.
+    * @return the proxy model (null if no proxy config defined).
     */
     public ProxyModel getProxyModel()
     {
@@ -178,66 +149,41 @@ public class DefaultTransitModel extends DefaultModel implements TransitModel
         }
     }
 
-    private DefaultProxyModel createProxyModel()
+    private DefaultProxyModel createProxyModel( final TransitDirective directive )
     {
         try
         {
-            ProxyStorage unit = m_store.getProxyStorage();
-            Logger logger = getLogger().getChildLogger( "proxy" );
-            return new DefaultProxyModel( logger, unit );
+            ProxyDirective config = directive.getProxyDirective();
+            if( null == config )
+            {
+                return null;
+            }
+            else
+            {
+                Logger logger = getLogger().getChildLogger( "proxy" );
+                return new DefaultProxyModel( logger, config );
+            }
         }
         catch( Throwable e )
         {
             final String error = 
-              "An error occured during construction of the proxy storage unit.";
+              "An error occured during construction of the proxy model.";
             throw new TransitError( error, e );
         }
     }
 
-    private DefaultLayoutRegistryModel createLayoutRegistryModel()
+    private DefaultCacheModel createCacheModel( final TransitDirective directive )
     {
         try
         {
-            Logger logger = getLogger().getChildLogger( "cache" ).getChildLogger( "layout" );
-            LayoutRegistryHome store = m_store.getLayoutRegistryHome();
-            return new DefaultLayoutRegistryModel( logger, store );
-        }
-        catch( Throwable e )
-        {
-            final String error = 
-              "An error occured during construction of the layout storage home.";
-            throw new TransitError( error, e );
-        }
-    }
-
-    private DefaultCacheModel createCacheModel( LayoutRegistryModel layouts, DefaultContentRegistryModel content )
-    {
-        try
-        {
-            CacheHome store = m_store.getCacheHome();
             Logger logger = getLogger().getChildLogger( "cache" );
-            return new DefaultCacheModel( logger, store, layouts, content );
+            CacheDirective config = directive.getCacheDirective();
+            return new DefaultCacheModel( logger, config );
         }
         catch( Throwable e )
         {
             final String error = 
-              "An error occured during construction of the cache storage unit.";
-            throw new TransitError( error, e );
-        }
-    }
-
-    private DefaultContentRegistryModel createContentRegistryModel()
-    {
-        try
-        {
-            ContentRegistryHome store = m_store.getContentRegistryHome();
-            Logger logger = getLogger().getChildLogger( "content" );
-            return new DefaultContentRegistryModel( logger, store );
-        }
-        catch( Throwable e )
-        {
-            final String error = 
-              "An error occured during construction of the content registry model.";
+              "An error occured during construction of the cache model.";
             throw new TransitError( error, e );
         }
     }

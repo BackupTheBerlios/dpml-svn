@@ -141,7 +141,7 @@ public final class Transit
             {
                 try
                 {
-                    TransitModel model = new DefaultTransitModel();
+                    TransitModel model = DefaultTransitModel.getBootstrapModel();
                     return getInstance( model );
                 }
                 catch( Throwable e )

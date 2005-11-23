@@ -142,12 +142,9 @@ class DefaultCacheHandler extends UnicastRemoteObject implements CacheHandler, C
         for( int i=0; i < hosts.length; i++ )
         {
             HostModel host = hosts[i];
-            if( null == host.getCodeBaseURI() )
-            {
-                String id = host.getID();
-                ResourceHost handler = createDefaultResourceHost( host );
-                m_resourceHosts.put( id, handler );
-            }
+            String id = host.getID();
+            ResourceHost handler = createDefaultResourceHost( host );
+            m_resourceHosts.put( id, handler );
         }
         
         //
@@ -301,34 +298,7 @@ class DefaultCacheHandler extends UnicastRemoteObject implements CacheHandler, C
         {
             getLogger().debug( "secondary initialization phase" );
         }
-
         m_model.addCacheListener( this );
-
-        HostModel[] hosts = m_model.getHostModels();
-        for( int i=0; i < hosts.length; i++ )
-        {
-            HostModel host = hosts[i];
-            if( null != host.getCodeBaseURI() )
-            {
-                try
-                {
-                    handleHostAddition( host );
-                }
-                catch( Throwable e )
-                {
-                    //
-                    // TODO: mark the host model as invalid by apply
-                    // the exception to the model
-                    //
-
-                    final String error =
-                      "Dropping custom resource host due to a deployment failure."
-                      + "\nHost ID: " + host.getID();
-                    getLogger().error( error, e );
-                }
-            }
-        }
-
         if( getLogger().isDebugEnabled() )
         {
             getLogger().debug( "cache subsystem established" );
@@ -738,94 +708,19 @@ class DefaultCacheHandler extends UnicastRemoteObject implements CacheHandler, C
     private ResourceHost createResourceHost( HostModel model )
       throws UnknownHostException, TransitException, IOException
     {
-        URI uri = model.getCodeBaseURI();
-        if( null == uri )
-        {
-            return createDefaultResourceHost( model );
-        }
-        else
-        {
-            return loadResourceHost( model );
-        }
-    }
-
-    protected ResourceHost loadResourceHost( HostModel model ) throws IOException
-    {
-        Class clazz = loadResourceHostClass( model );
-        Repository loader = Transit.getInstance().getRepository();
-        try
-        {
-            return (ResourceHost) loader.instantiate( clazz, new Object[]{model, m_registry} );
-        }
-        catch( Throwable e )
-        { 
-            final String error =  
-              "Unable to load request host due to an instantiation failure."
-              + "\nHost ID: " + model.getID();
-            throw new TransitException( error, e );
-        }
-    }
-
-    protected Class loadResourceHostClass( HostModel model ) throws IOException
-    {
-        URI uri = model.getCodeBaseURI();
-        Class clazz = (Class) m_plugins.get( uri );
-        if( null != clazz )
-        {
-            return clazz;
-        }
-        else
-        {
-            try
-            {
-                getLogger().debug( "loading host plugin: " + uri );
-                Repository loader = Transit.getInstance().getRepository();
-                ClassLoader classloader = Thread.currentThread().getContextClassLoader();
-                clazz = loader.getPluginClass( classloader, uri );
-            }
-            catch( Exception e )
-            {
-                final String error =
-                  "Unable to load a content handler plugin due to an unexpected exception.";
-                throw new TransitException( error, e );
-            }
-
-            if( ResourceHost.class.isAssignableFrom( clazz ) )
-            {
-                m_plugins.put( uri, clazz );
-                return clazz;
-            }
-            else
-            {
-                final String error =
-                  "Host plugin is not assignable to a net.dpml.transit.host.ResourceHost."
-                  + "\nPlugin URI: " + uri
-                  + "\nPlugin Class: " + clazz.getName();
-                throw new TransitException( error );
-            }
-        }
+        return createDefaultResourceHost( model );
     }
 
     private ResourceHost createDefaultResourceHost( HostModel model ) throws IOException
     {
         if( getLogger().isDebugEnabled() )
         {
-            if( model.isBootstrap() )
-            {
-                final String message =
-                  "Creating bootstrap host ["
-                   + model.getID()
-                   + "] on " + model.getBaseURL();
-                getLogger().debug( message );
-            }
-            else
-            {
-                final String message =
-                  "Creating host ["
-                   + model.getID()
-                   + "] on " + model.getBaseURL();
-                getLogger().debug( message );
-            }
+            final String message =
+              "Creating host ["
+              + model.getID()
+              + "] on " 
+              + model.getBaseURL();
+            getLogger().debug( message );
         }
         try
         {

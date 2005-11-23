@@ -24,8 +24,13 @@ import java.util.EventObject;
 import java.util.EventListener;
 
 import net.dpml.transit.Logger;
-import net.dpml.transit.store.CodeBaseStorage;
-import net.dpml.transit.model.*;
+import net.dpml.transit.info.CodeBaseDirective;
+import net.dpml.transit.info.ValueDirective;
+import net.dpml.transit.model.CodeBaseModel;
+import net.dpml.transit.model.CodeBaseListener;
+import net.dpml.transit.model.CodeBaseEvent;
+import net.dpml.transit.model.LocationEvent;
+import net.dpml.transit.model.ParametersEvent;
 
 /**
  * The abstract codebase is an implementation that monitors configuration changes 
@@ -42,9 +47,6 @@ abstract class DefaultCodeBaseModel extends DefaultModel implements CodeBaseMode
     // state
     // ------------------------------------------------------------------------
 
-    private final String m_id;
-    private final CodeBaseStorage m_home;
-
     private Value[] m_parameters;
     private URI m_uri;
 
@@ -53,95 +55,32 @@ abstract class DefaultCodeBaseModel extends DefaultModel implements CodeBaseMode
     // ------------------------------------------------------------------------
 
    /**
-    * Construction of a new codebase model.
-    * @param logger the assigned logging channel
-    * @param id the model id
-    * @param uri the codebase uri
-    * @param values the codebase parameters
-    * @exception RemoteException if a remote exception occurs
-    */
-    public DefaultCodeBaseModel( Logger logger, String id, URI uri, Value[] values )
-      throws RemoteException
-    {
-        super( logger );
-
-        m_id = id;
-        m_uri = uri;
-
-        if( null == values )
-        {
-            m_parameters = new Value[0];
-        }
-        else
-        {
-            m_parameters = values;
-        }
-        m_home = null;
-    }
-
-   /**
     * Construction of a new codebase model using a supplied codebase storage unit.
     * @param logger the assigned logging channel
     * @param home the codebase storage unit
     * @exception RemoteException if a remote exception occurs
     */
-    public DefaultCodeBaseModel( Logger logger, CodeBaseStorage home )
+    public DefaultCodeBaseModel( Logger logger, CodeBaseDirective directive )
       throws RemoteException
     {
         super( logger );
-        if( null == home )
+        if( null == directive )
         {
-            throw new NullPointerException( "home" );
+            throw new NullPointerException( "directive" );
         }
-        m_home = home;
-        m_id = home.getID();
-        m_uri = home.getCodeBaseURI();
-        m_parameters = home.getParameters();
+        m_uri = directive.getCodeBaseURI();
+        ValueDirective[] values = directive.getValueDirectives();
+        m_parameters = new Value[ values.length ];
+        for( int i=0; i<values.length; i++ )
+        {
+            ValueDirective value = values[i];
+            m_parameters[i] = new Construct( value );
+        }
     }
 
     // ------------------------------------------------------------------------
     // CodeBaseModel
     // ------------------------------------------------------------------------
-
-   /**
-    * Return the immutable resolver identifier.
-    * @return the resolver identifier
-    */
-    public String getID()
-    {
-        return m_id;
-    }
-
-   /**
-    * Set the codebase uri value.
-    * @param uri the codebase uri
-    */
-    public void setCodeBaseURI( URI uri )
-    {
-        setCodeBaseURI( uri, true );
-    }
-
-   /**
-    * Set the codebase uri value.
-    * @param uri the codebase uri
-    * @param notify if TRUE raise a notification event
-    */
-    protected void setCodeBaseURI( URI uri, boolean notify )
-    {
-        synchronized( getLock() )
-        {
-            m_uri = uri;
-            if( null != m_home )
-            {
-                m_home.setCodeBaseURI( uri );
-            }
-            if( notify )
-            {
-                CodeBaseEvent e = new LocationEvent( this, m_uri );
-                super.enqueueEvent( e );
-            }
-        }
-    }
 
    /**
     * Return the codebase uri.
@@ -186,36 +125,9 @@ abstract class DefaultCodeBaseModel extends DefaultModel implements CodeBaseMode
         }
     }
 
-   /**
-    * Set the array of parameters assigned to the codebase model.
-    * @param parameters the parameters array
-    */
-    public void setParameters( Value[] parameters )
-    {
-        synchronized( getLock() )
-        {
-            m_parameters = parameters;
-            if( null != m_home )
-            {
-                m_home.setParameters( parameters );
-            }
-            ParametersEvent e = new ParametersEvent( this, parameters );
-            super.enqueueEvent( e );
-        }
-    }
-
     // ------------------------------------------------------------------------
     // internals
     // ------------------------------------------------------------------------
-
-   /**
-    * Return the codebase storage object.
-    * @return the codebase storage
-    */
-    protected CodeBaseStorage getCodeBaseStorage()
-    {
-        return m_home;
-    }
 
    /**
     * Internal event handler.

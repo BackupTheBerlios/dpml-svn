@@ -28,33 +28,33 @@ import java.net.MalformedURLException;
 import java.net.PasswordAuthentication; 
 
 import net.dpml.transit.Logger;
-import net.dpml.transit.store.HostStorage;
-import net.dpml.transit.store.Removable;
-import net.dpml.transit.store.Strategy;
-import net.dpml.transit.store.PluginStrategy;
-import net.dpml.transit.store.LocalStrategy;
+import net.dpml.transit.info.HostDirective;
+import net.dpml.transit.model.HostModel;
+import net.dpml.transit.model.LayoutModel;
+import net.dpml.transit.model.LayoutRegistryModel;
+import net.dpml.transit.model.UnknownKeyException;
+import net.dpml.transit.model.DuplicateKeyException;
+import net.dpml.transit.model.HostListener;
+import net.dpml.transit.model.HostChangeEvent;
+import net.dpml.transit.model.HostLayoutEvent;
+import net.dpml.transit.model.HostPriorityEvent;
+import net.dpml.transit.model.HostNameEvent;
+import net.dpml.transit.model.RequestIdentifier;
 import net.dpml.transit.util.PropertyResolver;
-import net.dpml.transit.model.*;
 
 /**
- * Default implementation of a host manager. The implementation establishes
- * a preferences change listener on a supplied preferences instance representing
- * a named host.  The immutable host id corresponds to the supplied preference
- * node name.  Features of the host are resolved from preference node attributes
- * and consildated under the HostModel implementation.
+ * Default implementation of a host manager.
  *
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-class DefaultHostModel extends DisposableCodeBaseModel 
-  implements HostModel, DisposalListener, Comparable
+class DefaultHostModel extends DefaultModel implements HostModel, Comparable
 {
     private static final int DEFAULT_PRIORITY = 600;
 
-    private final HostStorage m_home;
     private final LayoutRegistryModel m_registry;
 
-    private String m_name;
+    private String m_id;
     private String m_base;
     private String m_index;
     private URL m_baseURL;
@@ -65,7 +65,6 @@ class DefaultHostModel extends DisposableCodeBaseModel
     private int m_priority = DEFAULT_PRIORITY;
     private RequestIdentifier m_identifier;
     private PasswordAuthentication m_authentication;
-    private boolean m_bootstrap = false;
 
     private Throwable m_error;
 
@@ -74,103 +73,47 @@ class DefaultHostModel extends DisposableCodeBaseModel
     // ------------------------------------------------------------------------
 
    /**
-    * Construction of a new host model.  
-    *
-    * @param logger the assigned logging channel
-    * @param registry the layout model registry 
-    * @param uri the codebase uri
-    * @param params the codebase parameters
-    * @param id the host model identifier
-    * @param base the host base url path
-    * @param index the host index path
-    * @param name the human readable host name
-    * @param trusted TRUE if this is a trusted host
-    * @param enabled TRUE if this host model is enabled
-    * @param priority the priority of this host
-    * @param layout the id of the layout model to assign to the host model
-    * @param auth a possibly null host authentication username and password
-    * @param scheme the host security scheme
-    * @param prompt the security prompt raised by the host
-    * @param bootstrap TRUE if this is a bootstrap host
-    * @exception UnknownKeyException if the layout id is unknown
-    * @exception MalformedURLException if the host base url path is malformed
-    * @exception RemoteException if a remote exception occurs
-    */
-    public DefaultHostModel( 
-      Logger logger, LayoutRegistryModel registry, URI uri, Value[] params, String id, String base, String index, 
-      String name, boolean trusted, boolean enabled, int priority, String layout, 
-      PasswordAuthentication auth, String scheme, String prompt, boolean bootstrap ) 
-      throws RemoteException, UnknownKeyException, MalformedURLException
-    {
-        super( logger, id, uri, params );
-
-        m_home = null;
-        m_registry = registry;
-
-        m_name = name;
-        m_trusted = trusted;
-        m_enabled = enabled;
-        m_priority = priority;
-        m_layout = registry.getLayoutModel( layout );
-        m_base = resolveBaseValue( base );
-        m_index = index;
-        m_baseURL = resolveBaseURL( id, m_base );
-        m_indexURL = resolveIndexURL( id, m_baseURL, m_index );
-        m_authentication = auth;
-        m_layout.addDisposalListener( this );
-        m_identifier = getRequestIdentifier( m_baseURL, scheme, prompt );
-        m_bootstrap = bootstrap;
-    }
-
-   /**
     * Creation of a new host model.
     *
     * @param logger the assigned logging channel
-    * @param home the host persistent storage home
+    * @param directive the host configuration directive
     * @param registry the layout model registry
     * @exception UnknownKeyException if the layout id is unknown
     * @exception MalformedURLException if the host base url path is malformed
     * @exception RemoteException if a remote exception occurs
     */
-    public DefaultHostModel( Logger logger, HostStorage home, LayoutRegistryModel registry ) 
+    public DefaultHostModel( Logger logger, HostDirective directive, LayoutRegistryModel registry ) 
       throws RemoteException, UnknownKeyException, MalformedURLException
     {
-        super( logger, home );
+        super( logger );
 
-        m_home = home;
         m_registry = registry;
 
-        m_name = home.getName();
-        m_trusted = home.getTrusted();
-        m_enabled = home.getEnabled();
-        m_priority = home.getPriority();
+        m_id = directive.getID();
+        m_trusted = directive.getTrusted();
+        m_enabled = directive.getEnabled();
+        m_priority = directive.getPriority();
 
-        m_base = resolveBaseValue( home.getBasePath() );
-        m_index = home.getIndexPath();
-        m_baseURL = resolveBaseURL( getID(), m_base );
-        m_indexURL = resolveIndexURL( getID(), m_baseURL, m_index );
-        m_authentication = home.getAuthentication();
-
-        String key = home.getLayoutModelKey();
-        m_layout = registry.getLayoutModel( key );
-        m_layout.addDisposalListener( this );
-
-        String scheme = home.getScheme();
-        String prompt = home.getPrompt();
-        m_identifier = getRequestIdentifier( m_baseURL, scheme, prompt );
-
-        Strategy strategy = home.getStrategy();
-        if( strategy instanceof PluginStrategy )
+        m_base = resolveBaseValue( directive.getHost() );
+        m_index = directive.getIndex();
+        m_baseURL = resolveBaseURL( m_id, m_base );
+        m_indexURL = resolveIndexURL( m_id, m_baseURL, m_index );
+        
+        String username = directive.getUsername();
+        if( null != username )
         {
-            PluginStrategy plugin = (PluginStrategy) strategy;
-            setCodeBaseURI( plugin.getURI(), false );
-            m_bootstrap = false;
+            m_authentication = new PasswordAuthentication( username, directive.getPassword() );
         }
         else
         {
-            LocalStrategy local = (LocalStrategy) strategy;
-            m_bootstrap = local.isBootstrap();
+            m_authentication = new PasswordAuthentication( null, new char[0] );
         }
+
+        String key = directive.getLayout();
+        m_layout = registry.getLayoutModel( key );
+        String scheme = directive.getScheme();
+        String prompt = directive.getPrompt();
+        m_identifier = getRequestIdentifier( m_baseURL, scheme, prompt );
     }
 
     //----------------------------------------------------------------------
@@ -180,204 +123,14 @@ class DefaultHostModel extends DisposableCodeBaseModel
    /**
     * Dispose of the model.
     */
-    public void dispose()
+    void dispose()
     {
         super.dispose();
-        try
-        {
-            m_layout.removeDisposalListener( this );
-        }
-        catch( RemoteException e )
-        {
-            boolean ignoreit = true;
-        }
-        if( ( null != m_home ) && ( m_home instanceof Removable ) )
-        {
-            Removable store = (Removable) m_home;
-            store.remove();
-        }
-    }
-
-    // ------------------------------------------------------------------------
-    // DisposalListener (listen to modification to the assigned layout)
-    // ------------------------------------------------------------------------
-
-   /**
-    * Notify the listener of the disposal of a layout.
-    * The implementation will always throw a VetoDisposalException to declare usage 
-    * of the layout model.
-    * @param event the disposal warning event
-    * @exception VetoDisposalException always thrown to veto layout removal
-    */
-    public void disposing( DisposalEvent event ) throws VetoDisposalException
-    {
-        final String id = getID();
-        final String message = "Layout currently assigned to host: " + id;
-        throw new VetoDisposalException( this, message );
-    }
-
-   /**
-    * Notify the listener of the disposal of the layout. 
-    * This method should never be invoked and will result in the logging 
-    * of an error.
-    */
-    public void disposed( DisposalEvent event )
-    {
-        setEnabled( false );
-        final String error = 
-          "Internal error."
-          + "\nUnexpected notification of disposal of an assigned layout."
-          + "\nHost set to disabled state."
-          + "\nHost: " + getID()
-          + "\nLayout: " + m_layout;
-        getLogger().error( error );
     }
 
     //----------------------------------------------------------------------
     // HostModel
     //----------------------------------------------------------------------
-
-   /**
-    * Update the state of the host model.
-    *
-    * @param base the host base url path
-    * @param index the host content index
-    * @param enabled the enabled status of the host
-    * @param trusted the trusted status of the host
-    * @param layout the assigned host layout identifier
-    * @param auth a possibly null host authentication username and password
-    * @param scheme the host security scheme
-    * @param prompt the security prompt raised by the host
-    * @exception UnknownKeyException if the layout id is unknown
-    * @exception MalformedURLException if the host base url path is malformed
-    * @exception BootstrapException if the host is a bootstrap host and a 
-    *   non-bootstrap layout is assigned
-    */
-    public void update( 
-      String base, String index, boolean enabled, boolean trusted, String layout, 
-      PasswordAuthentication auth, String scheme, String prompt ) 
-      throws BootstrapException, UnknownKeyException, MalformedURLException
-    {
-        synchronized( getLock() )
-        {
-            try
-            {
-                LayoutModel layoutModel = m_registry.getLayoutModel( layout );
-                setLayoutModel( layoutModel );
-
-                m_base = resolveBaseValue( base );
-                m_index = index;
-                m_baseURL = resolveBaseURL( getID(), m_base );
-                m_indexURL = resolveIndexURL( getID(), m_baseURL, m_index );
-
-                m_enabled = enabled;
-                m_trusted = trusted;
-                m_authentication = auth;
-                m_identifier = getRequestIdentifier( m_baseURL, scheme, prompt );
-            
-                if( null != m_home )
-                {
-                    m_home.setHostSettings( base, index, enabled, trusted, layout, auth, scheme, prompt );
-                }
-
-                HostChangeEvent e = 
-                  new HostChangeEvent( 
-                    this, m_baseURL, m_indexURL, m_identifier, auth, enabled, trusted );
-                enqueueEvent( e );
-            }
-            catch( RemoteException e )
-            {
-                throw new ModelRuntimeException( "remote-exception", e );
-            }
-
-        }
-    }
-
-   /**
-    * Set the human readable name of the host to the supplied value.
-    * @param name the human readable name
-    */
-    public void setName( String name )
-    {
-        synchronized( getLock() )
-        {
-            m_name = name;
-
-            if( null != m_home )
-            {
-                m_home.setName( name );
-            }
-
-            HostNameEvent e = new HostNameEvent( this, m_name );
-            enqueueEvent( e );
-        }
-    }
-
-   /**
-    * Set the host priority to the supplied value.
-    * @param priority the host priority
-    */
-    public void setPriority( int priority )
-    {
-        synchronized( getLock() )
-        {
-            m_priority = priority;
-
-            if( null != m_home )
-            {
-                m_home.setPriority( priority );
-            }
-
-            HostPriorityEvent e = new HostPriorityEvent( this, m_priority );
-            enqueueEvent( e );
-        }
-    }
-
-   /**
-    * If this is a bootstrap host then resolver ids must map to
-    * a resolver model that is based on a classname as opposed to 
-    * plugin (because bootstrap hosts are repository indepedent)
-    *
-    * @param layout the layout model to assign
-    * @exception BootstrapException if the host model is a bootstrap host and 
-    *   the assigned layout model is not a bootstrap layout model
-    */
-    public void setLayoutModel( LayoutModel layout ) throws BootstrapException
-    {
-        synchronized( getLock() )
-        {
-            try
-            {
-                checkLayout( layout );
-                m_layout.removeDisposalListener( this );
-                layout.addDisposalListener( this );
-                m_layout = layout;
-
-                if( null != m_home )
-                {
-                    String id = layout.getID();
-                    m_home.setLayoutModelKey( id );
-                }
-
-                HostLayoutEvent e = new HostLayoutEvent( this, m_layout );
-                enqueueEvent( e );
-            }
-            catch( RemoteException e )
-            {
-                throw new ModelRuntimeException( "remote-exception", e );
-            }
-        }
-    }
-
-   /**
-    * Return TRUE if this is a bootstrap host. Bootstrap hosts shall be 
-    * provided such that they independent of the Transit respository 
-    * service.
-    */
-    public boolean isBootstrap()
-    {
-        return m_bootstrap;
-    }
 
    /**
     * Return the host priority.
@@ -392,14 +145,14 @@ class DefaultHostModel extends DisposableCodeBaseModel
     }
 
    /**
-    * Return the name of the resource host.  The value returned may be used to uniquely 
+    * Return the id of the resource host.  The value returned may be used to uniquely 
     * identify the host within the set of managed hosts. 
     */
-    public String getHostName()
+    public String getID()
     {
         synchronized( getLock() )
         {
-            return m_name;
+            return m_id;
         }
     }
 
@@ -570,36 +323,6 @@ class DefaultHostModel extends DisposableCodeBaseModel
     // internal
     //----------------------------------------------------------------------
 
-    private void checkLayout( LayoutModel layout ) throws BootstrapException
-    {
-        if( isBootstrap() )
-        {
-            try
-            {
-                if( null != layout.getCodeBaseURI() )
-                {
-                    final String error = 
-                      "Illegal attempt to assign a plugin based layout to a bootstrap host."
-                      + "\nHost ID: " + getID()
-                      + "\nLayout ID: " + layout.getID();
-                    throw new BootstrapException( error );
-                }
-            }
-            catch( RemoteException e )
-            {
-                throw new ModelRuntimeException( "remote-exception", e );
-            }
-        }
-    }
-
-    private void setEnabled( boolean enabled )
-    {
-        synchronized( getLock() )
-        {
-            m_enabled = enabled;
-        }
-    }
-
    /**
     * Internal event handler.
     * @param event the event to handle
@@ -621,10 +344,6 @@ class DefaultHostModel extends DisposableCodeBaseModel
         else if( event instanceof HostNameEvent )
         {
             processHostNameEvent( (HostNameEvent) event );
-        }
-        else
-        {
-            super.processEvent( event );
         }
     }
 
@@ -784,7 +503,8 @@ class DefaultHostModel extends DisposableCodeBaseModel
         }
         try
         {
-            return new URL( path );
+            String spec = PropertyResolver.resolve( path );
+            return new URL( spec );
         }
         catch( MalformedURLException e )
         {

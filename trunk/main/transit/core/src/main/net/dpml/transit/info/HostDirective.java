@@ -53,7 +53,7 @@ public class HostDirective extends AbstractDirective
     * @param layout the name of the layout strategy
     * @param scheme the security scheme (may be null)
     * @param prompt authentication prompt (may be null)
-    * @exception NullPointerException if the id, host or layout is null
+    * @exception NullPointerException if the id, host, or layout are null
     */
     public HostDirective( 
       String id, int priority, String host, String index, String username, char[] password, boolean enabled, 
@@ -82,8 +82,25 @@ public class HostDirective extends AbstractDirective
         m_enabled = enabled;
         m_trusted = trusted;
         m_layout = layout;
-        m_scheme = scheme;
-        m_prompt = prompt;
+        
+        if( null == scheme )
+        {
+            m_scheme = "";
+        }
+        else
+        {
+            m_scheme = scheme;
+        }
+        
+        if( null == prompt )
+        {
+            m_prompt = "";
+        }
+        else
+        {
+            m_prompt = prompt;
+        }
+        
     }
     
    /**

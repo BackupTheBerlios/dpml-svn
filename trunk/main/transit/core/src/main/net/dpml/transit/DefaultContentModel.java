@@ -24,9 +24,10 @@ import java.util.EventObject;
 import java.util.EventListener;
 
 import net.dpml.transit.Logger;
-import net.dpml.transit.store.ContentStorage;
-import net.dpml.transit.store.Removable;
-import net.dpml.transit.model.*;
+import net.dpml.transit.info.ContentDirective;
+import net.dpml.transit.model.ContentModel;
+import net.dpml.transit.model.ContentListener;
+import net.dpml.transit.model.ContentEvent;
 
 /**
  * Default implementation of a content model that maintains an active 
@@ -35,40 +36,18 @@ import net.dpml.transit.model.*;
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-class DefaultContentModel extends DisposableCodeBaseModel implements ContentModel
+class DefaultContentModel extends DefaultCodeBaseModel implements ContentModel
 {
     //----------------------------------------------------------------------
     // state
     //----------------------------------------------------------------------
 
-    private final ContentStorage m_home;
-    private final String m_type;
-
-    private String m_title;
+    private final String m_id;
+    private final String m_title;
 
     //----------------------------------------------------------------------
     // constructor
     //----------------------------------------------------------------------
-
-   /**
-    * Construction of a new content model.
-    * @param logger the assigned logging channel
-    * @param id the model id
-    * @param uri the codebase uri
-    * @param parameters codebase constructor parameters
-    * @param type the content type key
-    * @param title the title of the content type
-    * @exception RemoteException if a remote exception occurs
-    */
-    public DefaultContentModel( 
-       Logger logger, String id, URI uri, Value[] parameters, String type, String title ) throws RemoteException
-    {
-        super( logger, id, uri, parameters );
-
-        m_home = null;
-        m_type = type;
-        m_title = title;
-    }
 
    /**
     * Construction of a new content model using a supplied storage unit.
@@ -76,13 +55,12 @@ class DefaultContentModel extends DisposableCodeBaseModel implements ContentMode
     * @param home the content model persistent storage home
     * @exception RemoteException if a remote exception occurs
     */
-    public DefaultContentModel( Logger logger, ContentStorage home ) throws RemoteException
+    public DefaultContentModel( Logger logger, ContentDirective directive ) throws RemoteException
     {
-        super( logger, home );
+        super( logger, directive );
 
-        m_home = home;
-        m_type = home.getType();
-        m_title = home.getTitle();
+        m_id = directive.getID();
+        m_title = directive.getTitle();
     }
 
     //----------------------------------------------------------------------
@@ -90,12 +68,12 @@ class DefaultContentModel extends DisposableCodeBaseModel implements ContentMode
     //----------------------------------------------------------------------
 
    /**
-    * Return the immutable content type identifier.
-    * @return the content type
+    * Return the immutable resolver identifier.
+    * @return the resolver identifier
     */
-    public String getContentType()
+    public String getID()
     {
-        return m_type;
+        return m_id;
     }
 
    /**
@@ -132,14 +110,9 @@ class DefaultContentModel extends DisposableCodeBaseModel implements ContentMode
    /**
     * Dispose of the content model.
     */
-    public void dispose()
+    void dispose()
     {
         super.dispose();
-        if( null != m_home && ( m_home instanceof Removable ) )
-        {
-            Removable store = (Removable) m_home;
-            store.remove();
-        }
     }
 
     // ------------------------------------------------------------------------

@@ -57,13 +57,13 @@
       <include name="**/DefaultHostModel.class"/>
       <include name="**/DefaultContentModel.class"/>
       <include name="**/DefaultLayoutModel.class"/>
+      <include name="**/StandardLayoutModel.class"/>
       <include name="**/DefaultCacheModel.class"/>
       <include name="**/DefaultContentRegistryModel.class"/>
       <include name="**/DefaultLayoutRegistryModel.class"/>
       <include name="**/DefaultRepositoryModel.class"/>
       <include name="**/DefaultTransitModel.class"/>
       <include name="**/DefaultProxyModel.class"/>
-      <include name="**/DefaultTransitRegistryModel.class"/>
     </rmic>
     <rmic base="${target.classes.dir}">
       <include name="**/DefaultCacheHandler.class"/>

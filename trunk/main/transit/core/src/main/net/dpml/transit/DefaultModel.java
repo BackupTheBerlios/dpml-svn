@@ -152,7 +152,17 @@ public abstract class DefaultModel extends UnicastRemoteObject
     {
         return m_logger;
     }
-
+    
+    synchronized void dispose()
+    {
+        EventListener[] listeners = listeners();
+        for( int i=0; i < listeners.length; i++ )
+        {
+            EventListener listener = listeners[i];
+            removeListener( listener );
+        }
+    }
+    
    /**
     * Add a listener to the set of listeners handled by the model.
     * @param listener the event listener

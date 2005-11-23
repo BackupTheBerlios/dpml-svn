@@ -27,22 +27,20 @@ import java.rmi.RemoteException;
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-public interface LayoutModel extends CodeBaseModel, Disposable
+public interface LayoutModel extends CodeBaseModel
 {
    /**
-    * Return true if this is a bootstrap layout model.
-    *
-    * @return the bootstrap status of the resolver.
+    * Return the immutable model identifier.
+    * @return the resolver identifier
     * @exception RemoteException if a remote exception occurs
     */
-    boolean isBootstrap() throws RemoteException;
+    String getID() throws RemoteException;
 
    /**
     * Return a possibly null classname.  If the classname is not null the 
-    * manager represents a bootstrap layout model. Bootstrap model plugin
-    * uris shall return a null value.
+    * manager represents a bootstrap layout model.
     *
-    * @return the resolver classname
+    * @return the layout classname
     * @exception RemoteException if a remote exception occurs
     */
     String getClassname() throws RemoteException;
@@ -53,13 +51,6 @@ public interface LayoutModel extends CodeBaseModel, Disposable
     * @exception RemoteException if a remote exception occurs
     */
     public String getTitle() throws RemoteException;
-
-   /**
-    * Set the title of the layout model.
-    * @param title the new title
-    * @exception RemoteException if a remote exception occurs
-    */
-    void setTitle( String title ) throws RemoteException;
 
    /**
     * Add a layout model listener.

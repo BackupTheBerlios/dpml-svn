@@ -25,9 +25,13 @@ import java.util.EventObject;
 import java.util.EventListener;
 
 import net.dpml.transit.Logger;
-import net.dpml.transit.store.LayoutRegistryHome;
-import net.dpml.transit.store.LayoutStorage;
-import net.dpml.transit.model.*;
+import net.dpml.transit.info.LayoutDirective;
+import net.dpml.transit.model.LayoutRegistryModel;
+import net.dpml.transit.model.LayoutModel;
+import net.dpml.transit.model.LayoutRegistryListener;
+import net.dpml.transit.model.LayoutRegistryEvent;
+import net.dpml.transit.model.DuplicateKeyException;
+import net.dpml.transit.model.UnknownKeyException;
 
 /**
  * Default implementation of a layout registry model that maitains 
@@ -36,7 +40,7 @@ import net.dpml.transit.model.*;
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-class DefaultLayoutRegistryModel extends DisposableCodeBaseModel 
+class DefaultLayoutRegistryModel extends DefaultModel 
   implements LayoutRegistryModel
 {
     // ------------------------------------------------------------------------
@@ -45,8 +49,6 @@ class DefaultLayoutRegistryModel extends DisposableCodeBaseModel
 
     private final List m_list = new LinkedList();
 
-    private final LayoutRegistryHome m_home;
-
     // ------------------------------------------------------------------------
     // constructor
     // ------------------------------------------------------------------------
@@ -54,22 +56,30 @@ class DefaultLayoutRegistryModel extends DisposableCodeBaseModel
    /**
     * Creation of a new layout registry model.
     * @param logger the assinged logging channel
-    * @param home the layout registry persistent storage home
-    * @exception DuplicateKeyException if a duplicate layout is declared in the assingned home
+    * @param layouts an array of custom layout configurations
+    * @exception DuplicateKeyException if a duplicate layout is declared
     * @exception RemoteException if a remote exception occurs
     */
-    public DefaultLayoutRegistryModel( Logger logger, LayoutRegistryHome home )
+    public DefaultLayoutRegistryModel( Logger logger, LayoutDirective[] layouts )
       throws DuplicateKeyException, RemoteException
     {
-        super( logger, home );
+        super( logger );
+        
+        // add the standard layouts
+        
+        LayoutModel classic = 
+          new StandardLayoutModel( logger, "classic", "Classic", ClassicLayout.class.getName() );
+        addLayoutModel( classic, false );
+        LayoutModel eclipse = 
+          new StandardLayoutModel( logger, "eclipse", "Eclipse", EclipseLayout.class.getName() );
+        addLayoutModel( eclipse, false );
+        
+        // add the custom layouts
 
-        m_home = home;
-
-        LayoutStorage[] stores = home.getInitialLayoutStores();
-        for( int i=0; i < stores.length; i++ )
+        for( int i=0; i < layouts.length; i++ )
         {
-            LayoutStorage store = stores[i];
-            addLayoutModel( store, false );
+            LayoutDirective directive = layouts[i];
+            addLayoutModel( directive, false );
         }
     }
 
@@ -94,27 +104,6 @@ class DefaultLayoutRegistryModel extends DisposableCodeBaseModel
     public void removeLayoutRegistryListener( LayoutRegistryListener listener )
     {
         super.removeListener( listener );
-    }
-
-   /**
-    * Add a new layout model to the registry.
-    * @param id the layout model identity
-    * @exception DuplicateKeyException if a layout model of the same id already exists
-    */
-    public void addLayoutModel( String id ) throws DuplicateKeyException
-    {
-        LayoutStorage store = m_home.getLayoutStorage( id );
-        addLayoutModel( store, true );
-    }
-
-   /**
-    * Add a new layout model to the registry.
-    * @param model the layout model
-    * @exception DuplicateKeyException if a layout model of the same id already exists
-    */
-    public void addLayoutModel( LayoutModel model ) throws DuplicateKeyException
-    {
-        addLayoutModel( model, true );
     }
 
    /**
@@ -164,49 +153,18 @@ class DefaultLayoutRegistryModel extends DisposableCodeBaseModel
         }
     }
 
-   /**
-    * Remove a layout model from the registry.
-    * @param model the layout model to be removed
-    * @exception ModelReferenceException if the layout is in use
-    */
-    public void removeLayoutModel( LayoutModel model ) throws ModelReferenceException
-    {
-        synchronized( getLock() )
-        {
-            try
-            {
-                try
-                {
-                    model.dispose();
-                }
-                catch( RemoteException remote )
-                {
-                    boolean ignoreit = true;
-                }
-                m_list.remove( model );
-                LayoutRemovedEvent event = new LayoutRemovedEvent( this, model );
-                enqueueEvent( event );
-            }
-            catch( VetoDisposalException e ) 
-            {
-                throw new ModelReferenceException( this, model );
-            }
-            
-        }
-    }
-
     // ------------------------------------------------------------------------
     // impl
     // ------------------------------------------------------------------------
 
-    private void addLayoutModel( LayoutStorage store, boolean notify ) 
+    private void addLayoutModel( LayoutDirective directive, boolean notify ) 
       throws DuplicateKeyException
     {
-        String id = store.getID();
+        String id = directive.getID();
         Logger logger = getLogger().getChildLogger( id );
         try
         {
-            LayoutModel model = new DefaultLayoutModel( logger, store );
+            LayoutModel model = new DefaultLayoutModel( logger, directive );
             addLayoutModel( model, notify );
         }
         catch( RemoteException e )
@@ -251,10 +209,6 @@ class DefaultLayoutRegistryModel extends DisposableCodeBaseModel
         if( event instanceof LayoutRegistryEvent )
         {
             processLayoutRegistryEvent( (LayoutRegistryEvent) event );
-        }
-        else
-        {
-            super.processEvent( event );
         }
     }
 

@@ -41,7 +41,8 @@ import net.dpml.transit.model.UnknownKeyException;
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-class DefaultContentRegistry extends UnicastRemoteObject implements Service, ContentRegistry, ContentRegistryListener
+class DefaultContentRegistry extends UnicastRemoteObject 
+  implements Service, ContentRegistry, ContentRegistryListener
 {
     // ------------------------------------------------------------------------
     // state
@@ -145,7 +146,7 @@ class DefaultContentRegistry extends UnicastRemoteObject implements Service, Con
                 {
                      final String error = 
                        "Internal error while attempting to add a content handler."
-                       + "\nContent Type: " + model.getContentType()
+                       + "\nContent Type: " + model.getID()
                        + "\nPlugin URI: " + model.getCodeBaseURI();
                      m_logger.error( error, e );
                 }
@@ -170,7 +171,7 @@ class DefaultContentRegistry extends UnicastRemoteObject implements Service, Con
             {
                  final String error = 
                    "Internal error while attempting to remove a content handler."
-                   + "\nContent Type: " + model.getContentType()
+                   + "\nContent Type: " + model.getID()
                    + "\nPlugin URI: " + model.getCodeBaseURI();
                  m_logger.error( error, e );
             }
@@ -190,7 +191,7 @@ class DefaultContentRegistry extends UnicastRemoteObject implements Service, Con
             {
                 Class clazz = loadContentHandlerClass( model );
                 Repository loader = Transit.getInstance().getRepository();
-                String type =  model.getContentType();
+                String type =  model.getID();
                 Logger logger = getLogger().getChildLogger( type );
                 Value[] params = model.getParameters();
                 Map map = new Hashtable();
@@ -205,7 +206,7 @@ class DefaultContentRegistry extends UnicastRemoteObject implements Service, Con
                 {
                     final String error = 
                       "Unable to load content handler due to an instantiation failure."
-                      + "\nContent Type: " + model.getContentType();
+                      + "\nContent Type: " + model.getID();
                     throw new TransitException( error, e );
                 }
                 m_handlers.put( model, handler );

@@ -31,11 +31,11 @@ import java.rmi.RemoteException;
 public interface ContentModel extends CodeBaseModel
 {
    /**
-    * Return the immutable content type identifier.
-    * @return the content type
+    * Return the immutable model identifier.
+    * @return the resolver identifier
     * @exception RemoteException if a remote exception occurs
     */
-    String getContentType() throws RemoteException;
+    String getID() throws RemoteException;
 
    /**
     * Returns the human readable name of the content type handler.

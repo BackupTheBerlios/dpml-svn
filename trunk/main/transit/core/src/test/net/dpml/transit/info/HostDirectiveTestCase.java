@@ -37,8 +37,8 @@ public final class HostDirectiveTestCase extends AbstractTestCase
     private boolean m_enabled = true;
     private boolean m_trusted = true;
     private String m_layout = "classic";
-    private String m_scheme = null;
-    private String m_prompt = null;
+    private String m_scheme = "";
+    private String m_prompt = "";
     
     public void testID() throws Exception
     {

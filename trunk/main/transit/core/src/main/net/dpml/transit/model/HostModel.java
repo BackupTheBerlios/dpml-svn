@@ -34,7 +34,7 @@ import java.rmi.RemoteException;
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-public interface HostModel extends CodeBaseModel, Disposable
+public interface HostModel extends Model
 {
    /**
     * HTTP port number.
@@ -58,22 +58,6 @@ public interface HostModel extends CodeBaseModel, Disposable
     * @exception RemoteException if a remote exception occurs
     */
     String getID() throws RemoteException;
-
-   /**
-    * Return TRUE if this is a bootstrap host. Bootstrap hosts shall be 
-    * provided such that they independent of the Transit respository 
-    * service.
-    * @return the bootstrap flag
-    * @exception RemoteException if a remote exception occurs
-    */
-    boolean isBootstrap() throws RemoteException;
-
-   /**
-    * Return the name of the resource host.
-    * @return the host name
-    * @exception RemoteException if a remote exception occurs
-    */
-    String getHostName() throws RemoteException;
 
    /**
     * Return the host priority.
@@ -129,14 +113,14 @@ public interface HostModel extends CodeBaseModel, Disposable
     * @return the password authentication credentials
     * @exception RemoteException if a remote exception occurs
     */
-    public PasswordAuthentication getAuthentication() throws RemoteException; 
+    PasswordAuthentication getAuthentication() throws RemoteException; 
 
    /**
     * Return the host request identifier.
     * @return the identifier
     * @exception RemoteException if a remote exception occurs
     */
-    public RequestIdentifier getRequestIdentifier() throws RemoteException; 
+    RequestIdentifier getRequestIdentifier() throws RemoteException; 
 
    /**
     * Return the layout strategy model.
@@ -144,53 +128,6 @@ public interface HostModel extends CodeBaseModel, Disposable
     * @exception RemoteException if a remote exception occurs
     */
     LayoutModel getLayoutModel() throws RemoteException;
-
-   /**
-    * Set the human readable name of the host to the supplied value.
-    *
-    * @param name the human readable name
-    * @exception RemoteException if a remote exception occurs
-    */
-    void setName( String name ) throws RemoteException;
-
-   /**
-    * Set the host priority to the supplied value.
-    * @param priority the host priority
-    * @exception RemoteException if a remote exception occurs
-    */
-    void setPriority( int priority ) throws RemoteException;
-
-   /**
-    * Set the layout model assigned to the host.
-    *
-    * @param layout the layout model to assign
-    * @exception BootstrapException if the host model is a bootstrap host and 
-    *   the assigned layout model is not a bootstrap layout model
-    * @exception RemoteException if a remote exception occurs
-    */
-    void setLayoutModel( LayoutModel layout ) throws BootstrapException, RemoteException;
-
-   /**
-    * Update the state of the host model.
-    *
-    * @param base the host base url path
-    * @param index the host content index
-    * @param enabled the enabled status of the host
-    * @param trusted the trusted status of the host
-    * @param layout the assigned host layout identifier
-    * @param auth a possibly null host authentication username and password
-    * @param scheme the host security scheme
-    * @param prompt the security prompt raised by the host
-    * @exception UnknownKeyException if the layout id is unknown
-    * @exception MalformedURLException if the host base url path is malformed
-    * @exception BootstrapException if the host is a bootstrap host and a 
-    *   non-bootstrap layout is assigned
-    * @exception RemoteException if a remote exception occurs
-    */
-    void update( 
-      String base, String index, boolean enabled, boolean trusted, String layout, 
-      PasswordAuthentication auth, String scheme, String prompt ) 
-      throws BootstrapException, UnknownKeyException, MalformedURLException, RemoteException;
 
    /**
     * Add a host change listener to the director.

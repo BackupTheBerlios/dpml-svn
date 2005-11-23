@@ -24,21 +24,21 @@ import java.util.EventObject;
 import java.util.EventListener;
 
 import net.dpml.transit.Logger;
-import net.dpml.transit.info.LayoutDirective;
-import net.dpml.transit.model.LayoutModel;
-import net.dpml.transit.model.LayoutListener;
-import net.dpml.transit.model.LayoutEvent;
+import net.dpml.transit.store.LayoutStorage;
+import net.dpml.transit.store.Removable;
+import net.dpml.transit.store.LocalStrategy;
+import net.dpml.transit.store.PluginStrategy;
+import net.dpml.transit.store.Strategy;
+import net.dpml.transit.model.*;
 
 /**
- * The DefaultLayoutModel is a model supplied to a layout strategy handler. It 
- * provides two mdes of construction - one dealing with local layout handlers
- * (the classic layout and the ecli8pse layout) and the second dealing with
- * plugin layout strategies.
+ * The StandardLayoutModel represents a standard layout included with the 
+ * core Transit system.
  *
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-class DefaultLayoutModel extends DefaultCodeBaseModel implements LayoutModel
+class StandardLayoutModel extends DefaultModel implements LayoutModel
 {
     //----------------------------------------------------------------------
     // state
@@ -46,6 +46,7 @@ class DefaultLayoutModel extends DefaultCodeBaseModel implements LayoutModel
 
     private final String m_id;
     private final String m_title;
+    private final String m_classname;
 
     //----------------------------------------------------------------------
     // constructor
@@ -57,13 +58,15 @@ class DefaultLayoutModel extends DefaultCodeBaseModel implements LayoutModel
     * @param directive the layout configuration
     * @exception RemoteException if a remote exception occurs
     */
-    public DefaultLayoutModel( final Logger logger, final LayoutDirective directive )
+    public StandardLayoutModel( 
+      final Logger logger, final String id, final String title, final String classname )
       throws RemoteException
     {
-        super( logger, directive );
+        super( logger );
 
-        m_id = directive.getID();
-        m_title = directive.getTitle();
+        m_id = id;
+        m_title = title;
+        m_classname = classname;
     }
 
     //----------------------------------------------------------------------
@@ -71,12 +74,15 @@ class DefaultLayoutModel extends DefaultCodeBaseModel implements LayoutModel
     //----------------------------------------------------------------------
 
    /**
-    * Returns the human readable name of the resolver.
-    * @return the resolver human readable name
+    * Return a possibly null classname.  If the classname is not null the 
+    * manager represents a bootstrap layout model.
+    *
+    * @return the layout classname
+    * @exception RemoteException if a remote exception occurs
     */
-    public String getID()
+    public String getClassname()
     {
-        return m_id;
+        return m_classname;
     }
 
    /**
@@ -86,15 +92,6 @@ class DefaultLayoutModel extends DefaultCodeBaseModel implements LayoutModel
     public String getTitle()
     {
         return m_title;
-    }
-
-   /**
-    * Returns the layout classname.
-    * @return the classname (always returns null)
-    */
-    public String getClassname()
-    {
-        return null;
     }
 
    /**
@@ -116,13 +113,66 @@ class DefaultLayoutModel extends DefaultCodeBaseModel implements LayoutModel
     }
 
     //----------------------------------------------------------------------
+    // CodeBaseModel
+    //----------------------------------------------------------------------
+    
+   /**
+    * Return the immutable model identifier.
+    * @return the resolver identifier
+    * @exception RemoteException if a remote exception occurs
+    */
+    public String getID()
+    {
+        return m_id;
+    }
+
+   /**
+    * Return the uri of the plugin to be used for the subsystem.
+    * @return the codebase plugin uri
+    * @exception RemoteException if a remote exception occurs
+    */
+    public URI getCodeBaseURI()
+    {
+        return null;
+    }
+
+   /**
+    * Add a codebase listener to the model.
+    * @param listener the listener to add
+    * @exception RemoteException if a remote exception occurs
+    */
+    public void addCodeBaseListener( CodeBaseListener listener )
+    {
+    }
+
+   /**
+    * Remove a codebase listener from the model.
+    * @param listener the listener to remove
+    * @exception RemoteException if a remote exception occurs
+    */
+    public void removeCodeBaseListener( CodeBaseListener listener )
+    {
+    }
+
+   /**
+    * Return the array of codebase parameter values.
+    *
+    * @return the parameter value array
+    * @exception RemoteException if a remote exception occurs
+    */
+    public Value[] getParameters()
+    {
+        return new Value[0];
+    }
+    
+    //----------------------------------------------------------------------
     // Disposable
     //----------------------------------------------------------------------
 
    /**
     * Dispose of the layout model.
     */
-    public void dispose()
+    void dispose()
     {
         super.dispose();
     }
@@ -141,10 +191,6 @@ class DefaultLayoutModel extends DefaultCodeBaseModel implements LayoutModel
         {
             processLayoutEvent( (LayoutEvent) event );
         }
-        else
-        {
-            super.processEvent( event );
-        }
     }
 
     private void processLayoutEvent( LayoutEvent event )
@@ -155,7 +201,7 @@ class DefaultLayoutModel extends DefaultCodeBaseModel implements LayoutModel
             EventListener eventListener = listeners[i];
             if( eventListener instanceof LayoutListener )
             {
-                LayoutListener listener = (LayoutListener) eventListener;
+                LayoutListener listener = (LayoutListener ) eventListener;
                 try
                 {
                     listener.titleChanged( event );

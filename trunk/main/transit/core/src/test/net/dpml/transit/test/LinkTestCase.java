@@ -31,6 +31,16 @@ import junit.framework.TestCase;
 import net.dpml.transit.artifact.ArtifactNotFoundException;
 import net.dpml.transit.link.Link;
 import net.dpml.transit.util.StreamUtils;
+import net.dpml.transit.info.CacheDirective;
+import net.dpml.transit.info.TransitDirective;
+import net.dpml.transit.info.LayoutDirective;
+import net.dpml.transit.info.HostDirective;
+import net.dpml.transit.info.ContentDirective;
+import net.dpml.transit.monitor.LoggingAdapter;
+import net.dpml.transit.model.TransitModel;
+import net.dpml.transit.model.HostModel;
+import net.dpml.transit.Transit;
+import net.dpml.transit.DefaultTransitModel;
 
 /**
  *
@@ -39,28 +49,41 @@ import net.dpml.transit.util.StreamUtils;
  */
 public class LinkTestCase extends TestCase
 {
-    static
+    static Transit TRANSIT = setupTransit();
+    
+    private static Transit setupTransit()
     {
-        System.setProperty( 
-           "java.util.prefs.PreferencesFactory", 
-           "net.dpml.transit.store.LocalPreferencesFactory" );
-        System.setProperty( "dpml.transit.profile", "test-link" );
         System.setProperty( "java.protocol.handler.pkgs", "net.dpml.transit" );
         try
         {
-            String authority = new File( "target/test" ).toURL().toString();
-            System.setProperty( "dpml.transit.authority", authority );
+            new File( "target/test/cache" ).delete();
+            CacheDirective cache =
+              new CacheDirective(
+                "${user.dir}/target/test/cache",
+                "file:${user.dir}/target/test/trusted",
+                CacheDirective.LAYOUT,
+                new LayoutDirective[0],
+                new HostDirective[0],
+                new ContentDirective[0] );
+            TransitDirective directive = new TransitDirective( null, cache );
+            LoggingAdapter logger = new LoggingAdapter( "test" );
+            TransitModel model = new DefaultTransitModel( logger, directive );
+            return Transit.getInstance( model );
         }
         catch( Throwable e )
         {
             e.printStackTrace();
+            return null;
         }
     }
-
-    protected void setUp() throws Exception
+    
+    public void setUp() throws Exception
     {
-        new File( "target/test/cache" ).delete();
-    }
+        if( null == TRANSIT )
+        {
+            throw new IllegalStateException( "TRANSIT" );
+        }
+    } 
 
     /**
      * Constructor
