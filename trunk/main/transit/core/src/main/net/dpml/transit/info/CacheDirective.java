@@ -29,8 +29,12 @@ import java.util.Arrays;
 public class CacheDirective extends AbstractDirective
 {
     public static final String CACHE_PATH = "${dpml.data}/cache";
-    public static final String LOCAL_PATH = "${dpml.system}/local";
+    public static final String LOCAL_PATH = "file:${dpml.system}/local";
     public static final String LAYOUT = "classic";
+    public static final LayoutDirective[] EMPTY_LAYOUTS = new LayoutDirective[0];
+    public static final HostDirective[] EMPTY_HOSTS = new HostDirective[0];
+    public static final ContentDirective[] EMPTY_CONTENT = new ContentDirective[0];
+    
     
     private final String m_cache;
     private final String m_layout;
@@ -45,8 +49,7 @@ public class CacheDirective extends AbstractDirective
     public CacheDirective()
     {
         this( 
-          CACHE_PATH, LOCAL_PATH, LAYOUT, new LayoutDirective[0],
-          new HostDirective[0], new ContentDirective[0] );
+          CACHE_PATH, LOCAL_PATH, LAYOUT, EMPTY_LAYOUTS, EMPTY_HOSTS, EMPTY_CONTENT );
     }
     
    /**

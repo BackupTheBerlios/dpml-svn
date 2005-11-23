@@ -464,7 +464,7 @@ public final class Main implements ShutdownHandler
         }
     }
 
-    private TransitModel getTransitModel( String[] args ) throws RemoteException
+    private TransitModel getTransitModel( String[] args ) throws Exception
     {
         //
         // TODO: improve this so that we can direct the selection of the transit model
@@ -473,7 +473,7 @@ public final class Main implements ShutdownHandler
         //
 
         Logger logger = getLogger();
-        return new DefaultTransitModel( logger );
+        return DefaultTransitModel.getDefaultModel( logger );
     }
 
     private void handleGet( Logger logger, String[] args, String path ) throws Exception

@@ -35,7 +35,6 @@ import net.dpml.transit.info.LayoutDirective;
 import net.dpml.transit.info.CacheDirective;
 import net.dpml.transit.info.HostDirective;
 import net.dpml.transit.info.ContentDirective;
-import net.dpml.transit.store.HostStorage;
 import net.dpml.transit.model.CacheModel;
 import net.dpml.transit.model.LayoutModel;
 import net.dpml.transit.model.LayoutRegistryModel;

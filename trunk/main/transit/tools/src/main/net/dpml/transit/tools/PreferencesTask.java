@@ -23,7 +23,7 @@ import java.io.FileOutputStream;
 import java.io.BufferedOutputStream;
 import java.util.prefs.Preferences;
 
-import net.dpml.transit.store.LocalPreferences;
+import net.dpml.transit.util.LocalPreferences;
 
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Project;

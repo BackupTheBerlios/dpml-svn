@@ -25,6 +25,7 @@ import java.util.EventObject;
 import net.dpml.transit.Logger;
 import net.dpml.transit.TransitError;
 import net.dpml.transit.monitor.LoggingAdapter;
+import net.dpml.transit.info.HostDirective;
 import net.dpml.transit.info.CacheDirective;
 import net.dpml.transit.info.ProxyDirective;
 import net.dpml.transit.info.TransitDirective;
@@ -49,7 +50,46 @@ public class DefaultTransitModel extends DefaultModel implements TransitModel
     static TransitModel getBootstrapModel() throws Exception
     {
         Logger logger = new LoggingAdapter( "transit" );
+        return getSecureModel( logger );
+    }
+    
+    public static TransitModel getSecureModel( Logger logger ) throws Exception
+    {
         TransitDirective directive = new TransitDirective( null, new CacheDirective() );
+        return new DefaultTransitModel( logger, directive );
+    }
+    
+    public static TransitModel getDefaultModel( Logger logger ) throws Exception
+    {
+        // TODO: do nifty stuff with prefs, properties, whatever
+        return getClassicModel( logger );
+    }
+    
+    public static TransitModel getClassicModel( Logger logger ) throws Exception
+    {
+        HostDirective[] hosts = new HostDirective[3];
+        hosts[0] = 
+          new HostDirective( 
+            "dpml", 40, "http://repository.dpml.net/classic", null, null, null, 
+            true, false, "classic", null, null );
+        hosts[1] = 
+          new HostDirective( 
+            "ibiblio", 70, "http://www.ibiblio.org/maven", null, null, null, 
+            true, false, "classic", null, null );
+        hosts[2] = 
+          new HostDirective( 
+            "apache", 100, "http://www.apache.org/dist/java-repository", null, null, null,
+            true, false, "classic", null, null );
+        
+        CacheDirective cache = 
+          new CacheDirective( 
+            CacheDirective.CACHE_PATH,
+            CacheDirective.LOCAL_PATH,
+            CacheDirective.LAYOUT,
+            CacheDirective.EMPTY_LAYOUTS,
+            hosts,
+            CacheDirective.EMPTY_CONTENT );
+        TransitDirective directive = new TransitDirective( null, cache );
         return new DefaultTransitModel( logger, directive );
     }
     

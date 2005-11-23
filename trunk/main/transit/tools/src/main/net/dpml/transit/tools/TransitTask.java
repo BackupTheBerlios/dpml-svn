@@ -27,6 +27,7 @@ import org.apache.tools.ant.Task;
 import net.dpml.transit.Transit;
 import net.dpml.transit.TransitAlreadyInitializedException;
 import net.dpml.transit.DefaultTransitModel;
+import net.dpml.transit.model.TransitModel;
 import net.dpml.transit.monitor.Adapter;
 import net.dpml.transit.monitor.RepositoryMonitorAdapter;
 import net.dpml.transit.monitor.CacheMonitorAdapter;
@@ -41,6 +42,8 @@ import net.dpml.transit.monitor.NetworkMonitorAdapter;
  */
 abstract class TransitTask extends Task
 {
+    private static boolean m_INIT = false;
+    
     static
     {
         if( Transit.DPML_DATA != null )
@@ -52,43 +55,6 @@ abstract class TransitTask extends Task
         System.setProperty( "java.protocol.handler.pkgs", 
           System.getProperty( "java.protocol.handler.pkgs", "net.dpml.transit" ) );
     }
-
-    private static boolean m_INIT = false;
-    //private static TransitModel m_MODEL;
-
-   /**
-    * Creation of a new TransitTask.
-    */
-    public TransitTask()
-    {
-    }
-
-   /**
-    * Creation of a new TransitTask.
-    * @param model the assigned transit model
-    * @param logger the assinged logging channel
-    * @exception if an error occurs
-    */
-    /*
-    public TransitTask( TransitModel model, Logger logger ) throws Exception
-    {
-        if( null == m_MODEL )
-        {
-            m_MODEL = model;
-            Transit transit = Transit.getInstance();
-            if( logger instanceof Adapter )
-            {
-                setupMonitors( transit, (Adapter) logger );
-            }
-            else
-            {
-                final String error = 
-                  "Don't know how to wrap a transit logger to an adapter.";
-                throw new BuildException( error );
-            }
-        }
-    }
-    */
 
    /**
     * Set the project.
@@ -115,7 +81,7 @@ abstract class TransitTask extends Task
                 try
                 {
                     Adapter logger = new AntAdapter( task );
-                    DefaultTransitModel model = new DefaultTransitModel( logger );
+                    TransitModel model = DefaultTransitModel.getDefaultModel( logger );
                     Transit transit = Transit.getInstance( model );
                     setupMonitors( transit, logger );
                 }

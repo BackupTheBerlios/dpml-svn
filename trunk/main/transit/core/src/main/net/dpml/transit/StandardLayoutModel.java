@@ -24,12 +24,10 @@ import java.util.EventObject;
 import java.util.EventListener;
 
 import net.dpml.transit.Logger;
-import net.dpml.transit.store.LayoutStorage;
-import net.dpml.transit.store.Removable;
-import net.dpml.transit.store.LocalStrategy;
-import net.dpml.transit.store.PluginStrategy;
-import net.dpml.transit.store.Strategy;
-import net.dpml.transit.model.*;
+import net.dpml.transit.model.LayoutModel;
+import net.dpml.transit.model.LayoutListener;
+import net.dpml.transit.model.LayoutEvent;
+import net.dpml.transit.model.CodeBaseListener;
 
 /**
  * The StandardLayoutModel represents a standard layout included with the 
