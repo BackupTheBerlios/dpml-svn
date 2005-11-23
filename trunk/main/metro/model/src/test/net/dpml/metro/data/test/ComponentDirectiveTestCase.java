@@ -35,8 +35,6 @@ import net.dpml.parameters.impl.DefaultParameters;
 
 import net.dpml.metro.part.ActivationPolicy;
 
-import net.dpml.transit.store.LocalPreferences;
-
 import junit.framework.TestCase;
 
 /**
