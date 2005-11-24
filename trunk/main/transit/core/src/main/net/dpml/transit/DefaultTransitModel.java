@@ -21,6 +21,12 @@ package net.dpml.transit;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.EventObject;
+import java.beans.XMLDecoder;
+import java.io.FileInputStream;
+import java.io.BufferedInputStream;
+import java.io.InputStream;
+import java.io.File;
+import java.net.URL;
 
 import net.dpml.transit.Logger;
 import net.dpml.transit.TransitError;
@@ -46,51 +52,62 @@ public class DefaultTransitModel extends DefaultModel implements TransitModel
     // ------------------------------------------------------------------------
     // static
     // ------------------------------------------------------------------------
-
-    static TransitModel getBootstrapModel() throws Exception
-    {
-        Logger logger = new LoggingAdapter( "transit" );
-        return getSecureModel( logger );
-    }
     
+   /**
+    * Default configuration url path.
+    */
+    public static final String DEFAULT_PROFILE_PATH = "file:${dpml.prefs}/transit.xml";
+    
+   /**
+    * System property key used to hold an overriding configuration url.
+    */
+    public static final String PROFILE_KEY = "dpml.transit.profile";
+
+   /**
+    * Return a model that is restricted to the secure local environment with 
+    * no proxy setting or external hosts.
+    * @param logger the logging channel to assign to the model
+    * @return the transit model
+    */
     public static TransitModel getSecureModel( Logger logger ) throws Exception
     {
         TransitDirective directive = new TransitDirective( null, new CacheDirective() );
         return new DefaultTransitModel( logger, directive );
     }
     
+   /**
+    * Resolve the transit configuration using the default resource path 
+    * ${dpml.prefs}/transit.xml. If the resource does not exist a classic 
+    * default scenario will be returned containing the DPML, Apache and Ibiblio
+    * repositories.
+    */
     public static TransitModel getDefaultModel( Logger logger ) throws Exception
     {
-        // TODO: do nifty stuff with prefs, properties, whatever
-        return getClassicModel( logger );
-    }
-    
-    public static TransitModel getClassicModel( Logger logger ) throws Exception
-    {
-        HostDirective[] hosts = new HostDirective[3];
-        hosts[0] = 
-          new HostDirective( 
-            "dpml", 40, "http://repository.dpml.net/classic", null, null, null, 
-            true, false, "classic", null, null );
-        hosts[1] = 
-          new HostDirective( 
-            "ibiblio", 70, "http://www.ibiblio.org/maven", null, null, null, 
-            true, false, "classic", null, null );
-        hosts[2] = 
-          new HostDirective( 
-            "apache", 100, "http://www.apache.org/dist/java-repository", null, null, null,
-            true, false, "classic", null, null );
-        
-        CacheDirective cache = 
-          new CacheDirective( 
-            CacheDirective.CACHE_PATH,
-            CacheDirective.LOCAL_PATH,
-            CacheDirective.LAYOUT,
-            CacheDirective.EMPTY_LAYOUTS,
-            hosts,
-            CacheDirective.EMPTY_CONTENT );
-        TransitDirective directive = new TransitDirective( null, cache );
-        return new DefaultTransitModel( logger, directive );
+        String path = System.getProperty( PROFILE_KEY );
+        if( null != path )
+        {
+            URL url = new URL( path );
+            InputStream input = url.openStream();
+            XMLDecoder decoder = new XMLDecoder( new BufferedInputStream( input ) );
+            TransitDirective directive = (TransitDirective) decoder.readObject();
+            return new DefaultTransitModel( logger, directive );
+        }
+        else
+        {
+            File prefs = Transit.DPML_PREFS;
+            File config = new File( prefs, "transit.xml" );
+            if( config.exists() )
+            {
+                FileInputStream input = new FileInputStream( config );
+                XMLDecoder decoder = new XMLDecoder( new BufferedInputStream( input ) );
+                TransitDirective directive = (TransitDirective) decoder.readObject();
+                return new DefaultTransitModel( logger, directive );
+            }
+            else
+            {
+                return getClassicModel( logger );
+            }
+        }
     }
     
     // ------------------------------------------------------------------------
@@ -227,5 +244,40 @@ public class DefaultTransitModel extends DefaultModel implements TransitModel
             throw new TransitError( error, e );
         }
     }
+
+    static TransitModel getBootstrapModel() throws Exception
+    {
+        Logger logger = new LoggingAdapter( "transit" );
+        return getSecureModel( logger );
+    }
+    
+    static TransitModel getClassicModel( Logger logger ) throws Exception
+    {
+        HostDirective[] hosts = new HostDirective[3];
+        hosts[0] = 
+          new HostDirective( 
+            "dpml", 40, "http://repository.dpml.net/classic", null, null, null, 
+            true, false, "classic", null, null );
+        hosts[1] = 
+          new HostDirective( 
+            "ibiblio", 70, "http://www.ibiblio.org/maven", null, null, null, 
+            true, false, "classic", null, null );
+        hosts[2] = 
+          new HostDirective( 
+            "apache", 100, "http://www.apache.org/dist/java-repository", null, null, null,
+            true, false, "classic", null, null );
+        
+        CacheDirective cache = 
+          new CacheDirective( 
+            CacheDirective.CACHE_PATH,
+            CacheDirective.LOCAL_PATH,
+            CacheDirective.LAYOUT,
+            CacheDirective.EMPTY_LAYOUTS,
+            hosts,
+            CacheDirective.EMPTY_CONTENT );
+        TransitDirective directive = new TransitDirective( null, cache );
+        return new DefaultTransitModel( logger, directive );
+    }
+    
 }
 

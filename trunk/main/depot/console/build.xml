@@ -21,6 +21,7 @@
     <x:filter token="DEPOT-BUILDER-URI" ref="dpml/depot/dpml-depot-builder" feature="uri" type="plugin"/>
     <x:filter token="DEPOT-STATION-URI" key="dpml-station-console" feature="uri" type="plugin"/>
     <x:filter token="DEPOT-STATION-SERVER-URI" key="dpml-station-server" feature="uri" type="plugin"/>
+    <x:filter token="TRANSIT-CONSOLE-URI" ref="dpml/transit/dpml-transit-console" feature="uri" type="plugin"/>
   </target>
 
   <!--

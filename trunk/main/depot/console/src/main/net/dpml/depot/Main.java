@@ -260,6 +260,11 @@ public final class Main implements ShutdownHandler
             args = CLIHelper.consolidate( args, "-station" );
             handleStation( args );
         }
+        else if( "-transit".equals( option ) )
+        {
+            args = CLIHelper.consolidate( args, "-transit" );
+            handleTransit( args );
+        }
         else
         {
             handleHelp();
@@ -310,20 +315,6 @@ public final class Main implements ShutdownHandler
         handlePlugin( name, spec, args );
     }
 
-    private void handlePrefs( String[] args )
-    {
-        String name = "prefs";
-        String spec = "@DEPOT-PREFS-URI@";
-        handlePlugin( name, spec, args );
-    }
-
-    private void handleDesktop( String[] args )
-    {
-        String name = "desktop";
-        String spec = "@DEPOT-DESKTOP-URI@";
-        handlePlugin( name, spec, args );
-    }
-
     private void handleBuild( String[] args )
     {
         String name = "build";
@@ -350,6 +341,14 @@ public final class Main implements ShutdownHandler
         String name = "metro";
         String spec = "@DEPOT-EXEC-URI@";
         handlePlugin( name, spec, args );
+    }
+
+    private void handleTransit( String[] arguments )
+    {
+        String[] args = processSystemProperties( arguments );
+        String name = "transit";
+        String spec = "@TRANSIT-CONSOLE-URI@";
+        handlePlugin( name, spec, args, false );
     }
 
     private void handleStation( String[] arguments )
@@ -625,6 +624,10 @@ public final class Main implements ShutdownHandler
             else if( "dpml.builder".equals( app ) )
             {
                 return "-build";
+            }
+            else if( "dpml.transit".equals( app ) )
+            {
+                return "-transit";
             }
             else
             {
