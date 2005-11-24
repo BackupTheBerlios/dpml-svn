@@ -40,6 +40,7 @@ import net.dpml.station.info.StartupPolicy;
 import net.dpml.station.ApplicationRegistry;
 import net.dpml.station.info.ApplicationDescriptor;
 import net.dpml.station.info.ValueDescriptor;
+import net.dpml.station.server.RemoteApplicationRegistry;
 
 import net.dpml.transit.Artifact;
 import net.dpml.transit.Logger;
@@ -408,7 +409,7 @@ public class StationPlugin
           HelpFormatter.DEFAULT_GUTTER_LEFT, 
           HelpFormatter.DEFAULT_GUTTER_CENTER, 
           HelpFormatter.DEFAULT_GUTTER_RIGHT, 
-          100 );
+          100, 50 );
         
         formatter.getDisplaySettings().add( DisplaySetting.DISPLAY_GROUP_OUTER );
         formatter.getDisplaySettings().add( DisplaySetting.DISPLAY_PROPERTY_OPTION );
@@ -818,19 +819,15 @@ public class StationPlugin
     {
         try
         {
+            Logger logger = getLogger();
             URL url = getStorageURL( uri );
-            Repository repository = Transit.getInstance().getRepository();
-            ClassLoader classloader = ApplicationRegistry.class.getClassLoader();
-            Thread.currentThread().setContextClassLoader( classloader );
-            URI plugin = new URI( DEPOT_PROFILE_PLUGIN_URI );
-            return (ApplicationRegistry) repository.getPlugin( 
-              classloader, plugin, new Object[]{m_logger, url} );
+            return new RemoteApplicationRegistry( logger, url );
         }
         catch( Exception e )
         {
             final String error = 
               "Unexpected error while loading application registry from the uri ["
-              + DEPOT_PROFILE_PLUGIN_URI
+              + uri
               + "].";
             getLogger().error( error, e );
             throw new RuntimeException( error, e );
@@ -877,7 +874,7 @@ public class StationPlugin
     // static utilities
     // ------------------------------------------------------------------------
     
-    private static final String DEPOT_PROFILE_PLUGIN_URI = "@DEPOT-PROFILE-PLUGIN-URI@";
+    private static final String DEPOT_STATION_PLUGIN_URI = "@DEPOT-STATION-PLUGIN-URI@";
     private static final Set STARTUP_POLICY_SET = createStartupPolicySet();
     private static final String[] SUPPORTED_URI_SCHEMES = 
       new String[]{"link", "artifact", "local"};

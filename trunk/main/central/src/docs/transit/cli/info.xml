@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<document>
+
+  <properties>
+    <author email="mcconnell@dpml.net">Stephen McConnell</author>
+    <title>DPML Transit</title>
+  </properties> 
+
+  <body>
+
+    <section name="Info Command">
+
+      <subsection name="Description">
+
+        <p>
+        The <tt>info</tt> command generates a listing of the proxy, cache, 
+        and resource host configurations. 
+        </p>
+
+      </subsection>
+
+      <subsection name="Default">
+
+        <p>
+        Unless otherwise specificed the default configuration is resolved 
+        from <tt>${dpml.prefs}/transit.xml</tt>.  If the default configuration
+        does not exist a classic configuration containing the DPML, Ibiblio and 
+        Apache repositories will be used.
+        </p>
+
+      </subsection>
+
+      <subsection name="Example">
+
+       <p>The following example demonstrates the listing of the classic configuration.</p>
+
+
+<pre><![CDATA[$ transit info
+
+  Cache Settings
+
+    Directory:  ${dpml.data}/cache
+    Layout:     classic
+    System:     file:${dpml.system}/local
+
+  Host Settings
+
+    dpml (1)
+
+      URL       http://repository.dpml.net/classic
+      Priority: 40
+      Enabled:  true
+      Trusted:  false
+      Layout:   classic
+      Password:
+      Prompt:
+      Scheme:
+
+    ibiblio (2)
+
+      URL       http://www.ibiblio.org/maven
+      Priority: 70
+      Enabled:  true
+      Trusted:  false
+      Layout:   classic
+      Password:
+      Prompt:
+      Scheme:
+
+    apache (3)
+
+      URL       http://www.apache.org/dist/java-repository
+      Priority: 100
+      Enabled:  true
+      Trusted:  false
+      Layout:   classic
+      Password:
+      Prompt:
+      Scheme:
+]]></pre>
+
+      </subsection>
+    </section>
+
+  </body>
+
+</document>
+

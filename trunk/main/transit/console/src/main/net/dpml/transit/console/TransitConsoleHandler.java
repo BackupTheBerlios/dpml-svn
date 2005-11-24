@@ -18,7 +18,13 @@
 
 package net.dpml.transit.console;
 
+import java.beans.XMLDecoder;
 import java.io.IOException;
+import java.io.FileInputStream;
+import java.io.BufferedInputStream;
+import java.io.InputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.net.URI;
 import java.net.URL;
 import java.rmi.RemoteException;
@@ -55,6 +61,11 @@ import net.dpml.cli.validation.URIValidator;
 import net.dpml.cli.validation.URLValidator;
 import net.dpml.cli.validation.NumberValidator;
 
+import net.dpml.transit.TransitError;
+import net.dpml.transit.info.TransitDirective;
+import net.dpml.transit.info.ProxyDirective;
+import net.dpml.transit.info.CacheDirective;
+import net.dpml.transit.info.HostDirective;
 
 /**
  * Plugin that handles station commands.
@@ -69,6 +80,8 @@ public class TransitConsoleHandler
     // ------------------------------------------------------------------------
 
     private final Logger m_logger;
+    private final TransitDirective m_directive;
+    private final CommandLine m_line;
     
     // ------------------------------------------------------------------------
     // constructor
@@ -83,69 +96,127 @@ public class TransitConsoleHandler
     */
     public TransitConsoleHandler( Logger logger, String[] args ) throws Exception
     {
-        m_logger = logger;
-        
-        // log the raw arguments
-        
-        if( m_logger.isDebugEnabled() )
+        this( logger, getCommandLine( logger, args ) );
+    }
+    
+   /**
+    * Creation of a new Transit CLI handler.
+    *
+    * @param logger the assigned logging channel
+    * @param args command line arguments
+    * @exception Exception if an error occurs during plugin establishment
+    */
+    private TransitConsoleHandler( final Logger logger, final CommandLine line ) throws Exception
+    {
+        if( null == line ) 
         {
-            StringBuffer buffer = 
-              new StringBuffer( 
-                "Processing [" 
-                + args.length 
-                + "] args." );
-            for( int i=0; i<args.length; i++ )
-            {
-                buffer.append( 
-                  "\n  " 
-                  + ( i+1 ) 
-                  + " " 
-                  + args[i] );
-            }
-            String message = buffer.toString();
-            m_logger.debug( message );
+            m_line = null;
+            m_directive = null;
+            m_logger = null;
+            processHelp();
+            System.exit( -1 );
         }
-        
-        // parse the command group model
-        
-        Parser parser = new Parser();
-        parser.setGroup( OPTIONS_GROUP );
+        else
+        {
+            m_logger = logger;
+            m_line = line;
+            m_directive = loadTransitDirective( line );
+            if( null == m_directive )
+            {
+                System.exit( -1 );
+            }
+        }
         
         // handle command
         
+        if( line.hasOption( INFO_COMMAND ) )
+        {
+            processInfo( line );
+        }
+        else if( line.hasOption( SET_COMMAND ) )
+        {
+            processSet( line );
+        }
+        else
+        {
+            processHelp();
+        }
+    }
+    
+    private static CommandLine getCommandLine( Logger logger, String[] args )
+    {
         try
         {
-            CommandLine line = parser.parse( args );
-            if( line.hasOption( INFO_COMMAND ) )
-            {
-                processInfo( line );
-            }
-            else if( line.hasOption( SET_COMMAND ) )
-            {
-                processSet( line );
-            }
-            else
-            {
-                processHelp();
-                /*
-                List options = line.getOptions();
-                Iterator iterator = options.iterator();
-                while( iterator.hasNext() )
-                {
-                    Option option = (Option) iterator.next();
-                    System.out.println( 
-                      "# UNPROCESSED OPTION: " 
-                      + option 
-                      + " [" 
-                      + option.getId() 
-                      + "]" );
-                }
-                */
-            }
+            // parse the command line arguments
+        
+            Parser parser = new Parser();
+            parser.setGroup( OPTIONS_GROUP );
+            return parser.parse( args );
         }
         catch( OptionException e )
         {
-            m_logger.error( e.getMessage() );
+            logger.error( e.getMessage() );
+            return null;
+        }
+    }
+        
+    private TransitDirective loadTransitDirective( CommandLine line )
+    {
+        if( line.hasOption( PROFILE_URI_OPTION ) )
+        {
+            URL url = (URL) line.getValue( PROFILE_URI_OPTION, null );
+            try
+            {
+                InputStream input = url.openStream();
+                XMLDecoder decoder = new XMLDecoder( new BufferedInputStream( input ) );
+                return (TransitDirective) decoder.readObject();
+            }
+            catch( FileNotFoundException e )
+            {
+                final String error = 
+                  "Resource not found: "
+                + url;
+                getLogger().warn( error );
+                return null;
+            }
+            catch( Exception e )
+            {
+                final String error = 
+                  "An error occured while attempting to load the transit profile: "
+                  + url;
+                getLogger().error( error, e  );
+                return null;
+            }
+        }
+        else
+        {
+            File prefs = Transit.DPML_PREFS;
+            File config = new File( prefs, "transit.xml" );
+            if( config.exists() )
+            {
+                try
+                {
+                    FileInputStream input = new FileInputStream( config );
+                    XMLDecoder decoder = new XMLDecoder( new BufferedInputStream( input ) );
+                    return (TransitDirective) decoder.readObject();
+                }
+                catch( Exception e )
+                {
+                    final String error = 
+                      "An error occured while attempting to load the transit profile: "
+                    + config;
+                    getLogger().error( error, e  );
+                    return null;
+                }
+            }
+            else
+            {
+                //
+                // load default profile
+                //
+                
+                return TransitDirective.CLASSIC_PROFILE;
+            }
         }
     }
     
@@ -155,45 +226,71 @@ public class TransitConsoleHandler
     
     private void processInfo( CommandLine line )
     {
-        System.out.println( "Listing transit configuration." );
+        StringBuffer buffer = new StringBuffer();
+        ProxyDirective proxy = m_directive.getProxyDirective();
+        if( null != proxy )
+        {
+            buffer.append( "\n\n  Proxy Settings" );
+            buffer.append( "\n\n    Host: \t" + proxy.getHost() );
+            if( proxy.getUsername() != null )
+            {
+                buffer.append( "\n    Username: \t" + proxy.getUsername() );
+            }
+            buffer.append( "\n    Password: \t" );
+            char[] pswd = proxy.getPassword();
+            if( null != pswd )
+            {
+                for( int i=0; i<pswd.length; i++ )
+                {
+                    buffer.append( "*" );
+                }
+            }
+            buffer.append( "\n    Excludes: \t" + proxy.getExcludes() );
+        }
+        CacheDirective cache = m_directive.getCacheDirective();
+        buffer.append( "\n\n  Cache Settings" );
+        buffer.append( "\n\n    Directory: \t" + cache.getCache() );
+        buffer.append( "\n    Layout: \t" + cache.getLayout() );
+        buffer.append( "\n    Local: \t" + cache.getLocal() );
+        
+        HostDirective[] hosts = cache.getHostDirectives();
+        buffer.append( "\n\n  Host Settings" );
+        for( int i=0; i<hosts.length; i++ )
+        {
+            HostDirective host = hosts[i];
+            buffer.append( "\n\n    " + host.getID() + " (" + (i+1) + ")" );
+            buffer.append( "\n\n      URL\t" + host.getHost() );
+            buffer.append( "\n      Priority:\t" + host.getPriority() );
+            if( host.getIndex() != null )
+            {
+                buffer.append( "\n      Index: \t" + host.getIndex() );
+            }
+            buffer.append( "\n      Enabled: \t" + host.getEnabled() );
+            buffer.append( "\n      Trusted: \t" + host.getTrusted() );
+            buffer.append( "\n      Layout: \t" + host.getLayout() );
+            if( host.getUsername() != null )
+            {
+                buffer.append( "\n      Username: \t" + host.getUsername() );
+            }
+            buffer.append( "\n      Password: \t" );
+            char[] pswd = host.getPassword();
+            if( null != pswd )
+            {
+                for( int j=0; j<pswd.length; j++ )
+                {
+                    buffer.append( "*" );
+                }
+            }
+            buffer.append( "\n      Prompt: \t" + host.getPrompt() );
+            buffer.append( "\n      Scheme: \t" + host.getScheme() );
+        }
+        
+        System.out.println( buffer.toString() );
     }
     
     private void processSet( CommandLine line )
     {
         System.out.println( "Processing set request." );
-    }
-    
-   /**
-    * List general command help to the console.
-    * @exception IOException if an I/O error occurs
-    */
-    private void processHelp() throws IOException
-    {
-        HelpFormatter formatter = new HelpFormatter( 
-          HelpFormatter.DEFAULT_GUTTER_LEFT, 
-          HelpFormatter.DEFAULT_GUTTER_CENTER, 
-          HelpFormatter.DEFAULT_GUTTER_RIGHT, 
-          100, 50 );
-        
-        formatter.getDisplaySettings().add( DisplaySetting.DISPLAY_GROUP_OUTER );
-        formatter.getDisplaySettings().add( DisplaySetting.DISPLAY_PROPERTY_OPTION );
-        formatter.getDisplaySettings().add( DisplaySetting.DISPLAY_ARGUMENT_BRACKETED );
-        
-        formatter.getFullUsageSettings().add( DisplaySetting.DISPLAY_OPTIONAL );
-        formatter.getFullUsageSettings().add( DisplaySetting.DISPLAY_GROUP_OUTER );
-        formatter.getFullUsageSettings().add( DisplaySetting.DISPLAY_PROPERTY_OPTION );
-        formatter.getFullUsageSettings().add( DisplaySetting.DISPLAY_OPTIONAL );
-        formatter.getFullUsageSettings().add( DisplaySetting.DISPLAY_ARGUMENT_BRACKETED );
-        formatter.getFullUsageSettings().remove( DisplaySetting.DISPLAY_PARENT_CHILDREN );
-        
-        formatter.getLineUsageSettings().add( DisplaySetting.DISPLAY_PROPERTY_OPTION );
-        formatter.getLineUsageSettings().add( DisplaySetting.DISPLAY_ARGUMENT_BRACKETED );
-        formatter.getLineUsageSettings().remove( DisplaySetting.DISPLAY_PARENT_CHILDREN );
-        formatter.getLineUsageSettings().remove( DisplaySetting.DISPLAY_GROUP_EXPANDED );
-        
-        formatter.setGroup( OPTIONS_GROUP );
-        formatter.setShellCommand( "transit" );
-        formatter.print();
     }
     
     // ------------------------------------------------------------------------
@@ -666,21 +763,55 @@ public class TransitConsoleHandler
 
     private static final Group COMMAND_GROUP =
       GROUP_BUILDER
-        .withName( "commands" )
         .withOption( INFO_COMMAND )
         .withOption( ADD_COMMAND )
         .withOption( SET_COMMAND )
         .withOption( REMOVE_COMMAND )
         .withOption( HELP_COMMAND )
-        .withMinimum( 0 )
+        .withMinimum( 1 )
         .withMaximum( 1 )
         .create();
     
     private static final Group OPTIONS_GROUP =
       GROUP_BUILDER
-        .withName( "options" )
+        .withName( "command" )
         .withOption( PROFILE_URI_OPTION )
         .withOption( COMMAND_GROUP )
+        .withMinimum( 0 )
         .create();
+
+   /**
+    * List general command help to the console.
+    * @exception IOException if an I/O error occurs
+    */
+    private static void processHelp() throws IOException
+    {
+        HelpFormatter formatter = new HelpFormatter( 
+          HelpFormatter.DEFAULT_GUTTER_LEFT, 
+          HelpFormatter.DEFAULT_GUTTER_CENTER, 
+          HelpFormatter.DEFAULT_GUTTER_RIGHT, 
+          100, 50 );
+        
+        formatter.getDisplaySettings().add( DisplaySetting.DISPLAY_GROUP_OUTER );
+        formatter.getDisplaySettings().add( DisplaySetting.DISPLAY_PROPERTY_OPTION );
+        formatter.getDisplaySettings().add( DisplaySetting.DISPLAY_ARGUMENT_BRACKETED );
+        
+        formatter.getFullUsageSettings().add( DisplaySetting.DISPLAY_OPTIONAL );
+        formatter.getFullUsageSettings().add( DisplaySetting.DISPLAY_GROUP_OUTER );
+        formatter.getFullUsageSettings().add( DisplaySetting.DISPLAY_PROPERTY_OPTION );
+        formatter.getFullUsageSettings().add( DisplaySetting.DISPLAY_OPTIONAL );
+        formatter.getFullUsageSettings().add( DisplaySetting.DISPLAY_ARGUMENT_BRACKETED );
+        formatter.getFullUsageSettings().remove( DisplaySetting.DISPLAY_PARENT_CHILDREN );
+        
+        formatter.getLineUsageSettings().add( DisplaySetting.DISPLAY_PROPERTY_OPTION );
+        formatter.getLineUsageSettings().add( DisplaySetting.DISPLAY_ARGUMENT_BRACKETED );
+        formatter.getLineUsageSettings().remove( DisplaySetting.DISPLAY_PARENT_CHILDREN );
+        formatter.getLineUsageSettings().remove( DisplaySetting.DISPLAY_GROUP_EXPANDED );
+        
+        formatter.setGroup( OPTIONS_GROUP );
+        formatter.setShellCommand( "transit" );
+        formatter.print();
+    }
+    
 }
 

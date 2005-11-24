@@ -25,10 +25,10 @@
  <body>
 
     <menu>
-      <item name="Overview" href="concepts/index.html"/>
-      <item name="Protocols" href="technical/index.html"/>
-      <item name="Services" href="services/index.html"/>
-      <item name="CLI" href="cli/index.html"/>
+      <item name="Info" href="info.html"/>
+      <item name="Add" href="add/index.html"/>
+      <item name="Set" href="set/index.html"/>
+      <item name="Remove" href="remove/index.html"/>
     </menu>
 
  </body>

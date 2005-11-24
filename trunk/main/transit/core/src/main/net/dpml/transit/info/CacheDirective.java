@@ -35,7 +35,6 @@ public class CacheDirective extends AbstractDirective
     public static final HostDirective[] EMPTY_HOSTS = new HostDirective[0];
     public static final ContentDirective[] EMPTY_CONTENT = new ContentDirective[0];
     
-    
     private final String m_cache;
     private final String m_layout;
     private final String m_local;

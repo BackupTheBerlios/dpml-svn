@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<document>
+
+  <properties>
+    <author email="mcconnell@dpml.net">Stephen McConnell</author>
+    <title>DPML Transit</title>
+  </properties> 
+
+  <body>
+
+    <section name="Add Command">
+
+<pre>$ transit add ...</pre>
+
+      <subsection name="Description">
+
+        <p>
+        Support for the addition of new hosts, layouts, and content handlers.
+        </p>
+
+      </subsection>
+
+    </section>
+
+
+  </body>
+
+</document>
+

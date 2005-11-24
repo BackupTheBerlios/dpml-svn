@@ -43,7 +43,7 @@ public class LocalURLConnection extends URLConnection
 {
     private boolean m_connected;
 
-    private File     m_target;
+    private File m_target;
 
     /**
      * Creation of a new local handler.

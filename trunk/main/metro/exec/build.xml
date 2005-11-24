@@ -22,7 +22,7 @@
   <target name="install" depends="bin,standard.install">
     <copy todir="${dpml.system}" preservelastmodified="true" overwrite="true">
       <fileset dir="target">
-        <include name="bin/station.lap"/>
+        <include name="bin/metro.lap"/>
       </fileset>
     </copy>
   </target>

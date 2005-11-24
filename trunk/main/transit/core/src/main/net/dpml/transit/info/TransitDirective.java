@@ -34,6 +34,8 @@ public class TransitDirective extends AbstractDirective
     private final ProxyDirective m_proxy;
     private final CacheDirective m_cache;
     
+    public static final TransitDirective CLASSIC_PROFILE = createClassicProfile();
+    
    /**
     * Creation of a new codebase descriptor.
     * @param proxy the proxy configuration
@@ -108,4 +110,32 @@ public class TransitDirective extends AbstractDirective
         hash ^= hashValue( m_cache );
         return hash;
     }
+    
+    private static TransitDirective createClassicProfile()
+    {
+        HostDirective[] hosts = new HostDirective[3];
+        hosts[0] = 
+          new HostDirective( 
+            "dpml", 40, "http://repository.dpml.net/classic", null, null, null, 
+            true, false, "classic", null, null );
+        hosts[1] = 
+          new HostDirective( 
+            "ibiblio", 70, "http://www.ibiblio.org/maven", null, null, null, 
+            true, false, "classic", null, null );
+        hosts[2] = 
+          new HostDirective( 
+            "apache", 100, "http://www.apache.org/dist/java-repository", null, null, null,
+            true, false, "classic", null, null );
+        
+        CacheDirective cache = 
+          new CacheDirective( 
+            CacheDirective.CACHE_PATH,
+            CacheDirective.LOCAL_PATH,
+            CacheDirective.LAYOUT,
+            CacheDirective.EMPTY_LAYOUTS,
+            hosts,
+            CacheDirective.EMPTY_CONTENT );
+        return new TransitDirective( null, cache );
+    }
+    
 }

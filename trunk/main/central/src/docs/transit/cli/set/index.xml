@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<document>
+
+  <properties>
+    <author email="mcconnell@dpml.net">Stephen McConnell</author>
+    <title>DPML Transit</title>
+  </properties> 
+
+  <body>
+
+    <section name="Set Command">
+
+<pre>$ transit set ...</pre>
+
+      <subsection name="Description">
+
+        <p>
+        Support for the modification of a host, layout, or content handler.
+        </p>
+
+      </subsection>
+
+    </section>
+
+
+  </body>
+
+</document>
+

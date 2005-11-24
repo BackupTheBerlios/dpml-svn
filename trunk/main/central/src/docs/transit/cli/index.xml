@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<document>
+
+  <properties>
+    <author email="mcconnell@dpml.net">Stephen McConnell</author>
+    <title>DPML Transit</title>
+  </properties> 
+
+  <body>
+
+    <section name="Transit Command Line">
+
+<pre>$ transit help</pre>
+<source><![CDATA[
+$ transit help
+Usage:
+transit [-profile <url> info|add|set|remove|help]
+command
+  -profile <url>                                      Configuration profile.
+  info|add|set|remove|help
+    info                                              List configuration.
+    add
+      host handler layout
+        host <id>                                     Add a new resource host.
+          -url -username -password -priority -index -disabled -layout -scheme -prompt
+
+            -url <url>                                Host URL (required).
+            -username <username>                      Username.
+            -password <password>                      Password.
+            -priority <int>                           Host priority.
+            -index <resource>                         Host index path.
+            -disabled                                 Disable the host.
+            -layout <id>                              Host layout strategy.
+            -scheme <scheme>                          Host authentication scheme.
+            -prompt <prompt>                          Host authentication prompt.
+        handler <type>                                Add a new content handler.
+          -uri -title
+            -uri <uri>                                Codebase URI (required).
+            -title <name>                             Title.
+        layout <id>                                   Add a new layout.
+          -uri -title
+            -uri <uri>                                Codebase URI (required).
+            -title <name>                             Title.
+    set                                               Set an configuration aspect.
+      proxy host handler layout
+        proxy                                         Select proxy settings.
+          -url -username -password -excludes
+            -url <url>                                Host URL.
+            -username <username>                      Username.
+            -password <password>                      Password.
+            -excludes <host> [<host> ...]             Proxy excludes.
+        host <id>                                     Resource host selection.
+          -url -username -password -priority -index -enabled -disabled -layout -scheme -prompt
+
+            -url <url>                                Host URL.
+            -username <username>                      Username.
+            -password <password>                      Password.
+            -priority <int>                           Host priority.
+            -index <resource>                         Host index path.
+            -enabled -disabled
+              -enabled                                Enable the host.
+              -disabled                               Disable the host.
+            -layout <id>                              Host layout strategy.
+            -scheme <scheme>                          Host authentication scheme.
+            -prompt <prompt>                          Host authentication prompt.
+        handler <type>                                Content handler selection.
+          -uri -title
+            -uri <uri>                                Codebase URI.
+            -title <name>                             Title.
+        layout <id>                                   Layout scheme selection.
+          -uri -title
+            -uri <uri>                                Codebase URI.
+            -title <name>                             Title.
+    remove
+      host handler layout proxy
+        host <id>                                     Resource host selection.
+        handler <type>                                Content handler selection.
+        layout <id>                                   Layout scheme selection.
+        proxy                                         Delete proxy settings.
+    help                                              Print command help.
+]]></source>
+
+
+      <subsection name="Description">
+
+        <p>
+        Provides supporting listing of the Transit configuration and 
+        commands enabling the addition removal and modification of hosts, 
+        layouts and content handlers.
+        </p>
+
+      </subsection>
+
+    </section>
+
+
+  </body>
+
+</document>
+
