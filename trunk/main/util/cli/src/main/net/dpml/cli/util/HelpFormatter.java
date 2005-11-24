@@ -50,6 +50,11 @@ public class HelpFormatter
     public static final int DEFAULT_FULL_WIDTH = 80;
 
     /**
+     * The default minimum description width.
+     */
+    public static final int DEFAULT_DESCRIPTION_WIDTH = -1;
+
+    /**
      * The default screen furniture left of screen
      */
     public static final String DEFAULT_GUTTER_LEFT = "";
@@ -121,13 +126,16 @@ public class HelpFormatter
     private final String m_gutterCenter;
     private final String m_gutterRight;
     private final int m_pageWidth;
+    private final int m_descriptionWidth;
 
     /**
      * Creates a new HelpFormatter using the defaults
      */
     public HelpFormatter()
     {
-        this( DEFAULT_GUTTER_LEFT, DEFAULT_GUTTER_CENTER, DEFAULT_GUTTER_RIGHT, DEFAULT_FULL_WIDTH );
+        this( 
+          DEFAULT_GUTTER_LEFT, DEFAULT_GUTTER_CENTER, DEFAULT_GUTTER_RIGHT, 
+          DEFAULT_FULL_WIDTH, DEFAULT_DESCRIPTION_WIDTH );
     }
 
     /**
@@ -136,9 +144,26 @@ public class HelpFormatter
      * @param gutterCenter the string marking center of screen
      * @param gutterRight the string marking right of screen
      * @param fullWidth the width of the screen
+     * @param descriptionWidth the minimum description width
      */
     public HelpFormatter(
-      final String gutterLeft, final String gutterCenter, final String gutterRight, final int fullWidth )
+      final String gutterLeft, final String gutterCenter, final String gutterRight, 
+      final int fullWidth )
+    {
+        this( gutterLeft, gutterCenter, gutterRight, fullWidth, DEFAULT_DESCRIPTION_WIDTH );
+    }
+    
+    /**
+     * Creates a new HelpFormatter using the specified parameters
+     * @param gutterLeft the string marking left of screen
+     * @param gutterCenter the string marking center of screen
+     * @param gutterRight the string marking right of screen
+     * @param fullWidth the width of the screen
+     * @param descriptionWidth the minimum description width
+     */
+    public HelpFormatter(
+      final String gutterLeft, final String gutterCenter, final String gutterRight, 
+      final int fullWidth, final int descriptionWidth )
     {
         // default the left gutter to empty string
         if( null == gutterLeft )
@@ -168,6 +193,8 @@ public class HelpFormatter
             m_gutterRight = gutterRight;
         }
 
+        m_descriptionWidth = descriptionWidth;
+        
         // calculate the available page width
         m_pageWidth = fullWidth - m_gutterLeft.length() - m_gutterRight.length();
 
@@ -238,7 +265,21 @@ public class HelpFormatter
             final String usage = helpLine.usage( m_lineUsageSettings, m_comparator );
             usageWidth = Math.max( usageWidth, usage.length() );
         }
-
+        
+        //
+        // add check for an overriding description max width (needed in complex 
+        // usage scenarios)
+        //
+        
+        if( m_descriptionWidth > -1 )
+        {
+            int max = m_pageWidth - m_descriptionWidth;
+            if( usageWidth > max )
+            {
+                usageWidth = max;
+            }
+        }
+        
         // build a blank string to pad wrapped descriptions
         final StringBuffer blankBuffer = new StringBuffer();
 

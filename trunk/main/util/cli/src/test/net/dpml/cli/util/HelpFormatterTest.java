@@ -49,7 +49,7 @@ public class HelpFormatterTest
     private Group options;
 
     public void setUp() {
-        helpFormatter = new HelpFormatter("|*", "*-*", "*|", 80);
+        helpFormatter = new HelpFormatter("|*", "*-*", "*|", 80 );
         helpFormatter.setDivider("+------------------------------------------------------------------------------+");
         helpFormatter.setHeader("Jakarta Commons CLI");
         helpFormatter.setFooter("Copyright 2003\nApache Software Foundation");
