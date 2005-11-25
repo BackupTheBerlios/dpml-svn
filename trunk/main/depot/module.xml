@@ -42,54 +42,6 @@
       <include ref="ant/ant-junit"/>
     </dependencies>
   </project>
-
-  <project name="dpml-station-api" basedir="station/api">
-    <types>
-      <type id="jar"/>
-    </types>
-    <dependencies>
-      <include ref="dpml/transit/dpml-transit-main"/>
-      <include ref="dpml/metro/dpml-part-api"/>
-      <include key="dpml-depot-console"/>
-    </dependencies>
-    <dependencies scope="test">
-      <include ref="junit/junit"/>
-    </dependencies>
-  </project>
-   
-  <project name="dpml-station-server" basedir="station/server">
-    <types>
-      <type id="jar"/>
-      <type id="plugin">
-        <property name="project.plugin.class" 
-           value="net.dpml.station.server.StationServerPlugin"/>
-      </type>
-    </types>
-    <dependencies>
-      <include ref="dpml/transit/dpml-transit-main"/>
-      <include ref="dpml/util/dpml-util-cli"/>
-      <include ref="dpml/metro/dpml-part-api"/>
-      <include key="dpml-station-api"/>
-    </dependencies>
-    <dependencies scope="test">
-      <include ref="junit/junit"/>
-    </dependencies>
-  </project>
-
-  <project name="dpml-station-console" basedir="station/console">
-    <types>
-      <type id="jar"/>
-      <type id="plugin" alias="true">
-        <property name="project.plugin.class" 
-           value="net.dpml.station.console.StationPlugin"/>
-      </type>
-    </types>
-    <dependencies>
-      <include ref="dpml/util/dpml-util-cli"/>
-      <include key="dpml-station-api"/>
-      <include key="dpml-station-server"/>
-    </dependencies>
-  </project>
    
   <!--
   <project name="dpml-depot-install" basedir="install">

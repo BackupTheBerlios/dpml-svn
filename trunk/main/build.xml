@@ -83,6 +83,7 @@
         <package name="net.dpml.metro.part.*"/>
         <package name="net.dpml.metro.state"/>
         <package name="net.dpml.metro.state.*"/>
+        <package name="net.dpml.metro.tools"/>
         <package name="net.dpml.station"/>
         <package name="net.dpml.station.*"/>
       </group>
@@ -91,9 +92,6 @@
         <package name="net.dpml.depot.*"/>
         <package name="net.dpml.tools"/>
         <package name="net.dpml.tools.*"/>
-        <package name="net.dpml.transit.tools"/>
-        <package name="net.dpml.metro.tools"/>
-        <package name="net.dpml.metro.tools.*"/>
       </group>
       <group title="Transit">
         <package name="net.dpml.transit"/>
