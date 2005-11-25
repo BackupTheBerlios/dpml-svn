@@ -29,6 +29,7 @@
       <item name="Runtime" href="runtime/cli/index.html"/>
       <item name="Station" href="station/cli/index.html"/>
       <item name="Utilities" href="util/index.html"/>
+      <item name="CLI" href="cli/index.html"/>
     </menu>
 
  </body>
