@@ -9,22 +9,19 @@
 
   <body>
 
-    <section name="Set Command">
+    <section name="Remove Proxy Command">
 
-<pre>$ transit set proxy | cache | host | layout | handler</pre>
+<pre><![CDATA[$ transit remove proxy]]></pre>
 
       <subsection name="Description">
 
         <p>
-        Support for the modification of an identifier host, layout, 
-        or content handler, or modification of the transit cache or proxy 
-        settings.
+        Removes all proxy settings from the Transit configuration.
         </p>
 
       </subsection>
 
     </section>
-
 
   </body>
 

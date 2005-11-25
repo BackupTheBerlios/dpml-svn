@@ -11,12 +11,13 @@
 
     <section name="Remove Command">
 
-<pre>$ transit remove ...</pre>
+<pre><![CDATA[$ transit remove host <id> | handler <id> | layout <id> | proxy ]]></pre>
 
       <subsection name="Description">
 
         <p>
-        Support for the removal of hosts, layout, or content handler.
+        Support for the removal of hosts, layout, content handlers, or
+        proxy settings.
         </p>
 
       </subsection>

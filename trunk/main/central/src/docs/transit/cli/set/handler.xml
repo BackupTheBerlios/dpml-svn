@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<document>
+
+  <properties>
+    <author email="mcconnell@dpml.net">Stephen McConnell</author>
+    <title>DPML Transit</title>
+  </properties> 
+
+  <body>
+
+    <section name="Set Handler Command">
+
+<pre><![CDATA[$ transit set handler <id>
+  [-uri <uri>]
+  [-title <title>]
+]]></pre>
+
+      <subsection name="Description">
+
+        <p>
+        Update a content handler configuration.
+        </p>
+
+      </subsection>
+
+      <subsection name="Options">
+
+        <table>
+          <tr><td>uri</td><td>Change the content handler plugin uri to a new value.</td></tr>
+          <tr><td>title</td><td>Updates the content handler title.</td></tr>
+        </table>
+
+      </subsection>
+
+      <subsection name="Example">
+
+        <p>
+        The following example demonstrates the modification of the uri 
+        of a registered content handler.
+        </p>
+
+<pre><![CDATA[
+$ transit set handler demo -uri link:plugin:dpml/demo/dpml-handler#2.0
+Updating content handler: demo
+Saving to: local:xml:dpml/transit/config
+]]></pre>
+
+      </subsection>
+
+
+    </section>
+
+
+  </body>
+
+</document>
+

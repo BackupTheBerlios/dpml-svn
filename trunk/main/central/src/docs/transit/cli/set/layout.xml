@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<document>
+
+  <properties>
+    <author email="mcconnell@dpml.net">Stephen McConnell</author>
+    <title>DPML Transit</title>
+  </properties> 
+
+  <body>
+
+    <section name="Set Layout Command">
+
+<pre><![CDATA[$ transit set layout <id>
+  [-uri <uri>]
+  [-title <title>]
+]]></pre>
+
+      <subsection name="Description">
+
+        <p>
+        Updates the defintion of a custom layout scheme.
+        </p>
+
+      </subsection>
+
+      <subsection name="Options">
+
+        <table>
+          <tr><td>uri</td><td>Updates the plugin uri.</td></tr>
+          <tr><td>title</td><td>Update the layout strategy title.</td></tr>
+        </table>
+
+      </subsection>
+
+    </section>
+
+
+  </body>
+
+</document>
+

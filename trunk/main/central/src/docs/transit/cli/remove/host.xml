@@ -9,14 +9,14 @@
 
   <body>
 
-    <section name="Add Command">
+    <section name="Remove Host Command">
 
-<pre><![CDATA[$ transit add [host <id> | handler <id> | layout <id>]]]></pre>
+<pre><![CDATA[$ transit remove host <id>]]></pre>
 
       <subsection name="Description">
 
         <p>
-        Support for the addition of new hosts, layouts, and content handlers.
+        Removes an identified resource host from the Transit configuration.
         </p>
 
       </subsection>
@@ -24,21 +24,18 @@
       <subsection name="Example">
 
         <p>
-        The following example demonstrates the addition of a new content 
-         handler to the transit configuration.
+        The following example command removes resource host definition
+        from the transit configuration.
         </p>
 
-<pre><![CDATA[
-$ transit add handler demo -uri link:plugin:dpml/demo/dpml-handler#1.2.3
-Adding content handler: demo
+<pre>$ transit remove host ibiblio
+Removing resource host: ibiblio
 Saving to: local:xml:dpml/transit/config
-]]></pre>
+</pre>
 
       </subsection>
 
-
     </section>
-
 
   </body>
 

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<document>
+
+  <properties>
+    <author email="mcconnell@dpml.net">Stephen McConnell</author>
+    <title>DPML Transit</title>
+  </properties> 
+
+  <body>
+
+    <section name="Remove Handler Command">
+
+<pre><![CDATA[$ transit remove handler <id>]]></pre>
+
+      <subsection name="Description">
+
+        <p>
+        Removes the identified content handler from the configuration.
+        </p>
+
+      </subsection>
+
+      <subsection name="Example">
+
+        <p>
+        The following example command removes a custom content handler
+        from the transit configuration.
+        </p>
+
+<pre>$ transit remove handler demo
+Removing content handler: demo
+Saving to: local:xml:dpml/transit/config</pre>
+
+      </subsection>
+
+    </section>
+
+  </body>
+
+</document>
+

@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<document>
+
+  <properties>
+    <author email="mcconnell@dpml.net">Stephen McConnell</author>
+    <title>DPML Transit</title>
+  </properties> 
+
+  <body>
+
+    <section name="Add Layout Command">
+
+<pre><![CDATA[$ transit add layout <id>
+  -uri <uri>
+  [-title <title>]
+]]></pre>
+
+      <subsection name="Description">
+
+        <p>
+        Adds a new custom layout scheme to the Transit configuration.
+        </p>
+
+        <p>
+        When resolving an <tt>artifact</tt> uri Transit will convert the 
+        uri to a url using a layout scheme associated with resource host
+        definition.  The layout scheme provides the mapping between the 
+        uri identify and a physical location on a remote host file system.
+        Transit provides two standard layout - 'classic' and 'eclipse' and 
+        a mechanisms to suppliment the configuration with custom layout
+        strategies.  Custom layouts are implementated via a Transit plugin
+        with a plugin class that implements the <tt>net.dpml.transit.Layout</tt>
+        interface.  Once a custom layout is associated with a Transit configuration
+        it may be referenced via its <tt>id</tt> within resource host definitions.
+        </p>
+
+      </subsection>
+
+      <subsection name="Options">
+
+        <table>
+          <tr><td>uri</td><td>The plugin uri.</td></tr>
+          <tr><td>title</td><td>Optional layout strategy title.</td></tr>
+        </table>
+
+      </subsection>
+
+      <subsection name="Example">
+
+        <p>
+        The following example demonstrates the addition of a new 
+        custom layout to the transit configuration.
+        </p>
+
+<pre><![CDATA[
+$ transit add layout demo -uri link:plugin:dpml/demo/dpml-example-layout#SNAPSHOT
+Adding layout: demo
+Saving to: local:xml:dpml/transit/config
+]]></pre>
+
+      </subsection>
+
+
+    </section>
+
+
+  </body>
+
+</document>
+

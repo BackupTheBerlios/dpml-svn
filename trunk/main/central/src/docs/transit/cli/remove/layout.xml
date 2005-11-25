@@ -9,14 +9,14 @@
 
   <body>
 
-    <section name="Add Command">
+    <section name="Remove Layout Command">
 
-<pre><![CDATA[$ transit add [host <id> | handler <id> | layout <id>]]]></pre>
+<pre><![CDATA[$ transit remove layout <id>]]></pre>
 
       <subsection name="Description">
 
         <p>
-        Support for the addition of new hosts, layouts, and content handlers.
+        Removes an identified layout from the configuration.
         </p>
 
       </subsection>
@@ -24,21 +24,18 @@
       <subsection name="Example">
 
         <p>
-        The following example demonstrates the addition of a new content 
-         handler to the transit configuration.
+        The following example command removes a custom layout scheme
+        from the transit configuration.
         </p>
 
-<pre><![CDATA[
-$ transit add handler demo -uri link:plugin:dpml/demo/dpml-handler#1.2.3
-Adding content handler: demo
+<pre>$ transit remove layout demo
+Removing layout: demo
 Saving to: local:xml:dpml/transit/config
-]]></pre>
+</pre>
 
       </subsection>
 
-
     </section>
-
 
   </body>
 
