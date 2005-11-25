@@ -9,7 +9,44 @@
 
   <body>
 
-    <section name="Depot Builder Command Line">
+    <section name="Builder Command Line">
+
+      <subsection name="Description">
+
+        <p>
+        The Depot <tt>build</tt> management tool provides support 
+        for listing of library content, listing information about specific projects, 
+        and the execution of single or multi-project builds.  Build execution is 
+        delegated to a build plugin which may be customized at the level of the 
+        build management system, individual project or modules.
+        </p>
+
+      </subsection>
+
+      <subsection name="Commandline">
+
+<pre><![CDATA[$ build [-list <pattern> -consumers | -select <pattern> -consumers -verbose -plugin <artifact>
+-version <version> -D<property>=<value> <target1> [<target2> ...] | -help]]]></pre>
+
+      </subsection>
+
+      <subsection name="Options">
+
+        <table>
+          <tr><td>list</td><td>List selected projects.</td></tr>
+          <tr><td>consumers</td><td>Modifies the selection to be consumers of the selected project.</td></tr>
+          <tr><td>select</td><td>Override context slection to build one or more projects.</td></tr>
+          <tr><td>verbose</td><td>Enable verbose build mode.</td></tr>
+          <tr><td>plugin</td><td>Override the default build plugin.</td></tr>
+          <tr><td>version</td><td>Declare a build version.</td></tr>
+          <tr><td>D</td><td>Set one or more system properties.</td></tr>
+          <tr><td>target, ...</td><td>Invoke a build with one or more target.</td></tr>
+          <tr><td>-help</td><td>List command help to console.</td></tr>
+        </table>
+
+      </subsection>
+
+      <subsection name="Example">
 
 <pre>$ build help</pre>
 <source><![CDATA[
@@ -30,31 +67,6 @@ options
     <target> [<target> ...]
   -help (-h)                                       List command help.
 ]]></source>
-
-      <subsection name="Description">
-
-        <p>
-        The Depot build management tool (named <tt>build</tt>) provides support 
-        for listing of library content, listing information about specific projects, 
-        and the execution of single or multi-project builds.  Build execution is 
-        delegated to a build plugin which may be customized at the level of the 
-        build management system, individual project or module.
-        </p>
-
-      </subsection>
-
-      <subsection name="Options">
-
-        <table>
-          <tr><td>list</td><td>List selected projects.</td></tr>
-          <tr><td>consumers</td><td>Modifies the selection to be consumers of the selected project.</td></tr>
-          <tr><td>select</td><td>Override context slection to build one or more projects.</td></tr>
-          <tr><td>verbose</td><td>Enable verbose build mode.</td></tr>
-          <tr><td>plugin</td><td>Override the default build plugin.</td></tr>
-          <tr><td>version</td><td>Declare a build version.</td></tr>
-          <tr><td>D</td><td>Set one or more system properties.</td></tr>
-          <tr><td>target, ...</td><td>Invoke a build with one or more target.</td></tr>
-        </table>
 
       </subsection>
 

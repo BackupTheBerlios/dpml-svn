@@ -27,8 +27,8 @@
         <p><i>Example listing of all projects that are consumers
           of a named project:</i></p>
         
-<pre>$ build -l dpml/metro/dpml-state-api -c
-Selection: [14]
+<pre>$ build -l dpml/metro/dpml-state-api -c</pre>
+<source>Selection: [14]
 
   [1]   project:dpml/metro/dpml-state-impl
   [2]   project:dpml/metro/dpml-part-api
@@ -43,7 +43,7 @@ Selection: [14]
   [11]  module:dpml/depot
   [12]  project:dpml/metro/dpml-metro-exec
   [13]  module:dpml/metro
-  [14]  module:dpml</pre>
+  [14]  module:dpml</source>
 
       </subsection>
 

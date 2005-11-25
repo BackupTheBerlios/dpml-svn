@@ -11,13 +11,17 @@
 
     <section name="Remove Proxy Command">
 
-<pre><![CDATA[$ transit remove proxy]]></pre>
-
       <subsection name="Description">
 
         <p>
         Removes all proxy settings from the Transit configuration.
         </p>
+
+      </subsection>
+
+      <subsection name="Commandline">
+
+<pre>$ transit remove proxy</pre>
 
       </subsection>
 

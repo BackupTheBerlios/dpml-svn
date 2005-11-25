@@ -20,6 +20,13 @@
 
       </subsection>
 
+      <subsection name="Commandline">
+
+<pre><![CDATA[$ transit info]]></pre>
+
+      </subsection>
+
+
       <subsection name="Default">
 
         <p>
@@ -36,8 +43,8 @@
        <p>The following example demonstrates the listing of the classic configuration.</p>
 
 
-<pre><![CDATA[$ transit info
-
+<pre><![CDATA[$ transit info]]></pre>
+<source><![CDATA[
   Cache Settings
 
     Directory:  ${dpml.data}/cache
@@ -78,7 +85,7 @@
       Password:
       Prompt:
       Scheme:
-]]></pre>
+]]></source>
 
       </subsection>
     </section>

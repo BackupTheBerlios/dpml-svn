@@ -11,11 +11,6 @@
 
     <section name="Add Handler Command">
 
-<pre><![CDATA[$ transit add handler <id>
-  -uri <uri>
-  [-title <title>]
-]]></pre>
-
       <subsection name="Description">
 
         <p>
@@ -29,6 +24,15 @@
         with a plugin class that extends the abstract class 
         <tt>java.net.ContentHandler</tt>.
         </p>
+
+      </subsection>
+
+      <subsection name="Commandline">
+
+<pre><![CDATA[$ transit add handler <id>
+  -uri <uri>
+  [-title <title>]
+]]></pre>
 
       </subsection>
 
@@ -49,10 +53,11 @@
         </p>
 
 <pre><![CDATA[
-$ transit add handler demo -uri link:plugin:dpml/demo/dpml-handler#1.2.3
+$ transit add handler demo -uri link:plugin:dpml/demo/dpml-handler#1.2.3]]></pre>
+<source><![CDATA[
 Adding content handler: demo
 Saving to: local:xml:dpml/transit/config
-]]></pre>
+]]></source>
 
       </subsection>
 

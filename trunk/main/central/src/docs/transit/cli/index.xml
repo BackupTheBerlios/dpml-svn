@@ -11,14 +11,48 @@
 
     <section name="Transit Command Line">
 
-<pre>$ transit help</pre>
+      <subsection name="Description">
+
+        <p>
+        Command-line supporting the management of one or more transit configurations.
+        The <tt>transit</tt> tool provides support for the addition, removal, and 
+        modification of hosts, layouts and content handlers together with functions 
+        supporting cache and proxy configuration maintenance.
+        </p>
+
+      </subsection>
+
+      <subsection name="Commandline">
+
+<pre><![CDATA[$ transit info |add <id> | set <id> | remove <id> | revert | help [-profile <uri>]]]></pre>
+
+      </subsection>
+
+      <subsection name="Options">
+
+        <table>
+          <tr><td>info</td><td>Lists the current configration to console.</td></tr>
+          <tr><td>add</td><td>Add a new host, layout or content handler.</td></tr>
+          <tr><td>set</td><td>Update a feature of a host, layout, content handler, 
+             cache or proxy configuration.</td></tr>
+          <tr><td>remove </td><td>Remove a host, layout or content handler.</td></tr>
+          <tr><td>revert</td><td>Revert the configuration to factory defaults.</td></tr>
+          <tr><td>help</td><td>List command help to console.</td></tr>
+          <tr><td>profile</td><td>Override selection of the default configuration profile.</td></tr>
+        </table>
+
+      </subsection>
+
+      <subsection name="Example">
+
+<pre><![CDATA[
+$ transit help]]></pre>
 <source><![CDATA[
-$ transit help
 Usage:
-transit [-profile <uri> info|add|set|remove|revert|help]
+transit info | add <id> | set <id> | remove <id> | revert | help [-profile <uri>] 
 command
   -profile <uri>                                      Configuration profile uri.
-  info|add|set|remove|revert|help
+  info | add | set | remove | revert | help
     info                                              List configuration.
     add
       host handler layout
@@ -91,19 +125,9 @@ command
     help                                              Print command help.
 ]]></source>
 
-
-      <subsection name="Description">
-
-        <p>
-        Provides supporting listing of the Transit configuration and 
-        commands enabling the addition removal and modification of hosts, 
-        layouts and content handlers.
-        </p>
-
       </subsection>
 
     </section>
-
 
   </body>
 

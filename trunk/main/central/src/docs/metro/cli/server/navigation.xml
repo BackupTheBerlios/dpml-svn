@@ -26,9 +26,12 @@
 
     <menu>
       <item name="Startup" href="startup.html"/>
-      <item name="Info" href="info.html"/>
       <item name="Add" href="add.html"/>
       <item name="Set" href="set.html"/>
+      <item name="Start" href="start.html"/>
+      <item name="Stop" href="stop.html"/>
+      <item name="Restart" href="restart.html"/>
+      <item name="Info" href="info.html"/>
       <item name="Remove" href="remove.html"/>
       <item name="Shutdown" href="shutdown.html"/>
     </menu>

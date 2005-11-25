@@ -11,19 +11,6 @@
 
     <section name="Add Host Command">
 
-<pre><![CDATA[$ transit add host <id>
-  -url <url>
-  [-username <username>]
-  [-password <password>]
-  [-priority <int>]
-  [-index <resource>]
-  [-disabled]
-  [-trusted]
-  [-layout <id>]
-  [-scheme <scheme>]
-  [-prompt <prompt>]
-]]></pre>
-
       <subsection name="Description">
 
         <p>
@@ -38,6 +25,23 @@
         (dealing with uri to url mapping), and policies concerning 
         authentication.
         </p>
+
+      </subsection>
+
+      <subsection name="Commandline">
+
+<pre><![CDATA[$ transit add host <id>
+  -url <url>
+  [-username <username>]
+  [-password <password>]
+  [-priority <int>]
+  [-index <resource>]
+  [-disabled]
+  [-trusted]
+  [-layout <id>]
+  [-scheme <scheme>]
+  [-prompt <prompt>]
+]]></pre>
 
       </subsection>
 
@@ -68,10 +72,11 @@
         </p>
 
 <pre><![CDATA[
-$ transit add host demo -url http://localhost:8080 -priority 60
+$ transit add host demo -url http://localhost:8080 -priority 60]]></pre>
+<source><![CDATA[
 Adding resource host: demo
 Saving to: local:xml:dpml/transit/config
-]]></pre>
+]]></source>
 
       </subsection>
 

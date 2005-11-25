@@ -11,13 +11,17 @@
 
     <section name="Remove Layout Command">
 
-<pre><![CDATA[$ transit remove layout <id>]]></pre>
-
       <subsection name="Description">
 
         <p>
         Removes an identified layout from the configuration.
         </p>
+
+      </subsection>
+
+      <subsection name="Commandline">
+
+<pre><![CDATA[$ transit remove layout <id>]]></pre>
 
       </subsection>
 
@@ -28,10 +32,11 @@
         from the transit configuration.
         </p>
 
-<pre>$ transit remove layout demo
+<pre>$ transit remove layout demo</pre>
+<source>
 Removing layout: demo
 Saving to: local:xml:dpml/transit/config
-</pre>
+</source>
 
       </subsection>
 

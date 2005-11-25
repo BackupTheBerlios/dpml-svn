@@ -11,6 +11,16 @@
 
     <section name="Set Host Command">
 
+      <subsection name="Description">
+
+        <p>
+        Updates a resource host defintion.
+        </p>
+
+      </subsection>
+
+      <subsection name="Commandline">
+
 <pre><![CDATA[$ transit set host <id>
   [-url <url>]
   [-username <username>]
@@ -23,12 +33,6 @@
   [-scheme <scheme>]
   [-prompt <prompt>]
 ]]></pre>
-
-      <subsection name="Description">
-
-        <p>
-        Updates a resource host defintion.
-        </p>
 
       </subsection>
 
@@ -59,10 +63,11 @@
         </p>
 
 <pre><![CDATA[
-$ transit set host demo -url http://localhost:8080 -priority 60 -trusted
+$ transit set host demo -url http://localhost:8080 -priority 60 -trusted]]></pre>
+<source><![CDATA[
 Updating resource host: demo
 Saving to: local:xml:dpml/transit/config
-]]></pre>
+]]></source>
 
       </subsection>
 

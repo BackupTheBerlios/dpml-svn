@@ -37,8 +37,8 @@
        using an explicit <tt>2.0.1</tt> target version using context
        based project selection.</p>
 
-<pre>$ build -version 2.0.1
-
+<pre>$ build -version 2.0.1</pre>
+<source>
 -------------------------------------------------------------------------
 dpml/util/dpml-util-i18n
 -------------------------------------------------------------------------
@@ -77,7 +77,7 @@ install:
 
 BUILD SUCCESSFUL
 Total time: 3 seconds
-</pre>
+</source>
 
       </subsection>
 

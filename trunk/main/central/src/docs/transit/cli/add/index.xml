@@ -11,13 +11,17 @@
 
     <section name="Add Command">
 
-<pre><![CDATA[$ transit add [host <id> | handler <id> | layout <id>]]]></pre>
-
       <subsection name="Description">
 
         <p>
         Support for the addition of new hosts, layouts, and content handlers.
         </p>
+
+      </subsection>
+
+      <subsection name="Commandline">
+
+<pre><![CDATA[$ transit add [host <id> | handler <id> | layout <id>]]]></pre>
 
       </subsection>
 
@@ -29,10 +33,11 @@
         </p>
 
 <pre><![CDATA[
-$ transit add handler demo -uri link:plugin:dpml/demo/dpml-handler#1.2.3
+$ transit add handler demo -uri link:plugin:dpml/demo/dpml-handler#1.2.3]]></pre>
+<source><![CDATA[
 Adding content handler: demo
 Saving to: local:xml:dpml/transit/config
-]]></pre>
+]]></source>
 
       </subsection>
 

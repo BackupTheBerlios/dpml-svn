@@ -11,17 +11,21 @@
 
     <section name="Set Cache Command">
 
-<pre><![CDATA[$ transit set cache 
-  [-cache <path>
-  [-system <path>]
-  [-layout <id>]
-]]></pre>
-
       <subsection name="Description">
 
         <p>
         Updates the cache configuration.
         </p>
+
+      </subsection>
+
+      <subsection name="Commandline">
+
+<pre><![CDATA[$ transit set cache 
+  [-cache <path>
+  [-system <path>]
+  [-layout <id>]
+]]></pre>
 
       </subsection>
 

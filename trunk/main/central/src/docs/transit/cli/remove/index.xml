@@ -11,8 +11,6 @@
 
     <section name="Remove Command">
 
-<pre><![CDATA[$ transit remove host <id> | handler <id> | layout <id> | proxy ]]></pre>
-
       <subsection name="Description">
 
         <p>
@@ -22,8 +20,13 @@
 
       </subsection>
 
-    </section>
+      <subsection name="Commandline">
 
+<pre><![CDATA[$ transit remove host <id> | handler <id> | layout <id> | proxy ]]></pre>
+
+      </subsection>
+
+    </section>
 
   </body>
 

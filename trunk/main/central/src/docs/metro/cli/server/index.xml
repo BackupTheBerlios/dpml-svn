@@ -9,7 +9,7 @@
 
   <body>
 
-    <section name="Metro Command Line">
+    <section name="Station Command Line">
 
 <pre>$ station help</pre>
 <source><![CDATA[

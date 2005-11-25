@@ -11,18 +11,22 @@
 
     <section name="Set Proxy Command">
 
+      <subsection name="Description">
+
+        <p>
+        Modify the proxy configuration.
+        </p>
+
+      </subsection>
+
+      <subsection name="Commandline">
+
 <pre><![CDATA[$ transit set proxy 
   [-url <proxy-host>]
   [-username <username>]
   [-password <password>]
   [-excludes <pattern>[,<pattern>,...]]
 ]]></pre>
-
-      <subsection name="Description">
-
-        <p>
-        Modify the proxy configuration.
-        </p>
 
       </subsection>
 

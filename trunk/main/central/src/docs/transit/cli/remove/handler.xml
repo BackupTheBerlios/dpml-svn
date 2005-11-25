@@ -11,13 +11,17 @@
 
     <section name="Remove Handler Command">
 
-<pre><![CDATA[$ transit remove handler <id>]]></pre>
-
       <subsection name="Description">
 
         <p>
         Removes the identified content handler from the configuration.
         </p>
+
+      </subsection>
+
+      <subsection name="Commandline">
+
+<pre><![CDATA[$ transit remove handler <id>]]></pre>
 
       </subsection>
 
@@ -28,9 +32,9 @@
         from the transit configuration.
         </p>
 
-<pre>$ transit remove handler demo
-Removing content handler: demo
-Saving to: local:xml:dpml/transit/config</pre>
+<pre>$ transit remove handler demo</pre>
+<source>Removing content handler: demo
+Saving to: local:xml:dpml/transit/config</source>
 
       </subsection>
 

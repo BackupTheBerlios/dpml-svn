@@ -11,13 +11,17 @@
 
     <section name="Remove Host Command">
 
-<pre><![CDATA[$ transit remove host <id>]]></pre>
-
       <subsection name="Description">
 
         <p>
         Removes an identified resource host from the Transit configuration.
         </p>
+
+      </subsection>
+
+      <subsection name="Commandline">
+
+<pre><![CDATA[$ transit remove host <id>]]></pre>
 
       </subsection>
 
@@ -28,10 +32,11 @@
         from the transit configuration.
         </p>
 
-<pre>$ transit remove host ibiblio
+<pre>$ transit remove host ibiblio</pre>
+<source>
 Removing resource host: ibiblio
 Saving to: local:xml:dpml/transit/config
-</pre>
+</source>
 
       </subsection>
 

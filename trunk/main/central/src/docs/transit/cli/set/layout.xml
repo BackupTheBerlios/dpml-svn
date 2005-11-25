@@ -11,16 +11,20 @@
 
     <section name="Set Layout Command">
 
-<pre><![CDATA[$ transit set layout <id>
-  [-uri <uri>]
-  [-title <title>]
-]]></pre>
-
       <subsection name="Description">
 
         <p>
         Updates the defintion of a custom layout scheme.
         </p>
+
+      </subsection>
+
+      <subsection name="Commandline">
+
+<pre><![CDATA[$ transit set layout <id>
+  [-uri <uri>]
+  [-title <title>]
+]]></pre>
 
       </subsection>
 

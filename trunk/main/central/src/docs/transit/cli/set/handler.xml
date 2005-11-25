@@ -11,16 +11,20 @@
 
     <section name="Set Handler Command">
 
-<pre><![CDATA[$ transit set handler <id>
-  [-uri <uri>]
-  [-title <title>]
-]]></pre>
-
       <subsection name="Description">
 
         <p>
         Update a content handler configuration.
         </p>
+
+      </subsection>
+
+      <subsection name="Commandline">
+
+<pre><![CDATA[$ transit set handler <id>
+  [-uri <uri>]
+  [-title <title>]
+]]></pre>
 
       </subsection>
 
@@ -41,10 +45,11 @@
         </p>
 
 <pre><![CDATA[
-$ transit set handler demo -uri link:plugin:dpml/demo/dpml-handler#2.0
+$ transit set handler demo -uri link:plugin:dpml/demo/dpml-handler#2.0]]></pre>
+<source><![CDATA[
 Updating content handler: demo
 Saving to: local:xml:dpml/transit/config
-]]></pre>
+]]></source>
 
       </subsection>
 

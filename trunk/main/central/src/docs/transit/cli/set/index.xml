@@ -11,8 +11,6 @@
 
     <section name="Set Command">
 
-<pre>$ transit set proxy | cache | host | layout | handler</pre>
-
       <subsection name="Description">
 
         <p>
@@ -20,6 +18,12 @@
         or content handler, or modification of the transit cache or proxy 
         settings.
         </p>
+
+      </subsection>
+
+      <subsection name="Commandline">
+
+<pre>$ transit set proxy | cache | host | layout | handler</pre>
 
       </subsection>
 

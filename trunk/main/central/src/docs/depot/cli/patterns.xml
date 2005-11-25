@@ -23,9 +23,11 @@
 
         <p><i>Example of directory-based selection:</i></p>
 
-        <pre>$ cd main/metro
+<pre>$ cd main/metro
 $ build -l
+</pre>
 
+<source>
 Selection: [9]
 
   [1]   project:dpml/metro/dpml-state-api
@@ -36,7 +38,8 @@ Selection: [9]
   [6]   project:dpml/metro/dpml-metro-tools
   [7]   project:dpml/metro/dpml-metro-test
   [8]   project:dpml/metro/dpml-metro-exec
-  [9]   module:dpml/metro</pre>
+  [9]   module:dpml/metro
+</source>
 
       </subsection>
 
@@ -94,21 +97,20 @@ Selection: [9]
 
         <p><i>Example of a multi-project listing:</i></p>
 
-<pre>$ build -list **/dpml-metro-*
-
+<pre>$ build -list **/dpml-metro-*</pre>
+<source>
 Selection: [5]
 
   [1]   project:dpml/metro/dpml-metro-model
   [2]   project:dpml/metro/dpml-metro-runtime
   [3]   project:dpml/metro/dpml-metro-tools
   [4]   project:dpml/metro/dpml-metro-test
-  [5]   project:dpml/metro/dpml-metro-exec</pre>
+  [5]   project:dpml/metro/dpml-metro-exec</source>
 
         <p><i>Example of a single project listing:</i></p>
 
-<pre>$ build -list **/dpml-metro-runtime
-
-Listing project: dpml/metro/dpml-metro-model
+<pre>$ build -list **/dpml-metro-runtime</pre>
+<source>Listing project: dpml/metro/dpml-metro-model
 
 project:dpml/metro/dpml-metro-model
 
@@ -134,7 +136,7 @@ project:dpml/metro/dpml-metro-model
     project:dpml/util/dpml-configuration-impl
     project:dpml/metro/dpml-state-impl
     project:dpml/util/dpml-parameters-api
-    project:dpml/util/dpml-parameters-impl</pre>
+    project:dpml/util/dpml-parameters-impl</source>
 
       </subsection>
 
