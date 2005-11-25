@@ -16,7 +16,7 @@
         <ul>
           <li>
             <a href="depot/index.html">Depot</a> tools 
-            for build automation in a complex multi-projects environment.
+            for build automation in complex multi-project environments.
           </li>
           <li>
             <a href="metro/index.html">Metro</a> context-driven IOC runtime container.

@@ -43,6 +43,21 @@ options
 
       </subsection>
 
+      <subsection name="Options">
+
+        <table>
+          <tr><td>list</td><td>List selected projects.</td></tr>
+          <tr><td>consumers</td><td>Modifies the selection to be consumers of the selected project.</td></tr>
+          <tr><td>select</td><td>Override context slection to build one or more projects.</td></tr>
+          <tr><td>verbose</td><td>Enable verbose build mode.</td></tr>
+          <tr><td>plugin</td><td>Override the default build plugin.</td></tr>
+          <tr><td>version</td><td>Declare a build version.</td></tr>
+          <tr><td>D</td><td>Set one or more system properties.</td></tr>
+          <tr><td>target, ...</td><td>Invoke a build with one or more target.</td></tr>
+        </table>
+
+      </subsection>
+
     </section>
 
   </body>
