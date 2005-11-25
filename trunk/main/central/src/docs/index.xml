@@ -16,7 +16,7 @@
         <ul>
           <li>
             <a href="depot/index.html">Depot</a> tools 
-            for automation of complex projects development.
+            for build automation in a complex multi-projects environment.
           </li>
           <li>
             <a href="metro/index.html">Metro</a> context-driven IOC runtime container.
@@ -29,6 +29,10 @@
       </subsection>
 
       <subsection name="Opensource">
+
+        <p>
+        All products are available as open-source under Apache 2.0 license.
+        </p>
 
       </subsection>
 
