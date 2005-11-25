@@ -15,15 +15,15 @@
 <source><![CDATA[
 $ transit help
 Usage:
-transit [-profile <url> info|add|set|remove|help]
+transit [-profile <uri> info|add|set|remove|revert|help]
 command
-  -profile <url>                                      Configuration profile.
-  info|add|set|remove|help
+  -profile <uri>                                      Configuration profile uri.
+  info|add|set|remove|revert|help
     info                                              List configuration.
     add
       host handler layout
         host <id>                                     Add a new resource host.
-          -url -username -password -priority -index -disabled -layout -scheme -prompt
+          -url -username -password -priority -index -disabled -trusted -layout -scheme -prompt
 
             -url <url>                                Host URL (required).
             -username <username>                      Username.
@@ -31,6 +31,7 @@ command
             -priority <int>                           Host priority.
             -index <resource>                         Host index path.
             -disabled                                 Disable the host.
+            -trusted                                  Assert as trusted host.
             -layout <id>                              Host layout strategy.
             -scheme <scheme>                          Host authentication scheme.
             -prompt <prompt>                          Host authentication prompt.
@@ -43,24 +44,32 @@ command
             -uri <uri>                                Codebase URI (required).
             -title <name>                             Title.
     set                                               Set an configuration aspect.
-      proxy host handler layout
+      proxy cache host handler layout
         proxy                                         Select proxy settings.
           -url -username -password -excludes
             -url <url>                                Host URL.
             -username <username>                      Username.
             -password <password>                      Password.
-            -excludes <host> [<host> ...]             Proxy excludes.
+            -excludes <hosts> [<hosts> ...]           Proxy excludes.
+        cache                                         Select cache settings.
+          -cache -system -layout
+            -cache <dir>                              Cache directory.
+            -system <dir>                             Local system repository.
+            -layout <id>                              Host layout strategy.
         host <id>                                     Resource host selection.
-          -url -username -password -priority -index -enabled -disabled -layout -scheme -prompt
+          -url -username -password -priority -index -enabled|-disabled -trusted|-untrusted -layout -scheme -prompt
 
             -url <url>                                Host URL.
             -username <username>                      Username.
             -password <password>                      Password.
             -priority <int>                           Host priority.
             -index <resource>                         Host index path.
-            -enabled -disabled
+            -enabled|-disabled
               -enabled                                Enable the host.
               -disabled                               Disable the host.
+            -trusted|-untrusted
+              -trusted                                Assert as trusted host.
+              -untrusted                              Assert as untrusted host.
             -layout <id>                              Host layout strategy.
             -scheme <scheme>                          Host authentication scheme.
             -prompt <prompt>                          Host authentication prompt.
@@ -78,6 +87,7 @@ command
         handler <type>                                Content handler selection.
         layout <id>                                   Layout scheme selection.
         proxy                                         Delete proxy settings.
+    revert                                            Set configuration to default.
     help                                              Print command help.
 ]]></source>
 

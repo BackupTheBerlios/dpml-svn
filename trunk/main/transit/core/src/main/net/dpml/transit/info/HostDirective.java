@@ -212,7 +212,19 @@ public class HostDirective extends AbstractDirective
         if( super.equals( other ) && ( other instanceof HostDirective ) )
         {
             HostDirective directive = (HostDirective) other;
-            if( !equals( m_host, directive.m_host ) )
+            if( !equals( m_id, directive.m_id ) )
+            {
+                return false;
+            }
+            else if( m_trusted != directive.m_trusted )
+            {
+                return false;
+            }
+            else if( m_enabled != directive.m_enabled )
+            {
+                return false;
+            }
+            else if( !equals( m_host, directive.m_host ) )
             {
                 return false;
             }
@@ -268,6 +280,9 @@ public class HostDirective extends AbstractDirective
     public int hashCode()
     {
         int hash = 0;
+        hash ^= hashValue( m_id );
+        hash ^= hashValue( new Boolean( m_trusted ) );
+        hash ^= hashValue( new Boolean( m_enabled ) );
         hash ^= hashValue( m_host );
         hash ^= hashValue( m_index );
         hash ^= hashValue( m_username );

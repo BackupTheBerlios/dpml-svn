@@ -144,7 +144,6 @@ public class HelpFormatter
      * @param gutterCenter the string marking center of screen
      * @param gutterRight the string marking right of screen
      * @param fullWidth the width of the screen
-     * @param descriptionWidth the minimum description width
      */
     public HelpFormatter(
       final String gutterLeft, final String gutterCenter, final String gutterRight, 

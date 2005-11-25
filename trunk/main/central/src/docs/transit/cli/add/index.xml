@@ -11,7 +11,7 @@
 
     <section name="Add Command">
 
-<pre>$ transit add ...</pre>
+<pre><![CDATA[$ transit add [host <id>| handler <id> | layout <id>]]]></pre>
 
       <subsection name="Description">
 
@@ -20,6 +20,22 @@
         </p>
 
       </subsection>
+
+      <subsection name="Example">
+
+        <p>
+        The following example demonstrates the addition of a new content 
+         handler to the transit configuration.
+        </p>
+
+<pre><![CDATA[
+$ transit add handler demo -uri link:plugin:dpml/demo/dpml-handler#1.2.3
+Adding content handler: demo
+Saving to: local:xml:dpml/transit/config
+]]></pre>
+
+      </subsection>
+
 
     </section>
 

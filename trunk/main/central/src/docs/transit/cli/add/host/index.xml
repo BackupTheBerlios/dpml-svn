@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<document>
+
+  <properties>
+    <author email="mcconnell@dpml.net">Stephen McConnell</author>
+    <title>DPML Transit</title>
+  </properties> 
+
+  <body>
+
+    <section name="Add Host Command">
+
+<pre><![CDATA[$ transit add host <id>
+  -url <url>
+  [-username <username>]
+  [-password <password>]
+  [-priority <int>]
+  [-index <resource>]
+  [-disabled]
+  [-trusted]
+  [-layout <id>]
+  [-scheme <scheme>]
+  [-prompt <prompt>]
+]]></pre>
+
+      <subsection name="Description">
+
+        <p>
+        Adds a new resource host to the configuration.  Once added the 
+        Transit system will consult the host when resolving artifact 
+        requests.
+        </p>
+
+      </subsection>
+
+      <subsection name="Example">
+
+        <p>
+        The following example demonstrates the addition of a new resource 
+         host to the transit configuration.
+        </p>
+
+<pre><![CDATA[
+$ transit add host demo -url http://localhost:8080
+Adding resource host: demo
+Saving to: local:xml:dpml/transit/config
+]]></pre>
+
+      </subsection>
+
+
+    </section>
+
+
+  </body>
+
+</document>
+

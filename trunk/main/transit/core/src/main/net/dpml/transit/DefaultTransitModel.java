@@ -27,6 +27,7 @@ import java.io.BufferedInputStream;
 import java.io.InputStream;
 import java.io.File;
 import java.net.URL;
+import java.net.URI;
 
 import net.dpml.transit.Logger;
 import net.dpml.transit.TransitError;
@@ -56,7 +57,12 @@ public class DefaultTransitModel extends DefaultModel implements TransitModel
    /**
     * Default configuration url path.
     */
-    public static final String DEFAULT_PROFILE_PATH = "file:${dpml.prefs}/transit.xml";
+    public static final String DEFAULT_PROFILE_PATH = "local:xml:dpml/transit/config";
+    
+   /**
+    * Default configuration url path.
+    */
+    public static final URI DEFAULT_PROFILE_URI = createStaticURI( DEFAULT_PROFILE_PATH );
     
    /**
     * System property key used to hold an overriding configuration url.
@@ -95,7 +101,7 @@ public class DefaultTransitModel extends DefaultModel implements TransitModel
         else
         {
             File prefs = Transit.DPML_PREFS;
-            File config = new File( prefs, "transit.xml" );
+            File config = new File( prefs, "dpml/transit/xmls/config.xml" );
             if( config.exists() )
             {
                 FileInputStream input = new FileInputStream( config );
@@ -279,5 +285,16 @@ public class DefaultTransitModel extends DefaultModel implements TransitModel
         return new DefaultTransitModel( logger, directive );
     }
     
+    private static URI createStaticURI( String path )
+    {
+        try
+        {
+            return new URI( path );
+        }
+        catch( Exception e )
+        {
+            return null;
+        }
+    }
 }
 
