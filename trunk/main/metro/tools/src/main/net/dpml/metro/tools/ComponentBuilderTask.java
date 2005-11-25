@@ -24,11 +24,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URI;
 
-import net.dpml.metro.tools.datatypes.CategoriesDataType;
-import net.dpml.metro.tools.datatypes.ConfigurationDataType;
-import net.dpml.metro.tools.datatypes.ContextDataType;
-import net.dpml.metro.tools.datatypes.ParametersDataType;
-
 import net.dpml.metro.data.ClassLoaderDirective;
 import net.dpml.metro.data.ComponentDirective;
 import net.dpml.metro.data.ContextDirective;

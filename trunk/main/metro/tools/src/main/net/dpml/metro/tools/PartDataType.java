@@ -16,13 +16,12 @@
  * limitations under the License.
  */
 
-package net.dpml.metro.tools.datatypes;
+package net.dpml.metro.tools;
 
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 
-import net.dpml.metro.tools.PartReferenceBuilder;
 import net.dpml.metro.runtime.CompositionController;
 import net.dpml.metro.info.PartReference;
 import net.dpml.metro.info.Type;

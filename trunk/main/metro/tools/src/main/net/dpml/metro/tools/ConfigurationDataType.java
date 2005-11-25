@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package net.dpml.metro.tools.datatypes;
+package net.dpml.metro.tools;
 
 import java.util.Hashtable;
 import java.util.LinkedList;

@@ -141,24 +141,24 @@ public final class InfoDescriptor extends Descriptor
             throws IllegalArgumentException, NullPointerException
     {
         super( attributes );
-
+        
         m_threadsafe = threadsafe;
-
+        
         if( null == classname )
         {
             throw new NullPointerException( "classname" );
         }
-
+        
         if( classname.indexOf( "/" ) > -1 )
         {
             throw new IllegalArgumentException( "classname: " + classname );
         }
-
+        
         m_classname = classname;
-
+        
         if( null == version )
         {
-            m_version = Version.getVersion( "1.0.0" );
+            m_version = Version.getVersion( "0.0.0" );
         }
         else
         {

@@ -134,7 +134,7 @@ public class CatalogTask extends Task
             File html = new File( reports, "html" );
             html.mkdirs();
 
-            File css = new File( Transit.DPML_PREFS, "metro/style/type-stylesheet.css" );
+            File css = new File( Transit.DPML_PREFS, "dpml/metro/csss/type.css" );
             File stylesheet = new File( html, "stylesheet.css" );
             final Copy copy = (Copy) getProject().createTask( "copy" );
             copy.setFile( css );
@@ -446,7 +446,7 @@ public class CatalogTask extends Task
             writer.write( "\n    </table>" );
 
             writer.write( "\n    <table width=\"100%\">" );
-            writer.write( "\n      <tr><th>Type</th><th>Name</th><th>Version</th><th>Lifestyle</th></tr>" );
+            writer.write( "\n      <tr><th>Type</th><th>Name</th><th>Lifestyle</th></tr>" );
 
             //
             // list all component types in the package
@@ -467,7 +467,7 @@ public class CatalogTask extends Task
                     writer.write( "\n      <tr class=\"p-odd\">" );
                 }
                 flag = !flag;
-
+                
                 String classname = getClassName( type );
                 String filename = classname + ".html"; 
                 writer.write( "\n        <td><a href=\"" );
@@ -476,19 +476,15 @@ public class CatalogTask extends Task
                 writer.write( classname );
                 writer.write( "</a>" );
                 writer.write( "\n        </td>" );
-
+                
                 writer.write( "\n        <td>" );
                 writer.write( type.getInfo().getName() );
                 writer.write( "\n        </td>" );
-
-                writer.write( "\n        <td>" );
-                writer.write( type.getInfo().getVersion().toString() );
-                writer.write( "\n        </td>" );
-
+                
                 writer.write( "\n        <td>" );
                 writer.write( type.getInfo().getLifestyle().getName() );
                 writer.write( "\n        </td>" );
-
+                
                 writer.write( "\n      </tr>" );
             }
             writer.write( "\n    </table>" );
