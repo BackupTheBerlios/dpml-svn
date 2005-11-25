@@ -90,7 +90,7 @@
       </type>
     </types>
     <dependencies>
-      <include ref="dpml/tools/dpml-tools-ant"/>
+      <include ref="dpml/depot/dpml-depot-ant"/>
       <include ref="dpml/transit/dpml-transit-tools"/>
       <include key="dpml-metro-runtime"/>
       <include urn="artifact:jar:xstream/xstream#1.1"/>

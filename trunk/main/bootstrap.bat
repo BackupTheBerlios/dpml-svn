@@ -14,8 +14,8 @@ set ID=%1
 CALL :antlib-cleanup
 CALL :transit-main
 CALL :transit-tools
-CALL :tools-library
-CALL :tools-ant
+CALL :depot-library
+CALL :depot-ant
 CALL :external-modules
 CALL :util-cli
 CALL :depot-builder
@@ -40,20 +40,20 @@ CALL :build clean install
 POPD
 GOTO :EOF
 
-:tools-library
-PUSHD tools\library
+:depot-library
+PUSHD depot\library
 CALL :build clean install
 POPD
 GOTO :EOF
 
-:tools-ant
-PUSHD tools\ant
+:depot-ant
+PUSHD depot\ant
 CALL :build clean install
 POPD
 GOTO :EOF
 
 :external-modules
-PUSHD tools\external
+PUSHD external
 CALL :build clean install
 POPD
 GOTO :EOF

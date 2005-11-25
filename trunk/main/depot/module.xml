@@ -6,10 +6,61 @@
     <type id="module" alias="true"/>
   </types>
    
-  <dependencies scope="build">
-    <include key="tools"/>
-  </dependencies>
-    
+  <resource name="dpml-depot-library" basedir="library">
+    <types>
+      <type id="jar"/>
+    </types>
+    <dependencies>
+      <include ref="dpml/transit/dpml-transit-main"/>
+    </dependencies>
+    <dependencies scope="test">
+      <include ref="ant/ant-junit"/>
+    </dependencies>
+  </resource>
+   
+  <resource name="dpml-depot-ant" basedir="ant">
+    <types>
+      <type id="jar"/>
+      <type id="plugin" alias="true">
+        <property name="project.plugin.class" 
+          value="net.dpml.tools.ant.StandardBuilder"/>
+      </type>
+    </types>
+    <dependencies>
+      <include key="dpml-depot-library"/>
+      <include ref="dpml/transit/dpml-transit-tools"/>
+      <include ref="ant/ant-junit" tag="system"/>
+      <include ref="ant/ant" tag="system"/>
+      <include ref="ant/ant-xslp" tag="system"/>
+      <include ref="ant/ant-trax" tag="system"/>
+    </dependencies>
+  </resource>
+
+  <project name="dpml-depot-checkstyle" basedir="checkstyle">
+    <types>
+      <type id="jar"/>
+      <type id="plugin" alias="true">
+        <property name="project.plugin.resource" 
+          value="net/dpml/tools/checkstyle/antlib.xml"/>
+        <property name="project.plugin.urn" 
+          value="dpml:checkstyle"/>
+      </type>
+    </types>
+    <dependencies>
+      <include ref="dpml/tools/dpml-depot-ant"/>
+      <include urn="artifact:jar:checkstyle/checkstyle#3.5">
+        <property name="project.api.host" value="http://api.dpml.net"/>
+        <property name="project.api.root" value="${project.api.host}/${group}/${version}"/>
+      </include>
+      <include urn="artifact:jar:regexp/regexp#1.3" />
+      <include urn="artifact:jar:commons-logging/commons-logging#1.0.4" />
+      <include urn="artifact:jar:commons-collections/commons-collections#3.1" />
+      <include urn="artifact:jar:commons-beanutils/commons-beanutils-core#1.7.0" />
+      <include urn="artifact:jar:bcel/bcel#5.1" />
+      <include urn="artifact:jar:antlr/antlr#2.7.2" />
+    </dependencies>
+  </project>
+
   <project name="dpml-depot-console" basedir="console">
     <types>
       <type id="jar"/>
@@ -36,7 +87,7 @@
     <dependencies>
       <include ref="dpml/util/dpml-util-cli"/>
       <include ref="dpml/transit/dpml-transit-main"/>
-      <include ref="dpml/tools/dpml-tools-library"/>
+      <include ref="dpml/depot/dpml-depot-library"/>
     </dependencies>
     <dependencies scope="test">
       <include ref="ant/ant-junit"/>

@@ -66,9 +66,9 @@ toolsAnt()
 
 toolsExternal()
 {
-    cd tools/external
+    cd external
     build clean install
-    cd ../..
+    cd ..
 }
 
 depotBuilder()
