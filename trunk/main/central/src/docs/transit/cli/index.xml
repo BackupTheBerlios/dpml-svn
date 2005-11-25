@@ -24,7 +24,7 @@
 
       <subsection name="Commandline">
 
-<pre><![CDATA[$ transit info |add <id> | set <id> | remove <id> | revert | help [-profile <uri>]]]></pre>
+<pre><![CDATA[$ transit info | add <id> | set <id> | remove <id> | revert | help [-profile <uri>]]]></pre>
 
       </subsection>
 
