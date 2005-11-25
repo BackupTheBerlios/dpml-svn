@@ -58,8 +58,8 @@
         Plugin files use a simple property file format to declare features of
         of the classloader, including information used when resolving plugins.
         This information is normally created automatically using the
-        <a href="/magic/latest/tasks/export.html">Export Task</a> from the
-        <a href="/magic/latest/index.html">Magic</a> build system.
+        <a href="../../depot/tools/tasks/core/export.html">Export Task</a> from the
+        <a href="../../depot/tools/index.html">Depot</a> build system.
         </p>
 
         <p>
