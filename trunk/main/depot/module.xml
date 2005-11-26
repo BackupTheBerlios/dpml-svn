@@ -47,7 +47,7 @@
       </type>
     </types>
     <dependencies>
-      <include ref="dpml/tools/dpml-depot-ant"/>
+      <include ref="dpml/depot/dpml-depot-ant"/>
       <include urn="artifact:jar:checkstyle/checkstyle#3.5">
         <property name="project.api.host" value="http://api.dpml.net"/>
         <property name="project.api.root" value="${project.api.host}/${group}/${version}"/>

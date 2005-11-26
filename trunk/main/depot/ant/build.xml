@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
-<project name="dpml-tools-ant" default="install" basedir="."
+<project name="dpml-depot-ant" default="install" basedir="."
     xmlns:transit="antlib:net.dpml.transit">
 
   <property file="${basedir}/build.properties"/>
   <transit:import file="${dpml.prefs}/transit/templates/bootstrap.template"/>
 
   <target name="init" depends="bootstrap.init">
-    <filter value="artifact:plugin:dpml/tools/${project.name}#${project.version}" token="PROJECT-URI"/>
+    <filter value="artifact:plugin:${project.group}/${project.name}#${project.version}" token="PROJECT-URI"/>
     <filter value="${commons.cli.uri}" token="COMMONS-CLI-URI"/>
     <filter value="${project.version}" token="PROJECT-VERSION"/>
   </target>

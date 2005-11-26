@@ -19,8 +19,8 @@
     <!--<x:filter token="DEPOT-INSTALL-URI" key="dpml-depot-install" feature="uri" type="plugin"/>-->
     <x:filter token="DEPOT-EXEC-URI" ref="dpml/metro/dpml-metro-exec" feature="uri" type="plugin"/>
     <x:filter token="DEPOT-BUILDER-URI" ref="dpml/depot/dpml-depot-builder" feature="uri" type="plugin"/>
-    <x:filter token="DEPOT-STATION-URI" key="dpml-station-console" feature="uri" type="plugin"/>
-    <x:filter token="DEPOT-STATION-SERVER-URI" key="dpml-station-server" feature="uri" type="plugin"/>
+    <x:filter token="DEPOT-STATION-URI" ref="dpml/metro/dpml-station-console" feature="uri" type="plugin"/>
+    <x:filter token="DEPOT-STATION-SERVER-URI" ref="dpml/metro/dpml-station-server" feature="uri" type="plugin"/>
     <x:filter token="TRANSIT-CONSOLE-URI" ref="dpml/transit/dpml-transit-console" feature="uri" type="plugin"/>
   </target>
 
@@ -32,9 +32,9 @@
   the build of transit and tools.
   -->
 
-  <available property="build.exe.available" file="${dpml.system}/bin/build.exe"/>
+  <available property="depot.exe.available" file="${dpml.system}/bin/depot.exe"/>
 
-  <target name="bootstrap" depends="install,win32-exe-install">
+  <target name="bootstrap" depends="install,bin">
     <echo>
 #----------------------------------------------------------------------------------
 # Replicating to DPML SYSTEM ${dpml.system}/local (could take a while)
@@ -42,8 +42,10 @@
     </echo>
     <property name="local" location="${dpml.system}/local"/>
     <x:replicate self="true" todir="${local}" verbose="false">
-      <include ref="dpml/tools/dpml-tools-ant"/>
-      <include ref="dpml/tools/dpml-tools-library"/>
+      <!--
+      <include ref="dpml/depot/dpml-depot-ant"/>
+      <include ref="dpml/depot/dpml-depot-library"/>
+      -->
     </x:replicate>
     <echo>
 #----------------------------------------------------------------------------------
@@ -69,7 +71,7 @@
     <copy todir="${dpml.system}" preservelastmodified="true" overwrite="true">
       <fileset dir="target">
         <include name="bin/**"/>
-        <exclude name="bin/build.exe"/>
+        <exclude name="bin/depot.exe"/>
       </fileset>
     </copy>
     <chmod perm="755">
@@ -80,10 +82,10 @@
     </chmod>
   </target>
 
-  <target name="win32-exe-install" depends="init" unless="build.exe.available">
+  <target name="bin" depends="prepare" unless="depot.exe.available">
     <copy todir="${dpml.system}" preservelastmodified="true">
       <fileset dir="target">
-        <include name="bin/build.exe"/>
+        <include name="bin/depot.exe"/>
       </fileset>
     </copy>
   </target>

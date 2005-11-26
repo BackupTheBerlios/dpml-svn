@@ -9,7 +9,7 @@
   <available property="builder.exe.available" file="${dpml.system}/bin/build.exe"/>
 
   <target name="init" depends="standard.init">
-    <x:filter token="ANT-BUILDER-URI" ref="dpml/tools/dpml-tools-ant" feature="uri" type="plugin"/>
+    <x:filter token="ANT-BUILDER-URI" ref="dpml/depot/dpml-depot-ant" feature="uri" type="plugin"/>
   </target>
 
   <target name="install" depends="bin,standard.install">

@@ -8,8 +8,8 @@ dpml.plugin.meta.version = 1.0
 #
 # Artifact descriptor.
 #
-dpml.artifact.group = dpml/tools
-dpml.artifact.name = dpml-tools-ant
+dpml.artifact.group = dpml/depot
+dpml.artifact.name = dpml-depot-ant
 dpml.artifact.version = @PROJECT-VERSION@
 dpml.artifact.signature = 00000000.000000
 
@@ -32,9 +32,9 @@ dpml.artifact.dependency.sys.5 = artifact:jar:ant/ant-trax#1.6.5
 # Private.
 #
 dpml.artifact.dependency.0 = artifact:jar:dpml/transit/dpml-transit-main#@PROJECT-VERSION@
-dpml.artifact.dependency.1 = artifact:jar:dpml/tools/dpml-tools-library#@PROJECT-VERSION@
-dpml.artifact.dependency.2 = artifact:jar:dpml/transit/dpml-transit-tools#@PROJECT-VERSION@
-dpml.artifact.dependency.3 = artifact:jar:dpml/tools/dpml-tools-ant#@PROJECT-VERSION@
+dpml.artifact.dependency.1 = artifact:jar:dpml/transit/dpml-transit-tools#@PROJECT-VERSION@
+dpml.artifact.dependency.2 = artifact:jar:dpml/depot/dpml-depot-library#@PROJECT-VERSION@
+dpml.artifact.dependency.3 = artifact:jar:dpml/depot/dpml-depot-ant#@PROJECT-VERSION@
 
 #
 # EOF.

@@ -50,21 +50,21 @@ transitTools()
     cd ../../..
 }
 
-toolsLibrary()
+depotLibrary()
 {
-    cd tools/library
+    cd depot/library
     build clean install
     cd ../..
 }
 
-toolsAnt()
+depotAntBuilder()
 {
-    cd tools/ant
+    cd depot/ant
     build clean install
     cd ../..
 }
 
-toolsExternal()
+externalModules()
 {
     cd external
     build clean install
@@ -89,8 +89,8 @@ ID=$1
 antlibCleanup
 transitMain
 transitTools
-toolsLibrary
-toolsAnt
-toolsExternal
+depotLibrary
+depotAntBuilder
+externalModules
 depotBuilder
 depotConsole

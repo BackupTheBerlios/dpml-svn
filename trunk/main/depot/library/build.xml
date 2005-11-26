@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
-<project name="dpml-tools-library" default="install" basedir="."
+<project name="dpml-depot-library" default="install" basedir="."
     xmlns:transit="antlib:net.dpml.transit" >
 
   <property file="${basedir}/build.properties"/>
