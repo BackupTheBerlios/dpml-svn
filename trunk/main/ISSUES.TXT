@@ -1,0 +1,26 @@
+
+Current issues
+--------------
+
+1. Processor Abstraction
+
+   Processor abstraction with dpml-depot-library.  Current the Depot Library 
+   interfaces include the notion of a processor defintion and a relationship
+   between project type production and the process used.  In fact this 
+   relationship is a build system implementation concern and as such should 
+   not appear in the library.  Instead the notion of processor needs to be 
+   morphed into Listener defintions within the dpml-depot-ant package which 
+   in-turn implies that the depot-ant package needs to handle its own 
+   configuration.
+
+2. Build System Declaration
+
+   Current implementation allows for the defintion of a build system 
+   implementation to be used by the builder when invoking a build 
+   sequence.  While allowing for the potential of replaceable build 
+   strategies, the implementation needs to be extended to supporting 
+   multiple coexistant build strategies with defintion at the library,
+   module and/or project levels.
+
+
+
