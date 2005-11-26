@@ -11,6 +11,8 @@
 
     <section name="Core Tasks">
 
+      <pre>@DEPOT-TOOLS-ANT-URI@</pre>
+
       <subsection name="Description">
 
         <p>

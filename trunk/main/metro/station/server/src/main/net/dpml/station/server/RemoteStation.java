@@ -28,8 +28,6 @@ import java.util.Map;
 import java.util.Hashtable;
 import java.util.logging.LogRecord;
 
-import net.dpml.depot.LoggingService;
-
 import net.dpml.station.Application;
 import net.dpml.station.Callback;
 import net.dpml.station.Manager;
@@ -41,6 +39,7 @@ import net.dpml.station.info.StartupPolicy;
 import net.dpml.station.ApplicationRegistry;
 
 import net.dpml.transit.Logger;
+import net.dpml.transit.LoggingService;
 import net.dpml.transit.PID;
 import net.dpml.transit.monitor.LoggingAdapter;
 import net.dpml.transit.model.UnknownKeyException;

@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package net.dpml.depot;
+package net.dpml.transit;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;

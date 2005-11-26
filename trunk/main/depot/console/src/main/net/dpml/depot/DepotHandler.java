@@ -24,6 +24,7 @@ import java.util.logging.Handler;
 import java.util.logging.LogRecord;
 
 import net.dpml.transit.PID;
+import net.dpml.transit.LoggingService;
 
 /**
  * Logging message handler that redirects log messages from a subprocess to 
