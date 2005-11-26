@@ -20,8 +20,6 @@ package net.dpml.transit.console;
 
 import java.util.ArrayList;
 
-import net.dpml.transit.info.TransitDirective;
-import net.dpml.transit.info.ProxyDirective;
 import net.dpml.transit.info.CacheDirective;
 import net.dpml.transit.info.HostDirective;
 import net.dpml.transit.info.ContentDirective;
@@ -120,7 +118,7 @@ class CacheDirectiveBuilder
     
     CacheDirective create( String cache, String local, String layout )
     {
-        return create( cache, local, layout, null,null, null );
+        return create( cache, local, layout, null, null, null );
     }
     
     CacheDirective create(

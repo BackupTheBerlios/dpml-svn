@@ -19,7 +19,6 @@
 package net.dpml.transit.info;
 
 import java.io.Serializable;
-import java.util.Properties;
 
 /**
  * Abstract directive base class.

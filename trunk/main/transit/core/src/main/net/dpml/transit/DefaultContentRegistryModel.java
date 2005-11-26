@@ -18,7 +18,6 @@
 
 package net.dpml.transit;
 
-import java.net.URI;
 import java.rmi.RemoteException;
 import java.util.Collections;
 import java.util.List;
@@ -26,7 +25,6 @@ import java.util.LinkedList;
 import java.util.EventObject;
 import java.util.EventListener;
 
-import net.dpml.transit.Logger;
 import net.dpml.transit.info.ContentDirective;
 import net.dpml.transit.model.ContentModel;
 import net.dpml.transit.model.ContentRegistryModel;

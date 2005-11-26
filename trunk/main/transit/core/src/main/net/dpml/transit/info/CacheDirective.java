@@ -28,11 +28,34 @@ import java.util.Arrays;
  */
 public class CacheDirective extends AbstractDirective
 {
+   /**
+    * Default cache path.
+    */
     public static final String CACHE_PATH = "${dpml.data}/cache";
+    
+   /**
+    * Default system local repository path.
+    */
     public static final String LOCAL_PATH = "file:${dpml.system}/local";
+    
+   /**
+    * Default layout strategy key.
+    */
     public static final String LAYOUT = "classic";
+    
+   /**
+    * Empty layout array.
+    */
     public static final LayoutDirective[] EMPTY_LAYOUTS = new LayoutDirective[0];
+    
+   /**
+    * Empty resource host array.
+    */
     public static final HostDirective[] EMPTY_HOSTS = new HostDirective[0];
+    
+   /**
+    * Empty content handler array.
+    */
     public static final ContentDirective[] EMPTY_CONTENT = new ContentDirective[0];
     
     private final String m_cache;

@@ -24,7 +24,6 @@ import java.util.LinkedList;
 import java.util.EventObject;
 import java.util.EventListener;
 
-import net.dpml.transit.Logger;
 import net.dpml.transit.info.LayoutDirective;
 import net.dpml.transit.model.LayoutRegistryModel;
 import net.dpml.transit.model.LayoutModel;

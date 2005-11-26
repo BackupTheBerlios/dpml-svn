@@ -23,7 +23,6 @@ import java.io.IOException;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.net.PasswordAuthentication;
-import java.net.URI;
 import java.net.URL;
 import java.util.Properties;
 
@@ -31,15 +30,10 @@ import net.dpml.transit.link.ArtifactLinkManager;
 import net.dpml.transit.link.LinkManager;
 import net.dpml.transit.model.CacheModel;
 import net.dpml.transit.model.TransitModel;
-import net.dpml.transit.model.ContentRegistryModel;
-import net.dpml.transit.model.CodeBaseListener;
-import net.dpml.transit.model.CodeBaseModel;
 import net.dpml.transit.model.ProxyModel;
 import net.dpml.transit.model.ProxyListener;
 import net.dpml.transit.model.ProxyEvent;
 import net.dpml.transit.model.RequestIdentifier;
-import net.dpml.transit.model.ParametersEvent;
-import net.dpml.transit.model.LocationEvent;
 import net.dpml.transit.monitor.LoggingAdapter;
 
 /**

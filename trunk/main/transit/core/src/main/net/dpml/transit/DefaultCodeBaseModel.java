@@ -23,7 +23,6 @@ import java.rmi.RemoteException;
 import java.util.EventObject;
 import java.util.EventListener;
 
-import net.dpml.transit.Logger;
 import net.dpml.transit.info.CodeBaseDirective;
 import net.dpml.transit.info.ValueDirective;
 import net.dpml.transit.model.CodeBaseModel;

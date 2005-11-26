@@ -18,8 +18,6 @@
 
 package net.dpml.transit.info;
 
-import java.util.Arrays;
-
 /**
  * Description of a host configuration within Transit.
  * 

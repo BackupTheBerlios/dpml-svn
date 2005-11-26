@@ -18,12 +18,10 @@
 
 package net.dpml.transit;
 
-import java.net.URI;
 import java.rmi.RemoteException;
 import java.util.EventObject;
 import java.util.EventListener;
 
-import net.dpml.transit.Logger;
 import net.dpml.transit.info.LayoutDirective;
 import net.dpml.transit.model.LayoutModel;
 import net.dpml.transit.model.LayoutListener;

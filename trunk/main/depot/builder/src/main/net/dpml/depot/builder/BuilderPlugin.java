@@ -24,8 +24,6 @@ import java.net.URI;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Iterator;
-import java.util.Set;
 
 import net.dpml.transit.Logger;
 import net.dpml.transit.Transit;
@@ -39,8 +37,6 @@ import net.dpml.tools.model.Builder;
 import net.dpml.tools.model.Type;
 
 import net.dpml.tools.library.DefaultLibrary;
-import net.dpml.tools.model.ResourceNotFoundException;
-import net.dpml.tools.model.ModuleNotFoundException;
 
 import net.dpml.cli.Option;
 import net.dpml.cli.Group;
@@ -55,7 +51,6 @@ import net.dpml.cli.builder.DefaultOptionBuilder;
 import net.dpml.cli.builder.CommandBuilder;
 import net.dpml.cli.option.PropertyOption;
 import net.dpml.cli.validation.URIValidator;
-import net.dpml.cli.validation.NumberValidator;
 
 /**
  * Plugin that handles multi-project builds based on supplied commandline arguments.
@@ -65,16 +60,6 @@ import net.dpml.cli.validation.NumberValidator;
  */
 public class BuilderPlugin
 {
-    // ------------------------------------------------------------------------
-    // static
-    // ------------------------------------------------------------------------
-    
-    public static void main( String[] args ) throws Exception
-    {
-        Logger logger = new LoggingAdapter( "depot" );
-        new BuilderPlugin( logger, args );
-    }
-
     // ------------------------------------------------------------------------
     // state
     // ------------------------------------------------------------------------

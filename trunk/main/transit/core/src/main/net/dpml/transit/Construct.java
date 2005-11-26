@@ -97,7 +97,6 @@ public class Construct implements Value, Serializable
     *
     * @param target a classname or symbolic reference
     * @param value the construct value
-    * @exception NullPointerException if the supplied target argument is null
     */
     public Construct( String target, String value )
     {

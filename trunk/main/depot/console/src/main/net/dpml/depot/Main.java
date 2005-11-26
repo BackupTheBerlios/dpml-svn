@@ -27,6 +27,8 @@ import java.util.ArrayList;
 import java.util.prefs.Preferences;
 
 import net.dpml.transit.Transit;
+import net.dpml.transit.Repository;
+import net.dpml.transit.RepositoryException;
 import net.dpml.transit.Logger;
 import net.dpml.transit.DefaultTransitModel;
 import net.dpml.transit.model.TransitModel;
@@ -35,8 +37,6 @@ import net.dpml.transit.monitor.LoggingAdapter;
 import net.dpml.transit.monitor.RepositoryMonitorAdapter;
 import net.dpml.transit.monitor.CacheMonitorAdapter;
 import net.dpml.transit.monitor.NetworkMonitorAdapter;
-import net.dpml.transit.Repository;
-import net.dpml.transit.RepositoryException;
 import net.dpml.transit.PID;
 
 /**

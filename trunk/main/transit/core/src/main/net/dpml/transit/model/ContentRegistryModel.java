@@ -19,7 +19,6 @@
 package net.dpml.transit.model;
 
 import java.rmi.RemoteException;
-import java.net.URI;
 
 /**
  * A RegistryModel maintains information about the configuration of the Transit

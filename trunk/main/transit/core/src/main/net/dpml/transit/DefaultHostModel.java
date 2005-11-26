@@ -22,18 +22,15 @@ import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.EventObject;
 import java.util.EventListener;
-import java.net.URI;
 import java.net.URL;
 import java.net.MalformedURLException;
 import java.net.PasswordAuthentication; 
 
-import net.dpml.transit.Logger;
 import net.dpml.transit.info.HostDirective;
 import net.dpml.transit.model.HostModel;
 import net.dpml.transit.model.LayoutModel;
 import net.dpml.transit.model.LayoutRegistryModel;
 import net.dpml.transit.model.UnknownKeyException;
-import net.dpml.transit.model.DuplicateKeyException;
 import net.dpml.transit.model.HostListener;
 import net.dpml.transit.model.HostChangeEvent;
 import net.dpml.transit.model.HostLayoutEvent;

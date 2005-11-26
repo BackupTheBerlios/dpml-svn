@@ -18,10 +18,6 @@
 
 package net.dpml.transit.info;
 
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.util.Arrays;
-
 /**
  * The CodeBaseDirective is immutable datastructure used to 
  * describe a codebase.
@@ -31,10 +27,13 @@ import java.util.Arrays;
  */
 public class TransitDirective extends AbstractDirective
 {
+   /**
+    * Classic configuration profile.
+    */
+    public static final TransitDirective CLASSIC_PROFILE = createClassicProfile();
+    
     private final ProxyDirective m_proxy;
     private final CacheDirective m_cache;
-    
-    public static final TransitDirective CLASSIC_PROFILE = createClassicProfile();
     
    /**
     * Creation of a new codebase descriptor.

@@ -39,7 +39,7 @@ public class ProxyDirective extends AbstractDirective
     * @param excludes an array of excluded hosts or null if no excludes
     * @param username a possibly null username
     * @param password a possibly null password
-    * @exception if the proxy host value is null
+    * @exception NullPointerException if the proxy host value is null
     */
     public ProxyDirective( String host, String[] excludes, String username, char[] password )
       throws NullPointerException

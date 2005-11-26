@@ -29,9 +29,6 @@ import java.io.File;
 import java.net.URL;
 import java.net.URI;
 
-import net.dpml.transit.Logger;
-import net.dpml.transit.TransitError;
-import net.dpml.transit.monitor.LoggingAdapter;
 import net.dpml.transit.info.HostDirective;
 import net.dpml.transit.info.CacheDirective;
 import net.dpml.transit.info.ProxyDirective;
@@ -75,10 +72,19 @@ public class DefaultTransitModel extends DefaultModel implements TransitModel
     * @param logger the logging channel to assign to the model
     * @return the transit model
     */
-    public static TransitModel getSecureModel( Logger logger ) throws Exception
+    public static TransitModel getSecureModel( Logger logger )
     {
-        TransitDirective directive = new TransitDirective( null, new CacheDirective() );
-        return new DefaultTransitModel( logger, directive );
+        try
+        {
+            TransitDirective directive = new TransitDirective( null, new CacheDirective() );
+            return new DefaultTransitModel( logger, directive );
+        }
+        catch( Exception e )
+        {
+            final String error = 
+              "Unexpected error while constructing static secure model.";
+            throw new RuntimeException( error, e );
+        }
     }
     
    /**
@@ -86,6 +92,10 @@ public class DefaultTransitModel extends DefaultModel implements TransitModel
     * ${dpml.prefs}/transit.xml. If the resource does not exist a classic 
     * default scenario will be returned containing the DPML, Apache and Ibiblio
     * repositories.
+    *
+    * @param logger the logging channel
+    * @return the transit model
+    * @exception Exception if an error occurs during model construction
     */
     public static TransitModel getDefaultModel( Logger logger ) throws Exception
     {

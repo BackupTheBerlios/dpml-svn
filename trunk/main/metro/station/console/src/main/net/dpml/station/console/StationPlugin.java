@@ -44,8 +44,6 @@ import net.dpml.station.server.RemoteApplicationRegistry;
 
 import net.dpml.transit.Artifact;
 import net.dpml.transit.Logger;
-import net.dpml.transit.Transit;
-import net.dpml.transit.Repository;
 import net.dpml.transit.model.UnknownKeyException;
 import net.dpml.transit.model.DuplicateKeyException;
 

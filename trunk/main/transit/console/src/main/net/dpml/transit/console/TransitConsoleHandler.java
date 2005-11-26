@@ -19,7 +19,6 @@
 package net.dpml.transit.console;
 
 import java.beans.XMLDecoder;
-import java.beans.Encoder;
 import java.beans.XMLEncoder;
 import java.io.IOException;
 import java.io.FileInputStream;
@@ -31,15 +30,9 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.net.URI;
 import java.net.URL;
-import java.rmi.RemoteException;
-import java.rmi.registry.LocateRegistry;
-import java.rmi.registry.Registry;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Iterator;
 import java.util.Set;
 import java.util.HashSet;
-import java.util.Properties;
 
 import net.dpml.cli.Option;
 import net.dpml.cli.Group;
@@ -52,17 +45,12 @@ import net.dpml.cli.builder.ArgumentBuilder;
 import net.dpml.cli.builder.GroupBuilder;
 import net.dpml.cli.builder.DefaultOptionBuilder;
 import net.dpml.cli.builder.CommandBuilder;
-import net.dpml.cli.option.PropertyOption;
-import net.dpml.cli.validation.EnumValidator;
 import net.dpml.cli.validation.URIValidator;
 import net.dpml.cli.validation.URLValidator;
 import net.dpml.cli.validation.NumberValidator;
 
-import net.dpml.transit.Artifact;
 import net.dpml.transit.Logger;
 import net.dpml.transit.Transit;
-import net.dpml.transit.Repository;
-import net.dpml.transit.TransitError;
 import net.dpml.transit.DefaultTransitModel;
 import net.dpml.transit.info.TransitDirective;
 import net.dpml.transit.info.ProxyDirective;
@@ -72,7 +60,6 @@ import net.dpml.transit.info.LayoutDirective;
 import net.dpml.transit.info.ContentDirective;
 import net.dpml.transit.info.ValueDirective;
 import net.dpml.transit.model.UnknownKeyException;
-import net.dpml.transit.model.DuplicateKeyException;
 
 /**
  * Transit Plugin that provides support for the configuration of the Transit subsystem.
@@ -200,7 +187,7 @@ public class TransitConsoleHandler
                 {
                     String exclude = excludes[i];
                     buffer.append( exclude );
-                    if( i < (excludes.length-1) )
+                    if( i < ( excludes.length-1 ) )
                     {
                         buffer.append( ", " );
                     }
@@ -221,7 +208,7 @@ public class TransitConsoleHandler
             for( int i=0; i<hosts.length; i++ )
             {
                 HostDirective host = hosts[i];
-                buffer.append( "\n\n    " + host.getID() + " (" + (i+1) + ")" );
+                buffer.append( "\n\n    " + host.getID() + " (" + ( i+1 ) + ")" );
                 buffer.append( "\n\n      URL\t" + host.getHost() );
                 buffer.append( "\n      Priority:\t" + host.getPriority() );
                 if( host.getIndex() != null )
@@ -260,7 +247,7 @@ public class TransitConsoleHandler
             for( int i=0; i<layouts.length; i++ )
             {
                 LayoutDirective layout = layouts[i];
-                buffer.append( "\n\n    " + layout.getID() + " (" + (i+1) + ")" );
+                buffer.append( "\n\n    " + layout.getID() + " (" + ( i+1 ) + ")" );
                 buffer.append( "\n\n      Codebase:\t" + layout.getCodeBaseURI() );
                 buffer.append( "\n      Title:\t" + layout.getTitle() );
             }
@@ -273,7 +260,7 @@ public class TransitConsoleHandler
             for( int i=0; i<handlers.length; i++ )
             {
                 ContentDirective handler = handlers[i];
-                buffer.append( "\n\n    " + handler.getID() + " (" + (i+1) + ")" );
+                buffer.append( "\n\n    " + handler.getID() + " (" + ( i+1 ) + ")" );
                 buffer.append( "\n\n      Codebase:\t" + handler.getCodeBaseURI() );
                 buffer.append( "\n      Title:\t" + handler.getTitle() );
             }
@@ -403,196 +390,221 @@ public class TransitConsoleHandler
     {
         if( line.hasOption( SET_CACHE_COMMAND ) )
         {
-            String cache = (String) line.getValue( CACHE_DIRECTORY_OPTION );
-            String system = (String) line.getValue( SYSTEM_LIBRARY_OPTION );
-            String layout = (String) line.getValue( LAYOUT_OPTION );
-            CacheDirective directive = m_directive.getCacheDirective();
-            CacheDirectiveBuilder builder = new CacheDirectiveBuilder( directive );
-            CacheDirective newCache = builder.create( cache, system, layout );
-            return m_builder.create( newCache );
+            return setCache( line );
         }
         else if( line.hasOption( PROXY_COMMAND ) )
         {
-            System.out.println( "Updating proxy configuration." );
-            ProxyDirective proxy = m_directive.getProxyDirective();
-            
-            URL url = (URL) line.getValue( HOST_OPTION, null );
-            String username = (String) line.getValue( USERNAME_OPTION, null );
-            String password = (String) line.getValue( PASSWORD_OPTION, null );
-            List values = line.getValues( PROXY_EXCLUDE_OPTION );
-            String[] excludes = (String[]) values.toArray( new String[0] );
-            char[] pswd = toCharArray( password );
-            if( null == proxy )
-            {
-                if( null == url )
-                {
-                    System.out.println( "ERROR: Missing proxy host option." );
-                    return null;
-                }
-                ProxyDirective p = new ProxyDirective( 
-                  url.toString(), excludes, username, pswd );
-                return m_builder.create( p );
-            }
-            else
-            {
-                ProxyDirectiveBuilder builder = new ProxyDirectiveBuilder( proxy );
-                ProxyDirective p = builder.create( url, excludes, username, pswd );
-                return m_builder.create( p );
-            }
+            return setProxy( line );
         }
         else if( line.hasOption( SET_HOST_COMMAND ) )
         {
-            String key = (String) line.getValue( SET_HOST_COMMAND, null );
-            CacheDirective cache = m_directive.getCacheDirective();
-            HostDirective[] hosts = cache.getHostDirectives();
-            HostDirective host = null;
-            for( int i=0; i<hosts.length; i++ )
-            {
-                HostDirective h = hosts[i];
-                if( h.getID().equals( key ) )
-                {
-                    host = h;
-                }
-            }
-
-            if( null == host )
-            {
-                System.out.println( "ERROR: Host id '" + key + "' not recognized." );
-                return null;
-            }
-            
-            System.out.println( "Updating host: " + key );
-            URL url = (URL) line.getValue( HOST_OPTION, null );
-            int priority = getPriorityValue( line );
-            String index = (String) line.getValue( HOST_INDEX_OPTION, null );
-            String username = (String) line.getValue( USERNAME_OPTION, null );
-            String password = (String) line.getValue( PASSWORD_OPTION, null );
-            boolean enabled = getEnabledFlag( line, host );
-            boolean trusted = getTrustedFlag( line, host );
-            String layout = (String) line.getValue( LAYOUT_OPTION, null );
-            String scheme = (String) line.getValue( HOST_SCHEME_OPTION, null );
-            String prompt = (String) line.getValue( HOST_PROMPT_OPTION, null );
-            
-            HostDirectiveBuilder builder = new HostDirectiveBuilder( host );
-            HostDirective newHost = 
-              builder.create( 
-                priority, url, index, username, toCharArray( password ),
-                enabled, trusted, layout, scheme, prompt );
-                
-            HostDirective[] newHosts = new HostDirective[ hosts.length ];
-            for( int i=0; i<hosts.length; i++ )
-            {   
-                HostDirective h = hosts[i];
-                if( h.getID().equals( key ) )
-                {
-                    newHosts[i] = newHost;
-                }
-                else
-                {
-                   newHosts[i] = h;
-                }
-            }
-            CacheDirectiveBuilder cacheBuilder = new CacheDirectiveBuilder( cache );
-            CacheDirective newCache = cacheBuilder.create( newHosts );
-            return m_builder.create( newCache );
+            return setHost( line );
         }
         else if( line.hasOption( SET_HANDLER_COMMAND ) )
         {
-            String key = (String) line.getValue( SET_HANDLER_COMMAND, null );
-            CacheDirective cache = m_directive.getCacheDirective();
-            ContentDirective[] handlers = cache.getContentDirectives();
-            ContentDirective handler = null;
-            for( int i=0; i<handlers.length; i++ )
-            {
-                ContentDirective c = handlers[i];
-                if( c.getID().equals( key ) )
-                {
-                    handler = c;
-                }
-            }
-
-            if( null == handler )
-            {
-                System.out.println( "ERROR: Content handler id '" + key + "' not recognized." );
-                return null;
-            }
-            
-            System.out.println( "Updating content handler: " + key );
-            URI uri = (URI) line.getValue( CODEBASE_OPTION, null );
-            String title = (String) line.getValue( TITLE_OPTION, null );
-            
-            ContentDirectiveBuilder builder = new ContentDirectiveBuilder( handler );
-            ContentDirective newDirective = 
-              builder.create( title, uri, null );
-                
-            
-            ContentDirective[] newDirectives = new ContentDirective[ handlers.length ];
-            for( int i=0; i<handlers.length; i++ )
-            {   
-                ContentDirective d = handlers[i];
-                if( d.getID().equals( key ) )
-                {
-                    newDirectives[i] = newDirective;
-                }
-                else
-                {
-                   newDirectives[i] = d;
-                }
-            }
-            CacheDirectiveBuilder cacheBuilder = new CacheDirectiveBuilder( cache );
-            CacheDirective newCache = cacheBuilder.create( newDirectives );
-            return m_builder.create( newCache );
+            return setHandler( line );
         }
         else if( line.hasOption( SET_LAYOUT_COMMAND ) )
         {
-            String key = (String) line.getValue( SET_LAYOUT_COMMAND, null );
-            CacheDirective cache = m_directive.getCacheDirective();
-            LayoutDirective[] handlers = cache.getLayoutDirectives();
-            LayoutDirective handler = null;
-            for( int i=0; i<handlers.length; i++ )
-            {
-                LayoutDirective c = handlers[i];
-                if( c.getID().equals( key ) )
-                {
-                    handler = c;
-                }
-            }
-
-            if( null == handler )
-            {
-                System.out.println( "ERROR: Layout id '" + key + "' not recognized." );
-                return null;
-            }
-            
-            System.out.println( "Updating layout: " + key );
-            URI uri = (URI) line.getValue( CODEBASE_OPTION, null );
-            String title = (String) line.getValue( TITLE_OPTION, null );
-            
-            LayoutDirectiveBuilder builder = new LayoutDirectiveBuilder( handler );
-            LayoutDirective newDirective = 
-              builder.create( title, uri, null );
-                
-            LayoutDirective[] newDirectives = new LayoutDirective[ handlers.length ];
-            for( int i=0; i<handlers.length; i++ )
-            {   
-                LayoutDirective d = handlers[i];
-                if( d.getID().equals( key ) )
-                {
-                    newDirectives[i] = newDirective;
-                }
-                else
-                {
-                   newDirectives[i] = d;
-                }
-            }
-            CacheDirectiveBuilder cacheBuilder = new CacheDirectiveBuilder( cache );
-            CacheDirective newCache = cacheBuilder.create( newDirectives );
-            return m_builder.create( newCache );
+            return setLayout( line );
         }
         else
         {
             throw new IllegalStateException( "Unqualified set command." );
         }
+    }
+    
+    private TransitDirective setCache( CommandLine line ) throws Exception
+    {
+        String cache = (String) line.getValue( CACHE_DIRECTORY_OPTION );
+        String system = (String) line.getValue( SYSTEM_LIBRARY_OPTION );
+        String layout = (String) line.getValue( LAYOUT_OPTION );
+        CacheDirective directive = m_directive.getCacheDirective();
+        CacheDirectiveBuilder builder = new CacheDirectiveBuilder( directive );
+        CacheDirective newCache = builder.create( cache, system, layout );
+        return m_builder.create( newCache );
+    }    
+    
+    private TransitDirective setProxy( CommandLine line ) throws Exception
+    {
+        System.out.println( "Updating proxy configuration." );
+        ProxyDirective proxy = m_directive.getProxyDirective();
+        
+        URL url = (URL) line.getValue( HOST_OPTION, null );
+        String username = (String) line.getValue( USERNAME_OPTION, null );
+        String password = (String) line.getValue( PASSWORD_OPTION, null );
+        List values = line.getValues( PROXY_EXCLUDE_OPTION );
+        String[] excludes = (String[]) values.toArray( new String[0] );
+        char[] pswd = toCharArray( password );
+        if( null == proxy )
+        {
+            if( null == url )
+            {
+                System.out.println( "ERROR: Missing proxy host option." );
+                return null;
+            }
+            ProxyDirective p = new ProxyDirective( 
+              url.toString(), excludes, username, pswd );
+            return m_builder.create( p );
+        }
+        else
+        {
+            ProxyDirectiveBuilder builder = new ProxyDirectiveBuilder( proxy );
+            ProxyDirective p = builder.create( url, excludes, username, pswd );
+            return m_builder.create( p );
+        }
+    }
+    
+    private TransitDirective setHost( CommandLine line ) throws Exception
+    {
+        String key = (String) line.getValue( SET_HOST_COMMAND, null );
+        CacheDirective cache = m_directive.getCacheDirective();
+        HostDirective[] hosts = cache.getHostDirectives();
+        HostDirective host = null;
+        for( int i=0; i<hosts.length; i++ )
+        {
+            HostDirective h = hosts[i];
+            if( h.getID().equals( key ) )
+            {
+                host = h;
+            }
+        }
+        
+        if( null == host )
+        {
+            System.out.println( "ERROR: Host id '" + key + "' not recognized." );
+            return null;
+        }
+        
+        System.out.println( "Updating host: " + key );
+        URL url = (URL) line.getValue( HOST_OPTION, null );
+        int priority = getPriorityValue( line );
+        String index = (String) line.getValue( HOST_INDEX_OPTION, null );
+        String username = (String) line.getValue( USERNAME_OPTION, null );
+        String password = (String) line.getValue( PASSWORD_OPTION, null );
+        boolean enabled = getEnabledFlag( line, host );
+        boolean trusted = getTrustedFlag( line, host );
+        String layout = (String) line.getValue( LAYOUT_OPTION, null );
+        String scheme = (String) line.getValue( HOST_SCHEME_OPTION, null );
+        String prompt = (String) line.getValue( HOST_PROMPT_OPTION, null );
+        
+        HostDirectiveBuilder builder = new HostDirectiveBuilder( host );
+        HostDirective newHost = 
+          builder.create( 
+            priority, url, index, username, toCharArray( password ),
+            enabled, trusted, layout, scheme, prompt );
+        
+        HostDirective[] newHosts = new HostDirective[ hosts.length ];
+        for( int i=0; i<hosts.length; i++ )
+        {   
+            HostDirective h = hosts[i];
+            if( h.getID().equals( key ) )
+            {
+                newHosts[i] = newHost;
+            }
+            else
+            {
+                newHosts[i] = h;
+            }
+        }
+        CacheDirectiveBuilder cacheBuilder = new CacheDirectiveBuilder( cache );
+        CacheDirective newCache = cacheBuilder.create( newHosts );
+        return m_builder.create( newCache );
+    }
+    
+    private TransitDirective setHandler( CommandLine line ) throws Exception
+    {
+        String key = (String) line.getValue( SET_HANDLER_COMMAND, null );
+        CacheDirective cache = m_directive.getCacheDirective();
+        ContentDirective[] handlers = cache.getContentDirectives();
+        ContentDirective handler = null;
+        for( int i=0; i<handlers.length; i++ )
+        {
+            ContentDirective c = handlers[i];
+            if( c.getID().equals( key ) )
+            {
+                handler = c;
+            }
+        }
+
+        if( null == handler )
+        {
+            System.out.println( "ERROR: Content handler id '" + key + "' not recognized." );
+            return null;
+        }
+            
+        System.out.println( "Updating content handler: " + key );
+        URI uri = (URI) line.getValue( CODEBASE_OPTION, null );
+        String title = (String) line.getValue( TITLE_OPTION, null );
+        
+        ContentDirectiveBuilder builder = new ContentDirectiveBuilder( handler );
+        ContentDirective newDirective = 
+          builder.create( title, uri, null );
+                
+            
+        ContentDirective[] newDirectives = new ContentDirective[ handlers.length ];
+        for( int i=0; i<handlers.length; i++ )
+        {   
+            ContentDirective d = handlers[i];
+            if( d.getID().equals( key ) )
+            {
+                newDirectives[i] = newDirective;
+            }
+            else
+            {
+               newDirectives[i] = d;
+            }
+        }
+        CacheDirectiveBuilder cacheBuilder = new CacheDirectiveBuilder( cache );
+        CacheDirective newCache = cacheBuilder.create( newDirectives );
+        return m_builder.create( newCache );    
+    }
+    
+    private TransitDirective setLayout( CommandLine line ) throws Exception
+    {
+        String key = (String) line.getValue( SET_LAYOUT_COMMAND, null );
+        CacheDirective cache = m_directive.getCacheDirective();
+        LayoutDirective[] handlers = cache.getLayoutDirectives();
+        LayoutDirective handler = null;
+        for( int i=0; i<handlers.length; i++ )
+        {
+            LayoutDirective c = handlers[i];
+            if( c.getID().equals( key ) )
+            {
+                handler = c;
+            }
+        }
+
+        if( null == handler )
+        {
+            System.out.println( "ERROR: Layout id '" + key + "' not recognized." );
+            return null;
+        }
+            
+        System.out.println( "Updating layout: " + key );
+        URI uri = (URI) line.getValue( CODEBASE_OPTION, null );
+        String title = (String) line.getValue( TITLE_OPTION, null );
+            
+        LayoutDirectiveBuilder builder = new LayoutDirectiveBuilder( handler );
+        LayoutDirective newDirective = 
+          builder.create( title, uri, null );
+            
+        LayoutDirective[] newDirectives = new LayoutDirective[ handlers.length ];
+        for( int i=0; i<handlers.length; i++ )
+        {   
+            LayoutDirective d = handlers[i];
+            if( d.getID().equals( key ) )
+            {
+                newDirectives[i] = newDirective;
+            }
+            else
+            {
+                newDirectives[i] = d;
+            }
+        }
+        CacheDirectiveBuilder cacheBuilder = new CacheDirectiveBuilder( cache );
+        CacheDirective newCache = cacheBuilder.create( newDirectives );
+        return m_builder.create( newCache );
     }
     
     private TransitDirective processRemove( CommandLine line )

@@ -68,6 +68,8 @@ public class CheckstyleTask extends CheckStyleTask
         m_init = true;
     }
 
+    // TODO: remove hard reference to target/build/main
+
     private void addTargetToFileset( Resource resource )
     {
         File file = resource.getBaseDir();

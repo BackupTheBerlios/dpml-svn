@@ -25,7 +25,6 @@ import java.net.MalformedURLException;
 import java.net.PasswordAuthentication; 
 import java.net.URL; 
 
-import net.dpml.transit.Logger;
 import net.dpml.transit.info.ProxyDirective;
 import net.dpml.transit.model.ProxyModel;
 import net.dpml.transit.model.ProxyListener;

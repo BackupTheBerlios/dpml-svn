@@ -27,8 +27,6 @@ import java.util.Hashtable;
 import java.util.Map;
 import java.util.WeakHashMap;
 
-import net.dpml.transit.Construct;
-import net.dpml.transit.Value;
 import net.dpml.transit.model.ContentRegistryModel;
 import net.dpml.transit.model.ContentRegistryListener;
 import net.dpml.transit.model.ContentRegistryEvent;

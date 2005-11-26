@@ -53,7 +53,7 @@
     <property name="checkstyle.dir" location="${project.target.reports.dir}/checkstyle"/>
     <property name="checkstyle.data" location="${checkstyle.dir}/checkstyle.xml"/>
     <property name="project.checkstyle.data" location="${project.target.reports.dir}/checkstyle"/>
-    <x:plugin ref="dpml/tools/dpml-tools-checkstyle">
+    <x:plugin ref="dpml/depot/dpml-depot-checkstyle">
       <task class="net.dpml.tools.checkstyle.CheckstyleTask" name="checkstyle"/>
     </x:plugin>
     <mkdir dir="${checkstyle.dir}"/>

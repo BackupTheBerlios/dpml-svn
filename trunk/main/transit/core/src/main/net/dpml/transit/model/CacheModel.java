@@ -19,7 +19,6 @@
 package net.dpml.transit.model;
 
 import java.io.File;
-import java.net.MalformedURLException;
 import java.rmi.RemoteException;
 
 /**

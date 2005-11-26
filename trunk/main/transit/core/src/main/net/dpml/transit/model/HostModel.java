@@ -19,7 +19,6 @@
 package net.dpml.transit.model;
 
 import java.net.URL;
-import java.net.MalformedURLException; 
 import java.net.PasswordAuthentication;
 import java.rmi.RemoteException;
 
