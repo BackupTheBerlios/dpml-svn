@@ -142,7 +142,7 @@ class PartsInvocationHandler implements InvocationHandler
             {
                 if( handler instanceof Component )
                 {
-                    return (Component) handler; // TODO: wrap in a proxy
+                    return (Component) handler; // wrap in a proxy ?
                 }
                 else
                 {

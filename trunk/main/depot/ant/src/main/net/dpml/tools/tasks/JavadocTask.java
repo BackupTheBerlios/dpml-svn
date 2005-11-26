@@ -177,8 +177,6 @@ public class JavadocTask extends GenericTask
         final Path source = javadoc.createSourcepath();
         addSourcePath( resource, javadoc, source );
         
-        // TODO: add some checking on the returned access property value
-        
         if( null == m_access )
         {
             String access = getContext().getProperty( JAVADOC_ACCESS_KEY, "protected" );
@@ -201,7 +199,6 @@ public class JavadocTask extends GenericTask
             log( "Adding link: " + href );
             arg.setHref( href );
         }
-        
         
         if( null == m_title )
         {

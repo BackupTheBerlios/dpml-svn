@@ -276,7 +276,7 @@ public class GroupImpl extends OptionImpl implements Group
                         break;
                     }
 
-                    // TODO: why do we iterate over all m_anonymous arguments?
+                    // why do we iterate over all m_anonymous arguments?
                     // canProcess will always return true?
                     for( final Iterator i = m_anonymous.iterator(); i.hasNext();)
                     {

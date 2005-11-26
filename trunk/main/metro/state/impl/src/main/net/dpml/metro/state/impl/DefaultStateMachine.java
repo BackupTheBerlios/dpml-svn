@@ -359,7 +359,7 @@ public class DefaultStateMachine implements StateMachine
         }
         catch( Throwable e )
         {
-            e.printStackTrace(); // TODO: throw exception ?
+            e.printStackTrace();
             return getState();
         }
     }

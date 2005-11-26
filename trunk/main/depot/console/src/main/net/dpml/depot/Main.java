@@ -21,7 +21,6 @@ package net.dpml.depot;
 import java.io.File;
 import java.net.URL;
 import java.net.URI;
-import java.rmi.RemoteException;
 import java.rmi.RMISecurityManager;
 import java.util.ArrayList;
 import java.util.prefs.Preferences;
@@ -529,11 +528,9 @@ public final class Main implements ShutdownHandler
           + "\n -help             List command line help."
           + "\n -version          List version information."
           + "\n -run [plugin]     Load and run the plugin."
-          + "\n -prefs            Start the preferences editor."
           + "\n -build            Launch the project builder."
           + "\n -exec [spec]      Launch an application using a supplied specification."
           + "\n -reset            Clear Depot and Transit preferences."
-          + "\n -setup            DPML system setup (use -setup -help for additional info)"
           + "\n -station          Start the DPML Station process"
           + "\n -debug            Enable debug level logging."
           + "\n -D[name]=[value]  Set one or more system properties."
@@ -554,10 +551,8 @@ public final class Main implements ShutdownHandler
           + "\n  Exec Handler:    \t@DEPOT-EXEC-URI@"
           + "\n  Build Handler:   \t@DEPOT-BUILD-URI@"
           + "\n  Install Handler: \t@DEPOT-INSTALL-URI@"
-          + "\n  Prefs Handler:   \t@DEPOT-PREFS-URI@"
           + "\n  Station Handler: \t@DEPOT-STATION-URI@"
           + "\n  Transit Library: \t@TRANSIT-CORE-URI@"
-          + "\n  Profile Library: \t@PROFILE-PLUGIN-URI@"
           + "\n";
         getLogger().info( message );
 

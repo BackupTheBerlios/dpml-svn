@@ -27,7 +27,6 @@ import java.util.List;
 
 import net.dpml.transit.Logger;
 import net.dpml.transit.Transit;
-import net.dpml.transit.monitor.LoggingAdapter;
 
 import net.dpml.tools.info.Scope;
 import net.dpml.tools.info.ResourceDirective.Classifier;
