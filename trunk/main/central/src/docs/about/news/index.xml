@@ -11,8 +11,29 @@
 
     <section name="News &amp; Events">
 
-      <subsection name="26 August 2005 - Crystal XP Icons" >
+      <subsection name="Transit Development">
 
+        <p>
+        A lot of effort has gone into Transit consolidation resulting 
+        a single clean configuration model, a commandline tool supporting 
+        local and remote Transit configuration, and the addition of two 
+        bootstrap protocol handlers - one dealing with access to RMI 
+        registry resource, and a second dealing with local preferences.
+        Other updates include improvements to the default logging format
+        to include a JVM process identifier, improvements to the content 
+        handler implementation, improvements to the plugin service with the 
+        addition of support for primitive arguments in plugin constructors 
+        (such as int, boolean, float, etc.).  The util package has received 
+        a general cleanup and the system classloader has been improved to 
+        provide better support for system level classloader entries. Finally
+        the available layout strategies have been updated to include a 
+        'modern' layout that delivers compatibility with Maven2 
+        repositories.
+        </p>
+
+      </subsection>
+
+      <subsection name="26 August 2005 - Crystal XP Icons" >
         <table>
           <tr>
             <td>

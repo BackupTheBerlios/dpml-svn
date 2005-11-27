@@ -99,7 +99,7 @@ class DefaultCacheModel extends DefaultModel implements CacheModel
             Logger log = logger.getChildLogger( "registry" );
             LayoutDirective[] layouts = directive.getLayoutDirectives();
             m_registry = new DefaultLayoutRegistryModel( log, layouts );
-            String layout = directive.getLayout();
+            String layout = directive.getCacheLayout();
             m_layout = m_registry.getLayoutModel( layout );
         }
         catch( Exception e )
@@ -140,7 +140,8 @@ class DefaultCacheModel extends DefaultModel implements CacheModel
         
         m_sortedHosts = sortHosts();
         String localPath = directive.getLocal();
-        HostDirective local = createLocalHostDirective( localPath );
+        String localLayout = directive.getLocalLayout();
+        HostDirective local = createLocalHostDirective( localPath, localLayout );
         addHostModel( local, false );
         
         // setup the supplimentary hosts
@@ -446,7 +447,7 @@ class DefaultCacheModel extends DefaultModel implements CacheModel
         return Transit.DPML_DATA;
     }
     
-    private HostDirective createLocalHostDirective( String path )
+    private HostDirective createLocalHostDirective( String path, String layout )
     {
         return new HostDirective( 
           "local", 
@@ -457,7 +458,7 @@ class DefaultCacheModel extends DefaultModel implements CacheModel
           null, 
           true, 
           true, 
-          "classic", 
+          layout, 
           null, 
           null );
     }

@@ -28,6 +28,7 @@
       <item name="Overview" href="concepts/index.html"/>
       <item name="Protocols" href="technical/index.html"/>
       <item name="Services" href="services/index.html"/>
+      <item name="Properties" href="properties.html"/>
       <item name="CLI" href="cli/index.html"/>
     </menu>
 

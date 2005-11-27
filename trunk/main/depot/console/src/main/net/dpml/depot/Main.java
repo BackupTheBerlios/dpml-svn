@@ -26,6 +26,7 @@ import java.util.ArrayList;
 import java.util.prefs.Preferences;
 
 import net.dpml.transit.Transit;
+import net.dpml.transit.TransitError;
 import net.dpml.transit.Repository;
 import net.dpml.transit.RepositoryException;
 import net.dpml.transit.Logger;
@@ -152,8 +153,6 @@ public final class Main implements ShutdownHandler
     *   <li>-version</li>
     *   <li>-reset</li>
     *   <li>-debug</li>
-    *   <li>-setup</li>
-    *   <li>-prefs</li>
     *   <li>-station</li>
     *   <li>-metro</li>
     * </ul>
@@ -404,8 +403,8 @@ public final class Main implements ShutdownHandler
         try
         {
             Preferences prefs = getRootPreferences();
-            URI uri = new URI( path );
             TransitModel model = getTransitModel( args );
+            URI uri = new URI( path );
             Transit transit = Transit.getInstance( model );
             setupMonitors( transit, (Adapter) getLogger() );
             Repository repository = transit.getRepository();
@@ -442,7 +441,7 @@ public final class Main implements ShutdownHandler
             getLogger().error( error, e );
             return false;
         }
-
+        
         if( m_plugin instanceof Handler )
         {
             setInternalShutdownHook( logger, (Handler) m_plugin );
@@ -461,19 +460,56 @@ public final class Main implements ShutdownHandler
             return waitFor;
         }
     }
-
+    
     private TransitModel getTransitModel( String[] args ) throws Exception
     {
+        final String key = "dpml.transit.model";
+        String property = null;
+        for( int i=0; i<args.length; i++ )
+        {
+            String arg = args[i];
+            if( arg.startsWith( "-D" + key + "=" ) )
+            {
+                property = arg.substring( 21 );
+                break;
+            }
+        }
+        
+        if( null != property )
+        {
+            if( property.startsWith( "registry:" ) )
+            {
+                try
+                {
+                    return (TransitModel) new URL( property ).getContent( 
+                      new Class[]{TransitModel.class} );
+                }
+                catch( Exception e )
+                {
+                    final String error = 
+                      "Unable to resolve registry reference: " + property;
+                    throw new TransitError( error, e );
+                }
+            }
+            else
+            {
+                final String error = 
+                  "System property value for the key ': "
+                  + key 
+                  + "' contains an unrecognized value: "
+                  + property;
+                throw new TransitError( error );
+            }
+        }
+        
         //
-        // TODO: improve this so that we can direct the selection of the transit model
-        // in a way that would allow resolution of the model from the rmi registry
-        // e.g. -transit registry://some/name
+        // otherwise let Transit handle model creation
         //
-
+        
         Logger logger = getLogger();
         return DefaultTransitModel.getDefaultModel( logger );
     }
-
+    
     private void handleGet( Logger logger, String[] args, String path ) throws Exception
     {
         try

@@ -103,32 +103,33 @@ class CacheDirectiveBuilder
     
     CacheDirective create( HostDirective[] hosts )
     {
-        return create( null, null, null, null, hosts, null );
+        return create( null, null, null, null, null, hosts, null );
     }
     
     CacheDirective create( ContentDirective[] handlers )
     {
-        return create( null, null, null, null, null, handlers );
+        return create( null, null, null, null, null, null, handlers );
     }
     
     CacheDirective create( LayoutDirective[] layouts )
     {
-        return create( null, null, null, layouts, null, null );
+        return create( null, null, null, null, layouts, null, null );
     }
     
-    CacheDirective create( String cache, String local, String layout )
+    CacheDirective create( String cache, String cacheLayout, String local, String localLayout )
     {
-        return create( cache, local, layout, null, null, null );
+        return create( cache, cacheLayout, local, localLayout, null, null, null );
     }
     
     CacheDirective create(
-      String cache, String local, String layout, 
+      String cache, String cacheLayout, String local, String localLayout
       LayoutDirective[] layouts, HostDirective[] hosts, ContentDirective[] handlers )
     {
         return new CacheDirective( 
           getCache( cache ),
+          getCacheLayout( cacheLayout ),
           getLocal( local ),
-          getLayout( layout ),
+          getLocalLayout( localLayout ),
           getLayoutDirectives( layouts ),
           getHostDirectives( hosts ),
           getContentDirectives( handlers ) );
@@ -158,7 +159,7 @@ class CacheDirectiveBuilder
         }
     }
 
-    String getLayout( String layout )
+    String getCacheLayout( String layout )
     {
         if( null != layout )
         {
@@ -166,7 +167,19 @@ class CacheDirectiveBuilder
         }
         else
         {
-            return m_directive.getLayout();
+            return m_directive.getCacheLayout();
+        }
+    }
+
+    String getLocalLayout( String layout )
+    {
+        if( null != layout )
+        {
+            return layout;
+        }
+        else
+        {
+            return m_directive.getLocalLayout();
         }
     }
 

@@ -25,8 +25,9 @@
  <body>
 
     <menu>
-      <item name="Event Monitors" href="monitors.html"/>
-      <item name="Plugin Service" href="plugins.html"/>
+      <item name="Monitors" href="monitors.html"/>
+      <item name="Plugins" href="plugins.html"/>
+      <item name="Layouts" href="layouts.html"/>
     </menu>
 
  </body>

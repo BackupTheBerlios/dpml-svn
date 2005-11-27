@@ -40,7 +40,7 @@ public final class TransitDirectiveTestCase extends AbstractTestCase
             "batman", new char[]{'r','o','b','i','n'} );
         m_cache = 
           new CacheDirective( 
-            "${dpml.data}/cache", "classic", "${dpml.share}/local", 
+            "${dpml.data}/cache", "classic", "${dpml.share}/local", "modern", 
             new LayoutDirective[0], new HostDirective[0], new ContentDirective[0] );
         m_directive = 
           new TransitDirective( 

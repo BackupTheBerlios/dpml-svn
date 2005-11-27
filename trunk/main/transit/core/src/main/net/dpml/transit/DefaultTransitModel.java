@@ -89,9 +89,8 @@ public class DefaultTransitModel extends DefaultModel implements TransitModel
     
    /**
     * Resolve the transit configuration using the default resource path 
-    * ${dpml.prefs}/transit.xml. If the resource does not exist a classic 
-    * default scenario will be returned containing the DPML, Apache and Ibiblio
-    * repositories.
+    * <tt>local:xml:dpml/transit/config</tt>. If the resource does not exist a classic 
+    * default scenario will be returned.
     *
     * @param logger the logging channel
     * @return the transit model
@@ -269,29 +268,7 @@ public class DefaultTransitModel extends DefaultModel implements TransitModel
     
     static TransitModel getClassicModel( Logger logger ) throws Exception
     {
-        HostDirective[] hosts = new HostDirective[3];
-        hosts[0] = 
-          new HostDirective( 
-            "dpml", 40, "http://repository.dpml.net/classic", null, null, null, 
-            true, false, "classic", null, null );
-        hosts[1] = 
-          new HostDirective( 
-            "ibiblio", 70, "http://www.ibiblio.org/maven", null, null, null, 
-            true, false, "classic", null, null );
-        hosts[2] = 
-          new HostDirective( 
-            "apache", 100, "http://www.apache.org/dist/java-repository", null, null, null,
-            true, false, "classic", null, null );
-        
-        CacheDirective cache = 
-          new CacheDirective( 
-            CacheDirective.CACHE_PATH,
-            CacheDirective.LOCAL_PATH,
-            CacheDirective.LAYOUT,
-            CacheDirective.EMPTY_LAYOUTS,
-            hosts,
-            CacheDirective.EMPTY_CONTENT );
-        TransitDirective directive = new TransitDirective( null, cache );
+        TransitDirective directive = TransitDirective.CLASSIC_PROFILE;
         return new DefaultTransitModel( logger, directive );
     }
     

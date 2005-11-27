@@ -61,8 +61,9 @@ public class OnlineTestCase extends TestCase
             CacheDirective cache =
               new CacheDirective(
                 "${user.dir}/target/test/cache",
-                "http://repository.dpml.net/classic",
-                CacheDirective.LAYOUT,
+                CacheDirective.CACHE_LAYOUT,
+                "file:${user.dir}/target/test/trusted",
+                CacheDirective.LOCAL_LAYOUT,
                 new LayoutDirective[0],
                 new HostDirective[0],
                 new ContentDirective[0] );

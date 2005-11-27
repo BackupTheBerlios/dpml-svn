@@ -41,7 +41,12 @@ public class CacheDirective extends AbstractDirective
    /**
     * Default layout strategy key.
     */
-    public static final String LAYOUT = "classic";
+    public static final String CACHE_LAYOUT = "classic";
+    
+   /**
+    * Default layout strategy key.
+    */
+    public static final String LOCAL_LAYOUT = "classic";
     
    /**
     * Empty layout array.
@@ -59,8 +64,9 @@ public class CacheDirective extends AbstractDirective
     public static final ContentDirective[] EMPTY_CONTENT = new ContentDirective[0];
     
     private final String m_cache;
-    private final String m_layout;
+    private final String m_cacheLayout;
     private final String m_local;
+    private final String m_localLayout;
     private final LayoutDirective[] m_layouts;
     private final HostDirective[] m_hosts;
     private final ContentDirective[] m_handlers;
@@ -71,7 +77,7 @@ public class CacheDirective extends AbstractDirective
     public CacheDirective()
     {
         this( 
-          CACHE_PATH, LOCAL_PATH, LAYOUT, EMPTY_LAYOUTS, EMPTY_HOSTS, EMPTY_CONTENT );
+          CACHE_PATH, CACHE_LAYOUT, LOCAL_PATH, LOCAL_LAYOUT, EMPTY_LAYOUTS, EMPTY_HOSTS, EMPTY_CONTENT );
     }
     
    /**
@@ -85,7 +91,7 @@ public class CacheDirective extends AbstractDirective
     * @exception NullPointerException if the cache, local, or layout argument is null
     */
     public CacheDirective( 
-      String cache, String local, String layout, 
+      String cache, String cacheLayout, String local, String localLayout, 
       LayoutDirective[] layouts, HostDirective[] hosts, ContentDirective[] handlers )
       throws NullPointerException
     {
@@ -93,19 +99,24 @@ public class CacheDirective extends AbstractDirective
         {
             throw new NullPointerException( "cache" );
         }
+        if( null == cacheLayout )
+        {
+            throw new NullPointerException( "cacheLayout" );
+        }
         if( null == local )
         {
             throw new NullPointerException( "local" );
         }
-        if( null == layout )
+        if( null == localLayout )
         {
-            throw new NullPointerException( "layout" );
+            throw new NullPointerException( "localLayout" );
         }
         
         m_cache = cache;
+        m_cacheLayout = cacheLayout;
         m_local = local;
-        m_layout = layout;
-
+        m_localLayout = localLayout;
+        
         if( null == layouts )
         {
             m_layouts = new LayoutDirective[0];
@@ -149,9 +160,9 @@ public class CacheDirective extends AbstractDirective
     *
     * @return the cache layout identifier
     */
-    public String getLayout()
+    public String getCacheLayout()
     {
-        return m_layout;
+        return m_cacheLayout;
     }
     
    /**
@@ -162,6 +173,16 @@ public class CacheDirective extends AbstractDirective
     public String getLocal()
     {
         return m_local;
+    }
+    
+   /**
+    * Return the local system repository layout id.
+    *
+    * @return the system layout identifier
+    */
+    public String getLocalLayout()
+    {
+        return m_localLayout;
     }
     
    /**
@@ -209,11 +230,15 @@ public class CacheDirective extends AbstractDirective
             {
                 return false;
             }
+            else if( !equals( m_cacheLayout, directive.m_cacheLayout ) )
+            {
+                return false;
+            }
             else if( !equals( m_local, directive.m_local ) )
             {
                 return false;
             }
-            else if( !equals( m_layout, directive.m_layout ) )
+            else if( !equals( m_localLayout, directive.m_localLayout ) )
             {
                 return false;
             }
@@ -244,8 +269,9 @@ public class CacheDirective extends AbstractDirective
     {
         int hash = super.hashCode();
         hash ^= hashValue( m_cache );
+        hash ^= hashValue( m_cacheLayout );
         hash ^= hashValue( m_local );
-        hash ^= hashValue( m_layout );
+        hash ^= hashValue( m_localLayout );
         hash ^= hashArray( m_layouts );
         hash ^= hashArray( m_hosts );
         hash ^= hashArray( m_handlers );

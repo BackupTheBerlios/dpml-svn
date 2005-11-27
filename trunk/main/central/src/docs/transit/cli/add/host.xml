@@ -52,10 +52,15 @@
           <tr><td>username</td><td>Resource host login username.</td></tr>
           <tr><td>password</td><td>Resource host password.</td></tr>
           <tr><td>priority</td><td>Priority setting.</td></tr>
-          <tr><td>index</td><td>Index file on the server containging 
-            the names of the available groups.</td></tr>
+          <tr><td>index</td>
+            <td>A URL pointing to a file containing a line-separated list of 
+            groups that are known to be installed on the remote host 
+            repository.</td></tr>
           <tr><td>disabled</td><td>Marks the host as disabled.</td></tr>
-          <tr><td>trusted</td><td>Marks the host as trusted.</td></tr>
+          <tr><td>trusted</td><td>
+            If true Transit shall assume that the host connection is trusted.
+            When set to "true" in conjunction with an https:// connection, the 
+            certificate chain of the host will be accepted unconditionally.</td></tr>
           <tr><td>layout</td><td>ID of the host layout scheme (system layouts
             include 'classic' and 'eclipse').</td></tr>
           <tr><td>scheme</td><td>Host authentication scheme.</td></tr>

@@ -8,9 +8,6 @@ Revision: @PROJECT-VERSION@
 Installation Instructions
 ========================= 
 
-Transit is installed as a part of the Depot installation.  
-Please refer to the Depot README for additional information.
-
 Release Notes: Version @PROJECT-VERSION@
 -------------------------------
 
@@ -28,7 +25,10 @@ system classloader).  Added Enum and ValuedEnum to util package. Extended
 the Construct class to alow references to static member variables. Add
 a prefs task to Transit tools supporting the generation of XML based 
 preferences info in preparation for replacement of configuration and 
-parameters.
+parameters.  Consolidated all configuration options down to a single strategy
+based on the net.dpml.transit.info immutable datatypes.  Added support for 
+the 'modern' layout strategy which add compatibility with the recent Maven2
+repository layout.  Added the transit commandline configuration tool.
 
 Release Notes: Version 20050809
 -------------------------------

@@ -29,8 +29,9 @@ import java.util.Arrays;
 public final class CacheDirectiveTestCase extends AbstractTestCase
 {
     private String m_cache;
-    private String m_layout;
+    private String m_cacheLayout;
     private String m_local;
+    private String m_localLayout;
     private LayoutDirective[] m_layouts;
     private HostDirective[] m_hosts;
     private ContentDirective[] m_content;
@@ -39,14 +40,15 @@ public final class CacheDirectiveTestCase extends AbstractTestCase
     public void setUp() throws Exception
     {
         m_cache = "${dpml.data}/cache";
-        m_layout = "classic";
+        m_cacheLayout = "classic";
         m_local = "${dpml.share}/local";
+        m_localLayout = "modern";
         m_layouts = new LayoutDirective[0];
         m_hosts = new HostDirective[0];
         m_content = new ContentDirective[0];
         m_directive = 
           new CacheDirective( 
-           m_cache, m_local, m_layout, m_layouts, m_hosts, m_content );
+           m_cache, m_cacheLayout, m_local, m_localLayout, m_layouts, m_hosts, m_content );
     }
     
     public void testCache() throws Exception
@@ -54,14 +56,19 @@ public final class CacheDirectiveTestCase extends AbstractTestCase
         assertEquals( "cache", m_cache, m_directive.getCache() );
     }
     
-    public void testLayout() throws Exception
+    public void testCacheLayout() throws Exception
     {
-        assertEquals( "layout", m_layout, m_directive.getLayout() );
+        assertEquals( "layout", m_cacheLayout, m_directive.getCacheLayout() );
     }
     
     public void testLocal() throws Exception
     {
         assertEquals( "local", m_local, m_directive.getLocal() );
+    }
+    
+    public void testLocalLayout() throws Exception
+    {
+        assertEquals( "layout", m_localLayout, m_directive.getLocalLayout() );
     }
     
     public void testLayouts() throws Exception

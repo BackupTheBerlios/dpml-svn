@@ -13,20 +13,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package net.dpml.transit.info;
+package net.dpml.tools.data;
 
 import java.beans.SimpleBeanInfo;
 import java.beans.BeanDescriptor;
 import java.beans.DefaultPersistenceDelegate;
 
 /**
- * BeanInfo for the LayoutHandlerDirective class that declares a persistence
+ * BeanInfo for the BuilderDirective class that declares a persistence
  * delegate.
  *
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-public final class CacheDirectiveBeanInfo extends SimpleBeanInfo
+public final class BuilderDirectiveBeanInfo extends SimpleBeanInfo
 {
     private static final BeanDescriptor BEAN_DESCRIPTOR = setupBeanDescriptor();
     
@@ -41,13 +41,11 @@ public final class CacheDirectiveBeanInfo extends SimpleBeanInfo
     
     private static BeanDescriptor setupBeanDescriptor()
     {
-        BeanDescriptor descriptor = new BeanDescriptor( CacheDirective.class );
+        BeanDescriptor descriptor = new BeanDescriptor( BuilderDirective.class );
         descriptor.setValue( 
           "persistenceDelegate", 
           new DefaultPersistenceDelegate( 
-            new String[]{
-              "cache", "cacheLayout", "local", "localLayout", 
-              "layoutDirectives", "hostDirectives", "contentDirectives"} ) );
+            new String[]{"listenerDirectives"} ) );
         return descriptor;
     }
 }

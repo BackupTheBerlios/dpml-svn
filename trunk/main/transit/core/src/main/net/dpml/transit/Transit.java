@@ -26,6 +26,7 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 
 import net.dpml.transit.link.LinkManager;
+import net.dpml.transit.monitor.LoggingAdapter;
 import net.dpml.transit.monitor.RepositoryMonitorRouter;
 import net.dpml.transit.monitor.CacheMonitorRouter;
 import net.dpml.transit.monitor.NetworkMonitorRouter;
@@ -48,32 +49,32 @@ public final class Transit
    /**
     * DPML home key.
     */
-    public static final String HOME_KEY =            "dpml.home";
+    public static final String HOME_KEY = "dpml.home";
 
    /**
     * DPML home key.
     */
-    public static final String DATA_KEY =            "dpml.data";
+    public static final String DATA_KEY = "dpml.data";
 
    /**
     * DPML home key.
     */
-    public static final String PREFS_KEY =           "dpml.prefs";
+    public static final String PREFS_KEY = "dpml.prefs";
 
    /**
     * Transit system key.
     */
-    public static final String SYSTEM_KEY =          "dpml.system";
+    public static final String SYSTEM_KEY = "dpml.system";
 
    /**
     * DPML environment variable string.
     */
-    public static final String HOME_SYMBOL =         "DPML_HOME";
+    public static final String HOME_SYMBOL = "DPML_HOME";
 
    /**
     * DPML environment variable string.
     */
-    public static final String SYSTEM_SYMBOL =       "DPML_SYSTEM";
+    public static final String SYSTEM_SYMBOL = "DPML_SYSTEM";
 
    /**
     * The DPML home directory established via assesment of the the ${dpml.home}
@@ -128,10 +129,12 @@ public final class Transit
     }
 
    /**
-    * Returns the singleton instance of the transit system.  If this method
-    * has already been invoked the server and monitor argument will be ignored.
+    * Returns the singleton instance of the transit system. If Transit
+    * has not been initialized a the transit model will be resolved 
+    * using the System property <tt>dpml.transit.profile</tt>.
     * @return the singleton transit instance
     * @exception TransitError if an error occurs during establishment
+    * @see DefaultTransitModel#getDefaultModel;
     */
     public static Transit getInstance() throws TransitError
     {
@@ -141,7 +144,8 @@ public final class Transit
             {
                 try
                 {
-                    TransitModel model = DefaultTransitModel.getBootstrapModel();
+                    Logger logger = new LoggingAdapter( "transit" );
+                    TransitModel model = DefaultTransitModel.getDefaultModel( logger );
                     return getInstance( model );
                 }
                 catch( Throwable e )
@@ -165,9 +169,10 @@ public final class Transit
     * @param model the activate transit model
     * @return the singleton transit instance
     * @exception IOException if an error occurs during establishment
+    * @exception TransitAlreadyInitializedException if Transit is already initialized
     */
     public static Transit getInstance( TransitModel model )
-        throws IOException
+        throws IOException, TransitAlreadyInitializedException
     {
         synchronized( Transit.class )
         {
@@ -190,7 +195,7 @@ public final class Transit
             }
         }
     }
-
+    
     //------------------------------------------------------------------
     // state 
     //------------------------------------------------------------------

@@ -392,6 +392,10 @@ public class TransitConsoleHandler
         {
             return setCache( line );
         }
+        else if( line.hasOption( SET_SYSTEM_COMMAND ) )
+        {
+            return setSystem( line );
+        }
         else if( line.hasOption( PROXY_COMMAND ) )
         {
             return setProxy( line );
@@ -416,14 +420,23 @@ public class TransitConsoleHandler
     
     private TransitDirective setCache( CommandLine line ) throws Exception
     {
-        String cache = (String) line.getValue( CACHE_DIRECTORY_OPTION );
-        String system = (String) line.getValue( SYSTEM_LIBRARY_OPTION );
+        String cache = (String) line.getValue( DIRECTORY_OPTION );
         String layout = (String) line.getValue( LAYOUT_OPTION );
         CacheDirective directive = m_directive.getCacheDirective();
         CacheDirectiveBuilder builder = new CacheDirectiveBuilder( directive );
-        CacheDirective newCache = builder.create( cache, system, layout );
+        CacheDirective newCache = builder.create( cache, layout, null, null );
         return m_builder.create( newCache );
-    }    
+    }
+    
+    private TransitDirective setSystem( CommandLine line ) throws Exception
+    {
+        String system = (String) line.getValue( DIRECTORY_OPTION );
+        String layout = (String) line.getValue( LAYOUT_OPTION );
+        CacheDirective directive = m_directive.getCacheDirective();
+        CacheDirectiveBuilder builder = new CacheDirectiveBuilder( directive );
+        CacheDirective newCache = builder.create( null, null, system, layout );
+        return m_builder.create( newCache );
+    }
     
     private TransitDirective setProxy( CommandLine line ) throws Exception
     {
@@ -1192,8 +1205,14 @@ public class TransitConsoleHandler
     private static final Group CACHE_OPTIONS_GROUP =
       GROUP_BUILDER
         .withMinimum( 0 )
-        .withOption( CACHE_DIRECTORY_OPTION )
-        .withOption( SYSTEM_LIBRARY_OPTION )
+        .withOption( DIRECTORY_OPTION )
+        .withOption( LAYOUT_OPTION )
+        .create();
+    
+    private static final Group SYSTEM_OPTIONS_GROUP =
+      GROUP_BUILDER
+        .withMinimum( 0 )
+        .withOption( DIRECTORY_OPTION )
         .withOption( LAYOUT_OPTION )
         .create();
     
@@ -1203,14 +1222,21 @@ public class TransitConsoleHandler
         .withDescription( "Select proxy settings." )
         .withChildren( PROXY_OPTIONS_GROUP )
         .create();
-
+    
     private static final Option SET_CACHE_COMMAND =
       COMMAND_BUILDER
         .withName( "cache" )
         .withDescription( "Select cache settings." )
         .withChildren( CACHE_OPTIONS_GROUP )
         .create();
-
+    
+    private static final Option SET_SYSTEM_COMMAND =
+      COMMAND_BUILDER
+        .withName( "system" )
+        .withDescription( "Select system repository settings." )
+        .withChildren( SYSTEM_OPTIONS_GROUP )
+        .create();
+    
     private static final Option ADD_HOST_COMMAND =
       COMMAND_BUILDER
         .withName( "host" )
@@ -1346,6 +1372,7 @@ public class TransitConsoleHandler
         .withMinimum( 1 )
         .withOption( PROXY_COMMAND )
         .withOption( SET_CACHE_COMMAND )
+        .withOption( SET_SYSTEM_COMMAND )
         .withOption( SET_HOST_COMMAND )
         .withOption( SET_HANDLER_COMMAND )
         .withOption( SET_LAYOUT_COMMAND )
