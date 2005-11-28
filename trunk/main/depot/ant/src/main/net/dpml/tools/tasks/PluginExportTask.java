@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package net.dpml.tools.tasks;
+package net.dpml.builder.tasks;
 
 import java.io.File;
 import java.io.OutputStream;
@@ -31,7 +31,7 @@ import java.util.TimeZone;
 import net.dpml.transit.Artifact;
 import net.dpml.transit.Category;
 
-import net.dpml.tools.ant.Context;
+import net.dpml.builder.ant.Context;
 import net.dpml.tools.model.Resource;
 
 import org.apache.tools.ant.Project;

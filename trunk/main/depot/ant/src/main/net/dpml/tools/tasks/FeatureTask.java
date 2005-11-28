@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package net.dpml.tools.tasks;
+package net.dpml.builder.tasks;
 
 import net.dpml.tools.model.ResourceNotFoundException;
 import net.dpml.tools.model.Resource;

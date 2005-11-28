@@ -134,7 +134,7 @@ public final class Transit
     * using the System property <tt>dpml.transit.profile</tt>.
     * @return the singleton transit instance
     * @exception TransitError if an error occurs during establishment
-    * @see DefaultTransitModel#getDefaultModel;
+    * @see DefaultTransitModel#getDefaultModel
     */
     public static Transit getInstance() throws TransitError
     {

@@ -16,12 +16,12 @@
  * limitations under the License.
  */
 
-package net.dpml.tools.tasks;
+package net.dpml.builder.tasks;
 
 import java.io.File;
 import java.util.StringTokenizer;
 
-import net.dpml.tools.ant.Context;
+import net.dpml.builder.ant.Context;
 
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Project;

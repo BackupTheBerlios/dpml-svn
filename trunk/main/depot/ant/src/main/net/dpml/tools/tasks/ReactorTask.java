@@ -16,13 +16,13 @@
  * limitations under the License.
  */
 
-package net.dpml.tools.tasks;
+package net.dpml.builder.tasks;
 
 import java.io.File;
 
 import net.dpml.tools.model.Resource;
 import net.dpml.tools.library.DefaultLibrary;
-import net.dpml.tools.ant.StandardBuilder;
+import net.dpml.builder.ant.StandardBuilder;
 
 import net.dpml.transit.Logger;
 import net.dpml.transit.monitor.LoggingAdapter;

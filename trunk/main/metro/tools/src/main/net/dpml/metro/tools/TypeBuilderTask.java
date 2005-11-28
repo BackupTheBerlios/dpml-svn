@@ -45,7 +45,7 @@ import net.dpml.metro.info.EntryDescriptor;
 import net.dpml.metro.info.ServiceDescriptor;
 
 import net.dpml.tools.info.Scope;
-import net.dpml.tools.tasks.GenericTask;
+import net.dpml.builder.tasks.GenericTask;
 
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Project;

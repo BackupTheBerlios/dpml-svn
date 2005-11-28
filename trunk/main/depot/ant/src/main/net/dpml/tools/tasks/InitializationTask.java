@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package net.dpml.tools.tasks;
+package net.dpml.builder.tasks;
 
 import java.net.URI;
 import java.util.ArrayList;
@@ -25,9 +25,9 @@ import java.util.Date;
 import net.dpml.tools.model.Resource;
 import net.dpml.tools.model.Processor;
 
-import net.dpml.tools.process.JarProcess;
-import net.dpml.tools.process.PluginProcess;
-import net.dpml.tools.process.ModuleProcess;
+import net.dpml.builder.process.JarProcess;
+import net.dpml.builder.process.PluginProcess;
+import net.dpml.builder.process.ModuleProcess;
 
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.BuildListener;
@@ -57,8 +57,6 @@ public class InitializationTask extends GenericTask
         Thread.currentThread().setContextClassLoader( getClass().getClassLoader() );
         getProject().addReference( "project.timestamp", new Date() );
         Resource resource = getResource();
-        //String info = getProject().getProperty( "project.info" );
-        //getProject().log( info );
         log( resource.toString(), Project.MSG_VERBOSE );
         Processor[] processors = getLibrary().getProcessorSequence( resource );
         for( int i=0; i<processors.length; i++ )

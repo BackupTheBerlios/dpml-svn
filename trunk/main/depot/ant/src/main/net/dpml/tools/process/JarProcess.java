@@ -16,15 +16,15 @@
  * limitations under the License.
  */
 
-package net.dpml.tools.process;
+package net.dpml.builder.process;
 
 import java.io.File;
 
-import net.dpml.tools.tasks.JavacTask;
-import net.dpml.tools.tasks.JarTask;
-import net.dpml.tools.tasks.JUnitTestTask;
+import net.dpml.builder.tasks.JavacTask;
+import net.dpml.builder.tasks.JarTask;
+import net.dpml.builder.tasks.JUnitTestTask;
 
-import net.dpml.tools.ant.Context;
+import net.dpml.builder.ant.Context;
 import net.dpml.tools.model.Processor;
 
 import org.apache.tools.ant.BuildException;

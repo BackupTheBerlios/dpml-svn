@@ -333,7 +333,7 @@
          <type id="jar"/>
          <type id="plugin" alias="true">
            <property name="project.plugin.class" 
-              value="net.dpml.tools.ant.StandardBuilder"/>
+              value="net.dpml.builder.ant.StandardBuilder"/>
          </type>
        </types>
        <dependencies>

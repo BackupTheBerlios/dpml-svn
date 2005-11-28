@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package net.dpml.tools.data;
+package net.dpml.builder.info;
 
 import java.util.Properties;
 import java.util.Arrays;
@@ -80,7 +80,7 @@ public final class ListenerDirective  extends AbstractDirective
     }
     
    /**
-    * Creation of a new processor descriptor.
+    * Creation of a new listener directive.
     * @param name the resource type produced by the listener
     * @param urn the listener codebase
     * @param classname optional classname of the plugin instantiation target

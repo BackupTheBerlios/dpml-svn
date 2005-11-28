@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package net.dpml.tools.ant;
+package net.dpml.builder.ant;
 
 import java.io.File;
 import java.io.IOException;

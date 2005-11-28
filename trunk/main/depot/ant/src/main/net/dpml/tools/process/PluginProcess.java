@@ -16,9 +16,9 @@
  * limitations under the License.
  */
 
-package net.dpml.tools.process;
+package net.dpml.builder.process;
 
-import net.dpml.tools.tasks.PluginExportTask;
+import net.dpml.builder.tasks.PluginExportTask;
 
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.Target;

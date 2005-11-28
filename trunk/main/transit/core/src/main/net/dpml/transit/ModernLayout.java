@@ -20,9 +20,11 @@
 package net.dpml.transit;
 
 /** 
- * The ModernLayout decodes artifacts into a layout scheme that follows the 
- * [group[/[subgroup[/...]]]/[version]/name[-[version]].type convention.
- * Example; <code>artifact:jar:metro/cache/dpml-cache-main#1.0.0</code>
+ * The ModernLayout decodes artifacts into a layout scheme that follows the
+ * convention of group/version/expanded-name pattern.  Specifically the 
+ * layout maps artifacts according to the rule
+ * [group[/[subgroup[/...]]]/[version]/name[-[version]].type.
+ * Example: <code>artifact:jar:metro/cache/dpml-cache-main#1.0.0</code>
  * would return the path <code>metro/cache/1.0.0/dpml-cache-main-1.0.0.jar</code>.
  *
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>

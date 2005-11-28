@@ -16,11 +16,11 @@
  * limitations under the License.
  */
 
-package net.dpml.tools.tasks;
+package net.dpml.builder.tasks;
 
 import java.io.File;
 
-import net.dpml.tools.ant.Context;
+import net.dpml.builder.ant.Context;
 import net.dpml.tools.model.Resource;
 
 import org.apache.tools.ant.Project;

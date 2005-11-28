@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package net.dpml.tools.data;
+package net.dpml.builder.info;
 
 import java.util.Arrays;
 import java.util.Properties;
@@ -36,9 +36,7 @@ public final class BuilderDirective extends AbstractDirective
     
    /**
     * Creation of a new library directive.
-    * @param processes an array of processor directives
-    * @param imports module imports
-    * @param modules the set of declared modules
+    * @param listeners an array of listener directives
     * @param properties library properties
     */
     public BuilderDirective( ListenerDirective[] listeners, Properties properties )
@@ -61,8 +59,8 @@ public final class BuilderDirective extends AbstractDirective
     }
     
    /**
-    * Return the set of processor declarations.
-    * @return the processor descriptor array
+    * Return the set of listener directives.
+    * @return the listener directive array
     */
     public ListenerDirective[] getListenerDirectives()
     {

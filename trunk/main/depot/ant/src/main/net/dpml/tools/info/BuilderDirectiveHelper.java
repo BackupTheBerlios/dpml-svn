@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package net.dpml.tools.data;
+package net.dpml.builder.info;
 
 import java.io.File;
 import java.io.InputStream;
@@ -26,12 +26,18 @@ import java.io.FileInputStream;
 import java.io.BufferedInputStream;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Properties;
 import java.beans.XMLDecoder;
 
+import net.dpml.builder.process.JarProcess;
+import net.dpml.builder.process.PluginProcess;
+import net.dpml.builder.process.ModuleProcess;
+
+import net.dpml.transit.Artifact;
+import net.dpml.transit.Transit;
 import net.dpml.transit.util.ElementHelper;
-import net.dpml.transit.Category;
 
 import org.w3c.dom.Element;
 
@@ -41,7 +47,7 @@ import org.w3c.dom.Element;
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-public final class DirectiveBuilder
+public final class BuilderDirectiveHelper
 {
     private static final String BUILDER_ELEMENT_NAME = "builder";
     private static final String LISTENERS_ELEMENT_NAME = "listeners";
@@ -49,7 +55,7 @@ public final class DirectiveBuilder
     private static final String PROPERTIES_ELEMENT_NAME = "properties";
     private static final String PROPERTY_ELEMENT_NAME = "property";
     
-    private DirectiveBuilder()
+    private BuilderDirectiveHelper()
     {
         // static utility class
     }
@@ -98,6 +104,81 @@ public final class DirectiveBuilder
         finally
         {
             input.close();
+        }
+    }
+
+   /**
+    * Creates a builder configuration using the default configuration.
+    * @return the builder directive
+    * @exception Exception if an error occurs
+    */
+    public static BuilderDirective build() throws Exception
+    {
+        File prefs = Transit.DPML_PREFS;
+        File config = new File( prefs, "dpml/depot/xmls/builder.xml" );
+        if( config.exists() )
+        {
+            FileInputStream input = new FileInputStream( config );
+            XMLDecoder decoder = new XMLDecoder( new BufferedInputStream( input ) );
+            return (BuilderDirective) decoder.readObject();
+        }
+        else
+        {
+            return createDefaultBuilderDirective();
+        }
+    }
+    
+    private static BuilderDirective createDefaultBuilderDirective()
+    {
+        ListenerDirective[] listeners = new ListenerDirective[3];
+        listeners[0] = 
+          new ListenerDirective( 
+            "jar",
+            null,
+            JarProcess.class.getName(),
+            new String[0],
+            null );
+        listeners[1] = 
+          new ListenerDirective( 
+            "plugin",
+            null,
+            PluginProcess.class.getName(),
+            new String[0],
+            null );
+        listeners[2] = 
+          new ListenerDirective( 
+            "module",
+            null,
+            ModuleProcess.class.getName(),
+            new String[0],
+            null );
+        return new BuilderDirective( listeners, null );
+    }
+    
+   /**
+    * Creates a builder configuration using a supplied uri as the source configuration.
+    * @param uri builder configuration uri
+    * @return the builder directive
+    * @exception Exception if an error occurs
+    */
+    public static BuilderDirective build( URI uri ) throws Exception
+    {
+        URL url = convertToURL( uri );
+        InputStream input = url.openStream();
+        XMLDecoder decoder = new XMLDecoder( new BufferedInputStream( input ) );
+        return (BuilderDirective) decoder.readObject();
+    }
+
+    private static URL convertToURL( URI uri ) throws Exception
+    {
+        if( Artifact.isRecognized( uri ) )
+        {
+            Artifact artifact = Artifact.createArtifact( uri );
+            return artifact.toURL();
+        }
+        else
+        {
+            return uri.toURL();
         }
     }
     

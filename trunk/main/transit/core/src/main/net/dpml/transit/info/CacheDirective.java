@@ -83,8 +83,9 @@ public class CacheDirective extends AbstractDirective
    /**
     * Create a new CacheDirective.
     * @param cache the cache directory path
+    * @param cacheLayout the cache layout strategy
     * @param local the local repository path
-    * @param layout the cache layout strategy
+    * @param localLayout the local repository layout strategy
     * @param layouts an array of extended layout descriptors
     * @param hosts an array of supplimentary host descriptors
     * @param handlers an array of custom content handler descriptors

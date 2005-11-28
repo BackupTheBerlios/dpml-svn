@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package net.dpml.tools.process;
+package net.dpml.builder.process;
 
 import org.apache.tools.ant.BuildListener;
 import org.apache.tools.ant.BuildEvent;

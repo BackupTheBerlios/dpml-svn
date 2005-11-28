@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package net.dpml.tools.tasks;
+package net.dpml.builder.tasks;
 
 import java.beans.XMLEncoder;
 import java.beans.ExceptionListener;
@@ -24,7 +24,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.BufferedOutputStream;
 
-import net.dpml.tools.ant.Context;
+import net.dpml.builder.ant.Context;
 import net.dpml.tools.model.Resource;
 import net.dpml.tools.model.Module;
 import net.dpml.tools.info.ModuleDirective;
