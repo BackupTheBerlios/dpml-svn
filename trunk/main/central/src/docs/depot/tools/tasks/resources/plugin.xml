@@ -25,7 +25,7 @@
 
 <source><![CDATA[
     <transit:plugin uri="${spec}">
-      <task class="net.dpml.build.DocTask" name="docs"/>
+      <task class="net.dpml.library.DocTask" name="docs"/>
     </transit:plugin>
     <docs/>
 ]]></source>

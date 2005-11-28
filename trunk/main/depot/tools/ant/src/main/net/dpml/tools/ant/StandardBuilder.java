@@ -28,9 +28,9 @@ import net.dpml.transit.Environment;
 import net.dpml.transit.model.TransitModel;
 import net.dpml.transit.tools.MainTask;
 
-import net.dpml.build.model.Builder;
-import net.dpml.build.model.Library;
-import net.dpml.build.model.Resource;
+import net.dpml.library.model.Builder;
+import net.dpml.library.model.Library;
+import net.dpml.library.model.Resource;
 
 import net.dpml.transit.Artifact;
 

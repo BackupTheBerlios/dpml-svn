@@ -22,8 +22,8 @@ import java.net.URI;
 import java.util.ArrayList;
 import java.util.Date;
 
-import net.dpml.build.model.Resource;
-import net.dpml.build.model.Processor;
+import net.dpml.library.model.Resource;
+import net.dpml.library.model.Processor;
 
 import net.dpml.tools.process.JarProcess;
 import net.dpml.tools.process.PluginProcess;

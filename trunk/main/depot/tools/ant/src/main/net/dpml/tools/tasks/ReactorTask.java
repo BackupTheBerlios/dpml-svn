@@ -20,8 +20,8 @@ package net.dpml.tools.tasks;
 
 import java.io.File;
 
-import net.dpml.build.model.Resource;
-import net.dpml.build.impl.DefaultLibrary;
+import net.dpml.library.model.Resource;
+import net.dpml.library.impl.DefaultLibrary;
 import net.dpml.tools.ant.StandardBuilder;
 
 import net.dpml.transit.Logger;

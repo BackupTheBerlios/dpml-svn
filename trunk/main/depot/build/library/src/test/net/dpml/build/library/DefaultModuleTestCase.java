@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package net.dpml.build.impl;
+package net.dpml.library.impl;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -25,16 +25,16 @@ import java.util.Properties;
 
 import junit.framework.TestCase;
 
-import net.dpml.build.model.Module;
-import net.dpml.build.model.Library;
-import net.dpml.build.model.Processor;
-import net.dpml.build.model.Resource;
-import net.dpml.build.model.ResourceNotFoundException;
-import net.dpml.build.model.ModuleNotFoundException;
-import net.dpml.build.model.ProcessorNotFoundException;
-import net.dpml.build.info.LibraryDirective;
-import net.dpml.build.info.ResourceDirective;
-import net.dpml.build.info.Scope;
+import net.dpml.library.model.Module;
+import net.dpml.library.model.Library;
+import net.dpml.library.model.Processor;
+import net.dpml.library.model.Resource;
+import net.dpml.library.model.ResourceNotFoundException;
+import net.dpml.library.model.ModuleNotFoundException;
+import net.dpml.library.model.ProcessorNotFoundException;
+import net.dpml.library.info.LibraryDirective;
+import net.dpml.library.info.ResourceDirective;
+import net.dpml.library.info.Scope;
 
 import net.dpml.transit.Logger;
 import net.dpml.transit.monitor.LoggingAdapter;

@@ -19,8 +19,8 @@
 package net.dpml.tools.tasks;
 
 import net.dpml.tools.ant.Context;
-import net.dpml.build.model.Library;
-import net.dpml.build.model.Resource;
+import net.dpml.library.model.Library;
+import net.dpml.library.model.Resource;
 
 import org.apache.tools.ant.BuildException;
 

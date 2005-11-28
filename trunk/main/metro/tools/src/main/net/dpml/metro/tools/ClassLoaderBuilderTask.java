@@ -30,8 +30,8 @@ import net.dpml.metro.data.ClasspathDirective;
 import net.dpml.metro.part.Part;
 
 import net.dpml.tools.tasks.GenericTask;
-import net.dpml.build.info.Scope;
-import net.dpml.build.model.Resource;
+import net.dpml.library.info.Scope;
+import net.dpml.library.model.Resource;
 
 import net.dpml.transit.tools.AntAdapter;
 import net.dpml.transit.Logger;

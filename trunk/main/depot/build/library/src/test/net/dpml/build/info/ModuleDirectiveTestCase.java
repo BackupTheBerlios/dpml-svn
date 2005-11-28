@@ -16,9 +16,9 @@
  * limitations under the License.
  */
 
-package net.dpml.build.info;
+package net.dpml.library.info;
 
-import net.dpml.build.info.ResourceDirective.Classifier;
+import net.dpml.library.info.ResourceDirective.Classifier;
 
 /**
  * The ModuleDirective class describes a module data-structure.

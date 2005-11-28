@@ -22,8 +22,8 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import net.dpml.build.info.Scope;
-import net.dpml.build.model.Resource;
+import net.dpml.library.info.Scope;
+import net.dpml.library.model.Resource;
 
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Project;

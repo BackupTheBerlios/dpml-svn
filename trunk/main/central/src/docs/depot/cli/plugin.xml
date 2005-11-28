@@ -19,7 +19,7 @@
       The <tt>-plugin</tt> option allows explicit overriding of the 
       default builder plugin to use when executing a build sequence.
       The artifact uri must refer to a Transit plugin that implements
-      the <tt>net.dpml.build.model.Builder</tt> interface. Unless
+      the <tt>net.dpml.library.model.Builder</tt> interface. Unless
       otherwise specified the Ant-based builder will be used.
       </p>
 

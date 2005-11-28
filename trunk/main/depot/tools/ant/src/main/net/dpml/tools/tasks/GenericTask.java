@@ -21,9 +21,9 @@ package net.dpml.tools.tasks;
 import java.io.File;
 
 import net.dpml.tools.ant.Context;
-import net.dpml.build.model.Library;
-import net.dpml.build.model.Resource;
-import net.dpml.build.impl.DefaultLibrary;
+import net.dpml.library.model.Library;
+import net.dpml.library.model.Resource;
+import net.dpml.library.impl.DefaultLibrary;
 
 import net.dpml.transit.Logger;
 import net.dpml.transit.monitor.LoggingAdapter;

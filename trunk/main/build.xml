@@ -90,8 +90,8 @@
       <group title="Depot">
         <package name="net.dpml.depot"/>
         <package name="net.dpml.depot.*"/>
-        <package name="net.dpml.build"/>
-        <package name="net.dpml.build.*"/>
+        <package name="net.dpml.library"/>
+        <package name="net.dpml.library.*"/>
       </group>
       <group title="Transit">
         <package name="net.dpml.transit"/>

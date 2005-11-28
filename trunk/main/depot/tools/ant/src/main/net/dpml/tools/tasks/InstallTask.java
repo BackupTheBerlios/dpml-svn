@@ -24,9 +24,9 @@ import java.io.FileOutputStream;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
 
-import net.dpml.build.model.Module;
-import net.dpml.build.model.Resource;
-import net.dpml.build.model.Type;
+import net.dpml.library.model.Module;
+import net.dpml.library.model.Resource;
+import net.dpml.library.model.Type;
 import net.dpml.transit.Artifact;
 
 import org.apache.tools.ant.BuildException;
