@@ -18,7 +18,7 @@
     </dependencies>
   </resource>
    
-  <resource name="dpml-depot-ant" basedir="ant">
+  <resource name="dpml-depot-ant" basedir="tools/ant">
     <types>
       <type id="jar"/>
       <type id="plugin" alias="true">
@@ -36,7 +36,7 @@
     </dependencies>
   </resource>
 
-  <project name="dpml-depot-checkstyle" basedir="checkstyle">
+  <project name="dpml-depot-checkstyle" basedir="tools/checkstyle">
     <types>
       <type id="jar"/>
       <type id="plugin" alias="true">
