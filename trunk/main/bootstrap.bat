@@ -47,7 +47,7 @@ POPD
 GOTO :EOF
 
 :depot-ant
-PUSHD depot\tools\ant
+PUSHD depot\tools\builder
 CALL :build clean install
 POPD
 GOTO :EOF

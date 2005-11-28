@@ -59,7 +59,7 @@ depotLibrary()
 
 depotAntBuilder()
 {
-    cd depot/tools/ant
+    cd depot/tools/builder
     build clean install
     cd ../../..
 }

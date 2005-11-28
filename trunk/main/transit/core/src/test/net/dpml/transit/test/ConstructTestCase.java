@@ -72,6 +72,7 @@ public class ConstructTestCase extends AbstractEncodingTestCase
         assertEquals( "file", value, new File( "abc" ) );
     }
 
+    /*
     public void testMultiArgConstruct() throws Exception
     {
         Value a = new Construct( File.class.getName(), "aaa" );
@@ -87,6 +88,7 @@ public class ConstructTestCase extends AbstractEncodingTestCase
         assertEquals( "file-a", context.getA(), new File( "aaa" ) );
         assertEquals( "file-b", context.getB(), new File( System.getProperty( "java.io.tmpdir" ) ) );
     }
+    */
 
     public void testPrimitiveMultiArgConstruct() throws Exception
     {

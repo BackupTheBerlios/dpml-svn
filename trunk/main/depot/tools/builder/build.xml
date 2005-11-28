@@ -37,8 +37,10 @@
   </target>
 
   <target name="package" depends="bootstrap.package">
-    <move file="${target.deliverables.dir}/plugins/${project.name}.plugin"
+    <move file="${target.deliverables.dir}/plugins/project.plugin"
       toFile="${target.deliverables.dir}/plugins/${project.name}-${project.version}.plugin"/>
+    <move file="${target.deliverables.dir}/plugins/project.plugin.link"
+      toFile="${target.deliverables.dir}/plugins/${project.name}.plugin.link"/>
   </target>
 
   <target name="install" depends="bootstrap.install">
