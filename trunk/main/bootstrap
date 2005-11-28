@@ -52,7 +52,7 @@ transitTools()
 
 depotLibrary()
 {
-    cd depot/build/library
+    cd depot/library/common
     build clean install
     cd ../../..
 }
@@ -73,7 +73,7 @@ externalModules()
 
 depotBuilder()
 {
-    cd depot/build/console
+    cd depot/library/console
     build clean install
     cd ../../..
 }

@@ -18,8 +18,8 @@ CALL :depot-library
 CALL :depot-ant
 CALL :external-modules
 CALL :util-cli
-CALL :depot-builder
-CALL :depot-console
+CALL :depot-library-console
+CALL :depot-core-console
 GOTO :EOF
 
 :antlib-cleanup
@@ -41,7 +41,7 @@ POPD
 GOTO :EOF
 
 :depot-library
-PUSHD depot\build\library
+PUSHD depot\library\common
 CALL :build clean install
 POPD
 GOTO :EOF
@@ -64,13 +64,13 @@ CALL :build clean install
 POPD
 GOTO :EOF
 
-:depot-builder
-PUSHD depot\build\console
+:depot-library-console
+PUSHD depot\library\console
 CALL :build clean install
 POPD
 GOTO :EOF
 
-:depot-console
+:depot-core-console
 PUSHD depot\core\console
 CALL :build clean bootstrap
 POPD

@@ -6,7 +6,7 @@
     <type id="module" alias="true"/>
   </types>
    
-  <resource name="dpml-library-main" basedir="build/library">
+  <resource name="dpml-library-main" basedir="library/common">
     <types>
       <type id="jar"/>
     </types>
@@ -17,7 +17,25 @@
       <include ref="ant/ant-junit"/>
     </dependencies>
   </resource>
-   
+
+  <project name="dpml-library-console" basedir="library/console">
+    <types>
+      <type id="jar"/>
+      <type id="plugin" alias="true">
+        <property name="project.plugin.class" 
+           value="net.dpml.depot.builder.BuilderPlugin"/>
+      </type>
+    </types>
+    <dependencies>
+      <include ref="dpml/util/dpml-util-cli"/>
+      <include ref="dpml/transit/dpml-transit-main"/>
+      <include ref="dpml/depot/dpml-library-main"/>
+    </dependencies>
+    <dependencies scope="test">
+      <include ref="ant/ant-junit"/>
+    </dependencies>
+  </project>
+      
   <resource name="dpml-depot-ant" basedir="tools/ant">
     <types>
       <type id="jar"/>
@@ -76,24 +94,6 @@
     </dependencies>
   </project>
 
-  <project name="dpml-library-console" basedir="build/console">
-    <types>
-      <type id="jar"/>
-      <type id="plugin" alias="true">
-        <property name="project.plugin.class" 
-           value="net.dpml.depot.builder.BuilderPlugin"/>
-      </type>
-    </types>
-    <dependencies>
-      <include ref="dpml/util/dpml-util-cli"/>
-      <include ref="dpml/transit/dpml-transit-main"/>
-      <include ref="dpml/depot/dpml-library-main"/>
-    </dependencies>
-    <dependencies scope="test">
-      <include ref="ant/ant-junit"/>
-    </dependencies>
-  </project>
-   
   <!--
   <project name="dpml-depot-install" basedir="core/install">
     <types>
