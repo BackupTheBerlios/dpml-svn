@@ -4,7 +4,7 @@
     xmlns:transit="antlib:net.dpml.transit"
     xmlns:x="dpml:tools" >
 
-  <transit:import uri="local:template:tools/standard"/>
+  <transit:import uri="local:template:dpml/tools/standard"/>
 
   <target name="init" depends="standard.init">
     <x:filter ref="dpml/tools/dpml-tools-ant" feature="uri" type="plugin" token="MAGIC-PLUGIN-URI"/>

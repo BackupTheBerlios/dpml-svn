@@ -289,7 +289,7 @@ public class DocTask extends GenericTask
 
     private File getThemesDirectory()
     {
-        return new File( Transit.DPML_PREFS, "tools/themes" );
+        return new File( Transit.DPML_PREFS, "dpml/tools/themes" );
     }
 
     private String getOutputFormat()

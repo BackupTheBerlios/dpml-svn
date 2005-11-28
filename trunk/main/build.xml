@@ -50,7 +50,7 @@
     <property name="share.bin" location="${share}/bin"/>
     <mkdir dir="${share.bin}"/>
     <copy todir="${share.bin}" filtering="false">
-      <fileset dir="${basedir}/depot/console/target/bin">  <!-- YUK!! -->
+      <fileset dir="${basedir}/depot/core/console/target/bin">  <!-- YUK!! -->
         <include name="**/*"/>
       </fileset>
     </copy>
@@ -66,7 +66,7 @@
     <property name="prefs.tools" location="${prefs}/tools"/>
     <mkdir dir="${prefs.tools}"/>
     <copy todir="${prefs.tools}" filtering="false">
-      <fileset dir="${basedir}/depot/ant/target">  <!-- YUK!! -->
+      <fileset dir="${basedir}/depot/tools/ant/target">  <!-- YUK!! -->
         <include name="templates/**/*"/>
         <include name="xsls/**/*"/>
       </fileset>
@@ -92,6 +92,8 @@
         <package name="net.dpml.depot.*"/>
         <package name="net.dpml.library"/>
         <package name="net.dpml.library.*"/>
+        <package name="net.dpml.tools"/>
+        <package name="net.dpml.tools.*"/>
       </group>
       <group title="Transit">
         <package name="net.dpml.transit"/>
@@ -121,7 +123,7 @@
       <fileset dir=".">
         <include name="**/target/reports/test/TEST-*.xml"/> <!-- YUK!! -->
       </fileset>
-      <report format="frames" todir="${junit.html}" styledir="${dpml.prefs}/tools/xsls"/>
+      <report format="frames" todir="${junit.html}" styledir="${dpml.prefs}/dpml/tools/xsls"/>
     </junitreport>
   </target>
 

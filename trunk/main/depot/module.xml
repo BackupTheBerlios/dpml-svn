@@ -23,7 +23,7 @@
       <type id="jar"/>
       <type id="plugin" alias="true">
         <property name="project.plugin.class" 
-           value="net.dpml.depot.builder.BuilderPlugin"/>
+           value="net.dpml.library.console.BuilderPlugin"/>
       </type>
     </types>
     <dependencies>
