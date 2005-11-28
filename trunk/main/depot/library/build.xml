@@ -4,7 +4,7 @@
     xmlns:transit="antlib:net.dpml.transit" >
 
   <property file="${basedir}/build.properties"/>
-  <transit:import file="${dpml.prefs}/transit/templates/bootstrap.template"/>
+  <transit:import file="${dpml.prefs}/dpml/transit/templates/bootstrap.template"/>
 
   <target name="init" depends="bootstrap.init">
     <filter value="${junit.version}" token="JUNIT_VERSION"/>

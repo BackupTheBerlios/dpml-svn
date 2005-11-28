@@ -22,10 +22,10 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 
-import net.dpml.tools.info.Scope;
-import net.dpml.tools.model.Library;
-import net.dpml.tools.model.Resource;
-import net.dpml.tools.model.Type;
+import net.dpml.build.info.Scope;
+import net.dpml.build.model.Library;
+import net.dpml.build.model.Resource;
+import net.dpml.build.model.Type;
 
 import net.dpml.transit.Artifact;
 import net.dpml.transit.Transit;

@@ -4,7 +4,7 @@
     xmlns:transit="antlib:net.dpml.transit" 
     xmlns:x="dpml:tools" >
 
-  <transit:import uri="local:template:tools/standard"/>
+  <transit:import uri="local:template:dpml/builder/standard"/>
 
   <available property="metro.exe.available" file="${dpml.system}/bin/metro.exe"/>
 

@@ -21,7 +21,7 @@
     xmlns:transit="antlib:net.dpml.transit"
     xmlns:x="dpml:tools">
 
-  <transit:import uri="local:template:tools/standard"/>
+  <transit:import uri="local:template:dpml/builder/standard"/>
 
   <target name="package" depends="standard.package,javadoc,junit-report"/>
 
@@ -90,8 +90,8 @@
       <group title="Depot">
         <package name="net.dpml.depot"/>
         <package name="net.dpml.depot.*"/>
-        <package name="net.dpml.tools"/>
-        <package name="net.dpml.tools.*"/>
+        <package name="net.dpml.build"/>
+        <package name="net.dpml.build.*"/>
       </group>
       <group title="Transit">
         <package name="net.dpml.transit"/>

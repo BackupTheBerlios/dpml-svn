@@ -28,14 +28,14 @@ import java.util.List;
 import net.dpml.transit.Logger;
 import net.dpml.transit.Transit;
 
-import net.dpml.tools.info.Scope;
-import net.dpml.tools.info.ResourceDirective.Classifier;
-import net.dpml.tools.model.Module;
-import net.dpml.tools.model.Resource;
-import net.dpml.tools.model.Builder;
-import net.dpml.tools.model.Type;
+import net.dpml.build.info.Scope;
+import net.dpml.build.info.ResourceDirective.Classifier;
+import net.dpml.build.model.Module;
+import net.dpml.build.model.Resource;
+import net.dpml.build.model.Builder;
+import net.dpml.build.model.Type;
 
-import net.dpml.tools.library.DefaultLibrary;
+import net.dpml.build.library.DefaultLibrary;
 
 import net.dpml.cli.Option;
 import net.dpml.cli.Group;

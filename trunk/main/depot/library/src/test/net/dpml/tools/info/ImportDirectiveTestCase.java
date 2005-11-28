@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package net.dpml.tools.info;
+package net.dpml.build.info;
 
 /**
  * The ImportDirective class describes a the inclusion of a typed value.

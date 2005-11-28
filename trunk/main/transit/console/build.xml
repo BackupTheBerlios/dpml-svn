@@ -20,7 +20,7 @@
 <project name="dpml-transit-console" default="install" basedir="." 
     xmlns:transit="antlib:net.dpml.transit">
 
-  <transit:import uri="local:template:tools/standard"/>
+  <transit:import uri="local:template:dpml/builder/standard"/>
 
   <available property="transit.exe.available" file="${dpml.system}/bin/transit.exe"/>
 

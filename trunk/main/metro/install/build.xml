@@ -3,7 +3,7 @@
 <project name="dpml-metro-install" default="install" basedir="." 
     xmlns:transit="antlib:net.dpml.transit" xmlns:x="dpml:tools" >
 
-  <transit:import uri="local:template:tools/standard"/>
+  <transit:import uri="local:template:dpml/builder/standard"/>
 
   <target name="init" depends="standard.init">
     <x:property name="part.name" feature="name" key="dpml-part-api"/>

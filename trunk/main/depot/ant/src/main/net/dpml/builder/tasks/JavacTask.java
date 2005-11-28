@@ -21,8 +21,8 @@ package net.dpml.builder.tasks;
 import java.io.File;
 
 import net.dpml.builder.ant.Context;
-import net.dpml.tools.model.Resource;
-import net.dpml.tools.model.Processor;
+import net.dpml.build.model.Resource;
+import net.dpml.build.model.Processor;
 
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Project;

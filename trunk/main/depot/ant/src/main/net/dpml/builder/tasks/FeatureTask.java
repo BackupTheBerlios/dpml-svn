@@ -18,8 +18,8 @@
 
 package net.dpml.builder.tasks;
 
-import net.dpml.tools.model.ResourceNotFoundException;
-import net.dpml.tools.model.Resource;
+import net.dpml.build.model.ResourceNotFoundException;
+import net.dpml.build.model.Resource;
 
 import net.dpml.transit.Artifact;
 

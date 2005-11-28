@@ -313,7 +313,7 @@
          <type id="jar"/>
          <type id="plugin" alias="true">
            <property name="project.plugin.class" 
-              value="net.dpml.tools.library.BuildPlugin"/>
+              value="net.dpml.build.library.BuildPlugin"/>
          </type>
        </types>
        <dependencies>

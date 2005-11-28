@@ -8,25 +8,25 @@ dpml.plugin.meta.version = 1.0
 #
 # Artifact descriptor.
 #
-dpml.artifact.group = dpml/depot
-dpml.artifact.name = dpml-depot-ant
+dpml.artifact.group = @PROJECT-GROUP@
+dpml.artifact.name = @PROJECT-NAME@
 dpml.artifact.version = @PROJECT-VERSION@
 dpml.artifact.signature = 00000000.000000
 
 #
 # Type.
 #
-dpml.plugin.class = net.dpml.tools.ant.StandardBuilder
+dpml.plugin.class = @PLUGIN-CLASS@
 
 #
 # System dependencies.
 #
-dpml.artifact.dependency.sys.0 = artifact:jar:ant/ant-launcher#1.6.5
-dpml.artifact.dependency.sys.1 = artifact:jar:ant/ant#1.6.5
-dpml.artifact.dependency.sys.2 = artifact:jar:junit/junit#3.8.1
-dpml.artifact.dependency.sys.3 = artifact:jar:ant/ant-junit#1.6.5
-dpml.artifact.dependency.sys.4 = artifact:jar:ant/ant-xslp#1.6.5
-dpml.artifact.dependency.sys.5 = artifact:jar:ant/ant-trax#1.6.5
+dpml.artifact.dependency.sys.0 = artifact:jar:ant/ant-launcher#@ANT-VERSION@
+dpml.artifact.dependency.sys.1 = artifact:jar:ant/ant#@ANT-VERSION@
+dpml.artifact.dependency.sys.2 = artifact:jar:junit/junit#@JUNIT-VERSION@
+dpml.artifact.dependency.sys.3 = artifact:jar:ant/ant-junit#@ANT-VERSION@
+dpml.artifact.dependency.sys.4 = artifact:jar:ant/ant-xslp#@ANT-VERSION@
+dpml.artifact.dependency.sys.5 = artifact:jar:ant/ant-trax#@ANT-VERSION@
 
 #
 # Private.

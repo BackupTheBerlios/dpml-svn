@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package net.dpml.tools.library;
+package net.dpml.build.library;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -27,14 +27,14 @@ import java.util.Date;
 
 import junit.framework.TestCase;
 
-import net.dpml.tools.model.Module;
-import net.dpml.tools.model.Library;
-import net.dpml.tools.model.Processor;
-import net.dpml.tools.model.Resource;
-import net.dpml.tools.model.Type;
-import net.dpml.tools.info.LibraryDirective;
-import net.dpml.tools.info.ResourceDirective;
-import net.dpml.tools.info.Scope;
+import net.dpml.build.model.Module;
+import net.dpml.build.model.Library;
+import net.dpml.build.model.Processor;
+import net.dpml.build.model.Resource;
+import net.dpml.build.model.Type;
+import net.dpml.build.info.LibraryDirective;
+import net.dpml.build.info.ResourceDirective;
+import net.dpml.build.info.Scope;
 
 import net.dpml.transit.Artifact;
 import net.dpml.transit.Logger;

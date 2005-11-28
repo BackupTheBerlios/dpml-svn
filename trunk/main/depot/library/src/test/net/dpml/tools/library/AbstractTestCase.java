@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package net.dpml.tools.library;
+package net.dpml.build.library;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -36,9 +36,9 @@ import java.beans.Expression;
 
 import junit.framework.TestCase;
 
-import net.dpml.tools.model.Resource;
-import net.dpml.tools.info.ModuleDirective;
-import net.dpml.tools.info.Scope;
+import net.dpml.build.model.Resource;
+import net.dpml.build.info.ModuleDirective;
+import net.dpml.build.info.Scope;
 
 import net.dpml.transit.Logger;
 import net.dpml.transit.monitor.LoggingAdapter;

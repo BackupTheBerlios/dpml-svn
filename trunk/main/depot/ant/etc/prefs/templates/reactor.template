@@ -21,7 +21,7 @@
     xmlns:x="dpml:tools" >
 
   <transit:plugin uri="@PROJECT-URI@">
-    <antlib urn="dpml:tools" resource="net/dpml/tools/tasks/antlib.xml"/>
+    <antlib urn="dpml:tools" resource="net/dpml/builder/tasks/antlib.xml"/>
   </transit:plugin>
 
   <target name="default">

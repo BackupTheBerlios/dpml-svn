@@ -32,7 +32,7 @@ import net.dpml.transit.Artifact;
 import net.dpml.transit.Category;
 
 import net.dpml.builder.ant.Context;
-import net.dpml.tools.model.Resource;
+import net.dpml.build.model.Resource;
 
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.BuildException;

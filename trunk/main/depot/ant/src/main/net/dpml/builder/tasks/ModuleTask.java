@@ -25,9 +25,9 @@ import java.io.FileOutputStream;
 import java.io.BufferedOutputStream;
 
 import net.dpml.builder.ant.Context;
-import net.dpml.tools.model.Resource;
-import net.dpml.tools.model.Module;
-import net.dpml.tools.info.ModuleDirective;
+import net.dpml.build.model.Resource;
+import net.dpml.build.model.Module;
+import net.dpml.build.info.ModuleDirective;
 
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.BuildException;

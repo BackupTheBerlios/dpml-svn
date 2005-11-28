@@ -20,6 +20,6 @@
 <project name="dpml-station" default="install" basedir="." 
     xmlns:transit="antlib:net.dpml.transit">
 
-  <transit:import uri="local:template:tools/reactor"/>
+  <transit:import uri="local:template:dpml/builder/reactor"/>
 
 </project>

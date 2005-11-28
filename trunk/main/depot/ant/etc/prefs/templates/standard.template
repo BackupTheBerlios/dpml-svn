@@ -21,14 +21,16 @@
     xmlns:x="dpml:tools" >
 
   <transit:plugin uri="@PROJECT-URI@">
-    <antlib urn="dpml:tools" resource="net/dpml/tools/tasks/antlib.xml"/>
+    <antlib urn="dpml:tools" resource="net/dpml/builder/tasks/antlib.xml"/>
   </transit:plugin>
 
   <target name="init">
     <x:init/>
     <filter token="PROJECT-VERSION" value="${project.version}"/>
-    <x:filter feature="project.publisher.name" token="PUBLISHER-NAME" default="The Digital Product Meta Library"/>
-    <x:filter feature="project.publisher.url" token="PUBLISHER-URL" default="http://www.dpml.net"/>
+    <x:filter feature="project.publisher.name" 
+      token="PUBLISHER-NAME" default="The Digital Product Meta Library"/>
+    <x:filter feature="project.publisher.url" 
+      token="PUBLISHER-URL" default="http://www.dpml.net"/>
   </target>
 
   <target name="prepare" depends="init">
@@ -54,13 +56,13 @@
     <property name="checkstyle.data" location="${checkstyle.dir}/checkstyle.xml"/>
     <property name="project.checkstyle.data" location="${project.target.reports.dir}/checkstyle"/>
     <x:plugin ref="dpml/depot/dpml-depot-checkstyle">
-      <task class="net.dpml.tools.checkstyle.CheckstyleTask" name="checkstyle"/>
+      <task class="net.dpml.builder.checkstyle.CheckstyleTask" name="checkstyle"/>
     </x:plugin>
     <mkdir dir="${checkstyle.dir}"/>
     <checkstyle>
       <formatter type="xml" toFile="${checkstyle.data}"/>
     </checkstyle>
-    <xslt style="${dpml.prefs}/tools/xsls/checkstyle-frames.xsl"
+    <xslt style="${dpml.prefs}/dpml/builder/xsls/checkstyle-frames.xsl"
         in="${checkstyle.data}"
         out="${checkstyle.dir}/checkstyle_report.html" />
   </target>

@@ -22,7 +22,7 @@
     xmlns:x="dpml:tools" 
     xmlns:c="dpml:composition" >
 
-  <transit:import uri="local:template:tools/standard"/>
+  <transit:import uri="local:template:dpml/builder/standard"/>
 
   <target name="build" depends="standard.build">
 

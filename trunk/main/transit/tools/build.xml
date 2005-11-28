@@ -50,7 +50,7 @@
 # Updating Prefs. ${dpml.prefs}
 #----------------------------------------------------------------------------------
     </echo>
-    <property name="templates" value="${dpml.prefs}/transit/templates"/>
+    <property name="templates" value="${dpml.prefs}/dpml/transit/templates"/>
     <echo>Adding build template to ${templates}</echo>
     <mkdir dir="${templates}"/>
     <copy file="${home}/bootstrap.xml" tofile="${templates}/bootstrap.template" />

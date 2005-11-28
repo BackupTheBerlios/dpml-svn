@@ -21,7 +21,7 @@
     xmlns:transit="antlib:net.dpml.transit" 
     default="install">
 
-  <transit:import uri="local:template:tools/standard"/>
+  <transit:import uri="local:template:dpml/builder/standard"/>
 
   <target name="build" depends="standard.build">
     <rmic base="${project.target.classes.main.dir}" classpathref="project.compile.path">

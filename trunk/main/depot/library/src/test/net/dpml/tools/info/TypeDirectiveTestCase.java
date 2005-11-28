@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package net.dpml.tools.info;
+package net.dpml.build.info;
 
 /**
  * The ModuleDirective class describes a module data-structure.

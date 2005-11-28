@@ -21,7 +21,7 @@ package net.dpml.builder.info;
 import java.util.Properties;
 import java.util.Arrays;
 
-import net.dpml.tools.info.AbstractDirective;
+import net.dpml.build.info.AbstractDirective;
 
 /**
  * The ListenerDirective is an immutable descriptor used to define 

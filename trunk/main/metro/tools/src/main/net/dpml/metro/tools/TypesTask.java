@@ -26,7 +26,7 @@ import java.util.List;
 import java.beans.IntrospectionException;
 
 import net.dpml.builder.tasks.GenericTask;
-import net.dpml.tools.info.Scope;
+import net.dpml.build.info.Scope;
 
 import net.dpml.metro.info.Type;
 

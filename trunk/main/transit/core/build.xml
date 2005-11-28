@@ -57,13 +57,10 @@
       <include name="**/DefaultRepositoryModel.class"/>
       <include name="**/DefaultTransitModel.class"/>
       <include name="**/DefaultProxyModel.class"/>
-    </rmic>
-    <rmic base="${target.classes.dir}">
       <include name="**/DefaultCacheHandler.class"/>
       <include name="**/DefaultContentRegistry.class"/>
       <include name="**/DefaultLayoutRegistry.class"/>
       <include name="**/DefaultResourceHost.class"/>
-      <include name="**/SecuredTransitContext$TransitListener.class"/>
       <include name="**/SecuredTransitContext$ProxyController.class"/>
     </rmic>
   </target>

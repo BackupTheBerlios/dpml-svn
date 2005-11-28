@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package net.dpml.tools.info;
+package net.dpml.build.info;
 
 import net.dpml.transit.Category;
 

@@ -21,7 +21,7 @@ package net.dpml.builder.info;
 import java.util.Arrays;
 import java.util.Properties;
 
-import net.dpml.tools.info.AbstractDirective;
+import net.dpml.build.info.AbstractDirective;
 
 /**
  * The BuilderDirective class describes a collection of modules together
