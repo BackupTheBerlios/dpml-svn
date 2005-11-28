@@ -38,36 +38,69 @@
         Transit core system are described below. 
       </p>
 
+      <subsection name="Modern">
+        
+        <p>
+        The ModernLayout decodes artifacts into a layout scheme that follows the 
+        <tt>[group[/[subgroup[/...]]]/[version]/name[-[version]].[type]</tt> convention.
+        </p>
+        
+        <table>
+          <tr>
+            <td>artifact:</td>
+            <td><tt>artifact:jar:metro/cache/dpml-cache-main#1.0.0</tt></td>
+          </tr>
+          <tr>
+            <td>path:</td>
+            <td><tt>[host]/metro/cache/1.0.0/dpml-cache-main-1.0.0.jar</tt></td>
+          </tr>
+        </table>
+        
+      </subsection>
+
       <subsection name="Classic">
+
         <p>
         The ClassicLayout decodes artifacts into the Classic/Maven layout
         of artifacts on a file system or http server. This format says that
         for an artifact <tt>artifact:[type]:[group]/[name]#[version]</tt>
-        the location of such artifact would be: <tt>[group]/[type]s/[name]-[version].[type]</tt>.
-        Example; <tt>artifact:jar:metro/cache/dpml-cache-main#1.0.0</tt>
-        would return the path <tt>metro/cache/jars/dpml-cache-main-1.0.0.jar</tt>.
+        the location of such artifact shall be: <tt>[group]/[type]s/[name]-[version].[type]</tt>.
         </p>
+
+        <table>
+          <tr>
+            <td>artifact:</td>
+            <td><tt>artifact:jar:metro/cache/dpml-cache-main#1.0.0</tt></td>
+          </tr>
+          <tr>
+            <td>path:</td>
+            <td><tt>[host]/metro/cache/jars/dpml-cache-main-1.0.0.jar</tt></td>
+          </tr>
+        </table>
+
       </subsection>  
 
       <subsection name="Eclipse">
+
         <p>
-        The EclipseLayout decodes artifacts into the Eclipse specified layout
+        The EclipseLayout maps artifacts into the Eclipse specified layout
         of artifacts on a file system or http server. This format says that for 
         an artifact <tt>artifact:[type]:[group]/[name]#[version]</tt>
-        the location of such artifact would be: <tt>[group]-[version]/[name].[type]</tt>.
-        Example; <tt>artifact:jar:eclipse/plugins/eclipse-osgi-runtime/core#3.1.0</tt>
-        would return the path <tt>eclipse/plugins/eclipse-osgi-runtime-3.1.0/core.jar</tt>. 
+        the location of such artifact shall be: <tt>[group]-[version]/[name].[type]</tt>.
         </p>
-     </subsection>  
 
-      <subsection name="Modern">
-        <p>
-        The ModernLayout decodes artifacts into a layout scheme that follows the 
-        <tt>[group[/[subgroup[/...]]]/[version]/name[-[version]].type</tt> convention.
-        Example; <tt>artifact:jar:metro/cache/dpml-cache-main#1.0.0</tt>
-        would return the path <tt>metro/cache/1.0.0/dpml-cache-main-1.0.0.jar</tt>.
-        </p>
-      </subsection>  
+        <table>
+          <tr>
+            <td>artifact:</td>
+            <td><tt>artifact:jar:metro/cache/dpml-cache-main#1.0.0</tt></td>
+          </tr>
+          <tr>
+            <td>path:</td>
+            <td><tt>[host]/metro/cache-1.0.0/dpml-cache-main.jar</tt></td>
+          </tr>
+        </table>
+        
+      </subsection>
 
     </section>
 

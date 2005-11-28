@@ -22,8 +22,7 @@
       <subsection name="Commandline">
 
 <pre><![CDATA[$ transit set cache 
-  [-cache <path>
-  [-system <path>]
+  [-dir <path>
   [-layout <id>]
 ]]></pre>
 
@@ -32,16 +31,14 @@
       <subsection name="Options">
 
         <table>
-          <tr><td>cache</td><td>The cache directory path.  The path may
+          <tr>
+            <td>dir</td><td>The cache directory path.  The path may
             contain references to system properties in the form 
             <tt>${key}</tt>.  Typically the cache path is declared 
             relative to the DPML Data root via the <tt>${dpml.data}</tt>
-            property.</td></tr>
-          <tr><td>system</td><td>Location of the local system resource 
-            repository.  The path may contain references to system 
-            properties in the form <tt>${key}</tt>.  Typically the 
-            system path is declared relative to the DPML System root 
-            via the <tt>${dpml.system}</tt> property.</td></tr>
+            property.  The default value is <tt>${dpml.data}/cache</tt>
+            </td>
+          </tr>
           <tr><td>layout</td><td>The id of the layout strategy used 
              within the cache.</td></tr>
         </table>

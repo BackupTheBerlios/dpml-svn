@@ -15,15 +15,15 @@
 
         <p>
         Support for the modification of an identifier host, layout, 
-        or content handler, or modification of the transit cache or proxy 
-        settings.
+        or content handler, or modification of the transit cache, 
+        local system repository, or proxy settings.
         </p>
 
       </subsection>
 
       <subsection name="Commandline">
 
-<pre>$ transit set proxy | cache | host | layout | handler</pre>
+<pre>$ transit set proxy | cache | system | host | layout | handler</pre>
 
       </subsection>
 

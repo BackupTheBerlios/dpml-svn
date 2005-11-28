@@ -122,7 +122,7 @@ class CacheDirectiveBuilder
     }
     
     CacheDirective create(
-      String cache, String cacheLayout, String local, String localLayout
+      String cache, String cacheLayout, String local, String localLayout,
       LayoutDirective[] layouts, HostDirective[] hosts, ContentDirective[] handlers )
     {
         return new CacheDirective( 

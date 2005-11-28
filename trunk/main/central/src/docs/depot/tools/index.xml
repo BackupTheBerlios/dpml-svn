@@ -9,13 +9,13 @@
 
   <body>
 
-    <section name="DPML Tools">
+    <section name="Depot Tools">
 
       <p>
-      DPML Tools is the default build system implementation. It extends 
+      Depot Tools is the default build system implementation. It extends 
       the Apache Ant product with a set of build listeners and tasks that 
       leverage information about projects, resources, modules and processors
-      from a <a href="../../library/index.html">common project library</a>.
+      from the <a href="../library/index.html">common project library</a>.
       </p>
 
     </section>

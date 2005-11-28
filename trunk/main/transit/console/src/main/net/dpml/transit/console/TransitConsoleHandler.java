@@ -196,10 +196,12 @@ public class TransitConsoleHandler
         }
         
         CacheDirective cache = m_directive.getCacheDirective();
-        buffer.append( "\n\n  Cache Settings" );
-        buffer.append( "\n\n    Directory: \t" + cache.getCache() );
-        buffer.append( "\n    Layout: \t" + cache.getLayout() );
-        buffer.append( "\n    Local: \t" + cache.getLocal() );
+        
+        buffer.append( "\n\n  Cache and System Settings" );
+        buffer.append( "\n\n    Cache Directory: \t" + cache.getCache() );
+        buffer.append( "\n    Cache Layout: \t" + cache.getCacheLayout() );
+        buffer.append( "\n    System Directory: \t" + cache.getLocal() );
+        buffer.append( "\n    Repository Layout: \t" + cache.getLocalLayout() );
         
         HostDirective[] hosts = cache.getHostDirectives();
         if( hosts.length > 0 )
@@ -882,15 +884,15 @@ public class TransitConsoleHandler
         HELP_TOPICS.add( "remove" );
     }
     
-    private static final Option CACHE_DIRECTORY_OPTION = 
+    private static final Option DIRECTORY_OPTION = 
         OPTION_BUILDER
-          .withShortName( "cache" )
-          .withDescription( "Cache directory." )
+          .withShortName( "dir" )
+          .withDescription( "Directory." )
           .withRequired( false )
           .withArgument(
             ARGUMENT_BUILDER 
               .withDescription( "Directory." )
-              .withName( "dir" )
+              .withName( "path" )
               .withMinimum( 1 )
               .withMaximum( 1 )
               .create() )

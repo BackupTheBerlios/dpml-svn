@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<document>
+
+  <properties>
+    <author email="mcconnell@dpml.net">Stephen McConnell</author>
+    <title>DPML Transit</title>
+  </properties> 
+
+  <body>
+
+    <section name="Set System Command">
+
+      <subsection name="Description">
+
+        <p>
+        Updates the local system repository configuration.
+        </p>
+
+      </subsection>
+
+      <subsection name="Commandline">
+
+<pre><![CDATA[$ transit set system 
+  [-dir <path>
+  [-layout <id>]
+]]></pre>
+
+      </subsection>
+
+      <subsection name="Options">
+
+        <table>
+          <tr>
+            <td>dir</td><td>The local repository directory path.  
+            The path may contain references to system properties in 
+            the form <tt>${key}</tt>.  Typically the local path is 
+            declared relative to the DPML Data root via the 
+            <tt>${dpml.data}</tt>property. The default value is 
+            <tt>${dpml.system}/local</tt>.
+            </td>
+          </tr>
+          <tr>
+            <td>layout</td>
+            <td>
+              The id of the layout strategy used within the 
+              local repository.
+            </td>
+          </tr>
+        </table>
+
+      </subsection>
+
+    </section>
+
+  </body>
+
+</document>
+

@@ -31,7 +31,7 @@
 
         <p>
         Unless otherwise specificed the default configuration is resolved 
-        from <tt>${dpml.prefs}/transit.xml</tt>.  If the default configuration
+        from <tt>local:xml:dpml/transit/config</tt>.  If the default configuration
         does not exist a classic configuration containing the DPML, Ibiblio and 
         Apache repositories will be used.
         </p>
@@ -45,11 +45,12 @@
 
 <pre><![CDATA[$ transit info]]></pre>
 <source><![CDATA[
-  Cache Settings
+  Cache and System Settings
 
-    Directory:  ${dpml.data}/cache
-    Layout:     classic
-    System:     file:${dpml.system}/local
+    Cache Directory:    ${dpml.data}/cache
+    Cache Layout:       classic
+    System Directory:   file:${dpml.system}/local
+    Repository Layout:  classic
 
   Host Settings
 

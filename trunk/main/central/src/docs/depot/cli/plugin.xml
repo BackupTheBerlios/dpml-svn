@@ -27,7 +27,7 @@
 
       <subsection name="Default">
 
-<pre>@TOOLS-ANT-PLUGIN-URI@</pre>
+<pre>@DEPOT-TOOLS-ANT-URI@</pre>
 
       </subsection>
 

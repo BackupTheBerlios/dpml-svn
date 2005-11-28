@@ -49,10 +49,10 @@
 $ transit help]]></pre>
 <source><![CDATA[
 Usage:
-transit info | add <id> | set <id> | remove <id> | revert | help [-profile <uri>] 
+transit [-profile <uri> info|add|set|remove|revert|help]
 command
   -profile <uri>                                      Configuration profile uri.
-  info | add | set | remove | revert | help
+  info|add|set|remove|revert|help
     info                                              List configuration.
     add
       host handler layout
@@ -78,7 +78,7 @@ command
             -uri <uri>                                Codebase URI (required).
             -title <name>                             Title.
     set                                               Set an configuration aspect.
-      proxy cache host handler layout
+      proxy cache system host handler layout
         proxy                                         Select proxy settings.
           -url -username -password -excludes
             -url <url>                                Host URL.
@@ -86,9 +86,12 @@ command
             -password <password>                      Password.
             -excludes <hosts> [<hosts> ...]           Proxy excludes.
         cache                                         Select cache settings.
-          -cache -system -layout
-            -cache <dir>                              Cache directory.
-            -system <dir>                             Local system repository.
+          -dir -layout
+            -dir <path>                               Directory.
+            -layout <id>                              Host layout strategy.
+        system                                        Select system repository settings.
+          -dir -layout
+            -dir <path>                               Directory.
             -layout <id>                              Host layout strategy.
         host <id>                                     Resource host selection.
           -url -username -password -priority -index -enabled|-disabled -trusted|-untrusted -layout -scheme -prompt
@@ -122,8 +125,7 @@ command
         layout <id>                                   Layout scheme selection.
         proxy                                         Delete proxy settings.
     revert                                            Set configuration to default.
-    help                                              Print command help.
-]]></source>
+    help                                              Print command help.]]></source>
 
       </subsection>
 
