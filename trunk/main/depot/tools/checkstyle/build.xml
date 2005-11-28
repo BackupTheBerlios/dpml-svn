@@ -7,7 +7,7 @@
   <transit:import uri="local:template:dpml/tools/standard"/>
 
   <target name="install" depends="standard.install">
-    <property name="prefs" location="${dpml.prefs}/dpml/builder"/>
+    <property name="prefs" location="${dpml.prefs}/dpml/tools"/>
     <copy toDir="${prefs}">
       <fileset dir="${project.target.dir}/prefs">
         <include name="**/*"/>
