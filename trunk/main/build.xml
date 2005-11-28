@@ -76,7 +76,7 @@
     <property name="prefs.tools" location="${prefs}/tools"/>
     <mkdir dir="${prefs.tools}"/>
     <copy todir="${prefs.tools}" filtering="false">
-      <fileset dir="${basedir}/depot/tools/ant/target">  <!-- YUK!! -->
+      <fileset dir="${basedir}/depot/tools/builder/target">  <!-- YUK!! -->
         <include name="templates/**/*"/>
         <include name="xsls/**/*"/>
       </fileset>
