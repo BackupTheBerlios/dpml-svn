@@ -41,7 +41,7 @@
       <type id="jar"/>
       <type id="plugin" alias="true">
         <property name="project.plugin.resource" 
-          value="net/dpml/tools/checkstyle/antlib.xml"/>
+          value="net/dpml/builder/checkstyle/antlib.xml"/>
         <property name="project.plugin.urn" 
           value="dpml:checkstyle"/>
       </type>

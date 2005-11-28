@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package net.dpml.tools.checkstyle;
+package net.dpml.builder.checkstyle;
 
 import java.io.File;
 
