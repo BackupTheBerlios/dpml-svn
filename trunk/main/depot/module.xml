@@ -76,7 +76,7 @@
     </dependencies>
   </project>
 
-  <project name="dpml-depot-builder" basedir="builder">
+  <project name="dpml-depot-builder" basedir="build/console">
     <types>
       <type id="jar"/>
       <type id="plugin" alias="true">
