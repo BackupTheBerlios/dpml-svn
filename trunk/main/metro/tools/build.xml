@@ -22,7 +22,7 @@
     xmlns:x="dpml:tools" 
     default="install">
 
-  <transit:import uri="local:template:dpml/builder/standard"/>
+  <transit:import uri="local:template:dpml/tools/standard"/>
 
   <target name="init" depends="standard.init">
     <x:filter feature="uri" type="plugin" token="PART-BUILDER-URI" />

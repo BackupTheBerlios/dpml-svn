@@ -59,7 +59,7 @@ public class StandardBuilder implements Builder
    /**
     * The default template uri path.
     */
-    public static final String DEFAULT_TEMPLATE_URN = "local:template:dpml/builder/standard";
+    public static final String DEFAULT_TEMPLATE_URN = "local:template:dpml/tools/standard";
 
     // ------------------------------------------------------------------------
     // state

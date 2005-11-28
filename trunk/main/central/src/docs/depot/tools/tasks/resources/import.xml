@@ -17,7 +17,7 @@
       <p><i>Example of a import request using a uri.</i></p>
        
 <source><![CDATA[
-  <transit:import uri="local:template:dpml/builder/standard"/>
+  <transit:import uri="local:template:dpml/tools/standard"/>
 ]]></source>
 
       <p><i>Example of a import request using a file.</i></p>

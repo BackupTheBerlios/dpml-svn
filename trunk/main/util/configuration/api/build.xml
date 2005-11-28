@@ -3,6 +3,6 @@
 <project name="dpml-configuration-api" default="install" basedir="." 
     xmlns:transit="antlib:net.dpml.transit" >
 
-  <transit:import uri="local:template:dpml/builder/standard"/>
+  <transit:import uri="local:template:dpml/tools/standard"/>
 
 </project>
