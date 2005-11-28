@@ -41,13 +41,13 @@ POPD
 GOTO :EOF
 
 :depot-library
-PUSHD depot\library
+PUSHD depot\build\library
 CALL :build clean install
 POPD
 GOTO :EOF
 
 :depot-ant
-PUSHD depot\ant
+PUSHD depot\tools\ant
 CALL :build clean install
 POPD
 GOTO :EOF
@@ -65,7 +65,7 @@ POPD
 GOTO :EOF
 
 :depot-builder
-PUSHD depot\builder
+PUSHD depot\build\console
 CALL :build clean install
 POPD
 GOTO :EOF

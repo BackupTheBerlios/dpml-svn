@@ -40,28 +40,28 @@ transitMain()
 {
     cd transit/core
     build clean install
-    cd ../../..
+    cd ../..
 }
 
 transitTools()
 {
     cd transit/tools
     build clean install
-    cd ../../..
+    cd ../..
 }
 
 depotLibrary()
 {
-    cd depot/library
+    cd depot/build/library
     build clean install
-    cd ../..
+    cd ../../..
 }
 
 depotAntBuilder()
 {
-    cd depot/ant
+    cd depot/tools/ant
     build clean install
-    cd ../..
+    cd ../../..
 }
 
 externalModules()
@@ -73,9 +73,9 @@ externalModules()
 
 depotBuilder()
 {
-    cd depot/builder
+    cd depot/build/console
     build clean install
-    cd ../..
+    cd ../../..
 }
 
 depotConsole()
