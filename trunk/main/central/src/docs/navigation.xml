@@ -27,14 +27,14 @@
 
     <links>
       <item name="Metro" href="metro/concepts/index.html"/>
-      <item name="Transit" href="transit/concepts/index.html"/>
       <item name="Depot" href="depot/concepts/index.html"/>
+      <item name="Transit" href="transit/concepts/index.html"/>
     </links>
 
     <menu>
       <item name="Download" href="about/setup/index.html"/>
       <item name="Resources" href="about/resources/index.html"/>
-      <item name="Management" href="about/management/mcconnell/index.html"/>
+      <item name="Direction" href="about/direction/mcconnell/index.html"/>
       <item name="News and Events" href="about/news/index.html"/>
       <item name="Sponsors" href="about/sponsorship/index.html"/>
       <item name="Legal" href="about/legal/index.html"/>

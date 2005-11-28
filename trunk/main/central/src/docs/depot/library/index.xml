@@ -16,7 +16,7 @@
       resources, and modules in a central library.  The library
       is described using XML and is used to automate the determination
       of project BUILD, TEST and RUNTIME dependencies, project build
-      prerequisites and processing requirements and associated 
+      prerequisites, processing requirements and associated 
       properties.
       </p>
 
@@ -46,11 +46,6 @@
              <td>An set of global <a href="properties/index.html">property</a> declarations.</td>
            </tr>
            <tr>
-             <td>processors</td>
-             <td>0..1</td>
-             <td>An set of <a href="processors/index.html">processor</a> declarations.</td>
-           </tr>
-           <tr>
              <td>imports</td>
              <td>0..1</td>
              <td>An set of <a href="imports/index.html">imported</a> module defintions.</td>
@@ -76,12 +71,6 @@
   <properties>
     <property name="project.builder.uri" value="link:plugin:dpml/tools/dpml-tools-ant"/>
   </properties>
-
-  <processors>
-    <processor name="jar"/>
-    <processor name="plugin" depends="jar"/>
-    <processor name="module"/>
-  </processors>
 
   <imports>
     <import uri="link:module:junit"/>
@@ -124,15 +113,13 @@
 ]]></source>
 
         <p>
-        The above library directive contains a collection of global properties, the
-        declaration of a set of processors, and the declaration of a 
-        top-level module.  Collectively this information is sufficient to execute a 
+        The above library directive contains a collection of global properties and
+        top-level modules.  Collectively this information is sufficient to execute a 
         complete preparation, compilation, packaging, testing, and installation of the 
         project and modules defined within the library.  This
         level of automation is achived through (a) support from the library for 
         project relationship information, dependencies, properties and produced type
-        declarations, combined with (b) a build system implementation identified by 
-        the plugin uri referenced under the <tt>project.builder.uri</tt> property.
+        declarations, combined with (b) a plugin build implementation.
         </p>
         
     </section>
