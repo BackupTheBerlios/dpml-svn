@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package net.dpml.build.library;
+package net.dpml.build.impl;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;

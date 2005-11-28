@@ -35,7 +35,7 @@ import net.dpml.build.model.Resource;
 import net.dpml.build.model.Builder;
 import net.dpml.build.model.Type;
 
-import net.dpml.build.library.DefaultLibrary;
+import net.dpml.build.impl.DefaultLibrary;
 
 import net.dpml.cli.Option;
 import net.dpml.cli.Group;

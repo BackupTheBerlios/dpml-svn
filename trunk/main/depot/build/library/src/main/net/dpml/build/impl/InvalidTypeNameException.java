@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package net.dpml.build.library;
+package net.dpml.build.impl;
 
 /**
  * Internal exception throw when an attempt is made to reference a type

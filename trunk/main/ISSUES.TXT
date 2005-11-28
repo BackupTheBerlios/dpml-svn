@@ -4,7 +4,7 @@ Current issues
 
 1. Processor Abstraction
 
-   Processor abstraction with dpml-depot-library.  Current the Depot Library 
+   Processor abstraction with dpml-library-main.  Current the Depot Library 
    interfaces include the notion of a processor defintion and a relationship
    between project type production and the process used.  In fact this 
    relationship is a build system implementation concern and as such should 

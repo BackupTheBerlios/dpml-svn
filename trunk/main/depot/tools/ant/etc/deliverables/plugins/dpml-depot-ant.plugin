@@ -33,7 +33,7 @@ dpml.artifact.dependency.sys.5 = artifact:jar:ant/ant-trax#@ANT-VERSION@
 #
 dpml.artifact.dependency.0 = artifact:jar:dpml/transit/dpml-transit-main#@PROJECT-VERSION@
 dpml.artifact.dependency.1 = artifact:jar:dpml/transit/dpml-transit-tools#@PROJECT-VERSION@
-dpml.artifact.dependency.2 = artifact:jar:dpml/depot/dpml-depot-library#@PROJECT-VERSION@
+dpml.artifact.dependency.2 = artifact:jar:dpml/depot/dpml-library-main#@PROJECT-VERSION@
 dpml.artifact.dependency.3 = artifact:jar:dpml/depot/dpml-depot-ant#@PROJECT-VERSION@
 
 #

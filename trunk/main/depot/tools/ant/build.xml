@@ -19,7 +19,7 @@
   <target name="setup-path" depends="bootstrap.setup-path">
     <transit:get property="junit.path" uri="${junit.uri}"/>
     <transit:get property="library.path" 
-      uri="artifact:jar:dpml/depot/dpml-depot-library#${project.version}"/>
+      uri="artifact:jar:dpml/depot/dpml-library-main#${project.version}"/>
     <transit:get property="transit.path" 
       uri="artifact:jar:dpml/transit/dpml-transit-main#${project.version}"/>
     <path id="project.main.path">

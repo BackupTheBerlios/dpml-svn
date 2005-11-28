@@ -16,31 +16,32 @@
  * limitations under the License.
  */
 
-package net.dpml.build.library;
+package net.dpml.build.impl;
 
 /**
- * Internal exception throw to indicate a bad name reference.
+ * Internal exception throw when an attempt is made to reference a processor
+ * that has not been declared.
  *
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-class InvalidNameException extends RuntimeException
+final class InvalidProcessorNameException extends InvalidNameException
 {
    /**
-    * Creation of a new InvalidNameException.
+    * Creation of a new InvalidProcessorNameException.
     * @param message the exception message
     */
-    InvalidNameException( String message )
+    InvalidProcessorNameException( String message )
     {
         this( message, null );
     }
-
+    
    /**
-    * Creation of a new InvalidNameException.
+    * Creation of a new InvalidProcessorNameException.
     * @param message the exception message
     * @param cause the causal exception
     */
-    InvalidNameException( String message, Throwable cause )
+    InvalidProcessorNameException( String message, Throwable cause )
     {
         super( message, cause );
     }

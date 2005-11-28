@@ -17,7 +17,7 @@
     <x:filter token="TRANSIT-CORE-URI" ref="dpml/transit/dpml-transit-main" feature="uri" type="jar"/>
     <x:filter token="DEPOT-CONSOLE-URI" feature="uri" type="jar"/>
     <x:filter token="DEPOT-EXEC-URI" ref="dpml/metro/dpml-metro-exec" feature="uri" type="plugin"/>
-    <x:filter token="DEPOT-BUILDER-URI" ref="dpml/depot/dpml-depot-builder" feature="uri" type="plugin"/>
+    <x:filter token="DEPOT-BUILDER-URI" ref="dpml/depot/dpml-library-console" feature="uri" type="plugin"/>
     <x:filter token="DEPOT-STATION-URI" ref="dpml/metro/dpml-station-console" feature="uri" type="plugin"/>
     <x:filter token="DEPOT-STATION-SERVER-URI" ref="dpml/metro/dpml-station-server" feature="uri" type="plugin"/>
     <x:filter token="TRANSIT-CONSOLE-URI" ref="dpml/transit/dpml-transit-console" feature="uri" type="plugin"/>
@@ -44,7 +44,7 @@
     <x:replicate self="true" todir="${local}" verbose="false">
       <!--
       <include ref="dpml/depot/dpml-depot-ant"/>
-      <include ref="dpml/depot/dpml-depot-library"/>
+      <include ref="dpml/depot/dpml-library-main"/>
       -->
     </x:replicate>
     <echo>
