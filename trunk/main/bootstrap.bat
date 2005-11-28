@@ -71,7 +71,7 @@ POPD
 GOTO :EOF
 
 :depot-console
-PUSHD depot\console
+PUSHD depot\core\console
 CALL :build clean bootstrap
 POPD
 GOTO :EOF

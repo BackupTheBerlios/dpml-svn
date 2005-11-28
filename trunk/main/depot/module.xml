@@ -61,7 +61,7 @@
     </dependencies>
   </project>
 
-  <project name="dpml-depot-console" basedir="console">
+  <project name="dpml-depot-console" basedir="core/console">
     <types>
       <type id="jar"/>
     </types>
@@ -95,7 +95,7 @@
   </project>
    
   <!--
-  <project name="dpml-depot-install" basedir="install">
+  <project name="dpml-depot-install" basedir="core/install">
     <types>
       <type id="jar"/>
       <type id="plugin">

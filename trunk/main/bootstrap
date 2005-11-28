@@ -80,9 +80,9 @@ depotBuilder()
 
 depotConsole()
 {
-    cd depot/console
+    cd depot/core/console
     build clean bootstrap
-    cd ../..
+    cd ../../..
 }
 
 ID=$1
