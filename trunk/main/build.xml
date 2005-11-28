@@ -19,9 +19,19 @@
 
 <project name="dpml" default="install" basedir="."
     xmlns:transit="antlib:net.dpml.transit"
-    xmlns:x="dpml:tools">
+    xmlns:x="dpml:tools"
+    xmlns:c="dpml:composition">
 
   <transit:import uri="local:template:dpml/tools/standard"/>
+
+  <target name="build" depends="standard.build">
+    <x:plugin uri="link:plugin:dpml/metro/dpml-metro-tools"/>
+    <c:catalog>
+      <fileset dir="${basedir}">
+        <include name="**/target/classes/main/**/*.type"/>
+      </fileset>
+    </c:catalog>
+  </target>
 
   <target name="package" depends="standard.package,javadoc,junit-report"/>
 
@@ -50,7 +60,7 @@
     <property name="share.bin" location="${share}/bin"/>
     <mkdir dir="${share.bin}"/>
     <copy todir="${share.bin}" filtering="false">
-      <fileset dir="${basedir}/depot/core/console/target/bin">  <!-- YUK!! -->
+      <fileset dir="${basedir}/depot/core/console/target/bin">  
         <include name="**/*"/>
       </fileset>
     </copy>
@@ -59,7 +69,7 @@
     <property name="prefs.transit.templates" location="${prefs.transit}/templates"/>
     <mkdir dir="${prefs.transit.templates}"/>
     <copy todir="${prefs.transit.templates}" filtering="false">
-      <fileset dir="${basedir}/transit">  <!-- YUK!! -->
+      <fileset dir="${basedir}/transit">
         <include name="bootstrap.xml"/>
       </fileset>
     </copy>
