@@ -9,7 +9,7 @@ Current issues
    between project type production and the process used.  In fact this 
    relationship is a build system implementation concern and as such should 
    not appear in the library.  Instead the notion of processor needs to be 
-   morphed into Listener defintions within the dpml-depot-ant package which 
+   morphed into Listener defintions within the dpml-tools-builder package which 
    in-turn implies that the depot-ant package needs to handle its own 
    configuration.
 

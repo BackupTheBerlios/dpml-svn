@@ -36,12 +36,12 @@
     </dependencies>
   </project>
       
-  <resource name="dpml-depot-ant" basedir="tools/ant">
+  <resource name="dpml-tools-builder" basedir="tools/builder">
     <types>
       <type id="jar"/>
       <type id="plugin" alias="true">
         <property name="project.plugin.class" 
-          value="net.dpml.tools.ant.StandardBuilder"/>
+          value="net.dpml.tools.impl.StandardBuilder"/>
       </type>
     </types>
     <dependencies>
@@ -65,7 +65,7 @@
       </type>
     </types>
     <dependencies>
-      <include ref="dpml/depot/dpml-depot-ant"/>
+      <include ref="dpml/depot/dpml-tools-builder"/>
       <include urn="artifact:jar:checkstyle/checkstyle#3.5">
         <property name="project.api.host" value="http://api.dpml.net"/>
         <property name="project.api.root" value="${project.api.host}/${group}/${version}"/>
