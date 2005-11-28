@@ -20,12 +20,14 @@ package net.dpml.tools.process;
 
 import java.io.File;
 
+import net.dpml.library.info.Scope;
+
 import net.dpml.tools.tasks.JavacTask;
 import net.dpml.tools.tasks.JarTask;
 import net.dpml.tools.tasks.JUnitTestTask;
 
-import net.dpml.tools.ant.Context;
-import net.dpml.library.model.Processor;
+import net.dpml.tools.model.Context;
+import net.dpml.tools.model.Processor;
 
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Project;
@@ -68,7 +70,6 @@ public class JarProcess extends AbstractBuildListener
         {
             Project project = event.getProject();
             Context context = getContext( project );
-            context.init();
             final JavacTask task = new JavacTask( context, m_processor );
             task.init();
             task.execute();
@@ -89,12 +90,11 @@ public class JarProcess extends AbstractBuildListener
         {
             Project project = event.getProject();
             Context context = getContext( project );
-            context.init();
             File src = new File( project.getProperty( "project.target.build.test.dir" ) );
             if( src.exists() )
             {
                 final File jar = getJarFile( project );
-                Path testCompilePath = (Path) project.getReference( "project.test.path" );
+                Path testCompilePath = context.getPath( Scope.TEST  );
                 testCompilePath.createPathElement().setLocation( jar );
                 final File dest = new File( project.getProperty( "project.target.classes.test.dir" ) );
                 try

@@ -27,10 +27,8 @@ import junit.framework.TestCase;
 
 import net.dpml.library.model.Module;
 import net.dpml.library.model.Library;
-import net.dpml.library.model.Processor;
 import net.dpml.library.model.Resource;
 import net.dpml.library.model.Type;
-import net.dpml.library.model.ProcessorNotFoundException;
 import net.dpml.library.info.LibraryDirective;
 import net.dpml.library.info.ResourceDirective;
 
@@ -45,15 +43,6 @@ import net.dpml.transit.monitor.LoggingAdapter;
 public class DefaultLibraryTestCase extends AbstractTestCase
 {   
    /**
-    * Test request for all processors.
-    */
-    public void testProcessors()
-    {
-        Processor[] processors = m_library.getProcessors();
-        assertEquals( "processor-count", 3, processors.length );
-    }
-    
-   /**
     * Test library properties.
     */
     public void testProperties()
@@ -64,22 +53,6 @@ public class DefaultLibraryTestCase extends AbstractTestCase
         //{
         //    System.out.println( "# " + names[i] );
         //}
-    }
-    
-   /**
-    * Testing inclusion of processors based on declared processor 
-    * dependencies.  In this testcase the resource declares a dependency 
-    * on a plugin and this implies a dependency on a jar processor - hense 
-    * two resource type and two processors irrespective of the fact that 
-    * the XML defintion contains a single plugin type reference.
-    */
-    public void testGetProcessorSequence() throws Exception
-    {
-        Resource resource = m_library.getResource( "dpml/tools/dpml-tools-ant" );
-        //Type[] types = resource.getTypes();
-        //assertEquals( "resource-type-count", 2, types.length );
-        Processor[] processors = m_library.getProcessorSequence( resource );
-        assertEquals( "processor-sequence-count", 2, processors.length );
     }
     
    /**

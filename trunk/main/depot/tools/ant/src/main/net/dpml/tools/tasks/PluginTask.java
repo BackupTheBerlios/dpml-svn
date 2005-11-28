@@ -18,7 +18,8 @@
 
 package net.dpml.tools.tasks;
 
-import net.dpml.tools.ant.Context;
+import net.dpml.tools.model.Context;
+
 import net.dpml.library.model.Library;
 import net.dpml.library.model.Resource;
 

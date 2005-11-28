@@ -23,16 +23,18 @@ import java.net.URI;
 import java.net.URL;
 import java.util.Vector;
 
-import net.dpml.transit.Logger;
-import net.dpml.transit.Environment;
-import net.dpml.transit.model.TransitModel;
-import net.dpml.transit.tools.MainTask;
-
 import net.dpml.library.model.Builder;
 import net.dpml.library.model.Library;
 import net.dpml.library.model.Resource;
 
+import net.dpml.tools.model.Workbench;
+import net.dpml.tools.model.Context;
+
 import net.dpml.transit.Artifact;
+import net.dpml.transit.Logger;
+import net.dpml.transit.Environment;
+import net.dpml.transit.model.TransitModel;
+import net.dpml.transit.tools.MainTask;
 
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.ProjectHelper;
@@ -67,7 +69,7 @@ public class StandardBuilder implements Builder
     
     private Logger m_logger;
     private TransitModel m_model;
-    private Library m_library;
+    private Workbench m_workbench;
     private boolean m_verbose;
     private Throwable m_result;
 
@@ -86,8 +88,17 @@ public class StandardBuilder implements Builder
     {
         m_logger = logger;
         m_verbose = verbose;
-        m_library = library;
         
+        try
+        {
+            m_workbench = new DefaultWorkbench( library );
+        }
+        catch( Throwable e )
+        {
+            final String error = 
+              "An internal error occured while attempting to construct the workbench.";
+            throw new BuildException( error, e );
+        }
         Thread.currentThread().setContextClassLoader( getClass().getClassLoader() );
         String antHome = Environment.getEnvVariable( "ANT_HOME" );
         System.setProperty( "ant.home", antHome );
@@ -280,7 +291,8 @@ public class StandardBuilder implements Builder
     {
         Project project = createProject();
         project.setBaseDir( resource.getBaseDir() );
-        Context context = new Context( resource, m_library, project );
+        project.addReference( "project.workbench", m_workbench );
+        Context context = m_workbench.createContext( resource, project );
         project.addReference( "project.context", context );
         return project;
     }

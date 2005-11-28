@@ -8,16 +8,8 @@
     <property name="project.template" value="${project.standard.template}"/>
   </properties>
 
-  <processors>
-    <processor name="jar">
-      <property name="project.javac.debug" value="false"/>
-    </processor>
-  </processors>
-
   <modules>
-
     <module name="demo" basedir=".">
-
       <project name="example" basedir="example">
         <types>
           <type id="jar"/>
@@ -26,9 +18,7 @@
           <include urn="artifact:jar:commons-collections/commons-collections#3.0"/>
         </dependencies>
       </project>
-
     </module>
-
   </modules>
 
 </library>

@@ -30,7 +30,6 @@ import java.util.ArrayList;
 import java.util.Properties;
 import java.beans.XMLDecoder;
 
-import net.dpml.library.info.ProcessorDescriptor;
 import net.dpml.library.info.LibraryDirective;
 import net.dpml.library.info.ImportDirective;
 import net.dpml.library.info.IncludeDirective;
@@ -66,8 +65,6 @@ public final class LibraryDirectiveBuilder
     private static final String TYPE_ELEMENT_NAME = "type";
     private static final String PROJECT_ELEMENT_NAME = "project";
     private static final String PROPERTIES_ELEMENT_NAME = "properties";
-    private static final String PROCESSORS_ELEMENT_NAME = "processors";
-    private static final String PROCESSOR_ELEMENT_NAME = "processor";
     
     private LibraryDirectiveBuilder()
     {
@@ -140,7 +137,6 @@ public final class LibraryDirectiveBuilder
         // get type descriptors, modules and properties
         
         Properties properties = null;
-        ProcessorDescriptor[] types = new ProcessorDescriptor[0];
         ImportDirective[] imports = new ImportDirective[0];
         ModuleDirective[] modules = new ModuleDirective[0];
         Element[] children = ElementHelper.getChildren( element );
@@ -160,10 +156,6 @@ public final class LibraryDirectiveBuilder
             {
                 modules = buildModuleDirectivesFromElement( base, child );
             }
-            else if( PROCESSORS_ELEMENT_NAME.equals( tag ) ) 
-            {
-                types = buildProcessorDescriptors( child );
-            }
             else
             {
                 final String error = 
@@ -171,7 +163,7 @@ public final class LibraryDirectiveBuilder
                 throw new IllegalArgumentException( error );
             }
         }
-        return new LibraryDirective( types, imports, modules, properties );
+        return new LibraryDirective( imports, modules, properties );
     }
     
     private static ModuleDirective[] buildModuleDirectivesFromElement( 
@@ -185,54 +177,6 @@ public final class LibraryDirectiveBuilder
             modules[i] = buildModuleDirectiveFromElement( base, child, null );
         }
         return modules;
-    }
-    
-    
-    private static ProcessorDescriptor[] buildProcessorDescriptors( Element element )
-    {
-        Element[] children = ElementHelper.getChildren( element );
-        ProcessorDescriptor[] types = new ProcessorDescriptor[ children.length ];
-        for( int i=0; i<children.length; i++ )
-        {
-            Element child = children[i];
-            types[i] = buildProcessorDescriptor( child );
-        }
-        return types;
-    }
-    
-    private static ProcessorDescriptor buildProcessorDescriptor( Element element )
-    {
-        final String tag = element.getTagName();
-        if( PROCESSOR_ELEMENT_NAME.equals( tag ) )
-        {
-            final String name = ElementHelper.getAttribute( element, "name", null );
-            final String urn = ElementHelper.getAttribute( element, "uri", null );
-            final String classname = ElementHelper.getAttribute( element, "classname", null );
-            final String deps = ElementHelper.getAttribute( element, "depends", null );
-            final String[] depends = buildProcessDependenciesArray( deps );
-            final Properties properties = buildProperties( element );
-            return new ProcessorDescriptor( name, urn, classname, depends, properties );
-        }
-        else
-        {
-            final String error = 
-              "Invalid resource element name [" 
-              + tag
-              + "].";
-            throw new IllegalArgumentException( error );
-        }
-    }
-    
-    private static String[] buildProcessDependenciesArray( String value )
-    {
-        if( null == value )
-        {
-            return new String[0];
-        }
-        else
-        {
-            return value.split( "," );
-        }
     }
     
    /**

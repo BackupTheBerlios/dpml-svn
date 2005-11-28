@@ -20,9 +20,11 @@ package net.dpml.tools.tasks;
 
 import java.io.File;
 
-import net.dpml.tools.ant.Context;
 import net.dpml.library.model.Resource;
-import net.dpml.library.model.Processor;
+import net.dpml.library.info.Scope;
+
+import net.dpml.tools.model.Context;
+import net.dpml.tools.model.Processor;
 
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Project;
@@ -101,6 +103,7 @@ public class JavacTask extends MatchingTask
             setTaskName( "javac" );
             setSrc( context.getTargetBuildMainDirectory() );
             setDest( context.getTargetClassesMainDirectory() );
+            context.getPath( Scope.RUNTIME );
             setClasspathRef( "project.compile.path" );
         }
         catch( Exception e )

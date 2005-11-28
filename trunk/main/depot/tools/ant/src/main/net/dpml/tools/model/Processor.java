@@ -16,9 +16,11 @@
  * limitations under the License.
  */
 
-package net.dpml.library.model;
+package net.dpml.tools.model;
 
 import java.net.URI;
+
+import net.dpml.library.model.Dictionary;
 
 /**
  * The Processor interface defines a process model.

@@ -23,7 +23,9 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import net.dpml.library.model.Resource;
-import net.dpml.library.model.Processor;
+
+import net.dpml.tools.model.Processor;
+import net.dpml.tools.model.Workbench;
 
 import net.dpml.tools.process.JarProcess;
 import net.dpml.tools.process.PluginProcess;
@@ -58,11 +60,15 @@ public class InitializationTask extends GenericTask
         getProject().addReference( "project.timestamp", new Date() );
         Resource resource = getResource();
         log( resource.toString(), Project.MSG_VERBOSE );
-        Processor[] processors = getLibrary().getProcessorSequence( resource );
+        Processor[] processors = getWorkbench().getProcessorSequence( resource );
         for( int i=0; i<processors.length; i++ )
         {
             Processor processor = processors[i];
             String name = processor.getName();
+            
+            // TODO: strip about the following hard-coded references to 
+            // listener names and do the implementation properly 
+            // based on standard and declared processors
             
             try
             {
@@ -94,9 +100,9 @@ public class InitializationTask extends GenericTask
                           + "] does not declare a plugin uri.";
                         throw new IllegalStateException( error );
                     }
-                    String classname = processor.getClassname();
                     
                     Object object = null;
+                    String classname = processor.getClassname();
                     Object[] params = new Object[]{project, resource, processor};
                     if( null == classname )
                     {

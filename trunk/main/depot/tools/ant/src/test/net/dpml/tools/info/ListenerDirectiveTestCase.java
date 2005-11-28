@@ -16,28 +16,28 @@
  * limitations under the License.
  */
 
-package net.dpml.library.info;
+package net.dpml.tools.info;
 
 /**
  * The ModuleDirective class describes a module data-structure.
  *
  * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
  */
-public final class ProcessorDescriptorTestCase extends AbstractTestCase
+public final class ListenerDirectiveTestCase extends AbstractTestCase
 {
-    static ProcessorDescriptor[] PROCESSORS = new ProcessorDescriptor[3];
+    static ListenerDirective[] LISTENERS = new ListenerDirective[3];
     static
     {
-        PROCESSORS[0] = new ProcessorDescriptor( "jar" );
-        PROCESSORS[1] = new ProcessorDescriptor( "acme", "actifact:plugin:acme/whatever", new String[0] );
-        PROCESSORS[2] = new ProcessorDescriptor( "widget", null, new String[]{ "acme" }, PROPERTIES );
+        LISTENERS[0] = new ListenerDirective( "jar" );
+        LISTENERS[1] = new ListenerDirective( "acme", "actifact:plugin:acme/whatever", new String[0] );
+        LISTENERS[2] = new ListenerDirective( "widget", null, new String[]{ "acme" }, PROPERTIES );
     }
     
     public void testNullName()
     {
         try
         {
-            ProcessorDescriptor process = new ProcessorDescriptor( null );
+            ListenerDirective process = new ListenerDirective( null );
             fail( "no-NPE" );
         }
         catch( NullPointerException e )
@@ -50,7 +50,7 @@ public final class ProcessorDescriptorTestCase extends AbstractTestCase
     {
         try
         {
-            ProcessorDescriptor process = new ProcessorDescriptor( "test", "plugin:whatever", null );
+            ListenerDirective listener = new ListenerDirective( "test", "plugin:whatever", null );
             fail( "no-NPE" );
         }
         catch( NullPointerException e )
@@ -61,22 +61,22 @@ public final class ProcessorDescriptorTestCase extends AbstractTestCase
     
     public void testProcessName()
     {
-        ProcessorDescriptor process = new ProcessorDescriptor( "test", "plugin:xxx", new String[0], PROPERTIES );
+        ListenerDirective process = new ListenerDirective( "test", "plugin:xxx", new String[0], PROPERTIES );
         assertEquals( "name", "test", process.getName() );
     }
     
     public void testProcessURN()
     {
-        ProcessorDescriptor process = new ProcessorDescriptor( "test", "plugin:xxx", new String[0], PROPERTIES );
+        ListenerDirective process = new ListenerDirective( "test", "plugin:xxx", new String[0], PROPERTIES );
         assertEquals( "urn", "plugin:xxx", process.getURN() );
     }
     
-    public void testProcessDependencies()
+    public void testDependencies()
     {
         String dep1 = "abc";
         String dep2 = "def";
         String[] deps = new String[]{ dep1, dep2 };
-        ProcessorDescriptor process = new ProcessorDescriptor( "test", "plugin:xxx", deps, PROPERTIES );
+        ListenerDirective process = new ListenerDirective( "test", "plugin:xxx", deps, PROPERTIES );
         assertEquals( "deps", deps, process.getDependencies() );
     }
     
@@ -85,7 +85,7 @@ public final class ProcessorDescriptorTestCase extends AbstractTestCase
         String dep1 = "abc";
         String dep2 = "def";
         String[] deps = new String[]{ dep1, dep2 };
-        ProcessorDescriptor process = new ProcessorDescriptor( "test", "plugin:xxx", deps, PROPERTIES );
+        ListenerDirective process = new ListenerDirective( "test", "plugin:xxx", deps, PROPERTIES );
         doSerializationTest( process );
     }
 
@@ -94,7 +94,7 @@ public final class ProcessorDescriptorTestCase extends AbstractTestCase
         String dep1 = "abc";
         String dep2 = "def";
         String[] deps = new String[]{ dep1, dep2 };
-        ProcessorDescriptor process = new ProcessorDescriptor( "test", "plugin:xxx", deps, PROPERTIES );
-        doEncodingTest( process, "process-descriptor-encoded.xml" );
+        ListenerDirective process = new ListenerDirective( "test", "plugin:xxx", deps, PROPERTIES );
+        doEncodingTest( process, "listener-directive.xml" );
     }
 }

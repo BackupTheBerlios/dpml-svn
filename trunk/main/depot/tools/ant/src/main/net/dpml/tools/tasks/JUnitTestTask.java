@@ -21,7 +21,9 @@ package net.dpml.tools.tasks;
 import java.io.File;
 import java.util.StringTokenizer;
 
-import net.dpml.tools.ant.Context;
+import net.dpml.library.info.Scope;
+
+import net.dpml.tools.model.Context;
 
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Project;
@@ -131,7 +133,7 @@ public class JUnitTestTask extends GenericTask
             project.setNewProperty( TEST_ENV_KEY, "" + TEST_ENV_VALUE );
             project.setNewProperty( HALT_ON_ERROR_KEY, "" + HALT_ON_ERROR_VALUE );
             project.setNewProperty( HALT_ON_FAILURE_KEY, "" + HALT_ON_FAILURE_VALUE );
-            getContext().init();
+            getContext().getPath( Scope.TEST );
         }
     }
 

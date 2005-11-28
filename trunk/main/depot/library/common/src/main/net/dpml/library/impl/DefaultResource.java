@@ -32,7 +32,7 @@ import java.util.Properties;
 import net.dpml.library.model.Resource;
 import net.dpml.library.model.Type;
 import net.dpml.library.model.Module;
-import net.dpml.library.model.ProcessorNotFoundException;
+//import net.dpml.library.model.ProcessorNotFoundException;
 import net.dpml.library.info.TypeDirective;
 import net.dpml.library.info.ResourceDirective;
 import net.dpml.library.info.ResourceDirective.Classifier;
@@ -85,7 +85,6 @@ public class DefaultResource extends DefaultDictionary implements Resource, Comp
     }
     
     DefaultResource( DefaultLibrary library, DefaultModule module, ResourceDirective directive ) 
-      throws ProcessorNotFoundException
     {
         super( module, directive );
         if( null == directive )
@@ -105,27 +104,13 @@ public class DefaultResource extends DefaultDictionary implements Resource, Comp
         {
             m_path = module.getResourcePath() + "/" + directive.getName();
         }
-        try
+       
+        m_types = resolveTypes( directive );
+        m_typeNames = new String[ m_types.length ];
+        for( int i=0; i<m_types.length; i++ )
         {
-            m_types = resolveTypes( directive );
-            m_typeNames = new String[ m_types.length ];
-            for( int i=0; i<m_types.length; i++ )
-            {
-                Type type = m_types[i];
-                m_typeNames[i] = type.getName();
-            }
-        }
-        catch( InvalidProcessorNameException e )
-        {
-            final String error = 
-              "Unable to create resource ["
-              + directive.getName() 
-              + "] in ["
-              + this
-              + "] due to a reference to the resource type ["
-              + e.getMessage()
-              + "] that does not have a corresponding processor type definition.";
-            throw new ProcessorNotFoundException( error, e );
+            Type type = m_types[i];
+            m_typeNames[i] = type.getName();
         }
         
         File anchor = getAnchor();
@@ -1012,54 +997,6 @@ public class DefaultResource extends DefaultDictionary implements Resource, Comp
         }
         return types;
     }
-    
-   /**
-    * Internal utility that resolves an array of types based on a supplied resource
-    * directive.  The implementation expands type names based on processor declared 
-    * dependencies and as such a resource may expose more types than it declares
-    * directly. In the case of a implied type, an empty type instance is assigned
-    * otherwise the type instance is based on the declared type and any associated
-    * properties.
-    */
-    /*
-    private DefaultType[] resolveTypes( ResourceDirective directive )
-    {
-        String[] names = resolveTypeNames( directive );
-        DefaultType[] types = new DefaultType[ names.length ];
-        for( int i=0; i<names.length; i++ )
-        {
-            String name = names[i];
-            try
-            {
-                TypeDirective type = directive.getTypeDirective( name );
-                types[i] = new DefaultType( this, type );
-            }
-            catch( TypeUnknownException e )
-            {
-                TypeDirective type = new TypeDirective( name );
-                types[i] = new DefaultType( this, type );
-            }
-        }
-        return types;
-    }
-    */
-    
-   /**
-    * Utility operation to resolved the expanded set of type names.
-    */
-    /*
-    private String[] resolveTypeNames( ResourceDirective directive )
-    {
-        TypeDirective[] types = directive.getTypeDirectives();
-        String[] names = new String[ types.length ];
-        for( int i=0; i<types.length; i++ )
-        {
-            TypeDirective type = types[i];
-            names[i] = type.getName();
-        }
-        return m_library.expandTypeNames( names );
-    }
-    */
     
     //----------------------------------------------------------------------------
     // version utilities

@@ -54,7 +54,6 @@ public class JarTask extends GenericTask
         if( !isInitialized() )
         {
             super.init();
-            getContext().init();
         }
     }
     

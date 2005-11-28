@@ -30,34 +30,20 @@ import java.util.Properties;
  */
 public final class LibraryDirective extends AbstractDirective
 {
-    private final ProcessorDescriptor[] m_processes;
     private final ImportDirective[] m_imports;
     private final ModuleDirective[] m_modules;
     
    /**
     * Creation of a new library directive.
-    * @param processes an array of processor directives
     * @param imports module imports
     * @param modules the set of declared modules
     * @param properties library properties
     */
     public LibraryDirective(
-      ProcessorDescriptor[] processes, ImportDirective[] imports, 
-      ModuleDirective[] modules, Properties properties )
+      ImportDirective[] imports, ModuleDirective[] modules, Properties properties )
     {
         super( properties );
         
-        if( null == processes )
-        {
-            throw new NullPointerException( "processes" );
-        }
-        for( int i=0; i<processes.length; i++ )
-        {
-            if( null == processes[i] )
-            {
-                throw new NullPointerException( "process" );
-            } 
-        }
         if( null == imports )
         {
             throw new NullPointerException( "imports" );
@@ -82,7 +68,6 @@ public final class LibraryDirective extends AbstractDirective
         }
 
         m_modules = modules;
-        m_processes = processes;
         m_imports = imports;
     }
     
@@ -105,15 +90,6 @@ public final class LibraryDirective extends AbstractDirective
     }
     
    /**
-    * Return the set of processor declarations.
-    * @return the processor descriptor array
-    */
-    public ProcessorDescriptor[] getProcessorDescriptors()
-    {
-        return m_processes;
-    }
-    
-   /**
     * Compare this object with another for equality.
     * @param other the other object
     * @return true if equal
@@ -123,7 +99,7 @@ public final class LibraryDirective extends AbstractDirective
         if( super.equals( other ) && ( other instanceof LibraryDirective ) )
         {
             LibraryDirective object = (LibraryDirective) other;
-            if( !Arrays.equals( m_processes, object.m_processes ) )
+            if( !Arrays.equals( m_modules, object.m_modules ) )
             {
                 return false;
             }
@@ -145,7 +121,7 @@ public final class LibraryDirective extends AbstractDirective
     public int hashCode()
     {
         int hash = super.hashCode();
-        hash ^= super.hashArray( m_processes );
+        hash ^= super.hashArray( m_modules );
         hash ^= super.hashArray( m_imports );
         return hash;
     }

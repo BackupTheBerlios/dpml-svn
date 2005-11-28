@@ -29,7 +29,6 @@ import junit.framework.TestCase;
 
 import net.dpml.library.model.Module;
 import net.dpml.library.model.Library;
-import net.dpml.library.model.Processor;
 import net.dpml.library.model.Resource;
 import net.dpml.library.model.Type;
 import net.dpml.library.info.LibraryDirective;

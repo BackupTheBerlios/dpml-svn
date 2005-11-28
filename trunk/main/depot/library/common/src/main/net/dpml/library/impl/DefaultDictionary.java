@@ -50,7 +50,7 @@ public class DefaultDictionary implements Dictionary
     * @param parent the parent dictionary (possibly null)
     * @param directive an abstract directive containing local properties
     */
-    DefaultDictionary( DefaultDictionary parent, AbstractDirective directive )
+    public DefaultDictionary( DefaultDictionary parent, AbstractDirective directive )
     {
         if( null == directive )
         {

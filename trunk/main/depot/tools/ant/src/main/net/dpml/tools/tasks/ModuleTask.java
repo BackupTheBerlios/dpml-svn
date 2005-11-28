@@ -24,9 +24,11 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.BufferedOutputStream;
 
-import net.dpml.tools.ant.Context;
+import net.dpml.tools.model.Context;
+
 import net.dpml.library.model.Resource;
 import net.dpml.library.model.Module;
+import net.dpml.library.info.Scope;
 import net.dpml.library.info.ModuleDirective;
 
 import org.apache.tools.ant.Project;
@@ -49,7 +51,7 @@ public class ModuleTask extends GenericTask
         if( !isInitialized() )
         {
             super.init();
-            getContext().init();
+            getContext().getPath( Scope.TEST );
         }
     }
     

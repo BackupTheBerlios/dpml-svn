@@ -27,6 +27,8 @@ import net.dpml.library.model.Library;
 import net.dpml.library.model.Resource;
 import net.dpml.library.model.Type;
 
+import net.dpml.tools.model.Context;
+
 import net.dpml.transit.Artifact;
 import net.dpml.transit.Transit;
 
@@ -35,12 +37,12 @@ import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.types.Path;
 
 /**
- * Project context.
+ * Default implmentation of a project context.
  *
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-public final class Context
+final class DefaultContext implements Context
 {
     private final Project m_project;
     private final Resource m_resource;
@@ -55,7 +57,7 @@ public final class Context
     * @param library the resource library
     * @param project the Ant project
     */
-    public Context( Resource resource, Library library, Project project )
+    public DefaultContext( Resource resource, Library library, Project project )
     {
         m_project = project;
         m_resource = resource;
@@ -108,7 +110,7 @@ public final class Context
     * Initialize the contex during which runtime anbd test path objects are 
     * established as project references.
     */
-    public void init()
+    private void init()
     {
         if( m_runtime != null )
         {

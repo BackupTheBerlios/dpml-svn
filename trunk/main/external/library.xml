@@ -6,13 +6,6 @@
     <property name="project.builder.uri" value="link:plugin:dpml/tools/dpml-tools-ant"/>
   </properties>
 
-  <processors>
-    <processor name="jar"/>
-    <processor name="plugin" depends="jar"/>
-    <processor name="part" uri="link:plugin:dpml/metro/dpml-metro-tools"/>
-    <processor name="module"/>
-  </processors>
-
   <modules>
 
     <module name="junit" version="3.8.1" basedir="junit">

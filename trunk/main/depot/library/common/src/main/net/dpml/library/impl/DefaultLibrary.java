@@ -34,11 +34,11 @@ import net.dpml.library.info.ModuleDirective;
 import net.dpml.library.info.ImportDirective;
 import net.dpml.library.info.Scope;
 import net.dpml.library.info.IncludeDirective;
-import net.dpml.library.info.ProcessorDescriptor;
+//import net.dpml.library.info.ProcessorDescriptor;
 import net.dpml.library.info.ResourceDirective;
 import net.dpml.library.model.Module;
 import net.dpml.library.model.Resource;
-import net.dpml.library.model.Processor;
+//import net.dpml.library.model.Processor;
 import net.dpml.library.model.Library;
 import net.dpml.library.model.Type;
 import net.dpml.library.model.ModuleNotFoundException;
@@ -56,7 +56,7 @@ import net.dpml.transit.Logger;
 public final class DefaultLibrary extends DefaultDictionary implements Library
 {
     private final LibraryDirective m_directive;
-    private final DefaultProcessor[] m_processes;
+    //private final DefaultProcessor[] m_processes;
     private final DefaultModule m_module;
     private final DefaultModule m_imports;
     private final File m_root;
@@ -95,13 +95,13 @@ public final class DefaultLibrary extends DefaultDictionary implements Library
         
         // setup the processors
         
-        ProcessorDescriptor[] processDescriptors = m_directive.getProcessorDescriptors();
-        m_processes = new DefaultProcessor[ processDescriptors.length ];
-        for( int i=0; i<processDescriptors.length; i++ )
-        {
-            ProcessorDescriptor processDescriptor = processDescriptors[i];
-            m_processes[i] = new DefaultProcessor( this, processDescriptor );
-        }
+        //ProcessorDescriptor[] processDescriptors = m_directive.getProcessorDescriptors();
+        //m_processes = new DefaultProcessor[ processDescriptors.length ];
+        //for( int i=0; i<processDescriptors.length; i++ )
+        //{
+        //    ProcessorDescriptor processDescriptor = processDescriptors[i];
+        //    m_processes[i] = new DefaultProcessor( this, processDescriptor );
+        //}
         
         getLogger().debug( "loaded root module: " + m_root );
         System.setProperty( "dpml.library.basedir", m_root.toString() );
@@ -174,10 +174,10 @@ public final class DefaultLibrary extends DefaultDictionary implements Library
     * Return an array of all registered processes.
     * @return the processor array
     */
-    public Processor[] getProcessors()
-    {
-        return m_processes;
-    }
+    //public Processor[] getProcessors()
+    //{
+    //    return m_processes;
+    //}
     
    /**
     * Return the sequence of process defintions supporting production of a 
@@ -190,11 +190,11 @@ public final class DefaultLibrary extends DefaultDictionary implements Library
     * @param resource the resource to be produced
     * @return a sorted array of processor definitions supporting resource production
     */
-    public Processor[] getProcessorSequence( Resource resource )
-    {
-        Type[] types = resource.getTypes();
-        return getDefaultProcessorSequence( types );
-    }
+    //public Processor[] getProcessorSequence( Resource resource )
+    //{
+    //    Type[] types = resource.getTypes();
+    //    return getDefaultProcessorSequence( types );
+    //}
 
    /**
     * Return an array of the top-level modules within the library.
@@ -454,6 +454,7 @@ public final class DefaultLibrary extends DefaultDictionary implements Library
         return m_root;
     }
     
+    /*
     DefaultProcessor getDefaultProcessor( String id ) throws InvalidProcessorNameException
     {
         for( int i=0; i<m_processes.length; i++ )
@@ -504,6 +505,7 @@ public final class DefaultLibrary extends DefaultDictionary implements Library
         }
         return names;
     }
+    */
     
    /**
     * Return the array of top-level modules.
@@ -561,6 +563,7 @@ public final class DefaultLibrary extends DefaultDictionary implements Library
     // internal ProcessorDescriptor sorting
     //----------------------------------------------------------------------------
     
+    /*
     private ProcessorDescriptor[] getProcessorDescriptors( String[] names )
     {
         ArrayList list = new ArrayList();
@@ -629,6 +632,7 @@ public final class DefaultLibrary extends DefaultDictionary implements Library
             stack.add( descriptor );
         }
     }
+    */
     
     //----------------------------------------------------------------------------
     // other internals

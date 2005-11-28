@@ -73,7 +73,7 @@ public class JavadocTask extends GenericTask
         if( !isInitialized() )
         {
             super.init();
-            getContext().init();
+            getContext().getPath( Scope.RUNTIME );
         }
     }
 

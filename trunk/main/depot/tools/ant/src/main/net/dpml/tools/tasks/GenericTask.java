@@ -20,7 +20,10 @@ package net.dpml.tools.tasks;
 
 import java.io.File;
 
-import net.dpml.tools.ant.Context;
+import net.dpml.tools.model.Context;
+import net.dpml.tools.model.Workbench;
+import net.dpml.tools.ant.DefaultWorkbench;
+
 import net.dpml.library.model.Library;
 import net.dpml.library.model.Resource;
 import net.dpml.library.impl.DefaultLibrary;
@@ -104,15 +107,15 @@ public class GenericTask extends Task
         return getContext().getLibrary();
     }
     
-   /**
-    * Get the project context.
-    * @return the project context
-    */
-    protected Context getContext()
+    protected Workbench getWorkbench()
     {
-        Context context = (Context) getProject().getReference( "project.context" );
-        if( null == context )
-        {   
+        Workbench workbench = (Workbench) getProject().getReference( "project.workbench" );
+        if( null != workbench )
+        {
+            return workbench;
+        }
+        else
+        {
             //
             // We are running under Ant based invocation.
             // Create the library, locate this project, create and set the context.
@@ -127,10 +130,9 @@ public class GenericTask extends Task
             {
                 Logger logger = new LoggingAdapter();
                 DefaultLibrary library = new DefaultLibrary( logger );
-                Resource resource = library.locate( basedir.getCanonicalFile() );
-                context = new Context( resource, library, getProject() );
-                getProject().addReference( "project.context", context );
-                return context;
+                workbench = new DefaultWorkbench( library );
+                getProject().addReference( "project.workbench", workbench );
+                return workbench;
             }
             catch( BuildException e )
             {
@@ -143,7 +145,42 @@ public class GenericTask extends Task
                 throw new RuntimeException( error, ioe );
             }
         }
-        return context;
+    }
+    
+   /**
+    * Get the project context.
+    * @return the project context
+    */
+    protected Context getContext()
+    {
+        Context context = (Context) getProject().getReference( "project.context" );
+        if( null != context )
+        {
+            return context;
+        }
+        else
+        {
+            try
+            {
+                Workbench workbench = getWorkbench();
+                Library library = workbench.getLibrary();
+                File basedir = getProject().getBaseDir();
+                Resource resource = library.locate( basedir.getCanonicalFile() );
+                context = workbench.createContext( resource, getProject() );
+                getProject().addReference( "project.context", context );
+                return context;
+            }
+            catch( BuildException e )
+            {
+                throw e;
+            }
+            catch( Exception ioe )
+            {
+                final String error = 
+                  "Unexpected error while attempting to construct project context.";
+                throw new RuntimeException( error, ioe );
+            }
+        }
     }
     
    /**

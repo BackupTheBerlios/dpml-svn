@@ -28,11 +28,13 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.TimeZone;
 
+import net.dpml.library.info.Scope;
+import net.dpml.library.model.Resource;
+
+import net.dpml.tools.model.Context;
+
 import net.dpml.transit.Artifact;
 import net.dpml.transit.Category;
-
-import net.dpml.tools.ant.Context;
-import net.dpml.library.model.Resource;
 
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.BuildException;
@@ -139,7 +141,7 @@ public class PluginExportTask extends GenericTask
         if( !isInitialized() )
         {
             super.init();
-            getContext().init();
+            getContext().getPath( Scope.TEST );
         }
     }
 
