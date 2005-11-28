@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package net.dpml.builder.checkstyle;
+package net.dpml.tools.checkstyle;
 
 import java.io.File;
 
@@ -24,7 +24,7 @@ import com.puppycrawl.tools.checkstyle.CheckStyleTask;
 
 import net.dpml.build.model.Resource;
 import net.dpml.build.model.Module;
-import net.dpml.builder.ant.Context;
+import net.dpml.tools.ant.Context;
 
 import net.dpml.transit.Transit;
 

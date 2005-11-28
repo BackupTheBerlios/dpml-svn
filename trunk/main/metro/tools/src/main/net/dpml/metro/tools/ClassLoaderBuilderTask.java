@@ -29,7 +29,7 @@ import net.dpml.metro.data.ClasspathDirective;
 
 import net.dpml.metro.part.Part;
 
-import net.dpml.builder.tasks.GenericTask;
+import net.dpml.tools.tasks.GenericTask;
 import net.dpml.build.info.Scope;
 import net.dpml.build.model.Resource;
 

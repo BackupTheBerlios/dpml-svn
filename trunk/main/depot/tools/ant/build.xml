@@ -9,7 +9,7 @@
   <target name="init" depends="bootstrap.init">
     <filter value="artifact:plugin:${project.group}/${project.name}#${project.version}" token="PROJECT-URI"/>
     <filter value="${project.version}" token="PROJECT-VERSION"/>
-    <filter value="net.dpml.builder.ant.StandardBuilder" token="PLUGIN-CLASS"/>
+    <filter value="net.dpml.tools.ant.StandardBuilder" token="PLUGIN-CLASS"/>
     <filter value="${tools.ant.version}" token="ANT-VERSION"/>
     <filter value="${junit.version}" token="JUNIT-VERSION"/>
     <filter value="${project.name}" token="PROJECT-NAME"/>

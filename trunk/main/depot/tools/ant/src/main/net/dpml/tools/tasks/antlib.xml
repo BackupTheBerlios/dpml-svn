@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<antlib>
+  <taskdef name="init"         classname="net.dpml.tools.tasks.InitializationTask"/>
+  <taskdef name="prepare"      classname="net.dpml.tools.tasks.PrepareTask"/>
+  <taskdef name="install"      classname="net.dpml.tools.tasks.InstallTask"/>
+  <!--<taskdef name="javac"        classname="net.dpml.tools.tasks.JavacTask"/>-->
+  <taskdef name="jar"          classname="net.dpml.tools.tasks.JarTask"/>
+  <taskdef name="export"       classname="net.dpml.tools.tasks.PluginExportTask"/>
+  <taskdef name="junit"        classname="net.dpml.tools.tasks.JUnitTestTask"/>
+  <taskdef name="property"     classname="net.dpml.tools.tasks.PropertyTask"/>
+  <taskdef name="filter"       classname="net.dpml.tools.tasks.FilterTask"/>
+  <taskdef name="module"       classname="net.dpml.tools.tasks.ModuleTask"/>
+  <taskdef name="reactor"      classname="net.dpml.tools.tasks.ReactorTask"/>
+  <taskdef name="plugin"       classname="net.dpml.tools.tasks.PluginTask"/>
+  <taskdef name="replicate"    classname="net.dpml.tools.tasks.ReplicateTask"/>
+  <taskdef name="javadoc"      classname="net.dpml.tools.tasks.JavadocTask"/>
+  <taskdef name="docs"         classname="net.dpml.tools.tasks.DocTask"/>
+</antlib>
