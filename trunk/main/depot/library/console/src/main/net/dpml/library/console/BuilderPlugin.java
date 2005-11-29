@@ -158,10 +158,20 @@ public class BuilderPlugin
     
     private Builder createBuilder( URI uri ) throws Exception
     {
-        Object[] params = new Object[]{m_logger, m_library, new Boolean( m_verbose )};
-        ClassLoader classloader = Builder.class.getClassLoader();
-        Class builderClass = Transit.getInstance().getRepository().getPluginClass( classloader, uri );
-        return (Builder) Transit.getInstance().getRepository().instantiate( builderClass, params );
+        try
+        {
+            Object[] params = new Object[]{m_logger, m_library, new Boolean( m_verbose )};
+            ClassLoader classloader = Builder.class.getClassLoader();
+            Class builderClass = Transit.getInstance().getRepository().getPluginClass( classloader, uri );
+            return (Builder) Transit.getInstance().getRepository().instantiate( builderClass, params );
+        }
+        catch( Exception e )
+        {
+            final String error = 
+              "Unexpected error occured while attempting to load a plugin builder.\nURI: "
+              + uri;
+            throw new BuilderError( error, e );
+        }
     }
 
    /**

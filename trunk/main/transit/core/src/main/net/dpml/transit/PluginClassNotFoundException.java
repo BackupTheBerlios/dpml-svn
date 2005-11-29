@@ -1,5 +1,6 @@
 /*
  * Copyright 2004-2005 Stephen J. McConnell.
+ * Copyright 2004 Niclas Hedhman.
  *
  * Licensed  under the  Apache License,  Version 2.0  (the "License");
  * you may not use  this file  except in  compliance with the License.
@@ -19,31 +20,39 @@
 package net.dpml.transit;
 
 /**
- * Exception to indicate that the group component of an artifact uri 
- * specification was not found.
+ * Exception thrown when a plugin class cannot be found.
  *
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-public class MissingGroupException extends IllegalArgumentException
+public class PluginClassNotFoundException extends RepositoryException
 {
    /**
     * Serial version identifier.
     */
     static final long serialVersionUID = 1L;
 
-    // ------------------------------------------------------------------------
-    // constructor
-    // ------------------------------------------------------------------------
-
     /**
-     * Construct a new <code>MissingGroupException </code> instance.
+     * Construct a new <code>PluginClassNotFoundException</code> instance.
      *
      * @param message The detail message for this exception.
      */
-    public MissingGroupException( String message )
+    public PluginClassNotFoundException( final String message )
     {
-        super( message );
+        this( message, null );
     }
+
+    /**
+     * Construct a new <code>RepositoryException</code> instance.
+     *
+     * @param message The detail message for this exception.
+     * @param cause the root cause of the exception
+     */
+    public PluginClassNotFoundException( final String message, final Throwable cause )
+    {
+        super( message, cause );
+    }
+
 }
+
 

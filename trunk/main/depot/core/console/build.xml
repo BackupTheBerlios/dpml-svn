@@ -42,10 +42,8 @@
     </echo>
     <property name="local" location="${dpml.system}/local"/>
     <x:replicate self="true" todir="${local}" verbose="false">
-      <!--
       <include ref="dpml/depot/dpml-tools-builder"/>
       <include ref="dpml/depot/dpml-library-main"/>
-      -->
     </x:replicate>
     <echo>
 #----------------------------------------------------------------------------------

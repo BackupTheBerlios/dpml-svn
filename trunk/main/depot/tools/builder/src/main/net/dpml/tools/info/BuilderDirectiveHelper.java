@@ -118,9 +118,7 @@ public final class BuilderDirectiveHelper
         File config = new File( prefs, "dpml/tools/xmls/builder.xml" );
         if( config.exists() )
         {
-            FileInputStream input = new FileInputStream( config );
-            XMLDecoder decoder = new XMLDecoder( new BufferedInputStream( input ) );
-            return (BuilderDirective) decoder.readObject();
+            return build( config );
         }
         else
         {

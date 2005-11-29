@@ -18,8 +18,7 @@
 -->
 
 <project name="junit" default="install" basedir="." 
-    xmlns:transit="antlib:net.dpml.transit"
-    xmlns:x="dpml:tools" >
+    xmlns:transit="antlib:net.dpml.transit">
 
   <transit:import uri="local:template:dpml/tools/standard"/>
 

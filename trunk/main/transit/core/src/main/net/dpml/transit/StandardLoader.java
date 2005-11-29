@@ -109,7 +109,17 @@ class StandardLoader implements Repository
         }
 
         Plugin descriptor = getPluginDescriptor( uri );
-        return getPluginClass( parent, descriptor );
+        try
+        {
+            return getPluginClass( parent, descriptor );
+        }
+        catch( ClassNotFoundException e )
+        {
+            final String error = 
+              "Class: " + e.getMessage()
+              + "\nURI: " + uri;
+            throw new PluginClassNotFoundException( error );
+        }
     }
 
    /**
@@ -154,16 +164,24 @@ class StandardLoader implements Repository
                   + "] does not declare a main class.";
                 throw new IOException( error );
             }
-            Class clazz = loadPluginClass( classloader, classname );
-            getMonitor().establishedPluginClass( clazz );
-            return createPlugin( classloader, descriptor, clazz, args );
+            
+            try
+            {
+                Class clazz = loadPluginClass( classloader, classname );
+                getMonitor().establishedPluginClass( clazz );
+                return createPlugin( classloader, descriptor, clazz, args );
+            }
+            catch( ClassNotFoundException e )
+            {
+                final String error = 
+                  "Class: " + classname 
+                  + "\nURI: " + uri;
+                throw new PluginClassNotFoundException( error );
+            }
         }
-        catch( RepositoryException e )
+        catch( RepositoryException re )
         {
-            final String error = e.getMessage();
-            final Throwable cause = e.getCause();
-            final String message = error + "\nPlugin URI: " + uri + "].";
-            throw new RepositoryException( message, cause );
+            throw re;
         }
         catch( Exception ce )
         {
@@ -172,7 +190,7 @@ class StandardLoader implements Repository
             throw new RepositoryException( error, ce );
         }
     }
-
+    
     //---------------------------------------------------------------------
     // implementation
     //---------------------------------------------------------------------
@@ -188,7 +206,7 @@ class StandardLoader implements Repository
     * @exception IllegalArgumentException if the classname could not be resolved
     */
     private Class getPluginClass( ClassLoader parent, Plugin descriptor )
-       throws IOException, NullArgumentException, IllegalArgumentException
+       throws IOException, NullArgumentException, IllegalArgumentException, ClassNotFoundException
     {
         if( null == descriptor )
         {
@@ -209,17 +227,20 @@ class StandardLoader implements Repository
             }
             return loadPluginClass( classloader, classname );
         }
+        catch( ClassNotFoundException e )
+        {
+            throw e;
+        }
         catch( IllegalArgumentException iae )
         {
             throw iae;
         }
-        catch( Throwable ce )
+        catch( Throwable e )
         {
             final String error =
-              "Unable to load the plugin class ["
-              + descriptor.getClassname()
-              + "].";
-            throw new RepositoryException( error, ce );
+              "Failed to load plugin class.\nClass:"
+              + descriptor.getClassname();
+            throw new RepositoryException( error, e );
         }
     }
 
@@ -687,9 +708,10 @@ class StandardLoader implements Repository
     * @return the factory class
     * @exception RepositoryException if a factory class loading error occurs
     * @exception NullArgumentException if the supplied classloader or classname is null
+    * @exception ClassNotFoundException if the plugin class is not found in the supplied classloader
     */
     protected Class loadPluginClass( ClassLoader classloader, String classname )
-        throws RepositoryException, NullArgumentException
+        throws RepositoryException, NullArgumentException, ClassNotFoundException
     {
         if( null == classloader )
         {
@@ -706,9 +728,8 @@ class StandardLoader implements Repository
         }
         catch( ClassNotFoundException e )
         {
-            final String error =
-              "Could not load factory class[ " + classname + "].";
-            throw new RepositoryException( error, e );
+            System.out.println( "# CL: " + classloader );
+            throw e;
         }
         catch( Throwable e )
         {

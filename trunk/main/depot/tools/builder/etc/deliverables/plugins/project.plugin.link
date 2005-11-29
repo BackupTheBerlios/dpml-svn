@@ -1,1 +1,1 @@
-artifact:plugin:dpml/depot/dpml-depot-ant#@PROJECT-VERSION@
+artifact:plugin:@PROJECT-GROUP@/@PROJECT-NAME@#@PROJECT-VERSION@

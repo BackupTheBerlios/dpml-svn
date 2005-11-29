@@ -20,6 +20,7 @@ CALL :external-modules
 CALL :util-cli
 CALL :depot-library-console
 CALL :depot-core-console
+ECHO bootstrap sequence complete
 GOTO :EOF
 
 :antlib-cleanup
@@ -79,6 +80,9 @@ GOTO :EOF
 :build
 IF "%ID%" == "" set ID=SNAPSHOT
 set BUILD_ID=-Dbuild.signature=%ID%
+@echo on
+CD
+@echo off
 ECHO building project with release ID [%BUILD_ID%]
 CALL ant %BUILD_ID% %*
 set BUILD_ID=""
