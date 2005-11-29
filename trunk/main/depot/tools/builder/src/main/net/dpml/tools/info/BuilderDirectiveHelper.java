@@ -132,21 +132,21 @@ public final class BuilderDirectiveHelper
         listeners[0] = 
           new ListenerDirective( 
             "jar",
-            null,
+            (URI) null,
             JarProcess.class.getName(),
             new String[0],
             null );
         listeners[1] = 
           new ListenerDirective( 
             "plugin",
-            null,
+            (URI) null,
             PluginProcess.class.getName(),
             new String[0],
             null );
         listeners[2] = 
           new ListenerDirective( 
             "module",
-            null,
+            (URI) null,
             ModuleProcess.class.getName(),
             new String[0],
             null );
@@ -186,7 +186,7 @@ public final class BuilderDirectiveHelper
     * @return the builder directive
     * @exception IOException if an I/O error occurs
     */
-    private static BuilderDirective buildMainDirective( Element element ) throws IOException
+    private static BuilderDirective buildMainDirective( Element element ) throws Exception
     {
         final String elementName = element.getTagName();
         if( !BUILDER_ELEMENT_NAME.equals( elementName ) )
@@ -223,7 +223,7 @@ public final class BuilderDirectiveHelper
         return new BuilderDirective( listeners, properties );
     }
     
-    private static ListenerDirective[] buildListenerDirectives( Element element )
+    private static ListenerDirective[] buildListenerDirectives( Element element ) throws Exception
     {
         Element[] children = ElementHelper.getChildren( element );
         ListenerDirective[] types = new ListenerDirective[ children.length ];
@@ -235,18 +235,19 @@ public final class BuilderDirectiveHelper
         return types;
     }
     
-    private static ListenerDirective buildListenerDirective( Element element )
+    private static ListenerDirective buildListenerDirective( Element element ) throws Exception
     {
         final String tag = element.getTagName();
         if( LISTENER_ELEMENT_NAME.equals( tag ) )
         {
             final String name = ElementHelper.getAttribute( element, "name", null );
-            final String urn = ElementHelper.getAttribute( element, "uri", null );
-            final String classname = ElementHelper.getAttribute( element, "classname", null );
+            final String spec = ElementHelper.getAttribute( element, "uri", null );
+            final URI uri = createURI( spec );
+            final String classname = ElementHelper.getAttribute( element, "class", null );
             final String deps = ElementHelper.getAttribute( element, "depends", null );
             final String[] depends = buildDependenciesArray( deps );
             final Properties properties = buildProperties( element );
-            return new ListenerDirective( name, urn, classname, depends, properties );
+            return new ListenerDirective( name, uri, classname, depends, properties );
         }
         else
         {
@@ -295,5 +296,17 @@ public final class BuilderDirectiveHelper
             }
         }
         return properties;
+    }
+    
+    private static URI createURI( String spec ) throws Exception
+    {
+        if( null == spec )
+        {
+            return null;
+        }
+        else
+        {
+            return new URI( spec );
+        }
     }
 }

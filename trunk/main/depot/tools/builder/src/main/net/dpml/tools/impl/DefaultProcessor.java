@@ -35,23 +35,12 @@ import net.dpml.library.impl.DefaultDictionary;
 final class DefaultProcessor extends DefaultDictionary implements Processor
 {
     private final ListenerDirective m_directive;
-    private final URI m_uri;
     
     public DefaultProcessor( ListenerDirective directive ) throws URISyntaxException
     {
         super( null, directive );
         
         m_directive = directive;
-        String urn = directive.getURN();
-        if( null != urn )
-        {
-            m_uri = new URI( directive.getURN() );
-        }
-        else
-        {
-            m_uri = null;
-        }
-        
     }
     
     //----------------------------------------------------------------------------
@@ -71,7 +60,7 @@ final class DefaultProcessor extends DefaultDictionary implements Processor
     */
     public URI getCodeBaseURI()
     {
-        return m_uri;
+        return m_directive.getURI();
     }
     
    /**

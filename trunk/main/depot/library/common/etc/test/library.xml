@@ -3,10 +3,18 @@
 <library>
 
   <properties>
-    <property name="project.builder.uri" value="link:plugin:dpml/tools/dpml-tools-ant"/>
+    <property name="project.builder.uri" value="link:plugin:dpml/tools/dpml-tools-builder"/>
     <property name="project.standard.template" value="local:template:dpml/tools/standard"/>
     <property name="project.template" value="${project.standard.template}"/>
   </properties>
+
+  <!--
+  <builder uri="link:plugin:dpml/tools/dpml-tools-builder">
+    <parameters>
+      <param value="abc"/>
+    </parameters>
+  </builder>
+  -->
 
   <modules>
     <module base="junit"/>

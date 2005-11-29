@@ -18,6 +18,8 @@
 
 package net.dpml.tools.info;
 
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.Properties;
 import java.util.Arrays;
 
@@ -34,61 +36,22 @@ public final class ListenerDirective  extends AbstractDirective
 {
     private final String m_name;
     private final String[] m_dependencies;
-    private final String m_urn;
+    private final URI m_uri;
     private final String m_classname;
-
-   /**
-    * Creation of a new listener directive.
-    * @param name the processor name
-    */
-    public ListenerDirective( String name )
-    {
-        this( name, null );
-    }
-    
-   /**
-    * Creation of a new listener directive.
-    * @param name the processor name
-    * @param urn the processor codebase
-    */
-    public ListenerDirective( String name, String urn )
-    {
-        this( name, urn, new String[0] );
-    }
     
    /**
     * Creation of a new listener directive.
     * @param name the resource type produced by the listener
-    * @param urn the listener codebase
-    * @param dependencies array of processor names that the listener depends upon
-    */
-    public ListenerDirective( String name, String urn, String[] dependencies )
-    {
-        this( name, urn, dependencies, null );
-    }
-    
-   /**
-    * Creation of a new listener directive.
-    * @param name the resource type produced by the listener
-    * @param urn the listener codebase
-    * @param dependencies array of listener names that the listener depends upon
-    * @param properties supplimentary properties
-    */
-    public ListenerDirective( String name, String urn, String[] dependencies, Properties properties )
-    {
-        this( name, urn, null, dependencies, properties );
-    }
-    
-   /**
-    * Creation of a new listener directive.
-    * @param name the resource type produced by the listener
-    * @param urn the listener codebase
+    * @param uri the listener codebase
     * @param classname optional classname of the plugin instantiation target
     * @param dependencies array of listener names that the listener depends upon
     * @param properties supplimentary properties
+    * @exception NullPointerException if name or dependencies are null
+    * @exception IllegalStateException if both classname and urn values are null
     */
-    public ListenerDirective( String name, String urn, String classname, 
+    public ListenerDirective( String name, URI uri, String classname, 
       String[] dependencies, Properties properties )
+      throws NullPointerException, IllegalStateException
     {
         super( properties );
         if( null == name )
@@ -99,9 +62,20 @@ public final class ListenerDirective  extends AbstractDirective
         {
             throw new NullPointerException( "dependencies" );
         }
+        if( null == uri )
+        {
+            if( null == classname )
+            {
+                final String error = 
+                  "Listener definition [" 
+                  + name
+                  + "] does not declare a classname or uri value.";
+                throw new IllegalStateException( error );
+            }
+        }
         m_dependencies = dependencies;
         m_name = name;
-        m_urn = urn;
+        m_uri = uri;
         m_classname = classname;
     }
     
@@ -118,9 +92,25 @@ public final class ListenerDirective  extends AbstractDirective
     * Return the listener codebase urn.
     * @return the urn
     */
-    public String getURN()
+    public URI getURI()
     {
-        return m_urn;
+        return m_uri;
+    }
+    
+   /**
+    * Return the listener codebase urn.
+    * @return the urn
+    */
+    public String getURISpec()
+    {
+        if( null == m_uri )
+        {
+            return null;
+        }
+        else
+        {
+            return m_uri.toASCIIString();
+        }
     }
     
    /**
@@ -160,7 +150,7 @@ public final class ListenerDirective  extends AbstractDirective
             {
                 return false;
             }
-            else if( !equals( m_urn, object.m_urn ) )
+            else if( !equals( m_uri, object.m_uri ) )
             {
                 return false;
             }
@@ -184,7 +174,7 @@ public final class ListenerDirective  extends AbstractDirective
         int hash = super.hashCode();
         hash ^= super.hashValue( m_name );
         hash ^= super.hashArray( m_dependencies );
-        hash ^= super.hashValue( m_urn );
+        hash ^= super.hashValue( m_uri );
         return hash;
     }
 }
