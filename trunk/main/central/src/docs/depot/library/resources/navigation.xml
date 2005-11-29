@@ -25,8 +25,8 @@
  <body>
 
     <menu>
-      <item name="Types" href="types/index.html"/>
-      <item name="Dependencies" href="dependencies/index.html"/>
+      <item name="Types" href="../types/index.html"/>
+      <item name="Dependencies" href="../dependencies/index.html"/>
     </menu>
 
  </body>
