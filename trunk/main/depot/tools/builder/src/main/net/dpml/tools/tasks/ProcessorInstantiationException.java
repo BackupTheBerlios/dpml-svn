@@ -28,7 +28,7 @@ package net.dpml.tools.tasks;
 public class ProcessorInstantiationException extends Exception
 {
    /**
-    * Creation of a new ProcessorNotFoundException.
+    * Creation of a new ProcessorInstantiationException.
     * @param message the exception message
     */
     public ProcessorInstantiationException( String message )
@@ -37,7 +37,7 @@ public class ProcessorInstantiationException extends Exception
     }
     
    /**
-    * Creation of a new ProcessorNotFoundException.
+    * Creation of a new ProcessorInstantiationException.
     * @param message the exception message
     * @param cause the causal excetion
     */
