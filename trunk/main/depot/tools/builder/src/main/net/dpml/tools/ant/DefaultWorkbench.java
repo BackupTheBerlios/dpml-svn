@@ -28,6 +28,7 @@ import net.dpml.tools.info.ListenerDirective;
 import net.dpml.tools.model.Workbench;
 import net.dpml.tools.model.Context;
 import net.dpml.tools.model.Processor;
+import net.dpml.tools.model.ProcessorNotFoundException;
 
 import net.dpml.library.model.Library;
 import net.dpml.library.model.Resource;
@@ -106,14 +107,18 @@ public class DefaultWorkbench implements Workbench
     * 
     * @param resource the resource to be produced
     * @return a sorted array of processor definitions supporting resource production
+    * @exception ProcessorNotFoundException if a processor referenced by another 
+    *   processor as a dependent cannot be resolved
     */ 
     public Processor[] getProcessorSequence( Resource resource )
+      throws ProcessorNotFoundException
     {
         Type[] types = resource.getTypes();
         return getDefaultProcessorSequence( types );
     }
     
     DefaultProcessor[] getDefaultProcessorSequence( Type[] types )
+      throws ProcessorNotFoundException
     {
         String[] names = getListenerNames( types );
         DefaultProcessor[] processors = new DefaultProcessor[ names.length ];
@@ -156,20 +161,13 @@ public class DefaultWorkbench implements Workbench
         for( int i=0; i<names.length; i++ )
         {
             String name = names[i];
-            try
-            {
-                ListenerDirective directive = getListenerDirective( name );
-                list.add( directive );
-            }
-            catch( Throwable e )
-            {
-                // will not happen
-            }
+            ListenerDirective directive = getListenerDirective( name );
+            list.add( directive );
         }
         return (ListenerDirective[]) list.toArray( new ListenerDirective[0] );
     }
 
-    private ListenerDirective getListenerDirective( String name ) throws RuntimeException
+    private ListenerDirective getListenerDirective( String name )
     {
         ListenerDirective[] directives = m_directive.getListenerDirectives();
         for( int i=0; i<directives.length; i++ )
@@ -218,6 +216,7 @@ public class DefaultWorkbench implements Workbench
     }
     
     private DefaultProcessor getDefaultProcessor( String name )
+      throws ProcessorNotFoundException
     {
         for( int i=0; i<m_processors.length; i++ )
         {
@@ -227,6 +226,6 @@ public class DefaultWorkbench implements Workbench
                 return processor;
             }
         }
-        throw new RuntimeException( "Invalid processor name: " + name );
+        throw new ProcessorNotFoundException( name );
     }
 }

@@ -55,8 +55,10 @@ public interface Workbench
     * 
     * @param resource the resource to be produced
     * @return a sorted array of processor definitions supporting resource production
+    * @exception ProcessorNotFoundException if a processor referenced by another 
+    *   processor as a dependent cannot be resolved
     */ 
-    Processor[] getProcessorSequence( Resource resource );
+    Processor[] getProcessorSequence( Resource resource ) throws ProcessorNotFoundException;
     
    /**
     * Create a project context.

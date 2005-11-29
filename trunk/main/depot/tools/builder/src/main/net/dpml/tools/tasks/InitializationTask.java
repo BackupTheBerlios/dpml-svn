@@ -26,6 +26,7 @@ import net.dpml.library.model.Resource;
 
 import net.dpml.tools.model.Processor;
 import net.dpml.tools.model.Workbench;
+import net.dpml.tools.model.ProcessorNotFoundException;
 
 import net.dpml.tools.process.JarProcess;
 import net.dpml.tools.process.PluginProcess;
@@ -60,7 +61,8 @@ public class InitializationTask extends GenericTask
         getProject().addReference( "project.timestamp", new Date() );
         Resource resource = getResource();
         log( resource.toString(), Project.MSG_VERBOSE );
-        Processor[] processors = getWorkbench().getProcessorSequence( resource );
+        
+        Processor[] processors = getProcessorSequence( resource );
         for( int i=0; i<processors.length; i++ )
         {
             Processor processor = processors[i];
@@ -142,6 +144,22 @@ public class InitializationTask extends GenericTask
                   "Failed to establish build listener for type [" + name + "].";
                 throw new BuildException( error, getLocation() );
             }
+        }
+    }
+    
+    private Processor[] getProcessorSequence( Resource resource )
+    {
+        try
+        {
+            return getWorkbench().getProcessorSequence( resource );
+        }
+        catch( ProcessorNotFoundException e )
+        {
+            final String error = 
+              "Internal referential error while resolving processors for ["
+              + resource
+              + "]";
+            throw new BuildException( error, e );
         }
     }
 }
