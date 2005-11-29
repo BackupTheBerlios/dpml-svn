@@ -11,8 +11,31 @@
 
     <section name="Projects">
 
-      <p>IN PROGRESS</p>
+      <p> 
+      A project is an extension of a resurce defintion. A project definition is typically
+      used by a build system implementation to harvest information about dependecies, 
+      produced resources, and project specific properties.  Typically a project definition
+      if sufficient to establish and deploy a embedeed build system such as the DPML default
+      Ant-based builder.
+      </p>
 
+      <p>
+      A project differs from a resource in terms of the granularity of detail associated with
+      dependency references.  Specifically - a project can delcare RUNTIME dependencies that 
+      are scoped in terms of theor rank within a classloader chain.  Dependencies can be scoped
+      as PUBLIC, PROTECTED or PRIVATE.  This supplimentary data can be used in the construction 
+      of plugin descriptors that separate the classic public API from restricted (or PROPTECTED) 
+      management APIS from the resources internal PRIVATE classloader. 
+      </p>
+
+      <p>
+      Another important distinction between a resource and project is the declaration of a
+      base directory.  Typically the base directory of a project is used by a build system 
+      to resolve sources and generate build artifacts.  While the project defintion itself is 
+      independent of the build strategy, it can provide properties that influence the selection
+      of a build system and subsequent build system behaviour.
+      </p>
+      
     </section>
 
   </body>
