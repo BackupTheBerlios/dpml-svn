@@ -4,12 +4,125 @@
 
   <properties>
     <author email="mcconnell@dpml.net">Stephen McConnell</author>
-    <title>DPML Build System</title>
+    <title>DPML Depot</title>
   </properties> 
 
   <body>
 
     <section name="Resources">
+
+      <p>
+      A resource is the defintion of something that has a name, is associated 
+      with a namespace (via its enclosing module), has zero or more dependencies, 
+      and is something that contributes the defintion of other resources and 
+      projects.
+      </p>
+
+      <p>
+      An example of a resource is the Ant build system.  Ant is composed of a number
+      of jar files.  You can consider each jar file as a resource within the ant module.
+      When resources such as Ant's ant-junit jar are referenced by other projects, there
+      is an implicit dependency on the underlying ant jar file.  The ANt jar itself has 
+      an implicit dependency on the ant-launcher jar file.  In effect - the pupose of 
+      a resource is to make implicit dependencies explicit so that downstream users of 
+      these resources pickup a computationally complete definition.
+      </p>
+
+      <subsection name="XML Attributes">
+
+         <p>
+         The following attributes may be declared under a <tt>&lt;resource&gt;</tt> element.
+         </p>
+      
+         <table>
+           <tr>
+             <td>name</td>
+             <td>The resource name (required).</td>
+           </tr>
+         </table>
+
+      </subsection>
+
+      <subsection name="XML Nested elements">
+      
+         <table>
+           <tr>
+             <td>properties</td>
+             <td>0..1</td>
+             <td>Declaration of a set of <a href="../../properties/index.html">properties</a> 
+                associated with the resource.</td>
+           </tr>
+           <tr>
+             <td>types</td>
+             <td>0..1</td>
+             <td>A collection of <a href="type.html">types</a> associated with the resource
+               (e.g. a jar file or a plugin definition).</td>
+           </tr>
+           <tr>
+             <td>dependecies</td>
+             <td>0..n</td>
+             <td>A collection of <a href="deps.html">dependencies</a> that the resource has 
+              with other resources.</td>
+           </tr>
+         </table>
+
+      </subsection>
+
+
+    </section>
+
+    <section name="Example">
+
+<source><![CDATA[
+      <resource name="ant">
+        <properties>
+          <property name="project.api.root" value="${project.api.host}/${group}/${version}"/>
+        </properties>
+        <types>
+          <type id="jar"/>
+        </types>
+        <dependencies>
+          <include key="ant-launcher"/>
+          <include key="ant-trax"/>
+          <include key="ant-xslp"/>
+        </dependencies>
+      </resource>
+  
+      <resource name="ant-junit">
+        <types>
+          <type id="jar"/>
+        </types>
+        <dependencies>
+          <include key="ant"/>
+          <include ref="junit/junit"/>
+        </dependencies>
+      </resource>
+
+      <resource name="ant-xslp">
+        <types>
+          <type id="jar"/>
+        </types>
+        <dependencies>
+          <include key="ant"/>
+        </dependencies>
+      </resource>
+  
+      <resource name="ant-trax">
+        <types>
+          <type id="jar"/>
+        </types>
+        <dependencies>
+          <include key="ant"/>
+        </dependencies>
+      </resource>
+  
+      <resource name="ant-launcher">
+        <types>
+          <type id="jar"/>
+        </types>
+      </resource>
+]]></source>
+
 
     </section>
 
