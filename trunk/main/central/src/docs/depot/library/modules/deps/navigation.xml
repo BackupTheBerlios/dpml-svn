@@ -20,14 +20,11 @@
 
 <project>
 
- <title>DPML Depot</title>
+ <title>DPML Central</title>
 
  <body>
 
     <menu>
-      <item name="Properties" href="properties/index.html"/>
-      <item name="Imports" href="imports/index.html"/>
-      <item name="Modules" href="modules/index.html"/>
     </menu>
 
  </body>
