@@ -12,7 +12,7 @@
     <section name="Resources">
 
       <p>
-      A resource is the defintion of something that has a name, is associated 
+      A resource is the definition of something that has a name, is associated 
       with a namespace (via its enclosing module), has zero or more dependencies, 
       and is something that contributes the defintion of other resources and 
       projects.
@@ -22,10 +22,11 @@
       An example of a resource is the Ant build system.  Ant is composed of a number
       of jar files.  You can consider each jar file as a resource within the ant module.
       When resources such as Ant's ant-junit jar are referenced by other projects, there
-      is an implicit dependency on the underlying ant jar file.  The ANt jar itself has 
-      an implicit dependency on the ant-launcher jar file.  In effect - the pupose of 
-      a resource is to make implicit dependencies explicit so that downstream users of 
-      these resources pickup a computationally complete definition.
+      is an implicit dependency on the underlying ant jar file and the JUnit project's 
+      junit jar file.  In addition, the Ant jar has an implicit dependency on the 
+      ant-launcher jar file.  In effect - the pupose of a resource is to make implicit 
+      dependencies explicit so that downstream users of these resources pickup a 
+      computationally complete definition.
       </p>
 
       <subsection name="XML Attributes">
