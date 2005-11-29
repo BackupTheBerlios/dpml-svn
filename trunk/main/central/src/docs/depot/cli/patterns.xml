@@ -52,7 +52,74 @@ Selection: [9]
 
         <p><i>Example of a request to build a specific project:</i></p>
 
-<pre>$ build -select dpml/metro/dpml-metro-model</pre>
+<pre>$ build -select dpml/metro/dpml-metro-model clean install</pre>
+
+<source>$ build -s dpml/metro/dpml-metro-model clean install
+
+-------------------------------------------------------------------------
+dpml/metro/dpml-metro-model
+-------------------------------------------------------------------------
+
+standard.init:
+
+init:
+
+clean:
+   [delete] Deleting directory C:\dev\dpml\main\metro\model\target
+
+standard.init:
+
+init:
+
+prepare:
+[x:prepare] Created dir: C:\dev\dpml\main\metro\model\target
+[x:prepare] Created dir: C:\dev\dpml\main\metro\model\target\build\main
+[x:prepare] Copying 43 files to C:\dev\dpml\main\metro\model\target\build\main
+[x:prepare] Created dir: C:\dev\dpml\main\metro\model\target\build\test
+[x:prepare] Copying 13 files to C:\dev\dpml\main\metro\model\target\build\test
+[x:prepare] Created dir: C:\dev\dpml\main\metro\model\target\test
+
+build:
+    [javac] Created dir: C:\dev\dpml\main\metro\model\target\classes\main
+    [javac] Compiling 40 source files to C:\dev\dpml\main\metro\model\target\classes\main
+    [javac] Copying 3 files to C:\dev\dpml\main\metro\model\target\classes\main
+
+package:
+      [jar] Created dir: C:\dev\dpml\main\metro\model\target\deliverables\jars
+      [jar] Building jar: C:\dev\dpml\main\metro\model\target\deliverables\jars\dpml-metro-model-SNAPSHOT.jar
+      [jar] Creating md5 checksum
+
+test:
+    [javac] Created dir: C:\dev\dpml\main\metro\model\target\classes\test
+    [javac] Compiling 13 source files to C:\dev\dpml\main\metro\model\target\classes\test
+    [junit] Created dir: C:\dev\dpml\main\metro\model\target\reports\test
+    [junit] executing in local jvm
+    [junit] Running net.dpml.metro.data.test.ComponentDirectiveTestCase
+    [junit] Tests run: 15, Failures: 0, Errors: 0, Time elapsed: 0.281 sec
+    [junit] Running net.dpml.metro.data.test.FeatureDirectiveTestCase
+    [junit] Tests run: 1, Failures: 0, Errors: 0, Time elapsed: 0.031 sec
+    [junit] Running net.dpml.metro.data.test.PartReferenceTestCase
+    [junit] Tests run: 1, Failures: 0, Errors: 0, Time elapsed: 0.031 sec
+    [junit] Running net.dpml.metro.data.test.ReferenceDirectiveTestCase
+    [junit] Tests run: 1, Failures: 0, Errors: 0, Time elapsed: 0.032 sec
+    [junit] Running net.dpml.metro.info.test.CategoryDescriptorTestCase
+    [junit] Tests run: 2, Failures: 0, Errors: 0, Time elapsed: 0.031 sec
+    [junit] Running net.dpml.metro.info.test.ContextDescriptorTestCase
+    [junit] Tests run: 2, Failures: 0, Errors: 0, Time elapsed: 0.016 sec
+    [junit] Running net.dpml.metro.info.test.EntryDescriptorTestCase
+    [junit] Tests run: 3, Failures: 0, Errors: 0, Time elapsed: 0.016 sec
+    [junit] Running net.dpml.metro.info.test.InfoDescriptorTestCase
+    [junit] Tests run: 11, Failures: 0, Errors: 0, Time elapsed: 0.063 sec
+    [junit] Running net.dpml.metro.info.test.TypeTestCase
+    [junit] Tests run: 3, Failures: 0, Errors: 0, Time elapsed: 0.125 sec
+    [junit] Running net.dpml.metro.model.test.ValidationExceptionTestCase
+    [junit] Tests run: 6, Failures: 0, Errors: 0, Time elapsed: 0.015 sec
+
+install:
+[x:install] Copying 2 files to C:\osm\Data\cache\dpml\metro
+
+BUILD SUCCESSFUL
+Total time: 6 seconds</source>
 
       </subsection>
 

@@ -25,10 +25,10 @@
  <body>
 
     <menu>
-      <item name="Types" href="types/index.html"/>
-      <item name="Projects" href="projects/index.html"/>
       <item name="Resources" href="resources/index.html"/>
+      <item name="Projects" href="projects/index.html"/>
       <item name="Modules" href="../modules/index.html"/>
+      <item name="Module Types" href="types.html"/>
     </menu>
 
  </body>

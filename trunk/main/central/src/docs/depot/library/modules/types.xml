@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<document>
+
+  <properties>
+    <author email="mcconnell@dpml.net">Stephen McConnell</author>
+    <title>DPML Build System</title>
+  </properties> 
+
+  <body>
+
+    <section name="Module Types">
+
+      <p>
+      The declaration of a &lt;types&gt; element within a module associates
+      one or more an artifact types within the module's fully qualified name.
+      For example, it is possible to create an portable defintion of a module
+      using a specialized ant tasks.  The ant task produced an artifact of the 
+      type 'module'.  By declaring the type 'module' as a type produced by the 
+      module a build system can automate the production of the module artifact.  
+      Alternatively, users of a published module can determin that a resource 
+      named <tt>[module-path].module</tt> is available under a repository. 
+      </p>
+
+      <p>
+      Generally speaking the only time you need to be concerned about the declaration
+      of a module type is if you want to produce a module artifact to share with 
+      other users or applications.
+      </p>
+
+    </section>
+
+    <section name="Example">
+
+      <p>
+      The following example (taken form the Metro module) declares that the 
+      module is associated with an artifact of the type 'module' and that a link
+      to that module is also available.  This declaration results in the production
+      of a artifact accessible under the uri <tt>artifact:module:dpml/metro#SNAPSHOT</tt>
+      and a link referencable under the uri <tt>link:module:dpml/metro</tt>.
+      </p>
+
+<source><![CDATA[
+<module name="metro">
+
+  <types>
+    <type id="module" alias="true"/>
+  </types>
+
+  ...
+
+</module>
+
+]]></source>
+
+    </section>
+
+  </body>
+
+</document>
+

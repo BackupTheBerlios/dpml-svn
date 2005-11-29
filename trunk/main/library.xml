@@ -2,10 +2,6 @@
 
 <library>
 
-  <properties>
-    <property name="project.builder.uri" value="link:plugin:dpml/tools/dpml-tools-ant"/>
-  </properties>
-
   <imports>
     <import uri="link:module:junit"/>
     <import uri="link:module:ant"/>
