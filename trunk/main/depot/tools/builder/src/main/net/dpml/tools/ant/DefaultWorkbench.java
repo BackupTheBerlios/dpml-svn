@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package net.dpml.tools.ant;
+package net.dpml.tools.impl;
 
 import java.io.File;
 import java.util.List;

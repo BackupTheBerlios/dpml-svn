@@ -22,7 +22,7 @@ import java.io.File;
 
 import net.dpml.tools.model.Context;
 import net.dpml.tools.model.Workbench;
-import net.dpml.tools.ant.DefaultWorkbench;
+import net.dpml.tools.impl.DefaultWorkbench;
 
 import net.dpml.library.model.Library;
 import net.dpml.library.model.Resource;
