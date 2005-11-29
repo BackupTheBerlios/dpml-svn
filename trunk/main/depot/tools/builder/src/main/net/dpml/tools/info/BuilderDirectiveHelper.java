@@ -115,7 +115,7 @@ public final class BuilderDirectiveHelper
     public static BuilderDirective build() throws Exception
     {
         File prefs = Transit.DPML_PREFS;
-        File config = new File( prefs, "dpml/depot/xmls/builder.xml" );
+        File config = new File( prefs, "dpml/tools/xmls/builder.xml" );
         if( config.exists() )
         {
             FileInputStream input = new FileInputStream( config );
