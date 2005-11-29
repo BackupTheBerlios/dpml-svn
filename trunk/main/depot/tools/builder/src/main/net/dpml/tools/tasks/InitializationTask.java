@@ -37,6 +37,7 @@ import org.apache.tools.ant.BuildListener;
 import org.apache.tools.ant.BuildException;
 
 import net.dpml.transit.Transit;
+import net.dpml.transit.Repository;
 
 /**
  * Execute the install phase.
@@ -62,89 +63,103 @@ public class InitializationTask extends GenericTask
         Resource resource = getResource();
         log( resource.toString(), Project.MSG_VERBOSE );
         
-        Processor[] processors = getProcessorSequence( resource );
+        try
+        {
+            Processor[] processors = getProcessorSequence( resource );
+            BuildListener[] listeners = getBuildListeners( processors );
+            for( int i=0; i<listeners.length; i++ )
+            {
+                BuildListener listener = listeners[i];
+                getProject().addBuildListener( listener );
+            }
+        }
+        catch( ProcessorInstantiationException e )
+        {
+            final String error = 
+              "Processor instantiation error.";
+            throw new BuildException( error, e );
+        }
+    }
+    
+    private BuildListener[] getBuildListeners( Processor[] processors )
+      throws ProcessorInstantiationException
+    {
+        Repository repository = Transit.getInstance().getRepository();
+        BuildListener[] listeners = new BuildListener[ processors.length ];
         for( int i=0; i<processors.length; i++ )
         {
             Processor processor = processors[i];
             String name = processor.getName();
-            
-            // TODO: strip about the following hard-coded references to 
-            // listener names and do the implementation properly 
-            // based on standard and declared processors
-            
-            try
+            URI uri = processor.getCodeBaseURI();
+            if( null == uri )
             {
-                if( name.equals( "jar" ) )
+                String classname = processor.getClassname();
+                if( null == classname )
                 {
-                    JarProcess process = new JarProcess( processor );
-                    getProject().addBuildListener( process );
+                    final String error = 
+                      "Missing processor uri or classname in processor [" 
+                      + name 
+                      + "].";
+                    throw new IllegalStateException( error );
                 }
-                else if( name.equals( "plugin" ) )
-                {
-                    PluginProcess process = new PluginProcess();
-                    getProject().addBuildListener( process );
-                }
-                else if( name.equals( "module" ) )
-                {
-                    ModuleProcess process = new ModuleProcess();
-                    getProject().addBuildListener( process );
-                }
-                else
+                
+                try
                 {
                     ClassLoader classloader = getClass().getClassLoader();
-                    Project project = getProject();
-                    URI uri = processor.getCodeBaseURI();
-                    if( null == uri )
-                    {
-                        final String error = 
-                          "Processor [" 
-                          + name
-                          + "] does not declare a plugin uri.";
-                        throw new IllegalStateException( error );
-                    }
-                    
-                    Object object = null;
-                    String classname = processor.getClassname();
-                    Object[] params = new Object[]{project, resource, processor};
-                    if( null == classname )
-                    {
-                        object = 
-                          Transit.getInstance().getRepository().getPlugin( 
-                          classloader, uri, params );
-                    }
-                    else
-                    {
-                        ClassLoader loader = 
-                          Transit.getInstance().getRepository().getPluginClassLoader( 
-                            classloader, uri );
-                        Class c = loader.loadClass( classname );
-                        object = Transit.getInstance().getRepository().instantiate( c, params ); 
-                    }
-                    if( object instanceof BuildListener )
-                    {
-                        BuildListener listener = (BuildListener) object;
-                        getProject().addBuildListener( listener );
-                        log( "registered listener: " + listener.getClass().getName() );
-                    }
-                    else
-                    {
-                        final String error = 
-                          "Build processor [" 
-                          + name
-                          + "] from uri ["
-                          + uri
-                          + "] is not a build listener.";
-                        throw new BuildException( error, getLocation() );
-                    }
+                    Class clazz = classloader.loadClass( classname );
+                    Object[] args = new Object[]{ processor };
+                    listeners[i] = (BuildListener) repository.instantiate( clazz, args );
+                }
+                catch( Throwable e )
+                {
+                    final String error = 
+                      "Internal error while attempting to load a local processor."
+                      + "\nClass: " + classname
+                      + "\nName: " + name;
+                    throw new ProcessorInstantiationException( error, e );
                 }
             }
-            catch( Exception e )
+            else
             {
-                final String error = 
-                  "Failed to establish build listener for type [" + name + "].";
-                throw new BuildException( error, getLocation() );
+                try
+                {
+                    String classname = processor.getClassname();
+                    Object[] params = new Object[]{processor};
+                    ClassLoader classloader = getClass().getClassLoader();
+                    if( null == classname )
+                    {
+                        listeners[i] = 
+                          (BuildListener) Transit.getInstance().getRepository().getPlugin( 
+                            classloader, uri, params );
+                    }
+                    else
+                    {
+                        ClassLoader loader = repository.getPluginClassLoader( classloader, uri );
+                        Class c = loader.loadClass( classname );
+                        listeners[i] = (BuildListener) repository.instantiate( c, params );
+                    }
+                }
+                catch( ClassCastException e )
+                {
+                    final String error = 
+                      "Build processor [" 
+                      + name
+                      + "] from uri ["
+                      + uri
+                      + "] is not a build listener.";
+                    throw new BuildException( error, getLocation() );
+                }
+                catch( Throwable e )
+                {
+                    final String error = 
+                      "Internal error while attempting to load an external processor."
+                      + "\nURI: " + uri
+                      + "\nName: " + name;
+                    throw new ProcessorInstantiationException( error, e );
+                }
             }
         }
+        return listeners;
     }
     
     private Processor[] getProcessorSequence( Resource resource )
