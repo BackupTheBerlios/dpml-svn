@@ -56,7 +56,7 @@
              <td>version</td>
              <td>The resource version (not normally declared - instead the version 
                will typically be supplied using the 
-               <a href="../../../cli/version.html"><tt>build -version</tt></a>
+               <a href="../cli/version.html"><tt>build -version</tt></a>
                commandline argument).</td>
            </tr>
          </table>
@@ -69,14 +69,14 @@
            <tr>
              <td>properties</td>
              <td>0..1</td>
-             <td>Declaration of a set of <a href="../../properties/index.html">properties</a> 
+             <td>Declaration of a set of <a href="properties.html">properties</a> 
                 associated with the project.  Typically property declarations will be used 
                 by a build system to qualify resource production behaviour.</td>
            </tr>
            <tr>
              <td>types</td>
              <td>0..1</td>
-             <td>A collection of <a href="type.html">types</a> associated with the project
+             <td>A collection of <a href="types.html">types</a> associated with the project
                (e.g. a jar file or a plugin definition).  The types declared by a project
                can be viewed as the artifact produced by the project as a result of a build.</td>
            </tr>
@@ -84,7 +84,7 @@
              <td>dependecies</td>
              <td>0..3</td>
              <td>A project may declare <tt>BUILD</tt>, <tt>RUNTIME</tt> and <tt>TEST</tt> 
-             scoped <a href="deps.html">dependencies</a>.  Unless otherwise specified the 
+             scoped <a href="dependencies.html">dependencies</a>.  Unless otherwise specified the 
              default scope of a dependencies element is <tt>RUNTIME</tt>. Dependencies declared 
              under <tt>BUILD</tt> scope do effect project build sequencing but do not contribute 
              to classpath related information.  <tt>RUNTIME</tt> dependencies are used in the 

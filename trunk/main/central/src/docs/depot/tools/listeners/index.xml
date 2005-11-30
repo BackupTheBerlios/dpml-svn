@@ -16,13 +16,16 @@
       collection of properties, a codebase uri, and listener dependencies, 
       with a named type.  The <tt>type</tt> represents an artifact produced 
       as a result of applying a specialized build listener to a project with 
-      the objective of building the declared type.  This type of listener is
-      implmented as a <tt>Processor</tt>.
+      the objective of building the declared type.
       </p>
       
       <p>
       The <tt>&lt;listener&gt;</tt> elements may be declared within a  
       &lt;builder&gt; configuration element.
+      </p>
+      
+      <p>
+      The default location of the builder configuration is <tt>local:xml:dpml/tools/config</tt>.
       </p>
 
       <subsection name="XML Element">
@@ -96,11 +99,11 @@
 ]]></source>
 
         <p>
-        The above example associates the codebase uri 
-        <tt>link:plugin:dpml/metro/dpml-metro-tools</tt> with the type 
-        name <tt>part</tt>.  If a project declares that it produces a type 
-        'part' it is the reponsibility of a build system implementation to 
-        handle the production of an artifact of that type.
+        The following example associates the codebase uri 
+        <tt>link:plugin:dpml/metro/dpml-metro-tools</tt> with the <tt>part</tt> 
+        type.  If a project declares that it produces a type 'part' it is the 
+        reponsibility of a build system implementation to handle the production
+        concern.
         </p>
         
     </section>

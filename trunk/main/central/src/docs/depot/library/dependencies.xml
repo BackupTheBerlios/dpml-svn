@@ -43,7 +43,7 @@
            <tr>
              <td>include</td>
              <td>0..n</td>
-             <td>Declaration of the inclusion of a reeference to another resource, project or module.</td>
+             <td>Declaration of the inclusion of a reference to another resource, project or module.</td>
            </tr>
          </table>
 

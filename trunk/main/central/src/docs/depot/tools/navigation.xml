@@ -25,7 +25,8 @@
  <body>
 
     <menu>
-      <item name="Context" href="context/index.html"/>
+      <item name="Builder" href="builder.html"/>
+      <item name="Context" href="context.html"/>
       <item name="Templates" href="templates/index.html"/>
       <item name="Listeners" href="listeners/index.html"/>
       <item name="Tasks" href="tasks/index.html"/>

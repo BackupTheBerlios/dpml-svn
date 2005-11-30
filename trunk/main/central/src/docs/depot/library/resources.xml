@@ -54,19 +54,19 @@
            <tr>
              <td>properties</td>
              <td>0..1</td>
-             <td>Declaration of a set of <a href="../../properties/index.html">properties</a> 
+             <td>Declaration of a set of <a href="properties.html">properties</a> 
                 associated with the resource.</td>
            </tr>
            <tr>
              <td>types</td>
              <td>0..1</td>
-             <td>A collection of <a href="type.html">types</a> associated with the resource
+             <td>A collection of <a href="types.html">types</a> associated with the resource
                (e.g. a jar file or a plugin definition).</td>
            </tr>
            <tr>
              <td>dependecies</td>
              <td>0..n</td>
-             <td>A collection of <a href="deps.html">dependencies</a> that the resource has 
+             <td>A collection of <a href="dependencies.html">dependencies</a> that the resource has 
               with other resources.</td>
            </tr>
          </table>
