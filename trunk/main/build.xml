@@ -60,7 +60,7 @@
     <copy todir="${share.docs}">
       <fileset dir="central/target/docs"/>
     </copy>
-    <property name="share.docs.reports" location="${share.docs}/reports/${project.version}"/>
+    <property name="share.docs.reports" location="${share.docs}/about/reports/${project.version}"/>
     <mkdir dir="${share.docs.reports}"/>
     <copy todir="${share.docs.reports}">
       <fileset dir="target/reports">
