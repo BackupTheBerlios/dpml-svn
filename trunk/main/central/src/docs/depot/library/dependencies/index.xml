@@ -19,6 +19,147 @@
       <tt>RUNTIME</tt> and <tt>TEST</tt> scoped dependencies.
       </p>
 
+      <subsection name="Attributes on Dependencies">
+
+         <p>
+         The following attributes may be declared on a <tt>&lt;dependencies&gt;</tt> element.
+         </p>
+      
+         <table>
+           <tr>
+             <td>scope</td>
+             <td>Dependency scope identifer. Legal values are <tt>BUILD</tt>, 
+               <tt>RUNTIME</tt> and <tt>TEST</tt>. Default value is <tt>RUNTIME</tt>.
+               Declaring a scope is only relevant for dependencies declared within 
+               a project.</td>
+           </tr>
+         </table>
+
+      </subsection>
+
+      <subsection name="Nested elements within Dependencies Element">
+      
+         <table>
+           <tr>
+             <td>include</td>
+             <td>0..n</td>
+             <td>Declaration of the inclusion of a reeference to another resource, project or module.</td>
+           </tr>
+         </table>
+
+      </subsection>
+
+      <subsection name="Include Attributes">
+
+         <p>
+         An <tt>&lt;include&gt;</tt> element may be declared uisng one or three variants.
+         </p>
+      
+         <table>
+           <tr>
+             <td>key</td>
+             <td>Refers to another resource or project within the same module as the 
+               declaring entity. The value of the key is the name of the project 
+               or resource.</td>
+           </tr>
+           <tr>
+             <td></td>
+             <td><tt>&lt;include key="[name]"/&gt;</tt></td>
+           </tr>
+           <tr>
+             <td>ref</td>
+             <td>Refers to another resource or project via a fully qualified name.</td>
+           </tr>
+           <tr>
+             <td></td>
+             <td><tt>&lt;include ref="[group]/[name]"/&gt;</tt></td>
+           </tr>
+           <tr>
+             <td>urn</td>
+             <td>Establishes an annonomous reference using the artifact uri to establish
+                the group, name, version and type.</td>
+           </tr>
+           <tr>
+             <td></td>
+             <td><tt>&lt;include urn="[artifact]"/&gt;</tt></td>
+           </tr>
+         </table>
+
+         <p>
+         Project includes within runtime scope may also qualify the inclusion relative to one of the 
+         tag values <tt>PUBLIC</tt>, <tt>PROTECTED</tt> or <tt>PRIVATE</tt>.  Tagged includes
+         are used in the construction of plugin metadata and are declared using the <tt>tag</tt>
+         attribute.  The <tt>PUBLIC</tt> value is normally used to asset a dependency as a part of 
+         the public API of a plugin.  The <tt>PROTECTED</tt> tag value is normally used to associate
+         a dependency such as a management API that is an extension of the public API.  The default 
+         tag value <tt>PRIVATE</tt> represents a classloader category that extends the <tt>PROTECTED</tt> 
+         classloader and typically represents the internal implementation of a sub-system.
+         </p>
+
+      </subsection>
+
+    </section>
+
+    <section name="Example">
+
+       <p>
+       The following project definition uses a combination of all three include variants.
+       Two dependencies (dpml-http-api and dpml-http-spi) use the short form local reference
+       via the <tt>key</tt> attribute.  Five includes reference resources or projects via 
+       fully qualified names, and a further seven includes use the urn notion.
+       </p>
+
+<source><![CDATA[
+
+  <project name="dpml-http-impl" basedir="impl">
+    <types>
+      <type id="jar"/>
+    </types>
+    <dependencies>
+      <include key="dpml-http-api" tag="public"/>
+      <include key="dpml-http-spi" tag="protected"/>
+      <include ref="dpml/transit/dpml-transit-main"/>
+      <include ref="dpml/util/dpml-activity-api" tag="protected"/>
+      <include ref="dpml/util/dpml-logging-api" tag="protected"/>
+      <include ref="dpml/util/dpml-configuration-api" tag="protected"/>
+      <include ref="dpml/util/dpml-parameters-api" tag="protected"/>
+      <include urn="artifact:jar:jetty/org.mortbay.jetty#5.1.1"/>
+      <include urn="artifact:jar:jetty/org.mortbay.jaas#5.1.1"/>
+      <include urn="artifact:jar:tomcat/jsp-api#5.0.18"/>
+      <include urn="artifact:jar:tomcat/jasper-compiler#5.0.25"/>
+      <include urn="artifact:jar:tomcat/jasper-runtime#5.0.25"/>
+      <include urn="artifact:jar:commons-logging/commons-logging#1.0.4"/>
+      <include urn="artifact:jar:servletapi/servletapi#2.3" tag="public"/>
+    </dependencies>
+  </project>
+
+]]></source>
+
+      <p>
+      The following example demonstrates the separation of test versus runtime 
+      dependencies.
+      </p>
+
+<source><![CDATA[
+  <project name="dpml-metro-model" basedir="model">
+    <types>
+      <type id="jar"/>
+    </types>
+    <dependencies>
+      <include key="dpml-state-api"/>
+      <include ref="dpml/util/dpml-parameters-api"/>
+      <include ref="dpml/util/dpml-configuration-api"/>
+      <include key="dpml-part-api"/>
+    </dependencies>
+    <dependencies scope="test">
+      <include ref="ant/ant-junit"/>
+      <include key="dpml-state-impl"/>
+      <include ref="dpml/util/dpml-parameters-impl"/>
+      <include ref="dpml/util/dpml-configuration-impl"/>
+    </dependencies>
+  </project>
+]]></source>
+
     </section>
 
   </body>

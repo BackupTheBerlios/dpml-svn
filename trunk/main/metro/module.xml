@@ -47,10 +47,10 @@
       <type id="jar"/>
     </types>
     <dependencies>
-      <include key="dpml-state-api" tag="public"/>
-      <include ref="dpml/util/dpml-parameters-api" tag="public"/>
-      <include ref="dpml/util/dpml-configuration-api" tag="public"/>
-      <include key="dpml-part-api" tag="public"/>
+      <include key="dpml-state-api"/>
+      <include ref="dpml/util/dpml-parameters-api"/>
+      <include ref="dpml/util/dpml-configuration-api"/>
+      <include key="dpml-part-api"/>
     </dependencies>
     <dependencies scope="test">
       <include ref="ant/ant-junit"/>
