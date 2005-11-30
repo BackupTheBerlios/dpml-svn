@@ -83,7 +83,7 @@
       
          <table>
            <tr>
-             <td>types</td>
+             <td><a href="../types/index.html">types</a></td>
              <td>0..1</td>
              <td>
              The declaration of a &lt;types&gt; element within a module associates
@@ -96,19 +96,19 @@
              named <tt>[module-path].module</tt> is available under a repository.</td>
            </tr>
            <tr>
-             <td>resource</td>
+             <td><a href="../resources/index.html">resource</a></td>
              <td>0..n</td>
-             <td>A <a href="resources/index.html">resource</a> declaration.</td>
+             <td>A resource declaration.</td>
            </tr>
            <tr>
-             <td>project</td>
+             <td><a href="../projects/index.html">project</a></td>
              <td>0..n</td>
-             <td>A <a href="projects/index.html">project</a> declaration.</td>
+             <td>A project declaration.</td>
            </tr>
            <tr>
              <td>module</td>
              <td>0..n</td>
-             <td>A nested <a href="index.html">module</a> declaration.</td>
+             <td>A nested module declaration.</td>
            </tr>
          </table>
 
