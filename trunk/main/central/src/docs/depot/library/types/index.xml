@@ -11,9 +11,111 @@
 
     <section name="Types">
 
+      <p>
+      Projects, resources and modules can be associated with multiple types.
+      The combination of a resource group, name, type and version is used to 
+      construct an artifact uri.
+      </p>
+
+      <p>
+      One or more type declarations may be added within an enclosing 
+      <tt>&lt;types&gt;</tt> element.  The nested <tt>&lt;type&gt;</tt>
+      element declares the type name under the <tt>id</tt> attribute.
+      Optional properties may be declared as nested <tt>&lt;property&gt;</tt>
+      elements.       
+      </p>
+
+      <p>
+      The <tt>jar</tt> type is given special consideration when constructing 
+      classpath information.  If a project is declared as a dependency of another 
+      project and that project declares that it is a jar type, then the referenced 
+      projects will be included in classpath constuction.      
+      </p>
+
+      <subsection name="XML Attributes">
+
+         <p>
+         The following attributes may be declared on a <tt>&lt;type&gt;</tt> element.
+         </p>
+      
+         <table>
+           <tr>
+             <td>id</td>
+             <td>The type identifier (required).</td>
+           </tr>
+         </table>
+
+      </subsection>
+
+      <subsection name="XML Nested elements">
+      
+         <table>
+           <tr>
+             <td>property</td>
+             <td>0..n</td>
+             <td>Declaration of one or more <a href="../properties/index.html">properties</a> 
+                associated with the type.</td>
+           </tr>
+         </table>
+
+      </subsection>
+
+    </section>
+
+    <section name="Example">
+
+      <p>
+      The following resource definition declares a single type with an id of <tt>"jar"</tt>.
+      </p>
+
+<source><![CDATA[
+<resource name="ant-junit">
+  <types>
+    <type id="jar"/>
+  </types>
+  <dependencies>
+    <include key="ant"/>
+    <include ref="junit/junit"/>
+  </dependencies>
+</resource>
+]]></source>
+
+      <p>
+      The following project definition contains multiple type declarations and nested 
+      properties.
+      </p>
+
+<source><![CDATA[
+
+<project name="dpml-metro-runtime" basedir="runtime">
+  <types>
+    <type id="jar"/>
+    <type id="plugin">
+      <property name="project.plugin.class" 
+         value="net.dpml.metro.runtime.CompositionController"/>
+    </type>
+  </types>
+  <dependencies>
+    <include ref="dpml/util/dpml-logging-api" tag="public"/>
+    <include ref="dpml/util/dpml-activity-api" tag="public"/>
+    <include ref="dpml/util/dpml-parameters-impl"/>
+    <include ref="dpml/util/dpml-configuration-impl"/>
+    <include key="dpml-state-impl"/>
+    <include key="dpml-part-api" tag="protected"/>
+    <include key="dpml-metro-model" tag="protected"/>
+  </dependencies>
+  <dependencies scope="test">
+    <include ref="ant/ant-junit"/>
+  </dependencies>
+</project>
+
+]]></source>
+
     </section>
 
   </body>
 
 </document>
+
+
 
