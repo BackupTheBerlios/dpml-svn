@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<document>
+
+  <properties>
+    <author email="mcconnell@dpml.net">Stephen McConnell</author>
+    <title>DPML Depot</title>
+  </properties> 
+
+  <body>
+
+    <section name="Projects">
+
+      <p> 
+      A project is an extension of a resource definition. A project definition is typically
+      used by a build system implementation to harvest information about dependecies, 
+      produced resources, and project specific properties.  Typically a project definition
+      if sufficient to establish and deploy a embedeed build system such as the DPML default
+      Ant-based builder.
+      </p>
+
+      <p>
+      A project differs from a resource in terms of the granularity of detail associated with
+      dependency references.  Specifically - a project can delcare RUNTIME dependencies that 
+      are scoped in terms of theor rank within a classloader chain.  Dependencies can be scoped
+      as PUBLIC, PROTECTED or PRIVATE.  This supplimentary data can be used in the construction 
+      of plugin descriptors that separate the classic public API from restricted (or PROPTECTED) 
+      management APIS from the resources internal PRIVATE classloader. 
+      </p>
+
+      <p>
+      Another important distinction between a resource and project is the declaration of a
+      base directory.  Typically the base directory of a project is used by a build system 
+      to resolve sources and generate build artifacts.  While the project defintion itself is 
+      independent of the build strategy, it can provide properties that influence the selection
+      of a build system and subsequent build system behaviour.
+      </p>
+      
+      <subsection name="XML Attributes">
+
+         <p>
+         The following attributes may be declared on a <tt>&lt;project&gt;</tt> element.
+         </p>
+      
+         <table>
+           <tr>
+             <td>name</td>
+             <td>The project name (required).</td>
+           </tr>
+           <tr>
+             <td>basedir</td>
+             <td>The project base directory (required). The supplied value will 
+               be resolved relative to the basedir of the enclosing module.</td>
+           </tr>
+           <tr>
+             <td>version</td>
+             <td>The resource version (not normally declared - instead the version 
+               will typically be supplied using the 
+               <a href="../../../cli/version.html"><tt>build -version</tt></a>
+               commandline argument).</td>
+           </tr>
+         </table>
+
+      </subsection>
+
+      <subsection name="XML Nested elements">
+      
+         <table>
+           <tr>
+             <td>properties</td>
+             <td>0..1</td>
+             <td>Declaration of a set of <a href="../../properties/index.html">properties</a> 
+                associated with the project.  Typically property declarations will be used 
+                by a build system to qualify resource production behaviour.</td>
+           </tr>
+           <tr>
+             <td>types</td>
+             <td>0..1</td>
+             <td>A collection of <a href="type.html">types</a> associated with the project
+               (e.g. a jar file or a plugin definition).  The types declared by a project
+               can be viewed as the artifact produced by the project as a result of a build.</td>
+           </tr>
+           <tr>
+             <td>dependecies</td>
+             <td>0..3</td>
+             <td>A project may declare <tt>BUILD</tt>, <tt>RUNTIME</tt> and <tt>TEST</tt> 
+             scoped <a href="deps.html">dependencies</a>.  Unless otherwise specified the 
+             default scope of a dependencies element is <tt>RUNTIME</tt>. Dependencies declared 
+             under <tt>BUILD</tt> scope do effect project build sequencing but do not contribute 
+             to classpath related information.  <tt>RUNTIME</tt> dependencies are used in the 
+             construction of classpath data.  <tt>TEST</tt> scoped dependencies extend runtime 
+             dependencies with supplimentary resources used during unit testing.</td>
+           </tr>
+         </table>
+
+      </subsection>
+
+    </section>
+
+    <section name="Example">
+
+      <p>
+      The following examle project is taken from the DPML Metro module. The project
+      declares a basedir and the project name <tt>dpml-metro-runtime</tt>.  It declares
+      that it produces two artifacts - a jar file and a plugin file.  The plugin type
+      declaration includes some properties used by the associated build system to 
+      construct a plugin definition (in this case the plugin factory classname).  
+      The project includes several dependencies collected under two groups - the 
+      first group maps to the projects <tt>RUNTIME</tt> dependencies and second group maps
+      to <tt>TEST</tt> scoped dependencies.  Within the runtime group the dependencies 
+      in this example are tagged with respect to classloader categories <tt>PUBLIC</tt>, 
+      <tt>PROTECTED</tt> or <tt>PRIVATE</tt> (the default). Runtime dependency tags are 
+      used extensively in the creation of plugin metadata. 
+      </p>
+
+<source><![CDATA[
+
+  <project name="dpml-metro-runtime" basedir="runtime">
+    <types>
+      <type id="jar"/>
+      <type id="plugin">
+        <property name="project.plugin.class" 
+           value="net.dpml.metro.runtime.CompositionController"/>
+      </type>
+    </types>
+    <dependencies>
+      <include ref="dpml/util/dpml-logging-api" tag="public"/>
+      <include ref="dpml/util/dpml-activity-api" tag="public"/>
+      <include ref="dpml/util/dpml-parameters-impl"/>
+      <include ref="dpml/util/dpml-configuration-impl"/>
+      <include key="dpml-state-impl"/>
+      <include key="dpml-part-api" tag="protected"/>
+      <include key="dpml-metro-model" tag="protected"/>
+    </dependencies>
+    <dependencies scope="test">
+      <include ref="ant/ant-junit"/>
+    </dependencies>
+  </project>
+
+]]></source>
+
+    </section>
+
+  </body>
+
+</document>
+
