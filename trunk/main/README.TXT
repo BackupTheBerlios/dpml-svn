@@ -25,13 +25,3 @@ DPML Platform build
   files.  Packaging of the installation in zip and tar archives is not 
   yet complete.
 
-DPML Planet build
------------------
-
-  $ cd dev\dpml\planet
-  $ svn checkout svn://svn.berlios.de/dpml/trunk/planet
-  $ build
-
-
-
-
