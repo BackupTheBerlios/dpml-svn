@@ -34,6 +34,85 @@
       <tt>local:template:dpml/tools/standard</tt> will be assigned.
       </p>
 
+      <subsection name="Builder Configuration">
+
+      <p>
+      The Depot Build is configured using an XML file located using the following uri:
+      </p>
+
+      <pre>local:xml:dpml/tools/config</pre>
+
+      <p>
+        <i>
+        Please note that the configuration scheme is not final.
+        </i>
+      </p>
+
+      <p>
+      The builder configuration currently contains a set of <tt>&lt;listener&gt;</tt> 
+      declarations.  A <tt>&lt;listener&gt;</tt> definition allows the association of a 
+      collection of properties, a codebase uri, and listener dependencies, 
+      with a named type.  The <tt>type</tt> represents an artifact produced 
+      as a result of applying a specialized build listener to a project with 
+      the objective of building the declared type.
+      </p>
+
+      </subsection>
+            
+      <subsection name="XML Attributes">
+      
+         <table>
+           <tr>
+             <td>name</td>
+             <td>The name of the type produced by the processor (e.g. 'jar' or 'part').
+                The value is required.</td>
+           </tr>
+           <tr>
+             <td>uri</td>
+             <td>A plugin codebase uri.  The value is interprited by a build system 
+                 implementation.</td>
+           </tr>
+           <tr>
+             <td>class</td>
+             <td>Listener classname.</td>
+           </tr>
+           <tr>
+             <td>depends</td>
+             <td>A optional series of listener names (comma separated) that this listener 
+               is dependent upon. The implementation ensurea that listeners 
+               are synchronized with respect to dependency ordering.</td>
+           </tr>
+         </table>
+
+      </subsection>
+      
+      <subsection name="XML Nested elements">
+      
+         <table>
+           <tr>
+             <td>property</td>
+             <td>0..n</td>
+             <td>
+               A <a href="../properties/index.html">property</a> associating a 
+               property <tt>name</tt> and <tt>value</tt> with 
+               the listener definition.</td>
+           </tr>
+         </table>
+
+      </subsection>
+
+      <subsection name="Default Configuration">
+<source><![CDATA[
+<builder>
+  <listeners>
+    <listener name="jar" class="net.dpml.tools.process.JarProcess"/>
+    <listener name="plugin" class="net.dpml.tools.process.PluginProcess" depends="jar"/>
+    <listener name="module" class="net.dpml.tools.process.ModuleProcess"/>
+  </listeners>
+</builder>
+]]></source>
+      </subsection>
+
     </section>
 
   </body>

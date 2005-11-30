@@ -12,7 +12,96 @@
     <section name="Templates">
 
       <p>
+      The Depot build system will assign a template file to a project as 
+      the primary definition of the build strategy.  The default standard 
+      template includes a series of common targets covering initialization, 
+      preparation, build, packaging, testing and installation.  Build 
+      <a href="../listeners/index.html">listeners</a> monitor a project for 
+      build events and perform actions such as code compilation, jar file 
+      creation, unit testing, cache updated, etc.
       </p>
+
+      <subsection name="Standard Templates">
+
+        <table>
+          <tr>
+            <td>standard</td>
+          </tr>
+          <tr>
+            <td><tt>link:template:dpml/tools/standard</tt></td>
+          </tr>
+          <tr>
+            <td>
+              Defines a set of standard targets which are used 
+              primarily to fire build events which in turn are handled 
+              by project listeners.
+            </td>
+          </tr>
+        </table>
+
+        <table>
+          <tr>
+            <th>Target</th>
+            <th>Depends</th>
+            <th>Description</th>
+          </tr>
+          <tr>
+            <td>init</td>
+            <td></td>
+            <td>Project initialization including the establishment of the 
+            project context.</td>
+          </tr>
+          <tr>
+            <td>prepare</td>
+            <td>init</td>
+            <td>Copies the content of the <tt>${basedir}/src</tt> directory to 
+             <tt>${basedir}/target/build</tt> filtering content in the process.</td>
+          </tr>
+          <tr>
+            <td>build</td>
+            <td>prepare</td>
+            <td>Trigger the build phases event - typically triggering code compilation.</td>
+          </tr>
+          <tr>
+            <td>package</td>
+            <td>build</td>
+            <td>Trigger the packaging phases event - typically triggering jar file creation 
+                and other packaging concerns depending on the associated listeners.</td>
+          </tr>
+          <tr>
+            <td>test</td>
+            <td>package</td>
+            <td>Trigger the test phases event - typically triggering junit testing.</td>
+          </tr>
+          <tr>
+            <td>install</td>
+            <td>test</td>
+            <td>Trigger the install phases event - typically triggering replication of 
+              artifacts from the project <tt>target/deliverables</tt> directory to 
+              a local cache.</td>
+          </tr>
+          <tr>
+            <td>clean</td>
+            <td>init</td>
+            <td>Removes the <tt>$basedir}/target</tt> directory.</td>
+          </tr>
+        </table>
+
+      </subsection>
+
+      <subsection name="Technical Note">
+
+        <p>
+        Currently the standard template includes a <tt>checkstyle</tt> tasks.  This 
+        should be considered as temporary pending development of the builder 
+        configuration to support site wide common targets.  In addition to the 
+        standard template, another template named <tt>reactor</tt> is available 
+        which handles multi-project builds driven by ant. Please note that the 
+        reactor template is largely redundant due to the support for multi-project 
+        builds covered by the <tt>build</tt> tool.
+        </p>
+
+      </subsection>
 
     </section>
 
@@ -20,3 +109,5 @@
 
 </document>
 
+<!--
+-->
