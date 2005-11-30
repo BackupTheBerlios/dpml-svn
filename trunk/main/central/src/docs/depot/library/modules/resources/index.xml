@@ -14,7 +14,7 @@
       <p>
       A resource is the definition of something that has a name, is associated 
       with a namespace (via its enclosing module), has zero or more dependencies, 
-      and is something that contributes the defintion of other resources and 
+      and is something that contributes the definition of other resources and 
       projects.
       </p>
 
@@ -39,6 +39,10 @@
            <tr>
              <td>name</td>
              <td>The resource name (required).</td>
+           </tr>
+           <tr>
+             <td>version</td>
+             <td>The resource version (normally declared at module level).</td>
            </tr>
          </table>
 
@@ -74,7 +78,15 @@
 
     <section name="Example">
 
+      <p>
+      The following examle resources are from the ant module defintion.  The version
+      declared within the enclosing module establishes the version for all resources within 
+      the module.
+      </p>
+
 <source><![CDATA[
+    <module name="ant" version="1.6.5" basedir="ant">
+
       <resource name="ant">
         <properties>
           <property name="project.api.root" value="${project.api.host}/${group}/${version}"/>
@@ -122,6 +134,9 @@
           <type id="jar"/>
         </types>
       </resource>
+
+  </module>
+
 ]]></source>
 
 

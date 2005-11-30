@@ -77,6 +77,9 @@
       <include key="dpml-part-api" tag="protected"/>
       <include key="dpml-metro-model" tag="protected"/>
     </dependencies>
+    <dependencies scope="test">
+      <include ref="ant/ant-junit"/>
+    </dependencies>
   </project>
    
   <project name="dpml-metro-tools" basedir="tools">

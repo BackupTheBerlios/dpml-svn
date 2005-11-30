@@ -44,6 +44,10 @@
               name.</td>
            </tr>
            <tr>
+             <td>version</td>
+             <td>The module version (mornally not declared).</td>
+           </tr>
+           <tr>
              <td>basedir</td>
              <td>Optional base directory of the module.</td>
            </tr>
@@ -81,8 +85,15 @@
            <tr>
              <td>types</td>
              <td>0..1</td>
-             <td>Declaration of a set of resource <a href="types.html">types</a> 
-                associated with the module.</td>
+             <td>
+             The declaration of a &lt;types&gt; element within a module associates
+             one or more an artifact types within the module's fully qualified name.
+             For example, it is possible to create an portable defintion of a module
+             using a specialized ant tasks.  The ant task produced an artifact of the 
+             type 'module'.  By declaring the type 'module' as a type produced by the 
+             module a build system can automate the production of the module artifact.  
+             Alternatively, users of a published module can determin that a resource 
+             named <tt>[module-path].module</tt> is available under a repository.</td>
            </tr>
            <tr>
              <td>resource</td>

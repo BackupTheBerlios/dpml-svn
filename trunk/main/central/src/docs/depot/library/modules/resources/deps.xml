@@ -11,6 +11,73 @@
 
     <section name="Resource Dependencies">
 
+      <p>
+      A resource may declare runtime dependencies that it has on other 
+      resources.  Dependencies may be declaring using one or more
+      <tt>&lt;include&gt;</tt> elements.
+      </p>
+
+      <subsection name="Include Variants">
+
+        <p>
+        There are three different include declarations - key, ref and uri.
+        </p>
+
+        <table>
+          <tr>
+            <td>key</td>
+            <td>
+              &lt;include key="[name]"&gt;
+            </td>
+            <td>
+              Includes a resource from the same module.
+            </td>
+          </tr>
+          <tr>
+            <td>ref</td>
+            <td>
+              &lt;include ref="[group]/[name]"&gt;
+            </td>
+            <td>
+              Includes a resource using a fully qualified path.
+            </td>
+          </tr>
+          <tr>
+            <td>uri</td>
+            <td>
+              &lt;include uri="[artifact]"&gt;
+            </td>
+            <td>
+              Includes a resource via artifact reference.
+            </td>
+          </tr>
+        </table>
+
+      </subsection>
+
+    </section>
+
+    <section name="Example">
+
+      <p>
+      The following resource definition declares two dependencies. The first 
+      dependency is on the resource named "ant" within the same module.  The 
+      second dependency is on the junit resource and uses the fully qualified 
+      path under a ref attribute.
+      </p>
+
+<source><![CDATA[
+<resource name="ant-junit">
+  <types>
+    <type id="jar"/>
+  </types>
+  <dependencies>
+    <include key="ant"/>
+    <include ref="junit/junit"/>
+  </dependencies>
+</resource>
+]]></source>
+
     </section>
 
   </body>
