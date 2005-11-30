@@ -24,6 +24,7 @@
 
   <transit:import uri="local:template:dpml/tools/standard"/>
 
+  <!--
   <target name="build" depends="standard.build">
 
     <x:plugin uri="link:plugin:dpml/metro/dpml-metro-tools"/>
@@ -35,5 +36,6 @@
     </c:catalog>
 
   </target>
+  -->
 
 </project>

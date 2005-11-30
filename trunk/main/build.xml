@@ -38,7 +38,7 @@
     </c:catalog>
   </target>
 
-  <target name="package" depends="standard.package,javadoc,junit-report"/>
+  <target name="package" depends="standard.package,javadoc,checkstyle,junit-report"/>
 
   <target name="install" depends="standard.install,bundle">
     <copy todir="${dpml.data}">
@@ -69,7 +69,7 @@
     <copy todir="${share.docs}">
       <fileset dir="central/target/docs"/>
     </copy>
-    <property name="share.docs.reports" location="${share.docs}/about/reports/${project.version}"/>
+    <property name="share.docs.reports" location="${share.docs}/reports/${project.version}"/>
     <mkdir dir="${share.docs.reports}"/>
     <copy todir="${share.docs.reports}">
       <fileset dir="target/reports">
@@ -106,6 +106,10 @@
   <target name="javadoc" depends="build">
     <x:javadoc title="DPML Component Management Platform" >
       <link href="http://java.sun.com/j2se/1.4/docs/api"/>
+      <group title="Planet">
+        <package name="net.dpml.http"/>
+        <package name="net.dpml.http.*"/>
+      </group>
       <group title="Metro">
         <package name="net.dpml.metro"/>
         <package name="net.dpml.metro.*"/>

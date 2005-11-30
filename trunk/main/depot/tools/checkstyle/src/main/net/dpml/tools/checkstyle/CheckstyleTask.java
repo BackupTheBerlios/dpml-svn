@@ -62,7 +62,7 @@ public class CheckstyleTask extends CheckStyleTask
             Resource resource = m_context.getResource();
             addTargetToFileset( resource );
             File prefs = Transit.DPML_PREFS;
-            File format = new File( prefs, "tools/formats/dpml.format" );
+            File format = new File( prefs, "dpml/tools/formats/dpml.format" );
             setConfig( format );
         }
         m_init = true;
@@ -73,7 +73,7 @@ public class CheckstyleTask extends CheckStyleTask
     private void addTargetToFileset( Resource resource )
     {
         File file = resource.getBaseDir();
-        File main = new File( file, "target/build/main" ); // <----------- YUK!
+        File main = new File( file, "target/build/main" );
         if( main.exists() )
         {
             FileSet fileset = new FileSet();

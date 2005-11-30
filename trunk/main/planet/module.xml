@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<module name="planet">
+
+  <types>
+    <type id="module" alias="true"/>
+  </types>
+
+  <module base="http"/>
+
+</module>
