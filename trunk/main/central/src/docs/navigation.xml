@@ -26,6 +26,7 @@
  <body>
 
     <links>
+      <item name="Planet" href="catalog/@VERSION@/catalog/index.html"/>
       <item name="Metro" href="metro/concepts/index.html"/>
       <item name="Depot" href="depot/concepts/index.html"/>
       <item name="Transit" href="transit/concepts/index.html"/>
