@@ -73,7 +73,9 @@
             <td>prepare</td>
             <td>init</td>
             <td>Copies the content of the <tt>${basedir}/src</tt> directory to 
-             <tt>${basedir}/target/build</tt> filtering content in the process.</td>
+             <tt>${basedir}/target/build</tt> filtering content in the process.
+              See <a href="../tasks/prepare.html">prepare task</a> for additional 
+              information.</td>
           </tr>
           <tr>
             <td>build</td>
@@ -83,25 +85,23 @@
           <tr>
             <td>package</td>
             <td>build</td>
-            <td>Trigger the packaging phases event - typically triggering jar file creation 
-                and other packaging concerns depending on the associated listeners.</td>
+            <td>Trigger the packaging phases event.</td>
           </tr>
           <tr>
             <td>test</td>
             <td>package</td>
-            <td>Trigger the test phases event - typically triggering junit testing.</td>
+            <td>Trigger the test phases event.</td>
           </tr>
           <tr>
             <td>install</td>
             <td>test</td>
-            <td>Trigger the install phases event - typically triggering replication of 
-              artifacts from the project <tt>${basedir}/target/deliverables</tt> directory to 
-              a local cache.</td>
+            <td>Validates that the build has produced the artifacts declatred under the 
+              project defintion and copies these to the local cache.</td>
           </tr>
           <tr>
             <td>clean</td>
             <td>init</td>
-            <td>Removes the <tt>${basedir}/target</tt> directory.</td>
+            <td>Deletes the <tt>${basedir}/target</tt> directory.</td>
           </tr>
         </table>
 
