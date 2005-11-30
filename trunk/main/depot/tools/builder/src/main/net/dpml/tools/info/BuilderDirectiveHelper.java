@@ -134,6 +134,7 @@ public final class BuilderDirectiveHelper
             "jar",
             (URI) null,
             JarProcess.class.getName(),
+            true,
             new String[0],
             null );
         listeners[1] = 
@@ -141,6 +142,7 @@ public final class BuilderDirectiveHelper
             "plugin",
             (URI) null,
             PluginProcess.class.getName(),
+            true,
             new String[0],
             null );
         listeners[2] = 
@@ -148,6 +150,7 @@ public final class BuilderDirectiveHelper
             "module",
             (URI) null,
             ModuleProcess.class.getName(),
+            true,
             new String[0],
             null );
         return new BuilderDirective( listeners, null );
@@ -244,10 +247,11 @@ public final class BuilderDirectiveHelper
             final String spec = ElementHelper.getAttribute( element, "uri", null );
             final URI uri = createURI( spec );
             final String classname = ElementHelper.getAttribute( element, "class", null );
+            final boolean artifact = ElementHelper.getBooleanAttribute( element, "artifact", true );
             final String deps = ElementHelper.getAttribute( element, "depends", null );
             final String[] depends = buildDependenciesArray( deps );
             final Properties properties = buildProperties( element );
-            return new ListenerDirective( name, uri, classname, depends, properties );
+            return new ListenerDirective( name, uri, classname, artifact, depends, properties );
         }
         else
         {

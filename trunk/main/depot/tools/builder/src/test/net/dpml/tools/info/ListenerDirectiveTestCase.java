@@ -31,6 +31,7 @@ public final class ListenerDirectiveTestCase extends AbstractTestCase
     static String SPEC = "local:plugin:acme/widget";
     static String CLASSNAME = "net.dpml.tools.process.JarProcess";
     static String[] DEPS = new String[0];
+    static boolean ARTIFACT = true;
     
     static ListenerDirective[] LISTENERS = new ListenerDirective[3];
     static
@@ -39,13 +40,13 @@ public final class ListenerDirectiveTestCase extends AbstractTestCase
         {
             LISTENERS[0] = 
               new ListenerDirective( 
-                "jar", (URI) null, CLASSNAME, DEPS, PROPERTIES );
+                "jar", (URI) null, CLASSNAME, ARTIFACT, DEPS, PROPERTIES );
             LISTENERS[1] = 
               new ListenerDirective( 
-                "acme", new URI( SPEC ), null, DEPS, PROPERTIES );
+                "acme", new URI( SPEC ), null, ARTIFACT, DEPS, PROPERTIES );
             LISTENERS[2] = 
               new ListenerDirective( 
-                "widget", (URI) null, CLASSNAME, new String[]{ "acme" }, PROPERTIES );
+                "widget", (URI) null, CLASSNAME, ARTIFACT, new String[]{ "acme" }, PROPERTIES );
         }
         catch( Exception e )
         {
@@ -58,7 +59,7 @@ public final class ListenerDirectiveTestCase extends AbstractTestCase
         try
         {
             new ListenerDirective( 
-                null, new URI( SPEC ), CLASSNAME, DEPS, PROPERTIES );
+                null, new URI( SPEC ), CLASSNAME, ARTIFACT, DEPS, PROPERTIES );
             fail( "no-NPE" );
         }
         catch( NullPointerException e )
@@ -72,7 +73,7 @@ public final class ListenerDirectiveTestCase extends AbstractTestCase
         try
         {
             new ListenerDirective( 
-                NAME, new URI( SPEC ), CLASSNAME, null, PROPERTIES );
+                NAME, new URI( SPEC ), CLASSNAME, ARTIFACT, null, PROPERTIES );
             fail( "no-NPE" );
         }
         catch( NullPointerException e )
@@ -85,7 +86,7 @@ public final class ListenerDirectiveTestCase extends AbstractTestCase
     {
         ListenerDirective process = 
           new ListenerDirective( 
-              NAME, new URI( SPEC ), CLASSNAME, DEPS, PROPERTIES );
+              NAME, new URI( SPEC ), CLASSNAME, ARTIFACT, DEPS, PROPERTIES );
         assertEquals( "name", NAME, process.getName() );
     }
     
@@ -93,7 +94,7 @@ public final class ListenerDirectiveTestCase extends AbstractTestCase
     {
         ListenerDirective process = 
           new ListenerDirective( 
-              NAME, new URI( SPEC ), CLASSNAME, DEPS, PROPERTIES );
+              NAME, new URI( SPEC ), CLASSNAME, ARTIFACT, DEPS, PROPERTIES );
         assertEquals( "uri", SPEC, process.getURISpec() );
     }
     
@@ -103,7 +104,7 @@ public final class ListenerDirectiveTestCase extends AbstractTestCase
         String dep2 = "def";
         String[] deps = new String[]{ dep1, dep2 };
         ListenerDirective process = 
-          new ListenerDirective( NAME, new URI( SPEC ), CLASSNAME, deps, PROPERTIES );
+          new ListenerDirective( NAME, new URI( SPEC ), CLASSNAME, ARTIFACT, deps, PROPERTIES );
         assertEquals( "deps", deps, process.getDependencies() );
     }
     
@@ -113,7 +114,7 @@ public final class ListenerDirectiveTestCase extends AbstractTestCase
         String dep2 = "def";
         String[] deps = new String[]{ dep1, dep2 };
         ListenerDirective process = 
-          new ListenerDirective( NAME, new URI( SPEC ), CLASSNAME, deps, PROPERTIES );
+          new ListenerDirective( NAME, new URI( SPEC ), CLASSNAME, ARTIFACT, deps, PROPERTIES );
         doSerializationTest( process );
     }
 

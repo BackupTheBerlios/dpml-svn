@@ -35,21 +35,23 @@ import net.dpml.library.info.AbstractDirective;
 public final class ListenerDirective  extends AbstractDirective
 {
     private final String m_name;
-    private final String[] m_dependencies;
     private final URI m_uri;
     private final String m_classname;
+    private final boolean m_artifact;
+    private final String[] m_dependencies;
     
    /**
     * Creation of a new listener directive.
-    * @param name the resource type produced by the listener
+    * @param name the listener name
     * @param uri the listener codebase
     * @param classname optional classname of the plugin instantiation target
+    * @param artifact true if the produced type is a build artifact
     * @param dependencies array of listener names that the listener depends upon
     * @param properties supplimentary properties
     * @exception NullPointerException if name or dependencies are null
     * @exception IllegalStateException if both classname and urn values are null
     */
-    public ListenerDirective( String name, URI uri, String classname, 
+    public ListenerDirective( String name, URI uri, String classname, boolean artifact,
       String[] dependencies, Properties properties )
       throws NullPointerException, IllegalStateException
     {
@@ -73,6 +75,7 @@ public final class ListenerDirective  extends AbstractDirective
                 throw new IllegalStateException( error );
             }
         }
+        m_artifact = artifact;
         m_dependencies = dependencies;
         m_name = name;
         m_uri = uri;
@@ -117,6 +120,18 @@ public final class ListenerDirective  extends AbstractDirective
     * Return the listener classname to load.
     * @return the classname
     */
+    public boolean isaArtifactProducer()
+    {
+        return m_artifact;
+    }
+    
+   /**
+    * Return true if the listener produces a build artifact.  If false
+    * the listener may contribute to a build process but does not generate a 
+    * specific artifact type.
+    *
+    * @return true if the listener produces an artifact
+    */
     public String getClassname()
     {
         return m_classname;
@@ -154,6 +169,10 @@ public final class ListenerDirective  extends AbstractDirective
             {
                 return false;
             }
+            else if( m_artifact != object.m_artifact )
+            {
+                return false;
+            }
             else
             {
                 return Arrays.equals( m_dependencies, object.m_dependencies );
@@ -175,6 +194,7 @@ public final class ListenerDirective  extends AbstractDirective
         hash ^= super.hashValue( m_name );
         hash ^= super.hashArray( m_dependencies );
         hash ^= super.hashValue( m_uri );
+        hash ^= super.hashValue( new Boolean( m_artifact ) );
         return hash;
     }
 }
