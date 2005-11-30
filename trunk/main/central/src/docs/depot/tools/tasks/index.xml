@@ -12,6 +12,12 @@
     <section name="Tasks">
 
       <p>
+        There are a number of tasks that are defined as a part of the Depot
+        build system.  These include <a href="resources/index.html">bootstrap 
+        utilities</a> defined under the Transit package, a number of 
+        <a href="core/index.html">library aware utilities</a> defined as part
+        of the Depot Builder, and tasks dealing with <a href="runtime/index.html">
+        component management</a> defined within the Metro package.
       </p>
 
     </section>

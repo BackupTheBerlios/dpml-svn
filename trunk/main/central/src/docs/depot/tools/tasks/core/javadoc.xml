@@ -11,48 +11,56 @@
       <p>
       The javadoc task provides support for automatic generation of 
       consolidated javadoc taking into account the source directories of
-      dependent projects.  If the target of javadoc generation supports
-      staged classloader defintions (API, SPI, IMPL) - then javadoc 
-      will be generated for each set. The task supports local and remote 
+      dependent projects.  The task supports local and remote 
       link declarations (see source for additional details).
       </p>
       <p>
-      The following declarations instruct the current build to invoke
-      javadoc generation on an identified project using the id attribute.
-      The title attribute sets the javadoc title.
+      The following example is taken from the root DPML module build file.
       </p>
-<source><![CDATA[
-<x:javadoc title="Merlin Runtime" id="avalon-runtime">
-  <x:link href="http://java.sun.com/j2se/1.4/docs/api" />
-</x:javadoc>
-]]></source>
-
-      <p><i>Typical output of the javadoc task:</i></p>
-<pre>javadoc:
-[x:javadoc] Generating: Merlin Runtime, Version 3.3.0 : API
-[x:javadoc] link: http://java.sun.com/j2se/1.4/docs/api
-[x:javadoc] Adding src path: F:\dev\avalon\runtime\framework\api\target\build\main
-[x:javadoc] Adding src path: F:\dev\avalon\runtime\util\lifecycle\target\build\main
-  [javadoc] Generating Javadoc
-  [javadoc] Javadoc execution
-  [javadoc] Loading source files for package org.apache.avalon.framework...
-  [javadoc] Loading source files for package org.apache.avalon.framework.activity...
-  [javadoc] Loading source files for package org.apache.avalon.framework.configuration...
-  [javadoc] Loading source files for package org.apache.avalon.framework.context...
-  [javadoc] Loading source files for package org.apache.avalon.framework.logger...
-  [javadoc] Loading source files for package org.apache.avalon.framework.parameters...
-  [javadoc] Loading source files for package org.apache.avalon.framework.service...
-  [javadoc] Loading source files for package org.apache.avalon.framework.thread...
-  [javadoc] Loading source files for package org.apache.avalon.lifecycle...
-  [javadoc] Constructing Javadoc information...
-  [javadoc] Standard Doclet version 1.4.2_04
-  [javadoc] Building tree for all the packages and classes...
-  [javadoc] Building index for all the packages and classes...
-  [javadoc] Building index for all classes...
-
-  [javadoc] Generating F:\dev\avalon\central\system\.docs\avalon\runtime\3.3.0\api\stylesheet.css...
-
-  ....</pre>
+<pre><![CDATA[
+  <target name="javadoc" depends="build">
+    <x:javadoc title="DPML Component Management Platform" >
+      <link href="http://java.sun.com/j2se/1.4/docs/api"/>
+      <group title="Metro">
+        <package name="net.dpml.metro"/>
+        <package name="net.dpml.metro.*"/>
+        <package name="net.dpml.metro.part"/>
+        <package name="net.dpml.metro.part.*"/>
+        <package name="net.dpml.metro.state"/>
+        <package name="net.dpml.metro.state.*"/>
+        <package name="net.dpml.metro.tools"/>
+        <package name="net.dpml.station"/>
+        <package name="net.dpml.station.*"/>
+      </group>
+      <group title="Depot">
+        <package name="net.dpml.depot"/>
+        <package name="net.dpml.depot.*"/>
+        <package name="net.dpml.library"/>
+        <package name="net.dpml.library.*"/>
+        <package name="net.dpml.tools"/>
+        <package name="net.dpml.tools.*"/>
+      </group>
+      <group title="Transit">
+        <package name="net.dpml.transit"/>
+        <package name="net.dpml.transit.*"/>
+      </group>
+      <group title="Util">
+        <package name="net.dpml.cli"/>
+        <package name="net.dpml.cli.*"/>
+        <package name="net.dpml.i18n"/>
+        <package name="net.dpml.i18n.*"/>
+        <package name="net.dpml.activity"/>
+        <package name="net.dpml.activity.*"/>
+        <package name="net.dpml.configuration"/>
+        <package name="net.dpml.configuration.*"/>
+        <package name="net.dpml.parameters"/>
+        <package name="net.dpml.parameters.*"/>
+        <package name="net.dpml.logging"/>
+        <package name="net.dpml.logging.*"/>
+      </group>
+    </x:javadoc>
+  </target>
+  ....]]></pre>
     </section>
   </body>
 

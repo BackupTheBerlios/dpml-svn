@@ -25,11 +25,13 @@
  <body>
 
     <menu>
+      <!--
       <item name="Info" href="info/index.html"/>
       <item name="Categories" href="categories/index.html"/>
       <item name="Context" href="context/index.html"/>
       <item name="Services" href="services/index.html"/>
       <item name="Parts" href="implementation/index.html"/>
+      -->
     </menu>
 
  </body>

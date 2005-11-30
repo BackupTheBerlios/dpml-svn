@@ -11,6 +11,17 @@
 
     <section name="Component Task">
 
+      <subsection name="Description">
+
+        <p>
+        The component task automates the creation of component deployment
+        meta data.
+        </p>
+
+        <p><i>DOCUMENT IN PROGRESS</i></p>
+
+      </subsection>
+
     </section>
 
   </body>

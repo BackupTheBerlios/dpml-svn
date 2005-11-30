@@ -7,6 +7,7 @@
   <transit:import uri="local:template:dpml/tools/standard"/>
 
   <target name="init" depends="standard.init">
+    <x:filter token="VERSION" feature="version"/>
     <x:filter token="ANT-JAR-URI" ref="ant/ant" feature="uri" type="jar" />
     <x:filter token="TRANSIT-TOOLS-URI" ref="dpml/transit/dpml-transit-tools" feature="uri" type="plugin" />
     <x:filter token="TRANSIT-MODULE-VERSION" ref="dpml/transit" feature="version"/>
@@ -15,6 +16,7 @@
     <x:filter token="DEPOT-CONSOLE-URI" feature="uri" type="jar" ref="dpml/depot/dpml-depot-console" />
     <x:filter token="DEPOT-TOOLS-ANT-URI" feature="uri" type="plugin" ref="dpml/depot/dpml-tools-builder" />
     <x:filter token="DEPOT-TOOLS-LIBRARY-URI" feature="uri" type="plugin" ref="dpml/depot/dpml-library-main" />
+    <x:filter token="METRO-TOOLS-URI" feature="uri" type="plugin" ref="dpml/metro/dpml-metro-tools" />
   </target>
 
   <target name="build" depends="standard.build">

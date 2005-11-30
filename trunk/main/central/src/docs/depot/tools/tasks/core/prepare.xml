@@ -10,12 +10,12 @@
     <section name="Prepare Task">
       <p>
       The prepare task converts source input typically under directories 
-      such as ${basedir}/src and ${basedir}/etc into a immutable magic
-      target build structure.  The target build structure is ALWAYS the 
-      same, enabling other projects to access build artifacts is a completely
-      consistent manner without having to parse any local properties.  This
-      has a direct impact on the simplification of tasks and plugins that 
-      work on content in the ${basedir}/target directory.
+      such as ${basedir}/src and ${basedir}/etc into a target build structure.  
+      The target build structure is ALWAYS the same, enabling other projects 
+      to access build artifacts is a completely consistent manner without 
+      having to parse any local properties.  This has a direct impact on the 
+      simplification of tasks and plugins that work on content in the 
+      <tt>${basedir}/target</tt> directory content.
       </p>
 
 <source><![CDATA[
@@ -24,14 +24,13 @@
 
 <pre>
 prepare:
-[x:prepare] creating target directory
-    [mkdir] Created dir: F:\dev\avalon\planet\tutorials\hello\target
-    [mkdir] Created dir: F:\dev\avalon\planet\tutorials\hello\target\build\main
-     [copy] Copying 1 file to F:\dev\avalon\planet\tutorials\hello\target\build\main
-    [mkdir] Created dir: F:\dev\avalon\planet\tutorials\hello\target\build\etc
-     [copy] Copying 2 files to F:\dev\avalon\planet\tutorials\hello\target\build\etc
-    [mkdir] Created dir: F:\dev\avalon\planet\tutorials\hello\target\deliverables
-     [copy] Copying 1 file to F:\dev\avalon\planet\tutorials\hello\target\deliverables
+[x:prepare] Created dir: C:\dev\dpml\main\metro\state\impl\target
+[x:prepare] Created dir: C:\dev\dpml\main\metro\state\impl\target\build\main
+[x:prepare] Copying 13 files to C:\dev\dpml\main\metro\state\impl\target\build\main
+[x:prepare] Created dir: C:\dev\dpml\main\metro\state\impl\target\build\test
+[x:prepare] Copying 6 files to C:\dev\dpml\main\metro\state\impl\target\build\test
+[x:prepare] Created dir: C:\dev\dpml\main\metro\state\impl\target\test
+[x:prepare] Copying 1 file to C:\dev\dpml\main\metro\state\impl\target\test
 </pre>
 
       <p><i>Directory structure inputs.</i></p> 
@@ -40,12 +39,12 @@ ${basedir}
   /${project.src}
     /${project.src.main} -- the main java sources copied to target/build/main
     /${project.src.test} -- unit test sources copied to target/build/test
-    /${project.src.conf} -- configuration data copied to target/build/conf
+    /${project.src.docs} -- documentation sources copied to target/build/docs
   /${project.etc}
     /main                -- resource to be copied to target/build/main
     /test                -- resource to be copied to target/build/test
-    /conf                -- resource to be copied to target/build/conf
-    /deliverables        -- copied to target/deliverables
+    /docs                -- resource to be copied to target/build/docs
+    /**                  -- copied to target/**
 
 </source>
 
@@ -89,9 +88,9 @@ ${basedir}
               the java unit test source hierachy. Default value is "test".</td>
         </tr>
         <tr>
-          <td>${project.src.conf}</td>
+          <td>${project.src.docs}</td>
           <td>The name of the sub-directory with ${project.src} containing
-              the configuration data. Default value is "conf".</td>
+              the documentation sources. Default value is "docs".</td>
         </tr>
         <tr>
           <td>${project.etc}</td>

@@ -18,7 +18,7 @@
       <p><i>Example of a request to load an antlib.</i></p>
 
 <source><![CDATA[
-  <transit:plugin uri="@DEPOT-TOOLS-URI@"/>
+  <transit:plugin uri="@DEPOT-TOOLS-ANT-URI@"/>
 ]]></source>
 
       <p><i>Example of a request to load and register a single task definition.</i></p>

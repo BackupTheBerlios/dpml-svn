@@ -13,7 +13,7 @@
 
       <p>
       The checkstyle task provides support for the integration of checkstyle
-      code style validation and reporting into the Magic development environment.
+      code style validation and reporting into the DPML development environment.
       The task allows the selection of a style format and
       and postprocessing of XML based report output.
       </p>
@@ -32,13 +32,20 @@
       </p>
 
 <source><![CDATA[
-<project name="demo" default="demo" basedir="."
-    xmlns:transit="antlib:net.dpml.transit">
-
-  <transit:import uri="local:template:magic/standard"/>
-  <target name="demo" depends="checkstyle"/>
-
-</project>
+  <target name="checkstyle" depends="prepare">
+    <property name="checkstyle.dir" location="${project.target.reports.dir}/checkstyle"/>
+    <property name="checkstyle.data" location="${checkstyle.dir}/checkstyle.xml"/>
+    <property name="project.checkstyle.data" location="${project.target.reports.dir}/checkstyle"/>
+    <x:plugin ref="dpml/depot/dpml-depot-checkstyle">
+      <task class="net.dpml.tools.checkstyle.CheckstyleTask" name="checkstyle"/>
+    </x:plugin>
+    <mkdir dir="${checkstyle.dir}"/>
+    <checkstyle>
+      <formatter type="xml" toFile="${checkstyle.data}"/>
+    </checkstyle>
+    <xslt style="${dpml.prefs}/dpml/tools/xsls/checkstyle-frames.xsl"
+        in="${checkstyle.data}"
+        out="${checkstyle.dir}/checkstyle_report.html" />
 ]]></source>
 
       <p>
@@ -49,7 +56,7 @@
 checkstyle:
     [style] Processing D:\demo\target\checkstyle\checkstyle_errors.xml to
 D:\demo\target\reports\checkstyle\checkstyle_report.html
-    [style] Loading stylesheet D:\dpml\Preferences\magic\xsls\checkstyle-frames.xsl
+    [style] Loading stylesheet D:\dpml\Preferences\dpml\tools\xsls\checkstyle-frames.xsl
 </pre>
 
     </subsection>
@@ -85,25 +92,15 @@ D:\demo\target\reports\checkstyle\checkstyle_report.html
 
       <p>
       The default formatting rules correspond to the
-      <a href="/about/community/process/code.html">DPML standard code format</a>
+      <a href="/about/community/resources/code.html">DPML standard code format</a>
       specification and is required for all contributions to the DPML.  Alternative
       code format specifications include a format approximating the Sun coding guidlines.
       </p>
 
     </subsection>
 
-    <subsection name="Special Note concerning JDK 1.5">
-
-      <p>
-      There is a known problem with the Ant style task when running under JDK 1.5.
-      Due to changes in the XML apis between 1.4 and 1.5, certain transformations 
-      will fail.  Checkstyle HTML generation falls into this category.  A simple
-      workaround is descripted in the standard template file.
-      </p>
-
-    </subsection>
-
     </section>
+
   </body>
 
 </document>

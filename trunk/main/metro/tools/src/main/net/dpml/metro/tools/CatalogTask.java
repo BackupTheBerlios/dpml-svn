@@ -111,7 +111,7 @@ public class CatalogTask extends Task
         String targetDirPath = getProject().getProperty( "project.target.dir" );
         File target = new File( targetDirPath );
         File reports = new File( target, "reports" );
-        File types = new File( reports, "types" );
+        File types = new File( reports, "catalog" );
         m_work = types;
     }
 
@@ -131,7 +131,8 @@ public class CatalogTask extends Task
         else
         {
             File reports = getWorkingDirectory();
-            File html = new File( reports, "html" );
+            //File html = new File( reports, "html" );
+            File html = reports;
             html.mkdirs();
 
             File css = new File( Transit.DPML_PREFS, "dpml/metro/csss/type.css" );
@@ -705,7 +706,8 @@ public class CatalogTask extends Task
 
     private void processType( File reports, File source )
     {
-        File htmls = new File( reports, "html" );
+        //File htmls = new File( reports, "html" );
+        File htmls = reports;
         try
         {
             InputStream input = new FileInputStream( source );

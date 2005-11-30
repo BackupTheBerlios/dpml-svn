@@ -20,17 +20,14 @@
 
 <project>
 
- <title>DPML Central</title>
+ <title>DPML Home</title>
 
  <body>
 
     <menu>
-      <item name="Download" href="setup/index.html"/>
-      <item name="Reports" href="reports/index.html"/>
-      <item name="Resources" href="resources/index.html"/>
-      <item name="News and Events" href="news/index.html"/>
-      <item name="Sponsors" href="sponsorship/index.html"/>
-      <item name="Legal" href="legal/index.html"/>
+      <item name="Javadocs" href="../../api/dpml/@VERSION@/index.html"/>
+      <item name="Junit Reports" href="../../reports/@VERSION@/junit/index.html"/>
+      <item name="Component Catalog" href="../../reports/@VERSION@/types/index.html"/>
     </menu>
 
  </body>

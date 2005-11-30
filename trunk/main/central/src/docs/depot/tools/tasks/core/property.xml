@@ -89,11 +89,6 @@
           <td>The full artifact uri (requires type attribute).</td>
         </tr>
         <tr>
-          <td>path</td>
-          <td>A relative file path that can be used to a locate an artifact
-              relative to a repository root (requires type attribute).</td>
-        </tr>
-        <tr>
           <td>spec</td>
           <td>Short form of uri.  The spec value is equivalent to the 
             uri with the "artifact:" protocol identifier (requires type attribute).</td>
@@ -101,10 +96,6 @@
         <tr>
           <td>filename</td>
           <td>The filename of the final artifact that the resource represents (requires type attribute).</td>
-        </tr>
-        <tr>
-          <td>short-filename</td>
-          <td>The filename without the file type suffix.</td>
         </tr>
       </table>
 

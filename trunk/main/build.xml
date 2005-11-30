@@ -50,13 +50,24 @@
       </fileset>
     </copy>
     <property name="share.docs" location="${share}/docs"/>
-    <property name="share.docs.api.dpml" location="${share.docs}/api/dpml"/>
+    <property name="share.docs.api.dpml" location="${share.docs}/api/dpml/${project.version}"/>
     <mkdir dir="${share.docs.api.dpml}"/>
     <copy todir="${share.docs.api.dpml}" filtering="true">
       <fileset dir="${project.target.reports.dir}/api">
         <include name="**/*"/>
       </fileset>
     </copy>
+    <copy todir="${share.docs}">
+      <fileset dir="central/target/docs"/>
+    </copy>
+    <property name="share.docs.reports" location="${share.docs}/reports/${project.version}"/>
+    <mkdir dir="${share.docs.reports}"/>
+    <copy todir="${share.docs.reports}">
+      <fileset dir="target/reports">
+        <exclude name="api/**"/>
+      </fileset>
+    </copy>
+
     <property name="share.bin" location="${share}/bin"/>
     <mkdir dir="${share.bin}"/>
     <copy todir="${share.bin}" filtering="false">

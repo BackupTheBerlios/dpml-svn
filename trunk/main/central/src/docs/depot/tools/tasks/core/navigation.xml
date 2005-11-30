@@ -26,7 +26,6 @@
 
     <menu>
       <item name="Checkstyle" href="checkstyle.html"/>
-      <item name="Export" href="export.html"/>
       <item name="Filter" href="filter.html"/>
       <item name="Init" href="init.html"/>
       <item name="Install" href="install.html"/>

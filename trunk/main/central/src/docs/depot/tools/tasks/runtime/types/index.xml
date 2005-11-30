@@ -11,6 +11,19 @@
 
     <section name="Component Types">
 
+      <subsection name="Description">
+
+        <p>
+        The types task automates the creation of component type meta-info.
+        Information captured during type creation includes the component 
+        implementation class name, logging channel assumptions, the services
+        provided by the type, context assumptions, and internal parts.
+        </p>
+
+       <p><i>DOCUMENT IN PROGRESS</i></p>
+
+      </subsection>
+
     </section>
 
   </body>
