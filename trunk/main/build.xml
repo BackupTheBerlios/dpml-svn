@@ -24,6 +24,11 @@
 
   <transit:import uri="local:template:dpml/tools/standard"/>
 
+  <target name="prepare" depends="standard.prepare">
+    <property name="bundle" location="${project.target.dir}/bundle"/>
+    <property name="share" location="${bundle}/share"/>
+  </target>
+  
   <target name="build" depends="standard.build">
     <x:plugin uri="link:plugin:dpml/metro/dpml-metro-tools"/>
     <c:catalog>
@@ -35,11 +40,15 @@
 
   <target name="package" depends="standard.package,javadoc,junit-report"/>
 
-  <target name="install" depends="standard.install,bundle"/>
+  <target name="install" depends="standard.install,bundle">
+    <copy todir="${dpml.data}">
+      <fileset dir="${share}">
+        <include name="docs/**"/>
+      </fileset>
+    </copy>
+  </target>
 
   <target name="bundle" depends="standard.install">
-    <property name="bundle" location="${project.target.dir}/bundle"/>
-    <property name="share" location="${bundle}/share"/>
     <property name="share.local" location="${share}/local"/>
     <x:replicate self="true" verbose="false" toDir="${share.local}"/>
     <copy todir="${bundle}" filtering="true">
