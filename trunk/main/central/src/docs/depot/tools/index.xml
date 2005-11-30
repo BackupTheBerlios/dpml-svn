@@ -9,13 +9,29 @@
 
   <body>
 
-    <section name="Depot Tools">
+    <section name="Builder Plugin">
 
       <p>
-      Depot Tools is the default build system implementation. It extends 
-      the Apache Ant product with a set of build listeners and tasks that 
-      leverage information about projects, resources, modules and processors
-      from the <a href="../library/index.html">common project library</a>.
+      The Depot Library <a href="../cli/index.html">CLI handler</a> will 
+      resolve a builder plugin using the property <tt>project.builder.uri</tt>.
+      The Depot Builder Plugin is an example of a build system based on the 
+      Apache Ant product.  The plugin class <tt>net.dpml.tools.impl.StandardBuilder</tt>
+      handles the establishment and configuration of a Ant Project using information
+      from a <a href="../library/projects.html">project</a> definition. The plugin
+      creates a local <a href="context.html">Context</a> object which provides 
+      convinient access to project related information such as classpaths, file 
+      locations, and project related properties.
+      </p>
+
+      <p>
+      From a technical perspective the project definition provides sufficent information 
+      for the creation and parameterization of the Ant project such that a build can 
+      be exectuted without a build.xml file. The builder achieves this through the 
+      assignment of a project base directory and a <a href="templates/index.html">
+      template</a> build file.  Templates are resolved using the <tt>project.template</tt> 
+      property which defaults to the value of the <tt>project.standard.template</tt> 
+      property.  If neither property is defined, the default template 
+      <tt>local:template:dpml/tools/standard</tt> will be assigned.
       </p>
 
     </section>
