@@ -7,8 +7,36 @@
   </properties>
 
   <body>
+
     <section name="Jar Processor">
+
+      <p>
+      The jar processor is a build listener than handles the production of
+      jar file.
+      </p>
+
+      <table>
+        <tr>
+          <th>Phase</th>
+          <th>Action</th>
+        </tr>
+        <tr>
+          <td>build</td>
+          <td>Compiles java sources to class files.</td>
+        </tr>
+        <tr>
+          <td>package</td>
+          <td>Creates a jar file under the target/deliverables/jars directory.</td>
+        </tr>
+        <tr>
+          <td>test</td>
+          <td>Compiles and executes unit tests using the jar file created in the 
+            package phase.</td>
+        </tr>
+      </table>
+
     </section>
+
   </body>
 
 </document>

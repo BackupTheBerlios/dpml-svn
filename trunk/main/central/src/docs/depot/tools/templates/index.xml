@@ -21,6 +21,24 @@
       creation, unit testing, cache updated, etc.
       </p>
 
+      <subsection name="Template Selection">
+
+      <p>
+      A project template is selected in accordance with the following rules.
+      </p>
+
+      <ol>
+        <li>If a file named <tt>build.xml</tt> exists in the project base directory
+          then that file will be used as the build template.</li>
+        <li>Otherwise, if the property <tt>project.template</tt> is defined then use the 
+           uri declared under this property.</li>
+        <li>Otherwise, if the property <tt>project.standard.template</tt> is defined then use the 
+           uri declared under this property.</li>
+        <li>Otherwise, the default standard template is selected.</li>
+      </ol>
+
+      </subsection>
+
       <subsection name="Standard Templates">
 
         <table>
@@ -28,7 +46,7 @@
             <td>standard</td>
           </tr>
           <tr>
-            <td><tt>link:template:dpml/tools/standard</tt></td>
+            <td><tt>local:template:dpml/tools/standard</tt></td>
           </tr>
           <tr>
             <td>
@@ -77,13 +95,13 @@
             <td>install</td>
             <td>test</td>
             <td>Trigger the install phases event - typically triggering replication of 
-              artifacts from the project <tt>target/deliverables</tt> directory to 
+              artifacts from the project <tt>${basedir}/target/deliverables</tt> directory to 
               a local cache.</td>
           </tr>
           <tr>
             <td>clean</td>
             <td>init</td>
-            <td>Removes the <tt>$basedir}/target</tt> directory.</td>
+            <td>Removes the <tt>${basedir}/target</tt> directory.</td>
           </tr>
         </table>
 

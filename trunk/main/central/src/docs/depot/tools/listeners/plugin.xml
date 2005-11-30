@@ -8,7 +8,29 @@
 
   <body>
     <section name="Plugin Processor">
+
+      <p>
+      The plugin processor is a build listener than handles the production of
+      a plugin descriptor.
+      </p>
+
+      <table>
+        <tr>
+          <th>Phase</th>
+          <th>Action</th>
+        </tr>
+        <tr>
+          <td>build</td>
+          <td>
+            Create a plugin descriptor using runtime dependencies declared on 
+            the current project definition. The produced plugin is created 
+            under the <tt>${basedir}/target/deliverables/plugins</tt> directory.
+          </td>
+        </tr>
+      </table>
+
     </section>
+
   </body>
 
 </document>

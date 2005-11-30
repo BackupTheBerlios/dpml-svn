@@ -69,8 +69,7 @@
            </tr>
            <tr>
              <td>uri</td>
-             <td>A plugin codebase uri.  The value is interprited by a build system 
-                 implementation.</td>
+             <td>A plugin codebase uri.</td>
            </tr>
            <tr>
              <td>class</td>
