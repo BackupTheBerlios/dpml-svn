@@ -305,7 +305,7 @@ public final class LibraryDirectiveBuilder
             }
         }
         
-        ResourceDirective resource = buildResourceDirective( element, path );
+        ResourceDirective resource = buildResourceDirective( element );
         ArrayList list = new ArrayList();
         Element[] children = ElementHelper.getChildren( element );
         for( int i=0; i<children.length; i++ )
@@ -502,11 +502,6 @@ public final class LibraryDirectiveBuilder
     
     private static ResourceDirective buildResourceDirective( Element element )
     {
-        return buildResourceDirective( element, null );
-    }
-    
-    private static ResourceDirective buildResourceDirective( Element element, String path )
-    {
         Classifier classifier = null;
         final String tag = element.getTagName();
         if( RESOURCE_ELEMENT_NAME.equals( tag ) || PROJECT_ELEMENT_NAME.equals( tag ) 
@@ -514,7 +509,7 @@ public final class LibraryDirectiveBuilder
         {
             final String name = ElementHelper.getAttribute( element, "name", null );
             final String version = ElementHelper.getAttribute( element, "version", null );
-            final String basedir = ElementHelper.getAttribute( element, "basedir", path );
+            final String basedir = ElementHelper.getAttribute( element, "basedir", null );
             
             if( PROJECT_ELEMENT_NAME.equals( tag ) )
             {
