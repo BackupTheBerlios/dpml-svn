@@ -22,6 +22,10 @@ import java.io.File;
 import java.util.List;
 import java.util.ArrayList;
 
+import net.dpml.library.model.Library;
+import net.dpml.library.model.Resource;
+import net.dpml.library.model.Type;
+
 import net.dpml.tools.info.BuilderDirective;
 import net.dpml.tools.info.BuilderDirectiveHelper;
 import net.dpml.tools.info.ListenerDirective;
@@ -30,9 +34,7 @@ import net.dpml.tools.model.Context;
 import net.dpml.tools.model.Processor;
 import net.dpml.tools.model.ProcessorNotFoundException;
 
-import net.dpml.library.model.Library;
-import net.dpml.library.model.Resource;
-import net.dpml.library.model.Type;
+import net.dpml.transit.model.UnknownKeyException;
 
 import org.apache.tools.ant.Project;
 
@@ -161,13 +163,20 @@ public class DefaultWorkbench implements Workbench
         for( int i=0; i<names.length; i++ )
         {
             String name = names[i];
-            ListenerDirective directive = getListenerDirective( name );
-            list.add( directive );
+            try
+            {
+                ListenerDirective directive = getListenerDirective( name );
+                list.add( directive );
+            }
+            catch( UnknownKeyException e )
+            {
+                // ok
+            }
         }
         return (ListenerDirective[]) list.toArray( new ListenerDirective[0] );
     }
 
-    private ListenerDirective getListenerDirective( String name )
+    private ListenerDirective getListenerDirective( String name ) throws UnknownKeyException
     {
         ListenerDirective[] directives = m_directive.getListenerDirectives();
         for( int i=0; i<directives.length; i++ )
@@ -178,9 +187,7 @@ public class DefaultWorkbench implements Workbench
                 return directive;
             }
         }
-        final String error =
-          "Unknown listener name: " + name;
-        throw new RuntimeException( error );
+        throw new UnknownKeyException( name );
     }
 
     private ListenerDirective[] sortListenerDirectives( ListenerDirective[] directives )
