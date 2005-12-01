@@ -13,6 +13,8 @@ Current issues
    in-turn implies that the depot-ant package needs to handle its own 
    configuration.
 
+   RESOLVED
+
 2. Build System Declaration
 
    Current implementation allows for the defintion of a build system 
@@ -21,6 +23,16 @@ Current issues
    strategies, the implementation needs to be extended to supporting 
    multiple coexistant build strategies with defintion at the library,
    module and/or project levels.
+
+   LATER
+
+3. Part datatypes are currently loded directly via XML.  This need to 
+   be updated to enforce packaing of the encoded XML with a manifest 
+   detailing the controller URI, version supporet etc.
+
+   LATER
+
+
 
 
 
