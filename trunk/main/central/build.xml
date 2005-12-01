@@ -23,18 +23,5 @@
     <x:docs/>
   </target>
 
-  <target name="install" depends="standard.install">
-    <echo>
-#----------------------------------------------------------------------------------
-# Updating ${dpml.docs}
-#----------------------------------------------------------------------------------
-    </echo>
-    <!--
-    <copy todir="${dpml.docs}">
-      <fileset dir="${basedir}/target/docs"/>
-    </copy>
-    -->
-  </target>
-
 </project>
 
