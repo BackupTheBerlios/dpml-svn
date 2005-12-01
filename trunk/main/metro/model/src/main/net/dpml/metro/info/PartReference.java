@@ -47,8 +47,7 @@ public class PartReference implements Serializable
     private final Part m_part;
 
     /**
-     * Creation of a new parameter using the default <code>java.lang.String</code>
-     * type and a supplied value.
+     * Creation of a new part reference.
      *
      * @param key the key identifying this part within the scope of its container
      * @param part the part

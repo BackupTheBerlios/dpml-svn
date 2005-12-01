@@ -120,10 +120,6 @@ public class CompositionController implements Controller
         }
         else
         {
-            //
-            // TODO delegate to foreign controller
-            //
-            
             final String error =
               "Construction of a classloader from the context class ["
               + context.getClass().getName() 
