@@ -8,6 +8,7 @@
 
   <target name="init" depends="standard.init">
     <x:filter token="VERSION" feature="version"/>
+    <x:filter token="ANT-JAR-VERSION" ref="ant/ant" feature="version"/>
     <x:filter token="ANT-JAR-URI" ref="ant/ant" feature="uri" type="jar" />
     <x:filter token="TRANSIT-TOOLS-URI" ref="dpml/transit/dpml-transit-tools" feature="uri" type="plugin" />
     <x:filter token="TRANSIT-MODULE-VERSION" ref="dpml/transit" feature="version"/>

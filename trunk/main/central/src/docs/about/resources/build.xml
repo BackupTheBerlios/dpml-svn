@@ -7,55 +7,55 @@
   </properties>
 
   <body>
+
     <section name="Building the Platform">
 
-      <subsection name="Build Procedure">
-
-        <p>The DPML platform has the following major product groups:</p>
-
-        <ul>
-         <li>transit     .. a resource management system</li>
-         <li>magic       .. an intelligent build system</li>
-         <li>metro       .. an advanced IoC container</li>
-         <li>depot       .. an application management system</li>
-        </ul>
+      <subsection name="Bootstrapping">
 
         <p>
-        To build respective products a build.bat and build bash script are provided.
+        The bootstrap procedure will build the prerequisite products needed
+        to execute the Depot build tool. To initiate the bootstrap build 
+        you must have Ant @ANT-JAR-VERSION@ installed together with an SVN 
+        client.
+        </p>
+
+        <p>
+        Create a directory to hold the svn codebase (e.g. c:\dev\dpml\main), 
+        checkout the sources, cd to the main directory and invoke the bootstrap 
+        build procedure.
         </p>
 
 <pre>
-  $ build all   .. builds all of the DPML core products
-</pre>
-  
+$ cd dev\dpml\main
+$ svn checkout svn://svn.berlios.de/dpml/trunk/main
+$ bootstrap
+</p>
+
+      </subsection>
+
+      <subsection name="System Build">
+
         <p>
-        You can also build a selected product:
+        The main build procedure uses the Depot build tool.  To initiate 
+        the build simply invoke the followinhg command.
         </p>
 
-<pre>
-  $ build transit
-  $ build magic
-  $ build metro
-  $ build depot
-</pre>
-        <p>
-        Finally, the build script also enables the creation of distributions 
-        using a release identifier.  The following example builds the distribution 
-        using the build identifier 1234.
-        </p>
+<pre>$ build</pre>
 
-<pre>
-  $ build all 1234
-</pre>
+      </subsection>
+
+      <subsection name="General Note">
 
         <p>
-        Any issues concerning building of the platform should be directed 
-        to the DPML dev mailing list.
+        A packaged binary installation is not currently available.
         </p>
 
       </subsection>
 
     </section>
+
   </body>
+
 </document>
+
 
