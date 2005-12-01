@@ -32,6 +32,12 @@ Current issues
 
    LATER
 
+4. Add support for the configuration of a top-level component.
+
+   CURRENT PRIORITY
+
+
+
 
 
 
