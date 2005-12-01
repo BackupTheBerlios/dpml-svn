@@ -11,6 +11,30 @@
 
     <section name="Centralization">
 
+      <p>
+      One of the objectives of the DPML component development strategy 
+      is an effective breakdown of concerns such that you end up with 
+      small and easily understandable sub-systems.  However, while 
+      individal projects are under control, the configuration management 
+      of an overall system (possibly involving several hundred sub-projects)
+      becomes an inevitable configuration management concern.
+      </p>
+
+      <p>
+      Depot addresses overall configuration management through 
+      centralization of project information within a 
+      <a href="../library/index.html">common build library</a> that 
+      captures information about <a href="../library/projects.html">
+      projects</a> and shared <a href="../library/resources.html">resources</a>
+      organized and structured with distrinct
+      <a href="../library/modules.html">modules</a>.
+      A <tt><a href="../cli/index.html">build</a></tt> commandline tool provides 
+      support for listing of registered projects and support for the execution 
+      of project builds.  The build tool executes builds using a plugin builder. 
+      A default <a href="../tools/index.html">build system implementation</a> 
+      based on the Apache Ant product is included in the Depot distribution.
+      </p>
+
     </section>
 
   </body>
