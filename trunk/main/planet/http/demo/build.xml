@@ -84,7 +84,6 @@
   </target>
 
   <target name="install" depends="standard.install">
-    <echo>#PREFS: + ${dpml.prefs}</echo>
     <mkdir dir="${dpml.prefs}"/>
     <copy toDir="${dpml.prefs}">
       <fileset dir="${project.target.dir}/prefs">

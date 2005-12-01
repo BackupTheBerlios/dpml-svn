@@ -111,6 +111,7 @@ public class ComponentAdapter extends AbstractAdapter
         
         if( null != config )
         {
+            logger.info( "applying configuration: " + config );
             if( context instanceof Configurable )
             {
                 try
