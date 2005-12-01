@@ -100,8 +100,6 @@ public class StandardBuilder implements Builder
             throw new BuildException( error, e );
         }
         Thread.currentThread().setContextClassLoader( getClass().getClassLoader() );
-        String antHome = Environment.getEnvVariable( "ANT_HOME" );
-        System.setProperty( "ant.home", antHome );
     }
 
     // ------------------------------------------------------------------------
@@ -178,7 +176,7 @@ public class StandardBuilder implements Builder
 
             // otherwise we build using either an explicit or default template
             // resolved via a uri (typically a template stored in prefs)
-                
+            
             String defaultTemplateSpec = 
               resource.getProperty( "project.standard.template", DEFAULT_TEMPLATE_URN );
             String templateSpec = resource.getProperty( "project.template", defaultTemplateSpec );
@@ -269,7 +267,7 @@ public class StandardBuilder implements Builder
             project.fireBuildFinished( m_result );
         }
     }
-
+    
     private File getTemplateFile( String spec )
     {
         try
