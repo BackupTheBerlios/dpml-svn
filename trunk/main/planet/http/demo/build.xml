@@ -83,5 +83,15 @@
     <copy file="target/deliverables/parts/${part.filename}" toFile="target/test/demo.part"/>
   </target>
 
+  <target name="install" depends="standard.install">
+    <echo>#PREFS: + ${dpml.prefs}</echo>
+    <mkdir dir="${dpml.prefs}"/>
+    <copy toDir="${dpml.prefs}">
+      <fileset dir="${project.target.dir}/prefs">
+        <include name="**/*"/>
+      </fileset>
+    </copy>
+  </target>
+
 </project>
 

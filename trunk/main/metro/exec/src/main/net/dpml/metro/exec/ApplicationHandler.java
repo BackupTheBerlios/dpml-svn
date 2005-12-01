@@ -291,6 +291,7 @@ $ metro exec link:part:dpml/planet/http/dpml-http-demo
               .withName( "uri" )
               .withMinimum( 1 )
               .withMaximum( 1 )
+              .withValidator( URI_VALIDATOR )
               .create() )
           .create();
         
@@ -306,6 +307,7 @@ $ metro exec link:part:dpml/planet/http/dpml-http-demo
               .withName( "uri" )
               .withMinimum( 1 )
               .withMaximum( 1 )
+              .withValidator( URI_VALIDATOR )
               .create() )
           .create();
         
