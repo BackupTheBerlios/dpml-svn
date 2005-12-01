@@ -157,6 +157,7 @@ public class DocTask extends GenericTask
     private String m_theme;
     private File m_baseToDir;
     private File m_baseSrcDir;
+    private File m_dest;
 
    /**
     * Return the assigned theme.
@@ -177,6 +178,11 @@ public class DocTask extends GenericTask
         {
             return getResource().getProperty( DOC_THEME_KEY, "formal" );
         }
+    }
+    
+    public void setDest( File dir )
+    {
+        m_dest = dir;
     }
 
    /**
@@ -245,12 +251,11 @@ public class DocTask extends GenericTask
         final File docs = getContext().getTargetDocsDirectory();
         log( "Destination: " + docs.getAbsolutePath() );
         mkDir( docs );
-
         final String theme = getTheme();
         final String output = getOutputFormat();
         final File themeRoot = getThemesDirectory();
         final File themeDir = new File( themeRoot, theme + "/" + output );
-
+        
         final File target = getContext().getTargetDirectory();
         final String resourcesPath = project.getProperty( DOC_RESOURCES_KEY );
         final File resources = new File( target, resourcesPath );
@@ -285,8 +290,13 @@ public class DocTask extends GenericTask
             log( "XSLT execution failed: " + e.getMessage() );
             throw new BuildException( e );
         }
+        
+        if( null != m_dest )
+        {
+            copy( docs, m_dest, "**/*", "" );
+        }
     }
-
+    
     private File getThemesDirectory()
     {
         return new File( Transit.DPML_PREFS, "dpml/tools/themes" );

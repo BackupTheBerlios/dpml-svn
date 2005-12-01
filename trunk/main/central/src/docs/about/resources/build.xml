@@ -29,7 +29,7 @@
 $ cd dev\dpml\main
 $ svn checkout svn://svn.berlios.de/dpml/trunk/main
 $ bootstrap
-</p>
+</pre>
 
       </subsection>
 
@@ -37,7 +37,7 @@ $ bootstrap
 
         <p>
         The main build procedure uses the Depot build tool.  To initiate 
-        the build simply invoke the followinhg command.
+        the build simply invoke the following command.
         </p>
 
 <pre>$ build</pre>
