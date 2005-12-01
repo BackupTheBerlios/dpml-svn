@@ -22,7 +22,6 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.awt.Color;
 import java.io.File;
-import java.net.URL;
 import java.net.URI;
 import java.util.Date;
 import java.lang.reflect.Proxy;
@@ -40,6 +39,7 @@ import net.dpml.metro.part.Component;
 import net.dpml.metro.part.ActivationPolicy;
 import net.dpml.metro.part.Instance;
 import net.dpml.metro.part.Disposable;
+import net.dpml.metro.part.Directive;
 import net.dpml.metro.state.State;
 import net.dpml.metro.state.StateListener;
 import net.dpml.metro.state.StateEvent;
@@ -66,9 +66,9 @@ public class ContextTestCase extends TestCase
         long now = new Date().getTime();
         final String path = "context.part";
         final File test = new File( System.getProperty( "project.test.dir" ) );
-        final URL url = new File( test, path ).toURL();
+        final URI uri = new File( test, path ).toURI();
         Controller control = Part.CONTROLLER;
-        Part part = control.loadPart( url );
+        Directive part = control.loadDirective( uri );
         ComponentModel model = (ComponentModel) control.createContext( part );
         Component component = control.createComponent( model );
         component.activate();
@@ -180,9 +180,6 @@ public class ContextTestCase extends TestCase
     
     static
     {
-        System.setProperty( 
-          "java.util.prefs.PreferencesFactory", 
-          "net.dpml.transit.store.LocalPreferencesFactory" );
         System.setProperty( 
           "java.util.logging.config.class", 
           System.getProperty( 

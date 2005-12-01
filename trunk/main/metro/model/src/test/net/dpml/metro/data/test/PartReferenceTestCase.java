@@ -23,6 +23,7 @@ import junit.framework.TestCase;
 import net.dpml.metro.part.Part;
 import net.dpml.metro.info.PartReference;
 
+import net.dpml.metro.part.Directive;
 import net.dpml.metro.data.ValueDirective;
 
 import net.dpml.transit.Construct;
@@ -36,7 +37,7 @@ import net.dpml.transit.Construct;
 public class PartReferenceTestCase extends AbstractEncodingTestCase
 {
     private static final String m_key = "key";
-    private static final Part m_part = new ValueDirective( "abc" );
+    private static final Directive m_part = new ValueDirective( "abc" );
     
     public void testEncoding() throws Exception
     {

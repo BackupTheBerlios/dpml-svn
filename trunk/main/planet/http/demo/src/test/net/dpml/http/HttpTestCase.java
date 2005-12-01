@@ -20,12 +20,12 @@
 package net.dpml.http;
 
 import java.io.File;
-import java.net.URL;
-import java.net.URLConnection;
+import java.net.URI;
 
 import junit.framework.TestCase;
 
 import net.dpml.metro.part.Part;
+import net.dpml.metro.part.Directive;
 import net.dpml.metro.part.Controller;
 import net.dpml.metro.part.Context;
 import net.dpml.metro.part.Component;
@@ -48,11 +48,11 @@ public class HttpTestCase extends TestCase
     public void testHttp() throws Exception
     {
         File test = new File( System.getProperty( TEST_DIR_KEY ) );
-        URL url = new File( test, PATH ).toURL();
+        URI uri = new File( test, PATH ).toURI();
         
         Controller control = Part.CONTROLLER;
-        Part part = control.loadPart( url );
-        Context context = control.createContext( part );
+        Directive directive = control.loadDirective( uri );
+        Context context = control.createContext( directive );
         Component component = control.createComponent( context );
         component.activate();
         Demo demo = (Demo) component.getInstance().getValue( false );
@@ -61,9 +61,6 @@ public class HttpTestCase extends TestCase
 
     static
     {
-        System.setProperty( 
-          "java.util.prefs.PreferencesFactory", 
-          "net.dpml.transit.store.LocalPreferencesFactory" );
         System.setProperty( 
           "java.util.logging.config.class", 
           System.getProperty( 

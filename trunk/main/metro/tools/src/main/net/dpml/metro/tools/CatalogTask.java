@@ -37,6 +37,7 @@ import net.dpml.metro.info.EntryDescriptor;
 import net.dpml.metro.info.Type;
 import net.dpml.metro.info.ContextDescriptor;
 import net.dpml.metro.info.ServiceDescriptor;
+import net.dpml.metro.part.Directive;
 import net.dpml.metro.data.ComponentDirective;
 
 import net.dpml.transit.Transit;
@@ -663,7 +664,7 @@ public class CatalogTask extends Task
             {
                 PartReference ref = parts[j];
                 String key = ref.getKey();
-                Part part = type.getPart( key );
+                Directive directive = type.getDirective( key );
 
                 if( flag )
                 {
@@ -674,17 +675,17 @@ public class CatalogTask extends Task
                     writer.write( "<tr class=\"p-odd\">" );
                 }
                 writer.write( "<td>" + key + "</td>" );
-                String pname = part.getClass().getName();
+                String pname = directive.getClass().getName();
                 if( pname.equals( ComponentDirective.class.getName() ) )
                 {
-                    ComponentDirective directive = (ComponentDirective) part;
-                    String tname = directive.getClassname();
+                    ComponentDirective component = (ComponentDirective) directive;
+                    String tname = component.getClassname();
                     String tpath = tname.replace( '.', '/' ).concat( ".html" );
                     writer.write( "<td><a href=\"" + offset + "/" + tpath + "\">" + tname + "</a></td>" );
                 }
                 else
                 {
-                    writer.write( "<td>" + part.getClass().getName() + "</td>" );
+                    writer.write( "<td>" + directive.getClass().getName() + "</td>" );
                 }
                 writer.write( "</tr>" );
                 flag = !flag;

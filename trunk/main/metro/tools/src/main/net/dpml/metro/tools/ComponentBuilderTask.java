@@ -19,15 +19,25 @@
 package net.dpml.metro.tools;
 
 import java.beans.IntrospectionException;
+import java.beans.Encoder;
+import java.beans.XMLDecoder;
+import java.beans.XMLEncoder;
+import java.beans.ExceptionListener;
+import java.beans.Expression;
+import java.beans.PersistenceDelegate;
+import java.beans.DefaultPersistenceDelegate;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.FileOutputStream;
+import java.io.BufferedOutputStream;
 import java.net.URI;
 
 import net.dpml.metro.data.ClassLoaderDirective;
 import net.dpml.metro.data.ComponentDirective;
 import net.dpml.metro.data.ContextDirective;
 import net.dpml.metro.data.CategoriesDirective;
+import net.dpml.metro.part.Directive;
 import net.dpml.metro.info.LifestylePolicy;
 import net.dpml.metro.info.CollectionPolicy;
 import net.dpml.metro.info.PartReference;
@@ -39,7 +49,7 @@ import net.dpml.configuration.Configuration;
 import net.dpml.parameters.Parameters;
 
 import net.dpml.metro.part.Part;
-import net.dpml.metro.part.PartHolder;
+//import net.dpml.metro.part.PartHolder;
 import net.dpml.metro.part.ActivationPolicy;
 
 import org.apache.tools.ant.BuildException;
@@ -307,7 +317,34 @@ public class ComponentBuilderTask extends ClassLoaderBuilderTask implements Part
     {
         try
         {
+            final ClassLoader current = Thread.currentThread().getContextClassLoader();
+            Thread.currentThread().setContextClassLoader( ComponentDirective.class.getClassLoader() );
             ComponentDirective profile = buildComponentDirective( classloader, cld );
+            FileOutputStream output = new FileOutputStream( file );
+            BufferedOutputStream buffer = new BufferedOutputStream( output );
+            XMLEncoder encoder = new XMLEncoder( buffer );
+            encoder.setPersistenceDelegate( URI.class, new URIPersistenceDelegate() );
+            encoder.setExceptionListener( 
+              new ExceptionListener()
+              {
+                public void exceptionThrown( Exception e )
+                {
+                    throw new BuildException( "Directive encoding failure.", e );
+                }
+              }
+            );
+            try
+            {
+                encoder.writeObject( profile );
+            }
+            finally
+            {
+                Thread.currentThread().setContextClassLoader( current );
+                encoder.close();
+                
+            }
+            
+            /*
             URI uri = getResource().getArtifact( Part.ARTIFACT_TYPE ).toURI();
             if( null == m_output )
             {
@@ -321,6 +358,8 @@ public class ComponentBuilderTask extends ClassLoaderBuilderTask implements Part
             byte[] bytes = SerializableObjectHelper.writeToByteArray( profile );
             PartHolder holder = new PartHolder( handler, bytes );
             SerializableObjectHelper.write( holder, file );
+            */
+            
             return profile;
         }
         catch( ConstructionException e )
@@ -440,7 +479,7 @@ public class ComponentBuilderTask extends ClassLoaderBuilderTask implements Part
     * @exception IOException if an I/O error occurs
     * @exception ClassNotFoundException if the component class cannot be found
     */
-    public Part buildPart( ClassLoader classloader )
+    public Directive buildDirective( ClassLoader classloader )
       throws IntrospectionException, IOException, ClassNotFoundException
     {
         String classname = getClassname();
@@ -482,8 +521,8 @@ public class ComponentBuilderTask extends ClassLoaderBuilderTask implements Part
       throws IntrospectionException, IOException, ClassNotFoundException
     {
         String key = getKey();
-        Part part = buildComponentDirective( type, classloader );
-        return new PartReference( key, part );
+        Directive directive = buildComponentDirective( type, classloader );
+        return new PartReference( key, directive );
     }
 
     //---------------------------------------------------------------------
@@ -511,7 +550,7 @@ public class ComponentBuilderTask extends ClassLoaderBuilderTask implements Part
         {
             try
             {
-                Part part = getController().loadPart( m_extends );
+                Directive part = getController().loadDirective( m_extends );
                 if( part instanceof ComponentDirective )
                 {
                     m_profile = (ComponentDirective) part;
@@ -717,7 +756,7 @@ public class ComponentBuilderTask extends ClassLoaderBuilderTask implements Part
             EntryDescriptor entry = entries[i];
             String key = entry.getKey();
 
-            Part part = context.getPartDirective( key );
+            Directive part = context.getPartDirective( key );
             if( entry.isRequired() && ( null == part ) )
             {
                 final String error = 
@@ -786,5 +825,16 @@ public class ComponentBuilderTask extends ClassLoaderBuilderTask implements Part
          {
               return m_configuration.getConfiguration();
          }
+    }
+
+    public static class URIPersistenceDelegate extends DefaultPersistenceDelegate
+    {
+        public Expression instantiate( Object old, Encoder encoder )
+        {
+            URI uri = (URI) old;
+            String spec = uri.toString();
+            Object[] args = new Object[]{ spec };
+            return new Expression( old, old.getClass(), "new", args );
+        }
     }
 }

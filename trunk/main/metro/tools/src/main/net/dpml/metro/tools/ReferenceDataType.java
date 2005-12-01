@@ -26,6 +26,7 @@ import net.dpml.metro.info.PartReference;
 import net.dpml.metro.data.ReferenceDirective;
 
 import net.dpml.metro.part.Part;
+import net.dpml.metro.part.Directive;
 
 /**
  * part reference datatype.
@@ -109,7 +110,7 @@ public class ReferenceDataType implements PartReferenceBuilder
     {
         String key = getKey();
         URI uri = getURI();
-        Part part = new ReferenceDirective( m_uri );
+        Directive part = new ReferenceDirective( m_uri );
         return new PartReference( key, part );
     }
 

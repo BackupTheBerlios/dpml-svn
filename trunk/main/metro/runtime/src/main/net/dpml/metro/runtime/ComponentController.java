@@ -36,7 +36,7 @@ import net.dpml.activity.Startable;
 
 import net.dpml.metro.info.Type;
 import net.dpml.metro.info.ServiceDescriptor;
-import net.dpml.metro.data.Directive;
+import net.dpml.metro.part.Directive;
 import net.dpml.metro.data.ReferenceDirective;
 import net.dpml.metro.data.ClasspathDirective;
 import net.dpml.metro.data.ClassLoaderDirective;

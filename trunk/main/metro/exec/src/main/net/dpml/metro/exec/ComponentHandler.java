@@ -26,6 +26,7 @@ import java.lang.reflect.InvocationTargetException;
 import net.dpml.station.ApplicationException;
 
 import net.dpml.metro.part.Controller;
+import net.dpml.metro.part.Directive;
 import net.dpml.metro.part.Component;
 import net.dpml.metro.part.ControlException;
 import net.dpml.metro.part.Instance;
@@ -96,8 +97,8 @@ public class ComponentHandler extends AbstractHandler
             throw new ApplicationException( error, e );
         }
         
-        Part part = m_controller.loadPart( codebase );
-        Context context = m_controller.createContext( part );
+        Directive directive = m_controller.loadDirective( codebase );
+        Context context = m_controller.createContext( directive );
         m_component = m_controller.createComponent( context );
     }
 

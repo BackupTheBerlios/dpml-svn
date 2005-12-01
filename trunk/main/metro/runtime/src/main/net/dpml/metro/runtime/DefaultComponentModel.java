@@ -25,8 +25,9 @@ import java.util.EventObject;
 import net.dpml.metro.data.ComponentDirective;
 import net.dpml.metro.data.ClassLoaderDirective;
 import net.dpml.metro.data.ContextDirective;
-import net.dpml.metro.info.LifestylePolicy;
+import net.dpml.metro.part.Directive;
 import net.dpml.metro.info.CollectionPolicy;
+import net.dpml.metro.info.LifestylePolicy;
 import net.dpml.metro.info.Type;
 import net.dpml.metro.info.PartReference;
 import net.dpml.metro.model.ComponentModel;
@@ -110,7 +111,7 @@ class DefaultComponentModel extends UnicastEventSource implements ComponentModel
         for( int i=0; i < m_partKeys.length; i++ )
         {
             String key = m_partKeys[i];
-            Part part = m_type.getPart( key );
+            Directive part = m_type.getDirective( key );
             if( part instanceof ComponentDirective )
             {
                 ComponentDirective component = (ComponentDirective) part;

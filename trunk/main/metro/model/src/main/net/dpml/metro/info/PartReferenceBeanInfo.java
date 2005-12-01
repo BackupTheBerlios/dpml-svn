@@ -43,7 +43,7 @@ public final class PartReferenceBeanInfo extends SimpleBeanInfo
         BeanDescriptor descriptor = new BeanDescriptor( PartReference.class );
         descriptor.setValue( 
           "persistenceDelegate", 
-          new DefaultPersistenceDelegate( new String[]{"key", "part"} ) );
+          new DefaultPersistenceDelegate( new String[]{"key", "directive"} ) );
         return descriptor;
     }
 }

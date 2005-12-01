@@ -33,7 +33,8 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URL;
 
-import net.dpml.metro.part.Part;
+//import net.dpml.metro.part.Part;
+import net.dpml.metro.part.Directive;
 
 /**
  * This class contains the meta information about a particular
@@ -447,19 +448,19 @@ public class Type implements Serializable
     }
 
     /**
-     * Retrieve an identified part.
+     * Retrieve an identified directive.
      *
-     * @param key the part reference key
-     * @return the part or null if the part key is unknown
+     * @param key the directive key
+     * @return the directive or null if the directive key is unknown
      */
-    public Part getPart( final String key )
+    public Directive getDirective( final String key )
     {
         for ( int i = 0; i < m_parts.length; i++ )
         {
             PartReference reference = m_parts[i];
             if( reference.getKey().equals( key ) )
             {
-                return reference.getPart();
+                return reference.getDirective();
             }
         }
         return null;

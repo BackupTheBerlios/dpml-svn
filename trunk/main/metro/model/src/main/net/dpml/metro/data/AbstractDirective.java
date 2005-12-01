@@ -21,6 +21,8 @@ package net.dpml.metro.data;
 import java.net.URI;
 import java.net.URISyntaxException;
 
+import net.dpml.metro.part.Directive;
+
 /**
  * Abstract base class for directives.
  *

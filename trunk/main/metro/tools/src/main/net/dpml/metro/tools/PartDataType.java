@@ -27,6 +27,7 @@ import net.dpml.metro.info.PartReference;
 import net.dpml.metro.info.Type;
 
 import net.dpml.metro.part.Part;
+import net.dpml.metro.part.Directive;
 import net.dpml.metro.part.DelegationException;
 import net.dpml.metro.part.PartNotFoundException;
 
@@ -134,11 +135,11 @@ public class PartDataType extends Task implements PartReferenceBuilder
     public PartReference buildPartReference( ClassLoader classloader, Type type )
     {
         String key = getKey();
-        Part part = buildPart( type, classloader );
-        return new PartReference( key, part );
+        Directive directive = buildDirective( type, classloader );
+        return new PartReference( key, directive );
     }
 
-    private Part buildPart( Type type, ClassLoader classloader ) 
+    private Directive buildDirective( Type type, ClassLoader classloader ) 
     {
         String key = getKey();
         URI uri = getURI();
@@ -146,14 +147,14 @@ public class PartDataType extends Task implements PartReferenceBuilder
         {
             Logger logger = new AntAdapter( this );
             CompositionController controller = new CompositionController( logger );
-            return controller.loadPart( uri );
+            return controller.loadDirective( uri );
         }
         catch( PartNotFoundException pnfe )
         {
             final String error =
               "Unable to include the part ["
               + key 
-              + "] because part refernece ["
+              + "] because part reference ["
               + uri
               + "] could not be found.";
             throw new BuildException( error );

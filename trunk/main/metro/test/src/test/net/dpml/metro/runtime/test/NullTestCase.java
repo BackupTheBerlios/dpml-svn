@@ -38,9 +38,6 @@ public class NullTestCase extends TestCase
     static
     {
         System.setProperty( 
-          "java.util.prefs.PreferencesFactory", 
-          "net.dpml.transit.store.LocalPreferencesFactory" );
-        System.setProperty( 
           "java.util.logging.config.class", 
           System.getProperty( 
             "java.util.logging.config.class", 

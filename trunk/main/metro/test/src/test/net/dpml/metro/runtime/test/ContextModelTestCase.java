@@ -20,18 +20,19 @@ package net.dpml.metro.runtime.test;
 
 import java.awt.Color;
 import java.io.File;
-import java.net.URL;
+import java.net.URI;
 
 import junit.framework.TestCase;
 
 import net.dpml.metro.part.Part;
+import net.dpml.metro.part.Directive;
 import net.dpml.metro.part.Controller;
 
 import net.dpml.metro.state.State;
 import net.dpml.metro.part.ActivationPolicy;
 
 import net.dpml.metro.data.ValueDirective;
-import net.dpml.metro.data.Directive;
+import net.dpml.metro.part.Directive;
 import net.dpml.metro.info.EntryDescriptor;
 import net.dpml.metro.info.LifestylePolicy;
 import net.dpml.metro.info.CollectionPolicy;
@@ -50,7 +51,7 @@ import net.dpml.test.ExampleComponent;
  */
 public class ContextModelTestCase extends TestCase
 {    
-    private Part m_part;
+    private Directive m_part;
     private ComponentModel m_model;
     private ContextModel m_context;
     
@@ -58,9 +59,9 @@ public class ContextModelTestCase extends TestCase
     {
         final String path = "example.part";
         final File test = new File( System.getProperty( "project.test.dir" ) );
-        final URL url = new File( test, path ).toURL();
+        final URI uri = new File( test, path ).toURI();
         final Controller controller = Part.CONTROLLER;
-        m_part = controller.loadPart( url );
+        m_part = controller.loadDirective( uri );
         m_model = (ComponentModel) controller.createContext( m_part );
     }
     
@@ -105,10 +106,4 @@ public class ContextModelTestCase extends TestCase
         }
     }
     
-    static
-    {
-        System.setProperty( 
-           "java.util.prefs.PreferencesFactory", 
-           "net.dpml.transit.store.LocalPreferencesFactory" );
-    }
 }

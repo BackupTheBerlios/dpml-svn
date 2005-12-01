@@ -38,14 +38,24 @@ public interface Controller
     URI getURI();
 
    /**
+    * Load a directive from serialized form.
+    *
+    * @param uri the directive uri
+    * @return the directive
+    * @exception ControlException if a direction construction error ocurrs
+    * @exception IOException if an I/O error occurs
+    */
+    Directive loadDirective( URI uri ) throws ControlException, IOException;
+    
+   /**
     * Create and return a new management context using the supplied part
     * as the inital management state.
     *
-    * @param part the part data structure
+    * @param directive the part data structure
     * @return the management context instance
     * @exception ControlException if a part related error occurs
     */
-    Context createContext( Part part ) throws ControlException;
+    Context createContext( Directive directive ) throws ControlException;
 
    /**
     * Create a classloader using the supplied anchor classloader and 
@@ -78,7 +88,7 @@ public interface Controller
     * @exception ControlException if a part related error occurs
     * @exception IOException if an I/O error occurs
     */
-    Part loadPart( URI uri ) throws ControlException, IOException;
+    //Part loadPart( URI uri ) throws ControlException, IOException;
     
    /**
     * Load a part from serialized form.  The url identifies a part holder 
@@ -90,7 +100,7 @@ public interface Controller
     * @exception ControlException if a part related error occurs
     * @exception IOException if an I/O error occurs
     */
-    Part loadPart( URL url ) throws ControlException, IOException;
+    //Part loadPart( URL url ) throws ControlException, IOException;
     
    /**
     * Load a part from a serialized object byte array. 
@@ -98,6 +108,6 @@ public interface Controller
     * @return the part
     * @exception IOException if an I/O error occurs
     */
-    Part loadPart( byte[] bytes ) throws IOException;
+    //Part loadPart( byte[] bytes ) throws IOException;
 
 }

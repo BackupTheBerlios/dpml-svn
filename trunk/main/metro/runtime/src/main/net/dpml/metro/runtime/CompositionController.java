@@ -18,9 +18,11 @@
 
 package net.dpml.metro.runtime;
 
+import java.beans.XMLDecoder;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.ByteArrayInputStream;
+import java.io.BufferedInputStream;
 import java.io.ObjectInputStream;
 import java.net.URI;
 import java.net.URL;
@@ -40,7 +42,8 @@ import net.dpml.metro.part.ControlException;
 import net.dpml.metro.part.ControllerNotFoundException;
 import net.dpml.metro.part.DelegationException;
 import net.dpml.metro.part.PartNotFoundException;
-import net.dpml.metro.part.PartHolder;
+//import net.dpml.metro.part.PartHolder;
+import net.dpml.metro.part.Directive;
 
 import net.dpml.transit.Artifact;
 import net.dpml.transit.Repository;
@@ -141,26 +144,22 @@ public class CompositionController implements Controller
     * Create and return a new management context using the supplied part
     * as the inital management state.
     *
-    * @param part the part data structure
+    * @param directive the part data structure
     * @return the management context instance
     * @exception ControlException if an error occurs during context construction
     */
-    public Context createContext( Part part ) throws ControlException
+    public Context createContext( Directive directive ) throws ControlException
     {
-        if( part instanceof ComponentDirective )
+        if( directive instanceof ComponentDirective )
         {
-            ComponentDirective directive = (ComponentDirective) part;
-            return m_controller.createComponentModel( directive );
+            ComponentDirective component = (ComponentDirective) directive;
+            return m_controller.createComponentModel( component );
         }
         else
         {
-            //
-            // TODO delegate to foreign controller
-            //
-            
             final String error =
               "Construction of a managment context for the part class ["
-              + part.getClass().getName() 
+              + directive.getClass().getName() 
               + "] is not supported.";
             throw new ControllerException( error );
         }
@@ -215,6 +214,39 @@ public class CompositionController implements Controller
     }
 
    /**
+    * Load a directive from serialized form.
+    *
+    * @param uri the directive uri
+    * @return the directive
+    * @exception ControlException if an error is raised related to direction construction
+    * @exception IOException if an I/O error occurs while reading the directive
+    */
+    public Directive loadDirective( URI uri ) throws ControlException, IOException
+    {
+        ClassLoader current = Thread.currentThread().getContextClassLoader();
+        try
+        {
+            ClassLoader loader = ComponentDirective.class.getClassLoader();
+            Thread.currentThread().setContextClassLoader( loader );
+            URL url = uri.toURL();
+            InputStream input = url.openStream();
+            XMLDecoder decoder = new XMLDecoder( new BufferedInputStream( input ) );
+            return (Directive) decoder.readObject();
+        }
+        catch( Exception e )
+        {
+            final String error = 
+              "Unexpected error while loading directive: "
+              + uri;
+            throw new ControllerException( error, e );
+        }
+        finally
+        {
+            Thread.currentThread().setContextClassLoader( current );
+        }
+    }
+
+   /**
     * Load a part from serialized form.  The uri is assumed to be a uri that 
     * can be transformed to a URL from which an input stream to a PartHolder 
     * can be established.  If the uri references a foreign part handler the 
@@ -226,10 +258,10 @@ public class CompositionController implements Controller
     * @exception ControlException if an error is raised related to part creation
     * @exception IOException if an I/O error occurs while reading the part
     */
-    public Part loadPart( URI uri ) throws ControlException, IOException
-    {
-        return loadSerializedPart( uri );
-    }
+    //public Part loadPart( URI uri ) throws ControlException, IOException
+    //{
+    //    return loadSerializedPart( uri );
+    //}
 
    /**
     * Load a part from serialized form. 
@@ -239,10 +271,10 @@ public class CompositionController implements Controller
     * @exception ControlException if an error is raised related to part creation
     * @exception IOException if an I/O error occurs while reading the part
     */
-    public Part loadPart( URL url ) throws ControlException, IOException
-    {
-        return loadSerializedPart( url );
-    }
+    //public Part loadPart( URL url ) throws ControlException, IOException
+    //{
+    //    return loadSerializedPart( url );
+    //}
 
    /**
     * Load a part from a byte array.
@@ -251,6 +283,7 @@ public class CompositionController implements Controller
     * @return the part datastructure
     * @exception IOException if an I/O error occurs while reading the part
     */
+    /*
     public Part loadPart( byte[] bytes ) throws IOException
     {
         try
@@ -270,6 +303,7 @@ public class CompositionController implements Controller
             throw new ControllerRuntimeException( error, e );
         }
     }
+    */
     
    /**
     * Load a controller given a uri.
@@ -330,6 +364,7 @@ public class CompositionController implements Controller
     }
     */
 
+    /*
     private Part loadSerializedPart( URI uri )
         throws IOException, DelegationException, PartNotFoundException
     {
@@ -390,6 +425,7 @@ public class CompositionController implements Controller
             throw new ControllerRuntimeException( error, e );
         }
     }
+    */
 
     private Controller resolveController( URI uri ) throws ControllerNotFoundException
     {

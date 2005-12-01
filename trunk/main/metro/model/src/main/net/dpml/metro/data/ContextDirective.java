@@ -20,7 +20,8 @@ package net.dpml.metro.data;
 
 import java.io.Serializable;
 
-import net.dpml.metro.part.Part;
+import net.dpml.metro.part.Directive;
+
 import net.dpml.metro.info.PartReference;
 
 /**
@@ -158,12 +159,12 @@ public final class ContextDirective implements Serializable
     * @return the part defintion corresponding to the supplied key or null if the
     *   key is unknown
     */
-    public Part getPartDirective( String key )
+    public Directive getPartDirective( String key )
     {
         PartReference ref = getPartReference( key );
         if( null != ref )
         {
-            return ref.getPart();
+            return ref.getDirective();
         }
         else
         {

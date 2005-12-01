@@ -23,6 +23,7 @@ import java.net.URISyntaxException;
 
 import net.dpml.metro.info.PartReference;
 import net.dpml.metro.data.ValueDirective;
+import net.dpml.metro.part.Directive;
 import net.dpml.metro.data.ReferenceDirective;
 import net.dpml.metro.data.FeatureDirective;
 import net.dpml.metro.info.EntryDescriptor;
@@ -142,18 +143,18 @@ public class EntryDataType extends ValueDataType implements PartReferenceBuilder
         URI uri = getURI();
         if( null != uri )
         {
-            Part part = new ReferenceDirective( m_uri );
-            return new PartReference( key, part );
+            Directive directive = new ReferenceDirective( m_uri );
+            return new PartReference( key, directive );
         }
         else if( m_feature > -1 )
         {
-            Part part = new FeatureDirective( key, m_feature );
-            return new PartReference( key, part );
+            Directive directive = new FeatureDirective( key, m_feature );
+            return new PartReference( key, directive );
         }
         else
         {
-            Part part = getValueDirective( classloader, type );
-            return new PartReference( key, part );
+            Directive directive = getValueDirective( classloader, type );
+            return new PartReference( key, directive );
         }
     }
 

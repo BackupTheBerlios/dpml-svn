@@ -26,7 +26,6 @@ import java.util.EventObject;
 import java.util.Map;
 
 import net.dpml.metro.data.ContextDirective;
-import net.dpml.metro.data.Directive;
 import net.dpml.metro.info.EntryDescriptor;
 import net.dpml.metro.info.PartReference;
 import net.dpml.metro.info.Type;
@@ -37,6 +36,7 @@ import net.dpml.metro.model.ValidationException.Issue;
 
 import net.dpml.metro.part.Part;
 import net.dpml.metro.part.ContextException;
+import net.dpml.metro.part.Directive;
 
 import net.dpml.transit.model.UnknownKeyException;
 
@@ -229,7 +229,7 @@ class DefaultContextModel extends UnicastEventSource implements ContextModel
             {
                 PartReference ref = references[i];
                 String key = ref.getKey();
-                Directive directive = (Directive) ref.getPart();
+                Directive directive = ref.getDirective();
                 setEntryDirective( key, directive );
             }
         }
@@ -247,16 +247,6 @@ class DefaultContextModel extends UnicastEventSource implements ContextModel
             PartReference ref = references[i];
             String key = ref.getKey();
             m_type.getContextDescriptor().getEntryDescriptor( key );
-            Part part = ref.getPart();
-            if( !( part instanceof Directive ) )
-            {
-                final String error = 
-                  "Cannot cast part reference ["
-                  + ref
-                  + "] to an instance of "
-                  + Directive.class.getName();
-                throw new IllegalArgumentException( error );
-            }
         }
     }
     
@@ -267,25 +257,8 @@ class DefaultContextModel extends UnicastEventSource implements ContextModel
     
     private Directive resolveDirective( String key ) throws UnknownKeyException
     {
-        Part part = getPartDirective( key );
-        if( null == part )
-        {
-            return null;
-        }
-        else if( part instanceof Directive )
-        {
-            return (Directive) part;
-        }
-        else
-        {
-            throw new UnsupportedOperationException( "Unsupported directive: " + part.getClass().getName() );
-        }
-    }
-    
-    private Part getPartDirective( String key ) throws UnknownKeyException
-    {
         return m_directive.getPartDirective( key );
     }
-
+    
 }
 

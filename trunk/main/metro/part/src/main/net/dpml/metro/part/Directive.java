@@ -16,9 +16,7 @@
  * limitations under the License.
  */
 
-package net.dpml.metro.data;
-
-import net.dpml.metro.part.Part;
+package net.dpml.metro.part;
 
 /**
  * Interface implemented by top-level directives.
@@ -26,6 +24,6 @@ import net.dpml.metro.part.Part;
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-public interface Directive extends Part
+public interface Directive
 {
 }

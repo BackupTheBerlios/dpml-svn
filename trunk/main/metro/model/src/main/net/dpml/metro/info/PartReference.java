@@ -20,7 +20,8 @@ package net.dpml.metro.info;
 
 import java.io.Serializable;
 
-import net.dpml.metro.part.Part;
+//import net.dpml.metro.part.Part;
+import net.dpml.metro.part.Directive;
 
 /**
  * A <code>PartReference</code> is a serializable object that contains a key and 
@@ -44,26 +45,26 @@ public class PartReference implements Serializable
     /**
      * The supplied argument.
      */
-    private final Part m_part;
+    private final Directive m_directive;
 
     /**
      * Creation of a new part reference.
      *
      * @param key the key identifying this part within the scope of its container
-     * @param part the part
+     * @param directive the directive
      */
-    public PartReference( final String key, Part part )
+    public PartReference( final String key, Directive directive )
     {
         if( null == key )
         {
             throw new NullPointerException( "key" );
         }
-        if( null == part )
+        if( null == directive )
         {
-            throw new NullPointerException( "part" );
+            throw new NullPointerException( "directive" );
         }
         m_key = key;
-        m_part = part;
+        m_directive = directive;
     }
 
     /**
@@ -76,12 +77,12 @@ public class PartReference implements Serializable
     }
 
     /**
-     * Return the part.
-     * @return the part
+     * Return the directive.
+     * @return the directive
      */
-    public Part getPart()
+    public Directive getDirective()
     {
-        return m_part;
+        return m_directive;
     }
 
    /**
@@ -110,7 +111,7 @@ public class PartReference implements Serializable
                 }
                 else
                 {
-                    return m_part.equals( reference.getPart() );
+                    return m_directive.equals( reference.getDirective() );
                 }
             }
         }
@@ -123,7 +124,7 @@ public class PartReference implements Serializable
     public int hashCode()
     {
         int hash = m_key.hashCode();
-        hash ^= m_part.hashCode();
+        hash ^= m_directive.hashCode();
         return hash;
     }
     
@@ -133,6 +134,6 @@ public class PartReference implements Serializable
     */
     public String toString()
     {
-        return "[reference: key=" + m_key + "part=" + m_part + "]";
+        return "[reference: key=" + m_key + "directive=" + m_directive + "]";
     }
 }
