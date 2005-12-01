@@ -41,6 +41,7 @@ import net.dpml.metro.part.Part;
 import net.dpml.metro.info.PartReference;
 
 import net.dpml.metro.data.ValueDirective;
+import net.dpml.metro.data.ComponentDirective;
 
 /**
  * EntryDescriptorTestCase does XYZ
@@ -57,6 +58,8 @@ public abstract class AbstractEncodingTestCase extends TestCase
         File destination = new File( test, filename );
         FileOutputStream output = new FileOutputStream( destination );
         BufferedOutputStream buffer = new BufferedOutputStream( output );
+        ClassLoader current = Thread.currentThread().getContextClassLoader();
+        Thread.currentThread().setContextClassLoader( ComponentDirective.class.getClassLoader() );
         XMLEncoder encoder = new XMLEncoder( buffer );
         encoder.setPersistenceDelegate( URI.class, new URIPersistenceDelegate() );
         encoder.setExceptionListener( 
@@ -69,14 +72,27 @@ public abstract class AbstractEncodingTestCase extends TestCase
             }
           }
         );
-        encoder.writeObject( object );
-        encoder.close();
+        try
+        {
+            encoder.writeObject( object );
+        }
+        finally
+        {
+            encoder.close();
+        }
         
         FileInputStream input = new FileInputStream( destination );
-        XMLDecoder decoder = new XMLDecoder( new BufferedInputStream( input ) );
-        Object result = decoder.readObject();
-        assertEquals( "encoding", object, result );
-        return result;
+        try
+        {
+            XMLDecoder decoder = new XMLDecoder( new BufferedInputStream( input ) );
+            Object result = decoder.readObject();
+            assertEquals( "encoding-equality", object, result );
+            return result;
+        }
+        finally
+        {
+            Thread.currentThread().setContextClassLoader( current );
+        }
     }
 
     public static class URIPersistenceDelegate extends DefaultPersistenceDelegate

@@ -77,18 +77,6 @@ public abstract class DeploymentDirective extends AbstractDirective implements C
     * @param name the profile name
     * @param activation the activation policy
     * @param categories logging category directives
-    */
-    public DeploymentDirective( 
-      final String name, ActivationPolicy activation, CategoriesDirective categories ) 
-    {
-        this( name, activation, categories, null );
-    }
-
-   /**
-    * Creation of a new deployment profile instance.
-    * @param name the profile name
-    * @param activation the activation policy
-    * @param categories logging category directives
     * @param classloader the classloader directive
     */
     public DeploymentDirective( 

@@ -18,11 +18,14 @@
 
 package net.dpml.metro.data.test;
 
+import java.net.URI;
+
 import net.dpml.metro.data.ComponentDirective;
 import net.dpml.metro.data.CategoriesDirective;
 import net.dpml.metro.data.CategoryDirective;
 import net.dpml.metro.data.ContextDirective;
 import net.dpml.metro.data.ClassLoaderDirective;
+import net.dpml.metro.data.ClasspathDirective;
 import net.dpml.metro.info.CollectionPolicy;
 import net.dpml.metro.info.LifestylePolicy;
 import net.dpml.metro.info.PartReference;
@@ -34,6 +37,8 @@ import net.dpml.parameters.Parameters;
 import net.dpml.parameters.impl.DefaultParameters;
 
 import net.dpml.metro.part.ActivationPolicy;
+
+import net.dpml.transit.Category;
 
 import junit.framework.TestCase;
 
@@ -68,16 +73,26 @@ public class ComponentDirectiveTestCase extends AbstractEncodingTestCase
         m_context = new ContextDirective( new PartReference[0] );
         m_parameters = DefaultParameters.EMPTY_PARAMETERS;
         m_configuration = new DefaultConfiguration( "" );
-        m_classloader = new ClassLoaderDirective();
+        m_classloader = createClassLoaderDirective();
         m_directive = 
           new ComponentDirective( 
             m_name, m_activation, m_collection, m_lifestyle, m_classname, 
             m_categories, m_context, m_parameters, m_configuration, m_classloader );
     }
     
+    private ClassLoaderDirective createClassLoaderDirective()
+    {
+        ClasspathDirective[] paths = new ClasspathDirective[3];
+        paths[0] = new ClasspathDirective( Category.PUBLIC, new URI[0] );
+        paths[1] = new ClasspathDirective( Category.PROTECTED, new URI[0] );
+        paths[2] = new ClasspathDirective( Category.PRIVATE, new URI[0] );
+        return new ClassLoaderDirective( paths );
+    }
+    
     public void testEncoding() throws Exception
     {
-        ComponentDirective result = (ComponentDirective) executeEncodingTest( m_directive, "component-directive.xml" );
+        ComponentDirective result = 
+          (ComponentDirective) executeEncodingTest( m_directive, "component-directive.xml" );
         assertEquals( "encoded-equality", m_directive, result );
     }
     

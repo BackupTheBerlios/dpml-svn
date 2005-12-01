@@ -38,6 +38,8 @@ import net.dpml.metro.part.Part;
 import net.dpml.metro.state.State;
 
 import net.dpml.configuration.Configuration;
+import net.dpml.configuration.Configurable;
+import net.dpml.configuration.ConfigurationException;
 import net.dpml.configuration.impl.DefaultConfiguration;
 
 import net.dpml.parameters.Parameters;
@@ -50,7 +52,7 @@ import net.dpml.transit.model.UnknownKeyException;
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-class DefaultComponentModel extends UnicastEventSource implements ComponentModel
+class DefaultComponentModel extends UnicastEventSource implements ComponentModel, Configurable
 {
     // ------------------------------------------------------------------------
     // state
@@ -132,9 +134,30 @@ class DefaultComponentModel extends UnicastEventSource implements ComponentModel
     }
 
     // ------------------------------------------------------------------------
-    // ComponentModel
+    // Configurable
     // ------------------------------------------------------------------------
 
+    /**
+     * Set the component model configuration.
+     *
+     * @param configuration the model configuration argument.
+     * @throws ConfigurationException if an error occurs
+     * @throws NullPointerException if  the supplied configuration argument is null
+     */
+    public void configure( Configuration configuration )
+        throws ConfigurationException, NullPointerException
+    {
+        if( null == configuration )
+        {
+            throw new NullPointerException( "configuration" );
+        }
+        m_configuration = configuration;
+    }
+
+    // ------------------------------------------------------------------------
+    // ComponentModel
+    // ------------------------------------------------------------------------
+    
    /**
     * Return the component name.
     * @return the name

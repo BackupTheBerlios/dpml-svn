@@ -31,13 +31,13 @@ import net.dpml.metro.part.ServiceNotFoundException;
 import net.dpml.transit.Logger;
 
 /**
- * The AbstractHandler class is a minimalistic implementation of a part 
+ * The AbstractAdapter class is a minimalistic implementation of a part 
  * handler.
  *
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-public class AbstractHandler extends UnicastRemoteObject implements Component
+public class AbstractAdapter extends UnicastRemoteObject implements Component
 {
     //------------------------------------------------------------------------------
     // state
@@ -56,7 +56,7 @@ public class AbstractHandler extends UnicastRemoteObject implements Component
     * @param logger the assigned logging channel
     * @exception RemoteException if a remote exception occurs
     */
-    public AbstractHandler( Logger logger ) throws RemoteException
+    public AbstractAdapter( Logger logger ) throws RemoteException
     {
         super();
         m_logger = logger;

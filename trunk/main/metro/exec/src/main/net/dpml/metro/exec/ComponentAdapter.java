@@ -18,7 +18,9 @@
 
 package net.dpml.metro.exec;
 
+import java.io.InputStream;
 import java.net.URI;
+import java.net.URL;
 import java.rmi.RemoteException;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
@@ -35,19 +37,23 @@ import net.dpml.metro.part.Part;
 import net.dpml.metro.part.Service;
 import net.dpml.metro.part.ServiceNotFoundException;
 
+import net.dpml.configuration.Configurable;
+import net.dpml.configuration.Configuration;
+import net.dpml.configuration.impl.DefaultConfigurationBuilder;
+
 import net.dpml.transit.Logger;
 import net.dpml.transit.Repository;
 import net.dpml.transit.Transit;
 
 /**
- * The ComponentHandler provides support for the establishment of a part
+ * The ComponentAdapter provides support for the establishment of a part
  * controller and delegation of handler requests to the part handler
  * resolved from its associated controller.
  *
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-public class ComponentHandler extends AbstractHandler
+public class ComponentAdapter extends AbstractAdapter
 {
     //------------------------------------------------------------------------------
     // immutable state
@@ -70,12 +76,14 @@ public class ComponentHandler extends AbstractHandler
     //------------------------------------------------------------------------------
     
    /**
-    * Creation of a new component handler.
+    * Creation of a new component adapter.
     * @param logger the assigned logging channel
     * @param codebase the codebase uri
+    * @param config a configuration uri
+    * @param params a parameters uri
     * @exception Exception if an error occurs
     */
-    public ComponentHandler( Logger logger, URI codebase ) throws Exception
+    public ComponentAdapter( Logger logger, URI codebase, URI config, URI params ) throws Exception
     {
         super( logger );
         
@@ -100,8 +108,37 @@ public class ComponentHandler extends AbstractHandler
         Directive directive = m_controller.loadDirective( codebase );
         Context context = m_controller.createContext( directive );
         m_component = m_controller.createComponent( context );
+        
+        if( null != config )
+        {
+            if( context instanceof Configurable )
+            {
+                try
+                {
+                    DefaultConfigurationBuilder builder = new DefaultConfigurationBuilder();
+                    URL url = config.toURL();
+                    InputStream input = url.openStream();
+                    Configuration configuration = builder.build( input );
+                    Configurable configurable = (Configurable) context;
+                    configurable.configure( configuration );
+                }
+                catch( Exception e )
+                {
+                    final String error = 
+                      "Error loading configuration: " + config;
+                    throw new ApplicationException( error, e );
+                }
+            }
+            else
+            {
+                final String error = 
+                  "Cannot apply a configuration to a non-configurable managment context."
+                  + "\nManagement Context: " + context.getClass().getName();
+                throw new ApplicationException( error );
+            }
+        }
     }
-
+    
     //------------------------------------------------------------------------------
     // Component
     //------------------------------------------------------------------------------

@@ -153,32 +153,43 @@ $ metro exec link:part:dpml/planet/http/dpml-http-demo
             m_callback = new LocalCallback();
         }
         
+        URI config = getConfigurationURI( line );
+        URI params = getParametersURI( line );
+        
+        Component component = resolveTargetComponent( logger, uri, config, params );
+        m_callback.started( PROCESS_ID, component );
+    }
+    
+    //------------------------------------------------------------------------------
+    // internals
+    //------------------------------------------------------------------------------
+    
+    private URI getConfigurationURI( CommandLine line )
+    {
+        return (URI) line.getValue( CONFIG_OPTION, null );
+    }
+    
+    private URI getParametersURI( CommandLine line )
+    {
+        return (URI) line.getValue( PARAMS_OPTION, null );
+    }
+    
+    private Component resolveTargetComponent( Logger logger, URI uri, URI config, URI params ) throws Exception
+    {
         if( Artifact.isRecognized( uri ) )
         {
             Artifact artifact = Artifact.createArtifact( uri );
             String type = artifact.getType();
             if( type.equals( "part" ) )
             {
-                Component handler = new ComponentHandler( logger, uri );
-                m_callback.started( PROCESS_ID, handler );
-            }
-            else
-            {
-                Component handler = new AbstractHandler( logger );
-                m_callback.started( PROCESS_ID, handler );
+                return new ComponentAdapter( logger, uri, config, params );
             }
         }
-        else
-        {
-            final String error = 
-              "URI not supported [" + uri + "].";
-            throw new ApplicationException( error );
-        }
+        
+        final String error = 
+          "URI not supported [" + uri + "].";
+        throw new ApplicationException( error );
     }
-    
-    //------------------------------------------------------------------------------
-    // internals
-    //------------------------------------------------------------------------------
     
     private Station getStation( int port ) throws Exception
     {
@@ -235,11 +246,11 @@ $ metro exec link:part:dpml/planet/http/dpml-http-demo
 
     private static final PropertyOption PROPERTY_OPTION = new PropertyOption();
     private static final NumberValidator PORT_VALIDATOR = NumberValidator.getIntegerInstance();
+    private static final URIValidator URI_VALIDATOR = new URIValidator();
       
     private static final Option PORT_OPTION = 
         OPTION_BUILDER
           .withShortName( "port" )
-          .withShortName( "p" )
           .withDescription( "Override default RMI registry port selection." )
           .withRequired( false )
           .withArgument(
@@ -268,6 +279,36 @@ $ metro exec link:part:dpml/planet/http/dpml-http-demo
           .create();
         
 
+    private static final Option CONFIG_OPTION = 
+        OPTION_BUILDER
+          .withShortName( "config" )
+          .withShortName( "c" )
+          .withDescription( "Application configuration uri." )
+          .withRequired( false )
+          .withArgument(
+            ARGUMENT_BUILDER 
+              .withDescription( "URI." )
+              .withName( "uri" )
+              .withMinimum( 1 )
+              .withMaximum( 1 )
+              .create() )
+          .create();
+        
+    private static final Option PARAMS_OPTION = 
+        OPTION_BUILDER
+          .withShortName( "params" )
+          .withShortName( "p" )
+          .withDescription( "Application parameters uri." )
+          .withRequired( false )
+          .withArgument(
+            ARGUMENT_BUILDER 
+              .withDescription( "URI." )
+              .withName( "uri" )
+              .withMinimum( 1 )
+              .withMaximum( 1 )
+              .create() )
+          .create();
+        
     private static final Option HELP_COMMAND =
       COMMAND_BUILDER
         .withName( "help" )
@@ -278,6 +319,8 @@ $ metro exec link:part:dpml/planet/http/dpml-http-demo
       GROUP_BUILDER
         .withOption( KEY_OPTION )
         .withOption( PORT_OPTION )
+        .withOption( CONFIG_OPTION )
+        .withOption( PARAMS_OPTION )
         .create();
     
     private static final Option EXECUTE_COMMAND =

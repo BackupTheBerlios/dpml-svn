@@ -49,7 +49,6 @@ import net.dpml.configuration.Configuration;
 import net.dpml.parameters.Parameters;
 
 import net.dpml.metro.part.Part;
-//import net.dpml.metro.part.PartHolder;
 import net.dpml.metro.part.ActivationPolicy;
 
 import org.apache.tools.ant.BuildException;
@@ -318,8 +317,8 @@ public class ComponentBuilderTask extends ClassLoaderBuilderTask implements Part
         try
         {
             final ClassLoader current = Thread.currentThread().getContextClassLoader();
-            Thread.currentThread().setContextClassLoader( ComponentDirective.class.getClassLoader() );
             ComponentDirective profile = buildComponentDirective( classloader, cld );
+            Thread.currentThread().setContextClassLoader( ComponentDirective.class.getClassLoader() );
             FileOutputStream output = new FileOutputStream( file );
             BufferedOutputStream buffer = new BufferedOutputStream( output );
             XMLEncoder encoder = new XMLEncoder( buffer );
@@ -329,6 +328,7 @@ public class ComponentBuilderTask extends ClassLoaderBuilderTask implements Part
               {
                 public void exceptionThrown( Exception e )
                 {
+                    e.printStackTrace();
                     throw new BuildException( "Directive encoding failure.", e );
                 }
               }
@@ -337,11 +337,15 @@ public class ComponentBuilderTask extends ClassLoaderBuilderTask implements Part
             {
                 encoder.writeObject( profile );
             }
+            catch( Exception e )
+            {
+                e.printStackTrace();
+                throw new BuildException( "Directive encoding error.", e );
+            }
             finally
             {
                 Thread.currentThread().setContextClassLoader( current );
                 encoder.close();
-                
             }
             
             /*

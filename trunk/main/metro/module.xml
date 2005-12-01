@@ -125,6 +125,8 @@
     </dependencies>
     <dependencies>
       <include ref="dpml/util/dpml-util-cli"/>
+      <include ref="dpml/util/dpml-configuration-api"/>
+      <include ref="dpml/util/dpml-configuration-impl"/>
       <include ref="dpml/transit/dpml-transit-main"/>
       <include ref="dpml/metro/dpml-part-api"/>
       <include ref="dpml/metro/dpml-station-api"/>
