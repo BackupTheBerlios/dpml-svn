@@ -25,23 +25,19 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Properties;
 import java.util.Hashtable;
 
+import net.dpml.library.info.ImportDirective;
+import net.dpml.library.info.IncludeDirective;
 import net.dpml.library.info.LibraryDirective;
 import net.dpml.library.info.ModuleDirective;
-import net.dpml.library.info.ImportDirective;
-import net.dpml.library.info.Scope;
-import net.dpml.library.info.IncludeDirective;
-//import net.dpml.library.info.ProcessorDescriptor;
 import net.dpml.library.info.ResourceDirective;
-import net.dpml.library.model.Module;
-import net.dpml.library.model.Resource;
-//import net.dpml.library.model.Processor;
+import net.dpml.library.info.Scope;
 import net.dpml.library.model.Library;
-import net.dpml.library.model.Type;
+import net.dpml.library.model.Module;
 import net.dpml.library.model.ModuleNotFoundException;
+import net.dpml.library.model.Resource;
 import net.dpml.library.model.ResourceNotFoundException;
 
 import net.dpml.transit.Artifact;
