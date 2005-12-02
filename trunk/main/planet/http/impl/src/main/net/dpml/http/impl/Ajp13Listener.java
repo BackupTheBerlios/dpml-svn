@@ -30,25 +30,89 @@ import org.mortbay.http.HttpListener;
 public class Ajp13Listener extends org.mortbay.http.ajp.AJP13Listener
     implements HttpListener, Startable
 {
+   /**
+    * Component context model.
+    */
     public interface Context
     {
+       /**
+        * Get the HTTP server.
+        * @return the HTTP server
+        */
         HttpService getHttpServer();
+        
+       /**
+        * Get the buffer reserve.
+        * @param value the default value
+        * @return the buffer reserve
+        */
         int getBufferReserve( int value );
+        
+       /**
+        * Get the buffer size.
+        * @param value the default value
+        * @return the buffer size
+        */
         int getBufferSize( int value );
+        
+       /**
+        * Get the confidential port.
+        * @param value the default value
+        * @return the port number
+        */
         int getConfidentialPort( int value );
+        
+       /**
+        * Get the confidential port scheme.
+        * @param value the default value
+        * @return the confidential port scheme
+        */
         String getConfidentialScheme( String value );
+        
+       /**
+        * Get the integral port.
+        * @param value the default value
+        * @return the integral port
+        */
         int getIntegralPort( int value );
+        
+       /**
+        * Get the integral port scheme.
+        * @param value the default value
+        * @return the integral port scheme
+        */
         String getIntegralScheme( String value );
+        
+       /**
+        * Get the host name.
+        * @param value the default host name
+        * @return the host name
+        */
         String getHostName( String value );
+        
+       /**
+        * Get the port.
+        * @param value the default port
+        * @return the configured port
+        */
         int getPort( int value );
+        
+       /**
+        * Get the pidentify listener policy.
+        * @param value the default value
+        * @return the policy value
+        */
         boolean getIdentifyListenerPolicy( boolean value );
     }
 
     private HttpService m_httpServer;
     private Logger m_logger;
 
-    /**
-     */
+   /**
+    * Creation of a new Ajp13Listener.
+    * @param the assigned logging channel
+    * @param context the deployment context 
+    */
     public Ajp13Listener( Logger logger, Context context )
         throws ParameterException
     {
@@ -112,6 +176,10 @@ public class Ajp13Listener extends org.mortbay.http.ajp.AJP13Listener
         setIdentifyListener( identify );
     }
 
+   /**
+    * Start the component.
+    * @exception Exception if an error occurs during startup
+    */
     public void start() throws Exception
     {
         if( m_logger.isDebugEnabled() )
@@ -124,6 +192,10 @@ public class Ajp13Listener extends org.mortbay.http.ajp.AJP13Listener
         }
     }
 
+   /**
+    * Stop the component.
+    * @exception InterruptedException if the stop process is interrupted
+    */
     public void stop() throws InterruptedException
     {
         if( m_logger.isDebugEnabled() )
