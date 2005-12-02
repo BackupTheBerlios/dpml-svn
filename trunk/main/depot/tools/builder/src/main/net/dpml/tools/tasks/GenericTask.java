@@ -107,6 +107,10 @@ public class GenericTask extends Task
         return getContext().getLibrary();
     }
     
+   /**
+    * Return the build workbench.
+    * @return the workbench
+    */
     protected Workbench getWorkbench()
     {
         Workbench workbench = (Workbench) getProject().getReference( "project.workbench" );

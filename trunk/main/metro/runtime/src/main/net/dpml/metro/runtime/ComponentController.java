@@ -621,6 +621,12 @@ class ComponentController
         try
         {
             ComponentModel model = handler.getComponentModel();
+            Map map = handler.getContextMap();
+            if( map.containsKey( key ) )
+            {
+                return map.get( key ); 
+                // TODO: current no validation of values mapping to return tyope prerequisies
+            }
             ContextModel context = model.getContextModel();
             Directive directive = context.getEntryDirective( key );
             if( null == directive )
@@ -646,14 +652,14 @@ class ComponentController
                 
                 if( directive instanceof Value )
                 {
-                    Map map = handler.getContextMap();
+                    Map symbols = handler.getSymbolMap();
                     ClassLoader classloader = handler.getClassLoader();
                     Value value = (Value) directive;
                     ClassLoader loader = Thread.currentThread().getContextClassLoader();
                     try
                     {
                         Thread.currentThread().setContextClassLoader( classloader );
-                        return value.resolve( map, false );
+                        return value.resolve( symbols, false );
                     }
                     catch( Exception ve )
                     {

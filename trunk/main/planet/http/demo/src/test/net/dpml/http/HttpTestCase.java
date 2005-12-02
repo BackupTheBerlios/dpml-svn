@@ -52,7 +52,7 @@ public class HttpTestCase extends TestCase
         
         Controller control = Part.CONTROLLER;
         Directive directive = control.loadDirective( uri );
-        Context context = control.createContext( directive );
+        Model context = control.createContext( directive );
         Component component = control.createComponent( context );
         component.activate();
         Demo demo = (Demo) component.getInstance().getValue( false );

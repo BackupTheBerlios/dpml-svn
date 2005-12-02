@@ -88,6 +88,25 @@
       </context>
     </c:component>
 
+    <!-- create the composite component -->
+
+    <c:type class="net.dpml.test.composite.ChildComponent" name="child"/>
+    <c:type class="net.dpml.test.composite.CompositeComponent" name="parent">
+      <parts>
+        <component type="net.dpml.test.composite.ChildComponent" name="child" activation="false">
+          <context>
+            <entry key="color" method="BLUE"/>
+          </context>
+        </component>
+      </parts>
+    </c:type>
+    <c:component dest="target/test/composite.part" test="true" activation="false"
+        type="net.dpml.test.composite.CompositeComponent" name="composite" collection="hard">
+      <context>
+        <entry key="color" method="RED"/>
+      </context>
+    </c:component>
+
   </target>
 
 </project>

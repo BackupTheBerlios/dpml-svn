@@ -43,7 +43,8 @@
             <entry key="extended" value="true"/>
           </context>
         </component>
-        <component type="net.dpml.http.impl.SocketListener" name="socketListener" collection="hard">
+        <component type="net.dpml.http.impl.SocketListener" name="socketListener" collection="hard"
+            activation="false">
           <context>
             <entry key="httpServer" uri="service:net.dpml.http.spi.HttpService"/>
             <entry key="port" value="8080"/>

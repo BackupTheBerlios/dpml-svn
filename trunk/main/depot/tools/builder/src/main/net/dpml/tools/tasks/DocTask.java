@@ -180,6 +180,10 @@ public class DocTask extends GenericTask
         }
     }
     
+   /**
+    * Set a directory for ultimate replication of the generated documentation.
+    * @param dir the utilimate destination directory
+    */
     public void setDest( File dir )
     {
         m_dest = dir;

@@ -15,11 +15,11 @@
  */
 package net.dpml.http;
 
+import java.util.Map;
+
 import net.dpml.logging.Logger;
 
 import net.dpml.activity.Startable;
-
-import
 
 import net.dpml.http.spi.FileResourceHandler;
 import net.dpml.http.spi.HttpContextService;
@@ -37,13 +37,11 @@ public class Demo implements Startable
 
     public interface Parts
     {
-        //FileResourceHandler getHttpHandler();
-        //SocketListenerService getSocketListener();
-        //Model getSocketListenerModel();
+        Map getSocketListenerMap();
+        SocketListenerService getSocketListener();
     }
     
     private final Logger m_logger;
-
     private final Parts m_parts;
     
     public Demo( Logger logger, Context context, Parts parts )
@@ -51,11 +49,13 @@ public class Demo implements Startable
         m_logger = logger;
         m_parts = parts;
         System.out.println( "### PORT: " + context.getPort( 8080 ) );
+        parts.getSocketListenerMap().put( "port", new Integer( context.getPort( 8080 ) ) );
     }
 
     public void start() throws Exception
     {
         m_logger.info( "Starting" );
+        m_parts.getSocketListener();
     }
 
     public void stop() throws Exception

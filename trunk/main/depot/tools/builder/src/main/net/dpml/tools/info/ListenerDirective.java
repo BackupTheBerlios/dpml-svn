@@ -19,7 +19,6 @@
 package net.dpml.tools.info;
 
 import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.Properties;
 import java.util.Arrays;
 

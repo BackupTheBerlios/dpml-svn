@@ -22,6 +22,7 @@ import java.beans.Introspector;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 
+import net.dpml.metro.part.Context;
 import net.dpml.metro.part.Component;
 
 
@@ -143,6 +144,28 @@ class PartsInvocationHandler implements InvocationHandler
             {
                 return handler; // wrap in a proxy ?
             }
+            else if( MAP_KEY.equals( postfix ) )
+            {
+                if( handler instanceof Context )
+                {
+                    Context context = (Context) handler;
+                    return context.getContextMap();
+                }
+                else
+                {
+                    final String error = 
+                      "Component implementation ["
+                      + handler.getClass().getName() 
+                      + "] does not implement "
+                      + Context.class.getName()
+                      + ".";
+                    throw new IllegalStateException( error );
+                }
+            }
+            else if( INSTANCE_KEY.equals( postfix ) )
+            {
+                return handler.getInstance();
+            }
             else
             {
                 final String error = 
@@ -209,6 +232,14 @@ class PartsInvocationHandler implements InvocationHandler
         {
             return COMPONENT_KEY;
         }
+        if( name.endsWith( MAP_KEY ) )
+        {
+            return MAP_KEY;
+        }
+        if( name.endsWith( INSTANCE_KEY ) )
+        {
+            return INSTANCE_KEY;
+        }
         else
         {
             return null;
@@ -223,6 +254,20 @@ class PartsInvocationHandler implements InvocationHandler
             if( name.endsWith( COMPONENT_KEY ) )
             {
                 int n = COMPONENT_KEY.length();
+                int j = name.length() - n;
+                String substring = name.substring( 0, j );
+                return formatKey( substring, 3 );
+            }
+            else if( name.endsWith( MAP_KEY ) )
+            {
+                int n = MAP_KEY.length();
+                int j = name.length() - n;
+                String substring = name.substring( 0, j );
+                return formatKey( substring, 3 );
+            }
+            else if( name.endsWith( INSTANCE_KEY ) )
+            {
+                int n = INSTANCE_KEY.length();
                 int j = name.length() - n;
                 String substring = name.substring( 0, j );
                 return formatKey( substring, 3 );
@@ -283,4 +328,6 @@ class PartsInvocationHandler implements InvocationHandler
     public static final String GET_KEY = "get";
     public static final String RELEASE_KEY = "release";
     public static final String COMPONENT_KEY = "Component";
+    public static final String MAP_KEY = "Map";
+    public static final String INSTANCE_KEY = "Instance";
 }

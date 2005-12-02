@@ -32,7 +32,6 @@ import net.dpml.tools.model.Context;
 
 import net.dpml.transit.Artifact;
 import net.dpml.transit.Logger;
-import net.dpml.transit.Environment;
 import net.dpml.transit.model.TransitModel;
 import net.dpml.transit.tools.MainTask;
 

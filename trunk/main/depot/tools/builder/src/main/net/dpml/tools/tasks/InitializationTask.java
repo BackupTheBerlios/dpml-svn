@@ -25,12 +25,7 @@ import java.util.Date;
 import net.dpml.library.model.Resource;
 
 import net.dpml.tools.model.Processor;
-import net.dpml.tools.model.Workbench;
 import net.dpml.tools.model.ProcessorNotFoundException;
-
-import net.dpml.tools.process.JarProcess;
-import net.dpml.tools.process.PluginProcess;
-import net.dpml.tools.process.ModuleProcess;
 
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.BuildListener;
@@ -107,7 +102,7 @@ public class InitializationTask extends GenericTask
                 {
                     ClassLoader classloader = getClass().getClassLoader();
                     Class clazz = classloader.loadClass( classname );
-                    Object[] args = new Object[]{ processor };
+                    Object[] args = new Object[]{processor};
                     listeners[i] = (BuildListener) repository.instantiate( clazz, args );
                 }
                 catch( Throwable e )

@@ -19,19 +19,12 @@
 package net.dpml.tools.model;
 
 import java.io.File;
-import java.io.IOException;
-import java.net.URL;
 
 import net.dpml.library.info.Scope;
 import net.dpml.library.model.Library;
 import net.dpml.library.model.Resource;
-import net.dpml.library.model.Type;
-
-import net.dpml.transit.Artifact;
-import net.dpml.transit.Transit;
 
 import org.apache.tools.ant.Project;
-import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.types.Path;
 
 /**

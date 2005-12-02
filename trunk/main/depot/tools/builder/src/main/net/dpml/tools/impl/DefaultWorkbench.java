@@ -18,7 +18,6 @@
 
 package net.dpml.tools.impl;
 
-import java.io.File;
 import java.util.List;
 import java.util.ArrayList;
 
@@ -51,6 +50,14 @@ public class DefaultWorkbench implements Workbench
     private final BuilderDirective m_directive;
     private final DefaultProcessor[] m_processors;
     
+   /**
+    * Creation of a new workbench instance.  The workbench loads the 
+    * build system configuration and establishes the available processor
+    * definitions.
+    *
+    * @param library the common project library
+    * @exception Exception if an error occurs 
+    */
     public DefaultWorkbench( Library library ) throws Exception
     {
         if( null == library )

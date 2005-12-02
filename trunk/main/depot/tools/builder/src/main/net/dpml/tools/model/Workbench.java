@@ -18,8 +18,6 @@
 
 package net.dpml.tools.model;
 
-import java.io.File;
-
 import net.dpml.library.model.Library;
 import net.dpml.library.model.Resource;
 

@@ -45,6 +45,7 @@ import net.dpml.metro.part.Instance;
 import net.dpml.metro.part.Service;
 import net.dpml.metro.part.ServiceNotFoundException;
 import net.dpml.metro.part.Version;
+import net.dpml.metro.part.Context;
 
 import net.dpml.metro.state.State;
 
@@ -95,7 +96,7 @@ import net.dpml.transit.model.UnknownKeyException;
  * @see ComponentModel
  * @see Instance
  */
-public class ComponentHandler extends UnicastEventSource implements Component, Disposable
+public class ComponentHandler extends UnicastEventSource implements Component, Context, Disposable
 {
     //--------------------------------------------------------------------------
     // immutable state
@@ -262,8 +263,32 @@ public class ComponentHandler extends UnicastEventSource implements Component, D
     }
     
     //--------------------------------------------------------------------------
+    // Context
+    //--------------------------------------------------------------------------
+    
+   /**
+    * Return a mutible context map.
+    *
+    * @return the context map
+    */
+    public Map getContextMap()
+    {
+        return m_cache;
+    }
+    
+    //--------------------------------------------------------------------------
     // Component
     //--------------------------------------------------------------------------
+    
+   /**
+    * Return a mutible context map.
+    *
+    * @return the context map
+    */
+    public Map getSymbolMap()
+    {
+        return m_map;
+    }
     
    /**
     * Return a handler capable of supporting the requested service.
@@ -564,11 +589,6 @@ public class ComponentHandler extends UnicastEventSource implements Component, D
     Type getType()
     {
         return m_type;
-    }
-    
-    Map getContextMap()
-    {
-        return m_map;
     }
     
     String getPath()
