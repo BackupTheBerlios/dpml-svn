@@ -79,7 +79,7 @@ import net.dpml.transit.model.UnknownKeyException;
  * centralization of shared context information across multiple handlers.</p>
  * <pre>
    Controller controller = Part.CONTROLLER; // system controller
-   Part part = controller.loadPart( url );
+   Directive part = controller.loadDirective( uri );
    Context context = controller.createContext( part ); // management info
    Component handler = controller.createComponent( context ); // runtime controller
    handler.activate();
@@ -441,11 +441,13 @@ public class ComponentHandler extends UnicastEventSource implements Component, D
         }
         else
         {
-            final String error = 
-              "Component handler ["
-              + this
-              + "] is not active.";
-            throw new ControllerException( error );
+            activate();
+            return m_holder.getInstance();
+            //final String error = 
+            //  "Component handler ["
+            //  + this
+            //  + "] is not active.";
+            //throw new ControllerException( error );
         }
     }
     

@@ -31,10 +31,11 @@ import java.util.WeakHashMap;
 import net.dpml.logging.Logger;
 
 import net.dpml.metro.data.ComponentDirective;
+import net.dpml.metro.data.ClassLoaderDirective;
 import net.dpml.metro.model.ComponentModel;
 
 import net.dpml.metro.part.ControllerContext;
-import net.dpml.metro.part.Context;
+import net.dpml.metro.part.Model;
 import net.dpml.metro.part.Component;
 import net.dpml.metro.part.Controller;
 import net.dpml.metro.part.Part;
@@ -42,7 +43,6 @@ import net.dpml.metro.part.ControlException;
 import net.dpml.metro.part.ControllerNotFoundException;
 import net.dpml.metro.part.DelegationException;
 import net.dpml.metro.part.PartNotFoundException;
-//import net.dpml.metro.part.PartHolder;
 import net.dpml.metro.part.Directive;
 
 import net.dpml.transit.Artifact;
@@ -109,23 +109,22 @@ public class CompositionController implements Controller
     * component directive.
     * 
     * @param anchor the anchor classloader
-    * @param context a component context 
+    * @param model a component model 
     * @return the new classloader
     * @exception ControlException if a classloader creation error occurs
     */
-    public ClassLoader createClassLoader( 
-      ClassLoader anchor, Context context ) throws ControlException
+    public ClassLoader createClassLoader( ClassLoader anchor, Model model ) throws ControlException
     {
-        if( context instanceof ComponentDirective )
+        if( model instanceof ComponentModel )
         {
-            ComponentDirective directive = (ComponentDirective) context;
-            return m_controller.createClassLoader( anchor, directive );
+            ComponentModel componentModel = (ComponentModel) model;
+            return m_controller.createClassLoader( anchor, componentModel );
         }
         else
         {
             final String error =
-              "Construction of a classloader from the context class ["
-              + context.getClass().getName() 
+              "Construction of a classloader from the context model class ["
+              + model.getClass().getName() 
               + "] is not supported.";
             throw new ControllerException( error );
         }
@@ -145,10 +144,10 @@ public class CompositionController implements Controller
     * as the inital management state.
     *
     * @param directive the part data structure
-    * @return the management context instance
-    * @exception ControlException if an error occurs during context construction
+    * @return the management context model
+    * @exception ControlException if an error occurs during model construction
     */
-    public Context createContext( Directive directive ) throws ControlException
+    public Model createContext( Directive directive ) throws ControlException
     {
         if( directive instanceof ComponentDirective )
         {
@@ -167,16 +166,16 @@ public class CompositionController implements Controller
     
    /**
     * Create and return a remote reference to a component handler.
-    * @param context the component context
+    * @param model the component model
     * @return the component handler
     * @exception Exception if an error occurs during component creation
     */
-    public Component createComponent( Context context ) throws Exception
+    public Component createComponent( Model model ) throws Exception
     {
-        if( context instanceof ComponentModel )
+        if( model instanceof ComponentModel )
         {
-            ComponentModel model = (ComponentModel) context;
-            return m_controller.createComponentHandler( model );
+            ComponentModel componentModel = (ComponentModel) model;
+            return m_controller.createComponentHandler( componentModel );
         }
         else
         {
@@ -185,8 +184,8 @@ public class CompositionController implements Controller
             //
             
             final String error =
-              "Construction of a handler for the context class ["
-              + context.getClass().getName() 
+              "Construction of a handler for the context model class ["
+              + model.getClass().getName() 
               + "] is not supported.";
             throw new ControllerException( error );
         }

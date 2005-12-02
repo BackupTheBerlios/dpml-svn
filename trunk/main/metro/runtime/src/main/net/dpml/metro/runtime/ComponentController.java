@@ -51,7 +51,7 @@ import net.dpml.logging.Logger;
 import net.dpml.parameters.Parameters;
 
 import net.dpml.metro.part.Component;
-import net.dpml.metro.part.Context;
+import net.dpml.metro.part.Model;
 import net.dpml.metro.part.ControlException;
 import net.dpml.metro.part.ServiceNotFoundException;
 import net.dpml.metro.part.Version;
@@ -101,19 +101,35 @@ class ComponentController
     public ComponentModel createComponentModel( ComponentDirective directive ) throws ControlException
     {
         ClassLoader anchor = Thread.currentThread().getContextClassLoader();
-        String partition = Context.PARTITION_SEPARATOR;
+        String partition = Model.PARTITION_SEPARATOR;
         return createComponentModel( anchor, partition, directive );
     }
     
    /**
     * Create a new runtime handler using a supplied context.
-    * @param context the managed context
+    * @param model the managed context
     * @return the runtime handler
     */
-    public ComponentHandler createComponentHandler( ComponentModel context )
+    public ComponentHandler createComponentHandler( ComponentModel model )
     {
         ClassLoader anchor = Thread.currentThread().getContextClassLoader();
-        return createComponentHandler( anchor, context );
+        return createComponentHandler( anchor, model );
+    }
+    
+    public ClassLoader createClassLoader( ClassLoader anchor, ComponentModel model ) throws ControlException
+    {
+        try
+        {
+            String name = model.getName();
+            ClassLoaderDirective directive = model.getClassLoaderDirective();
+            return createClassLoader( anchor, directive, name );
+        }
+        catch( RemoteException e )
+        {
+            final String error = 
+              "Classloader creation failed due to an remote exception.";
+            throw new ControllerException( error, e );
+        }
     }
     
     public ClassLoader createClassLoader( ClassLoader anchor, ComponentDirective profile )

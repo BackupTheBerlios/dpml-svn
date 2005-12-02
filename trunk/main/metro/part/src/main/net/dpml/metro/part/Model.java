@@ -21,13 +21,13 @@ package net.dpml.metro.part;
 import java.rmi.RemoteException;
 
 /**
- * The Context interfaces is used mark a object as manageable context used in 
+ * The Model interfaces is used mark a object as manageable context used in 
  * the creation of a runtime handler.
  *
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-public interface Context
+public interface Model
 {
    /**
     * The constant partition separator.
@@ -35,9 +35,9 @@ public interface Context
     final String PARTITION_SEPARATOR = "/";
     
    /**
-    * Return the path identifying the context.  A context path commences with the
-    * PARTITION_SEPARATOR character and is followed by a context name.  If the 
-    * context exposed nested context objects, the path is component of context names
+    * Return the path identifying the model.  A path commences with the
+    * PARTITION_SEPARATOR character and is followed by a model name.  If the 
+    * model exposed nested models, the path is composed of model names
     * seaprated by the PARTITION_SEPARATOR as in "/main/web/handler".
     *
     * @return the context path

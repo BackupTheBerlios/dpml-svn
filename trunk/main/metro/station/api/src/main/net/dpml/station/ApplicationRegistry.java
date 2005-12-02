@@ -19,20 +19,20 @@
 package net.dpml.station;
 
 import java.net.URI;
+import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.io.IOException;
 
 import net.dpml.station.info.ApplicationDescriptor;
 import net.dpml.station.info.RegistryDescriptor;
 
-import net.dpml.transit.model.Model;
 import net.dpml.transit.model.DuplicateKeyException;
 import net.dpml.transit.model.UnknownKeyException;
 
 /**
  * Registry of application profiles.
  */
-public interface ApplicationRegistry extends Model
+public interface ApplicationRegistry extends Remote
 {
    /**
     * The default storage uri.

@@ -101,15 +101,8 @@ public class ComponentHandlerTestCase extends TestCase
     public void testInstanceAquisitionInInactiveState() throws Exception
     {
         Component component = m_control.createComponent( m_model );
-        try
-        {
-            Instance instance = (Instance) component.getInstance();
-            fail( "Instance returned under inactive state - expected ControlException" );
-        }
-        catch( ControlException e )
-        {
-            // success
-        }
+        Instance instance = (Instance) component.getInstance();
+        assertTrue( "is-active-post-instantiation", component.isActive() );
     }
 
     static

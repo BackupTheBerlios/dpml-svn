@@ -52,62 +52,28 @@ public interface Controller
     * as the inital management state.
     *
     * @param directive the part data structure
-    * @return the management context instance
+    * @return the management context
     * @exception ControlException if a part related error occurs
     */
-    Context createContext( Directive directive ) throws ControlException;
+    Model createContext( Directive directive ) throws ControlException;
 
    /**
     * Create a classloader using the supplied anchor classloader and 
     * component directive.
     * 
     * @param anchor the anchor classloader
-    * @param context a component part 
+    * @param model a component model 
     * @return the classloader
     * @exception ControlException if a part related error occurs
     */
-    ClassLoader createClassLoader( ClassLoader anchor, Context context ) throws ControlException;
+    ClassLoader createClassLoader( ClassLoader anchor, Model model ) throws ControlException;
 
    /**
     * Create and return a remote reference to a component handler.
-    * @param context the component definition
+    * @param model the management context
     * @return the component handler
     * @exception Exception if a component construction error occurs
     */
-    Component createComponent( Context context ) throws Exception;
-
-   /**
-    * Load a part from serialized form.  The uri is assumed to be a uri that 
-    * can be transformed to a URL from which an input stream to a PartHolder 
-    * can be established.  The part holder is used to identify the part handler
-    * to use for part creation.  An implementation will delegate foreign part 
-    * loading to an identified handler.
-    *
-    * @param uri the part uri
-    * @return the part instance
-    * @exception ControlException if a part related error occurs
-    * @exception IOException if an I/O error occurs
-    */
-    //Part loadPart( URI uri ) throws ControlException, IOException;
-    
-   /**
-    * Load a part from serialized form.  The url identifies a part holder 
-    * which is used to identify the part handler to use for part creation. 
-    * An implementation will delegate foreign part loading to an identified handler.
-    *
-    * @param url the part url
-    * @return the part instance
-    * @exception ControlException if a part related error occurs
-    * @exception IOException if an I/O error occurs
-    */
-    //Part loadPart( URL url ) throws ControlException, IOException;
-    
-   /**
-    * Load a part from a serialized object byte array. 
-    * @param bytes the byte array
-    * @return the part
-    * @exception IOException if an I/O error occurs
-    */
-    //Part loadPart( byte[] bytes ) throws IOException;
+    Component createComponent( Model model ) throws Exception;
 
 }

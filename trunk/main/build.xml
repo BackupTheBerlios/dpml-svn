@@ -61,7 +61,7 @@
     <property name="share.docs" location="${share}/docs"/>
     <property name="share.docs.api.dpml" location="${share.docs}/api/dpml/${project.version}"/>
     <mkdir dir="${share.docs.api.dpml}"/>
-    <copy todir="${share.docs.api.dpml}" filtering="true">
+    <copy todir="${share.docs.api.dpml}" filtering="false">
       <fileset dir="${project.target.reports.dir}/api">
         <include name="**/*"/>
       </fileset>
@@ -164,7 +164,7 @@
     <mkdir dir="${junit.html}"/>
     <junitreport todir="${junit.html}">
       <fileset dir=".">
-        <include name="**/target/reports/test/TEST-*.xml"/> <!-- YUK!! -->
+        <include name="**/target/reports/test/TEST-*.xml"/>
       </fileset>
       <report format="frames" todir="${junit.html}" styledir="${dpml.prefs}/dpml/tools/xsls"/>
     </junitreport>

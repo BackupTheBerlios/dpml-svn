@@ -24,18 +24,25 @@ import java.net.URL;
 import java.rmi.RemoteException;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
+import java.util.Properties;
+import java.util.Enumeration;
 
 import net.dpml.station.ApplicationException;
+
+import net.dpml.metro.info.EntryDescriptor;
+import net.dpml.metro.data.ValueDirective;
 
 import net.dpml.metro.part.Controller;
 import net.dpml.metro.part.Directive;
 import net.dpml.metro.part.Component;
 import net.dpml.metro.part.ControlException;
 import net.dpml.metro.part.Instance;
-import net.dpml.metro.part.Context;
+import net.dpml.metro.part.Model;
 import net.dpml.metro.part.Part;
 import net.dpml.metro.part.Service;
 import net.dpml.metro.part.ServiceNotFoundException;
+import net.dpml.metro.model.ComponentModel;
+import net.dpml.metro.model.ContextModel;
 
 import net.dpml.configuration.Configurable;
 import net.dpml.configuration.Configuration;
@@ -81,9 +88,11 @@ public class ComponentAdapter extends AbstractAdapter
     * @param codebase the codebase uri
     * @param config a configuration uri
     * @param params a parameters uri
+    * @param properties context override properties
     * @exception Exception if an error occurs
     */
-    public ComponentAdapter( Logger logger, URI codebase, URI config, URI params ) throws Exception
+    public ComponentAdapter( 
+      Logger logger, URI codebase, URI config, URI params, Properties properties ) throws Exception
     {
         super( logger );
         
@@ -106,21 +115,21 @@ public class ComponentAdapter extends AbstractAdapter
         }
         
         Directive directive = m_controller.loadDirective( codebase );
-        Context context = m_controller.createContext( directive );
-        m_component = m_controller.createComponent( context );
+        Model model = m_controller.createContext( directive );
+        m_component = m_controller.createComponent( model );
         
         if( null != config )
         {
-            logger.info( "applying configuration: " + config );
-            if( context instanceof Configurable )
+            if( model instanceof Configurable )
             {
+                logger.info( "applying configuration: " + config );
                 try
                 {
                     DefaultConfigurationBuilder builder = new DefaultConfigurationBuilder();
                     URL url = config.toURL();
                     InputStream input = url.openStream();
                     Configuration configuration = builder.build( input );
-                    Configurable configurable = (Configurable) context;
+                    Configurable configurable = (Configurable) model;
                     configurable.configure( configuration );
                 }
                 catch( Exception e )
@@ -134,9 +143,37 @@ public class ComponentAdapter extends AbstractAdapter
             {
                 final String error = 
                   "Cannot apply a configuration to a non-configurable managment context."
-                  + "\nManagement Context: " + context.getClass().getName();
+                  + "\nManagement Context: " + model.getClass().getName();
                 throw new ApplicationException( error );
             }
+        }
+        
+        if( null != params )
+        {
+            throw new UnsupportedOperationException( "Parameters not current supported." );
+        }
+        
+        if( model instanceof ComponentModel )
+        {
+            ComponentModel componentModel = (ComponentModel) model;
+            ContextModel cm = componentModel.getContextModel();
+            Enumeration names = properties.propertyNames();
+            while( names.hasMoreElements() )
+            {
+                String key = (String) names.nextElement();
+                String value = properties.getProperty( key );
+                EntryDescriptor entry = cm.getEntryDescriptor( key );
+                String classname = entry.getClassname();
+                ValueDirective v = new ValueDirective( classname, value );
+                cm.setEntryDirective( key, v );
+            }
+        }
+        else
+        {
+            final String error = 
+              "Context class not recognized: " 
+              + model.getClass().getName();
+            throw new UnsupportedOperationException( error );
         }
     }
     

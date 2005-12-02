@@ -130,6 +130,7 @@
       <include ref="dpml/transit/dpml-transit-main"/>
       <include ref="dpml/metro/dpml-part-api"/>
       <include ref="dpml/metro/dpml-station-api"/>
+      <include ref="dpml/metro/dpml-metro-model"/>
     </dependencies>
   </project>
 

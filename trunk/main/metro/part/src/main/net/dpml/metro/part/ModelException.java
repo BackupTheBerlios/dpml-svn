@@ -26,7 +26,7 @@ import java.net.URI;
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-public class ContextException extends ControlException 
+public class ModelException extends ControlException 
 {
    /**
     * Serial version identifier.
@@ -34,22 +34,22 @@ public class ContextException extends ControlException
     static final long serialVersionUID = 1L;
 
    /**
-    * Creation of a new <tt>ContextException</tt>.
+    * Creation of a new <tt>ModelException</tt>.
     * @param uri the controller uri
     * @param message the exception message
     */
-    public ContextException( URI uri, String message )
+    public ModelException( URI uri, String message )
     {
         super( uri, message );
     }
 
    /**
-    * Creation of a new <tt>ContextException</tt>.
+    * Creation of a new <tt>ModelException</tt>.
     * @param uri the controller uri
     * @param message the exception message
     * @param cause the causal exception
     */
-    public ContextException( URI uri, String message, Throwable cause )
+    public ModelException( URI uri, String message, Throwable cause )
     {
         super( uri, message, cause );
     }

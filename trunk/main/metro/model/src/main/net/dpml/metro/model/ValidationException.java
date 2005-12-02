@@ -21,7 +21,7 @@ package net.dpml.metro.model;
 import java.io.Serializable;
 import java.net.URI;
 
-import net.dpml.metro.part.ContextException;
+import net.dpml.metro.part.ModelException;
 
 /**
  * Exception that describes a series of validation issues.
@@ -29,7 +29,7 @@ import net.dpml.metro.part.ContextException;
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-public final class ValidationException extends ContextException
+public final class ValidationException extends ModelException
 {
     //--------------------------------------------------------------------------
     // static

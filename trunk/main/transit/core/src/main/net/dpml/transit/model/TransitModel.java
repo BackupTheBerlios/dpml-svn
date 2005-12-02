@@ -18,6 +18,7 @@
 
 package net.dpml.transit.model;
 
+import java.rmi.Remote;
 import java.rmi.RemoteException;
 
 
@@ -28,7 +29,7 @@ import java.rmi.RemoteException;
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-public interface TransitModel extends Model
+public interface TransitModel extends Remote
 {
    /**
     * Return the proxy model.

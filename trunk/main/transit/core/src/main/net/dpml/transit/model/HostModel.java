@@ -20,6 +20,7 @@ package net.dpml.transit.model;
 
 import java.net.URL;
 import java.net.PasswordAuthentication;
+import java.rmi.Remote;
 import java.rmi.RemoteException;
 
 /** 
@@ -33,7 +34,7 @@ import java.rmi.RemoteException;
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-public interface HostModel extends Model
+public interface HostModel extends Remote
 {
    /**
     * HTTP port number.

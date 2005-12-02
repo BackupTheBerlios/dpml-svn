@@ -18,6 +18,7 @@
 
 package net.dpml.transit.model;
 
+import java.rmi.Remote;
 import java.rmi.RemoteException;
 
 /**
@@ -26,7 +27,7 @@ import java.rmi.RemoteException;
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-public interface LayoutRegistryModel extends Model
+public interface LayoutRegistryModel extends Remote
 {
    /**
     * Return the set of location resolver models.

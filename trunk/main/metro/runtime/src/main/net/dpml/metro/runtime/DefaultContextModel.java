@@ -35,7 +35,7 @@ import net.dpml.metro.model.ValidationException;
 import net.dpml.metro.model.ValidationException.Issue;
 
 import net.dpml.metro.part.Part;
-import net.dpml.metro.part.ContextException;
+import net.dpml.metro.part.ModelException;
 import net.dpml.metro.part.Directive;
 
 import net.dpml.transit.model.UnknownKeyException;
@@ -77,7 +77,7 @@ class DefaultContextModel extends UnicastEventSource implements ContextModel
     * @exception RemoteException if a remote I/O error occurs
     */
     public DefaultContextModel( ClassLoader classloader, Type type, ContextDirective directive )
-      throws ContextException, RemoteException
+      throws ModelException, RemoteException
     {
         super();
         
@@ -98,7 +98,7 @@ class DefaultContextModel extends UnicastEventSource implements ContextModel
             {
                 final String error = 
                   "Component directive does not declare a directive for the key [" + key + "].";
-                throw new ContextException( CompositionController.CONTROLLER_URI, error, e );
+                throw new ModelException( CompositionController.CONTROLLER_URI, error, e );
             }
         }
     }
@@ -181,9 +181,31 @@ class DefaultContextModel extends UnicastEventSource implements ContextModel
     }
     
    /**
+    * Return  a of context entry descriptor.
+    *
+    * @param key key
+    * @return the entry descriptor 
+    * @exception RemoteException if a remote exception occurs
+    * @exception UnknownKeyException if the key is unknown
+    */
+    public EntryDescriptor getEntryDescriptor( String key ) throws UnknownKeyException
+    {
+        EntryDescriptor entry = m_type.getContextDescriptor().getEntryDescriptor( key );
+        if( null != entry )
+        {
+            return entry;
+        }
+        else
+        {
+            throw new UnknownKeyException( key );
+        }
+    }
+    
+   /**
     * Return the current directive assigned to a context entry.
     * @param key the context entry key
     * @return the directive
+    * @exception UnknownKeyException if the key is unknown
     */
     public Directive getEntryDirective( String key ) throws UnknownKeyException
     {
@@ -198,6 +220,7 @@ class DefaultContextModel extends UnicastEventSource implements ContextModel
    /**
     * Set a context entry directive value.
     * @param directive the context entry directive
+    * @exception UnknownKeyException if the key is unknown
     */
     public void setEntryDirective( String key, Directive directive ) throws UnknownKeyException
     {

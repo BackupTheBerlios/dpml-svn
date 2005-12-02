@@ -19,6 +19,8 @@ import net.dpml.logging.Logger;
 
 import net.dpml.activity.Startable;
 
+import
+
 import net.dpml.http.spi.FileResourceHandler;
 import net.dpml.http.spi.HttpContextService;
 import net.dpml.http.spi.HttpService;
@@ -28,20 +30,27 @@ import org.mortbay.http.HttpHandler;
 
 public class Demo implements Startable
 {
+    public interface Context
+    {
+        int getPort( int port );
+    }
+
     public interface Parts
     {
-        FileResourceHandler getHttpHandler();
-        SocketListenerService getSocketListener();
+        //FileResourceHandler getHttpHandler();
+        //SocketListenerService getSocketListener();
+        //Model getSocketListenerModel();
     }
     
     private final Logger m_logger;
 
     private final Parts m_parts;
     
-    public Demo( Logger logger, Parts parts )
+    public Demo( Logger logger, Context context, Parts parts )
     {
         m_logger = logger;
         m_parts = parts;
+        System.out.println( "### PORT: " + context.getPort( 8080 ) );
     }
 
     public void start() throws Exception

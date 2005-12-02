@@ -45,6 +45,16 @@ public interface ContextModel extends Remote
     EntryDescriptor[] getEntryDescriptors() throws RemoteException;
     
    /**
+    * Return  a of context entry descriptor.
+    *
+    * @param key the entry key
+    * @return the entry descriptor
+    * @exception UnknownKeyException if the key is unknown
+    * @exception RemoteException if a remote exception occurs
+    */
+    EntryDescriptor getEntryDescriptor( String key ) throws UnknownKeyException, RemoteException;
+    
+   /**
     * Return the current directive assigned to a context entry.
     * @param key the context entry key
     * @return the directive

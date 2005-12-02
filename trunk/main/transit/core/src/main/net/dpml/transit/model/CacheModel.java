@@ -19,6 +19,7 @@
 package net.dpml.transit.model;
 
 import java.io.File;
+import java.rmi.Remote;
 import java.rmi.RemoteException;
 
 /**
@@ -29,7 +30,7 @@ import java.rmi.RemoteException;
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-public interface CacheModel extends Model
+public interface CacheModel extends Remote
 {
    /**
     * The property key used to identify the cache location when configuring 

@@ -90,7 +90,6 @@ class PartsInvocationHandler implements InvocationHandler
         String key = getPartKey( method, semantic );
         
         Component handler = getComponentHandler().getPartHandler( key );
-        handler.activate();
         
         if( GET == semantic )
         {
@@ -100,6 +99,7 @@ class PartsInvocationHandler implements InvocationHandler
                 {
                     try
                     {
+                        handler.activate();
                         return handler.getInstance().getValue( false );
                     }
                     catch( ClassCastException e )
@@ -107,7 +107,7 @@ class PartsInvocationHandler implements InvocationHandler
                         final String error = 
                           "Component handler ["
                           + handler
-                          + "] could not be case to an approriate service class.";
+                          + "] could not be cast to an approriate service class.";
                         throw new IllegalStateException( error );
                     }
                 }
@@ -118,6 +118,7 @@ class PartsInvocationHandler implements InvocationHandler
                     if( ( Boolean.TYPE == argClass ) || ( Boolean.class == argClass ) )
                     {
                         boolean policy = getBooleanValue( arg );
+                        handler.activate();
                         return handler.getInstance().getValue( policy );
                     }
                     else
@@ -140,18 +141,7 @@ class PartsInvocationHandler implements InvocationHandler
             }
             else if( COMPONENT_KEY.equals( postfix ) )
             {
-                if( handler instanceof Component )
-                {
-                    return (Component) handler; // wrap in a proxy ?
-                }
-                else
-                {
-                    final String error = 
-                      "handler asssigned to the part key [" 
-                      + key 
-                      + "] is not a assignable to the Component class.";
-                    throw new IllegalStateException( error );
-                }
+                return handler; // wrap in a proxy ?
             }
             else
             {

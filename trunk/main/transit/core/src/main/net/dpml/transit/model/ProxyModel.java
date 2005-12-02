@@ -20,6 +20,7 @@ package net.dpml.transit.model;
 
 import java.net.URL;
 import java.net.PasswordAuthentication; 
+import java.rmi.Remote; 
 import java.rmi.RemoteException; 
 
 /**
@@ -29,7 +30,7 @@ import java.rmi.RemoteException;
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-public interface ProxyModel extends Model
+public interface ProxyModel extends Remote
 {
    /**
     * Return the proxy host url.

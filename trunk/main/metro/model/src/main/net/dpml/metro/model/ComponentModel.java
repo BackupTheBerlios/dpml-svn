@@ -25,7 +25,7 @@ import net.dpml.metro.info.LifestylePolicy;
 import net.dpml.metro.info.CollectionPolicy;
 import net.dpml.metro.data.ClassLoaderDirective;
 import net.dpml.metro.part.ActivationPolicy;
-import net.dpml.metro.part.Context;
+import net.dpml.metro.part.Model;
 import net.dpml.metro.state.State;
 
 import net.dpml.configuration.Configuration;
@@ -41,7 +41,7 @@ import net.dpml.transit.model.UnknownKeyException;
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-public interface ComponentModel extends Context, Remote
+public interface ComponentModel extends Model, Remote
 {
    /**
     * Return the component name.

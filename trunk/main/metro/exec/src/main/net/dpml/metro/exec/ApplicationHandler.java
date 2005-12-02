@@ -22,6 +22,9 @@ import java.io.IOException;
 import java.net.URI;
 import java.rmi.registry.Registry;
 import java.rmi.registry.LocateRegistry;
+import java.util.Properties;
+import java.util.Iterator;
+import java.util.Set;
 
 import net.dpml.metro.part.Component;
 
@@ -153,11 +156,35 @@ $ metro exec link:part:dpml/planet/http/dpml-http-demo
             m_callback = new LocalCallback();
         }
         
+        Properties properties = getCommandLineProperties( line );
+        properties.list( System.out );
+        
         URI config = getConfigurationURI( line );
         URI params = getParametersURI( line );
         
-        Component component = resolveTargetComponent( logger, uri, config, params );
+        Component component = resolveTargetComponent( logger, uri, config, params, properties );
         m_callback.started( PROCESS_ID, component );
+    }
+    
+    
+   /**
+    * Return a properties instance composed of the <tt>-D&lt;key&gt;=&lt;value&gt;</tt>
+    * commandline arguments.
+    * @param line the commandline
+    * @return the resolved properties
+    */
+    private Properties getCommandLineProperties( CommandLine line )
+    {
+        Properties properties = new Properties();
+        Set propertyValue = line.getProperties();
+        Iterator iterator = propertyValue.iterator();
+        while( iterator.hasNext() )
+        {
+            String name = (String) iterator.next();
+            String value = line.getProperty( name );
+            properties.setProperty( name, value );
+        }
+        return properties;
     }
     
     //------------------------------------------------------------------------------
@@ -174,7 +201,8 @@ $ metro exec link:part:dpml/planet/http/dpml-http-demo
         return (URI) line.getValue( PARAMS_OPTION, null );
     }
     
-    private Component resolveTargetComponent( Logger logger, URI uri, URI config, URI params ) throws Exception
+    private Component resolveTargetComponent( 
+      Logger logger, URI uri, URI config, URI params, Properties properties ) throws Exception
     {
         if( Artifact.isRecognized( uri ) )
         {
@@ -182,7 +210,7 @@ $ metro exec link:part:dpml/planet/http/dpml-http-demo
             String type = artifact.getType();
             if( type.equals( "part" ) )
             {
-                return new ComponentAdapter( logger, uri, config, params );
+                return new ComponentAdapter( logger, uri, config, params, properties );
             }
         }
         
@@ -244,7 +272,8 @@ $ metro exec link:part:dpml/planet/http/dpml-http-demo
     private static final GroupBuilder GROUP_BUILDER = new GroupBuilder();
     private static final CommandBuilder COMMAND_BUILDER = new CommandBuilder();
 
-    private static final PropertyOption PROPERTY_OPTION = new PropertyOption();
+    private static final PropertyOption CONTEXT_OPTION = 
+      new PropertyOption( "-C", "Set a context entry value.", 'C' );
     private static final NumberValidator PORT_VALIDATOR = NumberValidator.getIntegerInstance();
     private static final URIValidator URI_VALIDATOR = new URIValidator();
       
@@ -323,6 +352,7 @@ $ metro exec link:part:dpml/planet/http/dpml-http-demo
         .withOption( PORT_OPTION )
         .withOption( CONFIG_OPTION )
         .withOption( PARAMS_OPTION )
+        .withOption( CONTEXT_OPTION )
         .create();
     
     private static final Option EXECUTE_COMMAND =
