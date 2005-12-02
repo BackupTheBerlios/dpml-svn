@@ -54,7 +54,8 @@ import net.dpml.test.ExampleComponent;
 /**
  * Contains a series of tests applied to the component component.
  *
- * @author <a href="mailto:dev-dpml@lists.ibiblio.org">The Digital Product Meta Library</a>
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public class CompositeTestCase extends TestCase
 {    

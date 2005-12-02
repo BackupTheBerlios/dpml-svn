@@ -51,7 +51,8 @@ import net.dpml.test.ExampleComponent;
 
 /**
  * Test transient semantics.
- * @author <a href="mailto:dev-dpml@lists.ibiblio.org">The Digital Product Meta Library</a>
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public class TransientInstanceTestCase extends TestCase
 {    

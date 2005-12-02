@@ -30,35 +30,68 @@ import org.mortbay.http.HttpHandler;
 
 public class Demo implements Startable
 {
+   /**
+    * HTTP Demo component context.
+    */
     public interface Context
     {
+       /**
+        * Get the port on which the demo listener will be assigned.
+        * @param port the default port value 
+        * @return the port to assign to the socket listener
+        */
         int getPort( int port );
     }
 
+   /**
+    * Internal part managmeent interface.
+    */
     public interface Parts
     {
+       /**
+        * Return the context map associated with the socket listener.
+        * @return the context map
+        */
         Map getSocketListenerMap();
+        
+       /**
+        * Return the socket listener service.
+        * @return the socket listener
+        */
         SocketListenerService getSocketListener();
     }
     
     private final Logger m_logger;
     private final Parts m_parts;
     
+   /**
+    * Creation of the HTTP Demo Component.
+    * @param logger the assigned logging channel
+    * @param context the public component context
+    * @param parts the internal parts manager
+    */
     public Demo( Logger logger, Context context, Parts parts )
     {
         m_logger = logger;
         m_parts = parts;
-        System.out.println( "### PORT: " + context.getPort( 8080 ) );
-        parts.getSocketListenerMap().put( "port", new Integer( context.getPort( 8080 ) ) );
+        int port = context.getPort( 8080 );
+        parts.getSocketListenerMap().put( "port", new Integer( port ) );
     }
 
-    public void start() throws Exception
+   /**
+    * Start the demo.
+    */
+    public void start()
     {
         m_logger.info( "Starting" );
         m_parts.getSocketListener();
     }
 
-    public void stop() throws Exception
+   /**
+    * Stop the demo.
+    * @exception Exception if an error occurs
+    */
+    public void stop()
     {
         m_logger.info( "Stopping" );
     }

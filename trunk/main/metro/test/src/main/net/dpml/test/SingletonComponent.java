@@ -23,7 +23,7 @@ import java.awt.Color;
 import net.dpml.logging.Logger;
 
 /**
- * Single test component.
+ * Component used to validate the singleton lisfestyle policy.
  * 
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@ 
@@ -35,7 +35,7 @@ public class SingletonComponent implements ColorManager
     //------------------------------------------------------------------
 
    /**
-    * The componnet defined construction criteria.
+    * The componet defined construction criteria.
     */
     public interface Context
     {

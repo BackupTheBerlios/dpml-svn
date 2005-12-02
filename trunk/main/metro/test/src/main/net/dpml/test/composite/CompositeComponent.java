@@ -26,10 +26,10 @@ import net.dpml.logging.Logger;
 import net.dpml.test.ColorManager;
 
 /**
- * This composinent declares an inner Parts interface through which 
- * it accesses a map of the context infomation of a subsidiary component.
- * The subsidiary component is defined and established within the component
- * types definition.
+ * This component declares an inner Parts interface through which 
+ * it accesses a map of the context infomation of a subsidiary component
+ * named 'child'. The subsidiary component is defined and established 
+ * within the component types definition (see build file for details).
  * 
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@ 
@@ -41,7 +41,7 @@ public class CompositeComponent implements ColorManager
     //------------------------------------------------------------------
 
    /**
-    * The componnet defined construction criteria.
+    * The construction criteria.
     */
     public interface Context
     {
@@ -53,7 +53,7 @@ public class CompositeComponent implements ColorManager
     }
 
    /**
-    * The componnet defined construction criteria.
+    * Internal part managmeent interface.
     */
     public interface Parts
     {
@@ -62,6 +62,11 @@ public class CompositeComponent implements ColorManager
         * @return the context map
         */
         Map getChildMap();
+        
+       /**
+        * Return the child componet as a service instance.
+        * @return the color manager
+        */
         ColorManager getChild();
     }
 
@@ -84,9 +89,9 @@ public class CompositeComponent implements ColorManager
     //------------------------------------------------------------------
 
    /**
-    * Creation of a new singleton component instance.
-    * @param logger the assinged logging channel
-    * @param context a context implementation fullfil,ling the context criteria
+    * Creation of a new composite component instance.
+    * @param logger the assingned logging channel
+    * @param context a context implementation
     */
     public CompositeComponent( final Logger logger, final Context context, final Parts parts )
     {

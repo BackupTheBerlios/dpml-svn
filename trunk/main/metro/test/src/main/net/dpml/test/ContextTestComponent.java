@@ -23,7 +23,8 @@ import java.io.File;
 import java.net.URI;
 
 /**
- * Component used for context entry testing. 
+ * Component used for context entry testing. The main purpose of this 
+ * class is to exercise the spectrum of content access operations.
  *
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@

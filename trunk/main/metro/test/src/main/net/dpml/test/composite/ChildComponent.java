@@ -25,7 +25,9 @@ import net.dpml.logging.Logger;
 import net.dpml.test.ColorManager;
 
 /**
- * Single test component.
+ * Arbitary component used in the testing of parent to child context management. 
+ * The key features tested though this class is the assignment of a color value by 
+ * the enclosing component (as opposed to a static directive).
  * 
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@ 
@@ -37,7 +39,7 @@ public class ChildComponent implements ColorManager
     //------------------------------------------------------------------
 
    /**
-    * The componnet defined construction criteria.
+    * The construction criteria.
     */
     public interface Context
     {
