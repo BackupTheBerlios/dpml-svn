@@ -13,6 +13,19 @@
 
        <p>IN PROGRESS</p>
 
+       <p>
+       Metro is component runtime solution. It handles that isues related 
+       to application deployment and it handles the issues related to composition
+       and management of components that make up an application. Metro does these
+       things using some very strait-forward and simple concepts.  Firstly and 
+       foremost Metro is an IOC Container (<a href="concepts/ioc.html">Inversion Of
+       Control</a>) but perhaps more interesting is the support with Metro for 
+       the notion of component driven <a href="concepts/ioc.html">Context 
+       Awareness</a> combined with an <a href="concepts/management.html">Active 
+       Mangement</a>, <a href="concepts/model.html">Model Driven</a>, 
+       <a href="concepts/parts.html">Part Based</a> system arctitecture.
+       </p>
+
     </section>
 
   </body>
