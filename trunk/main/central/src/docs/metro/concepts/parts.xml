@@ -11,7 +11,31 @@
 
     <section name="Part Based">
 
-       <p>IN PROGRESS</p>
+      <p>
+      Open-source solutions are inheriently risky.  Communities arise and 
+      dissapear with a disconserting frequency.  Even commmunities with a 
+      strong user community can find themselves abandoned based on little
+      more than policital whims. In comparimon - the commercial model provides
+      a substantially higher degree of longevity largely due to the 
+      organizational and control structures in place.  In recognition of these
+      risks the Metro platform has introduced a part-management infrastructure
+      aimed directly at risk reduction.  When building and deploying a component 
+      on platform version X - you don't want to be left out to dry when the 
+      community switches to version Y.  A solution to this issue is addressed 
+      though a <a href="/api/dpml/@VERSION@/net/dpml/metro/part/package-summary.html">
+      part management</a> archictecture that assures interoperability 
+      with a series of low-level part APIs.  Metro deals with this issue though
+      the separation of low-level component APIs from the APIs dealing with 
+      component control. Componets depoyment infomation published under the 
+      <tt>part</tt> data type is tagged relative to the controller 
+      implementation.  Controllers are in-turn obliged to consolt and potentally
+      delegate runtime concerns to a controller version (and implementatuion) 
+      asserted withing a part description. At then end of the day this means 
+      that a componet can assert the envoronment within which it is fullly 
+      functional - AND - that the components can work and interoperate with components
+      built and deployed with controllers with dramatically different deployment
+      and runtime assumptions.
+      </p>
 
     </section>
 
