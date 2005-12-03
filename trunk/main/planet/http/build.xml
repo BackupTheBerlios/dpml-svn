@@ -19,7 +19,7 @@
 
 <project name="dpml-http" default="install" basedir="." 
     xmlns:transit="antlib:net.dpml.transit" 
-    xmlns:x="dpml:tools"
+    xmlns:x="dpml:depot"
     xmlns:c="dpml:composition">
 
   <transit:import uri="local:template:dpml/tools/standard"/>

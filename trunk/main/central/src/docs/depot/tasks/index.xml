@@ -36,7 +36,7 @@
 <pre><![CDATA[
 <project name="demo" default="install" basedir="." 
     xmlns:transit="antlib:net.dpml.transit"
-    xmlns:x="dpml:tools" >
+    xmlns:x="dpml:depot" >
 
   <transit:import uri="local:template:dpml/tools/standard"/>
   ....
@@ -45,6 +45,8 @@
 ]]></pre>
  
       </subsection>
+
+      <subsection name="Antlib Namespace"><source>dpml:depot</source></subsection>
 
     </section>
 

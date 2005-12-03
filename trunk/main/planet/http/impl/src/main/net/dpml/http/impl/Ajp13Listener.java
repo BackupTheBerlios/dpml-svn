@@ -110,11 +110,12 @@ public class Ajp13Listener extends org.mortbay.http.ajp.AJP13Listener
 
    /**
     * Creation of a new Ajp13Listener.
-    * @param the assigned logging channel
-    * @param context the deployment context 
+    * @param logger the assigned logging channel
+    * @param context the deployment context
+    * @exception UnknownHostException if the host name is unknown
     */
     public Ajp13Listener( Logger logger, Context context )
-        throws ParameterException
+        throws UnknownHostException
     {
         m_logger = logger;
         m_httpServer = context.getHttpServer();
@@ -157,17 +158,10 @@ public class Ajp13Listener extends org.mortbay.http.ajp.AJP13Listener
         }
 
         String host = context.getHostName( null );
-        try
+        if( host != null )
         {
-            if( host != null )
-            {
-                setHost( host );
-            }
+            setHost( host );
         } 
-        catch( java.net.UnknownHostException e )
-        {
-            throw new ParameterException( "Unknown hostname: " + host );
-        }
 
         int port = context.getPort( 8080 );
         setPort( port );

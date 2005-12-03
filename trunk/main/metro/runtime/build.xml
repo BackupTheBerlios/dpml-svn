@@ -19,7 +19,7 @@
 
 <project name="dpml-metro-runtime"
     xmlns:transit="antlib:net.dpml.transit" 
-    xmlns:x="dpml:tools" 
+    xmlns:x="dpml:depot" 
     default="install">
 
   <transit:import uri="local:template:dpml/tools/standard"/>

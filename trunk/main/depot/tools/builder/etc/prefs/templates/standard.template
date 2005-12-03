@@ -18,10 +18,10 @@
 
 <project name="standard" default="install"
     xmlns:transit="antlib:net.dpml.transit" 
-    xmlns:x="dpml:tools" >
+    xmlns:x="dpml:depot" >
 
   <transit:plugin uri="@PROJECT-URI@">
-    <antlib urn="dpml:tools" resource="net/dpml/tools/tasks/antlib.xml"/>
+    <antlib urn="dpml:depot" resource="net/dpml/tools/tasks/antlib.xml"/>
   </transit:plugin>
 
   <target name="init">
