@@ -64,15 +64,10 @@ public class ContextTestCase extends TestCase
     
     public void setUp() throws Exception
     {
-        long now = new Date().getTime();
         final String path = "context.part";
         final File test = new File( System.getProperty( "project.test.dir" ) );
         final URI uri = new File( test, path ).toURI();
-        Controller control = Part.CONTROLLER;
-        Directive part = control.loadDirective( uri );
-        ComponentModel model = (ComponentModel) control.createContext( part );
-        Component component = control.createComponent( model );
-        component.activate();
+        Component component = Part.CONTROLLER.createComponent( uri );
         Instance instance = component.getInstance();
         m_value = (ContextTestComponent) instance.getValue( false );
         m_context = m_value.getContext();

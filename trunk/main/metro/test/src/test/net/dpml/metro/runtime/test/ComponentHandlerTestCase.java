@@ -68,8 +68,7 @@ public class ComponentHandlerTestCase extends TestCase
         final File test = new File( System.getProperty( "project.test.dir" ) );
         final URI uri = new File( test, path ).toURI();
         m_control = Part.CONTROLLER;
-        Directive directive = m_control.loadDirective( uri );
-        m_model = (ComponentModel) m_control.createContext( directive );
+        m_model = (ComponentModel) m_control.createModel( uri );
     }
     
    /**

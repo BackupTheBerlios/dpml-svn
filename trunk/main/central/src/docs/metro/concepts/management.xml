@@ -11,7 +11,87 @@
 
     <section name="Active Management">
 
-       <p>IN PROGRESS</p>
+      <p>
+      A component lifecycle strategy covers the management of the 
+      lifetime of a component. Frequently containers will provide common 
+      lifecycle interfaces following the Avalon style <tt>Initializable</tt>,
+      <tt>Startable</tt>, and <tt>Executable</tt> interface.  These 
+      approaches suffer from the immediate disavantage of locking a component
+      implementation to a particular framework API - but more importantly, 
+      they limit the scope of a potential lifecycle to a static generilized 
+      scenario.
+      </p>
+
+      <p>
+      Metro takes a fundimentally different approach to lifecycle management 
+      in that a lifecycle is viewed in terms of 
+      <a href="/api/dpml/@VERSION@/net/dpml/metro/state/State.html">states</a> and   
+      <a href="/api/dpml/@VERSION@/net/dpml/metro/state/Transition.html">transitions</a>.  The 
+      process of establishing a component is representated by a series of 
+      initialization transitions applied to a state graph.  The process of 
+      decommissioning is expressed as a series of terminator transitions.  
+      On completion of the instantiation phase a component may be managed in 
+      terms of additional states, transitions and operations.  Using this 
+      approach components may declare complex highly-tailored custom lifecycle 
+      behaviour without reference to a particular container API.  Secondly, 
+      through a remote management framework - management applications can 
+      dynamically interact with and adapt to the active state of a component 
+      instance.
+      </p>
+
+      <subsection name="Example Component">
+
+        <p>
+        The following code fragment demonstrates the implementation within 
+        a component that deals with <tt>start</tt> and <tt>stop</tt> semantics.
+        The component expects start to be invoked during initialization and 
+        that stop will be invoked duirng component decomissioning.  Note that 
+        the implementation does not reference any static constructs such as a 
+        container specific lifecycle interface.
+        </p>
+
+<pre>
+public DemoComponent
+{
+    <font color="darkred">public void start() throws Exception
+    {
+        ...
+    }
+
+    public void stop() throws Exception
+    {
+        ...
+    }</font>
+}
+</pre>
+
+        <p>
+        Metro uses a generic state model based on the standard OMG Collaboration
+        Framework Specifications as the basis for component state management. A 
+        component may declare an <tt>.xgraph</tt> resource containing an XML 
+        description of the component lifecyle semantics.
+        </p>
+  
+        <p><i>Example of an XML specification for a startable lifecycle scenario.</i></p>
+
+<pre><![CDATA[
+<state>
+  <trigger event="initialization">
+    <transition name="init" target="started" uri="method:start"/>
+  </trigger>
+  <state name="started">
+    <transition name="stop" target="../stopped" uri="method:stop"/>
+    <trigger event="termination">
+      <action uri="transition:stop"/>
+    </trigger>
+  </state>
+  <state name="stopped">
+    <transition name="start" target="../started" uri="method:start"/>
+  </state>
+</state>
+]]></pre>
+
+      </subsection>
 
     </section>
 

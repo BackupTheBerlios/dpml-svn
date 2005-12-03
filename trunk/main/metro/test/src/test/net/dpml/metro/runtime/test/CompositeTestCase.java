@@ -66,8 +66,7 @@ public class CompositeTestCase extends TestCase
         final String path = "composite.part";
         final File test = new File( System.getProperty( "project.test.dir" ) );
         final URI uri = new File( test, path ).toURI();
-        Directive directive = Part.CONTROLLER.loadDirective( uri );
-        m_model = Part.CONTROLLER.createContext( directive );
+        m_model = Part.CONTROLLER.createModel( uri );
     }
     
    /**

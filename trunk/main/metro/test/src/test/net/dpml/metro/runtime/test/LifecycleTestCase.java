@@ -29,77 +29,57 @@ import java.rmi.server.UnicastRemoteObject;
 
 import junit.framework.TestCase;
 
+import net.dpml.metro.data.ValueDirective;
+import net.dpml.metro.model.ComponentModel;
+import net.dpml.metro.model.ContextModel;
 import net.dpml.metro.part.Part;
 import net.dpml.metro.part.Directive;
 import net.dpml.metro.part.Controller;
-import net.dpml.metro.part.Component;
 import net.dpml.metro.part.ActivationPolicy;
 import net.dpml.metro.part.Instance;
+import net.dpml.metro.part.Component;
+import net.dpml.metro.part.ControlException;
+import net.dpml.metro.part.Model;
 import net.dpml.metro.state.State;
 import net.dpml.metro.state.StateListener;
 import net.dpml.metro.state.StateEvent;
 import net.dpml.metro.state.impl.DefaultStateListener;
-import net.dpml.metro.data.ValueDirective;
-import net.dpml.metro.model.ComponentModel;
-import net.dpml.metro.model.ContextModel;
 
 import net.dpml.transit.model.UnknownKeyException;
 import net.dpml.transit.Value;
 
-import net.dpml.test.ColorManager;
-import net.dpml.test.ExampleComponent;
+import net.dpml.test.lifecycle.StartableComponent;
 
 /**
- * Test HARD collection policy semantics.
+ * Contains a series of tests dealing with dynamic component lifecycles.
+ *
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-public class HardCollectionPolicyTestCase extends TestCase
+public class LifecycleTestCase extends TestCase
 {    
-    private Part m_part;
-    private ComponentModel m_model;
-    private Controller m_control;
+    private Model m_model;
     
     public void setUp() throws Exception
     {
-        final String path = "example-4.part";
+        final String path = "lifecycle.part";
         final File test = new File( System.getProperty( "project.test.dir" ) );
         final URI uri = new File( test, path ).toURI();
-        m_control = Part.CONTROLLER;
-        m_model = (ComponentModel) m_control.createModel( uri );
+        m_model = Part.CONTROLLER.createModel( uri );
     }
     
-    public void testCollection() throws Exception
+   /**
+    * Test that the component initial state is inactive.
+    */
+    public void testLifecycle() throws Exception
     {
-        Component component = m_control.createComponent( m_model );
-        component.activate();
-        assertTrue( "is-active", component.isActive() );
-        Instance one = component.getInstance();
-        Instance two = component.getInstance();
-        int count = component.size();
-        
-        //
-        // this is a singleton component and we have a reference to the instance 
-        // so the count should be 1
-        //
-        
-        assertEquals( "count", 1, count );
-        
-        //
-        // after nulling out the references and invoking a GC the count should be zero
-        //
-        
-        one = null;
-        two = null;
-        System.gc();
-        count = component.size();
-        
-        //
-        // tthe count should still be 1 becuase the HARD collection policy is in place
-        //
-        
-        assertEquals( "count", 1, count );
+        Component component = Part.CONTROLLER.createComponent( m_model );
+        assertNotNull( "component", component );
+        Instance instance = component.getInstance();
+        StartableComponent startable = (StartableComponent) instance.getValue( false );
+        assertTrue( "component is started", startable.wasStarted() );
         component.deactivate();
+        assertTrue( "component is stopped", startable.wasStopped() );
     }
     
     static

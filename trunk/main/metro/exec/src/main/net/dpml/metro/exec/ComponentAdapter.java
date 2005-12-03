@@ -114,8 +114,7 @@ public class ComponentAdapter extends AbstractAdapter
             throw new ApplicationException( error, e );
         }
         
-        Directive directive = m_controller.loadDirective( codebase );
-        Model model = m_controller.createContext( directive );
+        Model model = m_controller.createModel( codebase );
         m_component = m_controller.createComponent( model );
         
         if( null != config )
@@ -150,7 +149,7 @@ public class ComponentAdapter extends AbstractAdapter
         
         if( null != params )
         {
-            throw new UnsupportedOperationException( "Parameters not current supported." );
+            throw new UnsupportedOperationException( "Parameters not currently supported." );
         }
         
         if( model instanceof ComponentModel )

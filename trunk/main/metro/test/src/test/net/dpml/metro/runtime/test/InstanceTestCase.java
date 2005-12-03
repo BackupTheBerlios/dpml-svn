@@ -56,7 +56,6 @@ import net.dpml.test.ExampleComponent;
  */
 public class InstanceTestCase extends TestCase
 {    
-    private Directive m_part;
     private ComponentModel m_model;
     private Controller m_control;
     private State m_state;
@@ -67,8 +66,7 @@ public class InstanceTestCase extends TestCase
         final File test = new File( System.getProperty( "project.test.dir" ) );
         final URI uri = new File( test, path ).toURI();
         m_control = Part.CONTROLLER;
-        m_part = m_control.loadDirective( uri );
-        m_model = (ComponentModel) m_control.createContext( m_part );
+        m_model = (ComponentModel) m_control.createModel( uri );
     }
     
     public void testStateListenerAdditionAndRemoval() throws Exception

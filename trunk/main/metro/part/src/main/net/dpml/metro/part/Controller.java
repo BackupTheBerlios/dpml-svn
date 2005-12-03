@@ -55,7 +55,32 @@ public interface Controller
     * @return the management context
     * @exception ControlException if a part related error occurs
     */
-    Model createContext( Directive directive ) throws ControlException;
+    Model createModel( Directive directive ) throws ControlException;
+
+   /**
+    * Create and return a new management context using the supplied directive uri.
+    *
+    * @param uri a uri identifying a deployment directive
+    * @return the management context model
+    * @exception ControlException if an error occurs
+    */
+    Model createModel( URI uri ) throws ControlException, IOException;
+
+   /**
+    * Create and return a remote reference to a component handler.
+    * @param uri a uri identifying a deployment directive
+    * @return the component handler
+    * @exception Exception if an error occurs
+    */
+    Component createComponent( URI uri ) throws Exception;
+
+   /**
+    * Create and return a remote reference to a component handler.
+    * @param model the management context
+    * @return the component handler
+    * @exception Exception if a component construction error occurs
+    */
+    Component createComponent( Model model ) throws Exception;
 
    /**
     * Create a classloader using the supplied anchor classloader and 
@@ -67,13 +92,5 @@ public interface Controller
     * @exception ControlException if a part related error occurs
     */
     ClassLoader createClassLoader( ClassLoader anchor, Model model ) throws ControlException;
-
-   /**
-    * Create and return a remote reference to a component handler.
-    * @param model the management context
-    * @return the component handler
-    * @exception Exception if a component construction error occurs
-    */
-    Component createComponent( Model model ) throws Exception;
 
 }

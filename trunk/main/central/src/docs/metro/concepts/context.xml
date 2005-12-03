@@ -11,7 +11,84 @@
 
     <section name="Context Aware">
 
-       <p>IN PROGRESS</p>
+      <p>
+      Metro introduces the principal of "Context Assertion" by a component
+      and the corresponding subject of "Context Awarness" by a container. In 
+      a Metro environment (or any environment following the context pattern)
+      a component asserts its operational dependencies via an inner <tt>Context</tt>
+      interface. 
+      </p>
+
+      <p>
+      Key benefits arrising from the usage of the Context Assertion pattern include:
+      </p>
+
+      <ul>
+        <li>Operations are 100% type safe.</li>
+        <li>Explicit declaration by the component of optional versus required dependencies.</li>
+        <li>No ambiguity between dependency management and component implementation.</li>
+        <li>Dependencies are fully qualified.</li>
+        <li>No container dependencies.</li>
+      </ul>
+
+      <subsection name="Example Component">
+
+      <p>
+      The following example component declares a inner Context interface 
+      containing three operations - the first operation returns an instance of 
+      <tt>java.awt.Color</tt>, the second operation returns a primitive int 
+      value and the third a <tt>String</tt> value.  The last example includes 
+      a default value parameter.
+      </p>
+<pre>
+import java.awt.Color;
+
+public class DemoComponent
+{
+    <font color="darkred">public interface Context
+    {
+        Color getColor();
+        int getLength();
+        String getName( String defaultName );
+    }</font>
+
+    public DemoComponent( Context context )
+    {
+        final Color color = context.getColor();
+        final int length = context.getLength();
+        final String name = context.getName( "widget" );
+
+        ...
+    }
+}
+</pre>
+
+      </subsection>
+
+      <subsection name="Context Rules">
+
+        <p>
+        Context declaration relies upon a set of patterns that are applied to 
+        operation signatures.  First and formost is the usage of
+        the bean-style <tt>getXxxx()</tt> naming convention wherein <tt>"get"</tt>
+        is a standard prefix and the remainder of the method name is used to establish 
+        a unique context entry key.  A second pattern is used to determine if the context 
+        operation is optional or not.  If the operation declares a single parameter then 
+        the context entry is considered optional. 
+        </p>
+
+        <p>
+        A number constraints exist concerning context operation signatures:
+        </p>
+
+        <ul>
+          <li>An operations may not declare a throws clause.</li> 
+          <li>If an operation declares a default parameter the type of 
+             the parameter must be type assignable to the operations 
+             return type.</li> 
+        </ul>
+
+      </subsection>
 
     </section>
 

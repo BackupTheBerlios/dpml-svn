@@ -51,10 +51,8 @@ public class HttpTestCase extends TestCase
         URI uri = new File( test, PATH ).toURI();
         
         Controller control = Part.CONTROLLER;
-        Directive directive = control.loadDirective( uri );
-        Model context = control.createContext( directive );
+        Model context = control.createModel( uri );
         Component component = control.createComponent( context );
-        component.activate();
         Demo demo = (Demo) component.getInstance().getValue( false );
         component.deactivate();
     }

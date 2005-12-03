@@ -107,6 +107,13 @@
       </context>
     </c:component>
 
+    <!-- create the lifecycle managed component -->
+
+    <c:type class="net.dpml.test.lifecycle.StartableComponent" name="lifecycle"/>
+    <c:component dest="target/test/lifecycle.part" test="true" activation="false"
+        type="net.dpml.test.lifecycle.StartableComponent" name="startable" collection="hard">
+    </c:component>
+
   </target>
 
 </project>

@@ -16,12 +16,15 @@
  */
 package net.dpml.http.impl;
 
+import java.net.UnknownHostException;
+
 import net.dpml.activity.Startable;
 import net.dpml.logging.Logger;
 import net.dpml.parameters.ParameterException;
 import net.dpml.parameters.Parameterizable;
 import net.dpml.parameters.Parameters;
 import net.dpml.http.spi.HttpService;
+
 import org.mortbay.http.HttpListener;
 
 /** 

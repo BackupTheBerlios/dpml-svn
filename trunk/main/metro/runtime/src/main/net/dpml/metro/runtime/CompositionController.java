@@ -140,6 +140,20 @@ public class CompositionController implements Controller
     }
     
    /**
+    * Create and return a new management context using the supplied directive uri.
+    *
+    * @param uri a uri identifying a deployment directive
+    * @return the management context model
+    * @exception ControlException if an error occurs
+    * @exception IOException if an error occurs reading the identified resource
+    */
+    public Model createModel( URI uri ) throws ControlException, IOException
+    {
+        Directive directive = loadDirective( uri );
+        return createModel( directive );
+    }
+    
+   /**
     * Create and return a new management context using the supplied part
     * as the inital management state.
     *
@@ -147,7 +161,7 @@ public class CompositionController implements Controller
     * @return the management context model
     * @exception ControlException if an error occurs during model construction
     */
-    public Model createContext( Directive directive ) throws ControlException
+    public Model createModel( Directive directive ) throws ControlException
     {
         if( directive instanceof ComponentDirective )
         {
@@ -164,6 +178,18 @@ public class CompositionController implements Controller
         }
     }
     
+   /**
+    * Create and return a remote reference to a component handler.
+    * @param uri a uri identifying a deployment directive
+    * @return the component handler
+    * @exception Exception if an error occurs
+    */
+    public Component createComponent( URI uri ) throws Exception
+    {
+        Model model = createModel( uri );
+        return createComponent( model );
+    }
+
    /**
     * Create and return a remote reference to a component handler.
     * @param model the component model

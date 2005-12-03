@@ -50,7 +50,6 @@ import net.dpml.test.ExampleComponent;
  */
 public class ComponentModelTestCase extends TestCase
 {    
-    private Directive m_part;
     private ComponentModel m_model;
     
     public void setUp() throws Exception
@@ -58,9 +57,7 @@ public class ComponentModelTestCase extends TestCase
         final String path = "example.part";
         final File test = new File( System.getProperty( "project.test.dir" ) );
         final URI uri = new File( test, path ).toURI();
-        final Controller controller = Part.CONTROLLER;
-        m_part = controller.loadDirective( uri );
-        m_model = (ComponentModel) controller.createContext( m_part );
+        m_model = (ComponentModel) Part.CONTROLLER.createModel( uri );
     }
     
     public void testName() throws Exception
