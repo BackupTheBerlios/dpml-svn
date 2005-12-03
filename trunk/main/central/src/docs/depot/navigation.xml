@@ -28,6 +28,7 @@
       <item name="Overview" href="concepts/index.html"/>
       <item name="Library" href="library/index.html"/>
       <item name="Builder" href="tools/index.html"/>
+      <item name="Tasks" href="tasks/index.html"/>
       <item name="CLI" href="cli/index.html"/>
     </menu>
 

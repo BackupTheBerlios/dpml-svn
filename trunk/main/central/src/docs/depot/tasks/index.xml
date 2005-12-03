@@ -9,15 +9,15 @@
 
   <body>
 
-    <section name="Core Tasks">
+    <section name="Depot Tasks">
 
       <pre>@DEPOT-TOOLS-ANT-URI@</pre>
 
       <subsection name="Description">
 
         <p>
-        The core Tools Antlib provides a collection of tasks and processors
-        that leverage information form a project definition.  Generally 
+        The Depot Tools Antlib provides a collection of tasks and processors
+        that leverage information form project definitions.  Generally 
         speaking you will not neeed to reference tasks directly - instead, 
         projects declare produced types and from this information build
         listeners (processors) are automatically assigned to the project 
