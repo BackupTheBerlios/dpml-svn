@@ -20,11 +20,9 @@ package net.dpml.metro.tools;
 
 import java.beans.IntrospectionException;
 import java.beans.Encoder;
-import java.beans.XMLDecoder;
 import java.beans.XMLEncoder;
 import java.beans.ExceptionListener;
 import java.beans.Expression;
-import java.beans.PersistenceDelegate;
 import java.beans.DefaultPersistenceDelegate;
 import java.io.File;
 import java.io.FileWriter;
@@ -48,7 +46,6 @@ import net.dpml.configuration.Configuration;
 
 import net.dpml.parameters.Parameters;
 
-import net.dpml.metro.part.Part;
 import net.dpml.metro.part.ActivationPolicy;
 
 import org.apache.tools.ant.BuildException;
@@ -831,13 +828,22 @@ public class ComponentBuilderTask extends ClassLoaderBuilderTask implements Part
          }
     }
 
+   /**
+    * Utility class used to handle uri persistence.
+    */
     public static class URIPersistenceDelegate extends DefaultPersistenceDelegate
     {
+       /**
+        * Return an expressio to create a uri.
+        * @param old the old value
+        * @param encoder the encoder
+        * @return the expression
+        */
         public Expression instantiate( Object old, Encoder encoder )
         {
             URI uri = (URI) old;
             String spec = uri.toString();
-            Object[] args = new Object[]{ spec };
+            Object[] args = new Object[]{spec};
             return new Expression( old, old.getClass(), "new", args );
         }
     }

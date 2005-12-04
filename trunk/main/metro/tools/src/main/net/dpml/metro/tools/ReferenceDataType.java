@@ -25,7 +25,6 @@ import net.dpml.metro.info.Type;
 import net.dpml.metro.info.PartReference;
 import net.dpml.metro.data.ReferenceDirective;
 
-import net.dpml.metro.part.Part;
 import net.dpml.metro.part.Directive;
 
 /**

@@ -26,7 +26,6 @@ import net.dpml.metro.runtime.CompositionController;
 import net.dpml.metro.info.PartReference;
 import net.dpml.metro.info.Type;
 
-import net.dpml.metro.part.Part;
 import net.dpml.metro.part.Directive;
 import net.dpml.metro.part.DelegationException;
 import net.dpml.metro.part.PartNotFoundException;
