@@ -28,6 +28,7 @@
       <item name="Junit" href="../../reports/@VERSION@/junit/index.html"/>
       <item name="Javadocs" href="../../api/dpml/@VERSION@/index.html"/>
       <item name="Checkstyle" href="../../reports/@VERSION@/checkstyle/index.html"/>
+      <item name="Catalog" href="../../reports/@VERSION@/catalog/index.html"/>
     </menu>
 
  </body>

@@ -13,10 +13,8 @@
       <p>
       Javadoc, JUnit and Checkstyle reports are based on the latest 
       SVN HEAD build. Please note that the Transit and Depot package 
-      documentation is considered complete - however Javadoc documentation 
-      on Metro and Planet packages is for moment somewhat scattered. This 
-      should improve progresively due to recent considation of the repective
-      packages.
+      documentation is considered complete however documentation 
+      on Metro remains a work-in-progress.
       </p>
 
     </section>
