@@ -20,6 +20,8 @@ package net.dpml.metro.data;
 
 import java.io.Serializable;
 
+import net.dpml.metro.info.Priority;
+
 /**
  * A logging category descriptor hierachy.  The descriptor contains a category name, a
  * optional priority value, and an optional target.  If the priority or target values
@@ -43,32 +45,12 @@ import java.io.Serializable;
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-public class CategoryDirective implements Serializable
+public class CategoryDirective extends AbstractDirective implements Serializable
 {
    /**
     * Serial version identifier.
     */
     static final long serialVersionUID = 1L;
-
-    /**
-     * Constant category priority value for debug mode.
-     */
-    public static final String DEBUG = "DEBUG";
-
-    /**
-     * Constant category priority value for info mode.
-     */
-    public static final String INFO = "INFO";
-
-    /**
-     * Constant category priority value for warning mode.
-     */
-    public static final String WARN = "WARN";
-
-    /**
-     * Constant category priority value for error mode.
-     */
-    public static final String ERROR = "ERROR";
 
     /**
      * The logging category name.
@@ -78,7 +60,7 @@ public class CategoryDirective implements Serializable
     /**
      * The default logging priority.
      */
-    private final String m_priority;
+    private final Priority m_priority;
 
     /**
      * The default logging target.
@@ -101,7 +83,7 @@ public class CategoryDirective implements Serializable
      * @param name the category name
      * @param priority the category priority - DEBUG, INFO, WARN, or ERROR
      */
-    public CategoryDirective( final String name, String priority )
+    public CategoryDirective( final String name, Priority priority )
     {
         this( name, priority, null );
     }
@@ -116,18 +98,11 @@ public class CategoryDirective implements Serializable
      *
      */
     public CategoryDirective(
-        final String name, final String priority, final String target )
+        final String name, final Priority priority, final String target )
     {
         m_name = name;
         m_target = target;
-        if( priority != null )
-        {
-            m_priority = priority.trim().toUpperCase();
-        }
-        else
-        {
-            m_priority = null;
-        }
+        m_priority = priority;
     }
 
     /**
@@ -145,7 +120,7 @@ public class CategoryDirective implements Serializable
      *
      * @return the logging priority for the category
      */
-    public String getPriority()
+    public Priority getPriority()
     {
         return m_priority;
     }
@@ -178,44 +153,17 @@ public class CategoryDirective implements Serializable
         }
 
         CategoryDirective test = (CategoryDirective) other;
-        return ( equalName( test.getName() )
-              && equalPriority( test.getPriority() )
-              && equalTarget( test.getTarget() ) );
-    }
-
-    private boolean equalName( String other )
-    {
-        if( m_name == null )
+        if( !equals( m_name, test.m_name ) )
         {
-            return other == null;
+            return false;
+        }
+        else if( !equals( m_priority, test.m_priority ) )
+        {
+            return false;
         }
         else
         {
-            return m_name.equals( other );
-        }
-    }
-
-    private boolean equalPriority( String other )
-    {
-        if( m_priority == null )
-        {
-            return other == null;
-        }
-        else
-        {
-            return m_priority.equals( other );
-        }
-    }
-
-    private boolean equalTarget( String other )
-    {
-        if( m_target == null )
-        {
-            return other == null;
-        }
-        else
-        {
-            return m_target.equals( other );
+            return equals( m_target, test.m_target );
         }
     }
 
@@ -225,15 +173,10 @@ public class CategoryDirective implements Serializable
     */
     public int hashCode()
     {
-        int hash = m_name.hashCode();
-        if( m_priority != null )
-        {
-            hash ^= m_priority.hashCode();
-        }
-        if( m_target != null )
-        {
-            hash ^= m_target.hashCode();
-        }
+        int hash = super.hashCode();
+        hash ^= hashValue( m_name );
+        hash ^= hashValue( m_priority );
+        hash ^= hashValue( m_target );
         return hash;
     }
 }

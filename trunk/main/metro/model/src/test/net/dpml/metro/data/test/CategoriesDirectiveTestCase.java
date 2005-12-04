@@ -49,46 +49,47 @@ import junit.framework.TestCase;
  * @author <a href="mailto:dev-dpml@lists.ibiblio.org">The Digital Product Meta Library</a>
  * @version $Id: ContextDescriptorTestCase.java 2387 2005-04-23 19:12:58Z mcconnell@dpml.net $
  */
-public class CategoryDirectiveTestCase extends AbstractEncodingTestCase
+public class CategoriesDirectiveTestCase extends AbstractEncodingTestCase
 {    
     private String m_name;
     private Priority m_priority;
     private String m_target;
-    
-    private CategoryDirective m_directive;
+    private CategoryDirective[] m_categories;
+    private CategoriesDirective m_directive;
 
     public void setUp() throws Exception
     {
         m_name = "test";
         m_priority = Priority.ERROR;
         m_target = "target";
-        m_directive = new CategoryDirective( m_name, m_priority, m_target );
+        m_categories = 
+          new CategoryDirective[]
+          {
+             new CategoryDirective( "aaa", Priority.INFO, null ),
+             new CategoryDirective( "bbb", Priority.ERROR, "xml" ),
+             new CategoryDirective( "ccc", Priority.WARN, "rabbit" )
+          };
+        m_directive = new CategoriesDirective( m_name, m_priority, m_target, m_categories );
     }
     
-    public void testSingleArgConstructor() throws Exception
+    public void testNameConstructor() throws Exception
     {
-        CategoryDirective directive = new CategoryDirective( m_name );
+        CategoriesDirective directive = new CategoriesDirective( m_name );
         assertEquals( "name", m_name, directive.getName() );
         assertNull( "priority", directive.getPriority() );
         assertNull( "target", directive.getTarget() );
+        assertEquals( "categories", 0, directive.getCategories().length );
     }
     
-    public void testDualArgConstructor() throws Exception
+    public void testCategoriesConstructor() throws Exception
     {
-        CategoryDirective directive = new CategoryDirective( m_name, m_priority );
-        assertEquals( "name", m_name, directive.getName() );
-        assertEquals( "priority", m_priority, directive.getPriority() );
+        CategoriesDirective directive = new CategoriesDirective( m_categories );
+        assertEquals( "name", "", directive.getName() );
+        assertNull( "priority", directive.getPriority() );
         assertNull( "target", directive.getTarget() );
+        assertEquals( "categories", m_categories.length, directive.getCategories().length );
     }
     
-    public void testFullConstructor() throws Exception
-    {
-        CategoryDirective directive = new CategoryDirective( m_name, m_priority, m_target );
-        assertEquals( "name", m_name, directive.getName() );
-        assertEquals( "priority", m_priority, directive.getPriority() );
-        assertEquals( "target", m_target, directive.getTarget() );
-    }
-
     public void testName() throws Exception
     {
         assertEquals( "name", m_name, m_directive.getName() );
@@ -104,10 +105,15 @@ public class CategoryDirectiveTestCase extends AbstractEncodingTestCase
         assertEquals( "target", m_target, m_directive.getTarget() );
     }
     
+    public void testCategories() throws Exception
+    {
+        assertEquals( "categories", m_categories.length, m_directive.getCategories().length );
+    }
+
     public void testEncoding() throws Exception
     {
         CategoryDirective result = 
-          (CategoryDirective) executeEncodingTest( m_directive, "category-directive.xml" );
+          (CategoryDirective) executeEncodingTest( m_directive, "categories-directive.xml" );
         assertEquals( "encoded-equality", m_directive, result );
     }
 }

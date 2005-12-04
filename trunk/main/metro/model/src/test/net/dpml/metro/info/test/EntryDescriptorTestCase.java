@@ -39,7 +39,7 @@ import junit.framework.TestCase;
 import net.dpml.metro.info.EntryDescriptor;
 
 /**
- * EntryDescriptorTestCase does XYZ
+ * EntryDescriptorTestCase
  *
  * @author <a href="mailto:dev-dpml@lists.ibiblio.org">The Digital Product Meta Library</a>
  * @version $Id: EntryDescriptorTestCase.java 2387 2005-04-23 19:12:58Z mcconnell@dpml.net $
@@ -51,11 +51,6 @@ public class EntryDescriptorTestCase extends TestCase
     private static final boolean m_optional = true;
     private static final boolean m_volatile = true;
 
-    public EntryDescriptorTestCase( String name )
-    {
-        super( name );
-    }
-
     public void testEntryDescriptor()
     {
         EntryDescriptor entry = new EntryDescriptor( m_key, m_type, m_optional, m_volatile );
@@ -66,7 +61,10 @@ public class EntryDescriptorTestCase extends TestCase
 
         entry = new EntryDescriptor(m_key, m_type, m_optional );
         checkEntry( entry, m_key, m_type, m_optional, false );
-
+    }
+    
+    public void testNullKey()
+    {
         try
         {
             new EntryDescriptor( null, m_type );
@@ -76,7 +74,10 @@ public class EntryDescriptorTestCase extends TestCase
         {
             // Success!!
         }
-
+    }
+    
+    public void testNullType()
+    {
         try
         {
             new EntryDescriptor( m_key, null );
@@ -87,14 +88,14 @@ public class EntryDescriptorTestCase extends TestCase
             // Success!!
         }
     }
-
+    
     private void checkEntry( EntryDescriptor desc, String key, String type, boolean isOptional, boolean isVolatile )
     {
         assertNotNull( desc );
         assertEquals( key, desc.getKey() );
         assertEquals( type, desc.getClassname() );
         assertEquals( isOptional, desc.isOptional() );
-        assertEquals( ! isOptional, desc.isRequired() );
+        assertEquals( !isOptional, desc.isRequired() );
         assertEquals( isVolatile, desc.isVolatile() );
     }
 

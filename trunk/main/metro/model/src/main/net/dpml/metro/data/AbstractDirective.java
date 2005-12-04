@@ -29,7 +29,7 @@ import net.dpml.metro.part.Directive;
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-public abstract class AbstractDirective implements Directive
+public abstract class AbstractDirective 
 {
     //--------------------------------------------------------------------------
     // static
@@ -39,7 +39,70 @@ public abstract class AbstractDirective implements Directive
     * Serial version identifier.
     */
     static final long serialVersionUID = 1L;
-
+    
+    //--------------------------------------------------------------------------
+    // utilities
+    //--------------------------------------------------------------------------
+    
+   /**
+    * Utility to hash an array.
+    * @param array the array
+    * @return the hash value
+    */
+    int hashArray( Object[] array )
+    {
+        if( null == array )
+        {
+            return 0;
+        }
+        int hash = 0;
+        for( int i=0; i<array.length; i++ )
+        {
+            Object object = array[i];
+            hash ^= hashValue( object );
+        }
+        return hash;
+    }
+    
+   /**
+    * Utility to hash an object.
+    * @param value the object
+    * @return the hash value
+    */
+    int hashValue( Object value )
+    {
+        if( null == value )
+        {
+            return 0;
+        }
+        else if( value instanceof Object[] )
+        {
+            return hashArray( (Object[]) value );
+        }
+        else
+        {
+            return value.hashCode();
+        }
+    }
+    
+   /**
+    * Utility to compare two object for equality.
+    * @param a the first object
+    * @param b the second object
+    * @return true if the objects are equal
+    */
+    boolean equals( Object a, Object b )
+    {
+        if( null == a )
+        {
+            return ( null == b );
+        }
+        else
+        {
+            return a.equals( b );
+        }
+    }
+    
     //--------------------------------------------------------------------------
     // Part
     //--------------------------------------------------------------------------

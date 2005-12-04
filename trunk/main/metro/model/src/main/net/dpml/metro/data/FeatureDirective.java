@@ -20,6 +20,8 @@ package net.dpml.metro.data;
 
 import java.net.URI;
 
+import net.dpml.metro.part.Directive;
+
 /**
  * A <code>FeatureDirective</code> declares a context entry that is itself a feature
  * of the component including the component uri, name, working directory, or temporary 
@@ -28,7 +30,7 @@ import java.net.URI;
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-public class FeatureDirective extends AbstractDirective
+public class FeatureDirective extends AbstractDirective implements Directive
 {
    /**
     * Serial version identifier.

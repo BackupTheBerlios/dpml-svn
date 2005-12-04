@@ -20,6 +20,8 @@ package net.dpml.metro.data;
 
 import java.io.Serializable;
 
+import net.dpml.metro.info.Priority;
+
 
 /**
  * Description of the configuration of a set of categories.
@@ -78,7 +80,7 @@ public class CategoriesDirective extends CategoryDirective implements Serializab
      * @param categories the logging category descriptors
      */
     public CategoriesDirective( 
-      final String name, final String priority, final String target, final CategoryDirective[] categories )
+      final String name, final Priority priority, final String target, final CategoryDirective[] categories )
     {
         super( name, priority, target );
         if( categories == null )

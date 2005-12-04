@@ -22,6 +22,7 @@ import net.dpml.metro.info.PartReference;
 import net.dpml.metro.info.LifestylePolicy;
 import net.dpml.metro.info.CollectionPolicy;
 import net.dpml.metro.part.ActivationPolicy;
+import net.dpml.metro.part.Directive;
 
 import net.dpml.configuration.Configuration;
 
@@ -102,7 +103,7 @@ import net.dpml.parameters.Parameters;
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-public class ComponentDirective extends DeploymentDirective
+public class ComponentDirective extends DeploymentDirective implements Directive
 {
     //--------------------------------------------------------------------------
     // static
@@ -338,38 +339,25 @@ public class ComponentDirective extends DeploymentDirective
         {
             return false;
         }
-        if( !m_context.equals( profile.getContextDirective() ) )
+        else if( !m_context.equals( profile.getContextDirective() ) )
         {
             return false;
         }
-        if( !equals( m_collection, profile.getCollectionPolicy() ) )
+        else if( !equals( m_collection, profile.getCollectionPolicy() ) )
         {
             return false;
         }
-        if( !equals( m_lifestyle, profile.getLifestylePolicy() ) )
+        else if( !equals( m_lifestyle, profile.getLifestylePolicy() ) )
         {
             return false;
         }
-        if( !equals( m_parameters, profile.getParameters() ) )
+        else if( !equals( m_parameters, profile.getParameters() ) )
         {
             return false;
-        }
-        if( !equals( m_configuration, profile.getConfiguration() ) )
-        {
-            return false;
-        }
-        return true;
-    }
-
-    private boolean equals( Object a, Object b )
-    {
-        if( null == a )
-        {
-            return ( null == b );
         }
         else
         {
-            return a.equals( b );
+            return equals( m_configuration, profile.getConfiguration() );
         }
     }
 

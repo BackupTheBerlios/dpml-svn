@@ -20,6 +20,8 @@ package net.dpml.metro.data;
 
 import java.net.URI;
 
+import net.dpml.metro.part.Directive;
+
 /**
  * A reference directive is a reference to a part within the enclosing part's
  * context or parts.
@@ -27,7 +29,7 @@ import java.net.URI;
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-public final class ReferenceDirective extends AbstractDirective
+public final class ReferenceDirective extends AbstractDirective implements Directive
 {
    /**
     * Serial version identifier.
