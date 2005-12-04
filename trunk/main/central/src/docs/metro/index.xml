@@ -17,7 +17,7 @@
        and management of components that make up an application. Metro does these
        things using some strait-forward and simple concepts.  First and 
        foremost Metro is an IOC Container (<a href="concepts/ioc.html">Inversion Of
-       Control</a>) but perhaps more interesting is the support with Metro for 
+       Control</a>) but perhaps more interesting is the support within Metro for 
        the notion of component driven <a href="concepts/ioc.html">Context 
        Awareness</a> combined with an <a href="concepts/management.html">Active 
        Mangement</a>, <a href="concepts/model.html">Model Driven</a>, 

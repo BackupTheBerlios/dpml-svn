@@ -20,7 +20,6 @@ package net.dpml.metro.info;
 
 import java.io.Serializable;
 
-//import net.dpml.metro.part.Part;
 import net.dpml.metro.part.Directive;
 
 /**

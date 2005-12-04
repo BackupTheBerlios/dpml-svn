@@ -11,7 +11,47 @@
 
     <section name="Metro Runtime">
 
-       <p>IN PROGRESS</p>
+      <p>
+      One of the design objectives for Metro was to leverage build-time
+      validation of a component definition enabaling a lighter, 
+      faster, and more reliable runtime implementation.  This led to 
+      the development of a series of build tools supporting the 
+      generation of the following datastructures:
+      </p>
+
+      <ul>
+        <li>
+          <a href="types/index.html">component type:</a> 
+          located under a &lt;classname&gt;.type - a serializable datatype 
+          containing information about a component class including characteristics 
+          such as the services provided by the component, the context 
+          assumptions asserted by the implementation, logging assumptions
+          and defaults, etc.  This information is cached under the 
+          <tt>.type</tt> resource (an XML document encoded to JSR-57) for 
+          later use by deployment tools and the runtime system.
+        </li>
+        <li>
+          <a href="profiles/index.html">component profile:</a> 
+          a standalone component definition referencable via the <tt>artifact</tt>
+          uri using the <tt>part</tt> type identifier.  The part definition contains 
+          the default deployment profile for a component including the definition of 
+          the component inital context, dependency solutions, and any related 
+          configuration information.  The <tt>part</tt> serves as the initial data 
+          used to establish a component model.
+        </li>
+      </ul>
+
+      <p>
+      On deployment of a component a part definition is used to establish the initial 
+      of a remotely manageable <a href="model/index.html">component model</a>.  
+      The component model is then supplied to a runtime handler that is responsible 
+      for actual deployment.  Changes to the state of the model have a direct impact 
+      on the runtime instance.  For example a management application may choose to apply 
+      customization to certain aspects of a component's context model prior to component 
+      deployment - or alternatively a management system may apply changes to a running 
+      system.  The <a href="../station/index.html">Metro Station</a> is an example of 
+      a management system supporting remote component model interaction.
+      </p>
 
     </section>
 
