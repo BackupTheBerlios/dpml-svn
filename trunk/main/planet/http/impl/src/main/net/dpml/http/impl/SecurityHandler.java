@@ -32,7 +32,7 @@ public class SecurityHandler
     // is being started, since it otherwise will set another Authenticator.
 
    /**
-    * Deployment context.
+    * Component context.
     */
     public interface Context
     {

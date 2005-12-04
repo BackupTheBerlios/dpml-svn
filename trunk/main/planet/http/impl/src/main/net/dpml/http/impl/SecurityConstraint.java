@@ -30,7 +30,7 @@ public class SecurityConstraint
     extends org.mortbay.http.SecurityConstraint
 {
    /**
-    * Deployment context.
+    * Component context.
     */
     public interface Context
     {

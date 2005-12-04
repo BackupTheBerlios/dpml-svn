@@ -31,7 +31,7 @@ public class Ajp13Listener extends org.mortbay.http.ajp.AJP13Listener
     implements HttpListener, Startable
 {
    /**
-    * Component context model.
+    * Component context.
     */
     public interface Context
     {

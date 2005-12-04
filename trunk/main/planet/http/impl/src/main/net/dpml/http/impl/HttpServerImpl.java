@@ -30,7 +30,7 @@ public class HttpServerImpl extends Server
     implements Startable, Disposable, HttpService
 {
    /**
-    * Deployment context.
+    * Component context.
     */
     public interface Context
     { 

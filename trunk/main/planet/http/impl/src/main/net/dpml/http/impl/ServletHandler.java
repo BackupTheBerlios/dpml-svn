@@ -36,7 +36,7 @@ public class ServletHandler extends org.mortbay.jetty.servlet.ServletHandler
     implements Startable, net.dpml.http.ServletHandler
 {
    /**
-    * Deployment context.
+    * Component context.
     */
     public interface Context
     {

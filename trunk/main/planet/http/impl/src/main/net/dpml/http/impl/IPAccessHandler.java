@@ -30,7 +30,7 @@ public class IPAccessHandler
     implements Startable
 {
    /**
-    * Deployment context.
+    * Component context.
     */
     public interface Context
     {

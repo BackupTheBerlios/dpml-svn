@@ -28,7 +28,7 @@ public class MsieSslHandler
     implements Startable
 {
    /**
-    * Deployment context.
+    * Component context.
     */
     public interface Context
     {

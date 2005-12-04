@@ -41,7 +41,7 @@ public class WebApplicationContext
     implements Startable, Disposable, HttpContextService, net.dpml.http.ServletHandler
 {
    /**
-    * The component deployment context.
+    * Component context.
     */
     public interface Context
     {

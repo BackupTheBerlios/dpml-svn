@@ -22,7 +22,7 @@ package net.dpml.http.impl;
 public class ClientCertAuthenticator extends org.mortbay.http.ClientCertAuthenticator
 {
    /**
-    * Component configuration.
+    * Component context.
     */
     public interface Context 
     {

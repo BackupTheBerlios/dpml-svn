@@ -29,7 +29,7 @@ public class ResourceHandler
     implements Startable, FileResourceHandler 
 {
    /**
-    * Deployment context.
+    * Component context.
     */
     public interface Context
     {

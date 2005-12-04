@@ -32,7 +32,7 @@ import net.dpml.http.spi.MimeTypes;
 public class SystemMimeTypes implements MimeTypes
 {
    /**
-    * Component deployment context.
+    * Component context.
     */
     public interface Context
     {

@@ -47,7 +47,7 @@ public class HttpContextImpl extends HttpContext
     implements Startable, Disposable, HttpContextService
 {
    /**
-    * Component deployment context.
+    * Component context.
     */
     public interface Context
     {

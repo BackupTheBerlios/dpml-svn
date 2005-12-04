@@ -32,7 +32,7 @@ public class SocketListener extends org.mortbay.http.SocketListener
     implements HttpListener, Startable, SocketListenerService 
 {
    /**
-    * Deployment context.
+    * Component context.
     */
     public interface Context
     {

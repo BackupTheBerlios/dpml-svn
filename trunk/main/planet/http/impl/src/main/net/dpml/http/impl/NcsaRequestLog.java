@@ -31,7 +31,7 @@ public class NcsaRequestLog extends NCSARequestLog
     implements RequestLog
 {
    /**
-    * Component deployment context.
+    * Component context.
     */
     public interface Context
     {

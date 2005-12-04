@@ -22,7 +22,7 @@ package net.dpml.http.impl;
 public class JaasUserRealm extends org.mortbay.jaas.JAASUserRealm
 {
    /**
-    * Deployment context.
+    * Component context.
     */
     public interface Context
     {

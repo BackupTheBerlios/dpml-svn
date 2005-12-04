@@ -24,7 +24,7 @@ import java.io.IOException;
 public class HashUserRealm extends org.mortbay.http.HashUserRealm
 {
    /**
-    * Deployment context.
+    * Component context.
     */
     public interface Context
     {

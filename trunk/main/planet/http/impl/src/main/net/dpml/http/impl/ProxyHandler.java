@@ -28,7 +28,7 @@ public class ProxyHandler
     implements Startable
 {
    /**
-    * Deployment context.
+    * Component context.
     */
     public interface Context
     {

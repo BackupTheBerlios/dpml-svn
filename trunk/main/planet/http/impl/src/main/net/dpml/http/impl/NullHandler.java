@@ -28,7 +28,7 @@ public class NullHandler
     implements Startable
 {
    /**
-    * Deployment context.
+    * Component context.
     */
     public interface Context
     {

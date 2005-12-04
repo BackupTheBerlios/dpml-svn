@@ -32,7 +32,7 @@ public class JsseListener extends org.mortbay.http.SunJsseListener
     implements HttpListener, Startable
 {
    /**
-    * Copmponent deployment context.
+    * Component context.
     */
     public interface Context
     {

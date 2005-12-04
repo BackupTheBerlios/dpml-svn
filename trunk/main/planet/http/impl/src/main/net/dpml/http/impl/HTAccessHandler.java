@@ -28,7 +28,7 @@ public class HTAccessHandler
     implements Startable
 {
    /**
-    * Deployment context.
+    * Component context.
     */
     public interface Context
     {

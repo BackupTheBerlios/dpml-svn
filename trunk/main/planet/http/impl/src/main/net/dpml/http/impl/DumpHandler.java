@@ -21,6 +21,7 @@ import net.dpml.logging.Logger;
 import net.dpml.http.spi.HttpContextService;
 
 /**
+ * Jetty DumpHandler wrapper.
  */
 public class DumpHandler extends org.mortbay.http.handler.DumpHandler
     implements Startable
