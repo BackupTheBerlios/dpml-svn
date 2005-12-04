@@ -27,6 +27,7 @@
     <menu>
       <item name="Profiles" href="profiles/index.html"/>
       <item name="Applications" href="applications/index.html"/>
+      <item name="CLI" href="cli/index.html"/>
     </menu>
 
  </body>
