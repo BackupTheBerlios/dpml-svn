@@ -25,8 +25,8 @@
  <body>
 
     <menu>
-      <item name="Station" href="server/index.html"/>
-      <item name="Metro" href="exec/index.html"/>
+      <item name="Metro" href="../runtime/cli/index.html"/>
+      <item name="Station" href="../station/cli/index.html"/>
     </menu>
 
  </body>

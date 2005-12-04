@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<document>
+
+  <properties>
+    <author email="mcconnell@dpml.net">Stephen McConnell</author>
+    <title>DPML Metro</title>
+  </properties> 
+
+  <body>
+
+    <section name="Metro CLI Handlers">
+
+      <p>
+      Two commandline tools are included within the Metro system. 
+      </p>
+      
+      <ul> 
+        <li><a href="../runtime/cli/index.html"><tt>metro</tt></a> deals with the
+         establishment a component within a Java Virtual Machine</li>  
+        <li><a href="../station/cli/index.html"><tt>station</tt></a> deals with
+        the runtime management of multiple applications</li>
+      </ul>
+
+    </section>
+
+  </body>
+
+</document>
+

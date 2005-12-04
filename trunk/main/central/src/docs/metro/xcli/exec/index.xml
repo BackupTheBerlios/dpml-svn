@@ -16,11 +16,15 @@
 Usage:
 metro exec <uri> | help
 options
-  exec <uri>               Execute deployment of an application codebase.
-    -key -port
-      -key (-k) <key>      Station callback application key.
-      -port (-p) <port>    Override default RMI registry port selection.
-  help                     Print command help.]]></source>
+  exec <uri>                       Execute deployment of an application codebase.
+    -key -port -config -params
+      -key (-k) <key>              Station callback application key.
+      -port <port>                 Override default RMI registry port selection.
+      -config (-c) <uri>           Application configuration uri.
+      -params (-p) <uri>           Application parameters uri.
+      -C<property>=<value>         Set a context entry value.
+  help                             Print command help.
+]]></source>
 
       <subsection name="Description">
 
@@ -36,6 +40,21 @@ options
       </p>
 
     </subsection>
+
+    <subsection name="Options">
+
+      <table>
+          <tr><td>key</td><td>Select an application profile matching the key.</td></tr>
+          <tr><td>config</td><td>Supply an overrriding component configuration via a uri reference to 
+             a configuration source document.</td></tr>
+          <tr><td>params</td><td>Supply an overriding parameter defintion for reference to a 
+             property file.</td></tr>
+          <tr><td>C</td><td>Override a context entry with the supplied value.</td></tr>
+          <tr><td>port</td><td>Nominate an alternative station instance running on the supplied port.</td></tr>
+      </table>
+
+    </subsection>
+
 
     <subsection name="Example">
 
