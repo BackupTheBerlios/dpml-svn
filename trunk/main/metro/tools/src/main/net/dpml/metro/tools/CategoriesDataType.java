@@ -21,6 +21,7 @@ package net.dpml.metro.tools;
 import java.util.List;
 import java.util.LinkedList;
 
+import net.dpml.metro.info.Priority;
 import net.dpml.metro.data.CategoryDirective;
 import net.dpml.metro.data.CategoriesDirective;
 
@@ -54,7 +55,6 @@ public class CategoriesDataType
     */
     public CategoriesDirective getCategoriesDirective()
     {
-         
          CategoryDataType[] types = (CategoryDataType[]) m_list.toArray( new CategoryDataType[0] );
          CategoryDirective[] directives = new CategoryDirective[ types.length ];
          for( int i=0; i<types.length; i++ )
@@ -107,7 +107,20 @@ public class CategoriesDataType
         */
         public CategoryDirective getCategoryDirective()
         {
-            return new CategoryDirective( m_name, m_priority, m_target );
+            Priority priority = getPriority();
+            return new CategoryDirective( m_name, priority, m_target );
+        }
+        
+        private Priority getPriority()
+        {
+            if( null == m_priority )
+            {
+                return null;
+            }
+            else
+            {
+                return Priority.parse( m_priority );
+            }
         }
     } 
 }

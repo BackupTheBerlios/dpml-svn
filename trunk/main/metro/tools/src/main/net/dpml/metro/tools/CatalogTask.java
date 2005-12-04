@@ -48,8 +48,7 @@ import org.apache.tools.ant.taskdefs.Copy;
 import org.apache.tools.ant.types.FileSet;
 
 /**
- * Create a set of html reports about the component types based on serialized
- * types under the user's ${basedir}/target/classes directory.
+ * Create a set of html reports about component types.
  *
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
