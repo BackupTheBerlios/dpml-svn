@@ -43,7 +43,7 @@
 
       <p>
       On deployment of a component a part definition is used to establish the initial 
-      of a remotely manageable <a href="model/index.html">component model</a>.  
+      state of a remotely manageable <a href="model/index.html">component model</a>.  
       The component model is then supplied to a runtime handler that is responsible 
       for actual deployment.  Changes to the state of the model have a direct impact 
       on the runtime instance.  For example a management application may choose to apply 
