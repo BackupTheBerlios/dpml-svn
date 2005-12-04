@@ -23,25 +23,63 @@ import net.dpml.logging.Logger;
 import net.dpml.http.spi.HttpContextService;
 
 /**
+ * Forward handler.
  */
 public class ForwardHandler
     extends org.mortbay.http.handler.ForwardHandler
     implements Startable
 {
+   /**
+    * Component context.
+    */
     public interface Context
     {
+       /**
+        * Get the HTTP context.
+        * @return the HTTP context
+        */
         HttpContextService getHttpContext();
+        
+       /**
+        * Get the handler index.
+        * @param value the default index value
+        * @return the index
+        */
         int getHandlerIndex( int value );
+        
+       /**
+        * Get the handler name.
+        * @return the name
+        */
         String getName();
+        
+       /**
+        * Return the root forward path.
+        * @param value the default value
+        * @return the resolved value
+        */
         String getRootForward( String value );
+        
+       /**
+        * Get the handle queries policy
+        * @param value the default value
+        * @return the resolved value
+        */
         boolean getHandleQueries( boolean value );
     }
 
-    private Logger              m_logger;
-    private HttpContextService  m_context;
-    private int                 m_index;
+    private Logger m_logger;
+    private HttpContextService m_context;
+    private int m_index;
 
-    public ForwardHandler(Logger logger, Context context, Configuration conf )
+   /**
+    * Create a new forward handler instance.
+    * @param logger the logging channel
+    * @param context the component context
+    * @param conf the supplimentary configuration
+    * @exception ConfigurationException if a confguration error occurs
+    */
+    public ForwardHandler( Logger logger, Context context, Configuration conf )
         throws ConfigurationException
     {
         m_logger = logger;
@@ -67,8 +105,10 @@ public class ForwardHandler
         throws ConfigurationException
     {
         Configuration[] children = conf.getChildren( "forward" );
-        for( int i=0 ; i < children.length ; i++ )
+        for( int i=0; i<children.length; i++ )
+        {
             configureForward( children[i] );
+        }
     }
 
     private void configureForward( Configuration conf )
@@ -79,6 +119,10 @@ public class ForwardHandler
         addForward( oldPath.getValue(), newPath.getValue() );
     }
 
+   /**
+    * Start the handler.
+    * @exception Exception if a startup error occurs
+    */
     public void start()
         throws Exception
     {
@@ -94,12 +138,16 @@ public class ForwardHandler
         {
             m_logger.debug( "Starting ForwardHandler: " + this );
         }
-        if( ! isStarted() )
+        if( !isStarted() )
         {
             super.start();
         }
     }
 
+   /**
+    * Stop the handler.
+    * @exception InterruptedException if interrupted
+    */
     public void stop()
         throws InterruptedException
     {

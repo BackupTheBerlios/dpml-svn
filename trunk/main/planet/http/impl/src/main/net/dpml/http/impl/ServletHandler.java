@@ -29,23 +29,69 @@ import net.dpml.http.spi.HttpContextService;
 
 import org.mortbay.jetty.servlet.SessionManager;
 
+/**
+ * Jetty ServletHandler wrapper.
+ */
 public class ServletHandler extends org.mortbay.jetty.servlet.ServletHandler
     implements Startable, net.dpml.http.ServletHandler
 {
+   /**
+    * Deployment context.
+    */
     public interface Context
     {
-        HttpContextService getHttpContext();
-        SessionManager getSessionManager( SessionManager value );
+       /**
+        * Return the handler name.
+        * @return the handler name
+        */
         String getName();
+        
+       /**
+        * Return the assigned http context.
+        * @return the http context
+        */
+        HttpContextService getHttpContext();
+        
+       /**
+        * Return the handler index.
+        * @param value the default value
+        * @return the index
+        */
         int getHandlerIndex( int value );
+        
+       /**
+        * Return the session manager.
+        * @param value the default value
+        * @return the resolved session manager
+        */
+        SessionManager getSessionManager( SessionManager value );
+        
+       /**
+        * Return the using-cookies policy.
+        * @param value the default policy
+        * @return the resolved cookie policy
+        */
         boolean getUsingCookies( boolean value );
+        
+       /**
+        * Return the auto-initialize servlets policy.
+        * @param value the default policy
+        * @return the resolved policy
+        */
         boolean getAutoInitializeServlets( boolean value );
     }
 
-    private Logger              m_logger;
-    private HttpContextService  m_context;
-    private int                 m_index;
+    private Logger m_logger;
+    private HttpContextService m_context;
+    private int m_index;
 
+   /**
+    * Creation of a new ServletHandler.
+    * @param logger the assigned logging channel
+    * @param context the deployment context
+    * @param conf supplimentary configuration
+    * @exception ConfigurationException if a configuration error occurs
+    */
     public ServletHandler( Logger logger, Context context, Configuration conf )
         throws ConfigurationException
     {
@@ -72,7 +118,7 @@ public class ServletHandler extends org.mortbay.jetty.servlet.ServletHandler
         throws ConfigurationException
     {
         Configuration[] children = conf.getChildren( "servlet" );
-        for( int i = 0 ; i < children.length ; i++ )
+        for( int i=0; i<children.length; i++ )
         {
             configureServlet( children[i] );
         }
@@ -102,6 +148,10 @@ public class ServletHandler extends org.mortbay.jetty.servlet.ServletHandler
         }
     }
 
+   /**
+    * Start the handler.
+    * @exception Exception if a startup error occurs
+    */
     protected void doStart()
         throws Exception
     {
@@ -117,12 +167,16 @@ public class ServletHandler extends org.mortbay.jetty.servlet.ServletHandler
         {
             m_logger.debug( "Starting ServletHandler: " + this );
         }
-        if( ! isStarted() )
+        if( !isStarted() )
         {
             super.doStart();
         }
     }
     
+   /**
+    * Stop the handler.
+    * @exception Exception if an error occurs
+    */
     protected void doStop()
         throws Exception
     {
@@ -137,9 +191,11 @@ public class ServletHandler extends org.mortbay.jetty.servlet.ServletHandler
         m_context.removeHandler( this );
     }
 
-    /** Adds the contextObject into the ServletContext object.
-     *
-     */
+   /** 
+    * Adds the contextObject into the ServletContext object.
+    * @param entryName the entry name
+    * @param contextObject the context object
+    */
     public void addServletContextEntry( String entryName, Object contextObject )
     {
         ServletContext ctx = getServletContext();

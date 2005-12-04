@@ -23,24 +23,56 @@ import net.dpml.logging.Logger;
 import net.dpml.http.spi.HttpContextService;
 
 /**
+ * Jetty IPAccessHandler wrapper.
  */
 public class IPAccessHandler
     extends org.mortbay.http.handler.IPAccessHandler
     implements Startable
 {
+   /**
+    * Deployment context.
+    */
     public interface Context
     {
+       /**
+        * Get the HTTP context.
+        * @return the HTTP context
+        */
         HttpContextService getHttpContext();
+        
+       /**
+        * Get the handler index.
+        * @param value the default index value
+        * @return the index
+        */
         int getHandlerIndex( int value );
+        
+       /**
+        * Get the handler name.
+        * @return the name
+        */
         String getName();
+        
+       /**
+        * Get the standard action.
+        * @param value the default value
+        * @return the standard action
+        */
         String getStandardAction( String value );
     }
 
-    private Logger              m_logger;
-    private HttpContextService  m_context;
-    private int                 m_index;
+    private Logger m_logger;
+    private HttpContextService m_context;
+    private int m_index;
 
-    public IPAccessHandler(Logger logger, Context context, Configuration conf )
+   /**
+    * Creation of a new IPAccessHandler instance.
+    * @param logger the assigned logging channel
+    * @param context the deployment context
+    * @param conf supplimentary configuration
+    * @exception ConfigurationException if a configuration error occurs
+    */
+    public IPAccessHandler( Logger logger, Context context, Configuration conf )
         throws ConfigurationException
     {
         m_logger = logger;
@@ -63,14 +95,21 @@ public class IPAccessHandler
         throws ConfigurationException
     {
         Configuration[] allows = conf.getChildren( "allow" );
-        for( int i=0 ; i < allows.length ; i++ )
+        for( int i=0; i<allows.length; i++ )
+        {
             setAllowIP( allows[i].getValue() );
-
+        }
         Configuration[] deny = conf.getChildren( "deny" );
-        for( int i=0 ; i < deny.length ; i++ )
+        for( int i=0; i<deny.length; i++ )
+        {
             setDenyIP( deny[i].getValue() );
+        }
     }
 
+   /**
+    * Start the handler.
+    * @exception Exception if a startup error occurs
+    */
     public void start()
         throws Exception
     {
@@ -86,12 +125,16 @@ public class IPAccessHandler
         {
             m_logger.debug( "Starting IPAccessHandler: " + this );
         }
-        if( ! isStarted() )
+        if( !isStarted() )
         {
             super.start();
         }
     }
 
+   /**
+    * Stop the handler.
+    * @exception InterruptedException if interrupted
+    */
     public void stop()
         throws InterruptedException
     {

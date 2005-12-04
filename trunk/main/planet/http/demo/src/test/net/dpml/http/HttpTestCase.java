@@ -30,6 +30,8 @@ import net.dpml.metro.part.Controller;
 import net.dpml.metro.part.Model;
 import net.dpml.metro.part.Component;
 
+import net.dpml.http.demo.Demo;
+
 /**
  * Test a simple component case.
  *
@@ -51,8 +53,7 @@ public class HttpTestCase extends TestCase
         URI uri = new File( test, PATH ).toURI();
         
         Controller control = Part.CONTROLLER;
-        Model context = control.createModel( uri );
-        Component component = control.createComponent( context );
+        Component component = control.createComponent( uri );
         Demo demo = (Demo) component.getInstance().getValue( false );
         component.deactivate();
     }

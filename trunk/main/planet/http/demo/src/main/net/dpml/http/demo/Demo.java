@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package net.dpml.http;
+package net.dpml.http.demo;
 
 import java.util.Map;
 
@@ -21,13 +21,11 @@ import net.dpml.logging.Logger;
 
 import net.dpml.activity.Startable;
 
-import net.dpml.http.spi.FileResourceHandler;
-import net.dpml.http.spi.HttpContextService;
-import net.dpml.http.spi.HttpService;
 import net.dpml.http.spi.SocketListenerService;
 
-import org.mortbay.http.HttpHandler;
-
+/**
+ * Working demo/test component.
+ */
 public class Demo implements Startable
 {
    /**
@@ -89,7 +87,6 @@ public class Demo implements Startable
 
    /**
     * Stop the demo.
-    * @exception Exception if an error occurs
     */
     public void stop()
     {

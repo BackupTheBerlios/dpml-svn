@@ -20,14 +20,35 @@ import net.dpml.activity.Startable;
 import net.dpml.logging.Logger;
 import net.dpml.http.spi.HttpContextService;
 
+/**
+ * Jetty RootNotFoundHandler wrapper.
+ */
 public class RootNotFoundHandler
     extends org.mortbay.http.handler.RootNotFoundHandler
     implements Startable
 {
+   /**
+    * Deployment context.
+    */
     public interface Context
     {
+       /**
+        * Return the handler name.
+        * @return the handler name
+        */
         String getName();
+
+       /**
+        * Return the assigned http context.
+        * @return the http context
+        */
         HttpContextService  getHttpContext();
+        
+       /**
+        * Return the handler index.
+        * @param value the default value
+        * @return the index
+        */
         int getHandlerIndex( int value );
     }
 
@@ -35,6 +56,11 @@ public class RootNotFoundHandler
     private HttpContextService m_context;
     private int m_index;
 
+   /**
+    * Creation of a new ResourceHandler.
+    * @param logger the assigned logging channel
+    * @param context the deployment context
+    */
     public RootNotFoundHandler( Logger logger, Context context )
     {
         m_logger = logger;
@@ -44,6 +70,10 @@ public class RootNotFoundHandler
         m_index = context.getHandlerIndex( -1 );
     }
 
+   /**
+    * Start the handler.
+    * @exception Exception if a startup error occurs
+    */
     public void start() throws Exception
     {
         if( m_index >= 0 )
@@ -58,12 +88,16 @@ public class RootNotFoundHandler
         {
             m_logger.debug( "Starting RootNotFoundHandler: " + this );
         }
-        if( ! isStarted() )
+        if( !isStarted() )
         {
             super.start();
         }
     }
 
+   /**
+    * Stop the handler.
+    * @exception InterruptedException if interrupted
+    */
     public void stop()
         throws InterruptedException
     {

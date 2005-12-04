@@ -19,18 +19,49 @@ package net.dpml.http.impl;
 import net.dpml.activity.Startable;
 
 /**
+ * Hash session manager component.
  */
 public class HashSessionManager
     extends org.mortbay.jetty.servlet.HashSessionManager implements Startable
 {
+   /**
+    * Component context.
+    */
     public interface Context
     {
+       /**
+        * Get the maximum inactive interval value.
+        * @param value the default value
+        * @return the resolved value
+        */
         int getMaxInactiveInterval( int value );
+
+       /**
+        * Get the scavenge period.
+        * @param value the default value
+        * @return the resolved value
+        */
         int getScavengePeriod( int value );
+
+       /**
+        * Get the user-request-id policy.
+        * @param flag the default policy
+        * @return the resolved policy
+        */
         boolean getUseRequestedId( boolean flag );
+        
+       /**
+        * Get the worker name
+        * @param name the default name
+        * @return the resolved name
+        */
         String getWorkerName( String name );
     }
 
+   /**
+    * Creation of a new HashSessionManager instance.
+    * @param context the deployment context
+    */
     public HashSessionManager( Context context )
     {
         int maxInactiveInterval = context.getMaxInactiveInterval( -1 );

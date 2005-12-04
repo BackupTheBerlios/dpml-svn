@@ -26,7 +26,7 @@
 
     <x:plugin uri="link:plugin:dpml/metro/dpml-metro-tools"/>
 
-    <c:type class="net.dpml.http.Demo" threadsafe="true" name="demo">
+    <c:type class="net.dpml.http.demo.Demo" threadsafe="true" name="demo">
       <parts>
         <component type="net.dpml.http.impl.HttpServerImpl" name="server" collection="hard">
           <context>
@@ -75,7 +75,7 @@
         </component>
       </parts>
     </c:type>
-    <c:component name="demo" type="net.dpml.http.Demo"/>
+    <c:component name="demo" type="net.dpml.http.demo.Demo"/>
   </target>
 
   <target name="package" depends="standard.package">

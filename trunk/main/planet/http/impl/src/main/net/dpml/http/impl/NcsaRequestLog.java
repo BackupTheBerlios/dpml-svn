@@ -18,33 +18,91 @@ package net.dpml.http.impl;
 
 import java.io.File;
 
-import net.dpml.activity.Startable;
-
 import net.dpml.transit.util.PropertyResolver;
 
 import org.mortbay.http.NCSARequestLog;
 import org.mortbay.http.RequestLog;
 
 
-/** Wrapper for the Jetty NCSA request logger.
- *
+/** 
+ * Wrapper for the Jetty NCSA request logger.
  */
 public class NcsaRequestLog extends NCSARequestLog
     implements RequestLog
 {
+   /**
+    * Component deployment context.
+    */
     public interface Context
     {
+       /**
+        * Return the append policy.
+        * @param value the default policy value
+        * @return the resolved value
+        */
         boolean getAppend( boolean value );
+        
+       /**
+        * Return the buffered policy.
+        * @param value the default policy value
+        * @return the resolved value
+        */
         boolean getBuffered( boolean value );
+        
+       /**
+        * Return the extended policy.
+        * @param value the default policy value
+        * @return the resolved value
+        */
         boolean getExtended( boolean value );
+        
+       /**
+        * Return the prefer-proxy-for-address policy.
+        * @param value the default policy value
+        * @return the resolved value
+        */
         boolean getPreferProxiedForAddress( boolean value );
+        
+       /**
+        * Return the log filename.
+        * @param value the default filename value
+        * @return the resolved filename value
+        */
         String getFilename( String value );
+        
+       /**
+        * Return the log date format.
+        * @param value the default value
+        * @return the resolved value
+        */
         String getLogDateFormat( String value );
+        
+       /**
+        * Return the ignore paths value.
+        * @param value the default value
+        * @return the resolved value
+        */
         String getIgnorePaths( String value );
+        
+       /**
+        * Return the log time zone.
+        * @param value the default value
+        * @return the resolved value
+        */
         String getLogTimeZone( String value );
+        
+       /**
+        * Return the retain days value.
+        * @param value the default value
+        * @return the resolved value
+        */
         int getRetainDays( int value );
     }
 
+   /**
+    * Creation of a new NCSA request log.
+    * @param context the deployment context
+    */
     public NcsaRequestLog( Context context )
     {
         boolean append = context.getAppend( false );

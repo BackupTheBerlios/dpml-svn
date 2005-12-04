@@ -21,22 +21,45 @@ import net.dpml.logging.Logger;
 import net.dpml.http.spi.HttpContextService;
 
 /**
+ * Error page handler component.
  */
 public class ErrorPageHandler 
-    extends org.mortbay.http.handler.ErrorPageHandler
-    implements Startable
+  extends org.mortbay.http.handler.ErrorPageHandler implements Startable
 {
+   /**
+    * Component context.
+    */
     public interface Context
     {
+       /**
+        * Get the handler name.
+        * @return the name
+        */
         String getName();
+        
+       /**
+        * Get the handler index.
+        * @param value the default index value
+        * @return the index
+        */
         int getHandlerIndex( int value );
+        
+       /**
+        * Get the HTTP context.
+        * @return the HTTP context
+        */
         HttpContextService getHttpContext();
     }
 
-    private Logger              m_logger;
-    private HttpContextService  m_context;
-    private int                 m_index;
+    private Logger m_logger;
+    private HttpContextService m_context;
+    private int m_index;
 
+   /**
+    * Create a new error page handler instance.
+    * @param logger the logging channel
+    * @param context the component context
+    */
     public ErrorPageHandler( Logger logger, Context context )
     {
         m_logger = logger;
@@ -46,6 +69,10 @@ public class ErrorPageHandler
         m_context = (HttpContextService) context.getHttpContext();
     }
 
+   /**
+    * Start the handler.
+    * @exception Exception if a startup error occurs
+    */
     public void start()
         throws Exception
     {
@@ -61,12 +88,16 @@ public class ErrorPageHandler
         {
             m_logger.debug( "Starting ErrorPageHandler: " + this );
         }
-        if( ! isStarted() )
+        if( !isStarted() )
         {
             super.start();
         }
     }
 
+   /**
+    * Stop the handler.
+    * @exception InterruptedException if interrupted
+    */
     public void stop()
         throws InterruptedException
     {

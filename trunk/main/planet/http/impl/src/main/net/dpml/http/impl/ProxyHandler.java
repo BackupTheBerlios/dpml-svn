@@ -21,24 +21,60 @@ import net.dpml.logging.Logger;
 import net.dpml.http.spi.HttpContextService;
 
 /**
+ * Jetty ProxyHandler wrapper.
  */
 public class ProxyHandler
     extends org.mortbay.http.handler.ProxyHandler
     implements Startable
 {
+   /**
+    * Deployment context.
+    */
     public interface Context
     {
+       /**
+        * Return the handler name.
+        * @return the handler name
+        */
         String getName();
+
+       /**
+        * Return the assigned http context.
+        * @return the http context
+        */
         HttpContextService  getHttpContext();
+        
+       /**
+        * Return the handler index.
+        * @param value the default value
+        * @return the index
+        */
         int getHandlerIndex( int value );
+        
+       /**
+        * Retrun the proxy host white list.
+        * @param value the default white list value
+        * @return the resolve white list value
+        */
         String getProxyHostsWhiteList( String value );
+        
+       /**
+        * Retrun the proxy host black list.
+        * @param value the default black list value
+        * @return the resolve black list value
+        */
         String getProxyHostsBlackList( String value );
     }
 
-    private Logger              m_logger;
-    private HttpContextService  m_context;
-    private int                 m_index;
+    private Logger m_logger;
+    private HttpContextService m_context;
+    private int m_index;
 
+   /**
+    * Creation of a new ProxyHandler.
+    * @param logger the assigned logging channel
+    * @param context the deployment context
+    */
     public ProxyHandler( Logger logger, Context context )
     {
         m_logger = logger;
@@ -62,6 +98,10 @@ public class ProxyHandler
         }
     }
 
+   /**
+    * Start the handler.
+    * @exception Exception if a startup error occurs
+    */
     public void start() throws Exception
     {
         if( m_index >= 0 )
@@ -76,12 +116,16 @@ public class ProxyHandler
         {
             m_logger.debug( "Starting ProxyHandler: " + this );
         }
-        if( ! isStarted() )
+        if( !isStarted() )
         {
             super.start();
         }
     }
 
+   /**
+    * Stop the handler.
+    * @exception InterruptedException if interrupted
+    */
     public void stop() throws InterruptedException
     {
         if( m_logger.isDebugEnabled() )

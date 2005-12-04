@@ -17,6 +17,7 @@
 package net.dpml.http.impl;
 
 import java.io.IOException;
+import java.net.UnknownHostException;
 
 import net.dpml.activity.Startable;
 import net.dpml.logging.Logger;
@@ -30,38 +31,165 @@ import org.mortbay.http.HttpListener;
 public class JsseListener extends org.mortbay.http.SunJsseListener
     implements HttpListener, Startable
 {
+   /**
+    * Copmponent deployment context.
+    */
     public interface Context
     {
+       /**
+        * Return the assigned http server.
+        * @return the server
+        */
         HttpService getServer();
+        
+       /**
+        * Return the buffer reserve value.
+        * @param value the default reserve value
+        * @return the buffer reserve
+        */
         int getBufferReserve( int value );
+        
+       /**
+        * Return the buffer size value.
+        * @param value the default size value
+        * @return the buffer size
+        */
         int getBufferSize( int value );
+        
+       /**
+        * Return the confidential port.
+        * @param value the default value
+        * @return the resolved port
+        */
         int getConfidentialPort( int value );
+        
+       /**
+        * Return the confidential scheme.
+        * @param value the default value
+        * @return the resolved value
+        */
         String getConfidentialScheme( String value );
+        
+       /**
+        * Return the default scheme.
+        * @param value the default value
+        * @return the resolved value
+        */
         String getDefaultScheme( String value );
+        
+       /**
+        * Return the integral port value.
+        * @param value the default value
+        * @return the resolved value
+        */
         int getIntegralPort( int value );
+        
+       /**
+        * Return the integral scheme.
+        * @param value the default value
+        * @return the resolved value
+        */
         String getIntegralScheme( String value );
+        
+       /**
+        * Return the host name
+        * @param value the default value
+        * @return the resolved value
+        */
         String getHostName( String value );
+        
+       /**
+        * Return the host port
+        * @param value the default value
+        * @return the resolved value
+        */
         int getPort( int value );
+        
+       /**
+        * Return the low resource persist ms value.
+        * @param value the default value
+        * @return the resolved value
+        */
         int getLowResourcePersistMs( int value );
+        
+       /**
+        * Return the identify-listener policy.
+        * @param value the default policy value
+        * @return the resolved policy
+        */
         boolean getIdentifyListenerPolicy( boolean value );
+        
+       /**
+        * Return the need-client-authentication policy.
+        * @param value the default policy value
+        * @return the resolved policy
+        */
         boolean getNeedClientAuthentication( boolean value );
+        
+       /**
+        * Return the use-default-trust-store policy.
+        * @param value the default policy value
+        * @return the resolved policy
+        */
         boolean getUseDefaultTrustStore( boolean value );
+        
+       /**
+        * Return the key password.
+        * @param value the default value
+        * @return the resolved value
+        */
         String getKeyPassword( String value );
+        
+       /**
+        * Return the key store.
+        * @param value the default value
+        * @return the resolved value
+        */
         String getKeyStore( String value );
+        
+       /**
+        * Return the key store provider class.
+        * @param value the default value
+        * @return the resolved value
+        */
         String getKeystoreProviderClass( String value );
+        
+       /**
+        * Return the key store provider name.
+        * @param value the default value
+        * @return the resolved value
+        */
         String getKeystoreProviderName( String value );
+        
+       /**
+        * Return the key store type
+        * @param value the default value
+        * @return the resolved value
+        */
         String setKeystoreType( String value );
+        
+       /**
+        * Return the password.
+        * @param value the default value
+        * @return the resolved value
+        */
         String getPassword( String value );
     }
 
-    private HttpService m_HttpServer;
-    private Logger      m_logger;
+    private HttpService m_httpServer;
+    private Logger m_logger;
 
-    public JsseListener( Logger logger, Context context ) throws java.net.UnknownHostException
+   /**
+    * Creation of a new JsseListener instance.
+    * @param logger the assigned logging channel
+    * @param context the deployment context
+    * @exception UnknownHostException if the hostname is unkown
+    */
+    public JsseListener( Logger logger, Context context ) throws UnknownHostException
     {
         m_logger = logger;
-        m_HttpServer = (HttpService) context.getServer();
-        m_HttpServer.addListener( this );
+        m_httpServer = (HttpService) context.getServer();
+        m_httpServer.addListener( this );
 
         int reserve = context.getBufferReserve( -1 );
         if( reserve > 0 )
@@ -163,6 +291,10 @@ public class JsseListener extends org.mortbay.http.SunJsseListener
         setPassword( password );
     }
 
+   /**
+    * Start the listener.
+    * @exception Exception if an error occurs
+    */
     public void start() throws Exception
     {
         if( m_logger.isDebugEnabled() )
@@ -171,7 +303,7 @@ public class JsseListener extends org.mortbay.http.SunJsseListener
         }
         try
         {
-            if( ! isStarted() )
+            if( !isStarted() )
             {
                 super.start();
             }
@@ -180,11 +312,15 @@ public class JsseListener extends org.mortbay.http.SunJsseListener
         {
             final String error = 
               "Unable to start SSL. "
-              + "Possibly missing password to KeyStore or an invalid KeyStore." ;
+              + "Possibly missing password to KeyStore or an invalid KeyStore.";
             m_logger.warn( error );
         }
     }
 
+   /**
+    * Stop the listener.
+    * @exception InterruptedException if interrupted
+    */
     public void stop() throws InterruptedException
     {
         if( m_logger.isDebugEnabled() )
@@ -195,7 +331,7 @@ public class JsseListener extends org.mortbay.http.SunJsseListener
         {
             super.stop();
         }
-        m_HttpServer.removeListener( this );
+        m_httpServer.removeListener( this );
     }
 }
 

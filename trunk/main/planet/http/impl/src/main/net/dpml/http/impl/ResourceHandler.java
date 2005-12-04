@@ -22,27 +22,81 @@ import net.dpml.http.spi.HttpContextService;
 import net.dpml.http.spi.FileResourceHandler;
 
 /**
+ * Jetty ResourceHandler wrapper.
  */
 public class ResourceHandler
     extends org.mortbay.http.handler.ResourceHandler
     implements Startable, FileResourceHandler 
 {
+   /**
+    * Deployment context.
+    */
     public interface Context
     {
+       /**
+        * Return the handler name.
+        * @return the handler name
+        */
         String getName();
+
+       /**
+        * Return the assigned http context.
+        * @return the http context
+        */
         HttpContextService getHttpContext();
+        
+       /**
+        * Return the handler index.
+        * @param value the default value
+        * @return the index
+        */
         int getHandlerIndex( int value );
+        
+       /**
+        * Return the accept ranges value.
+        * @param value the default value
+        * @return the accept ranges
+        */
         boolean getAcceptRanges( boolean value );
+        
+       /**
+        * Return the dir-allowed policy
+        * @param value the default policy
+        * @return the resolved policy
+        */
         boolean getDirAllowed( boolean value );
+        
+       /**
+        * Return the reditrect welcome policy
+        * @param value the default policy
+        * @return the resolved policy
+        */
         boolean getRedirectWelcome( boolean value );
+        
+       /**
+        * Return the minimum gzip length.
+        * @param value the default value
+        * @return the length
+        */
         int getMinGzipLength( int value );
+        
+       /**
+        * Return the allowed methods
+        * @param value the default value
+        * @return the resolved allowable methods
+        */
         String getAllowedMethods( String value );
     }
 
-    private Logger              m_logger;
-    private HttpContextService  m_context;
-    private int                 m_index;
+    private Logger m_logger;
+    private HttpContextService m_context;
+    private int m_index;
 
+   /**
+    * Creation of a new ResourceHandler.
+    * @param logger the assigned logging channel
+    * @param context the deployment context
+    */
     public ResourceHandler( Logger logger, Context context )
     {
         m_logger = logger;
@@ -74,6 +128,10 @@ public class ResourceHandler
         }
     }
 
+   /**
+    * Start the handler.
+    * @exception Exception if a startup error occurs
+    */
     public void start() throws Exception
     {
         if( m_index >= 0 )
@@ -88,12 +146,16 @@ public class ResourceHandler
         {
             m_logger.debug( "Starting ResourceHandler: " + this );
         }
-        if( ! isStarted() )
+        if( !isStarted() )
         {
             super.start();
         }
     }
 
+   /**
+    * Stop the handler.
+    * @exception InterruptedException if interrupted
+    */
     public void stop()
         throws InterruptedException
     {

@@ -21,25 +21,53 @@ import net.dpml.logging.Logger;
 import net.dpml.http.spi.HttpContextService;
 
 /**
+ * Expiry handler.
  */
 public class ExpiryHandler 
     extends org.mortbay.http.handler.ExpiryHandler
     implements Startable
 {
+   /**
+    * Component context.
+    */
     public interface Context
     {
-        HttpContextService getHttpContext();
-        int getHandlerIndex( int value );
-        int getTimeToLive( int value );
+       /**
+        * Get the handler name.
+        * @return the name
+        */
         String getName();
+        
+       /**
+        * Get the handler index.
+        * @param value the default index value
+        * @return the index
+        */
+        int getHandlerIndex( int value );
+        
+       /**
+        * Get the HTTP context.
+        * @return the HTTP context
+        */
+        HttpContextService getHttpContext();
+        
+       /**
+        * Get the time-to-live value
+        * @param value the default value
+        * @return the index
+        */
+        int getTimeToLive( int value );
     }
 
-    private Logger              m_logger;
-    private HttpContextService  m_context;
-    private int                 m_index;
+    private Logger m_logger;
+    private HttpContextService m_context;
+    private int m_index;
 
-    /**
-     */
+   /**
+    * Create a new handler instance.
+    * @param logger the logging channel
+    * @param context the component context
+    */
     public ExpiryHandler( Logger logger, Context context )
     {
         m_logger = logger;
@@ -55,6 +83,10 @@ public class ExpiryHandler
         m_context = context.getHttpContext();
     }
 
+   /**
+    * Start the handler.
+    * @exception Exception if a startup error occurs
+    */
     public void start()
         throws Exception
     {
@@ -70,12 +102,16 @@ public class ExpiryHandler
         {
             m_logger.debug( "Starting ExpiryHandler: " + this );
         }
-        if( ! isStarted() )
+        if( !isStarted() )
         {
             super.start();
         }
     }
 
+   /**
+    * Stop the handler.
+    * @exception InterruptedException if interrupted
+    */
     public void stop() throws InterruptedException
     {
         if( m_logger.isDebugEnabled() )

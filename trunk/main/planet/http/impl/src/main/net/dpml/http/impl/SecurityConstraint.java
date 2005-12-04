@@ -23,18 +23,40 @@ import net.dpml.logging.Logger;
 
 import net.dpml.http.spi.HttpContextService;
 
+/**
+ * Jetty SecurityConstraint wrapper.
+ */
 public class SecurityConstraint
     extends org.mortbay.http.SecurityConstraint
 {
+   /**
+    * Deployment context.
+    */
     public interface Context
     {
+       /**
+        * Return the handler name.
+        * @return the handler name
+        */
         String getName();
-        HttpContextService  getHttpContext();
+        
+       /**
+        * Return the assigned http context.
+        * @return the http context
+        */
+        HttpContextService getHttpContext();
     }
 
     private Logger m_logger;
     private HttpContextService m_context;
 
+   /**
+    * Creation of a new SecurityConstraint.
+    * @param logger the assigned logging channel
+    * @param context the deployment context
+    * @param conf a supplimentary configuration
+    * @exception ConfigurationException if a configuration error occurs
+    */
     public SecurityConstraint( Logger logger, Context context, Configuration conf )
         throws ConfigurationException
     {
@@ -80,16 +102,20 @@ public class SecurityConstraint
         throws ConfigurationException
     {
         Configuration[] roles = rolesConf.getChildren( "role" );
-        for( int i = 0 ; i < roles.length ; i++ )
+        for( int i=0; i<roles.length; i++ )
+        {
             addRole( roles[i].getValue() );
+        }
     }
     
     private void configureMethods( Configuration methodsConf )
         throws ConfigurationException
     {
         Configuration[] methods = methodsConf.getChildren( "method" );
-        for( int i = 0 ; i < methods.length ; i++ )
+        for( int i=0; i<methods.length; i++ )
+        {
             addMethod( methods[i].getValue() );
+        }
     }
 }
 

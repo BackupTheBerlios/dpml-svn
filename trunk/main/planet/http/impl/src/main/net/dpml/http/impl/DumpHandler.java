@@ -25,19 +25,40 @@ import net.dpml.http.spi.HttpContextService;
 public class DumpHandler extends org.mortbay.http.handler.DumpHandler
     implements Startable
 {
+   /**
+    * Component context.
+    */
     public interface Context
     {
+       /**
+        * Get the HTTP context.
+        * @return the http context
+        */
         HttpContextService getHttpContext();
+        
+       /**
+        * Get the handler index.
+        * @param value the default index value
+        * @return the handler index
+        */
         int getHandlerIndex( int value );
+        
+       /**
+        * Get the handler name.
+        * @return the name
+        */
         String getName();
     }
 
-    private Logger              m_logger;
-    private HttpContextService  m_context;
-    private int                 m_index;
+    private Logger m_logger;
+    private HttpContextService m_context;
+    private int m_index;
 
-    /**
-     */
+   /**
+    * Creation of a new dump handler.
+    * @param logger the assigned logging channel
+    * @param context the component context
+    */
     public DumpHandler( Logger logger, Context context )
     {
         m_logger = logger;
@@ -47,6 +68,10 @@ public class DumpHandler extends org.mortbay.http.handler.DumpHandler
         setName( name );
     }
 
+   /**
+    * Start the handler.
+    * @exception Exception if a startup error occurs
+    */
     public void start()
         throws Exception
     {
@@ -62,12 +87,16 @@ public class DumpHandler extends org.mortbay.http.handler.DumpHandler
         {
             m_logger.debug( "Starting DumpHandler: " + this );
         }
-        if( false == isStarted() )
+        if( !isStarted() )
         {
             super.start();
         }
     }
 
+   /**
+    * Stop the handler.
+    * @exception InterruptedException if interrupted
+    */
     public void stop()
         throws InterruptedException
     {

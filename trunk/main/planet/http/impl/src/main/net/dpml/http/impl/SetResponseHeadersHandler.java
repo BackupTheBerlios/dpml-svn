@@ -17,27 +17,54 @@
 package net.dpml.http.impl;
 
 import net.dpml.activity.Startable;
-import net.dpml.configuration.Configurable;
 import net.dpml.configuration.Configuration;
 import net.dpml.configuration.ConfigurationException;
 import net.dpml.logging.Logger;
 import net.dpml.http.spi.HttpContextService;
 
+/**
+ * Jetty SetResponseHeadersHandler wrapper.
+ */
 public class SetResponseHeadersHandler
     extends org.mortbay.http.handler.SetResponseHeadersHandler
     implements Startable
 {
+   /**
+    * Deployment context.
+    */
     public interface Context
     {
+       /**
+        * Return the handler name.
+        * @return the handler name
+        */
         String getName();
+        
+       /**
+        * Return the assigned http context.
+        * @return the http context
+        */
         HttpContextService  getHttpContext();
+        
+       /**
+        * Return the handler index.
+        * @param value the default value
+        * @return the index
+        */
         int getHandlerIndex( int value );
     }
 
-    private Logger              m_logger;
-    private HttpContextService  m_context;
-    private int                 m_index;
+    private Logger m_logger;
+    private HttpContextService m_context;
+    private int m_index;
 
+   /**
+    * Creation of a new SetResponseHeadersHandler.
+    * @param logger the assigned logging channel
+    * @param context the deployment context
+    * @param conf supplimentary configuration
+    * @exception ConfigurationException if a configuration error occurs
+    */
     public SetResponseHeadersHandler( Logger logger, Context context, Configuration conf )
         throws ConfigurationException
     {
@@ -55,8 +82,10 @@ public class SetResponseHeadersHandler
         throws ConfigurationException
     {
         Configuration[] headers = conf.getChildren( "header" );
-        for( int i=0 ; i < headers.length ; i++ )
+        for( int i=0; i<headers.length; i++ )
+        {
             configureHeader( headers[i] );
+        }
     }
 
     private void configureHeader( Configuration conf )
@@ -67,6 +96,10 @@ public class SetResponseHeadersHandler
         setHeaderValue( name.getValue(), value.getValue() );
     }
 
+   /**
+    * Start the handler.
+    * @exception Exception if a startup error occurs
+    */
     public void start() throws Exception
     {
         if( m_index >= 0 )
@@ -81,12 +114,16 @@ public class SetResponseHeadersHandler
         {
             m_logger.debug( "Starting SetResponseHeadersHandler: " + this );
         }
-        if( ! isStarted() )
+        if( !isStarted() )
         {
             super.start();
         }
     }
 
+   /**
+    * Stop the handler.
+    * @exception InterruptedException if interrupted
+    */
     public void stop() throws InterruptedException
     {
         if( m_logger.isDebugEnabled() )

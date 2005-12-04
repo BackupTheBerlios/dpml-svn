@@ -19,23 +19,26 @@ package net.dpml.http.impl;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-import net.dpml.configuration.Configurable;
 import net.dpml.configuration.Configuration;
 import net.dpml.configuration.ConfigurationException;
 import net.dpml.http.spi.MimeTypes;
 
 /**
+ * Mime type registry configurator.
  */
 public class ConfigurationMimeTypes implements MimeTypes
 {
-    private HashMap m_MimeTypeToExtMap;
-    private HashMap m_ExtToMimeTypeMap;
+    private final HashMap m_mimeTypeToExtMap = new HashMap();
+    private final HashMap m_extToMimeTypeMap = new HashMap();
 
+   /**
+    * Creation of a new ConfigurationMimeTypes instance.
+    * @param conf the mime type configuration
+    * @exception ConfigurationException if a configuration error occurs
+    */
     public ConfigurationMimeTypes( Configuration conf )
         throws ConfigurationException
     {
-        m_MimeTypeToExtMap = new HashMap();
-        m_ExtToMimeTypeMap = new HashMap();
         Configuration typesConf = conf.getChild( "mimetypes" );
         configureTypes( typesConf );
     }
@@ -44,7 +47,7 @@ public class ConfigurationMimeTypes implements MimeTypes
         throws ConfigurationException
     {
         Configuration[] children = conf.getChildren( "type" );
-        for( int i=0 ; i < children.length ; i++ )
+        for( int i=0; i<children.length; i++ )
         {
             configureType( children[i] );
         }
@@ -56,32 +59,48 @@ public class ConfigurationMimeTypes implements MimeTypes
         ArrayList extList = new ArrayList();
         String mime = conf.getChild( "mime" ).getValue();
         Configuration[] extConfs = conf.getChildren( "ext" );
-        for( int i = 0 ; i < extConfs.length ; i++ )
+        for( int i=0; i<extConfs.length; i++ )
         {
             String ext = extConfs[i].getValue();
             extList.add( ext );
-            m_ExtToMimeTypeMap.put( ext, mime );
+            m_extToMimeTypeMap.put( ext, mime );
         }
         String[] exts = new String[ extList.size() ];
         extList.toArray( exts );
-        m_MimeTypeToExtMap.put( mime, exts );
+        m_mimeTypeToExtMap.put( mime, exts );
     }
 
+   /**
+    * Get the MIME types extensions map.
+    * @return the extensions map
+    */
     public Map getExtensionMap()
     {
-        return m_ExtToMimeTypeMap;
+        return m_extToMimeTypeMap;
     }
 
+   /**
+    * Get the mime type matching the supplied extension.
+    * @param extension the extension
+    * @return the mime type
+    */
     public String getMimeType( String extension )
     {
-        return (String) m_ExtToMimeTypeMap.get( extension );
+        return (String) m_extToMimeTypeMap.get( extension );
     }
 
+   /**
+    * Return the registered extensions as a String array.
+    * @param mimetype the mimetype
+    * @return the extensions
+    */
     public String[] getExtensions( String mimetype )
     {
-        String[] result = (String[]) m_MimeTypeToExtMap.get( mimetype );
+        String[] result = (String[]) m_mimeTypeToExtMap.get( mimetype );
         if( result == null )
+        {
             result = new String[0];
+        }
         return result;
     }
 }

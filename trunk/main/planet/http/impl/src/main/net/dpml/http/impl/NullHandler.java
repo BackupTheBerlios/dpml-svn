@@ -20,22 +20,48 @@ import net.dpml.activity.Startable;
 import net.dpml.logging.Logger;
 import net.dpml.http.spi.HttpContextService;
 
+/**
+ * Jetty NullHandler wrapper.
+ */
 public class NullHandler
     extends org.mortbay.http.handler.NullHandler
     implements Startable
 {
+   /**
+    * Deployment context.
+    */
     public interface Context
     {
+       /**
+        * Return the handler name.
+        * @return the handler name
+        */
         String getName();
+        
+       /**
+        * Return the assigned http context.
+        * @return the http context
+        */
         HttpContextService  getHttpContext();
+        
+       /**
+        * Return the hqandler index.
+        * @param value the default value
+        * @return the index
+        */
         int getHandlerIndex( int value );
     }
 
-    private Logger              m_logger;
-    private HttpContextService  m_context;
-    private int                 m_index;
+    private Logger m_logger;
+    private HttpContextService m_context;
+    private int m_index;
 
-    public NullHandler(Logger logger, Context context )
+   /**
+    * Creation of a new NullHandler.
+    * @param logger the assigned logging channel
+    * @param context the deployment context
+    */
+    public NullHandler( Logger logger, Context context )
     {
         m_logger = logger;
         m_context = context.getHttpContext();
@@ -44,6 +70,10 @@ public class NullHandler
         m_index = context.getHandlerIndex( -1 );
     }
 
+   /**
+    * Start the handler.
+    * @exception Exception if a startup error occurs
+    */
     public void start() throws Exception
     {
         if( m_index >= 0 )
@@ -58,12 +88,17 @@ public class NullHandler
         {
             m_logger.debug( "Starting NullHandler: " + this );
         }
-        if( ! isStarted() )
+        if( !isStarted() )
         {
             super.start();
         }
     }
 
+
+   /**
+    * Stop the handler.
+    * @exception InterruptedException if interrupted
+    */
     public void stop()
         throws InterruptedException
     {

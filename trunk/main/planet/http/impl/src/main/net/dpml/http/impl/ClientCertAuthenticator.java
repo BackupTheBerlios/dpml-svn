@@ -16,20 +16,28 @@
  */
 package net.dpml.http.impl;
 
-import net.dpml.parameters.ParameterException;
-import net.dpml.parameters.Parameterizable;
-import net.dpml.parameters.Parameters;
-
 /** 
  * Wrapper for the Jetty ClientCertAuthenticator
  */
 public class ClientCertAuthenticator extends org.mortbay.http.ClientCertAuthenticator
 {
+   /**
+    * Component configuration.
+    */
     public interface Context 
     {
+       /**
+        * Return the maximum handshake value.
+        * @param value the default handleshake max value
+        * @return the max handshake value
+        */
         int getMaxHandshake( int value );
     }
 
+   /**
+    * Creation of a new client certigficate authenticactor.
+    * @param context the component context
+    */
     public ClientCertAuthenticator( Context context )
     {
         int maxHandshakeSec = context.getMaxHandshake( -1 );

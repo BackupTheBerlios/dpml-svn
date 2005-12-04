@@ -21,26 +21,60 @@ import net.dpml.logging.Logger;
 import net.dpml.http.spi.HttpContextService;
 
 /**
+ * Jetty HTAccessHandler wrapper.
  */
 public class HTAccessHandler
     extends org.mortbay.http.handler.HTAccessHandler
     implements Startable
 {
+   /**
+    * Deployment context.
+    */
     public interface Context
     {
+       /**
+        * Get the HTTP context.
+        * @return the HTTP context
+        */
         HttpContextService getHttpContext();
+        
+       /**
+        * Get the handler index.
+        * @param value the default index value
+        * @return the index
+        */
         int getHandlerIndex( int value );
+        
+       /**
+        * Get the handler name.
+        * @return the name
+        */
         String getName();
+        
+       /**
+        * Get the default access value.
+        * @param value the default value
+        * @return the resolved value
+        */
         String getDefaultAccess( String value );
+
+       /**
+        * Get the access file path.
+        * @param value the default value
+        * @return the resolved value
+        */
         String getAccessFile( String value );
     }
 
-    private Logger              m_logger;
-    private HttpContextService  m_context;
-    private int                 m_index;
+    private Logger m_logger;
+    private HttpContextService m_context;
+    private int m_index;
 
-    /**
-     */
+   /**
+    * Creation of a new HTAccessHandler instance.
+    * @param logger the assigned logging channel
+    * @param context the deployment context
+    */
     public HTAccessHandler( Logger logger, Context context )
     {
         m_logger = logger;
@@ -62,6 +96,10 @@ public class HTAccessHandler
         }
     }
 
+   /**
+    * Start the handler.
+    * @exception Exception if a startup error occurs
+    */
     public void start()
         throws Exception
     {
@@ -77,12 +115,16 @@ public class HTAccessHandler
         {
             m_logger.debug( "Starting HTAccessHandler: " + this );
         }
-        if( ! isStarted() )
+        if( !isStarted() )
         {
             super.start();
         }
     }
 
+   /**
+    * Stop the handler.
+    * @exception InterruptedException if interrupted
+    */
     public void stop()
         throws InterruptedException
     {

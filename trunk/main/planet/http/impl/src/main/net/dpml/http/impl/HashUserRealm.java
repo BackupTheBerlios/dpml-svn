@@ -23,12 +23,29 @@ import java.io.IOException;
  */
 public class HashUserRealm extends org.mortbay.http.HashUserRealm
 {
+   /**
+    * Deployment context.
+    */
     public interface Context
     {
+       /**
+        * Return the realm name.
+        * @return the realm name
+        */
         String getRealmName();
+        
+       /**
+        * Return the realm uri.
+        * @return the realm uri path
+        */
         String getRealmURI();
     }
 
+   /**
+    * Create a new user realm.
+    * @param context the deplioyment context
+    * @exception IOException if an I/O error occurs
+    */
     public HashUserRealm( Context context ) throws IOException
     {
         String realmName = context.getRealmName();

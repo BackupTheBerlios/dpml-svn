@@ -16,6 +16,8 @@
  */
 package net.dpml.http.impl;
 
+import java.net.UnknownHostException;
+
 import net.dpml.activity.Startable;
 import net.dpml.logging.Logger;
 import net.dpml.http.spi.HttpService;
@@ -23,33 +25,115 @@ import net.dpml.http.spi.SocketListenerService;
 
 import org.mortbay.http.HttpListener;
 
+/**
+ * Jetty SocketListener wrapper.
+ */
 public class SocketListener extends org.mortbay.http.SocketListener
     implements HttpListener, Startable, SocketListenerService 
 {
+   /**
+    * Deployment context.
+    */
     public interface Context
     {
+       /**
+        * Return the assigned http server.
+        * @return the http server
+        */
         HttpService getHttpServer();
+        
+       /**
+        * Return the buffer reserve.
+        * @param value the default value
+        * @return the resolved value
+        */
         int getBufferReserve( int value );
+        
+       /**
+        * Return the buffer size.
+        * @param value the default value
+        * @return the resolved value
+        */
         int getBufferSize( int value );
+        
+       /**
+        * Return the confidential port.
+        * @param value the default value
+        * @return the resolved value
+        */
         int getConfidentialPort( int value );
+        
+       /**
+        * Return the confidential scheme.
+        * @param value the default value
+        * @return the resolved value
+        */
         String getConfidentialScheme( String value );
+        
+       /**
+        * Return the default scheme.
+        * @param value the default value
+        * @return the resolved value
+        */
         String getDefaultScheme( String value );
+        
+       /**
+        * Return the integral port.
+        * @param value the default value
+        * @return the resolved value
+        */
         int getIntegralPort( int value );
+        
+       /**
+        * Return the integral scheme.
+        * @param value the default value
+        * @return the resolved value
+        */
         String getIntegralScheme( String value );
+        
+       /**
+        * Return the host name.
+        * @param value the default value
+        * @return the resolved value
+        */
         String getHostName( String value );
+        
+       /**
+        * Return the port.
+        * @param value the default value
+        * @return the resolved value
+        */
         int getPort( int value );
+        
+       /**
+        * Return the low resource persist time in milliseconds.
+        * @param value the default value
+        * @return the resolved value
+        */
         int getLowResourcePersistTimeMs( int value );
+        
+       /**
+        * Return the identify listener policy.
+        * @param value the default value
+        * @return the resolved policy
+        */
         boolean getIdentifyListener( boolean value );
     }
 
-    private HttpService m_HttpServer;
+    private HttpService m_httpServer;
     private Logger m_logger;
 
-    public SocketListener( Logger logger, Context context ) throws java.net.UnknownHostException 
+   /**
+    * Creation of a new SocketListener.
+    * @param logger the assigned logging channel
+    * @param context the deployment context
+    * @exception UnknownHostException if the is unknown
+    */
+    public SocketListener( Logger logger, Context context ) throws UnknownHostException 
     {
         m_logger = logger;
-        m_HttpServer = context.getHttpServer();
-        m_HttpServer.addListener( this );
+        m_httpServer = context.getHttpServer();
+        m_httpServer.addListener( this );
 
         int reserve = context.getBufferReserve( -1 );
         if( reserve > 0 )
@@ -112,6 +196,10 @@ public class SocketListener extends org.mortbay.http.SocketListener
         setIdentifyListener( identify );
     }
 
+   /**
+    * Start the handler.
+    * @exception Exception if a startup error occurs
+    */
     public void start()
         throws Exception
     {
@@ -119,12 +207,16 @@ public class SocketListener extends org.mortbay.http.SocketListener
         {
             m_logger.debug( "Starting socket: " + this );
         }
-        if( ! isStarted() )
+        if( !isStarted() )
         {
             super.start();
         }
     }
 
+   /**
+    * Stop the handler.
+    * @exception InterruptedException if interrupted
+    */
     public void stop() throws InterruptedException
     {
         if( m_logger.isDebugEnabled() )
@@ -135,6 +227,6 @@ public class SocketListener extends org.mortbay.http.SocketListener
         {
             super.stop();
         }
-        m_HttpServer.removeListener( this );
+        m_httpServer.removeListener( this );
     }
 }

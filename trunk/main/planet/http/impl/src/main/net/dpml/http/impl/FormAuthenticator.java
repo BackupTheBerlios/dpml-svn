@@ -18,16 +18,33 @@ package net.dpml.http.impl;
 
 /** 
  * Wrapper for the Jetty FormAuthenticator.
- *
  */
 public class FormAuthenticator extends org.mortbay.jetty.servlet.FormAuthenticator
 {
+   /**
+    * Component context.
+    */
     public interface Context
     {
+       /**
+        * Get the login page value.
+        * @param value the default value
+        * @return the resolved page value
+        */
         String getLoginPage( String value );
+        
+       /**
+        * Get the error page value.
+        * @param value the default value
+        * @return the resolved page value
+        */
         String getErrorPage( String value );
     }
 
+   /**
+    * Create a new form authenticator.
+    * @param context the component context
+    */
     public FormAuthenticator( Context context )
     {
         String loginPage = context.getLoginPage( null );

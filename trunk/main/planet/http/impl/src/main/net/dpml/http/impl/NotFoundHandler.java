@@ -21,23 +21,47 @@ import net.dpml.logging.Logger;
 import net.dpml.http.spi.HttpContextService;
 
 /**
+ * Jetty NotFoundHandler wrapper.
  */
 public class NotFoundHandler
     extends org.mortbay.http.handler.NotFoundHandler
     implements Startable
 {
+   /**
+    * Deployment context.
+    */
     public interface Context
     {
+       /**
+        * Return the handler name.
+        * @return the handler name
+        */
         String getName();
+        
+       /**
+        * Return the assigned http context.
+        * @return the http context
+        */
         HttpContextService  getHttpContext();
+        
+       /**
+        * Return the handler index.
+        * @param value the default value
+        * @return the index
+        */
         int getHandlerIndex( int value );
     }
 
-    private Logger              m_logger;
-    private HttpContextService  m_context;
-    private int                 m_index;
+    private Logger m_logger;
+    private HttpContextService m_context;
+    private int m_index;
 
-    public NotFoundHandler(Logger logger, Context context )
+   /**
+    * Creation of a new NotFoundHandler.
+    * @param logger the assigned logging channel
+    * @param context the deployment context
+    */
+    public NotFoundHandler( Logger logger, Context context )
     {
         m_logger = logger;
         m_context = context.getHttpContext();
@@ -46,6 +70,10 @@ public class NotFoundHandler
         m_index = context.getHandlerIndex( -1 );
     }
 
+   /**
+    * Start the handler.
+    * @exception Exception if a startup error occurs
+    */
     public void start() throws Exception
     {
         if( m_index >= 0 )
@@ -60,12 +88,16 @@ public class NotFoundHandler
         {
             m_logger.debug( "Starting NotFoundHandler: " + this );
         }
-        if( ! isStarted() )
+        if( !isStarted() )
         {
             super.start();
         }
     }
 
+   /**
+    * Handle stop.
+    * @exception InterruptedException if interrupted
+    */
     public void doStop() throws InterruptedException
     {
         if( m_logger.isDebugEnabled() )

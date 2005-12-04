@@ -20,9 +20,6 @@ import java.net.UnknownHostException;
 
 import net.dpml.activity.Startable;
 import net.dpml.logging.Logger;
-import net.dpml.parameters.ParameterException;
-import net.dpml.parameters.Parameterizable;
-import net.dpml.parameters.Parameters;
 import net.dpml.http.spi.HttpService;
 
 import org.mortbay.http.HttpListener;
@@ -183,7 +180,7 @@ public class Ajp13Listener extends org.mortbay.http.ajp.AJP13Listener
         {
             m_logger.debug( "Starting socket: " + this );
         }
-        if( ! isStarted() )
+        if( !isStarted() )
         {
             super.start();
         }

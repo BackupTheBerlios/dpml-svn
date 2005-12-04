@@ -21,16 +21,41 @@ import net.dpml.logging.Logger;
 import net.dpml.http.spi.HttpContextService;
 
 /**
+ * Jetty MsieSslHandler wrapper.
  */
 public class MsieSslHandler
     extends org.mortbay.http.handler.MsieSslHandler
     implements Startable
 {
+   /**
+    * Deployment context.
+    */
     public interface Context
     {
+       /**
+        * Return the assigned http context.
+        * @return the http context
+        */
         HttpContextService getHttpContext();
+        
+       /**
+        * Return the handler name.
+        * @return the handler name
+        */
         String getName();
+        
+       /**
+        * Return the hqandler index.
+        * @param value the default value
+        * @return the index
+        */
         int getHandlerIndex( int value );
+        
+       /**
+        * Return the user agent substring.
+        * @param value the default value
+        * @return the user agent substring
+        */
         String getUserAgentSubstring( String value );
     }
 
@@ -38,6 +63,11 @@ public class MsieSslHandler
     private HttpContextService m_context;
     private int m_index;
 
+   /**
+    * Creation of a new MsieSslHandler adapter.
+    * @param logger the assigned logging channel
+    * @param context the deployment context
+    */
     public MsieSslHandler( Logger logger, Context context )
     {
         m_logger = logger;
@@ -54,6 +84,10 @@ public class MsieSslHandler
         }
     }
 
+   /**
+    * Start the handler.
+    * @exception Exception if a startup error occurs
+    */
     public void start() throws Exception
     {
         if( m_index >= 0 )
@@ -68,12 +102,16 @@ public class MsieSslHandler
         {
             m_logger.debug( "Starting MsieSslHandler: " + this );
         }
-        if( false == isStarted() )
+        if( !isStarted() )
         {
             super.start();
         }
     }
 
+   /**
+    * Stop the handler.
+    * @exception InterruptedException if interrupted
+    */
     public void stop() throws InterruptedException
     {
         if( m_logger.isDebugEnabled() )

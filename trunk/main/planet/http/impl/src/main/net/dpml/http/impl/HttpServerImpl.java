@@ -22,22 +22,55 @@ import net.dpml.logging.Logger;
 import net.dpml.http.spi.HttpService;
 
 import org.mortbay.jetty.Server;
-import org.mortbay.util.MultiException;
 
+/**
+ * HTTP server implementation.
+ */
 public class HttpServerImpl extends Server
     implements Startable, Disposable, HttpService
 {
+   /**
+    * Deployment context.
+    */
     public interface Context
-    {
+    { 
+       /**
+        * Return the trace policy.
+        * @param value the component defined default value
+        * @return the resolved trace policy
+        */
         boolean getTrace( boolean value );
+
+       /**
+        * Return the anonymous policy.
+        * @param value the component defined default value
+        * @return the resolved anonymous policy
+        */
         boolean getAnonymous( boolean value );
+        
+       /**
+        * Return the graceful-stop policy.
+        * @param value the component defined default value
+        * @return the resolved policy
+        */
         boolean getGracefulStop( boolean value );
+        
+       /**
+        * Return the number of requests per GC action.
+        * @param value the component defined default value
+        * @return the request count
+        */
         int getRequestsPerGC( int value );
     }
 
     private Logger  m_logger;
-    private boolean m_Graceful;
+    private boolean m_graceful;
 
+   /**
+    * Creation of a new HTTP server implementation.
+    * @param logger the assigned logging channel
+    * @param context the assigned deployment context
+    */
     public HttpServerImpl( Logger logger, Context context )
     {
         m_logger = logger;
@@ -48,7 +81,7 @@ public class HttpServerImpl extends Server
         boolean anonymous = context.getAnonymous( false );
         setAnonymous( anonymous );
 
-        boolean m_Graceful = context.getGracefulStop( false );
+        m_graceful = context.getGracefulStop( false );
 
         int reqs = context.getRequestsPerGC( -1 );
         if( reqs > 0 )
@@ -57,6 +90,9 @@ public class HttpServerImpl extends Server
         }
     }
 
+   /**
+    * Dispose of the server.
+    */
     public void dispose()
     {
         if( m_logger.isDebugEnabled() )

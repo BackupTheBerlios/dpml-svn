@@ -21,12 +21,28 @@ package net.dpml.http.impl;
  */
 public class JaasUserRealm extends org.mortbay.jaas.JAASUserRealm
 {
+   /**
+    * Deployment context.
+    */
     public interface Context
     {
+       /**
+        * Get the realm name.
+        * @return the name
+        */
         String getRealmName();
+        
+       /**
+        * Get the login module name.
+        * @return the login module name
+        */
         String setLoginModuleName();
     }
 
+   /**
+    * Creation of a new JaasUserRealm instance.
+    * @param context the deployment context
+    */
     public JaasUserRealm( Context context )
     {
         String realmName = context.getRealmName();

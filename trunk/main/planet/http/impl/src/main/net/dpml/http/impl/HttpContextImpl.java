@@ -40,28 +40,103 @@ import org.mortbay.http.HttpResponse;
 import org.mortbay.http.RequestLog;
 import org.mortbay.http.UserRealm;
 
+/**
+ * HTTP context implementation.
+ */
 public class HttpContextImpl extends HttpContext
     implements Startable, Disposable, HttpContextService
 {
+   /**
+    * Component deployment context.
+    */
     public interface Context
     {
+       /**
+        * Get the HTTP server.
+        * @return the server
+        */
         HttpService getServer();
+        
+       /**
+        * Get the temp directory.
+        * @return the temp directory
+        */
         File getTempDirectory();
+        
+       /**
+        * Get the authenticator.
+        * @param value the default authenticator
+        * @return the authenticator
+        */
         Authenticator getAuthenticator( Authenticator value );
+        
+       /**
+        * Get the user realm.
+        * @param value the default user realm
+        * @return the user realm
+        */
         UserRealm getUserRealm( UserRealm value );
+        
+       /**
+        * Get the mime type registry
+        * @param value the default mime types
+        * @return the mime types
+        */
         MimeTypes getMimeTypes( MimeTypes value );
+        
+       /**
+        * Get the context path
+        * @param path the default context path
+        * @return the resolved path value
+        */
         String getContextPath( String path );
+        
+       /**
+        * Get the resource base.
+        * @param base the default base
+        * @return the resolved base value
+        */
         String getResourceBase( String base );
+        
+       /**
+        * Get the request log.
+        * @return the request log
+        */
         RequestLog getRequestLog();
+        
+       /**
+        * Get the graceful stop policy.
+        * @param flag the default policy
+        * @return the graceful stop policy
+        */
         boolean getGracefulStop( boolean flag );
+        
+       /**
+        * Get the maximum cached file size value.
+        * @param max the component defined default
+        * @return the resolved max cached file size value
+        */
         int getMaxCachedFileSize( int max );
+        
+       /**
+        * Get the maximum cache size value.
+        * @param max the component defined default
+        * @return the resolved max cache size value
+        */
         int getMaxCacheSize( int max );
     }
 
-    private HttpService m_HttpServer;
-    private boolean     m_graceful;
-    private Logger      m_logger;
+    private HttpService m_httpServer;
+    private boolean m_graceful;
+    private Logger m_logger;
 
+   /**
+    * Creation of a new HttpContextImpl instance.
+    * @param logger the assigned logging channel
+    * @param context the deplooyment context
+    * @param conf supplimentary configuration
+    * @exception ConfigurationException if a configuration error occurs
+    */
     public HttpContextImpl( Logger logger, Context context, Configuration conf )
         throws ConfigurationException
     {
@@ -72,7 +147,7 @@ public class HttpContextImpl extends HttpContext
         setTempDirectory( tmpDir );
         ClassLoader cl = HttpContextImpl.class.getClassLoader();
         setClassLoader( cl );
-        m_HttpServer = context.getServer();
+        m_httpServer = context.getServer();
         Authenticator authenticator = context.getAuthenticator( null );
         if( null != authenticator )
         {
@@ -123,6 +198,10 @@ public class HttpContextImpl extends HttpContext
         }
     }
 
+   /**
+    * Return the http context instance.
+    * @return the context
+    */
     public HttpContext getHttpContext()
     {
         return this;
@@ -132,7 +211,7 @@ public class HttpContextImpl extends HttpContext
         throws ConfigurationException
     {
         Configuration[] children = conf.getChildren( "attribute" );
-        for( int i = 0 ; i < children.length ; i++ )
+        for( int i=0; i<children.length; i++ )
         {
             configureAttribute( children[i] );
         }
@@ -154,7 +233,7 @@ public class HttpContextImpl extends HttpContext
         throws ConfigurationException
     {
         Configuration[] inits = conf.getChildren( "parameter" );
-        for( int i=0 ; i < inits.length ; i++ )
+        for( int i=0; i<inits.length; i++ )
         {
             String name = inits[i].getAttribute( "name" );
             String value = inits[i].getAttribute( "value" );
@@ -165,7 +244,7 @@ public class HttpContextImpl extends HttpContext
     private void configureVirtualHosts( Configuration conf )
     {
         Configuration[] hosts = conf.getChildren( "host" );
-        for( int i=0 ; i < hosts.length ; i++ )
+        for( int i=0; i<hosts.length; i++ )
         {
             String host = hosts[i].getValue( null );
             addVirtualHost( host );
@@ -176,12 +255,16 @@ public class HttpContextImpl extends HttpContext
         throws ConfigurationException
     {
         Configuration[] files = conf.getChildren( "file" );
-        for( int i=0 ; i < files.length ; i++ )
+        for( int i=0; i<files.length; i++ )
         {
             addWelcomeFile( files[i].getValue() );
         }
     }
 
+   /**
+    * Handle startup.
+    * @exception Exception if a startup error ocucrs
+    */
     protected void doStart()
         throws Exception
     {
@@ -189,10 +272,14 @@ public class HttpContextImpl extends HttpContext
         {
             m_logger.debug( "Starting context: " + this );
         }
-        m_HttpServer.addContext( this );
+        m_httpServer.addContext( this );
         super.doStart();
     }
 
+   /**
+    * Handle stop.
+    * @exception Exception if a shutdown error ocucrs
+    */
     protected void doStop()
         throws Exception
     {
@@ -201,9 +288,12 @@ public class HttpContextImpl extends HttpContext
             m_logger.debug( "Stopping context: " + this );
         }
         super.doStop();
-        m_HttpServer.removeContext( this );
+        m_httpServer.removeContext( this );
     }
 
+   /**
+    * Handle disposal.
+    */
     public void dispose()
     {
         if( m_logger.isDebugEnabled() )
@@ -211,10 +301,19 @@ public class HttpContextImpl extends HttpContext
             m_logger.debug( "Disposing context: " + this );
         }
         destroy();
-        m_HttpServer = null;
+        m_httpServer = null;
     }
 
-    public void handle( String pathInContext, String pathParams, HttpRequest request, HttpResponse response)
+   /**
+    * Handle a request.
+    * @param pathInContext the path
+    * @param pathParams the parameters
+    * @param request the HTTP request
+    * @param response the HTTP response
+    * @exception IOException if an I/O error occurs
+    * @exception HttpException if an HTTP error occurs
+    */
+    public void handle( String pathInContext, String pathParams, HttpRequest request, HttpResponse response )
         throws IOException, HttpException
     {
         if( m_logger.isDebugEnabled() )
@@ -223,19 +322,25 @@ public class HttpContextImpl extends HttpContext
             m_logger.debug( "Parameters: " + pathParams );
             m_logger.debug( "Request:\n" + request );
             HttpHandler[] handlers = getHandlers();
-            for( int i=0 ; i < handlers.length ; i++ )
+            for( int i=0; i<handlers.length; i++ )
             {
                 HttpHandler handler = handlers[i];
                 String warning;
                 if( handler.isStarted() )
+                {
                     warning = "";
+                }
                 else
+                {
                     warning = " :   NOT STARTED.";
+                }
                 m_logger.debug( "Handler[" + i + "] = " + handler + warning );
             }
         }
         super.handle( pathInContext, pathParams, request, response );
         if( m_logger.isDebugEnabled() )
+        {
             m_logger.debug( "Response:\n" + response );
+        }
     }
 }

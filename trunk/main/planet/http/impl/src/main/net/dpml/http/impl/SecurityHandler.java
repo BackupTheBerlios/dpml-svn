@@ -20,8 +20,9 @@ import net.dpml.activity.Startable;
 import net.dpml.logging.Logger;
 import net.dpml.http.spi.HttpContextService;
 
-import org.mortbay.http.Authenticator;
-
+/**
+ * Jetty SecurityHandler wrapper.
+ */
 public class SecurityHandler
     extends org.mortbay.http.handler.SecurityHandler
     implements Startable
@@ -30,11 +31,34 @@ public class SecurityHandler
     // has been assigned to the HttpContext before the SecurityHandler
     // is being started, since it otherwise will set another Authenticator.
 
+   /**
+    * Deployment context.
+    */
     public interface Context
     {
+       /**
+        * Return the handler name.
+        * @return the handler name
+        */
         String getName();
+        
+       /**
+        * Return the assigned http context.
+        * @return the http context
+        */
         HttpContextService  getHttpContext();
+        
+       /**
+        * Return the handler index.
+        * @param value the default value
+        * @return the index
+        */
         int getHandlerIndex( int value );
+        
+       /**
+        * Return the authenticator.
+        * @return the authenticator
+        */
         String getAuthenticator();
     }
 
@@ -42,6 +66,11 @@ public class SecurityHandler
     private HttpContextService m_context;
     private int m_index;
 
+   /**
+    * Creation of a new SecurityHandler.
+    * @param logger the assigned logging channel
+    * @param context the deployment context
+    */
     public SecurityHandler( Logger logger, Context context )
     {
         m_logger = logger;
@@ -51,6 +80,10 @@ public class SecurityHandler
         m_index = context.getHandlerIndex( -1 );
     }
 
+   /**
+    * Start the handler.
+    * @exception Exception if a startup error occurs
+    */
     public void start() throws Exception
     {
         if( m_index >= 0 )
@@ -65,12 +98,16 @@ public class SecurityHandler
         {
             m_logger.debug( "Starting SecurityHandler: " + this );
         }
-        if( ! isStarted() )
+        if( !isStarted() )
         {
             super.start();
         }
     }
 
+   /**
+    * Stop the handler.
+    * @exception InterruptedException if interrupted
+    */
     public void stop()
         throws InterruptedException
     {

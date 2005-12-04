@@ -18,9 +18,22 @@ package net.dpml.http.impl;
 import java.util.ArrayList;
 import java.util.StringTokenizer;
 
-public class StringUtils
+/**
+ * Internal string tokenizer utility.
+ */
+final class StringUtils
 {
-    static public String[] tokenize( String string )
+    private StringUtils()
+    {
+        // static util
+    }
+    
+   /**
+    * Tokenize the supplied string using a ' ,' delimiter.
+    * @param string the string to tokenize
+    * @return the array of values
+    */
+    public static String[] tokenize( String string )
     {
         ArrayList result = new ArrayList();
         StringTokenizer st = new StringTokenizer( string, " ,", false );
