@@ -13,25 +13,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package net.dpml.metro.info;
+package net.dpml.metro.data;
 
 import java.beans.SimpleBeanInfo;
 import java.beans.BeanDescriptor;
 import java.beans.DefaultPersistenceDelegate;
 
 /**
- * BeanInfo for the CategoryDescriptor class that declares a persistence
+ * BeanInfo for the CategoriesDirective class that declares a persistence
  * delegate.
  *
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-public final class CategoryDescriptorBeanInfo extends SimpleBeanInfo
+public final class CategoriesDirectiveBeanInfo extends SimpleBeanInfo
 {
     private static final BeanDescriptor BEAN_DESCRIPTOR = setupBeanDescriptor();
     
    /**
-    * Return the bean descriptor.
+    * Creation of a new bean descriptor.
     * @return the descriptor
     */
     public BeanDescriptor getBeanDescriptor()
@@ -41,10 +41,10 @@ public final class CategoryDescriptorBeanInfo extends SimpleBeanInfo
     
     private static BeanDescriptor setupBeanDescriptor()
     {
-        BeanDescriptor descriptor = new BeanDescriptor( CategoryDescriptor.class );
+        BeanDescriptor descriptor = new BeanDescriptor( CategoriesDirective.class );
         descriptor.setValue( 
           "persistenceDelegate", 
-          new DefaultPersistenceDelegate( new String[]{"name", "defaultPriority", "properties"} ) );
+          new DefaultPersistenceDelegate( new String[]{"name", "priority", "target", "categories"} ) );
         return descriptor;
     }
 }

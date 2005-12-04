@@ -65,8 +65,7 @@ public class ChildComponent implements ColorManager
 
    /**
     * Creation of a new singleton component instance.
-    * @param logger the assinged logging channel
-    * @param context a context implementation fullfil,ling the context criteria
+    * @param context a context implementation fullfilling the context criteria
     */
     public ChildComponent( final Context context )
     {

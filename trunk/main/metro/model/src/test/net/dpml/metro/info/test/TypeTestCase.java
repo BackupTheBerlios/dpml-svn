@@ -37,6 +37,7 @@ import net.dpml.metro.info.CollectionPolicy;
 import net.dpml.metro.info.Type;
 import net.dpml.metro.info.PartReference;
 import net.dpml.metro.info.ServiceDescriptor;
+import net.dpml.metro.info.Priority;
 
 /**
  * TypeTestCase does XYZ
@@ -60,7 +61,7 @@ public class TypeTestCase extends AbstractEncodingTestCase
         m_key = TypeTestCase.class.getName();
         m_info = createSimpleInfo( TypeTestCase.class.getName() );
         m_loggers = new CategoryDescriptor[] {
-            new CategoryDescriptor("name", new Properties())
+            new CategoryDescriptor("name", Priority.INFO, new Properties())
         };
         m_context = new ContextDescriptor( new EntryDescriptor[0] );
         m_services = new ServiceDescriptor[] { m_reference };

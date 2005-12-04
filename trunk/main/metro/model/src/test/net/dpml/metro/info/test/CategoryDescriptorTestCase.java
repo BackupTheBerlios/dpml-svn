@@ -33,6 +33,7 @@ import java.io.File;
 
 import net.dpml.metro.info.Descriptor;
 import net.dpml.metro.info.CategoryDescriptor;
+import net.dpml.metro.info.Priority;
 
 
 /**
@@ -44,10 +45,11 @@ import net.dpml.metro.info.CategoryDescriptor;
 public class CategoryDescriptorTestCase extends AbstractDescriptorTestCase
 {
     private final String m_name = "name";
+    private final Priority m_priority = Priority.WARN;
 
     protected CategoryDescriptor getCategoryDescriptor()
     {
-        return new CategoryDescriptor(m_name, getProperties());
+        return new CategoryDescriptor( m_name, m_priority, getProperties() );
     }
 
     protected Descriptor getDescriptor()
@@ -60,8 +62,8 @@ public class CategoryDescriptorTestCase extends AbstractDescriptorTestCase
     {
         super.checkDescriptor( desc );
         CategoryDescriptor cat = (CategoryDescriptor) desc;
-
-        assertEquals( m_name, cat.getName() );
+        assertEquals( "name", m_name, cat.getName() );
+        assertEquals( "priority", m_priority, cat.getDefaultPriority() );
     }
     
     public void testEncoding() throws Exception

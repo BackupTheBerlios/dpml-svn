@@ -41,17 +41,26 @@ public class CategoryDescriptor
     */
     public static final String SEPERATOR = ".";
 
+   /**
+    * Default priority value.
+    */
+    public static final Priority PRIORITY = Priority.INFO;
+
+
     private final String m_name;
+    
+    private final Priority m_priority;
 
     /**
      * Create a descriptor for logging category.
      *
      * @param name the logging category name
+     * @param priority the default priority value
      * @param attributes a set of attributes associated with the declaration
      *
      * @exception NullPointerException if name argument is null
      */
-    public CategoryDescriptor( final String name, final Properties attributes )
+    public CategoryDescriptor( final String name, final Priority priority, final Properties attributes )
         throws NullPointerException
     {
         super( attributes );
@@ -59,8 +68,13 @@ public class CategoryDescriptor
         {
             throw new NullPointerException( "name" );
         }
+        if( null == priority )
+        {
+            throw new NullPointerException( "priority" );
+        }
 
         m_name = name;
+        m_priority = priority;
     }
 
     /**
@@ -73,6 +87,16 @@ public class CategoryDescriptor
         return m_name;
     }
 
+    /**
+     * Return the default logging priority.
+     *
+     * @return the default priority.
+     */
+    public Priority getDefaultPriority()
+    {
+        return m_priority;
+    }
+
    /**
     * Test is the supplied object is equal to this object.
     * @param other the other object
@@ -80,12 +104,22 @@ public class CategoryDescriptor
     */
     public boolean equals( Object other )
     {
-        boolean isEqual = other instanceof CategoryDescriptor;
-        if ( isEqual )
+        if( super.equals( other ) && ( other instanceof CategoryDescriptor ) )
         {
-            isEqual = isEqual && m_name.equals( ( (CategoryDescriptor) other ).m_name );
+            CategoryDescriptor descriptor = (CategoryDescriptor) other;
+            if( !equals( m_name, descriptor.m_name ) )
+            {
+                return false;
+            }
+            else
+            {
+                return equals( m_priority, descriptor.m_priority );
+            }
         }
-        return isEqual;
+        else
+        {
+            return false;
+        }
     }
 
    /**
@@ -96,6 +130,7 @@ public class CategoryDescriptor
     {
         int hash = super.hashCode();
         hash ^= m_name.hashCode();
+        hash ^= m_priority.hashCode();
         return hash;
     }
 }
