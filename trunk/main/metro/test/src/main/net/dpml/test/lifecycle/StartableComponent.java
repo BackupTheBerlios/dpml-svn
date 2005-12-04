@@ -78,11 +78,19 @@ public class StartableComponent
     // validation operations
     //------------------------------------------------------------------
     
+   /**
+    * Utility to test if the component was stated (used in JUnit test).
+    * @return true if the start operation was invoked
+    */
     public boolean wasStarted()
     {
         return m_started;
     }
     
+   /**
+    * Utility to test if the component was stopped (used in JUnit test).
+    * @return true if the stop operation was invoked
+    */
     public boolean wasStopped()
     {
         return m_stopped;

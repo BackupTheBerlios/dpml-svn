@@ -92,6 +92,7 @@ public class CompositeComponent implements ColorManager
     * Creation of a new composite component instance.
     * @param logger the assingned logging channel
     * @param context a context implementation
+    * @param parts the parts manager
     */
     public CompositeComponent( final Logger logger, final Context context, final Parts parts )
     {
