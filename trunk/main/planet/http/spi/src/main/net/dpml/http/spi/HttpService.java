@@ -19,7 +19,6 @@ package net.dpml.http.spi;
 
 import org.mortbay.http.HttpContext;
 import org.mortbay.http.HttpListener;
-import org.mortbay.http.HttpServer;
 import org.mortbay.http.RequestLog;
 import org.mortbay.http.UserRealm;
 
@@ -28,23 +27,65 @@ import org.mortbay.http.UserRealm;
  */
 public interface HttpService
 {
-
+   /**
+    * Add a context to the HTTP service.
+    * @param context the context to add
+    * @return the context
+    */
     HttpContext addContext( HttpContext context );
     
+   /**
+    * Remove a context from the HTTP service.
+    * @param context the context to remove
+    * @return true if the context was removed
+    */
     boolean removeContext( HttpContext context );
     
+   /**
+    * Return a context matching the supplied virtual host and path.
+    * @param virtualhost the virtual host
+    * @param contextPath the context path
+    * @return the context
+    */
     HttpContext getContext( String virtualhost, String contextPath );
     
+   /**
+    * Add a context listener.
+    * @param listener the context listener
+    * @return the listener
+    */
     HttpListener addListener( HttpListener listener );
     
+   /**
+    * Remove a context listener.
+    * @param listener the context listener
+    */
     void removeListener( HttpListener listener );
     
+   /**
+    * Add a user realm.
+    * @param realm the user realm
+    * @return the realm
+    */
     UserRealm addRealm( UserRealm realm );
     
+   /**
+    * Remove a user realm.
+    * @param realmname the user realm
+    * @return the realm
+    */
     UserRealm removeRealm( String realmname );
 
+   /**
+    * Return the requrest log.
+    * @return the request log
+    */
     RequestLog getRequestLog();
     
+   /**
+    * Set the request log.
+    * @param log the request log
+    */
     void setRequestLog( RequestLog log );
     
 }

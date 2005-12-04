@@ -18,13 +18,29 @@ package net.dpml.http.spi;
  
 import java.util.Map;
 
+/**
+ * Mime types registry.
+ */
 public interface MimeTypes
 {
-
+   /**
+    * Get the MIME types extensions map.
+    * @return the extensions map
+    */
     Map getExtensionMap();
     
+   /**
+    * Get the mime type matching the supplied extension.
+    * @param extension the extension
+    * @return the mime type
+    */
     String getMimeType( String extension );
     
+   /**
+    * Return the registered extensions as a String array.
+    * @param mimetype the mimetype
+    * @return the extensions
+    */
     String[] getExtensions( String mimetype );
     
 }

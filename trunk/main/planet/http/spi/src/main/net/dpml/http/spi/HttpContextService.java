@@ -33,15 +33,41 @@ public interface HttpContextService
     */
     HttpContext getHttpContext();
     
+   /**
+    * Add a security constraint.
+    * @param path the path
+    * @param sc the security constraint
+    */
     void addSecurityConstraint( String path, SecurityConstraint sc );
     
+   /**
+    * Add a HTTP handler to the context.
+    * @param handler the HTTP Handler 
+    */
     void addHandler( HttpHandler handler );
     
+   /**
+    * Add a HTTP handler to the context using a specificed index.
+    * @param index the handler index 
+    * @param handler the HTTP Handler 
+    */
     void addHandler( int index, HttpHandler handler );
     
+   /**
+    * Remove a handler from the context.
+    * @param handler the HTTP Handler 
+    */
     void removeHandler( HttpHandler handler );
     
+   /**
+    * Set the handler authenticator.
+    * @param authenticator the authenticator 
+    */
     void setAuthenticator( Authenticator authenticator );
 
+   /**
+    * Return the current authenticator.
+    * @return the authenticator
+    */
     Authenticator getAuthenticator();
 }
