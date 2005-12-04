@@ -21,9 +21,7 @@ package net.dpml.metro.runtime;
 import java.beans.XMLDecoder;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.ByteArrayInputStream;
 import java.io.BufferedInputStream;
-import java.io.ObjectInputStream;
 import java.net.URI;
 import java.net.URL;
 import java.util.WeakHashMap;
@@ -31,7 +29,6 @@ import java.util.WeakHashMap;
 import net.dpml.logging.Logger;
 
 import net.dpml.metro.data.ComponentDirective;
-import net.dpml.metro.data.ClassLoaderDirective;
 import net.dpml.metro.model.ComponentModel;
 
 import net.dpml.metro.part.ControllerContext;
@@ -42,10 +39,8 @@ import net.dpml.metro.part.Part;
 import net.dpml.metro.part.ControlException;
 import net.dpml.metro.part.ControllerNotFoundException;
 import net.dpml.metro.part.DelegationException;
-import net.dpml.metro.part.PartNotFoundException;
 import net.dpml.metro.part.Directive;
 
-import net.dpml.transit.Artifact;
 import net.dpml.transit.Repository;
 import net.dpml.transit.Transit;
 

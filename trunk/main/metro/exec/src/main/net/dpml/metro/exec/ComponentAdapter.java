@@ -33,7 +33,6 @@ import net.dpml.metro.info.EntryDescriptor;
 import net.dpml.metro.data.ValueDirective;
 
 import net.dpml.metro.part.Controller;
-import net.dpml.metro.part.Directive;
 import net.dpml.metro.part.Component;
 import net.dpml.metro.part.ControlException;
 import net.dpml.metro.part.Instance;

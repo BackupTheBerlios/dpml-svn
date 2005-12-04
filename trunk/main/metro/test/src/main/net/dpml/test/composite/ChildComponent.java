@@ -55,11 +55,6 @@ public class ChildComponent implements ColorManager
     //------------------------------------------------------------------
 
    /**
-    * The logging channel.
-    */
-    private final Logger m_logger;
-
-   /**
     * The assigned context instance.
     */
     private final Context m_context;
@@ -73,12 +68,9 @@ public class ChildComponent implements ColorManager
     * @param logger the assinged logging channel
     * @param context a context implementation fullfil,ling the context criteria
     */
-    public ChildComponent( final Logger logger, final Context context )
+    public ChildComponent( final Context context )
     {
         m_context = context;
-        m_logger = logger;
-        
-        getLogger().info( "# COLOR: " + context.getColor() );
     }
 
     //------------------------------------------------------------------
@@ -92,18 +84,5 @@ public class ChildComponent implements ColorManager
     public Color getColor()
     {
         return m_context.getColor();
-    }
-    
-    //------------------------------------------------------------------
-    // internal
-    //------------------------------------------------------------------
-
-   /**
-    * Return the assigned logging channel.
-    * @return the logging channel
-    */
-    private Logger getLogger()
-    {
-        return m_logger;
     }
 }

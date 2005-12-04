@@ -23,7 +23,10 @@
  </properties>
 
   <body>
+
     <section name="CLI Utility">
+
+      <pre>@UTIL-CLI-URI@</pre>
 
       <p>
         The CLI library provides an API for processing command line interfaces.

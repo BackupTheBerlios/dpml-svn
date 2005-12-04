@@ -11,6 +11,9 @@
 
     <section name="Configuration Utilities">
 
+      <pre>@UTIL-CONFIGURATION-API-URI@
+UTIL-CONFIGURATION-IMPL-URI@</pre>
+
     </section>
 
   </body>

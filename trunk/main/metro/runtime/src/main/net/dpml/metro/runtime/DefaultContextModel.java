@@ -34,7 +34,6 @@ import net.dpml.metro.model.ContextModel;
 import net.dpml.metro.model.ValidationException;
 import net.dpml.metro.model.ValidationException.Issue;
 
-import net.dpml.metro.part.Part;
 import net.dpml.metro.part.ModelException;
 import net.dpml.metro.part.Directive;
 

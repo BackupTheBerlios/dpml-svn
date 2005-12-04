@@ -34,7 +34,6 @@ import net.dpml.metro.model.ComponentModel;
 import net.dpml.metro.model.ContextModel;
 import net.dpml.metro.part.ActivationPolicy;
 import net.dpml.metro.part.ControlException;
-import net.dpml.metro.part.Part;
 import net.dpml.metro.state.State;
 
 import net.dpml.configuration.Configuration;

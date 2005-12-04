@@ -33,6 +33,7 @@ import net.dpml.metro.data.ValueDirective;
 import net.dpml.metro.model.ComponentModel;
 import net.dpml.metro.model.ContextModel;
 import net.dpml.metro.part.Part;
+import net.dpml.metro.part.Context;
 import net.dpml.metro.part.Directive;
 import net.dpml.metro.part.Controller;
 import net.dpml.metro.part.ActivationPolicy;
@@ -49,10 +50,11 @@ import net.dpml.transit.model.UnknownKeyException;
 import net.dpml.transit.Value;
 
 import net.dpml.test.ColorManager;
-import net.dpml.test.ExampleComponent;
+import net.dpml.test.composite.ChildComponent;
+import net.dpml.test.composite.CompositeComponent;
 
 /**
- * Contains a series of tests applied to the component component.
+ * Contains a series of tests applied to the composite component.
  *
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
@@ -70,14 +72,35 @@ public class CompositeTestCase extends TestCase
     }
     
    /**
-    * Test that the component initial state is inactive.
+    * Validate composite instantiation and in particular that the color
+    * assigned to the child component has been overriden by the parent. 
     */
     public void testComposite() throws Exception
     {
         Component component = Part.CONTROLLER.createComponent( m_model );
         assertNotNull( "component", component );
         Instance instance = component.getInstance();
-        Object object = instance.getValue( false );
+        CompositeComponent parent = (CompositeComponent) instance.getValue( false );
+        Color color = parent.getColor();
+        ChildComponent child = parent.getChild();
+        Color c = child.getColor();
+        assertEquals( "color", color, c );
+    }
+    
+   /**
+    * Validate composite instantiation with an overloader parent context.
+    */
+    public void testOverloadedComposite() throws Exception
+    {
+        Component component = Part.CONTROLLER.createComponent( m_model );
+        ((Context)component).getContextMap().put( "color", Color.YELLOW );
+        Instance instance = component.getInstance();
+        CompositeComponent parent = (CompositeComponent) instance.getValue( false );
+        Color color = parent.getColor();
+        assertEquals( "parent-color", Color.YELLOW, color );
+        ChildComponent child = parent.getChild();
+        Color c = child.getColor();
+        assertEquals( "color", color, c );
     }
     
     static

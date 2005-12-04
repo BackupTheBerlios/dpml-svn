@@ -20,7 +20,6 @@ package net.dpml.metro.part;
 
 import java.io.IOException;
 import java.net.URI;
-import java.net.URL;
 
 /**
  * The PartHandler interface defines the a contract for an object that provides generalized
@@ -63,6 +62,7 @@ public interface Controller
     * @param uri a uri identifying a deployment directive
     * @return the management context model
     * @exception ControlException if an error occurs
+    * @exception IOException if an I/O error occurs
     */
     Model createModel( URI uri ) throws ControlException, IOException;
 

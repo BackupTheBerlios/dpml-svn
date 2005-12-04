@@ -67,7 +67,7 @@ public class CompositeComponent implements ColorManager
         * Return the child componet as a service instance.
         * @return the color manager
         */
-        ColorManager getChild();
+        ChildComponent getChild();
     }
 
     //------------------------------------------------------------------
@@ -84,6 +84,11 @@ public class CompositeComponent implements ColorManager
     */
     private final Context m_context;
 
+   /**
+    * The assigned part manager.
+    */
+    private final Parts m_parts;
+
     //------------------------------------------------------------------
     // constructor
     //------------------------------------------------------------------
@@ -96,21 +101,13 @@ public class CompositeComponent implements ColorManager
     */
     public CompositeComponent( final Logger logger, final Context context, final Parts parts )
     {
-        logger.info( "instantiation" );
+        logger.debug( "instantiation" );
         
         m_context = context;
         m_logger = logger;
-        
-        
-        getLogger().info( "color: " + context.getColor() );
-        getLogger().info( "accessing map" );
-        
+        m_parts = parts;
         Map map = parts.getChildMap();
         map.put( "color", context.getColor() );
-        getLogger().info( "# MAP: " + map );
-        
-        getLogger().info( "# CHILD: " + parts.getChild() );
-        
     }
 
     //------------------------------------------------------------------
@@ -124,6 +121,19 @@ public class CompositeComponent implements ColorManager
     public Color getColor()
     {
         return m_context.getColor();
+    }
+    
+    //------------------------------------------------------------------
+    // Validation
+    //------------------------------------------------------------------
+    
+   /**
+    * Return the child component for evaluation by the testcase.
+    * @return ythe child
+    */
+    public ChildComponent getChild()
+    {
+        return m_parts.getChild();
     }
     
     //------------------------------------------------------------------
