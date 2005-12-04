@@ -25,15 +25,20 @@
   </properties> 
 
   <body>
+
     <section name="Common Utilities">
 
       <p>
-      A number of common utility libraries are provided as a part of the DPML
-      platform.  These include support for internationalization, commandline
-      handling, configuration, parameterization, logging, and common runtime 
-      activity interfaces.
+      A number of common utility libraries are provided by the DPML.
+      These are stadalone utilities that may be used in conjuction with 
+      or independently of the Metro runtime.  The libraries include 
+      support for internationalization, advanced commandline handling, 
+      configuration management, parameterization, logging, and common 
+      runtime activity interfaces.
       </p>
 
     </section>
+
   </body>
+
 </document>

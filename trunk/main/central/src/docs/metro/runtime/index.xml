@@ -49,8 +49,15 @@
       on the runtime instance.  For example a management application may choose to apply 
       customization to certain aspects of a component's context model prior to component 
       deployment - or alternatively a management system may apply changes to a running 
-      system.  The <a href="../station/index.html">Metro Station</a> is an example of 
-      a management system supporting remote component model interaction.
+      system.  
+      </p>
+
+      <p>
+      The Metro <a href="../station/index.html">Station</a> is an example of 
+      a management system thatprovides support for runtime management of multiple 
+      server application in conjuction with the <a href="cli/index.html">Metro</a> 
+      deployment tool and <a href="../../transit/cli/index.html">Transit</a> resource
+      management utility.
       </p>
 
     </section>
