@@ -24,15 +24,6 @@
     </dependencies>
   </project>
 
-  <project name="dpml-http-util" basedir="util">
-    <types>
-      <type id="jar"/>
-    </types>
-    <dependencies>
-      <include key="dpml-http-api"/>
-    </dependencies>
-  </project>
-
   <project name="dpml-http-impl" basedir="impl">
     <types>
       <type id="jar"/>
