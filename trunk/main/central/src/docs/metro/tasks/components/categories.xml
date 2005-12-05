@@ -67,7 +67,11 @@
       
       <p>
       Overriding of category settings via metro comandline settings is not 
-      supported at this time.
+      supported at this time.  While the commandline handler does pass a 
+      categories configuration uri to the ComponentAdapter, the adapter 
+      does not currently support this feature.  A second issue relates to
+      non-assignment of logging category targets within the runtime 
+      ComponentHandler.
       </p>
 
     </section>
