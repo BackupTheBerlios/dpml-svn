@@ -248,7 +248,7 @@
            <property name="project.plugin.resource" 
               value="net/dpml/composition/tools/antlib.xml"/>
            <property name="project.plugin.urn" 
-              value="dpml:composition"/>
+              value="dpml:metro"/>
          </type>
        </types>
        <dependencies>

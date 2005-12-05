@@ -25,6 +25,10 @@
  <body>
 
     <menu>
+      <item name="Categories" href="categories.html"/>
+      <item name="Configuration" href="configuration.html"/>
+      <item name="Parameters" href="parameters.html"/>
+      <item name="Context" href="context.html"/>
     </menu>
 
  </body>

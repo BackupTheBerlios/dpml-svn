@@ -8,6 +8,7 @@
 
   <body>
     <section name="Reactor Task">
+
       <p>
       The reactor task invokes an ant target on the set of project defintions
       that declare base directories within the basedir of the reactor.  This
@@ -15,23 +16,6 @@
       structure.  The sequence of the project build is automatically resolved
       relative to the dependencies defined by the respective projects.
       </p>
-
-      <subsection name="Tutorial">
-
-        <table>
-          <tr>
-            <td><img src="/images/info.gif"/></td>
-            <td><i>The <a href="http://www.osm.net/training/tooling/example.html">
-               OSM Development Tooling Getting Started Tutorial</a> demonstrates the 
-               setup of a top-level reactor build using the reactor template.
-               The <a href="http://www.osm.net/training/tooling/module.html">
-               Module Tutorial</a> demonstrates the direct 
-               invocation of the reactor task within a standard build file.</i>
-            </td>
-          </tr>
-        </table>
-
-      </subsection>
 
       <subsection name="Usage">
 

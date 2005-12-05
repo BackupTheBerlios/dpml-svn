@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<document>
+
+  <properties>
+    <author email="mcconnell@dpml.net">Stephen McConnell</author>
+    <title>DPML Metro</title>
+  </properties> 
+
+  <body>
+
+    <section name="Categories">
+
+      <subsection name="Description">
+
+        <p>
+        0..n <tt>&lt;category&gt;</tt> elements may be declared within an 
+        enclosing <tt>&lt;categories&gt;</tt> element.
+        </p>
+
+      </subsection>
+
+      <subsection name="Category Attributes">
+
+        <table>
+          <tr>
+            <td><tt>name</tt></td>
+            <td>The category name (required).</td>
+          </tr>
+          <tr>
+            <td><tt>priority</tt></td>
+            <td>An optional logging channel priority value. Allowable values 
+              include <tt>DEBUG</tt>, <tt>INFO</tt>, <tt>WARN</tt>, and 
+              <tt>ERROR</tt>.</td>
+          </tr>
+          <tr>
+            <td><tt>target</tt></td>
+            <td>An optional logging channel target.</td>
+          </tr>
+        </table>
+
+      </subsection>
+      
+    </section>
+
+    <section name="Example">
+
+    </section>
+
+    <section name="Technical Notes">
+      
+    </section>
+
+  </body>
+
+</document>

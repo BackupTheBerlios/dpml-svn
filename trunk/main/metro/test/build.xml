@@ -20,7 +20,7 @@
 <project name="dpml-metro-test" default="install"
     xmlns:transit="antlib:net.dpml.transit" 
     xmlns:x="dpml:depot" 
-    xmlns:c="dpml:composition" >
+    xmlns:c="dpml:metro" >
 
   <transit:import uri="local:template:dpml/tools/standard"/>
 
@@ -90,18 +90,21 @@
 
     <!-- create the composite component -->
 
-    <c:type class="net.dpml.test.composite.ChildComponent" name="child"/>
-    <c:type class="net.dpml.test.composite.CompositeComponent" name="parent">
-      <parts>
-        <component type="net.dpml.test.composite.ChildComponent" name="child" activation="false">
-          <context>
-            <entry key="color" method="BLUE"/>
-          </context>
-        </component>
-      </parts>
-    </c:type>
+    <types xmlns="dpml:metro">
+      <type class="net.dpml.test.composite.ChildComponent" name="child"/>
+      <type class="net.dpml.test.composite.CompositeComponent" name="parent">
+        <parts>
+          <component type="net.dpml.test.composite.ChildComponent" key="child" activation="false">
+            <context>
+              <entry key="color" method="BLUE"/>
+            </context>
+          </component>
+        </parts>
+      </type>
+    </types>
+
     <c:component dest="target/test/composite.part" test="true" activation="false"
-        type="net.dpml.test.composite.CompositeComponent" name="composite" collection="hard">
+        type="net.dpml.test.composite.CompositeComponent" collection="hard">
       <context>
         <entry key="color" method="RED"/>
       </context>
@@ -111,7 +114,7 @@
 
     <c:type class="net.dpml.test.lifecycle.StartableComponent" name="lifecycle"/>
     <c:component dest="target/test/lifecycle.part" test="true" activation="false"
-        type="net.dpml.test.lifecycle.StartableComponent" name="startable" collection="hard">
+        type="net.dpml.test.lifecycle.StartableComponent" collection="hard">
     </c:component>
 
   </target>

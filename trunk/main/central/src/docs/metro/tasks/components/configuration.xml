@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<document>
+
+  <properties>
+    <author email="mcconnell@dpml.net">Stephen McConnell</author>
+    <title>DPML Metro</title>
+  </properties> 
+
+  <body>
+
+    <section name="Configuration">
+
+      <subsection name="Description">
+
+        <p>
+        Declaration of a default configuration.
+        </p>
+
+      </subsection>
+      
+      <subsection name="Attributes">
+
+        <p>IN PROGRESS</p>
+
+      </subsection>
+
+      <subsection name="Nested Elements">
+
+        <p>IN PROGRESS</p>
+
+      </subsection>
+
+    </section>
+
+    <section name="Example">
+
+    </section>
+
+    <section name="Technical Notes">
+      
+    </section>
+
+  </body>
+
+</document>

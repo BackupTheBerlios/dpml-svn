@@ -25,6 +25,8 @@ import net.dpml.metro.info.Priority;
 import net.dpml.metro.data.CategoryDirective;
 import net.dpml.metro.data.CategoriesDirective;
 
+import org.apache.tools.ant.BuildException;
+
 /**
  * Build datatype used to construct a categories descriptor.
  *
@@ -36,7 +38,7 @@ public class CategoriesDataType
     private List m_list = new LinkedList();
 
    /**
-    * CategoryDataType creation function incvolved by the ant builder
+    * CategoryDataType creation function invoked by the ant builder
     * for all nested 'category' elements.
     * 
     * @return a datatype used to construct a category descriptor
@@ -107,6 +109,10 @@ public class CategoriesDataType
         */
         public CategoryDirective getCategoryDirective()
         {
+            if( null == m_name )
+            {
+                throw new BuildException( "Missing category name." );
+            }
             Priority priority = getPriority();
             return new CategoryDirective( m_name, priority, m_target );
         }

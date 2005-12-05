@@ -11,11 +11,32 @@
     <section name="Project Reports">
       
       <p>
-      Javadoc, JUnit and Checkstyle reports are based on the latest 
-      SVN HEAD build. Please note that the Transit and Depot package 
-      documentation is considered complete however documentation 
-      on Metro remains a work-in-progress.
+      This section includes development reports derived from the 
+      DPML codebase.
       </p>
+
+      <table>
+        <tr>
+          <th>Report</th><th>Description</th>
+        </tr>
+        <tr>
+          <td><a href="../../reports/@VERSION@/junit/index.html">JUnit</a></td>
+          <td>Contains the ressults of JUnit tests.</td>
+        </tr>
+        <tr>
+          <td><a href="../../api/dpml/@VERSION@/index.html">Javadoc</a></td>
+          <td>Generated Javadoc for the Transit, Depot, Metro and Util 
+           modules together with Javadocs for the Planet component suite.</td> 
+        </tr>
+        <tr>
+          <td><a href="../../reports/@VERSION@/checkstyle/index.html">Checkstyle</a></td>
+          <td>Style compliance report based on the Checkstyle tool with DPML style rules.</td>
+        </tr>
+        <tr>
+          <td><a href="../../reports/@VERSION@/catalog/index.html">Catalog</a></td>
+          <td>Description of all component types.</td>
+        </tr>
+      </table>
 
     </section>
 

@@ -244,47 +244,15 @@ public class ComponentBuilderTask extends ClassLoaderBuilderTask implements Part
     */
     public void execute()
     {
-        if( null == m_name )
-        {
-            final String error =
-              "Missing name attribute.";
-            throw new BuildException( error, getLocation() );
-        }
-
         ClassLoader classloader = createClassLoader();
         ClassLoaderDirective cld = constructClassLoaderDirective();
-
         File file = getOutputFile();
         File parent = file.getParentFile();
         if( !parent.exists() )
         {
             parent.mkdirs();
         }
-
-        ComponentDirective profile = createComponent( classloader, cld, file );
-
-        File targetReports = getContext().getTargetReportsDirectory();
-        File reports = new File( targetReports, "parts" );
-        reports.mkdirs();
-        if( m_embedded )
-        {
-            reports = new File( reports, "embedded" );
-            reports.mkdirs();
-        }
-
-        File report = new File( reports, m_name + ".xml" );
-
-        try
-        {
-            XStream xStream = new XStream( new DomDriver() );
-            xStream.alias( "component", ComponentDirective.class );
-            xStream.toXML( profile, new FileWriter( report ) );
-            log( "Created report in " + report );
-        }
-        catch( Throwable e )
-        {
-            log( "XML reporting failed due to: " + e.toString() );
-        }
+        createComponent( classloader, cld, file );
     }
 
    /**
@@ -501,12 +469,14 @@ public class ComponentBuilderTask extends ClassLoaderBuilderTask implements Part
     {
         if( null == m_key )
         {
-            final String message = 
-              "Missing key attribute for nested part reference. Using part name instead.";
-            log( message, Project.MSG_VERBOSE );
-            return m_name;
+            final String error = 
+              "Missing key attribute for nested part reference.";
+            throw new BuildException( error );
         }
-        return m_key;
+        else
+        {
+            return m_key;
+        }
     }
 
    /**
@@ -539,8 +509,9 @@ public class ComponentBuilderTask extends ClassLoaderBuilderTask implements Part
     private ComponentDirective buildComponentDirective( ClassLoader classloader, ClassLoaderDirective cld ) 
       throws IntrospectionException, IOException, ClassNotFoundException
     {
-        String id = getName();
         String classname = getClassname();
+        Type type = loadType( classloader, classname );
+        String id = getName( type.getInfo().getName() );
         log( "creating [" + id + "] using [" + classname + "]" );
 
         if( null == m_extends )
@@ -575,7 +546,6 @@ public class ComponentBuilderTask extends ClassLoaderBuilderTask implements Part
             }
         }
 
-        Type type = loadType( classloader, classname );
         LifestylePolicy lifestyle = getLifestylePolicy( type ); 
         CollectionPolicy collection = getCollectionPolicy( type );
         ActivationPolicy activation = getActivationPolicy();
@@ -632,7 +602,7 @@ public class ComponentBuilderTask extends ClassLoaderBuilderTask implements Part
     * Return the component name.
     * @return the name
     */
-    protected String getName()
+    protected String getName( String typeName )
     {
         if( null == m_name )
         {
@@ -642,12 +612,13 @@ public class ComponentBuilderTask extends ClassLoaderBuilderTask implements Part
             }
             else
             {
-                final String error = 
-                  "The component profile name attribute is not defined.";
-                throw new BuildException( error, getLocation() );
+                return typeName;
             }
         }
-        return m_name;
+        else
+        {
+            return m_name;
+        }
     }
 
    /**
@@ -739,6 +710,7 @@ public class ComponentBuilderTask extends ClassLoaderBuilderTask implements Part
     private ContextDirective getContextDirective( ClassLoader classloader, Type type ) 
       throws IntrospectionException, IOException, ClassNotFoundException
     {
+        String name = getName( type.getInfo().getName() );
         String classname = type.getInfo().getClassname();
         ContextDirective context = createContextDirective( classloader, type );
         if( null == context )
@@ -762,7 +734,7 @@ public class ComponentBuilderTask extends ClassLoaderBuilderTask implements Part
             {
                 final String error = 
                   "The component model ["
-                  + getName() 
+                  + name 
                   + "] referencing the component type ["
                   + classname 
                   + "] does not declare a context entry for the non-optional entry ["
@@ -794,38 +766,38 @@ public class ComponentBuilderTask extends ClassLoaderBuilderTask implements Part
 
     private CategoriesDirective getCategoriesDirective()
     {
-         if( null == m_categories )
-         {
-              return m_profile.getCategoriesDirective();
-         }
-         else
-         {
-              return m_categories.getCategoriesDirective();
-         }
+        if( null == m_categories )
+        {
+            return m_profile.getCategoriesDirective();
+        }
+        else
+        {
+            return m_categories.getCategoriesDirective();
+        }
     }
 
     private Parameters getParameters()
     {
-         if( null == m_parameters )
-         {
-              return m_profile.getParameters();
-         }
-         else
-         {
-              return m_parameters.getParameters();
-         }
+        if( null == m_parameters )
+        {
+            return m_profile.getParameters();
+        }
+        else
+        {
+            return m_parameters.getParameters();
+        }
     }
 
     private Configuration getConfiguration()
     {
-         if( null == m_configuration )
-         {
-              return m_profile.getConfiguration();
-         }
-         else
-         {
-              return m_configuration.getConfiguration();
-         }
+        if( null == m_configuration )
+        {
+            return m_profile.getConfiguration();
+        }
+        else
+        {
+            return m_configuration.getConfiguration();
+        }
     }
 
    /**
