@@ -76,6 +76,7 @@ public class ParameterizableComponent
    /**
     * Return the resolved name parameter value.
     * @return the value
+    * @exception ParameterException if the parameter does not exist
     */
     public String getName() throws ParameterException
     {
@@ -85,6 +86,7 @@ public class ParameterizableComponent
    /**
     * Return the resolved size parameter value.
     * @return the size
+    * @exception ParameterException if the parameter does not exist
     */
     public int getSize() throws ParameterException
     {

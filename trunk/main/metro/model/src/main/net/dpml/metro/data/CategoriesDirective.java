@@ -81,7 +81,8 @@ public class CategoriesDirective extends CategoryDirective implements Serializab
      * @exception NullPointerException if a category array value is null
      */
     public CategoriesDirective( 
-      final String name, final Priority priority, final String target, final CategoryDirective[] categories )
+      final String name, final Priority priority, final String target, 
+      final CategoryDirective[] categories ) throws NullPointerException
     {
         super( name, priority, target );
         if( categories == null )

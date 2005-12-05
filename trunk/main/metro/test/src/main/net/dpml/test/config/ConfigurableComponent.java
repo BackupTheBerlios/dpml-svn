@@ -51,7 +51,8 @@ public class ConfigurableComponent
 
    /**
     * Creation of a new startable component instance.
-    * @param logger the assingned logging channel
+    * @param logger the assigned logging channel
+    * @param config the assigned configuration
     */
     public ConfigurableComponent( final Logger logger, Configuration config )
     {
@@ -63,11 +64,20 @@ public class ConfigurableComponent
     // test operations
     //------------------------------------------------------------------
     
+   /**
+    * Return the name resolved from the configuration.
+    * @return the name value
+    * @exception ConfigurationException if a configuration error occurs
+    */
     public String getName() throws ConfigurationException
     {
         return m_config.getAttribute( "name" );
     }
     
+   /**
+    * Return the number of item entries in the configuration.
+    * @return the item count
+    */
     public int getItemCount()
     {
         return m_config.getChildren( "item" ).length;

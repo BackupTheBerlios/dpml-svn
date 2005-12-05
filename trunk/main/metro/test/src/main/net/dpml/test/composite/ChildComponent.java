@@ -20,8 +20,6 @@ package net.dpml.test.composite;
 
 import java.awt.Color;
 
-import net.dpml.logging.Logger;
-
 import net.dpml.test.ColorManager;
 
 /**
