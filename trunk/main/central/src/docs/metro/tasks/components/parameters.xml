@@ -14,20 +14,28 @@
       <subsection name="Description">
 
         <p>
-        Declaration of a default parameters.
+        Declaration of a default set of parameters to assign to the component model.
+        The <tt>&lt;parameters&gt;</tt> element may contain 0..n <tt>&lt;param&gt;</tt>
+        elements where each <tt>&lt;param&gt;</tt> element is defining a named value 
+        pair within a <a href="/api/dpml/@VERSION@/net/dpml/parameters/Parameters.html">Parameters</a>
+        constructor argument.
         </p>
 
       </subsection>
-      
-      <subsection name="Attributes">
 
-        <p>IN PROGRESS</p>
+      <subsection name="Params Element Attributes">
 
-      </subsection>
-
-      <subsection name="Nested Elements">
-
-        <p>IN PROGRESS</p>
+        <table>
+          <tr>
+            <td><tt>name</tt></td>
+            <td>The parameter name (required).</td>
+          </tr>
+          <tr>
+            <td><tt>value</tt></td>
+            <td>The parameter value.
+            </td>
+          </tr>
+        </table>
 
       </subsection>
 
@@ -35,10 +43,21 @@
 
     <section name="Example">
 
-    </section>
+      <p>
+      The following example demonstrates the creation of a parameters
+      directive that will be assigned to the intial component model.
+      </p>
 
-    <section name="Technical Notes">
-      
+<pre><![CDATA[
+<component xmlns="dpml:metro" dest="target/test/params.part" test="true" activation="true"
+    type="net.dpml.test.params.ParameterizableComponent" collection="hard">
+  <parameters>
+    <param name="name" value="fred"/>
+    <param name="size" value="1024"/>
+ </parameters>
+</component>
+]]></pre>
+
     </section>
 
   </body>
