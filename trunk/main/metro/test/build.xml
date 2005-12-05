@@ -134,6 +134,7 @@
     <c:component dest="target/test/config.part" test="true" activation="true"
         type="net.dpml.test.config.ConfigurableComponent" collection="hard">
       <configuration name="fred">
+        <place>Cafe de'Orleans</place>
         <item name="breakfast" value="Cafe et Crossant"/>
         <item name="lunch" value="Salade de Sub-Oust"/>
         <item name="dinner" value="Margret de Canard"/>
