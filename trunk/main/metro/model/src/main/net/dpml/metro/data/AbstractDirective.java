@@ -45,6 +45,15 @@ public abstract class AbstractDirective
     //--------------------------------------------------------------------------
     
    /**
+    * Return the hashcode for the instance.
+    * @return the instance hashcode
+    */
+    public int hashCode()
+    {
+        return getClass().hashCode();
+    }
+    
+   /**
     * Utility to hash an array.
     * @param array the array
     * @return the hash value
@@ -82,6 +91,23 @@ public abstract class AbstractDirective
         else
         {
             return value.hashCode();
+        }
+    }
+    
+   /**
+    * Test if the supplied object is equal to this object.
+    * @param other the object to compare with this instance
+    * @return TRUE if the supplied object is equal to this object
+    */
+    public boolean equals( Object other )
+    {
+        if( null == other )
+        {
+            return false;
+        }
+        else
+        {
+            return ( other instanceof AbstractDirective );
         }
     }
     

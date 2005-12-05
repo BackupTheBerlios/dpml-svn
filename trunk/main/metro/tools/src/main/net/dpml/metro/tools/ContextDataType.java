@@ -50,15 +50,6 @@ public class ContextDataType
     }
 
    /**
-    * Return the optional context implementation classname.
-    * @return the classname
-    */
-    public String getClassname()
-    {
-        return m_class;
-    }
-
-   /**
     * Create a new constructed part builder.
     * @return a part builder
     */
@@ -84,9 +75,18 @@ public class ContextDataType
     * Return all of the part reference builders.
     * @return the set of part reference builders
     */
-    public PartReferenceBuilder[] getBuilders()
+    PartReferenceBuilder[] getBuilders()
     {
         return (PartReferenceBuilder[]) m_builders.toArray( new PartReferenceBuilder[0] );
+    }
+
+   /**
+    * Return the optional context implementation classname.
+    * @return the classname
+    */
+    String getClassname()
+    {
+        return m_class;
     }
 
    /**
@@ -98,7 +98,7 @@ public class ContextDataType
     * @exception IOException if an I/O error occurs
     * @exception ClassNotFoundException if a context class was not found
     */
-    public ContextDirective getContextDirective( ClassLoader classloader, Type type ) 
+    ContextDirective getContextDirective( ClassLoader classloader, Type type ) 
       throws IntrospectionException, IOException, ClassNotFoundException
     {
         String classname = getClassname();

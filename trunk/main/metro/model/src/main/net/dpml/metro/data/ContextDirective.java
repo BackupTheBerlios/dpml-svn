@@ -19,6 +19,7 @@
 package net.dpml.metro.data;
 
 import java.io.Serializable;
+import java.util.Arrays;
 
 import net.dpml.metro.part.Directive;
 
@@ -48,7 +49,7 @@ import net.dpml.metro.info.PartReference;
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-public final class ContextDirective implements Serializable
+public final class ContextDirective extends AbstractDirective
 {
     //--------------------------------------------------------------------------
     // static
@@ -58,6 +59,8 @@ public final class ContextDirective implements Serializable
     * Serial version identifier.
     */
     static final long serialVersionUID = 1L;
+    
+    private final PartReference[] EMPTY_REFS = new PartReference[0];
 
     //--------------------------------------------------------------------------
     // state
@@ -104,11 +107,19 @@ public final class ContextDirective implements Serializable
         m_classname = classname;
         if( entries != null )
         {
+            for( int i=0; i<entries.length; i++ )
+            {
+                PartReference ref = entries[i];
+                if( null == ref )
+                {
+                    throw new NullPointerException( "entry" );
+                }
+            }
             m_entries = entries;
         }
         else
         {
-            m_entries = new PartReference[0];
+            m_entries = EMPTY_REFS;
         }
     }
 
@@ -179,49 +190,24 @@ public final class ContextDirective implements Serializable
     */
     public boolean equals( Object other )
     {
-        if( null == other )
+        if( !super.equals( other ) )
+        {
+            return false;
+        }
+        else if( !( other instanceof ContextDirective ) )
         {
             return false;
         }
         else
         {
-            if( other instanceof ContextDirective )
+            ContextDirective context = (ContextDirective) other;
+            if( !equals( m_classname, context.m_classname ) )
             {
-                ContextDirective context = (ContextDirective) other;
-                if( null == m_classname )
-                {
-                    if( null != context.getClassname() )
-                    {
-                        return false;
-                    }
-                }
-                else if( !m_classname.equals( context.getClassname() ) )
-                {
-                    return false;
-                }
-                if( getDirectives().length != context.getDirectives().length )
-                {
-                    return false;
-                }
-                else
-                {
-                    PartReference[] mine = getDirectives();
-                    PartReference[] yours = context.getDirectives();
-                    for( int i=0; i<mine.length; i++ )
-                    {
-                        PartReference p = mine[i];
-                        PartReference q = yours[i];
-                        if( !p.equals( q ) )
-                        {
-                            return false;
-                        }
-                    }
-                    return true;
-                }
+                return false;
             }
             else
             {
-                return false;
+                return Arrays.equals( m_entries, context.m_entries );
             }
         }
     }
@@ -232,15 +218,9 @@ public final class ContextDirective implements Serializable
     */
     public int hashCode()
     {
-        int hash = 9;
-        if( null != m_classname )
-        {
-           hash ^= m_classname.hashCode();
-        }
-        for( int i=0; i<m_entries.length; i++ )
-        {
-            hash ^= m_entries[i].hashCode();
-        }
+        int hash = super.hashCode();
+        hash ^= hashValue( m_classname );
+        hash ^= hashArray( m_entries );
         return hash;
     }
 }

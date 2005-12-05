@@ -14,7 +14,11 @@
       <subsection name="Description">
 
         <p>
-        Declaration of the initial context state.
+        Declaration of the initial context model state together
+        with the initial context entry key/value bindings.  A context
+        directive typically contains a series of &lt;entry&gt; directives
+        where each directive asserts a default inital value for a context 
+        entry key.
         </p>
 
       </subsection>
