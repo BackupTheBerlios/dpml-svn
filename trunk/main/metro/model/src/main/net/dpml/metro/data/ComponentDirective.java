@@ -233,7 +233,7 @@ public class ComponentDirective extends DeploymentDirective implements Directive
         {
             m_context = context;
         }
-
+        
         m_lifestyle = lifestyle;
         m_collection = collection;
         m_parameters = parameters;
@@ -288,7 +288,7 @@ public class ComponentDirective extends DeploymentDirective implements Directive
    /**
     * Return the Parameters for the profile.
     *
-    * @return the Parameters for Component (if any).
+    * @return the Parameters for Component (possibly null).
     */
     public Parameters getParameters()
     {

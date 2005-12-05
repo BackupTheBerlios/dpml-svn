@@ -44,6 +44,7 @@ import net.dpml.configuration.ConfigurationException;
 import net.dpml.configuration.impl.DefaultConfiguration;
 
 import net.dpml.parameters.Parameters;
+import net.dpml.parameters.impl.DefaultParameters;
 
 import net.dpml.transit.model.UnknownKeyException;
 
@@ -303,7 +304,14 @@ class DefaultComponentModel extends UnicastEventSource implements ComponentModel
 
     public Parameters getParameters()
     {
-        return m_parameters;
+        if( null == m_parameters )
+        {
+            return DefaultParameters.EMPTY_PARAMETERS;
+        }
+        else
+        {
+            return m_parameters;
+        }
     }
 
    /**

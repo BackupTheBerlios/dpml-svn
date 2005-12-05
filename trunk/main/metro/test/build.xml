@@ -141,6 +141,17 @@
       </configuration>
     </c:component>
 
+    <!-- parameterizable component -->
+
+    <c:type class="net.dpml.test.params.ParameterizableComponent" name="params" lifestyle="thread"/>
+    <c:component dest="target/test/params.part" test="true" activation="true"
+        type="net.dpml.test.params.ParameterizableComponent" collection="hard">
+      <parameters>
+        <param name="name" value="fred"/>
+        <param name="size" value="1024"/>
+      </parameters>
+    </c:component>
+
   </target>
 
 </project>

@@ -50,6 +50,16 @@ public class ParametersDataType
    /**
     * Create, allocate and return a new parameter with this set of parameters.
     * @return a new parameter directive
+    * @see #createParameter()
+    */
+    public ParameterDataType createParam()
+    {
+        return createParameter();
+    }
+
+   /**
+    * Create, allocate and return a new parameter with this set of parameters.
+    * @return a new parameter directive
     */
     public ParameterDataType createParameter()
     {

@@ -107,6 +107,7 @@
     <dependencies>
       <include ref="dpml/util/dpml-logging-api"/>
       <include ref="dpml/util/dpml-configuration-api"/>
+      <include ref="dpml/util/dpml-parameters-api"/>
     </dependencies>
     <dependencies scope="test">
       <include key="dpml-metro-tools"/>
