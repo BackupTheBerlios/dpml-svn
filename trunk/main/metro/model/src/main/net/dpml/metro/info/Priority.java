@@ -110,5 +110,14 @@ public final class Priority extends ValuedEnum
             throw new IllegalArgumentException( error );
         }
     }
+    
+   /**
+    * Return a string representation of the priority constant.
+    * @return the string value
+    */
+    public String toString()
+    {
+        return getName().toUpperCase();
+    }
 }
 

@@ -25,6 +25,8 @@ import java.util.EventObject;
 import net.dpml.metro.data.ComponentDirective;
 import net.dpml.metro.data.ClassLoaderDirective;
 import net.dpml.metro.data.ContextDirective;
+import net.dpml.metro.data.CategoriesDirective;
+import net.dpml.metro.data.CategoryDirective;
 import net.dpml.metro.part.Directive;
 import net.dpml.metro.info.CollectionPolicy;
 import net.dpml.metro.info.LifestylePolicy;
@@ -304,6 +306,24 @@ class DefaultComponentModel extends UnicastEventSource implements ComponentModel
         return m_parameters;
     }
 
+   /**
+    * Return the component logging categories.
+    * @return the categories
+    * @exception RemoteException if a remote exception occurs
+    */
+    public CategoryDirective[] getCategoryDirectives()
+    {
+        CategoriesDirective categories = m_directive.getCategoriesDirective();
+        if( null != categories )
+        {
+            return categories.getCategories();
+        }
+        else
+        {
+            return new CategoryDirective[0];
+        }
+    }
+    
     // ------------------------------------------------------------------------
     // DefaultComponentModel
     // ------------------------------------------------------------------------

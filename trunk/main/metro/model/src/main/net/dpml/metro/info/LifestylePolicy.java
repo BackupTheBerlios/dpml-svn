@@ -71,6 +71,15 @@ public final class LifestylePolicy extends Enum
     {
         super( label );
     }
+
+   /**
+    * Return a string representation of the lifestyle constant.
+    * @return the string value
+    */
+    public String toString()
+    {
+        return getName().toUpperCase();
+    }
     
    /**
     * Parse the supplied value into a lifestyle policy.

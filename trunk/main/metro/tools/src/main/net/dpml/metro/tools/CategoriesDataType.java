@@ -62,7 +62,7 @@ public class CategoriesDataType
          for( int i=0; i<types.length; i++ )
          {
              CategoryDataType type = types[i];
-             CategoryDirective directive = type.getCategoryDirective();
+             directives[i] = type.getCategoryDirective();
          }
          return new CategoriesDirective( directives );
     }

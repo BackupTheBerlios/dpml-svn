@@ -610,7 +610,7 @@ class ComponentController
         }
     }
 
-    private String getPathForLogger( ComponentHandler handler )
+    String getPathForLogger( ComponentHandler handler )
     {
         String path = handler.getPath();
         return path.substring( 1 ).replace( '/', '.' );

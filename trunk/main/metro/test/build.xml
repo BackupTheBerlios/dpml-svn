@@ -117,6 +117,17 @@
         type="net.dpml.test.lifecycle.StartableComponent" collection="hard">
     </c:component>
 
+    <!-- categories component -->
+
+    <c:type class="net.dpml.test.categories.CategoriesComponent" name="categories" lifestyle="thread"/>
+    <c:component dest="target/test/categories.part" test="true" activation="true"
+        type="net.dpml.test.categories.CategoriesComponent" collection="hard">
+      <categories>
+        <category name="alpha" priority="warn"/>
+        <category name="beta" priority="error"/>
+      </categories>
+    </c:component>
+
   </target>
 
 </project>

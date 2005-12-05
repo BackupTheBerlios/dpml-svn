@@ -19,9 +19,9 @@
 package net.dpml.metro.data;
 
 import java.io.Serializable;
+import java.util.Arrays;
 
 import net.dpml.metro.info.Priority;
-
 
 /**
  * Description of the configuration of a set of categories.
@@ -78,6 +78,7 @@ public class CategoriesDirective extends CategoryDirective implements Serializab
      * @param priority the default logging priority
      * @param target the default logging target
      * @param categories the logging category descriptors
+     * @exception NullPointerException if a category array value is null
      */
     public CategoriesDirective( 
       final String name, final Priority priority, final String target, final CategoryDirective[] categories )
@@ -85,10 +86,18 @@ public class CategoriesDirective extends CategoryDirective implements Serializab
         super( name, priority, target );
         if( categories == null )
         {
-            m_categories = new CategoryDirective[ 0 ];
+            m_categories = new CategoryDirective[0];
         }
         else
         {
+            for( int i=0; i<categories.length; i++ )
+            {
+                CategoryDirective category = categories[i];
+                if( null == category )
+                {
+                    throw new NullPointerException( "category" );
+                }
+            }
             m_categories = categories;
         }
     }
@@ -130,27 +139,19 @@ public class CategoriesDirective extends CategoryDirective implements Serializab
     */
     public boolean equals( Object other )
     {
-        boolean isEqual = other instanceof CategoriesDirective;
-        if( isEqual )
+        if( !super.equals( other ) )
         {
-            isEqual = super.equals( other );
+            return false;
         }
-        if( isEqual )
+        else if( !( other instanceof CategoriesDirective ) )
         {
-            CategoriesDirective cat = (CategoriesDirective) other;
-            if( isEqual )
-            {
-                isEqual = m_categories.length == cat.m_categories.length;
-            }
-            if( isEqual )
-            {
-                for( int i=0; i<m_categories.length && isEqual; i++ )
-                {
-                    isEqual = m_categories[i].equals( cat.m_categories[i] );
-                }
-            }
+            return false;
         }
-        return isEqual;
+        else
+        {
+            CategoriesDirective directive = (CategoriesDirective) other;
+            return Arrays.equals( m_categories, directive.m_categories );
+        }
     }
 
    /**
@@ -160,11 +161,7 @@ public class CategoriesDirective extends CategoryDirective implements Serializab
     public int hashCode()
     {
         int hash = super.hashCode();
-        for ( int i = 0; i < m_categories.length; i++ )
-        {
-            hash = hash + 687364287;
-            hash ^= m_categories[i].hashCode();
-        }
+        hash ^= hashArray( m_categories );
         return hash;
     }
 }

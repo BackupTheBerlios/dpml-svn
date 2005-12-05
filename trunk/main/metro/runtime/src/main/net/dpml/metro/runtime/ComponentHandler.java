@@ -29,10 +29,13 @@ import java.util.EventObject;
 import java.util.Map;
 import java.util.Hashtable;
 import java.util.WeakHashMap;
+import java.util.logging.Level;
 
 import net.dpml.metro.info.Type;
 import net.dpml.metro.info.LifestylePolicy;
 import net.dpml.metro.info.CollectionPolicy;
+import net.dpml.metro.info.Priority;
+import net.dpml.metro.data.CategoryDirective;
 import net.dpml.metro.model.ComponentModel;
 
 import net.dpml.logging.Logger;
@@ -362,6 +365,49 @@ public class ComponentHandler extends UnicastEventSource implements Component, C
         if( isActive() )
         {
             return;
+        }
+        
+        // setup and subsidiary logging channels declared by the component type
+        
+        try
+        {
+            String path = m_controller.getPathForLogger( this );
+            CategoryDirective[] categories = m_model.getCategoryDirectives();
+            for( int i=0; i<categories.length; i++ )
+            {
+                CategoryDirective category = categories[i];
+                String spec = path + "." + category.getName();
+                java.util.logging.Logger log = java.util.logging.Logger.getLogger( spec );
+                Priority priority = category.getPriority();
+                if( null != priority )
+                {
+                    if( Priority.ERROR.equals( priority ) )
+                    {
+                        log.setLevel( Level.SEVERE );
+                    }
+                    else if( Priority.WARN.equals( priority ) )
+                    {
+                        log.setLevel( Level.WARNING );
+                    }
+                    else if( Priority.INFO.equals( priority ) )
+                    {
+                        log.setLevel( Level.INFO );
+                    }
+                    else if( Priority.DEBUG.equals( priority ) )
+                    {
+                        log.setLevel( Level.FINE );
+                    }
+                }
+                
+                // TODO: set category target
+                
+            }
+        }
+        catch( RemoteException e )
+        {
+            final String error = 
+              "Remote exception raised while attempting to access component logging categories.";
+            throw new ControllerException( error, e );
         }
         
         try

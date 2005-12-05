@@ -24,6 +24,7 @@ import java.rmi.RemoteException;
 import net.dpml.metro.info.LifestylePolicy;
 import net.dpml.metro.info.CollectionPolicy;
 import net.dpml.metro.data.ClassLoaderDirective;
+import net.dpml.metro.data.CategoryDirective;
 import net.dpml.metro.part.ActivationPolicy;
 import net.dpml.metro.part.Model;
 import net.dpml.metro.state.State;
@@ -141,5 +142,12 @@ public interface ComponentModel extends Model, Remote
     * @exception RemoteException if a remote exception occurs
     */
     Parameters getParameters() throws  RemoteException;
+    
+   /**
+    * Return the component logging categories.
+    * @return the categories
+    * @exception RemoteException if a remote exception occurs
+    */
+    CategoryDirective[] getCategoryDirectives() throws  RemoteException;
 }
 
