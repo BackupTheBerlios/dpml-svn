@@ -24,6 +24,7 @@ import java.rmi.registry.Registry;
 import java.rmi.registry.LocateRegistry;
 import java.util.Properties;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
 
 import net.dpml.metro.part.Component;
@@ -161,14 +162,14 @@ $ metro exec link:part:dpml/planet/http/dpml-http-demo
         
         URI config = getConfigurationURI( line );
         URI params = getParametersURI( line );
+        URI categories = getCategoriesURI( line );
         
-        Component component = resolveTargetComponent( logger, uri, config, params, properties );
+        Component component = resolveTargetComponent( logger, uri, config, params, categories, properties );
         m_callback.started( PROCESS_ID, component );
     }
     
-    
    /**
-    * Return a properties instance composed of the <tt>-D&lt;key&gt;=&lt;value&gt;</tt>
+    * Return a properties instance composed of the <tt>-C&lt;key&gt;=&lt;value&gt;</tt>
     * commandline arguments.
     * @param line the commandline
     * @return the resolved properties
@@ -201,8 +202,13 @@ $ metro exec link:part:dpml/planet/http/dpml-http-demo
         return (URI) line.getValue( PARAMS_OPTION, null );
     }
     
+    private URI getCategoriesURI( CommandLine line )
+    {
+        return (URI) line.getValue( LOGGING_OPTION, null );
+    }
+    
     private Component resolveTargetComponent( 
-      Logger logger, URI uri, URI config, URI params, Properties properties ) throws Exception
+      Logger logger, URI uri, URI config, URI params, URI categories, Properties properties ) throws Exception
     {
         if( Artifact.isRecognized( uri ) )
         {
@@ -210,7 +216,7 @@ $ metro exec link:part:dpml/planet/http/dpml-http-demo
             String type = artifact.getType();
             if( type.equals( "part" ) )
             {
-                return new ComponentAdapter( logger, uri, config, params, properties );
+                return new ComponentAdapter( logger, uri, config, params, categories, properties );
             }
         }
         
@@ -276,7 +282,22 @@ $ metro exec link:part:dpml/planet/http/dpml-http-demo
       new PropertyOption( "-C", "Set a context entry value.", 'C' );
     private static final NumberValidator PORT_VALIDATOR = NumberValidator.getIntegerInstance();
     private static final URIValidator URI_VALIDATOR = new URIValidator();
-      
+    
+    private static final Option LOGGING_OPTION = 
+        OPTION_BUILDER
+          .withShortName( "categories" )
+          .withDescription( "Set logging category priorities." )
+          .withRequired( false )
+          .withArgument(
+            ARGUMENT_BUILDER 
+              .withDescription( "URI." )
+              .withName( "uri" )
+              .withMinimum( 1 )
+              .withMaximum( 1 )
+              .withValidator( URI_VALIDATOR )
+              .create() )
+          .create();
+
     private static final Option PORT_OPTION = 
         OPTION_BUILDER
           .withShortName( "port" )
@@ -353,6 +374,7 @@ $ metro exec link:part:dpml/planet/http/dpml-http-demo
         .withOption( CONFIG_OPTION )
         .withOption( PARAMS_OPTION )
         .withOption( CONTEXT_OPTION )
+        .withOption( LOGGING_OPTION )
         .create();
     
     private static final Option EXECUTE_COMMAND =

@@ -45,10 +45,31 @@
 
     <section name="Example">
 
+      <p>
+      the following component directive is asserting that the two subsidiary 
+      logging channels (<tt>alpha</tt> and <tt>beta</tt>) shall be established 
+      with the respective priorities of <tt>WARN</tt> and <tt>ERROR</tt>.
+      </p>
+
+<pre><![CDATA[
+<component xmlns="dpml:metro" dest="target/test/categories.part" test="true" activation="true"
+    type="net.dpml.test.categories.CategoriesComponent" collection="hard">
+  <categories>
+    <category name="alpha" priority="warn"/>
+    <category name="beta" priority="error"/>
+  </categories>
+<component>
+]]></pre>
+
     </section>
 
     <section name="Technical Notes">
       
+      <p>
+      Overriding of category settings via metro comandline settings is not 
+      supported at this time.
+      </p>
+
     </section>
 
   </body>

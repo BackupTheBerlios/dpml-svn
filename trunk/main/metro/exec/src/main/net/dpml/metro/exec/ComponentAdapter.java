@@ -87,11 +87,12 @@ public class ComponentAdapter extends AbstractAdapter
     * @param codebase the codebase uri
     * @param config a configuration uri
     * @param params a parameters uri
-    * @param properties context override properties
+    * @param params a parameters uri
+    * @param categories context override configuration
     * @exception Exception if an error occurs
     */
     public ComponentAdapter( 
-      Logger logger, URI codebase, URI config, URI params, Properties properties ) throws Exception
+      Logger logger, URI codebase, URI config, URI params, URI categories, Properties properties ) throws Exception
     {
         super( logger );
         
