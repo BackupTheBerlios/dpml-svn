@@ -546,9 +546,7 @@ public class DefaultParameters implements Parameters, Serializable
     public Parameters merge( final Parameters other )
     {
         checkWriteable();
-
         final String[] names = other.getNames();
-
         for( int i = 0; i < names.length; i++ )
         {
             final String name = names[ i ];
@@ -564,6 +562,16 @@ public class DefaultParameters implements Parameters, Serializable
             setParameter( name, value );
         }
         return this;
+    }
+
+   /** 
+    * Converts the Parameters instance to a java.util.Properties instance.
+    * @see #toProperties()
+    * @return a java.util.Properties instance.
+    */
+    public Properties getProperties()
+    {
+        return toProperties();
     }
 
    /** 
@@ -681,6 +689,23 @@ public class DefaultParameters implements Parameters, Serializable
             s = "Parameters[r/w]:";
         }
         return s + m_parameters;
+    }
+    
+   /**
+    * Return the sealed state of this parameters instance..
+    * @return true if sealed
+    */
+    public final boolean getSealed()
+    {
+        try
+        {
+            checkWriteable();
+            return false;
+        }
+        catch( IllegalStateException ise )
+        {
+            return true;
+        }
     }
 
    /**
