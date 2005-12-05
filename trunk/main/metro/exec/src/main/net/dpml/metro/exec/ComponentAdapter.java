@@ -87,8 +87,8 @@ public class ComponentAdapter extends AbstractAdapter
     * @param codebase the codebase uri
     * @param config a configuration uri
     * @param params a parameters uri
-    * @param params a parameters uri
-    * @param categories context override configuration
+    * @param categories a categories uri
+    * @param properties context override properties
     * @exception Exception if an error occurs
     */
     public ComponentAdapter( 

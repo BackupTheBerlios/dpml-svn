@@ -18,7 +18,6 @@
 
 package net.dpml.metro.data;
 
-import java.io.Serializable;
 import java.util.Arrays;
 
 import net.dpml.metro.part.Directive;
@@ -60,7 +59,7 @@ public final class ContextDirective extends AbstractDirective
     */
     static final long serialVersionUID = 1L;
     
-    private final PartReference[] EMPTY_REFS = new PartReference[0];
+    private static final PartReference[] EMPTY_REFS = new PartReference[0];
 
     //--------------------------------------------------------------------------
     // state

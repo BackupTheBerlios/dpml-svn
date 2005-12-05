@@ -35,7 +35,10 @@ public class ParameterizableComponent
     // static
     //------------------------------------------------------------------
     
-    public static int TEST_VALUE = 1024;
+   /**
+    * Value used in testcase.
+    */
+    public static final int TEST_VALUE = 1024;
     
     //------------------------------------------------------------------
     // state
@@ -58,6 +61,7 @@ public class ParameterizableComponent
    /**
     * Creation of a new parameterized component.
     * @param logger the assingned logging channel
+    * @param params the assingned parameters instance
     */
     public ParameterizableComponent( final Logger logger, Parameters params )
     {
@@ -69,11 +73,19 @@ public class ParameterizableComponent
     // test operations
     //------------------------------------------------------------------
     
+   /**
+    * Return the resolved name parameter value.
+    * @return the value
+    */
     public String getName() throws ParameterException
     {
         return m_params.getParameter( "name" );
     }
     
+   /**
+    * Return the resolved size parameter value.
+    * @return the size
+    */
     public int getSize() throws ParameterException
     {
         return m_params.getParameterAsInteger( "size" );

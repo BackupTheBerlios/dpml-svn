@@ -15,8 +15,6 @@
  */
 package net.dpml.parameters.impl;
 
-import java.beans.Encoder;
-import java.beans.Expression;
 import java.beans.SimpleBeanInfo;
 import java.beans.BeanDescriptor;
 import java.beans.DefaultPersistenceDelegate;

@@ -25,7 +25,6 @@ import java.beans.ExceptionListener;
 import java.beans.Expression;
 import java.beans.DefaultPersistenceDelegate;
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.FileOutputStream;
 import java.io.BufferedOutputStream;
@@ -50,9 +49,6 @@ import net.dpml.metro.part.ActivationPolicy;
 
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Project;
-
-import com.thoughtworks.xstream.XStream;
-import com.thoughtworks.xstream.io.xml.DomDriver;
 
 /**
  * Task that handles the construction of a serialized container part.
@@ -600,6 +596,7 @@ public class ComponentBuilderTask extends ClassLoaderBuilderTask implements Part
 
    /**
     * Return the component name.
+    * @param typeName the component type name (used as a default)
     * @return the name
     */
     protected String getName( String typeName )

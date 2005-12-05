@@ -29,7 +29,6 @@ import java.io.File;
 import java.net.URL;
 import java.net.URI;
 
-import net.dpml.transit.info.HostDirective;
 import net.dpml.transit.info.CacheDirective;
 import net.dpml.transit.info.ProxyDirective;
 import net.dpml.transit.info.TransitDirective;
