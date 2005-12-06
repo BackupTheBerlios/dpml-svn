@@ -705,6 +705,22 @@ class ComponentController
                             throw new ControllerException( error, ee );
                         }
                     }
+                    else if( "registry".equals( scheme ) )
+                    {
+                        try
+                        {  
+                            return uri.toURL().getContent();
+                        }
+                        catch( Exception ee )
+                        {
+                            final String error = 
+                              "Unable to dereference rmi registry reference."
+                              + "\nHandler: " + handler
+                              + "\nKey: " + key;
+                              + "\nURI: " + uri;
+                            throw new ControllerException( error, ee );
+                        }
+                    }
                     else
                     {
                         final String error = 

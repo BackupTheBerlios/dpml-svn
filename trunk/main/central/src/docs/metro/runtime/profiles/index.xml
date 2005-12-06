@@ -11,9 +11,103 @@
 
     <section name="Component Profiles">
 
+      <p>
+      A component profile provides a description of the state of usage 
+      of a component type.  It is represented by a collections of 
+      serializable (and encodable) classes commonly referred to as 
+      directies.  The principal directive is the 
+      <tt>net.dpml.metro/data.ComponentDirective</tt> class.
+      </p>
+
+      <subsection name="Component Directives">
+
+      <p>
+      A <tt>ComponentDirective</tt> contains information about the component  
+      classname (from which the component <a href="../types/index.html">type</a> 
+      can be resolved), a name that identifies the component within the scope of 
+      its parent, and a series of directives that deal with component 
+      configuration including the assignment of context entry values
+      and/or instructions to a container concerning value fulfillment.
+      </p>
+
+      <table>
+
+        <tr>
+          <th>Directive</th><th>Description</th>
+        </tr>
+
+        <tr>
+          <td><a href="/api/dpml/@VERSION@/net/dpml/metro/data/ComponentDirective.html">
+            ComponentDirective</a></td>
+          <td>
+            The <tt>ComponentDirective</tt> class identifies the component
+            via a scoped name.  It asserts <a href="activation.html">activation</a> 
+            policy that is used by the runtime during deployment phases. It
+            contains overloaded state enabling customization of type 
+            <a href="../types/collection.html">collection</a> and
+            <a href="../types/lifestyle.html">lifestyle</a> policies and 
+            aggregates a set of directives dealing with a number of different 
+            component configuration concerns.
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <a href="/api/dpml/@VERSION@/net/dpml/metro/data/CategoryDirective.html">
+              CategoryDirective</a></td>
+          <td>
+            Enables the assignment of logging channel priorities and target
+            associations.
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <a href="/api/dpml/@VERSION@/net/dpml/metro/info/ContextDirective.html">
+              ContextDirective</a></td>
+          <td>
+            Contains the binding of entry keys with values directives and/or
+            value resolution instructions that are used by the runtime to 
+            ensure clean and complete context fullfillment.
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <a href="/api/dpml/@VERSION@/net/dpml/parameters/Parameters.html">
+              Parameters</a></td>
+          <td>
+            Convinient association of named values pairs that can be used 
+            as an immutable component constructor argument.
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <a href="/api/dpml/@VERSION@/net/dpml/configuration/Configuration.html">
+              Configuration</a></td>
+          <td>
+            A simple and easy to use representation of an XML document suitable
+            for supply to a component as a constructor argument.
+          </td>
+        </tr>
+      </table>
+
+      </subsection>
+
+      <subsection name="Component Profile Creation">
+
+        <p>
+        A <a href="../../tasks/components/index.html">component</a> Ant Task handles the 
+        construction of externalized part artifacts based on a combination
+        of component type evaluation and information supplied under task attributes
+        and nested element.  Once created as an external artifact the part is network
+        resolvable and may be easily referenced by application handlers or by 
+        components as part of a composite component implementation strategy.
+        </p>
+
+      </subsection>
+
     </section>
 
   </body>
 
 </document>
+
 

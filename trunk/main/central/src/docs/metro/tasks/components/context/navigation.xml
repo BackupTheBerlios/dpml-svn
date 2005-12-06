@@ -25,7 +25,8 @@
  <body>
 
     <menu>
-      <item name="Entry" href="entry.html"/>
+      <item name="Entry" href="entries.html"/>
+      <item name="Value" href="values.html"/>
     </menu>
 
  </body>

@@ -173,7 +173,7 @@ public final class InfoDescriptor extends Descriptor
             }
             else
             {
-                m_lifestyle = LifestylePolicy.TRANSIENT;
+                m_lifestyle = LifestylePolicy.THREAD;
             }
         }
         else

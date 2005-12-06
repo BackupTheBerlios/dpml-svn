@@ -25,9 +25,8 @@
  <body>
 
     <menu>
-      <item name="Categories" href="categories/index.html"/>
-      <item name="Context" href="context/index.html"/>
-      <item name="Parts" href="implementation/index.html"/>
+      <item name="Lifestyles" href="lifestyle.html"/>
+      <item name="Collection" href="collection.html"/>
     </menu>
 
  </body>

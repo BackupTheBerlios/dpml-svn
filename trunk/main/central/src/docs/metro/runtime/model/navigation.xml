@@ -25,6 +25,8 @@
  <body>
 
     <menu>
+      <item name="Management" href="management.html"/>
+      <item name="Implementation" href="implementation.html"/>
     </menu>
 
  </body>

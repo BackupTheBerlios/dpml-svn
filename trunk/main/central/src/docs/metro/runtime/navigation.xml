@@ -25,9 +25,9 @@
  <body>
 
     <menu>
-      <item name="Types" href="types/index.html"/>
+      <item name="Model" href="model/index.html"/>
       <item name="Profiles" href="profiles/index.html"/>
-      <item name="Models" href="model/index.html"/>
+      <item name="Types" href="types/index.html"/>
       <item name="CLI" href="cli/index.html"/>
     </menu>
 

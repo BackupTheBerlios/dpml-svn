@@ -47,9 +47,9 @@
         type="net.dpml.test.ExampleComponent" name="transient" collection="SOFT">
       <context>
         <entry key="color">
-          <param class="float" value="100"/>
-          <param class="float" value="200"/>
-          <param class="float" value="0"/>
+          <value class="float" value="100"/>
+          <value class="float" value="200"/>
+          <value class="float" value="0"/>
         </entry>
       </context>
     </c:component>
