@@ -11,11 +11,36 @@
 
     <section name="Metro Runtime">
 
+      <subsection name="Components and Instances">
+
+        <p>
+        Using a network accessible <a href="parts/index.html">part</a>, the Metro 
+        runtime provides support for the creation of a <tt>Component</tt>.  
+        The <tt>Component</tt> handles scopped requests for locating service 
+        providers and establishment of managed <tt>Instance</tt>(s).
+        </p>
+
+        <ul>
+          <li><a href="controller/index.html">controller</a>: 
+              general utility to construct directives from network  
+              accessible resources and handles creation of locally or remotely managed 
+              components.</li>
+          <li><a href="components/index.html">component</a>:  
+              encapsulates a deployment configuration applied to a
+              component type.  Uses an associated lifestyle policy to control 
+              establishment of managed providers.</li>
+          <li><a href="components/instance.html">instance</a>: 
+              handles provider establishment, runtime state management, and 
+              provider decommissioning.</li>
+        </ul>
+
+      </subsection>
+
       <subsection name="Parts and Types">
 
         <p>
         A <tt>part</tt> is a network accessible datatype
-        that associates a controller within a component deployment profile. The 
+        that associates a controller with a component deployment profile. The 
         deloyment profile references a component type.  The component type may
         be implementated using a collection of local or remote component parts.  
         </p>
@@ -42,44 +67,6 @@
             used to establish a component model.
           </li>
         </ul>
-
-      </subsection>
-
-      <subsection name="Components and Instances">
-
-        <p>
-        Using a network accessible <a href="parts/index.html">part</a>, the Metro 
-        runtime provides support for the creation of a <tt>Component</tt>.  
-        The <tt>Component</tt> handles scopped requests for locating service 
-        providers and establishment of managed <tt>Instance</tt>(s).
-        </p>
-
-        <ul>
-          <li>controller: general utility to construct directives from network  
-              accessible resources and handles creation of locally or remotely managed 
-              components.</li>
-          <li>component: encapsulates a deployment configuration applied to a
-              component type.  Uses an associated lifestyle policy to control establishment
-              of managed instances.</li>
-          <li>instance: handles provider establishment, runtime state management, and 
-              provider decommissioning.</li>
-        </ul>
-
-      </subsection>
-
-      <subsection name="Example">
-      
-        <p>
-        The following snipet of code demonstrates the creation of a component:
-        </p>
-
-        <pre>
-Controller controller = Controller.STANDARD;
-URI uri = new URI( "artifact:part:acme/acme-widget#1.1" );
-Component component = controller.getComponent( uri );
-Instance instance = component.getInstance();
-Widget widget = (Widget) instance.getValue( true );
-        </pre>
 
       </subsection>
 

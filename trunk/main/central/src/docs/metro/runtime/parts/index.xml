@@ -53,6 +53,16 @@
         </tr>
         <tr>
           <td>
+            <a href="/api/dpml/@VERSION@/net/dpml/metro/data/ClassLoaderDirective.html">
+              ClassLoaderDirective</a></td>
+          <td>
+            The <tt>ClassLoaderDirective</tt> describes a classloader stack composed 
+            of a series of classloader <a href="categories.html">categories</a>.  Each 
+            category references a collection of jar files via artifact references.
+          </td>
+        </tr>
+        <tr>
+          <td>
             <a href="/api/dpml/@VERSION@/net/dpml/metro/data/CategoryDirective.html">
               CategoryDirective</a></td>
           <td>
