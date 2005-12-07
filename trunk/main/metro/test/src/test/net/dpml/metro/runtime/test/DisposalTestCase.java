@@ -18,37 +18,14 @@
 
 package net.dpml.metro.runtime.test;
 
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
-import java.awt.Color;
 import java.io.File;
 import java.net.URI;
-import java.lang.reflect.Proxy;
-import java.rmi.RemoteException;
-import java.rmi.server.UnicastRemoteObject;
 
 import junit.framework.TestCase;
 
-import net.dpml.metro.data.ValueDirective;
-import net.dpml.metro.model.ComponentModel;
-import net.dpml.metro.model.ContextModel;
-import net.dpml.metro.part.Part;
-import net.dpml.metro.part.Directive;
 import net.dpml.metro.part.Controller;
 import net.dpml.metro.part.Component;
-import net.dpml.metro.part.ActivationPolicy;
-import net.dpml.metro.part.Instance;
 import net.dpml.metro.part.Disposable;
-import net.dpml.metro.state.State;
-import net.dpml.metro.state.StateListener;
-import net.dpml.metro.state.StateEvent;
-import net.dpml.metro.state.impl.DefaultStateListener;
-
-import net.dpml.transit.model.UnknownKeyException;
-import net.dpml.transit.Value;
-
-import net.dpml.test.ColorManager;
-import net.dpml.test.ExampleComponent;
 
 /**
  * Test clean disposal.
@@ -57,21 +34,20 @@ import net.dpml.test.ExampleComponent;
  */
 public class DisposalTestCase extends TestCase
 {    
-    private ComponentModel m_model;
-    private Controller m_control;
+    private static final Controller CONTROLLER = Controller.STANDARD;
+
+    private URI m_uri;
     
     public void setUp() throws Exception
     {
         final String path = "example.part";
         final File test = new File( System.getProperty( "project.test.dir" ) );
-        final URI uri = new File( test, path ).toURI();
-        m_control = Part.CONTROLLER;
-        m_model = (ComponentModel) m_control.createModel( uri );
+        m_uri = new File( test, path ).toURI();
     }
     
     public void testHandlerDisposal() throws Exception
     {
-        Component component = m_control.createComponent( m_model );
+        Component component = CONTROLLER.createComponent( m_uri );
         component.activate();
         for( int i=0; i<1000; i++ )
         {

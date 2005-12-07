@@ -37,7 +37,7 @@ public interface Part extends Serializable
    /**
     * Static default controller.
     */
-    static final Controller CONTROLLER = PartContentHandler.CONTROLLER;
+    //static final Controller CONTROLLER = PartContentHandler.CONTROLLER;
     
    /**
     * Return the part handler uri.

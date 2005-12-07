@@ -18,42 +18,21 @@
 
 package net.dpml.metro.runtime.test;
 
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 import java.awt.Color;
 import java.io.File;
 import java.net.URI;
-import java.util.Date;
-import java.lang.reflect.Proxy;
-import java.rmi.RemoteException;
-import java.rmi.server.UnicastRemoteObject;
 
 import junit.framework.TestCase;
 
-import net.dpml.metro.data.ValueDirective;
-import net.dpml.metro.model.ComponentModel;
-import net.dpml.metro.model.ContextModel;
-import net.dpml.metro.part.Part;
 import net.dpml.metro.part.Controller;
 import net.dpml.metro.part.Component;
-import net.dpml.metro.part.ActivationPolicy;
 import net.dpml.metro.part.Instance;
-import net.dpml.metro.part.Disposable;
-import net.dpml.metro.part.Directive;
-import net.dpml.metro.state.State;
-import net.dpml.metro.state.StateListener;
-import net.dpml.metro.state.StateEvent;
-import net.dpml.metro.state.impl.DefaultStateListener;
 
-import net.dpml.transit.model.UnknownKeyException;
-import net.dpml.transit.Value;
-
-import net.dpml.test.ColorManager;
 import net.dpml.test.ContextTestComponent;
 import net.dpml.test.ContextTestComponent.Context;
 
 /**
- * Test clean disposal.
+ * Local context validation.
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
@@ -67,7 +46,7 @@ public class ContextTestCase extends TestCase
         final String path = "context.part";
         final File test = new File( System.getProperty( "project.test.dir" ) );
         final URI uri = new File( test, path ).toURI();
-        Component component = Part.CONTROLLER.createComponent( uri );
+        Component component = Controller.STANDARD.createComponent( uri );
         Instance instance = component.getInstance();
         m_value = (ContextTestComponent) instance.getValue( false );
         m_context = m_value.getContext();

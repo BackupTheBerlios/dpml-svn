@@ -32,7 +32,7 @@ public class NullTestCase extends TestCase
 {    
     public void testColor() throws Exception
     {
-        Controller control = Part.CONTROLLER;
+        Controller control = Controller.STANDARD;
         assertNotNull( "control", control );
     }
     

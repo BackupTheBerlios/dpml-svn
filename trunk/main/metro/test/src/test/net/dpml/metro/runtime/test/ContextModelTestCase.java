@@ -24,18 +24,9 @@ import java.net.URI;
 
 import junit.framework.TestCase;
 
-import net.dpml.metro.part.Part;
-import net.dpml.metro.part.Directive;
 import net.dpml.metro.part.Controller;
-
-import net.dpml.metro.state.State;
-import net.dpml.metro.part.ActivationPolicy;
-
 import net.dpml.metro.data.ValueDirective;
-import net.dpml.metro.part.Directive;
 import net.dpml.metro.info.EntryDescriptor;
-import net.dpml.metro.info.LifestylePolicy;
-import net.dpml.metro.info.CollectionPolicy;
 import net.dpml.metro.model.ComponentModel;
 import net.dpml.metro.model.ContextModel;
 import net.dpml.metro.model.ValidationException;
@@ -60,7 +51,7 @@ public class ContextModelTestCase extends TestCase
         final String path = "example.part";
         final File test = new File( System.getProperty( "project.test.dir" ) );
         final URI uri = new File( test, path ).toURI();
-        m_model = (ComponentModel) Part.CONTROLLER.createModel( uri );
+        m_model = (ComponentModel) Controller.STANDARD.createModel( uri );
     }
     
     public void testContextModel() throws Exception

@@ -23,10 +23,9 @@ import java.net.URI;
 
 import junit.framework.TestCase;
 
-import net.dpml.metro.part.Part;
-import net.dpml.metro.part.Instance;
+import net.dpml.metro.part.Controller;
 import net.dpml.metro.part.Component;
-import net.dpml.metro.part.Model;
+import net.dpml.metro.part.Instance;
 
 import net.dpml.test.params.ParameterizableComponent;
 
@@ -37,15 +36,16 @@ import net.dpml.test.params.ParameterizableComponent;
  * @version @PROJECT-VERSION@
  */
 public class ParamsTestCase extends TestCase
-{    
-    private Model m_model;
+{   
+    private static final Controller CONTROLLER = Controller.STANDARD;
+    
+    private URI m_uri;
     
     public void setUp() throws Exception
     {
         final String path = "params.part";
         final File test = new File( System.getProperty( "project.test.dir" ) );
-        final URI uri = new File( test, path ).toURI();
-        m_model = Part.CONTROLLER.createModel( uri );
+        m_uri = new File( test, path ).toURI();
     }
     
    /**
@@ -53,7 +53,7 @@ public class ParamsTestCase extends TestCase
     */
     public void testCategories() throws Exception
     {
-        Component component = Part.CONTROLLER.createComponent( m_model );
+        Component component = CONTROLLER.createComponent( m_uri );
         Instance instance = component.getInstance();
         ParameterizableComponent object = (ParameterizableComponent) instance.getValue( false );
         assertEquals( "name", "fred", object.getName() );

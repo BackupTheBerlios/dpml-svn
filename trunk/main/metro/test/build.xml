@@ -44,7 +44,7 @@
     </c:component>
 
     <c:component dest="target/test/example-2.part" test="true"
-        type="net.dpml.test.ExampleComponent" name="transient" collection="SOFT">
+        type="net.dpml.test.ExampleComponent" name="transient" collection="SOFT" lifestyle="transient">
       <context>
         <entry key="color">
           <value class="float" value="100"/>

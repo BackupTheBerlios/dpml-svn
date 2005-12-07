@@ -18,36 +18,16 @@
 
 package net.dpml.metro.runtime.test;
 
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 import java.awt.Color;
 import java.io.File;
 import java.net.URI;
-import java.lang.reflect.Proxy;
-import java.rmi.RemoteException;
-import java.rmi.server.UnicastRemoteObject;
 
 import junit.framework.TestCase;
 
-import net.dpml.metro.data.ValueDirective;
-import net.dpml.metro.model.ComponentModel;
-import net.dpml.metro.model.ContextModel;
-import net.dpml.metro.part.Part;
-import net.dpml.metro.part.Context;
-import net.dpml.metro.part.Directive;
 import net.dpml.metro.part.Controller;
-import net.dpml.metro.part.ActivationPolicy;
-import net.dpml.metro.part.Instance;
 import net.dpml.metro.part.Component;
-import net.dpml.metro.part.ControlException;
-import net.dpml.metro.part.Model;
-import net.dpml.metro.state.State;
-import net.dpml.metro.state.StateListener;
-import net.dpml.metro.state.StateEvent;
-import net.dpml.metro.state.impl.DefaultStateListener;
-
-import net.dpml.transit.model.UnknownKeyException;
-import net.dpml.transit.Value;
+import net.dpml.metro.part.Instance;
+import net.dpml.metro.part.Context;
 
 import net.dpml.test.ColorManager;
 import net.dpml.test.composite.ChildComponent;
@@ -60,15 +40,16 @@ import net.dpml.test.composite.CompositeComponent;
  * @version @PROJECT-VERSION@
  */
 public class CompositeTestCase extends TestCase
-{    
-    private Model m_model;
+{   
+    private static final Controller CONTROLLER = Controller.STANDARD;
+    
+    private URI m_uri;
     
     public void setUp() throws Exception
     {
         final String path = "composite.part";
         final File test = new File( System.getProperty( "project.test.dir" ) );
-        final URI uri = new File( test, path ).toURI();
-        m_model = Part.CONTROLLER.createModel( uri );
+        m_uri = new File( test, path ).toURI();
     }
     
    /**
@@ -77,7 +58,7 @@ public class CompositeTestCase extends TestCase
     */
     public void testComposite() throws Exception
     {
-        Component component = Part.CONTROLLER.createComponent( m_model );
+        Component component = CONTROLLER.createComponent( m_uri );
         assertNotNull( "component", component );
         Instance instance = component.getInstance();
         CompositeComponent parent = (CompositeComponent) instance.getValue( false );
@@ -92,7 +73,7 @@ public class CompositeTestCase extends TestCase
     */
     public void testOverloadedComposite() throws Exception
     {
-        Component component = Part.CONTROLLER.createComponent( m_model );
+        Component component = CONTROLLER.createComponent( m_uri );
         ((Context)component).getContextMap().put( "color", Color.YELLOW );
         Instance instance = component.getInstance();
         CompositeComponent parent = (CompositeComponent) instance.getValue( false );

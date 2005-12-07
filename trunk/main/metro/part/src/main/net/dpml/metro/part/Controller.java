@@ -31,6 +31,11 @@ import java.net.URI;
 public interface Controller
 {
    /**
+    * Static default controller.
+    */
+    static final Controller STANDARD = PartContentHandler.CONTROLLER;
+
+   /**
     * Returns the identity of the object implementing this interface.
     * @return a uri identifying the object
     */

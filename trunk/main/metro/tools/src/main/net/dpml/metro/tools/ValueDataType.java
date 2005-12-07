@@ -97,7 +97,8 @@ public class ValueDataType
     * Create, assign and return a new nested entry constructor parameter.
     * @return the new context entry param
     */
-    public ValueDataType createParam()
+    //public ValueDataType createParam()
+    public ValueDataType createValue()
     {
         final ValueDataType param = new ValueDataType();
         m_params.add( param );

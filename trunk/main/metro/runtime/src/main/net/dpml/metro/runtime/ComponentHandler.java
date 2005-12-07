@@ -82,7 +82,7 @@ import net.dpml.transit.model.UnknownKeyException;
  * and management of a component model in a separate JVM from the runtime handler and 
  * centralization of shared context information across multiple handlers.</p>
  * <pre>
-   Controller controller = Part.CONTROLLER; // system controller
+   Controller controller = Controller.STANDARD; // system controller
    Directive part = controller.loadDirective( uri );
    Context context = controller.createContext( part ); // management info
    Component handler = controller.createComponent( context ); // runtime controller

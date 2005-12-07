@@ -716,7 +716,7 @@ class ComponentController
                             final String error = 
                               "Unable to dereference rmi registry reference."
                               + "\nHandler: " + handler
-                              + "\nKey: " + key;
+                              + "\nKey: " + key
                               + "\nURI: " + uri;
                             throw new ControllerException( error, ee );
                         }

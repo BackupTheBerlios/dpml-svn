@@ -18,34 +18,14 @@
 
 package net.dpml.metro.runtime.test;
 
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
-import java.awt.Color;
 import java.io.File;
 import java.net.URI;
-import java.lang.reflect.Proxy;
-import java.rmi.RemoteException;
-import java.rmi.server.UnicastRemoteObject;
 
 import junit.framework.TestCase;
 
-import net.dpml.metro.model.ComponentModel;
-import net.dpml.metro.model.ContextModel;
-import net.dpml.metro.part.Part;
-import net.dpml.metro.part.Directive;
 import net.dpml.metro.part.Controller;
-import net.dpml.metro.part.ActivationPolicy;
-import net.dpml.metro.part.Instance;
 import net.dpml.metro.part.Component;
-import net.dpml.metro.part.ControlException;
-import net.dpml.metro.part.Model;
-import net.dpml.metro.state.State;
-import net.dpml.metro.state.StateListener;
-import net.dpml.metro.state.StateEvent;
-import net.dpml.metro.state.impl.DefaultStateListener;
-
-import net.dpml.transit.model.UnknownKeyException;
-import net.dpml.transit.Value;
+import net.dpml.metro.part.Instance;
 
 import net.dpml.test.config.ConfigurableComponent;
 
@@ -56,15 +36,16 @@ import net.dpml.test.config.ConfigurableComponent;
  * @version @PROJECT-VERSION@
  */
 public class ConfigTestCase extends TestCase
-{    
-    private Model m_model;
+{   
+    private static final Controller CONTROLLER = Controller.STANDARD;
+    
+    private URI m_uri;
     
     public void setUp() throws Exception
     {
         final String path = "config.part";
         final File test = new File( System.getProperty( "project.test.dir" ) );
-        final URI uri = new File( test, path ).toURI();
-        m_model = Part.CONTROLLER.createModel( uri );
+        m_uri = new File( test, path ).toURI();
     }
     
    /**
@@ -72,8 +53,7 @@ public class ConfigTestCase extends TestCase
     */
     public void testCategories() throws Exception
     {
-        Component component = Part.CONTROLLER.createComponent( m_model );
-        assertNotNull( "component", component );
+        Component component = CONTROLLER.createComponent( m_uri );
         Instance instance = component.getInstance();
         ConfigurableComponent object = (ConfigurableComponent) instance.getValue( false );
         assertEquals( "name", "fred", object.getName() );

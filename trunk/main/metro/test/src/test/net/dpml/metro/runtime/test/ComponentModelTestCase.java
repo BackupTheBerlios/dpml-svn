@@ -18,26 +18,18 @@
 
 package net.dpml.metro.runtime.test;
 
-import java.awt.Color;
 import java.io.File;
 import java.net.URI;
 
 import junit.framework.TestCase;
 
-import net.dpml.metro.part.Part;
 import net.dpml.metro.part.Directive;
 import net.dpml.metro.part.Controller;
-
-import net.dpml.metro.state.State;
 import net.dpml.metro.part.ActivationPolicy;
-
-import net.dpml.metro.data.ValueDirective;
-import net.dpml.metro.part.Directive;
-import net.dpml.metro.info.EntryDescriptor;
+import net.dpml.metro.state.State;
 import net.dpml.metro.info.LifestylePolicy;
 import net.dpml.metro.info.CollectionPolicy;
 import net.dpml.metro.model.ComponentModel;
-import net.dpml.metro.model.ContextModel;
 
 import net.dpml.transit.model.UnknownKeyException;
 
@@ -50,6 +42,8 @@ import net.dpml.test.ExampleComponent;
  */
 public class ComponentModelTestCase extends TestCase
 {    
+    private static final Controller CONTROLLER = Controller.STANDARD;
+
     private ComponentModel m_model;
     
     public void setUp() throws Exception
@@ -57,7 +51,7 @@ public class ComponentModelTestCase extends TestCase
         final String path = "example.part";
         final File test = new File( System.getProperty( "project.test.dir" ) );
         final URI uri = new File( test, path ).toURI();
-        m_model = (ComponentModel) Part.CONTROLLER.createModel( uri );
+        m_model = (ComponentModel) CONTROLLER.createModel( uri );
     }
     
     public void testName() throws Exception
@@ -94,7 +88,7 @@ public class ComponentModelTestCase extends TestCase
     
     public void testLifestylePolicy() throws Exception
     {
-        assertEquals( "initial-lifestyle", LifestylePolicy.TRANSIENT, m_model.getLifestylePolicy() );
+        assertEquals( "initial-lifestyle", LifestylePolicy.THREAD, m_model.getLifestylePolicy() );
     }
     
     public void testCollectionPolicy() throws Exception
