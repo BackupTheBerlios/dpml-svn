@@ -50,8 +50,8 @@
               InfoDescriptor</a></td>
           <td>The <tt>InfoDescriptor</tt> class holds information about 
             component name, the component implementation classname, the 
-            implementation version, the component <a href="lifestyle.html">lifestyle</a>, 
-            and garbage <a href="collection.html">collection</a> policy.
+            implementation version, the component <a href="profiles/lifestyle.html">lifestyle</a>, 
+            and garbage <a href="profiles/collection.html">collection</a> policy.
           </td>
         </tr>
         <tr>
@@ -122,7 +122,7 @@
       <subsection name="Type Creation">
 
         <p>
-        A <a href="../../tasks/types/index.html">type</a> Ant Task handles the 
+        A <a href="../tasks/types/index.html">type</a> Ant Task handles the 
         construction of externalized type descriptors based on a combination
         of supplied information and component class introspection. 
         </p>

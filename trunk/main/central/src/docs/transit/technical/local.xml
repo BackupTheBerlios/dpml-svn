@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <!--
  Copyright 2005 Stephen McConnell
- Copyright 2004 Niclas Hedhman
 
  Licensed  under the  Apache License,  Version 2.0  (the "License");
  you may not use  this file  except in  compliance with the License.
@@ -29,7 +28,8 @@
 
       <p>
         The <code>local</code> protocol handler provides support for artifact style 
-        references to content undere the user's <code>${dpml.prefs}</code> directory.
+        references to content under the user's local <code>${dpml.prefs}</code> 
+        directory.
       </p>
 
       <subsection name="Specification">
@@ -38,7 +38,7 @@
         </p>
 <source> local:[type]:[group]/[name]#[version] </source>
         <p>
-        Type, group and name are required fields. The version field is optional.
+        Type and name are required fields. The group and version field is optional.
         </p>
       </subsection>
 
@@ -89,17 +89,17 @@
         </p>
         <p>
           The following example local URI identifies a resource named
-          "standard" associated with the "magic" group, using a 
+          "standard" associated with the "dpml/tools" group, using a 
           resource type called "template".
         </p>
 
-        <source>local:template:magic/standard</source>
+        <source>local:dpml/tools/standard</source>
 
         <p>
           The above uri is equivalent to the following logical file path:
         </p>
 
-        <pre>${dpml.prefs}/magic/templates/standard.template</pre>
+        <pre>${dpml.prefs}/dpml/tools/templates/standard.template</pre>
 
       </subsection>
 

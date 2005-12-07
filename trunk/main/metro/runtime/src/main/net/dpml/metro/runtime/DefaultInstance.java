@@ -39,13 +39,13 @@ import net.dpml.metro.state.impl.DefaultStateMachine;
 
 /**
  * The DefaultInstance class maintains the state of a client instance.  On creation
- * of a new DefaultInstance the implementation constrcuts a proxy based on the 
+ * of a new DefaultInstance the implementation constructs a proxy based on the 
  * service clesses declared within the component type, establishes the instance, and
- * applies and statre initialization based on the state graph associated with the 
+ * executes initialization based on the state graph associated with the 
  * object.  If a request is made by the container for the disposal of an instance of 
  * this class, the implementation will execute a formal termination sequence on the 
  * client instance using the state graph declarations.  Finally, if the client instance 
- * implements the Disposable insterface - the implementation will invoke the dispose 
+ * implements the Disposable interface - the implementation will invoke the dispose 
  * operation on the client instance.
  *
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
@@ -104,6 +104,7 @@ class DefaultInstance extends UnicastEventSource implements Instance
     * Create a new instance handler.
     *
     * @param handler the component handler
+    * @param logger the logging channel
     */
     DefaultInstance( ComponentHandler handler, Logger logger ) 
       throws RemoteException, ControlException, InvocationTargetException
@@ -125,18 +126,9 @@ class DefaultInstance extends UnicastEventSource implements Instance
         State graph = handler.getStateGraph();
         m_machine = new DefaultStateMachine( graph );
         m_machine.addPropertyChangeListener( new StateEventPropergator( this ) );
-        
-        ClassLoader classloader = m_handler.getClassLoader();
-        Class[] services = m_handler.getServiceClassArray();
-        InvocationHandler invocationHandler = new InstanceInvocationHandler( this );
-        m_proxy = Proxy.newProxyInstance( classloader, services, invocationHandler );
-        m_value = m_handler.createNewObject();
-        m_tag = createTag( m_value );
-        getLogger().debug( m_tag + "activating instance" );
-        m_machine.initialize( m_value );
-        m_activated = true;
+        initialize();
     }
-
+    
     //-------------------------------------------------------------------
     // Instance
     //-------------------------------------------------------------------
@@ -251,6 +243,22 @@ class DefaultInstance extends UnicastEventSource implements Instance
     // implementation
     //-------------------------------------------------------------------
     
+    private void initialize() throws InvocationTargetException
+    {
+        synchronized( getLock() )
+        {
+            ClassLoader classloader = m_handler.getClassLoader();
+            Class[] services = m_handler.getServiceClassArray();
+            InvocationHandler invocationHandler = new InstanceInvocationHandler( this );
+            m_proxy = Proxy.newProxyInstance( classloader, services, invocationHandler );
+            m_value = m_handler.createNewObject();
+            m_tag = createTag( m_value );
+            getLogger().debug( m_tag + "activating instance" );
+            m_machine.initialize( m_value );
+            m_activated = true;
+        }
+    }
+
     boolean isAvailable()
     {
         return m_activated;
@@ -258,9 +266,9 @@ class DefaultInstance extends UnicastEventSource implements Instance
 
     void dispose()
     {
-        getLogger().debug( m_tag + "instance disposal" );
         synchronized( getLock() )
         {
+            getLogger().debug( m_tag + "instance disposal" );
             deactivate();
             m_machine.dispose();
             super.dispose();

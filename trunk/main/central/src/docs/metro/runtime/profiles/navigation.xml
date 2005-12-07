@@ -20,12 +20,14 @@
 
 <project>
 
- <title>DPML Central</title>
+ <title>DPML Metro</title>
 
  <body>
 
     <menu>
       <item name="Activation" href="activation.html"/>
+      <item name="Lifestyles" href="lifestyle.html"/>
+      <item name="Collection" href="collection.html"/>
     </menu>
 
  </body>

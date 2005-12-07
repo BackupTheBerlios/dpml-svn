@@ -25,9 +25,9 @@
  <body>
 
     <menu>
-      <item name="Types" href="types/index.html"/>
-      <item name="Profile" href="profiles/index.html"/>
-      <item name="Model" href="model/index.html"/>
+      <item name="Activation" href="activation.html"/>
+      <item name="Lifestyles" href="lifestyle.html"/>
+      <item name="Collection" href="collection.html"/>
     </menu>
 
  </body>

@@ -12,6 +12,15 @@
     <section name="Metro Runtime">
 
       <p>
+      The Metro runtime is a local controller that provides support for the 
+      construction of a managed <tt><a href="components/index.html">Component</a></tt>.
+      A <tt>Component</tt> encapsulates a component <a href="types/index.html">
+      type</a> and deployment configuration <a href="profiles/index.html">profile</a>.
+      </p>
+
+      <subsection name="Types and Profiles">
+
+      <p>
       One of the design objectives for Metro was to leverage build-time
       validation of a component definition enabaling a lighter, 
       faster, and more reliable runtime implementation.  This led to 
@@ -41,24 +50,45 @@
         </li>
       </ul>
 
-      <p>
-      On deployment of a component a part definition is used to establish the initial 
-      state of a remotely manageable <a href="model/index.html">component model</a>.  
-      The component model is then supplied to a runtime handler that is responsible 
-      for actual deployment.  Changes to the state of the model have a direct impact 
-      on the runtime instance.  For example a management application may choose to apply 
-      customization to certain aspects of a component's context model prior to component 
-      deployment - or alternatively a management system may apply changes to a running 
-      system.  
-      </p>
+      </subsection>
 
-      <p>
-      The Metro <a href="../station/index.html">Station</a> is an example of 
-      a management system thatprovides support for runtime management of multiple 
-      server application in conjuction with the <a href="cli/index.html">Metro</a> 
-      deployment tool and <a href="../../transit/cli/index.html">Transit</a> resource
-      management utility.
-      </p>
+      <subsection name="Components and Instances">
+
+        <p>
+        Using a network accessible part definition, the Metro runtime provides
+        support for the creation of a <tt>Component</tt>.  The <tt>Component</tt>
+        handles requests for locating service providers and establishment of 
+        managed <tt>Instance</tt>s.
+        </p>
+
+        <ul>
+          <li>part controller: general utility to construct directives from network  
+              accessible resources and handles creation of locally or remotely managed 
+              components.</li>
+          <li>component handler: encapsulates a deployment configuration applied to a
+              component type.  Uses an associated lifestyle policy to control establishment
+              of managed instances.</li>
+          <li>instance manager: handles provider establishment, runtime state management, and 
+              provider decommissioning.</li>
+        </ul>
+
+      </subsection>
+
+      <subsection name="Example">
+      
+        <p>
+        The following snipet of code demonstrates the creation of a component:
+        </p>
+
+        <pre>
+Controller controller = Controller.STANDARD;
+URI uri = new URI( "artifact:part:acme/acme-widget#1.1" );
+Component component = controller.getComponent( uri );
+Instance instance = component.getInstance();
+Widget widget = (Widget) instance.getValue( true );
+        </pre>
+
+      </subsection>
 
     </section>
 
