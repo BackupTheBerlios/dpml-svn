@@ -14,10 +14,11 @@
       <subsection name="Components and Instances">
 
         <p>
-        Using a network accessible <a href="parts/index.html">part</a>, the Metro 
-        runtime provides support for the creation of a <tt>Component</tt>.  
-        The <tt>Component</tt> handles scopped requests for locating service 
-        providers and establishment of managed <tt>Instance</tt>(s).
+        Using a network accessible <tt>part</tt>, the Metro 
+        runtime provides support for the creation of a <tt>Component</tt> via 
+        a <tt>Controller</tt>. The <tt>Component</tt> handles scopped requests 
+        for locating service providers and establishment of managed 
+        <tt>Instance</tt>(s).
         </p>
 
         <ul>

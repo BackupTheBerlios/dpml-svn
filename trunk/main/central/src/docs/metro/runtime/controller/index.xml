@@ -79,12 +79,12 @@ Widget widget = (Widget) instance.getValue( true );
       
         <p>
         All controllers must implement the 
-        <tt><a href="/api/dpml/@VERSION@/net/dpml/metro/part/package-summary.html.html">
+        <tt><a href="/api/dpml/@VERSION@/net/dpml/metro/part/package-summary.html">
         net.dpml.metro.part</a></tt> package API.  Through reference this implies support for the 
-        <tt><a href="/api/dpml/@VERSION@/net/dpml/metro/state/package-summary.html.html">
+        <tt><a href="/api/dpml/@VERSION@/net/dpml/metro/state/package-summary.html">
         net.dpml.metro.state</a></tt> package and a soft dependency on the protocol handlers
         defined within the 
-        <a href="/api/dpml/@VERSION@/net/dpml/transit/package-summary.html.html">
+        <a href="/api/dpml/@VERSION@/net/dpml/transit/package-summary.html">
         <tt>net.dpml.transit</tt></a>
         resource management layer.  Implementation of alternative controllers is not 
         covered here - however, examination of the <tt>net.dpml.metro.runtime</tt>
