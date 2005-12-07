@@ -52,7 +52,7 @@ public class HttpTestCase extends TestCase
         File test = new File( System.getProperty( TEST_DIR_KEY ) );
         URI uri = new File( test, PATH ).toURI();
         
-        Controller control = Part.CONTROLLER;
+        Controller control = Controller.STANDARD;
         Component component = control.createComponent( uri );
         Demo demo = (Demo) component.getInstance().getValue( false );
         component.deactivate();
