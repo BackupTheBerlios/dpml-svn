@@ -244,6 +244,13 @@ public class RemoteApplicationRegistry extends DefaultModel implements Applicati
     {
         synchronized( getLock() )
         {
+            //
+            // TODO: we are writing out the encoded stream directly into 
+            // output file and if an error occurs its too late - we have 
+            // already corrupted the file - need to update this so we flush to 
+            // a temp file then copy the temp file to the destination
+            //
+            
             if( null == m_url )
             {
                 return;

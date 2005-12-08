@@ -46,7 +46,7 @@ public class ApplicationDescriptor extends CodeBaseDescriptor
     private final int m_startup;
     private final int m_shutdown;
     private final Properties m_properties;
-    private final String m_config;
+    private final URI m_config;
     private final String m_title;
     
    /**
@@ -75,7 +75,14 @@ public class ApplicationDescriptor extends CodeBaseDescriptor
         m_shutdown = shutdownTimeout;
         m_properties = properties;
         m_title = title;
-        m_config = config;
+        if( null != config )
+        {
+            m_config = new URI( config );
+        }
+        else
+        {
+            m_config = null;
+        }
     }
     
    /**
@@ -147,24 +154,23 @@ public class ApplicationDescriptor extends CodeBaseDescriptor
     */
     public String getConfigurationURISpec()
     {
-        return m_config;
-    }
-    
-   /**
-    * Get the configuration uri.
-    * 
-    * @return the configuration uri
-    * @exception URISyntaxException if the configuration URI is invalid
-    */
-    public URI getConfigurationURI() throws URISyntaxException
-    {
         if( null == m_config )
         {
             return null;
         }
         else
         {
-            return new URI( m_config );
+            return m_config.toASCIIString();
         }
+    }
+    
+   /**
+    * Get the configuration uri.
+    * 
+    * @return the configuration uri
+    */
+    public URI getConfigurationURI()
+    {
+        return m_config;
     }
 }

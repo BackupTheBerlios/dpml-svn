@@ -41,6 +41,10 @@ public class CodeBaseDescriptor extends AbstractDescriptor
     */
     public CodeBaseDescriptor( String codebase, ValueDescriptor[] parameters ) throws URISyntaxException
     {
+        if( null == codebase )
+        {
+            throw new NullPointerException( "codebase" );
+        }
         m_codebase = new URI( codebase );
         m_parameters = parameters;
     }

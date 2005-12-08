@@ -149,13 +149,13 @@ public class StationPlugin
                 ApplicationRegistry registry = getApplicationRegistry( line );
                 String key = (String) line.getValue( ADD_COMMAND, null );
                 URI uri = (URI) line.getValue( REQUIRED_URI_OPTION, null );
-                Properties properties = getCommandLineProperties( line );
-                String baseDir = getBasedir( line );
+                Properties properties = getCommandLineProperties( line, new Properties() );
+                String baseDir = getBasedir( line, null );
                 String title = getTitle( line, key );
                 StartupPolicy policy = getStartupPolicy( line, StartupPolicy.MANUAL );
                 int startup = getStartupTimeout( line, ApplicationDescriptor.DEFAULT_STARTUP_TIMEOUT );
                 int shutdown = getShutdownTimeout( line, ApplicationDescriptor.DEFAULT_SHUTDOWN_TIMEOUT );
-                URI config = getConfigurationURI( line );
+                URI config = getConfigurationURI( line, null );
                 processAddCommand( 
                   registry, key, title, uri, startup, shutdown, properties, baseDir, policy, config );
             }
@@ -163,16 +163,17 @@ public class StationPlugin
             {
                 ApplicationRegistry registry = getApplicationRegistry( line );
                 String key = (String) line.getValue( SET_COMMAND, null );
-                URI uri = (URI) line.getValue( OPTIONAL_URI_OPTION, null );
-                Properties properties = getCommandLineProperties( line );
-                String baseDir = getBasedir( line );
-                String title = getTitle( line, key );
-                StartupPolicy policy = getStartupPolicy( line, null );
-                int startup = getStartupTimeout( line, -1 );
-                int shutdown = getShutdownTimeout( line, -1 );
-                URI config = getConfigurationURI( line );
+                ApplicationDescriptor descriptor = registry.getApplicationDescriptor( key );
+                URI uri = (URI) line.getValue( OPTIONAL_URI_OPTION, descriptor.getCodeBaseURI() );
+                Properties properties = getCommandLineProperties( line, descriptor.getSystemProperties() );
+                String baseDir = getBasedir( line, descriptor.getBasePath() );
+                String title = getTitle( line, descriptor.getTitle() );
+                StartupPolicy policy = getStartupPolicy( line, descriptor.getStartupPolicy() );
+                int startup = getStartupTimeout( line, descriptor.getStartupTimeout() );
+                int shutdown = getShutdownTimeout( line, descriptor.getShutdownTimeout() );
+                URI config = getConfigurationURI( line, descriptor.getConfigurationURI() );
                 processSetCommand(
-                  registry, key, title, uri, startup, shutdown, properties, baseDir, policy, config );
+                  registry, descriptor, key, title, uri, startup, shutdown, properties, baseDir, policy, config );
             }
             else if( line.hasOption( INFO_COMMAND ) )
             {
@@ -265,15 +266,15 @@ public class StationPlugin
         }
     }
     
-    private URI getConfigurationURI( CommandLine line )
+    private URI getConfigurationURI( CommandLine line, URI fallback )
     {
         if( line.hasOption( CONFIGURATION_URI_OPTION ) )
         {
-            return null;
+            return fallback;
         }
         else
         {
-            return (URI) line.getValue( CONFIGURATION_URI_OPTION, null );
+            return (URI) line.getValue( CONFIGURATION_URI_OPTION, fallback );
         }
     }
     
@@ -283,9 +284,8 @@ public class StationPlugin
     * @param line the commandline
     * @return the resolved properties
     */
-    private Properties getCommandLineProperties( CommandLine line )
+    private Properties getCommandLineProperties( CommandLine line, Properties properties )
     {
-        Properties properties = new Properties();
         Set propertyValue = line.getProperties();
         Iterator iterator = propertyValue.iterator();
         while( iterator.hasNext() )
@@ -302,9 +302,9 @@ public class StationPlugin
     * @param line the commandline
     * @return the base path
     */
-    private String getBasedir( CommandLine line )
+    private String getBasedir( CommandLine line, String current )
     {
-        return (String) line.getValue( BASEDIR_OPTION, null );
+        return (String) line.getValue( BASEDIR_OPTION, current );
     }
     
    /** 
@@ -715,11 +715,15 @@ public class StationPlugin
     * @param policy application startup policy
     */
     private void processSetCommand( 
-      ApplicationRegistry registry, String key, String title, URI uri, 
+      ApplicationRegistry registry, ApplicationDescriptor profile, String key, String title, URI uri, 
       int startup, int shutdown, Properties properties, String base, 
       StartupPolicy policy, URI config )
       throws IOException
     {
+        if( null == uri )
+        {
+            throw new NullPointerException( "uri" );
+        }
         String configPath = null;
         if( null != config )
         {
@@ -727,6 +731,15 @@ public class StationPlugin
         }
         try
         {
+            System.out.println( "KEY: " + key );
+            System.out.println( "TITLE: " + title );
+            System.out.println( "TITLE: " + uri );
+            System.out.println( "STARTUP: " + startup );
+            System.out.println( "SHUTDOWN: " + shutdown );
+            System.out.println( "PROPERTIES: " + properties );
+            System.out.println( "BASE: " + base );
+            System.out.println( "POLICY: " + policy );
+            System.out.println( "CONFIG: " + config );
             ApplicationDescriptor descriptor = 
               new ApplicationDescriptor( 
                 uri.toASCIIString(), 
@@ -752,15 +765,16 @@ public class StationPlugin
         catch( Exception e )
         {
             final String error = 
-              "Unexpected error while processing add request.";
+              "Unexpected error while processing set command.";
             getLogger().error( error, e );
+            registry.updateApplicationDescriptor( key, profile );
         }
         
         try
         {
-            ApplicationDescriptor profile = registry.getApplicationDescriptor( key );
+            ApplicationDescriptor newProfile = registry.getApplicationDescriptor( key );
             System.out.println( "\nUpdated profile [" + key + "]" );
-            listProfile( profile );
+            listProfile( newProfile );
         }
         catch( UnknownKeyException e )
         {
