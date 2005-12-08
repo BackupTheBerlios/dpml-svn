@@ -35,12 +35,13 @@ import net.dpml.station.Application;
 import net.dpml.station.Manager;
 import net.dpml.station.Station;
 import net.dpml.station.StationException;
-
 import net.dpml.station.info.StartupPolicy;
 import net.dpml.station.ApplicationRegistry;
 import net.dpml.station.info.ApplicationDescriptor;
 import net.dpml.station.info.ValueDescriptor;
 import net.dpml.station.server.RemoteApplicationRegistry;
+
+import net.dpml.metro.part.Instance;
 
 import net.dpml.transit.Artifact;
 import net.dpml.transit.Logger;
@@ -555,6 +556,16 @@ public class StationPlugin
             {
                 ApplicationDescriptor profile = registry.getApplicationDescriptor( key );
                 listProfile( profile );
+                if( null != manager )
+                {
+                    Application application = manager.getApplication( key );
+                    System.out.println( "\n  Process State: " + application.getState() );
+                    Instance instance = application.getInstance();
+                    if( null != instance )
+                    {
+                        System.out.println( "\n  Application State: " + instance.getState() );
+                    }
+                }
             }
             catch( UnknownKeyException e )
             {

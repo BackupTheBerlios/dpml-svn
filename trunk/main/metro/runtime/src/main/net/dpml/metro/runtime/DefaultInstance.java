@@ -51,7 +51,7 @@ import net.dpml.metro.state.impl.DefaultStateMachine;
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-class DefaultInstance extends UnicastEventSource implements Instance
+public class DefaultInstance extends UnicastEventSource implements Instance
 {
     //-------------------------------------------------------------------
     // state
@@ -72,11 +72,6 @@ class DefaultInstance extends UnicastEventSource implements Instance
     */
     private final Logger m_logger;
 
-   /**
-    * The proxied instance.
-    */
-    private final Object m_proxy;
-
     //-------------------------------------------------------------------
     // mutable state
     //-------------------------------------------------------------------
@@ -85,6 +80,11 @@ class DefaultInstance extends UnicastEventSource implements Instance
     * The raw instance.
     */
     private Object m_value;
+
+   /**
+    * The proxied instance.
+    */
+    private Object m_proxy;
 
    /**
     * Tag used within logging messages.
@@ -243,7 +243,7 @@ class DefaultInstance extends UnicastEventSource implements Instance
     // implementation
     //-------------------------------------------------------------------
     
-    private void initialize() throws InvocationTargetException
+    private void initialize() throws InvocationTargetException, ControlException
     {
         synchronized( getLock() )
         {
