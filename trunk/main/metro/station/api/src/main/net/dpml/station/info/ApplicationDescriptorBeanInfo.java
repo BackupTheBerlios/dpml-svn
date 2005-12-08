@@ -47,8 +47,8 @@ public final class ApplicationDescriptorBeanInfo extends SimpleBeanInfo
           new DefaultPersistenceDelegate( 
             new String[]
             {
-              "codeBaseURISpec", "title", "valueDescriptors", "basePath", "startupPolicy", 
-              "startupTimeout", "ShutdownTimeout", "systemProperties", 
+              "codeBaseURISpec", "title", "valueDirectives", "basePath", "startupPolicy", 
+              "startupTimeout", "shutdownTimeout", "systemProperties", 
               "configurationURISpec"
             }
           ) 

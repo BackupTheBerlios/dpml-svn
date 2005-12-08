@@ -25,7 +25,7 @@ import java.beans.SimpleBeanInfo;
 import java.beans.Encoder;
 
 /**
- * Bean info for state encoding of the Lifestyle policy enumeration.
+ * Bean info for state encoding of the startup policy enumeration.
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
@@ -47,14 +47,14 @@ public final class StartupPolicyBeanInfo extends SimpleBeanInfo
         BeanDescriptor descriptor = new BeanDescriptor( StartupPolicy.class );
         descriptor.setValue( 
           "persistenceDelegate", 
-          new ScopePersistenceDelegate() );
+          new PolicyPersistenceDelegate() );
         return descriptor;
     }
     
    /**
     * StartupPolicy persitence delegate.
     */
-    private static class ScopePersistenceDelegate extends DefaultPersistenceDelegate
+    private static class PolicyPersistenceDelegate extends DefaultPersistenceDelegate
     {
        /**
         * Return an expression.
@@ -64,8 +64,13 @@ public final class StartupPolicyBeanInfo extends SimpleBeanInfo
         */
         public Expression instantiate( Object old, Encoder encoder )
         {
+            if( null == old )
+            {
+                throw new IllegalStateException( "old" );
+            }
             StartupPolicy policy = (StartupPolicy) old;
-            return new Expression( StartupPolicy.class, "parse", new Object[]{policy.getName()} );
+            String name = policy.getName();
+            return new Expression( StartupPolicy.class, "parse", new Object[]{name} );
         }
     }
 }

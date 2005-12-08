@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package net.dpml.library.info;
+package net.dpml.station.info;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -40,8 +40,7 @@ import junit.framework.TestCase;
 /**
  * The ModuleDirective class describes a module data-structure.
  *
- * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
- * @version @PROJECT-VERSION@
+ * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
  */
 abstract class AbstractTestCase extends TestCase
 {
@@ -67,6 +66,11 @@ abstract class AbstractTestCase extends TestCase
 
     public Object doEncodingTest( Object object, String filename ) throws Exception
     {
+        return doEncodingTest( object, filename, true );
+    }
+    
+    public Object doEncodingTest( Object object, String filename, boolean testSame ) throws Exception
+    {
         String base = System.getProperty( "project.test.dir" );
         File test = new File( base );
         File encoding = new File( test, "encoding" );
@@ -90,9 +94,12 @@ abstract class AbstractTestCase extends TestCase
         FileInputStream input = new FileInputStream( destination );
         XMLDecoder decoder = new XMLDecoder( new BufferedInputStream( input ) );
         Object result = decoder.readObject();
-        assertTrue( object != result ); // Ensure this is not the same instance
+        if( testSame )
+        {
+            assertTrue( "!=", object != result ); // Ensure this is not the same instance
+        }
         assertEquals( "encoding", object, result );
-        assertEquals( object.hashCode(), result.hashCode() );
+        assertEquals( "hashcode", object.hashCode(), result.hashCode() );
         return result;
     }
 

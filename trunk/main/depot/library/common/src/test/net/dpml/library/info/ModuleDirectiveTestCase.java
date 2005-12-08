@@ -23,7 +23,8 @@ import net.dpml.library.info.ResourceDirective.Classifier;
 /**
  * The ModuleDirective class describes a module data-structure.
  *
- * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public final class ModuleDirectiveTestCase extends AbstractTestCase
 {

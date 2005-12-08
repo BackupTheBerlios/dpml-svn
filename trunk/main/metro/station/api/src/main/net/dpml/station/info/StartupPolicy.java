@@ -77,13 +77,18 @@ public final class StartupPolicy extends Enum
     }
     
    /**
-    * Return a startup policy value matching the supplied value.
+    * Return a startup policy matching the supplied value.
     * @param value the policy name
-    * @return the policy
-    * @exception IllegalArgumentException if the name if not recognized
+    * @return the startup policy
+    * @exception NullPointerException if the value if null
+    * @exception IllegalArgumentException if the value if not recognized
     */
-    public static StartupPolicy parse( String value ) throws IllegalArgumentException
+    public static StartupPolicy parse( String value ) throws NullPointerException, IllegalArgumentException
     {
+        if( null == value )
+        {
+            throw new NullPointerException( "value" );
+        }
         if( value.equalsIgnoreCase( "disabled" ) )
         {
             return DISABLED;
@@ -99,7 +104,7 @@ public final class StartupPolicy extends Enum
         else
         {
             final String error =
-              "Unrecognized scope argument [" + value + "]";
+              "Unrecognized startup policy argument [" + value + "]";
             throw new IllegalArgumentException( error );
         }
     }

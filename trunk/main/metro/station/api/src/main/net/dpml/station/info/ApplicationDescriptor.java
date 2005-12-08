@@ -22,6 +22,9 @@ import java.util.Properties;
 import java.net.URI;
 import java.net.URISyntaxException;
 
+import net.dpml.transit.info.CodeBaseDirective;
+import net.dpml.transit.info.ValueDirective;
+
 /**
  * The ApplicationDescriptor is immutable datastructure used to 
  * describe an application.
@@ -29,7 +32,7 @@ import java.net.URISyntaxException;
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-public class ApplicationDescriptor extends CodeBaseDescriptor
+public class ApplicationDescriptor extends CodeBaseDirective
 {
    /**
     * The default startup timeout in seconds.
@@ -63,11 +66,28 @@ public class ApplicationDescriptor extends CodeBaseDescriptor
     * @exception URISyntaxException if the codebase URI is invalid
     */
     public ApplicationDescriptor( 
-      String codebase, String title, ValueDescriptor[] parameters, String base, 
+      String codebase, String title, ValueDirective[] parameters, String base, 
       StartupPolicy policy, int startupTimeout, int shutdownTimeout,
       Properties properties, String config ) throws URISyntaxException
     {
         super( codebase, parameters );
+        
+        if( null == properties )
+        {
+            throw new NullPointerException( "properties" );
+        }
+        if( null == parameters )
+        {
+            throw new NullPointerException( "parameters" );
+        }
+        if( null == title )
+        {
+            throw new NullPointerException( "title" );
+        }
+        if( null == policy )
+        {
+            throw new NullPointerException( "policy" );
+        }
         
         m_base = base;
         m_policy = policy;
@@ -112,6 +132,7 @@ public class ApplicationDescriptor extends CodeBaseDescriptor
     */
     public StartupPolicy getStartupPolicy()
     {
+        System.out.println( "# POLICY: " + m_policy );
         return m_policy;
     }
     
@@ -172,5 +193,62 @@ public class ApplicationDescriptor extends CodeBaseDescriptor
     public URI getConfigurationURI()
     {
         return m_config;
+    }
+    
+    public boolean equals( Object other )
+    {
+        if( !super.equals( other ) )
+        {
+            return false;
+        }
+        else if( !( other instanceof ApplicationDescriptor ) )
+        {
+            return false;
+        }
+        else
+        {
+            ApplicationDescriptor descriptor = (ApplicationDescriptor) other;
+            if( !equals( m_base, descriptor.m_base ) )
+            {
+                return false;
+            }
+            else if( !equals( m_policy, descriptor.m_policy ) )
+            {
+                return false;
+            }
+            else if( m_startup != descriptor.m_startup )
+            {
+                return false;
+            }
+            else if( m_shutdown != descriptor.m_shutdown )
+            {
+                return false;
+            }
+            else if( !equals( m_properties, descriptor.m_properties ) )
+            {
+                return false;
+            }
+            else if( !equals( m_config, descriptor.m_config ) )
+            {
+                return false;
+            }
+            else
+            {
+                return equals( m_title, descriptor.m_title );
+            }
+        }
+    }
+    
+    public int hashCode()
+    {
+        int hash = super.hashCode();
+        hash ^= hashValue( m_base );
+        hash ^= hashValue( m_policy );
+        hash ^= m_startup;
+        hash ^= m_shutdown;
+        hash ^= hashValue( m_properties );
+        hash ^= hashValue( m_config );
+        hash ^= hashValue( m_title );
+        return hash;
     }
 }

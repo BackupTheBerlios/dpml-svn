@@ -23,7 +23,8 @@ import net.dpml.transit.Category;
 /**
  * The ModuleDirective class describes a module data-structure.
  *
- * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public final class DependencyDirectiveTestCase extends AbstractTestCase
 {

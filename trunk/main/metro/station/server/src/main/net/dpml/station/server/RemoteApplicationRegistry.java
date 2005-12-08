@@ -23,9 +23,12 @@ import java.util.Map;
 import java.util.Hashtable;
 import java.util.EventObject;
 import java.util.EventListener;
+import java.io.File;
 import java.io.IOException;
+import java.io.FileInputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.FileOutputStream;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.FileNotFoundException;
@@ -44,6 +47,7 @@ import net.dpml.station.RegistryListener;
 import net.dpml.transit.Logger;
 import net.dpml.transit.model.DuplicateKeyException;
 import net.dpml.transit.model.UnknownKeyException;
+import net.dpml.transit.util.StreamUtils;
 
 /**
  * Implements of the application registry within which a set of application profiles 
@@ -66,7 +70,7 @@ public class RemoteApplicationRegistry extends DefaultModel implements Applicati
     public RemoteApplicationRegistry( Logger logger, URL url ) throws IOException
     {
         super( logger );
-        
+
         try
         {
             RegistryDescriptor registry = loadRegistryDescriptor( url );
@@ -244,6 +248,9 @@ public class RemoteApplicationRegistry extends DefaultModel implements Applicati
     {
         synchronized( getLock() )
         {
+            File file = File.createTempFile( "dpml-station", ".xml" );
+            FileOutputStream output = new FileOutputStream( file );
+            
             //
             // TODO: we are writing out the encoded stream directly into 
             // output file and if an error occurs its too late - we have 
@@ -257,7 +264,6 @@ public class RemoteApplicationRegistry extends DefaultModel implements Applicati
             }
             Entry[] entries = getEntries();
             RegistryDescriptor descriptor = new RegistryDescriptor( entries );
-            OutputStream output = m_url.openConnection().getOutputStream();
             BufferedOutputStream buffer = new BufferedOutputStream( output );
             XMLEncoder encoder = new XMLEncoder( buffer );
             encoder.setExceptionListener( new RegistryEncoderListener() );
@@ -266,6 +272,7 @@ public class RemoteApplicationRegistry extends DefaultModel implements Applicati
             {
                 ClassLoader context = RegistryDescriptor.class.getClassLoader();
                 Thread.currentThread().setContextClassLoader( context );
+                System.out.println( "# ENCODING: " + descriptor );
                 encoder.writeObject( descriptor );
             }
             finally
@@ -273,6 +280,10 @@ public class RemoteApplicationRegistry extends DefaultModel implements Applicati
                 Thread.currentThread().setContextClassLoader( current );
                 encoder.close();
             }
+            
+            FileInputStream input = new FileInputStream( file );
+            OutputStream dest = m_url.openConnection().getOutputStream();
+            StreamUtils.copyStream( input, dest, true );
         }
     }
     
@@ -298,16 +309,16 @@ public class RemoteApplicationRegistry extends DefaultModel implements Applicati
                 else
                 {
                     final String error = 
-                      "An error occured while attempting to encode registry."
+                      "An error occured while attempting to encode the registry."
                       + "\nTarget URL: " + m_url
-                      + "]\nCause: " + cause.toString();
+                      + "\nCause: " + cause.toString();
                     throw new EncodingRuntimeException( error, cause );
                 }
             }
             else
             {
                 final String error = 
-                  "An unexpected error occured while attempting to encode registry ["
+                  "An unexpected error occured while attempting to encode the registry ["
                   + "\nTarget URL: " + m_url
                   + "\nCause: " + e.toString();
                 throw new EncodingRuntimeException( error, e );

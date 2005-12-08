@@ -38,7 +38,6 @@ import net.dpml.station.StationException;
 import net.dpml.station.info.StartupPolicy;
 import net.dpml.station.ApplicationRegistry;
 import net.dpml.station.info.ApplicationDescriptor;
-import net.dpml.station.info.ValueDescriptor;
 import net.dpml.station.server.RemoteApplicationRegistry;
 
 import net.dpml.metro.part.Instance;
@@ -51,6 +50,7 @@ import net.dpml.transit.Logger;
 import net.dpml.transit.PID;
 import net.dpml.transit.model.UnknownKeyException;
 import net.dpml.transit.model.DuplicateKeyException;
+import net.dpml.transit.info.ValueDirective;
 
 import net.dpml.cli.Option;
 import net.dpml.cli.Group;
@@ -677,7 +677,7 @@ public class StationPlugin
               new ApplicationDescriptor( 
                 uri.toASCIIString(), 
                 title,
-                new ValueDescriptor[0], 
+                new ValueDirective[0], 
                 base, 
                 policy, 
                 startup, 
@@ -720,9 +720,29 @@ public class StationPlugin
       StartupPolicy policy, URI config )
       throws IOException
     {
+        if( null == registry )
+        {
+            throw new NullPointerException( "registry" );
+        }
+        if( null == key )
+        {
+            throw new NullPointerException( "key" );
+        }
         if( null == uri )
         {
             throw new NullPointerException( "uri" );
+        }
+        if( null == title )
+        {
+            throw new NullPointerException( "title" );
+        }
+        if( null == policy )
+        {
+            throw new NullPointerException( "policy" );
+        }
+        if( null == properties )
+        {
+            throw new NullPointerException( "properties" );
         }
         String configPath = null;
         if( null != config )
@@ -731,20 +751,11 @@ public class StationPlugin
         }
         try
         {
-            System.out.println( "KEY: " + key );
-            System.out.println( "TITLE: " + title );
-            System.out.println( "TITLE: " + uri );
-            System.out.println( "STARTUP: " + startup );
-            System.out.println( "SHUTDOWN: " + shutdown );
-            System.out.println( "PROPERTIES: " + properties );
-            System.out.println( "BASE: " + base );
-            System.out.println( "POLICY: " + policy );
-            System.out.println( "CONFIG: " + config );
             ApplicationDescriptor descriptor = 
               new ApplicationDescriptor( 
                 uri.toASCIIString(), 
                 title,
-                new ValueDescriptor[0], 
+                new ValueDirective[0], 
                 base, 
                 policy, 
                 startup, 

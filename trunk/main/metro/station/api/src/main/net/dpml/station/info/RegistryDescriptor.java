@@ -22,6 +22,7 @@ import java.net.URI;
 import java.beans.SimpleBeanInfo;
 import java.beans.BeanDescriptor;
 import java.beans.DefaultPersistenceDelegate;
+import java.util.Arrays;
 
 /**
  * The RegistryDescriptor is immutable datastructure used to 
@@ -50,6 +51,18 @@ public class RegistryDescriptor extends AbstractDescriptor
     */
     public RegistryDescriptor( Entry[] entries )
     {   
+        if( null == entries )
+        {
+            throw new NullPointerException( "entries" );
+        }
+        for( int i=0; i<entries.length; i++ )
+        {
+            if( null == entries[i] )
+            {
+                throw new NullPointerException( "entry" );
+            }
+        }
+        
         m_entries = entries;
     }
     
@@ -61,6 +74,30 @@ public class RegistryDescriptor extends AbstractDescriptor
     public Entry[] getEntries()
     {
         return m_entries;
+    }
+    
+    public boolean equals( Object other )
+    {
+        if( !super.equals( other ) )
+        {
+            return false;
+        }
+        else if( !( other instanceof RegistryDescriptor ) )
+        {
+            return false;
+        }
+        else
+        {
+            RegistryDescriptor descriptor = (RegistryDescriptor) other;
+            return Arrays.equals( m_entries, descriptor.m_entries );
+        }
+    }
+    
+    public int hashCode()
+    {
+        int hash = super.hashCode();
+        hash ^= hashArray( m_entries );
+        return hash;
     }
     
     private static URI createDefaultStorageURI()
@@ -90,6 +127,14 @@ public class RegistryDescriptor extends AbstractDescriptor
         */
         public Entry( String key, ApplicationDescriptor descriptor )
         {
+            if( null == key )
+            {
+                throw new NullPointerException( "key" );
+            }
+            if( null == descriptor )
+            {
+                throw new NullPointerException( "descriptor" );
+            }
             m_key = key;
             m_descriptor = descriptor;
         }
@@ -111,8 +156,50 @@ public class RegistryDescriptor extends AbstractDescriptor
         {
             return m_descriptor;
         }
+        
+       /**
+        * Tests for equality. Two entries are considered equal if 
+        * they have the same key and descriptor. 
+        *
+        * @param o the other object
+        * @return the equality status
+        */
+        public boolean equals( Object other )
+        {
+            if( null == other )
+            {
+                return false;
+            }
+            else if( other instanceof Entry )
+            {
+                Entry entry = (Entry) other;
+                if( !m_key.equals( entry.getKey() ) )
+                {
+                    return false;
+                }
+                else
+                {
+                    return m_descriptor.equals( entry.m_descriptor );
+                }
+            }
+            else
+            {
+                return false;
+            }
+        }
+        
+       /** 
+        * Compute the hashcode.
+        * @return the hashcode value
+        */
+        public int hashCode()
+        {
+            int hash = m_key.hashCode();
+            hash ^= m_descriptor.hashCode();
+            return hash;
+        }
     }
-
+    
    /**
     * Entry bean info.
     */

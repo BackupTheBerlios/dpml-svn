@@ -40,7 +40,8 @@ import net.dpml.transit.monitor.LoggingAdapter;
 /**
  * Testing the DefaultModule implementation.
  *
- * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public class DefaultModuleTestCase extends AbstractTestCase
 {   

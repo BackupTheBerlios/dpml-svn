@@ -26,12 +26,12 @@ import junit.framework.TestCase;
 
 import net.dpml.station.info.ApplicationDescriptor;
 import net.dpml.station.info.StartupPolicy;
-import net.dpml.station.info.ValueDescriptor;
 import net.dpml.station.RegistryListener;
 import net.dpml.station.RegistryEvent;
 
 import net.dpml.transit.Artifact;
 import net.dpml.transit.Logger;
+import net.dpml.transit.info.ValueDirective;
 import net.dpml.transit.monitor.LoggingAdapter;
 import net.dpml.transit.model.UnknownKeyException;
 import net.dpml.transit.model.DuplicateKeyException;
@@ -78,7 +78,7 @@ public class RemoteApplicationRegistryTestCase extends TestCase
     {
         ApplicationDescriptor profile = 
           new ApplicationDescriptor( 
-            "link:plugin:acme/widget", "widget", new ValueDescriptor[0], ".", 
+            "link:plugin:acme/widget", "widget", new ValueDirective[0], ".", 
             StartupPolicy.MANUAL, 10, 20, new Properties(), null );
             
         RemoteApplicationRegistry registry = 
@@ -92,7 +92,7 @@ public class RemoteApplicationRegistryTestCase extends TestCase
     {
         ApplicationDescriptor profile = 
           new ApplicationDescriptor( 
-            "link:plugin:acme/widget", "widget", new ValueDescriptor[0], ".", 
+            "link:plugin:acme/widget", "widget", new ValueDirective[0], ".", 
             StartupPolicy.MANUAL, 10, 20, new Properties(), null );
 
         RemoteApplicationRegistry registry = 
@@ -105,15 +105,20 @@ public class RemoteApplicationRegistryTestCase extends TestCase
     
     public void testRegistryStorage() throws Exception
     {
-        ApplicationDescriptor profile = 
+        ApplicationDescriptor profileOne = 
           new ApplicationDescriptor( 
-            "link:plugin:acme/widget", "widget", new ValueDescriptor[0], ".", 
+            "link:plugin:acme/widget", "widget", new ValueDirective[0], ".", 
             StartupPolicy.MANUAL, 10, 20, new Properties(), null );
+            
+        ApplicationDescriptor profileTwo = 
+          new ApplicationDescriptor( 
+            "link:plugin:acme/gizmo", "gizmo", new ValueDirective[0], ".", 
+            StartupPolicy.AUTOMATIC, 10, 20, new Properties(), null );
             
         RemoteApplicationRegistry registry = 
           new RemoteApplicationRegistry( m_logger, m_url );
-        registry.addApplicationDescriptor( "test-1", profile );
-        registry.addApplicationDescriptor( "test-2", profile );
+        registry.addApplicationDescriptor( "test-1", profileOne );
+        registry.addApplicationDescriptor( "test-2", profileTwo );
         int n = registry.getApplicationDescriptorCount();
         assertEquals( "double-count", 2, n );
         registry.flush();
@@ -128,12 +133,12 @@ public class RemoteApplicationRegistryTestCase extends TestCase
     {
         ApplicationDescriptor profileOne = 
           new ApplicationDescriptor( 
-            "link:plugin:acme/widget", "widget", new ValueDescriptor[0], ".", 
+            "link:plugin:acme/widget", "widget", new ValueDirective[0], ".", 
             StartupPolicy.MANUAL, 10, 20, new Properties(), null );
             
         ApplicationDescriptor profileTwo = 
           new ApplicationDescriptor( 
-            "link:plugin:acme/widget", "widget", new ValueDescriptor[0], ".", 
+            "link:plugin:acme/widget", "widget", new ValueDirective[0], ".", 
             StartupPolicy.DISABLED, 10, 20, new Properties(), null );
         
         RemoteApplicationRegistry registry = 
@@ -150,12 +155,12 @@ public class RemoteApplicationRegistryTestCase extends TestCase
     {
         ApplicationDescriptor profileOne = 
           new ApplicationDescriptor( 
-            "link:plugin:acme/widget", "widget", new ValueDescriptor[0], ".", 
+            "link:plugin:acme/widget", "widget", new ValueDirective[0], ".", 
             StartupPolicy.MANUAL, 10, 20, new Properties(), null );
             
         ApplicationDescriptor profileTwo = 
           new ApplicationDescriptor( 
-            "link:plugin:acme/widget", "widget", new ValueDescriptor[0], ".", 
+            "link:plugin:acme/widget", "widget", new ValueDirective[0], ".", 
             StartupPolicy.DISABLED, 10, 20, new Properties(), null );
         
         RemoteApplicationRegistry registry = 
@@ -172,7 +177,7 @@ public class RemoteApplicationRegistryTestCase extends TestCase
     {
         ApplicationDescriptor profile = 
           new ApplicationDescriptor( 
-            "link:plugin:acme/widget", "widget", new ValueDescriptor[0], ".", 
+            "link:plugin:acme/widget", "widget", new ValueDirective[0], ".", 
             StartupPolicy.MANUAL, 10, 20, new Properties(), null );
             
         try
@@ -193,7 +198,7 @@ public class RemoteApplicationRegistryTestCase extends TestCase
     {
         ApplicationDescriptor profile = 
           new ApplicationDescriptor( 
-            "link:plugin:acme/widget", "widget", new ValueDescriptor[0], ".", 
+            "link:plugin:acme/widget", "widget", new ValueDirective[0], ".", 
             StartupPolicy.MANUAL, 10, 20, new Properties(), null );
             
         try
@@ -214,7 +219,7 @@ public class RemoteApplicationRegistryTestCase extends TestCase
     {
         ApplicationDescriptor profile = 
           new ApplicationDescriptor( 
-            "link:plugin:acme/widget", "widget", new ValueDescriptor[0], ".", 
+            "link:plugin:acme/widget", "widget", new ValueDirective[0], ".", 
             StartupPolicy.MANUAL, 10, 20, new Properties(), null );
         
         RemoteApplicationRegistry registry = 

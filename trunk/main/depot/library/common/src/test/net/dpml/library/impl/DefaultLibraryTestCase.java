@@ -38,7 +38,8 @@ import net.dpml.transit.monitor.LoggingAdapter;
 /**
  * Test DefaultLibrary implementation.
  *
- * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public class DefaultLibraryTestCase extends AbstractTestCase
 {   
