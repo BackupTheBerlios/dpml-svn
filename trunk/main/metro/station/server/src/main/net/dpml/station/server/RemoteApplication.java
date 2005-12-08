@@ -36,6 +36,7 @@ import net.dpml.station.info.ApplicationDescriptor;
 
 import net.dpml.metro.part.Component;
 import net.dpml.metro.part.Instance;
+import net.dpml.metro.state.State;
 
 import net.dpml.station.Callback;
 import net.dpml.station.ProcessState;
@@ -203,7 +204,7 @@ public class RemoteApplication extends EventChannel implements Callback, Applica
     * Return the current deployment state of the process.
     * @return the current process state
     */
-    public ProcessState getState()
+    public ProcessState getProcessState()
     {
         synchronized( m_state )
         {
@@ -440,7 +441,23 @@ public class RemoteApplication extends EventChannel implements Callback, Applica
     {
         return m_instance;
     }
-
+    
+   /**
+    * Return the component instance state.
+    * @return the instance state
+    */
+    public State getState() throws RemoteException
+    {
+        if( null == m_instance )
+        {
+            return null;
+        }
+        else
+        {
+            return m_instance.getState();
+        }
+    }
+    
    /**
     * Add an application listener.
     * @param listener the listener to add
@@ -475,11 +492,6 @@ public class RemoteApplication extends EventChannel implements Callback, Applica
                 getLogger().info( "state set to [" + state.getName() + "]" );
             }
         }
-    }
-    
-    private ProcessState getProcessState()
-    {
-        return m_state;
     }
     
     //-------------------------------------------------------------------------------

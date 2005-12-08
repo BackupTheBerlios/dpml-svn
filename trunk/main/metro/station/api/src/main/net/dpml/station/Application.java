@@ -22,6 +22,7 @@ import java.rmi.Remote;
 import java.rmi.RemoteException;
 
 import net.dpml.metro.part.Instance;
+import net.dpml.metro.state.State;
 
 import net.dpml.transit.PID;
 
@@ -64,7 +65,7 @@ public interface Application extends Remote
     * @return the current process state
     * @exception RemoteException if a remote error occurs
     */
-    ProcessState getState() throws RemoteException;
+    ProcessState getProcessState() throws RemoteException;
 
    /**
     * Start the application.
@@ -89,6 +90,12 @@ public interface Application extends Remote
     * @return the instance handler (possibly null)
     */
     Instance getInstance() throws RemoteException;
+
+   /**
+    * Return the component instance state.
+    * @return the instance state
+    */
+    State getState() throws RemoteException;
 
    /**
     * Add an application listener.

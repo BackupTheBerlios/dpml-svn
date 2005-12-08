@@ -42,9 +42,12 @@ import net.dpml.station.info.ValueDescriptor;
 import net.dpml.station.server.RemoteApplicationRegistry;
 
 import net.dpml.metro.part.Instance;
+import net.dpml.metro.state.State;
+import net.dpml.metro.state.Operation;
 
 import net.dpml.transit.Artifact;
 import net.dpml.transit.Logger;
+import net.dpml.transit.PID;
 import net.dpml.transit.model.UnknownKeyException;
 import net.dpml.transit.model.DuplicateKeyException;
 
@@ -497,6 +500,7 @@ public class StationPlugin
     */
     private void processInfoCommand( CommandLine line ) throws Exception
     {
+        Thread.currentThread().setContextClassLoader( Instance.class.getClassLoader() );
         Manager manager = null;
         try
         {
@@ -530,7 +534,7 @@ public class StationPlugin
                     if( null != manager )
                     {
                         Application application = manager.getApplication( k );
-                        buffer.append( "\t" + application.getState() );
+                        buffer.append( "\t" + application.getProcessState() );
                     }
                     else
                     {
@@ -559,12 +563,51 @@ public class StationPlugin
                 if( null != manager )
                 {
                     Application application = manager.getApplication( key );
-                    System.out.println( "\n  Process State: " + application.getState() );
-                    Instance instance = application.getInstance();
-                    if( null != instance )
+                    PID pid = application.getPID();
+                    if( null != pid )
                     {
-                        System.out.println( "\n  Application State: " + instance.getState() );
+                        // 
+                        System.out.println( 
+                          "  Process: " 
+                          + application.getPID()
+                          + " ("
+                          + application.getProcessState() 
+                          + ")" );
                     }
+                    else
+                    {
+                        System.out.println( 
+                          "  Process: " 
+                          + application.getProcessState() );
+                    }
+                    
+                    try
+                    {
+                        Instance instance = application.getInstance();
+                        if( null != instance )
+                        {
+                            State state = instance.getState();
+                            System.out.println( "  State: " + state );
+                            Operation[] operations = state.getOperations();
+                            if( operations.length > 0 ) 
+                            {
+                                System.out.println( "Operations: (" + operations.length + ")" );
+                                for( int i=0; i<operations.length; i++ )
+                                {
+                                    System.out.println( "    " + operations[i] );
+                                }
+                            }
+                        }
+                    }
+                    catch( Throwable e )
+                    {
+                        getLogger().error( "Woops/2", e );
+                    }
+                    
+                    //Instance instance = application.getInstance();
+                    //if( null != instance )
+                    //{
+                    //}
                 }
             }
             catch( UnknownKeyException e )

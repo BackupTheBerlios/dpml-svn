@@ -73,6 +73,7 @@ public class StationServerPlugin
             URL url = ApplicationRegistry.DEFAULT_STORAGE_URI.toURL();
             logger.info( "starting station on port: " + port );
             m_station = new RemoteStation( logger, port, url );
+            Thread.currentThread().setContextClassLoader( ApplicationRegistry.class.getClassLoader() );
             setShutdownHook( m_station );
         }
         else
