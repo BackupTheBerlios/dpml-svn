@@ -31,6 +31,7 @@ import java.io.BufferedOutputStream;
 import java.io.FileNotFoundException;
 import java.beans.XMLDecoder;
 import java.beans.XMLEncoder;
+import java.beans.ExceptionListener;
 
 import net.dpml.station.info.ApplicationDescriptor;
 import net.dpml.station.info.RegistryDescriptor;
@@ -252,8 +253,74 @@ public class RemoteApplicationRegistry extends DefaultModel implements Applicati
             OutputStream output = m_url.openConnection().getOutputStream();
             BufferedOutputStream buffer = new BufferedOutputStream( output );
             XMLEncoder encoder = new XMLEncoder( buffer );
-            encoder.writeObject( descriptor );
-            encoder.close();
+            encoder.setExceptionListener( new RegistryEncoderListener() );
+            ClassLoader current = Thread.currentThread().getContextClassLoader();
+            try
+            {
+                ClassLoader context = RegistryDescriptor.class.getClassLoader();
+                Thread.currentThread().setContextClassLoader( context );
+                encoder.writeObject( descriptor );
+            }
+            finally
+            {
+                Thread.currentThread().setContextClassLoader( current );
+                encoder.close();
+            }
+        }
+    }
+    
+   /**
+    * Encoding exception listener.
+    */
+    private final class RegistryEncoderListener implements ExceptionListener
+    {
+       /**
+        * Catch an encoding exception.
+        * @param e the encoding exception
+        */
+        public void exceptionThrown( Exception e )
+        {
+            Throwable cause = e.getCause();
+            if( null != cause )
+            {
+                if( cause instanceof EncodingRuntimeException )
+                {
+                    EncodingRuntimeException ere = (EncodingRuntimeException) cause;
+                    throw ere;
+                }
+                else
+                {
+                    final String error = 
+                      "An error occured while attempting to encode registry."
+                      + "\nTarget URL: " + m_url
+                      + "]\nCause: " + cause.toString();
+                    throw new EncodingRuntimeException( error, cause );
+                }
+            }
+            else
+            {
+                final String error = 
+                  "An unexpected error occured while attempting to encode registry ["
+                  + "\nTarget URL: " + m_url
+                  + "\nCause: " + e.toString();
+                throw new EncodingRuntimeException( error, e );
+            }
+        }
+    }
+    
+   /**
+    * EncodingRuntimeException.
+    */
+    private static class EncodingRuntimeException extends RuntimeException
+    {
+       /**
+        * Creation of a new <tt>EncodingRuntimeException</tt>.
+        * @param message the exception message
+        * @param cause the causal exception 
+        */
+        public EncodingRuntimeException( String message, Throwable cause )
+        {
+            super( message, cause );
         }
     }
     
@@ -303,7 +370,7 @@ public class RemoteApplicationRegistry extends DefaultModel implements Applicati
         return "[registry]";
     }
 
-    private RegistryDescriptor loadRegistryDescriptor( URL url )
+    private RegistryDescriptor loadRegistryDescriptor( URL url ) throws IOException
     {
         if( null == url )
         {
@@ -322,11 +389,6 @@ public class RemoteApplicationRegistry extends DefaultModel implements Applicati
         catch( FileNotFoundException e )
         {
             return new RegistryDescriptor( new Entry[0] );
-        }
-        catch( Throwable e )
-        {
-            getLogger().error( "Application registry creation error.", e ); 
-            throw new RuntimeException();
         }
         finally
         {
