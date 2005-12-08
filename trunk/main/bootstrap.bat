@@ -12,15 +12,27 @@ REM
 
 set ID=%1
 CALL :antlib-cleanup
+IF ERRORLEVEL 1 GOTO :exit
 CALL :transit-main
+IF ERRORLEVEL 1 GOTO :exit
 CALL :transit-tools
+IF ERRORLEVEL 1 GOTO :exit
 CALL :depot-library
+IF ERRORLEVEL 1 GOTO :exit
 CALL :depot-ant
+IF ERRORLEVEL 1 GOTO :exit
 CALL :external-modules
+IF ERRORLEVEL 1 GOTO :exit
 CALL :util-cli
+IF ERRORLEVEL 1 GOTO :exit
 CALL :depot-library-console
+IF ERRORLEVEL 1 GOTO :exit
 CALL :depot-core-console
-ECHO bootstrap sequence complete
+IF ERRORLEVEL 1 GOTO :exit
+ECHO BOOTSTRAP SUCCESSFUL
+
+:exit
+IF ERRORLEVEL 1 ECHO BOOTSTRAP FAILED
 GOTO :EOF
 
 :antlib-cleanup
@@ -80,9 +92,6 @@ GOTO :EOF
 :build
 IF "%ID%" == "" set ID=SNAPSHOT
 set BUILD_ID=-Dbuild.signature=%ID%
-@echo on
-CD
-@echo off
 ECHO building project with release ID [%BUILD_ID%]
 CALL ant %BUILD_ID% %*
 set BUILD_ID=""
