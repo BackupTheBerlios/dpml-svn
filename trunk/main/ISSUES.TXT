@@ -27,14 +27,14 @@ Current issues
    LATER
 
 3. Part datatypes are currently loded directly via XML.  This need to 
-   be updated to enforce packaing of the encoded XML with a manifest 
-   detailing the controller URI, version supporet etc.
+   be updated to enforce packaging of the encoded XML with a manifest 
+   detailing the controller URI, version support etc.
 
    LATER
 
 4. Add support for the configuration of a top-level component.
 
-   CURRENT PRIORITY
+   RESOLVED
 
 
 

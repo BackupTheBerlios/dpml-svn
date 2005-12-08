@@ -198,6 +198,6 @@ public class DefaultTransition implements Transition, Serializable
     */
     public String toString()
     {
-        return "transition:" + m_target;
+        return "transition:" + getName() + " (target=" + m_target + ")";
     }
 }

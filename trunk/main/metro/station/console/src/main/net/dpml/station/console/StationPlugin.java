@@ -44,6 +44,7 @@ import net.dpml.station.server.RemoteApplicationRegistry;
 import net.dpml.metro.part.Instance;
 import net.dpml.metro.state.State;
 import net.dpml.metro.state.Operation;
+import net.dpml.metro.state.Transition;
 
 import net.dpml.transit.Artifact;
 import net.dpml.transit.Logger;
@@ -581,33 +582,30 @@ public class StationPlugin
                           + application.getProcessState() );
                     }
                     
-                    try
+                    Instance instance = application.getInstance();
+                    if( null != instance )
                     {
-                        Instance instance = application.getInstance();
-                        if( null != instance )
+                        State state = instance.getState();
+                        System.out.println( "  State: " + state );
+                        Operation[] operations = state.getOperations();
+                        if( operations.length > 0 ) 
                         {
-                            State state = instance.getState();
-                            System.out.println( "  State: " + state );
-                            Operation[] operations = state.getOperations();
-                            if( operations.length > 0 ) 
+                            System.out.println( "  Operations: (" + operations.length + ")" );
+                            for( int i=0; i<operations.length; i++ )
                             {
-                                System.out.println( "Operations: (" + operations.length + ")" );
-                                for( int i=0; i<operations.length; i++ )
-                                {
-                                    System.out.println( "    " + operations[i] );
-                                }
+                                System.out.println( "    " + operations[i] );
+                            }
+                        }
+                        Transition[] transitions = state.getTransitions();
+                        if( transitions.length > 0 ) 
+                        {
+                            System.out.println( "  Transitions: (" + transitions.length + ")" );
+                            for( int i=0; i<transitions.length; i++ )
+                            {
+                                System.out.println( "    " + transitions[i] );
                             }
                         }
                     }
-                    catch( Throwable e )
-                    {
-                        getLogger().error( "Woops/2", e );
-                    }
-                    
-                    //Instance instance = application.getInstance();
-                    //if( null != instance )
-                    //{
-                    //}
                 }
             }
             catch( UnknownKeyException e )

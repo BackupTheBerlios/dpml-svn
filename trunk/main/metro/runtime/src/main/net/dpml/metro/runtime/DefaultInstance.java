@@ -35,6 +35,8 @@ import net.dpml.metro.part.ControlException;
 import net.dpml.metro.state.State;
 import net.dpml.metro.state.StateEvent;
 import net.dpml.metro.state.StateListener;
+import net.dpml.metro.state.UnknownTransitionException;
+import net.dpml.metro.state.UnknownOperationException;
 import net.dpml.metro.state.impl.DefaultStateMachine;
 
 /**
@@ -184,6 +186,32 @@ public class DefaultInstance extends UnicastEventSource implements Instance
         {
             return m_value;
         }
+    }
+    
+   /**
+    * Apply a transition to the instance.
+    * @param key the transition name
+    * @exception UnknownTransitionException if the supplied key does not map to an available transition
+    * @exception InvocationTargetException if an invocation error occurs
+    * @exception RemoteException if a remote I/O error occurs
+    */
+    public synchronized State apply( String key ) 
+      throws UnknownTransitionException, InvocationTargetException
+    {
+        return m_machine.apply( key, m_value );
+    }
+    
+   /**
+    * Invoke an operation on the instance.
+    * @param key the operation name
+    * @exception UnknownOperationException if the supplied key does not map to an available operation
+    * @exception InvocationTargetException if an invocation error occurs
+    * @exception RemoteException if a remote I/O error occurs
+    */
+    public synchronized void exec( String key )
+      throws UnknownOperationException, InvocationTargetException
+    {
+        m_machine.execute( key, m_value );
     }
     
     //--------------------------------------------------------------------------

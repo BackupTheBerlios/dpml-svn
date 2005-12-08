@@ -20,9 +20,12 @@ package net.dpml.metro.part;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
+import java.lang.reflect.InvocationTargetException;
 
 import net.dpml.metro.state.State;
 import net.dpml.metro.state.StateListener;
+import net.dpml.metro.state.UnknownOperationException;
+import net.dpml.metro.state.UnknownTransitionException;
 
 /**
  * Instance holder.
@@ -66,4 +69,24 @@ public interface Instance extends Remote
     * @exception RemoteException if a remote I/O error occurs
     */
     Object getValue( boolean isolate ) throws RemoteException;
+    
+   /**
+    * Apply a transition to the instance.
+    * @param key the transition name
+    * @return the state established as a result of applying the transition
+    * @exception UnknownTransitionException if the supplied key does not map to an available transition
+    * @exception InvocationTargetException if an invocation error occurs
+    * @exception RemoteException if a remote I/O error occurs
+    */
+    State apply( String key ) throws UnknownTransitionException, InvocationTargetException, RemoteException;
+    
+   /**
+    * Invoke an operation on the instance.
+    * @param key the operation name
+    * @exception UnknownOperationException if the supplied key does not map to an available operation
+    * @exception InvocationTargetException if an invocation error occurs
+    * @exception RemoteException if a remote I/O error occurs
+    */
+    void exec( String key ) throws UnknownOperationException, InvocationTargetException, RemoteException;
+    
 }
