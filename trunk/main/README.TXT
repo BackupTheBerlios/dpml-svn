@@ -1,24 +1,39 @@
 
 To build the DPML suite - please following the following procedure:
 
-  a) build the bootstrap resources
-  b) build the main DPML system
-  c) build the DPML installation
+  a) define the DPML_HOME environment variable 
+  b) build the bootstrap resources
+  c) build the main DPML system
 
-Bootstrap build
----------------
+A. Setup Environment
+--------------------
 
-Create a directory to hold the svn codebase (e.g. c:\dev\dpml\main), checkout the 
-sources, cd to the main directory and invoke the bootstrap build procedure.
+Declare an environment variable DPML_HOME referencing the location you want 
+for the system installation (for example C:\system\dpml) and add 
+%DPML_HOME%\Shared\bin to you PATH definition.
+
+B. Bootstrap Build
+------------------
+
+Create a directory to hold the svn codebase (e.g. c:\dev\dpml\main), checkout 
+the sources, cd to the main directory and invoke the bootstrap build procedure.
 
   $ cd dev\dpml\main
   $ svn checkout svn://svn.berlios.de/dpml/trunk/main
   $ bootstrap
 
-DPML Platform build
--------------------
+C. Main System Build
+--------------------
 
-The bootstrap procedure will create a number of executables under the DPML_HOME%/Shared/bin directory.  Before invoking 'build' make sure the %DPML_HOME%/Shared/bin is declared in your PATH environment variable.
+The bootstrap procedure will create a number of executables under 
+%DPML_HOME%/Shared/bin.  To successfull invoke the build command the bin 
+directory must be included in your PATH environment variable.
 
   $ build
+
+The build procedure will build 35 projects during which a number of downloads 
+may occur.  On completion the %DPML_HOME% should be fully populated and 
+operational.
+
+
 
