@@ -195,6 +195,11 @@ public class ApplicationDescriptor extends CodeBaseDirective
         return m_config;
     }
     
+    /**
+     * Compare this object with another for equality.
+     * @param other the object to compare this object with
+     * @return TRUE if the supplied object equivalent
+     */
     public boolean equals( Object other )
     {
         if( !super.equals( other ) )
@@ -239,6 +244,10 @@ public class ApplicationDescriptor extends CodeBaseDirective
         }
     }
     
+   /**
+    * Return the hashcode for the object.
+    * @return the hashcode value
+    */
     public int hashCode()
     {
         int hash = super.hashCode();

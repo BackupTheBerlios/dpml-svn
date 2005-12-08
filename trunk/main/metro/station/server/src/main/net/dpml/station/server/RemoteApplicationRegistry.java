@@ -23,6 +23,7 @@ import java.util.Map;
 import java.util.Hashtable;
 import java.util.EventObject;
 import java.util.EventListener;
+import java.util.ArrayList;
 import java.io.File;
 import java.io.IOException;
 import java.io.FileInputStream;
@@ -120,16 +121,20 @@ public class RemoteApplicationRegistry extends DefaultModel implements Applicati
         synchronized( getLock() )
         {
             String[] keys = getKeys();
-            Entry[] entries = new Entry[ keys.length ];
-            for( int i=0; i<entries.length; i++ )
+            ArrayList entries = new ArrayList();
+            //Entry[] entries = new Entry[ keys.length ];
+            for( int i=0; i<keys.length; i++ )
             {
                 String key = keys[i];
                 ApplicationDescriptor descriptor = 
                   (ApplicationDescriptor) m_map.get( key );
-                Entry entry = new Entry( key, descriptor );
-                entries[i] = entry;
+                if( null != descriptor )
+                {
+                    Entry entry = new Entry( key, descriptor );
+                    entries.add( entry );
+                }
             }
-            return entries;
+            return (Entry[]) entries.toArray( new Entry[0] );
         }
     }
     
