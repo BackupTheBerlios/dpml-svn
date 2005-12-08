@@ -59,7 +59,7 @@ public abstract class AbstractDirective implements Serializable
     * @param array the array
     * @return the hash value
     */
-    int hashArray( Object[] array )
+    protected int hashArray( Object[] array )
     {
         if( null == array )
         {
@@ -79,7 +79,7 @@ public abstract class AbstractDirective implements Serializable
     * @param value the object
     * @return the hash value
     */
-    int hashValue( Object value )
+    protected int hashValue( Object value )
     {
         if( null == value )
         {
@@ -101,7 +101,7 @@ public abstract class AbstractDirective implements Serializable
     * @param b the second object
     * @return true if the objects are equal
     */
-    boolean equals( Object a, Object b )
+    protected boolean equals( Object a, Object b )
     {
         if( null == a )
         {
