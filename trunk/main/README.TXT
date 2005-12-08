@@ -18,10 +18,7 @@ sources, cd to the main directory and invoke the bootstrap build procedure.
 DPML Platform build
 -------------------
 
-  $ build
+The bootstrap procedure will create a number of executables under the DPML_HOME%/Shared/bin directory.  Before invoking 'build' make sure the %DPML_HOME%/Shared/bin is declared in your PATH environment variable.
 
-  Creation of the installation is currently in progress.  For the moment 
-  the main/target/bundle directory contains the generated installation 
-  files.  Packaging of the installation in zip and tar archives is not 
-  yet complete.
+  $ build
 
