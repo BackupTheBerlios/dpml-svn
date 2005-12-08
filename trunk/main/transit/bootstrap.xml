@@ -28,6 +28,7 @@
 
   <property environment="ENV"/>
 
+  <property file="${user.home}/ant.properties"/>
   <property file="${basedir}/user.properties"/>
   <property file="${home}/user.properties"/>
   <property file="${basedir}/build.properties"/>
