@@ -132,7 +132,6 @@ public class ApplicationDescriptor extends CodeBaseDirective
     */
     public StartupPolicy getStartupPolicy()
     {
-        System.out.println( "# POLICY: " + m_policy );
         return m_policy;
     }
     

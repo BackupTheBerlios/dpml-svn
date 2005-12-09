@@ -417,6 +417,7 @@ public class RemoteApplication extends EventChannel implements Callback, Applica
                 {
                     m_process.destroy();
                     m_process = null;
+                    m_instance = null;
                 }
                 m_pid = null;
             }
