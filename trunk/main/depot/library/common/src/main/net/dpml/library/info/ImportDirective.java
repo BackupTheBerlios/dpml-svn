@@ -227,7 +227,7 @@ public final class ImportDirective extends AbstractDirective
             public Expression instantiate( Object old, Encoder encoder )
             {
                 Mode mode = (Mode) old;
-                return new Expression( Mode.class, "parse", new Object[]{mode.getName()} );
+                return new Expression( mode, Mode.class, "parse", new Object[]{mode.getName()} );
             }
         }
     }

@@ -158,10 +158,10 @@
       </type>
     </types>
     <dependencies>
-      <include ref="dpml/transit/dpml-transit-main"/>
+      <include ref="dpml/metro/dpml-part-api" tag="public"/>
+      <include key="dpml-station-api" tag="public"/>
+      <include ref="dpml/transit/dpml-transit-main" tag="public"/>
       <include ref="dpml/util/dpml-util-cli"/>
-      <include ref="dpml/metro/dpml-part-api"/>
-      <include key="dpml-station-api"/>
     </dependencies>
     <dependencies scope="test">
       <include ref="junit/junit"/>
@@ -178,7 +178,7 @@
     </types>
     <dependencies>
       <include ref="dpml/util/dpml-util-cli"/>
-      <include key="dpml-station-api"/>
+      <include key="dpml-station-api" tag="public"/>
       <include key="dpml-station-server"/>
     </dependencies>
   </project>

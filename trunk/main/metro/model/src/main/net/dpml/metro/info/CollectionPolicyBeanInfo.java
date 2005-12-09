@@ -67,7 +67,7 @@ public final class CollectionPolicyBeanInfo extends SimpleBeanInfo
         public Expression instantiate( Object old, Encoder encoder )
         {
             CollectionPolicy policy = (CollectionPolicy) old;
-            return new Expression( CollectionPolicy.class, "parse", new Object[]{policy.getName()} );
+            return new Expression( policy, CollectionPolicy.class, "parse", new Object[]{policy.getName()} );
         }
     }
 }

@@ -100,6 +100,9 @@ public class StationPlugin
     {
         m_logger = logger;
         
+        ClassLoader context = Station.class.getClassLoader();
+        Thread.currentThread().setContextClassLoader( context );
+        
         // log the raw arguments
         
         if( m_logger.isDebugEnabled() )
@@ -697,11 +700,12 @@ public class StationPlugin
               + "] is already assigned to another profile.";
             getLogger().error( error );
         }
-        catch( Exception e )
+        catch( Throwable e )
         {
             final String error = 
               "Unexpected error while processing add request.";
             getLogger().error( error, e );
+            getLogger().error( Thread.currentThread().getContextClassLoader().toString() );
         }
     }
     
@@ -773,11 +777,12 @@ public class StationPlugin
               + "] is unknown.";
             getLogger().error( error );
         }
-        catch( Exception e )
+        catch( Throwable e )
         {
             final String error = 
               "Unexpected error while processing set command.";
             getLogger().error( error, e );
+            getLogger().error( Thread.currentThread().getContextClassLoader().toString() );
             registry.updateApplicationDescriptor( key, profile );
         }
         

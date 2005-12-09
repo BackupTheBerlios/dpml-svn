@@ -65,7 +65,7 @@ public final class CategoryBeanInfo extends SimpleBeanInfo
         public Expression instantiate( Object old, Encoder encoder )
         {
             Category category = (Category) old;
-            return new Expression( Category.class, "parse", new Object[]{category.getName()} );
+            return new Expression( category, Category.class, "parse", new Object[]{category.getName()} );
         }
     }
 }

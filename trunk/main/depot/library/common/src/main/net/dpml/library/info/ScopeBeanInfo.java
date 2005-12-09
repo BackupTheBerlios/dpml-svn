@@ -66,7 +66,7 @@ public final class ScopeBeanInfo extends SimpleBeanInfo
         public Expression instantiate( Object old, Encoder encoder )
         {
             Scope scope = (Scope) old;
-            return new Expression( Scope.class, "parse", new Object[]{scope.getName()} );
+            return new Expression( scope, Scope.class, "parse", new Object[]{scope.getName()} );
         }
     }
 }

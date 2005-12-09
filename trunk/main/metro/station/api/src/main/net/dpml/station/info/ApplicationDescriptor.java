@@ -260,4 +260,17 @@ public class ApplicationDescriptor extends CodeBaseDirective
         hash ^= hashValue( m_title );
         return hash;
     }
+
+   /**
+    * Return a string representation of the application descriptor.
+    * @return the string value
+    */
+    public String toString()
+    {
+        StringBuffer buffer = new StringBuffer( "[application uri=" );
+        buffer.append( getCodeBaseURISpec() );
+        buffer.append( " policy=" + m_policy );
+        buffer.append( " ]" );
+        return buffer.toString();
+    }
 }

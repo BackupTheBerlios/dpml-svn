@@ -65,7 +65,7 @@ public final class ProcessStateBeanInfo extends SimpleBeanInfo
         public Expression instantiate( Object old, Encoder encoder )
         {
             ProcessState state = (ProcessState) old;
-            return new Expression( ProcessState.class, "parse", new Object[]{state.getName()} );
+            return new Expression( state, ProcessState.class, "parse", new Object[]{state.getName()} );
         }
     }
 }

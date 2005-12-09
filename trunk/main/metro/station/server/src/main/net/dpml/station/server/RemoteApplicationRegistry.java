@@ -37,6 +37,7 @@ import java.beans.XMLDecoder;
 import java.beans.XMLEncoder;
 import java.beans.ExceptionListener;
 
+import net.dpml.station.info.StartupPolicy;
 import net.dpml.station.info.ApplicationDescriptor;
 import net.dpml.station.info.RegistryDescriptor;
 import net.dpml.station.info.RegistryDescriptor.Entry;
@@ -163,6 +164,7 @@ public class RemoteApplicationRegistry extends DefaultModel implements Applicati
                 throw new DuplicateKeyException( key );
             }
             m_map.put( key, descriptor );
+            getLogger().debug( "added application: " + key );
             ApplicationDescriptorAddedEvent event = 
               new ApplicationDescriptorAddedEvent( this, descriptor );
             enqueueEvent( event );
@@ -187,6 +189,7 @@ public class RemoteApplicationRegistry extends DefaultModel implements Applicati
             ApplicationDescriptorRemovedEvent event = 
               new ApplicationDescriptorRemovedEvent( this, descriptor );
             m_map.remove( key );
+            getLogger().debug( "removed application: " + key );
             enqueueEvent( event );
         }
     }
@@ -202,15 +205,11 @@ public class RemoteApplicationRegistry extends DefaultModel implements Applicati
     {
         synchronized( getLock() )
         {
-            removeApplicationDescriptor( key );
-            try
-            {
-                addApplicationDescriptor( key, descriptor );
-            }
-            catch( DuplicateKeyException e )
-            {
-                e.printStackTrace();
-            }
+            m_map.put( key, descriptor );
+            getLogger().debug( "updated application: " + descriptor );
+            ApplicationDescriptorAddedEvent event = 
+              new ApplicationDescriptorAddedEvent( this, descriptor );
+            enqueueEvent( event );
         }
     }
 
@@ -253,42 +252,45 @@ public class RemoteApplicationRegistry extends DefaultModel implements Applicati
     {
         synchronized( getLock() )
         {
-            File file = File.createTempFile( "dpml-station", ".xml" );
-            FileOutputStream output = new FileOutputStream( file );
-            
-            //
-            // TODO: we are writing out the encoded stream directly into 
-            // output file and if an error occurs its too late - we have 
-            // already corrupted the file - need to update this so we flush to 
-            // a temp file then copy the temp file to the destination
-            //
-            
             if( null == m_url )
             {
                 return;
             }
+            ClassLoader current = Thread.currentThread().getContextClassLoader();
+            ClassLoader context = StartupPolicy.class.getClassLoader();
+            Thread.currentThread().setContextClassLoader( context );
+            File file = File.createTempFile( "dpml-station", ".xml" );
+            FileOutputStream output = new FileOutputStream( file );
             Entry[] entries = getEntries();
+            
             RegistryDescriptor descriptor = new RegistryDescriptor( entries );
             BufferedOutputStream buffer = new BufferedOutputStream( output );
             XMLEncoder encoder = new XMLEncoder( buffer );
             encoder.setExceptionListener( new RegistryEncoderListener() );
-            ClassLoader current = Thread.currentThread().getContextClassLoader();
             try
             {
-                ClassLoader context = RegistryDescriptor.class.getClassLoader();
-                Thread.currentThread().setContextClassLoader( context );
-                System.out.println( "# ENCODING: " + descriptor );
                 encoder.writeObject( descriptor );
+            }
+            catch( Throwable e )
+            {
+                final String error = 
+                  "Encoding error.\n"
+                  + context.toString();
+                getLogger().error( error, e );
+                IOException exception = new IOException( error );
+                exception.initCause( e );
+                throw exception;
             }
             finally
             {
-                Thread.currentThread().setContextClassLoader( current );
                 encoder.close();
+                Thread.currentThread().setContextClassLoader( current );
             }
             
             FileInputStream input = new FileInputStream( file );
             OutputStream dest = m_url.openConnection().getOutputStream();
             StreamUtils.copyStream( input, dest, true );
+            getLogger().debug( "updated registry: " + m_url );
         }
     }
     
@@ -304,30 +306,16 @@ public class RemoteApplicationRegistry extends DefaultModel implements Applicati
         public void exceptionThrown( Exception e )
         {
             Throwable cause = e.getCause();
-            if( null != cause )
+            if( e instanceof EncodingRuntimeException )
             {
-                if( cause instanceof EncodingRuntimeException )
-                {
-                    EncodingRuntimeException ere = (EncodingRuntimeException) cause;
-                    throw ere;
-                }
-                else
-                {
-                    final String error = 
-                      "An error occured while attempting to encode the registry."
-                      + "\nTarget URL: " + m_url
-                      + "\nCause: " + cause.toString();
-                    throw new EncodingRuntimeException( error, cause );
-                }
+                throw (EncodingRuntimeException) e;
             }
-            else
-            {
-                final String error = 
-                  "An unexpected error occured while attempting to encode the registry ["
-                  + "\nTarget URL: " + m_url
-                  + "\nCause: " + e.toString();
-                throw new EncodingRuntimeException( error, e );
-            }
+            final String error = 
+              "An unexpected error occured while attempting to encode the registry."
+              + "\nTarget URL: " + m_url
+              + "\nCause: " + e.getClass().getName()
+              + "\nMessage: " + e.getMessage();
+            throw new EncodingRuntimeException( error, e );
         }
     }
     

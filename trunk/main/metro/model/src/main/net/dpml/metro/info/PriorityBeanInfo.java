@@ -67,7 +67,7 @@ public final class PriorityBeanInfo extends SimpleBeanInfo
         public Expression instantiate( Object old, Encoder encoder )
         {
             Priority priority = (Priority) old;
-            return new Expression( Priority.class, "parse", new Object[]{priority.getName()} );
+            return new Expression( priority, Priority.class, "parse", new Object[]{priority.getName()} );
         }
     }
 }

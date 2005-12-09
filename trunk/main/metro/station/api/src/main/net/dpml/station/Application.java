@@ -88,14 +88,9 @@ public interface Application extends Remote
    /**
     * Return the component instance handler.
     * @return the instance handler (possibly null)
+    * @exception RemoteException if a remote error occurs
     */
     Instance getInstance() throws RemoteException;
-
-   /**
-    * Return the component instance state.
-    * @return the instance state
-    */
-    State getState() throws RemoteException;
 
    /**
     * Add an application listener.

@@ -21,6 +21,7 @@ package net.dpml.station.info;
 import java.beans.Expression;
 import java.beans.BeanDescriptor;
 import java.beans.DefaultPersistenceDelegate;
+import java.beans.PropertyDescriptor;
 import java.beans.SimpleBeanInfo;
 import java.beans.Encoder;
 
@@ -50,6 +51,15 @@ public final class StartupPolicyBeanInfo extends SimpleBeanInfo
           new PolicyPersistenceDelegate() );
         return descriptor;
     }
+   
+   /**
+    * Return an emptry property descriptor array.
+    * @return an empty array
+    */
+    public PropertyDescriptor[] getPropertyDescriptors()
+    {
+        return new PropertyDescriptor[0];
+    }
     
    /**
     * StartupPolicy persitence delegate.
@@ -64,13 +74,10 @@ public final class StartupPolicyBeanInfo extends SimpleBeanInfo
         */
         public Expression instantiate( Object old, Encoder encoder )
         {
-            if( null == old )
-            {
-                throw new IllegalStateException( "old" );
-            }
             StartupPolicy policy = (StartupPolicy) old;
             String name = policy.getName();
-            return new Expression( StartupPolicy.class, "parse", new Object[]{name} );
+            final Class clazz = StartupPolicy.class;
+            return new Expression( old, clazz, "parse", new Object[]{name} );
         }
     }
 }

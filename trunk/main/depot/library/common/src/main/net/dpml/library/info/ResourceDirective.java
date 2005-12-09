@@ -380,7 +380,7 @@ public class ResourceDirective extends AbstractDirective
             public Expression instantiate( Object old, Encoder encoder )
             {
                 Classifier classifier = (Classifier) old;
-                return new Expression( Classifier.class, "parse", new Object[]{classifier.getName()} );
+                return new Expression( classifier, Classifier.class, "parse", new Object[]{classifier.getName()} );
             }
         }
     }

@@ -89,7 +89,7 @@ public final class StartupPolicy extends Enum
         {
             throw new NullPointerException( "value" );
         }
-        if( value.equalsIgnoreCase( "disabled" ) )
+        else if( value.equalsIgnoreCase( "disabled" ) )
         {
             return DISABLED;
         }

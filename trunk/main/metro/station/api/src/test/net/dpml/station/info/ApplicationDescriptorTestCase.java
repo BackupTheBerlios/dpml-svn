@@ -89,6 +89,31 @@ public final class ApplicationDescriptorTestCase extends AbstractTestCase
         assertEquals( "codebase", m_codebase, m_descriptor.getCodeBaseURI() );
     }
     
+    public void testStartupTimout() throws Exception
+    {
+        assertEquals( "startup-timeout", m_startup, m_descriptor.getStartupTimeout() );
+    }
+    
+    public void testShutdownTimout() throws Exception
+    {
+        assertEquals( "shutdown-timeout", m_shutdown, m_descriptor.getShutdownTimeout() );
+    }
+    
+    public void testTitle() throws Exception
+    {
+        assertEquals( "title", m_title, m_descriptor.getTitle() );
+    }
+    
+    public void testPolicy() throws Exception
+    {
+        assertEquals( "policy", m_policy, m_descriptor.getStartupPolicy() );
+    }
+    
+    public void testValueDirectives() throws Exception
+    {
+        assertEquals( "values", m_values.length, m_descriptor.getValueDirectives().length );
+    }
+    
     public void testSerialization() throws Exception
     {
         doSerializationTest( m_descriptor );

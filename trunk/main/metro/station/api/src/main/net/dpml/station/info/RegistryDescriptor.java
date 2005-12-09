@@ -18,6 +18,7 @@
 
 package net.dpml.station.info;
 
+import java.io.Serializable;
 import java.net.URI;
 import java.beans.SimpleBeanInfo;
 import java.beans.BeanDescriptor;
@@ -109,6 +110,25 @@ public class RegistryDescriptor extends AbstractDescriptor
         return hash;
     }
     
+   /**
+    * Return a string representation of the registry.
+    * @return the string value
+    */
+    public String toString()
+    {
+        StringBuffer buffer = new StringBuffer( "[registry " );
+        for( int i=0; i<m_entries.length; i++ )
+        {
+            if( i != 0 )
+            {
+                buffer.append( ", " );
+            }
+            Entry entry = m_entries[i];
+            buffer.append( entry.toString() );
+        }
+        return buffer.toString();
+    }
+    
     private static URI createDefaultStorageURI()
     {
         try
@@ -124,7 +144,7 @@ public class RegistryDescriptor extends AbstractDescriptor
    /**
     * Binding of key to descriptor.
     */
-    public static final class Entry
+    public static final class Entry implements Serializable
     {
         private final String m_key;
         private final ApplicationDescriptor m_descriptor;
@@ -170,7 +190,7 @@ public class RegistryDescriptor extends AbstractDescriptor
         * Tests for equality. Two entries are considered equal if 
         * they have the same key and descriptor. 
         *
-        * @param o the other object
+        * @param other the other object
         * @return the equality status
         */
         public boolean equals( Object other )
@@ -206,6 +226,19 @@ public class RegistryDescriptor extends AbstractDescriptor
             int hash = m_key.hashCode();
             hash ^= m_descriptor.hashCode();
             return hash;
+        }
+        
+       /**
+        * Return a string representation of the registry.
+        * @return the string value
+        */
+        public String toString()
+        {
+            return "[entry key=" 
+              + m_key 
+              + " descriptor=" 
+              + m_descriptor.toString() 
+              + " ]";
         }
     }
     

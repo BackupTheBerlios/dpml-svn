@@ -67,7 +67,7 @@ public final class ActivationPolicyBeanInfo extends SimpleBeanInfo
         public Expression instantiate( Object old, Encoder encoder )
         {
             ActivationPolicy policy = (ActivationPolicy) old;
-            return new Expression( ActivationPolicy.class, "parse", new Object[]{policy.getName()} );
+            return new Expression( policy, ActivationPolicy.class, "parse", new Object[]{policy.getName()} );
         }
     }
 }

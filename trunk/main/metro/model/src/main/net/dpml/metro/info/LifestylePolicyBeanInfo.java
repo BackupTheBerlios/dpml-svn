@@ -67,7 +67,7 @@ public final class LifestylePolicyBeanInfo extends SimpleBeanInfo
         public Expression instantiate( Object old, Encoder encoder )
         {
             LifestylePolicy policy = (LifestylePolicy) old;
-            return new Expression( LifestylePolicy.class, "parse", new Object[]{policy.getName()} );
+            return new Expression( policy, LifestylePolicy.class, "parse", new Object[]{policy.getName()} );
         }
     }
 }

@@ -443,22 +443,6 @@ public class RemoteApplication extends EventChannel implements Callback, Applica
     }
     
    /**
-    * Return the component instance state.
-    * @return the instance state
-    */
-    public State getState() throws RemoteException
-    {
-        if( null == m_instance )
-        {
-            return null;
-        }
-        else
-        {
-            return m_instance.getState();
-        }
-    }
-    
-   /**
     * Add an application listener.
     * @param listener the listener to add
     */
