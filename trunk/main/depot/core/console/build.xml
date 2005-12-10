@@ -47,9 +47,11 @@
     </x:replicate>
     <echo>
 #----------------------------------------------------------------------------------
-# Updating DPML DATA ${dpml.data}/lib
+# Updating DPML DATA ${dpml.data}
 #----------------------------------------------------------------------------------
     </echo>
+    <property name="work" location="${dpml.data}/work"/>
+    <mkdir dir="${work}"/>
     <property name="lib" location="${dpml.data}/lib"/>
     <mkdir dir="${lib}"/>
     <delete verbose="true" failonerror="false">

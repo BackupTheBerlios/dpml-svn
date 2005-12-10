@@ -12,6 +12,12 @@ import net.dpml.transit.model.UnknownKeyException;
 public interface Manager extends Remote
 {
    /**
+    * Return a string array containing info about the general setup of the station.
+    * @return station configuration info
+    */
+    String[] getInfo() throws RemoteException;
+    
+   /**
     * Return the application registry.
     * @return the registry
     * @exception RemoteException if a remote error occurs

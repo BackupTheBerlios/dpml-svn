@@ -540,16 +540,32 @@ public class StationPlugin
     */
     private void processInfoCommand( CommandLine line ) throws Exception
     {
+        System.out.println( "" );
         Thread.currentThread().setContextClassLoader( Instance.class.getClassLoader() );
         Manager manager = null;
         try
         {
             manager = getManager( line );
+            System.out.println( "  Server is operational." );
+            try
+            {
+                String[] info = manager.getInfo();
+                for( int i=0; i<info.length; i++ )
+                {
+                    String value = info[i];
+                    System.out.println( "  " + value );
+                }
+            }
+            catch( RemoteException e )
+            {
+                getLogger().error( "Remote exception.", e );
+            }
         }
         catch( Exception e )
         {
-            // ignore
+            System.out.println( "  Server is not running." );
         }
+        
         ApplicationRegistry registry = getApplicationRegistry( line );
         String key = (String) line.getValue( INFO_COMMAND, null );
         

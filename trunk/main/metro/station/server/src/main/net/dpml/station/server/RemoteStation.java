@@ -59,6 +59,7 @@ public class RemoteStation extends UnicastRemoteObject implements Station, Manag
     private final int m_port;
     private final Registry m_rmiRegistry;
     private final LoggingServer m_loggingServer;
+    private final URL m_store;
     
    /**
     * Creation of a station instance.
@@ -74,6 +75,7 @@ public class RemoteStation extends UnicastRemoteObject implements Station, Manag
         
         m_logger = logger;
         m_port = port;
+        m_store = registryStorageUrl;
         
         m_rmiRegistry = getLocalRegistry( port );
         try
@@ -137,6 +139,21 @@ public class RemoteStation extends UnicastRemoteObject implements Station, Manag
                 throw new RuntimeException( e ); // will not happen
             }
         }
+    }
+    
+   /**
+    * Return a string containing info about the general setup of the station.
+    * @return station configuration info
+    */
+    public String[] getInfo()
+    {
+        String[] values = new String[4];
+        values[0] = "Port: " + m_port;
+        values[1] = "Store: " + m_store;
+        values[2] = "Basedir: " + System.getProperty( "user.dir" );
+        values[3] = "Codebase: " 
+          + getClass().getProtectionDomain().getCodeSource().getLocation();
+        return values;
     }
     
    /**
