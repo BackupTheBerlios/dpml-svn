@@ -77,6 +77,7 @@ public class RemoteStation extends UnicastRemoteObject implements Station, Manag
         m_port = port;
         m_store = registryStorageUrl;
         
+        
         m_rmiRegistry = getLocalRegistry( port );
         try
         {
@@ -89,6 +90,8 @@ public class RemoteStation extends UnicastRemoteObject implements Station, Manag
             throw new StationException( error, e );
         }
         
+        setShutdownHook( this );
+
         try
         {
             m_loggingServer = new LoggingServer();
@@ -174,19 +177,19 @@ public class RemoteStation extends UnicastRemoteObject implements Station, Manag
     */
     public void shutdown()
     {
+        shutdown( true );
+    }
+    
+   /**
+    * Shutdown the station.
+    */
+    public void shutdown( boolean exit )
+    {
         synchronized( m_applications )
         {
             try
             {
                 m_rmiRegistry.unbind( STATION_KEY );
-            }
-            catch( Exception e )
-            {
-                // ignore
-            }
-            try
-            {
-                m_rmiRegistry.unbind( LoggingService.LOGGING_KEY );
             }
             catch( Exception e )
             {
@@ -206,18 +209,29 @@ public class RemoteStation extends UnicastRemoteObject implements Station, Manag
             {
                 // ignore
             }
+            try
+            {
+                m_rmiRegistry.unbind( LoggingService.LOGGING_KEY );
+            }
+            catch( Exception e )
+            {
+                // ignore
+            }
             finally
             {
-                Thread thread = new Thread(
-                  new Runnable()
-                  {
-                      public void run()
+                if( exit )
+                {
+                    Thread thread = new Thread(
+                      new Runnable()
                       {
-                        System.exit( 0 );
+                        public void run()
+                        {
+                            System.exit( 0 );
+                        }
                       }
-                  }
-                );
-                thread.start();
+                    );
+                    thread.start();
+                }
             }
         }
     }
@@ -318,4 +332,35 @@ public class RemoteStation extends UnicastRemoteObject implements Station, Manag
             return registry;
         }
     }
+    
+   /**
+    * Create a shutdown hook that will trigger shutdown of the supplied plugin.
+    * @param thread the application thread
+    */
+    public static void setShutdownHook( final RemoteStation station )
+    {
+        //
+        // Create a shutdown hook to trigger clean disposal of the
+        // controller
+        //
+        
+        Runtime.getRuntime().addShutdownHook(
+          new Thread()
+          {
+              public void run()
+              {
+                  try
+                  {
+                      station.shutdown();
+                  }
+                  catch( Throwable e )
+                  {
+                      System.err.println( e.toString() );
+                  }
+                  System.runFinalization();
+              }
+          }
+        );
+    }
+    
 }
