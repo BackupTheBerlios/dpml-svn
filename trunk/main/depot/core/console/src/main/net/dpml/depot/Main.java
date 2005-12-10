@@ -61,7 +61,7 @@ public final class Main implements ShutdownHandler
         throws Exception
     {
         System.out.println( "starting station" );
-        Main.main( new String[]{"-station"} );
+        Main.main( new String[]{"-station", "-server"} );
     }
 
    /**
@@ -72,6 +72,7 @@ public final class Main implements ShutdownHandler
     public static void stop( final String[] args )
         throws Exception
     {
+        System.out.println( "stopping station" );
         if( null != m_MAIN )
         {
             m_MAIN.exit();
@@ -252,6 +253,10 @@ public final class Main implements ShutdownHandler
         else if( "-metro".equals( option ) )
         {
             handleMetro( args );
+        }
+        else if( "-server".equals( option ) )
+        {
+            handleStation( args );
         }
         else if( "-station".equals( option ) )
         {
@@ -651,6 +656,10 @@ public final class Main implements ShutdownHandler
             else if( "dpml.station".equals( app ) )
             {
                 return "-station";
+            }
+            else if( "dpml.server".equals( app ) )
+            {
+                return "-server";
             }
             else if( "dpml.builder".equals( app ) )
             {
