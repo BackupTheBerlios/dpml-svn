@@ -15,7 +15,7 @@
     </rmic>
   </target>
 
-  <available property="dpml.exe.available" file="${dpml.system}/bin/dpml.exe"/>
+  <available property="dpml.exe.available" file="${dpml.system}/bin/server/dpml.exe"/>
 
   <target name="install" depends="bin,standard.install">
     <copy todir="${dpml.system}" preservelastmodified="true" overwrite="true">
@@ -28,7 +28,7 @@
   <target name="bin" depends="standard.install" unless="dpml.exe.available">
     <copy todir="${dpml.system}" preservelastmodified="true">
       <fileset dir="target">
-        <include name="bin/dpml.exe"/>
+        <include name="bin/server/*.*"/>
       </fileset>
     </copy>
   </target>
