@@ -22,6 +22,7 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URL;
 import java.rmi.RemoteException;
+import java.rmi.ConnectException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.util.ArrayList;
@@ -184,21 +185,51 @@ public class StationPlugin
             }
             else if( line.hasOption( START_COMMAND ) )
             {
-                Manager manager = getManager( line );
-                String value = (String) line.getValue( START_COMMAND, null );
-                processStartCommand( manager, value );
+                try
+                {
+                    Manager manager = getManager( line );
+                    String value = (String) line.getValue( START_COMMAND, null );
+                    processStartCommand( manager, value );
+                }
+                catch( ConnectException ce )
+                {
+                    final String message = 
+                      "\nCannot start application because the station is not running. "
+                      + "\nUse 'station startup' to start the station process.";
+                    System.out.println( message );
+                }
             }
             else if( line.hasOption( STOP_COMMAND ) )
             {
-                Manager manager = getManager( line );
-                String value = (String) line.getValue( STOP_COMMAND, null );
-                processStopCommand( manager, value );
+                try
+                {
+                    Manager manager = getManager( line );
+                    String value = (String) line.getValue( STOP_COMMAND, null );
+                    processStopCommand( manager, value );
+                }
+                catch( ConnectException ce )
+                {
+                    final String message = 
+                      "\nCannot stop application because the station is not running. "
+                      + "\nUse 'station startup' to start the station process.";
+                    System.out.println( message );
+                }
             }
             else if( line.hasOption( RESTART_COMMAND ) )
             {
-                Manager manager = getManager( line );
-                String value = (String) line.getValue( RESTART_COMMAND, null );
-                processRestartCommand( manager, value );
+                try
+                {
+                    Manager manager = getManager( line );
+                    String value = (String) line.getValue( RESTART_COMMAND, null );
+                    processRestartCommand( manager, value );
+                }
+                catch( ConnectException ce )
+                {
+                    final String message = 
+                      "\nCannot restart application because the station is not running. "
+                      + "\nUse 'station startup' to start the station process.";
+                    System.out.println( message );
+                }
             }
             else if( line.hasOption( REMOVE_COMMAND ) )
             {
@@ -242,8 +273,13 @@ public class StationPlugin
             {
                 return (Manager) registry.lookup( Station.STATION_KEY );
             }
+            catch( ConnectException e )
+            {
+                throw e;
+            }
             catch( Exception e )
             {
+                System.out.println( "# ERROR: " + e );
                 final String error = 
                   "Unable to locate station.";
                 throw new StationException( error, e );
