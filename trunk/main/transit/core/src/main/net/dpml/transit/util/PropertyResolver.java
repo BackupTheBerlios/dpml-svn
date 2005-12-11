@@ -17,6 +17,7 @@
  */
 package net.dpml.transit.util;
 
+import java.util.Enumeration;
 import java.util.Properties;
 import java.util.Stack;
 import java.util.StringTokenizer;
@@ -52,7 +53,31 @@ public final class PropertyResolver
         Properties properties = System.getProperties();
         return resolve( properties, value );
     }
-
+    
+   /**
+    * System property symbol substitution from properties.
+    * Replace any occurances of ${[key]} with the value of the property
+    * assigned to the [key] in the system properties.
+    * @param properties an arbitary properties file containing unresolved properties
+    * @return the property file with expended properties
+    */
+    public static Properties resolve( Properties properties )
+    {
+        Properties system = System.getProperties();
+        Enumeration names = properties.propertyNames();
+        while( names.hasMoreElements() )
+        {
+            String name = (String) names.nextElement();
+            String old = properties.getProperty( name );
+            String value = resolve( old );
+            if( !value.equals( old ) )
+            {
+                properties.setProperty( name, value );
+            }
+        }
+        return properties;
+    }
+    
    /**
     * Symbol substitution from properties.
     * Replace any occurances of ${[key]} with the value of the property

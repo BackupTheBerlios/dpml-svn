@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<java version="1.4.0" class="java.beans.XMLDecoder"> 
+ <object class="net.dpml.station.info.RegistryDescriptor"> 
+  <array class="net.dpml.station.info.RegistryDescriptor$Entry" length="1"> 
+   <void index="0"> 
+    <object class="net.dpml.station.info.RegistryDescriptor$Entry"> 
+     <string>demo</string> 
+     <object class="net.dpml.station.info.ApplicationDescriptor"> 
+      <string>link:part:dpml/planet/http/dpml-http-demo</string> 
+      <string>demo</string> 
+      <array class="net.dpml.transit.info.ValueDirective" length="0"/> 
+      <string>${dpml.data}/work</string> 
+      <object class="net.dpml.station.info.StartupPolicy" method="parse"> 
+       <string>manual</string> 
+      </object> 
+      <int>6</int> 
+      <int>6</int> 
+      <object class="java.util.Properties"> 
+       <void method="put"> 
+        <string>java.util.logging.config.class</string> 
+        <string>net.dpml.depot.DepotLoggingConfiguration</string> 
+       </void> 
+      </object> 
+      <null/> 
+     </object> 
+    </object> 
+   </void> 
+  </array> 
+ </object> 
+</java> 

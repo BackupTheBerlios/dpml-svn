@@ -55,12 +55,12 @@
 
         <p>
         Creation of a new <tt>ComponentHandler</tt> is handled exclusively by the top-level
-        <a href="../controller/index.html">controller</a>.  An instance may be via a reference 
-        to a network accessible part, or alternatively via a reference to a remote model. An 
-        example of a management system leveraging model-based creation is the 
-        <a href="../../station/index.html">Station Manager</a>.  Configuration data is established
-        relative to the type and deployment profile and potentially modified by the station 
-        using the Station CLI handler.
+        <a href="../controller/index.html">controller</a>.  An new component may be created
+        via a reference to a network accessible part, or alternatively via a reference to a 
+        remote component model. An example of a management system leveraging model-based 
+        creation is the DPML <a href="../../station/index.html">Station</a> wherein 
+        configuration data is established relative to the component type, deployment 
+        profile, and subsequent management by the station Station CLI.
         </p>
 
 

@@ -24,6 +24,7 @@ import java.net.URI;
 import java.rmi.RMISecurityManager;
 import java.util.ArrayList;
 import java.util.prefs.Preferences;
+import java.util.Enumeration;
 
 import net.dpml.transit.Transit;
 import net.dpml.transit.TransitError;
@@ -51,6 +52,7 @@ public final class Main implements ShutdownHandler
     private static final PID PROCESS_ID = new PID();
 
     private Object m_plugin;
+    private boolean m_debug = false;
 
    /**
     * Static start method used by NT service.
@@ -179,7 +181,6 @@ public final class Main implements ShutdownHandler
     {
         String[] args = arguments;
 
-        boolean debug = false;
         boolean tools = false;
         
         if( CLIHelper.isOptionPresent( args, "-debug" ) )
@@ -187,12 +188,11 @@ public final class Main implements ShutdownHandler
             args = CLIHelper.consolidate( args, "-debug" );
             System.setProperty( "dpml.logging.level", 
               System.getProperty( "dpml.logging.level", "FINE" ) );
-            debug = true;
+            m_debug = true;
             for( int i=0; i<arguments.length; i++ )
             {
                 System.out.println( " arg[" + i + "] " + arguments[i] );
             }
-            System.getProperties().list( System.out );
         }
         
         String option = getSwitch( args );
@@ -405,6 +405,16 @@ public final class Main implements ShutdownHandler
       String command, String path, String[] args, ShutdownHandler shutdown, boolean waitFor, boolean tools )
     {
         Logger logger = getLogger().getChildLogger( command );
+        if( m_debug )
+        {
+            Enumeration names = System.getProperties().propertyNames();
+            StringBuffer buffer = new StringBuffer( "System property listing:" );
+            while( names.hasMoreElements() )
+            {
+                String name = (String) names.nextElement();
+                buffer.append( name + "=" + System.getProperty( name ) );
+            }
+        }
         try
         {
             Preferences prefs = getRootPreferences();
@@ -619,9 +629,6 @@ public final class Main implements ShutdownHandler
 
     static
     {
-        //setSystemProperty( "java.util.logging.manager", "net.dpml.depot.logging.LoggingManager" );
-        //setSystemProperty( "java.util.logging.manager.altclassloader", "net.dpml.depot.logging.LoggingManager" );
-
         setSystemProperty( "java.protocol.handler.pkgs", "net.dpml.transit" );
         setSystemProperty( "java.util.logging.config.class", "net.dpml.transit.util.ConfigurationHandler" );
         setSystemProperty( "java.rmi.server.RMIClassLoaderSpi", "net.dpml.depot.DepotRMIClassLoaderSpi" );

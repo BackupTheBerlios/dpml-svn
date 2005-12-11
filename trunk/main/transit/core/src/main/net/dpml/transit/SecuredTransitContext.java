@@ -169,24 +169,10 @@ public final class SecuredTransitContext
         m_model = model;
         m_logger = logger;
 
-        //
-        // During boostrap there is only the DefaultCacheHandler, ClassicLayout
-        // and DefaultContentRegistry. After bootstrap is complete we can evaluate  
-        // alternative cache handlers, resolvers and registries via plugins
-        // (see SecuredTransitContext.initialize() )
-        //
-
         CacheModel cacheModel = model.getCacheModel();
         Logger cacheLogger = logger.getChildLogger( "cache" );
         DefaultCacheHandler cache = new DefaultCacheHandler( cacheModel, cacheLogger );
-        //ContentRegistryModel registryModel = cacheModel.getContentRegistryModel();
-        //Logger contentLogger = logger.getChildLogger( "content" );
-        //ContentRegistry registry = new DefaultContentRegistry( registryModel, contentLogger );
-
         m_cacheHandler = cache;
-        //m_registry = registry;
-        //m_listener = new TransitListener();
-
         ProxyModel proxy = m_model.getProxyModel();
         if( null != proxy )
         {

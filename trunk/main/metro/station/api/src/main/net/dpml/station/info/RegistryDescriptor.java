@@ -37,7 +37,7 @@ public class RegistryDescriptor extends AbstractDescriptor
    /**
     * The default storage path.
     */
-    public static final String DEFAULT_STORAGE_PATH = "local:xml:dpml/metro/registry";
+    public static final String DEFAULT_STORAGE_PATH = "local:xml:dpml/station/registry";
     
    /**
     * The default storage uri.

@@ -21,14 +21,25 @@
     <copy todir="${dpml.system}" preservelastmodified="true" overwrite="true">
       <fileset dir="target">
         <include name="bin/*.bat"/>
+        <include name="bin/server/*.*"/>
+        <exclude name="**/*.exe"/>
+        <exclude name="**/*.EXE"/>
+      </fileset>
+    </copy>
+    <property name="prefs" location="${dpml.prefs}/dpml/station"/>
+    <mkdir dir="${prefs}"/>
+    <copy toDir="${prefs}">
+      <fileset dir="target/prefs">
+        <include name="**/*"/>
       </fileset>
     </copy>
   </target>
 
-  <target name="bin" depends="standard.install" unless="dpml.exe.available">
-    <copy todir="${dpml.system}" preservelastmodified="true">
-      <fileset dir="target">
-        <include name="bin/server/*.*"/>
+  <target name="bin" depends="standard.install">
+    <copy todir="${dpml.system}" preservelastmodified="true" overwrite="true" filtering="false">
+      <fileset dir="etc">
+        <include name="bin/server/*.exe"/>
+        <include name="bin/server/*.EXE"/>
       </fileset>
     </copy>
   </target>

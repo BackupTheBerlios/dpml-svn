@@ -61,6 +61,8 @@ public class RemoteStation extends UnicastRemoteObject implements Station, Manag
     private final LoggingServer m_loggingServer;
     private final URL m_store;
     
+    private boolean m_terminated = false;
+    
    /**
     * Creation of a station instance.
     *
@@ -187,6 +189,20 @@ public class RemoteStation extends UnicastRemoteObject implements Station, Manag
     {
         synchronized( m_applications )
         {
+            if( m_terminated )
+            {
+                return;
+            }
+            else
+            {
+                m_terminated = true;
+            }
+            
+            if( getLogger().isDebugEnabled() )
+            {
+                getLogger().debug( "handling shutdown request" );
+            }
+            
             try
             {
                 m_rmiRegistry.unbind( STATION_KEY );
@@ -219,8 +235,18 @@ public class RemoteStation extends UnicastRemoteObject implements Station, Manag
             }
             finally
             {
+                if( getLogger().isDebugEnabled() )
+                {
+                    getLogger().debug( "shutdown complete" );
+                }
+            
                 if( exit )
                 {
+                    if( getLogger().isDebugEnabled() )
+                    {
+                        getLogger().debug( "terminating process" );
+                    }
+                    
                     Thread thread = new Thread(
                       new Runnable()
                       {
@@ -335,7 +361,7 @@ public class RemoteStation extends UnicastRemoteObject implements Station, Manag
     
    /**
     * Create a shutdown hook that will trigger shutdown of the supplied plugin.
-    * @param thread the application thread
+    * @param station the station
     */
     public static void setShutdownHook( final RemoteStation station )
     {

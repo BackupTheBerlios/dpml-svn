@@ -7,6 +7,7 @@
 -Ddpml.depot.application=dpml.server
 -Djava.protocol.handler.pkgs=net.dpml.transit
 -Djava.rmi.server.RMIClassLoaderSpi=net.dpml.depot.DepotRMIClassLoaderSpi
+-Ddpml.logging.config.url=file:${env.DPML_HOME}/Preferences/dpml/station/logging.properties
 janel.main.class=net.dpml.depot.Main
 janel.min.java.version=1.4.0
 janel.classpath.jars.dir=${env.DPML_HOME}\Data\lib

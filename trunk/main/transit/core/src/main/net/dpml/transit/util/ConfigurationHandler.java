@@ -18,10 +18,14 @@
 
 package net.dpml.transit.util;
 
+import java.net.URL;
+import java.io.InputStream;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.util.Properties;
 import java.util.logging.LogManager;
+
+import net.dpml.transit.Transit;
 
 /**
  * Utility class used to establish the logging configuration.  The contents of 
@@ -32,11 +36,17 @@ import java.util.logging.LogManager;
  */
 public class ConfigurationHandler
 {
+    static
+    {
+        Object prefs = Transit.DPML_PREFS;
+    }
+    
    /**
     * Creation of the logging controller.
     */
     public ConfigurationHandler()
     {
+        
         String group = System.getProperty( "dpml.logging.category", "root" );
         String level = System.getProperty( "dpml.logging.level", "INFO" ).toUpperCase();
 
@@ -65,7 +75,29 @@ public class ConfigurationHandler
         //
 
         setProperty( properties, "java.util.logging.ConsoleHandler.level", "FINEST" );
-
+        
+        //
+        // check for any user defined logging properties
+        //
+        
+        String config = System.getProperty( "dpml.logging.config.url" );
+        if( null != config )
+        {
+            try
+            {
+                String spec = PropertyResolver.resolve( config );
+                URL url = new URL( spec );
+                InputStream stream = url.openStream();
+                properties.load( stream );
+                PropertyResolver.resolve( properties );
+            }
+            catch( Exception e )
+            {
+                System.out.println( "Error loading user properties: " + config );
+                e.printStackTrace();
+            }
+        }
+        
         try
         {
             ByteArrayOutputStream out = new ByteArrayOutputStream();
