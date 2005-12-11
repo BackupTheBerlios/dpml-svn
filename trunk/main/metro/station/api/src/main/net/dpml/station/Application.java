@@ -22,7 +22,6 @@ import java.rmi.Remote;
 import java.rmi.RemoteException;
 
 import net.dpml.metro.part.Instance;
-import net.dpml.metro.state.State;
 
 import net.dpml.transit.PID;
 

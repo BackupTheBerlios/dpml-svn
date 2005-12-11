@@ -184,8 +184,9 @@ public class RemoteStation extends UnicastRemoteObject implements Station, Manag
     
    /**
     * Shutdown the station.
+    * @param exit if true launch a process termination
     */
-    public void shutdown( boolean exit )
+    private void shutdown( boolean exit )
     {
         synchronized( m_applications )
         {

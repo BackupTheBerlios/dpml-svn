@@ -14,6 +14,7 @@ public interface Manager extends Remote
    /**
     * Return a string array containing info about the general setup of the station.
     * @return station configuration info
+    * @exception RemoteException if a remote error occurs
     */
     String[] getInfo() throws RemoteException;
     

@@ -36,7 +36,6 @@ import net.dpml.station.info.ApplicationDescriptor;
 
 import net.dpml.metro.part.Component;
 import net.dpml.metro.part.Instance;
-import net.dpml.metro.state.State;
 
 import net.dpml.station.Callback;
 import net.dpml.station.ProcessState;

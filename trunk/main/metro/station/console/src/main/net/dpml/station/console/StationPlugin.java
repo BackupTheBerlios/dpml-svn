@@ -150,34 +150,11 @@ public class StationPlugin
             }
             else if( line.hasOption( ADD_COMMAND ) )
             {
-                ApplicationRegistry registry = getApplicationRegistry( line );
-                String key = (String) line.getValue( ADD_COMMAND, null );
-                URI uri = (URI) line.getValue( REQUIRED_URI_OPTION, null );
-                Properties properties = getCommandLineProperties( line, new Properties() );
-                String baseDir = getBasedir( line, null );
-                String title = getTitle( line, key );
-                StartupPolicy policy = getStartupPolicy( line, StartupPolicy.MANUAL );
-                int startup = getStartupTimeout( line, ApplicationDescriptor.DEFAULT_STARTUP_TIMEOUT );
-                int shutdown = getShutdownTimeout( line, ApplicationDescriptor.DEFAULT_SHUTDOWN_TIMEOUT );
-                URI config = getConfigurationURI( line, null );
-                processAddCommand( 
-                  registry, key, title, uri, startup, shutdown, properties, baseDir, policy, config );
+                processAddCommand( line );
             }
             else if( line.hasOption( SET_COMMAND ) )
             {
-                ApplicationRegistry registry = getApplicationRegistry( line );
-                String key = (String) line.getValue( SET_COMMAND, null );
-                ApplicationDescriptor descriptor = registry.getApplicationDescriptor( key );
-                URI uri = (URI) line.getValue( OPTIONAL_URI_OPTION, descriptor.getCodeBaseURI() );
-                Properties properties = getCommandLineProperties( line, descriptor.getSystemProperties() );
-                String baseDir = getBasedir( line, descriptor.getBasePath() );
-                String title = getTitle( line, descriptor.getTitle() );
-                StartupPolicy policy = getStartupPolicy( line, descriptor.getStartupPolicy() );
-                int startup = getStartupTimeout( line, descriptor.getStartupTimeout() );
-                int shutdown = getShutdownTimeout( line, descriptor.getShutdownTimeout() );
-                URI config = getConfigurationURI( line, descriptor.getConfigurationURI() );
-                processSetCommand(
-                  registry, descriptor, key, title, uri, startup, shutdown, properties, baseDir, policy, config );
+                processSetCommand( line );
             }
             else if( line.hasOption( INFO_COMMAND ) )
             {
@@ -707,6 +684,22 @@ public class StationPlugin
         application.restart();
     }
     
+    private void processAddCommand( CommandLine line ) throws Exception
+    {
+        ApplicationRegistry registry = getApplicationRegistry( line );
+        String key = (String) line.getValue( ADD_COMMAND, null );
+        URI uri = (URI) line.getValue( REQUIRED_URI_OPTION, null );
+        Properties properties = getCommandLineProperties( line, new Properties() );
+        String baseDir = getBasedir( line, null );
+        String title = getTitle( line, key );
+        StartupPolicy policy = getStartupPolicy( line, StartupPolicy.MANUAL );
+        int startup = getStartupTimeout( line, ApplicationDescriptor.DEFAULT_STARTUP_TIMEOUT );
+        int shutdown = getShutdownTimeout( line, ApplicationDescriptor.DEFAULT_SHUTDOWN_TIMEOUT );
+        URI config = getConfigurationURI( line, null );
+        processAddCommand( 
+          registry, key, title, uri, startup, shutdown, properties, baseDir, policy, config );
+    }
+    
    /**
     * Add a profile to the registry.
     * @param key the application key
@@ -759,6 +752,23 @@ public class StationPlugin
             getLogger().error( error, e );
             getLogger().error( Thread.currentThread().getContextClassLoader().toString() );
         }
+    }
+
+    private void processSetCommand( CommandLine line ) throws Exception
+    {
+        ApplicationRegistry registry = getApplicationRegistry( line );
+        String key = (String) line.getValue( SET_COMMAND, null );
+        ApplicationDescriptor descriptor = registry.getApplicationDescriptor( key );
+        URI uri = (URI) line.getValue( OPTIONAL_URI_OPTION, descriptor.getCodeBaseURI() );
+        Properties properties = getCommandLineProperties( line, descriptor.getSystemProperties() );
+        String baseDir = getBasedir( line, descriptor.getBasePath() );
+        String title = getTitle( line, descriptor.getTitle() );
+        StartupPolicy policy = getStartupPolicy( line, descriptor.getStartupPolicy() );
+        int startup = getStartupTimeout( line, descriptor.getStartupTimeout() );
+        int shutdown = getShutdownTimeout( line, descriptor.getShutdownTimeout() );
+        URI config = getConfigurationURI( line, descriptor.getConfigurationURI() );
+        processSetCommand(
+          registry, descriptor, key, title, uri, startup, shutdown, properties, baseDir, policy, config );
     }
     
    /**
