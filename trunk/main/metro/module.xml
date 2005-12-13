@@ -42,6 +42,21 @@
     </dependencies>
   </project>
    
+  <project name="dpml-part-test" basedir="part/test">
+    <types>
+      <type id="jar"/>
+    </types>
+    <dependencies scope="build">
+      <include key="dpml-metro-runtime"/>
+    </dependencies>
+    <dependencies>
+      <include key="dpml-part-api"/>
+    </dependencies>
+    <dependencies scope="test">
+      <include ref="ant/ant-junit"/>
+    </dependencies>
+  </project>
+   
   <project name="dpml-metro-model" basedir="model">
     <types>
       <type id="jar"/>
