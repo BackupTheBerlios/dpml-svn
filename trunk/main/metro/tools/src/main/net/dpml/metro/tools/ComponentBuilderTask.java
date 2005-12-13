@@ -29,6 +29,7 @@ import java.io.IOException;
 import java.io.FileOutputStream;
 import java.io.BufferedOutputStream;
 import java.net.URI;
+import java.util.Properties;
 
 import net.dpml.metro.data.ClassLoaderDirective;
 import net.dpml.metro.data.ComponentDirective;
@@ -46,6 +47,8 @@ import net.dpml.configuration.Configuration;
 import net.dpml.parameters.Parameters;
 
 import net.dpml.metro.part.ActivationPolicy;
+import net.dpml.metro.part.Part;
+import net.dpml.metro.part.PartBuilder;
 
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Project;
@@ -280,6 +283,21 @@ public class ComponentBuilderTask extends ClassLoaderBuilderTask implements Part
             final ClassLoader current = Thread.currentThread().getContextClassLoader();
             ComponentDirective profile = buildComponentDirective( classloader, cld );
             Thread.currentThread().setContextClassLoader( ComponentDirective.class.getClassLoader() );
+            try
+            {
+                Part part = new Part( PART_HANDLER_URI, new Properties(), profile );
+                PartBuilder.write( part, file );
+            }
+            catch( Exception e )
+            {
+                throw new BuildException( "Part encoding error.", e );
+            }
+            finally
+            {
+                Thread.currentThread().setContextClassLoader( current );
+            }
+            
+            /*
             FileOutputStream output = new FileOutputStream( file );
             BufferedOutputStream buffer = new BufferedOutputStream( output );
             XMLEncoder encoder = new XMLEncoder( buffer );
@@ -308,6 +326,7 @@ public class ComponentBuilderTask extends ClassLoaderBuilderTask implements Part
                 Thread.currentThread().setContextClassLoader( current );
                 encoder.close();
             }
+            */
             
             /*
             URI uri = getResource().getArtifact( Part.ARTIFACT_TYPE ).toURI();
@@ -326,6 +345,7 @@ public class ComponentBuilderTask extends ClassLoaderBuilderTask implements Part
             */
             
             return profile;
+            
         }
         catch( ConstructionException e )
         {

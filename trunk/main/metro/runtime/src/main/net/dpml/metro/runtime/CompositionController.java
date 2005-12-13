@@ -39,6 +39,9 @@ import net.dpml.metro.part.ControlException;
 import net.dpml.metro.part.ControllerNotFoundException;
 import net.dpml.metro.part.DelegationException;
 import net.dpml.metro.part.Directive;
+import net.dpml.metro.part.Part;
+import net.dpml.metro.part.PartBuilder;
+import net.dpml.metro.part.PartHeader;
 
 import net.dpml.transit.Repository;
 import net.dpml.transit.Transit;
@@ -245,12 +248,29 @@ public class CompositionController implements Controller
         ClassLoader current = Thread.currentThread().getContextClassLoader();
         try
         {
+            PartHeader header = PartBuilder.readPartHeader( uri );
+            URI controllerURI = header.getControllerURI();
+            if( CONTROLLER_URI.equals( controllerURI ) )
+            {
+                ClassLoader loader = ComponentDirective.class.getClassLoader();
+                Thread.currentThread().setContextClassLoader( loader );
+                Part part =  PartBuilder.readPart( uri );
+                return part.getDirective();
+            }
+            else
+            {
+                Controller controller = getPrimaryController( controllerURI );
+                return controller.loadDirective( uri );
+            }
+            
+            /*
             ClassLoader loader = ComponentDirective.class.getClassLoader();
             Thread.currentThread().setContextClassLoader( loader );
             URL url = uri.toURL();
             InputStream input = url.openStream();
             XMLDecoder decoder = new XMLDecoder( new BufferedInputStream( input ) );
             return (Directive) decoder.readObject();
+            */
         }
         catch( Exception e )
         {

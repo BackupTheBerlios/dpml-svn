@@ -47,10 +47,11 @@
       <type id="jar"/>
     </types>
     <dependencies scope="build">
-      <include key="dpml-metro-runtime"/>
+      <include key="dpml-metro-tools"/>
     </dependencies>
     <dependencies>
       <include key="dpml-part-api"/>
+      <include ref="dpml/util/dpml-logging-api"/>
     </dependencies>
     <dependencies scope="test">
       <include ref="ant/ant-junit"/>

@@ -110,10 +110,50 @@ public class PartBuilder
     }
     
    /**
-    * Read in a part.
+    * Read in a part using the context classloader.
     * @param uri the part uri
     */
-    public static Part read( URI uri )
+    public static Part readPart( URI uri )
+    {
+        try
+        {
+            ClassLoader loader = Part.class.getClassLoader();
+            URL url = uri.toURL();
+            InputStream input = url.openStream();
+            XMLDecoder decoder = new XMLDecoder( new BufferedInputStream( input ) );
+            decoder.setExceptionListener( 
+              new ExceptionListener()
+              {
+                public void exceptionThrown( Exception e )
+                {
+                    throw new BuilderRuntimeException( 
+                      PART_BUILDER_URI, "Part decoding error.", e );
+                }
+              } );
+            Part part = (Part) decoder.readObject();
+            if( null == part )
+            {
+                final String error = 
+                  "The decoder returned a null part."
+                  + "\nURI: " + uri;
+                throw new IllegalStateException( error );
+            }
+            return part;
+        }
+        catch( Exception e )
+        {
+            final String error = 
+              "Unexpected error while loading part: "
+              + uri;
+            throw new BuilderRuntimeException( PART_BUILDER_URI, error, e );
+        }
+    }
+
+   /**
+    * Read in a part header.
+    * @param uri the part uri
+    */
+    public static PartHeader readPartHeader( URI uri )
     {
         ClassLoader current = Thread.currentThread().getContextClassLoader();
         try
@@ -122,16 +162,33 @@ public class PartBuilder
             Thread.currentThread().setContextClassLoader( loader );
             URL url = uri.toURL();
             InputStream input = url.openStream();
-            XMLDecoder decoder = new XMLDecoder( new BufferedInputStream( input ) );
-            Part part = (Part) decoder.readObject();
-            System.out.println( "# RESOLVED: " + part );
-            return part;
+            XMLDecoder decoder = 
+              new XMLDecoder(
+                new BufferedInputStream( input ), 
+                null, 
+                new ExceptionListener()
+                {
+                    public void exceptionThrown( Exception e )
+                    {
+                        //throw new BuilderRuntimeException( 
+                        //  PART_BUILDER_URI, "Part header decoding error.", e );
+                    }
+                } );
+            PartHeader header = (PartHeader) decoder.readObject();
+            if( null == header )
+            {
+                final String error = 
+                  "The decoder returned a null part header."
+                  + "\nURI: " + uri;
+                throw new IllegalStateException( error );
+            }
+            return header;
         }
         catch( Exception e )
         {
             final String error = 
-              "Unexpected error while loading part: "
-              + uri;
+              "Unexpected error while loading part header."
+              + "\nURI: " + uri;
             throw new BuilderRuntimeException( PART_BUILDER_URI, error, e );
         }
         finally

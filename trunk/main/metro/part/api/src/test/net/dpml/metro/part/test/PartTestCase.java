@@ -42,6 +42,7 @@ import junit.framework.TestCase;
 
 import net.dpml.metro.part.Part;
 import net.dpml.metro.part.PartBuilder;
+import net.dpml.metro.part.PartHeader;
 import net.dpml.metro.part.Directive;
 
 
@@ -79,17 +80,20 @@ public class PartTestCase extends TestCase
         }
     }
     
+    /*
     public void testNullDirective() throws Exception
     {
         try
         {
             Part part = new Part( new URI( "test:controller" ), new Properties(), null );
+            fail( "No NPE on null directive" );
         }
         catch( NullPointerException e )
         {
-            fail( "Null directive is allowed." );
+            // success
         }
     }
+    */
     
     public void testControllerURI() throws Exception
     {
@@ -128,7 +132,11 @@ public class PartTestCase extends TestCase
         Directive directive = new DemoDirective();
         Part part = new Part( uri, properties, directive );
         PartBuilder.write( part, destination );
-        Part p = PartBuilder.read( destination.toURI() );
+        URI dest = destination.toURI();
+        PartHeader header = PartBuilder.readPartHeader( dest );
+        assertEquals( "controller", uri, header.getControllerURI() );
+        assertEquals( "properties", properties, header.getProperties() );
+        Part p = PartBuilder.readPart( dest );
         assertEquals( "part", part, p );
     }
     

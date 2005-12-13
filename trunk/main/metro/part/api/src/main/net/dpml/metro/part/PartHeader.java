@@ -23,40 +23,51 @@ import java.net.URI;
 import java.util.Properties;
 
 /**
- * The generic part datastructure.
+ * The generic part header datastructure.
  *
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-public final class Part extends PartHeader
+public class PartHeader implements Serializable
 {
-   /**
-    * The constant part type identifier.
-    */
-    static final String ARTIFACT_TYPE = "part";
-    
-    private final Directive m_directive;
+    private final URI m_controllerArtifactURI;
+    private final Properties m_properties;
     
    /**
-    * Creation of a new Part.
-    * @param uri the part controller uri
+    * Creation of a new PartHeader.
+    * @param uri the part uri
     * @param properties part properties
-    * @param directive the controller specific part directive datastructure
     */
-    public Part( URI uri, Properties properties, Directive directive )
+    public PartHeader( URI uri, Properties properties )
     {
-        super( uri, properties );
-        m_directive = directive;
+        if( null == uri )
+        {
+            throw new NullPointerException( "uri" );
+        }
+        if( null == properties )
+        {
+            throw new NullPointerException( "properties" );
+        }
+        m_controllerArtifactURI = uri;
+        m_properties = properties;
     }
     
    /**
-    * Return the part directive.
-    * 
-    * @return the part directive
+    * Return the part handler implementation plugin uri.
+    * @return the uri of the part controller
     */
-    public Directive getDirective()
+    public URI getControllerURI()
     {
-        return m_directive;
+        return m_controllerArtifactURI;
+    }
+    
+   /**
+    * Return the optional properties.
+    * @return the a property set containing any properties associated with the part
+    */
+    public Properties getProperties()
+    {
+        return m_properties;
     }
     
    /**
@@ -66,22 +77,22 @@ public final class Part extends PartHeader
     */
     public boolean equals( Object other )
     {
-        if( !super.equals( other ) )
+        if( null == other )
         {
             return false;
         }
-        else if( !( other instanceof Part ) )
+        else if( !( other instanceof PartHeader ) )
         {
             return false;
         }
-        Part part = (Part) other;
-        if( null == m_directive )
+        PartHeader header = (PartHeader) other;
+        if( !m_controllerArtifactURI.equals( header.m_controllerArtifactURI ) )
         {
-            return ( null == part.m_directive );
+            return false;
         }
         else
         {
-            return m_directive.equals( part.m_directive );
+            return m_properties.equals( header.m_properties );
         }
     }
 
@@ -91,25 +102,10 @@ public final class Part extends PartHeader
     */
     public int hashCode()
     {
-        int hash = super.hashCode();
-        if( null != m_directive )
-        {
-            hash ^= m_directive.hashCode();
-        }
+        int hash = getClass().hashCode();
+        hash ^= m_controllerArtifactURI.hashCode();
+        hash ^= m_properties.hashCode();
         return hash;
-    }
-    
-   /**
-    * Return a string representation of the part.
-    * @return the string value
-    */
-    public String toString()
-    {
-        return "[part controller=" 
-          + getControllerURI() 
-          + " directive=" 
-          + m_directive
-          + "]";
     }
 }
 
