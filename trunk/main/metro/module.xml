@@ -23,9 +23,9 @@
     <dependencies scope="test">
       <include ref="ant/ant-junit"/>
     </dependencies>
-  </project>      
+  </project>
 
-  <project name="dpml-part-api" basedir="part">
+  <project name="dpml-part-api" basedir="part/api">
     <types>
       <type id="plugin" alias="true">
         <property name="project.plugin.class" 
