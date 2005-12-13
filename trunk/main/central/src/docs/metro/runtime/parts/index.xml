@@ -15,7 +15,7 @@
       A component part associates a component profile with a 
       supporting controller.  The profile provides a description of the 
       state of usage of a component type.  It is represented by a collections of 
-      serializable (and encodable) classes commonly referred to as directies.  
+      serializable (and encodable) classes commonly referred to as directives.  
       The principal directive is the <tt>net.dpml.metro.data.ComponentDirective</tt> class.
       </p>
 
