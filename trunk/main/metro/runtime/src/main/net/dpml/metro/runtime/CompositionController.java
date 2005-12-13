@@ -35,7 +35,6 @@ import net.dpml.metro.part.ControllerContext;
 import net.dpml.metro.part.Model;
 import net.dpml.metro.part.Component;
 import net.dpml.metro.part.Controller;
-import net.dpml.metro.part.Part;
 import net.dpml.metro.part.ControlException;
 import net.dpml.metro.part.ControllerNotFoundException;
 import net.dpml.metro.part.DelegationException;
@@ -265,65 +264,6 @@ public class CompositionController implements Controller
             Thread.currentThread().setContextClassLoader( current );
         }
     }
-
-   /**
-    * Load a part from serialized form.  The uri is assumed to be a uri that 
-    * can be transformed to a URL from which an input stream to a PartHolder 
-    * can be established.  If the uri references a foreign part handler the 
-    * implementation will attempt to locate and delegate part loading requests 
-    * to the foreign handler.
-    *
-    * @param uri the part uri
-    * @return the part estracted from the part holder referenced by the uri
-    * @exception ControlException if an error is raised related to part creation
-    * @exception IOException if an I/O error occurs while reading the part
-    */
-    //public Part loadPart( URI uri ) throws ControlException, IOException
-    //{
-    //    return loadSerializedPart( uri );
-    //}
-
-   /**
-    * Load a part from serialized form. 
-    *
-    * @param url the part url
-    * @return the part estracted from the part referenced by the url
-    * @exception ControlException if an error is raised related to part creation
-    * @exception IOException if an I/O error occurs while reading the part
-    */
-    //public Part loadPart( URL url ) throws ControlException, IOException
-    //{
-    //    return loadSerializedPart( url );
-    //}
-
-   /**
-    * Load a part from a byte array.
-    *
-    * @param bytes the byte array
-    * @return the part datastructure
-    * @exception IOException if an I/O error occurs while reading the part
-    */
-    /*
-    public Part loadPart( byte[] bytes ) throws IOException
-    {
-        try
-        {
-            ByteArrayInputStream input = new ByteArrayInputStream( bytes );
-            ObjectInputStream stream = new ObjectInputStream( input );
-            return (Part) stream.readObject();
-        }
-        catch( IOException e )
-        {
-            throw e;
-        }
-        catch( Throwable e )
-        {
-            final String error = 
-             "Unexpected error while attempting to load a part from a byte array.";
-            throw new ControllerRuntimeException( error, e );
-        }
-    }
-    */
     
    /**
     * Load a controller given a uri.
@@ -384,69 +324,6 @@ public class CompositionController implements Controller
     }
     */
 
-    /*
-    private Part loadSerializedPart( URI uri )
-        throws IOException, DelegationException, PartNotFoundException
-    {
-        URL url = Artifact.toURL( uri );
-        return loadSerializedPart( url );
-    }
-
-    private Part loadSerializedPart( URL url )
-        throws IOException, DelegationException, PartNotFoundException
-    {
-        InputStream input = url.openStream();
-        if( null == input )
-        {
-            throw new PartNotFoundException( CONTROLLER_URI, getURIFromURL( url ) );
-        }
-        ObjectInputStream stream = new ObjectInputStream( input );
-        try
-        {
-            PartHolder holder = (PartHolder) stream.readObject();
-            URI foreign = holder.getPartHandlerURI();
-            if( !getURI().equals( foreign ) )
-            {
-                try
-                {
-                    Controller handler = resolveController( foreign );
-                    return handler.loadPart( holder.getByteArray() );
-                }
-                catch( Throwable e )
-                {
-                    final String error = 
-                      "Delegate raised an error while attempting to load a serialized part ["
-                      + url
-                      + "] using the external handler ["
-                      + foreign 
-                      + "].";
-                    throw new DelegationException( CONTROLLER_URI, foreign, error, e );
-                }
-            }
-            else
-            {
-                return loadPart( holder.getByteArray() );
-            }
-        }
-        catch( IOException e )
-        {
-            throw e;
-        }
-        catch( DelegationException e )
-        {
-            throw e;
-        }
-        catch( Throwable e )
-        {
-            final String error = 
-             "Error loading part ["
-              + url
-              + "].";
-            throw new ControllerRuntimeException( error, e );
-        }
-    }
-    */
-
     private Controller resolveController( URI uri ) throws ControllerNotFoundException
     {
         if( getURI().equals( uri ) )
@@ -473,7 +350,7 @@ public class CompositionController implements Controller
 
     private Controller loadHandler( URI uri ) throws ControllerNotFoundException
     {
-        ClassLoader classloader = Part.class.getClassLoader();
+        ClassLoader classloader = Controller.class.getClassLoader();
         try
         {
             return (Controller) m_loader.getPlugin( 

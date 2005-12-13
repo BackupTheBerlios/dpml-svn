@@ -20,7 +20,6 @@ package net.dpml.metro.data.test;
 
 import junit.framework.TestCase;
 
-import net.dpml.metro.part.Part;
 import net.dpml.metro.info.PartReference;
 
 import net.dpml.metro.part.Directive;
@@ -31,8 +30,8 @@ import net.dpml.transit.Construct;
 /**
  * EntryDescriptorTestCase does XYZ
  *
- * @author <a href="mailto:dev-dpml@lists.ibiblio.org">The Digital Product Meta Library</a>
- * @version $Id: EntryDescriptorTestCase.java 2387 2005-04-23 19:12:58Z mcconnell@dpml.net $
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public class PartReferenceTestCase extends AbstractEncodingTestCase
 {

@@ -46,8 +46,8 @@ import junit.framework.TestCase;
 /**
  * CategoryDirectiveTestCase
  *
- * @author <a href="mailto:dev-dpml@lists.ibiblio.org">The Digital Product Meta Library</a>
- * @version $Id: ContextDescriptorTestCase.java 2387 2005-04-23 19:12:58Z mcconnell@dpml.net $
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public class CategoryDirectiveTestCase extends AbstractEncodingTestCase
 {    

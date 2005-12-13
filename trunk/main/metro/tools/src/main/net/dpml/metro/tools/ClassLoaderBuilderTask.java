@@ -27,8 +27,6 @@ import net.dpml.metro.runtime.CompositionController;
 import net.dpml.metro.data.ClassLoaderDirective;
 import net.dpml.metro.data.ClasspathDirective;
 
-import net.dpml.metro.part.Part;
-
 import net.dpml.tools.tasks.GenericTask;
 
 import net.dpml.library.info.Scope;
@@ -164,8 +162,10 @@ public abstract class ClassLoaderBuilderTask extends GenericTask
     protected File getPartOutputFile()
     {
         File deliverables = getContext().getTargetDeliverablesDirectory();
-        File dir = new File( deliverables, Part.ARTIFACT_TYPE + "s" );
-        String filename = getContext().getLayoutPath( Part.ARTIFACT_TYPE );
+        String type = "part"; // Part.ARTIFACT_TYPE
+        String types = type + "s";
+        File dir = new File( deliverables, types );
+        String filename = getContext().getLayoutPath( type );
         return new File( dir, filename );
     }
 

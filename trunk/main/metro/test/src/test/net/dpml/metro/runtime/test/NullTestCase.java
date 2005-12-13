@@ -20,7 +20,6 @@ package net.dpml.metro.runtime.test;
 
 import junit.framework.TestCase;
 
-import net.dpml.metro.part.Part;
 import net.dpml.metro.part.Controller;
 
 /**

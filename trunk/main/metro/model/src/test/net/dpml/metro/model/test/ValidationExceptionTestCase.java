@@ -29,7 +29,8 @@ import junit.framework.TestCase;
  * Validation exception testcase verifies the ValidationException and 
  * ValidationException#Issue class implementations.
  *
- * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public class ValidationExceptionTestCase extends TestCase
 {

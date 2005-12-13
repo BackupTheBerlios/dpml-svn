@@ -37,7 +37,6 @@ import net.dpml.metro.part.Component;
 import net.dpml.metro.part.ControlException;
 import net.dpml.metro.part.Instance;
 import net.dpml.metro.part.Model;
-import net.dpml.metro.part.Part;
 import net.dpml.metro.part.Service;
 import net.dpml.metro.part.ServiceNotFoundException;
 import net.dpml.metro.model.ComponentModel;
@@ -100,7 +99,7 @@ public class ComponentAdapter extends AbstractAdapter
         
         try
         {
-            ClassLoader classloader = Part.class.getClassLoader();
+            ClassLoader classloader = Controller.class.getClassLoader();
             URI uri = new URI( "@COMPOSITION-CONTROLLER-URI@" );
             Repository repository = Transit.getInstance().getRepository();
             Class c = repository.getPluginClass( classloader, uri );
