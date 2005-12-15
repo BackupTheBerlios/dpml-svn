@@ -69,8 +69,8 @@
 Controller controller = Controller.STANDARD;
 URI uri = new URI( "artifact:part:acme/acme-widget#1.1" );
 Component component = controller.createComponent( uri );
-Instance instance = component.getInstance();
-Widget widget = (Widget) instance.getValue( true );
+Provider provider = component.getProvider();
+Widget widget = (Widget) provider.getValue( true );
         </pre>
 
       </subsection>
