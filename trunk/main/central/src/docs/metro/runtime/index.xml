@@ -19,12 +19,55 @@
 
       <img src="/images/metro/apis.png"/>
 
+      <subsection name="Metro API">
+
+        <p>
+        A <tt>part</tt> is a network accessible datatype
+        that associates a controller with a component deployment profile. The 
+        deloyment profile references a component type.  The component type may
+        be implementated using a collection of local or remote component parts.
+        The Metro API defines concrete datatypes for component type defintions, 
+        deployment scenarios, and an extended management model.
+        </p>
+
+        <ul>
+          <li>
+            <a href="types/index.html">type:</a> 
+            located under a &lt;classname&gt;.type - a serializable datatype 
+            containing information about a component class including characteristics 
+            such as the services provided by the component, the context 
+            assumptions asserted by the implementation, logging assumptions
+            and defaults, etc.  A type may also contain an implemention description
+            in the form of a collection of internal parts.  This information is cached 
+            under the <tt>.type</tt> resource (an XML document encoded to JSR-57) for 
+            use by deployment tools and the runtime system.
+          </li>
+          <li>
+            <a href="parts/index.html">part:</a> 
+            a standalone component definition referencable via the <tt>artifact</tt>
+            uri using the <tt>part</tt> type identifier.  The part definition contains 
+            the default deployment profile for a component including the definition of 
+            the component inital context, dependency solutions, and any related 
+            configuration information.  The <tt>part</tt> serves as the initial data 
+            used to establish a component model.
+          </li>
+          <li>
+            <a href="controller/models.html">model:</a> 
+            management of component and context state is supported though a set of 
+            model interfaces that are using in conjuction with the reference 
+            implementation.
+          </li>
+        </ul>
+
+      </subsection>
+
       <subsection name="Part API">
 
         <p>
         The Part API is the core API dealing with component composition and is 
         central to the platforms ability to support concurrent deployment of different 
-        container implementations.
+        container implementations.  The Metro system is the reference implementation
+        of the Part API.
         </p>
 
         <p>
@@ -51,61 +94,6 @@
 
       </subsection>
 
-      <subsection name="Metro Datastructures">
-
-        <p>
-        A <tt>part</tt> is a network accessible datatype
-        that associates a controller with a component deployment profile. The 
-        deloyment profile references a component type.  The component type may
-        be implementated using a collection of local or remote component parts.  
-        </p>
-
-        <ul>
-          <li>
-            <a href="types/index.html">type:</a> 
-            located under a &lt;classname&gt;.type - a serializable datatype 
-            containing information about a component class including characteristics 
-            such as the services provided by the component, the context 
-            assumptions asserted by the implementation, logging assumptions
-            and defaults, etc.  A type may also contain an implemention description
-            in the form of a collection of internal parts.  This information is cached 
-            under the <tt>.type</tt> resource (an XML document encoded to JSR-57) for 
-            use by deployment tools and the runtime system.
-          </li>
-          <li>
-            <a href="parts/index.html">part:</a> 
-            a standalone component definition referencable via the <tt>artifact</tt>
-            uri using the <tt>part</tt> type identifier.  The part definition contains 
-            the default deployment profile for a component including the definition of 
-            the component inital context, dependency solutions, and any related 
-            configuration information.  The <tt>part</tt> serves as the initial data 
-            used to establish a component model.
-          </li>
-        </ul>
-
-      </subsection>
-
-      <subsection name="Other APIs">
-
-      <p>
-      Other APIs including common ulilities, the Transit resources management layouer, 
-      and the Station are described elsewhere.  They are noted here in oreder to provide 
-      a complete picture.
-      </p>
-
-      <ul>
-         <li>At the base are a collection of <a href="../util/index.html">common utilities</a> 
-           - provided as optional APIs that a largely self contained and address common 
-             development concerns such as a simplified logging facard, interfaces 
-             dealing with configuration and parameterization and so forth.</li>
-         <li>The <a href="../../transit/concepts/index.html">Transit</a> APIs deal with 
-             the location dereferencing of URIs and associated classloader and plugin 
-             management.</li>
-         <li>The <a href="../station/index.html">Station</a> API deals with 
-             the management of multiple Metro processes.</li>
-      </ul>
-
-      </subsection>
 
     </section>
 

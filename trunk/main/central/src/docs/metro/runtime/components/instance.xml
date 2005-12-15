@@ -25,7 +25,17 @@
       </p>
 
       <p>
+      An <tt>Instance</tt> provides the following functions:
       </p>
+
+      <ol>
+        <li>access to the concrete provider instance with support
+            for isolution of the instance within a proxy exposing 
+            only the service interfaces</li>
+        <li>access to the provider <a href="state.html">state</a>
+            and as a consequence the available transitions and 
+            dynamic mangement operations</li>
+      </ol>
 
     </section>
 
