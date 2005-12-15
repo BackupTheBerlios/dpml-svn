@@ -9,7 +9,7 @@
 
   <body>
 
-    <section name="Instance Manager">
+    <section name="Service Provider">
 
       <p>
       A <tt>Component</tt> is responsible for the management of a set 
