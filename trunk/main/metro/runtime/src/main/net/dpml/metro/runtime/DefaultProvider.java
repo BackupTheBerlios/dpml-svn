@@ -203,15 +203,17 @@ class DefaultProvider extends UnicastEventSource implements Provider
     
    /**
     * Invoke an operation on the instance.
-    * @param key the operation name
+    * @param name the operation name
+    * @param args operation arguments
+    * @return the result of the operation invocation
     * @exception UnknownOperationException if the supplied key does not map to an available operation
     * @exception InvocationTargetException if an invocation error occurs
     * @exception RemoteException if a remote I/O error occurs
     */
-    public synchronized void exec( String key )
+    public synchronized Object exec( String name, Object[] args )
       throws UnknownOperationException, InvocationTargetException
     {
-        m_machine.execute( key, m_value );
+        return m_machine.execute( name, m_value, args );
     }
     
     //--------------------------------------------------------------------------

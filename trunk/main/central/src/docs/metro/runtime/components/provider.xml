@@ -37,6 +37,24 @@
             dynamic operations</li>
       </ol>
 
+      <subsection name="Example">
+      
+        <p>
+        The following snipet of code demonstrates the creation of a 
+        service provider using a part uri and the subsequent resolution
+        of the provider instance.
+        </p>
+
+        <pre>
+Controller controller = Controller.STANDARD;
+URI uri = new URI( "artifact:part:acme/acme-widget#1.1" );
+Component component = controller.createComponent( uri );
+<font color="darkred">Provider provider = component.getProvider();</font>
+Widget widget = (Widget) provider.getValue( true );
+        </pre>
+
+      </subsection>
+
     </section>
 
   </body>

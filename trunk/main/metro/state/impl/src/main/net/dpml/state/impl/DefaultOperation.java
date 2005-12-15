@@ -19,7 +19,6 @@
 package net.dpml.state.impl;
 
 import java.io.Serializable;
-import java.net.URI;
 
 import net.dpml.state.Operation;
 
@@ -32,25 +31,19 @@ import net.dpml.state.Operation;
 public class DefaultOperation implements Operation, Serializable
 {
     private final String m_name;
-    private final URI m_handler;
     
    /**
     * Creation of a new operation.
     * @param name the operation name
     * @param handler the uri identifying the handler
     */
-    public DefaultOperation( final String name, URI handler )
+    public DefaultOperation( final String name )
     {
         if( null == name )
         {
             throw new NullPointerException( "name" );
         }
-        if( null == handler )
-        {
-            throw new NullPointerException( "handler" );
-        }
         m_name = name;
-        m_handler = handler;
     }
     
    /**
@@ -60,21 +53,6 @@ public class DefaultOperation implements Operation, Serializable
     public String getName()
     {
         return m_name;
-    }
-    
-   /**
-    * <p>Return the uri describing the execution criteria.  Recognized uri 
-    * schemes include:</p>
-    * 
-    * <ol>
-    *  <li>method:[method-name]
-    * </ol>
-    *
-    * @return the handler uri
-    */
-    public URI getHandlerURI()
-    {
-        return m_handler;
     }
     
    /**
@@ -97,17 +75,10 @@ public class DefaultOperation implements Operation, Serializable
         {
             return false;
         }
-        else if( other instanceof Operation )
+        else if( other instanceof DefaultOperation )
         {
             DefaultOperation operation = (DefaultOperation) other;
-            if( !m_name.equals( operation.getName() ) )
-            {
-                return false;
-            }
-            else
-            {
-                return equals( m_handler, operation.getHandlerURI() );
-            }
+            return m_name.equals( operation.getName() );
         }
         else
         {
@@ -123,23 +94,6 @@ public class DefaultOperation implements Operation, Serializable
     {
         int hash = getClass().hashCode();
         hash ^= m_name.hashCode();
-        if( null != m_handler )
-        {
-            hash ^= m_handler.hashCode();
-        }
         return hash;
     }
-    
-    private boolean equals( Object a, Object b )
-    {
-        if( null == a )
-        {
-            return null == b;
-        }
-        else
-        {
-            return a.equals( b );
-        }
-    }
-
 }

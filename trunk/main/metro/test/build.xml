@@ -26,6 +26,10 @@
 
   <target name="build" depends="standard.build">
 
+    <rmic base="${project.target.classes.main.dir}" classpathref="project.compile.path">
+      <include name="**/ManagedComponent#DefaultMonitor.class"/>
+    </rmic>
+
     <x:plugin uri="link:plugin:dpml/metro/dpml-metro-tools"/>
 
     <!-- create the test component types -->
@@ -175,6 +179,12 @@
 
     <c:component type="net.dpml.test.app.Demo" 
       dest="target/test/application.part" test="true" activation="true" collection="hard"/>
+
+    <!-- operation test -->
+
+    <c:type class="net.dpml.test.state.ManagedComponent" name="demo" lifestyle="thread"/>
+    <c:component dest="target/test/state.part" test="true" activation="true"
+        type="net.dpml.test.state.ManagedComponent" collection="hard"/>
 
   </target>
 

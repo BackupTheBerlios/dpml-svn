@@ -48,7 +48,7 @@ public final class DefaultOperationBeanInfo extends SimpleBeanInfo
         BeanDescriptor descriptor = new BeanDescriptor( DefaultOperation.class );
         descriptor.setValue( 
           "persistenceDelegate", 
-          new DefaultPersistenceDelegate( new String[]{"name", "handlerURI"} ) );
+          new DefaultPersistenceDelegate( new String[]{"name"} ) );
         return descriptor;
     }
 }

@@ -39,14 +39,12 @@ import net.dpml.state.impl.*;
 public class DefaultOperationTestCase extends AbstractEncodingTestCase
 {
     private String m_name;
-    private URI m_handler;
     private Operation m_operation;
     
     public void setUp() throws Exception
     {
         m_name = "test";
-        m_handler = new URI( "method:xyz" );
-        m_operation = new DefaultOperation( m_name, m_handler );
+        m_operation = new DefaultOperation( m_name );
     }
     
     public void testName() throws Exception
@@ -54,9 +52,17 @@ public class DefaultOperationTestCase extends AbstractEncodingTestCase
         assertEquals( "name", m_name, m_operation.getName() );
     }
     
-    public void testHandler() throws Exception
+    public void testNullName() throws Exception
     {
-        assertEquals( "handler", m_handler, m_operation.getHandlerURI() );
+        try
+        {
+            new DefaultOperation( null );
+            fail( "NO NPE" );
+        }
+        catch( NullPointerException e )
+        {
+            // success
+        }
     }
     
     public void testEncoding() throws Exception

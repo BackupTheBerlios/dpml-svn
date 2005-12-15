@@ -47,7 +47,7 @@ public class DefaultTriggerTestCase extends AbstractEncodingTestCase
     public void setUp() throws Exception
     {
         m_event = Trigger.INITIALIZATION;
-        m_action = new DefaultOperation( "op", new URI( "method:xyz" ) );
+        m_action = new DefaultOperation( "op" );
         m_trigger = new DefaultTrigger( m_event, m_action );
     }
     

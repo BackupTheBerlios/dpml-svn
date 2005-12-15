@@ -56,7 +56,7 @@ public class DefaultStateTestCase extends AbstractEncodingTestCase
         m_operations = 
           new Operation[]
           {
-            new DefaultOperation( "operation-one", new URI( "method:dosometing" ) )
+            new DefaultOperation( "audit" )
           };
         m_states = 
           new State[]

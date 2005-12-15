@@ -82,11 +82,13 @@ public interface Provider extends Remote
     
    /**
     * Invoke an operation on the instance.
-    * @param key the operation name
+    * @param name the operation name
+    * @param args operation arguments
+    * @return the result of the operation invocation
     * @exception UnknownOperationException if the supplied key does not map to an available operation
     * @exception InvocationTargetException if an invocation error occurs
     * @exception RemoteException if a remote I/O error occurs
     */
-    void exec( String key ) throws UnknownOperationException, InvocationTargetException, RemoteException;
+    Object exec( String name, Object[] args ) throws UnknownOperationException, InvocationTargetException, RemoteException;
     
 }

@@ -88,11 +88,13 @@ public interface StateMachine
     * Invoke execution of a named operation on the supplied object.
     * @param name an operation name
     * @param object the target object
+    * @param args operation argument array
+    * @return the return value
     * @exception UnknownOperationException if the operation is unknown
     * @exception InvocationTargetException if an invocation error occurs as a 
     *   result of operation execution
     */
-    void execute( String name, Object object ) 
+    Object execute( String name, Object object, Object[] args ) 
       throws UnknownOperationException, InvocationTargetException;
     
    /**

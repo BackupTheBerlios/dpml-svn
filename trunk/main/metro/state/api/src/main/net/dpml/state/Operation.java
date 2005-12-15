@@ -21,23 +21,13 @@ package net.dpml.state;
 import java.net.URI;
 
 /**
- * Interface describing a potential operation invocation exposed by 
- * an active state.
+ * An operation defines the name of a bean style accessor that 
+ * may be invoked by a management application while the operation
+ * is exposed within the active path.
  *
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
 public interface Operation extends Action
-{  
-   /**
-    * <p>Return the uri describing the execution criteria.  Recognized uri 
-    * schemes include:</p>
-    * 
-    * <ol>
-    *  <li>method:[method-name]
-    * </ol>
-    *
-    * @return the handler uri
-    */
-    URI getHandlerURI();
+{
 }

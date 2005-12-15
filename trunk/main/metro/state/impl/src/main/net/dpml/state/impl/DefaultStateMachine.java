@@ -18,6 +18,7 @@
 
 package net.dpml.state.impl;
 
+import java.beans.Expression;
 import java.beans.Statement;
 import java.beans.PropertyChangeSupport;
 import java.beans.PropertyChangeListener;
@@ -256,16 +257,18 @@ public class DefaultStateMachine implements StateMachine
     * Execute a named operation on the supplied object.
     * @param name an operation name
     * @param object the target object
+    * @param args operation arguments
+    * @return the result of operation invocation
     * @exception UnknownOperationException if the operation is unknown
     * @exception InvocationTargetException if an invocation error occurs as a 
     *   result of operation execution
     */
-    public void execute( String name, Object object ) 
+    public Object execute( String name, Object object, Object[] args ) 
       throws UnknownOperationException, InvocationTargetException
     {
         checkDisposed();
         Operation operation = getOperation( getState(), name );
-        execute( operation, object );
+        return execute( operation, object, args );
     }
     
    /**
@@ -410,7 +413,7 @@ public class DefaultStateMachine implements StateMachine
             if( action instanceof Operation )
             {
                 Operation operation = (Operation) action;
-                execute( operation, object );
+                execute( operation, object, new Object[0] );
                 return m_state;
             }
             else if( action instanceof Transition )
@@ -435,15 +438,30 @@ public class DefaultStateMachine implements StateMachine
         }
     }
     
-    private void execute( Operation operation, Object object ) throws InvocationTargetException
+    private Object execute( Operation operation, Object object, Object[] args ) throws InvocationTargetException
     {
-        URI handler = operation.getHandlerURI();
-        if( null != handler )
+        if( null == object )
         {
-            execute( handler, object );
+            return null;
+        }
+        
+        String name = operation.getName();
+        String method = getMethodName( name );
+        
+        try
+        {
+            Expression expression = new Expression( object, method, args );
+            return expression.getValue();
+        }
+        catch( InvocationTargetException e )
+        {
+            throw e;
+        }
+        catch( Exception e )
+        {
+            throw new InvocationTargetException( e );
         }
     }
-    
     private State terminate( List list, Object object ) throws Exception
     {
         Action action = getTerminationAction();
@@ -460,7 +478,7 @@ public class DefaultStateMachine implements StateMachine
             if( action instanceof Operation )
             {
                 Operation operation = (Operation) action;
-                execute( operation, object );
+                execute( operation, object, new Object[0] );
                 return m_state;
             }
             else if( action instanceof Transition )
@@ -821,6 +839,25 @@ public class DefaultStateMachine implements StateMachine
         }
     }
 
+    private String getMethodName( String name )
+    {
+        int n = name.length();
+        if( n == 0 )
+        {
+            throw new IllegalArgumentException( "Operation name is empty." );
+        }
+        else if( n == 1 )
+        {
+            return "get" + name.toUpperCase();
+        }
+        else
+        {
+            return "get" 
+              + name.substring( 0, 1 ).toUpperCase()
+              + name.substring( 1 );
+        }
+    }
+    
     //-------------------------------------------------------------------------------
     // static internals used top build a state graph from a supplied configuration
     //-------------------------------------------------------------------------------
@@ -986,9 +1023,7 @@ public class DefaultStateMachine implements StateMachine
         if( name.equals( "operation" ) )
         {
             String operationName = config.getAttribute( "name" );
-            String handler = config.getAttribute( "uri" );
-            URI uri = createURI( handler );
-            return new DefaultOperation( operationName, uri );
+            return new DefaultOperation( operationName );
         }
         else
         {

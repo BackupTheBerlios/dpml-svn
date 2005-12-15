@@ -5,7 +5,7 @@
     <transition name="init" target="available/started" handler="method:start"/>
   </trigger>
   <state name="available">
-   <operation name="audit" uri="method:audit"/>
+   <operation name="audit"/>
    <trigger event="termination">
      <transition name="terminate" target="../terminated"/>
    </trigger>
