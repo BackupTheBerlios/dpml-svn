@@ -36,7 +36,7 @@ import net.dpml.activity.Startable;
 
 import net.dpml.metro.info.Type;
 import net.dpml.metro.info.ServiceDescriptor;
-import net.dpml.metro.part.Directive;
+import net.dpml.part.Directive;
 import net.dpml.metro.data.ReferenceDirective;
 import net.dpml.metro.data.ClasspathDirective;
 import net.dpml.metro.data.ClassLoaderDirective;
@@ -50,15 +50,15 @@ import net.dpml.logging.Logger;
 
 import net.dpml.parameters.Parameters;
 
-import net.dpml.metro.part.Component;
-import net.dpml.metro.part.Model;
-import net.dpml.metro.part.ControlException;
-import net.dpml.metro.part.ServiceNotFoundException;
-import net.dpml.metro.part.Version;
+import net.dpml.part.Component;
+import net.dpml.part.Model;
+import net.dpml.part.ControlException;
+import net.dpml.part.ServiceNotFoundException;
+import net.dpml.part.Version;
 
-import net.dpml.metro.state.State;
-import net.dpml.metro.state.impl.DefaultState;
-import net.dpml.metro.state.impl.DefaultStateMachine;
+import net.dpml.state.State;
+import net.dpml.state.impl.DefaultState;
+import net.dpml.state.impl.DefaultStateMachine;
 
 import net.dpml.transit.Category;
 import net.dpml.transit.model.UnknownKeyException;

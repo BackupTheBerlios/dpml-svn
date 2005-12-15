@@ -18,7 +18,7 @@
 
 package net.dpml.metro.data;
 
-import net.dpml.metro.part.ActivationPolicy;
+import net.dpml.part.ActivationPolicy;
 
 /**
  * Abstract base class for the ComponentDirective.

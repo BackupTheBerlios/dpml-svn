@@ -11,7 +11,21 @@
 
     <section name="Metro Runtime">
 
-      <subsection name="Components and Instances">
+      <p>
+      The Metro Runtime is an application that implements a multi-layered system model.
+      The following illustration depicts the principal sub-system (higher level blocks 
+      are dependent on immediate low-lever blocks).
+      </p>
+
+      <img src="/images/metro/apis.png"/>
+
+      <subsection name="Part API">
+
+        <p>
+        The Part API is the core API dealing with component composition and is 
+        central to the platforms ability to support concurrent deployment of different 
+        container implementations.
+        </p>
 
         <p>
         Using a network accessible <tt>part</tt>, the Metro 
@@ -37,7 +51,7 @@
 
       </subsection>
 
-      <subsection name="Parts and Types">
+      <subsection name="Metro Datastructures">
 
         <p>
         A <tt>part</tt> is a network accessible datatype
@@ -68,6 +82,28 @@
             used to establish a component model.
           </li>
         </ul>
+
+      </subsection>
+
+      <subsection name="Other APIs">
+
+      <p>
+      Other APIs including common ulilities, the Transit resources management layouer, 
+      and the Station are described elsewhere.  They are noted here in oreder to provide 
+      a complete picture.
+      </p>
+
+      <ul>
+         <li>At the base are a collection of <a href="../util/index.html">common utilities</a> 
+           - provided as optional APIs that a largely self contained and address common 
+             development concerns such as a simplified logging facard, interfaces 
+             dealing with configuration and parameterization and so forth.</li>
+         <li>The <a href="../../transit/concepts/index.html">Transit</a> APIs deal with 
+             the location dereferencing of URIs and associated classloader and plugin 
+             management.</li>
+         <li>The <a href="../station/index.html">Station</a> API deals with 
+             the management of multiple Metro processes.</li>
+      </ul>
 
       </subsection>
 

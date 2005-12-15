@@ -32,13 +32,13 @@ import net.dpml.station.ApplicationException;
 import net.dpml.metro.info.EntryDescriptor;
 import net.dpml.metro.data.ValueDirective;
 
-import net.dpml.metro.part.Controller;
-import net.dpml.metro.part.Component;
-import net.dpml.metro.part.ControlException;
-import net.dpml.metro.part.Instance;
-import net.dpml.metro.part.Model;
-import net.dpml.metro.part.Service;
-import net.dpml.metro.part.ServiceNotFoundException;
+import net.dpml.part.Controller;
+import net.dpml.part.Component;
+import net.dpml.part.ControlException;
+import net.dpml.part.Instance;
+import net.dpml.part.Model;
+import net.dpml.part.Service;
+import net.dpml.part.ServiceNotFoundException;
 import net.dpml.metro.model.ComponentModel;
 import net.dpml.metro.model.ContextModel;
 

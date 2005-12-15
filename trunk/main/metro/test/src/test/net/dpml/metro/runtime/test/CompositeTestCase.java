@@ -24,10 +24,10 @@ import java.net.URI;
 
 import junit.framework.TestCase;
 
-import net.dpml.metro.part.Controller;
-import net.dpml.metro.part.Component;
-import net.dpml.metro.part.Instance;
-import net.dpml.metro.part.Context;
+import net.dpml.part.Controller;
+import net.dpml.part.Component;
+import net.dpml.part.Instance;
+import net.dpml.part.Context;
 
 import net.dpml.test.ColorManager;
 import net.dpml.test.composite.ChildComponent;

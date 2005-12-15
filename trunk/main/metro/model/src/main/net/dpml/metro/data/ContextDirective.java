@@ -20,7 +20,7 @@ package net.dpml.metro.data;
 
 import java.util.Arrays;
 
-import net.dpml.metro.part.Directive;
+import net.dpml.part.Directive;
 
 import net.dpml.metro.info.PartReference;
 

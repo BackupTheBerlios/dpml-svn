@@ -21,8 +21,8 @@ package net.dpml.metro.data;
 import net.dpml.metro.info.PartReference;
 import net.dpml.metro.info.LifestylePolicy;
 import net.dpml.metro.info.CollectionPolicy;
-import net.dpml.metro.part.ActivationPolicy;
-import net.dpml.metro.part.Directive;
+import net.dpml.part.ActivationPolicy;
+import net.dpml.part.Directive;
 
 import net.dpml.configuration.Configuration;
 

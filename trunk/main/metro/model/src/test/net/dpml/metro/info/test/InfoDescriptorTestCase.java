@@ -36,7 +36,7 @@ import net.dpml.metro.info.InfoDescriptor;
 import net.dpml.metro.info.CollectionPolicy;
 import net.dpml.metro.info.LifestylePolicy;
 
-import net.dpml.metro.part.Version;
+import net.dpml.part.Version;
 
 /**
  * InfoDescriptorTestCase does XYZ

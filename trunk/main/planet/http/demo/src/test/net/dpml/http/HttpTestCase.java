@@ -24,10 +24,10 @@ import java.net.URI;
 
 import junit.framework.TestCase;
 
-import net.dpml.metro.part.Directive;
-import net.dpml.metro.part.Controller;
-import net.dpml.metro.part.Model;
-import net.dpml.metro.part.Component;
+import net.dpml.part.Directive;
+import net.dpml.part.Controller;
+import net.dpml.part.Model;
+import net.dpml.part.Component;
 
 import net.dpml.http.demo.Demo;
 

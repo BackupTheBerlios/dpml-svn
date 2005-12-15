@@ -29,15 +29,15 @@ import java.util.EventListener;
 
 import net.dpml.logging.Logger;
 
-import net.dpml.metro.part.Instance;
-import net.dpml.metro.part.ControlException;
+import net.dpml.part.Instance;
+import net.dpml.part.ControlException;
 
-import net.dpml.metro.state.State;
-import net.dpml.metro.state.StateEvent;
-import net.dpml.metro.state.StateListener;
-import net.dpml.metro.state.UnknownTransitionException;
-import net.dpml.metro.state.UnknownOperationException;
-import net.dpml.metro.state.impl.DefaultStateMachine;
+import net.dpml.state.State;
+import net.dpml.state.StateEvent;
+import net.dpml.state.StateListener;
+import net.dpml.state.UnknownTransitionException;
+import net.dpml.state.UnknownOperationException;
+import net.dpml.state.impl.DefaultStateMachine;
 
 /**
  * The DefaultInstance class maintains the state of a client instance.  On creation

@@ -20,7 +20,7 @@ package net.dpml.metro.info;
 
 import java.io.Serializable;
 
-import net.dpml.metro.part.Version;
+import net.dpml.part.Version;
 
 /**
  * This ServiceDescriptor defines the interface and service version

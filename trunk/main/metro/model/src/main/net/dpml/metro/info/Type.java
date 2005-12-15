@@ -33,7 +33,7 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URL;
 
-import net.dpml.metro.part.Directive;
+import net.dpml.part.Directive;
 
 /**
  * This class contains the meta information about a particular

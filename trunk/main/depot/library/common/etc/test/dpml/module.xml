@@ -151,7 +151,7 @@
        <types>
          <type id="plugin" alias="true">
            <property name="project.plugin.class" 
-              value="net.dpml.metro.part.PartContentHandler"/>
+              value="net.dpml.part.PartContentHandler"/>
          </type>
          <type id="jar"/>
        </types>

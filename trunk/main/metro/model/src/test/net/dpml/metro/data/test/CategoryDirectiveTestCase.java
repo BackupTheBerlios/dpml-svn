@@ -37,7 +37,7 @@ import net.dpml.configuration.impl.DefaultConfiguration;
 import net.dpml.parameters.Parameters;
 import net.dpml.parameters.impl.DefaultParameters;
 
-import net.dpml.metro.part.ActivationPolicy;
+import net.dpml.part.ActivationPolicy;
 
 import net.dpml.transit.Category;
 

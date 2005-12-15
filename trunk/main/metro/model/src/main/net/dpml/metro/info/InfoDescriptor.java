@@ -21,7 +21,7 @@ package net.dpml.metro.info;
 
 import java.util.Properties;
 
-import net.dpml.metro.part.Version;
+import net.dpml.part.Version;
 
 /**
  * This class is used to provide explicit information to assembler

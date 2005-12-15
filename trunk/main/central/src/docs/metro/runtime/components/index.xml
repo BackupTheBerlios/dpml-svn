@@ -12,12 +12,11 @@
     <section name="Components">
 
       <p>
-      A <tt>Component</tt> is a remotly reachable object that 
-      that is established using a data <tt>Model</tt>. Component
-      and model implementations are established via a <tt>Controller</tt>.
-      Identified by a <tt>part</tt> datastructure.  As such different
-      component implementations may coexist within a complex deployment 
-      graph.  All components implement the common
+      A <tt>Component</tt> is a remotely reachable object that is established using a data 
+      <tt><a href="/api/dpml/@VERSION@/net/dpml/metro/part/Model.html">Model</a></tt>. 
+      Component and model implementations are established via a <tt>Controller</tt>. 
+      A controller is selected based on meta-data included in a stand-alone <tt>part</tt>
+      datastructure.  All components implement the common
       <a href="/api/dpml/@VERSION@/net/dpml/metro/part/Component.html">Component</a>
       interface dealing with:
       </p>
@@ -28,25 +27,23 @@
         <li>instance: access to runtime service providers</li>
       </ul>
 
-
       <subsection name="ComponentHandler">
 
         <p>
-        The <tt>net.dpml.metro.runtime.ComponentHandler</tt> class is the default implementation
-        of the <tt>Component</tt> interface.  It is supplied by the <tt>Controller</tt> with an 
-        instance of <tt>net.dpml.metro.runtime.ComponentModel</tt> which is a remotly accessible 
-        object that aggregates the information with a component <tt>type</tt> and <tt>part</tt>
-        deployment directive (i.e. the aggregation of the criteria and the solution).
+        The <tt>net.dpml.metro.runtime.ComponentHandler</tt> class is the reference implementation
+        of the <tt>Component</tt> interface.  It is created by the <tt>CompositionController</tt> 
+        using either an implicit or explicit remotely accessible <tt>ComponentModel</tt> that 
+        aggregates information about a component <tt>type</tt> and deployment solution.
         </p>
 
         <p>
         Following the separation of model and control concerns, the <tt>ComponentHandler</tt> has 
         as associated class controller to which a majority of functional concerns are delegated.
-        This controller deals with the establishment of the lifestyle handler taking into account
-        the lifestyle and collection policies associated with the asssociated <tt>ComponentModel</tt>.  
-        The <tt>ComponentHandler</tt> maintains a map of objects implmenting the 
-        <tt>net.dpml.metro.part.Instance</tt> interface.  This map representes the collection of 
-        runtime service providers bound to the type/part combination. 
+        This internal controller deals with the establishment of the lifestyle handler taking into 
+        account lifestyle and collection policies declared under the <tt>ComponentModel</tt>.  
+        The <tt>ComponentHandler</tt> maintains a map of objects implementing the 
+        <tt>net.dpml.part.Instance</tt> interface.  This map representes the collection of 
+        runtime service providers bound to the type/directive combination. 
         </p>
 
       </subsection>
@@ -54,15 +51,23 @@
       <subsection name="Handler Configuration">
 
         <p>
-        Creation of a new <tt>ComponentHandler</tt> is handled exclusively by the top-level
+        Creation of a new <tt>Component</tt> is managed exclusively by the top-level
         <a href="../controller/index.html">controller</a>.  An new component may be created
         via a reference to a network accessible part, or alternatively via a reference to a 
         remote component model. An example of a management system leveraging model-based 
         creation is the DPML <a href="../../station/index.html">Station</a> wherein 
         configuration data is established relative to the component type, deployment 
-        profile, and subsequent management by the station Station CLI.
+        profile, and subsequent modified by the Station CLI.
         </p>
 
+        <p>
+        The actual implementation class that is established is a function of the controller
+        declared in a part definition.  This mechanism enables the concurrent deployment of 
+        different back-end controller implementations.  This in-turn enables the potential 
+        deployment of components associated with not-yet-created controller implementations.   
+        Inversely, an existing controller can incorproate components based on legacy 
+        implementations.
+        </p>
 
       </subsection>
 

@@ -11,7 +11,21 @@
 
     <section name="Instance Manager">
 
-      <p>IN PREPARATION</p>
+      <p>
+      A <tt>Component</tt> is responsible for the management of a set 
+      of service provider <tt>Instance</tt>(s).  The number of instances
+      managed by a component is implementation dependent.  The reference
+      implementation maintains instances relative to the associated 
+      <a href="../parts/lifestyle.html">lifestyle</a> and 
+      <a href="../parts/collection.html">collection</a> policies. For 
+      example, a component declaring the <tt>SINGLETON</tt> collection 
+      policy will have a 0..1 <tt>Instance</tt> association.  The lifetime
+      of the instance will be a function of the associated collection 
+      policy and usage contitions.
+      </p>
+
+      <p>
+      </p>
 
     </section>
 

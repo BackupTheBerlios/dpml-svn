@@ -41,10 +41,10 @@ import net.dpml.station.ApplicationRegistry;
 import net.dpml.station.info.ApplicationDescriptor;
 import net.dpml.station.server.RemoteApplicationRegistry;
 
-import net.dpml.metro.part.Instance;
-import net.dpml.metro.state.State;
-import net.dpml.metro.state.Operation;
-import net.dpml.metro.state.Transition;
+import net.dpml.part.Instance;
+import net.dpml.state.State;
+import net.dpml.state.Operation;
+import net.dpml.state.Transition;
 
 import net.dpml.transit.Artifact;
 import net.dpml.transit.Logger;

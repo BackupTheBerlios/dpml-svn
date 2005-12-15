@@ -35,7 +35,7 @@ import net.dpml.metro.data.ClassLoaderDirective;
 import net.dpml.metro.data.ComponentDirective;
 import net.dpml.metro.data.ContextDirective;
 import net.dpml.metro.data.CategoriesDirective;
-import net.dpml.metro.part.Directive;
+import net.dpml.part.Directive;
 import net.dpml.metro.info.LifestylePolicy;
 import net.dpml.metro.info.CollectionPolicy;
 import net.dpml.metro.info.PartReference;
@@ -46,9 +46,9 @@ import net.dpml.configuration.Configuration;
 
 import net.dpml.parameters.Parameters;
 
-import net.dpml.metro.part.ActivationPolicy;
-import net.dpml.metro.part.Part;
-import net.dpml.metro.part.PartBuilder;
+import net.dpml.part.ActivationPolicy;
+import net.dpml.part.Part;
+import net.dpml.part.PartBuilder;
 
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Project;

@@ -15,7 +15,7 @@
       Component profiles include the defintion of a classloader chain.  The
       chain is defined by a series of classloader directives.  Each classloader
       directive is associated with a classloader category.  The following table 
-      list the available classloading categories and therir respective semantics.
+      list the available classloading categories and their respective semantics.
       </p>
 
       <table>

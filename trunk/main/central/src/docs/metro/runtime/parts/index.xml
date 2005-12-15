@@ -16,18 +16,44 @@
       supporting controller.  The profile provides a description of the 
       state of usage of a component type.  It is represented by a collections of 
       serializable (and encodable) classes commonly referred to as directives.  
-      The principal directive is the <tt>net.dpml.metro.data.ComponentDirective</tt> class.
       </p>
+
+      <subsection name="Part Datastructure">
+
+      <p>
+      A component part datastructure is maintained as an encoded 
+      <a href="/api/dpml/@VERSION@/net/dpml/metro/part/Part.html"><tt>Part</tt></a>.  
+      The datastructure contains the following fields:
+      </p>
+
+      <ol>
+        <li>controller implementation artifact uri</li>
+        <li>optional properties</li>
+        <li>a directive datastructure readable by the controller implementation</li>
+      </ol>
+
+      <p>
+      Loading of a part occurs as a two-phase process.  The first phase involves 
+      decoding of the <tt>Part</tt> independently of a controller.  This enables 
+      the resolution of the part controller uri and associated properties. If the 
+      controller associated with the part is not compatible with the controller 
+      executing the request the executing controller will establish the requested
+      controller using underlying plugin machinery and delegate secondary phase 
+      loading to the foreign controller.
+      </p>
+
+      </subsection>
 
       <subsection name="Component Directives">
 
       <p>
-      A <tt>ComponentDirective</tt> contains information about the component  
+      The default component directive is the <tt>net.dpml.metro.data.ComponentDirective</tt> class.
+      The <tt>ComponentDirective</tt> contains information about the component  
       classname (from which the component <a href="../types.html">type</a> 
       can be resolved), a name that identifies the component within the scope of 
       its parent, and a series of directives that deal with component 
       configuration including the assignment of context entry values
-      and/or instructions to a container concerning value fulfillment.
+      and/or instructions to a container concerning value fullfillment.
       </p>
 
       <table>
@@ -111,6 +137,18 @@
         and nested element.  Once created as an external artifact the part is network
         resolvable and may be easily referenced by application handlers or by 
         components as part of a composite component implementation strategy.
+        </p>
+
+      </subsection>
+
+      <subsection name="Technical Note">
+
+        <p>
+        Under the currrent implementation part properties are not evaluated.  The principal
+        purpose of the properties field is to support a degree of flexibility when dealing 
+        with future implementations of the Metro system.  As such, users should assume that
+        property names commencing with <tt>dpml</tt> are reserved for future use by the 
+        DPML.
         </p>
 
       </subsection>

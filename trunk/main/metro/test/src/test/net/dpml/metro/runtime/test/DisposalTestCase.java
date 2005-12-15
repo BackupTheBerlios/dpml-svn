@@ -23,9 +23,9 @@ import java.net.URI;
 
 import junit.framework.TestCase;
 
-import net.dpml.metro.part.Controller;
-import net.dpml.metro.part.Component;
-import net.dpml.metro.part.Disposable;
+import net.dpml.part.Controller;
+import net.dpml.part.Component;
+import net.dpml.part.Disposable;
 
 /**
  * Test clean disposal.

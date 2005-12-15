@@ -22,7 +22,7 @@ import junit.framework.TestCase;
 
 import net.dpml.metro.info.PartReference;
 
-import net.dpml.metro.part.Directive;
+import net.dpml.part.Directive;
 import net.dpml.metro.data.ValueDirective;
 
 import net.dpml.transit.Construct;

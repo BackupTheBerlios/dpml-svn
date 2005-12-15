@@ -35,7 +35,7 @@ import net.dpml.metro.info.EntryDescriptor;
 import net.dpml.metro.info.Type;
 import net.dpml.metro.info.ContextDescriptor;
 import net.dpml.metro.info.ServiceDescriptor;
-import net.dpml.metro.part.Directive;
+import net.dpml.part.Directive;
 import net.dpml.metro.data.ComponentDirective;
 
 import net.dpml.transit.Transit;

@@ -34,8 +34,8 @@ import net.dpml.metro.model.ContextModel;
 import net.dpml.metro.model.ValidationException;
 import net.dpml.metro.model.ValidationException.Issue;
 
-import net.dpml.metro.part.ModelException;
-import net.dpml.metro.part.Directive;
+import net.dpml.part.ModelException;
+import net.dpml.part.Directive;
 
 import net.dpml.transit.model.UnknownKeyException;
 

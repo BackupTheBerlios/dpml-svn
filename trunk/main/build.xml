@@ -127,10 +127,10 @@
       <group title="Metro">
         <package name="net.dpml.metro"/>
         <package name="net.dpml.metro.*"/>
-        <package name="net.dpml.metro.part"/>
-        <package name="net.dpml.metro.part.*"/>
-        <package name="net.dpml.metro.state"/>
-        <package name="net.dpml.metro.state.*"/>
+        <package name="net.dpml.part"/>
+        <package name="net.dpml.part.*"/>
+        <package name="net.dpml.state"/>
+        <package name="net.dpml.state.*"/>
         <package name="net.dpml.metro.tools"/>
         <package name="net.dpml.station"/>
         <package name="net.dpml.station.*"/>

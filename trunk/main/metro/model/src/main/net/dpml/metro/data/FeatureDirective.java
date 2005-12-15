@@ -20,7 +20,7 @@ package net.dpml.metro.data;
 
 import java.net.URI;
 
-import net.dpml.metro.part.Directive;
+import net.dpml.part.Directive;
 
 /**
  * A <code>FeatureDirective</code> declares a context entry that is itself a feature

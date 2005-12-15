@@ -40,11 +40,11 @@ import java.util.Properties;
 
 import junit.framework.TestCase;
 
-import net.dpml.metro.part.Part;
-import net.dpml.metro.part.PartBuilder;
-import net.dpml.metro.part.PartHeader;
-import net.dpml.metro.part.Directive;
-import net.dpml.metro.part.Controller;
+import net.dpml.part.Part;
+import net.dpml.part.PartBuilder;
+import net.dpml.part.PartHeader;
+import net.dpml.part.Directive;
+import net.dpml.part.Controller;
 
 
 /**
