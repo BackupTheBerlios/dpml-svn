@@ -25,7 +25,7 @@
  <body>
 
     <menu>
-      <item name="Instance" href="instance.html"/>
+      <item name="Provider" href="provider.html"/>
       <item name="State" href="state.html"/>
     </menu>
 

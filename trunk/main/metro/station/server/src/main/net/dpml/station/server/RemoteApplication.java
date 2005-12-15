@@ -35,7 +35,7 @@ import net.dpml.station.info.StartupPolicy;
 import net.dpml.station.info.ApplicationDescriptor;
 
 import net.dpml.part.Component;
-import net.dpml.part.Instance;
+import net.dpml.part.Provider;
 
 import net.dpml.station.Callback;
 import net.dpml.station.ProcessState;
@@ -64,7 +64,7 @@ public class RemoteApplication extends EventChannel implements Callback, Applica
     private ProcessState m_state = ProcessState.IDLE;
     private PID m_pid = null;
     private Component m_handler = null;
-    private Instance m_instance = null;
+    private Provider m_instance = null;
     private Process m_process = null;
     private Exception m_error = null;
 
@@ -116,7 +116,7 @@ public class RemoteApplication extends EventChannel implements Callback, Applica
             try
             {
                 //handler.activate();
-                m_instance = handler.getInstance();
+                m_instance = handler.getProvider();
                 setProcessState( ProcessState.STARTED );
             }
             catch( Exception e )
@@ -437,7 +437,7 @@ public class RemoteApplication extends EventChannel implements Callback, Applica
     * Return the component instance handler.
     * @return the instance handler (possibly null)
     */
-    public Instance getInstance()
+    public Provider getProvider()
     {
         return m_instance;
     }

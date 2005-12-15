@@ -29,7 +29,7 @@ import junit.framework.TestCase;
 
 import net.dpml.part.Controller;
 import net.dpml.part.Component;
-import net.dpml.part.Instance;
+import net.dpml.part.Provider;
 import net.dpml.state.State;
 import net.dpml.state.StateListener;
 import net.dpml.state.StateEvent;
@@ -41,11 +41,11 @@ import net.dpml.test.ColorManager;
 import net.dpml.test.ExampleComponent;
 
 /**
- * Test general behaviour of an Instance without consideration for lifestyle.
+ * Test general behaviour of an Provider without consideration for lifestyle.
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-public class InstanceTestCase extends TestCase
+public class ProviderTestCase extends TestCase
 {    
     private static final Controller CONTROLLER = Controller.STANDARD;
     
@@ -62,7 +62,7 @@ public class InstanceTestCase extends TestCase
     {
         Component component = CONTROLLER.createComponent( m_uri );
         component.activate();
-        Instance instance = component.getInstance();
+        Provider instance = component.getProvider();
         StateListener listener = new DefaultStateListener();
         instance.addStateListener( listener );
         instance.removeStateListener( listener );
@@ -73,7 +73,7 @@ public class InstanceTestCase extends TestCase
     {
         Component component = CONTROLLER.createComponent( m_uri );
         component.activate();
-        Instance instance = component.getInstance();
+        Provider instance = component.getProvider();
         try
         {
             instance.addStateListener( null );
@@ -93,7 +93,7 @@ public class InstanceTestCase extends TestCase
     {
         Component component = CONTROLLER.createComponent( m_uri );
         component.activate();
-        Instance instance = component.getInstance();
+        Provider instance = component.getProvider();
         try
         {
             instance.removeStateListener( null );
@@ -113,7 +113,7 @@ public class InstanceTestCase extends TestCase
     {
         Component component = CONTROLLER.createComponent( m_uri );
         component.activate();
-        Instance instance = component.getInstance();
+        Provider instance = component.getProvider();
         try
         {
             StateListener listener = new DefaultStateListener();
@@ -146,7 +146,7 @@ public class InstanceTestCase extends TestCase
           } );
         component.activate();
         assertTrue( "is-active", component.isActive() );
-        Instance instance = component.getInstance();
+        Provider instance = component.getProvider();
         instance.addStateListener( listener );
         instance.removeStateListener( listener );
         component.deactivate();
@@ -159,7 +159,7 @@ public class InstanceTestCase extends TestCase
         component.activate();
         try
         {
-            Instance instance = component.getInstance();
+            Provider instance = component.getProvider();
             Object object = instance.getValue( true );
             assertTrue( "isa-proxy", Proxy.isProxyClass( object.getClass() ) );
             assertTrue( "isa-color-manager", ( object instanceof ColorManager ) );
@@ -177,7 +177,7 @@ public class InstanceTestCase extends TestCase
         component.activate();
         try
         {
-            Instance instance = component.getInstance();
+            Provider instance = component.getProvider();
             Object object = instance.getValue( false );
             assertFalse( "isa-proxy", Proxy.isProxyClass( object.getClass() ) );
             assertTrue( "isa-color-manager", ( object instanceof ColorManager ) );
@@ -196,7 +196,7 @@ public class InstanceTestCase extends TestCase
         component.activate();
         try
         {
-            Instance instance = component.getInstance();
+            Provider instance = component.getProvider();
             ColorManager manager = (ColorManager) instance.getValue( true );
             Color color = manager.getColor();
             assertEquals( "initial-color", Color.RED, color );

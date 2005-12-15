@@ -26,7 +26,7 @@ import junit.framework.TestCase;
 
 import net.dpml.part.Controller;
 import net.dpml.part.Component;
-import net.dpml.part.Instance;
+import net.dpml.part.Provider;
 
 import net.dpml.test.ContextTestComponent;
 import net.dpml.test.ContextTestComponent.Context;
@@ -47,7 +47,7 @@ public class ContextTestCase extends TestCase
         final File test = new File( System.getProperty( "project.test.dir" ) );
         final URI uri = new File( test, path ).toURI();
         Component component = Controller.STANDARD.createComponent( uri );
-        Instance instance = component.getInstance();
+        Provider instance = component.getProvider();
         m_value = (ContextTestComponent) instance.getValue( false );
         m_context = m_value.getContext();
     }

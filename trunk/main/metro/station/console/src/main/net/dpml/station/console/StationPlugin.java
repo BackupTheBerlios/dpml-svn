@@ -41,7 +41,7 @@ import net.dpml.station.ApplicationRegistry;
 import net.dpml.station.info.ApplicationDescriptor;
 import net.dpml.station.server.RemoteApplicationRegistry;
 
-import net.dpml.part.Instance;
+import net.dpml.part.Provider;
 import net.dpml.state.State;
 import net.dpml.state.Operation;
 import net.dpml.state.Transition;
@@ -518,7 +518,7 @@ public class StationPlugin
     private void processInfoCommand( CommandLine line ) throws Exception
     {
         System.out.println( "" );
-        Thread.currentThread().setContextClassLoader( Instance.class.getClassLoader() );
+        Thread.currentThread().setContextClassLoader( Provider.class.getClassLoader() );
         Manager manager = null;
         try
         {
@@ -614,7 +614,7 @@ public class StationPlugin
                           + application.getProcessState() );
                     }
                     
-                    Instance instance = application.getInstance();
+                    Provider instance = application.getProvider();
                     if( null != instance )
                     {
                         State state = instance.getState();

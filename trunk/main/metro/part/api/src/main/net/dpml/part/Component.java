@@ -79,7 +79,7 @@ public interface Component extends Remote
     *  related error
     * @exception RemoteException if a remote exception occurs
     */
-    Instance getInstance() throws ControlException, InvocationTargetException, RemoteException;
+    Provider getProvider() throws ControlException, InvocationTargetException, RemoteException;
     
    /**
     * Deactivate the handler.

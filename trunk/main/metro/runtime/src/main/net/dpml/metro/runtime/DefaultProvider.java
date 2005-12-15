@@ -29,7 +29,7 @@ import java.util.EventListener;
 
 import net.dpml.logging.Logger;
 
-import net.dpml.part.Instance;
+import net.dpml.part.Provider;
 import net.dpml.part.ControlException;
 
 import net.dpml.state.State;
@@ -40,8 +40,8 @@ import net.dpml.state.UnknownOperationException;
 import net.dpml.state.impl.DefaultStateMachine;
 
 /**
- * The DefaultInstance class maintains the state of a client instance.  On creation
- * of a new DefaultInstance the implementation constructs a proxy based on the 
+ * The DefaultProvider class maintains the state of a client instance.  On creation
+ * of a new DefaultProvider the implementation constructs a proxy based on the 
  * service clesses declared within the component type, establishes the instance, and
  * executes initialization based on the state graph associated with the 
  * object.  If a request is made by the container for the disposal of an instance of 
@@ -53,7 +53,7 @@ import net.dpml.state.impl.DefaultStateMachine;
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-class DefaultInstance extends UnicastEventSource implements Instance
+class DefaultProvider extends UnicastEventSource implements Provider
 {
     //-------------------------------------------------------------------
     // state
@@ -108,7 +108,7 @@ class DefaultInstance extends UnicastEventSource implements Instance
     * @param handler the component handler
     * @param logger the logging channel
     */
-    DefaultInstance( ComponentHandler handler, Logger logger ) 
+    DefaultProvider( ComponentHandler handler, Logger logger ) 
       throws RemoteException, ControlException, InvocationTargetException
     {
         super();
@@ -132,7 +132,7 @@ class DefaultInstance extends UnicastEventSource implements Instance
     }
     
     //-------------------------------------------------------------------
-    // Instance
+    // Provider
     //-------------------------------------------------------------------
 
    /**
@@ -354,9 +354,9 @@ class DefaultInstance extends UnicastEventSource implements Instance
     */
     private final class StateEventPropergator implements PropertyChangeListener
     {
-        private final DefaultInstance m_holder;
+        private final DefaultProvider m_holder;
         
-        private StateEventPropergator( DefaultInstance holder )
+        private StateEventPropergator( DefaultProvider holder )
         {
             m_holder = holder;
         }

@@ -24,7 +24,7 @@ import java.lang.reflect.InvocationTargetException;
 
 import net.dpml.part.Component;
 import net.dpml.part.ControlException;
-import net.dpml.part.Instance;
+import net.dpml.part.Provider;
 import net.dpml.part.Service;
 import net.dpml.part.ServiceNotFoundException;
 
@@ -119,9 +119,9 @@ public class AbstractAdapter extends UnicastRemoteObject implements Component
     *  related error
     * @exception RemoteException if a remote exception occurs
     */
-    public Instance getInstance() throws ControlException, InvocationTargetException, RemoteException
+    public Provider getProvider() throws ControlException, InvocationTargetException, RemoteException
     {
-        throw new UnsupportedOperationException( "getInstance/0" );
+        throw new UnsupportedOperationException( "getProvider/0" );
     }
     
    /**

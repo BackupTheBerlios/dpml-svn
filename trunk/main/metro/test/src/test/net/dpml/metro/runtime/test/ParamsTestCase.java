@@ -25,7 +25,7 @@ import junit.framework.TestCase;
 
 import net.dpml.part.Controller;
 import net.dpml.part.Component;
-import net.dpml.part.Instance;
+import net.dpml.part.Provider;
 
 import net.dpml.test.params.ParameterizableComponent;
 
@@ -54,7 +54,7 @@ public class ParamsTestCase extends TestCase
     public void testCategories() throws Exception
     {
         Component component = CONTROLLER.createComponent( m_uri );
-        Instance instance = component.getInstance();
+        Provider instance = component.getProvider();
         ParameterizableComponent object = (ParameterizableComponent) instance.getValue( false );
         assertEquals( "name", "fred", object.getName() );
         assertEquals( "count", ParameterizableComponent.TEST_VALUE, object.getSize() );

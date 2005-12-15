@@ -101,7 +101,7 @@ class PartsInvocationHandler implements InvocationHandler
                     try
                     {
                         handler.activate();
-                        return handler.getInstance().getValue( false );
+                        return handler.getProvider().getValue( false );
                     }
                     catch( ClassCastException e )
                     {
@@ -120,7 +120,7 @@ class PartsInvocationHandler implements InvocationHandler
                     {
                         boolean policy = getBooleanValue( arg );
                         handler.activate();
-                        return handler.getInstance().getValue( policy );
+                        return handler.getProvider().getValue( policy );
                     }
                     else
                     {
@@ -164,7 +164,7 @@ class PartsInvocationHandler implements InvocationHandler
             }
             else if( INSTANCE_KEY.equals( postfix ) )
             {
-                return handler.getInstance();
+                return handler.getProvider();
             }
             else
             {
@@ -329,5 +329,5 @@ class PartsInvocationHandler implements InvocationHandler
     public static final String RELEASE_KEY = "release";
     public static final String COMPONENT_KEY = "Component";
     public static final String MAP_KEY = "Map";
-    public static final String INSTANCE_KEY = "Instance";
+    public static final String INSTANCE_KEY = "Provider";
 }

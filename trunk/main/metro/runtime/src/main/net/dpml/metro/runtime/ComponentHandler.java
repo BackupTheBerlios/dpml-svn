@@ -44,7 +44,7 @@ import net.dpml.part.ActivationPolicy;
 import net.dpml.part.Component;
 import net.dpml.part.ControlException;
 import net.dpml.part.Disposable;
-import net.dpml.part.Instance;
+import net.dpml.part.Provider;
 import net.dpml.part.Service;
 import net.dpml.part.ServiceNotFoundException;
 import net.dpml.part.Version;
@@ -70,7 +70,7 @@ import net.dpml.transit.model.UnknownKeyException;
  * implementation employs a WeakHashMap irrespective of the declared collection policy in 
  * order to avoid potential memory leaks arrising from non-disposal of consumed instances. 
  * If a component model declares an activation policy of <tt>STARTUP</tt> a new 
- * {@link Instance} will be deloyed on activation of the handler otherwise the component 
+ * {@link Provider} will be deloyed on activation of the handler otherwise the component 
  * will be deloyed on <tt>DEMAND</tt> in response to a service request.</p>
  * 
  * <p><image src="doc-files/composition-handler-uml.png" border="0"/></p>
@@ -87,7 +87,7 @@ import net.dpml.transit.model.UnknownKeyException;
    Context context = controller.createContext( part ); // management info
    Component handler = controller.createComponent( context ); // runtime controller
    handler.activate();
-   Instance instance = handler.getInstance(); // instance controller
+   Provider instance = handler.getProvider(); // instance controller
    Object value = instance.getValue( true ); // service instance
  * </pre>
  *
@@ -97,7 +97,7 @@ import net.dpml.transit.model.UnknownKeyException;
  * @see CollectionPolicy
  * @see ActivationPolicy
  * @see ComponentModel
- * @see Instance
+ * @see Provider
  */
 public class ComponentHandler extends UnicastEventSource implements Component, Context, Disposable
 {
@@ -341,7 +341,7 @@ public class ComponentHandler extends UnicastEventSource implements Component, C
     */
     public int size()
     {
-        return m_holder.getInstanceCount();
+        return m_holder.getProviderCount();
     }
     
    /**
@@ -415,7 +415,7 @@ public class ComponentHandler extends UnicastEventSource implements Component, C
             if( m_model.getActivationPolicy().equals( ActivationPolicy.STARTUP ) )
             {
                 getLogger().debug( "activating" );
-                m_holder.getInstance();
+                m_holder.getProvider();
             }
             
             //
@@ -495,25 +495,25 @@ public class ComponentHandler extends UnicastEventSource implements Component, C
     }
     
    /**
-    * Return an <tt>Instance</tt> holder. The value returned will be a function 
+    * Return an <tt>Provider</tt> holder. The value returned will be a function 
     * of the lifestyle policy implemented by the component.
     * 
-    * @return the <tt>Instance</tt> manager
+    * @return the <tt>Provider</tt> manager
     * @exception InvocationTargetException if the request triggers the construction
     *   of a new provider instance and the provider raises an error during creation
     *   or activation
     * @exception ControlException if a control related error occurs
     */
-    public Instance getInstance() throws InvocationTargetException, ControlException
+    public Provider getProvider() throws InvocationTargetException, ControlException
     {
         if( isActive() )
         {
-            return m_holder.getInstance();
+            return m_holder.getProvider();
         }
         else
         {
             activate();
-            return m_holder.getInstance();
+            return m_holder.getProvider();
             //final String error = 
             //  "Component handler ["
             //  + this
@@ -701,12 +701,12 @@ public class ComponentHandler extends UnicastEventSource implements Component, C
     * @exception ControlException if the construction of the instance was not successfull
     * @exception InvocationTargetException if a error was raised by the external implementation
     */
-    private DefaultInstance createDefaultInstance() 
+    private DefaultProvider createDefaultProvider() 
       throws InvocationTargetException, ControlException
     {
         try
         {
-            return new DefaultInstance( this, getLogger() );
+            return new DefaultProvider( this, getLogger() );
         }
         catch( RemoteException e )
         {
@@ -727,17 +727,17 @@ public class ComponentHandler extends UnicastEventSource implements Component, C
        /**
         * Return an <tt>I(nstance</tt> taking into account the component 
         * lifestyle policy.
-        * @return the <tt>Instance</tt> manager
+        * @return the <tt>Provider</tt> manager
         * @exception ControlException of a controller error occurs
         * @exception InvocationTargetException if a client implementation error occurs
         */
-        abstract DefaultInstance getInstance() throws ControlException, InvocationTargetException;
+        abstract DefaultProvider getProvider() throws ControlException, InvocationTargetException;
        
        /**
         * Return the number of instances handled by the holder.
         * @return the instance count
         */
-        abstract int getInstanceCount();
+        abstract int getProviderCount();
         
        /**
         * Dispose of the holder and all managed instances.
@@ -765,7 +765,7 @@ public class ComponentHandler extends UnicastEventSource implements Component, C
     
    /**
     * Singleton holder class.  The singleton holder mains a single 
-    * <tt>Instance</tt> of a component relative to the component model 
+    * <tt>Provider</tt> of a component relative to the component model 
     * identity within the scope of the controller.  References to the 
     * singleton instance will be shared across mutliple threads.
     */
@@ -781,17 +781,17 @@ public class ComponentHandler extends UnicastEventSource implements Component, C
             m_reference = createReference( null );
         }
         
-        DefaultInstance getInstance() throws ControlException, InvocationTargetException
+        DefaultProvider getProvider() throws ControlException, InvocationTargetException
         {
             if( m_reference == null )
             {
                 throw new IllegalStateException( "disposed" );
             }
             
-            DefaultInstance instance = (DefaultInstance) m_reference.get();
+            DefaultProvider instance = (DefaultProvider) m_reference.get();
             if( null == instance )
             {
-                instance = createDefaultInstance();
+                instance = createDefaultProvider();
                 m_reference = createReference( instance );
                 return instance;
             }
@@ -805,7 +805,7 @@ public class ComponentHandler extends UnicastEventSource implements Component, C
         {
             if( !isDisposed() )
             {
-                DefaultInstance instance = (DefaultInstance) m_reference.get();
+                DefaultProvider instance = (DefaultProvider) m_reference.get();
                 if( instance != null )
                 {
                     instance.dispose();
@@ -815,7 +815,7 @@ public class ComponentHandler extends UnicastEventSource implements Component, C
             }
         }
         
-        int getInstanceCount()
+        int getProviderCount()
         {
             if( null != m_reference.get() )
             {
@@ -830,16 +830,16 @@ public class ComponentHandler extends UnicastEventSource implements Component, C
     
    /**
     * Transient holder class.  The transient holder provides support for 
-    * the transient lifestyle ensuing the creation of a new <tt>Instance</tt>
+    * the transient lifestyle ensuing the creation of a new <tt>Provider</tt>
     * per request.
     */
     private class TransientHolder extends Holder
     {
         private WeakHashMap m_instances = new WeakHashMap(); // transients
         
-        DefaultInstance getInstance() throws ControlException, InvocationTargetException
+        DefaultProvider getProvider() throws ControlException, InvocationTargetException
         {
-            DefaultInstance instance = createDefaultInstance();
+            DefaultProvider instance = createDefaultProvider();
             m_instances.put( instance, null );
             return instance;
         }
@@ -848,10 +848,10 @@ public class ComponentHandler extends UnicastEventSource implements Component, C
         {
             if( !isDisposed() )
             {
-                DefaultInstance[] instances = getAllInstances();
+                DefaultProvider[] instances = getAllProviders();
                 for( int i=0; i<instances.length; i++ )
                 {
-                    DefaultInstance instance = instances[i];
+                    DefaultProvider instance = instances[i];
                     m_instances.remove( instance );
                     instance.dispose();
                 }
@@ -859,29 +859,29 @@ public class ComponentHandler extends UnicastEventSource implements Component, C
             }
         }
         
-        int getInstanceCount()
+        int getProviderCount()
         {
             return m_instances.size();
         }
         
-        private DefaultInstance[] getAllInstances()
+        private DefaultProvider[] getAllProviders()
         {
-            return (DefaultInstance[]) m_instances.keySet().toArray( new DefaultInstance[0] );
+            return (DefaultProvider[]) m_instances.keySet().toArray( new DefaultProvider[0] );
         }
     }
 
    /**
     * The ThreadHolder class provides support for the per-thread lifestyle
-    * policy within which new <tt>Instance</tt> creation is based on a single
-    * <tt>Instance</tt> per thread.
+    * policy within which new <tt>Provider</tt> creation is based on a single
+    * <tt>Provider</tt> per thread.
     */
     private class ThreadHolder extends Holder
     {
         private ThreadLocalHolder m_threadLocalHolder = new ThreadLocalHolder();
         
-        DefaultInstance getInstance() throws ControlException, InvocationTargetException
+        DefaultProvider getProvider() throws ControlException, InvocationTargetException
         {
-            return (DefaultInstance) m_threadLocalHolder.get();
+            return (DefaultProvider) m_threadLocalHolder.get();
         }
         
         void dispose()
@@ -893,14 +893,14 @@ public class ComponentHandler extends UnicastEventSource implements Component, C
             }
         }
         
-        int getInstanceCount()
+        int getProviderCount()
         {
-            return m_threadLocalHolder.getInstanceCount();
+            return m_threadLocalHolder.getProviderCount();
         }
         
-        private DefaultInstance[] getAllInstances()
+        private DefaultProvider[] getAllProviders()
         {
-            return m_threadLocalHolder.getAllInstances();
+            return m_threadLocalHolder.getAllProviders();
         }
     }
 
@@ -915,7 +915,7 @@ public class ComponentHandler extends UnicastEventSource implements Component, C
         {
             try
             {
-                DefaultInstance instance = createDefaultInstance();
+                DefaultProvider instance = createDefaultProvider();
                 m_instances.put( instance, null );
                 return instance;
             }
@@ -927,22 +927,22 @@ public class ComponentHandler extends UnicastEventSource implements Component, C
             }
         }
         
-        int getInstanceCount()
+        int getProviderCount()
         {
             return m_instances.size();
         }
         
-        DefaultInstance[] getAllInstances()
+        DefaultProvider[] getAllProviders()
         {
-            return (DefaultInstance[]) m_instances.keySet().toArray( new DefaultInstance[0] );
+            return (DefaultProvider[]) m_instances.keySet().toArray( new DefaultProvider[0] );
         }
         
         void dispose()
         {
-            DefaultInstance[] instances = getAllInstances();
+            DefaultProvider[] instances = getAllProviders();
             for( int i=0; i<instances.length; i++ )
             {
-                DefaultInstance instance = instances[i];
+                DefaultProvider instance = instances[i];
                 instance.dispose();
                 m_instances.remove( instance );
             }

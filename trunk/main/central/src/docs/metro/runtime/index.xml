@@ -87,8 +87,8 @@
               encapsulates a deployment configuration applied to a
               component type.  Uses an associated lifestyle policy to control 
               establishment of managed providers.</li>
-          <li><a href="components/instance.html">instance</a>: 
-              handles provider establishment, runtime state management, and 
+          <li><a href="components/provider.html">provider</a>: 
+              handles service provider establishment, runtime state management, and 
               provider decommissioning.</li>
         </ul>
 

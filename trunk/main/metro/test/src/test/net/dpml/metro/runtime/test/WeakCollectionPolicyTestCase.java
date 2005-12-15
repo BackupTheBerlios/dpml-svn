@@ -25,7 +25,7 @@ import junit.framework.TestCase;
 
 import net.dpml.part.Controller;
 import net.dpml.part.Component;
-import net.dpml.part.Instance;
+import net.dpml.part.Provider;
 
 /**
  * Test WEAK collection semantics.
@@ -50,8 +50,8 @@ public class WeakCollectionPolicyTestCase extends TestCase
         Component component = CONTROLLER.createComponent( m_uri );
         component.activate();
         assertTrue( "is-active", component.isActive() );
-        Instance one = component.getInstance();
-        Instance two = component.getInstance();
+        Provider one = component.getProvider();
+        Provider two = component.getProvider();
         int count = component.size();
         
         //

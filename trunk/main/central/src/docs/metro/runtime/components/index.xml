@@ -24,7 +24,7 @@
       <ul>
         <li>activation: handles assembly of the component</li>
         <li>lookup: used for resolving potential service providers during assembly</li>
-        <li>instance: access to runtime service providers</li>
+        <li>provider: access to runtime service providers</li>
       </ul>
 
       <subsection name="ComponentHandler">

@@ -28,12 +28,12 @@ import net.dpml.state.UnknownOperationException;
 import net.dpml.state.UnknownTransitionException;
 
 /**
- * Instance holder.
+ * Provider holder.
  *
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-public interface Instance extends Remote
+public interface Provider extends Remote
 {
     //-------------------------------------------------------------------
     // implementation

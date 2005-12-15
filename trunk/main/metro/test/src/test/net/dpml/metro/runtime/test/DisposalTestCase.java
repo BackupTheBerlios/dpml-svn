@@ -51,7 +51,7 @@ public class DisposalTestCase extends TestCase
         component.activate();
         for( int i=0; i<1000; i++ )
         {
-            component.getInstance();
+            component.getProvider();
         }
         ((Disposable)component).dispose();
         assertEquals( "count", 0, component.size() );

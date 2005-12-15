@@ -25,7 +25,7 @@ import junit.framework.TestCase;
 
 import net.dpml.part.Controller;
 import net.dpml.part.Component;
-import net.dpml.part.Instance;
+import net.dpml.part.Provider;
 
 
 /**
@@ -72,12 +72,12 @@ public class ComponentHandlerTestCase extends TestCase
 
    /**
     * Test that an IllegalStateException is thrown if a client attempts to 
-    * access an Instance from an inactive component.
+    * access an Provider from an inactive component.
     */
-    public void testInstanceAquisitionInInactiveState() throws Exception
+    public void testProviderAquisitionInInactiveState() throws Exception
     {
         Component component = CONTROLLER.createComponent( m_uri );
-        Instance instance = (Instance) component.getInstance();
+        Provider instance = (Provider) component.getProvider();
         assertTrue( "is-active-post-instantiation", component.isActive() );
     }
 

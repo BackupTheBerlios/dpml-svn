@@ -69,11 +69,11 @@ final class ConfigurationInvocationHandler implements InvocationHandler
     public Object invoke( final Object proxy, final Method method, final Object[] args ) 
       throws InvocationTargetException, IllegalAccessException
     {
-        Object instance = getInstance();
+        Object instance = getProvider();
         return method.invoke( instance, args );
     }
 
-    protected Object getInstance()
+    protected Object getProvider()
     {
         return m_config;
     }

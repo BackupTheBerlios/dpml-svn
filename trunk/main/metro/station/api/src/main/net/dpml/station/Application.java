@@ -21,7 +21,7 @@ package net.dpml.station;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 
-import net.dpml.part.Instance;
+import net.dpml.part.Provider;
 
 import net.dpml.transit.PID;
 
@@ -89,7 +89,7 @@ public interface Application extends Remote
     * @return the instance handler (possibly null)
     * @exception RemoteException if a remote error occurs
     */
-    Instance getInstance() throws RemoteException;
+    Provider getProvider() throws RemoteException;
 
    /**
     * Add an application listener.

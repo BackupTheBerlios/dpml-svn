@@ -25,14 +25,14 @@ import junit.framework.TestCase;
 
 import net.dpml.part.Controller;
 import net.dpml.part.Component;
-import net.dpml.part.Instance;
+import net.dpml.part.Provider;
 
 /**
- * Test singleton semantics.
+ * Test transient semantics.
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-public class SingletonInstanceTestCase extends TestCase
+public class TransientProviderTestCase extends TestCase
 {    
     private static final Controller CONTROLLER = Controller.STANDARD;
     
@@ -40,19 +40,22 @@ public class SingletonInstanceTestCase extends TestCase
     
     public void setUp() throws Exception
     {
-        final String path = "example-3.part";
+        final String path = "example-2.part";
         final File test = new File( System.getProperty( "project.test.dir" ) );
         m_uri = new File( test, path ).toURI();
     }
     
-    public void testSharedInstanceSemantics() throws Exception
+    public void testTransientProviderSemantics() throws Exception
     {
         Component component = CONTROLLER.createComponent( m_uri );
         component.activate();
         assertTrue( "is-active", component.isActive() );
-        Instance firstInstance = component.getInstance();
-        Instance secondInstance = component.getInstance();
-        assertEquals( "singletons-are-equal", firstInstance, secondInstance );
+        Provider firstProvider = component.getProvider();
+        Provider secondProvider = component.getProvider();
+        if( firstProvider.equals( secondProvider ) )
+        {
+            fail( "Transient identity must be unique" );
+        }
         component.deactivate();
     }
     

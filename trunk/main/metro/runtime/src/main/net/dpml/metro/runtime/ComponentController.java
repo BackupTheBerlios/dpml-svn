@@ -762,7 +762,7 @@ class ComponentController
             {
                 Component component = parent.lookup( service );
                 component.activate();
-                return component.getInstance().getValue( false );
+                return component.getProvider().getValue( false );
             }
             catch( RemoteException e )
             {

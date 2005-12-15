@@ -33,7 +33,7 @@
       <include name="**/DefaultComponentModel.class"/>
       <include name="**/DefaultContextModel.class"/>
       <include name="**/ComponentHandler.class"/>
-      <include name="**/DefaultInstance.class"/>
+      <include name="**/DefaultProvider.class"/>
       <include name="**/ComponentHandler.class"/>
       <include name="**/CompositionHandler.class"/>
       <include name="**/ValueHandler.class"/>

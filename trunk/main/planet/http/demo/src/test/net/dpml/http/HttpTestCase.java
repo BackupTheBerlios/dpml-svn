@@ -53,7 +53,7 @@ public class HttpTestCase extends TestCase
         
         Controller control = Controller.STANDARD;
         Component component = control.createComponent( uri );
-        Demo demo = (Demo) component.getInstance().getValue( false );
+        Demo demo = (Demo) component.getProvider().getValue( false );
         component.deactivate();
     }
 

@@ -34,7 +34,7 @@ final class InstanceInvocationHandler implements InvocationHandler
     // state
     //-------------------------------------------------------------------
 
-    private final DefaultInstance m_instance;
+    private final DefaultProvider m_instance;
 
     //-------------------------------------------------------------------
     // constructor
@@ -45,7 +45,7 @@ final class InstanceInvocationHandler implements InvocationHandler
     *
     * @param instance the instance
     */
-    public InstanceInvocationHandler( DefaultInstance instance )
+    public InstanceInvocationHandler( DefaultProvider instance )
     {
         if( null == instance )
         {
@@ -67,7 +67,7 @@ final class InstanceInvocationHandler implements InvocationHandler
     public Object invoke( final Object proxy, final Method method, final Object[] args ) 
       throws InvocationTargetException, IllegalAccessException
     {
-        DefaultInstance instance = getInstance();
+        DefaultProvider instance = getProvider();
         if( instance.isAvailable() )
         {
             Object target = instance.getValue( false );
@@ -81,7 +81,7 @@ final class InstanceInvocationHandler implements InvocationHandler
         }
     }
 
-    protected DefaultInstance getInstance()
+    protected DefaultProvider getProvider()
     {
         return m_instance;
     }

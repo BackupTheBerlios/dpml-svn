@@ -25,7 +25,7 @@ import junit.framework.TestCase;
 
 import net.dpml.part.Controller;
 import net.dpml.part.Component;
-import net.dpml.part.Instance;
+import net.dpml.part.Provider;
 import net.dpml.part.Context;
 
 import net.dpml.test.app.Demo;
@@ -56,7 +56,7 @@ public class AppTestCase extends TestCase
     public void testApplication() throws Exception
     {
         Component component = CONTROLLER.createComponent( m_uri );
-        Instance instance = component.getInstance();
+        Provider instance = component.getProvider();
         Demo demo = (Demo) instance.getValue( false );
         int count = demo.test( "hello" );
         count = demo.test( "hello again" );

@@ -35,7 +35,7 @@ import net.dpml.metro.data.ValueDirective;
 import net.dpml.part.Controller;
 import net.dpml.part.Component;
 import net.dpml.part.ControlException;
-import net.dpml.part.Instance;
+import net.dpml.part.Provider;
 import net.dpml.part.Model;
 import net.dpml.part.Service;
 import net.dpml.part.ServiceNotFoundException;
@@ -74,7 +74,7 @@ public class ComponentAdapter extends AbstractAdapter
     
     private Component m_component;
     private Object m_object;
-    private Instance m_instance;
+    private Provider m_instance;
     
     //------------------------------------------------------------------------------
     // constructor
@@ -201,8 +201,8 @@ public class ComponentAdapter extends AbstractAdapter
     public void activate() throws ControlException, InvocationTargetException, RemoteException
     {
         m_component.activate();
-        m_instance = m_component.getInstance();
-        m_object = m_component.getInstance().getValue( false );
+        m_instance = m_component.getProvider();
+        m_object = m_component.getProvider().getValue( false );
 }
     
    /**
@@ -224,9 +224,9 @@ public class ComponentAdapter extends AbstractAdapter
     *  related error
     * @exception RemoteException if a remote exception occurs
     */
-    public Instance getInstance() throws ControlException, InvocationTargetException, RemoteException
+    public Provider getProvider() throws ControlException, InvocationTargetException, RemoteException
     {
-        return m_component.getInstance();
+        return m_component.getProvider();
     }
     
    /**

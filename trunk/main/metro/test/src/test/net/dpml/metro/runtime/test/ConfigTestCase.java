@@ -25,7 +25,7 @@ import junit.framework.TestCase;
 
 import net.dpml.part.Controller;
 import net.dpml.part.Component;
-import net.dpml.part.Instance;
+import net.dpml.part.Provider;
 
 import net.dpml.test.config.ConfigurableComponent;
 
@@ -54,7 +54,7 @@ public class ConfigTestCase extends TestCase
     public void testCategories() throws Exception
     {
         Component component = CONTROLLER.createComponent( m_uri );
-        Instance instance = component.getInstance();
+        Provider instance = component.getProvider();
         ConfigurableComponent object = (ConfigurableComponent) instance.getValue( false );
         assertEquals( "name", "fred", object.getName() );
         assertEquals( "count", 3, object.getItemCount() );

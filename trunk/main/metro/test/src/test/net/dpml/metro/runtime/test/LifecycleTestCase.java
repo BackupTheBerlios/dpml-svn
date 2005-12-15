@@ -25,7 +25,7 @@ import junit.framework.TestCase;
 
 import net.dpml.part.Controller;
 import net.dpml.part.Component;
-import net.dpml.part.Instance;
+import net.dpml.part.Provider;
 
 import net.dpml.test.lifecycle.StartableComponent;
 
@@ -55,7 +55,7 @@ public class LifecycleTestCase extends TestCase
     {
         Component component = CONTROLLER.createComponent( m_uri );
         assertNotNull( "component", component );
-        Instance instance = component.getInstance();
+        Provider instance = component.getProvider();
         StartableComponent startable = (StartableComponent) instance.getValue( false );
         assertTrue( "component is started", startable.wasStarted() );
         component.deactivate();
