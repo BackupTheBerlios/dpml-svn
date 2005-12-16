@@ -21,12 +21,12 @@ import java.beans.BeanDescriptor;
 import java.beans.DefaultPersistenceDelegate;
 
 /**
- * BeanInfo for the DefaltOperation class that declares a persistence delegate.
+ * BeanInfo for the DefaltTermination class that declares a persistence delegate.
  *
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-public final class DefaultOperationBeanInfo extends SimpleBeanInfo
+public final class ExecActionBeanInfo extends SimpleBeanInfo
 {
     private static final BeanDescriptor BEAN_DESCRIPTOR = setupBeanDescriptor();
     
@@ -45,10 +45,10 @@ public final class DefaultOperationBeanInfo extends SimpleBeanInfo
     */
     private static BeanDescriptor setupBeanDescriptor()
     {
-        BeanDescriptor descriptor = new BeanDescriptor( DefaultOperation.class );
+        BeanDescriptor descriptor = new BeanDescriptor( ExecAction.class );
         descriptor.setValue( 
           "persistenceDelegate", 
-          new DefaultPersistenceDelegate( new String[]{"name", "methodName"} ) );
+          new DefaultPersistenceDelegate( new String[]{"ID"} ) );
         return descriptor;
     }
 }

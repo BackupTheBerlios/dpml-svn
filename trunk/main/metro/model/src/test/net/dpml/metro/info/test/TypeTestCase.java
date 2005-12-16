@@ -39,6 +39,8 @@ import net.dpml.metro.info.PartReference;
 import net.dpml.metro.info.ServiceDescriptor;
 import net.dpml.metro.info.Priority;
 
+import net.dpml.state.State;
+
 /**
  * TypeTestCase does XYZ
  *
@@ -54,6 +56,7 @@ public class TypeTestCase extends AbstractEncodingTestCase
     private PartReference[] m_parts;
     private ServiceDescriptor m_reference;
     private String m_key;
+    private State m_graph;
 
     public void setUp()
     {
@@ -66,6 +69,7 @@ public class TypeTestCase extends AbstractEncodingTestCase
         m_context = new ContextDescriptor( new EntryDescriptor[0] );
         m_services = new ServiceDescriptor[] { m_reference };
         m_parts = new PartReference[0];
+        m_graph = State.NULL_STATE;
     }
 
     private void checkType( Type type )
@@ -74,6 +78,7 @@ public class TypeTestCase extends AbstractEncodingTestCase
         checkArray( m_loggers, type.getCategoryDescriptors() );
         assertEquals( m_context, type.getContextDescriptor() );
         assertEquals( m_info, type.getInfo() );
+        assertEquals( m_graph, type.getStateGraph() );
         assertEquals( m_services[0], type.getServiceDescriptor( m_reference ) );
         assertEquals( m_services[0], type.getServiceDescriptor( m_services[0].getClassname() ) );
         checkArray( m_services, type.getServiceDescriptors());
@@ -95,7 +100,7 @@ public class TypeTestCase extends AbstractEncodingTestCase
     {
         Type type = 
           new Type(
-            m_info, m_loggers, m_context, m_services, m_parts );
+            m_info, m_loggers, m_context, m_services, m_parts, m_graph );
         checkType( type );
     }
 
@@ -103,7 +108,7 @@ public class TypeTestCase extends AbstractEncodingTestCase
     {
         Type type = 
           new Type( 
-            m_info, m_loggers, m_context, m_services, m_parts );
+            m_info, m_loggers, m_context, m_services, m_parts, m_graph );
 
         checkType( type );
 
@@ -133,7 +138,7 @@ public class TypeTestCase extends AbstractEncodingTestCase
     {
         Type type = 
           new Type(
-            m_info, m_loggers, m_context, m_services, m_parts );
+            m_info, m_loggers, m_context, m_services, m_parts, m_graph );
         executeEncodingTest( type, "type.xml" );
     }
 }

@@ -31,19 +31,32 @@ import net.dpml.state.Operation;
 public class DefaultOperation implements Operation, Serializable
 {
     private final String m_name;
+    private final String m_method;
     
    /**
     * Creation of a new operation.
     * @param name the operation name
-    * @param handler the uri identifying the handler
+    * @exception NullPointerException if the operation name is null
     */
-    public DefaultOperation( final String name )
+    public DefaultOperation( final String name)
+    {
+        this( name, null );
+    }
+    
+   /**
+    * Creation of a new operation.
+    * @param name the operation name
+    * @param method the overriding method name
+    * @exception NullPointerException if the operation name is null
+    */
+    public DefaultOperation( final String name, String method )
     {
         if( null == name )
         {
             throw new NullPointerException( "name" );
         }
         m_name = name;
+        m_method = method;
     }
     
    /**
@@ -53,6 +66,17 @@ public class DefaultOperation implements Operation, Serializable
     public String getName()
     {
         return m_name;
+    }
+    
+   /**
+    * Return the optional overriding method name.  If the 
+    * value returned is null the method shall be assumed to be the 
+    * equivalent of "get[Name]().
+    * @return the operation method name
+    */
+    public String getMethodName()
+    {
+        return m_method;
     }
     
    /**
@@ -78,7 +102,19 @@ public class DefaultOperation implements Operation, Serializable
         else if( other instanceof DefaultOperation )
         {
             DefaultOperation operation = (DefaultOperation) other;
-            return m_name.equals( operation.getName() );
+            
+            if( !m_name.equals( operation.getName() ) )
+            {
+                return false;
+            }
+            else if( null == m_method )
+            {
+                return null == operation.m_method;
+            }
+            else
+            {
+                return m_method.equals( operation.m_method );
+            }
         }
         else
         {
@@ -94,6 +130,10 @@ public class DefaultOperation implements Operation, Serializable
     {
         int hash = getClass().hashCode();
         hash ^= m_name.hashCode();
+        if( null != m_method )
+        {
+            hash ^= m_method.hashCode();
+        }
         return hash;
     }
 }

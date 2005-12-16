@@ -18,8 +18,6 @@
 
 package net.dpml.state;
 
-import java.net.URI;
-
 /**
  * Interface describing a transition that may be performed under an activate 
  * state.
@@ -48,8 +46,8 @@ public interface Transition extends Action
     String getTargetName();
     
    /**
-    * Return the handler uri associated with this state transition.
-    * @return the handler uri
+    * Return an operation associated with the transition.
+    * @return a possibly null operation
     */
-    URI getHandlerURI();
+    Operation getOperation();
 }

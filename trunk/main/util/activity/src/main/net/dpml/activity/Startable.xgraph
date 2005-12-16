@@ -2,16 +2,22 @@
 
 <state>
   <trigger event="initialization">
-    <transition name="init" target="started" uri="method:start"/>
+    <transition name="init" target="started">
+      <operation name="startup" method="start"/>
+    </transition>
   </trigger>
   <state name="started">
-    <transition name="stop" target="../stopped" uri="method:stop"/>
+    <transition name="stop" target="../stopped">
+      <operation name="stop" method="stop"/>
+    </transition>
     <trigger event="termination">
-      <action uri="transition:stop"/>
+      <apply id="stop"/>
     </trigger>
   </state>
   <state name="stopped">
-    <transition name="start" target="../started" uri="method:start"/>
+    <transition name="start" target="../started">
+      <operation name="start" method="start"/>
+    </transition>
   </state>
 </state>
 

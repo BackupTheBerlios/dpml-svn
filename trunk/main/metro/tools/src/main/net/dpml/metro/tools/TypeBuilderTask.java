@@ -44,6 +44,9 @@ import net.dpml.metro.info.PartReference;
 import net.dpml.metro.info.EntryDescriptor;
 import net.dpml.metro.info.ServiceDescriptor;
 
+import net.dpml.state.State;
+import net.dpml.state.impl.DefaultState;
+
 import net.dpml.library.info.Scope;
 import net.dpml.tools.tasks.GenericTask;
 
@@ -72,6 +75,7 @@ public class TypeBuilderTask extends GenericTask implements TypeBuilder
     private CollectionPolicy m_collection;
     private boolean m_threadsafe = false;
     private PartsDataType m_parts;
+    private StateDataType m_state;
 
     //---------------------------------------------------------------
     // setters
@@ -140,7 +144,22 @@ public class TypeBuilderTask extends GenericTask implements TypeBuilder
              throw new BuildException( error, getLocation() );
         }
     }
-
+    
+    public StateDataType createState()
+    {
+        if( m_state == null )
+        {
+            m_state = new StateDataType( true );
+            return m_state;
+        }
+        else
+        {
+             final String error =
+              "Illegal attempt to create a duplicate state element.";
+             throw new BuildException( error, getLocation() );
+        }
+    }
+    
     //---------------------------------------------------------------
     // Builder
     //---------------------------------------------------------------
@@ -165,7 +184,7 @@ public class TypeBuilderTask extends GenericTask implements TypeBuilder
     {
         return TYPE_BUILDER_URI;
     }
-
+    
     //---------------------------------------------------------------
     // TypeBuilder
     //---------------------------------------------------------------
@@ -201,7 +220,8 @@ public class TypeBuilderTask extends GenericTask implements TypeBuilder
         CategoryDescriptor[] categories = new CategoryDescriptor[0];
         ContextDescriptor context = createContextDescriptor( subject );
         PartReference[] parts = getPartReferences( subject.getClassLoader() );
-        return new Type( info, categories, context, services, parts );
+        State graph = getStateGraph();
+        return new Type( info, categories, context, services, parts, graph );
     }
 
     private File getReportDestination( File dir, Type type )
@@ -313,7 +333,7 @@ public class TypeBuilderTask extends GenericTask implements TypeBuilder
         }
         return m_classname;
     }
-
+    
     private InfoDescriptor createInfoDescriptor( Class subject ) 
       throws IntrospectionException
     {
@@ -534,6 +554,18 @@ public class TypeBuilderTask extends GenericTask implements TypeBuilder
               + method.getName()
               + "]";
             throw new IntrospectionException( error );
+        }
+    }
+    
+    private State getStateGraph()
+    {
+        if( null == m_state )
+        {
+            return new DefaultState( "" );
+        }
+        else
+        {
+            return m_state.getState();
         }
     }
 

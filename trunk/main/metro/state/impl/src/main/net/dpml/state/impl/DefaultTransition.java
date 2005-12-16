@@ -23,6 +23,7 @@ import java.net.URI;
 
 import net.dpml.state.State;
 import net.dpml.state.Transition;
+import net.dpml.state.Operation;
 
 /**
  * Default implemention of a state transition descriptor.
@@ -34,7 +35,7 @@ public class DefaultTransition implements Transition, Serializable
 {
     private final String m_name;
     private final String m_target;
-    private final URI m_handler;
+    private final Operation m_operation;
     
     private transient State m_state;
     
@@ -52,9 +53,9 @@ public class DefaultTransition implements Transition, Serializable
     * Creation of a new transition.
     * @param name the transition name
     * @param target the transit target state name
-    * @param handler a uri of a handler to associate with the transition
+    * @param operation optional transition operation
     */
-    public DefaultTransition( final String name, final String target, final URI handler )
+    public DefaultTransition( final String name, final String target, final Operation operation )
     {
         if( null == name )
         {
@@ -66,7 +67,7 @@ public class DefaultTransition implements Transition, Serializable
         }
         m_name = name;
         m_target = target;
-        m_handler = handler;
+        m_operation = operation;
     }
     
    /**
@@ -124,12 +125,12 @@ public class DefaultTransition implements Transition, Serializable
     }
     
    /**
-    * Return the handler uri associated with this state transition.
-    * @return the handler uri
+    * Return an operation associated with the transition.
+    * @return a possibly null operation
     */
-    public URI getHandlerURI()
+    public Operation getOperation()
     {
-        return m_handler;
+        return m_operation;
     }
     
    /**
@@ -156,7 +157,7 @@ public class DefaultTransition implements Transition, Serializable
             }
             else 
             {
-                return equals( m_handler, transition.getHandlerURI() );
+                return equals( m_operation, transition.getOperation() );
             }
         }
         else
@@ -173,9 +174,9 @@ public class DefaultTransition implements Transition, Serializable
     {
         int hash = m_name.hashCode();
         hash ^= m_target.hashCode();
-        if( m_handler != null )
+        if( m_operation != null )
         {
-            hash ^= m_handler.hashCode();
+            hash ^= m_operation.hashCode();
         }
         return hash;
     }

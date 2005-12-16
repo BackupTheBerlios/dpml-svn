@@ -51,7 +51,7 @@ public class DefaultStateTestCase extends AbstractEncodingTestCase
         m_transitions = 
           new Transition[]
           {
-            new DefaultTransition( "transition-one", "some-target", new URI( "method:dosometing" ) )
+            new DefaultTransition( "transition-one", "some-target", new DefaultOperation( "demo" ) )
           };
         m_operations = 
           new Operation[]

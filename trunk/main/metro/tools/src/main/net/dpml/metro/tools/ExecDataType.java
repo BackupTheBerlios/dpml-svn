@@ -1,5 +1,5 @@
 /*
- * Copyright 2005 Stephen J. McConnell.
+ * Copyright (c) 2005 Stephen J. McConnell
  *
  * Licensed  under the  Apache License,  Version 2.0  (the "License");
  * you may not use  this file  except in  compliance with the License.
@@ -16,25 +16,39 @@
  * limitations under the License.
  */
 
-package net.dpml.state;
+package net.dpml.metro.tools;
 
-import java.net.URI;
+import java.util.ArrayList;
+import java.util.List;
+
+import net.dpml.state.impl.ExecAction;
 
 /**
- * An operation defines the name of a bean style accessor that 
- * may be invoked by a management application while the operation
- * is exposed within the active path.
+ * Exec an identified operation.
  *
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-public interface Operation extends Action
+public class ExecDataType
 {
+    private String m_id;
+    
    /**
-    * Return the optional overriding method name.  If the 
-    * value returned is null the method shall be assumed to be the 
-    * equivalent of "get[Name]().
-    * @return the operation method name
+    * Set the name of operation to apply.
+    * @param id the operation name
     */
-    String getMethodName();
+    public void setId( final String id )
+    {
+        if( null == id )
+        {
+            throw new NullPointerException( "id" );
+        }
+        m_id = id;
+    }
+    
+    ExecAction getAction()
+    {
+        return new ExecAction( m_id );
+    }
+    
 }

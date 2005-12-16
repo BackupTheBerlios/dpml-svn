@@ -47,7 +47,7 @@ public final class TypeBeanInfo extends SimpleBeanInfo
           new DefaultPersistenceDelegate( 
             new String[]{ 
               "info", "categoryDescriptors", "contextDescriptor",
-              "serviceDescriptors", "partReferences"} ) );
+              "serviceDescriptors", "partReferences", "stateGraph"} ) );
         return descriptor;
     }
 }

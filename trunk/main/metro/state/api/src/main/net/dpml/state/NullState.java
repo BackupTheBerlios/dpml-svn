@@ -18,69 +18,112 @@
 
 package net.dpml.state;
 
+import java.io.Serializable;
+
 /**
- * Interface describing an application state.
+ * Null state implementation.
  *
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-public interface State
+public final class NullState implements State, Serializable
 {   
-    static final State NULL_STATE = new NullState();
-
    /**
     * Return the name of the state.
     * @return the state name
     */
-    String getName();
+    public String getName()
+    {
+        return "";
+    }
     
    /**
     * Set the parent state. 
     * @param state the parent state
     */
-    void setParent( State state );
+    public void setParent( State state )
+    {
+    }
 
    /**
     * Return the parent state to this state or null if this is 
     * the root of a state graph.
     * @return the parent state
     */
-    State getParent();
+    public State getParent()
+    {
+        return null;
+    }
     
    /**
     * Return the state path.  The path is composed of a sequence of 
     * states from the root to this state.
     * @return the state path
     */
-    State[] getStatePath();
+    public State[] getStatePath()
+    {
+        return new State[0];
+    }
     
    /**
     * Return the substates within this state.
     * @return the substate array
     */
-    State[] getStates();
+    public State[] getStates()
+    {
+        return new State[0];
+    }
     
    /**
     * Return the array of triggers associated with the state.
     * @return the trigger array
     */
-    Trigger[] getTriggers();
+    public Trigger[] getTriggers()
+    {
+        return new Trigger[0];
+    }
     
    /**
     * Return the array of transtions associated with the state.
     * @return the transition array
     */
-    Transition[] getTransitions();
+    public Transition[] getTransitions()
+    {
+        return new Transition[0];
+    }
     
    /**
     * Return the array of operations associated with the state.
     * @return the operation array
     */
-    Operation[] getOperations();
+    public Operation[] getOperations()
+    {
+        return new Operation[0];
+    }
     
    /**
     * Test is the state is a terminal state.
     * @return true if terminal
     */
-    boolean isTerminal();
+    public boolean isTerminal()
+    {
+        return false;
+    }
+    
+    public boolean equals( Object other )
+    {
+        if( null == other )
+        {
+            return false;
+        }
+        else
+        {
+            return ( other instanceof NullState );
+        }
+    }
+    
+    public int hashCode()
+    {
+        return getClass().hashCode();
+    }
 }

@@ -39,16 +39,16 @@ import net.dpml.state.impl.*;
 public class DefaultTransitionTestCase extends AbstractEncodingTestCase
 {
     private String m_name;
-    private URI m_handler;
+    private Operation m_operation;
     private String m_target;
     private Transition m_transition;
     
     public void setUp() throws Exception
     {
         m_name = "test";
-        m_handler = new URI( "method:xyz" );
+        m_operation = new DefaultOperation( "xyz" );
         m_target = "somewhere";
-        m_transition = new DefaultTransition( m_name, m_target, m_handler );
+        m_transition = new DefaultTransition( m_name, m_target, m_operation );
     }
     
     public void testName() throws Exception
@@ -61,9 +61,9 @@ public class DefaultTransitionTestCase extends AbstractEncodingTestCase
         assertEquals( "target", m_target, m_transition.getTargetName() );
     }
     
-    public void testHandler() throws Exception
+    public void testOperation() throws Exception
     {
-        assertEquals( "handler", m_handler, m_transition.getHandlerURI() );
+        assertEquals( "operation", m_operation, m_transition.getOperation() );
     }
     
     public void testEncoding() throws Exception
@@ -85,7 +85,7 @@ public class DefaultTransitionTestCase extends AbstractEncodingTestCase
         }
         try
         {
-            new DefaultTransition( null, m_target, m_handler );
+            new DefaultTransition( null, m_target, m_operation );
             fail( "NPE not thown for null name" );
         }
         catch( NullPointerException e )
@@ -94,7 +94,7 @@ public class DefaultTransitionTestCase extends AbstractEncodingTestCase
         }
         try
         {
-            new DefaultTransition( m_name, null, m_handler );
+            new DefaultTransition( m_name, null, m_operation );
             fail( "NPE not thown for null target" );
         }
         catch( NullPointerException e )
@@ -105,9 +105,9 @@ public class DefaultTransitionTestCase extends AbstractEncodingTestCase
         {
             new DefaultTransition( m_name, m_target, null );
         }
-        catch( Exception e )
+        catch( NullPointerException e )
         {
-            fail( "Null handler is allowed." );
+            fail( "Null operation is allowed." );
         }
     }
 }

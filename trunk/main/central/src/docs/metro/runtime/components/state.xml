@@ -11,7 +11,80 @@
 
     <section name="State">
 
-      <p>IN PREPARATION</p>
+      <p>
+      The Part API includes the defintion of a state model derived from 
+      the OMG Negotiation Services specification.  The state model enables
+      the definition of nested state diagrams, transitions, and operation.
+      When a component provider is activated, any associated state model 
+      will be initialized rsulting in the firing of initializer transitions.
+      Each initializer may change the activate state of the provider causing
+      additional initializers to fire.  On completion of initialization the 
+      operation active state is established.
+      </p>
+
+      <subsection name="Active State">
+
+        <p>
+        The active state path is a chain of states commencing with the 
+        active state and all enclosing states of the active state.
+        </p>
+
+        <p>
+        Management functions available within an active state include:
+        </p>
+
+        <ul>
+          <li><tt>apply</tt> any transition declared in the active state path
+            resulting in the modification of the active state</li>
+          <li><tt>exec</tt> any operation declared in the active state path</li>
+        </ul>
+
+      </subsection>
+
+      <subsection name="Example State Graph">
+
+        <p>
+        The following illustration depicts a simple state graph containing 
+        two sub-states <tt>started</tt> and <tt>stopped</tt>.  Initializor 
+        transitions establish <tt>started</tt> as the initial active state
+        under which the <tt>stop</tt> transition is exposed.  Application of 
+        the <tt>stop</tt> transition will result in the establishment of 
+        the <tt>stopped</tt> state as the active state and therefor the 
+        exposure of the <tt>start</tt> and <tt>exit</tt> transitions 
+        within the active state path (and retraction of the <tt>stop</tt> 
+        transition).
+        </p>
+
+        <img src="/images/metro/state.png"/>
+
+      </subsection>
+
+      <subsection name="Example">
+      
+        <p>
+        The following snipet of code demonstrates the invocation of 
+        a management operation named <tt>monitor</tt> on a service 
+        provider (in this example the <tt>Monitor</tt> interface is a 
+        an interface declared by the component within the root state).
+        </p>
+
+<pre>Provider provider = component.getProvider();
+<font color="darkred">Monitor monitor = (Monitor) provider.exec( "monitor", new Object[0] );</font>
+int count = monitor.getAccessCount() );</pre>
+ 
+        <p>
+        The following snipet is a hyperthetical example of how a management
+        application could stop a service, apply a parameter, and resume service
+        execution.
+        </p>
+
+<pre>Provider provider = component.getProvider();
+<font color="darkred">provider.apply( "stop" ); // invoke transition
+provider.exec( "timeout", new Object[]{"3000"} ); // execute operation
+provider.apply( "start" );</font> // invoke transition
+</pre>
+
+      </subsection>
 
     </section>
 

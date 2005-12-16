@@ -41,7 +41,6 @@ import net.dpml.state.StateBuilderRuntimeException;
 import net.dpml.state.Trigger;
 import net.dpml.state.Trigger.TriggerEvent;
 import net.dpml.state.Action;
-import net.dpml.state.Delegation;
 import net.dpml.state.StateMachine;
 import net.dpml.state.UnknownOperationException;
 import net.dpml.state.UnknownTransitionException;
@@ -445,8 +444,7 @@ public class DefaultStateMachine implements StateMachine
             return null;
         }
         
-        String name = operation.getName();
-        String method = getMethodName( name );
+        String method = getMethodName( operation );
         
         try
         {
@@ -510,10 +508,10 @@ public class DefaultStateMachine implements StateMachine
             State context = transition.getState();
             String target = transition.getTargetName();
             State state = getState( context, target );
-            URI handler = transition.getHandlerURI();
-            if( null != handler )
+            Operation operation = transition.getOperation();
+            if( null != operation )
             {
-                execute( handler, object );
+                execute( operation, object, new Object[0] ); // TODO: add resolved values as args
             }
             setState( state );
             return state;
@@ -580,19 +578,17 @@ public class DefaultStateMachine implements StateMachine
             if( trigger.getEvent().equals( category ) )
             {
                 Action action = trigger.getAction();
-                if( action instanceof Delegation )
+                if( action instanceof ApplyAction )
                 {
-                    URI uri = ( (Delegation) action ).getURI();
-                    String scheme = uri.getScheme();
-                    String spec = uri.getSchemeSpecificPart();
-                    if( "transition".equals( scheme ) )
-                    {
-                        return getTransition( state, spec );
-                    }
-                    else if( "operation".equals( scheme ) )
-                    {
-                        return getOperation( state, spec );
-                    }
+                    ApplyAction apply = (ApplyAction) action;
+                    String id = apply.getID();
+                    return getTransition( state, id );
+                }
+                else if( action instanceof ExecAction )
+                {
+                    ExecAction exec = (ExecAction) action;
+                    String id = exec.getID();
+                    return getOperation( state, id );
                 }
                 else
                 {
@@ -727,10 +723,13 @@ public class DefaultStateMachine implements StateMachine
             Operation operation = (Operation) action;
             validateOperation( state, operation );
         }
-        else if( action instanceof Delegation )
+        else if( action instanceof ApplyAction )
         {
-            Delegation delegation = (Delegation) action;
-            validateDelegation( state, delegation );
+            // TODO
+        }
+        else if( action instanceof ExecAction )
+        {
+            // TODO
         }
     }
     
@@ -754,11 +753,6 @@ public class DefaultStateMachine implements StateMachine
         //System.out.println( "# v/operation: " + operation );
     }
 
-    private static void validateDelegation( State state, Delegation delegation )
-    {
-        //System.out.println( "# v/action: " + delegation );
-    }
-    
     private static State getState( State state, String target )
     {
         if( target.startsWith( "/" ) )
@@ -839,8 +833,18 @@ public class DefaultStateMachine implements StateMachine
         }
     }
 
-    private String getMethodName( String name )
+    private String getMethodName( Operation operation )
     {
+        if( null != operation.getMethodName() )
+        {
+            return operation.getMethodName();
+        }
+        
+        //
+        // otherwise resolve it using java beans style getXxxx
+        //
+        
+        String name = operation.getName();
         int n = name.length();
         if( n == 0 )
         {
@@ -1001,11 +1005,15 @@ public class DefaultStateMachine implements StateMachine
         {
             return buildOperation( config );
         }
-        else if( name.equals( "action" ) )
+        else if( name.equals( "apply" ) )
         {
-            String id = config.getAttribute( "uri" );
-            URI uri = new URI( id );
-            return new DefaultDelegation( uri );
+            String id = config.getAttribute( "id" );
+            return new ApplyAction( id );
+        }
+        else if( name.equals( "exec" ) )
+        {
+            String id = config.getAttribute( "id" );
+            return new ExecAction( id );
         }
         else
         {
@@ -1019,11 +1027,16 @@ public class DefaultStateMachine implements StateMachine
 
     private static DefaultOperation buildOperation( Configuration config ) throws Exception
     {
+        if( null == config )
+        {
+            return null;
+        }
         String name = config.getName();
         if( name.equals( "operation" ) )
         {
             String operationName = config.getAttribute( "name" );
-            return new DefaultOperation( operationName );
+            String methodName = config.getAttribute( "method", null );
+            return new DefaultOperation( operationName, methodName );
         }
         else
         {
@@ -1041,11 +1054,10 @@ public class DefaultStateMachine implements StateMachine
         
         if( name.equals( "transition" ) )
         {
-            String handler = config.getAttribute( "uri", null );
-            String target = config.getAttribute( "target", "." );
-            URI uri = createURI( handler );
             String transitionName = config.getAttribute( "name" );
-            return new DefaultTransition( transitionName, target, uri );
+            String target = config.getAttribute( "target", "." );
+            DefaultOperation operation = buildOperation( config.getChild( "operation", false ) );
+            return new DefaultTransition( transitionName, target, operation );
         }
         else
         {

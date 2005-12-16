@@ -58,7 +58,7 @@ public final class DefaultTransitionBeanInfo extends SimpleBeanInfo
         BeanDescriptor descriptor = new BeanDescriptor( DefaultTransition.class );
         descriptor.setValue( 
           "persistenceDelegate", 
-          new DefaultPersistenceDelegate( new String[]{"name", "targetName", "handlerURI"} ) );
+          new DefaultPersistenceDelegate( new String[]{"name", "targetName", "operation"} ) );
         return descriptor;
     }
 }

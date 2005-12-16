@@ -2,7 +2,7 @@
 
 <state>
   <trigger event="initialization">
-    <operation name="init" uri="method:execute"/>
+    <operation name="init" method="execute"/>
   </trigger>
 </state>
 

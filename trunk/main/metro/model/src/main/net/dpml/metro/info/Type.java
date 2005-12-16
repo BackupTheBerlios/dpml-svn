@@ -34,6 +34,8 @@ import java.net.URI;
 import java.net.URL;
 
 import net.dpml.part.Directive;
+import net.dpml.state.State;
+import net.dpml.state.State;
 
 /**
  * This class contains the meta information about a particular
@@ -213,17 +215,18 @@ public class Type implements Serializable
     public static Type decode( ClassLoader context, InputStream input ) throws IOException
     {
         final ClassLoader loader = Thread.currentThread().getContextClassLoader();
-        try
-        {
-            Class c = context.loadClass( "net.dpml.configuration.impl.DefaultConfiguration" );
-        }
-        catch( ClassNotFoundException ce )
-        {
-            final String error = 
-              "Context classloader does not include the configuration implementation in the supplied classloader:\n"
-              + context;
-            throw new IllegalStateException( error );
-        }
+        
+        //try
+        //{
+        //    Class c = context.loadClass( "net.dpml.configuration.impl.DefaultConfiguration" );
+        //}
+        //catch( ClassNotFoundException ce )
+        //{
+        //    final String error = 
+        //      "Context classloader does not include the configuration implementation in the supplied classloader:\n"
+        //      + context;
+        //    throw new IllegalStateException( error );
+        //}
         try
         {
             Thread.currentThread().setContextClassLoader( context );
@@ -270,6 +273,7 @@ public class Type implements Serializable
     private final ContextDescriptor m_context;
     private final ServiceDescriptor[] m_services;
     private final PartReference[] m_parts;
+    private final State m_graph;
 
    /**
     * Creation of a new Type instance using a supplied component descriptor,
@@ -283,12 +287,13 @@ public class Type implements Serializable
     * @param services a set of service descriptors that detail the service that
     *   this component type is capable of supplying
     * @param parts an array of part descriptors
-    * @exception NullPointerException if the info, loggers, or context is null
+    * @param graph the state graph
+    * @exception NullPointerException if the info, loggers, state, or context is null
     */
     public Type( 
       final InfoDescriptor info, final CategoryDescriptor[] loggers,
       final ContextDescriptor context, final ServiceDescriptor[] services,
-      final PartReference[] parts )
+      final PartReference[] parts, State graph )
       throws NullPointerException 
     {
         if( null == info )
@@ -303,6 +308,10 @@ public class Type implements Serializable
         {
             throw new NullPointerException( "context" );
         }
+        if( null == graph )
+        {
+            throw new NullPointerException( "graph" );
+        }
         if( null == services )
         {
             m_services = new ServiceDescriptor[0];
@@ -315,6 +324,7 @@ public class Type implements Serializable
         m_info = info;
         m_categories = loggers;
         m_context = context;
+        m_graph = graph;
 
         if( null == parts )
         {
@@ -324,6 +334,15 @@ public class Type implements Serializable
         {
             m_parts = parts;
         }
+    }
+    
+   /**
+    * Return the state graph for the component type.
+    * @return the state graph
+    */
+    public State getStateGraph()
+    {
+        return m_graph;
     }
 
    /**
@@ -512,6 +531,10 @@ public class Type implements Serializable
         {
             return false;
         }
+        if( !m_graph.equals( t.m_graph ) )
+        {
+            return false;
+        }
         for( int i=0; i<m_categories.length; i++ )
         {
             if( !m_categories[i].equals( t.m_categories[i] ) )
@@ -537,6 +560,7 @@ public class Type implements Serializable
     {
         int hash = m_info.hashCode();
         hash ^= m_context.hashCode();
+        hash ^= m_graph.hashCode();
         for( int i = 0; i < m_parts.length; i++ )
         {
             hash ^= m_parts[i].hashCode();
@@ -562,6 +586,6 @@ public class Type implements Serializable
         final ContextDescriptor context = new ContextDescriptor( new EntryDescriptor[0] );
         final ServiceDescriptor[] services = new ServiceDescriptor[0];
         final PartReference[] parts = new PartReference[0];
-        return new Type( info, loggers, context, services, parts );
+        return new Type( info, loggers, context, services, parts, State.NULL_STATE );
     }
 }
