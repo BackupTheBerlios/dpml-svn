@@ -34,7 +34,19 @@
 
     <!-- create the test component types -->
 
-    <c:type class="net.dpml.test.ExampleComponent" name="example"/>
+    <c:type class="net.dpml.test.ExampleComponent" name="example">
+      <state>
+        <trigger event="initialization">
+          <transition name="init" target="available"/>
+        </trigger>
+        <state name="available">
+          <trigger event="termination">
+            <transition name="terminate" target="../terminated"/>
+          </trigger>
+        </state>
+        <state name="terminated" terminal="true"/>
+      </state>
+    </c:type>
     <c:type class="net.dpml.test.SingletonComponent" name="example" threadsafe="true"/>
     <c:type class="net.dpml.test.ContextTestComponent" name="context" threadsafe="true"/>
 
@@ -116,7 +128,29 @@
 
     <!-- create the lifecycle managed component -->
 
-    <c:type class="net.dpml.test.lifecycle.StartableComponent" name="lifecycle"/>
+    <c:type class="net.dpml.test.lifecycle.StartableComponent" name="lifecycle">
+      <state>
+        <trigger event="initialization">
+          <transition name="init" target="started">
+            <operation name="startup" method="start"/>
+          </transition>
+        </trigger>
+        <state name="started">
+          <transition name="stop" target="../stopped">
+            <operation name="stop" method="stop"/>
+          </transition>
+          <trigger event="termination">
+            <apply id="stop"/>
+          </trigger>
+        </state>
+        <state name="stopped">
+          <transition name="start" target="../started">
+            <operation name="start" method="start"/>
+          </transition>
+        </state>
+      </state>
+    </c:type>
+
     <c:component dest="target/test/lifecycle.part" test="true" activation="false"
         type="net.dpml.test.lifecycle.StartableComponent" collection="hard">
     </c:component>
@@ -180,30 +214,12 @@
     <c:component type="net.dpml.test.app.Demo" 
       dest="target/test/application.part" test="true" activation="true" collection="hard"/>
 
-    <!-- state test -->
+    <!-- operations test -->
 
     <c:type class="net.dpml.test.state.ManagedComponent" name="demo" lifestyle="thread">
       <state>
         <operation name="ping" method="ping"/>
         <operation name="monitor"/>
-        <trigger event="initialization">
-          <transition name="startup" target="started">
-            <operation method="start"/>
-          </transition>
-        </trigger>
-        <state name="started">
-          <trigger event="termination">
-            <apply id="stop"/>
-          </trigger>
-          <transition name="stop" target="../stopped">
-            <operation method="stop"/>
-          </transition>
-        </state>
-        <state name="stopped">
-          <transition name="start" target="../started">
-            <operation method="start"/>
-          </transition>
-        </state>
       </state>
     </c:type>
 

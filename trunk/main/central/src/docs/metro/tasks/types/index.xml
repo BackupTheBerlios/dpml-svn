@@ -71,11 +71,13 @@
 
         <table>
           <tr>
-            <td><tt>parts</tt></td>
-            <td>The parts element may contain 0..n embedded 
-              <a href="../components/index.html">component</a>
-              defintions.  Components embedded within a type are 
-              structural parts of the component type.</td>
+            <td><a href="state/index.html"><tt>state</tt></a></td>
+            <td>Definition of a component state graph.</td>
+          </tr>
+          <tr>
+            <td><tt><a href="parts/index.html">parts</a></tt></td>
+            <td>Definition of the internal parts (nested components)
+                within this component type.</td>
           </tr>
         </table>
 

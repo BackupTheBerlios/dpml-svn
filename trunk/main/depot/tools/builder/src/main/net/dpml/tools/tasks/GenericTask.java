@@ -155,7 +155,7 @@ public class GenericTask extends Task
     * Get the project context.
     * @return the project context
     */
-    protected Context getContext()
+    public Context getContext()
     {
         Context context = (Context) getProject().getReference( "project.context" );
         if( null != context )

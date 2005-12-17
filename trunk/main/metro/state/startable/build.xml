@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+  Copyright 2005 Stephen J. McConnell
+
+  Licensed  under the  Apache License,  Version 2.0  (the "License");
+  you may not use  this file  except in  compliance with the License.
+  You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed  under the  License is distributed on an "AS IS" BASIS,
+  WITHOUT  WARRANTIES OR CONDITIONS  OF ANY KIND, either  express  or
+  implied.
+
+  See the License for the specific language governing permissions and
+  limitations under the License.
+-->
+
+<project name="dpml-state-startable" default="install"
+    xmlns:transit="antlib:net.dpml.transit" 
+    xmlns:x="dpml:depot" 
+    xmlns:c="dpml:metro">
+
+  <transit:import uri="local:template:dpml/tools/standard"/>
+
+  <target name="build" depends="standard.build">
+    <x:plugin uri="link:plugin:dpml/metro/dpml-metro-tools"/>
+    <c:state>
+      <trigger event="initialization">
+        <transition name="startup" target="started">
+          <operation method="start"/>
+        </transition>
+      </trigger>
+      <state name="started">
+        <trigger event="termination">
+          <apply id="stop"/>
+        </trigger>
+        <transition name="stop" target="../stopped">
+          <operation method="stop"/>
+        </transition>
+      </state>
+      <state name="stopped">
+        <transition name="start" target="../started">
+          <operation method="start"/>
+        </transition>
+      </state>
+    </c:state>
+  </target>
+
+</project>
+
+

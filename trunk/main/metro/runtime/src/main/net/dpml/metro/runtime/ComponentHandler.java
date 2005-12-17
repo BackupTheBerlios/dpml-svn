@@ -145,7 +145,8 @@ public class ComponentHandler extends UnicastEventSource implements Component, C
         m_controller = control;
         m_model = model;
         m_path = model.getContextPath();
-        m_graph = model.getStateGraph();
+        
+        //m_graph = model.getStateGraph();
         
         String classname = model.getImplementationClassName();
         try
@@ -171,6 +172,8 @@ public class ComponentHandler extends UnicastEventSource implements Component, C
               + classname;
             throw new ControllerRuntimeException( error, e );
         }
+        
+        m_graph = m_type.getStateGraph();
         
         try
         {

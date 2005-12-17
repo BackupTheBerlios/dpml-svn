@@ -78,7 +78,6 @@ class DefaultComponentModel extends UnicastEventSource implements ComponentModel
     private Parameters m_parameters;  // <------------ remove this (covered by context)
     private Configuration m_configuration; // <----- move to a context entry where the resolved value is a Configuration 
     private Class m_class;
-    private State m_graph;
 
     // ------------------------------------------------------------------------
     // constructor
@@ -99,7 +98,6 @@ class DefaultComponentModel extends UnicastEventSource implements ComponentModel
         m_classname = directive.getClassname();
         m_class = m_controller.loadComponentClass( m_classloader, m_classname );
         m_type = m_controller.loadType( m_class );
-        m_graph = m_controller.loadStateGraph( m_class );
         
         m_activation = directive.getActivationPolicy();
         m_lifestyle = directive.getLifestylePolicy();
@@ -180,15 +178,6 @@ class DefaultComponentModel extends UnicastEventSource implements ComponentModel
     public String getContextPath()
     {
         return m_path;
-    }
-    
-   /**
-    * Return the immutable state graph for the component.
-    * @return the state graph.
-    */
-    public State getStateGraph()
-    {
-        return m_graph;
     }
     
    /**

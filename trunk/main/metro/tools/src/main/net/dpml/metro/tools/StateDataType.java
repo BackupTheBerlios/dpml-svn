@@ -18,15 +18,31 @@
 
 package net.dpml.metro.tools;
 
+import java.io.File;
+import java.io.InputStream;
+import java.net.URI;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+
+import net.dpml.library.info.Scope;
+
+import net.dpml.tools.tasks.GenericTask;
 
 import net.dpml.state.Trigger;
 import net.dpml.state.State;
 import net.dpml.state.Operation;
 import net.dpml.state.Transition;
+import net.dpml.state.StateBuilder;
 import net.dpml.state.impl.DefaultState;
+import net.dpml.state.impl.DefaultStateMachine;
 
+import org.apache.tools.ant.Task;
+import org.apache.tools.ant.Project;
+import org.apache.tools.ant.Project;
+import org.apache.tools.ant.BuildException;
+import org.apache.tools.ant.types.Path;
+import org.apache.tools.ant.AntClassLoader;
 
 /**
  * Utility datatype supporting State instance construction.
@@ -37,6 +53,7 @@ import net.dpml.state.impl.DefaultState;
 public class StateDataType
 {
     private final boolean m_root;
+    private final GenericTask m_task;
     
     private String m_name;
     private List m_states = new ArrayList();
@@ -45,19 +62,24 @@ public class StateDataType
     private List m_triggers = new ArrayList();
     private boolean m_terminal = false;
     
-    StateDataType()
+    private URI m_uri;
+    private String m_classname;
+    
+    StateDataType( GenericTask task )
     {
-        this( false );
+        this( task, false );
     }
     
-    StateDataType( boolean root )
+    StateDataType( GenericTask task, boolean root )
     {
         m_root = root;
+        m_task = task;
     }
     
    /**
-    * Set the state name.
-    * @param name the cname of the state
+    * Set the state name.  Note that state names are only applicable to
+    * substates.  A state name assigned to the root state will be ignored.
+    * @param name the name of the state
     */
     public void setName( final String name )
     {
@@ -69,11 +91,60 @@ public class StateDataType
     }
     
    /**
+    * Set a uri from which to resolve an encoded state graph.  May only 
+    * applied to a root state.
+    */
+    public void setUri( final URI uri )
+    {
+        if( !m_root )
+        {
+            final String error = 
+              "Illegal attempt to request import of a state graph within a nested state.";
+            throw new BuildException( error, m_task.getLocation() );
+        }
+        m_uri = uri;
+    }
+    
+   /**
+    * Set a classname from which to resolve an embedded state graph.  May only 
+    * applied to a root state.  May not be used in conjuction with other attributes or
+    * nested elements.
+    */
+    public void setClass( final String classname )
+    {
+        if( !m_root )
+        {
+            final String error = 
+              "Illegal attempt to request import of a state graph within a nested state.";
+            throw new BuildException( error, m_task.getLocation() );
+        }
+        if( null != m_uri )
+        {
+            final String error = 
+              "Illegal attempt to request import of a embedded state graph in conjuction with the uri attribute.";
+            throw new BuildException( error, m_task.getLocation() );
+        }
+        m_classname = classname;
+    }
+    
+   /**
     * Mark the state as a terminal state.
     * @param flag true if this is a terminal state
     */
     public void setTerminal( final boolean flag )
     {
+        if( null != m_uri )
+        {
+            final String error = 
+              "Terminal attribute may not be used in conjuction with a uri import.";
+            throw new BuildException( error, m_task.getLocation() );
+        }
+        if( null != m_classname )
+        {
+            final String error = 
+              "Terminal attribute may not be used in conjuction with the class attribute.";
+            throw new BuildException( error, m_task.getLocation() );
+        }
         m_terminal = flag;
     }
     
@@ -83,7 +154,19 @@ public class StateDataType
     */
     public StateDataType createState()
     {
-        final StateDataType state = new StateDataType();
+        if( null != m_uri )
+        {
+            final String error = 
+              "Substates may not be used in conjuction with a uri import.";
+            throw new BuildException( error, m_task.getLocation() );
+        }
+        if( null != m_classname )
+        {
+            final String error = 
+              "Substates may not be used in conjuction with the class attribute.";
+            throw new BuildException( error, m_task.getLocation() );
+        }
+        final StateDataType state = new StateDataType( m_task );
         m_states.add( state );
         return state;
     }
@@ -94,6 +177,18 @@ public class StateDataType
     */
     public OperationDataType createOperation()
     {
+        if( null != m_uri )
+        {
+            final String error = 
+              "Operations may not be used in conjuction with a uri import.";
+            throw new BuildException( error, m_task.getLocation() );
+        }
+        if( null != m_classname )
+        {
+            final String error = 
+              "Operations may not be used in conjuction with the class attribute.";
+            throw new BuildException( error, m_task.getLocation() );
+        }
         final OperationDataType operation = new OperationDataType();
         m_operations.add( operation );
         return operation;
@@ -105,6 +200,18 @@ public class StateDataType
     */
     public TransitionDataType createTransition()
     {
+        if( null != m_uri )
+        {
+            final String error = 
+              "Transitions may not be used in conjuction with a uri import.";
+            throw new BuildException( error, m_task.getLocation() );
+        }
+        if( null != m_classname )
+        {
+            final String error = 
+              "Transitions may not be used in conjuction with the class attribute.";
+            throw new BuildException( error, m_task.getLocation() );
+        }
         final TransitionDataType transition = new TransitionDataType();
         m_transitions.add( transition );
         return transition;
@@ -116,21 +223,58 @@ public class StateDataType
     */
     public TriggerDataType createTrigger()
     {
+        if( null != m_uri )
+        {
+            final String error = 
+              "Triggers may not be used in conjuction with a uri import.";
+            throw new BuildException( error, m_task.getLocation() );
+        }
+        if( null != m_classname )
+        {
+            final String error = 
+              "Triggers may not be used in conjuction with the class attribute.";
+            throw new BuildException( error, m_task.getLocation() );
+        }
         final TriggerDataType trigger = new TriggerDataType();
         m_triggers.add( trigger );
         return trigger;
     }
     
-    DefaultState getState()
+    State getState()
     {
-        String name = getStateName();
-        Trigger[] triggers = getTriggers();
-        Operation[] operations = getOperations();
-        Transition[] transitions = getTransitions();
-        State[] states = getStates();
-        return new DefaultState( name, triggers, transitions, operations, states, m_terminal ); 
+        if( null != m_uri )
+        {
+            m_task.log( "importing state graph: " + m_uri );
+            return StateBuilder.readGraph( m_uri );
+        }
+        else if( null != m_classname )
+        {
+            try
+            {
+                ClassLoader classloader = createClassLoader();
+                Class clazz = classloader.loadClass( m_classname );
+                return loadStateFromResource( clazz );
+            }
+            catch( Exception e )
+            {
+                final String error = 
+                  "Unable to load an embedded state xgraph from the resource: " 
+                  + m_classname + ".xgraph";
+                throw new BuildException( error, e );
+            }
+        }
+        else
+        {
+            m_task.log( "creating embedded state graph" );
+            String name = getStateName();
+            Trigger[] triggers = getTriggers();
+            Operation[] operations = getOperations();
+            Transition[] transitions = getTransitions();
+            State[] states = getStates();
+            return new DefaultState( name, triggers, transitions, operations, states, m_terminal );
+        }
     }
-    
+
     String getStateName()
     {
         if( m_root )
@@ -189,5 +333,45 @@ public class StateDataType
             values[i] = data.getState();
         }
         return values;
+    }
+
+   /**
+    * Return the runtime classloader.
+    * @return the classloader
+    */
+    private ClassLoader createClassLoader()
+    {
+        Project project = m_task.getProject();
+        Path path = m_task.getContext().getPath( Scope.RUNTIME );
+        File classes = m_task.getContext().getTargetClassesMainDirectory();
+        path.createPathElement().setLocation( classes );
+        ClassLoader parentClassLoader = ClassLoaderBuilderTask.class.getClassLoader();
+        return new AntClassLoader( parentClassLoader, project, path, true );
+    }
+
+    private State loadStateFromResource( Class subject )
+    {
+        String resource = subject.getName().replace( '.', '/' ) + ".xgraph";
+        try
+        {
+            URL url = subject.getClassLoader().getResource( resource );
+            if( null == url )
+            {
+                return null;
+            }
+            else
+            {
+                InputStream input = url.openConnection().getInputStream();
+                return DefaultStateMachine.load( input );
+            }
+        }
+        catch( Throwable e )
+        {
+            final String error = 
+              "Internal error while attempting to load component state graph resource [" 
+              + resource 
+              + "].";
+            throw new BuildException( error, e );
+        }
     }
 }

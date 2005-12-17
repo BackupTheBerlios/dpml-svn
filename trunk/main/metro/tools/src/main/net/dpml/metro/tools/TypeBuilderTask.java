@@ -149,7 +149,7 @@ public class TypeBuilderTask extends GenericTask implements TypeBuilder
     {
         if( m_state == null )
         {
-            m_state = new StateDataType( true );
+            m_state = new StateDataType( this, true );
             return m_state;
         }
         else

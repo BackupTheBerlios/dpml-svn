@@ -26,6 +26,8 @@ package net.dpml.state;
  */
 public interface State
 {   
+    static final String TYPE = "state";
+     
     static final State NULL_STATE = new NullState();
 
    /**

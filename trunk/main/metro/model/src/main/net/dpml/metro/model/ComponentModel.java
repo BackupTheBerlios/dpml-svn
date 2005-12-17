@@ -27,7 +27,6 @@ import net.dpml.metro.data.ClassLoaderDirective;
 import net.dpml.metro.data.CategoryDirective;
 import net.dpml.part.ActivationPolicy;
 import net.dpml.part.Model;
-import net.dpml.state.State;
 
 import net.dpml.configuration.Configuration;
 
@@ -66,13 +65,6 @@ public interface ComponentModel extends Model, Remote
     * @exception RemoteException if a remote exception occurs
     */
     ClassLoaderDirective getClassLoaderDirective() throws RemoteException;
-    
-   /**
-    * Return the immutable state graph for the component.
-    * @return the state graph.
-    * @exception RemoteException if a remote exception occurs
-    */
-    State getStateGraph() throws RemoteException;
     
    /**
     * Set the component activation policy to the supplied value.

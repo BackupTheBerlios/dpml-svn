@@ -31,9 +31,6 @@ import java.rmi.RemoteException;
 import java.util.Map;
 import java.util.ArrayList;
 
-import net.dpml.activity.Executable;
-import net.dpml.activity.Startable;
-
 import net.dpml.metro.info.Type;
 import net.dpml.metro.info.ServiceDescriptor;
 import net.dpml.part.Directive;
@@ -324,6 +321,7 @@ class ComponentController
     * @param subject the subject class
     * @return a state graph instance
     */
+    /*
     State loadStateGraph( Class subject ) throws ControlException
     {
         State state = loadStateFromResource( subject );
@@ -347,6 +345,7 @@ class ComponentController
             return state;
         }
     }
+    */
     
     Class loadComponentClass( ClassLoader classloader, String classname ) throws ControlException
     {
@@ -458,32 +457,6 @@ class ComponentController
         return false;
     }
     
-    private State loadStateFromResource( Class subject ) throws ControlException
-    {
-        String resource = subject.getName().replace( '.', '/' ) + ".xgraph";
-        try
-        {
-            URL url = subject.getClassLoader().getResource( resource );
-            if( null == url )
-            {
-                return null;
-            }
-            else
-            {
-                InputStream input = url.openConnection().getInputStream();
-                return DefaultStateMachine.load( input );
-            }
-        }
-        catch( Throwable e )
-        {
-            final String error = 
-              "Internal error while attempting to load component state graph resource [" 
-              + resource 
-              + "].";
-            throw new ControllerException( error, e );
-        }
-    }
-
     private Logger getLogger()
     {
         return m_logger;

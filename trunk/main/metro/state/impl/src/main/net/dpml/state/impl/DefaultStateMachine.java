@@ -906,9 +906,7 @@ public class DefaultStateMachine implements StateMachine
             if( !root )
             {
                 final String error = 
-                  "State element doesn not delcare a 'name'."
-                  + "\n"
-                  + ConfigurationUtil.list( config );
+                  "State element does not declare a 'name'.";
                 throw new StateBuilderRuntimeException( error );
             }
             else
@@ -1020,7 +1018,8 @@ public class DefaultStateMachine implements StateMachine
             final String error = 
               "Illegal element name ["
               + name
-              + "] supplied to action builder.";
+              + "] supplied to action builder."
+              + ConfigurationUtil.list( config );
             throw new StateBuilderRuntimeException( error );
         }
     }

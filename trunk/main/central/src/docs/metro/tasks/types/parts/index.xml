@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<document>
+
+  <properties>
+    <author email="mcconnell@dpml.net">Stephen McConnell</author>
+    <title>DPML Build System</title>
+  </properties> 
+
+  <body>
+
+    <section name="Parts">
+
+      <subsection name="Description">
+
+        <p>
+        The <tt>parts</tt> element allows for the structural 
+        composition of components as <i>part-of</i> an enclosing 
+        component type.  Enclosed components can be viewed as a 
+        private internal implementation strategy of the type.
+        </p>
+
+      </subsection>
+      
+      <subsection name="Nested Elements">
+
+        <p>
+        The <tt>parts</tt> element may contain any number of the following 
+        elements.
+        </p>
+
+        <table>
+          <tr>
+            <td><tt><a href="../../components/index.html">component</a></tt></td>
+            <td>Declaration of a nested component using the Metro component directive.</td>
+          </tr>
+          <tr>
+            <td><tt>part</tt></td>
+            <td>Inclusion of a part by reference to a part uri</td>
+          </tr>
+        </table>
+
+      </subsection>
+
+    </section>
+
+    <section name="Examples">
+
+        <subsection name="Nested component example">
+
+<pre><![CDATA[
+  <type class="net.dpml.test.composite.CompositeComponent" name="parent">
+    <parts>
+      <component type="net.dpml.test.composite.ChildComponent" key="primary">
+        <context>
+          <entry key="color" method="RED"/>
+        </context>
+      </component>
+      <component type="net.dpml.test.composite.ChildComponent" key="secondary">
+        <context>
+          <entry key="color" method="BLUE"/>
+        </context>
+      </component>
+    </parts>
+  </type>
+]]></pre>
+
+        </subsection>
+
+        <subsection name="Part by reference example">
+
+<pre><![CDATA[
+  <type class="org.acme.DefaultGizmo" name="gizmo">
+    <parts>
+      <part key="widget" uri="artifact:part:acme/widget/standard-widget#3.1"/>
+    </parts>
+  </type>
+]]></pre>
+
+        </subsection>
+
+
+    </section>
+
+  </body>
+
+</document>
+

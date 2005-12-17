@@ -72,12 +72,6 @@ public class ComponentModelTestCase extends TestCase
         assertEquals( "classname", classname, m_model.getImplementationClassName() );
     }
     
-    public void testStateGraph() throws Exception
-    {
-        State state = m_model.getStateGraph();
-        assertEquals( "substates", 2, state.getStates().length );
-    }
-    
     public void testActivationPolicy() throws Exception
     {
         assertEquals( "initial-activation", ActivationPolicy.STARTUP, m_model.getActivationPolicy() );
