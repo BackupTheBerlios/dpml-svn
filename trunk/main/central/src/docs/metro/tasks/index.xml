@@ -20,8 +20,9 @@
         component development. These include a task supporting the creation 
         of <a href="types/index.html">component type metainfo</a>, 
         <a href="components/index.html">component deployment metadata</a>, 
-        and a task dealing with the generation of a <a href="catalog/index.html">
-        component catalog</a>.
+        a task dealing with the generation of a <a href="catalog/index.html">
+        component catalog</a>, and a task supporting standalone 
+        <a href="state/index.html">state graph</a> creation.
         </p>
 
       </subsection>

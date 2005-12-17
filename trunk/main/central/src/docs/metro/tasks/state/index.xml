@@ -1,23 +1,38 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<!--
-  Copyright 2005 Stephen J. McConnell
+<?xml version="1.0" encoding="UTF-8"?>
 
-  Licensed  under the  Apache License,  Version 2.0  (the "License");
-  you may not use  this file  except in  compliance with the License.
-  You may obtain a copy of the License at
+<document>
 
-    http://www.apache.org/licenses/LICENSE-2.0
+  <properties>
+    <author email="mcconnell@dpml.net">Stephen McConnell</author>
+    <title>DPML Build System</title>
+  </properties> 
 
-  Unless required by applicable law or agreed to in writing, software
-  distributed  under the  License is distributed on an "AS IS" BASIS,
-  WITHOUT  WARRANTIES OR CONDITIONS  OF ANY KIND, either  express  or
-  implied.
+  <body>
 
-  See the License for the specific language governing permissions and
-  limitations under the License.
--->
+    <section name="State Task">
 
-<project name="dpml-state-startable" default="install"
+      <subsection name="Description">
+
+        <p>
+        The types task automates the creation of component state meta-info.
+        </p>
+
+      </subsection>
+      
+      <subsection name="Attributes">
+
+      </subsection>
+
+      <subsection name="Nested Elements">
+
+      </subsection>
+
+    </section>
+
+    <section name="Example">
+      
+<pre><![CDATA[
+<project name="standalone-graph-example" default="install"
     xmlns:transit="antlib:net.dpml.transit" 
     xmlns:x="dpml:depot" 
     xmlns:c="dpml:metro">
@@ -47,7 +62,13 @@
       </state>
     </c:state>
   </target>
+]]></pre>
 
 </project>
 
+    </section>
+
+  </body>
+
+</document>
 
