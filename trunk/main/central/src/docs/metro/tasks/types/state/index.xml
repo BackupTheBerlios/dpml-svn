@@ -46,7 +46,7 @@
 
         <table>
           <tr>
-            <td><tt><a href="../../state/trigger.html">trigger</a></tt></td>
+            <td><tt><a href="../../states/trigger.html">trigger</a></tt></td>
             <td>An initialization or termination trigger.</td>
           </tr>
           <tr>
@@ -54,11 +54,11 @@
             <td>A nested state.</td>
           </tr>
           <tr>
-            <td><tt><a href="../../state/transition.html">transition</a></tt></td>
+            <td><tt><a href="../../states/transition.html">transition</a></tt></td>
             <td>A state transition.</td>
           </tr>
           <tr>
-            <td><tt><a href="../../state/operation.html">operation</a></tt></td>
+            <td><tt><a href="../../states/operation.html">operation</a></tt></td>
             <td>A management operation.</td>
           </tr>
         </table>

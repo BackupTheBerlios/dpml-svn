@@ -27,12 +27,6 @@
     <menu>
       <item name="Parts" href="parts/index.html"/>
       <item name="State" href="state/index.html"/>
-      <!--
-      <item name="Info" href="info/index.html"/>
-      <item name="Categories" href="categories/index.html"/>
-      <item name="Context" href="context/index.html"/>
-      <item name="Services" href="services/index.html"/>
-      -->
     </menu>
 
  </body>
