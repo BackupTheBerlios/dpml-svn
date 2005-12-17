@@ -71,13 +71,38 @@
 
         <table>
           <tr>
-            <td><a href="state/index.html"><tt>state</tt></a></td>
+            <td><a href="../state/index.html"><tt>state</tt></a></td>
             <td>Definition of a component state graph.</td>
           </tr>
           <tr>
             <td><tt><a href="parts/index.html">parts</a></tt></td>
             <td>Definition of the internal parts (nested components)
-                within this component type.</td>
+                within this component type.
+                The <tt>parts</tt> element allows for the structural 
+                composition of components as <i>part-of</i> an enclosing 
+                component type.  Enclosed components can be viewed as a 
+                private internal implementation strategy of the type.
+            </td>
+          </tr>
+        </table>
+
+      </subsection>
+
+      <subsection name="Parts Nested Elements">
+
+        <p>
+        The <tt>parts</tt> element may contain any number of the following 
+        elements.
+        </p>
+
+        <table>
+          <tr>
+            <td><tt><a href="../components/index.html">component</a></tt></td>
+            <td>Declaration of a nested component using the Metro component directive.</td>
+          </tr>
+          <tr>
+            <td><tt>part</tt></td>
+            <td>Inclusion of a part by reference to a part uri</td>
           </tr>
         </table>
 
@@ -133,6 +158,19 @@
 ]]></pre>
 
         </subsection>
+
+        <subsection name="Part by reference example">
+
+<pre><![CDATA[
+  <type class="org.acme.DefaultGizmo" name="gizmo">
+    <parts>
+      <part key="widget" uri="artifact:part:acme/widget/standard-widget#3.1"/>
+    </parts>
+  </type>
+]]></pre>
+
+        </subsection>
+
 
     </section>
 

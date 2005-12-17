@@ -14,16 +14,55 @@
       <subsection name="Description">
 
         <p>
-        The types task automates the creation of component state meta-info.
+        A state is an immutable datastructure that defines a collection 
+        of available transitions, management operations, and possibly
+        initialization or termination triggers.  Actionable features
+        of a state are exposed when the state is within the current state path.
+        The current state path is a path composed of the current state, it's 
+        parent, parent's patrent, etc. unit the root state is reached.  As 
+        such, any operations declared within the root state will always be 
+        available where operations and/transitions in sub-states will only
+        available if the associated state is present in the state path.
         </p>
 
       </subsection>
       
       <subsection name="Attributes">
 
+        <table>
+          <tr>
+            <td><tt>name</tt></td>
+            <td>Set the state name (required on sub-states).</td>
+          </tr>
+          <tr>
+            <td><tt>terminal</tt></td>
+            <td>If set to 'true' the state will be classified as a terminal state.</td>
+          </tr>
+        </table>
+
+
       </subsection>
 
       <subsection name="Nested Elements">
+
+        <table>
+          <tr>
+            <td><tt><a href="trigger.html">trigger</a></tt></td>
+            <td>An initialization or termination trigger.</td>
+          </tr>
+          <tr>
+            <td><tt><a href="index.html">state</a></tt></td>
+            <td>A nested state.</td>
+          </tr>
+          <tr>
+            <td><tt><a href="transition.html">transition</a></tt></td>
+            <td>A state transition.</td>
+          </tr>
+          <tr>
+            <td><tt><a href="operation.html">operation</a></tt></td>
+            <td>A management operation.</td>
+          </tr>
+        </table>
 
       </subsection>
 
@@ -62,9 +101,9 @@
       </state>
     </c:state>
   </target>
-]]></pre>
 
 </project>
+]]></pre>
 
     </section>
 
