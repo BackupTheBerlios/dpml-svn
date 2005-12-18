@@ -356,12 +356,10 @@ public final class Main implements ShutdownHandler
 
     private void handleStation( String[] arguments )
     {
-        System.out.println( "## LOADING STATION" );
         String name = "station";
         if( CLIHelper.isOptionPresent( arguments, "-server" ) 
           || "dpml.server".equals( System.getProperty( "dpml.depot.application", null ) ) )
         {
-            System.out.println( "## LOADING AS SERVER" );
             String[] args = CLIHelper.consolidate( arguments, "-server" );
             args = processSystemProperties( args );
             String spec = "@DEPOT-STATION-SERVER-URI@";
@@ -369,7 +367,6 @@ public final class Main implements ShutdownHandler
         }
         else
         {
-            System.out.println( "## LOADING AS CONSOLE" );
             String spec = "@DEPOT-STATION-URI@";
             handlePlugin( name, spec, arguments, false );
         }
@@ -658,7 +655,6 @@ public final class Main implements ShutdownHandler
     private String getSwitch( String[] args )
     {
         String app = System.getProperty( "dpml.depot.application", null );
-        System.out.println( "## APP: " + app );
         if( null != app )
         {
             if( "dpml.metro".equals( app ) )
