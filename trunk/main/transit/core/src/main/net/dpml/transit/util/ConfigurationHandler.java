@@ -80,7 +80,7 @@ public class ConfigurationHandler
         // check for any user defined logging properties
         //
         
-        String config = System.getProperty( "dpml.logging.config.url" );
+        String config = System.getProperty( "dpml.logging.config" );
         if( null != config )
         {
             try
