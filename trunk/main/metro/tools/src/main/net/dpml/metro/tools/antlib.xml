@@ -5,5 +5,5 @@
   <taskdef name="types" classname="net.dpml.metro.tools.TypesTask"/>
   <taskdef name="component" classname="net.dpml.metro.tools.ComponentBuilderTask"/>
   <taskdef name="catalog" classname="net.dpml.metro.tools.CatalogTask"/>
-  <taskdef name="state" classname="net.dpml.metro.tools.StateTask"/>
+  <taskdef name="graph" classname="net.dpml.metro.tools.StateTask"/>
 </antlib>

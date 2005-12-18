@@ -26,5 +26,8 @@ package net.dpml.test.state;
  */
 public interface Service
 {
+   /**
+    * Ping the object.
+    */
     void ping();
 }

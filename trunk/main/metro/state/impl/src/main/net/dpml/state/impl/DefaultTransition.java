@@ -19,7 +19,6 @@
 package net.dpml.state.impl;
 
 import java.io.Serializable;
-import java.net.URI;
 
 import net.dpml.state.State;
 import net.dpml.state.Transition;

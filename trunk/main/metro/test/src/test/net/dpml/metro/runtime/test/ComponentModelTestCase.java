@@ -30,6 +30,7 @@ import net.dpml.state.State;
 import net.dpml.metro.info.LifestylePolicy;
 import net.dpml.metro.info.CollectionPolicy;
 import net.dpml.metro.model.ComponentModel;
+import net.dpml.metro.model.MutableComponentModel;
 
 import net.dpml.transit.model.UnknownKeyException;
 
@@ -44,14 +45,14 @@ public class ComponentModelTestCase extends TestCase
 {    
     private static final Controller CONTROLLER = Controller.STANDARD;
 
-    private ComponentModel m_model;
+    private MutableComponentModel m_model;
     
     public void setUp() throws Exception
     {
         final String path = "example.part";
         final File test = new File( System.getProperty( "project.test.dir" ) );
         final URI uri = new File( test, path ).toURI();
-        m_model = (ComponentModel) CONTROLLER.createModel( uri );
+        m_model = (MutableComponentModel) CONTROLLER.createModel( uri );
     }
     
     public void testName() throws Exception

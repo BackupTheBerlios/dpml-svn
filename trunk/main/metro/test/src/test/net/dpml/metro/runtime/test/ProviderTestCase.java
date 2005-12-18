@@ -36,12 +36,13 @@ import net.dpml.state.StateEvent;
 import net.dpml.state.impl.DefaultStateListener;
 import net.dpml.metro.data.ValueDirective;
 import net.dpml.metro.model.ComponentModel;
+import net.dpml.metro.model.MutableContextModel;
 
 import net.dpml.test.ColorManager;
 import net.dpml.test.ExampleComponent;
 
 /**
- * Test general behaviour of an Provider without consideration for lifestyle.
+ * Test general behaviour of a Provider without consideration for lifestyle.
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
@@ -201,7 +202,8 @@ public class ProviderTestCase extends TestCase
             Color color = manager.getColor();
             assertEquals( "initial-color", Color.RED, color );
             ValueDirective newDirective = new ValueDirective( Color.class.getName(), "BLUE", (String) null );
-            model.getContextModel().setEntryDirective( "color", newDirective );
+            MutableContextModel context = (MutableContextModel) model.getContextModel();
+            context.setEntryDirective( "color", newDirective );
             color = manager.getColor();
             assertEquals( "mutated-color", Color.BLUE, color );
         }

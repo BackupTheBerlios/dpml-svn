@@ -18,18 +18,7 @@
 
 package net.dpml.metro.tools;
 
-import java.beans.IntrospectionException;
-import java.beans.Encoder;
-import java.beans.XMLEncoder;
-import java.beans.ExceptionListener;
-import java.beans.Expression;
-import java.beans.DefaultPersistenceDelegate;
 import java.io.File;
-import java.io.IOException;
-import java.io.FileOutputStream;
-import java.io.BufferedOutputStream;
-import java.net.URI;
-import java.util.Properties;
 
 import net.dpml.tools.tasks.GenericTask;
 
@@ -38,7 +27,6 @@ import net.dpml.state.StateBuilder;
 import net.dpml.state.impl.DefaultState;
 
 import org.apache.tools.ant.BuildException;
-import org.apache.tools.ant.Project;
 
 /**
  * Task that handles the creation of an encoded state graph.
@@ -139,11 +127,8 @@ public class StateTask extends GenericTask
     }
     
    /**
-    * Create a component directive.
-    * @param classloader the classloader
-    * @param cld the classloader directive
+    * Create an encoded state graph.
     * @param file the output file
-    * @return the component directive
     */
     public void createGraph( File file )
     {

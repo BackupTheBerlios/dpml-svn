@@ -40,9 +40,9 @@
       <fileset dir="etc">
         <include name="bin/server/*.exe"/>
         <include name="bin/server/*.EXE"/>
+        <include name="bin/scm/**/*.*"/>
       </fileset>
     </copy>
   </target>
-
 
 </project>

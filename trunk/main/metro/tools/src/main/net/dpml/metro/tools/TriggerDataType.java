@@ -18,9 +18,6 @@
 
 package net.dpml.metro.tools;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.apache.tools.ant.BuildException;
 
 import net.dpml.state.Trigger.TriggerEvent;
@@ -46,7 +43,7 @@ public class TriggerDataType
     
    /**
     * Set the trigger event class.
-    * @param name the event name
+    * @param event the event name
     */
     public void setEvent( final String event )
     {

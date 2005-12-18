@@ -52,7 +52,6 @@ public class ManagedComponent implements Service
     * Creation of a new <tt>ManagedComponent</tt>.
     * 
     * @param logger the assigned logging channel
-    * @param context the assigned context
     */
     public ManagedComponent( final Logger logger )
     {
@@ -65,6 +64,9 @@ public class ManagedComponent implements Service
     // Service
     //------------------------------------------------------------------
 
+   /**
+    * Ping the object.
+    */
     public void ping()
     {
         m_count++;
@@ -74,6 +76,10 @@ public class ManagedComponent implements Service
     // operations
     //------------------------------------------------------------------
     
+   /**
+    * Return a monitor.
+    * @return the monitor
+    */
     public Monitor getMonitor()
     {
         return m_monitor;
@@ -92,13 +98,30 @@ public class ManagedComponent implements Service
         return m_logger;
     }
     
+   /**
+    * Interface implemented by an internal monitor returned
+    * by the getMonitor operation.
+    */
     public interface Monitor extends Remote
     {
+       /**
+        * Monitor the number of times the component ping operation 
+        * has been invoked.
+        * @return the access count
+        * @exception RemoteException if a remote I/O error occurs
+        */
         int getAccessCount() throws RemoteException;
     }
     
-    public class DefaultMonitor implements Monitor
+   /**
+    * The default monitor implementation.
+    */
+    class DefaultMonitor implements Monitor
     {
+       /**
+        * Return the access count.
+        * @return the access count
+        */
         public int getAccessCount()
         {
             return m_count;

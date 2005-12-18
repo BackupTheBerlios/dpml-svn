@@ -18,8 +18,6 @@
 
 package net.dpml.state;
 
-import java.net.URI;
-
 /**
  * An operation defines the name of a bean style accessor that 
  * may be invoked by a management application while the operation

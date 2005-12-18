@@ -725,12 +725,21 @@ public class DefaultStateMachine implements StateMachine
         }
         else if( action instanceof ApplyAction )
         {
-            // TODO
+            ApplyAction apply = (ApplyAction) action;
+            String id = apply.getID();
+            validateTransition( state, id );
         }
         else if( action instanceof ExecAction )
         {
-            // TODO
+            ExecAction exec = (ExecAction) action;
+            String id = exec.getID();
+            validateOperation( state, id );
         }
+    }
+    
+    private static void validateTransition( State state, String id )
+    {
+        //System.out.println( "# v/transition: " + id );
     }
     
     private static void validateTransition( State state, Transition transition )
@@ -746,6 +755,11 @@ public class DefaultStateMachine implements StateMachine
               + state;
             throw new IllegalStateException( error );
         }
+    }
+    
+    private static void validateOperation( State state, String id )
+    {
+        //System.out.println( "# v/operation: " + operation );
     }
     
     private static void validateOperation( State state, Operation operation )

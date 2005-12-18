@@ -18,9 +18,6 @@
 
 package net.dpml.metro.tools;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import net.dpml.state.impl.DefaultOperation;
 
 import org.apache.tools.ant.BuildException;

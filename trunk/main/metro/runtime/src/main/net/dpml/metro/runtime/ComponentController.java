@@ -19,7 +19,6 @@
 package net.dpml.metro.runtime;
 
 import java.io.File;
-import java.io.InputStream;
 import java.net.URI;
 import java.net.URL;
 import java.net.URLClassLoader;
@@ -33,7 +32,6 @@ import java.util.ArrayList;
 
 import net.dpml.metro.info.Type;
 import net.dpml.metro.info.ServiceDescriptor;
-import net.dpml.part.Directive;
 import net.dpml.metro.data.ReferenceDirective;
 import net.dpml.metro.data.ClasspathDirective;
 import net.dpml.metro.data.ClassLoaderDirective;
@@ -47,15 +45,12 @@ import net.dpml.logging.Logger;
 
 import net.dpml.parameters.Parameters;
 
+import net.dpml.part.Directive;
 import net.dpml.part.Component;
 import net.dpml.part.Model;
 import net.dpml.part.ControlException;
 import net.dpml.part.ServiceNotFoundException;
 import net.dpml.part.Version;
-
-import net.dpml.state.State;
-import net.dpml.state.impl.DefaultState;
-import net.dpml.state.impl.DefaultStateMachine;
 
 import net.dpml.transit.Category;
 import net.dpml.transit.model.UnknownKeyException;
@@ -598,7 +593,7 @@ class ComponentController
             if( map.containsKey( key ) )
             {
                 return map.get( key ); 
-                // TODO: current no validation of values mapping to return tyope prerequisies
+                // TODO: validation of values mapping to return type prerequisies
             }
             ContextModel context = model.getContextModel();
             Directive directive = context.getEntryDirective( key );

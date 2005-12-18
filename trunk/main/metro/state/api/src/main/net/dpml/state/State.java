@@ -26,8 +26,14 @@ package net.dpml.state;
  */
 public interface State
 {   
+   /**
+    * Constant artifact type for a state graph.
+    */
     static final String TYPE = "state";
      
+   /**
+    * Null state.
+    */
     static final State NULL_STATE = new NullState();
 
    /**

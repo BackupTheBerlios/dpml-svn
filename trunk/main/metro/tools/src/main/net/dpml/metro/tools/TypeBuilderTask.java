@@ -145,6 +145,10 @@ public class TypeBuilderTask extends GenericTask implements TypeBuilder
         }
     }
     
+   /**
+    * Create a state descriptor for the component.
+    * @return a state graph descriptor
+    */
     public StateDataType createState()
     {
         if( m_state == null )

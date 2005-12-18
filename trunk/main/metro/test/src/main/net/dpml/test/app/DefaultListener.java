@@ -59,6 +59,7 @@ public class DefaultListener implements Listener
 
    /**
     * Creation of a new singleton component instance.
+    * @param logger an assigned logging channel
     * @param context a context implementation fullfilling the context criteria
     */
     public DefaultListener( final Logger logger, final Context context )

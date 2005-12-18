@@ -38,7 +38,7 @@ public class DefaultOperation implements Operation, Serializable
     * @param name the operation name
     * @exception NullPointerException if the operation name is null
     */
-    public DefaultOperation( final String name)
+    public DefaultOperation( final String name ) throws NullPointerException
     {
         this( name, null );
     }
@@ -49,7 +49,7 @@ public class DefaultOperation implements Operation, Serializable
     * @param method the overriding method name
     * @exception NullPointerException if the operation name is null
     */
-    public DefaultOperation( final String name, String method )
+    public DefaultOperation( final String name, String method ) throws NullPointerException
     {
         if( null == name )
         {

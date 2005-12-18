@@ -35,7 +35,6 @@ import java.net.URL;
 
 import net.dpml.part.Directive;
 import net.dpml.state.State;
-import net.dpml.state.State;
 
 /**
  * This class contains the meta information about a particular

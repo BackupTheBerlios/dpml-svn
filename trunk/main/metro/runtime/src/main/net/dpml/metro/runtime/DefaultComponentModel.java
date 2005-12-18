@@ -33,10 +33,10 @@ import net.dpml.metro.info.LifestylePolicy;
 import net.dpml.metro.info.Type;
 import net.dpml.metro.info.PartReference;
 import net.dpml.metro.model.ComponentModel;
+import net.dpml.metro.model.MutableComponentModel;
 import net.dpml.metro.model.ContextModel;
 import net.dpml.part.ActivationPolicy;
 import net.dpml.part.ControlException;
-import net.dpml.state.State;
 
 import net.dpml.configuration.Configuration;
 import net.dpml.configuration.Configurable;
@@ -49,12 +49,12 @@ import net.dpml.parameters.impl.DefaultParameters;
 import net.dpml.transit.model.UnknownKeyException;
 
 /**
- *
+ * Default implementation of a mutable component model.
  *
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-class DefaultComponentModel extends UnicastEventSource implements ComponentModel, Configurable
+class DefaultComponentModel extends UnicastEventSource implements MutableComponentModel, Configurable
 {
     // ------------------------------------------------------------------------
     // state

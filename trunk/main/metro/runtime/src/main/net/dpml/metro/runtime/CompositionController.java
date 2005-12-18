@@ -18,10 +18,7 @@
 
 package net.dpml.metro.runtime;
 
-import java.beans.XMLDecoder;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.BufferedInputStream;
 import java.net.URI;
 import java.net.URL;
 import java.util.WeakHashMap;

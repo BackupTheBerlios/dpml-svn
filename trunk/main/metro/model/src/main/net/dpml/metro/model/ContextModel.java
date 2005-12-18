@@ -21,7 +21,6 @@ package net.dpml.metro.model;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 
-import net.dpml.metro.info.PartReference;
 import net.dpml.metro.info.EntryDescriptor;
 import net.dpml.part.Directive;
 
@@ -62,27 +61,6 @@ public interface ContextModel extends Remote
     * @exception RemoteException if a remote exception occurs
     */
     Directive getEntryDirective( String key ) throws UnknownKeyException, RemoteException;
-
-   /**
-    * Set a context entry directive value.
-    * @param key the context entry key
-    * @param directive the context entry directive
-    * @exception UnknownKeyException if the key is unknown
-    * @exception RemoteException if a remote exception occurs
-    */
-    void setEntryDirective( String key, Directive directive ) throws UnknownKeyException, RemoteException;
-
-   /**
-    * Apply an array of tagged directive as an atomic operation.  Application of 
-    * directives to the context model is atomic such that changes all applied under a 
-    * 'all-or-nothing' policy.
-    *
-    * @param directives an array of part references
-    * @exception UnknownKeyException if a key within the array does not match a key within
-    *   the context model.
-    * @exception RemoteException if a remote exception occurs
-    */
-    void setEntryDirectives( PartReference[] directives ) throws UnknownKeyException, RemoteException;
 
    /**
     * Validate the model.

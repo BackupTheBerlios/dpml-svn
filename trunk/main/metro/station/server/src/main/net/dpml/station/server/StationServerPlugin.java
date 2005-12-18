@@ -46,9 +46,12 @@ import net.dpml.transit.Logger;
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-public class StationServerPlugin
+public class StationServerPlugin implements Runnable
 {
-    private final RemoteStation m_station;
+    private final Logger m_logger;
+    private final CommandLine m_line;
+    
+    private RemoteStation m_station;
     
    /**
     * Creation of a ne station server plugin for station commandline
@@ -59,45 +62,58 @@ public class StationServerPlugin
     */
     public StationServerPlugin( Logger logger, String[] args ) throws Exception
     {
-    
+        m_logger = logger;
+        
         // parse the command group model
         
         Parser parser = new Parser();
         parser.setGroup( COMMAND_GROUP );
-        
-        CommandLine line = parser.parse( args );
-        int port = getPortValue( line, Registry.REGISTRY_PORT );
-        URI uri = (URI) line.getValue( URI_OPTION, null );
-        if( null == uri )
+        m_line = parser.parse( args );
+    }
+    
+    public void run()
+    {
+        try
         {
-            URL url = ApplicationRegistry.DEFAULT_STORAGE_URI.toURL();
-            logger.info( "starting station on port: " + port );
-            m_station = new RemoteStation( logger, port, url );
-            Thread.currentThread().setContextClassLoader( ApplicationRegistry.class.getClassLoader() );
-            setShutdownHook( m_station );
-        }
-        else
-        {
-            if( Artifact.isRecognized( uri ) )
+            int port = getPortValue( m_line, Registry.REGISTRY_PORT );
+            URI uri = (URI) m_line.getValue( URI_OPTION, null );
+            if( null == uri )
             {
-                URL url = Artifact.createArtifact( uri ).toURL();
-                logger.info( 
-                  "starting station on port: " 
-                  + port 
-                  + " with registry " 
-                  + url );
-                m_station = new RemoteStation( logger, port, url );
+                URL url = ApplicationRegistry.DEFAULT_STORAGE_URI.toURL();
+                m_logger.info( "starting station on port: " + port );
+                m_station = new RemoteStation( m_logger, port, url );
+                Thread.currentThread().setContextClassLoader( ApplicationRegistry.class.getClassLoader() );
+                setShutdownHook( m_station );
             }
             else
             {
-                URL url = uri.toURL();
-                logger.info( 
-                  "starting station on port: " 
-                  + port 
-                  + " with registry " 
-                  + url );
-                m_station = new RemoteStation( logger, port, url );
+                if( Artifact.isRecognized( uri ) )
+                {
+                    URL url = Artifact.createArtifact( uri ).toURL();
+                    m_logger.info( 
+                    "starting station on port: " 
+                    + port 
+                    + " with registry " 
+                    + url );
+                    m_station = new RemoteStation( m_logger, port, url );
+                }
+                else
+                {
+                    URL url = uri.toURL();
+                    m_logger.info( 
+                      "starting station on port: " 
+                      + port 
+                      + " with registry " 
+                      + url );
+                    m_station = new RemoteStation( m_logger, port, url );
+                }
             }
+        }
+        catch( Exception e )
+        {
+            final String error = 
+              "Station startup failure.";
+            m_logger.error( error, e );
         }
     }
     

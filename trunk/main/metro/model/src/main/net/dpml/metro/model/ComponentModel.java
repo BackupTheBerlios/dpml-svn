@@ -25,7 +25,6 @@ import net.dpml.metro.info.LifestylePolicy;
 import net.dpml.metro.info.CollectionPolicy;
 import net.dpml.metro.data.ClassLoaderDirective;
 import net.dpml.metro.data.CategoryDirective;
-import net.dpml.part.ActivationPolicy;
 import net.dpml.part.Model;
 
 import net.dpml.configuration.Configuration;
@@ -67,13 +66,6 @@ public interface ComponentModel extends Model, Remote
     ClassLoaderDirective getClassLoaderDirective() throws RemoteException;
     
    /**
-    * Set the component activation policy to the supplied value.
-    * @param policy the new activation policy
-    * @exception RemoteException if a remote exception occurs
-    */
-    void setActivationPolicy( ActivationPolicy policy ) throws RemoteException;
-
-   /**
     * Return the component lifestyle policy.
     *
     * @return the lifestyle policy value
@@ -89,13 +81,6 @@ public interface ComponentModel extends Model, Remote
     * @exception RemoteException if a remote exception occurs
     */
     CollectionPolicy getCollectionPolicy() throws RemoteException;
-
-   /**
-    * Override the assigned collection policy.
-    * @param policy the collection policy value
-    * @exception RemoteException if a remote exception occurs
-    */
-    void setCollectionPolicy( CollectionPolicy policy ) throws RemoteException;
 
    /**
     * Return the current context model.

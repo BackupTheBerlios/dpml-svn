@@ -25,9 +25,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
-import java.net.URISyntaxException;
 import java.net.URL;
-import java.util.Properties;
 import java.beans.Encoder;
 import java.beans.XMLEncoder;
 import java.beans.XMLDecoder;
@@ -41,7 +39,7 @@ import java.beans.DefaultPersistenceDelegate;
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-public class StateBuilder
+public final class StateBuilder
 {
     private StateBuilder()
     {
@@ -69,8 +67,8 @@ public class StateBuilder
               {
                 public void exceptionThrown( Exception e )
                 {
-                    throw new BuilderRuntimeException( 
-                      "Directive encoding failure.", e );
+                    throw new StateBuilderRuntimeException( 
+                      "State graph encoding failure.", e );
                 }
               } );
             try
@@ -79,7 +77,7 @@ public class StateBuilder
             }
             catch( Exception e )
             {
-                throw new BuilderRuntimeException( 
+                throw new StateBuilderRuntimeException( 
                   "Part encoding error.", e );
             }
             finally
@@ -90,12 +88,12 @@ public class StateBuilder
         catch( IOException e )
         {
             final String error = 
-              "Internal error while attempting to write part to file ["
+              "Internal error while attempting to write state graph to file ["
               + file 
               + "]";
-            throw new BuilderRuntimeException( error, e );
+            throw new StateBuilderRuntimeException( error, e );
         }
-        catch( BuilderRuntimeException e )
+        catch( StateBuilderRuntimeException e )
         {
             throw e;
         }
@@ -103,13 +101,14 @@ public class StateBuilder
         {
             final String error = 
               "Internal error while attempting to build the part.";
-            throw new BuilderRuntimeException( error, e );
+            throw new StateBuilderRuntimeException( error, e );
         }
     }
     
    /**
     * Read in a graph using the context classloader.
     * @param uri the graph uri
+    * @return the state graph
     */
     public static State readGraph( URI uri )
     {
@@ -123,8 +122,8 @@ public class StateBuilder
               {
                 public void exceptionThrown( Exception e )
                 {
-                    throw new BuilderRuntimeException( 
-                      "Part decoding error.", e );
+                    throw new StateBuilderRuntimeException( 
+                      "State graph decoding error.", e );
                 }
               } );
             State graph = (State) decoder.readObject();
@@ -142,7 +141,7 @@ public class StateBuilder
             final String error = 
               "Unexpected error while loading graph: "
               + uri;
-            throw new BuilderRuntimeException( error, e );
+            throw new StateBuilderRuntimeException( error, e );
         }
     }
     

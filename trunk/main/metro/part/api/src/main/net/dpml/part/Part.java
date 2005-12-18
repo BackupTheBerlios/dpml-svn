@@ -18,7 +18,6 @@
 
 package net.dpml.part;
 
-import java.io.Serializable;
 import java.net.URI;
 import java.util.Properties;
 

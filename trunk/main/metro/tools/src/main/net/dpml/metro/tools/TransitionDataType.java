@@ -18,10 +18,6 @@
 
 package net.dpml.metro.tools;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import net.dpml.state.Operation;
 import net.dpml.state.impl.DefaultTransition;
 import net.dpml.state.impl.DefaultOperation;
 

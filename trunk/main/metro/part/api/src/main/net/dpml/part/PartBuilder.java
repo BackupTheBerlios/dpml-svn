@@ -27,7 +27,6 @@ import java.io.InputStream;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
-import java.util.Properties;
 import java.beans.Encoder;
 import java.beans.XMLEncoder;
 import java.beans.XMLDecoder;
@@ -41,7 +40,7 @@ import java.beans.DefaultPersistenceDelegate;
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-public class PartBuilder
+public final class PartBuilder
 {
     private PartBuilder()
     {
@@ -112,6 +111,7 @@ public class PartBuilder
    /**
     * Read in a part using the context classloader.
     * @param uri the part uri
+    * @return the part datatype
     */
     public static Part readPart( URI uri )
     {
@@ -152,6 +152,7 @@ public class PartBuilder
    /**
     * Read in a part header.
     * @param uri the part uri
+    * @return the part header
     */
     public static PartHeader readPartHeader( URI uri )
     {

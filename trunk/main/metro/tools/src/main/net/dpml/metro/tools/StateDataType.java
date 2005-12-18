@@ -37,8 +37,6 @@ import net.dpml.state.StateBuilder;
 import net.dpml.state.impl.DefaultState;
 import net.dpml.state.impl.DefaultStateMachine;
 
-import org.apache.tools.ant.Task;
-import org.apache.tools.ant.Project;
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.types.Path;
@@ -93,6 +91,7 @@ public class StateDataType
    /**
     * Set a uri from which to resolve an encoded state graph.  May only 
     * applied to a root state.
+    * @param uri a uri referencing a state graph artifact
     */
     public void setUri( final URI uri )
     {
@@ -109,6 +108,7 @@ public class StateDataType
     * Set a classname from which to resolve an embedded state graph.  May only 
     * applied to a root state.  May not be used in conjuction with other attributes or
     * nested elements.
+    * @param classname the classname of a class containing a collocated xgraph resource
     */
     public void setClass( final String classname )
     {

@@ -29,6 +29,7 @@ import net.dpml.metro.data.ValueDirective;
 import net.dpml.metro.info.EntryDescriptor;
 import net.dpml.metro.model.ComponentModel;
 import net.dpml.metro.model.ContextModel;
+import net.dpml.metro.model.MutableContextModel;
 import net.dpml.metro.model.ValidationException;
 import net.dpml.metro.model.ValidationException.Issue;
 
@@ -44,7 +45,6 @@ import net.dpml.test.ExampleComponent;
 public class ContextModelTestCase extends TestCase
 {    
     private ComponentModel m_model;
-    private ContextModel m_context;
     
     public void setUp() throws Exception
     {
@@ -56,7 +56,7 @@ public class ContextModelTestCase extends TestCase
     
     public void testContextModel() throws Exception
     {
-        ContextModel context = m_model.getContextModel();
+        MutableContextModel context = (MutableContextModel) m_model.getContextModel();
         assertNotNull( "context", context );
         EntryDescriptor[] entries = context.getEntryDescriptors();
         assertEquals( "entries", 1, entries.length );
@@ -80,7 +80,7 @@ public class ContextModelTestCase extends TestCase
     
     public void testValidationWithCause() throws Exception
     {
-        ContextModel context = m_model.getContextModel();
+        MutableContextModel context = (MutableContextModel) m_model.getContextModel();
         context.setEntryDirective( "color", null );
         try
         {

@@ -110,6 +110,11 @@ public final class NullState implements State, Serializable
         return false;
     }
     
+   /**
+    * Test is this state is equal to the supplied object.
+    * @param other the other object
+    * @return true if equal
+    */
     public boolean equals( Object other )
     {
         if( null == other )
@@ -122,6 +127,10 @@ public final class NullState implements State, Serializable
         }
     }
     
+   /**
+    * Calcualte the hashcode for this instance.
+    * @return the hashcode value
+    */
     public int hashCode()
     {
         return getClass().hashCode();

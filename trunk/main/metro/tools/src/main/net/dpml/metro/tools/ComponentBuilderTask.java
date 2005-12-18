@@ -20,14 +20,10 @@ package net.dpml.metro.tools;
 
 import java.beans.IntrospectionException;
 import java.beans.Encoder;
-import java.beans.XMLEncoder;
-import java.beans.ExceptionListener;
 import java.beans.Expression;
 import java.beans.DefaultPersistenceDelegate;
 import java.io.File;
 import java.io.IOException;
-import java.io.FileOutputStream;
-import java.io.BufferedOutputStream;
 import java.net.URI;
 import java.util.Properties;
 
