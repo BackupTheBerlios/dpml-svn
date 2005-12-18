@@ -46,6 +46,7 @@ import net.dpml.metro.info.ServiceDescriptor;
 
 import net.dpml.state.State;
 import net.dpml.state.impl.DefaultState;
+import net.dpml.state.impl.DefaultStateMachine;
 
 import net.dpml.library.info.Scope;
 import net.dpml.tools.tasks.GenericTask;
@@ -224,7 +225,7 @@ public class TypeBuilderTask extends GenericTask implements TypeBuilder
         CategoryDescriptor[] categories = new CategoryDescriptor[0];
         ContextDescriptor context = createContextDescriptor( subject );
         PartReference[] parts = getPartReferences( subject.getClassLoader() );
-        State graph = getStateGraph();
+        State graph = getStateGraph( subject );
         return new Type( info, categories, context, services, parts, graph );
     }
 
@@ -561,15 +562,67 @@ public class TypeBuilderTask extends GenericTask implements TypeBuilder
         }
     }
     
-    private State getStateGraph()
+    private State getStateGraph( Class subject )
     {
         if( null == m_state )
         {
+            try
+            {
+                Class c = subject.getClassLoader().loadClass( "net.dpml.activity.Startable" );
+                if( c.isAssignableFrom( subject ) )
+                {
+                    return loadStateFromResource( c );
+                }
+            }
+            catch( ClassNotFoundException e )
+            {
+                boolean ignorable = true;
+            }
+            
+            try
+            {
+                Class c = subject.getClassLoader().loadClass( "net.dpml.activity.Executable" );
+                if( c.isAssignableFrom( subject ) )
+                {
+                    return loadStateFromResource( c );
+                }
+            }
+            catch( ClassNotFoundException e )
+            {
+                boolean ignorable = true;
+            }
+            
             return new DefaultState( "" );
         }
         else
         {
             return m_state.getState();
+        }
+    }
+    
+    private State loadStateFromResource( Class subject )
+    {
+        String resource = subject.getName().replace( '.', '/' ) + ".xgraph";
+        try
+        {
+            URL url = subject.getClassLoader().getResource( resource );
+            if( null == url )
+            {
+                return null;
+            }
+            else
+            {
+                InputStream input = url.openConnection().getInputStream();
+                return DefaultStateMachine.load( input );
+            }
+        }
+        catch( Throwable e )
+        {
+            final String error = 
+              "Internal error while attempting to load component state graph resource [" 
+              + resource 
+              + "].";
+            throw new BuildException( error, e );
         }
     }
 

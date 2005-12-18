@@ -112,7 +112,6 @@
       <include ref="dpml/depot/dpml-tools-builder"/>
       <include ref="dpml/transit/dpml-transit-tools"/>
       <include key="dpml-metro-runtime"/>
-      <include urn="artifact:jar:xstream/xstream#1.1"/>
     </dependencies>
   </project>
 
