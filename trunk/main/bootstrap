@@ -71,14 +71,21 @@ externalModules()
     cd ..
 }
 
-depotBuilder()
+utilCli()
+{
+    cd util/cli
+    build clean install
+    cd ../..
+}
+
+depotLibraryConsole()
 {
     cd depot/library/console
     build clean install
     cd ../../..
 }
 
-depotConsole()
+depotCoreConsole()
 {
     cd depot/core/console
     build clean bootstrap
@@ -92,5 +99,6 @@ transitTools
 depotLibrary
 depotAntBuilder
 externalModules
-depotBuilder
-depotConsole
+utilCli
+depotLibraryConsole
+depotCoreConsole

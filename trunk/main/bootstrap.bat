@@ -19,7 +19,7 @@ CALL :transit-tools
 IF ERRORLEVEL 1 GOTO :exit
 CALL :depot-library
 IF ERRORLEVEL 1 GOTO :exit
-CALL :depot-ant
+CALL :depot-ant-builder
 IF ERRORLEVEL 1 GOTO :exit
 CALL :external-modules
 IF ERRORLEVEL 1 GOTO :exit
@@ -59,7 +59,7 @@ CALL :build clean install
 POPD
 GOTO :EOF
 
-:depot-ant
+:depot-ant-builder
 PUSHD depot\tools\builder
 CALL :build clean install
 POPD
